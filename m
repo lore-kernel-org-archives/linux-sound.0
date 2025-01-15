@@ -1,180 +1,156 @@
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sg2apc01on2056.outbound.protection.outlook.com [40.107.215.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B885223;
-	Wed, 15 Jan 2025 06:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736923540; cv=fail; b=kNKcaam+D30gX6z2rzvtxpPanRHYacWFeNfCk8HVFFe07dJM4gwcv5YNoe/CguguYa/5qeST8vshsz3DM1Blup2bc71PRdPp0/Eyvp5TQR8ytvQr2zLXV/EVNJMpDFfCSiNI28uL5t92ycIua201y8iTuh79jL6toPKaO4BZT0s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736923540; c=relaxed/simple;
-	bh=qFlPMy2DndVgrI1qcE88GO924g+PCx7jkXpjqFTwcaA=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=XR+0a8TBpYAo3G3J1Ee3/dpK6j8dQ7WO/NKtmT0+bG6p9wh2IZPaLAL83gKY7ucZki6jeRpyfU+yHpmo639fBYSu0R7VarktJX3XXYGGKr7UTrjobx4f6YKNJYQ0q/R5lDUlWEcWc36fQPeazIZNV50kwTm8xY4P2tEBhbEFcOE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=AggI5xkk; arc=fail smtp.client-ip=40.107.215.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD4AB22F3B0
+	for <linux-sound@vger.kernel.org>; Wed, 15 Jan 2025 06:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736924119; cv=none; b=ZAXnQfg1LqIuD4oqxJcP/ow3vanz+ddmsKPovGF0X+WKG609yPHeRnBvmA8qOoVeD2QR35SG8AhBbdUmPkIwk9Cb7YYNjuVQdxqCYzLJUWIv6xKCsA8IW5KggnnBYBXvhW6Q6L8eWxAsS4eYX3s7rLpxjUGedB2KY+aDkQBeFHo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736924119; c=relaxed/simple;
+	bh=93Zf6r6djTsOLjTwFwQbsL4xCusRovQNhv2ba7R6CRg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g5NmIo3LYKaPVu2ewc02WRvJO5xtMkcDeEYxvf9obT1z01aR/mw7ZyRm9+2QlZqM2lyvAUHP5fcb/c9jHb4NsB4wQ+d7xKHdCUug0GSJNtUlnQp8Bwl6MaKEMyILNRwfpj8E9xJ0t1wCQuELQI3kWxnDbx5Wd/xBcPPoceeQYdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tiwZg4eN; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="AggI5xkk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S4N9HVK9eDwKnQDgHFx7UMSSvCXZPMT/rFZD3W4Hv0lwr5mLkKUYwAAtHfoKpGot6l1UVEl5rbHN/13hkk4tar4+WT9mCSXRrS+9hLoXNuidlZod9cwFuZm0neL1VnAd0Q3CnPa9Q8VFTNc9A18B43mHtSHAcGa6jUjv6GBFGPOxsbIz1GiYsGfClJAYrphteCavKByfA1VMJlW0E48rgJy7NCi6yh5Wj1wTozNg1Enoqrf3gzI67cT8/HrYBvn/a/be0xMte6Nj6z2gnBPtyzpGGI9WYlaWTdlFxzlf+2Dq/2Et0Vyo1og/+iQWdewJTxUWT+NodSi8pfeCB9UhPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qFlPMy2DndVgrI1qcE88GO924g+PCx7jkXpjqFTwcaA=;
- b=UVguC1zXkt4Imtt7s0FIZlHwuDWzby1p+GDouHQQPezITAESDpH9aVIovIfQ1m4GPzr0tK2bxDzDWN1IV7DZnopyhuRwvdC1DjJWlnmQOb1I7PspBCGI+osRReLh6nyrrRQIf0wsNAdUIRQ4JA5TnzhjkV2pbmUqnvkKahybpTXuOe0bfjGlcS2JlKG5ZD11frkft3i5Tf4mCpWjxcMNAc9lXrgmXqWkVC/yJEGu5pX0++ypy/AL0/X05AnHFiHgjKr9mPc9/yCyKykFw6Ry3t/5LD2p9D2gVuzkxS1JhwVs4TbfHWP3UgDFZQ/iZ65mpKgUbFDw4EvvPRFyLCNLsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qFlPMy2DndVgrI1qcE88GO924g+PCx7jkXpjqFTwcaA=;
- b=AggI5xkkrSVBk+TmTY59Bar2mjMclHSkILbRF2rr+/b3CMGk1MnoqsA9L/ooFr1vltVg7jB9vwOMyX4Cbe+wKG6y+/IL6kv460QAGwQsHdr0KZ5lGvA/lY4Ifh1bcgZpPRkdrpxtKThE7/xcRMw5KSanzRCcLTLEtNCCJnIPZZxNHiJPyG09zHA1081lqRZMXNAVpX1FzlutytY2NX9a6rdijvNfQF0wBv6xqE9ky9SC5kdDTskGJ4wczSWgLUL6wImoRXSsSG6oRAezgKDxrwS+zmEy6Qwo6s8ah8VIAqL+0pbMNsd/S/bvRZGt1X9IemRCHpZnEbJC95l68wcdeQ==
-Received: from TYUPR06MB6217.apcprd06.prod.outlook.com (2603:1096:400:358::7)
- by SEYPR06MB6453.apcprd06.prod.outlook.com (2603:1096:101:178::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.12; Wed, 15 Jan
- 2025 06:45:33 +0000
-Received: from TYUPR06MB6217.apcprd06.prod.outlook.com
- ([fe80::c18d:f7c6:7590:64fe]) by TYUPR06MB6217.apcprd06.prod.outlook.com
- ([fe80::c18d:f7c6:7590:64fe%7]) with mapi id 15.20.8356.009; Wed, 15 Jan 2025
- 06:45:33 +0000
-From: =?gb2312?B?uvrBrMfa?= <hulianqin@vivo.com>
-To: "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
-	"lina@asahilina.net" <lina@asahilina.net>, "mbarriolinares@gmail.com"
-	<mbarriolinares@gmail.com>, "wangdicheng@kylinos.cn"
-	<wangdicheng@kylinos.cn>, "cyan.vtb@gmail.com" <cyan.vtb@gmail.com>,
-	"dan.carpenter@linaro.org" <dan.carpenter@linaro.org>, "bsevens@google.com"
-	<bsevens@google.com>
-CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	=?gb2312?B?uvrBrMfa?= <hulianqin@vivo.com>
-Subject: [PATCH] ALSA: usb-audio: Add delay quirk for USB Audio Device
-Thread-Topic: [PATCH] ALSA: usb-audio: Add delay quirk for USB Audio Device
-Thread-Index: AdtnFv8z0lRZHPtzSmuJqDN3ZgXhGg==
-Date: Wed, 15 Jan 2025 06:45:33 +0000
-Message-ID:
- <TYUPR06MB6217F6DFCF671E7B0E001D9ED2192@TYUPR06MB6217.apcprd06.prod.outlook.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYUPR06MB6217:EE_|SEYPR06MB6453:EE_
-x-ms-office365-filtering-correlation-id: 6b6f9f3d-fc29-452d-506a-08dd353035c2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?gb2312?B?dEl0bm4xczdoNkVmbEJtZis1bGs3VmRPWFNsSDRpUWVrZlJsbEczZnhQSGps?=
- =?gb2312?B?b2RqWUhFU01RaEUzbHkzVVRqWUtKTnZVbTVrSkx5Mk1kUEVvblZxRFJjNVM0?=
- =?gb2312?B?aXZTU3NPRUt2TENMcHpLVUVucDN4Y1RiWUdBd0ZFeDUzZHFTS1FabXNnT1Fj?=
- =?gb2312?B?MXlTRDdZVmFJbWxKbFVlNTVTM0Y3NzY5a2pDYXEya2REeWN5MytZWlhSTUJa?=
- =?gb2312?B?S0FlOUkvR0xZV3BRQkxhaEExdnhzQ2loc2ZFREVpSzVMMnNBNGRZdXo4Yzhr?=
- =?gb2312?B?UVh1SGVkSHAzYTNJcTlEb0lGQ001VzF2dWRYclhZcFlEdXd5TkMwRHVBN2tS?=
- =?gb2312?B?WEtLa0pFNHc4TWlTVEJRMHhNK3l0WWg0WDBJRVJGendhdFhRWlpVbFZHSVpa?=
- =?gb2312?B?WC9ZT2JZcDVodDVzbVBMQ0Rscmw1ZXdDZFhXUDdVVXV0VXhtVHpWc0UwRnc5?=
- =?gb2312?B?Y2RXVlJvOXlmZXRBa2M0MUFnLzYyMDR6c2NrcTE0d0ZlYmM5aUdOM0hBZkp2?=
- =?gb2312?B?OC8wWTNjandWR1hrRzhabUdoTHZucEtXdjZ2bjRENU95NlhrcnB2V1JPWGFK?=
- =?gb2312?B?eGQ1OGluZXNncTlvVkg3Vis2VGVYRU82cDlBblZLakxsOXpnVkN6Zko0Zi9r?=
- =?gb2312?B?TjNqSUc2ZWcySHV5SitiYzQycmdhZzVnc0xZVWxiQWtyU3VOTEN6VE1PUnZQ?=
- =?gb2312?B?SzdnSjlmVmdmZlJPZjZDdEh3cnlFTFFRbE1mZVhEVVhpclVGMTZpYTV5TFZH?=
- =?gb2312?B?V082K2c2S3J5OUo5TzJQVTBPRXlIZUpZRzB3NVNLUjV5WXBYV092SVU4R2pB?=
- =?gb2312?B?R3dTWk1tQ0JBa2VsR20xZ3RZNVZhSlN2YWdjdndHbXE0ZWJUN1FTLzZjTzNT?=
- =?gb2312?B?OW1jTFl0eThSUkplY0hIWnlKdERXQ25qNEl0a3hzWTFMTUhGTGNqQ3d6TjlT?=
- =?gb2312?B?SUhMeTNvdko0SE02eG1DY2lwclhLMmI4ZHlraURBaHp0dTdoSzhveXVuWUhC?=
- =?gb2312?B?Vi9KTWRJaVg0VmJZaFljUXdqeVBLRnI0eWtqQ1pGN0lJWlZ3VVR5bWNwRjFW?=
- =?gb2312?B?MmdaZGVYM2NqVUFESWpTSUowYmNpNVo3aEkrTDlHOUc4cC9hRE5nOHdUTHkv?=
- =?gb2312?B?V1dwaTVxbDF0U1UzUkpuMEVXMSsxVEhENllpLzByTmVQUWpGLzI1eEF5bEp3?=
- =?gb2312?B?d2lEVi85cHdCdFQ5QjVJRjR0bFcxRTdIM2ZLRk1jSFp5S1YrMVBLTUo4d0F5?=
- =?gb2312?B?WTlvQmJSZzdnalE4SkR4ckpkZS9ZVXQybjdqRTNsUjREemVYSWdxaXNiT1lz?=
- =?gb2312?B?TlRJV0hpVDROZVJZNEVDRDNWc045aWlHOXdzZ0lvM0puRlVFSlhwK3VvS0hq?=
- =?gb2312?B?ZzRVWUVwMVVqckFEUGFHTXNQZ0VUZ011L3VsSEVpV0Q4OU0vSmh1K28rYlNn?=
- =?gb2312?B?VlFsYTA0TmR4UzQ0dVZWSFo2RDRseUZOZ3RqSjlhUnZCbStUc1FiamhvdWZW?=
- =?gb2312?B?VWptTzNDUFo0bVFOUHF2VDZFUHRMYXB0SXFPMnVKUk9CUTdjSGoybUFTdlIz?=
- =?gb2312?B?MStQaXkwNlVFbHZUTWtTTTFrRllwM0RLNWhhTUgzT2ZlN3JqR1VTNEhSbWlx?=
- =?gb2312?B?ZVRTWVowT3BrTU5jTHdoRGU0VDFMakhMRjl3OXAvOVF3YllCNXdpVThuRFFR?=
- =?gb2312?B?RXpwNXhKeTBLWjFneXI1NCs0T3pMd0JjY24yR0JPTmIzSHF1T1dJZjRzbEJQ?=
- =?gb2312?B?Z09qbE94cGJlT1pFaFhCNUwzNDcwSEVjS3NmM2g5ei9BdTRRNUZBR1pVeEhT?=
- =?gb2312?B?YnVHQWJVUWNSRW1KZFFPL0t5dkdFa2dabkRQRmcrdmRkZnFGRHVnYzN2dGh0?=
- =?gb2312?B?RXdCM0R0ZWxzYnZlTVp4UUhlYzZWem1vQjF5N3lacnVtTnptNTVGS251S3Fu?=
- =?gb2312?Q?Pb/7ylwOUs+aRYMC/RbHph8ysRVNP7F9?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYUPR06MB6217.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?gb2312?B?SkxQZi9JZFd3UXhvaDVDeHRzd3dMWFViczhjZUt5RWl2QmlLUllPbG5ZUGhE?=
- =?gb2312?B?TEFlU0dTdGJHREp6R3F1NmVRNFlLV2wwa2pFZmZiWW5Ta2VHVU92Y0pDSmtL?=
- =?gb2312?B?eDRFUmp2d3Q1NURIdWFZY3oySnhzUzlSNTI5bWIwbFh6ajlXUm5WaVpXRkdO?=
- =?gb2312?B?TjcxdWJzYmtLeWU0Smxxb3RSOHdTb2Z4WG1yVTlrRkpicVNIbUJzZ3dWMzVm?=
- =?gb2312?B?Q1dsZUU0ZjFDSDE4eWk2QVFyc2pQc1N4dGV4QUxnZkFXS0tiSldML0Y0a1Js?=
- =?gb2312?B?dEZMVkc2Wm5CMDRTa05QdHJCRGY3cUxpUVVLblFqMFltM0dRQTJiZGxHT1dF?=
- =?gb2312?B?YTNoV0wzRVh3Z2IwNHlwTkZKb3V1MUt6b2duaEVNTys2dVRMZUxnK3JSamFV?=
- =?gb2312?B?dFlVYnZnek5IdmhOZWNoNjdDV3RmOU5vamNRQnR0ZEZKNml2TDc5U3BGVjRS?=
- =?gb2312?B?UEVuSlI0emk0TzFGMnJWTWtFejhwcTd5UnB6aUdXRWljcWFwWGQwVTJUZzlJ?=
- =?gb2312?B?V3ZoQjFQVDBzOElURXBLaFFJbjFHa21OYTNRWE1UUmhpNkt1MXpBc0JpZksr?=
- =?gb2312?B?czgrS3ZEZDdzUUtQMkdMT3RndVl3bTNnVHZHYis4bWlKb1Q3bXFyVDFMTXdB?=
- =?gb2312?B?RUR4aHhYd1hGUU5rQStxbk9xQVBIbWtPN0krUndNbTZSY0VidEJXVmpGelNF?=
- =?gb2312?B?aDhFMWk3VnlXeWZLVGI5dnFUUmk3TmVVVlBPekJGYldxTTlFdVVZaUp5MzNX?=
- =?gb2312?B?WHdydHlMV2RqRFU2NzBYOTREK3haazBNQnNneG9UWlNueFpZUUtsQlRoVWlw?=
- =?gb2312?B?T05PV2pLTGhDT04xSEhOTEszZm5SdHNoYWRianQ4N2N1TjJIazlJSHZjTXFR?=
- =?gb2312?B?UkQ0UlFGcGxRZUZtUzF3UDlIVlNwRzY4Z1orT2d4VG9RTHNneldrTXpGT1Yw?=
- =?gb2312?B?dTRsYStMV08zUmpqMFQ1eHdmbVZzelJVVWRqQ3N5NUxoakFLaGJPUzkrV3FY?=
- =?gb2312?B?QzREbVU4Tjd3VFY1Q3RBR3lRc3g1Tlk2cHVZOTU2eVpMVitKV21vQzV3Wm8x?=
- =?gb2312?B?ei8wRlJXRkJNQzZHRWNFaWQxdC9yU2xOODJXTnZJcnBkdHMwUUF3YlBMT1kz?=
- =?gb2312?B?TWE0MXl6TFRhUnJITXJmQnA4K3RrZUtPczM1N3hMbEl3UXlOUEp3Q3o1TTNo?=
- =?gb2312?B?bGExSkdxZFp0Sk54aFhZR3hyVVpzRHE2ZUtUZEV0M2h4cTBOVkplU29FYlBU?=
- =?gb2312?B?ZzNONHJzRGgxREtxUDkvSjJiRDc3eFU2dWYydEVHQnEyZ1JZb01hSnV6NlBu?=
- =?gb2312?B?L2Y5cmljWHYxOUtFeVl3dHlrRUNub3FZMmJ2b054QTRsTU1xUjJpa05LQk9z?=
- =?gb2312?B?bFh1OVBXNUhZWFJqS0NSeklSUWVWWXZycUgrZGwxMHd1SzB2eEFGbWN3NUFJ?=
- =?gb2312?B?eUZTczU5TFMxN0RYcGpRenk2aDdqYk1HQ3dDYUJNakpBRkZENXg0a2tRU09n?=
- =?gb2312?B?NW9JM0xPV3MwWHIwTjFGcjZVeElhZWRqNUJ5WHlPd0QvczVaRDRXdUVtV2dX?=
- =?gb2312?B?bnZhRllrNFIreTBzOWtiSHZWTUZ3MWxFejRqWTk0TXU1MDFCaHpERzB3K3hw?=
- =?gb2312?B?TDFIMERQWUxvSHlPQ1ZsdTRCN05WbGRzM3JKM3dFcDlndnBJUlhMVHhJOGhl?=
- =?gb2312?B?U1A1eEs1SENIZ0ZjaU04RGVKak5YYzFOTUUzQWxjWVh3TXVpTkxjejZqOFVn?=
- =?gb2312?B?Wmw1cm5QbkNvaXZZOTlGWkcvOWU1b3VUREVkbDgrNE9GSW9jZkR2VHZqUjZH?=
- =?gb2312?B?UlNDSXcyNkZTdDY4TVg3RkVVRXA1bUlYY3RGN3p6VFJyTEFycDE3dWRkaTAy?=
- =?gb2312?B?dVp5V0xxajJMakZybkcyUHkvTXhmVXMvZmxhWWRSMkg4cXBIeW1HMUh3dXZ4?=
- =?gb2312?B?WVNBdFd0Uk05T0NwTkNUMlpxakhKTnhkb2hvZjRRdVV1UVV6NVpaTkZMenh4?=
- =?gb2312?B?QkEzWXNVMDQ5YmJYTG1qc2xGcjZlMzJGTmxtNFI2S1MrcjZmU0FIRkdYQWN4?=
- =?gb2312?B?VzVWbTVNYWJrWVlrbm51RTdPUjFndWN2a2hLRnNweDVqVHVYbCtaRFJydzVi?=
- =?gb2312?Q?lipY=3D?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tiwZg4eN"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d0d32cd31aso8990222a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 22:55:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736924116; x=1737528916; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XKBt5/R3U0Riotc/EXMrk2lAFncNvsaicQi2el/Oz1E=;
+        b=tiwZg4eNkMCQTIuLSSaWe8AFU4NrkteMjU1mRT6lcKvRz4vY+smtNulsSNIWk1tQix
+         MPcclIgP+smcS6d/QrKT+gBn4eHFMp1UguEPXQXbQIxcSmdekVdql4H2Ss/mzG/3m7I8
+         l8WEA0EE+lmzImzcKVY8jzPm6/wwkJ6VpoBioszN4Me+KXYqFQrMVa8YRIMIMhDGpIBD
+         SwsY3N68xcIfrKnoaILDdV6VXgRLEaKEauMmnDPhShd2V3Jy7/dzBfk4oNK9vAP4QzHX
+         4Fi1YhwydsBYK8RL1E1KaKWzVkIdQHgFYSu+1b/xPhoC+MvQjZb5Hgpeb5vl5ESbN6Dy
+         +RyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736924116; x=1737528916;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XKBt5/R3U0Riotc/EXMrk2lAFncNvsaicQi2el/Oz1E=;
+        b=ZXXIdSK34HoMJKtcmjPfgadZeY9HDcZBb+RhVEqYKYAQcYKBtzjbcSu5o1PCWKtcT6
+         PXxo+Ce40batB5GHcEIZHtyRhLymO9L9J91qhw4fWGRf2LUBvSuuojUP94sXiN7tPuCr
+         Ap7y5uKBVzbXhHyhkJN3rJAvKZaUHAhFoRZAO3XrOUy/ltFSuAkRl10QK4emAew/az9X
+         4IuUXXzund1yHUF0VbyVmu+E2KVgmw9CRXjzbIGmzaWR2maIz1qYyYueWCyzQwBEcHU3
+         oFb+OUmqSh/fQY772w/cT0Tx9KTtgPaBw3VyvEs+FXNDxqU14vFLsr2wcWA/VNfZA2MM
+         byQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUR6xnMVfQXSDlFiJj8zjsCnN3lo+KhahnyEmJnnvbEXpL304RAqOz0kchRVbsi4qngmXxLUAmiP/xR3w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVkAmMfi5StVWWbYeW9wFg5H82YplW6NYNCWZcQttTKGy5IXRA
+	SoC89gl3WfX6PSAAw7nDpBEJKcFtXow2YThceZ4DGEfFG5tU9FekvifcSRmyBSI=
+X-Gm-Gg: ASbGncvs/Y0hwAwNzPZOhAjcA+1acwkxyUCToNSVG1fJcCwoRccV6V17Iw5d5KGn/3s
+	Hx2Q36wzsMqjzpKZJxJauT4f3TBDVzpF3Yg+Q8Ve5+oPQY8FGQKRk5aPJ/eJ5zMV2SYmpTknPtv
+	n1FRP+MPgCK1ESnZXQmGByafMjcRrnhNnpcf/mNDD7LwbTd8ewtMqZaBvgoFxhfmG6D1wjPhJFE
+	T0oPrNLgi8eyuYvkpesxW3V95DY/wqPPOGRgNZJy1m+G7fP/arswiVAJNI8Gw==
+X-Google-Smtp-Source: AGHT+IExCD1XX9izJi90Kdc42+9qhGwcjFZAxBY7JMxh2yX9I9+lBRCI+6LTlP3SWrBy5me6fxhpIw==
+X-Received: by 2002:a05:6402:354a:b0:5d2:7396:b0ed with SMTP id 4fb4d7f45d1cf-5d972e0e3abmr58693927a12.14.1736924115733;
+        Tue, 14 Jan 2025 22:55:15 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c90da11esm726930166b.69.2025.01.14.22.55.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2025 22:55:15 -0800 (PST)
+Date: Wed, 15 Jan 2025 09:55:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] ASoC: renesas: rz-ssi: Clean up on error in probe()
+Message-ID: <14864a18-c256-4c7d-b064-ba1400bed894@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYUPR06MB6217.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b6f9f3d-fc29-452d-506a-08dd353035c2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2025 06:45:33.2902
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5/DI958c399ZpB8iZpW7j+Mf+hWDJq9eF/1WZ1/pdtdeXcu5WLnoclBgaA6UBxTJYfuZK7YUue8Pbhozjb68HQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6453
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-RnJvbTogTGlhbnFpbiBIdSA8aHVsaWFucWluQHZpdm8uY29tPg0KDQpBdWRpbyBjb250cm9sIHJl
-cXVlc3RzIHRoYXQgc2V0cyBzYW1wbGluZyBmcmVxdWVuY3kgc29tZXRpbWVzIGZhaWwgb24NCnRo
-aXMgY2FyZC4gQWRkaW5nIGRlbGF5IGJldHdlZW4gY29udHJvbCBtZXNzYWdlcyBlbGltaW5hdGVz
-IHRoYXQgcHJvYmxlbS4NCg0KU2lnbmVkLW9mZi1ieTogTGlhbnFpbiBIdSA8aHVsaWFucWluQHZp
-dm8uY29tPg0KLS0tDQogc291bmQvdXNiL3F1aXJrcy5jIHwgMiArKw0KIDEgZmlsZSBjaGFuZ2Vk
-LCAyIGluc2VydGlvbnMoKykNCg0KZGlmZiAtLWdpdCBhL3NvdW5kL3VzYi9xdWlya3MuYyBiL3Nv
-dW5kL3VzYi9xdWlya3MuYw0KaW5kZXggOGJhMGFmZjhiZTJlLi43OTY4ZDZhMmY1OTIgMTAwNjQ0
-DQotLS0gYS9zb3VuZC91c2IvcXVpcmtzLmMNCisrKyBiL3NvdW5kL3VzYi9xdWlya3MuYw0KQEAg
-LTIyMzksNiArMjIzOSw4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgdXNiX2F1ZGlvX3F1aXJrX2Zs
-YWdzX3RhYmxlIHF1aXJrX2ZsYWdzX3RhYmxlW10gPSB7DQogCQkgICBRVUlSS19GTEFHX0NUTF9N
-U0dfREVMQVlfMU0pLA0KIAlERVZJQ0VfRkxHKDB4MGM0NSwgMHg2MzQwLCAvKiBTb25peCBIRCBV
-U0IgQ2FtZXJhICovDQogCQkgICBRVUlSS19GTEFHX0dFVF9TQU1QTEVfUkFURSksDQorCURFVklD
-RV9GTEcoMHgwZDhjLCAweDAwMTQsIC8qIFVTQiBBdWRpbyBEZXZpY2UgKi8NCisJCSAgIFFVSVJL
-X0ZMQUdfQ1RMX01TR19ERUxBWV8xTSksDQogCURFVklDRV9GTEcoMHgwZWNiLCAweDIwNWMsIC8q
-IEpCTCBRdWFudHVtNjEwIFdpcmVsZXNzICovDQogCQkgICBRVUlSS19GTEFHX0ZJWEVEX1JBVEUp
-LA0KIAlERVZJQ0VfRkxHKDB4MGVjYiwgMHgyMDY5LCAvKiBKQkwgUXVhbnR1bTgxMCBXaXJlbGVz
-cyAqLw0KLS0gDQoyLjM5LjANCg0K
+Call rz_ssi_release_dma_channels() on these error paths to clean up from
+rz_ssi_dma_request().
+
+Fixes: 26ac471c5354 ("ASoC: sh: rz-ssi: Add SSI DMAC support")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ sound/soc/renesas/rz-ssi.c | 42 ++++++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 15 deletions(-)
+
+diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
+index 3a0af4ca7ab6..4b3016282717 100644
+--- a/sound/soc/renesas/rz-ssi.c
++++ b/sound/soc/renesas/rz-ssi.c
+@@ -1150,35 +1150,47 @@ static int rz_ssi_probe(struct platform_device *pdev)
+ 		ssi->irq_rx = platform_get_irq_byname(pdev, "dma_rx");
+ 		if (ssi->irq_tx == -ENXIO && ssi->irq_rx == -ENXIO) {
+ 			ssi->irq_rt = platform_get_irq_byname(pdev, "dma_rt");
+-			if (ssi->irq_rt < 0)
+-				return ssi->irq_rt;
++			if (ssi->irq_rt < 0) {
++				ret = ssi->irq_rt;
++				goto err_release_dma_chs;
++			}
+ 
+ 			ret = devm_request_irq(dev, ssi->irq_rt,
+ 					       &rz_ssi_interrupt, 0,
+ 					       dev_name(dev), ssi);
+-			if (ret < 0)
+-				return dev_err_probe(dev, ret,
+-						     "irq request error (dma_rt)\n");
++			if (ret < 0) {
++				dev_err_probe(dev, ret,
++					      "irq request error (dma_rt)\n");
++				goto err_release_dma_chs;
++			}
+ 		} else {
+-			if (ssi->irq_tx < 0)
+-				return ssi->irq_tx;
++			if (ssi->irq_tx < 0) {
++				ret = ssi->irq_tx;
++				goto err_release_dma_chs;
++			}
+ 
+-			if (ssi->irq_rx < 0)
+-				return ssi->irq_rx;
++			if (ssi->irq_rx < 0) {
++				ret = ssi->irq_rx;
++				goto err_release_dma_chs;
++			}
+ 
+ 			ret = devm_request_irq(dev, ssi->irq_tx,
+ 					       &rz_ssi_interrupt, 0,
+ 					       dev_name(dev), ssi);
+-			if (ret < 0)
+-				return dev_err_probe(dev, ret,
+-						"irq request error (dma_tx)\n");
++			if (ret < 0) {
++				dev_err_probe(dev, ret,
++					      "irq request error (dma_tx)\n");
++				goto err_release_dma_chs;
++			}
+ 
+ 			ret = devm_request_irq(dev, ssi->irq_rx,
+ 					       &rz_ssi_interrupt, 0,
+ 					       dev_name(dev), ssi);
+-			if (ret < 0)
+-				return dev_err_probe(dev, ret,
+-						"irq request error (dma_rx)\n");
++			if (ret < 0) {
++				dev_err_probe(dev, ret,
++					      "irq request error (dma_rx)\n");
++				goto err_release_dma_chs;
++			}
+ 		}
+ 	}
+ 
+-- 
+2.45.2
+
