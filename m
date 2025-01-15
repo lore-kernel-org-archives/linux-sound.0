@@ -1,139 +1,161 @@
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68833248163;
-	Wed, 15 Jan 2025 09:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798E11DB14D;
+	Wed, 15 Jan 2025 09:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736934225; cv=none; b=DHlec9uzZl8gFhrCH//kGYXgjomFfdEAaOUsBy91JLFJGbxhyx8EzGVqGhvbsohZmWe4G1vi7he2FbM8solxMwTxukzWryKiSmWzwav8Vtc2vkvaHk/0HdPadMI0z6TVoL32EFluRuI2yXM0Q7sM5k4j9JRzYqnLffuQYfIP8sY=
+	t=1736934368; cv=none; b=YlrB3gx+/b0Fono/bUKs+akDXt09elRCTTYNseUm1+t/0EoEXLaJdShaIY4jCNLSl8xdJ/udS+JPgN5pRTJJVW2ssASsdoQMcez/Vy2W84Jfuq1Y9RwF6u4TJXbnAF/mGWtDnL7HlgwdjoidyNdnqom6YBRx+8ecctjKbUsVF0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736934225; c=relaxed/simple;
-	bh=ROpiUW4nfnLvf/oMZJYn+0lH6XwPLhFaln2Q/2PDHgY=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=I4rFCINm6MxxZgXsj8I94HnZ62crbdxPDKrHBlxfsM3zDi5QuU2hDrMMlIhhez7rUwkmpScJlCiXThlIWAMjeHybSUX2N2FF52XTviPFnVqDcVqv5nCSlZwicWtzAoZRZilRoJLNuSOXK1y179bL/cL57m4T+WsKhYpk4EkIMas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=C6gJ6kMX; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1736934368; c=relaxed/simple;
+	bh=Nl8ttS2dAE0+uDsZubWsST5mwD5AD8aLoOGQyRLbuyw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JL/oNDSsnBs9HUC1Znxfg0QoDKcg2q8UMNKCLjnKZeTYxnLorqBeC9HqxXkjhGFe7SifjcIGH20OnQc5NuN9BWL4i/q8Kj57lDuTWgdEH6ozE04tT/mMO9Ts5xm9P/K49RrVZME4f5jtJKaYkpyscUP6vP6s2TDFSkUGuhzkkn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vyczfTq9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bRk8k1ED; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vyczfTq9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bRk8k1ED; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="C6gJ6kMX"
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50F4KQfu027304;
-	Wed, 15 Jan 2025 10:43:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	ROpiUW4nfnLvf/oMZJYn+0lH6XwPLhFaln2Q/2PDHgY=; b=C6gJ6kMX9GRMYrRv
-	J+drCTKmogjD+SS+6zgBHoc8JZY8k6MgXz1lUo7GJj+gm1IZlIkKMEMu0FYue3/F
-	one8F5Sfvh2rFNhZQrRM8tEB4nDdFU9RbFqXk2GoociJMPQOJPyFPVKU2c5LenO2
-	BPSgqEXUd2yERQD34otXyuBXOYxpz24xSj39ByPImUiIDZOGDx3eqxUCkHQTDjqc
-	EKkEgwjRpVCKQjGGTPcVebvrMYv7VUcGssIBHT0Y5kMo8o2DTbX466jp2GFRY6ua
-	BiVVxkcUxTncCo+ZS+27FdTYZsYGTqydWHXSnO4N4ngiusIqzchMQ5gR5BkBXaIQ
-	6l4FUA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4465weh74g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 15 Jan 2025 10:43:13 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 353C040045;
-	Wed, 15 Jan 2025 10:41:09 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id F0E0C2481B7;
-	Wed, 15 Jan 2025 10:39:44 +0100 (CET)
-Received: from [192.168.8.15] (10.252.20.5) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Wed, 15 Jan
- 2025 10:39:41 +0100
-Message-ID: <e60d2c600133df2202bf3187eeeb9c31bc6c8f32.camel@foss.st.com>
-Subject: Re: [Linux-stm32] [PATCH] pinctrl: Use str_enable_disable-like
- helpers
-From: Antonio Borneo <antonio.borneo@foss.st.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Ray Jui
-	<rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-        "Broadcom
- internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>,
-        "Linus
- Walleij" <linus.walleij@linaro.org>,
-        Charles Keepax
-	<ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        Hans Ulli Kroll
-	<ulli.kroll@googlemail.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Sylwester
- Nawrocki" <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-gpio@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>
-Date: Wed, 15 Jan 2025 10:39:33 +0100
-In-Reply-To: <20250114203602.1013275-1-krzysztof.kozlowski@linaro.org>
-References: <20250114203602.1013275-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vyczfTq9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bRk8k1ED";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vyczfTq9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bRk8k1ED"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 758D421259;
+	Wed, 15 Jan 2025 09:46:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736934364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ci14qA/N78JrOII+AwqkFbbC9ymPm60DGmiIuk6CJ9Q=;
+	b=vyczfTq91pCnEnJSp9+FXvClJx8HnxaSZBZ3lHH0ngD4Yi27d36g8Sek4ZMZCwSLtFuAqt
+	ReyAbUB7+6H0b+3znayxO/XjDqpHRSbgyCKcnaiO/QMuE3QXDGlsDtu+JVyl1V6L831SDI
+	fZxXxvspg7cb1Gy+RXaVczgYgGuUJZY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736934364;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ci14qA/N78JrOII+AwqkFbbC9ymPm60DGmiIuk6CJ9Q=;
+	b=bRk8k1EDHP9QqRLalr4nhnu1nEBhf9RS0oKvI+y1Se2DxwrejskgD0B4MDK6FbKhwKFn6m
+	P0daNMOPSaqxOnBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vyczfTq9;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bRk8k1ED
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736934364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ci14qA/N78JrOII+AwqkFbbC9ymPm60DGmiIuk6CJ9Q=;
+	b=vyczfTq91pCnEnJSp9+FXvClJx8HnxaSZBZ3lHH0ngD4Yi27d36g8Sek4ZMZCwSLtFuAqt
+	ReyAbUB7+6H0b+3znayxO/XjDqpHRSbgyCKcnaiO/QMuE3QXDGlsDtu+JVyl1V6L831SDI
+	fZxXxvspg7cb1Gy+RXaVczgYgGuUJZY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736934364;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ci14qA/N78JrOII+AwqkFbbC9ymPm60DGmiIuk6CJ9Q=;
+	b=bRk8k1EDHP9QqRLalr4nhnu1nEBhf9RS0oKvI+y1Se2DxwrejskgD0B4MDK6FbKhwKFn6m
+	P0daNMOPSaqxOnBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2158E139CB;
+	Wed, 15 Jan 2025 09:46:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hiTYBtyDh2cnHQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 Jan 2025 09:46:04 +0000
+Date: Wed, 15 Jan 2025 10:46:03 +0100
+Message-ID: <87zfjsjtpg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+Cc: "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	"lina@asahilina.net" <lina@asahilina.net>,
+	"mbarriolinares@gmail.com"
+	<mbarriolinares@gmail.com>,
+	"wangdicheng@kylinos.cn"
+	<wangdicheng@kylinos.cn>,
+	"cyan.vtb@gmail.com" <cyan.vtb@gmail.com>,
+	"dan.carpenter@linaro.org" <dan.carpenter@linaro.org>,
+	"bsevens@google.com"
+	<bsevens@google.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] ALSA: usb-audio: Add delay quirk for USB Audio Device
+In-Reply-To: <TYUPR06MB6217E94D922B9BF422A73F32D2192@TYUPR06MB6217.apcprd06.prod.outlook.com>
+References: <TYUPR06MB6217E94D922B9BF422A73F32D2192@TYUPR06MB6217.apcprd06.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-15_03,2025-01-15_02,2024-11-22_01
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 758D421259
+X-Spam-Score: -2.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,asahilina.net,gmail.com,kylinos.cn,linaro.org,google.com,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Tue, 2025-01-14 at 21:36 +0100, Krzysztof Kozlowski wrote:
-> Replace ternary (condition ? "enable" : "disable") syntax with helpers
-> from string_choices.h because:
-> 1. Simple function call with one argument is easier to read.=C2=A0 Ternar=
-y
-> =C2=A0=C2=A0 operator has three arguments and with wrapping might lead to=
- quite
-> =C2=A0=C2=A0 long code.
-> 2. Is slightly shorter thus also easier to read.
-> 3. It brings uniformity in the text - same string.
-> 4. Allows deduping by the linker, which results in a smaller binary
-> =C2=A0=C2=A0 file.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-> =C2=A0drivers/pinctrl/bcm/pinctrl-nsp-gpio.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 3 ++-
-> =C2=A0drivers/pinctrl/cirrus/pinctrl-lochnagar.c |=C2=A0 3 ++-
-> =C2=A0drivers/pinctrl/nomadik/pinctrl-abx500.c=C2=A0=C2=A0 |=C2=A0 5 +++-=
--
-> =C2=A0drivers/pinctrl/nomadik/pinctrl-nomadik.c=C2=A0 |=C2=A0 7 ++++---
-> =C2=A0drivers/pinctrl/pinctrl-amd.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 ++-
-> =C2=A0drivers/pinctrl/pinctrl-gemini.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 ++++++-----
-> =C2=A0drivers/pinctrl/pinctrl-stmfx.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> =C2=A0drivers/pinctrl/qcom/pinctrl-msm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 3 ++-
-> =C2=A0drivers/pinctrl/qcom/pinctrl-spmi-gpio.c=C2=A0=C2=A0 |=C2=A0 3 ++-
-> =C2=A0drivers/pinctrl/qcom/pinctrl-spmi-mpp.c=C2=A0=C2=A0=C2=A0 |=C2=A0 3=
- ++-
-> =C2=A0drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c=C2=A0=C2=A0 |=C2=A0 3 ++-
-> =C2=A0drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c=C2=A0=C2=A0=C2=A0 | 10 ++++=
-------
-> =C2=A0drivers/pinctrl/samsung/pinctrl-exynos.c=C2=A0=C2=A0 |=C2=A0 3 ++-
-> =C2=A0drivers/pinctrl/stm32/pinctrl-stm32.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 5 +++--
+On Wed, 15 Jan 2025 10:32:35 +0100,
+ºúÁ¬ÇÚ wrote:
+> 
+> From: Lianqin Hu <hulianqin@vivo.com>
+> 
+> Audio control requests that sets sampling frequency sometimes fail on
+> this card. Adding delay between control messages eliminates that problem.
+> 
+> usb 1-1: New USB device found, idVendor=0d8c, idProduct=0014
+> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> usb 1-1: Product: USB Audio Device
+> usb 1-1: Manufacturer: C-Media Electronics Inc.
+> 
+> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 
-For pinctrl-stmfx and for pinctrl-stm32:
+Thanks, applied now.
 
-Reviewed-by: Antonio Borneo <antonio.borneo@foss.st.com>
----
-Antonio
+
+Takashi
