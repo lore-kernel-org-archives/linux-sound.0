@@ -1,189 +1,224 @@
-Received: from HK3PR03CU002.outbound.protection.outlook.com (mail-eastasiaazon11011011.outbound.protection.outlook.com [52.101.129.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CB923F29C;
-	Wed, 15 Jan 2025 08:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.129.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736929823; cv=fail; b=LfC+RuiCx+OjPmMBAqQi7douk9MSYENopLEVmh7MfBrBR1Y+v5CytNIMbYHTGANx9kXmO45X2JPo4z2zF6RR4T5ECNU+PPdg6qUjLydumt4GJvmMKMzzsWtsA61MIhEFAk6ifHAif61IN2N4ZzZiS1qLbLpMKQktqJg949pLMsk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736929823; c=relaxed/simple;
-	bh=ppTMttFDhuBM2yOjX1UELyNZ1bqvBChMvJBh1M0VaXw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=AXRjaYTA5ammNdZvjlNyMaZHymiOgmMmu5XdH18LyKoe3comdoWo5HQ3aUSKdShjU9mQRUoRBd5yOyG18Kt1hmPFmzjkrxM3NN6wFhakto0BGFJIVIaK8ZsY8aU9XndnD4yZ9liILIvT7vkTtUngucEEis2PgBvF5eadl9fcqPU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=QSiu6Zaf; arc=fail smtp.client-ip=52.101.129.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312091DB136
+	for <linux-sound@vger.kernel.org>; Wed, 15 Jan 2025 08:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736930197; cv=none; b=ZQ/3i0B4cWnaKNBFCFhuBsNI8Ir09uUOzL/kPjUUqJBR9pEjxKLgB1YUWN7uYatm+Qc5OrHWwWHV14YQT8z1xDfq3VQcHrtLLzLxRJ0EesSskC47cHYE074mU3yPeEQkvhFr0xzo0hi1+a3ynZtdpA8wNfHtS2I+WSgIe0nfI3M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736930197; c=relaxed/simple;
+	bh=N+rD8Fc501GUvq0ViLsHtr99/9fGf1D0Vy95kbI29SQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UxnUnWwvRJM9lCEEfgGyVrmdL2Hxwd7UrjjHWhx4stRV8j/XA7yQLQhgCCuK3imq0ODhu8dLzoqg21apF7C+OW2OmN/3i8g9SBRMHkk5JFqpNQLeKcF7yv+XcwakHrlt0xiM7e3cTEN3cQLgA55aTu71HAjmEwivpYcQmnOqpqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BhZtAVae; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="QSiu6Zaf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yAi4fp4n/P9XTBPm3sK2kyEuou2Iac+VZzJU0QNJg/lt/Dr7z9mrSBS8k8R1f7qAxARmh6ns+iYCheisZ7YeVpovA+9jBPs8xuQW1j1TqA8AEvD0vGFOgYDrh5jkz+QaSqSN1vw1+AocDACOv6kRAxYVJUjMSKwQGQ+sdlWv9b4j70KI7KTO5Uy2OOr07/hHj6vf3ftGhZ7/+PomgLA62RXvUi8Qut6ZzzMPpDrIRjz7Ozw9Dm3FMUS3svQdH8+jAY8VJo/KQMF6a2z1SO66UVGyLjt/g1Fbee9+riEAV9rfOn620I6OCHiyWIe2auU75EaV/aSUbAuQO5kWs3nAlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ppTMttFDhuBM2yOjX1UELyNZ1bqvBChMvJBh1M0VaXw=;
- b=wxBMiPvIurUA7J1p2isrlvwHxcFW6yNkfYqqHQIUzbhSweB6f3nm1b464sCvq8wfd3hCH+bHES8BfrU9B2QVVt4WmtM00sklOvr/9UtcOOdHQxf9wt/bnBbTMnHOsGs2y90EhQs/TshQ5I5rX8PQ6u7fwyohi5IcUvMOXeOS13jGLruTd3ZfhfZxBzOOoYVIwYUAyDM1vsWYUAkcnxUFNRpvi1qa+U06gqs925/6IammgSAix98iIgTbszDakS/x4aewZjmVkr1MNqz2e/mtuTnXu4prfTbEUTbYO8YwG+4tCmSHEuTok+H5Hb6mTSCh3jRKsCkvSKCs98FPbe7Fng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ppTMttFDhuBM2yOjX1UELyNZ1bqvBChMvJBh1M0VaXw=;
- b=QSiu6ZafcYGGrisazk2NjHOxvli9D3HMVR4jjNAYohhBW1S61VAHmNuDa6XXNMvK4SQkocwoqj1UNP5I2KAm6G7lbDdW04ALXrFqQyzW1+PSNB3Q60mtSpoR1iDeTXUClRxM6GkmapuL9GFGbJwscxEXme8lUWeJtrrMr0P4acUldN3C/xHdDwm1K6JMzZLc1QJzbyEVpS3lgE/CaLN6Xlml0KggCSf3J6sIlGgo4ZyALZsxHAbPuRMNtWnWEjU6houtAroIgphy94fVVLFawtxAQTui2uG3AHRE4ppajVlVHdkhBi7FQmRt9ayoPD/vIMeTvzk/szP3VYO0RPotUA==
-Received: from TYUPR06MB6217.apcprd06.prod.outlook.com (2603:1096:400:358::7)
- by TYZPR06MB5073.apcprd06.prod.outlook.com (2603:1096:400:1c7::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.11; Wed, 15 Jan
- 2025 08:30:14 +0000
-Received: from TYUPR06MB6217.apcprd06.prod.outlook.com
- ([fe80::c18d:f7c6:7590:64fe]) by TYUPR06MB6217.apcprd06.prod.outlook.com
- ([fe80::c18d:f7c6:7590:64fe%7]) with mapi id 15.20.8356.009; Wed, 15 Jan 2025
- 08:30:14 +0000
-From: =?gb2312?B?uvrBrMfa?= <hulianqin@vivo.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
-	"lina@asahilina.net" <lina@asahilina.net>, "mbarriolinares@gmail.com"
-	<mbarriolinares@gmail.com>, "wangdicheng@kylinos.cn"
-	<wangdicheng@kylinos.cn>, "cyan.vtb@gmail.com" <cyan.vtb@gmail.com>,
-	"dan.carpenter@linaro.org" <dan.carpenter@linaro.org>, "bsevens@google.com"
-	<bsevens@google.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject:
- =?gb2312?B?tPC4tDogW1BBVENIXSBBTFNBOiB1c2ItYXVkaW86IEFkZCBkZWxheSBxdWly?=
- =?gb2312?Q?k_for_USB_Audio_Device?=
-Thread-Topic: [PATCH] ALSA: usb-audio: Add delay quirk for USB Audio Device
-Thread-Index: AdtnFv8z0lRZHPtzSmuJqDN3ZgXhGgADMiKAAACxLIA=
-Date: Wed, 15 Jan 2025 08:30:14 +0000
-Message-ID:
- <TYUPR06MB6217CFAAB5BFD9308351BD32D2192@TYUPR06MB6217.apcprd06.prod.outlook.com>
-References:
- <TYUPR06MB6217F6DFCF671E7B0E001D9ED2192@TYUPR06MB6217.apcprd06.prod.outlook.com>
- <878qrcld30.wl-tiwai@suse.de>
-In-Reply-To: <878qrcld30.wl-tiwai@suse.de>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYUPR06MB6217:EE_|TYZPR06MB5073:EE_
-x-ms-office365-filtering-correlation-id: 6beca7d1-6be0-41c8-e701-08dd353ed5c9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|1800799024|7416014|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?gb2312?B?SjdEaE42MEdiVTlhRUpVSzRub2RaNmxZYWUxSk1YK2lOQm5oVW1hNVFDUWMz?=
- =?gb2312?B?V1UrRnJiL0NBVEY3d1lSOHdqOS9hZWRpNE4zRWYrSnpueE51K0ZOallDazVY?=
- =?gb2312?B?eFVXK2lNbDhURXV5cTRKL0w1cEE1QXAyMEtTVElCUzBaYXk5RGF0T29UMWFZ?=
- =?gb2312?B?S2VuMVdTUnppaE1UcnJjTFd3eGUrSGY5ZGFFeTJKTFpsN2doRzVCMTNCTG1w?=
- =?gb2312?B?MUtTUTJLZVVSREpLQjBkeFNNaElucmQzWGFJRzREN0Q1cEdadTZSQUxSbmVW?=
- =?gb2312?B?QmRsSW1HUEMvQ01RUlFjQ1E2b2Racm9oMUFzZkJoWDg0R21KTlNIMXhwQU9Q?=
- =?gb2312?B?c3hka0JGNXg4R1pBZ3duTEdnSCtZNFhsWFl1dGhKTllpY1FEdVRYaXRVWGhS?=
- =?gb2312?B?OVBpZjRXUkVWT0hJbGhZWEtLZXlvd1NuOEQxMTZqWkVkQmdUVzlsNGVyVCt5?=
- =?gb2312?B?WVM3aU9YeXJvS2RHcng0S3hVWDM0R3YrSE44UEd4SVBRWmVjbzFPU01Dbkg2?=
- =?gb2312?B?Y0RaSnZURm1RRFprUGVJekpsTU5ZMUlWakZVSEVxbW4za1RLQ3V6M1ZRY3Zo?=
- =?gb2312?B?RUhvRGNQclNvWG1pR1h4aXNnSktDekdscFY2cnRYOVE4R3BnUDlYb05BdFBK?=
- =?gb2312?B?ci9rdFZmcVNVYTZRQnFsY3ZSOFZUNndaUTNWTmhxY3ZkTTJ5VUtmenk1dTMy?=
- =?gb2312?B?ZStlUVdBSWRhaVYxZ21pM3prQ1huaGxoRVcwR1RCaHh3VDY2MXo4aDFNNEFj?=
- =?gb2312?B?bWRhUlZRNUJMQnVlb2E5MUlRK0Rsb1lZMnJ0T1JmWk4vTVVZT3hJSm1UZloy?=
- =?gb2312?B?Z3luNEttSjM0clZQbStsVGc2K1lxR1BaUmIzN1pUQUxvelBBeEUxN1pCRDF2?=
- =?gb2312?B?Wk9tUlc2Zmtzajd1eGxnZTBKODhBaEVnQkhGV2d1NFdjMjdBQ3U5bkVwSm1S?=
- =?gb2312?B?Mm93dUVoYmdHcjlWNWRGbng1eXVaczI5bHhYb09EUG1tV09tcnM2c3NWRDdZ?=
- =?gb2312?B?Y3ZuTFMrTWtzbGdjWFhCVDNqbVR0TyttOWdsUEpncm90WCtpMkFKVVVVYksw?=
- =?gb2312?B?MW4wVUlBWFNWTUhYTEs3WGdSNTNMLys5T20yaG9oSFVuSlg1SGtwS3lzYUtU?=
- =?gb2312?B?VzQ5L1MxSmNaSjVFd0dRbkRML0ZQVkpIbG5Ud3g3MWtwdDVaSlRmZE02NFNu?=
- =?gb2312?B?MkdOS1ZzLy9Oc0dIeUhaVHM0N3QyM21vdGppZzY0OHR6SVpDaVdWQnBESFVO?=
- =?gb2312?B?OGQvOUdCYVY5YWtKb2hwa1hjUVUzQlkrRkw1U1ZQUVlMQWdYKzA2aUJielhY?=
- =?gb2312?B?bXJpZVdnVXhHOTFtN1FmYTVNbjQvSjNUbmRvTUV4WG4xSGN3Y214a3BiYnpF?=
- =?gb2312?B?Qkt0T2V5ZU4wY3ZveThIRFEvRTIwRTc1MTQveDVKbkxabENJdDlVem82bTdB?=
- =?gb2312?B?ejdXdHNWYjUxVzhUTDlrQksvQVh4dElFVW43ZXhPZXNGREJOOTlQY00xVlpk?=
- =?gb2312?B?bzJQQXBscDhUZS9pR2NBajN3QWMwbWxHZ3gxb0szMmVNVXh6cUU1Y2dSWGlh?=
- =?gb2312?B?cDRidjQyYVFhSzdoS3pqTE5zWEYxaDh6eUR6OVE1TkU2cE1vUmVzc0htUUxJ?=
- =?gb2312?B?bU0wckZRY2lyNm9JQWdDRkxxVUJMMzkwdE1XS0NpVlpFbVNORHdxWmUvandC?=
- =?gb2312?B?UjhrUEpheUVUY0cwVnZVNm02Sk9lMUNQQ2FkOTdNYnJ4UCtDbjVMNUVGdnNr?=
- =?gb2312?B?WjRBaGdDVldBdE9TZVY2aHZpKzZsMTljQVRiRTVkT3hKNGx0WC9uZjdmeThX?=
- =?gb2312?B?U2FZWDcrWS9UbnQreXNJWGNpcDBtWWhwOGNzRkdiaTZrUG5JZXRkZGN4aGxu?=
- =?gb2312?B?em5kMTl4ME9OcUdqWXZjNlhuOFJBajAyb1FGNElQZENHdk4yQzl3bUR0bXl5?=
- =?gb2312?Q?6S0V5wSi+/zkAuEMVj8N2F/zX47bHjEV?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYUPR06MB6217.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?gb2312?B?djUvVlFGcnpLM0VSZkdWZ3kvVTBCbWNqL1ZQMWFicWx0QjN4bzBDRkI4eGh6?=
- =?gb2312?B?N200dUlTS25QbGY1Sis3YjNabnVPM1Y3RmNIc3N3RmxsejZBZkNKbFlNRTZI?=
- =?gb2312?B?SWEwUHZsOWs1TFJXb3l4ZW5IZG1Pd1J3NUQ2TEpPUDQwQUhWejY2ejVlbk9h?=
- =?gb2312?B?ZlkzWHd6RHhmRUVxYVc0Y1psbk5zNENMdk1NZzdZTEpJVGxZT0hKUXhKNlo3?=
- =?gb2312?B?aGdqM2hZZFl6QVd5cEdDYzF0ZUFXQUZ1b1VWZFpUQ0ZlUGFTc2pBS2xyNFMy?=
- =?gb2312?B?TGFXZDBKZDh2azRUUFdsK3NEaGQrV1E5NE9FNnk3ajJ2SmxxM1lJd2lMemR0?=
- =?gb2312?B?L0t5VlU5STN6bGFBZUl1eTluMDRuaUhMcnA4R1JLeDl1WXFsWlhwMy9iUFh2?=
- =?gb2312?B?U1BCVkZHM3BEaWlyWDM3clUyTExqL284UllBZ2ZYUElDQ0VwODlvc2Q4a0pa?=
- =?gb2312?B?UlBpZlpMNlhYcDhFRWlOOFhPeWlqZmJDeGMwK0FsQi9rU1A4NW1MQUR3RnJS?=
- =?gb2312?B?NjRoSXVCMkhZL1RuRXFySlFFWFBzZ0IyNEN6bnlabkRoTEIrUlNSNjR5cnRV?=
- =?gb2312?B?MHpGYnZGMmRTQmNXQ3FCaXRTbFR5akZ4azlQL1JIRy9lODl5SmFramJyNEkr?=
- =?gb2312?B?M0VLaGxCakNLNGhmbm5PdkxSRFpKWTA1SjVyNWd6aVk4VkxSRHZ6eUpka1ZK?=
- =?gb2312?B?NFhYL0d1cGNQZUlFRzEwdFliYWNsOHN4bzUzblNQTGF5b3I5L0Z0eHdvamxm?=
- =?gb2312?B?Y1BzY2J4V1pabm9YdERKd1k1eHZSa3pnYkpwYzgzOXlwMmdIZUMrMklMa1h4?=
- =?gb2312?B?dU85VHhFN1dSaFp6TTNxdjlndTY0YzZSa3h5M0NYNHlZZS92L1BueDJ1WWxU?=
- =?gb2312?B?cjJ3cS8xT3p5K3NKaFRnaENBanV1RUNaRUNoN0gzakJqcE93T0dZQmNGM2d4?=
- =?gb2312?B?dWNKM3JUVTZua081ZUo1MFMvaXRhWEozUmZJaTdaQmlsRGRNUDVaNmNjTEVt?=
- =?gb2312?B?Qm5LNTIwczB2WlJDcVNTcW95dFc2aDFRcHNzYVVHQ2FJUU9ta2QzN0NHeXBr?=
- =?gb2312?B?bVBudUlhNThrSERickg4cVdWQitYQVYwbkZNcnZRVzdSdUthMjZtcFFlNlVM?=
- =?gb2312?B?bE9iR240RytMMktJUnA1aFM2MFpzUDRGczdNOHdGQjdGeE9PSnRCa0NQem9r?=
- =?gb2312?B?QWVqZXBoY01EWW9wdktiRnVub2hEQ1FvVTBYYTRGc3NUZDREeHB5NnZuRTVC?=
- =?gb2312?B?ck42SDIrN2lhbDFPa1R3M2lIcEw4T1djOEp5bWI1Q29HcjIxV2t3L2lnOGVv?=
- =?gb2312?B?Mk9IQ2VqY2h2dWxqa0I2dXhwMndaeU15Mmw1QW5nSWtaTitFOW9PbG1qOUJ4?=
- =?gb2312?B?MUdKTWxjeTd0Rm5EM0w1dmkrcUh5UE9MdFZtRzdMODJQZ3pjMG41cTFEd1pW?=
- =?gb2312?B?NC9YK29qOE1DTzFvMmJxUURZVDh1TVpQRm1YZERjWmFVUCtXcUJHV3J5Mzh3?=
- =?gb2312?B?WnplSUNuZytvQjRGYjBTYjE3WENXcXFRcTFLTFo3SW4xYWdlN2Q4VnlDSGNE?=
- =?gb2312?B?NnNRVk1pZ0J6SkE1OFk5SFZGT2xPejZGVnpLNDlYdlc4VkRyQ0J4Ulc4MmZv?=
- =?gb2312?B?SUo5dmNOUkxydmZabWFuOWwwc1B5N3J5N3JKd1pmVW9kelY3SHNTVUF3REk4?=
- =?gb2312?B?UDN5WFM4cG1lUzRQLytnY1AweU8vM1ZJd1h1K3N4SFkyRGdBZ2ZNRXlqZ3Q0?=
- =?gb2312?B?azY5L3kwRUlyN2VSSTEyalpNdFAyeU96TG45SDF5UTlMSEkzdlZIODd5cTBN?=
- =?gb2312?B?QmZSU2t1aFcxdUxvdDNYT0hZK0F6Znp2RC90dEk0WEZlbm9lWHJYWWgzUHJp?=
- =?gb2312?B?U0NQRWdmQi9MVW04OGhqSjZJVTB4K2ZQY0RpbEtSeTUram1TOTdCTVhEeGRn?=
- =?gb2312?B?ZEk1cWZuMFRPNldEQ3ppUzNmQTF0YzQ5NEJERmNHa2ZkeENuaXBPS3hETGkz?=
- =?gb2312?B?d0ZEcDA2TFpZVC9OM2hIMVBjdkMvTjNwMjZsS0NPa3ZRemREMzR4UTA0bGNo?=
- =?gb2312?B?eGJTL251bE10eEM4c1BUVkM1Y1ZDaFEwbUtRWjI2dXVkTnhrR0ZYUGZRajVO?=
- =?gb2312?Q?xObo=3D?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BhZtAVae"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-436326dcb1cso45293925e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 15 Jan 2025 00:36:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736930192; x=1737534992; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:user-agent
+         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lB3rHXjrUs5AJYYMIbdtSlreS8MQ74B9bY+rKil3MA8=;
+        b=BhZtAVaeLeAhta1TJwovoWLrvHd6l9PH9FIJiikETLM4MZn6FgRo/Ci6jW2t0aMg7Y
+         bTKJd82X7kglPydlRzmJfn43VnSZ05TIOp5P1/lzBAzmB0Cjv1t7+fBaRp0Bhj5Q4VLA
+         g3sRrArQqM0fkF1jBN30LeHJAgvaVcJnOteE8z0F3U8SmN+FtQ2+OLqSPPAD4kTA+OC4
+         /t/+70Ot6ICChSIeotWOqQHS7iTMH2bZ4YtvCPYZhEpamYyssTloDFqNlUs6jE8WKqgn
+         TL+ROyFRaDBdiJOAGXwRxkC5NwqKFanU1CSc+jVlLPiG3SphQNYWUa0pdnOHwyyS/bMU
+         0pjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736930192; x=1737534992;
+        h=content-transfer-encoding:mime-version:message-id:date:user-agent
+         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lB3rHXjrUs5AJYYMIbdtSlreS8MQ74B9bY+rKil3MA8=;
+        b=bzw6nhJoInfY8yLshZoWsMtK+9Oc5/emndlCys7Hdyb5vGIj6gEsfk9tsYpAUEvm6J
+         4OiGOHmm8ox5nALGuheoh3g/Wp5eRQmSYTdaB9SPi89GgfJy+m4vvilr84BajEocUEQN
+         4/wYeH9bj5a1XayzXorrBJavyzfFy6MBc3eQlGs2f9Z9t0hRK/E8lQJpGI1724J+WXj3
+         XTQRXFjaHZYWf3nH5bW+d7rTB4v6MBmWZyFtR17Axwa4AayIsCHfF3PrUcQZxmAjsRcO
+         F8NgEjn1I3LcPRWP0j7lMpIv/FMHXvsYRJjtpwELggdSA6spiRocvwB6R0t0/Jjyku4m
+         chpg==
+X-Forwarded-Encrypted: i=1; AJvYcCVa+CqN6kTw1I6kobkkjlixg5p/fOHyayOrqknN+QbAO4wEljgLDA8ns3om2kw5UH13NGKdd7iTNC+nrg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEfG939n939h43RqC3oEd3PH+WJVn4pVWBGOELHjrC80cEz5zU
+	pMWnryc5RtuCaFay8xESZK++otAqSoOk3qt1u1SJJBkH1HD9rVhteunXcmLR5mw=
+X-Gm-Gg: ASbGnctwOdW466PtGznu5/wcmcrFVzbOhLUDSLi1SbaSwbQv5CX1LnY/82B9q3n+G1g
+	CPYmie5LjBSYKDmgTdzqgFzLHTWyzD73qfej7FWomCjy/0flYlFmJ91RzH4NKtTS0umLPFl79Tk
+	tlepahRb54pRA64IjHJQu32NbPEfCDcKT7P7uGV0389HLJcTOcAKyL4+TmitnaJmLnmyunQ/EEH
+	KyibcSgYCgp1kkKmlSBf7JN+0gYgdo1RCnsxaYv0anFMvJrMu86lg3t
+X-Google-Smtp-Source: AGHT+IGHLV3oniHk2tCYLxFndHHL9KG5RVtJRTDpiO1CMzyqcEywc4SzfBdAV2UjsP92dEf3xkAv9g==
+X-Received: by 2002:a05:600c:3554:b0:436:1be4:c9b4 with SMTP id 5b1f17b1804b1-436e26ff1b2mr227264435e9.27.1736930192380;
+        Wed, 15 Jan 2025 00:36:32 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:e7b8:6186:fc23:f678])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e37d447sm16644404f8f.4.2025.01.15.00.36.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2025 00:36:31 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Jiebing Chen <jiebing.chen@amlogic.com>
+Cc: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>,
+  Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
+  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>,  Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
+ <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,
+  linux-sound@vger.kernel.org,  devicetree@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+  linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH 2/3] ASoC: meson: s4:support for the on-chip audio
+In-Reply-To: <e5055b4d-7a10-4a5e-ad85-d94c1f64eb03@amlogic.com> (Jiebing
+	Chen's message of "Wed, 15 Jan 2025 10:56:17 +0800")
+References: <20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com>
+	<20250113-audio_drvier-v1-2-8c14770f38a0@amlogic.com>
+	<1jwmey9451.fsf@starbuckisacylon.baylibre.com>
+	<e2f26ca2-4c38-4b07-bf17-95544588a2f2@amlogic.com>
+	<e69cd38e-898c-4cbc-a327-14148a71c764@amlogic.com>
+	<1j8qrd7aor.fsf@starbuckisacylon.baylibre.com>
+	<e5055b4d-7a10-4a5e-ad85-d94c1f64eb03@amlogic.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Wed, 15 Jan 2025 09:36:31 +0100
+Message-ID: <1jr0545v8w.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYUPR06MB6217.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6beca7d1-6be0-41c8-e701-08dd353ed5c9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2025 08:30:14.7128
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Gdi9I82xEPpIz4DiUDEWYM7f9gyGMxtm1Bj3u7zsNZ8f9XPNAx5vUB101xJy19YdLa2n9JqXwYELDDcUB7Qv2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5073
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-IEhlbGxvIGxpbnV4IGtlcm5lbCBleHBlcnQ6DQoNCj4gT24gV2VkLCAxNSBKYW4gMjAyNSAwNzo0
-NTozMyArMDEwMCwNCj4guvrBrMfaIHdyb3RlOg0KPiA+DQo+ID4gRnJvbTogTGlhbnFpbiBIdSA8
-aHVsaWFucWluQHZpdm8uY29tPg0KPiA+DQo+ID4gQXVkaW8gY29udHJvbCByZXF1ZXN0cyB0aGF0
-IHNldHMgc2FtcGxpbmcgZnJlcXVlbmN5IHNvbWV0aW1lcyBmYWlsIG9uDQo+ID4gdGhpcyBjYXJk
-LiBBZGRpbmcgZGVsYXkgYmV0d2VlbiBjb250cm9sIG1lc3NhZ2VzIGVsaW1pbmF0ZXMgdGhhdCBw
-cm9ibGVtLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogTGlhbnFpbiBIdSA8aHVsaWFucWluQHZp
-dm8uY29tPg0KPiANCj4gQ291bGQgeW91IGdpdmUgYSBiaXQgbW9yZSBzcGVjaWZpYyBuYW1lIC8g
-bW9kZWwgdG8gYm90aCB0aGUgc3ViamVjdCBhbmQgdGhlDQo+IHF1aXJrIGNvbW1lbnQ/ICBUaGVu
-IGl0J2QgYmUgbW9yZSBoZWxwZnVsIGZvciBwZW9wbGUgd2hvIHJlYWQgLyBjaGVjayB0aGUNCj4g
-Y2hhbmdlcyBsYXRlci4NCg0KV2UgdXNlZCB0aGlzIHNvdW5kIGNhcmQgdG8gY29ubmVjdCB0byB0
-aGUgcGhvbmUsIGFuZCBvbmx5IHNhdyB0aGUgZm9sbG93aW5nIGluZm9ybWF0aW9uIGluIHRoZSBs
-b2csIHdpdGhvdXQgc3BlY2lmaWMgc291bmQgY2FyZCBtb2RlbCBpbmZvcm1hdGlvbjoNCg0KdXNi
-IDEtMTogTmV3IFVTQiBkZXZpY2UgZm91bmQsIGlkVmVuZG9yPTBkOGMsIGlkUHJvZHVjdD0wMDE0
-LCBiY2REZXZpY2U9IDEuMDANCnVzYiAxLTE6IE5ldyBVU0IgZGV2aWNlIHN0cmluZ3M6IE1mcj0x
-LCBQcm9kdWN0PTIsIFNlcmlhbE51bWJlcj0wDQp1c2IgMS0xOiBQcm9kdWN0OiBVU0IgQXVkaW8g
-RGV2aWNlDQp1c2IgMS0xOiBNYW51ZmFjdHVyZXI6IEMtTWVkaWEgRWxlY3Ryb25pY3MgSW5jLg0K
-dXNiIDEtMTogdXNiX3Byb2JlX2RldmljZQ0KDQpXZSBjdXJyZW50bHkgZG8gbm90IGhhdmUgYW4g
-ZWZmZWN0aXZlIHdheSB0byBvYnRhaW4gdGhlIGRldGFpbGVkIG1vZGVsIG9mIHRoaXMgc291bmQg
-Y2FyZC4gV2UgYXJlIHZlcnkgc29ycnkuDQoNClRoYW5rcw0K
+On Wed 15 Jan 2025 at 10:56, Jiebing Chen <jiebing.chen@amlogic.com> wrote:
+
+> =E5=9C=A8 2025/1/14 22:05, Jerome Brunet =E5=86=99=E9=81=93:
+>> [ EXTERNAL EMAIL ]
+>>
+>> On Tue 14 Jan 2025 at 19:20, Jiebing Chen <jiebing.chen@amlogic.com> wro=
+te:
+>>
+>>>>>> +
+>>>>>> +MODULE_DESCRIPTION("Amlogic to codec driver");
+>>>>>> +MODULE_AUTHOR("jiebing.chen@amlogic.com");
+>>>>>> +MODULE_LICENSE("GPL");
+>>>>>> diff --git a/sound/soc/meson/t9015.c b/sound/soc/meson/t9015.c
+>>>>>> index
+>>>>>> 571f65788c592050abdca264f5656d4d1a9d99f6..2db1cd18cf2cea507f3d728205=
+4e03d953586648
+>>>>>> 100644
+>>>>>> --- a/sound/soc/meson/t9015.c
+>>>>>> +++ b/sound/soc/meson/t9015.c
+>>>>>> @@ -89,10 +89,7 @@ static struct snd_soc_dai_driver t9015_dai =3D {
+>>>>>>                 .channels_min =3D 1,
+>>>>>>                 .channels_max =3D 2,
+>>>>>>                 .rates =3D SNDRV_PCM_RATE_8000_96000,
+>>>>>> -             .formats =3D (SNDRV_PCM_FMTBIT_S8 |
+>>>>>> -                         SNDRV_PCM_FMTBIT_S16_LE |
+>>>>>> -                         SNDRV_PCM_FMTBIT_S20_LE |
+>>>>>> -                         SNDRV_PCM_FMTBIT_S24_LE),
+>>>>>> +             .formats =3D (SNDRV_PCM_FMTBIT_S16_LE |
+>>>>>> SNDRV_PCM_FMTBIT_S32_LE),
+>>>>> Again, mixed up changes with zero justification.
+>>>>>
+>>>>> This drops S8 and S16 format support for the existing SoCs (such as G=
+XL)
+>>>>> which is known to work and add S32 support on an HW documented as 24b=
+its
+>>>>> only. Can you explain ?
+>>> for g12a, sm1 etc, it is use new audio ip, GXL is old ip,
+>> If there are chips difference we did not know about, then you should
+>> introduce those difference, without breaking existing support -
+>> including for GXL, which is what you did IIUC.
+>>
+>>> the new ip not support 24 bit,
+>> Are sure about that ? that code has been there for a while.
+>>
+>> If sm1 does not support SNDRV_PCM_FMTBIT_S24_LE, you should a fix up pat=
+ch for
+>> that, with the proper "Fixes:" tag, how to reproduce the problem and
+>> explaining the fix.
+>
+> maybe there are some gap , we support SNDRV_PCM_FMTBIT_S24, not support t=
+he
+>
+> SNDRV_PCM_FMTBIT_S24_3LE,=C2=A0 for SNDRV_PCM_FMTBIT_S24
+>
+> it is=C2=A0 Signed, 24-bit (32-bit in memory), little endian , the audio =
+dma
+> busrt is 64bit
+
+It makes absolutely no sense to discuss memory layout for the codec.
+
+>
+> it can get the full data. we send the 32 bit data=C2=A0 mclk =3D 32bit* 4=
+8k *4,=C2=A0
+> use the clk to send
+>
+> the=C2=A0 SNDRV_PCM_FMTBIT_S24,=C2=A0=C2=A0 the hadware always send the 3=
+2bit data
+
+No it does not. It send 24 bits of data over a 32 bits physical word with
+8 bits ignored.
+
+>
+> so, i think we only add the SNDRV_PCM_FMTBIT_S32 base on it
+
+That's wrong if the codec does not actually use the full 32bits ... and
+I have clear indication that's what the codec is doing, on GXL at least.
+
+>
+> we think the 24 bit is the SNDRV_PCM_FMTBIT_S24_3LE, it is 24bit in memro=
+y,
+>
+> due to the dma busrt 64 bit limit, it can't align the sample bit, if it is
+> 24 bit
+
+Again, memory layout makes no sense here.
+
+>
+> so the clock configure can't 24bit clock,
+
+I disagree and this has been tested. If you have a test case showing
+otherwise please share it.
+
+> by the way, We discuss internally for gxl,
+>
+> it also support the SNDRV_PCM_FMTBIT_S32
+>
+
+Does it really ? If it is just to ignore the 8bits LSB, that not a support.
+
+>
+>>
+>>> usually support 16/32 bit for new audio ip , for SNDRV_PCM_FMTBIT_S24_L=
+E,
+>>> it width =3D24, phy =3D32
+>> Yes physical of SNDRV_PCM_FMTBIT_S24_LE, so most chip supporting 32 bits
+>> width would support this S24_LE, unless there is something odd.
+>>
+>>> it was  treated as 32 bit to send for tdm, so we can only add the S32LE
+>>> base on it , right ?
+>> You are asking me ? How am I suppose to know ?
+>>
+>>> but if the gxl not support the 32bit
+>> I don't see a problem with a DAC taking input on 32bits physical
+>> interface and ignoring some bit on processing.
+>>
+>> If that's not the case, please send a proper fix change with some explan=
+ation
+>>
+>>> we need add new snd_soc_dai_driver t9015_dai_s4 ?
+>>>
+>> If I understood correctly format depends on the chip and needs to
+>> adjusted including for sm1.
+>>
+>>>>>>         },
+>>>>>>         .ops =3D &t9015_dai_ops,
+>>>>>>    };
+>>>>> -- Jerome
+>> --
+>> Jerome
+
+--=20
+Jerome
