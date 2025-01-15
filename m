@@ -1,42 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20297191F75;
-	Wed, 15 Jan 2025 19:49:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02541D86D6;
+	Wed, 15 Jan 2025 19:49:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736970591; cv=none; b=eyC1bamV8LooHWe8nxKjBMZ9GZ4I7MxxxKPwG9cWhzNJmwNmo4miCyeesI/xjefXeRwXO9duRnDBk/KL8pNPoIJKM/fgYgGwbEgC4nNtJyBC6fPLq5AS2Jg91Xye05y7YUMUw9Y07Ggf0jkyOwJfSZ9Ct7G2y9o5oqcxsmZwia8=
+	t=1736970593; cv=none; b=Pe76bXXBQHyoHGrF+9tWG8Xy6ETemc1u7BDdQXIdmrkHafLbJEWzFEVWw9Cqqt6JTIKsq04cIj2yvHNLRLJ2tU2KmaSjLLsz4teaAZbjhpgwoH82/b7fJTlr+sUuRMg8emmNSgJAqYW8VfvG7s+wYJMai1kd1azc1zfACBov7TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736970591; c=relaxed/simple;
-	bh=hWr2LWF1qq99l7wU7TfzRrkTYIpdhEz2+9mynXF6C8k=;
+	s=arc-20240116; t=1736970593; c=relaxed/simple;
+	bh=ILvfg5pwanMyo9xV5843NrDz24Ynv1QnmM3E4AZ3fGo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rvJp9rLxr3oxb4sVhMwHs2a6VmAdLfZDG3KyDlXWR0u8zVbFzqBxDwSFhpAIGd+tGtdM1EmYvokbOn/KbA1fY9FdzLuKzL6xSuwe1rSEiyRnyGtAmnnrgVI6Qe2PmdPHePzEhtghSg1QwGEoFOvzJcvmE8Dvjs88RapFfsM9QJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DbHQBoDn; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=VM80A4d6JRemVx2zpnECwX6iF145SV9LXny2tjpuBScv4DuXNXCbAd3R1GHHTSGI8gFVwa5S9uZGIs4R5YFF+Qq55TiEa2prj5hWWrKf3x8dsJ8GMqCCBZ4fdr31uuOZuecE+6hVf+Ar9pcp0wIl21Z+J7lI+CSoF/4d3lFcjgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rMpoj+IS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DbHQBoDn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63110C4CED1;
-	Wed, 15 Jan 2025 19:49:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rMpoj+IS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1647DC4CEE1;
+	Wed, 15 Jan 2025 19:49:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736970590;
-	bh=hWr2LWF1qq99l7wU7TfzRrkTYIpdhEz2+9mynXF6C8k=;
+	s=k20201202; t=1736970592;
+	bh=ILvfg5pwanMyo9xV5843NrDz24Ynv1QnmM3E4AZ3fGo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DbHQBoDnh62TnlsIBfkZlhXltn5Ejh/f9vBU+Rv+dyBrMYyTG9zORSt3XP1FA0gOd
-	 3dDBCjOu2mKl6v7Xw047b6O54WN0WxWSGkGlXt0NOv6e2mgROGwjS8I5qtscoRsGcp
-	 E++SryFMg0O4Nlpf4x1Tz0eB6FgP4XBaGQsgRcw60g4MmfjmaeYpsd1KlqWE05Q3mx
-	 fS47Rh2PRWer4r5TMDj6k9uZXZ/n2bmBrvvoHwun5MSNwSiNjQET9FubjeVTbsig49
-	 IVP7ZPk+QRU9+//mzCYBdY5GFXAonhVCsO3/7JmduCabL3vAugNx2kQjT7uZ7juFtf
-	 NSIuBCdT5Fx7g==
+	b=rMpoj+ISagJLSOHpuxWGPdKQjMqQK86VHpsfmXodm0I3c6ACz4d8b0W/b7txz5StP
+	 6cMsU+jc6eapmA0n1p2XxN+bC1GB7Els4vzJFug/CGd2Qq3IsG6n59TwOU9Y1Es/sD
+	 rMrBoxsmT+AnlvSqCcAssxlrP4dMKSFGNaiEr+ZaNjFjRQGJdC3Z77PYpFORpZmUtw
+	 2V+yatPpzTV7ToJ8X2YXVe8GeSALyoacMT/5W51VFNKp1rldDJ0eEwkRLnp9EknwCa
+	 ckWuvYhfpH1eZZBZnDv8lqvDsSO99hBBp5tHKkW4OIJcAY1gT8+dxHn6dzdDi8nKaK
+	 Fs5iJuRM9LcLQ==
 From: Mark Brown <broonie@kernel.org>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  Liam Girdwood <lgirdwood@gmail.com>, 
  Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250114184314.3583-1-laurentiumihalcea111@gmail.com>
+In-Reply-To: <20250114184314.3583-2-laurentiumihalcea111@gmail.com>
 References: <20250114184314.3583-1-laurentiumihalcea111@gmail.com>
-Subject: Re: [PATCH 0/1] fix priv->dai_props indexing
-Message-Id: <173697058913.269766.14406601636391678268.b4-ty@kernel.org>
-Date: Wed, 15 Jan 2025 19:49:49 +0000
+ <20250114184314.3583-2-laurentiumihalcea111@gmail.com>
+Subject: Re: [PATCH 1/1] ASoC: simple-card-utils: fix priv->dai_props
+ indexing
+Message-Id: <173697059083.269766.1510915543090525977.b4-ty@kernel.org>
+Date: Wed, 15 Jan 2025 19:49:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,15 +49,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, 14 Jan 2025 13:43:13 -0500, Laurentiu Mihalcea wrote:
-> Fix priv->dai_props indexing in simple-card-utils.c by introducing
-> a new macro: runtime_simple_priv_to_props() that can be used when
-> dealing with PCM runtime data as rtd->id may be invalid.
+On Tue, 14 Jan 2025 13:43:14 -0500, Laurentiu Mihalcea wrote:
+> As of commit cb18cd26039f ("ASoC: soc-core: do rtd->id trick at
+> snd_soc_add_pcm_runtime()") the ID stored in the PCM runtime data can
+> no longer be safely used to index the priv->dai_props array. This is
+> because the ID may be modified during snd_soc_add_pcm_runtime(), thus
+> resulting in an ID that's no longer a valid array index.
 > 
-> Changes since RFC:
-> - added comment that should help clarify when the new macro
->  should be used
-> - Link to RFC: https://lore.kernel.org/lkml/20241220151213.2462-1-laurentiumihalcea111@gmail.com/
+> To fix this, use the position of the dai_link stored inside the PCM
+> runtime data relative to the start of the dai_link array as index into
+> the priv->dai_props array.
 > 
 > [...]
 
