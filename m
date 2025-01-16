@@ -1,145 +1,130 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EA217C8B
-	for <linux-sound@vger.kernel.org>; Thu, 16 Jan 2025 16:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41B915666B
+	for <linux-sound@vger.kernel.org>; Thu, 16 Jan 2025 17:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737046138; cv=none; b=Gz3jmlzu+C8tsXTcqXmK7+IIHzVTgk0Pai8BiYxGM9x4Jgl4tNfnEfEbbXeYkw/G+CuWUiqKH2Vkqcz1o538itDN0EGDS69UH/0RbtSE8S+YfMs9yWHLd7Cq6yCU/TUrm0jPZywfyKfXV3rcNak/5g7mxRQ6LePqjq2mxLUGP3M=
+	t=1737049633; cv=none; b=RoVaodkPS5S+yfg/6ypTiGSSffJbbS7juXuS9ZISAghdGE2lpWB4csTue465BsqgeAN97w2YVWxkEQ0tV4ut6Twikkg51f0ev7Rf01rC/et/LYSB1Puau/4l1Q52FobNjxgZdyXVX3MPubPGBQA3XjGSuENMortumn0S/Isfe4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737046138; c=relaxed/simple;
-	bh=tGz4gRE+Sg+Lsu5nb9TtYJEgxjH610F/xg9q8I4fmcw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fd1a9+VPwVWzRlSz1Jqe79jA9yEN4Osc/itwaYhQanL92h37zoSQsGLSkZioEghklik4GdqT29UbnV1eYLWd7FgK2bwWjY8JTFaqz8fDBZNBihQeSv9RPKyoLDI8J2WOEa0GkU1gLFm1O4635dlpCjJJnkZNcnrKJB03SaFMgaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dWhp6aXg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nXhuKHo+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dWhp6aXg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nXhuKHo+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1737049633; c=relaxed/simple;
+	bh=ClLe8WUBFSokU8DWM5ldq69tVDrRAFWMV2ncro2/cOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Zl+fFuEAyNogJ3qQrPaeF6lAjyas+TV2rdIvnnl25eszrJgI/Ai49zR2p50mF6MJQDZpdxzWBGXtZHbW/eRzn0rtqmHaBDj8XmCc5XjVCVkhN/KGw1mVGgk8ns49JJYBt/8QqWHhyOms10l7mwEKHhwXa3BdJRGSBEXsJyqZUNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=YW3Lgs4N; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dWhp6aXg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nXhuKHo+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dWhp6aXg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nXhuKHo+"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 463F521183;
-	Thu, 16 Jan 2025 16:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737046135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tjcALRSZKcpHREoTs0jq2906dlN7JP/pebSSr5/W9Cg=;
-	b=dWhp6aXgU1UMApyF013gfnqryQxhRRME1CIc5pEPZ11YfvO362TQex7nQa7wrvZvu06Q1A
-	405mSzW89KjbpcPXcGNLpJyH0n6aOslVyy6kr9oV5XYUv1fiLy5bAt9B78eTXywHZytpNu
-	fB2rdyesJQ6u2KhaSxD2zaG7zz66Xng=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737046135;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tjcALRSZKcpHREoTs0jq2906dlN7JP/pebSSr5/W9Cg=;
-	b=nXhuKHo+664V8JJz+mct5StTAtIag2/AsfJ9d3NVuI6gf6IP0OhjN//olbW8yCfI8Pbqyt
-	ZhHUjPmH3ze4n3CQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737046135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tjcALRSZKcpHREoTs0jq2906dlN7JP/pebSSr5/W9Cg=;
-	b=dWhp6aXgU1UMApyF013gfnqryQxhRRME1CIc5pEPZ11YfvO362TQex7nQa7wrvZvu06Q1A
-	405mSzW89KjbpcPXcGNLpJyH0n6aOslVyy6kr9oV5XYUv1fiLy5bAt9B78eTXywHZytpNu
-	fB2rdyesJQ6u2KhaSxD2zaG7zz66Xng=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737046135;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tjcALRSZKcpHREoTs0jq2906dlN7JP/pebSSr5/W9Cg=;
-	b=nXhuKHo+664V8JJz+mct5StTAtIag2/AsfJ9d3NVuI6gf6IP0OhjN//olbW8yCfI8Pbqyt
-	ZhHUjPmH3ze4n3CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1DA7E13A57;
-	Thu, 16 Jan 2025 16:48:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AXwLBnc4iWfoSAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 16 Jan 2025 16:48:55 +0000
-Date: Thu, 16 Jan 2025 17:48:54 +0100
-Message-ID: <87a5bqu2kp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v7 1/2] ALSA: FCP: Add Focusrite Control Protocol driver
-In-Reply-To: <Z4k3M7S1Bo2EDlDO@m.b4.vu>
-References: <cover.1737017960.git.g@b4.vu>
-	<7355f25d9b57386c280aef651b6ba2b96cf0d5a7.1737017960.git.g@b4.vu>
-	<878qraiywb.wl-tiwai@suse.de>
-	<Z4k3M7S1Bo2EDlDO@m.b4.vu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="YW3Lgs4N"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id D925D64A5806; Fri, 17 Jan 2025 04:17:07 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu D925D64A5806
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1737049627; bh=DIEdA6/2VH3AYRhNi+nUrn4oNaQiqHgIlza62isR0EE=;
+	h=Date:From:To:Cc:Subject:From;
+	b=YW3Lgs4NNrfQlepWUirI75RahLE9mJLuW1HSSFSeH0KBs4SIvRV8ip36zuZ39V1qC
+	 45sipD4iKvjzhvPPkyyHSgagZi4dLqF1l6jgLtFN91ldxaJEcgJGJfw9QgE6aKwLD2
+	 aE0K8CzKBv2eOokgdvd2DAtigwuxj2Sr0zVdJULn2k5mcZvT+/+L77sZ5jjZl2kfNG
+	 5xE0EBKJjt/l29ujDTr8s+lTaP4Nbp8l9UimieAd+il1j4kOmJ+7ia1ruDYBIgKPo5
+	 h95tTChaMLBIbVlBjoQzFVfh6iZenZL6+gyYJuT45UbrW9Tumw8aya4XrZhXjWguqO
+	 P5f3ymJMGHiQA==
+Date: Fri, 17 Jan 2025 04:17:07 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: [PATCH v8 0/2] ALSA: Add driver for big Scarlett 4th Gen interfaces
+Message-ID: <cover.1737048528.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 16 Jan 2025 17:43:31 +0100,
-Geoffrey D. Bennett wrote:
-> 
-> Hi Takashi,
-> 
-> A couple of questions for clarification:
-> 
-> On Thu, Jan 16, 2025 at 04:03:48PM +0100, Takashi Iwai wrote:
-> > On Thu, 16 Jan 2025 10:03:35 +0100,
-> > Geoffrey D. Bennett wrote:
-> [...]
-> > > +#define SNDRV_CTL_TLVT_LABELS		0x110	/* channel labels */
-> > 
-> > IMHO, the data definition looks too ambiguous here to be put as a
-> > public API.  It can be also a more specific name such as
-> > *_CHANNEL_LABELS, too.
-> 
-> Do you mean e.g. SNDRV_CTL_TLVT_FCP_CHANNEL_LABELS ?
-> 
-> But still define in include/uapi/sound/tlv.h?
-> 
-> And 0x110 is okay to use?
+Hi Takashi,
 
-All yes.
+Thanks again! All changes from your feedback on v7 incorporated in v8.
 
+Regards,
+Geoffrey.
 
-thanks,
+---
+Changes in v8:
+- Rename SNDRV_CTL_TLVT_LABELS to SNDRV_CTL_TLVT_FCP_CHANNEL_LABELS
+- Make meter levels buffer persistent rather than allocate/free each
+  time
+- Add data protection to fcp_meter_tlv_callback()
+- Set private->step* and co after allocation of the buffer
+- Use ALIGN() rather than open-coding it
 
-Takashi
+---
+Changes in v7:
+- Add #define SNDRV_CTL_TLVT_LABELS for channel labels
+- Add ioctl for setting meter labels and remove TLV write support
+- Simplify reinit handling
+- Remove more unnecessary casts
+- Add #define FCP_SEGMENT_APP_GOLD to remove hardcoded value
+
+---
+Changes in v6:
+- Move re-initialisation out of fcp_usb() so it's clear there's no
+  infinite recursion
+- Update theory of operation and clarify the use of meter TLV metadata
+- Rename meter_labels to meter_metadata for clarity
+- Remove unnecessary casts in fcp_ioctl_cmd()
+
+---
+Changes in v5:
+- Remove version/union complexity from init ioctl
+- Add documentation to clarify ioctl usage and big picture
+
+---
+Changes in v4:
+- Use variable-length data arrays in ioctl structs instead of pointers
+- Add CAP_SYS_RAWIO requirement to hwdep interface
+- Add validation of flash commands to prevent accidental bricking due
+  to erasing/writing the App_Gold segment
+- Refactor URB cleanup
+
+---
+Changes in v3:
+- Update ioctl structs and add ioctl_compat op to work with 32-bit
+  userspace on 64-bit kernels
+- Update driver to do all init steps so it can re-init after
+  suspend/resume
+- Add version field to init ioctl for future compatibility
+- Improve error messages when unexpected response data is received
+
+---
+Changes in v2 as per Takashi's feedback:
+- Use fixed-size data arrays instead of pointers in ioctl structs
+- Define notify struct outside of struct fcp_dev
+- Use u8/u16 types without __ prefix
+- Use cleanup.h for code simplification
+- Add init flag to ensure FCP_IOCTL_INIT is called before
+  FCP_IOCTL_CMD and FCP_IOCTL_SET_METER_MAP
+- Do not destroy/recreate the meter control (the number of channels is
+  now fixed when it is created)
+
+Geoffrey D. Bennett (2):
+  ALSA: FCP: Add Focusrite Control Protocol driver
+  ALSA: scarlett2: Add device_setup option to use FCP driver
+
+ MAINTAINERS                 |   10 +-
+ include/uapi/sound/fcp.h    |  120 ++++
+ include/uapi/sound/tlv.h    |    2 +
+ sound/usb/Makefile          |    1 +
+ sound/usb/fcp.c             | 1134 +++++++++++++++++++++++++++++++++++
+ sound/usb/fcp.h             |    7 +
+ sound/usb/mixer_quirks.c    |    7 +
+ sound/usb/mixer_scarlett2.c |    8 +
+ 8 files changed, 1285 insertions(+), 4 deletions(-)
+ create mode 100644 include/uapi/sound/fcp.h
+ create mode 100644 sound/usb/fcp.c
+ create mode 100644 sound/usb/fcp.h
+
+-- 
+2.45.0
+
