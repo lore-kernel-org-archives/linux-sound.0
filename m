@@ -1,100 +1,155 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FB91D63C8
-	for <linux-sound@vger.kernel.org>; Thu, 16 Jan 2025 09:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E0222A7FE
+	for <linux-sound@vger.kernel.org>; Thu, 16 Jan 2025 13:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737018228; cv=none; b=S4jRcObgEaTvR0VeDVX3L0sh/dYRhkLJEZAzmxZklAyCFzzbtnW96m+z4/hMTarGpFWxY1FOVwPHvGp1lQgR/KiJq3I1Tx8R9lqw5pVlK6lxR4Wji72JdWw4ndiHuWyJIgNlVuhV/e9dlpnsQ9uBtJyQobHTSNvDv4eQGuAhD0c=
+	t=1737035664; cv=none; b=NRGgQqlstyTl1GZ6Td3eYqo+SGjRKkjkHH8dKs9nvxus/0OwJxIZCLG9wQ5u/6O7yZdzWDbsgWFE6e3uMwuXqkWQIlRHwgoNb7Xfwn8rwM0aR6Rcq+Ij3buyhxiTL5GkJQTNaREtx3Aejl8S3KDoZPS7sTAOwVIxqc7qCnP5j2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737018228; c=relaxed/simple;
-	bh=g9Y4M4s0GQu3ILho+7yEbrkac3+uwhE+ELeQ84R+Qh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NqMfSA3wKjBjjiJI+Ijn2KNF0M6fr463vbwO2oHp2Jem09NTg88Tjz1SzKVnjcc9g+PoEglnFrGBMiViv3tm4K/wdkAASislR36RZeFxKv83Y/BF/bjtKC+zg9doLKbhm+yTK8MmyFzYt1FJXPNaGkwiw2fscluSkXiNhOjhaZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=V8F/XwFG; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1737035664; c=relaxed/simple;
+	bh=M3AT9cLBZONSc3dpbsdOqFATjCQrC00qffz5X3yALpU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=ikevj1Xs0VbqdlDe7qiIdS7akLz/zj+7CzaFFrtPuysbSYqAYJE3K9PWm6SA5kKc5UUcKpIao6sDJplZNVL1qn02VShtrgaoQe9Cf4X9rEQHMlmtiRdhWYhfisitblNjA2cEnLylVejvLl8KvXMdK6O5TixbSPQLg+uXL0UKLZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QeH0MJs3; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="V8F/XwFG"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 1B68664A5801; Thu, 16 Jan 2025 19:33:45 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 1B68664A5801
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1737018225; bh=I1c8cQW2h3IyL5mebxUFKL+d9rNVnhw0SGdH19EqGzI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V8F/XwFG6pXYp9xKOFYR3YuFtWQ04sVa9T4mJup52vvh6EDsE/pHmIhOuSUDbgy/p
-	 6uiyG11NENPXfe9ygl24RVCyqH0IPaj/29B6TClHlq43D0qFcMs5Qv31RzfeIMVsVa
-	 O7JA/XXwb1+5CYhdr0hue1OPOgiB3uK7J2NzlypyBc6Mc+/2IDuNNhzCub1thC8DgX
-	 zyITafJzb2lWoDIxeJaCWVnmizWOYrahcKLQuJ7ZH6DJUrPbELIWvXVeFGeFTyNTPo
-	 Mc74WYQUW5I0rJJDBk5LFXjPp8DoyUN9TPrLGzahe82D4z2aoKzTHCGdYfSeIu4WXT
-	 I4pnAevc6CIGw==
-Date: Thu, 16 Jan 2025 19:33:45 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH v7 2/2] ALSA: scarlett2: Add device_setup option to use FCP
- driver
-Message-ID: <256585db253a6f9405f3ef239c8a2cbbb044ae1a.1737017960.git.g@b4.vu>
-References: <cover.1737017960.git.g@b4.vu>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QeH0MJs3"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2ee46799961so3248146a91.2
+        for <linux-sound@vger.kernel.org>; Thu, 16 Jan 2025 05:54:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1737035662; x=1737640462; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5u9oazVtWSw8LeGn6+Nav58IPdJMEw9u+uloVuqr5M4=;
+        b=QeH0MJs3XEQOOrtTNehvjKBIls3y/PdBAAy/kg2UcaphnXEvf588HvTttLhBTd9C9T
+         PlVgjLFwBD4snZfivxK7xi1pVrVG/dF1TntpIk1Uq8LlRR/f5R+m7eUhwRNljWlnazH6
+         U9D6SgPXMZ99+d13Yccmay7DRJBg7ziK3wE+ZaHN7wAFbB0iAPWA2YJQyC3Sspg9g8zX
+         /ZeEzmB0LgB5DYRFx7kk3J/lwC595vZUaASqBlC/19q/9aR2Ja+pgYY/mJqT+t+lfPi/
+         mcVZXaAxEDf8tNPevWviHDzP/mNcfxZPYonIMxZ/x85Q0DEEMSpnCB3cvocJ1ZlhUhsi
+         GNPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737035662; x=1737640462;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5u9oazVtWSw8LeGn6+Nav58IPdJMEw9u+uloVuqr5M4=;
+        b=w/UUjwx58lfSMEMmxesz4xMkNE7s5kFWISJgwyC7/JvWv6btSjNRwu0BszA7XQ2QqE
+         uFnUerP7DKyuMjRd/8vc9MufW0Nj+OB/9kGdCBt3nlL0pySqVGqDHKz7ELBTg8+HOztA
+         uqlxaIin4mV1+s1I7o2LAVEk9FfXq9bFfd3ZF7HgppMDWCCCZw8gFGUvIFHzgznoRDBp
+         YBuFTDqT3RAN3QA/f30AWD+CWSIouQ3kgDI1zK9rxKSKI+rKjfB52whxed9YrPqXduLn
+         6IRWOW1dfUG6P59+pBAvx0Of/kDAVuYRxdeAjbplgQuQYZw3nAVGPozUxjqljCyYSy4Y
+         ZDwA==
+X-Forwarded-Encrypted: i=1; AJvYcCV9Qj4iQqRC4gUnOqKDPXqzAzeZ0i6NoSnObqg0KaeT/EevW1tHfF3mWn3GbTd1s6oOmD46qJrOSEwW7w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YylTBUQh83jkQQwwfVyu62zB8T2sSMRnxnn1pz/bFXNn/Dg5iHX
+	x4l05Tj98qLfoEKBlVk7E81dqLQNiNB+aaiWwU/o3ySeubwRZXNQ5NeT0l3AwXEMHpFM7hd7aVL
+	BTA5mylcQgRI4FA==
+X-Google-Smtp-Source: AGHT+IEHGWCVN3xDUGJtJQCA97PjM6pZ9KBV2dZbj+AkLwDpCQJd6J66oYEe9DEHG+RvsSIf/3WZOrgj7o63O5E=
+X-Received: from pjbpx11.prod.google.com ([2002:a17:90b:270b:b0:2ef:79ee:65c0])
+ (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:274b:b0:2ee:8427:4b02 with SMTP id 98e67ed59e1d1-2f548f5f941mr46246113a91.28.1737035662366;
+ Thu, 16 Jan 2025 05:54:22 -0800 (PST)
+Date: Thu, 16 Jan 2025 13:50:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1737017960.git.g@b4.vu>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.48.0.rc2.279.g1de40edade-goog
+Message-ID: <20250116135358.2335615-1-guanyulin@google.com>
+Subject: [PATCH v8 0/5] Support system sleep with offloaded usb transfers
+From: Guan-Yu Lin <guanyulin@google.com>
+To: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, 
+	mathias.nyman@intel.com, stern@rowland.harvard.edu, perex@perex.cz, 
+	tiwai@suse.com, sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com, 
+	ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, Guan-Yu Lin <guanyulin@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Add a new device_setup option (SCARLETT2_USE_FCP_DRIVER = 0x08) that
-allows users to opt in to using the new FCP driver instead of the
-existing scarlett2 driver for their device. This provides a way to
-test the new FCP driver on existing supported hardware while keeping
-the Scarlett2 driver as the default.
+Wesley Cheng and Mathias Nyman's USB offload design enables a co-processor
+to handle some USB transfers, potentially allowing the main system to
+sleep and save power. However, Linux's power management system halts the
+USB host controller when the main system isn't managing any USB transfers.
+To address this, the proposal modifies the system to recognize offloaded
+USB transfers and manage power accordingly.
 
-When the SCARLETT2_USE_FCP_DRIVER bit is set in device_setup, the
-scarlett2 driver initialisation will hand off to the FCP driver
-instead of proceeding with its own initialisation. The FCP driver then
-provides access to the device via its hwdep interface.
+This involves two key steps:
+1. Transfer Status Tracking: Propose xhci_sideband_get and
+xhci_sideband_put to track USB transfers on the co-processor, ensuring the
+system is aware of any ongoing activity.
+2. Power Management Adjustment:  Modifications to the USB driver stack
+(dwc3 controller driver, xhci host controller driver, and USB device
+drivers) allow the system to sleep without disrupting co-processor managed
+USB transfers. This involves adding conditional checks to bypass some
+power management operations.
 
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+patches depends on series "Introduce QC USB SND audio offloading support" 
+https://lore.kernel.org/lkml/20241213235403.4109199-1-quic_wcheng@quicinc.com/T/
+
+changelog
+----------
+Changes in v8:
+- Change the runtime pm api to correct the error handling flow.
+- Not flushing endpoints of actively offloaded USB devices to avoid
+  possible USB transfer conflicts.
+
+Changes in v7:
+- Remove counting mechanism in struct usb_hcd. The USB device's offload
+  status will be solely recorded in each related struct usb_device.
+- Utilizes `needs_remote_wakeup` attribute in struct usb_interface to
+  control the suspend flow of USB interfaces and associated USB endpoints.
+  This addresses the need to support interrupt transfers generated by
+  offloaded USB devices while the system is suspended.
+- Block any offload_usage change during USB device suspend period.
+
+Changes in v6:
+- Fix build errors when CONFIG_USB_XHCI_SIDEBAND is disabled.
+- Explicitly specify the data structure of the drvdata refereced in
+  dwc3_suspend(), dwc3_resume().
+- Move the initialization of counters to the patches introducing them.
+
+Changes in v5:
+- Walk through the USB children in usb_sideband_check() to determine the
+  sideband activity under the specific USB device. 
+- Replace atomic_t by refcount_t.
+- Reduce logs by using dev_dbg & remove __func__.
+
+Changes in v4:
+- Isolate the feature into USB driver stack.
+- Integrate with series "Introduce QC USB SND audio offloading support"
+
+Changes in v3:
+- Integrate the feature with the pm core framework.
+
+Changes in v2:
+- Cosmetics changes on coding style.
+
+[v3] PM / core: conditionally skip system pm in device/driver model
+[v2] usb: host: enable suspend-to-RAM control in userspace
+[v1] [RFC] usb: host: Allow userspace to control usb suspend flows
 ---
- sound/usb/mixer_scarlett2.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 7f595c1752a5..288d22e6a0b2 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -166,6 +166,7 @@
- #include "helper.h"
- 
- #include "mixer_scarlett2.h"
-+#include "fcp.h"
- 
- /* device_setup value to allow turning MSD mode back on */
- #define SCARLETT2_MSD_ENABLE 0x02
-@@ -173,6 +174,9 @@
- /* device_setup value to disable this mixer driver */
- #define SCARLETT2_DISABLE 0x04
- 
-+/* device_setup value to use the FCP driver instead */
-+#define SCARLETT2_USE_FCP_DRIVER 0x08
-+
- /* some gui mixers can't handle negative ctl values */
- #define SCARLETT2_VOLUME_BIAS 127
- 
-@@ -9702,6 +9706,10 @@ int snd_scarlett2_init(struct usb_mixer_interface *mixer)
- 	if (!mixer->protocol)
- 		return 0;
- 
-+	/* check if the user wants to use the FCP driver instead */
-+	if (chip->setup & SCARLETT2_USE_FCP_DRIVER)
-+		return snd_fcp_init(mixer);
-+
- 	/* find entry in scarlett2_devices */
- 	entry = get_scarlett2_device_entry(mixer);
- 	if (!entry) {
+Guan-Yu Lin (5):
+  usb: dwc3: separate dev_pm_ops for each pm_event
+  usb: xhci-plat: separate dev_pm_ops for each pm_event
+  usb: add apis for offload usage tracking
+  xhci: sideband: add api to trace sideband usage
+  usb: host: enable USB offload during system sleep
+
+ drivers/usb/core/driver.c         | 137 ++++++++++++++++++++++++++++--
+ drivers/usb/core/endpoint.c       |   8 --
+ drivers/usb/core/usb.c            |   4 +
+ drivers/usb/dwc3/core.c           | 105 ++++++++++++++++++++++-
+ drivers/usb/dwc3/core.h           |   1 +
+ drivers/usb/host/xhci-plat.c      |  42 ++++++++-
+ drivers/usb/host/xhci-sideband.c  |  82 ++++++++++++++++++
+ include/linux/usb.h               |  27 +++++-
+ include/linux/usb/hcd.h           |   7 ++
+ include/linux/usb/xhci-sideband.h |   6 ++
+ sound/usb/qcom/qc_audio_offload.c |   3 +
+ 11 files changed, 401 insertions(+), 21 deletions(-)
+
 -- 
-2.45.0
+2.48.0.rc2.279.g1de40edade-goog
 
