@@ -1,240 +1,245 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2076.outbound.protection.outlook.com [40.107.94.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9BA22B8AB;
-	Thu, 16 Jan 2025 14:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737039360; cv=fail; b=YmbPIH7rPQxmFD4YEd3d6dN4qpjUGN9KgOVF76oF7zS65CGA3xF5R+oHygYtdEhcG+4X/VOedErecbBeaPO6+Cpn2NyFl3pobKlB8WmDkKI+yWQ/3cQBSHP4g3OWstQQuJaqXzOPwuLl0OHWoXaN7GyG236VP7pGRpvy00/+Nsc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737039360; c=relaxed/simple;
-	bh=0Ktv+wOQ0OoxXs5ewz4zwlQPybmIngZ7R6XujmeuIBo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lPEAWO+1EsTbLN9VKOht2jvUK6507iNC28g7GUue72fiAU54X+IOYMIMzUo9dsqw+B33ay9got71hElfKIZsTFe2UXU+R23QpwLuh9/NoIUjraaDR7InBdlpcA+ztwHrVx0VmvpirVXpXS96uaGNl/PFNUia3r5x/RtaCCQ99eY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2zS9JG/J; arc=fail smtp.client-ip=40.107.94.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680F417578
+	for <linux-sound@vger.kernel.org>; Thu, 16 Jan 2025 15:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737039833; cv=none; b=EpIk5XffTFgOh/ElWmqYJzKQCJX+DQqliirZFexXr1yZTvfSslUE/TJtQ+dd7qF4V18dx+FOjSW7CJs39uEvHekIjrkxWREFQQQc1tAb3nMav22xTThqIKAkxgC0CxkPOXK7J5KsHfE/vgK5mXZ6P0rda3jgovWxMW0RRMRV1kw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737039833; c=relaxed/simple;
+	bh=no4w979KTWdejLQTTBbGUYLcUNPYq5DoEUEvIJ6z0G4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A38NTEfwdcXOvJRex843CtRjm5pUjgzPgN+r2EvfuChuInypKknXcvswSjZWEfh54onRd4FO7hELb6ZB3cd2jhE3YQmZgfxE+dG7EBqCkyXG+4rvaRi4Vkk1ClI9F53hShQuYUcTyTkUQBQu5PHnju6cKo4IyDwCtlDFX/HLtfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Dv8PGdth; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4DYt4ibb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Dv8PGdth; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4DYt4ibb; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2zS9JG/J"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ju1maHZVxppXMacVjVEgqU6dJ4oHfkqAMwqLb0mZ8uJhwdY5EvYpOuSQABXzxksrb/C2jRmD6HGl3CvfrGxt9Qo3hIjZKgu113FYHUiddfYncG3ranXLptWaKDiSjP21rvVkdyd5vPb/IPZ/l792R8smWRVWd5eIptt7ucS11zzbBpUIsE2+K4B2Gj8PGHhltTEDVnlKAAX30O6wwnBUgnULHnMDaG/T3kNQfurswVvGzrtxkrj+S4a2z8HZSc8V8JyVjvsXrvYqaebbv96kS7P/f836/X8/A5fFo2wSGaGMH459B6GbPGLTcaYwfpan87yophWP4WZHgXRC+yUq0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RN+lUqqXfFFnt2ftAYlgEuz6QuwjjAyaGeEfpafExi4=;
- b=BImf54nynLKvviX9MHiKL3LVhCOQB99TftYLpzZT8IubqgVWz6l6+ioX9YgcUnXzPHQih/ZT5hOu+fJMNdgGyTd289s2g9jqZEFyvBEHyAeoNXi9mQkpHU0kZkCQpXUtruT7ymfIi7h0L7BPL45E16W6uFcbJv/Dk2AFxnq2E7U0dpHsNd+3tTrs0Hl5SmVhy8FURFHS8en85qId8nWYTZpbOZfaHAZggIhrjdtOODUzGz2ncnUxDudTKppsUdgUCtOKyJJEthEem9IvwO9RtOCQzlCNzMW49t57lIRhDk6qynV3wG4wlvUF6tsRaNLW4wczsDEKiDuBBy7MGRNSiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RN+lUqqXfFFnt2ftAYlgEuz6QuwjjAyaGeEfpafExi4=;
- b=2zS9JG/JXaOCOSy8gJ+BBq1TKohKtYVrXowARLLaMxo7u+2xed1t1tpI3xIxq1wRFfH9FeebG9bHoxNY8HioAaYxoLHSiQkxpl5ctRpDPkDfJIQyR1PMla0Lil+ApyZKguR/50HQVbLhHsYCODDazJXZWyL4m4REKeJQHkD+DOY=
-Received: from SA0PR12CA0028.namprd12.prod.outlook.com (2603:10b6:806:6f::33)
- by DS0PR12MB8366.namprd12.prod.outlook.com (2603:10b6:8:f9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Thu, 16 Jan
- 2025 14:55:54 +0000
-Received: from SA2PEPF00003F64.namprd04.prod.outlook.com
- (2603:10b6:806:6f:cafe::98) by SA0PR12CA0028.outlook.office365.com
- (2603:10b6:806:6f::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8356.16 via Frontend Transport; Thu,
- 16 Jan 2025 14:55:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SA2PEPF00003F64.mail.protection.outlook.com (10.167.248.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8356.11 via Frontend Transport; Thu, 16 Jan 2025 14:55:53 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 16 Jan
- 2025 08:55:50 -0600
-From: Michal Simek <michal.simek@amd.com>
-To: <linux-kernel@vger.kernel.org>, <monstr@monstr.eu>,
-	<michal.simek@xilinx.com>, <git@xilinx.com>
-CC: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, "moderated
- list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, "open
- list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
-	<linux-sound@vger.kernel.org>
-Subject: [PATCH] ASoC: xilinx: xlnx_spdif: Simpify using devm_clk_get_enabled()
-Date: Thu, 16 Jan 2025 15:55:46 +0100
-Message-ID: <90075f57ceff7cdf958d0d146f46f50661335236.1737039345.git.michal.simek@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Dv8PGdth";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4DYt4ibb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Dv8PGdth";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4DYt4ibb"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7361A211D5;
+	Thu, 16 Jan 2025 15:03:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1737039829; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YUFi639i3f1kWvlLPyzOLucpYHIQ7a+7nxa7UE1c/Fo=;
+	b=Dv8PGdthS9tSj2cqKM67o+MAmavbNTMSmto7KraBwBwXsVrxL8i/pE/BMXZOMzDcUrTg+J
+	QV/hDAqvn41PMb/6VQ6/LQYpDxWl6nhpcd9ObwSxtToMCgmpPSyMNAK3ZkVy56swX5R8GN
+	cKiufmyqL5rqZwF/jYJreKhRWJFbFFQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1737039829;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YUFi639i3f1kWvlLPyzOLucpYHIQ7a+7nxa7UE1c/Fo=;
+	b=4DYt4ibbjE9/8G7jD5L8tqCweyY/nPq9bY9j+dRCYPBoPcp61Akz34rXLyMO0+SYLZJGtn
+	dGkizmqFYT4QQeDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1737039829; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YUFi639i3f1kWvlLPyzOLucpYHIQ7a+7nxa7UE1c/Fo=;
+	b=Dv8PGdthS9tSj2cqKM67o+MAmavbNTMSmto7KraBwBwXsVrxL8i/pE/BMXZOMzDcUrTg+J
+	QV/hDAqvn41PMb/6VQ6/LQYpDxWl6nhpcd9ObwSxtToMCgmpPSyMNAK3ZkVy56swX5R8GN
+	cKiufmyqL5rqZwF/jYJreKhRWJFbFFQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1737039829;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YUFi639i3f1kWvlLPyzOLucpYHIQ7a+7nxa7UE1c/Fo=;
+	b=4DYt4ibbjE9/8G7jD5L8tqCweyY/nPq9bY9j+dRCYPBoPcp61Akz34rXLyMO0+SYLZJGtn
+	dGkizmqFYT4QQeDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C27113A57;
+	Thu, 16 Jan 2025 15:03:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UGxtEdUfiWdGEgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 16 Jan 2025 15:03:49 +0000
+Date: Thu, 16 Jan 2025 16:03:48 +0100
+Message-ID: <878qraiywb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "Geoffrey D. Bennett" <g@b4.vu>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v7 1/2] ALSA: FCP: Add Focusrite Control Protocol driver
+In-Reply-To: <7355f25d9b57386c280aef651b6ba2b96cf0d5a7.1737017960.git.g@b4.vu>
+References: <cover.1737017960.git.g@b4.vu>
+	<7355f25d9b57386c280aef651b6ba2b96cf0d5a7.1737017960.git.g@b4.vu>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3096; i=michal.simek@amd.com; h=from:subject:message-id; bh=0Ktv+wOQ0OoxXs5ewz4zwlQPybmIngZ7R6XujmeuIBo=; b=owGbwMvMwCR4yjP1tKYXjyLjabUkhvRO2c+2/o3vM5eXZ7yq+3C/u3Pdw4DMf3+ufcqacVi40 DNpqsKCjlgWBkEmBlkxRRZpmytn9lbOmCJ88bAczBxWJpAhDFycAjARobsM872kGuwudG4y2Fu3 42jbf5Wdu+JarzHM9w742ZT8ePNeizfH+2f8e5x7w1/GFAA=
-X-Developer-Key: i=michal.simek@amd.com; a=openpgp; fpr=67350C9BF5CCEE9B5364356A377C7F21FE3D1F91
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F64:EE_|DS0PR12MB8366:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1273cf12-caf2-4be2-d3d3-08dd363de002
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?clvqNkrgbtGhFHMA9qSSngGD5CDp8ZjOXmVj5MyDRtznLhLKbEVRBLlUFOk5?=
- =?us-ascii?Q?DmgPgfl/udP5K8YyqT6qeGU3PEPuk21rzMh1RXnlgcIlRvftGW9Dztoh/HME?=
- =?us-ascii?Q?EUqL/GJhuLFUbVW/DqN4o8Y8D/rBG6lZJ3DOAA9QEcwckvnLUy7Pwdj0gm9q?=
- =?us-ascii?Q?SnsRwIBzChBkNxhVSXBeyIoIaR/QiI5yP8FIV9Xp9pb57Vc6WJadHC4EYCXY?=
- =?us-ascii?Q?zmNaXQER3O6PIisKL+gZcKsu3QXGjHjVqzXXLiGrWSfMtPccnneFktecdXR5?=
- =?us-ascii?Q?3koxR74o9/yIkm5OUtu1b7Se2m5RHhLitaJD8AI0EWnuxNxPnniacIDEAgwz?=
- =?us-ascii?Q?nVBm8usgGxGHlIs+76s6CL+TXkuYSpvPD4OtcSS69n33Cmx87J7Zx1n0Hr2G?=
- =?us-ascii?Q?VTiwSoCv6XxjNvRLs9h19B4oOe+i1O5+1VafVgXChwEm/u3ljZpCosTHY6Z/?=
- =?us-ascii?Q?+wYEarCugY4tZyJ6s/5BtXUN6G4w3CXqNkyKUE2awsUje7GzBIkb5mXvm7CO?=
- =?us-ascii?Q?javXZ071mrFEEZo9gufxsUfT6HcxFOx9Pbwn34h869W9IfPO+y+nPcGcFH9y?=
- =?us-ascii?Q?YqAMMAyPU3EX9LaEduaw/3LhTqhmkG1xaA2P96WXLPx8Z6m6arfFJbx2IRJC?=
- =?us-ascii?Q?WtBa3gADsYjSm686LPmw5o+A0cRnuArLAjwaqgAff7LbmMvktu8qka8HJYuH?=
- =?us-ascii?Q?EIuxoNZaQjM9Xobx60rr3ZvBB5Ca6XY4OFcW30vdZBPAHmov/KTvKOKY0xWc?=
- =?us-ascii?Q?lYC9uGgqee47Tuc2kTDPxfK+8Byio8MTZnJ2A+CY861GIfW9QTTkvIv+Q1jL?=
- =?us-ascii?Q?opqt6ngch05QBTCsOkQobQVyv2T3GrYHBqElM/QrNXJmrbx55GRi2yrvGAHW?=
- =?us-ascii?Q?J3oYfiyKzwQqO/RhbcrRF/zjuW8z6lvFIkC9sxjQ0gSRgd1ZL2hfpt6fF0Es?=
- =?us-ascii?Q?oBw0RfPsrAxpcpxEDx5ohwMlvHkngp3iVbiXFU5bdaBi9+TBMP1NbEFZYXCp?=
- =?us-ascii?Q?ga+Tgc9bY9DSgjsB4/w7G0djoFAq3PRyygYC5deLIcHjGqCmO/agGY/Y9szE?=
- =?us-ascii?Q?+N3b/aCWFIGdRKTXe1eons3sTIg9AW5H9YKsVVt3WF8YhBealbxniqU15LVX?=
- =?us-ascii?Q?CYOXjLwqsj7rSfeOMh0ibzOzzGBdckJ7tzpDfdIQAgJJUDYMxh1BxvDaFy+6?=
- =?us-ascii?Q?YxecvprzTSVsSHSwxTV+NXz8AkJcnK/zFrDfrbBRwguxnB89DLWLfsLgS4B0?=
- =?us-ascii?Q?TP/OVUNrzvuwX+wOh1g0rmN2JbmYLXHs3brJXuYyJr84ayMf2KBdcDV0YfIg?=
- =?us-ascii?Q?UYDJs08tDb1C/4bda4zUk0MGDmPSihIDjErONBLbMqz+YprLmT+64KIRwbv8?=
- =?us-ascii?Q?d6q3jqPyXxjP9qP4FMYosD1AG/foU/0mlEf3iDBoiy8VcKBsOT38iIvfRolQ?=
- =?us-ascii?Q?cYq9eqsi7E76/edGuS4ZustySv1uXWXevM9Ybxj/PXBVyiKc41AYlEUGBczj?=
- =?us-ascii?Q?xVbmrO9ZsKRHA94=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2025 14:55:53.4883
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1273cf12-caf2-4be2-d3d3-08dd363de002
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003F64.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8366
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-Clock handling can be very simlified with using devm_clk_get_enabled() as
-was done by commit 8d2aaf4382b7 ("gpio: zynq: Simplify using
-devm_clk_get_enabled()").
+On Thu, 16 Jan 2025 10:03:35 +0100,
+Geoffrey D. Bennett wrote:
+> diff --git a/include/uapi/sound/tlv.h b/include/uapi/sound/tlv.h
+> index b99a2414b53d..b6e260e35529 100644
+> --- a/include/uapi/sound/tlv.h
+> +++ b/include/uapi/sound/tlv.h
+> @@ -18,6 +18,8 @@
+>  #define SNDRV_CTL_TLVT_CHMAP_VAR	0x102	/* channels freely swappable */
+>  #define SNDRV_CTL_TLVT_CHMAP_PAIRED	0x103	/* pair-wise swappable */
+>  
+> +#define SNDRV_CTL_TLVT_LABELS		0x110	/* channel labels */
 
-Signed-off-by: Michal Simek <michal.simek@amd.com>
----
+IMHO, the data definition looks too ambiguous here to be put as a
+public API.  It can be also a more specific name such as
+*_CHANNEL_LABELS, too.
 
-Compiled only.
----
- sound/soc/xilinx/xlnx_spdif.c | 38 ++++++++++-------------------------
- 1 file changed, 11 insertions(+), 27 deletions(-)
 
-diff --git a/sound/soc/xilinx/xlnx_spdif.c b/sound/soc/xilinx/xlnx_spdif.c
-index 7febb3830dc2..017a64ab9f1e 100644
---- a/sound/soc/xilinx/xlnx_spdif.c
-+++ b/sound/soc/xilinx/xlnx_spdif.c
-@@ -248,41 +248,35 @@ static int xlnx_spdif_probe(struct platform_device *pdev)
- 	if (!ctx)
- 		return -ENOMEM;
- 
--	ctx->axi_clk = devm_clk_get(dev, "s_axi_aclk");
-+	ctx->axi_clk = devm_clk_get_enabled(dev, "s_axi_aclk");
- 	if (IS_ERR(ctx->axi_clk)) {
- 		ret = PTR_ERR(ctx->axi_clk);
- 		dev_err(dev, "failed to get s_axi_aclk(%d)\n", ret);
- 		return ret;
- 	}
--	ret = clk_prepare_enable(ctx->axi_clk);
--	if (ret) {
--		dev_err(dev, "failed to enable s_axi_aclk(%d)\n", ret);
--		return ret;
--	}
- 
- 	ctx->base = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(ctx->base)) {
--		ret = PTR_ERR(ctx->base);
--		goto clk_err;
--	}
-+	if (IS_ERR(ctx->base))
-+		return PTR_ERR(ctx->base);
-+
- 	ret = of_property_read_u32(node, "xlnx,spdif-mode", &ctx->mode);
- 	if (ret < 0) {
- 		dev_err(dev, "cannot get SPDIF mode\n");
--		goto clk_err;
-+		return ret;
- 	}
- 	if (ctx->mode) {
- 		dai_drv = &xlnx_spdif_tx_dai;
- 	} else {
- 		ret = platform_get_irq(pdev, 0);
- 		if (ret < 0)
--			goto clk_err;
-+			return ret;
-+
- 		ret = devm_request_irq(dev, ret,
- 				       xlnx_spdifrx_irq_handler,
- 				       0, "XLNX_SPDIF_RX", ctx);
- 		if (ret) {
- 			dev_err(dev, "spdif rx irq request failed\n");
--			ret = -ENODEV;
--			goto clk_err;
-+			return -ENODEV;
- 		}
- 
- 		init_waitqueue_head(&ctx->chsts_q);
-@@ -292,7 +286,7 @@ static int xlnx_spdif_probe(struct platform_device *pdev)
- 	ret = of_property_read_u32(node, "xlnx,aud_clk_i", &ctx->aclk);
- 	if (ret < 0) {
- 		dev_err(dev, "cannot get aud_clk_i value\n");
--		goto clk_err;
-+		return ret;
- 	}
- 
- 	dev_set_drvdata(dev, ctx);
-@@ -301,22 +295,13 @@ static int xlnx_spdif_probe(struct platform_device *pdev)
- 					      dai_drv, 1);
- 	if (ret) {
- 		dev_err(dev, "SPDIF component registration failed\n");
--		goto clk_err;
-+		return ret;
- 	}
- 
- 	writel(XSPDIF_SOFT_RESET_VALUE, ctx->base + XSPDIF_SOFT_RESET_REG);
- 	dev_info(dev, "%s DAI registered\n", dai_drv->name);
- 
--clk_err:
--	clk_disable_unprepare(ctx->axi_clk);
--	return ret;
--}
--
--static void xlnx_spdif_remove(struct platform_device *pdev)
--{
--	struct spdif_dev_data *ctx = dev_get_drvdata(&pdev->dev);
--
--	clk_disable_unprepare(ctx->axi_clk);
-+	return 0;
- }
- 
- static struct platform_driver xlnx_spdif_driver = {
-@@ -325,7 +310,6 @@ static struct platform_driver xlnx_spdif_driver = {
- 		.of_match_table = xlnx_spdif_of_match,
- 	},
- 	.probe = xlnx_spdif_probe,
--	.remove = xlnx_spdif_remove,
- };
- module_platform_driver(xlnx_spdif_driver);
- 
--- 
-2.43.0
+> +static int fcp_meter_ctl_get(struct snd_kcontrol *kctl,
+> +			     struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct usb_mixer_elem_info *elem = kctl->private_data;
+> +	struct usb_mixer_interface *mixer = elem->head.mixer;
+> +	struct fcp_data *private = mixer->private_data;
+> +	int num_meter_slots, resp_size;
+> +	u32 *resp __free(kfree) = NULL;
+> +	int i, err = 0;
+> +
+> +	struct {
+> +		__le16 pad;
+> +		__le16 num_meters;
+> +		__le32 magic;
+> +	} __packed req;
+> +
+> +	guard(mutex)(&private->mutex);
+> +
+> +	err = fcp_reinit(mixer);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	num_meter_slots = private->num_meter_slots;
+> +	resp_size = num_meter_slots * sizeof(u32);
+> +
+> +	resp = kmalloc(resp_size, GFP_KERNEL);
+> +	if (!resp)
+> +		return -ENOMEM;
 
+It depends on how often this kcontrol gets read, but if it's
+frequently read, it might make sense to allocate this buffer
+beforehand and keep using it instead of allocating / freeing at each
+call.  The call is mutual, hence a common buffer is fine.
+
+> +static int fcp_meter_tlv_callback(struct snd_kcontrol *kctl,
+> +				  int op_flag, unsigned int size,
+> +				  unsigned int __user *tlv)
+> +{
+> +	struct usb_mixer_elem_info *elem = kctl->private_data;
+> +	struct usb_mixer_interface *mixer = elem->head.mixer;
+> +	struct fcp_data *private = mixer->private_data;
+> +
+> +	if (op_flag == SNDRV_CTL_TLV_OP_READ) {
+> +		if (private->meter_labels_tlv_size == 0)
+> +			return 0;
+> +
+> +		if (size > private->meter_labels_tlv_size)
+> +			size = private->meter_labels_tlv_size;
+> +
+> +		if (copy_to_user(tlv, private->meter_labels_tlv, size))
+> +			return -EFAULT;
+
+The private->meter_label* stuff can be changed dynamically via ioctl,
+hence this call should have the data protection, too.
+I didn't check fully, but private->mutex can be taken in this code
+path, I suppose.
+
+
+> +/* FCP initialisation */
+> +static int fcp_ioctl_init(struct usb_mixer_interface *mixer,
+> +			  struct fcp_init __user *arg)
+> +{
+> +	struct fcp_init init;
+> +	struct usb_device *dev = mixer->chip->dev;
+> +	struct fcp_data *private = mixer->private_data;
+> +	void *resp __free(kfree) = NULL;
+> +	void *step2_resp;
+> +	int err, buf_size;
+> +
+> +	if (usb_pipe_type_check(dev, usb_sndctrlpipe(dev, 0)))
+> +		return -EINVAL;
+> +
+> +	/* Get initialisation parameters */
+> +	if (copy_from_user(&init, arg, sizeof(init)))
+> +		return -EFAULT;
+> +
+> +	/* Validate the response sizes */
+> +	if (init.step0_resp_size < 1 ||
+> +	    init.step0_resp_size > 255 ||
+> +	    init.step2_resp_size < 1 ||
+> +	    init.step2_resp_size > 255)
+> +		return -EINVAL;
+> +
+> +	private->step0_resp_size = init.step0_resp_size;
+> +	private->step2_resp_size = init.step2_resp_size;
+> +	private->init1_opcode = init.init1_opcode;
+> +	private->init2_opcode = init.init2_opcode;
+> +
+> +	/* Allocate response buffer */
+> +	buf_size = private->step0_resp_size + private->step2_resp_size;
+> +
+> +	resp = kmalloc(buf_size, GFP_KERNEL);
+> +	if (!resp)
+> +		return -ENOMEM;
+
+I'd set private->step* and co after allocation of the buffer.
+When they are set beforehand, even if the buffer allocation failed,
+those values are still set.
+
+> +/* Set the Level Meter labels */
+> +static int fcp_ioctl_set_meter_labels(struct usb_mixer_interface *mixer,
+> +				      struct fcp_meter_labels __user *arg)
+> +{
+(snip)
+> +	/* Calculate padded data size */
+> +	data_size = ((labels.labels_size + sizeof(unsigned int) - 1) &
+> +		     ~(sizeof(unsigned int) - 1));
+
+ALIGN() macro can be used nicely here.
+
+
+thanks,
+
+Takashi
