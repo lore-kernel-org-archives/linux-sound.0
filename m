@@ -1,90 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from n169-113.mail.139.com (n169-113.mail.139.com [120.232.169.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B63919922A
-	for <linux-sound@vger.kernel.org>; Wed, 15 Jan 2025 20:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A85114A60D;
+	Thu, 16 Jan 2025 02:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=120.232.169.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736973154; cv=none; b=u4gjb+VN4HPdg9iIIg/oJN0hwIXobNRa5nU99/ZMi1PvUUvzM4pFEs7HxwneSAcOmw67KwJcYJwb3fuukDMSLjK/dVlxXlo7QjoSHQ42GkWXjm0xOv7pYIY+KL6Ym1t363WrIXReWIRwgHA/2VxgoeA/D+fbq/zll5ZuBW36QKw=
+	t=1736994814; cv=none; b=tarlWyL0+RIDKgrdX+U6zLakFKJ6T612GU2zJ32QUV9DLKZEtrnSxBIXI+/8e51o7XjDVVfZMDzqeQSkkrLkNVMSCalfGnxA8CNoeqJqNF8EtxpeDsJN1vxYIgTLonnhGDOh6g1PPAJ1BYyk860ZHManfrP9nfLgN/PMg/MY/3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736973154; c=relaxed/simple;
-	bh=P/FopEp1y/p29HpJaExxp2QmYDSLe4TlbkVAQzzepOk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UyYl0V1AYbG+xmcbIXK/r4QbmEKCNRJ0YWKcvrxitKTFYSA83FfOxx7Qherhm0FG+/byr94HLTnmAeTEVTRHTy3mLK0HkwOBIv++wuQKrTkjkWRF0OIcKsleCoGwNHSLBLb8rmnEfOSBWJpX2xDlulmBIzvwjalm59K8dIuPhUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T+F2DtW3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T+F2DtW3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B2ADC4CED1;
-	Wed, 15 Jan 2025 20:32:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736973153;
-	bh=P/FopEp1y/p29HpJaExxp2QmYDSLe4TlbkVAQzzepOk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=T+F2DtW3Mt78bskwl4q+p4HijZ6xfr6nD2dWzLb+wAei+pyKyxkpmA2i9KDQODx58
-	 B8rwncbrxS0+GJ4Vd5jaq5G7cuZFHdO86quFkwAsJIcx9IK1e1i6QWtHZg13VXZjSK
-	 UILrG15djIViX1Hs0glPAduZ97FygKMuyzZP69SjoAMArE+8Db51h+kLJL/9emeBLh
-	 9cvVP/A8/Lbk5JC4xaHTCIjF96IUAOc7bBDj6AON+xJeM4hCgErTOfo5fkdyBhtr/P
-	 fDr8h7dtemx9IsM7EdHUh/71IviziAyTpHy+eb2VwGMVp6W7+zWqV/JyP+jmmK9PeG
-	 t6PTFN+b8VjdQ==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20250102123335.256698-1-yung-chuan.liao@linux.intel.com>
-References: <20250102123335.256698-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: Intel: sof_sdw: Fix DMI match entries for a
- couple of Lenovo laptops
-Message-Id: <173697315226.457029.4052151871483982014.b4-ty@kernel.org>
-Date: Wed, 15 Jan 2025 20:32:32 +0000
+	s=arc-20240116; t=1736994814; c=relaxed/simple;
+	bh=SJfxdPDVCgHrq+ojupH7cml8iU2ebXxVnK9LCVQdByc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DqdIIK8UxmaaCVBFlm3vjvkr1hyL1INkUay3kKL54dRMNScOMoZGdrF+Iiua5zw1Fo6E1gdjjfx2y8tO8MUQXUgfOqoghD5C2AQJgeSTZGqVRGOrHXPK//Yhkh3CLXnQxX2JfgpAvpxfPQBYD3s4kS5rdqD9fxT0RrdXsroUmUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com; spf=pass smtp.mailfrom=139.com; arc=none smtp.client-ip=120.232.169.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=139.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM:                                                                                        
+X-RM-SPAM-FLAG:00000000
+Received:from [IPV6:240e:404:1a00:ccdf:b179:7dfc:ae07:b1e1] (unknown[240E:404:1A00:CCDF:B179:7DFC:AE07:B1E1])
+	by rmsmtp-lg-appmail-31-12045 (RichMail) with SMTP id 2f0d67886f05efc-47319;
+	Thu, 16 Jan 2025 10:29:37 +0800 (CST)
+X-RM-TRANSID:2f0d67886f05efc-47319
+Message-ID: <4de1eb4c-854d-42a3-ba89-9299196dc7ba@139.com>
+Date: Thu, 16 Jan 2025 10:29:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] ALSA: hda: Support for Ideapad hotkey mute LEDs
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, bo.liu@senarytech.com,
+ kovalev@altlinux.org, me@oldherl.one, jaroslaw.janik@gmail.com,
+ songxiebing@kylinos.cn, cs@tuxedo.de, kailang@realtek.com,
+ sbinding@opensource.cirrus.com, simont@opensource.cirrus.com,
+ josh@joshuagrisham.com, rf@opensource.cirrus.com,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, dongeg1@lenovo.com,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
+References: <20250115162515.15026-1-xy-jackie@139.com>
+ <87y0zchv3c.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Jackie Dong <xy-jackie@139.com>
+In-Reply-To: <87y0zchv3c.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
 
-On Thu, 02 Jan 2025 20:33:33 +0800, Bard Liao wrote:
-> Those laptops use host DMIC. Correct the DMI match entries.
+On 1/16/25 00:59, Takashi Iwai wrote:
+> On Wed, 15 Jan 2025 17:25:15 +0100,
+> Jackie Dong wrote:
+>>
+>> New ideapad helper file with support for handling FN key mute LEDs.
+>> Update conexant and realtec codec to add LED support.
+>>
+>> Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+>> Signed-off-by: Jackie Dong  <xy-jackie@139.com>
 > 
-> Simon Trimmer (2):
->   ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 83LC
->   ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 83JX, 83MC and 83NM
+> Applied now.  Thanks.
 > 
-> sound/soc/intel/boards/sof_sdw.c | 23 +++++++++++++++++++----
->  1 file changed, 19 insertions(+), 4 deletions(-)
 > 
-> [...]
+> Takashi
+It's great!
+Thanks Takashi for your professional suggestion, special for detail 
+comments and sample code. They're really helpful for me to understand 
+and study Linux kernel.
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 83LC
-      commit: c9e05763f334845ba69494dd71d7cbfd05fd0e6e
-[2/2] ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 83JX, 83MC and 83NM
-      commit: 17615e4216115a0454e0f2007267a006231dcb7d
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best Regards,
+Jackie Dong
 
