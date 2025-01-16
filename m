@@ -1,142 +1,118 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DCB22A7F2;
-	Thu, 16 Jan 2025 14:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3CB19ABD1;
+	Thu, 16 Jan 2025 14:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737037600; cv=none; b=beNqbsPYpWJnZPoOpi2OnopvYg7Xp0mAUsQNjEjA1dLYJ+tqZQyyh4FP+WAR1MaevW0adnkJQ+W9d6TulwDyxp3/ANCkO4PFiDy94vpfyZD8MKtRRE1YH1C/6/Zi2JaMTmJjSK/237HDuwN4RqbaJgOx52HoCYLPb2hIMEetFYI=
+	t=1737039054; cv=none; b=U1FxXA/2D3R4K/jnIS0pDsBtYyBME9mEwFLQxWbHb8bPRA+4O9BBxqNAu9SocNtyqyuH3kbuLFmdeRKCGYhCbhS0QKQC7Fr365PGNwDkizi3UmusDSDGlQbPSVVeeSZyqg+yAosSuOGucxydJJ08fCGPdvAyS4ZW/XlHp75XCEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737037600; c=relaxed/simple;
-	bh=VKtNrWvWk+iN/uKZ4Unnp197D6rui9M2yZka5smhU88=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XptZOd/tjr+jj6qCwQCqgsQF85XvgFOMYfCSqeFUofF13lFGYbD1Py9CrFNNO9SFgl3BpFK0axY0f1rNsIgp16h1MBfttG+xB2bvxDDs/02VPrtZfwYbS8lbzcUAWtoaCuOrID0p10Q5vjdGdjHb9q1FDZJBB3Cw6rdsvEq5Y9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=J4mq97ox; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OpEikvnd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=J4mq97ox; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OpEikvnd; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1737039054; c=relaxed/simple;
+	bh=8JZn5ib6GmuPcT9HIQB0SBNRTzsxgg8g2HW5ZtUQoBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t0wqOPzaJPHNHzdlaixN0oNMSR+Dpc4w4C+/T3jqXf9GXQVSLgrZj6MEyZIqPtduCwektvySThhKSpVth2IB6W/pGBgvOb6ympkXcI50CQMFutDfG/KGKgC4bRO1yzcJ3qV3AKUGox/dXS6HGvDzZ2xYS0IM6KbNCmXO6WsAZT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C2MON5uU; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="J4mq97ox";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OpEikvnd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="J4mq97ox";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OpEikvnd"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F3EDD211CA;
-	Thu, 16 Jan 2025 14:26:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737037597; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I3benVHZIe6d7ABJ0Gv3HWlD5LOOVZSFAyIgJZe2mWE=;
-	b=J4mq97oxfDOnCDBH/8CrAVMLNwN5WRJn+O8l6EgS88A/vr7bYJQgWmWIlp54zdNBu9Qhh5
-	jxE5oegrd6Cz3jRBaSfblLrncykQbFfdgxAXshZNuevUaQYkaLYZ5t7k8bsJPO75qJkxyl
-	oe+79sTH+qr/VeqO8W6LahEgTieo06A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737037597;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I3benVHZIe6d7ABJ0Gv3HWlD5LOOVZSFAyIgJZe2mWE=;
-	b=OpEikvndlDcnOZitBBOqWsA/iB+0IZFo8Qjystd7RBO5i9FOU17u7yvTJwXsoGUJZqr2AZ
-	Zvnkfg4ARHCbc3Dw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737037597; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I3benVHZIe6d7ABJ0Gv3HWlD5LOOVZSFAyIgJZe2mWE=;
-	b=J4mq97oxfDOnCDBH/8CrAVMLNwN5WRJn+O8l6EgS88A/vr7bYJQgWmWIlp54zdNBu9Qhh5
-	jxE5oegrd6Cz3jRBaSfblLrncykQbFfdgxAXshZNuevUaQYkaLYZ5t7k8bsJPO75qJkxyl
-	oe+79sTH+qr/VeqO8W6LahEgTieo06A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737037597;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I3benVHZIe6d7ABJ0Gv3HWlD5LOOVZSFAyIgJZe2mWE=;
-	b=OpEikvndlDcnOZitBBOqWsA/iB+0IZFo8Qjystd7RBO5i9FOU17u7yvTJwXsoGUJZqr2AZ
-	Zvnkfg4ARHCbc3Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDE7113A57;
-	Thu, 16 Jan 2025 14:26:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id S4/RLBwXiWfXUQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 16 Jan 2025 14:26:36 +0000
-Date: Thu, 16 Jan 2025 15:26:36 +0100
-Message-ID: <87a5bqj0mb.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Evgeny Kapun <abacabadabacaba@gmail.com>
-Cc: Kailang <kailang@realtek.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Linux Sound Mailing List <linux-sound@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Regressions Mailing List <regressions@lists.linux.dev>,
-	Linux Stable Mailing List <stable@vger.kernel.org>
-Subject: Re: [REGRESSION] Distorted sound on Acer Aspire A115-31 laptop
-In-Reply-To: <0494014b-3aa2-4102-8b5b-7625d8c864e2@gmail.com>
-References: <e142749b-7714-4733-9452-918fbe328c8f@gmail.com>
-	<8734ijwru5.wl-tiwai@suse.de>
-	<57883f2e-49cd-4aa4-9879-7dcdf7fec6df@gmail.com>
-	<87ldw89l7e.wl-tiwai@suse.de>
-	<fc506097-9d04-442c-9efd-c9e7ce0f3ace@gmail.com>
-	<58300a2a06e34f3e89bf7a097b3cd4ca@realtek.com>
-	<0494014b-3aa2-4102-8b5b-7625d8c864e2@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2MON5uU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737039052; x=1768575052;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8JZn5ib6GmuPcT9HIQB0SBNRTzsxgg8g2HW5ZtUQoBA=;
+  b=C2MON5uUSc9J4IAsi0SYuT/QVtDSnJ6coJSvx+MZOPZWciWg20R18d01
+   /i0KY/Sjhv3AEh07qZCW4ApribGj6U7sWBZuuFpl/Ur3dEaXn//NGPdXw
+   rECEfuI5k5hFRDoTfDh5U0PT26Uq28CBhDQmLwX3mvklD+8NebjRr/ea6
+   /VT1I59S9bzLIe+RQsAtK97nJgPWtbfzCmqebNXtKAykP+hAIp8pE/af8
+   QkphGeQPxHq7l+Zp6LyyIQEuDex2H/ORTMXf1wf2VXBhKgox/9oJ5QPks
+   Dt5TituQRw3f3UAg61d/oXKFaqBNFZn2D4cSoqrqYTwwR2/0aFfdIkR+X
+   Q==;
+X-CSE-ConnectionGUID: R6V1DbXsTN6qcfATF9wVcQ==
+X-CSE-MsgGUID: IkGXIoXUQ8yy7kXrTUjMfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="54840715"
+X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
+   d="scan'208";a="54840715"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 06:50:51 -0800
+X-CSE-ConnectionGUID: cG9bn01ASj2UjZarve9YLA==
+X-CSE-MsgGUID: 8G2rapFQRJms6MVsyQqhwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
+   d="scan'208";a="106100293"
+Received: from unknown (HELO smile.fi.intel.com) ([10.237.72.154])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 06:50:48 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tYRCn-00000001hm9-1mTA;
+	Thu, 16 Jan 2025 16:50:45 +0200
+Date: Thu, 16 Jan 2025 16:50:45 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Raag Jadav <raag.jadav@intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	broonie@kernel.org, pierre-louis.bossart@linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
+Message-ID: <Z4kcxQWeL09VARfK@smile.fi.intel.com>
+References: <20241126172240.6044-1-raag.jadav@intel.com>
+ <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
+ <Z0nNnsmYIil0OZpy@smile.fi.intel.com>
+ <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
+ <Z1r0EPC9gumruFKU@smile.fi.intel.com>
+ <2024121242-saturday-aqua-9ac6@gregkh>
+ <Z1sObNubEnsFwzOD@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.991];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z1sObNubEnsFwzOD@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sat, 11 Jan 2025 16:00:33 +0100,
-Evgeny Kapun wrote:
+On Thu, Dec 12, 2024 at 06:25:16PM +0200, Andy Shevchenko wrote:
+> On Thu, Dec 12, 2024 at 03:39:57PM +0100, Greg KH wrote:
+> > On Thu, Dec 12, 2024 at 04:32:48PM +0200, Andy Shevchenko wrote:
+> > > On Sat, Dec 07, 2024 at 04:46:18PM +0200, Raag Jadav wrote:
+> > > > On Fri, Nov 29, 2024 at 04:20:14PM +0200, Andy Shevchenko wrote:
+> > > > > On Fri, Nov 29, 2024 at 11:17:02AM +0100, Linus Walleij wrote:
+> > > > > > On Tue, Nov 26, 2024 at 6:22 PM Raag Jadav <raag.jadav@intel.com> wrote:
+> > > > > > 
+> > > > > > > This series introduces a more robust and cleaner devm_kmemdup_array()
+> > > > > > > helper and uses it across drivers.
+> > > > > > 
+> > > > > > For the series:
+> > > > > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> > > > > > 
+> > > > > > It seems like Andy will push it to me which is excellent.
+> > > > > 
+> > > > > Yep, that's the plan after we get all necessary ACKs.
+> > > > 
+> > > > Greg, anything I can do to move this forward?
+> > > 
+> > > Greg, is it possible to give your Ack or comment or guidance of the preferences
+> > > with the first patch?
+> > 
+> > $ mdfrm -c ~/mail/todo/
+> > 2293 messages in /home/gregkh/mail/todo/
 > 
-> On 12/24/24 04:54, Kailang wrote:
-> > Please test attach patch.
+> Oh my...
 > 
-> This patch, when applied to kernel version 6.12.8, appears to fix the
-> issue. There are no distortions, and the left and the right channel
-> can be controlled independently.
+> > Please be patient.
+> 
+> Sure!
 
-Good to hear.
+Raaj, care to send a v3 after merge window closes?
 
-Kailang, care to submit a proper patch for merging?
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-thanks,
-
-Takashi
