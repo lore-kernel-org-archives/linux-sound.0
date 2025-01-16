@@ -1,245 +1,123 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680F417578
-	for <linux-sound@vger.kernel.org>; Thu, 16 Jan 2025 15:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254C822AE75
+	for <linux-sound@vger.kernel.org>; Thu, 16 Jan 2025 15:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737039833; cv=none; b=EpIk5XffTFgOh/ElWmqYJzKQCJX+DQqliirZFexXr1yZTvfSslUE/TJtQ+dd7qF4V18dx+FOjSW7CJs39uEvHekIjrkxWREFQQQc1tAb3nMav22xTThqIKAkxgC0CxkPOXK7J5KsHfE/vgK5mXZ6P0rda3jgovWxMW0RRMRV1kw=
+	t=1737039993; cv=none; b=nfnoXcw/rvdDjwlyHr76Xue6HVgCSGOQ6HEey2pCxb/2JEoivnVRhmRIn8gtMBxY13wMorI5+Z8ISr5wtHUZ1obTZM+g9Jzh/Ho6Dt2qeUdwsvjrbEkdkcw6VUePhXfZd90NzUc0lFzUEwJuWfVA0QTSuukY5Z0jQouR5YKg/Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737039833; c=relaxed/simple;
-	bh=no4w979KTWdejLQTTBbGUYLcUNPYq5DoEUEvIJ6z0G4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A38NTEfwdcXOvJRex843CtRjm5pUjgzPgN+r2EvfuChuInypKknXcvswSjZWEfh54onRd4FO7hELb6ZB3cd2jhE3YQmZgfxE+dG7EBqCkyXG+4rvaRi4Vkk1ClI9F53hShQuYUcTyTkUQBQu5PHnju6cKo4IyDwCtlDFX/HLtfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Dv8PGdth; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4DYt4ibb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Dv8PGdth; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4DYt4ibb; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1737039993; c=relaxed/simple;
+	bh=oG2F8xXGtIwtvCB2psTNr2rTBTy0NoXrjQaVcy/VBS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OAWKnoYvp1rRY6Ix8rVUzSASCOnHiHkgihHc7fDMo/ZKEfIH5JWgrc/AMAOGehRy04KcN7jXKq2BzJD/n7v3wMrr8+HK9ODeNHBq9rYDkXakBcFQ6oAiYUbp42CgriukeChchVAYLDMXj2zM8t6tkm32OCJzYRvJ/S8RpUIl4tQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=sH/VnWpT; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Dv8PGdth";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4DYt4ibb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Dv8PGdth";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4DYt4ibb"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7361A211D5;
-	Thu, 16 Jan 2025 15:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737039829; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YUFi639i3f1kWvlLPyzOLucpYHIQ7a+7nxa7UE1c/Fo=;
-	b=Dv8PGdthS9tSj2cqKM67o+MAmavbNTMSmto7KraBwBwXsVrxL8i/pE/BMXZOMzDcUrTg+J
-	QV/hDAqvn41PMb/6VQ6/LQYpDxWl6nhpcd9ObwSxtToMCgmpPSyMNAK3ZkVy56swX5R8GN
-	cKiufmyqL5rqZwF/jYJreKhRWJFbFFQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737039829;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YUFi639i3f1kWvlLPyzOLucpYHIQ7a+7nxa7UE1c/Fo=;
-	b=4DYt4ibbjE9/8G7jD5L8tqCweyY/nPq9bY9j+dRCYPBoPcp61Akz34rXLyMO0+SYLZJGtn
-	dGkizmqFYT4QQeDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737039829; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YUFi639i3f1kWvlLPyzOLucpYHIQ7a+7nxa7UE1c/Fo=;
-	b=Dv8PGdthS9tSj2cqKM67o+MAmavbNTMSmto7KraBwBwXsVrxL8i/pE/BMXZOMzDcUrTg+J
-	QV/hDAqvn41PMb/6VQ6/LQYpDxWl6nhpcd9ObwSxtToMCgmpPSyMNAK3ZkVy56swX5R8GN
-	cKiufmyqL5rqZwF/jYJreKhRWJFbFFQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737039829;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YUFi639i3f1kWvlLPyzOLucpYHIQ7a+7nxa7UE1c/Fo=;
-	b=4DYt4ibbjE9/8G7jD5L8tqCweyY/nPq9bY9j+dRCYPBoPcp61Akz34rXLyMO0+SYLZJGtn
-	dGkizmqFYT4QQeDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C27113A57;
-	Thu, 16 Jan 2025 15:03:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UGxtEdUfiWdGEgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 16 Jan 2025 15:03:49 +0000
-Date: Thu, 16 Jan 2025 16:03:48 +0100
-Message-ID: <878qraiywb.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="sH/VnWpT"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6dd5c544813so11890596d6.1
+        for <linux-sound@vger.kernel.org>; Thu, 16 Jan 2025 07:06:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1737039991; x=1737644791; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q0nAZJMInzyGZTtSyDilCukDk7rI34qxFCU+Z358ruI=;
+        b=sH/VnWpTpgKen++BGBMCB8e4RlTVosfVzShLz3+364d4FUwbWI9VObglhIYuf8JjhU
+         RWcPr1pZ3ti4QbamOS7PlE8LkwifcDV90u4fVrv9wBmtZ57pPL21n2u0RnTC0GhiMxzG
+         ul1xUFxEJ/3S8Qnd4CqvzJ8O+BDwwAa2uW1fJxjssWDhn82lG5qbgRNzAvPrwqCW06RN
+         XwXPjQGWnxGW9Hvv+OfRol9cdBIoyznSe0RaQDRchRFjokoi0c87DsHVq1UAovi1w3sk
+         rI9sKjVTRMbItbmDOKfW9gnwrKVHUZwKmJG/GF1cWFEaIcNDlUe0F6iR1MuLXCcY3a69
+         Bs7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737039991; x=1737644791;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q0nAZJMInzyGZTtSyDilCukDk7rI34qxFCU+Z358ruI=;
+        b=ZnD1M6+TNAETSxqaEqCUxbbyXORpcavHzvDwN5OuE5foCRHWgzaPOj2OI71XwrxlP8
+         wLKAiJU09LPPpIQdmi7AgjJPqwur8YB5Plt09bFBLAJOV47Sfd0BqBA16Ce0eugQjdZE
+         jv8F0nIzqeihZ7xDD1mww5HAj8GCxprVS2daFBv1brV/36pR7BhKSdElOBiJovXxie1G
+         R4IuwcITiIJ8xXJipaCnhnfmA1w7tJw/Eiy2RPrLRE2KW9Q/vogtDrytc4oDscSvjVfF
+         t6bXGsvP4O4tshVSqrg0rvnEv2A3NvJVk3gVOYlvkg1K6FMg7tEalDq+hfC0Fg2RimmN
+         L5Rw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/hNubgQ2XbalKLXS7JSuF7nEVKOmYJKLdadkp6hm7erC/tpfrZpz2stASsLgOIjXd5Zu3qdMTji2KpA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw29jKFEjvt1gQYkTVk5L8oio40wgN89qmZVrNKWA9PZFsXR486
+	EZ3uNhxopENcU3BybDey4ZvrE8Q7cBcjblNIJ/9966Du7ycAWwjcMsUS8+9Gtw==
+X-Gm-Gg: ASbGncuTjPj958T7GLqpsVFMEosTNCalK0N5F5uTcuIynbhIHEE6KJyrH6mzMvuRxr1
+	qL78OolafUv5dBLfIU4IeZ/HfUACQ+Mun0B1Ygz/TF4VYHnMcbYUxO57XlBymygjZJKDZHCokiH
+	cfjTyCaKv9v1rxXygPHWEmzvWcZHQMikuUPOU/DmkveMViRJ8mlyZspEt23fr4XM3OvOjKhQ9Nt
+	y2a3lO+1NcC6yVk3OazSRgSc2y5OfKDHrGei0z6vxkQf0HCiBMojP+XBQ==
+X-Google-Smtp-Source: AGHT+IE8qovXuuvi3CKjkFHljYmIvNkybJE3IrpSuCl/AVPhp93pJK7DzHsIz1p0ZQINBJZvJPkaNA==
+X-Received: by 2002:a05:6214:449f:b0:6d8:a4fd:d253 with SMTP id 6a1803df08f44-6df9b22d70emr555753786d6.21.1737039990992;
+        Thu, 16 Jan 2025 07:06:30 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:681:fd10::5bb3])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e1afc117a2sm774686d6.40.2025.01.16.07.06.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2025 07:06:30 -0800 (PST)
+Date: Thu, 16 Jan 2025 10:06:27 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Guan-Yu Lin <guanyulin@google.com>
+Cc: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+	mathias.nyman@intel.com, perex@perex.cz, tiwai@suse.com,
+	sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com,
+	ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v7 1/2] ALSA: FCP: Add Focusrite Control Protocol driver
-In-Reply-To: <7355f25d9b57386c280aef651b6ba2b96cf0d5a7.1737017960.git.g@b4.vu>
-References: <cover.1737017960.git.g@b4.vu>
-	<7355f25d9b57386c280aef651b6ba2b96cf0d5a7.1737017960.git.g@b4.vu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Subject: Re: [PATCH v8 5/5] usb: host: enable USB offload during system sleep
+Message-ID: <47efaf4a-8237-4030-8386-5e67a50c3030@rowland.harvard.edu>
+References: <20250116135358.2335615-1-guanyulin@google.com>
+ <20250116135358.2335615-6-guanyulin@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250116135358.2335615-6-guanyulin@google.com>
 
-On Thu, 16 Jan 2025 10:03:35 +0100,
-Geoffrey D. Bennett wrote:
-> diff --git a/include/uapi/sound/tlv.h b/include/uapi/sound/tlv.h
-> index b99a2414b53d..b6e260e35529 100644
-> --- a/include/uapi/sound/tlv.h
-> +++ b/include/uapi/sound/tlv.h
-> @@ -18,6 +18,8 @@
->  #define SNDRV_CTL_TLVT_CHMAP_VAR	0x102	/* channels freely swappable */
->  #define SNDRV_CTL_TLVT_CHMAP_PAIRED	0x103	/* pair-wise swappable */
->  
-> +#define SNDRV_CTL_TLVT_LABELS		0x110	/* channel labels */
+On Thu, Jan 16, 2025 at 01:50:17PM +0000, Guan-Yu Lin wrote:
+> Sharing a USB controller with another entity via xhci-sideband driver
+> creates power management complexities. To prevent the USB controller
+> from being inadvertently deactivated while in use by the other entity, a
+> usage-count based mechanism is implemented. This allows the system to
+> manage power effectively, ensuring the controller remains available
+> whenever needed.
+> In order to maintain full functionality of an offloaded USB devices,
+> several changes are made within the suspend flow of such devices:
+> - skip usb_suspend_device() so that the port/hub are still active for
+>   USB transfers via offloaded path.
+> - not suspending the endpoints which are used by USB interfaces marked
+>   with needs_remote_wakeup. Namely, skip usb_suspend_interface() and
+>   usb_hcd_flush_endpoint() on associated USB interfaces. This reserves a
+>   pending interrupt urb during system suspend for handling the interrupt
+>   transfer, which is necessary since remote wakeup doesn't apply in the
+>   offloaded USB devices when controller is still active.
+> - not flushing the endpoints of actively offloaded USB devices. Given
+>   that the USB devices is used by another entity, unilaterally flush the
+>   endpoint might lead to unexpected behavior on another entity.
+> 
+> Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
+> ---
 
-IMHO, the data definition looks too ambiguous here to be put as a
-public API.  It can be also a more specific name such as
-*_CHANNEL_LABELS, too.
+> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+> index 1bbf9592724f..6441742869ff 100644
+> --- a/drivers/usb/core/driver.c
+> +++ b/drivers/usb/core/driver.c
+> @@ -1413,19 +1413,31 @@ static int usb_resume_interface(struct usb_device *udev,
+>   */
+>  static int usb_suspend_both(struct usb_device *udev, pm_message_t msg)
+>  {
+> -	int			status = 0;
+> -	int			i = 0, n = 0;
+> -	struct usb_interface	*intf;
+> +	int			 status = 0;
+> +	int			 i = 0, n = 0;
+> +	bool			 offload = false;
+> +	struct usb_interface	 *intf;
 
+Unnecessary whitespace change.  Please remove this from the patch.
 
-> +static int fcp_meter_ctl_get(struct snd_kcontrol *kctl,
-> +			     struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct usb_mixer_elem_info *elem = kctl->private_data;
-> +	struct usb_mixer_interface *mixer = elem->head.mixer;
-> +	struct fcp_data *private = mixer->private_data;
-> +	int num_meter_slots, resp_size;
-> +	u32 *resp __free(kfree) = NULL;
-> +	int i, err = 0;
-> +
-> +	struct {
-> +		__le16 pad;
-> +		__le16 num_meters;
-> +		__le32 magic;
-> +	} __packed req;
-> +
-> +	guard(mutex)(&private->mutex);
-> +
-> +	err = fcp_reinit(mixer);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	num_meter_slots = private->num_meter_slots;
-> +	resp_size = num_meter_slots * sizeof(u32);
-> +
-> +	resp = kmalloc(resp_size, GFP_KERNEL);
-> +	if (!resp)
-> +		return -ENOMEM;
-
-It depends on how often this kcontrol gets read, but if it's
-frequently read, it might make sense to allocate this buffer
-beforehand and keep using it instead of allocating / freeing at each
-call.  The call is mutual, hence a common buffer is fine.
-
-> +static int fcp_meter_tlv_callback(struct snd_kcontrol *kctl,
-> +				  int op_flag, unsigned int size,
-> +				  unsigned int __user *tlv)
-> +{
-> +	struct usb_mixer_elem_info *elem = kctl->private_data;
-> +	struct usb_mixer_interface *mixer = elem->head.mixer;
-> +	struct fcp_data *private = mixer->private_data;
-> +
-> +	if (op_flag == SNDRV_CTL_TLV_OP_READ) {
-> +		if (private->meter_labels_tlv_size == 0)
-> +			return 0;
-> +
-> +		if (size > private->meter_labels_tlv_size)
-> +			size = private->meter_labels_tlv_size;
-> +
-> +		if (copy_to_user(tlv, private->meter_labels_tlv, size))
-> +			return -EFAULT;
-
-The private->meter_label* stuff can be changed dynamically via ioctl,
-hence this call should have the data protection, too.
-I didn't check fully, but private->mutex can be taken in this code
-path, I suppose.
-
-
-> +/* FCP initialisation */
-> +static int fcp_ioctl_init(struct usb_mixer_interface *mixer,
-> +			  struct fcp_init __user *arg)
-> +{
-> +	struct fcp_init init;
-> +	struct usb_device *dev = mixer->chip->dev;
-> +	struct fcp_data *private = mixer->private_data;
-> +	void *resp __free(kfree) = NULL;
-> +	void *step2_resp;
-> +	int err, buf_size;
-> +
-> +	if (usb_pipe_type_check(dev, usb_sndctrlpipe(dev, 0)))
-> +		return -EINVAL;
-> +
-> +	/* Get initialisation parameters */
-> +	if (copy_from_user(&init, arg, sizeof(init)))
-> +		return -EFAULT;
-> +
-> +	/* Validate the response sizes */
-> +	if (init.step0_resp_size < 1 ||
-> +	    init.step0_resp_size > 255 ||
-> +	    init.step2_resp_size < 1 ||
-> +	    init.step2_resp_size > 255)
-> +		return -EINVAL;
-> +
-> +	private->step0_resp_size = init.step0_resp_size;
-> +	private->step2_resp_size = init.step2_resp_size;
-> +	private->init1_opcode = init.init1_opcode;
-> +	private->init2_opcode = init.init2_opcode;
-> +
-> +	/* Allocate response buffer */
-> +	buf_size = private->step0_resp_size + private->step2_resp_size;
-> +
-> +	resp = kmalloc(buf_size, GFP_KERNEL);
-> +	if (!resp)
-> +		return -ENOMEM;
-
-I'd set private->step* and co after allocation of the buffer.
-When they are set beforehand, even if the buffer allocation failed,
-those values are still set.
-
-> +/* Set the Level Meter labels */
-> +static int fcp_ioctl_set_meter_labels(struct usb_mixer_interface *mixer,
-> +				      struct fcp_meter_labels __user *arg)
-> +{
-(snip)
-> +	/* Calculate padded data size */
-> +	data_size = ((labels.labels_size + sizeof(unsigned int) - 1) &
-> +		     ~(sizeof(unsigned int) - 1));
-
-ALIGN() macro can be used nicely here.
-
-
-thanks,
-
-Takashi
+Alan Stern
