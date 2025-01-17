@@ -1,76 +1,168 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A3E199FC9
-	for <linux-sound@vger.kernel.org>; Fri, 17 Jan 2025 16:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CB61A255C;
+	Fri, 17 Jan 2025 16:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737130468; cv=none; b=VnJFqvtV46Y8znb9KdJr2sjSYLAkApyT2q1j66hRu207k3iaCNb3O3P2WeKu90IGfdUofEbSzWBxexXYW0c3ZdRB0Eptk3KmfRgnh+gLuQRfcDoJJK9ld6woIe3X+PqjOVK5FzWZDg4yAgyhv1qecWTb/+cY19PWIInZXh4DTjs=
+	t=1737131518; cv=none; b=G+Nhjhb5SEAbJAUmMSYbfwo2du7tWanLpE3dlthnrQc5Q2QArrLYy/D6NN58kJHnNdUGuOpTV+Z9fQjxWQfE5UZWDJlNA8lN5Jszpmw6jlC+qHTHSIAOqhobu7qmxgklvgN3aTE8JrEu+Un9o9ON5jmDZ3uItV+UlfCCyFYN1tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737130468; c=relaxed/simple;
-	bh=qZDbHJYLvqUscVwMwT++s9R/i0/RaURbCVcL2de6txs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nbue35VLWq+aPDyPuwWfMmU2rdlYNcRobTfOiMxSDPTlVqm6lCEHZeSFbScTPmZfoq7KNfgxENjayjGg2aFN0UL1VZYb9ers52705TE4HgZ7BUZuv2VMTVpj6MjJXFmMMqqxx+FyslqRtzeTdFBUnrTvSSSCIkl3PBZikYVFVZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=N9gvtuST; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1737131518; c=relaxed/simple;
+	bh=58nCRlhim/hqdZdfV3fPYGWz0W4AInp/Qn1bfkzmZN0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GzDqvBtsmxqlkZkcQWqGYEdJkTQFwwqr0bK+Ydt7BhL+pkCnqdLdlMpFCo2WPTuqmOBOjz7MFkStvFsQlG8DVJVtDvSsbbIYKQ7zwqhWAsE28FXq/XN3igNlpJl5/XR4e6C84Wb2aASfgdyivCD31hMoMbvspfIigol0YR80Zr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=D5vuj4lM; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="N9gvtuST"
-Message-ID: <5ef1ac08-5025-4902-a50a-83915a54d72a@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1737130464;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z8AKpHZeuUd3l4cLe3j75fsbomJVuzoByNhsOGzW2Cc=;
-	b=N9gvtuSTfAQRTFOY+QYpOmQZPeEGlhOtUP0qgZ7PEjF4f8RitZnx9ac+lD3HyYxuFfXcVz
-	H3BOq3L/Kx9m4x+BbBcw7lmcsHEC6aC8aoJa3OtAlwxwyTXYuyh2C+bTZBkCFDuI62Y0OQ
-	2OMkZAbsnfYDE4ZJjpgr9EX/GD9GVDE=
-Date: Fri, 17 Jan 2025 10:11:24 -0600
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="D5vuj4lM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1737131508;
+	bh=58nCRlhim/hqdZdfV3fPYGWz0W4AInp/Qn1bfkzmZN0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=D5vuj4lMaUyfXNIazmrsjk4WN5bgvldbkIVlIC0FA2NFtgWZRnjU1YQ8UjgIAtrcL
+	 lPHpIIjwEZFNzgAyMroZSb2iydlo1J6TL0bPP5wQCz+Pl/0cvEDjip11VG/tmbgHws
+	 mDiKt1SCAnkGN1GT+k0JFnM6rhtgNEgaGyn2zgEL0gDDVYDAcEBvmkv0l2GBzIlXJ2
+	 tovGqeO9WUsYa2ok0y0Q9ewcYCPHw+zuxlAvXnVD+tl+x6ExH0oq/cEnLxu52W0PhU
+	 RdLW/FAYiQ16qon/ZZXyvZ3L0lMDDi9GB+S1ADLr8KBQLZj7VtXHrIuaZ9d9ntcer5
+	 RUKaR0N/RsklA==
+Received: from earth.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E11AD17E09E9;
+	Fri, 17 Jan 2025 17:31:46 +0100 (CET)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-rockchip@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kernel@collabora.com,
+	Detlev Casanova <detlev.casanova@collabora.com>
+Subject: [PATCH v1] ASoC: rockchip: i2s_tdm: Re-add the set_sysclk callback
+Date: Fri, 17 Jan 2025 11:31:02 -0500
+Message-ID: <20250117163102.65807-1-detlev.casanova@collabora.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 0/2] soundwire: set frame shape and divider based on
- actual clk
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org,
- vkoul@kernel.org
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, bard.liao@intel.com
-References: <20250114061621.110800-1-yung-chuan.liao@linux.intel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20250114061621.110800-1-yung-chuan.liao@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On 1/14/25 12:16 AM, Bard Liao wrote:
-> Set frame shape and clock divider based on actual clock frequency. And
-> with that change, we can support ckock change in Intel platforms.
-> 
-> v2:
->  - Mave the check before writing the divider registers
->  - Remove the 'freq' intermediate variable which is multiplied by two
->    after divided by two.
-> 
-> Bard Liao (2):
->   soundwire: cadence_master: set frame shape and divider based on actual
->     clk freq
->   Revert "soundwire: intel_auxdevice: start the bus at default
->     frequency"
+In commit
+9e2ab4b18ebd ("ASoC: rockchip: i2s-tdm: Fix inaccurate sampling rates"),
+the set_sysclk callback was removed as considered unused as the mclk rate
+can be set in the hw_params callback.
+The difference between hw_params and set_sysclk is that the former is
+called with the audio sampling rate set in the params (e.g.: 48000 Hz)
+while the latter is called with a clock rate already computed with
+  sampling_rate * mclk-fs (e.g.: 48000 * 256)
 
-This looks fine so 
+For HDMI audio using the Rockchip I2S TDM driver, the mclk-fs value must
+be set to 128 instead of the default 256, and that value is set in the
+device tree at the machine driver level (like a simple-audio-card
+compatible node).
+Therefore, the i2s_tdm driver has no idea that another mclk-fs value can
+be configured and simply computes the mclk rate in the hw_params callback
+with DEFAULT_MCLK_FS * params_rate(params), which is wrong for HDMI
+audio.
 
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Re-add the set_sysclk callback so that the mclk rate is computed by the
+machine driver which has the correct mclk-fs value set in its device tree
+node.
 
-but one additional question: what is the default start frequency? There is an expectation in SoundWire 1.2 that the bus starts at the slowest speed to allow for potential programming of PHY registers before bumping the speed to a higher rate. I don't recall what is typically listed in the _DSD properties, it'd be a mistake to start blindly with the first listed value if it happens to be the max rate.
+Fixes: 9e2ab4b18ebd ("ASoC: rockchip: i2s-tdm: Fix inaccurate sampling rates")
+Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+---
+ sound/soc/rockchip/rockchip_i2s_tdm.c | 31 +++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
->  drivers/soundwire/cadence_master.c  | 22 +++++++++++++++++++---
->  drivers/soundwire/intel_auxdevice.c | 21 ---------------------
->  2 files changed, 19 insertions(+), 24 deletions(-)
-> 
+diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
+index d1f28699652f..acd75e48851f 100644
+--- a/sound/soc/rockchip/rockchip_i2s_tdm.c
++++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
+@@ -22,7 +22,6 @@
+ 
+ #define DRV_NAME "rockchip-i2s-tdm"
+ 
+-#define DEFAULT_MCLK_FS				256
+ #define CH_GRP_MAX				4  /* The max channel 8 / 2 */
+ #define MULTIPLEX_CH_MAX			10
+ 
+@@ -70,6 +69,8 @@ struct rk_i2s_tdm_dev {
+ 	bool has_playback;
+ 	bool has_capture;
+ 	struct snd_soc_dai_driver *dai;
++	unsigned int mclk_rx_freq;
++	unsigned int mclk_tx_freq;
+ };
+ 
+ static int to_ch_num(unsigned int val)
+@@ -645,6 +646,27 @@ static int rockchip_i2s_trcm_mode(struct snd_pcm_substream *substream,
+ 	return 0;
+ }
+ 
++static int rockchip_i2s_tdm_set_sysclk(struct snd_soc_dai *cpu_dai, int stream,
++				       unsigned int freq, int dir)
++{
++	struct rk_i2s_tdm_dev *i2s_tdm = to_info(cpu_dai);
++
++	if (i2s_tdm->clk_trcm) {
++		i2s_tdm->mclk_tx_freq = freq;
++		i2s_tdm->mclk_rx_freq = freq;
++	} else {
++		if (stream == SNDRV_PCM_STREAM_PLAYBACK)
++			i2s_tdm->mclk_tx_freq = freq;
++		else
++			i2s_tdm->mclk_rx_freq = freq;
++	}
++
++	dev_dbg(i2s_tdm->dev, "The target mclk_%s freq is: %d\n",
++		stream ? "rx" : "tx", freq);
++
++	return 0;
++}
++
+ static int rockchip_i2s_tdm_hw_params(struct snd_pcm_substream *substream,
+ 				      struct snd_pcm_hw_params *params,
+ 				      struct snd_soc_dai *dai)
+@@ -659,15 +681,19 @@ static int rockchip_i2s_tdm_hw_params(struct snd_pcm_substream *substream,
+ 
+ 		if (i2s_tdm->clk_trcm == TRCM_TX) {
+ 			mclk = i2s_tdm->mclk_tx;
++			mclk_rate = i2s_tdm->mclk_tx_freq;
+ 		} else if (i2s_tdm->clk_trcm == TRCM_RX) {
+ 			mclk = i2s_tdm->mclk_rx;
++			mclk_rate = i2s_tdm->mclk_rx_freq;
+ 		} else if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+ 			mclk = i2s_tdm->mclk_tx;
++			mclk_rate = i2s_tdm->mclk_tx_freq;
+ 		} else {
+ 			mclk = i2s_tdm->mclk_rx;
++			mclk_rate = i2s_tdm->mclk_rx_freq;
+ 		}
+ 
+-		err = clk_set_rate(mclk, DEFAULT_MCLK_FS * params_rate(params));
++		err = clk_set_rate(mclk, mclk_rate);
+ 		if (err)
+ 			return err;
+ 
+@@ -827,6 +853,7 @@ static const struct snd_soc_dai_ops rockchip_i2s_tdm_dai_ops = {
+ 	.hw_params = rockchip_i2s_tdm_hw_params,
+ 	.set_bclk_ratio	= rockchip_i2s_tdm_set_bclk_ratio,
+ 	.set_fmt = rockchip_i2s_tdm_set_fmt,
++	.set_sysclk = rockchip_i2s_tdm_set_sysclk,
+ 	.set_tdm_slot = rockchip_dai_tdm_slot,
+ 	.trigger = rockchip_i2s_tdm_trigger,
+ };
+-- 
+2.48.1
 
