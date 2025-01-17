@@ -1,137 +1,101 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3A417E;
-	Fri, 17 Jan 2025 00:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A28E25A65B;
+	Fri, 17 Jan 2025 01:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737072524; cv=none; b=POWLdTWlxTvN4BisefIWkpGJsLpYzLYYiluuN3ifUaV5NADd07NsuTBIj807M1YimuGe9ZUYLIaNkA7VKPZeXBQS8jrggyoRdZ9cqZrE4JRYFSJHwczqRpFZwOmuhAwYxUHUNuCYKrc1Kw2lHHBk7DrIRPW5Bcz9AlJ7gyeo0dE=
+	t=1737078247; cv=none; b=dmK2/UPl8LE5gpfDuQ1YpBpt7Mbz9CMfa/HAOPZojkvcI531ioQ366eQJP/E42JqERJX26+q36NDhUiUBCIMN6J1nyZ1ryC7PSvhroDeZNJJtQESTKyeTb4c57rmlHTik/jMol2BKwis6dB8NcsysydmaLNXyccAgUdjsiPOspo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737072524; c=relaxed/simple;
-	bh=ksYVTRWxcEHcHZ0+srUSwUKDhqcqlo0TZkMejxJKSHE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L+7BoKNIIpvB70sy1tlNy1y/61a6SYwwm94347eHrn1xGCcCwGWujYN/J0sZz0v0u2W/tYCDbvqw8pY1BH+VSX7o0jPDbm8najfiG3BS4IFC6BL46Q+OgcieezLcXKOBg5QibA6Ktx5EhczXiTK9gM6REzvb8d6fpUsxVUr+jsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rX5nGKaZ; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rX5nGKaZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=UYO3M403ia0fAhJeqoUBl093r6JxaO53iovKZf1FzmE=; b=rX5nGKaZ++Ewt+aBX/gLBQTjN+
-	wRT9UN/kl2zNNwTn99/rXn/vjKvTVZvmh7T6wPPN6J3E4ZsNV5e8xoAXSab2hzPrQz4Pj+1iFNY8L
-	wYTJMZNcNOCcjewa6UvuW1Z9ubFTcQ4avZz7IU1v4YX1iWifs0W9JwboWbVllrq8e3IqLTFQd4Dcv
-	R8Asq0SrB1S2oeMyb+fZ2HN7co75buWgL09YV14YfsK2l6+IriYAGKS5FHNpkXHK2xq6xbbgVbqrg
-	EUTnhan75+Bz91jTIa+kb9/M6ZFI4jBfiUhrHEkDPBgiETzPvhhA6s53iqeD/bqueshB680CanXbi
-	a4NsvBPQ==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tYZub-00000004Tuu-34Hr;
-	Fri, 17 Jan 2025 00:08:34 +0000
-Message-ID: <9c266af7-b377-4f3e-8a6d-f7d4fa44d465@infradead.org>
-Date: Thu, 16 Jan 2025 16:08:27 -0800
+	s=arc-20240116; t=1737078247; c=relaxed/simple;
+	bh=KyHgCa9a76UUo0DmPRjWB8YyoC0LkzmhmwFusLuTfXA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M0tsXhk3/ZNmG8Dx1bdHAugcqZf8j855Xi4CxHFEzPL1PMNzBy+SgcCmcRUF18eW1NUTvvLtor8fyziE0F9QxqnMY7qb2vCRXc8ImyzWlt+FEJZtWu9l2DlpA2gIxdWdARCcX/QTHtZx15vsdrvztvdpgBVEQs8Z/0bgwNKiaXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 83e6db70d47411efa216b1d71e6e1362-20250117
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:88e6b737-063f-4ceb-b9ac-f5fd5a6e8f67,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:6493067,CLOUDID:ba78311a4664a8884aed713d14dbefac,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:5,IP:nil,URL
+	:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SP
+	R:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 83e6db70d47411efa216b1d71e6e1362-20250117
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 902497564; Fri, 17 Jan 2025 09:43:56 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 59589E0080FF;
+	Fri, 17 Jan 2025 09:43:56 +0800 (CST)
+X-ns-mid: postfix-6789B5DC-106682288
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by mail.kylinos.cn (NSMail) with ESMTPA id D15A8E0080FF;
+	Fri, 17 Jan 2025 09:43:50 +0800 (CST)
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com,
+	kai.vehmanen@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH v2] ASoC: SOF: topology: Use krealloc_array() to replace krealloc()
+Date: Fri, 17 Jan 2025 09:43:43 +0800
+Message-ID: <20250117014343.451503-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v33 30/31] ALSA: usb-audio: qcom: Add USB offload route
- kcontrol
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
- lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
- pierre-louis.bossart@linux.dev, Thinh.Nguyen@synopsys.com, robh@kernel.org,
- gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250116232824.3748438-1-quic_wcheng@quicinc.com>
- <20250116232824.3748438-31-quic_wcheng@quicinc.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250116232824.3748438-31-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
+Use krealloc_array() to replace krealloc() with multiplication.
+krealloc_array() has multiply overflow check, which will be safer.
 
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
 
-On 1/16/25 3:28 PM, Wesley Cheng wrote:
-> In order to allow userspace/applications know about USB offloading status,
-> expose a sound kcontrol that fetches information about which sound card
-> and PCM index the USB device is mapped to for supporting offloading.  In
-> the USB audio offloading framework, the ASoC BE DAI link is the entity
-> responsible for registering to the SOC USB layer.
-> 
-> It is expected for the USB SND offloading driver to add the kcontrol to the
-> sound card associated with the USB audio device.  An example output would
-> look like:
-> 
-> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
-> -1, -1 (range -1->255)
-> 
-> This example signifies that there is no mapped ASoC path available for the
-> USB SND device.
-> 
-> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
-> 0, 0 (range -1->255)
-> 
-> This example signifies that the offload path is available over ASoC sound
-> card index#0 and PCM device#0.
-> 
-> The USB offload kcontrol will be added in addition to the existing
-> kcontrols identified by the USB SND mixer.  The kcontrols used to modify
-> the USB audio device specific parameters are still valid and expected to be
-> used.  These parameters are not mirrored to the ASoC subsystem.
-> 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->  sound/usb/Kconfig                  |  10 ++
->  sound/usb/qcom/Makefile            |   4 +
->  sound/usb/qcom/mixer_usb_offload.c | 158 +++++++++++++++++++++++++++++
->  sound/usb/qcom/mixer_usb_offload.h |  17 ++++
->  sound/usb/qcom/qc_audio_offload.c  |   2 +
->  5 files changed, 191 insertions(+)
->  create mode 100644 sound/usb/qcom/mixer_usb_offload.c
->  create mode 100644 sound/usb/qcom/mixer_usb_offload.h
-> 
+Changes in v2:
+- Fix Warning [1].
+- submitting the patch again would be more appropriate.
 
-> diff --git a/sound/usb/qcom/mixer_usb_offload.c b/sound/usb/qcom/mixer_usb_offload.c
-> new file mode 100644
-> index 000000000000..2696eb145ef5
-> --- /dev/null
-> +++ b/sound/usb/qcom/mixer_usb_offload.c
-> @@ -0,0 +1,158 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/usb.h>
-> +
+[1]: https://lore.kernel.org/all/202501151630.VyzkV2xo-lkp@intel.com/
 
-[snip]
+ sound/soc/sof/topology.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +
-> +/**
-> + * snd_usb_offload_create_ctl() - Add USB offload bounded mixer
-> + * @chip - USB SND chip device
-
-Use ':' instead of '-'.
-
-> + *
-> + * Creates a sound control for a USB audio device, so that applications can
-> + * query for if there is an available USB audio offload path, and which
-> + * card is managing it.
-> + */
-> +int snd_usb_offload_create_ctl(struct snd_usb_audio *chip)
-> +{
-
--- 
-~Randy
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index 688cc7ac1714..dc9cb8324067 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -1273,8 +1273,8 @@ static int sof_widget_parse_tokens(struct snd_soc_c=
+omponent *scomp, struct snd_s
+ 			struct snd_sof_tuple *new_tuples;
+=20
+ 			num_tuples +=3D token_list[object_token_list[i]].count * (num_sets - =
+1);
+-			new_tuples =3D krealloc(swidget->tuples,
+-					      sizeof(*new_tuples) * num_tuples, GFP_KERNEL);
++			new_tuples =3D krealloc_array(swidget->tuples,
++						    num_tuples, sizeof(*new_tuples), GFP_KERNEL);
+ 			if (!new_tuples) {
+ 				ret =3D -ENOMEM;
+ 				goto err;
+--=20
+2.47.1
 
