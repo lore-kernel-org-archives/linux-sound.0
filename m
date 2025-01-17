@@ -1,108 +1,158 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632B08635A
-	for <linux-sound@vger.kernel.org>; Fri, 17 Jan 2025 14:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7442B78F37
+	for <linux-sound@vger.kernel.org>; Fri, 17 Jan 2025 14:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737124227; cv=none; b=IRFnLDE/VqFzU+qXuQVZfK5IK+brFYEf1FbpzJJJyefVkpRtiwtAhr+mpw9c4g/MSyfEU3yRG2l6Ggt9L4T54VVIuMGvjpRvjA/9vUpO6H90ALGIDjOGKmSC56E0thEY7CqCnG6dK3AkuL026oc59wh9CLemUHIdPnxXq0iltH0=
+	t=1737125554; cv=none; b=V0IiBp6BEQ5h1qRbhd16etOD/DqffnXvip9zA2TasxPolvXDDZtkQz22DS/huJZL8tEluiasguquNMIPrsi7CZJYLkaPR47rVPm6PMyH5wKga9ukohEI8wvbHVaxlb0RvNkRMxINNn+YaHlMLRBunTK37HzwiC9I7yiMN7hZZzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737124227; c=relaxed/simple;
-	bh=3ZoBcQYWnpivOk8DNzonzHODyr/xCMs+CiCMktCbRQs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KCNJv/sis254UM3v67oitOonT9iht7PriePD5CDPReaV3q5GK6fBXiTqx0a38cSeWiq3wCNGGDTUsekHSxskKdxevkxT4cYH0u7veRWyJrODwbIOy1x0MtHqJrm/K2U5gMmk4KeppcBAAWosDnKXkFtPi4KSJYV2GTSs8H1zNcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xOyqehja; arc=none smtp.client-ip=209.85.208.42
+	s=arc-20240116; t=1737125554; c=relaxed/simple;
+	bh=cxvVbfr0SP93ptb1opNO2nPWWzwByLjlQBu4F7PTAXc=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=H+FjBpqyGZ45iQIQKn4iGxITIqS9j/p39+binA0HDJ5jbr1YYlaioNdSPVWe3pjPqFjYKHGy8F26k87zY7iwYzX8UXkCRSi+4P1nWYjn45n1WakiUW6JT79hq2qJAktQ6eu5KVA43qtSqhOzkQYjd3ZvtO3HIy4u0sfyGeDlXTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0AhajcRx; arc=none smtp.client-ip=209.85.216.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xOyqehja"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5d442f9d285so6675a12.1
-        for <linux-sound@vger.kernel.org>; Fri, 17 Jan 2025 06:30:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0AhajcRx"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2eebfd6d065so6394854a91.3
+        for <linux-sound@vger.kernel.org>; Fri, 17 Jan 2025 06:52:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1737124224; x=1737729024; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nE1gz38tm9i8dqhh/IVwPPWFXbRGt8z4lP7xQ93NBNg=;
-        b=xOyqehjaRVZqipUKWewrBZ0CS/fKdfS2jtMYsOkfSRgmgncD4GrhxUOgJ7IMkYHEJd
-         CgXUzGViWD2VCKQFAabvZxxp/7IO+3hXXJ6sibHeL93+FNpRihT18qB7sGLTxt2ayAIP
-         Gf56deSQxjda2eMcQKogbfWNisZyHYAIKVD9DqEBlJbpnprfrESaF6BZJj523TGfParB
-         D/W9xtyXzxGRFOO4SIze1TLeRSDLfLDSu/3qFLOT6jxd5jFloEs3xY+DKvF0hhRAsSxT
-         n0jwkSfmQhJW/I2KjzeROD0o80LUlKw6CjJRJ2A7oPZLjUc3JAeW2mDgs+j66xXWfds1
-         DP3w==
+        d=google.com; s=20230601; t=1737125552; x=1737730352; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kFgsBLap9k3z5DIxtR/rpT9p15veoHYOv3U93sP0pEs=;
+        b=0AhajcRx1mi7d9HZElAYF2eEFCpAU0s89qjbvVHBsEhREPqQhx6YPC35pxRWJBwqhP
+         0q4naISYFqQDHDBOdU+3/zY8uMk5hxuo2WXDQaC24i0IiFiq5/zj6szUPqL357y+a3O9
+         yXUco82UXw6hVo0s+WpxIwrBuE0bzYLx7mLuYF9dmgkCis5FmJxW/MBWp2VeSDRpO/Rf
+         tZCWKDHK4EQ+zwbjDx+uZqG2k6gA3FgYm+j7nyugDLi9zeCBDJ38+ha3ROy8d1AEe7Tg
+         qnW6qt1Nmdbm3vbf19oy4TU204JfS2VDx7tpE9IRUsMYE9HqP257oVIhTMVWC/g5v+Cf
+         /9yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737124224; x=1737729024;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nE1gz38tm9i8dqhh/IVwPPWFXbRGt8z4lP7xQ93NBNg=;
-        b=KiWpxBU6Xzp9PxRuQdeS9sJ8GNCeskzT2vV7AljegwJ9SH4yty49PWoTmLgEe/k9k+
-         +1PY59Ip2yldqq9H3w08kPh357yWL2o+3B63pJ1vDRBdaa6hI15CAvVkzxv3QpLYfdQM
-         qpDztBQyjeqpDo5spBbQqcG44wfzsU1soTqQkjP/FgxjEmO94sbvv8gaL0LlF0ZWUkF+
-         TR8JGFbuvLXLF4WsWXvCFvrDc5yy/oQo/FqVsQvYcixvfSUYAA1uxFkYBtBsVo5xVsQ4
-         zZwBbOKhzeKn4RJ1Ux6smc6BXOLiITaB/Y3/wSc8DRdlFbeja+yUpEzYjdEnOLbFCxGs
-         4EUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXMmlxOrB250fHkOPslykG8sHhF53AXQrF+YY39w1wTeYUBYnjR6f2/01fb9ey4YY8hTsmUbzCY2LY3qw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCJyb95cI3B+fBPWPZRAe5eZyRXevquUMO1bm2bH3jEwKWG+lY
-	HZMNc/sxQ/l1JIUYio+7FlMpqsyO2hfH4qh2+JHjIrC9RGNXj69QzddAQ0h1Zu5R3hKWPbB2Y/6
-	NAXSFlw8UMBL8iaH1cGRB8vuuW45k3NewiiOw
-X-Gm-Gg: ASbGncumweGZJq+d3K2izeG8XN+jVHMH6L+hQMWVUgipO2NBLKUrMphoYv3ZBqlj5Vv
-	HtPtaohf5lohUz+AZFHcmS3aQnql9e3uSdLt8g7wU8lvB1YSoGlZPqnX7eRYgdXJcfHOY
-X-Google-Smtp-Source: AGHT+IEpOPNAq7Dfi91eoTHtxZ+VRJsH4a7VPNmXj64ZKtZaVBEtSES/DS3H44APONyTeXkbpevgU1cBa1zTsZ/IEJQ=
-X-Received: by 2002:aa7:d586:0:b0:5d0:d935:457b with SMTP id
- 4fb4d7f45d1cf-5db770e0b5cmr107293a12.0.1737124223604; Fri, 17 Jan 2025
- 06:30:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1737125552; x=1737730352;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kFgsBLap9k3z5DIxtR/rpT9p15veoHYOv3U93sP0pEs=;
+        b=h8QYACO9tFnn2q5QXolHb6ips/RWNcZyPuaBBrv0XDesBi7B09HXu2DsNArYckP/rQ
+         p1KU3XGdYHXZhIk1yM/RefD79X1ocJ3eiG3ogiubtbtyqKZASO64fa7oNdkVvR0Sg6vc
+         Nt72Cf9EJfKc14JSO6dXeXafNdzR/iPrzxzuuPz4+yVGP2kdD8LuKsQXMfnBhmXVShHm
+         TFtj6kEyRJDq+d79pCsxac+OLGUbttDVC6hdBnoshywY/zZoTh7yWpBiBRiv9fDdCcFz
+         CESshwdFI2D4lejUZ+zEh+/8kOWUx8srEEoYxPM6CxyElGdWzkfKPUESLzKXu4Gca2ie
+         cOaA==
+X-Forwarded-Encrypted: i=1; AJvYcCVx90pLZBJCtvburIG50hcM3Z752VUZRK30nBBDjrdBmH09NzQ5TFi1PmNO7se6SrqsftLq70x+YryZEA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFyhIXXVin94G/TOF9AwGxKW4ZpYxDlT/HnI3RVnCypx77ngQ0
+	G2OqfTGh3St2Ih3VWKPW00yrbIFtMDMQsv5q6Y0PWqnxzFpRDvndW/4CRQ3SikJTqEfrhli7dnB
+	SEjtP3g61dHF4Xg==
+X-Google-Smtp-Source: AGHT+IF3Pef8mgClpUhcMTMhDFwTp0b8/63Zl8z51qucj/YTH81WxVWJsN9fk8LECHPIDTl0njlnm/tSWvL8DRo=
+X-Received: from pjbsm17.prod.google.com ([2002:a17:90b:2e51:b0:2f4:3ea1:9033])
+ (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:54ce:b0:2f4:4003:f3d4 with SMTP id 98e67ed59e1d1-2f782d972c5mr4187489a91.30.1737125551853;
+ Fri, 17 Jan 2025 06:52:31 -0800 (PST)
+Date: Fri, 17 Jan 2025 14:48:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250116135358.2335615-1-guanyulin@google.com>
- <20250116135358.2335615-6-guanyulin@google.com> <47efaf4a-8237-4030-8386-5e67a50c3030@rowland.harvard.edu>
-In-Reply-To: <47efaf4a-8237-4030-8386-5e67a50c3030@rowland.harvard.edu>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.48.0.rc2.279.g1de40edade-goog
+Message-ID: <20250117145145.3093352-1-guanyulin@google.com>
+Subject: [PATCH v9 0/5] Support system sleep with offloaded usb transfers
 From: Guan-Yu Lin <guanyulin@google.com>
-Date: Fri, 17 Jan 2025 22:30:00 +0800
-X-Gm-Features: AbW1kvYBGqBneN3Qh_esCRtWPuqLg1h_18om6-0Eg6rVJvff3d3pAVHlnFiycSw
-Message-ID: <CAOuDEK1VvETzWeYjZzKLSoqU_BPwrAjRN039YuEFSivPw2X=Mw@mail.gmail.com>
-Subject: Re: [PATCH v8 5/5] usb: host: enable USB offload during system sleep
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, 
-	mathias.nyman@intel.com, perex@perex.cz, tiwai@suse.com, 
-	sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com, 
-	ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org
+To: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, 
+	mathias.nyman@intel.com, stern@rowland.harvard.edu, perex@perex.cz, 
+	tiwai@suse.com, sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com, 
+	ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, Guan-Yu Lin <guanyulin@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 16, 2025 at 11:06=E2=80=AFPM Alan Stern <stern@rowland.harvard.=
-edu> wrote:
->
-> On Thu, Jan 16, 2025 at 01:50:17PM +0000, Guan-Yu Lin wrote:
->
-> > diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> > index 1bbf9592724f..6441742869ff 100644
-> > --- a/drivers/usb/core/driver.c
-> > +++ b/drivers/usb/core/driver.c
-> > @@ -1413,19 +1413,31 @@ static int usb_resume_interface(struct usb_devi=
-ce *udev,
-> >   */
-> >  static int usb_suspend_both(struct usb_device *udev, pm_message_t msg)
-> >  {
-> > -     int                     status =3D 0;
-> > -     int                     i =3D 0, n =3D 0;
-> > -     struct usb_interface    *intf;
-> > +     int                      status =3D 0;
-> > +     int                      i =3D 0, n =3D 0;
-> > +     bool                     offload =3D false;
-> > +     struct usb_interface     *intf;
->
-> Unnecessary whitespace change.  Please remove this from the patch.
->
-> Alan Stern
+Wesley Cheng and Mathias Nyman's USB offload design enables a co-processor
+to handle some USB transfers, potentially allowing the main system to
+sleep and save power. However, Linux's power management system halts the
+USB host controller when the main system isn't managing any USB transfers.
+To address this, the proposal modifies the system to recognize offloaded
+USB transfers and manage power accordingly.
 
-Thanks for catching this, let me fix it in the next patch.
+This involves two key steps:
+1. Transfer Status Tracking: Propose xhci_sideband_get and
+xhci_sideband_put to track USB transfers on the co-processor, ensuring the
+system is aware of any ongoing activity.
+2. Power Management Adjustment:  Modifications to the USB driver stack
+(dwc3 controller driver, xhci host controller driver, and USB device
+drivers) allow the system to sleep without disrupting co-processor managed
+USB transfers. This involves adding conditional checks to bypass some
+power management operations.
 
-Regards,
-Guan-Yu
+patches depends on series "Introduce QC USB SND audio offloading support" 
+https://lore.kernel.org/lkml/20241213235403.4109199-1-quic_wcheng@quicinc.com/T/
+
+changelog
+----------
+Changes in v9:
+- Remove unnecessary white space change.
+
+Changes in v8:
+- Change the runtime pm api to correct the error handling flow.
+- Not flushing endpoints of actively offloaded USB devices to avoid
+  possible USB transfer conflicts.
+
+Changes in v7:
+- Remove counting mechanism in struct usb_hcd. The USB device's offload
+  status will be solely recorded in each related struct usb_device.
+- Utilizes `needs_remote_wakeup` attribute in struct usb_interface to
+  control the suspend flow of USB interfaces and associated USB endpoints.
+  This addresses the need to support interrupt transfers generated by
+  offloaded USB devices while the system is suspended.
+- Block any offload_usage change during USB device suspend period.
+
+Changes in v6:
+- Fix build errors when CONFIG_USB_XHCI_SIDEBAND is disabled.
+- Explicitly specify the data structure of the drvdata refereced in
+  dwc3_suspend(), dwc3_resume().
+- Move the initialization of counters to the patches introducing them.
+
+Changes in v5:
+- Walk through the USB children in usb_sideband_check() to determine the
+  sideband activity under the specific USB device. 
+- Replace atomic_t by refcount_t.
+- Reduce logs by using dev_dbg & remove __func__.
+
+Changes in v4:
+- Isolate the feature into USB driver stack.
+- Integrate with series "Introduce QC USB SND audio offloading support"
+
+Changes in v3:
+- Integrate the feature with the pm core framework.
+
+Changes in v2:
+- Cosmetics changes on coding style.
+
+[v3] PM / core: conditionally skip system pm in device/driver model
+[v2] usb: host: enable suspend-to-RAM control in userspace
+[v1] [RFC] usb: host: Allow userspace to control usb suspend flows
+---
+
+Guan-Yu Lin (5):
+  usb: dwc3: separate dev_pm_ops for each pm_event
+  usb: xhci-plat: separate dev_pm_ops for each pm_event
+  usb: add apis for offload usage tracking
+  xhci: sideband: add api to trace sideband usage
+  usb: host: enable USB offload during system sleep
+
+ drivers/usb/core/driver.c         | 131 +++++++++++++++++++++++++++++-
+ drivers/usb/core/endpoint.c       |   8 --
+ drivers/usb/core/usb.c            |   4 +
+ drivers/usb/dwc3/core.c           | 105 +++++++++++++++++++++++-
+ drivers/usb/dwc3/core.h           |   1 +
+ drivers/usb/host/xhci-plat.c      |  42 +++++++++-
+ drivers/usb/host/xhci-sideband.c  |  82 +++++++++++++++++++
+ include/linux/usb.h               |  27 +++++-
+ include/linux/usb/hcd.h           |   7 ++
+ include/linux/usb/xhci-sideband.h |   6 ++
+ sound/usb/qcom/qc_audio_offload.c |   3 +
+ 11 files changed, 398 insertions(+), 18 deletions(-)
+
+-- 
+2.48.0.rc2.279.g1de40edade-goog
+
