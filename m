@@ -1,114 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22B99443;
-	Fri, 17 Jan 2025 15:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBE7199E88
+	for <linux-sound@vger.kernel.org>; Fri, 17 Jan 2025 16:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737126042; cv=none; b=DWWxhuUJA7AWHQ1bpU6g0Y0gU65whG1j9gTw2Snze4JL/jMRM4+/lZHt21dI+zs0X2W2Y2MK/XoEq6G9/YHXbPATTrkG857x6KWbg2ddKCQcV17mrQ18zPoOSGFK9LrJWb22WE0UYOZgNK4JW+dogIpX8bKi0utbaiuZ7dDzvsM=
+	t=1737130466; cv=none; b=vDi0LPYrS0+VMdynLs2M/1Lw15FZ0/bR1w9+HxvzE09ejvUcZ7dSH2yZMeo3aU+EaMSDW9IcexpwMEcWoToUJrprGA/E8xu9vu8LA1RncFYwu8U4oY09E0Qj6nocxik3AXmYp5jxurg4z1GdBbXXz4zID5hiMkhbgATsOqeWWts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737126042; c=relaxed/simple;
-	bh=4akq75pIbOM3fLGG4fLTMi+FoMByRx3b9u8qL6SIt1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cJ9eNNGbt6wbynQBMu1buUjtHgTfxTaxIIFGPiDbgO0gC0ptwPE8n/hctQnnu2VTT4DNH2pwkY2mc8uGsyIp5YKi819W3t3H860s2qroXKy8geEGWgsHHc7A9pzQltgigYEs2HFOjME+aiumxyaVxfkOYgPYdtfzlbWs9LITRoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPzkbNKV; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1737130466; c=relaxed/simple;
+	bh=4zQ50fHmDM5UQ+JgPuTXColKDwD9In18PeFQw+fRGN8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oqQzafA6YYMEywM6oL4UVFZ+ILHDRFT609GTBGEM122ziMGp+tanHICHtBjshg50c6VaZV2rCOFn0aTvNXGZbDNBYNltMJz1RlCsxos9xVnJLRxezIv4hCHWWfZi9ClA9qoZSX0FK9WADE0dGtPbX+BDq7OMqPoKtHeQfhuzN28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OZn7Qww1; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPzkbNKV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737126041; x=1768662041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=4akq75pIbOM3fLGG4fLTMi+FoMByRx3b9u8qL6SIt1c=;
-  b=mPzkbNKVMnjBmFUkbiCEsjhAhqz4aMri9XOpPkT509/g9LnvUcvq30+o
-   zHXgmko8N5XNVRNQcBmPg4wDwJMnwT6mS5cM0zUzU/Xkl5fhGKyWnek4b
-   YEilKOTWMwGNwoMBRm01PtH9kG51O8etHBx1BBzloDOC4Sr8FUeC64DK+
-   dfZ0agNHwmJXifYefu+RWz3HnscycO2mFTxP8kSP42R+KuU3Ee4DhBZ94
-   GGlN7NFz18zpGSS+QQfNMQxbUHkI3WFMIQf+CM6/PJy5UNeDa0PQ2pHwF
-   zjaxT2jc+ahkQRWpsT6+vhZeD4jtQHdjPmLP6ZRGj23+zX6g0CqEV8Tpb
-   Q==;
-X-CSE-ConnectionGUID: /Sa3O3Q5Q0uJx26qbFWgiw==
-X-CSE-MsgGUID: FNV4iQoJRUqKI/Cxz9Liaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="40369072"
-X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; 
-   d="scan'208";a="40369072"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 07:00:40 -0800
-X-CSE-ConnectionGUID: L58WUnm8S9+fySkhEEcPOQ==
-X-CSE-MsgGUID: 54gAG4yfTX6NSNeagxFYsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="136710450"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2025 07:00:37 -0800
-Date: Fri, 17 Jan 2025 17:00:34 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
-	broonie@kernel.org, pierre-louis.bossart@linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
-Message-ID: <Z4pwksY3Bs4taZd3@black.fi.intel.com>
-References: <20241126172240.6044-1-raag.jadav@intel.com>
- <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
- <Z0nNnsmYIil0OZpy@smile.fi.intel.com>
- <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
- <Z1r0EPC9gumruFKU@smile.fi.intel.com>
- <2024121242-saturday-aqua-9ac6@gregkh>
- <Z1sObNubEnsFwzOD@smile.fi.intel.com>
- <Z4kcxQWeL09VARfK@smile.fi.intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OZn7Qww1"
+Message-ID: <943a7b09-8e77-4813-810a-18fea0e61482@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1737130456;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GM8x8MtsDcmopQN4jNDpNDZDXHTL/s/+R5gURRJe7Sc=;
+	b=OZn7Qww1QUnJhJE60jakeiFTXPqCau8KtQr8k/EY0BXSlmgxSeV2BikJUsP84Wo1LBay2O
+	kO6RTNygPqdqVsyyDgLQ+wJYE6sUXoaXM+rk7eV6pBBEOm7MIdjuHmhM+k2rZh2xWXsLnt
+	X3Z/Gjb2rzWqKY/a5PyQRwJCGgXqnjI=
+Date: Fri, 17 Jan 2025 09:55:00 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z4kcxQWeL09VARfK@smile.fi.intel.com>
+Subject: Re: [PATCH v9 0/5] Support system sleep with offloaded usb transfers
+To: Guan-Yu Lin <guanyulin@google.com>, gregkh@linuxfoundation.org,
+ Thinh.Nguyen@synopsys.com, mathias.nyman@intel.com,
+ stern@rowland.harvard.edu, perex@perex.cz, tiwai@suse.com,
+ sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com,
+ ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20250117145145.3093352-1-guanyulin@google.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20250117145145.3093352-1-guanyulin@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jan 16, 2025 at 04:50:45PM +0200, Andy Shevchenko wrote:
-> On Thu, Dec 12, 2024 at 06:25:16PM +0200, Andy Shevchenko wrote:
-> > On Thu, Dec 12, 2024 at 03:39:57PM +0100, Greg KH wrote:
-> > > On Thu, Dec 12, 2024 at 04:32:48PM +0200, Andy Shevchenko wrote:
-> > > > On Sat, Dec 07, 2024 at 04:46:18PM +0200, Raag Jadav wrote:
-> > > > > On Fri, Nov 29, 2024 at 04:20:14PM +0200, Andy Shevchenko wrote:
-> > > > > > On Fri, Nov 29, 2024 at 11:17:02AM +0100, Linus Walleij wrote:
-> > > > > > > On Tue, Nov 26, 2024 at 6:22 PM Raag Jadav <raag.jadav@intel.com> wrote:
-> > > > > > > 
-> > > > > > > > This series introduces a more robust and cleaner devm_kmemdup_array()
-> > > > > > > > helper and uses it across drivers.
-> > > > > > > 
-> > > > > > > For the series:
-> > > > > > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > > > > > > 
-> > > > > > > It seems like Andy will push it to me which is excellent.
-> > > > > > 
-> > > > > > Yep, that's the plan after we get all necessary ACKs.
-> > > > > 
-> > > > > Greg, anything I can do to move this forward?
-> > > > 
-> > > > Greg, is it possible to give your Ack or comment or guidance of the preferences
-> > > > with the first patch?
-> > > 
-> > > $ mdfrm -c ~/mail/todo/
-> > > 2293 messages in /home/gregkh/mail/todo/
-> > 
-> > Oh my...
-> > 
-> > > Please be patient.
-> > 
-> > Sure!
+On 1/17/25 8:48 AM, Guan-Yu Lin wrote:
+> Wesley Cheng and Mathias Nyman's USB offload design enables a co-processor
+> to handle some USB transfers, potentially allowing the main system to
+> sleep and save power. However, Linux's power management system halts the
+> USB host controller when the main system isn't managing any USB transfers.
+> To address this, the proposal modifies the system to recognize offloaded
+> USB transfers and manage power accordingly.
+
+You probably want to expand on the problem statement and clarify quite a few ambiguous statements.
+
+a) "allowing the main system to sleep and save power". What is the 'main system' and what sort of sleep are you referring to? 
+Traditionally when playing audio the audio devices remain in D0. Support for playback during 'S0 idle' is more complicated, I have yet to see a working solution even without USB offload in the picture.
+
+b) when referring to power management, you have to be specific on whether you mean 'runtime_pm' or regular power management. Not the same thing but there are related issues.
+
+c) for audio offload the transactions that go through the DSP or co-processor are only for audio endpoints. Control transactions rely on endpoint0 and are NOT offloaded to the best of my knowledge. Which means that you would need to track control transactions as well, even if there is no audio streaming. Otherwise you would have a risk of the XHCI controller transitioning in and out of sleep states.
+ 
+> This involves two key steps:
+> 1. Transfer Status Tracking: Propose xhci_sideband_get and
+> xhci_sideband_put to track USB transfers on the co-processor, ensuring the
+> system is aware of any ongoing activity.
+
+
+> 2. Power Management Adjustment:  Modifications to the USB driver stack
+> (dwc3 controller driver, xhci host controller driver, and USB device
+> drivers) allow the system to sleep without disrupting co-processor managed
+> USB transfers. This involves adding conditional checks to bypass some
+> power management operations.
+
+This is even more confusing, initially the point was to prevent the controller from sleeping while there are offloaded transactions, but now the goal would be to allow the system to sleep while there are offloaded transactions. This isn't the same problem, is it?
+ 
+> patches depends on series "Introduce QC USB SND audio offloading support" 
+> https://lore.kernel.org/lkml/20241213235403.4109199-1-quic_wcheng@quicinc.com/T/
 > 
-> Raaj, care to send a v3 after merge window closes?
+> changelog
+> ----------
+> Changes in v9:
+> - Remove unnecessary white space change.
+> 
+> Changes in v8:
+> - Change the runtime pm api to correct the error handling flow.
+> - Not flushing endpoints of actively offloaded USB devices to avoid
+>   possible USB transfer conflicts.
+> 
+> Changes in v7:
+> - Remove counting mechanism in struct usb_hcd. The USB device's offload
+>   status will be solely recorded in each related struct usb_device.
+> - Utilizes `needs_remote_wakeup` attribute in struct usb_interface to
+>   control the suspend flow of USB interfaces and associated USB endpoints.
+>   This addresses the need to support interrupt transfers generated by
+>   offloaded USB devices while the system is suspended.
+> - Block any offload_usage change during USB device suspend period.
+> 
+> Changes in v6:
+> - Fix build errors when CONFIG_USB_XHCI_SIDEBAND is disabled.
+> - Explicitly specify the data structure of the drvdata refereced in
+>   dwc3_suspend(), dwc3_resume().
+> - Move the initialization of counters to the patches introducing them.
+> 
+> Changes in v5:
+> - Walk through the USB children in usb_sideband_check() to determine the
+>   sideband activity under the specific USB device. 
+> - Replace atomic_t by refcount_t.
+> - Reduce logs by using dev_dbg & remove __func__.
+> 
+> Changes in v4:
+> - Isolate the feature into USB driver stack.
+> - Integrate with series "Introduce QC USB SND audio offloading support"
+> 
+> Changes in v3:
+> - Integrate the feature with the pm core framework.
+> 
+> Changes in v2:
+> - Cosmetics changes on coding style.
+> 
+> [v3] PM / core: conditionally skip system pm in device/driver model
+> [v2] usb: host: enable suspend-to-RAM control in userspace
+> [v1] [RFC] usb: host: Allow userspace to control usb suspend flows
+> ---
+> 
+> Guan-Yu Lin (5):
+>   usb: dwc3: separate dev_pm_ops for each pm_event
+>   usb: xhci-plat: separate dev_pm_ops for each pm_event
+>   usb: add apis for offload usage tracking
+>   xhci: sideband: add api to trace sideband usage
+>   usb: host: enable USB offload during system sleep
+> 
+>  drivers/usb/core/driver.c         | 131 +++++++++++++++++++++++++++++-
+>  drivers/usb/core/endpoint.c       |   8 --
+>  drivers/usb/core/usb.c            |   4 +
+>  drivers/usb/dwc3/core.c           | 105 +++++++++++++++++++++++-
+>  drivers/usb/dwc3/core.h           |   1 +
+>  drivers/usb/host/xhci-plat.c      |  42 +++++++++-
+>  drivers/usb/host/xhci-sideband.c  |  82 +++++++++++++++++++
+>  include/linux/usb.h               |  27 +++++-
+>  include/linux/usb/hcd.h           |   7 ++
+>  include/linux/usb/xhci-sideband.h |   6 ++
+>  sound/usb/qcom/qc_audio_offload.c |   3 +
+>  11 files changed, 398 insertions(+), 18 deletions(-)
+> 
 
-Sure, and perhaps add a few more users which I found with my improved
-grepping skills.
-
-Raag
