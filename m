@@ -1,144 +1,138 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4925A257D
-	for <linux-sound@vger.kernel.org>; Sun, 19 Jan 2025 08:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A2D383;
+	Mon, 20 Jan 2025 01:10:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737276926; cv=none; b=YDBeVioF9tsAYlkt7lPScTWmH/sVc4btQhRAFSmWkof0QCKdYYao1QQLmJvPWd1w4h7zoDzU6/NmRXmAVc3071ioDQVvYasUVRlxYWC21UbEn05vblWMGDprDaV5rwCSceEUdrbYBmlXkL+156fl7Ct3fk6N+LCVGTdw3ugIA6o=
+	t=1737335442; cv=none; b=JP04gU7GhcGoq2aAgXsHoKcOAEq1sjTgHc4MuPxEhx1A3tZhHbE/5Ow70MSn/XvWZmfRZ0lSG9Lhhgl+fh0BDac0ax6nAqH/Zd/UNbWfoo2Jo+tbdxDCXBMCWdFQWN4uDjY/MlqPle8L/vwESAXeuGHX0S2eInK5Iw/G9peXufY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737276926; c=relaxed/simple;
-	bh=f2QsfMpHh/OV2iMsP8F9fg0RcGxQiYeMLSQSFecoDD4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CPr/x9aGXNJNQSCqmywdU3dnpDFdMiEHSILNWg4Q5Q4E+RO6+A2hTcwuRJrdoaD0v/dZZu8Uahqke/7qpONggWgL05k1T15zpGa04NJYc7MXMDCaJidpPIPAUtqo6pXMyQZJBri7U3zVFbpi+xI4Fa5GMAn8aXjp/8uo6qTO+eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0AKN5QJv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dTZVpxqL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0AKN5QJv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dTZVpxqL; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1737335442; c=relaxed/simple;
+	bh=/bpPCspOvkPhySt5OSL5XEhorcN2ISyMUpPvmdUboz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=F29R0h1O2E2RsVnIbZSS/KGTjxKikjiChkn/kFZawBOg1vJcXr3PxN3LJqIWJ822+o5a6MgDBxYEqvxLlCNX+/adOxkMHQhifRoU18JWwjNN/DAxPOzVSMqlN7YbuIQNQn8Usoe+6Q+YbPozSmopRYHAJI8E3ZUJuNtbysjmJm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=FZ0ng7iJ; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0AKN5QJv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dTZVpxqL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0AKN5QJv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dTZVpxqL"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="FZ0ng7iJ"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 771C82119D;
-	Sun, 19 Jan 2025 08:55:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737276922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RKxFDGloYai+3Wd0t+dllGouk+wdBGfF7BZv7iniMS8=;
-	b=0AKN5QJvlP+NtdBnweRi9DQY6aRwPBRALM8LB7q9qcnah99a70LqDnpSdnGE145mXFppUB
-	i8Fns4pN45HJpT949KKvaKxUmCLI1ywidCB/VxX6SaDQm8GxxNbsnoMRzYsA6UV/X87nQM
-	ldz7ppLPP+jhbes1MY2Cbq6k+RFs0zU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737276922;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RKxFDGloYai+3Wd0t+dllGouk+wdBGfF7BZv7iniMS8=;
-	b=dTZVpxqLmnV07I5w3rajcdRXFYjQAe7L3ScY5/Yd0xXreesV88vkor69K40tozlY9JM/I6
-	nCn48DEeN0+rbDBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737276922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RKxFDGloYai+3Wd0t+dllGouk+wdBGfF7BZv7iniMS8=;
-	b=0AKN5QJvlP+NtdBnweRi9DQY6aRwPBRALM8LB7q9qcnah99a70LqDnpSdnGE145mXFppUB
-	i8Fns4pN45HJpT949KKvaKxUmCLI1ywidCB/VxX6SaDQm8GxxNbsnoMRzYsA6UV/X87nQM
-	ldz7ppLPP+jhbes1MY2Cbq6k+RFs0zU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737276922;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RKxFDGloYai+3Wd0t+dllGouk+wdBGfF7BZv7iniMS8=;
-	b=dTZVpxqLmnV07I5w3rajcdRXFYjQAe7L3ScY5/Yd0xXreesV88vkor69K40tozlY9JM/I6
-	nCn48DEeN0+rbDBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4E165139CB;
-	Sun, 19 Jan 2025 08:55:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3r6UEfq9jGeTZwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 19 Jan 2025 08:55:22 +0000
-Date: Sun, 19 Jan 2025 09:55:21 +0100
-Message-ID: <8734hfqj2e.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v8 0/2] ALSA: Add driver for big Scarlett 4th Gen interfaces
-In-Reply-To: <Z4v1c8rjaRdXLWuQ@m.b4.vu>
-References: <cover.1737048528.git.g@b4.vu>
-	<87ed10qt1u.wl-tiwai@suse.de>
-	<Z4v1c8rjaRdXLWuQ@m.b4.vu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4Ybshq2V1qz9shX;
+	Mon, 20 Jan 2025 02:10:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
+	s=MBO0001; t=1737335435;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=RcNOZ1AyszfruTlUBQa7gdtLqq7/VNQwGRJlXap0c7Y=;
+	b=FZ0ng7iJ62E9O4LM/iTdz9N1lHGCO4BH2gQ141CJdJQSNTi3PiVtuMXnQjP4dQLtixUsKW
+	SerWHbjY4x1D5I2L5JZws80OgmOMdThUFT8hHleBbhiveehzZkGckj+GFDLRSyJYcFxs0A
+	lXQMTtxPSYWhGEAcsN2bbMQlqTJZiRj9U7xL4KDWeZaDAdii6DPDrKo9lUaxU6LfU7uCX/
+	2XHwdRPhY8Hu+dnJBwHJd+1OgGTumW+MdfeGdpULT05jxIr/xLYgUEqy10RfhEe+EK9Ttz
+	sw/xnvileFkitj+RotbdrQQ1ZmUJM4ZISGAGWC66EWOK19TbysXkgrxl4y/kIA==
+Date: Sun, 19 Jan 2025 20:10:30 -0500
+From: Ethan Carter Edwards <ethan@ethancedwards.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: tiwai@suse.com, perex@perex.cz, arnd@arndb.de, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, ryan_richards@creativelabs.com, 
+	wychay@ctl.creative.com, Kuan-Wei Chiu <visitorckw@gmail.com>
+Subject: [PATCH v3] ALSA: ctxfi: Simplify dao_clear_{left,right}_input()
+ functions
+Message-ID: <x3glr6fetk7d7hlqimkv6g5krz2oibe7yusms3d7zk4ofrhlrx@75avihssncc5>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.991];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 18 Jan 2025 19:39:47 +0100,
-Geoffrey D. Bennett wrote:
-> 
-> On Sat, Jan 18, 2025 at 12:07:25PM +0100, Takashi Iwai wrote:
-> > On Thu, 16 Jan 2025 18:47:07 +0100,
-> > Geoffrey D. Bennett wrote:
-> > > 
-> > > Hi Takashi,
-> > > 
-> > > Thanks again! All changes from your feedback on v7 incorporated in v8.
-> > 
-> > Now applied to for-next branch.
-> 
-> Hi Takashi,
-> 
-> Thank you for all your time and patience in reviewing the patches
-> through eight versions!
-> 
-> For the pull request notes, would you consider mentioning the specific
-> new hardware support? Something like "Add support for Focusrite
-> Scarlett 4th Gen 16i16, 18i16, and 18i20 interfaces via new FCP
-> driver" would help users discover this functionality.
+There was a lote of code duplication in the dao_clear_left_input() and
+dao_clear_right_input() functions. A new function, dao_clear_input(),
+was created and now the left and right functions call it instead of
+repeating themselves.
 
-Yes, will put something like that.
+Link: https://lore.kernel.org/lkml/NyKCr2VHK_xCQDwNxFKKx2LVd2d_AC2f2j4eAvnD9uRPtb50i2AruCLOp6mHxsGiyYJ0Tgd3Z50Oy1JTi5gPhjd2WQM2skrv7asp3fLl8HU=@ethancedwards.com/
+Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
+---
+ v3: remove temp variables
+ v2: email client woes
+ sound/pci/ctxfi/ctdaio.c | 48 +++++++++++-----------------------------
+ 1 file changed, 13 insertions(+), 35 deletions(-)
 
+diff --git a/sound/pci/ctxfi/ctdaio.c b/sound/pci/ctxfi/ctdaio.c
+index 83aaf9441ef3..9993b02d2968 100644
+--- a/sound/pci/ctxfi/ctdaio.c
++++ b/sound/pci/ctxfi/ctdaio.c
+@@ -211,52 +211,30 @@ static int dao_set_right_input(struct dao *dao, struct rsc *input)
+ 	return 0;
+ }
+ 
+-static int dao_clear_left_input(struct dao *dao)
++static int dao_clear_input(struct dao *dao, unsigned int start, unsigned int end)
+ {
+-	struct imapper *entry;
+-	struct daio *daio = &dao->daio;
+-	int i;
++	unsigned int i;
+ 
+-	if (!dao->imappers[0])
++	if (!dao->imappers[start])
+ 		return 0;
+-
+-	entry = dao->imappers[0];
+-	dao->mgr->imap_delete(dao->mgr, entry);
+-	/* Program conjugate resources */
+-	for (i = 1; i < daio->rscl.msr; i++) {
+-		entry = dao->imappers[i];
+-		dao->mgr->imap_delete(dao->mgr, entry);
++	for (i = start; i < end; i++) {
++		dao->mgr->imap_delete(dao->mgr, dao->imappers[i]);
+ 		dao->imappers[i] = NULL;
+ 	}
+ 
+-	kfree(dao->imappers[0]);
+-	dao->imappers[0] = NULL;
+-
+ 	return 0;
+ }
+ 
+-static int dao_clear_right_input(struct dao *dao)
+-{
+-	struct imapper *entry;
+-	struct daio *daio = &dao->daio;
+-	int i;
+ 
+-	if (!dao->imappers[daio->rscl.msr])
+-		return 0;
+-
+-	entry = dao->imappers[daio->rscl.msr];
+-	dao->mgr->imap_delete(dao->mgr, entry);
+-	/* Program conjugate resources */
+-	for (i = 1; i < daio->rscr.msr; i++) {
+-		entry = dao->imappers[daio->rscl.msr + i];
+-		dao->mgr->imap_delete(dao->mgr, entry);
+-		dao->imappers[daio->rscl.msr + i] = NULL;
+-	}
+-
+-	kfree(dao->imappers[daio->rscl.msr]);
+-	dao->imappers[daio->rscl.msr] = NULL;
++static int dao_clear_left_input(struct dao *dao)
++{
++	return dao_clear_input(dao, 0, dao->daio.rscl.msr);
++}
+ 
+-	return 0;
++static int dao_clear_right_input(struct dao *dao)
++{
++	return dao_clear_input(dao, dao->daio.rscl.msr,
++			dao->daio.rscl.msr + dao->daio.rscr.msr);
+ }
+ 
+ static const struct dao_rsc_ops dao_ops = {
+-- 
+2.48.0
 
-thanks,
-
-Takashi
