@@ -1,45 +1,46 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2058.outbound.protection.outlook.com [40.107.223.58])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2068.outbound.protection.outlook.com [40.107.101.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDE519D8B2;
-	Mon, 20 Jan 2025 10:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD1C19D072;
+	Mon, 20 Jan 2025 10:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.68
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737367311; cv=fail; b=rlTona6bwAMwB/a65r0QVIMXjt9IBxmWWbJTrJuLMHzt5+sK0Pfp8Y/gCOyglE+8aGxz5ZEedk1WEQp5CS8sM62PN4LY5JoIvzOrH3Lu1ZDvRpLHwRLe3WnHFZ4+qhQMZt5pLyLqi11QSZvfVFdVImS0L+IEY7qmPY7a3vWX0Wk=
+	t=1737367318; cv=fail; b=t797wlRNbk/f/ICzS6tYnGz6mLgF3au2Xe6M3B5ca4071z4llX2KFw8FboQw4Gl4e/f4ZFrMY53Yv7ABgE5BZJQNuuP9nLA14SxtszeTWioS+BQljHRY+/b2DGfpgOxu7dZjmlYzVnz+r+7Gdvc/59Z0HZGc2FjG2nQKQbGIeIo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737367311; c=relaxed/simple;
-	bh=DjuVTQm95TumpN15cn6YMRYN+ONnrWOyJ8+3jJ15I08=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ik4D1SzXDi95xqGqSuYqYYDePmXY9sw+BOR+Xk9q1FVQGLbc5RqQXfZUfdCzh8bLnzVlejcCOAs0DrPxLSCofb6+t/xQIPpVgjmsWjFII3zOzdN4M4i9UHJhp4osL+P7lKPx2+uD7whJasCn9hrrZbc8RvL0cjM6shLgIUhyoSU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HarmM2j1; arc=fail smtp.client-ip=40.107.223.58
+	s=arc-20240116; t=1737367318; c=relaxed/simple;
+	bh=Q5aNoNoauKXY4uHDq9Qe4dllz1SyJPFBHOrMplBc084=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iXHzfU+FiT0k2+DSmjpG6nxgAZ7uHkaZYq+x5SUNze1jC7/Oyct9NIEz3N2ZR42hMd7OVlOiCgwCq+FBPHRT+85tR2c0mYppI9sRP+KcdmdSBm+qJ3+5bAOl9yamoIFOtxMKtsE3vXiZll9A2rycjD9F8+BbZK9jj/bNIWpQOug=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fkbPTpSt; arc=fail smtp.client-ip=40.107.101.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HarmM2j1"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fkbPTpSt"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VcHhvxBg1pn3y0CudbE7riCqWVmkht8O7a3ndvlzYyggyYjV+m34lcmcmcm4xPAduZ+wfpPEhQmb4CkUKB0bB4adQdeCd5kw2Vb/vQYQwjOR3eEmK6ZVPT1WFNwcXsxPE6Fstau7LueJzbo7xMRxVXjZ5yobIBlq2qWIf7gZyRCznvJDWgdn76fBlxaE6Q5ZZ2aHxh7jmWwwBkQ80ZqCmMHi7S1vHrjrSVtOKaTvu2Ede7p4c1MUMP1x/5mYs1QPjmCywhw7Dzr0wX92EPbjB8nH5IyRLlw5YgzWU3EqGdNQEGI4XLAotvaT8YBC1LCMnc2s20bKT3t2Ana2AlsM/w==
+ b=vaUbXqaIhTS5fPVpeAQoj+zA5jbvdM0PbeTII2kIL5FppHG3tK+9fs8FJP8775u0/FmRsf996LIbaFNnScFaS0r0Gazg54+aqIUfQufOB4ujdJoClAUTxltRxJqCqXScIvSB1YnEW47ond+sZxVpOSyerbbtVl919MAKVzQpu8V6tRmgEetEI0uXtCpyjZcTO2rvtP4wRRvuMmItBk7CIYtLPjNZdas1L7+FHR7BMprudGRuGdiU/nW5G/LOnzfJtiPgx8Ylg+kg7ljj9sMPwKBk3CxuFWbjHhXzRnSiuOlLudvDilubwqHbjoeEKNMJY85EjZL9mUj7glzJDtIXZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fgnsiHK0gctMavttPAPVE6NoVIpNrV/XxYP5BCVphRg=;
- b=Q2UNDnfOouiZ9r/aEBUZfFdsSGP9lBMiv9KKJPDguGZj8zF9MHiHAPXpu9IYmcVHMRLCe0VUh2ZCXVDtrGckP4pLKd7tXqonaibYdxGdUg+l/EfwnUF18nwepdLj9NdYOC9SITBjv5HmpSj2hQ1ubbFPw8rp1HzsCz3N08AXzAXxNvlI/B+dvzB3gDan9Nv3oJbXMiJQBwOujqshrxeKfIFnAihuBk2ysKuBK3XFYMJ3GIktNUkC55WYPiJ11jLSAlgM9pYhWh9vaI8TZ7EvW1EJXyaQ/m/YnQ7EHlH9bW4S8coZGrgzvPy/sj5skSXOopbgD/60PoE7ciBhZsLBdQ==
+ bh=L2d4RrV6LRK8gp/01u9Ug0u3GqsFw/mlkJXCD6vAyb0=;
+ b=lzDYRI4ImxSgmCFiRKpjRHJTTwmG9speATA++1kz0ZdOLx/eTaNBoconB+YcJJmaGK14EQLFYBOdRc+3eL2E5MuhttZ+5sNcalilrEY4J+/c+pmexgM9UaaO/tbTJt/sPLlt1C8311TYBPkmyfOjipJfz633iaTjgnFQTraFS+CiuoAr4ebszuap4KaIio7hh8b/1sWXNF2aGiguMzsEV3KnTqB6NqUg8U8+iabv/bhch+uz0JmAxOCZFrfnVBokpSR2PgYsNgk/TyzWN1txyv8OT4PRAnhhZX26sCK2Gfi+X4f7q7SxYMGsKsvx/zoNQkGUQM4iOkKTyfjBYW3IyQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fgnsiHK0gctMavttPAPVE6NoVIpNrV/XxYP5BCVphRg=;
- b=HarmM2j17Vmw8gAVkJEol7Ztir7uewKn8154qt8PbTMFUsa5KOnqzR0k5nJZOT/7MXTfUyHkJHsdiYV+jfpHA6yaDEXKrGbZkDV8zjk3ZDBPSIvg5ZGlFBT1cV24iymBIVAVNjc4Y3sCyYQSeC5eogPqx+ZCni1eFuI7mb4kYdM=
-Received: from CH2PR14CA0021.namprd14.prod.outlook.com (2603:10b6:610:60::31)
- by CY5PR12MB6249.namprd12.prod.outlook.com (2603:10b6:930:23::13) with
+ bh=L2d4RrV6LRK8gp/01u9Ug0u3GqsFw/mlkJXCD6vAyb0=;
+ b=fkbPTpStl8GwvKsy/+mdFtXje7emGWww9KhirF8eEMfJHg3bzV3z/shuWYmEO2xsmPR4DwzhtuzCYOBpW7Sw/3lhwBn2PcvNAOROJR9YORoRInC7h2e/RNJyEQQU1tk9DAN2A1HUGX4pBB9pXkb0dB6w4pIjqPrPyDhfnGjETxI=
+Received: from CH0PR13CA0021.namprd13.prod.outlook.com (2603:10b6:610:b1::26)
+ by DS0PR12MB7826.namprd12.prod.outlook.com (2603:10b6:8:148::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.16; Mon, 20 Jan
- 2025 10:01:46 +0000
-Received: from CH1PEPF0000AD82.namprd04.prod.outlook.com
- (2603:10b6:610:60:cafe::f) by CH2PR14CA0021.outlook.office365.com
- (2603:10b6:610:60::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8356.22 via Frontend Transport; Mon,
- 20 Jan 2025 10:01:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.20; Mon, 20 Jan
+ 2025 10:01:53 +0000
+Received: from CH1PEPF0000AD7C.namprd04.prod.outlook.com
+ (2603:10b6:610:b1:cafe::fd) by CH0PR13CA0021.outlook.office365.com
+ (2603:10b6:610:b1::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8293.15 via Frontend Transport; Mon,
+ 20 Jan 2025 10:01:53 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH1PEPF0000AD82.mail.protection.outlook.com (10.167.244.91) with Microsoft
+ CH1PEPF0000AD7C.mail.protection.outlook.com (10.167.244.84) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8377.8 via Frontend Transport; Mon, 20 Jan 2025 10:01:46 +0000
+ 15.20.8377.8 via Frontend Transport; Mon, 20 Jan 2025 10:01:53 +0000
 Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
  SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 20 Jan 2025 04:01:42 -0600
+ 15.1.2507.39; Mon, 20 Jan 2025 04:01:49 -0600
 From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 To: <broonie@kernel.org>
 CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
@@ -61,10 +62,12 @@ CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
 	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
 	<Mario.Limonciello@amd.com>, <linux-sound@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Subject: [PATCH V2 00/23] ASoC: amd: acp70: add soundwire and acp pdm support
-Date: Mon, 20 Jan 2025 15:31:07 +0530
-Message-ID: <20250120100130.3710412-1-Vijendar.Mukunda@amd.com>
+Subject: [PATCH V2 02/23] ASoC: amd: acp70: add acp pci driver for ACP7.0 and ACP7.1 platforms
+Date: Mon, 20 Jan 2025 15:31:09 +0530
+Message-ID: <20250120100130.3710412-3-Vijendar.Mukunda@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250120100130.3710412-1-Vijendar.Mukunda@amd.com>
+References: <20250120100130.3710412-1-Vijendar.Mukunda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,117 +80,210 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD82:EE_|CY5PR12MB6249:EE_
-X-MS-Office365-Filtering-Correlation-Id: 562fbf88-42d9-46b8-81c0-08dd39397319
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD7C:EE_|DS0PR12MB7826:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20d4e691-83b3-4f3a-d65a-08dd3939773a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
+	BCL:0;ARA:13230040|1800799024|376014|36860700013|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0jMNQLvMU+V6Q8Tz7WKmeUc4HZO/AIr5ftJ99EoSx4qKAXcM3luE+Il82Rat?=
- =?us-ascii?Q?kNIzHvNPMzako/pBMSdp+lzuUCf2q8b4T1IjsRi/y7Zp7W6RAqfm5G4i+DFC?=
- =?us-ascii?Q?FMy5qYBRSyInnfSxxNkxzFGGEM3YHAuUVbOGk+0lzpySUgWg34mYVy8TVZnu?=
- =?us-ascii?Q?EJL5bW18Ut4yoclL3xTfbvpIJYxntFXyWwRdl0m26pFJnnuS9kyBPTARvLnA?=
- =?us-ascii?Q?7fS77zFBfAj+0RxwTOx46GyOcE12sjXd08gt4q59vLPnzoJ6UFJBTFyujfsD?=
- =?us-ascii?Q?z+81cA84PnvmVazNkVtmI3HkXS9ttMlNR2DLQ5AjvzO51wf9e1SshvDwyjrh?=
- =?us-ascii?Q?W91mk0kqGUTzF0vpoXXyB9noPzcTy26riPBumpBXadGIW5oaYYj2t4p7XX7W?=
- =?us-ascii?Q?m5Po+iTCAAPTplXayiVQUNvk1QWKGJe72fD9mCOo4559YLm+iMXDKmliciEQ?=
- =?us-ascii?Q?M4VJh9aL+gYg3Vycm9i0FhP2vMIpeqXYNPzAzkIKuHS+fLEsGwfwwBkpSDf5?=
- =?us-ascii?Q?/TcLETrT4A0ZhZe9EjE2hMJK3MeQ7oaclpcZLXzzeZHCT0FNtjwNXzY5EHsh?=
- =?us-ascii?Q?hgP9Cd4UnMEkx1e8ms5zHTkjRYn6x5OaP2AosDMEvjXR335rYjvZWKG6M3DO?=
- =?us-ascii?Q?L5iDyEoblL9bMajTR/WpMvsejzohyoaH5+bfwfWBe+3pAo8awwHQuOuSQVhb?=
- =?us-ascii?Q?Rse20/WD0WwFcSdj7MF9Vb6zv7FRhno7ITT+EArdjmmA79j5fSLjCooGMoQj?=
- =?us-ascii?Q?tuM2ViIkb4S3T+JDxTxWjiLIB39OUf0O2rNoZDc3kcqdJOvheu85XxrytK+7?=
- =?us-ascii?Q?osI+9flJ9jHzil4XD1oens6LR3Zbkw+QtlZFYHs2N3a+WLRCUR6XBW4aVW9U?=
- =?us-ascii?Q?sQhyrUYhqVgbpKA6xAfhTpT5t2i8MzyfwwR6rbDjZdZ0LOaQZ+ttfOEAPdkb?=
- =?us-ascii?Q?Q8Hl2coOafUVNZx5mA4Tl0KHn/abFhq6mD5wqME1zDQow8xpf27fKEarfHQR?=
- =?us-ascii?Q?UE2bJC/6gq6c9kh8LykbFf/CfiBi5UykwtIaHGufK93F27DobEJ3fCzGkG40?=
- =?us-ascii?Q?rKhV7LZ379EVcq0oZReNrvu/OGsHL7rrJO76R91dzwZQwkdpuwsEzCHgyx0I?=
- =?us-ascii?Q?bcJJXfE/mz28K+9whZU+shbXOLjmQzX5cV3Dx/7bS3QLUtT0lDKzLv3mV3gy?=
- =?us-ascii?Q?/2Y+mV4JfK4MrKfL+2znD8sQFwz2FMUBfkQXFlV3qK3LHKESXRJ502DPWpuO?=
- =?us-ascii?Q?/kpSsrCzXbQfFhsp7Kq4iKCaZ2zQt4NKbefZS3i2iT+HuwoiWWHb7I8FtE7B?=
- =?us-ascii?Q?4rVqepurcX2OCHL7apz7OW8FmqVllsfKw7ojC6GoMs/9cUkGmXlpSV9Pu9iK?=
- =?us-ascii?Q?L9JF8pxuSFEgbYB3qncVgkF5otppO/yqxtOlM7B6bJxVms65RmmumE/40utL?=
- =?us-ascii?Q?yY9AK76vqEif4ydbjrGEphw4de9+DhIVkZ8GKdGjHWx/EwqXNdF6kPWZUHyI?=
- =?us-ascii?Q?68jI125Dj1tmzZI=3D?=
+	=?us-ascii?Q?YtS6mxYfFaAVhfaOm4YXWVgy6X+t0Q460MRwSSX4f/jviVGwPS7Dn0o1X/AI?=
+ =?us-ascii?Q?tuypIFPa80+vdpr9ug13WzSTMlHJ1foooMGCzLE8jy9hB0liKF1nQ92Zvsj0?=
+ =?us-ascii?Q?CmC/e3+/T8kWXRodFIeEF4aHXePkXWxTyYttQ1+mBXGtrdYGb1o9fJpdhEFj?=
+ =?us-ascii?Q?eIRdowXJFXj4OPDQ4DtWQoyogq/65sg7/vm4WJO99xfGt1Qc9XhtMh6UlGVC?=
+ =?us-ascii?Q?P0AQFUfeFO7cKqG9LCqxZoxQfcpq4mPU1CbRMWt9SfNSbojwl/zzFXkyMy9t?=
+ =?us-ascii?Q?IQlc7YSuRJSW73sx6bRbC7gbQkI9evcyCASRHrKlmZwpbbe+i+zu4mVYDlte?=
+ =?us-ascii?Q?hDAKp4wBPFxRqDH3MB/Xum40FXAJs1G21cWpEAsvrsiCr+PHXc/LqgO2CNNK?=
+ =?us-ascii?Q?K0e+plVrT1TQudCX6wHa8g6qJbZWFdOQ0IMIZwdGq1qRcpnVw6R/oEePzVMq?=
+ =?us-ascii?Q?jvuSHwaIw+mlmzKrrpgi9HGKYnrZuHltScBnDFFdzn+W7Zk+jWyNz6Gx9uLL?=
+ =?us-ascii?Q?vE2n9XSGomJrfRfPmGRnBJLcIk4UObeqq6akDqTqVMJkiJuGaOTul1F8e9ly?=
+ =?us-ascii?Q?hgCPKjb2OUne74wX7PmxtXLaoWrsVzRGExINQgEmOqerFkKQHxi+NpDXC9QE?=
+ =?us-ascii?Q?ILnT/KdWgKql8ykWHE9o1hn2/GiPftU+Y+Af8vKGUFStZVw1roAlRPJpp2OI?=
+ =?us-ascii?Q?Gw+tp0rrHx6tYBpkSlQiO85Y4OCp1B/jKYYdtOESjaZgH8ua6MBHA8Stc6xq?=
+ =?us-ascii?Q?N9u3uK2E2rfoO2hUcZFzBci1tDF9zJa3uD53zyeQgncQMyelu/SlqhVAq4Mh?=
+ =?us-ascii?Q?K6AOYuw9RvbYUe91TSddu+STx4VbPN9YSnHcQLy+Apl6wj/bWpb3RpW6EZHR?=
+ =?us-ascii?Q?72yCmEIWpulOR+FcyywHRQnQod0W3yMqDt19OTQIiQpr7QwurtGSpgNT2OM8?=
+ =?us-ascii?Q?B8caFtVJB+NFghpIlyT/RxAk5+LYHY8KKm2X6YuEv4WPoLWqQLb1v8TWAZzY?=
+ =?us-ascii?Q?e9CFtAW5izsFkYvP3Kb8ZauE1dgQhwbgUAu3DefBp6zg+Sojgr+AZXlr+vaZ?=
+ =?us-ascii?Q?8/jIu1b0jEBkHSqACr6KoA2veY+Ya+ajqVjVV01r2+y8ImqK1B/zHwCPV/kB?=
+ =?us-ascii?Q?h7lO8jxYT80bBpBPaWCSGrtUBROA15MQXEStDfnlPSzR3DR5egQAIBxoTRAa?=
+ =?us-ascii?Q?UgrEK46v61PW04SMQRlnlTzEEKj6ls5J2el5FK/ZCwTFSPDnEMOK0Ye9tb1m?=
+ =?us-ascii?Q?Rmhx/M5HRjEorgDqBocytrMEGVdCiuNZ9ni+mvVEbuQJfVBBH0YKHjk7vG9L?=
+ =?us-ascii?Q?gdwKPtNHFAuTj+3YHlmC9XqMEYp8aNa3Uum05v4IGJpsZ3Qr4qn3JqudjeUH?=
+ =?us-ascii?Q?wojoBkXJiTMuOV6HFnYEubBAB+OdvvuM4nE7m3gZRdyfL3hdxlQHCnjfOE/0?=
+ =?us-ascii?Q?l46kPeK/796LqllLvyj+xzq33HaoaOHfPJ6LQOBq9iKE+ibJ5LKZSMWTkX/t?=
+ =?us-ascii?Q?qghs7YKXzYs5XUU=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2025 10:01:46.2667
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2025 10:01:53.1960
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 562fbf88-42d9-46b8-81c0-08dd39397319
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20d4e691-83b3-4f3a-d65a-08dd3939773a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000AD82.namprd04.prod.outlook.com
+	CH1PEPF0000AD7C.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6249
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7826
 
-This patch series includes below changes
-	- Add Audio IO support for ACP7.0 and ACP7.1 platforms for
-	SoundWire IO and ACP PDM controller combination.
-	- Add common driver modules for ACP7.0 and ACP7.1 platforms
-	(acp pci driver, Soundwire dma driver, pdm platform driver).
-	- Add SoundWire generic machine driver changes for legacy stack
-	(No DSP enabled) for ACP7.0 & ACP7.1 platforms.
-	- Add SoundWire machines for ACP7.0 & ACP7.1 platforms.
+ACP is a PCI audio device.
+This patch adds common PCI driver to bind to this device and get PCI
+resources for ACP7.0 & ACP7.1 platforms.
 
-Changes since v1:
-	- Change the code sequence for handling SoundWire wake interrupts.
-	- Add new patch to restore host wake interrupt mask
-	- Add new patch to enable ACP PME during ACP init sequence.
-	- Change ACP PCI driver PM ops code sequence.
-
-Vijendar Mukunda (23):
-  ASoC: amd: add register header file for ACP7.0 platform
-  ASoC: amd: acp70: add acp pci driver for ACP7.0 and ACP7.1 platforms
-  ASoC: amd: acp70: add acp init and de-init functions
-  ASoC: amd: acp70: add logic for scanning acp child devices
-  ASoC: amd: acp70: create platform devices for acp child nodes
-  ASoC: amd: acp70: enable driver build for ACP7.0 platform
-  ASoC: amd: acp70: add acp pdm platform driver
-  ASoC: amd: acp70: add acp pdm driver dma ops and dai ops
-  ASoC: amd: acp70: add acp soundwire dma driver
-  ASoC: amd: update ACP7.0 KConfig option description
-  ASoC: amd: acp70: add soundwire dma driver dma ops
-  ASoC: amd: acp70: add acp ip interrupt handler
-  ASoC: amd: acp70: add acp pdm driver pm ops
-  ASoC: amd: acp70: add pm ops support for soundwire dma driver
-  ASoC: amd: acp70: add acp driver pm ops support
-  ASoC: amd: acp70: enable wake capability for acp pci driver
-  ASoC: amd: acp70: add soundwire wake interrupt handling
-  ASoC: amd: acp70: enable soundwire host wake irq mask
-  ASoC: amd: acp70: enable acp pme enable during acp init sequence
-  ASoC: amd: acp70: create a device node for soundwire machine driver
-  ASoC: amd: acp: add machine driver changes for ACP7.0 and ACP7.1
-    platforms
-  ASoC: amd: acp: add RT711, RT714 & RT1316 support for ACP7.0 platform
-  ASoC: amd: acp: amd-acp70-acpi-match: Add rt722 support
-
- include/sound/acp70_chip_offset_byte.h   | 484 +++++++++++++
- sound/soc/amd/Kconfig                    |  12 +
- sound/soc/amd/Makefile                   |   1 +
- sound/soc/amd/acp/Makefile               |   2 +-
- sound/soc/amd/acp/acp-sdw-legacy-mach.c  |  16 +
- sound/soc/amd/acp/acp-sdw-mach-common.c  |  34 +
- sound/soc/amd/acp/amd-acp70-acpi-match.c | 132 ++++
- sound/soc/amd/acp/soc_amd_sdw_common.h   |  11 +
- sound/soc/amd/acp70/Makefile             |   9 +
- sound/soc/amd/acp70/acp70-pdm-dma.c      | 463 +++++++++++++
- sound/soc/amd/acp70/acp70-sdw-dma.c      | 586 ++++++++++++++++
- sound/soc/amd/acp70/acp70.h              | 288 ++++++++
- sound/soc/amd/acp70/pci-acp70.c          | 833 +++++++++++++++++++++++
- sound/soc/amd/mach-config.h              |   1 +
- 14 files changed, 2871 insertions(+), 1 deletion(-)
- create mode 100644 include/sound/acp70_chip_offset_byte.h
- create mode 100644 sound/soc/amd/acp/amd-acp70-acpi-match.c
- create mode 100644 sound/soc/amd/acp70/Makefile
- create mode 100644 sound/soc/amd/acp70/acp70-pdm-dma.c
- create mode 100644 sound/soc/amd/acp70/acp70-sdw-dma.c
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ sound/soc/amd/acp70/acp70.h     |  33 +++++++++++
+ sound/soc/amd/acp70/pci-acp70.c | 100 ++++++++++++++++++++++++++++++++
+ 2 files changed, 133 insertions(+)
  create mode 100644 sound/soc/amd/acp70/acp70.h
  create mode 100644 sound/soc/amd/acp70/pci-acp70.c
 
+diff --git a/sound/soc/amd/acp70/acp70.h b/sound/soc/amd/acp70/acp70.h
+new file mode 100644
+index 000000000000..28a46f0c2026
+--- /dev/null
++++ b/sound/soc/amd/acp70/acp70.h
+@@ -0,0 +1,33 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * ACP 7.0 platform Common header file
++ *
++ * Copyright (C) 2024 Advanced Micro Devices, Inc. All rights reserved.
++ */
++
++#include <sound/acp70_chip_offset_byte.h>
++
++#define ACP_DEVICE_ID		0x15E2
++#define ACP70_REG_START		0x1240000
++#define ACP70_REG_END		0x125C000
++#define ACP70_PCI_REV		0x70
++#define ACP71_PCI_REV		0x71
++
++/**
++ * struct acp70_dev_data - acp pci driver context
++ * @acp70_base: acp mmio base
++ * @acp_lock: used to protect acp common registers
++ * @addr: pci ioremap address
++ * @reg_range: ACP reigister range
++ * @acp_rev : ACP PCI revision id
++ */
++
++struct acp70_dev_data {
++	void __iomem *acp70_base;
++	struct mutex acp_lock; /* protect shared registers */
++	u32 addr;
++	u32 reg_range;
++	u32 acp_rev;
++};
++
++int snd_amd_acp_find_config(struct pci_dev *pci);
+diff --git a/sound/soc/amd/acp70/pci-acp70.c b/sound/soc/amd/acp70/pci-acp70.c
+new file mode 100644
+index 000000000000..23e47f619bd7
+--- /dev/null
++++ b/sound/soc/amd/acp70/pci-acp70.c
+@@ -0,0 +1,100 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * AMD common ACP PCI driver for ACP7.0 & ACP7.1 platforms
++ *
++ * Copyright 2024 Advanced Micro Devices, Inc.
++ */
++
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include "../mach-config.h"
++
++#include "acp70.h"
++
++static int snd_acp70_probe(struct pci_dev *pci,
++			   const struct pci_device_id *pci_id)
++{
++	struct acp70_dev_data *adata;
++	u32 addr, flag;
++	int ret;
++
++	/* Return if acp config flag is defined */
++	flag = snd_amd_acp_find_config(pci);
++	if (flag)
++		return -ENODEV;
++
++	/* Pink Sardine device check */
++	switch (pci->revision) {
++	case ACP70_PCI_REV:
++	case ACP71_PCI_REV:
++		break;
++	default:
++		dev_dbg(&pci->dev, "acp70 pci device not found\n");
++		return -ENODEV;
++	}
++	if (pci_enable_device(pci)) {
++		dev_err(&pci->dev, "pci_enable_device failed\n");
++		return -ENODEV;
++	}
++
++	ret = pci_request_regions(pci, "AMD ACP6.2 audio");
++	if (ret < 0) {
++		dev_err(&pci->dev, "pci_request_regions failed\n");
++		goto disable_pci;
++	}
++	adata = devm_kzalloc(&pci->dev, sizeof(struct acp70_dev_data),
++			     GFP_KERNEL);
++	if (!adata) {
++		ret = -ENOMEM;
++		goto release_regions;
++	}
++
++	addr = pci_resource_start(pci, 0);
++	adata->acp70_base = devm_ioremap(&pci->dev, addr,
++					 pci_resource_len(pci, 0));
++	if (!adata->acp70_base) {
++		ret = -ENOMEM;
++		goto release_regions;
++	}
++	adata->addr = addr;
++	adata->reg_range = ACP70_REG_END - ACP70_REG_START;
++	adata->acp_rev = pci->revision;
++	pci_set_master(pci);
++	pci_set_drvdata(pci, adata);
++	mutex_init(&adata->acp_lock);
++	return 0;
++release_regions:
++	pci_release_regions(pci);
++disable_pci:
++	pci_disable_device(pci);
++
++	return ret;
++}
++
++static void snd_acp70_remove(struct pci_dev *pci)
++{
++	pci_release_regions(pci);
++	pci_disable_device(pci);
++}
++
++static const struct pci_device_id snd_acp70_ids[] = {
++	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, ACP_DEVICE_ID),
++	.class = PCI_CLASS_MULTIMEDIA_OTHER << 8,
++	.class_mask = 0xffffff },
++	{ 0, },
++};
++MODULE_DEVICE_TABLE(pci, snd_acp70_ids);
++
++static struct pci_driver ps_acp70_driver  = {
++	.name = KBUILD_MODNAME,
++	.id_table = snd_acp70_ids,
++	.probe = snd_acp70_probe,
++	.remove = snd_acp70_remove,
++};
++
++module_pci_driver(ps_acp70_driver);
++
++MODULE_AUTHOR("Vijendar.Mukunda@amd.com");
++MODULE_DESCRIPTION("AMD ACP7.0 PCI driver");
++MODULE_LICENSE("GPL");
 -- 
 2.34.1
 
