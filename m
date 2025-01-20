@@ -1,137 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B7C154433;
-	Mon, 20 Jan 2025 08:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510A118801A;
+	Mon, 20 Jan 2025 09:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737361633; cv=none; b=rkh0soZVHINou3Vv2ZQciXlu5X1IRAakWX4PYY/hw3qLxMQ2P0Al651sx3CFJdtcJ3nG+mp7l3N2wn44W39SkS2KFBNY6bXdqunALZ9gissafPP/AsEnhUe0iPEy+gJ6t7B4nmibVrar40XslkfcC+NSA/A2aKEiAhZDnLrBqU4=
+	t=1737363661; cv=none; b=d9h8flB5NTNFJ6nqQS4D+VMH98eTRPpkE1c69UA5sIBD9hWorF1d/PI0vLNHq7iep3Jh86gXABeNG+2YOTrLug3aQxH9Q7dLpYHEpM7HN+Q89l0+2PIGA5qN91VIuB/D0w4Mxvsq3kb+mWyjFuuPo5+IWXV/osdvTxeuGlp+TJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737361633; c=relaxed/simple;
-	bh=EqGCYuajAiEV9G14P0/ghFNJVD+YFei0XsTECpYLP08=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Gba18PAPAPfud6U4UmcQ6B5KbONqimFrD4LUZVFiXwL/dXNEs2x+lYQlSSGaXTwBEgMsn6Ze9Xc9L8Wid/7rQgGBdCA0YWZKmEqZNZdSDiUXj9wtmyclZJMSKonEWirziTW4VdDXJWwg5x5bEcbtlcH+xpy+ryg1/VzBVILolsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AChhXTsv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d6Kx04MT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AChhXTsv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d6Kx04MT; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1737363661; c=relaxed/simple;
+	bh=i3RzSbSAFOYRz+LjJB/UoK23R8utNhUgP3eFyaBi6Ck=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AkoOqsQjKqhWWeC6Sfu7bIMwL2Ofddf5VoxrIWl31wNvR+xNmplcRWTJmyGYOOBUpPPMveLC2f3/X7ZWSMwoWIu/aP1d8cGBIkSf2wOpkAcl8DJ8WAgFrTIZiOw2eE6njp6xqVHEcFsxn8nPoLYJRPfWYspmdLZ1IZQIDI0hN/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mac3UcKh; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AChhXTsv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d6Kx04MT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AChhXTsv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d6Kx04MT"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0AE0D1F7A1;
-	Mon, 20 Jan 2025 08:27:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737361630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tVP06ucTpHh7gUa3Itr4yGzD02d8uIzkB0WfCijHvmM=;
-	b=AChhXTsvtugvxHbfJz9azHjdkK79MPnd4aIqM444j5QRCYLHFv7GRlhlPlKSuD2WjG5ZyI
-	QwoBN/dYmQeJvH/8d1mRkDY4iIf6asYw1DUf0TqvahqFL6KZuKSjcT+S9PMXqNKzw9eN77
-	51JxC6RLq6BajbmL9HsZjjEw8xVp5ug=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737361630;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tVP06ucTpHh7gUa3Itr4yGzD02d8uIzkB0WfCijHvmM=;
-	b=d6Kx04MTINLIu1sltspR1pyTEqfv2VvqrF666brw6OUoHdNLAfWVvz9iz0xfHSaKPKHiUj
-	C667xa09sVw3tdAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737361630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tVP06ucTpHh7gUa3Itr4yGzD02d8uIzkB0WfCijHvmM=;
-	b=AChhXTsvtugvxHbfJz9azHjdkK79MPnd4aIqM444j5QRCYLHFv7GRlhlPlKSuD2WjG5ZyI
-	QwoBN/dYmQeJvH/8d1mRkDY4iIf6asYw1DUf0TqvahqFL6KZuKSjcT+S9PMXqNKzw9eN77
-	51JxC6RLq6BajbmL9HsZjjEw8xVp5ug=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737361630;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tVP06ucTpHh7gUa3Itr4yGzD02d8uIzkB0WfCijHvmM=;
-	b=d6Kx04MTINLIu1sltspR1pyTEqfv2VvqrF666brw6OUoHdNLAfWVvz9iz0xfHSaKPKHiUj
-	C667xa09sVw3tdAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5349139CB;
-	Mon, 20 Jan 2025 08:27:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id B+ZbKt0IjmclLwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 20 Jan 2025 08:27:09 +0000
-Date: Mon, 20 Jan 2025 09:27:09 +0100
-Message-ID: <87plkhq49u.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: David Laight <david.laight.linux@gmail.com>,
-	tiwai@suse.com,
-	perex@perex.cz,
-	arnd@arndb.de,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ryan_richards@creativelabs.com,
-	wychay@ctl.creative.com,
-	Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: Re: [PATCH v3] ALSA: ctxfi: Simplify dao_clear_{left,right}_input() functions
-In-Reply-To: <x3glr6fetk7d7hlqimkv6g5krz2oibe7yusms3d7zk4ofrhlrx@75avihssncc5>
-References: <x3glr6fetk7d7hlqimkv6g5krz2oibe7yusms3d7zk4ofrhlrx@75avihssncc5>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mac3UcKh"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2ef714374c0so6468131a91.0;
+        Mon, 20 Jan 2025 01:01:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737363659; x=1737968459; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i3RzSbSAFOYRz+LjJB/UoK23R8utNhUgP3eFyaBi6Ck=;
+        b=mac3UcKhb78p9+EwucVl6e9Tl+4yJvVSi9baOxHxQaDx8w0Usju5RgnmtT+Ac6wFG4
+         kz+QhzmV8ipi7zona9edmhZrvybmDfS4GHWtO5KfEDrX1EHGp/3cN4XPqJlV8q8rNJV6
+         ORz5P/+8EW770WQAjMOgXfQjMGbKRPzNdqyoS/NX1r/mgMqKcUR8ZkHhppWYKG1gP4A8
+         QqgrUSQGVUmAvDeDT1R0mJoj2jPTZeX0jzxqXAZ/EVuwrComq6KHNPuJ0j5FnQuYWMp6
+         4KxxZ0ez7KCf4PFFnchufmk2YwWPvAO/AbVoratxAbRwFFJlSMjqOlbWAkXYFdGlhFdD
+         vjKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737363659; x=1737968459;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i3RzSbSAFOYRz+LjJB/UoK23R8utNhUgP3eFyaBi6Ck=;
+        b=GZ0EybWttGlirPOMYqWVx/Jv+O+1lBEaGdA0hk8Pz+y7oNP+wGTxi9MJZzlePqRy1Q
+         OGKAM4M7UrLJ0n9p/A9Ue3MSnMgTrA2LHbt0v2KWXOYAOHGvdIRoaoi549y2pyz7Pyw/
+         jRJD+mKxY7GtFZ1ziakhD6pPbUJKS4xRowfOKHj0Tdaqlv4GUn03zYwqHk2Ey9rVKOy2
+         IMdjC0AzFn8SwFGOM9pZ8xdNUXYLhv19xail1cUqwPZMdAtDM4DqNjg94Alh2XIMYQ+9
+         3B1gGL3G3CamTNnj7Pmnl4xHZqpYOKYkXFO1o/41gxIy4pBKHfUIx60qHzCVNlHwAK2S
+         s1kA==
+X-Forwarded-Encrypted: i=1; AJvYcCV85hkbA1RLgEjVFtmh+7XRor9nzM8h/TgoQFCwmB/W0OlydWqWVaOXS/r/FXEXxi0uTbYfcMQyHgNn54w=@vger.kernel.org, AJvYcCV8zvbWrRQ3+Rx+9Ootf+0sDAAmIYjgVMUQw/x9RjFZ/hqYv3YDHeCToYsnW5G46+GPZwkZP4+JxdBl7+E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxV3kn3qRcuffCMtAdxFnAPf5xAE8KbDAwjB5vQEo78qI458nN
+	4DENh27S0bgsBWkmTTlMEPSISZKEdFJSnztCl1iVOwSWE3qAmgrSX5JmJmK8pfX1XTLdwcYNsXA
+	XczIAmkuoexpHI44dS5MoOUl0d6E=
+X-Gm-Gg: ASbGncv9KWLY7HcmMmyvcToCdihDwSzq2S8o0i7EedzcXGUSafY5aEcV/YO67kvTld2
+	Ccb+kz3QWKTVVnuAclAUTktYdyBUh0GM/jZPruUXnSHQ1OUU=
+X-Google-Smtp-Source: AGHT+IFUYMhX3+/BM1JggYJVuxRQGX3UytTr863qz814gKz04w2DqWjUwnCs2EQ+xU4dxaucEWZmaBFGqnFIKfgZ0YI=
+X-Received: by 2002:a17:90b:4c48:b0:2f7:b149:538f with SMTP id
+ 98e67ed59e1d1-2f7b14955a9mr9005351a91.4.1737363659451; Mon, 20 Jan 2025
+ 01:00:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,suse.com,perex.cz,arndb.de,vger.kernel.org,creativelabs.com,ctl.creative.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Score: -1.80
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <20250120081938.2501554-1-shengjiu.wang@nxp.com> <20250120081938.2501554-3-shengjiu.wang@nxp.com>
+In-Reply-To: <20250120081938.2501554-3-shengjiu.wang@nxp.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Mon, 20 Jan 2025 11:02:24 +0200
+X-Gm-Features: AbW1kvbnaZpaZSDxHIyyEvAxF7UNYIhVPRDimqJRR0qSr95In6qztij86mg0ndM
+Message-ID: <CAEnQRZDVTX2ARLy-5xRQtBQJ=nkknNQgq98zRDLqaHcDhiQEDA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ASoC: fsl_asrc_m2m: return error value in asrc_m2m_device_run()
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 20 Jan 2025 02:10:30 +0100,
-Ethan Carter Edwards wrote:
-> 
-> There was a lote of code duplication in the dao_clear_left_input() and
-> dao_clear_right_input() functions. A new function, dao_clear_input(),
-> was created and now the left and right functions call it instead of
-> repeating themselves.
-> 
-> Link: https://lore.kernel.org/lkml/NyKCr2VHK_xCQDwNxFKKx2LVd2d_AC2f2j4eAvnD9uRPtb50i2AruCLOp6mHxsGiyYJ0Tgd3Z50Oy1JTi5gPhjd2WQM2skrv7asp3fLl8HU=@ethancedwards.com/
-> Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
+On Mon, Jan 20, 2025 at 10:20=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.c=
+om> wrote:
+>
+> The asrc_m2m_device_run() function is the main process function
+> of converting, the error need to be returned to user, that user
+> can handle error case properly.
+>
+> Fixes: 24a01710f627 ("ASoC: fsl_asrc_m2m: Add memory to memory function")
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-Thanks, applied.
-
-
-Takashi
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
