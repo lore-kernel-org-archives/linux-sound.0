@@ -1,65 +1,65 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C64119DFB4;
-	Mon, 20 Jan 2025 09:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E108519DFB4;
+	Mon, 20 Jan 2025 09:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737363724; cv=none; b=fBgsoRraYT3x9Y4wvO4eSi+l57z+JRCGX+ICmDSTc4i4nVe1dsXbvQW0aNGJtLZpAKHZO66zs4GHd0Q7Ohx7xp5g5nUQYxHhpfUgOo3MHr8oKcVtcJCXq0FighoD6DYYXqnQfQM+bYYhhApL39Uy3EbBIlbXJfU/g6nY+D4SScQ=
+	t=1737363730; cv=none; b=Dgzqir012plc9Ptq91SMT/q0Oro+Uxqhmo2JJLFXP29HS0F1AROB5dj4jFfBjj0IBtyzThOokhRMwh8aPtw8WdpUQq43ew6Wiut8WiHnPwYZAqKRsXKluJHn/QcQkOIIEPuefkRTQNWeHmCxomUSrT+MQvI4BqojsZH7KanPMN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737363724; c=relaxed/simple;
-	bh=YP/asl0ktuAJ+7lkx9uBG8Zp8T+WKtOvDkKSxE7Zxj8=;
+	s=arc-20240116; t=1737363730; c=relaxed/simple;
+	bh=mhZBI52cSFUW4zmM+Wjfy5nZUWjEd1lQ47cgj8nn2a0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gvEziKEoVURGPMt5b6FMhFK7b4zxLThhqijzG2+1Xosjd/N6HMWTesLH+letTQEJd3qe0Fanmc0qk7Zy2yyb4CCs3bTNx/epxVAgLfh6KUsIJCKuRO8TNQ0NhitbpkH6L657UOCGePZLfskw+ZJf8f5YyFfPwiNqR1MFeZfUMPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TUAIbwEB; arc=none smtp.client-ip=209.85.167.52
+	 In-Reply-To:To:Cc; b=LCvNk2fbmOdQpjJ6VGUsZoooqJWFvFs11sS1xUGZU+jTjfTjNGrbV8b0GsaStBgFdlk/e0zaG24Ao9lW1zKS03NDdE+J4kBQC0qMp7tP4ddodflUeqBqOa2dxZDKdNyus81VCi14BgXkvwo86oKm+++/Ke1309PdrQvJpZ3jwMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kOKkKdqy; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TUAIbwEB"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54020b0dcd2so5589983e87.1;
-        Mon, 20 Jan 2025 01:02:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOKkKdqy"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5401bd6cdb7so4047879e87.2;
+        Mon, 20 Jan 2025 01:02:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737363720; x=1737968520; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1737363727; x=1737968527; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7SkrNC4OKrwBslXKn2lY94InL2WdhCv1RHq6pIDaZsc=;
-        b=TUAIbwEBB56Sgl3IMZmZKTJ3iO4NyPbJx5yucKfrIATk2ZM3rwHnS+JWDDoQbMM83j
-         wM2jd8mE7eFBwXD84rknytZ/ulVlUtGyZwYhiJty2fQnrIuAV8gtX+rSq67Mi3BrQEap
-         l7l5E5hbfvOaZ3/U8kdKGntnURO/C3Pdou9ITBGlFaigmU0bixb99ngkcDks6tIHt84m
-         00ZQMdWkIutIpkAYonILMbB/Gk2WZ+1FJCXICykY7C7jGbefY26788eB6R0KMeRelzXm
-         JVFESKQhE0+NnR7z51R0EGuE7BJy3VJyZV0WjeSIH2SaNNeueyc/MvXJQk/T73zoxx0l
-         P+VQ==
+        bh=ObQ7GdDi1GptsOmZqtnr/i0ThLMDmvsqiFg1PNnocMQ=;
+        b=kOKkKdqyZwBxpOe62cZOblr5TOsTBSPDCzdkTUANVpveb/CO4/yM/HzGDpqAFNKtAM
+         K6H/28GfBaDk9P+zdrwH5eAczQRZ5iUySGCT9ontcZbQEyG2Pwzl/GFt4VbzhGmqXqzL
+         3OR+KU/aii5mwBt4m5zVZ6LMdXC1VROdyyi/FxaOlZYLhZwWEOOFZ+tS0f9W8FzRofjt
+         O/C7XlI6uqYamhNt03ny/alyALvYOQZxEsXtSPDNKoEIh9MyudOoWcspp4IdwhXZU5mF
+         Pxqvqs9bahcS66qiLei7dp7QoKhtSLiKP5ONwc2W89hDUKQUizVZjfB1f7Zsczn0aaOG
+         Hjow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737363720; x=1737968520;
+        d=1e100.net; s=20230601; t=1737363727; x=1737968527;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7SkrNC4OKrwBslXKn2lY94InL2WdhCv1RHq6pIDaZsc=;
-        b=JBvjoVbP8moIYUmVxtWOqabnMbN88/SKCr9PPY2EKr8c+ORkq7Y8mKtoxp7OG4SXly
-         XtfGSgCBUwSBwLZFyinASLu85qW3SYLAvFQmsqIrgBo+BoIjU77upoW0Wlg0iFT80U55
-         MAv7C6HuCOCwvHI8j0cbOW7PM3ZU+3ncGBW55KuNLleE4bI4obXEQOLC+Osx2EGCzhHr
-         ciGSEKU2zGOpPLnnz1QfsV0XUkU+ob7IUjOVyH8MHlk9DGyrZX/au8RqJ6JvJw2Yo+CF
-         /Q3ofi6DhQsaOqAo5Ba9vnf7I51JcjCf+ZS0chCZm55Y1HFvcU+aG5MSOqywUyvAswrN
-         9xPw==
-X-Forwarded-Encrypted: i=1; AJvYcCUL8HVu/d5hQ2MBn/9jdHYrZODX7w+tNXHMsR/C6s2MczXBRkFpEvy/MPgNxDd4FptTHi7HYvtFxfA24Rrd@vger.kernel.org, AJvYcCWjSpaGJo9pkmoFzhEGHlde/Ju53WWlY1gU/Ii4EpUDyCDohzZEzjuCXmR006tuhFZddd6THprI64jz@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzOVaOgbp5EziYgabQ9vrQU+KxxlNe/Phhcsh8dWLqXR1YJQT1
-	HbHOURsGnL1hrPAVXWbjDKbeYLOCS8A9rQ3A7Bdo7Sk/YmAkcIW4
-X-Gm-Gg: ASbGncuOz/KoUGf2XYy1kNDgHpET+0dcy8HCMadB9rojwhu6knU9rIkJCrKFADrF1uN
-	zA0llPfbmgKLe6+iUZRQloXaR5YB1gqFF1DMRtnqRVeaIEfqNtkHnV1EKQvXa5nR7AN92p29nsG
-	Iwj54jd2OddSx3VcTifc6tTo2kYL1aDDJ7tsaDV/VbuD32dfaO4i/8C+ZlhKZ88XLSsRTbqqBqd
-	N+ghf6ht7+7kmCg7bBN5JSaN5frlssSKI1QwoeV6u846oyDa4vZ7ZRAkijFSAqJhsRXZag=
-X-Google-Smtp-Source: AGHT+IGC7FCazsrX10UnVTI4JyBQvROZIT3aDBV34LerB5P0S0R4EmhZ2kEAeo8emEvzObroak2BsQ==
-X-Received: by 2002:a05:6512:1250:b0:542:215f:e615 with SMTP id 2adb3069b0e04-5439bfad838mr4216453e87.16.1737363719979;
-        Mon, 20 Jan 2025 01:01:59 -0800 (PST)
+        bh=ObQ7GdDi1GptsOmZqtnr/i0ThLMDmvsqiFg1PNnocMQ=;
+        b=kU2XBEpdYJYdsssRYjLUDr/ZnM6ZI+q0gTlXtW9YM1LTyWC+TK4KYj34PUeA2dY8Fw
+         EgfXlGvois56xsbv9VUlRS4a1N+aWA/YVn1mu/WQDdE58G7Tsp7uNqAPaqc0DMnF2ozN
+         5loXwrtimmkLqvpNMrdnisVQbQJJEYDqfzYqUHvNxkyW3dN4Ynirlx/QakTGdcswjvQ9
+         TPZ+ujq4J8r2+PELneaaApjiDE8jgIWKgmph0kkN+BBOe3IKRUa+Nd8bCT7Hv7jaGm3b
+         HFFYOd0GrQmZALEIwi3vzpFMTzn4KB5sitK8XMn92GUgjFkg4wuLAi1QntEBicdR5T0N
+         6BTA==
+X-Forwarded-Encrypted: i=1; AJvYcCVmJ4JPdLoLhi5Sdv7itGSAQB/wLYdSj/BhixPNwzSMOebMOLTaAETsmQHaYhh+IREAAzEA6jUnd4+/YJPS@vger.kernel.org, AJvYcCWttsCJqw/EIiGJJ2ortb4IvjkkqTt5ss7tosd5PFasmPO+ZYgQsUaZQi5pbNPFm+Ii/5fJtCPZjWvP@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZV9ugrWQ+UG3ybu4dMGdcFgSYzgs9bM+PeQupaVn/NBNl7sYW
+	mtyNK5m8C06gG4fXEsS6aMvd5ihdogqn6JjypYo4ECcxtc58+pMB
+X-Gm-Gg: ASbGncvZjaRYjA+Kdqk3X7DDSj8Hky0aquDdjm/+HBuxQ5OX+eb7dOcFvLV4zgU7uFF
+	PbzncrQgVI81BHd2Wpo2NyYYYQyp9kSa1soNP6tRozAaRvWkIgnbDHDvGHpC0OICeu32K4kRScB
+	5gE5gnF/NJTYuzqgXlFa8ZeMrGc211QHwfX8w/2mQpwA/vSoGxZrjAcxEy6kfK7qm/Sv6Z4CUTV
+	co1yH4QU9u3Z8YkbMTntznbncqvkvp+fieRKS2eeODCco2uNiJG/Vfq+U8W0tkZZPF6fME=
+X-Google-Smtp-Source: AGHT+IG+uLtQwIY7ysUBBPpzDpbxHyy+W/cd6hfRub2H22c4oda2HhPrd0zg5OQqcxaq2LdygE+qDA==
+X-Received: by 2002:ac2:561b:0:b0:540:353a:5b1f with SMTP id 2adb3069b0e04-5439c1ba039mr3725344e87.0.1737363726847;
+        Mon, 20 Jan 2025 01:02:06 -0800 (PST)
 Received: from [172.30.32.150] ([185.204.1.212])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af0e90asm1224768e87.76.2025.01.20.01.01.53
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af0e90asm1224768e87.76.2025.01.20.01.02.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 01:01:58 -0800 (PST)
+        Mon, 20 Jan 2025 01:02:05 -0800 (PST)
 From: Alexey Charkov <alchark@gmail.com>
-Date: Mon, 20 Jan 2025 13:01:28 +0400
-Subject: [PATCH 2/3] arm64: dts: rockchip: Add SPDIF nodes to RK3588(s)
- device trees
+Date: Mon, 20 Jan 2025 13:01:29 +0400
+Subject: [PATCH 3/3] arm64: dts: rockchip: Enable SPDIF output on H96 Max
+ V58
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250120-rk3588-spdif-v1-2-1415f5871dc7@gmail.com>
+Message-Id: <20250120-rk3588-spdif-v1-3-1415f5871dc7@gmail.com>
 References: <20250120-rk3588-spdif-v1-0-1415f5871dc7@gmail.com>
 In-Reply-To: <20250120-rk3588-spdif-v1-0-1415f5871dc7@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -78,166 +78,64 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Alexey Charkov <alchark@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737363699; l=5537;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737363699; l=1420;
  i=alchark@gmail.com; s=20240125; h=from:subject:message-id;
- bh=YP/asl0ktuAJ+7lkx9uBG8Zp8T+WKtOvDkKSxE7Zxj8=;
- b=tTVe1SaVvi1gG1B2uuR2l3PrPdSsc6F5m8rEBlrbsDtsHLd5lFHOeLy577Pd8XyAZL4oLM/6G
- CMTJV5jt9FFAJsCTf87cT3AnlWpO+PkVU+pxwKRJpYrfGs/iNw6Mh1R
+ bh=mhZBI52cSFUW4zmM+Wjfy5nZUWjEd1lQ47cgj8nn2a0=;
+ b=3k0A0++kluCdKMCJzs9uffAyMkB9nN6XP5utWRzFrHkWnhbpcAKF4sZs6ezzWG8blnODh5R+g
+ LPjSW5xBvA9BxjjtuEIwF1rkSlrUmbTqApiJoooeSrxu/HMNIP1fWfy
 X-Developer-Key: i=alchark@gmail.com; a=ed25519;
  pk=xRO8VeD3J5jhwe0za0aHt2LDumQr8cm0Ls7Jz3YGimk=
 
-RK3588s has four SPDIF transmitters, and the full RK3588 has six.
-They are software compatible to RK3568 ones. Add respective nodes
-to .dtsi files.
-
-Adapted from vendor sources at [1] and [2], respectively
-
-[1] https://github.com/rockchip-linux/kernel/blob/develop-5.10/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-[2] https://github.com/rockchip-linux/kernel/blob/develop-5.10/arch/arm64/boot/dts/rockchip/rk3588.dtsi
+H96 Max V58 has its spdif_tx0 controller wired to a dedicated optical
+Toslink SPDIF socket, enable it in the device tree
 
 Signed-off-by: Alexey Charkov <alchark@gmail.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi  | 64 ++++++++++++++++++++++++++
- arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi | 30 ++++++++++++
- 2 files changed, 94 insertions(+)
+ .../arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts | 24 ++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-index 8cfa30837ce72581d0b513a8274ab0177eb5ae15..07e8c5aeb45b22db71ac5bc27f812a2d3347a463 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -1318,6 +1318,21 @@ vop_mmu: iommu@fdd97e00 {
- 		status = "disabled";
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts b/arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts
+index 4791b77f3571db3a888c015596b4cc1863fdc3f7..68dd7329de15d873f2a0df85fb84810f9c2907d8 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts
+@@ -140,6 +140,24 @@ vcc5v0_sys: regulator-5v0-sys {
+ 		regulator-min-microvolt = <5000000>;
+ 		regulator-max-microvolt = <5000000>;
  	};
++
++	spdif_dit: spdif-dit {
++		compatible = "linux,spdif-dit";
++		#sound-dai-cells = <0>;
++	};
++
++	spdif_sound: spdif-sound {
++		compatible = "simple-audio-card";
++		simple-audio-card,name = "SPDIF";
++
++		simple-audio-card,cpu {
++			sound-dai = <&spdif_tx0>;
++		};
++
++		simple-audio-card,codec {
++			sound-dai = <&spdif_dit>;
++		};
++	};
+ };
  
-+	spdif_tx2: spdif-tx@fddb0000 {
-+		compatible = "rockchip,rk3588-spdif", "rockchip,rk3568-spdif";
-+		reg = <0x0 0xfddb0000 0x0 0x1000>;
-+		assigned-clock-parents = <&cru PLL_AUPLL>;
-+		assigned-clocks = <&cru CLK_SPDIF2_DP0_SRC>;
-+		clock-names = "mclk", "hclk";
-+		clocks = <&cru MCLK_SPDIF2>, <&cru HCLK_SPDIF2_DP0>;
-+		dma-names = "tx";
-+		dmas = <&dmac1 6>;
-+		interrupts = <GIC_SPI 195 IRQ_TYPE_LEVEL_HIGH 0>;
-+		power-domains = <&power RK3588_PD_VO0>;
-+		#sound-dai-cells = <0>;
-+		status = "disabled";
-+	};
-+
- 	i2s4_8ch: i2s@fddc0000 {
- 		compatible = "rockchip,rk3588-i2s-tdm";
- 		reg = <0x0 0xfddc0000 0x0 0x1000>;
-@@ -1335,6 +1350,21 @@ i2s4_8ch: i2s@fddc0000 {
- 		status = "disabled";
- 	};
+ &combphy0_ps {
+@@ -400,6 +418,12 @@ &sdhci {
+ 	status = "okay";
+ };
  
-+	spdif_tx3: spdif-tx@fdde0000 {
-+		compatible = "rockchip,rk3588-spdif", "rockchip,rk3568-spdif";
-+		reg = <0x0 0xfdde0000 0x0 0x1000>;
-+		assigned-clock-parents = <&cru PLL_AUPLL>;
-+		assigned-clocks = <&cru CLK_SPDIF3_SRC>;
-+		clock-names = "mclk", "hclk";
-+		clocks = <&cru MCLK_SPDIF3>, <&cru HCLK_SPDIF3>;
-+		dma-names = "tx";
-+		dmas = <&dmac1 7>;
-+		interrupts = <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH 0>;
-+		power-domains = <&power RK3588_PD_VO1>;
-+		#sound-dai-cells = <0>;
-+		status = "disabled";
-+	};
++&spdif_tx0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&spdif0m1_tx>;
++	status = "okay";
++};
 +
- 	i2s5_8ch: i2s@fddf0000 {
- 		compatible = "rockchip,rk3588-i2s-tdm";
- 		reg = <0x0 0xfddf0000 0x0 0x1000>;
-@@ -2016,6 +2046,40 @@ &i2s3_sdi
- 		status = "disabled";
- 	};
- 
-+	spdif_tx0: spdif-tx@fe4e0000 {
-+		compatible = "rockchip,rk3588-spdif", "rockchip,rk3568-spdif";
-+		reg = <0x0 0xfe4e0000 0x0 0x1000>;
-+		assigned-clock-parents = <&cru PLL_AUPLL>;
-+		assigned-clocks = <&cru CLK_SPDIF0_SRC>;
-+		clock-names = "mclk", "hclk";
-+		clocks = <&cru MCLK_SPDIF0>, <&cru HCLK_SPDIF0>;
-+		dma-names = "tx";
-+		dmas = <&dmac0 5>;
-+		interrupts = <GIC_SPI 193 IRQ_TYPE_LEVEL_HIGH 0>;
-+		pinctrl-0 = <&spdif0m0_tx>;
-+		pinctrl-names = "default";
-+		power-domains = <&power RK3588_PD_AUDIO>;
-+		#sound-dai-cells = <0>;
-+		status = "disabled";
-+	};
-+
-+	spdif_tx1: spdif-tx@fe4f0000 {
-+		compatible = "rockchip,rk3588-spdif", "rockchip,rk3568-spdif";
-+		reg = <0x0 0xfe4f0000 0x0 0x1000>;
-+		assigned-clock-parents = <&cru PLL_AUPLL>;
-+		assigned-clocks = <&cru CLK_SPDIF1_SRC>;
-+		clock-names = "mclk", "hclk";
-+		clocks = <&cru MCLK_SPDIF1>, <&cru HCLK_SPDIF1>;
-+		dma-names = "tx";
-+		dmas = <&dmac1 5>;
-+		interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_HIGH 0>;
-+		pinctrl-0 = <&spdif1m0_tx>;
-+		pinctrl-names = "default";
-+		power-domains = <&power RK3588_PD_AUDIO>;
-+		#sound-dai-cells = <0>;
-+		status = "disabled";
-+	};
-+
- 	gic: interrupt-controller@fe600000 {
- 		compatible = "arm,gic-v3";
- 		reg = <0x0 0xfe600000 0 0x10000>, /* GICD */
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-index 4a950907ea6f51c1d4123d52b73b726226db37bc..505cdd7b518ed687865deebcad553fe92b111fd8 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-@@ -67,6 +67,21 @@ u2phy1_otg: otg-port {
- 		};
- 	};
- 
-+	spdif_tx5: spdif-tx@fddb8000 {
-+		compatible = "rockchip,rk3588-spdif", "rockchip,rk3568-spdif";
-+		reg = <0x0 0xfddb8000 0x0 0x1000>;
-+		assigned-clock-parents = <&cru PLL_AUPLL>;
-+		assigned-clocks = <&cru CLK_SPDIF5_DP1_SRC>;
-+		clock-names = "mclk", "hclk";
-+		clocks = <&cru MCLK_SPDIF5>, <&cru HCLK_SPDIF5_DP1>;
-+		dma-names = "tx";
-+		dmas = <&dmac1 22>;
-+		interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_HIGH 0>;
-+		power-domains = <&power RK3588_PD_VO0>;
-+		#sound-dai-cells = <0>;
-+		status = "disabled";
-+	};
-+
- 	i2s8_8ch: i2s@fddc8000 {
- 		compatible = "rockchip,rk3588-i2s-tdm";
- 		reg = <0x0 0xfddc8000 0x0 0x1000>;
-@@ -84,6 +99,21 @@ i2s8_8ch: i2s@fddc8000 {
- 		status = "disabled";
- 	};
- 
-+	spdif_tx4: spdif-tx@fdde8000 {
-+		compatible = "rockchip,rk3588-spdif", "rockchip,rk3568-spdif";
-+		reg = <0x0 0xfdde8000 0x0 0x1000>;
-+		assigned-clock-parents = <&cru PLL_AUPLL>;
-+		assigned-clocks = <&cru CLK_SPDIF4_SRC>;
-+		clock-names = "mclk", "hclk";
-+		clocks = <&cru MCLK_SPDIF4>, <&cru HCLK_SPDIF4>;
-+		dma-names = "tx";
-+		dmas = <&dmac1 8>;
-+		interrupts = <GIC_SPI 197 IRQ_TYPE_LEVEL_HIGH 0>;
-+		power-domains = <&power RK3588_PD_VO1>;
-+		#sound-dai-cells = <0>;
-+		status = "disabled";
-+	};
-+
- 	i2s6_8ch: i2s@fddf4000 {
- 		compatible = "rockchip,rk3588-i2s-tdm";
- 		reg = <0x0 0xfddf4000 0x0 0x1000>;
+ &spi2 {
+ 	assigned-clocks = <&cru CLK_SPI2>;
+ 	assigned-clock-rates = <200000000>;
 
 -- 
 2.48.1
