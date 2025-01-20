@@ -1,102 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545BE18E743;
-	Mon, 20 Jan 2025 19:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672A214830F;
+	Mon, 20 Jan 2025 22:14:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737401334; cv=none; b=hnv8aIMo7tk11cGYxFfiWJhgUFJHa7UupITr7FoGjojKUQAQkS7NFE2CtgNzzfej22+J+WyuRqyzG2hnqh7/dfQxtlzRNPJR1QVWIkchpGfsK6j9NZHC1yC4b4jfLMsxFZXWzUZyi7P449mZczlt67xQkZXYY0BI8bJsr2cYgDk=
+	t=1737411285; cv=none; b=iHveHNv8HrF2osA+YQJrL+ngIYLRCyDKqBEjizwWZsXisWhb5VsV+VMGpbWccgWyu1bi9wcLIIRnPL2DX1GXMdmy/6DZvzq/uWMsljc8r/B3XvlNLTSzS3bvNZxxVuyfsSWHgBgLcFO2Q8xfyP7Hx/2TEtMsLOFc+TzSbaMrEEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737401334; c=relaxed/simple;
-	bh=q1reUqGeya/ixjryOK53cDkVNv12CZqxlsiJ1QlDzKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZypkJImZpw752TIshccW+STZverbiut2f6Mx1lYdC7hQSRMPn6c2CHOWFJVQxAx13S91TQXTMRVDU3S6baS6/WpKqGh42CVYsJWxXzb/88yHeyQomjpll/N8XDhLvdP6qr/4UCQ74toL8c3ZrAMOUlYK6MBKdJCWR2zB07djR7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qWBWYv/d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737411285; c=relaxed/simple;
+	bh=FPNR7tBW/dPlzjn1OZcp8VhyZfjwqjwr5bADwiGv0vM=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=KG7CwyyoaL0G46BmrOssp+1nwUwDYXSL9wl5vC9+ZY6qmXrcJHpMh/Y0bkP0A1hpVyz0Z495DeyOIVOn4OtWPWgrVWjYiBc1PJw4g5lkcmUx1w0lt25nlci41ilsR853j1Ov9FUqG+EZ6/KPq4qIYG8aRq2ZYQKcidmPV8WudpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J23hoFOp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qWBWYv/d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 621D3C4CEDD;
-	Mon, 20 Jan 2025 19:28:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J23hoFOp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6028C4CEDD;
+	Mon, 20 Jan 2025 22:14:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737401333;
-	bh=q1reUqGeya/ixjryOK53cDkVNv12CZqxlsiJ1QlDzKg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qWBWYv/d/tO1S6+mBu5igDAHEFLYGIhX8a4QmtQSnluDsYfkPyMzfRLXmEqJDXRUE
-	 J9nT63PJajotYPRG9blUkwaJuZZ0ZZyryzLnjNnys5WhdcjuLDszOTgm6xww1+/DyG
-	 6puF52oKpWowt8ypvzHVX7Z1FK8KuIZaERpCz898afF/nLPqMOAx++iWs7QpoIiUhF
-	 ghs9I5SbbAFOa+aD4fcR6w+wBrHjC1RmYG4uf0K9Qn//wb79bRmz3I0u3lUvgEzeux
-	 sU4nk0sVLVbpIh8jSpuXISmMC2MEHyuyEbjPSCi8AiASwA+RCsMbM/ctjiIYaerS/X
-	 tdIKfeVFaOKog==
-Date: Mon, 20 Jan 2025 19:28:48 +0000
+	s=k20201202; t=1737411280;
+	bh=FPNR7tBW/dPlzjn1OZcp8VhyZfjwqjwr5bADwiGv0vM=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=J23hoFOpXnJW3Ax/iwnUpZkyP6q6VTHnrgJJCu324qbNYib3JnCs0IqP/qrRCoNtc
+	 wn5vel0GGLtCx1PJJ5RLJ4JZoou+/lOjKa2oUo4JTcQ1aCTyvXebQa7IXPiOYH8t4x
+	 YIt7slaS/k15AiEd947QUDEWoyV5y/TTMIJxuSazcbYIz4n/S4sGtlRTGdakYum7IH
+	 SpoVRr2vuQPPNPDbpz0z4SZ6DAxvMmN8u//TpeYRpzz56yMk1h95txFlfigbQ9pnh+
+	 zMlF9DcGAe6xZFu6XRoIE3l9cmuRAagUc/C2TsuJeBb3QuTKVZfNiRaq4xa3fVvjJp
+	 J9bBnYZ4kTFzA==
 From: Mark Brown <broonie@kernel.org>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
-	alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, Basavaraj.Hiregoudar@amd.com,
-	Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2 12/23] ASoC: amd: acp70: add acp ip interrupt handler
-Message-ID: <365c47d1-6b19-452a-b4f7-ca8a64e2754f@sirena.org.uk>
-References: <20250120100130.3710412-1-Vijendar.Mukunda@amd.com>
- <20250120100130.3710412-13-Vijendar.Mukunda@amd.com>
- <4d6cf5b7-8f47-4cb8-b302-c02f3b037d6d@sirena.org.uk>
- <08942c1b-3933-4ddd-b730-44d436a81e94@amd.com>
- <208098f6-1022-437e-9ae2-964e9bc89942@sirena.org.uk>
- <1e10c851-f4fc-4e76-806d-5f1214f29bdf@amd.com>
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20250120081938.2501554-1-shengjiu.wang@nxp.com>
+References: <20250120081938.2501554-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH 0/2] ASoC: fsl: two fixes for asrc memory to memory
+Message-Id: <173741127845.104623.1779188125305683967.b4-ty@kernel.org>
+Date: Mon, 20 Jan 2025 22:14:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iFDstItUjAZwmnYe"
-Content-Disposition: inline
-In-Reply-To: <1e10c851-f4fc-4e76-806d-5f1214f29bdf@amd.com>
-X-Cookie: No lifeguard on duty.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
+On Mon, 20 Jan 2025 16:19:36 +0800, Shengjiu Wang wrote:
+> 1. Fix the suspend failure for memory to peripheral function.
+> 2. Return error value for processing function.
+> 
+> Shengjiu Wang (2):
+>   ASoC: fsl_asrc_m2m: only handle pairs for m2m in the suspend
+>   ASoC: fsl_asrc_m2m: return error value in asrc_m2m_device_run()
+> 
+> [...]
 
---iFDstItUjAZwmnYe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Jan 20, 2025 at 12:47:18PM -0600, Mario Limonciello wrote:
-> On 1/20/2025 12:39, Mark Brown wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > That does feel like quirks and new features rather than a completely
-> > distinct IP.
+Thanks!
 
-> I see it as different forms of tech debt.  Either you keep track of which
-> features the 62 vs 70 hardware supports by different drivers or add logic in
-> all the relevant functions().
+[1/2] ASoC: fsl_asrc_m2m: only handle pairs for m2m in the suspend
+      commit: d12ca6d4c31bf974ecc80e36761488f41d05d18b
+[2/2] ASoC: fsl_asrc_m2m: return error value in asrc_m2m_device_run()
+      commit: abe01a78bfc8be9cc025a73b991c4e77431de9de
 
-> The former increases LoC but reduces risk for mistake (IE avoid oops, I
-> forgot this is only supported on 70+ when adding new features).
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Until someone fixes a bug or does some subsystem wide cleanup which
-affects both copies of the code (perhaps that already happened since the
-code was copied!).  There's a reason why this is the general kernel
-style.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> Changing code that affects a lot of hardware means a lot more testing too.
-> Perhaps after Vijendar's series lands he can split up some of the purely
-> duplicated functions into helpers or callbacks and arrange all that testing?
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Well, it was getting a new spin anyway for the bits that didn't have the
-serial numbers filed off.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---iFDstItUjAZwmnYe
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Mark
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeOo+8ACgkQJNaLcl1U
-h9CzTwf+NdqnwJmZFgeksO0umzIOqdzCEmUoTUMGGktQSl6URefs+EyDd+UVxIWr
-hr52nlIM/faT/+yUZUZNEjs4NPacWDlDiKItd/O6eaw9p3Rt2ICQEyeCe3QBrwwH
-ROaOeo3TUOCCzB6Cij6OiBJ2RwZXq0Y8wvB26fi9jU48KjvskBDyadMGGjGkI+LJ
-u3Josb5ELASobKaSq2yzrETIw6ivxWDY+mqCBhrRSljjwde+G070Nx4Hve/qAAMV
-XO9OxwOU4PmpMXFDcq2GMCn1TkxvB2Wg933V8MaYXTfOf8d8mTaUqfXKqc5E1ZCl
-IcuMoP2i2lkM/2QeSGrX6hn1mBH9HA==
-=pfPd
------END PGP SIGNATURE-----
-
---iFDstItUjAZwmnYe--
