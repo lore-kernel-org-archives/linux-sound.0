@@ -1,63 +1,65 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED2319D072;
-	Mon, 20 Jan 2025 09:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A401E1A31;
+	Mon, 20 Jan 2025 09:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737363710; cv=none; b=d+0cng+yBrr/5Df3zhQS97Ant9+8VmD8EC6uqVjax6ZURcyEEKnMSbFCkOAvH/NSFTLN+ehPY2CFcx+ioB/4DGpn2XHyNUuUwb/odcbs+su818fQQ68D/YhxiH+qFkY85+Ks9jSoRdEeoRAhAFPQnNnOUBXTNBCDztZWfg0YLwQ=
+	t=1737363717; cv=none; b=fNkcxyL2M/XUvr/DjTyDsDNzTWznOsWf19Ud83q1uck1Ze78IF+JJNd0jZZEaZU9smOzXIyf9TgGsGKdNkurX3vDoBtg1s5vljqfl5G9W76PGa3YfoFuEtprN0J5paQTFs36NNCW/uo2DXNdtEiDzQsq4E7rZrtZEJQjgg99X5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737363710; c=relaxed/simple;
-	bh=0UIZlgWex73jxVR1tlQ/o16QXenxVxrtW++QxW4H4JQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ou7680/iKPBjXI+y2nS3Xg4JZ4/usyEyS44rcA7uuTD5N5Z2LdYz2LzI7DVJ/XX2MO8s3NnjUbpq+oUB+et3HXbaYzSvXB773rVZjjYfKikBVc1szMCXXBLvFZQ30SCjKU9N2KiWaaM1jgVlEpIg5GKCrB/WypBsXlrkIEeOtVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Phn5HP14; arc=none smtp.client-ip=209.85.167.49
+	s=arc-20240116; t=1737363717; c=relaxed/simple;
+	bh=n0u1NUx3/2UHHzCicOPQE9GqysOtTemnhrpVN1uAmqo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Y6qzcSnaGB2fpd3yxlr82GPfLhdF1QFiAn5Obtp8M0G56gb/HXROnxkDUhUFyD7nBznwyQTVG/ibcVgtiXERbZtXejxxqId0GD2miCR9SLGSzMRXWbEEO2fxYifRSYc/FVSq+3C+3HwHp3vAtYDd9R7Mk9SR8jXMFtXv866K+0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FeM7wXzu; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Phn5HP14"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5401e6efffcso4649191e87.3;
-        Mon, 20 Jan 2025 01:01:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FeM7wXzu"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-54026562221so4275624e87.1;
+        Mon, 20 Jan 2025 01:01:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737363707; x=1737968507; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NVZnILB4Vkk467mbrC4jxwkM2t+tY+d6ia6Hx4P0S48=;
-        b=Phn5HP14Ceq7LqIC0yss1e3CdLkq88UCsD93NXaOwlETRtIju7d4XUeuFNY7P4D3An
-         9S0/neG9N2NN0Mq3Ec46pX53Ug8KV0tO0n7EeMGJ45baPGkgfAgh/uVToEpyuEVXaqLF
-         ArwS+fcjZ989sInsKWe79zQEYO7as9sVahnWVlOELs5J9/P6+IS+VSAofEnNaReVHdCk
-         0XZkOwEX2s1+P2eJR+K4DNzSLlIpqafOEUsENO6loHOhs46SN3snzVGrQf7QP9O/O8yA
-         rY1Nt5XzP+il4NkVYDCcqgvwMQNL7m7Ui1y489qx0+V5k9hRHQa5+MpaV7g0VHT4utc1
-         CB+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737363707; x=1737968507;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1737363713; x=1737968513; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NVZnILB4Vkk467mbrC4jxwkM2t+tY+d6ia6Hx4P0S48=;
-        b=nVLIbgJmwO2qgQmsjOsOZ3K0J7og/BUxxOtQ8ppWX7W19rCdngEjr2w3mnVSGHyzoM
-         /mgUFySimn89jzL6cuW3627+47iC5rSg1I0RDwMKawbsiiUbAj/u9nDZMzVghQTWHGf3
-         BkKBGUaqaeGIqyRtmGdnLfbdEj0pmgjT8l9UXHQyUQavZV+8vxadeU7tWdVimyMRT954
-         Gx/u7WKwwJkFpR9YRi+OwuYq29Er828dJDQQMCSaQi4dBSAuRRxMkRKzsFCJEYwcu4rj
-         FySXmLRo5uGI5+FiCylhUCa5s4a2Fqp46qDZYCapJOF9mwrtdxWmL3lFIDLCIW5HFNUH
-         bSww==
-X-Forwarded-Encrypted: i=1; AJvYcCWJ3oz2/zYhgV2SOkgpWBZ6ykh7WymyImuUd/kvGoiFWbd/5xda2VSZtLuquLkXHTXfD/sLwRAFLgjOvnNY@vger.kernel.org, AJvYcCXzAlNuyjHTE6rJp0OUZDXVCJEoPPEMY81YGCIIXble4vf5SHvxDRs/08+lOT+wfjyjf0g5ffmBt5wy@vger.kernel.org
-X-Gm-Message-State: AOJu0YxH4xJ9t47wYK3+5yxS8265y2doofDEvFR+EPY5at2QR659NV+X
-	vOUb7tkgXcGDPOOuHrzMvp09KazrvY5bKyHzPMJ5r0oeCKiXsi4P
-X-Gm-Gg: ASbGnctWomKxp4szTnodHAgQzjWSBJKGakgJeZv+nihuT1NJ5ProEUBtuaDdlISV7Uj
-	NC4EjnbQRy56OgwtktcHHNKjNqdMtoMdFmMe/NAsiXOjwL2dPy81IkO3VD6IqjeqP03NtpM6CsO
-	t9gWKl7PgETp+RIAMeL5/aN4csd7uN6dOmO+GplYqWNUmcovyXdYziuRA5CNIMP1oo7e59q3SFc
-	7LWXdsZbZSN0tffl3Qe0INBVZQLhl+8nZKTkHOZBqt/YFhipo1kjzp8iVU5ONHwkyAzFzs=
-X-Google-Smtp-Source: AGHT+IE49mdXuZ4W9oyw8fCP0j+zJjn4S6ovHhbMcoQ8sBN6fLRXzFYYLyByIU0EJlkdsJJ0sgn8iA==
-X-Received: by 2002:ac2:485c:0:b0:542:8c87:3a8e with SMTP id 2adb3069b0e04-5439c247dddmr3375767e87.20.1737363706360;
-        Mon, 20 Jan 2025 01:01:46 -0800 (PST)
+        bh=kemYtUEz1zvjOhFDJKfAsLfEWEsWSV34vtPdI9CAeRs=;
+        b=FeM7wXzuvcESG6wiXARM0p8O6mILwQkhXP43d/U0eat23886ycMLKmpmBSeVpnk8k0
+         Gg0imM8R+BnOlH+63euF0GW+HlTRkrn8JrextNFauCilrSy0yv07SfI4QGjeC8cqtSZ4
+         8cXvZpgoocu06r5wlEA3efDNWqqWQJX2gtZ3nXYagGz2ewGSIEQsrU4ce0FZhqcSkQov
+         5IRRSFnsk/Brbhsn7xw5kg7YCvsVpPfrgMeLUW1yxythylNEOsUAsQatPnqgjb1TNhRT
+         hoj6PYkpnAFH+UWP29hXn/bPadfkuOu6HQhg8hmTmuUJaqjz+35ffu4w8RleNprk4rpV
+         8vyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737363713; x=1737968513;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kemYtUEz1zvjOhFDJKfAsLfEWEsWSV34vtPdI9CAeRs=;
+        b=Hbl4q/CdNKAOs1HH16Tj+dJDmXxVM2OyuXUW1lC5o9Ucx1UQtSMh2jVqwnNTMT7euM
+         0hHuTiyD2RtsL+VbTCvKcKYx14DIsmTNllkj+qgK8RzwesCWHqU4vqqofyo+3Vv9s+nA
+         UGHjVQDPgoo/UlQbOZ7hbO+nn+WvsnKrifLhYKersU5ZaJV2Eg+Y/tTsBptLctENQok7
+         pIvDiDBYgwAuMVCASA1oTPwO6XI6YzxsiUnLMbzBXHX3KWh+jtJ5Fb68OVRxapKr3DVp
+         9BRja5RJ3y3AwfdzBxFCNqjenLaDNUP8fwWPlQmj8dkZX5/+QulvdmRSi1uk0rItz5VB
+         7ouw==
+X-Forwarded-Encrypted: i=1; AJvYcCVGv8K1R60tLB1p1tPFMBZ72Hn5vluX7Pig50pLZq6pE0TOT5y8ztA2BM5qIRTkrF+Dr+aiM4DBKx/a@vger.kernel.org, AJvYcCW5w8bz8s2I1b5SquSafPzJUbXsD1y8uJWIWcfGiai7rXNcHDInLbbnjjBN6GmeDgWrLO1VNPg4tr9+j4GP@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJIBocx+FzI+S0avEgxE4LvC1CqBLBrw0VZ4NxtpwB8YqjXHeE
+	3ZNAc5DlgYQ3yhXhlxZuEgwxt65hbW5FHR5TtoCqOPuclr0G4DBs
+X-Gm-Gg: ASbGncu+3Sju/QCK0V5L2BCeNV+PLgtZtxSbZwbxRT+x86NsQ6cgtfaIwUxEJZxi8Sw
+	xABkeZWV8YrqTPlwD1eYvyHWAP8JW7P2qEHR4yKTeM0iCLvmxuz2DnpTDyoIvazQUhljQVuBFqn
+	lIHACX+ruQtzaIuvx9KJ5ISysLvH1dQPVnkNbGTV8TiZmton0sAQj74/PnIxpkJJ0Q+5qpXzK+V
+	yuGhoAnzzWyyK/6BIzAv1cyxT4w5rvM9FWUMgcO0oS0blMNVVOKz0vWZ9sQjB99R4/SrH0=
+X-Google-Smtp-Source: AGHT+IEx9f6MEs2aC51GCXj2Q1K64ptJHmYy+Hdi/JLLomjH/N/gqY/c0ZG8Kw+1i2PuSCCfvwdWcg==
+X-Received: by 2002:ac2:4f8c:0:b0:542:21ec:ff02 with SMTP id 2adb3069b0e04-5439c281fbbmr3440206e87.32.1737363713091;
+        Mon, 20 Jan 2025 01:01:53 -0800 (PST)
 Received: from [172.30.32.150] ([185.204.1.212])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af0e90asm1224768e87.76.2025.01.20.01.01.39
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af0e90asm1224768e87.76.2025.01.20.01.01.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 01:01:44 -0800 (PST)
+        Mon, 20 Jan 2025 01:01:51 -0800 (PST)
 From: Alexey Charkov <alchark@gmail.com>
-Subject: [PATCH 0/3] arm64: dts: rockchip: Add SPDIF on RK3588
-Date: Mon, 20 Jan 2025 13:01:26 +0400
-Message-Id: <20250120-rk3588-spdif-v1-0-1415f5871dc7@gmail.com>
+Date: Mon, 20 Jan 2025 13:01:27 +0400
+Subject: [PATCH 1/3] dt-bindings: ASoC: rockchip: Add compatible for RK3588
+ SPDIF
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,10 +68,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOYQjmcC/x3MQQqAIBBA0avIrBM0FbSrRAvJsYbARCEC8e5Jy
- 7f4v0HFQlhhYQ0KPlTpTgNyYrCfPh3IKQzDLGYjpHC8XMpYy2sOFDlq5712UpugYCS5YKT3361
- b7x83JTf/XgAAAA==
-X-Change-ID: 20250109-rk3588-spdif-e49aa49145d3
+Message-Id: <20250120-rk3588-spdif-v1-1-1415f5871dc7@gmail.com>
+References: <20250120-rk3588-spdif-v1-0-1415f5871dc7@gmail.com>
+In-Reply-To: <20250120-rk3588-spdif-v1-0-1415f5871dc7@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>
@@ -77,44 +78,38 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Alexey Charkov <alchark@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737363699; l=1418;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737363699; l=938;
  i=alchark@gmail.com; s=20240125; h=from:subject:message-id;
- bh=0UIZlgWex73jxVR1tlQ/o16QXenxVxrtW++QxW4H4JQ=;
- b=kqpSvQ85E1iSmXlguVpOyE38qZuWMCl8jTEezNIyFDgMqeBZ9ncoesuhxOh5lKBPL/WUGT36k
- dtZBwA9jvu9BKlc4xb4aEZ5EkUNaq8T+Fjn42ssVUU/EX6C7MdYALq/
+ bh=n0u1NUx3/2UHHzCicOPQE9GqysOtTemnhrpVN1uAmqo=;
+ b=iOT8mfJebuaPxft5/slu2bZvjmAlbN8O5ZJoNP6fn6QS6SeeJeEnugY+DXOnUfshXSK/96d7m
+ kGJMVQz76eYBd7mC7FBE5UzvhfFLd2uZaV8z1itL8wAbE2e0t9pertJ
 X-Developer-Key: i=alchark@gmail.com; a=ed25519;
  pk=xRO8VeD3J5jhwe0za0aHt2LDumQr8cm0Ls7Jz3YGimk=
 
-RK3588(s) uses a several SPDIF transmitters which are software
-compatible with those found in RK3568. This series adds the required
-device tree nodes in SoC .dtsi and enables the dedicated optical
-SPDIF output on the H96 Max V58.
-
-Note that only SPDIF 0/1 are meant as externally connected outputs,
-while SPDIF 2/3/4/5 are internally routed to the various display
-encoders inside the SoC. Thus, using SPDIF 0/1 only requires their
-device tree nodes to be enabled (provided that the signal is routed
-somewhere usable on the board itself), while the rest rely on driver
-support on the display connector side and are therefore not touched
-here.
+Add a compatible string for SPDIF on RK3588, which is similar to the
+one on RK3568.
 
 Signed-off-by: Alexey Charkov <alchark@gmail.com>
 ---
-Alexey Charkov (3):
-      dt-bindings: ASoC: rockchip: Add compatible for RK3588 SPDIF
-      arm64: dts: rockchip: Add SPDIF nodes to RK3588(s) device trees
-      arm64: dts: rockchip: Enable SPDIF output on H96 Max V58
+ Documentation/devicetree/bindings/sound/rockchip-spdif.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- .../devicetree/bindings/sound/rockchip-spdif.yaml  |  4 ++
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi      | 64 ++++++++++++++++++++++
- arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi     | 30 ++++++++++
- .../arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts | 24 ++++++++
- 4 files changed, 122 insertions(+)
----
-base-commit: 4ec376748558ba132a2a49513acd3b08774384e3
-change-id: 20250109-rk3588-spdif-e49aa49145d3
+diff --git a/Documentation/devicetree/bindings/sound/rockchip-spdif.yaml b/Documentation/devicetree/bindings/sound/rockchip-spdif.yaml
+index c3c989ef2a2c81eba73fae3d1ee4bfd18a8e5d29..32dea7392e8d49fc6402a64fc9f7115a47a8b8ad 100644
+--- a/Documentation/devicetree/bindings/sound/rockchip-spdif.yaml
++++ b/Documentation/devicetree/bindings/sound/rockchip-spdif.yaml
+@@ -31,6 +31,10 @@ properties:
+               - rockchip,rk3288-spdif
+               - rockchip,rk3308-spdif
+           - const: rockchip,rk3066-spdif
++      - items:
++          - enum:
++              - rockchip,rk3588-spdif
++          - const: rockchip,rk3568-spdif
+ 
+   reg:
+     maxItems: 1
 
-Best regards,
 -- 
-Alexey Charkov <alchark@gmail.com>
+2.48.1
 
