@@ -1,93 +1,193 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2058.outbound.protection.outlook.com [40.107.223.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41C619AA58;
-	Mon, 20 Jan 2025 09:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737364071; cv=none; b=e9SjRlvE/6rEOklehwZMw/Fw9k9wxcoZ5Xsn99nOLVckhaX9Qx4ZyXNl10V02TCWOq6ULjLG8NgWZkMbZUmoytjqbh7iUlDuB3QmMerJh3EC2NnI5W0vDZo7nLlrSQCZlY9GcfIFK8TQwJ2GCvLlCyrEW7JH4SS0MjDClovVmlI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737364071; c=relaxed/simple;
-	bh=52/2fVV5SWoMvrc6ChA9+J/uYtj05qqjRJYzCTtckhQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mJRMFezx0hJHHSOw6svL8apeSUnqaO3jtjcrcGt2jTIvm4t3ooiBS+BEFxttTXBKq31ObZPZwMl/klMSCMgvY6O5eBx8R+l8hchIb+2q8Q7V0hrElt+iXYyAGD9BLcKX6rKFMMVkr1upKs1U7/x6HSBEteCRzCg8pjMsDUReA3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CwT+/nJB; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDE519D8B2;
+	Mon, 20 Jan 2025 10:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737367311; cv=fail; b=rlTona6bwAMwB/a65r0QVIMXjt9IBxmWWbJTrJuLMHzt5+sK0Pfp8Y/gCOyglE+8aGxz5ZEedk1WEQp5CS8sM62PN4LY5JoIvzOrH3Lu1ZDvRpLHwRLe3WnHFZ4+qhQMZt5pLyLqi11QSZvfVFdVImS0L+IEY7qmPY7a3vWX0Wk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737367311; c=relaxed/simple;
+	bh=DjuVTQm95TumpN15cn6YMRYN+ONnrWOyJ8+3jJ15I08=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ik4D1SzXDi95xqGqSuYqYYDePmXY9sw+BOR+Xk9q1FVQGLbc5RqQXfZUfdCzh8bLnzVlejcCOAs0DrPxLSCofb6+t/xQIPpVgjmsWjFII3zOzdN4M4i9UHJhp4osL+P7lKPx2+uD7whJasCn9hrrZbc8RvL0cjM6shLgIUhyoSU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HarmM2j1; arc=fail smtp.client-ip=40.107.223.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CwT+/nJB"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21a7ed0155cso65494235ad.3;
-        Mon, 20 Jan 2025 01:07:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737364069; x=1737968869; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=52/2fVV5SWoMvrc6ChA9+J/uYtj05qqjRJYzCTtckhQ=;
-        b=CwT+/nJBoHdK4i+fq3mCwbEDC8rNYmwLJrfhGpxAa2h6dtTW1OZpF3AdNHHH76A+Hn
-         I8DM0sjXDKaEGnBrMjuT+B1CaetR2UDjIlDK8C+JDjRY/6Qb/CiWn3/LRBvgui3QgyIx
-         QQoKVZH1IroX18Nw3q8EbbkqA7xclqgLyc9tC+JlN+RBwAtomyXZjWTHJLEdWYMJtNBR
-         /8EzUFmjsimSZ0OQUDtJBQ7KNuS48IBi8MU3LO81xe2hvEie/rJppQtJyoQWbddTzJfo
-         YSzEZNYsVPjL0Yy4PJ5hS63W0fNlYXdQ4TkDtJVaLRl4GUfxzN7XR7dZh6lGQBFjgkWf
-         1AWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737364069; x=1737968869;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=52/2fVV5SWoMvrc6ChA9+J/uYtj05qqjRJYzCTtckhQ=;
-        b=IesDGHPJTfv6/rKLSZyLC+d3vqu2+T1lfOCb0i7uDtapBQz4fUkwZNaYIl2EMqc4S+
-         0doHwVNfZlIGLo9boAEzXnGXKNS13ufhWDW4AynmsZy7BNT2BYjRJyZ3VFsZkdUfw2ys
-         QskvQLIvXT71C4nAi+uC+5lP2wM6cLcQwZJTN2VQdBQRCvrdAYgo6G9Y9zrWsxzOoA6U
-         Ih58+Z7X5/c1IHbyUUSYJ8XPIb2IRBT1q5bSc5SJIerhqu1J3U2HSLhBV1+IV9JCSm49
-         MJQ9QxyKNQUdA//k0T5jx/gF8Jq+W36X3Iy2UsrhfPLPjITQ/ZXS1b4rU6KeLoqEHW8d
-         mTAA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0Y6rzEuLBOL8xPhwiB/+IxAcxfK/KD9mKChbL3UOMIVlDJarEtJ/ztci0vhrx+/WBrl4GMWGRCdOeHYQ=@vger.kernel.org, AJvYcCVSGYkXqQV4zrvwJYCl2LsBB8DVdZI8OGCZj7OmDdFI2v610qKFQ8nYMveR+xLQwc4fsy0kEDV/O9vHLJo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXkHSsfT62h/gLiw1d83eeo6ANR3+OBdaej/QLwz8Zph8P8mhf
-	uadj2aJOx4IgGtXwLVjNgnVrG8xxc8pwwZu5anw8XQig/bMHJFeqadJ7arHx1izDm06fqYY10Ut
-	IAUk0wUvgkdpx+eS2a1D5VUy+rus=
-X-Gm-Gg: ASbGnctsEOlhiPch851cIMcWRrplV6sj7whpHG82fCuX6SdX0EmLNt/56wj2FDuAjcT
-	A4Zrv8Ou+SVpJjhiDK39IdV0DzRfWCifKdS7qqBL7S98FhEY=
-X-Google-Smtp-Source: AGHT+IHe5MIHadjWcYey/5+/xFnMBA4DeGGjtKbmZfnOT1Ve8uaz5/90NJmfB2awua7DXFiy9OPz4KEkZJ5o8UsnGwg=
-X-Received: by 2002:a17:902:d582:b0:216:2426:767b with SMTP id
- d9443c01a7336-21c352dde25mr203745355ad.10.1737364068992; Mon, 20 Jan 2025
- 01:07:48 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HarmM2j1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VcHhvxBg1pn3y0CudbE7riCqWVmkht8O7a3ndvlzYyggyYjV+m34lcmcmcm4xPAduZ+wfpPEhQmb4CkUKB0bB4adQdeCd5kw2Vb/vQYQwjOR3eEmK6ZVPT1WFNwcXsxPE6Fstau7LueJzbo7xMRxVXjZ5yobIBlq2qWIf7gZyRCznvJDWgdn76fBlxaE6Q5ZZ2aHxh7jmWwwBkQ80ZqCmMHi7S1vHrjrSVtOKaTvu2Ede7p4c1MUMP1x/5mYs1QPjmCywhw7Dzr0wX92EPbjB8nH5IyRLlw5YgzWU3EqGdNQEGI4XLAotvaT8YBC1LCMnc2s20bKT3t2Ana2AlsM/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fgnsiHK0gctMavttPAPVE6NoVIpNrV/XxYP5BCVphRg=;
+ b=Q2UNDnfOouiZ9r/aEBUZfFdsSGP9lBMiv9KKJPDguGZj8zF9MHiHAPXpu9IYmcVHMRLCe0VUh2ZCXVDtrGckP4pLKd7tXqonaibYdxGdUg+l/EfwnUF18nwepdLj9NdYOC9SITBjv5HmpSj2hQ1ubbFPw8rp1HzsCz3N08AXzAXxNvlI/B+dvzB3gDan9Nv3oJbXMiJQBwOujqshrxeKfIFnAihuBk2ysKuBK3XFYMJ3GIktNUkC55WYPiJ11jLSAlgM9pYhWh9vaI8TZ7EvW1EJXyaQ/m/YnQ7EHlH9bW4S8coZGrgzvPy/sj5skSXOopbgD/60PoE7ciBhZsLBdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fgnsiHK0gctMavttPAPVE6NoVIpNrV/XxYP5BCVphRg=;
+ b=HarmM2j17Vmw8gAVkJEol7Ztir7uewKn8154qt8PbTMFUsa5KOnqzR0k5nJZOT/7MXTfUyHkJHsdiYV+jfpHA6yaDEXKrGbZkDV8zjk3ZDBPSIvg5ZGlFBT1cV24iymBIVAVNjc4Y3sCyYQSeC5eogPqx+ZCni1eFuI7mb4kYdM=
+Received: from CH2PR14CA0021.namprd14.prod.outlook.com (2603:10b6:610:60::31)
+ by CY5PR12MB6249.namprd12.prod.outlook.com (2603:10b6:930:23::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.16; Mon, 20 Jan
+ 2025 10:01:46 +0000
+Received: from CH1PEPF0000AD82.namprd04.prod.outlook.com
+ (2603:10b6:610:60:cafe::f) by CH2PR14CA0021.outlook.office365.com
+ (2603:10b6:610:60::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8356.22 via Frontend Transport; Mon,
+ 20 Jan 2025 10:01:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH1PEPF0000AD82.mail.protection.outlook.com (10.167.244.91) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8377.8 via Frontend Transport; Mon, 20 Jan 2025 10:01:46 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 20 Jan 2025 04:01:42 -0600
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<Mario.Limonciello@amd.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: [PATCH V2 00/23] ASoC: amd: acp70: add soundwire and acp pdm support
+Date: Mon, 20 Jan 2025 15:31:07 +0530
+Message-ID: <20250120100130.3710412-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250120081938.2501554-1-shengjiu.wang@nxp.com> <20250120081938.2501554-2-shengjiu.wang@nxp.com>
-In-Reply-To: <20250120081938.2501554-2-shengjiu.wang@nxp.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Mon, 20 Jan 2025 11:09:14 +0200
-X-Gm-Features: AbW1kvZCx3vGJxz_1PUUiV114VWPotPp0TBoiFnJwKBv6RQYYbVD_JtK02uPgWc
-Message-ID: <CAEnQRZAc95=eTPyn-9=yUwnOUkQ5HHypbLPE6vYe=zjk-T6JNQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ASoC: fsl_asrc_m2m: only handle pairs for m2m in the suspend
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD82:EE_|CY5PR12MB6249:EE_
+X-MS-Office365-Filtering-Correlation-Id: 562fbf88-42d9-46b8-81c0-08dd39397319
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?0jMNQLvMU+V6Q8Tz7WKmeUc4HZO/AIr5ftJ99EoSx4qKAXcM3luE+Il82Rat?=
+ =?us-ascii?Q?kNIzHvNPMzako/pBMSdp+lzuUCf2q8b4T1IjsRi/y7Zp7W6RAqfm5G4i+DFC?=
+ =?us-ascii?Q?FMy5qYBRSyInnfSxxNkxzFGGEM3YHAuUVbOGk+0lzpySUgWg34mYVy8TVZnu?=
+ =?us-ascii?Q?EJL5bW18Ut4yoclL3xTfbvpIJYxntFXyWwRdl0m26pFJnnuS9kyBPTARvLnA?=
+ =?us-ascii?Q?7fS77zFBfAj+0RxwTOx46GyOcE12sjXd08gt4q59vLPnzoJ6UFJBTFyujfsD?=
+ =?us-ascii?Q?z+81cA84PnvmVazNkVtmI3HkXS9ttMlNR2DLQ5AjvzO51wf9e1SshvDwyjrh?=
+ =?us-ascii?Q?W91mk0kqGUTzF0vpoXXyB9noPzcTy26riPBumpBXadGIW5oaYYj2t4p7XX7W?=
+ =?us-ascii?Q?m5Po+iTCAAPTplXayiVQUNvk1QWKGJe72fD9mCOo4559YLm+iMXDKmliciEQ?=
+ =?us-ascii?Q?M4VJh9aL+gYg3Vycm9i0FhP2vMIpeqXYNPzAzkIKuHS+fLEsGwfwwBkpSDf5?=
+ =?us-ascii?Q?/TcLETrT4A0ZhZe9EjE2hMJK3MeQ7oaclpcZLXzzeZHCT0FNtjwNXzY5EHsh?=
+ =?us-ascii?Q?hgP9Cd4UnMEkx1e8ms5zHTkjRYn6x5OaP2AosDMEvjXR335rYjvZWKG6M3DO?=
+ =?us-ascii?Q?L5iDyEoblL9bMajTR/WpMvsejzohyoaH5+bfwfWBe+3pAo8awwHQuOuSQVhb?=
+ =?us-ascii?Q?Rse20/WD0WwFcSdj7MF9Vb6zv7FRhno7ITT+EArdjmmA79j5fSLjCooGMoQj?=
+ =?us-ascii?Q?tuM2ViIkb4S3T+JDxTxWjiLIB39OUf0O2rNoZDc3kcqdJOvheu85XxrytK+7?=
+ =?us-ascii?Q?osI+9flJ9jHzil4XD1oens6LR3Zbkw+QtlZFYHs2N3a+WLRCUR6XBW4aVW9U?=
+ =?us-ascii?Q?sQhyrUYhqVgbpKA6xAfhTpT5t2i8MzyfwwR6rbDjZdZ0LOaQZ+ttfOEAPdkb?=
+ =?us-ascii?Q?Q8Hl2coOafUVNZx5mA4Tl0KHn/abFhq6mD5wqME1zDQow8xpf27fKEarfHQR?=
+ =?us-ascii?Q?UE2bJC/6gq6c9kh8LykbFf/CfiBi5UykwtIaHGufK93F27DobEJ3fCzGkG40?=
+ =?us-ascii?Q?rKhV7LZ379EVcq0oZReNrvu/OGsHL7rrJO76R91dzwZQwkdpuwsEzCHgyx0I?=
+ =?us-ascii?Q?bcJJXfE/mz28K+9whZU+shbXOLjmQzX5cV3Dx/7bS3QLUtT0lDKzLv3mV3gy?=
+ =?us-ascii?Q?/2Y+mV4JfK4MrKfL+2znD8sQFwz2FMUBfkQXFlV3qK3LHKESXRJ502DPWpuO?=
+ =?us-ascii?Q?/kpSsrCzXbQfFhsp7Kq4iKCaZ2zQt4NKbefZS3i2iT+HuwoiWWHb7I8FtE7B?=
+ =?us-ascii?Q?4rVqepurcX2OCHL7apz7OW8FmqVllsfKw7ojC6GoMs/9cUkGmXlpSV9Pu9iK?=
+ =?us-ascii?Q?L9JF8pxuSFEgbYB3qncVgkF5otppO/yqxtOlM7B6bJxVms65RmmumE/40utL?=
+ =?us-ascii?Q?yY9AK76vqEif4ydbjrGEphw4de9+DhIVkZ8GKdGjHWx/EwqXNdF6kPWZUHyI?=
+ =?us-ascii?Q?68jI125Dj1tmzZI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2025 10:01:46.2667
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 562fbf88-42d9-46b8-81c0-08dd39397319
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000AD82.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6249
 
-On Mon, Jan 20, 2025 at 10:20=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.c=
-om> wrote:
->
-> ASRC memory to memory cases and memory to peripheral cases are
-> sharing the same pair pools, the pairs got for m2m suspend
-> function may be used for memory to peripheral, which is handled
-> memory to peripheral driver and can't be handled in
-> memory to memory suspend function.
->
-> Use the "pair->dma_buffer" as a flag for memory to memory case,
-> when it is allocated, handle the suspend operation for the related
-> pairs.
->
-> Fixes: 24a01710f627 ("ASoC: fsl_asrc_m2m: Add memory to memory function")
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+This patch series includes below changes
+	- Add Audio IO support for ACP7.0 and ACP7.1 platforms for
+	SoundWire IO and ACP PDM controller combination.
+	- Add common driver modules for ACP7.0 and ACP7.1 platforms
+	(acp pci driver, Soundwire dma driver, pdm platform driver).
+	- Add SoundWire generic machine driver changes for legacy stack
+	(No DSP enabled) for ACP7.0 & ACP7.1 platforms.
+	- Add SoundWire machines for ACP7.0 & ACP7.1 platforms.
 
+Changes since v1:
+	- Change the code sequence for handling SoundWire wake interrupts.
+	- Add new patch to restore host wake interrupt mask
+	- Add new patch to enable ACP PME during ACP init sequence.
+	- Change ACP PCI driver PM ops code sequence.
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+Vijendar Mukunda (23):
+  ASoC: amd: add register header file for ACP7.0 platform
+  ASoC: amd: acp70: add acp pci driver for ACP7.0 and ACP7.1 platforms
+  ASoC: amd: acp70: add acp init and de-init functions
+  ASoC: amd: acp70: add logic for scanning acp child devices
+  ASoC: amd: acp70: create platform devices for acp child nodes
+  ASoC: amd: acp70: enable driver build for ACP7.0 platform
+  ASoC: amd: acp70: add acp pdm platform driver
+  ASoC: amd: acp70: add acp pdm driver dma ops and dai ops
+  ASoC: amd: acp70: add acp soundwire dma driver
+  ASoC: amd: update ACP7.0 KConfig option description
+  ASoC: amd: acp70: add soundwire dma driver dma ops
+  ASoC: amd: acp70: add acp ip interrupt handler
+  ASoC: amd: acp70: add acp pdm driver pm ops
+  ASoC: amd: acp70: add pm ops support for soundwire dma driver
+  ASoC: amd: acp70: add acp driver pm ops support
+  ASoC: amd: acp70: enable wake capability for acp pci driver
+  ASoC: amd: acp70: add soundwire wake interrupt handling
+  ASoC: amd: acp70: enable soundwire host wake irq mask
+  ASoC: amd: acp70: enable acp pme enable during acp init sequence
+  ASoC: amd: acp70: create a device node for soundwire machine driver
+  ASoC: amd: acp: add machine driver changes for ACP7.0 and ACP7.1
+    platforms
+  ASoC: amd: acp: add RT711, RT714 & RT1316 support for ACP7.0 platform
+  ASoC: amd: acp: amd-acp70-acpi-match: Add rt722 support
+
+ include/sound/acp70_chip_offset_byte.h   | 484 +++++++++++++
+ sound/soc/amd/Kconfig                    |  12 +
+ sound/soc/amd/Makefile                   |   1 +
+ sound/soc/amd/acp/Makefile               |   2 +-
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c  |  16 +
+ sound/soc/amd/acp/acp-sdw-mach-common.c  |  34 +
+ sound/soc/amd/acp/amd-acp70-acpi-match.c | 132 ++++
+ sound/soc/amd/acp/soc_amd_sdw_common.h   |  11 +
+ sound/soc/amd/acp70/Makefile             |   9 +
+ sound/soc/amd/acp70/acp70-pdm-dma.c      | 463 +++++++++++++
+ sound/soc/amd/acp70/acp70-sdw-dma.c      | 586 ++++++++++++++++
+ sound/soc/amd/acp70/acp70.h              | 288 ++++++++
+ sound/soc/amd/acp70/pci-acp70.c          | 833 +++++++++++++++++++++++
+ sound/soc/amd/mach-config.h              |   1 +
+ 14 files changed, 2871 insertions(+), 1 deletion(-)
+ create mode 100644 include/sound/acp70_chip_offset_byte.h
+ create mode 100644 sound/soc/amd/acp/amd-acp70-acpi-match.c
+ create mode 100644 sound/soc/amd/acp70/Makefile
+ create mode 100644 sound/soc/amd/acp70/acp70-pdm-dma.c
+ create mode 100644 sound/soc/amd/acp70/acp70-sdw-dma.c
+ create mode 100644 sound/soc/amd/acp70/acp70.h
+ create mode 100644 sound/soc/amd/acp70/pci-acp70.c
+
+-- 
+2.34.1
+
