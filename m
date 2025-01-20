@@ -1,89 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E46A1494CC;
-	Mon, 20 Jan 2025 17:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9DA1EBFFA;
+	Mon, 20 Jan 2025 17:11:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737392915; cv=none; b=mRkf6gqk1bjwNpMI/2G2EuLaKW+wjWB2F/dwlOzQAu5FsjY+rnav0EnUPhEa8nURJJkhkNzEdD2E2OmbuP6e4TlFCTbZJx6okNCSxYq1TBa0LBJ5VgztHEBEWdUMD7Tg0bnfjk6Jbh51N737xSdsIIu5f+sF9Sv7iwqwj4FeX9g=
+	t=1737393090; cv=none; b=hoBimdxDabY1wOb+tGLehx925NGnM0UrKmbCTWRC3up6awbVBEoxzmeGtotcg2Mmtc8DtkoV08nDlQ3Ft0IsdceA9xBQFLv88xXsrDAbjyyfw4DACAW0IDpIgw2fGy8AVnpc9D3Pz3JS3MsWiCUPZ3FtW2ktEmml939pXdm6Y8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737392915; c=relaxed/simple;
-	bh=Mb2l0XcUn1bmh2jkx2y08ChvluRoWNylRcDXRyL0v18=;
+	s=arc-20240116; t=1737393090; c=relaxed/simple;
+	bh=O74p5TZpWyGoKGNkzS03E5QcgM+cZnZkS2SpM4WXris=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d0IYsareMvJoevq+hEwjLO9ezOfftPQgNMc10v1TEXq82P0+LpBkT9pv4E7xXqwdiljSJ3LPvQHWRBNUvCVyaySYpRMiaSv70N2uqsUlxRM6ApMpQ2OOcsx/EF1mj2zFD//fUVOGbHka07wDRH9hX4InpHQBzSXTUqjZvmrE4CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uyjc+hu5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lvk9vD/dbMlYaefTNr/cLvW7+4xQp9FPUYYS2wbrGCGIRmY8fiXlYqnam5Gwz4PsZ7BMhQETPAGEc5sZdV4o6VHbCPYTdTelvApK87/uo2GrZK0/VMuqDujsN3WhTknnVTDHSPiV81O0+xkE0Ka4HZPL7H7jOfTexQ9mLQIV748=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrFdY0Gy; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uyjc+hu5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE151C4CEDD;
-	Mon, 20 Jan 2025 17:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737392915;
-	bh=Mb2l0XcUn1bmh2jkx2y08ChvluRoWNylRcDXRyL0v18=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uyjc+hu5XSVws+QzPhj6kX4J77LbqsRRoGglbT/acbf4Xjky7jhTF5uo1PWqv0Wht
-	 1z6jgFFALMiNjioUTKlsFC2Qm7XiX5VcqGLzmZaPJEv/zp5EyV3mXnIcBArhRPjrAV
-	 aEOdBJ/qOywVManvDaqJfb9icJrsG8kxz7KqNmfUg/IDFyXQutuwwnm/zERFGWorA/
-	 /8O0CuKGJkG7ANn5mlMNKY4IVkSLxBPweOU5MeJaTFzH1SbDpD1qYBkkzDBxrUgFxK
-	 K2ipewjCkFyqT4IxV0mLDyq3UCKm4rwP1vyfTsaA5wdL6c6P9h7IhnY5clHdfqkLGl
-	 BePnRRPPs8fSg==
-Date: Mon, 20 Jan 2025 17:08:30 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, Basavaraj.Hiregoudar@amd.com,
-	Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
-	Mario.Limonciello@amd.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2 02/23] ASoC: amd: acp70: add acp pci driver for ACP7.0
- and ACP7.1 platforms
-Message-ID: <e5d8c2a5-98cf-46f1-b942-8792289ec363@sirena.org.uk>
-References: <20250120100130.3710412-1-Vijendar.Mukunda@amd.com>
- <20250120100130.3710412-3-Vijendar.Mukunda@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrFdY0Gy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737393089; x=1768929089;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=O74p5TZpWyGoKGNkzS03E5QcgM+cZnZkS2SpM4WXris=;
+  b=HrFdY0GyglP4zCfGYyqzMplz8SfaMGUTwd4OAQsU5I8EgCyluxuWACPz
+   qiMP5OZ7QeADE3tPTC7E/tk0ZOZO/CA/PB1rIo/2HYxbmbZqoWxg2q8Qw
+   vsIDuVQRbw6CaVY0hJr9ubTvAyeK9ERPdYUHtwrBJ9dDnBzBytkmDB7eU
+   njRbVPU8NpnSC1TZd1YpFzPcPIiKZ5QHK8vdmbVpxwXU07ByYccvYPpZ/
+   KaWEG+n6FSN/39KjH74W2/M0QIgpwsP0B1gKHfaDwhfSP6YtAFK+q4cD4
+   jV7+JziM8oQ3aHSMOdULexwsyh1oVcvzPmJdFJcmN4wQAut8zr9II/UWj
+   Q==;
+X-CSE-ConnectionGUID: QvyORyiuT+2uZ1qoyIBT6A==
+X-CSE-MsgGUID: PrJrSq/aRBC8p8SzS5InBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37709850"
+X-IronPort-AV: E=Sophos;i="6.13,219,1732608000"; 
+   d="scan'208";a="37709850"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 09:11:28 -0800
+X-CSE-ConnectionGUID: hb2/Ca7pSQuieqy9JrnIow==
+X-CSE-MsgGUID: Nk+orQD7T5yUQuqtdlh16g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,219,1732608000"; 
+   d="scan'208";a="106596640"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 09:11:26 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tZvJ4-00000003VDC-2vrY;
+	Mon, 20 Jan 2025 19:11:22 +0200
+Date: Mon, 20 Jan 2025 19:11:22 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	broonie@kernel.org, pierre-louis.bossart@linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
+Message-ID: <Z46DunMGRKQcxtnz@smile.fi.intel.com>
+References: <20241126172240.6044-1-raag.jadav@intel.com>
+ <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
+ <Z0nNnsmYIil0OZpy@smile.fi.intel.com>
+ <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
+ <Z1r0EPC9gumruFKU@smile.fi.intel.com>
+ <2024121242-saturday-aqua-9ac6@gregkh>
+ <Z1sObNubEnsFwzOD@smile.fi.intel.com>
+ <Z4kcxQWeL09VARfK@smile.fi.intel.com>
+ <Z4pwksY3Bs4taZd3@black.fi.intel.com>
+ <Z46C1bZ4AMLvKTn0@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8BbpEGHtzEpea4jW"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250120100130.3710412-3-Vijendar.Mukunda@amd.com>
-X-Cookie: No lifeguard on duty.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z46C1bZ4AMLvKTn0@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+
+On Mon, Jan 20, 2025 at 07:07:33PM +0200, Andy Shevchenko wrote:
+> On Fri, Jan 17, 2025 at 05:00:34PM +0200, Raag Jadav wrote:
+> > On Thu, Jan 16, 2025 at 04:50:45PM +0200, Andy Shevchenko wrote:
+> > > On Thu, Dec 12, 2024 at 06:25:16PM +0200, Andy Shevchenko wrote:
+> > > > On Thu, Dec 12, 2024 at 03:39:57PM +0100, Greg KH wrote:
+> > > > > On Thu, Dec 12, 2024 at 04:32:48PM +0200, Andy Shevchenko wrote:
+> > > > > > On Sat, Dec 07, 2024 at 04:46:18PM +0200, Raag Jadav wrote:
+> > > > > > > On Fri, Nov 29, 2024 at 04:20:14PM +0200, Andy Shevchenko wrote:
+> > > > > > > > On Fri, Nov 29, 2024 at 11:17:02AM +0100, Linus Walleij wrote:
+> > > > > > > > > On Tue, Nov 26, 2024 at 6:22 PM Raag Jadav <raag.jadav@intel.com> wrote:
+> > > > > > > > > 
+> > > > > > > > > > This series introduces a more robust and cleaner devm_kmemdup_array()
+> > > > > > > > > > helper and uses it across drivers.
+> > > > > > > > > 
+> > > > > > > > > For the series:
+> > > > > > > > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> > > > > > > > > 
+> > > > > > > > > It seems like Andy will push it to me which is excellent.
+> > > > > > > > 
+> > > > > > > > Yep, that's the plan after we get all necessary ACKs.
+> > > > > > > 
+> > > > > > > Greg, anything I can do to move this forward?
+> > > > > > 
+> > > > > > Greg, is it possible to give your Ack or comment or guidance of the preferences
+> > > > > > with the first patch?
+> > > > > 
+> > > > > $ mdfrm -c ~/mail/todo/
+> > > > > 2293 messages in /home/gregkh/mail/todo/
+> > > > 
+> > > > Oh my...
+> > > > 
+> > > > > Please be patient.
+> > > > 
+> > > > Sure!
+> > > 
+> > > Raaj, care to send a v3 after merge window closes?
+> > 
+> > Sure, and perhaps add a few more users which I found with my improved
+> > grepping skills.
+> 
+> Okay, thanks! I will drop myself from this thread then. Waiting for v3...
+
+One more thing, can you embed the following into your series?
+
+20241203195340.855879-1-andriy.shevchenko@linux.intel.com
+
+It would be easier to handle and avoid conflicts.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---8BbpEGHtzEpea4jW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Jan 20, 2025 at 03:31:09PM +0530, Vijendar Mukunda wrote:
-
-> This patch adds common PCI driver to bind to this device and get PCI
-> resources for ACP7.0 & ACP7.1 platforms.
-
-> +	ret = pci_request_regions(pci, "AMD ACP6.2 audio");
-> +	if (ret < 0) {
-> +		dev_err(&pci->dev, "pci_request_regions failed\n");
-> +		goto disable_pci;
-> +	}
-
-Looks like there's a cut'n'paste that needed to be updated here!  I'd
-suggest there might be some chance for code sharing, but I suspect the
-amount of code is so trivial that it's not really worth it.
-
---8BbpEGHtzEpea4jW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeOgw0ACgkQJNaLcl1U
-h9AK8Qf/Y58VwBIH0bJ3HcA0LJTE7AvXKD9ItYLsXczKd0E4GpaiOgJAIUigw57t
-qk/ofTDNc2ioy1agFYGjr5gL5tm3gIHNdbkgZP++DdhxWQh2BoNeRGKF9+uhRuz3
-+R96VaV93fxDdzXUceHuKlOCLTL04tzQbj0RzHHdlg1pk/YRlztjaa7xhNRaYO40
-ifPYGOC9+YUEtqhw8VoWoYN+Tv+hPAUPiyrwFvsBdw/aueSfTV79B36yUMaekfoW
-Z3Fs8VedBLeY21ak+/+R6Fm1b34JwTwUqkCVSRDJtxR0jrxOC9cM8ROlEfDyShaZ
-k/D7VOfPlBl1cMLerQJeQbjj86v+AQ==
-=pT0d
------END PGP SIGNATURE-----
-
---8BbpEGHtzEpea4jW--
