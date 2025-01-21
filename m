@@ -1,297 +1,224 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AAF32556E;
-	Tue, 21 Jan 2025 06:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737442146; cv=none; b=mf/0qBX/MlKsY6rbtJg77qEWIDT3/E1eDyjedxmgPHpueuqCFo/NaQdkQBgEm8k+HUeDaNxEiHMEn1WwxvupmX9HssgeaisLdoi4kovjun2Jqf/tBJaIxnmN+ku09u2kFwXfwn3PilDl5z13sFJMTbQeGmNWsMzBiKOWIK8dAUQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737442146; c=relaxed/simple;
-	bh=NFbrSiGUKDwjhGxRopH8/yo5yAxUTjnIPxgx9rJhJ7A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jZZL5Wh6p/GQutBE8XnsPPHFCSKu40DNhpqHIGBfZ+HaIcw437JuwS9qi3cHKkFb/62sLViiCsD1KvGYEj0oBEkLnJEKrBbDK8C7JVJEC6AE+wEX9tkyC6AWUfQz/uOlY7580i0K9hdP2uzVFanVSrTMar3kY9hPthtUpQ4BwBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f0jyjdd+; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB6E1714A5
+	for <linux-sound@vger.kernel.org>; Tue, 21 Jan 2025 08:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737448767; cv=fail; b=K3w2OhOMGjIdjLaCp/8OfrrAIDwaPcLVcWecl2o4lU3FU2UK6mlxK1Ljitr/pgrdD+9hJvSyUeqBw4n3tYwV6IU6kdvJ6Lj4j+fyxAlxejN4BGzeBEGIRHag19ddStNBcrKVxQGrM/jsngp2xT+3HrzuM/CrhZzkv+r+PvLbhTQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737448767; c=relaxed/simple;
+	bh=eHUeaZKuhhgEnwY6LyMZ7hUzROIqu+6K5Npt4N0xLmw=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=JjW23ZRJzmOAb6IREeUwSAQ2ot+5MRPjAlq7qQsTirNDc7j38fwH6NPuc6SAICO9cp4W+9B5JOAjdakf2wR4fny6R7hwPyGCRUd8n0khLrbzBnBxnbe81KRSPWY5B+7TJUjUihJGEfnDGauVsFL0CCm4SIDQqPJ0I8SKRyQOalo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bfNVQ1os; arc=fail smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f0jyjdd+"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-436281c8a38so37375435e9.3;
-        Mon, 20 Jan 2025 22:49:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737442142; x=1738046942; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N89rIvI591Xen9J9meQJ3ikPdjIXcCT7V1qoHkgc8oI=;
-        b=f0jyjdd+F5ljG1kHrDYYDddHhQGdGqlp5wZYpsO9lpbKt2SeauKRiNgj5c1mZdlW6L
-         lyzAbgRrXX1FXs5ly6MsZcrolAu65uMIM2FhYnZMv2vSoCRZyQRUMqgAla2BxFZ6sKa2
-         hilNzfqff4PF5I1k0cRCFofTB+8dwq8XnSLdJGxq3odRBFJ3TPigyStjlzMaZw+/9mWs
-         uoy1x3ug2l9MXo1ncRwZpXVHhUhBNkhSWLbqKgXLrvs7i4l9Ndr41iB+yGCs3LVm1ObD
-         ZYCBxEsfYnX1cbZ5815vimhn0VYPRL2ABHA4CLvXHuJqPZOyYpxPcGUrXjjlFUnOVVAI
-         DSqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737442142; x=1738046942;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N89rIvI591Xen9J9meQJ3ikPdjIXcCT7V1qoHkgc8oI=;
-        b=dcdcvohZj8ulLu22aaOI9esmqPf0LVtRRN8jbniUFKviVpA6Z1EYv7WlG8h3qd3Gjn
-         1Z+3VzrVRspWysG8HPehbPXNXfqWR2fGuxSyh6VdULqKZw4O/NNrVQE9bvdW8dJLUsD6
-         2XUbPUlMqaMvmIrYLJ/QFlFltXCGnaypsGGBohNXYZ8NoLxqiOx5ww+nbwqUr1xhrYQD
-         Yxces3wglyorunuUboJv6b4RYklGRnUlhZ8o/xWvDrPQ/+hufkNMScb+7BGJTQyvB5zo
-         SLt3hLmUnLmgjU2x60izGttSfvjsu9EojDqPOMV1S64hPZyoZfMSIA0NnkV9AtvZXjJb
-         73PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXSV2bbppJtXjKmqFdnV7okT6fYwCM+hj78G1njMNld89pLvVgcpYEg/cMUrG1KK2F9dqxSG2u1L8szdxI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRtDxGTV84yAr/fm27/iWYWNI5jiLTEwcRuLhu3hyZ+45T0CHW
-	O4n05dg1CHQchYtwcyyK+sGg30e1cGpYs18O79X5bsG5jmspOFnN
-X-Gm-Gg: ASbGnctwYceqDv9CwRabDHw0HJBoSv1gNhEPgUFiYwPFurN4/tQ726C46xbMWC/s1i5
-	cHYqhPTZG14Kc1da24gtA0v8DpjVs4GPXzXxRZVHhsuVAbUW0K/wwhpJ5AewnTHCASQvXOA4yAa
-	9W8qAHNuivZR7cLYwm3cBKUtM8z+5YChsXhKCcKeQADhLb5hTKajldpnKK/YkeE+sC8ajBzjyG7
-	oSjvM5owJU7hCvPs/lW9eSLpUHW/lDd4wt2NcmTvRdOU0kCT64+UJD1FkqBusSI/YexXhAyTuJh
-	KZ8riAEseX/JDyTU
-X-Google-Smtp-Source: AGHT+IFdBYy5pgoOHlM0WgcJ9THITpPy0fS6zHgeAWoKCDSf6/8LeSCRhFsQOT99BBnpIttr7enOOA==
-X-Received: by 2002:a05:600c:6a93:b0:438:a913:a99 with SMTP id 5b1f17b1804b1-438a9130aa4mr65441855e9.31.1737442142013;
-        Mon, 20 Jan 2025 22:49:02 -0800 (PST)
-Received: from localhost.localdomain ([95.43.220.235])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c753c617sm227777975e9.37.2025.01.20.22.49.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 22:49:01 -0800 (PST)
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-To: Mark Brown <broonie@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Subject: [PATCH v2] ASoC: audio-graph-card2: use correct endpoint when getting link parameters
-Date: Tue, 21 Jan 2025 08:48:15 +0200
-Message-Id: <20250121064815.741820-1-ivo.g.dimitrov.75@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <87h65t3voj.wl-kuninori.morimoto.gx@renesas.com>
-References: <87h65t3voj.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bfNVQ1os"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737448762; x=1768984762;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=eHUeaZKuhhgEnwY6LyMZ7hUzROIqu+6K5Npt4N0xLmw=;
+  b=bfNVQ1osGBCWnYESB2XrnAFIOck+N1MztOyOHLd1F/KiLpCFSQnXJGP/
+   N0vn3e+xtYAllrIhPCWKo76iCejD5aG5/zKrIFFua85a5AP/3RmmWVTqS
+   qOW8gA5UQwmYj5VN/V+b9I4gw9+68f8O2XpWjuJ9JHYCXOQpc7BHjrmfH
+   S9RdExz+gjSKlKtgrl+WlIJJWT759YNPUtNlBm/aF19XrxGZ2EjtGkmXM
+   8+BHNbTfFBAnPPqqn8KNlSTnQ1QK/AP8ha/cLqTxkWoe5T64cGE8F1AFm
+   d/6h0j5X6TrQ59AQBTUj2lV68BZ1Ll0tFtfSJ2BxLiJrU2JqBR1CB0LDx
+   A==;
+X-CSE-ConnectionGUID: twRstIv6R8eJLX722T9PPg==
+X-CSE-MsgGUID: uP6QIyGWQQq4gP+yv8keRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37062122"
+X-IronPort-AV: E=Sophos;i="6.13,221,1732608000"; 
+   d="scan'208";a="37062122"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 00:39:21 -0800
+X-CSE-ConnectionGUID: uYmHyrB7T/Cuzhpcklwm2w==
+X-CSE-MsgGUID: lOSPcCBSRsia1poMUEgjoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="130006395"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 21 Jan 2025 00:39:21 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Tue, 21 Jan 2025 00:39:19 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Tue, 21 Jan 2025 00:39:19 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.49) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 21 Jan 2025 00:39:19 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eoRxRp1/hkWjGnbNtwo0oLGEmv9U6IeEkJgt3CyWChUxJVcQIgGvvJAgIN3eRo/l/3iaJD+fbHi/exQws11kmiEM3yLxn2rAKOLa1eFR0WpKIcSdJKcYnetshlbhEODwfGwGLdL1DwDYanBMr2gGg707QDs5mtS2hkEQ/S8WDOZe/kgmZQk90MMZheDeeyQ/Oiw/FaE7vB6C3d9S01VRHeoHyFLh+g34yR/BkPKAdkPr8zbdRk9owhhp6epppc2+DXj1QnH1DscO0oJUy2uf1MMPdBSVYYwLt8r5Hc5V8xJElRlTuJbaBL0FJXg6lRuP2rjK/YHNlY5T6/aZZI5FDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=imDHFWSPPkS+o5sR50+EkIpxRtocHQkl6H4usZFQ/2M=;
+ b=aFhfj7T+EEH1M7w0V0oOailuQ9MYho0qN1Isid9oMPAF0czo5TY5TlSbw1vQ3z9q/Up+mkhtO+p0N/BGG+vqv0PunDCQXWn5JU2Rcz6CYUhs81wqnrlibGYpKQ4ykhfB+v9TfS6sW+9WQ81sTPyG540czEY6G/yZHHVUGWl0RP0pPMe+CviztvgcMGcKKzrFJfpo8guBYjU15x/CPxuOewynalEykg8LQvjIJH9rCi8QEyAEG8AX8hFLx6ytfeOlJQuQkXmhDN/nMUkv+9RRIDjTnJiFdDzWo0/+EcBn0bn7GBYVEPuiA9UDelmg8GMK7aMTd59x92NoW/NA4PFCdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB6375.namprd11.prod.outlook.com (2603:10b6:8:c9::21) by
+ DS0PR11MB7214.namprd11.prod.outlook.com (2603:10b6:8:139::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8356.22; Tue, 21 Jan 2025 08:39:18 +0000
+Received: from DS0PR11MB6375.namprd11.prod.outlook.com
+ ([fe80::cd01:59f6:b0f8:c832]) by DS0PR11MB6375.namprd11.prod.outlook.com
+ ([fe80::cd01:59f6:b0f8:c832%5]) with mapi id 15.20.8356.017; Tue, 21 Jan 2025
+ 08:39:18 +0000
+Message-ID: <f0b27a44-81c9-47c1-878f-0cd2219e82af@intel.com>
+Date: Tue, 21 Jan 2025 09:39:13 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/13] ASoC: Intel: avs: Add MODULE_FIRMWARE to inform
+ about FW
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+CC: <linux-sound@vger.kernel.org>, <tiwai@suse.com>, <perex@perex.cz>,
+	<amadeuszx.slawinski@linux.intel.com>, Mark Brown <broonie@kernel.org>
+References: <20250109122216.3667847-1-cezary.rojewski@intel.com>
+ <20250109122216.3667847-8-cezary.rojewski@intel.com>
+ <7c857d1f-e520-4fde-9b84-19b071fd8390@linux.dev>
+ <fe5bcb7e-ae6b-4915-ac08-3a1e0eca62db@intel.com>
+ <3ae5da14-c1f8-4403-ac8b-2cd558a8bbfd@linux.dev>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <3ae5da14-c1f8-4403-ac8b-2cd558a8bbfd@linux.dev>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR0P278CA0122.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:20::19) To DS0PR11MB6375.namprd11.prod.outlook.com
+ (2603:10b6:8:c9::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|DS0PR11MB7214:EE_
+X-MS-Office365-Filtering-Correlation-Id: a848c6e9-a636-4055-39d4-08dd39f7180d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eWxKOG1GSzkvVElLL3REUEdaNWJ4aHBCSTc4bUd0Yi9ueXhqMWxubDEwR1BD?=
+ =?utf-8?B?RmxoTlU2SDNaU3U3YWEzaTZCSVozSVJKTy9TTGVoQnljeW5pYWdDbXM3WWpL?=
+ =?utf-8?B?WXVnelRoL0lMNWNRa1pUUzVsekZMbk5nVE1aRnZ0QThJbHphSURYY1I4aXlo?=
+ =?utf-8?B?Szl4bUZSVXQ4b1RUeGVnNWZzQlVJNXYyUGZkR1ZGZnBDNHY2cU9aS3lvQ3Fp?=
+ =?utf-8?B?M2JEWTlvbk85Ly9aVDJGVW5CS1VJWFA1YU5pK0hEaXUxYTRmdUptRUxlR0FQ?=
+ =?utf-8?B?aGlHSUg4aWcrcDN1dXR6KzNYVXpPb1QyL0FZYVFtSDhyOFRBdzI4R2xiLytM?=
+ =?utf-8?B?MlZ2dXhQK3A3dVlTbzJ4VTU1V0ZzNGNmekdRWmRpWUIwR3hQZHdCc2k0QVMz?=
+ =?utf-8?B?WHh6dG9ZanA4QWgvSmZRNXh1RHRJeEJqdVFwSVo5OEhRNUJ1VTR5Z0NKSGNH?=
+ =?utf-8?B?MjdMc0tKeXR1RTZLQ1Q2YjlvYUJIbE1HNzlPL1V1K0tuaDdzb0FPcHZJdlZI?=
+ =?utf-8?B?VVpaRnVwZ3JXUEZCUXNVMWVZZTZPMUZ1TWFCbG0rRS9ZRTZPRG5yR1QyQXp0?=
+ =?utf-8?B?cFF0VmVudTA0MzZacDFyM1RtTDA5d05KRzU1a24yVHBNNklpWXlKeFVSL2c2?=
+ =?utf-8?B?K1hBNUpya3VSMWlBWU0yTkt2SmNhYWVHSHlsT0t3bWVpSm9oU2hnKzNWNUZ6?=
+ =?utf-8?B?UE1iSmVMQzQ5K2hCSmdqR3gvcTRIdFBPV2lmVXJtYmsydDBpenoycUwzNmhw?=
+ =?utf-8?B?VWxsT0ViUlRTRUJwYkN6c3dmK3I4WDBBSVN6VTl1UmE4T1RzRzduaTlqZ1RG?=
+ =?utf-8?B?V295MHk5d3l4V291bjVXU0JrWmdsQ1lNZzcyNlBjRHJzOEYrSURXL01aUDUr?=
+ =?utf-8?B?L0tOYkZMMnAzenpvdUNvYlMvSy9BUUJtSExyb080MXpLdmpPUzJxZGlKRGtp?=
+ =?utf-8?B?S25HVTJNY1hkT2lFQmVWYTFFSG42b1Rvc2tRTlhBVXJQWkVCdkRyOEdvcitr?=
+ =?utf-8?B?bk40Tlh2dUlkbHBkWEdZcm9BenE3L1E2VTR5YStoNDhUcU4rdDVNbXByWUlD?=
+ =?utf-8?B?a1ZEVXVEYTh4MlJIamZxUVRKTDVtMVNtWnZYMzh2T1dWcmFHcHFWaUx0R1VS?=
+ =?utf-8?B?dFhrSU1sbjErSnBaWVpTL1NERUlrRGhZVjk3Q2cwZjFSRVdjMlF5NnFGMWN3?=
+ =?utf-8?B?NUd4VTRMejRwUW1vR0V1RTVteHlUOFFUL25uUi8zNWdGVzF1MmMvMU11SkdD?=
+ =?utf-8?B?MTRlaFdYQklvVXhscjViSk1BeGk0Zk1hZ04zSWgrOXFPbnEydVNNcGYzZWU3?=
+ =?utf-8?B?cVZHVG9RU0RuZFBJVzMyc1NkSVY0WDRHMDAzdW15bnhDNk1qd0l0RWovNm1I?=
+ =?utf-8?B?bFY2WXYvdWowY3VUd3NYVnlWTEJ1bTZQTlhMdjBxa1pNTnVCSldVZ0pXUWcv?=
+ =?utf-8?B?UkhXR1lWTUZWYjgwdXhkRlB4cEVjMkorb3FTTlBsRjVVbzBjNjZuUE9qcFIw?=
+ =?utf-8?B?TEFqeWNlYVVOM09rdnhjUm9vY3lnVmZwbmc5RkI2Ty8vcTFPVFI3VmJmYm5a?=
+ =?utf-8?B?MjlPZlBIZE1HY0p1UGV2QmVtSmNDR1REcWdoQ0p2SlIxa3hxcENvMEU1T1Ur?=
+ =?utf-8?B?bzIyZ2tBRGQ3RWJUMkxUckY2MnM4UHREaGY5OWxlaEs2SDkxcHAxUmhvbHlo?=
+ =?utf-8?B?dGxUeEdOdU43Q0FnS3FTbTlmRWVIWDVQMUt3OVpGS1JFU0Z4MVNjeVFiaTk2?=
+ =?utf-8?B?YXhhclZuSW5mZUZyMStiK002Y2JXS0lqNnNLbUdqSWl6VDNibnFoZnlSNzlY?=
+ =?utf-8?B?NkxDeTV5bzlsTEQwQzZVUXNsbjY2TlJmeWhuYjRpdGJiMGpVaFVpV2lEZzNp?=
+ =?utf-8?Q?eKKM42t+r2Bzq?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NWtUREkrdy8yS1RkSXl5eHpaamxWUlg2N01CM0huenYwUnZwWmFmR280VWQr?=
+ =?utf-8?B?Y1lDVkpaanZXOXNPYTR3Vzl2eVIxSVJQM0I1QVVtcFZ2SjVQTHNjYllXbnQx?=
+ =?utf-8?B?OXZtQlN5TXlsYU1hMjkraEFMd2pFWFYwanNid3BDd2Vmb1l2dU1YbURjYk56?=
+ =?utf-8?B?UzZ0R2NLK3EyREdCKzUvNlVmWTc1SXZQRTdsNVBkZEk4a0greDdUUmtRbFhn?=
+ =?utf-8?B?NHZhY0YwTndyai8ySHBIT3dKcEtlMG0zTVJUbnpXQ0V3S0p4bnZaaW1xcjFS?=
+ =?utf-8?B?QXhlNFpXTHJnT3pLa1hRZm54dGtmeGZHRWJoOW1yQmptajhQUzFaUWgvY0Jx?=
+ =?utf-8?B?emN3c2RJbXNBMWFoMUovd3F6Y3BIMlZtaGRjcld6cFVhaTRkKzd2L2k0Y01Q?=
+ =?utf-8?B?aHphck1VM2dWdnBXMUNBQnVUU0dZR0ZqOXBUd241S3A0TkFRSzlYTHJOVitK?=
+ =?utf-8?B?MmJDWFFKaUlEdHgrRDdvWkh4ejFCQ1cyMkQ5c0FXL0grVDhkNUQ0di9Ta05n?=
+ =?utf-8?B?VU9NR3NLeDVzU09TSGNNaFVCdWE4MXlDRUpRN3FGc1QzK0dHMEFjbTRxc0Vp?=
+ =?utf-8?B?eE5sWXpiVGdhdUVZY0ZFNFMrWjNTU2F4c21kYnVqMVQybmhCUVB2TXRRSW1p?=
+ =?utf-8?B?WkdwMTM0dXI3YXVkdmo0VThrbmcvcGx6U3pxTS9ra3lmL1hIWm5EUXFkNkZM?=
+ =?utf-8?B?YmkrSWhXYmNSY0dKT2EyMTdhcVk3a0J4VlZ1R0kvZzUxVkFqYmhTNGhIeE1l?=
+ =?utf-8?B?WEQ2UUlZMjRkdXQvNkJYelNnMzBGNTZkV3kvaEcxU21JN2orMW4yTlh5NVA0?=
+ =?utf-8?B?SWFYUHZPNWRIc0gzNDVndm1YMWt1QkY3eTZoeDJzU1pFY0VPa0tZSUN6V25R?=
+ =?utf-8?B?ZjFqYmExZFBacmwxN3BoWW9saVpMNmtVWG5PenE3M3JOYVpXeGRJR0JvUndq?=
+ =?utf-8?B?ZkxQZU5zMnJtTTMza1BLZGNUS3NGMDREd3hkS25JZDk5aWNld3VkSUlHSEpz?=
+ =?utf-8?B?cy9qWE43eGUvTFVhQUZ5RTJibzhITlFWTllzU0l0RWVBRHdMRjcxejBNSHRY?=
+ =?utf-8?B?VGVWM2x0VU85Vm1vK1VsOFIzUjlJVms0OVNQR3JXOXJVZC9kdzJSMHZBRW1I?=
+ =?utf-8?B?c2E0WjNKNmQ3anRYZXEwSWV6TlNPTU01R01USmpEWmNRNld1RzRNT1RIRUN3?=
+ =?utf-8?B?YkJUa3dSb2xjS0NpTWFUQ3hZZ3N5cmFyTDd1VWNYU3kyNkprNW9Zd3NCLzJ5?=
+ =?utf-8?B?dnp5amk2Wlh1UkpqY2t3dU1ZcjNYR2NNeGc2eTQ0VE8yZldtZGV0aUxvNjRn?=
+ =?utf-8?B?ZCtMMGxoVnAxWkphSE5XQ3pXd2d4UXB3dVJqRDYwYkRLV0gxbXdzY2hhSjZr?=
+ =?utf-8?B?Q3oxMGpLMWo4eU1abDB3c2lZMGVNSFlLdTZ4b1NiejNkdlB5b0ptQVZzbTcz?=
+ =?utf-8?B?dzdObkVTeE1GZ29KVmZlMitKNXQ4SDNKRnh3OHYveHpwZ0lsbVpsZzVjZWtM?=
+ =?utf-8?B?N0Y3ZEgzM1BDdTZpU2lLVzdsaDVtWWVvaDB1QTZPT3FNYWhVeHM1blFWb0VO?=
+ =?utf-8?B?RkZBOWF2VDZVRmhIZ2orbGJIWjRCTnF4QXlMMEVDVXJVMFRMSHZGaW4wWXk0?=
+ =?utf-8?B?d1Q3dkdKaWlyOURWMGxMbndHcXkwbFVRQ3BlendHemNKeDMwNWp6MVNicVR3?=
+ =?utf-8?B?Um5CYXowYVMzV1loM2JCM2xxN0EyZEc1Vld1Ujg2RTEvQ3VBU1M0Y0FicjZs?=
+ =?utf-8?B?cU9YRDJ0QjZVdTViL3pKR21tZG5OMU5hdjNXb2V2OHV6WThTSXNhMzNFOEty?=
+ =?utf-8?B?blllN2FhSGdHTDk1NmxvQnRHMTB3MWcvbG1NWExzdW5Na1YzaEY3TUdNTXdZ?=
+ =?utf-8?B?bnZkV3RzdU56QW9nRmh3a1ZXOWl2Snpsb3psK09CcjB0b3p0Q2p1cG1sZmZW?=
+ =?utf-8?B?SHNiRlRHckJONnI3d0I1SGlXdlpxazZBTUZhN1grZzhrRXFTQ05uU3YwVkNj?=
+ =?utf-8?B?RzRSWTZSaTFwVlZSWXh1ajUyMXlCTUV5bEtvRkIrZTdBQnFxMmZuS3NNazk5?=
+ =?utf-8?B?M09XdjhsNkFjQldhNnB2c2IrRlhNaUtBdmFId00yZkJTQ2t3a0swZkprT20w?=
+ =?utf-8?B?a0crTjFrcmJJd21qbmNHYjhZckhPVkFhelFTSEt2Rm95T2JNTktsdU1ZRFJa?=
+ =?utf-8?B?TVE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a848c6e9-a636-4055-39d4-08dd39f7180d
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6375.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2025 08:39:18.0598
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y/NMXeqybWNfe8fDSX9ddkdiABD6Md0Zct0DBpSvEl6lLhASn9rn94Jqd7QAZSSPfRl7hTY4mn21uTSBMK7xFD6Z2JyiG3KzYK4oRKGse+g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7214
+X-OriginatorOrg: intel.com
 
-When link DT nodes are parsed, most functions get port as a parameter,
-which results in port endpoint@0 always being used. However, each endpoint
-might have different settings, but those are currently ignored.
+On 2025-01-17 4:59 PM, Pierre-Louis Bossart wrote:
+> 
+>>>> +MODULE_FIRMWARE("intel/tgl/dsp_basefw.bin");
+>>>> +MODULE_FIRMWARE("intel/ehl/dsp_basefw.bin");
+>>>> +MODULE_FIRMWARE("intel/adl/dsp_basefw.bin");
+>>>> +MODULE_FIRMWARE("intel/adl_n/dsp_basefw.bin");
+>>>
+>>> If you start listing the variants of ADL, then shouldn't you also list the variants of TGL?
+>>> Same for CNL, there are multiple variants, not to mention different signing keys.
+>>
+>> The only reason ADL and ADL-N are listed separately is binary incompatibility - MEU differs between the two. In essence, one can use ADL-binaries for all ADL/RPL based platforms _except_ for ADL-N based ones. The code is the same, the verification process is different. For all other major platforms, no MEU differences so one binary covers all variants.
+>>
+>> In regard to the key, the approach is: it's ignored.
+>>
+>> Whatever is in the directory under 'dsp_basefw.bin' will be attempted for booting the DSP. By default, what lands on the market is a production-type-signed binaries. Internally CI runs with prod -or- debug signed binaries but we do not intend to share the latter to the official linux-firmware repo.
+> 
+> You didn't get my point. There are also binary incompatibilities between TGL and TGL-H (different number of cores) and in the CNL/CML space there were different production keys and MEU snaffus requiring different binaries to be released.
+> This wasn't about the production/debug problem, I was only referring to 'production' releases.
 
-Fix that by passing endpoint instead of port when parsing link parameters.
+I'm afraid there are differences between cAVS/ACE firmware and SOF. When 
+it comes to the cAVS/ACE, TGL devices are all handled using the exact 
+same binary and the firmware reads certain hardware capabilities in 
+runtime. CML-R (CML platform with TGP PCH) falls into the same category.
 
-Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- sound/soc/generic/audio-graph-card2.c | 62 +++++++++++++--------------
- 1 file changed, 29 insertions(+), 33 deletions(-)
+Instead, the cAVS/ACE expects the software to send BUS_HARDWARE_ID IPC 
+to inform it about details of the hardware revision e.g.: the stepping. 
+Firmware may decide to tailor certain flows depending on that detailed 
+information.
 
-diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-index c36b1a2ac949..ee94b256b770 100644
---- a/sound/soc/generic/audio-graph-card2.c
-+++ b/sound/soc/generic/audio-graph-card2.c
-@@ -648,23 +648,23 @@ static int graph_parse_node_multi(struct simple_util_priv *priv,
- 
- static int graph_parse_node_single(struct simple_util_priv *priv,
- 				   enum graph_type gtype,
--				   struct device_node *port,
-+				   struct device_node *ep,
- 				   struct link_info *li, int is_cpu)
- {
--	struct device_node *ep __free(device_node) = of_graph_get_next_port_endpoint(port, NULL);
--
- 	return __graph_parse_node(priv, gtype, ep, li, is_cpu, 0);
- }
- 
- static int graph_parse_node(struct simple_util_priv *priv,
- 			    enum graph_type gtype,
--			    struct device_node *port,
-+			    struct device_node *ep,
- 			    struct link_info *li, int is_cpu)
- {
-+	struct device_node *port __free(device_node) = ep_to_port(ep);
-+
- 	if (graph_lnk_is_multi(port))
- 		return graph_parse_node_multi(priv, gtype, port, li, is_cpu);
- 	else
--		return graph_parse_node_single(priv, gtype, port, li, is_cpu);
-+		return graph_parse_node_single(priv, gtype, ep, li, is_cpu);
- }
- 
- static void graph_parse_daifmt(struct device_node *node, unsigned int *daifmt)
-@@ -722,14 +722,15 @@ static unsigned int graph_parse_bitframe(struct device_node *ep)
- 
- static void graph_link_init(struct simple_util_priv *priv,
- 			    struct device_node *lnk,
--			    struct device_node *port_cpu,
--			    struct device_node *port_codec,
-+			    struct device_node *ep_cpu,
-+			    struct device_node *ep_codec,
- 			    struct link_info *li,
- 			    int is_cpu_node)
- {
- 	struct snd_soc_dai_link *dai_link = simple_priv_to_link(priv, li->link);
- 	struct simple_dai_props *dai_props = simple_priv_to_props(priv, li->link);
--	struct device_node *ep_cpu, *ep_codec;
-+	struct device_node *port_cpu = ep_to_port(ep_cpu);
-+	struct device_node *port_codec = ep_to_port(ep_codec);
- 	struct device_node *multi_cpu_port = NULL, *multi_codec_port = NULL;
- 	struct snd_soc_dai_link_component *dlc;
- 	unsigned int daifmt = 0;
-@@ -739,25 +740,23 @@ static void graph_link_init(struct simple_util_priv *priv,
- 	int multi_cpu_port_idx = 1, multi_codec_port_idx = 1;
- 	int i;
- 
--	of_node_get(port_cpu);
- 	if (graph_lnk_is_multi(port_cpu)) {
- 		multi_cpu_port = port_cpu;
- 		ep_cpu = graph_get_next_multi_ep(&multi_cpu_port, multi_cpu_port_idx++);
- 		of_node_put(port_cpu);
- 		port_cpu = ep_to_port(ep_cpu);
- 	} else {
--		ep_cpu = of_graph_get_next_port_endpoint(port_cpu, NULL);
-+		of_node_get(ep_cpu);
- 	}
- 	struct device_node *ports_cpu __free(device_node) = port_to_ports(port_cpu);
- 
--	of_node_get(port_codec);
- 	if (graph_lnk_is_multi(port_codec)) {
- 		multi_codec_port = port_codec;
- 		ep_codec = graph_get_next_multi_ep(&multi_codec_port, multi_codec_port_idx++);
- 		of_node_put(port_codec);
- 		port_codec = ep_to_port(ep_codec);
- 	} else {
--		ep_codec = of_graph_get_next_port_endpoint(port_codec, NULL);
-+		of_node_get(ep_codec);
- 	}
- 	struct device_node *ports_codec __free(device_node) = port_to_ports(port_codec);
- 
-@@ -833,7 +832,7 @@ int audio_graph2_link_normal(struct simple_util_priv *priv,
- {
- 	struct device_node *cpu_port = lnk;
- 	struct device_node *cpu_ep	__free(device_node) = of_graph_get_next_port_endpoint(cpu_port, NULL);
--	struct device_node *codec_port	__free(device_node) = of_graph_get_remote_port(cpu_ep);
-+	struct device_node *codec_ep	__free(device_node) = of_graph_get_remote_endpoint(cpu_ep);
- 	int ret;
- 
- 	/*
-@@ -841,18 +840,18 @@ int audio_graph2_link_normal(struct simple_util_priv *priv,
- 	 * see
- 	 *	__graph_parse_node() :: DAI Naming
- 	 */
--	ret = graph_parse_node(priv, GRAPH_NORMAL, codec_port, li, 0);
-+	ret = graph_parse_node(priv, GRAPH_NORMAL, codec_ep, li, 0);
- 	if (ret < 0)
- 		return ret;
- 
- 	/*
- 	 * call CPU, and set DAI Name
- 	 */
--	ret = graph_parse_node(priv, GRAPH_NORMAL, cpu_port, li, 1);
-+	ret = graph_parse_node(priv, GRAPH_NORMAL, cpu_ep, li, 1);
- 	if (ret < 0)
- 		return ret;
- 
--	graph_link_init(priv, lnk, cpu_port, codec_port, li, 1);
-+	graph_link_init(priv, lnk, cpu_ep, codec_ep, li, 1);
- 
- 	return ret;
- }
-@@ -864,15 +863,15 @@ int audio_graph2_link_dpcm(struct simple_util_priv *priv,
- {
- 	struct device_node *ep	__free(device_node) = of_graph_get_next_port_endpoint(lnk, NULL);
- 	struct device_node *rep	__free(device_node) = of_graph_get_remote_endpoint(ep);
--	struct device_node *cpu_port = NULL;
--	struct device_node *codec_port = NULL;
-+	struct device_node *cpu_ep = NULL;
-+	struct device_node *codec_ep = NULL;
- 	struct snd_soc_dai_link *dai_link = simple_priv_to_link(priv, li->link);
- 	struct simple_dai_props *dai_props = simple_priv_to_props(priv, li->link);
- 	int is_cpu = graph_util_is_ports0(lnk);
- 	int ret;
- 
- 	if (is_cpu) {
--		cpu_port = of_graph_get_remote_port(ep); /* rport */
-+		cpu_ep = rep;
- 
- 		/*
- 		 * dpcm {
-@@ -901,12 +900,12 @@ int audio_graph2_link_dpcm(struct simple_util_priv *priv,
- 		dai_link->dynamic		= 1;
- 		dai_link->dpcm_merged_format	= 1;
- 
--		ret = graph_parse_node(priv, GRAPH_DPCM, cpu_port, li, 1);
-+		ret = graph_parse_node(priv, GRAPH_DPCM, cpu_ep, li, 1);
- 		if (ret)
--			goto err;
-+			return ret;
- 
- 	} else {
--		codec_port = of_graph_get_remote_port(ep); /* rport */
-+		codec_ep = rep;
- 
- 		/*
- 		 * dpcm {
-@@ -937,18 +936,15 @@ int audio_graph2_link_dpcm(struct simple_util_priv *priv,
- 		dai_link->no_pcm		= 1;
- 		dai_link->be_hw_params_fixup	= simple_util_be_hw_params_fixup;
- 
--		ret = graph_parse_node(priv, GRAPH_DPCM, codec_port, li, 0);
-+		ret = graph_parse_node(priv, GRAPH_DPCM, codec_ep, li, 0);
- 		if (ret < 0)
--			goto err;
-+			return ret;
- 	}
- 
- 	graph_parse_convert(ep,  dai_props); /* at node of <dpcm> */
- 	graph_parse_convert(rep, dai_props); /* at node of <CPU/Codec> */
- 
--	graph_link_init(priv, lnk, cpu_port, codec_port, li, is_cpu);
--err:
--	of_node_put(cpu_port);
--	of_node_put(codec_port);
-+	graph_link_init(priv, lnk, cpu_ep, codec_ep, li, is_cpu);
- 
- 	return ret;
- }
-@@ -1013,26 +1009,26 @@ int audio_graph2_link_c2c(struct simple_util_priv *priv,
- 	struct device_node *ep0 __free(device_node) = of_graph_get_next_port_endpoint(port0, NULL);
- 	struct device_node *ep1 __free(device_node) = of_graph_get_next_port_endpoint(port1, NULL);
- 
--	struct device_node *codec0_port __free(device_node) = of_graph_get_remote_port(ep0);
--	struct device_node *codec1_port __free(device_node) = of_graph_get_remote_port(ep1);
-+	struct device_node *codec0_ep __free(device_node) = of_graph_get_remote_endpoint(ep0);
-+	struct device_node *codec1_ep __free(device_node) = of_graph_get_remote_endpoint(ep1);
- 
- 	/*
- 	 * call Codec first.
- 	 * see
- 	 *	__graph_parse_node() :: DAI Naming
- 	 */
--	ret = graph_parse_node(priv, GRAPH_C2C, codec1_port, li, 0);
-+	ret = graph_parse_node(priv, GRAPH_C2C, codec1_ep, li, 0);
- 	if (ret < 0)
- 		return ret;
- 
- 	/*
- 	 * call CPU, and set DAI Name
- 	 */
--	ret = graph_parse_node(priv, GRAPH_C2C, codec0_port, li, 1);
-+	ret = graph_parse_node(priv, GRAPH_C2C, codec0_ep, li, 1);
- 	if (ret < 0)
- 		return ret;
- 
--	graph_link_init(priv, lnk, codec0_port, codec1_port, li, 1);
-+	graph_link_init(priv, lnk, codec0_ep, codec1_ep, li, 1);
- 
- 	return ret;
- }
--- 
-2.25.1
-
+Kind regards,
+Czarek
