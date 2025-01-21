@@ -1,195 +1,129 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2070.outbound.protection.outlook.com [40.107.96.70])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4897C186294;
-	Tue, 21 Jan 2025 05:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737437196; cv=fail; b=id1ZwCeD1q2uq0dishGXaTfUBIKg7M639SyhtlZBw2rjetT1cTNlgtFYKohJiKaPp63GEc8SKq5tyqcMx5x6GT2btMGxa0P670vkOJR3XZ+QUk0ihVaDusTFBOC6IjTa+u7RyYngDOCnhmb7xQBu48pW7ReR2gD9SvtVmvZcbr4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737437196; c=relaxed/simple;
-	bh=A5SmihSgbg4DiBNi8QpYPo+xTus2YqYH2SLsr/YxMSg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=VH4qmxobaaYUO5SFkwFNnShjhyCJwQhhOPNmY8TDD9DopWZwPlUg+0EbvvZZGCicjY//GbVtV6KF/lpG5ZKJ5bLvNomgNKAV3YYaDaMSRa3p/ybDnepnWu0iSWGnQpRCYO8llvIVk/zFAJe0D6iFk0MSZ/R+wd3R8RSSg9ENHWQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=BuBAKqDf; arc=fail smtp.client-ip=40.107.96.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570E23D6A;
+	Tue, 21 Jan 2025 06:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737439524; cv=none; b=mmxzslcUvfNdVlCVl+vJ6wrhr9u47BgJTdN+HPdpJ3yl/o1+wK2jrhIyBWF7ot+2/7TG9bW4sjJXuSch5KOc86PqhoSX3zcdhku/mTkH6KiAgxoPzWypcQ5v+aGZ8MKRUJrSrOM4WgwNBldt7FEjz1oIa/emYz1xRcCfmTPcI2o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737439524; c=relaxed/simple;
+	bh=IGRMs8LaDimWXraXVT2EpT0OnRTkqo8orPR5qJssWFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iFc5AfiDB/5tpsEzZqrx8I599cIrUO6rIyX7MImZvUHGdnsF1FwciKxby3C58QBqPP5LrUOr2PEQcfDjmp9Ek6hMxYHquSxtstCSN/CGXeqqhvFe5n5V2o2AgUCnZu/NDL8C1k0df6m/EhrTG76o6Ad7tenC1EL/lRKTs62m1ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iF/U1ccS; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="BuBAKqDf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QYNf5roX04CmM2uEBZGyXqCUZzIzuifau9yWEQyCxWF9v0Y1Bn60TdV4t3173HlA7j/9dxeHbThZ0H+P7lFZxLzniDIk6cvLrbNDEnLMO2ewkFyHRPtCy7f639ddab1JK1GV9lp3yrYNb/dr5Q9zyV/sPxo0RNW3syFs3M2UcIdwtDe24e+pEa0vtP3M9zHQto84nN5cXtwobZyjOw/ALkJOzDDjxpRJgM/bWYpDMhAUWrkGsDHaujbGB8AGs4qMchG/t8Fh+bLdVxCjBIQySWjP+pxduAOtUZ+d4wk2O8TiMGKJwd5Kx0S7tk5N10IghiaBLdQoCoODRaxnCIrwHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lY26GqTrkMIjInEmhoNRbPkC6yG/Evqs4Gv5LcRFqSs=;
- b=f0CMxi57kR1YOkpJ6gmKUsV7pn5kaNUDLpFcgpC/HGGvJDfVMfD2QQqJfeMJRu7r8P4+5tVx3JRhq4WhfzdEjOITmBvMv1wi5CR4o4mYUIvu+BMIVRWVnwdWFT04uT/zW7v5mN967vQmDCubyEb7EI2zb9kv5gl49+x2debjtzYcB7OzRfHq28wfJPP09APMdZ/4DLkXihSyVUME3KeLsr1HR0OlauVIOEd2yuYyHL34t9n8832mya77rEeujwZB+4lBSOiMXk3/d9S1wr0OIf7iSBqqt3LeqB38YKMDyUlsB3bhwft/rESv0siwQUNqLGQyZY0o9l7lkLHuDnSqLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lY26GqTrkMIjInEmhoNRbPkC6yG/Evqs4Gv5LcRFqSs=;
- b=BuBAKqDfjQarb7pQJBccc2Jss3gXOqTlgY6GlHKm9rm8i3Ok7Ngl9wEhBn+z8jwhpQore7p7rXrHbl9tuhVIcy9W9+F8G8NlHTXam4ZLNnU0dTdkSFrY+0G2X4dEpkIVD6MBlDMY/d/ppQwzYPmHvmf19KYZ+8cZWgAnhIq9WF4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH2PR12MB4120.namprd12.prod.outlook.com (2603:10b6:610:7b::13)
- by SJ2PR12MB8978.namprd12.prod.outlook.com (2603:10b6:a03:545::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Tue, 21 Jan
- 2025 05:26:31 +0000
-Received: from CH2PR12MB4120.namprd12.prod.outlook.com
- ([fe80::6922:38fe:2b1c:7055]) by CH2PR12MB4120.namprd12.prod.outlook.com
- ([fe80::6922:38fe:2b1c:7055%5]) with mapi id 15.20.8356.020; Tue, 21 Jan 2025
- 05:26:31 +0000
-Message-ID: <2ab354e0-339e-448a-957d-4226781a7621@amd.com>
-Date: Tue, 21 Jan 2025 10:56:23 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 3/7] soundwire: amd: add conditional for check for
- device resume
-Content-Language: en-US
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, vkoul@kernel.org
-Cc: alsa-devel@alsa-project.org, yung-chuan.liao@linux.intel.com,
- sanyog.r.kale@intel.com, Basavaraj.Hiregoudar@amd.com,
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
- Mario.Limonciello@amd.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250120101329.3713017-1-Vijendar.Mukunda@amd.com>
- <20250120101329.3713017-4-Vijendar.Mukunda@amd.com>
- <7e363634-b80f-4ae7-8d09-1bb07225eecd@linux.dev>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <7e363634-b80f-4ae7-8d09-1bb07225eecd@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0160.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:26::15) To CH2PR12MB4120.namprd12.prod.outlook.com
- (2603:10b6:610:7b::13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iF/U1ccS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737439523; x=1768975523;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=IGRMs8LaDimWXraXVT2EpT0OnRTkqo8orPR5qJssWFo=;
+  b=iF/U1ccSpziee0Zl4DMJ/6bIwgPNrFmH6HfoAYpV2M54bfuCTKcNPQ0m
+   kqi4n2L6qz8mMIRshRxh34ajlguO3lUh2NUhpJHNLjdxSAwQxa9dnFV2S
+   XligrhIUSol3450E+P6jnOprkiDY/TljHQOkKOI2pmzR3AFYtADRqiojF
+   w5/y6KyPi0yTkYqt5dqMvsAtrHsTNVKw+/VdLg1yqBDvYQw65wlKVamjp
+   hunq5pZIAouOtEX3fDpFaOZfQr5YsqD48u46Vg0rS9uyB3rzAvzqax5fD
+   gyyG0NNlQmXGZxSg2ETcMMhaAk2vL3SGoVGZM4YfVGoOM9iq01Y4g1qTO
+   g==;
+X-CSE-ConnectionGUID: SJ4d64ZaRwawnw4oPPPKYQ==
+X-CSE-MsgGUID: g9N2yEfQTO+p7mtxAJHzCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37712573"
+X-IronPort-AV: E=Sophos;i="6.13,221,1732608000"; 
+   d="scan'208";a="37712573"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 22:05:22 -0800
+X-CSE-ConnectionGUID: 5wYAlv74Sba04aeErSXUMw==
+X-CSE-MsgGUID: x9dtj7zBS62Cdr6O+RrHHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="111799875"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 22:05:19 -0800
+Date: Tue, 21 Jan 2025 08:05:15 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	broonie@kernel.org, pierre-louis.bossart@linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
+Message-ID: <Z485G85QrFUbUaQ9@black.fi.intel.com>
+References: <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
+ <Z0nNnsmYIil0OZpy@smile.fi.intel.com>
+ <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
+ <Z1r0EPC9gumruFKU@smile.fi.intel.com>
+ <2024121242-saturday-aqua-9ac6@gregkh>
+ <Z1sObNubEnsFwzOD@smile.fi.intel.com>
+ <Z4kcxQWeL09VARfK@smile.fi.intel.com>
+ <Z4pwksY3Bs4taZd3@black.fi.intel.com>
+ <Z46C1bZ4AMLvKTn0@smile.fi.intel.com>
+ <Z46DunMGRKQcxtnz@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4120:EE_|SJ2PR12MB8978:EE_
-X-MS-Office365-Filtering-Correlation-Id: 855c8af5-b177-4ac3-6cb5-08dd39dc29f9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dEk1Y2EyVHBFcDBiUTlvamRiNE1mUlAvYVRxRXJYTDJ5SlA0b3prRUgwVzZV?=
- =?utf-8?B?SzcyUFZNaXdRZlhqNlFZUkRRbVJZcG9VMHI0MlpEb2l3T29ZbVhxSDREN1Y4?=
- =?utf-8?B?UVAxL001UXNsVTEwc2s4alk3cUd6dHpTeHNDQkVpaFNFWVVOeFNUeWZIcnVG?=
- =?utf-8?B?d1NDMG9UblZHczIzVzFPUDUxQjFRWkViQ1JFd0puSnk4Wnd6UWJJdTVhUnFP?=
- =?utf-8?B?cUg2VU01U25CTFl5VUgwcFFJRmREWWZGUW1uUlBFZVY1ZE1DSkdLdU1xVnlu?=
- =?utf-8?B?MUoyc1p2WTlHUkp1NHp4ZHB3SjBXdkJmT2VxbWR5OS9GczNzaFF5RnJVb1ZP?=
- =?utf-8?B?Z1VqaTNJbi9JanFpd1pCTEczWWlnU29DNjVWWXdURUY0cGdKTitzaXUxTFhP?=
- =?utf-8?B?U0ptVThjTGhsbVA1c3h3dk1NRHAzU2NFMmRVZEZ3KzB4Qis3bFdnK0pDVkM1?=
- =?utf-8?B?Z0QzUDhCS2pkZ3ErYXRxUFJYcGtmU285cGFIN2NqaXhkS1hUci9sdFhGZUx0?=
- =?utf-8?B?c1dCVE5tNUM5UGFCelFDZjR3VTlFcjlzdFRmN2I2NmxGVmYrcC9LVG9YTnF0?=
- =?utf-8?B?bjVtSUVzZ3dFNjJFR3dBOC9WYkZ5bHgyTmtsUzhYQTJZWDN6dTEwcExMUDg4?=
- =?utf-8?B?bXZNR2d5VzU5aUlTUzFIZmxKM2JCdlFMTTkyY29PcE92YnBhSWZGZk1aNS9M?=
- =?utf-8?B?RWNXQXN0K3lwN2NnNUxjV0x3amxJOWR3TW1GMnhOa2xuQzFJT1JkM3B3aGNT?=
- =?utf-8?B?QTVPUUJIT3VzSEpENnZNQ3pzaklNVVFOSFZpZzlrUWJWSHZUSGV4b0oyd1Jw?=
- =?utf-8?B?ajQ3YVo5QytYWFI0ZFVBTS91ckJIWkVpZWhpb2tBUFZYdm14Z0JoWFZ2R011?=
- =?utf-8?B?N0FrbzJjV29jNHExUC9KY3JjT09PWG95ZWY3K2FlMjVFU1lYYXRuWks2Y09I?=
- =?utf-8?B?S244MTBJdjRKNGRDM1l1SEE5RnN5dXRGZDBsWndOdlJjcHU5OHlyQnJJRFhB?=
- =?utf-8?B?UGFsMGFTU2VxTjZYQXU2ZjNma2hWRmM5Qk5sVVhBeVV3ZFFya0wwUlpqSTVO?=
- =?utf-8?B?Wjc5KzROUEtwVE9IWG9ZR3hHd2ZZa2ZjMnhET3Qyd3JsV2RRT1lya1A1V1pD?=
- =?utf-8?B?eC9GTSs4NEo5b21WbXQvOW1GNmNhZGhsWGNDV2JpaEdvNkVtWC8wRGE3UERG?=
- =?utf-8?B?dzYrbWpaRHpaTno2TkljODFSL3FIOWhGZEk1Z2d5SC9RbWplRkNNREJ6NGVS?=
- =?utf-8?B?VnZZTmJ3Ymo4UmhqMzNwK0UwU1ZTY0ZKM0xiOFVPVlZGVWtwU2RiYXJzV1Jh?=
- =?utf-8?B?cHZ1eVRIaWd4SzIxNGlPYzNabTB3UnZPLzlZMFJUNVVocS9rbVlSMHlkYmJl?=
- =?utf-8?B?Q1BBc0c5cFdNaW9oUkVMTUFuQW05STBlZXJFbENlQmZra1cwT2J0L04ydjNN?=
- =?utf-8?B?eHUvVHE3UG1CMHZLYzdEWEx5L0U3WEp6Q2RtTGk0SHZkM1M0dmNWMzBKRWtz?=
- =?utf-8?B?a3ByNktPUEo2Nk56RC9KaXoyZjNPUTA4MmhFS1R2ZEF6V0duMjUwNmFwZVJB?=
- =?utf-8?B?d09kdWxva2Nrc0c1VlYrVXlpd2pXMXYyL2Q1bHAzSys2ZkJFSmJ4elNQZG1Z?=
- =?utf-8?B?M2tQQUtHSStManNLd09LMHlQVDZDdTRFSmFWVXF4RW04WUxLN3dtZFJQNlIx?=
- =?utf-8?B?cnhQNlhOdW02cUl1Y3AxeExYdVNwck9QV0pCRjBYQTNhRTNTY0JHa0poWUYr?=
- =?utf-8?B?Z3FiYTNGaDNWU0lrNmFTRGJhbTFNcGhEd2ZQQS9xYmEzNkQydTNSWmFxNDQ1?=
- =?utf-8?B?Uko5aUdOU3h1NjJKV3R6MUtJMlJrK2tBWjdxVk5Ud1FYZENkcWJmRVhtcHlF?=
- =?utf-8?Q?ZD78917gzSt2E?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB4120.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OHhFN09vT3FCaDlHa3NQcmtodGVQclA5cGM3N1JmOVVOQjBVcUZMNmpmVjFl?=
- =?utf-8?B?TDlFWGNrb1RTcVliVnZMZnJZMU1XelAwOXE1cHhNTnRMRDJSbzdNOXlwcnpM?=
- =?utf-8?B?WmJDTDZ5eWYzUE5wTCtFalNYRDhvbEl4YUY3SkdvMnQrdHFSeWpYWUZDTlh6?=
- =?utf-8?B?T3kyb0I1RGlBdTV0d1BmUlBUOGFZRHVJV05CVjF0TkhlVjFUcXJQYXZTOVNr?=
- =?utf-8?B?cStLK1JUanBWWUF2dERxSFdjZ0lKd0lqNVdKaWdTRWx2eXBzbFFBek1XTFpt?=
- =?utf-8?B?VTA3dDNROGhxZGxwTVhYZGFMejNEeDFTRTFFV2VQaHNoVUpCUFBERVgvQ255?=
- =?utf-8?B?WGw4VWw4cnVmM0NtTGhnMVFyZ29BeXFUSG5rN1Yyb0lNTFA5WGNJejRTTi9Y?=
- =?utf-8?B?bjNqdXVSaThydnpZaE5ySHdxT011OHFKU0VRWXRRSTR2ZmI0M1BtUXMrdEdu?=
- =?utf-8?B?dWxJQXhuZG0xaUtOdGZlTHlJTkc2TS82dHpLUXdZbzI4bFhJZVo5SklUekFB?=
- =?utf-8?B?Zy9zTVN4OWlFUmNqWTNVeDNLaWFtbTZTQlJEUllvUVdZaXNWaTBXZEJSUEpR?=
- =?utf-8?B?Z2taaUl6WVlMREs5Ti9DbVNjb3ZIa3hnWHhuUlA3V1UxREdlZngzUjVyTGtI?=
- =?utf-8?B?RmFRcHF1aUdFckdmencvQnZTM0dZbXZmVE5yK3RWNUxkU25mblJYUGYxc3JO?=
- =?utf-8?B?YlRJSzJtQkZTeU1XU3V6V0NJTndaQ3labDlpMWZkMk83V3cxNTdwYzRINUhP?=
- =?utf-8?B?TmMvMUFXeFBVdnkvaHl5WGg5MXVYMWN2ZnR3VnlvdUUycGtxUThUL3BUSUk4?=
- =?utf-8?B?ak15ZVpVK1NnaDB2ZEN2UG5oVUE4R2xHVEczeE5RZ3J2ckV6YWxicTM1clBK?=
- =?utf-8?B?Tkk1MS9CcVJRbVd0MkF1Q3pjR1VkZW45dmYyZ1RUSlJHZGxkS2Z3U1RXejI1?=
- =?utf-8?B?SmhIYmJOVUFEejBKK1k1UnkxNzh6U3BXek1kNmxza2I5aWpsNm5DMDBKcSt3?=
- =?utf-8?B?WnJpYm9lU3YrYUk1VW9IOHBuUWlZelhSd2czYUswd3NNczg5NnpSeTV3NkIr?=
- =?utf-8?B?bVdTNkszUUR4Q0RnZTNicGc3MjBKdjFyZjZ6amtWRlg5S0lPRHhucWYycEFF?=
- =?utf-8?B?REdKTWoxMjFiUVFWTU0zSjFwT0hDSnh1VVk4RTdFYlZBcThhbFpJNmZrWFZE?=
- =?utf-8?B?TmVpWDJpNkNQcVd3Ull4SmpiRlMwMG8yWDVOMzF1TGdKV05CeDFwQVREMVN1?=
- =?utf-8?B?SFRvSXpVQkI5bmdmc29zTGJuUmV2VGdKQUVJdTIrUEFqV0R3eTlmQVhZNk9l?=
- =?utf-8?B?VUJGRkJXQUo1dWZYTU9JUklqZFZQc0xFWG5sZTFLTVZYc1ZlRnRQNkMrNjdn?=
- =?utf-8?B?Y3I1MzVrSHJwaXY2SUk2SGhkZHdBaTNRVi9UOXp1Q3lZcmpKcndIMzNYS1Qv?=
- =?utf-8?B?R0MzZHFxbWRURldaQ3F6cmRUOUhCeVgrWnMwWlF1bXVsR2dGcjFkNGwzdVNm?=
- =?utf-8?B?OHpNSUY0bnlqN0ZaaU5OTjBDQ3JlWjAvL1BhWlljVHJwd2tGWG5RclZkenhF?=
- =?utf-8?B?RGl6dlJjNXdaS3ROVUVUSExsRVlBUFFjTnlzRU9WUlBoUHRTWm5sbG5PNDg5?=
- =?utf-8?B?djJ0QWtkUUR0d250MDJ5cU5CQ2oyalNFZ2hSZ1JYS0ZZQWc0UVlSUEFBRUhl?=
- =?utf-8?B?WXgrL2hJNFcyckptdlgzdTdtVTJsL29uWWVITW1aZ3hvaDg1bndDaEdmWlJh?=
- =?utf-8?B?QlUwL1E2RjBPUEN1emlmeWlpVXhTUTdIUXFwNjM5UlYzcWp2S3VhcTlLY29I?=
- =?utf-8?B?YkgyekIrTHErSnZOcW9ITDJ6dXRUVmxCUUN6S0MrM29LUUQxSzMwcUl6a1dM?=
- =?utf-8?B?S2xRUTRxQXVZS0JmNXNLZENodFJLdUhnUmlVNXZ4MzZEWmJjTVZ3MDY2ZUkv?=
- =?utf-8?B?K0ZFUzVPRXR6RlM3RTlUeTkyM2xpTXY0YXd4dCtPNnV5cDByYzRodUFjcGgz?=
- =?utf-8?B?OXgzR2tLUE96SnRPSXVXZHJvMjB1MnRpY3dtYjNhZGJNUVA0di9xTDd2clNJ?=
- =?utf-8?B?c1NVYjhwRG1CU0d0cjVScVFxdGdMa01QR2N4SFJBbGNFNHNWVkN2M05pdWVa?=
- =?utf-8?Q?8KHftDTmaDhVfCI/Wj++BhdMP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 855c8af5-b177-4ac3-6cb5-08dd39dc29f9
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4120.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2025 05:26:31.7882
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: knbmjHJsOUe4UNZjEJ72zwYL3RnMNgnZ48nA2lWW8glvOt1U4EUxTWXp1zrCKIfl86DN9oLxSt9cQJEB0zKAQw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8978
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z46DunMGRKQcxtnz@smile.fi.intel.com>
 
-On 20/01/25 21:00, Pierre-Louis Bossart wrote:
-> On 1/20/25 4:13 AM, Vijendar Mukunda wrote:
->> Add a conditional check to resume SoundWire manager device, when the
->> SoundWire manager instance is in the suspended state.
->>
->> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->> ---
->>  drivers/soundwire/amd_manager.c | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
->> index 60be5805715e..6831b3729db5 100644
->> --- a/drivers/soundwire/amd_manager.c
->> +++ b/drivers/soundwire/amd_manager.c
->> @@ -850,7 +850,10 @@ static void amd_sdw_update_slave_status(u32 status_change_0to7, u32 status_chang
->>  static void amd_sdw_process_wake_event(struct amd_sdw_manager *amd_manager)
->>  {
->>  	dev_dbg(amd_manager->dev, "SoundWire Wake event reported\n");
->> -	pm_request_resume(amd_manager->dev);
->> +	if (pm_runtime_suspended(amd_manager->dev)) {
->> +		dev_dbg(amd_manager->dev, "Device is in suspend state\n");
->> +		pm_request_resume(amd_manager->dev);
->> +	}
-> Is this test actually doing something useful?
->
-> If the device is already active, presumably doing a pm_request_resume() is a no-op. If it's already suspended it does something.
-> Testing the device state is risky with all the asynchronous behavior in SoundWire, best to leave the state checks to be handled inside the pm_runtime core, no?
->
-> IIRC the only time when such a test in needed is in the system suspend callbacks where specific action needs to be taken if the device is in pm_runtime suspended mode with the clock_stop mode engaged.
-Soundwire device resume sequence can be invoked from multiple places
-same time due to different interrupt sources. We have added this extra condition
-check to safeguard the resume invoking sequence.
-Will drop this code and retest our test scenarios.
+On Mon, Jan 20, 2025 at 07:11:22PM +0200, Andy Shevchenko wrote:
+> On Mon, Jan 20, 2025 at 07:07:33PM +0200, Andy Shevchenko wrote:
+> > On Fri, Jan 17, 2025 at 05:00:34PM +0200, Raag Jadav wrote:
+> > > On Thu, Jan 16, 2025 at 04:50:45PM +0200, Andy Shevchenko wrote:
+> > > > On Thu, Dec 12, 2024 at 06:25:16PM +0200, Andy Shevchenko wrote:
+> > > > > On Thu, Dec 12, 2024 at 03:39:57PM +0100, Greg KH wrote:
+> > > > > > On Thu, Dec 12, 2024 at 04:32:48PM +0200, Andy Shevchenko wrote:
+> > > > > > > On Sat, Dec 07, 2024 at 04:46:18PM +0200, Raag Jadav wrote:
+> > > > > > > > On Fri, Nov 29, 2024 at 04:20:14PM +0200, Andy Shevchenko wrote:
+> > > > > > > > > On Fri, Nov 29, 2024 at 11:17:02AM +0100, Linus Walleij wrote:
+> > > > > > > > > > On Tue, Nov 26, 2024 at 6:22 PM Raag Jadav <raag.jadav@intel.com> wrote:
+> > > > > > > > > > 
+> > > > > > > > > > > This series introduces a more robust and cleaner devm_kmemdup_array()
+> > > > > > > > > > > helper and uses it across drivers.
+> > > > > > > > > > 
+> > > > > > > > > > For the series:
+> > > > > > > > > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> > > > > > > > > > 
+> > > > > > > > > > It seems like Andy will push it to me which is excellent.
+> > > > > > > > > 
+> > > > > > > > > Yep, that's the plan after we get all necessary ACKs.
+> > > > > > > > 
+> > > > > > > > Greg, anything I can do to move this forward?
+> > > > > > > 
+> > > > > > > Greg, is it possible to give your Ack or comment or guidance of the preferences
+> > > > > > > with the first patch?
+> > > > > > 
+> > > > > > $ mdfrm -c ~/mail/todo/
+> > > > > > 2293 messages in /home/gregkh/mail/todo/
+> > > > > 
+> > > > > Oh my...
+> > > > > 
+> > > > > > Please be patient.
+> > > > > 
+> > > > > Sure!
+> > > > 
+> > > > Raaj, care to send a v3 after merge window closes?
+> > > 
+> > > Sure, and perhaps add a few more users which I found with my improved
+> > > grepping skills.
+> > 
+> > Okay, thanks! I will drop myself from this thread then. Waiting for v3...
+> 
+> One more thing, can you embed the following into your series?
+> 
+> 20241203195340.855879-1-andriy.shevchenko@linux.intel.com
+> 
+> It would be easier to handle and avoid conflicts.
+
+Sure.
+
+Raag
