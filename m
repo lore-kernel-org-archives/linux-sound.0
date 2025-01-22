@@ -1,68 +1,69 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A00633991
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 07:18:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F181C3C0B
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 07:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737530296; cv=none; b=ht/0yl67hQlFcOSQqqu3IRszLMmSy0WOXPQncojDOWpOZVwkwwk1Pc/uO4jjMkGSR7UL2wXPDLV8rH8wGeKcMFAT1EwbYRDmyMNHtAJQdRlXGoizOWSBoOnLOz7VxlOS7AkyyriebdtZO4vdHcOIgM7CiHwXxGR4y8PoAqaG6So=
+	t=1737530306; cv=none; b=cBTViOQHkMn+369kECSnZUxeQyyNCLX659Ngfa89JSj/cOUh7UjpszoMD5BwHrCkxUS03yZFu2KW7YvEs+hntbi5OCg2BZ5KRwx5R4/xiXI6s5TxpjivwAWYJM5EGaRehxwbArxo5uXiDMoPm3e8Rn9YWGUU+PpVaHhm2cIVj8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737530296; c=relaxed/simple;
-	bh=qQKXLvSXGkcBqIw76AWV5u/YiDQuTIE3E78Mj6qanVs=;
+	s=arc-20240116; t=1737530306; c=relaxed/simple;
+	bh=C7yLn9wmLYa6MNBHLQElQWwf14nTWYSZ3JDo51FkLqg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DGx+To8Bskz6jpdlkQAhqU9s+70YVsjtLFF6I4ZrSjONpw7dvcSnhVtf5DGw3zwUIYLk/pd6OdpI6zFfcyvLpwhsJWBQP2rDhY7Kg1fvVjyLpxjXf6aYDC23c11IvnOUnQQjOcVsq7w2Y28ikm0OZw+X54qoeMVFUky0+Ceo/to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FEUJQr3J; arc=none smtp.client-ip=209.85.221.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=P+COzSOx10FkXvtmTLew//YiZKOOAnJ0qGZTk5qCBBgznFcuRqAwlCwh/oGP+rT7UlZhhcmnpz9SWRQFxjilP8H8MmIykHe5iUkL5w83UG/kIkfJz72Q6qRvBn2I0E5GGv071R6WIernhtkeJ//i8bo0FzWozEuB3jqY3DrLlZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hg+yR3bN; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FEUJQr3J"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3862f32a33eso3001021f8f.3
-        for <linux-sound@vger.kernel.org>; Tue, 21 Jan 2025 23:18:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hg+yR3bN"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43634b570c1so47422375e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 21 Jan 2025 23:18:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737530292; x=1738135092; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1737530302; x=1738135102; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ufkapajn0Vwdq0M+/CEG3TdxQlY94mxEu4iOhuuQms=;
-        b=FEUJQr3JABvXAkBmGiNaYqvFVuvauu/+Jd5M6mQF6ymWJfrcPlkV96WYhbP27iqVIn
-         6W0bXgOHc8kB+bYFFk9S2apY/QWWS/79aHnjWU+BDzbgv/PHWVNe4Xlmb8iL3spFCWKT
-         AtFglpLdYbWqQzyd/xv8Abr2BBSvujhrDClF1AZktJMC+dfd2PRgPGKhjoELrQRkT3Pw
-         62TWJsLO1GaSsJIIQIDkXcgPaw2PSxOTzLHZmZknvRceRWvrW9Ia7NkEuVLhLTErOemW
-         i/icZJKyhiiV5jobFX4RcXbIyJF7vfv/pLQ5AvIWDGJ6uF1yNtyqVbhTqpTzQ6FjzSh1
-         rfAQ==
+        bh=ZZHWWlJ7YF1iaeXHOnx4VlnIczYN3QFj1IHnYuWVAp0=;
+        b=hg+yR3bNxw1oSZPN9A5fQApTxXWBxogL7FygmDlFo8TDjSzsUjs0yYinKDN+EV2oyd
+         C+fCh5sgrAc+PsTSrtRFoC+7d8gC0RbKtMT19evcFfAwtmSYYSJxGd5DHwaOAiIhpsr2
+         WVKirw5HQhNe6bXJ4pXCCinduAifg9fGUUal+qBSKVKF2wKfkHoG2+41UA9f2sKRm1RV
+         dOHRKL9GZOeuooEbm+C09ij7WnV/8H6WA76EgOV10Pbevv3j1USIfapU3DLcRegbrQkM
+         WigybvVsPJxOJ+qs1ZAwu22Sa925ACqLrbtm2dJZ9XU071dAGdBL4cqbaTYxZ5At3nzU
+         DKhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737530292; x=1738135092;
+        d=1e100.net; s=20230601; t=1737530302; x=1738135102;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2ufkapajn0Vwdq0M+/CEG3TdxQlY94mxEu4iOhuuQms=;
-        b=IsUkBUXmazxdSQex6iKyDcOEHWWNCTUkjXlYDowOEgkIN8ax28E1SJ5nC1IgxhiYB+
-         UZkkUkCQtcx2QF7RJDp8G6yoZhHOrpW8iLYBCvOPFx8RehijsfwEHUB2msUoBRteFUtY
-         r5PkXrETUuyAsWwIWyxbM3lszpBy8yzlnZN0TiLpdnFLfWJp31+WIXp0lNmY+5z0Xi9y
-         XrsJR53P41fDdRb8OTswKYpIlfWWk1z720UvxLVnz1e1LaPsLRO2HA6e9+drkt+RAKCe
-         KxxipcRWEMa3Y1QYvfDP3zgy9Jd/VMh9i34KqtdYC1a1Qto1DlbONhdcGnCY9ZEYCcKw
-         736A==
-X-Forwarded-Encrypted: i=1; AJvYcCWUnSzbPLQIwc1Hn5MoHcFgfcW5A+4D8v/o1lHiOCtYjMV75TF32aMptq3XTx1aIGh8f3qPb555jyovNA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyk9K/pRxoofv68DAZpTxuAus2UnbLu6fsRlNcnZUVdCJG/PzJD
-	XHQo4isSBhpgT3lSo5zPT8BdDiNWW/nG5zRNAn5AYqBVk4Hw6lXL6uPr6cH0h8E=
-X-Gm-Gg: ASbGncuhJ1udEfREuihOIcWJIi8rHRHomaRCtSIKnYrtv129bPR4ip+yUifdSpxyiEf
-	mKnLYjjp2IRvyA0Zze41+oiAMsit7COHbqab0D1QHe+JfQ/EggpeziDdG2lACLbQxNqxDhUfUm2
-	8bw+adnf9PuI0oz61G2xe98+EFiht9OBfvXXSN/A8U878FeI4hDCZMexAuC7MbzGKHGE36cdS8e
-	LPmFhFGqfQiCsvtCZpd5PBXQvGvMTckHEf+Ip02jsTly4xlLZb24XW9xojN7tDAGrD1PaDaSZw=
-X-Google-Smtp-Source: AGHT+IEkzOKBuQ82tZh59Ridts9NNGBwp7FmUershCrti9nU99i+0rDa51NaSprYbijp1Rz/rjPL9Q==
-X-Received: by 2002:a5d:64ec:0:b0:38a:88ac:ed15 with SMTP id ffacd0b85a97d-38bf564d6aemr15746966f8f.4.1737530292595;
-        Tue, 21 Jan 2025 23:18:12 -0800 (PST)
+        bh=ZZHWWlJ7YF1iaeXHOnx4VlnIczYN3QFj1IHnYuWVAp0=;
+        b=rsoJF6fCBxCm3P++oEtFmpDl8JFAVA6TZcmwkQyYJyxyQiLJ3AGisBv5JOPglNHx8O
+         d1kfedQf66JjpFm02sx7HbAUQ5pqsMCq9xO34vAGClynHmGi8KDGmFEMtCT504OEGUZ9
+         fvOl+Ot1hxUNroH9ehqNhuRhepdDZR/xIbBu0JKEMFo+zPaNRYOBM3nW2rAXZ/IbSEcv
+         FFZbogC9fA9VFP/EftUyNLF3YI5Anv83Ej6Ircgyhk3v75EUenu9XdbXlD+fZV1zRoLo
+         qvPjFtu1sfVlU8r6fd/JECdS+4+BpinHGSwk9YdTpwgwoiBc4eJCymXMSar975jXJr6d
+         0aKA==
+X-Forwarded-Encrypted: i=1; AJvYcCXV09kckFUittmENQbkviUA7OiXR+44ZqsKv0QFfUj2PQBeTEGsz7KFucHgg0MdUxQ76Uz15SFjQbhQqg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWA+VKfORbiRY3fbo8bRv6LpMb2AjUK536Rhfho8dOP3oILwbN
+	Jbo3PwdaEfgYJH9nbBkFRcDBYI+aliIAHZlU1ji/l8fSmaV6Uw4dYLOMvfWcamM=
+X-Gm-Gg: ASbGncs3ul4Jqh1h3w0exBLjivKPQB/JQm7pU4nH0rwoZIB68Yc7T4qE1ddEC+tFSAo
+	5UIIXiO+smZ9Bo3iuhBefegKDt4Uu5Y2DDg2j40nP0cvfwE2nohpQAmHRipH/0tFu9On6MmLRcJ
+	2hopkygg8PXTp6B1mprZlSt7YbjH4hchs1n55uybpQqtDRbuo7ZWeuniGTunrzwOjNLBZIJfCx7
+	nV8W1Ok0rkcJuagruFL04Wtjy8nhX1bDHxaxgd12xbYrD002YVB5kfD7+/ZtDREJZMRwWuuvYs=
+X-Google-Smtp-Source: AGHT+IHV0Im413NnK9j4Rv1bPwrEAwzM4I+VpQhnifh4EDggNcrGtQejJ3/93F7/BEivIbWCx93eHA==
+X-Received: by 2002:a05:6000:1a85:b0:38b:ef22:d8c3 with SMTP id ffacd0b85a97d-38bf57a69b4mr19738929f8f.35.1737530301991;
+        Tue, 21 Jan 2025 23:18:21 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf32755cesm15359411f8f.78.2025.01.21.23.18.11
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf322b4ecsm15620249f8f.58.2025.01.21.23.18.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 23:18:12 -0800 (PST)
-Date: Wed, 22 Jan 2025 10:18:06 +0300
+        Tue, 21 Jan 2025 23:18:21 -0800 (PST)
+Date: Wed, 22 Jan 2025 10:18:13 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>, Nathan Chancellor <nathan@kernel.org>,
-	Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Nathan Chancellor <nathan@kernel.org>, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] ALSA: hda: tas2781-spi: Delete some dead code
-Message-ID: <d57ded9e-9969-4922-8347-67b758499483@stanley.mountain>
+Subject: [PATCH 2/2] ALSA: hda: tas2781-spi: Fix error code in
+ tas2781_read_acpi()
+Message-ID: <6103e81a-13bf-4eab-89af-f6830c14e14c@stanley.mountain>
 References: <cover.1737530177.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -74,34 +75,27 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1737530177.git.dan.carpenter@linaro.org>
 
-The scnprintf() function never returns negatives.  And it won't return
-zero here either, plus if it did we'd need to fix the error code.
-Delete this dead code.
+Propagate the error code from devm_gpiod_get_index_optional().  The
+current code returns success.
 
+Fixes: bb5f86ea50ff ("ALSA: hda/tas2781: Add tas2781 hda SPI driver")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- sound/pci/hda/tas2781_hda_spi.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ sound/pci/hda/tas2781_hda_spi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/sound/pci/hda/tas2781_hda_spi.c b/sound/pci/hda/tas2781_hda_spi.c
-index 5be71b538ce0..02794fd6003d 100644
+index 02794fd6003d..eba9c3a3b944 100644
 --- a/sound/pci/hda/tas2781_hda_spi.c
 +++ b/sound/pci/hda/tas2781_hda_spi.c
-@@ -274,13 +274,9 @@ static int tascodec_spi_init(struct tasdevice_priv *tas_priv,
- 	 */
- 	guard(mutex)(&tas_priv->codec_lock);
- 
--	ret = scnprintf(tas_priv->rca_binaryname,
-+	scnprintf(tas_priv->rca_binaryname,
- 		sizeof(tas_priv->rca_binaryname), "%sRCA%d.bin",
- 		tas_priv->dev_name, tas_priv->index);
--	if (ret <= 0) {
--		dev_err(tas_priv->dev, "rca name err:0x%08x\n", ret);
--		return ret;
--	}
- 	crc8_populate_msb(tas_priv->crc8_lkp_tbl, TASDEVICE_CRC8_POLYNOMIAL);
- 	tas_priv->codec = codec;
- 	ret = request_firmware_nowait(module, FW_ACTION_UEVENT,
+@@ -447,6 +447,7 @@ static int tas2781_read_acpi(struct tas2781_hda *tas_hda,
+ 		p->reset = devm_gpiod_get_index_optional(physdev, "reset",
+ 			p->index, GPIOD_OUT_LOW);
+ 		if (IS_ERR(p->reset)) {
++			ret = PTR_ERR(p->reset);
+ 			dev_err_probe(p->dev, ret, "Failed on reset GPIO\n");
+ 			goto err;
+ 		}
 -- 
 2.45.2
 
