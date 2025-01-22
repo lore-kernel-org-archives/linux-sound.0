@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCAD214802
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 17:40:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F85B214802
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 17:40:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737567653; cv=none; b=UfZ2n8D8/8zypn4tufc3arXyUcPjspJKIjUrxX5dnpUoFVQcpF2FzrmAvpc59+V0oO5dfRH6XbK39L6JelEpZ7wfRCJ7Jj7eqbOTNdMXFeOETHktj284K6oG+cY+GEeTrWSASc2prk8bs8fH/01L8FHCLiSIKI8ouWttOcvvu+g=
+	t=1737567656; cv=none; b=GaxkNroTIV+KVhcGMGok+whDeeOYBIr9UoVwowDisaiZP4xKFW+CEbg/H+o4HrqWHu1QbG+irGM6CS919GZ9q1TqEOArTXKYzDGYfm5WnfRfNOKqRC8Y9ZU3/nEcfMCzug7NY5gDErxCZLo0TGGKb538d4iyKda8llectpdJIXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737567653; c=relaxed/simple;
-	bh=Q2tTV+81G4/MIjWZ/sbni7M/iC9q+LSXApJ+OP1JbQ0=;
+	s=arc-20240116; t=1737567656; c=relaxed/simple;
+	bh=WW8ypsnsHeYCqNbh1BRe3q9h4avF+3PZbincjq4qkBg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=r64tSmItLJukSG+bXHc1Jedv1w/YPddARd8Id718e70u9xRWn71mNKGXDpyzkM4vZEq6AVs/2K/TZ9r9NRQ6nZsOF4xAFs4zK4VCisYLYAu4BdzDNeGpo+3Q3pZNrcO5Cceq923jSDZgNAPzvUZ4+8aBAfi78TxmPKyK5/MvRnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNFxvw0k; arc=none smtp.client-ip=198.175.65.12
+	 MIME-Version; b=l93nEis31PbnfbeosWlYy8yOG3yoVYYbxxCvkiFJgbhNHOLJvuhex5d3f0biGshWYU5YQZOEFpc2+6bzLd/HNy+5MvvFq5ZIl7ZqYAA92dY+Sld5YB2iifJRFTD4Wmkqy6c6cA+NKQScoaEqKTQepQo43afm5E+MBi8Db/CLxNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1QIWvgR; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNFxvw0k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1QIWvgR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737567652; x=1769103652;
+  t=1737567655; x=1769103655;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Q2tTV+81G4/MIjWZ/sbni7M/iC9q+LSXApJ+OP1JbQ0=;
-  b=QNFxvw0k2+8oGIySngkLQXnwqpytlsZ9JiE78R5Tx8P8OpogvT5xDyt0
-   drfwVjSJ0z1Y5csIqCcG3OOplQLeEKuAnR/wUxG9XIEEdWYTKIwDmwjCe
-   1agwNNcfAMqqwyB1gWNTVZpUIIlFSr+v0SdIffWl411jCY5xqdNERsKnK
-   EXjg4guwEzKAdK9VgW1vw2TsogsdpiR6AfHYJH8CL8mx9STHetBKgtqye
-   iG1+koH/3YW4YAu5nfezrbt3nbDQGSy+EU/QtioJwFBncA9sc7ZWTvaQp
-   3axJn3fyJR4nE58f2QpCwTIvYstk0KaZDWZn8ZE7hs7Oagi/59sL2frZn
-   A==;
-X-CSE-ConnectionGUID: AFt5ZPqKR6y3PPixaIq9Rw==
-X-CSE-MsgGUID: 89nQuuuoShOSOYdNDxK7Bw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="49434744"
+  bh=WW8ypsnsHeYCqNbh1BRe3q9h4avF+3PZbincjq4qkBg=;
+  b=f1QIWvgRdjsdM7ACapIgpfOgQixPrhAf3SJ9mHP4OTnUwsuJkgmMXfl+
+   q/+PugWLIUJ9gj0tPNIargrUKpTqI0CiCgZIaBBg4P/lbr7Xs27Nheq8Q
+   Ikriuqz19naJCLzO5pXaORJekYRdSx2hBDMUuPlY2ISuYw8Wj8LNlKm3+
+   asxVsg96s/H+k+btPnrx2+5MtqnNB2RVArzYk/Soj9aWKkmTgP6YmgL21
+   Lizl7PuvezfKYzieP8WexCiNPodqC9TBYKiqGc/4ZbOEHXhTxqqQETuFt
+   fJMvRrPzxM54Jz5XvI9q6CG7KzeB4mf2aJRHPwIlIUMxytRSv6kmc1rtw
+   g==;
+X-CSE-ConnectionGUID: +olp5/qMQASgUXDL2Y0CYQ==
+X-CSE-MsgGUID: yTEtNWsXT6m/zlHZoTSmvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="49434756"
 X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
-   d="scan'208";a="49434744"
+   d="scan'208";a="49434756"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 09:40:52 -0800
-X-CSE-ConnectionGUID: h3297QIvQhm6wOrjYAYn3A==
-X-CSE-MsgGUID: mQMaJq4ORHO4uLn9y1/Ucw==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 09:40:54 -0800
+X-CSE-ConnectionGUID: VCTfTMqwSTWeNp5hXBAusw==
+X-CSE-MsgGUID: QanhuVowQ4+al9mMSt8A/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="112185272"
+   d="scan'208";a="112185305"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
-  by orviesa003.jf.intel.com with ESMTP; 22 Jan 2025 09:40:50 -0800
+  by orviesa003.jf.intel.com with ESMTP; 22 Jan 2025 09:40:52 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -53,9 +53,9 @@ Cc: tiwai@suse.com,
 	baojun.xu@ti.com,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 05/11] ASoC: Intel: avs: pcm3168a board selection
-Date: Wed, 22 Jan 2025 18:54:20 +0100
-Message-Id: <20250122175426.1369059-6-cezary.rojewski@intel.com>
+Subject: [PATCH 06/11] ASoC: Intel: avs: Move DSP-boot steps into individual functions
+Date: Wed, 22 Jan 2025 18:54:21 +0100
+Message-Id: <20250122175426.1369059-7-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250122175426.1369059-1-cezary.rojewski@intel.com>
 References: <20250122175426.1369059-1-cezary.rojewski@intel.com>
@@ -67,55 +67,125 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Populate board table with avs_pcm3168a machine driver for RPL-M-based
-and ADL-N-based platforms with pcm3168a codec onboard to allow the sound
-card to enumerate.
-
-While at it, drop comma the terminator entries to align with the coding
-standard.
+To make DSP-boot code more readable, move each logical step into an
+individual function and add the configure step which will be utilized by
+follow up changes. To summarize, the steps are: loading the firmware
+code, configuring the base firmware and, allocating driver resources
+based on FW and HW capabilities.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/board_selection.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ sound/soc/intel/avs/avs.h    |  1 +
+ sound/soc/intel/avs/loader.c | 64 ++++++++++++++++++++++++++----------
+ 2 files changed, 48 insertions(+), 17 deletions(-)
 
-diff --git a/sound/soc/intel/avs/board_selection.c b/sound/soc/intel/avs/board_selection.c
-index 0266edeafc19..2d706edcbf92 100644
---- a/sound/soc/intel/avs/board_selection.c
-+++ b/sound/soc/intel/avs/board_selection.c
-@@ -312,6 +312,18 @@ static struct snd_soc_acpi_mach avs_tgl_i2s_machines[] = {
- 	{},
- };
+diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
+index eca6ec0428bb..585543f872fc 100644
+--- a/sound/soc/intel/avs/avs.h
++++ b/sound/soc/intel/avs/avs.h
+@@ -51,6 +51,7 @@ struct avs_dsp_ops {
+ 	int (* const load_basefw)(struct avs_dev *, struct firmware *);
+ 	int (* const load_lib)(struct avs_dev *, struct firmware *, u32);
+ 	int (* const transfer_mods)(struct avs_dev *, bool, struct avs_module_entry *, u32);
++	int (* const config_basefw)(struct avs_dev *);
+ 	int (* const enable_logs)(struct avs_dev *, enum avs_log_enable, u32, u32, unsigned long,
+ 				  u32 *);
+ 	int (* const log_buffer_offset)(struct avs_dev *, u32);
+diff --git a/sound/soc/intel/avs/loader.c b/sound/soc/intel/avs/loader.c
+index 9ff7818395cd..0b29941feb0e 100644
+--- a/sound/soc/intel/avs/loader.c
++++ b/sound/soc/intel/avs/loader.c
+@@ -603,7 +603,7 @@ static int avs_dsp_load_basefw(struct avs_dev *adev)
+ 	return ret;
+ }
  
-+static struct snd_soc_acpi_mach avs_mbl_i2s_machines[] = {
-+	{
-+		.id = "PCM3168A",
-+		.drv_name = "avs_pcm3168a",
-+		.mach_params = {
-+			.i2s_link_mask = AVS_SSP(0) | AVS_SSP(2),
-+		},
-+		.tplg_filename = "pcm3168a-tplg.bin",
-+	},
-+	{}
-+};
+-int avs_dsp_boot_firmware(struct avs_dev *adev, bool purge)
++static int avs_load_firmware(struct avs_dev *adev, bool purge)
+ {
+ 	struct avs_soc_component *acomp;
+ 	int ret, i;
+@@ -657,28 +657,33 @@ int avs_dsp_boot_firmware(struct avs_dev *adev, bool purge)
+ 	return 0;
+ }
+ 
+-int avs_dsp_first_boot_firmware(struct avs_dev *adev)
++static int avs_config_basefw(struct avs_dev *adev)
+ {
+-	int ret, i;
++	int ret;
+ 
+-	if (avs_platattr_test(adev, CLDMA)) {
+-		ret = hda_cldma_init(&code_loader, &adev->base.core,
+-				     adev->dsp_ba, AVS_CL_DEFAULT_BUFFER_SIZE);
+-		if (ret < 0) {
+-			dev_err(adev->dev, "cldma init failed: %d\n", ret);
++	if (adev->spec->dsp_ops->config_basefw) {
++		ret = avs_dsp_op(adev, config_basefw);
++		if (ret)
+ 			return ret;
+-		}
+ 	}
+ 
+-	ret = avs_dsp_core_disable(adev, AVS_MAIN_CORE_MASK);
+-	if (ret < 0)
+-		return ret;
++	return 0;
++}
 +
- static struct snd_soc_acpi_mach avs_test_i2s_machines[] = {
- 	{
- 		.drv_name = "avs_i2s_test",
-@@ -378,10 +390,11 @@ static const struct avs_acpi_boards i2s_boards[] = {
- 	AVS_MACH_ENTRY(HDA_ICL_LP,	avs_icl_i2s_machines),
- 	AVS_MACH_ENTRY(HDA_TGL_LP,	avs_tgl_i2s_machines),
- 	AVS_MACH_ENTRY(HDA_EHL_0,	avs_tgl_i2s_machines),
-+	AVS_MACH_ENTRY(HDA_ADL_N,	avs_mbl_i2s_machines),
- 	AVS_MACH_ENTRY(HDA_ADL_P,	avs_tgl_i2s_machines),
- 	AVS_MACH_ENTRY(HDA_RPL_P_0,	avs_tgl_i2s_machines),
--	AVS_MACH_ENTRY(HDA_RPL_M,	avs_tgl_i2s_machines),
--	{},
-+	AVS_MACH_ENTRY(HDA_RPL_M,	avs_mbl_i2s_machines),
-+	{}
- };
++int avs_dsp_boot_firmware(struct avs_dev *adev, bool purge)
++{
++	int ret;
  
- static const struct avs_acpi_boards *avs_get_i2s_boards(struct avs_dev *adev)
+-	ret = avs_dsp_boot_firmware(adev, true);
+-	if (ret < 0) {
+-		dev_err(adev->dev, "firmware boot failed: %d\n", ret);
++	ret = avs_load_firmware(adev, purge);
++	if (ret)
+ 		return ret;
+-	}
++
++	return avs_config_basefw(adev);
++}
++
++static int avs_dsp_alloc_resources(struct avs_dev *adev)
++{
++	int ret, i;
+ 
+ 	ret = avs_ipc_get_hw_config(adev, &adev->hw_cfg);
+ 	if (ret)
+@@ -705,6 +710,31 @@ int avs_dsp_first_boot_firmware(struct avs_dev *adev)
+ 	strscpy(adev->lib_names[0], "BASEFW", AVS_LIB_NAME_SIZE);
+ 
+ 	ida_init(&adev->ppl_ida);
+-
+ 	return 0;
+ }
++
++int avs_dsp_first_boot_firmware(struct avs_dev *adev)
++{
++	int ret;
++
++	if (avs_platattr_test(adev, CLDMA)) {
++		ret = hda_cldma_init(&code_loader, &adev->base.core,
++				     adev->dsp_ba, AVS_CL_DEFAULT_BUFFER_SIZE);
++		if (ret < 0) {
++			dev_err(adev->dev, "cldma init failed: %d\n", ret);
++			return ret;
++		}
++	}
++
++	ret = avs_dsp_core_disable(adev, AVS_MAIN_CORE_MASK);
++	if (ret < 0)
++		return ret;
++
++	ret = avs_dsp_boot_firmware(adev, true);
++	if (ret < 0) {
++		dev_err(adev->dev, "firmware boot failed: %d\n", ret);
++		return ret;
++	}
++
++	return avs_dsp_alloc_resources(adev);
++}
 -- 
 2.25.1
 
