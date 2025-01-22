@@ -1,135 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6F21BBBE0
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 07:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E343155C88
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 08:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737531548; cv=none; b=oI4cAG5wclngBqcZYWp88NS/83+j3rF+rF66l399HJiUbWYFPuz0KOk0vLIFWm1zVjqtTvmyUPaNqa/C5pgb15wt7t4GG+Qu5d+vpvjy5ZA3EXyKfqTlg5ccuSTQLXhXGtQMF/Un5v7JDRgTOmGO1SHrF9yHF7rBd6tKMwyexjU=
+	t=1737534105; cv=none; b=JjcfQqBqc+c+jGzP6cNcQhi6uanaDQ9GyxWh+vtRYq3S2XAOLuakiZgfD2N323iQGiOj+Vas4DL1pORJzW91VVhxnANPSeJSb/hj+bpKkcPfxtiS6lxXTTabioUnxS/EogL3sVPZ8L9ffnZJx6Fkdcv2ytwUrjEVk4BvN+0KPEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737531548; c=relaxed/simple;
-	bh=yoZBOi1dm4jGDBScya1XAzqTRz76q21tq/Q8rlteATc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GxKPs6qQiof14qfgkjXCquxIz94wW7Wh/CnvS9MRyDbY2Z+iRbHfTy2tmvQL1Fr+8gU1W4a7CgZIFkUVojjLUgWOGYLbLsVSQ7Hr9dRWjImjbwgw1gWUfFwj7Tqw+8Gf1QfQBbmCfxMsgHlTJedCbPtd9cPPqQ1Ce30TGo7LdJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tBpSASV9; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tBpSASV9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89630C4CED6;
-	Wed, 22 Jan 2025 07:39:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737531547;
-	bh=yoZBOi1dm4jGDBScya1XAzqTRz76q21tq/Q8rlteATc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tBpSASV9EQAxILElNw2mB/NAzJbvJRqgGvRG7EnlXMo3PYIjfsn+uA/J5EdvlLjqE
-	 sdKVsNG7s0h8aBCdpA+H9jnUvoOifd5WgMpuoRdX0ht8+MKAeFTid5bzZxUH8eHxAe
-	 1dF42cRbWrHMVQ9bCugIafzmTs0dfys6krJ3qsnqXRam9hfXTIGcjC0HxbVNz29xr5
-	 aJ2cCS+oWOx8Rp2x+g6Ed24ItITLs9A8aOkNe6aTtav9is17mn2zBNDIhAbORH0KPk
-	 jHnBd6UpDeRLGt+bf1TAMHtcojNPCc8ucIudeVhO54QEEss6ZWZJnrycj3ThE27PCH
-	 gQWATuX1nNhPw==
-Message-ID: <db2a8d94-ce83-404e-878c-2aa6168d349f@kernel.org>
-Date: Wed, 22 Jan 2025 08:39:02 +0100
+	s=arc-20240116; t=1737534105; c=relaxed/simple;
+	bh=BR5h2JUnR5PUm/non386vdaKgp9+sq3jAzzmOs5WjhE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UzFoqmIQDdBtKPUUIKTuwbx/K7nzvNWt9ahT8NLGJJ9yTA/VGbm6RMwDjQeUDRfXOdhc85T6/CEEBf5TXqlpXrGI/bek08x7xvou0YOHmtzU9+v2oRNDCLcY6ShNAh6t3kaVjUIaPOnxwq2wkVdqqmTXBsNSsvLLceu/z4WoMok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:6949:ff:ad3a:db44])
+	by baptiste.telenet-ops.be with cmsmtp
+	id 48MZ2E00a4mXrYp018MZlq; Wed, 22 Jan 2025 09:21:35 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1taVzJ-0000000E28f-2ZOd;
+	Wed, 22 Jan 2025 09:21:33 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1taVzR-00000005E0S-1TOh;
+	Wed, 22 Jan 2025 09:21:33 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Rob Herring <robh@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ASoC: soc-core: Stop using of_property_read_bool() for non-boolean properties
+Date: Wed, 22 Jan 2025 09:21:27 +0100
+Message-ID: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] sound: dt-bindings: cmx655d
-To: Nikola Jelic <nikola.jelic83@gmail.com>, broonie@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org
-Cc: rwalton@cmlmicro.com
-References: <20250121230903.89808-1-nikola.jelic83@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250121230903.89808-1-nikola.jelic83@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/01/2025 00:09, Nikola Jelic wrote:
-> Signed-off-by: Nikola Jelic <nikola.jelic83@gmail.com>
+On R-Car:
 
-Please run scripts/checkpatch.pl and fix reported warnings. After that,
-run also `scripts/checkpatch.pl --strict` and (probably) fix more
-warnings. Some warnings can be ignored, especially from --strict run,
-but the code here looks like it needs a fix. Feel free to get in touch
-if the warning is not clear.
+    OF: /sound: Read of boolean property 'simple-audio-card,bitclock-master' with a value.
+    OF: /sound: Read of boolean property 'simple-audio-card,frame-master' with a value.
 
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+or:
 
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+    OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean property 'bitclock-master' with a value.
+    OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean property 'frame-master' with a value.
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
+The use of of_property_read_bool() for non-boolean properties is
+deprecated in favor of of_property_present() when testing for property
+presence.
 
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
+Replace testing for presence before calling of_property_read_u32() by
+testing for an -EINVAL return value from the latter, to simplify the
+code.
 
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Seen since commit c141ecc3cecd7647 ("of: Warn when
+of_property_read_bool() is used on non-boolean properties") in
+dt-rh/for-next.
 
-> ---
->  .../bindings/sound/cml,cmx655d.yaml           | 79 +++++++++++++++++++
->  .../devicetree/bindings/sound/cmx655.txt      | 59 ++++++++++++++
+I could not exercise all code paths, so review/testing would be
+appreciated. Thanks!
+---
+ sound/soc/soc-core.c | 32 +++++++++++++-------------------
+ 1 file changed, 13 insertions(+), 19 deletions(-)
 
-No, bindings in text are not allowed anymore.
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 3c6d8aef4130901c..26b34b6885083908 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -3046,7 +3046,7 @@ int snd_soc_of_parse_pin_switches(struct snd_soc_card *card, const char *prop)
+ 	unsigned int i, nb_controls;
+ 	int ret;
+ 
+-	if (!of_property_read_bool(dev->of_node, prop))
++	if (!of_property_present(dev->of_node, prop))
+ 		return 0;
+ 
+ 	strings = devm_kcalloc(dev, nb_controls_max,
+@@ -3120,23 +3120,17 @@ int snd_soc_of_parse_tdm_slot(struct device_node *np,
+ 	if (rx_mask)
+ 		snd_soc_of_get_slot_mask(np, "dai-tdm-slot-rx-mask", rx_mask);
+ 
+-	if (of_property_read_bool(np, "dai-tdm-slot-num")) {
+-		ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
+-		if (ret)
+-			return ret;
+-
+-		if (slots)
+-			*slots = val;
+-	}
+-
+-	if (of_property_read_bool(np, "dai-tdm-slot-width")) {
+-		ret = of_property_read_u32(np, "dai-tdm-slot-width", &val);
+-		if (ret)
+-			return ret;
++	ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
++	if (ret && ret != -EINVAL)
++		return ret;
++	if (!ret && slots)
++		*slots = val;
+ 
+-		if (slot_width)
+-			*slot_width = val;
+-	}
++	ret = of_property_read_u32(np, "dai-tdm-slot-width", &val);
++	if (ret && ret != -EINVAL)
++		return ret;
++	if (!ret && slot_width)
++		*slot_width = val;
+ 
+ 	return 0;
+ }
+@@ -3403,12 +3397,12 @@ unsigned int snd_soc_daifmt_parse_clock_provider_raw(struct device_node *np,
+ 	 * check "[prefix]frame-master"
+ 	 */
+ 	snprintf(prop, sizeof(prop), "%sbitclock-master", prefix);
+-	bit = of_property_read_bool(np, prop);
++	bit = of_property_present(np, prop);
+ 	if (bit && bitclkmaster)
+ 		*bitclkmaster = of_parse_phandle(np, prop, 0);
+ 
+ 	snprintf(prop, sizeof(prop), "%sframe-master", prefix);
+-	frame = of_property_read_bool(np, prop);
++	frame = of_property_present(np, prop);
+ 	if (frame && framemaster)
+ 		*framemaster = of_parse_phandle(np, prop, 0);
+ 
+-- 
+2.43.0
 
-
-Best regards,
-Krzysztof
