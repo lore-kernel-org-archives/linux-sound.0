@@ -1,191 +1,111 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2040.outbound.protection.outlook.com [40.107.21.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F1B215189;
-	Wed, 22 Jan 2025 16:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737563708; cv=fail; b=fXMMNp/NLh55XuwE8irGCBLkI+UqZS2XDAnyhZnCqHaXUeMnNy2MyjrIvpZbdcjT3TW/RwU0aNZHD6mK2uCVzSKge3b0EPFZMV7Cah21XaNreXV6xXREP0zDy97yzzD7n9GhXy6vKWNw3FvlhxToMPiNO+K04PvlpSq4k7k8H1M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737563708; c=relaxed/simple;
-	bh=OC/sqr9nS75Gl0cSg+7a9kWZKClAxbyPNDeoSHjp2fE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PnvfzVCgRiq3t0kxaXjeNBjvclmHn3mWMVb56kQoPNHmGIh/xhZpgCyChpB+/DDBXjr7bsxDrU+wa+wXzBFtcj25VaWFGZ8DKI/9aoQy3JHDDMIDJTU3sqDa8x+iwGJqW9Z5HIvTztluanBL1OsYAeg+TkkuB2OXvxjIHSOt+DE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=hkLWFKG+; arc=fail smtp.client-ip=40.107.21.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE89214234;
+	Wed, 22 Jan 2025 16:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737564101; cv=none; b=cw0w0dxXA8tJ531fXluGKFueRw68M9kiMsk3nZppesMoOdSLVZa8azbiOuNZ/feFtkSaUpe8CMHpXGxqOvhW0KRU+J0QVj7TUDnRaid7OkAWhT/lR0T+YEdUmnH5qPy4l9Lf22p7EAeenfII2dnWQB4no/W1HiEgFRriZ0jltF4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737564101; c=relaxed/simple;
+	bh=jiVfRQ/VxgBfiwQVU9zJmJoypJnWZxxBuomdVM9AJIo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CKtanjk7vxV5wkQoDObkODHoqVpVHJMiM6I9F00byPiYhm3oShLnYLntj6DgiEYJ4iObO+ywpCp1uLi62Xkx6/b1HNqzHtb8NaSihuFZ+EcS492Kw1j9CMeIvZYzhJpZ5HKzoLmc+SDcw4tOtT/q2BRrWDFwQuFFSA2mXU9w4Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gvvbq8c5; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="hkLWFKG+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sQuiq8irUeczQlAGdRuun91VaJ1miwEfJa73tPcGBLA7GRDNosMbty3XcABnWqbqVBMHOuK2wJz6ChDmNUFZBRCKvwXsU1LOjl+U5rstBri+4WsRFPfBLOvWhlMDkYSWsXDqQzGJk7nQetCurYPgPX3P0iYsn2GxQ/ILYf2tA2JGHQo5nQPWPFD3fzLfxPpn57KcqwCzdd0Pkp0TrJmBActqQhyZc0nxNl3Ti1tp8G1VRPJdcWgcsqpYAVmdKzUbPSr+/50CNtkO16fJLlQry2jn0sZ+U25RTRQdpQVuOlLmOA4sJowbyZm/VRlt5WDUX1XnJXaK2HDzGGnqvbIf2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b3sZzJqIiIx9ABxyuiIIOy9RvdlfRFtvvMyVAnWNyqA=;
- b=ryyzWxuaDFoM7SobnqAzeCQB8mukoI211W6RZCJv+zgS6z3I2PJ+fX7ONsgOtkip3J3+crx6udQKBNvu2zLhRUTRv+0bT8iG+JlkEtV3ZneCjxPAjG1JkwJ1QqWe3uOty5NsfzEUWzgxcLeN82ZQgWjzyx21Au892QuGjzJvvttO3c4NLA+YlwQkeGJnBUJybbBqeuCVFo3gAbt/qwzKDMqcsSGzNGy1UOeV3kDN7dkI2ylDuKnwCxq0iC68l2+BKkcowQC07wPUCuHIjBpBzHhcLlau7sRP8skROfA1aYoLMvSAgMvU7V5m4niE2Q4Qb3SOFls63yYP4gwhl+hBQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b3sZzJqIiIx9ABxyuiIIOy9RvdlfRFtvvMyVAnWNyqA=;
- b=hkLWFKG+it6ceJJLpcLPD8mLpscGRVDvNbHxh1rgIfGQoBMXtu9Vud1GVtSMFfvHViiVs2pGZ8YfvQD2Ix5fYe4VGw3qI0MBRcekLlxbb+mBRnlAlk2fKSyOgbwPiNzQRfB6t2kP4Cw+ZXBRAItc2kumsb4WJcdFC+K/0hHJE/TqlCMhaxrUUjj0fRsravdvvQzivhCM1/yfNlIKcoZVDXcicwtOd6gyQfylRq+bbXH8a42HWV7EHTRd1fVR2P9/u34jdqifeWcd+3903tydKEI7RBkfhK5URMZb8bitjhjb9lB4gZgzYIji3+0yasG7hCIDNnoBui9luCSyAcd+Gw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS8PR04MB8247.eurprd04.prod.outlook.com (2603:10a6:20b:3f2::13)
- by AS8PR04MB8403.eurprd04.prod.outlook.com (2603:10a6:20b:3f7::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.22; Wed, 22 Jan
- 2025 16:35:03 +0000
-Received: from AS8PR04MB8247.eurprd04.prod.outlook.com
- ([fe80::84f7:e2c3:ceed:c0a6]) by AS8PR04MB8247.eurprd04.prod.outlook.com
- ([fe80::84f7:e2c3:ceed:c0a6%4]) with mapi id 15.20.8377.009; Wed, 22 Jan 2025
- 16:35:03 +0000
-From: Daniel Baluta <daniel.baluta@nxp.com>
-To: robh@kernel.org,
-	krzk+dt@kernel.org,
-	broonie@kernel.org
-Cc: shawnguo@kernel.org,
-	conor+dt@kernel.org,
-	peng.fan@nxp.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gvvbq8c5"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d3d143376dso10765777a12.3;
+        Wed, 22 Jan 2025 08:41:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737564098; x=1738168898; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T1DHMDWob4N3lDod+SNdK0dgpbfuTB1CM0HzeuyK6d8=;
+        b=Gvvbq8c5veILIDWGHiD5CI+jKxBIP1fROL1hKB7gcyVY/B8QAH0iisWkoOIeEdkLTa
+         aA5WnhCBr0un6QDV4WAw9g962f4+ytRnSAR9o9/Rp9mYZEYXQfDfFEL5QvPxjijqGLI5
+         I1xmlajt7G/eOUwtWJ70/LoRBMAe96n2RKBwZsIkhxiqzeTuVr2fSuE5k3PTMjWP839e
+         OBatKQD4zDufwv3xMOJM85msym+bJ23d7RkTdynzq7Jkknv0+JvQqE3/is0BHbDNwyvZ
+         ZoWoMTw+D1t+0PN/jqNCtRvhXO4AQIragE28BQhG0vQeXkjlXdMYPt39gC2/1OVGptjq
+         rUiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737564098; x=1738168898;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T1DHMDWob4N3lDod+SNdK0dgpbfuTB1CM0HzeuyK6d8=;
+        b=xI+srP44vsszp/bniHcOJUc6A/GCKh82FRyDUWqXoNpSoNyUc/BdZGi1OmUZ4IFHrY
+         FonXLhEKbF3MqxDQQklbtwHeVcludtU4awMjsiEWLYCTd4QQqOOfBTEMxOQAdzvrufig
+         60334S9+OQ2KAmArjED+u052HqcGb4M8ZRJu8cdqZJt3v11fUKy7/pkFvRP68pUITcEN
+         yvZuzZdH5sv6gdsqKSmq75zft0j5sOQHSn+lV4kCFipJTALCvkZ42+LoZ0IUVcWLJaTa
+         xmpPJiLFxe/MA0U7kIOBpyq1q+HDqdYMdbR+3uHEdx6+L95/wD4VtwzPgtwrJqG6+5R4
+         LYjw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCO+Ho66sYzHcim7edARYxTD2SziMS3/arvOYx8Y9iKiEGkuYrekW0EkcQVGvnVh5VTqlWEjD81mQr6mY=@vger.kernel.org, AJvYcCVQfigPKMn9y2Z+seECWNMUZ+oqIPYkGXN9IPw2sxYjrVKiRBja8TawQoLKwMPKlp3fofhO3EmPr4ANRMw=@vger.kernel.org, AJvYcCXkxHyJMusM8SUGz8fZQhpPz6EMThs3GfOPcoTFq77A/Pl0vLqTilWZ7tyuy7r6eKOIgh8PQl8jGRftHw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXe7rFRVRWIUmCn6nBjj5lt9ZfCHF/PnG35OQFwXquFlv8OENB
+	JX3D/FA1F0jAGg0UTpminBVdpiaihzgP2zFdC4Lgy4nJ75HQUpiI
+X-Gm-Gg: ASbGnctKvOzTSpUEsNpd2wYpPm5ZMK51Biq7H7Fb0PTjKMRtDymwEbckOGGvIjD3w+v
+	5LSz+0Wd6vZNGRmAGHvKrH08gfyOXa3YbxMbxIbzlwxAdOL/FBbdl3XrAx0FcNZgHN0YMnatk3w
+	d5uJWzrZ/ixX2XITLpJR18RaWUQY0aXrxfMGmGlRk5OuEoizeLq/Ceahdqd2+F1LfZ92aR2904V
+	zdYf48692TMoFHK9iiU/5B1Exar4y6VEIkpcG5y7Ca2GgIjOMQBrsbjd9LQZHnoFZcVNBbZvDSK
+	zKuFIi9VKXC/SMPD
+X-Google-Smtp-Source: AGHT+IFB1KDHAW9h8whxxYfLfNYJMsXyqslGP92r3EWJdg4rjFNnkmn3pr4fyA+4j22Rp/o5FaQ3OQ==
+X-Received: by 2002:a05:6402:2747:b0:5db:67a7:e76b with SMTP id 4fb4d7f45d1cf-5db7d2e2ddemr20563364a12.7.1737564098293;
+        Wed, 22 Jan 2025 08:41:38 -0800 (PST)
+Received: from localhost.localdomain ([95.43.220.235])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5db73642580sm8647061a12.15.2025.01.22.08.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 08:41:38 -0800 (PST)
+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+To: Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Tony Lindgren <tony@atomide.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com,
+	linux-omap@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	imx@lists.linux.dev,
-	Iuliana Prodan <iuliana.prodan@nxp.com>,
-	Liam Girdwood <liam.r.girdwood@intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>
-Subject: [PATCH 4/4] ASoC: SOF: imx8m: Add entry for new 8M Plus revision
-Date: Wed, 22 Jan 2025 18:35:44 +0200
-Message-ID: <20250122163544.1392869-5-daniel.baluta@nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250122163544.1392869-1-daniel.baluta@nxp.com>
-References: <20250122163544.1392869-1-daniel.baluta@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM4PR0302CA0005.eurprd03.prod.outlook.com
- (2603:10a6:205:2::18) To AS8PR04MB8247.eurprd04.prod.outlook.com
- (2603:10a6:20b:3f2::13)
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Subject: [PATCH v2 0/5] ASoC: cpcap: Implement jack headset detection
+Date: Wed, 22 Jan 2025 18:41:24 +0200
+Message-Id: <20250122164129.807247-1-ivo.g.dimitrov.75@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8247:EE_|AS8PR04MB8403:EE_
-X-MS-Office365-Filtering-Correlation-Id: 191427a9-f0d3-49db-aafa-08dd3b02b8ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|52116014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xEgIy7bmWtUMv/+uS0pttUOsTKfd1bpmi7+Uq75GPdc3Y7kEGy9uN5CNI/FX?=
- =?us-ascii?Q?x/r3BqU1EPsOp3fUns0ipudWBNugHkFveXsYZWVMxkZh11li7m4Z/emk5TOH?=
- =?us-ascii?Q?YpOTF4ise4YIsouEhKB5IyHhcEmxowjRjzvPjBdvxvxG4jMQMwMwk4hjtrSA?=
- =?us-ascii?Q?Q45w/QA1Y2dc/kHNUHlxTF26s+4kj+bOTLQv5gm9LF5INLLvKMnhnIBQydLk?=
- =?us-ascii?Q?DbNZjhD6z3wYnGUBgajVdxZ91y6uv2prDE8d6mNlAOr4WAg+arHA2mYOm/ce?=
- =?us-ascii?Q?F3824pBCbCCU+f2SfNnoX0JuDEZJKgiUNm/DjIm6FcBvF+1g0ji4CefRGY/o?=
- =?us-ascii?Q?BD+QJd6bLXErvbgkJkz3JmDzP23/2mmm3KlZm1QqdKvHNzh9sFgqOHTNLu2i?=
- =?us-ascii?Q?/9PJVuKydYfH9J5rMamdI4cTW9X4L6tIn/ASUqo/tXM5L/76UKMwcLrcoRu2?=
- =?us-ascii?Q?ZthwZS7MgDeCmELXh3thWqWSMD/d7iHMt8s6KKfLWBK44VyPwP2ot0DuRcho?=
- =?us-ascii?Q?dhTQAUVZMofs06QedB3oS4c9/MmvNvUd97e3CKAWQ0f0z26t1x2IhFNqBGh7?=
- =?us-ascii?Q?fnrAlP7TB+sICxzRGmvPNVYrRrmAIXsGSiNl45qDuL+Jf7pLWni9/bVnW5g9?=
- =?us-ascii?Q?s5fDW2t+fTR2HSESmZ0vDM8G4zViJgfJm+WYp28aXoXNZW6pK2JKcOwKEExx?=
- =?us-ascii?Q?R8afkbmf/cYdNMZhT0En4WHR6rwNLCiJgM5vuIgCLck+I3jj19NLcGpC3Qhg?=
- =?us-ascii?Q?bFOxv5ks4Dwy8MUL+w+249O12i6uQ4feT64PdUNdcP1xCwE6me0pkJyaXwVn?=
- =?us-ascii?Q?G1sM+3va1Q+GaB23h6g9thou0lHigGswph8vImhVg/FdFMjpAdOdAZVedOkN?=
- =?us-ascii?Q?K3eQlPkUZOFDgdeAOSh1OiodCCE/8ZlNHdwFO3GAr+iR+Eu0MqsDUi2oyCUx?=
- =?us-ascii?Q?zoJziteB4kz7tCMPQY2LLK20xzdddMbb3JjP83ZiQiEAwkiG1x2ifjPFtKD/?=
- =?us-ascii?Q?X13OjUzFELqL6f5V1dGKhP85e0sPZtpsgQkpn61fJ4rU/Y0/I7Z0o1R9D2Fm?=
- =?us-ascii?Q?NpLWXlb+Oscv4a7w7pidcQ+yFtcqlKZwsYRCy9IPdGvGjoZ1LHHlpo5B0915?=
- =?us-ascii?Q?Wt5EvSlgrxFsWoJlEJyYnQXNQN7gvVpfcPI7sbZxHMofZEOEnuMMu1jCfF23?=
- =?us-ascii?Q?iEr10UYGWbb9EsNZSC4qa9g4JmBFM2xtmlN2X5GWeA6Woy1niIiNPvK8eBP+?=
- =?us-ascii?Q?jO1isxsuCanItiBsD8AP1gb5f7nqYYipPC58p9nhYnICdNY5ZVNg6VLvcgbB?=
- =?us-ascii?Q?Xt05bd85Z9ynVxap4r48aUdjUEL+JI8zvKr2XfP7rn9gVxMtJejbZwUv8mG0?=
- =?us-ascii?Q?Rh7KrTeFZg6Nts1Oj3y7iTFk/RQv/817O27i8/ZKtHRazfeIEKMWGPh8SI8C?=
- =?us-ascii?Q?U5X2h4/0PCApRQifhEIvbLM/NrrBru4X?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8247.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?veYmYxEakGhqyyqLq6y9buLm4rrERAUr5wLcau/Uw/wQ5LzKXM4Pahf4hE+j?=
- =?us-ascii?Q?VyZn1pM5icwgkYvUEWeu0MlCrRxaOpsoFMm8kXm3aKMoByEnhmvjEaDFweqm?=
- =?us-ascii?Q?Ky8m2Zq4rUP03kGR17CmfyBc4Fr90g1/7xFzXjCPADzGtiBOsdPZmH9SYV5r?=
- =?us-ascii?Q?8YmVT8GtwlMPZEze3YEYTr5GLjApa+L5T6sNBvxnPvk5ziQC4BCgpZdUzqF7?=
- =?us-ascii?Q?o/FAtbigYoF6iSZroivApdKXCrBLAPAnm9Fxx8qphoRl2iNiIvjHgHT3ZXqD?=
- =?us-ascii?Q?EMWVueR5Wq/Zf3xoxXKDwV2kAvHqpmd/LqSuTpZzH5wxdB7I/QIiAOJ3lNz4?=
- =?us-ascii?Q?uLKLJeeFFY6Cm8TyDMrlCi6TWsLL+TwcJDa1HO1ySY8IdML9IEaIVH/ixcbT?=
- =?us-ascii?Q?X6X2xNINSwupoySPWbCPZseK8Hqs5YC0uF/wNGk+AueJZ2+davqzfLIy8Tpe?=
- =?us-ascii?Q?XWvM1+h8Z8oW57CUZsUeKS3c4eFo7YuQLCgwAL8lqa/MpmvS/JX5CGlYDayf?=
- =?us-ascii?Q?JUTo92ME9iuc7BoXtTEhgClBN+hfNjymdtGu8FaHo8CXb8+4/P5ewW66NX2Q?=
- =?us-ascii?Q?740VcSi2fb0auaGXxLPz8QccqcPJvuflHcBD3VT73BFR6Mdp6PUCxzctPhBZ?=
- =?us-ascii?Q?TYxgD+L1C+V3/w115B1xAPkE7k+YouVZ5eWiP931VbJYNwtg/Edr3BfJXzgC?=
- =?us-ascii?Q?wd7Y/7IYRzFhzkGz4U4dVorDW+vY6SxnuLd2R4zUkFoMGHn6saGwQiSzMbTf?=
- =?us-ascii?Q?3/8TJ7xrIwqwdg748auiQkFBCuLOhPjbYf4Ljel4UDBMUmNL+51Xv4iSc4Ym?=
- =?us-ascii?Q?ARFoxzSa1oqloLBOMkPPpUKeXffpt99wAs81z81NDAkruIDNXLViLeM5uYxE?=
- =?us-ascii?Q?VrXOfyWkR4Bpdxmly/YPfreBba8QRykBMuNyM1Eixz1Ie56PFSN2//2TslaH?=
- =?us-ascii?Q?n5Twcy3DUby+4TU+dpF+XA3CbkZ21gmkeOF6AagoRwhaNJwRJLvkAN7BrQSx?=
- =?us-ascii?Q?JOWm2N9pMQVBSyzl2JjoOW28YlyvTVdPj6t241ZDRCEXKRUs9zfdNU/PiV9V?=
- =?us-ascii?Q?hD+mvUTHptQbXxd79/tylfKwPb8RLJaseC6VwQAokcSyuk/Phcm5vaClW/bv?=
- =?us-ascii?Q?TLYg+8yZ94583KLYdbg8lmFNwFCa7tzjD49ILvDMPTBNgRoCkciWwm7S0+Sg?=
- =?us-ascii?Q?FB5ziOWXCTp7nAeXivCpFWVYRSNTmHv3MS8NQJ3oKQ8XJBTzJkeEXaF9GtH9?=
- =?us-ascii?Q?TApUympqOOnyt+NubD4L4N7jlPpmYU4cWMZiR0bVth7jU8i7nMuuAL2s5eAB?=
- =?us-ascii?Q?5pJR19nCZKrO8L370coXNDHxSEHNfRRDU6WuvPUoK6MMop4U74Wxi7P6Z9t0?=
- =?us-ascii?Q?g8EiBI0LJS6+6lGqxJ3ZXoabySWGxfuB96F/iEYkjkkxDjx/vguqDzEg17Mr?=
- =?us-ascii?Q?1ABz26f6A+qQEzaPqrbCuDZm8DiK+q7Sjev0x81fC9rAy96uL0ENqE4I+7It?=
- =?us-ascii?Q?d+32phTqT2oChv+kdKV5Ps5T8cUr8TKHUDdHRhuyNHNyecB+tt2TzrnK4WSY?=
- =?us-ascii?Q?CqM9/y/xwt/mhD593x3RFNtqdlOqDiDyBSU1Dod1?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 191427a9-f0d3-49db-aafa-08dd3b02b8ae
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8247.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2025 16:35:03.5596
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /OJpykCFmEsNqO/NoCmO/NbsS/CZDidia0sfgedsqtn8gzITxSBEKQZjyw7dHdRCwZZoHYBdJlJ4TcrALDVD8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8403
+Content-Transfer-Encoding: 8bit
 
-From: Iuliana Prodan <iuliana.prodan@nxp.com>
+cpcap audio codec found on cpcap PMIC supports headset detection
+and PTT button through its 3.5 mm jack. This series implements
+support for those capabilities.
 
-The new revision for 8M Plus has wm8962 codec instead of wm8960.
-Therefore add new entry in sof_imx8mp_machs, an array of snd_sof_of_mach,
-where we describe topology name and driver name.
-For the new revision we have new compatible value and based on this,
-we select the new topology file, for wm8962 codec.
+Changelog:
+v2:
+- cpcap.c: fix a typo
+- dt-bindings: fix interrupts description and alignment
+- motorola-cpcap-mapphone.dtsi: fix interrupts alignment
 
-Reviewed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-Signed-off-by: Daniel Baluta <daniel.baluta@nxp.com>
-Signed-off-by: Iuliana Prodan <iuliana.prodan@nxp.com>
----
- sound/soc/sof/imx/imx8m.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Ivaylo Dimitrov (5):
+  arch: arm: dts: cpcap-mapphone: Set VAUDIO regulator always-on
+  ASoC: cpcap: Implement .set_bias_level
+  dt-bindings: mfd: motorola-cpcap: Document audio-codec interrupts
+  arch: arm: dts: cpcap-mapphone: Add audio-codec jack detection
+    interrupts
+  ASoC: cpcap: Implement jack detection
 
-diff --git a/sound/soc/sof/imx/imx8m.c b/sound/soc/sof/imx/imx8m.c
-index 4ab5814e9117..c63d64164e4b 100644
---- a/sound/soc/sof/imx/imx8m.c
-+++ b/sound/soc/sof/imx/imx8m.c
-@@ -515,6 +515,11 @@ static const struct snd_sof_dsp_ops sof_imx8m_ops = {
- };
- 
- static struct snd_sof_of_mach sof_imx8mp_machs[] = {
-+	{
-+		.compatible = "fsl,imx8mp-evk-revb4",
-+		.sof_tplg_filename = "sof-imx8mp-wm8962.tplg",
-+		.drv_name = "asoc-audio-graph-card2",
-+	},
- 	{
- 		.compatible = "fsl,imx8mp-evk",
- 		.sof_tplg_filename = "sof-imx8mp-wm8960.tplg",
+ .../bindings/mfd/motorola-cpcap.txt           |   6 +
+ .../dts/ti/omap/motorola-cpcap-mapphone.dtsi  |   6 +-
+ sound/soc/codecs/cpcap.c                      | 200 +++++++++++++++++-
+ 3 files changed, 210 insertions(+), 2 deletions(-)
+
 -- 
-2.43.0
+2.30.2
 
