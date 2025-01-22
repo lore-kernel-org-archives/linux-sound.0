@@ -1,275 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623492144A1
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 14:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9127B214A79
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 16:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737555876; cv=none; b=VTspM8qSF7ybhgMNq7YBai9rsgpxCYlxtkq9MxRcN1RYB+XFd469/HjZIAhDF6Qc77N6+LWCen1/8guTUNDw/Bo4pgxa4qPupUqVTnH2hakLQshkMJlWBBchTRHhr+xHNtmZKO4OgEVGRa6kpv6dtuK8Awl7t6EhDcBla79l4lw=
+	t=1737562007; cv=none; b=mP5FYMMueKm7Af1OoOgISSud35AV+/FUcB4L679hwtgtVvCPOcNQ4woczCJTdQweZMfLvjvj63qH48zmn3Ur1YWWXFxGutRKqv4L2bxXNQz7+p1Wa1VRryVaDz8G9p1/Vv751NjU7dwXz+dimm6v6Rx+qeYfT2/dFoK0wbnYclI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737555876; c=relaxed/simple;
-	bh=XOja4YaEqhIdmJVIFGypf9qBtVFFj0ubOQhNXqHDAXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PwBlW4Xj2wlZTB6UwUenWHLC46nZSboEzO1tnX3X+FiThatMpMTjaWn0rPIdnMfmoeNsaJ61a7d0UhmtGWDTTfwCBKjAizCqc7Wz/nnOhOmMnESRTtIpf89DjJgam1sx2JziyS6pAzpmn+7vOsBKkRoaUEnMHaDe3VUcX0rBvSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RJ5jOiAj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737562007; c=relaxed/simple;
+	bh=D7TiOSZ0/r8Dzi84iu+4HEgPSO7+SRktGnz+bPePQSw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UQp3nJPW+rK67ofKLG0+TUktb7/7WoPL3joFANEk9gEnEfPjs7OD96phIBN8KkvP4UvqhQQYWn6I3sCCCMokMAk31IVJzDPSWzxS0hjWvIFmcD2+OUO0iXK9hrFiiiloI3PxlENsu7IeY+2uNDdgN0maZogTySaaG8HVEcnvXn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GwiUJLV9; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RJ5jOiAj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB163C4CED2;
-	Wed, 22 Jan 2025 14:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737555875;
-	bh=XOja4YaEqhIdmJVIFGypf9qBtVFFj0ubOQhNXqHDAXc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RJ5jOiAjcyNNzOZda0YyXY4EuwPecDVRqC4aalY87vlCPFVnKS/GaUyY/isO5pqOq
-	 t7p5Hw1HJhUoXvjK2dnJyvjICbdLxP06FZtwFW0teUZbSMaD0yK50Gfa195F2H+p6d
-	 5ajjDiVSp2+KVO9GQTnHCAP6kIaePteZc2DteQeb7hGRBFpDX+479YQnynl0PclumA
-	 AYsZ/4bggAJVD5B9YCiGDU56qZOKx4xCISE1EACPsZ9G8ItxnyBfw07LRjl/PT7ASe
-	 +TehL65XEw47HXVHYl++Fgiq8rFkuPX/bUpjLlUbxXegAXCahOE0Sdic3EyoeqrOiX
-	 7YbPYpcNrbHhg==
-Date: Wed, 22 Jan 2025 14:24:31 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Nikola Jelic <nikola.jelic83@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org,
-	rwalton@cmlmicro.com
-Subject: Re: [PATCH 2/2] Adding support for the CML's CMX655D audio codec,
- both i2c and spi connectivity options.
-Message-ID: <3f439018-4b3a-4a01-8afb-19f15c6e53f4@sirena.org.uk>
-References: <20250121230903.89808-1-nikola.jelic83@gmail.com>
- <20250121230903.89808-2-nikola.jelic83@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GwiUJLV9"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d0c939ab78so10073a12.0
+        for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 08:06:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1737562004; x=1738166804; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6n6nA1UPEDmI3S8tFcuk38xHsxsh37uFCZRIM8k0okM=;
+        b=GwiUJLV9UdiSt3Urze5gfe3b1zq8cgNEkAYaNEDKjqV1EmZ/sx7aJJI6gFPuyhuBHp
+         Nqho+w4MSX+EdW3LDiemPr9N4ini8y9dmTR+3+nE6ns1k8RwZVViCWxlZ5xdPM3O09gO
+         ihSClG7pT0o5iAoejx6ZsrHrZLMSCj4N8+oJP1o5UGo+fFYOgcjriT8Fr/hYoTx3jJR6
+         Iv6O1G0XpOsk1i8OQw7tLGmK4AUz9YFWq05cVgSuamprEbfoE+AbnQ+ToWC1YqhPnGhw
+         0vdkksPNkYThtBvXZd2aYzgczrnMVxbyc9w7rvsK25NtOZv4bxX6Z00+jr4BQKFvzWaa
+         Hqfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737562004; x=1738166804;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6n6nA1UPEDmI3S8tFcuk38xHsxsh37uFCZRIM8k0okM=;
+        b=GAd/FOnSnRkJ1sM4KHxzVIwNV6XQOPSEnaDONvVGZlELO9QqjfP28PFxg5oTB6LqLI
+         rOrRf4ORULfNj98q9THkIzRwL1GU/QqLCZsgpVJ+N9q1KtZi5KpLBD65ureiCZjibqi6
+         ISeI8v891xdH7+hWbHx27Dqwa066Xo6X437r2TZZAvrS/n7TUV+jGJrU2DpQtRLqXO2I
+         SIc9Hr0aArIQbnbY8H+XP/M6F70bGYxpIJqOBAj4ucB6Q80+gur3uh/SPwighev5cTj8
+         ohBPAT4s2I6C2w9pIDSp3O3s+I7kJfRC+OrijOEA8u2wUuORTFPwv/itBkVX9rY/ODxB
+         A9AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUufohJDEaSCQYWfP9Hh6RUIxjQZeQ67MDfYl+m9ZYd3uKC2RcnGmzAST4Hbt4bhzHNm3zsGs8S2C0HqQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywnw1XMalS9zpULWlxPHW3iRH0nvMHZXY618Bp3oRH+4IQF6HYj
+	SEPbIRBng6T1lT7KAlVHe5Mm2ZwKoAoJqLWjQVjLht7buerXzdT0q5RsRAZMuYI+pOoUXNtTkYT
+	4bHnUPBB5dOWLV6MoR27E4Tf6f9QNBFxkqaVvo6IU/tYdEzM4MA==
+X-Gm-Gg: ASbGncs5jkuZtuJauNdTu7IfTSRFcs0IVewlzS+UXpNxc6+Hz4I5veTHQp0lY4Nd+De
+	nFHDDuhJmI4B/cl2u6k1jb99ZrkLdligtggYxnCM0ZWLkL+Z2dZCM8BsoOgH4j3XvBxHHIQhY+M
+	T0Sq/0AQ==
+X-Google-Smtp-Source: AGHT+IHUjKDQ6+slJUAhAf3WVfJImZelO7NCd6T45qtNsIy2liPFTj1N0ZUfaMz5My9tZ2vaNRB+uzNmSX1y35Onkw0=
+X-Received: by 2002:aa7:d89a:0:b0:5d9:5a5c:f2f9 with SMTP id
+ 4fb4d7f45d1cf-5dbf52d5516mr120621a12.7.1737562003573; Wed, 22 Jan 2025
+ 08:06:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cr/y0v98CK9UFQsi"
-Content-Disposition: inline
-In-Reply-To: <20250121230903.89808-2-nikola.jelic83@gmail.com>
-X-Cookie: Star Trek Lives!
+References: <20250117145145.3093352-1-guanyulin@google.com> <943a7b09-8e77-4813-810a-18fea0e61482@linux.dev>
+In-Reply-To: <943a7b09-8e77-4813-810a-18fea0e61482@linux.dev>
+From: Guan-Yu Lin <guanyulin@google.com>
+Date: Thu, 23 Jan 2025 00:05:00 +0800
+X-Gm-Features: AbW1kvb2zlEX3iAAJgCi0wJTZP6Xx_KQqsUjFfxlIQjPKO2bQBrQH3i83VISl2o
+Message-ID: <CAOuDEK3aip9SLCUPOzpVPwx-O4rmF-+sQrF4GJasGPBzV=qJdg@mail.gmail.com>
+Subject: Re: [PATCH v9 0/5] Support system sleep with offloaded usb transfers
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, 
+	mathias.nyman@intel.com, stern@rowland.harvard.edu, perex@perex.cz, 
+	tiwai@suse.com, sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com, 
+	ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Jan 18, 2025 at 12:14=E2=80=AFAM Pierre-Louis Bossart
+<pierre-louis.bossart@linux.dev> wrote:
+>
+> On 1/17/25 8:48 AM, Guan-Yu Lin wrote:
+> > Wesley Cheng and Mathias Nyman's USB offload design enables a co-proces=
+sor
+> > to handle some USB transfers, potentially allowing the main system to
+> > sleep and save power. However, Linux's power management system halts th=
+e
+> > USB host controller when the main system isn't managing any USB transfe=
+rs.
+> > To address this, the proposal modifies the system to recognize offloade=
+d
+> > USB transfers and manage power accordingly.
+>
+> You probably want to expand on the problem statement and clarify quite a =
+few ambiguous statements.
+>
+> a) "allowing the main system to sleep and save power". What is the 'main =
+system' and what sort of sleep are you referring to?
+> Traditionally when playing audio the audio devices remain in D0. Support =
+for playback during 'S0 idle' is more complicated, I have yet to see a work=
+ing solution even without USB offload in the picture.
+>
+The main system refers to the device running the linux kernel. The
+sleep refers to system suspend in the System Sleep model[1], which
+should be S3 state (Suspend to RAM).
 
---cr/y0v98CK9UFQsi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> b) when referring to power management, you have to be specific on whether=
+ you mean 'runtime_pm' or regular power management. Not the same thing but =
+there are related issues.
+>
+Thanks for pointing it out. By power management, I mean the System
+Sleep model[1].
 
-On Wed, Jan 22, 2025 at 12:09:03AM +0100, Nikola Jelic wrote:
+> c) for audio offload the transactions that go through the DSP or co-proce=
+ssor are only for audio endpoints. Control transactions rely on endpoint0 a=
+nd are NOT offloaded to the best of my knowledge. Which means that you woul=
+d need to track control transactions as well, even if there is no audio str=
+eaming. Otherwise you would have a risk of the XHCI controller transitionin=
+g in and out of sleep states.
+>
+To my knowledge, the system would not issue control transfer after the
+system goes to sleep. If there are any abnormalities in the XHCI
+controller that requires the system to handle, the controller would
+issue an interrupt to the system. We could allow this interrupt to
+wake up the system, and the system could then issue corresponding
+control transfers to handle it.
 
-There's quite a few things here.  In general the majority of the issues
-are ones where the driver isn't following common patterns that other
-drivers in the subsystem or kernel at large aren't following them, a lot
-of them are stylistic but there's quite a few that will affect operation
-too.  In some of the more widespread issues I've highlighted examples
-rather than every single one.
+> > This involves two key steps:
+> > 1. Transfer Status Tracking: Propose xhci_sideband_get and
+> > xhci_sideband_put to track USB transfers on the co-processor, ensuring =
+the
+> > system is aware of any ongoing activity.
+>
+>
+> > 2. Power Management Adjustment:  Modifications to the USB driver stack
+> > (dwc3 controller driver, xhci host controller driver, and USB device
+> > drivers) allow the system to sleep without disrupting co-processor mana=
+ged
+> > USB transfers. This involves adding conditional checks to bypass some
+> > power management operations.
+>
+> This is even more confusing, initially the point was to prevent the contr=
+oller from sleeping while there are offloaded transactions, but now the goa=
+l would be to allow the system to sleep while there are offloaded transacti=
+ons. This isn't the same problem, is it?
+>
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+The purpose of this series is to allow offloaded usb transfers happen
+during system sleep. In order to achieve this, we need to prevent the
+controller from sleeping when there's offloaded usb transfer ongoing,
+specifically when the system is sleeping.
+Without this series, the system could still allow offloaded usb
+traffic when the system is active, but the system would put the
+controller to sleep when the system is going to sleep, thus we're not
+able to suspend the system when we have offloaded usb transfers in the
+current system.
 
-> +config SND_SOC_CMX655D
-> +	tristate "CMX655D codec"
-> +	depends on I2C || SPI_MASTER
-> +	help
-> +	  Enable support for CML CMX655D audio codec with a speaker and
-> +	  two microphones. You also need to enable at least one bus
-> +	  adapter, I2C and/or SPI.
-> +
+[1] https://www.kernel.org/doc/html/v4.12/driver-api/pm/devices.html
 
-There is no point in making this user selectable since it's unusable
-without a bus, do what all the other multi-bus devices do and make it
-selected by the per-bus options.
-
-> +obj-$(CONFIG_SND_SOC_CMX655D) += snd-soc-cmx655.o
-> +obj-$(CONFIG_SND_SOC_CMX655D_I2C) += cmx655_i2c.o
-> +obj-$(CONFIG_SND_SOC_CMX655D_SPI) += cmx655_spi.o
-
-All the other ASoC modules are snd-soc- ones and we always use - not _
-as a separator.
-
-> +/*
-> + * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> + * Create Regmap
-> + * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> + */
-
-Please use a normal kernel commenting style.
-
-> +/*
-> + * Define volatile regs with function
-> + */
-> +static bool cmx655_volatile_reg(struct device *dev, unsigned int reg)
-> +{
-> +	bool ret;
-> +
-> +	switch (reg) {
-> +	case CMX655_COMMAND:
-> +	case CMX655_SYSCTRL:
-> +	case CMX655_ISR:
-> +	case CMX655_ISE:
-> +		ret = true;
-> +		break;
-> +	default:
-> +		ret = false;
-> +		break;
-> +	}
-> +	return ret;
-> +};
-
-Please just directly return like other similar regmap functions do, it
-*probably* doesn't make a difference to the generated code but it makes
-the code look less standard.
-
-> +	.reg_defaults = cmx655_reg_defaults,
-> +	.num_reg_defaults = ARRAY_SIZE(cmx655_reg_defaults),
-> +	.cache_type = REGCACHE_RBTREE,
-
-Unless you've got a strong reason to use something else the default
-should be _MAPLE.
-
-> +EXPORT_SYMBOL(cmx655_regmap);
-
-ASoC and regmap are both EXPORT_SYMBOL_GPL, this is unusable without
-_GPL so you should keep it and all the other exports _GPL too.
-
-> +/*
-> + *  Get the clock setup the system clock based on clock Id, DAI master mode
-> + *  and sample rate
-> + *      clk_id      - Clock source setting as defined in cmx655.h
-> + *      master_mode - Non-zero if the CMX655 is the DAI master
-> + *      sr_setting  - Setting for sample rate 0 to 3
-> + *      clk_src     - pointer for storing clock source (PLLREF, PLLSEL and
-> + *                          CLKSEL bits)
-> + *      rdiv        - pointer for storing PLL's RDIV value (13 bits)
-> + *      ndiv        - pointer for storing PLL's NDIV value (13 bits)
-> + *      pll_ctrl    - pointer for storing PLLCTRL register value (8 bits)
-> + */
-
-Again, we have a style for this in the kernel which you should use.
-
-> +	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
-> +	case SND_SOC_DAIFMT_CBM_CFM:
-> +		reg_val = reg_val | CMX655_SAI_MSTR;
-> +		break;
-> +	case SND_SOC_DAIFMT_CBS_CFS:
-
-Please use the modern names for these that avoid outdated terminology.
-
-> +static int cmx655_hw_params(struct snd_pcm_substream *stream,
-> +			    struct snd_pcm_hw_params *hw_params,
-> +			    struct snd_soc_dai *dai)
-> +{
-> +	int ret;
-> +	struct snd_soc_component *component = dai->component;
-> +	struct cmx655_data *cmx655_data =
-> +	    snd_soc_component_get_drvdata(component);
-> +	struct cmx655_dai_data *cmx655_dai_data = &cmx655_data->dai_data;
-> +	unsigned int enabled_streams = cmx655_dai_data->enabled_streams;
-> +
-> +	if (cmx655_dai_data->best_clk_running) {
-> +		// Will get here if the clock is in use so don't go stopping it
-> +		dev_dbg(component->dev, "Clock running. Skipping setup\n");
-
-This is going to result in us just ignoring what the user asked for if
-the stream is already running.  Like with other devices if there's
-constraints that have been created at runtime they should be advertised
-to userspace via the constraints interface, if userspace attempts to set
-something that violates the constraints we should error out.
-
-> +static irqreturn_t cmx655_irq_thread(int irq, void *data)
-> +{
-> +	struct snd_soc_component *component = data;
-> +	struct cmx655_data *cmx655_data =
-> +	    snd_soc_component_get_drvdata(component);
-> +	unsigned int status;
-
-> +	status = snd_soc_component_read(component, CMX655_ISR);
-> +	if (status == 0) {	// Event was not trigged by CMX655 so let the higher level know
-> +		return IRQ_NONE;
-> +	}
-> +	// Thermal protection event ++++++++++++++++++++++++++++++++++++++++++++++++
-
-Again, please write code that looks like kernel code.  I'm not pointing
-out every issue here.
-
-> +	SOC_ENUM("Cap_HPF Capture Switch", cmx655_hpf_capture_enum),
-> +	// Noise gate
-> +	SOC_SINGLE("Noise_Gate Capture Switch", CMX655_NGCTRL, 7, 1, 0),
-
-Please don't insert random _s into control names, write something that
-looks like normal text.
-
-> +	SOC_SINGLE_TLV("NG_Threshold Capture Volume", CMX655_NGCTRL, 0, 31, 0,
-> +		       cmx655_ng_thresh),
-
-Please consistently name the noise gate controls to use Noise Gate to
-help userspace group the controls.
-
-> +	SOC_SINGLE_TLV("Pre_Amp Playback Volume", CMX655_PREAMP, 0, 3, 0,
-> +		       cmx655_pre_amp),
-
-Preamp or Preamplifier.
-
-> +	SOC_ENUM("Play_HPF Playback Switch", cmx655_hpf_playback_enum),
-
-Play and Playback?
-
-> +	SOC_SINGLE("Companding_En Switch", CMX655_SAIMUX, 4, 1, 0),
-
-_En is redundant.
-
-> +	SOC_ENUM("Companding_Type Switch", cmx655_companding_enum),
-
-This is an enumeration not a Switch, this will confuse userspace.
-
-> +	// Set-up value following the codec reset that will happen in a bit
-> +	cmx655_data->dai_data.enabled_streams = 0;
-> +	cmx655_data->dai_data.best_clk_running = false;
-
-You kzalloc()ed the struct.
-
-> +	if (cmx655_data->reset_gpio) {
-> +		// Hold reset line
-> +		gpiod_set_value_cansleep(cmx655_data->reset_gpio, 1);
-> +		// Time of reset pulse must be greater than 1us
-> +		// sleep for 10us to 1ms, speed is not critical here
-> +		usleep_range(10, 1000);
-> +		// release reset line
-> +		gpiod_set_value_cansleep(cmx655_data->reset_gpio, 0);
-> +	} else {
-> +		dev_dbg(&client->dev, "No reset GPIO, using reset command\n");
-> +		regmap_write(cmx655_data->regmap, CMX655_COMMAND,
-> +			     CMX655_CMD_SOFT_RESET);
-> +	}
-
-This could be factored out into the core, as could the DT parsing.
-
-> +static void cmx655_i2c_remove(struct i2c_client *client)
-> +{
-> +	struct cmx655_data *cmx655_data = i2c_get_clientdata(client);
-> +	// put codec into reset in GPIO given
-> +	gpiod_set_value_cansleep(cmx655_data->reset_gpio, 1);
-> +	// unregister codec
-> +	cmx655_common_unregister_component(&client->dev);
-> +};
-
-This will reset the device while it's still exposed to userspace which
-could go badly.
-
---cr/y0v98CK9UFQsi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeQ/58ACgkQJNaLcl1U
-h9BZNwf/coXyZD01QZUS4tLVCu1ulFGxB0pUYn1eUt9OHv3VXfPSyq2O8BP3V90F
-1zwQ6bsru2171JC8z7SYOrhX44uB4cGqWD3gt0IYCNvqgi5WPNjBO6ngJH2Ar1R+
-1jathnLiVuI8blSNszcwHWH/CAbRgaet3NwvaH05FlqbPMc0OsZjUj8F1TpxlK/a
-qFsm/KrpfACwTR3Y8nsXFRJrNtqXJLscJb48r0xRQQN6gJ3VsWNXTbEFZ3KjWrSR
-v40kUNdweyX6U4B2WpEpiJaWZOr/Me2PM6ICbPZcqjVvhOIwCVGEKY4ooY8jhSJ6
-56GAkC617fHvth9UiRrYKcf7ycXeqQ==
-=tC3P
------END PGP SIGNATURE-----
-
---cr/y0v98CK9UFQsi--
+Regards,
+Guan-Yu
