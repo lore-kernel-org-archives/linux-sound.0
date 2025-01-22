@@ -1,146 +1,135 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F1726AF5
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 07:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6F21BBBE0
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 07:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737530640; cv=none; b=gKWXMLNlir8NjL9SyDzDKBo3H/4v/6yCLltPa1vdTD5FNj3B9alP879H2twKFyQgDlPmjjlnSn/5o1BgFsy7GdI+W5Y5dWI+Y0wxJEVHjUBA146MZkKCVauMk7W0ib7ikY/YaGkwkMfHWs5mBJFr3kfaNl52qDGmvHEXS0CDL5c=
+	t=1737531548; cv=none; b=oI4cAG5wclngBqcZYWp88NS/83+j3rF+rF66l399HJiUbWYFPuz0KOk0vLIFWm1zVjqtTvmyUPaNqa/C5pgb15wt7t4GG+Qu5d+vpvjy5ZA3EXyKfqTlg5ccuSTQLXhXGtQMF/Un5v7JDRgTOmGO1SHrF9yHF7rBd6tKMwyexjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737530640; c=relaxed/simple;
-	bh=HSo3wmIaJeqqt86jj7JWqz2BSJl6j7gKDqwD3+4Hsd8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bfVIOdGnDhn0D8mYiyhcB8HBUJE+ghXNSeCWcwm2N+mZIFtU+5x7Edh7GyNgOT7lgEECzXHm5s/ex2yMbUDPYQ1rwz5toJRBnqqc6GS9Wv4+IGYCQ7hOfPTF1//Ha3aMJYoFITmX2ba1vYFWc/Vt32/E/EaQFo0d9Jizk3DlmBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0afZn0L1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s34ynRzp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0afZn0L1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s34ynRzp; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1737531548; c=relaxed/simple;
+	bh=yoZBOi1dm4jGDBScya1XAzqTRz76q21tq/Q8rlteATc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GxKPs6qQiof14qfgkjXCquxIz94wW7Wh/CnvS9MRyDbY2Z+iRbHfTy2tmvQL1Fr+8gU1W4a7CgZIFkUVojjLUgWOGYLbLsVSQ7Hr9dRWjImjbwgw1gWUfFwj7Tqw+8Gf1QfQBbmCfxMsgHlTJedCbPtd9cPPqQ1Ce30TGo7LdJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tBpSASV9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0afZn0L1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s34ynRzp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0afZn0L1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s34ynRzp"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3127F21231;
-	Wed, 22 Jan 2025 07:23:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737530637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vXOgAH+5evaKfjTNvfLapwx3irsR4xhTUuvpAzhbnsQ=;
-	b=0afZn0L1kHz2Bv80fi+pHa0sqRLZSUuVa++p+GiqAjHWZ3ORWDffMn6A8fcYxxiCoHdWjd
-	iNXy17hovGolzoYB1jIEl2jcQa1H4oLpis79xJhXV3I5+znlfHJ1zetk0OQnll9LKzNLUU
-	01ArBTzJwbQBXg9KhJ+AdR6ucIecxOo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737530637;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vXOgAH+5evaKfjTNvfLapwx3irsR4xhTUuvpAzhbnsQ=;
-	b=s34ynRzp0ajtMJ6sT60BLY19yQnF67163PQFO4ZAPo6JLgqGlRVtm45O0bsb6XFKrrw+U+
-	0VtJgHeBh/1qUxDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1737530637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vXOgAH+5evaKfjTNvfLapwx3irsR4xhTUuvpAzhbnsQ=;
-	b=0afZn0L1kHz2Bv80fi+pHa0sqRLZSUuVa++p+GiqAjHWZ3ORWDffMn6A8fcYxxiCoHdWjd
-	iNXy17hovGolzoYB1jIEl2jcQa1H4oLpis79xJhXV3I5+znlfHJ1zetk0OQnll9LKzNLUU
-	01ArBTzJwbQBXg9KhJ+AdR6ucIecxOo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1737530637;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vXOgAH+5evaKfjTNvfLapwx3irsR4xhTUuvpAzhbnsQ=;
-	b=s34ynRzp0ajtMJ6sT60BLY19yQnF67163PQFO4ZAPo6JLgqGlRVtm45O0bsb6XFKrrw+U+
-	0VtJgHeBh/1qUxDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B78D1397D;
-	Wed, 22 Jan 2025 07:23:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NFOtAQ2dkGflSQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 22 Jan 2025 07:23:57 +0000
-Date: Wed, 22 Jan 2025 08:23:56 +0100
-Message-ID: <878qr38g6r.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Samantha Glocker <iam@anislandsomewhere.com>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: possible issue with ALSA: hda/realtek: Use codec SSID matching for Lenovo devices
-In-Reply-To: <87a5bj8gax.wl-tiwai@suse.de>
-References: <CAGPQRHYd48U__UKYj2jJnT4+dnNNoWRBi+wj6zPRn=JpNMBUrg@mail.gmail.com>
-	<87a5bj8gax.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tBpSASV9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89630C4CED6;
+	Wed, 22 Jan 2025 07:39:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737531547;
+	bh=yoZBOi1dm4jGDBScya1XAzqTRz76q21tq/Q8rlteATc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tBpSASV9EQAxILElNw2mB/NAzJbvJRqgGvRG7EnlXMo3PYIjfsn+uA/J5EdvlLjqE
+	 sdKVsNG7s0h8aBCdpA+H9jnUvoOifd5WgMpuoRdX0ht8+MKAeFTid5bzZxUH8eHxAe
+	 1dF42cRbWrHMVQ9bCugIafzmTs0dfys6krJ3qsnqXRam9hfXTIGcjC0HxbVNz29xr5
+	 aJ2cCS+oWOx8Rp2x+g6Ed24ItITLs9A8aOkNe6aTtav9is17mn2zBNDIhAbORH0KPk
+	 jHnBd6UpDeRLGt+bf1TAMHtcojNPCc8ucIudeVhO54QEEss6ZWZJnrycj3ThE27PCH
+	 gQWATuX1nNhPw==
+Message-ID: <db2a8d94-ce83-404e-878c-2aa6168d349f@kernel.org>
+Date: Wed, 22 Jan 2025 08:39:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] sound: dt-bindings: cmx655d
+To: Nikola Jelic <nikola.jelic83@gmail.com>, broonie@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org
+Cc: rwalton@cmlmicro.com
+References: <20250121230903.89808-1-nikola.jelic83@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250121230903.89808-1-nikola.jelic83@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 22 Jan 2025 08:21:26 +0100,
-Takashi Iwai wrote:
-> 
-> On Wed, 22 Jan 2025 01:58:16 +0100,
-> Samantha Glocker wrote:
-> > 
-> > Hi, I'm a kernel maintainer from nobara and ASUS-Linux.
-> > 
-> > I've bifurcated an issue with sound on Lenovo Legion laptop(s)
-> > starting from mainline 6.12.5, verified on Fedora proper, Nobara, and
-> > CachyOS.
-> > 
-> > From the changelog,
-> > https://patch.msgid.link/20241008120233.7154-4-tiwai@suse.de looks
-> > like a likely candidate due to touching TAS2781 / TIA2781.
-> > 
-> > The issue will possibly affect sound on any or all Lenovo Legion Gen 8 and 9.
-> > 
-> > The obvious difference in dmesg on my Legion Pro 7 Gen 8 (16ARX8H) on
-> > 6.12.5, is the following line is completely missing:
-> > [    4.761665] snd_hda_codec_realtek hdaudioC1D0: bound
-> > i2c-TIAS2781:00 (ops tas2781_hda_comp_ops
-> > [snd_hda_scodec_tas2781_i2c])
-> > 
-> > This suggests the TI amplifier is never identified.
-> 
-> What's the exact problem?  Is it a regression?  Any original report on
-> the bug tracker or such?
+On 22/01/2025 00:09, Nikola Jelic wrote:
+> Signed-off-by: Nikola Jelic <nikola.jelic83@gmail.com>
 
-... and if it's a regression, please give alsa-info.sh outputs from
-both working and non-working cases.  Run the script with --no-upload
-option and attach the outputs.
+Please run scripts/checkpatch.pl and fix reported warnings. After that,
+run also `scripts/checkpatch.pl --strict` and (probably) fix more
+warnings. Some warnings can be ignored, especially from --strict run,
+but the code here looks like it needs a fix. Feel free to get in touch
+if the warning is not clear.
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
+<form letter>
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
+
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
+
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
+
+Please kindly resend and include all necessary To/Cc entries.
+</form letter>
+
+> ---
+>  .../bindings/sound/cml,cmx655d.yaml           | 79 +++++++++++++++++++
+>  .../devicetree/bindings/sound/cmx655.txt      | 59 ++++++++++++++
+
+No, bindings in text are not allowed anymore.
 
 
-Takashi
+Best regards,
+Krzysztof
