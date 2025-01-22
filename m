@@ -1,335 +1,150 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E423215780;
-	Wed, 22 Jan 2025 16:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80C64A18
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 17:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737564108; cv=none; b=BT0jXngKbq5EzaCCG2D/cTAvhR23gLVR+gYif2zlLHtxYYqesTFusrnshn5MxTnr+RKTHUIrHxnWRGtoiDIPVgPqZAAmSpsBde+8jm+Go3LdLLXBgh/BTzorsEw/jhIPCjkZyWuPy8jGg1quGylu6NB7OJI7vvdXyij80WM15UM=
+	t=1737567642; cv=none; b=nFjfb8H8tO0xgt4jFaOKxs0E6j1TmAZCmdmwh6mqZu69OEt7n/FF3MTe/sHt4nqn1qeGTNv/p69+zjplmiJK7/geLDdHJXpZ0fw8/KgKGL06ZmV6Gh3Nw3AuX2fcZyCrBwZCfK1eNR+d3G1PNtrjwHPV//16ru9jVHDXOkeyCCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737564108; c=relaxed/simple;
-	bh=fyLy/vZjco4PRjdJG3nWihhqDObvGLzrPgQeIouYvVM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FWzF8M2ZnSC78xASptgVrrHGsI7p8jYNIuCKxbvlzPEAWJMKLVoGLeXjzivZGplk2kiNgcNCD1sYHWNDJ6dKUIfksboDhOOJPgHeOp00F2gfgfGiDxnI2UFh+rjzQpq0krYG3hj/tNJm4tr6qtU1NjVf9pxFvzD8oEFVPLb7lzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ht36CnJx; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737567642; c=relaxed/simple;
+	bh=tZ8uZ3laC1/WVahJvYATMsRkndQi8gyH2lbng7+foJg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=dBgktWJ7/VpV0SZtqmzAxSXgN/9S5e2N1B2jP7e0ztAXzCaIGFpzvaR2uFOs7lPzTpWT2zCcaWPucuPZnsm+4YMCLsgfpczuqZpmPwyQSJ06vQTL4176Dhyt+lk0UIf9lfow4Gn/WiOSDcyca5kNwIwPhjPhKrdF7z5BjZ9yKQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwHoAsRp; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ht36CnJx"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5d647d5df90so12002743a12.2;
-        Wed, 22 Jan 2025 08:41:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737564105; x=1738168905; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B8KmBOGMVD87OSi+izI42gTXfv8egfKFz47YiWRpqDE=;
-        b=Ht36CnJx3rC3USKYenhMY17UPEQR429Id7UiL71tMgyqxGeI84XJeUIB+TS/xZU9Gt
-         YB/HWYydvil6pgk4rALIl1zUI2SAco5Pu7lLp+tGhBR1ELfaYYS4vXm8XmTvylR/N839
-         +ManW2KW1qRdBQNq/OR3305CgQIN5bErzRaVTHymb2hisnJ9XercttJUiQfsFEeTLJbk
-         ceR0eQqZcuVCLr9iwuiO6gcIo3x2LHuHakMq1b5CF1BcLO8nEBZFM68qp2H5CkqmlYgm
-         qU1LLYZI3XGKFao/quCT2bIgAAZdAnXLhLWgcXkFfKVKkqpeD5Ldva6/KdhWDj81qUlP
-         g6zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737564105; x=1738168905;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B8KmBOGMVD87OSi+izI42gTXfv8egfKFz47YiWRpqDE=;
-        b=GzlbwOSBL3FLk/WsBuW0rjBt+VDYh4TaOF8OtGZI+cBgMlw61ru8SK/TzG6fJ6sySB
-         uAtqoZVDNnDnG87xLudnpl1m7ads+PxvbzdBJUV7N7iwmvemakiNTzrZdGqS/Thne5dQ
-         WD+/f5TD362m17EmDYn6eJSJZGpHgakKYauU7ZX73w6bd9spqkpULivEXLIZiBrT6OEX
-         4lJIIkGI3wgTT1EVSYVdbXBW6SHNf6wfwGbksR4ZslqFHaYvCUNfhcxzw+Em510rqvSA
-         A8q6JfJFZF/Q8zRt+n4L7CG0Bw+v4IWEqjwBmqj0w5zWYNghNelVyVyzjzVElw+pOj3p
-         ldhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVP9/Pr+9t5sqdrR0oiBR4S/tXxH6VF2tSeOcYMhlcREjT4sy9rhr3zJFOVdSuXCgQuuIE8KPnkYN4zlg==@vger.kernel.org, AJvYcCW+kCF/tuy0ctopYWQfiddQLKGafJWbrlcEFAu/W4/Cuq7iGPJuVgHmmYOKpy8iUVT2K97LlGtC0p300fk=@vger.kernel.org, AJvYcCWB2sB7LMG0gmUPQ2S0XzyttjlD8KlmlNUf8FZMxLo7uyZWFM5L1SaFkbVg/nqJ3kGOlR3KzabA5MHt9yE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcgTAUb8oEntmZN9YAb8g2CHkFujx6fzIOzD0Y9eLWPznElLp2
-	lrNostzND+1peDMBw1pKMDMThNwven3L9nAlx7aRK6rjVDUGHNmZ
-X-Gm-Gg: ASbGncuwfIoQTMaYmU5fHoNCAvPjRMWcw4DUIXMgYtBCxOAqXZicWWKu4ajZtPdWoWF
-	M+Bk+sxSrxPYPxwN/tPB4y+peIOvOK8nTtBzwJ6rIa6c3F3GWASDkHg5Ik9icjeR22NDUmVij6p
-	bKPJvKFuYJoHRg6U9fNlK9MXS6CV1z+zziKXvGRhrtXZaYfZg9rFywCDcO8KIo1RjuRJYc1rTyy
-	6n1GbIbVJNCdom2D8wTrs52EvJbDOsoI7+G3VLcTAiUSxESJ+4NikzdwuHZjw74OMJXfN8wyZIP
-	LeXrxBVF/499QyX1
-X-Google-Smtp-Source: AGHT+IF4YMq+hMP7AxAhdTzDXsLB4StAV6ZC+iG75qBfXBG3506kY7SGVBVmQNqH+ZSiGEujkwixSA==
-X-Received: by 2002:a05:6402:3550:b0:5d3:ce7f:abee with SMTP id 4fb4d7f45d1cf-5db7db08623mr20774711a12.25.1737564104481;
-        Wed, 22 Jan 2025 08:41:44 -0800 (PST)
-Received: from localhost.localdomain ([95.43.220.235])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5db73642580sm8647061a12.15.2025.01.22.08.41.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2025 08:41:44 -0800 (PST)
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-To: Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Tony Lindgren <tony@atomide.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwHoAsRp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737567641; x=1769103641;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tZ8uZ3laC1/WVahJvYATMsRkndQi8gyH2lbng7+foJg=;
+  b=mwHoAsRpGMjnudqjTTgKUcEC096REp64T8OegK5kW8FdHSwoqjS61x7G
+   vjxJBheU1D9F/w0AO2Ws2ruuaK0PyVgHmHNH9j4E7OGf2Q50rKp0GRCfz
+   Z5bW65D5Jzh7GXKtIkbzHxYCiaa7YdMco3oMqVFMJeFc4zxRA9QLM0EgA
+   b3XfzlsGEZVIENhx7XJLFjy6S7ESoetMJGaKb9x4Pettk0RDCETT0DSb0
+   DefOv2uwC9TfLRKXBU6os0WAK1jSuTx0r7pNhrvLprvX1C+RsW9ww3fi/
+   rLP+LyL8HOExxtADMoV+fMl3LTF2WflSCM0J73SObkv1J4bB7gP3F+dyM
+   g==;
+X-CSE-ConnectionGUID: XicvqTR6ReKNQ3uwJN0wjQ==
+X-CSE-MsgGUID: X4LCObC3SXukqccnSG9vCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="49434718"
+X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
+   d="scan'208";a="49434718"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 09:40:40 -0800
+X-CSE-ConnectionGUID: wFlORnUrR/6x9SGIN3Qw/A==
+X-CSE-MsgGUID: eNNFiKzCR5uRP5n3f6wnGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="112185189"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
+  by orviesa003.jf.intel.com with ESMTP; 22 Jan 2025 09:40:38 -0800
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
 	linux-sound@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Subject: [PATCH v2 5/5] ASoC: cpcap: Implement jack detection
-Date: Wed, 22 Jan 2025 18:41:29 +0200
-Message-Id: <20250122164129.807247-6-ivo.g.dimitrov.75@gmail.com>
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 00/11] ASoC: Intel: avs: Add support for MalibouLake configuration
+Date: Wed, 22 Jan 2025 18:54:15 +0100
+Message-Id: <20250122175426.1369059-1-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250122164129.807247-1-ivo.g.dimitrov.75@gmail.com>
-References: <20250122164129.807247-1-ivo.g.dimitrov.75@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-cpcap has headphones/microphone and PTT button detection logic, implement
-code to support it.
+The avs-driver is the go-to driver for Intel Automotive. MalibouLake
+(MBL) and RedondoLake (RDL) are representatives of the project. These
+inherit majority of the featureset from RaptorLake-M (RPL-M) and
+AlderLake-N (ADL-N) respectively. The onboard codec for these is TI's
+pcm3168a.
 
-Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
----
- sound/soc/codecs/cpcap.c | 171 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 170 insertions(+), 1 deletion(-)
+In summary, the patchset:
 
-diff --git a/sound/soc/codecs/cpcap.c b/sound/soc/codecs/cpcap.c
-index 53f549ede6a6..3eb862643b53 100644
---- a/sound/soc/codecs/cpcap.c
-+++ b/sound/soc/codecs/cpcap.c
-@@ -14,9 +14,18 @@
- #include <linux/regulator/consumer.h>
- #include <linux/mfd/motorola-cpcap.h>
- #include <sound/core.h>
-+#include <linux/input.h>
-+#include <sound/jack.h>
- #include <sound/soc.h>
- #include <sound/tlv.h>
- 
-+/* Register 8 - CPCAP_REG_INTS1  --- Interrupt Sense 1 */
-+#define CPCAP_BIT_HS_S                    9  /* Headset */
-+#define CPCAP_BIT_MB2_S                   10 /* Mic Bias2 */
-+
-+/* Register 9 - CPCAP_REG_INTS2   --- Interrupt Sense 2 */
-+#define CPCAP_BIT_PTT_S                   11 /* Push To Talk */
-+
- /* Register 512 CPCAP_REG_VAUDIOC --- Audio Regulator and Bias Voltage */
- #define CPCAP_BIT_AUDIO_LOW_PWR           6
- #define CPCAP_BIT_AUD_LOWPWR_SPEED        5
-@@ -262,6 +271,9 @@ struct cpcap_audio {
- 	int codec_freq;
- 	int codec_format;
- 	struct regulator *vaudio;
-+	int hsirq;
-+	int mb2irq;
-+	struct snd_soc_jack jack;
- };
- 
- static int cpcap_st_workaround(struct snd_soc_dapm_widget *w,
-@@ -1628,14 +1640,105 @@ static int cpcap_audio_reset(struct snd_soc_component *component,
- 	return 0;
- }
- 
-+static irqreturn_t cpcap_hs_irq_thread(int irq, void *data)
-+{
-+	struct snd_soc_component *component = data;
-+	struct cpcap_audio *cpcap = snd_soc_component_get_drvdata(component);
-+	struct regmap *regmap = cpcap->regmap;
-+	int status = 0;
-+	int mask = SND_JACK_HEADSET;
-+	int val;
-+
-+	if (!regmap_test_bits(regmap, CPCAP_REG_INTS1, BIT(CPCAP_BIT_HS_S))) {
-+		val = BIT(CPCAP_BIT_MB_ON2) | BIT(CPCAP_BIT_PTT_CMP_EN);
-+		regmap_update_bits(regmap, CPCAP_REG_TXI, val, val);
-+
-+		val = BIT(CPCAP_BIT_ST_HS_CP_EN);
-+		regmap_update_bits(regmap, CPCAP_REG_RXOA, val, val);
-+
-+		regulator_set_mode(cpcap->vaudio, REGULATOR_MODE_NORMAL);
-+
-+		/* Give PTTS time to settle */
-+		msleep(20);
-+
-+		if (!regmap_test_bits(regmap, CPCAP_REG_INTS2,
-+				      BIT(CPCAP_BIT_PTT_S))) {
-+			/* Headphones detected. (May also be a headset with the
-+			 * MFB pressed.)
-+			 */
-+			status = SND_JACK_HEADPHONE;
-+			dev_info(component->dev, "HP plugged in\n");
-+		} else if (regmap_test_bits(regmap, CPCAP_REG_INTS1,
-+					    BIT(CPCAP_BIT_MB2_S)) == 1) {
-+			status = SND_JACK_HEADSET;
-+			dev_info(component->dev, "HS plugged in\n");
-+		} else
-+			dev_info(component->dev, "Unsupported HS plugged in\n");
-+	} else {
-+		bool mic = cpcap->jack.status & SND_JACK_MICROPHONE;
-+
-+		dev_info(component->dev, "H%s disconnect\n", mic ? "S" : "P");
-+		val = BIT(CPCAP_BIT_MB_ON2) | BIT(CPCAP_BIT_PTT_CMP_EN);
-+		regmap_update_bits(cpcap->regmap, CPCAP_REG_TXI, val, 0);
-+
-+		val = BIT(CPCAP_BIT_ST_HS_CP_EN);
-+		regmap_update_bits(cpcap->regmap, CPCAP_REG_RXOA, val, 0);
-+
-+		regulator_set_mode(cpcap->vaudio, REGULATOR_MODE_STANDBY);
-+
-+		mask |= SND_JACK_BTN_0;
-+	}
-+
-+	snd_soc_jack_report(&cpcap->jack, status, mask);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t cpcap_mb2_irq_thread(int irq, void *data)
-+{
-+	struct snd_soc_component *component = data;
-+	struct cpcap_audio *cpcap = snd_soc_component_get_drvdata(component);
-+	struct regmap *regmap = cpcap->regmap;
-+	int status = 0;
-+	int mb2;
-+	int ptt;
-+
-+	if (regmap_test_bits(regmap, CPCAP_REG_INTS1, BIT(CPCAP_BIT_HS_S)) == 1)
-+		return IRQ_HANDLED;
-+
-+	mb2 = regmap_test_bits(regmap, CPCAP_REG_INTS1, BIT(CPCAP_BIT_MB2_S));
-+	ptt = regmap_test_bits(regmap, CPCAP_REG_INTS2, BIT(CPCAP_BIT_PTT_S));
-+
-+	/* Initial detection might have been with MFB pressed */
-+	if (!(cpcap->jack.status & SND_JACK_MICROPHONE)) {
-+		if (ptt == 1 && mb2 == 1) {
-+			dev_info(component->dev, "MIC plugged in\n");
-+			snd_soc_jack_report(&cpcap->jack, SND_JACK_MICROPHONE,
-+					    SND_JACK_MICROPHONE);
-+		}
-+
-+		return IRQ_HANDLED;
-+	}
-+
-+	if (!mb2 || !ptt)
-+		status = SND_JACK_BTN_0;
-+
-+	snd_soc_jack_report(&cpcap->jack, status, SND_JACK_BTN_0);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int cpcap_soc_probe(struct snd_soc_component *component)
- {
-+	struct platform_device *pdev = to_platform_device(component->dev);
-+	struct snd_soc_card *card = component->card;
- 	struct cpcap_audio *cpcap;
- 	int err;
- 
- 	cpcap = devm_kzalloc(component->dev, sizeof(*cpcap), GFP_KERNEL);
- 	if (!cpcap)
- 		return -ENOMEM;
-+
- 	snd_soc_component_set_drvdata(component, cpcap);
- 	cpcap->component = component;
- 
-@@ -1644,6 +1747,16 @@ static int cpcap_soc_probe(struct snd_soc_component *component)
- 		return dev_err_probe(component->dev, PTR_ERR(cpcap->vaudio),
- 				     "Cannot get VAUDIO regulator\n");
- 
-+	err = snd_soc_card_jack_new(card, "Headphones",
-+				    SND_JACK_HEADSET | SND_JACK_BTN_0,
-+				    &cpcap->jack);
-+	if (err < 0) {
-+		dev_err(component->dev, "Cannot create HS jack: %i\n", err);
-+		return err;
-+	}
-+
-+	snd_jack_set_key(cpcap->jack.jack, SND_JACK_BTN_0, KEY_MEDIA);
-+
- 	cpcap->regmap = dev_get_regmap(component->dev->parent, NULL);
- 	if (!cpcap->regmap)
- 		return -ENODEV;
-@@ -1653,7 +1766,58 @@ static int cpcap_soc_probe(struct snd_soc_component *component)
- 	if (err)
- 		return err;
- 
--	return cpcap_audio_reset(component, false);
-+	cpcap->hsirq = platform_get_irq_byname(pdev, "hs");
-+	if (cpcap->hsirq < 0)
-+		return cpcap->hsirq;
-+
-+	err = devm_request_threaded_irq(component->dev, cpcap->hsirq, NULL,
-+					cpcap_hs_irq_thread,
-+					IRQF_TRIGGER_RISING |
-+					IRQF_TRIGGER_FALLING |
-+					IRQF_ONESHOT,
-+					"cpcap-codec-hs",
-+					component);
-+	if (err) {
-+		dev_warn(component->dev, "no HS irq%i: %i\n",
-+			 cpcap->hsirq, err);
-+		return err;
-+	}
-+
-+	cpcap->mb2irq = platform_get_irq_byname(pdev, "mb2");
-+	if (cpcap->mb2irq < 0)
-+		return cpcap->mb2irq;
-+
-+	err = devm_request_threaded_irq(component->dev, cpcap->mb2irq, NULL,
-+					cpcap_mb2_irq_thread,
-+					IRQF_TRIGGER_RISING |
-+					IRQF_TRIGGER_FALLING |
-+					IRQF_ONESHOT,
-+					"cpcap-codec-mb2",
-+					component);
-+	if (err) {
-+		dev_warn(component->dev, "no MB2 irq%i: %i\n",
-+			 cpcap->mb2irq, err);
-+		return err;
-+	}
-+
-+	err = cpcap_audio_reset(component, false);
-+	if (err)
-+		return err;
-+
-+	cpcap_hs_irq_thread(cpcap->hsirq, component);
-+
-+	enable_irq_wake(cpcap->hsirq);
-+	enable_irq_wake(cpcap->mb2irq);
-+
-+	return 0;
-+}
-+
-+static void cpcap_soc_remove(struct snd_soc_component *component)
-+{
-+	struct cpcap_audio *cpcap = snd_soc_component_get_drvdata(component);
-+
-+	disable_irq_wake(cpcap->hsirq);
-+	disable_irq_wake(cpcap->mb2irq);
- }
- 
- static int cpcap_set_bias_level(struct snd_soc_component *component,
-@@ -1661,6 +1825,10 @@ static int cpcap_set_bias_level(struct snd_soc_component *component,
- {
- 	struct cpcap_audio *cpcap = snd_soc_component_get_drvdata(component);
- 
-+	/* VAIDIO should be kept in normal mode in order MIC/PTT to work */
-+	if (cpcap->jack.status & SND_JACK_MICROPHONE)
-+		return 0;
-+
- 	switch (level) {
- 	case SND_SOC_BIAS_OFF:
- 		break;
-@@ -1679,6 +1847,7 @@ static int cpcap_set_bias_level(struct snd_soc_component *component,
- 
- static const struct snd_soc_component_driver soc_codec_dev_cpcap = {
- 	.probe			= cpcap_soc_probe,
-+	.remove			= cpcap_soc_remove,
- 	.controls		= cpcap_snd_controls,
- 	.num_controls		= ARRAY_SIZE(cpcap_snd_controls),
- 	.dapm_widgets		= cpcap_dapm_widgets,
+- modifies existing pcm3168a.c to be x86/ACPI friendly
+- updates the DSP firmware booting sequence for cAVS 2.5 platforms to
+  improve its behaviour on some specific revisions/steppings of the
+  hardware
+- adds new machine board driver, avs_pcm3168a
+- adds selector entry for RPL-M devices in intel-dspcfg
+
+While there 'ALSA: hda:' patch within the list, I'd prefer the patchset
+to go through Mark's tree to avoid conflicts with follow ups to this
+one.
+
+
+Longer version:
+
+Currently the pcm3168a is supported on ARM/DT (ti/j721e-evm.c being the
+only user). To make it x86/ACPI friendly, add relevant ACPI-match table
+and relax driver's probing conditions.
+The default format is 2ch, 24-bits, 48000kHz. As per specification,
+24-bits are supported by the chip and it works in production in contrary
+to what the existing code suggests. A fix is provided to align the code
+with the spec.
+
+Now, a single DSP firmware binary covers a wide range of platforms - a
+single one covers AlderLake, RaptorLake and all their derevatires except
+for AlderLake-N based due to MEU differences. While most of the hardware
+capabilities are read by the firmware during runtime, some information is
+not accessible from the DSP level. Provide the HDAudio controller
+revision/stepping information to the firmware to address that.
+
+With that done, expand number of modules supported with WovHostModule
+(WHM). WHM is a processing module which is tailored for ultra-low-power
+scenarios. From software perspective, as most of its config is similar
+to the Copier module, code reuse is advised. To make the reuse possible,
+existing gateway configuration code is refactor - not only to add
+support for WHM but also make it easier to understand. Multiple smaller
+functions instead of all-in-one one.
+
+
+Amadeusz Sławiński (1):
+  ASoC: Intel: avs: Configure basefw on TGL-based platforms
+
+Cezary Rojewski (10):
+  ASoC: codecs: pcm3168a: Add ACPI match table
+  ASoC: codecs: pcm3168a: Relax probing conditions
+  ASoC: codecs: pcm3168a: Allow for 24-bit in provider mode
+  ASoC: Intel: avs: Add pcm3168a machine board
+  ASoC: Intel: avs: pcm3168a board selection
+  ASoC: Intel: avs: Move DSP-boot steps into individual functions
+  ASoC: Intel: avs: New gateway configuration mechanism
+  ASoC: Intel: avs: Remove unused gateway configuration code
+  ASoC: Intel: avs: Add WHM module support
+  ALSA: hda: Select avs-driver by default on MBL
+
+ include/uapi/sound/intel/avs/tokens.h |   7 +
+ sound/hda/intel-dsp-config.c          |   4 +
+ sound/soc/codecs/pcm3168a-i2c.c       |   9 +
+ sound/soc/codecs/pcm3168a.c           |  11 +-
+ sound/soc/intel/avs/avs.h             |   1 +
+ sound/soc/intel/avs/board_selection.c |  17 +-
+ sound/soc/intel/avs/boards/Kconfig    |  10 +
+ sound/soc/intel/avs/boards/Makefile   |   2 +
+ sound/soc/intel/avs/boards/pcm3168a.c | 162 +++++++++++++++
+ sound/soc/intel/avs/loader.c          |  64 ++++--
+ sound/soc/intel/avs/messages.c        |  38 ++++
+ sound/soc/intel/avs/messages.h        |  22 +++
+ sound/soc/intel/avs/path.c            | 271 +++++++++++++++-----------
+ sound/soc/intel/avs/tgl.c             |  31 +++
+ sound/soc/intel/avs/topology.c        |  42 ++++
+ sound/soc/intel/avs/topology.h        |  11 +-
+ 16 files changed, 561 insertions(+), 141 deletions(-)
+ create mode 100644 sound/soc/intel/avs/boards/pcm3168a.c
+
 -- 
-2.30.2
+2.25.1
 
