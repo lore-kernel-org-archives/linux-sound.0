@@ -1,161 +1,175 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2084.outbound.protection.outlook.com [40.107.21.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9127B214A79
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 16:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737562007; cv=none; b=mP5FYMMueKm7Af1OoOgISSud35AV+/FUcB4L679hwtgtVvCPOcNQ4woczCJTdQweZMfLvjvj63qH48zmn3Ur1YWWXFxGutRKqv4L2bxXNQz7+p1Wa1VRryVaDz8G9p1/Vv751NjU7dwXz+dimm6v6Rx+qeYfT2/dFoK0wbnYclI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737562007; c=relaxed/simple;
-	bh=D7TiOSZ0/r8Dzi84iu+4HEgPSO7+SRktGnz+bPePQSw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UQp3nJPW+rK67ofKLG0+TUktb7/7WoPL3joFANEk9gEnEfPjs7OD96phIBN8KkvP4UvqhQQYWn6I3sCCCMokMAk31IVJzDPSWzxS0hjWvIFmcD2+OUO0iXK9hrFiiiloI3PxlENsu7IeY+2uNDdgN0maZogTySaaG8HVEcnvXn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GwiUJLV9; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252D21F78E8;
+	Wed, 22 Jan 2025 16:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.84
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737563687; cv=fail; b=CMW7H/o060wFCRnsjrWlmLvkSdhSKVe/7aPFeWpabnG8Xk/CfJfc5Vm9lC3+0LmWWC2zny+0amsycUy/hqMVmxevjToZgxl+o/9pS/1FqPWLUqMJQ3oW3B4/ugl/qu/MvaEGiuZhs/WdvTZDvZGylnfATRGPg4zdqw6zXdu1v78=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737563687; c=relaxed/simple;
+	bh=vTYExf69UBAxZdhVKDYDjh0drp9wW18IKAkBgw2OSp0=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ufch3jG/tHbHCPjsqIMF8+X2CdQif3FvnaakCKoNSx3yeJcVCgnRUeQT4vA52+Xps24vwRXdO1uzyjLhTlvtE9MTIJGp5yneMh7qiX558s/fc6f4sOPYQOXb8dWUCJAEfbansDSwHfB4goZfG7xg9iFvuhCzcsm11b6+T4LArFE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=mapYclcO; arc=fail smtp.client-ip=40.107.21.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GwiUJLV9"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d0c939ab78so10073a12.0
-        for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 08:06:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1737562004; x=1738166804; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6n6nA1UPEDmI3S8tFcuk38xHsxsh37uFCZRIM8k0okM=;
-        b=GwiUJLV9UdiSt3Urze5gfe3b1zq8cgNEkAYaNEDKjqV1EmZ/sx7aJJI6gFPuyhuBHp
-         Nqho+w4MSX+EdW3LDiemPr9N4ini8y9dmTR+3+nE6ns1k8RwZVViCWxlZ5xdPM3O09gO
-         ihSClG7pT0o5iAoejx6ZsrHrZLMSCj4N8+oJP1o5UGo+fFYOgcjriT8Fr/hYoTx3jJR6
-         Iv6O1G0XpOsk1i8OQw7tLGmK4AUz9YFWq05cVgSuamprEbfoE+AbnQ+ToWC1YqhPnGhw
-         0vdkksPNkYThtBvXZd2aYzgczrnMVxbyc9w7rvsK25NtOZv4bxX6Z00+jr4BQKFvzWaa
-         Hqfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737562004; x=1738166804;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6n6nA1UPEDmI3S8tFcuk38xHsxsh37uFCZRIM8k0okM=;
-        b=GAd/FOnSnRkJ1sM4KHxzVIwNV6XQOPSEnaDONvVGZlELO9QqjfP28PFxg5oTB6LqLI
-         rOrRf4ORULfNj98q9THkIzRwL1GU/QqLCZsgpVJ+N9q1KtZi5KpLBD65ureiCZjibqi6
-         ISeI8v891xdH7+hWbHx27Dqwa066Xo6X437r2TZZAvrS/n7TUV+jGJrU2DpQtRLqXO2I
-         SIc9Hr0aArIQbnbY8H+XP/M6F70bGYxpIJqOBAj4ucB6Q80+gur3uh/SPwighev5cTj8
-         ohBPAT4s2I6C2w9pIDSp3O3s+I7kJfRC+OrijOEA8u2wUuORTFPwv/itBkVX9rY/ODxB
-         A9AQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUufohJDEaSCQYWfP9Hh6RUIxjQZeQ67MDfYl+m9ZYd3uKC2RcnGmzAST4Hbt4bhzHNm3zsGs8S2C0HqQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywnw1XMalS9zpULWlxPHW3iRH0nvMHZXY618Bp3oRH+4IQF6HYj
-	SEPbIRBng6T1lT7KAlVHe5Mm2ZwKoAoJqLWjQVjLht7buerXzdT0q5RsRAZMuYI+pOoUXNtTkYT
-	4bHnUPBB5dOWLV6MoR27E4Tf6f9QNBFxkqaVvo6IU/tYdEzM4MA==
-X-Gm-Gg: ASbGncs5jkuZtuJauNdTu7IfTSRFcs0IVewlzS+UXpNxc6+Hz4I5veTHQp0lY4Nd+De
-	nFHDDuhJmI4B/cl2u6k1jb99ZrkLdligtggYxnCM0ZWLkL+Z2dZCM8BsoOgH4j3XvBxHHIQhY+M
-	T0Sq/0AQ==
-X-Google-Smtp-Source: AGHT+IHUjKDQ6+slJUAhAf3WVfJImZelO7NCd6T45qtNsIy2liPFTj1N0ZUfaMz5My9tZ2vaNRB+uzNmSX1y35Onkw0=
-X-Received: by 2002:aa7:d89a:0:b0:5d9:5a5c:f2f9 with SMTP id
- 4fb4d7f45d1cf-5dbf52d5516mr120621a12.7.1737562003573; Wed, 22 Jan 2025
- 08:06:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="mapYclcO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mO/2z97UkqIR2L2kVngAFfNJdBhYutgZwi1DboVwVqyudmEG5xgxJTFjtEE6AcS0fi+3JxggJYNrSXyXLNmxsbk1HJWEP1mzuapSZjQKdlVG44VRJNweLdWDxW3pd9D1WMVsUCtHpJ+yZGFYqDmwTjR5GB0/pwgBYx+vn+aKFoc6FMUjfM9PwL6LlHaMSrCkWhmr/bXyguI1SzM6XTDXRAYdI+BWfDQTSL4CVC1TPItrlwrJIDeV9TQeu36WxFtUwYckSCxiWBfvXFclm+rScWgyRCmBzGUQu6o9EUMUdM2ERkEC62KErmphd/pOG3LPO8u5MokmNp3iTfFnvt9sVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jjwFfl3ISvjuq+j+7f0CLZctpnz/yxm+J10b9fNEAVY=;
+ b=ZOYmnqAKztWZcrVywXbJ1gfb9guNsfJ4GwNiyPf37UkAXu6QVBxwVp2hQHj3DfbkFt6BHkxL3CPoHuCrMAl1A8RCeDHau73SHmdYUjJ1fTcOMo2OhHC8KpBMp76i4kfkKj+ZVKVe3+iIw69ILKJVBiUHquIJYf64tqPzR2zt+Fk+PdUsxDqnZRAm0TqQyUBTccOXUjSDUGkHB4wRUxZrvUAAHfxPQIu8d7D/ZO5VWqagXSVLzkCOH2W4nSiu6yKegRoT2wsAB8KNsRsScXtkNz4qssljvU8A9aXfAZL5zg/m2nO+zgcmjHH2k5qNTyQo4BWxDgrB1rs6EHuWo7yvkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jjwFfl3ISvjuq+j+7f0CLZctpnz/yxm+J10b9fNEAVY=;
+ b=mapYclcOx9U1PpcklOqcMYgXs11fHwyHGMmXqmWzn+0VNOlkUtPjPXK8tbHIBQmE8TLYfBvRhVeVnOST3v62Hi4FUEmolgjw0/XkJ7ZepOyQNiu3pvXMYKLhR8kfS91WPJlfCtceN4V/NkmTO5r+fwgbqbAp13Zt9BWPEEuv1CVkYQRONfygLbtrGDbzYVEC3m5qCb6wgqKN5d1xsAcPX2mTxHhKdWFXAITMJ6NG2XqiBdCgNngTAUIjKqWpVnpRstXLmW2XZubK6bdsUALMpEamOJy4DIoG/Z4op5OVknpKymSqCCZfP1Hxl+600x7V2MAMjq04eSR0qROkPuLrhQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AS8PR04MB8247.eurprd04.prod.outlook.com (2603:10a6:20b:3f2::13)
+ by AS8PR04MB8403.eurprd04.prod.outlook.com (2603:10a6:20b:3f7::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.22; Wed, 22 Jan
+ 2025 16:34:42 +0000
+Received: from AS8PR04MB8247.eurprd04.prod.outlook.com
+ ([fe80::84f7:e2c3:ceed:c0a6]) by AS8PR04MB8247.eurprd04.prod.outlook.com
+ ([fe80::84f7:e2c3:ceed:c0a6%4]) with mapi id 15.20.8377.009; Wed, 22 Jan 2025
+ 16:34:42 +0000
+From: Daniel Baluta <daniel.baluta@nxp.com>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	broonie@kernel.org
+Cc: shawnguo@kernel.org,
+	conor+dt@kernel.org,
+	peng.fan@nxp.com,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	linux-sound@vger.kernel.org,
+	imx@lists.linux.dev,
+	Daniel Baluta <daniel.baluta@nxp.com>
+Subject: [PATCH 0/4] Add SOF support for new board revisions
+Date: Wed, 22 Jan 2025 18:35:40 +0200
+Message-ID: <20250122163544.1392869-1-daniel.baluta@nxp.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM4PR0302CA0005.eurprd03.prod.outlook.com
+ (2603:10a6:205:2::18) To AS8PR04MB8247.eurprd04.prod.outlook.com
+ (2603:10a6:20b:3f2::13)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250117145145.3093352-1-guanyulin@google.com> <943a7b09-8e77-4813-810a-18fea0e61482@linux.dev>
-In-Reply-To: <943a7b09-8e77-4813-810a-18fea0e61482@linux.dev>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Thu, 23 Jan 2025 00:05:00 +0800
-X-Gm-Features: AbW1kvb2zlEX3iAAJgCi0wJTZP6Xx_KQqsUjFfxlIQjPKO2bQBrQH3i83VISl2o
-Message-ID: <CAOuDEK3aip9SLCUPOzpVPwx-O4rmF-+sQrF4GJasGPBzV=qJdg@mail.gmail.com>
-Subject: Re: [PATCH v9 0/5] Support system sleep with offloaded usb transfers
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, 
-	mathias.nyman@intel.com, stern@rowland.harvard.edu, perex@perex.cz, 
-	tiwai@suse.com, sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com, 
-	ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8247:EE_|AS8PR04MB8403:EE_
+X-MS-Office365-Filtering-Correlation-Id: dabb5b9a-cc5a-447c-e77b-08dd3b02abd6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|52116014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?+EzOwzM/4oL7drAHQWR1qjHzZ9rgp1nb9ewdQm/wE6W1jjHgP9PbuJYtlktj?=
+ =?us-ascii?Q?kiw/6+13Fja0MEr9VtRukoOSZZto/VoQlaq1I4tSZWG6MWRtpMjvzscDs19r?=
+ =?us-ascii?Q?6FKNlhRdA/+A+XbY/s0hP+P8xpmxlP1i/7GwVs643TZ0ECEyMLGyvi9AdxN9?=
+ =?us-ascii?Q?d+pfVorf9jdd+xadqMGsCGLgqur/jcPi3LyW/C45ecBQIdazeGHF9+loG2yf?=
+ =?us-ascii?Q?KAOvmeKr5W8N+VY+INJTC+rIrNFa0vYrgcg2UZONnaNjEKY65ZbNRhktoeA+?=
+ =?us-ascii?Q?1yT3dkc9qPMPhfzH4r//iuJL2ESnuEuqlKRflz+rQ4EYVnA140JsId4QYyQC?=
+ =?us-ascii?Q?XNrFCfujBLrk6iMWU9ntRwO++mxuvo88S6MRjUReA8LShdx1pQRhcxcAY5Gk?=
+ =?us-ascii?Q?WdAbscwhsDasszTT0CvRha9MA38g85ZpaDnUcgFK8bujhQrDiaMhyamA9tvj?=
+ =?us-ascii?Q?d64Sx7O8Pp1B/8GVf0RjzP6G8O8XcVuVAhiCy2WSJTLS4C6wyH0KZ4pjjdp4?=
+ =?us-ascii?Q?7IPQ9rlQzTB+aMP10n1pY5hTkOfbmJTgx3/mWKxoZFrwBocvnDpYXQZaJzhK?=
+ =?us-ascii?Q?Hb04KmwV2gH2udchuNZLosgkF4AHB7m7JEKbARkkjPTRn08AYksB66Mq1EFk?=
+ =?us-ascii?Q?7Yiqn8TCRdlwP1Iwv2tOcaJLJjR9uEOEcEnVTVh6oHd87C0ivFsHEkHUmqon?=
+ =?us-ascii?Q?juiH1lqMnU8519F3xMSrk1D8RFaiWMEsEYbAq660lJAIXZU9xMPK3QPqGUIs?=
+ =?us-ascii?Q?FZQO6WOor9UGucjlr03IyzTvpiSl61M1fsAbk5f4P04c0r1ESNQyizsqDq6a?=
+ =?us-ascii?Q?f0PHxzr3Fx8YnERMFKQAyeYq4p6+va/WrEL57/HTZ51rfJA+OEyn53USk//a?=
+ =?us-ascii?Q?Tk90CGfpygzqhMVhFlHcTvw+Bwo+W3mHeZWkIEmfdj8rKiM6BljzX/3JlK8R?=
+ =?us-ascii?Q?mtAZPmex74B1beBopgcFLXnORwD0bAH2PXyC3LwpnhTERsMmNMum+ArdrcYr?=
+ =?us-ascii?Q?dFwcD6Wp/ySCfIbZKDuJkeN3YgqmqkBhZjG7hlbk2EwxYyfEKILA6eSkXx1a?=
+ =?us-ascii?Q?xxjQvCcFf4fzMqZmEPLrLX68aaj5QZ5b2in0MiCHhyGa4mgDNCFn6f3X4O/N?=
+ =?us-ascii?Q?s/8XnNxglRSEII+X2Xn/GHu15J8h68nH6BU61Unk8oOCenq492FhJnDnuhBr?=
+ =?us-ascii?Q?eTNka4zt7/rMeybzbkzcLwKfVP9mMPt8cOX/hh7OS+vkFMSW/MysKf5+XMJX?=
+ =?us-ascii?Q?7RmoBwkzUwFGWwn++cy+0yEPOW+zcRRbJlV04csTH/d3Ua9jstQFu10IO5T6?=
+ =?us-ascii?Q?bZhUkpiq5vbg1acVbjE9LpFYpaA/W3LSt/7AaQGZOdSM8Gf72RyN8RlaeQG7?=
+ =?us-ascii?Q?MOPUGPNIXUgN0Lank5q+Y9hmGdjvAvsGuiKEwx7IBSkOCMKhOOnejd6gLP/9?=
+ =?us-ascii?Q?XlIYFnqKSQM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8247.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?mDBIpvHnRsdV/4sRFcdYjkz2iU83M8JZKCJEn17YfP+asYfWOVHnVdzD/pzH?=
+ =?us-ascii?Q?t5t7JuyW9BTarNMCeB7p0TfceWfkx+fnHj6pIxXpvVQwirqMZn/9YDQ2H3YQ?=
+ =?us-ascii?Q?QMJ/r6PefOQ25LTGVTq4Wumx+HT0gQbRC5ztlTF6D0gOU6v0U2K9W62CQxNN?=
+ =?us-ascii?Q?jy0UwpeUaW5zs03oJZaS4lTf6tJB/zPal0Got13HbTrNTH0BlRxN8stGbhp0?=
+ =?us-ascii?Q?J9q9o0qS2xH6opYAAD0wcYDoGqY1RIMdFdt2Al5ya/RA0mjFmQEoyLts+jWs?=
+ =?us-ascii?Q?eL1Ti6SC9cC2/eBmKJ2EUHhmoymVQNcwoIOsfR9ky/i+C4IAH3v79WCwgYKy?=
+ =?us-ascii?Q?p4PNFPfFGVV4Tzap+K8Bs9IU6s2zD+SxL3ar5Oc46vW4zlpZHtVZhTn3Q/Lb?=
+ =?us-ascii?Q?qPWJHXkkX29qlrKK7XqmEIEbotXczP8HGGtvuHql0F+YVK5WQQkgmt7IArHV?=
+ =?us-ascii?Q?dDyZcq263EPYYmhaXWXvRD2EGXLtVmsYCNEbxV2G8CjoPPeglX4M9/OyUfet?=
+ =?us-ascii?Q?WQyl2Bh3L3Wf22PzXjbG7l6nuabYmgyvtq1gRLojDEyJ6rK0j5fLHyZyjrya?=
+ =?us-ascii?Q?XXSRWt8s1R9sgn9ZNiUV/P7NipjPiNflBhMI9V3OzDEUcDiZsD95vXMgWtK0?=
+ =?us-ascii?Q?oo1n9tRW0pX/drZ1eHunmBmSF6wCOzY4uBsz/NnU1k9HVQTJ5r9Tv2RafzOk?=
+ =?us-ascii?Q?kvKzY2nT6Y5yvKQ96wH3bzk6EutHrengP7YIGlOFfAdRmZA/uGOiCpZzUHnj?=
+ =?us-ascii?Q?uudP1wJUlEqYKhMTK3gkjINT6R/cXfisbzXo7/+/AmjpU7zzrd+OkIPU7W1Y?=
+ =?us-ascii?Q?22ury6e3BbaRDhwJOqEloqQR9056tPHtnBECE8wn+h3tfIuEr8m20tYkFJsY?=
+ =?us-ascii?Q?9S8WgQHxUj5ZBS6Q0fdKVEQW+vNfWxxDCtQfOGmRH8ukeGnHOIhJFBIk9eyn?=
+ =?us-ascii?Q?jD+v7n0HR4sE52L7r2GHUnIJ4+n5vS03hBCW3l9v0iZnwohz7n49rug9Ap/c?=
+ =?us-ascii?Q?cA1xsRj8XFB9lycyDQtpI6FRGTtRXOCqdmwunt1KaThh4l8ATsXqQpJ4PV70?=
+ =?us-ascii?Q?o2yy2bP7HdCjuh8dWnl3EfmSW6p6wo8MXE7bK9WyJwI/9EPe372s9slobTK/?=
+ =?us-ascii?Q?4dA6UFAx06gko+8gmGJtx+C60CFA3BIwFBZpU/7FAR9Kt+nhhD2fJj2FR1P+?=
+ =?us-ascii?Q?YpPyhMs/rSAlRQyHieiQq4HH0FNro05SazsNT36Vb3Rwut5h+XMkK7ByEBLc?=
+ =?us-ascii?Q?O0rYJwqvTpRHngkxOPWgZL3vwSjb4N2uu9uhd+UQs51vk6RzIkL0twwbKz+F?=
+ =?us-ascii?Q?LSr4geO0BqrerNiidPYDXQ686uTz2v8/7I6sQ65RnN0SkU0WLFsNrdJKhy6L?=
+ =?us-ascii?Q?v9xyi58ApjZrvL6d7rd2d5+RMUO2tccVlEjjN2ZYLh1VT22lELLAludhO0Zb?=
+ =?us-ascii?Q?UmN5W4Dwfs9M/Q5Qu0i2EZ1YnnmoV+a5SkUl7/lDWG/g0TvIDhhd22J43nZl?=
+ =?us-ascii?Q?PUcVkNVYSWYDjYpa0op2QdUMPwgsd1aKgyog51KXEDFFXj4kGu6u6HzOYVGJ?=
+ =?us-ascii?Q?ZdHHufUt32QaTw/KBcEqH9x8A0HkYtH2vABPeMuh?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dabb5b9a-cc5a-447c-e77b-08dd3b02abd6
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8247.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2025 16:34:42.0976
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IvtyuKSERIMxxuXKUA2en7Gb+JFJ8o+7mxNzhMO7wd8lq72ExKVIhuZtR2EQAynq641zMMA9sYO1omph3bAxow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8403
 
-On Sat, Jan 18, 2025 at 12:14=E2=80=AFAM Pierre-Louis Bossart
-<pierre-louis.bossart@linux.dev> wrote:
->
-> On 1/17/25 8:48 AM, Guan-Yu Lin wrote:
-> > Wesley Cheng and Mathias Nyman's USB offload design enables a co-proces=
-sor
-> > to handle some USB transfers, potentially allowing the main system to
-> > sleep and save power. However, Linux's power management system halts th=
-e
-> > USB host controller when the main system isn't managing any USB transfe=
-rs.
-> > To address this, the proposal modifies the system to recognize offloade=
-d
-> > USB transfers and manage power accordingly.
->
-> You probably want to expand on the problem statement and clarify quite a =
-few ambiguous statements.
->
-> a) "allowing the main system to sleep and save power". What is the 'main =
-system' and what sort of sleep are you referring to?
-> Traditionally when playing audio the audio devices remain in D0. Support =
-for playback during 'S0 idle' is more complicated, I have yet to see a work=
-ing solution even without USB offload in the picture.
->
-The main system refers to the device running the linux kernel. The
-sleep refers to system suspend in the System Sleep model[1], which
-should be S3 state (Suspend to RAM).
+We introduce SOF support for new board revisions for i.MX8MP/QM/QXP
+which wrt audio they replace wm8960 codec with wm8962.
 
-> b) when referring to power management, you have to be specific on whether=
- you mean 'runtime_pm' or regular power management. Not the same thing but =
-there are related issues.
->
-Thanks for pointing it out. By power management, I mean the System
-Sleep model[1].
+Also add support for cs42888 codec on i.MX8QM/8QXP baseboard.
 
-> c) for audio offload the transactions that go through the DSP or co-proce=
-ssor are only for audio endpoints. Control transactions rely on endpoint0 a=
-nd are NOT offloaded to the best of my knowledge. Which means that you woul=
-d need to track control transactions as well, even if there is no audio str=
-eaming. Otherwise you would have a risk of the XHCI controller transitionin=
-g in and out of sleep states.
->
-To my knowledge, the system would not issue control transfer after the
-system goes to sleep. If there are any abnormalities in the XHCI
-controller that requires the system to handle, the controller would
-issue an interrupt to the system. We could allow this interrupt to
-wake up the system, and the system could then issue corresponding
-control transfers to handle it.
+Patches 1-3 are already merged in linux SOF tree and they can be merged
+via asoc tree.
 
-> > This involves two key steps:
-> > 1. Transfer Status Tracking: Propose xhci_sideband_get and
-> > xhci_sideband_put to track USB transfers on the co-processor, ensuring =
-the
-> > system is aware of any ongoing activity.
->
->
-> > 2. Power Management Adjustment:  Modifications to the USB driver stack
-> > (dwc3 controller driver, xhci host controller driver, and USB device
-> > drivers) allow the system to sleep without disrupting co-processor mana=
-ged
-> > USB transfers. This involves adding conditional checks to bypass some
-> > power management operations.
->
-> This is even more confusing, initially the point was to prevent the contr=
-oller from sleeping while there are offloaded transactions, but now the goa=
-l would be to allow the system to sleep while there are offloaded transacti=
-ons. This isn't the same problem, is it?
->
+Patch 4 documents the new compatible strings and can be merged via DT
+tree or asoc.
 
-The purpose of this series is to allow offloaded usb transfers happen
-during system sleep. In order to achieve this, we need to prevent the
-controller from sleeping when there's offloaded usb transfer ongoing,
-specifically when the system is sleeping.
-Without this series, the system could still allow offloaded usb
-traffic when the system is active, but the system would put the
-controller to sleep when the system is going to sleep, thus we're not
-able to suspend the system when we have offloaded usb transfers in the
-current system.
+Daniel Baluta (1):
+  ASoC: SOF: imx: Add mach entry to select cs42888 topology
 
-[1] https://www.kernel.org/doc/html/v4.12/driver-api/pm/devices.html
+Iuliana Prodan (3):
+  dt-bindings: arm: imx: Add board revisions for i.MX8MP, i.MX8QM and
+    i.MX8QXP
+  ASoC: SOF: imx8: Add entries for new 8QM and 8QXP revisions
+  ASoC: SOF: imx8m: Add entry for new 8M Plus revision
 
-Regards,
-Guan-Yu
+ .../devicetree/bindings/arm/fsl.yaml          |  3 +++
+ sound/soc/sof/imx/imx8.c                      | 21 +++++++++++++++++++
+ sound/soc/sof/imx/imx8m.c                     |  5 +++++
+ 3 files changed, 29 insertions(+)
+
+-- 
+2.43.0
+
