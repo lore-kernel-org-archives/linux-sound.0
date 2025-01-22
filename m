@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DA6214802
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 17:40:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3EF214802
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jan 2025 17:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737567658; cv=none; b=XyWrmc0UjCPKVc39220fnjJNITd0oi1H/jSXU8y22MjUvvreAHGhqrGd82OR5W6orQTSS/TYB8bMpCjPpdbG+oJog6G3Z0eqyFEvBG1BzubwKXjUiStkjuK7XlsHKppgGqPA1wzntF3gX14KpIIuvDT/JyX3yUKfVphD1viBhuI=
+	t=1737567664; cv=none; b=ciDfbYJbV0tJ0uJXOrW9vULXU6mfbYb30Vmgrol0FcyxRGvNgFS2W7PsSdg6MMTmSe1KAOmQGKwQO5IwskVIVXyxXBkcEwNoj6riIk92uZgl19p4rBgqNR5OeNEicBdqFZ+UdgYI26PnljHxcohP/fnBGbyW+MtQX/JAoC0PdfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737567658; c=relaxed/simple;
-	bh=s9wo7SLMtXruic1MhYBKouirxtYzQFaT+Dz+qbVSKXM=;
+	s=arc-20240116; t=1737567664; c=relaxed/simple;
+	bh=XSG6QkLd4N8rhs02fOL8CmoS+QHescTPBiUs8lCnmfg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f0NoukQyooNNBRiNJj0v+tj0ucMnycXSmV6pg+i0ZbJWN2cUSUyxb2u+IDCPGodNSTMViwgLouxRqBfWFA+8RlshuGm8QwUGVRyH6BSbzXvD/IAofLvB6aUcNTSqib3VDBbWVsToExkrWflQPE3PtvVormkKVzohDz70iYkmVgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mfD+epcL; arc=none smtp.client-ip=198.175.65.12
+	 MIME-Version; b=utQ3RUalu9r6b66ngOfU07lG4c12iUX28+sJCbVj3COun0aazfww5iZ+074/gzM7/drudFObI+Kpi3Y9S8Atq3bHhMGeot/HKqKt9pr8Ema3AuU+eH4XxhjULxAwNGZzQTLFeYxsarexiSj+2JA8HCKp2ypPYX7iBrYxJQ6wzYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nw12V/Yp; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mfD+epcL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nw12V/Yp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737567657; x=1769103657;
+  t=1737567660; x=1769103660;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=s9wo7SLMtXruic1MhYBKouirxtYzQFaT+Dz+qbVSKXM=;
-  b=mfD+epcLPA9fGKunkbk6Q+vIAlW9thpRkhEYhDR4d5AI+pSpPgN1X9I7
-   ENfxa3wVFWXVZq0olyUDQyKshoZQYpw0Jb9Dw9aQW4ii4DxcyNu49KGk9
-   C37y5fUkt0Bh7YlCpPsujlxBxyc9pDjaEQ266SDwsWyR/lOjPziZt/6t6
-   LIFZz8e3Xy9ZcZfj2fy/FF/tp79mjoQbGgghZ4HvY+T08cDMa/v1jzhMj
-   afY2IXpk/jyvSodP4lwkYh6TCTlBiNutOldk9vO3WoPLyIGmEuqIlefBd
-   rtZ6pX3dZ98b2dRqc2YiY5tdYHQWIszNhc+Hgpll56pEtg+3qM7MO/DEW
+  bh=XSG6QkLd4N8rhs02fOL8CmoS+QHescTPBiUs8lCnmfg=;
+  b=nw12V/YpXZJaxO4QW+gHxCRsrdYCGoEp2628eBfGGjYybAcU8qXUeZN3
+   GYqzD3ex7p6XZ42TGY5QQgy5zbznBrYvDUNtmAIEJqeHT2P3Qjwdob1L6
+   BL1KyriqYVQwZKY3AmjaZrJ5ynw/a9C10RDxa6exDbMhhvXPaP45T6xSX
+   Y+LtkXhlL0flbMQFtwLgyBhu+MXviUQEYovVyP9o3/9fauGPx4BjvsGCk
+   fCzQ3fEmfjT8aCRXxGCnG0dDLFS7Zl5SQWLh0PnNfpuW9WZG8CneQGzsr
+   qlJYgZyZOLya8BIuHc6kUcoHbI94nLivajYoZ9O8lhScKH7R7oHvFjnMp
    A==;
-X-CSE-ConnectionGUID: c8OEf7rSQnSEWXp/hKGi6w==
-X-CSE-MsgGUID: Xl6cb02YQwGADUxUYfdsZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="49434763"
+X-CSE-ConnectionGUID: Vo2kDNUxREWqAJzykqc0Ug==
+X-CSE-MsgGUID: H8k5pkrSR5C1N6puSyNCjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="49434769"
 X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
-   d="scan'208";a="49434763"
+   d="scan'208";a="49434769"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 09:40:57 -0800
-X-CSE-ConnectionGUID: VyatG/mQSAOAcmAppzsslw==
-X-CSE-MsgGUID: mli6+iF8TcCEHb1xSP3NDA==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 09:40:59 -0800
+X-CSE-ConnectionGUID: Hh7u0tktQcqQvwDa1EGURg==
+X-CSE-MsgGUID: Vqwo4qw+QumRJOtdkSkr8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="112185310"
+   d="scan'208";a="112185315"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
-  by orviesa003.jf.intel.com with ESMTP; 22 Jan 2025 09:40:55 -0800
+  by orviesa003.jf.intel.com with ESMTP; 22 Jan 2025 09:40:57 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -53,9 +53,9 @@ Cc: tiwai@suse.com,
 	baojun.xu@ti.com,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 07/11] ASoC: Intel: avs: Configure basefw on TGL-based platforms
-Date: Wed, 22 Jan 2025 18:54:22 +0100
-Message-Id: <20250122175426.1369059-8-cezary.rojewski@intel.com>
+Subject: [PATCH 08/11] ASoC: Intel: avs: New gateway configuration mechanism
+Date: Wed, 22 Jan 2025 18:54:23 +0100
+Message-Id: <20250122175426.1369059-9-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250122175426.1369059-1-cezary.rojewski@intel.com>
 References: <20250122175426.1369059-1-cezary.rojewski@intel.com>
@@ -65,162 +65,184 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Creation of a module which contains gateway configuration consists of
+few additional steps, namely:
 
-The AudioDSP firmware requires additional information about the
-configuration on selected devices. That information is unaccessible from
-the DSP side and shall be sent before any streaming starts.
+- assigning ID (node_id) for the gateway
+- attaching hardware configuration from the NHLT table (optional)
 
-To achieve the goal, introduce FW_CONFIG_SET request. FW_CONFIG_SET
-message allows driver to modify firmware's configuration. Multiple
-parameters can be modified at once, thanks to payload being an array of
-TLVs.
+By splitting the steps into separate functions code becomes easier to
+read and understand. Any redundancy created by this patch will be
+addressed by follow up changes.
 
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/messages.c | 38 ++++++++++++++++++++++++++++++++++
- sound/soc/intel/avs/messages.h |  9 ++++++++
- sound/soc/intel/avs/tgl.c      | 31 +++++++++++++++++++++++++++
- 3 files changed, 78 insertions(+)
+ sound/soc/intel/avs/path.c | 150 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 150 insertions(+)
 
-diff --git a/sound/soc/intel/avs/messages.c b/sound/soc/intel/avs/messages.c
-index 30b666f8909b..242a175381c2 100644
---- a/sound/soc/intel/avs/messages.c
-+++ b/sound/soc/intel/avs/messages.c
-@@ -510,6 +510,44 @@ int avs_ipc_get_fw_config(struct avs_dev *adev, struct avs_fw_cfg *cfg)
- 	return ret;
+diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
+index f31d5e2caa7b..698a3d542244 100644
+--- a/sound/soc/intel/avs/path.c
++++ b/sound/soc/intel/avs/path.c
+@@ -115,6 +115,156 @@ avs_path_find_variant(struct avs_dev *adev,
+ 	return NULL;
  }
  
-+int avs_ipc_set_fw_config(struct avs_dev *adev, size_t num_tlvs, ...)
++static void avs_init_node_id(union avs_connector_node_id *node_id,
++			     struct avs_tplg_modcfg_ext *te, u32 dma_id)
 +{
-+	struct avs_tlv *tlv;
-+	void *payload;
-+	size_t offset;
-+	va_list args;
-+	int ret, i;
++	node_id->val = 0;
++	node_id->dma_type = te->copier.dma_type;
 +
-+	payload = kzalloc(AVS_MAILBOX_SIZE, GFP_KERNEL);
-+	if (!payload)
-+		return -ENOMEM;
++	switch (node_id->dma_type) {
++	case AVS_DMA_DMIC_LINK_INPUT:
++	case AVS_DMA_I2S_LINK_OUTPUT:
++	case AVS_DMA_I2S_LINK_INPUT:
++		/* Gateway's virtual index is statically assigned in the topology. */
++		node_id->vindex = te->copier.vindex.val;
++		break;
 +
-+	va_start(args, num_tlvs);
-+	for (offset = i = 0; i < num_tlvs && offset < AVS_MAILBOX_SIZE - sizeof(*tlv); i++) {
-+		tlv = (struct avs_tlv *)(payload + offset);
-+		tlv->type = va_arg(args, u32);
-+		tlv->length = va_arg(args, u32);
++	case AVS_DMA_HDA_HOST_OUTPUT:
++	case AVS_DMA_HDA_HOST_INPUT:
++		/* Gateway's virtual index is dynamically assigned with DMA ID */
++		node_id->vindex = dma_id;
++		break;
 +
-+		offset += sizeof(*tlv) + tlv->length;
-+		if (offset > AVS_MAILBOX_SIZE)
-+			break;
++	case AVS_DMA_HDA_LINK_OUTPUT:
++	case AVS_DMA_HDA_LINK_INPUT:
++		node_id->vindex = te->copier.vindex.val | dma_id;
++		break;
 +
-+		memcpy(tlv->value, va_arg(args, u8*), tlv->length);
++	default:
++		*node_id = INVALID_NODE_ID;
++		break;
 +	}
-+
-+	if (i == num_tlvs)
-+		ret = avs_ipc_set_large_config(adev, AVS_BASEFW_MOD_ID, AVS_BASEFW_INST_ID,
-+					       AVS_BASEFW_FIRMWARE_CONFIG, payload, offset);
-+	else
-+		ret = -ERANGE;
-+
-+	va_end(args);
-+	kfree(payload);
-+	if (ret)
-+		dev_err(adev->dev, "set fw cfg failed: %d\n", ret);
-+	return ret;
 +}
 +
- int avs_ipc_get_hw_config(struct avs_dev *adev, struct avs_hw_cfg *cfg)
- {
- 	struct avs_tlv *tlv;
-diff --git a/sound/soc/intel/avs/messages.h b/sound/soc/intel/avs/messages.h
-index 0378633c7f96..84b0d4b69ecb 100644
---- a/sound/soc/intel/avs/messages.h
-+++ b/sound/soc/intel/avs/messages.h
-@@ -451,6 +451,8 @@ enum avs_fw_cfg_params {
- 	AVS_FW_CFG_RESERVED,
- 	AVS_FW_CFG_POWER_GATING_POLICY,
- 	AVS_FW_CFG_ASSERT_MODE,
-+	AVS_FW_CFG_RESERVED2,
-+	AVS_FW_CFG_BUS_HARDWARE_ID,
- };
- 
- struct avs_fw_cfg {
-@@ -475,7 +477,14 @@ struct avs_fw_cfg {
- 	u32 power_gating_policy;
- };
- 
-+struct avs_bus_hwid {
-+	u32 device;
-+	u32 subsystem;
-+	u8 revision;
-+};
++/* Every BLOB contains at least gateway attributes. */
++static struct acpi_nhlt_config *default_blob = (struct acpi_nhlt_config *)&(u32[2]) {4};
 +
- int avs_ipc_get_fw_config(struct avs_dev *adev, struct avs_fw_cfg *cfg);
-+int avs_ipc_set_fw_config(struct avs_dev *adev, size_t num_tlvs, ...);
- 
- enum avs_hw_cfg_params {
- 	AVS_HW_CFG_AVS_VER,
-diff --git a/sound/soc/intel/avs/tgl.c b/sound/soc/intel/avs/tgl.c
-index a9019ff5e3af..f18fa394aa53 100644
---- a/sound/soc/intel/avs/tgl.c
-+++ b/sound/soc/intel/avs/tgl.c
-@@ -6,7 +6,12 @@
- //          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
- //
- 
-+#include <linux/pci.h>
-+#include <asm/cpuid.h>
- #include "avs.h"
-+#include "messages.h"
-+
-+#define CPUID_TSC_LEAF 0x15
- 
- static int avs_tgl_dsp_core_power(struct avs_dev *adev, u32 core_mask, bool power)
- {
-@@ -35,6 +40,31 @@ static int avs_tgl_dsp_core_stall(struct avs_dev *adev, u32 core_mask, bool stal
- 	return avs_dsp_core_stall(adev, core_mask, stall);
- }
- 
-+static int avs_tgl_config_basefw(struct avs_dev *adev)
++static struct acpi_nhlt_config *
++avs_nhlt_config_or_default(struct avs_dev *adev, struct avs_tplg_module *t)
 +{
-+	struct pci_dev *pci = adev->base.pci;
-+	struct avs_bus_hwid hwid;
-+	unsigned int ecx;
-+	int ret;
++	struct acpi_nhlt_format_config *fmtcfg;
++	struct avs_tplg_modcfg_ext *te;
++	struct avs_audio_format *fmt;
++	int link_type, dev_type;
++	int bus_id, dir;
 +
-+	ecx = cpuid_ecx(CPUID_TSC_LEAF);
-+	if (ecx) {
-+		ret = avs_ipc_set_fw_config(adev, 1, AVS_FW_CFG_XTAL_FREQ_HZ, sizeof(ecx), &ecx);
-+		if (ret)
-+			return AVS_IPC_RET(ret);
++	te = t->cfg_ext;
++
++	switch (te->copier.dma_type) {
++	case AVS_DMA_I2S_LINK_OUTPUT:
++		link_type = ACPI_NHLT_LINKTYPE_SSP;
++		dev_type = ACPI_NHLT_DEVICETYPE_CODEC;
++		bus_id = te->copier.vindex.i2s.instance;
++		dir = SNDRV_PCM_STREAM_PLAYBACK;
++		fmt = te->copier.out_fmt;
++		break;
++
++	case AVS_DMA_I2S_LINK_INPUT:
++		link_type = ACPI_NHLT_LINKTYPE_SSP;
++		dev_type = ACPI_NHLT_DEVICETYPE_CODEC;
++		bus_id = te->copier.vindex.i2s.instance;
++		dir = SNDRV_PCM_STREAM_CAPTURE;
++		fmt = t->in_fmt;
++		break;
++
++	case AVS_DMA_DMIC_LINK_INPUT:
++		link_type = ACPI_NHLT_LINKTYPE_PDM;
++		dev_type = -1; /* ignored */
++		bus_id = 0;
++		dir = SNDRV_PCM_STREAM_CAPTURE;
++		fmt = t->in_fmt;
++		break;
++
++	default:
++		return default_blob;
 +	}
 +
-+	hwid.device = pci->device;
-+	hwid.subsystem = pci->subsystem_vendor | (pci->subsystem_device << 16);
-+	hwid.revision = pci->revision;
++	/* Override format selection if necessary. */
++	if (te->copier.blob_fmt)
++		fmt = te->copier.blob_fmt;
 +
-+	ret = avs_ipc_set_fw_config(adev, 1, AVS_FW_CFG_BUS_HARDWARE_ID, sizeof(hwid), &hwid);
-+	if (ret)
-+		return AVS_IPC_RET(ret);
++	fmtcfg = acpi_nhlt_find_fmtcfg(link_type, dev_type, dir, bus_id,
++				       fmt->num_channels, fmt->sampling_freq, fmt->valid_bit_depth,
++				       fmt->bit_depth);
++	if (!fmtcfg) {
++		dev_warn(adev->dev, "Endpoint format configuration not found.\n");
++		return ERR_PTR(-ENOENT);
++	}
++
++	if (fmtcfg->config.capabilities_size < default_blob->capabilities_size)
++		return ERR_PTR(-ETOOSMALL);
++	/* The firmware expects the payload to be DWORD-aligned. */
++	if (fmtcfg->config.capabilities_size % sizeof(u32))
++		return ERR_PTR(-EINVAL);
++
++	return &fmtcfg->config;
++}
++
++static int avs_fill_gtw_config(struct avs_dev *adev, struct avs_copier_gtw_cfg *gtw,
++			       struct avs_tplg_module *t, size_t *cfg_size)
++{
++	struct acpi_nhlt_config *blob;
++	size_t gtw_size;
++
++	blob = avs_nhlt_config_or_default(adev, t);
++	if (IS_ERR(blob))
++		return PTR_ERR(blob);
++
++	gtw_size = blob->capabilities_size;
++	if (*cfg_size + gtw_size > AVS_MAILBOX_SIZE)
++		return -E2BIG;
++
++	gtw->config_length = gtw_size / sizeof(u32);
++	memcpy(gtw->config.blob, blob->capabilities, blob->capabilities_size);
++	*cfg_size += gtw_size;
 +
 +	return 0;
 +}
 +
- const struct avs_dsp_ops avs_tgl_dsp_ops = {
- 	.power = avs_tgl_dsp_core_power,
- 	.reset = avs_tgl_dsp_core_reset,
-@@ -44,6 +74,7 @@ const struct avs_dsp_ops avs_tgl_dsp_ops = {
- 	.load_basefw = avs_icl_load_basefw,
- 	.load_lib = avs_hda_load_library,
- 	.transfer_mods = avs_hda_transfer_modules,
-+	.config_basefw = avs_tgl_config_basefw,
- 	.log_buffer_offset = avs_icl_log_buffer_offset,
- 	.log_buffer_status = avs_apl_log_buffer_status,
- 	.coredump = avs_apl_coredump,
++static __maybe_unused int avs_copier_create2(struct avs_dev *adev, struct avs_path_module *mod)
++{
++	struct avs_tplg_module *t = mod->template;
++	struct avs_tplg_modcfg_ext *te;
++	struct avs_copier_cfg *cfg;
++	size_t cfg_size;
++	u32 dma_id;
++	int ret;
++
++	te = t->cfg_ext;
++	cfg = adev->modcfg_buf;
++	dma_id = mod->owner->owner->dma_id;
++	cfg_size = offsetof(struct avs_copier_cfg, gtw_cfg.config);
++
++	ret = avs_fill_gtw_config(adev, &cfg->gtw_cfg, t, &cfg_size);
++	if (ret)
++		return ret;
++
++	cfg->base.cpc = t->cfg_base->cpc;
++	cfg->base.ibs = t->cfg_base->ibs;
++	cfg->base.obs = t->cfg_base->obs;
++	cfg->base.is_pages = t->cfg_base->is_pages;
++	cfg->base.audio_fmt = *t->in_fmt;
++	cfg->out_fmt = *te->copier.out_fmt;
++	cfg->feature_mask = te->copier.feature_mask;
++	avs_init_node_id(&cfg->gtw_cfg.node_id, te, dma_id);
++	cfg->gtw_cfg.dma_buffer_size = te->copier.dma_buffer_size;
++	mod->gtw_attrs = cfg->gtw_cfg.config.attrs;
++
++	ret = avs_dsp_init_module(adev, mod->module_id, mod->owner->instance_id, t->core_id,
++				  t->domain, cfg, cfg_size, &mod->instance_id);
++	return ret;
++}
++
+ __maybe_unused
+ static bool avs_dma_type_is_host(u32 dma_type)
+ {
 -- 
 2.25.1
 
