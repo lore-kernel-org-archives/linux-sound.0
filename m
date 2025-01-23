@@ -1,127 +1,134 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A6B20C01B;
-	Thu, 23 Jan 2025 09:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD7220E009
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jan 2025 11:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737625032; cv=none; b=rIV8TATpRcxz6zq5FHMdVhc5Xqiljb/EsOhjS8aKAs6ZIc7CaZaV+WuBlCyl5KJNA5v1a8ZsDid52lqBRCKJUh8bMrIzxUbr5SJNtxQmGlZLHbTLBNo4AmFmbHKUhjQ553sIS967ee0f4ux/vGbpHVieTbV595ihpKgbLWDPic8=
+	t=1737630431; cv=none; b=j3MjhrPxMIDlG5kHJj6kQ8lw2FlZx8ifd44eBCLYWz5aOAe6NmCkCHiiRwZby2wVq9kRH+8QuQ52VFQqOaLnktY2T3LFLUFVkmhsRCVLtYCZZkJXiHogwuRpQMpbtDG4wj1WQ4LBF1NbehF3QMunuV5RE9yB6Zrq/MRyfxuDfaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737625032; c=relaxed/simple;
-	bh=ORES4doKXC6OgsgwMH6RHCDGLKFDrfrIs5G5ttL2Zzs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C6w8S4x81EHvnCOAttdh1iAakoZGShkRtlSaLrwuTHaY6sgZyiDNEkuOSoBc7o4L8EqTD5/o4zvPQo+kSlwonHkkJOfa/QtOFNYdvhj88+34qZIk8YRhabKfapIh7N9l3RQ+aCU9zrSRqFYP2FZEI79MCoXUY+LLi7GdaB+26Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tue1gKsO; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737630431; c=relaxed/simple;
+	bh=Z/P8Xk0WYUWtkjQ0aao8VmmmuejBcjV5biBJ7cU1/S0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t1DCu9IQr9r7HnccmgU3/OyJtP3UHi/BXiUi/GyRD9MvP+jiHHhBeiAEPzl0HdC9kz90jp/mEyZCsPV/pNAX8TM1Cw+BPjNvpkHnIEiipfHjr6wiQ0hiOtRITg9oXTRm5bkc14W+mu42H1yca6ivZAwKaQidfjKtZALH/RQrKLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r8H7w/uk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DV2+yEXa; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tDJVPjf9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ifMJWqSK; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tue1gKsO"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2ee9a780de4so968747a91.3;
-        Thu, 23 Jan 2025 01:37:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737625031; x=1738229831; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tGdtcyOuxt2RT9+lwZ49StADKtuaRGfqxJOX+UkuwVA=;
-        b=Tue1gKsOWVe4V4Hqp7z2IZJbV+vOn76maGne4fwDDSo4oYDQfouQstkS1RwwQbkZXl
-         GMx1/X+F4zUsFkBJwv4e5256k2GYfenh3YBxqekrFJFOGUTAW59E+j2dsDXHJpvr+TUa
-         h8N/j6cG/rO0/rq/VyhFSR/x/LXxJfc3OgJ0YD19Jk/j5GccQs+v1cQ79/46mbk1/4uG
-         BZ1my9++PLFYlT9bGiqhnHz7r/UiP07Eu/Tfn7gBSIZBCUmSVJTLHbSinp71zbfNGLGE
-         OCNAWx0ys7vKAta3KPMer2aqKbO8K126cBlJgR2+TyY8kvZgSceLhE46KQwbmeGEa++F
-         Id+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737625031; x=1738229831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tGdtcyOuxt2RT9+lwZ49StADKtuaRGfqxJOX+UkuwVA=;
-        b=uttSEYFtGasUUirMAhQ7mzZvgKakXK2SZMmjN+4f56nVYQRa/7KJiKH4Fkxd4Uxaxi
-         xzlzktsptisQB8q0IaJ2YjwE6ZjCLlOiFrNBfi3x4M6f4F8YiI05mLo3Hgowrs0hrdEx
-         wvvDzzAeH0R49xM7DDIgQqv1lfVZ0rpttAE7DV5S7KK3r3tqPrYZ0CxsxCm7yt9yVneD
-         dMgAs/nb83ACSm1UYKDzbj4cjW8bXeWxs5qcwPxqj4518dhqDvx5GKvC6fbco4/73lqD
-         fjmXIYeLcYWhZVytwFp2RUSjBIBix1BDt3b3djVF+JqoqkJaMlzET69eR8y45PdQqBoL
-         rfrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUY0oxlpqrOUNH5tk1N3lfJtFiy3g9cJeM+vsgoC3f7TIy7EbK9WC1oICOdkBM+rT78yk5Z9sTuSXR/@vger.kernel.org, AJvYcCVUHs1GJhwG+JjcJexbiw3KXwC5yvWmWUiGkyV89CHFlht5A6EoWHZdXN+GjLnIA/44MNCHfXF9ePjDLR9T@vger.kernel.org, AJvYcCWYm38ZbV19qnEhB274cvSFxycqzi5jy+rZMawDNF0zBRANq6VoYSacdV6snF39mdbXuAvQoPqmhpH9gTk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx05ntIaTwhemhEzQCKZa660KXHxAs8sVO8AwFO1acH06a5PY33
-	1nf7aRv6siK9dI7K2yvddFD+qYcGA9egXin9SpWVeRYXC5X5fdQ+8BFPalB57LnRw2sN3fGwK5W
-	ZfnbsIGEYrF/wgLuqP4Nxq9NSCZs=
-X-Gm-Gg: ASbGncvFfx8HOBjNpVcHuMstH982CAErnStXIXWFIc7xTc+S+SGwuUGxpyMk13gZBps
-	JH1BKG3WVq6MTHSqFCBrzF3FD3ubyuVULU3io7XXAEPevY6rnT7Xe3G/dqTcdzsl39yQh
-X-Google-Smtp-Source: AGHT+IEnMgFwe2uphGhaoA/OBA129gWwd+aCRTnCgaLxT5Yp1e4QddEuW/hTHVRtS543vNaOnT6OHl9roo9y4uSZvco=
-X-Received: by 2002:a17:90b:1f8b:b0:2f6:539:3cd8 with SMTP id
- 98e67ed59e1d1-2f782ca2291mr40437766a91.18.1737625030669; Thu, 23 Jan 2025
- 01:37:10 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r8H7w/uk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DV2+yEXa";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tDJVPjf9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ifMJWqSK"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EB16C1F38C;
+	Thu, 23 Jan 2025 11:07:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1737630422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LPjvTNJJVtvMqmKzJ9Ni/FhTWlMPmN4AxGNuJ3KP7Bk=;
+	b=r8H7w/ukQ/cPmJcE04BaQvJdYvu7I41jZyflqPAMvXQQ5v7+GXYtjX8HNz3MNnVXEeBHwq
+	avxRtajqm9WzeZQPapo33bTtVcffsaJhddco2eZPBqc0A3UpBCa6d/TETda+MUydvOTeO1
+	x5Gx10CrXRQ+iRkAseqts9tIt2ynSGQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1737630422;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LPjvTNJJVtvMqmKzJ9Ni/FhTWlMPmN4AxGNuJ3KP7Bk=;
+	b=DV2+yEXafZOe/SUWfRq5YclTemHnwzGcCVES5RKd5ewW1fF2mgBenaGuq3lr1meONYlcXd
+	ea1nspmefWxqfvCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1737630421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LPjvTNJJVtvMqmKzJ9Ni/FhTWlMPmN4AxGNuJ3KP7Bk=;
+	b=tDJVPjf9spvfGPO0kdRYcL4qDrR/L0xHUzm2Ld6RbatJmAMS3j0lglmYpmGeecug/Gup3p
+	xyFwmDreBUA/VMjouWLBhPwfynK/GLW9M6P3Fg3Mg4161LwRupqi5sjDVT9vih4gLMBlLK
+	1uYI4apK6zqXpbnc0ed0BwrG8qS5yYM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1737630421;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LPjvTNJJVtvMqmKzJ9Ni/FhTWlMPmN4AxGNuJ3KP7Bk=;
+	b=ifMJWqSKKDKT54uewX+oVg6q19ZWvjvgc5NTknkKwjZGnjDtUAIyfJ5MPW8ojaYr8KE1oa
+	D5my03QXcXgE76CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CAC06136A1;
+	Thu, 23 Jan 2025 11:07:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id l6gxMNUikmeCLQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 23 Jan 2025 11:07:01 +0000
+Date: Thu, 23 Jan 2025 12:07:01 +0100
+Message-ID: <87a5bh6b6y.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Samantha Glocker <iam@anislandsomewhere.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org
+Subject: Re: possible issue with ALSA: hda/realtek: Use codec SSID matching for Lenovo devices
+In-Reply-To: <CAGPQRHaDRLTRisn68TA26sBM1PKVoUcDsKSQVrCsR7MinQbSmQ@mail.gmail.com>
+References: <CAGPQRHYd48U__UKYj2jJnT4+dnNNoWRBi+wj6zPRn=JpNMBUrg@mail.gmail.com>
+	<87a5bj8gax.wl-tiwai@suse.de>
+	<878qr38g6r.wl-tiwai@suse.de>
+	<87v7u76xhl.wl-tiwai@suse.de>
+	<CAGPQRHaDRLTRisn68TA26sBM1PKVoUcDsKSQVrCsR7MinQbSmQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250122163544.1392869-1-daniel.baluta@nxp.com>
- <20250122163544.1392869-3-daniel.baluta@nxp.com> <Z5FNHnwvN+KeUrFY@lizhi-Precision-Tower-5810>
-In-Reply-To: <Z5FNHnwvN+KeUrFY@lizhi-Precision-Tower-5810>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Thu, 23 Jan 2025 11:38:33 +0200
-X-Gm-Features: AbW1kvb34GC_SCM7VSYzvFkZxRTCBRs29V4lQG1E1goV8dBrP-L8T9eLKeGMl2A
-Message-ID: <CAEnQRZDcjwK39Ed00+mJw-epcUw2BV3snXsOBQ6-Mk-DXaxCdQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] ASoC: SOF: imx: Add mach entry to select cs42888 topology
-To: Frank Li <Frank.li@nxp.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, robh@kernel.org, krzk+dt@kernel.org, 
-	broonie@kernel.org, shawnguo@kernel.org, conor+dt@kernel.org, 
-	peng.fan@nxp.com, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
-	linux-sound@vger.kernel.org, imx@lists.linux.dev, 
-	Liam Girdwood <liam.r.girdwood@intel.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Iuliana Prodan <iuliana.prodan@nxp.com>, Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, Jan 22, 2025 at 9:55=E2=80=AFPM Frank Li <Frank.li@nxp.com> wrote:
->
-> On Wed, Jan 22, 2025 at 06:35:42PM +0200, Daniel Baluta wrote:
-> > After commit 2b9cdef13648 ("ASoC: SOF: imx: Add devicetree support
-> > to select topologies") we select topology to be used by the board
-> > compatible string in the dts.
->
-> I am confused. why not use "sof-imx8-cs42888.tplg" in imx8's dts instead
-> use board's compatible string "fsl,imx8qxp-mek-bb".
->
-> More and more boards will be added in future. This file will become bigge=
-r
-> and bigger!
+On Thu, 23 Jan 2025 03:00:29 +0100,
+Samantha Glocker wrote:
+> 
+> Hi Takashi,
+> 
+> Yes confirming it's a regression. I haven't raised it on bug tracker
+> because I was pretty sure I'd located the regression as above.
+> 
+> Sound was working on 6.12.4, and non-working from 6.12.5 (thru 6.12.10)
 
-Hi Frank,
+What exactly do you mean as "sound was working (or non-working)"?
+I suppose it's about the speaker output.  Or anything else broken?
+The symptom needs to be reported more clearly -- only few people own
+crystal balls.
 
-So you mean create a dts property named e.g sof-tplg-name and read the
-topology name from dts?
-
-dsp {
-       firmware-name=3D"sof-imx8.ri";
-       tplg-name =3D "sof-imx8-cs428888.tplg";
-};
-
-
-This was our first approach but then we aligned with the community on
-using compatible to match
-for properties like default fw path, default tplg path, fw name, tplg name.
-
-Now dts should somehow describe the hardware not the software (e.g
-tplg binary) used on that platform.
-The growing number of boards will not be a problem, each one will have
-a compatible in the dts.
-
-But the concern here is how we describe a hardware setup where we have
-a CPU board + a baseboard
-like it is the case for cs42888 codec?
-
-Our approach was that in our dts or overlay dts that describes SOF
-with cs428888 codec to put the exact
-compatible "fsl,imx8qxp-mek-bb" and match it with static vector in SOF
-driver that you see in this patch.
-
-SOF core relies on the compatible string in order to identify the
-correct tplg_filename for example.
 
 thanks,
-Daniel.
+
+Takashi
