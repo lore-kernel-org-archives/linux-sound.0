@@ -1,177 +1,166 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mail.gtsys.com.hk (web.xit.com.hk [111.91.236.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1ED313D891;
-	Thu, 23 Jan 2025 04:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0A713B7A3
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jan 2025 07:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.91.236.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737606608; cv=none; b=ndpR+9cV4o2bfpKF2lPsSADBwiGTzPf6RWAu/YcKLtUynVjW+ru13OIRI/m7xZlbCSrTd+Om0b9T5Pln4f1zBChJr2EtVqfrEiR0gv7x2mA4DgZdMh3UFRUQL2lhVf/7ZX4kPZ0eHny7rGSJf7vZpdRaZrzH1ZK0O5vdxt6n5bc=
+	t=1737616008; cv=none; b=gf/mNm2tTEXqkiXTPj+GDM+2/pvHJegQe282Zjwz3nvgtFewmpOd7fmySvPn0cWy7E9Ya2/+lWPvSjUwxNC0HJ4LUxdNuxLIVcKyv6aVAZ+gpluVWze5OV0hBJIqruWaI7BPnyc27oK7BZsmWMWZcyThSe2GdTSAoy1bbBJE690=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737606608; c=relaxed/simple;
-	bh=yeGxGu0KhtknpHr886EPeD+iNW/+V2HZU5gWGa4D7sM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sW3uUV667kFsaH/+PbFjx5hz1uhEi3Iurz9jwvyXdN+vw2nTrNVVIVQqKl/xsQLI1iOpf4gdSOvlD8PO13Tnw78YrMvMAxLL6z4bAnF2mb1bzXXY2bMDtA2xsO2EbjEu3S6TfKnveWvSLJtzY1k2h86Eb4ADautmc6ouwCEnX9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=MkAKXSHV; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MkAKXSHV"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50N3x3Q2017365;
-	Thu, 23 Jan 2025 04:29:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ligYFU7Sa/psO/SUdItVaMwY6zrDfDkqL/knIzvGNkg=; b=MkAKXSHVhmW9FcTh
-	AZ+/X5bcmxPvxAqToRgcvtNQaTlzAW0YOmuBx1t/sGugaP7HbPiZJstjfFfbAkhL
-	3o958IxMliKTqUunzvMy6hFe87fIruWA0pv5uHY1CXPmEzK/xmt5KYvxbx3J3WzR
-	ADaz2bFRm+XV401eFlk125bGk260ozdjtLQPqy5SJjVUz749wTDJnoHskS1FmxX2
-	J9Ei5cT4ZsiJHY1onTo6RNg2uz3Ov7ZMjDi0yxpVisV0wkB3RSjzaMw6SR+iU/HZ
-	BO3jgUAOG/vGXqVspGuKEKmp16fhXPokM3tlrqLO/S6bX9me63rRRZNkV09lOoCG
-	yVGWtA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44bebbg1ne-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Jan 2025 04:29:49 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50N4Tm72001652
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Jan 2025 04:29:48 GMT
-Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 22 Jan 2025 20:29:40 -0800
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-        Jaroslav Kysela <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>
-CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Sanyog Kale
-	<sanyog.r.kale@intel.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_pkumpatl@quicinc.com>, <kernel@quicinc.com>,
-        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Subject: [RESEND v5 4/4] ASoC: qcom: sdw: Add get and set channel maps support from codec to cpu dais
-Date: Thu, 23 Jan 2025 09:58:23 +0530
-Message-ID: <20250123042823.2067740-5-quic_mohs@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250123042823.2067740-1-quic_mohs@quicinc.com>
-References: <20250123042823.2067740-1-quic_mohs@quicinc.com>
+	s=arc-20240116; t=1737616008; c=relaxed/simple;
+	bh=QcDhUXoksUbtFqIc0Hu1OCe0+z4WE/lmYzY+4iVdwJE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=D7jdSD5iuE6ge5uZOuSIlec33EthN+jeHohSi1VfHFnJG0XIvv4cbWrnQUKw4vm5Sld2asg1syVP1jznszKVLlSA/tlMgkrflG/EdkfNjihljneX8DyIsMWahWB65GjJjwgZAXVch5TV8Awb0ggSRGIoNXPM1+w+iIWEH0T/yzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtsys.com.hk; spf=pass smtp.mailfrom=gtsys.com.hk; arc=none smtp.client-ip=111.91.236.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtsys.com.hk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtsys.com.hk
+Received: from localhost (localhost [127.0.0.1])
+	by mail.gtsys.com.hk (Postfix) with ESMTP id 241E117B5
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jan 2025 15:06:35 +0800 (HKT)
+X-Virus-Scanned: Debian amavis at gtsys.com.hk
+Received: from mail.gtsys.com.hk ([127.0.0.1])
+ by localhost (mail.gtsys.com.hk [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id aeogTL6feL37 for <linux-sound@vger.kernel.org>;
+ Thu, 23 Jan 2025 15:06:34 +0800 (HKT)
+Received: from gtsnode.virtual.gtsys.com.hk (gtsnode.virtual.gtsys.com.hk [10.128.4.2])
+	by mail.gtsys.com.hk (Postfix) with ESMTP id 6B9FE816
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jan 2025 15:06:34 +0800 (HKT)
+Received: from [10.128.1.32] (unknown [203.145.95.233])
+	by gtsnode.virtual.gtsys.com.hk (Postfix) with ESMTPSA id D13AB1FCC5
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jan 2025 15:06:33 +0800 (HKT)
+Message-ID: <79b9105f-5e4b-4691-9af0-484233612f84@gtsys.com.hk>
+Date: Thu, 23 Jan 2025 15:06:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: rt5651 + rk3399 orange-pi 4b no HP output
+From: Chris Ruehl <chris.ruehl@gtsys.com.hk>
+To: linux-sound@vger.kernel.org
+References: <27307cdd-436c-4520-94d0-0baa4d65c49d@gtsys.com.hk>
+ <dc3014fe-c58f-46e3-af95-6179952b5a31@gtsys.com.hk>
+Content-Language: en-US
+In-Reply-To: <dc3014fe-c58f-46e3-af95-6179952b5a31@gtsys.com.hk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: fH4JCrN9_0NZmkVVYoiOO_-daiyIw-6e
-X-Proofpoint-ORIG-GUID: fH4JCrN9_0NZmkVVYoiOO_-daiyIw-6e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-23_01,2025-01-22_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 malwarescore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- bulkscore=0 mlxlogscore=999 clxscore=1015 suspectscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501230032
 
-Add get and set channel maps support from codec to cpu dais.
 
-Implemented logic to get the channel map in case of only sdw stream and
-set channel map only for specific cpu dais.
 
-Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
----
- drivers/soundwire/qcom.c |  5 ++---
- sound/soc/qcom/sdw.c     | 34 +++++++++++++++++++++++++++++++---
- 2 files changed, 33 insertions(+), 6 deletions(-)
+On 22/1/2025 15:10, Chris Ruehl wrote:
+> On 21/1/2025 18:33, Chris Ruehl wrote:
+>> Hi,
+>>
+>> Fighting for over a week try to get the headphone sound working on a orange-pi 
+>> 4b (rk3399 + rt5651-codec)
+>> as simple-card setup. So far I got all clocks working on the i2s1 bus and use 
+>> alsamixer set Dac1 mix to HPO_L/R.
+>> Jack plugin gpio is working correct and I see the status change in the /sys/ 
+>> kernel/debug/sound/card1/Headphones Jack/status
+>> All I got is a 'knack-noise' when starting/stopping the stream.
+>>
+>>
+>> ....
+> 
+> Keep going debugging,
+> add a dev_dbg to rockchip_i2s.c to compare the bclk rates.
+> and there is a difference in i2s vs. rt565 where the bclk frequency is 1/2 of
+> what i2s is using.
+> 
+> [   72.204217] rt5651 1-001a: Sysclk is 5644800Hz and clock id is 0
+> [   72.204922] rt5651 1-001a: framesize: 32
+> [   72.205272] rt5651 1-001a: bclk is 705600Hz and lrck is 22050Hz
+> [   72.205792] rt5651 1-001a: bclk_ms is 0 and pre_div is 0 for iis 0
+> [   72.206345] rockchip-i2s ff890000.i2s: mclk_rate: 5644800 bclk_rate: 1411200 
+> div_bclk: 4 div_lrck: 64
+> 
 
-diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-index 0183e1ad4853..295a46dc2be7 100644
---- a/drivers/soundwire/qcom.c
-+++ b/drivers/soundwire/qcom.c
-@@ -1276,11 +1276,10 @@ static void *qcom_swrm_get_sdw_stream(struct snd_soc_dai *dai, int direction)
- }
- 
- static int qcom_swrm_set_channel_map(struct snd_soc_dai *dai,
--				     unsigned int tx_num, unsigned int *tx_slot,
--				     unsigned int rx_num, unsigned int *rx_slot)
-+				     unsigned int tx_num, const unsigned int *tx_slot,
-+				     unsigned int rx_num, const unsigned int *rx_slot)
- {
- 	struct qcom_swrm_ctrl *ctrl = dev_get_drvdata(dai->dev);
--	struct sdw_stream_runtime *sruntime = ctrl->sruntime[dai->id];
- 	int i;
- 
- 	if (tx_slot) {
-diff --git a/sound/soc/qcom/sdw.c b/sound/soc/qcom/sdw.c
-index f2eda2ff46c0..d4d8ed46e6ff 100644
---- a/sound/soc/qcom/sdw.c
-+++ b/sound/soc/qcom/sdw.c
-@@ -25,7 +25,9 @@ int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
- 	struct sdw_stream_runtime *sruntime;
- 	struct snd_soc_dai *codec_dai;
--	int ret, i;
-+	int ret, i, j;
-+	u32 rx_ch[SDW_MAX_PORTS], tx_ch[SDW_MAX_PORTS];
-+	u32 rx_ch_cnt = 0, tx_ch_cnt = 0;
- 
- 	sruntime = sdw_alloc_stream(cpu_dai->name);
- 	if (!sruntime)
-@@ -35,9 +37,35 @@ int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
- 		ret = snd_soc_dai_set_stream(codec_dai, sruntime,
- 					     substream->stream);
- 		if (ret < 0 && ret != -ENOTSUPP) {
--			dev_err(rtd->dev, "Failed to set sdw stream on %s\n",
--				codec_dai->name);
-+			dev_err(rtd->dev, "Failed to set sdw stream on %s\n", codec_dai->name);
- 			goto err_set_stream;
-+		} else if (ret == -ENOTSUPP) {
-+			/* Ignore unsupported */
-+			continue;
-+		}
+Finally have it working, the Realtek Codec driver rt5651 not enabled the master 
+clock gate to the MBCK port on the chip. Other codes like rt5616 do this.
+In consequence, non of the other rk3399-*.dts with same config can have a 
+workable headphone output!
+
+Here is my patch to make the headphones working:
+--- sound/soc/codecs/rt5651.c.org       2025-01-23 14:44:54.488095319 +0800
++++ sound/soc/codecs/rt5651.c   2025-01-23 14:47:07.125695637 +0800
+@@ -6,6 +6,7 @@
+   * Author: Bard Liao <bardliao@realtek.com>
+   */
+
++#include <linux/clk.h>
+  #include <linux/module.h>
+  #include <linux/init.h>
+  #include <linux/delay.h>
+@@ -1298,6 +1299,7 @@
+                 dev_err(component->dev, "Unsupported frame size: %d\n", 
+frame_size);
+                 return -EINVAL;
+         }
 +
-+		ret = snd_soc_dai_get_channel_map(codec_dai, &tx_ch_cnt, tx_ch,
-+						  &rx_ch_cnt, rx_ch);
-+		if (ret != 0 && ret != -ENOTSUPP) {
-+			dev_err(rtd->dev, "Failed to get codec chan map %s\n", codec_dai->name);
-+			goto err_set_stream;
-+		} else if (ret == -ENOTSUPP) {
-+			/* Ignore unsupported */
-+			continue;
-+		}
-+	}
-+
-+	switch (cpu_dai->id) {
-+	case RX_CODEC_DMA_RX_0:
-+	case TX_CODEC_DMA_TX_3:
-+		if (tx_ch_cnt || rx_ch_cnt) {
-+			for_each_rtd_codec_dais(rtd, j, codec_dai) {
-+				ret = snd_soc_dai_set_channel_map(codec_dai,
-+								  tx_ch_cnt, tx_ch,
-+								  rx_ch_cnt, rx_ch);
-+				if (ret != 0 && ret != -ENOTSUPP)
-+					goto err_set_stream;
-+			}
- 		}
- 	}
- 
--- 
-2.34.1
+         bclk_ms = frame_size > 32 ? 1 : 0;
+         rt5651->bclk[dai->id] = rt5651->lrck[dai->id] * (32 << bclk_ms);
 
+@@ -1511,6 +1513,9 @@
+  static int rt5651_set_bias_level(struct snd_soc_component *component,
+                         enum snd_soc_bias_level level)
+  {
++       int ret;
++       struct rt5651_priv *rt5651 = snd_soc_component_get_drvdata(component);
++
+         switch (level) {
+         case SND_SOC_BIAS_PREPARE:
+                 if (SND_SOC_BIAS_STANDBY == 
+snd_soc_component_get_bias_level(component)) {
+@@ -1531,6 +1536,12 @@
+                                 RT5651_PWR_FV1 | RT5651_PWR_FV2,
+                                 RT5651_PWR_FV1 | RT5651_PWR_FV2);
+                         snd_soc_component_update_bits(component, RT5651_D_MISC, 
+0x1, 0x1);
++                       ret = clk_prepare_enable(rt5651->mclk);
++                       if (ret) {
++                               dev_err(component->dev,
++                                       "failed to enable MCLK: %d\n", ret);
++                               return ret;
++                       }
+                 }
+                 break;
+
+@@ -1546,6 +1557,7 @@
+                 /* Leave PLL1 and jack-detect power as is, all others off */
+                 snd_soc_component_update_bits(component, RT5651_PWR_ANLG2,
+                                     ~(RT5651_PWR_PLL | RT5651_PWR_JD_M), 0);
++               clk_disable_unprepare(rt5651->mclk);
+                 break;
+
+         default:
+@@ -2241,6 +2253,11 @@
+
+         regmap_write(rt5651->regmap, RT5651_RESET, 0);
+
++       /* Check if MCLK provided */
++       rt5651->mclk = devm_clk_get_optional(&i2c->dev, "mclk");
++       if (IS_ERR(rt5651->mclk))
++               return PTR_ERR(rt5651->mclk);
++
+         ret = regmap_register_patch(rt5651->regmap, init_list,
+                                     ARRAY_SIZE(init_list));
+         if (ret != 0)
+
+--- sound/soc/codecs/rt5651.h.org       2025-01-23 14:45:09.173212267 +0800
++++ sound/soc/codecs/rt5651.h   2025-01-23 14:47:07.685582610 +0800
+@@ -2084,6 +2084,8 @@
+         unsigned int ovcd_th;
+         unsigned int ovcd_sf;
+
++       struct clk *mclk;
++
+         int irq;
+         int sysclk;
+         int sysclk_src;
+
+Is there a patch upstream lined up?
+
+Regards
+Chris
