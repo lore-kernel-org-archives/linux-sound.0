@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0251B78E7
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jan 2025 17:49:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DF23DBB6;
+	Thu, 23 Jan 2025 21:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737654572; cv=none; b=gHcAW22LtoWN9TrWa9VG5rAWthM6EsCGkA1TZXyXhXOQBXmnaQ89NI1J4L1C/ogeycrnBWwL4sTm1Z1eeA5FNkMUXj9eSCrZ8NCZluP1zkx0xZA9J+tOa5hBb4s8LIvrG7N4ZD4f+HH6LaYalpaQ8AFo8EEEyTXwwEW5UI/vFVs=
+	t=1737667263; cv=none; b=hRwPQwN3EAKsT0nttpaO/71Vllpg3hP83AdT2EAkcWPksStjeBngRc/uukvofXhDb4HSwun/IGMm6ALfRsz+Bkxhj5aqeUA14a4NEbZfy6TTaDwVSf0hgS63ANUJ1fmKrSTISPXcY0M2SJKuq5JL/8tXcv2zslabrTxXZPB+khY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737654572; c=relaxed/simple;
-	bh=6pkpaBFGGR8CWkXpbDrvdRISq5+bdU5CtX6i4AueP3s=;
+	s=arc-20240116; t=1737667263; c=relaxed/simple;
+	bh=tuOw4Ciq0xOtOTUjc7Zy0bF2QdZE47PH3/38Axm4biY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=seuPdjO4qMy2+SakCG7NB0z6/wPBANQOuLdO0Nh6+KyjU8tkWPMkmiejcNukTpqdrlTelmOPJCtwJUrFDXjWG6I0dL5Tq53vpaO+ptV/HITv7JnslsLP8P2IH4gKJecpHWz6LOlaWNa6cQwZO/KZkls/Sk+5rNkNtJwdr1f7U5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWlVPB+V; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=EsC/R/ORWRHkIbqhQrNWgK9T8+zz4BqRC7OcgQ2DnZ4bHQsBYFJ+XNxHiBgTt8iqj1FvsKb3LWr0W7f/GPTwzz3ABXAGZvrr8L18JWhfiFxgFZ57hDOMsWAL7Mkc4HSgQw3XQpTvOB3k0vqe5fvUxScAbbbb7nw/RngbW0UNT/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LDCqlbBp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWlVPB+V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4B6CC4CEE0;
-	Thu, 23 Jan 2025 17:49:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LDCqlbBp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0CA1C4CED3;
+	Thu, 23 Jan 2025 21:21:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737654571;
-	bh=6pkpaBFGGR8CWkXpbDrvdRISq5+bdU5CtX6i4AueP3s=;
+	s=k20201202; t=1737667262;
+	bh=tuOw4Ciq0xOtOTUjc7Zy0bF2QdZE47PH3/38Axm4biY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nWlVPB+V4Sk56MPyNJtSlj+zDkhU8vHTHpQgPaMbV5GiSRrcowv7Ckbj53bPAbXml
-	 RnW+5E3IoJz8GynQgYz6mBAggqhY9rn0gRYf9jX0iJPuUB1F9xGN28h9xfeXenUGlh
-	 JIlrUARPvedw00sCh5oK+i+Zb3gda/Wkiw9a3rd3uQGeEQZB56EBCLcmvyPp/HqcYO
-	 oO8K4IwjQhaTffcmtckG2ffOpbfH2ip8jl0GKy82WCsVSL95+SuFKUJ51PaqDQK+gc
-	 kxR+DukdaVc8HIa52BcHD4mPaju4pVjU6J9DWCz5eOQPEgu7omiV+hgwkab/L/Q3V4
-	 FEUmTkrkEWDsw==
+	b=LDCqlbBpMywyho8D7bVAM3BuKtdRQ9aZKRnL07ogUXrKZ/fFZx/HeuK6vYOvkXNHo
+	 gj1e8sLvbyjah0IIo632PPoJ/Sww5Od0JKOGdH/fnEBByh6qcYUfVHdFjE1ix20x3T
+	 k7t+1sG7atIu+D24kwIN0GQmMqGpJ2ZfWos3YZRgkFAw5m31+uHPV2Gv3kujbd+fDR
+	 UV6CLignNxnwx1C7p+Av3dX8ATJSbTU6hwz6cqstmWgGR/4kZtgavE2r56QPMpN25M
+	 58XsWrlMVvDk5zuIt6IJxqFxo0ceIC/sBN9cInPbX47Sfc9rqwtEkUYfprM29tZiLP
+	 5UKGKgSdSZkDw==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Hans de Goede <hdegoede@redhat.com>
-Cc: Oder Chiou <oder_chiou@realtek.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20250123132507.18434-1-hdegoede@redhat.com>
-References: <20250123132507.18434-1-hdegoede@redhat.com>
-Subject: Re: [PATCH] ASoC: Intel: bytcr_rt5640: Add DMI quirk for Vexia Edu
- Atla 10 tablet 5V
-Message-Id: <173765457036.97658.13681342549019391596.b4-ty@kernel.org>
-Date: Thu, 23 Jan 2025 17:49:30 +0000
+To: robh@kernel.org, krzk+dt@kernel.org, 
+ Daniel Baluta <daniel.baluta@nxp.com>
+Cc: shawnguo@kernel.org, conor+dt@kernel.org, peng.fan@nxp.com, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
+ linux-sound@vger.kernel.org, imx@lists.linux.dev
+In-Reply-To: <20250122163544.1392869-1-daniel.baluta@nxp.com>
+References: <20250122163544.1392869-1-daniel.baluta@nxp.com>
+Subject: Re: [PATCH 0/4] Add SOF support for new board revisions
+Message-Id: <173766726032.133083.14869968684527769407.b4-ty@kernel.org>
+Date: Thu, 23 Jan 2025 21:21:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,15 +48,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Thu, 23 Jan 2025 14:25:07 +0100, Hans de Goede wrote:
-> The Vexia EDU ATLA 10 tablet comes in 2 different versions with
-> significantly different mainboards. The only outward difference is that
-> the charging barrel on one is marked 5V and the other is marked 9V.
+On Wed, 22 Jan 2025 18:35:40 +0200, Daniel Baluta wrote:
+> We introduce SOF support for new board revisions for i.MX8MP/QM/QXP
+> which wrt audio they replace wm8960 codec with wm8962.
 > 
-> The 5V version mostly works with the BYTCR defaults, except that it is
-> missing a CHAN package in its ACPI tables and the default of using
-> SSP0-AIF2 is wrong, instead SSP0-AIF1 must be used. That and its jack
-> detect signal is not inverted as it usually is.
+> Also add support for cs42888 codec on i.MX8QM/8QXP baseboard.
+> 
+> Patches 1-3 are already merged in linux SOF tree and they can be merged
+> via asoc tree.
 > 
 > [...]
 
@@ -66,8 +65,14 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: bytcr_rt5640: Add DMI quirk for Vexia Edu Atla 10 tablet 5V
-      commit: 6917192378c1ce17ba31df51c4e0d8b1c97a453b
+[1/4] dt-bindings: arm: imx: Add board revisions for i.MX8MP, i.MX8QM and i.MX8QXP
+      commit: 4b24c69af9cd5bd8fe98ab2ddd822d73f5e20a00
+[2/4] ASoC: SOF: imx: Add mach entry to select cs42888 topology
+      commit: 66084793fac9c8b841f65da1809ad0ad398f9f2f
+[3/4] ASoC: SOF: imx8: Add entries for new 8QM and 8QXP revisions
+      commit: a9f54c7fbd2edb28c8d4d812be3d0129167f92d4
+[4/4] ASoC: SOF: imx8m: Add entry for new 8M Plus revision
+      commit: af65d7d041d486cc55530e14d806e16143037962
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
