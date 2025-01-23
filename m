@@ -1,71 +1,67 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4950383CC7;
-	Thu, 23 Jan 2025 03:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133741442F6;
+	Thu, 23 Jan 2025 04:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737603588; cv=none; b=KsXyfeqZSiIghAXA7486JFL8/jYHq/Oi+qNOOfXWNGBWEmT/7J3WjHFa/2MwtjFvSvY2eFntDjzeZDn9UX/IF14mkIMD1fQvrA+h3TRyunXIRyFxq6cWE7tULhjJ9h+1ygFrlDp2sGVkzETfxQEC5p7slBhe7WPibuHmR1xwzXc=
+	t=1737606592; cv=none; b=F/23xFEZfJHJrpgtBsGhozlusobdvHJsrqBhdg9FFwHSJjJc8A49TG+78v7rhoVzzHMOPiEWzbMB+6/kjuDLaQlIkp2Q2jkcymheRknY1wuvCZfE4YHjYuOYI7212cbtliUsk5cNnQOnAHxiePsqplEB4VQYdKJq7lHaQq0xhAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737603588; c=relaxed/simple;
-	bh=WNSe71WRDx1H95X78mZD1PIUjIm+A4Q68fJN48hKEHw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AkxFa9Ap01zDdGPXKPQXQiR1CyrN8NdM7nRyo4ok6duFFvuWiH7SgGvcBxVqqG0U9DtuZiF2A9DHrWXwJ3ZPDbM3pUZOWjw/wiFsSEDzeIMirJYRO6kQZ7tFVgi1t8qqnNvcQoDqJm4bc3BKB8X2wezK+d268oIBAdOCE4s8U74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fjp0xqNk; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737606592; c=relaxed/simple;
+	bh=MeqXUy8zkD1bczlmxznfzIuGxM1DxvrpYXt09gMWwy4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fMISQikWYo9/me15fse3/pdJfY2aXFxAXDlLFG4FrjIhMKty0IlI1hZJGScCPN2Z9HoyfZHzYeF68IiIyPcJp8ksQbLAosWmKHwR6JPabqW2aocA+d6W6lzQR/NwAn+HRn8QHqBllQyP0Pj2yuX2O94enVU/noAwvwR6s2Ub81o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Z7Bh9FQG; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fjp0xqNk"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-216281bc30fso9122975ad.0;
-        Wed, 22 Jan 2025 19:39:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737603586; x=1738208386; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qSxXDdsfwg3DX3fuyumlFfSd8QwOG6ELskTKuWZqeBc=;
-        b=fjp0xqNkdRlCkKOEn5hBpgK3cfBw0HnEusdcVpB8C8eWoRPvgql4qrrb6TEdnDPgoq
-         N61aShdcINsP38qlrqYSB8oRJAE5ffcB9T75Ol09uxG1bBx7N3sJqaKWsO6IyE/erJWS
-         z7NmDBFQEXcKWhRB8yPC9YiHzR9Y61iTl2eMM4gztahvUyFZGuexqMJIbiucmgxqcdYp
-         XQEIv/nfP1dhAxHS7YqRRr/s92tJ7oihBaEw4rKr2M2dfQdnpc7i55ntp5pBoYQXZb7m
-         BvJJ1XnhwpqoVPV6aEM9/YGvkiGsh6tZh96vNfwtSC8vnSMttBvZi892hfrc4hwrsz0S
-         IA+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737603586; x=1738208386;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qSxXDdsfwg3DX3fuyumlFfSd8QwOG6ELskTKuWZqeBc=;
-        b=P1R2bvx0xf0pEUgL2xzrOi6k5wB/6o5A2eoaEVkJDgAjRNc6QtxUlbxjd7J1iO5hP3
-         5gCLeUZgCfv1kM/3cGgHdpPcGBLRW0n2/sF+qqQlvq0XqfdzfIaeFMCGjjA96PRIx2BL
-         5bb0GWmrSWTYG7Djw4CyDxJIL9tGs2jAcGSltzR2midUllLE+GJHUS5D2k5fShbor44d
-         UyYmByo21nuudeszjzR949ko4c1cT42wmGFv89igm8jGwA8QUsEz5MXB1WYGDR3k4Vf5
-         F9L18GOxsHEvA1v4PVeNrJ8UQ6L6GyCAyh0/kLz+XomjXmEuWrXToKtK/UF0DFadP9T5
-         iTlg==
-X-Forwarded-Encrypted: i=1; AJvYcCXyWrCRixZU+H5knf92cKrzblzjH5raLDyPD9k4cxW7pwFhk5yugopaiiedS9L9xmsul4GQlsKz7tIS7GU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YygSLD4/0MKh2bznnJvANRAS2k+INeP+rAsBSLCHqOt1OgvoNOm
-	EXP33XQ9uzU19i+QfUpaWuh0di0YNlEYMaLEcXogvWY4VO7KZS4Lp/AH/d+f
-X-Gm-Gg: ASbGncstVe3lvNf9pOkKAp18tz4gfTyYy1t5fl72tBa9HTMvVWCByT86B6x5WGh608v
-	L4HqymOQLMbg3XxlikCRhYXdOBLF9JR12F9m6vdrUh9k0tfNPAY3Tm0sjMrq9K2xxUM1cUdcTPW
-	sKTjvvvGD/a8CuT/Q0YYlw+eHUGPyZmUykLIfOhezihvzgDpKVW7++IUzuXcPajYFzamwQtMFix
-	adUZXKdUPWEobYISxX6I1yA1XrnxNTl27Eghe5l0Hvdd0B0mcx6xQNg6J/Yy+Of2/h+Wlr5nHjS
-	H0SFEmY=
-X-Google-Smtp-Source: AGHT+IGzs7YaH7xUosb4T5Rx0p0nbj50M156Feh1ls5DtnjZHpBSdP8NFsUgf0BM4Ptz2SGD8j7L7Q==
-X-Received: by 2002:a17:902:c943:b0:215:a18f:88a8 with SMTP id d9443c01a7336-21c357afde0mr355657805ad.51.1737603586210;
-        Wed, 22 Jan 2025 19:39:46 -0800 (PST)
-Received: from kiloview.. ([113.240.218.201])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2d402e53sm103920635ad.233.2025.01.22.19.39.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2025 19:39:45 -0800 (PST)
-From: Luoxi Li <lee.lockhey@gmail.com>
-To: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: broonie@kernel.org,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	Luoxi Li <lee.lockhey@gmail.com>
-Subject: [PATCH] sound: soc: use to_platform_device() instead of container_of()
-Date: Thu, 23 Jan 2025 11:39:37 +0800
-Message-Id: <20250123033937.3587880-1-lee.lockhey@gmail.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Z7Bh9FQG"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50MMxg7K000300;
+	Thu, 23 Jan 2025 04:29:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=+TZp/KzUJrRXGddMOEXnWu
+	5hYx3f0MvP2E1AfmBouSw=; b=Z7Bh9FQGAhaLyEgLXkpugeYPJhwcboALGBiQjN
+	7d6EB5C2XJ8Hm+BgsDpkC3W06fmHvQQN0jXFvtASTAUkJamEz/fIwNpiuUw9xAtA
+	I4eGVSL5WxymGakE4/tfrbQixDW9KTr3VFJuRMc/YIlt+RZN+KPYPURgRDwX4K/h
+	BY65rmdETHdj2mC/P1suIbi/m978J+azaB2m03EQ+g8ks2nPWKJlFcxJ+etF8TYx
+	oO6WLiTEzmPFRznaHfPI0AvY4UG2WfZp1aAHa7ghFyjCBuTTGtI4T0NyFmu4sHz5
+	ZPnTZU8GhLG3ZebgCDiAjAlW6z9Hze3EwZE1/K5g+u8wzrHA==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44b9xq0jcj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Jan 2025 04:29:27 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50N4TQKv006696
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Jan 2025 04:29:26 GMT
+Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 22 Jan 2025 20:29:18 -0800
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>
+CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Sanyog Kale
+	<sanyog.r.kale@intel.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_pkumpatl@quicinc.com>, <kernel@quicinc.com>,
+        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: [RESEND v5 0/4] Add static channel mapping between soundwire master and slave
+Date: Thu, 23 Jan 2025 09:58:19 +0530
+Message-ID: <20250123042823.2067740-1-quic_mohs@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -74,149 +70,80 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ZHT1ERTPx9kiZnHaLnFPsz7p0a2LDqnx
+X-Proofpoint-ORIG-GUID: ZHT1ERTPx9kiZnHaLnFPsz7p0a2LDqnx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-23_01,2025-01-22_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ suspectscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
+ mlxlogscore=999 mlxscore=0 lowpriorityscore=0 spamscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501230032
 
-Use the to_platform_device() macro where possible.
+Add static channel map support between soundwire master and slave.
 
-Signed-off-by: Luoxi Li <lee.lockhey@gmail.com>
----
- sound/soc/codecs/rt5514.c              | 3 +--
- sound/soc/sof/imx/imx8.c               | 3 +--
- sound/soc/sof/imx/imx8m.c              | 3 +--
- sound/soc/sof/imx/imx8ulp.c            | 3 +--
- sound/soc/sof/intel/bdw.c              | 3 +--
- sound/soc/sof/intel/byt.c              | 3 +--
- sound/soc/sof/mediatek/mt8186/mt8186.c | 2 +-
- sound/soc/sof/mediatek/mt8195/mt8195.c | 6 +++---
- 8 files changed, 10 insertions(+), 16 deletions(-)
+Currently, the channel value for each soundwire port is hardcoded in the
+wcd937x-sdw driver and the same channel  value is configured in the
+soundwire master.
 
-diff --git a/sound/soc/codecs/rt5514.c b/sound/soc/codecs/rt5514.c
-index 2b3c0f9e178c..9cb74962161a 100644
---- a/sound/soc/codecs/rt5514.c
-+++ b/sound/soc/codecs/rt5514.c
-@@ -1091,8 +1091,7 @@ static int rt5514_set_bias_level(struct snd_soc_component *component,
- static int rt5514_probe(struct snd_soc_component *component)
- {
- 	struct rt5514_priv *rt5514 = snd_soc_component_get_drvdata(component);
--	struct platform_device *pdev = container_of(component->dev,
--						   struct platform_device, dev);
-+	struct platform_device *pdev = to_platform_device(component->dev);
+The Qualcomm board like the QCM6490-IDP require static channel map
+settings for the soundwire master and slave ports.
+
+If another boards which are using enable wcd937x, the channel mapping
+index values between master and slave may be different depending on the
+board hw design and requirements. If the above properties are not used
+in a SoC specific device tree, the channel mapping index values are set
+to default.
+
+With the introduction of the following channel mapping properties, it is
+now possible to configure the master channel mapping directly from the
+device tree.
+
+Added qcom_swrm_set_channel_map api to set the master channel values
+which allows more flexible to configure channel values in runtime for
+specific active soundwire ports.
+
+Add get and set channel maps support from codec to cpu dais in common
+Qualcomm sdw driver.
+
+Changes since v4:
+ - Update the order of channel map index values in v4-0001 dt-bindings patch as suggested by Krzysztof.
  
- 	rt5514->mclk = devm_clk_get_optional(component->dev, "mclk");
- 	if (IS_ERR(rt5514->mclk))
-diff --git a/sound/soc/sof/imx/imx8.c b/sound/soc/sof/imx/imx8.c
-index 0b85b29d1067..3f6080e6b8a1 100644
---- a/sound/soc/sof/imx/imx8.c
-+++ b/sound/soc/sof/imx/imx8.c
-@@ -175,8 +175,7 @@ static int imx8_run(struct snd_sof_dev *sdev)
- 
- static int imx8_probe(struct snd_sof_dev *sdev)
- {
--	struct platform_device *pdev =
--		container_of(sdev->dev, struct platform_device, dev);
-+	struct platform_device *pdev = to_platform_device(sdev->dev);
- 	struct device_node *np = pdev->dev.of_node;
- 	struct device_node *res_node;
- 	struct resource *mmio;
-diff --git a/sound/soc/sof/imx/imx8m.c b/sound/soc/sof/imx/imx8m.c
-index ff42743efa79..fa0f5258e33c 100644
---- a/sound/soc/sof/imx/imx8m.c
-+++ b/sound/soc/sof/imx/imx8m.c
-@@ -144,8 +144,7 @@ static int imx8m_reset(struct snd_sof_dev *sdev)
- 
- static int imx8m_probe(struct snd_sof_dev *sdev)
- {
--	struct platform_device *pdev =
--		container_of(sdev->dev, struct platform_device, dev);
-+	struct platform_device *pdev = to_platform_device(sdev->dev);
- 	struct device_node *np = pdev->dev.of_node;
- 	struct device_node *res_node;
- 	struct resource *mmio;
-diff --git a/sound/soc/sof/imx/imx8ulp.c b/sound/soc/sof/imx/imx8ulp.c
-index 6965791ab6ef..0704da27e69d 100644
---- a/sound/soc/sof/imx/imx8ulp.c
-+++ b/sound/soc/sof/imx/imx8ulp.c
-@@ -155,8 +155,7 @@ static int imx8ulp_reset(struct snd_sof_dev *sdev)
- 
- static int imx8ulp_probe(struct snd_sof_dev *sdev)
- {
--	struct platform_device *pdev =
--		container_of(sdev->dev, struct platform_device, dev);
-+	struct platform_device *pdev = to_platform_device(sdev->dev);
- 	struct device_node *np = pdev->dev.of_node;
- 	struct device_node *res_node;
- 	struct resource *mmio;
-diff --git a/sound/soc/sof/intel/bdw.c b/sound/soc/sof/intel/bdw.c
-index c4d92f3508b6..2bb77f6d87aa 100644
---- a/sound/soc/sof/intel/bdw.c
-+++ b/sound/soc/sof/intel/bdw.c
-@@ -410,8 +410,7 @@ static int bdw_probe(struct snd_sof_dev *sdev)
- {
- 	struct snd_sof_pdata *pdata = sdev->pdata;
- 	const struct sof_dev_desc *desc = pdata->desc;
--	struct platform_device *pdev =
--		container_of(sdev->dev, struct platform_device, dev);
-+	struct platform_device *pdev = to_platform_device(sdev->dev);
- 	const struct sof_intel_dsp_desc *chip;
- 	struct resource *mmio;
- 	u32 base, size;
-diff --git a/sound/soc/sof/intel/byt.c b/sound/soc/sof/intel/byt.c
-index 536d4c89d2f0..cae7dc0036c6 100644
---- a/sound/soc/sof/intel/byt.c
-+++ b/sound/soc/sof/intel/byt.c
-@@ -109,8 +109,7 @@ static int byt_acpi_probe(struct snd_sof_dev *sdev)
- {
- 	struct snd_sof_pdata *pdata = sdev->pdata;
- 	const struct sof_dev_desc *desc = pdata->desc;
--	struct platform_device *pdev =
--		container_of(sdev->dev, struct platform_device, dev);
-+	struct platform_device *pdev = to_platform_device(sdev->dev);
- 	const struct sof_intel_dsp_desc *chip;
- 	struct resource *mmio;
- 	u32 base, size;
-diff --git a/sound/soc/sof/mediatek/mt8186/mt8186.c b/sound/soc/sof/mediatek/mt8186/mt8186.c
-index 9955dfa520ae..31437fdd4e92 100644
---- a/sound/soc/sof/mediatek/mt8186/mt8186.c
-+++ b/sound/soc/sof/mediatek/mt8186/mt8186.c
-@@ -238,7 +238,7 @@ static int mt8186_run(struct snd_sof_dev *sdev)
- 
- static int mt8186_dsp_probe(struct snd_sof_dev *sdev)
- {
--	struct platform_device *pdev = container_of(sdev->dev, struct platform_device, dev);
-+	struct platform_device *pdev = to_platform_device(sdev->dev);
- 	struct adsp_priv *priv;
- 	int ret;
- 
-diff --git a/sound/soc/sof/mediatek/mt8195/mt8195.c b/sound/soc/sof/mediatek/mt8195/mt8195.c
-index 6032b566c679..371563d7ce79 100644
---- a/sound/soc/sof/mediatek/mt8195/mt8195.c
-+++ b/sound/soc/sof/mediatek/mt8195/mt8195.c
-@@ -228,7 +228,7 @@ static int mt8195_run(struct snd_sof_dev *sdev)
- 
- static int mt8195_dsp_probe(struct snd_sof_dev *sdev)
- {
--	struct platform_device *pdev = container_of(sdev->dev, struct platform_device, dev);
-+	struct platform_device *pdev = to_platform_device(sdev->dev);
- 	struct adsp_priv *priv;
- 	int ret;
- 
-@@ -341,7 +341,7 @@ static int mt8195_dsp_shutdown(struct snd_sof_dev *sdev)
- 
- static void mt8195_dsp_remove(struct snd_sof_dev *sdev)
- {
--	struct platform_device *pdev = container_of(sdev->dev, struct platform_device, dev);
-+	struct platform_device *pdev = to_platform_device(sdev->dev);
- 	struct adsp_priv *priv = sdev->pdata->hw_pdata;
- 
- 	platform_device_unregister(priv->ipc_dev);
-@@ -351,7 +351,7 @@ static void mt8195_dsp_remove(struct snd_sof_dev *sdev)
- 
- static int mt8195_dsp_suspend(struct snd_sof_dev *sdev, u32 target_state)
- {
--	struct platform_device *pdev = container_of(sdev->dev, struct platform_device, dev);
-+	struct platform_device *pdev = to_platform_device(sdev->dev);
- 	int ret;
- 	u32 reset_sw, dbg_pc;
- 
+Changes since v3:
+ - Change the order of channel map index values in v3-0002 dt-bindings patch as suggested by Krzysztof.
+ - Dropped V3-0001 patch which is not required.
+
+Changes since v2:
+ - Rephrase commit description v2-0001 dt-bindings patch as suggested by Krzysztof.
+
+Changes since v1:
+ - Modified the design and followed new approach to setting the master channel mask.
+ - Used existing set_channel_map api as suggested by Pierre-Louis
+ - Fixed the typo mistake in v1-0001 dt-bindings patch.
+ - Rephrase the commit description for all v1 patches.
+
+Mohammad Rafi Shaik (4):
+  ASoC: dt-bindings: wcd937x-sdw: Add static channel mapping support
+  ASoC: codecs: wcd937x: Add static channel mapping support in
+    wcd937x-sdw
+  soundwire: qcom: Add set_channel_map api support
+  ASoC: qcom: sdw: Add get and set channel maps support from codec to
+    cpu dais
+
+ .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++
+ drivers/soundwire/qcom.c                      | 26 +++++++++
+ sound/soc/codecs/wcd937x-sdw.c                | 39 ++++++++++++--
+ sound/soc/codecs/wcd937x.c                    | 53 ++++++++++++++++++-
+ sound/soc/codecs/wcd937x.h                    |  7 ++-
+ sound/soc/qcom/sdw.c                          | 34 ++++++++++--
+ 6 files changed, 185 insertions(+), 10 deletions(-)
+
 -- 
 2.34.1
 
