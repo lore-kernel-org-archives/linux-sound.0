@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9AE2F3B;
-	Thu, 23 Jan 2025 13:12:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A0C2F3B;
+	Thu, 23 Jan 2025 13:12:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737637956; cv=none; b=nVL2C+eTRRXZ+91QsCOxQS6D3DcKvYIpjdA4Rht4pVT5FXyF6DjipfNAFUgn6kQ8dvv8CQ42lgDRoplOf+6EXUxYnZWofSYEMyDjoJujX6jwOHF5jDD474lVGSTaN3XnHeKYnnlKl+onbj++pjbsVFFFFDjccDc5kvjuthESXZo=
+	t=1737637957; cv=none; b=U7r6sn5VGRXmBEwniH3xoT9wUlaflzY7hrRrNV2HU7MpV72Cdc4UBXpAd31OL1/vKy2k65Zb9g8NJJnG00NpMf2B2dD3Tj1CNynWjvm7IZ5iGm4QhYctKp9Otf5rIw6Ufe86hCESiU0k3rfns0G09Xiog3dTF+7qPoA1UJFHAyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737637956; c=relaxed/simple;
-	bh=edKXsLhx0dhFASUPDNMk4gjPbyfbfJBAyhTL57gxeyQ=;
+	s=arc-20240116; t=1737637957; c=relaxed/simple;
+	bh=qdq2QZqA/ljts2wbAeG91PnMtYnHHKws5vZsDO5Rrws=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nI4sDfWCuXrLF/HySNxAVfplL8LCTTTGrcyfQkbQl5WumfaEEOM1fLe8uzx6KPjTn8TmBdxAili619yfzWI3B131H7725tIVo55eYJDfy5+p2hWU+QlHbypNExqcuzk+Rifb0kBM6x3iA9Gn+A7V+7Lj3/QKu3t1QfvtJwcSjjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gawXx626; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=IhDSng7aHNkeyiZq6Rtgfb75XtVCoJwTxXxezLclOqRViABC91fIZPe37d7ZCZZcoSFRMHir81Kw9arZ01eqiDyY42aT1OQ86GadEfPWPfGC50layv9UTjZ85df0AQEhxgRaLKNQ+sOBkTrIYDdt1bpB1Py8PKGIRmlesXWrQDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NbPG7+U4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gawXx626"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE36CC4CEDD;
-	Thu, 23 Jan 2025 13:12:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NbPG7+U4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14327C4CEE1;
+	Thu, 23 Jan 2025 13:12:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737637955;
-	bh=edKXsLhx0dhFASUPDNMk4gjPbyfbfJBAyhTL57gxeyQ=;
+	s=k20201202; t=1737637957;
+	bh=qdq2QZqA/ljts2wbAeG91PnMtYnHHKws5vZsDO5Rrws=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gawXx626mmIA/CMbSoD+p1MYmPUNDQ2XuRiPy167dnkXw66qEnzVkaZfR3n1nvg12
-	 P9fAuEDWjCnO4ZTAlaVEBS6/nXF+xDORerB58Pzh1IRjPSCRl0XR+5BWq6yE5X/YmU
-	 jOunJccecdroFdQ3U8d9qFr+spNsFXldh3iVhF6ns8N6AE7/B9pg9vWOzGuFu3OaSo
-	 9I8CB/q9cBuZrXsxWrJkP11VLVFAo9DXweN/+FORACvCHuEcT8WqwbhlXgo4/BX/Rz
-	 346vP5diZKU+b6Q2cz3i/LjuXkjs8ITbndj90ri3be5fnSPelFaWqiQT9nf7xRW4se
-	 /7Y4drexa9kGA==
+	b=NbPG7+U4/w0ZuwPgncXwQBVe22Vi228G0V8gYW0chg7me0xYEMbbHY4hFg7j4XJrm
+	 IS1eAFGrsCPZl6sQkpk+zs5JJR0K0tAInuLWoH1pBV6CyKcSOFMYavy3yRAZDdFwTF
+	 +pbWPMBx0xS7MBYOYsNUNBler2mu7ukPZJPs6JO5HyPITFHSmn2sdT5j60OKZc0ydh
+	 DyPFK5p1hVNk54lQ+6AalObiwayDTLTaNev366ImJNsg/vKdStiXUiSbmaUlW1xz4g
+	 KuDnWxx3se/XoDg9wJqOcIRdidHXW91rfnuQY1blYK6p6On+fEeYkpdUyQRBbAEsFN
+	 LlkUhZ0ERdMpA==
 From: Mark Brown <broonie@kernel.org>
-To: mario.limonciello@amd.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, Mario Limonciello <superm1@kernel.org>
-Cc: nijs1@lenovo.com, pgriffais@valvesoftware.com, 
- mpearson-lenovo@squebb.ca, stable@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20250123024915.2457115-1-superm1@kernel.org>
-References: <20250123024915.2457115-1-superm1@kernel.org>
-Subject: Re: [PATCH] ASoC: acp: Support microphone from Lenovo Go S
-Message-Id: <173763795340.45842.5572738309580367598.b4-ty@kernel.org>
-Date: Thu, 23 Jan 2025 13:12:33 +0000
+To: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Luoxi Li <lee.lockhey@gmail.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com
+In-Reply-To: <20250123033937.3587880-1-lee.lockhey@gmail.com>
+References: <20250123033937.3587880-1-lee.lockhey@gmail.com>
+Subject: Re: [PATCH] sound: soc: use to_platform_device() instead of
+ container_of()
+Message-Id: <173763795580.45842.13261884215131049997.b4-ty@kernel.org>
+Date: Thu, 23 Jan 2025 13:12:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,11 +46,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Wed, 22 Jan 2025 20:49:13 -0600, Mario Limonciello wrote:
-> On Lenovo Go S there is a DMIC connected to the ACP but the firmware
-> has no `AcpDmicConnected` ACPI _DSD.
-> 
-> Add a DMI entry for all possible Lenovo Go S SKUs to enable DMIC.
+On Thu, 23 Jan 2025 11:39:37 +0800, Luoxi Li wrote:
+> Use the to_platform_device() macro where possible.
 > 
 > 
 
@@ -61,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: acp: Support microphone from Lenovo Go S
-      commit: b9a8ea185f3f8024619b2e74b74375493c87df8c
+[1/1] sound: soc: use to_platform_device() instead of container_of()
+      commit: 87284832bb91259c3ba2a4a1fa5739dc7a45dcb7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
