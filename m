@@ -1,46 +1,46 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBC914883C;
-	Thu, 23 Jan 2025 04:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1ED313D891;
+	Thu, 23 Jan 2025 04:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737606608; cv=none; b=C45bIAWiOopV9FLJhWDnhvXOwrXNNYoIcxBkAfTdpcILKn9eEvoxPT2NC3Zg99lGLJYYGqTj4spIGh9gbXSZDijYK+QLq0pz9qEnvUgx7j51ZSr0M8TO31DA7EebvR+5NPo7AalGTy8EkQn3tcHpFzcrqELf2UDfXkxfqHZN5Pk=
+	t=1737606608; cv=none; b=ndpR+9cV4o2bfpKF2lPsSADBwiGTzPf6RWAu/YcKLtUynVjW+ru13OIRI/m7xZlbCSrTd+Om0b9T5Pln4f1zBChJr2EtVqfrEiR0gv7x2mA4DgZdMh3UFRUQL2lhVf/7ZX4kPZ0eHny7rGSJf7vZpdRaZrzH1ZK0O5vdxt6n5bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737606608; c=relaxed/simple;
-	bh=JvPeDwcDpuyRS6zav1xQv9Awpv7pifnXVwSM059EKk0=;
+	bh=yeGxGu0KhtknpHr886EPeD+iNW/+V2HZU5gWGa4D7sM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aUZee3pRE2j+jKALsPk6Lg2GaTR3V0wSm+ZuMNTSqWpEvVoRHGIlL6zxkOQGp3d+nTiW0FCXUeJW+TdRkfNKq0+EKFgJAUjnj8BpxwQhtGZuWB2PU8dZM1uQ0NC6sfQJwtZyD4d8eEdNRGeNGsJL0r/PX9c6tYPUQP7khxi1x48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=EqnorpZB; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=sW3uUV667kFsaH/+PbFjx5hz1uhEi3Iurz9jwvyXdN+vw2nTrNVVIVQqKl/xsQLI1iOpf4gdSOvlD8PO13Tnw78YrMvMAxLL6z4bAnF2mb1bzXXY2bMDtA2xsO2EbjEu3S6TfKnveWvSLJtzY1k2h86Eb4ADautmc6ouwCEnX9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=MkAKXSHV; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="EqnorpZB"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50MKpd9L021174;
-	Thu, 23 Jan 2025 04:29:38 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MkAKXSHV"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50N3x3Q2017365;
+	Thu, 23 Jan 2025 04:29:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/memcVoHSwFdQVq4BRWnoW5JOKhzsDrU+lvtpZ774PQ=; b=EqnorpZBmSWN4M4K
-	PA/gRDWoNhwoLrGnBWi447JFAcMTCvvPRNI0+7fPcjMbpunwn5ZTi61jzwqwMlM9
-	IsRgAsZCxuvizoobx8ThqCsmLYYzKNJ9oUbqesn5XslYza0cXFOxH9BpkpIvw3uo
-	seDEJzCau8MpN+G6knXkxf+YmH3YPqTv8uVpYSOLq//28Q2f2JL9UPix/qgrHWeb
-	oEFd8AlEiBK8mzxick5xc+if5/nKweo+FVIzY8H/J2X/1cV8d3Nvvu2QoR+4CzkX
-	wWez7ZWzwBdFFqbva2nwlAbxgGyzp5grWYpy0qqsxQyaABWiOEM+EdROc4jMzR8L
-	v+c7RQ==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44b834rrd8-1
+	ligYFU7Sa/psO/SUdItVaMwY6zrDfDkqL/knIzvGNkg=; b=MkAKXSHVhmW9FcTh
+	AZ+/X5bcmxPvxAqToRgcvtNQaTlzAW0YOmuBx1t/sGugaP7HbPiZJstjfFfbAkhL
+	3o958IxMliKTqUunzvMy6hFe87fIruWA0pv5uHY1CXPmEzK/xmt5KYvxbx3J3WzR
+	ADaz2bFRm+XV401eFlk125bGk260ozdjtLQPqy5SJjVUz749wTDJnoHskS1FmxX2
+	J9Ei5cT4ZsiJHY1onTo6RNg2uz3Ov7ZMjDi0yxpVisV0wkB3RSjzaMw6SR+iU/HZ
+	BO3jgUAOG/vGXqVspGuKEKmp16fhXPokM3tlrqLO/S6bX9me63rRRZNkV09lOoCG
+	yVGWtA==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44bebbg1ne-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Jan 2025 04:29:37 +0000 (GMT)
+	Thu, 23 Jan 2025 04:29:49 +0000 (GMT)
 Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50N4TbkM021054
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50N4Tm72001652
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Jan 2025 04:29:37 GMT
+	Thu, 23 Jan 2025 04:29:48 GMT
 Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
  nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 22 Jan 2025 20:29:29 -0800
+ 15.2.1544.9; Wed, 22 Jan 2025 20:29:40 -0800
 From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
 To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Liam Girdwood
@@ -61,9 +61,9 @@ CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <quic_pkumpatl@quicinc.com>, <kernel@quicinc.com>,
         Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Subject: [RESEND v5 2/4] ASoC: codecs: wcd937x: Add static channel mapping support in wcd937x-sdw
-Date: Thu, 23 Jan 2025 09:58:21 +0530
-Message-ID: <20250123042823.2067740-3-quic_mohs@quicinc.com>
+Subject: [RESEND v5 4/4] ASoC: qcom: sdw: Add get and set channel maps support from codec to cpu dais
+Date: Thu, 23 Jan 2025 09:58:23 +0530
+Message-ID: <20250123042823.2067740-5-quic_mohs@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250123042823.2067740-1-quic_mohs@quicinc.com>
 References: <20250123042823.2067740-1-quic_mohs@quicinc.com>
@@ -79,244 +79,99 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01c.na.qualcomm.com (10.45.79.139)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: KKqQrqHyMRax8b0-lPv9GG99azslRJ2M
-X-Proofpoint-ORIG-GUID: KKqQrqHyMRax8b0-lPv9GG99azslRJ2M
+X-Proofpoint-GUID: fH4JCrN9_0NZmkVVYoiOO_-daiyIw-6e
+X-Proofpoint-ORIG-GUID: fH4JCrN9_0NZmkVVYoiOO_-daiyIw-6e
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-23_01,2025-01-22_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
- mlxlogscore=999 adultscore=0 lowpriorityscore=0 priorityscore=1501
- impostorscore=0 spamscore=0 clxscore=1015 bulkscore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 malwarescore=0 adultscore=0 spamscore=0 lowpriorityscore=0
+ bulkscore=0 mlxlogscore=999 clxscore=1015 suspectscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2501230032
 
-Add static channel mapping between master and slave ports in wcd937x-sdw
-driver.
+Add get and set channel maps support from codec to cpu dais.
 
-Currently, the channel mask for each soundwire port is hardcoded in the
-wcd937x-sdw driver, and the same channel mask value is configured in the
-soundwire master.
-
-The Qualcomm boards like the QCM6490-IDP require different channel mask
-settings for the soundwire master and slave ports.
-
-Implemented logic to read TX/RX channel mappings from device tree
-properties (qcom,tx-channel-mapping and qcom,rx-channel-mapping).
-
-Modified the wcd937x_connect_port to handle master channel masks during
-port enable/disable operations.
-
-Added wcd937x_get_channel_map api to retrieve the current master
-channel map for TX and RX paths.
+Implemented logic to get the channel map in case of only sdw stream and
+set channel map only for specific cpu dais.
 
 Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
 ---
- sound/soc/codecs/wcd937x-sdw.c | 39 ++++++++++++++++++++++---
- sound/soc/codecs/wcd937x.c     | 53 ++++++++++++++++++++++++++++++++--
- sound/soc/codecs/wcd937x.h     |  7 ++++-
- 3 files changed, 92 insertions(+), 7 deletions(-)
+ drivers/soundwire/qcom.c |  5 ++---
+ sound/soc/qcom/sdw.c     | 34 +++++++++++++++++++++++++++++++---
+ 2 files changed, 33 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd937x-sdw.c b/sound/soc/codecs/wcd937x-sdw.c
-index 0c33f7f3dc25..1fbff313b965 100644
---- a/sound/soc/codecs/wcd937x-sdw.c
-+++ b/sound/soc/codecs/wcd937x-sdw.c
-@@ -19,7 +19,7 @@
- #include <sound/soc.h>
- #include "wcd937x.h"
+diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+index 0183e1ad4853..295a46dc2be7 100644
+--- a/drivers/soundwire/qcom.c
++++ b/drivers/soundwire/qcom.c
+@@ -1276,11 +1276,10 @@ static void *qcom_swrm_get_sdw_stream(struct snd_soc_dai *dai, int direction)
+ }
  
--static const struct wcd937x_sdw_ch_info wcd937x_sdw_rx_ch_info[] = {
-+static struct wcd937x_sdw_ch_info wcd937x_sdw_rx_ch_info[] = {
- 	WCD_SDW_CH(WCD937X_HPH_L, WCD937X_HPH_PORT, BIT(0)),
- 	WCD_SDW_CH(WCD937X_HPH_R, WCD937X_HPH_PORT, BIT(1)),
- 	WCD_SDW_CH(WCD937X_CLSH, WCD937X_CLSH_PORT, BIT(0)),
-@@ -30,7 +30,7 @@ static const struct wcd937x_sdw_ch_info wcd937x_sdw_rx_ch_info[] = {
- 	WCD_SDW_CH(WCD937X_DSD_R, WCD937X_DSD_PORT, BIT(1)),
- };
- 
--static const struct wcd937x_sdw_ch_info wcd937x_sdw_tx_ch_info[] = {
-+static struct wcd937x_sdw_ch_info wcd937x_sdw_tx_ch_info[] = {
- 	WCD_SDW_CH(WCD937X_ADC1, WCD937X_ADC_1_PORT, BIT(0)),
- 	WCD_SDW_CH(WCD937X_ADC2, WCD937X_ADC_2_3_PORT, BIT(0)),
- 	WCD_SDW_CH(WCD937X_ADC3, WCD937X_ADC_2_3_PORT, BIT(0)),
-@@ -1019,7 +1019,9 @@ static int wcd9370_probe(struct sdw_slave *pdev,
+ static int qcom_swrm_set_channel_map(struct snd_soc_dai *dai,
+-				     unsigned int tx_num, unsigned int *tx_slot,
+-				     unsigned int rx_num, unsigned int *rx_slot)
++				     unsigned int tx_num, const unsigned int *tx_slot,
++				     unsigned int rx_num, const unsigned int *rx_slot)
  {
- 	struct device *dev = &pdev->dev;
- 	struct wcd937x_sdw_priv *wcd;
--	int ret;
-+	u8 master_ch_mask[WCD937X_MAX_SWR_CH_IDS];
-+	int master_ch_mask_size = 0;
-+	int ret, i;
+ 	struct qcom_swrm_ctrl *ctrl = dev_get_drvdata(dai->dev);
+-	struct sdw_stream_runtime *sruntime = ctrl->sruntime[dai->id];
+ 	int i;
  
- 	wcd = devm_kzalloc(dev, sizeof(*wcd), GFP_KERNEL);
- 	if (!wcd)
-@@ -1048,10 +1050,36 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 				   SDW_SCP_INT1_PARITY;
- 	pdev->prop.lane_control_support = true;
- 	pdev->prop.simple_clk_stop_capable = true;
-+
-+	memset(master_ch_mask, 0, WCD937X_MAX_SWR_CH_IDS);
-+
- 	if (wcd->is_tx) {
--		pdev->prop.source_ports = GENMASK(WCD937X_MAX_TX_SWR_PORTS - 1, 0);
-+		master_ch_mask_size = of_property_count_u8_elems(dev->of_node,
-+								 "qcom,tx-channel-mapping");
-+
-+		if (master_ch_mask_size)
-+			ret = of_property_read_u8_array(dev->of_node, "qcom,tx-channel-mapping",
-+							master_ch_mask, master_ch_mask_size);
-+	} else {
-+		master_ch_mask_size = of_property_count_u8_elems(dev->of_node,
-+								 "qcom,rx-channel-mapping");
-+
-+		if (master_ch_mask_size)
-+			ret = of_property_read_u8_array(dev->of_node, "qcom,rx-channel-mapping",
-+							master_ch_mask, master_ch_mask_size);
-+	}
-+
-+	if (ret < 0)
-+		dev_info(dev, "Static channel mapping not specified using device channel maps\n");
-+
-+	if (wcd->is_tx) {
-+		pdev->prop.source_ports = GENMASK(WCD937X_MAX_TX_SWR_PORTS, 0);
- 		pdev->prop.src_dpn_prop = wcd937x_dpn_prop;
- 		wcd->ch_info = &wcd937x_sdw_tx_ch_info[0];
-+
-+		for (i = 0; i < master_ch_mask_size; i++)
-+			wcd->ch_info[i].master_ch_mask = WCD937X_SWRM_CH_MASK(master_ch_mask[i]);
-+
- 		pdev->prop.wake_capable = true;
- 
- 		wcd->regmap = devm_regmap_init_sdw(pdev, &wcd937x_regmap_config);
-@@ -1065,6 +1093,9 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 		pdev->prop.sink_ports = GENMASK(WCD937X_MAX_SWR_PORTS - 1, 0);
- 		pdev->prop.sink_dpn_prop = wcd937x_dpn_prop;
- 		wcd->ch_info = &wcd937x_sdw_rx_ch_info[0];
-+
-+		for (i = 0; i < master_ch_mask_size; i++)
-+			wcd->ch_info[i].master_ch_mask = WCD937X_SWRM_CH_MASK(master_ch_mask[i]);
- 	}
- 
- 
-diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-index c9d5e67bf66e..e8d3fddbc7b1 100644
---- a/sound/soc/codecs/wcd937x.c
-+++ b/sound/soc/codecs/wcd937x.c
-@@ -1197,13 +1197,21 @@ static int wcd937x_connect_port(struct wcd937x_sdw_priv *wcd, u8 port_idx, u8 ch
- 	const struct wcd937x_sdw_ch_info *ch_info = &wcd->ch_info[ch_id];
- 	u8 port_num = ch_info->port_num;
- 	u8 ch_mask = ch_info->ch_mask;
-+	u8 mstr_port_num, mstr_ch_mask;
-+	struct sdw_slave *sdev = wcd->sdev;
- 
- 	port_config->num = port_num;
- 
--	if (enable)
-+	mstr_port_num = sdev->m_port_map[port_num];
-+	mstr_ch_mask = ch_info->master_ch_mask;
-+
-+	if (enable) {
- 		port_config->ch_mask |= ch_mask;
--	else
-+		wcd->master_channel_map[mstr_port_num] |= mstr_ch_mask;
-+	} else {
- 		port_config->ch_mask &= ~ch_mask;
-+		wcd->master_channel_map[mstr_port_num] &= ~mstr_ch_mask;
-+	}
- 
- 	return 0;
- }
-@@ -2689,10 +2697,51 @@ static int wcd937x_codec_set_sdw_stream(struct snd_soc_dai *dai,
- 	return 0;
- }
- 
-+static int wcd937x_get_channel_map(const struct snd_soc_dai *dai,
-+				   unsigned int *tx_num, unsigned int *tx_slot,
-+				   unsigned int *rx_num, unsigned int *rx_slot)
-+{
-+	struct wcd937x_priv *wcd937x = dev_get_drvdata(dai->dev);
-+	struct wcd937x_sdw_priv *wcd = wcd937x->sdw_priv[dai->id];
-+	int i;
-+
-+	switch (dai->id) {
-+	case AIF1_PB:
-+		if (!rx_slot || !rx_num) {
-+			dev_err(dai->dev, "Invalid rx_slot %p or rx_num %p\n",
-+				rx_slot, rx_num);
-+			return -EINVAL;
-+		}
-+
-+		for (i = 0; i < SDW_MAX_PORTS; i++)
-+			rx_slot[i] = wcd->master_channel_map[i];
-+
-+		*rx_num = i;
-+		break;
-+	case AIF1_CAP:
-+		if (!tx_slot || !tx_num) {
-+			dev_err(dai->dev, "Invalid tx_slot %p or tx_num %p\n",
-+				tx_slot, tx_num);
-+			return -EINVAL;
-+		}
-+
-+		for (i = 0; i < SDW_MAX_PORTS; i++)
-+			tx_slot[i] = wcd->master_channel_map[i];
-+
-+		*tx_num = i;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
- static const struct snd_soc_dai_ops wcd937x_sdw_dai_ops = {
- 	.hw_params = wcd937x_codec_hw_params,
- 	.hw_free = wcd937x_codec_free,
- 	.set_stream = wcd937x_codec_set_sdw_stream,
-+	.get_channel_map = wcd937x_get_channel_map,
- };
- 
- static struct snd_soc_dai_driver wcd937x_dais[] = {
-diff --git a/sound/soc/codecs/wcd937x.h b/sound/soc/codecs/wcd937x.h
-index 4afa48dcaf74..4ef57c496c37 100644
---- a/sound/soc/codecs/wcd937x.h
-+++ b/sound/soc/codecs/wcd937x.h
-@@ -489,6 +489,7 @@
- #define WCD937X_MAX_MICBIAS			3
- #define WCD937X_MAX_BULK_SUPPLY			4
- #define WCD937X_MAX_SWR_CH_IDS			15
-+#define WCD937X_SWRM_CH_MASK(ch_idx)		BIT(ch_idx - 1)
- 
- enum wcd937x_tx_sdw_ports {
- 	WCD937X_ADC_1_PORT = 1,
-@@ -510,12 +511,14 @@ enum wcd937x_rx_sdw_ports {
- struct wcd937x_sdw_ch_info {
- 	int port_num;
- 	unsigned int ch_mask;
-+	unsigned int master_ch_mask;
- };
- 
- #define WCD_SDW_CH(id, pn, cmask)	\
- 	[id] = {			\
- 		.port_num = pn,		\
- 		.ch_mask = cmask,	\
-+		.master_ch_mask = cmask,	\
- 	}
- 
- struct wcd937x_priv;
-@@ -524,9 +527,11 @@ struct wcd937x_sdw_priv {
- 	struct sdw_stream_config sconfig;
+ 	if (tx_slot) {
+diff --git a/sound/soc/qcom/sdw.c b/sound/soc/qcom/sdw.c
+index f2eda2ff46c0..d4d8ed46e6ff 100644
+--- a/sound/soc/qcom/sdw.c
++++ b/sound/soc/qcom/sdw.c
+@@ -25,7 +25,9 @@ int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
  	struct sdw_stream_runtime *sruntime;
- 	struct sdw_port_config port_config[WCD937X_MAX_SWR_PORTS];
--	const struct wcd937x_sdw_ch_info *ch_info;
-+	struct wcd937x_sdw_ch_info *ch_info;
- 	bool port_enable[WCD937X_MAX_SWR_CH_IDS];
-+	unsigned int master_channel_map[SDW_MAX_PORTS];
- 	int active_ports;
-+	int num_ports;
- 	bool is_tx;
- 	struct wcd937x_priv *wcd937x;
- 	struct irq_domain *slave_irq;
+ 	struct snd_soc_dai *codec_dai;
+-	int ret, i;
++	int ret, i, j;
++	u32 rx_ch[SDW_MAX_PORTS], tx_ch[SDW_MAX_PORTS];
++	u32 rx_ch_cnt = 0, tx_ch_cnt = 0;
+ 
+ 	sruntime = sdw_alloc_stream(cpu_dai->name);
+ 	if (!sruntime)
+@@ -35,9 +37,35 @@ int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
+ 		ret = snd_soc_dai_set_stream(codec_dai, sruntime,
+ 					     substream->stream);
+ 		if (ret < 0 && ret != -ENOTSUPP) {
+-			dev_err(rtd->dev, "Failed to set sdw stream on %s\n",
+-				codec_dai->name);
++			dev_err(rtd->dev, "Failed to set sdw stream on %s\n", codec_dai->name);
+ 			goto err_set_stream;
++		} else if (ret == -ENOTSUPP) {
++			/* Ignore unsupported */
++			continue;
++		}
++
++		ret = snd_soc_dai_get_channel_map(codec_dai, &tx_ch_cnt, tx_ch,
++						  &rx_ch_cnt, rx_ch);
++		if (ret != 0 && ret != -ENOTSUPP) {
++			dev_err(rtd->dev, "Failed to get codec chan map %s\n", codec_dai->name);
++			goto err_set_stream;
++		} else if (ret == -ENOTSUPP) {
++			/* Ignore unsupported */
++			continue;
++		}
++	}
++
++	switch (cpu_dai->id) {
++	case RX_CODEC_DMA_RX_0:
++	case TX_CODEC_DMA_TX_3:
++		if (tx_ch_cnt || rx_ch_cnt) {
++			for_each_rtd_codec_dais(rtd, j, codec_dai) {
++				ret = snd_soc_dai_set_channel_map(codec_dai,
++								  tx_ch_cnt, tx_ch,
++								  rx_ch_cnt, rx_ch);
++				if (ret != 0 && ret != -ENOTSUPP)
++					goto err_set_stream;
++			}
+ 		}
+ 	}
+ 
 -- 
 2.34.1
 
