@@ -1,90 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4ED20E70C;
-	Thu, 23 Jan 2025 11:29:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB3720E70C;
+	Thu, 23 Jan 2025 11:49:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737631765; cv=none; b=urpSEXsd1QR/CjwyXyxBKwO6eNjjbNCXcAgOP9wn/WVXY6Vo20fGHNeFUsK2Zqlx6EVmWiCJYoHjaUiplsb/7r5nyKMyLndHragwuO05eWXZQ88cRWRFjLOaHB+dj1oL2RpTN/Qo/Of2LE1HgsUB4F9ZLj5bQoOC1dkM5Gs9xcw=
+	t=1737632983; cv=none; b=gUhwy1TkXwbO2utkCE4HOF73wEPxjuxo1uXyhlKq5kjW9jZVNuqCch5YqZntlzq5UuQzp2Buf8NSqnuBCGmKWz0WJDO3a4a3jAWL4CBS2ZoK4+tUeznldy8fGIb73XE9jsXSTaNpJJnaVhfMy3ePtC8QymlztY2EHYE9YI+OSAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737631765; c=relaxed/simple;
-	bh=vjOG4wyus65GPBBh5RK9OeRmCNILRdBqj0Mfd9xnkqs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cIzM3hOVOLm4DuRD9Go+furH3Jy6mBP7XS28sUBPbZvDt4Ad8RC/yVAdTbodjZve/YDevbhp/TLbKq2w7OpeoJLILHUa80vPevVMv7LWKtoenSJ3Bfrr6+n5XUXgQA6fDLxH0V2To/QLgsEnJzJtH1nviVRWha5hmDYuvfOpSFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iwLVPDUk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737632983; c=relaxed/simple;
+	bh=JQpnWSLvcUXnxcIEbk5HWSRN1U80GEye+47kmsw6z+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cj1zZdE0CFxs/zfDId9QCzlUQEQWqqvTg7Pghq1ME3HlL+DERPvkD/Ojlx9I7AXi25mFuTOXmyTkq0vxO/LpMjJobE9GMc9FHp/KCtceELBgY/e0t72ek5Ron76FnblDNSmFzt65Qejnn+is1sXHS30qOvEjMH7dxRg3RCFUedc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N+MNMNGx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iwLVPDUk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0EFCC4CED3;
-	Thu, 23 Jan 2025 11:29:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N+MNMNGx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9982EC4CED3;
+	Thu, 23 Jan 2025 11:49:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737631764;
-	bh=vjOG4wyus65GPBBh5RK9OeRmCNILRdBqj0Mfd9xnkqs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=iwLVPDUkKIP79UsOJfuoEdLQxcVqjYG+E0RaWBqsUbNDcSk+hJ1yuP38T8XduYBto
-	 Qy+3axJYpXo5RIkxWuCQzgHO4xtX6IGYZWK6ae3mhUZh7AWp5L3MQ73MC2Ly7t5vPG
-	 kAtnpjwRD44DFAbX2TpHaLeADn3S+x7YpGjOlzjyA4+3LQBE2FgHfWgyC+5jrIEDOd
-	 Oqvj/KrF2DzB2t7XlLREiORz/sNyt6tJGkOmEvr3i6JXCwjDHXlthnef4K57Qmf064
-	 iggYjeyTsAji04WEtw7kkwUkvvRdaTalfDDEcviy+eLmPYZm0sRntQSvFJjp2n+f6M
-	 XFoT6frAexXjw==
+	s=k20201202; t=1737632983;
+	bh=JQpnWSLvcUXnxcIEbk5HWSRN1U80GEye+47kmsw6z+Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N+MNMNGxx4WKYcZpjxKTcKjw9NW6Ss9W5x1oCfzdpZCfjD5EtQYN0CzHUsx3jR3rc
+	 EXZ0bKcWIgM677Q1HSPE3ZaCAq8GayOZBj/6upWIbpIMX56Cl8PVNu1aPP+71AJgFN
+	 1NTBUSy79WGs9HXNrkPxnuwXAJ5oz7qujHwmrRH0vWDOnsF9ez4SiPVUrNwbivSt8d
+	 8Su5FvbhY/4qDe5i+uGYqWuqdKbLLaHktLrEvkPh0fXwD+MJjQc7FgDfAz21aBtYgR
+	 HC5fUYtzMMAxc++noRbLAZ+4NM8NhK4ZG1PaMUYXaQFDJo/oIOq4UkwSvmlnEp46Oq
+	 avIx8vZfj+OkA==
+Date: Thu, 23 Jan 2025 11:49:38 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sudeep Holla <sudeep.holla@arm.com>, 
- Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>, 
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250122065330.1423248-1-arnd@kernel.org>
-References: <20250122065330.1423248-1-arnd@kernel.org>
-Subject: Re: [PATCH] ASoC: fsl_asrc_m2m: select CONFIG_DMA_SHARED_BUFFER
-Message-Id: <173763176258.25036.5970364833151878810.b4-ty@kernel.org>
-Date: Thu, 23 Jan 2025 11:29:22 +0000
+To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Tony Lindgren <tony@atomide.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] dt-bindings: mfd: motorola-cpcap: Document
+ audio-codec interrupts
+Message-ID: <a60f468e-857a-4f4c-b3d9-3ee8faf6602a@sirena.org.uk>
+References: <20250122164129.807247-1-ivo.g.dimitrov.75@gmail.com>
+ <20250122164129.807247-4-ivo.g.dimitrov.75@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EDn2e2kTBvOtiq5X"
+Content-Disposition: inline
+In-Reply-To: <20250122164129.807247-4-ivo.g.dimitrov.75@gmail.com>
+X-Cookie: Never kick a man, unless he's down.
 
-On Wed, 22 Jan 2025 07:53:17 +0100, Arnd Bergmann wrote:
-> Randconfig builds without dmabuf result in this link error from
-> the fasl-asrc driver:
-> 
-> ERROR: modpost: "dma_buf_put" [sound/core/snd-compress.ko] undefined!
-> ERROR: modpost: "dma_buf_export" [sound/soc/fsl/snd-soc-fsl-asrc.ko] undefined!
-> 
-> Add the missing 'select' statement.
-> 
-> [...]
 
-Applied to
+--EDn2e2kTBvOtiq5X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Wed, Jan 22, 2025 at 06:41:27PM +0200, Ivaylo Dimitrov wrote:
+> Add DT binding for the audio-codec headset detection interrupts.
 
-Thanks!
+Lee, would it be OK to merge this via ASoC?
 
-[1/1] ASoC: fsl_asrc_m2m: select CONFIG_DMA_SHARED_BUFFER
-      commit: a2cd92185db0586f2136feae84d98cc54580f381
+--EDn2e2kTBvOtiq5X
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeSLNEACgkQJNaLcl1U
+h9AS4Af+L81zQkihJtGBHw8Au0C8XQRrOZOe8juBJ56PEl5NxhhkEqS6HgplRhob
+o+7XRa9xQFRyI1JNbHDRVU2N46CeSk6/3PTsC/wZU7HRX8ziy4j4y7oYn7lNES6l
+EQSvN9A3UN9uBF26Q1kT0ZlRp0OmZHUJskKuTl8e4J+kQomL8HyWx6FhAzQ8PcEY
+RR5FIdYkOWyoGSR4sfCvxNiGLoDmKuvrj4963uLGzzmDHgh7IlArDLLujcP5gleE
+MmipntedI2q37O+cSOOa3B+RrsejYtukQUCVYn5X8LpSNMZdnpJq/DFBfS09ees8
+vxyLp1OWEuuPq24mKwZaSAga7Ua0NQ==
+=HQCu
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--EDn2e2kTBvOtiq5X--
