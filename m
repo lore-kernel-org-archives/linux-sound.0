@@ -1,166 +1,185 @@
-Received: from mail.gtsys.com.hk (web.xit.com.hk [111.91.236.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0A713B7A3
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jan 2025 07:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.91.236.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0F320C023;
+	Thu, 23 Jan 2025 08:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737616008; cv=none; b=gf/mNm2tTEXqkiXTPj+GDM+2/pvHJegQe282Zjwz3nvgtFewmpOd7fmySvPn0cWy7E9Ya2/+lWPvSjUwxNC0HJ4LUxdNuxLIVcKyv6aVAZ+gpluVWze5OV0hBJIqruWaI7BPnyc27oK7BZsmWMWZcyThSe2GdTSAoy1bbBJE690=
+	t=1737621527; cv=none; b=FqFRXrBcbSEuFfXRKyjBfYhATQPiY47DgUofi0irBjOEEOUS7J3O4Cw7wnLqCboQIejBTcSDJEHyhPuCgdXEglAGZlZ7wc+Iuleq72QILvmxRAuHd7LZEAa9DLMZgQHAnBN1UpWR4e0BQS0O5DboZEzKOGm+ViMlZPy0AxKM+ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737616008; c=relaxed/simple;
-	bh=QcDhUXoksUbtFqIc0Hu1OCe0+z4WE/lmYzY+4iVdwJE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=D7jdSD5iuE6ge5uZOuSIlec33EthN+jeHohSi1VfHFnJG0XIvv4cbWrnQUKw4vm5Sld2asg1syVP1jznszKVLlSA/tlMgkrflG/EdkfNjihljneX8DyIsMWahWB65GjJjwgZAXVch5TV8Awb0ggSRGIoNXPM1+w+iIWEH0T/yzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtsys.com.hk; spf=pass smtp.mailfrom=gtsys.com.hk; arc=none smtp.client-ip=111.91.236.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtsys.com.hk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtsys.com.hk
-Received: from localhost (localhost [127.0.0.1])
-	by mail.gtsys.com.hk (Postfix) with ESMTP id 241E117B5
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jan 2025 15:06:35 +0800 (HKT)
-X-Virus-Scanned: Debian amavis at gtsys.com.hk
-Received: from mail.gtsys.com.hk ([127.0.0.1])
- by localhost (mail.gtsys.com.hk [127.0.0.1]) (amavis, port 10024) with ESMTP
- id aeogTL6feL37 for <linux-sound@vger.kernel.org>;
- Thu, 23 Jan 2025 15:06:34 +0800 (HKT)
-Received: from gtsnode.virtual.gtsys.com.hk (gtsnode.virtual.gtsys.com.hk [10.128.4.2])
-	by mail.gtsys.com.hk (Postfix) with ESMTP id 6B9FE816
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jan 2025 15:06:34 +0800 (HKT)
-Received: from [10.128.1.32] (unknown [203.145.95.233])
-	by gtsnode.virtual.gtsys.com.hk (Postfix) with ESMTPSA id D13AB1FCC5
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jan 2025 15:06:33 +0800 (HKT)
-Message-ID: <79b9105f-5e4b-4691-9af0-484233612f84@gtsys.com.hk>
-Date: Thu, 23 Jan 2025 15:06:32 +0800
+	s=arc-20240116; t=1737621527; c=relaxed/simple;
+	bh=MgRruCyZIpg1hbNzgzKNaagVQSI1te/n2s5cZA2cKv8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pYvXQKmFq6PsjlZvDOoykqLKAvDFMJgwtKywFuACB/sOT8A2Fvg5AUxRj55CDbKifpKU9zeMSDSVMR9Fh9z3kxFwzUcylkzWvgH5+WmfASfjrio8/MaE13dih7RI0VnbRPgRHxJEYmlMVdt/6nOCcOCo1reo/clL7O94Xg+7hHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4afdfd3124dso180122137.2;
+        Thu, 23 Jan 2025 00:38:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737621524; x=1738226324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mwQHsW4zwmLnjFYZmDHAoZyaz6EGWkjalGwPU0GkznM=;
+        b=skRyHmfaX/3rMo/QMxcZfe31XD9OmIGnheDManOhi5obr4ZBhepqlfaLpLuWgxxQnU
+         c8WHk55e4/vl2LFxKcduuYthB5fB7x2RyTYNRGdzmbFV/OSq1GkPyBZWbC70h6BbGcSe
+         wKXwi72fFhHDZLqvVtZPMTtsTo38kXiHNgqOUGtIs9f8ImQTySXmUY6+YLkvlcGP4ICe
+         N1Yh1V3weNactjZu8OTsrdlQnjWmMHR33NlbN23uJreLjVzWisU9I5dtgGK3uM9zWMxR
+         GpT/lSPcvSW2MkbIn+3c1EFOzWpmFSYqGolqovwQrYpmD2LeWVJ3lt+1vVD7p6FN/Vv1
+         TBQw==
+X-Forwarded-Encrypted: i=1; AJvYcCU7bT/MQBbu7HLUXj4zceQTQXbgQRnB/x9+xVSgA/24Oy6k2q55NHSZNBf12fS7EeTmIJOLvARWhQoM@vger.kernel.org, AJvYcCUNp2uqKNGWrVJL63SO0W+Xv4rzKKUMTQTh7z3czZYE6DaLx3HlmgplbAvWuGhRk03Q5qb71gcbeVRhd7w=@vger.kernel.org, AJvYcCV4eLN5XmY6bfdesW/PeJNHLbYXnn9hroimi9OGtezGAGySQlaWJkVw0WRz7PISQHyPIRk/pwsYMMt3fF3K@vger.kernel.org, AJvYcCVgm8PKxNx1DgzHblbqMcTO2KJOoCfpoeCVUyeVQSjelcneW3SyCLjUc2Qxe58vP8e/YkUC2tOCw05hKP5fTg68QxY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz10Ct+VaK09gF9MTeU69aL62xCAYkyZEm8ErSIgENNQmTlFE8+
+	yWnPLM2r5y59fjsiDNHomfcCrv66/lPJXFpvq64w+s8k+ngXuHZZjcJBKoMj
+X-Gm-Gg: ASbGncsKHI3kvERB/o1H/knD6DFV5ngegQGNdIMe7rFscU9DJs+9G07xqkA1AxET6wj
+	TQjvijTLnmg2hFSM2yR5DSv7y/uSLgdqs+vbp1WGnV+AFZqbBtVU2WM8kb1vVQOk79y/hHoCINZ
+	TzOWfrruhKEaVF+WZLKPvbCZKoBSXC8gCic6FmJfumcH8b6SHcegb4BKJnu+ho1i0SkJmC6++SI
+	usLm0MmnLSARZJPMQUXFqoIeAWRgaC4UVwkwjSm24MHIHFcrHjsJ0hx6lgJAx/1vmyY4axWoE6z
+	6xHeVDyQQNnQXYsPQHn/0pEWK1ImuMMwxgKZH5sb1IPTjeI=
+X-Google-Smtp-Source: AGHT+IFdpDkGm0xkEAAJKxaSQwlecO+O6PouOTcvg8n2/rojfW6rrTQaUzrPkdOd2nCgb0RD9+fYwg==
+X-Received: by 2002:a05:6102:5486:b0:4b2:5d10:2cc6 with SMTP id ada2fe7eead31-4b690bbbc2emr18524414137.6.1737621524175;
+        Thu, 23 Jan 2025 00:38:44 -0800 (PST)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b68a3191f4sm3063397137.20.2025.01.23.00.38.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jan 2025 00:38:43 -0800 (PST)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5187f0b893dso217338e0c.3;
+        Thu, 23 Jan 2025 00:38:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVYEsOAd0a80ciVDFy90x1o9lon+uLzLIPLiSZD1Nr7K1t1ALwtQLipuUNGYl/3acZAmG7jbE1ptxOG@vger.kernel.org, AJvYcCVYdJ+dpSPxuK86a+G6wdL7z+5MhkeqnBcr9Q+ITA1KyTiRT3DbT5+iT2t8FEWACw5kbnPaJrTyBtRoMQoYSqXJszk=@vger.kernel.org, AJvYcCVppp+ZSvyqLPUsfO2/BpXBJ2G/ZpFwyePzGIsnEbDaCitC6cR4uJ95LlbpsLBL2az58/40kOJFce6U9D0=@vger.kernel.org, AJvYcCWTvR8CBHqs9k5/X97GjL1CW6nBlM7NgHzMv0X0WOkO/dPGpGOenGikDlbScURNUVZ3lAtuzM/9S/aZOvtZ@vger.kernel.org
+X-Received: by 2002:a05:6102:570d:b0:4b6:d108:cac1 with SMTP id
+ ada2fe7eead31-4b6d11811f8mr11475580137.9.1737621523558; Thu, 23 Jan 2025
+ 00:38:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: rt5651 + rk3399 orange-pi 4b no HP output
-From: Chris Ruehl <chris.ruehl@gtsys.com.hk>
-To: linux-sound@vger.kernel.org
-References: <27307cdd-436c-4520-94d0-0baa4d65c49d@gtsys.com.hk>
- <dc3014fe-c58f-46e3-af95-6179952b5a31@gtsys.com.hk>
-Content-Language: en-US
-In-Reply-To: <dc3014fe-c58f-46e3-af95-6179952b5a31@gtsys.com.hk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be>
+ <87wmem76u4.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87wmem76u4.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 23 Jan 2025 09:38:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWpxKgSGGJb9Oy4Bzy7y4zPxVve=0_mCWE0G1d4njCJ+A@mail.gmail.com>
+X-Gm-Features: AWEUYZlhVs-YS2W8tu6wHQ2P2ZBc9pMgHx0iSkPnWdB8Tka2A9Xe1rKavB5lPTg
+Message-ID: <CAMuHMdWpxKgSGGJb9Oy4Bzy7y4zPxVve=0_mCWE0G1d4njCJ+A@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: soc-core: Stop using of_property_read_bool() for
+ non-boolean properties
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Morimoto-san,
 
+On Thu, Jan 23, 2025 at 12:43=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> > On R-Car:
+> >
+> >     OF: /sound: Read of boolean property 'simple-audio-card,bitclock-ma=
+ster' with a value.
+> >     OF: /sound: Read of boolean property 'simple-audio-card,frame-maste=
+r' with a value.
+> >
+> > or:
+> >
+> >     OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean prop=
+erty 'bitclock-master' with a value.
+> >     OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean prop=
+erty 'frame-master' with a value.
+> >
+> > The use of of_property_read_bool() for non-boolean properties is
+> > deprecated in favor of of_property_present() when testing for property
+> > presence.
+> >
+> > Replace testing for presence before calling of_property_read_u32() by
+> > testing for an -EINVAL return value from the latter, to simplify the
+> > code.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> (snip)
+> > -     if (of_property_read_bool(np, "dai-tdm-slot-num")) {
+> > -             ret =3D of_property_read_u32(np, "dai-tdm-slot-num", &val=
+);
+> > -             if (ret)
+> > -                     return ret;
+> > -
+> > -             if (slots)
+> > -                     *slots =3D val;
+> > -     }
+> (snip)
+> > +     ret =3D of_property_read_u32(np, "dai-tdm-slot-num", &val);
+> > +     if (ret && ret !=3D -EINVAL)
+> > +             return ret;
+> > +     if (!ret && slots)
+> > +             *slots =3D val;
+>
+> Looks good to me
+>
+> Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-On 22/1/2025 15:10, Chris Ruehl wrote:
-> On 21/1/2025 18:33, Chris Ruehl wrote:
->> Hi,
->>
->> Fighting for over a week try to get the headphone sound working on a orange-pi 
->> 4b (rk3399 + rt5651-codec)
->> as simple-card setup. So far I got all clocks working on the i2s1 bus and use 
->> alsamixer set Dac1 mix to HPO_L/R.
->> Jack plugin gpio is working correct and I see the status change in the /sys/ 
->> kernel/debug/sound/card1/Headphones Jack/status
->> All I got is a 'knack-noise' when starting/stopping the stream.
->>
->>
->> ....
-> 
-> Keep going debugging,
-> add a dev_dbg to rockchip_i2s.c to compare the bclk rates.
-> and there is a difference in i2s vs. rt565 where the bclk frequency is 1/2 of
-> what i2s is using.
-> 
-> [   72.204217] rt5651 1-001a: Sysclk is 5644800Hz and clock id is 0
-> [   72.204922] rt5651 1-001a: framesize: 32
-> [   72.205272] rt5651 1-001a: bclk is 705600Hz and lrck is 22050Hz
-> [   72.205792] rt5651 1-001a: bclk_ms is 0 and pre_div is 0 for iis 0
-> [   72.206345] rockchip-i2s ff890000.i2s: mclk_rate: 5644800 bclk_rate: 1411200 
-> div_bclk: 4 div_lrck: 64
-> 
+Thank you!
 
-Finally have it working, the Realtek Codec driver rt5651 not enabled the master 
-clock gate to the MBCK port on the chip. Other codes like rt5616 do this.
-In consequence, non of the other rk3399-*.dts with same config can have a 
-workable headphone output!
+> If my understanding was correct, old/new code should have same behavior.
 
-Here is my patch to make the headphones working:
---- sound/soc/codecs/rt5651.c.org       2025-01-23 14:44:54.488095319 +0800
-+++ sound/soc/codecs/rt5651.c   2025-01-23 14:47:07.125695637 +0800
-@@ -6,6 +6,7 @@
-   * Author: Bard Liao <bardliao@realtek.com>
-   */
+Indeed, that was my objective...
 
-+#include <linux/clk.h>
-  #include <linux/module.h>
-  #include <linux/init.h>
-  #include <linux/delay.h>
-@@ -1298,6 +1299,7 @@
-                 dev_err(component->dev, "Unsupported frame size: %d\n", 
-frame_size);
-                 return -EINVAL;
-         }
-+
-         bclk_ms = frame_size > 32 ? 1 : 0;
-         rt5651->bclk[dai->id] = rt5651->lrck[dai->id] * (32 << bclk_ms);
+> But because of the original code, new code looks complex for me.
+> The case which this function return error are
+>
+>         (A) if property does not have a value
+>         (B) if the property data isn't large enough
+>
+> I think "DT checker" will indicates error for both case ?
 
-@@ -1511,6 +1513,9 @@
-  static int rt5651_set_bias_level(struct snd_soc_component *component,
-                         enum snd_soc_bias_level level)
-  {
-+       int ret;
-+       struct rt5651_priv *rt5651 = snd_soc_component_get_drvdata(component);
-+
-         switch (level) {
-         case SND_SOC_BIAS_PREPARE:
-                 if (SND_SOC_BIAS_STANDBY == 
-snd_soc_component_get_bias_level(component)) {
-@@ -1531,6 +1536,12 @@
-                                 RT5651_PWR_FV1 | RT5651_PWR_FV2,
-                                 RT5651_PWR_FV1 | RT5651_PWR_FV2);
-                         snd_soc_component_update_bits(component, RT5651_D_MISC, 
-0x1, 0x1);
-+                       ret = clk_prepare_enable(rt5651->mclk);
-+                       if (ret) {
-+                               dev_err(component->dev,
-+                                       "failed to enable MCLK: %d\n", ret);
-+                               return ret;
-+                       }
-                 }
-                 break;
+Correct, of_property_read_u32_array() would return -ENODATA resp.
+-EOVERFLOW.
 
-@@ -1546,6 +1557,7 @@
-                 /* Leave PLL1 and jack-detect power as is, all others off */
-                 snd_soc_component_update_bits(component, RT5651_PWR_ANLG2,
-                                     ~(RT5651_PWR_PLL | RT5651_PWR_JD_M), 0);
-+               clk_disable_unprepare(rt5651->mclk);
-                 break;
+> If so, we can simply ignore these 2 cases. Then, the code will be more
+> simple
+>
+>         ret =3D of_property_read_u32(np, "dai-tdm-slot-num", &val);
+> -       if (ret && ret !=3D -EINVAL)
+> -               return ret;
+>         if (!ret && slots)
+>                 *slots =3D val;
+>
+> I think this should be extra new patch (if people can agree about it).
 
-         default:
-@@ -2241,6 +2253,11 @@
+That would be a change in behavior. Probably it would be fine for
+existing users, though, as no existing DTS should cause these errors,
+else sound wouldn't work.  For a new DTS, it would silently ignore errors.
+You are in a better position to make that decision, though.
 
-         regmap_write(rt5651->regmap, RT5651_RESET, 0);
+BTW, is there any specific reason the code always checks for the
+presence of "dai-tdm-slot-num", even if slots is NULL, and the result
+sn't used? I.e. would
 
-+       /* Check if MCLK provided */
-+       rt5651->mclk = devm_clk_get_optional(&i2c->dev, "mclk");
-+       if (IS_ERR(rt5651->mclk))
-+               return PTR_ERR(rt5651->mclk);
-+
-         ret = regmap_register_patch(rt5651->regmap, init_list,
-                                     ARRAY_SIZE(init_list));
-         if (ret != 0)
+    if (slots) {
+            ret =3D of_property_read_u32(np, "dai-tdm-slot-num", &val);
+            if (!ret)
+                    *slots =3D val;
+            else if (ret !=3D -EINVAL)
+                    return ret;
+    }
 
---- sound/soc/codecs/rt5651.h.org       2025-01-23 14:45:09.173212267 +0800
-+++ sound/soc/codecs/rt5651.h   2025-01-23 14:47:07.685582610 +0800
-@@ -2084,6 +2084,8 @@
-         unsigned int ovcd_th;
-         unsigned int ovcd_sf;
+(perhaps dropping the else, as per above) be acceptable?
+Thanks!
 
-+       struct clk *mclk;
-+
-         int irq;
-         int sysclk;
-         int sysclk_src;
+Gr{oetje,eeting}s,
 
-Is there a patch upstream lined up?
+                        Geert
 
-Regards
-Chris
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
