@@ -1,89 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA34157485;
-	Fri, 24 Jan 2025 15:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8453C70816;
+	Fri, 24 Jan 2025 16:04:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737734287; cv=none; b=Bwq1Jcupw4EVmylyXLCnREyoyIT36MGTcN/QAAsQSeaKh9BmBw2TYoJfzDedMM2bwr+gofAv6m8XCJY7OolZ10zEp5OgicJOUkzaW4nkMwYvUnJ0pJ6XJnNcInZKtONuBz7hAg6mvmpppJsBsU15jcDO1wuLAio8mXfUnVg+Jas=
+	t=1737734684; cv=none; b=M624a4AFju/6ZHPtqdyVFbcHveiFb8TE3Wit7PayfEOIOM97BepJj3AhqUsOeXdjv21uOMTXvccWsQtDmZvJNABW/GC5O2hzK0e8goG7XocP5jsGs2BbG15I8q8MxzZBD6YEiFLRAdEQUoMCeLytVjjtrsUnjg1THKu2895kJ4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737734287; c=relaxed/simple;
-	bh=1A86Zz6bBgcaV7r3S4D9v59QUu6vk9y6MxJJ7gSJ4cc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=a1zgpfvzsWyNsl5AhTasrvRUg6G0c6UF8bHet+fpK28Kn5+4K+8QkwLQ+A5hZJT9oL3Tu5FJnCktiZE2DvMpvgDd4DIRavCzPBp1uxBC6W/aUYyrrO1yQ0bRzhb84F5HkhHxN9Wv+EvD9Yqsx5Tj/+kp7kp1DXzhLEXP2dU3neA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ehk766zG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737734684; c=relaxed/simple;
+	bh=NkXZH0wgRv/chGdPA6Dpy4cJxNhJ6rcXeyXwVA2ViHU=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=lnhKSJ8qYqF+JztJE5q3Rr8y/lTAFh6IXl/or/sEZHVgWt0//S23MQi31Jk1faJxnUEEYGpCC0gi8xULsGjZr6oByk296hwpgs5yEmqgH7oRMHLtTAiyz2UFfo+YMdfPWPBuuS00VJ7SD/OAlK5WrHa2mZ0UOfVkKZU6fSPpj1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HthMF5Qs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ehk766zG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05323C4CED2;
-	Fri, 24 Jan 2025 15:58:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HthMF5Qs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54DB1C4CED2;
+	Fri, 24 Jan 2025 16:04:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737734286;
-	bh=1A86Zz6bBgcaV7r3S4D9v59QUu6vk9y6MxJJ7gSJ4cc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ehk766zGEdAoQkghwFc1HgDd4EKnhOpun+/k4KGu8CPkoGGPk4OniSuoYbBftbB2h
-	 SUQMYwoMgb4EoKDtMH5UATdMNCop3qLq9rXp3uCzjPqE44baDxlFdg0Y9w8DUwtduX
-	 5BmnNfHm2HdQC9drlhWqFoOvY6f+EctQDWFTLs9jGmwe9BQaC93Mw9Drwkauz/4sgv
-	 4CafUmXvKKRtUPKQmTQI4WmUC2X6FZAxdTEX6jp/OK4/sIFv7+x6lnPNnOAQ74SgZb
-	 7MgQyXHYzGUYVVt+ufXqITY5zzHil8iBQFijBhPNY3ZrGFC8IhmfeVhUGYPIXF52fc
-	 oeS4hTDFKIfTA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-sh@vger.kernel.org, linux-sound@vger.kernel.org, 
- kernel test robot <lkp@intel.com>
-In-Reply-To: <8c17ff52584ce824b8b42d08ea1b942ebeb7f4d9.1737708688.git.geert+renesas@glider.be>
-References: <8c17ff52584ce824b8b42d08ea1b942ebeb7f4d9.1737708688.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] ASoC: renesas: SND_SIU_MIGOR should depend on
- DMADEVICES
-Message-Id: <173773428475.46042.4071074696257192145.b4-ty@kernel.org>
-Date: Fri, 24 Jan 2025 15:58:04 +0000
+	s=k20201202; t=1737734684;
+	bh=NkXZH0wgRv/chGdPA6Dpy4cJxNhJ6rcXeyXwVA2ViHU=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=HthMF5Qszif2SwrbTnkPVHBmjIvz8qtyDzZeLfXDWFvkmBrhrD6Re2sRLWPfwEjPB
+	 DTN5VWvEJmb7i7Z8W5CdxejGPMIzxuonEE2neXTzU84f1aNGH+U2Pkm8lj6NnI0DKO
+	 mRv0kqmhE+p/vHnLJLPCT5GoYYlFql2InTidTL+kV+U1sdsgxeQ5p6bIwdN9pmOhdr
+	 cE/BhpFy7xjKRFrULXIIS3dbwd2NtmiiJUrT2dCc7WUgVjtvHHavxsuo2BXw3zUi1z
+	 j3eNCnWviU5wxre/BR3YyPXYZM5rpIWFVmwWHuCIc5GBOb2kdWnIXYRh938ymc/CJf
+	 Rx++Yzwlu+UnA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 71594380AA79;
+	Fri, 24 Jan 2025 16:05:10 +0000 (UTC)
+Subject: Re: [GIT PULL] sound updates for 6.14-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87tt9p4pcf.wl-tiwai@suse.de>
+References: <87tt9p4pcf.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87tt9p4pcf.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc1
+X-PR-Tracked-Commit-Id: 6aa96f780204bfdac225eb4c8f51f86c38cc1a26
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 2c8d2a510c15c003749e43ac2b8e1bc79a7a00d6
+Message-Id: <173773470908.2087587.12285312151137289955.pr-tracker-bot@kernel.org>
+Date: Fri, 24 Jan 2025 16:05:09 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
 
-On Fri, 24 Jan 2025 09:52:45 +0100, Geert Uytterhoeven wrote:
-> If CONFIG_DMADEVICES=n:
-> 
->     WARNING: unmet direct dependencies detected for SND_SOC_SH4_SIU
->       Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && (SUPERH [=y] || ARCH_RENESAS || COMPILE_TEST [=n]) && ARCH_SHMOBILE [=y] && HAVE_CLK [=y] && DMADEVICES [=n]
->       Selected by [y]:
->       - SND_SIU_MIGOR [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (SUPERH [=y] || ARCH_RENESAS || COMPILE_TEST [=n]) && SH_MIGOR [=y] && I2C [=y]
-> 
-> [...]
+The pull request you sent on Thu, 23 Jan 2025 14:44:16 +0100:
 
-Applied to
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc1
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/2c8d2a510c15c003749e43ac2b8e1bc79a7a00d6
 
-Thanks!
+Thank you!
 
-[1/1] ASoC: renesas: SND_SIU_MIGOR should depend on DMADEVICES
-      commit: 2e3c688ddaf2bb8e3696a773b5278711a90ea080
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
