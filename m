@@ -1,75 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F167218E85;
-	Fri, 24 Jan 2025 08:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D90166F32
+	for <linux-sound@vger.kernel.org>; Fri, 24 Jan 2025 08:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737707121; cv=none; b=ZMW153NFDnn5uKqiGt7zDM3JgaLzXcO98IagKc8/e9nx6uc8WT25r44y8Yf4kURUd3N62L+t9K6K+N74kUH6a5CySEVAHi8W6jcOCPHBzXtSZ7mnd/gjU/BuL8E3hkkRT1yZUB010/Q1556g0b7X9om3LsIqUYt30e8iOR6Cul8=
+	t=1737707968; cv=none; b=fLTCDGPQxpXq6mWkSDRfhh46Ix1HpaofecBXcD/3gq+ll+untEexwmePdaALbT+AY1KI6qZxUpT/Ve2cNFdJXSLOQDFmlxxa3pgE2RYdTfbbidMX0dXyh/1vyAWeYJN/MazwrjPGo0JlRIWvM+HOS1YVxDxoTZSIDU7Zw1Zk4Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737707121; c=relaxed/simple;
-	bh=avPkR0WZvpgTxvx1IutqBvspKK1NkA3OyHUlutbIs1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFcldmsxBR7ahmHybvSWKrrvy+/cD9JCj9BOz1VdM96XjW36SRqWoCuOZDy2j/PobJHAu2iyyCMof34/Mi11uGV9BfqgdQLwhDIGNd7I/gqtBQXVzUzsw7lP6fasPklPx1pDKuXqJ22OYroLNdCkV8kqSgvZPluILe3tN+mwqQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azExpTcO; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azExpTcO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD7EC4CED2;
-	Fri, 24 Jan 2025 08:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737707121;
-	bh=avPkR0WZvpgTxvx1IutqBvspKK1NkA3OyHUlutbIs1o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=azExpTcOnITnBTMVmrHIeeLyPJDcBA+wpDCwpVFDweJTFjKumRPGtdhq/DxH/cnYp
-	 X/Lm5mC7ppddhZOfMUO7nqa8oewpZrsxPArKRHQXQy6Rd3Aot4DMbq2MVSYMZifzG6
-	 jqfkWoYF4reefhmttytvukO1uSwVcXLmmQbs6RwYlTr6kJXHcbDzj7J6qWhoqGDrnE
-	 B9UiPzBTfWL2e3ALvgxacnM4JMO2aZqS6oWG6cgyB2+Bkp0XT5ToX1CgEv+D3Kabp5
-	 xJ+J9F2/ThSturDL2QDo0XtxU51gU50y/qLk7CUXxhq+hx7FopjOpZj5dOQ1awarSG
-	 wPOgGsyJq3Yyw==
-Date: Fri, 24 Jan 2025 09:25:17 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Daniel Baluta <daniel.baluta@nxp.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, broonie@kernel.org, 
-	shawnguo@kernel.org, conor+dt@kernel.org, peng.fan@nxp.com, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, lgirdwood@gmail.com, 
-	peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org, imx@lists.linux.dev, 
-	Iuliana Prodan <iuliana.prodan@nxp.com>
-Subject: Re: [PATCH 1/4] dt-bindings: arm: imx: Add board revisions for
- i.MX8MP, i.MX8QM and i.MX8QXP
-Message-ID: <20250124-meaty-tunneling-raven-eabb6a@krzk-bin>
-References: <20250122163544.1392869-1-daniel.baluta@nxp.com>
- <20250122163544.1392869-2-daniel.baluta@nxp.com>
+	s=arc-20240116; t=1737707968; c=relaxed/simple;
+	bh=P2legxjc70AvAvE4OdaJVBd6zw4JBxhSJ0qvXoEZw4k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lb1JWMoKd+hFvK0do4iPvaZx2zP4PY9q65NLqsyJjS4nB6dadrV3gf9S3wyL0F4pCHs1vK4J8UeeT2T/afpcGwBAm6mUzuMWeMOW+SRs/gpt2ROpDy3na9wfzpKnQaOlM/ODsLAKgTN/5y4E7WJJXmxVfWCQ99f/LKmLtEVbwoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:4563:f165:f885:ebc1])
+	by albert.telenet-ops.be with cmsmtp
+	id 4wfM2E00H5PrELR06wfMbg; Fri, 24 Jan 2025 09:39:22 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tbFDc-0000000EJL3-2ZQF;
+	Fri, 24 Jan 2025 09:39:21 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tbFDl-00000002dsC-15tv;
+	Fri, 24 Jan 2025 09:39:21 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: linux-sh@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] sh: boards: Use imply to enable hardware with complex dependencies
+Date: Fri, 24 Jan 2025 09:39:19 +0100
+Message-ID: <8329d88cecc1e419f6a0f3f215695d3cfcb549aa.1737707880.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250122163544.1392869-2-daniel.baluta@nxp.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 22, 2025 at 06:35:41PM +0200, Daniel Baluta wrote:
-> From: Iuliana Prodan <iuliana.prodan@nxp.com>
-> 
-> wm8960 codec is EOL so we have i.MX8MP EVK Rev B4,
-> i.MX8QM MEK Rev D and i.MX8QXP MEK WCPU boards with
-> wm8962 codec.
-> Therefore, add compatibles for them.
+If CONFIG_I2C=n:
 
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+    WARNING: unmet direct dependencies detected for SND_SOC_AK4642
+      Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && I2C [=n]
+      Selected by [y]:
+      - SH_7724_SOLUTION_ENGINE [=y] && CPU_SUBTYPE_SH7724 [=y] && SND_SIMPLE_CARD [=y]
 
-> 
-> Signed-off-by: Iuliana Prodan <iuliana.prodan@nxp.com>
-> Signed-off-by: Daniel Baluta <daniel.baluta@nxp.com>
-> ---
->  Documentation/devicetree/bindings/arm/fsl.yaml | 3 +++
->  1 file changed, 3 insertions(+)
+    WARNING: unmet direct dependencies detected for SND_SOC_DA7210
+      Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_I2C_AND_SPI [=n]
+      Selected by [y]:
+      - SH_ECOVEC [=y] && CPU_SUBTYPE_SH7724 [=y] && SND_SIMPLE_CARD [=y]
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Fix this by replacing select by imply, instead of adding a dependency on
+I2C.
 
-Best regards,
-Krzysztof
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202501240836.OvXqmANX-lkp@intel.com/
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ arch/sh/boards/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/sh/boards/Kconfig b/arch/sh/boards/Kconfig
+index 46387fd040adeaac..cac265e3e7de926d 100644
+--- a/arch/sh/boards/Kconfig
++++ b/arch/sh/boards/Kconfig
+@@ -73,8 +73,8 @@ config SH_7724_SOLUTION_ENGINE
+ 	select SOLUTION_ENGINE
+ 	depends on CPU_SUBTYPE_SH7724
+ 	select GPIOLIB
+-	select SND_SOC_AK4642 if SND_SIMPLE_CARD
+ 	select REGULATOR_FIXED_VOLTAGE if REGULATOR
++	imply SND_SOC_AK4642 if SND_SIMPLE_CARD
+ 	help
+ 	  Select 7724 SolutionEngine if configuring for a Hitachi SH7724
+ 	  evaluation board.
+@@ -252,8 +252,8 @@ config SH_ECOVEC
+ 	bool "EcoVec"
+ 	depends on CPU_SUBTYPE_SH7724
+ 	select GPIOLIB
+-	select SND_SOC_DA7210 if SND_SIMPLE_CARD
+ 	select REGULATOR_FIXED_VOLTAGE if REGULATOR
++	imply SND_SOC_DA7210 if SND_SIMPLE_CARD
+ 	help
+ 	  Renesas "R0P7724LC0011/21RL (EcoVec)" support.
+ 
+-- 
+2.43.0
 
