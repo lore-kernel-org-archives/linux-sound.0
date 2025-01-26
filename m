@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38521F8AC6;
-	Sun, 26 Jan 2025 15:07:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3192309BE;
+	Sun, 26 Jan 2025 15:07:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737904072; cv=none; b=or0gk7y1nVg8SuciOGjrjDbiWMcsP9Y/ZSCTs6tVXbiX3bXBG5CeQRBGtquFaKI71uDmOFORGWqi1r0f18qDJ801NSEUvcjRbcBI3fd5UiOsGgqhgOs+yUwIsEMVQu6OgvndciO929P+XtJlPhZ/Dt70xz/tV0vXgpGhpQLy8vA=
+	t=1737904077; cv=none; b=DYk8WDlmgG7c5isKKRL8ZIXtDl4fPqxPPYrHISNg6Wi27pFXbr8N1G0gQoQiBP3XqHEsDvaQaMX1AiXW8nwjgeak3l8eqi9+W8CESCP87xTu6oM3R6Keibm8epoR6a0twtzstAdBVNX1/72HdjeGMHGBS4coutGMkK6cohrGxqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737904072; c=relaxed/simple;
-	bh=gJXcKjX+JqmbnPTps19HdNStQEU0s2YLvyg0n8gqDmk=;
+	s=arc-20240116; t=1737904077; c=relaxed/simple;
+	bh=pN2iyG/2GmLvrGkkKnRyGODW++r0bTYI+cOvghZDqok=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HIK1cDZZGwUUY3ThA+fs+bOx37L7+pz9qHeijYXf4E7fe2hxdl5bj9Dxl1pfDiUuIgaINCXkmsLv8H1jxD+NNHIEPwzan3zTCsI2/RqIElTsFdhjyenbg1qdrFR9C8RzU5Z1nNQ+vA+UVLDMRbQqobbmQ1/qu/WTQzszPra5DIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cz44NNRA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=IfYAtdDkyxOF2CegMALe7pn3XXbyoilM4wVxLpvuNm3ZorICFbyIai+SmGL7ztL6ZwKFYiMoseAyhSgLU1nSk4nQAA0PGAoNDHMliWxjoW5ywhek/5oplL4/wyVLVkqgCDv2MyNKgG6dNTrLUgh8zMO9HGq56H/ew27t3UpaqoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uRCENFgW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cz44NNRA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44AD1C4CEE2;
-	Sun, 26 Jan 2025 15:07:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uRCENFgW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12B7C4CED3;
+	Sun, 26 Jan 2025 15:07:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737904071;
-	bh=gJXcKjX+JqmbnPTps19HdNStQEU0s2YLvyg0n8gqDmk=;
+	s=k20201202; t=1737904076;
+	bh=pN2iyG/2GmLvrGkkKnRyGODW++r0bTYI+cOvghZDqok=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cz44NNRAAKULG0wzVkb3ScMRayppg36uBtc3/HbErLz6fUFVp5q1i7dFGthPFjC58
-	 JNd2VXU7n2lx+jTGPyuZPqHYEdmQ2+C3i2IVPqLArrNBXY7h2ujBna1vUegd3t1sDK
-	 xcxJQTwYfhHytWOuf9QFZE+UI2VrfQPqsdPFbJk/Q5zT56EGG8PXcRcBTdpuRbdimX
-	 wCvn/6usjd++0hDS0cQBARo3z39lSRyzHSWvOffBUAYYs2lOBn4fM7fBAG5dFMXwq/
-	 ZEwxlglY3U0mXuG7lWSrGKxJnQc6471REM5eZE31naZHNmIUTpuntaNrnL5CCcRqo4
-	 /ScexOPb1TSyQ==
+	b=uRCENFgWTZB3KzpZDiiNWlQDDnKRYJwVhMpI6w+0dhqkPYdJiK0DEo3KqpV03xYzJ
+	 m6cfJ+IQ9duqeHQeSO7UvIqg5B8kKe5TWwsTpyE/Ju8vRTOzw54uws8u2Al577iC4J
+	 oR1RQtcWv/q246bFtoP+LgUR+dHazOeRYywDzh6vw3wuK9MhnfnQYIf1fNsirYqnAF
+	 udgfewpGy4RO73SqK8jzhchiz4fEGyNxmLfG+UQurUhawy0qgvllst0kXK5Ho7Gs/c
+	 5Cw28WCvcGhW3ZRw5hwgs748IHDGDwhpe6rzwb7sZgXTjiSKRg33SKQb/WMcTCAYTV
+	 gAEqLq7tAmUug==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Hans de Goede <hdegoede@redhat.com>,
+Cc: Yu-Chun Lin <eleanor15x@gmail.com>,
+	kernel test robot <lkp@intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	Vijendar.Mukunda@amd.com,
+	mario.limonciello@amd.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 10/16] ASoC: soc-pcm: don't use soc_pcm_ret() on .prepare callback
-Date: Sun, 26 Jan 2025 10:07:12 -0500
-Message-Id: <20250126150720.961959-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 13/16] ASoC: amd: Add ACPI dependency to fix build error
+Date: Sun, 26 Jan 2025 10:07:15 -0500
+Message-Id: <20250126150720.961959-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126150720.961959-1-sashal@kernel.org>
 References: <20250126150720.961959-1-sashal@kernel.org>
@@ -54,102 +56,46 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.13
 Content-Transfer-Encoding: 8bit
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+From: Yu-Chun Lin <eleanor15x@gmail.com>
 
-[ Upstream commit 301c26a018acb94dd537a4418cefa0f654500c6f ]
+[ Upstream commit 7e24ec93aecd12e33d31e38e5af4625553bbc727 ]
 
-commit 1f5664351410 ("ASoC: lower "no backend DAIs enabled for ... Port"
-log severity") ignores -EINVAL error message on common soc_pcm_ret().
-It is used from many functions, ignoring -EINVAL is over-kill.
+As reported by the kernel test robot, the following error occurs:
 
-The reason why -EINVAL was ignored was it really should only be used
-upon invalid parameters coming from userspace and in that case we don't
-want to log an error since we do not want to give userspace a way to do
-a denial-of-service attack on the syslog / diskspace.
+   sound/soc/amd/yc/acp6x-mach.c: In function 'acp6x_probe':
+>> sound/soc/amd/yc/acp6x-mach.c:573:15: error: implicit declaration of function 'acpi_evaluate_integer'; did you mean 'acpi_evaluate_object'? [-Werror=implicit-function-declaration]
+     573 |         ret = acpi_evaluate_integer(handle, "_WOV", NULL, &dmic_status);
+         |               ^~~~~~~~~~~~~~~~~~~~~
+         |               acpi_evaluate_object
+   cc1: some warnings being treated as errors
 
-So don't use soc_pcm_ret() on .prepare callback is better idea.
+The function 'acpi_evaluate_integer' and its prototype in 'acpi_bus.h'
+are only available when 'CONFIG_ACPI' is enabled. Add a 'depends on ACPI'
+directive in Kconfig to ensure proper compilation.
 
-Link: https://lore.kernel.org/r/87v7vptzap.wl-kuninori.morimoto.gx@renesas.com
-Cc: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://patch.msgid.link/87bjxg8jju.wl-kuninori.morimoto.gx@renesas.com
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202501090345.pBIDRTym-lkp@intel.com/
+Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+Link: https://patch.msgid.link/20250109171547.362412-1-eleanor15x@gmail.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/soc-pcm.c | 32 ++++++++++++++++++++++++++++----
- 1 file changed, 28 insertions(+), 4 deletions(-)
+ sound/soc/amd/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-index 1150455619aa4..88b3ad5a25520 100644
---- a/sound/soc/soc-pcm.c
-+++ b/sound/soc/soc-pcm.c
-@@ -38,7 +38,6 @@ static inline int _soc_pcm_ret(struct snd_soc_pcm_runtime *rtd,
- 	switch (ret) {
- 	case -EPROBE_DEFER:
- 	case -ENOTSUPP:
--	case -EINVAL:
- 		break;
- 	default:
- 		dev_err(rtd->dev,
-@@ -986,7 +985,13 @@ static int __soc_pcm_prepare(struct snd_soc_pcm_runtime *rtd,
- 	}
- 
- out:
--	return soc_pcm_ret(rtd, ret);
-+	/*
-+	 * Don't use soc_pcm_ret() on .prepare callback to lower error log severity
-+	 *
-+	 * We don't want to log an error since we do not want to give userspace a way to do a
-+	 * denial-of-service attack on the syslog / diskspace.
-+	 */
-+	return ret;
- }
- 
- /* PCM prepare ops for non-DPCM streams */
-@@ -998,6 +1003,13 @@ static int soc_pcm_prepare(struct snd_pcm_substream *substream)
- 	snd_soc_dpcm_mutex_lock(rtd);
- 	ret = __soc_pcm_prepare(rtd, substream);
- 	snd_soc_dpcm_mutex_unlock(rtd);
-+
-+	/*
-+	 * Don't use soc_pcm_ret() on .prepare callback to lower error log severity
-+	 *
-+	 * We don't want to log an error since we do not want to give userspace a way to do a
-+	 * denial-of-service attack on the syslog / diskspace.
-+	 */
- 	return ret;
- }
- 
-@@ -2539,7 +2551,13 @@ int dpcm_be_dai_prepare(struct snd_soc_pcm_runtime *fe, int stream)
- 		be->dpcm[stream].state = SND_SOC_DPCM_STATE_PREPARE;
- 	}
- 
--	return soc_pcm_ret(fe, ret);
-+	/*
-+	 * Don't use soc_pcm_ret() on .prepare callback to lower error log severity
-+	 *
-+	 * We don't want to log an error since we do not want to give userspace a way to do a
-+	 * denial-of-service attack on the syslog / diskspace.
-+	 */
-+	return ret;
- }
- 
- static int dpcm_fe_dai_prepare(struct snd_pcm_substream *substream)
-@@ -2579,7 +2597,13 @@ static int dpcm_fe_dai_prepare(struct snd_pcm_substream *substream)
- 	dpcm_set_fe_update_state(fe, stream, SND_SOC_DPCM_UPDATE_NO);
- 	snd_soc_dpcm_mutex_unlock(fe);
- 
--	return soc_pcm_ret(fe, ret);
-+	/*
-+	 * Don't use soc_pcm_ret() on .prepare callback to lower error log severity
-+	 *
-+	 * We don't want to log an error since we do not want to give userspace a way to do a
-+	 * denial-of-service attack on the syslog / diskspace.
-+	 */
-+	return ret;
- }
- 
- static int dpcm_run_update_shutdown(struct snd_soc_pcm_runtime *fe, int stream)
+diff --git a/sound/soc/amd/Kconfig b/sound/soc/amd/Kconfig
+index c7590d4989bba..8035211782791 100644
+--- a/sound/soc/amd/Kconfig
++++ b/sound/soc/amd/Kconfig
+@@ -105,7 +105,7 @@ config SND_SOC_AMD_ACP6x
+ config SND_SOC_AMD_YC_MACH
+ 	tristate "AMD YC support for DMIC"
+ 	select SND_SOC_DMIC
+-	depends on SND_SOC_AMD_ACP6x
++	depends on SND_SOC_AMD_ACP6x && ACPI
+ 	help
+ 	  This option enables machine driver for Yellow Carp platform
+ 	  using dmic. ACP IP has PDM Decoder block with DMA controller.
 -- 
 2.39.5
 
