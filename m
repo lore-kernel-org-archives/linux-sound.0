@@ -1,101 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3192309BE;
-	Sun, 26 Jan 2025 15:07:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E971F91CC;
+	Sun, 26 Jan 2025 15:08:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737904077; cv=none; b=DYk8WDlmgG7c5isKKRL8ZIXtDl4fPqxPPYrHISNg6Wi27pFXbr8N1G0gQoQiBP3XqHEsDvaQaMX1AiXW8nwjgeak3l8eqi9+W8CESCP87xTu6oM3R6Keibm8epoR6a0twtzstAdBVNX1/72HdjeGMHGBS4coutGMkK6cohrGxqU=
+	t=1737904087; cv=none; b=aH+IqIOnlru2q0z8fbZ2DnRq7CuIMnq4/JR/NvNU8IHPPONdQLpHQzLDP8N4WTVg50dkIiLOcQYDIwUxsud/eTKIVvjt+P2rfyh2OeMvpWjp15fTwmDh/03islpgzCEX0FX0GNEHgPs6TJmSiw11SGk+7OKeTF1cixWxkoq82pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737904077; c=relaxed/simple;
-	bh=pN2iyG/2GmLvrGkkKnRyGODW++r0bTYI+cOvghZDqok=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IfYAtdDkyxOF2CegMALe7pn3XXbyoilM4wVxLpvuNm3ZorICFbyIai+SmGL7ztL6ZwKFYiMoseAyhSgLU1nSk4nQAA0PGAoNDHMliWxjoW5ywhek/5oplL4/wyVLVkqgCDv2MyNKgG6dNTrLUgh8zMO9HGq56H/ew27t3UpaqoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uRCENFgW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737904087; c=relaxed/simple;
+	bh=X78rBr0Zxwa7cE0jsohoO4I5kg490OoXiO44VG5mxHM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=qf6OnemneuZlS4l9FbVIZw+w8i2r/0nOPT1zqJNA5GaqEswtdgi073WUUPukqNcecMyOORgJMNgP1LWFxGmiezxzZhUJVq8miZruOZ47yajGDeWq+Agp6PNWtqmctXnSWavup3C43JXR7Ykt/K8d+ktotRW3N4kKieRxyqIg2Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+JT7htn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uRCENFgW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12B7C4CED3;
-	Sun, 26 Jan 2025 15:07:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+JT7htn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 139C6C4CED3;
+	Sun, 26 Jan 2025 15:08:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737904076;
-	bh=pN2iyG/2GmLvrGkkKnRyGODW++r0bTYI+cOvghZDqok=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uRCENFgWTZB3KzpZDiiNWlQDDnKRYJwVhMpI6w+0dhqkPYdJiK0DEo3KqpV03xYzJ
-	 m6cfJ+IQ9duqeHQeSO7UvIqg5B8kKe5TWwsTpyE/Ju8vRTOzw54uws8u2Al577iC4J
-	 oR1RQtcWv/q246bFtoP+LgUR+dHazOeRYywDzh6vw3wuK9MhnfnQYIf1fNsirYqnAF
-	 udgfewpGy4RO73SqK8jzhchiz4fEGyNxmLfG+UQurUhawy0qgvllst0kXK5Ho7Gs/c
-	 5Cw28WCvcGhW3ZRw5hwgs748IHDGDwhpe6rzwb7sZgXTjiSKRg33SKQb/WMcTCAYTV
-	 gAEqLq7tAmUug==
+	s=k20201202; t=1737904086;
+	bh=X78rBr0Zxwa7cE0jsohoO4I5kg490OoXiO44VG5mxHM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=U+JT7htnbmFLaf88YV3oJ7LxSc+QKGNk1pixHF7DQtveoDVniJt2Fhdyulgd31fue
+	 +JUymklYn5fWcyx6zHpxb4MECDAZ+vbQ6Hal8AFqjBmqkAPUciVIEoAJWJnt/l8oUZ
+	 CgRtFaCcTZTTCqy8HJ0v0nsbCm7+L1iaNnapTnFkgpnzBKVQUUYaR5qW18WhXJIGxN
+	 aFumwB+cvX/DigCqXo6LUKUmlBbpsUdgkBD9/L9uKfE1TdBmQb6h0m0xQev8RhMNqZ
+	 ww3mwlhmNVRbxz+zMo3ceHZ+XwGOdfM5FLbm1fdLHb//B5b1QsKj3PcHPHW8LWRx2z
+	 V2/AA+6edKbTA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Yu-Chun Lin <eleanor15x@gmail.com>,
-	kernel test robot <lkp@intel.com>,
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
+	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	Vijendar.Mukunda@amd.com,
-	mario.limonciello@amd.com,
+	pierre-louis.bossart@linux.dev,
+	peterz@infradead.org,
+	kai.vehmanen@linux.intel.com,
+	brent.lu@intel.com,
+	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 13/16] ASoC: amd: Add ACPI dependency to fix build error
-Date: Sun, 26 Jan 2025 10:07:15 -0500
-Message-Id: <20250126150720.961959-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 01/14] ASoC: SOF: Intel: hda-dai: Ensure DAI widget is valid during params
+Date: Sun, 26 Jan 2025 10:07:48 -0500
+Message-Id: <20250126150803.962459-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250126150720.961959-1-sashal@kernel.org>
-References: <20250126150720.961959-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13
+X-stable-base: Linux 6.12.11
 Content-Transfer-Encoding: 8bit
 
-From: Yu-Chun Lin <eleanor15x@gmail.com>
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-[ Upstream commit 7e24ec93aecd12e33d31e38e5af4625553bbc727 ]
+[ Upstream commit 569922b82ca660f8b24e705f6cf674e6b1f99cc7 ]
 
-As reported by the kernel test robot, the following error occurs:
+Each cpu DAI should associate with a widget. However, the topology might
+not create the right number of DAI widgets for aggregated amps. And it
+will cause NULL pointer deference.
+Check that the DAI widget associated with the CPU DAI is valid to prevent
+NULL pointer deference due to missing DAI widgets in topologies with
+aggregated amps.
 
-   sound/soc/amd/yc/acp6x-mach.c: In function 'acp6x_probe':
->> sound/soc/amd/yc/acp6x-mach.c:573:15: error: implicit declaration of function 'acpi_evaluate_integer'; did you mean 'acpi_evaluate_object'? [-Werror=implicit-function-declaration]
-     573 |         ret = acpi_evaluate_integer(handle, "_WOV", NULL, &dmic_status);
-         |               ^~~~~~~~~~~~~~~~~~~~~
-         |               acpi_evaluate_object
-   cc1: some warnings being treated as errors
-
-The function 'acpi_evaluate_integer' and its prototype in 'acpi_bus.h'
-are only available when 'CONFIG_ACPI' is enabled. Add a 'depends on ACPI'
-directive in Kconfig to ensure proper compilation.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202501090345.pBIDRTym-lkp@intel.com/
-Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-Link: https://patch.msgid.link/20250109171547.362412-1-eleanor15x@gmail.com
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Link: https://patch.msgid.link/20241203104853.56956-1-yung-chuan.liao@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/amd/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/sof/intel/hda-dai.c | 12 ++++++++++++
+ sound/soc/sof/intel/hda.c     |  5 +++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/sound/soc/amd/Kconfig b/sound/soc/amd/Kconfig
-index c7590d4989bba..8035211782791 100644
---- a/sound/soc/amd/Kconfig
-+++ b/sound/soc/amd/Kconfig
-@@ -105,7 +105,7 @@ config SND_SOC_AMD_ACP6x
- config SND_SOC_AMD_YC_MACH
- 	tristate "AMD YC support for DMIC"
- 	select SND_SOC_DMIC
--	depends on SND_SOC_AMD_ACP6x
-+	depends on SND_SOC_AMD_ACP6x && ACPI
- 	help
- 	  This option enables machine driver for Yellow Carp platform
- 	  using dmic. ACP IP has PDM Decoder block with DMA controller.
+diff --git a/sound/soc/sof/intel/hda-dai.c b/sound/soc/sof/intel/hda-dai.c
+index 82f46ecd94301..2e58a264da556 100644
+--- a/sound/soc/sof/intel/hda-dai.c
++++ b/sound/soc/sof/intel/hda-dai.c
+@@ -503,6 +503,12 @@ int sdw_hda_dai_hw_params(struct snd_pcm_substream *substream,
+ 	int ret;
+ 	int i;
+ 
++	if (!w) {
++		dev_err(cpu_dai->dev, "%s widget not found, check amp link num in the topology\n",
++			cpu_dai->name);
++		return -EINVAL;
++	}
++
+ 	ops = hda_dai_get_ops(substream, cpu_dai);
+ 	if (!ops) {
+ 		dev_err(cpu_dai->dev, "DAI widget ops not set\n");
+@@ -582,6 +588,12 @@ int sdw_hda_dai_hw_params(struct snd_pcm_substream *substream,
+ 	 */
+ 	for_each_rtd_cpu_dais(rtd, i, dai) {
+ 		w = snd_soc_dai_get_widget(dai, substream->stream);
++		if (!w) {
++			dev_err(cpu_dai->dev,
++				"%s widget not found, check amp link num in the topology\n",
++				dai->name);
++			return -EINVAL;
++		}
+ 		ipc4_copier = widget_to_copier(w);
+ 		memcpy(&ipc4_copier->dma_config_tlv[cpu_dai_id], dma_config_tlv,
+ 		       sizeof(*dma_config_tlv));
+diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
+index 70fc08c8fc99e..f10ed4d102501 100644
+--- a/sound/soc/sof/intel/hda.c
++++ b/sound/soc/sof/intel/hda.c
+@@ -63,6 +63,11 @@ static int sdw_params_stream(struct device *dev,
+ 	struct snd_soc_dapm_widget *w = snd_soc_dai_get_widget(d, params_data->substream->stream);
+ 	struct snd_sof_dai_config_data data = { 0 };
+ 
++	if (!w) {
++		dev_err(dev, "%s widget not found, check amp link num in the topology\n",
++			d->name);
++		return -EINVAL;
++	}
+ 	data.dai_index = (params_data->link_id << 8) | d->id;
+ 	data.dai_data = params_data->alh_stream_id;
+ 	data.dai_node_id = data.dai_data;
 -- 
 2.39.5
 
