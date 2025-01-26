@@ -1,53 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCF81F91D1;
-	Sun, 26 Jan 2025 15:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D1D2343B6;
+	Sun, 26 Jan 2025 15:08:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737904095; cv=none; b=ogvggBg0cjrJcSg0cobs6kQjhwDPHGd82lXVFRrSdnUXMR3DqUj0vbeKAEfhZV2kh2pLFjzPHDziw4GXrpWnQv5L3aGV2JrDf82MzDzc0z3Hehklaizcd35CB7URgOuG3KDcm9ODW3h5/ebhogjoTed1kJqPBjO3JUfAT6dv6aU=
+	t=1737904108; cv=none; b=Q8PNHgJjnhum53SQdhDHNBfTQO+sIQ7VMSb8g9td6sRdKTo+B9OTOVVqj5NUE543fGuKzfJOBWyiHxVU0KmhyduddydQbS1a1GSkc/nCD0tUHrfbzaW2WXesyihjDa0umj5GS94ykUhGyMIi+jeUMTxWL03AdMj1WZx+F3yKIws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737904095; c=relaxed/simple;
-	bh=wmCvz7H9zB5HkCm+N0v6cJJZiu6DvNdNrpd9md0NDR4=;
+	s=arc-20240116; t=1737904108; c=relaxed/simple;
+	bh=V0jYxOHmKXTRrJAAYyaDP3rjDSUT8r0AAqZXubMnO9U=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=L5Um65TL8SgYQvfYULMW5k+xvzyObXYz/T2+adv/XuiiU06OK+TtPHF+eZ4e2soLEoloC+rx1S1crTJQgVKjdhd4eT00sBTNarMMNyaZjKXk0cUSevGJenOUYH5TDKzcegDNAGZERoruN3qnU0tZg+NC9d+uvA+t7U1lUUd9iec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UnkasEXm; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=IsdC1dNKGpaDmYP5wAyv/3lgcC3HoU/gHmO7v35HJB/pvqvWL3NS+pyVYIy6IkglsCPcwPJTElSgNeU+MzSRvjixV9PMVwIeUWb1M2Fm5/GrG9cWwRfELwH83oXZM6cQqX1w2CWRUMS799i/Ik+N01NgvafdbDiJlsd5URWWHbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q71B+XuX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UnkasEXm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD58C4CED3;
-	Sun, 26 Jan 2025 15:08:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q71B+XuX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90364C4CED3;
+	Sun, 26 Jan 2025 15:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737904094;
-	bh=wmCvz7H9zB5HkCm+N0v6cJJZiu6DvNdNrpd9md0NDR4=;
+	s=k20201202; t=1737904108;
+	bh=V0jYxOHmKXTRrJAAYyaDP3rjDSUT8r0AAqZXubMnO9U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UnkasEXmPN3etfkRA5YIG7M7G1bYGPXtqEX97r1LkBGhvn+o0zJSpq80r6RIK2V7A
-	 0ZwwUNjBhgXDePor1S4PCb6o1hW6fttIr3Jf7cc22A3S2M99roBV4B5JJ1hH8hpEAU
-	 ng6/AS2h9GCsUfF4aaAaV/9BhtfgcLhAvBSuQU7iOooa41r5PkY0UMNSXgG1LrtuoW
-	 /Q5Ye8qbYf3ho+ojkhsPQOLnO1IcisaFv2HHX3dtehm1Znzr36TglKmXfVSgixv9nk
-	 IVRNPtHcm/Wsbic/es0AViFUWPiUKsRIBD26Omnt1W5ZZ+EsFMaWEzVamtUkcQTqNt
-	 tB6SVTwdPWwJQ==
+	b=Q71B+XuXOZ42nNs/WOxp+KndsBFbmy8ybPyiyRf5kxc1e/Mcd/be54g52mbQERjNK
+	 ab75NcE9EtoE8NEdH24AUkR+Nn/l9/314zfvB3GJFggGgM9WKGRchb8193fhPIz9oh
+	 FCYhcn5NSyyWDVZhyIBR6Bd7LgG6n39ugtqnnTJi89B0i/rqSZZ6Nc1yvG20xHBwLg
+	 AIwp+eFMlxP1R48mpirKhe6RbUG7en09oc3az1G092563hlVICqJrq87mB+RSfZ6nU
+	 x6iuIh2cXYI67H+PE++WPoNAOu+Fs3K45mzIyKyfqdNuXlsRPTXWHZAuJIgycXCLAj
+	 Top6J++65H86g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Simon Trimmer <simont@opensource.cirrus.com>,
-	Liam Girdwood <liam.r.girdwood@intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Hans de Goede <hdegoede@redhat.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	pierre-louis.bossart@linux.dev,
-	ckeepax@opensource.cirrus.com,
-	Vijendar.Mukunda@amd.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 03/14] ASoC: Intel: sof_sdw: Correct quirk for Lenovo Yoga Slim 7
-Date: Sun, 26 Jan 2025 10:07:50 -0500
-Message-Id: <20250126150803.962459-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 09/14] ASoC: soc-pcm: don't use soc_pcm_ret() on .prepare callback
+Date: Sun, 26 Jan 2025 10:07:56 -0500
+Message-Id: <20250126150803.962459-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126150803.962459-1-sashal@kernel.org>
 References: <20250126150803.962459-1-sashal@kernel.org>
@@ -62,41 +54,102 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.11
 Content-Transfer-Encoding: 8bit
 
-From: Simon Trimmer <simont@opensource.cirrus.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-[ Upstream commit 7662f0e5d55728a009229112ec820e963ed0e21c ]
+[ Upstream commit 301c26a018acb94dd537a4418cefa0f654500c6f ]
 
-In addition to changing the DMI match to examine the product name rather
-than the SKU, this adds the quirk to inform the machine driver to not
-bind in the cs42l43 microphone DAI link.
+commit 1f5664351410 ("ASoC: lower "no backend DAIs enabled for ... Port"
+log severity") ignores -EINVAL error message on common soc_pcm_ret().
+It is used from many functions, ignoring -EINVAL is over-kill.
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Link: https://patch.msgid.link/20241206075903.195730-5-yung-chuan.liao@linux.intel.com
+The reason why -EINVAL was ignored was it really should only be used
+upon invalid parameters coming from userspace and in that case we don't
+want to log an error since we do not want to give userspace a way to do
+a denial-of-service attack on the syslog / diskspace.
+
+So don't use soc_pcm_ret() on .prepare callback is better idea.
+
+Link: https://lore.kernel.org/r/87v7vptzap.wl-kuninori.morimoto.gx@renesas.com
+Cc: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Link: https://patch.msgid.link/87bjxg8jju.wl-kuninori.morimoto.gx@renesas.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/intel/boards/sof_sdw.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ sound/soc/soc-pcm.c | 32 ++++++++++++++++++++++++++++----
+ 1 file changed, 28 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 41042259f2b26..9456b63389db5 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -600,9 +600,10 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		.callback = sof_sdw_quirk_cb,
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "380E")
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83HM")
- 		},
--		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS),
-+		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS |
-+					SOC_SDW_CODEC_MIC),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
+diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+index 7a59121fc323c..1102599403c53 100644
+--- a/sound/soc/soc-pcm.c
++++ b/sound/soc/soc-pcm.c
+@@ -38,7 +38,6 @@ static inline int _soc_pcm_ret(struct snd_soc_pcm_runtime *rtd,
+ 	switch (ret) {
+ 	case -EPROBE_DEFER:
+ 	case -ENOTSUPP:
+-	case -EINVAL:
+ 		break;
+ 	default:
+ 		dev_err(rtd->dev,
+@@ -1001,7 +1000,13 @@ static int __soc_pcm_prepare(struct snd_soc_pcm_runtime *rtd,
+ 	}
+ 
+ out:
+-	return soc_pcm_ret(rtd, ret);
++	/*
++	 * Don't use soc_pcm_ret() on .prepare callback to lower error log severity
++	 *
++	 * We don't want to log an error since we do not want to give userspace a way to do a
++	 * denial-of-service attack on the syslog / diskspace.
++	 */
++	return ret;
+ }
+ 
+ /* PCM prepare ops for non-DPCM streams */
+@@ -1013,6 +1018,13 @@ static int soc_pcm_prepare(struct snd_pcm_substream *substream)
+ 	snd_soc_dpcm_mutex_lock(rtd);
+ 	ret = __soc_pcm_prepare(rtd, substream);
+ 	snd_soc_dpcm_mutex_unlock(rtd);
++
++	/*
++	 * Don't use soc_pcm_ret() on .prepare callback to lower error log severity
++	 *
++	 * We don't want to log an error since we do not want to give userspace a way to do a
++	 * denial-of-service attack on the syslog / diskspace.
++	 */
+ 	return ret;
+ }
+ 
+@@ -2554,7 +2566,13 @@ int dpcm_be_dai_prepare(struct snd_soc_pcm_runtime *fe, int stream)
+ 		be->dpcm[stream].state = SND_SOC_DPCM_STATE_PREPARE;
+ 	}
+ 
+-	return soc_pcm_ret(fe, ret);
++	/*
++	 * Don't use soc_pcm_ret() on .prepare callback to lower error log severity
++	 *
++	 * We don't want to log an error since we do not want to give userspace a way to do a
++	 * denial-of-service attack on the syslog / diskspace.
++	 */
++	return ret;
+ }
+ 
+ static int dpcm_fe_dai_prepare(struct snd_pcm_substream *substream)
+@@ -2594,7 +2612,13 @@ static int dpcm_fe_dai_prepare(struct snd_pcm_substream *substream)
+ 	dpcm_set_fe_update_state(fe, stream, SND_SOC_DPCM_UPDATE_NO);
+ 	snd_soc_dpcm_mutex_unlock(fe);
+ 
+-	return soc_pcm_ret(fe, ret);
++	/*
++	 * Don't use soc_pcm_ret() on .prepare callback to lower error log severity
++	 *
++	 * We don't want to log an error since we do not want to give userspace a way to do a
++	 * denial-of-service attack on the syslog / diskspace.
++	 */
++	return ret;
+ }
+ 
+ static int dpcm_run_update_shutdown(struct snd_soc_pcm_runtime *fe, int stream)
 -- 
 2.39.5
 
