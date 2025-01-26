@@ -1,134 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E971F91CC;
-	Sun, 26 Jan 2025 15:08:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCF81F91D1;
+	Sun, 26 Jan 2025 15:08:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737904087; cv=none; b=aH+IqIOnlru2q0z8fbZ2DnRq7CuIMnq4/JR/NvNU8IHPPONdQLpHQzLDP8N4WTVg50dkIiLOcQYDIwUxsud/eTKIVvjt+P2rfyh2OeMvpWjp15fTwmDh/03islpgzCEX0FX0GNEHgPs6TJmSiw11SGk+7OKeTF1cixWxkoq82pk=
+	t=1737904095; cv=none; b=ogvggBg0cjrJcSg0cobs6kQjhwDPHGd82lXVFRrSdnUXMR3DqUj0vbeKAEfhZV2kh2pLFjzPHDziw4GXrpWnQv5L3aGV2JrDf82MzDzc0z3Hehklaizcd35CB7URgOuG3KDcm9ODW3h5/ebhogjoTed1kJqPBjO3JUfAT6dv6aU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737904087; c=relaxed/simple;
-	bh=X78rBr0Zxwa7cE0jsohoO4I5kg490OoXiO44VG5mxHM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=qf6OnemneuZlS4l9FbVIZw+w8i2r/0nOPT1zqJNA5GaqEswtdgi073WUUPukqNcecMyOORgJMNgP1LWFxGmiezxzZhUJVq8miZruOZ47yajGDeWq+Agp6PNWtqmctXnSWavup3C43JXR7Ykt/K8d+ktotRW3N4kKieRxyqIg2Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+JT7htn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737904095; c=relaxed/simple;
+	bh=wmCvz7H9zB5HkCm+N0v6cJJZiu6DvNdNrpd9md0NDR4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=L5Um65TL8SgYQvfYULMW5k+xvzyObXYz/T2+adv/XuiiU06OK+TtPHF+eZ4e2soLEoloC+rx1S1crTJQgVKjdhd4eT00sBTNarMMNyaZjKXk0cUSevGJenOUYH5TDKzcegDNAGZERoruN3qnU0tZg+NC9d+uvA+t7U1lUUd9iec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UnkasEXm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+JT7htn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 139C6C4CED3;
-	Sun, 26 Jan 2025 15:08:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UnkasEXm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD58C4CED3;
+	Sun, 26 Jan 2025 15:08:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737904086;
-	bh=X78rBr0Zxwa7cE0jsohoO4I5kg490OoXiO44VG5mxHM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=U+JT7htnbmFLaf88YV3oJ7LxSc+QKGNk1pixHF7DQtveoDVniJt2Fhdyulgd31fue
-	 +JUymklYn5fWcyx6zHpxb4MECDAZ+vbQ6Hal8AFqjBmqkAPUciVIEoAJWJnt/l8oUZ
-	 CgRtFaCcTZTTCqy8HJ0v0nsbCm7+L1iaNnapTnFkgpnzBKVQUUYaR5qW18WhXJIGxN
-	 aFumwB+cvX/DigCqXo6LUKUmlBbpsUdgkBD9/L9uKfE1TdBmQb6h0m0xQev8RhMNqZ
-	 ww3mwlhmNVRbxz+zMo3ceHZ+XwGOdfM5FLbm1fdLHb//B5b1QsKj3PcHPHW8LWRx2z
-	 V2/AA+6edKbTA==
+	s=k20201202; t=1737904094;
+	bh=wmCvz7H9zB5HkCm+N0v6cJJZiu6DvNdNrpd9md0NDR4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=UnkasEXmPN3etfkRA5YIG7M7G1bYGPXtqEX97r1LkBGhvn+o0zJSpq80r6RIK2V7A
+	 0ZwwUNjBhgXDePor1S4PCb6o1hW6fttIr3Jf7cc22A3S2M99roBV4B5JJ1hH8hpEAU
+	 ng6/AS2h9GCsUfF4aaAaV/9BhtfgcLhAvBSuQU7iOooa41r5PkY0UMNSXgG1LrtuoW
+	 /Q5Ye8qbYf3ho+ojkhsPQOLnO1IcisaFv2HHX3dtehm1Znzr36TglKmXfVSgixv9nk
+	 IVRNPtHcm/Wsbic/es0AViFUWPiUKsRIBD26Omnt1W5ZZ+EsFMaWEzVamtUkcQTqNt
+	 tB6SVTwdPWwJQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+Cc: Simon Trimmer <simont@opensource.cirrus.com>,
 	Liam Girdwood <liam.r.girdwood@intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	daniel.baluta@nxp.com,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	pierre-louis.bossart@linux.dev,
-	peterz@infradead.org,
-	kai.vehmanen@linux.intel.com,
-	brent.lu@intel.com,
-	sound-open-firmware@alsa-project.org,
+	ckeepax@opensource.cirrus.com,
+	Vijendar.Mukunda@amd.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 01/14] ASoC: SOF: Intel: hda-dai: Ensure DAI widget is valid during params
-Date: Sun, 26 Jan 2025 10:07:48 -0500
-Message-Id: <20250126150803.962459-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 03/14] ASoC: Intel: sof_sdw: Correct quirk for Lenovo Yoga Slim 7
+Date: Sun, 26 Jan 2025 10:07:50 -0500
+Message-Id: <20250126150803.962459-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250126150803.962459-1-sashal@kernel.org>
+References: <20250126150803.962459-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.11
 Content-Transfer-Encoding: 8bit
 
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
+From: Simon Trimmer <simont@opensource.cirrus.com>
 
-[ Upstream commit 569922b82ca660f8b24e705f6cf674e6b1f99cc7 ]
+[ Upstream commit 7662f0e5d55728a009229112ec820e963ed0e21c ]
 
-Each cpu DAI should associate with a widget. However, the topology might
-not create the right number of DAI widgets for aggregated amps. And it
-will cause NULL pointer deference.
-Check that the DAI widget associated with the CPU DAI is valid to prevent
-NULL pointer deference due to missing DAI widgets in topologies with
-aggregated amps.
+In addition to changing the DMI match to examine the product name rather
+than the SKU, this adds the quirk to inform the machine driver to not
+bind in the cs42l43 microphone DAI link.
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Link: https://patch.msgid.link/20241203104853.56956-1-yung-chuan.liao@linux.intel.com
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Link: https://patch.msgid.link/20241206075903.195730-5-yung-chuan.liao@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/sof/intel/hda-dai.c | 12 ++++++++++++
- sound/soc/sof/intel/hda.c     |  5 +++++
- 2 files changed, 17 insertions(+)
+ sound/soc/intel/boards/sof_sdw.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-dai.c b/sound/soc/sof/intel/hda-dai.c
-index 82f46ecd94301..2e58a264da556 100644
---- a/sound/soc/sof/intel/hda-dai.c
-+++ b/sound/soc/sof/intel/hda-dai.c
-@@ -503,6 +503,12 @@ int sdw_hda_dai_hw_params(struct snd_pcm_substream *substream,
- 	int ret;
- 	int i;
- 
-+	if (!w) {
-+		dev_err(cpu_dai->dev, "%s widget not found, check amp link num in the topology\n",
-+			cpu_dai->name);
-+		return -EINVAL;
-+	}
-+
- 	ops = hda_dai_get_ops(substream, cpu_dai);
- 	if (!ops) {
- 		dev_err(cpu_dai->dev, "DAI widget ops not set\n");
-@@ -582,6 +588,12 @@ int sdw_hda_dai_hw_params(struct snd_pcm_substream *substream,
- 	 */
- 	for_each_rtd_cpu_dais(rtd, i, dai) {
- 		w = snd_soc_dai_get_widget(dai, substream->stream);
-+		if (!w) {
-+			dev_err(cpu_dai->dev,
-+				"%s widget not found, check amp link num in the topology\n",
-+				dai->name);
-+			return -EINVAL;
-+		}
- 		ipc4_copier = widget_to_copier(w);
- 		memcpy(&ipc4_copier->dma_config_tlv[cpu_dai_id], dma_config_tlv,
- 		       sizeof(*dma_config_tlv));
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 70fc08c8fc99e..f10ed4d102501 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -63,6 +63,11 @@ static int sdw_params_stream(struct device *dev,
- 	struct snd_soc_dapm_widget *w = snd_soc_dai_get_widget(d, params_data->substream->stream);
- 	struct snd_sof_dai_config_data data = { 0 };
- 
-+	if (!w) {
-+		dev_err(dev, "%s widget not found, check amp link num in the topology\n",
-+			d->name);
-+		return -EINVAL;
-+	}
- 	data.dai_index = (params_data->link_id << 8) | d->id;
- 	data.dai_data = params_data->alh_stream_id;
- 	data.dai_node_id = data.dai_data;
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 41042259f2b26..9456b63389db5 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -600,9 +600,10 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 		.callback = sof_sdw_quirk_cb,
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "380E")
++			DMI_MATCH(DMI_PRODUCT_NAME, "83HM")
+ 		},
+-		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS),
++		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS |
++					SOC_SDW_CODEC_MIC),
+ 	},
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
 -- 
 2.39.5
 
