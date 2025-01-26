@@ -1,99 +1,158 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3045513D8A4;
-	Sun, 26 Jan 2025 07:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737877971; cv=pass; b=jx5T2sVl+ymULsk4eoW4Mu9iBiKWGR2EbzC7P7+yWIQLnSC10oUPLEXm//Fw3bTJO1nLgxk1A5O87FXn9TH2Nqba4tKDXSHFXy9JzhEvDoe6Sr/YvuW8eD8xiTxL7LbqsYP1Gd44bzNjEfUDx9tX0lndCJvRIi9gD6UB9QyoJHU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737877971; c=relaxed/simple;
-	bh=rKrfr/SptBQwbiTQvVMn3VkOim1ngQyQbkwKURXsQe0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=K98jS6KckgjX8hJNc8i1l4c8qOEdiyutzX5HFxpt7WixdTYXXjYCy5V50K0KhKZ9R0k5Q/Om5B/V7CqCXOsE5mwfX/feRDD8FBGPkOXyBLEkLukM7dqGhCiGCCIRidt0bCqXHK8h/tIPmtF7ijVmGcMBzl6MPa/OeKT88xiKxto=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=T8yMRU5e; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFCB14884F;
+	Sun, 26 Jan 2025 09:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737885578; cv=none; b=jtY9rYNUgJEugOOxTGX7wdRG3rNISi7UaEH6aM+zKch/OZ3vqwstTOdpR/r+xhENfuEBADYo0oHJniivR5B487ky0XIiwSajak/+kcPlotH8XS1eEicMw3+2X3wydsxxXwIsPbgPO4lzj6Zgu4Wx8Gl97QuXGjrbePrFX0Xb5mA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737885578; c=relaxed/simple;
+	bh=g92Jnt2+ZIgUaPZU5Z8Rkbo8h8W4b6/nWpJ5eBbT1N8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VXeEFlk/q6na4RSNcexmTp+0U1qKMWf33vcRyfajW0NtAANcQkzWcNO7/lZUUHsNFVjVOASTGQl7oGl9m47e5mMlQeTipLjG1UfB6+kkDbFF0ldw0kaOtiyvmRUqmYR8OQ3J5/LCKR7qXLtO4oG8XHC2OgsA3XIR8ThIWYw4MI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Y9ekB+rM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QC3jC9m6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vHpfGefs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XZ2v6NB9; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="T8yMRU5e"
-ARC-Seal: i=1; a=rsa-sha256; t=1737877935; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Hiaj4Q/l4XgTHZ1UlHoVp1dfiYa3vJfH5aB4zbrSJ++Kxwdl/ZqopWpec6FRJQsp/yid6ZeShIe7+Ctm6BeZrDPTxFOo5Z0D4UZlDvqRWtJcK5uyBuUpFDzf9V49H1RzmDmBkJKW3fHyosSt8vr6kcodHhL5ql3UltFx2N0F7ug=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1737877935; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=rKrfr/SptBQwbiTQvVMn3VkOim1ngQyQbkwKURXsQe0=; 
-	b=n6EjTY5UFcCfpnHwsarFSORN2XBbH7qYlggOYiiRoaryZs7SfzP8YitOyUT6yM/ZDXaF6CrTMna9g1o6Hv2g+m+vhTCA/L0p/u7a6BOi/E0c3xeUOQeaXNOhK8r+B6wgSQl6idZrD8R20t9fj2tB+0CFMT6NDN6B8LOgxl09W+o=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737877935;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=rKrfr/SptBQwbiTQvVMn3VkOim1ngQyQbkwKURXsQe0=;
-	b=T8yMRU5eO3MOLIWJOA/l7FJgfGWn1CiCW5GV4PqmFC9E0B90a3ddXIDW2dYu/rYj
-	5i1Rlr1/ZERlaXpumZ08VPrH2n0TdJKh+yALKO4wMv/IozHTAAboyooqGIxY8qSfMUl
-	IoSiCxZyHCEG2CgT2FEkxpC+pBXOIXsQYUASnZmK+fzMruF+ZHg79SBnqNsAAjfYbps
-	UO72TwRFxcQXfkzOFzSggZ8D8aUYX70wdm8qd+IkZYxviCubim2ke5ZciWFkBu88hVQ
-	hOQnlbYKVLkO6a+RwemUEUqs0KIcl07nulpaMJz3yW/tl5BncHvoTDabQP2Wbub5Hrd
-	tBPEeNyk1Q==
-Received: by mx.zohomail.com with SMTPS id 173787791929919.86951080894619;
-	Sat, 25 Jan 2025 23:51:59 -0800 (PST)
-Message-ID: <db43243ea653073d223e640f064cd480da7e2cf5.camel@icenowy.me>
-Subject: Re: [PATCH v2 5/5] ASoC: sun4i-codec: change h616 card name
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Ryan Walklin <ryan@testtoast.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>,  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, Chris Morgan
-	 <macromorgan@hotmail.com>
-Date: Sun, 26 Jan 2025 15:51:53 +0800
-In-Reply-To: <20250125070458.13822-6-ryan@testtoast.com>
-References: <20250125070458.13822-1-ryan@testtoast.com>
-	 <20250125070458.13822-6-ryan@testtoast.com>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y9ekB+rM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QC3jC9m6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vHpfGefs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XZ2v6NB9"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E4BC81F38F;
+	Sun, 26 Jan 2025 09:59:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1737885574; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zGKLSzCxn+vqzWJDeBaqwnHFqYApRIm39t+3Hi67VGM=;
+	b=Y9ekB+rM4hAkwk/KFAzps3X5RFx15eiEsddc4Y/AM6AXFZ7LQd8BRJ/mBlZ8a39Z+XGbE6
+	4xQAdCgbOcFZmdwWpKIUK5EtQ5OQnLzBymZVnhB/Slp7FEQLdW8uuAgH1kdajsTpl4fPc3
+	n7pRzkkquvuHWEnZpMbFnW4FYrM8awE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1737885574;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zGKLSzCxn+vqzWJDeBaqwnHFqYApRIm39t+3Hi67VGM=;
+	b=QC3jC9m6CwdglgmVyHmOWVqYF5+jpwHHmPU+dYzQxPqRYB3dW/aEq5gsvWPqowCh1dIwsW
+	OhE89hmnVaC6dbDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vHpfGefs;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XZ2v6NB9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1737885573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zGKLSzCxn+vqzWJDeBaqwnHFqYApRIm39t+3Hi67VGM=;
+	b=vHpfGefsm8kwikxHLBszZWngnQ9/YnFXyXdGlwWmbzBKVTyrqklMEMo5NXkqdsn00iHwxX
+	MhF5P0tzixtbIJsAu92e9DEdOiQkjAeoG+79Sleh+X/ktqzxNacA1bLrwFn47G437imha4
+	Qb/wTqyqB/Uy7DVgnaAMuRIbschDGLc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1737885573;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zGKLSzCxn+vqzWJDeBaqwnHFqYApRIm39t+3Hi67VGM=;
+	b=XZ2v6NB9Zp+3Bsg5GnEV9gClqoy6Z1sY5dj8GzWZuu8E3GxGO/LudHV9ZSBAkxymQ9IZ66
+	fXNQO7EroXN9pkDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9162D13A60;
+	Sun, 26 Jan 2025 09:59:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id C5SaIYUHlmfncQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 26 Jan 2025 09:59:33 +0000
+Date: Sun, 26 Jan 2025 10:59:33 +0100
+Message-ID: <8734h528vu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+Cc: "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	"lina@asahilina.net" <lina@asahilina.net>,
+	"mbarriolinares@gmail.com"
+	<mbarriolinares@gmail.com>,
+	"wangdicheng@kylinos.cn"
+	<wangdicheng@kylinos.cn>,
+	"cyan.vtb@gmail.com" <cyan.vtb@gmail.com>,
+	"dan.carpenter@linaro.org" <dan.carpenter@linaro.org>,
+	"bsevens@google.com"
+	<bsevens@google.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: usb-audio: Add delay quirk for iBasso DC07 Pro
+In-Reply-To: <TYUPR06MB62174A48D04E09A37996DF84D2ED2@TYUPR06MB6217.apcprd06.prod.outlook.com>
+References: <TYUPR06MB62174A48D04E09A37996DF84D2ED2@TYUPR06MB6217.apcprd06.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-ZohoMailClient: External
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: E4BC81F38F
+X-Spam-Score: -2.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,asahilina.net,gmail.com,kylinos.cn,linaro.org,google.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-5ZyoIDIwMjUtMDEtMjXmmJ/mnJ/lha3nmoQgMjA6MDAgKzEzMDDvvIxSeWFuIFdhbGtsaW7lhpnp
-gZPvvJoKPiBBZGRpbmcgamFjayBkZXRlY3Rpb24gcmVxdWlyZXMgc291bmQgc2VydmVycyB0byBh
-Y3Qgb24gdGhlIGVtaXR0ZWQKPiBldmVudHMsIHdoaWNoIGFyZSBkZXNjcmliZWQgYnkgQUxTQSBV
-c2UgQ2FzZSBNYW5hZ2VyIGNvbmZpZ3VyYXRpb25zCj4gaW4KPiB1c2Vyc3BhY2UuIFRoZXNlIGNv
-bmZpZ3VyYXRpb25zIGluY2x1ZGUgdGhlIGNhcmQgbmFtZSBpbiB0aGUgZmlsZQo+IHBhdGgsCj4g
-c28gYWx0ZXIgdGhlIGNhcmQgbmFtZSBmb3IgdGhlIEg2MTYgdG8gcmVtb3ZlIHNwYWNlcywgbWFr
-aW5nIFVDTQo+IHJlZmVyZW5jaW5nIGVhc2llci4gQWRkIGEgbG9uZ19uYW1lIHRvIG1haW50YWlu
-IGNvbnNpc3RlbmN5IHdpdGggdGhlCj4gb3RoZXIgZHJpdmVycy4KPiAKPiBUaGUgY29ycmVzcG9u
-ZGluZyBBTFNBIFVDTSBwYXRjaCBpcyBoZXJlOgo+IGh0dHBzOi8vZ2l0aHViLmNvbS9hbHNhLXBy
-b2plY3QvYWxzYS11Y20tY29uZi9wdWxsLzQ5MQo+IAo+IFNpZ25lZC1vZmYtYnk6IFJ5YW4gV2Fs
-a2xpbiA8cnlhbkB0ZXN0dG9hc3QuY29tPgo+IAo+IC0tCj4gQ2hhbmdlbG9nIHYxLi52MjoKPiAt
-IFNlcGFyYXRlIHBhdGNoIGZvciBjYXJkLT5sb25nX25hbWUKPiAtIE5vdGUgVUNNIHBhdGNoIGxp
-bmsKPiAtLS0KPiDCoHNvdW5kL3NvYy9zdW54aS9zdW40aS1jb2RlYy5jIHwgMyArKy0KPiDCoDEg
-ZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0t
-Z2l0IGEvc291bmQvc29jL3N1bnhpL3N1bjRpLWNvZGVjLmMgYi9zb3VuZC9zb2Mvc3VueGkvc3Vu
-NGktCj4gY29kZWMuYwo+IGluZGV4IDM3MDFmNTZjNzI3NTYuLjY4ZTJkODIyMjhhMGIgMTAwNjQ0
-Cj4gLS0tIGEvc291bmQvc29jL3N1bnhpL3N1bjRpLWNvZGVjLmMKPiArKysgYi9zb3VuZC9zb2Mv
-c3VueGkvc3VuNGktY29kZWMuYwo+IEBAIC0yMDEyLDcgKzIwMTIsOCBAQCBzdGF0aWMgc3RydWN0
-IHNuZF9zb2NfY2FyZAo+ICpzdW41MGlfaDYxNl9jb2RlY19jcmVhdGVfY2FyZChzdHJ1Y3QgZGV2
-aWNlICpkZXYpCj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgY2FyZC0+ZGV2wqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgPSBkZXY7Cj4gwqDCoMKgwqDCoMKgwqDCoGNhcmQtPm93bmVywqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqA9IFRISVNfTU9EVUxFOwo+IC3CoMKgwqDCoMKgwqDCoGNhcmQt
-Pm5hbWXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgPSAiSDYxNiBBdWRpbyBDb2RlYyI7Cj4g
-K8KgwqDCoMKgwqDCoMKgY2FyZC0+bmFtZcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqA9ICJo
-NjE2LWF1ZGlvLWNvZGVjIjsKPiArwqDCoMKgwqDCoMKgwqBjYXJkLT5sb25nX25hbWXCoMKgwqDC
-oMKgwqDCoMKgwqA9ICJINjE2IEF1ZGlvIENvZGVjIjsKCkkgdGhpbmsgaXQncyBwYXJ0IG9mIHRo
-ZSB1c2Vyc3BhY2UgQVBJIHRoYXQgc2hvdWxkIGJlIGtlcHQgc3RhYmxlLgoKPiDCoMKgwqDCoMKg
-wqDCoMKgY2FyZC0+ZHJpdmVyX25hbWXCoMKgwqDCoMKgwqDCoD0gInN1bjRpLWNvZGVjIjsKPiDC
-oMKgwqDCoMKgwqDCoMKgY2FyZC0+Y29udHJvbHPCoMKgwqDCoMKgwqDCoMKgwqDCoD0gc3VuNTBp
-X2g2MTZfY2FyZF9jb250cm9sczsKPiDCoMKgwqDCoMKgwqDCoMKgY2FyZC0+bnVtX2NvbnRyb2xz
-wqDCoMKgwqDCoMKgPQo+IEFSUkFZX1NJWkUoc3VuNTBpX2g2MTZfY2FyZF9jb250cm9scyk7Cgo=
+On Sun, 26 Jan 2025 04:51:11 +0100,
+ºúÁ¬ÇÚ wrote:
+> 
+> From: Lianqin Hu <hulianqin@vivo.com>
+> 
+> Audio control requests that sets sampling frequency sometimes fail on
+> this card. Adding delay between control messages eliminates that problem.
+> 
+> usb 1-1: New USB device found, idVendor=2fc6, idProduct=f0b7
+> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+> usb 1-1: Product: iBasso DC07 Pro
+> usb 1-1: Manufacturer: iBasso
+> usb 1-1: SerialNumber: CTUA171130B
+> 
+> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 
+Applied now.  Thanks.
+
+
+Takashi
