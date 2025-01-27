@@ -1,86 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E792194137;
-	Mon, 27 Jan 2025 19:02:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072761547CC;
+	Mon, 27 Jan 2025 19:12:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738004527; cv=none; b=SQrxtiqHSDA6G0l/6ffPpIZ4GpVFnQz0iPYIHWWV9+zZ1idClyGujhlRjOyrbdeu7XUFiCdlrqHHWS/VI0nzSolr+0YMyU8G/LQOgoWonih2gOzGO+pufpt948DAjGLScf1VnNoutdima5eUSfRd1aTqiW0I5WH8iju1Z8ljeas=
+	t=1738005134; cv=none; b=rbwAIVzVnW5x8d6nfKZQb9WYdRyMVXErAld2mu0Gpj2DxXzUW8tODIvhDayLhDNoHU2lenS4QDFZr2i9ovwjs6DTz2REQHuA8/O34SflO4L0CxBGR86ZNhTvRHP3xkyKMIKDwyOV9XJmHNg1Tw2cvIsmmDvgW0TbHtNz4bEjZZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738004527; c=relaxed/simple;
-	bh=Tsp12wz14BmSxmq2x6aIjdXQ2t764qqMLYSEnAcs9N0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eahtE1WM5+cEhMpPYzMxMnjwvtTzROUVyPUIbIL69y54bIUQCa/o849ZLdrOjWvG0gLPX1RBsEljrLXRydb78wKX4GNNHC6EGgELHTyrqU6wLa0+FgXfHSA6kuwvCY+Y6XKBhgRpCo5BDp0zIiLQUxPx93cgs/YUUCbfnMy7NQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hyyrz8Nz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738005134; c=relaxed/simple;
+	bh=L3SiiGUGYpJKCcs/BuywXLrfjhQqmnA6GR2a0coefGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DmxCWuZKBqaP38jxm9uKJu2cYr6TIcSyX6QJn6qs6u9tfcS/ZJzQvFD+SPdQkZ503bTgG2oZMlsyr1yk708oQbaJ/jO+49zYaxiktor+0weMTW/JbOkH4+//4yfGpyWcCESDTk1nDrHLhUTV2ZZ003JVwnSZOD369KTjgLjpjLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K/1SH4e+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hyyrz8Nz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11625C4CEE5;
-	Mon, 27 Jan 2025 19:02:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K/1SH4e+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60676C4CED2;
+	Mon, 27 Jan 2025 19:12:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738004526;
-	bh=Tsp12wz14BmSxmq2x6aIjdXQ2t764qqMLYSEnAcs9N0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Hyyrz8Nz3gtj5Efw/S/pc0Fn+LdvjFigJ+mCvaCwrj1Rnqkim8+KBdmSSLK5Klg7i
-	 pKObujo9W/57k69YO5qNBKumt2Xj/iFNzG5BNASZlo4PRmwzOrEX+kPF8+s6mZ7+yo
-	 9fbMTZua7mnqEtmQ1PwPHo+mbDoK6MVLUAxwlwR/eBFQmsQv2UnsktA05tWjqd530p
-	 A13pPofR61LAQgtZabOymLCf9975EztlzVze+yvZ4C/T/0i7O5IRjUVCCUyAJ3gJdp
-	 QVxXVEbu9WB2zz87NPMnggKEvlE171zifeNIRZn/JnSv2YLF2oLdQYMtqgpPYhIG1F
-	 Ait/j3hrSbiAw==
-From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, 
- =?utf-8?q?Ond=C5=99ej_Jirman?= <megi@xff.cz>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Andy Shevchenko <andy.shevchenko@gmail.com>, 
- Marian Postevca <posteuca@mutex.one>, linux-sound@vger.kernel.org
-In-Reply-To: <20250127150458.1489425-1-megi@xff.cz>
-References: <20250127150458.1489425-1-megi@xff.cz>
-Subject: Re: [PATCH] ASoC: codec: es8316: "DAC Soft Ramp Rate" is just a 2
- bit control
-Message-Id: <173800452482.222763.11363749572420745352.b4-ty@kernel.org>
-Date: Mon, 27 Jan 2025 19:02:04 +0000
+	s=k20201202; t=1738005133;
+	bh=L3SiiGUGYpJKCcs/BuywXLrfjhQqmnA6GR2a0coefGU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K/1SH4e+uUajB5fV42YkeaGwBFaQIWWo+k7S4BsCvVXheIjbXhcMzWyW8PKYlQ8mY
+	 9dwb4QdAhwM4LPOtoAsOSN7dXv4uelW5JVVKD0cg/X4tBI9mxNDRAIjf2mzqiOa9UX
+	 xU0QAakO1IegktmVFgZkKyPryGNNA1EN+IDVufUgQGLqC5fuupdLbqjvG3MK2FLFkH
+	 5QhKHgLQZBQnN/eKBUd1XPT7lzMVyUa/9oL/MNImb5HI1tg+lAInXp6kFNXWTZz+/U
+	 vg9h2F5i6/SohxBr8UH68LMB8UGwwmE0ixcOe9UxmSuHzt62kyjyUCd1ZWNcDYcAW4
+	 Z2FfCd0JspOUQ==
+Date: Mon, 27 Jan 2025 13:12:12 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Mark Brown <broonie@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, Liam Girdwood <lgirdwood@gmail.com>,
+	devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: sun4i-a10-codec: add
+ hp-det-gpios
+Message-ID: <173800513205.698322.900237271228809143.robh@kernel.org>
+References: <20250125070458.13822-1-ryan@testtoast.com>
+ <20250125070458.13822-2-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250125070458.13822-2-ryan@testtoast.com>
 
-On Mon, 27 Jan 2025 16:04:55 +0100, Ondřej Jirman wrote:
-> Max value should be 3, otherwise "DAC Soft Ramp Switch" will be
-> overwritten by this control.
+
+On Sat, 25 Jan 2025 20:00:11 +1300, Ryan Walklin wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
 > 
+> Devices integrating Allwinner SoCs may use line-out or headphone jacks
+> with jack detection circuits attached to a GPIO. For example, a number
+> of Anbernic devices featuring the H700 SoC use this mechanism to switch
+> between a headphone jack and an internal speaker.
+> 
+> Add extra routing endpoints to support this.
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> 
+> --
+> Changelog v1..v2:
+> - Remove vendor prefix from hp-det-gpios
+> - Amend commit message
+> ---
+>  .../bindings/sound/allwinner,sun4i-a10-codec.yaml           | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: codec: es8316: "DAC Soft Ramp Rate" is just a 2 bit control
-      commit: 6c1bb4031729871fa203983bd77bed1ee3c61347
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
