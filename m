@@ -1,71 +1,87 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A600E13D52E;
-	Mon, 27 Jan 2025 15:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4061547CC;
+	Mon, 27 Jan 2025 15:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737990827; cv=none; b=Q7ytxqK4G8e0uAoGtnInawEx3NCPwq7pg897RX51JAFVlpH26/OV14TNker3ZoD95FTk+mvsOfhPZ7RR4u5G+ouw5jtDK3ekyelFORopt93moABr9i5GL7IP1KiCejdNC18NY9VWNKFMle0E9jdjlxTVkDLI/yeSjsYeLrHCBBc=
+	t=1737993290; cv=none; b=VeI/yqLwz/4gPRwqIrFmck3OOiBrwoAfy/+Gopc8Nw7keJkoqAmXkDrgpy/4TmRvX4hgQv2N/5GjpD7Q0Xrri57HEYEP66/V/cQ1y8vtL6bkUVNA5AyEn21g4zWtyycLH3GZve0ziflcSpO/bE7dWt4p3bya8QpBHzmbVcHYQXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737990827; c=relaxed/simple;
-	bh=6wLgqAgxgb7VToyeyPGBhvgst7pHmtRSNKmUZeNUXJk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QZcE9iSI8gvKq7kk6LfDFPeCqTLR8ak8gdyndt4/BEgCyHanjBQhe8sywTD06x/I7mMV0JSgOyEJ20UuIRjJvg4DfZB3JNi28d4dxqCw1ZJ9rQ5i4J5l9evU1a5RJ2+pi1/dgDc+yaSMFZKuXiChVw9sltuAxDjgql6haNPkvs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=B+WkDnja; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	s=arc-20240116; t=1737993290; c=relaxed/simple;
+	bh=OK+HzoLuYdd/tOGro07jI9PkS9TvvSaZjIP6Qjdid/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BIxmuJcv64civDf/yD5Y6xvslNBSKsjuel7LuUWDjA/HR+NW8LYHM4Qh15nZ4k0XwyPkgKnDcPttkd5fGSI1tMFjkIuu2bClfAfTJ+wjqVTAkQ0a6A59gwbSNG/h+37SO+lj+MRCUosGqZGx1iJCVTqHbCwm/dJdBAF2cVoWAxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S67YFIB4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="B+WkDnja"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1737990307; bh=6wLgqAgxgb7VToyeyPGBhvgst7pHmtRSNKmUZeNUXJk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=B+WkDnjaJOBbQpYcrl/LxmuaHgWIK01zKl99zhOtwDVXk+M4woe6s0u6/A2HNqhPv
-	 EDCMFaDkF/iRmpl90bUQUbO9qh6bgiZnJ5wC2H0A9o/1Y1kzOL9UeSkbfhPDah1sdb
-	 9vd9VAYiHkWit/kkC+QnKmbFrpVmqGVQqSqMojtA=
-From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
-To: linux-kernel@vger.kernel.org
-Cc: Ondrej Jirman <megi@xff.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S67YFIB4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4360C4CED2;
+	Mon, 27 Jan 2025 15:54:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737993290;
+	bh=OK+HzoLuYdd/tOGro07jI9PkS9TvvSaZjIP6Qjdid/A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S67YFIB48qHCjymlmC5dow1aipiMwPCMLbORjlr9yy6u95VqzyEvUXtiya+kQoSrq
+	 eb0I8YArW4/u1XfP+EsdjL9R5acsx8b2NqZlxVGRNMhb/0/1C2rxc6cyxlV5k/7cR8
+	 zuegBuAKQm4nxVruBqxwK1GS14Tu2ZtXMjifdwxD9btjFg0xBMOoTQLtsft6cKBZU5
+	 exuSRRk2y7PY7j5LUi0xd8kjkPh27AFJKZcSEz9WOkOUIaFb1Z07EjmFiIwsnJ9jQS
+	 uVQ//qDCNrRVf87zzRGqh7qH/cKBLX08L/POK94UqlG2SVOLF4n3yYSn1S/WA8KfRl
+	 k5aMukwqzwXfg==
+Date: Mon, 27 Jan 2025 15:54:45 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
 	Andy Shevchenko <andy.shevchenko@gmail.com>,
 	Marian Postevca <posteuca@mutex.one>,
-	linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...)
-Subject: [PATCH] ASoC: codec: es8316: "DAC Soft Ramp Rate" is just a 2 bit control
-Date: Mon, 27 Jan 2025 16:04:55 +0100
-Message-ID: <20250127150458.1489425-1-megi@xff.cz>
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: codec: es8316: "DAC Soft Ramp Rate" is just a 2
+ bit control
+Message-ID: <0fefbfe1-021b-46b2-8945-15956e75e37f@sirena.org.uk>
+References: <20250127150458.1489425-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DFWlJP5SettMukvF"
+Content-Disposition: inline
+In-Reply-To: <20250127150458.1489425-1-megi@xff.cz>
+X-Cookie: Printed on recycled paper.
 
-From: Ondrej Jirman <megi@xff.cz>
 
-Max value should be 3, otherwise "DAC Soft Ramp Switch" will be
-overwritten by this control.
+--DFWlJP5SettMukvF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
----
- sound/soc/codecs/es8316.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Jan 27, 2025 at 04:04:55PM +0100, Ond=C5=99ej Jirman wrote:
+> From: Ondrej Jirman <megi@xff.cz>
+>=20
+> Max value should be 3, otherwise "DAC Soft Ramp Switch" will be
+> overwritten by this control.
 
-diff --git a/sound/soc/codecs/es8316.c b/sound/soc/codecs/es8316.c
-index f508df01145b..e7bd561a8f40 100644
---- a/sound/soc/codecs/es8316.c
-+++ b/sound/soc/codecs/es8316.c
-@@ -101,7 +101,7 @@ static const struct snd_kcontrol_new es8316_snd_controls[] = {
- 	SOC_DOUBLE_R_TLV("DAC Playback Volume", ES8316_DAC_VOLL,
- 			 ES8316_DAC_VOLR, 0, 0xc0, 1, dac_vol_tlv),
- 	SOC_SINGLE("DAC Soft Ramp Switch", ES8316_DAC_SET1, 4, 1, 1),
--	SOC_SINGLE("DAC Soft Ramp Rate", ES8316_DAC_SET1, 2, 4, 0),
-+	SOC_SINGLE("DAC Soft Ramp Rate", ES8316_DAC_SET1, 2, 3, 0),
- 	SOC_SINGLE("DAC Notch Filter Switch", ES8316_DAC_SET2, 6, 1, 0),
- 	SOC_SINGLE("DAC Double Fs Switch", ES8316_DAC_SET2, 7, 1, 0),
- 	SOC_SINGLE("DAC Stereo Enhancement", ES8316_DAC_SET3, 0, 7, 0),
--- 
-2.48.1
+We should probably have something to check this during registration,
+possibly also have mixer-test check for other controls changing when we
+change one (there will be some things that trigger on it due to bodging
+things for stereo paths on some older devices but I don't know that
+that's a widespread issues).
 
+--DFWlJP5SettMukvF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeXrEUACgkQJNaLcl1U
+h9AH1gf/cLiQ65MORci92Ts+dJ5+MOwTInqivVa0zhj2PkHDJq/AWE9ang/rIHo/
+maXFhjKjf+BRhGrv4L89clT0ZlemdBbFi1fG0yJk45P9dOSGCeQzEOmyjKcjTsPq
+xMDmFtoOzZ8eim1fPbkkBQyn7m8ljO6wzsvQEjW83vnO8XlP1074Dbg1r594kjZn
+0V6dd9hhTbI8xUc7xdex6gsxheHRCnMcJfRzhaazNkEdC8r1Q5/sxuuGc3THe4TS
+PjoNd81tQwA7d83wnag0nHLHLJhaSYngqGClMeqwK9C7hgxx+kZy54jgPkh0mpPa
+C8tZUknZxHdBc1OCy/kjEXgyo89KdA==
+=sPtp
+-----END PGP SIGNATURE-----
+
+--DFWlJP5SettMukvF--
