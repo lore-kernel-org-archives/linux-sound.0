@@ -1,155 +1,71 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E283594C
-	for <linux-sound@vger.kernel.org>; Mon, 27 Jan 2025 15:02:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A600E13D52E;
+	Mon, 27 Jan 2025 15:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737990142; cv=none; b=mL1Z7h9ICW6w+bCKbefpbGNIkYplot57x2UQtNt3XR4IqhEst7gBFGpw9xTuqJ2K5YZKSkogx8dXJjj/yQqMOooltP5CwdiVdGesm9LvLV7qrtRTIzeGh00jfW0ek9vShjFZXAk24DOVXU3vynyMaJad7oBuGs326URRAnzR1PY=
+	t=1737990827; cv=none; b=Q7ytxqK4G8e0uAoGtnInawEx3NCPwq7pg897RX51JAFVlpH26/OV14TNker3ZoD95FTk+mvsOfhPZ7RR4u5G+ouw5jtDK3ekyelFORopt93moABr9i5GL7IP1KiCejdNC18NY9VWNKFMle0E9jdjlxTVkDLI/yeSjsYeLrHCBBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737990142; c=relaxed/simple;
-	bh=5b9lFf9wAx+JQRNDmJFRc7iwLIbyxLjLWULpP0rqP3U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DivRIBwU55l1c1dWZeNBkH4o4qm2SjuYfp1HyDvtbxbR4kYMqoV/HFEVVyiOEUkFraUtXjZxR/YIcb0Mv2lFNLaERf3XJLoaEJOqP2a5+zDqrysYhj/UsH+wGMO2FSueq22wnD2fzF1D/TM2YVlSOiMxobwscbxU62iCBGtM2s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=VGfxuV/J; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1737990827; c=relaxed/simple;
+	bh=6wLgqAgxgb7VToyeyPGBhvgst7pHmtRSNKmUZeNUXJk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QZcE9iSI8gvKq7kk6LfDFPeCqTLR8ak8gdyndt4/BEgCyHanjBQhe8sywTD06x/I7mMV0JSgOyEJ20UuIRjJvg4DfZB3JNi28d4dxqCw1ZJ9rQ5i4J5l9evU1a5RJ2+pi1/dgDc+yaSMFZKuXiChVw9sltuAxDjgql6haNPkvs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=B+WkDnja; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="VGfxuV/J"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 062324C64;
-	Mon, 27 Jan 2025 15:54:10 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 062324C64
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1737989650; bh=H6g8rKxtw81wt1TMk3mecCUqJFi3oS0X8oCoQX9Vv8o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VGfxuV/JmNFhzF5rolXGLklZgQtQ/MJuplu965rYQELkGQRuob7osKQaw9L9Avr32
-	 ro100tbfsyFv0TC8kwlmDBk9NEkPNKMcmSqMT8LSdwR1sG35twwmXTDvInaywNs1ry
-	 HptQulRWS1Q8kpnmUIGdKbNe6oXxuG9mURwtiphU=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Mon, 27 Jan 2025 15:54:04 +0100 (CET)
-Message-ID: <6fcbc9d3-93d4-4485-9f9f-5bef61476ef3@perex.cz>
-Date: Mon, 27 Jan 2025 15:54:04 +0100
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="B+WkDnja"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1737990307; bh=6wLgqAgxgb7VToyeyPGBhvgst7pHmtRSNKmUZeNUXJk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=B+WkDnjaJOBbQpYcrl/LxmuaHgWIK01zKl99zhOtwDVXk+M4woe6s0u6/A2HNqhPv
+	 EDCMFaDkF/iRmpl90bUQUbO9qh6bgiZnJ5wC2H0A9o/1Y1kzOL9UeSkbfhPDah1sdb
+	 9vd9VAYiHkWit/kkC+QnKmbFrpVmqGVQqSqMojtA=
+From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
+To: linux-kernel@vger.kernel.org
+Cc: Ondrej Jirman <megi@xff.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Marian Postevca <posteuca@mutex.one>,
+	linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...)
+Subject: [PATCH] ASoC: codec: es8316: "DAC Soft Ramp Rate" is just a 2 bit control
+Date: Mon, 27 Jan 2025 16:04:55 +0100
+Message-ID: <20250127150458.1489425-1-megi@xff.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: core: Change device numbering
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, Takashi Iwai <tiwai@suse.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org
-References: <20250127144445.2739017-1-amadeuszx.slawinski@linux.intel.com>
- <f8f2b8f9-527e-486d-ae83-34abd13ef968@linux.intel.com>
-Content-Language: en-US
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <f8f2b8f9-527e-486d-ae83-34abd13ef968@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 27. 01. 25 15:45, Amadeusz Sławiński wrote:
-> On 1/27/2025 3:44 PM, Amadeusz Sławiński wrote:
->> Currently ASoC cards when enumerating create CPUs rtds first and CODECs
->> rtds second. This causes device number on cards to not start from 0, but
->> from number of present CPUs. During that it does count number of rtds
->> and uses it as device number visible in userspace.
->>
->> This patch changes device visible to userspace, when listing cards:
->>
->> Before:
->> card 0: hdaudioB0D0 [hdaudioB0D0], device 1: HDAudio Analog (*) []
->> card 1: hdaudioB0D2 [hdaudioB0D2], device 1: HDMI1 (*) []
->> card 1: hdaudioB0D2 [hdaudioB0D2], device 2: HDMI2 (*) []
->> card 1: hdaudioB0D2 [hdaudioB0D2], device 3: HDMI3 (*) []
->>
->> After:
->> card 0: hdaudioB0D0 [hdaudioB0D0], device 0: HDAudio Analog (*) []
->> card 1: hdaudioB0D2 [hdaudioB0D2], device 0: HDMI1 (*) []
->> card 1: hdaudioB0D2 [hdaudioB0D2], device 1: HDMI2 (*) []
->> card 1: hdaudioB0D2 [hdaudioB0D2], device 2: HDMI3 (*) []
->>
->> It is done by skipping back end devices and only counting front end
->> ones.
->>
->> Now there are few concerns I have:
->> - while rtd->id is not used much, few drivers seem to be using it as
->>     index into a table, above may break this use (although
->>     "include/sound/simple_card_utils.h: * the ID stored in rtd->id may not be a valid array index."
->>     suggests that maybe it is a bad idea anyway, but I'm not sure how
->>     generic that comment is)
->> - this will break user scripts, with hardcoded device IDs
->> - this will also break some UCMs with hardcoded IDs
->>
->> Now my main question is, if such patch would even be considered?
->> Perhaps device IDs are not considered as "stable" interface and can be
->> changed and my above worries are unnecessary.
->>
->> Patch is a result of discussion from:
->> https://github.com/alsa-project/alsa-ucm-conf/pull/499
->> and as such I may consider others ways of fixing the problem.
-> 
-> And it should've been RFC in topic... :( Sorry about that.
+From: Ondrej Jirman <megi@xff.cz>
 
-Looking to UCM configs, most of ASoC cards have PCM devices starting from 
-zero. So this id is not used for all ASoC cards.
+Max value should be 3, otherwise "DAC Soft Ramp Switch" will be
+overwritten by this control.
 
-Also, a bit off-topic, but the driver name (hdaudioB?D?) for this particular 
-driver should be corrected, too. It should be like 'hda-avs-dsp' or so. If I 
-am not wrong, the SST driver name was 'hda-dsp'.
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
+---
+ sound/soc/codecs/es8316.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-					Jaroslav
-
+diff --git a/sound/soc/codecs/es8316.c b/sound/soc/codecs/es8316.c
+index f508df01145b..e7bd561a8f40 100644
+--- a/sound/soc/codecs/es8316.c
++++ b/sound/soc/codecs/es8316.c
+@@ -101,7 +101,7 @@ static const struct snd_kcontrol_new es8316_snd_controls[] = {
+ 	SOC_DOUBLE_R_TLV("DAC Playback Volume", ES8316_DAC_VOLL,
+ 			 ES8316_DAC_VOLR, 0, 0xc0, 1, dac_vol_tlv),
+ 	SOC_SINGLE("DAC Soft Ramp Switch", ES8316_DAC_SET1, 4, 1, 1),
+-	SOC_SINGLE("DAC Soft Ramp Rate", ES8316_DAC_SET1, 2, 4, 0),
++	SOC_SINGLE("DAC Soft Ramp Rate", ES8316_DAC_SET1, 2, 3, 0),
+ 	SOC_SINGLE("DAC Notch Filter Switch", ES8316_DAC_SET2, 6, 1, 0),
+ 	SOC_SINGLE("DAC Double Fs Switch", ES8316_DAC_SET2, 7, 1, 0),
+ 	SOC_SINGLE("DAC Stereo Enhancement", ES8316_DAC_SET3, 0, 7, 0),
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+2.48.1
+
