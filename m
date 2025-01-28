@@ -1,112 +1,143 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D56198E65;
-	Tue, 28 Jan 2025 16:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CBFB1ACEC7;
+	Tue, 28 Jan 2025 16:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738080421; cv=none; b=bBSQpbdp8UiUuF4EFel4+HS0Gz/g5NPd987oP0l52FJCOF/DU7kXs0cImDrAdu3RXlVJhZXbtrVDjLIP2Y/wyVk7Lvsy7FNJkkFrjfYrnG+UMjv3ZrmysjFfdTl051o24VoukqR3o9OC9eo2QmqXSWzaGG9oiX3Q8zkOi6sz60c=
+	t=1738083267; cv=none; b=FjDpgQHha78KvIt6Go6knsXFvsbrBDYmVYwC8T9nTVj76fBM8LXyrBC7s/TlShWrGLPsy2O1I+9kLQuWbT2Gr/npmRkImMQjPdXNhEsip+Kne+n+DGBsjOjsffoFsDcpI57fqLARpSP8khnU1rYx0zS97Bk7TCOh/N3JyhvYvpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738080421; c=relaxed/simple;
-	bh=72CqtFa0s+S+ehOLzrAZMzUPN1XmE6QGRWqZ2UIGtHM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hJOpK0liesiowvreuthuz4mPbvJLY7kO9Xk48OSjyi4L0+E7/4Ng4f6Zwd5WblgPT5vLuwvHajfZpd77RPTUty/DITUrJ8mCvvE07skCQFXNjMWgrhsf7ZYzEash/JjQunk2BLl4R9TOn+X/H6wYMTlgnGDSK3hYKR+tEgP1zQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DSFsOFHE; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1738083267; c=relaxed/simple;
+	bh=zIKA5Lnu+AAJK1GF7f7fcAkWa5s/nONDNBIBGD5M4xg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jljM2U87ja3d0L/C+Ea862Sh4NeA8o4AUt2Hnp8THIrho+dT5KHTibTGjkF/f+leh0nyqhKzpKOJ0KxgIPsgQNEFRL4LMw3mpflGEVoavHKHurQyggDOj5zgATypsvQoBNd1VsVMXlGdn99zHknuX/cECFFs+cfNN28MFiHadwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WVT5godw; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DSFsOFHE"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-218c8ac69faso10898265ad.3;
-        Tue, 28 Jan 2025 08:07:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WVT5godw"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2ef714374c0so9198861a91.0;
+        Tue, 28 Jan 2025 08:54:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738080419; x=1738685219; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=72CqtFa0s+S+ehOLzrAZMzUPN1XmE6QGRWqZ2UIGtHM=;
-        b=DSFsOFHEgdGy8MkfDHFMm2fzySEW7q2bu9e1G5P+moD9mYYtOkBBZsZuOgTi9Z4+ko
-         DJXHhhSR4pV2QH2Rt2QkolzPc3mXVvIlxj8rX+/F63alauD88BIkDjNeQyPydhYJ3Omw
-         VzLZwbtk16vdMI29DZK+zGh3+CC310O7lOB0/IFBDoZNqH9qoU7H7GLQZ1Ml8ALM/92y
-         L8hCX+N2UVK3EfJOjGTy45CWM/T4p6SU6NYsyE5vsWR/IJWjCF9uGxNkX7J69HimhwaD
-         IGq+XzYXt8BuZbXdTwUhULjSCRM6jZcEaQmO46v6gKjuZUmP03zEoDhzwK0HxaxVd7cn
-         v1Pw==
+        d=gmail.com; s=20230601; t=1738083265; x=1738688065; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pklG817fp6sHKwwzZTujJQWYc/HiXl0PHhO5kJwA80E=;
+        b=WVT5godwbuhwpX4VvH17YN1OChglXM1LjJ7aUheD1yajgt3kLksXG7s5ul/cjI1Bpb
+         ZlCziWrxaoEd3EErd+IcmFaV3Y5E1nQDI/+VudUoxG/gLOqCaWa1qCeAQD3BJ/u33hsQ
+         VsrzIWR9crRiC9vKWdl3IhaWv4iZUAHnUaveCETaXlW4RDr+8YxxR3nQVuMBr+/Rl7oq
+         hWV0zq/nZyfM62Rb+cxjttdSt0rW+qMjwXjs3mo4LI94WuaR3dZGHC1GY15SwR+15aVl
+         rK1cLcV2GXrUzkQq2N6/Jyn/UrNZxO7UH68p1JJBbLqzMCGwrBUJBORjmMPtrLgif8rF
+         CFzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738080419; x=1738685219;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=72CqtFa0s+S+ehOLzrAZMzUPN1XmE6QGRWqZ2UIGtHM=;
-        b=btuPeL/Xqg1WnZnQxVH0p4kJGROLq+EcfIUAI3w9aK7CHOlbpMjq+EY9BadgEhP76r
-         1cTMlNAWIXrAJPh+ui2LehnPDX7vtV4opa0VfMpqYlsIOOLH080txG6nOJ/8LNXpAkOg
-         XkQBdgy7QXAliuU7vBsVoRtoHlEk85kLLfsFIN00M91zVIQNdroeu/uiCsVqbUI8JKsA
-         8LeWH2Hf3aQp2fAWvICUStmgdOmzPc/uwb6kqivNAAYQsbOm6BqWdt9PylxOiSXjvTt+
-         m2B7YgHI2Nnh9PvLGzL/fUVxY/3PdhIc60eFRVTTH0ieSeKAMvoPlFtQubk94P2ceP8m
-         XO4A==
-X-Forwarded-Encrypted: i=1; AJvYcCU/ikOxkzXSNFvMUD7jd13JS2bNtJqhJIMZzdJ+VtFzLLdGpG5jd3sTlrg18XlwYuZNEINFl6cWUxC3coc=@vger.kernel.org, AJvYcCW2M14FGlwZssCqYeAWjncpcDODxyBgNAiovuvNzQpndExP6X7bZTSuqJfXo5qA9t1XNgbBPqPAzaIpfho=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLdhweb366oxlJuuM0hQ95m54WHMVOi/b46xoiVNLPnnZFn9eB
-	Ui+eRAl6mTYajlUkeUFrnO4TcaivjnLheZq9PgIanuW2HGHqIQrmS9xo5wG+ooli3Qx2r5gSWGa
-	rxgiXZRjh1v85ZbGj+f5179Gu3w==
-X-Gm-Gg: ASbGncsBgzYStsegHJ92uptaWWWLRQisdD0otuBNlDTml2n017nRIxOlTx/Z5Vy2oyq
-	CzFYATxCitNMq79WSOd/CtpKmBa2Y0q2VqC883OgYdh/TZe5HOO1upHJkYn5pQ8A3xMgXmPUGkw
-	==
-X-Google-Smtp-Source: AGHT+IFMhzzha3ITVYsP3UjSge2V1Bhreq5ulExaRKLwNbPslam3IiBQTLNZlKZXmYPKirsV7ph/yQTVxYWMc1Egq28=
-X-Received: by 2002:a17:903:2449:b0:215:5f17:4296 with SMTP id
- d9443c01a7336-21c35553894mr250622085ad.8.1738080419489; Tue, 28 Jan 2025
- 08:06:59 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738083265; x=1738688065;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pklG817fp6sHKwwzZTujJQWYc/HiXl0PHhO5kJwA80E=;
+        b=vfTTL2M+5TPpbDsaC62JGSx3TDD2s/2gEKEY8o/CUuhkpVPeyoEgm94D1VYcnWEKGz
+         PvshZ/5nPpa8TmxYZIiVZvcZtxitCPnUXxDYdf2Z9r4jeBD7w0VRolDxLnbw7mhHyKu0
+         1IIOFJSLbxS1wadOcQxuqQd1EbvKLME6RmsD8WJlnL8rSZne4BxYT5Bg8lSOYl1D0xzk
+         pJxVssov/lZrcsUi3U5+EPjWvSeIGZJEVnBC3Xv+KoHqO/vaqYesC2+DljeOoLy2w44i
+         1IsyD0/16GlKBcWAs3PQqC4MSB4hAWEg/3hftmttC7VuQjqcsqCqp0rp9Vm6QV1fc1N6
+         H+FA==
+X-Forwarded-Encrypted: i=1; AJvYcCUemPKRBGG0bO0zlnuSd3DJF6Kiluy+fFWSeLcTPgJw3RhkvlQ5esral7XAjx09MTYqVny0NOhO@vger.kernel.org, AJvYcCUfX/yxSqo37jHaHhPqGhl3RrU15r+Rj399PLP+C7n8AmVJIKs8HOf07zgkKHZ+9vQ4uZUmsAOG6pMdSQs=@vger.kernel.org, AJvYcCVogi5BIWNIPLrjKIasWzAi+LFZ0qyYrUyf/hemG7QBY/kbyoROds7xdBFvKODLrSCjaDzcwXFdjaezmZ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPH1/YIY0auwp5/OLeJovqZActWcszU1CetXrGzkUPcLc6YAa9
+	falk3TRBtofUuZ1HZj+1hrz2A4zbfP3JpGE8JBubrtkGplyIQnHW
+X-Gm-Gg: ASbGnctvTRqfgCPqHgqa0wSjXbNlfgAYLYlKWiApJ+pmKntLg/OIXaA0oUrR1yHI1cO
+	1H3nizNlIcaEg1E8+ooA+kbh1BWawtnPK+y4BkvriPXE29KusaXpbYajZhbH7Ti5KT+3oGegar5
+	UWeR5Dj26JaP31BLLpMeIA3whhNCfadpjQvaXGA/q9mBXyFJbEHYSzixSNZhGIeuYiN/10vndxy
+	OtmrAjGcvU9+1g02RTx/V5C90k3BSOLeRghNAVQrQ0RmZo2ZoeKXrnOISoeesoMlm9+kXxjKEgI
+	5wUjEK9k38PSzSCxKOmXYOkWS3fr63II0U3JJArac8c95Q==
+X-Google-Smtp-Source: AGHT+IFM2slnJ4cIIibqQwxt2drJeuuyoame4N+ZQnwddz7PiCam0uqREuO19yxO+bXp3DVEIKX9gw==
+X-Received: by 2002:a17:90b:53c4:b0:2ee:9661:eafb with SMTP id 98e67ed59e1d1-2f82c04a174mr6047406a91.12.1738083265264;
+        Tue, 28 Jan 2025 08:54:25 -0800 (PST)
+Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f7ffa6acd0sm10600316a91.28.2025.01.28.08.54.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jan 2025 08:54:24 -0800 (PST)
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: gio.spacedev@pm.me,
+	austrum.lab@gmail.com,
+	luke@ljones.dev,
+	akpm@linux-foundation.org,
+	jserv@ccns.ncku.edu.tw,
+	chuang@cs.nycu.edu.tw,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kuan-Wei Chiu <visitorckw@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda: Fix headset detection failure due to unstable sort
+Date: Wed, 29 Jan 2025 00:54:15 +0800
+Message-Id: <20250128165415.643223-1-visitorckw@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250127160655.3119470-1-cy1yang@outlook.com> <87zfjb9y4i.wl-tiwai@suse.de>
-In-Reply-To: <87zfjb9y4i.wl-tiwai@suse.de>
-From: Chenyuan Yang <chenyuan0y@gmail.com>
-Date: Tue, 28 Jan 2025 10:06:48 -0600
-X-Gm-Features: AWEUYZmuhiXutR-P_T3cSad0D7C0PwHFJltNiJ9JsAMrUDUxVPjK-5EoSCKlA4I
-Message-ID: <CALGdzurXfO+fwVJ+JR5de-KfsudeBYdYkYRObBtU3mMq5vN5ug@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: pcm: use new array-copying-wrapper
-To: Takashi Iwai <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, pavel.hofman@ivitera.com, jbrunet@baylibre.com, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, zijie98@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Takashi,
+The auto_parser assumed sort() was stable, but the kernel's sort() uses
+heapsort, which has never been stable. After commit 0e02ca29a563
+("lib/sort: optimize heapsort with double-pop variation"), the order of
+equal elements changed, causing the headset to fail to work.
 
-It looks great to me! Thanks so much for your help!
+Fix the issue by recording the original order of elements before
+sorting and using it as a tiebreaker for equal elements in the
+comparison function.
 
-Best,
-Chenyuan
+Fixes: b9030a005d58 ("ALSA: hda - Use standard sort function in hda_auto_parser.c")
+Reported-by: Austrum <austrum.lab@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219158
+Tested-by: Austrum <austrum.lab@gmail.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+---
+ sound/pci/hda/hda_auto_parser.c | 8 +++++++-
+ sound/pci/hda/hda_auto_parser.h | 1 +
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-On Tue, Jan 28, 2025 at 1:49=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
->
-> On Mon, 27 Jan 2025 17:06:55 +0100,
-> yangchenyuan wrote:
-> >
-> > From: Chenyuan Yang <chenyuan0y@gmail.com>
-> >
-> > This is found by our static analysis tool.
-> >
-> > pcm_native.c utilizes memdup_user() to copy an array from userspace.
-> >
-> > There is a new wrapper, specifically designed for copying arrays. Use
-> > this one instead.
-> >
-> > This is similar to the
-> > commit 3e91a38de1dc ("fbdev: viafb: use new array-copying-wrapper").
-> >
-> > Fixes: 67616feda99e ("ALSA: pcm: Unify ioctl functions for playback and=
- capture streams")
->
-> This use of Fixes tag is misleading: the original code is correct, per
-> se, and the original commit was 4.14, where it had no no
-> memdup_array_user() available (introduced since 6.7).
->
-> So I applied with the drop of Fixes tag.
->
->
-> thanks,
->
-> Takashi
+diff --git a/sound/pci/hda/hda_auto_parser.c b/sound/pci/hda/hda_auto_parser.c
+index 84393f4f429d..8923813ce424 100644
+--- a/sound/pci/hda/hda_auto_parser.c
++++ b/sound/pci/hda/hda_auto_parser.c
+@@ -80,7 +80,11 @@ static int compare_input_type(const void *ap, const void *bp)
+ 
+ 	/* In case one has boost and the other one has not,
+ 	   pick the one with boost first. */
+-	return (int)(b->has_boost_on_pin - a->has_boost_on_pin);
++	if (a->has_boost_on_pin != b->has_boost_on_pin)
++		return (int)(b->has_boost_on_pin - a->has_boost_on_pin);
++
++	/* Keep the original order */
++	return a->order - b->order;
+ }
+ 
+ /* Reorder the surround channels
+@@ -400,6 +404,8 @@ int snd_hda_parse_pin_defcfg(struct hda_codec *codec,
+ 	reorder_outputs(cfg->speaker_outs, cfg->speaker_pins);
+ 
+ 	/* sort inputs in the order of AUTO_PIN_* type */
++	for (i = 0; i < cfg->num_inputs; i++)
++		cfg->inputs[i].order = i;
+ 	sort(cfg->inputs, cfg->num_inputs, sizeof(cfg->inputs[0]),
+ 	     compare_input_type, NULL);
+ 
+diff --git a/sound/pci/hda/hda_auto_parser.h b/sound/pci/hda/hda_auto_parser.h
+index 579b11beac71..87af3d8c02f7 100644
+--- a/sound/pci/hda/hda_auto_parser.h
++++ b/sound/pci/hda/hda_auto_parser.h
+@@ -37,6 +37,7 @@ struct auto_pin_cfg_item {
+ 	unsigned int is_headset_mic:1;
+ 	unsigned int is_headphone_mic:1; /* Mic-only in headphone jack */
+ 	unsigned int has_boost_on_pin:1;
++	int order;
+ };
+ 
+ struct auto_pin_cfg;
+-- 
+2.34.1
+
