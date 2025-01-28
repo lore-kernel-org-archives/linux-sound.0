@@ -1,78 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072761547CC;
-	Mon, 27 Jan 2025 19:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F33125DF;
+	Tue, 28 Jan 2025 00:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738005134; cv=none; b=rbwAIVzVnW5x8d6nfKZQb9WYdRyMVXErAld2mu0Gpj2DxXzUW8tODIvhDayLhDNoHU2lenS4QDFZr2i9ovwjs6DTz2REQHuA8/O34SflO4L0CxBGR86ZNhTvRHP3xkyKMIKDwyOV9XJmHNg1Tw2cvIsmmDvgW0TbHtNz4bEjZZw=
+	t=1738025580; cv=none; b=hdEI0TMf6m6fZmAmXNdjg9Rd1g+10OGtNzk2E7cC70cLDnrHworQIuHS07a/+wIV+382BVzjBWu/TthRMwjhsOzfXVnTGm2AWkd9Cuew8Ibp5B95n2XoWcRHvTkxK//jvh9hcWe8Su+Zd76twiJ7OWru+w8pPKBk15zw5g5r0AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738005134; c=relaxed/simple;
-	bh=L3SiiGUGYpJKCcs/BuywXLrfjhQqmnA6GR2a0coefGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DmxCWuZKBqaP38jxm9uKJu2cYr6TIcSyX6QJn6qs6u9tfcS/ZJzQvFD+SPdQkZ503bTgG2oZMlsyr1yk708oQbaJ/jO+49zYaxiktor+0weMTW/JbOkH4+//4yfGpyWcCESDTk1nDrHLhUTV2ZZ003JVwnSZOD369KTjgLjpjLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K/1SH4e+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738025580; c=relaxed/simple;
+	bh=IkvQ+5a0DIiNqvOL1hHDN46RrwVRYYheM+C3/azzTHA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pZIzcMJzupD8w19xTLGi+V8UotQybCDDg5C9vGbREBXcjiROEUIEHLJlD2bnWOqVhbaR47ZfDTBDTIBArR7sjMcy+M4+ooc3+kNhwcKQeMnmgOclEQqUE4C0ZLO2VLjqa+rb7w0aN1gycUz1AnLvVAdNRbAAZ+B6TPSvM8nh3iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=MEtgfelH; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K/1SH4e+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60676C4CED2;
-	Mon, 27 Jan 2025 19:12:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738005133;
-	bh=L3SiiGUGYpJKCcs/BuywXLrfjhQqmnA6GR2a0coefGU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K/1SH4e+uUajB5fV42YkeaGwBFaQIWWo+k7S4BsCvVXheIjbXhcMzWyW8PKYlQ8mY
-	 9dwb4QdAhwM4LPOtoAsOSN7dXv4uelW5JVVKD0cg/X4tBI9mxNDRAIjf2mzqiOa9UX
-	 xU0QAakO1IegktmVFgZkKyPryGNNA1EN+IDVufUgQGLqC5fuupdLbqjvG3MK2FLFkH
-	 5QhKHgLQZBQnN/eKBUd1XPT7lzMVyUa/9oL/MNImb5HI1tg+lAInXp6kFNXWTZz+/U
-	 vg9h2F5i6/SohxBr8UH68LMB8UGwwmE0ixcOe9UxmSuHzt62kyjyUCd1ZWNcDYcAW4
-	 Z2FfCd0JspOUQ==
-Date: Mon, 27 Jan 2025 13:12:12 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-arm-kernel@lists.infradead.org,
-	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, Liam Girdwood <lgirdwood@gmail.com>,
-	devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: sun4i-a10-codec: add
- hp-det-gpios
-Message-ID: <173800513205.698322.900237271228809143.robh@kernel.org>
-References: <20250125070458.13822-1-ryan@testtoast.com>
- <20250125070458.13822-2-ryan@testtoast.com>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="MEtgfelH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=SykZfNWuy7YlKNuIYwyzV55UjWxya80le8VNlDTlmu4=; b=MEtgfelHghgCzYOp
+	cgteMoUKm6a2Kqz6Z2CiQLss0kKMKvdry6PlE1ilssYv/s6G62lYWTVk+v5LN0sHdHuG7flcvfk8C
+	KM4qax+cVi2vwSgIeh18I07qsV0rfsoCdwWPMZYvCV2meSXbW++Q4b5+/mE3nQKzxrYEcn8tpl7Zx
+	ldcRlFKZdGbmN5JWmYrY269z765lgFcn5lER8fSskKTVy4+W6FiLG9iuy+J8OC+++du+yqDpMbsin
+	wC7fy2d0ydrF0YDXFxfsXhEhFfTMabhPVxd1mjzLbbtqNmwc2plTCP+bnXUnfoIa01oIAM8ii4tJZ
+	kcLkkcx6RYNyzvoCPg==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1tcZqO-00COvY-0E;
+	Tue, 28 Jan 2025 00:52:44 +0000
+From: linux@treblig.org
+To: matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] ASoC: mediatek: mt6358: Remove unused functions
+Date: Tue, 28 Jan 2025 00:52:43 +0000
+Message-ID: <20250128005243.295977-1-linux@treblig.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250125070458.13822-2-ryan@testtoast.com>
+Content-Transfer-Encoding: 8bit
 
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-On Sat, 25 Jan 2025 20:00:11 +1300, Ryan Walklin wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Devices integrating Allwinner SoCs may use line-out or headphone jacks
-> with jack detection circuits attached to a GPIO. For example, a number
-> of Anbernic devices featuring the H700 SoC use this mechanism to switch
-> between a headphone jack and an internal speaker.
-> 
-> Add extra routing endpoints to support this.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> 
-> --
-> Changelog v1..v2:
-> - Remove vendor prefix from hp-det-gpios
-> - Amend commit message
-> ---
->  .../bindings/sound/allwinner,sun4i-a10-codec.yaml           | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
+The functions:
+  mt6358_mtkaif_calibration_disable()
+  mt6358_mtkaif_calibration_enable()
+  mt6358_set_mtkaif_calibration_phase()
+were added in the 2019
+commit 6a8d4198ca80 ("ASoC: mediatek: mt6358: add codec driver")
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+but never used.
+
+Remove them.
+
+This leaves mt6358_set_dcxo(), mt6358_set_clksq(),
+mt6358_set_aud_global_bias(), also unused.
+
+Remove them.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ sound/soc/codecs/mt6358.c | 104 --------------------------------------
+ sound/soc/codecs/mt6358.h |   4 --
+ 2 files changed, 108 deletions(-)
+
+diff --git a/sound/soc/codecs/mt6358.c b/sound/soc/codecs/mt6358.c
+index 9247b90d1b99..e033027fd4c7 100644
+--- a/sound/soc/codecs/mt6358.c
++++ b/sound/soc/codecs/mt6358.c
+@@ -162,47 +162,6 @@ static void capture_gpio_reset(struct mt6358_priv *priv)
+ 			   0xf << 12, 0x0);
+ }
+ 
+-/* use only when not govern by DAPM */
+-static int mt6358_set_dcxo(struct mt6358_priv *priv, bool enable)
+-{
+-	regmap_update_bits(priv->regmap, MT6358_DCXO_CW14,
+-			   0x1 << RG_XO_AUDIO_EN_M_SFT,
+-			   (enable ? 1 : 0) << RG_XO_AUDIO_EN_M_SFT);
+-	return 0;
+-}
+-
+-/* use only when not govern by DAPM */
+-static int mt6358_set_clksq(struct mt6358_priv *priv, bool enable)
+-{
+-	/* audio clk source from internal dcxo */
+-	regmap_update_bits(priv->regmap, MT6358_AUDENC_ANA_CON6,
+-			   RG_CLKSQ_IN_SEL_TEST_MASK_SFT,
+-			   0x0);
+-
+-	/* Enable/disable CLKSQ 26MHz */
+-	regmap_update_bits(priv->regmap, MT6358_AUDENC_ANA_CON6,
+-			   RG_CLKSQ_EN_MASK_SFT,
+-			   (enable ? 1 : 0) << RG_CLKSQ_EN_SFT);
+-	return 0;
+-}
+-
+-/* use only when not govern by DAPM */
+-static int mt6358_set_aud_global_bias(struct mt6358_priv *priv, bool enable)
+-{
+-	regmap_update_bits(priv->regmap, MT6358_AUDDEC_ANA_CON13,
+-			   RG_AUDGLB_PWRDN_VA28_MASK_SFT,
+-			   (enable ? 0 : 1) << RG_AUDGLB_PWRDN_VA28_SFT);
+-	return 0;
+-}
+-
+-/* use only when not govern by DAPM */
+-static int mt6358_set_topck(struct mt6358_priv *priv, bool enable)
+-{
+-	regmap_update_bits(priv->regmap, MT6358_AUD_TOP_CKPDN_CON0,
+-			   0x0066, enable ? 0x0 : 0x66);
+-	return 0;
+-}
+-
+ static int mt6358_mtkaif_tx_enable(struct mt6358_priv *priv)
+ {
+ 	switch (priv->mtkaif_protocol) {
+@@ -252,69 +211,6 @@ static int mt6358_mtkaif_tx_disable(struct mt6358_priv *priv)
+ 	return 0;
+ }
+ 
+-int mt6358_mtkaif_calibration_enable(struct snd_soc_component *cmpnt)
+-{
+-	struct mt6358_priv *priv = snd_soc_component_get_drvdata(cmpnt);
+-
+-	playback_gpio_set(priv);
+-	capture_gpio_set(priv);
+-	mt6358_mtkaif_tx_enable(priv);
+-
+-	mt6358_set_dcxo(priv, true);
+-	mt6358_set_aud_global_bias(priv, true);
+-	mt6358_set_clksq(priv, true);
+-	mt6358_set_topck(priv, true);
+-
+-	/* set dat_miso_loopback on */
+-	regmap_update_bits(priv->regmap, MT6358_AUDIO_DIG_CFG,
+-			   RG_AUD_PAD_TOP_DAT_MISO2_LOOPBACK_MASK_SFT,
+-			   1 << RG_AUD_PAD_TOP_DAT_MISO2_LOOPBACK_SFT);
+-	regmap_update_bits(priv->regmap, MT6358_AUDIO_DIG_CFG,
+-			   RG_AUD_PAD_TOP_DAT_MISO_LOOPBACK_MASK_SFT,
+-			   1 << RG_AUD_PAD_TOP_DAT_MISO_LOOPBACK_SFT);
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(mt6358_mtkaif_calibration_enable);
+-
+-int mt6358_mtkaif_calibration_disable(struct snd_soc_component *cmpnt)
+-{
+-	struct mt6358_priv *priv = snd_soc_component_get_drvdata(cmpnt);
+-
+-	/* set dat_miso_loopback off */
+-	regmap_update_bits(priv->regmap, MT6358_AUDIO_DIG_CFG,
+-			   RG_AUD_PAD_TOP_DAT_MISO2_LOOPBACK_MASK_SFT,
+-			   0 << RG_AUD_PAD_TOP_DAT_MISO2_LOOPBACK_SFT);
+-	regmap_update_bits(priv->regmap, MT6358_AUDIO_DIG_CFG,
+-			   RG_AUD_PAD_TOP_DAT_MISO_LOOPBACK_MASK_SFT,
+-			   0 << RG_AUD_PAD_TOP_DAT_MISO_LOOPBACK_SFT);
+-
+-	mt6358_set_topck(priv, false);
+-	mt6358_set_clksq(priv, false);
+-	mt6358_set_aud_global_bias(priv, false);
+-	mt6358_set_dcxo(priv, false);
+-
+-	mt6358_mtkaif_tx_disable(priv);
+-	playback_gpio_reset(priv);
+-	capture_gpio_reset(priv);
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(mt6358_mtkaif_calibration_disable);
+-
+-int mt6358_set_mtkaif_calibration_phase(struct snd_soc_component *cmpnt,
+-					int phase_1, int phase_2)
+-{
+-	struct mt6358_priv *priv = snd_soc_component_get_drvdata(cmpnt);
+-
+-	regmap_update_bits(priv->regmap, MT6358_AUDIO_DIG_CFG,
+-			   RG_AUD_PAD_TOP_PHASE_MODE_MASK_SFT,
+-			   phase_1 << RG_AUD_PAD_TOP_PHASE_MODE_SFT);
+-	regmap_update_bits(priv->regmap, MT6358_AUDIO_DIG_CFG,
+-			   RG_AUD_PAD_TOP_PHASE_MODE2_MASK_SFT,
+-			   phase_2 << RG_AUD_PAD_TOP_PHASE_MODE2_SFT);
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(mt6358_set_mtkaif_calibration_phase);
+-
+ /* dl pga gain */
+ enum {
+ 	DL_GAIN_8DB = 0,
+diff --git a/sound/soc/codecs/mt6358.h b/sound/soc/codecs/mt6358.h
+index a5953315eaa2..b729c3899b7e 100644
+--- a/sound/soc/codecs/mt6358.h
++++ b/sound/soc/codecs/mt6358.h
+@@ -2307,8 +2307,4 @@ enum {
+ /* set only during init */
+ int mt6358_set_mtkaif_protocol(struct snd_soc_component *cmpnt,
+ 			       int mtkaif_protocol);
+-int mt6358_mtkaif_calibration_enable(struct snd_soc_component *cmpnt);
+-int mt6358_mtkaif_calibration_disable(struct snd_soc_component *cmpnt);
+-int mt6358_set_mtkaif_calibration_phase(struct snd_soc_component *cmpnt,
+-					int phase_1, int phase_2);
+ #endif /* __MT6358_H__ */
+-- 
+2.48.1
 
