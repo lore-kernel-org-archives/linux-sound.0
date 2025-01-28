@@ -1,130 +1,161 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2060.outbound.protection.outlook.com [40.107.223.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45623A1CD;
-	Tue, 28 Jan 2025 01:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738026660; cv=none; b=YODxdTn8N4ymBsnzvfA8RjAv0aeiw7KA6ocyACqeKIYrbarvQdnTQ1MjdLha+aWBe4u3/Q59YvAbSWUZ9XYE6upeAhtWFzoBeOcquTmGq0nEEpTMqRFYvHrTz6PdWcxmI+18HaGk/GlYzH1VMrvZfF2FjE0jqzTlCar1wjjqIZU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738026660; c=relaxed/simple;
-	bh=9Y9ifQAs4cn2c4vccyu4WadO175dQTf2XIDg7UBRWFU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=f17UjpRhEpQivwzF2g0WWwqi1B1pY7lQbSqg6QCQEm5FWRFBXAEiWWGB5tEU4jbfz6jGR3ybxM/tno+laoFJ4KJrkQIT9XBJsjPN0vdwtTM7+kMSP8ItFyoxfVaKvjeoxhdcnQxvsSTcLF2Z49ncujJf03vPBy51WbVKuewyYlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=LZMeVwsD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=g8ZxxBnN; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984D85789D;
+	Tue, 28 Jan 2025 06:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738046205; cv=fail; b=Bdvomq4cL6UelKxES/d59koIO7/OqEVLgv7NIkQWr+zYjjvk5k+za4fuxBamszWbDk75U8p3doeQ2gTFxJkj6bVePdm+ga/56NM2yRSs3j+FUShmcSyMMEFDLTlWCGJw7Vg5SGML64V6wBXLDlFIjNntLu04I2EOFnoMMv5UU6s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738046205; c=relaxed/simple;
+	bh=QdwHLDInjnYKeJfhl3HyVPmfKkyA7yYSBi0zGc5g5dw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BAJ0ys6LGAiyq0e5gomDPZGSoc5DwEt0tAUVo1e/K0FoP39gwXGjXkXgaqU8t5nqrsc8ulyw0X6Uly8ETEfm/XKgur35uYRpcumTF7/KiyfZd3AuEtB6jZ57sFMmxjm5U6k5844JYJs9LgKihksi/Qg9OAIkphjUaL2TwZ4Vz20=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NO2330/S; arc=fail smtp.client-ip=40.107.223.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="LZMeVwsD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="g8ZxxBnN"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id E3453114028A;
-	Mon, 27 Jan 2025 20:10:57 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-04.internal (MEProxy); Mon, 27 Jan 2025 20:10:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1738026657; x=1738113057; bh=9Y9ifQAs4cn2c4vccyu4WadO175dQTf2
-	XIDg7UBRWFU=; b=LZMeVwsDOHbrE65ahjKW0YsDxmBd348k10Xl+scqK8MoKcJ/
-	AvWgS/wmsqGbQn8oGdvrWVS9O76tyeA1Dx4SI5Wm+IJhM0zcSJ6gL4Yx1pcor8G5
-	KDgA8iw0iaM66X2GqRByV2uDp9OVR5YoRsjv8LwxP+jb8Fal18atc5BG1McY51lE
-	M3kobTsQe96+LBLcWZYcNBNyXCNFNwVzJOgmeYlA6h6dTNACBaEyUw5XF38V7QBp
-	61tnLP1Sc8h8InuyjPSJfwHpOL8/VSCK2yaIDn/Qg2wWAMZPqt7IckZvnkfFgWN/
-	fBXJscyK7xwqT6omXW/bkG7uuYmM7mDWPxAu3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1738026657; x=
-	1738113057; bh=9Y9ifQAs4cn2c4vccyu4WadO175dQTf2XIDg7UBRWFU=; b=g
-	8ZxxBnNB6r0QBtTmNNSZsmGpKKWb8PNcZRJlJ4TD8RM4PG+bA0XUfeMo6SfIXwmY
-	cWL4/q6GFz+3rW8ubDX696Tg4Pzx0Q58ox27FeQhQDbhDzNymNJmA7sawesoABCv
-	T1oBtWRrMZuHm44spmFJxonBMzPpbjmFoazZmZChIvspPVYLu2wULh6f6U+Ftt1F
-	DO4saFODU1DxL9b4T0d0H3V8yUNPuQ1S1fox1Fiu3ZO9ZUL/0fzuvzTEWzeFCwlw
-	WiVaRT7TQGQwnm3ubae/9jfo1c/BrUW8JBtmtRvrG91YVe7jtwKPeeJ5RfMGLg46
-	omEg99MxaLeEkifmIk6yA==
-X-ME-Sender: <xms:oC6YZ7tDBT4d9rAs3oJQ9Bkks_80SIiF9Y2Z2z0wy5sFpdhmM2GNYQ>
-    <xme:oC6YZ8f0cQXKuFI1y609kpDuWbUx87IJpzsXX6MG-QbsfOVP9Ou_oO1FbWjMibdY4
-    0fLjxiTMthdWyKCTQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejgedgudegjeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertder
-    tdejnecuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtth
-    horghsthdrtghomheqnecuggftrfgrthhtvghrnhepgefhgfektdeuieduueekvdevvefh
-    udeuhfehvdeigfffudehueeiieehhfefgfevnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomheprhihrghnsehtvghsthhtohgrshhtrdgtohhmpdhn
-    sggprhgtphhtthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepfigvnh
-    hssegtshhivgdrohhrghdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhm
-    rghilhdrtghomhdprhgtphhtthhopehlghhirhgufihoohgusehgmhgrihhlrdgtohhmpd
-    hrtghpthhtohepmhgrtghrohhmohhrghgrnheshhhothhmrghilhdrtghomhdprhgtphht
-    thhopehufihusehitggvnhhofiihrdhmvgdprhgtphhtthhopegsrhhoohhnihgvsehkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhi
-    shhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdhsuhhngi
-    hisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepphgvrhgvgiesphgvrhgv
-    gidrtgii
-X-ME-Proxy: <xmx:oC6YZ-xaROToKlvlj2JmOZDqieFzTUgnLMYCfnFV7OnENNjYNp0NMA>
-    <xmx:oC6YZ6MqPlmJssMktbVS3zjWHlqlF5TLhci4YXcFyejlD7jOeXlz8g>
-    <xmx:oC6YZ79dTr6S0gJI322w0ubHmXLmeDsEB67JjVrFMK8EL-cssukNwg>
-    <xmx:oC6YZ6Ugkv565B2m4tjlNC1RJC4HDq21Mq5fD0Vxn7dPRlj1Xsl_9A>
-    <xmx:oS6YZ-W19g9RCkHYsRP3Ba6glrUiwjZYmtH1UcfzfZNr2LZ1Fn8b4msU>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 6149EBA006F; Mon, 27 Jan 2025 20:10:56 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NO2330/S"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jZxPQvt/aJJNDelWJUN55Lrzy5OeVsdd3U1JjgDy24vuZIS+I3hsIKCTSTytr6+rv6xfDhKd0lJ5JrsevYz41BDZ2bpC1j+oRIEYbOz6k9gAMliNlIetqoy+q/caKZeoKK5kiO+8i3Tt8GF6AKKkEddK9NF6eDijJ4xLDBfiqcV6Q/l3ULvlOeH0MqrjG9SzURwufvOD7GTuqPEBEnFC6bwITCp4+LXXOR6S7U86jjuR5YosshFYGCD05+ELY02JBt3Iq8nhpNZeB9WHwKp5vjS8poFy26JjhhZ4MG2+qVd3cvM7h537eA/PTGZs8Xc02wUOECKZI9vBW4Xf8vQXqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gryCGFVJ/63O3+D2eN4RzcgIqzqmzaTCTDijhKkpxVI=;
+ b=ql2FAIp3yk9nyOamxvirPglx4zfJ3WP11ex8i8VBRikwHHhfTA/ntYF4IikFnxbh3ZHlGbEDb01jfmaLc5XTK1U44AykpBUdYwZzosHcSIf8X1C1dqYP/614W5vRQhgXidyTcalwRHgozgWRYfW2OVt/qeOGqlsIxmzNapgCtVoZERyzL2XB+dlk/wWCD7Lj5gEa9XWVN7g05Tv9tku3es+gN0mKdUmTFw/Emy04WtBD+m2swuPWwJ8cBk5O78BYhfiQiK6BwWLjUeJWCs+TSDbGSplf+qKw8/79pyENKVL33tTJ1yG0576mDXZzix+p/TNg/bjalRUC1CdSWXa/zA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gryCGFVJ/63O3+D2eN4RzcgIqzqmzaTCTDijhKkpxVI=;
+ b=NO2330/SAuaFmIntBw0LFp7XCE1YGhcWGVynquTdIYarmXm+DFyIh7QQPQ/TAv6ZUyj/dxYFeQ0h9mrGrlljdvnV+Am4OK2waHuVj7i9W1/4pqD7GPF/zK5ByNWLoKWqK7Y5MfPWz5LfIYGmgOjsUMLrxZehwuOpc5i6z/HklPM=
+Received: from BYAPR04CA0031.namprd04.prod.outlook.com (2603:10b6:a03:40::44)
+ by SN7PR12MB6838.namprd12.prod.outlook.com (2603:10b6:806:266::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.22; Tue, 28 Jan
+ 2025 06:36:40 +0000
+Received: from SJ1PEPF00001CDC.namprd05.prod.outlook.com
+ (2603:10b6:a03:40:cafe::ab) by BYAPR04CA0031.outlook.office365.com
+ (2603:10b6:a03:40::44) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8356.21 via Frontend Transport; Tue,
+ 28 Jan 2025 06:36:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF00001CDC.mail.protection.outlook.com (10.167.242.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8398.14 via Frontend Transport; Tue, 28 Jan 2025 06:36:40 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 28 Jan 2025 00:36:36 -0600
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <vkoul@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <yung-chuan.liao@linux.intel.com>,
+	<pierre-louis.bossart@linux.dev>, <sanyog.r.kale@intel.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <Mario.Limonciello@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH V3 0/6] soundwire: amd: code improvements and new platform support
+Date: Tue, 28 Jan 2025 12:06:18 +0530
+Message-ID: <20250128063624.1922470-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 28 Jan 2025 14:10:30 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Icenowy Zheng" <uwu@icenowy.me>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Mark Brown" <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, "Chen-Yu Tsai" <wens@csie.org>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- "Chris Morgan" <macromorgan@hotmail.com>
-Message-Id: <c5ade280-d607-4870-a4e0-7d455f6bc6c3@app.fastmail.com>
-In-Reply-To: <db43243ea653073d223e640f064cd480da7e2cf5.camel@icenowy.me>
-References: <20250125070458.13822-1-ryan@testtoast.com>
- <20250125070458.13822-6-ryan@testtoast.com>
- <db43243ea653073d223e640f064cd480da7e2cf5.camel@icenowy.me>
-Subject: Re: [PATCH v2 5/5] ASoC: sun4i-codec: change h616 card name
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDC:EE_|SN7PR12MB6838:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3e021d0-9f0e-47cf-fbbd-08dd3f661f98
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Zs1nrePTt+0OmoxgE9QDas+TuGxMX4LL9MFiG8xoeM7pGMoqCb1FD6vEW5/Z?=
+ =?us-ascii?Q?KOL5P7DbpO3s/ALAIQ7lzTlji/5G1qv7DvcTlnJ20rSozRE+zJSqwbW3Ikxd?=
+ =?us-ascii?Q?2mCstUlZ1QAtmiAPBc6/YGz1dmGGEV7TH3ESQSdFSWJnwD6kMIkSiR6xmQ+S?=
+ =?us-ascii?Q?5TYlRzhd5/QXqIB0eOyOGSySl/STs0blOwLGyBlLdft896qJ4NG8ipb99ICf?=
+ =?us-ascii?Q?id2basK5xJC2EFjnyUrppCwsNqplE4ur2MXpAE8iWhSxbGc4XQSYXsaI/2om?=
+ =?us-ascii?Q?FvpHwTi8ptDnXpXPOm8fC0yI51rlQs1kUrGHshuQS0/qQCihB4pBvcqSmOPP?=
+ =?us-ascii?Q?ryvBJDouzhiu6BQ7FhLoCUTxjK9rnX2obg6uEtRaisSEtKoFfZh5W8JdmYe1?=
+ =?us-ascii?Q?2fJXfGnBCpRxWgDPhDBaPwf3ZvI2X4k50Wd7N3mGFv9Rep22jMvRofq0ISHM?=
+ =?us-ascii?Q?pTn0erNdbBSc3dSmdDBZxsMMHf0JyHolUumJKURgWYJhhsFraN/Qmc9rcgGb?=
+ =?us-ascii?Q?ggqdtEkpmX7ZeTCKzT6PX/hMdwKj7qqnG9d7miBjpkS1x1VSwukSDJ8tfAbm?=
+ =?us-ascii?Q?C3j/ktUw5ehh3jI7jN1130tezSApqPC8U8baFdzCAo2NQq7k6Kp3Benj9Mjj?=
+ =?us-ascii?Q?S1kAA0Gn5IRE092qqgWRxddb8Wz22L7MWeKy4ZuQKMWb9lfcPL/8Obpaq2i9?=
+ =?us-ascii?Q?jmMPl5CMuIRffAxyJQOfWynhifP6qJQjK8g69RgxQ2HWYSirRcWIymBF4dQz?=
+ =?us-ascii?Q?nyoaO5DmGXyyB0eikQkMSOGXl8RnCIJyDtnPjmTfzlV/yZoc63uB7GoopCR3?=
+ =?us-ascii?Q?dOtBCBfTYuizKF5tcrGr5eCms+uvPtci6+RZhFegYENhwLMezQucrwp+2XBq?=
+ =?us-ascii?Q?0A2fxpx9/vIYIh2k2tG6Io0lQT3YwJoSBPEt0r0nervQyqncclkRxyFz4KJA?=
+ =?us-ascii?Q?tYhrOxTRHgBSe3s86URZX+2iU3ZQu7evVypPqGgkE4QBp7yC8Ncxbj18cuWp?=
+ =?us-ascii?Q?Oh2wwEi9BgEv6Sa4+k4mp0ILAQ/twuFzQ/SIrq4PD3f5vj97ICUeYMkPm353?=
+ =?us-ascii?Q?F+lER8BFLqHs+MLeuf0vCIFZ8zTleqYPYhqXqeshO66K8H4N9je6vAJhMNYD?=
+ =?us-ascii?Q?TQO/pvEUT029Var75Zmvpfzoyy/7IHfPArN/YyDStYL7gIKgKJisjQ/Jg11O?=
+ =?us-ascii?Q?/ol6sgRZwBLf62SvqCnjf+QAsPrN0grgJ1fbSl3QavyehCL+/jtblJy0ePjP?=
+ =?us-ascii?Q?/kR7chXmvUtU2LvzojhKcK+f5fVEXWto6oDtNW4zeIIbbbNZ1lgEeINlq2Zi?=
+ =?us-ascii?Q?lkYoFK3/uQ0RmDAXNOyGz70JL+buQBOmHwZNzmo0bsE97v5f3z2paWEZ7F0n?=
+ =?us-ascii?Q?pSo5Kk/VcUCzLLrFfFyQ0Pq6gnBa4/IctrvFZNR+n/Vw4o14Vm1hjxe7x6x8?=
+ =?us-ascii?Q?2LslKOMHaHj1gDU15tjIR5FS60Gv0vlXc9b/ftDoCbaNxWzoFfTlS6SFQuRv?=
+ =?us-ascii?Q?KxSL742apsXC+FY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2025 06:36:40.4249
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3e021d0-9f0e-47cf-fbbd-08dd3f661f98
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CDC.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6838
 
-On Sun, 26 Jan 2025, at 8:51 PM, Icenowy Zheng wrote:
-> =E5=9C=A8 2025-01-25=E6=98=9F=E6=9C=9F=E5=85=AD=E7=9A=84 20:00 +1300=EF=
-=BC=8CRyan Walklin=E5=86=99=E9=81=93=EF=BC=9A
+This patch series consists of code improvements and new platform support
+for ACP7.0 & ACP7.1 platforms.
 
-Hi Icenowy, thanks for reviewing!
+Changes since v2:
+- Rebase the patch series after dropping the patch which adds conditional
+  check for SoundWire manager device resume when wake event is asserted.
 
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0card->name=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=3D "H=
-616 Audio Codec";
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0card->name=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=3D "h=
-616-audio-codec";
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0card->long_name=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=3D "H616 Audio Codec";
->
-> I think it's part of the userspace API that should be kept stable.
+Changes since v1:
+- Drop white line insertion in the code.
+- Add a conditional check for SoundWire manager device resume when wake
+  event is asserted.
+- Add new patch to set ACP_PME_EN during runtime suspend sequence
+- Split the existing implementation of host wake interrupt mask
+  enablement and setting device power state in to two separate patches
+  and refactor set device power state logic.
+- Drop PME status clear logic.
 
-I don't have a strong feeling about this change, but can anyone suggest =
-any other options for how to manage this name being picked up by UCM as =
-a file path? I guess the UCM paths can include spaces, but this is sligh=
-tly unwieldy and may break if proper escaping is not done.
+Vijendar Mukunda (6):
+  soundwire: amd: change the soundwire wake enable/disable sequence
+  soundwire: amd: add debug log for soundwire wake event
+  soundwire: amd: add support for ACP7.0 & ACP7.1 platforms
+  soundwire: amd: set device power state during suspend/resume sequence
+  soundwire: amd: set ACP_PME_EN during runtime suspend sequence
+  soundwire: amd: add soundwire host wake interrupt enable/disable
+    sequence
 
-Would appreciate if any of the ALSA devs could weigh in on best practice=
- here.
+ drivers/soundwire/amd_manager.c   | 150 +++++++++++++++++++++++++++++-
+ drivers/soundwire/amd_manager.h   |  26 ++++++
+ include/linux/soundwire/sdw_amd.h |   2 +
+ 3 files changed, 173 insertions(+), 5 deletions(-)
 
-Regards,
+-- 
+2.34.1
 
-Ryan
