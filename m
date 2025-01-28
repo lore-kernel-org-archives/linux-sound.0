@@ -1,156 +1,89 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DF71D90B9;
-	Tue, 28 Jan 2025 07:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B775A1AA1D2
+	for <linux-sound@vger.kernel.org>; Tue, 28 Jan 2025 15:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738050567; cv=none; b=EvBCurXgjky2GwDMbxoe2jOxWkDu/9+y9tBwEakf7OI5Dzz5VsalOuyxYPqt5P+cZcjy6YQsL+flhMLiGf/TOv4EBZKbwSJm+o3oJFiwt1zp15pnONR8yDD0TuACFB/09oXzeCOM/bw17QTQURFio0seBlxwWNpvhBlrPOFAL1I=
+	t=1738077736; cv=none; b=uqKI2SgWFgrpuRSlht6WkNS8CwZHVNet1OehX5VGpL+mQpM6TZMt0AGcZDUQKW1Y8EUSY0obDqT7ylk4xvKw8qvrnBvhCSTUnIi36h9stObtxZjJNdIysGoNj2OF1rziFwcsRKuGIYmtMoBHxNYHjVOSOGWzof2hHMMPBbmpMEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738050567; c=relaxed/simple;
-	bh=OqabXOVUj+7BmDTPsq7BqWo3Y9j8mzIqHwyEsExt3Ms=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jupUqBwD695MYAKPCAbqVLrVZSXihGzEayeSmwghTeg3qb7Zhj5wsIhQEQ2efYOafjTDU+3gotfb94YImLmhvchnKCPFTgBzIxQfHCMXO8kOG8wSMVBKAr0dYpqUDe7owWJn2PcrqO1eKnm0TPZe/McPNd9W6ptx9kbRsB6WbSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oP14Djuo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hLUp+NXO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oP14Djuo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hLUp+NXO; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1738077736; c=relaxed/simple;
+	bh=fBhXCOxlE0sDtXA5KqGMsuFwhadcWorovaetBrcwlac=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sgsTta3lrErnX17a+KsX58uxHEgaNgHX96MkuAz+Larqr5hsA+FQ9upgT5+uGyld2FYrbREAo8+wcaXvWdioMwPg7uf4Qcxs6niaDRDuD1VkFIpwIuhSoalei5a2xoyvP0MxrOL47G1aPZA9vOhdObp8oVn4FEcJOnIll0ha6Bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eMt+HqjR; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oP14Djuo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hLUp+NXO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oP14Djuo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hLUp+NXO"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 06A2A1F381;
-	Tue, 28 Jan 2025 07:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738050558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eMt+HqjR"
+Message-ID: <e5b1c3bf-4457-4859-92fc-785f7d6037fa@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1738077717;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uYm7XSChDjSt1mgpvong8wmj80J9nFKJjw/dqbtHXvA=;
-	b=oP14DjuoMIUIqkn9UmZo8eaUHIpXX43HhmvZIDdLh9GMFssL03v9rrW8vl6md1qBxSxJ00
-	Co4Fih29yQ7D1hACT9agsYiQnmjUkMl0k7Bi8CNbOzyCi5SSwnKH6geKE9m5mBCzXWDtPB
-	BfWEEA3clzeWhXqBulQN+9UtrUICXcw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738050558;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uYm7XSChDjSt1mgpvong8wmj80J9nFKJjw/dqbtHXvA=;
-	b=hLUp+NXOYz6QmioUxEWF/NIUt8F6bUoR1KlmLf498QNe3CyJh3uUH0po5IvStlz3OG8i1A
-	Eugb8pSZggOwBRBw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oP14Djuo;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hLUp+NXO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738050558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uYm7XSChDjSt1mgpvong8wmj80J9nFKJjw/dqbtHXvA=;
-	b=oP14DjuoMIUIqkn9UmZo8eaUHIpXX43HhmvZIDdLh9GMFssL03v9rrW8vl6md1qBxSxJ00
-	Co4Fih29yQ7D1hACT9agsYiQnmjUkMl0k7Bi8CNbOzyCi5SSwnKH6geKE9m5mBCzXWDtPB
-	BfWEEA3clzeWhXqBulQN+9UtrUICXcw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738050558;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uYm7XSChDjSt1mgpvong8wmj80J9nFKJjw/dqbtHXvA=;
-	b=hLUp+NXOYz6QmioUxEWF/NIUt8F6bUoR1KlmLf498QNe3CyJh3uUH0po5IvStlz3OG8i1A
-	Eugb8pSZggOwBRBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B317413625;
-	Tue, 28 Jan 2025 07:49:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id b/YZKv2LmGf0RgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 28 Jan 2025 07:49:17 +0000
-Date: Tue, 28 Jan 2025 08:49:17 +0100
-Message-ID: <87zfjb9y4i.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: yangchenyuan <chenyuan0y@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	pavel.hofman@ivitera.com,
-	jbrunet@baylibre.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zijie98@gmail.com
-Subject: Re: [PATCH] ALSA: pcm: use new array-copying-wrapper
-In-Reply-To: <20250127160655.3119470-1-cy1yang@outlook.com>
-References: <20250127160655.3119470-1-cy1yang@outlook.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	bh=KpQ8AJ1oQ+zA8JdYVE8VfY7psb5v8TlvoPlHMv2Bvyo=;
+	b=eMt+HqjRRzqMKqRCQAdkxEZ7/e4vTqMZjpNUgTlxMvQ/e9u2KRg2I90aRhgrUW6idDK13p
+	Kl4wCkgF0QBFLWy8XO48F1+5ym4v3JSyzP6cC77M8ri8aSbW/xM89TWMG+bWLrUxRhpflB
+	oR9TRuboIbJKVMTpyVLk6YRRh18Cs1I=
+Date: Tue, 28 Jan 2025 09:11:29 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 06A2A1F381
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,zeniv.linux.org.uk,kernel.org,ivitera.com,baylibre.com,vger.kernel.org,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
-
-On Mon, 27 Jan 2025 17:06:55 +0100,
-yangchenyuan wrote:
-> 
-> From: Chenyuan Yang <chenyuan0y@gmail.com>
-> 
-> This is found by our static analysis tool.
-> 
-> pcm_native.c utilizes memdup_user() to copy an array from userspace.
-> 
-> There is a new wrapper, specifically designed for copying arrays. Use
-> this one instead.
-> 
-> This is similar to the 
-> commit 3e91a38de1dc ("fbdev: viafb: use new array-copying-wrapper").
-> 
-> Fixes: 67616feda99e ("ALSA: pcm: Unify ioctl functions for playback and capture streams")
-
-This use of Fixes tag is misleading: the original code is correct, per
-se, and the original commit was 4.14, where it had no no
-memdup_array_user() available (introduced since 6.7).
-
-So I applied with the drop of Fixes tag.
+MIME-Version: 1.0
+Subject: Re: [PATCH v9 0/5] Support system sleep with offloaded usb transfers
+To: Guan-Yu Lin <guanyulin@google.com>
+Cc: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+ mathias.nyman@intel.com, stern@rowland.harvard.edu, perex@perex.cz,
+ tiwai@suse.com, sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com,
+ ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20250117145145.3093352-1-guanyulin@google.com>
+ <943a7b09-8e77-4813-810a-18fea0e61482@linux.dev>
+ <CAOuDEK3aip9SLCUPOzpVPwx-O4rmF-+sQrF4GJasGPBzV=qJdg@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <CAOuDEK3aip9SLCUPOzpVPwx-O4rmF-+sQrF4GJasGPBzV=qJdg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
 
-thanks,
+>>> 2. Power Management Adjustment:  Modifications to the USB driver stack
+>>> (dwc3 controller driver, xhci host controller driver, and USB device
+>>> drivers) allow the system to sleep without disrupting co-processor managed
+>>> USB transfers. This involves adding conditional checks to bypass some
+>>> power management operations.
+>>
+>> This is even more confusing, initially the point was to prevent the controller from sleeping while there are offloaded transactions, but now the goal would be to allow the system to sleep while there are offloaded transactions. This isn't the same problem, is it?
+>>
+> 
+> The purpose of this series is to allow offloaded usb transfers happen
+> during system sleep. In order to achieve this, we need to prevent the
+> controller from sleeping when there's offloaded usb transfer ongoing,
+> specifically when the system is sleeping.
+> Without this series, the system could still allow offloaded usb
+> traffic when the system is active, but the system would put the
+> controller to sleep when the system is going to sleep, thus we're not
+> able to suspend the system when we have offloaded usb transfers in the
+> current system.
 
-Takashi
+I am not following, sorry.
+
+Is the desired outcome to 
+
+a) prevent the system from entering S3 if there is an active USB audio offloaded stream?
+
+or b) allow offloaded transactions even when the system is in S3?
+
+
+which is it?
+
+a) would be rather interesting, but currently we don't have any such behavior supported. When the system enters S3 all audio stops. The stream will resume when the system goes back to S0. Do we really want the battery to drain in S3?
+
+b) seems rather complicated, once the on-going DMA transfers complete then who's going to refill buffers for the USB offloaded streams? Allowing the lowest level to operate even in S3 is only a small part of the puzzle, someone's got to provide data at some point. Unless the data is generated also by a side DSP having access to mass storage or wireless interfaces?
