@@ -1,89 +1,112 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B775A1AA1D2
-	for <linux-sound@vger.kernel.org>; Tue, 28 Jan 2025 15:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D56198E65;
+	Tue, 28 Jan 2025 16:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738077736; cv=none; b=uqKI2SgWFgrpuRSlht6WkNS8CwZHVNet1OehX5VGpL+mQpM6TZMt0AGcZDUQKW1Y8EUSY0obDqT7ylk4xvKw8qvrnBvhCSTUnIi36h9stObtxZjJNdIysGoNj2OF1rziFwcsRKuGIYmtMoBHxNYHjVOSOGWzof2hHMMPBbmpMEg=
+	t=1738080421; cv=none; b=bBSQpbdp8UiUuF4EFel4+HS0Gz/g5NPd987oP0l52FJCOF/DU7kXs0cImDrAdu3RXlVJhZXbtrVDjLIP2Y/wyVk7Lvsy7FNJkkFrjfYrnG+UMjv3ZrmysjFfdTl051o24VoukqR3o9OC9eo2QmqXSWzaGG9oiX3Q8zkOi6sz60c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738077736; c=relaxed/simple;
-	bh=fBhXCOxlE0sDtXA5KqGMsuFwhadcWorovaetBrcwlac=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sgsTta3lrErnX17a+KsX58uxHEgaNgHX96MkuAz+Larqr5hsA+FQ9upgT5+uGyld2FYrbREAo8+wcaXvWdioMwPg7uf4Qcxs6niaDRDuD1VkFIpwIuhSoalei5a2xoyvP0MxrOL47G1aPZA9vOhdObp8oVn4FEcJOnIll0ha6Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eMt+HqjR; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1738080421; c=relaxed/simple;
+	bh=72CqtFa0s+S+ehOLzrAZMzUPN1XmE6QGRWqZ2UIGtHM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hJOpK0liesiowvreuthuz4mPbvJLY7kO9Xk48OSjyi4L0+E7/4Ng4f6Zwd5WblgPT5vLuwvHajfZpd77RPTUty/DITUrJ8mCvvE07skCQFXNjMWgrhsf7ZYzEash/JjQunk2BLl4R9TOn+X/H6wYMTlgnGDSK3hYKR+tEgP1zQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DSFsOFHE; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eMt+HqjR"
-Message-ID: <e5b1c3bf-4457-4859-92fc-785f7d6037fa@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1738077717;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KpQ8AJ1oQ+zA8JdYVE8VfY7psb5v8TlvoPlHMv2Bvyo=;
-	b=eMt+HqjRRzqMKqRCQAdkxEZ7/e4vTqMZjpNUgTlxMvQ/e9u2KRg2I90aRhgrUW6idDK13p
-	Kl4wCkgF0QBFLWy8XO48F1+5ym4v3JSyzP6cC77M8ri8aSbW/xM89TWMG+bWLrUxRhpflB
-	oR9TRuboIbJKVMTpyVLk6YRRh18Cs1I=
-Date: Tue, 28 Jan 2025 09:11:29 -0600
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DSFsOFHE"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-218c8ac69faso10898265ad.3;
+        Tue, 28 Jan 2025 08:07:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738080419; x=1738685219; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=72CqtFa0s+S+ehOLzrAZMzUPN1XmE6QGRWqZ2UIGtHM=;
+        b=DSFsOFHEgdGy8MkfDHFMm2fzySEW7q2bu9e1G5P+moD9mYYtOkBBZsZuOgTi9Z4+ko
+         DJXHhhSR4pV2QH2Rt2QkolzPc3mXVvIlxj8rX+/F63alauD88BIkDjNeQyPydhYJ3Omw
+         VzLZwbtk16vdMI29DZK+zGh3+CC310O7lOB0/IFBDoZNqH9qoU7H7GLQZ1Ml8ALM/92y
+         L8hCX+N2UVK3EfJOjGTy45CWM/T4p6SU6NYsyE5vsWR/IJWjCF9uGxNkX7J69HimhwaD
+         IGq+XzYXt8BuZbXdTwUhULjSCRM6jZcEaQmO46v6gKjuZUmP03zEoDhzwK0HxaxVd7cn
+         v1Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738080419; x=1738685219;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=72CqtFa0s+S+ehOLzrAZMzUPN1XmE6QGRWqZ2UIGtHM=;
+        b=btuPeL/Xqg1WnZnQxVH0p4kJGROLq+EcfIUAI3w9aK7CHOlbpMjq+EY9BadgEhP76r
+         1cTMlNAWIXrAJPh+ui2LehnPDX7vtV4opa0VfMpqYlsIOOLH080txG6nOJ/8LNXpAkOg
+         XkQBdgy7QXAliuU7vBsVoRtoHlEk85kLLfsFIN00M91zVIQNdroeu/uiCsVqbUI8JKsA
+         8LeWH2Hf3aQp2fAWvICUStmgdOmzPc/uwb6kqivNAAYQsbOm6BqWdt9PylxOiSXjvTt+
+         m2B7YgHI2Nnh9PvLGzL/fUVxY/3PdhIc60eFRVTTH0ieSeKAMvoPlFtQubk94P2ceP8m
+         XO4A==
+X-Forwarded-Encrypted: i=1; AJvYcCU/ikOxkzXSNFvMUD7jd13JS2bNtJqhJIMZzdJ+VtFzLLdGpG5jd3sTlrg18XlwYuZNEINFl6cWUxC3coc=@vger.kernel.org, AJvYcCW2M14FGlwZssCqYeAWjncpcDODxyBgNAiovuvNzQpndExP6X7bZTSuqJfXo5qA9t1XNgbBPqPAzaIpfho=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLdhweb366oxlJuuM0hQ95m54WHMVOi/b46xoiVNLPnnZFn9eB
+	Ui+eRAl6mTYajlUkeUFrnO4TcaivjnLheZq9PgIanuW2HGHqIQrmS9xo5wG+ooli3Qx2r5gSWGa
+	rxgiXZRjh1v85ZbGj+f5179Gu3w==
+X-Gm-Gg: ASbGncsBgzYStsegHJ92uptaWWWLRQisdD0otuBNlDTml2n017nRIxOlTx/Z5Vy2oyq
+	CzFYATxCitNMq79WSOd/CtpKmBa2Y0q2VqC883OgYdh/TZe5HOO1upHJkYn5pQ8A3xMgXmPUGkw
+	==
+X-Google-Smtp-Source: AGHT+IFMhzzha3ITVYsP3UjSge2V1Bhreq5ulExaRKLwNbPslam3IiBQTLNZlKZXmYPKirsV7ph/yQTVxYWMc1Egq28=
+X-Received: by 2002:a17:903:2449:b0:215:5f17:4296 with SMTP id
+ d9443c01a7336-21c35553894mr250622085ad.8.1738080419489; Tue, 28 Jan 2025
+ 08:06:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v9 0/5] Support system sleep with offloaded usb transfers
-To: Guan-Yu Lin <guanyulin@google.com>
-Cc: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
- mathias.nyman@intel.com, stern@rowland.harvard.edu, perex@perex.cz,
- tiwai@suse.com, sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com,
- ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20250117145145.3093352-1-guanyulin@google.com>
- <943a7b09-8e77-4813-810a-18fea0e61482@linux.dev>
- <CAOuDEK3aip9SLCUPOzpVPwx-O4rmF-+sQrF4GJasGPBzV=qJdg@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <CAOuDEK3aip9SLCUPOzpVPwx-O4rmF-+sQrF4GJasGPBzV=qJdg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250127160655.3119470-1-cy1yang@outlook.com> <87zfjb9y4i.wl-tiwai@suse.de>
+In-Reply-To: <87zfjb9y4i.wl-tiwai@suse.de>
+From: Chenyuan Yang <chenyuan0y@gmail.com>
+Date: Tue, 28 Jan 2025 10:06:48 -0600
+X-Gm-Features: AWEUYZmuhiXutR-P_T3cSad0D7C0PwHFJltNiJ9JsAMrUDUxVPjK-5EoSCKlA4I
+Message-ID: <CALGdzurXfO+fwVJ+JR5de-KfsudeBYdYkYRObBtU3mMq5vN5ug@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: pcm: use new array-copying-wrapper
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, pavel.hofman@ivitera.com, jbrunet@baylibre.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, zijie98@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Takashi,
 
->>> 2. Power Management Adjustment:  Modifications to the USB driver stack
->>> (dwc3 controller driver, xhci host controller driver, and USB device
->>> drivers) allow the system to sleep without disrupting co-processor managed
->>> USB transfers. This involves adding conditional checks to bypass some
->>> power management operations.
->>
->> This is even more confusing, initially the point was to prevent the controller from sleeping while there are offloaded transactions, but now the goal would be to allow the system to sleep while there are offloaded transactions. This isn't the same problem, is it?
->>
-> 
-> The purpose of this series is to allow offloaded usb transfers happen
-> during system sleep. In order to achieve this, we need to prevent the
-> controller from sleeping when there's offloaded usb transfer ongoing,
-> specifically when the system is sleeping.
-> Without this series, the system could still allow offloaded usb
-> traffic when the system is active, but the system would put the
-> controller to sleep when the system is going to sleep, thus we're not
-> able to suspend the system when we have offloaded usb transfers in the
-> current system.
+It looks great to me! Thanks so much for your help!
 
-I am not following, sorry.
+Best,
+Chenyuan
 
-Is the desired outcome to 
-
-a) prevent the system from entering S3 if there is an active USB audio offloaded stream?
-
-or b) allow offloaded transactions even when the system is in S3?
-
-
-which is it?
-
-a) would be rather interesting, but currently we don't have any such behavior supported. When the system enters S3 all audio stops. The stream will resume when the system goes back to S0. Do we really want the battery to drain in S3?
-
-b) seems rather complicated, once the on-going DMA transfers complete then who's going to refill buffers for the USB offloaded streams? Allowing the lowest level to operate even in S3 is only a small part of the puzzle, someone's got to provide data at some point. Unless the data is generated also by a side DSP having access to mass storage or wireless interfaces?
+On Tue, Jan 28, 2025 at 1:49=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Mon, 27 Jan 2025 17:06:55 +0100,
+> yangchenyuan wrote:
+> >
+> > From: Chenyuan Yang <chenyuan0y@gmail.com>
+> >
+> > This is found by our static analysis tool.
+> >
+> > pcm_native.c utilizes memdup_user() to copy an array from userspace.
+> >
+> > There is a new wrapper, specifically designed for copying arrays. Use
+> > this one instead.
+> >
+> > This is similar to the
+> > commit 3e91a38de1dc ("fbdev: viafb: use new array-copying-wrapper").
+> >
+> > Fixes: 67616feda99e ("ALSA: pcm: Unify ioctl functions for playback and=
+ capture streams")
+>
+> This use of Fixes tag is misleading: the original code is correct, per
+> se, and the original commit was 4.14, where it had no no
+> memdup_array_user() available (introduced since 6.7).
+>
+> So I applied with the drop of Fixes tag.
+>
+>
+> thanks,
+>
+> Takashi
