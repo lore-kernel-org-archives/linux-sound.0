@@ -1,178 +1,169 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CD41BBBEB;
-	Thu, 30 Jan 2025 11:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E041EEE6
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jan 2025 12:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738234974; cv=none; b=ZeUiHC77fuy5nYFZgD2XnveM+mKQy/yCKL+HBduwG1kBfny3xbFV6rk9cKOdfbqIKQ+56o7EZc+bc42DgnU3+WJrNI8UtYKPLGWJwYnjyh5bE0WX92Ya6bYNOoQ7VRjpMGJCviPce7j3t13o1/jJjgVQNsXf6VGl96XX5xaZuGY=
+	t=1738240388; cv=none; b=oK+ppwlcKTPtgV1QcXkyYFUVFo1MiLErmFhHj6GLxUkPxAG89wGPfdPM/jjSgm5+LTgxYYiujCzCOdMvsXiXftHDpXgPb7nSuRJQUsp1Lt5edVvxJI0lRvwht0BObuHczKnfVKWOWowpoBcdw+k2EFXjruhKnT1ZO4HpVV8CBFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738234974; c=relaxed/simple;
-	bh=+t4JrvrPiLsj7bfb840h38pFA44a5hm5mtWmRSYdCpU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=bR9un1CPdwQMvRHOQ9+Dffxe0SW8y6ttVU0BOlVjrd4n0l7DJOC+s+7voBwTmqlgsQ+opwzVkRiVDWwFa7LtDUCOg6PDuHAxaQKMu1lbsb6EuSpKadqbRNBYac9dK7gh+ky9RR7L/8e8Ynv9x0CdpqrZQucUxlk7AmxV2vU9ols=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=EbrlbQSA; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1738240388; c=relaxed/simple;
+	bh=UeavEXYZpa+OrgeOUD7jDuzEvB8pLQNEyKqW3Yb/3cc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=VuEHPXVbFSgBgM6dcH62Tc7ZRYCDC1RdI6aN7JchxubPdFqP8rAj/bKXNMrEw5C7QhU2461Bb9oDQxljmzFpsEr/qm+RYsEQnX2WVCHWxJ1udtLeXe688Fck3tVBg6HNbDRhoR9Oi/RIXoYDWcBm7B2lztcgnH9U1M+aq48H1dU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fWYaS0SJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FrahcR6Y; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fWYaS0SJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FrahcR6Y; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="EbrlbQSA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1738234870; x=1738839670; i=markus.elfring@web.de;
-	bh=+t4JrvrPiLsj7bfb840h38pFA44a5hm5mtWmRSYdCpU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=EbrlbQSAj+f38PA8703tTZaMiR4ayuD9Qrvyd9QGYqJH7YthbOq//pBZda9lk8L/
-	 8Z/bzqm9AcXAMhwbS7RdUkARLZ8bEvd0EdUhD+FRE9AbkWXJxoHLcoT2yUZDnoAru
-	 AEpVtrhhTX6gwbMUeKZ3owYdgRazmCSF+8S1sKEY3QoZ9646CKqHg5lS86sDrdRD4
-	 GAbkiHBdMvF1FSVgBio0MksJCA2Iu2Q6DHWn+Yg3/3vqeK/pNqvYcFMKTRC3o8uWh
-	 KgSWCXjJhP+JBxslKqGd0a2lz6i0DAbUIk83mJ6VEQvNIYUmrFpRTTuGrXGp53KWW
-	 cqA7/eN/08snJD7Q9w==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.40]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MIya8-1tsDzY10Di-00Lbns; Thu, 30
- Jan 2025 12:01:10 +0100
-Message-ID: <e06cb7f5-7aa3-464c-a8a1-2c7b9b6a29eb@web.de>
-Date: Thu, 30 Jan 2025 12:01:03 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fWYaS0SJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FrahcR6Y";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fWYaS0SJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FrahcR6Y"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 374FD21162;
+	Thu, 30 Jan 2025 12:33:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1738240385; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=IxnKZxAmlqAYNAdG/SwJSeidj4m6Tghw4igcHRKh3Mg=;
+	b=fWYaS0SJtZD1TwKQ8lTI9V8sYR8vfjwAqKNCEN3x/Oiir3PCfQYLXsKbFJWEVLV/hKx89F
+	naN9Wp5ZmbspgXbPVbWeg+LHNCDBKPKHCClfBPf0tWjXhR+YEgXFUcsHFRsf2dl/YFQMKx
+	AD4ajewSBCRCvPFQNnt7QNgR+FW5cwk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1738240385;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=IxnKZxAmlqAYNAdG/SwJSeidj4m6Tghw4igcHRKh3Mg=;
+	b=FrahcR6YfcyCLe2u3IOIvkoMn2PqBCzovarT66XYULD1UuJumiS83ngK9nkV6bb1viLvZ+
+	8vXXhEjgYrRL8ABQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1738240385; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=IxnKZxAmlqAYNAdG/SwJSeidj4m6Tghw4igcHRKh3Mg=;
+	b=fWYaS0SJtZD1TwKQ8lTI9V8sYR8vfjwAqKNCEN3x/Oiir3PCfQYLXsKbFJWEVLV/hKx89F
+	naN9Wp5ZmbspgXbPVbWeg+LHNCDBKPKHCClfBPf0tWjXhR+YEgXFUcsHFRsf2dl/YFQMKx
+	AD4ajewSBCRCvPFQNnt7QNgR+FW5cwk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1738240385;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=IxnKZxAmlqAYNAdG/SwJSeidj4m6Tghw4igcHRKh3Mg=;
+	b=FrahcR6YfcyCLe2u3IOIvkoMn2PqBCzovarT66XYULD1UuJumiS83ngK9nkV6bb1viLvZ+
+	8vXXhEjgYrRL8ABQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 292261364B;
+	Thu, 30 Jan 2025 12:33:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kSNTCYFxm2eiTQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 30 Jan 2025 12:33:05 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Workaround for resume on Dell Venue 11 Pro 7130
+Date: Thu, 30 Jan 2025 13:32:59 +0100
+Message-ID: <20250130123301.8996-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: cocci@inria.fr, kernel-janitors@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-block@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-xfs@vger.kernel.org, ceph-devel@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ibm-acpi-devel@lists.sourceforge.net, imx@lists.linux.dev,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- Andrew Morton <akpm@linux-foundation.org>, Carlos Maiolino <cem@kernel.org>,
- Chris Mason <clm@fb.com>, Christoph Hellwig <hch@lst.de>,
- Damien Le Moal <dlemoal@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
- David Sterba <dsterba@suse.com>, Dick Kennedy <dick.kennedy@broadcom.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>,
- Easwar Hariharan <eahariha@linux.microsoft.com>,
- Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- James Bottomley <James.Bottomley@HansenPartnership.com>,
- James Smart <james.smart@broadcom.com>, Jaroslav Kysela <perex@perex.cz>,
- Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
- Josef Bacik <josef@toxicpanda.com>, Julia Lawall <Julia.Lawall@inria.fr>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Ilya Dryomov <idryomov@gmail.com>,
- Kalesh Anakkur Purayil <kalesh-anakkur.purayil@broadcom.com>,
- Keith Busch <kbusch@kernel.org>, Leon Romanovsky <leon@kernel.org>,
- Mark Brown <broonie@kernel.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Nicolas Palix <nicolas.palix@imag.fr>, Niklas Cassel <cassel@kernel.org>,
- Oded Gabbay <ogabbay@kernel.org>, Ricardo Ribalda <ribalda@google.com>,
- Sagi Grimberg <sagi@grimberg.me>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sebastian Reichel <sre@kernel.org>,
- Selvin Xavier <selvin.xavier@broadcom.com>, Shawn Guo <shawnguo@kernel.org>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Takashi Iwai <tiwai@suse.com>,
- Victor Gambier <victor.gambier@inria.fr>, Xiubo Li <xiubli@redhat.com>,
- Yaron Avizrat <yaron.avizrat@intel.com>
-References: <20250128-converge-secs-to-jiffies-part-two-v1-1-9a6ecf0b2308@linux.microsoft.com>
-Subject: Re: [PATCH 01/16] coccinelle: misc: secs_to_jiffies: Patch
- expressions too
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-1-9a6ecf0b2308@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:MEBO0GsSQ1SMY/zsPX1U6svBkJN6BjoZlGAGaEjdoAIc7rC0MTJ
- jMCDSnzW+JUiBx0jWaw4axa0ASi7RKu+znCfMa+5DA/GZz89brkDkAWXkPNY1Ii+WKoCg2M
- 6p6JIXEbQugmQdBp3V5wVA0hm/aJde6kKUDnCeJpidqtVh0kGmNtl+sNaqnuL+ZhzFG6g5Z
- yt9wjcSDL8KRKPEOFFBUw==
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.79 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.19)[-0.953];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[opensuse.org:url,suse.de:email,suse.de:mid];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.79
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:PCsLlrQ8lfw=;SoOTgoPi1u3ddphFfFnJ4K80Ey1
- LhQV5NN3S1upZ+kQWRf5X13xSqfZszqJAWQG1OpVuCmo6tpVtGTWgh7ad8U9WwKa6cxbghVrt
- NekQpjR/Dsev5s67AnEX8ThdDcbbfKvRw5T8fgaGslTYv3XceDxH2g+ZINh1g5Zl1a5Kb7tUy
- iHsXRJsmGMh72moAwMl2T0JX0Ldu9mm36L7zjNeIOX0Xh1EcbDwPTnBvWT5Jmf/TZjjTD915z
- wkMwvyKEhqv+ILIT2NmQNRENiOP1N2A5cNBwL7S6RvzS4B2b6TETCM6HSXEgzk4eBq/cjFYJ7
- Ta/beBAeX/x1vlhieJ7zCgVJ/DjpXSnLIakxsKLFsTqznw+ifPF4fJli2HnMVo9sGRnRMWTrl
- qkRACaZwBVl2ReKWA6Ylw6VqlTKMT2hF2oCiSA6SNHSwnqWCdtkKT3MwrASEpsgRd1t3m2qrg
- dzBxkwY3Iqvyla51ZhZ4KeRRsMYftkVOD06V/LWAUsGh3adVyfNfo1rFkiXbs8oaQXw9Ja6tZ
- RzPDki+nrGeKxCzQaenUyiA48SLrGJ61YEiLCyUiil3FCYQCPBx6oGNf2hTXlPwkPSrMnvfyk
- yvQjlFy7DS+9l6YMcPoT4oJhRV5HGFbKwznZ3oL4+T60BN/ekmSzbtefb+GOhIG+4+ywk54uP
- mTXT8J21gH5qaPIaPiannqZ/nmjWeakTcPkk/rVwdP3tmwDxSgnRKkzPj2UadACH+VKlM8JrQ
- lfxiv25g7Br2uvZqXG/3Mkq5j8BPnzef0ZEvV00FZ4lN2l35qROKiS4KNw+Oa2MExwmkZF8N0
- Me4UosI1FbMOonU2tpnvT5R9FbJv2h1tIMF/XYUdA7G6V3mY01f2O3g0W60Gd1Z/onfWiWTsC
- vsuTuJ7TZfE6AwrUs1WQ/Wi8E1So2MZdkmeUagRZY0DoLytG1bmL84SvJIdb8h4sdAVK3EONn
- 3chVYtWWI+cM+cz3Whj1giWzBTzyQOpKjx+HZcaRA80KQWJ5iUExiJkz11n/ptAWXabZtwVr1
- IIfHoUKeT2WT8pACVlj4x3gvqIClbPKbcGWhs4epE3uD2mR9gqFM8fCUfkHNngYTCZq6z5Did
- d50IILddgQEvH7rjWs9K2n3wFTct4+ajCi45dnopg2wTz/Oma2Lt3tO8Qenl6l70EogpyLyCN
- iMoxPpi5Wclpw/Kc+5YCXrWUIzzUatEenh+mkeiB0/g==
 
-> Teach the script to suggest conversions for timeout patterns where the
-> arguments to msecs_to_jiffies() are expressions as well.
+It was reported that the headphone output on Dell Venue 11 Pro 7130
+becomes mono after PM resume.  The cause seems to be the BIOS setting
+up the codec COEF 0x0d bit 0x40 wrongly by some reason, and restoring
+the original value 0x2800 fixes the problem.
 
-Does anything hinder to benefit any more from a source code analysis approach
-(like the following by the extended means of the semantic patch language)?
+This patch adds the quirk entry to perform the COEF restore.
 
+Cc: <stable@vger.kernel.org>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=219697
+Link: https://bugzilla.opensuse.org/show_bug.cgi?id=1235686
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/pci/hda/patch_realtek.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-// SPDX-License-Identifier: GPL-2.0
-/// Simplify statements by using a known wrapper macro.
-/// Replace selected msecs_to_jiffies() calls by secs_to_jiffies().
-//
-// Keywords: wrapper macro conversion secs seconds jiffies
-// Confidence: High
-// Options: --no-includes --include-headers
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index d36a79a8ecbf..8192be394d0d 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7497,6 +7497,16 @@ static void alc287_fixup_lenovo_thinkpad_with_alc1318(struct hda_codec *codec,
+ 	spec->gen.pcm_playback_hook = alc287_alc1318_playback_pcm_hook;
+ }
+ 
++/*
++ * Clear COEF 0x0d (PCBEEP passthrough) bit 0x40 where BIOS sets it wrongly
++ * at PM resume
++ */
++static void alc283_fixup_dell_hp_resume(struct hda_codec *codec,
++					const struct hda_fixup *fix, int action)
++{
++	if (action == HDA_FIXUP_ACT_INIT)
++		alc_write_coef_idx(codec, 0xd, 0x2800);
++}
+ 
+ enum {
+ 	ALC269_FIXUP_GPIO2,
+@@ -7799,6 +7809,7 @@ enum {
+ 	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
+ 	ALC233_FIXUP_MEDION_MTL_SPK,
+ 	ALC294_FIXUP_BASS_SPEAKER_15,
++	ALC283_FIXUP_DELL_HP_RESUME,
+ };
+ 
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -10143,6 +10154,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc294_fixup_bass_speaker_15,
+ 	},
++	[ALC283_FIXUP_DELL_HP_RESUME] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc283_fixup_dell_hp_resume,
++	},
+ };
+ 
+ static const struct hda_quirk alc269_fixup_tbl[] = {
+@@ -10203,6 +10218,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1028, 0x05f4, "Dell", ALC269_FIXUP_DELL1_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1028, 0x05f5, "Dell", ALC269_FIXUP_DELL1_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1028, 0x05f6, "Dell", ALC269_FIXUP_DELL1_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1028, 0x0604, "Dell Venue 11 Pro 7130", ALC283_FIXUP_DELL_HP_RESUME),
+ 	SND_PCI_QUIRK(0x1028, 0x0615, "Dell Vostro 5470", ALC290_FIXUP_SUBWOOFER_HSJACK),
+ 	SND_PCI_QUIRK(0x1028, 0x0616, "Dell Vostro 5470", ALC290_FIXUP_SUBWOOFER_HSJACK),
+ 	SND_PCI_QUIRK(0x1028, 0x062c, "Dell Latitude E5550", ALC292_FIXUP_DELL_E7X),
+-- 
+2.43.0
 
-virtual context, patch, report, org
-
-@depends on context@
-expression e;
-@@
-*msecs_to_jiffies
- (
-(e * 1000
-|e * MSEC_PER_SEC
-)
- )
-
-@depends on patch@
-expression e;
-@@
--msecs_to_jiffies
-+secs_to_jiffies
- (
-(
--e * 1000
-|
--e * MSEC_PER_SEC
-)
-+e
- )
-
-@x depends on org || report@
-expression e;
-position p;
-@@
- msecs_to_jiffies@p
- (
-(e * 1000
-|e * MSEC_PER_SEC
-)
- )
-
-@script:python depends on org@
-p << x.p;
-@@
-coccilib.org.print_todo(p[0], "WARNING: opportunity for secs_to_jiffies()")
-
-@script:python depends on report@
-p << x.p;
-@@
-coccilib.report.print_report(p[0], "WARNING: opportunity for secs_to_jiffies()")
-
-
-Regards,
-Markus
