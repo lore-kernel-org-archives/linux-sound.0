@@ -1,64 +1,33 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66931EF080
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jan 2025 20:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77F0139E;
+	Fri, 31 Jan 2025 21:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738356717; cv=none; b=mHZ5biwoWjRSC8FjOVkGBrGpOCdGnnMRnIZQ+8GuDoCEFaeBillcPJtIS5lcZJDr2/RyuApw0dHmGum7grUUfiAEpYA+2sEgL2ElkOwr2TiDCMuGk2WcLG96xKj+hpDpxq7GV1DpSzefIcRrgTzDJ5uK0pg4Bi9WsxbcASd4r4s=
+	t=1738358315; cv=none; b=NHxhl/+xEcpdW3TVzhelBVliIueSpFppsN0AxFuLh3tj3LkiZb7iYxadkt8nz9q0H4EVI04BQUtHIxtKv0260D6uWCDK0/56UkVurk9qF/k+vCzhvKbhXtgTS6Uou1xf3GABNuoE7mlfnpCgHpo0fYgwM687CWthr8N3z/n6LzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738356717; c=relaxed/simple;
-	bh=U62TgxY+A9dzDmv7rb3+XOMVxcMlVdxMGP6cQwDn7ow=;
+	s=arc-20240116; t=1738358315; c=relaxed/simple;
+	bh=sM66QRyKMeDsKq/54eUtBNYXdMr+6numAYXYD8J90eU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lHe+ifkO6OcIRvwjR34AQ7fLk+jeC7u1AoM6PfNi1RMo9mpOm6zKhvnIl+pQZWbyUAKxsAJmbBdyTj8dWGtV6PuZMhS9y3wQuvdKWcnubQ+4ydazS6kkSm77PNObj8uUjA8FNxPZ2oyHLqDj8vKYV6DBvuYQmIhZvmJ12Qt6YE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=TGTDqg80; arc=none smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 In-Reply-To:Content-Type; b=JWx60BoN26ClZ61yvpSqmUzsh3gkErb7ByR0osmL66u6QNF26L9OoXpmNgA0oDsv0gpTJHJ9mLr5+KAIPP5Vz9uaFZCnGGrVYXvk04cSIWkjyq1pDupRanu26t9rwWzGHLBVG3xz+nSHWq2UKK25prw3Xd1LatWrVE0k0x/284g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oLbPDdsA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="TGTDqg80"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-29e842cb9b4so730668fac.2
-        for <linux-sound@vger.kernel.org>; Fri, 31 Jan 2025 12:51:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738356715; x=1738961515; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YSDpmKyHnv3yIYrHLwgKwckV132tbtKpwM8F+9YvHNM=;
-        b=TGTDqg8087ioyl9s6ESDaLblLqWuFhzIa+IGVGRg5TYZoh9ycwk64DiiAS7allW+2f
-         XAJLMsDCaCkwunv7v4lY2u/NJwWNwjXCeiraOzq4WoWNzARdXZWgDSGpM7GYYBP0P5de
-         HdcdfcG8Ws1d2S/uecNAjZ+ZvA4iDyNTD6Nfb7F2DPgmK7ZwehCVP2BoqrymsSzHn4fU
-         e04DyEvVP3T91mpljezOaVblexNLr0LTJLdJ48BlO4G+6gB8tgnXk8BnhSEj1t5618n6
-         wCBkjxBG30+ua16uirzOmp5Q/SCaNx4WGWEbkRQEdwXf0Mp+jJq1CVYCKPCY8FfVK1bj
-         7LRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738356715; x=1738961515;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YSDpmKyHnv3yIYrHLwgKwckV132tbtKpwM8F+9YvHNM=;
-        b=jio9jrzo/LUEtd9BpiQO7Jm36LUKDhiMOJJTpX3r82jWhy0lPGcoWYDvvFHebEOWPB
-         D9MlF1KpsAwxK0VjvFDMBz4F+atAn7XCT6lUTWE6WHqoLVOdY8vTvrUligG1IfqZDVpM
-         xql/OTtXgWUjHCTdBhDw/eALFwmL4J895Wy4d0wPNkMzfcny8Q+i8TY9fUjwUtiY0GRd
-         inJM2pApXQZf/WBWJjU6IQkcU+7gGF+/45ZJoHovR1B6niI0XjVPfbezcSXNaq8rspj6
-         lSQWFWdZ4z8XRXYj2+q3x6zHTmNkKw8wsMD0+g9vbFMq7zgerArwGj2YpatnaHoXJ7Lj
-         eARw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqjZ/jMqgstDTUntU8tJ2sCaUZwsVcdFLjwjtoTtLet/ZLMo/ewJYONNCshrdnFiLagmPwD1fm8yZFbQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1PNNZeYycLsj5kWdv8NmP27WElMez2n8nFxqytIW7ANlvXpwF
-	9AT2ZD/+tiOcm8/V5AqubjVW8TeZsO1SuOQnrx4QvJA9t8ZFr4T22vbnRbthshQ=
-X-Gm-Gg: ASbGnctKGGtveGpTaxqJ1FteO7w51fd30lKcyfNexGsksWXcTa8S8qzHermD7LEel69
-	fryETQap3BxF7VfxuX91Mi3Yigydu4W2McZWm3toIYrr3lk4eQO2b171pG0aB5S68UYh201v2JM
-	rtGGIajqc4NPlCLj5k5s4jhLCMUt8T5O9V41+khPey/s/eRzVrMISA0m9hsEQWyWFx/qqCDOme9
-	+wINzgHi4IizlER7WHQxajoJQqh/wIde7owjB5Cp+n5yVgDZ2PFXRfzWnLIYM8j26rcvA7SuDJm
-	9yk7pbnaTto6vFGfqq7aWfT4Mf3YjEybg7aBVQuvn2z+O689uS/H
-X-Google-Smtp-Source: AGHT+IHPMh8KitUWz2IouQzz/azYXMRtpN/Za+AnvsTlT7ulHOR4Zb5ZOPuM1rHtwe4+cYrz1u66kg==
-X-Received: by 2002:a05:6871:4915:b0:29e:684d:2739 with SMTP id 586e51a60fabf-2b32f2e092cmr7943100fac.32.1738356714641;
-        Fri, 31 Jan 2025 12:51:54 -0800 (PST)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2b356111477sm1426322fac.9.2025.01.31.12.51.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jan 2025 12:51:53 -0800 (PST)
-Message-ID: <2715ead8-cf6d-4b44-b6e3-343cb6489eca@baylibre.com>
-Date: Fri, 31 Jan 2025 14:51:52 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oLbPDdsA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AEF8C4CED1;
+	Fri, 31 Jan 2025 21:18:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738358315;
+	bh=sM66QRyKMeDsKq/54eUtBNYXdMr+6numAYXYD8J90eU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oLbPDdsAMVcj3J8Pve6PZtT2wvHC8PTe1Qzx3j5VGPw6nbo9AUbVYUSPYI3yh0p3J
+	 ifjhD6MNSex6CszIGFcVMJ3fXgo7vtazv32Ck/syk8YC69P85P/ugE6ROBG4NOGWcC
+	 KliFmBlZCyFVzNmxw7zQLq8NzbPpfWS62uPNsnVWlOM4C52UyHTNvHF2nJBs2RjDR4
+	 uKHb3DtHidtJLSn20fANGWlELKgY2Ef00ZE2kvCZqsQurEWYTmS8WCNtJ+Nu2HRZPp
+	 eDiO2EThEiCX2+PG1Zm/9zO+Vrn4S9JpP25/Zqzq0EXaLbiSWrM2hoCc0uOIW1KQbc
+	 2ARA+2gVIvrKw==
+Message-ID: <c898680c-f1ac-4bfa-ac18-4b4b5c241dab@kernel.org>
+Date: Fri, 31 Jan 2025 22:18:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,55 +35,93 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/13] gpiolib: add gpiods_set_array_value_cansleep
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Peter Rosin <peda@axentia.se>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org
-References: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
- <4ad45123-134a-4544-ad0a-24371105d96f@lunn.ch>
-From: David Lechner <dlechner@baylibre.com>
+Subject: Re: [PATCH 0/7] Initial Support for CS40L26
+To: Fred Treven <ftreven@opensource.cirrus.com>,
+ James Ogletree <jogletre@opensource.cirrus.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Ben Bright <ben.bright@cirrus.com>, simont@opensource.cirrus.com,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Jack Yu <jack.yu@realtek.com>, Igor Prusov <ivprusov@salutedevices.com>,
+ Weidong Wang <wangweidong.a@awinic.com>, Binbin Zhou
+ <zhoubinbin@loongson.cn>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+ Paul Handrigan <paulha@opensource.cirrus.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nuno Sa <nuno.sa@analog.com>,
+ Karel Balej <balejk@matfyz.cz>, Heiko Stuebner <heiko@sntech.de>,
+ Jeff LaBundy <jeff@labundy.com>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20250131202057.1786324-1-ftreven@opensource.cirrus.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-In-Reply-To: <4ad45123-134a-4544-ad0a-24371105d96f@lunn.ch>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250131202057.1786324-1-ftreven@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 1/31/25 2:38 PM, Andrew Lunn wrote:
->> So I'm proposing that we add a gpiods_set_array_value_cansleep()
->> function that is a wrapper around gpiod_set_array_value_cansleep()
->> that has struct gpio_descs as the first parameter to make it a bit
->> easier to read the code and avoid the hard-coding temptation.
->  
-> This looks reasonable.
+On 31/01/2025 21:20, Fred Treven wrote:
+> Introduce driver for Cirrus Logic Device CS40L26:
+> A boosted haptics driver with integrated DSP and
+> waveform memory with advanced closed loop algorithms
+> and LRA protection.
 > 
-> How do you plan to get it merged, since you cross a lot of subsystems
-> here.
+> The core CS40L26 driver is in MFD and touches the
+> Input Force Feedback subsystem for haptics and
+> the ASoC subsystem for audio to haptics streaming.
 > 
-> 	Andrew
+> This patchset includes changes to the CS DSP firmware
+> driver which fixes two bugs and introduces support for
+> multiple coefficient files.
 
-Since these are mostly small changes and most of the touched drivers aren't
-seeing much action, I think it would be OK for as much as possible to go through
-the GPIO tree.
+I got two emails from you out of this entire set, not even threaded. I
+think rest of your posting got lost.
 
-We might need an immutable branch from that though since I know that iio: adc:
-ad7606 is currently being actively worked on.
-
-If there are any patches leftover that don't get acked to go through the GPIO
-tree, I can resubmit them after the next kernel release cycle since none of
-this is urgent anyway.
-
+Best regards,
+Krzysztof
