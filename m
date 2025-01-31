@@ -1,149 +1,153 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D26E1F238E;
-	Fri, 31 Jan 2025 20:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F2ED156F20
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jan 2025 20:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738354907; cv=none; b=AmfLgPpzsRSDgJ/BZZeQB1MrZ4Qag6QFRd1/3tDqOb+Pdwu05ZpBADPTFVcId8UOqDtCc//WwdYAV9mLz//kQWUlAULuSt9mM7wl+xulS3aVyKF/qUVGM2O5FtYbMFTaHZIhSQc15dsU4OJMT/HQ27ynjnoAr/IHXwTo5n/tbFk=
+	t=1738355089; cv=none; b=P3AhEPNRCMaNs4HCDSxE1tpx7OYu4HIQe2UaF7OwzyuDiL9sGCdHbhyTULXCBIj966Dj78MsHp89Hf88L6jCCfz8k6m6J28Dt3PWwoSP3FNQOBnxQz7cKPiUkvgIw53vceKuaQ/a+Ao8W6jTgQGlw+Xu0WGZ2sF3yZGFJUxQQdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738354907; c=relaxed/simple;
-	bh=hTXjfUYY5jkGWVr3mwx6N3NFTy2eiwGjxT5HEGQnA0I=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iubfmshvvFwN03TCK9T1WBlt8XRtgI76Aiq6mKJ+H/txp4MxWrGSa7447ENbv1Zf5K50SigslUi4mGsTnfR9Nhv28WFS0xP1IIQA4K7301Th1s8MCBUqtEndiLhsSEmDlLCMWw8cRSIqkP1lKK+sVpVVa4ch7HgnBCJBCaMe7ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=n1m0IEqc; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1738355089; c=relaxed/simple;
+	bh=a4ev7NI00M+pqHz/c63lKpZN/tT3RLqqfUA5HRJSMsg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YXgXymVYdpz8ZKEz/EmABXnqQ+PMDvS+1KZ/v5fTxWzWV++hykHUyi/SUs3w/NLRWQxgokT0iwb75UXuZKw3+sMqgzlAI0nt+y9UwKO9IdLS/xDiS9wm567Z5g4ahM75IbUE3ZUd6oHQtjqWNKGAN30ujBpuDcFZv9dHVcS/r04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ShBjLv2U; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="n1m0IEqc"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50VDHdad013031;
-	Fri, 31 Jan 2025 14:21:07 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=ZHHnYJ0H+qOjkw25
-	Mfu1e2Mk+Cj3/9kmu6Acd5OIRLc=; b=n1m0IEqceOeup1+RXBBMO3Tp5DjhSJbC
-	6lj8mg8uZm2tggiLcNpTKE9DkV5YfilLbiTs7Ow82Yc9Fm4ksX9SaoQfOJfbY5kZ
-	HMDfMMlNx/Y7EBkWYmjN7ALzlUdFRTK1hc1B8uOtCspNeFm3n3/xsdnNJe/Y1kjY
-	qSuVitqflyybHxtcWvME6IL9ARrB+qsRo9YlojdONTQLyi0+WNfiKBYYss6iRL8M
-	Lj/O+oZICFG7oMm4xEvKzwf8LcClel4s7g3UoRnM5d+uKibpT/gzTtow8iJFZa/H
-	1dayoXJP0a3PsIt27th5BXy2Q7MSVI0AYcwseZGpaswkD3EjU4xGLw==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44gf8n168d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 31 Jan 2025 14:21:06 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 31 Jan
- 2025 20:21:05 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Fri, 31 Jan 2025 20:21:05 +0000
-Received: from ftrev.crystal.cirrus.com (ftrev.ad.cirrus.com [141.131.145.81])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id D664482026C;
-	Fri, 31 Jan 2025 20:21:00 +0000 (UTC)
-From: Fred Treven <ftreven@opensource.cirrus.com>
-To: James Ogletree <jogletre@opensource.cirrus.com>,
-        Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>,
-        Ben Bright <ben.bright@cirrus.com>, <simont@opensource.cirrus.com>,
-        Charles Keepax
-	<ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>,
-        Lee Jones <lee@kernel.org>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>,
-        David Rhodes <david.rhodes@cirrus.com>, Jack Yu
-	<jack.yu@realtek.com>,
-        Igor Prusov <ivprusov@salutedevices.com>,
-        Weidong Wang
-	<wangweidong.a@awinic.com>,
-        Binbin Zhou <zhoubinbin@loongson.cn>,
-        "Luca
- Ceresoli" <luca.ceresoli@bootlin.com>,
-        Prasad Kumpatla
-	<quic_pkumpatl@quicinc.com>,
-        Paul Handrigan <paulha@opensource.cirrus.com>,
-        Masahiro Yamada <masahiroy@kernel.org>, Nuno Sa <nuno.sa@analog.com>,
-        "Karel
- Balej" <balejk@matfyz.cz>, Heiko Stuebner <heiko@sntech.de>,
-        Jeff LaBundy
-	<jeff@labundy.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        Fred Treven
-	<ftreven@opensource.cirrus.com>
-Subject: [PATCH 0/7] Initial Support for CS40L26
-Date: Fri, 31 Jan 2025 14:20:56 -0600
-Message-ID: <20250131202057.1786324-1-ftreven@opensource.cirrus.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ShBjLv2U"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5f88b61399dso1666961eaf.1
+        for <linux-sound@vger.kernel.org>; Fri, 31 Jan 2025 12:24:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738355085; x=1738959885; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jn/Ny7UFv/UH6iRtjr6jsBabEKLnDl2l7pEqvfjMtFM=;
+        b=ShBjLv2U1w+5zymjIFhU7poftN9OhcetisFQnk0H3B/pvg/7UdFSNU0zrwqwuqtNdA
+         nsFDff8ZM5KVXkXnc8UpScWb89BwAuyXMKVtsCOJstyRg2PC849jMkHfoCMS0leb8Gyz
+         fvxO4R7AG6gGp5b9COON2kYqJu2ZeP5sBPzS7zaFz/1jpuluYh/4xx9yPbLjX/Qn+z89
+         AmQeZdxZxlt/15AIidokGNHek0k2zF7zFflb0NdXF5uOLh06aZ5OBhf3oD3JiK0wtQFG
+         /yVyddYaQtIQKN5Cs1SZaxEAcf69u4iUJH9QTyWqP3aTZ/qc2kJA+J6kqXsdTyLmDf+f
+         DDnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738355085; x=1738959885;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jn/Ny7UFv/UH6iRtjr6jsBabEKLnDl2l7pEqvfjMtFM=;
+        b=xEVIK3pRZo8OnrqRK7Vb6Xdr/m2VaoBEM2U6JiR5Xi4tfJpEWO9YvIUFC8dnriTuYJ
+         X5sFuB2qOoo1AKX3VNcBUoxJmbsKWB+oPg/xrkeF3Wrp7WUNabJq5QrlTjSeB9HyWgsI
+         24mDpjqIHut4AecYxANvKg8uPM+B034hJ9FoeFY0GuPl35JAbCx+CKtG/oyKAe/upllO
+         P1PIhEua0hHsX5RiQ76otl67rEb96Qn80bmqgNN08V9q9hs0UMQsNoLjdgl84nQL+Je0
+         bJgeU59nNuekycSa+IScXUwN41GocRMsu5CBayeTQlvnO+QrXrC77+P5BCOwgj0DNT45
+         B8bg==
+X-Forwarded-Encrypted: i=1; AJvYcCXYJqITnrIkKquhTXc0sCI4SB2xgrZKr3dZ8VVp8QeNJ9UDSQZfRmcTATHRoYqM2OGpheHDfgtCJ3ydPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMSW1fo6SuXvRbezBCa1CaGV9uZAipHhefUnGwKJtRpqnp0lL1
+	+f4Jn8nla0dll15kdfGFR4IJ2JkRPU73socE75QASvVwgoSe7IPMBC5l2Y9rz8s=
+X-Gm-Gg: ASbGncvgQWcUMK+Spycp2FpQRh6MKkTxVmHxIeKhKTL9qyVe6FhgYJUbx41NWK2a6h1
+	rn1RX/d0oZQyodZp68X6RaO03bLiLNkHLe/akcvX9WBtDJGeHQts1KMYev9hB1JimBpPuyNYsQN
+	QMMnKqa4Z47afiKNihdPfz+HQCZpzBePSjRbe0BqymOrdYyIFZ8daD3bEUxm+eaZth2FVAMt5Ny
+	W4vhph7Q+WBo1+7D5zcYG+Dg/e5oVucsR8UUQJxyMUzCB1qeJYm184G+MXb4yMUi/N2T+Z3R6H4
+	2ssJYl2OcIs21ZumDL5WfQoLDWWEkeCgi1UHLNgiFHtyf9A=
+X-Google-Smtp-Source: AGHT+IEA6MI3/eVAdqj25y/O52sPRoTGczW1O2gqmD31jZVU/w0qKc/rISzimaZq3KsB0lB7wfNBfQ==
+X-Received: by 2002:a05:6871:a581:b0:2b3:8c07:6461 with SMTP id 586e51a60fabf-2b38c07814dmr1466360fac.19.1738355085268;
+        Fri, 31 Jan 2025 12:24:45 -0800 (PST)
+Received: from [127.0.1.1] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2b35623d2ffsm1403157fac.22.2025.01.31.12.24.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jan 2025 12:24:44 -0800 (PST)
+From: David Lechner <dlechner@baylibre.com>
+Subject: [PATCH 00/13] gpiolib: add gpiods_set_array_value_cansleep
+Date: Fri, 31 Jan 2025 14:24:40 -0600
+Message-Id: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: HUzqT7mBuyL30WS1jJMSP0uapPcn3gke
-X-Authority-Analysis: v=2.4 cv=YOxlyQGx c=1 sm=1 tr=0 ts=679d30b2 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=VdSt8ZQiCzkA:10 a=78G1mFUK9uwQN7RrU40A:9
-X-Proofpoint-ORIG-GUID: HUzqT7mBuyL30WS1jJMSP0uapPcn3gke
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIgxnWcC/x3M3QpAQBBA4VfRXJvaHyKvIhfLjjUltlmJ5N1tL
+ r+Lcx5IJEwJuuIBoZMT71uGLguYFrcFQvbZYJSplbYaQ+QdEx3oRNyNC62RBEdfOWta2yhvIbd
+ RaObr//bD+35rVoI+ZwAAAA==
+X-Change-ID: 20250131-gpio-set-array-helper-bd4a328370d3
+To: Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
+ Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org, 
+ netdev@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-sound@vger.kernel.org, David Lechner <dlechner@baylibre.com>
+X-Mailer: b4 0.14.2
 
-Introduce driver for Cirrus Logic Device CS40L26:
-A boosted haptics driver with integrated DSP and
-waveform memory with advanced closed loop algorithms
-and LRA protection.
+This series was inspired by some minor annoyance I have experienced a
+few times in recent reviews.
 
-The core CS40L26 driver is in MFD and touches the
-Input Force Feedback subsystem for haptics and
-the ASoC subsystem for audio to haptics streaming.
+Calling gpiod_set_array_value_cansleep() can be quite verbose due to
+having so many parameters. In most cases, we already have a struct
+gpio_descs that contains the first 3 parameters so we end up with 3 (or
+often even 6) pointer indirections at each call site. Also, people have
+a tendency to want to hard-code the first argument instead of using
+struct gpio_descs.ndescs, often without checking that ndescs >= the
+hard-coded value.
 
-This patchset includes changes to the CS DSP firmware
-driver which fixes two bugs and introduces support for
-multiple coefficient files.
+So I'm proposing that we add a gpiods_set_array_value_cansleep()
+function that is a wrapper around gpiod_set_array_value_cansleep()
+that has struct gpio_descs as the first parameter to make it a bit
+easier to read the code and avoid the hard-coding temptation.
 
-Fred Treven (7):
-  firmware: cs_dsp: Fix error checking in wseq_write()
-  firmware: cs_dsp: Check for valid num_regs in
-    cs_dsp_wseq_multi_write()
-  firmware: cs_dsp: Add ability to load multiple coefficient files
-  dt-bindings: mfd: cirrus,cs40l26: Support for CS40L26
-  mfd: cs40l26: Add support for CS40L26 core driver
-  ASoC: cs40l26: Support I2S streaming to CS40L26
-  Input: cs40l26 - Add support for CS40L26 haptic driver
+I've just done gpiods_set_array_value_cansleep() for now since there
+were over 10 callers of this one. There aren't as many callers of
+the get and atomic variants, but we can add those too if this seems
+like a useful thing to do.
 
- .../bindings/mfd/cirrus,cs40l26.yaml          |   81 +
- MAINTAINERS                                   |    4 +-
- drivers/firmware/cirrus/cs_dsp.c              |   70 +-
- drivers/input/misc/Kconfig                    |   10 +
- drivers/input/misc/Makefile                   |    1 +
- drivers/input/misc/cs40l26-vibra.c            |  669 ++++++++
- drivers/mfd/Kconfig                           |   29 +
- drivers/mfd/Makefile                          |    4 +
- drivers/mfd/cs40l26-core.c                    | 1412 +++++++++++++++++
- drivers/mfd/cs40l26-i2c.c                     |   63 +
- drivers/mfd/cs40l26-spi.c                     |   63 +
- include/linux/firmware/cirrus/cs_dsp.h        |   14 +
- include/linux/mfd/cs40l26.h                   |  341 ++++
- sound/soc/codecs/Kconfig                      |   12 +
- sound/soc/codecs/Makefile                     |    2 +
- sound/soc/codecs/cs40l26-codec.c              |  523 ++++++
- 16 files changed, 3281 insertions(+), 17 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/mfd/cirrus,cs40l26.yaml
- create mode 100644 drivers/input/misc/cs40l26-vibra.c
- create mode 100644 drivers/mfd/cs40l26-core.c
- create mode 100644 drivers/mfd/cs40l26-i2c.c
- create mode 100644 drivers/mfd/cs40l26-spi.c
- create mode 100644 include/linux/mfd/cs40l26.h
- create mode 100644 sound/soc/codecs/cs40l26-codec.c
+---
+David Lechner (13):
+      gpiolib: add gpiods_set_array_value_cansleep()
+      auxdisplay: seg-led-gpio: use gpiods_set_array_value_cansleep
+      bus: ts-nbus: validate ts,data-gpios array size
+      bus: ts-nbus: use gpiods_set_array_value_cansleep
+      gpio: max3191x: use gpiods_set_array_value_cansleep
+      iio: adc: ad7606: use gpiods_set_array_value_cansleep
+      iio: amplifiers: hmc425a: use gpiods_set_array_value_cansleep
+      iio: resolver: ad2s1210: use gpiods_set_array_value_cansleep
+      mmc: pwrseq_simple: use gpiods_set_array_value_cansleep
+      mux: gpio: use gpiods_set_array_value_cansleep
+      net: mdio: mux-gpio: use gpiods_set_array_value_cansleep
+      phy: mapphone-mdm6600: use gpiods_set_array_value_cansleep
+      ASoC: adau1701: use gpiods_set_array_value_cansleep
 
+ drivers/auxdisplay/seg-led-gpio.c           |  3 +--
+ drivers/bus/ts-nbus.c                       | 10 ++++++----
+ drivers/gpio/gpio-max3191x.c                | 18 +++++++-----------
+ drivers/iio/adc/ad7606.c                    |  3 +--
+ drivers/iio/adc/ad7606_spi.c                |  3 +--
+ drivers/iio/amplifiers/hmc425a.c            |  3 +--
+ drivers/iio/resolver/ad2s1210.c             |  8 ++------
+ drivers/mmc/core/pwrseq_simple.c            |  3 +--
+ drivers/mux/gpio.c                          |  4 +---
+ drivers/net/mdio/mdio-mux-gpio.c            |  3 +--
+ drivers/phy/motorola/phy-mapphone-mdm6600.c |  4 +---
+ include/linux/gpio/consumer.h               |  7 +++++++
+ sound/soc/codecs/adau1701.c                 |  4 +---
+ 13 files changed, 31 insertions(+), 42 deletions(-)
+---
+base-commit: df4b2bbff898227db0c14264ac7edd634e79f755
+change-id: 20250131-gpio-set-array-helper-bd4a328370d3
+
+Best regards,
 -- 
-2.34.1
+David Lechner <dlechner@baylibre.com>
 
