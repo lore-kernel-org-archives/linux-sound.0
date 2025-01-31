@@ -1,205 +1,127 @@
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8427A1C82F4
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jan 2025 13:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9882B1E3DD6
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jan 2025 16:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738331644; cv=none; b=IFg/3DR00YWYguk0MpAoMHkQLR2P9HsawAaRazVyJMJGGXpW2MkDQ6OjuqZH6fses04eFissrF8394lsyemRNX84dZKXn6xi3VnP23+vvJY0nSMHzu5IXS/T0W/YILJPu1w0n1IVEHaWgfCXzmZhchcpH5HSzqz3q0z6R9fQ++g=
+	t=1738340311; cv=none; b=mSgSqD7yE+lK1hS4ZMT6ac1wbegsIf7J/05pU7MFALvBwdyVqhm0MNwZQ/85xZ0bicwCWsKmZV+HB7fCFkn6Tlc7c2G+A++5zoIEmT689vQJBuY8pjxHci0xFjAOIZKxWu9rs1dCUj5eB7UF73av/1sS5om57MLFeFWglyFgf+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738331644; c=relaxed/simple;
-	bh=Mr0ggs2ve+GGAE47i+Rr2QR3iUPGOMF+Hj1/2dLq/Ww=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nMhMGPmvX8wIdURUY0/nVY4uJvYydv+O4d8yBXG0/+7WSFOO+bl6iETKOXYzfXtCN6JXMKxcpaz23kS14gnZPJkmy0oZKcOMcoKpwPF6jAp8M96CU4dguWrrOC5IcsUw/OU4dlLhF19c5A4leDuUbDcUXp1HOmTplnJ/NZB/yms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-	by gauss.telenet-ops.be (Postfix) with ESMTPS id 4Ykxz06l5Fz4x0nn
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jan 2025 14:47:24 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:a916:3147:9f19:c260])
-	by baptiste.telenet-ops.be with cmsmtp
-	id 7pmw2E00V0naHe801pmwxG; Fri, 31 Jan 2025 14:47:24 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.97)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tdrM6-0000000FHxv-23Wi;
-	Fri, 31 Jan 2025 14:46:56 +0100
-Received: from geert by rox.of.borg with local (Exim 4.97)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tdrMG-0000000DFVT-1zgZ;
-	Fri, 31 Jan 2025 14:46:56 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Alex Elder <elder@ieee.org>
-Cc: linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	qat-linux@intel.com,
-	linux-gpio@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/3] clk: renesas: Use bitfield helpers
-Date: Fri, 31 Jan 2025 14:46:52 +0100
-Message-ID: <a407704e1efc9239e8b65cc66b16efbcb8ea8882.1738329459.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1738329458.git.geert+renesas@glider.be>
-References: <cover.1738329458.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1738340311; c=relaxed/simple;
+	bh=bYhUSL5ezg/vAlSlfKXzETpC1l7zw7h0hhMpYeiqATU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PqpTYTcZesn8n/UlOos7WL35XnhMrm8boKpXZV+pQMwEUzMS5qDkrJDyLwWIHTmT6MjctsI6KKVWau/033eIcII6qHE+y65/nHOxQv16Jx3InHqNRZs8NSd0OfTuQNcaWuXEz+fYKygAdiauAOf8CZbSnnmvzk166hDVAnZXuQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=M9irGkZ7; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="M9irGkZ7"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 530E74C72;
+	Fri, 31 Jan 2025 17:18:22 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 530E74C72
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1738340302; bh=P9Fk+IlMI3Ec2XXxyB+J8ZOC60rUJLGZRCO7lDLSgcw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=M9irGkZ7e7KKnq7w7dhqRcinyFSvgFtvMmA0oKxMtw+I3g+Dgn0zmJ4tsvT2qp0EJ
+	 LS1cYIXPITUloge+aKmyw2vQZHpafAQqcoVJql17XDPjFrR+lOtiUGDxfG0GOVeQpH
+	 0rQH2mfN7vkWVCTBVVtQCjhQVrxfxS6bBJDQVLVk=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Fri, 31 Jan 2025 17:18:17 +0100 (CET)
+Message-ID: <675dba40-e559-45bf-b9ec-65f4d4c60923@perex.cz>
+Date: Fri, 31 Jan 2025 17:18:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: core: Change device numbering
+To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>, Takashi Iwai <tiwai@suse.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+References: <20250127144445.2739017-1-amadeuszx.slawinski@linux.intel.com>
+ <f8f2b8f9-527e-486d-ae83-34abd13ef968@linux.intel.com>
+ <6fcbc9d3-93d4-4485-9f9f-5bef61476ef3@perex.cz>
+ <811c03ef-03a2-44a3-969b-5a2d55f2f876@intel.com>
+ <2a772972-3011-4083-9d5d-e1bfe297998b@linux.intel.com>
+ <50f5fa11-55f2-4928-97a6-b4758e8d9d52@perex.cz>
+ <fabca478-69cc-436e-b0c4-2ffec183e66a@linux.intel.com>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <fabca478-69cc-436e-b0c4-2ffec183e66a@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Use the FIELD_{GET,PREP}() and field_{get,prep}() helpers for const
-respective non-const bitfields, instead of open-coding the same
-operations.
+On 31. 01. 25 13:41, Amadeusz Sławiński wrote:
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Rebase on top of commit 470e3f0d0b1529ab ("clk: renesas: rcar-gen4:
-    Introduce R-Car Gen4 CPG driver").
----
- drivers/clk/renesas/clk-div6.c      |  6 +++---
- drivers/clk/renesas/rcar-gen3-cpg.c | 15 +++++----------
- drivers/clk/renesas/rcar-gen4-cpg.c |  9 +++------
- 3 files changed, 11 insertions(+), 19 deletions(-)
+> So, as I understand you want something like the following and to
+> differentiate cards in UCM using component?
 
-diff --git a/drivers/clk/renesas/clk-div6.c b/drivers/clk/renesas/clk-div6.c
-index 3abd6e5400aded6a..f7b827b5e9b2dd32 100644
---- a/drivers/clk/renesas/clk-div6.c
-+++ b/drivers/clk/renesas/clk-div6.c
-@@ -7,6 +7,7 @@
-  * Contact: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/clk-provider.h>
- #include <linux/init.h>
- #include <linux/io.h>
-@@ -171,8 +172,7 @@ static u8 cpg_div6_clock_get_parent(struct clk_hw *hw)
- 	if (clock->src_mask == 0)
- 		return 0;
- 
--	hw_index = (readl(clock->reg) & clock->src_mask) >>
--		   __ffs(clock->src_mask);
-+	hw_index = field_get(clock->src_mask, readl(clock->reg));
- 	for (i = 0; i < clk_hw_get_num_parents(hw); i++) {
- 		if (clock->parents[i] == hw_index)
- 			return i;
-@@ -191,7 +191,7 @@ static int cpg_div6_clock_set_parent(struct clk_hw *hw, u8 index)
- 	if (index >= clk_hw_get_num_parents(hw))
- 		return -EINVAL;
- 
--	src = clock->parents[index] << __ffs(clock->src_mask);
-+	src = field_prep(clock->src_mask, clock->parents[index]);
- 	writel((readl(clock->reg) & ~clock->src_mask) | src, clock->reg);
- 	return 0;
- }
-diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
-index 027100e84ee4c429..ca8f6a68771628fb 100644
---- a/drivers/clk/renesas/rcar-gen3-cpg.c
-+++ b/drivers/clk/renesas/rcar-gen3-cpg.c
-@@ -54,10 +54,8 @@ static unsigned long cpg_pll_clk_recalc_rate(struct clk_hw *hw,
- {
- 	struct cpg_pll_clk *pll_clk = to_pll_clk(hw);
- 	unsigned int mult;
--	u32 val;
- 
--	val = readl(pll_clk->pllcr_reg) & CPG_PLLnCR_STC_MASK;
--	mult = (val >> __ffs(CPG_PLLnCR_STC_MASK)) + 1;
-+	mult = FIELD_GET(CPG_PLLnCR_STC_MASK, readl(pll_clk->pllcr_reg)) + 1;
- 
- 	return parent_rate * mult * pll_clk->fixed_mult;
- }
-@@ -94,7 +92,7 @@ static int cpg_pll_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 
- 	val = readl(pll_clk->pllcr_reg);
- 	val &= ~CPG_PLLnCR_STC_MASK;
--	val |= (mult - 1) << __ffs(CPG_PLLnCR_STC_MASK);
-+	val |= FIELD_PREP(CPG_PLLnCR_STC_MASK, mult - 1);
- 	writel(val, pll_clk->pllcr_reg);
- 
- 	for (i = 1000; i; i--) {
-@@ -176,11 +174,7 @@ static unsigned long cpg_z_clk_recalc_rate(struct clk_hw *hw,
- 					   unsigned long parent_rate)
- {
- 	struct cpg_z_clk *zclk = to_z_clk(hw);
--	unsigned int mult;
--	u32 val;
--
--	val = readl(zclk->reg) & zclk->mask;
--	mult = 32 - (val >> __ffs(zclk->mask));
-+	unsigned int mult = 32 - field_get(zclk->mask, readl(zclk->reg));
- 
- 	return DIV_ROUND_CLOSEST_ULL((u64)parent_rate * mult,
- 				     32 * zclk->fixed_div);
-@@ -231,7 +225,8 @@ static int cpg_z_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 	if (readl(zclk->kick_reg) & CPG_FRQCRB_KICK)
- 		return -EBUSY;
- 
--	cpg_reg_modify(zclk->reg, zclk->mask, (32 - mult) << __ffs(zclk->mask));
-+	cpg_reg_modify(zclk->reg, zclk->mask,
-+		       field_prep(zclk->mask, 32 - mult));
- 
- 	/*
- 	 * Set KICK bit in FRQCRB to update hardware setting and wait for
-diff --git a/drivers/clk/renesas/rcar-gen4-cpg.c b/drivers/clk/renesas/rcar-gen4-cpg.c
-index 31aa790fd003d45e..a63114a1d431968f 100644
---- a/drivers/clk/renesas/rcar-gen4-cpg.c
-+++ b/drivers/clk/renesas/rcar-gen4-cpg.c
-@@ -279,11 +279,7 @@ static unsigned long cpg_z_clk_recalc_rate(struct clk_hw *hw,
- 					   unsigned long parent_rate)
- {
- 	struct cpg_z_clk *zclk = to_z_clk(hw);
--	unsigned int mult;
--	u32 val;
--
--	val = readl(zclk->reg) & zclk->mask;
--	mult = 32 - (val >> __ffs(zclk->mask));
-+	unsigned int mult = 32 - field_get(zclk->mask, readl(zclk->reg));
- 
- 	return DIV_ROUND_CLOSEST_ULL((u64)parent_rate * mult,
- 				     32 * zclk->fixed_div);
-@@ -334,7 +330,8 @@ static int cpg_z_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 	if (readl(zclk->kick_reg) & CPG_FRQCRB_KICK)
- 		return -EBUSY;
- 
--	cpg_reg_modify(zclk->reg, zclk->mask, (32 - mult) << __ffs(zclk->mask));
-+	cpg_reg_modify(zclk->reg, zclk->mask,
-+		       field_prep(zclk->mask, 32 - mult));
- 
- 	/*
- 	 * Set KICK bit in FRQCRB to update hardware setting and wait for
+> - card: 0
+>     id: avshdaudio
+>     name: avs_hdaudio
+>     longname: LENOVO-20KH006LPB-ThinkPadX1Carbon6th
+>     driver_name: avs_hdaudio
+>     mixer_name: Realtek ALC285
+>     components: HDA:10ec0285,17aa225c,00100002
+
+The short name (name:) may be better like 'AVS HD-Audio' (almost all ASoC 
+drivers suffers here), but the proposed driver_name is fine from my view.
+
+					Jaroslav
+
 -- 
-2.43.0
-
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
