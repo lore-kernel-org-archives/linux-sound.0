@@ -1,127 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77F0139E;
-	Fri, 31 Jan 2025 21:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61DB1925BF
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jan 2025 22:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738358315; cv=none; b=NHxhl/+xEcpdW3TVzhelBVliIueSpFppsN0AxFuLh3tj3LkiZb7iYxadkt8nz9q0H4EVI04BQUtHIxtKv0260D6uWCDK0/56UkVurk9qF/k+vCzhvKbhXtgTS6Uou1xf3GABNuoE7mlfnpCgHpo0fYgwM687CWthr8N3z/n6LzI=
+	t=1738363569; cv=none; b=gBvmIgyy55GvRRr6z8DJnixEGMGzyhKl+BqCMf7FTxaFw6vj/SWIwr1B4nw324O/SWFC+f9BRfiLRwShJDCiN+4fkUVnlNfcAlOmLHzNwTqbuVWxlX6gkMRMISG9LF0xbCIxJHExa6tW7czLSGeEm/dyJD1ON+l9371uCsvuaFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738358315; c=relaxed/simple;
-	bh=sM66QRyKMeDsKq/54eUtBNYXdMr+6numAYXYD8J90eU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JWx60BoN26ClZ61yvpSqmUzsh3gkErb7ByR0osmL66u6QNF26L9OoXpmNgA0oDsv0gpTJHJ9mLr5+KAIPP5Vz9uaFZCnGGrVYXvk04cSIWkjyq1pDupRanu26t9rwWzGHLBVG3xz+nSHWq2UKK25prw3Xd1LatWrVE0k0x/284g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oLbPDdsA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738363569; c=relaxed/simple;
+	bh=fV9hhrVRP+qzrleYSIWXpKoYEuxlmibMFIbjPlpYr2A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PCR1Ax7pVOmumdL4y0MOB/+NfjoAbXzb830xPsw/rpUwWnitgjW0PIHp1NjVHtV0IIavJJ6L0tu/NLZQEa0p7XlHD02orFUo0aWkZ03gU/Yk8U4F/1pX6g04m+bWP11Qv3fprKus1J6sfKmbOvApTHcGFYptEP4XVL73PdCNTZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NZD5N+cS; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oLbPDdsA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AEF8C4CED1;
-	Fri, 31 Jan 2025 21:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738358315;
-	bh=sM66QRyKMeDsKq/54eUtBNYXdMr+6numAYXYD8J90eU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oLbPDdsAMVcj3J8Pve6PZtT2wvHC8PTe1Qzx3j5VGPw6nbo9AUbVYUSPYI3yh0p3J
-	 ifjhD6MNSex6CszIGFcVMJ3fXgo7vtazv32Ck/syk8YC69P85P/ugE6ROBG4NOGWcC
-	 KliFmBlZCyFVzNmxw7zQLq8NzbPpfWS62uPNsnVWlOM4C52UyHTNvHF2nJBs2RjDR4
-	 uKHb3DtHidtJLSn20fANGWlELKgY2Ef00ZE2kvCZqsQurEWYTmS8WCNtJ+Nu2HRZPp
-	 eDiO2EThEiCX2+PG1Zm/9zO+Vrn4S9JpP25/Zqzq0EXaLbiSWrM2hoCc0uOIW1KQbc
-	 2ARA+2gVIvrKw==
-Message-ID: <c898680c-f1ac-4bfa-ac18-4b4b5c241dab@kernel.org>
-Date: Fri, 31 Jan 2025 22:18:24 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NZD5N+cS"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-307325f2436so25381561fa.0
+        for <linux-sound@vger.kernel.org>; Fri, 31 Jan 2025 14:46:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738363565; x=1738968365; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fV9hhrVRP+qzrleYSIWXpKoYEuxlmibMFIbjPlpYr2A=;
+        b=NZD5N+cSwgVpbp4uBKSqg9Ag0t7Oh4RA/lD0W3UwbFHWlduW2tIowWiv6HwJBhUViu
+         xSuh4Kje+bigOiOnBVSWZDT9VJXlhLagMHAUEt3NEfB0hwA9nNvX8kSTyeMTKHxw9yfj
+         2rGKONg+p1SpUW6udf14oHRIPfnrGXTD8eYwEzaZaiDCgXJZzTH743+hl0zqAVEXITbx
+         R/56S+Sv2LB9ARZKAfSI+pU+Zz2QkHjOEGj1XrtamsQO7VLQbPmaZ27VBJFl/uBnoSWA
+         u5IMRUwQcuazoVgnlNRV3UBcRy6Z1bB71Y+sxxmOty/Foo4vtnmr2VEsq5IGcAyjRxJ4
+         hw8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738363565; x=1738968365;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fV9hhrVRP+qzrleYSIWXpKoYEuxlmibMFIbjPlpYr2A=;
+        b=DjVt9PuyCaV5JyoIx5HC6umlmVi2ToC9mW/zTzTCFJRqBus0SAL3hBTET0WHsWCUiY
+         u+pp8ECncidqgwsqTeoitXGNWaC5B/AV1SOrui0w6Qsevd86pWYG+aFISJUiA+rL/Gmu
+         HpIZoGs8UcBJOvdxIEHG65MkNKlX9oysvhZSaalZ1+L7YoFVbEt5MGwAJ36Oar/zCSsS
+         TesVo4+3Q9RwPlf+f4dF4j5Bzj/zS8JsDYQf9cxj+fZGWgCyBimH9e8Kym3CkHnvGPjq
+         Efa1PqmMKuC+q85p71RHurSQtLvSCU3gxiTPmyVzi9B5Jiv+PdjRBdLvk1g+G8aQtDbO
+         rHZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbattW5dMamsihXyD5UWsFor5/UeWyTrv3XKxne8rvTQCtT6Lza5rKW2EPzt66My8BhEMnj6PVkntUfA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8TNSAgTEE2Ha2Kb/ppHzyauWGJQwzGg2fFgEdirWMuo0WQmzd
+	OjZpGp2a04LhAiHza1vB0cjcg2VplaFo5iXUZFGZZq8zDXxN9tCfjzW0Z6TP/6NtUGWbLpybwtu
+	Sxiku+mnN/z20h+cMt+DYC2EBDHaxdB8BooPN5Q==
+X-Gm-Gg: ASbGncv3jAxVIQ4gEj3GLGsROuwZg9vgl+Fn/qxv9HdYSz/Txv4svFBQV27KnIX12dC
+	5ItRcKKStQpoXSbv+o9iTIxe/qsvt/ZBRiTI8+RrVX8zWhGCrRFU/HDMXJMFWuoE4vHD3gXo=
+X-Google-Smtp-Source: AGHT+IHHYjxVhba4NRZORQamjtU7NeuHHIHelxxj9O/XIYBIqNCjtNKWK69c7J1JA7YkTDGQPCWMRncUBp/ITQdEaIo=
+X-Received: by 2002:a05:651c:897:b0:300:1c9a:80ce with SMTP id
+ 38308e7fff4ca-307968e0098mr51916141fa.33.1738363564658; Fri, 31 Jan 2025
+ 14:46:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] Initial Support for CS40L26
-To: Fred Treven <ftreven@opensource.cirrus.com>,
- James Ogletree <jogletre@opensource.cirrus.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Ben Bright <ben.bright@cirrus.com>, simont@opensource.cirrus.com,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
- Jack Yu <jack.yu@realtek.com>, Igor Prusov <ivprusov@salutedevices.com>,
- Weidong Wang <wangweidong.a@awinic.com>, Binbin Zhou
- <zhoubinbin@loongson.cn>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
- Paul Handrigan <paulha@opensource.cirrus.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Nuno Sa <nuno.sa@analog.com>,
- Karel Balej <balejk@matfyz.cz>, Heiko Stuebner <heiko@sntech.de>,
- Jeff LaBundy <jeff@labundy.com>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20250131202057.1786324-1-ftreven@opensource.cirrus.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250131202057.1786324-1-ftreven@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
+In-Reply-To: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 31 Jan 2025 23:45:53 +0100
+X-Gm-Features: AWEUYZk_dyG4cveXgq-R2QdDjI5W5xxfEw1ByFh9vnHwzlCQYvkaIUdRlN711z4
+Message-ID: <CACRpkdads3+XQqvZDJXmYHDLGfRK0H_S==72uqkuht2nEX1+rQ@mail.gmail.com>
+Subject: Re: [PATCH 00/13] gpiolib: add gpiods_set_array_value_cansleep
+To: David Lechner <dlechner@baylibre.com>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 31/01/2025 21:20, Fred Treven wrote:
-> Introduce driver for Cirrus Logic Device CS40L26:
-> A boosted haptics driver with integrated DSP and
-> waveform memory with advanced closed loop algorithms
-> and LRA protection.
-> 
-> The core CS40L26 driver is in MFD and touches the
-> Input Force Feedback subsystem for haptics and
-> the ASoC subsystem for audio to haptics streaming.
-> 
-> This patchset includes changes to the CS DSP firmware
-> driver which fixes two bugs and introduces support for
-> multiple coefficient files.
+Hi David,
 
-I got two emails from you out of this entire set, not even threaded. I
-think rest of your posting got lost.
+On Fri, Jan 31, 2025 at 9:24=E2=80=AFPM David Lechner <dlechner@baylibre.co=
+m> wrote:
 
-Best regards,
-Krzysztof
+> This series was inspired by some minor annoyance I have experienced a
+> few times in recent reviews.
+>
+> Calling gpiod_set_array_value_cansleep() can be quite verbose due to
+> having so many parameters. In most cases, we already have a struct
+> gpio_descs that contains the first 3 parameters so we end up with 3 (or
+> often even 6) pointer indirections at each call site. Also, people have
+> a tendency to want to hard-code the first argument instead of using
+> struct gpio_descs.ndescs, often without checking that ndescs >=3D the
+> hard-coded value.
+>
+> So I'm proposing that we add a gpiods_set_array_value_cansleep()
+> function that is a wrapper around gpiod_set_array_value_cansleep()
+> that has struct gpio_descs as the first parameter to make it a bit
+> easier to read the code and avoid the hard-coding temptation.
+>
+> I've just done gpiods_set_array_value_cansleep() for now since there
+> were over 10 callers of this one. There aren't as many callers of
+> the get and atomic variants, but we can add those too if this seems
+> like a useful thing to do.
+
+I like it.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+for the series.
+
+Yours,
+Linus Walleij
