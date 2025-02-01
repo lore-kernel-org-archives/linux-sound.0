@@ -1,117 +1,154 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9699461;
-	Sat,  1 Feb 2025 00:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE76617BA5
+	for <linux-sound@vger.kernel.org>; Sat,  1 Feb 2025 10:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738371035; cv=none; b=KtETC7/R+DLv3RBvXzZyYoHtoBnZPzP7k2stR4I430g7MCKF+OkmdVXGE1+2Y7fJyGJgNkCW2KR4uKpS+F6/Lz0ut/oBapGmULVRX9auU0FrhiPwzJ665shpSstq7JJhNEJQMMAtwEpYEOamreYiuX5ykAU234r8KkvipwULZdc=
+	t=1738406185; cv=none; b=YdyON3sy9r7ef5TrhfjpmsOV9Nwfr/IqiRG+Zi3RkyOppslpokcf5LsaLGQLaEGULT985U0JQ7eFf5Y1A80qsua8r8vLpDJgUyUHPrn+DpkjsKgYXv5D6yrnVVSYaMt+LjBuBvQcGzzwO09smrEZR98qphyTJP1qn3pTNaqFOHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738371035; c=relaxed/simple;
-	bh=EGWr5fWgxUPJFS9FxvM4TAqLqvXd4TuJn5bJ/7OmLPQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KKbj7sLSm8OPYOXx15rPSuYLJZTrqesK9asetSPTUUbKKqGfe5lVevKgyHtiBzE9vLxI1bJHUbejQlOxEZCOC2GRRVv25MBLD2F5No/kVbtjjRcXfAjZSXWkzeMls+76FlhzpHRbH44COdoqYgC5VeVoq2CH274eHEijUxU8/JU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=HUJcy39l; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1738406185; c=relaxed/simple;
+	bh=iqw5RHSV8S70QoypLHZQ6Q5vg7hJQNF5r+oQH6qoIxU=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CVAXbdWgOcM0lKLUDXptZCcs69FdRWpBYdsxpbQqFTNfTsPjCoTGiwHHUyQ2O7+IgN2NUTy1HoA8wvDKotPxWxqGh68kTwjsWGmnzK23RQyuZYDKs/d06/HlAdSur2HA0y5xYvUHgMKeAaJJ/p0blcxYXchejFprAgpA3ZBAqE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=B3TxkcdW; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="HUJcy39l"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=yUp8gIamITNTXKVgHV8c7KipsP99RyQ4CH6ynQ6dYic=; b=HUJcy39lMxUXStXz
-	6bUsXiUrd/32C/YFSorb+y7RKX6GZoMOhHg+GA5l4mbVhRYm6CK5gcj0UvwR7OSeuJmM9Q6DfzUpK
-	XjSrJdpwrBOezf2U939lpIkEUkIeRACZWYKl7/Jd0jIHPI4Av/hKgFFxti4eILQlFTbYhRj49vl2q
-	ygCL0ae+9L/9NfkDnuREx6JUU5surcQViAllbpnYIUSQjioDVCR6OiUkzFAwtWDWKkfN9eBd7pHy4
-	0TzTnE1KkwMo9yxXaNgxnLEudxkk32i/mPKWpfBOIuS0HCT/mVn9IorxULM4ScLYysprtHXUjovYR
-	rssdPKVQjOHqiAod6g==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1te1iH-00D1GY-2d;
-	Sat, 01 Feb 2025 00:50:21 +0000
-From: linux@treblig.org
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com
-Cc: linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] ASoC: mediatek: Remove unused mtk_memif_set_rate
-Date: Sat,  1 Feb 2025 00:50:21 +0000
-Message-ID: <20250201005021.447726-1-linux@treblig.org>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="B3TxkcdW"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-306007227d3so27933441fa.0
+        for <linux-sound@vger.kernel.org>; Sat, 01 Feb 2025 02:36:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1738406182; x=1739010982; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oDdRJ+I4mzWc8IF8+OQqo1T57d81vrjPzSqlTDqBnks=;
+        b=B3TxkcdWKwGPBOebL9pA5bUQHLxQuAutZ9kfu1oWUILNs1QWrlQXhOyuzxUr0gh/eJ
+         SJ63Wv/UJwk1Ps/NEArGZHSuscrrZS4vKqLe1fCpUrqsnfWrXZOTxh/Dh+hxUOl86YyK
+         7ZgXgGo0ACYpgHJwUeKltsykq5LC0yK0DSO+z4y26SgYhQzgKYU8MBxVekRvZ0NImO5v
+         CghEyVL8L+nUWr9eq8FaxlbOfp9FQLnoN4hNgeVRnJC6EG/Wixrbxe37hOPAgyCMjxaH
+         TrI0p8Wgd8C0VN6xGZY+b1Ou2WNfyyS6UAhbR5narGWCYbrCFHblg0vcpe87QjXaXVHL
+         mXFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738406182; x=1739010982;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oDdRJ+I4mzWc8IF8+OQqo1T57d81vrjPzSqlTDqBnks=;
+        b=dexxTc0LDheWytOYv2Gir+A5yCa1ZfhesujXiFYNzG2b2HEvC27+7how4NRhUDACqy
+         0MgHxI9H3uy3D113pbhKKb72wX4ttIGuAteSm7sQZBShmkIo9YWhVD4CmK6dlyLjaTAV
+         ANaYUbeVZK1L6Vv2HAn0mbg99EJ93lNXJ1hVvX0dEhL+y4B4t6oB73qwBBUxTWp0iN8+
+         0csZ3GX1Mz29Hfx8MAzA17N4blaNcWdPkGYBQdGW73acq/6nfV1i92Q3f3TaE8AogShK
+         ktCNtz/YYNfFfjEHMWft2+V4i7cwQHXZquqhpM3Y5mTmdpX36hno62YEZdNtB8sz21XC
+         OIPg==
+X-Forwarded-Encrypted: i=1; AJvYcCVQVsZqrtuyssAbFrCrllKao+/xdywYub/3IDhHA/unI25wfSQAeXxa52PexBJ5S5dVILgFMyBr9/koLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwAp56W0Hq0KSVAZVkGQm64i0rVpP0WZuVdfRfTFQLWuyKO7yz
+	XC38vdwImXnwdTqBuXIOwevSZP1V0m9nitBkYbtszm6h4CNU8fJzfiUO6Tz8IReTLDOwlvs0V1S
+	lPoLruJA/n5NFv2vIANHD53bMGZ2uzoAJDqSMcQ==
+X-Gm-Gg: ASbGnctWKjWGpQM6i/3nyIr55AEwutpXwp0qc4ZXjQImi4AiD0WAP7GBoqRf+34I+5Q
+	KROKVET5r85q/VaJYMDqiyMxyeYYLVBUcGVTapg/C5VcPGoy7CHadlwDPwScCX65jLoNoLvZ2
+X-Google-Smtp-Source: AGHT+IG/TVS8htf084OR17kIjfzG2VfKKdd+Zm7iyJX53veJ+z8OFO/m1mmCuR205oUFZ0hgVzWPIgYd5gwR9N1dJcc=
+X-Received: by 2002:a05:651c:2116:b0:2ff:d044:61fc with SMTP id
+ 38308e7fff4ca-3079690e02amr50683871fa.33.1738406181352; Sat, 01 Feb 2025
+ 02:36:21 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Sat, 1 Feb 2025 02:36:20 -0800
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Sat, 1 Feb 2025 02:36:20 -0800
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+In-Reply-To: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
+Date: Sat, 1 Feb 2025 02:36:20 -0800
+X-Gm-Features: AWEUYZlUDyMyvD5QqatzuRcJ92GC2-lApzNfXLMZZCZq3wVbhWt8z_DF3wi7h90
+Message-ID: <CAMRc=MdwQL8dWU5zF5fp+KUbC2RA2Q264by8HGXMg2k1rxhsTA@mail.gmail.com>
+Subject: Re: [PATCH 00/13] gpiolib: add gpiods_set_array_value_cansleep
+To: David Lechner <dlechner@baylibre.com>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, 
+	Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On Fri, 31 Jan 2025 21:24:40 +0100, David Lechner <dlechner@baylibre.com> said:
+> This series was inspired by some minor annoyance I have experienced a
+> few times in recent reviews.
+>
+> Calling gpiod_set_array_value_cansleep() can be quite verbose due to
+> having so many parameters. In most cases, we already have a struct
+> gpio_descs that contains the first 3 parameters so we end up with 3 (or
+> often even 6) pointer indirections at each call site. Also, people have
+> a tendency to want to hard-code the first argument instead of using
+> struct gpio_descs.ndescs, often without checking that ndescs >= the
+> hard-coded value.
+>
+> So I'm proposing that we add a gpiods_set_array_value_cansleep()
+> function that is a wrapper around gpiod_set_array_value_cansleep()
+> that has struct gpio_descs as the first parameter to make it a bit
+> easier to read the code and avoid the hard-coding temptation.
+>
+> I've just done gpiods_set_array_value_cansleep() for now since there
+> were over 10 callers of this one. There aren't as many callers of
+> the get and atomic variants, but we can add those too if this seems
+> like a useful thing to do.
+>
+> ---
+> David Lechner (13):
+>       gpiolib: add gpiods_set_array_value_cansleep()
+>       auxdisplay: seg-led-gpio: use gpiods_set_array_value_cansleep
+>       bus: ts-nbus: validate ts,data-gpios array size
+>       bus: ts-nbus: use gpiods_set_array_value_cansleep
+>       gpio: max3191x: use gpiods_set_array_value_cansleep
+>       iio: adc: ad7606: use gpiods_set_array_value_cansleep
+>       iio: amplifiers: hmc425a: use gpiods_set_array_value_cansleep
+>       iio: resolver: ad2s1210: use gpiods_set_array_value_cansleep
+>       mmc: pwrseq_simple: use gpiods_set_array_value_cansleep
+>       mux: gpio: use gpiods_set_array_value_cansleep
+>       net: mdio: mux-gpio: use gpiods_set_array_value_cansleep
+>       phy: mapphone-mdm6600: use gpiods_set_array_value_cansleep
+>       ASoC: adau1701: use gpiods_set_array_value_cansleep
+>
+>  drivers/auxdisplay/seg-led-gpio.c           |  3 +--
+>  drivers/bus/ts-nbus.c                       | 10 ++++++----
+>  drivers/gpio/gpio-max3191x.c                | 18 +++++++-----------
+>  drivers/iio/adc/ad7606.c                    |  3 +--
+>  drivers/iio/adc/ad7606_spi.c                |  3 +--
+>  drivers/iio/amplifiers/hmc425a.c            |  3 +--
+>  drivers/iio/resolver/ad2s1210.c             |  8 ++------
+>  drivers/mmc/core/pwrseq_simple.c            |  3 +--
+>  drivers/mux/gpio.c                          |  4 +---
+>  drivers/net/mdio/mdio-mux-gpio.c            |  3 +--
+>  drivers/phy/motorola/phy-mapphone-mdm6600.c |  4 +---
+>  include/linux/gpio/consumer.h               |  7 +++++++
+>  sound/soc/codecs/adau1701.c                 |  4 +---
+>  13 files changed, 31 insertions(+), 42 deletions(-)
+> ---
+> base-commit: df4b2bbff898227db0c14264ac7edd634e79f755
+> change-id: 20250131-gpio-set-array-helper-bd4a328370d3
+>
+> Best regards,
+> --
+> David Lechner <dlechner@baylibre.com>
+>
+>
 
-mtk_memif_set_rate() has been unused since it was added in the 2019
-commit 9cdf85a19b3a ("ASoC: mediatek: common: add some helpers to control
-mtk_memif")
+This looks good to me except for one thing: the function prefix. I would
+really appreciate it if we could stay within the existing gpiod_ namespace and
+not add a new one in the form of gpiods_.
 
-Remove it.
+Maybe: gpiod_multiple_set_ or gpiod_collected_set...?
 
-(The _substream version is used, and is left in)
-
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- sound/soc/mediatek/common/mtk-afe-fe-dai.c | 20 --------------------
- sound/soc/mediatek/common/mtk-afe-fe-dai.h |  2 --
- 2 files changed, 22 deletions(-)
-
-diff --git a/sound/soc/mediatek/common/mtk-afe-fe-dai.c b/sound/soc/mediatek/common/mtk-afe-fe-dai.c
-index 3044d9ab3d4d..3809068f5620 100644
---- a/sound/soc/mediatek/common/mtk-afe-fe-dai.c
-+++ b/sound/soc/mediatek/common/mtk-afe-fe-dai.c
-@@ -500,26 +500,6 @@ static int mtk_memif_set_rate_fs(struct mtk_base_afe *afe,
- 	return 0;
- }
- 
--int mtk_memif_set_rate(struct mtk_base_afe *afe,
--		       int id, unsigned int rate)
--{
--	int fs = 0;
--
--	if (!afe->get_dai_fs) {
--		dev_err(afe->dev, "%s(), error, afe->get_dai_fs == NULL\n",
--			__func__);
--		return -EINVAL;
--	}
--
--	fs = afe->get_dai_fs(afe, id, rate);
--
--	if (fs < 0)
--		return -EINVAL;
--
--	return mtk_memif_set_rate_fs(afe, id, fs);
--}
--EXPORT_SYMBOL_GPL(mtk_memif_set_rate);
--
- int mtk_memif_set_rate_substream(struct snd_pcm_substream *substream,
- 				 int id, unsigned int rate)
- {
-diff --git a/sound/soc/mediatek/common/mtk-afe-fe-dai.h b/sound/soc/mediatek/common/mtk-afe-fe-dai.h
-index 8cec90671827..b6d0f2b27e86 100644
---- a/sound/soc/mediatek/common/mtk-afe-fe-dai.h
-+++ b/sound/soc/mediatek/common/mtk-afe-fe-dai.h
-@@ -42,8 +42,6 @@ int mtk_memif_set_addr(struct mtk_base_afe *afe, int id,
- 		       size_t dma_bytes);
- int mtk_memif_set_channel(struct mtk_base_afe *afe,
- 			  int id, unsigned int channel);
--int mtk_memif_set_rate(struct mtk_base_afe *afe,
--		       int id, unsigned int rate);
- int mtk_memif_set_rate_substream(struct snd_pcm_substream *substream,
- 				 int id, unsigned int rate);
- int mtk_memif_set_format(struct mtk_base_afe *afe,
--- 
-2.48.1
-
+Bartosz
