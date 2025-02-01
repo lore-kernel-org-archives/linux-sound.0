@@ -1,101 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C634A3E;
-	Sat,  1 Feb 2025 12:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA7720330;
+	Sat,  1 Feb 2025 14:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738413971; cv=none; b=YTgos9kmLCWcOQIpRysHEiV3IrmaqSHnlB6+pnstUvQAGeJPcj0gKMiFzdUDJv7hq3ydZGxyAViCwPt3SNn5HGzyZ+7AxAmkUPZ0IiQo7+IBM8FVhE0lhKYaRESCdZF2bHWgyfK+WdW3VU96MZ7Qrwq0EtNWCMfy7oNzUbKsz0U=
+	t=1738420785; cv=none; b=B3y6+CWWY2GesB+J23bSX26xkQrHr56G2bZ8Gf0t4dGTvoAInZnegMfV32t+1Pf1wjiWQEc25oVlyt78lrcRtJLoANtzhJgkdMZsQU6ILYXPn8JTvP2i6jjnZOkYthCwQbEgY6zI4PR+AXvIeJyOj5eeH9RRC3eXtM64W2bQk8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738413971; c=relaxed/simple;
-	bh=7ko/gQUGt0pizGv4D1amPrClqwB81WnRx5o5PwUX/x8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dztp0DPcwrJS1WG7DXYOVCcWQS43xl9dI5nKy9nDTU2oOt8Gpxr6ERAeXLa1iZF/lzkeBSra0XdjGgWQgLov25jwZUR5p72L62Yycg3WX/e/D87r4+G2vDvgGkOBHQAiBRfel+txE2U09OCSeguOGkB30RxTy0f4oCAavlkiW3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EppRzHBu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738420785; c=relaxed/simple;
+	bh=wBkba/v5eoGhankCbBEeMFPQnnO6O3Aek9xKVukiObw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PAN7NnHpASWoDtgAjzsCJVuu2FeH2H89cwHsvRreE9wRc3z7WLzV+ksv/mIe31efgsiTBrBoo+Yw8Jlt66SxFl7DAj3shdgNzz89HM4xEeMg0v3Kp7jMra4LSrfxP3a8dysbIV5JwLo/2RyHO/0ADEtEgo912MN/VN5RbKi69FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xwx2w/20; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EppRzHBu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6729C4CED3;
-	Sat,  1 Feb 2025 12:46:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738413971;
-	bh=7ko/gQUGt0pizGv4D1amPrClqwB81WnRx5o5PwUX/x8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EppRzHBuNDbnUhTthJlTexKX37xf80XHABBRneVyeZM1cxBQORR7mVi+r/jBBMIaM
-	 c8sRXLMF41a635MSBk1QaAFGSd9J2kxPrwCDZH6VrTOM+2RFg7EcRSpar4VOW1yjKt
-	 Jd4MKZYnVXQr71prex5I3ZGdWAe/P/h3mOp93GmGuKOLsRWXWnoEeQOzZIEjKF39dU
-	 aQ9/bOi5qEsCBx8QZEknphdEfnCBgWbfZ6adjxMDFEUKv+WEi+Zyem093AhhzSaC9j
-	 b62gMYM+7dK9a8VwA6Klc0kHSOgIAk/q0U4Y9vBHAsS9wYzfJkbAMNRoDlbTGk6NZK
-	 eafamWqbrngLQ==
-Date: Sat, 1 Feb 2025 12:45:54 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Ulf
- Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Heiner
- Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav
- Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/13] gpiolib: add gpiods_set_array_value_cansleep
-Message-ID: <20250201124554.7e64d016@jic23-huawei>
-In-Reply-To: <2715ead8-cf6d-4b44-b6e3-343cb6489eca@baylibre.com>
-References: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
-	<4ad45123-134a-4544-ad0a-24371105d96f@lunn.ch>
-	<2715ead8-cf6d-4b44-b6e3-343cb6489eca@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xwx2w/20"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2eec9b3a1bbso3958462a91.3;
+        Sat, 01 Feb 2025 06:39:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738420783; x=1739025583; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4IXATb3WD0Y8ZHgOSiPUXeVEOvohal0QGruJmsTw9ME=;
+        b=Xwx2w/20hi57F6g4jMA6gDC11AHfB7oX9TnofPURt7ZWqmyq0YhpqzsFIr/H6tVvA1
+         Rl/6eAj5CdBvZPy4ehG60pZ9W8Dvgv5x87m1V816HlObrGs9Nechfsjho/Q/Xgst9ScQ
+         o3vIsui52MiF3KzgSbOhesQov/WlHSdcy2qJYJPrkYHH2UV37AVBdBIa5YKig5Bwiqn9
+         bFfE/dFp7fIJNDvdCXMLtlza8b+zoVFFo+lULL7ePtznfIzxLCqAmca4/FDY1BgJwCKA
+         ypB9LJhEr0vUolvoi3BWM+MLUP2/wK4ctFlpkl+azjxPlOMLRjQkVli4wKo/xFlowYc6
+         OkwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738420783; x=1739025583;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4IXATb3WD0Y8ZHgOSiPUXeVEOvohal0QGruJmsTw9ME=;
+        b=DLAK57xCBpyZYWtdI+P7v2shO417tbAI0yhQipLho04wQ514ERkyYBDjDIw+9OmeoX
+         RzPfvLLKHpVvHudsYzFI7wO0IE2a7vTvROyinWeV7kO9drxcaIACqSS6mpXqaMchwUhC
+         cTGd8N0Gz6HxOVJYuGagVCnyE9+39TWb43RfWIId31nUq/tmHjdzmi/yJLu91iodPasP
+         RNBT4+9KciKDNqy7TtxQ7jNaFuAz4t8Qp2+VYJ1BvD1uUDuLDc2EkqbY5geH16oMISif
+         TN2kko4WEqOUw92itJ7zPvoBfCdhORMryQcDqAhcNdQ3GevG9S8AXCh6oyHweeC+D83n
+         nPuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUph5o3t/94EBa//pi2SuWLNDwqpZQMp+X+C1jS0uEAgfeBXA/XXGbi10GYBVILOesqbLzOyu8vB2adwQ=@vger.kernel.org, AJvYcCXZwlYGtUM1HoIgpZnhQUDIx1T6LZqGIRFQoCDLcbdWpOn/aVGO/d/g/7w6YSqAsCOJualIFxJWWs+Wqpc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzd3YrTF+punWMTmHP1UbCG0V6Ss6bFJJRmyP9b5X5/J4/BBN4G
+	wARNz0grX0YgfL4l5KI2+Bcw/uunKNT/2GSXmai6kkwSOfZ2yLXgSiBUAf6v
+X-Gm-Gg: ASbGnctY1mQb4BgkOnKGed0qS5nmetm4xrkJtxV6LpneDoVhjQ2F7wJ/SN1xMtqNlv4
+	FJORGgICkoFAZ6MXZUiEzrC6uHpucz6ynjDu6nLr2ElrbiLMnfsb1f+aMaU+u++gcovuFU84eAm
+	0TWnL/plt6KRf4WTthJkaeHW9993g7PBGuzfMdqCDwcnHEHcd9rPdVIZygAug7tdmn9Sn8b+aGA
+	odQMkKw32RjmKQtO9HEEAXb7sVwS22ZL1w9c1lwQxmM4y0lUFDAM+FO53l+CGnvLofGztP0PXgL
+	0tMN+65sVRMM8aheUcSWgKcfjDo2GUJDzA==
+X-Google-Smtp-Source: AGHT+IFXZFbqK2eUmc4gh4raMEoWcfL6O2X/FfhuuPctagKUb78DaN3ILVqu3SAPGctSc+tRJaYhBg==
+X-Received: by 2002:a05:6a21:9991:b0:1e6:50a0:bbc5 with SMTP id adf61e73a8af0-1ed7a538361mr22586461637.21.1738420783285;
+        Sat, 01 Feb 2025 06:39:43 -0800 (PST)
+Received: from localhost.localdomain ([187.17.229.23])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72fe6427b95sm5150016b3a.49.2025.02.01.06.39.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Feb 2025 06:39:43 -0800 (PST)
+From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	josh@joshuagrisham.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	edson.drosdeck@gmail.com
+Subject: [PATCH]  ALSA: hda/realtek: Limit mic boost on Positivo ARN50
+Date: Sat,  1 Feb 2025 11:39:30 -0300
+Message-Id: <20250201143930.25089-1-edson.drosdeck@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 31 Jan 2025 14:51:52 -0600
-David Lechner <dlechner@baylibre.com> wrote:
+The internal mic boost on the Positivo ARN50 is too high.
+Fix this by applying the ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine
+to limit the gain.
 
-> On 1/31/25 2:38 PM, Andrew Lunn wrote:
-> >> So I'm proposing that we add a gpiods_set_array_value_cansleep()
-> >> function that is a wrapper around gpiod_set_array_value_cansleep()
-> >> that has struct gpio_descs as the first parameter to make it a bit
-> >> easier to read the code and avoid the hard-coding temptation.  
-> >  
-> > This looks reasonable.
-> > 
-> > How do you plan to get it merged, since you cross a lot of subsystems
-> > here.
-> > 
-> > 	Andrew  
-> 
-> Since these are mostly small changes and most of the touched drivers aren't
-> seeing much action, I think it would be OK for as much as possible to go through
-> the GPIO tree.
-> 
-> We might need an immutable branch from that though since I know that iio: adc:
-> ad7606 is currently being actively worked on.
-Looks good to me (subject to requested name change from Bartosz)
-I'd suggest an immutable with patch 1 then up to each subsystem
-maintainer to pick that up or wait for next cycle.
+Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Always hard to predict what else will get worked on at this stage
-of a cycle.
-
-Jonathan
-
-
-> 
-> If there are any patches leftover that don't get acked to go through the GPIO
-> tree, I can resubmit them after the next kernel release cycle since none of
-> this is urgent anyway.
-> 
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 8192be394d0d..ae0beb52e7b0 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -11045,6 +11045,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1f66, 0x0105, "Ayaneo Portable Game Player", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x2014, 0x800a, "Positivo ARN50", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x2782, 0x0228, "Infinix ZERO BOOK 13", ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13),
+ 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
+-- 
+2.39.5
 
