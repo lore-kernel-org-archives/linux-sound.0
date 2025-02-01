@@ -1,123 +1,172 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DE017BA5;
-	Sat,  1 Feb 2025 15:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755A71BC077
+	for <linux-sound@vger.kernel.org>; Sat,  1 Feb 2025 16:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738422650; cv=none; b=TDfoJZMH+ontQUhMWk6gX9Pp3JrPDWKO/AFe43WMAATfjcQoDuBT8wKzNr54SL5GWJ7fYJUegOFPBVmM4MCHJjZ0MPWcBYdrjoK+en05B6fkqnNFv8N9QNJ6VBEJfwhWWRDvsChY5bJyw8GtQlABKLGwBgNWal0OyRSBea0iHg4=
+	t=1738426160; cv=none; b=J9YnRfRvuWEYoxrNHa8kyOX1SRiSxIhTHS/GSpx9pCIkwbkDw/fQ+aWwE8DpeGoCoH1Fbtgey67UeTI1W9tXUplIuHBC82EstE2gBBUrxntdK5mcjYla458X1S9/RaoXg5KEbKaebel2LwH4UdDdPAcm1mD7Lcw/RNIA+XcXG0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738422650; c=relaxed/simple;
-	bh=ESxYJN8LO93DuQxER3WQlpFWAbMknpRPqKYoTwe3w58=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JMj5/uPWiWi4c5v+CAqs4HOfcFn3pfLva+TpWccfY+ApWO7x/7nlnIePG03xdDGzU6YdKblotQ5aa50MB8/1v85R6BAoyvXNKblyMaIBwFAcJWvUW3KT8LFw4WUyigYgmqHVJ9TsxzviNICACrNzWymPSN2nwXutPD2EtlNqnjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gGPUdHf2; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738426160; c=relaxed/simple;
+	bh=1D36JuSUvj+vjMHfIzJ73Ejh/BelZ12eFT5aIafgzFw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DUVZaT178hzrHChbbM/FFEIVXFGtPj0WkltdsU+vdZnfb9bRqL1ODkwzJ+dBdfkioGrPQybann/8++Iw391THrgxbjqi6KjazLRgL6d6zIpYlrkYsJClBlKQJdZJcQlB+TRqpWnuJqSVNkrquBU/j3UTTYkocIefgHbe05ec7Eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=yk5gTbCM; arc=none smtp.client-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gGPUdHf2"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5dc0522475eso5972012a12.1;
-        Sat, 01 Feb 2025 07:10:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="yk5gTbCM"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3ee1be3d496so1531109b6e.0
+        for <linux-sound@vger.kernel.org>; Sat, 01 Feb 2025 08:09:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738422647; x=1739027447; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ESxYJN8LO93DuQxER3WQlpFWAbMknpRPqKYoTwe3w58=;
-        b=gGPUdHf2xZdF8NN+44IcfpTUoeazH5N25wqLVCSLAgs+0s4NFSTCTfpUVwkzbIVrYz
-         cKcwNByN/YEFIZ7iRWv/dhcCtLGMt/+NywlRN5STaUl0NlAK/xpAchg5aBPXfKLqMM7v
-         5/S/rM6huqDESNW3/fYTD3JfRK0zXyx4jV1h6JQ87Zy/gv9+khEKS35i9LUu8rXad/HP
-         5k8DJ/+1hnHrIE/tYUe3RURagrBH8PM4ciEHIdv8lkqTTVz4jqs4IWE8dkRjKUpK5UZu
-         oJMozPvNVdSN7u2pluFc/MkzE1O9p/K3ht5qy/A9dptT/rTSQ9Q5nlPeJL7UeJRElxph
-         uK3Q==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738426156; x=1739030956; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6/HWj5hSehOUGeRp7am4uO7k2toUSpAz0X3lYENSi1c=;
+        b=yk5gTbCM1tvq/gNujNwELqWdpamk9s2eJgFLtc+wbAhCLSZamwwF1H1flxULJOmqBi
+         llvuVCh8QXOkx5CmijhXn5rF9NZmPOXQbfH/JX5TuptWJqKcmreyHnNRRhli84A0pOCD
+         Mi5TL0m/OJYSgR2XpO53jlzZc6pJn4KDiK6NHJtmNTCm/SX0JuwiGAyh88ShMzepl0XO
+         GFeoFP3kPFWIlwu8wuo4odCwi8w5lYYq4oizZ0REzz3xcGzAs5MgYgBTlMPaGx4KaFUx
+         UMRw52BKnfFeSYtbp08gxyV/YZzDy+LofX1oCncUwQdeXkaqcaL/MqK0Me7IvXTTpjyA
+         lwhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738422647; x=1739027447;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ESxYJN8LO93DuQxER3WQlpFWAbMknpRPqKYoTwe3w58=;
-        b=cs2i4TyRSXlZfdwkg8CArN6mFzaLS0DkXYKzfarzsOg8SFUMtGcqysRTkpXVeShv/S
-         hWGB/nqNZklNz0uoVNsgxKtSWBP+K7ZiQBh/qK8j0BCruwSWoRrWRNvBAseSiXxcCsdz
-         8ANEeUMdD5DMEC80mpcDN84T5GF1TUjPfiyPVcQ8IRU0ulHUhLHAulpV8//nWmJYki7j
-         jZ0p3vm1V79QSF2gO0d0syOzd+Ty7eIOT6nK5rY3hjdpceU2H4y1YM3aWDZ2IRpkTNEZ
-         5kqs8wGJGGVaWgjqnBno8h+SO5iUY3i73MooxX9p4WqAo9s5SYxhQAJHk8oe48MJGPY+
-         Q/TA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmrfHfvOq3xCjeft8Lw0Hs2sfwD8V+Jke75Ma6qUW03OTFUmHWp3FAjao9M13VnJYbXhT5y+KF@vger.kernel.org, AJvYcCUwnwWIyPSQyAxAFgQr7oEGzzfEmb+yNdO1BUjjHg+PdVbjQkqAy+r9QJouoqNCoWYm9+6UnG3izoHq@vger.kernel.org, AJvYcCV0iJKLhZKFSq5f0QVhfaPRfh6anZ4MMcBOsYn8zGZvrPDsXMQ9MSMBO5urlvwV9ccvZocijjd914A+jlRK@vger.kernel.org, AJvYcCWG/4wVpbFxIp5/XmrGNxolOjtWnvIUe2kOJ8KpxVFxzOhudWRxx/i577qefHofcvVAYz0HjyPKbsED@vger.kernel.org, AJvYcCWSBxX4FgO4eePytX/HwvY0VZsAxYArm/ux0XvXvlefoOtVFAkTErO0fMRqD4gsZPUfROdSdciRtNpp@vger.kernel.org, AJvYcCX5FqFv8NLIVM+7w1i2FjpXKFBhSNfsTL0keVxF+TAqMP1eDoSziccNib/+8d/1XUJdV55b9/kCDz+fVvQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yydu85pT5ZCARVXdRJZRPscYcLVOoyuXRv8TSaxXGBwKg7vT4W+
-	PXxX7+NQ+0qma2oXYIe6AUMvqQGO3pbTwwho66RvxvReGxADslbIZzm8igfLJwUQNxRpVya50J1
-	7TsCurefQKY7LgFmF6z2ysfe6eOQPSs1M
-X-Gm-Gg: ASbGnculrt4VTrwkNWHSDHMj9Lc+a0FbBsYI6U7Yjjbt/PwYvX6gdPvInf7/5/nwz3U
-	KEtDjy66XN0isI/13i3r8eSqvIAgZVpz0pnFrM7fQlfRCHwHcImLrlzz+LLHrO0Uzlw27rujq
-X-Google-Smtp-Source: AGHT+IHPgrNaOXTa7GqWwitfxkRWBG3TvzNWPR4XUMDvIyq00cafe/hSAsbw9bgwxCrxOiMYuV7eQGbqzKnExEBm6ts=
-X-Received: by 2002:a17:907:7296:b0:aa6:73ae:b3b3 with SMTP id
- a640c23a62f3a-ab6cfd10a18mr1638424866b.32.1738422646569; Sat, 01 Feb 2025
- 07:10:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738426156; x=1739030956;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6/HWj5hSehOUGeRp7am4uO7k2toUSpAz0X3lYENSi1c=;
+        b=fgfzc3cuKfLfSPgiQPuiK80j97yKRhY/8ueK+PFDanUvkcGeom+czh5oBBG8vex1E2
+         vA11c0qtMmGPMEh/70sx3kDJF+LVY6Ut8tnrbkEAkFsW5XFWl8rpxSYDmkKPKqktvk2L
+         QKanI+SMn9gWwR0Mn9YtUw9kzonW+iR5nVuMFyRMfwF4U1uH31/x3q1FDNBJbeOcBPDc
+         Nb2tP3jni1uhnixFUIXwwD2JVHTaNwarsoJidZw9mZ0yHzrG4NsoG8xjWxFGCcugc0to
+         NS0S8vyh3Lu+1GmV2/g2J5Y+TrPUyofWQQpyLki2Uo/Li6jUjXNpSBM9xLtQVOUfTUgz
+         xQ4g==
+X-Forwarded-Encrypted: i=1; AJvYcCUnTE707dmWrOkmmQWTwdYadPteAcRv7Hn7zYK0w+0m1ZPkezood08uhijeqeiQc6gw/YgkabIUTF82tg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz36qY7Nx5jP7JcB0rDBAOhjlun5aVu4auM3ewtE/lrqHTQKeDs
+	Bkemotd9GgejHTfzV3gMp73/8iEqxJqJfUAqd82a8EZIRXXHtiTzy6KyuICbcmc=
+X-Gm-Gg: ASbGncuOTVMqtuZfl2KjsRJDsGCeLTfuFMjs1Gr7VEOtgZERBdPwOxleeew18tpZ4Qf
+	+YEFTLfIEsB43TCjgATbYDpsA2ct1p2Tsy5kgSJF+NZuXDpV968Sl3gDds0xTIcaQXowl3AMxl3
+	eFee4eozPuDO6gbeaiG7DvuDdm7qP+hsvZA8sA25FoOhGPJfonzgwcefYnYd1s63P93QJ7Sp8Qi
+	p5Htd7pYb+XRLNKvgszK28nj0RXoyE07/LiFJB1gMc/GdYsQ/YOy09QGVHGB3L/vWGIK6ZC86KM
+	G6RcuCtUS9gz8pGB8uRB14HdFceEDKiwRHEbZ08sn/v2mC7xQL6a
+X-Google-Smtp-Source: AGHT+IHlRVUNM84414C8bMX22/8bNBRk4Wz6BZnDGgM7+x56FCD0VuxaQe5kTozn9TxT7X99cEoMmA==
+X-Received: by 2002:a05:6808:3c85:b0:3f1:b124:59ae with SMTP id 5614622812f47-3f33c41c93bmr5106514b6e.13.1738426156387;
+        Sat, 01 Feb 2025 08:09:16 -0800 (PST)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f333523fd6sm1405864b6e.3.2025.02.01.08.09.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Feb 2025 08:09:15 -0800 (PST)
+Message-ID: <9931433b-5cde-4819-ac96-eea4f1f0f1f2@baylibre.com>
+Date: Sat, 1 Feb 2025 10:09:12 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com> <CAMRc=MdwQL8dWU5zF5fp+KUbC2RA2Q264by8HGXMg2k1rxhsTA@mail.gmail.com>
-In-Reply-To: <CAMRc=MdwQL8dWU5zF5fp+KUbC2RA2Q264by8HGXMg2k1rxhsTA@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 1 Feb 2025 17:10:10 +0200
-X-Gm-Features: AWEUYZkrnYfcY0HPvRPT8411yweedOSpoNuc0S9BpdhPvgLvzrOaZ1BtCHgoJXY
-Message-ID: <CAHp75VdjLWsQJ6CFGdSSEHR=e53h60LGfBcS0mYjeMjzUJuKJQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 00/13] gpiolib: add gpiods_set_array_value_cansleep
 To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: David Lechner <dlechner@baylibre.com>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org, 
-	Linus Walleij <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+ Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
+ <CAMRc=MdwQL8dWU5zF5fp+KUbC2RA2Q264by8HGXMg2k1rxhsTA@mail.gmail.com>
+From: David Lechner <dlechner@baylibre.com>
+Content-Language: en-US
+In-Reply-To: <CAMRc=MdwQL8dWU5zF5fp+KUbC2RA2Q264by8HGXMg2k1rxhsTA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Feb 1, 2025 at 12:36=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
- wrote:
->
-> On Fri, 31 Jan 2025 21:24:40 +0100, David Lechner <dlechner@baylibre.com>=
- said:
-> > This series was inspired by some minor annoyance I have experienced a
-> > few times in recent reviews.
-> >
-> > Calling gpiod_set_array_value_cansleep() can be quite verbose due to
-> > having so many parameters. In most cases, we already have a struct
-> > gpio_descs that contains the first 3 parameters so we end up with 3 (or
-> > often even 6) pointer indirections at each call site. Also, people have
-> > a tendency to want to hard-code the first argument instead of using
-> > struct gpio_descs.ndescs, often without checking that ndescs >=3D the
-> > hard-coded value.
-> >
-> > So I'm proposing that we add a gpiods_set_array_value_cansleep()
-> > function that is a wrapper around gpiod_set_array_value_cansleep()
-> > that has struct gpio_descs as the first parameter to make it a bit
-> > easier to read the code and avoid the hard-coding temptation.
-> >
-> > I've just done gpiods_set_array_value_cansleep() for now since there
-> > were over 10 callers of this one. There aren't as many callers of
-> > the get and atomic variants, but we can add those too if this seems
-> > like a useful thing to do.
-
+On 2/1/25 4:36 AM, Bartosz Golaszewski wrote:
+> On Fri, 31 Jan 2025 21:24:40 +0100, David Lechner <dlechner@baylibre.com> said:
+>> This series was inspired by some minor annoyance I have experienced a
+>> few times in recent reviews.
+>>
+>> Calling gpiod_set_array_value_cansleep() can be quite verbose due to
+>> having so many parameters. In most cases, we already have a struct
+>> gpio_descs that contains the first 3 parameters so we end up with 3 (or
+>> often even 6) pointer indirections at each call site. Also, people have
+>> a tendency to want to hard-code the first argument instead of using
+>> struct gpio_descs.ndescs, often without checking that ndescs >= the
+>> hard-coded value.
+>>
+>> So I'm proposing that we add a gpiods_set_array_value_cansleep()
+>> function that is a wrapper around gpiod_set_array_value_cansleep()
+>> that has struct gpio_descs as the first parameter to make it a bit
+>> easier to read the code and avoid the hard-coding temptation.
+>>
+>> I've just done gpiods_set_array_value_cansleep() for now since there
+>> were over 10 callers of this one. There aren't as many callers of
+>> the get and atomic variants, but we can add those too if this seems
+>> like a useful thing to do.
+>>
+>> ---
+>> David Lechner (13):
+>>       gpiolib: add gpiods_set_array_value_cansleep()
+>>       auxdisplay: seg-led-gpio: use gpiods_set_array_value_cansleep
+>>       bus: ts-nbus: validate ts,data-gpios array size
+>>       bus: ts-nbus: use gpiods_set_array_value_cansleep
+>>       gpio: max3191x: use gpiods_set_array_value_cansleep
+>>       iio: adc: ad7606: use gpiods_set_array_value_cansleep
+>>       iio: amplifiers: hmc425a: use gpiods_set_array_value_cansleep
+>>       iio: resolver: ad2s1210: use gpiods_set_array_value_cansleep
+>>       mmc: pwrseq_simple: use gpiods_set_array_value_cansleep
+>>       mux: gpio: use gpiods_set_array_value_cansleep
+>>       net: mdio: mux-gpio: use gpiods_set_array_value_cansleep
+>>       phy: mapphone-mdm6600: use gpiods_set_array_value_cansleep
+>>       ASoC: adau1701: use gpiods_set_array_value_cansleep
+>>
+>>  drivers/auxdisplay/seg-led-gpio.c           |  3 +--
+>>  drivers/bus/ts-nbus.c                       | 10 ++++++----
+>>  drivers/gpio/gpio-max3191x.c                | 18 +++++++-----------
+>>  drivers/iio/adc/ad7606.c                    |  3 +--
+>>  drivers/iio/adc/ad7606_spi.c                |  3 +--
+>>  drivers/iio/amplifiers/hmc425a.c            |  3 +--
+>>  drivers/iio/resolver/ad2s1210.c             |  8 ++------
+>>  drivers/mmc/core/pwrseq_simple.c            |  3 +--
+>>  drivers/mux/gpio.c                          |  4 +---
+>>  drivers/net/mdio/mdio-mux-gpio.c            |  3 +--
+>>  drivers/phy/motorola/phy-mapphone-mdm6600.c |  4 +---
+>>  include/linux/gpio/consumer.h               |  7 +++++++
+>>  sound/soc/codecs/adau1701.c                 |  4 +---
+>>  13 files changed, 31 insertions(+), 42 deletions(-)
+>> ---
+>> base-commit: df4b2bbff898227db0c14264ac7edd634e79f755
+>> change-id: 20250131-gpio-set-array-helper-bd4a328370d3
+>>
+>> Best regards,
+>> --
+>> David Lechner <dlechner@baylibre.com>
+>>
+>>
+> 
 > This looks good to me except for one thing: the function prefix. I would
-> really appreciate it if we could stay within the existing gpiod_ namespac=
-e and
+> really appreciate it if we could stay within the existing gpiod_ namespace and
 > not add a new one in the form of gpiods_.
->
+> 
 > Maybe: gpiod_multiple_set_ or gpiod_collected_set...?
+> 
+> Bartosz
 
-+1 here, i.e. I like the idea, but the naming needs to be amended.
+I was waiting for someone to complain about the naming. ;-)
 
---=20
-With Best Regards,
-Andy Shevchenko
+I was going for as short as possible, but OK, the most obvious prefix to me
+would be `gpio_descs_...` (to match the first parameter). Any objections to
+that?
+
