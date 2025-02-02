@@ -1,156 +1,146 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps-ovh.mhejs.net (vps-ovh.mhejs.net [145.239.82.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB10E1FBCB6;
-	Sun,  2 Feb 2025 17:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48FD2F3B;
+	Sun,  2 Feb 2025 22:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.239.82.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738518839; cv=none; b=ub+LKxdT6Nd/MharsksR5NA1OGvoK75GP6nzkMfqW983mmRZ2L0AewqU6R2H5AAyc1HrDPptuLXxDVsn5N9R9skGp4ykcUs25BXo2IWnOh7ibFC+xZonXxSDqirdj4xL11qldi2HCVlSO+ybIypRv3f3/So90KvAJ2DQ1rvdB6A=
+	t=1738533985; cv=none; b=bZIi/6DJXW78ulJyBgNz4NFxc9QO0/ci8FVgkJdwh4deD9XiwjxJ5AusW/uYOs1aHDlCuoAcY4Jo/CSYAx4CNx5oUVaNx6REGCCaNRhUBN0bY8Q0S4TEKgvE3YjAhzUMgvwZZvzXEws49MVKGpIcOKNqRplsDM5Y+mPr8d95a64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738518839; c=relaxed/simple;
-	bh=wJ1UIWu8ialmyd9DgBW/S9FAV5r3Qu1m/hwmDc7n5FU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CbpdXPcWvjXpg4RCUFAdM6KwJmdJsdIAeOQ5A/ke+kaH5UetinyXcGz9lz2JsxvnYgOtsdxYGrV2bDnDyl1stgs46J2s6sU/LFH646AReX6hx3YlKUmDgyq98VILRSIp1GBjx/n4+dzOx6rSMQla+5Qqxaij+GCYzr3jfL+4V7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EL0EzNW3; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EL0EzNW3"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6f6cb364c7fso17285577b3.3;
-        Sun, 02 Feb 2025 09:53:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738518835; x=1739123635; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bu/o5ZKE+DmrVvfqpvDfKwO+d8/POCqsIdA64ajmPWE=;
-        b=EL0EzNW3p/UPCWPz5ixqlfJGRdBUqpe0WKZhc7nXfdCL8/VqiPW6x9P4SiH1/QOZd0
-         FjJUaHs/RXXdgqfUZ2+Dj0MoNBpGRPht3vC6qkq/vDm+m9Rt8joSyh7lbIDn1ri0e6Zy
-         SZLnZ7yQIz06zgKYYfIfRSaIF9XeCqUgXal7tdaW9T/iD4UQSKDuBVftGrGToRg5YFwf
-         YsXoYFt8d+c6adfG9fmn8Le0OX2t1eiJIDoC8gpMT+6tsiyM0eNoURWxoe2XvN+NH+Yo
-         UQKS6W2PAWb2FSjrcWrNkP9wWJmQKLglJMoaIuAFKA+V3pqOIPvTtc25GlrtT4iWlZrr
-         W5kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738518835; x=1739123635;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bu/o5ZKE+DmrVvfqpvDfKwO+d8/POCqsIdA64ajmPWE=;
-        b=lFX9CW2Ej/CQ4fh6590qXQwVyC/60LbbjqztW2x0M/K1BcfCVcvAHVgp1jl2FMrt/Q
-         ogSWmE49G//JHtcblA4JZQVyBBlz/tuZw7Q34ZFwQc52dTTJ+a/8e2/We+NlVg/oatPU
-         ewXjt5h+mpme4wRnWSop0viOGmJMvnFugwQzb0HHXchrwJqQ9rqKrTEY3k+i7Oy2qDiU
-         4KBhEIQG+xrweB6ySe6c70cwJO/vZVcgHOzvzHFH2ZRLVayQlqZJAvXjmX6uZVDcMcoY
-         Tc/0kVohcBY8LjnND1vBoPov3Yl53Nh1jA85mwKXeZ2oSS1UFBQ8xdPLuvLLdmYJl3zO
-         kLlg==
-X-Forwarded-Encrypted: i=1; AJvYcCUAaajvYpz8GSj4uwIKIZ6e1iQmkQ4DNRARryjdFX2EF3QRBCoafBEi19HLPBsgZcIGWT2fCR/JEAZaNhYZ/SOoUzg=@vger.kernel.org, AJvYcCUyMLvJz0jFM+cf8vwi/Ol41pBzglnBX8qNf47Jxk3lq6xeFZsudL1z0kjiRZXMFEexC94plh4kX8UZtKOd@vger.kernel.org, AJvYcCUzR0qxnDRAKnfWoDtN3pgFAwaU2XDkKtOdkptEfnOK3Zxfjmg7q8Fk1bLDzpYJRBMRVrNM42XFwBtWaOg=@vger.kernel.org, AJvYcCWQA94JmZ+mXRYpsIgQUearpO9l6cc6scycTAVbiEEPTLjHaar4CO/GMPE2c0LDN0ehWF5Mqe5BBxNK@vger.kernel.org, AJvYcCWqO6+XOXU6i8QtuXaDUDaMEV4eG6QWJT5fIo6YnikOQw0l+hKh91OnZh0v9I/PeSk9EOzYYe45kVNepTAB@vger.kernel.org, AJvYcCX5/ErFzWLIR6q1Cab99QaEUsZ1gqJxQTJjIL/IzcgVE4zKIQq0tVyMaCGsZfTcUcFm9zOA4VXu9sTDzQ==@vger.kernel.org, AJvYcCXRJyy4eB36v/hQq2Jtg1D3kKuZ0NApl+flXdz52yJUYx1J12gZo+nmln1luDa4KrgLviVeAlssVy4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzslZo50tx0HH7PMmBGlgNIgZUjRYuVbFvxRDcnrM0qDjfoIO9t
-	1nPsIS/WBc7/325FpDUdMFw2NqrAhkE6YfOZFPRpnrqUdKJXgEeq
-X-Gm-Gg: ASbGncszc/3FFpH4moRgk6T4zetiveR/EFL2cMbbjKDRjQ92BcpFy8KKKSX5BkbStDL
-	WCd3dz5r0jT9VIZM9kedqZFLY70sORczXebsKTxs4e+VqTY4B7Xpps+EJChlQg/VogIafUrI5N7
-	Fm/jmFsPPXSiuFfQ/UjNvOcNIwYVfWvbQY3J+XBHILjxwC93wIPbCh1YnpJZenG1i9eGlHBAsxF
-	sWKzSNKWf/LTQTsHDMWbIH4xR86BE7Swvqwp7hAky8nFk9S5Ypcvm+JkXFLyjy+0swxyFE84aKX
-	/3JOczHz7VpQRXZE3mTN8ZaaZFV7sO6QGUuf/cqZEcZeoIqQqVI=
-X-Google-Smtp-Source: AGHT+IHHQI3478HvRiKWIVLIdATv32EFyyXdDb7s9xEv/S/0xqBbGzFcSVKK2nIkOtoAuYeOo+6nPg==
-X-Received: by 2002:a05:690c:6e09:b0:6f5:4304:fdc with SMTP id 00721157ae682-6f7a832a301mr158970467b3.6.1738518835574;
-        Sun, 02 Feb 2025 09:53:55 -0800 (PST)
-Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6f8c465b884sm17908247b3.59.2025.02.02.09.53.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Feb 2025 09:53:55 -0800 (PST)
-Date: Sun, 2 Feb 2025 12:53:53 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
-	qat-linux@intel.com, linux-gpio@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>
-Subject: Re: [PATCH treewide v2 1/3] bitfield: Add non-constant
- field_{prep,get}() helpers
-Message-ID: <Z5-xMUqrDuaE8Eo_@thinkpad>
-References: <cover.1738329458.git.geert+renesas@glider.be>
- <1824412519cb8791ab428065116927ee7b77cf35.1738329459.git.geert+renesas@glider.be>
- <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
+	s=arc-20240116; t=1738533985; c=relaxed/simple;
+	bh=QkXhW4ZAD5/7QTDthpxBexryqeShEw34h0YqydISOwg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rFoHxQp3nraPtaGq88sXUcHn6Tgy7C6B/p1Q4yOXuOWq69T6Qoykh67SD1kWRfw8GhULYkqyCsvbacYUzy+U6YQNu+9GYyQfM4BVQz9BkUUiHpEo2+hEjM7MIV2hPodPmdvmsyHMRcQsj1yG5MimLKkb4v8ULgZIB3HEatdwhs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maciej.szmigiero.name; spf=pass smtp.mailfrom=vps-ovh.mhejs.net; arc=none smtp.client-ip=145.239.82.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maciej.szmigiero.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vps-ovh.mhejs.net
+Received: from MUA
+	by vps-ovh.mhejs.net with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+	(Exim 4.98)
+	(envelope-from <mhej@vps-ovh.mhejs.net>)
+	id 1teheJ-00000006jxP-2n5G;
+	Sun, 02 Feb 2025 22:37:03 +0100
+Message-ID: <1b44be68-4ba0-4949-ab9e-6c03c0b8830f@maciej.szmigiero.name>
+Date: Sun, 2 Feb 2025 22:36:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable PC beep passthrough for HP
+ EliteBook 855 G7
+To: Kailang Yang <kailang@realtek.com>, Oder Chiou <oder_chiou@realtek.com>,
+ Shuming Fan <shumingf@realtek.com>
+Cc: Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
+ Qiu Wenbo <qiuwenbo@kylinos.com.cn>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <8be5018af1d2b26b495719b122eff0eaa1333561.1735737289.git.mail@maciej.szmigiero.name>
+ <87sepo2pvn.wl-tiwai@suse.de>
+Content-Language: en-US, pl-PL
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Autocrypt: addr=mail@maciej.szmigiero.name; keydata=
+ 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
+In-Reply-To: <87sepo2pvn.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Sender: mhej@vps-ovh.mhejs.net
 
-On Sun, Feb 02, 2025 at 05:26:04PM +0900, Vincent Mailhol wrote:
-> On 31/01/2025 at 22:46, Geert Uytterhoeven wrote:
-> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> > constants.  However, it is very common to prepare or extract bitfield
-> > elements where the bitfield mask is not a compile-time constant.
+On 12.01.2025 13:11, Takashi Iwai wrote:
+> On Wed, 01 Jan 2025 14:16:05 +0100,
+> Maciej S. Szmigiero wrote:
+>>
+>> PC speaker works well on this platform in BIOS and in Linux until sound
+>> card drivers are loaded. Then it stops working.
+>>
+>> There seems to be a beep generator node at 0x1a in this CODEC
+>> (ALC269_TYPE_ALC215) but it seems to be only connected to capture mixers
+>> at nodes 0x22 and 0x23.
+>> If I unmute the mixer input for 0x1a at node 0x23 and start recording
+>> from its "ALC285 Analog" capture device I can clearly hear beeps in that
+>> recording.
+>>
+>> So the beep generator is indeed working properly, however I wasn't able to
+>> figure out any way to connect it to speakers.
+>>
+>> However, the bits in the "Passthrough Control" register (0x36) seems to
+>> work at least partially: by zeroing "B" and "h" and setting "S" I can at
+>> least make the PIT PC speaker output appear either in this laptop speakers
+>> or headphones (depending on whether they are connected or not).
+>>
+>>
+>> There are some caveats, however:
+>> * If the CODEC gets runtime-suspended the beeps stop so it needs HDA beep
+>> device for keeping it awake during beeping.
+>>
+>> * If the beep generator node is generating any beep the PC beep passthrough
+>> seems to be temporarily inhibited, so the HDA beep device has to be
+>> prevented from using the actual beep generator node - but the beep device
+>> is still necessary due to the previous point.
+>>
+>> * In contrast with other platforms here beep amplification has to be
+>> disabled otherwise the beeps output are WAY louder than they were on pure
+>> BIOS setup.
+>>
+>>
+>> Unless someone (from Realtek probably) knows how to make the beep generator
+>> node output appear in speakers / headphones using PC beep passthrough seems
+>> to be the only way to make PC speaker beeping actually work on this
+>> platform.
+>>
+>> Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
 > 
-> Why is it that the existing FIELD_{GET,PREP}() macros must be limited to
-> compile time constants?
-
-I guess, for historical reasons?
-
-> Instead of creating another variant for
-> non-constant bitfields, wouldn't it be better to make the existing macro
-> accept both?
-
-Yes, it would definitely be better IMO.
-
-> As far as I can see, only __BUILD_BUG_ON_NOT_POWER_OF_2()  and
-> __BF_FIELD_CHECK() need to be adjusted. I am thinking of this:
+> It's a change that does handle things completely differently from the
+> current implementation, and it uses undocumented Realtek-specific
+> things, so I'd rather want comments from Realtek.
 > 
-> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-> index 63928f173223..c6bedab862d1 100644
-> --- a/include/linux/bitfield.h
-> +++ b/include/linux/bitfield.h
-> @@ -8,6 +8,7 @@
->  #define _LINUX_BITFIELD_H
-> 
->  #include <linux/build_bug.h>
-> +#include <linux/compiler.h>
->  #include <asm/byteorder.h>
-> 
->  /*
-> @@ -62,15 +63,13 @@
-> 
->  #define __BF_FIELD_CHECK(_mask, _reg, _val, _pfx)                      \
->         ({                                                              \
-> -               BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
-> -                                _pfx "mask is not constant");          \
-> -               BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
-> -               BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-> -                                ~((_mask) >> __bf_shf(_mask)) &        \
-> -                                       (0 + (_val)) : 0,               \
-> +               BUILD_BUG_ON_MSG(statically_true((_mask) == 0),         \
-> +                                _pfx "mask is zero");                  \
-> +               BUILD_BUG_ON_MSG(statically_true(~((_mask) >>
+> Kailang, is this feature correct and can be used safely?
 
-This should be a const_true(), because statically_true() may be OK
-with something like:
-        ((runtime_var << 1) & 1 == 0)
-
-I think it's your own patch that adds const_true(): 4f3d1be4c2f8a :)
+Anyone from Realtek (Kailang? Oder? Shuming?) willing to confirm whether there's
+any other realistic way to make PC beep work on this platform (or CODEC) or do
+we need to assume that using PC beep passthrough (as this patch does) is the
+only way to make it work?
 
 Thanks,
-Yury
+Maciej
+
