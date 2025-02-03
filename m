@@ -1,97 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F8E201016;
-	Mon,  3 Feb 2025 12:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255752040A6
+	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 12:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738585507; cv=none; b=eDpAyhxg4lpnCc1hQcK7rlgyXy/akbWiODoOIbgQnainhmaN3+hmY3o05CbBxVyqTjKjP8t6MPdU7N5XRpF0PGFCYmAT7is3F+f931sjJHqofqbEk9c7YVcY/rou6BPgOND3uI4BFLxfBG4vYctLIG0625iXVlAYgGPIeZvJDqI=
+	t=1738586993; cv=none; b=YZSUOkNq6z4n3P5/gdWoukyp/yGbf4kXbtH91V48yM7X9vamKqErbYmfcpHhKZTE6eddnahBl08/1ydSEgVE/JEAuz8rgGp3JN84HwfpkLbvSrKsaSk6HA7jGI38Ob2UCMye2n7HxbT2beZ+/tkM1835X1HthWdWY6ALQ0qwUI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738585507; c=relaxed/simple;
-	bh=Yy5ZhC9XApBt7e/QvLBQSPY6sVLlD4cP7bLWazn+hTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZmqFP0PE7meW755ZYON7aloSA8PMqWbPFAJuikwlPKSesYNGRjmlnIwTG7rXrfXxCNZNERS44jGfsZVnqPEaHY5GZ8P8A8Q7VPtREa1E336CGUuMvDwrHhOhwNaJ2MZ5a6JpsaM0rkq1+dL56YY6HC0GedPMCkR7MbPFpoxohY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WgyFBLHk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738586993; c=relaxed/simple;
+	bh=nUkpU5HdizpxTWr8YxBaJkQkZC9L5Iy1O5dsyOZHQtY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ecs3zZxyD4ZMZ0HdpejrlBhisauUR3PNLaSpq6rBQZ/fY/n/IuARyYpR+ZAoZkBr8qghI/T8FnySWmjQ4oTrD97pb4CTXNJLPHyezvkqG/8PlGTKekGlKNkd2KL2Il1Dql0nLeB3ekPDJaKKNEQOgYPdAf0/ke502EWgpfgWUPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dI9+6Oxo; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WgyFBLHk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8399FC4CED2;
-	Mon,  3 Feb 2025 12:24:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738585506;
-	bh=Yy5ZhC9XApBt7e/QvLBQSPY6sVLlD4cP7bLWazn+hTM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WgyFBLHkuVy8bN5kDhkP1EGbAK7ioccPHVyLC25mEIayv3DJK7Tm2uRsQq2Jh0fAa
-	 Int2NvfquWUvgrFZzmX67B845a0Y8UBFyg7F9lNoSnr141x2o7Hovef8R5iaJkW14L
-	 O8Mw7GQg0x3bUmkm8V0HFhTiojVKh8J8yYO+/SA0RETVXQghpzP8Z6pw3Yuc9w2wuP
-	 O/+dKCQy4+GohyTHCsRFy49HyIbtiUwOfs6Pip5+i0hyjjmkT3KjAT7BRymP6hhhlc
-	 +7Lo9yiSJ7ER7dh3tF9j6L7ovChKtZABgfMeLV3WJ2J1EU47uFYiskzBnfxrlg6XKZ
-	 xHQ+uFN17i2eg==
-Date: Mon, 3 Feb 2025 12:24:55 +0000
-From: Mark Brown <broonie@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andy@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 13/13] ASoC: adau1701: use gpiods_set_array_value_cansleep
-Message-ID: <a6e7f5c5-6dfa-4478-9a18-85d0897c7ca4@sirena.org.uk>
-References: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
- <20250131-gpio-set-array-helper-v1-13-991c8ccb4d6e@baylibre.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dI9+6Oxo"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-385e3621518so2074752f8f.1
+        for <linux-sound@vger.kernel.org>; Mon, 03 Feb 2025 04:49:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738586989; x=1739191789; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ywGUrOp/w8H6RCppdbR3Agfd+wqSLlU6tOUovBhQqng=;
+        b=dI9+6OxokdsnoihcAOg5SVnwAgJdhRbr4yoY2vKt1NmMyHrloRebNjBS7z/4wG2e6y
+         KwDneDXWijRuWnYy+MUgYtJ2TSV2GjgG1xvBiOqr1Th/9bP3STpj+Hy/hIDc1txIffFW
+         aObscZVLtL7P7gXtppoDUkY0hNtxTwP0nkLaluQ8BitU0h7X52c+mUnpXKxJc3Bt5PLP
+         OLaWuVUYCUzv7IEvDD1Udjp3hYy2gYjCrVXHogEXPVXlpAKQ/lCi+bIm4LDFFrHLdHbs
+         NJxP7mOKjkwa3WeoSMQueYVetWzBzZ5XBJGKZ8jiaJIy+xLzw0Oa5fxKdf8P6ULm0Ll/
+         V7Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738586989; x=1739191789;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ywGUrOp/w8H6RCppdbR3Agfd+wqSLlU6tOUovBhQqng=;
+        b=YM2zVvDNey+qpARLiXujzGQmCpKhkeePig4jPRhCEm7t/UqBJGoJXsxZJjgxHW/OvX
+         JicgYFZuOKWasAobt2emVvb5IUXuG0a5EoN5c6heHdwQnpKZ+9h41vZyg/bALmhThXLB
+         Eyeau2EtyZ6IFrinrYKeF6wKcwx6GO/gDQLsZhF+0pLxNBjENElzJ+PdqZifNTq1bWXQ
+         DaWMWIP/2iN9HYrmIzoG3Rtn8fFqtAzT+YiEA/FUIkLHJrtwwmugDWT54xIVeeeAyd19
+         EgnKdnulznrumRRkrRdRm4lpR4z5yX4oZ/epDT0BPf5sGbKFGtUwqq/jPkRGyag65Clg
+         TcYw==
+X-Forwarded-Encrypted: i=1; AJvYcCU4+hdvDM4vcLTYnutuzHVoNpIMWEKjHJ4qAePZmjEG4Sw0cZgfKvzquHqKsjjgq9N68owJ+ErxuQZTzw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFfj+N0FerhDCu2sWjxdXZHvtQvYc7UkCr2oO239E6Ko9RByOP
+	CZ8JdbayzwUQMiDqPPTLRRwj+140qYty97HED2LMinlxxrLd0FeF4g5+A6t/B9w=
+X-Gm-Gg: ASbGncvHD0tHS+EJ2Wr9cZxz3KiP6U5dEGd0Wwerbl7VwJJsFl++mdqekyKIxdAo55V
+	sAGUkrueEAj5Z2eX346vSyQVgVL5gsxaFWLhO8u6ZYuJzRQ+0Ij5ZLQmhywHPRUcWe+tILFn+NK
+	bK5BIHbLrjgcBPfRahfopxiUCfAyGOeRD6XS7RXFnRCgZTJcMYatBydNh5Z3XqpHmSwTB9/4/Xk
+	3xBib8bwptM103rM+4vNiiALgAcPuZ5kuolWayq7oIf8S4kfuNNUhKAtLmfvMsTSXqbBvjp/hZZ
+	VvjcIe/X72WMAVq3hscwqbxYAD6R+FdhPkPVVh7b
+X-Google-Smtp-Source: AGHT+IFcRPGPDmD48EIK6elAaZu2Zk8DxQERIr9dnmWyB0Uuf10XrVS2TvtkTaG7Mc0/1xomxVn61g==
+X-Received: by 2002:adf:f504:0:b0:38b:e109:1e0d with SMTP id ffacd0b85a97d-38c520b6629mr14361510f8f.49.1738586989345;
+        Mon, 03 Feb 2025 04:49:49 -0800 (PST)
+Received: from localhost.localdomain ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc2f17dsm189411645e9.23.2025.02.03.04.49.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 04:49:48 -0800 (PST)
+From: srinivas.kandagatla@linaro.org
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	krzysztof.kozlowski@linaro.org,
+	pierre-louis.bossart@linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmitry.baryshkov@linaro.org,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: [PATCH] ASoC: q6apm-dai: schedule all the periods before we start streaming
+Date: Mon,  3 Feb 2025 12:49:45 +0000
+Message-Id: <20250203124945.11406-1-srinivas.kandagatla@linaro.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QNJzo4TIn39F+gZd"
-Content-Disposition: inline
-In-Reply-To: <20250131-gpio-set-array-helper-v1-13-991c8ccb4d6e@baylibre.com>
-X-Cookie: May your camel be as swift as the wind.
+Content-Transfer-Encoding: 8bit
 
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
---QNJzo4TIn39F+gZd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+With the existing code, we are only setting up one period at a time, in a
+ping-pong buffer style. This tiggers lot of underruns in the dsp
+leading to jitter noise during audio playback.
 
-On Fri, Jan 31, 2025 at 02:24:53PM -0600, David Lechner wrote:
-> Reduce verbosity by using gpiods_set_array_value_cansleep() instead of
-> gpiods_set_array_value_cansleep().
+Fix this by scheduling all the periods, this will ensure that the dsp
+has enough buffer feed and ultimatley fixing the underruns and audio
+distortion.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
+Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ sound/soc/qcom/qdsp6/q6apm-dai.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
---QNJzo4TIn39F+gZd
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+index c9404b5934c7..148c3fb77168 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+@@ -299,15 +299,17 @@ static int q6apm_dai_trigger(struct snd_soc_component *component,
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct q6apm_dai_rtd *prtd = runtime->private_data;
+-	int ret = 0;
++	int ret = 0, i;
+ 
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_RESUME:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+ 		 /* start writing buffers for playback only as we already queued capture buffers */
+-		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+-			ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
++		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
++			for (i = 0; i < runtime->periods; i++)
++				ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
++		}
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 		/* TODO support be handled via SoftPause Module */
+-- 
+2.39.5
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmegtZYACgkQJNaLcl1U
-h9BWNAf8CyCYjo0Xa7gTkGLLmI7BwVTj9VwAQiohEN7S8mXh4x6BMNsbB+GhBmqK
-2cqPWAhXgBCR1kvmebge+UItA8kk9Hm/vKTZ2fJEuzIYpyKG6wVv65lqUDTGme3j
-svxI492/g6DoPUWI/ZaK8PUVOqmQNjE+wky7xOZdb2eG5WFl5OwmCxNLlXogEngj
-cWS5wNOJfsvcnrpTUwUP3HFFMEqmCU+KQAvQrEDnNEi5ad4AHR9kElX7nlTRNvtQ
-CEboCfNuVvPxROZwWiizYuHZ920bL96QbtbAOiaXsYF5okR3tpwqkS07hsFyNr0u
-JaOgDbfFUiICPW9L9H5h2OFYo5ZpxQ==
-=nBtG
------END PGP SIGNATURE-----
-
---QNJzo4TIn39F+gZd--
