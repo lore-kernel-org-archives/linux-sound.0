@@ -1,174 +1,91 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A905202C53
-	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 23:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC46433D9
+	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 23:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738625232; cv=none; b=IBy3JW1i/WjDrdAv6yT2YHkF7bFXooA7BfRVqBxDMGMj0NC5aguRF8nC4KjhtFfVdGeE09RWsyd6mqZWe5NjOF04ZIf5mf/4rBkCsxsKoCGdgHJrkGmqw7O3WDLqowuSLKJkH1e+Cr7jQn+2QhrH6At3ml0YX0Ae6uAst/2CTT8=
+	t=1738627078; cv=none; b=rFgetbyhV9w8mYUV7LVITy5KNFNj3GHXrgt3n47aKUH2dgkyT+iH7eLz3+ON89fkN5Vu22mhFlM9+7DJplJXqAlORReRZfFk7T8BB+AhSPZ3obCqbs00KhUmDoQ9l92MU0XvnvHUJqiGeO1iiiAVAHIB4VJheLU2Wm+XdqKo32A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738625232; c=relaxed/simple;
-	bh=K7wihRwgcusVonD88DydIp9aglMQX2URY0cSBXWxNjM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=P8x934lz8SD/AC/kAT3EZK9Oc0sx+AWEjUrBOkfc/TnAYGTAP8yI9tlR2jepKJdDSnDU2va2eHhIlU7kCMOZI7ql6C+7Lb/Pv5BcdV8EOYrDBygcEWMA+8Ku7gWlO/rfUwmB3N+go9k35xzrhfZqRHtc5ukXIc+MWOUczy601uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=x6Fj5SkY; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1738627078; c=relaxed/simple;
+	bh=nBB7oz3ua9loVwHQe8siOT7x+e/IyZvBAZ/PU0h8rdw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FxbfD5mHjmnWHQGxeYSs8VE9gqdkuxsQl3mlNTbKiTzYXccliGzYHjaD0rvH6CGgajCiKD2AIpFCnLqpcrj0Oltj4WIm2P8eRJxftWfX7p2ikRoKNf6BGx8jOYkhkLEgEL8AW1O+kLB0YcLGbJYKqmZ4bQDb+6FC9j3UJGK3pbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VMrvn6C6; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="x6Fj5SkY"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-436326dcb1cso34317445e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 03 Feb 2025 15:27:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1738625229; x=1739230029; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K7wihRwgcusVonD88DydIp9aglMQX2URY0cSBXWxNjM=;
-        b=x6Fj5SkY6NNDTZQf5JYyI+EMyQUxnHMp1v+6bgHLy6zvRMW3eDWBBxJn5n2zOlUzMA
-         z5Ztnd3BvoqEGPGul1zwy+nzlgE5nlKTS5AItjzhlaln20aAjce10YJROUzta3GfloK7
-         yPqaYnEJ33E8h6/EFxC8TvxC38jbKyZwwPzxPuP2oJSDBRk0838wDyvQ+LCLDfVm1+eO
-         U8M1jYuEFX6tPPPgAiZ1z+bPITcujdCCvEX8apRKo62oEfJ9soLAGXR/fMSI7D8UH/Y3
-         QpFnzBTzAdIoBN3x4Ce94c92r1l0Qx8YA3i0SCpo1eGqO8puOIYc9WolgCHcPP8oWShA
-         bAQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738625229; x=1739230029;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=K7wihRwgcusVonD88DydIp9aglMQX2URY0cSBXWxNjM=;
-        b=I7pTdef90XhlU/AhbQeeyIjBw9dpAx1zCy4G1kRkvVLYAsxwgpUxOdiaJQEuLJoj5j
-         G0aWneueykTJsYYDojIODuA7W1RW1f9+UtcHBWD0UGxYtzpqtM0qn7lkcUD/KEEDvQjI
-         YRtboVaSetKPJ4vW0NbsxTgmV/j01gA8Myz3cvb+G0z9sZF65imYiPW3Zrn7R9jkniKz
-         jTWbQwvvTT8dEr4et0RpPDG1P9tvVxFyBFU+i6NfUWvxy0qMyYsmVWqUljTKysuGO7a2
-         FZfiHhZrI5nQOWOBzqQP/TUKRqKYN0EROKGvEjpbPphpg8o+eNCsrxlNbKIxVKSMwDF1
-         1i4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXuc/wmzOKXVB/hgSHqHg6amv1kmECY4O/lRzll6kAXNLqxl4QKIxM9QIBKRxuLNakMlILTmVJ6/CRixw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiFQgar8QgMrs/ksXNXrvnJrWL86+Xd51waCNx6BRWAW+wEXJd
-	gpEw8ZvvS99omseXeh6axgS29WN05F0ByeIZ6NBJ4Ba/w2hH3dSME8nXuQKXZX8=
-X-Gm-Gg: ASbGnctZQ6CXsOR5TH+7x5jPPq8kYC/RTd7kVRveawqkpoD0gEtHWMyq6EOCrhkZcGo
-	pgSaZdENHcNWXwlt9REVawqPLbg8saGoAKZjl8S4cFHE9gTTFFtH7QLF96eP2BW8UqBMg2D4haK
-	LvO3niZXSeyZCQYkn7QswfQWXbaOEu12zmsY1Fc6D/szvRCmLh1rh/9oGksEyslmMtBhKI1DbzD
-	hJYDBqcxbfxPU7eS5i9BRmAJhLUQlbDF69jegMpcCRkq/wDYBQ6FZCQ3AmE16/9FBhNnJMNGWUa
-	honOWgsYGKHJexVAsBvNES0=
-X-Google-Smtp-Source: AGHT+IH7VglpuOrvoGelSu/OEVcUq3P12Ew/XlWE8HGA32pm+QlQ6mJlcZFbE4X9m982bWpBOTZiMA==
-X-Received: by 2002:a05:600c:1f15:b0:434:f335:83b with SMTP id 5b1f17b1804b1-438dc3a84aamr235318645e9.5.1738625228711;
-        Mon, 03 Feb 2025 15:27:08 -0800 (PST)
-Received: from localhost ([2a02:a03f:6bc3:6b01:62c7:350e:556e:d0f0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc1317fsm209055245e9.8.2025.02.03.15.27.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Feb 2025 15:27:08 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VMrvn6C6"
+Message-ID: <c8c699f7-bf9b-4e36-910e-c6f1c7092543@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1738627063;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UbnqC4ekamBqecRRMpHYSlKhj+7M062OAmXaaMk8fD0=;
+	b=VMrvn6C6SgEHZv6w3pg5hOZO9g9oWMqPSI5wfZ19rOL85UAY/wzkbRone1FkpC9d508YwC
+	qzyneSeCGqx7f2LrWeXPpD7nAFpjTu79J+2qyjY/NbDbyRyA46nKiGbgtQEZ0JLf7ZcYUy
+	hidUg9ViA+WPgckjjBjQbkrSxPvPgzk=
+Date: Mon, 3 Feb 2025 17:57:39 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Subject: Re: [PATCH v9 0/5] Support system sleep with offloaded usb transfers
+To: Guan-Yu Lin <guanyulin@google.com>
+Cc: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
+ mathias.nyman@intel.com, stern@rowland.harvard.edu, perex@perex.cz,
+ tiwai@suse.com, sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com,
+ ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20250117145145.3093352-1-guanyulin@google.com>
+ <943a7b09-8e77-4813-810a-18fea0e61482@linux.dev>
+ <CAOuDEK3aip9SLCUPOzpVPwx-O4rmF-+sQrF4GJasGPBzV=qJdg@mail.gmail.com>
+ <e5b1c3bf-4457-4859-92fc-785f7d6037fa@linux.dev>
+ <CAOuDEK2u509kNjyL6qm27QgvtoCscRcsLixW=W8ABz2NF8A-tw@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <CAOuDEK2u509kNjyL6qm27QgvtoCscRcsLixW=W8ABz2NF8A-tw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 04 Feb 2025 00:27:07 +0100
-Message-Id: <D7J77FB0GLG2.1SDETF63DWW8Z@fairphone.com>
-Subject: Re: [PATCH] ASoC: qcom: sc8280xp: enable primary mi2s
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Danila Tikhonov" <danila@jiaxyga.com>, <neil.armstrong@linaro.org>
-Cc: <srinivas.kandagatla@linaro.org>, <lgirdwood@gmail.com>,
- <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
- <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux@mainlining.org>,
- <~postmarketos/upstreaming@lists.sr.ht>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250203113857.34728-1-danila@jiaxyga.com>
- <df4580ff-7b45-4485-9664-4cae731b7c53@linaro.org>
- <bcb4585e-1426-444a-9112-6cd95a81f8bc@jiaxyga.com>
-In-Reply-To: <bcb4585e-1426-444a-9112-6cd95a81f8bc@jiaxyga.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon Feb 3, 2025 at 5:33 PM CET, Danila Tikhonov wrote:
-> On 03/02/2025 17:23, neil.armstrong@linaro.org wrote:
->> On 03/02/2025 12:38, Danila Tikhonov wrote:
->>> When using primary mi2s on sc8280xp-compatible SoCs, the correct clock
->>> needs to get enabled to be able to use the mi2s interface.
->>>
->>> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
->>> ---
->>> =C2=A0 sound/soc/qcom/sc8280xp.c | 13 +++++++++++++
->>> =C2=A0 1 file changed, 13 insertions(+)
->>>
->>> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
->>> index 311377317176..03687de1ebb0 100644
->>> --- a/sound/soc/qcom/sc8280xp.c
->>> +++ b/sound/soc/qcom/sc8280xp.c
->>> @@ -14,6 +14,8 @@
->>> =C2=A0 #include "common.h"
->>> =C2=A0 #include "sdw.h"
->>> =C2=A0 +#define MI2S_BCLK_RATE=C2=A0=C2=A0=C2=A0 1536000
->>> +
->>> =C2=A0 struct sc8280xp_snd_data {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool stream_prepared[AFE_PORT_MAX];
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct snd_soc_card *card;
->>> @@ -25,13 +27,24 @@ struct sc8280xp_snd_data {
->>> =C2=A0 =C2=A0 static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *=
-rtd)
->>> =C2=A0 {
->>> +=C2=A0=C2=A0=C2=A0 unsigned int codec_dai_fmt =3D SND_SOC_DAIFMT_BC_FC=
-;
->>> +=C2=A0=C2=A0=C2=A0 unsigned int fmt =3D SND_SOC_DAIFMT_BP_FP;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sc8280xp_snd_data *data =3D=20
->>> snd_soc_card_get_drvdata(rtd->card);
->>> +=C2=A0=C2=A0=C2=A0 struct snd_soc_dai *codec_dai =3D snd_soc_rtd_to_co=
-dec(rtd, 0);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct snd_soc_dai *cpu_dai =3D snd_soc_=
-rtd_to_cpu(rtd, 0);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct snd_soc_card *card =3D rtd->card;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct snd_soc_jack *dp_jack=C2=A0 =3D N=
-ULL;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int dp_pcm_id =3D 0;
->>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (cpu_dai->id) {
->>> +=C2=A0=C2=A0=C2=A0 case PRIMARY_MI2S_RX:
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 codec_dai_fmt |=3D SND_SOC_=
-DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 snd_soc_dai_set_sysclk(cpu_=
-dai,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Q6A=
-FE_LPASS_CLK_ID_PRI_MI2S_IBIT,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MI2=
-S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+On 2/2/25 20:57, Guan-Yu Lin wrote:
+> On Tue, Jan 28, 2025 at 11:22 PM Pierre-Louis Bossart
+> <pierre-louis.bossart@linux.dev> wrote:
 >>
->> How is this possible ? sc8280xp uses the q6prm clock driver, and=20
->> there's no
->> way this call sets the Q6PRM_LPASS_CLK_ID_PRI_MI2S_IBIT, or I totally=20
->> missed
->> something.
+>> I am not following, sorry.
 >>
->> And prm is neither a dai nor has the set_sysclk callback.
+>> Is the desired outcome to
 >>
->> Neil
+>> a) prevent the system from entering S3 if there is an active USB audio offloaded stream?
 >>
-> Oh, thanks for the answer.
->
-> This comes from qcm6490 compatibility. Actually it is needed for
-> Nothing Phone (1) and Luca Weiss just suggested me to use
-> qcom,qcm6490-idp-sndcard like do they do it for FP5. (SM7325 is the
-> closest to QCM6490):
-> https://github.com/sc7280-mainline/linux/pull/5#discussion_r1848984788
-> Actually I also think it is a bit incorrect.
+>> or b) allow offloaded transactions even when the system is in S3?
+>>
+>>
+>> which is it?
+>>
+>> a) would be rather interesting, but currently we don't have any such behavior supported. When the system enters S3 all audio stops. The stream will resume when the system goes back to S0. Do we really want the battery to drain in S3?
+>>
+>> b) seems rather complicated, once the on-going DMA transfers complete then who's going to refill buffers for the USB offloaded streams? Allowing the lowest level to operate even in S3 is only a small part of the puzzle, someone's got to provide data at some point. Unless the data is generated also by a side DSP having access to mass storage or wireless interfaces?
+> 
+> Thanks for the question, the intent of our proposal should be (b), to
+> allow offloaded transactions even when the system is in S3.
+> In our design, the DSP wakes the system before the buffers are fully
+> drained. This patchset enables the USB controller for offloaded
+> transfers during system suspend (S3). To be precise, this patchset
+> focuses solely on enabling the USB controller in S3 and does not
+> include other necessary components for continuous offloaded USB
+> transfers. I'll revise the commit message/cover letter to reflect
+> this.Thanks for highlighting the potential ambiguity.
 
-For reference, this is coming from this and following:
-https://lore.kernel.org/linux-arm-msm/e8a24709-de96-4d09-ba00-1e084a656c68@=
-kernel.org/
+Thanks for the precision.
 
-Regards
-Luca
+It was my understanding that anything above S1 could incur a hardware/software latency of two seconds or more to go back to S0. That would imply a buffering scheme that's significantly larger than usual offloaded solutions. In "typical" offload implementations it's rare to go beyond 100s of ms, since at some point you run into user-experience issues when applying volume changes or when changing tracks. It's usually a no-go if the user has to wait for a perceivable amount of time while the buffers drain.
 
->
-> ---
-> Regards,
-> Danila
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 snd_soc_dai_set_fmt(cpu_dai=
-, fmt);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 snd_soc_dai_set_fmt(codec_d=
-ai, codec_dai_fmt);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case WSA_CODEC_DMA_RX_0:
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case WSA_CODEC_DMA_RX_1:
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>
-
+Not to mention that quite a few platforms no longer support S3, since 'Modern Standby' aka "S0 Low Power Idle" or 's2idle' was introduced in the Windows 10 days S3 became largely a legacy feature gradually dropped since no one really uses it.
