@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36E5205ABE
-	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 13:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890BD205AD6
+	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 13:57:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738591043; cv=none; b=FGFK55RJixmm8LP8ITBxqpBIxx1yjCqPz6iYBXc4/CP5GLLRz1ccYEsMQPcIEttYG7Jb++/DuwyWhUr8I4TeWgNqQxcLx3VE0u47Y9wx/0cDoTqnsh0p6wty3YNVgWBvkZXEphuEmjsZATebFxVYHXK3UKG3K2YXT6waelK8a30=
+	t=1738591046; cv=none; b=Q3z6CIUpR1ykwWoPbWA55/tZf7svUn8CAL4lXITqdngzVufG3V68UwB557BOYsqsu8Rls+Jd7QDPLw05MzfNMlZmo7U+rPknKTQhSJIMuHRyKtj4lBSl2j40aFh5WNP7KZGM0VVzJNyeLovCaLw5sXo85XBULjkv3A6KfzueCnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738591043; c=relaxed/simple;
-	bh=XSG6QkLd4N8rhs02fOL8CmoS+QHescTPBiUs8lCnmfg=;
+	s=arc-20240116; t=1738591046; c=relaxed/simple;
+	bh=FaUdIe8pMgEeyYSpc0pzx+UXJIxA2QinYRqwfuII/NM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tdOl69punf8AIdGDE4a3hZPtCyXG7Mzg1auYkKQd6txzgkoLKjYjXk8Po4QTE7SpleVk8DR+h9DGvAwJXw8ZY64sxyk6MiSECC/WyuDrp1CV/y0nxuZpz5ysyGF8YzDn8czjglNRi1wEfyKavVtBTV78i++73ZaoJVwkeTHcg+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nO7hwnKV; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=ZstR3HVvHDjBgM+Vj/Acdf37m4M1u1bxFFIDjgF4TFaW+DmM+riD6H/Bg5UGnWsj0Zd9OdcCN7OJdXjzFQsXgt343eBBigD1lDMJoCdaqek4is5a34IpeXnFLUUH32ZpVRscLMjU/T2Ga41+W1dx1G6hYj0zFVqaV9DTj7Njux4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UE0o+bKj; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nO7hwnKV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UE0o+bKj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738591042; x=1770127042;
+  t=1738591045; x=1770127045;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=XSG6QkLd4N8rhs02fOL8CmoS+QHescTPBiUs8lCnmfg=;
-  b=nO7hwnKVEI6ikgXJb+7CbcuBzfDNbUmYvxymRBGJAipOmzKBikl1sexb
-   GScRsJT1oPTJkXtL4TkDKhVBjOFvtpt51Y3wkhBZQwsmFdqF2cHwNJyh6
-   jR95BR60RoFBr6lFc5dIHSgorZ7PKC5lHQ+9WuLbOzagpL+SVFTR7sbAT
-   vzH2X095o9NRYF7dly5VR3eh1wI/12aavuiSP5pfl8gBZmq7TI7ZNX6CS
-   E506yaSa0s7pXwj1OiCmxWfhyOirn58v2C+Uc6mrvALXDEr/sWAx22Bx+
-   POryPPRwnjkL54POjpawN2nfikjFlkbELcZ2vkrB5n9V4OPM2CMO901Jb
-   Q==;
-X-CSE-ConnectionGUID: pn6VncI4TxacXDrYKj7vdA==
-X-CSE-MsgGUID: DoqHmQXST9asm/luc4uqLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="56511850"
+  bh=FaUdIe8pMgEeyYSpc0pzx+UXJIxA2QinYRqwfuII/NM=;
+  b=UE0o+bKjVZ+jv8LLrzZacrApdYgWfQ+p63NOZMWsY1CmvcUyRahvqW/7
+   R8W9evU6Iwpd+WjJGL7D6EHMcHlBOyhrcr+63LptP82bv7owIkM3JWK/E
+   wvpKrnhydBiArP30D0xDUBuAe1rHJvMyg/H99st+mcnnz8A/EfCZ0BhZ7
+   pzFu1A8L9EsO0F6kyBxz7beRu5L1FSjVRDQ1YTkVKl3XqxkNeO05voo12
+   M0TAiAt0gFB90nnJO9n3kl8gyxyqa2wxA9iPUiP5TjTUO0yj1IzF9Is+x
+   lV/DXKrFxu3zNchikgmdt5raMmCxkHDA0TsZfEgkD0KjZGQ6NqB86tCek
+   w==;
+X-CSE-ConnectionGUID: d1y3cZKDS4ackFipOr6f8w==
+X-CSE-MsgGUID: cu4qw2MzSZmUVffCVHYDyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="56511857"
 X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="56511850"
+   d="scan'208";a="56511857"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 05:57:22 -0800
-X-CSE-ConnectionGUID: AMoNtwnMRnCGk/+E/2ZYvA==
-X-CSE-MsgGUID: a/3cyy2wQ+WjSxn1WX03jQ==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 05:57:24 -0800
+X-CSE-ConnectionGUID: PLYTccUUQvS30lTTZ6JZcg==
+X-CSE-MsgGUID: tniiSZ0iS7mNrpi4mhZVzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="110057922"
+   d="scan'208";a="110057932"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
-  by orviesa009.jf.intel.com with ESMTP; 03 Feb 2025 05:57:19 -0800
+  by orviesa009.jf.intel.com with ESMTP; 03 Feb 2025 05:57:22 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -53,9 +53,9 @@ Cc: tiwai@suse.com,
 	baojun.xu@ti.com,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v3 08/11] ASoC: Intel: avs: New gateway configuration mechanism
-Date: Mon,  3 Feb 2025 15:10:48 +0100
-Message-Id: <20250203141051.2361323-9-cezary.rojewski@intel.com>
+Subject: [PATCH v3 09/11] ASoC: Intel: avs: Remove unused gateway configuration code
+Date: Mon,  3 Feb 2025 15:10:49 +0100
+Message-Id: <20250203141051.2361323-10-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250203141051.2361323-1-cezary.rojewski@intel.com>
 References: <20250203141051.2361323-1-cezary.rojewski@intel.com>
@@ -67,182 +67,195 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Creation of a module which contains gateway configuration consists of
-few additional steps, namely:
-
-- assigning ID (node_id) for the gateway
-- attaching hardware configuration from the NHLT table (optional)
-
-By splitting the steps into separate functions code becomes easier to
-read and understand. Any redundancy created by this patch will be
-addressed by follow up changes.
+Switch to new copier module constructor and remove code that becomes
+unused because of that.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/path.c | 150 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 150 insertions(+)
+ sound/soc/intel/avs/path.c     | 149 +--------------------------------
+ sound/soc/intel/avs/topology.h |   2 -
+ 2 files changed, 1 insertion(+), 150 deletions(-)
 
 diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
-index f31d5e2caa7b..698a3d542244 100644
+index 698a3d542244..cfa19e4820d2 100644
 --- a/sound/soc/intel/avs/path.c
 +++ b/sound/soc/intel/avs/path.c
-@@ -115,6 +115,156 @@ avs_path_find_variant(struct avs_dev *adev,
- 	return NULL;
+@@ -231,7 +231,7 @@ static int avs_fill_gtw_config(struct avs_dev *adev, struct avs_copier_gtw_cfg *
+ 	return 0;
  }
  
-+static void avs_init_node_id(union avs_connector_node_id *node_id,
-+			     struct avs_tplg_modcfg_ext *te, u32 dma_id)
-+{
-+	node_id->val = 0;
-+	node_id->dma_type = te->copier.dma_type;
-+
-+	switch (node_id->dma_type) {
-+	case AVS_DMA_DMIC_LINK_INPUT:
-+	case AVS_DMA_I2S_LINK_OUTPUT:
-+	case AVS_DMA_I2S_LINK_INPUT:
-+		/* Gateway's virtual index is statically assigned in the topology. */
-+		node_id->vindex = te->copier.vindex.val;
-+		break;
-+
-+	case AVS_DMA_HDA_HOST_OUTPUT:
-+	case AVS_DMA_HDA_HOST_INPUT:
-+		/* Gateway's virtual index is dynamically assigned with DMA ID */
-+		node_id->vindex = dma_id;
-+		break;
-+
-+	case AVS_DMA_HDA_LINK_OUTPUT:
-+	case AVS_DMA_HDA_LINK_INPUT:
-+		node_id->vindex = te->copier.vindex.val | dma_id;
-+		break;
-+
-+	default:
-+		*node_id = INVALID_NODE_ID;
-+		break;
-+	}
-+}
-+
-+/* Every BLOB contains at least gateway attributes. */
-+static struct acpi_nhlt_config *default_blob = (struct acpi_nhlt_config *)&(u32[2]) {4};
-+
-+static struct acpi_nhlt_config *
-+avs_nhlt_config_or_default(struct avs_dev *adev, struct avs_tplg_module *t)
-+{
-+	struct acpi_nhlt_format_config *fmtcfg;
-+	struct avs_tplg_modcfg_ext *te;
-+	struct avs_audio_format *fmt;
-+	int link_type, dev_type;
-+	int bus_id, dir;
-+
-+	te = t->cfg_ext;
-+
-+	switch (te->copier.dma_type) {
-+	case AVS_DMA_I2S_LINK_OUTPUT:
-+		link_type = ACPI_NHLT_LINKTYPE_SSP;
-+		dev_type = ACPI_NHLT_DEVICETYPE_CODEC;
-+		bus_id = te->copier.vindex.i2s.instance;
-+		dir = SNDRV_PCM_STREAM_PLAYBACK;
-+		fmt = te->copier.out_fmt;
-+		break;
-+
-+	case AVS_DMA_I2S_LINK_INPUT:
-+		link_type = ACPI_NHLT_LINKTYPE_SSP;
-+		dev_type = ACPI_NHLT_DEVICETYPE_CODEC;
-+		bus_id = te->copier.vindex.i2s.instance;
-+		dir = SNDRV_PCM_STREAM_CAPTURE;
-+		fmt = t->in_fmt;
-+		break;
-+
-+	case AVS_DMA_DMIC_LINK_INPUT:
-+		link_type = ACPI_NHLT_LINKTYPE_PDM;
-+		dev_type = -1; /* ignored */
-+		bus_id = 0;
-+		dir = SNDRV_PCM_STREAM_CAPTURE;
-+		fmt = t->in_fmt;
-+		break;
-+
-+	default:
-+		return default_blob;
-+	}
-+
-+	/* Override format selection if necessary. */
-+	if (te->copier.blob_fmt)
-+		fmt = te->copier.blob_fmt;
-+
-+	fmtcfg = acpi_nhlt_find_fmtcfg(link_type, dev_type, dir, bus_id,
-+				       fmt->num_channels, fmt->sampling_freq, fmt->valid_bit_depth,
-+				       fmt->bit_depth);
-+	if (!fmtcfg) {
-+		dev_warn(adev->dev, "Endpoint format configuration not found.\n");
-+		return ERR_PTR(-ENOENT);
-+	}
-+
-+	if (fmtcfg->config.capabilities_size < default_blob->capabilities_size)
-+		return ERR_PTR(-ETOOSMALL);
-+	/* The firmware expects the payload to be DWORD-aligned. */
-+	if (fmtcfg->config.capabilities_size % sizeof(u32))
-+		return ERR_PTR(-EINVAL);
-+
-+	return &fmtcfg->config;
-+}
-+
-+static int avs_fill_gtw_config(struct avs_dev *adev, struct avs_copier_gtw_cfg *gtw,
-+			       struct avs_tplg_module *t, size_t *cfg_size)
-+{
-+	struct acpi_nhlt_config *blob;
-+	size_t gtw_size;
-+
-+	blob = avs_nhlt_config_or_default(adev, t);
-+	if (IS_ERR(blob))
-+		return PTR_ERR(blob);
-+
-+	gtw_size = blob->capabilities_size;
-+	if (*cfg_size + gtw_size > AVS_MAILBOX_SIZE)
-+		return -E2BIG;
-+
-+	gtw->config_length = gtw_size / sizeof(u32);
-+	memcpy(gtw->config.blob, blob->capabilities, blob->capabilities_size);
-+	*cfg_size += gtw_size;
-+
-+	return 0;
-+}
-+
-+static __maybe_unused int avs_copier_create2(struct avs_dev *adev, struct avs_path_module *mod)
-+{
-+	struct avs_tplg_module *t = mod->template;
-+	struct avs_tplg_modcfg_ext *te;
-+	struct avs_copier_cfg *cfg;
-+	size_t cfg_size;
-+	u32 dma_id;
-+	int ret;
-+
-+	te = t->cfg_ext;
-+	cfg = adev->modcfg_buf;
-+	dma_id = mod->owner->owner->dma_id;
-+	cfg_size = offsetof(struct avs_copier_cfg, gtw_cfg.config);
-+
-+	ret = avs_fill_gtw_config(adev, &cfg->gtw_cfg, t, &cfg_size);
-+	if (ret)
-+		return ret;
-+
-+	cfg->base.cpc = t->cfg_base->cpc;
-+	cfg->base.ibs = t->cfg_base->ibs;
-+	cfg->base.obs = t->cfg_base->obs;
-+	cfg->base.is_pages = t->cfg_base->is_pages;
-+	cfg->base.audio_fmt = *t->in_fmt;
-+	cfg->out_fmt = *te->copier.out_fmt;
-+	cfg->feature_mask = te->copier.feature_mask;
-+	avs_init_node_id(&cfg->gtw_cfg.node_id, te, dma_id);
-+	cfg->gtw_cfg.dma_buffer_size = te->copier.dma_buffer_size;
-+	mod->gtw_attrs = cfg->gtw_cfg.config.attrs;
-+
-+	ret = avs_dsp_init_module(adev, mod->module_id, mod->owner->instance_id, t->core_id,
-+				  t->domain, cfg, cfg_size, &mod->instance_id);
-+	return ret;
-+}
-+
- __maybe_unused
- static bool avs_dma_type_is_host(u32 dma_type)
+-static __maybe_unused int avs_copier_create2(struct avs_dev *adev, struct avs_path_module *mod)
++static int avs_copier_create(struct avs_dev *adev, struct avs_path_module *mod)
  {
+ 	struct avs_tplg_module *t = mod->template;
+ 	struct avs_tplg_modcfg_ext *te;
+@@ -265,153 +265,6 @@ static __maybe_unused int avs_copier_create2(struct avs_dev *adev, struct avs_pa
+ 	return ret;
+ }
+ 
+-__maybe_unused
+-static bool avs_dma_type_is_host(u32 dma_type)
+-{
+-	return dma_type == AVS_DMA_HDA_HOST_OUTPUT ||
+-	       dma_type == AVS_DMA_HDA_HOST_INPUT;
+-}
+-
+-__maybe_unused
+-static bool avs_dma_type_is_link(u32 dma_type)
+-{
+-	return !avs_dma_type_is_host(dma_type);
+-}
+-
+-__maybe_unused
+-static bool avs_dma_type_is_output(u32 dma_type)
+-{
+-	return dma_type == AVS_DMA_HDA_HOST_OUTPUT ||
+-	       dma_type == AVS_DMA_HDA_LINK_OUTPUT ||
+-	       dma_type == AVS_DMA_I2S_LINK_OUTPUT;
+-}
+-
+-__maybe_unused
+-static bool avs_dma_type_is_input(u32 dma_type)
+-{
+-	return !avs_dma_type_is_output(dma_type);
+-}
+-
+-static int avs_copier_create(struct avs_dev *adev, struct avs_path_module *mod)
+-{
+-	struct avs_tplg_module *t = mod->template;
+-	struct avs_copier_cfg *cfg;
+-	struct acpi_nhlt_format_config *ep_blob;
+-	struct acpi_nhlt_endpoint *ep;
+-	union avs_connector_node_id node_id = {0};
+-	size_t cfg_size, data_size;
+-	void *data = NULL;
+-	u32 dma_type;
+-	int ret;
+-
+-	data_size = sizeof(cfg->gtw_cfg.config);
+-	dma_type = t->cfg_ext->copier.dma_type;
+-	node_id.dma_type = dma_type;
+-
+-	switch (dma_type) {
+-		struct avs_audio_format *fmt;
+-		int direction;
+-
+-	case AVS_DMA_I2S_LINK_OUTPUT:
+-	case AVS_DMA_I2S_LINK_INPUT:
+-		if (avs_dma_type_is_input(dma_type))
+-			direction = SNDRV_PCM_STREAM_CAPTURE;
+-		else
+-			direction = SNDRV_PCM_STREAM_PLAYBACK;
+-
+-		if (t->cfg_ext->copier.blob_fmt)
+-			fmt = t->cfg_ext->copier.blob_fmt;
+-		else if (direction == SNDRV_PCM_STREAM_CAPTURE)
+-			fmt = t->in_fmt;
+-		else
+-			fmt = t->cfg_ext->copier.out_fmt;
+-
+-		ep = acpi_nhlt_find_endpoint(ACPI_NHLT_LINKTYPE_SSP,
+-					     ACPI_NHLT_DEVICETYPE_CODEC, direction,
+-					     t->cfg_ext->copier.vindex.i2s.instance);
+-		ep_blob = acpi_nhlt_endpoint_find_fmtcfg(ep, fmt->num_channels, fmt->sampling_freq,
+-							 fmt->valid_bit_depth, fmt->bit_depth);
+-		if (!ep_blob) {
+-			dev_err(adev->dev, "no I2S ep_blob found\n");
+-			return -ENOENT;
+-		}
+-
+-		data = ep_blob->config.capabilities;
+-		data_size = ep_blob->config.capabilities_size;
+-		/* I2S gateway's vindex is statically assigned in topology */
+-		node_id.vindex = t->cfg_ext->copier.vindex.val;
+-
+-		break;
+-
+-	case AVS_DMA_DMIC_LINK_INPUT:
+-		direction = SNDRV_PCM_STREAM_CAPTURE;
+-
+-		if (t->cfg_ext->copier.blob_fmt)
+-			fmt = t->cfg_ext->copier.blob_fmt;
+-		else
+-			fmt = t->in_fmt;
+-
+-		ep = acpi_nhlt_find_endpoint(ACPI_NHLT_LINKTYPE_PDM, -1, direction, 0);
+-		ep_blob = acpi_nhlt_endpoint_find_fmtcfg(ep, fmt->num_channels, fmt->sampling_freq,
+-							 fmt->valid_bit_depth, fmt->bit_depth);
+-		if (!ep_blob) {
+-			dev_err(adev->dev, "no DMIC ep_blob found\n");
+-			return -ENOENT;
+-		}
+-
+-		data = ep_blob->config.capabilities;
+-		data_size = ep_blob->config.capabilities_size;
+-		/* DMIC gateway's vindex is statically assigned in topology */
+-		node_id.vindex = t->cfg_ext->copier.vindex.val;
+-
+-		break;
+-
+-	case AVS_DMA_HDA_HOST_OUTPUT:
+-	case AVS_DMA_HDA_HOST_INPUT:
+-		/* HOST gateway's vindex is dynamically assigned with DMA id */
+-		node_id.vindex = mod->owner->owner->dma_id;
+-		break;
+-
+-	case AVS_DMA_HDA_LINK_OUTPUT:
+-	case AVS_DMA_HDA_LINK_INPUT:
+-		node_id.vindex = t->cfg_ext->copier.vindex.val |
+-				 mod->owner->owner->dma_id;
+-		break;
+-
+-	case INVALID_OBJECT_ID:
+-	default:
+-		node_id = INVALID_NODE_ID;
+-		break;
+-	}
+-
+-	cfg_size = offsetof(struct avs_copier_cfg, gtw_cfg.config) + data_size;
+-	if (cfg_size > AVS_MAILBOX_SIZE)
+-		return -EINVAL;
+-
+-	cfg = adev->modcfg_buf;
+-	memset(cfg, 0, cfg_size);
+-	cfg->base.cpc = t->cfg_base->cpc;
+-	cfg->base.ibs = t->cfg_base->ibs;
+-	cfg->base.obs = t->cfg_base->obs;
+-	cfg->base.is_pages = t->cfg_base->is_pages;
+-	cfg->base.audio_fmt = *t->in_fmt;
+-	cfg->out_fmt = *t->cfg_ext->copier.out_fmt;
+-	cfg->feature_mask = t->cfg_ext->copier.feature_mask;
+-	cfg->gtw_cfg.node_id = node_id;
+-	cfg->gtw_cfg.dma_buffer_size = t->cfg_ext->copier.dma_buffer_size;
+-	/* config_length in DWORDs */
+-	cfg->gtw_cfg.config_length = DIV_ROUND_UP(data_size, 4);
+-	if (data)
+-		memcpy(&cfg->gtw_cfg.config.blob, data, data_size);
+-
+-	mod->gtw_attrs = cfg->gtw_cfg.config.attrs;
+-
+-	ret = avs_dsp_init_module(adev, mod->module_id, mod->owner->instance_id,
+-				  t->core_id, t->domain, cfg, cfg_size,
+-				  &mod->instance_id);
+-	return ret;
+-}
+-
+ static struct avs_control_data *avs_get_module_control(struct avs_path_module *mod)
+ {
+ 	struct avs_tplg_module *t = mod->template;
+diff --git a/sound/soc/intel/avs/topology.h b/sound/soc/intel/avs/topology.h
+index 7892e3797f63..dcfc568081a3 100644
+--- a/sound/soc/intel/avs/topology.h
++++ b/sound/soc/intel/avs/topology.h
+@@ -74,8 +74,6 @@ struct avs_tplg_modcfg_ext {
+ 			union avs_virtual_index vindex;
+ 			u32 dma_type;
+ 			u32 dma_buffer_size;
+-			u32 config_length;
+-			/* config_data part of priv data */
+ 		} copier;
+ 		struct {
+ 			u32 out_channel_config;
 -- 
 2.25.1
 
