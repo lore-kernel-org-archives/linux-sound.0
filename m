@@ -1,73 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF7D1FBEB2;
-	Mon,  3 Feb 2025 08:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DC5179BD;
+	Mon,  3 Feb 2025 09:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738570255; cv=none; b=LL2tOUFv7wF8l5RA9bDKJs5fX8q4EgKbpE+Ct3cjVA3XfcpP1g5ZcVeBEiWPoQNNXjAr2HU64zeu8bM/eAwcy7c4X0WbBAfUpxSX7BD211CHELVWd6P5kNWE62HrEFGiDx8QEYcr/i5SnZyympDvtLxx6Lis/cc2UU/H5St2Ja4=
+	t=1738573929; cv=none; b=dTbpxbeAHW+fl3MpBYxagCCRe/45HFQLqA58PhqnLH+NOECQp20yFkOvkHDc52xz31k1gYRKrL+8386J7+np+7eGAHn03Fhu5cQRiGK77w0tkj76lrnHKc81RqSndMtY7CRVNyPKikU0MFK3upqH7DlU2Q6Wq/Z3CxSltFLSgEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738570255; c=relaxed/simple;
-	bh=SphjoMu5QyKhAhaOtzkRUUaDVbtlBQlqGuY3h1dWhso=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Qtn23ZThqjALTvyTso1pUk26cyCYvoKeqQotjOq/t+ofvV2A4YswgnHflo9HVXr977jHLi/gDubCwBD3GaWuTSqRo/dVG42HPh2UsNBAW8bB8P9hf8L1CcruLX/1cGzOlkjm+Nl4aNioDO12SGZU0XxmIR0g11nRMEmVgJY8IsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DJZupebz; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738573929; c=relaxed/simple;
+	bh=GoZ1I8nwjXJDyNzuyNG8kMf4j9q65G9XZXlJCuRM9Ss=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P3wxt8fhcB6DIvD+9ctHSj2QQnSxFO6/VF5x2W468p+Tr0nTtLZMrMtm0nSKagks2EvoIGniXXy+hNDkAJT9zxAgPh5XRTfb+jbT738t3nwhb15hqI0Jai8HuGfmYXxLLDN1qPYcds5NS7L//ylUTinNG+GF/UoBeKREKKk9Umw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=XYZGNxQO; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJZupebz"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="XYZGNxQO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738570253; x=1770106253;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=SphjoMu5QyKhAhaOtzkRUUaDVbtlBQlqGuY3h1dWhso=;
-  b=DJZupebzRh2HBT/Fg3ECb/LgkGDXk8yrj++l0KBjJ5FBpEOGOSsDqyJp
-   qS2yvo3fzdZ6k1MGLazPdE9jIJ2tLch/XZ4Vdxiu3BSCY45xI2sPVZZEb
-   E6MbF1Io7I2btwWLyK1KXbeDzR48/ZCozKmAtLQSf1hOvMSpZ3Rhom89/
-   /OfbMIEXKe2OdQX/7BjecvTncd41wlvGZRXier39Ze1Rel1BGB6y1fO8c
-   wdjZH5AFeAKvfCsUdSnYGkEuG5IheWJeg83Yv0dbbcBx7IrwgcC+nPQxF
-   WjZpZmMbt1BkFoyMUXtppxmWa8HBuk/dKptRoeYdPEMe+kM6pVZksQDaO
-   A==;
-X-CSE-ConnectionGUID: yoZCEj5iSr+qM+Aj/bstaw==
-X-CSE-MsgGUID: ZLG72tpBT3icBAMy/lLXOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="49654339"
-X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="49654339"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 00:10:53 -0800
-X-CSE-ConnectionGUID: EqeDqQ/aS92vll0bqveLrw==
-X-CSE-MsgGUID: /Xo1xFGQSxGQMSk7XBXw3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="110788994"
-Received: from jraag-z790m-itx-wifi.iind.intel.com ([10.190.239.23])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Feb 2025 00:10:49 -0800
-From: Raag Jadav <raag.jadav@intel.com>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com,
-	andriy.shevchenko@linux.intel.com,
-	dmitry.torokhov@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	sre@kernel.org,
-	jic23@kernel.org,
-	przemyslaw.kitszel@intel.com
-Cc: linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v3 20/20] ASoC: uniphier: use devm_kmemdup_array()
-Date: Mon,  3 Feb 2025 13:39:02 +0530
-Message-Id: <20250203080902.1864382-21-raag.jadav@intel.com>
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1738573928; x=1770109928;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=GoZ1I8nwjXJDyNzuyNG8kMf4j9q65G9XZXlJCuRM9Ss=;
+  b=XYZGNxQO60fzPPhnyTIkL5It8wIAZtf62L3r9fnNzhqZmT7dUebiAIzK
+   ormGc0d4wOgoZiODnpw43MOfOEN6XdLCodq13CFFBM1W/IXr2Cnlv9CS0
+   /FHBsXK4NU712rgYxdwgklYwqxXb+NW05TLpb1DaYUXGdsA9g3Ubaeh3y
+   Y2r0saW/1+6Zt/pSS61KljeLtYBA7Ka4MrCg1pv68nI2NCuOnom0ceZ96
+   Vb9f2TgPA9CX8Cg2s5moIeoslc9AQOhJvXxjUOVGB/zf5vmc0ellTyq4c
+   mub6dJzW0oehA9HgRCnl41T34av/gpQv9aRDpQZmSToadcZXFIsQVoW1W
+   g==;
+X-CSE-ConnectionGUID: 7vGpeTJvQHexY+vrjMcrEA==
+X-CSE-MsgGUID: pxeKEp38Sx+/HvgXMb1IHw==
+X-IronPort-AV: E=Sophos;i="6.13,255,1732604400"; 
+   d="scan'208";a="268528704"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Feb 2025 02:12:07 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 3 Feb 2025 02:11:47 -0700
+Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Mon, 3 Feb 2025 02:11:43 -0700
+From: Andrei Simion <andrei.simion@microchip.com>
+To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+	<nicolas.ferre@microchip.com>, <claudiu.beznea@tuxon.dev>,
+	<alexandre.belloni@bootlin.com>, <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>, Andrei Simion
+	<andrei.simion@microchip.com>
+Subject: [PATCH v2] ASoC: dt-bindings: atmel,at91-ssc: Convert to YAML format
+Date: Mon, 3 Feb 2025 11:11:12 +0200
+Message-ID: <20250203091111.21667-1-andrei.simion@microchip.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250203080902.1864382-1-raag.jadav@intel.com>
-References: <20250203080902.1864382-1-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,35 +60,214 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Convert to use devm_kmemdup_array() which is more robust.
+Convert devicetree binding atmel-ssc.txt to YAML format.
+Update the documentation supported file for MICROCHIP SSC DRIVER.
 
-Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
 ---
- sound/soc/uniphier/aio-cpu.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+v1 -> v2:
+- squash MAINTAINERS patch
+- place this yaml in sound directory
+- reword the commit title
+- reword the commit message
+- add #sound-dai-cells const 0
+- add required
+- include ref dai-common.yaml#
+- fix the logic for the required properties for DMA transfer
+- update examples by adding #sound-dai-cells = <0>
+- drop unnecessary description
+- drop compatible for sam9x7-ssc because is not the intent of the patch
+---
+ .../devicetree/bindings/misc/atmel-ssc.txt    |  50 ---------
+ .../bindings/sound/atmel,at91-ssc.yaml        | 104 ++++++++++++++++++
+ MAINTAINERS                                   |   2 +-
+ 3 files changed, 105 insertions(+), 51 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/misc/atmel-ssc.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/atmel,at91-ssc.yaml
 
-diff --git a/sound/soc/uniphier/aio-cpu.c b/sound/soc/uniphier/aio-cpu.c
-index 470f129166a4..44f4053e5584 100644
---- a/sound/soc/uniphier/aio-cpu.c
-+++ b/sound/soc/uniphier/aio-cpu.c
-@@ -762,14 +762,10 @@ int uniphier_aio_probe(struct platform_device *pdev)
- 		return -ENOMEM;
+diff --git a/Documentation/devicetree/bindings/misc/atmel-ssc.txt b/Documentation/devicetree/bindings/misc/atmel-ssc.txt
+deleted file mode 100644
+index f9fb412642fe0..0000000000000
+--- a/Documentation/devicetree/bindings/misc/atmel-ssc.txt
++++ /dev/null
+@@ -1,50 +0,0 @@
+-* Atmel SSC driver.
+-
+-Required properties:
+-- compatible: "atmel,at91rm9200-ssc" or "atmel,at91sam9g45-ssc"
+-	- atmel,at91rm9200-ssc: support pdc transfer
+-	- atmel,at91sam9g45-ssc: support dma transfer
+-- reg: Should contain SSC registers location and length
+-- interrupts: Should contain SSC interrupt
+-- clock-names: tuple listing input clock names.
+-	Required elements: "pclk"
+-- clocks: phandles to input clocks.
+-
+-
+-Required properties for devices compatible with "atmel,at91sam9g45-ssc":
+-- dmas: DMA specifier, consisting of a phandle to DMA controller node,
+-  the memory interface and SSC DMA channel ID (for tx and rx).
+-  See Documentation/devicetree/bindings/dma/atmel-dma.txt for details.
+-- dma-names: Must be "tx", "rx".
+-
+-Optional properties:
+-  - atmel,clk-from-rk-pin: bool property.
+-     - When SSC works in slave mode, according to the hardware design, the
+-       clock can get from TK pin, and also can get from RK pin. So, add
+-       this parameter to choose where the clock from.
+-     - By default the clock is from TK pin, if the clock from RK pin, this
+-       property is needed.
+-  - #sound-dai-cells: Should contain <0>.
+-     - This property makes the SSC into an automatically registered DAI.
+-
+-Examples:
+-- PDC transfer:
+-ssc0: ssc@fffbc000 {
+-	compatible = "atmel,at91rm9200-ssc";
+-	reg = <0xfffbc000 0x4000>;
+-	interrupts = <14 4 5>;
+-	clocks = <&ssc0_clk>;
+-	clock-names = "pclk";
+-};
+-
+-- DMA transfer:
+-ssc0: ssc@f0010000 {
+-      compatible = "atmel,at91sam9g45-ssc";
+-      reg = <0xf0010000 0x4000>;
+-      interrupts = <28 4 5>;
+-      dmas = <&dma0 1 13>,
+-	     <&dma0 1 14>;
+-      dma-names = "tx", "rx";
+-      pinctrl-names = "default";
+-      pinctrl-0 = <&pinctrl_ssc0_tx &pinctrl_ssc0_rx>;
+-};
+diff --git a/Documentation/devicetree/bindings/sound/atmel,at91-ssc.yaml b/Documentation/devicetree/bindings/sound/atmel,at91-ssc.yaml
+new file mode 100644
+index 0000000000000..a05e614318242
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/atmel,at91-ssc.yaml
+@@ -0,0 +1,104 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/atmel,at91-ssc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Atmel Serial Synchronous Serial (SSC)
++
++maintainers:
++  - Andrei Simion <andrei.simion@microchip.com>
++
++description:
++  The Atmel Synchronous Serial Controller (SSC) provides a versatile
++  synchronous communication link for audio and telecom applications,
++  supporting protocols like I2S, Short Frame Sync, and Long Frame Sync.
++
++properties:
++  compatible:
++    enum:
++      - atmel,at91rm9200-ssc
++      - atmel,at91sam9g45-ssc
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    items:
++      - const: pclk
++
++  dmas:
++    items:
++      - description: TX DMA Channel
++      - description: RX DMA Channel
++
++  dma-names:
++    items:
++      - const: tx
++      - const: rx
++
++  atmel,clk-from-rk-pin:
++    description:
++      Specify the clock source for the SSC (Synchronous Serial Controller)
++      when operating in slave mode. By default, the clock is sourced from
++      the TK pin.
++    type: boolean
++
++  "#sound-dai-cells":
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++
++allOf:
++  - $ref: dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - atmel,at91sam9g45-ssc
++    then:
++      required:
++        - dmas
++        - dma-names
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/at91.h>
++    #include <dt-bindings/dma/at91.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    ssc@100000 {
++       compatible = "atmel,at91sam9g45-ssc";
++       reg = <0x100000 0x4000>;
++       interrupts = <28 IRQ_TYPE_LEVEL_HIGH 5>;
++       dmas = <&dma0 (AT91_XDMAC_DT_MEM_IF(0) | AT91_XDMAC_DT_PER_IF(1) |
++                     AT91_XDMAC_DT_PERID(38))>,
++              <&dma0 (AT91_XDMAC_DT_MEM_IF(0) | AT91_XDMAC_DT_PER_IF(1) |
++                     AT91_XDMAC_DT_PERID(39))>;
++       dma-names = "tx", "rx";
++       clocks = <&pmc PMC_TYPE_PERIPHERAL 28>;
++       clock-names = "pclk";
++       #sound-dai-cells = <0>;
++    };
++
++    ssc@c00000 {
++      compatible = "atmel,at91rm9200-ssc";
++      reg = <0xc00000 0x4000>;
++      interrupts = <14 IRQ_TYPE_LEVEL_HIGH 5>;
++      clocks = <&pmc PMC_TYPE_PERIPHERAL 14>;
++      clock-names = "pclk";
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ce7bf07c8afa2..6d593729a6d00 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15633,7 +15633,7 @@ M:	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+ M:	Andrei Simion <andrei.simion@microchip.com>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Supported
+-F:	Documentation/devicetree/bindings/misc/atmel-ssc.txt
++F:	Documentation/devicetree/bindings/sound/atmel,at91-ssc.yaml
+ F:	drivers/misc/atmel-ssc.c
+ F:	include/linux/atmel-ssc.h
  
- 	chip->num_plls = chip->chip_spec->num_plls;
--	chip->plls = devm_kcalloc(dev,
--				  chip->num_plls,
--				  sizeof(struct uniphier_aio_pll),
--				  GFP_KERNEL);
-+	chip->plls = devm_kmemdup_array(dev, chip->chip_spec->plls, chip->num_plls,
-+					sizeof(struct uniphier_aio_pll), GFP_KERNEL);
- 	if (!chip->plls)
- 		return -ENOMEM;
--	memcpy(chip->plls, chip->chip_spec->plls,
--	       sizeof(struct uniphier_aio_pll) * chip->num_plls);
- 
- 	for (i = 0; i < chip->num_aios; i++) {
- 		struct uniphier_aio *aio = &chip->aios[i];
+
+base-commit: 00f3246adeeacbda0bd0b303604e46eb59c32e6e
 -- 
 2.34.1
 
