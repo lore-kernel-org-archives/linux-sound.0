@@ -1,126 +1,105 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255752040A6
-	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 12:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B22A20012A;
+	Mon,  3 Feb 2025 13:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738586993; cv=none; b=YZSUOkNq6z4n3P5/gdWoukyp/yGbf4kXbtH91V48yM7X9vamKqErbYmfcpHhKZTE6eddnahBl08/1ydSEgVE/JEAuz8rgGp3JN84HwfpkLbvSrKsaSk6HA7jGI38Ob2UCMye2n7HxbT2beZ+/tkM1835X1HthWdWY6ALQ0qwUI0=
+	t=1738588802; cv=none; b=TlNbfH2P1aKckcPdFA/6r4RarrTBz7KMg9Ea66i5bl4nGNGMBWRPd9qHjQa8Q5slaeBli5iuZWMSOV5iz6pvWxDofgTkGcByZlntnVDV7gqB0X7JKiecRyPgyIse8WhEfCy+zBAMEt3uVp2Sa/Dq+fJiy/bOlJSmWHGqBdYVdlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738586993; c=relaxed/simple;
-	bh=nUkpU5HdizpxTWr8YxBaJkQkZC9L5Iy1O5dsyOZHQtY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ecs3zZxyD4ZMZ0HdpejrlBhisauUR3PNLaSpq6rBQZ/fY/n/IuARyYpR+ZAoZkBr8qghI/T8FnySWmjQ4oTrD97pb4CTXNJLPHyezvkqG/8PlGTKekGlKNkd2KL2Il1Dql0nLeB3ekPDJaKKNEQOgYPdAf0/ke502EWgpfgWUPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dI9+6Oxo; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1738588802; c=relaxed/simple;
+	bh=ESQrnKqHCQzgAyhKMYNeFli9rDbnwZV44iLYlscj9QQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nWXBqnXKI0euDbPEskTZZdAuJx42jo90TitvETa8cidDIgNhM2NDx4xG/5MGq/4x8tNPj9eqzKLgm4ERQ+JH4bnX/xQXv1C/iShr9eNMe0Wfw2u8iBYc1l+KUVe6BUyPIZtfNQ0QC7bgyMDW9pqOiTp/fSXRLOWImlSo/rso72k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aG69+6X/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dI9+6Oxo"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-385e3621518so2074752f8f.1
-        for <linux-sound@vger.kernel.org>; Mon, 03 Feb 2025 04:49:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738586989; x=1739191789; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ywGUrOp/w8H6RCppdbR3Agfd+wqSLlU6tOUovBhQqng=;
-        b=dI9+6OxokdsnoihcAOg5SVnwAgJdhRbr4yoY2vKt1NmMyHrloRebNjBS7z/4wG2e6y
-         KwDneDXWijRuWnYy+MUgYtJ2TSV2GjgG1xvBiOqr1Th/9bP3STpj+Hy/hIDc1txIffFW
-         aObscZVLtL7P7gXtppoDUkY0hNtxTwP0nkLaluQ8BitU0h7X52c+mUnpXKxJc3Bt5PLP
-         OLaWuVUYCUzv7IEvDD1Udjp3hYy2gYjCrVXHogEXPVXlpAKQ/lCi+bIm4LDFFrHLdHbs
-         NJxP7mOKjkwa3WeoSMQueYVetWzBzZ5XBJGKZ8jiaJIy+xLzw0Oa5fxKdf8P6ULm0Ll/
-         V7Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738586989; x=1739191789;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ywGUrOp/w8H6RCppdbR3Agfd+wqSLlU6tOUovBhQqng=;
-        b=YM2zVvDNey+qpARLiXujzGQmCpKhkeePig4jPRhCEm7t/UqBJGoJXsxZJjgxHW/OvX
-         JicgYFZuOKWasAobt2emVvb5IUXuG0a5EoN5c6heHdwQnpKZ+9h41vZyg/bALmhThXLB
-         Eyeau2EtyZ6IFrinrYKeF6wKcwx6GO/gDQLsZhF+0pLxNBjENElzJ+PdqZifNTq1bWXQ
-         DaWMWIP/2iN9HYrmIzoG3Rtn8fFqtAzT+YiEA/FUIkLHJrtwwmugDWT54xIVeeeAyd19
-         EgnKdnulznrumRRkrRdRm4lpR4z5yX4oZ/epDT0BPf5sGbKFGtUwqq/jPkRGyag65Clg
-         TcYw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4+hdvDM4vcLTYnutuzHVoNpIMWEKjHJ4qAePZmjEG4Sw0cZgfKvzquHqKsjjgq9N68owJ+ErxuQZTzw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFfj+N0FerhDCu2sWjxdXZHvtQvYc7UkCr2oO239E6Ko9RByOP
-	CZ8JdbayzwUQMiDqPPTLRRwj+140qYty97HED2LMinlxxrLd0FeF4g5+A6t/B9w=
-X-Gm-Gg: ASbGncvHD0tHS+EJ2Wr9cZxz3KiP6U5dEGd0Wwerbl7VwJJsFl++mdqekyKIxdAo55V
-	sAGUkrueEAj5Z2eX346vSyQVgVL5gsxaFWLhO8u6ZYuJzRQ+0Ij5ZLQmhywHPRUcWe+tILFn+NK
-	bK5BIHbLrjgcBPfRahfopxiUCfAyGOeRD6XS7RXFnRCgZTJcMYatBydNh5Z3XqpHmSwTB9/4/Xk
-	3xBib8bwptM103rM+4vNiiALgAcPuZ5kuolWayq7oIf8S4kfuNNUhKAtLmfvMsTSXqbBvjp/hZZ
-	VvjcIe/X72WMAVq3hscwqbxYAD6R+FdhPkPVVh7b
-X-Google-Smtp-Source: AGHT+IFcRPGPDmD48EIK6elAaZu2Zk8DxQERIr9dnmWyB0Uuf10XrVS2TvtkTaG7Mc0/1xomxVn61g==
-X-Received: by 2002:adf:f504:0:b0:38b:e109:1e0d with SMTP id ffacd0b85a97d-38c520b6629mr14361510f8f.49.1738586989345;
-        Mon, 03 Feb 2025 04:49:49 -0800 (PST)
-Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc2f17dsm189411645e9.23.2025.02.03.04.49.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 04:49:48 -0800 (PST)
-From: srinivas.kandagatla@linaro.org
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	krzysztof.kozlowski@linaro.org,
-	pierre-louis.bossart@linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmitry.baryshkov@linaro.org,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH] ASoC: q6apm-dai: schedule all the periods before we start streaming
-Date: Mon,  3 Feb 2025 12:49:45 +0000
-Message-Id: <20250203124945.11406-1-srinivas.kandagatla@linaro.org>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aG69+6X/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22EA7C4CED2;
+	Mon,  3 Feb 2025 13:19:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738588801;
+	bh=ESQrnKqHCQzgAyhKMYNeFli9rDbnwZV44iLYlscj9QQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aG69+6X/iEWfwB1ZAmjOn5g6+ZW3GIXxLdzSQ/v2ZtnXRUS5DHZiv2P9MsLslVpuN
+	 /+jpmpPJurfWoAkiKlwBL8qzXGBHNFaEjj3pza4wJqjAMN80/DHCndh5Su/7Jggbnm
+	 3Adpw9EZi26Ub0P7/+XgzLZLQTrA92zDMdNcNo8Io/sE24fq0egXRBxd2urZAy1qi5
+	 r96cQKzJEMtmNBkXNnkupJBr92o2i5fRsPu8+3ZGErVJjvsuBJK9nPexb8TTl5DXP7
+	 qt0soNIr0/+80SL4YTM3GkBJ+clzDuas0Z996PS0MKKOw+wVtpZ2Wx0z8rfHffmseA
+	 U7RuQVRuywrkQ==
+Date: Mon, 3 Feb 2025 13:19:55 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Sanyog Kale <sanyog.r.kale@intel.com>,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_pkumpatl@quicinc.com, kernel@quicinc.com
+Subject: Re: [RESEND v5 3/4] soundwire: qcom: Add set_channel_map api support
+Message-ID: <a82a33a8-d27c-45c8-a39a-58e6357e0d99@sirena.org.uk>
+References: <20250123042823.2067740-1-quic_mohs@quicinc.com>
+ <20250123042823.2067740-4-quic_mohs@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Eq8RTpKzgOkqoEb1"
+Content-Disposition: inline
+In-Reply-To: <20250123042823.2067740-4-quic_mohs@quicinc.com>
+X-Cookie: This is now.  Later is later.
 
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-With the existing code, we are only setting up one period at a time, in a
-ping-pong buffer style. This tiggers lot of underruns in the dsp
-leading to jitter noise during audio playback.
+--Eq8RTpKzgOkqoEb1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fix this by scheduling all the periods, this will ensure that the dsp
-has enough buffer feed and ultimatley fixing the underruns and audio
-distortion.
+On Thu, Jan 23, 2025 at 09:58:22AM +0530, Mohammad Rafi Shaik wrote:
+> Added qcom_swrm_set_channel_map api to set the master channel mask for
+> TX and RX paths based on the provided slots.
 
-Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
-Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
----
- sound/soc/qcom/qdsp6/q6apm-dai.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+This breaks an allmodconfig build, and arm64 defconfig:
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index c9404b5934c7..148c3fb77168 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -299,15 +299,17 @@ static int q6apm_dai_trigger(struct snd_soc_component *component,
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct q6apm_dai_rtd *prtd = runtime->private_data;
--	int ret = 0;
-+	int ret = 0, i;
- 
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_RESUME:
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
- 		 /* start writing buffers for playback only as we already queued capture buffers */
--		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
--			ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
-+		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+			for (i = 0; i < runtime->periods; i++)
-+				ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
-+		}
- 		break;
- 	case SNDRV_PCM_TRIGGER_STOP:
- 		/* TODO support be handled via SoftPause Module */
--- 
-2.39.5
+/build/stage/linux/drivers/soundwire/qcom.c: In function =E2=80=98qcom_swrm=
+_set_channel_map=E2=80=99:
+/build/stage/linux/drivers/soundwire/qcom.c:1283:36: warning: unused variab=
+le =E2=80=98sruntime=E2=80=99 [-Wunused-variable]
+ 1283 |         struct sdw_stream_runtime *sruntime =3D ctrl->sruntime[dai-=
+>id];
+      |                                    ^~~~~~~~
+/build/stage/linux/drivers/soundwire/qcom.c: At top level:
+/build/stage/linux/drivers/soundwire/qcom.c:1335:28: error: initialization =
+of =E2=80=98int (*)(struct snd_soc_dai *, unsigned int,  const unsigned int=
+ *, unsigned int,  const unsigned int *)=E2=80=99 from incompatible pointer=
+ type =E2=80=98int (*)(struct snd_soc_dai *, unsigned int,  unsigned int *,=
+ unsigned int,  unsigned int *)=E2=80=99 [-Werror=3Dincompatible-pointer-ty=
+pes]
+ 1335 |         .set_channel_map =3D qcom_swrm_set_channel_map,
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/drivers/soundwire/qcom.c:1335:28: note: (near initializa=
+tion for =E2=80=98qcom_swrm_pdm_dai_ops.set_channel_map=E2=80=99)
 
+--Eq8RTpKzgOkqoEb1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmegwnoACgkQJNaLcl1U
+h9CZ5gf/RKq0pJYT4jqUxq0eZmJYxqCGtZA8Svl2jSDjDuGfFj9MOEaa3U0QpWgF
+ztCgzcHRI9+z1LlH/1oxJiepGEoaFBia7iydAg+cI24aj/hxcHDaoLsY25FYUFmb
+iRM+kDYUvS+pxIfay5++L10hh8bPtXCEN4XWTCdrN8pblz75Rz02307QhIEBNe06
+GrWKzBMY6ZBDYYyDaFxP8lAzwkcdVIEnDzNuwwZxyb1Ahfg7PCIkvWj8sQSUNjCm
+nhgzadft8nhHbCZBlLt5tEwW0RTgggiQdC1qWxthEPoVlko8h7GXtuFwf3zp8b4q
+dexHux0LVG3hMuK6ES10mkA5gjBNSw==
+=OOHD
+-----END PGP SIGNATURE-----
+
+--Eq8RTpKzgOkqoEb1--
