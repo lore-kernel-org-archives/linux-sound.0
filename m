@@ -1,132 +1,131 @@
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C10207657;
-	Mon,  3 Feb 2025 13:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6C220551A
+	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 14:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738591195; cv=none; b=Kj17U+yz09k+61xVkK/SGSRNwYvaeyRxN3/03jvKck7wTAWkx53zz6zTeWtE2P/d5/it7n86YZnCGUSFoXMZvCgzy8xLszpHtpTVZdn/UsOubvFXNu42mXZ3NNZJWcxh8ygeJYnl96zAL9m1x35AT4oXC4pzP/mZgjMqX3pzSpw=
+	t=1738591772; cv=none; b=dhDE3fGubU+XByP10qXXMroF1o/9BKp1zeKVsTDcOjXG1CRcExTeaqBT2kvLKlu0Q4l9yLk+NWOr6/B7goSfeDuqXNTunEIiqEj9oHglFd5Ld+4uLOm5e6dJOrEFHAi3GerGA4wKs1ocySweTeEBAk57mxNIE3CGewOfVUc9/kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738591195; c=relaxed/simple;
-	bh=qCz9jE3C8/DH/rIVWt5Lk605SNimvvlqaYiePQLwTYI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HcUxfy/1A2rPjECDqAHZxymKB3sQFB/6mi5CeaxZXWcRnP4x2iQ9tHk9DtHdhJT2LxuZ/mJjmQn72CSqtrMRJMoEBNZQvjit2uJw2BVjpKFdcJXPBXRlh/hYCsZbOJazncobKpdNqQL8s314lPgZlZa0dcytECsBezxCnenlyPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-85bafa89d73so853284241.2;
-        Mon, 03 Feb 2025 05:59:52 -0800 (PST)
+	s=arc-20240116; t=1738591772; c=relaxed/simple;
+	bh=BhDJSrHYmdsEXplQFttxlJTvYf2TKpF3zvQiKJnEhX0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LhmUj2fHzkKIk/7pg0+wFiB+Fd3kbpjftkd30DDH7FjN2PRzR7hrJEKMXVtCsGGWuGtAKy+PWAI1YKrDu4g1GPVuFecjmQv/7K2uSEE9i4fl4XESaZiT5FvsC74EMlovKA2Kw8KMPcNlV0F6wDFu3z/qRUm+r6hUr38HpZ/wsvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TFCn67Mh; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TFCn67Mh"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54020b0dcd2so6029033e87.1
+        for <linux-sound@vger.kernel.org>; Mon, 03 Feb 2025 06:09:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738591768; x=1739196568; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=H4pmT0xng8YdhycWRMKJfsqizxwuIDbDyEJ81pc8bF0=;
+        b=TFCn67MhkpzqQA+g0ir89xZj7fDZ+gMAKDJ6ThfRd26IrFuYoEEMEAManmrbDbOySA
+         rLvIttQGiHYHmRG3dIOOLOvmKpreL/Psv0uJ7WQigmHEyOq/iZ7ToGgPFFFG8INO+aTz
+         Z9cATybj4kSx2ndQukfzSiDkQ+5Ef/hppwsj1I57d3ocZEPyH9G5ybFwgqaMZQQ9iMcn
+         6CFUbBeryZaVw8XFjZzuHLYHqZN8SgQ2I/L0JAeeFx7qh97Jrj8IK0N4lykGY3mbxfnP
+         dDvRMk1+6lohlOxLIyflVzeeaN/++s4QVsUs2Ha/6qSYec4x23o0iu+psk7dq+LnhBiL
+         WGBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738591189; x=1739195989;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2e3vrd26snuR7BBCNgEi1ltS7NqcxsA/B6t8vBEFYDs=;
-        b=RrSJ7HsTNrk2Y2+yINGbXd4woA4DPGMh7QRuj8mqrP20+ajPA8e6MpvQ7GxX/KQ3zh
-         WvKluSGDbFyX1GRu3zEvOWoTt5J+cqjTuVAOtzrtqOQ1dcrOImOpHyLvXXsMqmpyatG2
-         JUHtA3ay3zt0XIZrOF2d7zmfrF2ZYkxGSHgqLGi6vMaY3aMLstwIgqbWKQtAi0fNErn/
-         DqpHUZqbvE07OfKX8pt74juxHJpE+6fW4/JJekrfNQDUZ2j9UY7TMj3fq+RtsRMqf0pC
-         lXLfz/7gsOHlW+rY8VqmqzlAH+JJDeOawa4+EFdHfW4CpYaQmN10RMhhzEo1gIIeORGx
-         fWtg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWu+DXUSSrRSa6+Hqtyo0y7nhY9UMm+6sG8XD/SEtGpKvCkxmG3kNkihjvYll8I4AwaATkArzmwe4goKqJ@vger.kernel.org, AJvYcCVEd+Pu9L0qWO1CkiA/SkZFwJOSpAQyGJzTt9NMtCmnCwXlbw4aD2Uxet8jHhSqqAeA2g52PLKq6B7srA==@vger.kernel.org, AJvYcCWEF4jRaDt7yz/ySGq2fodwVJ1qVvYz5/5WLmCMF/jAWIvuAsjV8vXMwVu33BykDTYMYUSG4O/v4P/1vhspOUgnbBI=@vger.kernel.org, AJvYcCWS42oxkz0pAYv24KgpTgR1mGtCp73L/CHZK7cW+8Hxgst7H5OXOdQ1u0eQvy8dz2lQtw7Cy8m1jgzEon+F@vger.kernel.org, AJvYcCWcQPp3/rzV0d/CGHy45eKjYcXOy/SP1C7snfUMKpoq6hEzfgY93E00S1hhfF2tYHk6TtY0wOIPsKBP@vger.kernel.org, AJvYcCWzCNd+9B/jsBjcPuvZMlBwWO0kWihwtG5xjI7tfYabDEh1Zu/V5zndlJeeUQOmUHng2yUBQy3hlQ8=@vger.kernel.org, AJvYcCX+rPQS2WZZQL0AXZwX0qju9nL7sJIJlZ5VjyJ6/7CVjoX257PrBK7pOrv5XxE2KJod2j31K45JSeRnpd8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNpOoVfu8Xag1CBkLrD1k5OseCYAjIwWamxeChMx3eFdpI7fmA
-	Clko2tcXB2YwPNm/fteWLtm0ZEWOSy46UW3sAAZ96kGNRniQ7cJ89OP0NIcQ
-X-Gm-Gg: ASbGnctF+3pp8eA7vXgQ3Nci835IRu3PFHGKOqLIqfZ7mDUu4pb5jCzT6a/Xzdke86k
-	sx8hzFRttc15blaZb7sKmb9/Hc1fHwGM8iOw1IfAHUrsQ6AlV0DxOFpUyWRPd20j+WhEp4NhvE+
-	8oUL5QhV2Y+gStZAhfl/50qvSOXmGoP5PzjR9pE+ad8EuIRYz2pAlkMSBQ1lrmi16kRCVo80J3v
-	7e3UL7CoFH8YLpMsaRC2VxhSyVLGkigcGod4np9xiWLHOI6o2wB+D9u/T1B//JGQtPAcJH0xfB/
-	38/TrX/YX3w4fl6LArH1R577K13XRjnfVH8rOld3vIn0isr6o3SDVe7NbA==
-X-Google-Smtp-Source: AGHT+IHMxI/2v0SfcLwteoxT8STy991q5j8vL75bqZcV4zbtOIYaHRNiw16arLwHeEOR+aNooAZEMQ==
-X-Received: by 2002:a05:6102:330b:b0:4b6:d600:a35f with SMTP id ada2fe7eead31-4b9a4eb3fe8mr14586189137.4.1738591189660;
-        Mon, 03 Feb 2025 05:59:49 -0800 (PST)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-866941da3fdsm1549787241.25.2025.02.03.05.59.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Feb 2025 05:59:49 -0800 (PST)
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-518ae5060d4so1388081e0c.0;
-        Mon, 03 Feb 2025 05:59:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUCSxPdtewQcOQ0VqH6KbxR4AJHf9AWvwOdRbLTbvQjRiAZ4FpuZD5vIUmLA1S5L+pEJdteSv/vOmkN@vger.kernel.org, AJvYcCUHuzVuJTMpt0LQKeVDHJ1VtblVA/jQAqbWjUWIRKIAuAyMlzBNOZ/n6K0qxfK3H0yghOkGUzfpxLj+nA==@vger.kernel.org, AJvYcCUZWFTVihvApMJKLl3n2E9mazFs5hQcdPJnyLYEnO0kTePafT0VDFcesNs+EowedR+CcfkxEFzF4dg=@vger.kernel.org, AJvYcCUl+wcql7GU+jy8A7Dvt2aY/XyP/TwLPAXwO9xOPEQ/OFOMj8i3HBHDoMKuZDAnPGp2HKUaKVISae34fkFw@vger.kernel.org, AJvYcCV/NESNNuh7EgpaWW3U7NQXZ8TenqvtEB3nzQdJP0gppFbLr7BKmXebhvwfM1xasbU1m7lxPWX5uxaf4K+y@vger.kernel.org, AJvYcCWC0XUNHF1VlrFHkUNsacVF3cs7Ach9FCtZrUL+/sL865CKb7gH5rsQRDTFY2MrD+KjCMJAulaNj4aUiVM=@vger.kernel.org, AJvYcCWWdCymXHv2toYAg5XNDIfLqTNh8zJ8w2ClBk1asRJsOYRuIbavqezhrOlfMYhCYUSWlReR4F0bs1YGMfCqAGy3SHI=@vger.kernel.org
-X-Received: by 2002:a05:6122:1990:b0:51c:aa1a:2b5b with SMTP id
- 71dfb90a1353d-51e9e3fdc44mr15881808e0c.4.1738591188554; Mon, 03 Feb 2025
- 05:59:48 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738591768; x=1739196568;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H4pmT0xng8YdhycWRMKJfsqizxwuIDbDyEJ81pc8bF0=;
+        b=GQunOSquBv+1rIaeejyUs/hVV7vKbPWEi6I48w3uZzg2Y7czgGbE1gn2sHFjv2xCSh
+         HteVU24Tjc5FmW8co9angCpkOPtIwtfPD6t4EnCMeQRfB61zXy2lBXwn0mptgxqPQwZM
+         7DlyOb9emSZrS1ZYqvgz1Zfg9w/LjFE3xzaMmlVWLNO9y4DhW//0bzy6PADWMxuiFrTa
+         kr1K7YDgC2sHGCpa9CxBFjMGZxuvwelx/I6KgSAEXe68JgGRPxaOqImM+OVfxGyoPzbB
+         FQzuXa2r1fVOL2NWnucOP5Qv6MMWk7mCXlfvZ1Hkgdlm1UJkxRmKfCo2zWDW9320mDRQ
+         X6gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXkjEmKWlVOXbshXQ6UQuqTD5ALoArwOiFxrVMRxKGHt16X8Gvl4kFVkqHFruban4W1rMWySTZIxZQD3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3onqnCx3o2P20YwsYMe6g802fs83GMzb4gi+sxt1aPjNiJOji
+	KU8qOnFkFfzmil04cYb1yyx57GGn8NDEr5oVJ/RJKeoil6o8OGlFZqyDQvYV2l0=
+X-Gm-Gg: ASbGnctftTlNC62ivxGf8W7vhyoh9NTUJtkZ7/UfJiovT81a29yUb/LVm1YcCXtf0lG
+	Wr/Jt56Z0/TAbDajS6kkIQIfvqgYUWpkOLOXpJ9klz+/2lp53KWLTq4PyRdWoBXbcx3B+njdZDd
+	xpseovE0CT8G4iy1ZA89NuduBbnOyhu4K30uRNXAjNdzhUR12/O6PcA5Fcz3s988t06C5xbpLto
+	d47Cfi4ZbbEptn6FNagOqZpEr98OLEc1h9aD8tCDKtis6tOcTAk6FAKn9F3fJ4uiSyvkYDfXH6j
+	T71ZkTiiQqHZic4LA4oesBaKbArtZ9GhozmxymtW91mcU5f0Tv9TS5KqyaEtkBQUe+SlDYs=
+X-Google-Smtp-Source: AGHT+IFtAcXEaVrswkCO/X2ohPvix6C9anq5aWjz8V/6SOYEap4Iiw/P0CbtbcIo2Z8mkkAhqD9zAA==
+X-Received: by 2002:a05:6512:3994:b0:542:8d53:5eab with SMTP id 2adb3069b0e04-543ea3c894amr5745670e87.6.1738591768446;
+        Mon, 03 Feb 2025 06:09:28 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebdf0f97sm1303565e87.5.2025.02.03.06.09.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 06:09:27 -0800 (PST)
+Date: Mon, 3 Feb 2025 16:09:24 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: srinivas.kandagatla@linaro.org
+Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, 
+	tiwai@suse.com, krzysztof.kozlowski@linaro.org, pierre-louis.bossart@linux.dev, 
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: q6apm-dai: schedule all the periods before we
+ start streaming
+Message-ID: <za6jydjpvhz77h22qvssjxv2vrh6g637ctgfndqavoxo7pnqel@vcalzbkbfoss>
+References: <20250203124945.11406-1-srinivas.kandagatla@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1738329458.git.geert+renesas@glider.be> <1824412519cb8791ab428065116927ee7b77cf35.1738329459.git.geert+renesas@glider.be>
- <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr> <Z5-xMUqrDuaE8Eo_@thinkpad>
- <74cab7d1ec31e7531cdda0f1eb47acdebd5c8d3f.camel@sipsolutions.net> <45920591-e1d6-4337-a906-35bb5319836c@wanadoo.fr>
-In-Reply-To: <45920591-e1d6-4337-a906-35bb5319836c@wanadoo.fr>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 3 Feb 2025 14:59:36 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXZKNtAmiMP8uuSngZMsDLGcYwrLS0xNWzN4UfLaccdyA@mail.gmail.com>
-X-Gm-Features: AWEUYZkxzrXQCnvoDXR55r9qIi7LTjZDYDZYK_OEJibEwCDu5alOHeJTYjGkvIg
-Message-ID: <CAMuHMdXZKNtAmiMP8uuSngZMsDLGcYwrLS0xNWzN4UfLaccdyA@mail.gmail.com>
-Subject: Re: [PATCH treewide v2 1/3] bitfield: Add non-constant
- field_{prep,get}() helpers
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Johannes Berg <johannes@sipsolutions.net>, Yury Norov <yury.norov@gmail.com>, 
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	qat-linux@intel.com, linux-gpio@vger.kernel.org, 
-	linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S . Miller" <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
-	Shan-Chun Hung <schung@nuvoton.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Alex Elder <elder@ieee.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250203124945.11406-1-srinivas.kandagatla@linaro.org>
 
-Hi Vincent,
+On Mon, Feb 03, 2025 at 12:49:45PM +0000, srinivas.kandagatla@linaro.org wrote:
+> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> 
+> With the existing code, we are only setting up one period at a time, in a
+> ping-pong buffer style. This tiggers lot of underruns in the dsp
+> leading to jitter noise during audio playback.
+> 
+> Fix this by scheduling all the periods, this will ensure that the dsp
+> has enough buffer feed and ultimatley fixing the underruns and audio
+> distortion.
+> 
+> Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
+> Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> ---
+>  sound/soc/qcom/qdsp6/q6apm-dai.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+> index c9404b5934c7..148c3fb77168 100644
+> --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
+> +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+> @@ -299,15 +299,17 @@ static int q6apm_dai_trigger(struct snd_soc_component *component,
+>  {
+>  	struct snd_pcm_runtime *runtime = substream->runtime;
+>  	struct q6apm_dai_rtd *prtd = runtime->private_data;
+> -	int ret = 0;
+> +	int ret = 0, i;
+>  
+>  	switch (cmd) {
+>  	case SNDRV_PCM_TRIGGER_START:
+>  	case SNDRV_PCM_TRIGGER_RESUME:
+>  	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+>  		 /* start writing buffers for playback only as we already queued capture buffers */
+> -		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+> -			ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
+> +		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+> +			for (i = 0; i < runtime->periods; i++)
+> +				ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
 
-On Mon, 3 Feb 2025 at 14:37, Vincent Mailhol <mailhol.vincent@wanadoo.fr> wrote:
-> On 03/02/2025 at 16:44, Johannes Berg wrote:
-> > On Sun, 2025-02-02 at 12:53 -0500, Yury Norov wrote:
-> >>> Instead of creating another variant for
-> >>> non-constant bitfields, wouldn't it be better to make the existing macro
-> >>> accept both?
-> >>
-> >> Yes, it would definitely be better IMO.
-> >
-> > On the flip side, there have been discussions in the past (though I
-> > think not all, if any, on the list(s)) about the argument order. Since
-> > the value is typically not a constant, requiring the mask to be a
-> > constant has ensured that the argument order isn't as easily mixed up as
-> > otherwise.
->
-> If this is a concern, then it can be checked with:
->
->   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask) &&
->                    __builtin_constant_p(_val),
->                    _pfx "mask is not constant");
->
-> It means that we forbid FIELD_PREP(non_const_mask, const_val) but allow
-> any other combination.
+So, all errors except the last one are ignored now?
 
-Even that case looks valid to me. Actually there is already such a user
-in drivers/iio/temperature/mlx90614.c:
-
-    ret |= field_prep(chip_info->fir_config_mask, MLX90614_CONST_FIR);
-
-So if you want enhanced safety, having both the safer/const upper-case
-variants and the less-safe/non-const lower-case variants makes sense.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> +		}
+>  		break;
+>  	case SNDRV_PCM_TRIGGER_STOP:
+>  		/* TODO support be handled via SoftPause Module */
+> -- 
+> 2.39.5
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+With best wishes
+Dmitry
