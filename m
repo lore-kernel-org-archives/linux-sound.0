@@ -1,189 +1,126 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5237520B7EF;
-	Mon,  3 Feb 2025 17:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F3E20B806
+	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 17:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738602097; cv=none; b=U8tX5D061tbz9Fp9D4WYcYFScByeffyt96gz+74Insn94LnFSQoGbeF3pG/nkWefUYi41Jgs9UGR+mvztw8mG/SJWHW75fukrYWNv3U3m/FpPfNwgv+1EYT7lzh7AIJu9CcQUR6HFYZR3Ri4NSbi635iSg/GgrQcB+t/0cYqTYw=
+	t=1738602299; cv=none; b=M937265KdJ6wBzNLtedgYOTkJ4Xyh3Sx+S1INZtvCcdEfCOdhkZr8bzxr1mTuW7qXkTxsyOJijEqZrY/t3MifLBlikRP+cgOwBqsKoUPB7cfp2NzcjhDnUAf1Vtm/hra0ci+yyRyZf3PlU+tfLbX4WQ/zGo/FT5ooUatiZ2ZqVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738602097; c=relaxed/simple;
-	bh=GjD/LZLYFXKkveRtwJedOaVJm9eVxLgw652JNr6llgU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iGEemfMjthIx0pDQFXalLwLOKGxHPqrVJaE5PL+ADslEuaWRQ58m/tT5KvQw/GGiOGgonbnBJ7igYjI3C07aXJ/BVY5K+9PAVFZ1yucVOS4OmrwFSN3xpHaIG5gRpDRGs3xg39aQni/QT3urRqTx6C8ETQrq7lyyVO0AWxKOo6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g0D4U+Za; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738602299; c=relaxed/simple;
+	bh=k+4NjqDATI0U8bN3dLAciAEBVOadw2UR8Z2JdKAVccA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YCFAIC7Rf4Ni6aicncuMNuvqR5fKoJAjlUYtznccxzof+lIgKQvPdRFec7QGgVQEahhy9dqJqALV0fdqFe6ljuLHlaB9Ld4X5e9QnpIbOdB7LYoq8E33e9xI4BHIQrNZkhdb1KXebmFd87svUePTDDZ25mLwgUeYZvh9g4luPsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cYNLD2QS; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0D4U+Za"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3862ca8e0bbso4034549f8f.0;
-        Mon, 03 Feb 2025 09:01:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cYNLD2QS"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-436a39e4891so32047205e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 03 Feb 2025 09:04:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738602092; x=1739206892; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bif4hUYa0bFbnBBMOVylM+oWc6yHvve+zQn7rU29CiQ=;
-        b=g0D4U+ZajZlLzmMMcP2I/c1pGifypyWIAu3K6oHE46T9/+d7luFM6VSABTIorfiGMT
-         iN861NfATMa9MrqTGrUPnKBSqwY2ZINLvUTox9/4CHnNZf6/piPwxnkcJO0BVvgy0iU8
-         vDZOZDPFMqKgqtbuP4lO9RXHGggTQq57CHCoZxUGk825/S7hc0cK/DkrOb5bmO9my2EC
-         jSX98+OE9uBQo0ChZDX58MwdQePIzKwAzakBQgbbhcHzPvAmhs7UpQT7e5tQfeNPna8/
-         x5b+Nobx03Kc1RiOHO+6DeQRZSCGkS40LrljshCEz6JDDGmvP4ffCIuGzAA1nAgMix7H
-         r6Sg==
+        d=linaro.org; s=google; t=1738602296; x=1739207096; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IeAKHkbKI0d+HFqcA1QbgNc0PHZKpaqw+IxJ2Pt3KrI=;
+        b=cYNLD2QSSgQi7h/liSDv7EsJbF8aOjW6vSZcAcjQVOotEoT6PLPLdohwA79zdKpnEP
+         c5nuMFX6yucvauCT2FRxPbgxPGHEs3A92slKD9DKVar/mClVEEiwHjQ+5E+fd1Y6F30d
+         juqR2/gVcVcbC6HFAvxJ3vPrDKQ83o9amxCQX8Tam9TSbZciO9zsuNeXNNJ4R+sYPzeA
+         ls8MvFitR/RT0Aw4GMvC+1S+fjZezm6TvfP16O5LZKm91++Doka5c7WV7QPipCZWWp07
+         GkszcB9koZkOGV2js2gdXa8SEspwLs03hY6X28e2aNeN4c4w6BrjMkfLcXwd6GmNMe1F
+         1YAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738602092; x=1739206892;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bif4hUYa0bFbnBBMOVylM+oWc6yHvve+zQn7rU29CiQ=;
-        b=jax0fYKFKXx0LtOQLfHg2DPGCsfxtjROqw1jHecwtn5BACtLuY5g7n7Qx8QoSYy8E0
-         K1b92N2aw7g3W/LC4oKi9PXPn5nC+/0IGXhA3mN/QbZhgUH6HRKaT2HJJ87mES1P8Ewk
-         vWeOFKCOGXIV1Rlp4yj18bSj30/XrPBHMJ4Qt6qRNFFC/swr0pOkSp3BxOoBV+3P9WQp
-         HIBBVmU1ELjPJxb7OTpP9xHeYJHZLAAhGP9VgAp2gHnGkqV6+dGdI82wNYbQ213CXDML
-         WChESHN9NLjWv0wYjMytKJZltB0mme1N52T6LGEA7QqXImN/cSp6qyFevufrpTYuidbh
-         hARA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHTJutJC6QebHRp35Fwq1PLFB5Ln0IMGC3HSsRClMwJgAXVTAJEXYrsn/puAd5QhU5TgXNYrbarsMXV3Pp@vger.kernel.org, AJvYcCWebjQVaMLZsMZ8A0DRDG3AcQwfrSnZPRb5zzPs7bucyjcN9YiBW10lNXN3FRrXSnWjqatGnRgQHbQf@vger.kernel.org, AJvYcCXsMC72Ohp4C1dtsqbduXb1RfU1gp20qEwnskt60qUfBxMLpC0oxwxscJt32HcsAHN9urLqZ/P/ntt7sVI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0gblMQPbjwUuvdbQFtPFAx412sgEBBeLGa/R9rEkEpc0DIsE7
-	/Myv5mBtGB+w4Lu7KFJWbmtulR0f1BHrzwfnJAPeXz8odkq5qH4flzYesk9C
-X-Gm-Gg: ASbGncs0YM5dPX5tpbqF2GaerfANs2MKcLapwOW9cMWgkUcoSoY9nmpgACLQ45fJNwR
-	avrBfE6aVUJmBUjfeuliKxciJuEt5KqkPBond5CuI6zRuBt024it7Rj09hpqjHZfg254VFz7t1S
-	S+M7joPca1FV4TLPVYzlbhH/7i3eJfExVvGvUfJCCYDTEAmumhN+LuQXJLjruEeXr6tkT0eB7N+
-	/ukmUpmmGyQc43zMyt1cz4N5B+o8rJv/dImbkPUthZVv0Fy2EjCOdc2XJm0oQs+VaAvQNWG2bC3
-	hgTeEK2Kj5hqpJ09A5Edw8MJvB/z5MM=
-X-Google-Smtp-Source: AGHT+IEpmEIxTPHpCSqZdtf60uXS6s4uWbghnnyLXKpPEyxw+pWy6C7vh9pI5b7wDTOq4ycwku8EmQ==
-X-Received: by 2002:a5d:588f:0:b0:386:375a:8322 with SMTP id ffacd0b85a97d-38c519506eamr23231762f8f.13.1738602079969;
-        Mon, 03 Feb 2025 09:01:19 -0800 (PST)
-Received: from CYBER-ABAKUS.kucica ([87.116.134.57])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38c5c0ec80esm13468582f8f.10.2025.02.03.09.01.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 09:01:19 -0800 (PST)
-From: Nikola Jelic <nikola.jelic83@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: rwalton@cmlmicro.com
-Subject: [PATCH 1/2] ASoC: dt-bindings: Add cmx655 codec
-Date: Mon,  3 Feb 2025 18:01:16 +0100
-Message-ID: <20250203170117.12004-1-nikola.jelic83@gmail.com>
-X-Mailer: git-send-email 2.47.2
+        d=1e100.net; s=20230601; t=1738602296; x=1739207096;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IeAKHkbKI0d+HFqcA1QbgNc0PHZKpaqw+IxJ2Pt3KrI=;
+        b=UPz6PPcF87zer7UWlqnxi3F3Ki9nKHMt9xubgQ3Baaonhr9vkvVXp+PnLhcBmGXyYo
+         UfuEWxei/X1svcqc5qWIvWveyXa8Pd3Uqa99AlLohnoORtYY4K/rjmAPzQfBr/ILu350
+         pZQL/nx4HnDyJupUnfEn5ZaFUH4CgzJSbMJGn3eEYK0F7H1SpjXT/uAkfnD+i488jVNo
+         nyKSOmT1Of6gnLqOuWqZBv4H6RVkf9Yo/tyMiJcLFpOQUF4Vr6ZgJTmtyHMk3/ie/jvy
+         jDFec2320rDzequTmJdJpzJSTJHN84v0+Cc/K/rXaV7iXYT/3t98APeZBsTEQDnf5kfR
+         vpqg==
+X-Forwarded-Encrypted: i=1; AJvYcCWHC4Vt74gqlOcfMA2Qb/MJKKjP/nbocEVAK/63Lna45mlo9OCPYD+M4GX+/mZqQxxy03Spziqv9k3GyQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfoOa35NAnvnrzO4BU8/k3RUk5zgT371ssx5uQNeb1KtNGe8Ab
+	8dIvWWlpp9tcwnDRD160qmJgNX0I298zqCFBbfTMrJ9z0HGNCmbDI/8sXd5tkfQ=
+X-Gm-Gg: ASbGncuN44xSqbJyJTZQJgbduVTvzaLGpuKqwbCmVJSAxSnZox9vKrT/QBw8v7vmIGc
+	piBZgpRwnhmgOATHr/uH1QgVzPnuP8SbyiApui2PJwE7trrPyQedRZlrAZFf1W7AhpM1ZukYXzJ
+	T0ATpYgOSwOxI40ELiclqCO9udQZ9eQG26QuoYNxWoNs6bHYtRo1mQ+Cm7FFvFtj0woNHhqf5rW
+	IQ/ymlAkuFXDUj0CooioAjh8pCOKqTSrUQdBL9i82l9QQVsg+2/bq+zu6m9Q8HcF1tB/enVv8R8
+	Qoqmp0Afkwu3fSa/kbWW059qpv1OjfVsAw==
+X-Google-Smtp-Source: AGHT+IF00AdeVSwhqI4DYXX6YY6GZEPGGjTf8EIYSLIpae6mTJ38NVob4I51jvELhrmPQOnQvXZr1w==
+X-Received: by 2002:a05:600c:3b94:b0:434:a923:9310 with SMTP id 5b1f17b1804b1-438dc3cc3b1mr206167275e9.15.1738602295518;
+        Mon, 03 Feb 2025 09:04:55 -0800 (PST)
+Received: from [192.168.68.112] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38c5c1cf571sm13099525f8f.82.2025.02.03.09.04.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Feb 2025 09:04:54 -0800 (PST)
+Message-ID: <05263a45-5faf-47c7-9a32-eb8e5114e286@linaro.org>
+Date: Mon, 3 Feb 2025 17:04:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: q6apm-dai: schedule all the periods before we start
+ streaming
+To: Mark Brown <broonie@kernel.org>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ krzysztof.kozlowski@linaro.org, pierre-louis.bossart@linux.dev,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org
+References: <20250203124945.11406-1-srinivas.kandagatla@linaro.org>
+ <357e28eb-f245-4647-8e10-79805b53731e@sirena.org.uk>
+ <35cf66a2-05ef-4e49-a146-ca96ab19fcf8@linaro.org>
+ <4678ae0d-434e-4e04-bd77-abae1969ff6c@sirena.org.uk>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <4678ae0d-434e-4e04-bd77-abae1969ff6c@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Nikola Jelic <nikola.jelic83@gmail.com>
----
- .../bindings/sound/cml,cmx655d.yaml           | 79 +++++++++++++++++++
- .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
- 2 files changed, 81 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
 
-diff --git a/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml b/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
-new file mode 100644
-index 000000000000..ea2cdce80ea3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
-@@ -0,0 +1,79 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/cml,cmx655d.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: CML Micro CMX655D codec
-+
-+maintainers:
-+  - Richard Walton <rwalton@cmlmicro.com>
-+  - Nikola Jelic <nikola.jelic83@gmail.com>
-+
-+description: |
-+  The CMX655D is an ultra-low power voice codec.
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - cml,cmx655d
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+  reset-gpios:
-+    description: GPIO used for codec reset, negative logic
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  interrupt-names:
-+    maxItems: 1
-+
-+  pinctrl-names:
-+    maxItems: 1
-+
-+  pinctr-0:
-+    maxItems: 1
-+
-+  cmx655,classd-oc-reset-attempts:
-+    description: Maximum number of times to reset CMX655 class-D
-+      following a overcurrent event.
-+      Default = 5, >10000 = disable limit.
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    default: 5
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        status = "okay";
-+        codec: cmx655 {
-+            reg = <0x54>;
-+            #sound-dai-cells = <0>;
-+            compatible = "cml,cmx655d";
-+            reset-gpios = <&gpio 24 1>;
-+            interrupt-parent = <&gpio>;
-+            interrupts = <25 0x2>;
-+            interrupt-names = "irq";
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&ev6550DHAT_pins>;
-+            cmx655,classd-oc-reset-attempts = <5>;
-+        };
-+
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 5079ca6ce1d1..c471a4b905cf 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -308,6 +308,8 @@ patternProperties:
-     description: Carl Cloos Schweisstechnik GmbH.
-   "^cloudengines,.*":
-     description: Cloud Engines, Inc.
-+  "^cml,.*":
-+    description: CML Micro, Ltd.
-   "^cnm,.*":
-     description: Chips&Media, Inc.
-   "^cnxt,.*":
--- 
-2.47.2
 
+On 03/02/2025 15:07, Mark Brown wrote:
+> On Mon, Feb 03, 2025 at 02:30:26PM +0000, Srinivas Kandagatla wrote:
+>> On 03/02/2025 14:17, Mark Brown wrote:
+>>> On Mon, Feb 03, 2025 at 12:49:45PM +0000, srinivas.kandagatla@linaro.org wrote:
+> 
+>>>> Fix this by scheduling all the periods, this will ensure that the dsp
+>>>> has enough buffer feed and ultimatley fixing the underruns and audio
+>>>> distortion.
+> 
+>>> Should we be writing all periods or just the minimum number of periods
+>>> that's configured?  Userspace might not have filled the whole buffer
+>>> yet.
+> 
+>> Just minimum number of periods or 1 period. We are queuing up all the
+>> periods to the DSP, so that we do not have to wait for period interrupt to
+>> queue the next one. This significantly reduces the latency in queuing the
+>> periods to dsp.
+> 
+> What guarantee do you have that the data isn't garbage?
+
+Yes, its possible that some of the last periods might be not be written 
+yet by userspace.
+
+We can always add some checks on the available periods to queue to dsp 
+something like:
+
+----------------->cut<----------------
+avail_periods = (runtime->buffer_size  - 
+snd_pcm_playback_avail(runtime))/runtime->period_size;
+if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+	for (i = 0; i < avail_periods; i++)
+		ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
+		if (ret)
+			break;
+}
+----------------->cut<----------------
+
+
+--srini
