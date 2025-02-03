@@ -1,167 +1,141 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2E71D5159;
-	Mon,  3 Feb 2025 21:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8D4211474
+	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 22:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738617576; cv=none; b=iXgQg4xCpSAd/QThsJFWPgvui3QkIawazEcq2cPLNpWZeWRuiqTzdeFcK/KKgXRmLN2Reoi53N9J4MRr92MqZWnAsZ7nqOdXIny2HtDpUJLHb7Z0nhK6vmhtJKhFLALHGu8hBOVvixK3Lir7if4Pb7SDEnaOLEPsivUrXVISNYw=
+	t=1738622384; cv=none; b=a6SiNpeYhoxvEogoHWuDIQsc2pCU/En2x2zOPlrD91+pXSRpCOgCPrM6P+ETQKl+FmrjtasLC5fk4Wzds+gqEYlYiQm+TN0ggnGjwYK3uQpG9fUm1pOLN44Hwqmdcbybxn8FJ+Xe0KPFgH4mO7ZWNqcWFc+tTR/WyVlboV6pJTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738617576; c=relaxed/simple;
-	bh=ofj6JP1j6Y98Ose9xyS7S3SdHxczj7+yv4cnT8ALfhw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TKTuiuGpzVOBh1Dmzbws5NPGBxWbbUZoprisnpLR3uYp3J5NMmAra56Xptd067Un8wDa5HkgjpbPOA4VpC96wpfSArU1zBXTj3r2P1rd7lMh9BNRQ7ceVCJx2Ev0LklG/MV0VEqOL/xHjcxEJWirmZnMUoC+XXhCdCxUbM8DJbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4DBgFuy; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738622384; c=relaxed/simple;
+	bh=1Q81xARcDqJnn1HJ52uZiPtHrThD/Lg7LAxKl0LKqW4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EFvdBslBKOa6zznQxp+f+TfQJ3BoeQLkASHyi7B1DP1PzFZYGBLCYHiCj2dUlYVd2BcznB89DZwRe/hlyZDb4Wg0b5BptbKTOAmktdni3k1GeziNxZR4wgXV64dABYoYa1t5YNtPJFI9RK3J6X44SaLfOTm6c8zyghVRZmIewRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=aPQPmJ15; arc=none smtp.client-ip=209.85.160.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4DBgFuy"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ee8aa26415so8446300a91.1;
-        Mon, 03 Feb 2025 13:19:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="aPQPmJ15"
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2b199bb8af9so2968388fac.1
+        for <linux-sound@vger.kernel.org>; Mon, 03 Feb 2025 14:39:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738617574; x=1739222374; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E1RprFycDuHJldRn/ezrS+F5IM4jHFkaXUl211fTz08=;
-        b=Z4DBgFuykrZqDu1upZJ84eRLEMqLfFKX/p8Ue4Bt3alKw64qkzVBSfgHnFDYNSR4Pm
-         Ttkm6F75KIX5misHMBY4EHbwf8BPPYI4IE06iCzFAQAZk8gPAigau7bDQmT70Ahcfbmh
-         qHl67eu/+a7nB1hBb9MyIENHHgOX5VKvDaUGaCTAZzuD7Cg+MIe9SB90dp6qXVovb0Gu
-         ymZswTHlpw75FlMKqwOfDUvos/aK3ZzSaPnodIcSmZtMj7GRectKgSmhphM+BqXcScm5
-         LjtP45aLtqdjsiKDE+AOV2Sj90RwMvWEZvH/qUMjb9vAaLbM+t+YUEr7eodgMh1bLeLo
-         J/GA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738622381; x=1739227181; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7FuOTM/5uq/stUm6NdRcMUJvmEyi2R5GtNjpDeIV2Ho=;
+        b=aPQPmJ15Elz6EyybHgCejqIswr6xI/YwwhsV8o9hsaPsktE38IzMJsNBUtTxo0lHVJ
+         d5/bzL9Ol2TeAbPw4QQ+erQ9PXa4CCrjw0qexljVFSd6gW90iQ2ila46nIgpMRPkoTZB
+         pnczcpTCKki/Ohld+kjX4wDf7uVrNEY2kueUCJ7hSO/ig3iiyr3VUnU1LryALo2uOuFH
+         2lfdmn0wq1uG4fOasqrbW3QP9Fc5MbVxPu8iE8/OFd6/tTh2jjNviByNj91xjtMl3ypm
+         +r8dceFYWeC0RZhEsSs4hnqv/7Wn/9qivtGIHpVtMBlnW0bAoGhvCtMFN1oPY9ihyOmc
+         07DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738617574; x=1739222374;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E1RprFycDuHJldRn/ezrS+F5IM4jHFkaXUl211fTz08=;
-        b=jeO/QL3x+2GbXR984ZBzqVfLkyhNzyKQRvHIrODjUGlvICPSBETdt+rfABgo56y1gZ
-         r210AJbYDiUEHROM+9Ackp4Wf6LRQzOp3QPJ/8XIskx9qlyFaf4ooQ4t52OoBDX+K4sY
-         Fvfs/M3QGrSZL2DeZIkaIBVOwMSQBnBA6m3kMk1SUt0+sNmn2Oq8/NzgJF5J7vckJQ7H
-         ZaS8RUDxF320PujJOz6MqVU3J+WUTYmGNlB1ZFvn0YNx1BNBQHlO956NSwG6d3NEUZ1M
-         SjOWn3nM8ht2OoGq7LBgOkYCK4h7NB56lWN0MS4MPkxvFJ9j1YGLH+RA2CAXTGz6r7+w
-         JTww==
-X-Forwarded-Encrypted: i=1; AJvYcCUJpe3ycE+G6sip/Dz20D682kGflFR3mKSBiLkRiiVJastzU05Dg6Fa6hk2+JeIOz4YgFwN8mY5JhxnrMw=@vger.kernel.org, AJvYcCULfmGoMI0QBvWeqGZ5v1fbvZ/vnXU2xrODroYCp8rV4y8GaQIPWKI2MqT4PynvhFbLAVqn9gFET8Cp7A==@vger.kernel.org, AJvYcCUdekDuxZgEFzXSpphBDQRoPkkefDgZRqdEopSBOrBtFSTsp72lay3/c+/l5uM3p7vM4n71rrnvk8sQ8iA=@vger.kernel.org, AJvYcCV4bj0n81xB+tYZw/illWJdbRSNR2w83zW+KfPO7//S6JJl1Pj93eNg4m1GxztlOV5lV4vteNSQ7gZkNg==@vger.kernel.org, AJvYcCVFQyQj+7TEr7T+jZFoGcQyyXESPKljizShOBGfb0ypdnufH9VPZ7f6LUyC9JTvwEB9Ma6EjBo+WFGe@vger.kernel.org, AJvYcCVIqofbX745Us/vOLeigmClTYtKFg9STRQmzoW8SwOLkYxey7A82vktd/NEIVhye3c6+PMM++4AsjvmnSM=@vger.kernel.org, AJvYcCVmFm4MxsMoylNE4tKEPiU0fqaLiJRIp6AilynKGdZD9nTlbdo41UJ0UHYgVsm3qQ6a3GDng0vPt2XD@vger.kernel.org, AJvYcCWKVHdaVzta6WsTGcU4oNgTegxlD8TKP5zn9BK44Oxvm7cp8hFA8C0TqyN9XH08Z8TEtrhm27kUEQVd@vger.kernel.org, AJvYcCWmQQenG4bnnOcy3lVw+BxPBM7PKEv/F1UfPbcrKvu2gZ8wpuV7ltQEubyEN+FmsRLvmHqt4E1nMsI=@vger.kernel.org, AJvYcCX1aQy4lxshEe0P9tYftRsWGvThJVX/ZMPMPpe6KxbceJUyAr50IONQNEYuLsMvVVoKso58+6ZPRTl8@vger.kernel.org, AJvYcCXBnWUGrvZZrWnUn2D0Rxg1t7fgp/ghTiHFlqKMSt0TCYPjvIeofyDG7/XC3Q7pXvOz01YDABprXOUK2MTZNSaeDu3l+A==@vger.kernel.org, AJvYcCXuNT1kngL+byCHKiB+uAy67tygETz8kqTV8QsTm0Zcc4TX9MhuGEhEZtOFihwchSPS/2YJGMheZErHqv/o@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYnCRY+jMAfk8JzXNQ5wlzlPfUIzlNI9tmNgFDz9glsQgIGziC
-	ChHolYga5JsbVztE4TFLnXnPzl6QsPL1s/sp+bzH8VXiMpmjn9wl/xQ8dE8iLENwxtzB668cgKu
-	wLDB8ZwS1gT4Kjwizv+XMURBFfLo=
-X-Gm-Gg: ASbGncvA4/hiQFF1O/D6wMn+3b4gKQaESvApR1hJ54ApFW85I6VQEzBvTbnR6gXuUMW
-	AY3/ewbQHwH5br3Yx9P7hfs58uY419Tr+wi3fTKQe54jqWcrlncvKtaxKsCGunFIeRb7wbbQv
-X-Google-Smtp-Source: AGHT+IG/z3EJhnf9SR0K4H9KlI981FGgmyEgJkvQWHpkkih0UJEnWjGg3KJxlOWE94AU8gGejkz3MNO9Uh3+nXXaTBI=
-X-Received: by 2002:a17:90b:5146:b0:2ea:3f34:f18d with SMTP id
- 98e67ed59e1d1-2f83abdebdfmr37965262a91.10.1738617574433; Mon, 03 Feb 2025
- 13:19:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738622381; x=1739227181;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7FuOTM/5uq/stUm6NdRcMUJvmEyi2R5GtNjpDeIV2Ho=;
+        b=JToAv+7bgVA844S5G6i3ACGY8i2H1Q0/E4I52nqbMcvn4UQk1iFxM7rVXtWput3DN1
+         5D8ErcnZ/fFOBQ+pU3tXG4kddWbdYYf1Yr6DXZ0Wuw9ohO8jXxxISyGWfVyhv05LcgTR
+         RYzBNzVqLrdGF1wF6FbRy+FKL57ujXzbhkZUwCO/ZrUElFb/BIPk6MH/WzPGySbDtFih
+         QusgywWC2/EktduZyYG1mBsVw8rabW4HvRAAHkmik4rncR1oFhHpiLkVFCNmvXZcTt99
+         sHLh7hpssy7gy3kNeq0JZ1v2oX8ns/wsp+BqTcGyCgwI4+sdli6X9dCzAlg+LXeYofsc
+         WCkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVosEHOx5G+s9ha5y+uCqk3X8SlesALfKPmo5XuMnEkSagvMMkqUFmoQOb0y+nHG3f/gcHKsGYk/YwsHQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEFfL8lyFK+JGb7WQFjOWGARca2g6Z8c91lAgwS5SHy8a9thjV
+	ySXwdm6AHGFVcDrYfldJK3riiy2zmiGVq9Vt43n2PR2JAne5QxcnvXM76f0E16I=
+X-Gm-Gg: ASbGnct5blnRWYSunK4P/Nycw9PwWkdVcDPHKgwtJErnAQ3f1RE9Fl1FCHt9hwAU7to
+	kDRFSX34bOHpmSOkSpTqEKRQnLgXHr4pIJQrgNSOU4NxwlleP16gUM6dp7or9ftPmc43BNFWC+2
+	S6g/NImmND9NHOH/pNUQukfsdZ9wP3F5t846TYpkkk06lzJuJkDx68blWNdpm297UhhNo3Q47zI
+	6Bfk1BGDxQMUnnFv6Kgg3IZ0KsW1Wtc86S9ioj/DJoa98s/kYXfFI9iUfsEISWtOrVWvpVMnjVC
+	X4j5pf6H5NGZEN1z5M6NmNWbm7l04sEidw0oOtFpBiaN1OLS2W7S
+X-Google-Smtp-Source: AGHT+IGaQH53OWXI018UHR+o3pOTGmyURoCZWzCbG0RQLmUMPYxUrDO3psb2lp4Kuy+CvmoE1eZtzw==
+X-Received: by 2002:a05:6870:1b14:b0:29d:efe8:5a49 with SMTP id 586e51a60fabf-2b3e7450705mr688192fac.3.1738622381243;
+        Mon, 03 Feb 2025 14:39:41 -0800 (PST)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2b35619ec30sm3589105fac.14.2025.02.03.14.39.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Feb 2025 14:39:40 -0800 (PST)
+Message-ID: <b1c35782-f717-4fe5-8a00-7f13b341b5dd@baylibre.com>
+Date: Mon, 3 Feb 2025 16:39:38 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
- <20250128-converge-secs-to-jiffies-part-two-v1-6-9a6ecf0b2308@linux.microsoft.com>
- <dd0358b1-7c8a-4c9e-88c5-2e1db69a3a35@linux.microsoft.com>
-In-Reply-To: <dd0358b1-7c8a-4c9e-88c5-2e1db69a3a35@linux.microsoft.com>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Mon, 3 Feb 2025 22:19:23 +0100
-X-Gm-Features: AWEUYZmGyX5TH9PuhG1vFlJR4zNh-9wcNWLcslfb_ZiDi-fTNv4o-akZqj7ScMc
-Message-ID: <CAOi1vP_UTjuF5y5oEVquk45udBZ41WqxQpHufD5oK2wbQkobhA@mail.gmail.com>
-Subject: Re: [PATCH 06/16] rbd: convert timeouts to secs_to_jiffies()
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Dongsheng Yang <dongsheng.yang@easystack.cn>, 
-	Jens Axboe <axboe@kernel.dk>, ceph-devel@vger.kernel.org, linux-block@vger.kernel.org, 
-	Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
-	Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
-	James Smart <james.smart@broadcom.com>, Dick Kennedy <dick.kennedy@broadcom.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
-	David Sterba <dsterba@suse.com>, Xiubo Li <xiubli@redhat.com>, 
-	Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, Keith Busch <kbusch@kernel.org>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>, 
-	Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
-	Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>, Selvin Xavier <selvin.xavier@broadcom.com>, 
-	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, cocci@inria.fr, linux-kernel@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-spi@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
-	ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/13] gpiolib: add gpiods_set_array_value_cansleep
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+ Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
+ <CAMRc=MdwQL8dWU5zF5fp+KUbC2RA2Q264by8HGXMg2k1rxhsTA@mail.gmail.com>
+ <9931433b-5cde-4819-ac96-eea4f1f0f1f2@baylibre.com>
+ <CAMRc=McEdcDs01BAKN5vg9POg_xxJBY1k8bfgiDN60C1-e_jow@mail.gmail.com>
+ <072be5a9-e0fb-4073-85b3-4a8efcafae09@baylibre.com>
+ <CAMRc=Meq_Gfhcjzx0vCL0JPzfnOcijFgB6AuqtsqgGn1eOTMVg@mail.gmail.com>
+ <CAHp75Ve+iwrm8dx49+6C7xFJgTQrh3XumKVzKvnYY=00J-j43A@mail.gmail.com>
+From: David Lechner <dlechner@baylibre.com>
+Content-Language: en-US
+In-Reply-To: <CAHp75Ve+iwrm8dx49+6C7xFJgTQrh3XumKVzKvnYY=00J-j43A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 29, 2025 at 10:03=E2=80=AFPM Easwar Hariharan
-<eahariha@linux.microsoft.com> wrote:
->
-> On 1/28/2025 10:21 AM, Easwar Hariharan wrote:
-> > Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
-> > secs_to_jiffies().  As the value here is a multiple of 1000, use
-> > secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplicati=
-on.
-> >
-> > This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci w=
-ith
-> > the following Coccinelle rules:
-> >
-> > @depends on patch@
-> > expression E;
-> > @@
-> >
-> > -msecs_to_jiffies
-> > +secs_to_jiffies
-> > (E
-> > - * \( 1000 \| MSEC_PER_SEC \)
-> > )
-> >
-> > Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> > ---
-> >  drivers/block/rbd.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
->
-> <snip>
->
-> > @@ -6283,9 +6283,9 @@ static int rbd_parse_param(struct fs_parameter *p=
-aram,
-> >               break;
-> >       case Opt_lock_timeout:
-> >               /* 0 is "wait forever" (i.e. infinite timeout) */
-> > -             if (result.uint_32 > INT_MAX / 1000)
-> > +             if (result.uint_32 > INT_MAX)
-> >                       goto out_of_range;
-> > -             opt->lock_timeout =3D msecs_to_jiffies(result.uint_32 * 1=
-000);
-> > +             opt->lock_timeout =3D secs_to_jiffies(result.uint_32);
-> >               break;
-> >       case Opt_pool_ns:
-> >               kfree(pctx->spec->pool_ns);
-> >
->
-> Hi Ilya, Dongsheng, Jens, others,
->
-> Could you please review this hunk and confirm the correct range check
-> here? I figure this is here because of the multiplier to
-> msecs_to_jiffies() and therefore unneeded after the conversion. If so, I
+On 2/1/25 1:47 PM, Andy Shevchenko wrote:
+> On Sat, Feb 1, 2025 at 6:22 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>> On Sat, Feb 1, 2025 at 5:17 PM David Lechner <dlechner@baylibre.com> wrote:
+>>> On 2/1/25 10:14 AM, Bartosz Golaszewski wrote:
+>>>> On Sat, Feb 1, 2025 at 5:09 PM David Lechner <dlechner@baylibre.com> wrote:
+>>>>> On 2/1/25 4:36 AM, Bartosz Golaszewski wrote:
+> 
+> ...
+> 
+>>>>>> This looks good to me except for one thing: the function prefix. I would
+>>>>>> really appreciate it if we could stay within the existing gpiod_ namespace and
+>>>>>> not add a new one in the form of gpiods_.
+>>>>>>
+>>>>>> Maybe: gpiod_multiple_set_ or gpiod_collected_set...?
+>>>>>
+>>>>> I was waiting for someone to complain about the naming. ;-)
+>>>>>
+>>>>> I was going for as short as possible, but OK, the most obvious prefix to me
+>>>>> would be `gpio_descs_...` (to match the first parameter). Any objections to
+>>>>> that?
+>>>>
+>>>> Yes, objection! As far as any exported interfaces go: in my book
+>>>> "gpio_" is the prefix for legacy symbols we want to go away and
+>>>> "gpiod_" is the prefix for current, descriptor-based API. Anything
+>>>> else is a no-go. I prefer a longer name that starts with gpiod_ over
+>>>> anything that's shorter but doesn't.
+>>>
+>>> Oops, that was a typo. I meant to write gpiod_descs_.
+>>
+>> Eh... the D in gpioD already stands for "GPIO Descriptor" but if
+>> there's no better option in your opinion than I guess I can live with
+>> that.
+> 
+> gpiod_set_many_value_cansleep() ?
+> 
 
-Hi Easwar,
+OK, taking all these suggestions into consideration along with having recently
+come across regmap_multi_reg_write(), I think I'll go with:
 
-I'm not sure why INT_MAX / 1000 was used for an option which is defined
-as fsparam_u32 and accessed through result.uint_32, but yes, this check
-appears to be unneeded after the conversion to me.
-
-> noticed patch 07 has similar range checks that I neglected to fix and
-> can do in a v2.
-
-Go ahead but note that two of them also reject 0 -- that part needs to
-stay ;)
-
-Thanks,
-
-                Ilya
+gpiod_multi_set_value_cansleep()
