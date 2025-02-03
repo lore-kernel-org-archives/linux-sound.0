@@ -1,106 +1,93 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9D120E008
-	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 14:30:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F1C1E493;
+	Mon,  3 Feb 2025 15:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738593031; cv=none; b=ATzx4uggpqa1tvluknLUtbWCeTUAUbV9lncUoK+8citC4oRlFVH8nKfi5m0b42lFuDZC6uoiv0dAO7JPV1JPcry/SmTXCk/01S9zwuGMeICmdl0dzd5BkoG2tfAwUWpugebENVDKCjE6nxeabfdCmrs2dtrbTR0yArjWnPs0frY=
+	t=1738595247; cv=none; b=dW05tAx19a5tpcSPBjJ3z9PjR6MXEA3bZo+9TxNNJ2Tf4wCjGWPjPQMqOecITNFi9baS2Ef/SSyNdHQ1NGF4hbN+1qaeBExBLzBBBAMsbzCnEDiKiWKRXt+AgzFXasa1dTMgeitOZPtkQCNtQVu2JZUTICh1BguuZXlXKUAtaVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738593031; c=relaxed/simple;
-	bh=IWZd5hlmNpgXQZ0243k8J0hL5ndXbwMghQLT8bz/dl0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kD+o9HreYHfaO+abduQFLnOz3v+i9YGPKo9MWQHc56zwD7jX7EMiYDBH1RsGu654ZhPP20cxLHMq7A4bGYWnbR4mVuzNBtbq3GYbxUGHgzQZyhJ39cXj/qShvBnCfNyPfzeNqXsaCz60ts2VGP3qGL/Aay9B05NXU5m2bVRxHpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g6t8XjBT; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1738595247; c=relaxed/simple;
+	bh=QribRiGaUqW5JW0Nku/kRgIHHe/W76K2SrolOsyJDv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OL2fUQwwLdCkJwkcH7xamCQMT7cVFYPkLEKjcCj3ZipiYPFXnoSplVDCjrVy5SzfkiEK1b7Ll9jsJe0NsG27oBP7jpPF4GBz/UUxv+NkP6lm5qaKj/5AandkhvqRZ3HR5m9dpCiBz9rPm49C75U16UU4/N+zpy2L03Y7GjvniKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8biLreJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g6t8XjBT"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-436341f575fso52421995e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 03 Feb 2025 06:30:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738593028; x=1739197828; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9vWFSQn7DgiKs/FycuACWL8FOOG/NvIUTBk5O9mP/jE=;
-        b=g6t8XjBTUXglndFfVqzVdljDbO83j/VyLnqhmpi2yiCIcd+B/JjEO1VX+PSEzhpfB1
-         2mm2m3TcpfTFrd9fzqgIcDrHAMEL7FBLxATUFPpDwt68cLnjpvYdGkZSZoNruIsyTNvI
-         WEAwBOwKtLarvSMuj9HyVdYnovY6n72IiDUi8//PujcqXANVlmK/NPcL0Ua88hqWv/m9
-         N2DQ1WP58EL268ay/gp/QA/MYVysFpwFRtnpUlYlT8XDB0SfP0f84FmgVxkFjv424M2S
-         +quj9z1OpbGV2gUERzN2sBjpbAod91jRgKlaTiD7KmUordG9dUCpnYb+0bgQ85X4zEcL
-         6OoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738593028; x=1739197828;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9vWFSQn7DgiKs/FycuACWL8FOOG/NvIUTBk5O9mP/jE=;
-        b=BcBp1GZIAxv0g9kXfSrXuwjMvk7s2L5Wj45HRrpUZFpYV1UUU3ckA5GXEUcZ4ewuGv
-         8Uoq7lMHsFLREwl5/fn4AUN0gJvH1APLHPKHxMnuQHGc6gAoR5a1YIPyBnrDZj0D7xy4
-         DeT7QwwEa1kgPoByP00sk/VGje6MgyRSfe7nhwePcjl8z/PUtUCU7En9xuU78/NGrUaW
-         S3jLkYFBPBhhWHUArKNmzjv4loPKvCmdtuWyvE5oco4YgPziSTcu7KgSe145rlpbCyRO
-         4dNllD9pgicWuznBkD1GoUmUoC82znM/q2Izua7KTTBkxy1qr8btoNJKxEBB8OGJN7fn
-         hI8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVCVPz6G01SkpnJ8d1E9By4xNcSXRrKwsmJMUQKEmYllz+0v9JrIxXhWkMKvvE3t/TDJZ1n6h3mUcF60A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDy+0b3+M3hR4Chs9IRCwNrGbspFqSaKTcmmriBOPWqQdjvG4Z
-	VPeTGQ1z/ubt6ZRa99fkLvcilEPEoW6ZcNnhdCrwnSTOgpj5DJ/yX8ep5ff+xyQ=
-X-Gm-Gg: ASbGncs3lXTzR+QO2ztka31Lc+RgYrs8/MKcBp3OwjbebHHtyALCCX3lwZ7nja1oVWG
-	Sn2oHdmUDnkVr8RA0wM0pwcbK37GVn4hn1DYjgwkPQ3InqDy+ehGS9C1ooQdQRbxcIl4/trXQm6
-	zXHSMzs3HIjqBucnP6akYjBE0Hvz4k9qUpQ3Xd6tBhR+8J8mSWA3O6GhHQcaYTwPydKTM9/hdFJ
-	wmE5ICwXPy66dIWTNe5HpHJF8dYo0H1qvP/gYqNQXu+1WXtQGzx6ty2LdX/h8rp+QU5SetS6vO1
-	ZAR8q3FajW1xPXKjRV/Xg/8bD18HVK0WpA==
-X-Google-Smtp-Source: AGHT+IHinY+xh0nJesZnDupVI2Wp4r4N0MF/Fkn9c+8reC2w8xLtTGDIrtM8PVUM9uRToGo6QBxJ7A==
-X-Received: by 2002:a05:600c:4fc1:b0:436:1ac2:1acf with SMTP id 5b1f17b1804b1-438dc40d55emr204148275e9.20.1738593027971;
-        Mon, 03 Feb 2025 06:30:27 -0800 (PST)
-Received: from [192.168.68.112] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-438dcc81589sm191206255e9.33.2025.02.03.06.30.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Feb 2025 06:30:27 -0800 (PST)
-Message-ID: <35cf66a2-05ef-4e49-a146-ca96ab19fcf8@linaro.org>
-Date: Mon, 3 Feb 2025 14:30:26 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8biLreJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42F7AC4CED2;
+	Mon,  3 Feb 2025 15:07:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738595247;
+	bh=QribRiGaUqW5JW0Nku/kRgIHHe/W76K2SrolOsyJDv0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J8biLreJ+zl4vnwurVvuiJjqwCTVPQW+g2Qb6U+uxPq9AN6fWn3S6rIIKluqhm8BD
+	 /xSVlRdmC0S5//OmogjBnaGhYxWYl0WHOl0o1j49CdSK5/BTd1s8C96owOnOhq+DxD
+	 0zG42ix9UNeYrfU1+kiGHiSKq20wOdPEnzwyO19dl9tYNCj6g1HNTZdEZDH9hzIBUP
+	 75qpyraCR++PoVSUCVGGTNpY+lGzT3TmeTCdATOOwMiEPqUa6dFDLfM7TmFp+hX9r0
+	 3eOrEFN46AnQOYmMJcitFmGY0eTKfGpZ9eBhYpsCNreOAKP8VDc5OdyRA0Mo5WWIQk
+	 YyPmQEgrUZYww==
+Date: Mon, 3 Feb 2025 15:07:22 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	krzysztof.kozlowski@linaro.org, pierre-louis.bossart@linux.dev,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org
+Subject: Re: [PATCH] ASoC: q6apm-dai: schedule all the periods before we
+ start streaming
+Message-ID: <4678ae0d-434e-4e04-bd77-abae1969ff6c@sirena.org.uk>
+References: <20250203124945.11406-1-srinivas.kandagatla@linaro.org>
+ <357e28eb-f245-4647-8e10-79805b53731e@sirena.org.uk>
+ <35cf66a2-05ef-4e49-a146-ca96ab19fcf8@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: q6apm-dai: schedule all the periods before we start
- streaming
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
- krzysztof.kozlowski@linaro.org, pierre-louis.bossart@linux.dev,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org
-References: <20250203124945.11406-1-srinivas.kandagatla@linaro.org>
- <357e28eb-f245-4647-8e10-79805b53731e@sirena.org.uk>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <357e28eb-f245-4647-8e10-79805b53731e@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mzMOcDtz8JcxuGvr"
+Content-Disposition: inline
+In-Reply-To: <35cf66a2-05ef-4e49-a146-ca96ab19fcf8@linaro.org>
+X-Cookie: May your camel be as swift as the wind.
 
 
+--mzMOcDtz8JcxuGvr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 03/02/2025 14:17, Mark Brown wrote:
-> On Mon, Feb 03, 2025 at 12:49:45PM +0000, srinivas.kandagatla@linaro.org wrote:
->> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->>
->> With the existing code, we are only setting up one period at a time, in a
->> ping-pong buffer style. This tiggers lot of underruns in the dsp
->> leading to jitter noise during audio playback.
->>
->> Fix this by scheduling all the periods, this will ensure that the dsp
->> has enough buffer feed and ultimatley fixing the underruns and audio
->> distortion.
-> 
-> Should we be writing all periods or just the minimum number of periods
-> that's configured?  Userspace might not have filled the whole buffer
-> yet.
-Just minimum number of periods or 1 period. We are queuing up all the 
-periods to the DSP, so that we do not have to wait for period interrupt 
-to queue the next one. This significantly reduces the latency in queuing 
-the periods to dsp.
+On Mon, Feb 03, 2025 at 02:30:26PM +0000, Srinivas Kandagatla wrote:
+> On 03/02/2025 14:17, Mark Brown wrote:
+> > On Mon, Feb 03, 2025 at 12:49:45PM +0000, srinivas.kandagatla@linaro.org wrote:
 
---srini
+> > > Fix this by scheduling all the periods, this will ensure that the dsp
+> > > has enough buffer feed and ultimatley fixing the underruns and audio
+> > > distortion.
+
+> > Should we be writing all periods or just the minimum number of periods
+> > that's configured?  Userspace might not have filled the whole buffer
+> > yet.
+
+> Just minimum number of periods or 1 period. We are queuing up all the
+> periods to the DSP, so that we do not have to wait for period interrupt to
+> queue the next one. This significantly reduces the latency in queuing the
+> periods to dsp.
+
+What guarantee do you have that the data isn't garbage?
+
+--mzMOcDtz8JcxuGvr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeg26kACgkQJNaLcl1U
+h9DitAf/bYF2gjujw9lNOQppAbEPmN5RCHZN3eAqU0X6CNt4iSyf3L6zU9D4UUpQ
+Xdrh3jo5U/bJ935lFESzN4824ajFOv8hglYDsKMaV5TfdgZw+aAtB3ZqU/iQ1kjS
+pINp1pWfS2zJnqAPPW4ch87eG3fPZbIRcYpgDxOyFSAsU2ibUpiTqiPuHOAEdSEh
+s/lo48W7ylskoINKHXRaCy07FCVjcl25YV40cl6ZhlBo3s7YBBoZ05vjjdy9Qi2Q
+AYDc/j7XndzwyNNLQ6QjaFWF401g88jl89ztr+SLS5dATHaB5DLAaJq404LmR6Jk
+qoHCkK1VzEMBru/QWmycgQUZG8eiVQ==
+=DGlw
+-----END PGP SIGNATURE-----
+
+--mzMOcDtz8JcxuGvr--
