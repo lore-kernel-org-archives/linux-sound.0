@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C0A205ABE
-	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 13:57:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EEC5205AA7
+	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 13:57:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738591027; cv=none; b=r8CkxS3U91TUrR5cNtFzPLl7VeHFCglqqf45b6ftoQsnMAAyG5iqhdBQ0FBM0ZjNuo6mCr3QLLcKCZysYiXt2khAzbRd5l9cquu9GoUfNCDIxFtFXasxOOHW4BsKvvncysN2XHRz6ZQ0GYbrtY10/ZQSarcd+cXzkJcL/VR7OqE=
+	t=1738591028; cv=none; b=tmkgjPaXdtm7aAYxQY+2yEz83NrCUFqCJUN3MT60ek1MdE9R/SSwrD5dlKDAdaVQTM0JzsOY03zfB/jycivM8C+RI3SOXrW5ZKbREG0cPgsWXo//phInjhTru0Rx27EoyRBlqc/DMbSlbvDBB89LS6402MoRZXbTrDp1XgQU1yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738591027; c=relaxed/simple;
-	bh=PqG3ZBpKC7whP9e1RnMw4SJw/XVO/fWuN3obFwVNTV4=;
+	s=arc-20240116; t=1738591028; c=relaxed/simple;
+	bh=2HwFycZ0Oc3hA3qSQszAwsZKRAtBO7XsKQ2hvXcJvJ4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WwNuFiNOzt9trKBzTlsf93xbe7VyWrAU2g0rExAnTOnh93mRH6ub3O4MSlL01j9/BNRTm2eNnj+UQWXmq/KN1UjbaCEnfNxy0lCQcRWyCvisBVndYhnHxqnN5W1CWlO/uLyc0RnPtXJhyu/Z9sTx+ybwedXzF/wIJUUzoCwBRBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EpUJz8uO; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=V6jSUXhXHSBDF3+0c23rJ6nnEkAhJfYbaNrYGTtIz3xy0EP4oI2iuh3bWNBWOa5Tpf9vP9fabl1veKMjzlvww4Q81sha7Ry87JhEd+PgMNcFKhE+x7C4hjcqlYhawz5qdnhSsakflRNbnTJbW3FAhF363yoBNd+Ms6ijSn2laLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CMZNwjVQ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EpUJz8uO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CMZNwjVQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738591026; x=1770127026;
+  t=1738591027; x=1770127027;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=PqG3ZBpKC7whP9e1RnMw4SJw/XVO/fWuN3obFwVNTV4=;
-  b=EpUJz8uOiHfLfrNVPqoAZBNKO+fs+LKPK0KvCaqpCPP4TfGHMCo27sQ8
-   P8EhRTHPqy3pK/KJYXBr7d3RkVCLGPsCC8R+e1VZ5rjhL3/wKLtHqdpEA
-   cKZjzSw2SEyhKcj0seuo1cfBRwHvqsOBfezYEueBYAsX3eDUYMxCN1n9a
-   3RBMlpjWzmMbRisdTfd/g5S2uMghFt/PikPDv0FJICe1Cl5Py08IfmUEP
-   x43pxIMCZQ2fdOaZ5GbzfFvYeraHyBuRvC1rHOHfJbppdTBxtyS0Jkc1h
-   HsJT/3pk3OQFtldpZGa1mYAltf3DGy/T8kkwtu4QNsT6ESIfHDGLdoQJf
+  bh=2HwFycZ0Oc3hA3qSQszAwsZKRAtBO7XsKQ2hvXcJvJ4=;
+  b=CMZNwjVQqGn2a306vNWWwOtryCBun7FKC4havwFXckvts3HeIJADvCW1
+   fs5FGOy+rG4rkQPTRJJD38YKHR6d38m16Cv648MBKsbPaKC54thrI5hlg
+   vM1FVMRWv7M5B8VIUrKNjFoeDzyAC1Tdxixjay8/aCBjlKh021oxmOlNH
+   xx5LyggbbXbvWhxN1D2oABWU+q2CyQVs8eIKBj/oxCqgwIhLEdO+hKYrv
+   Mu+Tiz+bUgNdhDkr9yYGzYycbjVgwTAp3Kui1EcDoRgUjYsnXqPam0tBO
+   oYik+N9sxImBMwr8i5jNXBWCrj8DD6vTeQfqeiHtb7H2Vt5oTbkHiHct1
    w==;
-X-CSE-ConnectionGUID: 4cQhB3hVRQOPRuV2KYr/9Q==
-X-CSE-MsgGUID: em0VOT9vR66rnMKaY2u+CQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="56511786"
+X-CSE-ConnectionGUID: 4qrU+TbIQLOfpkqzYc6ycA==
+X-CSE-MsgGUID: uersI0FpRNmM6lpeDdLAYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="56511796"
 X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="56511786"
+   d="scan'208";a="56511796"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 05:57:05 -0800
-X-CSE-ConnectionGUID: 5zuTj6hET2GX04mG/f982w==
-X-CSE-MsgGUID: /zcWnEdTT/ek0KfJD2s6QA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 05:57:07 -0800
+X-CSE-ConnectionGUID: utsTUQgORqW02K7sOEHbAw==
+X-CSE-MsgGUID: O1WUIkcgT+q88ljU2h1gEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="110057857"
+   d="scan'208";a="110057869"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
-  by orviesa009.jf.intel.com with ESMTP; 03 Feb 2025 05:57:02 -0800
+  by orviesa009.jf.intel.com with ESMTP; 03 Feb 2025 05:57:04 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -53,9 +53,9 @@ Cc: tiwai@suse.com,
 	baojun.xu@ti.com,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v3 01/11] ASoC: codecs: pcm3168a: Add ACPI match table
-Date: Mon,  3 Feb 2025 15:10:41 +0100
-Message-Id: <20250203141051.2361323-2-cezary.rojewski@intel.com>
+Subject: [PATCH v3 02/11] ASoC: codecs: pcm3168a: Relax probing conditions
+Date: Mon,  3 Feb 2025 15:10:42 +0100
+Message-Id: <20250203141051.2361323-3-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250203141051.2361323-1-cezary.rojewski@intel.com>
 References: <20250203141051.2361323-1-cezary.rojewski@intel.com>
@@ -67,47 +67,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Support ACPI-based systems by adding relevant match table.
+On ACPI-based systems with Intel MalibouLake there is no "scki" clock
+entry defined. Make that initialization part optional and default to
+24.576 MHz rate if not set. The rate is the default for both TI and
+Intel devices.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/codecs/pcm3168a-i2c.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ sound/soc/codecs/pcm3168a.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/pcm3168a-i2c.c b/sound/soc/codecs/pcm3168a-i2c.c
-index 7052cc0c97d1..4da608ba514d 100644
---- a/sound/soc/codecs/pcm3168a-i2c.c
-+++ b/sound/soc/codecs/pcm3168a-i2c.c
-@@ -10,6 +10,7 @@
- #include <linux/i2c.h>
- #include <linux/init.h>
- #include <linux/module.h>
-+#include <linux/mod_devicetable.h>
+diff --git a/sound/soc/codecs/pcm3168a.c b/sound/soc/codecs/pcm3168a.c
+index fac0617ab95b..43c0cb5e538e 100644
+--- a/sound/soc/codecs/pcm3168a.c
++++ b/sound/soc/codecs/pcm3168a.c
+@@ -743,7 +743,7 @@ int pcm3168a_probe(struct device *dev, struct regmap *regmap)
+ 		return dev_err_probe(dev, PTR_ERR(pcm3168a->gpio_rst),
+ 				     "failed to acquire RST gpio\n");
  
- #include <sound/soc.h>
+-	pcm3168a->scki = devm_clk_get(dev, "scki");
++	pcm3168a->scki = devm_clk_get_optional(dev, "scki");
+ 	if (IS_ERR(pcm3168a->scki))
+ 		return dev_err_probe(dev, PTR_ERR(pcm3168a->scki),
+ 				     "failed to acquire clock 'scki'\n");
+@@ -755,6 +755,9 @@ int pcm3168a_probe(struct device *dev, struct regmap *regmap)
+ 	}
  
-@@ -37,6 +38,13 @@ static const struct i2c_device_id pcm3168a_i2c_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, pcm3168a_i2c_id);
+ 	pcm3168a->sysclk = clk_get_rate(pcm3168a->scki);
++	/* Fallback to the default if no clk entry available. */
++	if (!pcm3168a->sysclk)
++		pcm3168a->sysclk = 24576000;
  
-+static const struct acpi_device_id pcm3168a_acpi_match[] = {
-+	{ "PCM3168A" },
-+	{ "104C3168" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(acpi, pcm3168a_acpi_match);
-+
- static const struct of_device_id pcm3168a_of_match[] = {
- 	{ .compatible = "ti,pcm3168a", },
- 	{ }
-@@ -49,6 +57,7 @@ static struct i2c_driver pcm3168a_i2c_driver = {
- 	.id_table	= pcm3168a_i2c_id,
- 	.driver		= {
- 		.name	= "pcm3168a",
-+		.acpi_match_table = pcm3168a_acpi_match,
- 		.of_match_table = pcm3168a_of_match,
- 		.pm		= &pcm3168a_pm_ops,
- 	},
+ 	for (i = 0; i < ARRAY_SIZE(pcm3168a->supplies); i++)
+ 		pcm3168a->supplies[i].supply = pcm3168a_supply_names[i];
 -- 
 2.25.1
 
