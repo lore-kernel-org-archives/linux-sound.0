@@ -1,93 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F1C1E493;
-	Mon,  3 Feb 2025 15:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CDD205E1C;
+	Mon,  3 Feb 2025 15:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738595247; cv=none; b=dW05tAx19a5tpcSPBjJ3z9PjR6MXEA3bZo+9TxNNJ2Tf4wCjGWPjPQMqOecITNFi9baS2Ef/SSyNdHQ1NGF4hbN+1qaeBExBLzBBBAMsbzCnEDiKiWKRXt+AgzFXasa1dTMgeitOZPtkQCNtQVu2JZUTICh1BguuZXlXKUAtaVI=
+	t=1738596711; cv=none; b=pUydIgHEVwqqR9jueXcX+NLyXh4jMjBqdpGRYCUE/G6P1ahSCyhhh2JMBtlIS+t/6oDEPhQT3+1sHZSmjzrwo7EdH09XGE+FsgKtdigppbVmprMU8HQpDaIa49rzhrY/XPmeGMjtjM8r2wkRrqAkg0e5pjm4R07aW9vJstW8MbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738595247; c=relaxed/simple;
-	bh=QribRiGaUqW5JW0Nku/kRgIHHe/W76K2SrolOsyJDv0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OL2fUQwwLdCkJwkcH7xamCQMT7cVFYPkLEKjcCj3ZipiYPFXnoSplVDCjrVy5SzfkiEK1b7Ll9jsJe0NsG27oBP7jpPF4GBz/UUxv+NkP6lm5qaKj/5AandkhvqRZ3HR5m9dpCiBz9rPm49C75U16UU4/N+zpy2L03Y7GjvniKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8biLreJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738596711; c=relaxed/simple;
+	bh=3v8EFM1T7G9E1gQyrUNrG6m+aM4+dQyCmq/iSZIDY4c=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=eo5Ixx/pNVXyfC1uRonGX6K+v2pA9zXlWB1C+C1/jEbjLLRLKHHISXkFCltHIjnc4n9rjIB0KaZjBcyenYA0c1zzbfczIOdb6skOaHm0PAio4FDCGwWYSp9i4Ykvr7NYCSkkUQvonU56W1m5ETd1yqJ28nkXZfrThp7lx00qkXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=WPKbYP2m; arc=none smtp.client-ip=168.119.38.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8biLreJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42F7AC4CED2;
-	Mon,  3 Feb 2025 15:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738595247;
-	bh=QribRiGaUqW5JW0Nku/kRgIHHe/W76K2SrolOsyJDv0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J8biLreJ+zl4vnwurVvuiJjqwCTVPQW+g2Qb6U+uxPq9AN6fWn3S6rIIKluqhm8BD
-	 /xSVlRdmC0S5//OmogjBnaGhYxWYl0WHOl0o1j49CdSK5/BTd1s8C96owOnOhq+DxD
-	 0zG42ix9UNeYrfU1+kiGHiSKq20wOdPEnzwyO19dl9tYNCj6g1HNTZdEZDH9hzIBUP
-	 75qpyraCR++PoVSUCVGGTNpY+lGzT3TmeTCdATOOwMiEPqUa6dFDLfM7TmFp+hX9r0
-	 3eOrEFN46AnQOYmMJcitFmGY0eTKfGpZ9eBhYpsCNreOAKP8VDc5OdyRA0Mo5WWIQk
-	 YyPmQEgrUZYww==
-Date: Mon, 3 Feb 2025 15:07:22 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	krzysztof.kozlowski@linaro.org, pierre-louis.bossart@linux.dev,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org
-Subject: Re: [PATCH] ASoC: q6apm-dai: schedule all the periods before we
- start streaming
-Message-ID: <4678ae0d-434e-4e04-bd77-abae1969ff6c@sirena.org.uk>
-References: <20250203124945.11406-1-srinivas.kandagatla@linaro.org>
- <357e28eb-f245-4647-8e10-79805b53731e@sirena.org.uk>
- <35cf66a2-05ef-4e49-a146-ca96ab19fcf8@linaro.org>
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="WPKbYP2m"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=PAvOtJHsIMS59RfRzFfMyl8id23TWAECc7EwAHrUKlY=;
+	t=1738596709; x=1739806309; b=WPKbYP2m554oV92ofNHXgmK4f5Kczfmx2KPMeDJ7kzv1Sml
+	y1H3j1+rZ0GesRwgqUY5RZsVVrDmBPHmpxMcL0DNzmIvmAikxh7BFhj4iy4ABbQ2g8ZExVnUlpK2C
+	GsK61+rWhqpm1tth0kgHRNRp0cpkz+gwtfAwc5g/rHbQANNEruTT4Pf1Xq5CSlWhnCwiIbxYfzKP9
+	IEm9aMR8rkQBGczMUdSCY7UdN6VS75As6bv/VjRl6H11vZbLpPA5zN6thqtKcpAp2rOXzjCmPbLR2
+	lQ1sulqkjKmvqann1uS8o9cDlWWI/at8loLohsF6z7VllXRMpRr8sIgJtkM1PmVw==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1teyQE-00000001gus-0LFB;
+	Mon, 03 Feb 2025 16:31:38 +0100
+Message-ID: <2904baea9188a4707d4b5a9a6bfa517a54323f8a.camel@sipsolutions.net>
+Subject: Re: [PATCH treewide v2 1/3] bitfield: Add non-constant
+ field_{prep,get}() helpers
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Yury Norov
+	 <yury.norov@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-clk@vger.kernel.org,
+ 	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, qat-linux@intel.com,
+ linux-gpio@vger.kernel.org, 	linux-aspeed@lists.ozlabs.org,
+ linux-iio@vger.kernel.org, 	linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michael Turquette	 <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Nicolas Ferre	
+ <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,  Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Herbert Xu	 <herbert@gondor.apana.org.au>, "David S . Miller"
+ <davem@davemloft.net>,  Linus Walleij <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,  Andrew Jeffery
+ <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
+ <jic23@kernel.org>,  Lars-Peter Clausen	 <lars@metafoo.de>, Jacky Huang
+ <ychuang3@nuvoton.com>, Shan-Chun Hung	 <schung@nuvoton.com>, Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Jakub Kicinski <kuba@kernel.org>, Alex Elder
+ <elder@ieee.org>
+Date: Mon, 03 Feb 2025 16:31:36 +0100
+In-Reply-To: <45920591-e1d6-4337-a906-35bb5319836c@wanadoo.fr>
+References: <cover.1738329458.git.geert+renesas@glider.be>
+	 <1824412519cb8791ab428065116927ee7b77cf35.1738329459.git.geert+renesas@glider.be>
+	 <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
+	 <Z5-xMUqrDuaE8Eo_@thinkpad>
+	 <74cab7d1ec31e7531cdda0f1eb47acdebd5c8d3f.camel@sipsolutions.net>
+	 <45920591-e1d6-4337-a906-35bb5319836c@wanadoo.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mzMOcDtz8JcxuGvr"
-Content-Disposition: inline
-In-Reply-To: <35cf66a2-05ef-4e49-a146-ca96ab19fcf8@linaro.org>
-X-Cookie: May your camel be as swift as the wind.
+X-malware-bazaar: not-scanned
 
+On Mon, 2025-02-03 at 22:36 +0900, Vincent Mailhol wrote:
+> > On the flip side, there have been discussions in the past (though I
+> > think not all, if any, on the list(s)) about the argument order. Since
+> > the value is typically not a constant, requiring the mask to be a
+> > constant has ensured that the argument order isn't as easily mixed up a=
+s
+> > otherwise.
+>=20
+> If this is a concern, then it can be checked with:
+>=20
+>   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask) &&
+>                    __builtin_constant_p(_val),
+>                    _pfx "mask is not constant");
+>=20
+> It means that we forbid FIELD_PREP(non_const_mask, const_val) but allow
+> any other combination.
 
---mzMOcDtz8JcxuGvr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+There almost certainly will be users who want both to be non-constant
+though, and anyway I don't understand how that helps - if you want to
+write the value 0x7 to the (variable) mask 0xF then this won't catch
+anything?
 
-On Mon, Feb 03, 2025 at 02:30:26PM +0000, Srinivas Kandagatla wrote:
-> On 03/02/2025 14:17, Mark Brown wrote:
-> > On Mon, Feb 03, 2025 at 12:49:45PM +0000, srinivas.kandagatla@linaro.org wrote:
+> > However, the suggested change to BUILD_BUG_ON_NOT_POWER_OF_2 almost
+> > certainly shouldn't be done for the same reason - not compiling for non=
+-
+> > constant values is [IMHO] part of the API contract for that macro. This
+> > can be important for the same reasons.
+>=20
+> Your point is fair enough. But I do not see this as a killer argument.
+> We can instead just add below helper:
+>=20
+>   BUILD_BUG_ON_STATICALLY_NOT_POWER_OF_2()
+>=20
+> But, for the same reason why I would rather not have both the
+> FIELD_{PREP,GET}() and the field_{prep,get}(), I would also rather not
+> have a BUILD_BUG_ON_NOT_POWER_OF_2() and a
+> BUILD_BUG_ON_STATICALLY_NOT_POWER_OF_2().
+>=20
+> If your concern is the wording of the contract, the description can just
+> be updated.
 
-> > > Fix this by scheduling all the periods, this will ensure that the dsp
-> > > has enough buffer feed and ultimatley fixing the underruns and audio
-> > > distortion.
+No, I just think in both cases it's really bad form to silently update
+the contract removing negative assertions that other people may have
+been relying on. Not because these trigger today, of course, but because
+they may not have added additional checks, or similar.
 
-> > Should we be writing all periods or just the minimum number of periods
-> > that's configured?  Userspace might not have filled the whole buffer
-> > yet.
+So arguably then you should have BUILD_BUG_ON_CONST_NOT_POWER_OF_2() or
+so instead, so that all existing users are unaffected by the updates,
+and similarly that's an argument for leaving FIELD_* versions intact. Or
+I guess one could change all existing users to new ones accordingly, say
+FIELD_*_CONST_MASK(), but that's pretty annoying too.
 
-> Just minimum number of periods or 1 period. We are queuing up all the
-> periods to the DSP, so that we do not have to wait for period interrupt to
-> queue the next one. This significantly reduces the latency in queuing the
-> periods to dsp.
-
-What guarantee do you have that the data isn't garbage?
-
---mzMOcDtz8JcxuGvr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeg26kACgkQJNaLcl1U
-h9DitAf/bYF2gjujw9lNOQppAbEPmN5RCHZN3eAqU0X6CNt4iSyf3L6zU9D4UUpQ
-Xdrh3jo5U/bJ935lFESzN4824ajFOv8hglYDsKMaV5TfdgZw+aAtB3ZqU/iQ1kjS
-pINp1pWfS2zJnqAPPW4ch87eG3fPZbIRcYpgDxOyFSAsU2ibUpiTqiPuHOAEdSEh
-s/lo48W7ylskoINKHXRaCy07FCVjcl25YV40cl6ZhlBo3s7YBBoZ05vjjdy9Qi2Q
-AYDc/j7XndzwyNNLQ6QjaFWF401g88jl89ztr+SLS5dATHaB5DLAaJq404LmR6Jk
-qoHCkK1VzEMBru/QWmycgQUZG8eiVQ==
-=DGlw
------END PGP SIGNATURE-----
-
---mzMOcDtz8JcxuGvr--
+johannes
