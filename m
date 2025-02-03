@@ -1,73 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E923594B;
-	Mon,  3 Feb 2025 10:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA1B70809;
+	Mon,  3 Feb 2025 10:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738577375; cv=none; b=UcBW+0LF7zmDzPzGECX6JimeBsQYT2cMWz8c4B3ui8c3avqY3JjyjgF8U0cHJ9BBK7VErB/oYl53/qoT5yc5ED1fIK92soDD+62PPktapHLt61Gdnd/O4IPvssyM1phEj4E+/JtM1mVwPXh2HeBBNxJ6IDDL6QFxixOB1RQw5yY=
+	t=1738578853; cv=none; b=kAtQRjphXcfOhZpl+TcSacgy+YYFY5AReBelKVVoHxBtt2lOJMQZVuieloN4r4fUbnUl7s5wu44SXdMoGu1p0A8bDVCSNSVaUtgdfpWcbMZY7irv63dV9NqdwEjHgtsqDnVsylb0JTx3vcgsUpfes9sks+rKtAGNPPVrckPR0l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738577375; c=relaxed/simple;
-	bh=K7rQae8QcWFmR02VR2cc/NnbWKKlcWy0NGP/Eu3OnVY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=R4bVCgl2NB1im26kDQ9+B8Q4UUw4OIYN5PGLWEaxlYweUx1fVYa7MJG/5K6JzmGl0ycVSjxLi1Y1ZJeDu00KHvE1mXww/5vBsNWvJ3Z2jdyrfnsE49k8NJbDcXu5mf0V3ytkXORyuga+HsdJjoXz2Cc5APNWZOE6F4zAj6jtuU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LbMeb5W8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738578853; c=relaxed/simple;
+	bh=uSP3FZGaYgB1Er254idTwB7j/p+pfihDDklq8RXpqDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AY0sjm11WRI7Aa8qMsMWrq23K1iMofI7XeFQQzzn8/LOnQYKVRg55pAhFCcVJePRmeZ3FqQjNprxRLGDfioO2NUu7sJpLxpXREhrKJUTqtVmCGj0ekfe1kjyXq0Wku8Hjb4WkUdkOy3MIjy6XfY8DYnxUL/RpaSSjTkGc75uYuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8ItnX1b; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LbMeb5W8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1225C4CEE0;
-	Mon,  3 Feb 2025 10:09:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738577374;
-	bh=K7rQae8QcWFmR02VR2cc/NnbWKKlcWy0NGP/Eu3OnVY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=LbMeb5W8rEG3V3vtsr9HPkZPIepcDp94LPsv4UvBqeOB9IvQW1Iplx3D3vgtPAkwc
-	 gZf/GiZGEz/8kFzI5dJUnsjCzH5gP+YIvY59ztzy/5xmFoVA/zk/fxNkFBHkiOTA0+
-	 97c0S8coHmUXvktMIZuENNqQpm3ql5bpIuA5pccxL6CPTbm0HYlXRyB9qWNrCySxlK
-	 g3jPoICRSA4D78/OiHzcdADfVwvW7Xvxlr9TwAKO/+VF3+QfMhn+tAdiTupEX66QoA
-	 zBD3SNfuYwn+ar6XrhHgOHSDd+O/HxlEGCFEboniDluvUd1TpMe+c1KItj7OY3RzmZ
-	 ghKCCSXcgu+Aw==
-Date: Mon, 3 Feb 2025 11:09:31 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-cc: Terry Junge <linuxhid@cosmicgizmosystems.com>, 
-    Takashi Iwai <tiwai@suse.com>, Wade Wang <wade.wang@hp.com>, 
-    Benjamin Tissoires <bentiss@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
-    linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/2] Introduce Poly/Plantronics mute event support
-In-Reply-To: <87tt9wr13v.wl-tiwai@suse.de>
-Message-ID: <7r09s51n-po04-ps84-8n9q-89ppqs6o7qs0@xreary.bet>
-References: <20250113235212.78127-1-linuxhid@cosmicgizmosystems.com> <20250118005841.6618-1-linuxhid@cosmicgizmosystems.com> <87tt9wr13v.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8ItnX1b"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738578852; x=1770114852;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uSP3FZGaYgB1Er254idTwB7j/p+pfihDDklq8RXpqDY=;
+  b=V8ItnX1bF97TaddkGth7+JiAUFHUuoLbJF17TjkjHlSs0++WGvf/QTgo
+   zRNtxmqmcfE3XN79wir34i91hV9xLPpWWeMIOEeUcotV2nOYXkTGmXRMm
+   sZwErn9HisRhYjCPgVl5GWsYSGodzcMWx4VEIQtMMjqojhJ+hZO9FM+Go
+   uHP3SFqlhG8aE3cJ6Q1sDdCkELBPeMlU1jkooj2AlCIc8oFQtZYwqUkI1
+   ieV59Z8XoFiBt5CeaRRJxnoqMnaMW+z0zlilMBuVre7t2yGm09p4Z8EGz
+   cMDs2Ifsz7zxr0cMqvpqMV0W4kGJammJXNPbd+RM6gkzrT84+MsPb8ing
+   g==;
+X-CSE-ConnectionGUID: ffHgfInsQTab2kahgY63gA==
+X-CSE-MsgGUID: 8BdOZRnjT7KtLMPAWqwxew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="42722111"
+X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
+   d="scan'208";a="42722111"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 02:34:11 -0800
+X-CSE-ConnectionGUID: mAtv9XmoS/GK/ej27d7W2Q==
+X-CSE-MsgGUID: DOC0sd2ERJ2eWClI1z6NAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
+   d="scan'208";a="141123795"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 02:34:07 -0800
+Date: Mon, 3 Feb 2025 12:34:03 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
+	jic23@kernel.org, przemyslaw.kitszel@intel.com,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-iio@vger.kernel.org
+Subject: Re: [PATCH v3 00/20] Split devres APIs to device/devres.h and
+ introduce devm_kmemdup_array()
+Message-ID: <Z6Cbm3XAG-8XPvoU@black.fi.intel.com>
+References: <20250203080902.1864382-1-raag.jadav@intel.com>
+ <Z6CRBDpXpPha07mf@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z6CRBDpXpPha07mf@smile.fi.intel.com>
 
-On Sat, 18 Jan 2025, Takashi Iwai wrote:
-
-> On Sat, 18 Jan 2025 01:58:37 +0100,
-> Terry Junge wrote:
+On Mon, Feb 03, 2025 at 11:48:52AM +0200, Andy Shevchenko wrote:
+> On Mon, Feb 03, 2025 at 01:38:42PM +0530, Raag Jadav wrote:
+> > This series
 > > 
-> > Hi Jiri and Takashi,
+> > 1. Splits device/devres.h for the users that are only interested in devres APIs.
+> >    Original work by Andy Shevchenko:
+> >    https://lore.kernel.org/r/20241203195340.855879-1-andriy.shevchenko@linux.intel.com
 > > 
-> > If at all possible, it would be preferred if this patch set could be
-> > sent upstream and to stable together.
+> > 2. Introduces a more robust and cleaner devm_kmemdup_array() helper and uses it
+> >    across drivers.
+> > 
+> > The idea behind embedding both work into a single series is to reduce conflicts
+> > and dependencies while merging.
+> > 
+> > v2: Use size_mul() for multiplication (Dmitry)
+> >     Update commit message (Dmitry)
+> > 
+> > v3: Embed devres.h work by Andy
 > 
-> Note that, for picking up to stable, it's never guaranteed to take two
-> at the same time unless you explicitly request to the stable
-> maintainers.
+> >     Add more users of devm_kmemdup_array()
 > 
-> In anyway, I don't mind to put the USB-audio change via HID tree.
-> In that case, feel free to take my ack:
-> 
-> Reviewed-by: Takashi Iwai <tiwai@suse.de>
+> I understand the desire to cover as much as possible, but it becomes much
+> harder to coordinate.
 
-Thanks, I have now queued both patches in hid.git#for-6.15/plantronics
+I have a few more patches which I'm delaying to reduce dependency.
 
--- 
-Jiri Kosina
-SUSE Labs
-
+Raag
