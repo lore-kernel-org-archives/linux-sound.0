@@ -1,59 +1,59 @@
 Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011065.outbound.protection.outlook.com [52.101.125.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4AA1D7998
-	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 06:21:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD4E1D7E4C
+	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 06:21:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.65
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738563668; cv=fail; b=UXSKmEhURIafs4bqh5Qn1ChtYSrAAfPZ3EfDyOKlPZJk1KQ26RZEq9c32LJDobsiUV/7Tm1wK6fsfMb6DwvjLCAjw3AhAbzzkhDlPBLo8ovHN6ZaTOCXAjB2OGIMeV+0L0nd74qgreJ2ASwa1oybgN3qGkbJ4DIqSlrTIpgoeIU=
+	t=1738563672; cv=fail; b=b9husFtsOD1oMDEq7JvJ79oBK4Ga85CRzjhjaQgYT3/aS6pV9T4qp30FDDnwPt5489HlBjv2xygnTTajb3jKoU3PV1JRCJ9WzoMOBmYgjxHDzSq3/rJNwoRbjQ8vHm6x8fB3YK8Jba2VwyKZc2C6KYiR5l3C/T3ywDDk7GelddE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738563668; c=relaxed/simple;
-	bh=A7YiVsue5VvvxZlhlCucooQJ1jqNZtS7Z5+RPKEt0Ng=;
+	s=arc-20240116; t=1738563672; c=relaxed/simple;
+	bh=2N7R+/1XE0pMg+3cGG7F9YaQSlyeBrfuKJCNErxAtwY=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=iHCZayczf/9NvfLV26E68TCDYaIiPx7lDPmLwBGkXb8t1E94RFzLYGFQFqPoAgvKzpSPXhzd3wDZCjVBNDCUa+d4csVguCr/eiTVCzWA7++t1JSgGVDE7SVJWWUpajiK1/VTdM75LmtSCtFVuyM4gSZVddBV7OO74KdPne7p3Xg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=fPmlr/q9; arc=fail smtp.client-ip=52.101.125.65
+	 Date:MIME-Version; b=hPeXnPCat2F2UEvemSMbdCLYQhdNqAMpoyLxcLWHYqz6QLEPvniZw50Xab5ycr/AYqGxPKt/j4waxpI2YGUG1IV+icoDBOVh4f55T7fAhQsxj7BaVyScPl17YZrgtQynMDoiMiK7zktSHSBnoeQe3NFAnUXSW8NzXXKi2bHis6M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Vmn0MtZP; arc=fail smtp.client-ip=52.101.125.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="fPmlr/q9"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Vmn0MtZP"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CvmSEMeHPF0C8HJmDxUia4T3m39I+cf541tK6mw4H2HkmR7T4FN7xKCAGIXS7I//z2/7oD1SpRF09tdwEJj3VKeGIMCPCJdQC4FMj2BOvld5Y3YjM8l9KtCJUy53i5LAWMZuF2VNdnSn2q9MVP2dSMQ+OcedtmNBaInArg21eTOMx5dSJJuAwlA9yHAFP+c6afhcE+AfXXwt2i6EJcW77xULpNysAL5wz6dz63iMVit3mN1dbgRN8r5unz1lDZ+XgVxQmJHjywEZHNtiEqgkihKRBCdG67daWz+znTPj1UScUOSaSHm9ZZFTpkDzYgu1ZHdkI7ZnBiJvza8scd35VA==
+ b=Od0XvngcgF7wckB28ubjAdK58CEnfLQ3lCjoZKw+xL3AQFzEpjyfMIDWb+zfgeiKCXFWWzCvgJH3e0OEFnvH8IbGdyHuq8nS/oepRaG8SSHzFlaCxnqHZ+f+h4UidOPnLOVAM//xw3gejuQYET/k2M0oqaHJTz97Dgv0yQPCEjHsGrWm4Z432HzIe/vINMMxXC6j46yi8YvZ9hIHK3jipVqn+1iM3FXS4vn48pbARY8Pfb32t6CTV25tIM3QsmYxUcdBI9QpoWFuvgZvmMdPnssTHIah8ASBeYenp3Kq4T2vEmQZPbUAu4qYyNGC4gnfyk/egVRI5sYJSBIBhUcvLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zSZXzy755ku0916s7MgbRyhMd/OhV2SyZkbnFN3OOlk=;
- b=yXrShXK4a0G9W50cIeyd6oqQhXh4Jalm6QmA7XZwXgi2BQ6qi4yYr4xDKhZt2ZdLQwMzJUHb0EJ++PRyXI1ssGV/mMdUXDcsr7JD8rNR3skJ/O2Sc6oNsBfsKSfZiuegNta81Qmr0AC+UWRtWHxfeG53c5UXB31FDtul1djyQ8bTfu4VYKpzi/kxZHY28AbxBHvZYZbVxolBbrmCz7Yvq+R/eLHW0mDVW7ZxnnvarXEEtPAAFvX+sGXI4knBTQ5NQXjjTmQp8+7eeWpibMLJfoN+jo3ZWmRZk7sQLFL8sWNY9EJqSYa6nqXRljzmrZx0+lOgEf+Y+SUHBEgwfUtKXg==
+ bh=45ej9izMZ7IL0v2qHPl//3PtYamrYKGW29CuNl2lVpk=;
+ b=GZ63NJlz9wjzJVmONBkziAuZ4O0C6K3U8zkM6MTgai7M077Wfi6ezH/aElPjwXSVtUjwV0CEvdwadpUL6NaPEXpiN9HTq/0rHNcT7wG51zk9gaTAYGQSrijlxLpHM1EutlPqLn4b8EDtvGgUM2b6D7V+Lkct2kqt5qthYPWgaaxXmfO8Z2r4HRJFkHEaeC2yE6CCltp/tdIqlP4Tq4nbx7x0Kkknwkkdg9cqaDeAVKEPpAAU2oFMHpWqErSRWKuaO0qodWZk5NtUThFdAu9KwaKzoOaDf2yQ/RAshYbYbAUxC9GljURHKgVyZ+XpJpj221zbxN5IDUGotNMoRRvLtg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zSZXzy755ku0916s7MgbRyhMd/OhV2SyZkbnFN3OOlk=;
- b=fPmlr/q9/mVQywjzCiQdW9HzHzjLDUQvvIPYQ/c/RBCkApEekMoE3dSK4foAaHrVMA3w8JOULFjFO9iIk2W9tGT9Fye99xEPgVupM/kJW6sQIGrveVyyhuraB24mjgxYIYzLl/KaGyt7oO3UiRXgXnoTo10jTsMB3L5bt5SuNjU=
+ bh=45ej9izMZ7IL0v2qHPl//3PtYamrYKGW29CuNl2lVpk=;
+ b=Vmn0MtZPmJCWHIbPcIKykIMR+HG2POiElfTSQNmkw8UEp3JXl4iICqYAxiAZhu41fr3h5o/BX/12IeQUCKEcbyb9emnmy9JjTeaO+z17kLAJN5skohtpVApUhnT22zaxlwgrFDcRNZkSq3DXCxhmjMbDHcz3ifL4EepKlNXSC+Y=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by TY3PR01MB11036.jpnprd01.prod.outlook.com
  (2603:1096:400:3ad::8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Mon, 3 Feb
- 2025 06:21:03 +0000
+ 2025 06:21:08 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8398.025; Mon, 3 Feb 2025
- 06:21:03 +0000
-Message-ID: <87zfj3r1kg.wl-kuninori.morimoto.gx@renesas.com>
+ 06:21:08 +0000
+Message-ID: <87y0ynr1kc.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 2/6] ASoC: soc-pcm: use snd_soc_ret()
+Subject: [PATCH 3/6] ASoC: simple-card: use snd_soc_ret()
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
 In-Reply-To: <8734gvsg5i.wl-kuninori.morimoto.gx@renesas.com>
 References: <8734gvsg5i.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 3 Feb 2025 06:21:03 +0000
-X-ClientProxiedBy: TYBP286CA0035.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:404:10a::23) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Mon, 3 Feb 2025 06:21:08 +0000
+X-ClientProxiedBy: TYCP286CA0259.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:455::7) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -63,301 +63,441 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY3PR01MB11036:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1502494-8d7c-4f97-6ea2-08dd441aef6e
+X-MS-Office365-Filtering-Correlation-Id: 9fdb6cb6-35d8-456b-d999-08dd441af253
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6WmjDfMV/8DDWp374wx6Z5CRRt5HcG17olXBw+d/evMs1YW7oV1mULQiktvT?=
- =?us-ascii?Q?39Fi8Wl9x0uetGInCsBS/boPlRJaTt52DaGjAgKI76FSuExI6mQ6B00b9dzj?=
- =?us-ascii?Q?zWl22ot2ZFjavay0lAWZ3QL5NJV1sJkPFayK8izR7o1qLx76Qr2HhF0mSeqP?=
- =?us-ascii?Q?TWTpnQjtTR870BLeoHn7F7NOon1CBncQSfEriwqZmvFQtJm+JJB46H3x02w5?=
- =?us-ascii?Q?TcB9v0iie00QyrdrILFSyu2WK/b98AK+IFmSpq2UXyMocy9s03uuzr6+Pmtz?=
- =?us-ascii?Q?7wTGMr1Q/3c4kcW6hzJnCTrujw8T9DQtVnUVRXwatZLePCvebIZEj/b3XCeS?=
- =?us-ascii?Q?LC4nhArB1Sh5BVG21TbGE+tVkN9ZbUT3uttSknwjsqcZ84PpyQ3COVTrNUi4?=
- =?us-ascii?Q?kif4tz6QDa/+yvLhvZCQHgiuOsPWywfKH2ekmDd8el+DJTldydk7sYit4uo/?=
- =?us-ascii?Q?jhRW3pvPVN3Dm0bdQu7i9rd4j65fGBNKpX9d6EwUyWH2HfVuHT44jHOOBAz4?=
- =?us-ascii?Q?6lHoI3PCyiDLi1eIEeiYzGPCLjOOQmDbq5PDvsflJ3w7wj1IddJXieHNWYd5?=
- =?us-ascii?Q?OqL3QOx9FyIK8bN0H9kMB7g3M4lJFhf8YHeQrbMDyqFO+IglXE1HGQigdAv0?=
- =?us-ascii?Q?CjhOw8u7M6bEybweu7Pah0fQ1Ct2cjZD9JKhYgkHLHRsizAxd0uv4d2FhMZU?=
- =?us-ascii?Q?z+dK7VR74t8bc9qr2s/8aC6Bhg+BaiHCxd7Ohiz6Eq08paHfS5E63sJrzcEY?=
- =?us-ascii?Q?QJPmSY5wB9DJRVcyCWxSGrwZ5ZtPNQ6jyQpaFeA+y0oYnXqUUuRD1rRUMvji?=
- =?us-ascii?Q?WuMT4kJsKi3ZkHQxafRUV4HmtuUFJSRhrloP8iRYYKkVZa0ocRyj1Hm69dSg?=
- =?us-ascii?Q?9Oz+BQj4zN+EgYfcBIIkBzKd7Kic/ynHfInjJm/HZE0gDHIprXiwD5rQ1knO?=
- =?us-ascii?Q?/P7WbhpdPO8HOOxAFcNHxAwWudfj535ujAGb5XBs5FcqoqVFee+czClGZVMv?=
- =?us-ascii?Q?ua7snq4avemz/6AFIFmWBlExAKMSvK6FkIXte//wJbSrJniNwYppcrTDcnU6?=
- =?us-ascii?Q?Al7u2/xEPEaYB6MA3Eyr8t4fdOVpkS0Rk8uH33WZnMylsMgkKgP+y23WJ/ZG?=
- =?us-ascii?Q?ggQ3Psv58Z84rc2+EdWovvUzPBhtI5WLyQra6fI5Sg0XI5kPK60s680nF2qr?=
- =?us-ascii?Q?vZMPaw/53zuvjn28M7xYNmQ/SAJzj83tlai7eJuY4zTY7szl1w7A1lGvQt4X?=
- =?us-ascii?Q?umG41RO0ju1G0/P3+ZjTMgAI05AmOTSVphO7bH6gkkHHaJR865I6LfCGjG4d?=
- =?us-ascii?Q?nthNtSJ7f1qrzocOUq8HLTPg3xLkt73cJSv2nv0091JvHsq6tSv9+KphXhgU?=
- =?us-ascii?Q?oQK9vARpG8WT3uHF7xsDyGlBAShDU5pn7rFJ++NQVVx9kLSEt8YS6TkxMkK9?=
- =?us-ascii?Q?k0ezVKpB7FSKaXeF9JAEmDK77j+/v0ew?=
+	=?us-ascii?Q?3vSQeOEjk1gEhUFodwdQ5V1ASwhCqyhMflDMtP4gRWaPDkzYwUOAfEmKf3Sv?=
+ =?us-ascii?Q?KUh91HGQsw3iYclPEZvGIVaQfwq4QNaQTGIPltMrk3pWx+g8UcnhzQVv0zrP?=
+ =?us-ascii?Q?H2PPEgjIfQH1oiq11Z2UJq1KYqgSbQAMEqoyHpLAWG7hRSDB+PqyH89AEiWG?=
+ =?us-ascii?Q?8z76us7tSwJ1kG8/ngWGBfg0PMU3wAOa0jWpK8bIJ15o6YMH7crrSrr+2eiv?=
+ =?us-ascii?Q?Np+cfaZpap1dlC7xxzVnvvi8EnkZTBgqTDrqMzh4YopTRyCj6T8rxhgOVEGU?=
+ =?us-ascii?Q?Nxn3hUxIR4AQAYxwpFjiZ6kGEgzycedOnIUIyZuDeysULtclOj/mVimB5PER?=
+ =?us-ascii?Q?HaGJJRYC7GQflqeZlOdM1rFyTgXgqumVrj9uUAorU2igM/AlMGDPazwUiPTe?=
+ =?us-ascii?Q?igFBSX/CltLrReDdVCoIesKj0E2di93yq4X8ceh5uComW22bAdiL88S6fih/?=
+ =?us-ascii?Q?vWJKurw+XFO/PK3wVzdeNR1vqnj5XwNF83xuEl5mv6KlUy/hV0lykCUajGMP?=
+ =?us-ascii?Q?U0Uc5U5j/ZXb7dr8eYco8CgoVY4OjjR+su95H0Y3BysiMKujWqj8bFsIIJkf?=
+ =?us-ascii?Q?WI7gK2D7Pn/iJELLd/Oi8o+yKzXrMxiFqV/1uW20lAkCqmtSwPS74aT2tgrU?=
+ =?us-ascii?Q?T1JMu4lIg6sL8kwhURlmxfBrJZ8Aiul5Hbz9CZgxN1eU4Ngq+PjEu4cOTtcS?=
+ =?us-ascii?Q?idefjaHLZvDsE/ycVLEVbQw/wjQBCQc0cHX5FNjxnMDqhF/svZu8xX/+/cD2?=
+ =?us-ascii?Q?5CvWcp4dSHmwXhZEnkokzYIkNQ8jnJNpXUXW28yn0XshEumyzC+qrg2uOQ5Y?=
+ =?us-ascii?Q?niTum4GaTZvf/6Q2+fEouK3XsSdBrsSaquX05paOqw8zuWUCFwaz7AxKykWF?=
+ =?us-ascii?Q?MhIACs0cVnGXmyaWeDp9tnzp0OiogJiE8Ex/xQ95GhHhW7yJDfwAmg0EHNep?=
+ =?us-ascii?Q?8Nk5e3css63mHF/2e7e04mQO7mHHz2jL9jRazz30rQQKDS0GOK6GOJxa7Kl/?=
+ =?us-ascii?Q?+hwCragwuoBlR+D397MDTg2+F5g/RO09S2n2n/Ib6aXq5Q/aV249lLsEX02y?=
+ =?us-ascii?Q?XF5wb7rbhx7msD43SZ9eU12Buame5HarAYur+0XvqZkH3Vot/s6IoaD80OeK?=
+ =?us-ascii?Q?wwhqlC3+emU5CetrjeaNlZdSzm2u7d814AN/tF+fcifJ7ItD9SfKrtIBv8OW?=
+ =?us-ascii?Q?x3diOKygpxOhiu8o61eRA2AxsWb+oTFu7YNv8exIri1zYjbjawvMiqUsfax4?=
+ =?us-ascii?Q?9+poE+gcEgvzVe3jWt63AMmpD8UUSsHyLxS/Gxp9gcLitXqVmNlvro1RV0V2?=
+ =?us-ascii?Q?k0YJ9hY1o9m8zOKrisCEcmjcQQrv8XuzIsnBmhS3PjPRSEE/r+/ACWykqheo?=
+ =?us-ascii?Q?eLUj7MMvA9iBVCJwnZUy/ZtdS25hU+fGWUQfjBR6+gPKBZUJ5LiFEMrP3mlJ?=
+ =?us-ascii?Q?unqqanhmsDeCnhdDKW6CEd4lTf4LH0BB?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?fRikKTaExBi5h1bNc6ZOswu8JzRLG8p8iOk4r7vpFoEAw6EfbS/p52OTnqEl?=
- =?us-ascii?Q?oszv29FuiTrXnET9jI7eEcY/LJirzabgZIWAOq2The91axuSBnb77j4RDMVa?=
- =?us-ascii?Q?5jHFC0CJ/+7o/PPGT39AKCzn+ncxWgq9X4fABuRBFlD42ZEpjVj9EhG/hoHf?=
- =?us-ascii?Q?nYPLwz8gFKGyRIn0UbZC/0U9yt5vyCYdNRgOiMxQMd9+LpFkY9RmbG1k9BMd?=
- =?us-ascii?Q?fRnf9JFn+ZIKoT0QGIk5FBfxNFmWU8Uj0G8rVtbIr/nKqmwyaudI4UWt6xKo?=
- =?us-ascii?Q?zJGj20IWHNn9ckMbmseINBLHLUXsuYuW9YxFXxxImq1vovZ4OVk1Tp/AeTMv?=
- =?us-ascii?Q?VM8A4STpG90KO3zaYdBHlrE2gZhWVv9e8IGWE6dQ6n00snd+EHK+XLXiWZkM?=
- =?us-ascii?Q?JDnY5cekqo1jV+sz8Lag+WDu3jTef9emGLfyye5nSzGwcNf7Ewi5BDz0kjxC?=
- =?us-ascii?Q?hyCBFNvHpodQttEOHq7ZpkBWA6m0mNvXdpVMREW/oyQULxH6zmbazM5/jAP9?=
- =?us-ascii?Q?CGHVYe2kRjB1ch3O+lBMpFHkuB4laAXtEgtPL/2Z3h/QjjGWmuslgk8BezEN?=
- =?us-ascii?Q?GrPD5Y55ItpLmEs2ZJA6umXPW7cZDiE89V565lKu9ZqMnpvSAHHWfmjoU+yV?=
- =?us-ascii?Q?Btf9ZzuTSgAlYy0bLn4OB2Pcl/C4jnDU+1id+/mhy86qM/t/KYTplK1KOGFX?=
- =?us-ascii?Q?pjjQclmmmMfkvoRTyfZnogwCQKplOMPj7qOw7JzhRDUe5kHei8tklhEFmc2Z?=
- =?us-ascii?Q?fNkApJoZ+D7APMzRvwA/KLlHcl34RbyK+0bvvWuul1tdsoRA9X51Lvdg/zVH?=
- =?us-ascii?Q?BXVSioNtcRDwHXFh2mObF5S3Amu7+5+JRwhMktVKp8lMiWa7YXaIGmPLa+gP?=
- =?us-ascii?Q?sOtBGgcd+JjTVNntgNH9+0nM/rm0YlI7ExQuaktITjqDiOeflqHJIvJxitY+?=
- =?us-ascii?Q?hW5uK0ZUk3mBqGX5L5/E8WQJUk32RL/s3C9EgCPwSxEIokwiKCLH3Tt8Fq/h?=
- =?us-ascii?Q?1TUluK3DAMRPmV80PPAKlMVcrIVDOnMssvsnD/FAA55bgeILYULEB/Mr0kOw?=
- =?us-ascii?Q?4jMqY4X3xh2nx2glMW3CLR/dp48smakp4+XaDzXw2AWmgSr+YiiRqp3JE3Ez?=
- =?us-ascii?Q?Q4Ja1gcrqsdxi2NxLf15HVaiQNdp5/Li/ZAw1kaW2ycbgf42CbH7Q9peGXrl?=
- =?us-ascii?Q?7r3dNlJxhTT+gABaISne4Ux3aK5eSt6BsReW9do311mNqlxzWgcKfhvvUYUb?=
- =?us-ascii?Q?V5s/xTG9vToFIkQfAO1L4Wo6ITBpmqotY6hVS2xtFNtsV2vhKcWcv9sSX8UR?=
- =?us-ascii?Q?XkEhupJf1pSaatzhEE0O5+5oFieLMdD15fozNyQnby1HlatJfFu3t9ij6lhU?=
- =?us-ascii?Q?TcrE7R4rJtQS8bKwNaUR+7K7s92VaEuNFNKIbuN3J3Re0/gVfQ8NanrpUQdM?=
- =?us-ascii?Q?/F1dEenn0QBZ1J5lWoxTzyelYRyd0T9toN6EVbQwOxh0jbtBW76wfMSAB/ZD?=
- =?us-ascii?Q?P9k5X5QV9avxkOfF/oK7ugA6U/JKI0xOH87jY17kwwvDPZqJVmPheRTZ2mdc?=
- =?us-ascii?Q?2nBWbHignEFbf4d03DD2ucPSAmxHqP1LAKSVQiU2MgyuvMa4l5Sd45kLG1YK?=
- =?us-ascii?Q?ds68+NaPJczWI2RtFaelypE=3D?=
+	=?us-ascii?Q?8qbSgTj9QroNB+w0HzjnSHDaccu0JcdVTRw+vQyP4mSi4T82oc+WpTM0EFZH?=
+ =?us-ascii?Q?Djbfa33CoUsb03pzQpzw+lyaXWcthYqJlQ2OPT6thrC+ENv+glK8G08SIvVO?=
+ =?us-ascii?Q?SmxVyH3ewFC863o8SxtREPCR62HQs7eC5hJNaUvcOkbreTMoRklIkFAk41Ua?=
+ =?us-ascii?Q?HAl0IGEc5CZoxZmnW9qb0IlbswRfFeWctv4+rAgi/jsq0GLOO3/SdOPvrLrk?=
+ =?us-ascii?Q?1LBVRHzSlZFPU3DqZYNWAWGpr1FlDCWfCXFxw0MGEzOmPKqqYfYsZJ0vAGER?=
+ =?us-ascii?Q?/KNdRtjqISKVZIva031mq6PZB319sf7hMZqlbP7x6rWPz9llcOruzyb2N0rq?=
+ =?us-ascii?Q?QVuyCh9K4o87knpB9IG9lqS/pC0WxEp6QOW0FFoWWs6LmForW1WoCLCgolyX?=
+ =?us-ascii?Q?bIQnbUCka9CzCNMROUsNaD5KS0XPkRQByVRvRx1GXQfiI4nNsQXvHZJT3IpR?=
+ =?us-ascii?Q?AZkmfApahs8WrajQkZt25vTf9+jGQCONF4nm2myFrIgeitZrgWug6UcZJXMY?=
+ =?us-ascii?Q?52+NIeYG/99LxFCNoq+YxSSr7cKsqly/VQsM7KaZ2LYQmCDGM8v3JfIS1ucY?=
+ =?us-ascii?Q?uge3n4NCcxQGpb2Xl//zwW5E8TJHAQGUB7PDDPt2pL8SwEDSTA5n8X92kChs?=
+ =?us-ascii?Q?FREw+7SmGwyIZngD+3oLRdOjLs6seLm9p5SeiC2M3UUHhIDbfkII0vqkwZM1?=
+ =?us-ascii?Q?eVm0zjAN3QcKe4OAxebwP/9NoWletg69hV25Y1ziO8xe08CnQ1aAA1Cr7up0?=
+ =?us-ascii?Q?1eHHEDYfQGsiBwwmzfAPqxQX6fgp1hCBHFqASuO/1UDHw/nz1ASlu64/XV5W?=
+ =?us-ascii?Q?J6jb4bdjBmX143HSP5bq72bnZjHZvJOmWq6bI9iF+MjtxK/UVbqxWHpw6EQZ?=
+ =?us-ascii?Q?XCw/iN0mBJ2XBHqZP2OvQUxBNqN+q0KDKcXOzpjR3ZD2gIE/tRcI2JKAQPu1?=
+ =?us-ascii?Q?zOyxWc3Cp+4wfwNvkOglKG3SrSeIhuhUQEbTPvZmGSwuJ38J4XV8K+xvtW6H?=
+ =?us-ascii?Q?PDrlTEYjAt21JDcBrku9O8bI3ivb1ilxsEY3f+yaN/3QyWEQr5n/RgDa7nI5?=
+ =?us-ascii?Q?TVWDBSPqKWJ1E6SvGW8a7kU82ZYJW/21ypDj2nDirBfuyAESMPzMhnMHw3o4?=
+ =?us-ascii?Q?Mnfy4j656eNm4ggbBmlib39c+YU1Y7xQJ3+1eOhbs2ueKb6qlrAvnEBwQYy/?=
+ =?us-ascii?Q?ojSFvl7bo4w/NtGFmEBk3vaDwmK0OjFWao8TU3wVkwO4TYEdwOomC20tICzu?=
+ =?us-ascii?Q?IcNJ/F+9gEl8oaorsBXKh2u2MyVV6QedXSUUY7i05QjDfTYvlKK5Q0JBtosO?=
+ =?us-ascii?Q?tZTeW/yTgBw7z2SDvZuC3/wQWbHnZX85t4inPoiQ8kRHCQUcPAbtuoPjNf+9?=
+ =?us-ascii?Q?5JZUSq84gWLDY8k96fRFzi81FVd42FOy4Agw4Culy6ILewJVJBZJ/jZUwUuA?=
+ =?us-ascii?Q?b0D/FG4ue6wV7oju2bB+8QFhk4EJoz6VuxWUw+kh+JNUv6CBuOzoEcrgnzeY?=
+ =?us-ascii?Q?JWzKBrd0Yrey3IaJO6HxCtTHnA9E5NOVBSYOwEMmgH1wpMwcIORxxoJ4nLcO?=
+ =?us-ascii?Q?9Xab684tsjUWpaIpsz9YGKr4w3B+sxIRK9KSIsXr0P52GERFDqJJWxhp+Glq?=
+ =?us-ascii?Q?NPQqeDBVfEBGY0TL2einQcI=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1502494-8d7c-4f97-6ea2-08dd441aef6e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fdb6cb6-35d8-456b-d999-08dd441af253
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2025 06:21:03.4204
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2025 06:21:08.3047
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QCLuu/RriIctUlEveGSC5h6dbCpasZDR4MUcJJEAb0d7kHfnxcGHC7qTdyKO1of3I83JY8jwCHMNPioYQ8znMhZLNhwuGpaMWvdWGPitevPYXbbOnDkvcLLLandeBMCL
+X-MS-Exchange-CrossTenant-UserPrincipalName: ITcRA29T6eHQurpov5WCgw6yyHYRsHWpSZ3Jdc52osZXAz+Aw572jnk3D2xS7BQQ5DCCAVbhNyPFCI1yxHMNfCFJM71xDQ6r5zR42C2+93I1SFHaOwgaUrMipdE5aNeG
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11036
 
-Many functions uses below style for error return
-
-	dev_err(dev, "message");
-	return -Exxxx;
-
-We can merge these into snd_soc_ret() which can use same error
-format. Let's cleaup code.
+We can use snd_soc_ret() to indicate error message when return.
+Let's use it.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/soc-pcm.c | 96 ++++++++++++++++++---------------------------
- 1 file changed, 39 insertions(+), 57 deletions(-)
+ sound/soc/generic/simple-card.c | 130 +++++++++++++++++---------------
+ 1 file changed, 71 insertions(+), 59 deletions(-)
 
-diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-index a2caa146cac2c..ebe99d369ca9e 100644
---- a/sound/soc/soc-pcm.c
-+++ b/sound/soc/soc-pcm.c
-@@ -238,11 +238,9 @@ static ssize_t dpcm_state_read_file(struct file *file, char __user *user_buf,
- 	int stream;
- 	char *buf;
+diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
+index afe7e79ffdbdb..004fda4504c42 100644
+--- a/sound/soc/generic/simple-card.c
++++ b/sound/soc/generic/simple-card.c
+@@ -29,7 +29,16 @@ static const struct snd_soc_ops simple_ops = {
+ 	.hw_params	= simple_util_hw_params,
+ };
  
--	if (fe->dai_link->num_cpus > 1) {
--		dev_err(fe->dev,
-+	if (fe->dai_link->num_cpus > 1)
-+		return snd_soc_ret(fe->dev, -EINVAL,
- 			"%s doesn't support Multi CPU yet\n", __func__);
--		return -EINVAL;
--	}
+-static int simple_parse_platform(struct device_node *node, struct snd_soc_dai_link_component *dlc)
++#define simple_ret(priv, ret) _simple_ret(priv, __func__, ret)
++static inline int _simple_ret(struct simple_util_priv *priv,
++			      const char *func, int ret)
++{
++	return snd_soc_ret(simple_priv_to_dev(priv), ret, "at %s()\n", func);
++}
++
++static int simple_parse_platform(struct simple_util_priv *priv,
++				 struct device_node *node,
++				 struct snd_soc_dai_link_component *dlc)
+ {
+ 	struct of_phandle_args args;
+ 	int ret;
+@@ -43,7 +52,7 @@ static int simple_parse_platform(struct device_node *node, struct snd_soc_dai_li
+ 	 */
+ 	ret = of_parse_phandle_with_args(node, DAI, CELL, 0, &args);
+ 	if (ret)
+-		return ret;
++		return simple_ret(priv, ret);
  
- 	buf = kmalloc(out_count, GFP_KERNEL);
- 	if (!buf)
-@@ -460,12 +458,9 @@ static int soc_pcm_apply_symmetry(struct snd_pcm_substream *substream,
- 		ret = snd_pcm_hw_constraint_single(substream->runtime,	\
- 						   SNDRV_PCM_HW_PARAM_##NAME,\
- 						   soc_dai->symmetric_##name);	\
--		if (ret < 0) {						\
--			dev_err(soc_dai->dev,				\
--				"ASoC: Unable to apply %s constraint: %d\n",\
--				#name, ret);				\
--			return ret;					\
--		}							\
-+		if (ret < 0)							\
-+			return snd_soc_ret(soc_dai->dev, ret,			\
-+				"Unable to apply %s constraint\n", #name);	\
- 	}
+ 	/* dai_name is not required and may not exist for plat component */
  
- 	__soc_pcm_apply_symmetry(rate,		RATE);
-@@ -496,12 +491,11 @@ static int soc_pcm_params_symmetry(struct snd_pcm_substream *substream,
- 		for_each_rtd_cpu_dais(rtd, i, cpu_dai)			\
- 			if (!snd_soc_dai_is_dummy(cpu_dai) &&		\
- 			    cpu_dai->symmetric_##xxx &&			\
--			    cpu_dai->symmetric_##xxx != d.symmetric_##xxx) { \
--				dev_err(rtd->dev, "ASoC: unmatched %s symmetry: %s:%d - %s:%d\n", \
--					#xxx, cpu_dai->name, cpu_dai->symmetric_##xxx, \
--					d.name, d.symmetric_##xxx);	\
--				return -EINVAL;				\
--			}
-+			    cpu_dai->symmetric_##xxx != d.symmetric_##xxx) \
-+				return snd_soc_ret(rtd->dev, -EINVAL,	\
-+						   "unmatched %s symmetry: %s:%d - %s:%d\n", \
-+						   #xxx, cpu_dai->name, cpu_dai->symmetric_##xxx, \
-+						   d.name, d.symmetric_##xxx);
- 
- 	/* reject unmatched parameters when applying symmetry */
- 	__soc_pcm_params_symmetry(rate);
-@@ -846,9 +840,8 @@ static int soc_hw_sanity_check(struct snd_pcm_substream *substream)
+@@ -52,11 +61,12 @@ static int simple_parse_platform(struct device_node *node, struct snd_soc_dai_li
  	return 0;
- 
- config_err:
--	dev_err(dev, "ASoC: %s <-> %s No matching %s\n",
--		name_codec, name_cpu, err_msg);
--	return -EINVAL;
-+	return snd_soc_ret(dev, -EINVAL,
-+			"%s <-> %s No matching %s\n", name_codec, name_cpu, err_msg);
  }
  
- /*
-@@ -1319,11 +1312,11 @@ static int dpcm_be_connect(struct snd_soc_pcm_runtime *fe,
- 	fe_substream = snd_soc_dpcm_get_substream(fe, stream);
- 	be_substream = snd_soc_dpcm_get_substream(be, stream);
- 
--	if (!fe_substream->pcm->nonatomic && be_substream->pcm->nonatomic) {
--		dev_err(be->dev, "%s: FE is atomic but BE is nonatomic, invalid configuration\n",
--			__func__);
--		return -EINVAL;
--	}
-+	if (!fe_substream->pcm->nonatomic && be_substream->pcm->nonatomic)
-+		return snd_soc_ret(be->dev, -EINVAL,
-+			"%s: %s is atomic but %s is nonatomic, invalid configuration\n",
-+				   __func__, fe->dai_link->name, be->dai_link->name);
-+
- 	if (fe_substream->pcm->nonatomic && !be_substream->pcm->nonatomic) {
- 		dev_dbg(be->dev, "FE is nonatomic but BE is not, forcing BE as nonatomic\n");
- 		be_substream->pcm->nonatomic = 1;
-@@ -1493,11 +1486,9 @@ int dpcm_path_get(struct snd_soc_pcm_runtime *fe,
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(fe, 0);
- 	int paths;
- 
--	if (fe->dai_link->num_cpus > 1) {
--		dev_err(fe->dev,
-+	if (fe->dai_link->num_cpus > 1)
-+		return snd_soc_ret(fe->dev, -EINVAL,
- 			"%s doesn't support Multi CPU yet\n", __func__);
--		return -EINVAL;
--	}
- 
- 	/* get number of valid DAI paths and their widgets */
- 	paths = snd_soc_dapm_dai_get_connected_widgets(cpu_dai, stream, list,
-@@ -2388,23 +2379,23 @@ static int dpcm_dai_trigger_fe_be(struct snd_pcm_substream *substream,
- 
- 		ret = soc_pcm_trigger(substream, cmd);
- 		if (ret < 0)
--			return ret;
-+			goto end;
- 
- 		ret = dpcm_be_dai_trigger(fe, substream->stream, cmd);
+-static int simple_parse_dai(struct device *dev,
++static int simple_parse_dai(struct simple_util_priv *priv,
+ 			    struct device_node *node,
+ 			    struct snd_soc_dai_link_component *dlc,
+ 			    int *is_single_link)
+ {
++	struct device *dev = simple_priv_to_dev(priv);
+ 	struct of_phandle_args args;
+ 	struct snd_soc_dai *dai;
+ 	int ret;
+@@ -70,17 +80,18 @@ static int simple_parse_dai(struct device *dev,
+ 	 */
+ 	ret = of_parse_phandle_with_args(node, DAI, CELL, 0, &args);
+ 	if (ret)
 -		return ret;
 +		goto end;
- 	}
  
- 	/* call trigger on the frontend after the backend. */
- 	ret = dpcm_be_dai_trigger(fe, substream->stream, cmd);
+ 	/*
+ 	 * Try to find from DAI args
+ 	 */
+ 	dai = snd_soc_get_dai_via_args(&args);
+ 	if (dai) {
++		ret = -ENOMEM;
+ 		dlc->dai_name = snd_soc_dai_name_get(dai);
+ 		dlc->dai_args = snd_soc_copy_dai_args(dev, &args);
+ 		if (!dlc->dai_args)
+-			return -ENOMEM;
++			goto end;
+ 
+ 		goto parse_dai_end;
+ 	}
+@@ -106,13 +117,14 @@ static int simple_parse_dai(struct device *dev,
+ 	 */
+ 	ret = snd_soc_get_dlc(&args, dlc);
  	if (ret < 0)
 -		return ret;
 +		goto end;
  
- 	dev_dbg(fe->dev, "ASoC: post trigger FE %s cmd %d\n",
- 		fe->dai_link->name, cmd);
+ parse_dai_end:
+ 	if (is_single_link)
+ 		*is_single_link = !args.args_count;
+-
+-	return 0;
++	ret = 0;
++end:
++	return simple_ret(priv, ret);
+ }
  
- 	ret = soc_pcm_trigger(substream, cmd);
+ static void simple_parse_convert(struct device *dev,
+@@ -149,19 +161,17 @@ static int simple_parse_node(struct simple_util_priv *priv,
+ 		dai = simple_props_to_dai_codec(dai_props, 0);
+ 	}
+ 
+-	ret = simple_parse_dai(dev, np, dlc, cpu);
++	ret = simple_parse_dai(priv, np, dlc, cpu);
+ 	if (ret)
+-		return ret;
++		goto end;
+ 
+ 	ret = simple_util_parse_clk(dev, np, dai, dlc);
+ 	if (ret)
+-		return ret;
++		goto end;
+ 
+ 	ret = simple_util_parse_tdm(np, dai);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
++end:
++	return simple_ret(priv, ret);
+ }
+ 
+ static int simple_link_init(struct simple_util_priv *priv,
+@@ -183,7 +193,7 @@ static int simple_link_init(struct simple_util_priv *priv,
+ 	ret = simple_util_parse_daifmt(dev, node, codec,
+ 				       prefix, &dai_link->dai_fmt);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	graph_util_parse_link_direction(top,	&playback_only, &capture_only);
+ 	graph_util_parse_link_direction(node,	&playback_only, &capture_only);
+@@ -213,7 +223,9 @@ static int simple_link_init(struct simple_util_priv *priv,
+ 	dai_link->init			= simple_util_dai_init;
+ 	dai_link->ops			= &simple_ops;
+ 
+-	return simple_util_set_dailink_name(dev, dai_link, name);
++	ret = simple_util_set_dailink_name(dev, dai_link, name);
++end:
++	return simple_ret(priv, ret);
+ }
+ 
+ static int simple_dai_link_of_dpcm(struct simple_util_priv *priv,
+@@ -290,7 +302,7 @@ static int simple_dai_link_of_dpcm(struct simple_util_priv *priv,
+ out_put_node:
+ 	li->link++;
+ 
+-	return ret;
++	return simple_ret(priv, ret);
+ }
+ 
+ static int simple_dai_link_of(struct simple_util_priv *priv,
+@@ -330,7 +342,7 @@ static int simple_dai_link_of(struct simple_util_priv *priv,
+ 	if (ret < 0)
+ 		goto dai_link_of_err;
+ 
+-	ret = simple_parse_platform(plat, platforms);
++	ret = simple_parse_platform(priv, plat, platforms);
+ 	if (ret < 0)
+ 		goto dai_link_of_err;
+ 
+@@ -345,7 +357,7 @@ static int simple_dai_link_of(struct simple_util_priv *priv,
+ dai_link_of_err:
+ 	li->link++;
+ 
+-	return ret;
++	return simple_ret(priv, ret);
+ }
+ 
+ static int __simple_for_each_link(struct simple_util_priv *priv,
+@@ -443,10 +455,10 @@ static int __simple_for_each_link(struct simple_util_priv *priv,
+ 		node = of_get_next_child(top, node);
+ 	} while (!is_top && node);
+ 
+- error:
++error:
+ 	of_node_put(node);
+ 
+-	return ret;
++	return simple_ret(priv, ret);
+ }
+ 
+ static int simple_for_each_link(struct simple_util_priv *priv,
+@@ -479,7 +491,7 @@ static int simple_for_each_link(struct simple_util_priv *priv,
+ 			break;
+ 	}
+ 
+-	return ret;
++	return simple_ret(priv, ret);
+ }
+ 
+ static void simple_depopulate_aux(void *data)
+@@ -500,9 +512,11 @@ static int simple_populate_aux(struct simple_util_priv *priv)
+ 
+ 	ret = of_platform_populate(node, NULL, NULL, dev);
+ 	if (ret)
+-		return ret;
++		goto end;
+ 
+-	return devm_add_action_or_reset(dev, simple_depopulate_aux, priv);
++	ret = devm_add_action_or_reset(dev, simple_depopulate_aux, priv);
++end:
++	return simple_ret(priv, ret);
+ }
+ 
+ static int simple_parse_of(struct simple_util_priv *priv, struct link_info *li)
+@@ -512,15 +526,15 @@ static int simple_parse_of(struct simple_util_priv *priv, struct link_info *li)
+ 
+ 	ret = simple_util_parse_widgets(card, PREFIX);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	ret = simple_util_parse_routing(card, PREFIX);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	ret = simple_util_parse_pin_switches(card, PREFIX);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	/* Single/Muti DAI link(s) & New style of DT node */
+ 	memset(li, 0, sizeof(*li));
+@@ -528,19 +542,19 @@ static int simple_parse_of(struct simple_util_priv *priv, struct link_info *li)
+ 				   simple_dai_link_of,
+ 				   simple_dai_link_of_dpcm);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	ret = simple_util_parse_card_name(card, PREFIX);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	ret = simple_populate_aux(priv);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	ret = snd_soc_of_parse_aux_devs(card, PREFIX "aux-devs");
 -
 -	return ret;
 +end:
-+	return snd_soc_ret(fe->dev, ret, "trigger FE cmd: %d failed\n", cmd);
++	return simple_ret(priv, ret);
  }
  
- static int dpcm_fe_dai_do_trigger(struct snd_pcm_substream *substream, int cmd)
-@@ -2460,11 +2451,8 @@ static int dpcm_fe_dai_do_trigger(struct snd_pcm_substream *substream, int cmd)
- 		goto out;
- 	}
+ static int simple_count_noml(struct simple_util_priv *priv,
+@@ -548,12 +562,10 @@ static int simple_count_noml(struct simple_util_priv *priv,
+ 			     struct device_node *codec,
+ 			     struct link_info *li, bool is_top)
+ {
+-	if (li->link >= SNDRV_MAX_LINKS) {
+-		struct device *dev = simple_priv_to_dev(priv);
++	int ret = -EINVAL;
  
--	if (ret < 0) {
--		dev_err(fe->dev, "ASoC: trigger FE cmd: %d failed: %d\n",
--			cmd, ret);
-+	if (ret < 0)
- 		goto out;
--	}
- 
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
-@@ -2693,11 +2681,9 @@ static int soc_dpcm_fe_runtime_update(struct snd_soc_pcm_runtime *fe, int new)
- 	if (!fe->dai_link->dynamic)
- 		return 0;
- 
--	if (fe->dai_link->num_cpus > 1) {
--		dev_err(fe->dev,
-+	if (fe->dai_link->num_cpus > 1)
-+		return snd_soc_ret(fe->dev, -EINVAL,
- 			"%s doesn't support Multi CPU yet\n", __func__);
+-		dev_err(dev, "too many links\n");
 -		return -EINVAL;
 -	}
++	if (li->link >= SNDRV_MAX_LINKS)
++		goto end;
  
- 	/* only check active links */
- 	if (!snd_soc_dai_active(snd_soc_rtd_to_cpu(fe, 0)))
-@@ -2768,7 +2754,8 @@ int snd_soc_dpcm_runtime_update(struct snd_soc_card *card)
+ 	/*
+ 	 * DON'T REMOVE platforms
+@@ -575,8 +587,9 @@ static int simple_count_noml(struct simple_util_priv *priv,
+ 	li->num[li->link].codecs	= 1;
  
- out:
- 	snd_soc_dpcm_mutex_unlock(card);
--	return ret;
-+
-+	return snd_soc_ret(card->dev, ret, "%s() failed\n", __func__);
- }
- EXPORT_SYMBOL_GPL(snd_soc_dpcm_runtime_update);
- 
-@@ -2842,10 +2829,9 @@ static int soc_get_playback_capture(struct snd_soc_pcm_runtime *rtd,
- 	int has_capture  = 0;
- 	int i;
- 
--	if (dai_link->dynamic && dai_link->num_cpus > 1) {
--		dev_err(rtd->dev, "DPCM doesn't support Multi CPU for Front-Ends yet\n");
--		return -EINVAL;
--	}
-+	if (dai_link->dynamic && dai_link->num_cpus > 1)
-+		return snd_soc_ret(rtd->dev, -EINVAL,
-+				"DPCM doesn't support Multi CPU for Front-Ends yet\n");
- 
- 	/* Adapt stream for codec2codec links */
- 	cpu_capture  = snd_soc_get_stream_cpu(dai_link, SNDRV_PCM_STREAM_CAPTURE);
-@@ -2887,12 +2873,9 @@ static int soc_get_playback_capture(struct snd_soc_pcm_runtime *rtd,
- 	if (dai_link->capture_only)
- 		has_playback = 0;
- 
--	if (!has_playback && !has_capture) {
--		dev_err(rtd->dev, "substream %s has no playback, no capture\n",
--			dai_link->stream_name);
+ 	li->link += 1;
 -
+-	return 0;
++	ret = 0;
++end:
++	return simple_ret(priv, ret);
+ }
+ 
+ static int simple_count_dpcm(struct simple_util_priv *priv,
+@@ -584,12 +597,10 @@ static int simple_count_dpcm(struct simple_util_priv *priv,
+ 			     struct device_node *codec,
+ 			     struct link_info *li, bool is_top)
+ {
+-	if (li->link >= SNDRV_MAX_LINKS) {
+-		struct device *dev = simple_priv_to_dev(priv);
++	int ret = -EINVAL;
+ 
+-		dev_err(dev, "too many links\n");
 -		return -EINVAL;
 -	}
-+	if (!has_playback && !has_capture)
-+		return snd_soc_ret(rtd->dev, -EINVAL,
-+			"substream %s has no playback, no capture\n", dai_link->stream_name);
++	if (li->link >= SNDRV_MAX_LINKS)
++		goto end;
  
- 	*playback = has_playback;
- 	*capture  = has_capture;
-@@ -2932,11 +2915,10 @@ static int soc_create_pcm(struct snd_pcm **pcm,
- 		ret = snd_pcm_new(rtd->card->snd_card, new_name, rtd->id, playback,
- 			capture, pcm);
+ 	if (li->cpu) {
+ 		/*
+@@ -606,8 +617,9 @@ static int simple_count_dpcm(struct simple_util_priv *priv,
+ 
+ 		li->link++; /* dummy-Codec */
  	}
--	if (ret < 0) {
--		dev_err(rtd->card->dev, "ASoC: can't create pcm %s for dailink %s: %d\n",
--			new_name, rtd->dai_link->name, ret);
--		return ret;
--	}
-+	if (ret < 0)
-+		return snd_soc_ret(rtd->dev, ret,
-+			"can't create pcm %s for dailink %s\n", new_name, rtd->dai_link->name);
-+
- 	dev_dbg(rtd->card->dev, "ASoC: registered pcm #%d %s\n", rtd->id, new_name);
+-
+-	return 0;
++	ret = 0;
++end:
++	return simple_ret(priv, ret);
+ }
  
+ static int simple_get_dais_count(struct simple_util_priv *priv,
+@@ -683,17 +695,15 @@ static int simple_soc_probe(struct snd_soc_card *card)
+ 
+ 	ret = simple_util_init_hp(card, &priv->hp_jack, PREFIX);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	ret = simple_util_init_mic(card, &priv->mic_jack, PREFIX);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	ret = simple_util_init_aux_jacks(priv, PREFIX);
+-	if (ret < 0)
+-		return ret;
+-
+-	return 0;
++end:
++	return simple_ret(priv, ret);
+ }
+ 
+ static int simple_probe(struct platform_device *pdev)
+@@ -715,20 +725,22 @@ static int simple_probe(struct platform_device *pdev)
+ 	card->probe		= simple_soc_probe;
+ 	card->driver_name       = "simple-card";
+ 
++	ret = -ENOMEM;
+ 	struct link_info *li __free(kfree) = kzalloc(sizeof(*li), GFP_KERNEL);
+ 	if (!li)
+-		return -ENOMEM;
++		goto end;
+ 
+ 	ret = simple_get_dais_count(priv, li);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
++	ret = -EINVAL;
+ 	if (!li->link)
+-		return -EINVAL;
++		goto end;
+ 
+ 	ret = simple_util_init_priv(priv, li);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	if (np && of_device_is_available(np)) {
+ 
+@@ -795,8 +807,8 @@ static int simple_probe(struct platform_device *pdev)
  	return 0;
+ err:
+ 	simple_util_clean_reference(card);
+-
+-	return ret;
++end:
++	return dev_err_probe(dev, ret, "parse error\n");
+ }
+ 
+ static const struct of_device_id simple_of_match[] = {
 -- 
 2.43.0
 
