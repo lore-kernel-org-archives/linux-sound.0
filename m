@@ -1,181 +1,110 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2126.outbound.protection.outlook.com [40.107.236.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2662A21516C;
-	Tue,  4 Feb 2025 16:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.126
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738685619; cv=fail; b=OWKlsJPdqIk6/Gr/CBkiroT8RbeeFhfFbGdk0/mHApINVirWmyMxNgA5LxVswLed8bsI+1kHWN4yNdQ76WcH40VUBeH8CQMW7kaZmkuRnIuec4xOaVkjgmMbqNJFQlTAvhAOAk4joTG0vvg83kMiYnSXJHLEnH4R89zvnnvhYyM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738685619; c=relaxed/simple;
-	bh=pBArGccyb8kjuSGmdQ1UNM9QO5IdNDRAM2Kp/DBVT6U=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=YMNlpZmu6aHWaQBitttIaspatdI1aqxD+42XVsyVHZWk83ko1YrPZ12CXDqZEvKhLIoDaw0Giwwj6ruAZ6hiS/W21nkp/S2HkknbToi6cYdX00+0zzB/IOE5j6s3Fx5vRPoagh1ovusL6nGeKG8Ypxo+OCncSzJRsxbsm63oqvE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inmusicbrands.com; spf=pass smtp.mailfrom=inmusicbrands.com; dkim=pass (1024-bit key) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b=G5unYY62; arc=fail smtp.client-ip=40.107.236.126
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inmusicbrands.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inmusicbrands.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CED22153D3;
+	Tue,  4 Feb 2025 16:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738687581; cv=none; b=gSYoTaZLjPnMdbTld2xuChs8NDHOKYmRF83GqpKcLFUwIEKrHnYaKe0ilKJtZ8C9Jvd0cOTYrl0MdvJtE6fttgHzIVOdmZJNf0T8BHeZfe4tboIjDEpehL8LKkyA93TfXzD1oaoxdd/Iuzr9v39xGjrZ+OdAwitiDk/fFkaF1tU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738687581; c=relaxed/simple;
+	bh=6WoYhyQuV8rFp7jubI4neBJnEuNk7Olf5CohNrIqXqY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YvwmpaaiWkDOmny+ajYkyuQS3MioW1iS76XQHKQBIgeEKxSPD9vPr7Gy5qBe6u3APSrNw4JYn3clquISYSf0xyRRqJDti5BCqmN/8apoT7ksrlIpqo1kBHZA58LoIDNSQ2WhfJvHXstStUw9Kn6dnUe3qDphNHXPsjV6dEq7/tE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bLvqAXp0; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b="G5unYY62"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s3QMKVUcSyPjdR3KTNEvJh803zx0a4QkRJBxu9xE/sLZKtk2YtwEJRIC8Eq0FXHIwHWx8cvH2h2yvLSMlxkfB1ruq49WG2QvTxM4rdnY3Qn3XLtPXg4xCvFtP4XZKqsEfOgTKckZ3O/fRNcYjkixaNez5ly6b2izuhwhDxZY81KJ4pfoo9r5FYQOJ6JxDSFGUd9S7KYW5mGr31qPLPrxaDvCUgoV6VniVvbaRfUtNmsEnc9HhEBualOASgjhRRloIJd+gJ8QQYRhWtVF9VnIPRbEwlRtxba34xlk4FM0LootVl5mSjpxZML1iViL1xiey7A4WojMGktPbpltZqG/kQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5G+yIYu1GG+TDjFPSZ1tRTYwNmnlx5JgFpL4aUX+hqM=;
- b=EloJBBArXmpB+pPtYpEFrpxsWDM1yJHeliPNUjl1PYjNYfM1oAVyT0Z4yt6VRuelhuj916OSXGnu7EDnnj0hnqO74OJ61Rry67SPeDWtbvOBjKf06cwSOR0AANoFVfgxU5QLYQdg/mzPyuVqXtOCtLs5D9mQBKXDr+Z8Ame8zFLpkCjrjLi8PJlolbzwF/jtsbjhFybDjY5lQ5pEAAfuEoVjVZuYhTgS85w+1WHaKVobKD3yyK5RqRk/w0qbUDTAFF9bocoxzcs1+EwWGGOoE1rmnZtmye7vZBNH/4an2l3OJMJEQh/djq8KepMuyO/3vaYoc3mACblPCOp0tWm91Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=inmusicbrands.com; dmarc=pass action=none
- header.from=inmusicbrands.com; dkim=pass header.d=inmusicbrands.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inmusicbrands.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5G+yIYu1GG+TDjFPSZ1tRTYwNmnlx5JgFpL4aUX+hqM=;
- b=G5unYY62eC4b8fGu76UW5VsSoSf+akaanf1ooPYErP2Mg3HouInQuFtMpgxhxi+VxFQ2KBdKqa3wgMxZm1bqBJajRMNT3pIdyNyjC9+fXUgXMVdoVr7Yt03p0b5KtmQ6La1Bl2ejImQMuvByUNIy0mN9jmsNj05Jpv+rml44kOk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=inmusicbrands.com;
-Received: from MW4PR08MB8282.namprd08.prod.outlook.com (2603:10b6:303:1bd::18)
- by LV3PR08MB9507.namprd08.prod.outlook.com (2603:10b6:408:213::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Tue, 4 Feb
- 2025 16:13:33 +0000
-Received: from MW4PR08MB8282.namprd08.prod.outlook.com
- ([fe80::55b3:31f1:11c0:4401]) by MW4PR08MB8282.namprd08.prod.outlook.com
- ([fe80::55b3:31f1:11c0:4401%3]) with mapi id 15.20.8398.025; Tue, 4 Feb 2025
- 16:13:33 +0000
-From: John Keeping <jkeeping@inmusicbrands.com>
-To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-Cc: John Keeping <jkeeping@inmusicbrands.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	linux-rockchip@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: rockchip: i2s-tdm: fix shift config for SND_SOC_DAIFMT_DSP_[AB]
-Date: Tue,  4 Feb 2025 16:13:10 +0000
-Message-ID: <20250204161311.2117240-1-jkeeping@inmusicbrands.com>
-X-Mailer: git-send-email 2.48.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0150.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:188::11) To MW4PR08MB8282.namprd08.prod.outlook.com
- (2603:10b6:303:1bd::18)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bLvqAXp0"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aa67ac42819so872132666b.0;
+        Tue, 04 Feb 2025 08:46:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738687578; x=1739292378; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bAIs5I+VFr2GejFoX2T/rQp94SdXPfytTAWpFTw7jK8=;
+        b=bLvqAXp0vs9/quTgg+YsMTjn2hIkdaWlKUpvKzScNJpTU9wk/Bq+GpggyI2cWzkQDA
+         3MWp6k06vlenvmH3rMV+1QVK1bQ9XTAoSgdw0j/5scc3/RtFWG8kbq4soe5poesl0s1w
+         EVshxKE7PbFhwKrE1Da5fd+kJs9Zlyyz4lam9yZ1a+mCaMFCbdKFsU2CRkdYrCQhvgLx
+         gy7jJXMwL2Q9JbWN+MP0lc/AWJ/Qx9Cg0kuwUAohFG+sbdtKVh9tJTZiz8C7Q3qA8uNk
+         HmLBUohfbZQeaXsdlPS4LaDeWQnxX19bst8LeCJKv3x4mqgp/igdylADUhjdosD3/AIf
+         oLJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738687578; x=1739292378;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bAIs5I+VFr2GejFoX2T/rQp94SdXPfytTAWpFTw7jK8=;
+        b=qXB2Whqk/hNicRn5XX/7A7ZxLRJ4PHI2njpnGMFrn1+HifZ6YEaGGmAKCryXpchdZr
+         SxNUFhrcuayentSAsTNiHHE//TXsuyQC8J14u2Wltcwqu9razpJFLcjOACG7wg9PhLYO
+         oI20BROKCjWmJIgGCegbd5cNgyaLOQfDunY2084TtzTryfrlKELh5uSDzWERKqBJTbKm
+         er35akQNGzD6gAru4QcO/rjrfWcEiKtdXCMEqzhWtxsnYC9oRo9l2QcIsVwS1rLdbif2
+         gxCvFa7fRhuWiiPk/mFnzxAlVkBUHEjeJHQvEk9CkVwFVw7aUe6yGSBwVjRvckrh17qW
+         mvhg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJg/tONUr6gfEnZpNtM5GNXKaWsLvVROeis3cmxQGXAt7/8YudY5f67rDa6W3bgIJByxIss53S+IhVArw=@vger.kernel.org, AJvYcCVkeWpJpaeRZJwekUKiLUhMhbUFrjHWERvuE2kLqk16OWsmS3sXalfQastPWAW52Nvg5wXIrpFz4mUAo0c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzddchrc17eJWHmqEWN1lT04j5uW2/YLkA8Z2yXwYvD+HzGiZFB
+	9Lv/qx1WsWbhKelnOjSS9GRvg97hPMRrcu+OzmY48c6JrcLzu7HF
+X-Gm-Gg: ASbGncuao6miNG6V7LfsS29IXJ0BCsl4NUQRhZRLxAxKrd2+vYZLzkRlEzNUXzXeYT4
+	LRhoRfONoo9PeDkwI5PhyiyY+DZF7pOBq1CuXzM7aD8+EI2XfaxEn4Kq7v1w+d/qLsrjggdTkrL
+	Z+F29LisDRJH08nme7Ace0FjGC9jSz2oBbXYfG5oSjDWBIkXl5nZW2QYur9smQ4psu+O6padkkF
+	cY8pK/1OFFxSx0Q9rVN5aqV1fL3H5DlSiHiBOt22+HGe2/OOqbLPu0PsNKea/ew6v8ls5b4t1HA
+	FclBH/6fR3VuTkRuws0P8s4xCCH+n81sSA7Pnks/JsJz
+X-Google-Smtp-Source: AGHT+IE79frgfLC8a4Bx1mxN3BZ+cxcioNpM5kWchbXny/5nm0Akp5DFdF7cYUim9dZdQ3f/v6TBQw==
+X-Received: by 2002:a17:907:940a:b0:ab7:53af:3eb1 with SMTP id a640c23a62f3a-ab753af45ecmr249487866b.36.1738687577334;
+        Tue, 04 Feb 2025 08:46:17 -0800 (PST)
+Received: from [192.168.1.130] ([82.79.237.175])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e49ff269sm945268766b.118.2025.02.04.08.46.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Feb 2025 08:46:16 -0800 (PST)
+Message-ID: <1e228234-96eb-4482-bc35-343ed42af746@gmail.com>
+Date: Tue, 4 Feb 2025 18:46:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR08MB8282:EE_|LV3PR08MB9507:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8bb7991f-e51e-4c7c-608b-08dd4536def7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|52116014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?5Ggq8l24BKDI3o5nCnycr4/sNBOkZOniPw2aLxrWute/9lit7oQY0dVxmcQg?=
- =?us-ascii?Q?dAqZabybxk2kpGewQ9vHLV3u260ZSHpIuSySrG1ciEiS7Tp63vyxC2cemDpM?=
- =?us-ascii?Q?Y2KfhXgN/bQ022u6sKmVf7X+xBekuBYyW9nfwHrviAIqbPp+z+oP1fOJxzWE?=
- =?us-ascii?Q?0U1J8puJEJMbmH13Blf8+auWLgNlC32SyP0tH7BlM+KhK6nDCwEwClVvet7T?=
- =?us-ascii?Q?DqSn4CFykbtq7hCzJOq/S0ppkgEfb0KHptvPuOQFa2dblVRqeAuw639MgV5z?=
- =?us-ascii?Q?jBwF0GK1iu0W0O91P6Hglq6uiOtawrpVnoNnVYl1ezwNzDbDplOQBSaNd4Y8?=
- =?us-ascii?Q?FOciaLWbOszt+Qj1xfElucJctWuzKdu/ybDGLsqPElF+Y2SdtGAxjunX6d5l?=
- =?us-ascii?Q?ot/JHJSz9dfPATWjFm1yGa+K6Jrv2WD5sT4ScENKcPmtWkilDH7HkgtkjokQ?=
- =?us-ascii?Q?DacthnPYJII/asLDhP6m8Sjb8Ag2R6rR1RbdMFweTCBhujdnew0YE3omlYda?=
- =?us-ascii?Q?FXdOch0n/YVzCiZO39bz8UQDBnKHoVSxQ2bYkG6b2YxLtxJ8fldwm9F1SGrr?=
- =?us-ascii?Q?sDdkdJtgFZ+LNBVH46bqLLqz9QDrJ69/tepRsDTZHjRWKnB74n4MDcwrxieB?=
- =?us-ascii?Q?kTpvDWglDSQIcz+39Crnc8dq9NXDmu5xqeESNhHJkxGchuyTlNsaMLUw/PAP?=
- =?us-ascii?Q?VX9EQ1s+KZVd8kICo6MNfIK2ZeOQ27lznbmM8j3VIzWFcJyMemI6LgAf8bhq?=
- =?us-ascii?Q?dweBqWjftoYau+HnFdt+RC9taGuEhfo5fijvWNq/kGVDYmsYT/GM4AEHs4Zb?=
- =?us-ascii?Q?Fl5/nwtuiZHzSbNf1okpPs2rwjRWk0cr9/GzKXJR+7CH6SUlt80tT+/T7Sac?=
- =?us-ascii?Q?SFunk0XWGv4GP4wFWguuGgtNpz3+z+up29r1NVjdSI+fR1HJNfoGiyz/sw+w?=
- =?us-ascii?Q?DvpFte0fuVx3e48t8oPneKLxyZLaNChUufNTcxUxpGP/karC/JyAOXGprzAm?=
- =?us-ascii?Q?7BToZB9Zd/hPVcx8OEk+FK3OfYzDBd2LQsiawQ66V01ghf22MxbWyZDznLjZ?=
- =?us-ascii?Q?oa8qol9sD1CJ291dsAQowu2soc/I9HKPEvBrzB/ZJZNBF370H4QXmSTeH1F8?=
- =?us-ascii?Q?5ZgSVU5qoVUXbtKXbp4DhgrzVcWHMvOvrDEgbI4rlsCdP6eeJsfW2LdngWU4?=
- =?us-ascii?Q?xefcESLur1GWMGSmX/6kle0fjsqHOMZMmQrR659T4W8iW9miRrOu5C9hJ5eQ?=
- =?us-ascii?Q?B3DgShnnMZDyjis3eCs5yy247uotTBEQCH0+4yQHT44Cz2y4tjV7DokS5Ai/?=
- =?us-ascii?Q?IILNXufjg9NBNLohmHh+iCAllinbR5J/283azW+OcC193edT5p7lmqk0drgj?=
- =?us-ascii?Q?PFsSvkD6sRvaQllGCmb8SpsW3omOxhYDn6mtIMQxSTJNg7nTARtmKGu4Hx8k?=
- =?us-ascii?Q?CEWJaT56B0hhJ++iM+6gjQRDifpbmqQn?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR08MB8282.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+1NyI5p4XVgsiWOjAiubITRjT9S/bsLXRgWNL07VKuSxOSIozhsV/HeWsPWd?=
- =?us-ascii?Q?kpszyrudccPzp7jFisEIAdTGk7GfluED1JdLuz7IrfoJg0UgGzJasa4FZuBn?=
- =?us-ascii?Q?DKNfXT/FuXQ7blFwywg8hzg2Gu452Zif/O9ShXLgCAheFQmCZ+ZXqVavz6iQ?=
- =?us-ascii?Q?reD2yh3bsKH3NgjqPbUA4JUlGcWTMRCwiDuJS5WHwY5YAFqVA/8PuLeD5EFi?=
- =?us-ascii?Q?THiR0tAte+/QRoTvi3wSuNZL2cGfdGxRHEy5/q1e0ZF6Nt4Di0lp0saas3SM?=
- =?us-ascii?Q?MYAiTJx99Z9ZnG/XFd8XLk5jJuf9raRunDBauJySdg3LL2Qm8b0zn6RKwRZk?=
- =?us-ascii?Q?Y5BJFpZ2RwEcaIy+XAfWV3KL7Ww7etXaRZszYzWEKhoajGewksQbAD+yTjOj?=
- =?us-ascii?Q?fpDCX0MUFel/VJIlCR88LESDDVROORSDrl+Rg9dxyoWAIuBQq5Dx5PnGNEYK?=
- =?us-ascii?Q?eJCqHpTojyEYkEvd8XJkZx2Rbxwl/JbKdz2vr08yFSWk1HvGsUEcaTYorb73?=
- =?us-ascii?Q?a/J5smTYKFvOxRtQzZvbbRWtk0Lzv7kUlTzIq2gqNY3PgRavIZ2hvonoRi/o?=
- =?us-ascii?Q?EzIKKTVExR8DfBPbmIIVJr8FOMM3wugqfJVibdHPwkpgUWdnQsyUsyFb8/dK?=
- =?us-ascii?Q?bNELYFNgpeE0vD2gjbgpV9LAhHOvFsffNXeiYJA57axzc8ECkSB08qAKq1dI?=
- =?us-ascii?Q?+N7LE3Qyj4ptVlHRsunnNfjcJqffGccFyb7OLjuDZrJC3kjoFcWGSf6ZWSTf?=
- =?us-ascii?Q?HZUZLxI1WtAswqsV3XRnGbgL1+HmEHnbR2/cn1g5V2eMCiKFSBB42t+P1127?=
- =?us-ascii?Q?jU4fMKsoCGtG1VH6hpZoSOIB+xlg40NklwN1k/cT7sP80iacs8sStqgl6zHv?=
- =?us-ascii?Q?hIqyikG4K6BFgOy7vCC7EVrrGY4zDdsjoVmLN6WAPQQHH5gd2VMpPSNXeWLM?=
- =?us-ascii?Q?aYCweHMUk5G6kxt6ckzn8m5KtSb5lbcf7bDfIPqVWz0GSPw6oFjCOX2iMHG4?=
- =?us-ascii?Q?BscmdhN4Qpn+1uYbX04Am8crIYRD+7f/5PqoWlqfC91Zqak3z/Z1GMDJMqUn?=
- =?us-ascii?Q?MA5aCFQ0Noslp7ExdfKd/kqsmWVe2cC8lreXzbxDFREzZhqo+GeyVYjixd5F?=
- =?us-ascii?Q?2P0Wf8rjAjk1gC4tfunlINF4zaBa4eQQ9dc7FKktQ7KIDFRcjKeoyzEY3Y+e?=
- =?us-ascii?Q?BS8AhQv1+kjQvCoxzCNZAxt8SCDMUGB0bvUMtmMT5yyezHjWif3uMew4zTuV?=
- =?us-ascii?Q?BjJoNzKL53RNi3yyDmf64MfjJIoTlIXsxvlLeBQczDgG27XMEWzHqdyM5Klo?=
- =?us-ascii?Q?dncWdPscDC9zmxtPcbfCPCfE0S9ut0vKG7ewLecSyBfwWMsvn64DGH18miLB?=
- =?us-ascii?Q?AgsQhPL8gCS6Z9IDcts6af9INPc6oOdpOunl6xKZ4h/IqvMt+wntKu/TNcu6?=
- =?us-ascii?Q?pp8/CyzupZ2qRrviTsbbnuHY8WEJJQ1E+YMUZWUGYJGsVMCQVoq257WybMRl?=
- =?us-ascii?Q?JKqPWYoCWkedOpa+iDlDFmLHVMyPXcNaIjoKqVKEPSjRbKNSZ77M+hz8943i?=
- =?us-ascii?Q?eWnOIV9vT82IXrhCBRmuI/PquOLFWIKpG7FU6arCOy40LcodxIV5GVrjal+Y?=
- =?us-ascii?Q?HQ=3D=3D?=
-X-OriginatorOrg: inmusicbrands.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8bb7991f-e51e-4c7c-608b-08dd4536def7
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR08MB8282.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2025 16:13:33.1419
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 24507e43-fb7c-4b60-ab03-f78fafaf0a65
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6ubPjOLFLx3vrjBKt1xTSqmZqTJU91odH/TOm5bK/Pd8+3Xrf4YRRE7Hvkwz+X8RTdhl/So7HhMyA4XQjwyrUbEGnIIAfvgtZ9+D41FuEBM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR08MB9507
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 8/9] ASoC: SOF: imx: merge imx8 and imx8ulp drivers
+To: Frank Li <Frank.li@nxp.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Iuliana Prodan <iuliana.prodan@nxp.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ imx@lists.linux.dev
+References: <20250203171808.4108-1-laurentiumihalcea111@gmail.com>
+ <20250203171808.4108-9-laurentiumihalcea111@gmail.com>
+ <Z6EhvHXeNJPW1Cwh@lizhi-Precision-Tower-5810>
+Content-Language: en-US
+From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+In-Reply-To: <Z6EhvHXeNJPW1Cwh@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Commit 2f45a4e289779 ("ASoC: rockchip: i2s_tdm: Fixup config for
-SND_SOC_DAIFMT_DSP_A/B") applied a partial change to fix the
-configuration for DSP A and DSP B formats.
 
-The shift control also needs updating to set the correct offset for
-frame data compared to LRCK.  Set the correct values.
+(snip)
 
-Fixes: 081068fd64140 ("ASoC: rockchip: add support for i2s-tdm controller")
-Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
----
- sound/soc/rockchip/rockchip_i2s_tdm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+>>  IMX_SOF_DEV_DESC(imx8, sof_imx8_machs, &imx8_chip_info, &sof_imx8_ops, imx_ops_init);
+>>  IMX_SOF_DEV_DESC(imx8x, sof_imx8_machs, &imx8x_chip_info, &sof_imx8_ops, imx_ops_init);
+>>  IMX_SOF_DEV_DESC(imx8m, sof_imx8_machs, &imx8m_chip_info, &sof_imx8_ops, imx_ops_init);
+>> +IMX_SOF_DEV_DESC(imx8ulp, sof_imx8_machs, &imx8ulp_chip_info, &sof_imx8_ops, imx_ops_init);
+>>
+>>  static const struct of_device_id sof_of_imx8_ids[] = {
+>>  	{
+>> @@ -339,6 +448,10 @@ static const struct of_device_id sof_of_imx8_ids[] = {
+>>  		.compatible = "fsl,imx8mp-dsp",
+>>  		.data = &IMX_SOF_DEV_DESC_NAME(imx8m),
+>>  	},
+>> +	{
+>> +		.compatible = "fsl,imx8ulp-dsp",
+>> +		.data = &IMX_SOF_DEV_DESC_NAME(imx8ulp),
+>> +	},
+> Can you put imx8ulp_dai into driver data to avoid of_device_is_compatible()
+> logic?
+>
+> Frank
 
-diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
-index 7f5fcaecee4b6..78ab88843f861 100644
---- a/sound/soc/rockchip/rockchip_i2s_tdm.c
-+++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
-@@ -451,11 +451,11 @@ static int rockchip_i2s_tdm_set_fmt(struct snd_soc_dai *cpu_dai,
- 			break;
- 		case SND_SOC_DAIFMT_DSP_A:
- 			val = I2S_TXCR_TFS_TDM_PCM;
--			tdm_val = TDM_SHIFT_CTRL(0);
-+			tdm_val = TDM_SHIFT_CTRL(2);
- 			break;
- 		case SND_SOC_DAIFMT_DSP_B:
- 			val = I2S_TXCR_TFS_TDM_PCM;
--			tdm_val = TDM_SHIFT_CTRL(2);
-+			tdm_val = TDM_SHIFT_CTRL(4);
- 			break;
- 		default:
- 			ret = -EINVAL;
--- 
-2.48.1
+should be able to add it to "struct imx_chip_info"
 
