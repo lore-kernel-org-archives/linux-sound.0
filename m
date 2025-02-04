@@ -1,204 +1,145 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ABA13B284
-	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 08:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E0D207653
+	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 08:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738657192; cv=none; b=Knrav1c+3u6WBk8QHt1yl0otoanZ0sDgitBtsz18JDvrkj3hXnUD4FZQFZrge50eEdusqxEE3CMUn0hvupVJnhjlaxqKDiPKA2/jDLti+EnSBDU8qqSMB0wfh0ZNqsTrmRPYbNzuawVImULZAWMVm+NvTsLoWOO2J05zM2Gz1Dk=
+	t=1738659156; cv=none; b=JFFiYmRVIZoaqvQwPXLsafLal+yhxUcaCtweeWiBX8u3L7Do9KjyUcOJ7ocmBEF/MwD2z3FS0jslo3BjQlmKsNX/KTdsy/u4+1CZiagw1xw/GH2lWx28wvQqRG1n9mtB8Vup/sFpjbXmMMtSHr8YpI97hMs2Xs41ZXB8/uoJWAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738657192; c=relaxed/simple;
-	bh=QJoP5bpuVDnXG0hP+2j8Y5lK8cbNr/AX+eYxJkg7etc=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=orLVIHq2FxWxTsZ6wGwtBoL0srtbQa6IqUlMNDlbZD4FRoNyxs442k9iDZVo87ro8VM10BPsoEqSVwUfQ8omdaOUj+Km5al90BvgMr8XBs6vhSrGu11LEn/ujxPK0VRo8ATGJUUjIMGX9unDpOx31OScVdOouC4LNozKfWMNi4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EiaDss9f; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1738659156; c=relaxed/simple;
+	bh=HutRJSMeJRnt/VeA6fBVfyfIzPoRWNej7hPpS/LJnd8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B5miEs8O+qq+mfm88bP1RPVspOOa0jZA5fOXHFd+FpH7ti3K2zTFffKKXr48C+p2Zk63lzo1tARZ2ZZEKCoA20vvBVACTH91ro4xvZITu7zwDyPCNT2RXGLhDNAzSG+fuE0hrnTRpexJV8VkW59IOM4dr+2lx873YmNqER0jYmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=QhySt0hM; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EiaDss9f"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-385e27c75f4so4353403f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 04 Feb 2025 00:19:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="QhySt0hM"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30613802a04so51689841fa.2
+        for <linux-sound@vger.kernel.org>; Tue, 04 Feb 2025 00:52:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738657189; x=1739261989; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4VasOeDLqwO0DGgvAXrhPGy6KqMolkRSV5bMCtl5mMs=;
-        b=EiaDss9fc/PaCleByjP5Ua5orAqKoZEy4ycVEKG9fD6FLM3/Cet1hrWKFnf21EGNSx
-         CtSS2UIeRbXqEoeLjU+a5wGZpzHTV/dr8xVYE9hhUE9l70fiYsYqyMD5Qdf+pkc17NLZ
-         I4l0FmRARtt3SOhC3q07gmc4Cbzl9G+RYoFkgANKl9TDgjExumnGQ57JrEWT7WRdlaE0
-         QJ5GR7aWQh5wlo3HrPbr1CVpaeR8e2Ji4mKR3RzNZHSZZKiug/5tX2fwB6P0BVRhmJfx
-         yBjJKz3/T/6M9tj0AmP5g19jix2EQx1645JHCVJq0H26UsmV3owTRdlYJBpHZhA5eewv
-         LW/g==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1738659152; x=1739263952; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HutRJSMeJRnt/VeA6fBVfyfIzPoRWNej7hPpS/LJnd8=;
+        b=QhySt0hMEJ0xvBA2+3D7NGwSBvsVzp33uDy7u2SBmZWVPuA/oVJKLlEyrFPUaMBEfa
+         xYGbBZCPgniM2k7OgdysO0kkVCgiDDElacQMcmi3VTrEeYZiKVOj9RfKjIdxJzv3gtUB
+         hQi4DbDpbG7I9V70l+ZxsMvRk8z02OtAnKx2vhIUnTY7UUkXtO1Oa3boVysr3xybcyqH
+         KRZ5lG8b8oRI4vacsT1F1TCtFwLEs8E67a9NHol6nqP6Z3bH7y2U2bbd6L5GOs7Kt/JA
+         ZaodQoPoTB4qzCaFPqSXjysyyU3lLuulcf2gyMHqDtVlVWhpFYG5+8SCJO9soFJeHpBP
+         wQFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738657189; x=1739261989;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4VasOeDLqwO0DGgvAXrhPGy6KqMolkRSV5bMCtl5mMs=;
-        b=a0vIvg6EGtwKWrjCevbuRr/a/rV3CSEaAS36cPtEqhr50oUS2BiyZmdEkmV1HS2j0z
-         MsiDI/TeGM1UTXQ7E2p7JeNfHqdyNcPo8+K65+7ryjn9XHxWBbcN0P7fREQNMvFqqiOt
-         745WAfgPdi5ZmmN4U6dZa20qfbVDZevgsinQiBbRHHAMw67LlKuZTrz/QtadC0VTkW+f
-         XFRSLRhwdOuMG2BvHo6Dll2a2TeQ/5FO2dKVdYms+gyySrF141XZZwbmuWpkpI7LrZF3
-         H6AyINEB2D5WkMzUPaq6qiK8/HHUywDhrWx0ZDscgq5xnX9vGNQGuJSB25hIkxQxSvZC
-         aWsA==
-X-Forwarded-Encrypted: i=1; AJvYcCXn5y4voxpVWrejCyUyMx+S3mhbCPpyNNnNUvS2zhc0VqZKazy3pU10m3FOT6rCunmj146/wTeKIty5KA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxorcM/o6Ay/sNDlMQ3qe1IVhZ5n0Cn11aGk1eawsc3+zaUqvxq
-	YH+1uGF0eUZxBm0Z7Fk0FtKMNZeYhAj+kT3c8HmRcD2f2oMrLSTL4tfIa9OpJs0=
-X-Gm-Gg: ASbGncss5XXUg5dNLdIq0/hcASVwN2joBkU1NcW8AcQDTq869kUK/iYN33+xYQ8EA5U
-	8qn0yDQpawLgBViXXRJxK7y02I3XccSsAGAYq6z4EzyE/dq8PxDkDs16RvqSKpnUQ0c+hFFzHhM
-	nFgo9RZOTLJA8KULPlIfP3CMbo6sq4VCrVP2P0jLKJFJiBe421/qwhYkeu/L9eW1SMxXo32hyUS
-	7GiolFqygARzgouZtonsklRjyp9GzawQb4fEnndjcrUa+CYlHnnIBQ7DklfIOdJ8s/NDuRjTuBR
-	v/DGvwttdVvfg7YMb/lBJb15Mdfs7pWu2mn4ZBr7ITf5TTqMBpgTnB0h1w8LDTAjMwv6
-X-Google-Smtp-Source: AGHT+IFbnJg2PuT9i73jomtjcF87nuxMc6wmD76FQvWnGe8UxJCAypV81miJ7w4UhG+d0OffsaA56A==
-X-Received: by 2002:a05:6000:1f88:b0:385:e176:4420 with SMTP id ffacd0b85a97d-38c5194da70mr19435261f8f.10.1738657188754;
-        Tue, 04 Feb 2025 00:19:48 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:8db5:d196:bd48:5fbb? ([2a01:e0a:982:cbb0:8db5:d196:bd48:5fbb])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1cf364sm14910592f8f.88.2025.02.04.00.19.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 00:19:48 -0800 (PST)
-Message-ID: <842284b1-343f-4991-98f4-462f547ad2bc@linaro.org>
-Date: Tue, 4 Feb 2025 09:19:47 +0100
+        d=1e100.net; s=20230601; t=1738659152; x=1739263952;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HutRJSMeJRnt/VeA6fBVfyfIzPoRWNej7hPpS/LJnd8=;
+        b=CIik6nBdEuAYl/+YzDU5AJDXZYUE9Qf/+BkDxoZEGVzi+ko3/FVtPuk8nQ2bLTe4hS
+         Ihs8O+s66Fb3mLLvjNamaUSy6TnWe1RCOKGc+rPsE5W4lb0+Koo/av8x6Vay3lMMYZeo
+         yfi1b3HHCiO/sflCsHS/L4hF6YMOtUdW8lQbEe924xPNWEH/lWbcRC2VxMS0m6oFl1PU
+         ar1Ryru8SdjzTC2rS1EEKn37ciWs8J1ICu2AH/GC/k9NTAhCIrYy93SpjRd7cMDf9gFm
+         YXyT0gqafWwklTqX0Il9aLzCeELwiwrN/KjPRL7oyUEApRY58FXFOO6uoAbsJR6ox/Av
+         3N8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUvne3ABrm2N6i8crv/poYqetlgyy1PnZXEGWxmMaJeroFDeVJl1iwzeEvxn+bjfHaLyW4NqJhg8Ll/GA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxetyZ8OOP/jkLzkC7xiTa2tWK+6HCp+1vV/2DVIZ807jYE6W/
+	oFTdqxbm/tXReUhchHg7qWclILPkCdsxmsD33+c8NlpA2SX47qd2noe8RpvUDJyx5XAdsfd3uxK
+	qXO+CcM39liZ2yEZpSTfKJz722HuVrOtU7wgNqw==
+X-Gm-Gg: ASbGncurwjgfUaytIlYVvVInkYj4NZj2FadRot+cbfOE9G9rknM1l1mz+A8bSVeKN5g
+	21vh5ezYIDuJF2gNeT+9NHMi6TySnjcJJShvSQnBRhVaesSFw5rbjPhvFTZKtiTfq5JUWlf703h
+	TQdg+aHZEyMNjsHk8viaUquUtpnxB0
+X-Google-Smtp-Source: AGHT+IF3lsa7S5YwWpfcQVRJJ5PSQIykvInkMIj9GBvAH9xqe0CZdk0yaxGhiayetNv5EouQr4rP2NIVzzgLrFTtrHU=
+X-Received: by 2002:a2e:a90d:0:b0:300:15d9:c625 with SMTP id
+ 38308e7fff4ca-3079684af3emr90981231fa.14.1738659151822; Tue, 04 Feb 2025
+ 00:52:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH] ASoC: qcom: sc8280xp: enable primary mi2s
-To: Luca Weiss <luca.weiss@fairphone.com>,
- Danila Tikhonov <danila@jiaxyga.com>
-Cc: srinivas.kandagatla@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
- perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux@mainlining.org, ~postmarketos/upstreaming@lists.sr.ht
-References: <20250203113857.34728-1-danila@jiaxyga.com>
- <df4580ff-7b45-4485-9664-4cae731b7c53@linaro.org>
- <bcb4585e-1426-444a-9112-6cd95a81f8bc@jiaxyga.com>
- <D7J77FB0GLG2.1SDETF63DWW8Z@fairphone.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <D7J77FB0GLG2.1SDETF63DWW8Z@fairphone.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com>
+ <CAMRc=MdwQL8dWU5zF5fp+KUbC2RA2Q264by8HGXMg2k1rxhsTA@mail.gmail.com>
+ <9931433b-5cde-4819-ac96-eea4f1f0f1f2@baylibre.com> <CAMRc=McEdcDs01BAKN5vg9POg_xxJBY1k8bfgiDN60C1-e_jow@mail.gmail.com>
+ <072be5a9-e0fb-4073-85b3-4a8efcafae09@baylibre.com> <CAMRc=Meq_Gfhcjzx0vCL0JPzfnOcijFgB6AuqtsqgGn1eOTMVg@mail.gmail.com>
+ <CAHp75Ve+iwrm8dx49+6C7xFJgTQrh3XumKVzKvnYY=00J-j43A@mail.gmail.com> <b1c35782-f717-4fe5-8a00-7f13b341b5dd@baylibre.com>
+In-Reply-To: <b1c35782-f717-4fe5-8a00-7f13b341b5dd@baylibre.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 4 Feb 2025 09:52:20 +0100
+X-Gm-Features: AWEUYZkoSkw9yp224bcw4kgu34MNb3lBM2F-Kpo3dstTt1XbKUZR_n5bPczpQE0
+Message-ID: <CAMRc=MdzeY7p8O2ovJ-Z9u-KzqfeEG7BxRvKHBHPrsFYDFAryA@mail.gmail.com>
+Subject: Re: [PATCH 00/13] gpiolib: add gpiods_set_array_value_cansleep
+To: David Lechner <dlechner@baylibre.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org, 
+	Linus Walleij <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 04/02/2025 00:27, Luca Weiss wrote:
-> On Mon Feb 3, 2025 at 5:33 PM CET, Danila Tikhonov wrote:
->> On 03/02/2025 17:23, neil.armstrong@linaro.org wrote:
->>> On 03/02/2025 12:38, Danila Tikhonov wrote:
->>>> When using primary mi2s on sc8280xp-compatible SoCs, the correct clock
->>>> needs to get enabled to be able to use the mi2s interface.
->>>>
->>>> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
->>>> ---
->>>>    sound/soc/qcom/sc8280xp.c | 13 +++++++++++++
->>>>    1 file changed, 13 insertions(+)
->>>>
->>>> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
->>>> index 311377317176..03687de1ebb0 100644
->>>> --- a/sound/soc/qcom/sc8280xp.c
->>>> +++ b/sound/soc/qcom/sc8280xp.c
->>>> @@ -14,6 +14,8 @@
->>>>    #include "common.h"
->>>>    #include "sdw.h"
->>>>    +#define MI2S_BCLK_RATE    1536000
->>>> +
->>>>    struct sc8280xp_snd_data {
->>>>        bool stream_prepared[AFE_PORT_MAX];
->>>>        struct snd_soc_card *card;
->>>> @@ -25,13 +27,24 @@ struct sc8280xp_snd_data {
->>>>      static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
->>>>    {
->>>> +    unsigned int codec_dai_fmt = SND_SOC_DAIFMT_BC_FC;
->>>> +    unsigned int fmt = SND_SOC_DAIFMT_BP_FP;
->>>>        struct sc8280xp_snd_data *data =
->>>> snd_soc_card_get_drvdata(rtd->card);
->>>> +    struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
->>>>        struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
->>>>        struct snd_soc_card *card = rtd->card;
->>>>        struct snd_soc_jack *dp_jack  = NULL;
->>>>        int dp_pcm_id = 0;
->>>>          switch (cpu_dai->id) {
->>>> +    case PRIMARY_MI2S_RX:
->>>> +        codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
->>>> +        snd_soc_dai_set_sysclk(cpu_dai,
->>>> +            Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
->>>> +            MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
->>>
->>> How is this possible ? sc8280xp uses the q6prm clock driver, and
->>> there's no
->>> way this call sets the Q6PRM_LPASS_CLK_ID_PRI_MI2S_IBIT, or I totally
->>> missed
->>> something.
->>>
->>> And prm is neither a dai nor has the set_sysclk callback.
->>>
->>> Neil
->>>
->> Oh, thanks for the answer.
->>
->> This comes from qcm6490 compatibility. Actually it is needed for
->> Nothing Phone (1) and Luca Weiss just suggested me to use
->> qcom,qcm6490-idp-sndcard like do they do it for FP5. (SM7325 is the
->> closest to QCM6490):
->> https://github.com/sc7280-mainline/linux/pull/5#discussion_r1848984788
->> Actually I also think it is a bit incorrect.
-> 
-> For reference, this is coming from this and following:
-> https://lore.kernel.org/linux-arm-msm/e8a24709-de96-4d09-ba00-1e084a656c68@kernel.org/
+On Mon, Feb 3, 2025 at 11:39=E2=80=AFPM David Lechner <dlechner@baylibre.co=
+m> wrote:
+>
+> On 2/1/25 1:47 PM, Andy Shevchenko wrote:
+> > On Sat, Feb 1, 2025 at 6:22=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.=
+pl> wrote:
+> >> On Sat, Feb 1, 2025 at 5:17=E2=80=AFPM David Lechner <dlechner@baylibr=
+e.com> wrote:
+> >>> On 2/1/25 10:14 AM, Bartosz Golaszewski wrote:
+> >>>> On Sat, Feb 1, 2025 at 5:09=E2=80=AFPM David Lechner <dlechner@bayli=
+bre.com> wrote:
+> >>>>> On 2/1/25 4:36 AM, Bartosz Golaszewski wrote:
+> >
+> > ...
+> >
+> >>>>>> This looks good to me except for one thing: the function prefix. I=
+ would
+> >>>>>> really appreciate it if we could stay within the existing gpiod_ n=
+amespace and
+> >>>>>> not add a new one in the form of gpiods_.
+> >>>>>>
+> >>>>>> Maybe: gpiod_multiple_set_ or gpiod_collected_set...?
+> >>>>>
+> >>>>> I was waiting for someone to complain about the naming. ;-)
+> >>>>>
+> >>>>> I was going for as short as possible, but OK, the most obvious pref=
+ix to me
+> >>>>> would be `gpio_descs_...` (to match the first parameter). Any objec=
+tions to
+> >>>>> that?
+> >>>>
+> >>>> Yes, objection! As far as any exported interfaces go: in my book
+> >>>> "gpio_" is the prefix for legacy symbols we want to go away and
+> >>>> "gpiod_" is the prefix for current, descriptor-based API. Anything
+> >>>> else is a no-go. I prefer a longer name that starts with gpiod_ over
+> >>>> anything that's shorter but doesn't.
+> >>>
+> >>> Oops, that was a typo. I meant to write gpiod_descs_.
+> >>
+> >> Eh... the D in gpioD already stands for "GPIO Descriptor" but if
+> >> there's no better option in your opinion than I guess I can live with
+> >> that.
+> >
+> > gpiod_set_many_value_cansleep() ?
+> >
+>
+> OK, taking all these suggestions into consideration along with having rec=
+ently
+> come across regmap_multi_reg_write(), I think I'll go with:
+>
+> gpiod_multi_set_value_cansleep()
 
-Sure, but do you use sound/soc/qcom/sc8280xp.c ? it's designed for audioreach
-compatible audio architecture (post sm8250).
+Sounds good.
 
-sound/soc/qcom/sm8250.c has already support for PRIMARY_MI2S_RX via
-the Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT, and it compatible with the previous
-audio architecture (non audioreach).
-
-Neil
-
-> 
-> Regards
-> Luca
-> 
->>
->> ---
->> Regards,
->> Danila
->>>> +        snd_soc_dai_set_fmt(cpu_dai, fmt);
->>>> +        snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
->>>> +        break;
->>>>        case WSA_CODEC_DMA_RX_0:
->>>>        case WSA_CODEC_DMA_RX_1:
->>>>            /*
->>>
-> 
-
+Bart
