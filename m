@@ -1,88 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7272147F9;
-	Tue,  4 Feb 2025 15:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C6525A659
+	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 15:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738683014; cv=none; b=J1uA4ouxV8o92N1UXB9e6Op15WtEDwLZGMMcpUUU0qu+xBiZ+NceFxmSv2IXuNF1hD18NH3mhyZpa+3o30VKc3cKn+BMvpTr2EJsxAaDc4UCweOtq20Kfz7vIbcvvBIMG6aRR1YwzWIFqEp36IXtAz9SsIDdAcvUlRMh4uuCf0A=
+	t=1738683248; cv=none; b=eyfq6/MVSrGQFtl5+UZSy0G4DrpnXH5lqf7bLF7Yp0r3nE++Pq2i5wNDvvBDljxOnJJmZ919O3ZtrHSdkTG+RabE07wcGQAgL9hMI8MDf6drih1QV6OaZHr4ERpW4BcUYftkdiyGBYr8zN7qh2f+Fkb9wZs6NFiaQyI8LBgnGN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738683014; c=relaxed/simple;
-	bh=w12EPpGUmvzDudWzppT/O+ACvWWy08Cbo3XC+tGv3iY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GZvmOOkrKGR2+i9/Hlr9Boq6eMQ41tlm6K3U7jvap+Z/Tz/V4npUmtwKsCAN38aQysqM5/0Ydmb+i62mPzZAbJA5fUs2u2GxjyjPg0JlinCjFIEiohg6eY2qtk3uGllLDq+8SvWz+9QnrAQetsLrYTh2G0omlzR/BZMQMpGFGiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rxFt1+76; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738683248; c=relaxed/simple;
+	bh=VLMW/rKngckff43zklXzalVdgigJaUPwsmm6BS8phrg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jPZyy/IJ1LFvxVo2H5iiXAHvmGETbxkirVwhgnGpZtwGiCAGw3tB/Nez3URYQNFpA716io8H6hdcgiCqyoWRJuVGuaiiL4n/XIo7oehLvmFwizYydIwVDmo+Xx70yjB6N1TQZCx/fcb1lmfvkTBOHNYJ4/oipK9wFmvnqSemME8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=X9y7nCc9; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rxFt1+76"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F517C4CEE2;
-	Tue,  4 Feb 2025 15:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738683014;
-	bh=w12EPpGUmvzDudWzppT/O+ACvWWy08Cbo3XC+tGv3iY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rxFt1+76LToM21A8s0ynlnAIwt78hr6Di4Rj31ycjaxNsQldtEz4HGEKhDCpZBIoU
-	 Xq7Uyz1X4dOfpnShEge2okV+AlHBJXtcWuP46mvOedK7nxngJBLhC9mfqClLlHO4AK
-	 m+iBiNjJZnet6vZuKO6jTDzRyc/CYRlBuu40fbiQTidRQ+FjMq4imH0KziZHiC07Vs
-	 yHXFoZLweaKE9xL0bnUKC6Uai0BGtZPAOhRb+gLgYbIyPKjDVAV9MTomKE5Jk+0r3r
-	 Z1Ki34lpSJDD3f7NpPDeqiev2aYna2qG+7mqi/vzbvodKXpJ1+Z96jQ2BaoarLuvEX
-	 +0olbUxhCUEmw==
-Date: Tue, 4 Feb 2025 07:30:11 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-crypto@vger.kernel.org, qat-linux@intel.com,
- linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
- <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang
- <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, Yury Norov
- <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Johannes
- Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>
-Subject: Re: [PATCH treewide v2 1/3] bitfield: Add non-constant
- field_{prep,get}() helpers
-Message-ID: <20250204073011.5f6ca125@kernel.org>
-In-Reply-To: <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
-References: <cover.1738329458.git.geert+renesas@glider.be>
-	<1824412519cb8791ab428065116927ee7b77cf35.1738329459.git.geert+renesas@glider.be>
-	<e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="X9y7nCc9"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1738683243;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AV7Kl1dUZpnbGIRCqNtPeYJtm97lNu4F+MxRiMNeYbU=;
+	b=X9y7nCc9gJsgHVRO4dFndjl7mdvYtq/C1SAuHY/mGQE8LmEcBq0Yy0cZC2M3yI4XuK8Rz7
+	9wvpDvxVrw1/QD/N5U3uITI7JS5emPExHU+qoXId1DjI1fEd+OKqp3ystzvvdVmheXBbgr
+	aTyaz/RMXW10L7ybAviw0gkaioevx+A=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: amd: acp: Use str_low_high() helper function
+Date: Tue,  4 Feb 2025 16:33:32 +0100
+Message-ID: <20250204153333.3045-3-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, 2 Feb 2025 17:26:04 +0900 Vincent Mailhol wrote:
-> On 31/01/2025 at 22:46, Geert Uytterhoeven wrote:
-> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> > constants.  However, it is very common to prepare or extract bitfield
-> > elements where the bitfield mask is not a compile-time constant.  
-> 
-> Why is it that the existing FIELD_{GET,PREP}() macros must be limited to
-> compile time constants?
+Remove hard-coded strings by using the str_low_high() helper function.
 
-Hard no, some high performance networking drivers use this on 
-the fastpath. We want to make sure that the compiler doesn't
-do anything stupid, and decomposes the masks at build time.
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-The macros work just fine for a *lot* of code:
+diff --git a/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c b/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
+index 2b0aa270a3e9..eb5d4a5baef2 100644
+--- a/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
++++ b/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
+@@ -19,6 +19,7 @@
+ #include <linux/io.h>
+ #include <linux/acpi.h>
+ #include <linux/dmi.h>
++#include <linux/string_choices.h>
+ #include "../acp-mach.h"
+ #include "acp3x-es83xx.h"
+ 
+@@ -241,9 +242,9 @@ static int acp3x_es83xx_configure_gpios(struct acp3x_es83xx_private *priv)
+ 
+ 	dev_info(priv->codec_dev, "speaker gpio %d active %s, headphone gpio %d active %s\n",
+ 		 priv->enable_spk_gpio.crs_entry_index,
+-		 priv->enable_spk_gpio.active_low ? "low" : "high",
++		 str_low_high(priv->enable_spk_gpio.active_low),
+ 		 priv->enable_hp_gpio.crs_entry_index,
+-		 priv->enable_hp_gpio.active_low ? "low" : "high");
++		 str_low_high(priv->enable_hp_gpio.active_low));
+ 	return 0;
+ }
+ 
+-- 
+2.48.1
 
-$ git grep -E 'FIELD_(PREP|GET)\(' | wc -l
-22407
-
-BTW aren't u32_get_bits(), u32_replace_bits() etc. not what 
-you need in the first place? I think people don't know about
-those, with all due respect the way they are coded up looks 
-like an IOCCC submission..
