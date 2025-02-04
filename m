@@ -1,222 +1,79 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE3F2063D8
-	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 10:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B83C78F4C
+	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 13:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738663803; cv=none; b=kXx77IjPQ1xnGWtFznY9/tkvWVcrC5IkghV2ebwdJehi8sI6GvkFdX6z8TLdkpzruLGsNJEVFqV/DXnmpwqur8bq2gghGcIZXFykLE8JZQ0agqhVBPoVnuRphUbZiB8kwcLPzVlZUYnJvRg9aHs0pnN1VueWl89dc80/HJp3MWE=
+	t=1738675851; cv=none; b=GJ1extr7qD8RBcm4AwmZgvLJ0wOr2GTGi+pns9ILGj7ERu5lwdOsrKgcFGbNtxGZolpPr8hPPaq2fZnIKZw0HX/7zLl81eIrdAKZFc6dYzH0hCIeGv5UH/ith0ZhFtvwK9Zix9/sjbk21OWPTpUD5SeTuwqOfKrgcVm1qWGfzsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738663803; c=relaxed/simple;
-	bh=pBDQPSE9tXQoqKm+B6E6lo+ThoVCELM++WW2Zjoplh8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=BI0FJC5T4fHBIXv6UOwkPYzJZ5sq9112doePsgbm+wa5Eo6j2uaoJjhVobKG9VFv2AGxiFUJQrh3kcDTAsUgxkcCDsmvmYaTk1pjrns8SHbdXJAE6CZj2p3DmMa8jHDHi0r0kRs7vy33hpT94Gs4M/v8HxwdzsP9StG9U/hJt1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=ifkINHUh; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1738675851; c=relaxed/simple;
+	bh=2AoMVGHk8NxZebojJ8CFLXoGVcJtcJBv/ONCUU9GsSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aW7ltuP19lE24N5JEDBz8ZsZg/CWLoUME7gBEurFHXOo7w17Vi61e53OtiQgfdDsGn7ZBFlDreeFY1VtgUWzdgoS/RsfoVeC8chUVCcFx7rUTjj/wnx93UldTttJSdibl3SrllrSnXt5Rq1TMBuodYXLrmMTmNjYsmDUBcG5gaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ksSdeFhw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="ifkINHUh"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38634c35129so4223067f8f.3
-        for <linux-sound@vger.kernel.org>; Tue, 04 Feb 2025 02:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1738663799; x=1739268599; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OCPScdOIofnuxRD1Nb8R9yFru3nVgqy06Tlym+YD8X8=;
-        b=ifkINHUhW8YOeJpNaK6qlIbpegfbQNkepDUfTRjXOf7cVSzu26fQaQBYYo27iyaeqe
-         D5TGP32MpdA4BsDx7YztHAps6X2ZQbtjXPDBBeQoNeOc+IkONXrPC1Xqrxw5AV/BYmyh
-         91rAnE8RluDQSP/joyAutd/P4J22S1RkmegH4nwJPvFDqUWXEMdLA0PCHDx37MkQAI27
-         ajcB+/MgqVjWZDa1/kvVK+NALezmd9SAZ/lljsXJS0fg9doTjfpVvMriGuNJSZILuhN+
-         724JAGKupb1onicNskFfPUKAXFoQQAzBXfzrvhEHMq+nKGyN5dvAgfxeqpjuTSKZ2eZy
-         URnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738663799; x=1739268599;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OCPScdOIofnuxRD1Nb8R9yFru3nVgqy06Tlym+YD8X8=;
-        b=sz3St5Pu2bjoBKauRF2g+x4kNCmmg48yGlFUUctTIFuiTE3Rlqp5CSflwDTZmH8rL+
-         E4zklTwsJEvrV9XNJeRnT/ZB7ZHR7BcjgeTFwxjaIskgIkGDx6ekohGLlWZWzwq3/hcx
-         3IxsZAlI+yt5IBYBsFey5bphUcQX1bAbZNwMgJHhn2i246rdF/uk9EEkjSsHUFN8I7dO
-         qt1+CBU/7nVp2+PVQOJBYm7CfkgqZVPK7MgNub55KNB1al8YLDL9kNRpr76nTHWuMChi
-         mPN4R2h2CeSNGnqFsGsl2YJXKDbBv68a96vIoJNspdT10RQlXefBZo/kXCfdWb3TkkmC
-         xdDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXR55DCcaADnOW0jn6JS1gH25o2LfMwJ3OOq9x/+mbMz/imlwRpgD0/5iW3B2vJ9BjfmXl8knnQb+57iQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw03EFkpkSPcz+rk0HaxUQrp9NtxoTCpBEW25vg4QJNMdGFTsxE
-	rsg3YmV1k1w2qfbFU5uZP4lXY2tj+vZ69vhqohjs0gK3AcgVRfTAfcV2tMk79pMmYkMMZnCIuo0
-	G
-X-Gm-Gg: ASbGncuhLZIoUzqu5E2OAichUdGI/jgOPlfuSUbNkHAH0hhSe2Y/V3a/WTG56Kkbz1V
-	RSLB8dtATw23xoXAxzUwGqyEOcWevVjh7UWJhVrNrONIRh17oiomo6wkkql63NpmQdOVj/QlTsW
-	Po+EU5gVFOq4UPkthANV2VJDDsjp5nxj9nl0qINT1A0v+T7WU1xZ3PbIK0VCjTRw/yDXwb2Rtel
-	oyNjNPI75MPTOTWJlDSHUjGYUcUaME9C7wHcXVXTBa21cCt+DgR0Y/ss8X0IeHg9kHBV5HSRvnB
-	Diu+8D6ncPWInX8Urm+9blk=
-X-Google-Smtp-Source: AGHT+IH9ELbzMRvX0qUmTPFuiDE5EWroyjCa7whMru5exnpe511SFcsg4pSld7R/Y+EzddPEaf717g==
-X-Received: by 2002:adf:fbd1:0:b0:386:3835:9fec with SMTP id ffacd0b85a97d-38c520972d6mr17054643f8f.44.1738663798783;
-        Tue, 04 Feb 2025 02:09:58 -0800 (PST)
-Received: from localhost ([2a02:a03f:6bc3:6b01:62c7:350e:556e:d0f0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1cf571sm15077251f8f.82.2025.02.04.02.09.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 02:09:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ksSdeFhw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4F8FC4CEDF;
+	Tue,  4 Feb 2025 13:30:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738675851;
+	bh=2AoMVGHk8NxZebojJ8CFLXoGVcJtcJBv/ONCUU9GsSY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ksSdeFhwFept7vpVOnLfJGQvBMQZmhKnxkZdkwCy2tkyHw7rLMuVa770N3+Vz4foI
+	 hOB275C9RSsjQZwRIr1uFnzLnWQnprmAoFaIQnQAk18zNKEnei++IUGVaVtYxkw+mW
+	 WjIGcjKH8QG+KN745qT+gBos70/nURtalV9zUbxIMRZZ74Q5uWM+/fzUZZUCCez2Iy
+	 Y80KQb5lqWi75xEJhnztf3w5gxvu5A97wNvtF/UtndMNKopiH02CNOAw7kblIHWqd5
+	 6eJyPwSSsOX0Cy13JhLjvE8kLHeqv7vZb8EYvHUof6Yq4SDK7GWuMGjyhzcjoMwcPY
+	 9am/tvVcjNX/Q==
+Date: Tue, 4 Feb 2025 13:30:48 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: simple-card-utils.c: add missing dlc->of_node
+Message-ID: <5e9c2107-d906-487c-84b6-bdb1a00fa3b3@sirena.org.uk>
+References: <87ikpq2rui.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 04 Feb 2025 11:09:58 +0100
-Message-Id: <D7JKVM7P6ZUY.24LUVX621VEPC@fairphone.com>
-Cc: <srinivas.kandagatla@linaro.org>, <lgirdwood@gmail.com>,
- <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
- <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux@mainlining.org>,
- <~postmarketos/upstreaming@lists.sr.ht>
-Subject: Re: [PATCH] ASoC: qcom: sc8280xp: enable primary mi2s
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: <neil.armstrong@linaro.org>, "Danila Tikhonov" <danila@jiaxyga.com>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250203113857.34728-1-danila@jiaxyga.com>
- <df4580ff-7b45-4485-9664-4cae731b7c53@linaro.org>
- <bcb4585e-1426-444a-9112-6cd95a81f8bc@jiaxyga.com>
- <D7J77FB0GLG2.1SDETF63DWW8Z@fairphone.com>
- <842284b1-343f-4991-98f4-462f547ad2bc@linaro.org>
- <D7JKR1YB6PSS.PRWFJ8NDA9BZ@fairphone.com>
- <7ac9b23a-6138-46ad-8af8-fe283b765565@linaro.org>
-In-Reply-To: <7ac9b23a-6138-46ad-8af8-fe283b765565@linaro.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rxVIrusgPU8cmdAb"
+Content-Disposition: inline
+In-Reply-To: <87ikpq2rui.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Spelling is a lossed art.
 
-On Tue Feb 4, 2025 at 11:08 AM CET, neil.armstrong wrote:
-> On 04/02/2025 11:04, Luca Weiss wrote:
->> On Tue Feb 4, 2025 at 9:19 AM CET, neil.armstrong wrote:
->>> On 04/02/2025 00:27, Luca Weiss wrote:
->>>> On Mon Feb 3, 2025 at 5:33 PM CET, Danila Tikhonov wrote:
->>>>> On 03/02/2025 17:23, neil.armstrong@linaro.org wrote:
->>>>>> On 03/02/2025 12:38, Danila Tikhonov wrote:
->>>>>>> When using primary mi2s on sc8280xp-compatible SoCs, the correct cl=
-ock
->>>>>>> needs to get enabled to be able to use the mi2s interface.
->>>>>>>
->>>>>>> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
->>>>>>> ---
->>>>>>>   =C2=A0 sound/soc/qcom/sc8280xp.c | 13 +++++++++++++
->>>>>>>   =C2=A0 1 file changed, 13 insertions(+)
->>>>>>>
->>>>>>> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
->>>>>>> index 311377317176..03687de1ebb0 100644
->>>>>>> --- a/sound/soc/qcom/sc8280xp.c
->>>>>>> +++ b/sound/soc/qcom/sc8280xp.c
->>>>>>> @@ -14,6 +14,8 @@
->>>>>>>   =C2=A0 #include "common.h"
->>>>>>>   =C2=A0 #include "sdw.h"
->>>>>>>   =C2=A0 +#define MI2S_BCLK_RATE=C2=A0=C2=A0=C2=A0 1536000
->>>>>>> +
->>>>>>>   =C2=A0 struct sc8280xp_snd_data {
->>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool stream_prepared[AFE_PORT_MAX]=
-;
->>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct snd_soc_card *card;
->>>>>>> @@ -25,13 +27,24 @@ struct sc8280xp_snd_data {
->>>>>>>   =C2=A0 =C2=A0 static int sc8280xp_snd_init(struct snd_soc_pcm_run=
-time *rtd)
->>>>>>>   =C2=A0 {
->>>>>>> +=C2=A0=C2=A0=C2=A0 unsigned int codec_dai_fmt =3D SND_SOC_DAIFMT_B=
-C_FC;
->>>>>>> +=C2=A0=C2=A0=C2=A0 unsigned int fmt =3D SND_SOC_DAIFMT_BP_FP;
->>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct sc8280xp_snd_data *data =3D
->>>>>>> snd_soc_card_get_drvdata(rtd->card);
->>>>>>> +=C2=A0=C2=A0=C2=A0 struct snd_soc_dai *codec_dai =3D snd_soc_rtd_t=
-o_codec(rtd, 0);
->>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct snd_soc_dai *cpu_dai =3D sn=
-d_soc_rtd_to_cpu(rtd, 0);
->>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct snd_soc_card *card =3D rtd-=
->card;
->>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct snd_soc_jack *dp_jack=C2=A0=
- =3D NULL;
->>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int dp_pcm_id =3D 0;
->>>>>>>   =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (cpu_dai->id) {
->>>>>>> +=C2=A0=C2=A0=C2=A0 case PRIMARY_MI2S_RX:
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 codec_dai_fmt |=3D SND_=
-SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 snd_soc_dai_set_sysclk(=
-cpu_dai,
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
->>>>>>
->>>>>> How is this possible ? sc8280xp uses the q6prm clock driver, and
->>>>>> there's no
->>>>>> way this call sets the Q6PRM_LPASS_CLK_ID_PRI_MI2S_IBIT, or I totall=
-y
->>>>>> missed
->>>>>> something.
->>>>>>
->>>>>> And prm is neither a dai nor has the set_sysclk callback.
->>>>>>
->>>>>> Neil
->>>>>>
->>>>> Oh, thanks for the answer.
->>>>>
->>>>> This comes from qcm6490 compatibility. Actually it is needed for
->>>>> Nothing Phone (1) and Luca Weiss just suggested me to use
->>>>> qcom,qcm6490-idp-sndcard like do they do it for FP5. (SM7325 is the
->>>>> closest to QCM6490):
->>>>> https://github.com/sc7280-mainline/linux/pull/5#discussion_r184898478=
-8
->>>>> Actually I also think it is a bit incorrect.
->>>>
->>>> For reference, this is coming from this and following:
->>>> https://lore.kernel.org/linux-arm-msm/e8a24709-de96-4d09-ba00-1e084a65=
-6c68@kernel.org/
->>>
->>> Sure, but do you use sound/soc/qcom/sc8280xp.c ? it's designed for audi=
-oreach
->>> compatible audio architecture (post sm8250).
->>=20
->> I would've also thought qcm6490-idp and qcm6490-rb3gen2 are
->> pre-audioreach, so sm8250.c would be a better match - but these two
->> devices already use sc8280xp.c driver for some reason?
->
-> I think they were added to sc8280xp.c because it has the logic to change
-> the card name and some other tweaks for record channels setup,
-> but it can be easily added to sm8250.c.
 
-This is probably a better idea then...
+--rxVIrusgPU8cmdAb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->
-> Neil
->
->>=20
->> Maybe someone with more insight on these devices can help clarify this?
->> I'll also need this for qcm6490-fairphone-fp5 soon.
->>=20
->> Regards Luca
->>=20
->>>
->>> sound/soc/qcom/sm8250.c has already support for PRIMARY_MI2S_RX via
->>> the Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT, and it compatible with the previo=
-us
->>> audio architecture (non audioreach).
->>>
->>> Neil
->>>
->>>>
->>>> Regards
->>>> Luca
->>>>
->>>>>
->>>>> ---
->>>>> Regards,
->>>>> Danila
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 snd_soc_dai_set_fmt(cpu=
-_dai, fmt);
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 snd_soc_dai_set_fmt(cod=
-ec_dai, codec_dai_fmt);
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
->>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case WSA_CODEC_DMA_RX_0:
->>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case WSA_CODEC_DMA_RX_1:
->>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>>>>
->>>>
->>=20
+On Tue, Feb 04, 2025 at 05:37:09AM +0000, Kuninori Morimoto wrote:
 
+> commit 90de551c1bf ("ASoC: simple-card-utils.c: enable multi Component
+> support") added muiti Component support, but was missing to add
+> dlc->of_node. Because of it, Sound device list will indicates strange
+> name if it was DPCM connection and driver supports dai->driver->dai_args,
+> like below
+
+This is in mainline but your patch doesn't seem to apply on top of -rc1,
+could you check and resend please?
+
+--rxVIrusgPU8cmdAb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeiFocACgkQJNaLcl1U
+h9Dyiwf/W0e/xZFLRtZzO7VoKTmaGZFs3+GYgFc2HVIXyWMFjSvows84ya3LmjF0
+bhnjmkuERCTw4WdvafwGALs08Fj3/GdEI9kDZuc3AL4eCE30FM85ygtdSxDxI8QZ
+gX3Dxkcw6hzx6Ys12x04c4L2tsMVFc0ux4b1havlEr221Ok8rQb2qcSBcv9rsClW
+BOSWw2iuqiZJWQN5qa8fmNb4E1Uop1fc7b/bbvYWBPgFYk8syLk2ITiEnkfs65z/
+Q1dcykfSVHbNXcHVkRDXCPHSPu6q9HQZkvuMiqzP35VCKsYt3+DC1vyvIC99EKWE
+cT0hvahkCDwTpQB4w4HPA82opYrk0w==
+=Z6sU
+-----END PGP SIGNATURE-----
+
+--rxVIrusgPU8cmdAb--
