@@ -1,372 +1,204 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011057.outbound.protection.outlook.com [40.107.74.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C6470820
-	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 08:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738656968; cv=fail; b=Kqp+SpzrIILf96qyMOfBgTONU3W7y9bkDMUQ3Ck17Kgt67bnMUa88v+C5o+dMVKN4bQelUfXB7SOSmFujb2KtBNYnX3BZmg9uLpo2jH96lkRFwGo2pA5Gnyi60HoRxUOsdgBEdrGADnQ4aScUVH5LlVxe0RMW/vLqvZGtAJpeAE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738656968; c=relaxed/simple;
-	bh=afIAKipeqa44ctIZjkXCxG8kBp69aBeG30RS/O0Yu6Q=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=MrsgKQPOGx9WGwSn/nQTX3NP38Z8jhorftimTTsXtCEfwO9fwhaV/I4vHsQX3UXYIi9TOMDcnyWtROT1ek0kZteeL/6JkhMAIx3miHCcZ0GvSsWvAZmrS2JPUgANc4jYU/xGhZpcfDVsZ7Qye+3Rz8Ye6hbM83mTiPVXdvomitU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=FMUIkwJG; arc=fail smtp.client-ip=40.107.74.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ABA13B284
+	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 08:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738657192; cv=none; b=Knrav1c+3u6WBk8QHt1yl0otoanZ0sDgitBtsz18JDvrkj3hXnUD4FZQFZrge50eEdusqxEE3CMUn0hvupVJnhjlaxqKDiPKA2/jDLti+EnSBDU8qqSMB0wfh0ZNqsTrmRPYbNzuawVImULZAWMVm+NvTsLoWOO2J05zM2Gz1Dk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738657192; c=relaxed/simple;
+	bh=QJoP5bpuVDnXG0hP+2j8Y5lK8cbNr/AX+eYxJkg7etc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=orLVIHq2FxWxTsZ6wGwtBoL0srtbQa6IqUlMNDlbZD4FRoNyxs442k9iDZVo87ro8VM10BPsoEqSVwUfQ8omdaOUj+Km5al90BvgMr8XBs6vhSrGu11LEn/ujxPK0VRo8ATGJUUjIMGX9unDpOx31OScVdOouC4LNozKfWMNi4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EiaDss9f; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="FMUIkwJG"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qrjjmNIv5s0yHDHFFJOeS4sxhqD9kk+UnxkKycX4dMbQAw/YLpN4/HXydkxA9R+Ebd5r+MiiQPcYDOf/CSdlnjsOmd0mOicHxpkmWgB/Fx5zjxpVky3O4K1tRkwazxfdsAHwmze4nlnJN95xJoG0epACtn/aBtx0SQCwN32LLMI3/KdyO2twzeE4x7Z2YFVcEkPYUWKnDZzF6qAlBftOSeuoIGeCbnggiwxQsn6OLJY1ziX7WFuOZegt1amLG0z7hi0a5t0cRgdb5/tbrkDAySWyppS8aZjbhP9X/tzeQiZSTIJN4pJ1rYn9qPb1S/3OEBRQUC7jKTleauRvLFDhqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vbJKPqK9gOhq0oMTW/Xuu5wcX/KyCY+QrbzhSY31e9I=;
- b=cp+VBLA3beWUqJCE7v8Ft01iKev2lIbV7ZobJu+kEQLRqqQ+5HFiJ8RreeX7Xkxw3Bk9JwQkPinNSDBgArWwcZ8ggG1/IdwHUoawHP5rg/DIU5UQQDwFWo/Q9lRnb05XeZjpjKPaafOB8PopygKeIWi5a32q24AM1+dnSSeUEEE3+Ke5UI0IU4LhyMEQbJP692KCiKKYseuGLA8nZMUigaCU5XLpk+sHpR4nnKJtz6txtoFKe3AOX996WNVEjTpunl8545nTW7kOtpQlJWv7F5vMmeJXE3ypSKqE6XyNxhNUoPBKMfS78diTnjl3X/huKdOAUyP06KRt2a7HTkno9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vbJKPqK9gOhq0oMTW/Xuu5wcX/KyCY+QrbzhSY31e9I=;
- b=FMUIkwJGpsl5xPRjZ+VNV+94KMoZworK4cn/z6+dyTo+6oNXPzmH9wNhFo+Bn6z41zjgnrmpO+jSA+r0hI7sPJhWgUC2RbUVO/3Gs9gGda2F056/d0idoE0Xnp3v8zvhop+4x3ySoxlE4AjdUpjmQRCmtrhkW0ZwnnMZStr80H0=
-Received: from TYCPR01MB11040.jpnprd01.prod.outlook.com (2603:1096:400:3a7::6)
- by TY7PR01MB14592.jpnprd01.prod.outlook.com (2603:1096:405:23f::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.26; Tue, 4 Feb
- 2025 08:16:00 +0000
-Received: from TYCPR01MB11040.jpnprd01.prod.outlook.com
- ([fe80::b183:a30f:c95f:a155]) by TYCPR01MB11040.jpnprd01.prod.outlook.com
- ([fe80::b183:a30f:c95f:a155%6]) with mapi id 15.20.8398.021; Tue, 4 Feb 2025
- 08:16:00 +0000
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown
-	<broonie@kernel.org>
-CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: RE: [PATCH 3/3] ASoC: rsnd: adjust convert rate limitation
-Thread-Topic: [PATCH 3/3] ASoC: rsnd: adjust convert rate limitation
-Thread-Index: AQHbdqXtMoxkkzgC8UOcF71BuWi7QbM2x6QQ
-Date: Tue, 4 Feb 2025 08:16:00 +0000
-Message-ID:
- <TYCPR01MB1104070724CF1AC0DA1C7B7EFD8F42@TYCPR01MB11040.jpnprd01.prod.outlook.com>
-References: <87o6zi32ry.wl-kuninori.morimoto.gx@renesas.com>
- <87jza632r4.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87jza632r4.wl-kuninori.morimoto.gx@renesas.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11040:EE_|TY7PR01MB14592:EE_
-x-ms-office365-filtering-correlation-id: 16b4313e-633b-4dfb-4158-08dd44f428c9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|10070799003|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?sU9VCRgeE7vu6ZITZqx8J8ndkUXTF3ZIy8d1asxeJ4lFWOhXWCsO984i8PAN?=
- =?us-ascii?Q?klOC9ILNeE7JrQnUhOHucYEvF1TJQ5O/6Qrx7TtIY9uSjzW59IXBFIlTWFnk?=
- =?us-ascii?Q?tmo1cDbBBj5FUoqCnBS4hFePW7gLXtgN4h/1oztaVveoUV2WzSUJc/ZlHIyG?=
- =?us-ascii?Q?yH9Eigav05ijJljVsRv+g+956NklAPXVYYdT9Gj1gq7lL2upPTwKfwlnILcc?=
- =?us-ascii?Q?pZdY3m7YTEMxUkNaa3fvRnQ3fqgGVNQ4LQi4WC9VdWVlcHrX7iHhQ7IR/++N?=
- =?us-ascii?Q?Q5z3d0KTC9cxnq/R0Xmkw/B6DawZ/PuLafWA6SK6BVkgFEyyAA2swfNgafwe?=
- =?us-ascii?Q?KyEIouRRi70fS9KBQ681UBbwtX6Z7n3yyZ3XoMFBoPJPxqMsU0MCmtBw3K+g?=
- =?us-ascii?Q?q1bYVpLFJJL/rQQsJaUmatCfK2a/e9IqahvAi3HN7ZP+S7lplSoNr0y3dZn2?=
- =?us-ascii?Q?JHNDOO4VFc4ZsGn+E5Wmzn2qqMxScUFeKHDTJlo8iIBLA+0u7UIaHeID6lKm?=
- =?us-ascii?Q?OMwKug0BiPOnDV81NIQTvOWp6uBt4t2LmLaM7WGd4TBYr+RbsVLrtITnKH9F?=
- =?us-ascii?Q?c+GdRV9JL4BnfDQsMt7xMgeQgcEPRMhYSdRw9+VyH9xXuqHz6jfd3VSQ1b/y?=
- =?us-ascii?Q?8LXT7UFDQLXoxCU0ZQZVBtHN3dy0lw+tDYt0HJTNfFmhdBNBEQEU+NrDOOaT?=
- =?us-ascii?Q?fUjOzLonkm1h3eIibfxbGhAul/4tdzIbhVX25jUsgUZe0HSIiE6EjIhSDzIT?=
- =?us-ascii?Q?bS2diCRM/RMAKwhF3vw5DwhrnmS9RGfW4CGxdr/4Sxbuex44fGOXtI9gsall?=
- =?us-ascii?Q?ISe2sJMqL607U/PzbnJmWmTga/OMH1I3pm5dfBE5psDRZgn/CR26FptFC8Ka?=
- =?us-ascii?Q?ntPuSOSlc2uXofagoucIxXLKMZ8HHjQRzRkn+Okxrjxc4+NvkWjAg+B1V977?=
- =?us-ascii?Q?gElJ6/7ahivbnbTSJG/pT2Owsx96yoHXvT/HfIEUQqVyXUx/pKqOPuNJSkUW?=
- =?us-ascii?Q?F0mFb2mmbxjzvTkDsAWKNUAwOMaPvnpfOWtWJtTP0QfFgcfpclGTc7JxFA8H?=
- =?us-ascii?Q?o9+Swr8WfnLZXk88GU7Z8wleBnk0fyro5CRosmvq6QyWs3m4pI9pREplKr56?=
- =?us-ascii?Q?/mfKyZAuFAVxm/jjlangGbrkDHmklrWtA25SJD8DURSzgV8+r4yT+gNQNBQO?=
- =?us-ascii?Q?j8QlmiL2fPm16/Rg6ZVOp/alD6KEneh63HfANVvpCfYqONyWELUqBY/je+yj?=
- =?us-ascii?Q?ms76eRilfsW6n/2IKcJ1keneCoEuxZbEciRGlFfcRIcUzmhAi6dVzRW2klW0?=
- =?us-ascii?Q?Y5TYNRbg1M5wVadZGzGbnR44IML/vIOkxpKquCy/DlQTAEQ7vkzPZrLh6d6e?=
- =?us-ascii?Q?LfjvPVZfi0E6cyjkgTEpqBKjT/NS3R8XicYh9wCprRGnFZQ9olBucqEKJj1S?=
- =?us-ascii?Q?l1QIvUShCuBYnFCo75/qJq4CRrSWJRo1?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11040.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?iuwo+lt/IAkUFr5AA2UdNkqrjU5s+QnMBxp4Eq+gwhNmu5UcmwG8RV/AVrpU?=
- =?us-ascii?Q?lJfzrJu35rAcvjlYb8BKOoF7kIh8iegrrWHfymsqHQUsBV+wrcRSsEJ+kQpx?=
- =?us-ascii?Q?FIbOLRZp9Z+zGrBixyWO8TAygDBKd9LWYY5Zo1hu6PEPZWAdBIOERuD8T+C6?=
- =?us-ascii?Q?s8OofpB7ahftAD3oYhjFaE7JxXziEyr2GgK6pxoM1cq9zSJIjihXtSEmtkDN?=
- =?us-ascii?Q?vPYB5xFEMcSBZxWc+vdD+0sVNco1R8iFl2a0ecy1nWJa1pwN8J0k3hheyulp?=
- =?us-ascii?Q?yiM3i6tDss5yZDsH/RBhJCXVJVT7TID6m7Sxi/RzeDb4zH3Vwiek0AvLCqkr?=
- =?us-ascii?Q?Y8Ep9oydhcuAWtI3jQyorVoGgHMidLXqIFrqD63tfD1IVmEJoAETvltYagCg?=
- =?us-ascii?Q?tr20SW0nW/YnVV0Hn/dB1dAh5kJ+LxLkaVC6wc666d9Y1ICAJqpKkkLbDCxy?=
- =?us-ascii?Q?KkZ8Z4hjorOF9d2byab+uZ0RIqEafc41NSadrkgIcS/UhtuRQqSA7C9DG8p0?=
- =?us-ascii?Q?G9+8sP1G0BNRtZk37Z9bxzHylz7pPvXxKPg5BG6qd8vnNmq99cCazEaGrx2B?=
- =?us-ascii?Q?UjI6y6Yp97eLgvlPnUTkMxjWxizFGEThU9notm1R3b0cWrQQzThg50C/c7al?=
- =?us-ascii?Q?u20ecZ+XvzCu2f3n++mr4BkMFKqLMBK2mCxPgY5o/SXdGHBnxxbra9wpJ/o/?=
- =?us-ascii?Q?VTecHQmnlp+hxzVWr02fZkok/QSmPreHULJf5/g7GT0fhUEJ1yXySaDr7QUd?=
- =?us-ascii?Q?A+dSVkloej5mVEpIBobWFV4Qt4pySbo43idLvfw3SqfubGdf8MXVr75oIOg4?=
- =?us-ascii?Q?mHJSrqDP0mV2XOG6yq5YKN3K4tiF/BXg5Piagx6fiK09ISJjreQJtcm4Qjw3?=
- =?us-ascii?Q?yejBp+DlkbYbQ8mzDAs21/qz8rrXsdVffnBHtdDHoJnXPnaiRDjK7BrjFK4j?=
- =?us-ascii?Q?799RyGAAxtv17IoFiK+iu64i6t5WDSKfqF1jvTqwV5PJlGAQZYi7EAt80uKW?=
- =?us-ascii?Q?fnhBKa1PfzAJOVpKZD1WToUcvcMHy1reS5vs2mdi56EtjQpxOciqA+Z+EMuO?=
- =?us-ascii?Q?QjoWrihetmoikqiMF6l8yQZshIUZa68p+F4YTojwA75mFAu7UGchJNjfMRSR?=
- =?us-ascii?Q?ZszPmLgKiKoHUhdENGkO2E+MU7fg//WfOzbxTjL6cLRsBlJnWA37tJD49kRc?=
- =?us-ascii?Q?LU9QaGr05XdaZ2U4WLfViyJXNKc3fnyKR/96QM13fEaWMJ41aZTzruBjpR9R?=
- =?us-ascii?Q?FxPyC/fvuhcXhGEYbDMr2Uxm/eHgynUPmKux4i2YJeHhIGRkR6PveNmdYt+O?=
- =?us-ascii?Q?1ElBghD/cF8NR3hFOvt+ZssHCy54sTZNhvVVrjZTjIJIHjJolwcDsQ/rDv0i?=
- =?us-ascii?Q?c3ArzGvSQoyZ45Di2UK8VCWadHUlPp+9Uoax7lIiVApvrNM4++pQRFa1iy2r?=
- =?us-ascii?Q?uQ86rxLSXW5d6P1WFbtVk0JBkpWIY/09nChJ6nQhPDHa4C4eqOuBT7wWJaNl?=
- =?us-ascii?Q?VTZ7uaUE/qINL17Gg8qLCCtSol9GCdoU1xkNjorTNBbDTx00baLEf63hCkx5?=
- =?us-ascii?Q?ukswPcNSdX0Y2v3xfN/K2islxxkYfQjkrv5eIj04g5QiR+dwyKm81oYB9tJJ?=
- =?us-ascii?Q?Txbr3Z7nfwkhxLMcxgYVRBiPlhnVFIS2akaSQULW5n0vPqU8KV6ExO8z4AGg?=
- =?us-ascii?Q?vNt3gg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EiaDss9f"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-385e27c75f4so4353403f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 04 Feb 2025 00:19:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738657189; x=1739261989; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4VasOeDLqwO0DGgvAXrhPGy6KqMolkRSV5bMCtl5mMs=;
+        b=EiaDss9fc/PaCleByjP5Ua5orAqKoZEy4ycVEKG9fD6FLM3/Cet1hrWKFnf21EGNSx
+         CtSS2UIeRbXqEoeLjU+a5wGZpzHTV/dr8xVYE9hhUE9l70fiYsYqyMD5Qdf+pkc17NLZ
+         I4l0FmRARtt3SOhC3q07gmc4Cbzl9G+RYoFkgANKl9TDgjExumnGQ57JrEWT7WRdlaE0
+         QJ5GR7aWQh5wlo3HrPbr1CVpaeR8e2Ji4mKR3RzNZHSZZKiug/5tX2fwB6P0BVRhmJfx
+         yBjJKz3/T/6M9tj0AmP5g19jix2EQx1645JHCVJq0H26UsmV3owTRdlYJBpHZhA5eewv
+         LW/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738657189; x=1739261989;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4VasOeDLqwO0DGgvAXrhPGy6KqMolkRSV5bMCtl5mMs=;
+        b=a0vIvg6EGtwKWrjCevbuRr/a/rV3CSEaAS36cPtEqhr50oUS2BiyZmdEkmV1HS2j0z
+         MsiDI/TeGM1UTXQ7E2p7JeNfHqdyNcPo8+K65+7ryjn9XHxWBbcN0P7fREQNMvFqqiOt
+         745WAfgPdi5ZmmN4U6dZa20qfbVDZevgsinQiBbRHHAMw67LlKuZTrz/QtadC0VTkW+f
+         XFRSLRhwdOuMG2BvHo6Dll2a2TeQ/5FO2dKVdYms+gyySrF141XZZwbmuWpkpI7LrZF3
+         H6AyINEB2D5WkMzUPaq6qiK8/HHUywDhrWx0ZDscgq5xnX9vGNQGuJSB25hIkxQxSvZC
+         aWsA==
+X-Forwarded-Encrypted: i=1; AJvYcCXn5y4voxpVWrejCyUyMx+S3mhbCPpyNNnNUvS2zhc0VqZKazy3pU10m3FOT6rCunmj146/wTeKIty5KA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxorcM/o6Ay/sNDlMQ3qe1IVhZ5n0Cn11aGk1eawsc3+zaUqvxq
+	YH+1uGF0eUZxBm0Z7Fk0FtKMNZeYhAj+kT3c8HmRcD2f2oMrLSTL4tfIa9OpJs0=
+X-Gm-Gg: ASbGncss5XXUg5dNLdIq0/hcASVwN2joBkU1NcW8AcQDTq869kUK/iYN33+xYQ8EA5U
+	8qn0yDQpawLgBViXXRJxK7y02I3XccSsAGAYq6z4EzyE/dq8PxDkDs16RvqSKpnUQ0c+hFFzHhM
+	nFgo9RZOTLJA8KULPlIfP3CMbo6sq4VCrVP2P0jLKJFJiBe421/qwhYkeu/L9eW1SMxXo32hyUS
+	7GiolFqygARzgouZtonsklRjyp9GzawQb4fEnndjcrUa+CYlHnnIBQ7DklfIOdJ8s/NDuRjTuBR
+	v/DGvwttdVvfg7YMb/lBJb15Mdfs7pWu2mn4ZBr7ITf5TTqMBpgTnB0h1w8LDTAjMwv6
+X-Google-Smtp-Source: AGHT+IFbnJg2PuT9i73jomtjcF87nuxMc6wmD76FQvWnGe8UxJCAypV81miJ7w4UhG+d0OffsaA56A==
+X-Received: by 2002:a05:6000:1f88:b0:385:e176:4420 with SMTP id ffacd0b85a97d-38c5194da70mr19435261f8f.10.1738657188754;
+        Tue, 04 Feb 2025 00:19:48 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:8db5:d196:bd48:5fbb? ([2a01:e0a:982:cbb0:8db5:d196:bd48:5fbb])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1cf364sm14910592f8f.88.2025.02.04.00.19.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Feb 2025 00:19:48 -0800 (PST)
+Message-ID: <842284b1-343f-4991-98f4-462f547ad2bc@linaro.org>
+Date: Tue, 4 Feb 2025 09:19:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11040.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16b4313e-633b-4dfb-4158-08dd44f428c9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2025 08:16:00.3346
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: R3uecvD8FhjT+qUP1oMznoF4S4q8cpA6/Odgl7kKGzXP1ww4RUuzQV4u9GrdJsnKfUYK7prWPx2yZz02QX/GyOnwNygxFAlFanFxRFrmHeTigewN1tSnwynHuHbda4GQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB14592
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH] ASoC: qcom: sc8280xp: enable primary mi2s
+To: Luca Weiss <luca.weiss@fairphone.com>,
+ Danila Tikhonov <danila@jiaxyga.com>
+Cc: srinivas.kandagatla@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux@mainlining.org, ~postmarketos/upstreaming@lists.sr.ht
+References: <20250203113857.34728-1-danila@jiaxyga.com>
+ <df4580ff-7b45-4485-9664-4cae731b7c53@linaro.org>
+ <bcb4585e-1426-444a-9112-6cd95a81f8bc@jiaxyga.com>
+ <D7J77FB0GLG2.1SDETF63DWW8Z@fairphone.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <D7J77FB0GLG2.1SDETF63DWW8Z@fairphone.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello Morimoto-san,
+On 04/02/2025 00:27, Luca Weiss wrote:
+> On Mon Feb 3, 2025 at 5:33 PM CET, Danila Tikhonov wrote:
+>> On 03/02/2025 17:23, neil.armstrong@linaro.org wrote:
+>>> On 03/02/2025 12:38, Danila Tikhonov wrote:
+>>>> When using primary mi2s on sc8280xp-compatible SoCs, the correct clock
+>>>> needs to get enabled to be able to use the mi2s interface.
+>>>>
+>>>> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
+>>>> ---
+>>>>    sound/soc/qcom/sc8280xp.c | 13 +++++++++++++
+>>>>    1 file changed, 13 insertions(+)
+>>>>
+>>>> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+>>>> index 311377317176..03687de1ebb0 100644
+>>>> --- a/sound/soc/qcom/sc8280xp.c
+>>>> +++ b/sound/soc/qcom/sc8280xp.c
+>>>> @@ -14,6 +14,8 @@
+>>>>    #include "common.h"
+>>>>    #include "sdw.h"
+>>>>    +#define MI2S_BCLK_RATE    1536000
+>>>> +
+>>>>    struct sc8280xp_snd_data {
+>>>>        bool stream_prepared[AFE_PORT_MAX];
+>>>>        struct snd_soc_card *card;
+>>>> @@ -25,13 +27,24 @@ struct sc8280xp_snd_data {
+>>>>      static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+>>>>    {
+>>>> +    unsigned int codec_dai_fmt = SND_SOC_DAIFMT_BC_FC;
+>>>> +    unsigned int fmt = SND_SOC_DAIFMT_BP_FP;
+>>>>        struct sc8280xp_snd_data *data =
+>>>> snd_soc_card_get_drvdata(rtd->card);
+>>>> +    struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+>>>>        struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+>>>>        struct snd_soc_card *card = rtd->card;
+>>>>        struct snd_soc_jack *dp_jack  = NULL;
+>>>>        int dp_pcm_id = 0;
+>>>>          switch (cpu_dai->id) {
+>>>> +    case PRIMARY_MI2S_RX:
+>>>> +        codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
+>>>> +        snd_soc_dai_set_sysclk(cpu_dai,
+>>>> +            Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
+>>>> +            MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+>>>
+>>> How is this possible ? sc8280xp uses the q6prm clock driver, and
+>>> there's no
+>>> way this call sets the Q6PRM_LPASS_CLK_ID_PRI_MI2S_IBIT, or I totally
+>>> missed
+>>> something.
+>>>
+>>> And prm is neither a dai nor has the set_sysclk callback.
+>>>
+>>> Neil
+>>>
+>> Oh, thanks for the answer.
+>>
+>> This comes from qcm6490 compatibility. Actually it is needed for
+>> Nothing Phone (1) and Luca Weiss just suggested me to use
+>> qcom,qcm6490-idp-sndcard like do they do it for FP5. (SM7325 is the
+>> closest to QCM6490):
+>> https://github.com/sc7280-mainline/linux/pull/5#discussion_r1848984788
+>> Actually I also think it is a bit incorrect.
+> 
+> For reference, this is coming from this and following:
+> https://lore.kernel.org/linux-arm-msm/e8a24709-de96-4d09-ba00-1e084a656c68@kernel.org/
 
-> From: Kuninori Morimoto, Sent: Tuesday, February 4, 2025 10:42 AM
->=20
-> Current rsnd driver supports Synchronous SRC Mode, but HW allow to update
-> rate only within 1% from current rate. Adjust to it.
->=20
-> Becially, this feature is used to fine-tune subtle difference that occur
-> during sampling rate conversion in SRC. So, it should be called within 1%
-> margin of rate difference.
->=20
-> If there was difference over 1%, it will apply with 1% increments by usin=
-g
-> loop without indicating error message.
->=20
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Sure, but do you use sound/soc/qcom/sc8280xp.c ? it's designed for audioreach
+compatible audio architecture (post sm8250).
 
-Thank you for the patch!
+sound/soc/qcom/sm8250.c has already support for PRIMARY_MI2S_RX via
+the Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT, and it compatible with the previous
+audio architecture (non audioreach).
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Neil
 
-Without this patch, an overrun error occurred on a specific situation.
-However, I applied this patch, the error didn't occur.
-So,
-
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-Best regards,
-Yoshihiro Shimoda
-
-> ---
->  sound/soc/renesas/rcar/src.c | 98 ++++++++++++++++++++++++++++--------
->  1 file changed, 76 insertions(+), 22 deletions(-)
->=20
-> diff --git a/sound/soc/renesas/rcar/src.c b/sound/soc/renesas/rcar/src.c
-> index 3099180297722..7d73b183bda68 100644
-> --- a/sound/soc/renesas/rcar/src.c
-> +++ b/sound/soc/renesas/rcar/src.c
-> @@ -35,6 +35,7 @@ struct rsnd_src {
->  	struct rsnd_mod *dma;
->  	struct rsnd_kctrl_cfg_s sen;  /* sync convert enable */
->  	struct rsnd_kctrl_cfg_s sync; /* sync convert */
-> +	u32 current_sync_rate;
->  	int irq;
->  };
->=20
-> @@ -100,7 +101,7 @@ static u32 rsnd_src_convert_rate(struct rsnd_dai_stre=
-am *io,
->  	if (!rsnd_src_sync_is_enabled(mod))
->  		return rsnd_io_converted_rate(io);
->=20
-> -	convert_rate =3D src->sync.val;
-> +	convert_rate =3D src->current_sync_rate;
->=20
->  	if (!convert_rate)
->  		convert_rate =3D rsnd_io_converted_rate(io);
-> @@ -201,13 +202,73 @@ static const u32 chan222222[] =3D {
->  static void rsnd_src_set_convert_rate(struct rsnd_dai_stream *io,
->  				      struct rsnd_mod *mod)
->  {
-> +	struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
->  	struct rsnd_priv *priv =3D rsnd_mod_to_priv(mod);
-> -	struct device *dev =3D rsnd_priv_to_dev(priv);
-> +	struct rsnd_src *src =3D rsnd_mod_to_src(mod);
-> +	u32 fin, fout, new_rate;
-> +	int inc, cnt, rate;
-> +	u64 base, val;
-> +
-> +	if (!runtime)
-> +		return;
-> +
-> +	if (!rsnd_src_sync_is_enabled(mod))
-> +		return;
-> +
-> +	fin	=3D rsnd_src_get_in_rate(priv, io);
-> +	fout	=3D rsnd_src_get_out_rate(priv, io);
-> +
-> +	new_rate =3D src->sync.val;
-> +
-> +	if (!new_rate)
-> +		new_rate =3D fout;
-> +
-> +	/* Do nothing if no diff */
-> +	if (new_rate =3D=3D src->current_sync_rate)
-> +		return;
-> +
-> +	/*
-> +	 * SRCm_IFSVR::INTIFS can change within 1%
-> +	 * see
-> +	 *	SRCm_IFSVR::INTIFS Note
-> +	 */
-> +	inc =3D fout / 100;
-> +	cnt =3D abs(new_rate - fout) / inc;
-> +	if (fout > new_rate)
-> +		inc *=3D -1;
-> +
-> +	/*
-> +	 * After start running SRC, we can update only SRC_IFSVR
-> +	 * for Synchronous Mode
-> +	 */
-> +	base =3D (u64)0x0400000 * fin;
-> +	rate  =3D fout;
-> +	for (int i =3D 0; i < cnt; i++) {
-> +		val   =3D base;
-> +		rate +=3D inc;
-> +		do_div(val, rate);
-> +
-> +		rsnd_mod_write(mod, SRC_IFSVR, val);
-> +	}
-> +	val   =3D base;
-> +	do_div(val, new_rate);
-> +
-> +	rsnd_mod_write(mod, SRC_IFSVR, val);
-> +
-> +	/* update current_sync_rate */
-> +	src->current_sync_rate =3D new_rate;
-> +}
-> +
-> +static void rsnd_src_init_convert_rate(struct rsnd_dai_stream *io,
-> +				       struct rsnd_mod *mod)
-> +{
->  	struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
-> +	struct rsnd_priv *priv =3D rsnd_mod_to_priv(mod);
-> +	struct device *dev =3D rsnd_priv_to_dev(priv);
->  	int is_play =3D rsnd_io_is_play(io);
->  	int use_src =3D 0;
->  	u32 fin, fout;
-> -	u32 ifscr, fsrate, adinr;
-> +	u32 ifscr, adinr;
->  	u32 cr, route;
->  	u32 i_busif, o_busif, tmp;
->  	const u32 *bsdsr_table;
-> @@ -245,26 +306,15 @@ static void rsnd_src_set_convert_rate(struct rsnd_d=
-ai_stream *io,
->  	adinr =3D rsnd_get_adinr_bit(mod, io) | chan;
->=20
->  	/*
-> -	 * SRC_IFSCR / SRC_IFSVR
-> -	 */
-> -	ifscr =3D 0;
-> -	fsrate =3D 0;
-> -	if (use_src) {
-> -		u64 n;
-> -
-> -		ifscr =3D 1;
-> -		n =3D (u64)0x0400000 * fin;
-> -		do_div(n, fout);
-> -		fsrate =3D n;
-> -	}
-> -
-> -	/*
-> +	 * SRC_IFSCR
->  	 * SRC_SRCCR / SRC_ROUTE_MODE0
->  	 */
-> +	ifscr	=3D 0;
->  	cr	=3D 0x00011110;
->  	route	=3D 0x0;
->  	if (use_src) {
->  		route	=3D 0x1;
-> +		ifscr	=3D 0x1;
->=20
->  		if (rsnd_src_sync_is_enabled(mod)) {
->  			cr |=3D 0x1;
-> @@ -335,7 +385,6 @@ static void rsnd_src_set_convert_rate(struct rsnd_dai=
-_stream *io,
->  	rsnd_mod_write(mod, SRC_SRCIR, 1);	/* initialize */
->  	rsnd_mod_write(mod, SRC_ADINR, adinr);
->  	rsnd_mod_write(mod, SRC_IFSCR, ifscr);
-> -	rsnd_mod_write(mod, SRC_IFSVR, fsrate);
->  	rsnd_mod_write(mod, SRC_SRCCR, cr);
->  	rsnd_mod_write(mod, SRC_BSDSR, bsdsr_table[idx]);
->  	rsnd_mod_write(mod, SRC_BSISR, bsisr_table[idx]);
-> @@ -348,6 +397,9 @@ static void rsnd_src_set_convert_rate(struct rsnd_dai=
-_stream *io,
->=20
->  	rsnd_adg_set_src_timesel_gen2(mod, io, fin, fout);
->=20
-> +	/* update SRC_IFSVR */
-> +	rsnd_src_set_convert_rate(io, mod);
-> +
->  	return;
->=20
->  convert_rate_err:
-> @@ -467,7 +519,8 @@ static int rsnd_src_init(struct rsnd_mod *mod,
->  	int ret;
->=20
->  	/* reset sync convert_rate */
-> -	src->sync.val =3D 0;
-> +	src->sync.val		=3D
-> +	src->current_sync_rate	=3D 0;
->=20
->  	ret =3D rsnd_mod_power_on(mod);
->  	if (ret < 0)
-> @@ -475,7 +528,7 @@ static int rsnd_src_init(struct rsnd_mod *mod,
->=20
->  	rsnd_src_activation(mod);
->=20
-> -	rsnd_src_set_convert_rate(io, mod);
-> +	rsnd_src_init_convert_rate(io, mod);
->=20
->  	rsnd_src_status_clear(mod);
->=20
-> @@ -493,7 +546,8 @@ static int rsnd_src_quit(struct rsnd_mod *mod,
->  	rsnd_mod_power_off(mod);
->=20
->  	/* reset sync convert_rate */
-> -	src->sync.val =3D 0;
-> +	src->sync.val		=3D
-> +	src->current_sync_rate	=3D 0;
->=20
->  	return 0;
->  }
-> @@ -601,7 +655,7 @@ static int rsnd_src_pcm_new(struct rsnd_mod *mod,
->  			       "SRC Out Rate Switch" :
->  			       "SRC In Rate Switch",
->  			       rsnd_kctrl_accept_anytime,
-> -			       rsnd_src_set_convert_rate,
-> +			       rsnd_src_init_convert_rate,
->  			       &src->sen, 1);
->  	if (ret < 0)
->  		return ret;
-> --
-> 2.43.0
+> 
+> Regards
+> Luca
+> 
+>>
+>> ---
+>> Regards,
+>> Danila
+>>>> +        snd_soc_dai_set_fmt(cpu_dai, fmt);
+>>>> +        snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+>>>> +        break;
+>>>>        case WSA_CODEC_DMA_RX_0:
+>>>>        case WSA_CODEC_DMA_RX_1:
+>>>>            /*
+>>>
+> 
 
