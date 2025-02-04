@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408C1214810;
-	Tue,  4 Feb 2025 01:18:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E20F1EEA36;
+	Tue,  4 Feb 2025 01:18:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738631905; cv=none; b=V6EkyOKew+lQefhgm/5voxibzXCJDmlm1lSy+kQu0uip921bNkqyJg3RatOfmY9wIHeQu19xVW89+Zxc7oiv91PmW76XXj+qv4DWnK453/OLkkXdryjGy+ALgjaZXKWVepvxsvlg2m0pi7F3ocva0uhxg+8r+3BhW0TWT/dRNOc=
+	t=1738631919; cv=none; b=lAkjRjkiNqByysaLGz83ydsS8yHSdnfyYx6y0H/Vh4tQyyHBj/W/rfEa4+kHu3B3+szV8FX26dKsPhSwpRtSH/jTgr42yLx5KTPCyKSWffe4849bLB3DcW8Jib7tr4i7EnXpgCWkkHltYCxUC9tEzr3COsywXy9f7gVz1EbTYxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738631905; c=relaxed/simple;
-	bh=VSB/FRi4u1iCKI/o2sXNvRTbRWT+LmLFztZZGDhMzpA=;
+	s=arc-20240116; t=1738631919; c=relaxed/simple;
+	bh=5t/KhANgQWnGEpJ1ohjUD4iww8xW1oiFoBCbfEor5yE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=biteC6pmpCUybzgvNFbjzmsBuqwLx965QyzTYsu7y8cTpx7bhv9cnRnJ4AdrNPsz4HQgRIai2oGaMJWHG3ErJAQmAegQSU4I57cQWo0PJq8czNRrgasgHW9BFFEkHRFpIGjN4XI/lqnoDfstMy0E7k9h2jVv33nxL26RTrOKspE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lrF3t+57; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=TJ2PidCyrOwgioGfv860kVX8KoDmaL+gh1EVLQFOkYuhzSzCLnr/Dy0u4t0Il1RCj3MAG0bYXkdZ9xNAZA+8OaUsPz8jDWbOBSuCa8A3GThJMHGZw3X+ksZBktRXyqFWeCb935LDjmLh3AJN3ecIXU7wmkbaZQgJsIYUQxIkL4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uS8m0ABK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lrF3t+57"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18FE5C4CEE0;
-	Tue,  4 Feb 2025 01:18:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uS8m0ABK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DE40C4CEE0;
+	Tue,  4 Feb 2025 01:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738631905;
-	bh=VSB/FRi4u1iCKI/o2sXNvRTbRWT+LmLFztZZGDhMzpA=;
+	s=k20201202; t=1738631919;
+	bh=5t/KhANgQWnGEpJ1ohjUD4iww8xW1oiFoBCbfEor5yE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lrF3t+57ZjkCaYXJma4rNFZ8sIIc7BLZTls1t/8VV/j5ct9Z3ygJV8TUqV6821g8U
-	 LlAlwXKnUEcT+DP5ct8qE/n3+DMrSyX2MOCUF2O6PBldUrq8UVKS0NFkYV/6QW5xsh
-	 EF8/cyLoulCYFO/AWsEUJHjJXRnT4gpAQqJ0KIPkFHeEYAy0Nc0O0MMEsyx6AuASIX
-	 CTvnOqt8xA4NIUHte8srfn3FHdYmfANACHUVRal/hWie4S2fPI/vsKNrqqGJTCOOLQ
-	 x8tSu0wGhRTZ4pm24xFk5GNsnZuhcBD4d29W1ttXkJySyG0ll6njZjPNuwHUqPEGVx
-	 39vsLxNcZuHCQ==
+	b=uS8m0ABKTmYLERMpGVB3+M7l7GH4jAMhdXa4YTNplFeeAvMp0kdKeBImTJPTTDvw6
+	 +s1HZ8NodErUs9XUQpM3CAI++A0sOs2L3YDfWBNGZnsi/g0qfEzQASi67GD0fBLMjA
+	 /h5ygplFdNfTCKab6QEderl7giytGkWHdq8vRnX28iWP69CRrnJR/FGAU/FmvJzD9j
+	 QJwgWXXf+0AipIhlY7hXF+KkNpLeVml09/Yf6CGlbLXJg0g7WvxwJ4MKtdO2PEAWP+
+	 LFSo4TCZ/IzVTDzGI0u2Hik+y81Lxo4zYLYZy/5zlfHbw28txXgG4Q0ft6m5UEW62T
+	 c8OksRwBoycEQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,17 +41,17 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	pierre-louis.bossart@linux.dev,
-	alban.boye@protonmail.com,
-	tomlohave@gmail.com,
-	kuninori.morimoto.gx@renesas.com,
 	u.kleine-koenig@baylibre.com,
+	kuninori.morimoto.gx@renesas.com,
+	tomlohave@gmail.com,
+	alban.boye@protonmail.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 3/3] ASoC: Intel: bytcr_rt5640: Add DMI quirk for Vexia Edu Atla 10 tablet 5V
-Date: Mon,  3 Feb 2025 20:18:11 -0500
-Message-Id: <20250204011814.2207014-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 3/3] ASoC: Intel: bytcr_rt5640: Add DMI quirk for Vexia Edu Atla 10 tablet 5V
+Date: Mon,  3 Feb 2025 20:18:25 -0500
+Message-Id: <20250204011828.2207072-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250204011814.2207014-1-sashal@kernel.org>
-References: <20250204011814.2207014-1-sashal@kernel.org>
+In-Reply-To: <20250204011828.2207072-1-sashal@kernel.org>
+References: <20250204011828.2207072-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.75
+X-stable-base: Linux 6.1.128
 Content-Transfer-Encoding: 8bit
 
 From: Hans de Goede <hdegoede@redhat.com>
@@ -87,10 +87,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
-index ddf68be0af14a..ce80adc30fe94 100644
+index e7d20011e2884..67b343632a10d 100644
 --- a/sound/soc/intel/boards/bytcr_rt5640.c
 +++ b/sound/soc/intel/boards/bytcr_rt5640.c
-@@ -1132,7 +1132,22 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
+@@ -1122,7 +1122,22 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
  					BYT_RT5640_SSP0_AIF2 |
  					BYT_RT5640_MCLK_EN),
  	},
