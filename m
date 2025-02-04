@@ -1,60 +1,58 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010044.outbound.protection.outlook.com [52.101.228.44])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011057.outbound.protection.outlook.com [40.107.74.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD132205E3B
-	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 07:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C6470820
+	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 08:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.57
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738655666; cv=fail; b=CuEziuMGLEs4NOGQ7JdQoNYHwvN1cvy9qvhys6ilaA+xndSEc8dmtPKASNr8QMuTxU6MERzOFyAqqPXU3X7UVKxSb+5/YzVkXnN86sj4BP5ud0u2BYhfMZEwGBPhNNqBOA5PpvcGwTDSDdXQE023QVpWRsRITAohCDoy2BsHyv0=
+	t=1738656968; cv=fail; b=Kqp+SpzrIILf96qyMOfBgTONU3W7y9bkDMUQ3Ck17Kgt67bnMUa88v+C5o+dMVKN4bQelUfXB7SOSmFujb2KtBNYnX3BZmg9uLpo2jH96lkRFwGo2pA5Gnyi60HoRxUOsdgBEdrGADnQ4aScUVH5LlVxe0RMW/vLqvZGtAJpeAE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738655666; c=relaxed/simple;
-	bh=s1zB81oq0wULXY0ctU2NfUNed1lqCkm7mTKNOjunUCk=;
+	s=arc-20240116; t=1738656968; c=relaxed/simple;
+	bh=afIAKipeqa44ctIZjkXCxG8kBp69aBeG30RS/O0Yu6Q=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Td8EhoNxzQ0RkZNrpOuAwomIONNzBKSRIodHeBDh2IGmA4BValqHVnKzZ1OJYevbHLIrsOSMts/fWwUZJLf2hn2gsmb0NO6B69XqRxkkFObenwh+mlD4im3MdOk22Dp1+jo/NQpQoQ6yaLms/4SOvL8JirwjIakjLDjK+RhvvGg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=hr/3YTyF; arc=fail smtp.client-ip=52.101.228.44
+	 Content-Type:MIME-Version; b=MrsgKQPOGx9WGwSn/nQTX3NP38Z8jhorftimTTsXtCEfwO9fwhaV/I4vHsQX3UXYIi9TOMDcnyWtROT1ek0kZteeL/6JkhMAIx3miHCcZ0GvSsWvAZmrS2JPUgANc4jYU/xGhZpcfDVsZ7Qye+3Rz8Ye6hbM83mTiPVXdvomitU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=FMUIkwJG; arc=fail smtp.client-ip=40.107.74.57
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="hr/3YTyF"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="FMUIkwJG"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bFc4Isi7lbgko2tzjsKemeqefD7yJggV5QlW9LaNi1uYa9hyT8fdE8rSSHwHOetSaouLbQLZqZWsVMfIGmh+jt6X+1tlS/FMNnPFeZrcVpYiN8JSB4jlfO8YG9rtykvY8W/ODItPRCFHDjE3GxY+5fb+Sv2yNO7HG8c9lVYBWguY14+LGxPC9VuI4+m77HdIxbAR8UmnwN0/Di0CCpF6lQ+QpUaaRTgmZ61FojKMkLfWO/B5dpLLJh35F5+fQFBHnWpqhDH34/5slfthZ3SSG/ZcDqQLHNQnRaNn7z0fZog52SNppt1+dUBuIt03woaMC7M5DEAHgd31g4UfOH+wbA==
+ b=qrjjmNIv5s0yHDHFFJOeS4sxhqD9kk+UnxkKycX4dMbQAw/YLpN4/HXydkxA9R+Ebd5r+MiiQPcYDOf/CSdlnjsOmd0mOicHxpkmWgB/Fx5zjxpVky3O4K1tRkwazxfdsAHwmze4nlnJN95xJoG0epACtn/aBtx0SQCwN32LLMI3/KdyO2twzeE4x7Z2YFVcEkPYUWKnDZzF6qAlBftOSeuoIGeCbnggiwxQsn6OLJY1ziX7WFuOZegt1amLG0z7hi0a5t0cRgdb5/tbrkDAySWyppS8aZjbhP9X/tzeQiZSTIJN4pJ1rYn9qPb1S/3OEBRQUC7jKTleauRvLFDhqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8F3yS8v+9xHbVbg62VLZ3qHb3C494OYU10E4Oh+Kl4U=;
- b=kBB8eBDtzD28mXVyAwzfa2JcCv1aEC5g2kX96Ike9qcX0+yRFfmcKjb+rpgRdBZS3m6s8/Wii/9ZUD+WjJzB8gVVHuN4dqX8qg39Rf/BUtRouHjrdXTsJ41BTk7MjhVc5ajvLE7Y2jfMa3JmlNsiwAT2eKhd3T8/1zinv+OmRnZywBTdqBhlK4rAlkNdamOUe3PaUTey/4JmJiNRZt+spPjb0JPalCU917f76YlsfNhhzG15xLm/hAgVk+5EfI1l5OJNp07Lgr6DVFX2R4WmZEUJbSExlrjw5mR6DV6RZaO/ewYwQ2nXaDVtkjoVbahWueULJZns33L84hGkE4AxwQ==
+ bh=vbJKPqK9gOhq0oMTW/Xuu5wcX/KyCY+QrbzhSY31e9I=;
+ b=cp+VBLA3beWUqJCE7v8Ft01iKev2lIbV7ZobJu+kEQLRqqQ+5HFiJ8RreeX7Xkxw3Bk9JwQkPinNSDBgArWwcZ8ggG1/IdwHUoawHP5rg/DIU5UQQDwFWo/Q9lRnb05XeZjpjKPaafOB8PopygKeIWi5a32q24AM1+dnSSeUEEE3+Ke5UI0IU4LhyMEQbJP692KCiKKYseuGLA8nZMUigaCU5XLpk+sHpR4nnKJtz6txtoFKe3AOX996WNVEjTpunl8545nTW7kOtpQlJWv7F5vMmeJXE3ypSKqE6XyNxhNUoPBKMfS78diTnjl3X/huKdOAUyP06KRt2a7HTkno9A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8F3yS8v+9xHbVbg62VLZ3qHb3C494OYU10E4Oh+Kl4U=;
- b=hr/3YTyFj87qKqwrXUbKf8mbee90aeqCeya9xBT/xj1eboa5b+BpXpgv1eQkwj6S4iK+ujSLT0qr2xk8o3c6Uv/so/8nYEjM8frWFs/w4mhIyvGA7tNFkOUFHfdDuIgttzh4RITNylEkJWNBYqdcJi9N1TUp4ZcnsJcgKkHkGiA=
+ bh=vbJKPqK9gOhq0oMTW/Xuu5wcX/KyCY+QrbzhSY31e9I=;
+ b=FMUIkwJGpsl5xPRjZ+VNV+94KMoZworK4cn/z6+dyTo+6oNXPzmH9wNhFo+Bn6z41zjgnrmpO+jSA+r0hI7sPJhWgUC2RbUVO/3Gs9gGda2F056/d0idoE0Xnp3v8zvhop+4x3ySoxlE4AjdUpjmQRCmtrhkW0ZwnnMZStr80H0=
 Received: from TYCPR01MB11040.jpnprd01.prod.outlook.com (2603:1096:400:3a7::6)
- by TYRPR01MB13278.jpnprd01.prod.outlook.com (2603:1096:405:119::12) with
+ by TY7PR01MB14592.jpnprd01.prod.outlook.com (2603:1096:405:23f::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Tue, 4 Feb
- 2025 07:54:20 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.26; Tue, 4 Feb
+ 2025 08:16:00 +0000
 Received: from TYCPR01MB11040.jpnprd01.prod.outlook.com
  ([fe80::b183:a30f:c95f:a155]) by TYCPR01MB11040.jpnprd01.prod.outlook.com
  ([fe80::b183:a30f:c95f:a155%6]) with mapi id 15.20.8398.021; Tue, 4 Feb 2025
- 07:54:20 +0000
+ 08:16:00 +0000
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown
 	<broonie@kernel.org>
 CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: RE: [PATCH 2/3] ASoC: rsnd: don't indicate warning on
- rsnd_kctrl_accept_runtime()
-Thread-Topic: [PATCH 2/3] ASoC: rsnd: don't indicate warning on
- rsnd_kctrl_accept_runtime()
-Thread-Index: AQHbdqXrObUGO4fotUCQepm/tNgUO7M2xaXQ
-Date: Tue, 4 Feb 2025 07:54:20 +0000
+Subject: RE: [PATCH 3/3] ASoC: rsnd: adjust convert rate limitation
+Thread-Topic: [PATCH 3/3] ASoC: rsnd: adjust convert rate limitation
+Thread-Index: AQHbdqXtMoxkkzgC8UOcF71BuWi7QbM2x6QQ
+Date: Tue, 4 Feb 2025 08:16:00 +0000
 Message-ID:
- <TYCPR01MB11040765267518911B34AD591D8F42@TYCPR01MB11040.jpnprd01.prod.outlook.com>
+ <TYCPR01MB1104070724CF1AC0DA1C7B7EFD8F42@TYCPR01MB11040.jpnprd01.prod.outlook.com>
 References: <87o6zi32ry.wl-kuninori.morimoto.gx@renesas.com>
- <87ldum32r9.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87ldum32r9.wl-kuninori.morimoto.gx@renesas.com>
+ <87jza632r4.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87jza632r4.wl-kuninori.morimoto.gx@renesas.com>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach:
@@ -62,71 +60,71 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11040:EE_|TYRPR01MB13278:EE_
-x-ms-office365-filtering-correlation-id: 9fabe9ef-9fd6-48f2-0ca6-08dd44f1223a
+x-ms-traffictypediagnostic: TYCPR01MB11040:EE_|TY7PR01MB14592:EE_
+x-ms-office365-filtering-correlation-id: 16b4313e-633b-4dfb-4158-08dd44f428c9
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
  BCL:0;ARA:13230040|1800799024|376014|10070799003|366016|38070700018;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?17E98fJJyFxhED90Zr/t75M8gxy8AMcJOfYk7At0OUz1zdkcsXYKMrwYJLo9?=
- =?us-ascii?Q?/22qYy55D7K/vLsCRpMLOKOtamQogzlFMFIxamsvjKEqFZRX03PIJ0ar31gi?=
- =?us-ascii?Q?SXdJ4KPfGG8vk1phgdC/DvF5IbSl2w3YZBRvMqVtPsNLnzbH6kxnngAlhq5V?=
- =?us-ascii?Q?oG3vX5MUFz0RJxZESrESmGzf09wWjDLPeKGy83I1nkc/tXNWdC6+Nnj+3BKz?=
- =?us-ascii?Q?gCn4Ch2ZBAV68u9Aru4xbsxbGC1eYPOElxpARjlqsQgZ7dX2P6SerihZLDu/?=
- =?us-ascii?Q?Pev3eKEHQZsZ2v8n5yyg0nKSvYU64W3pgHCHGv65UtOTPtqzStOI95bD8wlW?=
- =?us-ascii?Q?xS20SEQtIk7S3mrk3jncyu2fOXjvNUcFqpMVUyf1ZLRqbqRw8J/mr4w2HVRP?=
- =?us-ascii?Q?mUfdKYcQhPvL5cbWGm4xIfLDKAnfm9WdfzMDxcjHBB35gsWx9N51UmBTvTMy?=
- =?us-ascii?Q?6087+r33xcgFrl2ZpuvZhpzkZkpROj4vPyIMPZefVp1bOJ2fgHqR6n3f3mK3?=
- =?us-ascii?Q?ZgaMj1lyVd+a9Idqql5WWu/kNi0mDWhmtlzibM8y1XV4ecdGEJRReht1OvNL?=
- =?us-ascii?Q?VfHI9ZHXZdkvjyfUSOc6LL6VRCggg9DcrSHcDVSDskNT5d/YyB4DkOguIYgM?=
- =?us-ascii?Q?oKcoNm9O30hnvcEJ/B5kDjXsmwJPgOgzNfKtAiRDFDeieZftwit9cbjFYchN?=
- =?us-ascii?Q?gP7SCbm6GRb4619fVSnFqu7fn/towbOJ61i//aWfgYx825MQNSc5qHjrFOzU?=
- =?us-ascii?Q?cSwOCiUq4FuLvc9odPqVumGNZDE9Bi9cY0pauDOcI4xaxk/ngKFMJU9HtF8W?=
- =?us-ascii?Q?W/YtcnSSYqPMoms9qVN2aqvyuGPH4KSGcLt4Rmlq0YuG3KBqlmshs9s+aRjj?=
- =?us-ascii?Q?URcDiZWx120XyvtZKEDvcR0dj++vglNCJz+XCFRlHsGdazZEUDebvv/WBjKD?=
- =?us-ascii?Q?kZ/UtyG3G5jvvjjN4o7wQQ/Yf7ARXJpVycIedaZhpOUWwlwLCzeCFlV1+j2+?=
- =?us-ascii?Q?O60DlA1zfAnJ/C3pG/YelpaS56YIzVrBP1k5eI9pRBts6RsIgFIhalsx0yVy?=
- =?us-ascii?Q?5GoNbXn+2XTqtFgzptYPWS75mSa5Unjv1SaJc5Zo4T3GfSzRG69JcaiTW/jO?=
- =?us-ascii?Q?j/s2Gi2ZenFK5VZB2VujKArx3Kog/UgOu6J+d7y60K8MzAsd8KhspnsqH0QL?=
- =?us-ascii?Q?LYgcrDgpnB69xMLgrHWYaxIa6y/JNOXQWCVa8zcIpJJo3xB8xwfAop8J6Nip?=
- =?us-ascii?Q?yffv2wsU09D01NBEBzYeVY6sQkduIonlc43dogjjaBhYn9rSkZvfamLrByQd?=
- =?us-ascii?Q?4ox+ilgHkY/RFRA5Eiz/k8FReKFioD2MIx2Z4NmkRMnkLEl2X04N8Zdnb+DJ?=
- =?us-ascii?Q?DKpR71Q+o3y4JG08cbNb4mqH7UgTzPXjAbD3s2/0+SV1k9LOd6OUOVI6IGg2?=
- =?us-ascii?Q?TS4ew/pDSS7MiCW7g1Zz5ibp+ARgjnq1?=
+ =?us-ascii?Q?sU9VCRgeE7vu6ZITZqx8J8ndkUXTF3ZIy8d1asxeJ4lFWOhXWCsO984i8PAN?=
+ =?us-ascii?Q?klOC9ILNeE7JrQnUhOHucYEvF1TJQ5O/6Qrx7TtIY9uSjzW59IXBFIlTWFnk?=
+ =?us-ascii?Q?tmo1cDbBBj5FUoqCnBS4hFePW7gLXtgN4h/1oztaVveoUV2WzSUJc/ZlHIyG?=
+ =?us-ascii?Q?yH9Eigav05ijJljVsRv+g+956NklAPXVYYdT9Gj1gq7lL2upPTwKfwlnILcc?=
+ =?us-ascii?Q?pZdY3m7YTEMxUkNaa3fvRnQ3fqgGVNQ4LQi4WC9VdWVlcHrX7iHhQ7IR/++N?=
+ =?us-ascii?Q?Q5z3d0KTC9cxnq/R0Xmkw/B6DawZ/PuLafWA6SK6BVkgFEyyAA2swfNgafwe?=
+ =?us-ascii?Q?KyEIouRRi70fS9KBQ681UBbwtX6Z7n3yyZ3XoMFBoPJPxqMsU0MCmtBw3K+g?=
+ =?us-ascii?Q?q1bYVpLFJJL/rQQsJaUmatCfK2a/e9IqahvAi3HN7ZP+S7lplSoNr0y3dZn2?=
+ =?us-ascii?Q?JHNDOO4VFc4ZsGn+E5Wmzn2qqMxScUFeKHDTJlo8iIBLA+0u7UIaHeID6lKm?=
+ =?us-ascii?Q?OMwKug0BiPOnDV81NIQTvOWp6uBt4t2LmLaM7WGd4TBYr+RbsVLrtITnKH9F?=
+ =?us-ascii?Q?c+GdRV9JL4BnfDQsMt7xMgeQgcEPRMhYSdRw9+VyH9xXuqHz6jfd3VSQ1b/y?=
+ =?us-ascii?Q?8LXT7UFDQLXoxCU0ZQZVBtHN3dy0lw+tDYt0HJTNfFmhdBNBEQEU+NrDOOaT?=
+ =?us-ascii?Q?fUjOzLonkm1h3eIibfxbGhAul/4tdzIbhVX25jUsgUZe0HSIiE6EjIhSDzIT?=
+ =?us-ascii?Q?bS2diCRM/RMAKwhF3vw5DwhrnmS9RGfW4CGxdr/4Sxbuex44fGOXtI9gsall?=
+ =?us-ascii?Q?ISe2sJMqL607U/PzbnJmWmTga/OMH1I3pm5dfBE5psDRZgn/CR26FptFC8Ka?=
+ =?us-ascii?Q?ntPuSOSlc2uXofagoucIxXLKMZ8HHjQRzRkn+Okxrjxc4+NvkWjAg+B1V977?=
+ =?us-ascii?Q?gElJ6/7ahivbnbTSJG/pT2Owsx96yoHXvT/HfIEUQqVyXUx/pKqOPuNJSkUW?=
+ =?us-ascii?Q?F0mFb2mmbxjzvTkDsAWKNUAwOMaPvnpfOWtWJtTP0QfFgcfpclGTc7JxFA8H?=
+ =?us-ascii?Q?o9+Swr8WfnLZXk88GU7Z8wleBnk0fyro5CRosmvq6QyWs3m4pI9pREplKr56?=
+ =?us-ascii?Q?/mfKyZAuFAVxm/jjlangGbrkDHmklrWtA25SJD8DURSzgV8+r4yT+gNQNBQO?=
+ =?us-ascii?Q?j8QlmiL2fPm16/Rg6ZVOp/alD6KEneh63HfANVvpCfYqONyWELUqBY/je+yj?=
+ =?us-ascii?Q?ms76eRilfsW6n/2IKcJ1keneCoEuxZbEciRGlFfcRIcUzmhAi6dVzRW2klW0?=
+ =?us-ascii?Q?Y5TYNRbg1M5wVadZGzGbnR44IML/vIOkxpKquCy/DlQTAEQ7vkzPZrLh6d6e?=
+ =?us-ascii?Q?LfjvPVZfi0E6cyjkgTEpqBKjT/NS3R8XicYh9wCprRGnFZQ9olBucqEKJj1S?=
+ =?us-ascii?Q?l1QIvUShCuBYnFCo75/qJq4CRrSWJRo1?=
 x-forefront-antispam-report:
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11040.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016)(38070700018);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?eLsdo/iihagCG6xidgLeBSA0QLwE8064UEfyem77lEbPlqtOGAnWeMGctaxj?=
- =?us-ascii?Q?cJ47avxvZ/+qpF0gcYNwO2mk5IIm0HEJAdet/hwoSxw4kQeJ7R8V0uNOh/Rd?=
- =?us-ascii?Q?98e9el8apyCIUndqdikeOLZYN1XjZTcJDQgeRu/e2iCPDBj70BoXo6chLBZr?=
- =?us-ascii?Q?C+O6HRqdZZ5iwvswzdpHELysy6g2iPT/Pyr4/IVedkJANbNbRgMraPze69rS?=
- =?us-ascii?Q?s7mC47lNK0fNG1t7ZlKAJDuzUVFECDhJr14kZDMfh+f4lKR30P8p/P2wMIYO?=
- =?us-ascii?Q?Kla8nGN9f051DLY/llJH4YuqRs756G9xxSVBdcdEojOTHrhYBR5onqvLbRRU?=
- =?us-ascii?Q?LdmWJTIqwo+ufgSVqF8UPIZsMnRwpJtJaGdX90ljTAHJv7+ygvYSifAGt1s+?=
- =?us-ascii?Q?ZNTh57MzETTYIsl2vrztPd7hkTSfvskaaG64rlg1jxOE+loo2e7xq6vM2HBi?=
- =?us-ascii?Q?6mftgeIVGWjRnqCMR3QlU7prmurh/L2NawfCiTSFd+TRLjk7b8XwDQN5F2I3?=
- =?us-ascii?Q?m/YmONRetN75p8S3rxdlKa09FdhrWPsqBQXxOhu6/UJ0o/XZhHdXxSchN6Wx?=
- =?us-ascii?Q?/t6Uv/eGVJisAfvRr4bME5L6EellZ3UmfU8Rvu8vtpGsYcKVUClSCym+LEZx?=
- =?us-ascii?Q?JBG8Ys7ehX82d9sPTqzRLUzsLTuzpycghY/a5uGIilAjr+Blb8FbZXAEfNej?=
- =?us-ascii?Q?qHi8nZjEINjaOM05I+Zz8u8VA/6P0sPQVrMMv06b04VPU8QzvP10icrhkEDu?=
- =?us-ascii?Q?9K03Sp2K4yljQ6ARgLHtH+9EDnDiR/5xtcgQGZFKpQOSQg21J9UHMTxVIJgU?=
- =?us-ascii?Q?3NxoOgcUR2+HHD21ExD7JRJwKxDZD5CtdqxMJTh81lZDodqzaT1EJ727ZMrj?=
- =?us-ascii?Q?UaZ5lLwSgSELyYX4JqlFXptr9dKtXD11r1BywQPGYDR5E5yV4ogW0HHhapUx?=
- =?us-ascii?Q?TrKKE50dsfyPmQDpqsSsWv5NCKUmxMNZkrm4uEjTppneP6+UODxIipW69oj4?=
- =?us-ascii?Q?E7a0F5EQdX/QB3akJTI2DR7sR2S/RlyyEf3hijZUA6rcwXJpgdWtczrRXr3Q?=
- =?us-ascii?Q?mR64NezHk67zg3Pdt40rxPMJvyUa6a3G5PS91Vilw3iv3gOmz8n8vV6AAwSd?=
- =?us-ascii?Q?Mv/J9r1PzWM43XZWDH9TXLk91/d+Doa87ffJWgKDoi0Mhdx9wRfFWuaF7TUZ?=
- =?us-ascii?Q?wgI1Bmzkj1dUXFRMbsFLiQBq7kBOcbGrQC1wutWGPurJ4r0msd3YT0c6E41k?=
- =?us-ascii?Q?Bk7OIk5Ah668gitRrzbmPzEahi+nkZWScR/8+hNNOERHZv+lvGlR614IU1qc?=
- =?us-ascii?Q?dFlfLssvOkeJCgXy/ui2Z49SKVXx/dsXSBTNjR2JNBx4uOMz/UKbA8fSh5yK?=
- =?us-ascii?Q?Ex92lxYWAGqr2qMgzYJZ5nDomI4j1auATA6q3f5mXRUe+mjZbfayyZ8Qd7T2?=
- =?us-ascii?Q?fwXK5JopxtpMx6t6d8+8FEDc09GJhg1LXXihQUgJLvD+2VHpWDAy57KjRY9D?=
- =?us-ascii?Q?WMz+m6v0MwanUhhbX6lcO3xQkbfZmYnVhPMy8Q8sGRDgYo5pZ2s4j5MRxGaw?=
- =?us-ascii?Q?1iDC4QuYhtQapVqS3V9Lga4rjOMfGg+gokBlc5aKQ5jyk2gUteNsFqzlOUVi?=
- =?us-ascii?Q?ejlJxfrkhj7IYHcRJTBqlR7Tj6OcpW606Cr4yY4iMjCm75ozDSBHwwsihY9v?=
- =?us-ascii?Q?3N2nFA=3D=3D?=
+ =?us-ascii?Q?iuwo+lt/IAkUFr5AA2UdNkqrjU5s+QnMBxp4Eq+gwhNmu5UcmwG8RV/AVrpU?=
+ =?us-ascii?Q?lJfzrJu35rAcvjlYb8BKOoF7kIh8iegrrWHfymsqHQUsBV+wrcRSsEJ+kQpx?=
+ =?us-ascii?Q?FIbOLRZp9Z+zGrBixyWO8TAygDBKd9LWYY5Zo1hu6PEPZWAdBIOERuD8T+C6?=
+ =?us-ascii?Q?s8OofpB7ahftAD3oYhjFaE7JxXziEyr2GgK6pxoM1cq9zSJIjihXtSEmtkDN?=
+ =?us-ascii?Q?vPYB5xFEMcSBZxWc+vdD+0sVNco1R8iFl2a0ecy1nWJa1pwN8J0k3hheyulp?=
+ =?us-ascii?Q?yiM3i6tDss5yZDsH/RBhJCXVJVT7TID6m7Sxi/RzeDb4zH3Vwiek0AvLCqkr?=
+ =?us-ascii?Q?Y8Ep9oydhcuAWtI3jQyorVoGgHMidLXqIFrqD63tfD1IVmEJoAETvltYagCg?=
+ =?us-ascii?Q?tr20SW0nW/YnVV0Hn/dB1dAh5kJ+LxLkaVC6wc666d9Y1ICAJqpKkkLbDCxy?=
+ =?us-ascii?Q?KkZ8Z4hjorOF9d2byab+uZ0RIqEafc41NSadrkgIcS/UhtuRQqSA7C9DG8p0?=
+ =?us-ascii?Q?G9+8sP1G0BNRtZk37Z9bxzHylz7pPvXxKPg5BG6qd8vnNmq99cCazEaGrx2B?=
+ =?us-ascii?Q?UjI6y6Yp97eLgvlPnUTkMxjWxizFGEThU9notm1R3b0cWrQQzThg50C/c7al?=
+ =?us-ascii?Q?u20ecZ+XvzCu2f3n++mr4BkMFKqLMBK2mCxPgY5o/SXdGHBnxxbra9wpJ/o/?=
+ =?us-ascii?Q?VTecHQmnlp+hxzVWr02fZkok/QSmPreHULJf5/g7GT0fhUEJ1yXySaDr7QUd?=
+ =?us-ascii?Q?A+dSVkloej5mVEpIBobWFV4Qt4pySbo43idLvfw3SqfubGdf8MXVr75oIOg4?=
+ =?us-ascii?Q?mHJSrqDP0mV2XOG6yq5YKN3K4tiF/BXg5Piagx6fiK09ISJjreQJtcm4Qjw3?=
+ =?us-ascii?Q?yejBp+DlkbYbQ8mzDAs21/qz8rrXsdVffnBHtdDHoJnXPnaiRDjK7BrjFK4j?=
+ =?us-ascii?Q?799RyGAAxtv17IoFiK+iu64i6t5WDSKfqF1jvTqwV5PJlGAQZYi7EAt80uKW?=
+ =?us-ascii?Q?fnhBKa1PfzAJOVpKZD1WToUcvcMHy1reS5vs2mdi56EtjQpxOciqA+Z+EMuO?=
+ =?us-ascii?Q?QjoWrihetmoikqiMF6l8yQZshIUZa68p+F4YTojwA75mFAu7UGchJNjfMRSR?=
+ =?us-ascii?Q?ZszPmLgKiKoHUhdENGkO2E+MU7fg//WfOzbxTjL6cLRsBlJnWA37tJD49kRc?=
+ =?us-ascii?Q?LU9QaGr05XdaZ2U4WLfViyJXNKc3fnyKR/96QM13fEaWMJ41aZTzruBjpR9R?=
+ =?us-ascii?Q?FxPyC/fvuhcXhGEYbDMr2Uxm/eHgynUPmKux4i2YJeHhIGRkR6PveNmdYt+O?=
+ =?us-ascii?Q?1ElBghD/cF8NR3hFOvt+ZssHCy54sTZNhvVVrjZTjIJIHjJolwcDsQ/rDv0i?=
+ =?us-ascii?Q?c3ArzGvSQoyZ45Di2UK8VCWadHUlPp+9Uoax7lIiVApvrNM4++pQRFa1iy2r?=
+ =?us-ascii?Q?uQ86rxLSXW5d6P1WFbtVk0JBkpWIY/09nChJ6nQhPDHa4C4eqOuBT7wWJaNl?=
+ =?us-ascii?Q?VTZ7uaUE/qINL17Gg8qLCCtSol9GCdoU1xkNjorTNBbDTx00baLEf63hCkx5?=
+ =?us-ascii?Q?ukswPcNSdX0Y2v3xfN/K2islxxkYfQjkrv5eIj04g5QiR+dwyKm81oYB9tJJ?=
+ =?us-ascii?Q?Txbr3Z7nfwkhxLMcxgYVRBiPlhnVFIS2akaSQULW5n0vPqU8KV6ExO8z4AGg?=
+ =?us-ascii?Q?vNt3gg=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -138,152 +136,237 @@ MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11040.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fabe9ef-9fd6-48f2-0ca6-08dd44f1223a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2025 07:54:20.8459
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16b4313e-633b-4dfb-4158-08dd44f428c9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2025 08:16:00.3346
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: U8ucsK5yomuoMsD5FFf1ThKFcc5LIA2QITRSF59sR2PaTUSWjOj49UyyidaicGMi7BSf9rjjktKR5Na6kf6jy7VqznKdg+0PbHC1XQPRUsHHBMZNae24PZIKtWKj6Psb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB13278
+X-MS-Exchange-CrossTenant-userprincipalname: R3uecvD8FhjT+qUP1oMznoF4S4q8cpA6/Odgl7kKGzXP1ww4RUuzQV4u9GrdJsnKfUYK7prWPx2yZz02QX/GyOnwNygxFAlFanFxRFrmHeTigewN1tSnwynHuHbda4GQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB14592
 
 Hello Morimoto-san,
 
-Thank you for the patch!
-
 > From: Kuninori Morimoto, Sent: Tuesday, February 4, 2025 10:42 AM
 >=20
-> rsnd_kctrl_accept_runtime() (1) is used for runtime convert rate
-> (=3D Synchronous SRC Mode). Now, rsnd driver has 2 kctrls for it
+> Current rsnd driver supports Synchronous SRC Mode, but HW allow to update
+> rate only within 1% from current rate. Adjust to it.
 >=20
-> (A):	"SRC Out Rate Switch"
-> (B):	"SRC Out Rate"		// it calls (1)
+> Becially, this feature is used to fine-tune subtle difference that occur
+> during sampling rate conversion in SRC. So, it should be called within 1%
+> margin of rate difference.
 >=20
-> (A): can be called anytime
-> (B): can be called only runtime, and will indicate warning if it was used
->    at non-runtime.
+> If there was difference over 1%, it will apply with 1% increments by usin=
+g
+> loop without indicating error message.
 >=20
-> To use runtime convert rate (=3D Synchronous SRC Mode), user might uses c=
-ommand
+> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-nit: According to checkpatch.pl:
------
-WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit desc=
-ription?)
-#17:
-To use runtime convert rate (=3D Synchronous SRC Mode), user might uses com=
-mand
------
+Thank you for the patch!
 
-> in below order.
->=20
-> (X):	> amixer set "SRC Out Rate" on
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Perhaps, 'amixer cset name=3D"SRC Out Rate Switch" on' ?
+Without this patch, an overrun error occurred on a specific situation.
+However, I applied this patch, the error didn't occur.
+So,
+
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
 Best regards,
 Yoshihiro Shimoda
 
-> 	> aplay xxx.wav &
-> (Y):	> amixer set "SRC Out Rate" 48010 // convert rate to 48010Hz
->=20
-> (Y): calls B
-> (X): calls both A and B.
->=20
-> In this case, when user calls (X), it calls both (A) and (B), but it is n=
-ot
-> yet start running. So, (B) will indicate warning.
->=20
-> This warning was added by commit b5c088689847 ("ASoC: rsnd: add warning
-> message to rsnd_kctrl_accept_runtime()"), but the message sounds like the
-> operation was not correct. Let's update warning message.
->=20
-> The message is very SRC specific, implement it in src.c
->=20
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
->  sound/soc/renesas/rcar/core.c | 14 --------------
->  sound/soc/renesas/rcar/rsnd.h |  1 -
->  sound/soc/renesas/rcar/src.c  | 18 +++++++++++++++++-
->  3 files changed, 17 insertions(+), 16 deletions(-)
+>  sound/soc/renesas/rcar/src.c | 98 ++++++++++++++++++++++++++++--------
+>  1 file changed, 76 insertions(+), 22 deletions(-)
 >=20
-> diff --git a/sound/soc/renesas/rcar/core.c b/sound/soc/renesas/rcar/core.=
-c
-> index d3709fd0409e4..f3f0c3f0bb9f5 100644
-> --- a/sound/soc/renesas/rcar/core.c
-> +++ b/sound/soc/renesas/rcar/core.c
-> @@ -1770,20 +1770,6 @@ int rsnd_kctrl_accept_anytime(struct rsnd_dai_stre=
-am *io)
->  	return 1;
->  }
->=20
-> -int rsnd_kctrl_accept_runtime(struct rsnd_dai_stream *io)
-> -{
-> -	struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
-> -	struct rsnd_priv *priv =3D rsnd_io_to_priv(io);
-> -	struct device *dev =3D rsnd_priv_to_dev(priv);
-> -
-> -	if (!runtime) {
-> -		dev_warn(dev, "Can't update kctrl when idle\n");
-> -		return 0;
-> -	}
-> -
-> -	return 1;
-> -}
-> -
->  struct rsnd_kctrl_cfg *rsnd_kctrl_init_m(struct rsnd_kctrl_cfg_m *cfg)
->  {
->  	cfg->cfg.val =3D cfg->val;
-> diff --git a/sound/soc/renesas/rcar/rsnd.h b/sound/soc/renesas/rcar/rsnd.=
-h
-> index a5f54b65313c4..04c70690f7a25 100644
-> --- a/sound/soc/renesas/rcar/rsnd.h
-> +++ b/sound/soc/renesas/rcar/rsnd.h
-> @@ -742,7 +742,6 @@ struct rsnd_kctrl_cfg_s {
->  #define rsnd_kctrl_vals(x)	((x).val)	/* =3D (x).cfg.val[0] */
->=20
->  int rsnd_kctrl_accept_anytime(struct rsnd_dai_stream *io);
-> -int rsnd_kctrl_accept_runtime(struct rsnd_dai_stream *io);
->  struct rsnd_kctrl_cfg *rsnd_kctrl_init_m(struct rsnd_kctrl_cfg_m *cfg);
->  struct rsnd_kctrl_cfg *rsnd_kctrl_init_s(struct rsnd_kctrl_cfg_s *cfg);
->  int rsnd_kctrl_new(struct rsnd_mod *mod,
 > diff --git a/sound/soc/renesas/rcar/src.c b/sound/soc/renesas/rcar/src.c
-> index e7f86db0d94c3..3099180297722 100644
+> index 3099180297722..7d73b183bda68 100644
 > --- a/sound/soc/renesas/rcar/src.c
 > +++ b/sound/soc/renesas/rcar/src.c
-> @@ -531,6 +531,22 @@ static irqreturn_t rsnd_src_interrupt(int irq, void =
-*data)
->  	return IRQ_HANDLED;
->  }
+> @@ -35,6 +35,7 @@ struct rsnd_src {
+>  	struct rsnd_mod *dma;
+>  	struct rsnd_kctrl_cfg_s sen;  /* sync convert enable */
+>  	struct rsnd_kctrl_cfg_s sync; /* sync convert */
+> +	u32 current_sync_rate;
+>  	int irq;
+>  };
 >=20
-> +static int rsnd_src_kctrl_accept_runtime(struct rsnd_dai_stream *io)
-> +{
+> @@ -100,7 +101,7 @@ static u32 rsnd_src_convert_rate(struct rsnd_dai_stre=
+am *io,
+>  	if (!rsnd_src_sync_is_enabled(mod))
+>  		return rsnd_io_converted_rate(io);
+>=20
+> -	convert_rate =3D src->sync.val;
+> +	convert_rate =3D src->current_sync_rate;
+>=20
+>  	if (!convert_rate)
+>  		convert_rate =3D rsnd_io_converted_rate(io);
+> @@ -201,13 +202,73 @@ static const u32 chan222222[] =3D {
+>  static void rsnd_src_set_convert_rate(struct rsnd_dai_stream *io,
+>  				      struct rsnd_mod *mod)
+>  {
 > +	struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
+>  	struct rsnd_priv *priv =3D rsnd_mod_to_priv(mod);
+> -	struct device *dev =3D rsnd_priv_to_dev(priv);
+> +	struct rsnd_src *src =3D rsnd_mod_to_src(mod);
+> +	u32 fin, fout, new_rate;
+> +	int inc, cnt, rate;
+> +	u64 base, val;
 > +
-> +	if (!runtime) {
-> +		struct rsnd_priv *priv =3D rsnd_io_to_priv(io);
-> +		struct device *dev =3D rsnd_priv_to_dev(priv);
+> +	if (!runtime)
+> +		return;
 > +
-> +		dev_warn(dev, "\"SRC Out Rate\" can use during running\n");
+> +	if (!rsnd_src_sync_is_enabled(mod))
+> +		return;
 > +
-> +		return 0;
+> +	fin	=3D rsnd_src_get_in_rate(priv, io);
+> +	fout	=3D rsnd_src_get_out_rate(priv, io);
+> +
+> +	new_rate =3D src->sync.val;
+> +
+> +	if (!new_rate)
+> +		new_rate =3D fout;
+> +
+> +	/* Do nothing if no diff */
+> +	if (new_rate =3D=3D src->current_sync_rate)
+> +		return;
+> +
+> +	/*
+> +	 * SRCm_IFSVR::INTIFS can change within 1%
+> +	 * see
+> +	 *	SRCm_IFSVR::INTIFS Note
+> +	 */
+> +	inc =3D fout / 100;
+> +	cnt =3D abs(new_rate - fout) / inc;
+> +	if (fout > new_rate)
+> +		inc *=3D -1;
+> +
+> +	/*
+> +	 * After start running SRC, we can update only SRC_IFSVR
+> +	 * for Synchronous Mode
+> +	 */
+> +	base =3D (u64)0x0400000 * fin;
+> +	rate  =3D fout;
+> +	for (int i =3D 0; i < cnt; i++) {
+> +		val   =3D base;
+> +		rate +=3D inc;
+> +		do_div(val, rate);
+> +
+> +		rsnd_mod_write(mod, SRC_IFSVR, val);
 > +	}
+> +	val   =3D base;
+> +	do_div(val, new_rate);
 > +
-> +	return 1;
+> +	rsnd_mod_write(mod, SRC_IFSVR, val);
+> +
+> +	/* update current_sync_rate */
+> +	src->current_sync_rate =3D new_rate;
 > +}
 > +
->  static int rsnd_src_probe_(struct rsnd_mod *mod,
->  			   struct rsnd_dai_stream *io,
->  			   struct rsnd_priv *priv)
-> @@ -594,7 +610,7 @@ static int rsnd_src_pcm_new(struct rsnd_mod *mod,
->  			       rsnd_io_is_play(io) ?
->  			       "SRC Out Rate" :
->  			       "SRC In Rate",
-> -			       rsnd_kctrl_accept_runtime,
-> +			       rsnd_src_kctrl_accept_runtime,
->  			       rsnd_src_set_convert_rate,
->  			       &src->sync, 192000);
+> +static void rsnd_src_init_convert_rate(struct rsnd_dai_stream *io,
+> +				       struct rsnd_mod *mod)
+> +{
+>  	struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
+> +	struct rsnd_priv *priv =3D rsnd_mod_to_priv(mod);
+> +	struct device *dev =3D rsnd_priv_to_dev(priv);
+>  	int is_play =3D rsnd_io_is_play(io);
+>  	int use_src =3D 0;
+>  	u32 fin, fout;
+> -	u32 ifscr, fsrate, adinr;
+> +	u32 ifscr, adinr;
+>  	u32 cr, route;
+>  	u32 i_busif, o_busif, tmp;
+>  	const u32 *bsdsr_table;
+> @@ -245,26 +306,15 @@ static void rsnd_src_set_convert_rate(struct rsnd_d=
+ai_stream *io,
+>  	adinr =3D rsnd_get_adinr_bit(mod, io) | chan;
 >=20
+>  	/*
+> -	 * SRC_IFSCR / SRC_IFSVR
+> -	 */
+> -	ifscr =3D 0;
+> -	fsrate =3D 0;
+> -	if (use_src) {
+> -		u64 n;
+> -
+> -		ifscr =3D 1;
+> -		n =3D (u64)0x0400000 * fin;
+> -		do_div(n, fout);
+> -		fsrate =3D n;
+> -	}
+> -
+> -	/*
+> +	 * SRC_IFSCR
+>  	 * SRC_SRCCR / SRC_ROUTE_MODE0
+>  	 */
+> +	ifscr	=3D 0;
+>  	cr	=3D 0x00011110;
+>  	route	=3D 0x0;
+>  	if (use_src) {
+>  		route	=3D 0x1;
+> +		ifscr	=3D 0x1;
+>=20
+>  		if (rsnd_src_sync_is_enabled(mod)) {
+>  			cr |=3D 0x1;
+> @@ -335,7 +385,6 @@ static void rsnd_src_set_convert_rate(struct rsnd_dai=
+_stream *io,
+>  	rsnd_mod_write(mod, SRC_SRCIR, 1);	/* initialize */
+>  	rsnd_mod_write(mod, SRC_ADINR, adinr);
+>  	rsnd_mod_write(mod, SRC_IFSCR, ifscr);
+> -	rsnd_mod_write(mod, SRC_IFSVR, fsrate);
+>  	rsnd_mod_write(mod, SRC_SRCCR, cr);
+>  	rsnd_mod_write(mod, SRC_BSDSR, bsdsr_table[idx]);
+>  	rsnd_mod_write(mod, SRC_BSISR, bsisr_table[idx]);
+> @@ -348,6 +397,9 @@ static void rsnd_src_set_convert_rate(struct rsnd_dai=
+_stream *io,
+>=20
+>  	rsnd_adg_set_src_timesel_gen2(mod, io, fin, fout);
+>=20
+> +	/* update SRC_IFSVR */
+> +	rsnd_src_set_convert_rate(io, mod);
+> +
+>  	return;
+>=20
+>  convert_rate_err:
+> @@ -467,7 +519,8 @@ static int rsnd_src_init(struct rsnd_mod *mod,
+>  	int ret;
+>=20
+>  	/* reset sync convert_rate */
+> -	src->sync.val =3D 0;
+> +	src->sync.val		=3D
+> +	src->current_sync_rate	=3D 0;
+>=20
+>  	ret =3D rsnd_mod_power_on(mod);
+>  	if (ret < 0)
+> @@ -475,7 +528,7 @@ static int rsnd_src_init(struct rsnd_mod *mod,
+>=20
+>  	rsnd_src_activation(mod);
+>=20
+> -	rsnd_src_set_convert_rate(io, mod);
+> +	rsnd_src_init_convert_rate(io, mod);
+>=20
+>  	rsnd_src_status_clear(mod);
+>=20
+> @@ -493,7 +546,8 @@ static int rsnd_src_quit(struct rsnd_mod *mod,
+>  	rsnd_mod_power_off(mod);
+>=20
+>  	/* reset sync convert_rate */
+> -	src->sync.val =3D 0;
+> +	src->sync.val		=3D
+> +	src->current_sync_rate	=3D 0;
+>=20
+>  	return 0;
+>  }
+> @@ -601,7 +655,7 @@ static int rsnd_src_pcm_new(struct rsnd_mod *mod,
+>  			       "SRC Out Rate Switch" :
+>  			       "SRC In Rate Switch",
+>  			       rsnd_kctrl_accept_anytime,
+> -			       rsnd_src_set_convert_rate,
+> +			       rsnd_src_init_convert_rate,
+>  			       &src->sen, 1);
+>  	if (ret < 0)
+>  		return ret;
 > --
 > 2.43.0
 
