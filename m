@@ -1,91 +1,119 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC46433D9
-	for <linux-sound@vger.kernel.org>; Mon,  3 Feb 2025 23:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F07D12BF24;
+	Tue,  4 Feb 2025 01:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738627078; cv=none; b=rFgetbyhV9w8mYUV7LVITy5KNFNj3GHXrgt3n47aKUH2dgkyT+iH7eLz3+ON89fkN5Vu22mhFlM9+7DJplJXqAlORReRZfFk7T8BB+AhSPZ3obCqbs00KhUmDoQ9l92MU0XvnvHUJqiGeO1iiiAVAHIB4VJheLU2Wm+XdqKo32A=
+	t=1738631869; cv=none; b=fuD28WPESZqSvwZttBhwIAxO1D/y+WyuW29KwM75FnxS65iqKhRbSpHwpZ4BfH10KhTNhQjvNzjECkCz8QcykxMnFSN3xOWee/miSVUp1v59qSdrDs16Ol0InzhSyZ1wdeMyjoD/CYYua6QOij2OahoKW5A67AxcPSGsoWjisJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738627078; c=relaxed/simple;
-	bh=nBB7oz3ua9loVwHQe8siOT7x+e/IyZvBAZ/PU0h8rdw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FxbfD5mHjmnWHQGxeYSs8VE9gqdkuxsQl3mlNTbKiTzYXccliGzYHjaD0rvH6CGgajCiKD2AIpFCnLqpcrj0Oltj4WIm2P8eRJxftWfX7p2ikRoKNf6BGx8jOYkhkLEgEL8AW1O+kLB0YcLGbJYKqmZ4bQDb+6FC9j3UJGK3pbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VMrvn6C6; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1738631869; c=relaxed/simple;
+	bh=JcaF0X/m2quyOIOicr8JbSjOfZmbQC68pVxNsk0ocMo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Wi5BuRKd2xCxlTKFfxMpLBCa4VEvd0tO4BUDiSuKiSnYUhWNGtU4h7pB3Sv9T9MLAJ804/W7f4Afv7t392Tllx3yAO3UQAstdF9wBEZAapTDcKRFDKZOr4mpCpZwZB//MU3MX9t/mom+y+MYknKFMVYAs0hOpFWF6TZwsWHRhzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SSmHLVYH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VMrvn6C6"
-Message-ID: <c8c699f7-bf9b-4e36-910e-c6f1c7092543@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1738627063;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UbnqC4ekamBqecRRMpHYSlKhj+7M062OAmXaaMk8fD0=;
-	b=VMrvn6C6SgEHZv6w3pg5hOZO9g9oWMqPSI5wfZ19rOL85UAY/wzkbRone1FkpC9d508YwC
-	qzyneSeCGqx7f2LrWeXPpD7nAFpjTu79J+2qyjY/NbDbyRyA46nKiGbgtQEZ0JLf7ZcYUy
-	hidUg9ViA+WPgckjjBjQbkrSxPvPgzk=
-Date: Mon, 3 Feb 2025 17:57:39 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SSmHLVYH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C064C4CEE0;
+	Tue,  4 Feb 2025 01:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738631868;
+	bh=JcaF0X/m2quyOIOicr8JbSjOfZmbQC68pVxNsk0ocMo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SSmHLVYHe6eVvlngmtM0LA/P5llL9CIX9Ucmm7u3lDJWBr6z/1GZYyorxaZg/Mpt2
+	 OvtswAVJFiJJxfqMwopiae9hRLpP2ryP+34TdJEV1M1LBesaWOZKRlGdUDA9Siixeu
+	 YVexufjYKtFU94z51HgI5vbHd528GBP4QIOw/BkhZAE1w+ujBfZC16dL+k4J1sOg1h
+	 62dsb7WIWCDJqVbjMoXrvjVkRf4u549ZkVeo3CFZ3hwxcDZ/Xk1aFOfWdCa4Zqq1yq
+	 /eY61fGjpBZ9cTVGrqYMDT0G2HYS9siYWeL2ShI50pZanKzNyQj3ywMyftAbc6g+xv
+	 JBEuZBrxD3oQQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	pierre-louis.bossart@linux.dev,
+	alban.boye@protonmail.com,
+	kuninori.morimoto.gx@renesas.com,
+	u.kleine-koenig@baylibre.com,
+	tomlohave@gmail.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.13 4/6] ASoC: Intel: bytcr_rt5640: Add DMI quirk for Vexia Edu Atla 10 tablet 5V
+Date: Mon,  3 Feb 2025 20:17:31 -0500
+Message-Id: <20250204011736.2206691-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250204011736.2206691-1-sashal@kernel.org>
+References: <20250204011736.2206691-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v9 0/5] Support system sleep with offloaded usb transfers
-To: Guan-Yu Lin <guanyulin@google.com>
-Cc: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
- mathias.nyman@intel.com, stern@rowland.harvard.edu, perex@perex.cz,
- tiwai@suse.com, sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com,
- ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20250117145145.3093352-1-guanyulin@google.com>
- <943a7b09-8e77-4813-810a-18fea0e61482@linux.dev>
- <CAOuDEK3aip9SLCUPOzpVPwx-O4rmF-+sQrF4GJasGPBzV=qJdg@mail.gmail.com>
- <e5b1c3bf-4457-4859-92fc-785f7d6037fa@linux.dev>
- <CAOuDEK2u509kNjyL6qm27QgvtoCscRcsLixW=W8ABz2NF8A-tw@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <CAOuDEK2u509kNjyL6qm27QgvtoCscRcsLixW=W8ABz2NF8A-tw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.13.1
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-On 2/2/25 20:57, Guan-Yu Lin wrote:
-> On Tue, Jan 28, 2025 at 11:22 PM Pierre-Louis Bossart
-> <pierre-louis.bossart@linux.dev> wrote:
->>
->> I am not following, sorry.
->>
->> Is the desired outcome to
->>
->> a) prevent the system from entering S3 if there is an active USB audio offloaded stream?
->>
->> or b) allow offloaded transactions even when the system is in S3?
->>
->>
->> which is it?
->>
->> a) would be rather interesting, but currently we don't have any such behavior supported. When the system enters S3 all audio stops. The stream will resume when the system goes back to S0. Do we really want the battery to drain in S3?
->>
->> b) seems rather complicated, once the on-going DMA transfers complete then who's going to refill buffers for the USB offloaded streams? Allowing the lowest level to operate even in S3 is only a small part of the puzzle, someone's got to provide data at some point. Unless the data is generated also by a side DSP having access to mass storage or wireless interfaces?
-> 
-> Thanks for the question, the intent of our proposal should be (b), to
-> allow offloaded transactions even when the system is in S3.
-> In our design, the DSP wakes the system before the buffers are fully
-> drained. This patchset enables the USB controller for offloaded
-> transfers during system suspend (S3). To be precise, this patchset
-> focuses solely on enabling the USB controller in S3 and does not
-> include other necessary components for continuous offloaded USB
-> transfers. I'll revise the commit message/cover letter to reflect
-> this.Thanks for highlighting the potential ambiguity.
+From: Hans de Goede <hdegoede@redhat.com>
 
-Thanks for the precision.
+[ Upstream commit 6917192378c1ce17ba31df51c4e0d8b1c97a453b ]
 
-It was my understanding that anything above S1 could incur a hardware/software latency of two seconds or more to go back to S0. That would imply a buffering scheme that's significantly larger than usual offloaded solutions. In "typical" offload implementations it's rare to go beyond 100s of ms, since at some point you run into user-experience issues when applying volume changes or when changing tracks. It's usually a no-go if the user has to wait for a perceivable amount of time while the buffers drain.
+The Vexia EDU ATLA 10 tablet comes in 2 different versions with
+significantly different mainboards. The only outward difference is that
+the charging barrel on one is marked 5V and the other is marked 9V.
 
-Not to mention that quite a few platforms no longer support S3, since 'Modern Standby' aka "S0 Low Power Idle" or 's2idle' was introduced in the Windows 10 days S3 became largely a legacy feature gradually dropped since no one really uses it.
+The 5V version mostly works with the BYTCR defaults, except that it is
+missing a CHAN package in its ACPI tables and the default of using
+SSP0-AIF2 is wrong, instead SSP0-AIF1 must be used. That and its jack
+detect signal is not inverted as it usually is.
+
+Add a DMI quirk for the 5V version to fix sound not working.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patch.msgid.link/20250123132507.18434-1-hdegoede@redhat.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/intel/boards/bytcr_rt5640.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
+index 9caa4407c1ca3..6446cda0f8572 100644
+--- a/sound/soc/intel/boards/bytcr_rt5640.c
++++ b/sound/soc/intel/boards/bytcr_rt5640.c
+@@ -1132,7 +1132,22 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
+ 					BYT_RT5640_SSP0_AIF2 |
+ 					BYT_RT5640_MCLK_EN),
+ 	},
+-	{	/* Vexia Edu Atla 10 tablet */
++	{
++		/* Vexia Edu Atla 10 tablet 5V version */
++		.matches = {
++			/* Having all 3 of these not set is somewhat unique */
++			DMI_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "To be filled by O.E.M."),
++			DMI_MATCH(DMI_BOARD_NAME, "To be filled by O.E.M."),
++			/* Above strings are too generic, also match on BIOS date */
++			DMI_MATCH(DMI_BIOS_DATE, "05/14/2015"),
++		},
++		.driver_data = (void *)(BYTCR_INPUT_DEFAULTS |
++					BYT_RT5640_JD_NOT_INV |
++					BYT_RT5640_SSP0_AIF1 |
++					BYT_RT5640_MCLK_EN),
++	},
++	{	/* Vexia Edu Atla 10 tablet 9V version */
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
+ 			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
+-- 
+2.39.5
+
