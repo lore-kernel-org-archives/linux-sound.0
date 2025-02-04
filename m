@@ -1,95 +1,90 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C581418B494
-	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 07:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488B118B494
+	for <linux-sound@vger.kernel.org>; Tue,  4 Feb 2025 07:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738655542; cv=none; b=H7ZoJ6TnvIfN3rYrq4m3Qonkazv8mHmdIab267JRTOEDLmruR2fPT8qCQ//Tm5DfoJBM5SyeOjkSma5zy4ZV/ZXS5D3rNsiYZlamPgSv1jFXWzawozzxSYadkbKWUz89s4/IzwWUpFOwfokMTSZnkUWFQmseJGsOSWbINWUl4/0=
+	t=1738655555; cv=none; b=mfalkqoXXmNty+wF+mX+2Sx9B2MKnpOT0tc4lnReXRTyrgekV0csCy8e70BYn824aUlRDkfOUOw3uZeQ96eZHWbRSKNQONd0KQD7zPI2v5UGownVyQMJAEFE3ALuB0BjedNy5vtup//JdqKAZh6mR/mWXA5fuvGS5UYLO3vQkSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738655542; c=relaxed/simple;
-	bh=YALXhFB/bnAOZ+D+zaVyqSzuX+6mw6+NdsFaznUl5Yw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UxuVEZrCQIP3L2u80DgsAPJlrUXKtF7PFH3+yLRwhOpRf+W0MOhrWnQyEEszmLVxmKbwNaDDKhnNrWigEXygTOnFeCRd2dz3CpeUJtk1xX1z/QORpC/bSu37V0kz3BghpVCBcfzSJ+HiSZ5fODFsv7uyC/T37wvK5gRi8ECzXfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GcPjhF35; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738655555; c=relaxed/simple;
+	bh=/CgV+N+JSjVzPhhVitCQQUYdDGZx2sNkAdRXBzO25Q0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CXw7aorvIatUjAQ8rYOqhTk+I7hygJujQC9mixcb5JG6uuYN93pAoEWiWAS2iylIu5VvnO7h2ilm95WMuBgvuGtckbGBBsAhVlXlS+phkIIwoXFSqWEBFwavQ+/RA2FgT11I/eHkaERwoph6GvH+NCVBSkX6/w0F/yu0srniwbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aWHnNrDV; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GcPjhF35"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-216728b1836so89241595ad.0
-        for <linux-sound@vger.kernel.org>; Mon, 03 Feb 2025 23:52:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738655538; x=1739260338; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zE75lecawo8A6zAFMaW4h7NnKaU4Qon24MvY041OO74=;
-        b=GcPjhF359TRCCe22koypW13/puBjfU/yTOh5jR8lNzEWSz+9F4lr6Xeg/Dcq5vmVov
-         Stbc2e5kXi11Aq5uFLSRZnWXrxlMQj24L1nic6xpZjylJh6sA+p6ezUDrDWwB9JEnage
-         i2cka1qgpVWE4x2r6AerTImoKVBkp4Kkmc7zeTduf0O07NNONFardCqc8JzGUgmtICOf
-         3JlLjMPW655whNj2EQMJNda6TePlpEmAiqmZMxumWsRh+jN2BSat3yDradtZKU+7GVqC
-         SjTlrCxyEvDnQ7ofAn30C5iYMfoaZLavtA2twNHZwcjWJ8XYHIDsSll8b1MoETdur89m
-         HZfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738655538; x=1739260338;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zE75lecawo8A6zAFMaW4h7NnKaU4Qon24MvY041OO74=;
-        b=vWXydGMCb9lph8NuJo6Tpg+0LRAurWRKPW7crattRTbYEYwKBp9yxVF/PgrM4Gkel3
-         PZ+8X6yPX915Cn7f7WSF750lrptoKfglSEvrBHNiIMnSn1Kj0fyZAg4Qdpdoqkg/awHt
-         luE+9emdSBF3xihEMVdIMYmsvmRYZ6j+bcE3uLwUAYSQzZLHxlgdFGfwveuchbr+Qpug
-         RWkYRUtCWNQ5zR4c8DJGTyHcwk2hbM0l9jFHE80O4UbnWjyGcqbx+yUyQwZVpu3NcWe9
-         pVkak1mfNYDLzk8Gue4a1p6ooKHzU67gN0w6BOTF0Smv/oaRZNFmJk+F7II0aGKeYcT0
-         q5Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCVBSG50V1Y4amtlPOvMyqdwufoyjZBLWeh/bi3ssRY0sC3Na+tT4gPqAmOoeQzlXuB3OEsV1Vb5HGhH/A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1biJjFCB9pFKfOg3zHi3404Fke1ThOQM2uLCi4Q8JGokRgysi
-	61GXXjiF4ZUchVP3mJL5ub+I0kjbfI23E5ud9Bv+poiaKp32QYayPKAy6yRQm9Y85HpGSHu95l9
-	CrBW2L5EpJiGU0VJCFZdVJ4XryyI=
-X-Gm-Gg: ASbGncswpxCo2H96eOt/ZfD8oNYabYjmeNlYW96vubavlpKlkWfsNIMyaWMx+sZg9GB
-	o6xtnmWszpZo0pHqHbRXvfnM8QyrBt+QcBxiG1QRjV3hxIOT7aviAkOdo5ZLSgmVe9tAoyw==
-X-Google-Smtp-Source: AGHT+IE3VaZHjmz7skQkN/UKH3UTO7MFfjdxqQc1JdjbW9uM7R9T3sz9X9x9sieQkNDg8roILef65JQHo94ZB80ujPg=
-X-Received: by 2002:a17:902:e74b:b0:216:7c33:8994 with SMTP id
- d9443c01a7336-21dd7de6d49mr443560065ad.53.1738655538002; Mon, 03 Feb 2025
- 23:52:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aWHnNrDV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738655554; x=1770191554;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/CgV+N+JSjVzPhhVitCQQUYdDGZx2sNkAdRXBzO25Q0=;
+  b=aWHnNrDVIOo1cT4WAphtSdlvWecjVTYas3cXhuLRco04ivqGi9EN9Rgv
+   BWu8+axsozmnl/32wZqW51bpdyNyWpYGVEYi9xoRWDj5h+scxgj2jDznO
+   c/V1rilAWZQ3uZHs2itkr85HleL7kwtqPrddFCsicqKTJTKWCAi6voa4x
+   kySjXxH2jlzaDC3c17d0+VEQBHR0o9G+Z2/WlLhXLlOUVZdN8coOlK5+/
+   +eDWZObcoZBu/mBQHf169UsGp5p+dW4nIA3DGQ8jrX8VRx/dBY6hloFo0
+   aDTlG4k0MUY8k6BGYwZE+bGkJ6NaBPkCh9W5oEk+kGqUNn3sXmvX5s6lA
+   w==;
+X-CSE-ConnectionGUID: 0wfi657BQ5Opfh2D7f1Wfg==
+X-CSE-MsgGUID: tR9C02MATB+RGR7vsd+TmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39271080"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="39271080"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 23:52:34 -0800
+X-CSE-ConnectionGUID: BSQ80L6ER8SMtSB307/EHQ==
+X-CSE-MsgGUID: QbOVt4idTLCvq1XREV5Npw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
+   d="scan'208";a="111104934"
+Received: from iweiny-desk3.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.223.111])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 23:52:32 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH] ASoC: rt722: get lane mapping property
+Date: Tue,  4 Feb 2025 15:52:24 +0800
+Message-ID: <20250204075224.162661-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87ikpq2rui.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87ikpq2rui.wl-kuninori.morimoto.gx@renesas.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Tue, 4 Feb 2025 09:53:50 +0200
-X-Gm-Features: AWEUYZnstrWaHecJe5fCAjiveoSASdGfG5rgypZQgA-650JZj5PGjADAhtcBKc0
-Message-ID: <CAEnQRZDFCBLzF59_h0jZ+ZR99igFO8ZezwFtp_HCC=TE0vyUzQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: simple-card-utils.c: add missing dlc->of_node
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 4, 2025 at 7:37=E2=80=AFAM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
->
-> commit 90de551c1bf ("ASoC: simple-card-utils.c: enable multi Component
-> support") added muiti Component support, but was missing to add
-> dlc->of_node. Because of it, Sound device list will indicates strange
-> name if it was DPCM connection and driver supports dai->driver->dai_args,
-> like below
->
->         > aplay -l
->         card X: sndulcbmix [xxxx], device 0: fe.(null).rsnd-dai.0 (*) []
->         ...                                     ^^^^^^
->
-> It will be fixed by this patch
->
->         > aplay -l
->         card X: sndulcbmix [xxxx], device 0: fe.sound@ec500000.rsnd-dai.0=
- (*) []
->         ...                                     ^^^^^^^^^^^^^^
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Rt722 supports multi-lane and the driver doesn't call sdw_slave_read_prop()
+to get all properties. Add sdw_slave_read_lane_mapping() to get the
+required lane mapping property.
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ sound/soc/codecs/rt722-sdca-sdw.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
+index 25fc13687bc8..e512217b64a2 100644
+--- a/sound/soc/codecs/rt722-sdca-sdw.c
++++ b/sound/soc/codecs/rt722-sdca-sdw.c
+@@ -203,6 +203,8 @@ static int rt722_sdca_read_prop(struct sdw_slave *slave)
+ 	unsigned long addr;
+ 	struct sdw_dpn_prop *dpn;
+ 
++	sdw_slave_read_lane_mapping(slave);
++
+ 	prop->scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
+ 	prop->quirks = SDW_SLAVE_QUIRKS_INVALID_INITIAL_PARITY;
+ 
+-- 
+2.43.0
+
