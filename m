@@ -1,81 +1,86 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032A7151987;
-	Wed,  5 Feb 2025 12:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF41822A7FA;
+	Wed,  5 Feb 2025 12:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738759095; cv=none; b=ewib7a0Z8Ijd69nmBrVUS0Y/2fBZo1w4bGPdKHkuMjwA81z3GMkOulCdak6fIieQVKj7bpSRiMW4S8qMNH2hkzlmN3I8N5/ZkJByAvNH/Qa7/3B8n78WTVIKVhW2w0MTFOk3I8T1q4iow30Zn2oqWqZpOJZgfrBqlImuyvVOl8w=
+	t=1738759461; cv=none; b=WOjsxT0BUBTmQXmGrDuU3AdD9pqACUaS54xIc9df2eLxHg/sbP1xmVT5dvZulPvffGYdpUWJuLrrx80F223ru0mQwybb6Jzwx0t58sAN7QMsfw6lxvIyuzNqG8GzNoq1dScD6MMqk8KhJDECqD0QDwvel4zQXdQdMft81XMW+AY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738759095; c=relaxed/simple;
-	bh=yVkYzT9iu21XdX/Wk9cBe9rcgtxJMysjII2zPq3PAAI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=txjTRQTLSOBo94KatmpupfqXafDxT/xAE7MWqMLQ8YCIsEX/yZqLL/wn+u6jjhz2NxraFcp219UcmvO1qkCwM0EH5dkfkb1KdXjQXPaTby6MfGszxOArbXTjgsRI48Et12jsU4AS+uiNje946wJSw/MGqqKwsh8yAp100TxzcmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=JvH8WnzC; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1738759461; c=relaxed/simple;
+	bh=pndALRAxj8SSHI3s2SLD4uhfGrnoFhTi0WG4bEaxkMg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=bNNMaYDpuwv8+qFzNawcOPpgYsh5o1DrmwxAxn2Ed16vYHgtwBN8zrgnNpQNG9zYq++rpn93pP9H+KLdRfO9UdHyJW9cFmEPaf9a+2DZ9K2g52L7wyS3Nfe9kk++/AKHzV76yGzLxd86ljavWoC78wST0G/eSzn3N186Edvc17Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mWeKgK2E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="JvH8WnzC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=7uMFfYO1WmbS/ZVgPPg4SEdKN86zPP893kBz9q+8nj8=; b=JvH8WnzCw23uvFeu
-	OkNSYapNfjAeas0JWasfktf7aBtOBLDlbgM4TVxUWg5eBrAaDPSxcJ96rmFCmpeo45TSnbiH5l31x
-	EofGCQjUa1PbOjRRyyQseEWQuhA5uxuPG5C8Kw9vwQTia+bzo+R5wTcYfgv9yiZHp9cHvdumH0bds
-	fkQWjesOBnclGdxqME/wshVOtHr50dpHTr8RX601myp/knpKrru/qFpuSLMWGnx6kLQVoK2lbZQaK
-	A/z0UK6HM0y86mB4HDG00j46Gqf5KDdPcW9cANsdedAnatnGoNhMFLSLofskWpNUUpQF1dqGO0k7g
-	UuIJd2oMpnAl6OfClg==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1tfefP-00DjlZ-2Z;
-	Wed, 05 Feb 2025 12:38:07 +0000
-Date: Wed, 5 Feb 2025 12:38:07 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: max98095: Remove unused max98095_jack_detect
-Message-ID: <Z6Nbr4XIN421orTF@gallifrey>
-References: <20250205014458.486207-1-linux@treblig.org>
- <dc0bc826-6105-49f1-8a59-bb4881e9143e@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mWeKgK2E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB4F5C4CED1;
+	Wed,  5 Feb 2025 12:44:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738759461;
+	bh=pndALRAxj8SSHI3s2SLD4uhfGrnoFhTi0WG4bEaxkMg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mWeKgK2EQ5glYceYFsOH1vLHo+nb4viPrD+h4lItnE378XR0Il704KhP5n2hSVTGt
+	 AquexTF2hjCJ7enRHRC/dbs1NzOczS4kJFkIAxa305HMYciv+RtnRuv5U5Hw/FRLT7
+	 VQjtmyBukmx4UGscoQueSOqckaQEvLiWH2NLe/+e0O2nf70hVix2Bu+naXwmHKMNnb
+	 Tlr7obWZxHauYJiy/8InUtEh122RaYNzQjc8xYh+xrC9qDRM7wOzr2aYIc6Psg9lCS
+	 Jak1FId4zKTWZiqeZ6Q+5Ao5tNZScJqByCFAeniTEAC1Nq87vztNRAy++iaDXRV4jo
+	 RJMRpiDdjx3YQ==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ daniel.baluta@nxp.com, kai.vehmanen@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, perex@perex.cz, tiwai@suse.com, 
+ Zhang Heng <zhangheng@kylinos.cn>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250117014343.451503-1-zhangheng@kylinos.cn>
+References: <20250117014343.451503-1-zhangheng@kylinos.cn>
+Subject: Re: [PATCH v2] ASoC: SOF: topology: Use krealloc_array() to
+ replace krealloc()
+Message-Id: <173875945870.32457.1216204039279705244.b4-ty@kernel.org>
+Date: Wed, 05 Feb 2025 12:44:18 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <dc0bc826-6105-49f1-8a59-bb4881e9143e@sirena.org.uk>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 12:37:36 up 272 days, 23:51,  1 user,  load average: 0.00, 0.00,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-* Mark Brown (broonie@kernel.org) wrote:
-> On Wed, Feb 05, 2025 at 01:44:58AM +0000, linux@treblig.org wrote:
-> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> > 
-> > max98095_jack_detect() was added in 2012 as part of
-> > commit 9dd90c5db040 ("ASoC: max98095: add jack detection")
-> > but hasn't been used.
-> > 
-> > Remove it.
+On Fri, 17 Jan 2025 09:43:43 +0800, Zhang Heng wrote:
+> Use krealloc_array() to replace krealloc() with multiplication.
+> krealloc_array() has multiply overflow check, which will be safer.
 > 
-> > -	max98095_report_jack(client->irq, component);
-> > -	return 0;
-> > -}
-> > -EXPORT_SYMBOL_GPL(max98095_jack_detect);
 > 
-> No, this is exported for machine drivers which might not be in tree.
 
-Ah OK; of course it would be nice if they were in the tree.
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: SOF: topology: Use krealloc_array() to replace krealloc()
+      commit: a05143a8f713d9ae6abc41141dac52c66fca8b06
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
+Mark
 
-Dave
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
