@@ -1,39 +1,64 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B415F507;
-	Wed,  5 Feb 2025 17:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB3F13D897;
+	Wed,  5 Feb 2025 18:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738774977; cv=none; b=eBZr6o/VibbFZrKUZepjYVa8uUJhYk2Rtmk+UB9079dL/ZFWbhahjE2v67U0shgB+Gd35FJ5ml131y+weqJ//MvIB+pw4PjZGx2FQ3tjLd8HxoZqRYNmgt2+6kVuspBaB/I+zfLiEy5jwq4jM/8uOiWqQrATD8lPa0gJYOlVYaU=
+	t=1738781898; cv=none; b=KoUc3fkz/ihmaPs4xgYhRDD4/yLQo+BpwHBUeRSKp/+UesS6cY+hEk97JPycIZwAzomIfBdnbDVOe7oeoCK7bHgim9wcbvq4F0zvm7aLvfJKbRHIpEGBu2iYPhn44wi5gW+A7U/C85qyfo9KKwIYrDGZKr1BtGZMhPcVF/gpa8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738774977; c=relaxed/simple;
-	bh=ih4g/xIDL5kL/P4aUvXSv15rlFo7qsGhdtJgP8iuRiM=;
+	s=arc-20240116; t=1738781898; c=relaxed/simple;
+	bh=gdy5cd3h4bVtyCWAkwap7NHW9h+FdHvkFYNDHTmIIPI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MttH77sUGUNXBr0QYjsdoYChyThGhGLzRyU6G74mVdf/o5H8d2KuYoUkTUjz8sZJBRwEKb9zJSPbxyu0lTfsg++czSo6AILSKe+1NHpm/xzHJiM970AJ3wsURvs5BIetQGHGwpV8zAPcY+CJc+7yIx62lMOqSlsKeMgTe9msOAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=O5oD9ajb; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	 In-Reply-To:Content-Type; b=TtGRIqY9RW1y/858x0GxEbe2DzYNDTjXRzRWpcB7zZICr4UVpxn9ZLeqAuncXWHtX7B51p8w52Jwhdtw97ysoEAc0NFQadHdDTqvSvKWjs2lDyhJltCnWyLMJ9/gX1pzzMM+k3VnkNEGNL9x4M2qWIZZo6gHQl8BKWVARS4P6xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fulJmFL+; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="O5oD9ajb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=XFjbbQfb96mUjnEi6MB0r3tlL0aDoALifBkdYK7/O4s=; b=O5oD9ajbdr7nkQfKCztxWBacw+
-	mqUmnT9Ney232UamDvjTZRx0R2zFxo+12hJV66k4EvOGUQK0tCix93f7VbCb3nX8ncz9Lclt8G8aQ
-	KQBcNFP5/wileELBDYjJrQEOMWLs/K3b/RwYnDvEQkRgD7a7lxly8sq+NHeoW3E8GXXL4+U7YdGOU
-	C44IjPNEvnJVcKtc3Gsh6ia5vU3gxmz+ms/xEAQfZCkMOJnV1F+C5vFEx/MiyYim4U81mz/hZcp6V
-	LeViwIS51jwaSczg3Y2NZFugnhwS3NVzsDERaZGNetFRJdZ5u61gP3tU8+21gS8Sy4215gSGxeMMZ
-	TvFcdUeQ==;
-Received: from [179.100.5.131] (helo=[192.168.15.100])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1tfinT-0043Na-TE; Wed, 05 Feb 2025 18:02:49 +0100
-Message-ID: <f2ed50cd-a6e4-41f1-b0a3-1a4349a39ec1@igalia.com>
-Date: Wed, 5 Feb 2025 14:02:44 -0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fulJmFL+"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ab7157cf352so250390766b.0;
+        Wed, 05 Feb 2025 10:58:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738781895; x=1739386695; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a71A1t5rNrXw7gtQyGfuALjF7vqK5gL26+h1A6qZoco=;
+        b=fulJmFL+MML7vJmbCZKXqEMbAugYfvy2zyZnaSczc+q1pB1hd/2BTVsJF3tUsKSFH8
+         SRB6VLYLg0vpYtywNW+UCdABkgcqLefMloqyUOAvKHOP9OjuQQ1M7HNHeRoHqLPY4+1X
+         iSx/oDVX8aYoQaVXhJtJWu6lppOcy6yDH37HpGWda2fnyVee+TvSEcSbovz2SloPQh6J
+         zzbvv7r5pYeOLQlvln7aWi/Kor0l3VY8yPoyW6IGHBna97n7MIOyPHlEVbMxdAb7crL1
+         4MbkjqG8cZ+jayX64jAHTGMjbTTvT3VTsqE8QuLBJAHX8x91yfFvnvtX7+sXIlMJfxFO
+         sYrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738781895; x=1739386695;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a71A1t5rNrXw7gtQyGfuALjF7vqK5gL26+h1A6qZoco=;
+        b=HDT7aIlnpJzalPrf+/CTmr8pNm49vCBBs7/BjlYM07eGQcuiEKMyzaIwJXgUWI8tYE
+         cU6KQp6vTIJshM6DPRRSAxyUmLWZ0nJp9SIJs1NQ9ohhrej6lRwOMOL4KztdM+W80W4l
+         mCZrRCVXsnG1ijuXXb5ceQ3zJUJwwoHBB83eycTKbS9pMzSlYL8VBfzz8wsPA6pD6496
+         es26BpXy6I7p0qHx1uJaTKV3emLQC4vVqjChr/MFbwc0U6SIDFKxaemFbqrcaQwNG7fj
+         wOc6pI6tC0AHHyYl5OVCab7nFFxeRCcqBoBohh4XzMiLe3+504ztMwCC88JSVoNk98vg
+         HJlA==
+X-Forwarded-Encrypted: i=1; AJvYcCW3r0poOO3yrbTNM5hZgAZBkkLryZLgOIOpeKxvTnhjwawEfioVUDPYnwHX40qmZgMKGNSvMcZNan7UY8M=@vger.kernel.org, AJvYcCXZV9mXAVOngB8ZDCwuS/+qAIz5+nkTxeYzgVAFmUs+kAuTYcuT/O9vy84SSuXWSEv88OJvkbdflXjgV0E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxenWcuB0xZkk3T8nh4iKmP9xjmFpmR4aiIK2E13tZdJeJbI6t
+	SvSPrKqKm0447lS1PxHw2Smx45/Ucns1AbU7V+5ZyJFzRw1KEjR5heoZNW71
+X-Gm-Gg: ASbGncvYd9NPVj0GBjTXMwXMcgSSJTBkyeznXC61LFDpVV2nrScEk8elpH6LxPh+t+3
+	pmG/O17Kh+lJh4B23/QmoN6TQXQ5yuKXZHtuu3BK6Q/qanNFmdXnd2W2JVOr3J0ApmjWcmvPo/S
+	ld0BcwmcZGh5vvTDAJzo/o0bVwQ5on5VL2le7nXIJffPWltAGokrcr1mjy0ZRJbfhAWmy4UB6Uq
+	UTX65+KGwAhVa+1VwVjGOeb/zgx+igsd9d5HJjRYrkjacM5/3TNdzEt/Xy4DbyXRV2qL/f3S9RH
+	7+UlgVVsoP3nbns0hlI9gWWjcJXsgySb1XaSSyM1BECJ
+X-Google-Smtp-Source: AGHT+IGHOcq2bEGp2OnqU9INvLV5JVgfAV06LBKYqVqWEMm9zU6Sr+3w2aBLE7MIY2wLnbC3eeLt0g==
+X-Received: by 2002:a17:906:6a29:b0:ab6:d4ce:5674 with SMTP id a640c23a62f3a-ab76e9dc14amr34325066b.26.1738781894675;
+        Wed, 05 Feb 2025 10:58:14 -0800 (PST)
+Received: from [192.168.1.130] ([82.79.237.175])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e47ceadfsm1152656466b.51.2025.02.05.10.58.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Feb 2025 10:58:14 -0800 (PST)
+Message-ID: <2226a3d0-37b1-4018-83d1-8f5e9853169b@gmail.com>
+Date: Wed, 5 Feb 2025 20:58:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,50 +66,87 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] ASoC: cs35l41: Fallback to using HID for system_name
- if no SUB is available
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, patches@opensource.cirrus.com
-References: <20250205164806.414020-1-sbinding@opensource.cirrus.com>
+Subject: Re: [PATCH 1/9] ASoC: SOF: imx: introduce more common structures and
+ functions
 Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20250205164806.414020-1-sbinding@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Frank Li <Frank.li@nxp.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Iuliana Prodan <iuliana.prodan@nxp.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ imx@lists.linux.dev
+References: <20250203171808.4108-1-laurentiumihalcea111@gmail.com>
+ <20250203171808.4108-2-laurentiumihalcea111@gmail.com>
+ <Z6EeZ4lgKVHCee3e@lizhi-Precision-Tower-5810>
+ <db81aa4e-dc1f-4c6d-b58f-82883622b0dc@gmail.com>
+ <Z6ONWfIycA0oHEB6@lizhi-Precision-Tower-5810>
+From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+In-Reply-To: <Z6ONWfIycA0oHEB6@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Stefan,
 
-Em 05/02/2025 13:48, Stefan Binding escreveu:
-> For systems which load firmware on the cs35l41 which use ACPI, the
-> _SUB value is used to differentiate firmware and tuning files for the
-> individual systems. In the case where a system does not have a _SUB
-> defined in ACPI node for cs35l41, there needs to be a fallback to
-> allow the files for that system to be differentiated. Since all
-> ACPI nodes for cs35l41 should have a HID defined, the HID should be a
-> safe option.
-> 
-> Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
-> ---
->   sound/soc/codecs/cs35l41.c | 23 ++++++++++++++++-------
->   1 file changed, 16 insertions(+), 7 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
-> index 07a5cab35fe1..30b89018b113 100644
-> --- a/sound/soc/codecs/cs35l41.c
-> +++ b/sound/soc/codecs/cs35l41.c
-> @@ -1150,19 +1150,28 @@ static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
->   
->   static int cs35l41_acpi_get_name(struct cs35l41_private *cs35l41)
->   {
-> -	acpi_handle handle = ACPI_HANDLE(cs35l41->dev);
-> +	struct acpi_device *adev = ACPI_COMPANION(cs35l41->dev);
-> +	acpi_handle handle = acpi_device_handle(adev);
-> +	const char *hid;
+(snip)
 
-I think *hid and *sub can be in the same line.
+>>>> +#include <linux/pm_domain.h>
+>>>>  #include <sound/sof/xtensa.h>
+>>>> +
+>>>>  #include "../ops.h"
+>>>>
+>>>>  #include "imx-common.h"
+>>>> @@ -74,5 +79,417 @@ void imx8_dump(struct snd_sof_dev *sdev, u32 flags)
+>>>>  }
+>>>>  EXPORT_SYMBOL(imx8_dump);
+>>>>
+>>>> +static void imx_handle_reply(struct imx_dsp_ipc *ipc)
+>>>> +{
+>>>> +	unsigned long flags;
+>>>> +	struct snd_sof_dev *sdev = imx_dsp_get_data(ipc);
+>>>> +
+>>>> +	spin_lock_irqsave(&sdev->ipc_lock, flags);
+>>>> +	snd_sof_ipc_process_reply(sdev, 0);
+>>>> +	spin_unlock_irqrestore(&sdev->ipc_lock, flags);
+>>> Are you sure have to use spin_lock?
+>> not sure, this definition was taken from previous drivers. I'd say keep it for now
+>> as removing it would require some more testing which will take some time.
+>>
+> Change lock type need seperate patch. analyze is more important then test.
+> It is really hard to hit race condition at normal user case.
+>
+> You can check if any irq handle use ipc_lock? If irq handle already defer
+> to thread irq, mutex most likely is enough.
+>
+> Frank
 
-Apart from that,
+ACK
 
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
-Tested-by: André Almeida <andrealmeid@igalia.com> (Steam Deck OLED)
+>
+>> (snip)
+>>
+>>>> +static int imx_suspend(struct snd_sof_dev *sdev, unsigned int target_state)
+>>>> +{
+>>>> +	int ret;
+>>>> +	const struct sof_dsp_power_state target_power_state = {
+>>>> +		.state = target_state,
+>>>> +	};
+>>>> +
+>>>> +	if (!pm_runtime_suspended(sdev->dev)) {
+>>>> +		ret = imx_common_suspend(sdev);
+>>>> +		if (ret < 0) {
+>>>> +			dev_err(sdev->dev, "failed to common suspend: %d\n", ret);
+>>>> +			return ret;
+>>>> +		}
+>>>> +	}
+>>>> +
+>>>> +	return snd_sof_dsp_set_power_state(sdev, &target_power_state);
+>>> does pm_runtime_force_suspend()/pm_runtime_force_resume() work?
+>> no, these functions are not called directly by the PM core, but rather by the SOF core.
+>> Using the proposed functions would result in the SOF core PM functions (i.e: sof_resume/sof_suspend)
+>> being called twice in the case of system suspend/resume, which is wrong.
+> Does SOC core should check it? I don't reject this change, but check
+> run time pm status in suspend often cause some bugs.
+>
+> Frank
+
+No, IMO this sequence is chip-specific so it shouldn't be handled by the core.
