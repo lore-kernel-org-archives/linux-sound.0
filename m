@@ -1,112 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAEA1B6CE3;
-	Wed,  5 Feb 2025 16:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598D3193436;
+	Wed,  5 Feb 2025 16:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738772835; cv=none; b=WNA0WuGznMlBDtGB1rXGQD8+8hCzcORkCztD4EBTo5BFWsc3yeROF4E6isn2B6tMyDPJjaOZIcC44w9/NMpoNtsW5S5WtlHQRr5L8KzlByLBE1cDRSJ7qkzv8UwFkcdsabZFJroTk1ody2qUrojLKSl0MVVZCHytHkZ7lxpNuH8=
+	t=1738774105; cv=none; b=Fg+9MhpM9MB6LZca0gWlFrmGPKAoosa/1/bKoFgU9JWcXo8IeB5s4rm4WC7zhHU47A2ITB0RqR/cynfOLdkNRqz4R6RQlJnGxKXw5GZPpE+nS36IoPux7SKxMNXwfVkLI0+82YZMsxBz72xPbjnP7Za2fXIkFGdJpiPqinsXz24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738772835; c=relaxed/simple;
-	bh=kMFmV0IehhGOWygBpPpcYAxC51tino8AxCfonOIIqPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MTgzFOc9o5Dg6L1uxKHvjzDoQOhbi/yr60KMOAEa+eWCEgVImqMhiFjjaplewsZDexRNEgEOq83ftR7/DECNQCPIahv2W4jI6/wTDpcdS2QbBjog18vpvfxTpwW8z3T7BpGp9kTMegObK95FTl8qNS7Uv3mugHMABMmLD3GdzbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eeqnleog; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738774105; c=relaxed/simple;
+	bh=BI3bjBco9tZG254KI6RaPflP15hfUJtypUrTq3SM2jo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=N63HENRLiST2+5GanH4USGHFVbx767Yy8Cy/sWs0jUCsJNzwMmDl9j4J/WBeX79q8SeICwmPPgh5MWJHnKazCeAAH8oJn4creR9kBownAqUTgVXh9zc9wpxKGuBNzOSanTmPZB9PfSad5fi0hOKOgS3i1PZ6ECQAL7jL0bor1hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=bMhEr1Q7; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eeqnleog"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738772834; x=1770308834;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kMFmV0IehhGOWygBpPpcYAxC51tino8AxCfonOIIqPg=;
-  b=Eeqnleoga2Q45nQL2sqOaTSNja4TMC9NsI+qCIFls3KckGk7fEl9z/NM
-   YOsS3l7q/Utwv//buxi4lpAYNDtxjTp/Qdveq16dJ7b0x3rE/wk2i4Fhc
-   z5a5xQx51ufWySFuIa5SyRdQ1vOtSd1lWMCdM2cp1l8vZXGEez+34QKue
-   txXhfdXh+/+H4Uh9JtK8snweAmPakPF8A9bRI1+8X00oqZcAv0VLRYiwn
-   8cGI+lJ/pRW5JmmJb+q1g7NAoS80XqgMwPm6zanUZJMSKuv+gmaMj5Gty
-   LafXZXlTjQfsxOtYL/Jujo7Ylbyw3D1ZYurWYkFTJSsajHxwqMDQdTBnb
-   A==;
-X-CSE-ConnectionGUID: kpJ8X0gtQSKq8lmrFLY5Og==
-X-CSE-MsgGUID: PzcyMN75Q+OplXhhPIN2xA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39245291"
-X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
-   d="scan'208";a="39245291"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 08:27:13 -0800
-X-CSE-ConnectionGUID: F55qeeNmQcmnG0H6IgCGsQ==
-X-CSE-MsgGUID: N9UgH9j7TG2lpT+LvpkA3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
-   d="scan'208";a="115994605"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Feb 2025 08:27:09 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfiF1-000vmJ-0I;
-	Wed, 05 Feb 2025 16:27:07 +0000
-Date: Thu, 6 Feb 2025 00:27:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-	dmitry.torokhov@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	sre@kernel.org, jic23@kernel.org, przemyslaw.kitszel@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org, Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <202502060025.XJwUub6I-lkp@intel.com>
-References: <20250203080902.1864382-2-raag.jadav@intel.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="bMhEr1Q7"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 515E9T1Q028452;
+	Wed, 5 Feb 2025 10:48:11 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=5jqd7EmYfSYVj5aE
+	NZdmgRqV9fqu9H0OVa048XIRD/8=; b=bMhEr1Q7bdh7/x7upDJl/QY+XxFYiUD3
+	+GrQ5WH3RVcIi6WtEHC/USkQMfJ4/z3059TzIi3GfUUe7qMVQ+/BurSWRYDSOJ/m
+	tB6q4EUDN2ySn6yp0+IYQRC2iU3KKgyN//Y5UcIXQ8dS69bh6HZjkNJ/iXc4UcHe
+	ktuNBWoteT72i6bD+Zcho40wO5L6wHNGB7L6xK3gvRO20d8ZmB4YwVr8tZsHuMR7
+	saochuDf1Kc/fGGEtVmVdwqyEuWwKdIRIz2NBoK6zr25Z87YE7UYiWboD0FLt9ci
+	PXFZsGWbTVhdrLiVqghVAOFxYCeeDuGexq9nCQIoHUP2eeM8vKUtBw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44hgwm4sh0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Feb 2025 10:48:11 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 5 Feb
+ 2025 16:48:09 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Wed, 5 Feb 2025 16:48:09 +0000
+Received: from lonswws02.ad.cirrus.com (lonswws02.ad.cirrus.com [198.90.188.42])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id BAD83820248;
+	Wed,  5 Feb 2025 16:48:09 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+CC: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>,
+        Stefan Binding
+	<sbinding@opensource.cirrus.com>
+Subject: [PATCH v1] ASoC: cs35l41: Fallback to using HID for system_name if no SUB is available
+Date: Wed, 5 Feb 2025 16:48:04 +0000
+Message-ID: <20250205164806.414020-1-sbinding@opensource.cirrus.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250203080902.1864382-2-raag.jadav@intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=EPv800ZC c=1 sm=1 tr=0 ts=67a3964b cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=gnEUMM8qirKkv39zU4sA:9 a=YXXWInSmI4Sqt1AkVdoW:22
+X-Proofpoint-ORIG-GUID: KTC7nA-QbyDe-mAp3s2Suskua_Udz4lt
+X-Proofpoint-GUID: KTC7nA-QbyDe-mAp3s2Suskua_Udz4lt
+X-Proofpoint-Spam-Reason: safe
 
-Hi Raag,
+For systems which load firmware on the cs35l41 which use ACPI, the
+_SUB value is used to differentiate firmware and tuning files for the
+individual systems. In the case where a system does not have a _SUB
+defined in ACPI node for cs35l41, there needs to be a fallback to
+allow the files for that system to be differentiated. Since all
+ACPI nodes for cs35l41 should have a HID defined, the HID should be a
+safe option.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+---
+ sound/soc/codecs/cs35l41.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250203-161554
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250203080902.1864382-2-raag.jadav%40intel.com
-patch subject: [PATCH v3 01/20] driver core: Split devres APIs to device/devres.h
-config: um-randconfig-r112-20250205 (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 355d0b186f178668b103068537e517f3d52ad639)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502060025.XJwUub6I-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/pcs/pcs-xpcs-plat.c: note: in included file (through include/linux/device.h):
->> include/linux/device/devres.h:106:23: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   include/linux/device/devres.h:106:23: sparse:     expected void [noderef] __iomem *
-   include/linux/device/devres.h:106:23: sparse:     got void *
-
-vim +106 include/linux/device/devres.h
-
-   102	
-   103	static inline
-   104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
-   105	{
- > 106		return ERR_PTR(-EINVAL);
-   107	}
-   108	
-
+diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
+index 07a5cab35fe1..30b89018b113 100644
+--- a/sound/soc/codecs/cs35l41.c
++++ b/sound/soc/codecs/cs35l41.c
+@@ -1150,19 +1150,28 @@ static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
+ 
+ static int cs35l41_acpi_get_name(struct cs35l41_private *cs35l41)
+ {
+-	acpi_handle handle = ACPI_HANDLE(cs35l41->dev);
++	struct acpi_device *adev = ACPI_COMPANION(cs35l41->dev);
++	acpi_handle handle = acpi_device_handle(adev);
++	const char *hid;
+ 	const char *sub;
+ 
+-	/* If there is no ACPI_HANDLE, there is no ACPI for this system, return 0 */
+-	if (!handle)
++	/* If there is no acpi_device, there is no ACPI for this system, return 0 */
++	if (!adev)
+ 		return 0;
+ 
+ 	sub = acpi_get_subsystem_id(handle);
+ 	if (IS_ERR(sub)) {
+-		/* If bad ACPI, return 0 and fallback to legacy firmware path, otherwise fail */
+-		if (PTR_ERR(sub) == -ENODATA)
+-			return 0;
+-		else
++		/* If no _SUB, fallback to _HID, otherwise fail */
++		if (PTR_ERR(sub) == -ENODATA) {
++			hid = acpi_device_hid(adev);
++			/* If dummy hid, return 0 and fallback to legacy firmware path */
++			if (!strcmp(hid, "device"))
++				return 0;
++			sub = kstrdup(hid, GFP_KERNEL);
++			if (!sub)
++				sub = ERR_PTR(-ENOMEM);
++
++		} else
+ 			return PTR_ERR(sub);
+ 	}
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
