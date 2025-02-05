@@ -1,62 +1,62 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76B72144A3;
-	Wed,  5 Feb 2025 20:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659C32144C4;
+	Wed,  5 Feb 2025 20:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738787461; cv=none; b=ksX1gFEk3bi7EXePeHMpLDYagxJOhUkKAIg8HCUbSis8HJN37BPapmB6o4kDcOzaB+Q0R9h4+PZ0bitkOYcMQN0ARTmKvDaxom/7utnsCiI0GJSudGUVIrje9+5u1rknMNeJfLzwYYjZ+K6xnvSr7Dz1sk1S3YX4lEtZRsl6yo8=
+	t=1738787463; cv=none; b=OcoMHBhoKh2jld1MBQ7/gCWuFIB5P/hp2X6bV7BdG0Zm8xFVPhiFC6A9/P3IgWvgcdMlmG9axORdUWset22wxcVLyH5HaO4j1hwJpMkWhQRzWrQx4zwdr3lJmK/XknLCCg3XT7EBgY+1J2q7FYQNJHKn0smQ5xKfKG3t1XoHGes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738787461; c=relaxed/simple;
-	bh=DERUkf3Ndnn80VwfyhwE0RxeXuKQ4vhj1CUs/t/WHsc=;
+	s=arc-20240116; t=1738787463; c=relaxed/simple;
+	bh=ajnbZQ3e0D6V7M+mWPbwkUu44l/yDFphV3w4slUmg+8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hRsNBVDRbcIlWwfBcT+z32Qg9WcJyUMC7guosSBgzioIgqK0lqsFPzLshIxOB268eeBtfkHD7BIAf2WxEaLGq5vBSHJZxXE71t0BveIeFguW/toRITDZx8/gNrY7FKR3CRMJi6Ev+/Yf6RCadSoOd4bW7A7AqDmxeEy1dRptaD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HiEll0Kn; arc=none smtp.client-ip=209.85.208.50
+	 MIME-Version; b=KZQaQydCw0MY33F6y0HEAhItEBDND3wP0W6yTSk57oJ5qfEFeojfJcNczk8339UKF+wqf9ORyQAqSAZw86FkpdTMjPjOOX/Zt5PlZtERIanv03fcW4aWkb62/H8aP/fbfyOKspV6uXFdtWkv/BtyqaYY2v7VAeXZWcGm4oLM/FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=keYTwUvi; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HiEll0Kn"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5dce27a72e8so446947a12.2;
-        Wed, 05 Feb 2025 12:30:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="keYTwUvi"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5dce3763140so435713a12.3;
+        Wed, 05 Feb 2025 12:31:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738787458; x=1739392258; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1738787460; x=1739392260; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dDTMpJw6LcKOnZi/nrJKAK8RACzjtMQBi0otBSlqOMY=;
-        b=HiEll0KnNUj5as9/OkZfdrQD+8KuhFVlUsO/T4KtW+nPeGQhEIPsmEFMfBGazhg679
-         5hyEWaNdOq05v3RmFqTk5HnqMmRC90xo5+yY2oRVNqmAWo0bjc76sLdlYykjjglwJswr
-         hQ6kWVF4S3U0yvArplyAR4o0ekji6JkVOV5RUuGe0nsSfCovvj6QpH8uVVXT9Ok2pUjI
-         ruZmYxKk/KUfIE9m1JX2cLkASRxjm/xCZO6soZydmid9Yr9RNTEJcDspfWriFIuQl9gA
-         gx2WJj84BnX4IEpLSNARLyt+kaemzhdGG1b+SiyapDi3FqfQ/hI+G1dCXo0pu7xCvkLY
-         NIsw==
+        bh=Q19BoYw1wFsQAgppIzeVmEiAEdoAgxK2A6QaivgZP44=;
+        b=keYTwUvifTBZqRMT2CigCaT5l9FVhmmUniqE4w1jB4WBKGxiDN7guzcUqpQPbExXjs
+         jKxycyaXXt/Y8ELbUQ0wyKHed3MfrbBoXWRfLX2rv+1skw2PdO8NMIlStUVbOu84A8az
+         SpeXmIWP/xq+NYKEPQrqwuKi+2ggXx5FRLPy/Ql8A2PVhWiS8erBoSMljw2RXlMyUUCA
+         BXNtFlAcL0sN1r0QOxAn4fR9yp2Wio/bJKasFrBLlMHuNLZuxouKxoO2Zhy1ErXQXO6n
+         qvBHGI5N5kZyZbT+au2whZa3AfnZPpY/fxb43GFQSwLjpnBfg/wiCQ4gg7i4Tlhg17b3
+         dD9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738787458; x=1739392258;
+        d=1e100.net; s=20230601; t=1738787460; x=1739392260;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dDTMpJw6LcKOnZi/nrJKAK8RACzjtMQBi0otBSlqOMY=;
-        b=UiTcqluhK7UPZ+c0AB3vtZok6KoW7mHua2mZe+NB00X4Z0G7EsPbn3ZkAeZ7Gggrsf
-         z6c3eb5BWkQyt2GUfSxQb7JVCfU4zHPUDkwXGyqCwHHitw9mD6rB6AIJrk/ux/F2ypqN
-         lPS3OhV+V6DArDXdC+FycRVxiv0ADS7y3UG7SJumkpGIN33NeZ/HRWW8ijrd/j3oIGoh
-         c+t6JYrNbQXViMdGdnmC+0lPtgzLN/wpNSCQSRaYUo/rW5ELuzKiaNNsf7OonQpl8Ogn
-         zSHo+sZU59+a8qxgBa09qaaXQ5LrZDrCypqhmlW9A/LjvReflOgpOZODzwlqFWqI/gBp
-         06AA==
-X-Forwarded-Encrypted: i=1; AJvYcCVF9/+d8TsFhONR8SCz+eDekuOnS6UhO8iIMgy+CcE617UqKwdKxmShHC8kldU+qVlJbU6zelZisNg+oQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyB6elrIqZ5BjAAgVRw55tet/tr7czIog6hjTFGVoxMLjLpAbpP
-	WkCwmlHfrFvKjNfEbuuSFvOvuA3JM/n+qxk0rz6xgnQGM30nueP9
-X-Gm-Gg: ASbGnctm4nfsGdhLkFImWypVc+G4fhOWV958lVhqGBFW35BLSdLToDRerGA99DuiwuK
-	3lRv5KKPxMN1svHP6m2dnqeYHatSYixc/amzD58G4Smd7mqptbTO5SWbUTidyLmj7RGzDc+xFO1
-	QH3d1fnyqbMbeJFpXuEAcIGKZjdHdHbPTEjzRX5RE20pFfgdyCHlMNiC2yhF5YPSckfz4sKxs/6
-	gTAtrZqo2LqVnthwvN6rD8zaWtcmR72ph8jSFPyhG4ewQwnTkAwB0pF6CClcfcgjxlEp/uvXNrn
-	ri7Sk+fv0froo8fPTrzOPA4hqXzNbK5ILx5pisAdFYsc2zd9Ou+trQ==
-X-Google-Smtp-Source: AGHT+IGvoPHjemLgM1s7lxJyuJvRNxcx7Xo5a04p/jxjwtUIw/nEo5+h88xyo5nKAQp8DwQHUovsLQ==
-X-Received: by 2002:a05:6402:4303:b0:5dc:7b59:445b with SMTP id 4fb4d7f45d1cf-5dcdb77f78dmr5903338a12.28.1738787457743;
-        Wed, 05 Feb 2025 12:30:57 -0800 (PST)
+        bh=Q19BoYw1wFsQAgppIzeVmEiAEdoAgxK2A6QaivgZP44=;
+        b=tG2BGr0y88x/WtC8nuc1cU8c+I26dU8U2tiRHNamRZp0ABnxcWXASe6aU28Elesih+
+         vZuB2JlpSIZEyiKv0TijQz31OICn7rK1LTIEdOzrAtspoTdWKuFkkcYtvMjVTbC35oIV
+         OX5MSUQnbgWJ4qKUS9WdWA/rdJ+OQfgHoRE/Ygjl3B8bVS6RxkduNiRp6PxhT9lz3Fr2
+         TM56uiqQU9tNS4TnDNHLCXbbgYFbPZNUEgy4P5WNy4ka5N991wxMS/GZSlmeXMaq338z
+         QNcaaF9fEOXNPQDeZ9ZDJfbLUeRZmCjVUEPOtZIBWJvPrxddOQtdgk1v444JHSqFB7dh
+         MEbg==
+X-Forwarded-Encrypted: i=1; AJvYcCUU5/e2c1JeDZ4tYEHVlzSt+9q7NyBl66x9mBXt8CuutBn2/eyRCsET5X7LswLaH6njyDg/v/1wr4GaPQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8ZkrlSMadUq+ePDGOoO0DbzKwSOv3vLnBfpn1alerRKWTvnVk
+	EP8mriDhgBkYN3gBPCA1N5gVpfCgkmR2aSLZz+qjB4EvjvbshaoV
+X-Gm-Gg: ASbGncvnOowvXc/swge/rXuceWwJK4/TYHhCDh+F/wGh/W2QyphCwX8OxN9KBEbhiLu
+	7rw6YpjvrVU4AiLSAj3uVB3ri/5k3b3DdE3A5GMB+0+Mv+Q9MVM5dJJFRDUln1E7rnjZ/wqsJWY
+	RbMSAd8XEWGgOg8ge3Nc9oiq6qTbNZ0x1z7w5OxHU2xUdL6807qTypew8HdkpVujCEJRrqxxU1v
+	3lpNZ5pzg+RleH6x1Y1Omrzd6oeg0Mtlt4StRSHj2awZKnH/rhmA646KbMPJJTHvSVt9j5tQI9K
+	tO7nG1OecsOqna6PmIbEZPupysQUBVmLo4NCMPJFeXfsYl2U1uCL5Q==
+X-Google-Smtp-Source: AGHT+IEBjBs4i+haD1xfHAP1IX5bkejMQc7mFjpZa3tEGNcYMVEupFXCWCioc5dl29D2w4W+wTqXlA==
+X-Received: by 2002:a05:6402:2392:b0:5dc:e393:af63 with SMTP id 4fb4d7f45d1cf-5dce393afffmr1987522a12.16.1738787459589;
+        Wed, 05 Feb 2025 12:30:59 -0800 (PST)
 Received: from playground.localdomain ([82.79.237.175])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dcd309f127sm2848014a12.40.2025.02.05.12.30.55
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dcd309f127sm2848014a12.40.2025.02.05.12.30.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 12:30:56 -0800 (PST)
+        Wed, 05 Feb 2025 12:30:59 -0800 (PST)
 From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
 To: Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Daniel Baluta <daniel.baluta@nxp.com>,
@@ -67,9 +67,9 @@ To: Bard Liao <yung-chuan.liao@linux.intel.com>,
 Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	imx@lists.linux.dev
-Subject: [PATCH v2 3/8] ASoC: SOF: imx8: use IMX_SOF_* macros
-Date: Wed,  5 Feb 2025 15:30:17 -0500
-Message-Id: <20250205203022.2754-4-laurentiumihalcea111@gmail.com>
+Subject: [PATCH v2 4/8] ASoC: SOF: imx8: shuffle structure and function definitions
+Date: Wed,  5 Feb 2025 15:30:18 -0500
+Message-Id: <20250205203022.2754-5-laurentiumihalcea111@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250205203022.2754-1-laurentiumihalcea111@gmail.com>
 References: <20250205203022.2754-1-laurentiumihalcea111@gmail.com>
@@ -83,127 +83,120 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 
-The definition of 'struct sof_dev_desc' has the following properties
-for imx chips:
-
-  1) FW path is the same for all chips.
-  2) Topology path is the same for all chips.
-  3) FW name can be written as: "sof-${machine_name}.ri"
-  4) IPC3 is the only supported protocol
-
-The structure takes quite a few lines of code. Since the intention
-is to add support for more imx8 chips in the same driver, we need
-to try and reduce the number of lines taken by information that's
-not particularly useful. As such, we can use 'IMX_SOF_DEV_DESC()'
-to reduce the declaration of the structure to just one line. The
-only information that's particularly useful can be seen from the
-parameters of the macro.
-
-Of course, if any of the assumptions don't apply anymore, driver
-writers can simply declare the 'struct sof_dev_desc' the "old
-fashioned way". No reason to make the macro suit multiple needs.
-
-The same logic applies to the array of 'struct snd_soc_dai_driver'.
+Shuffle the definitions of some structures and functions such that
+they are better grouped. This is purely a cosmetic change.
 
 Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
 Reviewed-by: Iuliana Prodan <iuliana.prodan@nxp.com>
 ---
- sound/soc/sof/imx/imx8.c | 71 +++++++---------------------------------
- 1 file changed, 11 insertions(+), 60 deletions(-)
+ sound/soc/sof/imx/imx8.c | 86 ++++++++++++++++++++--------------------
+ 1 file changed, 43 insertions(+), 43 deletions(-)
 
 diff --git a/sound/soc/sof/imx/imx8.c b/sound/soc/sof/imx/imx8.c
-index 25e3296a1e5e..52dff369d9cf 100644
+index 52dff369d9cf..5d6524d695e2 100644
 --- a/sound/soc/sof/imx/imx8.c
 +++ b/sound/soc/sof/imx/imx8.c
-@@ -119,28 +119,8 @@ static int imx8_probe(struct snd_sof_dev *sdev)
- }
+@@ -41,6 +41,49 @@
+ #define MBOX_OFFSET	0x800000
+ #define MBOX_SIZE	0x1000
  
- static struct snd_soc_dai_driver imx8_dai[] = {
--{
--	.name = "esai0",
--	.playback = {
--		.channels_min = 1,
--		.channels_max = 8,
--	},
--	.capture = {
--		.channels_min = 1,
--		.channels_max = 8,
--	},
--},
--{
--	.name = "sai1",
--	.playback = {
--		.channels_min = 1,
--		.channels_max = 32,
--	},
--	.capture = {
--		.channels_min = 1,
--		.channels_max = 32,
--	},
--},
++static struct snd_soc_dai_driver imx8_dai[] = {
 +	IMX_SOF_DAI_DRV_ENTRY_BIDIR("esai0", 1, 8),
 +	IMX_SOF_DAI_DRV_ENTRY_BIDIR("sai1", 1, 32),
- };
++};
++
++static struct snd_sof_dsp_ops sof_imx8_ops;
++
++static int imx8_ops_init(struct snd_sof_dev *sdev)
++{
++	/* first copy from template */
++	memcpy(&sof_imx8_ops, &sof_imx_ops, sizeof(sof_imx_ops));
++
++	/* then set common imx8 ops */
++	sof_imx8_ops.dbg_dump = imx8_dump;
++	sof_imx8_ops.dsp_arch_ops = &sof_xtensa_arch_ops;
++	sof_imx8_ops.debugfs_add_region_item =
++		snd_sof_debugfs_add_region_item_iomem;
++
++	/* ... and finally set DAI driver */
++	sof_imx8_ops.drv = get_chip_info(sdev)->drv;
++	sof_imx8_ops.num_drv = get_chip_info(sdev)->num_drv;
++
++	return 0;
++}
++
++static int imx8_probe(struct snd_sof_dev *sdev)
++{
++	struct imx_sc_ipc *sc_ipc_handle;
++	struct imx_common_data *common;
++	int ret;
++
++	common = sdev->pdata->hw_pdata;
++
++	ret = imx_scu_get_handle(&sc_ipc_handle);
++	if (ret < 0)
++		return dev_err_probe(sdev->dev, ret,
++				     "failed to fetch SC IPC handle\n");
++
++	common->chip_pdata = sc_ipc_handle;
++
++	return 0;
++}
++
+ /*
+  * DSP control.
+  */
+@@ -100,49 +143,6 @@ static int imx8_run(struct snd_sof_dev *sdev)
+ 	return 0;
+ }
  
- static struct snd_sof_dsp_ops sof_imx8_ops;
-@@ -238,47 +218,18 @@ static struct snd_sof_of_mach sof_imx8_machs[] = {
- 	{}
- };
- 
--static struct sof_dev_desc sof_of_imx8qxp_desc = {
--	.of_machines	= sof_imx8_machs,
--	.chip_info	= &imx8x_chip_info,
--	.ipc_supported_mask	= BIT(SOF_IPC_TYPE_3),
--	.ipc_default		= SOF_IPC_TYPE_3,
--	.default_fw_path = {
--		[SOF_IPC_TYPE_3] = "imx/sof",
--	},
--	.default_tplg_path = {
--		[SOF_IPC_TYPE_3] = "imx/sof-tplg",
--	},
--	.default_fw_filename = {
--		[SOF_IPC_TYPE_3] = "sof-imx8x.ri",
--	},
--	.nocodec_tplg_filename = "sof-imx8-nocodec.tplg",
--	.ops = &sof_imx8_ops,
--	.ops_init = imx8_ops_init,
--};
-+IMX_SOF_DEV_DESC(imx8, sof_imx8_machs, &imx8_chip_info, &sof_imx8_ops, imx8_ops_init);
-+IMX_SOF_DEV_DESC(imx8x, sof_imx8_machs, &imx8x_chip_info, &sof_imx8_ops, imx8_ops_init);
- 
--static struct sof_dev_desc sof_of_imx8qm_desc = {
--	.of_machines	= sof_imx8_machs,
--	.chip_info	= &imx8_chip_info,
--	.ipc_supported_mask	= BIT(SOF_IPC_TYPE_3),
--	.ipc_default		= SOF_IPC_TYPE_3,
--	.default_fw_path = {
--		[SOF_IPC_TYPE_3] = "imx/sof",
--	},
--	.default_tplg_path = {
--		[SOF_IPC_TYPE_3] = "imx/sof-tplg",
-+static const struct of_device_id sof_of_imx8_ids[] = {
-+	{
-+		.compatible = "fsl,imx8qxp-dsp",
-+		.data = &IMX_SOF_DEV_DESC_NAME(imx8x),
- 	},
--	.default_fw_filename = {
--		[SOF_IPC_TYPE_3] = "sof-imx8.ri",
-+	{
-+		.compatible = "fsl,imx8qm-dsp",
-+		.data = &IMX_SOF_DEV_DESC_NAME(imx8),
- 	},
--	.nocodec_tplg_filename = "sof-imx8-nocodec.tplg",
--	.ops = &sof_imx8_ops,
--	.ops_init = imx8_ops_init,
+-static int imx8_probe(struct snd_sof_dev *sdev)
+-{
+-	struct imx_sc_ipc *sc_ipc_handle;
+-	struct imx_common_data *common;
+-	int ret;
+-
+-	common = sdev->pdata->hw_pdata;
+-
+-	ret = imx_scu_get_handle(&sc_ipc_handle);
+-	if (ret < 0)
+-		return dev_err_probe(sdev->dev, ret,
+-				     "failed to fetch SC IPC handle\n");
+-
+-	common->chip_pdata = sc_ipc_handle;
+-
+-	return 0;
+-}
+-
+-static struct snd_soc_dai_driver imx8_dai[] = {
+-	IMX_SOF_DAI_DRV_ENTRY_BIDIR("esai0", 1, 8),
+-	IMX_SOF_DAI_DRV_ENTRY_BIDIR("sai1", 1, 32),
 -};
 -
--static const struct of_device_id sof_of_imx8_ids[] = {
--	{ .compatible = "fsl,imx8qxp-dsp", .data = &sof_of_imx8qxp_desc},
--	{ .compatible = "fsl,imx8qm-dsp", .data = &sof_of_imx8qm_desc},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sof_of_imx8_ids);
+-static struct snd_sof_dsp_ops sof_imx8_ops;
+-
+-static int imx8_ops_init(struct snd_sof_dev *sdev)
+-{
+-	/* first copy from template */
+-	memcpy(&sof_imx8_ops, &sof_imx_ops, sizeof(sof_imx_ops));
+-
+-	/* then set common imx8 ops */
+-	sof_imx8_ops.dbg_dump = imx8_dump;
+-	sof_imx8_ops.dsp_arch_ops = &sof_xtensa_arch_ops;
+-	sof_imx8_ops.debugfs_add_region_item =
+-		snd_sof_debugfs_add_region_item_iomem;
+-
+-	/* ... and finally set DAI driver */
+-	sof_imx8_ops.drv = get_chip_info(sdev)->drv;
+-	sof_imx8_ops.num_drv = get_chip_info(sdev)->num_drv;
+-
+-	return 0;
+-}
+-
+ static const struct imx_chip_ops imx8_chip_ops = {
+ 	.probe = imx8_probe,
+ 	.core_kick = imx8_run,
 -- 
 2.34.1
 
