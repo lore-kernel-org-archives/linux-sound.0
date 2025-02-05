@@ -1,90 +1,91 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBDC27713
-	for <linux-sound@vger.kernel.org>; Wed,  5 Feb 2025 12:52:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C2E142E86;
+	Wed,  5 Feb 2025 13:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738759981; cv=none; b=YRO4v72uKMTB/VtSDq8OnTKEwEjgBamDF3J6uZvXLFm5v+c5vYhLQGX6cTGbkId4CFwzsPz6lz4n7AmLzr9h9fsCVZMK6t2OoxGUb98Q3qN0y4Hxv0G+6zQprsh2T7x3ZbS3R7c7ASzh0P6X27/xkX2IN+6nHtCvrhQXG4lUTz0=
+	t=1738763566; cv=none; b=pfUO9nrFe/EMz/nA1Ls6++xEkvLe4CYuRZQm1uQX8thQxJ3VEf8vMJcwkKStu7FYsEJFyoPcWjG1CymECnJCzFua/P4J+EzLcfDeRWTzTGCiiyh2UuVz9Xlu3YoLGMNzmEyta7JYOJiHS+lGQJvAs+oHsjSMSno4CuXh083psbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738759981; c=relaxed/simple;
-	bh=p/7IiyjcR6PUr76HCKTZD/F7A3oNg/SYzo/DgIkEZJg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fCW9+9bAWBH8MibfNY/xTYJvD7S1IHUT9f5b8dJDYFQCdBD23xRX6y3BiO/9EDQffTv1/icLspMl0TtORSjpA47DFxskJ19qvvjjAH7wWbrH+SZdR439dTAou19c/El7abOApz9I7Mvj6OJj5DQs0ms/yL9VZWklhrgqRxtd1/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BRkJkoWi; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738763566; c=relaxed/simple;
+	bh=9+24MuwPWpjwLp/7wot8EOpIrNvcnu1UTX1tyNNgv58=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DukJ8LrgD+IQRwSUVygxHobMYYuKXIUnXV2pIJ5Juwx2eIQ18h7YElDRaho7bfBgznzZziH2xUP89jkB5ZjJGcKhTrqL9JbzmiSO3iXqwlb1zJHqJQkD6qM1GPVnW+dn5JnT8nUazBsEMghjL52UfAD0gbKigDeYSW0YQkNQH2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ql+s6COq; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BRkJkoWi"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-540201cfedbso6052991e87.3
-        for <linux-sound@vger.kernel.org>; Wed, 05 Feb 2025 04:52:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738759977; x=1739364777; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p/7IiyjcR6PUr76HCKTZD/F7A3oNg/SYzo/DgIkEZJg=;
-        b=BRkJkoWiiAyK/ri+MFHsJaFaBpqAhBSoudsYkYDfbBKKaxKgN2VvCyORE/+5ZA7BVq
-         vvvw9rHxKQOApbKg5wV1DnX/RaCZVerDpo3C08m2ZVWEvSXkMLjREdjsaalAFYq8jv8s
-         9zVL2iLjQePTQ4GaONOr2JNLIkTv/PdFqoVEH6bHmFp0/JjCMry6P/BMucYqkJAz8EU/
-         9JQ1jaiJMS+vR7vSoE3Njig5HaUM3BaRKABPVvVwgtFzr83uXFtV+d6EupCNytA4eM4q
-         xtVKNRzFdYt8hyTrRKAYD0RQGk8FoatTV3ux0q3DJWf2sIqTAMo41xOWslIHbTQp7azA
-         uYSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738759977; x=1739364777;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p/7IiyjcR6PUr76HCKTZD/F7A3oNg/SYzo/DgIkEZJg=;
-        b=d9gI5foHaqUrEjopGZRFkHb8n+Q/w3Buvaw6lwg3cjmN4p/Eynbu/xdotcQ2A9S97B
-         fvEvmgcPUe906FOjpq2UGQKE0RRfgVKB4UdZcRrrc3l5XOleWsHjbQUS31u8D/yDByIc
-         0W36AT6+0WtTzZ3ecVhUPNTPYqGk+uKTq6/hnUHdL28TcttKCt3cEkr+F1YmcKYHSTlb
-         pRYTuF0TH+2IxY8HW9PDMhel6QIWa4v6KVGIh7DiYBpg7dsUXQXlMJVgTY8x4imXKP9C
-         DiCRBjSJM6pRY+54I8TwrlbCLq2vl2hEUVXAkipMVp/fjdJD5MpIGPA45cbHYrS31q1R
-         BeFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXqI5XHiIcu1Ver//hDSuNO9IDR7nCmmV5KjCUsZW2hhqqvY5yhwLohfRn9q3NQ0GpntLFLecgiltPdow==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxunST0jn2prZsLuW+VQTXS3u9agtb/q+1iQkH7Viqo6g7w7zOf
-	l6ALwuc+MhEtN4pe6fpPOEft+ZYLexah1mKUdYTxT3aBc79nMepaBE/tPVNreN5VQU8iGEJ8XXp
-	HI1ZR0KBvm1gbq8W7eOeVrV8jq2w=
-X-Gm-Gg: ASbGncsQUg3ujulZb1rhtYCI4HI1MNMEWNcAKf1AUGVRwPisvkgX5T9AMeIt1XFyI2L
-	A7NB929w4xrMY98Nm0fgTxtlPGHEKEGdkI7UsDGpn3NT3jnHJLI+6nYNa4NxqiT7z1EEVRy6TYO
-	d4pw9sSeggc0wLu6/tS/s+5618x0ND
-X-Google-Smtp-Source: AGHT+IGls+8RQQihDHZOOFThTy2DjKYO468UdYF+Zfvm1KZclXolVg5PBq0qRORsl5NLNsMflz8T9Y44LEN/QUodlA4=
-X-Received: by 2002:a05:6512:2011:b0:543:bb21:4245 with SMTP id
- 2adb3069b0e04-54405a3924dmr683471e87.28.1738759977276; Wed, 05 Feb 2025
- 04:52:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ql+s6COq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738763564; x=1770299564;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9+24MuwPWpjwLp/7wot8EOpIrNvcnu1UTX1tyNNgv58=;
+  b=Ql+s6COqk6+VKUQMvzbnRNp76QBbDhn8dAGJFg//B+E7kPUeyhp6nR6q
+   LZkjDOnIw5TV5L7xmcqdvCHloCjIIyefky9Dl9CW8BB+M5zfAGAlOtP3/
+   giU+VhfyYZMwmdqQ61gfXwylHN3A+hC/AjUQgk6D7qb3NpIrBN526TV6H
+   dQY5u37NeZT/CzHdIiVdtb86bGPq/y93Yd65BqFOGKKT9gQGggevB+hWs
+   cGHMbJ37ciTcJUP56mcTsn5jCzBqr9rPkGgKqMqsGIiV8pCncaqXRWgX1
+   XIY+WRg2LpwQu/99zYW+eLINMUxfZcshuprxCVjT5u22Kb1WcD1IJgcTu
+   g==;
+X-CSE-ConnectionGUID: OeDm3JgOTzSMYEiP1NP7lA==
+X-CSE-MsgGUID: QUW4fXQ+T2y7Vclig6ikeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="26931843"
+X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
+   d="scan'208";a="26931843"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 05:51:59 -0800
+X-CSE-ConnectionGUID: TrGPsQBnQf+A2moruUmBDA==
+X-CSE-MsgGUID: 3E52m7wZTSe3+gd5NQDE+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
+   d="scan'208";a="141768359"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.196])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 05:51:54 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	stable@vger.kernel.org,
+	cujomalainey@chromium.org,
+	daniel.baluta@nxp.com
+Subject: [PATCH v2 0/2] ASoC: SOF: Correct sps->stream and cstream nullity management
+Date: Wed,  5 Feb 2025 15:52:30 +0200
+Message-ID: <20250205135232.19762-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250205120128.1080295-1-festevam@gmail.com> <7f78ee88-e33b-481f-9a65-88d67451d95e@sirena.org.uk>
- <CAOMZO5B0HeMbqu=uj9Eh8zh73JMnpPQ3V9m_NFeajbxKj4yVzg@mail.gmail.com>
-In-Reply-To: <CAOMZO5B0HeMbqu=uj9Eh8zh73JMnpPQ3V9m_NFeajbxKj4yVzg@mail.gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 5 Feb 2025 09:52:45 -0300
-X-Gm-Features: AWEUYZkObcX8Q4jFJQbUcGFWeFcS8e8ps7l9_6G0Ehu_koUCTaYCc4aRt56MUAs
-Message-ID: <CAOMZO5C7T1DcK54qiG58RdqzXq4guEGuNU8Gc6ymQnuDqach3w@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: soc-core: Use of_property_present() for non-boolean properties
-To: Mark Brown <broonie@kernel.org>
-Cc: robh@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	linux-sound@vger.kernel.org, Fabio Estevam <festevam@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 5, 2025 at 9:50=E2=80=AFAM Fabio Estevam <festevam@gmail.com> w=
-rote:
->
-> On Wed, Feb 5, 2025 at 9:45=E2=80=AFAM Mark Brown <broonie@kernel.org> wr=
-ote:
->
-> > This doesn't apply against current code, please check and resend.
->
-> I used today's linux-next. Which tree would you like me to use?
+Hi,
 
-Ah, just realized that Geert has submitted a fix that landed in your
-for-next tree:
+Changes since v1:
+- fix the SHA of the Fixes tag
 
-https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit/?i=
-d=3D6eab7034579917f207ca6d8e3f4e11e85e0ab7d5
+The Nullity of sps->cstream needs to be checked in sof_ipc_msg_data() and not
+assume that it is not NULL.
+The sps->stream must be cleared to NULL on close since this is used as a check
+to see if we have active PCM stream.
+
+Regards,
+Peter
+---
+Peter Ujfalusi (2):
+  ASoC: SOF: stream-ipc: Check for cstream nullity in sof_ipc_msg_data()
+  ASoC: SOF: pcm: Clear the susbstream pointer to NULL on close
+
+ sound/soc/sof/pcm.c        | 2 ++
+ sound/soc/sof/stream-ipc.c | 6 +++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+-- 
+2.48.1
+
