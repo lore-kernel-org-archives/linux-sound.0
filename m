@@ -1,73 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF471DE4D3;
-	Wed,  5 Feb 2025 16:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B415F507;
+	Wed,  5 Feb 2025 17:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738774438; cv=none; b=pqryLjaMQw02EqBSVnkOGXBdDSgNhfmb0X8hGAFmo1KVBIsquyJswR0Upmw16JIMJ9Z4pzQ/ACiTJaWDApp7rP70DndaK5LqQ8Rw9sm2N0uJTH0CSZM1BFtgfZ0y2BWLp6a4rcYG7RfuDrvIUHxvi2uS5RbPy6OwoRpvqrOpsHc=
+	t=1738774977; cv=none; b=eBZr6o/VibbFZrKUZepjYVa8uUJhYk2Rtmk+UB9079dL/ZFWbhahjE2v67U0shgB+Gd35FJ5ml131y+weqJ//MvIB+pw4PjZGx2FQ3tjLd8HxoZqRYNmgt2+6kVuspBaB/I+zfLiEy5jwq4jM/8uOiWqQrATD8lPa0gJYOlVYaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738774438; c=relaxed/simple;
-	bh=6/qxTgSjf0NmMsk0AWx6ZxvhMxm17fBMw1oe/n5osWM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Smb93LXloRIk4/M57V1U14g79tBExzOjbjHbz5YLb/rB0KkOvVhHDyI1VetaXJvxoIVwiWyE68rR8Cjj4c3GaxMfEtwHUx1R664JZZmCDZVjoWd1E0AUlGdI9S/Ws16uUU3+mGTvwpkqvHrfKm8gzErGsQ1x5r70iOMP6BjztZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hKALLm5j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738774977; c=relaxed/simple;
+	bh=ih4g/xIDL5kL/P4aUvXSv15rlFo7qsGhdtJgP8iuRiM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MttH77sUGUNXBr0QYjsdoYChyThGhGLzRyU6G74mVdf/o5H8d2KuYoUkTUjz8sZJBRwEKb9zJSPbxyu0lTfsg++czSo6AILSKe+1NHpm/xzHJiM970AJ3wsURvs5BIetQGHGwpV8zAPcY+CJc+7yIx62lMOqSlsKeMgTe9msOAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=O5oD9ajb; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hKALLm5j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 427F5C4CED1;
-	Wed,  5 Feb 2025 16:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738774437;
-	bh=6/qxTgSjf0NmMsk0AWx6ZxvhMxm17fBMw1oe/n5osWM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hKALLm5jfEwZdAFjvyxbyfoqPGiFQIANGb77eMvaUsZ5V+ZGoO20CwueoWj43SaPY
-	 jrdJiz9Ul3/YfJXzmN73i7CzE0weYm1LpmufXF8cfyeKMrQOsfi2TYIkin9dgU4728
-	 llpPHNefmtVat9KOl9SANWrewS/XGp5h3HFwozm7s+cegB1ZIg/7RA8NHQxnWuRRq4
-	 x0/EIOqmbK5ilzzfPrW+NOj+jwMVpspojnShZpOqH495KiczxsoEXC5RR8nfJukJZe
-	 EnA2DkPFKKrnos6KKrBPs4oCs0vDvvvFM+ErcRGdjClIoyVP47Pl6uEQZ5qfP4F5ln
-	 /0RLp1erQmXbw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH] ASoC: dapm: unexport snd_soc_dapm_update_dai()
-Date: Thu,  6 Feb 2025 01:53:34 +0900
-Message-ID: <20250205165337.3466336-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="O5oD9ajb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=XFjbbQfb96mUjnEi6MB0r3tlL0aDoALifBkdYK7/O4s=; b=O5oD9ajbdr7nkQfKCztxWBacw+
+	mqUmnT9Ney232UamDvjTZRx0R2zFxo+12hJV66k4EvOGUQK0tCix93f7VbCb3nX8ncz9Lclt8G8aQ
+	KQBcNFP5/wileELBDYjJrQEOMWLs/K3b/RwYnDvEQkRgD7a7lxly8sq+NHeoW3E8GXXL4+U7YdGOU
+	C44IjPNEvnJVcKtc3Gsh6ia5vU3gxmz+ms/xEAQfZCkMOJnV1F+C5vFEx/MiyYim4U81mz/hZcp6V
+	LeViwIS51jwaSczg3Y2NZFugnhwS3NVzsDERaZGNetFRJdZ5u61gP3tU8+21gS8Sy4215gSGxeMMZ
+	TvFcdUeQ==;
+Received: from [179.100.5.131] (helo=[192.168.15.100])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1tfinT-0043Na-TE; Wed, 05 Feb 2025 18:02:49 +0100
+Message-ID: <f2ed50cd-a6e4-41f1-b0a3-1a4349a39ec1@igalia.com>
+Date: Wed, 5 Feb 2025 14:02:44 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] ASoC: cs35l41: Fallback to using HID for system_name
+ if no SUB is available
+To: Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, patches@opensource.cirrus.com
+References: <20250205164806.414020-1-sbinding@opensource.cirrus.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <20250205164806.414020-1-sbinding@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The symbol provider (sound/soc/soc-dapm.c) and the symbol consumer
-(sound/soc/soc-pcm.c) belong to the same module, snd-soc-core.ko.
+Hi Stefan,
 
-There is no need to export it.
+Em 05/02/2025 13:48, Stefan Binding escreveu:
+> For systems which load firmware on the cs35l41 which use ACPI, the
+> _SUB value is used to differentiate firmware and tuning files for the
+> individual systems. In the case where a system does not have a _SUB
+> defined in ACPI node for cs35l41, there needs to be a fallback to
+> allow the files for that system to be differentiated. Since all
+> ACPI nodes for cs35l41 should have a HID defined, the HID should be a
+> safe option.
+> 
+> Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+> ---
+>   sound/soc/codecs/cs35l41.c | 23 ++++++++++++++++-------
+>   1 file changed, 16 insertions(+), 7 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
+> index 07a5cab35fe1..30b89018b113 100644
+> --- a/sound/soc/codecs/cs35l41.c
+> +++ b/sound/soc/codecs/cs35l41.c
+> @@ -1150,19 +1150,28 @@ static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
+>   
+>   static int cs35l41_acpi_get_name(struct cs35l41_private *cs35l41)
+>   {
+> -	acpi_handle handle = ACPI_HANDLE(cs35l41->dev);
+> +	struct acpi_device *adev = ACPI_COMPANION(cs35l41->dev);
+> +	acpi_handle handle = acpi_device_handle(adev);
+> +	const char *hid;
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+I think *hid and *sub can be in the same line.
 
- sound/soc/soc-dapm.c | 1 -
- 1 file changed, 1 deletion(-)
+Apart from that,
 
-diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index eb629edfbe42..420fe7dea31e 100644
---- a/sound/soc/soc-dapm.c
-+++ b/sound/soc/soc-dapm.c
-@@ -2782,7 +2782,6 @@ int snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
- 
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(snd_soc_dapm_update_dai);
- 
- int snd_soc_dapm_widget_name_cmp(struct snd_soc_dapm_widget *widget, const char *s)
- {
--- 
-2.43.0
-
+Reviewed-by: André Almeida <andrealmeid@igalia.com>
+Tested-by: André Almeida <andrealmeid@igalia.com> (Steam Deck OLED)
