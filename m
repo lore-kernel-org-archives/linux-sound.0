@@ -1,106 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67109142E86;
-	Wed,  5 Feb 2025 13:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2678D1519A4;
+	Wed,  5 Feb 2025 14:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738763579; cv=none; b=XO5FBjqeHc2Gocu4DaBh4Y9V2ndqSH2K4Ni0Na6vl8K0WOWFC+XBM2GRl9LpBwstWWYDzGwWayAIII3ScHjk6ulXQ+DTDllcStku6XkATe1JlDTZN2Kb7GuQkFVo1zX3tbMNWVlOcOrwCDaSqfgPQY8cZ9Rvxj2gA7sprm6X7oE=
+	t=1738764927; cv=none; b=qr1HPH7c7MOVltp2Eo2sTBjq2FlorL0tu18+bO0/VBE4niLOa8sECYUlp9pn0XzNTzGpGf7XSWUghFbCgLcRH1+et8PQiXXS0YvkC5BsGOLSkdS3lKnQeWe41IlPJzfCx7/JpyA8LRE1EmVbuWt6qCVVOOwArAp5BjxNZsjLZy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738763579; c=relaxed/simple;
-	bh=A8ZP+rNHEV4o32r8+XEvFWX3IZj7U1dxkNfg1CdtaQE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S4IVRykNzwe1VyGv603NeGyKY3rjt2dUnLCUbKeL7pFO6+ZR+LNZQ4vl0oxrLITcruLH7JO9gVF0ATbk2Dkvi0n4n2IB8Xo0izL7r+HHpacKq8Sp0Ifcx/KiPWDEXrer/4haq/4bsRQw2jUcaeUTHfxzWiYFZKucCpESSCA0pZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqaOP7Z0; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738764927; c=relaxed/simple;
+	bh=K9MxXJAzE/5V8y3RnE95M277Dhdg1tieL4Y2vxbi33Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pRE6Up6PPuaykmdoFZ7higy+Kg97yT7zzItTzxGbV0M4lbNnpfDoBX4O5eEZumjQcj0th/FqG8FhMNWRZsovBuN9L4bkMCUvNKUntmMUIvq9t7VeJ2u05Z4XpEktGuxo0Mykn5WpprhFGWMNjNJ3F+yMvkH2RpEZPSYnEzntxNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQzo5ObJ; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqaOP7Z0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738763578; x=1770299578;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=A8ZP+rNHEV4o32r8+XEvFWX3IZj7U1dxkNfg1CdtaQE=;
-  b=SqaOP7Z0o6Vgnk37vXKTl50aPO/ZhpKpKQBaadlvyGTwaaEeNPj1uYSg
-   avqIzi1sekn6W9FYmPqN6aj3cpLGRXjB2pyB9lRSkbboQWACBUUqZITrc
-   0tKcYTWcqOuY3ZUYRzW0Gixb4zKGvJEeObwhzPjiuuzfHtwHAQAw7JExZ
-   eR9TEf/gY9iVPlg9y1b+H0jjS7DBWFo9hF3WiCOre8brOXwHOtNrxNfM9
-   cCBq8iclyCujkjjOPJAiakiLaZuEgWWCEAS+GFN6bq/zw0sPI33/ED/GV
-   0j3IGeN2XnowtSFmwhwC/1Y1XwWZ/9+lp9GWsrE5gY32sPkvVK0YScIm4
-   Q==;
-X-CSE-ConnectionGUID: LxYQT1w+QQaZe6CkoW2RFw==
-X-CSE-MsgGUID: vFkXEYyRTMyU6UpZwhfaag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="26931899"
-X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
-   d="scan'208";a="26931899"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 05:52:04 -0800
-X-CSE-ConnectionGUID: zh2bbxETQL+JW5As7IQoMQ==
-X-CSE-MsgGUID: NSTv1GFLRk6Nztzg5585Ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
-   d="scan'208";a="141768376"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.196])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 05:52:01 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	stable@vger.kernel.org,
-	cujomalainey@chromium.org,
-	daniel.baluta@nxp.com
-Subject: [PATCH v2 2/2] ASoC: SOF: pcm: Clear the susbstream pointer to NULL on close
-Date: Wed,  5 Feb 2025 15:52:32 +0200
-Message-ID: <20250205135232.19762-3-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250205135232.19762-1-peter.ujfalusi@linux.intel.com>
-References: <20250205135232.19762-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQzo5ObJ"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-436281c8a38so48354235e9.3;
+        Wed, 05 Feb 2025 06:15:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738764924; x=1739369724; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=H/NXXdDcgKO6ZclLlGW4nSts7m5ZN5bv2I7qQmsbW+8=;
+        b=fQzo5ObJgvkk557gPbhZETS/YY46dlzv1IN9zVtcbRTqHE7KoCdfM+fRD99W1ry4O2
+         8XBcSa0VPO3N4av0i25NrYinra6K9hh2pHGWfOA5Q0MkX5mdAjqQLj7FPQpx8K1KdW2p
+         qtZ8Ryv5UQzwErNn7EQNl7yMBZ0SBHHUvsbZr/pZ2i0+fhjA4KDFD1TC+jfrTEJusvfM
+         rRNVIWc+kDyEsJdg41FKvziPopR010QYmNmd0+Yqw9gCDNftWnD5VSwP+QRywzdsoIET
+         0/HD0hvKPQ/qEwgyQUiiPrFfHUkh0xQM/f7oeHJzsPTanT69B8UNPR1u4SGI62JMIG7R
+         rKSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738764924; x=1739369724;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H/NXXdDcgKO6ZclLlGW4nSts7m5ZN5bv2I7qQmsbW+8=;
+        b=LjsA3jt9tAX1S70lmWStJ8hi7HDdVkxdUjbns08OnsLul5tlReXpevVfQTcdKBXzCu
+         50LNjVglQw45ehwRcfxbGlbUQayjZS1toz2vGcsKwT2Wp8jlNxuc7WKp6Rug9bqkJ1R8
+         M630eM/kQvqXsVKtHVEFiZwC1ivwdfMSEP5/G55QBf/rWuAeS11Yhnp3jJZDkesb1hx6
+         NYL68GJKOWtXn3Mf8lZpunzCPtxSZTzIqSSVkC9Aaw4FE2YeBSjcytdofiQg6MaAGnmw
+         yLMOwZ8zLInlWVVNEMx8D0+0DDV5gldxR6W8eGjfghfTk9O3eOtJAB5JuYIHwit4WcKT
+         wE5g==
+X-Forwarded-Encrypted: i=1; AJvYcCU25a18u805JNTJUiGaWirp3o4uUg59VVlBoSwLPSrIs9KQUHXP8YJ8Y3XWIRaDibYAv0Fra1WNruOAAvk=@vger.kernel.org, AJvYcCVrBtusXzYccvX1TI9S1YfZtQrr0uRWSv//xYR/5wYaKNSOqExzou1+drpf8o1uR/gIVjKVHktJ1qDJlWc=@vger.kernel.org, AJvYcCWqXzC5x7rebEl+OM9iIt8S9vYzGAHuI9HII3tUVNlwvvfc8+iVlsDRHHE0EGhJb0NSHNpK9dD2X1orkow=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtkugnkJ5CHipVd26ti8jXYKuMpLyuzxwc/6VpxxQAo8VD5zez
+	Q/2xItkfsKP4IwAjGN3i5iPozdgSMXI1ficJQAue2qwnZew5o2lccAe5aA==
+X-Gm-Gg: ASbGncvFYEsF3j8zophhWbAQcQ9ismXlcmcoB8d4ow4CtgNBY0Q5ypBlsObq0aHDNMY
+	XXNM6juyYbdE9M6LhrMkytUPH4iXyxSPKLOAX/fLjAN/rXCsGYTIsegLJovXNFzGDBLddAYBXm0
+	Txd9uxbU0mhRTIJwopSNCU0kCLYqJqyvZKHJX7scSR5CaAp144O/0HJ/FJxWSYUpvd9i5iazQvR
+	Y7vzuxQCgz2LxYoWFNyFFTYOcE/evloKnvwmEZvpLmDbyfaDwiVZqSm+cPbtOK6BlTtPtSJ8jHn
+	lXzMzWD4mkD1mGaRgbbK3ohbmOMC8QfdQlGWYSe5PKsEO5NlUImBMQaFO+DlkiHtBcYL7fDgfeA
+	aFg==
+X-Google-Smtp-Source: AGHT+IHOCy8i2UKdFurN9zjvJS7a08G1zOqiWVyrthDhxKETqjPjeaQ7WgsWUtA5m9zAKOO4/kBpxw==
+X-Received: by 2002:a05:600c:4452:b0:434:f609:1afa with SMTP id 5b1f17b1804b1-4390d42cc54mr24356075e9.4.1738764923968;
+        Wed, 05 Feb 2025 06:15:23 -0800 (PST)
+Received: from orome (p200300e41f281900f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f28:1900:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390db110dfsm23234075e9.36.2025.02.05.06.15.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 06:15:22 -0800 (PST)
+Date: Wed, 5 Feb 2025 15:15:20 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: "Sheetal ." <sheetal@nvidia.com>
+Cc: broonie@kernel.org, linux-sound@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, jonathanh@nvidia.com, 
+	mkumard@nvidia.com, spujar@nvidia.com
+Subject: Re: [PATCH V2] ASoC: tegra: Add interconnect support
+Message-ID: <ftyikuzu7avxlbyfruubjg5zucbstq5psilehpoahvdhpuqlr6@pcubq7dsm6fw>
+References: <20250203105304.4155542-1-sheetal@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="cqh3gyz3giblo4rm"
+Content-Disposition: inline
+In-Reply-To: <20250203105304.4155542-1-sheetal@nvidia.com>
 
-The spcm->stream[substream->stream].substream is set during open and was
-left untouched. After the first PCM stream it will never be NULL and we
-have code which checks for substream NULLity as indication if the stream is
-active or not.
-For the compressed cstream pointer the same has been done, this change will
-correct the handling of PCM streams.
 
-Fixes: 090349a9feba ("ASoC: SOF: Add support for compress API for stream data/offset")
-Cc: stable@vger.kernel.org
-Reported-by: Curtis Malainey <cujomalainey@chromium.org>
-Closes: https://github.com/thesofproject/linux/pull/5214
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Curtis Malainey <cujomalainey@chromium.org>
----
- sound/soc/sof/pcm.c | 2 ++
- 1 file changed, 2 insertions(+)
+--cqh3gyz3giblo4rm
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH V2] ASoC: tegra: Add interconnect support
+MIME-Version: 1.0
 
-diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
-index 35a7462d8b69..c5c6353f18ce 100644
---- a/sound/soc/sof/pcm.c
-+++ b/sound/soc/sof/pcm.c
-@@ -511,6 +511,8 @@ static int sof_pcm_close(struct snd_soc_component *component,
- 		 */
- 	}
- 
-+	spcm->stream[substream->stream].substream = NULL;
-+
- 	return 0;
- }
- 
--- 
-2.48.1
+On Mon, Feb 03, 2025 at 10:53:04AM +0000, Sheetal . wrote:
+> From: Sheetal <sheetal@nvidia.com>
+>=20
+> Add interconnect framework support to set required audio bandwidth
+> based on PCM device usage. The maximum bandwidth is determined by
+> the number of APE PCM devices and maximum audio format supported.
+>=20
+> If interconnect property is not defined or INTERCONNECT config
+> is not enabled then the audio usecase will still function.
+>=20
+> Validate bandwidth updates by reading the interconnect summary sysfs
+> node during PCM device open and close operations.
+>=20
+> Signed-off-by: Sheetal <sheetal@nvidia.com>
+>=20
+> ---
+> v2: Fix pcm_id parameter uninitialized warning.
+> ---
+>  sound/soc/tegra/Makefile          |   2 +-
+>  sound/soc/tegra/tegra210_admaif.c |  24 +++++-
+>  sound/soc/tegra/tegra210_admaif.h |   9 +-
+>  sound/soc/tegra/tegra_isomgr_bw.c | 132 ++++++++++++++++++++++++++++++
+>  sound/soc/tegra/tegra_isomgr_bw.h |  31 +++++++
+>  5 files changed, 192 insertions(+), 6 deletions(-)
+>  create mode 100644 sound/soc/tegra/tegra_isomgr_bw.c
+>  create mode 100644 sound/soc/tegra/tegra_isomgr_bw.h
+>=20
+> diff --git a/sound/soc/tegra/Makefile b/sound/soc/tegra/Makefile
+> index cea4b0d54378..defea7f53f11 100644
+> --- a/sound/soc/tegra/Makefile
+> +++ b/sound/soc/tegra/Makefile
+> @@ -13,7 +13,7 @@ snd-soc-tegra210-dmic-y :=3D tegra210_dmic.o
+>  snd-soc-tegra210-i2s-y :=3D tegra210_i2s.o
+>  snd-soc-tegra186-asrc-y :=3D tegra186_asrc.o
+>  snd-soc-tegra186-dspk-y :=3D tegra186_dspk.o
+> -snd-soc-tegra210-admaif-y :=3D tegra210_admaif.o
+> +snd-soc-tegra210-admaif-y :=3D tegra210_admaif.o tegra_isomgr_bw.o
 
+I don't understand why this had to be tacked on like this? Why do we
+need exported symbols for something that looks otherwise very specific
+to ADMAIF? Will this ever be used outside of the ADMAIF driver? If not
+this should just be moved into tegra210_admaif.c and then there's no
+need for the EXPORT_SYMBOL() either.
+
+Thierry
+
+--cqh3gyz3giblo4rm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmejcnUACgkQ3SOs138+
+s6GDExAAoAoyjpYgo8IxgRo1iJ0rnn3HHg+tYI5vmZ38biLzRJe+N9HpoBMrjPwd
+li4HLhhIzhH57LXkALCuBFfxdR8/72YbHSvNlTEk4nIkIblbyA0MzojF5z4uhAsu
+DnnSUYcqIWOM0PwK34Ak3heQ7Y4OCvQ/+SRdneJXmrJK5STvnJVULes5+69p79RU
+mCF5kmQ05cPfZc+ZXmjl4kKyb1Dk0/s5c8MTfzMrhZOnlJNRMou+/F8TqmadxgjK
+PJaKlpeNM3gmy9sv++RQUF81lBfYHf1Ge2w2w/sdaxs8uFs9+kNMvmAKRvuMsro/
+OEsftYyzpKNdLrJK+BDUBzQPkRRE5+sp6KhFdkYItOL782usz7obBINNm+ibC6fJ
+HBooQqXLxvPwpaKh8CZe4jUnkijMLAd8EWm/e4F5x1302BNRGfkg9WpDLCJ5wMAu
+XIceT4wgW9TY+UsFamLOnEFDsKE064gaTaLwWAXkXsyVUJvjBDmTH+2hy+qNWJ/z
+k3GctRRHEnwLlasTBUH/P0r+N6xQd9PpUlkIvBqOiGSBO63OMrvk5Cd1JKmW+zh/
+kGamv5rMdGkbbdYndYw6mWSNuCetSPpOomAjawo+DlJe4a/C1r4v5dZk5ksEfxhZ
+vIg4takTlcqzAlRZK//XM9ZaSnl9RNDQe6BO5hJAAJ2U89nC2Rs=
+=8TgE
+-----END PGP SIGNATURE-----
+
+--cqh3gyz3giblo4rm--
