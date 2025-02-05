@@ -1,154 +1,227 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2678D1519A4;
-	Wed,  5 Feb 2025 14:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EF11519B1;
+	Wed,  5 Feb 2025 16:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738764927; cv=none; b=qr1HPH7c7MOVltp2Eo2sTBjq2FlorL0tu18+bO0/VBE4niLOa8sECYUlp9pn0XzNTzGpGf7XSWUghFbCgLcRH1+et8PQiXXS0YvkC5BsGOLSkdS3lKnQeWe41IlPJzfCx7/JpyA8LRE1EmVbuWt6qCVVOOwArAp5BjxNZsjLZy8=
+	t=1738771749; cv=none; b=QCa/bbRhuyjplwIDNYWs6lAnR+3Nit7g1V4Xwu1E91R5fFW5a3z7tcBJOADubvQ4Llvcu6mjsrfiT+49400w/M5pOplmZG93i3TZBctKGnvcexA/el3aTQsb1IStTKM/2sRb8W9ervfy2XDays+a/HvDslO8v1zgcEM9Yj2eT80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738764927; c=relaxed/simple;
-	bh=K9MxXJAzE/5V8y3RnE95M277Dhdg1tieL4Y2vxbi33Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pRE6Up6PPuaykmdoFZ7higy+Kg97yT7zzItTzxGbV0M4lbNnpfDoBX4O5eEZumjQcj0th/FqG8FhMNWRZsovBuN9L4bkMCUvNKUntmMUIvq9t7VeJ2u05Z4XpEktGuxo0Mykn5WpprhFGWMNjNJ3F+yMvkH2RpEZPSYnEzntxNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQzo5ObJ; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738771749; c=relaxed/simple;
+	bh=F8668StW9/w4a2vLVJfdRxxvvZY/qa0fTwKXNsntRnw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PihnYUzZcCKxDd3gsVXBQ98LtG70tCEZrZpFPXy1tkc6j+nAKtacfrI7eOSq8TVffgDmRhopibVdr5gr1IhBt0Ulb6421ACXnyuVfyivcxVFLP6PqYekX8PVpa/YWh8tOv+5phQJnwmhhbBbWYK9LnnKhvVoaHwTfdDn0+JUnD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=hJP9OMaE; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQzo5ObJ"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-436281c8a38so48354235e9.3;
-        Wed, 05 Feb 2025 06:15:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738764924; x=1739369724; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H/NXXdDcgKO6ZclLlGW4nSts7m5ZN5bv2I7qQmsbW+8=;
-        b=fQzo5ObJgvkk557gPbhZETS/YY46dlzv1IN9zVtcbRTqHE7KoCdfM+fRD99W1ry4O2
-         8XBcSa0VPO3N4av0i25NrYinra6K9hh2pHGWfOA5Q0MkX5mdAjqQLj7FPQpx8K1KdW2p
-         qtZ8Ryv5UQzwErNn7EQNl7yMBZ0SBHHUvsbZr/pZ2i0+fhjA4KDFD1TC+jfrTEJusvfM
-         rRNVIWc+kDyEsJdg41FKvziPopR010QYmNmd0+Yqw9gCDNftWnD5VSwP+QRywzdsoIET
-         0/HD0hvKPQ/qEwgyQUiiPrFfHUkh0xQM/f7oeHJzsPTanT69B8UNPR1u4SGI62JMIG7R
-         rKSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738764924; x=1739369724;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H/NXXdDcgKO6ZclLlGW4nSts7m5ZN5bv2I7qQmsbW+8=;
-        b=LjsA3jt9tAX1S70lmWStJ8hi7HDdVkxdUjbns08OnsLul5tlReXpevVfQTcdKBXzCu
-         50LNjVglQw45ehwRcfxbGlbUQayjZS1toz2vGcsKwT2Wp8jlNxuc7WKp6Rug9bqkJ1R8
-         M630eM/kQvqXsVKtHVEFiZwC1ivwdfMSEP5/G55QBf/rWuAeS11Yhnp3jJZDkesb1hx6
-         NYL68GJKOWtXn3Mf8lZpunzCPtxSZTzIqSSVkC9Aaw4FE2YeBSjcytdofiQg6MaAGnmw
-         yLMOwZ8zLInlWVVNEMx8D0+0DDV5gldxR6W8eGjfghfTk9O3eOtJAB5JuYIHwit4WcKT
-         wE5g==
-X-Forwarded-Encrypted: i=1; AJvYcCU25a18u805JNTJUiGaWirp3o4uUg59VVlBoSwLPSrIs9KQUHXP8YJ8Y3XWIRaDibYAv0Fra1WNruOAAvk=@vger.kernel.org, AJvYcCVrBtusXzYccvX1TI9S1YfZtQrr0uRWSv//xYR/5wYaKNSOqExzou1+drpf8o1uR/gIVjKVHktJ1qDJlWc=@vger.kernel.org, AJvYcCWqXzC5x7rebEl+OM9iIt8S9vYzGAHuI9HII3tUVNlwvvfc8+iVlsDRHHE0EGhJb0NSHNpK9dD2X1orkow=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtkugnkJ5CHipVd26ti8jXYKuMpLyuzxwc/6VpxxQAo8VD5zez
-	Q/2xItkfsKP4IwAjGN3i5iPozdgSMXI1ficJQAue2qwnZew5o2lccAe5aA==
-X-Gm-Gg: ASbGncvFYEsF3j8zophhWbAQcQ9ismXlcmcoB8d4ow4CtgNBY0Q5ypBlsObq0aHDNMY
-	XXNM6juyYbdE9M6LhrMkytUPH4iXyxSPKLOAX/fLjAN/rXCsGYTIsegLJovXNFzGDBLddAYBXm0
-	Txd9uxbU0mhRTIJwopSNCU0kCLYqJqyvZKHJX7scSR5CaAp144O/0HJ/FJxWSYUpvd9i5iazQvR
-	Y7vzuxQCgz2LxYoWFNyFFTYOcE/evloKnvwmEZvpLmDbyfaDwiVZqSm+cPbtOK6BlTtPtSJ8jHn
-	lXzMzWD4mkD1mGaRgbbK3ohbmOMC8QfdQlGWYSe5PKsEO5NlUImBMQaFO+DlkiHtBcYL7fDgfeA
-	aFg==
-X-Google-Smtp-Source: AGHT+IHOCy8i2UKdFurN9zjvJS7a08G1zOqiWVyrthDhxKETqjPjeaQ7WgsWUtA5m9zAKOO4/kBpxw==
-X-Received: by 2002:a05:600c:4452:b0:434:f609:1afa with SMTP id 5b1f17b1804b1-4390d42cc54mr24356075e9.4.1738764923968;
-        Wed, 05 Feb 2025 06:15:23 -0800 (PST)
-Received: from orome (p200300e41f281900f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f28:1900:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390db110dfsm23234075e9.36.2025.02.05.06.15.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 06:15:22 -0800 (PST)
-Date: Wed, 5 Feb 2025 15:15:20 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: "Sheetal ." <sheetal@nvidia.com>
-Cc: broonie@kernel.org, linux-sound@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, jonathanh@nvidia.com, 
-	mkumard@nvidia.com, spujar@nvidia.com
-Subject: Re: [PATCH V2] ASoC: tegra: Add interconnect support
-Message-ID: <ftyikuzu7avxlbyfruubjg5zucbstq5psilehpoahvdhpuqlr6@pcubq7dsm6fw>
-References: <20250203105304.4155542-1-sheetal@nvidia.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="hJP9OMaE"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5156Lall024527;
+	Wed, 5 Feb 2025 10:08:55 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=UUzPVgCpajggfKVM
+	dv9jNuQ4lruaM+EuO+bTxw7gNlI=; b=hJP9OMaEjQBaOuU5P6jdWOamzy/d1rHH
+	Qul6t6bbB+PS/HySHXaluk/0fr0uYjb4WRmAIDFO+5JRwKpWbFkYckSsebUqmoo6
+	GtOIBBzREwL/gtc9/iEPzYlRU1gR82lUoGbN9ol+CCXC6F8HbDVVEQ9Wb2qHios8
+	UXK/ryUkEFBHI+Qrp/201gC9i2vKUy/gxYSLXZsoIM8DpTRvT2Nk17Hdk10lAfY2
+	xmFqdg9i6p0drBpDGsEfPIMAgpxzS4WK3Fl96XSmOYYiuii9vfbWM8j4qT9eHvSm
+	PVmzb8R/tMlwTBCs5DPBQ0zwwllJtmmaX2WPVqt/ugQInuuWHF23lg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 44hhw54pqr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Feb 2025 10:08:54 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 5 Feb
+ 2025 16:08:52 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Wed, 5 Feb 2025 16:08:52 +0000
+Received: from lonswws03.ad.cirrus.com (lonswws03.ad.cirrus.com [198.90.188.34])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1DD84820248;
+	Wed,  5 Feb 2025 16:08:52 +0000 (UTC)
+From: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>,
+        Vitaly Rodionov
+	<vitalyr@opensource.cirrus.com>
+Subject: [PATCH] ASoC: arizona/madera: use fsleep() in up/down DAPM event delays.
+Date: Wed, 5 Feb 2025 16:08:46 +0000
+Message-ID: <20250205160849.500306-1-vitalyr@opensource.cirrus.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cqh3gyz3giblo4rm"
-Content-Disposition: inline
-In-Reply-To: <20250203105304.4155542-1-sheetal@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: C0djC6pTA-orCrzm0sCvAivmT_sJvqXP
+X-Authority-Analysis: v=2.4 cv=W/3CVQWk c=1 sm=1 tr=0 ts=67a38d16 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=Rk8IO1C96jJ1JY0G4JwA:9 a=YXXWInSmI4Sqt1AkVdoW:22
+X-Proofpoint-GUID: C0djC6pTA-orCrzm0sCvAivmT_sJvqXP
+X-Proofpoint-Spam-Reason: safe
 
+Using `fsleep` instead of `msleep` resolves some customer complaints
+regarding the precision of up/down DAPM event timing. `fsleep()`
+automatically selects the appropriate sleep function, making the delay
+time more predictable.
 
---cqh3gyz3giblo4rm
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH V2] ASoC: tegra: Add interconnect support
-MIME-Version: 1.0
+Signed-off-by: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+---
+ sound/soc/codecs/arizona.c | 14 +++++++-------
+ sound/soc/codecs/madera.c  | 10 +++++-----
+ sound/soc/codecs/wm5110.c  |  8 ++++----
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-On Mon, Feb 03, 2025 at 10:53:04AM +0000, Sheetal . wrote:
-> From: Sheetal <sheetal@nvidia.com>
->=20
-> Add interconnect framework support to set required audio bandwidth
-> based on PCM device usage. The maximum bandwidth is determined by
-> the number of APE PCM devices and maximum audio format supported.
->=20
-> If interconnect property is not defined or INTERCONNECT config
-> is not enabled then the audio usecase will still function.
->=20
-> Validate bandwidth updates by reading the interconnect summary sysfs
-> node during PCM device open and close operations.
->=20
-> Signed-off-by: Sheetal <sheetal@nvidia.com>
->=20
-> ---
-> v2: Fix pcm_id parameter uninitialized warning.
-> ---
->  sound/soc/tegra/Makefile          |   2 +-
->  sound/soc/tegra/tegra210_admaif.c |  24 +++++-
->  sound/soc/tegra/tegra210_admaif.h |   9 +-
->  sound/soc/tegra/tegra_isomgr_bw.c | 132 ++++++++++++++++++++++++++++++
->  sound/soc/tegra/tegra_isomgr_bw.h |  31 +++++++
->  5 files changed, 192 insertions(+), 6 deletions(-)
->  create mode 100644 sound/soc/tegra/tegra_isomgr_bw.c
->  create mode 100644 sound/soc/tegra/tegra_isomgr_bw.h
->=20
-> diff --git a/sound/soc/tegra/Makefile b/sound/soc/tegra/Makefile
-> index cea4b0d54378..defea7f53f11 100644
-> --- a/sound/soc/tegra/Makefile
-> +++ b/sound/soc/tegra/Makefile
-> @@ -13,7 +13,7 @@ snd-soc-tegra210-dmic-y :=3D tegra210_dmic.o
->  snd-soc-tegra210-i2s-y :=3D tegra210_i2s.o
->  snd-soc-tegra186-asrc-y :=3D tegra186_asrc.o
->  snd-soc-tegra186-dspk-y :=3D tegra186_dspk.o
-> -snd-soc-tegra210-admaif-y :=3D tegra210_admaif.o
-> +snd-soc-tegra210-admaif-y :=3D tegra210_admaif.o tegra_isomgr_bw.o
+diff --git a/sound/soc/codecs/arizona.c b/sound/soc/codecs/arizona.c
+index 402b9a2ff024..68cdb1027d0c 100644
+--- a/sound/soc/codecs/arizona.c
++++ b/sound/soc/codecs/arizona.c
+@@ -967,7 +967,7 @@ int arizona_out_ev(struct snd_soc_dapm_widget *w,
+ 		case ARIZONA_OUT3L_ENA_SHIFT:
+ 		case ARIZONA_OUT3R_ENA_SHIFT:
+ 			priv->out_up_pending++;
+-			priv->out_up_delay += 17;
++			priv->out_up_delay += 17000;
+ 			break;
+ 		case ARIZONA_OUT4L_ENA_SHIFT:
+ 		case ARIZONA_OUT4R_ENA_SHIFT:
+@@ -977,7 +977,7 @@ int arizona_out_ev(struct snd_soc_dapm_widget *w,
+ 			case WM8997:
+ 				break;
+ 			default:
+-				priv->out_up_delay += 10;
++				priv->out_up_delay += 10000;
+ 				break;
+ 			}
+ 			break;
+@@ -999,7 +999,7 @@ int arizona_out_ev(struct snd_soc_dapm_widget *w,
+ 			if (!priv->out_up_pending && priv->out_up_delay) {
+ 				dev_dbg(component->dev, "Power up delay: %d\n",
+ 					priv->out_up_delay);
+-				msleep(priv->out_up_delay);
++				fsleep(priv->out_up_delay);
+ 				priv->out_up_delay = 0;
+ 			}
+ 			break;
+@@ -1017,7 +1017,7 @@ int arizona_out_ev(struct snd_soc_dapm_widget *w,
+ 		case ARIZONA_OUT3L_ENA_SHIFT:
+ 		case ARIZONA_OUT3R_ENA_SHIFT:
+ 			priv->out_down_pending++;
+-			priv->out_down_delay++;
++			priv->out_down_delay += 1000;
+ 			break;
+ 		case ARIZONA_OUT4L_ENA_SHIFT:
+ 		case ARIZONA_OUT4R_ENA_SHIFT:
+@@ -1028,10 +1028,10 @@ int arizona_out_ev(struct snd_soc_dapm_widget *w,
+ 				break;
+ 			case WM8998:
+ 			case WM1814:
+-				priv->out_down_delay += 5;
++				priv->out_down_delay += 5000;
+ 				break;
+ 			default:
+-				priv->out_down_delay++;
++				priv->out_down_delay += 1000;
+ 				break;
+ 			}
+ 			break;
+@@ -1053,7 +1053,7 @@ int arizona_out_ev(struct snd_soc_dapm_widget *w,
+ 			if (!priv->out_down_pending && priv->out_down_delay) {
+ 				dev_dbg(component->dev, "Power down delay: %d\n",
+ 					priv->out_down_delay);
+-				msleep(priv->out_down_delay);
++				fsleep(priv->out_down_delay);
+ 				priv->out_down_delay = 0;
+ 			}
+ 			break;
+diff --git a/sound/soc/codecs/madera.c b/sound/soc/codecs/madera.c
+index a840a2eb92b9..af109761f359 100644
+--- a/sound/soc/codecs/madera.c
++++ b/sound/soc/codecs/madera.c
+@@ -2323,10 +2323,10 @@ int madera_out_ev(struct snd_soc_dapm_widget *w,
+ 	case CS42L92:
+ 	case CS47L92:
+ 	case CS47L93:
+-		out_up_delay = 6;
++		out_up_delay = 6000;
+ 		break;
+ 	default:
+-		out_up_delay = 17;
++		out_up_delay = 17000;
+ 		break;
+ 	}
+ 
+@@ -2357,7 +2357,7 @@ int madera_out_ev(struct snd_soc_dapm_widget *w,
+ 		case MADERA_OUT3R_ENA_SHIFT:
+ 			priv->out_up_pending--;
+ 			if (!priv->out_up_pending) {
+-				msleep(priv->out_up_delay);
++				fsleep(priv->out_up_delay);
+ 				priv->out_up_delay = 0;
+ 			}
+ 			break;
+@@ -2376,7 +2376,7 @@ int madera_out_ev(struct snd_soc_dapm_widget *w,
+ 		case MADERA_OUT3L_ENA_SHIFT:
+ 		case MADERA_OUT3R_ENA_SHIFT:
+ 			priv->out_down_pending++;
+-			priv->out_down_delay++;
++			priv->out_down_delay += 1000;
+ 			break;
+ 		default:
+ 			break;
+@@ -2393,7 +2393,7 @@ int madera_out_ev(struct snd_soc_dapm_widget *w,
+ 		case MADERA_OUT3R_ENA_SHIFT:
+ 			priv->out_down_pending--;
+ 			if (!priv->out_down_pending) {
+-				msleep(priv->out_down_delay);
++				fsleep(priv->out_down_delay);
+ 				priv->out_down_delay = 0;
+ 			}
+ 			break;
+diff --git a/sound/soc/codecs/wm5110.c b/sound/soc/codecs/wm5110.c
+index 502196253d42..64eee0d2347d 100644
+--- a/sound/soc/codecs/wm5110.c
++++ b/sound/soc/codecs/wm5110.c
+@@ -302,7 +302,7 @@ static int wm5110_hp_pre_enable(struct snd_soc_dapm_widget *w)
+ 		} else {
+ 			wseq = wm5110_no_dre_left_enable;
+ 			nregs = ARRAY_SIZE(wm5110_no_dre_left_enable);
+-			priv->out_up_delay += 10;
++			priv->out_up_delay += 10000;
+ 		}
+ 		break;
+ 	case ARIZONA_OUT1R_ENA_SHIFT:
+@@ -312,7 +312,7 @@ static int wm5110_hp_pre_enable(struct snd_soc_dapm_widget *w)
+ 		} else {
+ 			wseq = wm5110_no_dre_right_enable;
+ 			nregs = ARRAY_SIZE(wm5110_no_dre_right_enable);
+-			priv->out_up_delay += 10;
++			priv->out_up_delay += 10000;
+ 		}
+ 		break;
+ 	default:
+@@ -338,7 +338,7 @@ static int wm5110_hp_pre_disable(struct snd_soc_dapm_widget *w)
+ 			snd_soc_component_update_bits(component,
+ 						      ARIZONA_SPARE_TRIGGERS,
+ 						      ARIZONA_WS_TRG1, 0);
+-			priv->out_down_delay += 27;
++			priv->out_down_delay += 27000;
+ 		}
+ 		break;
+ 	case ARIZONA_OUT1R_ENA_SHIFT:
+@@ -350,7 +350,7 @@ static int wm5110_hp_pre_disable(struct snd_soc_dapm_widget *w)
+ 			snd_soc_component_update_bits(component,
+ 						      ARIZONA_SPARE_TRIGGERS,
+ 						      ARIZONA_WS_TRG2, 0);
+-			priv->out_down_delay += 27;
++			priv->out_down_delay += 27000;
+ 		}
+ 		break;
+ 	default:
+-- 
+2.43.0
 
-I don't understand why this had to be tacked on like this? Why do we
-need exported symbols for something that looks otherwise very specific
-to ADMAIF? Will this ever be used outside of the ADMAIF driver? If not
-this should just be moved into tegra210_admaif.c and then there's no
-need for the EXPORT_SYMBOL() either.
-
-Thierry
-
---cqh3gyz3giblo4rm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmejcnUACgkQ3SOs138+
-s6GDExAAoAoyjpYgo8IxgRo1iJ0rnn3HHg+tYI5vmZ38biLzRJe+N9HpoBMrjPwd
-li4HLhhIzhH57LXkALCuBFfxdR8/72YbHSvNlTEk4nIkIblbyA0MzojF5z4uhAsu
-DnnSUYcqIWOM0PwK34Ak3heQ7Y4OCvQ/+SRdneJXmrJK5STvnJVULes5+69p79RU
-mCF5kmQ05cPfZc+ZXmjl4kKyb1Dk0/s5c8MTfzMrhZOnlJNRMou+/F8TqmadxgjK
-PJaKlpeNM3gmy9sv++RQUF81lBfYHf1Ge2w2w/sdaxs8uFs9+kNMvmAKRvuMsro/
-OEsftYyzpKNdLrJK+BDUBzQPkRRE5+sp6KhFdkYItOL782usz7obBINNm+ibC6fJ
-HBooQqXLxvPwpaKh8CZe4jUnkijMLAd8EWm/e4F5x1302BNRGfkg9WpDLCJ5wMAu
-XIceT4wgW9TY+UsFamLOnEFDsKE064gaTaLwWAXkXsyVUJvjBDmTH+2hy+qNWJ/z
-k3GctRRHEnwLlasTBUH/P0r+N6xQd9PpUlkIvBqOiGSBO63OMrvk5Cd1JKmW+zh/
-kGamv5rMdGkbbdYndYw6mWSNuCetSPpOomAjawo+DlJe4a/C1r4v5dZk5ksEfxhZ
-vIg4takTlcqzAlRZK//XM9ZaSnl9RNDQe6BO5hJAAJ2U89nC2Rs=
-=8TgE
------END PGP SIGNATURE-----
-
---cqh3gyz3giblo4rm--
