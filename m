@@ -1,138 +1,141 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACCE22B8B7
-	for <linux-sound@vger.kernel.org>; Wed,  5 Feb 2025 12:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142AC21516B;
+	Wed,  5 Feb 2025 12:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738756919; cv=none; b=osvNH+4Ytu9YnJlkPZcVQrEz/Lvm18m+OPO/eWg10VNUV74sQdMcLrjzdnohQQdqQ4smAA5BI2WbnnFnFtZxr8lrtL9xECc1UXfDbN66y9m4zsv+/gsxoNeCMjg7tIn/91bEWrnsMmKFdyGYrHtcHSuXhtJwQvjyqOlo7JdDKCg=
+	t=1738756999; cv=none; b=WxaqYnob1xET7vQYa3u2vvzoxA1fP4PwMjV2QKEElf0WcxeOIl1p6LNGhbVCd0GjTqM6oDE+shAG5e0PTMPKcfF8OeFEaEbnJlzWLZ3c6FWPJythIwKNKKRAwLdv0C/+0BbvpLEwMsfvUGQwXjkMCpQ0ewVsGK9p18pXQWn0lCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738756919; c=relaxed/simple;
-	bh=BF7XDcQmsN2iArIg8PY8SNq0dZcQVwnzp37MbCrNIyg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=B4Kz+YcOkXtC7PEsfpG2x1ajeRV+H77vjGzigsgqdmr5TlVe+3ZDNhEWGydD6r+zLnUuBaSVfii0iuwFSg4hy9H/7pKiqeQnAX73oh03aBBg+CIpysYcfXpoQOd20/Ok+yeuk8jD0dXTk8NZyGs17DQ2f8jj4vwdYA9TfA6XcBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MuDuozCn; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738756999; c=relaxed/simple;
+	bh=QmkDwHrI/c+t2IlAP+8VfGH8V3h5MLbVA8cKyHBDeis=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o5E51Fj2CNWRB1M2w14AAVrBaXOFAR/gCCioj0o/Pb35aHn6GqbLBzJ79Db1HtbFF6n0AI0+vFMBlFCq6Gx4UMZKvwqVI5NiWozKsLEjFLwhs15WOyqOWjDwScJL7wvMowuy12Ui/3JIAkhLhGkkQH0VDKpA8sPiRjENIEyS8Ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GqouyR3E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1IX4r1A5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GqouyR3E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1IX4r1A5; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MuDuozCn"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2f9c3ef6849so3140917a91.3
-        for <linux-sound@vger.kernel.org>; Wed, 05 Feb 2025 04:01:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738756917; x=1739361717; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sC+DeOKFgke/V6poFUMIlv8xFL2qTl0fLriKCpiuyjs=;
-        b=MuDuozCnHqX78esILweeEyJB1xfOs2oZtSdRTr1w3lF6kdA0lWHxfbA9FwCLkamh70
-         Yzk3VQmzxhvJ+YTix2t7ehISLc8fVZnT96Rjap+FVWqdgF/L1Zch9FcrnjNVqOS4Pv29
-         1i7qvOVqwN1ccVw7FHDz2lkfAnsWyHhJcQKDjw2fGd2dUgc9eQ9aJpop30JClHsi1Prt
-         XsWvLDB8HXpWhFUQdnq/OJ3a0GUG2iZmoTxMMDieMMtTBOcn4TD2EZhbLuPlF/weA/bP
-         h1QYUqh8Pk3jjk3Q2nem6NmgVxJsze6YYYLGQiYDZI2DdtakYtO4ew3IqpXhM3VBdbRA
-         Jw7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738756917; x=1739361717;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sC+DeOKFgke/V6poFUMIlv8xFL2qTl0fLriKCpiuyjs=;
-        b=jhziPJfWP1R4c54m+ZQV08+VeYsSbYcMI8iGC2TCG6hnEhzc3tu7k+ueij9wbzUau4
-         lVadRtQcu7Dw1q0BZeX2bYVBjZ1R2/PAhADV1nw7lHWbg/2bObw5DFNOw2yyEEdDqzoc
-         E9tZGlQ0cSrgMIwXtUDP5r7D+gkHs7ltUsVE0PIeT43/IIC/p2qdf9OoBYuNyJy7rV2Z
-         wr/scdrhRirgHOGCHXdU4cZm2Wvzhwb9NLtTVGaGKv8faN5Q1H40w+tlZxpU11hIUv0c
-         ZP2hE6jkxmuFoOUksRgw3ggnzG/B9jCTc3rsbkKYKLV8e2R3ChpXqe2vksZyZkkuWN5I
-         Eqzg==
-X-Forwarded-Encrypted: i=1; AJvYcCUOLQYXgiCFuz7jKllKFFOKxpOhMqptNpSZyTkCQNqRDyUjdydDRFr0RE3gkVdybKEPvnq8A1fG/YwvMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuJ5sYS+xPnGDybLnw2A9rtokJf9G81E6BGKsK6HlToHULwCaG
-	fK9mEbnKBSDnepcMa6CSkFtWyA93qKcq2Oeeh3HkmG3fApbfkb/J7l6Npw==
-X-Gm-Gg: ASbGncsP2mEuVqhbu/g2n+fw9Ru5WOwCRRua7BK+C9X6q1CMI2xSyZjmTorPSg7kwQv
-	IsB0wnxXJQNUzwFqcOGGG6zfwJ1qnZk+7cHDsDdkf8cvO5Y3ekfln8qx4g2Eb35xNam2s5cSbNs
-	IOP3T9xq9hof+5aRXaJAxMly+dNPZ/ARDUqXZO5CRlvu7Z3hj65Ycf6bolOOjqGk8qHfFbCzEpA
-	V/QmWoZnbHuY0CkZi8XOWhLOYCS6ITNThS0+e94Sz0XTXnkyhzUymkEx8UfDRZwavpSxfbwKv7g
-	6Z0S1IUAijYJD5+6IdZ14iwYkGLdSg==
-X-Google-Smtp-Source: AGHT+IFl9Up/BaLyWXbKQ8HGrPtuY/TAvtdIHChfCsihvQg5LUJHAwx38yPBFWJ7z6vFZ66PURhpGA==
-X-Received: by 2002:a17:90b:3846:b0:2ee:ee77:2263 with SMTP id 98e67ed59e1d1-2f9e075384fmr4186831a91.7.1738756917240;
-        Wed, 05 Feb 2025 04:01:57 -0800 (PST)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:3191:ac6f:e550:d749])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f9e1e2445asm1372097a91.39.2025.02.05.04.01.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 04:01:56 -0800 (PST)
-From: Fabio Estevam <festevam@gmail.com>
-To: broonie@kernel.org
-Cc: robh@kernel.org,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GqouyR3E";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1IX4r1A5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GqouyR3E";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1IX4r1A5"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2DE4D211F7;
+	Wed,  5 Feb 2025 12:03:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1738756996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w6Xf0428skrBezRsfRPGS9o4iSQH1jKIk1Qxl6JafTg=;
+	b=GqouyR3EyLqgVzAF/UA6+XtRD9lJJgTb9BSE3FQ3yNnYeHqOSA5t0nTV17THpNiOQHCtRX
+	G0I7ANmACUia6nbwRdplJBlIT8bdXLEy0vYog89revV/qzO+dw2Dfc9OFMc4+72wZFIDYD
+	+Td9vBy+AWozqsT0K42CmXp9PtsRfjE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1738756996;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w6Xf0428skrBezRsfRPGS9o4iSQH1jKIk1Qxl6JafTg=;
+	b=1IX4r1A5mCrft3DFYSb3lej+M/BLsvrzxm0tp3Hk+higoRrmqSYHYXGuhyIiM9RnGttb6y
+	B1H1rwpseBSq8QDg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GqouyR3E;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1IX4r1A5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1738756996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w6Xf0428skrBezRsfRPGS9o4iSQH1jKIk1Qxl6JafTg=;
+	b=GqouyR3EyLqgVzAF/UA6+XtRD9lJJgTb9BSE3FQ3yNnYeHqOSA5t0nTV17THpNiOQHCtRX
+	G0I7ANmACUia6nbwRdplJBlIT8bdXLEy0vYog89revV/qzO+dw2Dfc9OFMc4+72wZFIDYD
+	+Td9vBy+AWozqsT0K42CmXp9PtsRfjE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1738756996;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w6Xf0428skrBezRsfRPGS9o4iSQH1jKIk1Qxl6JafTg=;
+	b=1IX4r1A5mCrft3DFYSb3lej+M/BLsvrzxm0tp3Hk+higoRrmqSYHYXGuhyIiM9RnGttb6y
+	B1H1rwpseBSq8QDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0332713694;
+	Wed,  5 Feb 2025 12:03:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7D0jO4NTo2dZXwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 05 Feb 2025 12:03:15 +0000
+Date: Wed, 05 Feb 2025 13:03:15 +0100
+Message-ID: <87msf0zji4.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: linux@treblig.org
+Cc: perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] ASoC: soc-core: Use of_property_present() for non-boolean properties
-Date: Wed,  5 Feb 2025 09:01:28 -0300
-Message-Id: <20250205120128.1080295-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: lola: Remove unused lola_(save|restore)_mixer
+In-Reply-To: <20250122022059.456068-1-linux@treblig.org>
+References: <20250122022059.456068-1-linux@treblig.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 2DE4D211F7
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-From: Fabio Estevam <festevam@denx.de>
+On Wed, 22 Jan 2025 03:20:59 +0100,
+linux@treblig.org wrote:
+> 
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> 
+> lola_restore_mixer() and lola_save_mixer() were added in 2011 by
+> commit d43f3010b8fa ("ALSA: Add the driver for Digigram Lola
+> PCI-e boards")
+> but have remain unused.
+> 
+> Remove them.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-The use of of_property_read_bool() for non-boolean properties is
-deprecated in favor of of_property_present() when testing for property
-presence.
+Applied to for-next branch now.  Thanks.
 
-Switch to of_property_present() to fix the following warnings observed
-when booting the imx8mp-evk board:
 
-[   11.436855] OF: /sound-bt-sco/simple-audio-card,cpu: Read of boolean property 'dai-tdm-slot-num' with a value.
-[   11.436885] OF: /sound-bt-sco/simple-audio-card,cpu: Read of boolean property 'dai-tdm-slot-width' with a value.
-[   11.436941] OF: /sound-bt-sco: Read of boolean property 'simple-audio-card,bitclock-master' with a value.
-[   11.436960] OF: /sound-bt-sco: Read of boolean property 'simple-audio-card,frame-master' with a value.
-
-Based on Rob Herring's patch for mmc.
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- sound/soc/soc-core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 3c6d8aef4130..2c529210a8e0 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -3120,7 +3120,7 @@ int snd_soc_of_parse_tdm_slot(struct device_node *np,
- 	if (rx_mask)
- 		snd_soc_of_get_slot_mask(np, "dai-tdm-slot-rx-mask", rx_mask);
- 
--	if (of_property_read_bool(np, "dai-tdm-slot-num")) {
-+	if (of_property_present(np, "dai-tdm-slot-num")) {
- 		ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
- 		if (ret)
- 			return ret;
-@@ -3129,7 +3129,7 @@ int snd_soc_of_parse_tdm_slot(struct device_node *np,
- 			*slots = val;
- 	}
- 
--	if (of_property_read_bool(np, "dai-tdm-slot-width")) {
-+	if (of_property_present(np, "dai-tdm-slot-width")) {
- 		ret = of_property_read_u32(np, "dai-tdm-slot-width", &val);
- 		if (ret)
- 			return ret;
-@@ -3403,12 +3403,12 @@ unsigned int snd_soc_daifmt_parse_clock_provider_raw(struct device_node *np,
- 	 * check "[prefix]frame-master"
- 	 */
- 	snprintf(prop, sizeof(prop), "%sbitclock-master", prefix);
--	bit = of_property_read_bool(np, prop);
-+	bit = of_property_present(np, prop);
- 	if (bit && bitclkmaster)
- 		*bitclkmaster = of_parse_phandle(np, prop, 0);
- 
- 	snprintf(prop, sizeof(prop), "%sframe-master", prefix);
--	frame = of_property_read_bool(np, prop);
-+	frame = of_property_present(np, prop);
- 	if (frame && framemaster)
- 		*framemaster = of_parse_phandle(np, prop, 0);
- 
--- 
-2.34.1
-
+Takashi
