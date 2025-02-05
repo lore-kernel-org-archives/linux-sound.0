@@ -1,59 +1,59 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011040.outbound.protection.outlook.com [40.107.74.40])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010012.outbound.protection.outlook.com [52.101.229.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F9F8C11
-	for <linux-sound@vger.kernel.org>; Wed,  5 Feb 2025 00:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB8A3234
+	for <linux-sound@vger.kernel.org>; Wed,  5 Feb 2025 00:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738714592; cv=fail; b=WnRmALGcJLGHHNjWhGFWaJh92L2XNxbxfGINSh+Y4oVoZ+y5aHhXluXmyZwhfc7L3qGItkus5TNIXnJtLGKVlTdI4qtWhl0iIbRgGaUL05eH+S8vBWdeXBVVKhP58xnEhf9fGXD0z2shyRggWLeEp0cPiA84Fm9X5TszMr0P+vo=
+	t=1738714596; cv=fail; b=eKbORNnbArzG2+zEJ5/nkWCVgkfrOVuPPZoP0UaGuTeXb1+kEw3JM1Pa1i94LjbbEPDnBXhVA2wBliYxY981lf7V0JgheNkL25QFr6D989srGcEgwSLkQx0sq6lqYAVXLDjnPwEdGa9DBkVYdL5jk6NjkM/GktWDOO95mzJiAsU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738714592; c=relaxed/simple;
-	bh=KYIhKKl0Old86GMWkuqn0/Fbl98khVivX6HvMullBLQ=;
+	s=arc-20240116; t=1738714596; c=relaxed/simple;
+	bh=IVGnLprdo0zGKCi1LJIPIKnCNfZMYIIQLgf649tKQBM=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=LHmWyUfnrZp12D+TJK31KYz4AGB/dHNb/6O6b3yIQbrKP2F0iMvlHQwgW/Ub0OHxjKUnKC7mH91gqRM6Dk/LBv0iixmRfUCI2oiZAd+OfmMxvAcUfdEMU356HlPIUMlGMbqaUyJg1BHQCAcJA5LTRIefivdT9+H1yUn2enWXQtY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=cKdy9xyk; arc=fail smtp.client-ip=40.107.74.40
+	 Date:MIME-Version; b=Yoh0zSWHvzzda1ACQNX0/UyqMOgILj2LoDfwvaZZZo0noNz2YLq/HK+hwxH46Q+jqd7KvXEYe5mF6+Nc0o9tZvXHUVvbTzfTZO3yyl+63L4pGBJsajpmCy1+RRXg3cgvh5UAWXfJsO5Jddi8KvWnOu0CaVIS+8cZkXbOCVBojyg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ZzU293xY; arc=fail smtp.client-ip=52.101.229.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="cKdy9xyk"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ZzU293xY"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CFmq8SpWq/N0yae5EGr310UmQOaXPurT8wnGYfQNaUsjuCVznP5Y3VRvbynBN0JpfrMWUBLCm+mRw+qzhJl0P0osNjsIkR4DLOnU2YyIQYKzJFG/Q/O6zqNFinbGMTF7YvUcaIjsQQdrssFsyMV5WuCer7cuA/LxNDZLz55pmhTUbQLLkZT2npTjc93iXx7ajugiWEC1CeGHc3v8M4WAlLhH+GBn4ko9mCoAeQmiNnOElNBvdhDpv6fGw/9q88KtvmyLd7/ix/lFsJwGn0CB43bRQqM5JF/EPufj3TgeytZEimImAcx0DrhiPb/HDDUHrSZmq4f7sMkIfy6tGVziJw==
+ b=Cio/l5XUrVJJ0rV8hGrSqTAh181ScO59t5uAdT7cCfV1Bp7rQqpBCkj/8PqmZKyArLAdjv9WX0TZ+nBUUzolZLlcBEWmne7fYfiuA+XnJ8j3aXoWagWxZeewdZxYNfZsm1KzI976EYeeJO4uCPl5vcQ62e6gVYxmi8uZ5D9x+VfWAlDKSxNhPyO2uhtfp9+FnHU3EE0DssM8vZYNbPvb/AiCoS4+oIb9NGnFjD2VZst9WZWoFpx8bfDbRnn3TXtk4wQbNJAtlxEpd6SKJZs9rA5XKJIfbn7AGyNzqeSvIEUaaRIstQuYc9vspcSyvrEJe6eTXg/JeHICyawg+l5c3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dMVXdCR/aUxJlyoN79BdkJK4FrGVoAKrvRvzDzt/foo=;
- b=rkW2ncsD6IJv8D9wYfH7DjERxtz7Ta0VSADnbc+5jNBdZUutsUHN/DqnlP8F+71mgdYNCjsiqGG1Qn2GZoFdurRbD9XKYCcn8COPIsJiZ6RVkuruJtleh+wiPbWPYd16yerOmCXFjh2v1q9Zdqn4aXWGzJxrKf1kKVhTUcIGhPSWPt3XSlUJPWKlxFW+0E9/z6963Q0TihKK8Kub9RzX2b3aGBe3wy+/y/GfAP+buAhhw2ZSAwHqBjzLE6TzDc2u47dAwuyPinK4P3D2FES1R2LzW6IXwvDioETWamshyygdgMHFLCTIakBlfYzahXVjnc4Id64IzEJrfPg6ybXOqg==
+ bh=vTz+vqdbADRFQolMei7rN2GF79qipJy6VvBA0f6lK+w=;
+ b=ZZ3uLuxJRcZSLOX11f/EHspEKBNOa7lGFB+S0IAIXZqcxRSe7I8ROmwwnZF2Totb7gdG3anPAONVqxJB6qdU03L47VgMSei+bKYdTB+CG/21zN8cm+WWmMI4bK9q3e9D0+qXQc1OvFkHRunksv4XOS3gy2BIPds2fMTskgjLvi0+n6EH8egjsWvlxU543kc9CCax0Gn03GD6KnW6gDQSlh+7wV9Pt2uKsTGnsUkmUBfPHEWus3nYLDY0gJQFObEBG3+XWHjNtrs0OLreoQ9PRcxBTj/4Z1Id3CfvdhHV+uSwtNvifUczQ6JVhLeWy+WZdLy7dUFjExA6XTRvjRUeRg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dMVXdCR/aUxJlyoN79BdkJK4FrGVoAKrvRvzDzt/foo=;
- b=cKdy9xykcoSEA8buxn1Cujvl90yVNYDWJIpaLCJUZgvWLrBOwO9vzpXwu9NJzv/79EKIlyFdI0SmRNNm4AUnYys04bExW132U4ZDTCc5RXWUnmHZEs27dSNyjO83jQ5Eaa/ybgVH0ejmRm1hutblqNrnjCvqIhfDIqryaEDnFNk=
+ bh=vTz+vqdbADRFQolMei7rN2GF79qipJy6VvBA0f6lK+w=;
+ b=ZzU293xYikG+kwkB9Iq0+vnB68q8tMXUAiUQp3v8T/Q7WibLeZa1pK9/JGPAM0BjZr8ZsgGzBMBe7LHODn+8Cra08WbJ7TaKJCUTS42NbSc+ZVEyBY2E61BB3VCwXC279q9hEKBoRGk9Be/ZFRvVEYPXdtXnISY90qWekihBdjU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by TYRPR01MB12774.jpnprd01.prod.outlook.com
  (2603:1096:405:1b3::6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.10; Wed, 5 Feb
- 2025 00:16:27 +0000
+ 2025 00:16:31 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8422.009; Wed, 5 Feb 2025
- 00:16:27 +0000
-Message-ID: <87a5b12qlg.wl-kuninori.morimoto.gx@renesas.com>
+ 00:16:31 +0000
+Message-ID: <878qql2qlc.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 5/7] ASoC: simple-card-utils: use snd_soc_ret()
+Subject: [PATCH v2 6/7] ASoC: audio-graph-card: use snd_soc_ret()
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
 In-Reply-To: <87h6592qq3.wl-kuninori.morimoto.gx@renesas.com>
 References: <87h6592qq3.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 5 Feb 2025 00:16:27 +0000
-X-ClientProxiedBy: TYAPR01CA0174.jpnprd01.prod.outlook.com
- (2603:1096:404:ba::18) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Wed, 5 Feb 2025 00:16:31 +0000
+X-ClientProxiedBy: TYAPR01CA0182.jpnprd01.prod.outlook.com
+ (2603:1096:404:ba::26) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -63,79 +63,79 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYRPR01MB12774:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ea2d9b9-6d1a-48e4-0b24-08dd457a556f
+X-MS-Office365-Filtering-Correlation-Id: 2f0882e5-a25e-423e-1c95-08dd457a57d2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xCtJnaKyAwthTwtP+0hFYip7QYb0pFpPEkYGz6KD8umH5/OZmJjK9237Li30?=
- =?us-ascii?Q?MNJA7uXp2GGsDpirDKWTBU+wNgDScVmmsXnKNhqi3CIB5ufA4OWzMcOJE8Pi?=
- =?us-ascii?Q?IlXRzjbIfeUgo2dkIimKc2JaNSG81VqNpYXHBAxThqybyZdLOqAR/dvoJKaY?=
- =?us-ascii?Q?0tS0xyu7LYmtPtbp+GxOGph3dyqwXZk/aTv4iNP0SkYUWVEsY0HgR85hnSyV?=
- =?us-ascii?Q?gV863NLanMC9QI+eKtNZq8jO8FH7QKp1uU99wPfbaTtXG7oB7261L8sObzGp?=
- =?us-ascii?Q?5iYuIeMASrUyWL065/ZRPwtzBAEa7q7E8xhkUZAcrEeY/AWbTylV2mDtVU3N?=
- =?us-ascii?Q?WMYzpeFoGhXmY3CqKQM6OIXq4h/f6jnYP20dAwuu4l+FS6dlvDDYLfiTxjZp?=
- =?us-ascii?Q?zmrgLIrNGh52KpZtgxeGIq0H2pWAixKjyX/vutvGXWMo+ae+mHm1yvTU1IbC?=
- =?us-ascii?Q?2Qh0n9QDyq+GDH9vqN1NhckxpozWrP//JqEav5QFjauXbvHp0XvQOMsxbwvx?=
- =?us-ascii?Q?5wevS3oq0LwNz/ObBQPL/pHxDi9VKG4yq9Jr3IXOCw8f+J3dh9qSkW3nQ7/q?=
- =?us-ascii?Q?wE5V4ZUHQ3a0XRkN3/cVDPvhdgsdfKvDIUOtQJuzOlaad6dtdex5EP4Hcshk?=
- =?us-ascii?Q?MiGc5ZxoY8ec6yBEUqc27Tn0sKFE91C4AVRiwLKOaHFuFrzC8YN2pu0N6u0p?=
- =?us-ascii?Q?WuLdDTIJ0nKOGLfZjrEW4yGvGCGXQAxnKT5ncIHz+gGkbsYSHFN0FEPevaGn?=
- =?us-ascii?Q?755Az4D2LT8yuJYjJXwzdVP/lhWGk79dXvHRsKolUzR4AebfmymVRnMg4dWs?=
- =?us-ascii?Q?rAVCC/p3R/iCenWC0D/RSI8mozH4EMEOdgsYQNCfvyZeGHIHMmEoomRaZWPF?=
- =?us-ascii?Q?/x2Pfwm39qqWDmSJ/NhXZFJnpnn4d6MVUviTUeJPEKssnbJcdj4FuP0WlH2X?=
- =?us-ascii?Q?m+r/ZyX7Lqjf+hS60iKGopJ1CA15kOwWJilpKBlanMVhvChSApyUCy9Ckzmp?=
- =?us-ascii?Q?iOL3SBY+XadsRSvcMtFEmZyJ7IMTNwp8fxs8Y1R3Jd3GUjDJOKCSE2Y0MVK/?=
- =?us-ascii?Q?NaH6ve6cSYxKwKqVPufZv6nyhKB0viW6BpNgocVXCgRHHPumPhRPBV1o929I?=
- =?us-ascii?Q?3P1WJ+HoHGbO+POZH3CCQNrVcCsMYJlt8Xm86hWlr1BdGMQz1yr1dN6tcbmq?=
- =?us-ascii?Q?wVsgQKcRHmpFxcCZHy8pZKWZE2FU+jiNdelxKKfZGRpFMgJjugeFsAKWuITL?=
- =?us-ascii?Q?YH1uAP1kScrvfQW970wcjM9Yjlc1Ec3R5+/gt+sTtC3UKwEJ4nFmkXuAAe5Q?=
- =?us-ascii?Q?ZTyBssJZqHCQcSKB8XeK0M3KoCqYOjE0bFYEKVO0uTtP0Vx9XmFrGGR3Ec2a?=
- =?us-ascii?Q?WZuSnB9vShKI3iJ04+vfIWq3RkSgq4etHXaeddNq2tulpcLtIrJJDsFT/zp9?=
- =?us-ascii?Q?pq99YAFWSb3mm2kf56Yf+nhzmcEw50za?=
+	=?us-ascii?Q?4njskG8Y+ixef5yhnfvtFUa2340vNtr+KfTBFSBC2ndAzCclQFSWCgFGtqiM?=
+ =?us-ascii?Q?GKeBkN/yXLQxzgDLMV2hpi1KDHLfjAlOBkoX7oH1xYJOV5c9d4tOl/7LxAkX?=
+ =?us-ascii?Q?4m+NtZWYM+ivP7MyGCUkSRMn2CzgYy7tpXLa29xm6RjMTkLCY9bP25LZ5nXT?=
+ =?us-ascii?Q?2f9bxQeFi7tYGa+2ZBrkzukyqgU+xC8er+xzyONlhGqgidEa6mBdr4ARqKJO?=
+ =?us-ascii?Q?mLRRJDb7SP7T0Fw57R3BquHEB4cbKDrHGbKa8KrnpYjjMwbZOOmkrzxxZrAW?=
+ =?us-ascii?Q?TYqglclsNIQd12IfS9tsBrSH0BqXnRyLg7vX88qe4CZzY8saDsqcEzM1fcoU?=
+ =?us-ascii?Q?+HCJQ1e1qOeVAYBNzfSRVa3DAWYtGAGVUAnv7MqV69UitYPfBzzd9vKf4oqH?=
+ =?us-ascii?Q?UBJefrqAbc94pK4JW5yBDjbcGpxOLpgYJ6+gkMY1mJ3dcZHsEDTEPdDltfxH?=
+ =?us-ascii?Q?uOujghvsTrhu5dO+3w5M7Ah/yG4euj7V1WyKKfO8he7zt3baOUo8aw42awSo?=
+ =?us-ascii?Q?BxsZDn1yGmfjsEvVrkc7D5f0VYPMMnMb77T/jnf7FyJFEgnWUQS1iN0NA/6/?=
+ =?us-ascii?Q?lHBute2g/Z9w8SOxpcQRYvOoN43kTyqVT48GzKc/3m88ONSU1LzcAxeier71?=
+ =?us-ascii?Q?9C3UwHF1/2PsbSiBQI6FNVijaiHGI1Q+X+dHOAMIMWTUjf71hG/jWYHo7eoO?=
+ =?us-ascii?Q?Rt+L8+A3gqqX7kAScyZdeCMW4v0NBbNSigO1KDcOiS5OdOFta86vzvGSneMz?=
+ =?us-ascii?Q?8bqoBrv/BuCEmWjXgqYdJW1967cf9+ZUBnacnSSNHAXNQaiHmI4jgPXxtxid?=
+ =?us-ascii?Q?tdoStAV8q9jweF73kQBebu1wx7PAJUlwQY4shVYYW5ilZerk6wg0bcAp1J/Y?=
+ =?us-ascii?Q?WQuXqd2siTO1rntd5br/e4KM7yD0A+r0OvWycgTGlW8hBJqUZ1HTfNPFNDkb?=
+ =?us-ascii?Q?Zw6SWCArZIVxgZK+kLVzYJI61w+HYQ/nNUV3yuhkm3vmRLWCvYs5Q5SDI9LU?=
+ =?us-ascii?Q?3YO0EIJA7idJ+DKkmNIXIWLjGwZpKADGOZ6tJouYJdyHLs2/i0ADJC9XKPpU?=
+ =?us-ascii?Q?Yjvvx33XERkkSar3qi7QRjiaaMkqsT1m5VZ5ewgfMt0UZP353yz6jJlTimls?=
+ =?us-ascii?Q?lf3i6ZL7PzL6wG1Gqzy0EKStDOLV6OzWdDbgtXjNoLbQ10qYsZT0rD9LyMx6?=
+ =?us-ascii?Q?NkbYh8we4zToUAvm+J7BTdidQLVG1fp6FgdS6MUPTh98ge2p5WgncVz99Wgg?=
+ =?us-ascii?Q?SP07nlw/qn3o+KsUugw3TcFa4Imaa+wmhdxFkDG65P+NmX9aXlw/12ryCt+K?=
+ =?us-ascii?Q?hRo6NrpXLJGS6jRHw7vLQpgio3xTNfI4O0qcJHsaOiWOhSgABb9bfX4Rhble?=
+ =?us-ascii?Q?n7nvttu3hWDncqC1mRVYaEkdNAc+oIU7R2OZaDHXbrxFMnp25vVakso3TENR?=
+ =?us-ascii?Q?KPYDC6OWZFxkQUxH5UkaJMlBJ0AhAq98?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?q2ERflCIckRrynDYKTVPbECV4cTR2FydNoJYbIPF3axtV5jWFTDdYmfXWM1m?=
- =?us-ascii?Q?DZ1QPtri01p1mbk+2qZbyMSSqqurv03IxunH3+sYnFewZkdZ1IycV5V0gSvO?=
- =?us-ascii?Q?7H4rpB4E0ozQdtKy1s+jLcIKAXQ4hOLkHNEYP0rErOsuMaYOelVmFlwVbBH4?=
- =?us-ascii?Q?4BAhhZEXzIuCLCUFxuTjCL9AYiu5WvakmczEqJg2Dl1XikYKICPhHT9yXJ8Q?=
- =?us-ascii?Q?QklYGPSzA/8ObvNHQkDS53FeU+TDNaaL8u7IkGgYl12XSOQfeAdfZD77vMGl?=
- =?us-ascii?Q?4CjM39UiC6P8L3bnXeprMclZIyMiqx5bwpAKdn2exbchSuvfo8JVwzdpc9bN?=
- =?us-ascii?Q?UDEz1dFhpLy5ILnADiggh/NaLVSZC83WZRyJtq47O4/l0BdlfdsNw5WqyrG5?=
- =?us-ascii?Q?y0rlwbTx9Q0dyiA/x1sTvZraBVhO40qFEBLq44BQVshKseIeWn3t3qKtPZk/?=
- =?us-ascii?Q?Kdsoqj/z5zwdQQ9s3AU0uTvxSs4u94Nm6Tb9GVSxVj/phk+bla4p7WlS/N0K?=
- =?us-ascii?Q?1g42HMsa4x/cZfxAjosx/NQnDSyazZfilUYEZ8wezbfLDvjHLyw7shFjqL64?=
- =?us-ascii?Q?w7Fc+zVypggaa8gYpxn4wqwfXYmYYUFX7rbq01PsaJQ80jYfM2DO2JTKyWsS?=
- =?us-ascii?Q?tgRYyXWlUOeYQwCLlUWGYXgKLqETgllbdt2Ymg5l26heeF8ALYNh8Tp/Iqpp?=
- =?us-ascii?Q?NhGJnXqgkVpxa2tsVy34Chmx4argXARrbcnqcxLJOosfRA3jCvQHxTcRWXbC?=
- =?us-ascii?Q?ZH17+I2hbgm/9i2GvDK5SxsAG90xnG1djndJSvNfkfEH7x16wXH9rQQQQGD0?=
- =?us-ascii?Q?AOhulXqiNLCOD1KumbrFjGd25dySmyqHaTqz0jZfgwIxwiPTLn67ZEjKG/q3?=
- =?us-ascii?Q?2tAjjql8vqX3GICi94F8KvlMZZGIcOaXdRYdROIZa20OPkqxfS+NdU1/ciUu?=
- =?us-ascii?Q?GsAsnFaZ4R/uPEPDvtLRXeQENzU5AeMKBqqgKsvVMW34nHkRqBBICdb/1bUa?=
- =?us-ascii?Q?mCX6DWp8dW6NaqqLVFn3ecxrbc+2KvMfzScexFSHhaEOs7FxXyQl+dLFmIzb?=
- =?us-ascii?Q?es4Lot03sAer6joB8cldG1CLTabYhUyTtPeUw3UWkNGF/6frGA4B647/h/5X?=
- =?us-ascii?Q?j0gSr5kmiVKqpwcUKVqw6ij50VgzbrWootmieqLh0g6oul3lfj7kebhLfxJo?=
- =?us-ascii?Q?CecAJor+ZUF0Lis1Oy86fUKTORoWsdg8lgSGxmJI9Ve4Y30/cD1sfmAZBxjO?=
- =?us-ascii?Q?s03mlnOBDiTgS1G3uOVIhHbTk3hTmVonrFFadkIhWwDJrZcwERv0VD6UvXPY?=
- =?us-ascii?Q?gkVQ9z/vRF827XrvN13SJHDGBryDwG5f/oA2FFAfa5dCMUkX8W+MoAum1Hq0?=
- =?us-ascii?Q?n2JkkfgMGSktiPeVxQZhuaR5YAYmhdoi7Wtn6esLwrPXSCXe1xlBrwBJRfnd?=
- =?us-ascii?Q?u3i955RqffRm5k70TUFu6foe4gbwiw6FaIWXp3se2H9+6HrPkkmk5AeuT5RV?=
- =?us-ascii?Q?dL6v+J6HVhIwEjm4tbXUJrkV4rW5tEsXgxZzeyPPd33ccN+Y7UDq+rRMKDpg?=
- =?us-ascii?Q?+MVfUIbHKxEQ19hgB67sO2gUl77BEJO7qJNeW5HsfemKjeXKRNM28XkuhaJk?=
- =?us-ascii?Q?STc/AWmn/TGikBj/2hHiGJc=3D?=
+	=?us-ascii?Q?ymAq9daJ9IE7MySvU9jUM7zwm12f1+K7lFQnD8LCEkHWwM1nojSugrnJbg0t?=
+ =?us-ascii?Q?LnZ6JaiCzbuJdxLQ7I7Los4zG2ud5L4RWs607/NZKApNWaIWywzlBbWxC0f0?=
+ =?us-ascii?Q?fuHo3fTMfBecPgu8HT0CuQ2VXNCCkRmJeVkmxJxqQu043DJy8kiBqO9xKAIM?=
+ =?us-ascii?Q?7nGKw6ZgSezj+OE87eTjtp9Druqj6xV64XUG0boYQ44+s8XveVbP6qAQscfq?=
+ =?us-ascii?Q?1h6gVnUi8bX6VQCpD74M8DzHVlml2xhxhXS4CP1Yv4cB5A9j2fvxwghvqgBP?=
+ =?us-ascii?Q?CGK/mhVOzxK4LXRSIGKV/imlvmZLWnPfXUIa+/nSfTbY0VTpxlxRogzJ2Cvj?=
+ =?us-ascii?Q?MAWVpBJc1S4XmgCcJHg23FNQScZKa/UZvXzrDI9cR6RiH/8rehlPZEjVwRIn?=
+ =?us-ascii?Q?pERCt0efoQ9Swm4SmgPf4rsvIhheDZZR6fsEaL1h5GURIQ35bEXMZIVvl0Ie?=
+ =?us-ascii?Q?l9Fl4LtbvQhi17BuC2Xu73HZNnNe6YJmGJs8DNTQXEQavfI2Fq6XKdGoV0/y?=
+ =?us-ascii?Q?nPtqKInBVZGrxPHOwTtady+2WX7+yOrjz63B/3Dv6RYnt0V/CEvrFqnZSrwZ?=
+ =?us-ascii?Q?xkwgczhHaJPTxbQiImg6D0fDIz/aWZwBTx+cgBJdMWOuNDBNulVHxNyTxR+u?=
+ =?us-ascii?Q?eBUypwOrJ6Y6BE0qQ/+gV8Q1U2UeE0UZCCX0zzfZTUNLERrzAmBXwI8oT+8Q?=
+ =?us-ascii?Q?GF/Y6/xrrTqw640Y8Odg+g75K5mIA21Esr/IfldTAZe3D1npZ9MfhU9/IEpz?=
+ =?us-ascii?Q?QM+eZnMggcKzQ8QD17f45JNH2MdBkToa6zhmz+C0MWk5JxfVUMrmOq/3RURl?=
+ =?us-ascii?Q?uINlo2uaTzwmmKpRX/q6Bj2riDR/meu6lgc4PLbmhwMwQNwNm1+uapeldPGJ?=
+ =?us-ascii?Q?jrL3Q7E3OJxbU45vdO87iPeKkLyhQ2T+GIGJMXuz+dynLTQDl04prRJsg3XV?=
+ =?us-ascii?Q?1H6K3p1IRTORRvC/jblD2eQNLTiOxKmvGhW6RqMb08KnqSvWZlEYq/al1QC5?=
+ =?us-ascii?Q?FxfPN4DqmOKdV1b6vSuQj7jrss10I6PRw1zoEIEY7iRvnaoZH2AhXUbJItXu?=
+ =?us-ascii?Q?LRlbIGsbZAKaphl5T3hAqnQ+1Rh/3C9cvvZH7BMWzorysBc+s6l0Sz+L9yvr?=
+ =?us-ascii?Q?5GNaBSCDDPxqA5hFTYRv40gE73M2AobsFMXQwfbrd3PgrbHTL1lPxWBttbXd?=
+ =?us-ascii?Q?gABpAdXHNsLOlZEuJjc0XXfuloY4/dB9ZeRV45nLo0/McJRjR42Cu+Y9CyUI?=
+ =?us-ascii?Q?ABtJZfVKs41Y72fOn9wo0SKUa6rl13O7RVdo28DguFCWUdHfsQMZqgwSmjBI?=
+ =?us-ascii?Q?va1UHFtEvKCpQ1xBV8W5WM8gkIKUkD2CvDClkB9rClAic0Mw17VCs+rVaek/?=
+ =?us-ascii?Q?VAmr6ktiQ4jI91SafeIoJ5073IoXqAv0CaxrIHULTB4+5eBjxyygZTG3sDuX?=
+ =?us-ascii?Q?D+e81h/blSTE6wtwPAZoup9Zj65Yy+xyGc1P21Xb1Px8KtTdgbfge4gStmo/?=
+ =?us-ascii?Q?6VEmdHQ9G9aQLO9RuIaT+cY63P/yFY9yZn5z8a+/efj4NmtJRnfqiE/+F1Jj?=
+ =?us-ascii?Q?EuWdKLyMVRs9BBAphdvvzIfrFwF3UAo6r4NZWKtCu6XAB/jA420QFrvLpWiV?=
+ =?us-ascii?Q?XVDDZibaFI6B3xgjxbby4Wo=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea2d9b9-6d1a-48e4-0b24-08dd457a556f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f0882e5-a25e-423e-1c95-08dd457a57d2
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2025 00:16:27.9019
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2025 00:16:31.8943
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UNLY8RFBo3RXPz16kix0gbD3GKGMI9PnYu4SqjSWenj+SeYFQdnyOypaK7Hd1/15IOd1y57l0Fp6VZPzvoqQPAfHVQo3IujrXZbzvIF2GQcuWr9lMO72LBfNgw37onQA
+X-MS-Exchange-CrossTenant-UserPrincipalName: GgZNjPZfo1WsvdDBfHLr4bxdUQmUu2Xl3Nc04iM9qCYI6BzXLw6UDzGAxdddHP8InAgRwZylJ2sbKXKMHtN93s7fxwWzs3jKQnWwhttpdn7BGmCZT8+B8w4nYt04LtkI
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB12774
 
 We can use snd_soc_ret() to indicate error message when return.
@@ -143,587 +143,269 @@ Let's use it.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- include/sound/simple_card_utils.h     |   8 +-
- sound/soc/generic/audio-graph-card.c  |   6 +-
- sound/soc/generic/audio-graph-card2.c |  14 +--
- sound/soc/generic/simple-card-utils.c | 170 +++++++++++++++-----------
- sound/soc/generic/simple-card.c       |   4 +-
- 5 files changed, 115 insertions(+), 87 deletions(-)
+ sound/soc/generic/audio-graph-card.c | 93 +++++++++++++++-------------
+ 1 file changed, 50 insertions(+), 43 deletions(-)
 
-diff --git a/include/sound/simple_card_utils.h b/include/sound/simple_card_utils.h
-index 892f70532363e..69a9c9c4d0e9c 100644
---- a/include/sound/simple_card_utils.h
-+++ b/include/sound/simple_card_utils.h
-@@ -142,14 +142,14 @@ int simple_util_parse_daifmt(struct device *dev,
- 			     struct device_node *codec,
- 			     char *prefix,
- 			     unsigned int *retfmt);
--int simple_util_parse_tdm_width_map(struct device *dev, struct device_node *np,
-+int simple_util_parse_tdm_width_map(struct simple_util_priv *priv, struct device_node *np,
- 				    struct simple_util_dai *dai);
- 
- __printf(3, 4)
--int simple_util_set_dailink_name(struct device *dev,
-+int simple_util_set_dailink_name(struct simple_util_priv *priv,
- 				 struct snd_soc_dai_link *dai_link,
- 				 const char *fmt, ...);
--int simple_util_parse_card_name(struct snd_soc_card *card,
-+int simple_util_parse_card_name(struct simple_util_priv *priv,
- 				char *prefix);
- 
- int simple_util_parse_clk(struct device *dev,
-@@ -201,7 +201,7 @@ void simple_util_remove(struct platform_device *pdev);
- 
- int graph_util_card_probe(struct snd_soc_card *card);
- int graph_util_is_ports0(struct device_node *port);
--int graph_util_parse_dai(struct device *dev, struct device_node *ep,
-+int graph_util_parse_dai(struct simple_util_priv *priv, struct device_node *ep,
- 			 struct snd_soc_dai_link_component *dlc, int *is_single_link);
- 
- void graph_util_parse_link_direction(struct device_node *np,
 diff --git a/sound/soc/generic/audio-graph-card.c b/sound/soc/generic/audio-graph-card.c
-index 7c422535b01a2..bd7ebbec0fc9c 100644
+index bd7ebbec0fc9c..a8a3bad3df00d 100644
 --- a/sound/soc/generic/audio-graph-card.c
 +++ b/sound/soc/generic/audio-graph-card.c
-@@ -111,7 +111,7 @@ static int graph_parse_node(struct simple_util_priv *priv,
- 		dai = simple_props_to_dai_codec(dai_props, 0);
- 	}
+@@ -20,6 +20,13 @@
  
--	ret = graph_util_parse_dai(dev, ep, dlc, cpu);
-+	ret = graph_util_parse_dai(priv, ep, dlc, cpu);
- 	if (ret < 0)
- 		return ret;
+ #define DPCM_SELECTABLE 1
  
-@@ -183,7 +183,7 @@ static int graph_link_init(struct simple_util_priv *priv,
- 	if (priv->ops)
- 		dai_link->ops	= priv->ops;
- 
--	return simple_util_set_dailink_name(dev, dai_link, name);
-+	return simple_util_set_dailink_name(priv, dai_link, name);
- }
- 
- static int graph_dai_link_of_dpcm(struct simple_util_priv *priv,
-@@ -586,7 +586,7 @@ int audio_graph_parse_of(struct simple_util_priv *priv, struct device *dev)
- 	if (ret < 0)
- 		goto err;
- 
--	ret = simple_util_parse_card_name(card, NULL);
-+	ret = simple_util_parse_card_name(priv, NULL);
- 	if (ret < 0)
- 		goto err;
- 
-diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-index ee94b256b7707..945a16e6d6919 100644
---- a/sound/soc/generic/audio-graph-card2.c
-+++ b/sound/soc/generic/audio-graph-card2.c
-@@ -409,7 +409,7 @@ static int __graph_parse_node(struct simple_util_priv *priv,
- 		dai = simple_props_to_dai_codec(dai_props, idx);
- 	}
- 
--	ret = graph_util_parse_dai(dev, ep, dlc, &is_single_links);
-+	ret = graph_util_parse_dai(priv, ep, dlc, &is_single_links);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -417,7 +417,7 @@ static int __graph_parse_node(struct simple_util_priv *priv,
- 	if (ret < 0)
- 		return ret;
- 
--	ret = simple_util_parse_tdm_width_map(dev, ep, dai);
-+	ret = simple_util_parse_tdm_width_map(priv, ep, dai);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -443,22 +443,22 @@ static int __graph_parse_node(struct simple_util_priv *priv,
- 		case GRAPH_NORMAL:
- 			/* run is_cpu only. see audio_graph2_link_normal() */
- 			if (is_cpu)
--				simple_util_set_dailink_name(dev, dai_link, "%s%s-%s%s",
-+				simple_util_set_dailink_name(priv, dai_link, "%s%s-%s%s",
- 							       cpus->dai_name,   cpu_multi,
- 							     codecs->dai_name, codec_multi);
- 			break;
- 		case GRAPH_DPCM:
- 			if (is_cpu)
--				simple_util_set_dailink_name(dev, dai_link, "fe.%pOFP.%s%s",
-+				simple_util_set_dailink_name(priv, dai_link, "fe.%pOFP.%s%s",
- 						cpus->of_node, cpus->dai_name, cpu_multi);
- 			else
--				simple_util_set_dailink_name(dev, dai_link, "be.%pOFP.%s%s",
-+				simple_util_set_dailink_name(priv, dai_link, "be.%pOFP.%s%s",
- 						codecs->of_node, codecs->dai_name, codec_multi);
- 			break;
- 		case GRAPH_C2C:
- 			/* run is_cpu only. see audio_graph2_link_c2c() */
- 			if (is_cpu)
--				simple_util_set_dailink_name(dev, dai_link, "c2c.%s%s-%s%s",
-+				simple_util_set_dailink_name(priv, dai_link, "c2c.%s%s-%s%s",
- 							     cpus->dai_name,   cpu_multi,
- 							     codecs->dai_name, codec_multi);
- 			break;
-@@ -1332,7 +1332,7 @@ int audio_graph2_parse_of(struct simple_util_priv *priv, struct device *dev,
- 	if (ret < 0)
- 		goto err;
- 
--	ret = simple_util_parse_card_name(card, NULL);
-+	ret = simple_util_parse_card_name(priv, NULL);
- 	if (ret < 0)
- 		goto err;
- 
-diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-index c2445c5ccd84c..51e0e434514d1 100644
---- a/sound/soc/generic/simple-card-utils.c
-+++ b/sound/soc/generic/simple-card-utils.c
-@@ -15,6 +15,13 @@
- #include <sound/pcm_params.h>
- #include <sound/simple_card_utils.h>
- 
-+#define simple_ret(priv, ret) _simple_ret(priv, __func__, ret)
-+static inline int _simple_ret(struct simple_util_priv *priv,
-+			      const char *func, int ret)
++#define graph_ret(priv, ret) _graph_ret(priv, __func__, ret)
++static inline int _graph_ret(struct simple_util_priv *priv,
++			     const char *func, int ret)
 +{
 +	return snd_soc_ret(simple_priv_to_dev(priv), ret, "at %s()\n", func);
 +}
 +
- int simple_util_get_sample_fmt(struct simple_util_data *data)
+ #define ep_to_port(ep)	of_get_parent(ep)
+ static struct device_node *port_to_ports(struct device_node *port)
  {
- 	int i;
-@@ -133,33 +140,42 @@ int simple_util_parse_daifmt(struct device *dev,
- }
- EXPORT_SYMBOL_GPL(simple_util_parse_daifmt);
+@@ -113,17 +120,15 @@ static int graph_parse_node(struct simple_util_priv *priv,
  
--int simple_util_parse_tdm_width_map(struct device *dev, struct device_node *np,
-+int simple_util_parse_tdm_width_map(struct simple_util_priv *priv, struct device_node *np,
- 				    struct simple_util_dai *dai)
- {
-+	struct device *dev = simple_priv_to_dev(priv);
- 	int n, i, ret;
- 	u32 *p;
- 
-+	/*
-+	 * NOTE
-+	 *
-+	 * Clang doesn't allow to use "goto end" before calling __free(),
-+	 * because it bypasses the initialization. Use simple_ret() directly.
-+	 */
-+
- 	n = of_property_count_elems_of_size(np, "dai-tdm-slot-width-map", sizeof(u32));
- 	if (n <= 0)
- 		return 0;
-+
- 	if (n % 3) {
- 		dev_err(dev, "Invalid number of cells for dai-tdm-slot-width-map\n");
--		return -EINVAL;
-+		return simple_ret(priv, -EINVAL); /* see NOTE */
- 	}
- 
-+	ret = -ENOMEM;
- 	dai->tdm_width_map = devm_kcalloc(dev, n, sizeof(*dai->tdm_width_map), GFP_KERNEL);
- 	if (!dai->tdm_width_map)
--		return -ENOMEM;
-+		return simple_ret(priv, ret); /* see NOTE */
- 
--	u32 *array_values __free(kfree) = kcalloc(n, sizeof(*array_values),
--						  GFP_KERNEL);
-+	u32 *array_values __free(kfree) = kcalloc(n, sizeof(*array_values), GFP_KERNEL);
- 	if (!array_values)
--		return -ENOMEM;
-+		goto end;
- 
- 	ret = of_property_read_u32_array(np, "dai-tdm-slot-width-map", array_values, n);
- 	if (ret < 0) {
- 		dev_err(dev, "Could not read dai-tdm-slot-width-map: %d\n", ret);
--		return ret;
-+		goto end;
- 	}
- 
- 	p = array_values;
-@@ -170,15 +186,17 @@ int simple_util_parse_tdm_width_map(struct device *dev, struct device_node *np,
- 	}
- 
- 	dai->n_tdm_widths = i;
--
--	return 0;
-+	ret = 0;
-+end:
-+	return simple_ret(priv, ret);
- }
- EXPORT_SYMBOL_GPL(simple_util_parse_tdm_width_map);
- 
--int simple_util_set_dailink_name(struct device *dev,
-+int simple_util_set_dailink_name(struct simple_util_priv *priv,
- 				 struct snd_soc_dai_link *dai_link,
- 				 const char *fmt, ...)
- {
-+	struct device *dev = simple_priv_to_dev(priv);
- 	va_list ap;
- 	char *name = NULL;
- 	int ret = -ENOMEM;
-@@ -194,13 +212,14 @@ int simple_util_set_dailink_name(struct device *dev,
- 		dai_link->stream_name	= name;
- 	}
- 
--	return ret;
-+	return simple_ret(priv, ret);
- }
- EXPORT_SYMBOL_GPL(simple_util_set_dailink_name);
- 
--int simple_util_parse_card_name(struct snd_soc_card *card,
-+int simple_util_parse_card_name(struct simple_util_priv *priv,
- 				char *prefix)
- {
-+	struct snd_soc_card *card = simple_priv_to_card(priv);
- 	int ret;
- 
- 	if (!prefix)
-@@ -214,13 +233,13 @@ int simple_util_parse_card_name(struct snd_soc_card *card,
- 		snprintf(prop, sizeof(prop), "%sname", prefix);
- 		ret = snd_soc_of_parse_card_name(card, prop);
- 		if (ret < 0)
--			return ret;
-+			goto end;
- 	}
- 
- 	if (!card->name && card->dai_link)
- 		card->name = card->dai_link->name;
--
--	return 0;
-+end:
-+	return simple_ret(priv, ret);
- }
- EXPORT_SYMBOL_GPL(simple_util_parse_card_name);
- 
-@@ -348,7 +367,8 @@ int simple_util_startup(struct snd_pcm_substream *substream)
- 			break;
- 		simple_clk_disable(dai);
- 	}
--	return ret;
-+
-+	return simple_ret(priv, ret);
- }
- EXPORT_SYMBOL_GPL(simple_util_startup);
- 
-@@ -379,16 +399,19 @@ void simple_util_shutdown(struct snd_pcm_substream *substream)
- }
- EXPORT_SYMBOL_GPL(simple_util_shutdown);
- 
--static int simple_set_clk_rate(struct device *dev,
--				    struct simple_util_dai *simple_dai,
--				    unsigned long rate)
-+static int simple_set_clk_rate(struct simple_util_priv *priv,
-+			       struct simple_util_dai *simple_dai,
-+			       unsigned long rate)
- {
-+	struct device *dev = simple_priv_to_dev(priv);
-+	int ret = -EINVAL;
-+
- 	if (!simple_dai)
- 		return 0;
- 
- 	if (simple_dai->clk_fixed && rate != simple_dai->sysclk) {
- 		dev_err(dev, "dai %s invalid clock rate %lu\n", simple_dai->name, rate);
--		return -EINVAL;
-+		goto end;
- 	}
- 
- 	if (!simple_dai->clk)
-@@ -397,12 +420,15 @@ static int simple_set_clk_rate(struct device *dev,
- 	if (clk_get_rate(simple_dai->clk) == rate)
- 		return 0;
- 
--	return clk_set_rate(simple_dai->clk, rate);
-+	ret = clk_set_rate(simple_dai->clk, rate);
-+end:
-+	return simple_ret(priv, ret);
- }
- 
--static int simple_set_tdm(struct snd_soc_dai *dai,
--				struct simple_util_dai *simple_dai,
--				struct snd_pcm_hw_params *params)
-+static int simple_set_tdm(struct simple_util_priv *priv,
-+			  struct snd_soc_dai *dai,
-+			  struct simple_util_dai *simple_dai,
-+			  struct snd_pcm_hw_params *params)
- {
- 	int sample_bits = params_width(params);
- 	int slot_width, slot_count;
-@@ -430,12 +456,8 @@ static int simple_set_tdm(struct snd_soc_dai *dai,
- 				       simple_dai->rx_slot_mask,
- 				       slot_count,
- 				       slot_width);
--	if (ret && ret != -ENOTSUPP) {
--		dev_err(dai->dev, "simple-card: set_tdm_slot error: %d\n", ret);
--		return ret;
--	}
- 
--	return 0;
-+	return simple_ret(priv, ret);
- }
- 
- int simple_util_hw_params(struct snd_pcm_substream *substream,
-@@ -457,15 +479,15 @@ int simple_util_hw_params(struct snd_pcm_substream *substream,
- 		mclk = params_rate(params) * mclk_fs;
- 
- 		for_each_prop_dai_codec(props, i, pdai) {
--			ret = simple_set_clk_rate(rtd->dev, pdai, mclk);
-+			ret = simple_set_clk_rate(priv, pdai, mclk);
- 			if (ret < 0)
--				return ret;
-+				goto end;
- 		}
- 
- 		for_each_prop_dai_cpu(props, i, pdai) {
--			ret = simple_set_clk_rate(rtd->dev, pdai, mclk);
-+			ret = simple_set_clk_rate(priv, pdai, mclk);
- 			if (ret < 0)
--				return ret;
-+				goto end;
- 		}
- 
- 		/* Ensure sysclk is set on all components in case any
-@@ -476,39 +498,40 @@ int simple_util_hw_params(struct snd_pcm_substream *substream,
- 			ret = snd_soc_component_set_sysclk(component, 0, 0,
- 							   mclk, SND_SOC_CLOCK_IN);
- 			if (ret && ret != -ENOTSUPP)
--				return ret;
-+				goto end;
- 		}
- 
- 		for_each_rtd_codec_dais(rtd, i, sdai) {
- 			pdai = simple_props_to_dai_codec(props, i);
- 			ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
- 			if (ret && ret != -ENOTSUPP)
--				return ret;
-+				goto end;
- 		}
- 
- 		for_each_rtd_cpu_dais(rtd, i, sdai) {
- 			pdai = simple_props_to_dai_cpu(props, i);
- 			ret = snd_soc_dai_set_sysclk(sdai, 0, mclk, pdai->clk_direction);
- 			if (ret && ret != -ENOTSUPP)
--				return ret;
-+				goto end;
- 		}
- 	}
- 
- 	for_each_prop_dai_codec(props, i, pdai) {
- 		sdai = snd_soc_rtd_to_codec(rtd, i);
--		ret = simple_set_tdm(sdai, pdai, params);
-+		ret = simple_set_tdm(priv, sdai, pdai, params);
- 		if (ret < 0)
--			return ret;
-+			goto end;
- 	}
- 
- 	for_each_prop_dai_cpu(props, i, pdai) {
- 		sdai = snd_soc_rtd_to_cpu(rtd, i);
--		ret = simple_set_tdm(sdai, pdai, params);
-+		ret = simple_set_tdm(priv, sdai, pdai, params);
- 		if (ret < 0)
--			return ret;
-+			goto end;
- 	}
--
--	return 0;
-+	ret = 0;
-+end:
-+	return simple_ret(priv, ret);
- }
- EXPORT_SYMBOL_GPL(simple_util_hw_params);
- 
-@@ -536,7 +559,8 @@ int simple_util_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
- }
- EXPORT_SYMBOL_GPL(simple_util_be_hw_params_fixup);
- 
--static int simple_init_dai(struct snd_soc_dai *dai, struct simple_util_dai *simple_dai)
-+static int simple_init_dai(struct simple_util_priv *priv,
-+			   struct snd_soc_dai *dai, struct simple_util_dai *simple_dai)
- {
- 	int ret;
- 
-@@ -548,7 +572,7 @@ static int simple_init_dai(struct snd_soc_dai *dai, struct simple_util_dai *simp
- 					     simple_dai->clk_direction);
- 		if (ret && ret != -ENOTSUPP) {
- 			dev_err(dai->dev, "simple-card: set_sysclk error\n");
--			return ret;
-+			goto end;
- 		}
- 	}
- 
-@@ -560,11 +584,12 @@ static int simple_init_dai(struct snd_soc_dai *dai, struct simple_util_dai *simp
- 					       simple_dai->slot_width);
- 		if (ret && ret != -ENOTSUPP) {
- 			dev_err(dai->dev, "simple-card: set_tdm_slot error\n");
--			return ret;
-+			goto end;
- 		}
- 	}
--
--	return 0;
-+	ret = 0;
-+end:
-+	return simple_ret(priv, ret);
- }
- 
- static inline int simple_component_is_codec(struct snd_soc_component *component)
-@@ -572,7 +597,8 @@ static inline int simple_component_is_codec(struct snd_soc_component *component)
- 	return component->driver->endianness;
- }
- 
--static int simple_init_for_codec2codec(struct snd_soc_pcm_runtime *rtd,
-+static int simple_init_for_codec2codec(struct simple_util_priv *priv,
-+				       struct snd_soc_pcm_runtime *rtd,
- 				       struct simple_dai_props *dai_props)
- {
- 	struct snd_soc_dai_link *dai_link = rtd->dai_link;
-@@ -604,12 +630,13 @@ static int simple_init_for_codec2codec(struct snd_soc_pcm_runtime *rtd,
- 
- 	if (ret < 0) {
- 		dev_err(rtd->dev, "simple-card: no valid dai_link params\n");
--		return ret;
-+		goto end;
- 	}
- 
-+	ret = -ENOMEM;
- 	c2c_params = devm_kzalloc(rtd->dev, sizeof(*c2c_params), GFP_KERNEL);
- 	if (!c2c_params)
--		return -ENOMEM;
-+		goto end;
- 
- 	c2c_params->formats		= hw.formats;
- 	c2c_params->rates		= hw.rates;
-@@ -621,7 +648,9 @@ static int simple_init_for_codec2codec(struct snd_soc_pcm_runtime *rtd,
- 	dai_link->c2c_params		= c2c_params;
- 	dai_link->num_c2c_params	= 1;
- 
--	return 0;
-+	ret = 0;
-+end:
-+	return simple_ret(priv, ret);
- }
- 
- int simple_util_dai_init(struct snd_soc_pcm_runtime *rtd)
-@@ -632,21 +661,19 @@ int simple_util_dai_init(struct snd_soc_pcm_runtime *rtd)
- 	int i, ret;
- 
- 	for_each_prop_dai_codec(props, i, dai) {
--		ret = simple_init_dai(snd_soc_rtd_to_codec(rtd, i), dai);
-+		ret = simple_init_dai(priv, snd_soc_rtd_to_codec(rtd, i), dai);
- 		if (ret < 0)
--			return ret;
-+			goto end;
- 	}
- 	for_each_prop_dai_cpu(props, i, dai) {
--		ret = simple_init_dai(snd_soc_rtd_to_cpu(rtd, i), dai);
-+		ret = simple_init_dai(priv, snd_soc_rtd_to_cpu(rtd, i), dai);
- 		if (ret < 0)
--			return ret;
-+			goto end;
- 	}
- 
--	ret = simple_init_for_codec2codec(rtd, props);
--	if (ret < 0)
--		return ret;
--
--	return 0;
-+	ret = simple_init_for_codec2codec(priv, rtd, props);
-+end:
-+	return simple_ret(priv, ret);
- }
- EXPORT_SYMBOL_GPL(simple_util_dai_init);
- 
-@@ -831,7 +858,7 @@ int simple_util_init_aux_jacks(struct simple_util_priv *priv, char *prefix)
- 	priv->aux_jacks = devm_kcalloc(card->dev, num,
- 				       sizeof(struct snd_soc_jack), GFP_KERNEL);
- 	if (!priv->aux_jacks)
--		return -ENOMEM;
-+		return simple_ret(priv, -ENOMEM);
- 
- 	for_each_card_auxs(card, component) {
- 		char id[128];
-@@ -992,13 +1019,11 @@ int graph_util_card_probe(struct snd_soc_card *card)
- 
- 	ret = simple_util_init_hp(card, &priv->hp_jack, NULL);
+ 	ret = graph_util_parse_dai(priv, ep, dlc, cpu);
  	if (ret < 0)
 -		return ret;
 +		goto end;
  
- 	ret = simple_util_init_mic(card, &priv->mic_jack, NULL);
+ 	ret = simple_util_parse_tdm(ep, dai);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	ret = simple_util_parse_clk(dev, ep, dai, dlc);
 -	if (ret < 0)
 -		return ret;
 -
 -	return 0;
 +end:
-+	return simple_ret(priv, ret);
- }
- EXPORT_SYMBOL_GPL(graph_util_card_probe);
- 
-@@ -1074,9 +1099,10 @@ static int graph_get_dai_id(struct device_node *ep)
- 	return id;
++	return graph_ret(priv, ret);
  }
  
--int graph_util_parse_dai(struct device *dev, struct device_node *ep,
-+int graph_util_parse_dai(struct simple_util_priv *priv, struct device_node *ep,
- 			 struct snd_soc_dai_link_component *dlc, int *is_single_link)
- {
-+	struct device *dev = simple_priv_to_dev(priv);
- 	struct of_phandle_args args = {};
- 	struct snd_soc_dai *dai;
- 	int ret;
-@@ -1092,11 +1118,12 @@ int graph_util_parse_dai(struct device *dev, struct device_node *ep,
- 	args.np = ep;
- 	dai = snd_soc_get_dai_via_args(&args);
- 	if (dai) {
-+		ret = -ENOMEM;
- 		dlc->of_node  = node;
- 		dlc->dai_name = snd_soc_dai_name_get(dai);
- 		dlc->dai_args = snd_soc_copy_dai_args(dev, &args);
- 		if (!dlc->dai_args)
--			return -ENOMEM;
-+			goto end;
- 
- 		goto parse_dai_end;
- 	}
-@@ -1127,13 +1154,14 @@ int graph_util_parse_dai(struct device *dev, struct device_node *ep,
- 	 */
- 	ret = snd_soc_get_dlc(&args, dlc);
+ static int graph_link_init(struct simple_util_priv *priv,
+@@ -148,7 +153,7 @@ static int graph_link_init(struct simple_util_priv *priv,
+ 	ret = simple_util_parse_daifmt(dev, ep_cpu, ep_codec,
+ 				       NULL, &dai_link->dai_fmt);
  	if (ret < 0)
 -		return ret;
 +		goto end;
  
- parse_dai_end:
- 	if (is_single_link)
- 		*is_single_link = of_graph_get_endpoint_count(node) == 1;
--
--	return 0;
-+	ret = 0;
-+end:
-+	return simple_ret(priv, ret);
- }
- EXPORT_SYMBOL_GPL(graph_util_parse_dai);
+ 	graph_util_parse_link_direction(top,		&playback_only, &capture_only);
+ 	graph_util_parse_link_direction(port_cpu,	&playback_only, &capture_only);
+@@ -183,7 +188,9 @@ static int graph_link_init(struct simple_util_priv *priv,
+ 	if (priv->ops)
+ 		dai_link->ops	= priv->ops;
  
-diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
-index 004fda4504c42..5af6d1b308f23 100644
---- a/sound/soc/generic/simple-card.c
-+++ b/sound/soc/generic/simple-card.c
-@@ -223,7 +223,7 @@ static int simple_link_init(struct simple_util_priv *priv,
- 	dai_link->init			= simple_util_dai_init;
- 	dai_link->ops			= &simple_ops;
- 
--	ret = simple_util_set_dailink_name(dev, dai_link, name);
+-	return simple_util_set_dailink_name(priv, dai_link, name);
 +	ret = simple_util_set_dailink_name(priv, dai_link, name);
- end:
- 	return simple_ret(priv, ret);
++end:
++	return graph_ret(priv, ret);
  }
-@@ -544,7 +544,7 @@ static int simple_parse_of(struct simple_util_priv *priv, struct link_info *li)
- 	if (ret < 0)
- 		goto end;
  
--	ret = simple_util_parse_card_name(card, PREFIX);
-+	ret = simple_util_parse_card_name(priv, PREFIX);
- 	if (ret < 0)
- 		goto end;
+ static int graph_dai_link_of_dpcm(struct simple_util_priv *priv,
+@@ -215,7 +222,7 @@ static int graph_dai_link_of_dpcm(struct simple_util_priv *priv,
  
+ 		ret = graph_parse_node(priv, cpu_ep, li, &is_single_links);
+ 		if (ret)
+-			return ret;
++			goto end;
+ 
+ 		snprintf(dai_name, sizeof(dai_name),
+ 			 "fe.%pOFP.%s", cpus->of_node, cpus->dai_name);
+@@ -248,7 +255,7 @@ static int graph_dai_link_of_dpcm(struct simple_util_priv *priv,
+ 
+ 		ret = graph_parse_node(priv, codec_ep, li, NULL);
+ 		if (ret < 0)
+-			return ret;
++			goto end;
+ 
+ 		snprintf(dai_name, sizeof(dai_name),
+ 			 "be.%pOFP.%s", codecs->of_node, codecs->dai_name);
+@@ -267,8 +274,8 @@ static int graph_dai_link_of_dpcm(struct simple_util_priv *priv,
+ 	ret = graph_link_init(priv, cpu_ep, codec_ep, li, dai_name);
+ 
+ 	li->link++;
+-
+-	return ret;
++end:
++	return graph_ret(priv, ret);
+ }
+ 
+ static int graph_dai_link_of(struct simple_util_priv *priv,
+@@ -288,11 +295,11 @@ static int graph_dai_link_of(struct simple_util_priv *priv,
+ 
+ 	ret = graph_parse_node(priv, cpu_ep, li, &is_single_links);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	ret = graph_parse_node(priv, codec_ep, li, NULL);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	snprintf(dai_name, sizeof(dai_name),
+ 		 "%s-%s", cpus->dai_name, codecs->dai_name);
+@@ -302,11 +309,11 @@ static int graph_dai_link_of(struct simple_util_priv *priv,
+ 
+ 	ret = graph_link_init(priv, cpu_ep, codec_ep, li, dai_name);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	li->link++;
+-
+-	return 0;
++end:
++	return graph_ret(priv, ret);
+ }
+ 
+ static inline bool parse_as_dpcm_link(struct simple_util_priv *priv,
+@@ -383,13 +390,13 @@ static int __graph_for_each_link(struct simple_util_priv *priv,
+ 			}
+ 
+ 			if (ret < 0)
+-				return ret;
++				goto end;
+ 
+ 			codec_port_old = codec_port;
+ 		}
+ 	}
+-
+-	return 0;
++end:
++	return graph_ret(priv, ret);
+ }
+ 
+ static int graph_for_each_link(struct simple_util_priv *priv,
+@@ -422,7 +429,7 @@ static int graph_for_each_link(struct simple_util_priv *priv,
+ 			break;
+ 	}
+ 
+-	return ret;
++	return graph_ret(priv, ret);
+ }
+ 
+ static int graph_count_noml(struct simple_util_priv *priv,
+@@ -431,11 +438,10 @@ static int graph_count_noml(struct simple_util_priv *priv,
+ 			    struct link_info *li)
+ {
+ 	struct device *dev = simple_priv_to_dev(priv);
++	int ret = -EINVAL;
+ 
+-	if (li->link >= SNDRV_MAX_LINKS) {
+-		dev_err(dev, "too many links\n");
+-		return -EINVAL;
+-	}
++	if (li->link >= SNDRV_MAX_LINKS)
++		goto end;
+ 
+ 	/*
+ 	 * DON'T REMOVE platforms
+@@ -450,8 +456,9 @@ static int graph_count_noml(struct simple_util_priv *priv,
+ 	li->link += 1; /* 1xCPU-Codec */
+ 
+ 	dev_dbg(dev, "Count As Normal\n");
+-
+-	return 0;
++	ret = 0;
++end:
++	return graph_ret(priv, ret);
+ }
+ 
+ static int graph_count_dpcm(struct simple_util_priv *priv,
+@@ -460,11 +467,10 @@ static int graph_count_dpcm(struct simple_util_priv *priv,
+ 			    struct link_info *li)
+ {
+ 	struct device *dev = simple_priv_to_dev(priv);
++	int ret = -EINVAL;
+ 
+-	if (li->link >= SNDRV_MAX_LINKS) {
+-		dev_err(dev, "too many links\n");
+-		return -EINVAL;
+-	}
++	if (li->link >= SNDRV_MAX_LINKS)
++		goto end;
+ 
+ 	if (li->cpu) {
+ 		/*
+@@ -483,8 +489,9 @@ static int graph_count_dpcm(struct simple_util_priv *priv,
+ 	}
+ 
+ 	dev_dbg(dev, "Count As DPCM\n");
+-
+-	return 0;
++	ret = 0;
++end:
++	return graph_ret(priv, ret);
+ }
+ 
+ static int graph_get_dais_count(struct simple_util_priv *priv,
+@@ -544,40 +551,41 @@ static int graph_get_dais_count(struct simple_util_priv *priv,
+ int audio_graph_parse_of(struct simple_util_priv *priv, struct device *dev)
+ {
+ 	struct snd_soc_card *card = simple_priv_to_card(priv);
+-	int ret;
++	int ret = -ENOMEM;
+ 
+ 	struct link_info *li __free(kfree) = kzalloc(sizeof(*li), GFP_KERNEL);
+ 	if (!li)
+-		return -ENOMEM;
++		goto end;
+ 
+ 	card->owner = THIS_MODULE;
+ 	card->dev = dev;
+ 
+ 	ret = graph_get_dais_count(priv, li);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
++	ret = -EINVAL;
+ 	if (!li->link)
+-		return -EINVAL;
++		goto end;
+ 
+ 	ret = simple_util_init_priv(priv, li);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	priv->pa_gpio = devm_gpiod_get_optional(dev, "pa", GPIOD_OUT_LOW);
+ 	if (IS_ERR(priv->pa_gpio)) {
+ 		ret = PTR_ERR(priv->pa_gpio);
+ 		dev_err(dev, "failed to get amplifier gpio: %d\n", ret);
+-		return ret;
++		goto end;
+ 	}
+ 
+ 	ret = simple_util_parse_widgets(card, NULL);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	ret = simple_util_parse_routing(card, NULL);
+ 	if (ret < 0)
+-		return ret;
++		goto end;
+ 
+ 	memset(li, 0, sizeof(*li));
+ 	ret = graph_for_each_link(priv, li,
+@@ -599,10 +607,9 @@ int audio_graph_parse_of(struct simple_util_priv *priv, struct device *dev)
+ 		goto err;
+ 
+ 	return 0;
+-
+ err:
+ 	simple_util_clean_reference(card);
+-
++end:
+ 	return dev_err_probe(dev, ret, "parse error\n");
+ }
+ EXPORT_SYMBOL_GPL(audio_graph_parse_of);
 -- 
 2.43.0
 
