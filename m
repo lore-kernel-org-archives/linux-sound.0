@@ -1,45 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDBEF22CBEC;
-	Wed,  5 Feb 2025 12:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B6122E3FA;
+	Wed,  5 Feb 2025 12:44:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738759468; cv=none; b=dtOBkL8/AC90W5Ult1GvohHgh7y3Brl9Lp8TLwB+dIUdF5qRXcSC05JbuSIegm6x5/ydFZ1POqVq7n9cwhCdrJHDJaqJFiX0C1tOS3cJeDCJkPzT2GK1i9wpx/EltOMC8m+ivnGeGMmxmGr0ORkH76T2agrHG/XBNVkWq/25/EU=
+	t=1738759471; cv=none; b=HahHw0L3/2JpkZhUHAADU7PadIi3Gf8KA4rcIWo1/VEPYBrRr/2V1G/2q8tXs7w8K6UCciSDAmpJgV3sAJRqGDwGagxGMy4EsWS+3tAxf0L6j2sxB09Q6Zru1kscT+/rHVLJfiHX7l4fKEVirEdPQETSUCNcE5e4xbBvKmbzOfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738759468; c=relaxed/simple;
-	bh=c+a2ooTDUH4jg5oYVZA+uQgTghv5GTN3oNYgRZ2T2Tk=;
+	s=arc-20240116; t=1738759471; c=relaxed/simple;
+	bh=W+a+Yoja6r+NjMKoIeKEbzYjPLUdxxkyp8N0b43Me78=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JnqylAnSAdvRwXnLb8oz1tsnd96Wqg7ofMlWpoGHdltEniCJKWUs6EzHVGq2FmMdz4xIHsjuKeQPLuPHZot9mSlbgBkMgi3JBz29ErSxGmtxGayTjwmcI9lEatQvW3MKG1QQtdMr/Xvgciot0Ojf2vH//sVcds9f1XjFOn99b00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ljdLAke4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=qZsovO+Xe7ziEop2pOCgLynLOIJgR3tkGKjTOkGHRO23zg7+MEpINwZZ8uhVz+5H7+IiYrUcq8p9x6RwbBi9t/aNEYF/2LRAIO/x+UHFkrUYCk1ZCnxV/QG98PNNHR5pry9Re1KlLHLuD7l10dxJeIVceox1XPJzu2F3SIM+D8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cHiPW2GR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ljdLAke4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 004D1C4CEE2;
-	Wed,  5 Feb 2025 12:44:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cHiPW2GR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACA77C4CEE3;
+	Wed,  5 Feb 2025 12:44:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738759468;
-	bh=c+a2ooTDUH4jg5oYVZA+uQgTghv5GTN3oNYgRZ2T2Tk=;
+	s=k20201202; t=1738759470;
+	bh=W+a+Yoja6r+NjMKoIeKEbzYjPLUdxxkyp8N0b43Me78=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ljdLAke4edizgDChqqyrMZXFXbzT0CLs6MJlafHGPBFsQ6ehphWDTB0iig76fxxIn
-	 0t3BMJOqA5ZmlwMIEuMrl1mPGYHGDufnvCc1cy9WViq84BVrSmJS4pDJKcdEerM99t
-	 6DPtZXvbwU6c6letH1DD8dJa45Fhqdo7F7vt8dDo2egmrUj0na2kvqh6+Q0MXdZRk3
-	 ortLesCaFPLEmR7a2uPHYj+h+kns5kxo4+mKHqx6XYnYn0ljfdfWK18WDPL7A7NHy0
-	 x90U60Wx6ws0JHiFdtRrinmRO/+C+3WzeilditD1UbDh2IXj5iU5GlbkT7yly5+igR
-	 /+53Cazawx7Xg==
+	b=cHiPW2GRXOB2XptJXk5LSz96Ia4+t1cp8W3f+DjXmFm1jc1a5SGi1e9G3Xs5XRr7k
+	 Bp2O945I1s12eAmTAH39vCkV7ebN1Tj8vpfe5dRLipRUvnb4/neXwswzHoTL9XgRuB
+	 Df8CF8KXW9e/JWSTFb7E81Cji+UqA6LZvJnv+M5TM0lCmudj5RcTvGtLEuc6E0Ie5p
+	 XouIMYERSqzENyEgy0tEapD6RL1i6SK+yWXiZuRczgZvp/Ra7iTibRL8W7qQcHiJm6
+	 DEJLlIPZ6M78Lj5s+6B7vkd1lVnqNI/H9Ykx7iL0O1erAMdpY4zJS9I4fc57vUMiZm
+	 YHhyFOOlchP1A==
 From: Mark Brown <broonie@kernel.org>
-To: vkoul@kernel.org, oder_chiou@realtek.com, 
- Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: jack.yu@realtek.com, shumingf@realtek.com, lgirdwood@gmail.com, 
- peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- sanyog.r.kale@intel.com, pierre-louis.bossart@linux.dev, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20250107154408.814455-1-ckeepax@opensource.cirrus.com>
-References: <20250107154408.814455-1-ckeepax@opensource.cirrus.com>
-Subject: Re: (subset) [PATCH v2 0/6] Expand SoundWire MBQ register map
- support
-Message-Id: <173875946575.32457.11587009893936906812.b4-ty@kernel.org>
-Date: Wed, 05 Feb 2025 12:44:25 +0000
+To: matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, linux@treblig.org
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250128005243.295977-1-linux@treblig.org>
+References: <20250128005243.295977-1-linux@treblig.org>
+Subject: Re: [PATCH] ASoC: mediatek: mt6358: Remove unused functions
+Message-Id: <173875946845.32457.11968319889637039495.b4-ty@kernel.org>
+Date: Wed, 05 Feb 2025 12:44:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,16 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, 07 Jan 2025 15:44:02 +0000, Charles Keepax wrote:
-> The current SDCA MBQ (Multi-Byte Quantities) register map only
-> supports 16-bit types, add support for more sizes and then update
-> the rt722 driver to use the new support. We also add support for
-> the deferring feature of MBQs to allow hardware to indicate it is
-> not currently ready to service a read/write.
-> 
-> Afraid I don't have hardware to test the rt722 change so it is
-> only build tested, but I thought it good to include a change to
-> demonstrate the new features in use.
+On Tue, 28 Jan 2025 00:52:43 +0000, linux@treblig.org wrote:
+> The functions:
+>   mt6358_mtkaif_calibration_disable()
+>   mt6358_mtkaif_calibration_enable()
+>   mt6358_set_mtkaif_calibration_phase()
+> were added in the 2019
+> commit 6a8d4198ca80 ("ASoC: mediatek: mt6358: add codec driver")
 > 
 > [...]
 
@@ -69,10 +62,8 @@ Applied to
 
 Thanks!
 
-[5/6] ASoC: rt722-sdca: Add some missing readable registers
-      commit: f9a5c4b6afc79073491acdab7f1e943ee3a19fbb
-[6/6] ASoC: rt722-sdca: Make use of new expanded MBQ regmap
-      commit: 299ce4beaf714abe76e3ad106f2e745748f693e9
+[1/1] ASoC: mediatek: mt6358: Remove unused functions
+      commit: fb6ec1d27608c008bfe1ab0dfec3720990eb2451
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
