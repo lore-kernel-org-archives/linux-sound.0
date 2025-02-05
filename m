@@ -1,86 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88D8151999;
-	Wed,  5 Feb 2025 12:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032A7151987;
+	Wed,  5 Feb 2025 12:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738758121; cv=none; b=sdMJrs+iln3a4sReyzsDejN7QapnQshLhgRHVol7BwjDo8/oHhfM6yjx68WDLuOeSg8UJNYADm7+QkkeTX4dcvzIcWvvzQC9RLWWIPM7JAAdS9V9yQNgPXQqBub7t8JkDHXtK9khijMRLkdesQzpFlzaTXa1twAbOuE9VTI6o9E=
+	t=1738759095; cv=none; b=ewib7a0Z8Ijd69nmBrVUS0Y/2fBZo1w4bGPdKHkuMjwA81z3GMkOulCdak6fIieQVKj7bpSRiMW4S8qMNH2hkzlmN3I8N5/ZkJByAvNH/Qa7/3B8n78WTVIKVhW2w0MTFOk3I8T1q4iow30Zn2oqWqZpOJZgfrBqlImuyvVOl8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738758121; c=relaxed/simple;
-	bh=MN7sWt5AGpvSOBdHd/5/D+lec48AtCPQA8Jrvhah8M0=;
+	s=arc-20240116; t=1738759095; c=relaxed/simple;
+	bh=yVkYzT9iu21XdX/Wk9cBe9rcgtxJMysjII2zPq3PAAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GuPj3uOwsI0y1RhHCWX6pFGbrttK3YEa/NfGwfbSzUDA2CnuYj0fbudx7RN5KGLdt71M7zPHLloe+wbcXXrqDPRIn0ZbIW+RO2vZuMAb+rMMR4OAhH7M0fotuxUUnf6007S8FCO8J1AnjZNXLZT6cZ3giGDwaeqggYfeh9AK5IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uU5doWHS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=txjTRQTLSOBo94KatmpupfqXafDxT/xAE7MWqMLQ8YCIsEX/yZqLL/wn+u6jjhz2NxraFcp219UcmvO1qkCwM0EH5dkfkb1KdXjQXPaTby6MfGszxOArbXTjgsRI48Et12jsU4AS+uiNje946wJSw/MGqqKwsh8yAp100TxzcmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=JvH8WnzC; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uU5doWHS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0417FC4CED1;
-	Wed,  5 Feb 2025 12:21:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738758121;
-	bh=MN7sWt5AGpvSOBdHd/5/D+lec48AtCPQA8Jrvhah8M0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uU5doWHSiDxmh53z3okDYpb6FzGNI/Xt9WX5cqd9m/k+2oH+IGmRqIpTvuJ2WCJtZ
-	 eO03MA14NmtPsyqHMbl4b/42Adu0UCuYJuYiqFQ+3RFawpbH50gQJMV1vQ2JbTcg/u
-	 ixWQe4uUP8xMcOasB9xsN98fbQhwCCjSteTbeSzWzdzcbeuyZv94zX8yIuxbpWFYS0
-	 tx6tRDOfTpZHMsN23HkYw95ap+P0RBlGNltk0u3WeRHqaA23UVKIHcbzR0ZkyPXxiY
-	 wrq7OUaqJOT9tPoMf63C0ajFKbuXUcsbnQTNZvn8jK0aPOga4kRIMwil/7d7cNpL4b
-	 /BvSV3ZfCoAdg==
-Date: Wed, 5 Feb 2025 12:21:57 +0000
-From: Mark Brown <broonie@kernel.org>
-To: linux@treblig.org
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="JvH8WnzC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=7uMFfYO1WmbS/ZVgPPg4SEdKN86zPP893kBz9q+8nj8=; b=JvH8WnzCw23uvFeu
+	OkNSYapNfjAeas0JWasfktf7aBtOBLDlbgM4TVxUWg5eBrAaDPSxcJ96rmFCmpeo45TSnbiH5l31x
+	EofGCQjUa1PbOjRRyyQseEWQuhA5uxuPG5C8Kw9vwQTia+bzo+R5wTcYfgv9yiZHp9cHvdumH0bds
+	fkQWjesOBnclGdxqME/wshVOtHr50dpHTr8RX601myp/knpKrru/qFpuSLMWGnx6kLQVoK2lbZQaK
+	A/z0UK6HM0y86mB4HDG00j46Gqf5KDdPcW9cANsdedAnatnGoNhMFLSLofskWpNUUpQF1dqGO0k7g
+	UuIJd2oMpnAl6OfClg==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1tfefP-00DjlZ-2Z;
+	Wed, 05 Feb 2025 12:38:07 +0000
+Date: Wed, 5 Feb 2025 12:38:07 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Mark Brown <broonie@kernel.org>
 Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
 	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] ASoC: max98095: Remove unused max98095_jack_detect
-Message-ID: <dc0bc826-6105-49f1-8a59-bb4881e9143e@sirena.org.uk>
+Message-ID: <Z6Nbr4XIN421orTF@gallifrey>
 References: <20250205014458.486207-1-linux@treblig.org>
+ <dc0bc826-6105-49f1-8a59-bb4881e9143e@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OYNyK4VerNcfAb9J"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250205014458.486207-1-linux@treblig.org>
-X-Cookie: Earth is a beta site.
+In-Reply-To: <dc0bc826-6105-49f1-8a59-bb4881e9143e@sirena.org.uk>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 12:37:36 up 272 days, 23:51,  1 user,  load average: 0.00, 0.00,
+ 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
+* Mark Brown (broonie@kernel.org) wrote:
+> On Wed, Feb 05, 2025 at 01:44:58AM +0000, linux@treblig.org wrote:
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > 
+> > max98095_jack_detect() was added in 2012 as part of
+> > commit 9dd90c5db040 ("ASoC: max98095: add jack detection")
+> > but hasn't been used.
+> > 
+> > Remove it.
+> 
+> > -	max98095_report_jack(client->irq, component);
+> > -	return 0;
+> > -}
+> > -EXPORT_SYMBOL_GPL(max98095_jack_detect);
+> 
+> No, this is exported for machine drivers which might not be in tree.
 
---OYNyK4VerNcfAb9J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ah OK; of course it would be nice if they were in the tree.
 
-On Wed, Feb 05, 2025 at 01:44:58AM +0000, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->=20
-> max98095_jack_detect() was added in 2012 as part of
-> commit 9dd90c5db040 ("ASoC: max98095: add jack detection")
-> but hasn't been used.
->=20
-> Remove it.
+Thanks,
 
-> -	max98095_report_jack(client->irq, component);
-> -	return 0;
-> -}
-> -EXPORT_SYMBOL_GPL(max98095_jack_detect);
-
-No, this is exported for machine drivers which might not be in tree.
-
---OYNyK4VerNcfAb9J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmejV+QACgkQJNaLcl1U
-h9BCRwf/bbuqYBPJKT4Eui7cAQlEP9qEYUJyycxL+M72ZHv/XWo3/ao+6gMo4QAx
-H2cLlFUSZeKi79kbnDMJ8HTUalwMpoZHerglRmxqe5ttS5wx4VCVe0ShmJBN3gSW
-t8DCovk3DB6BvOZYTRc/IUT5a7NWXTwSDNZJNVsBJkHvEkXJyb6ZPGMI0PJ3lYiX
-+bUrGr1XdmwuwD8nfyb0rkJVIAdJS3BCK9Dgqc3gJC5vL195mUudVOvtYwdtPfu+
-AL/O3ApFDfDy4hnyz15PeNd5KaKOwk9MglTaNY+U6PLTzCQ4x7ravp3mHTH8k+6n
-l/fLa+0gVNQs5Lg9ZsSIFgu+olHSHA==
-=Zs5n
------END PGP SIGNATURE-----
-
---OYNyK4VerNcfAb9J--
+Dave
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
