@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D98175D48
-	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 17:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0635E2B9B7
+	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 17:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738863012; cv=none; b=WGBeDMSr/ghfvEbuzu7kYkH3bSmcPDxPIA5lBg96g/HeUVYcW5NvItn5qve+bxcnncCTp8mt5H3hSLZA0APtR41ifhKSZamPHJVITwvFkIkaEoAbTZE7RIdcPwGn7uuFJkg5a81w5Ri3uPlyKc4gSq6SVaSeTZfBp2/ow2IRrfw=
+	t=1738863015; cv=none; b=XXedp0mTW75QVRIeZTy35H4v40az2kYzWC4fwPALCvacEbjg6RZJsf4Vr73JMYZwlzxwbn2H4kgEQX0/tmu/YPWMaCQQu5RpIfFZPoE8FXhfA9YFl1mzKjzo20Ao+m9e7mk7+Z+u1zYno93Z2c8S2JuqcSfKTRktZfqpzPDUnCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738863012; c=relaxed/simple;
-	bh=nKUQn18I5uOncKf2xShEfS3rL8p027+8KOwFvWv/4jQ=;
+	s=arc-20240116; t=1738863015; c=relaxed/simple;
+	bh=UM5k/yIpBrTSJNA48BIkXPcIX4mO+25/9QxTryJu3xg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bvDsleuohUJrqf3nV7x91fYTRbA+yPQoKcjAvj9CCHZFESsT2JmaiLTzKIZsKEVN2+pO/V+gtr1mfzupNKC54O4Ub+yFYguHYTVrea3QZBO7PWNlOGmncapFw6kILpcgMrzkRGzw1rs1nbHmbHqCACRZtH6qpy48ZGmQ1Qgml1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=heil6qLf; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=OqBvVBN4FYIYBVNAcHs0sSMk9UpjYvEMBYZ3spp0n/ehwAKT8OtmwZaO8riK+2L87rhJupLQvyGtmDzOT4o/OBl+wR89chfxr0usk2pp1BFe7dlr1D68sUxlJjq4m/HFpKEQqzqt8w00sVEJ5g608hJhTavb2ERcynxUeUooLTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bPOxgBk5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="heil6qLf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BC05C4CEE3;
-	Thu,  6 Feb 2025 17:30:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bPOxgBk5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DABBAC4CEE6;
+	Thu,  6 Feb 2025 17:30:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738863011;
-	bh=nKUQn18I5uOncKf2xShEfS3rL8p027+8KOwFvWv/4jQ=;
+	s=k20201202; t=1738863013;
+	bh=UM5k/yIpBrTSJNA48BIkXPcIX4mO+25/9QxTryJu3xg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=heil6qLfrP75IlONDIU/APnFBAtdJXuUyCAdyY1BXq+jCKxLDezixPeK1SgIVYABS
-	 nPgK78D9tuQpCrgBxeUDWh2nN4iAdr0ICgSMqR+fku5eIDihbs7hP9D5GAvQxCzR38
-	 ged/cxOnbw2RTy3fgfZEj2H4+14XeNIfNhf8lkJw7IdME+E2nZyM2S/dzhlv6iM069
-	 xpGmtpBUGmJMWROCDgcXl4Qu9fr0OtKwF28E644tzwNMXc55Y8uBi5PYjs6pAcYt10
-	 tgOnnrIrpQi5Fd8ggAbbTPRzaIQlH0gXXfARARPPOMXXHt8YEIyHx7U6xLVamORoYU
-	 PKfmmNPom3nbA==
+	b=bPOxgBk5EW+l5r4Zhn8cbevjNPKrWqtgBSsG51Y1KJRBWGGIDPOR9M3AYdJclJyau
+	 kQmZ5Q4t4E0rGTaPIw2SafPVHxOzNj1KgWYdSmIPV6+p7FAH1JK0lEKweOV9pB33v8
+	 EnUHqX+CsHDiB5Gn/ZNReflueDccdtMoKbHqjWlqmphyrI7AoKTQwG/blmwWUm41Gz
+	 MsslzbRUyQLSgH9mrMKObTMhxNdkgIsWYiE47S4P+gCwNuhEBpOHRk82OejpDyYKBf
+	 QzEFLJYaPFsywdj6u0aC+rGTTf316qVw6xRVfLzN27rajxgdaRSiQpdr0hGCZwqcVh
+	 Nz8kQxTNJanTA==
 From: Mark Brown <broonie@kernel.org>
 To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
 Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
  bard.liao@intel.com
-In-Reply-To: <20250204075224.162661-1-yung-chuan.liao@linux.intel.com>
-References: <20250204075224.162661-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: rt722: get lane mapping property
-Message-Id: <173886300994.325569.14346341796469580640.b4-ty@kernel.org>
-Date: Thu, 06 Feb 2025 17:30:09 +0000
+In-Reply-To: <20250204053943.93596-1-yung-chuan.liao@linux.intel.com>
+References: <20250204053943.93596-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/3] ASoC: Intel: sof_sdw: Add support for new devices
+Message-Id: <173886301157.325569.18321581151990997965.b4-ty@kernel.org>
+Date: Thu, 06 Feb 2025 17:30:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,12 +45,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, 04 Feb 2025 15:52:24 +0800, Bard Liao wrote:
-> Rt722 supports multi-lane and the driver doesn't call sdw_slave_read_prop()
-> to get all properties. Add sdw_slave_read_lane_mapping() to get the
-> required lane mapping property.
+On Tue, 04 Feb 2025 13:39:40 +0800, Bard Liao wrote:
+> This patch series adds support for Asus Zenbook S14 and Fatcat board.
 > 
+> Richard Fitzgerald (2):
+>   ASoC: Intel: sof_sdw: Add lookup of quirk using PCI subsystem ID
+>   ASoC: Intel: sof_sdw: Add quirk for Asus Zenbook S14
 > 
+> Uday M Bhat (1):
+>   ASoC: Intel: sof_sdw: Add support for Fatcat board with BT offload
+>     enabled in PTL platform
+> 
+> [...]
 
 Applied to
 
@@ -58,8 +64,12 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt722: get lane mapping property
-      commit: 185ac20a7b055e025027d303b63dab456b4f5d5e
+[1/3] ASoC: Intel: sof_sdw: Add lookup of quirk using PCI subsystem ID
+      commit: fc016ef7da64fd473d73ee6c261ba1b0b47afe2b
+[2/3] ASoC: Intel: sof_sdw: Add quirk for Asus Zenbook S14
+      commit: 0843449708085c4fb45a3c325c2fbced556f6abf
+[3/3] ASoC: Intel: sof_sdw: Add support for Fatcat board with BT offload enabled in PTL platform
+      commit: d8989106287d3735c7e7fc6acb3811d62ebb666c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
