@@ -1,43 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1FE1D90D9;
-	Thu,  6 Feb 2025 20:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619D819C55E
+	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 22:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738874677; cv=none; b=HUIVK2YuAu+l+equEcOOySs3QB0Rmp2y3SP9vy507MVSgdFNN1zxRYBr+aknzUMqHxWpzuBRjy6ZbNLoQmNIMdtHy7yCpwQ2hnyb8VjjUcOh+fZB9z6tE/4Wp04+SIlGVEA21Ivixca0cDKCk3Ic3UgSbU1sxHfmEDcCQ6W8+lo=
+	t=1738882104; cv=none; b=km61BIWEISVZTJHY5Lnlg1hvD8Aw2ruEsQ5W6OJTEE2q7bGrQ24x+dalP1lzsEaRiQYCCLxrAXgQoBj9f3Pjz+OimssMd8Mv2PHwSBXUFEYiM1vEJFLGcEiZEOSsiiyLdIQahoxikp7LqRi8UJ0lKLJ9/WF9Y3Xnn4JC/Hof7+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738874677; c=relaxed/simple;
-	bh=qyUFi/a/PAEf26vNDRfycjP9CzYrFMnd6NlOxfFcf5Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Rrm8dByAUZvDRs8PBTQOEyqrE84XZ6G7V/u56p70l+eTTBLVY7U/s4DUrRZQpiHpM+Wqdtx38VY9popwO0SsU8hhY35qOiZwoD+wxpzmm18gnC439+ClWF0lgNibmdTXhfu8q1/+Ry2s2jgiZCA18r8GAdnHpUqU0tEtzxsJvd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iLN//yfL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738882104; c=relaxed/simple;
+	bh=zis4tQ7I07460hkbbniR15rXPSwxoQBpcub6c24O+rE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Y87qN6hG0FjbNjbvzuZG5TUlTBnMJf4HlnBtObeywlrCykzvNzaHS6wFl6ll7LKVtG7qyAK5bUMxEe2YSTucxCbrHriTiZTB9Lm+f5g1sWziHfV9jGzYlPhvrfvOkN5au+a0zXYSUKDTLCoV5dnmrIpgXqPolF+uxyPYUpie88g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=e7YtTFBj; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iLN//yfL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 192F5C4CEDD;
-	Thu,  6 Feb 2025 20:44:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738874676;
-	bh=qyUFi/a/PAEf26vNDRfycjP9CzYrFMnd6NlOxfFcf5Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=iLN//yfLRjTKEmMY7Q630butaCkl1R7QRg7Ey8X8OjM1fugY5DtdlCE2iFqnrQEQn
-	 84T3gYsfLOFgPmHwFXxeo0CZg06SRDKNmOzQNiwhdYK4xoD83/pT3so1zvpfqbaUuw
-	 cKeVzY8ldGsjdcD1yhhK1nKpiFDd9Q2d8tgDexSJQF+0AAIaLjUdaDOE5qtrxPFhqD
-	 /lKNRw5F8wC14BA1QsSkiZwumeYhfRWRJBmOa6zK+vyWRrAP7PXZ5N/G+1V5n/2WN7
-	 8yNNdQ5KF8EzHJ7Sq+XBRLOKxO82Qow5xT1uFX0Xk9DN3xjtkyvFDnaBVriJtGq4XR
-	 yZt03Y2WfAVBg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
- linux@treblig.org
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250206014028.237423-1-linux@treblig.org>
-References: <20250206014028.237423-1-linux@treblig.org>
-Subject: Re: [PATCH] ASoC: mediatek: mt8186: Remove unused
- mt8186_afe_(suspend|resume)_clock
-Message-Id: <173887467380.363675.10029607802179953957.b4-ty@kernel.org>
-Date: Thu, 06 Feb 2025 20:44:33 +0000
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="e7YtTFBj"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-71e3005916aso452225a34.2
+        for <linux-sound@vger.kernel.org>; Thu, 06 Feb 2025 14:48:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738882101; x=1739486901; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nTjUVrGhE9LEkuAZwVXSbsr3BolYrhi8U68+FxZFaxQ=;
+        b=e7YtTFBjy0uRy0vsgSxptxwfBMUs7cm3Q81BJzZuEGoce04DXOj2iKHnO/iJuLCXA0
+         kHgWo5/x4hdC7kcSBkBGAxaFnvlBY8JDgW/o/o/oVwTtw3RfUkUZjk3rF8FujoWHmwYU
+         Gd94Ko8GUAu+qr8VG7ANeqeIQ+G0ij6tTn2YSUWcTy/OwbA3H9Ss2nQ/rZ+ey5w+A+6Z
+         8/J34qev7ibdViIyGLwB9NaMt51bgRSdoSVAtYiiKZtdpvwi7iOSl34DkzWunPa0wUzD
+         V31wdC0bPvpK43WMpk6fgEvCVTQsFqu0pQbCNjeJZdg1BcwG30KxoUrLHuM6WrUd1ThY
+         welA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738882101; x=1739486901;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nTjUVrGhE9LEkuAZwVXSbsr3BolYrhi8U68+FxZFaxQ=;
+        b=hTlp2fsmPFqq/k/EyUPmx5G/phqHK4yRrN5mw9AF3ThkFeAxis8JibOufZ2vl3wv6c
+         69HSgQDhg04o8jUkRy0HcdEVg0I1gc6KB2XhrhnlHRB8X3e58lR48+9XW6/h8cY6hvpL
+         +rE5aDWjFVTPDieGP8VNkcT+wbcVUYy1BMHfMalh0W5OvxxrXOI7WsLxJ/1qLFSUhsdB
+         nUQr2543kB4LuSUCjJdHeXZ/OqYthIpaa9VL6u2Ch/lD8eEhS0npkODBtRpjsx7Kklz+
+         kUt5fDuCNCJ9kO7+zhsIwAdwJakYcqrkxk832RLPe/uwpbD7zlPN5DO14qRMPTiKnid5
+         rf7A==
+X-Forwarded-Encrypted: i=1; AJvYcCVtpvkbHZQdXxr19TjNxbIaq2eObRaJLMX7X3EA6PqW29f2li3mMspVbqKKdcNhi7qzI0yuGtelPe5WBg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTHH7UGmE7rHO6Eae7ZsNPDfo/3LNfYk+qly7boqDQBO2rrK7g
+	3LKDlEjqtEPYxx14FKQ1GPi6e/pcPZVQpXWY8CWIdKKAdE/cUpiZM1GA079y754=
+X-Gm-Gg: ASbGncu9zKjJ1nfTTL3DdFCte6npIOCFn0wwNYiVmIfpisRsA1he8ty/kpA6k6XxzgJ
+	BGU7p3o6KXI8UEpRl8cHVS6tXD1NJOO4eRelv2BoYNrNOgq6qxjiMiPLetxLhd3CM0HSMbnPV3g
+	FIzMCTIVESRQrclq73+HewXI9RMaOjXU4sZZzAevBJcAnECpREoGGZQaB7oq8Ym1UtF1u75Q+OX
+	6+4Y2r6fIkHejJop7QvxPC5HWSlGpMHuO6vtmrOm6wVSvRcoM/1cgvcLeZw3dOge1EdbfBcMDXm
+	EjjJV7XsmIsbMRD3D0IlxowXYMTJnRWhtErCkSvMfML4UfI=
+X-Google-Smtp-Source: AGHT+IEe89bED7ukyh1rQCd1X1Mi1wrPA7ENfU7mpvKe6wSKoopBL7B45Hnhs3EJFS2hj21RE4OaAw==
+X-Received: by 2002:a05:6830:6204:b0:71d:fe93:2570 with SMTP id 46e09a7af769-726b883e93emr835305a34.14.1738882101425;
+        Thu, 06 Feb 2025 14:48:21 -0800 (PST)
+Received: from [127.0.1.1] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-726af95bbb5sm510986a34.41.2025.02.06.14.48.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Feb 2025 14:48:21 -0800 (PST)
+From: David Lechner <dlechner@baylibre.com>
+Subject: [PATCH v2 00/13] gpiolib: add gpiod_multi_set_value_cansleep
+Date: Thu, 06 Feb 2025 16:48:14 -0600
+Message-Id: <20250206-gpio-set-array-helper-v2-0-1c5f048f79c3@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,43 +67,100 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+X-B4-Tracking: v=1; b=H4sIAC48pWcC/4WNSw6CQBAFr0JmbZv5oIIr72FYzKeFTpAhPYRIy
+ NzdkQu4rEpevV0kZMIk7tUuGFdKFKcC+lQJP9ipR6BQWGipL1IZBf1MERIuYJntBgOOMzK4UFu
+ jG3OTwYiynRlf9Dm6z67wQGmJvB03q/rZf8VVgYS2Vb7x3tXhig9nt5Ec49nHt+hyzl9lqEWmv
+ QAAAA==
+X-Change-ID: 20250131-gpio-set-array-helper-bd4a328370d3
+To: Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
+ Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org, 
+ netdev@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-sound@vger.kernel.org, David Lechner <dlechner@baylibre.com>
+X-Mailer: b4 0.14.2
 
-On Thu, 06 Feb 2025 01:40:28 +0000, linux@treblig.org wrote:
-> mt8186_afe_resume_clock() and mt8186_afe_suspend_clock() were
-> added in 2022 by
-> commit 55b423d5623c ("ASoC: mediatek: mt8186: support audio clock control
-> in platform driver")
-> 
-> but have remained unused.
-> 
-> [...]
+This series was inspired by some minor annoyance I have experienced a
+few times in recent reviews.
 
-Applied to
+Calling gpiod_set_array_value_cansleep() can be quite verbose due to
+having so many parameters. In most cases, we already have a struct
+gpio_descs that contains the first 3 parameters so we end up with 3 (or
+often even 6) pointer indirections at each call site. Also, people have
+a tendency to want to hard-code the first argument instead of using
+struct gpio_descs.ndescs, often without checking that ndescs >= the
+hard-coded value.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+So I'm proposing that we add a gpiod_multi_set_value_cansleep()
+function that is a wrapper around gpiod_set_array_value_cansleep()
+that has struct gpio_descs as the first parameter to make it a bit
+easier to read the code and avoid the hard-coding temptation.
 
-Thanks!
+I've just done gpiod_multi_set_value_cansleep() for now since there
+were over 10 callers of this one. There aren't as many callers of
+the get and atomic variants, but we can add those too if this seems
+like a useful thing to do.
 
-[1/1] ASoC: mediatek: mt8186: Remove unused mt8186_afe_(suspend|resume)_clock
-      commit: 78e66dd5f32a1a8e5ee6decadd4e4dffa7d2c40d
+Maintainers, if you prefer to have this go through the gpio tree, please
+give your Acked-by:, otherwise I will resend what is left after the next
+kernel release.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+---
+Changes in v2:
+- Renamed new function from gpiods_multi_set_value_cansleep() to
+  gpiod_multi_set_value_cansleep()
+- Fixed typo in name of replaced function in all commit messages.
+- Picked up trailers.
+- Link to v1: https://lore.kernel.org/r/20250131-gpio-set-array-helper-v1-0-991c8ccb4d6e@baylibre.com
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+---
+David Lechner (13):
+      gpiolib: add gpiod_multi_set_value_cansleep()
+      auxdisplay: seg-led-gpio: use gpiod_multi_set_value_cansleep
+      bus: ts-nbus: validate ts,data-gpios array size
+      bus: ts-nbus: use gpiod_multi_set_value_cansleep
+      gpio: max3191x: use gpiod_multi_set_value_cansleep
+      iio: adc: ad7606: use gpiod_multi_set_value_cansleep
+      iio: amplifiers: hmc425a: use gpiod_multi_set_value_cansleep
+      iio: resolver: ad2s1210: use gpiod_multi_set_value_cansleep
+      mmc: pwrseq_simple: use gpiod_multi_set_value_cansleep
+      mux: gpio: use gpiod_multi_set_value_cansleep
+      net: mdio: mux-gpio: use gpiod_multi_set_value_cansleep
+      phy: mapphone-mdm6600: use gpiod_multi_set_value_cansleep
+      ASoC: adau1701: use gpiod_multi_set_value_cansleep
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+ drivers/auxdisplay/seg-led-gpio.c           |  3 +--
+ drivers/bus/ts-nbus.c                       | 10 ++++++----
+ drivers/gpio/gpio-max3191x.c                | 18 +++++++-----------
+ drivers/iio/adc/ad7606.c                    |  3 +--
+ drivers/iio/adc/ad7606_spi.c                |  3 +--
+ drivers/iio/amplifiers/hmc425a.c            |  3 +--
+ drivers/iio/resolver/ad2s1210.c             |  8 ++------
+ drivers/mmc/core/pwrseq_simple.c            |  3 +--
+ drivers/mux/gpio.c                          |  4 +---
+ drivers/net/mdio/mdio-mux-gpio.c            |  3 +--
+ drivers/phy/motorola/phy-mapphone-mdm6600.c |  4 +---
+ include/linux/gpio/consumer.h               |  7 +++++++
+ sound/soc/codecs/adau1701.c                 |  4 +---
+ 13 files changed, 31 insertions(+), 42 deletions(-)
+---
+base-commit: df4b2bbff898227db0c14264ac7edd634e79f755
+change-id: 20250131-gpio-set-array-helper-bd4a328370d3
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+-- 
+David Lechner <dlechner@baylibre.com>
 
