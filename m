@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6AB23644D;
-	Thu,  6 Feb 2025 14:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3F723644D;
+	Thu,  6 Feb 2025 14:51:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738853494; cv=none; b=Cg74db9AkPrxSCjcm7qiQnqltYaIpbMuOCkmvXZcmgfh1k8FU5XvMhIWbGViQglnn573Au/I4sFuTlvWhBmVfst+HpRTLCj/X1ABLHUfhf3XDjbkUWmfraiLI+lMNwZpa7tPb+gH5F+/fCPUwR5/aiKfYLqNTIrcNrO5xbN+iKo=
+	t=1738853496; cv=none; b=XZyLNSMOGBjGtHtRbLRAEE7E52Zx20d9iT+3joBXZo2I0eHRC63DHi/ComRrZmbV23Ck6uy1qNG+sAL/XA8mtoqg5vww+fkV54fWFWYJpa9/9gEwrls3bp0dG7rSNvXs3GV9s7JyrVqt5r86vyvBh7LOO2DQIFy7dE7Q1vJm4M0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738853494; c=relaxed/simple;
-	bh=KdAqLrL8VyzvJH4jbtVBy5CNpC8N2F2KSvfmYkKIW9c=;
+	s=arc-20240116; t=1738853496; c=relaxed/simple;
+	bh=aI9BSmTGJlT9/TflPUmgUZa4xAdEOmrHdDGF+lWQWXA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XAgTC3vUMMIFfiT4H9/Frd4OHpbKfRjyCnbSuk3bicWqI38eyp2YfhkwtwIAGAJaP+4k99SG7U8oYh1xyU47ETTI3hXu+IZIdxcLUVJmdbkAZ6Zeb7ZG/wkigYAHCCzXycyA45Kk/n4A0J2WmtQ4B31o62sqX2ZiM1rIs8Dyvzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ee6G8+uK; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HajXUWxZTSpfWBOoZyeNoKxMKq5MFgC4zhR7XQeC2XnYW2EnFD6QYPERh4da/joK2woVd14D8yJg6AAv8SdOfaLyMDtm2/4Ir/VJPZqVbXqY1A1wRCSG1P4sBRn2A/xXaJrM1WjqJ7I4w0stMjHx8g0jyyaBH9DEucQ4HYUcrDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fOQRDEYe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ee6G8+uK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DA24C4CEDD;
-	Thu,  6 Feb 2025 14:51:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fOQRDEYe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81203C4CEDF;
+	Thu,  6 Feb 2025 14:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738853494;
-	bh=KdAqLrL8VyzvJH4jbtVBy5CNpC8N2F2KSvfmYkKIW9c=;
+	s=k20201202; t=1738853496;
+	bh=aI9BSmTGJlT9/TflPUmgUZa4xAdEOmrHdDGF+lWQWXA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ee6G8+uKzcGlkaRSY9Sc6zJLliyGDsK8o/FzDfkx0pHU1v6IFoMTvi5dBUYFA9xyH
-	 hU/JXmdK6KLeWiQ3NaLSayyp8OGm/q0fgsh9l3NqfU/SoA7Hxi1R6d3u8SytpG7Hwr
-	 olQgYX7lAo+zT915NiHHBQumjHRfEbBj8zVVd4OT9+QMJ7DTkc0E+6U7pMt3cUaJFL
-	 Txxv+Frei8XEB9cyRU6fESwqvNbClW9BT94sGU6+nUfi9TZMzZ6SPDDq+1WzxWk4CH
-	 wTkHc/aozStqcu1cOiNQwo2Ah0pKCxonxsKIM9Z22UIsXcnLbF1JPVByS9jDHnRm6P
-	 XCLuAt85q8CFw==
+	b=fOQRDEYeyhLRx+deVN87ZHm4X1FVPidiUkY621wnuIqng7ixLfQd5kZr/57LfxdEN
+	 tEGa4oZjnSdeVuQMH2q6NSmDxjUlcJfVBXE47WNMqB30jLWelPq1qb4/wlDy+hLr/u
+	 /2SAA33pJ7B8yJ6kBpyUbZQ8FIJFqY8p6BWDiZAax+xya1mct9iICxgFAiukcWSGhO
+	 j9eetwAvLN78bADjUwukDZIS3KefDTnXLINDZzdfFF43mS4NW1opIPEZFFyxf2mypl
+	 XRV9aUK4YoYTMAoE9pI74PpgygT73QHETCAT+lSsXiTs2UOoVCYUf55NeV2Quh2bFR
+	 bfChT4k1zx9/Q==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, stable@vger.kernel.org, 
- liam.r.girdwood@intel.com
-In-Reply-To: <20241213100146.19224-1-peter.ujfalusi@linux.intel.com>
-References: <20241213100146.19224-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: Harden loops for looking up
- ALH copiers
-Message-Id: <173885349204.198179.18006741194772257857.b4-ty@kernel.org>
-Date: Thu, 06 Feb 2025 14:51:32 +0000
+To: Jaroslav Kysela <perex@perex.cz>, 
+ Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20250205160849.500306-1-vitalyr@opensource.cirrus.com>
+References: <20250205160849.500306-1-vitalyr@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: arizona/madera: use fsleep() in up/down DAPM
+ event delays.
+Message-Id: <173885349425.198179.4718145896745119973.b4-ty@kernel.org>
+Date: Thu, 06 Feb 2025 14:51:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,15 +47,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Fri, 13 Dec 2024 12:01:46 +0200, Peter Ujfalusi wrote:
-> Other, non DAI copier widgets could have the same stream name (sname) as
-> the ALH copier and in that case the copier->data is NULL, no alh_data is
-> attached, which could lead to NULL pointer dereference.
-> We could check for this NULL pointer in sof_ipc4_prepare_copier_module()
-> and avoid the crash, but a similar loop in sof_ipc4_widget_setup_comp_dai()
-> will miscalculate the ALH device count, causing broken audio.
+On Wed, 05 Feb 2025 16:08:46 +0000, Vitaly Rodionov wrote:
+> Using `fsleep` instead of `msleep` resolves some customer complaints
+> regarding the precision of up/down DAPM event timing. `fsleep()`
+> automatically selects the appropriate sleep function, making the delay
+> time more predictable.
 > 
-> [...]
+> 
 
 Applied to
 
@@ -64,8 +61,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: ipc4-topology: Harden loops for looking up ALH copiers
-      commit: 6fd60136d256b3b948333ebdb3835f41a95ab7ef
+[1/1] ASoC: arizona/madera: use fsleep() in up/down DAPM event delays.
+      commit: 679074942c2502a95842a80471d8fb718165ac77
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
