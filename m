@@ -1,164 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4266E19C546;
-	Thu,  6 Feb 2025 19:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7090B1A4F12;
+	Thu,  6 Feb 2025 20:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738869944; cv=none; b=MXYyUZVd4ob9p4IoxxBgfNlf4LcbRL/1zoiLRDc1Zc53zKN6uT6MkZ63DABH+DvtuGoIaxNqZDQx/fetOrJlSLXs9jFSd8jioEeWtGIDB9mnmIQzmuAycOkLbMbix6lr+YVOyBvCSbwsh/U6pLTPA+PM6SuB5izs7ECvBTOcSYw=
+	t=1738874666; cv=none; b=cwfftGQEwJuNId2H49vQJ81JFvmFeNS23nMzfOxWLHNAdh25s4YQk08d5qQN77xKp4X+3mUv/TikLH0YXOpUS3AFsLJGQlrEZFPIhFfvn7fkNIK+tQxCQIlsci9nSF6TGVC5S/UK0e6LpvdflSELP8M2TwVF2NkQKFu6ntnYqcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738869944; c=relaxed/simple;
-	bh=n/YkYURb4rl9cMKZh02BgtPCD4nz7KgShrKwZzPCxcA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QXGbwod+04k9eJZ+zcKmro4E/uIi6ks+Mq2w63Br52noLdx6ykgoqOGvx9J0M92ApNeRKdveRxxCIYIEv0e0IxtssFXbwUOP958Ds+UJ9Bm5wmzlVCqf7kU8vCEq7glLq3wjnnYG3AbdVNOxpW2qQGAoHEy+YaeT5R3Ev3yal2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mj2WMYG1; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738874666; c=relaxed/simple;
+	bh=PunxRy4umKJD+Xu7khFl9tZPmLgSWeojiM9lIdqaoX0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nhFkEC4+wVlrJ5GW9L+QvFMLCf8kdb1Pc9geDtAYMeui70KjOX7BFS0QA3lj784k2cNY/zrMOhwiamMoHOG9YzgHi37c7Hy3FZF0kVrOgyzhwXQkraAjCCTLLyXVtPjGTMu2AV2Xr3RNuubCVDj72MBQK2drGx5KxjXp71iaTdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DhpdhSjY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mj2WMYG1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738869942; x=1770405942;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=n/YkYURb4rl9cMKZh02BgtPCD4nz7KgShrKwZzPCxcA=;
-  b=mj2WMYG1x/gUC4xK2xp2ZOLkWw6+muee19lnzeQ8arha3TqSVcw1TyDW
-   W9iRjK3eqw5+r+nToxOoahwX5ncomBNpHYfvRbVBu+ZqQLL88+HJIcTSs
-   0nhH78+Zc+JLn/OhvNICV4quqeoANssmpThJiUjq1fwRn/AYluz/ulDVC
-   aCnp3pypPPPwkF2SyZrjpZ1eDYlSLO5X6NhdG5DtWDx+7bVu7Hxfl+25q
-   TYw9wK548Guvw5lr3cruVrRRfHdTgh8Fh5JxQcsvkBD/xuq8ngO4KLJGK
-   VzpApdwFaqeBEnhvLltRPRSlYnnME9IkE8XQOu76CWQ9j5Snh9mozE6ag
-   w==;
-X-CSE-ConnectionGUID: RPNvtQ/yQjSHeapp9zx43g==
-X-CSE-MsgGUID: VnxrGBQiTay+UgLPOQjFRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39399542"
-X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="39399542"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 11:25:42 -0800
-X-CSE-ConnectionGUID: h9KvzgslQQq2dsH4t3yMug==
-X-CSE-MsgGUID: BpbfZF9bTUKVuJecSZ1agA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111165253"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa010.jf.intel.com with ESMTP; 06 Feb 2025 11:25:40 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id A62B7EE; Thu, 06 Feb 2025 21:25:38 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Kevin Lu <kevin-lu@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v2 1/1] ASoC: tas2781: Switch to use %ptTsr
-Date: Thu,  6 Feb 2025 21:25:15 +0200
-Message-ID: <20250206192537.1133763-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DhpdhSjY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DA8BC4CEDD;
+	Thu,  6 Feb 2025 20:44:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738874665;
+	bh=PunxRy4umKJD+Xu7khFl9tZPmLgSWeojiM9lIdqaoX0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=DhpdhSjY+S6rOuS6Kgu9k9N8UR3Qf4tgaxLfuEoUbtBo9Hj6E6kwaw8bVvL8/U57r
+	 jD+N3uNLM70ZZ0KjxV3NtzvGJvc3VmvN9zRZDefNkveMBe2rptxrPmzEMpzvhKO87V
+	 aZ5ABq18zGn1NhKnEHCAqM3M1Mo6flV4hCQ4ayaZsQxd0gxz4DsrAopyomEWbXR2w5
+	 5qgWsJeGzz+w4zF7xRvCbUE0AM/AFJkTu4yLEo+w9IrPtnaooWA8M3HFpJ6s4mDREG
+	 heDCjoXyh/nvejrnhtWxS4T3iRqhQ9qaRRfKD3a+7Odr0kzE9eqBsJAIhdqcaEUSjP
+	 dVE/3kwkiKlEw==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+ Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+In-Reply-To: <20250205165226.3466137-1-masahiroy@kernel.org>
+References: <20250205165226.3466137-1-masahiroy@kernel.org>
+Subject: Re: [PATCH] ASoC: dapm: unexport snd_soc_dapm_init()
+Message-Id: <173887466426.363675.10031813537365510055.b4-ty@kernel.org>
+Date: Thu, 06 Feb 2025 20:44:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-Use %ptTsr instead of open-coded variant to print contents of time64_t type
-in human readable form.
+On Thu, 06 Feb 2025 01:52:16 +0900, Masahiro Yamada wrote:
+> The symbol provider (sound/soc/soc-dapm.c) and the symbol consumer
+> (sound/soc/soc-core.c) belong to the same module, snd-soc-core.ko.
+> 
+> There is no need to export it.
+> 
+> 
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
+Applied to
 
-v2: made sure the parameter is the pointer as required by %pt
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
- include/sound/tas2781.h         | 1 -
- sound/pci/hda/tas2781-spi.h     | 1 -
- sound/pci/hda/tas2781_hda_i2c.c | 8 +++-----
- sound/pci/hda/tas2781_hda_spi.c | 3 ---
- 4 files changed, 3 insertions(+), 10 deletions(-)
+Thanks!
 
-diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
-index 72d2060904f6..0f1e585635bb 100644
---- a/include/sound/tas2781.h
-+++ b/include/sound/tas2781.h
-@@ -161,7 +161,6 @@ struct tasdevice_priv {
- 	struct mutex codec_lock;
- 	struct regmap *regmap;
- 	struct device *dev;
--	struct tm tm;
- 
- 	enum device_catlog_id catlog_id;
- 	unsigned char cal_binaryname[TASDEVICE_MAX_CHANNELS][64];
-diff --git a/sound/pci/hda/tas2781-spi.h b/sound/pci/hda/tas2781-spi.h
-index ecfc3c8bb821..7a0faceeb675 100644
---- a/sound/pci/hda/tas2781-spi.h
-+++ b/sound/pci/hda/tas2781-spi.h
-@@ -88,7 +88,6 @@ struct tasdevice_priv {
- 	struct mutex codec_lock;
- 	struct regmap *regmap;
- 	struct device *dev;
--	struct tm tm;
- 
- 	unsigned char crc8_lkp_tbl[CRC8_TABLE_SIZE];
- 	unsigned char coef_binaryname[64];
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 0e42b87dadb8..be9a90f643eb 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -594,7 +594,6 @@ static int tas2781_save_calibration(struct tasdevice_priv *tas_priv)
- 	efi_guid_t efi_guid = EFI_GUID(0x02f9af02, 0x7734, 0x4233, 0xb4, 0x3d,
- 		0x93, 0xfe, 0x5a, 0xa3, 0x5d, 0xb3);
- 	static efi_char16_t efi_name[] = L"CALI_DATA";
--	struct tm *tm = &tas_priv->tm;
- 	unsigned int attr, crc;
- 	unsigned int *tmp_val;
- 	efi_status_t status;
-@@ -629,10 +628,9 @@ static int tas2781_save_calibration(struct tasdevice_priv *tas_priv)
- 		crc, tmp_val[21]);
- 
- 	if (crc == tmp_val[21]) {
--		time64_to_tm(tmp_val[20], 0, tm);
--		dev_dbg(tas_priv->dev, "%4ld-%2d-%2d, %2d:%2d:%2d\n",
--			tm->tm_year, tm->tm_mon, tm->tm_mday,
--			tm->tm_hour, tm->tm_min, tm->tm_sec);
-+		time64_t seconds = tmp_val[20];
-+
-+		dev_dbg(tas_priv->dev, "%ptTsr\n", &seconds);
- 		tasdevice_apply_calibration(tas_priv);
- 	} else
- 		tas_priv->cali_data.total_sz = 0;
-diff --git a/sound/pci/hda/tas2781_hda_spi.c b/sound/pci/hda/tas2781_hda_spi.c
-index a42fa990e7b9..d91b19602485 100644
---- a/sound/pci/hda/tas2781_hda_spi.c
-+++ b/sound/pci/hda/tas2781_hda_spi.c
-@@ -802,7 +802,6 @@ static int tas2781_save_calibration(struct tasdevice_priv *tas_priv)
- 	static efi_char16_t efi_name[] = TASDEVICE_CALIBRATION_DATA_NAME;
- 	unsigned char data[TASDEVICE_CALIBRATION_DATA_SIZE], *buf;
- 	unsigned int attr, crc, offset, *tmp_val;
--	struct tm *tm = &tas_priv->tm;
- 	unsigned long total_sz = 0;
- 	efi_status_t status;
- 
-@@ -849,7 +848,6 @@ static int tas2781_save_calibration(struct tasdevice_priv *tas_priv)
- 		if (crc != tmp_val[3 + tmp_val[1] * 6])
- 			return 0;
- 
--		time64_to_tm(tmp_val[2], 0, tm);
- 		for (int j = 0; j < tmp_val[1]; j++) {
- 			offset = j * 6 + 3;
- 			if (tmp_val[offset] == tas_priv->index) {
-@@ -882,7 +880,6 @@ static int tas2781_save_calibration(struct tasdevice_priv *tas_priv)
- 		 */
- 		crc = crc32(~0, data, 84) ^ ~0;
- 		if (crc == tmp_val[21]) {
--			time64_to_tm(tmp_val[20], 0, tm);
- 			for (int i = 0; i < CALIB_MAX; i++)
- 				tas_priv->cali_data[i] =
- 					tmp_val[tas_priv->index * 5 + i];
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+[1/1] ASoC: dapm: unexport snd_soc_dapm_init()
+      commit: ecfcee245cc99def0f6bf84ac75ac372f8ab65eb
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
