@@ -1,89 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8653F215179
-	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 11:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A11046BF;
+	Thu,  6 Feb 2025 11:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738840764; cv=none; b=SLF4G3coalqFmYCToB215tcl1V5qTkeEEpqdA548ze0PAjot+VGeGnEH64iEiFb3pmdwS3heZbP+le785Pid96JXtYPAmlcKusY4oNhRXHyTZ2tfpxfuUWKZ/Xh0HL41rBqWUIctNOJqBQQuIGoc2p+5BjwxeK7G/O4ZqVBOT+E=
+	t=1738840999; cv=none; b=i0qZQWpgM78Pdkui2OXNJUN5bsptlpcYhq3RzPMsgSVUOxpjDKWlnqvLHMorzF5wwxcNfFPLOwu2HceU74VVqq5YkMlBKEi1FLQoFiTLmLmsn9Q173CwGhy9m3PRMRqIORjcMiP2w3DII6Za6RnW7h8Um3X7NDUo9frM/fkDEls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738840764; c=relaxed/simple;
-	bh=Ud93BPg7e+aYuD31vJgdHclRrPjLf4XpRGMBpEuxS1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PxuM0qzlILm/AMkxfQnAGJ6d8XbwRRs8oJ+u4cXdV+p7dVd6Zt1W1IRH9kgeHGk3EIyJzNnVfi+n+v9M+CJ8lIr7spHfFGJtnYqzjBHXe+bEhXuHdrPjAurxsj+obdM7IlLMncdEq/Rd+85GdFo6RP2KGa8MiPNxbfd2mWM8NCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZDT13mix; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738840999; c=relaxed/simple;
+	bh=DF6L1QyebOFzkZeXfsTZq5B3l69YX+5OHfaKKKJiV3Y=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IxSUTtht4qULNoSfrInaEe3JiSrdSvSWyIdjRcl3UoWpzKlQwV40poRXuaGU9UUfguhljPE4nFCxB1WIw9ksdqMb85Etan2oOtyFa2iWxlrCdSy3m9bXt9iib6YI1Hu62lfRu6qc6w/dY5cPN03iX8echxOY8spBmFddF2l1sZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LinceZjR; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZDT13mix"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D683C4CEDD;
-	Thu,  6 Feb 2025 11:19:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738840763;
-	bh=Ud93BPg7e+aYuD31vJgdHclRrPjLf4XpRGMBpEuxS1M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZDT13mixBt/0NTe7MbR+fxthAftt+FjiiNe1aIYQHhNH3IYtZnMbYRWlCfdQZE5xO
-	 5gLs1+Ztbv52WDLkE3g8WCOICN4fYkOYBp+OsWkgSq0Wk6yhZ96prpc0Vi0R89DGVS
-	 aQin3yHebiey9XmGwnzL2AXIYKKdV2ODCX9iENY9w7pxUMqNY1gb8yKWeRmFaZpPG3
-	 iRWEKY62oozy/FYUFeAuAeJCgck+0ojBV+Opwz95wbz1f5zoM6Y9509SplAcGpWZ3W
-	 cSdxbrGOv/K7Rfd9gVu/bcRnREnb5ZmXFHvPIV11YL6ObQ7fyp80xTDokOoOGazd25
-	 Zjo7sqndsKLjA==
-Date: Thu, 6 Feb 2025 11:19:20 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] ASoC: soc-core: remove verbose check from
- snd_soc_of_parse_tdm_slot()
-Message-ID: <a12541bd-2cb2-4b2a-b913-f4cd44a4d3f4@sirena.org.uk>
-References: <87o6zf3gg0.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LinceZjR"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5169CnRR015655;
+	Thu, 6 Feb 2025 11:22:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=jBOj1oIfnfa4p7oiESyNP2
+	rTTTc9IfvWTR4j9gGdtrY=; b=LinceZjRbKV9YpTZEIS2PyV+avAkTzHA1OY1qs
+	fPYzEqOGi+a4v17Vv3mYv6K2A/OXW7yjalW44VboB8VwohmDfF/O+9DTGihRBM18
+	jpVBzzg0JFqFfKj7lo7giZhkhZXHNTYsnWZdsdSF4H+yDxrwRICoFzgNjvAlDOWQ
+	pPmr/byPFDpXD2CgHPPmtSIGEM9X913vabDh66Vvlf2H2E5kt3Dt3wMa88QOyIsw
+	hlQz0KWmLXkFbNBPt5Y4fjp0nuN6EsewfY2R7/38iOuh+rANXfmBEpIRJJL7LNFr
+	fc3+Rr1f2Db4zYgEBmXBl2ZiMsHMA2aX1HoN3jcQGACbBkaw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44mt8e0b3u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 06 Feb 2025 11:22:54 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 516BMsFe017348
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 6 Feb 2025 11:22:54 GMT
+Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 6 Feb 2025 03:22:48 -0800
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>
+CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Sanyog Kale
+	<sanyog.r.kale@intel.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_pkumpatl@quicinc.com>, <kernel@oss.qualcomm.com>,
+        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: [PATCH v6 0/4] Add static channel mapping between soundwire master and slave
+Date: Thu, 6 Feb 2025 16:52:21 +0530
+Message-ID: <20250206112225.3270400-1-quic_mohs@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fxnT4XegOxlipvom"
-Content-Disposition: inline
-In-Reply-To: <87o6zf3gg0.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: With your bare hands?!?
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 23dRVHEZLFYbE07qcP91km56ofWW1iH4
+X-Proofpoint-GUID: 23dRVHEZLFYbE07qcP91km56ofWW1iH4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-06_03,2025-02-05_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ adultscore=0 priorityscore=1501 impostorscore=0 mlxscore=0 spamscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=999 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502060094
 
+Add static channel map support between soundwire master and slave.
 
---fxnT4XegOxlipvom
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Currently, the channel value for each soundwire port is hardcoded in the
+wcd937x-sdw driver and the same channel  value is configured in the
+soundwire master.
 
-On Thu, Feb 06, 2025 at 03:22:39AM +0000, Kuninori Morimoto wrote:
-> The reason of of_property_read_u32() returns error are
->=20
-> 	(A) -EINVAL:    if the property does not exist
-> 	(B) -ENODATA:   if property does not have a value
-> 	(C) -EOVERFLOW: if the property data isn't large enough
->=20
-> Property does not exist (A) is not error in this function.
-> So, current code returns error if (B) or (C) case.
->=20
-> But these are handled by "DT checker". We don't need to check it in the
-> code. Let's remove it
+The Qualcomm board like the QCM6490-IDP require static channel map
+settings for the soundwire master and slave ports.
 
-We're assuming that people actually run the validation tools, which the
-reports that Rob sends out from his bot seem to indicate doesn't happen
-reliably and I'd expect would be even less relaible with out of tree
-DTs.
+If another boards which are using enable wcd937x, the channel mapping
+index values between master and slave may be different depending on the
+board hw design and requirements. If the above properties are not used
+in a SoC specific device tree, the channel mapping index values are set
+to default.
 
---fxnT4XegOxlipvom
-Content-Type: application/pgp-signature; name="signature.asc"
+With the introduction of the following channel mapping properties, it is
+now possible to configure the master channel mapping directly from the
+device tree.
 
------BEGIN PGP SIGNATURE-----
+Added qcom_swrm_set_channel_map api to set the master channel values
+which allows more flexible to configure channel values in runtime for
+specific active soundwire ports.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmekmrcACgkQJNaLcl1U
-h9CDPAf/cyNV4jc+8KZAgcSBHZNwl6vNBIFg7N2kvmD+TT/+llPsRBFGzBNtao1C
-B4X1UcTZ3yXFBK6RnpQvnhsFLDa7LuND/mpaZ+P4p0f1XaY0IFl95G1IolPROAuq
-O7weybi8YdHfWB5VbbmPxgfc1Nx0twFvfLhS74/1aVT1X3wu7orp0VzHpkHcI2IY
-CsHAo+yZwNqLu9Hs8ON8uKwOrCNRWZNMnX/ByL746wqeb+MIypiqBRX9F9p8fBeg
-tsHPouo1IhSXZT7RrSk0GisxeyZ0JDsftPrLoMJfEO9Qv0ml/QsWd2QFCO0oNKlm
-bGHSW0O3hdOw3NpiJgAo3tXdpVwLbA==
-=5qfr
------END PGP SIGNATURE-----
+Add get and set channel maps support from codec to cpu dais in common
+Qualcomm sdw driver.
 
---fxnT4XegOxlipvom--
+Changes since v5:
+ - Fixed build compile issue with v5-0003 patch, reported by Mark Brown.
+
+Changes since v4:
+ - Update the order of channel map index values in v4-0001 dt-bindings patch as suggested by Krzysztof.
+ 
+Changes since v3:
+ - Change the order of channel map index values in v3-0002 dt-bindings patch as suggested by Krzysztof.
+ - Dropped V3-0001 patch which is not required.
+
+Changes since v2:
+ - Rephrase commit description v2-0001 dt-bindings patch as suggested by Krzysztof.
+
+Changes since v1:
+ - Modified the design and followed new approach to setting the master channel mask.
+ - Used existing set_channel_map api as suggested by Pierre-Louis
+ - Fixed the typo mistake in v1-0001 dt-bindings patch.
+ - Rephrase the commit description for all v1 patches.
+
+Mohammad Rafi Shaik (4):
+  ASoC: dt-bindings: wcd937x-sdw: Add static channel mapping support
+  ASoC: codecs: wcd937x: Add static channel mapping support in
+    wcd937x-sdw
+  soundwire: qcom: Add set_channel_map api support
+  ASoC: qcom: sdw: Add get and set channel maps support from codec to
+    cpu dais
+
+ .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++
+ drivers/soundwire/qcom.c                      | 26 +++++++++
+ sound/soc/codecs/wcd937x-sdw.c                | 39 ++++++++++++--
+ sound/soc/codecs/wcd937x.c                    | 53 ++++++++++++++++++-
+ sound/soc/codecs/wcd937x.h                    |  7 ++-
+ sound/soc/qcom/sdw.c                          | 34 ++++++++++--
+ 6 files changed, 185 insertions(+), 10 deletions(-)
+
+-- 
+2.34.1
+
