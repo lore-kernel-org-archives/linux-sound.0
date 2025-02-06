@@ -1,70 +1,70 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF0D1F60A
-	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 18:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D960D19DF81
+	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 18:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738867576; cv=none; b=bT7RRghS2G2Ouogof+ir1vYDCuZ4cF6AYuBq9aTrQNu6G4d4pKDjAUkhTLUqKPVndAJcNvna2va0d8KSF8P8DSn2MzbO0wt33CzU7cfI8mTBu3KAdbS+O4RTxR/ki++UIzlf4DwL6vAIFw3loCB3SiPs4Zw61twI5vy1WBubcYQ=
+	t=1738867603; cv=none; b=L3Wh+dOs/I1KbANjDMNDtFq6GLJ50LtVQFYrfi1GCc3rAOnYPKTRhe1cuJGdfcdNNPZwhhS52ibG1EZ6yiW1XP/XBO1vH3oxf/YHJc16hElajyIqa16s7jxJplSKdtNqdxOGUOsU0TQOenBsrVMXFBIlc8b3BuOQzix6VNJbTAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738867576; c=relaxed/simple;
+	s=arc-20240116; t=1738867603; c=relaxed/simple;
 	bh=P0zr8OoINeTGs7g0sjgckyXehEfeKe5nFPFZvgr4A7s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HqDDMoFuLTDQ7LImdxx+OV7xDsJetFJs8VlJYmkPWwhL9Or6bksNLk869mTJ5670tfpabx73N6ghx3N+b9AUfroxlIKx3BRln2x3NGkr1iby4Wnm3aQwk+DtRtgqZjIoAmrnwq8829HZXFbX8fiwN/auHUIkKUBuTRY5NIHKMNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CH4Zibz3; arc=none smtp.client-ip=209.85.208.174
+	 To:Cc:Content-Type; b=WAdzxJq4NGZUX/bOAIEkUvMKvaCURYkCylTpQ2JUEje8pIwpuZTFa3NIB3ZTMQaqgHIZ2M9I+bLhNRm5a8APuZHysx54IykVa0oZKoXoyNhUOwKJgkuRpOfa+/Sw+lPKrClMtsfI48h2t9Fkm76Ke2LB3i87+ug6bE/TJh/qh/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HSb8bKjl; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CH4Zibz3"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3078fb1fa28so11961111fa.3
-        for <linux-sound@vger.kernel.org>; Thu, 06 Feb 2025 10:46:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HSb8bKjl"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53f757134cdso1370654e87.2
+        for <linux-sound@vger.kernel.org>; Thu, 06 Feb 2025 10:46:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738867572; x=1739472372; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1738867600; x=1739472400; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
         bh=P0zr8OoINeTGs7g0sjgckyXehEfeKe5nFPFZvgr4A7s=;
-        b=CH4Zibz3rE/F8+bMJiLzPz9S648Z2CCcv89XgbX1wwyiN6yPAERszqO6a5iBq7Z/D2
-         cBdLYbFcA3laP1BPi8GqdgP4tKrvkBp0UlNaVBYUQKxKm+3FQ7kzyQ4I08q1+9wCffGq
-         yX+CW3LVwHS/ifU6xvcAAHXEhpf9I3AFY4R7uLqnrHCHS++ZPjE5PXQWVztZjDGbJ6vV
-         obSK705XFKPpSXCcq5DhCmaQ/Mchv21LOwNQDFmwO37qKgUGhjcFWyPcBSMcfARY1omi
-         MzCVbXw/IUlFoMt+DvqHRiNTGPedgW9SrMeR4H7sR+8P/6+vezHA80xcbaORMqKpd9c2
-         YC4g==
+        b=HSb8bKjlCso8Q2T33K6TqG78MC1pBc6iML9i+BJ8Q0DgT9npYfT9ppCDFnD8y26dIO
+         q/bS5EVPVi0bwLw+Vf13weupn53gFOnG6j8UZB0r6mPsrIUzmM9AMXW9Q1sWhpK/ZvXe
+         pUpJUj+ITtePG3fvDFxFRoc60DY/bPX6ssJ/mXBpmZ53Aa4ZMzX6aUSJJVaXWRm20mkV
+         EL3ZyJz3zSio1/7DKWPuAWOP4VahXA735Hkg9ngvlmFLp0nr/wwFT8b7P35MVG+5q1Cf
+         8lKMd53PhI0MoiAWFLrBlsoQpNgt+NQIFrH9x1RGdk96WrLI6MY5DU9xsUC7hG/UFxFa
+         6HPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738867572; x=1739472372;
+        d=1e100.net; s=20230601; t=1738867600; x=1739472400;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=P0zr8OoINeTGs7g0sjgckyXehEfeKe5nFPFZvgr4A7s=;
-        b=npbfIQQvrz9vxgQYlCYANxeCksMFSKzpzeLkd15PeQ5s1EWD5WUqV9NC5FKnhOQdaG
-         ytgqlT8M37QhFc4ajUV3rwfyD75e6vLXsz/kDd+Qr3+aKLbTGcIUcINByFrqo9CC2+tx
-         m7yNOs6PLkWuiP6Xo8y2F0QF5uDTzIWp90SGpGLN7ofSdVgCn2vAGQ7JL8aoYW5IsbKi
-         F0nEnBD+4ndAoh+2h+l2pNniPNYAKXYYWkptYeircoNIIk6knaGz9qgosjE/1gqd70ns
-         vaQS8Pqlt06abvl9zjM9xfvIAa+YDfQgxX2qfN+zg56PWJdEcmk8zN0KNyBJkXYfvAt2
-         3QSA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2LX4wUT8JWJunBRz9Hvi0DMpZLFc4X09Up1d0k+lNtaGc8ZuGNFeZKwtYR4l/eqSL4JaCpAEQRvUDyg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywjas9i4cIH+LikhAcBCUAmntdwx6unj8zwc7lkTiRKGfqfrb5o
-	v1i5Klbga09rY6yucv0WYjRa0Y3BhpXzi2uBTZt9GtrECisjSATidLSMeMgFUmp8Cmc5LIn8LGu
-	gLBNixy9FMEmaMNf7yUJaog0TdJfu3FcslbHwiA==
-X-Gm-Gg: ASbGncsmAVKCL/dRhq9lMFiO62E2ij/nzyQjoPCSY/V1oDMtJJeuaamD7VIAOg8vpsQ
-	Q1wkIEl4v6Av8UHh8W0R4qWTc+I9xxkkClnsIj/jv9K1jVZSHcUF6OSUO0HtRD7D2Pn+QeAI=
-X-Google-Smtp-Source: AGHT+IHBXbEvo18HjmPufvQO4GaXJoRqBewEyheRHSK0Q9zbSI8UBYUsHoznNfcnvv1UkIJfoaGthv9VJSF8FinRDdA=
-X-Received: by 2002:a05:651c:150c:b0:300:3a15:8f2a with SMTP id
- 38308e7fff4ca-307e57bfe60mr399971fa.2.1738867572121; Thu, 06 Feb 2025
- 10:46:12 -0800 (PST)
+        b=kkci7z15WHDE6iNrRMg4gm8yr1p5/PonxczuOYZ8Qf+0Ufb4CEOQ++Tq4OdXtYwHQ2
+         QS9+fvJInJgWH4KaYqzBdK4BGQ8lJA7OpUXnmBAP/AQymEX/UfEGCRjyajLh3TeLbrev
+         h9u+Gp0k4EaI4upgSo4I3uGS/KXu1WwuB7GSIgyx4JnZXeYvicUfGEBxT7U0Za8tNEpw
+         wMl2yVa40mZX/cVPEuw7qd4LSTKX/s+wNGsq/HH8OOyKS56wQcYXlRL8EEOEiWaXo3l9
+         jAgsU9bzETnFjOV2OTfmyXsas4RrpFGhVP8oZ9KxTxsslPeI5EAaBk5lr4zy7+7+LWz2
+         sQyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWFlSeEtQOHoXfN6dwhM9BKtgc2cofpqQ2GVNJW2Zjn3MXwgDtjestU2JhPCrypDeqFIqtYQjo8RhCTjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMacKxNNL7NeZ4afBMO/M0fA67BWjVAegutwFwQDZx2Yl3rQJa
+	LXs1T56bE5DoC4cB6IilanVQlH0V5A3wOaruTpN6y1O0lRVdRI52xO6ZkrBsf6LAV6QqqOehPh6
+	a2D7hAfgUmL+XVpoonIfJNaFoqiVpgmtgPr0kGg==
+X-Gm-Gg: ASbGnctrNPCod5wN7EVp/T8/wCFMFkVEO0sorzIHN6iDnjwO5I2b6iaGCMmcE61MTuO
+	jj+mjgHLn65+XWT13gJycci4ldN9SpO5Wtc8S9zioSGKDCubgj+HPgyfbpi/zF+5kJRdnWIU=
+X-Google-Smtp-Source: AGHT+IEpzVZeWcxUUFevUxXUUtkE4eDoK/ekTj85xIIJYmnvT+leN3VUeeipd/F5aigtmYFlfRv7++sKlMafMRpOAt0=
+X-Received: by 2002:a05:651c:548:b0:2ff:a928:a23e with SMTP id
+ 38308e7fff4ca-307e5a7c213mr216161fa.25.1738867598438; Thu, 06 Feb 2025
+ 10:46:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250203080902.1864382-1-raag.jadav@intel.com> <20250203080902.1864382-7-raag.jadav@intel.com>
-In-Reply-To: <20250203080902.1864382-7-raag.jadav@intel.com>
+References: <20250203080902.1864382-1-raag.jadav@intel.com> <20250203080902.1864382-11-raag.jadav@intel.com>
+In-Reply-To: <20250203080902.1864382-11-raag.jadav@intel.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 6 Feb 2025 19:46:01 +0100
-X-Gm-Features: AWEUYZk4bNNQBgH3TVFhlaeZ56ai3rTQMhsJjvQoZClT9barbrFQxRtMdamD3iI
-Message-ID: <CACRpkdbDOH4gRcJFLeqhg1Aj3BR_SC0_1Odbi4vs-Oi70rTZ9w@mail.gmail.com>
-Subject: Re: [PATCH v3 06/20] pinctrl: cherryview: use devm_kmemdup_array()
+Date: Thu, 6 Feb 2025 19:46:27 +0100
+X-Gm-Features: AWEUYZmP4B2GJCmX-AuJOGL0VPK6_mEkpxI9o4n-GutRcEqg2kbz1wZ69XnDlBM
+Message-ID: <CACRpkdbKzZ2WWEOE=ustPhL9GjmN3tkoAsgThW3ei7Gjstbp4A@mail.gmail.com>
+Subject: Re: [PATCH v3 10/20] input: ipaq-micro-keys: use devm_kmemdup_array()
 To: Raag Jadav <raag.jadav@intel.com>
 Cc: gregkh@linuxfoundation.org, rafael@kernel.org, 
 	mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com, 
