@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EFE1DE2C7
-	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 20:44:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4681D90AE
+	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 20:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738874673; cv=none; b=nwOt/xOvlZ4lljeMc/KJ+Y6EYZR91krVtSY9LaEDZ7aEq2i5e0Pk6Lw5vwBYLvo7jmi0zhuUU/5aHggowVkyndY/A4Ix/IQ4ilZiXQtoyn8QFlDJvXULKGdIDbfe3eGm8nJgXyJQwModE81Ds8NLK+2m+y0QsqnWox0BtRQIB0E=
+	t=1738874674; cv=none; b=OjXt3yV53/pQ8DE1CnREl2Lvbu7sCL0seIJOxwi3dbtD8/Cpj3QulRbwbJxM/QflfmxfWZ69WJNYaNcRQfWuEIxfgDua41hO9sg+VRtYfGXRK/0+k+BUdlnsSu7GTc6Gnrx+Uii3cLQXLovcvECKjBiRbdbIQBTpdXXIfB7fwuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738874673; c=relaxed/simple;
-	bh=Mq/aRjSJ0H3bW9Za8N98WT0U1d0sHRyfta5GAMn/uq0=;
+	s=arc-20240116; t=1738874674; c=relaxed/simple;
+	bh=sD12dEnulH3l12ifTGe4L+f6NE+0zlvZeFB0iyKCs4Y=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QL6VRSV3kPsvdT0WlMB+lwnSPErpCRvZIFThxlOaCETsNJuQ4RMN1o8ckMK0nmwQiWfisj/MbwFesSMJ4vndLAKt/iziVziJkAxi+Rty1I8UqzEFEv2V2/sSypQtENCGn3fV/josB/1w2/+Di5LoHL/IWFURlstQB68i/DydWSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=csTSR7IH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=s4zDvSRmHupwrpqE70w6MQQdFz1IBJ0SFajUE5XDIyyfXt/8YCduIvt8pUTA+5lhmeRrIhSf5SRQFiQR/pcwLPiSREHyGgQc2IrQa1qOeHs34c3r5bUNi2O9EuF0XwhUSJ/cgsVYHc+6cYaCFpzVhc8gGPxjugzDe8D6JLZxkdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t/NCj6UO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="csTSR7IH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E69AAC4CEDD;
-	Thu,  6 Feb 2025 20:44:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t/NCj6UO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC7DC4CEE2;
+	Thu,  6 Feb 2025 20:44:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738874671;
-	bh=Mq/aRjSJ0H3bW9Za8N98WT0U1d0sHRyfta5GAMn/uq0=;
+	s=k20201202; t=1738874673;
+	bh=sD12dEnulH3l12ifTGe4L+f6NE+0zlvZeFB0iyKCs4Y=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=csTSR7IHb3Da4ZvqbuXYSjNK2Sm+C9OTV+6pk5n5U6NZXe4wITHQr7HZPAsb96iBG
-	 uqiungjL9sYJVFdio9ybY14nLTT4edxgZ2LTsM33xjMCBkE2Ktg10YHOJh82c13e7m
-	 IPbGrhSrKA7QwixMVu5EDScRUSS1YY4d6xYkCdrBwB3VEr83MQnk3gBWC56iZLWtH0
-	 O+g5VqhH5CuRS8XmlkchKQ+s9OvgcLK8WRy15IFNHPdZ5GOkTZkomzkqnkUNCmgxYf
-	 0WZc+u7QWm52d/gbecqozIaXnb6B/LgjsahSVRapaE0EW7+bBK+gPX9VJ1hw1NmMg0
-	 k+Rj4yy0rDMow==
+	b=t/NCj6UOcLrUoP7Xk7y2TFjnNAnPOOMsn38U7qo71/pOAQh1oNqV/QMD6rmeFQ9VS
+	 MnuLn8VD/mYXxScRFexGILTlGtIFx3Jea2xtaUE8cikuTsLylKrnOYxyzRMMUqhqoU
+	 nJtrEZB2Z6LjhqYyvN9xwzbN24AIgGvV36yaQW8fMbVdD/oRZaWpk7sQWCXsh3xTPJ
+	 LklvhedxSI2MIH8LnCtS9x5RlWNTcW8dINw4Fs8GLehhcE3uSmt5mzcuAXEdXeAV4u
+	 aL6xjMR10ZbVre9nTDCK9KxAF1gQNM176Qk1sCVtyCk6nuteS/uTlQ/yk8Ttaf89s5
+	 xWXWG17WfmSKw==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
  ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev
-In-Reply-To: <20250206094914.21135-1-peter.ujfalusi@linux.intel.com>
-References: <20250206094914.21135-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: ipc4-pcm: Move out be_rate initialization
- from for loop in fixup
-Message-Id: <173887466965.363675.9146645364141744796.b4-ty@kernel.org>
-Date: Thu, 06 Feb 2025 20:44:29 +0000
+ pierre-louis.bossart@linux.dev, guennadi.liakhovetski@linux.intel.com
+In-Reply-To: <20250206085237.19214-1-peter.ujfalusi@linux.intel.com>
+References: <20250206085237.19214-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc4: Add support for split firmware
+ releases
+Message-Id: <173887467160.363675.11878079288379134321.b4-ty@kernel.org>
+Date: Thu, 06 Feb 2025 20:44:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,13 +47,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Thu, 06 Feb 2025 11:49:14 +0200, Peter Ujfalusi wrote:
-> Instead of initializing the be_rate within the loop by checking i == 0 at
-> each iteration, move the be_rate reference initialization from the loop.
-> For BE single rate check we will have single comparison done at each
-> iteration compared to two in case the num_input_formats were higher than 1.
+On Thu, 06 Feb 2025 10:52:37 +0200, Peter Ujfalusi wrote:
+> A split SOF release consists of a base firmware and two libraries:
+> <fw_filename>-openmodules.ri for processing (audio) modules
+> <fw_filename>-debug.ri for debug and developer modules
 > 
-> We still need to run the loop from index 0 to check for FE-BE rate match.
+> To handle this new release model add infrastructure to try to load the two
+> library after boot optionally.
 > 
 > [...]
 
@@ -63,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: ipc4-pcm: Move out be_rate initialization from for loop in fixup
-      commit: 5ea46b4360791345bd0bf4c7bf8fff5151374ea1
+[1/1] ASoC: SOF: ipc4: Add support for split firmware releases
+      commit: 4c7518062d638837cea915e0ffe30f846780639a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
