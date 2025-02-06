@@ -1,91 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E995916DEA9;
-	Thu,  6 Feb 2025 17:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5588F19ADB0;
+	Thu,  6 Feb 2025 18:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738863026; cv=none; b=Rx4mLuiB1j19BP9P0LTHdLlsE79gFrhWVBSfW37HB3FGHZzYwMvbG/WdgdCkEthxqqk3VhQ0sWrvteL97bxjSCPZUm9Zv7kZQfp12NNjT7mp7U/uW3nOWBTHevbasJrvEOp07A5Yz+K+f6943btZzRQ5bV7UrOswi4B80zzMxVg=
+	t=1738865477; cv=none; b=mMgRQkcF7JCzQkH9l0LNvUelrstLuYPiI4pqQxd2KvvdqFmputyHA6YCGFV8hnUWJH/mTdXl/x1A1mcbl6h52s0QI76vvr98T8oFt0kbXf+ovQleBLv6VUkmSOKKeyc3qNSjpjg7xS2OnayRcjiS/sB5ZXus3Cm2JX9eerdtztE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738863026; c=relaxed/simple;
-	bh=HqCjcQyLCccFtXHBmscOjjFPNZ77+uvrORcQ76hCDTs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MuAZcAWH6TmmZzY0p0TFkc3m3P8PbvmfBerDSBUUu7Cs3MGBHWeaePJB/DR173Cq7dyKNG4jKFxzLJOZkEAJXyIv1Icc4jn7LL7s6ZVTUZ7obE+6vTHuOcc2IINKYikNG7Atc28ZujJC/c3pmv/NR566R/ukhi3kzB+B/3Pdaqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOkHOJVH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738865477; c=relaxed/simple;
+	bh=9vRyEHJHFpcr3sE+aLJw6NFhHWVoNdgXB+W5Pdi5tVE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jO19+uzlmN5qIlKyIr45LGf35tIL4WVanv2pyQrXxkV7ChX3FiA8mUicQXk8QCVX00DNm6jMOYbhT3xFYcPwb8t9ykhrdVdHy4GeXY/4brFFoXcycGMYPlukybCyjn7ClVcku+VtNS1jQd/9Pfo8uJJ17HACQ6HRyGnb7f156jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aXtKdv84; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOkHOJVH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C123FC4CEDD;
-	Thu,  6 Feb 2025 17:30:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738863025;
-	bh=HqCjcQyLCccFtXHBmscOjjFPNZ77+uvrORcQ76hCDTs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jOkHOJVH0zzTiQaU2U1YLoPjmuXVRVpgOrfvko6wc4a0o80zJuh2gVBw4MosAF4EU
-	 eBeQkdGB93yn+sXTeaWp5e8wW0ghbim73yDdrFTX2ZiB3i9GlgFmLeIYl1dkeNEgtZ
-	 ae0aLrM0D3AF2WiAQK71PSLg/HD6/fM9luVNbsHmQJhYlGVAXXAZHp3hz0gAP+bAhL
-	 8f4p6lnF41o2GowtCFKu8gq0dlTvD6RlX5g5QCUGXzvB8ODUHWr51wUu9ehCSSKSaz
-	 7P7fWqIKdMjyqk3SD+gEqjkBMx755K0uLQ7GLSx0pa9T+IyQJaSPiREWshLUrFy6rK
-	 uAP1rgI0SQFsA==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, stable@vger.kernel.org, 
- cujomalainey@chromium.org, daniel.baluta@nxp.com
-In-Reply-To: <20250205135232.19762-1-peter.ujfalusi@linux.intel.com>
-References: <20250205135232.19762-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH v2 0/2] ASoC: SOF: Correct sps->stream and cstream
- nullity management
-Message-Id: <173886302350.325569.18363906987699150271.b4-ty@kernel.org>
-Date: Thu, 06 Feb 2025 17:30:23 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aXtKdv84"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738865477; x=1770401477;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9vRyEHJHFpcr3sE+aLJw6NFhHWVoNdgXB+W5Pdi5tVE=;
+  b=aXtKdv84E5An8lvTcMTlolTkvUGZz1pGk/JfPjDftDK7m/372GRBy8dl
+   fLOnH+XNWQwY8nvMZhAvKSJzqiaoX74HHlXHeLqs1lrzVqTVYbU+HgZGX
+   eHEH0pVVqJV+z3xLgSPHdWgm9Daq7Cf3j+71NKpNH/2ttmu4cGzIc5FU/
+   2xzGDN0QMs2mmatfyR3MF3/jyflSfGZ0kYU4MqL8xSly7nMScFgMSquet
+   SCHeEcjbOycic0iFYZGmqi6+hWU95QStxEoy+BRFlaSdsdfteYZJx/W8U
+   aaGTSY8IAqoderZ6fS5SW5TB4Acw5zqFEw//+rfryUpCHqWiCSO1ADEHo
+   A==;
+X-CSE-ConnectionGUID: VUoSYIK9S9+oEzOwHb9GYA==
+X-CSE-MsgGUID: /347yr5JSFWMQyueWESMRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="56904265"
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
+   d="scan'208";a="56904265"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 10:11:16 -0800
+X-CSE-ConnectionGUID: Ju8QnR+iS3iwXTl/7oVP/A==
+X-CSE-MsgGUID: izyH6iwjThCvY8M+hQh3Gw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
+   d="scan'208";a="111118158"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 10:11:11 -0800
+Date: Thu, 6 Feb 2025 20:11:08 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
+	rafael@kernel.org, linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
+	jic23@kernel.org, przemyslaw.kitszel@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
+ device/devres.h
+Message-ID: <Z6T7PE2Qpw4VbQyn@black.fi.intel.com>
+References: <20250203080902.1864382-2-raag.jadav@intel.com>
+ <202502060025.XJwUub6I-lkp@intel.com>
+ <Z6RS-A2FFjYuPoyn@black.fi.intel.com>
+ <Z6TRcWCKe__oxCUV@smile.fi.intel.com>
+ <Z6TRveCRK7LFwSNV@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z6TRveCRK7LFwSNV@smile.fi.intel.com>
 
-On Wed, 05 Feb 2025 15:52:30 +0200, Peter Ujfalusi wrote:
-> Changes since v1:
-> - fix the SHA of the Fixes tag
+On Thu, Feb 06, 2025 at 05:14:05PM +0200, Andy Shevchenko wrote:
+> On Thu, Feb 06, 2025 at 05:12:49PM +0200, Andy Shevchenko wrote:
+> > On Thu, Feb 06, 2025 at 08:13:12AM +0200, Raag Jadav wrote:
+> > > On Thu, Feb 06, 2025 at 12:27:03AM +0800, kernel test robot wrote:
 > 
-> The Nullity of sps->cstream needs to be checked in sof_ipc_msg_data() and not
-> assume that it is not NULL.
-> The sps->stream must be cleared to NULL on close since this is used as a check
-> to see if we have active PCM stream.
+> ...
 > 
-> [...]
+> > > >    102	
+> > > >    103	static inline
+> > > >    104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
+> > > >    105	{
+> > > >  > 106		return ERR_PTR(-EINVAL);
+> > > >    107	}
+> > > >    108	
+> > > 
+> > > Andy, are we expecting this?
+> > 
+> > Oh, no, it's sparse error, but easy to fix. Need to have
+> > 
+> > 		return IOMEM_ERR_PTR(-EINVAL);
+> 
+> But isn't it the original issue? I mean that it was already before this series.
 
-Applied to
+For all this time?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> If so, perhaps you can fix all sparse errors like this in the devres* code.
 
-Thanks!
+With a fixes tag?
 
-[1/2] ASoC: SOF: stream-ipc: Check for cstream nullity in sof_ipc_msg_data()
-      commit: d8d99c3b5c485f339864aeaa29f76269cc0ea975
-[2/2] ASoC: SOF: pcm: Clear the susbstream pointer to NULL on close
-      commit: 46c7b901e2a03536df5a3cb40b3b26e2be505df6
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Raag
