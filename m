@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D2418E37D
-	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 17:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E995916DEA9;
+	Thu,  6 Feb 2025 17:30:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738863023; cv=none; b=LDRO82uY2Smm1P651XyxCtTjhlPcVXtNY0BUbIPkmkgMmKKFNgaEFvxstUqzFiYtk/47SX7wswO9Doh70fhzwYPjumLDBH0xubPfjjI+hikaAZyU0Evy7Vi18e+k3E+edpN5MU2vzmYh3X9yWOEM9pjDK6vAu7MY8GXvpF25PUA=
+	t=1738863026; cv=none; b=Rx4mLuiB1j19BP9P0LTHdLlsE79gFrhWVBSfW37HB3FGHZzYwMvbG/WdgdCkEthxqqk3VhQ0sWrvteL97bxjSCPZUm9Zv7kZQfp12NNjT7mp7U/uW3nOWBTHevbasJrvEOp07A5Yz+K+f6943btZzRQ5bV7UrOswi4B80zzMxVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738863023; c=relaxed/simple;
-	bh=sRbKgCvj/m8u/8xSZPOatGpZeMSLBvJbKDCWAkpqg/I=;
+	s=arc-20240116; t=1738863026; c=relaxed/simple;
+	bh=HqCjcQyLCccFtXHBmscOjjFPNZ77+uvrORcQ76hCDTs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Mjobxrz2tA5pR+y778iW9yqC94OvFP79oGRflp7mwxgJ/gbLOv2WD25zRNb4EEC+X2uJwdCh/PW4/8nqnb/A9N3WK3IvUNjgjJkoQ10q/7zb5NvieMC/+GU559M0n6t6YDgkaX+UzgHKfXIK3RkwCF+3S+6bJk9vMgZLyO9KSoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fv0EDeS+; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=MuAZcAWH6TmmZzY0p0TFkc3m3P8PbvmfBerDSBUUu7Cs3MGBHWeaePJB/DR173Cq7dyKNG4jKFxzLJOZkEAJXyIv1Icc4jn7LL7s6ZVTUZ7obE+6vTHuOcc2IINKYikNG7Atc28ZujJC/c3pmv/NR566R/ukhi3kzB+B/3Pdaqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOkHOJVH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fv0EDeS+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89E2FC4CEDD;
-	Thu,  6 Feb 2025 17:30:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOkHOJVH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C123FC4CEDD;
+	Thu,  6 Feb 2025 17:30:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738863023;
-	bh=sRbKgCvj/m8u/8xSZPOatGpZeMSLBvJbKDCWAkpqg/I=;
+	s=k20201202; t=1738863025;
+	bh=HqCjcQyLCccFtXHBmscOjjFPNZ77+uvrORcQ76hCDTs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Fv0EDeS+bEJi5Wqz+4v2Aus+iyE4wEyiR+HRhc8f7NlD0z8WoUmXaJyB+EiM/w8jB
-	 AzWX6OZXGozbSYyvJjJCXguBZA8r6p3oDNkn+QZthYW0gcWcHtADOv0EJu2UDVA90C
-	 IPebvfxxQ4klYvcM6uvi6+700i3o6Vf1XDv2828gJRD33clyfTWsFK7fJNKxSr7ykG
-	 rH/2WqdcgGjrVHleusOfO347xz1EIz94f72wPLY3pZuZVa1bFBjlv2dFIUniaOiH5j
-	 h7YD6fKZAXz6U85EcvLt4BBMPkRcFWVeJqtZDzrVvyGeITOctbONW6v54Z1EW/wavp
-	 0MknGu9Mbh3wQ==
+	b=jOkHOJVH0zzTiQaU2U1YLoPjmuXVRVpgOrfvko6wc4a0o80zJuh2gVBw4MosAF4EU
+	 eBeQkdGB93yn+sXTeaWp5e8wW0ghbim73yDdrFTX2ZiB3i9GlgFmLeIYl1dkeNEgtZ
+	 ae0aLrM0D3AF2WiAQK71PSLg/HD6/fM9luVNbsHmQJhYlGVAXXAZHp3hz0gAP+bAhL
+	 8f4p6lnF41o2GowtCFKu8gq0dlTvD6RlX5g5QCUGXzvB8ODUHWr51wUu9ehCSSKSaz
+	 7P7fWqIKdMjyqk3SD+gEqjkBMx755K0uLQ7GLSx0pa9T+IyQJaSPiREWshLUrFy6rK
+	 uAP1rgI0SQFsA==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <875xlp2qf4.wl-kuninori.morimoto.gx@renesas.com>
-References: <875xlp2qf4.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2 0/3] ASoC: rsnd: adjust convert rate in 1%
-Message-Id: <173886302226.325569.4473858404011590142.b4-ty@kernel.org>
-Date: Thu, 06 Feb 2025 17:30:22 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, stable@vger.kernel.org, 
+ cujomalainey@chromium.org, daniel.baluta@nxp.com
+In-Reply-To: <20250205135232.19762-1-peter.ujfalusi@linux.intel.com>
+References: <20250205135232.19762-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH v2 0/2] ASoC: SOF: Correct sps->stream and cstream
+ nullity management
+Message-Id: <173886302350.325569.18363906987699150271.b4-ty@kernel.org>
+Date: Thu, 06 Feb 2025 17:30:23 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,13 +48,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Wed, 05 Feb 2025 00:20:16 +0000, Kuninori Morimoto wrote:
-> Cc Shimoda-san
+On Wed, 05 Feb 2025 15:52:30 +0200, Peter Ujfalusi wrote:
+> Changes since v1:
+> - fix the SHA of the Fixes tag
 > 
-> Renesas Synchronous SRC Mode has HW limitation to be used in 1% rate
-> difference, but driver didn't care it. This patch-set adjust to it.
-> 
-> Link: https://lore.kernel.org/r/87o6zi32ry.wl-kuninori.morimoto.gx@renesas.com
+> The Nullity of sps->cstream needs to be checked in sof_ipc_msg_data() and not
+> assume that it is not NULL.
+> The sps->stream must be cleared to NULL on close since this is used as a check
+> to see if we have active PCM stream.
 > 
 > [...]
 
@@ -61,12 +65,10 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: rsnd: indicate unsupported clock rate
-      commit: 796106e29e5df6cd4b4e2b51262a8a19e9fa0625
-[2/3] ASoC: rsnd: don't indicate warning on rsnd_kctrl_accept_runtime()
-      commit: c3fc002b206c6c83d1e3702b979733002ba6fb2c
-[3/3] ASoC: rsnd: adjust convert rate limitation
-      commit: 89f9cf185885d4358aa92b48e51d0f09b71775aa
+[1/2] ASoC: SOF: stream-ipc: Check for cstream nullity in sof_ipc_msg_data()
+      commit: d8d99c3b5c485f339864aeaa29f76269cc0ea975
+[2/2] ASoC: SOF: pcm: Clear the susbstream pointer to NULL on close
+      commit: 46c7b901e2a03536df5a3cb40b3b26e2be505df6
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
