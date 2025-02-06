@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E473D1DD525;
-	Thu,  6 Feb 2025 20:44:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EFE1DE2C7
+	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 20:44:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738874670; cv=none; b=Nc3P0A/ftsgAQHJ3V35Q6xf+gPUl2wiNnl4mg/GKnFPAkiWhuanqhdbndfa6A+UIao+inPpVCEWAJNBHrjoCfuvh2MBMLYAwcAq9yWLwI503yEkQUPMEEAkX1Eikav9HiYTqjJY1/0yjN78zSvoH0cagdoNFSJs12e/yaX0d74M=
+	t=1738874673; cv=none; b=nwOt/xOvlZ4lljeMc/KJ+Y6EYZR91krVtSY9LaEDZ7aEq2i5e0Pk6Lw5vwBYLvo7jmi0zhuUU/5aHggowVkyndY/A4Ix/IQ4ilZiXQtoyn8QFlDJvXULKGdIDbfe3eGm8nJgXyJQwModE81Ds8NLK+2m+y0QsqnWox0BtRQIB0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738874670; c=relaxed/simple;
-	bh=9/BjKNQob0i051RM/NhQMZ81uuXQpF8V4Svk75CNUxE=;
+	s=arc-20240116; t=1738874673; c=relaxed/simple;
+	bh=Mq/aRjSJ0H3bW9Za8N98WT0U1d0sHRyfta5GAMn/uq0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YPEGnv8zJmAQ1b4YqDmksKl5NjFJ2q6REX3cHIQi6t7bqSEW4vQ18gJGwWvIqD6XaSJdyO3zgoimkMeUUU5TCo4zL0kR4p4uGvxLXgPHIxd1eV47bzDmF2v8mpq3ufFINOzyAFKa9AEYmpIlH+g823QQxVtX01yNsJCKadc1jv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V92vmPtV; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=QL6VRSV3kPsvdT0WlMB+lwnSPErpCRvZIFThxlOaCETsNJuQ4RMN1o8ckMK0nmwQiWfisj/MbwFesSMJ4vndLAKt/iziVziJkAxi+Rty1I8UqzEFEv2V2/sSypQtENCGn3fV/josB/1w2/+Di5LoHL/IWFURlstQB68i/DydWSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=csTSR7IH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V92vmPtV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5B5C4CEE0;
-	Thu,  6 Feb 2025 20:44:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="csTSR7IH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E69AAC4CEDD;
+	Thu,  6 Feb 2025 20:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738874669;
-	bh=9/BjKNQob0i051RM/NhQMZ81uuXQpF8V4Svk75CNUxE=;
+	s=k20201202; t=1738874671;
+	bh=Mq/aRjSJ0H3bW9Za8N98WT0U1d0sHRyfta5GAMn/uq0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=V92vmPtVRFQDUNgC/2CB3B5aNiqQ/uwZ+2HiTCPPKGhdD/Gka+ugVTzH6ApFL7tKi
-	 FMygLKo+/lDxVRzNq73b28yqoWtdtQqVfh83kKGzWHFIITc3O0+V1ruziz0TuHPvNe
-	 Mne1f+t572YR8wY4j26aJxOafNJR6r4Hdm9q+vUt/TjrjjVj82lQmeH9L6Cd52h7z0
-	 ywKRBBSoElKgfa8P6hb/h6su+5vCshSpycLdA9jEvmW9pyzgn0e4YWWTBYTgTJp+pf
-	 DCDkCiFjnajSQKPxpSRzIFAuhAsCdg/yYdraWknlc8hHgUFWrzW2LE3OBWqcWCnhwt
-	 aSQCXLvtoW9qQ==
+	b=csTSR7IHb3Da4ZvqbuXYSjNK2Sm+C9OTV+6pk5n5U6NZXe4wITHQr7HZPAsb96iBG
+	 uqiungjL9sYJVFdio9ybY14nLTT4edxgZ2LTsM33xjMCBkE2Ktg10YHOJh82c13e7m
+	 IPbGrhSrKA7QwixMVu5EDScRUSS1YY4d6xYkCdrBwB3VEr83MQnk3gBWC56iZLWtH0
+	 O+g5VqhH5CuRS8XmlkchKQ+s9OvgcLK8WRy15IFNHPdZ5GOkTZkomzkqnkUNCmgxYf
+	 0WZc+u7QWm52d/gbecqozIaXnb6B/LgjsahSVRapaE0EW7+bBK+gPX9VJ1hw1NmMg0
+	 k+Rj4yy0rDMow==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
- Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20250205165337.3466336-1-masahiroy@kernel.org>
-References: <20250205165337.3466336-1-masahiroy@kernel.org>
-Subject: Re: [PATCH] ASoC: dapm: unexport snd_soc_dapm_update_dai()
-Message-Id: <173887466782.363675.10680624737445148918.b4-ty@kernel.org>
-Date: Thu, 06 Feb 2025 20:44:27 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev
+In-Reply-To: <20250206094914.21135-1-peter.ujfalusi@linux.intel.com>
+References: <20250206094914.21135-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc4-pcm: Move out be_rate initialization
+ from for loop in fixup
+Message-Id: <173887466965.363675.9146645364141744796.b4-ty@kernel.org>
+Date: Thu, 06 Feb 2025 20:44:29 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,13 +47,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Thu, 06 Feb 2025 01:53:34 +0900, Masahiro Yamada wrote:
-> The symbol provider (sound/soc/soc-dapm.c) and the symbol consumer
-> (sound/soc/soc-pcm.c) belong to the same module, snd-soc-core.ko.
+On Thu, 06 Feb 2025 11:49:14 +0200, Peter Ujfalusi wrote:
+> Instead of initializing the be_rate within the loop by checking i == 0 at
+> each iteration, move the be_rate reference initialization from the loop.
+> For BE single rate check we will have single comparison done at each
+> iteration compared to two in case the num_input_formats were higher than 1.
 > 
-> There is no need to export it.
+> We still need to run the loop from index 0 to check for FE-BE rate match.
 > 
-> 
+> [...]
 
 Applied to
 
@@ -60,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dapm: unexport snd_soc_dapm_update_dai()
-      commit: 3f78762d17701f0435ad958b2821dc3243ff34b3
+[1/1] ASoC: SOF: ipc4-pcm: Move out be_rate initialization from for loop in fixup
+      commit: 5ea46b4360791345bd0bf4c7bf8fff5151374ea1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
