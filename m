@@ -1,73 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FF71A23AA;
-	Thu,  6 Feb 2025 18:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A004199254;
+	Thu,  6 Feb 2025 18:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738868184; cv=none; b=Ag+UVvJzcN6pU19j0RyX3j6IzA79fo1CyGuuFD0xOcu8/QxGZkcAFWry1/9/i8DLvzCEQeoDCOBlNaJb1lH+/MbjWcdbW4aslY2LDa8pnzRq2WD8Vu3f4BX2tTYyyXWczfxGgIHQGmZzBrBLg3UOg5KS6LhUyKizCJQUMXi92CA=
+	t=1738868400; cv=none; b=pj/W8k/hzDOxEJ0ZJRQHQFpVwA+FZ7lMtcToT4e8g02YtX65C09Qw1yW6SOYi31r/efLsnHUY7ArFFNd2ZKdAq7nu1go+bhxMJpIBKAshFFapjQQJsASh9TWFzDYA/Syf8VoQEXsrsM77JdEUSGs5UpwhWLTf5bZyms+PRIbLVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738868184; c=relaxed/simple;
-	bh=OVIX+I9s2Gn9nEIsO4OMzsbU9FZlTuUnVtikqRD0/u4=;
+	s=arc-20240116; t=1738868400; c=relaxed/simple;
+	bh=U80uPoVatSGO12LJOZejJ9GnJquSX3z3HrNvtBlX0mI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lYBNmh7v5AeZPVAg1RnGEaaH31NTwn/03PDdo0SKuJ0Y/rs1wUESt5XEOarQNV7974XkDyBoTDaZNiMLBsr1xBKqNBVkBceGlhX9zaZKNZTkGSsbLps6Lssjnv8+bxxNaUT2grfhjM9WtfXOdl07d08QANE4mB40jq6vyYHOsQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UPsD/Kxl; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=ppd4o9iTCIXPxTSQalt/HUdZbI+NYa7+u86WpHZzigMumrOGdzfcglE9ztlEWl2qlQc8Ov6eg0crP/PmOPJikh7RUwy7e643F2o4k+0wC/zS7fKUxmgD1c0LQ2B2QJRQs8p3tkA2MoH+a+A219VxgSatxP1+WhwGaQSjDVUaWMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T4XtEqQc; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UPsD/Kxl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T4XtEqQc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738868182; x=1770404182;
+  t=1738868400; x=1770404400;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OVIX+I9s2Gn9nEIsO4OMzsbU9FZlTuUnVtikqRD0/u4=;
-  b=UPsD/Kxl43vN204WBOHSeoi603l3aRjWNRmtYmFiAbb/JUoHg7zi0XoL
-   qTwlRrag3kZBFuXLvgtbD5p9J4zzDAhb+NPPMR26gDsFdiJgwgwpG3/CM
-   HYJp1JmyL+EtmVfrP5/N0AiCouK918u8UdOWCkTNshof9icQ/THn3EEM0
-   bTq/rBJyhlUHjp9eU/J38n+L4rQz6km1s9MKfodCMRRfB7+083nYKiv0T
-   20JRFwkrlvsAdQbgPrlk1NFdlYiGFGAdzuV2D3euqIzXMeWyoTylVen63
-   p0d5reNY+mto9a+f1WF4dA8O5ZrvDh2nS2bmPrYCu5bZdCWadfPdCrL0X
-   Q==;
-X-CSE-ConnectionGUID: d8v/J7RwREmUep9EhE62ng==
-X-CSE-MsgGUID: pBx36a8XQG6hMA03JWFE7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50129494"
+  bh=U80uPoVatSGO12LJOZejJ9GnJquSX3z3HrNvtBlX0mI=;
+  b=T4XtEqQcv8e/Wp5iOaj3Pe+gKVTsuoGQ7yzl9S6OrGhwPHv67AzzuwAK
+   GtezpzhAnYM0MYH01EnC2RjhPZ/QLuy8iQ1swxO8IQexsQwTb5qNBJ4KL
+   7LBmwHZoLrMQnXXSgjOCIngWiaEt16wpNs7BlMgE+if5w3LaRK5Mo7ucX
+   LVlBzdwrPG+ErN5RcP6v47I6aUIVn7W0lE2/O5sYlgsCKcdHm4b8fn0I6
+   ZTWrGl2t78E7AluVggtooQp21gaD16GVo0QBrAT5m8EYjSm/uZcsQ+a4L
+   Z63feZ79iSnPeEKGsMhugqmb97HTVhaxKFU0eys0cLXODN+KAC3yHbW9Z
+   g==;
+X-CSE-ConnectionGUID: Ksnpwx2tQ++fx6paZ29vxg==
+X-CSE-MsgGUID: ovUzrlwKQ6GMQg7E2neL+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39623815"
 X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="50129494"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 10:56:21 -0800
-X-CSE-ConnectionGUID: 76E51o4ORZKr0zRu6nVOxA==
-X-CSE-MsgGUID: sJ1vyTjsTNGLJLvZagFQzg==
+   d="scan'208";a="39623815"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 10:59:59 -0800
+X-CSE-ConnectionGUID: jva7puyaRfabh5hDMxqEug==
+X-CSE-MsgGUID: fyOtZBuiQCO1CX1oOIVK4w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="116235177"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115914634"
 Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 10:56:16 -0800
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 10:59:56 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tg72q-00000008oyh-2O83;
-	Thu, 06 Feb 2025 20:56:12 +0200
-Date: Thu, 6 Feb 2025 20:56:12 +0200
+	id 1tg76P-00000008p2a-2u3M;
+	Thu, 06 Feb 2025 20:59:53 +0200
+Date: Thu, 6 Feb 2025 20:59:53 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
-	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
-	jic23@kernel.org, przemyslaw.kitszel@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <Z6UFzP7M4ng_17s_@smile.fi.intel.com>
-References: <20250203080902.1864382-2-raag.jadav@intel.com>
- <202502060025.XJwUub6I-lkp@intel.com>
- <Z6RS-A2FFjYuPoyn@black.fi.intel.com>
- <Z6TRcWCKe__oxCUV@smile.fi.intel.com>
- <Z6TRveCRK7LFwSNV@smile.fi.intel.com>
- <Z6T7PE2Qpw4VbQyn@black.fi.intel.com>
+To: Mark Brown <broonie@kernel.org>, Shenghao Ding <shenghao-ding@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Kevin Lu <kevin-lu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v1 1/1] ASoC: tas2781: Switch to use %ptTs
+Message-ID: <Z6UGqf_YOtvrHxW8@smile.fi.intel.com>
+References: <20250206162339.1127836-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,43 +65,22 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z6T7PE2Qpw4VbQyn@black.fi.intel.com>
+In-Reply-To: <20250206162339.1127836-1-andriy.shevchenko@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Feb 06, 2025 at 08:11:08PM +0200, Raag Jadav wrote:
-> On Thu, Feb 06, 2025 at 05:14:05PM +0200, Andy Shevchenko wrote:
-> > On Thu, Feb 06, 2025 at 05:12:49PM +0200, Andy Shevchenko wrote:
-> > > On Thu, Feb 06, 2025 at 08:13:12AM +0200, Raag Jadav wrote:
-> > > > On Thu, Feb 06, 2025 at 12:27:03AM +0800, kernel test robot wrote:
+On Thu, Feb 06, 2025 at 06:23:39PM +0200, Andy Shevchenko wrote:
+> Use %ptTs instead of open-coded variant to print contents of time64_t type
+> in human readable form.
 
 ...
 
-> > > > >    102	
-> > > > >    103	static inline
-> > > > >    104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
-> > > > >    105	{
-> > > > >  > 106		return ERR_PTR(-EINVAL);
-> > > > >    107	}
-> > > > >    108	
-> > > > 
-> > > > Andy, are we expecting this?
-> > > 
-> > > Oh, no, it's sparse error, but easy to fix. Need to have
-> > > 
-> > > 		return IOMEM_ERR_PTR(-EINVAL);
-> > 
-> > But isn't it the original issue? I mean that it was already before this series.
-> 
-> For all this time?
+> -		time64_to_tm(tmp_val[20], 0, tm);
+> -		dev_dbg(tas_priv->dev, "%4ld-%2d-%2d, %2d:%2d:%2d\n",
+> -			tm->tm_year, tm->tm_mon, tm->tm_mday,
+> -			tm->tm_hour, tm->tm_min, tm->tm_sec);
+> +		dev_dbg(tas_priv->dev, "%ptTsr\n", tmp_val[20]);
 
-Yep. 0-day bot doesn't complain on pre-existed issues, but in case one touches
-the line it becomes a new issue from its point of view.
-
-> > If so, perhaps you can fix all sparse errors like this in the devres* code.
-> 
-> With a fixes tag?
-
-Maybe.
+Urgh, this should be a pointer, I will update this soon.
 
 -- 
 With Best Regards,
