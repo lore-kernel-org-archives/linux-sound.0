@@ -1,174 +1,87 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71B322ACF2;
-	Thu,  6 Feb 2025 11:28:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574B3214203
+	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 11:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738841316; cv=none; b=Utj9Qx8uHL8CCcU9/D0FTNtWxahrVi60g/hKz1yxAtbSbUPXB15v+AxWgpaSKlB5i3xsLU1t/nUpqCOk+Hv8AqpZoW2NcXWGSsrAUXJRreGOIhFKbSav17bjEtAbXnToUU4nF/KIpT1kzCPSpLCWpxBhDRgSxHPNJgXxkTag5Nc=
+	t=1738841546; cv=none; b=JNTnkR/k3m+pFMl6NlufpbLSUbuEVceUFSTkJibLm50TUQ2OfIpngCEvmzpSEORuJ4rX6da307CQ+61SVNijKSUTrvI4jyJRV3JUqaqC0upl8bjknB4QmHsnsleetp+tcoRIYDE2G1LU8xW88RFuW+A/ROfk/u0mB2pATF1ZgAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738841316; c=relaxed/simple;
-	bh=bQno1xEKT067vGnwKFhWLIpLFTAbqDNiHrwCUnneeEU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qP/M7BAweofgtMYP87Ot0Mg8u80d74d6JyliTLdE+R0lGOgt4JFYze3aKZlAfvP4z9pWZcITnEdY/SdmToIisyYbWqdN4fZSq9xSC2AWI3RGybnoYUvKUOZaG3WgJgrlb1sSzTZYMcb2z+PeIc/ErEaqs58zUI+vmwn+13L00cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ku/eM1RK; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1738841546; c=relaxed/simple;
+	bh=RnKqrxImM9oJTuaZ/bFfdYLcCGE/L/Ff4k5RENtwKHw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GFkmEsAN08rrV2E29KOhKmxz98ChbwK1vQuyX2znUg7kAuv+MRWHlq3gQPk39lcref609MmqqOlu4Tl8yVP8EkPxVsC+8/CE9cNiDYDYIgWIGsypCzm7VJDd3slkt4nTpmp4ENcVLDksnIEXLOFs24YEmQlIkrBG+MQOAF2LYp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IeKLDrb1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ku/eM1RK"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 516AEmqK022371;
-	Thu, 6 Feb 2025 11:28:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dp1a0XO8qhJhnpjGP+DDMuaAcnBopAYQqncEHWWEO+Q=; b=ku/eM1RKEwQtS7I+
-	m2E/PBWXzs8uueRTr8q0m/CFzLVyx1ub2qH+d0U3FWw/4UtS6oq67khpqAgM1oa9
-	NZUdq9q6gc2V44sqEZ1qzvWphjBuujvHF1HAu/orP+vEhsvDNGwBLwjng/1vr75f
-	eaITldrH/yX0WkW/tP41XvqUILexDQB+8o/t8FXm0+TeDYNkWTGDAdD0whUX7Cyg
-	lOOkZMOyWD9rWDWvpSOqZjVFpv84DHGmmxGE5c7duXHD0FdlPA5IrLHPKMzuNPpq
-	RyZCat5haROGqO5asRSmg09dPCqgC9aL3gyk1HMG00PjvLmCZSfH+eZLSI0ileJ6
-	Ftmawg==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44mu5gg5gw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 06 Feb 2025 11:28:15 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 516BNAQV017708
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 6 Feb 2025 11:23:10 GMT
-Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 6 Feb 2025 03:23:05 -0800
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-        Jaroslav Kysela <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>
-CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Sanyog Kale
-	<sanyog.r.kale@intel.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_pkumpatl@quicinc.com>, <kernel@oss.qualcomm.com>,
-        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Subject: [PATCH v6 3/4] soundwire: qcom: Add set_channel_map api support
-Date: Thu, 6 Feb 2025 16:52:24 +0530
-Message-ID: <20250206112225.3270400-4-quic_mohs@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250206112225.3270400-1-quic_mohs@quicinc.com>
-References: <20250206112225.3270400-1-quic_mohs@quicinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IeKLDrb1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52FDFC4CEDD;
+	Thu,  6 Feb 2025 11:32:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738841545;
+	bh=RnKqrxImM9oJTuaZ/bFfdYLcCGE/L/Ff4k5RENtwKHw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=IeKLDrb15eZiSivn99154RfivoPc5fYYoagp6tSuEMRcOyxLMXz6ZqMC39VK+QvSR
+	 FoSO4915amnwqNoxtcK2bNWTtPp3QRrqhV/lqFqrtRTBhgBbNmPYj4uGf01gOwD24m
+	 nLu8tb/cTOJtGSvPcp80eOoDbtG+32ILpnoFpTrYorEc0r+kzZnd3J6tvzJc1x3hup
+	 ziijyTaG52kahHUTGtJ3K6K3TOnGBb3h4J/oen6zuB/1yUoyuMC3/pGD7TbAxWOpeS
+	 1z2CJ3lt0oytGm1H+1xBoH5Csp8ur+RUApCM2K8n09TIUDqu4Ui1UYpqwG/WGgEBOm
+	 bIPOJ3nPowPZw==
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87ikpq2rui.wl-kuninori.morimoto.gx@renesas.com>
+References: <87ikpq2rui.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: simple-card-utils.c: add missing dlc->of_node
+Message-Id: <173884154505.25441.2445691013259733955.b4-ty@kernel.org>
+Date: Thu, 06 Feb 2025 11:32:25 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 7TZnxNU2gFmvhi2pwW1cefNSy22r3VG8
-X-Proofpoint-GUID: 7TZnxNU2gFmvhi2pwW1cefNSy22r3VG8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-06_03,2025-02-05_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 phishscore=0 impostorscore=0 mlxlogscore=999 suspectscore=0
- mlxscore=0 bulkscore=0 adultscore=0 clxscore=1015 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502060093
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-Added qcom_swrm_set_channel_map api to set the master channel mask for
-TX and RX paths based on the provided slots.
+On Tue, 04 Feb 2025 05:37:09 +0000, Kuninori Morimoto wrote:
+> commit 90de551c1bf ("ASoC: simple-card-utils.c: enable multi Component
+> support") added muiti Component support, but was missing to add
+> dlc->of_node. Because of it, Sound device list will indicates strange
+> name if it was DPCM connection and driver supports dai->driver->dai_args,
+> like below
+> 
+> 	> aplay -l
+> 	card X: sndulcbmix [xxxx], device 0: fe.(null).rsnd-dai.0 (*) []
+> 	...                                     ^^^^^^
+> 
+> [...]
 
-Added a new field ch_mask to the qcom_swrm_port_config structure.
-This field is used to store the master channel mask, which allows more
-flexible to configure channel mask in runtime for specific active
-soundwire ports.
+Applied to
 
-Modified the qcom_swrm_port_enable function to configure master
-channel mask. If the ch_mask is set to SWR_INVALID_PARAM or is zero,
-the function will use the default channel mask.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Acked-by: Vinod Koul <vkoul@kernel.org>
----
- drivers/soundwire/qcom.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Thanks!
 
-diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-index 0f45e3404756..295a46dc2be7 100644
---- a/drivers/soundwire/qcom.c
-+++ b/drivers/soundwire/qcom.c
-@@ -156,6 +156,7 @@ struct qcom_swrm_port_config {
- 	u8 word_length;
- 	u8 blk_group_count;
- 	u8 lane_control;
-+	u8 ch_mask;
- };
- 
- /*
-@@ -1048,9 +1049,13 @@ static int qcom_swrm_port_enable(struct sdw_bus *bus,
- {
- 	u32 reg = SWRM_DP_PORT_CTRL_BANK(enable_ch->port_num, bank);
- 	struct qcom_swrm_ctrl *ctrl = to_qcom_sdw(bus);
-+	struct qcom_swrm_port_config *pcfg;
- 	u32 val;
- 
-+	pcfg = &ctrl->pconfig[enable_ch->port_num];
- 	ctrl->reg_read(ctrl, reg, &val);
-+	if (pcfg->ch_mask != SWR_INVALID_PARAM && pcfg->ch_mask != 0)
-+		enable_ch->ch_mask = pcfg->ch_mask;
- 
- 	if (enable_ch->enable)
- 		val |= (enable_ch->ch_mask << SWRM_DP_PORT_CTRL_EN_CHAN_SHFT);
-@@ -1270,6 +1275,26 @@ static void *qcom_swrm_get_sdw_stream(struct snd_soc_dai *dai, int direction)
- 	return ctrl->sruntime[dai->id];
- }
- 
-+static int qcom_swrm_set_channel_map(struct snd_soc_dai *dai,
-+				     unsigned int tx_num, const unsigned int *tx_slot,
-+				     unsigned int rx_num, const unsigned int *rx_slot)
-+{
-+	struct qcom_swrm_ctrl *ctrl = dev_get_drvdata(dai->dev);
-+	int i;
-+
-+	if (tx_slot) {
-+		for (i = 0; i < tx_num; i++)
-+			ctrl->pconfig[i].ch_mask = tx_slot[i];
-+	}
-+
-+	if (rx_slot) {
-+		for (i = 0; i < rx_num; i++)
-+			ctrl->pconfig[i].ch_mask = rx_slot[i];
-+	}
-+
-+	return 0;
-+}
-+
- static int qcom_swrm_startup(struct snd_pcm_substream *substream,
- 			     struct snd_soc_dai *dai)
- {
-@@ -1306,6 +1331,7 @@ static const struct snd_soc_dai_ops qcom_swrm_pdm_dai_ops = {
- 	.shutdown = qcom_swrm_shutdown,
- 	.set_stream = qcom_swrm_set_sdw_stream,
- 	.get_stream = qcom_swrm_get_sdw_stream,
-+	.set_channel_map = qcom_swrm_set_channel_map,
- };
- 
- static const struct snd_soc_component_driver qcom_swrm_dai_component = {
--- 
-2.34.1
+[1/1] ASoC: simple-card-utils.c: add missing dlc->of_node
+      commit: dabbd325b25edb5cdd99c94391817202dd54b651
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
