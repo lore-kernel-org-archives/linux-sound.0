@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0635E2B9B7
-	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 17:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D90915B54A;
+	Thu,  6 Feb 2025 17:30:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738863015; cv=none; b=XXedp0mTW75QVRIeZTy35H4v40az2kYzWC4fwPALCvacEbjg6RZJsf4Vr73JMYZwlzxwbn2H4kgEQX0/tmu/YPWMaCQQu5RpIfFZPoE8FXhfA9YFl1mzKjzo20Ao+m9e7mk7+Z+u1zYno93Z2c8S2JuqcSfKTRktZfqpzPDUnCo=
+	t=1738863018; cv=none; b=DcK7CX5vvotzakzgDtyHOG1Y7Dr4pAbt1/88oLG9cGlgXM7oGLoE3GPKQ/qiIMf9hRfMFS+1D0AHeJOXvx4qQG9gD8Ifmac2BCPrgyx5lR+GhrsPiH9xevKvhTnXp728U0B7igVp1QmKfwMfSiqbk0VRN+H7kyrn9T2HqPPicVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738863015; c=relaxed/simple;
-	bh=UM5k/yIpBrTSJNA48BIkXPcIX4mO+25/9QxTryJu3xg=;
+	s=arc-20240116; t=1738863018; c=relaxed/simple;
+	bh=fhaJk1sIOdwzSqsp6HlPozVr3tyh/ttyP4dTEz5l3KQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OqBvVBN4FYIYBVNAcHs0sSMk9UpjYvEMBYZ3spp0n/ehwAKT8OtmwZaO8riK+2L87rhJupLQvyGtmDzOT4o/OBl+wR89chfxr0usk2pp1BFe7dlr1D68sUxlJjq4m/HFpKEQqzqt8w00sVEJ5g608hJhTavb2ERcynxUeUooLTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bPOxgBk5; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=TXJOMMMgXroOM2cqW15bnE3ie0S/6FG0G/wWFP5JBBg72vF3NdnAGU2fzVxgZYOI12BI2zR//80NsmEUqjlUTZQ/6fu3SU2eLxRUIeJteVmwG05suvEaYac0b9pEKafuikgC8O6aM+YqZD8H3DXpiX0piJrY1sbz3a2+tmzLuic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BKt0yn9T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bPOxgBk5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DABBAC4CEE6;
-	Thu,  6 Feb 2025 17:30:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BKt0yn9T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 128D2C4CEDD;
+	Thu,  6 Feb 2025 17:30:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738863013;
-	bh=UM5k/yIpBrTSJNA48BIkXPcIX4mO+25/9QxTryJu3xg=;
+	s=k20201202; t=1738863015;
+	bh=fhaJk1sIOdwzSqsp6HlPozVr3tyh/ttyP4dTEz5l3KQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bPOxgBk5EW+l5r4Zhn8cbevjNPKrWqtgBSsG51Y1KJRBWGGIDPOR9M3AYdJclJyau
-	 kQmZ5Q4t4E0rGTaPIw2SafPVHxOzNj1KgWYdSmIPV6+p7FAH1JK0lEKweOV9pB33v8
-	 EnUHqX+CsHDiB5Gn/ZNReflueDccdtMoKbHqjWlqmphyrI7AoKTQwG/blmwWUm41Gz
-	 MsslzbRUyQLSgH9mrMKObTMhxNdkgIsWYiE47S4P+gCwNuhEBpOHRk82OejpDyYKBf
-	 QzEFLJYaPFsywdj6u0aC+rGTTf316qVw6xRVfLzN27rajxgdaRSiQpdr0hGCZwqcVh
-	 Nz8kQxTNJanTA==
+	b=BKt0yn9T/xT6FU78FtJljVzUaR3YqTHzk6hFBLFkZD5xnYh/l7YpWikkLtQXNW1Hh
+	 PpbVHt56MGSwgZHNPP3XCim6N05QZCa2j06z6QDBhc3PWqZ2ENG4N8jSJcz+A3bEx8
+	 87pMx0eEB6oshi+rM41UurjrX4/X6TeL70MWsPSetXBVBFuslG5PgEXqQHjS0ErzjL
+	 bUBCH9fe/fCN4GmyoUJ5dU+stbluFYwiHK1nM/JC/D2AXBqG3QUzdeHlrMjpImjB0D
+	 eABQPehjBvRvuqNWNnQaX0olAtzhbfJ6nqSOx6JCNh27Ek981/08Tiou8yHM+r8fec
+	 p0r/msH0ZrWhQ==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20250204053943.93596-1-yung-chuan.liao@linux.intel.com>
-References: <20250204053943.93596-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/3] ASoC: Intel: sof_sdw: Add support for new devices
-Message-Id: <173886301157.325569.18321581151990997965.b4-ty@kernel.org>
-Date: Thu, 06 Feb 2025 17:30:11 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Thorsten Blum <thorsten.blum@linux.dev>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250204153333.3045-3-thorsten.blum@linux.dev>
+References: <20250204153333.3045-3-thorsten.blum@linux.dev>
+Subject: Re: [PATCH] ASoC: amd: acp: Use str_low_high() helper function
+Message-Id: <173886301370.325569.17989854749792559122.b4-ty@kernel.org>
+Date: Thu, 06 Feb 2025 17:30:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,18 +45,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, 04 Feb 2025 13:39:40 +0800, Bard Liao wrote:
-> This patch series adds support for Asus Zenbook S14 and Fatcat board.
+On Tue, 04 Feb 2025 16:33:32 +0100, Thorsten Blum wrote:
+> Remove hard-coded strings by using the str_low_high() helper function.
 > 
-> Richard Fitzgerald (2):
->   ASoC: Intel: sof_sdw: Add lookup of quirk using PCI subsystem ID
->   ASoC: Intel: sof_sdw: Add quirk for Asus Zenbook S14
 > 
-> Uday M Bhat (1):
->   ASoC: Intel: sof_sdw: Add support for Fatcat board with BT offload
->     enabled in PTL platform
-> 
-> [...]
 
 Applied to
 
@@ -64,12 +56,8 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: Intel: sof_sdw: Add lookup of quirk using PCI subsystem ID
-      commit: fc016ef7da64fd473d73ee6c261ba1b0b47afe2b
-[2/3] ASoC: Intel: sof_sdw: Add quirk for Asus Zenbook S14
-      commit: 0843449708085c4fb45a3c325c2fbced556f6abf
-[3/3] ASoC: Intel: sof_sdw: Add support for Fatcat board with BT offload enabled in PTL platform
-      commit: d8989106287d3735c7e7fc6acb3811d62ebb666c
+[1/1] ASoC: amd: acp: Use str_low_high() helper function
+      commit: b3d993c7566fed1c027c5c18f3ef482ba8e6307a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
