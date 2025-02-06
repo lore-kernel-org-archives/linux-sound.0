@@ -1,313 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803A0214231
-	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 08:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114071FCCE4;
+	Thu,  6 Feb 2025 09:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738831924; cv=none; b=Uy81J3FSUYHx5+LV6v0sfB5OgdY+A82KdmwX4IcEjPIcrCuEm/412lKbsbXMbUhAj1xbUPS24aFu3lklnHBiHBkmTkvRf07SNDwc+d3Bh7ND8I7WiZ4ofEYq2I1bVt6vSBAqFLV0FPpz4vB2Jpta0+mMYAxoziKhJww5TjbzOKI=
+	t=1738833844; cv=none; b=blf0nWPrysKkU8nr4wEWAS7A6SZQZcdfnEEKI2goDxO/GHuk/jCy2OjIQkdcJTssDLpeZ3jivaK8/KUuYrEyXzjEenAE3xee9DMRL4B7VOgSz2CVVuu8/KqGiqbHNG5zCgGzcdYtfozIvn4BRPiV625Ff5S3rGCd0fPCBbDGMF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738831924; c=relaxed/simple;
-	bh=KSzCqDEzNMMAQyijPfpbiN6F9gEavulb1bh9JMGYS0w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n0aa6zKXJ4+eq+lN+6AESGL9sVJnDZSqM9S9HpN7a9xct2z+F/SIIXx4m/5n0ug4q/YB2pGEfiICy+rOObJX6t+QJ42pJCZ/aPBlWG1G4mX0gtXyv6Sq+znbCEJzG4Fp7tx/bj4Qwv6aAxVWfTbZ9CbwZmMNCkKvoQL6njLOLEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6iZPtx4; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738833844; c=relaxed/simple;
+	bh=cBrVqE/Ai4gYO2AtRV7S8oVyTssm0+1D47OVtk82Czc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=vGdsXLO03MS0rZHXj6yw94YAK9FV+vqU0SPVQISJoSSwZBbANzzeeXPeafZZdLZkGVrrZme/GoZ3oRI0mqm6y6L0MJ2DyJcopwTvXWVnq+ZcE1ao6LZbjIyRp0HFio8CO/ybYJlSP06N7lZJwCDMRqCfvnxOpDr8QrQquu/jWs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j9XOeX5n; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6iZPtx4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738831922; x=1770367922;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=KSzCqDEzNMMAQyijPfpbiN6F9gEavulb1bh9JMGYS0w=;
-  b=M6iZPtx4J0BFDnfeI0ZIa/wD9vF/e2LLroh2AWL5WNIJs9yS3O/ELToU
-   376BpyM79zgPt8+w3cR9fot00cn1i6c5ztcoHbvQEh6u9Hhbi1bxekalq
-   a8D9gAkl5a9EDMRckWK+BWtlQWe3UOb49tD7ZzLzbbOZHuLz9ITq/qVmY
-   VdOpzWhvKkNHz31qUJ0XZR/BnAfIu2Ec6seO+LR2fNu61JLs6fYTVwyBW
-   gsXN/caVZjc178fgKu6ANp6hGy+GU/kPBVzx4mGyUNdLmo7luiLBfSi8J
-   fBKGJj4HJYCxQV7REms/kOw8VHx08fAOSH0vYdkeVcFia79bHRLECn7JW
-   g==;
-X-CSE-ConnectionGUID: GT7xulvASYuGo2p9npyJkw==
-X-CSE-MsgGUID: UYInERG2RlWSM7Kr1iEyYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50818099"
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="50818099"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 00:52:01 -0800
-X-CSE-ConnectionGUID: Ek5uc+Q2RqG0m/LIw8b6Gw==
-X-CSE-MsgGUID: QA9QN7L6QkexvC9V8bzLDg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111604638"
-Received: from dprybysh-mobl.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.33])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 00:51:59 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	guennadi.liakhovetski@linux.intel.com
-Subject: [PATCH] ASoC: SOF: ipc4: Add support for split firmware releases
-Date: Thu,  6 Feb 2025 10:52:37 +0200
-Message-ID: <20250206085237.19214-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j9XOeX5n"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2f9bd7c480eso1216507a91.1;
+        Thu, 06 Feb 2025 01:24:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738833842; x=1739438642; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cBrVqE/Ai4gYO2AtRV7S8oVyTssm0+1D47OVtk82Czc=;
+        b=j9XOeX5nUVz7nvls0K/+RlEkmm1AfP9OC7VspUPRAER3b7qMmSmMumnjB/KdcEMB9g
+         osMko9MtszGKxR/wlLqLEC3X46IdbHqu5oBcFYPLH1L+RoJWBuCrL045YUY/DWBzBG86
+         wTymq4Um+8iWrlZ3P5b1l0W3YCQKx3oxdQrLbh85cpN01JPB7VIwI6SrwtAnarLXQdgM
+         +PqFNxm0iijVJK/pjpVVcnEcgAaE5AVPtsGYwnEScy2Jxhs4z9RrttsCuh+5qB4C5HJ+
+         V+/EKkQYmI2CysL17hnOZSf9DHm9xra1o+zv62VAAqw4kTQ3ACeUsYL+qnUOY3SoVGRD
+         lzHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738833842; x=1739438642;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cBrVqE/Ai4gYO2AtRV7S8oVyTssm0+1D47OVtk82Czc=;
+        b=D+57FMiagwS070mC/WCjV2IgXLY/tCLAbbhcH/77IyTYAEwKumfXjgRrQNl6xLJWAk
+         JRHvXer6EueYY1TSeCRMri3JsFEnCqEuKZ8W8UyQ8smyePtJehs7eou1evRF/MLfLX3p
+         Fjfx70/YrG9JYLVbZ+i0lEN4h/MtblsRJbaAv+aZZmLNOOk/lTz0qqGuhTqhGhg/ZseK
+         17YwF120iHDboZJF4XFettpWJusbAf2O+ro3tPMEzdLaIromSb2q7G1VbDAwuSqu3iFX
+         HuEGDiM8+qUiuoGqCXWTTp1aO4rcCSq2oVwGYWCHkGvHenVzfJHHxFI/kFGggnzxgRmq
+         msZw==
+X-Forwarded-Encrypted: i=1; AJvYcCV44Y08T9ZB/PuydJvHGUg26FkBkali4euiEhjVlWH9G7UBITAf7LCfZo5P/Ye3Se+i8ZmtFysMP4b6gbA=@vger.kernel.org, AJvYcCXu9JHbg+2zM4NhJ6AneeMEAoSe/UBWPfZjQ06oRJdgVyaIKjfp+P62RG2cZQ3zfyTHmPXHCJS7gknpraA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymJuwj200MCLhp1Nn0BM7o7MB+E5h10nydoStxnybff2Nsm8uZ
+	2YpijIhiDXBXoUhZQ4VW4yo3bjeZVJBjv8o8qsTEwT3UZfKOaqFqH79Ko6nRVyY31OMiCkVr5sX
+	IOMROcsr3efLgjBQIjbs3WXryJaA=
+X-Gm-Gg: ASbGnctB7bjd8M4KqTNAMJMxjBFIVK6KitzKiMNGJ9HfAaSsAMUvLKt+xp5tSoT+lw4
+	BwF9M1zNlZTngGuKhuCb0jzegrwYLARbPkIP7YOGZyl8w3Sn28KdmcQwYZbcXJiXPrdWdWw==
+X-Google-Smtp-Source: AGHT+IG1UyaKQAQJbeN4KZGYIOs3VNjrkC3xVxry+u2Wb/QFb/6PDyHk7CdpY+0ZJkhj4OcqqOOJQKsYVX+5bc0fZQ0=
+X-Received: by 2002:a17:90b:48cc:b0:2ee:aef4:2c5d with SMTP id
+ 98e67ed59e1d1-2f9e0810794mr8432938a91.26.1738833842188; Thu, 06 Feb 2025
+ 01:24:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250205062444.1694810-1-shengjiu.wang@nxp.com>
+In-Reply-To: <20250205062444.1694810-1-shengjiu.wang@nxp.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Thu, 6 Feb 2025 11:25:33 +0200
+X-Gm-Features: AWEUYZmDUymm73unsdmbrTmXdaPc_qVh7iTw8Y2NHH7ijEwSdRi_QIcSX6j2Vxs
+Message-ID: <CAEnQRZArZK7sbUUPmPb9khfLVk4JSvn5ARwEh0MCPvyU9D=xMA@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: dmic: Add DSD big endian format support
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	shengjiu.wang@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-A split SOF release consists of a base firmware and two libraries:
-<fw_filename>-openmodules.ri for processing (audio) modules
-<fw_filename>-debug.ri for debug and developer modules
+On Wed, Feb 5, 2025 at 8:27=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.com=
+> wrote:
+>
+> Add DSD big endian format support in this generic dmic driver:
+> DSD_U16_BE and DSD_U32_BE.
+>
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-To handle this new release model add infrastructure to try to load the two
-library after boot optionally.
-
-This approach will allow flexibility on handling platforms in sof-bin with
-single or split configuration:
-single release: base firmware only
-split release: base firmware + openmodules + debug
-
-The files for the split firmware are located at the firmware directory.
-
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/sof/ipc4-loader.c | 143 +++++++++++++++++++++++++++++-------
- sound/soc/sof/ipc4-priv.h   |   1 +
- sound/soc/sof/ipc4.c        |   8 +-
- 3 files changed, 126 insertions(+), 26 deletions(-)
-
-diff --git a/sound/soc/sof/ipc4-loader.c b/sound/soc/sof/ipc4-loader.c
-index bcdb33d03682..6ad1ef0e53e8 100644
---- a/sound/soc/sof/ipc4-loader.c
-+++ b/sound/soc/sof/ipc4-loader.c
-@@ -169,21 +169,14 @@ static size_t sof_ipc4_fw_parse_basefw_ext_man(struct snd_sof_dev *sdev)
- 	return payload_offset;
- }
- 
--static int sof_ipc4_load_library_by_uuid(struct snd_sof_dev *sdev,
--					 unsigned long lib_id, const guid_t *uuid)
-+static int sof_ipc4_load_library(struct snd_sof_dev *sdev, unsigned long lib_id,
-+				 const char *lib_filename, bool optional)
- {
- 	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
- 	struct sof_ipc4_fw_library *fw_lib;
--	const char *fw_filename;
- 	ssize_t payload_offset;
- 	int ret, i, err;
- 
--	if (!sdev->pdata->fw_lib_prefix) {
--		dev_err(sdev->dev,
--			"Library loading is not supported due to not set library path\n");
--		return -EINVAL;
--	}
--
- 	if (!ipc4_data->load_library) {
- 		dev_err(sdev->dev, "Library loading is not supported on this platform\n");
- 		return -EOPNOTSUPP;
-@@ -193,21 +186,26 @@ static int sof_ipc4_load_library_by_uuid(struct snd_sof_dev *sdev,
- 	if (!fw_lib)
- 		return -ENOMEM;
- 
--	fw_filename = kasprintf(GFP_KERNEL, "%s/%pUL.bin",
--				sdev->pdata->fw_lib_prefix, uuid);
--	if (!fw_filename) {
--		ret = -ENOMEM;
--		goto free_fw_lib;
--	}
--
--	ret = request_firmware(&fw_lib->sof_fw.fw, fw_filename, sdev->dev);
--	if (ret < 0) {
--		dev_err(sdev->dev, "Library file '%s' is missing\n", fw_filename);
--		goto free_filename;
-+	if (optional) {
-+		ret = firmware_request_nowarn(&fw_lib->sof_fw.fw, lib_filename,
-+					      sdev->dev);
-+		if (ret < 0) {
-+			/* optional library, override the error */
-+			ret = 0;
-+			goto free_fw_lib;
-+		}
- 	} else {
--		dev_dbg(sdev->dev, "Library file '%s' loaded\n", fw_filename);
-+		ret = request_firmware(&fw_lib->sof_fw.fw, lib_filename,
-+				       sdev->dev);
-+		if (ret < 0) {
-+			dev_err(sdev->dev, "Library file '%s' is missing\n",
-+				lib_filename);
-+			goto free_fw_lib;
-+		}
- 	}
- 
-+	dev_dbg(sdev->dev, "Library file '%s' loaded\n", lib_filename);
-+
- 	payload_offset = sof_ipc4_fw_parse_ext_man(sdev, fw_lib);
- 	if (payload_offset <= 0) {
- 		if (!payload_offset)
-@@ -251,22 +249,117 @@ static int sof_ipc4_load_library_by_uuid(struct snd_sof_dev *sdev,
- 	if (unlikely(ret))
- 		goto release;
- 
--	kfree(fw_filename);
--
- 	return 0;
- 
- release:
- 	release_firmware(fw_lib->sof_fw.fw);
- 	/* Allocated within sof_ipc4_fw_parse_ext_man() */
- 	devm_kfree(sdev->dev, fw_lib->modules);
--free_filename:
--	kfree(fw_filename);
- free_fw_lib:
- 	devm_kfree(sdev->dev, fw_lib);
- 
- 	return ret;
- }
- 
-+/**
-+ * sof_ipc4_complete_split_release - loads the library parts of a split firmware
-+ * @sdev: SOF device
-+ *
-+ * With IPC4 the firmware can be a single binary or a split release.
-+ * - single binary: only the basefw
-+ * - split release: basefw and two libraries (openmodules, debug)
-+ *
-+ * With split firmware release it is also allowed that for example only the
-+ * debug library is present (the openmodules content is built in the basefw).
-+ *
-+ * To handle the permutations try to load the openmodules then the debug
-+ * libraries as optional ones after the basefw boot.
-+ *
-+ * The libraries for the split release are stored alongside the basefw on the
-+ * filesystem.
-+ */
-+int sof_ipc4_complete_split_release(struct snd_sof_dev *sdev)
-+{
-+	static const char * const lib_bundle[] = { "openmodules", "debug" };
-+	const char *fw_filename = sdev->pdata->fw_filename;
-+	const char *lib_filename, *p;
-+	size_t lib_name_base_size;
-+	unsigned long lib_id = 1;
-+	char *lib_name_base;
-+	int i;
-+
-+	p = strstr(fw_filename, ".ri");
-+	if (!p || strlen(p) != 3) {
-+		dev_info(sdev->dev,
-+			 "%s: Firmware name '%s' is missing .ri extension\n",
-+			 __func__, fw_filename);
-+		return 0;
-+	}
-+
-+	/* Space for the firmware basename + '\0', without the extension */
-+	lib_name_base_size = strlen(fw_filename) - 2;
-+	lib_name_base = kzalloc(lib_name_base_size, GFP_KERNEL);
-+	if (!lib_name_base)
-+		return -ENOMEM;
-+
-+	/*
-+	 * strscpy will 0 terminate the copied string, removing the '.ri' from
-+	 * the end of the fw_filename, for example:
-+	 * fw_filename:		"sof-ptl.ri\0"
-+	 * lib_name_base:	"sof-ptl\0"
-+	 */
-+	strscpy(lib_name_base, fw_filename, lib_name_base_size);
-+
-+	for (i = 0; i < ARRAY_SIZE(lib_bundle); i++) {
-+		int ret;
-+
-+		lib_filename = kasprintf(GFP_KERNEL, "%s/%s-%s.ri",
-+					 sdev->pdata->fw_filename_prefix,
-+					 lib_name_base, lib_bundle[i]);
-+		if (!lib_filename) {
-+			kfree(lib_name_base);
-+			return -ENOMEM;
-+		}
-+
-+		ret = sof_ipc4_load_library(sdev, lib_id, lib_filename, true);
-+		if (ret)
-+			dev_warn(sdev->dev, "%s: Failed to load %s: %d\n",
-+				 __func__, lib_filename, ret);
-+		else
-+			lib_id++;
-+
-+		kfree(lib_filename);
-+	}
-+
-+	kfree(lib_name_base);
-+
-+	return 0;
-+}
-+
-+static int sof_ipc4_load_library_by_uuid(struct snd_sof_dev *sdev,
-+					 unsigned long lib_id, const guid_t *uuid)
-+{
-+	const char *lib_filename;
-+	int ret;
-+
-+	if (!sdev->pdata->fw_lib_prefix) {
-+		dev_err(sdev->dev,
-+			"Library loading is not supported due to not set library path\n");
-+		return -EINVAL;
-+	}
-+
-+	lib_filename = kasprintf(GFP_KERNEL, "%s/%pUL.bin",
-+				 sdev->pdata->fw_lib_prefix, uuid);
-+	if (!lib_filename)
-+		return -ENOMEM;
-+
-+	ret = sof_ipc4_load_library(sdev, lib_id, lib_filename, false);
-+
-+	kfree(lib_filename);
-+
-+	return ret;
-+}
-+
- struct sof_ipc4_fw_module *sof_ipc4_find_module_by_uuid(struct snd_sof_dev *sdev,
- 							const guid_t *uuid)
- {
-diff --git a/sound/soc/sof/ipc4-priv.h b/sound/soc/sof/ipc4-priv.h
-index ea3323b90343..b798810eff91 100644
---- a/sound/soc/sof/ipc4-priv.h
-+++ b/sound/soc/sof/ipc4-priv.h
-@@ -101,6 +101,7 @@ extern const struct sof_ipc_fw_tracing_ops ipc4_mtrace_ops;
- int sof_ipc4_set_pipeline_state(struct snd_sof_dev *sdev, u32 instance_id, u32 state);
- int sof_ipc4_mtrace_update_pos(struct snd_sof_dev *sdev, int core);
- 
-+int sof_ipc4_complete_split_release(struct snd_sof_dev *sdev);
- int sof_ipc4_query_fw_configuration(struct snd_sof_dev *sdev);
- int sof_ipc4_reload_fw_libraries(struct snd_sof_dev *sdev);
- struct sof_ipc4_fw_module *sof_ipc4_find_module_by_uuid(struct snd_sof_dev *sdev,
-diff --git a/sound/soc/sof/ipc4.c b/sound/soc/sof/ipc4.c
-index 4386cbae16d4..2ed0c52fb2f1 100644
---- a/sound/soc/sof/ipc4.c
-+++ b/sound/soc/sof/ipc4.c
-@@ -825,8 +825,14 @@ static void sof_ipc4_exit(struct snd_sof_dev *sdev)
- 
- static int sof_ipc4_post_boot(struct snd_sof_dev *sdev)
- {
--	if (sdev->first_boot)
-+	if (sdev->first_boot) {
-+		int  ret = sof_ipc4_complete_split_release(sdev);
-+
-+		if (ret)
-+			return ret;
-+
- 		return sof_ipc4_query_fw_configuration(sdev);
-+	}
- 
- 	return sof_ipc4_reload_fw_libraries(sdev);
- }
--- 
-2.48.1
-
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
