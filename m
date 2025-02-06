@@ -1,89 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B430F239572;
-	Thu,  6 Feb 2025 17:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3302D166F06;
+	Thu,  6 Feb 2025 17:30:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738862937; cv=none; b=bgxWIzhcfJUyQWNEnrF+2EO77utgINv3KnnXoOjlGVUI+7CIn30Jx5mYWeW9LAGxKql3+jppQZAFHGJ4U5ES1J5dYIZ9Sth+Rg7zNAI0pCocNEafvGyohV6adWtRBTynhlmOLlUijOmiMtrpEA3Jipu1xs/cBfTZwu3A8yeJHvQ=
+	t=1738863003; cv=none; b=XaS4wgr+5UZR2NfOKduBOicOwvfa5cMjJydm8FJp35h7AUSm4m0rrQbzJmBhr0CDKr6fHZNTxo/HS/3FD5xUkvQhhQRxnaFVlRmOhOv4NOERyb+EODwtWsJm1cEqpu5GimgNin6pQKg5ihLdCU6qi0D3eQj0o+RuBdYC9Xxs+XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738862937; c=relaxed/simple;
-	bh=ee6xhU/145JBRAaQuROyk8466EDmizhZTf8RLbkd/uQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sk8Ya9fuJdtaqHIq2UH/ZgPnuGq3uQ/nAXAXGjDwYvQEpioyLxivOF2S14ZYyI9Z6umjIVFL0AzPBHjoDBgiLQduOdjjcqj7Qed9jZQuI/vcA7A7uZ8T99AIo49XLoHJltGpHg8lxSXWqAwXve83H8N9b1BKiYR1Cblho4pCHjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZULBypIk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738863003; c=relaxed/simple;
+	bh=8zkQnnn8nU1MmRsCzCYYK3VH4SIh+3//v4kiq/Jfib8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=atHcsQABHAlmUhpRqDhe7B7/ny0offCH1oi52IkHnMWHSA/RUGjh+bUKbU7HIKU8UBngpKAnLhaDGVAdMClCNxxgsrWQv7V30YLX00AQpfpAlrkTdJhwLYaKBqIgSyO7y4pysfVQof881j40uR43TiUpVMLl7X08e2Tq7JUOUNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o0/ztFnA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZULBypIk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11220C4CEDD;
-	Thu,  6 Feb 2025 17:28:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o0/ztFnA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A65C4CEDD;
+	Thu,  6 Feb 2025 17:30:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738862937;
-	bh=ee6xhU/145JBRAaQuROyk8466EDmizhZTf8RLbkd/uQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZULBypIkD5AIglypoJtktYFlMwU+W+KbSFtCQcB2xUM6oFDnJFtEKSzT+mQY6g+tV
-	 2ihit9vVUiULl5JYRgAePh9o2qZpZwJHdL7sQ8aVUumTp3XZuhdNo30d7WE5bW9X5p
-	 f2ax52WEafJru969HjYMPcLuAm/KN7iHDU96J6Aoy08xCQiA4tm3PnJyC9eSuU4OUx
-	 6kF+60xNf0KNSEg9iJswLdD+zOpRUCQeGQeAkUgaoMSqdHKI8SvLWhterPDQQSmIuQ
-	 8xEMws3RaHvW/PudnYR4jffNCp6Y3mjwBN1YZpwAhEPBKrqa4R2k4cwH1KTLQRIBiM
-	 S8478xKq7+Upw==
-Date: Thu, 6 Feb 2025 17:28:52 +0000
+	s=k20201202; t=1738863002;
+	bh=8zkQnnn8nU1MmRsCzCYYK3VH4SIh+3//v4kiq/Jfib8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=o0/ztFnAbco6KwmleKSrRLkfPY93TUA9RBd6h6HML+mwl6+ZaqA701y+ii3C42Cr0
+	 kSXjk2Imj6qmxaWy2kRZNNR9Am7VjP7E4955BQi1R72lAoH0b9TA1oNBqtUVADxDy5
+	 8iWAAFNne0RlKYxAHOyoaA1GlGpHPiebCg30kVvIyNhVT/FMilYkaroMWgQFTNMYhT
+	 ACT8Rubj/JSLwoh5rAy/U8Fuu5LSrI6lQ2FKEMzLVkJCM21EDc8LYGMSi+BH7LnEqn
+	 Wr/tjsYwrtYVk3P1OG5Sr2fzV5joTt10DPiAlwJcocB/HczHJ/eZYygtoo/8cb7a6k
+	 EEZO2U19F8hsg==
 From: Mark Brown <broonie@kernel.org>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Iuliana Prodan <iuliana.prodan@nxp.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH v2 4/8] ASoC: SOF: imx8: shuffle structure and function
- definitions
-Message-ID: <5d075a4b-f253-4203-8b44-dfccfdff3048@sirena.org.uk>
-References: <20250205203022.2754-1-laurentiumihalcea111@gmail.com>
- <20250205203022.2754-5-laurentiumihalcea111@gmail.com>
- <Z6TguAqGRS3eDhqa@lizhi-Precision-Tower-5810>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com, 
+ cujomalainey@chromium.org, daniel.baluta@nxp.com, stable@vger.kernel.org
+In-Reply-To: <20241107134308.23844-1-peter.ujfalusi@linux.intel.com>
+References: <20241107134308.23844-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH v2 0/2] ASoC: SOF: Correct sps->stream and cstream
+ nullity management
+Message-Id: <173886300019.325569.12850386648132801056.b4-ty@kernel.org>
+Date: Thu, 06 Feb 2025 17:30:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9ePzvpx/N0yDHpeJ"
-Content-Disposition: inline
-In-Reply-To: <Z6TguAqGRS3eDhqa@lizhi-Precision-Tower-5810>
-X-Cookie: With your bare hands?!?
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
+On Thu, 07 Nov 2024 15:43:06 +0200, Peter Ujfalusi wrote:
+> Changes since v1:
+> - Cc stable
+> 
+> The nullity of sps->cstream needs to be checked in sof_ipc_msg_data()
+> and not assume that it is not NULL.
+> The sps->stream must be cleared to NULL on close since this is used
+> as a check to see if we have active PCM stream.
+> 
+> [...]
 
---9ePzvpx/N0yDHpeJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, Feb 06, 2025 at 11:18:00AM -0500, Frank Li wrote:
-> On Wed, Feb 05, 2025 at 03:30:18PM -0500, Laurentiu Mihalcea wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > Shuffle the definitions of some structures and functions such that
-> > they are better grouped. This is purely a cosmetic change.
+Thanks!
 
-> I don't think this patch is neccessary. It have not look better after
-> change position.
+[1/2] ASoC: SOF: stream-ipc: Check for cstream nullity in sof_ipc_msg_data()
+      commit: d8d99c3b5c485f339864aeaa29f76269cc0ea975
+[2/2] ASoC: SOF: pcm: Clear the susbstream pointer to NULL on close
+      commit: 46c7b901e2a03536df5a3cb40b3b26e2be505df6
 
-The rest of the patches depend on this one (or there's some other
-conflict with my current tree), please resend with this patch dropped.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---9ePzvpx/N0yDHpeJ
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmek8VMACgkQJNaLcl1U
-h9AJ9Af+PpUdI9eSeMWcul/JsORox+wiE3dTzdAbUfma8OXASV/PxqngxwaNo9bS
-Jh5SixKRkRBt17Rg9dROy63iyzdKX7DQGsJLgHHatXrhzie06cLsVPWPDKwamM/1
-GG2w6qpPBYIdE14vEESpzA6TG+fTL0/IYE8R7gjY/tOn2LE9Xy7XJfwZ1PZKBaVt
-GMwoz64ly0LQ0VxJdbMaQsGTtdomLji5c1QIhEy/u91J7MwaC0KN1UPvG8GFmCn9
-X6jIUqcJrL7hvRE2FGQYDPmm9tJbBDuR56DUkSmvBmiPsw4skvk2bsVdOS+3xGBO
-Ztqw4CJ5HdjIMf3QAJciEd2Zbos18w==
-=4efS
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---9ePzvpx/N0yDHpeJ--
+Thanks,
+Mark
+
