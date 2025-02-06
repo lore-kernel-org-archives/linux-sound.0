@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156D41EDA0D
-	for <linux-sound@vger.kernel.org>; Thu,  6 Feb 2025 14:51:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BC313BADF;
+	Thu,  6 Feb 2025 14:51:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738853500; cv=none; b=MgeYt0AD26C9tvUMtqLIfpe8JGY7dXAa9/zz7kTcJFgDGBNTvXCyxOfFLWdnAgQKV26ictCvMK23Sf13bCwzxiqgPuk8h6OcCNA2gcr8bMAOtCu1PxuIewyCi2J8jGWndm1z3wb+2n3COokCbLfU+nP82olbZ++ZgTCYFW4R3yQ=
+	t=1738853503; cv=none; b=KMTRfPuCdiQZZ8sk3dijRoaB49XENVpnzVq1oL3l7fh1etmLLbnGdgkIX5epcu0OQ/oyNqrkoFSkY7pzwS5frLKtUbF2+eXMNB4J8fniP630u+u8Uuepduq92ArL4HxIIx+nzmPxotiGMVtL5qB7/XW2BODIM10kVgKNqXYGpcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738853500; c=relaxed/simple;
-	bh=TULlGwRXzEKSV2/LD3FkIn987+dPWSFnoHmrKZXV6t0=;
+	s=arc-20240116; t=1738853503; c=relaxed/simple;
+	bh=eb+DylOLahZxYsO0Q4BoztK0cUe7UNKEAW19zwfFf4U=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GFExjKb5nzYyR3947mtxn6mbLTCdiR6pDmbRpd6AKFdgi6KoNYX4tyOfac29ebMUJi9+nrRlKaZ9QPTMEIgYwDsMAjhJlZIDvkIyFjjYdDn0aCNnX3Ab7JyIZhh9s1e0NTtQ74T3dS4j1aE/jPxnb9uIo3UhG7gGor0G9ogTdU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YMfo0K6j; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=brW22HHyGbSEus8TIi0QPq8tZimTPDiezq9tP3W1R/T1U8S4TMo9JTPbZwx18o3o9sljr0djVMIPqsDrrjleYV5UXAESfOzXl/wbqPr+utkoW9QTh1UO7oUR4YFdG/rGFN31cfTXMSJggTsTKRxgGMWeklX0eJLFqfkeXEJxWG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mGpCWjHQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YMfo0K6j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 336B9C4CEE5;
-	Thu,  6 Feb 2025 14:51:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mGpCWjHQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62748C4CEDF;
+	Thu,  6 Feb 2025 14:51:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738853499;
-	bh=TULlGwRXzEKSV2/LD3FkIn987+dPWSFnoHmrKZXV6t0=;
+	s=k20201202; t=1738853503;
+	bh=eb+DylOLahZxYsO0Q4BoztK0cUe7UNKEAW19zwfFf4U=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=YMfo0K6jK3QIH6aolcp9jqmBYVAsF1KFeSMKi+3BdgviEB2SoDHjv9AwK4+fi7zHb
-	 Dy6WscVcXHPkDVHNAx34nzG2YgB4TB9xebnVjKrFkIFCilLVeY8wiT6xd11GLHe673
-	 PjyJ6balKuLLNk+1Wxrmij7VWzDXwZdX0pKQG+dAhtquEoe+LE77GXGiI+3OoIXMJa
-	 7Ohz6zLDg06l74ssJe5m9876FjzX4JOL83fbFiu89HOr21oCgjz0436j4Zj/8RfUod
-	 WxyKLdEPfiqVQpyWTX5nxEmN3LRpkgrX/KprGGx1Vd+3V2IPfalkaf+vxf/HJmzP8h
-	 oWjy6caIQGETw==
+	b=mGpCWjHQ8eP8xCMD9Zz1qsYVNeTDS2VykhsXvOb9Da0Yu0LzLaRe8ojzEJuA/Zapt
+	 IOJ2vif4t7I8IavJpWOKsI+SwxC+C+68s5Eoal31XcG9hITgH+JhD99FjPtrlD8Pug
+	 XbzMMJXjv4/4BAfOMMQq8l9rKOsDSFc68p7XkmVDQX3kebFQc55of4N2CQDHDxU7FT
+	 wNej5R+CXYs3TB+gdpUOIutgFeTAdxBaViWVZsSsLKhjSC2SwdfbZRbZlc+iAZlrVh
+	 jIghZPSqOHeRTPddmQ5czIa68Pb9HZDX/hvDX3Qm4AMfWGT3/KShLPop/LMkzCsLQc
+	 0U1u6FufLVNcg==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
  ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, htcheong@chromium.org, lpg76627@gmail.com
-In-Reply-To: <20250206094723.18013-1-peter.ujfalusi@linux.intel.com>
-References: <20250206094723.18013-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: Intel: hda: add softdep pre to
- snd-hda-codec-hdmi module
-Message-Id: <173885349793.198179.2953699107379101217.b4-ty@kernel.org>
-Date: Thu, 06 Feb 2025 14:51:37 +0000
+ pierre-louis.bossart@linux.dev, stable@vger.kernel.org, 
+ liam.r.girdwood@intel.com
+In-Reply-To: <20250206084642.14988-1-peter.ujfalusi@linux.intel.com>
+References: <20250206084642.14988-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH v2] ASoC: SOF: ipc4-topology: Harden loops for looking
+ up ALH copiers
+Message-Id: <173885350012.198179.10972002395330940159.b4-ty@kernel.org>
+Date: Thu, 06 Feb 2025 14:51:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,13 +48,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Thu, 06 Feb 2025 11:47:23 +0200, Peter Ujfalusi wrote:
-> In enviornment without KMOD requesting module may fail to load
-> snd-hda-codec-hdmi, resulting in HDMI audio not usable.
-> Add softdep to loading HDMI codec module first to ensure we can load it
-> correctly.
+On Thu, 06 Feb 2025 10:46:42 +0200, Peter Ujfalusi wrote:
+> Other, non DAI copier widgets could have the same  stream name (sname) as
+> the ALH copier and in that case the copier->data is NULL, no alh_data is
+> attached, which could lead to NULL pointer dereference.
+> We could check for this NULL pointer in sof_ipc4_prepare_copier_module()
+> and avoid the crash, but a similar loop in sof_ipc4_widget_setup_comp_dai()
+> will miscalculate the ALH device count, causing broken audio.
 > 
-> 
+> [...]
 
 Applied to
 
@@ -61,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: Intel: hda: add softdep pre to snd-hda-codec-hdmi module
-      commit: 33b7dc7843dbdc9b90c91d11ba30b107f9138ffd
+[1/1] ASoC: SOF: ipc4-topology: Harden loops for looking up ALH copiers
+      commit: 6fd60136d256b3b948333ebdb3835f41a95ab7ef
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
