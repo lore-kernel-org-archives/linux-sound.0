@@ -1,152 +1,96 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFB819C543;
-	Fri,  7 Feb 2025 17:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69EC819AD8C
+	for <linux-sound@vger.kernel.org>; Fri,  7 Feb 2025 17:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738947640; cv=none; b=nBEtj98JPZOihg3i6xVjb+u4rUpOhJIa2HLptuYib8wje8DlWshjIOOH+E9tekX+C3+EsbA6G49fVKFUuHtn4vOhMYSCuiezKHIZSy9Bwa5x9BEiioyG+sT+2aAB1X0Q0vjsJzEKADGuaOcdIIReDIARrdAy6LZkmAHNbF9LCVQ=
+	t=1738949481; cv=none; b=s85wOBGyPeg7OpsiUrvNpITPhWS3IYUgNBZ5o8ecSE1YxjE47ctgLUXqaJ+jNcqtlOzyFE7QIx3ded5oSlF6w4qnr+/g0FuBYWCi5CsFmrVfSDtXRnXQoyvixR3EkghWLsMG1MTR2c/ufoa5qlddk5PZML52NNFQYqx3QqfBWzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738947640; c=relaxed/simple;
-	bh=T83UNy/ANb6ddMae5xvV5RRqK7/Hhz51DSgxIMludyg=;
+	s=arc-20240116; t=1738949481; c=relaxed/simple;
+	bh=Mmn1yLbmQ2R8QRFFBgUrX1KxUQvQaQnrzzBOc5ljbX0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GvbwHKUvUOGsjQXPqQSPlFrttRFI+yw+FJHWR6KAepoc+RMIqUPpJZBAIYa9zxSVRoS4C53ww2B0JISe4SZb/iGPTcX+v6oCTcJpppl17e70S/HEMmU042GfcnDnz+PH5Zz3aKOXXK0qahjcffvOE/4fuzWfDT2T8gFa7Ul29Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HPgt1Ria; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 In-Reply-To:Content-Type; b=T6+qLLntpumtNwFrT3mDQAWP8sIAeNCwGlV9iY01EbWQTXaoybej4sIwMX3deUP6u4zDwHRAfXF61VuWoElfpypB49WBJcm8OS1pXugGjD9+lDU2/BvgRCpTD9ZuzorsQWep+shsS/GaUjqhhnEtCGi1NNPI3muMW65OAg5f87s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kP5kZk22; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HPgt1Ria"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1738947636;
-	bh=T83UNy/ANb6ddMae5xvV5RRqK7/Hhz51DSgxIMludyg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HPgt1RiaBA5U3DG580fjHfoCNUUjQf/AKUBfkRR5lonYfsuNyDT5qquadYc7EhW/z
-	 vwEzausCbtFiYu3VcUpQVTkF7DMfm0McP8WqwDQQHb5iA7uZzDt6lY0+Rhr9qvptlL
-	 v2LySaFTROv6CDa7bJtKC7DmM462wzt7HVNU/6QbBN/KgEdm8R3SYxbb5/SLzDiOsr
-	 A6kUPumSWbcgPXhOrdUxqZKWgKGfKwC9eGb2UNS0Kb4L9pVZXe6PJzVfzmw6zqTVJR
-	 jIb03IPmpSHtkSfa4BS05/TI7r4TpfUAQQdDOfcDWM3+AyxJM48FKMd6WrGe+j5Tp0
-	 fcMrgqA4F+A3Q==
-Received: from [192.168.1.90] (unknown [188.27.58.83])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9CE7B17E0F9F;
-	Fri,  7 Feb 2025 18:00:35 +0100 (CET)
-Message-ID: <f253bb70-5991-4ee6-9f44-ac59751c6a38@collabora.com>
-Date: Fri, 7 Feb 2025 19:00:35 +0200
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kP5kZk22"
+Message-ID: <f5f19a27-aa89-4e8c-8e11-6fb85588d015@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1738949472;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6hAjhT/tKoHU1T7OMc00EUjjhadQDMHc/p+jVYe8u4Y=;
+	b=kP5kZk22x0I7rYHIuBHWsmeQviIPDg+oBKYLlvknsMv8i2vqpBcoEJbbzJx2929f3zmiH1
+	tId4gpa06QLfXywYmjCISMc1jW1j6Ko2LjKcAdzo9rcvnXEYfIfj8/hFezP3VOJAZ0bOk1
+	XS0z9LkbmWjZdncubsZ3+fSARaE384E=
+Date: Fri, 7 Feb 2025 11:14:48 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] ASoC: SOF: amd: Handle IPC replies before
- FW_BOOT_COMPLETE
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- "Hiregoudar, Basavaraj" <Basavaraj.Hiregoudar@amd.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>
-Cc: kernel@collabora.com, sound-open-firmware@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250207-sof-vangogh-fixes-v1-0-67824c1e4c9a@collabora.com>
- <20250207-sof-vangogh-fixes-v1-3-67824c1e4c9a@collabora.com>
- <cd64ea3c-fbb4-4c97-b369-dd78942a522f@amd.com>
- <49744378-f63c-4096-a055-00abaed688d2@collabora.com>
- <eb1628c2-b209-40a1-9f20-1057c2815536@amd.com>
+Subject: Re: [PATCH 00/10] Add SDCA DisCo parsing support
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20250205113801.3699902-1-ckeepax@opensource.cirrus.com>
 Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <eb1628c2-b209-40a1-9f20-1057c2815536@amd.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20250205113801.3699902-1-ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On 2/7/25 2:24 PM, Mukunda,Vijendar wrote:
-> On 07/02/25 17:46, Cristian Ciocaltea wrote:
->> On 2/7/25 1:55 PM, Mukunda,Vijendar wrote:
->>> On 07/02/25 17:16, Cristian Ciocaltea wrote:
->>>> In some cases, e.g. during resuming from suspend, there is a possibility
->>>> that some IPC reply messages get received by the host while the DSP
->>>> firmware has not yet reached the complete boot state.
->>>>
->>>> Detect when this happens and do not attempt to process the unexpected
->>>> replies from DSP.  Instead, provide proper debugging support.
->>> As per our understanding, before FW boot completion there won't
->>> be any IPC responses sent from Firmware.
->>> In this case, do we really need such a condition check?
->> During the suspend/resume stress testing I was able to get this kind of
->> messages, and that's the actual reason for introducing the verification.
->>
->> Also it doesn't seem to be uncommon, e.g. Intel HDA IPC also provides
->> similar checks.
->>
-> Could you please share reference logs to know which IPC messages
-> are being received before FW_READY message/FW boot complete?
+On 2/5/25 05:37, Charles Keepax wrote:
+> The MIPI SoundWire Device Class for Audio (SDCA) specification defines
+> most details of the hardware in ACPI using the MIPI Discovery and
+> Configuration (DisCo) specification. This patch chain adds support for
+> parsing most of this information into the kernel such that future work
+> can make use of it to construct CODEC devices and soundcards.
+> 
+> The most notable outstanding work here, is parsing the separate
+> properties for the Control Numbers (roughly equivalent to channels)
+> within an individual Control. The separate Control Numbers are
+> supported but currently only the scheme were a single default etc. is
+> supplied for all.  This should not be super hard to add in the future
+> but isn't currently required by any of the hardware I am working to
+> support.
+> 
+> Thanks,
+> Charles
+> 
+> Charles Keepax (8):
+>   ASoC: SDCA: Minor formatting and naming tweaks
+>   ASoC: SDCA: Add support for Entity 0
+>   ASoC: SDCA: Add SDCA Control parsing
+>   ASoC: SDCA: Add parsing for Control range structures
+>   ASoC: SDCA: Add Channel Cluster parsing
+>   ASoC: SDCA: Add support for IT/OT Entity properties
+>   ASoC: SDCA: Add support for clock Entity properties
+>   ASoC: SDCA: Add support for PDE Entity properties
+> 
+> Pierre-Louis Bossart (2):
+>   ASoC: SDCA: Add code to parse Function information
+>   ASoC: SDCA: Parse initialization write table
 
-As mentioned in a previous reply, I couldn't enable debugging during
-stress testing because it had the annoying effect of hiding the audio
-breakage issue.  I will try to experiment with some more targeted
-instrumentation and see if it's possible to extract some useful data.
+Thanks Charles for extending my initial draft, LGTM.
 
-Regardless, I think it's worth keeping this check in place as it's
-definitely helpful to spot potential FW issues (for current or future
-products).
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 
->>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>>> ---
->>>>  sound/soc/sof/amd/acp-ipc.c | 23 ++++++++++++++++-------
->>>>  1 file changed, 16 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/sound/soc/sof/amd/acp-ipc.c b/sound/soc/sof/amd/acp-ipc.c
->>>> index 5f371d9263f3bad507236ace95b7ef323c369187..12caefd08788595be8de03a863b88b5bbc15847d 100644
->>>> --- a/sound/soc/sof/amd/acp-ipc.c
->>>> +++ b/sound/soc/sof/amd/acp-ipc.c
->>>> @@ -167,6 +167,7 @@ irqreturn_t acp_sof_ipc_irq_thread(int irq, void *context)
->>>>  
->>>>  	if (sdev->first_boot && sdev->fw_state != SOF_FW_BOOT_COMPLETE) {
->>>>  		acp_mailbox_read(sdev, sdev->dsp_box.offset, &status, sizeof(status));
->>>> +
->>>>  		if ((status & SOF_IPC_PANIC_MAGIC_MASK) == SOF_IPC_PANIC_MAGIC) {
->>>>  			snd_sof_dsp_panic(sdev, sdev->dsp_box.offset + sizeof(status),
->>>>  					  true);
->>>> @@ -188,13 +189,21 @@ irqreturn_t acp_sof_ipc_irq_thread(int irq, void *context)
->>>>  
->>>>  	dsp_ack = snd_sof_dsp_read(sdev, ACP_DSP_BAR, ACP_SCRATCH_REG_0 + dsp_ack_write);
->>>>  	if (dsp_ack) {
->>>> -		spin_lock_irq(&sdev->ipc_lock);
->>>> -		/* handle immediate reply from DSP core */
->>>> -		acp_dsp_ipc_get_reply(sdev);
->>>> -		snd_sof_ipc_reply(sdev, 0);
->>>> -		/* set the done bit */
->>>> -		acp_dsp_ipc_dsp_done(sdev);
->>>> -		spin_unlock_irq(&sdev->ipc_lock);
->>>> +		if (likely(sdev->fw_state == SOF_FW_BOOT_COMPLETE)) {
->>>> +			spin_lock_irq(&sdev->ipc_lock);
->>>> +
->>>> +			/* handle immediate reply from DSP core */
->>>> +			acp_dsp_ipc_get_reply(sdev);
->>>> +			snd_sof_ipc_reply(sdev, 0);
->>>> +			/* set the done bit */
->>>> +			acp_dsp_ipc_dsp_done(sdev);
->>>> +
->>>> +			spin_unlock_irq(&sdev->ipc_lock);
->>>> +		} else {
->>>> +			dev_dbg_ratelimited(sdev->dev, "IPC reply before FW_BOOT_COMPLETE: %#x\n",
->>>> +					    dsp_ack);
->>>> +		}
->>>> +
->>>>  		ipc_irq = true;
->>>>  	}
->>>>  
->>>>
+For the record all the definitions in this patchset are extracted from the SDCA public version available at https://www.mipi.org/mipi-sdca-v1-0-download
+
+> 
+>  include/sound/sdca.h            |   22 +-
+>  include/sound/sdca_function.h   | 1089 +++++++++++++++++++++++-
+>  sound/soc/sdca/sdca_device.c    |    3 +-
+>  sound/soc/sdca/sdca_functions.c | 1407 ++++++++++++++++++++++++++++++-
+>  4 files changed, 2480 insertions(+), 41 deletions(-)
 > 
 
