@@ -1,161 +1,105 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3354E189BAC
-	for <linux-sound@vger.kernel.org>; Fri,  7 Feb 2025 16:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F421F18BC3F;
+	Fri,  7 Feb 2025 16:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738945759; cv=none; b=RI7u1UZ6FnbP17EeEjhnKeiZFdSiRA7PJi0zsxQInxXvURQEP+m3ks744xjD5MksNDBMttv1i6xBJHht2u9rFm6N9xijBoonJ55iqMKKaZhHLdf3+mAvdRFqbUdEGajs69mM4Jx97OQ7OMXRA2CCN8eQ9EL8cCiyJ6xvqpbAbwU=
+	t=1738945876; cv=none; b=TjC+EOw9NxigvrxawKUYw0UI1YOaz5a8iDb0Dy2y/v0b5zVqLM31+HcZuJ22Ta15AvqL6uSJHA2fdlVIZcF5jCyYfy5o1n/O+4Uj2r/z4Q9DrZC9nOTrGDJ2OxHZmna9Yk87JiIYCndGZ95mRNJBKybD6LUdutRgS4W0SC2QWXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738945759; c=relaxed/simple;
-	bh=57uHeJssUhSTwboeRjLbjHP/8gebXbxQ08iLQ68S9QU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BSJp/p6Tt01lvSQyP7bgQsY8JTMHj6jcWSoxNwF73k8wZUWxVxJChM+3Qujj/M+n9ppbRKoVxvQ37S9v3fAzNUxlzg6CceHfSr/4QOJPEEEUT5r0CG5A3cPxU5HfmRbqyfxMouUeS260s69ZKqUiCM2qcmZtm36sLOeraavXe+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mtEJ1Sr2; arc=none smtp.client-ip=209.85.167.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1738945876; c=relaxed/simple;
+	bh=3rHb+tKlCuLegTX3Cv0TdmZIeOzyZRa316mQ0pQT6Vw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XiFv/GP8ZHRQDstV5iXkH7KCSmrJ3vL9HtfxEAa1ciZ8lZ4r1A964Bd1+EEu+K4sacxldFyx3QYd2HdGByMPye8LLC+wWtHZkxBu3zgVS7BOi5oP/pJwLpOv2bhSeo/t8j3erVnlldZTrCoMIkIYWPmeWUTReN36ePkugV6wV4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UwSjCpkF; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mtEJ1Sr2"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3eba583fbe8so632334b6e.3
-        for <linux-sound@vger.kernel.org>; Fri, 07 Feb 2025 08:29:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UwSjCpkF"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-38dc73cc5acso762126f8f.0;
+        Fri, 07 Feb 2025 08:31:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738945755; x=1739550555; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=k5z98lSfe6WwRG+wC0Tg6PRqMgic/o2qF3h3J+ulLEk=;
-        b=mtEJ1Sr2l7/lIK8nvmtXf2sOSfDvQGnL/msUKLZ4fK99Rd4clSOcYOIj0eFfGaLOdX
-         PhbPZ29bbmJC0xUP5e0yRlFjkXShnUq/dnZ/WcJcZ9M7t7eYficY5G1lTOMk0+/DyFz7
-         e7suiMpue9zPF6ivH9gxewbO9CUN2xj5AcJLrNAWv/c297UzMkAI7UiZLl1csBec2nzX
-         TKEh6k+Px2lri8jnJt3ooEj+r4MH63cF5+lZ0wLdUaKwV8lZvZ4i9cjd0QcxPZu2haAn
-         qI9z/jykdLqcHLrqXuxBKAy1uKVNi2IOwAJY0Rl1NN0AWeZ68C+NE4/maNTj/grV7fSA
-         H/KA==
+        d=gmail.com; s=20230601; t=1738945873; x=1739550673; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UYnGgZPDK4gRxkfUxbitpLr2RSPLoi7AT6rj4xgzIwk=;
+        b=UwSjCpkFv6OUi1We0gWD7NqaErC5gnypoqQyX7C9f4ur4bUgFEvAb6FbtGWwNoOcTU
+         2jeTE4DxpmV92UMpROygq/TyatG83pF+nYAWJ/MHbpzj5NswwSEzEnp6LKMNKPFkoWAr
+         XG/ir7KP0gbyRVKwvUvIhoyzPr/UhOwCP1pxfI3iKTQSSsHPD3L53kgk/UfY/PbQ/NOL
+         1r9Ssxi/VI9PVee69+tomsxT/6PoGK/3BWyNAj6QcrPbcE2PaGVdJnQNZA93Iji1+tTs
+         f+eCClAf432vHNl2q+wQzayvneorFJ/kcn4QSnKkBeIRm9uhfIa7jvLeNnBug1h+SJmc
+         BZfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738945755; x=1739550555;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k5z98lSfe6WwRG+wC0Tg6PRqMgic/o2qF3h3J+ulLEk=;
-        b=tCMf/wrx6J5HIHTsdtNOszh1MDeoUPFprN//DDinDxp5hNRv/NuM2G/tPie+GfrAob
-         oTMovrpd1pAdAwnjEwJQq1qnuHjbs8/GWjlXBUW/1+LKuPrvVEFvqNV9DC3EF402Vg68
-         8W5w4PHT97hAgkuVAS8Zki1wkfKj+OTfy0MJm/KSFlOewAGMfKUMiWROUBOQRTbeGyTH
-         dmIHrdF1Z18b/8ys4kr3r8yX9IQw6mUJaDm+l5GRpxZX7d22QNKQtkiOTv0CSvdLEpWl
-         vkYbaaM4/LsF7u3PbIR10XGhNV4rAKKVsgSTZryPgbsk2oEw8PU51UoV0Q3moUPNrYAL
-         9e2A==
-X-Forwarded-Encrypted: i=1; AJvYcCWLm0w+oyrq/ghcaBHQkxMZI2d57qViSsWjHMeXf2eVu+YP74C+jYBj/X2q5SImRrWWhr+YsQtEPIgO/g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5LZLfltN7K8zsCUdhtbRSX26nvTw6nHoeqr8c2Yuew3nVHk2M
-	qgsa3mhiV+H9SmFbe4c9/2uatyllciri/+PkgCVDt+STaaBFJ8Etx2nBP5wV1lo=
-X-Gm-Gg: ASbGncsCUz3Or3nRnuIzff0dD00prJChOcymA2usEJOP0xqrmE2O0s+aU4SHxYZ53vM
-	BQoDYlHdcjHEqTTswEx9GHLqWSEsTMep5UQq7AjQakR2puovSxviYvT8voSdHyHJh8JdMLcF9E2
-	pkgK3tIcwq9yiI1W9vzDhniBX1ZiFl9SkJNCh3ChndUqKIxKg1LNz2tO6GZ61ICBMEiaGccSoE+
-	BUrPHtNqRSlq/AntDxsLkwF00k0369xrcRciyQTqCAhtJX04mTZbhmpFX6JlimodOtEvCi9Pn8Z
-	HpRAa56ynR/Jc9N7fNEY2eJgFlXrbkXx5eAQLaSYDksKFKdpmVW3
-X-Google-Smtp-Source: AGHT+IG7StedQ5Vnf2T8W9EtvcPrRVDItpyl7T3DBHEMIV0RzDgNrv3XTiomaadolzmBwJACvP6VXg==
-X-Received: by 2002:a05:6808:30a3:b0:3e3:bd1c:d584 with SMTP id 5614622812f47-3f3922d9a38mr2709674b6e.9.1738945755147;
-        Fri, 07 Feb 2025 08:29:15 -0800 (PST)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f389ed6220sm756084b6e.15.2025.02.07.08.29.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Feb 2025 08:29:13 -0800 (PST)
-Message-ID: <74ec33db-6721-4b86-86a6-e18b0a01fc47@baylibre.com>
-Date: Fri, 7 Feb 2025 10:29:11 -0600
+        d=1e100.net; s=20230601; t=1738945873; x=1739550673;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UYnGgZPDK4gRxkfUxbitpLr2RSPLoi7AT6rj4xgzIwk=;
+        b=D/cRYnXxt6rsaWvZhcIpwATugJihQHFOWdW+Dx/1wkIhRfUAKHB8L6cQh95FTlg81O
+         IcoEcdzoY3z/5qD6i2ysGowYigyXACUnPEGhq+9nK3iZn+YdXHzYlP3ZbwXS3C4h7I5I
+         Ca3BxNvFFcy1xJF8ykl/K/2kqp2ddEfaCIyhjC4/0v3XyOpBJHGRHRv7/F64+R2vogSx
+         qY9E5KS5jWy2BeKgw+yP42zqIyEyxsHhwdFb9576owGFfpwNZusMia3N2ZgYmvFvpytG
+         BEKj5dmIjr98goTMGk0HXoqgKDd5NUKngB3pMUTGIfiRNnL+9UVGCsNLHgfUPxONKF7z
+         um3w==
+X-Forwarded-Encrypted: i=1; AJvYcCUFV9HoXu6M13TWAqwYkjcFBV3RHhtPn4okfaAt1u0x4uJxw7hwPTi0lXnApBq0u0cwSbJ0QaE6+g7Ti42H@vger.kernel.org, AJvYcCVm4lgi77d4SQhrteyfjHPoeHM8AONDr0W/XOabOkGonIQ1rgNvpwFYAqSGIgdhK3sYwh97IX1Yivyc@vger.kernel.org, AJvYcCWBPrim/sBTNYQuKsrad4FiIDMOL5N4Nc96aJGwKR2wU9KegEVlsK+3Q3m9iuT3RyVSMR0OQ0iPzys93b4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDo+Qxa6kz4D7AsGtkPfYPLr6wqEOE5tC46MFGDhIXZWthmzYn
+	WU3YZPaA6xIZQze3ClMIYFwSBTetNnQKfx2jGoExuhgjOVrn6+yZ
+X-Gm-Gg: ASbGncucAnAzneFTlA6Kn3Y2q4gmNaANLuvlV1l8632ErwsqmbACfKzWkg4MEDHjjIy
+	TYQBuh4ohot4+VS/+1d/mzP1Ur3qKpXrRzjMj8tY2e2FpQZMFKmYFQGyzY5ANFqB/eY4+UqLe3S
+	9kQInqmVoTdHxivXurySvf3Rm4vm1gj/TG2CFwUd5qEALyDUyn7tfLaDraWhW+U8hy0AcIW5uPt
+	Mu42FZvZaCP7yO4x29TYzPHrNvKZv7yFPE6nk8yLmw77OFklPVH/FoYMbQHbWioqdtGkmOC/6lr
+	E/Ci96pqBfhzxGKp3OYs60u9L84V+aktJIUPxjhO62UHg3BXBi1+cQ==
+X-Google-Smtp-Source: AGHT+IFkdTADIPTPp+4U7XElbVxbfJRvAfoKWeBJ3z5NDrM3R19vG4v0kiOYf5OhwHGFSQiHjJfM3w==
+X-Received: by 2002:a5d:64a3:0:b0:385:faec:d945 with SMTP id ffacd0b85a97d-38dc9924025mr3008547f8f.9.1738945872663;
+        Fri, 07 Feb 2025 08:31:12 -0800 (PST)
+Received: from playground.localdomain ([82.79.237.175])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dbde0ff2fsm4890258f8f.80.2025.02.07.08.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Feb 2025 08:31:12 -0800 (PST)
+From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: dt-bindings: wlf,wm8960: add 'port' property
+Date: Fri,  7 Feb 2025 11:30:29 -0500
+Message-Id: <20250207163029.3365-1-laurentiumihalcea111@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/13] gpiolib: add gpiod_multi_set_value_cansleep()
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-sound@vger.kernel.org
-References: <20250206-gpio-set-array-helper-v2-0-1c5f048f79c3@baylibre.com>
- <20250206-gpio-set-array-helper-v2-1-1c5f048f79c3@baylibre.com>
- <CAMuHMdU5tt5_t2SfYO3OUsHenu_0PhpKeLHktNdCx-W6zCEymw@mail.gmail.com>
-From: David Lechner <dlechner@baylibre.com>
-Content-Language: en-US
-In-Reply-To: <CAMuHMdU5tt5_t2SfYO3OUsHenu_0PhpKeLHktNdCx-W6zCEymw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/7/25 3:10 AM, Geert Uytterhoeven wrote:
-> Hi David,
-> 
-> On Thu, 6 Feb 2025 at 23:48, David Lechner <dlechner@baylibre.com> wrote:
->> Add a new gpiod_multi_set_value_cansleep() helper function with fewer
->> parameters than gpiod_set_array_value_cansleep().
->>
->> Calling gpiod_set_array_value_cansleep() can get quite verbose. In many
->> cases, the first arguments all come from the same struct gpio_descs, so
->> having a separate function where we can just pass that cuts down on the
->> boilerplate.
->>
->> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> 
-> Thanks for your patch!
-> 
->> --- a/include/linux/gpio/consumer.h
->> +++ b/include/linux/gpio/consumer.h
->> @@ -655,4 +655,11 @@ static inline void gpiod_unexport(struct gpio_desc *desc)
->>
->>  #endif /* CONFIG_GPIOLIB && CONFIG_GPIO_SYSFS */
->>
->> +static inline int gpiod_multi_set_value_cansleep(struct gpio_descs *descs,
->> +                                                unsigned long *value_bitmap)
->> +{
->> +       return gpiod_set_array_value_cansleep(descs->ndescs, descs->desc,
->> +                                             descs->info, value_bitmap);
-> 
-> I am wondering whether this needs a check for !IS_ERR_OR_NULL(descs),
-> to handle the !CONFIG_GPIOLIB and gpiod_get_array_optional() cases?
+From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 
-I don't think it is strictly needed, but could be convenient for future use
-cases. If we add it, should it be:
+The wm8960 codec may be used with audio graph card and thus may require an
+additional property: 'port'. Add it.
 
-	if (IS_ERR_OR_NULL(descs))
-		return PTR_ERR(descs);
+Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+---
+ Documentation/devicetree/bindings/sound/wlf,wm8960.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-or:
-
-	if (!descs)
-		return -EINVAL;
-
-	if (IS_ERR(descs))
-		return PTR_ERR(descs);
-
-?
-
-For comparison, gpiod_set_array_value_cansleep() will return -EINVAL if the
-first argument is NULL.
-
-> 
-> Slightly related: shouldn't gpiod_put_array() (both the implementation
-> and the !CONFIG_GPIOLIB dummy) allow the caller to pass NULL, to
-> streamline the gpiod_get_array_optional() case?
-> 
->> +}
->> +
->>  #endif
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8960.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8960.yaml
+index 62e62c335d07..3c2b9790ffcf 100644
+--- a/Documentation/devicetree/bindings/sound/wlf,wm8960.yaml
++++ b/Documentation/devicetree/bindings/sound/wlf,wm8960.yaml
+@@ -75,6 +75,10 @@ properties:
+       enable DACLRC pin. If shared-lrclk is present, no need to enable DAC for
+       captrue.
+ 
++  port:
++    $ref: audio-graph-port.yaml#
++    unevaluatedProperties: false
++
+ required:
+   - compatible
+   - reg
+-- 
+2.34.1
 
