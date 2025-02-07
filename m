@@ -1,63 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC0618C930;
-	Fri,  7 Feb 2025 20:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDC719CD13;
+	Fri,  7 Feb 2025 22:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738958647; cv=none; b=mhCTi41tgntN2Dke+OGUJ7yTxD0HmL/feDgsm6IuhESxQ71bOxna55BzqtP8oyMlFcKMUUVShOBhEkjYy17BY/846sDB17TfDsbgjN8RrwYFZYCVTCBLy0o+1Vu1eLNJ1BJ06cTbljLFA7pojlEOV1ih8ttJ4X/4vLP49EnVOt0=
+	t=1738967323; cv=none; b=ZfugSQwckQI2pcIk5ocUdId60QXNV7skvKh7VSoJxc2ITW6MboKHHLsmGLi3BeUyqhPgKeeQ7IeV8l68ag0dtmpQFzcSXWZtXr56wdI9ZtOV8yCAkdtN7HdqQSsa1dRvwixqvkHUEShIDsE5XmtKckx6DqtYjcTCq9uZDZKYn7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738958647; c=relaxed/simple;
-	bh=WjlNe0sVb6+Z/v6gi86kjLnaUhKqTTz0OLGVmjtl99c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=camblUosJowf8umnegIFzuqXMzLukOOBeFxVQ8PYzV2REjItqYF4IjQxW3K0GbxDFHk8PGGQTTmrxqrhmc3Dj+Y2ftvgZAdhJygOOA+4WJWVGofmFHch0S8OWFhbOO9ASuGdirithDMzaLfjIckigxHr9cG5GqyLXSI2knDbAbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eau21S+4; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738967323; c=relaxed/simple;
+	bh=y0lMlknWz7h6hi48vGEQ5WXn3IyNTFR6Jsc4G941ZaI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=l4+OEXS6vdq4M3h5qAf+CoxC4oq9GgGZ5RSsaWocPs7SZh5JUfpodIdZMuf24RkooTdQ9CqapSg43KN0iA6b15ayo89qYDMpDDayZ+HAePGJgd4Dtr3QZaFC3tAu3HfhLRpR9KaYyRRZi3sToJCJD/hh43NDEonmvlaGeTvQC9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hfbRCUSJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eau21S+4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738958646; x=1770494646;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WjlNe0sVb6+Z/v6gi86kjLnaUhKqTTz0OLGVmjtl99c=;
-  b=Eau21S+4c+dw0OSXMwj10ecfnAvst9IHk+LbjsUoi+msW/phcVuZPlQu
-   eMX4+IjGjnut6RvCp4oy9jH8nIUhoXrQrjsnUNGO96e3Z2kyagKiLEV4M
-   TxZSmkibVUER98owrujQuek0W2H8PscGyGxO/dLuhqL8eoBhez2umWXe8
-   1eRaXh2sCEXC08Vvuf5vho9imP7MRhSL7uoijCpQXPmmcFqMVqrfTZ9UL
-   WLElO0k8aPWuy6qRTX/dILijgNUC3/ZjJrgpvVtKY+HHNxIpLQw1V9QQz
-   ssDI6To+GiDCd4X6Btd4k4BRnfzmeB6FFNX2u9op22tfVWpZB8D8XEBgp
-   Q==;
-X-CSE-ConnectionGUID: eplit/F5SLq1r3c6KdkiMg==
-X-CSE-MsgGUID: WadJuXbeQE+3tZP0ZddzOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39303883"
-X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="39303883"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 12:04:06 -0800
-X-CSE-ConnectionGUID: 0v98F1P2TGqq5H5QmNuAcA==
-X-CSE-MsgGUID: fWFbOHFTS7iFzYy6Pn10Ow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116824606"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 Feb 2025 12:04:02 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tgUZz-000yyR-23;
-	Fri, 07 Feb 2025 20:03:59 +0000
-Date: Sat, 8 Feb 2025 04:03:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nikola Jelic <nikola.jelic83@gmail.com>, lgirdwood@gmail.com,
-	broonie@kernel.org, perex@perex.cz, tiwai@suse.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hfbRCUSJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B622C4CED1;
+	Fri,  7 Feb 2025 22:28:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738967322;
+	bh=y0lMlknWz7h6hi48vGEQ5WXn3IyNTFR6Jsc4G941ZaI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=hfbRCUSJVaelL0DjWFz/52IfumhZGHs2WxW8E629XPCB1nBRBLI3SCVnL4dTprfp3
+	 g310+jH+owfkPwWDxS/zVVNAmOA4Csgn0GicfnZwcL0h7sORihso9+vDvKKGW6axll
+	 TK3+9ESKXhAdjGFEApI2DHkmEZudwUM7gzm8/H8BkNhgwcVWNwni8ipiKaCvgOwkYZ
+	 nW3hBn6VA552SAARFyLlJ5hKBSGu6hH4/56HDXz92IU1A72UZuOKN10BjMPmTcFL6h
+	 bDw8Twa/uEwIDMCk/Q7BcHIL99sKjaGmoEoSM5mg/GNI4fcRVSHRDqe2L2E4SLg+Tx
+	 HfuJBjpsoKUyQ==
+Date: Fri, 7 Feb 2025 16:28:40 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	bhelgaas@google.com, linux-pci@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, rwalton@cmlmicro.com
-Subject: Re: [PATCH v3 2/2] ASoC: codecs: cmx655: Add CML's CMX655D codec
-Message-ID: <202502080303.D7LqDToV-lkp@intel.com>
-References: <20250207161412.6281-2-nikola.jelic83@gmail.com>
+Subject: Re: [PATCH 1/4] PCI: pci_ids: add INTEL_HDA_PTL_H
+Message-ID: <20250207222840.GA1073192@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,48 +44,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250207161412.6281-2-nikola.jelic83@gmail.com>
+In-Reply-To: <20250207133736.4591-2-peter.ujfalusi@linux.intel.com>
 
-Hi Nikola,
+Please update subject to match the history, e.g.,
 
-kernel test robot noticed the following build warnings:
+  PCI: Add Intel PTL-H audio Device ID
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on robh/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.14-rc1 next-20250207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Fri, Feb 07, 2025 at 03:37:33PM +0200, Peter Ujfalusi wrote:
+> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> 
+> More PCI ids for Intel audio.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikola-Jelic/ASoC-codecs-cmx655-Add-CML-s-CMX655D-codec/20250208-001527
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250207161412.6281-2-nikola.jelic83%40gmail.com
-patch subject: [PATCH v3 2/2] ASoC: codecs: cmx655: Add CML's CMX655D codec
-reproduce: (https://download.01.org/0day-ci/archive/20250208/202502080303.D7LqDToV-lkp@intel.com/reproduce)
+  Add Intel PTL-H audio Device ID.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502080303.D7LqDToV-lkp@intel.com/
+> Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
->> ./sound/soc/codecs/cmx655-i2c.c: 3 linux/version.h not needed.
->> ./sound/soc/codecs/cmx655-spi.c: 3 linux/version.h not needed.
->> ./sound/soc/codecs/cmx655.c: 3 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 424: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>  include/linux/pci_ids.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> index de5deb1a0118..1a2594a38199 100644
+> --- a/include/linux/pci_ids.h
+> +++ b/include/linux/pci_ids.h
+> @@ -3134,6 +3134,7 @@
+>  #define PCI_DEVICE_ID_INTEL_HDA_LNL_P	0xa828
+>  #define PCI_DEVICE_ID_INTEL_S21152BB	0xb152
+>  #define PCI_DEVICE_ID_INTEL_HDA_BMG	0xe2f7
+> +#define PCI_DEVICE_ID_INTEL_HDA_PTL_H	0xe328
+>  #define PCI_DEVICE_ID_INTEL_HDA_PTL	0xe428
+>  #define PCI_DEVICE_ID_INTEL_HDA_CML_R	0xf0c8
+>  #define PCI_DEVICE_ID_INTEL_HDA_RKL_S	0xf1c8
+> -- 
+> 2.48.1
+> 
