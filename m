@@ -1,142 +1,192 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D500E23F27E;
-	Fri,  7 Feb 2025 15:43:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B3423C8AE;
+	Fri,  7 Feb 2025 16:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738942991; cv=none; b=PM/h/how+57tO1It0l9o7odv07eEUG0tsUKjx7hd8wv6pSXyfOGimA6zOU/nwp6ucn7B15eZBs5caB7JlByx9ynOHJSqPzqzTIyWevOOJiIifrck505wQ1t4RCHxfVXJIotDDNSxI3LPkErSZBXZFGOaEg1gGeYawLuAdTwWB+Y=
+	t=1738944858; cv=none; b=Rzn+UXdm+ad7QbtBrUDr1i9k9SqBv24vXE/p+E+vNmDg9QQFf2ncbKO0AJR1DQDs874OE3eOS9BkRFINRnaFsRXL1LAsI6g6xmdKnbB9ueoItsXN/R2jJWUXaD0Rq0lyG7gq9TBAW8XZiQ8yJ9vcKoUZJmkY0u3BzVHadrkFvd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738942991; c=relaxed/simple;
-	bh=V/mJbsV2FpS/yrn+vg3Hob7Vj8vsVhpVXGKAdYRI+5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iQVFXIF+wvidEPLH50Wzxi+hDY3OZmAGrOGvjh5qk2L4RWWgIuYXbECV+rYX3ssnMZG4PC+SyYCiEUpDE81dUtETg1Tsdd3NUn0Gw0wppkAXxtSDaBpbS2G1cEHiqeoSUWQg8WxHxuFI+xk66M/U0tJ2qLvNkb9uDbN9kRvNcH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jX6Z1EkM; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1738944858; c=relaxed/simple;
+	bh=EM9klKFY4xMwaWQWmsojjGWIcEKo0Aso40CzFs3PHgQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OJV+mQTZqlO70bBLcbd9fAt4SVcRQ+KYrDdnE7uBbvY5J8hLew3IrPD2hLV5WfAU44NDeHryJzjslGuv63PT0pddLkf5ctZZ4U37cAH9MFdLB6y0iWcP13050fcSwg4ir2XU1cKTE6Wmklp4pvFBf0d3w9Q6j+cpm3sJn7tKk9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EIlQp5cM; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jX6Z1EkM"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-21f5268cf50so13446825ad.1;
-        Fri, 07 Feb 2025 07:43:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EIlQp5cM"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-aaeec07b705so388757066b.2;
+        Fri, 07 Feb 2025 08:14:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738942989; x=1739547789; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UxhLoK7XAPc7+07p+MzQjz273lZ6TnGYiS+xzwBXJJs=;
-        b=jX6Z1EkM6hvx+zqfG4Jk8J4qv8Ahcwp3Qc6KaJf5Cr8DCYajF6YUT/pUVTnIObhkjH
-         ljHB64kpEnwRU2dcOKm8WuinRBXAGji18YcPFkmmtWBeAAsCWROdbyHb7KIKUmOt26os
-         gr/6IL3ZrCcagTXKd4FtfkgMIW3F63Kt2Jm9Vzn2K2DvGPBYGodmeQiOoY9n1/UFOzwz
-         rcHjVXF4MRLMOXyUC/WM/djIIJEIMZqn1RYNnee0VKeE4PTo/5tg99ByoyOEjSw8Iiv6
-         f67HLcLcOMEBOFVZcRutLL0uhf/otB8b8v7f9gQKdNHvdSuvnkKACKvfx/bKo4eAICsh
-         A9og==
+        d=gmail.com; s=20230601; t=1738944855; x=1739549655; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VNoNUqAETs1xeTDeK4+IVuq9A5rrpEE0Blu4HixpU0g=;
+        b=EIlQp5cMMe+jmz6FojOSa1Yo2AlCnSuMcXN/AdXqJXPlt6UWmQRRyqSlQsFWYEa/LV
+         Xub9lCz873J69afS5gKyoQ6A9WRBmaE9MISxTnDttY433aslgD4GP96cmqu0nkg6+BuN
+         pbcyyanZw74wd5WdDShVuYKii2hDD3rE69R3U2RtTlefL7Xdt4lv7EHC6DavXcpxx0qe
+         R6FCaRm4C3B6b5GesUxpKVw6TsbuFrbNsSX2LvBSGcvQXRJW4DWNFtYrReEx5gzq/CF/
+         G0abhpyZ+z4huafSz3v9Bsg2MCcykjwbFvW5j49shdilrigJqxo9iAWvYZHDReHb4IiA
+         jFtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738942989; x=1739547789;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UxhLoK7XAPc7+07p+MzQjz273lZ6TnGYiS+xzwBXJJs=;
-        b=kqOQA5PW+tA2xQHDDT0qbljm74/nBi5tXFyRAEXCqhL2eSbG2GyxTgTC52DC72w+NX
-         6QlEPUTVbuQE99tBH7pJoD/VipxoK/NgskBfGswtzCB6HS6jJFE8XxdLr7hhGdUzMqHI
-         YR+asq3cdHCMzM3BORElwQjKn6JGP3qL3dFFLhrkH4vizlkdDwYeWt0M7sSgbmNmKZIC
-         tWD51ZTdX+x3uAx/b4uI0y/+d/luA2l4AJugNKj7zU1S5pDwTIvGhZzJV93YIane1fAB
-         aaW3hr2nTHVQ75vPH1s9magE04aEXxbME8dz6jA9NBEGip4qr3noGqFB4sf7fHZXWMWT
-         I8og==
-X-Forwarded-Encrypted: i=1; AJvYcCUv6X5YyW5AXTHhVEdLm+LA9ey99R6eZs1nGhIfNZPStcaGDUdrBCgjZojkFX+99RJ6eEloUev6bpQQUI8=@vger.kernel.org, AJvYcCV8YxcrmZldtl02mXnNsJAWGPVhhk/M8qLcL3+DIwSvD2FLrx8JUurp7x++6nOezOU06h40K81bzbih@vger.kernel.org, AJvYcCVWeTB/D8/ifaXQSK62Uj1Td8qNX+CGqMaDQpN01HxvtgDL1YqyBd1DPBP0NYzSdxUVa3/QN5n7Sczvi6WP@vger.kernel.org, AJvYcCWsOn9mldbwmvTJhK3O/m32CSggMm6sOuo+wA6T2GLv1ElmNhCkL3amiqHmWd1ZB36Zc7FtAeA0@vger.kernel.org, AJvYcCXhXqqJ9ZOxkw8FrUs6lQEIrzrZim9UGokFxqL0Kd5gmmgBQl5sGwZOGV+tMVaK4HnZW/SZnn9fJX5W@vger.kernel.org, AJvYcCXo2gvcNogiQe0Bw23U5E92Ki/SlFzzzVSB+3Yzc6Lj9iYqbrdQfzuI8ULdLyap9pyVuBhbsxnPyb/2@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHjjNm5PvJkSAd31vtLXiYY2MZiYbTu0GJfurJSkKRnb2WFE4T
-	TUxvF1euBbRyB4ncBb/cKzy5ryPgtf+E0UlythUgLuMcvXMW7bJQpLpmytHX
-X-Gm-Gg: ASbGncsyaFazJVTwVL03mlfnq8L22tM3Eqi5ADevJm4SLcCKwfLSn384o9/KEb0MyDM
-	zQgj70IOMkil/smqWSQk3UGcDcdIcFE/cv+l6hIoGvArIR224x8I1ZdNqDtUderaAN+Ginob6zR
-	NFlTlKcbDkJjyw3qofLq7UsgJFMzL//EvxOHU8ftVkUcQkhEVqGP1oCzTRLFmNUP7HyUIwdNk7t
-	eDr2SjjxUJHROBl6HzXMixrYuTq3uktyE31UdPaFM2x6F9UJDvK9o2vcFXgrDc6uEJ3AnTdIq2m
-	20kFJevC2uL6nxs=
-X-Google-Smtp-Source: AGHT+IHksggvra53OzUJzI4zoRynwjPKZIRBW8flE8pNvut2OPynffqKQreS+fTXcRUSXiaAn6xL3A==
-X-Received: by 2002:a17:902:ce8c:b0:215:4a4e:9262 with SMTP id d9443c01a7336-21f4e1cc2e9mr47245225ad.8.1738942987478;
-        Fri, 07 Feb 2025 07:43:07 -0800 (PST)
-Received: from localhost ([216.228.125.131])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f368ce622sm31799335ad.241.2025.02.07.07.43.06
+        d=1e100.net; s=20230601; t=1738944855; x=1739549655;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VNoNUqAETs1xeTDeK4+IVuq9A5rrpEE0Blu4HixpU0g=;
+        b=NIsml22ALST+jPe+wyLPaW6YqMyls8ZiT2IebaGecf54GPWh5Vm0TWdeKxpMJ+R34h
+         nBA7ic+dbxe4hw2hLAaJsSMndBCk4G/q5CWvFUgOi71jAqkuopEOHfcmwUD9jAFEEGbb
+         fexZjlghs9ILXROLGyjWLpYJlmTvJfbLCMeadgoa5vjWn71nT7KpXjM1WgPt8EqKEK0X
+         whgx5O162buZQnJEZ+DshL/lLqydw4gj6q/Togiro1ItWN/C1QGdLjGiGgXHG6FEj5gB
+         hkfsRv67Q5axoX71BFDMoMnvHcDR3jnoWhO0fkhus6njSoWGJWSQKL5YEmBRRVfFfmKl
+         JOJg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3moPVxn67d2K+m7KzFCE5xyxWJF1Nnvw6MpT92tZFDj6x2xREuqJoCScLKOXFFvOq4zEYrM1KZpfO+rM=@vger.kernel.org, AJvYcCVxOKwowT/7O8BvizwoVJxEnqrbTsXeUrgShe9eQsU471BK8HzFSrTfPPdEXobz0wfkqTodbubCG8zWfo7Q@vger.kernel.org, AJvYcCXHd/Lj3FmvwkLRU9IITyvd4ykw+SQtWyD1ERgtN9/Pmeigdg5Lik1kttH18d62Ivtl3Et0dDb33V0O@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCzlz45f5MbjnlYCnYYj2FlfYS92FaK5on5R1BxRUMLLUvj6AA
+	DzjW/PA0T4thrykjcuIOWM+WvhWedyDe2Mdcv7jNQxhpdLvVLL5k
+X-Gm-Gg: ASbGnct3LzSS2L2Ohw4NGF77+JvUqYjRr1cB+v4MAUq8pfQZtejInIPPWZl/6rdrfVO
+	weQx2RaSVNc3gIHvlBtJXwdJmycI7Rtrc3CwXqk2Ul5NHYbopPiWFJsh609HrGOdWsoQqR7LMaa
+	TnEvzfIBYQMGZhlJKjE7cuLOOATQKNTArWj3hfAyj6EKBO9QqaUboeVqRVEuvQGpgKe6echvwSH
+	bHJCbz0s+R5EO64c6JlSTIsJJ4K6WX4pdI3vAOCdVms78cfbElYOZM2hK4JISPDF/UNH+BPLn9S
+	ZC4tgMMN/2oh2jcZenT3gP5Xe8UPt9Q=
+X-Google-Smtp-Source: AGHT+IFN2gwGauYCLmmBl6S5dp3zPHiMgY1Un+kohLntY/fjgMFUk0oT6fB3bJBthbtbFhaptqU/oQ==
+X-Received: by 2002:a17:907:9719:b0:ab6:e10e:2f5 with SMTP id a640c23a62f3a-ab789bf6ae5mr424561866b.37.1738944854519;
+        Fri, 07 Feb 2025 08:14:14 -0800 (PST)
+Received: from CYBER-ABAKUS.kucica ([87.116.134.57])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-ab7732e712esm293592666b.96.2025.02.07.08.14.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Feb 2025 07:43:06 -0800 (PST)
-Date: Fri, 7 Feb 2025 10:43:04 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andy@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 04/13] bus: ts-nbus: use gpiod_multi_set_value_cansleep
-Message-ID: <Z6YqCOP2lVseW-i4@thinkpad>
-References: <20250206-gpio-set-array-helper-v2-0-1c5f048f79c3@baylibre.com>
- <20250206-gpio-set-array-helper-v2-4-1c5f048f79c3@baylibre.com>
- <CAHp75Vf+3pc84vV-900Ls64hM1M7Ji6Dmy8FPwL=n0=sJFSuVA@mail.gmail.com>
- <CAHp75Vdt5EU83mJrB7Sb_pgRNbhvCQ=F2Lyq7mQLAvV-w6cqEA@mail.gmail.com>
- <b1459947-18ec-4835-8891-5251d8f8c95e@baylibre.com>
+        Fri, 07 Feb 2025 08:14:13 -0800 (PST)
+From: Nikola Jelic <nikola.jelic83@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: rwalton@cmlmicro.com
+Subject: [PATCH v3 1/2] ASoC: dt-bindings: Add cmx655 codec
+Date: Fri,  7 Feb 2025 17:13:44 +0100
+Message-ID: <20250207161412.6281-1-nikola.jelic83@gmail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b1459947-18ec-4835-8891-5251d8f8c95e@baylibre.com>
 
-On Fri, Feb 07, 2025 at 09:23:56AM -0600, David Lechner wrote:
-> On 2/7/25 6:17 AM, Andy Shevchenko wrote:
-> > +Yury.
-> > 
-> > On Fri, Feb 7, 2025 at 2:15 PM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> >> On Fri, Feb 7, 2025 at 12:48 AM David Lechner <dlechner@baylibre.com> wrote:
-> > 
-> > ...
-> > 
-> >>>  static void ts_nbus_write_byte(struct ts_nbus *ts_nbus, u8 byte)
-> >>>  {
-> >>> -       struct gpio_descs *gpios = ts_nbus->data;
-> >>>         DECLARE_BITMAP(values, 8);
-> >>>
-> >>>         values[0] = byte;
-> >>>
-> >>> -       gpiod_set_array_value_cansleep(8, gpios->desc, gpios->info, values);
-> >>> +       gpiod_multi_set_value_cansleep(ts_nbus->data, values);
-> >>
-> >> As I said before, this is buggy code on BE64. Needs to be fixed.
-> > 
-> > Or isn't? Do we have a test case in bitmap for such a case?
-> > 
-> >>>  }
-> > 
-> > 
-> 
-> Maybe not the best style, but I don't think it is buggy. Bitmaps are always
-> handled in long-sized chunks and not cast to bytes so endianness doesn't affect
-> it. I didn't see an explicit test, but bitmap_read() and bitmap_write() use
-> array access like this so indirectly it is being tested.
+Signed-off-by: Nikola Jelic <nikola.jelic83@gmail.com>
 
-Not a bug, but direct addressing to bitmap elements is discouraged.
-I'd suggest using bitmap_write(values, byte, 0, 8) instead.
+---
+V2 -> V3: fixed dt_binding_check + yamllint warnings
+V1 -> V2: removed the txt file, fixed review remarks
+---
+ .../bindings/sound/cml,cmx655d.yaml           | 78 +++++++++++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
 
-Thanks,
-Yury
+diff --git a/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml b/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
+new file mode 100644
+index 000000000000..1648f606bf48
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
+@@ -0,0 +1,78 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/cml,cmx655d.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: CML Micro CMX655D codec
++
++maintainers:
++  - Richard Walton <rwalton@cmlmicro.com>
++  - Nikola Jelic <nikola.jelic83@gmail.com>
++
++description:
++  The CMX655D is an ultra-low power voice codec.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - cml,cmx655d
++
++  reg:
++    description: Local bus address
++    maxItems: 1
++
++  "#sound-dai-cells":
++    description: The first cell indicating the audio interface
++    const: 0
++
++  reset-gpios:
++    description: GPIO used for codec reset, negative logic
++    maxItems: 1
++
++  interrupts:
++    description: Interrupt for the CMX655D IRQ line
++    maxItems: 1
++
++  interrupt-names:
++    description: Interrupt name for the CMX655D IRQ line
++    maxItems: 1
++
++  cml,classd-oc-reset-attempts:
++    description: Maximum number of times to reset CMX655 class-D
++      following a overcurrent event.
++      >10000 = disable limit.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 1
++    maximum: 10001
++    default: 5
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/gpio/gpio.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        status = "okay";
++        audio-codec@54 {
++            compatible = "cml,cmx655d";
++            #sound-dai-cells = <0>;
++            reg = <0x54>;
++            reset-gpios = <&gpio 24 GPIO_ACTIVE_LOW>;
++            interrupt-parent = <&gpio>;
++            interrupts = <25 IRQ_TYPE_EDGE_RISING>;
++            cml,classd-oc-reset-attempts = <5>;
++        };
++
++    };
++...
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 5079ca6ce1d1..c471a4b905cf 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -308,6 +308,8 @@ patternProperties:
+     description: Carl Cloos Schweisstechnik GmbH.
+   "^cloudengines,.*":
+     description: Cloud Engines, Inc.
++  "^cml,.*":
++    description: CML Micro, Ltd.
+   "^cnm,.*":
+     description: Chips&Media, Inc.
+   "^cnxt,.*":
+-- 
+2.47.2
+
