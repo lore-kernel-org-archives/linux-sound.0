@@ -1,117 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882E9238D30;
-	Fri,  7 Feb 2025 15:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D5B23F28E;
+	Fri,  7 Feb 2025 15:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738942461; cv=none; b=ChAKlDhLF04u3JWnYXTBlXI3jVcGVFVMCv9rL0rxyEicIfXq1aukNoM4B0q9ScIFXQ8iQBZJv10mYe9NexwtzhYf9bOiP5w67Y1IP1yW/fjTsj9K6B/G5hgHMuFBiaqZCnS1rDMq5gw9RMWctxQA/F3euuWoWt2PKWfu9GnhhXw=
+	t=1738942781; cv=none; b=hQFXBiC3D5+dpY73tQGQZJJPynMtQRmPo3ES4M2PnsZZgoSDoBMh7PnVd+Mbg1Hww3SLxWmbCZSciShhanddWtefzsN9iG1q8Hjf5HCGcGYzBmkSMcbvZ9tV0DPpCWcvr91HfOG/IyMhF+kD8viyCa0B5ZyQ8L4ejuXsoF/D/lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738942461; c=relaxed/simple;
-	bh=nP/eEfPN/bwxT5v2aRBfTgmJI439shKK8G5cUYRc3EY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RevnkzkqmS3LK2mWp8TbCmIWdN0TFew7e78I6R6uYxKpDOLzBv4s+DPluNIN/SBvIhx69x4iLxBvguspFIDmoC/QN5LaCPNkca1MIWcFeXf1BbUNEGCl+YIfIiJHuYp82ll2H6SCJf6oS+gQgmLpANWo2QSwqaGmFhCqMZjHG8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-X-CSE-ConnectionGUID: X/TT5NKrToaslSelBQhr9A==
-X-CSE-MsgGUID: mV1AImCQQ+yYMGCMn86yjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39740095"
-X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; 
-   d="scan'208";a="39740095"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 07:34:17 -0800
-X-CSE-ConnectionGUID: VXQqLjZtSzqIIF02PqrfAg==
-X-CSE-MsgGUID: 1poCM6aWQKagH+xRcoUGUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; 
-   d="scan'208";a="111471997"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 07:34:11 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1tgQMp-000000097ct-09fa;
-	Fri, 07 Feb 2025 17:34:07 +0200
-Date: Fri, 7 Feb 2025 17:34:06 +0200
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Yury Norov <yury.norov@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 04/13] bus: ts-nbus: use gpiod_multi_set_value_cansleep
-Message-ID: <Z6Yn7mJZwPXs8-MA@smile.fi.intel.com>
-References: <20250206-gpio-set-array-helper-v2-0-1c5f048f79c3@baylibre.com>
- <20250206-gpio-set-array-helper-v2-4-1c5f048f79c3@baylibre.com>
- <CAHp75Vf+3pc84vV-900Ls64hM1M7Ji6Dmy8FPwL=n0=sJFSuVA@mail.gmail.com>
- <CAHp75Vdt5EU83mJrB7Sb_pgRNbhvCQ=F2Lyq7mQLAvV-w6cqEA@mail.gmail.com>
- <b1459947-18ec-4835-8891-5251d8f8c95e@baylibre.com>
+	s=arc-20240116; t=1738942781; c=relaxed/simple;
+	bh=t4uASqSznZ8tq16GmePFTS52RmjOiqzJK2YMsqAmkfk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=LOtY3mO3AIXqLGN4wCOkgaC0mFcBR4Qp3oDcb0zLrDo+4MBZdzVbnd3zEzhypbI3VWXj9afvsj1RGpCR3/1vgH7fd7MUolzXxYjaddCUHKZOJIUNidrEq5wieofk0n7RcZKai4P0P8WJwnGF4lQWcZcFqcSmA9SKOiLXOSDtCIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k/45OCr9; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k/45OCr9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06E36C4CED1;
+	Fri,  7 Feb 2025 15:39:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738942780;
+	bh=t4uASqSznZ8tq16GmePFTS52RmjOiqzJK2YMsqAmkfk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=k/45OCr9XJlWgmYK7lJW8wZlmlC8nXfiuYn+lN2FhpGlSB/4HQP9Z+CseuvVV8GF3
+	 Br/lqmQZ7OngTQwaK/SQpRs0MKAJO2UraLkjUm7o9E7URcCGizlnAM9jklle4Nv8P7
+	 2uhS65Czcoxdh7tz/Tkqex2cpW/SSBLPsTc6xBpWnPKag2fImzfoAACm5v7qg1q5FW
+	 JXiqd+H/lTfxnikxPrz+n6+d8Q+S2NzEg6n367+JP73fPKwIgfXhfOsiFMomkMuq3T
+	 c29p0fQmEhR+T+XTjnDHasI1izFLnr5WorNz9CIzME+w7X/H/PI8z+wWGZQDWa6LkF
+	 F2KaOUjPcAgTQ==
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Kevin Lu <kevin-lu@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+In-Reply-To: <20250206192537.1133763-1-andriy.shevchenko@linux.intel.com>
+References: <20250206192537.1133763-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v2 1/1] ASoC: tas2781: Switch to use %ptTsr
+Message-Id: <173894277874.54486.13898875284759460779.b4-ty@kernel.org>
+Date: Fri, 07 Feb 2025 15:39:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b1459947-18ec-4835-8891-5251d8f8c95e@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-On Fri, Feb 07, 2025 at 09:23:56AM -0600, David Lechner wrote:
-> On 2/7/25 6:17 AM, Andy Shevchenko wrote:
-> > On Fri, Feb 7, 2025 at 2:15 PM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> >> On Fri, Feb 7, 2025 at 12:48 AM David Lechner <dlechner@baylibre.com> wrote:
-
-...
-
-> >>>  static void ts_nbus_write_byte(struct ts_nbus *ts_nbus, u8 byte)
-> >>>  {
-> >>> -       struct gpio_descs *gpios = ts_nbus->data;
-> >>>         DECLARE_BITMAP(values, 8);
-> >>>
-> >>>         values[0] = byte;
-> >>>
-> >>> -       gpiod_set_array_value_cansleep(8, gpios->desc, gpios->info, values);
-> >>> +       gpiod_multi_set_value_cansleep(ts_nbus->data, values);
-> >>
-> >> As I said before, this is buggy code on BE64. Needs to be fixed.
-> > 
-> > Or isn't? Do we have a test case in bitmap for such a case?
-> > 
-> >>>  }
+On Thu, 06 Feb 2025 21:25:15 +0200, Andy Shevchenko wrote:
+> Use %ptTsr instead of open-coded variant to print contents of time64_t type
+> in human readable form.
 > 
-> Maybe not the best style, but I don't think it is buggy. Bitmaps are always
-> handled in long-sized chunks and not cast to bytes so endianness doesn't affect
-> it. I didn't see an explicit test, but bitmap_read() and bitmap_write() use
-> array access like this so indirectly it is being tested.
+> 
 
-Right, the potential (and likely theoretical) issue may come if DEFINE_BITMAP()
-out of a sudden will use, let's say, an array of booleans. But it wasn't my
-initial complain about the code :-)
+Applied to
 
--- 
-With Best Regards,
-Andy Shevchenko
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
+Thanks!
+
+[1/1] ASoC: tas2781: Switch to use %ptTsr
+      commit: cb161c333927142818d6bf22a4da2b023fb2b8c9
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
