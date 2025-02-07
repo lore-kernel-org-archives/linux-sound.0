@@ -1,120 +1,90 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527BB1A2645
-	for <linux-sound@vger.kernel.org>; Fri,  7 Feb 2025 11:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D3E1624C3;
+	Fri,  7 Feb 2025 11:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738926050; cv=none; b=rW3az8su3MpP4hFhycy/doB9ZOnsXiSEsGjgnptClcWIueXF0asu4v7dQiZYnyzinOr56i09gy7ZeXEOUWZWG7JCPSu40C6BTIenlykdSU9Vkm1aFsVZMYayV/ViRDclBWrkD77XTZWQN3kL4pk07dau88bALNIgvNC+T3NPE1c=
+	t=1738928809; cv=none; b=P19enRTWq6XqsI0kCPvvtki0+ERn8VoIt0s4FIBidOYGAf0ow8SZvApNlf0V0NZ5Db8KPKKasMcbK45yu6oRj6Oa30hcyI11cRSd7hUpEReKDZ+s/+ntKGh1UT9VUkBXy/irF0tCL/vZpLdUr7USG9D+/w8Iqpgo/9rPY+AKAzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738926050; c=relaxed/simple;
-	bh=ElkCd0VSmZ1y7aJo1xSkdXaYuOZ//Q71DJVBY+TzsMI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dyrckIyoHZyn8ihElC/Fod0gSKBPxHPOTsY1EWp/lPjxvwAGaCsU7tFr+Zsbb5m0ppaUPDp6t97ibwj4/RSFjD35iInNlJjdSrCefqRF1EfErH8sTP0BSEtRYvXprR2jWzPwqCiuiT34V1SDu1fIxBiU9qBnuAls06NBSSRDkoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v0fiYgzR; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1738928809; c=relaxed/simple;
+	bh=sjN/g62W9GZCGhfmhpvikdNIpkQvCQh2KKR1vBQPh84=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DtT1TiHgyHCTvVwf+WJURtEJfMmKmjMzj2LBqCay77wqbdHrGvnLGPKGvNt4EUy6ffST7Z/PoF27RRlbii8zKA0N5KCoq0KCIYw9n37Po0RAEPOmW1hCFkN4MkuZOf6z41UiiwHZK1U3P23HwRBcyn2VqDLdhagQxoG3prsn8sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=emrjmMB0; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v0fiYgzR"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5dcd33d9d9dso8356a12.0
-        for <linux-sound@vger.kernel.org>; Fri, 07 Feb 2025 03:00:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1738926046; x=1739530846; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PPNEh3d8SXd4UyVBzDYe+DWkKrqBsXALhs4HDck1znw=;
-        b=v0fiYgzR3YU7cPppw9/J+DWXjC3a22NO3H+m0Dxy4+K1O5YZJdp6f6rVKIwUzVr5cU
-         4iwvJH9Hgkm7e5TDT5ABeIpZ/PEqd39XJExp6BEuKNwHqyWXO0jRaPTrYASv9Oye2A0T
-         gJGrpaTH6cfdzBzersaOGgIhDDtzJIhGCMyau063Mih95d6b8OXUecD8cfXpbsmba6vh
-         5Osm++ilG1cm02U6vR0j0PHPyFsMalNPhW+ikrPVnf5zGhhzE6BkgehoxxH1S0NhBf10
-         Q/5B5XoSCnmHCEH3QSJaHxQ4X8545dPNrPhk6iZtNxhDuNkbmzZTjzeGH1JrXTO3o9wi
-         5SQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738926046; x=1739530846;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PPNEh3d8SXd4UyVBzDYe+DWkKrqBsXALhs4HDck1znw=;
-        b=n1Mxt+xBdVtxHwObaAcaAZJr5IOJSomCJC/59e905RLXymKKQOyDnFgAg5s4o+yyEo
-         I55cFnZH0XIzy1KB5y5ZMmJQdH86XxN7tD2gKytydQUWZBUQNwwBpKysf7zyNN39s+S7
-         eFQJqih1C66DnjNm/mwo1Lx13mg2uES+NBxLHtQ/CubfOTXgaKtC2g8v0hy0TOJzhrIM
-         lpEDP0C1CE4YcN7dXDMyG6YqBzdFl0gk6Styb376QIta3DAcxk4oaCgAUsK4uJmR6+KQ
-         7HCL+RW57bafR03KNwfPWnSMSvAL7JXRa4b/qYIl971i5Qnk3/RHaBAdNkBVZnkIZ6lz
-         wuwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWPgVbpjlIspjwx69k+ueMLuCy+Q1FuwD07d9D3nvVX7rLYZmA7mkojaU8u6fKPC618934mBJjkbc3Y+A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrZBwW+WYcTvlOx3OimX4tOclB1z7slBG8nFgWmoEstK3UNLLq
-	JNHCw8Rui60At84ndSyswMKDA0ma1HPpYbF40QaY7Y7+0wodGwWj41bk+G06kz5de/j2J78MsL5
-	PNOqi0g2L8thigZKiG4+TpdW6yMAdkKVVjmx+
-X-Gm-Gg: ASbGncvStZk+R+iPSwlDA1NjRQqT7lZfOtTV4OvvOvFgO3+PZD5ilYIvYBXIwBVR7I4
-	uyamOOmWZIyWKLHI01WGjZzTJTwmhWdWFM/9FIr+7Yyw/dKnp4RF2Kf6heABPNi8Pou2AqK1TJL
-	V5zdjLAtpmmmhq8aZRBCXuqVNB
-X-Google-Smtp-Source: AGHT+IGKGJth5652Acd+gw45CCa0RFZ/zp8RtL4d3FGKWPR2wRFDG4a+498kMReRGmDCy02tEid8QT1Lvxxfgod8Vaw=
-X-Received: by 2002:a05:6402:299:b0:5dc:59ca:8f3b with SMTP id
- 4fb4d7f45d1cf-5de47d9504fmr74611a12.3.1738926046475; Fri, 07 Feb 2025
- 03:00:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="emrjmMB0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1738928805;
+	bh=sjN/g62W9GZCGhfmhpvikdNIpkQvCQh2KKR1vBQPh84=;
+	h=From:Subject:Date:To:Cc:From;
+	b=emrjmMB0ml5lExd73luM0XYoz4ylcY4lNsZtA9QhEB9JjTAqzPnYAT07xZlTihLBd
+	 kJf+a9zvQCvxRF2DjcQ3Fb/w1n7qVtTPrNO17XXM53mV1Z5wvi4WIlwaJYShWJX3hP
+	 ZX/0wUiAONIjYGjGGOuFkeOL22Sl5ZyA5R6Ea62LtIF9ojslqCbalmEk2JOnFAaI+l
+	 kCX/MEohlxcJk73r+r2todghlKSw67UtGznO/WRRNBmiY7sBt05Gmx0gLauLzV3eBe
+	 +K356uuNZbT4VecR75ZAw6q6qkSqnnu2pxyGYKjY1qMAXdGIZcXkA2ZbZQAAATCpPL
+	 ymWb1sgwiOW+w==
+Received: from localhost (unknown [188.27.58.83])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id C726D17E0850;
+	Fri,  7 Feb 2025 12:46:44 +0100 (CET)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH 0/4] Sound fix for Valve Steam Deck OLED on resume from
+ suspend
+Date: Fri, 07 Feb 2025 13:46:01 +0200
+Message-Id: <20250207-sof-vangogh-fixes-v1-0-67824c1e4c9a@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250117145145.3093352-6-guanyulin@google.com> <20250206011324.4729b548@foxbook>
-In-Reply-To: <20250206011324.4729b548@foxbook>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Fri, 7 Feb 2025 19:00:00 +0800
-X-Gm-Features: AWEUYZnVEvD7t_Dz9KkFhfaKqY6-yN5VtxdJYuumvbaB5-jEOXHVpXFPVyLQTDM
-Message-ID: <CAOuDEK2c-F8dEyR894c5=OVYTJiLX6y1e1vd1RKoxusNa5PFig@mail.gmail.com>
-Subject: Re: [PATCH v9 5/5] usb: host: enable USB offload during system sleep
-To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>
-Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org, kekrby@gmail.com, 
-	lijiayi@kylinos.cn, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mathias.nyman@intel.com, oneukum@suse.com, 
-	perex@perex.cz, quic_jjohnson@quicinc.com, ricardo@marliere.net, 
-	stern@rowland.harvard.edu, sumit.garg@linaro.org, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHnypWcC/x3LQQqAIBBA0avErBswK5SuEi2kxpqNhgMShHdva
+ Pl5/BeECpPA0r1QqLJwThpD38F+hXQS8qEN1tjZWONQcsSqkM8LIz8kOFsf4mEm70YH+t2FftB
+ t3Vr7ABk/fZVjAAAA
+X-Change-ID: 20250207-sof-vangogh-fixes-528afd048737
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: kernel@collabora.com, sound-open-firmware@alsa-project.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
 
-On Thu, Feb 6, 2025 at 8:13=E2=80=AFAM Micha=C5=82 Pecio <michal.pecio@gmai=
-l.com> wrote:
->
-> Hi,
->
-> > - not flushing the endpoints of actively offloaded USB devices. Given
-> >   that the USB devices is used by another entity, unilaterally flush
-> >   the endpoint might lead to unexpected behavior on another entity.
->
-> This doesn't seem right, because flushing applies to URBs managed by
-> the kernel, so it should have no effect on offloaded endpoints.
->
-> As far as I understand from your earlier discussion with Alan Stern,
-> the real reason is that it disrupted operation of class drivers, in
-> particular causing kernel-managed interrupt endpoints not to be polled
-> during suspend and some events were being lost.
->
-> Or maybe the real problem was that if the INT IN endpoint isn't being
-> polled, device events don't trigger xHCI IRQs that wake up the CPU?
->
+Stress testing resume from suspend on Valve Steam Deck OLED (Galileo)
+revealed that audio may break and cannot be recovered without performing
+a system reboot.
 
-The main reason is as you described above. Without polling the INT IN
-endpoint, some functions (e.g. hid, hub) failed during system suspend.
+This patch series provides a new ACP quirk to address the issue, along
+with a few additional improvements to AMD Vangogh/ACP SOF drivers.
 
->
-> And by the way, usb_hcd_flush_endpoint() doc states that no new URBs
-> may be submitted during this call. I wonder if this can be guaranteed
-> if the interface has not been suspended first? Perhaps this alone is
-> good reason not to flush.
->
-> Regards,
-> Michal
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+Cristian Ciocaltea (4):
+      ASoC: SOF: amd: Add post_fw_run_delay ACP quirk
+      ASoC: SOF: amd: Drop unused includes from Vangogh driver
+      ASoC: SOF: amd: Handle IPC replies before FW_BOOT_COMPLETE
+      ASoC: SOF: amd: Add branch prediction hint in ACP IRQ handler
 
-To my understanding if the interface creates another URB, then the
-interface might be able to submit it. Is there a reason to not
-flushing all endpoints on a USB device when we have offloaded transfer
-happening during system suspend? If there is, we'll identify what kinds
-of endpoints are influenced and not flush them independently.
-Otherwise, not flushing all of them might maintain a simpler code
-logic.
+ sound/soc/sof/amd/acp-ipc.c     | 25 +++++++++++++++++--------
+ sound/soc/sof/amd/acp.c         |  1 +
+ sound/soc/sof/amd/acp.h         |  1 +
+ sound/soc/sof/amd/pci-vangogh.c |  2 --
+ sound/soc/sof/amd/vangogh.c     | 22 ++++++++++++++++++----
+ 5 files changed, 37 insertions(+), 14 deletions(-)
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20250207-sof-vangogh-fixes-528afd048737
 
-Regards,
-Guan-Yu
