@@ -1,264 +1,166 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2073.outbound.protection.outlook.com [40.107.94.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C38818E02A;
-	Fri,  7 Feb 2025 06:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738911566; cv=fail; b=iUeZUct8f541wzCQXQe1rk80p2vUK6ZRBlxwOYhaK1oiD1ZsodniZahd2VYu1K8M9OqzwPv9yprjlGizcXMitZH3zl+DBfKFtpr//zankAF+2ZyyFMi49NCrnlcS5kPPcIm33FDHURJ18lwuhbY+Llo26L68U+GBtf6vRkGd4h8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738911566; c=relaxed/simple;
-	bh=o5RpFRNyUAdMxcez9kpsMZoK08VE+2GqfZ7i6PsHtcY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IqIA/ZkXN0vhP4JQQ0oyTzz8p5lKUtEHufox16OSEOroQ7pZj/39sMjHIDcr0/rN+iuix9qyVdA+3fvbEUMvq5Y06UPt0flfbAcm9rhmMY+npqgiKMb9NwOnvRgZDxf5VQZOVcqCH03cwJzTUL0RjglKfxCo7T6lVoC2pS8syhg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=w7upvc1S; arc=fail smtp.client-ip=40.107.94.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4801A5B99
+	for <linux-sound@vger.kernel.org>; Fri,  7 Feb 2025 07:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738914597; cv=none; b=r+e1A28DXfO1YLJLmfqzvN3xnXfcP/NtbEROH4u6Z1XeZdidEq/uqSUn/H6DnfCn+gLFxsjSMYv3l238pGdzrtTRhLvvNNkG8UnvYH9V42nJazLNgpRSWQo8N24q3qX4aPxHOPuiRdg6T7ePPkRmSQIe94uIwrmmOpA5BCMZPAA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738914597; c=relaxed/simple;
+	bh=Ygym6BkiYRNRVTcjvqeMUfbvwZUuejhc3e16JsbSEyU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GMF1FBNzyEECfR254QUCSZ/JqX3+C7SYhTXQjxOydlmdd6LnHYnLVJVC9YJqmyvEnRPxKA/QxGB6ZYBp0Hn8A2LBT2OukNJmmWT6gqT55dBJI8WsZGyHAR/dhdOhzxyGucPgdt5jbLgREhwh3EQFciDV8MfLNZY9HbjGShLmM0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=xRxOy3TK; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="w7upvc1S"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ee2gx3PrMI6/iUcDCVI2SOInmBLyPVfrh1e/cRuMT2yspe3rTKGeRfAEF4Wi0uaGlboCxrpezh1DNLCS1hJWafANkANbScp6c0AWd+kgiNeWOsH8DaWZfM26PCf018smV4UX+j1JbVPYZd5AnyF5qbFRh2b1hTpIyJQsHG8cn6/axSE5pqq2wOMn/wd8h3qKdL3ssHhCfA9+41nOsVkXu2fvb0Wuon9T476VDm0D9Q0LOUGisrANCUDJ+DpdtJc/3KR/79EguX4CybmC+C28ETwJC+e56Trm3pcgr6Cgare2vHvzjKI6bEDoznYwmm3JeU3eqWPFz0SfKelu7bVQJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cmv3S732E4bOpEp1y3xB9rfay+/HF6gbMTTyf8m925M=;
- b=GPKJQFuM48kewcxdBGfYcMd5dpqmp2oPIQ3MdupwdPFUzef4hS8d6Hl7f35fDk+dBAmWeAKctpr6/PaK7zkeVyGUlm9v1pxUdfZ35Dh7XCyVkQv//JO1tFvq+kp3GPtpHepXclfxcEgo0gshsNS3x6FnDBDVLSOJzlaxiNf6Fq6baXXzHXZk2/7PdRAg9fvI5yxV3IIdAdt/N7KxG6xG2OkYBQ3bDxYSnHyL5XdbHmLOUaIvH7LKZscsLzxeR8krM0YfmX+oN7QNfbKJxkZfRhx6CglUIwnNlk+2RHlf7LaF9kSYfmz5ZhRt7PBwiixccsDoNYdAzGdLWCmhsQdCgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cmv3S732E4bOpEp1y3xB9rfay+/HF6gbMTTyf8m925M=;
- b=w7upvc1SQrO/a/6adHLqOp2Yh1IrChABFDjV2S5BQUFqkeLPZUkU4lCuArKViULqpClSLBelDKqTDZRGqnkgq4k9YDHEO29UUxioobbmJmyLsgbM5MV0G3P8ZPXgrCbT5xWTmfQU/HuIyamR7b9YeqOetXZEMFsQ2bNoNF8NFCY=
-Received: from SJ2PR07CA0002.namprd07.prod.outlook.com (2603:10b6:a03:505::25)
- by SN7PR12MB6886.namprd12.prod.outlook.com (2603:10b6:806:262::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Fri, 7 Feb
- 2025 06:59:21 +0000
-Received: from SJ1PEPF00001CE5.namprd03.prod.outlook.com
- (2603:10b6:a03:505:cafe::a) by SJ2PR07CA0002.outlook.office365.com
- (2603:10b6:a03:505::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.29 via Frontend Transport; Fri,
- 7 Feb 2025 06:59:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00001CE5.mail.protection.outlook.com (10.167.242.21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8398.14 via Frontend Transport; Fri, 7 Feb 2025 06:59:20 +0000
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 7 Feb 2025 00:59:16 -0600
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <vkoul@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <yung-chuan.liao@linux.intel.com>,
-	<pierre-louis.bossart@linux.dev>, <sanyog.r.kale@intel.com>,
-	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
-	<venkataprasad.potturu@amd.com>, <Mario.Limonciello@amd.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
- Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH V4 6/6] soundwire: amd: add soundwire host wake interrupt enable/disable sequence
-Date: Fri, 7 Feb 2025 12:28:41 +0530
-Message-ID: <20250207065841.4718-7-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250207065841.4718-1-Vijendar.Mukunda@amd.com>
-References: <20250207065841.4718-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="xRxOy3TK"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-544fe0313a8so146669e87.1
+        for <linux-sound@vger.kernel.org>; Thu, 06 Feb 2025 23:49:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1738914593; x=1739519393; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9YnJ+2PmTsfRhc+KXPzUKFsOLYmtdTuDzT6pXI9Dax4=;
+        b=xRxOy3TKazuT/+N00yFHK2AMpqnNnjvi6VtAotQPdtxANrvIobd6xcardMunCAayWo
+         pdF2TzifsGYZJwzOCRRof6xhnzgh2wSitTnmSSXVjYGkKkdUSc+SsGq4Un0k+1AO1zJE
+         u3RV8S7YHV3jmgH9qIDx1t0BH2sKRJLYlWMG7OUp0WIkaRzY21YNhFlqZu0DCH8lndx4
+         H14WrlmMZcSLFYXikk7KXcgoVZXupaWEeo4luT8AaCXQpRga3GwEuPul0wVXt7eYa+g9
+         j4TJrslFQ6uz8PsWqKr52AOOKGORUFUky5QTgUA1RNhQkBvte8EEMagzkSnGt/eGgq9a
+         T/Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738914593; x=1739519393;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9YnJ+2PmTsfRhc+KXPzUKFsOLYmtdTuDzT6pXI9Dax4=;
+        b=fO8QLjaR64yCSIs6JWcK6XZ9ryQRmkYLRO1TL6QZh+o1qaxPVpcahY6QnZ2QgwowOF
+         s4OI8bBm6Y1+B0G3N/OXmIPnMg74+mf6YGvlGt7+ocPXb3IZD159RxHUKfFnB3Yr5pn/
+         DAWHhTlqvDYJgkBplxny6KPGCD05piE4JYJted6/klYownMHXl18ROL3SKALj1Peu8kl
+         OHkMgJSNuu7bqXv8cdyt3GEfM/016NEr0DFLdJi79ypocssZlYnabBq0khFUa7+K0lat
+         dEK3+22JR/kHaT8N/ehrsqLsu5TLH0Dcz3IpZVQoduq99q73WIlCHsIDQH1IpI2Bmh2n
+         xoLA==
+X-Forwarded-Encrypted: i=1; AJvYcCX7JBWMNz+hU8IGg3852Hw8Ua2W6LleCFr/crZFB9m1KV8dR688LRF9MoDcmkkNFLHU114jQCed3+Rq+w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyN1o/f6tiSbwo3vSiDlGHI7ETuuChTzU6EQmaPruVwdxPPN4Tz
+	GQZ3JXrfId+Zru6G4lTVgP/bJwFxQOYZ5DJWVaxZ8CsW9KgwPmxkgKYR6sq48tb3E02mwtY9Ef3
+	t3gwpfqW45ZuCw2SYTwWH1MAYCNKW2Jr+6dRFVA==
+X-Gm-Gg: ASbGncvqGIIx+QWdfDG0sz4JS/JFrBeIbgkOq8C05dPRa7a4Gur2aRjMImwgvp0suKV
+	NTwGvDqDbUt7U+Hv3B2vmFIEJSdrIqMKutvF8Mf096WyVc94CbUWY33Py4CsxF2zBKlGtwmJeA1
+	gOVXF9xVRS+sVW1r2XMtsXR/nIeiw=
+X-Google-Smtp-Source: AGHT+IHxfwDC2v+wc+kLsonGMp3GoKKzCthmXUYddx5+xjdW0P9Z9tmgYCfXp3s8UQ6aQdx9J+hIzu6ut5Mn8kOKlFE=
+X-Received: by 2002:a05:6512:2348:b0:542:1ba3:984c with SMTP id
+ 2adb3069b0e04-54414a9656dmr486368e87.6.1738914592500; Thu, 06 Feb 2025
+ 23:49:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE5:EE_|SN7PR12MB6886:EE_
-X-MS-Office365-Filtering-Correlation-Id: 892290b7-d3ee-4cae-6ad3-08dd4744f29e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?AHOff5JKKrNsss8VNOprRKaMBkhlmFvjjvkFZE/AxH1kadGbxyj+MpzIGCIH?=
- =?us-ascii?Q?xwr9YQpcKumAnPJfujgu4CwyIFJrWFd1GAD/DFij4lttBCqkfw+ZunUIFHo+?=
- =?us-ascii?Q?A2ik2u9NqfB69xrpnJhS6zIOTDMIOjavKa5zi7t2NfbyI1j/6wTcGzSnwSm5?=
- =?us-ascii?Q?O9KkJFEmfTf56jgG5qGoXZm0HTi5p/G8bqw9wzCLaaqob+Y608E0aMjto9xH?=
- =?us-ascii?Q?ZGIU60BNXzv5vG5LSnkr+rkUfFnUI4qLst2Qfk1hEbPPXJlowmrY/JrepZkG?=
- =?us-ascii?Q?O6r+E0qcsXhhRh6gOjOXD1s5tcbvUf0rGQsbnssamqkrQDVk737Z1IzLFoOA?=
- =?us-ascii?Q?EZU4JtACxeZkJnlDOL1wzRxD2ZPOKFiu8u9dciqJNrHXeuziEufmjUx4K69T?=
- =?us-ascii?Q?7sSVQviWsjOw2AMmboc/o5oRAW3tDz0qeHaLRlNIpNUDq4/8TIcc7MktKim7?=
- =?us-ascii?Q?AetiRDvsbBbpGk3RxO5k6D2A4yHi8t1O0lUv+5hHHs/sUFiH19ZZQa4Cs6K/?=
- =?us-ascii?Q?pmyv5q+zxrh/W4NCvc3jb2KQbX41FW6iK4pUufn+vx6tKvXi+fBYy8Kf0exi?=
- =?us-ascii?Q?L37VSNHWOsyrP0b0ESf/In/+5cDtOqxfR3sumc3g5se/5fZU1CACMBCRPA2B?=
- =?us-ascii?Q?cn6tw8gR51bJUnjEORnPp5P6n/IIwpA5vk8SuPrSpymohqYNfIxUzsPvCVU5?=
- =?us-ascii?Q?PK+O93Gjn3RzKeNS/a+gMY74F6kzBp10ipGAAQqFWYjPnR+K5bg/Ma5bEM3Y?=
- =?us-ascii?Q?F8uH5BTWNnKkGoSa2Zq+lEQMwici0xiVsDHiB84zVLQ+ys6n+EepAODgwkJK?=
- =?us-ascii?Q?53LDJctC7Ze7pMynWh9/jRz83tKSpgVEb+8LDNDujHaiwQ6c9jnxua1h/dlS?=
- =?us-ascii?Q?sHfhT5tNRwg5OZi487kQW2HdjByzgbA1T3aDVYqWdZc5xi4sdUqDEmebwvpJ?=
- =?us-ascii?Q?N8kGdf70PidN5Po9HPgYtes58YiUfrYp24bPA3wHf83Obii9BFyeZbN8zRxu?=
- =?us-ascii?Q?N7ULu09uBjx5NmKs0WbhEl13miTt8YI2R7QOXxORFYTnVeHX+SKHUzN+MV8H?=
- =?us-ascii?Q?E6QVglffXLMbNgojzORBtZxLZZMAl3e5I8ByNnGMfQRhV53Jcl9VaW7hM9JA?=
- =?us-ascii?Q?wu/HEQdPtusYAYPQLxigxZsxsn9YljwZ9Wt6skNIt30tIiyzxaVLhfrI8A9z?=
- =?us-ascii?Q?TR/wqjcO0Cp3c8YxTgM1PJKy+oEc2zqCuJa+TwP3yqveF1BhbrUu56oq/NUf?=
- =?us-ascii?Q?rW0wLydmNn+pNlAqui+eX/QZz15MD5nFqc2BpDiUYRtAymEqKSGT8Th6G5YR?=
- =?us-ascii?Q?1as4EEdBiPMx8XCxaQ9uefJ4S4kVJl5b9stCF4uixd1lvV02ihVt/9uo2uI6?=
- =?us-ascii?Q?EsGo8J6bGJb09eJiug2yyx74taeFHyZFGbKyZK79DtpLi+e34c8dksO5BuUF?=
- =?us-ascii?Q?Wln/ierdem5klX53g17fOh0ukJvy2Gd62RiuHMv+rapBjP7ujcl0kykq1oT3?=
- =?us-ascii?Q?M4ECrWkYdk2J/jQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2025 06:59:20.8732
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 892290b7-d3ee-4cae-6ad3-08dd4744f29e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CE5.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6886
+References: <20250206-gpio-set-array-helper-v2-0-1c5f048f79c3@baylibre.com>
+In-Reply-To: <20250206-gpio-set-array-helper-v2-0-1c5f048f79c3@baylibre.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Fri, 7 Feb 2025 08:49:41 +0100
+X-Gm-Features: AWEUYZmvPOokVsveJHg1umO_SehF1d2PdlzyWo93hmjOZpSCnJ3bOhxNiJqJwrs
+Message-ID: <CAMRc=Mf9WQjVXvea7tHx0MJG2H8Yqxw=zGqvjp7dfD7+=huDKw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] gpiolib: add gpiod_multi_set_value_cansleep
+To: David Lechner <dlechner@baylibre.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-For wake event, SoundWire host wake interrupt will be asserted based on
-below pre-conditions for ACP7.0 & ACP7.1 platforms.
-- ACP device should be in D0 state.
-- SoundWire manager instance should be in D3 state.
-- SoundWire manager device state should be set to D3.
-- ACP_PME_EN should be set to 1.
+On Thu, Feb 6, 2025 at 11:48=E2=80=AFPM David Lechner <dlechner@baylibre.co=
+m> wrote:
+>
+> This series was inspired by some minor annoyance I have experienced a
+> few times in recent reviews.
+>
+> Calling gpiod_set_array_value_cansleep() can be quite verbose due to
+> having so many parameters. In most cases, we already have a struct
+> gpio_descs that contains the first 3 parameters so we end up with 3 (or
+> often even 6) pointer indirections at each call site. Also, people have
+> a tendency to want to hard-code the first argument instead of using
+> struct gpio_descs.ndescs, often without checking that ndescs >=3D the
+> hard-coded value.
+>
+> So I'm proposing that we add a gpiod_multi_set_value_cansleep()
+> function that is a wrapper around gpiod_set_array_value_cansleep()
+> that has struct gpio_descs as the first parameter to make it a bit
+> easier to read the code and avoid the hard-coding temptation.
+>
+> I've just done gpiod_multi_set_value_cansleep() for now since there
+> were over 10 callers of this one. There aren't as many callers of
+> the get and atomic variants, but we can add those too if this seems
+> like a useful thing to do.
+>
+> Maintainers, if you prefer to have this go through the gpio tree, please
+> give your Acked-by:, otherwise I will resend what is left after the next
+> kernel release.
+>
+> ---
+> Changes in v2:
+> - Renamed new function from gpiods_multi_set_value_cansleep() to
+>   gpiod_multi_set_value_cansleep()
+> - Fixed typo in name of replaced function in all commit messages.
+> - Picked up trailers.
+> - Link to v1: https://lore.kernel.org/r/20250131-gpio-set-array-helper-v1=
+-0-991c8ccb4d6e@baylibre.com
+>
+> ---
+> David Lechner (13):
+>       gpiolib: add gpiod_multi_set_value_cansleep()
+>       auxdisplay: seg-led-gpio: use gpiod_multi_set_value_cansleep
+>       bus: ts-nbus: validate ts,data-gpios array size
+>       bus: ts-nbus: use gpiod_multi_set_value_cansleep
+>       gpio: max3191x: use gpiod_multi_set_value_cansleep
+>       iio: adc: ad7606: use gpiod_multi_set_value_cansleep
+>       iio: amplifiers: hmc425a: use gpiod_multi_set_value_cansleep
+>       iio: resolver: ad2s1210: use gpiod_multi_set_value_cansleep
+>       mmc: pwrseq_simple: use gpiod_multi_set_value_cansleep
+>       mux: gpio: use gpiod_multi_set_value_cansleep
+>       net: mdio: mux-gpio: use gpiod_multi_set_value_cansleep
+>       phy: mapphone-mdm6600: use gpiod_multi_set_value_cansleep
+>       ASoC: adau1701: use gpiod_multi_set_value_cansleep
+>
+>  drivers/auxdisplay/seg-led-gpio.c           |  3 +--
+>  drivers/bus/ts-nbus.c                       | 10 ++++++----
+>  drivers/gpio/gpio-max3191x.c                | 18 +++++++-----------
+>  drivers/iio/adc/ad7606.c                    |  3 +--
+>  drivers/iio/adc/ad7606_spi.c                |  3 +--
+>  drivers/iio/amplifiers/hmc425a.c            |  3 +--
+>  drivers/iio/resolver/ad2s1210.c             |  8 ++------
+>  drivers/mmc/core/pwrseq_simple.c            |  3 +--
+>  drivers/mux/gpio.c                          |  4 +---
+>  drivers/net/mdio/mdio-mux-gpio.c            |  3 +--
+>  drivers/phy/motorola/phy-mapphone-mdm6600.c |  4 +---
+>  include/linux/gpio/consumer.h               |  7 +++++++
+>  sound/soc/codecs/adau1701.c                 |  4 +---
+>  13 files changed, 31 insertions(+), 42 deletions(-)
+> ---
+> base-commit: df4b2bbff898227db0c14264ac7edd634e79f755
+> change-id: 20250131-gpio-set-array-helper-bd4a328370d3
+>
+> Best regards,
+> --
+> David Lechner <dlechner@baylibre.com>
+>
 
-Implement code changes to enable/disable SoundWire host wake interrupt mask
-during suspend and resume as per design flow for ACP7.0 & ACP7.1 platforms.
+I can provide an immutable branch for the entire series for everyone
+to pull or I can apply patch one, provide an immutable branch and
+every subsystem can take their respective patches. What do you prefer?
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- drivers/soundwire/amd_manager.c | 58 +++++++++++++++++++++++++++++++++
- drivers/soundwire/amd_manager.h |  2 ++
- 2 files changed, 60 insertions(+)
-
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index d38b4baee221..8e74536808fa 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -166,6 +166,34 @@ static int amd_sdw_set_device_state(struct amd_sdw_manager *amd_manager, u32 tar
- 	return 0;
- }
- 
-+static int amd_sdw_host_wake_enable(struct amd_sdw_manager *amd_manager, bool enable)
-+{
-+	u32 intr_cntl1;
-+	u32 sdw_host_wake_irq_mask;
-+
-+	if (!amd_manager->wake_en_mask)
-+		return 0;
-+
-+	switch (amd_manager->instance) {
-+	case ACP_SDW0:
-+		sdw_host_wake_irq_mask = AMD_SDW0_HOST_WAKE_INTR_MASK;
-+		break;
-+	case ACP_SDW1:
-+		sdw_host_wake_irq_mask = AMD_SDW1_HOST_WAKE_INTR_MASK;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	intr_cntl1 = readl(amd_manager->acp_mmio + ACP_EXTERNAL_INTR_CNTL(ACP_SDW1));
-+	if (enable)
-+		intr_cntl1 |= sdw_host_wake_irq_mask;
-+	else
-+		intr_cntl1 &= ~sdw_host_wake_irq_mask;
-+	writel(intr_cntl1, amd_manager->acp_mmio + ACP_EXTERNAL_INTR_CNTL(ACP_SDW1));
-+	return 0;
-+}
-+
- static void amd_sdw_ctl_word_prep(u32 *lower_word, u32 *upper_word, struct sdw_msg *msg,
- 				  int cmd_offset)
- {
-@@ -1182,11 +1210,21 @@ static int __maybe_unused amd_suspend(struct device *dev)
- 
- 	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
- 		amd_sdw_wake_enable(amd_manager, false);
-+		if (amd_manager->acp_rev >= ACP70_PCI_REV_ID) {
-+			ret = amd_sdw_host_wake_enable(amd_manager, false);
-+			if (ret)
-+				return ret;
-+		}
- 		ret = amd_sdw_clock_stop(amd_manager);
- 		if (ret)
- 			return ret;
- 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
- 		amd_sdw_wake_enable(amd_manager, false);
-+		if (amd_manager->acp_rev >= ACP70_PCI_REV_ID) {
-+			ret = amd_sdw_host_wake_enable(amd_manager, false);
-+			if (ret)
-+				return ret;
-+		}
- 		/*
- 		 * As per hardware programming sequence on AMD platforms,
- 		 * clock stop should be invoked first before powering-off
-@@ -1220,11 +1258,21 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
- 	}
- 	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
- 		amd_sdw_wake_enable(amd_manager, true);
-+		if (amd_manager->acp_rev >= ACP70_PCI_REV_ID) {
-+			ret = amd_sdw_host_wake_enable(amd_manager, true);
-+			if (ret)
-+				return ret;
-+		}
- 		ret = amd_sdw_clock_stop(amd_manager);
- 		if (ret)
- 			return ret;
- 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
- 		amd_sdw_wake_enable(amd_manager, true);
-+		if (amd_manager->acp_rev >= ACP70_PCI_REV_ID) {
-+			ret = amd_sdw_host_wake_enable(amd_manager, true);
-+			if (ret)
-+				return ret;
-+		}
- 		ret = amd_sdw_clock_stop(amd_manager);
- 		if (ret)
- 			return ret;
-@@ -1265,8 +1313,18 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
- 		ret = amd_sdw_clock_stop_exit(amd_manager);
- 		if (ret)
- 			return ret;
-+		if (amd_manager->acp_rev >= ACP70_PCI_REV_ID) {
-+			ret = amd_sdw_host_wake_enable(amd_manager, false);
-+			if (ret)
-+				return ret;
-+		}
- 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
- 		writel(0x00, amd_manager->acp_mmio + ACP_SW_WAKE_EN(amd_manager->instance));
-+		if (amd_manager->acp_rev >= ACP70_PCI_REV_ID) {
-+			ret = amd_sdw_host_wake_enable(amd_manager, false);
-+			if (ret)
-+				return ret;
-+		}
- 		val = readl(amd_manager->mmio + ACP_SW_CLK_RESUME_CTRL);
- 		if (val) {
- 			val |= AMD_SDW_CLK_RESUME_REQ;
-diff --git a/drivers/soundwire/amd_manager.h b/drivers/soundwire/amd_manager.h
-index 1d5e94371f81..6cc916b0c820 100644
---- a/drivers/soundwire/amd_manager.h
-+++ b/drivers/soundwire/amd_manager.h
-@@ -194,6 +194,8 @@
- #define AMD_SDW_CLK_RESUME_DONE				3
- #define AMD_SDW_WAKE_STAT_MASK				BIT(16)
- #define AMD_SDW_WAKE_INTR_MASK				BIT(16)
-+#define AMD_SDW0_HOST_WAKE_INTR_MASK			BIT(22)
-+#define AMD_SDW1_HOST_WAKE_INTR_MASK			BIT(23)
- #define AMD_SDW_DEVICE_STATE				0x1430
- #define AMD_SDW0_DEVICE_STATE_MASK			GENMASK(1, 0)
- #define AMD_SDW1_DEVICE_STATE_MASK			GENMASK(3, 2)
--- 
-2.34.1
-
+Bartosz
