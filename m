@@ -1,202 +1,155 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175B418DB0A;
-	Fri,  7 Feb 2025 16:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF1E1802DD;
+	Fri,  7 Feb 2025 16:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738946656; cv=none; b=MtXyorEWG8gyFBPoBNAoDKJFSD9B2C/omtZB0haxOMlO3GH3B3W/LZfRVnbTfRA/dtAxjdJrGINVPcldYTjOdn4kRepmZ28RarmFepr28N2IlK1NBKshNbMF4CxV0ayVFiEzs+b6wzms40kSmuSd3mlQn5HyK7DYxN9hGFhqnL0=
+	t=1738947178; cv=none; b=QXnfzQ0KpoPjSJnBgsUq94RoiSf9TX6DbSZJFC5lz43qH5J/ioeqpiYL9h4x9InQi3xljpV/vuRlT0ZQQipkGyOwck+M9oZ+M0y1mKdZKvEYTnzhIQJmVz39VBX3WYp6h2RpnfUK9Xac4ufugksSFwJhZRca+oOcEtLtqyAGBZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738946656; c=relaxed/simple;
-	bh=mpfqKzszvYHRVS4h3ZzegMtUNRbdbK2CRVu0Bq65xww=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jcBywXVfdo9M/SaIti4GdJUOy4p5mjrLtai3IE8aT7RHWD9MleIwT5JDKNNfP0boGKYWkR55do2UCxpPp6l28rFkdSohKfbfDzDkJXF08MNcP4Xwl9nLoUp8Y6rVs83OIuWxbaE3ZZMiirDEZT43xDQK0y7R2vU1QAc5pojA9Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=fCCFcmaq; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fCCFcmaq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1738946652;
-	bh=mpfqKzszvYHRVS4h3ZzegMtUNRbdbK2CRVu0Bq65xww=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fCCFcmaq8dKOMU4WC5ZB3w0+2+aY8xIkb+k8lUyjSVhMX+EU7P6HG6608ayjEEZhU
-	 gVdl+vuvhRar9+nEB2rthByvchRftzrK5owsHjRMTFa97uRqZ7lAoGK5jqufrGWzKU
-	 C0sUUWg9BLpq/Cr7jOxExsFEwJdaTal7sQSO8y15UieIsy6fHYb9/SxXIUezqn/BH5
-	 WQF9U9X8W/nwUtaNLUmTYZLoHgJv3/n0pgzbLHIR0lpxwxfVCvJDk0+HxiEYN2qElY
-	 xgu6T630ApeQXmVCgoYWWJU/WE3skvTXrqqC/EvKUGLu4fXzCBenkl6FeCAd4tzjkD
-	 QNjt5Ip4JwwXw==
-Received: from [192.168.1.90] (unknown [188.27.58.83])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A3D0817E0239;
-	Fri,  7 Feb 2025 17:44:11 +0100 (CET)
-Message-ID: <648b2706-ba92-4ce9-aff0-0ee8f3e051e6@collabora.com>
-Date: Fri, 7 Feb 2025 18:44:11 +0200
+	s=arc-20240116; t=1738947178; c=relaxed/simple;
+	bh=ecUYnd+W1q20dRwJBirTrue159dV174gldrH/T+f8q8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FW80jTR8fOjyriF2RNahW0mTXZ1918jzNSp5pstlpC4GsXWu0HJDo9gVeBP2MT6d1IUCpbH1uQlgyqgKic2vouVT1E3QCBZTX0aHBg6FOm4+2+SyjHXxR/XOzi6bJYUhKD/+IMAqa58aMiH9io4MwBNB0wDjV8JU4Z75GznJzLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6e4505134c4so177796d6.2;
+        Fri, 07 Feb 2025 08:52:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738947175; x=1739551975;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yCWtJ2W7sBii9exDfBQy+ICa40xLBzxTz8+SCx213a0=;
+        b=Wy15fqPSv7aRM94FdfxjEIG84zmvg6dlWvObC2B9CLj21Riik4X6QGAEK7eoycuDMR
+         5rZEi98kySIzo1MxfoQPAyp4HilcUnBMGwDdMidt2p4W20xSVEhsVO/GSKyyz0vbbgdy
+         P7pYWXChEZL9LZGzq8R8c3mqHeGRe0Rr/EZnQE3TfNCyE4/OtDl/6gOvsXLaSwLsIkzY
+         7ugznnmdv4zd6dAL05SAPXcrHb5SbSlKAR+otQkzJFaJeitB/ohy2/9ZE/beuYXCFwa5
+         lMvUuSkAOaO3PKsaQh3/JyUAB7dQr75/rjGsuB6Lrfn87IxkQfCPVdPvea6SVYa8pi/8
+         YU+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUWWQi+Nt3hWV7BlgSmRKdA5ihhOkcQ2V5m/BmyFVefM/9j5HjmRvON8GXm+ObWPE1mbhVydiYL++3K@vger.kernel.org, AJvYcCVPw1W5PKKsi8StRutrfIjTgltrfbRVkZmocfqh1MRHJY+lSOrVvsNmA9AjNbolWGCGVWNtHgUlDHH04NsZ@vger.kernel.org, AJvYcCVRzXnpo66f1f13bG1m5wwz2fw2kBiHMBhw7n+FiZXQdCE0IakFTfBugx2Ounn57/Us9bWUJpcG@vger.kernel.org, AJvYcCVcABQK/mrRdRX8X9y+Zq5HpOx4Rp8zlv70PiZpkFHtjZFRZOaj1ZQ9wCP4jD6+Ht8m4TlnTt+w8I9r@vger.kernel.org, AJvYcCX2OQTk8DRd/RjcLzJppNQkxo95c3gn+bThu91uOH5oQipZ1xy2YX7y1S5geLIh/CthC27JdUmWsMD6EJw=@vger.kernel.org, AJvYcCXLraVlYdUXnuW0lfMKr2yCKV6goAXRnT+iahPcakpnHnwrgpoGiEBp+lxAIWRRm0IusHwxivyaQjGs@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRNXUw/z/9w3aKp4ZDFG8g3IOrqNa4Fp0Xk1KkQzaeRShc+dML
+	H4Oq0Pi4CGytjl+U+kiYnFp2KrNLurFi3UWCLUisCI26Lc7bRqkah/IO1zgE
+X-Gm-Gg: ASbGncsdRTeotgP5fqxpvRCsNglFnCJ3k/45gRLYwOY3rZwV1E738QKvYJ3kA/rrv5A
+	VHxW8+y/9F7GxoJdqHpkNLCwHMjhKiUosvW0Uqmd91Z6z9eARYTAq4Tamfb5X/AqlNWIN7f6l+2
+	CeHFcG6GLC2PeLscMGaS0blAK4k5gPjCRHLW2x+TQZBuphpUBguV0dlUMJXOQxjcUyN7AQmi0B5
+	D1qEQmQQWm1pq5i9Y664EqVjhkHW5R5jnr3nRUyUVoARRcQ2TSq8Oh1VUpHr3XGR8Kw5vT+0Ffm
+	wedrbKSFmTtPAjaPpft7Y9pLECKyMJn0A2baHL0PystoCPp7tw0Sx7g+HQ==
+X-Google-Smtp-Source: AGHT+IEqUFn2zV6/n21PVporJf34N/K7KLRCeFQnThNT/iIp3ZAdi3X7YAiPcT3jQB4g+3VQPWB5gQ==
+X-Received: by 2002:a05:6214:c26:b0:6d8:898a:a508 with SMTP id 6a1803df08f44-6e4456160d4mr55375976d6.16.1738947175314;
+        Fri, 07 Feb 2025 08:52:55 -0800 (PST)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com. [209.85.160.174])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e43d378e3esm16781956d6.4.2025.02.07.08.52.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Feb 2025 08:52:54 -0800 (PST)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-46788c32a69so29884951cf.2;
+        Fri, 07 Feb 2025 08:52:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUrEG4VTrvnRMnaHV9sxEboDQ7EMagqOP8xtP9E38sdQSTnI3zxHJ666KMLAjjlaoYxLPiBcX1CiHW+LRU=@vger.kernel.org, AJvYcCVGAsD0CnpIJyortGKZf9+Q2PEX/ioWQzDw68LBpdVX0dEYG69fZ8QvbYsFA7n54tCpp4LIpBoY@vger.kernel.org, AJvYcCWVOX9Rsr1JKDsWhfeGsB7QAjRVH8qp06/hPJpzKwjjMwLCMSbTdUhsRQTOsAosPs0eWRiF/HYWxdyJ@vger.kernel.org, AJvYcCXDSs4DUC+owKlhad1vSblWN8xxSsXasaoky3VLLaqKSMN3BaasGOKD9+YuF3zib+gzrjhC1qO7gJtx@vger.kernel.org, AJvYcCXUXgvNPr/y8QP9/H+7XBYFV7YgoVvyq/0QEw727FsUaaLuJoAt1kVkKfQxKTR8FNZyiodZEP8HOdPOuumE@vger.kernel.org, AJvYcCXjv5Kq4G0IhZs7hiYpUy4VixT3jvCwtZZCrNyOaW2YkbqTD/tQb4M7o6xacsc0vHh0idUwlrkkV4fx@vger.kernel.org
+X-Received: by 2002:a05:6122:794:b0:518:859e:87ae with SMTP id
+ 71dfb90a1353d-51f2e1ed315mr3362597e0c.7.1738946694014; Fri, 07 Feb 2025
+ 08:44:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] ASoC: SOF: amd: Add post_fw_run_delay ACP quirk
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- "Hiregoudar, Basavaraj" <Basavaraj.Hiregoudar@amd.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>
-Cc: kernel@collabora.com, sound-open-firmware@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250207-sof-vangogh-fixes-v1-0-67824c1e4c9a@collabora.com>
- <20250207-sof-vangogh-fixes-v1-1-67824c1e4c9a@collabora.com>
- <b9c412cf-32af-4cc7-af6d-d4be5b796ccd@amd.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <b9c412cf-32af-4cc7-af6d-d4be5b796ccd@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250206-gpio-set-array-helper-v2-0-1c5f048f79c3@baylibre.com>
+ <20250206-gpio-set-array-helper-v2-1-1c5f048f79c3@baylibre.com>
+ <CAMuHMdU5tt5_t2SfYO3OUsHenu_0PhpKeLHktNdCx-W6zCEymw@mail.gmail.com> <74ec33db-6721-4b86-86a6-e18b0a01fc47@baylibre.com>
+In-Reply-To: <74ec33db-6721-4b86-86a6-e18b0a01fc47@baylibre.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 7 Feb 2025 17:44:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX0Kp_Rj5iQODW3omEYimE+taf+cgbEiHqWo3=fG3Am0Q@mail.gmail.com>
+X-Gm-Features: AWEUYZn5qJOQHPLw2LRF15YUSzvjDVeuWxyBTUf7OD7UgB93Hq8YufkWPyHtZXA
+Message-ID: <CAMuHMdX0Kp_Rj5iQODW3omEYimE+taf+cgbEiHqWo3=fG3Am0Q@mail.gmail.com>
+Subject: Re: [PATCH v2 01/13] gpiolib: add gpiod_multi_set_value_cansleep()
+To: David Lechner <dlechner@baylibre.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 2/7/25 2:35 PM, Mukunda,Vijendar wrote:
-> On 07/02/25 17:16, Cristian Ciocaltea wrote:
->> Stress testing resume from suspend on Valve Steam Deck OLED (Galileo)
->> revealed that the DSP firmware could enter an unrecoverable faulty
->> state, where the kernel ring buffer is flooded with IPC related error
->> messages:
->>
->> [  +0.017002] snd_sof_amd_vangogh 0000:04:00.5: acp_sof_ipc_send_msg: Failed to acquire HW lock
->> [  +0.000054] snd_sof_amd_vangogh 0000:04:00.5: ipc3_tx_msg_unlocked: ipc message send for 0x30100000 failed: -22
->> [  +0.000005] snd_sof_amd_vangogh 0000:04:00.5: Failed to setup widget PIPELINE.6.ACPHS1.IN
->> [  +0.000004] snd_sof_amd_vangogh 0000:04:00.5: Failed to restore pipeline after resume -22
->> [  +0.000003] snd_sof_amd_vangogh 0000:04:00.5: PM: dpm_run_callback(): pci_pm_resume returns -22
->> [  +0.000009] snd_sof_amd_vangogh 0000:04:00.5: PM: failed to resume async: error -22
->> [...]
->> [  +0.002582] PM: suspend exit
->> [  +0.065085] snd_sof_amd_vangogh 0000:04:00.5: ipc tx error for 0x30130000 (msg/reply size: 12/0): -22
->> [  +0.000499] snd_sof_amd_vangogh 0000:04:00.5: error: failed widget list set up for pcm 1 dir 0
->> [  +0.000011] snd_sof_amd_vangogh 0000:04:00.5: error: set pcm hw_params after resume
->> [  +0.000006] snd_sof_amd_vangogh 0000:04:00.5: ASoC: error at snd_soc_pcm_component_prepare on 0000:04:00.5: -22
->> [...]
->>
->> A system reboot would be necessary to restore the speakers
->> functionality.
->>
->> However, by delaying a bit any host to DSP transmission right after
->> the firmware boot completed, the issue could not be reproduced anymore
->> and sound continued to work flawlessly even after performing thousands
->> of suspend/resume cycles.
->>
->> Introduce the post_fw_run_delay ACP quirk to allow providing the
->> aforementioned delay via the snd_sof_dsp_ops->post_fw_run() callback for
->> the affected devices.
-> As per our understanding, Till ACP firmware starts responding to the
-> driver's IPC messages, FW won't acquire the HW lock.
-> Adding delay in post_fw_run() callback seems to not a correct solution,
-> as there are no IPC messages will be sent from host till FW boot ready
-> is received.
+Hi David,
 
-I suspect there is some sort of a race condition or hardware fault that
-causes the DSP to become unresponsive if the host attempts to send
-messages too fast after the firmware boot completed.  Delaying the
-transmission by 100us proved to be a reliable workaround (going below
-10us was not enough).
+On Fri, 7 Feb 2025 at 17:29, David Lechner <dlechner@baylibre.com> wrote:
+> On 2/7/25 3:10 AM, Geert Uytterhoeven wrote:
+> > On Thu, 6 Feb 2025 at 23:48, David Lechner <dlechner@baylibre.com> wrote:
+> >> Add a new gpiod_multi_set_value_cansleep() helper function with fewer
+> >> parameters than gpiod_set_array_value_cansleep().
+> >>
+> >> Calling gpiod_set_array_value_cansleep() can get quite verbose. In many
+> >> cases, the first arguments all come from the same struct gpio_descs, so
+> >> having a separate function where we can just pass that cuts down on the
+> >> boilerplate.
+> >>
+> >> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> >> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> >
+> > Thanks for your patch!
+> >
+> >> --- a/include/linux/gpio/consumer.h
+> >> +++ b/include/linux/gpio/consumer.h
+> >> @@ -655,4 +655,11 @@ static inline void gpiod_unexport(struct gpio_desc *desc)
+> >>
+> >>  #endif /* CONFIG_GPIOLIB && CONFIG_GPIO_SYSFS */
+> >>
+> >> +static inline int gpiod_multi_set_value_cansleep(struct gpio_descs *descs,
+> >> +                                                unsigned long *value_bitmap)
+> >> +{
+> >> +       return gpiod_set_array_value_cansleep(descs->ndescs, descs->desc,
+> >> +                                             descs->info, value_bitmap);
+> >
+> > I am wondering whether this needs a check for !IS_ERR_OR_NULL(descs),
+> > to handle the !CONFIG_GPIOLIB and gpiod_get_array_optional() cases?
+>
+> I don't think it is strictly needed, but could be convenient for future use
+> cases. If we add it, should it be:
+>
+>         if (IS_ERR_OR_NULL(descs))
+>                 return PTR_ERR(descs);
 
-Please note this was not always easy to reproduce, e.g. in some cases I
-had to run hundreds of suspend/resume cycles, hence I think it really
-points to a timing issue.
+return PTR_ERR_OR_ZERO(descs);
 
-Moreover, as soon as I tried to enable SOF debugging, the issue was
-gone, no matter how hard I tried to reproduce (ran thousands of cycles).
+(the compiler should optimize away checks common to IS_ERR_OR_NULL()
+ and PTR_ERR_OR_ZERO()).
 
-> Is fail to acquire the HW lock is for first host IPC message?
+> or:
+>
+>         if (!descs)
+>                 return -EINVAL;
+>
+>         if (IS_ERR(descs))
+>                 return PTR_ERR(descs);
+>
+> ?
 
-That seemed to be the pattern, yes.
+The former.
 
->>
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
->>  sound/soc/sof/amd/acp.c     |  1 +
->>  sound/soc/sof/amd/acp.h     |  1 +
->>  sound/soc/sof/amd/vangogh.c | 18 ++++++++++++++++++
->>  3 files changed, 20 insertions(+)
->>
->> diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
->> index 33648ff8b83365e76d7d90e52c2cb8f884a2fe72..9e13c96528be3371e063072513c118cfc8b93fe8 100644
->> --- a/sound/soc/sof/amd/acp.c
->> +++ b/sound/soc/sof/amd/acp.c
->> @@ -27,6 +27,7 @@ MODULE_PARM_DESC(enable_fw_debug, "Enable Firmware debug");
->>  static struct acp_quirk_entry quirk_valve_galileo = {
->>  	.signed_fw_image = true,
->>  	.skip_iram_dram_size_mod = true,
->> +	.post_fw_run_delay = true,
->>  };
->>  
->>  const struct dmi_system_id acp_sof_quirk_table[] = {
->> diff --git a/sound/soc/sof/amd/acp.h b/sound/soc/sof/amd/acp.h
->> index 800594440f73914e7b8ccaf86369ac686e1da630..2a19d82d6200223cdfccd49fbcf1b52968ae1230 100644
->> --- a/sound/soc/sof/amd/acp.h
->> +++ b/sound/soc/sof/amd/acp.h
->> @@ -220,6 +220,7 @@ struct sof_amd_acp_desc {
->>  struct acp_quirk_entry {
->>  	bool signed_fw_image;
->>  	bool skip_iram_dram_size_mod;
->> +	bool post_fw_run_delay;
->>  };
->>  
->>  /* Common device data struct for ACP devices */
->> diff --git a/sound/soc/sof/amd/vangogh.c b/sound/soc/sof/amd/vangogh.c
->> index 8e2672106ac60a22824836a944503a05616f8661..d5f1dddd43e72dd62b3d031130193e6125edf9df 100644
->> --- a/sound/soc/sof/amd/vangogh.c
->> +++ b/sound/soc/sof/amd/vangogh.c
->> @@ -11,6 +11,7 @@
->>   * Hardware interface for Audio DSP on Vangogh platform
->>   */
->>  
->> +#include <linux/delay.h>
->>  #include <linux/platform_device.h>
->>  #include <linux/module.h>
->>  
->> @@ -136,6 +137,20 @@ static struct snd_soc_dai_driver vangogh_sof_dai[] = {
->>  	},
->>  };
->>  
->> +static int sof_vangogh_post_fw_run_delay(struct snd_sof_dev *sdev)
->> +{
->> +	/*
->> +	 * Resuming from suspend in some cases my cause the DSP firmware
->> +	 * to enter an unrecoverable faulty state.  Delaying a bit any host
->> +	 * to DSP transmission right after firmware boot completion seems
->> +	 * to resolve the issue.
->> +	 */
->> +	if (!sdev->first_boot)
->> +		usleep_range(100, 150);
->> +
->> +	return 0;
->> +}
->> +
->>  /* Vangogh ops */
->>  struct snd_sof_dsp_ops sof_vangogh_ops;
->>  EXPORT_SYMBOL_NS(sof_vangogh_ops, "SND_SOC_SOF_AMD_COMMON");
->> @@ -157,6 +172,9 @@ int sof_vangogh_ops_init(struct snd_sof_dev *sdev)
->>  
->>  		if (quirks->signed_fw_image)
->>  			sof_vangogh_ops.load_firmware = acp_sof_load_signed_firmware;
->> +
->> +		if (quirks->post_fw_run_delay)
->> +			sof_vangogh_ops.post_fw_run = sof_vangogh_post_fw_run_delay;
->>  	}
->>  
->>  	return 0;
->>
-> 
+> For comparison, gpiod_set_array_value_cansleep() will return -EINVAL if the
+> first argument is NULL.
 
+That function cannot take an argument returned by a *_optional() call,
+if I'm not mistaken.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
