@@ -1,50 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C892206BD;
-	Fri,  7 Feb 2025 14:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AE12236EC
+	for <linux-sound@vger.kernel.org>; Fri,  7 Feb 2025 14:02:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738936964; cv=none; b=IczD16flbzr/WjprK4PYf7YKBnNi5nCTiNQztgLmvdd1gaQNtzs96lBmv6ltFvqHmbocltdWQQYyiSCfa7nDpf6Wr7ytX1tJDDOKqwksaUMTSkv/ev1Zn0t1aYg5/H4z97zZ1xtS6NmjQepV5hgzNZ36nGvhLCOpZls0TFyi2Tk=
+	t=1738936965; cv=none; b=IuE2KG97gbIrOQN7rmu2hhj2Gr0FNR7wz+Y/IJmssVP5ys7jwn8tCWWkehxQIEotXP3gVzP/nJM6HNoidvkdkoCFxRBoMnEuC/bCL5nrWhsoWQufN1TcU0X55tiFxX7QkruKcUO9bq15UzpLaL6QneXui9/BZHRUI5zNseUyGF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738936964; c=relaxed/simple;
-	bh=q44RXL38E1YbjO9kakKKAjRxHMqYVfPk8XX8EmyAPzg=;
+	s=arc-20240116; t=1738936965; c=relaxed/simple;
+	bh=1Nu4K3cjbY0Y0L7W6DKK5PNMvEJNidmg6vTnW57GLMU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YUb+fahANf67mKAu16kRm+mYR5m27EozugUtcsgQw04cDnt0OEWk75wg/2NXr+znnZKsm0X3imydlQHpREnQVbWnK8k9aqCrToN2R/HpmHIetr8fWilhkqpd5V+hJGBi0fm+p7Igq7fuZivSmxhLy1VK8M3VibXNvRLEmc2nZ40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pp/MJHsT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=YYN+dHU6tUxCXdSWLM4eG3g4hzPpBQW2ud82D+HUQCm7wfqSyFdNXVkCZyorEcfSFbmC8wTL4xo4Tyd89hL4pLNZP0O1WFLFcMtb/117fsH4My94J0QdG4YPvISkhCcVwkA0Wu0iVNdm9aXQ0hXmpv2VQMoMrZS4S2RJ+KTmzVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FyJztD4i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pp/MJHsT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0967C4CEE7;
-	Fri,  7 Feb 2025 14:02:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FyJztD4i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D4B1C4CED1;
+	Fri,  7 Feb 2025 14:02:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738936963;
-	bh=q44RXL38E1YbjO9kakKKAjRxHMqYVfPk8XX8EmyAPzg=;
+	s=k20201202; t=1738936965;
+	bh=1Nu4K3cjbY0Y0L7W6DKK5PNMvEJNidmg6vTnW57GLMU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pp/MJHsToP/eI4vw3BQV2gmga0vLg1hkFvmu2HrkT2V2JAgs77faufgfVTZVGurB/
-	 Yl5d/h2qsI4SWjmOKfR/85wp9DaUA1LxbPqOH0o2ZWbbFqtexDBMBAhZg+NmeQ0aUZ
-	 WRU9jX2kn3gYLecBYxIrosJKuGW04hlxGSeeQB6OUVZrgLP0XfOsZQVDr3+hiNMK2Z
-	 k3aTA6IrWB/8sbrkhw38rJ0JAiRXn4U4KWQHBW9/k/xV+M/4EPoamGjIyySs5p9cfU
-	 Q7hxR6mikv91gpaJnH6lUqPctCtgHkO17dWeDhG6FvY0TjXNrsr9k4CJE4Y5eOgWwb
-	 W/zxje5CsSgFg==
+	b=FyJztD4inZavqU/7u+qViYVAjawkITJYeK7aF7BDPWp7rkuPJBh/6hU5rBkjl3eh9
+	 MY554IyZV031sQkNXPgeA7SrmhOnxXYGESuydBwpNHAp2tZx7hYqvn1+yd0/dQYS/j
+	 NSnrmJC2xVYjs4fMfYDbknfA4epyYUNmegMHZiss2tFp9BRzc+/h6+xHUftFDEfDWn
+	 Au2fTiisG/os1o7UHK9xlPZG/q5rtOiR03MftZC/6TtHx2V2pEG5UO/2y2zpKSxZNy
+	 DaP+hFooctN+FeyQ/5ZgUUb2XM4UllfLI6deCVj1ZfbueBQq14eSnw2r3Ld6RZ/6cD
+	 OSjunGPN+CqAg==
 From: Mark Brown <broonie@kernel.org>
-To: cros-qcom-dts-watchers@chromium.org, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Konrad Dybcio <konradybcio@kernel.org>
-In-Reply-To: <20241209-starqltechn_integration_upstream-v8-0-ec604481d691@gmail.com>
-References: <20241209-starqltechn_integration_upstream-v8-0-ec604481d691@gmail.com>
-Subject: Re: (subset) [PATCH v8 00/14] This is continued work on Samsung
- S9(SM-9600) starqltechn
-Message-Id: <173893696051.35212.8853631432356836429.b4-ty@kernel.org>
-Date: Fri, 07 Feb 2025 14:02:40 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev
+In-Reply-To: <20250206092828.7569-1-peter.ujfalusi@linux.intel.com>
+References: <20250206092828.7569-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/4] ASoC: SOF: Improve the spcm and ipc4 copier prints
+Message-Id: <173893696397.35212.580149591364875425.b4-ty@kernel.org>
+Date: Fri, 07 Feb 2025 14:02:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,21 +43,17 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Mon, 09 Dec 2024 15:09:04 +0300, Dzmitry Sankouski wrote:
-> Contains starqltechn device tree changes.
-> Add support for new features:
-> - sound (headphones and mics only)
-> - gpu
-> - panel
-> - buttons
-> - MAX77705 MFD:
->   - charger
->   - fuelgauge
->   - haptic
->   - led
+On Thu, 06 Feb 2025 11:28:24 +0200, Peter Ujfalusi wrote:
+> Introduce new wrapper to present spcm related debug and error prints in
+> a unified way and provide additional details to help to understand the
+> reasons and configuration used when the log was captured.
+> 
+> Change the way we print information about the ipc4 copier module to
+> use type specific prints, again to provide better information for
+> debugging.
 > 
 > [...]
 
@@ -76,10 +63,14 @@ Applied to
 
 Thanks!
 
-[01/14] ASoC: dt-bindings: Add bindings for WCD934x DAIs
-        commit: 8478dadc8148af311c3d43d4867cfb6632686ede
-[02/14] ASoC: codecs: wcd934x: use wcd934x binding header
-        commit: e27c125040b1e1f26d910b46daabbe55e67fdf3b
+[1/4] ASoC: SOF: Relocate and rework functionality for PCM stream freeing
+      commit: 169ec0a541aac8afb215ab591b0fd53276686014
+[2/4] ASoC: SOF: pcm: Move period/buffer configuration print after platform open
+      commit: 4d2ea16576c8aa1437048cf436bff85653f139fe
+[3/4] ASoC: SOF: pcm: Add snd_sof_pcm specific wrappers for dev_dbg() and dev_err()
+      commit: 860693187c597645b28a421d8acb26428b8afd3f
+[4/4] ASoC: SOF: ipc4-topology: Improve the information in prepare_copier prints
+      commit: 583348bd65ceaf4a5067a6267dd236929e1b4b37
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
