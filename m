@@ -1,155 +1,152 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF1E1802DD;
-	Fri,  7 Feb 2025 16:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFB819C543;
+	Fri,  7 Feb 2025 17:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738947178; cv=none; b=QXnfzQ0KpoPjSJnBgsUq94RoiSf9TX6DbSZJFC5lz43qH5J/ioeqpiYL9h4x9InQi3xljpV/vuRlT0ZQQipkGyOwck+M9oZ+M0y1mKdZKvEYTnzhIQJmVz39VBX3WYp6h2RpnfUK9Xac4ufugksSFwJhZRca+oOcEtLtqyAGBZc=
+	t=1738947640; cv=none; b=nBEtj98JPZOihg3i6xVjb+u4rUpOhJIa2HLptuYib8wje8DlWshjIOOH+E9tekX+C3+EsbA6G49fVKFUuHtn4vOhMYSCuiezKHIZSy9Bwa5x9BEiioyG+sT+2aAB1X0Q0vjsJzEKADGuaOcdIIReDIARrdAy6LZkmAHNbF9LCVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738947178; c=relaxed/simple;
-	bh=ecUYnd+W1q20dRwJBirTrue159dV174gldrH/T+f8q8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FW80jTR8fOjyriF2RNahW0mTXZ1918jzNSp5pstlpC4GsXWu0HJDo9gVeBP2MT6d1IUCpbH1uQlgyqgKic2vouVT1E3QCBZTX0aHBg6FOm4+2+SyjHXxR/XOzi6bJYUhKD/+IMAqa58aMiH9io4MwBNB0wDjV8JU4Z75GznJzLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6e4505134c4so177796d6.2;
-        Fri, 07 Feb 2025 08:52:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738947175; x=1739551975;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yCWtJ2W7sBii9exDfBQy+ICa40xLBzxTz8+SCx213a0=;
-        b=Wy15fqPSv7aRM94FdfxjEIG84zmvg6dlWvObC2B9CLj21Riik4X6QGAEK7eoycuDMR
-         5rZEi98kySIzo1MxfoQPAyp4HilcUnBMGwDdMidt2p4W20xSVEhsVO/GSKyyz0vbbgdy
-         P7pYWXChEZL9LZGzq8R8c3mqHeGRe0Rr/EZnQE3TfNCyE4/OtDl/6gOvsXLaSwLsIkzY
-         7ugznnmdv4zd6dAL05SAPXcrHb5SbSlKAR+otQkzJFaJeitB/ohy2/9ZE/beuYXCFwa5
-         lMvUuSkAOaO3PKsaQh3/JyUAB7dQr75/rjGsuB6Lrfn87IxkQfCPVdPvea6SVYa8pi/8
-         YU+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUWWQi+Nt3hWV7BlgSmRKdA5ihhOkcQ2V5m/BmyFVefM/9j5HjmRvON8GXm+ObWPE1mbhVydiYL++3K@vger.kernel.org, AJvYcCVPw1W5PKKsi8StRutrfIjTgltrfbRVkZmocfqh1MRHJY+lSOrVvsNmA9AjNbolWGCGVWNtHgUlDHH04NsZ@vger.kernel.org, AJvYcCVRzXnpo66f1f13bG1m5wwz2fw2kBiHMBhw7n+FiZXQdCE0IakFTfBugx2Ounn57/Us9bWUJpcG@vger.kernel.org, AJvYcCVcABQK/mrRdRX8X9y+Zq5HpOx4Rp8zlv70PiZpkFHtjZFRZOaj1ZQ9wCP4jD6+Ht8m4TlnTt+w8I9r@vger.kernel.org, AJvYcCX2OQTk8DRd/RjcLzJppNQkxo95c3gn+bThu91uOH5oQipZ1xy2YX7y1S5geLIh/CthC27JdUmWsMD6EJw=@vger.kernel.org, AJvYcCXLraVlYdUXnuW0lfMKr2yCKV6goAXRnT+iahPcakpnHnwrgpoGiEBp+lxAIWRRm0IusHwxivyaQjGs@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRNXUw/z/9w3aKp4ZDFG8g3IOrqNa4Fp0Xk1KkQzaeRShc+dML
-	H4Oq0Pi4CGytjl+U+kiYnFp2KrNLurFi3UWCLUisCI26Lc7bRqkah/IO1zgE
-X-Gm-Gg: ASbGncsdRTeotgP5fqxpvRCsNglFnCJ3k/45gRLYwOY3rZwV1E738QKvYJ3kA/rrv5A
-	VHxW8+y/9F7GxoJdqHpkNLCwHMjhKiUosvW0Uqmd91Z6z9eARYTAq4Tamfb5X/AqlNWIN7f6l+2
-	CeHFcG6GLC2PeLscMGaS0blAK4k5gPjCRHLW2x+TQZBuphpUBguV0dlUMJXOQxjcUyN7AQmi0B5
-	D1qEQmQQWm1pq5i9Y664EqVjhkHW5R5jnr3nRUyUVoARRcQ2TSq8Oh1VUpHr3XGR8Kw5vT+0Ffm
-	wedrbKSFmTtPAjaPpft7Y9pLECKyMJn0A2baHL0PystoCPp7tw0Sx7g+HQ==
-X-Google-Smtp-Source: AGHT+IEqUFn2zV6/n21PVporJf34N/K7KLRCeFQnThNT/iIp3ZAdi3X7YAiPcT3jQB4g+3VQPWB5gQ==
-X-Received: by 2002:a05:6214:c26:b0:6d8:898a:a508 with SMTP id 6a1803df08f44-6e4456160d4mr55375976d6.16.1738947175314;
-        Fri, 07 Feb 2025 08:52:55 -0800 (PST)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com. [209.85.160.174])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e43d378e3esm16781956d6.4.2025.02.07.08.52.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Feb 2025 08:52:54 -0800 (PST)
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-46788c32a69so29884951cf.2;
-        Fri, 07 Feb 2025 08:52:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUrEG4VTrvnRMnaHV9sxEboDQ7EMagqOP8xtP9E38sdQSTnI3zxHJ666KMLAjjlaoYxLPiBcX1CiHW+LRU=@vger.kernel.org, AJvYcCVGAsD0CnpIJyortGKZf9+Q2PEX/ioWQzDw68LBpdVX0dEYG69fZ8QvbYsFA7n54tCpp4LIpBoY@vger.kernel.org, AJvYcCWVOX9Rsr1JKDsWhfeGsB7QAjRVH8qp06/hPJpzKwjjMwLCMSbTdUhsRQTOsAosPs0eWRiF/HYWxdyJ@vger.kernel.org, AJvYcCXDSs4DUC+owKlhad1vSblWN8xxSsXasaoky3VLLaqKSMN3BaasGOKD9+YuF3zib+gzrjhC1qO7gJtx@vger.kernel.org, AJvYcCXUXgvNPr/y8QP9/H+7XBYFV7YgoVvyq/0QEw727FsUaaLuJoAt1kVkKfQxKTR8FNZyiodZEP8HOdPOuumE@vger.kernel.org, AJvYcCXjv5Kq4G0IhZs7hiYpUy4VixT3jvCwtZZCrNyOaW2YkbqTD/tQb4M7o6xacsc0vHh0idUwlrkkV4fx@vger.kernel.org
-X-Received: by 2002:a05:6122:794:b0:518:859e:87ae with SMTP id
- 71dfb90a1353d-51f2e1ed315mr3362597e0c.7.1738946694014; Fri, 07 Feb 2025
- 08:44:54 -0800 (PST)
+	s=arc-20240116; t=1738947640; c=relaxed/simple;
+	bh=T83UNy/ANb6ddMae5xvV5RRqK7/Hhz51DSgxIMludyg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GvbwHKUvUOGsjQXPqQSPlFrttRFI+yw+FJHWR6KAepoc+RMIqUPpJZBAIYa9zxSVRoS4C53ww2B0JISe4SZb/iGPTcX+v6oCTcJpppl17e70S/HEMmU042GfcnDnz+PH5Zz3aKOXXK0qahjcffvOE/4fuzWfDT2T8gFa7Ul29Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HPgt1Ria; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HPgt1Ria"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1738947636;
+	bh=T83UNy/ANb6ddMae5xvV5RRqK7/Hhz51DSgxIMludyg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HPgt1RiaBA5U3DG580fjHfoCNUUjQf/AKUBfkRR5lonYfsuNyDT5qquadYc7EhW/z
+	 vwEzausCbtFiYu3VcUpQVTkF7DMfm0McP8WqwDQQHb5iA7uZzDt6lY0+Rhr9qvptlL
+	 v2LySaFTROv6CDa7bJtKC7DmM462wzt7HVNU/6QbBN/KgEdm8R3SYxbb5/SLzDiOsr
+	 A6kUPumSWbcgPXhOrdUxqZKWgKGfKwC9eGb2UNS0Kb4L9pVZXe6PJzVfzmw6zqTVJR
+	 jIb03IPmpSHtkSfa4BS05/TI7r4TpfUAQQdDOfcDWM3+AyxJM48FKMd6WrGe+j5Tp0
+	 fcMrgqA4F+A3Q==
+Received: from [192.168.1.90] (unknown [188.27.58.83])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9CE7B17E0F9F;
+	Fri,  7 Feb 2025 18:00:35 +0100 (CET)
+Message-ID: <f253bb70-5991-4ee6-9f44-ac59751c6a38@collabora.com>
+Date: Fri, 7 Feb 2025 19:00:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250206-gpio-set-array-helper-v2-0-1c5f048f79c3@baylibre.com>
- <20250206-gpio-set-array-helper-v2-1-1c5f048f79c3@baylibre.com>
- <CAMuHMdU5tt5_t2SfYO3OUsHenu_0PhpKeLHktNdCx-W6zCEymw@mail.gmail.com> <74ec33db-6721-4b86-86a6-e18b0a01fc47@baylibre.com>
-In-Reply-To: <74ec33db-6721-4b86-86a6-e18b0a01fc47@baylibre.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 7 Feb 2025 17:44:41 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX0Kp_Rj5iQODW3omEYimE+taf+cgbEiHqWo3=fG3Am0Q@mail.gmail.com>
-X-Gm-Features: AWEUYZn5qJOQHPLw2LRF15YUSzvjDVeuWxyBTUf7OD7UgB93Hq8YufkWPyHtZXA
-Message-ID: <CAMuHMdX0Kp_Rj5iQODW3omEYimE+taf+cgbEiHqWo3=fG3Am0Q@mail.gmail.com>
-Subject: Re: [PATCH v2 01/13] gpiolib: add gpiod_multi_set_value_cansleep()
-To: David Lechner <dlechner@baylibre.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] ASoC: SOF: amd: Handle IPC replies before
+ FW_BOOT_COMPLETE
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ "Hiregoudar, Basavaraj" <Basavaraj.Hiregoudar@amd.com>,
+ "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>
+Cc: kernel@collabora.com, sound-open-firmware@alsa-project.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250207-sof-vangogh-fixes-v1-0-67824c1e4c9a@collabora.com>
+ <20250207-sof-vangogh-fixes-v1-3-67824c1e4c9a@collabora.com>
+ <cd64ea3c-fbb4-4c97-b369-dd78942a522f@amd.com>
+ <49744378-f63c-4096-a055-00abaed688d2@collabora.com>
+ <eb1628c2-b209-40a1-9f20-1057c2815536@amd.com>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <eb1628c2-b209-40a1-9f20-1057c2815536@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi David,
+On 2/7/25 2:24 PM, Mukunda,Vijendar wrote:
+> On 07/02/25 17:46, Cristian Ciocaltea wrote:
+>> On 2/7/25 1:55 PM, Mukunda,Vijendar wrote:
+>>> On 07/02/25 17:16, Cristian Ciocaltea wrote:
+>>>> In some cases, e.g. during resuming from suspend, there is a possibility
+>>>> that some IPC reply messages get received by the host while the DSP
+>>>> firmware has not yet reached the complete boot state.
+>>>>
+>>>> Detect when this happens and do not attempt to process the unexpected
+>>>> replies from DSP.  Instead, provide proper debugging support.
+>>> As per our understanding, before FW boot completion there won't
+>>> be any IPC responses sent from Firmware.
+>>> In this case, do we really need such a condition check?
+>> During the suspend/resume stress testing I was able to get this kind of
+>> messages, and that's the actual reason for introducing the verification.
+>>
+>> Also it doesn't seem to be uncommon, e.g. Intel HDA IPC also provides
+>> similar checks.
+>>
+> Could you please share reference logs to know which IPC messages
+> are being received before FW_READY message/FW boot complete?
 
-On Fri, 7 Feb 2025 at 17:29, David Lechner <dlechner@baylibre.com> wrote:
-> On 2/7/25 3:10 AM, Geert Uytterhoeven wrote:
-> > On Thu, 6 Feb 2025 at 23:48, David Lechner <dlechner@baylibre.com> wrote:
-> >> Add a new gpiod_multi_set_value_cansleep() helper function with fewer
-> >> parameters than gpiod_set_array_value_cansleep().
-> >>
-> >> Calling gpiod_set_array_value_cansleep() can get quite verbose. In many
-> >> cases, the first arguments all come from the same struct gpio_descs, so
-> >> having a separate function where we can just pass that cuts down on the
-> >> boilerplate.
-> >>
-> >> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> >> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> >
-> > Thanks for your patch!
-> >
-> >> --- a/include/linux/gpio/consumer.h
-> >> +++ b/include/linux/gpio/consumer.h
-> >> @@ -655,4 +655,11 @@ static inline void gpiod_unexport(struct gpio_desc *desc)
-> >>
-> >>  #endif /* CONFIG_GPIOLIB && CONFIG_GPIO_SYSFS */
-> >>
-> >> +static inline int gpiod_multi_set_value_cansleep(struct gpio_descs *descs,
-> >> +                                                unsigned long *value_bitmap)
-> >> +{
-> >> +       return gpiod_set_array_value_cansleep(descs->ndescs, descs->desc,
-> >> +                                             descs->info, value_bitmap);
-> >
-> > I am wondering whether this needs a check for !IS_ERR_OR_NULL(descs),
-> > to handle the !CONFIG_GPIOLIB and gpiod_get_array_optional() cases?
->
-> I don't think it is strictly needed, but could be convenient for future use
-> cases. If we add it, should it be:
->
->         if (IS_ERR_OR_NULL(descs))
->                 return PTR_ERR(descs);
+As mentioned in a previous reply, I couldn't enable debugging during
+stress testing because it had the annoying effect of hiding the audio
+breakage issue.  I will try to experiment with some more targeted
+instrumentation and see if it's possible to extract some useful data.
 
-return PTR_ERR_OR_ZERO(descs);
+Regardless, I think it's worth keeping this check in place as it's
+definitely helpful to spot potential FW issues (for current or future
+products).
 
-(the compiler should optimize away checks common to IS_ERR_OR_NULL()
- and PTR_ERR_OR_ZERO()).
+>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>>>> ---
+>>>>  sound/soc/sof/amd/acp-ipc.c | 23 ++++++++++++++++-------
+>>>>  1 file changed, 16 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/sound/soc/sof/amd/acp-ipc.c b/sound/soc/sof/amd/acp-ipc.c
+>>>> index 5f371d9263f3bad507236ace95b7ef323c369187..12caefd08788595be8de03a863b88b5bbc15847d 100644
+>>>> --- a/sound/soc/sof/amd/acp-ipc.c
+>>>> +++ b/sound/soc/sof/amd/acp-ipc.c
+>>>> @@ -167,6 +167,7 @@ irqreturn_t acp_sof_ipc_irq_thread(int irq, void *context)
+>>>>  
+>>>>  	if (sdev->first_boot && sdev->fw_state != SOF_FW_BOOT_COMPLETE) {
+>>>>  		acp_mailbox_read(sdev, sdev->dsp_box.offset, &status, sizeof(status));
+>>>> +
+>>>>  		if ((status & SOF_IPC_PANIC_MAGIC_MASK) == SOF_IPC_PANIC_MAGIC) {
+>>>>  			snd_sof_dsp_panic(sdev, sdev->dsp_box.offset + sizeof(status),
+>>>>  					  true);
+>>>> @@ -188,13 +189,21 @@ irqreturn_t acp_sof_ipc_irq_thread(int irq, void *context)
+>>>>  
+>>>>  	dsp_ack = snd_sof_dsp_read(sdev, ACP_DSP_BAR, ACP_SCRATCH_REG_0 + dsp_ack_write);
+>>>>  	if (dsp_ack) {
+>>>> -		spin_lock_irq(&sdev->ipc_lock);
+>>>> -		/* handle immediate reply from DSP core */
+>>>> -		acp_dsp_ipc_get_reply(sdev);
+>>>> -		snd_sof_ipc_reply(sdev, 0);
+>>>> -		/* set the done bit */
+>>>> -		acp_dsp_ipc_dsp_done(sdev);
+>>>> -		spin_unlock_irq(&sdev->ipc_lock);
+>>>> +		if (likely(sdev->fw_state == SOF_FW_BOOT_COMPLETE)) {
+>>>> +			spin_lock_irq(&sdev->ipc_lock);
+>>>> +
+>>>> +			/* handle immediate reply from DSP core */
+>>>> +			acp_dsp_ipc_get_reply(sdev);
+>>>> +			snd_sof_ipc_reply(sdev, 0);
+>>>> +			/* set the done bit */
+>>>> +			acp_dsp_ipc_dsp_done(sdev);
+>>>> +
+>>>> +			spin_unlock_irq(&sdev->ipc_lock);
+>>>> +		} else {
+>>>> +			dev_dbg_ratelimited(sdev->dev, "IPC reply before FW_BOOT_COMPLETE: %#x\n",
+>>>> +					    dsp_ack);
+>>>> +		}
+>>>> +
+>>>>  		ipc_irq = true;
+>>>>  	}
+>>>>  
+>>>>
+> 
 
-> or:
->
->         if (!descs)
->                 return -EINVAL;
->
->         if (IS_ERR(descs))
->                 return PTR_ERR(descs);
->
-> ?
-
-The former.
-
-> For comparison, gpiod_set_array_value_cansleep() will return -EINVAL if the
-> first argument is NULL.
-
-That function cannot take an argument returned by a *_optional() call,
-if I'm not mistaken.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
