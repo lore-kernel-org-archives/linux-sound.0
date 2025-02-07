@@ -1,39 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC092236FE
-	for <linux-sound@vger.kernel.org>; Fri,  7 Feb 2025 14:02:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA9F2147E9;
+	Fri,  7 Feb 2025 14:02:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738936966; cv=none; b=IUz+Yvm+fn5gb6qvCo12mJrfd5L70+GSxd0ikcmatWGrLkPt1Cu6rLqBXcOOLRzjDG+SI8lSTTUnK2yuRIDeOSJy5k5VupQ0nZ/8anxH/TVayONU8+oJDbFuHlmlrOAZ5aINSi+1/F1LGqBbAYC8Md1opxE4vYxDRsYG7UfNDEI=
+	t=1738936971; cv=none; b=bNvX90Fs4BoCHkDSbw613N7Qunf5MzMdCT3RsQ+DoSTWgxwirC6B4XxC4Xx1cE2Aa3JkLT3euFqAWUigBCQFIB8zRaq8fTTpCYag4agu0FAs4lmxm00qAL+vz17eAg4SQ8VfY28vK7idJnHDWYs0kcsac8OG4c2sNltUVckKpec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738936966; c=relaxed/simple;
-	bh=dLTnl+jogROrVLqx6fZA0hxsV6GraWAYEay6sqQU3tI=;
+	s=arc-20240116; t=1738936971; c=relaxed/simple;
+	bh=b1E1QDevKte5bnRZA+kxvqV3LiCkQOnxX2e86toI8t0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cmyf/yBzKF+SBTqGIr04gpAO6ijkOA+MjiSaj4n6zFFS/7/L4KezAdaxaH2s/x009GUnj0r0gORL914uEyrnFoyP5XR3IcAmYaVd0xF2Y7/A0w3O4VhBhJl9T5Kqv45enksiJLkDFL8iztlEhyShtdHASh8hjPSXlDCTj24AGFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z8fnFcA7; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=SEMhCrbnbBiaLzXLc6D/5CyH5HLHg4orD3iG+dUkpnTZv+VQZ9ONyyf7H/eRAyzgJbC9a9m17dNtkB64f+8gub917QjdeAGO4FaJrJpSHzv02IkiNanb6EmkI8zWK/P7YtQSPupX4BiZjVX8s7p6HnzggQmaoEMIOxoRyZHVFR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rMmbXUov; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z8fnFcA7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14D24C4CEEA;
-	Fri,  7 Feb 2025 14:02:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rMmbXUov"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C35BC4CED1;
+	Fri,  7 Feb 2025 14:02:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738936966;
-	bh=dLTnl+jogROrVLqx6fZA0hxsV6GraWAYEay6sqQU3tI=;
+	s=k20201202; t=1738936970;
+	bh=b1E1QDevKte5bnRZA+kxvqV3LiCkQOnxX2e86toI8t0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Z8fnFcA7BhGftIeKMOh65/azvFjqpJ8h/KCpOeMy+jTHY7lybpSudncJJkChDFw0c
-	 7YmGGzx/ROjAH8V5IQmouOQCTNrcChqDbVyCq2SB+Ffq68rPFTHsXyngXGqFAtpOPH
-	 W27PT/kN4NbCFnLydSvTUPdp1ndjSiC3yQ9PLAiYSMTgcOCO17QeQtplvlW5vFApsj
-	 mD8ZsGDtPqtTQZY5FdXfnPTkkDZsWRMsPBIT0FLnsCpbZYodbxZ11roqEZFFaupvzu
-	 fYyYOjyoAoZ8qlaJSqkv9KgsIHTJbdWf4Fa2tJPjhuuJ0o/XqT2sMB2J3Ok/57GWyd
-	 jNZ/4Oc4J5uNA==
+	b=rMmbXUovvLaB/Ge9hWUgrF7ZGpFufMOyLHxD6EUxPDsVz3y+7jlnxjNDKJ7uJqlgZ
+	 dyDKN9NoihNLHo7KJ1FcTZNl7GYLu6rkA1jdsC4FCv03/jzHXKCRNJkGsLzvrUye1X
+	 KECkwvUmY55MsQ34q8FKfjDkkdIxyoS5TFFEQR+TEaKrKjOggvKaumcsqyYE0IZ9fi
+	 /Qu37xnhYknnpZ1mPB0GeZJOkWTVYD02LVpbKmfgtIrdYzKsNqHRLVEXynpvC5P0yq
+	 Ef0k1IP/cKrNGNXeGmgHirJy5iba1cBoaosjGZiJ5fbLqYabpZrX7aR1Ou/NDQ8jAn
+	 sMtbXmdoi8Z0A==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87h6592qq3.wl-kuninori.morimoto.gx@renesas.com>
-References: <87h6592qq3.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2 0/7] ASoC: and adn use snd_soc_ret()
-Message-Id: <173893696580.35212.14356916262860766725.b4-ty@kernel.org>
-Date: Fri, 07 Feb 2025 14:02:45 +0000
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Sanyog Kale <sanyog.r.kale@intel.com>, linux-arm-msm@vger.kernel.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, quic_pkumpatl@quicinc.com, 
+ kernel@oss.qualcomm.com
+In-Reply-To: <20250206112225.3270400-1-quic_mohs@quicinc.com>
+References: <20250206112225.3270400-1-quic_mohs@quicinc.com>
+Subject: Re: [PATCH v6 0/4] Add static channel mapping between soundwire
+ master and slave
+Message-Id: <173893696676.35212.7325321784175657368.b4-ty@kernel.org>
+Date: Fri, 07 Feb 2025 14:02:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,14 +55,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Wed, 05 Feb 2025 00:13:40 +0000, Kuninori Morimoto wrote:
-> Each ASoC framwark is using own snd_xxx_ret() function, but we can share
-> these. This patch-set adds new snd_soc_ret() and use it.
+On Thu, 06 Feb 2025 16:52:21 +0530, Mohammad Rafi Shaik wrote:
+> Add static channel map support between soundwire master and slave.
 > 
-> checkpatch indicates that ENOTSUPP is not a SUSV4 error code, prefer to
-> use EOPNOTSUPP. So this patch-set adds it, but not remove existing ENOTSUPP.
+> Currently, the channel value for each soundwire port is hardcoded in the
+> wcd937x-sdw driver and the same channel  value is configured in the
+> soundwire master.
 > 
-> Link: https://lore.kernel.org/r/8734gvsg5i.wl-kuninori.morimoto.gx@renesas.com
+> The Qualcomm board like the QCM6490-IDP require static channel map
+> settings for the soundwire master and slave ports.
 > 
 > [...]
 
@@ -61,20 +73,14 @@ Applied to
 
 Thanks!
 
-[1/7] ASoC: add common snd_soc_ret() and use it
-      commit: 943116ba2a6ab472e8ad2d1e57a3f10f13485cc2
-[2/7] ASoC: soc-utils: care -EOPNOTSUPP on snd_soc_ret()
-      commit: 062b7ef6b103dcbcb3c084e8ace8e74e260b2346
-[3/7] ASoC: soc-pcm: use snd_soc_ret()
-      commit: be61cd4242e4a53f5cf989ee7573121d041444bc
-[4/7] ASoC: simple-card: use snd_soc_ret()
-      commit: a0ef5b4b101424b8a666ed56bf1717dafe2d37f5
-[5/7] ASoC: simple-card-utils: use snd_soc_ret()
-      commit: 2d7395b23dbf4c2d60be49b73e4c4705fc446662
-[6/7] ASoC: audio-graph-card: use snd_soc_ret()
-      commit: 74a0ca4c7f19f1b273d665b3b53f7ae8af879658
-[7/7] ASoC: audio-graph-card2: use snd_soc_ret()
-      commit: 8d83282e53185ec257a4ce08812e8fabee2c7212
+[1/4] ASoC: dt-bindings: wcd937x-sdw: Add static channel mapping support
+      commit: 72826381215e2f9d2bd2f32f63f76a80942b7fdf
+[2/4] ASoC: codecs: wcd937x: Add static channel mapping support in wcd937x-sdw
+      commit: c06c4f7cbea1d8dc71485bfddef2849a1b721e67
+[3/4] soundwire: qcom: Add set_channel_map api support
+      commit: 7796c97df6b1b2206681a07f3c80f6023a6593d5
+[4/4] ASoC: qcom: sdw: Add get and set channel maps support from codec to cpu dais
+      commit: 0e9a970d7b2cb98d741bc0e32ad8c8f30c009c63
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
