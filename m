@@ -1,235 +1,583 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011016.outbound.protection.outlook.com [40.107.74.16])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2087.outbound.protection.outlook.com [40.107.237.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C66D2417EF;
-	Thu,  6 Feb 2025 23:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B11018B476;
+	Fri,  7 Feb 2025 06:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.87
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738884658; cv=fail; b=l4m5qP9tXZECa2i1V+pklFjkKBgqHTcpwnCYAxG4NT556TAIIYTJSrTPt/EGbvFHJ9vU3+fpi/dMSuAw39ZPSMUmRuONjwwDrwyzcHtQEho4N84CRjvd+lWe3ik9wZwCn/rZI/mzLMVjLeinilDBMF7eRqt82d+co4YYdZeWVRk=
+	t=1738909724; cv=fail; b=XfQrXUiJMi2y58eiivxL9/qgt/n7xURbjQddgxWk6mALuDZtJgKkSfannaOcyReKCzYpYpAZzKfqsbeHvp3229rgyVSRGnosCsIWQZHXfRGs6QevMdHUPjt9CSTjhN3I+imNC5l7Z6KWwGmrTdAjFZm2EI3f9RNJiCYwtrHype0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738884658; c=relaxed/simple;
-	bh=vZTTXT2U+12pgKelODpBrlEONNiLoURjWi4y9IHyrxk=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=NzaVuj+MI96I7x3aUc6iLJEsWEvRhyFysro+HuRjP2wlNe8Vwhwz8Qd7GVtzAjizpFfhYFpr2CLi2LQzED+LnvnX15fpEzORLXTXJULfAnfIWb6ri81lUvB1yNagMeWqQPcFsJIltMYd+jX+Iw7YXEEfJS9B1iI27xDVlu6utTM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Cy0b+ATZ; arc=fail smtp.client-ip=40.107.74.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	s=arc-20240116; t=1738909724; c=relaxed/simple;
+	bh=z4V0cpml089OqW8VAQSHlVwl36PgQ+52+82F7R4SpvQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WFN8x07Mm5MQH8JfylYtZby/ar28PBmHDQ2ZZfGqgy0qOSagCuOm+yYrHih3k3PfB9+t7qnP+dDdurOrUt3C1QdmvGNfBwBsD2bkdiPN9esuAPveXNyJqmGSbjjKUmvTd89weX4dq0FYWWuLiUDVXkbeIUB138gikQTE24Avlgg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=m1Tg6+BJ; arc=fail smtp.client-ip=40.107.237.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Cy0b+ATZ"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="m1Tg6+BJ"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wQINpaKOsjIdPYzoBsIxop3RwkVOBIV0t7oSjrYeyqQQTgomXCLP91Jgp2F2IZd4+wHz5pt0zK7CCCkb07N46rvX8lHyNNezMuN1WhaYgSjsaCOQGpKgOuVxaXkdBZ72EklYELKSZvy+F1GUXd05ddEoIyK51K6gWnmSvvLTIeULT2Xxqyk1EaQ5zS0P787xytNhnSFNjMDW4gMOUhtHGfEQLOqlbYO6ynsga97lgYI6rNqS8fcTtF1kngRzwtQrTnxgpOCKO7Li+UiUZy7ohloCf9c9ASgYa52JANf7NUkPxy4rNvIMcudAe2h6K6+Ro0i1ErkfX56xFlN9vf3mTQ==
+ b=EGXwFsGmz/KFWU308TOmz56Q3OzrCjQyLHDT+buAwd75DH5waQOgSFKn9uMgdogBp/FoblpiX1dENZD8RNHAYK6j0wQyFq5+mav1eEXu18bWVkjxF69UrDYhlFq3G0xzvuuoEnqiEqiCMRAQlpov3wyHZNnRZHCsassYUMwSr/Ui69YwmuObXH5vvQvJB2KH3s8g1JnAl5Hk2KVFNZnBB0aq5IuxfDS5IMfiPP+2uhXfjg15UNjIfI0WHTaGjP+zp91fttgOIeBLhPdbznoLxLLtATgX6Sta57IvQu9dq7D246WSdG9aTQG18ykgSj/TKc/iDtxmdQ0xuUkB/Ys/bg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iFqttdw7Ym2+iqTF0keUos5ySf2BNW5nGTpT8lMnNEA=;
- b=npCPO/9XhO2sSsNn3nRP9r358Rm2gxlxt/g4Tw0m9VIoR/u+vJUArBZD1GqEIFrmnMpRNC73bmTkCfvO86Tv3rU09SmHT88fZfwydRrApPaYQ9obR/Au7WV/tD9OYPMKEK46dzkGD0FYG4uYJ/n/DDf3D9kQeG0MEAR2L749rRFLEcQEp/6KliVRZc9VcZs9R9Gt20SJxnGYJzwbTIG4sKz2gi7h7og3gCTCAaVnjKoFg5HaMv7Tb6YJLq8cF+mQcmHXeP0jsI/XOwI02arnspURwoANgpCn0byQy4tyadF7/2XY3tsc4kql40eiR8pTJfRzVp5tVWNJDlqxccmVNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
+ bh=ccRvVBHj+hXh0lYzRrA5hxUUaGQELTztT3d5MJ7GiPE=;
+ b=Hu20hqYt7cOYf26ljMHLwSP6xg2lFe5RGb2XNkg9wmXyEGuqthElZW8Fruf5Cr7M5TDmh7356VROCE9eyTpMLVZd9WGh0QRs8iv2BEBIJSzM1Fp+c4hYtDkJkQt3MniGEfuTC2+OodJvgB/Ble1J0O99ZfpNaHv9L24fXwOSKvAF4RWBJDMJnZiLg7+Cy0rbI5vNOyJ+g/aCZoDwGUTy/9z8sQNH9SZgP4q0C1L+i+HS3HEIxaFLb4UOlst76Iiu0NLWMQdUDZanfHKJ4qUZZ3Y5o63+6aNMG9TF9KB1YcH4Gb+PKHWQxdriR4spL9lFasZQCX0s3V5duXMw8Mof0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iFqttdw7Ym2+iqTF0keUos5ySf2BNW5nGTpT8lMnNEA=;
- b=Cy0b+ATZXC+7US7wGI+tM9IfO/dmPuCIX2VNepVIce9/DzoZAnMOmI7cYDKPcVogSD592Q8EOQKKa037Kqa72sGr8YoFCgkBLFmqmmCiWFGtXgmHSWwJpqx55oIuBUloOTNHpB0QgvqqEOv1N5+C2ZQPTwcCZE/s8bzWjklQKWI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYYPR01MB13990.jpnprd01.prod.outlook.com
- (2603:1096:405:19e::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.14; Thu, 6 Feb
- 2025 23:30:52 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8422.009; Thu, 6 Feb 2025
- 23:30:51 +0000
-Message-ID: <87wme2irbo.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] ASoC: simple-card-utils: always find dlc using result of graph_get_dai_id()
-In-Reply-To: <20250206161831.2519-1-laurentiumihalcea111@gmail.com>
-References: <20250206161831.2519-1-laurentiumihalcea111@gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 6 Feb 2025 23:30:51 +0000
-X-ClientProxiedBy: TYWPR01CA0040.jpnprd01.prod.outlook.com
- (2603:1096:400:17f::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+ bh=ccRvVBHj+hXh0lYzRrA5hxUUaGQELTztT3d5MJ7GiPE=;
+ b=m1Tg6+BJDx4iYg6y82K8aNH3qGpRX0tVwNNQcTCu/2COlGmF/jLwl9dDE8c1TUpT26fuJ8rZ8r8K9LEE6kSxxawofK9PWYvsWhc1T0m8b2pu1oq7cp8mRAXy0i08hskZ7imL5tqjCG8oU+i5eYE20fN047arC3SaXE/JVQEpolA=
+Received: from BLAPR03CA0140.namprd03.prod.outlook.com (2603:10b6:208:32e::25)
+ by SA1PR12MB7198.namprd12.prod.outlook.com (2603:10b6:806:2bf::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.28; Fri, 7 Feb
+ 2025 06:28:39 +0000
+Received: from BN3PEPF0000B072.namprd04.prod.outlook.com
+ (2603:10b6:208:32e:cafe::7) by BLAPR03CA0140.outlook.office365.com
+ (2603:10b6:208:32e::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.24 via Frontend Transport; Fri,
+ 7 Feb 2025 06:28:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B072.mail.protection.outlook.com (10.167.243.117) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8398.14 via Frontend Transport; Fri, 7 Feb 2025 06:28:39 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 7 Feb 2025 00:28:34 -0600
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: <venkataprasad.potturu@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <Syed.SabaKareem@amd.com>,
+	<Mario.Limonciello@amd.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: [PATCH V3 01/25] ASoC: amd: ps: rename structure names, variable and other macros
+Date: Fri, 7 Feb 2025 11:57:55 +0530
+Message-ID: <20250207062819.1527184-2-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250207062819.1527184-1-Vijendar.Mukunda@amd.com>
+References: <20250207062819.1527184-1-Vijendar.Mukunda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYYPR01MB13990:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c543541-2be1-4347-ecb3-08dd47064b74
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B072:EE_|SA1PR12MB7198:EE_
+X-MS-Office365-Filtering-Correlation-Id: e78391dd-3eea-4ee1-d1e3-08dd4740a8bb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
+	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?nDrvtfJbJrV5AaWJHpdK16o8uJC4pvWnYtZnWNllKO6IfMMo+RdFNqKBamTi?=
- =?us-ascii?Q?afc1MSavFoAQ+53YbK2RJi4YFWJGiw6ONw60Ph8GeGZUWhOEVsL1g8OQms6D?=
- =?us-ascii?Q?yIFBieLJn/vnVKAxX3RGIREGTMsyoMXN+7c3cC4CmNNrimI/zOpuPrBUKU+7?=
- =?us-ascii?Q?ieb6Zhf6Ur70ch1zQplN+pSe5h2Hzp8e7VcVSCRcTHcRDZe3KDfnfl9jUlqk?=
- =?us-ascii?Q?mBqdhr3PP/xDM0hOHWEvrxdAxAVV/FSHZv/G0N1CJL+06l2RWomewYwK14R1?=
- =?us-ascii?Q?ZlKhjwuZ+KiJAwcV3rD446hUA9SFqGYkvxCS7ctDfDm0XBCbd5qfcb+ubfkD?=
- =?us-ascii?Q?0FyuMMZHXaIZHlEACvpEcV7qahMAVsBjtypGyied1gSn0C57SWO1R9Ezixz7?=
- =?us-ascii?Q?n/CeIDWKCRDFzu4U/6eJM46qmO5a7WtYuocd1JyK/dPRNNJxxYlWucBQveww?=
- =?us-ascii?Q?pmQMC2fDMbIl1x7tqqY/+r8on0Evv5+H8LweptafHfo3L4wyyAjaCdvHbiXl?=
- =?us-ascii?Q?BZWjEFpaBPuPZC2KHn7/mwq9UNguh9fhj9ZcLsCyAFgFZmDRHShcSNtNsoFA?=
- =?us-ascii?Q?JKdqRwH5Ju/nnI2SI1C07kV5Le6hKH/FCsaJ3TcPJYE7BzWzQvt4gsxVjHTg?=
- =?us-ascii?Q?uLAPvp2g7Te5SleZVJZ/HITSjQrIFrjNxt2WjCtJcN1trGbx4CgZLK5gxDNQ?=
- =?us-ascii?Q?RE3t56LZ9Vj5wsw6mQDqFiFkh05994epNRab3fgBzhF/Wy00MRCct+WNPOwn?=
- =?us-ascii?Q?wbiG+eYfl0kA1knzwzT1KzALyYJZl9LJIgUcOEN9jssXDiMfJAR55rTH1/fG?=
- =?us-ascii?Q?1/SNAZ5+p4PzG4+CBsmmt1+LZUQAUJySL698lKQ89mrqjRlaewwdInfNmj2/?=
- =?us-ascii?Q?fsaAWrBZ3dIn3WPS0kacXXCHVJXx+WAGm2XlcPBu/sQp2YfV7/1vcR5zSVwc?=
- =?us-ascii?Q?BIeFJJG3fitIEimlK6y5AfJETDrTvI6XRHNg58tOcpO19flRoPBJ5pLPTHhr?=
- =?us-ascii?Q?EUUj+1SizxXLDojakore+4/8/xFFeQFYpRMjTPuy/q5NRJO+nVVmncstiTDx?=
- =?us-ascii?Q?nYbCY73Wmxo6/QQaEdTsRRQkRDkCCQCagZlRdjPa6B8YC25SEDCspHcBiu/M?=
- =?us-ascii?Q?SPpKO3b1mM5jfPvG3cqPOwWhdwNtZbJMrrSwcQGhIFRUChloK9wdTMMrviGk?=
- =?us-ascii?Q?korWCWuCeEnmfTuaXltBdiqYnaV/TcD1E1dKjPZe4XNDZXjubUVRivFr1mSK?=
- =?us-ascii?Q?q4GsE/NUdwAWbucCHruu0MEI1Rg0/s1PWhDa/4azsAabXGPG7nhgtyPtdHHR?=
- =?us-ascii?Q?wP85a7O1q8eVpJCIQLytYKXDfzRv/ovn/WPtefhOjPZS655yTotr9gFT38cl?=
- =?us-ascii?Q?+Vwc6xgLV9hteuSWwhPOsV0sBkfY5xx+sOmWGKH/5AhjcC1XuCriFMdoA2oC?=
- =?us-ascii?Q?kJXc+MZDrqVwtw/r9fOpDddV/2bAhLvr?=
+	=?us-ascii?Q?juhvQBeulVDfsMj+k27DjoAFOGBolkFFZluGHxN2ZlD+fknvgBkzyszqMtZr?=
+ =?us-ascii?Q?spj1koKGJcK3QMLQjUXpjO03w3kunbibbtPCJShmPYKL8LC0v5GxBiS733LF?=
+ =?us-ascii?Q?PJJdqnsdRpxILONTQoi5xgJXzrd4FYS9Zuxvpgyw2DNAGUiGtCyAKGS8g4Pc?=
+ =?us-ascii?Q?7vj6XE0+IiTHiWRQxOeywob8vHOV7g3jvOO6g9Sx0xDZlBVaZcpi4foehYgZ?=
+ =?us-ascii?Q?ZIcINlXgTMSzs5OQTsbnueT11wHzCnMcdo+3RXRjdULP0BufiAgv2WzG0HVp?=
+ =?us-ascii?Q?Ne0d9HAvbo2RNDJfKu9tLjauqITmVe8KdhnluzDitaReV0U3pG/KuY81nA1c?=
+ =?us-ascii?Q?SVAjZf0qR1YBlc+a5yka+lwh4328TGaX8FO1yGbEDvDpjZ67iV9t2mtUET9T?=
+ =?us-ascii?Q?TrSMOn9psJMt0MOuPyDxi/CmX/prBcThu1mpg1LkqqoSIoRfc3OwVbIcDJi4?=
+ =?us-ascii?Q?X8VAfjVNX19ArXIEZb2U9RbNJHRzr9G0l0N1AqpK2qqm27XkGkfDXtYYKv2E?=
+ =?us-ascii?Q?iO9u8vkjiVAYQte40TpJ61XrVUms4p8f31JDD2C8LX7+L+uYoSIJ2swQx2sq?=
+ =?us-ascii?Q?cEHhlcVpXWpWL2kYkpjnrIdLqRFVSmpwNvjqmADVzjc90Lj8ZskSAvTSJZJ0?=
+ =?us-ascii?Q?x297sS748Fzr5vov0tE/JN8En2Ts1FibRyGzVpsKv6K76NnSmUf1Xvstrzzn?=
+ =?us-ascii?Q?4uaMRp/+F25MtOoS+SqdHdt8iNihSynvsY0yLRs6Ssbra6N8G17MxaKiHpcX?=
+ =?us-ascii?Q?oHo4alVJfRjIBcgXLsT1xGXaB/0TbZjA8pqDtXbmYorLbFD/IhQCgKWfaT8I?=
+ =?us-ascii?Q?yaRn0cDFydMMwBZ4KM6WKI/MIYvAlUITkqKsopmoaYHtl7lzEa/pAtBtYo4O?=
+ =?us-ascii?Q?Zr8iYPb77M/GFV6+Y6on3PMsIXglBf7bg8HloW1tBVMLVP0WF3Ppdx7zXoLM?=
+ =?us-ascii?Q?8WG5kSJPyoLDS3k5IX+7Xu3zN4dg1t4f/lHW1ihnP0nJpnzvD28sUeko+ctj?=
+ =?us-ascii?Q?3zolIGVNnE7yAj61AgFhgsvqLjVxhsPOnxmh/vzBpyTyIB51CkwFdofJdUM0?=
+ =?us-ascii?Q?Lm8hNd7rGMNpHtX21J0CVTRUe481AWSz61JJhUeT1RQoB03hOosl5YZO8TEj?=
+ =?us-ascii?Q?kCkiVX/XjEK8jZa8GKKQWgzgaGV37wRy11foDBgR5ooqCWsiTp+fQTn7TDWi?=
+ =?us-ascii?Q?6WeEwieHt7qeRiTjHUlwOBzQWR67T0Qfa2HLtH9Ix/6UFeIml8chsYW42DuV?=
+ =?us-ascii?Q?z4znxGk7jqYEabSOVXuCDUrEmqif5B3iP5XMqftztr1M9julrv/CN6bNnx7k?=
+ =?us-ascii?Q?65AHqfVpptRNQYrQV3us1aLO8F7xdRndtvZNyjJpKS6MJxGGxAIelxzzDyln?=
+ =?us-ascii?Q?DuAxYS9KoMv9822EO26903lVJu2k+qEE17VwezoMtpjnQxUzKPQmDa1EIujt?=
+ =?us-ascii?Q?rFI3W/p/N5uCqrqH5F3Jlb6hJgdwcm5+2EtIHm0WP0BP/+lGQKZWzg=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gfOOVXnIpuA6gIAsIbcanLspmR1p9jwvW3nHaxcEQsCSzq6dftjjsXxJCciy?=
- =?us-ascii?Q?10KnZELzzCW1+4nwe8HfCzaWBoV11m8jsTX8DwICTJzqZ5sC3hexZuiJyfbT?=
- =?us-ascii?Q?IK/FcVasqo//sCmRHT5nIl+yQXXZvg2+q4rtKm0V6UsgoNq+tzCteKhc0hm/?=
- =?us-ascii?Q?TogMGCW59gaMSAU8PaEl+69/ceuKCbd5/urMSlglhFAR0tFavIEZioIyCAa/?=
- =?us-ascii?Q?vFEDBrdH0TgnsVsjY7ND+eHSIyS2eYIwBQ2XB6t2N7CpojJ4CUIlzrHfB3FM?=
- =?us-ascii?Q?GG/eFjHmVMpKk41Iw3LlGm7OD/edxoZ8jHMuA5dcJi6WHn4dGGVkCObd3AjH?=
- =?us-ascii?Q?IMWhi4xuJAgCXL18H7wrsa1eZSLuGiMrWxsNVefNZTtGxZb0XgCWE/sxW1jA?=
- =?us-ascii?Q?5OUUnSivMST37ZVbSFeIxVuzcWZhzq2UopKmr/rJ5lKvDn1ZqPYrRRZ7v4ZM?=
- =?us-ascii?Q?J+gr2U4eBTwAPJxDmrCQj6JwUUZhioxvmj1Ay84tynhOvBWcpVVEmbXqYP8Z?=
- =?us-ascii?Q?ONLGSGWlXpcZjY24ZHX2S7kbvJig/wY95FRY/9Q0pCeGqPWZV41inWjEMcH+?=
- =?us-ascii?Q?VmOP3fneOklDoRy9iPxWfbxeR6gpHWG9y5jOguUrqfHlvOZVp00QjYuO7Wg8?=
- =?us-ascii?Q?sRipQx8ho27a6J6mCcQ0lVZhsBKWMTGV7One6rnUO38A+Ewh/3L/83ZoM/xS?=
- =?us-ascii?Q?FGGK3YP+hQ/UkBB9NZ8O5JqEH5QoOeBeNvXfFKP99lojRE4SOXHY9Trlz9LI?=
- =?us-ascii?Q?MQXjk4T7svHaSFxVhBhha/q0OYzpwxhHmpZwTdWNBTrDz6PzjREJ7gd0cuRp?=
- =?us-ascii?Q?BLvsywgsxdG00U4aicOYlbEtjwtKxLcbGsyFcotIYVkO5R5ft7vlpLi6DvqA?=
- =?us-ascii?Q?fAjQGEOLScZlltd+ycPtNNv5gW1mnmaaq8vBI4p4R3y+tvwzIE9BagWuMNDc?=
- =?us-ascii?Q?sMuTvuG/EeZySFB823qbHIijHK54oOdxNbRfdWxZD7BvYrCkie7LI30W4fYu?=
- =?us-ascii?Q?or8JAm9U/edOpPl9VaBbsJsa3vP7LFaDkwvXvuqMgNtXaHHekJnCPvkd8VeX?=
- =?us-ascii?Q?Qhgg3/5ciE0pi6LzWJg3BJ6QfZZoLOKJNEVTlWI4kXBa2NaAqbhCpEtzatJF?=
- =?us-ascii?Q?cPnvgpdBgifMqBMtywBJx8Wz8U67PUNVa2G+BXQZ0Q9KB/N8IyAXpFtAAnap?=
- =?us-ascii?Q?g7/+dWfNwsDdBkudsMoaIL+Wtn+ciJ67FwzMJvebQMfwxIgXYGGxRmqHcVyb?=
- =?us-ascii?Q?TkKdl2SmAukSKBodlUGMqf07qJ699znnQEKNAfGS6Zm8riJnAaBQOQlq/K/w?=
- =?us-ascii?Q?xvvQvG+bp8uE9h5OYM0npAxh4TviKP9ebrFNOirp/iLb2NntwWU0UnYAbyL7?=
- =?us-ascii?Q?+ZE8njThEt9MXzjQm6SkcQ4OI+8rAEzZSbpn3ZO4TNfQiVf9CmALgMIaL51Z?=
- =?us-ascii?Q?kIvSVcRV4QBtVWsGwuuyqZiR+pTumRyled1MOswrdhhGP9bt8h9F8WTEgxof?=
- =?us-ascii?Q?XPwD5MpX243Crh0Kv+psvlzsk/1zzZiLR36rN3VKeOdGoNXXDoEXUg6PkLme?=
- =?us-ascii?Q?eZcf2KKVAkhBpwii4sPjZhm9EiABVZRGuIRaYLKLyeBJjeely+l8w8IE2FZW?=
- =?us-ascii?Q?sb5T0LhAtkBn7kW2rkTZjZI=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c543541-2be1-4347-ecb3-08dd47064b74
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 23:30:51.9244
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2025 06:28:39.0057
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +2VK+0ym+6N/ysjzXmW21xnppFlq7xm25zsuOzcNRWKe/bu39k8FkByyoPwjAQxPlt8uizKnwjZPeR7Eag0zbNURoNNxRDulqbDU+6vMqxpYHvn6fxT9dE0YVW2ol/bV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB13990
+X-MS-Exchange-CrossTenant-Network-Message-Id: e78391dd-3eea-4ee1-d1e3-08dd4740a8bb
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B072.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7198
 
+Rename macros and structure names, variable with ACP63 tag which are
+specific to ACP6.3 platform.
+Rename 'stream_index' and 'sdw_dma_data' variable names to avoid check
+patch warnings.
 
-Hi Laurentiu
-
-Thank you for the patch
-
-
-> If the number of ports is 1, the DAI name will be the one corresponding
-> to dai_drv[0]. If ARRAY_SIZE(dai_drv) > 1, this means users are forced
-> to specify all ports corresponding to the DAIs. For instance:
-> 
-> 	(it is assumed that ARRAY_SIZE(dai_drv) is 2)
-> 
-> 	[snippet taken from DTS]
-> 	dai: my_dai@cafecafe {
-> 		/* some more properties go here */
-> 
-> 		ports {
-> 			#address-cells = <1>;
-> 			#size-cells = <0>;
-> 
-> 			port@0 {
-> 				reg = <0>;
-> 				endpoint {
-> 					/* specify remote here */
-> 				};
-> 			};
-> 
-> 			port@1 {
-> 				reg = <1>;
-> 				endpoint {
-> 					/* specify remote here */
-> 				};
-> 			};
-> 		};
-> 	};
-> 	[/snippet taken from DTS]
-> 
-> This is problematic when users don't want to connect all ports. In the
-> above example, we're forced to specify all ports even if we want to
-> "connect" only port@1, for instance, to a remote endpoint.
-> 
-> Generally speaking, assuming that ARRAY_SIZE(dai_drv) is N, and we want to
-> connect a single port: i, we'd need to specify at least two ports in the
-> DTS so that "of_graph_get_endpoint_count(node) > 1" is evaluated to true
-> and the ID resulting from "graph_get_dai_id()" is taken into account.
-
-?? I think this is not a issue ?
-
-
-> Fix this by always using 1 as the number of arguments passed to
-> snd_soc_get_dlc(). This way, snd_soc_get_dlc() will use the ID computed
-> by graph_get_dai_id(), which takes the value of the 'reg' property into
-> account if specified.
-> 
-> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> ---
->  sound/soc/generic/simple-card-utils.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-> index dd414634b4ac..a592617e1b0e 100644
-> --- a/sound/soc/generic/simple-card-utils.c
-> +++ b/sound/soc/generic/simple-card-utils.c
-> @@ -1103,7 +1103,7 @@ int graph_util_parse_dai(struct device *dev, struct device_node *ep,
->  	/* Get dai->name */
->  	args.np		= node;
->  	args.args[0]	= graph_get_dai_id(ep);
-> -	args.args_count	= (of_graph_get_endpoint_count(node) > 1);
-> +	args.args_count = 1;
->  
->  	/*
->  	 * FIXME
-
-It breaks existing many drivers / connections.
-
-And I'm not 100% understand the situation.
-Can I confirm ? your HW has N ports/DAIs, but want to use 2nd
-port/DAI only for example. It is OK so far.
-But you want to indicate only 1 port (= 2nd port) on DT,
-and, your driver registers N DAI drivers anyway ?
-
-If my assumption was correct, why you don't indicate N ports in DT ?
-You need to do is not hack to utils, but update your driver to match
-DT count and register driver count ?
-
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
-Kuninori Morimoto
+ sound/soc/amd/ps/acp63.h      | 66 ++++++++++++++++----------------
+ sound/soc/amd/ps/pci-ps.c     | 64 +++++++++++++++----------------
+ sound/soc/amd/ps/ps-sdw-dma.c | 72 +++++++++++++++++------------------
+ 3 files changed, 101 insertions(+), 101 deletions(-)
+
+diff --git a/sound/soc/amd/ps/acp63.h b/sound/soc/amd/ps/acp63.h
+index e54eabaa4d3e..01910273624b 100644
+--- a/sound/soc/amd/ps/acp63.h
++++ b/sound/soc/amd/ps/acp63.h
+@@ -13,13 +13,13 @@
+ #define ACP63_REG_END		0x125C000
+ 
+ #define ACP_SOFT_RESET_SOFTRESET_AUDDONE_MASK	0x00010001
+-#define ACP_PGFSM_CNTL_POWER_ON_MASK	1
+-#define ACP_PGFSM_CNTL_POWER_OFF_MASK	0
+-#define ACP_PGFSM_STATUS_MASK		3
+-#define ACP_POWERED_ON			0
+-#define ACP_POWER_ON_IN_PROGRESS	1
+-#define ACP_POWERED_OFF		2
+-#define ACP_POWER_OFF_IN_PROGRESS	3
++#define ACP63_PGFSM_CNTL_POWER_ON_MASK	1
++#define ACP63_PGFSM_CNTL_POWER_OFF_MASK	0
++#define ACP63_PGFSM_STATUS_MASK		3
++#define ACP63_POWERED_ON			0
++#define ACP63_POWER_ON_IN_PROGRESS	1
++#define ACP63_POWERED_OFF		2
++#define ACP63_POWER_OFF_IN_PROGRESS	3
+ 
+ #define ACP_ERROR_MASK 0x20000000
+ #define ACP_EXT_INTR_STAT_CLEAR_MASK 0xFFFFFFFF
+@@ -60,7 +60,7 @@
+ #define AMD_SDW_MAX_MANAGERS		2
+ 
+ /* time in ms for acp timeout */
+-#define ACP_TIMEOUT		500
++#define ACP63_TIMEOUT		500
+ 
+ #define ACP_SDW0_STAT			BIT(21)
+ #define ACP_SDW1_STAT			BIT(2)
+@@ -72,13 +72,13 @@
+ #define ACP_AUDIO0_RX_THRESHOLD		0x1b
+ #define ACP_AUDIO1_RX_THRESHOLD		0x19
+ #define ACP_AUDIO2_RX_THRESHOLD		0x17
+-#define ACP_P1_AUDIO1_TX_THRESHOLD	BIT(6)
+-#define ACP_P1_AUDIO1_RX_THRESHOLD	BIT(5)
+-#define ACP_SDW_DMA_IRQ_MASK		0x1F800000
+-#define ACP_P1_SDW_DMA_IRQ_MASK		0x60
++#define ACP63_P1_AUDIO1_TX_THRESHOLD	BIT(6)
++#define ACP63_P1_AUDIO1_RX_THRESHOLD	BIT(5)
++#define ACP63_SDW_DMA_IRQ_MASK		0x1F800000
++#define ACP63_P1_SDW_DMA_IRQ_MASK	0x60
+ #define ACP63_SDW0_DMA_MAX_STREAMS	6
+ #define ACP63_SDW1_DMA_MAX_STREAMS	2
+-#define ACP_P1_AUDIO_TX_THRESHOLD	6
++#define ACP63_P1_AUDIO_TX_THRESHOLD	6
+ 
+ /*
+  * Below entries describes SDW0 instance DMA stream id and DMA irq bit mapping
+@@ -91,8 +91,8 @@
+  * 4 (SDW0_AUDIO1_RX)	25
+  * 5 (SDW0_AUDIO2_RX)	23
+  */
+-#define SDW0_DMA_TX_IRQ_MASK(i)	(ACP_AUDIO0_TX_THRESHOLD - (2 * (i)))
+-#define SDW0_DMA_RX_IRQ_MASK(i)	(ACP_AUDIO0_RX_THRESHOLD - (2 * ((i) - 3)))
++#define ACP63_SDW0_DMA_TX_IRQ_MASK(i)	(ACP_AUDIO0_TX_THRESHOLD - (2 * (i)))
++#define ACP63_SDW0_DMA_RX_IRQ_MASK(i)	(ACP_AUDIO0_RX_THRESHOLD - (2 * ((i) - 3)))
+ 
+ /*
+  * Below entries describes SDW1 instance DMA stream id and DMA irq bit mapping
+@@ -101,7 +101,7 @@
+  * 0 (SDW1_AUDIO1_TX)	6
+  * 1 (SDW1_AUDIO1_RX)	5
+  */
+-#define SDW1_DMA_IRQ_MASK(i)	(ACP_P1_AUDIO_TX_THRESHOLD - (i))
++#define ACP63_SDW1_DMA_IRQ_MASK(i)	(ACP63_P1_AUDIO_TX_THRESHOLD - (i))
+ 
+ #define ACP_DELAY_US		5
+ #define ACP_SDW_RING_BUFF_ADDR_OFFSET (128 * 1024)
+@@ -148,18 +148,18 @@ enum acp_config {
+ 	ACP_CONFIG_15,
+ };
+ 
+-enum amd_sdw0_channel {
+-	ACP_SDW0_AUDIO0_TX = 0,
+-	ACP_SDW0_AUDIO1_TX,
+-	ACP_SDW0_AUDIO2_TX,
+-	ACP_SDW0_AUDIO0_RX,
+-	ACP_SDW0_AUDIO1_RX,
+-	ACP_SDW0_AUDIO2_RX,
++enum amd_acp63_sdw0_channel {
++	ACP63_SDW0_AUDIO0_TX = 0,
++	ACP63_SDW0_AUDIO1_TX,
++	ACP63_SDW0_AUDIO2_TX,
++	ACP63_SDW0_AUDIO0_RX,
++	ACP63_SDW0_AUDIO1_RX,
++	ACP63_SDW0_AUDIO2_RX,
+ };
+ 
+-enum amd_sdw1_channel {
+-	ACP_SDW1_AUDIO1_TX,
+-	ACP_SDW1_AUDIO1_RX,
++enum amd_acp63_sdw1_channel {
++	ACP63_SDW1_AUDIO1_TX,
++	ACP63_SDW1_AUDIO1_RX,
+ };
+ 
+ struct pdm_stream_instance {
+@@ -180,8 +180,8 @@ struct pdm_dev_data {
+ struct sdw_dma_dev_data {
+ 	void __iomem *acp_base;
+ 	struct mutex *acp_lock; /* used to protect acp common register access */
+-	struct snd_pcm_substream *sdw0_dma_stream[ACP63_SDW0_DMA_MAX_STREAMS];
+-	struct snd_pcm_substream *sdw1_dma_stream[ACP63_SDW1_DMA_MAX_STREAMS];
++	struct snd_pcm_substream *acp63_sdw0_dma_stream[ACP63_SDW0_DMA_MAX_STREAMS];
++	struct snd_pcm_substream *acp63_sdw1_dma_stream[ACP63_SDW1_DMA_MAX_STREAMS];
+ };
+ 
+ struct acp_sdw_dma_stream {
+@@ -232,8 +232,10 @@ struct sdw_dma_ring_buf_reg {
+  * @addr: pci ioremap address
+  * @reg_range: ACP reigister range
+  * @acp_rev: ACP PCI revision id
+- * @sdw0-dma_intr_stat: DMA interrupt status array for SoundWire manager-SW0 instance
+- * @sdw_dma_intr_stat: DMA interrupt status array for SoundWire manager-SW1 instance
++ * @acp63_sdw0-dma_intr_stat: DMA interrupt status array for ACP6.3 platform SoundWire
++ * manager-SW0 instance
++ * @acp63_sdw_dma_intr_stat: DMA interrupt status array for ACP6.3 platform SoundWire
++ * manager-SW1 instance
+  */
+ 
+ struct acp63_dev_data {
+@@ -256,8 +258,8 @@ struct acp63_dev_data {
+ 	u32 addr;
+ 	u32 reg_range;
+ 	u32 acp_rev;
+-	u16 sdw0_dma_intr_stat[ACP63_SDW0_DMA_MAX_STREAMS];
+-	u16 sdw1_dma_intr_stat[ACP63_SDW1_DMA_MAX_STREAMS];
++	u16 acp63_sdw0_dma_intr_stat[ACP63_SDW0_DMA_MAX_STREAMS];
++	u16 acp63_sdw1_dma_intr_stat[ACP63_SDW1_DMA_MAX_STREAMS];
+ };
+ 
+ int snd_amd_acp_find_config(struct pci_dev *pci);
+diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
+index 8b556950b855..f5beb7f14913 100644
+--- a/sound/soc/amd/ps/pci-ps.c
++++ b/sound/soc/amd/ps/pci-ps.c
+@@ -30,10 +30,10 @@ static int acp63_power_on(void __iomem *acp_base)
+ 	if (!val)
+ 		return val;
+ 
+-	if ((val & ACP_PGFSM_STATUS_MASK) != ACP_POWER_ON_IN_PROGRESS)
+-		writel(ACP_PGFSM_CNTL_POWER_ON_MASK, acp_base + ACP_PGFSM_CONTROL);
++	if ((val & ACP63_PGFSM_STATUS_MASK) != ACP63_POWER_ON_IN_PROGRESS)
++		writel(ACP63_PGFSM_CNTL_POWER_ON_MASK, acp_base + ACP_PGFSM_CONTROL);
+ 
+-	return readl_poll_timeout(acp_base + ACP_PGFSM_STATUS, val, !val, DELAY_US, ACP_TIMEOUT);
++	return readl_poll_timeout(acp_base + ACP_PGFSM_STATUS, val, !val, DELAY_US, ACP63_TIMEOUT);
+ }
+ 
+ static int acp63_reset(void __iomem *acp_base)
+@@ -45,13 +45,13 @@ static int acp63_reset(void __iomem *acp_base)
+ 
+ 	ret = readl_poll_timeout(acp_base + ACP_SOFT_RESET, val,
+ 				 val & ACP_SOFT_RESET_SOFTRESET_AUDDONE_MASK,
+-				 DELAY_US, ACP_TIMEOUT);
++				 DELAY_US, ACP63_TIMEOUT);
+ 	if (ret)
+ 		return ret;
+ 
+ 	writel(0, acp_base + ACP_SOFT_RESET);
+ 
+-	return readl_poll_timeout(acp_base + ACP_SOFT_RESET, val, !val, DELAY_US, ACP_TIMEOUT);
++	return readl_poll_timeout(acp_base + ACP_SOFT_RESET, val, !val, DELAY_US, ACP63_TIMEOUT);
+ }
+ 
+ static void acp63_enable_interrupts(void __iomem *acp_base)
+@@ -104,24 +104,24 @@ static int acp63_deinit(void __iomem *acp_base, struct device *dev)
+ 
+ static irqreturn_t acp63_irq_thread(int irq, void *context)
+ {
+-	struct sdw_dma_dev_data *sdw_dma_data;
++	struct sdw_dma_dev_data *sdw_data;
+ 	struct acp63_dev_data *adata = context;
+-	u32 stream_index;
++	u32 stream_id;
+ 
+-	sdw_dma_data = dev_get_drvdata(&adata->sdw_dma_dev->dev);
++	sdw_data = dev_get_drvdata(&adata->sdw_dma_dev->dev);
+ 
+-	for (stream_index = 0; stream_index < ACP63_SDW0_DMA_MAX_STREAMS; stream_index++) {
+-		if (adata->sdw0_dma_intr_stat[stream_index]) {
+-			if (sdw_dma_data->sdw0_dma_stream[stream_index])
+-				snd_pcm_period_elapsed(sdw_dma_data->sdw0_dma_stream[stream_index]);
+-			adata->sdw0_dma_intr_stat[stream_index] = 0;
++	for (stream_id = 0; stream_id < ACP63_SDW0_DMA_MAX_STREAMS; stream_id++) {
++		if (adata->acp63_sdw0_dma_intr_stat[stream_id]) {
++			if (sdw_data->acp63_sdw0_dma_stream[stream_id])
++				snd_pcm_period_elapsed(sdw_data->acp63_sdw0_dma_stream[stream_id]);
++			adata->acp63_sdw0_dma_intr_stat[stream_id] = 0;
+ 		}
+ 	}
+-	for (stream_index = 0; stream_index < ACP63_SDW1_DMA_MAX_STREAMS; stream_index++) {
+-		if (adata->sdw1_dma_intr_stat[stream_index]) {
+-			if (sdw_dma_data->sdw1_dma_stream[stream_index])
+-				snd_pcm_period_elapsed(sdw_dma_data->sdw1_dma_stream[stream_index]);
+-			adata->sdw1_dma_intr_stat[stream_index] = 0;
++	for (stream_id = 0; stream_id < ACP63_SDW1_DMA_MAX_STREAMS; stream_id++) {
++		if (adata->acp63_sdw1_dma_intr_stat[stream_id]) {
++			if (sdw_data->acp63_sdw1_dma_stream[stream_id])
++				snd_pcm_period_elapsed(sdw_data->acp63_sdw1_dma_stream[stream_id]);
++			adata->acp63_sdw1_dma_intr_stat[stream_id] = 0;
+ 		}
+ 	}
+ 	return IRQ_HANDLED;
+@@ -180,48 +180,48 @@ static irqreturn_t acp63_irq_handler(int irq, void *dev_id)
+ 			snd_pcm_period_elapsed(ps_pdm_data->capture_stream);
+ 		irq_flag = 1;
+ 	}
+-	if (ext_intr_stat & ACP_SDW_DMA_IRQ_MASK) {
++	if (ext_intr_stat & ACP63_SDW_DMA_IRQ_MASK) {
+ 		for (index = ACP_AUDIO2_RX_THRESHOLD; index <= ACP_AUDIO0_TX_THRESHOLD; index++) {
+ 			if (ext_intr_stat & BIT(index)) {
+ 				writel(BIT(index), adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
+ 				switch (index) {
+ 				case ACP_AUDIO0_TX_THRESHOLD:
+-					stream_id = ACP_SDW0_AUDIO0_TX;
++					stream_id = ACP63_SDW0_AUDIO0_TX;
+ 					break;
+ 				case ACP_AUDIO1_TX_THRESHOLD:
+-					stream_id = ACP_SDW0_AUDIO1_TX;
++					stream_id = ACP63_SDW0_AUDIO1_TX;
+ 					break;
+ 				case ACP_AUDIO2_TX_THRESHOLD:
+-					stream_id = ACP_SDW0_AUDIO2_TX;
++					stream_id = ACP63_SDW0_AUDIO2_TX;
+ 					break;
+ 				case ACP_AUDIO0_RX_THRESHOLD:
+-					stream_id = ACP_SDW0_AUDIO0_RX;
++					stream_id = ACP63_SDW0_AUDIO0_RX;
+ 					break;
+ 				case ACP_AUDIO1_RX_THRESHOLD:
+-					stream_id = ACP_SDW0_AUDIO1_RX;
++					stream_id = ACP63_SDW0_AUDIO1_RX;
+ 					break;
+ 				case ACP_AUDIO2_RX_THRESHOLD:
+-					stream_id = ACP_SDW0_AUDIO2_RX;
++					stream_id = ACP63_SDW0_AUDIO2_RX;
+ 					break;
+ 				}
+ 
+-				adata->sdw0_dma_intr_stat[stream_id] = 1;
++				adata->acp63_sdw0_dma_intr_stat[stream_id] = 1;
+ 				sdw_dma_irq_flag = 1;
+ 			}
+ 		}
+ 	}
+ 
+-	if (ext_intr_stat1 & ACP_P1_AUDIO1_RX_THRESHOLD) {
+-		writel(ACP_P1_AUDIO1_RX_THRESHOLD,
++	if (ext_intr_stat1 & ACP63_P1_AUDIO1_RX_THRESHOLD) {
++		writel(ACP63_P1_AUDIO1_RX_THRESHOLD,
+ 		       adata->acp63_base + ACP_EXTERNAL_INTR_STAT1);
+-		adata->sdw1_dma_intr_stat[ACP_SDW1_AUDIO1_RX] = 1;
++		adata->acp63_sdw1_dma_intr_stat[ACP63_SDW1_AUDIO1_RX] = 1;
+ 		sdw_dma_irq_flag = 1;
+ 	}
+ 
+-	if (ext_intr_stat1 & ACP_P1_AUDIO1_TX_THRESHOLD) {
+-		writel(ACP_P1_AUDIO1_TX_THRESHOLD,
++	if (ext_intr_stat1 & ACP63_P1_AUDIO1_TX_THRESHOLD) {
++		writel(ACP63_P1_AUDIO1_TX_THRESHOLD,
+ 		       adata->acp63_base + ACP_EXTERNAL_INTR_STAT1);
+-		adata->sdw1_dma_intr_stat[ACP_SDW1_AUDIO1_TX] = 1;
++		adata->acp63_sdw1_dma_intr_stat[ACP63_SDW1_AUDIO1_TX] = 1;
+ 		sdw_dma_irq_flag = 1;
+ 	}
+ 
+diff --git a/sound/soc/amd/ps/ps-sdw-dma.c b/sound/soc/amd/ps/ps-sdw-dma.c
+index b602cca92b8b..878683619a05 100644
+--- a/sound/soc/amd/ps/ps-sdw-dma.c
++++ b/sound/soc/amd/ps/ps-sdw-dma.c
+@@ -18,7 +18,7 @@
+ 
+ #define DRV_NAME "amd_ps_sdw_dma"
+ 
+-static struct sdw_dma_ring_buf_reg sdw0_dma_ring_buf_reg[ACP63_SDW0_DMA_MAX_STREAMS] = {
++static struct sdw_dma_ring_buf_reg acp63_sdw0_dma_reg[ACP63_SDW0_DMA_MAX_STREAMS] = {
+ 	{ACP_AUDIO0_TX_DMA_SIZE, ACP_AUDIO0_TX_FIFOADDR, ACP_AUDIO0_TX_FIFOSIZE,
+ 	 ACP_AUDIO0_TX_RINGBUFSIZE, ACP_AUDIO0_TX_RINGBUFADDR, ACP_AUDIO0_TX_INTR_WATERMARK_SIZE,
+ 	 ACP_AUDIO0_TX_LINEARPOSITIONCNTR_LOW, ACP_AUDIO0_TX_LINEARPOSITIONCNTR_HIGH},
+@@ -44,7 +44,7 @@ static struct sdw_dma_ring_buf_reg sdw0_dma_ring_buf_reg[ACP63_SDW0_DMA_MAX_STRE
+  * For TX/RX streams DMA registers programming for SDW1 instance, it uses ACP_P1_AUDIO1 register
+  * set as per hardware register documentation
+  */
+-static struct sdw_dma_ring_buf_reg sdw1_dma_ring_buf_reg[ACP63_SDW1_DMA_MAX_STREAMS] =  {
++static struct sdw_dma_ring_buf_reg acp63_sdw1_dma_reg[ACP63_SDW1_DMA_MAX_STREAMS] =  {
+ 	{ACP_P1_AUDIO1_TX_DMA_SIZE, ACP_P1_AUDIO1_TX_FIFOADDR, ACP_P1_AUDIO1_TX_FIFOSIZE,
+ 	 ACP_P1_AUDIO1_TX_RINGBUFSIZE, ACP_P1_AUDIO1_TX_RINGBUFADDR,
+ 	 ACP_P1_AUDIO1_TX_INTR_WATERMARK_SIZE,
+@@ -55,7 +55,7 @@ static struct sdw_dma_ring_buf_reg sdw1_dma_ring_buf_reg[ACP63_SDW1_DMA_MAX_STRE
+ 	 ACP_P1_AUDIO1_RX_LINEARPOSITIONCNTR_LOW, ACP_P1_AUDIO1_RX_LINEARPOSITIONCNTR_HIGH},
+ };
+ 
+-static u32 sdw0_dma_enable_reg[ACP63_SDW0_DMA_MAX_STREAMS] = {
++static u32 acp63_sdw0_dma_enable_reg[ACP63_SDW0_DMA_MAX_STREAMS] = {
+ 	ACP_SW0_AUDIO0_TX_EN,
+ 	ACP_SW0_AUDIO1_TX_EN,
+ 	ACP_SW0_AUDIO2_TX_EN,
+@@ -70,7 +70,7 @@ static u32 sdw0_dma_enable_reg[ACP63_SDW0_DMA_MAX_STREAMS] = {
+  * it uses ACP_SW1_AUDIO1_TX_EN and ACP_SW1_AUDIO1_RX_EN registers
+  * as per hardware register documentation.
+  */
+-static u32 sdw1_dma_enable_reg[ACP63_SDW1_DMA_MAX_STREAMS] = {
++static u32 acp63_sdw1_dma_enable_reg[ACP63_SDW1_DMA_MAX_STREAMS] = {
+ 	ACP_SW1_AUDIO1_TX_EN,
+ 	ACP_SW1_AUDIO1_RX_EN,
+ };
+@@ -117,8 +117,8 @@ static const struct snd_pcm_hardware acp63_sdw_hardware_capture = {
+ static void acp63_enable_disable_sdw_dma_interrupts(void __iomem *acp_base, bool enable)
+ {
+ 	u32 ext_intr_cntl, ext_intr_cntl1;
+-	u32 irq_mask = ACP_SDW_DMA_IRQ_MASK;
+-	u32 irq_mask1 = ACP_P1_SDW_DMA_IRQ_MASK;
++	u32 irq_mask = ACP63_SDW_DMA_IRQ_MASK;
++	u32 irq_mask1 = ACP63_P1_SDW_DMA_IRQ_MASK;
+ 
+ 	if (enable) {
+ 		ext_intr_cntl = readl(acp_base + ACP_EXTERNAL_INTR_CNTL);
+@@ -182,18 +182,18 @@ static int acp63_configure_sdw_ringbuffer(void __iomem *acp_base, u32 stream_id,
+ 
+ 	switch (manager_instance) {
+ 	case ACP_SDW0:
+-		reg_dma_size = sdw0_dma_ring_buf_reg[stream_id].reg_dma_size;
+-		reg_fifo_addr =	sdw0_dma_ring_buf_reg[stream_id].reg_fifo_addr;
+-		reg_fifo_size = sdw0_dma_ring_buf_reg[stream_id].reg_fifo_size;
+-		reg_ring_buf_size = sdw0_dma_ring_buf_reg[stream_id].reg_ring_buf_size;
+-		reg_ring_buf_addr = sdw0_dma_ring_buf_reg[stream_id].reg_ring_buf_addr;
++		reg_dma_size = acp63_sdw0_dma_reg[stream_id].reg_dma_size;
++		reg_fifo_addr =	acp63_sdw0_dma_reg[stream_id].reg_fifo_addr;
++		reg_fifo_size = acp63_sdw0_dma_reg[stream_id].reg_fifo_size;
++		reg_ring_buf_size = acp63_sdw0_dma_reg[stream_id].reg_ring_buf_size;
++		reg_ring_buf_addr = acp63_sdw0_dma_reg[stream_id].reg_ring_buf_addr;
+ 		break;
+ 	case ACP_SDW1:
+-		reg_dma_size = sdw1_dma_ring_buf_reg[stream_id].reg_dma_size;
+-		reg_fifo_addr =	sdw1_dma_ring_buf_reg[stream_id].reg_fifo_addr;
+-		reg_fifo_size = sdw1_dma_ring_buf_reg[stream_id].reg_fifo_size;
+-		reg_ring_buf_size = sdw1_dma_ring_buf_reg[stream_id].reg_ring_buf_size;
+-		reg_ring_buf_addr = sdw1_dma_ring_buf_reg[stream_id].reg_ring_buf_addr;
++		reg_dma_size = acp63_sdw1_dma_reg[stream_id].reg_dma_size;
++		reg_fifo_addr =	acp63_sdw1_dma_reg[stream_id].reg_fifo_addr;
++		reg_fifo_size = acp63_sdw1_dma_reg[stream_id].reg_fifo_size;
++		reg_ring_buf_size = acp63_sdw1_dma_reg[stream_id].reg_ring_buf_size;
++		reg_ring_buf_addr = acp63_sdw1_dma_reg[stream_id].reg_ring_buf_addr;
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -267,19 +267,19 @@ static int acp63_sdw_dma_hw_params(struct snd_soc_component *component,
+ 	stream_id = stream->stream_id;
+ 	switch (stream->instance) {
+ 	case ACP_SDW0:
+-		sdw_data->sdw0_dma_stream[stream_id] = substream;
+-		water_mark_size_reg = sdw0_dma_ring_buf_reg[stream_id].water_mark_size_reg;
++		sdw_data->acp63_sdw0_dma_stream[stream_id] = substream;
++		water_mark_size_reg = acp63_sdw0_dma_reg[stream_id].water_mark_size_reg;
+ 		acp_ext_intr_cntl_reg = ACP_EXTERNAL_INTR_CNTL;
+ 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+-			irq_mask = BIT(SDW0_DMA_TX_IRQ_MASK(stream_id));
++			irq_mask = BIT(ACP63_SDW0_DMA_TX_IRQ_MASK(stream_id));
+ 		else
+-			irq_mask = BIT(SDW0_DMA_RX_IRQ_MASK(stream_id));
++			irq_mask = BIT(ACP63_SDW0_DMA_RX_IRQ_MASK(stream_id));
+ 		break;
+ 	case ACP_SDW1:
+-		sdw_data->sdw1_dma_stream[stream_id] = substream;
++		sdw_data->acp63_sdw1_dma_stream[stream_id] = substream;
+ 		acp_ext_intr_cntl_reg = ACP_EXTERNAL_INTR_CNTL1;
+-		water_mark_size_reg = sdw1_dma_ring_buf_reg[stream_id].water_mark_size_reg;
+-		irq_mask = BIT(SDW1_DMA_IRQ_MASK(stream_id));
++		water_mark_size_reg = acp63_sdw1_dma_reg[stream_id].water_mark_size_reg;
++		irq_mask = BIT(ACP63_SDW1_DMA_IRQ_MASK(stream_id));
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -310,12 +310,12 @@ static u64 acp63_sdw_get_byte_count(struct acp_sdw_dma_stream *stream, void __io
+ 	byte_count.bytescount = 0;
+ 	switch (stream->instance) {
+ 	case ACP_SDW0:
+-		pos_low_reg = sdw0_dma_ring_buf_reg[stream->stream_id].pos_low_reg;
+-		pos_high_reg = sdw0_dma_ring_buf_reg[stream->stream_id].pos_high_reg;
++		pos_low_reg = acp63_sdw0_dma_reg[stream->stream_id].pos_low_reg;
++		pos_high_reg = acp63_sdw0_dma_reg[stream->stream_id].pos_high_reg;
+ 		break;
+ 	case ACP_SDW1:
+-		pos_low_reg = sdw1_dma_ring_buf_reg[stream->stream_id].pos_low_reg;
+-		pos_high_reg = sdw1_dma_ring_buf_reg[stream->stream_id].pos_high_reg;
++		pos_low_reg = acp63_sdw1_dma_reg[stream->stream_id].pos_low_reg;
++		pos_high_reg = acp63_sdw1_dma_reg[stream->stream_id].pos_high_reg;
+ 		break;
+ 	default:
+ 		goto POINTER_RETURN_BYTES;
+@@ -369,10 +369,10 @@ static int acp63_sdw_dma_close(struct snd_soc_component *component,
+ 		return -EINVAL;
+ 	switch (stream->instance) {
+ 	case ACP_SDW0:
+-		sdw_data->sdw0_dma_stream[stream->stream_id] = NULL;
++		sdw_data->acp63_sdw0_dma_stream[stream->stream_id] = NULL;
+ 		break;
+ 	case ACP_SDW1:
+-		sdw_data->sdw1_dma_stream[stream->stream_id] = NULL;
++		sdw_data->acp63_sdw1_dma_stream[stream->stream_id] = NULL;
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -395,10 +395,10 @@ static int acp63_sdw_dma_enable(struct snd_pcm_substream *substream,
+ 	stream_id = stream->stream_id;
+ 	switch (stream->instance) {
+ 	case ACP_SDW0:
+-		sdw_dma_en_reg = sdw0_dma_enable_reg[stream_id];
++		sdw_dma_en_reg = acp63_sdw0_dma_enable_reg[stream_id];
+ 		break;
+ 	case ACP_SDW1:
+-		sdw_dma_en_reg = sdw1_dma_enable_reg[stream_id];
++		sdw_dma_en_reg = acp63_sdw1_dma_enable_reg[stream_id];
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -512,13 +512,11 @@ static int acp_restore_sdw_dma_config(struct sdw_dma_dev_data *sdw_data)
+ 
+ 		for (index = 0; index < stream_count; index++) {
+ 			if (instance == ACP_SDW0) {
+-				substream = sdw_data->sdw0_dma_stream[index];
+-				water_mark_size_reg =
+-						sdw0_dma_ring_buf_reg[index].water_mark_size_reg;
++				substream = sdw_data->acp63_sdw0_dma_stream[index];
++				water_mark_size_reg = acp63_sdw0_dma_reg[index].water_mark_size_reg;
+ 			} else {
+-				substream = sdw_data->sdw1_dma_stream[index];
+-				water_mark_size_reg =
+-						sdw1_dma_ring_buf_reg[index].water_mark_size_reg;
++				substream = sdw_data->acp63_sdw1_dma_stream[index];
++				water_mark_size_reg = acp63_sdw1_dma_reg[index].water_mark_size_reg;
+ 			}
+ 
+ 			if (substream && substream->runtime) {
+-- 
+2.34.1
+
