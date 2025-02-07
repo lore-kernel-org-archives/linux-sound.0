@@ -1,98 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC8D1F9421;
-	Fri,  7 Feb 2025 13:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350891D61AC;
+	Fri,  7 Feb 2025 13:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738935437; cv=none; b=TtuRhpuZXkdMIV/F4Xw1Z1mbrwE6PC9nnqna63hC4ICurFmA/X4phCt9uGMcRGqWgp5cjZQaGsCOdAwuUJK4KGV1f9E0bVZblLitFGO3Jf7DDC6fa0gJfkl7GrDgm4BLNPEqI/s1+n9njU7mLQosrQIMXD+qJhoThB9HBWFersE=
+	t=1738935676; cv=none; b=FUD5d1rUjJvzWGZy6RkxdR/VClH4nkDVo7xIaV9nLrSeiO1P3UKow+k184lOmqtnf1dL2H1+KyLZNYCGNmyj8J+Ydwp2N+fd10MPabT6oOYv1al1+o+7GeSz/nM9dv0JQakxkQnExSXFmaoaRgTClYQbfRAhT4SY22l8pxeTtqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738935437; c=relaxed/simple;
-	bh=1gPbmt2CETIzLFEDnbd4H1EjyjVkwI381ioMsJl4KW0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lRCG06haP8dqUrJAYLTZb61NuvWag8Ocuk90klKkiMoIdxyWVkx+U6RmFYz8HqZb80dZSHSX9K/CSuBAsQaBLzKdZo/wuRQ7C0H6wn+kjpXiRwJ4sXAzFlwqZzBGSIBKTqung2ANyoc+AKPpxRReGHU3TQ7XH0Bd8o/gtNS1vts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Udg3avW5; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1738935676; c=relaxed/simple;
+	bh=DVhuDK56jFHQaEvFXFTvW7N3oqzH9vN5MkrlzTfQ7pQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ptF/Vufw6faVQd1fspuMJmm/yEDj4X5kkOEmPi3sPY/ZW5iVt8LSzbx84AshAeqzj4fLkowjRhjS1tEuhH5hNmbTHVYJaIlQ8pyTPjDgmv7P9G/tY7evMYdSvUNzOPQQHna5LWy9ZGB4mJTFj7d9UuehpjDda9n95lLyT0gjVYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8keFPHi; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Udg3avW5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8keFPHi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738935435; x=1770471435;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1gPbmt2CETIzLFEDnbd4H1EjyjVkwI381ioMsJl4KW0=;
-  b=Udg3avW5kNrUr5K2tY5Fk7ddUqbXuZ59GQFr33TUfcU6iJbOCCn1tA0C
-   JicOpj+LgR8wWEWGXhmxriYvsFey2Zz5tZI3fBbCW8WY3vma+lU4ubvFX
-   bkNzD3Veq8bz1t6sSsesWk/44+tb5qKWAKUswY/AoOyYgAbbzj0/FpRq6
-   m2OJ4SWDf19yKvXznDHKdI8yq6SzC1bMEBaGKJmhvkJI+HotJqsrclxAT
-   z6OF7JK2nZDWFDtsV2jJZ2WYo4iPAoy29YnIAq+InTEuScYGcarf+jLrt
-   EjahjeRa0YBt9wSS7oiefrod3CeXNskWoKa46HyXUXN3X/S/0NBKMtMF+
-   Q==;
-X-CSE-ConnectionGUID: wHYVtijIT+mJF/3YG4nxeQ==
-X-CSE-MsgGUID: eDGhiEA2TPuHHE0tJc77NA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39268459"
+  t=1738935675; x=1770471675;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=DVhuDK56jFHQaEvFXFTvW7N3oqzH9vN5MkrlzTfQ7pQ=;
+  b=V8keFPHiIMR8Sgkm97Olc4PrHUTv0vN7n8psIvrxKBvQDU2FV093nbMB
+   dh6IAUubtFpa0pkoHZSsucfHfWzn4eHwhVvehzimcCHqpfVyHABkk6SSq
+   nNRMWHcvQeP86j5OvXQdZeQz1HNZIkPhrdGfH+S4YSuIPNw7h1Yx6bPEP
+   sd/nRFUY9BptbHxvP7URhOat1PMSiAMx54H3UkQ0igyj3dn6ALSbhhlNr
+   jx6puw3gPoGymAtZRhQrHHPQuEaxctJIvaSay8RvG3s183Ak3r/Z9MLoh
+   fGu9oRkNYxabViF+lLPhhlkKPfLp1ZaSrSKWW0FyE9EWLORqUwqKW6Qbn
+   A==;
+X-CSE-ConnectionGUID: xH/ooRo2Rh2ifOosOQjAZw==
+X-CSE-MsgGUID: XyJ35utjRS6LWLupOfgH5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="38805323"
 X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; 
-   d="scan'208";a="39268459"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 05:37:15 -0800
-X-CSE-ConnectionGUID: UU5DFwFzQVagWK+sgVoTUw==
-X-CSE-MsgGUID: YawrmXTXR3SOkZKF45OZCQ==
+   d="scan'208";a="38805323"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 05:41:14 -0800
+X-CSE-ConnectionGUID: 0c66oyQZRumw5fZ85etKlg==
+X-CSE-MsgGUID: 7vqOUHQVSmyZCqDRNsUP7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="148739906"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.100])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 05:37:12 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	bhelgaas@google.com,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] ALSA: hda: hda-intel: add Panther Lake-H support
-Date: Fri,  7 Feb 2025 15:37:36 +0200
-Message-ID: <20250207133736.4591-5-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250207133736.4591-1-peter.ujfalusi@linux.intel.com>
-References: <20250207133736.4591-1-peter.ujfalusi@linux.intel.com>
+   d="scan'208";a="115616385"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO [10.245.246.100]) ([10.245.246.100])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 05:41:11 -0800
+Message-ID: <ef0da9dc-3fc8-477c-9605-8951fd9aabec@linux.intel.com>
+Date: Fri, 7 Feb 2025 15:41:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] ASoC/SOF/PCI/Intel: add PantherLake H support
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com, broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, bhelgaas@google.com,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>
+References: <20250207133736.4591-1-peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <20250207133736.4591-1-peter.ujfalusi@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+On 07/02/2025 15:37, Peter Ujfalusi wrote:
+> Hi,
+> 
+> The audio IP in PTL-H is identical to the already supported PTL but the
+> PCI-ID has been changes due to the differences in the product's
+> configuration outside of audio.
+> 
+> To support PTL-H we really just need to wire up the new ID.
 
-One more PCI ID.
+Somehow I have missed Takashi-san from recipients list...
+Cc-d in here, sorry.
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/pci/hda/hda_intel.c | 2 ++
- 1 file changed, 2 insertions(+)
+> 
+> Regards,
+> Peter
+> ---
+> Peter Ujfalusi (1):
+>   ASoC: SOF: Intel: pci-ptl: Add support for PTL-H
+> 
+> Pierre-Louis Bossart (3):
+>   PCI: pci_ids: add INTEL_HDA_PTL_H
+>   ALSA: hda: intel-dsp-config: Add PTL-H support
+>   ALSA: hda: hda-intel: add Panther Lake-H support
+> 
+>  include/linux/pci_ids.h       | 1 +
+>  sound/hda/intel-dsp-config.c  | 5 +++++
+>  sound/pci/hda/hda_intel.c     | 2 ++
+>  sound/soc/sof/intel/pci-ptl.c | 1 +
+>  4 files changed, 9 insertions(+)
+> 
 
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index 7d7f9aac50a9..67540e037309 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -2496,6 +2496,8 @@ static const struct pci_device_id azx_ids[] = {
- 	{ PCI_DEVICE_DATA(INTEL, HDA_ARL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_SKYLAKE) },
- 	/* Panther Lake */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_PTL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
-+	/* Panther Lake-H */
-+	{ PCI_DEVICE_DATA(INTEL, HDA_PTL_H, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_LNL) },
- 	/* Apollolake (Broxton-P) */
- 	{ PCI_DEVICE_DATA(INTEL, HDA_APL, AZX_DRIVER_SKL | AZX_DCAPS_INTEL_BROXTON) },
- 	/* Gemini-Lake */
 -- 
-2.48.1
+Péter
 
