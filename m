@@ -1,107 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC0A17C68
-	for <linux-sound@vger.kernel.org>; Fri,  7 Feb 2025 12:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAB71E1A33
+	for <linux-sound@vger.kernel.org>; Fri,  7 Feb 2025 13:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738931811; cv=none; b=NKlP0LxTAFkrlMPOLMLDhYrwL6lXwp9IaAj9DnDm2FVCtgbhFxFurx8tF+TVip4aBBfD/c7Y6DHpY6R63LDUhkqN8lgVeHBtBqrGYWve/99wkGh550gDCWX12nK1v4UZXJSOHh8j52zHyKmshgJZEJzORkiepaKVyGSRy3NXXsE=
+	t=1738934020; cv=none; b=KeULkLhFC4CJ26bLi8y3yxHzMC/xNGeV0NLgjVfpu57wqTgKasU34dMbByBOfmeS4A2Cnj6JzEJygwJcpWsE1P5NRhM6Pu/wCqVgxy2d3xTV4Hk0luz1c7HYkHvfP6M/vJ/oFhIzpUWvEBNGciJrpB7O/oi8RqD0haFpUZL6/ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738931811; c=relaxed/simple;
-	bh=76PcZgssK/Lv0TO58+llcjwrS/G+MOyIqE0jxxhjbJY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rgCdCLFhlUnGF8ACnbq0NDOYrYT00RelyRJvwLq4Pb/D0Sug+lDCxIIjIuYHHo3qlJvS0eWL3Hgm3IAroItIfZSS1iWN3UzslT6M4ZbFSDCQHm4hVXdiyAzRlJNxMmY6SziHyPjDZAB+pzlRZBTjwhJ423qrR9KBdFk6To9C2YM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bZ0g9/gO; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738934020; c=relaxed/simple;
+	bh=fHmM7S/9TWF8DFxEexQ+inKw/HMdCDK9SVSyj3cKC/g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UrFpbcZRq0FytQnKwhvIVS2NK0UYTWYUh4+R1nMRfAYpbNMjEaEGNHSae9OlBgfwWqiBuqkvfrGvuBb0jG6Ty/7RMPKTuR95aqaL8ey+j80Y4v9D1NreljFErnZrbQB7aaFv6clZCbqvvXpvHGL8xBIJ+OPTCU9GfWjyEcwQG8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=idMZ+i6j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bZ0g9/gO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738931810; x=1770467810;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=76PcZgssK/Lv0TO58+llcjwrS/G+MOyIqE0jxxhjbJY=;
-  b=bZ0g9/gO0NtMj9Z37kFOQAHN2PQe7pU1cY6yfRkuM9S3p5f5Yq6stvr0
-   JycwazF0o67SKKlKJrQTlXx0+4K75zN5vbZRRkZWVuODF5jXRmYudAl6H
-   128aLgme/O0/OiDoo0YMskurSakoF9Tn2GzKkxMBbvOyago/NSlSQimm3
-   BWRZ3AHkGGlAozkqA2OXEtF2pVJxMNBr64FZtcC8vXqvKygIgrbWhdRHM
-   0TukO5pSbcFsvdybxejLmfFyAPNfxkjMRCDAUnhCSvqMeRetMsomFvYXy
-   7e8DtrfwXv6bGLUO4UneOht+L9WzwJwRpBECbwqttu46pf+WI65ZoQczu
-   g==;
-X-CSE-ConnectionGUID: 7lArn5X2SKCVNVGGY2FaGA==
-X-CSE-MsgGUID: sX2MYgHITJyWCtymbqIWuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50959185"
-X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; 
-   d="scan'208";a="50959185"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 04:36:50 -0800
-X-CSE-ConnectionGUID: NlJp6jbKT5+KmgT8Us8ixA==
-X-CSE-MsgGUID: gw2kcXh1SJ2BEafAHmlxjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111364304"
-Received: from johunt-mobl9.ger.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.220.223])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 04:36:48 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH 2/2] fixup!:  ASoC: Intel: soc-acpi-intel-ptl-match: add rt713_vb_l2_rt1320_l13
-Date: Fri,  7 Feb 2025 20:36:37 +0800
-Message-ID: <20250207123637.215320-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250207123637.215320-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="idMZ+i6j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E609C4CED1;
+	Fri,  7 Feb 2025 13:13:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738934019;
+	bh=fHmM7S/9TWF8DFxEexQ+inKw/HMdCDK9SVSyj3cKC/g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=idMZ+i6jjUgX+K/qZzJhpy4laW5PW94a1Wn42OQdmr2h8aurMmExVUDLT4hxJlEnP
+	 BBDWJJWewhVTvWhyMUgOMDKE/hQSipojMZCq6iweb+kNeHeUAGih3XGuqAzOz/r/Zz
+	 IUxF8+ZzhTuAOip6xaUipic/ZwWKn/klG5Z+Zb6VjKC/pcdSZjByPTXxv5mcXx/Pf7
+	 JuVNW46C8spr8jk0pSGbac5jvB2nH/ny8eI+0AVg/CpD6id15JsZV8p5SnCWqGkhS8
+	 dH7iTqJPXJfJGvOSN7Us4IyRPPLi8wdwQZhz8LbRRZ/+RBGwVtohlMi+qcVcSOkLxr
+	 peTU/PE+4X5GQ==
+Date: Fri, 7 Feb 2025 13:13:35 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: tiwai@suse.de, linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev, bard.liao@intel.com
+Subject: Re: [PATCH 1/2] fixup!  ASoC: Intel: soc-acpi-intel-ptl-match: add
+ rt712_vb + rt1320 support
+Message-ID: <19b6dc76-abb5-4405-a7f5-d97b77c3b7b7@sirena.org.uk>
 References: <20250207123637.215320-1-yung-chuan.liao@linux.intel.com>
+ <20250207123637.215320-2-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DDxtntWBHZi8bGmh"
+Content-Disposition: inline
+In-Reply-To: <20250207123637.215320-2-yung-chuan.liao@linux.intel.com>
+X-Cookie: MMM-MM!!  So THIS is BIO-NEBULATION!
 
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-s/lnl/ptl
+--DDxtntWBHZi8bGmh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: a7ebb0255188 ("ASoC: Intel: soc-acpi-intel-ptl-match: add rt713_vb_l2_rt1320_l13 support")
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/intel/common/soc-acpi-intel-ptl-match.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Fri, Feb 07, 2025 at 08:36:36PM +0800, Bard Liao wrote:
+> From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>=20
+> s/lnl/ptl
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index e487c4e1c034..dd7993b76dee 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -251,7 +251,7 @@ static const struct snd_soc_acpi_link_adr ptl_rvp[] = {
- 	{}
- };
- 
--static const struct snd_soc_acpi_link_adr lnl_sdw_rt713_vb_l2_rt1320_l13[] = {
-+static const struct snd_soc_acpi_link_adr ptl_sdw_rt713_vb_l2_rt1320_l13[] = {
- 	{
- 		.mask = BIT(2),
- 		.num_adr = ARRAY_SIZE(rt713_vb_2_adr),
-@@ -344,10 +344,10 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- 	},
- 	{
- 		.link_mask = BIT(1) | BIT(2) | BIT(3),
--		.links = lnl_sdw_rt713_vb_l2_rt1320_l13,
-+		.links = ptl_sdw_rt713_vb_l2_rt1320_l13,
- 		.drv_name = "sof_sdw",
- 		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
--		.sof_tplg_filename = "sof-lnl-rt713-l2-rt1320-l13.tplg"
-+		.sof_tplg_filename = "sof-ptl-rt713-l2-rt1320-l13.tplg"
- 	},
- 	{},
- };
--- 
-2.43.0
+You've left the fixup!s in the subject lines here...
 
+--DDxtntWBHZi8bGmh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmemBv4ACgkQJNaLcl1U
+h9CvzAf8D0y4SAScqSDiDXZsaOh3a4Yp6GW4kTjSi1gFB2P+JRUpVJuBHfNEObNW
+/przJurzIOUiVT8Yahx4SvAoWtppZkvYG8v2KZYFhlF+Or/bNnIm/5WQc3VIHTqH
+oxtT/khTTFRIzS3i+pPs44cEz9FAao/tBQGtfSZtEr3ZbgTQ3hXkHGgjAM3k/ckU
+UnSb3fup/8USJDw+aAgL5VQK+e2S+uvkyzfPeKcAwJnyPVsh6a+Xs0HFLXzb7ypc
+4JUnfOmoYEY6zKZtoXuMgEMlBfn777sg1rzg3kqQhiPDtZmJb24mQefyOA/6hYb+
+9NGS7mdMR1B+kFo2iIGhGpYmQAutOg==
+=XoSK
+-----END PGP SIGNATURE-----
+
+--DDxtntWBHZi8bGmh--
