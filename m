@@ -1,87 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E46433B1;
-	Sat,  8 Feb 2025 01:03:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9E31A7264;
+	Sat,  8 Feb 2025 13:20:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738976629; cv=none; b=Iz9XidlAd/46+fy75BN6YNCEWTJ6a1DR7wDGt+0SuoEL72awrfOd/NzfiVLiGxycrxsLyJd+wUlVRI1Yiwu6yLEvoKia4PMs9mh5i/0VlYHip6CVp7H2aaWVIqV6prcTq0mUVz1t4OOacc8QKGBvvvmbk8kyamR/I6kXBxvPty0=
+	t=1739020838; cv=none; b=u4wmEI2uDrkMVJ432IPU68j25Kx9QFgYVfgU9Ow4jVU98nHx7vGwuMe2jim9MyF17CLbWZicYoL6OiCswWAZ6jzZv0WV5zUpL6JuG/Iq3GGhqMpats8bc0fm1c50ZtTa037LtuLINEk+xtqEEOwcBRh0wl0i4ewHwH0hgvgIPdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738976629; c=relaxed/simple;
-	bh=CSJEkYoSHgw6A84OR8krr3l1atnHur4QgCGXV3vANc0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c8OoUw6qBIvDaOd7J91DlhRGSjfYNNtVM0bRX+QWs6KMs+g932RTZ957jd8A7Gc+6Nsbrsq5U9q248Tkvj5gtL6ZWoU0J1OYSsd8anKmKPFr/fv1BBztlcpYGAdLZk4lLvO6Bf9pNL4ioRUBqfWNit4c6aEpQZCFrAd/khTLuQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FIMg4Vyx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739020838; c=relaxed/simple;
+	bh=9W1Za/kbQu2xjBOIJYW7uwANkTVDwhxj/uoxldA8a54=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nh8Xv/4U/1KCMb0rd/m78bwupbnc6jLosrbB6ErD3WNY4jf950SlnjyjHpxbMZ7/Pw0an+hodFS3n9CUQ2BkzNWQxa6lDGvL63O65YK8YQyYGi25MgmabzIYRdBIyQBGVKbEk3Tb/OX4vXn2d7jKekfqGNOS1Jl9jwWx9SRsVQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RrOIag8i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FIMg4Vyx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE58C4CED1;
-	Sat,  8 Feb 2025 01:03:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RrOIag8i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E52FAC4CED6;
+	Sat,  8 Feb 2025 13:20:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738976629;
-	bh=CSJEkYoSHgw6A84OR8krr3l1atnHur4QgCGXV3vANc0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=FIMg4Vyx2VctynyIwBv18ADfdQFQSpFJ4y/o9e3/JjezrZdFaY5/F1jWot+jG76L0
-	 /8eAkVqV48Zq8k4h4M4yyvE0sxw1wJP6L+iFCeMzm2b50jePx//SG6DqRDnAbkxGqC
-	 qHeuPasGU+lw9x61cKyEHfHj2rk1M+gQs8+dDJDkJ2+F0gDsbKq2S3o3QLvyo08VbV
-	 o/pbIYgqMtSqv3zH44qKSXAMh4EXG5VjsP2V0idVu71wPJ7x7q3LPSleHNUuMUV8gd
-	 ONl/pltNWqDzVDi+GVV6VQ0tc05YfLMDbYHxEAHrKFgWS3pfWDd0F6LsWGSojqcJGO
-	 A/pwSprNO37HQ==
-From: broonie@kernel.org
-Date: Sat, 08 Feb 2025 01:03:27 +0000
-Subject: [PATCH 4/4] ASoC: tas2764: Add reg defaults for
- TAS2764_INT_CLK_CFG
+	s=k20201202; t=1739020837;
+	bh=9W1Za/kbQu2xjBOIJYW7uwANkTVDwhxj/uoxldA8a54=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RrOIag8iqPc6KucVE91+M9OmAQtQ+pTpaePLyLuUomKErjy7CfkIoji0E2gJGBrPP
+	 juxtLBHD4HXGM+K2063t/St1rKXOYVYo2GJgEdWTCyCHAGX43DGvMJJIssiVRh0vdh
+	 naUzKVmpMN6/8o6jJHrA5XRi6FPUVwpCQCHT4Eresz0CpkfJud0IUbEuT6cnMvvWEJ
+	 F5lZE8DaR8bbeeC+a0Zaff3qqIWzgDvOPYXTtwoKZASCtLqZ99Jb+2CCE2ewI8su1a
+	 NZ7Qr23h/O7RZZBcQQC+CIbYF3LigoEkwoBcQR/tZpK5pZAvGGr9qE5ofDljpaqJJs
+	 vYWfToR/We03g==
+Date: Sat, 8 Feb 2025 13:20:22 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, David Lechner <dlechner@baylibre.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>, Geert
+ Uytterhoeven <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, Peter Rosin
+ <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 00/13] gpiolib: add gpiod_multi_set_value_cansleep
+Message-ID: <20250208132022.564e7a46@jic23-huawei>
+In-Reply-To: <CAHp75VdmN2wqwwnea0gtTQJ+Y5twQaJp6iEL2esEMCHDi8bvVg@mail.gmail.com>
+References: <20250206-gpio-set-array-helper-v2-0-1c5f048f79c3@baylibre.com>
+	<CAMRc=Mf9WQjVXvea7tHx0MJG2H8Yqxw=zGqvjp7dfD7+=huDKw@mail.gmail.com>
+	<CAPDyKFoNuXpTEm1rLPvAgib+ugqr7XyETZhfrNr6ypOOKRwjXQ@mail.gmail.com>
+	<CAHp75VdmN2wqwwnea0gtTQJ+Y5twQaJp6iEL2esEMCHDi8bvVg@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250208-asoc-tas2764-v1-4-dbab892a69b5@kernel.org>
-References: <20250208-asoc-tas2764-v1-0-dbab892a69b5@kernel.org>
-In-Reply-To: <20250208-asoc-tas2764-v1-0-dbab892a69b5@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Dan Murphy <dmurphy@ti.com>, Hector Martin <marcan@marcan.st>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-42535
-X-Developer-Signature: v=1; a=openpgp-sha256; l=648; i=broonie@kernel.org;
- h=from:subject:message-id; bh=QB5fTSuWQRpBnz3TTt9b1t0jCO37QmgQ/WwnFRiQkBQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnpq1jzB3C18ei2mHXnLmDEgPbn3b0h3Qr/S27H
- qFTeJ5wmDyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZ6atYwAKCRAk1otyXVSH
- 0NXPB/4hP+54x8ywEjRgl75Ek2u0RmyrsCz/6qm8/a7B9jJRhfKM/iLG+Bp3Ty4aqDBYk83TiUH
- FCx758Hx2JLR0pUphlEO8lYM/lC3v2NpHPCvOx9pcoi5KFTyhZ9qx9VBpLJoBvBowIoGZLuOphk
- 4FkbuFyL4YLh3LQ8xETyMXmrr/UR1P9A5aCiiCyp1v/shpZn/hzKd/ly+fRo9FT64/U6RFo73uh
- L+qXCVzbKaMIeUYOTD8/X5WW9oWlRb+A8m0P0CssSBFZU3AJTvQabAzPqbnc4YYVqviq89vKn2f
- ZSQt7lB+XJB/x/NMcThqKx6we7DbokKlpC/fOzMs6VmIy7US
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Hector Martin <marcan@marcan.st>
+On Fri, 7 Feb 2025 14:20:16 +0200
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/codecs/tas2764.c | 1 +
- 1 file changed, 1 insertion(+)
+> On Fri, Feb 7, 2025 at 11:48=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.o=
+rg> wrote:
+> > On Fri, 7 Feb 2025 at 08:49, Bartosz Golaszewski <brgl@bgdev.pl> wrote:=
+ =20
+> > > On Thu, Feb 6, 2025 at 11:48=E2=80=AFPM David Lechner <dlechner@bayli=
+bre.com> wrote: =20
+>=20
+> ...
+>=20
+> > > > Maintainers, if you prefer to have this go through the gpio tree, p=
+lease
+> > > > give your Acked-by:, otherwise I will resend what is left after the=
+ next
+> > > > kernel release. =20
+>=20
+> > > I can provide an immutable branch for the entire series for everyone
+> > > to pull or I can apply patch one, provide an immutable branch and
+> > > every subsystem can take their respective patches. What do you prefer=
+? =20
+> >
+> > The changes look small and trivial to me. I wouldn't mind if you take
+> > them all (at least for mmc). An immutable branch would be good, if it
+> > turns out that we need to pull them. =20
+>=20
+> +1 here, the potential user for immutable branch/tag is IIO.
+> The rest looks trivial and unlikely to have conflicts.
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index d01333c7dd93..49d32e957789 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -625,6 +625,7 @@ static const struct reg_default tas2764_reg_defaults[] = {
- 	{ TAS2764_TDM_CFG2, 0x0a },
- 	{ TAS2764_TDM_CFG3, 0x10 },
- 	{ TAS2764_TDM_CFG5, 0x42 },
-+	{ TAS2764_INT_CLK_CFG, 0x19 },
- };
- 
- static const struct regmap_range_cfg tas2764_regmap_ranges[] = {
+Whilst I'm not sure if we'll need it, definitely good to have immutable
+branch just in case.
 
--- 
-2.39.5
+There is another change to the ad7606 on list, but it's no where near
+this code so shouldn't be a problem however this goes in.
+My slight preference would be an immutable with a tag on patch 1.
+I'll pull that and apply the IIO ones on top.
+
+If you want to grab the lot though that should be fine as well.
+
+Jonathan
+
+>=20
 
