@@ -1,42 +1,42 @@
-Received: from out-179.mta1.migadu.com (unknown [95.215.58.179])
+Received: from out-178.mta0.migadu.com (unknown [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E401922D4
-	for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 11:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F441E2847
+	for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 12:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739188753; cv=none; b=SpH+WXio5KwuoZmwD4PWFPQYJgm9Zdey5QagFQyUhTBJ/6ysmSirZguqJDKw1lMiaDi2JLnFyvHP44nNjM+1REeU6Pl7MpwvrdTH7ixut7SNxwu8QqtX/tUnQ5x64qTu9mKUnwJBYd2Lq4olw0VB4SYMuYNb62Xp/qLy5M4KxL0=
+	t=1739188807; cv=none; b=AyIzcoBYH8NwTc69KBtEPPTuyPwi7yS9gqWpu1Gei/bh+s6Dg5umg4LG8fuFJmeDRusj/n8ViCS59Juvmsw203O3z6OKhCkNhj3OaLH7AzcF1yedj4/qrNto8vvgL1ruTZVnDnJQPsIPzPB9lZapPPrCZFvCHrAen+zyCaxxLHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739188753; c=relaxed/simple;
-	bh=30Wf8ehLuNB2btq0eIwSJAyFUo55/cInR1bVv6Sng8Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b3byFAjAzRp/BOlB7iHVcdsE2KX3ccBts0omS8/P+uo1scuLkIf5j9DB73Svx/tON84i8JGWr89bSqNrclK6UNOwvaLnA3XhxSWKSd3Ivp8wxXqcdDPld4VFdSYw7YNZ5K9eUKdDf0SQiLrkXEzPeQeqMP/bD7/pzgDpG52Fvtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DXiC9AFY; arc=none smtp.client-ip=95.215.58.179
+	s=arc-20240116; t=1739188807; c=relaxed/simple;
+	bh=FhxXjDRdxSWnX37H0WG4vdC6U/pFMmEVNq0rLKT/hd0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AnwBTOgmQ6AUtzaaDyvINNixc+vvhA0kP2Kz3qtv2rj8fmoIKLeGMz7+WvDgxdUrPecHFPfR8DasHOHNgoLV5RuuWfF+edOvNAmgEFyaKz85mu3jw47JjsOdQARA39IZrRGR81bzL381E9J3cbIbO/p1MRqaRWCFqEcWsYcgbIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WHEQ7HFS; arc=none smtp.client-ip=91.218.175.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DXiC9AFY"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WHEQ7HFS"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1739188728;
+	t=1739188784;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=80KXFYtQ068eg5P9MnIf12q7bojormbuV9/fp40Iz9E=;
-	b=DXiC9AFY3fw0MHOAnrmV23wOxeQrh3JUY5tp+sFlyW8LwEzvYk8xq1J1lCQqgSEBSXbTHc
-	WkBa7zf1S65p+bnLjA9/QjLfbxqQ/7wZq0+2/BkW5h0dj6zlLGVIV4p4yGkJbYwjAevmrv
-	GPSNCmy4bU+4CvN/aWfHD4Lp7V1pOLQ=
+	bh=772Fd8+eXiEEEfRWevbGdOh2O07C16dyje+SuDaIbvQ=;
+	b=WHEQ7HFSzbFLjTDqFiDSiA85skroY9V9ME22FiwlHc+hwmUM61aPgphClFCxTDOkscaSUl
+	XIQUHZXE6WclApAUkIoOKbFRNupt6ye/AquCpjRqz5Mgs4d6z2tkwukvp0OITg5EPSUfUU
+	D7DZBNaLdW4us4Tr3yfv2ahL2aNbViM=
 From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Liam Girdwood <lgirdwood@gmail.com>,
+To: Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
 Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: wm_hubs: Use str_enable_disable() in wm_hubs_update_class_w()
-Date: Mon, 10 Feb 2025 12:58:03 +0100
-Message-ID: <20250210115804.53504-3-thorsten.blum@linux.dev>
+Subject: [PATCH] ASoC: tscs454: Use str_enable_disable() in pll_power_event()
+Date: Mon, 10 Feb 2025 12:59:37 +0100
+Message-ID: <20250210115937.53654-1-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,30 +51,32 @@ function.
 
 Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
- sound/soc/codecs/wm_hubs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/soc/codecs/tscs454.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/wm_hubs.c b/sound/soc/codecs/wm_hubs.c
-index 0c881846f485..196ddb224e6d 100644
---- a/sound/soc/codecs/wm_hubs.c
-+++ b/sound/soc/codecs/wm_hubs.c
-@@ -14,6 +14,7 @@
- #include <linux/pm.h>
+diff --git a/sound/soc/codecs/tscs454.c b/sound/soc/codecs/tscs454.c
+index 850e5de9271e..da2f3cb1cd13 100644
+--- a/sound/soc/codecs/tscs454.c
++++ b/sound/soc/codecs/tscs454.c
+@@ -10,6 +10,7 @@
  #include <linux/i2c.h>
- #include <linux/mfd/wm8994/registers.h>
+ #include <linux/err.h>
+ #include <linux/string.h>
 +#include <linux/string_choices.h>
- #include <sound/core.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
-@@ -674,7 +675,7 @@ void wm_hubs_update_class_w(struct snd_soc_component *component)
- 	if (hubs->check_class_w_digital && !hubs->check_class_w_digital(component))
- 		enable = false;
+ #include <linux/module.h>
+ #include <linux/delay.h>
+ #include <linux/mutex.h>
+@@ -737,9 +738,7 @@ static int pll_power_event(struct snd_soc_dapm_widget *w,
+ 	ret = snd_soc_component_update_bits(component, R_PLLCTL, msk, val);
+ 	if (ret < 0) {
+ 		dev_err(component->dev, "Failed to %s PLL %d  (%d)\n",
+-				enable ? "enable" : "disable",
+-				pll1 ? 1 : 2,
+-				ret);
++			str_enable_disable(enable), pll1 ? 1 : 2, ret);
+ 		return ret;
+ 	}
  
--	dev_vdbg(component->dev, "Class W %s\n", enable ? "enabled" : "disabled");
-+	dev_vdbg(component->dev, "Class W %s\n", str_enabled_disabled(enable));
- 
- 	snd_soc_component_update_bits(component, WM8993_CLASS_W_0,
- 			    WM8993_CP_DYN_V | WM8993_CP_DYN_FREQ, enable);
 -- 
 2.48.1
 
