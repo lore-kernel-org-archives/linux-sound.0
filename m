@@ -1,124 +1,94 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9E9263882
-	for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 22:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2843254B19
+	for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 22:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739227099; cv=none; b=i3CPEDUtRMPD/Cd7BjXgWP08mhgih86gEZVFIlQWdRZgXBzzyEcAAj8gy2pf9RtCoAleaodprhcPoRaXKlu9QYLwkQujv8OBgS3Kmkpewdpd17HkrqsQuEejRGsOxU1BahCD0esB7RfeZWw3GCBlWKvxPzBkaKw1BY1XdQkwXAs=
+	t=1739227586; cv=none; b=QhJKwxAkrMK8euebSwFsSg5yhZNY7TWYXf7XlJUJ0oxe++frUuNezrQ+hb32paVOfTcFJZv9lWp14J73SSKkKLT8OqvFMuABfYXWy/q937kA8R7JiJ3VvzMXBLbPM9w47Rf8vl7RNy8r0611XmsLPCPcJ4zgexGD8x2YaocMKZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739227099; c=relaxed/simple;
-	bh=SREiuK3L9rZlfmn2CRPkgp1zixwI3ho4VDIygOej2Dw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hlX2wlmKJFre9gJAi2VjqjKV6NKU8Xyq2iWR8n1DsIh27qHXXwx4bjtMUOJ5geQ3qMJWfIl28j996fqyRnyxoAabxsxHnwkT040NufgnV/mLLS/xf7X9tKpf69LipMkXNQ3rxr2RiDfOvCgeT+5oTUa+nOVydU6c1191Dqhz7xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=sBoqBWii; arc=none smtp.client-ip=209.85.167.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1739227586; c=relaxed/simple;
+	bh=TzHEd5eTrFeLbGCy70Lrd3O19A/neSYiwaiTebrdjf0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vk8RbyEK5HSx7CVqRPosX15ERyRtnJtDidFFcOXHn8HBGYzvpSY/pYHHfS7lG5AUhDukQFl5pgi+d8WKZ9DqKJCfP42OKiefhesettQZWEHfp1QtqUszfGoK4SlKvz09tl+X1lUoTMVPmIPYbVBsZhpAedTxe5SOIepNv39FPEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hfRg5zvL; arc=none smtp.client-ip=95.215.58.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="sBoqBWii"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3f3b96246bdso697780b6e.0
-        for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 14:38:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739227097; x=1739831897; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zrl0lG0s99SDBuGZ/+AcMLJIAJmPLy1NCd/dBoX8jU8=;
-        b=sBoqBWiilrg6G6DcKncG/QpD3XTif6KLjw4bVZEcVRfSe0hlXDRNldE9YF2PAWEulM
-         /sVf3tX5SwJe89Lj9M3MIJaCSs/jc++FpF8/lBpSXw2Rh4aJABVWPzB+mAbwOIK7QYhN
-         6oPTUx7jplW5h1Q9Glmxas07OXMuPokCylYCVZrWgO1kbMVxEreyu7pT3Uos0DthgENZ
-         qRm2huNp0aJC+MYKTFrjAeCcU0mMxdfCA6N5q8CvwJ9rjYFSF2MzzMa+Jy26pj/OKhJr
-         5eOr6oS8AUK89BLsnCV0I9YsOlDgM+6fh0+hziadoBBOWYFT53YLUukUBy7sBwFkSFVY
-         JHFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739227097; x=1739831897;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zrl0lG0s99SDBuGZ/+AcMLJIAJmPLy1NCd/dBoX8jU8=;
-        b=I/ua12vXVlFIFcqqAhar1kWTKxFZGeg6nYRwhPyemmgMpev5CR4/Vh+V01lVbOu2bz
-         FRcv9yePVypbMH9TmSC6OCK/+NHzCsN7jSbkgqyVlxSo2qO7dtdeg6mHhZV5Ol2He7oX
-         KKUAxNUbx6ue4hMkBVYkAIl5UdrcBvxsGLYElB/Th5715eX0LLwtCYdoevk4w698+S1S
-         uBW0UA6/eUM/rFggzziSwvaEln+U1+l6jFaCQUMgCGTTYzO2SLVjtYJS34gvc/PHyMdS
-         fvZWP0qdnC2X5SAmI+pwc9hiMUPxxPcHTFR5wafyjM7KoxN9yDYeFMy6Z1x8PCql2boK
-         VZ2A==
-X-Forwarded-Encrypted: i=1; AJvYcCVqQn+4gcbA/3zsLLlbIwXvOo5hMIcp5mGjrBQh+j3RVTLgZdB03ntvykOhJSrWWGvrlS2jrodoB1qmoQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdMh69SHvNB5x1XzkiGX0C+FVFFz6/FOzooGTGt16kzyH6O2tR
-	8YVK9aVF2V+u1IioUhlUqYdsuKVXVpbvOKuw9wE4bd4+jXSD5BKHry8flSIzzKQ=
-X-Gm-Gg: ASbGncvNOvtXi2gQ+h/TnxQIMarbbpN3mSYTICxmCxfpspkstTeASArH8i+GMjrhM4s
-	/zIBPZP83JWA46u68UOp5BWae5b7n+5VsIKhIMOOozverVuCAh2eoEtYdzCTgHL7ER2WbMoF7i4
-	wahSPBtpKoXyRv0sJVJ2lU5ibyUjBi4EiYAQ5DuUY3uSMUuBPatXJTie79lp2MXh74TKqNEQbOq
-	kAwtUxFXZ0ZOv05AD+YOsn7aINFicUjwhuOj4dc6a3DreRi31HaQNnpUXrLNMPhoQnoR+IysmZM
-	6VMjIGFfrn3r8eIqNVkpZMq5dxOTlM1yq9HmuGLb6AnAfbA=
-X-Google-Smtp-Source: AGHT+IENohB4+Vdl15nvUdajyBJJbaG44s39TfMb4Zf97z1Hi7JTuCyMgAhZEnJb83znOkXtS3I7Kg==
-X-Received: by 2002:a05:6808:10c7:b0:3f3:be50:2a69 with SMTP id 5614622812f47-3f3be502d24mr1971166b6e.17.1739227097004;
-        Mon, 10 Feb 2025 14:38:17 -0800 (PST)
-Received: from [127.0.1.1] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f389ed1ca2sm2521820b6e.11.2025.02.10.14.38.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 14:38:15 -0800 (PST)
-From: David Lechner <dlechner@baylibre.com>
-Date: Mon, 10 Feb 2025 16:33:41 -0600
-Subject: [PATCH v3 15/15] ASoC: adau1701: use
- gpiod_multi_set_value_cansleep
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hfRg5zvL"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1739227580;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=XhJoOYylyScttjl10zGIAvAlzbdG8kDOJU/varHqtVg=;
+	b=hfRg5zvL9Im70+0AggXrST6EVT5FWYpWkkbbVv5YrTYWQhzVj2svSG7I376FPWtaXwAj96
+	bBf7Gwytn92VZSxl2xsyd7ZLUQyGLiwNGTEE6LpOWLURoqMq8D5D/c6O9PiLR19pU2p17l
+	5W9tidyE/LKDAzdF5acV0gfeDhaWPD8=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: ipc3: Use str_enabled_disabled() helper function
+Date: Mon, 10 Feb 2025 23:44:54 +0100
+Message-ID: <20250210224453.363638-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250210-gpio-set-array-helper-v3-15-d6a673674da8@baylibre.com>
-References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
-In-Reply-To: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
-To: Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, 
- Geert Uytterhoeven <geert@linux-m68k.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org, 
- netdev@vger.kernel.org, linux-phy@lists.infradead.org, 
- linux-sound@vger.kernel.org, David Lechner <dlechner@baylibre.com>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Reduce verbosity by using gpiod_multi_set_value_cansleep() instead of
-gpiod_set_array_value_cansleep().
+Remove hard-coded strings by using the str_enabled_disabled() helper
+function. Remove unnecessary curly braces.
 
-Acked-by: Mark Brown <broonie@kernel.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: David Lechner <dlechner@baylibre.com>
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
- sound/soc/codecs/adau1701.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ sound/soc/sof/ipc3.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/codecs/adau1701.c b/sound/soc/codecs/adau1701.c
-index 291249e0a2a32df7dde81904dce2f6be143fc2d7..6876462d8bdbb41d551f776c2d7fe6ed46115fa1 100644
---- a/sound/soc/codecs/adau1701.c
-+++ b/sound/soc/codecs/adau1701.c
-@@ -325,9 +325,7 @@ static int adau1701_reset(struct snd_soc_component *component, unsigned int clkd
- 			__assign_bit(1, values, 1);
- 			break;
- 		}
--		gpiod_set_array_value_cansleep(adau1701->gpio_pll_mode->ndescs,
--				adau1701->gpio_pll_mode->desc, adau1701->gpio_pll_mode->info,
--				values);
-+		gpiod_multi_set_value_cansleep(adau1701->gpio_pll_mode, values);
+diff --git a/sound/soc/sof/ipc3.c b/sound/soc/sof/ipc3.c
+index 7de5e3d285e7..4a194a705ace 100644
+--- a/sound/soc/sof/ipc3.c
++++ b/sound/soc/sof/ipc3.c
+@@ -801,20 +801,16 @@ int sof_ipc3_validate_fw_version(struct snd_sof_dev *sdev)
+ 		return -EINVAL;
  	}
  
- 	adau1701->pll_clkdiv = clkdiv;
-
+-	if (ready->flags & SOF_IPC_INFO_BUILD) {
++	if (ready->flags & SOF_IPC_INFO_BUILD)
+ 		dev_info(sdev->dev,
+ 			 "Firmware debug build %d on %s-%s - options:\n"
+ 			 " GDB: %s\n"
+ 			 " lock debug: %s\n"
+ 			 " lock vdebug: %s\n",
+ 			 v->build, v->date, v->time,
+-			 (ready->flags & SOF_IPC_INFO_GDB) ?
+-				"enabled" : "disabled",
+-			 (ready->flags & SOF_IPC_INFO_LOCKS) ?
+-				"enabled" : "disabled",
+-			 (ready->flags & SOF_IPC_INFO_LOCKSV) ?
+-				"enabled" : "disabled");
+-	}
++			 str_enabled_disabled(ready->flags & SOF_IPC_INFO_GDB),
++			 str_enabled_disabled(ready->flags & SOF_IPC_INFO_LOCKS),
++			 str_enabled_disabled(ready->flags & SOF_IPC_INFO_LOCKSV));
+ 
+ 	/* copy the fw_version into debugfs at first boot */
+ 	memcpy(&sdev->fw_version, v, sizeof(*v));
 -- 
-2.43.0
+2.48.1
 
