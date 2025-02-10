@@ -1,87 +1,156 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECBA1F76B3;
-	Mon, 10 Feb 2025 12:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41B481741;
+	Mon, 10 Feb 2025 12:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739189462; cv=none; b=NNE2AqKo9OWLBb7wKfkM9Wm6Eu6Y8sO/StInXAYg5MY6v+QOxlPt8I0o9PjWH91wR0G90VGdg6/f5EvqQUT1HmHxaDSn/8qHJwPEd/NnHv3wUk3kNLtvjHIBQXm81PC/CEoxs8OKWKxE5mMJzgEhYsE1b4YBJps8vUSS8hoo5Ok=
+	t=1739191927; cv=none; b=AUGI2OzSFZXGf2nzbVPWfVJLN7FkU5XQJlBLlSgI0+1dqvz/WjyyBJxLXYS0aCDZyn5PYjc5ZrIHR29cszuVJMk4JDWl9X/oyXubHYdf189181Q9xvS/gOhosqcPnc5lddzwQMGQc2Zfc4fhSh2Kqg3vl9aCiijGHLr9GD40qPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739189462; c=relaxed/simple;
-	bh=jA/6LnCbfbgDAQHR9dJ/IqXAKKbltQxe2EtN6Sfpp+Q=;
+	s=arc-20240116; t=1739191927; c=relaxed/simple;
+	bh=yF6X3BvbYvFerhWqLU8ro2JxuVXJzFH9uRlewAW+S3I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fQs1XgYDGzI6jdY3ccMaTjRe2IszfBtZt5gOdi/0JWWTYoQMFdZyeP2dpq2RUidMNND+ZrN99yvTrdhbslsPxV/oma9wLGWd+eZJuErooHkCQJcJy7dK3aRifHvE+DB/ql6WpQA2/499aHqws0XqI4h9m3N512HykM5FnTwNUSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PTvJT8Za; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=s3Hyzzf6ZOhaprrAZ27KcN+ZaDDT/uAtrS7kBJT7y335qeTzhVxqQ/CiC+FPBS/OGvdZSH0J2QGq2LxLyI470l4avKhmCuP7AROo4fF95eQQ5w+QZsDSQddAzVV/Hraep41uJXT/S4EubtpBQ/079zM1W/6LtEbPTPWuNiEu1qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I5A1lP7G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PTvJT8Za"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21f7f1e1194so33043165ad.2;
-        Mon, 10 Feb 2025 04:11:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739189460; x=1739794260; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jA/6LnCbfbgDAQHR9dJ/IqXAKKbltQxe2EtN6Sfpp+Q=;
-        b=PTvJT8Za/E2TgTfZ1pesKwM9TN4lLqTIJrdfv93e9MzBxc/RqOzEG3SRlB9Th8UYO5
-         Kcr+drWrFWJdCkmoSOkO+M0mlWInwhZaDn/k7xAE0oNzGxdJ/3ezNgk/DlV7KBZwr99P
-         DylAw8UWtuLneMuzEJAfuESn+M33KOY9vFvMto0DdkoDlj/WyOEiDSHX3CMaXmh3iKM9
-         SeBagSUqlBpb9o83rcDUdXgvOBsdA912+Hb7sVbJwT3VzOBXnu3kgQx3R7Ve1cX+8paW
-         j5JhFDsd0pB3x2EWTFppwQVjr2XfyoMZ8LMHogGFFbZRzl5n3nh9YJivv/cS7w54HS5D
-         fTEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739189460; x=1739794260;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jA/6LnCbfbgDAQHR9dJ/IqXAKKbltQxe2EtN6Sfpp+Q=;
-        b=Trmzs7lyWwouN+fuhrrlYjSvrpveJPvZ6bDMfcQyBda4OI2L2MQwNZsyr678e6zWLD
-         Bn0MXzrd7K9artzRgNcX2RWv5o1SoDZS62qgH6EUiX17sB9OMa/85bIO20AJh/fufHEX
-         KW56hq/odS+WfXjYAp1QqqkCc1iwVGyjgIAt4qsaGoRvbxvRsqgq5v2YHQm/ksV+77CW
-         hNWiBXys3WHK05hdtLTuPOwCK/NNQlHrod1A5XupQylhtOOvQ0Gqi1dKANRQU3F4DyDf
-         7gUs8bdAMHwht9y8MCxBhdm15TVCCBlz/p1ioe/1ZPrp0XlJDANT33hb00cmWb8kikvd
-         6Riw==
-X-Forwarded-Encrypted: i=1; AJvYcCVyKzmKl/Bc/Waap4oQrn3QDpc0ztWsSOif6BCxbHJsMqCh371ApAlVAHPRcJE9aEPDeDg3aKOmIHiPV41x@vger.kernel.org, AJvYcCWzU7UfV+9bvWFOw4PwK+Ef9rpXGNHaCZpbk7dNUqJd9c+oUJdo6WRJ5Dg/oERf72pfoEqqpaKzW44X8do=@vger.kernel.org, AJvYcCXacBQY8wXujo0I+j/AFA2ouIYcE+KD+O5TKIzki1SWssrCOqmqZXL94Zr2dMLH9Rh3cLWx4J7/+gj6@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDDsDp0b5iL9W5etlVNJ76eX4gvmpgKbQjaqbha7+p4YgAbjcS
-	3GpXuxPbjTk5/PYy35+JBH+KhmlDjCZno4nqkaLmWOpcKrcCh5LhbbHuHEcmyeuO0ASi/4pMeod
-	UMLzdx1FfawD08QXn4SU0cVajqGifHTFa
-X-Gm-Gg: ASbGncsbdqznYtBoNPBW8ZJ0ZnQ8u4YOquwRI/o2Zq66ZtL51HcUStUFVXN5t6g7QnI
-	gBvNK4l1cdm1W9JW3LOWzVQhBw+tUZh+YNrgB96llSq5zP+wLwrebbXeZToKUebtmsXkbaw==
-X-Google-Smtp-Source: AGHT+IEvjrhWFzJvBsLl6xi1YtqyygIWFxtRxN32tq1kDXYWrDyozinWosbhDBBFPu5SMhjmFqi7Ptu6XscwFJGg5gk=
-X-Received: by 2002:a17:903:987:b0:216:3d72:1712 with SMTP id
- d9443c01a7336-21f4e763ac0mr245249885ad.48.1739189459935; Mon, 10 Feb 2025
- 04:10:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I5A1lP7G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A5C2C4CEF6;
+	Mon, 10 Feb 2025 12:52:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739191927;
+	bh=yF6X3BvbYvFerhWqLU8ro2JxuVXJzFH9uRlewAW+S3I=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=I5A1lP7GepcmF6VAOgf8W4gjh1VOUf09LL4mh84owtGIt0Tjv4dS9yP7xPP82bkJ3
+	 Avcv3r783rO1xTdq7/tQSCzzRFSfaVjRMW/kLzMijtuHjy/cTkdgVpoWzzE0bWptQQ
+	 EqUfBqrwgbTezEEXgL77iMMWR+7T5sQJe8vcurRv/LkVG3nMJtWb0BNKP/NjNYJ3Ni
+	 be2DWVwBI/Lt/WrKXYYJIq28gaWKKju8jBmejt1ewRNKzBimEod6jVHdq9yt4EYpKm
+	 61ogAp5gJENzcHJT0MypDejLr/UDL6qWhyCCIp8bv5Ir56023Foe+0hR4ErNbYA5B8
+	 9HX6EDXotx5oQ==
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e5b3dbd6732so3288317276.1;
+        Mon, 10 Feb 2025 04:52:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXjwzKwpi4v4S9XshLYSzoo7LYHCL2lwBHM/EPNHFXVcpXdWHI0YCz09FrWtEqxNYt9/8i47DJF89CnOEc=@vger.kernel.org, AJvYcCXllY+qf1ffnBfsGt3R6VKewU11pqJst+5J7czgPeyk3csBmPabheyco4Zq4pr/hjGaQLNnQzomIT0qLvg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yydm1L7k6NNDkWtQIgaiXI36y/tB15w1eJvJKEpckDkwMNymjJv
+	munUkJhgLhZxkVP0AZaPdEtamOfKQdAs9oI6XZRFEnazfGY933U5XlIk4RwBgJxqrXBDYGoS1VU
+	i6fU4T51yuMjVBOhWxTZ4S+UQAJQ=
+X-Google-Smtp-Source: AGHT+IFZAQSA8nZT0mgJdymX7s99wUId9uifB6JS5cSx+Gh3vhm5wSmvS3iJeqzgnSSpFpXhCppIgaiGdlPZw77FVnI=
+X-Received: by 2002:a05:6902:1206:b0:e57:633b:6789 with SMTP id
+ 3f1490d57ef6-e5b4629d1e3mr11060115276.46.1739191926123; Mon, 10 Feb 2025
+ 04:52:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250207163029.3365-1-laurentiumihalcea111@gmail.com>
-In-Reply-To: <20250207163029.3365-1-laurentiumihalcea111@gmail.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Mon, 10 Feb 2025 14:12:28 +0200
-X-Gm-Features: AWEUYZlwnIdi4-pK3IZB8j0QQqGx7k7sKf_zSbv5i7OpxcseTByf4rVDLfbpjE0
-Message-ID: <CAEnQRZDStmdQ+3YfmX7jNemiLmcWA+2Ms_wnXbn9FJNWym0=8A@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: wlf,wm8960: add 'port' property
-To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, patches@opensource.cirrus.com, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20250210075211.5343-1-baojun.xu@ti.com>
+In-Reply-To: <20250210075211.5343-1-baojun.xu@ti.com>
+From: Josh Boyer <jwboyer@kernel.org>
+Date: Mon, 10 Feb 2025 07:51:55 -0500
+X-Gmail-Original-Message-ID: <CA+5PVA647txB7OME6eHeH4hCd=JfQ=0CazXi6Jpctf=N7oSx0g@mail.gmail.com>
+X-Gm-Features: AWEUYZmVXgXU5kwTLTOMKeaY4Fz6TtILcpr0AyeIs0Jx3LsYhNL3TOnTPbkBU7s
+Message-ID: <CA+5PVA647txB7OME6eHeH4hCd=JfQ=0CazXi6Jpctf=N7oSx0g@mail.gmail.com>
+Subject: Re: [PATCH v1] ASoC: tas2781: Add regbin firmware by index for single device
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: shenghao-ding@ti.com, linux-firmware@kernel.org, 13916275206@139.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	alexander@burningdaylight.io
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 7, 2025 at 6:31=E2=80=AFPM Laurentiu Mihalcea
-<laurentiumihalcea111@gmail.com> wrote:
+On Mon, Feb 10, 2025 at 2:52=E2=80=AFAM Baojun Xu <baojun.xu@ti.com> wrote:
 >
-> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> Add regbin firmware by index for single device.
+> Add more symbolic link for Gemtree project.
 >
-> The wm8960 codec may be used with audio graph card and thus may require a=
-n
-> additional property: 'port'. Add it.
->
-> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+Merged and pushed out.
+
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/447
+
+josh
+
+> ---
+>  WHENCE                      |  14 ++++++++++++++
+>  ti/tas2781/TXNW2781RCA0.bin | Bin 0 -> 868 bytes
+>  ti/tas2781/TXNW2781RCA1.bin | Bin 0 -> 868 bytes
+>  3 files changed, 14 insertions(+)
+>  create mode 100644 ti/tas2781/TXNW2781RCA0.bin
+>  create mode 100644 ti/tas2781/TXNW2781RCA1.bin
+>
+> diff --git a/WHENCE b/WHENCE
+> index d2ccfbb2..39b6de58 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -8010,12 +8010,18 @@ File: ti/tas2781/TAS2XXX3F300.bin
+>  File: ti/tas2781/TAS2XXX3F301.bin
+>  File: ti/tas2781/TAS2XXX8DE8.bin
+>  File: ti/tas2781/TAS2XXX8DE9.bin
+> +File: ti/tas2781/TXNW2781RCA0.bin
+> +File: ti/tas2781/TXNW2781RCA1.bin
+>  File: ti/tas2781/TIAS2781RCA2.bin
+>  File: ti/tas2781/TIAS2781RCA4.bin
+>  Link: TAS2XXX0C94.bin -> ti/tas2781/TAS2XXX0C94.bin
+>  Link: TAS2XXX0C95.bin -> ti/tas2781/TAS2XXX0C95.bin
+>  Link: TAS2XXX0C96.bin -> ti/tas2781/TAS2XXX0C96.bin
+>  Link: TAS2XXX0C97.bin -> ti/tas2781/TAS2XXX0C97.bin
+> +Link: TAS2XXX103C8DE80.bin -> ti/tas2781/TAS2XXX8DE8.bin
+> +Link: TAS2XXX103C8DE81.bin -> ti/tas2781/TAS2XXX8DE8.bin
+> +Link: TAS2XXX103C8DE90.bin -> ti/tas2781/TAS2XXX8DE9.bin
+> +Link: TAS2XXX103C8DE91.bin -> ti/tas2781/TAS2XXX8DE9.bin
+>  Link: TAS2XXX10A40.bin -> ti/tas2781/TAS2XXX10A40.bin
+>  Link: TAS2XXX10A41.bin -> ti/tas2781/TAS2XXX10A41.bin
+>  Link: TAS2XXX11540.bin -> ti/tas2781/TAS2XXX11540.bin
+> @@ -8074,8 +8080,16 @@ Link: TAS2XXX3F300.bin -> ti/tas2781/TAS2XXX3F300.=
+bin
+>  Link: TAS2XXX3F301.bin -> ti/tas2781/TAS2XXX3F301.bin
+>  Link: TAS2XXX8DE8.bin -> ti/tas2781/TAS2XXX8DE8.bin
+>  Link: TAS2XXX8DE9.bin -> ti/tas2781/TAS2XXX8DE9.bin
+> +Link: TAS2XXX8DE80.bin -> ti/tas2781/TAS2XXX8DE8.bin
+> +Link: TAS2XXX8DE81.bin -> ti/tas2781/TAS2XXX8DE8.bin
+> +Link: TAS2XXX8DE90.bin -> ti/tas2781/TAS2XXX8DE9.bin
+> +Link: TAS2XXX8DE91.bin -> ti/tas2781/TAS2XXX8DE9.bin
+>  Link: TIAS2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
+>  Link: TIAS2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
+> +Link: TXNW2781RCA0.bin -> ti/tas2781/TXNW2781RCA0.bin
+> +Link: TXNW2781RCA1.bin -> ti/tas2781/TXNW2781RCA1.bin
+> +Link: TXNW2781RCA2.bin -> ti/tas2781/TIAS2781RCA2.bin
+> +Link: TXNW2781RCA4.bin -> ti/tas2781/TIAS2781RCA4.bin
+>
+>  Licence: Redistributable. See LICENCE.ti-tspa for details. Marked:
+>          Copyright (C) 2023 - 2024 Texas Instruments
+> diff --git a/ti/tas2781/TXNW2781RCA0.bin b/ti/tas2781/TXNW2781RCA0.bin
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..9718640b529e324bc5975d7d6=
+6bcfbdef8d4ad6e
+> GIT binary patch
+> literal 868
+> zcmZQzU`{#U%krFofsqx68Pj~{%w_~J7~p^z$m#*&J3xE`E;@o3Da8f4hGt2bCA!5q
+> z`6UMA_?(H6g>eB;qXrN&GcW=3DnL(EJD76y9;1}-Te4;c2mKrt}~1_nN$5`G|NVqj!u
+> z1aUZk7^DLz&&1?u6byAsYH~(?QEFOhQEFatDk&}lxn&8^%nBgp0-6epU%n$iI~~y6
+> z!~$`X0FVZ{i&6Xp&`B%|EMWgLg4rArKqG(v<Tef&kds*$I5Zd>Kw=3D;^mj{RiWk*27
+> zA^yPXx1`E~#NuLz7BWeot&EjGy(K`*33eAKDKmrp2@FTLKW{QHBnSY#uLlozeEuWB
+> JUkq5{3;=3Du;DgFQe
+>
+> literal 0
+> HcmV?d00001
+>
+> diff --git a/ti/tas2781/TXNW2781RCA1.bin b/ti/tas2781/TXNW2781RCA1.bin
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f92631f8477b78cd8714e9941=
+fa57d8346323df8
+> GIT binary patch
+> literal 868
+> zcmZQzU`}~`QE(3f10yRCGp6~@`OgSqFu(ybkaY)$dw}=3D`Tyz96JdJ{N4b74=3DOLS9{
+> zGxCd4(^894^O93_i*xcz42TN{CI%M9B|xPWK+MI!$N&sez9S3_{0<BZF*6xh80>+<
+> zT0n6Y1_oYW&<g-*F$V@l@e>R{oeV5sTNuG?4he{jj6l^KG7Jzg4F;e=3D5H^<wL>{D%
+> zD*_@8QVUebz|6=3D8l;i+nkO)YODW$jo>NgU61F-=3D{g8T+@pau{#L(B#H2`C2k6EIzY
+> z`~>t51IT)QAja;Nq{@QC;$omQ`2ge=3DPym$xF(<?=3Dz@*F!4s)Qtk;0rIK>+AJE4bV6
+> Mg*7NFImi!V0F@^x`v3p{
+>
+> literal 0
+> HcmV?d00001
+>
+> --
+> 2.34.1
+>
