@@ -1,62 +1,62 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7AC1F8BAA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA24A230998
 	for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 15:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739199701; cv=none; b=gclC2pX4ezOteejBPWT+wQ/iKUNgUmhyp4Wbm3/l9NYc+yc+9finSaSN9s/JOf4cZ2TuIPzPxoLOG2BtIj8JzDDeF10TEn1hthpj2onv2hmvMOInJRd90RAHBhUJt9muxC241bmb+B7BgCV3z3POh/V2VjFQIMXKveNn7s4wSg0=
+	t=1739199702; cv=none; b=mO0yGNagw9W0pYRQx6Wpo0uszcmsFPbKO/H69clNxVSzu07foTh8boZuCzm2e6RFxTj3jhx+t6zkM9I4pQpGLJuxKLQ1AVm48xqULW04XHWpFyudJO1jrwVWeiAqnZQ+moAaeG/KChFSMR9CkNAxucN+PPS2AWz2m6pZPzwXplE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739199701; c=relaxed/simple;
-	bh=QohpDMnGYyXpIbehK5ugOZmdwa7aGVXW0sC1wvKj0Bo=;
+	s=arc-20240116; t=1739199702; c=relaxed/simple;
+	bh=1SUppZfGE8OGfuCWgDmwdGk734Gq/5yDZqUI2tQbkK8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=c7sphLa60hXTt778B+e6dEt01Ml5HahOEWLjZ8mZC/7/HcSYXIZTf7ep6yBSklw5A0nXFspzbK1rqG1uNRPBtMPOOR1BYQ/AtBrkub3x3vRekBDSLLRRVc64WZUa2kcqnDQzrXVhXYTdaBfUpq+gi9eDL7A0S2NQoEhPSsCrOYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=IS9YF3IW; arc=none smtp.client-ip=209.85.218.44
+	 MIME-Version; b=aug0m99Y7XzCPa6+6GrckHXENz9OwLhSe9HCIlsDVXHkbuIB4lUczAAhpwxWAx7T/SGe9Mq1N4eEJ615KJZDc9iN2oB8JN0qCMKtMRwRIB9sGr8+yL18SoJOxDMaR2/5A7JgfxU6ruoz5B11eOK56HTeMfxMDKyj5FZv/DZllvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=F3FzA+Wd; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="IS9YF3IW"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aaf900cc7fbso756866766b.3
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="F3FzA+Wd"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ab7d58aa674so47973366b.0
         for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 07:01:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739199697; x=1739804497; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GoW4ElKxbzHPd1HAYMzIAS62vLOcPOeAwiyP6knEeRE=;
-        b=IS9YF3IWtq+477poqmr72PeYcmhcGrO24Xdz6tl2zwge4srnt/jtDRCgnlCDljt2HD
-         0grRI2CTy1iCjejxYzFlpki9+6WbX/imk0nfWjGm7UDJBeXdPA+ZvTeCA3VQdm9pfGrd
-         +WG/PZg7edlmm37/RLRrZ3dF10HxSXIebX5ZMFZX2Nv2WTIYTb/slKJ59Wqhu8/AE6Sw
-         6NiO8RUcfrOq3MOtCtvyPClLTppvdQpN7o5q23IRqEHhQdsHtklHDlOByM2dGchj9tgn
-         ioz0BAvmBGpYBXRZA8keQgwDRr24tn1gyCFuBbF1GER0x5SXTC2B7L6UqAtEre4HU57G
-         IQdQ==
+        bh=BadoGFdbWi+RxOS2TPc6oRzGweQOUnlp92mI5rcILo8=;
+        b=F3FzA+WdcHy5M7f8MFqhWW68YvHoDYIw2nR9bM+k0pT2Urh1zNnbG/gkkinwLhcGNK
+         nmUd3SIQ+43AFm5PVDQmGJ6DuCEuT19z7+qt/FO8uQZZZl1XLuRGc4D5RtZ7O0tlvIjb
+         /+DAEDPd8yfgEnZqnGEU82XAsDTwDfU54LgUqLFHBUHJbTg3XleLzqDQe6ibtWAsHUAX
+         ZKt5Gg9j6i1tyeP7NzFKVAcFu3qpUl59yC/LG3Xn6F2QT7Vi7LrC6+kDRGRay6UX4TuS
+         v2LzJXVvdXMVWzojmUl5kV98+URPIazRrUmeTRfaIcr0XsvKrNkmWjQad0krRgzCJeTn
+         yhBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1739199697; x=1739804497;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GoW4ElKxbzHPd1HAYMzIAS62vLOcPOeAwiyP6knEeRE=;
-        b=Yv61S4qWKhg7d8T5t0o10XcEOg1bOAb1Z64m03K5KdN+67WY5l6LSOdMuNlIPSXHJt
-         a09DMs9zGQ8gl/MbJOyCYGcN+7rYN5yL3JjG43uvDBNumLdokq0NQfN2C/5g0WN1DhoC
-         1/WvL6usg/sx/icIi18SBfXzEKzvhvbcevCyxXyo4Veu39VnLpkX/g5A0OtViXGJ6IsH
-         F8qWe4sBxLtbgsxADlWbEMYfAwKqRbOxPgj5sYouJq3AS4yzmFrtxa+Se6kmE1xB5OTN
-         FFfGSM0VbqMRMMH4cHOA1Zk5T/NsfrJpfyVJNcudop0UhRxO55bBZ8CL+8BBqZ4VwzHG
-         E0Zg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4ExZlttInFbYO2HQq9u4jsbWFZeQN+FrVT25BtB231jTmPPpCVO8ae6eEqMAnWTPE0jLtnlhJlDVtkQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8qhCZ/pUSkIpchhlhREVRCm3JEkRgupTEyg8my8jnze6n9AF1
-	wlsV8DlxIqNJQDZdNHkZAojKi6Zp0uC2vIEkc7D5wWOiXtd9KOFuarlhpC+M2qQ=
-X-Gm-Gg: ASbGncsPm0jQ4Xm0ze778RPQ3mSHkKNN5S2zXKcrSY8YCKbqH2/k5LaD44xs+9f2pzj
-	+9cVBgxj3DO4BbW8YdEA1gp3ZFBD9XcKFJpJeFA6YPb5Av/9cbiuO68FHGKNX+twQVpUIRvbLJP
-	r5cXxyFm7cNjsEqYYFdI4SDMM9cupuQ9HuaDQ9hRZnGSwOzBuVS0+yGbatNt3fxfRNN3AgWfZXi
-	2Y8ZihJZ3NGudIs9w1/997rPh4HftcATYAShZC2Ba4ES+sxO9Aexmgk1C9sFHXTUsfXsNudO7TO
-	X6WcAY50ARcZsDrvM9GRLf0FkHbA
-X-Google-Smtp-Source: AGHT+IFSb4PN0v3r+wCwmVC4SXfkndG2iRcZotOXajDb40L/GlsWSOnpyQvs1PhoQNE6v2oFkgxGPA==
-X-Received: by 2002:a17:907:3fa5:b0:aab:c78c:a7ed with SMTP id a640c23a62f3a-ab789c2d7aemr1556998866b.49.1739199696088;
+        bh=BadoGFdbWi+RxOS2TPc6oRzGweQOUnlp92mI5rcILo8=;
+        b=DWV69taZtVyyKSxyelK+deO82UcQMP81Zd8oNWx3ysJTLTwR5DpWDsCN2C1VYG0fJX
+         0a0n5isCM3MAIq3x4UyOiallR09GEcBuNHsBTp6wOVG7kElTOuvghxnSD0o/0cdvrs6t
+         bJF6R1sss6fJAKDSz2cDiv6X2alhohY/rClNOTHOCzpcdIYPfLPyyUdsIYZR56OIbgDG
+         3sjwPcNJKOVeAxRwfKFSaHopo6D7XOA9n7WiswJ3Qpzx7IMKTrjCLbkIh9C2mwgcgrEn
+         BR21s9xufdLVL9RW98QjmTgvw1uhQB9putmNoLH8AmdBttuNcmWl3HfPqLDMO9eLTtEQ
+         xHPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXV5NQ2PyeJedAN/tm4H+bV5brOdBsGrIEnMUiU+bzvpQB9XPEejMrGvA5a7iNb+ryQXUkwF03P4lQikg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVzzm8guaqhzfJrtc20XAcTvJXVp7+kI112+Ww66RJK42LvenF
+	EdBX652PtV7WDUqzR0eQGpTiKygi2ddOO418fCZgPwts8/CoSeEQHUbmOmCI9DQ=
+X-Gm-Gg: ASbGncsorQFDqOtQsLRSGAKBSYSiibvkXNkbaxw3YLoNOZXjGE8IDHmyKmgLR4Ojhjk
+	oOJ703JtR/rcqAVvC+yzF621YrDd3BgbqKz5vdmW/wYXld/nf4PUzbGJv0PsSg4io0gvbpdCJsz
+	s+/+8DhE+ELD80lI4EQvZG4O5bk39QoCjMjh92n+zzkPgHRO9wCLkmsCv+OaDdIncqxRqrw2zGq
+	cohgOZaXsdeVBPRU3zCKw/7djjsMR88db9JiHLepD5lG9GG6hvr9jBDv1o3LtGzA/Y4rksIjq95
+	VLRrSCRVLY+TCZnmSyJzktXHqlqm
+X-Google-Smtp-Source: AGHT+IGpVqycyZR2YnxbLB+0FPSVnyS2AxVJJQJRRoHf/8da6EsHjXh4Mti5AGi9XDwh+En5MO0W0w==
+X-Received: by 2002:a17:907:960f:b0:ab6:dbe0:d658 with SMTP id a640c23a62f3a-ab789b20e6amr1580540166b.31.1739199696978;
         Mon, 10 Feb 2025 07:01:36 -0800 (PST)
 Received: from localhost.localdomain ([151.41.218.186])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7bec717f7sm250400466b.81.2025.02.10.07.01.35
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7bec717f7sm250400466b.81.2025.02.10.07.01.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 07:01:35 -0800 (PST)
+        Mon, 10 Feb 2025 07:01:36 -0800 (PST)
 From: Valerio Setti <vsetti@baylibre.com>
 To: jbrunet@baylibre.com,
 	neil.armstrong@linaro.org,
@@ -66,9 +66,9 @@ To: jbrunet@baylibre.com,
 	linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Valerio Setti <vsetti@baylibre.com>
-Subject: [PATCH RFC 1/6] ASoC: meson: [HACK] let AIU export its clocks through clk-regmap
-Date: Mon, 10 Feb 2025 16:01:24 +0100
-Message-Id: <20250210150129.40248-2-vsetti@baylibre.com>
+Subject: [PATCH RFC 2/6] ASoC: meson: audin: add audio input dt-bindings
+Date: Mon, 10 Feb 2025 16:01:25 +0100
+Message-Id: <20250210150129.40248-3-vsetti@baylibre.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250210150129.40248-1-vsetti@baylibre.com>
 References: <20250210150129.40248-1-vsetti@baylibre.com>
@@ -80,549 +80,144 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make AIU export its clocks gates and dividers through the clk-regmap
-interface. The advantage is that other periperals, such as AUDIN (audio
-input) which requires some clocks owned by AIU, can easily
-use them.
-
-Since clk-regmap interface is not public yet, this commit is
-marked as HACK, but it is necessary to build and test the following
-commits that introduce support for AUDIN driver.
-
-Being an HACK commit, I took the liberty to condense all the changes
-(driver, dt-bindings, DT) in a single commit. Once clk-regmap interace
-will be public, I can rework this by splitting it into a proper
-commit sequence.
+Add the dt-bindings and documentation of the AUDIN audio controller.
+This component provides most audio input found on the Amlogic GXBB SoC
+family.
 
 Signed-off-by: Valerio Setti <vsetti@baylibre.com>
 ---
- arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi |  14 ++-
- include/dt-bindings/sound/meson-aiu.h       |   5 +
- sound/soc/meson/Makefile                    |   1 +
- sound/soc/meson/aiu-clocks.c                | 123 ++++++++++++++++++++
- sound/soc/meson/aiu-encoder-i2s.c           | 121 +++++++++++--------
- sound/soc/meson/aiu.c                       |  22 ++++
- sound/soc/meson/aiu.h                       |  10 ++
- 7 files changed, 245 insertions(+), 51 deletions(-)
- create mode 100644 sound/soc/meson/aiu-clocks.c
+ .../bindings/sound/amlogic,audin.yaml         | 104 ++++++++++++++++++
+ include/dt-bindings/sound/meson-audin.h       |  10 ++
+ 2 files changed, 114 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/amlogic,audin.yaml
+ create mode 100644 include/dt-bindings/sound/meson-audin.h
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi b/arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi
-index ed00e67e6923..e2026b7aa03f 100644
---- a/arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi
-@@ -10,6 +10,7 @@
- #include <dt-bindings/clock/gxbb-clkc.h>
- #include <dt-bindings/clock/gxbb-aoclkc.h>
- #include <dt-bindings/reset/gxbb-aoclkc.h>
-+#include <dt-bindings/sound/meson-aiu.h>
- 
- / {
- 	compatible = "amlogic,meson-gxbb";
-@@ -62,6 +63,7 @@ usb1: usb@c9100000 {
- };
- 
- &aiu {
-+	#clock-cells = <1>;
- 	compatible = "amlogic,aiu-gxbb", "amlogic,aiu";
- 	clocks = <&clkc CLKID_AIU_GLUE>,
- 		 <&clkc CLKID_I2S_OUT>,
-@@ -71,7 +73,11 @@ &aiu {
- 		 <&clkc CLKID_IEC958>,
- 		 <&clkc CLKID_IEC958_GATE>,
- 		 <&clkc CLKID_CTS_MCLK_I958>,
--		 <&clkc CLKID_CTS_I958>;
-+		 <&clkc CLKID_CTS_I958>,
-+		 <&aiu AIU_AOCLK_DIV_GATE>,
-+		 <&aiu AIU_AOCLK_BASIC_DIV>,
-+		 <&aiu AIU_AOCLK_MORE_DIV>,
-+		 <&aiu AIU_LRCLK_DIV>;
- 	clock-names = "pclk",
- 		      "i2s_pclk",
- 		      "i2s_aoclk",
-@@ -80,7 +86,11 @@ &aiu {
- 		      "spdif_pclk",
- 		      "spdif_aoclk",
- 		      "spdif_mclk",
--		      "spdif_mclk_sel";
-+		      "spdif_mclk_sel",
-+		      "i2s_aoclk_div_gate",
-+		      "i2s_aoclk_basic_div",
-+		      "i2s_aoclk_more_div",
-+		      "i2s_lrclk_div";
- 	resets = <&reset RESET_AIU>;
- };
- 
-diff --git a/include/dt-bindings/sound/meson-aiu.h b/include/dt-bindings/sound/meson-aiu.h
-index 1051b8af298b..8e8834273fe6 100644
---- a/include/dt-bindings/sound/meson-aiu.h
-+++ b/include/dt-bindings/sound/meson-aiu.h
-@@ -15,4 +15,9 @@
- #define CTRL_PCM		1
- #define CTRL_OUT		2
- 
-+#define AIU_AOCLK_DIV_GATE	0
-+#define AIU_AOCLK_BASIC_DIV	1
-+#define AIU_AOCLK_MORE_DIV	2
-+#define AIU_LRCLK_DIV		3
-+
- #endif /* __DT_MESON_AIU_H */
-diff --git a/sound/soc/meson/Makefile b/sound/soc/meson/Makefile
-index 24078e4396b0..af75f386feda 100644
---- a/sound/soc/meson/Makefile
-+++ b/sound/soc/meson/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0 OR MIT)
- 
- snd-soc-meson-aiu-y := aiu.o
-+snd-soc-meson-aiu-y += aiu-clocks.o
- snd-soc-meson-aiu-y += aiu-acodec-ctrl.o
- snd-soc-meson-aiu-y += aiu-codec-ctrl.o
- snd-soc-meson-aiu-y += aiu-encoder-i2s.o
-diff --git a/sound/soc/meson/aiu-clocks.c b/sound/soc/meson/aiu-clocks.c
+diff --git a/Documentation/devicetree/bindings/sound/amlogic,audin.yaml b/Documentation/devicetree/bindings/sound/amlogic,audin.yaml
 new file mode 100644
-index 000000000000..ec4b4846b0de
+index 000000000000..7fb231a8d5a7
 --- /dev/null
-+++ b/sound/soc/meson/aiu-clocks.c
-@@ -0,0 +1,123 @@
-+#include <linux/clk.h>
-+#include <linux/of_platform.h>
-+#include <linux/regmap.h>
-+#include <linux/clk-provider.h>
-+#include "../../../drivers/clk/meson/clk-regmap.h"
-+#include <sound/soc.h>
-+#include <sound/soc-dai.h>
++++ b/Documentation/devicetree/bindings/sound/amlogic,audin.yaml
+@@ -0,0 +1,104 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/amlogic,audin.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+#include <dt-bindings/sound/meson-aiu.h>
-+#include "aiu.h"
++title: Amlogic AUDIN audio output controller
 +
-+static struct clk_regmap i2s_aoclk_div_gate = {
-+	.data = &(struct clk_regmap_gate_data){
-+		.offset = AIU_CLK_CTRL,
-+		.bit_idx = 0,
-+		.flags = 0,
-+	},
-+	.hw.init = &(struct clk_init_data){
-+		.name = "i2s_aoclk_div_gate",
-+		.ops = &clk_regmap_gate_ops,
-+		.parent_names = (const char *[]) {
-+			"cts_amclk",
-+		},
-+		.num_parents = 1,
-+		.flags = 0,
-+	},
-+};
++maintainers:
++	- Valerio Setti <vsetti@baylibre.com>
 +
-+static struct clk_regmap i2s_aoclk_basic_divider = {
-+	.data = &(struct clk_regmap_div_data){
-+		.offset = AIU_CLK_CTRL,
-+		.shift = 2,
-+		.width = 2,
-+		.flags = CLK_DIVIDER_POWER_OF_TWO,
-+	},
-+	.hw.init = &(struct clk_init_data){
-+		.name = "i2s_aoclk_basic_divider",
-+		.ops = &clk_regmap_divider_ops,
-+		.parent_names = (const char *[]) {
-+			"i2s_aoclk_div_gate",
-+		},
-+		.num_parents = 1,
-+		.flags = CLK_DIVIDER_POWER_OF_TWO,
-+	},
-+};
++allOf:
++	- $ref: dai-common.yaml#
 +
-+static struct clk_regmap i2s_aoclk_more_divider = {
-+	.data = &(struct clk_regmap_div_data){
-+		.offset = AIU_CLK_CTRL_MORE,
-+		.shift = 0,
-+		.width = 6,
-+		.flags = 0,
-+	},
-+	.hw.init = &(struct clk_init_data){
-+		.name = "i2s_aoclk_more_divider",
-+		.ops = &clk_regmap_divider_ops,
-+		.parent_names = (const char *[]) {
-+			"i2s_aoclk_basic_divider",
-+		},
-+		.num_parents = 1,
-+		.flags = 0,
-+	},
-+};
++properties:
++	$nodename:
++		pattern: "^audio-input-controller@.*"
 +
-+static struct clk_regmap i2s_lrclk_divider = {
-+	.data = &(struct clk_regmap_div_data){
-+		.offset = AIU_CODEC_DAC_LRCLK_CTRL,
-+		.shift = 0,
-+		.width = 12,
-+		.flags = 0,
-+	},
-+	.hw.init = &(struct clk_init_data){
-+		.name = "i2s_lrlk_divider",
-+		.ops = &clk_regmap_divider_ops,
-+		.parent_names = (const char *[]) {
-+			"i2s_aoclk_more_divider",
-+		},
-+		.num_parents = 1,
-+		.flags = 0,
-+	},
-+};
++	"#sound-dai-cells":
++		const: 1
 +
-+struct clk_regmap *const aiu_clk_regmaps[] = {
-+	&i2s_aoclk_div_gate,
-+	&i2s_aoclk_basic_divider,
-+	&i2s_aoclk_more_divider,
-+	&i2s_lrclk_divider,
-+};
++	compatible:
++		items:
++			- enum:
++					- amlogic,audin-gxbb
++			- const: amlogic,audin
 +
-+static struct clk_hw *aiu_clk_hw_get(struct of_phandle_args *clkspec, void *clk_hw_data)
-+{
-+	struct clk_regmap **const aiu_clk_regmaps_ptr = clk_hw_data;
-+	unsigned int idx = clkspec->args[0];
++	clocks:
++		items:
++      - description: AIU peripheral clock
++      - description: I2S peripheral clock
++      - description: I2S output clock
++      - description: I2S master clock
++      - description: I2S mixer clock
++			- description: AUDIN peripheral clock
++			- description: I2S bit clock gate
++			- description: I2S bit clock basic divider
++			- description: I2S bit clock more divider
++			- description: I2S L/R clock divider
 +
-+	if (idx >= ARRAY_SIZE(aiu_clk_regmaps)) {
-+		pr_err("%s: invalid index %u\n", __func__, idx);
-+		return ERR_PTR(-EINVAL);
-+	}
++	clock-names:
++		items:
++			- const: pclk
++			- const: i2s_pclk
++			- const: i2s_aoclk
++			- const: i2s_mclk
++			- const: i2s_mixer
++			- const: i2s_input_clk
++			- const: i2s_aoclk_div_gate
++			- const: i2s_aoclk_basic_div
++			- const: i2s_aoclk_more_div
++			- const: i2s_lrclk_div
 +
-+	return &(aiu_clk_regmaps_ptr[idx]->hw);
-+}
++	reg:
++		maxItems: 1
 +
-+int aiu_register_clocks(struct device *dev, struct regmap *map)
-+{
-+	int i, ret;
++	resets:
++		maxItems: 1
 +
-+	for (i = 0; i < ARRAY_SIZE(aiu_clk_regmaps); i++) {
-+		aiu_clk_regmaps[i]->map = map;
-+		ret = devm_clk_hw_register(dev, &(aiu_clk_regmaps[i]->hw));
-+		if (ret) {
-+			dev_err(dev, "Failed to register AIU clock %d\n", i);
-+			return ret;
-+		}
-+	}
++	sound-name-prefix: true
 +
-+	ret = devm_of_clk_add_hw_provider(dev, aiu_clk_hw_get, (void *)&aiu_clk_regmaps);
-+	if (ret) {
-+		dev_err(dev, "devm_of_clk_add_hw_provider failed\n");
-+		return ret;
-+	}
++required:
++	- "#sound-dai-cells"
++	- compatible
++	- clocks
++	- clock-names
++	- reg
++	- resets
 +
-+	return 0;
-+}
-diff --git a/sound/soc/meson/aiu-encoder-i2s.c b/sound/soc/meson/aiu-encoder-i2s.c
-index a0dd914c8ed1..d469ff429177 100644
---- a/sound/soc/meson/aiu-encoder-i2s.c
-+++ b/sound/soc/meson/aiu-encoder-i2s.c
-@@ -18,22 +18,10 @@
- #define AIU_RST_SOFT_I2S_FAST		BIT(0)
- 
- #define AIU_I2S_DAC_CFG_MSB_FIRST	BIT(2)
--#define AIU_CLK_CTRL_I2S_DIV_EN		BIT(0)
--#define AIU_CLK_CTRL_I2S_DIV		GENMASK(3, 2)
- #define AIU_CLK_CTRL_AOCLK_INVERT	BIT(6)
- #define AIU_CLK_CTRL_LRCLK_INVERT	BIT(7)
- #define AIU_CLK_CTRL_LRCLK_SKEW		GENMASK(9, 8)
- #define AIU_CLK_CTRL_MORE_HDMI_AMCLK	BIT(6)
--#define AIU_CLK_CTRL_MORE_I2S_DIV	GENMASK(5, 0)
--#define AIU_CODEC_DAC_LRCLK_CTRL_DIV	GENMASK(11, 0)
--
--static void aiu_encoder_i2s_divider_enable(struct snd_soc_component *component,
--					   bool enable)
--{
--	snd_soc_component_update_bits(component, AIU_CLK_CTRL,
--				      AIU_CLK_CTRL_I2S_DIV_EN,
--				      enable ? AIU_CLK_CTRL_I2S_DIV_EN : 0);
--}
- 
- static int aiu_encoder_i2s_setup_desc(struct snd_soc_component *component,
- 				      struct snd_pcm_hw_params *params)
-@@ -80,8 +68,13 @@ static int aiu_encoder_i2s_setup_desc(struct snd_soc_component *component,
- 
- static int aiu_encoder_i2s_set_legacy_div(struct snd_soc_component *component,
- 					  struct snd_pcm_hw_params *params,
--					  unsigned int bs)
-+					  unsigned long mclk_rate,
-+					  unsigned long aoclk_rate)
- {
-+	struct aiu *aiu = snd_soc_component_get_drvdata(component);
-+	unsigned long bs = mclk_rate / aoclk_rate;
-+	int ret;
++additionalProperties: false
 +
- 	switch (bs) {
- 	case 1:
- 	case 2:
-@@ -91,27 +84,38 @@ static int aiu_encoder_i2s_set_legacy_div(struct snd_soc_component *component,
- 		break;
- 
- 	default:
--		dev_err(component->dev, "Unsupported i2s divider: %u\n", bs);
-+		dev_err(component->dev, "Unsupported i2s divider: %lu\n", bs);
- 		return -EINVAL;
- 	}
- 
--	snd_soc_component_update_bits(component, AIU_CLK_CTRL,
--				      AIU_CLK_CTRL_I2S_DIV,
--				      FIELD_PREP(AIU_CLK_CTRL_I2S_DIV,
--						 __ffs(bs)));
-+	/* Use AOCLK_BASIC divider, i.e. set AOCLK_MORE to the same rate as
-+	 * its parent so that it acts as a passthrough.
-+	 */
-+	ret = clk_set_rate(aiu->i2s_extra.clks[AOCLK_BASIC_DIV].clk,
-+			   aoclk_rate);
-+	if (ret) {
-+		dev_err(component->dev, "failed to set AOCLK_BASIC_DIV\n");
-+		return ret;
-+	}
- 
--	snd_soc_component_update_bits(component, AIU_CLK_CTRL_MORE,
--				      AIU_CLK_CTRL_MORE_I2S_DIV,
--				      FIELD_PREP(AIU_CLK_CTRL_MORE_I2S_DIV,
--						 0));
-+	ret = clk_set_rate(aiu->i2s_extra.clks[AOCLK_MORE_DIV].clk, aoclk_rate);
-+	if (ret) {
-+		dev_err(component->dev, "failed to set AOCLK_MORE_DIV\n");
-+		return ret;
-+	}
- 
- 	return 0;
- }
- 
- static int aiu_encoder_i2s_set_more_div(struct snd_soc_component *component,
- 					struct snd_pcm_hw_params *params,
--					unsigned int bs)
-+					unsigned long mclk_rate,
-+					unsigned long aoclk_rate)
- {
-+	struct aiu *aiu = snd_soc_component_get_drvdata(component);
-+	unsigned long bs = mclk_rate / aoclk_rate;
-+	int ret;
++examples:
++	- |
++		#include <dt-bindings/clock/gxbb-clkc.h>
++		#include <dt-bindings/sound/meson-gxbb.h>
++		#include <dt-bindings/reset/amlogic,meson-gxbb-reset.h>
 +
- 	/*
- 	 * NOTE: this HW is odd.
- 	 * In most configuration, the i2s divider is 'mclk / blck'.
-@@ -126,31 +130,41 @@ static int aiu_encoder_i2s_set_more_div(struct snd_soc_component *component,
- 			return -EINVAL;
- 		}
- 		bs += bs / 2;
-+		aoclk_rate = mclk_rate / bs;
- 	}
- 
--	/* Use CLK_MORE for mclk to bclk divider */
--	snd_soc_component_update_bits(component, AIU_CLK_CTRL,
--				      AIU_CLK_CTRL_I2S_DIV,
--				      FIELD_PREP(AIU_CLK_CTRL_I2S_DIV, 0));
-+	/* Use AOCLK_MORE divider, i.e. set AOCLK_BASIC to the same rate as
-+	 * its parent so that it acts as a passthough.
-+	 */
-+	ret = clk_set_rate(aiu->i2s_extra.clks[AOCLK_BASIC_DIV].clk, mclk_rate);
-+	if (ret) {
-+		dev_err(component->dev, "failed to set AOCLK_BASIC_DIV\n");
-+		return ret;
-+	}
- 
--	snd_soc_component_update_bits(component, AIU_CLK_CTRL_MORE,
--				      AIU_CLK_CTRL_MORE_I2S_DIV,
--				      FIELD_PREP(AIU_CLK_CTRL_MORE_I2S_DIV,
--						 bs - 1));
-+	ret = clk_set_rate(aiu->i2s_extra.clks[AOCLK_MORE_DIV].clk, aoclk_rate);
-+	if (ret) {
-+		dev_err(component->dev, "failed to set AOCLK_MORE_DIV\n");
-+		return ret;
-+	}
- 
- 	return 0;
- }
- 
- static int aiu_encoder_i2s_set_clocks(struct snd_soc_component *component,
--				      struct snd_pcm_hw_params *params)
-+				      struct snd_pcm_hw_params *params,
-+				      struct snd_soc_dai *dai)
- {
- 	struct aiu *aiu = snd_soc_component_get_drvdata(component);
- 	unsigned int srate = params_rate(params);
--	unsigned int fs, bs;
-+	unsigned int fs;
-+	unsigned long mclk_rate, aoclk_rate;
- 	int ret;
- 
-+	mclk_rate = clk_get_rate(aiu->i2s.clks[MCLK].clk);
++		audin: audio-input-controller@a000 {
++			compatible = "amlogic,audin-gxbb", "amlogic,audin";
++			#sound-dai-cells = <1>;
++			sound-name-prefix = "AUDIN";
++			reg = <0x0 0xa000 0x0 0x308>;
++			clocks = <&clkc CLKID_AIU_GLUE>,
++							 <&clkc CLKID_I2S_OUT>,
++							 <&clkc CLKID_AOCLK_GATE>,
++							 <&clkc CLKID_CTS_AMCLK>,
++							 <&clkc CLKID_MIXER_IFACE>,
++							 <&clkc CLKID_I2S_SPDIF>,
++							 <&aiu AIU_AOCLK_DIV_GATE>,
++							 <&aiu AIU_AOCLK_BASIC_DIV>,
++							 <&aiu AIU_AOCLK_MORE_DIV>,
++							 <&aiu AIU_LRCLK_DIV>;
++			clock-names = "pclk",
++										"i2s_pclk",
++										"i2s_aoclk",
++										"i2s_mclk",
++										"i2s_mixer",
++										"i2s_input_clk",
++										"i2s_aoclk_div_gate",
++										"i2s_aoclk_basic_div",
++										"i2s_aoclk_more_div",
++										"i2s_lrclk_div";
++			resets = <&reset RESET_AIU>;
++		};
+diff --git a/include/dt-bindings/sound/meson-audin.h b/include/dt-bindings/sound/meson-audin.h
+new file mode 100644
+index 000000000000..30c2fe218ab4
+--- /dev/null
++++ b/include/dt-bindings/sound/meson-audin.h
+@@ -0,0 +1,10 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __DT_MESON_AUDIN_H
++#define __DT_MESON_AUDIN_H
 +
- 	/* Get the oversampling factor */
--	fs = DIV_ROUND_CLOSEST(clk_get_rate(aiu->i2s.clks[MCLK].clk), srate);
-+	fs = DIV_ROUND_CLOSEST(mclk_rate, srate);
- 
- 	if (fs % 64)
- 		return -EINVAL;
-@@ -160,22 +174,26 @@ static int aiu_encoder_i2s_set_clocks(struct snd_soc_component *component,
- 				      AIU_I2S_DAC_CFG_MSB_FIRST,
- 				      AIU_I2S_DAC_CFG_MSB_FIRST);
- 
--	/* Set bclk to lrlck ratio */
--	snd_soc_component_update_bits(component, AIU_CODEC_DAC_LRCLK_CTRL,
--				      AIU_CODEC_DAC_LRCLK_CTRL_DIV,
--				      FIELD_PREP(AIU_CODEC_DAC_LRCLK_CTRL_DIV,
--						 64 - 1));
--
--	bs = fs / 64;
-+	/* aoclk rate is 64 times the sample rate */
-+	aoclk_rate = srate * 64;
- 
- 	if (aiu->platform->has_clk_ctrl_more_i2s_div)
--		ret = aiu_encoder_i2s_set_more_div(component, params, bs);
-+		ret = aiu_encoder_i2s_set_more_div(component, params,
-+						   mclk_rate, aoclk_rate);
- 	else
--		ret = aiu_encoder_i2s_set_legacy_div(component, params, bs);
-+		ret = aiu_encoder_i2s_set_legacy_div(component, params,
-+						     mclk_rate, aoclk_rate);
- 
- 	if (ret)
- 		return ret;
- 
-+	/* lrclk rate is equal to the sample rate */
-+	ret = clk_set_rate(aiu->i2s_extra.clks[LRCLK_DIV].clk, srate);
-+	if (ret) {
-+		dev_err(dai->dev, "failed to set LRCLK_DIV\n");
-+		return ret;
-+	}
++#define CPU_AUDIN_TODDR_0	0
++#define CPU_AUDIN_TODDR_1	1
++#define CPU_AUDIN_TODDR_2	2
++#define CPU_I2S_DECODER		3
 +
- 	/* Make sure amclk is used for HDMI i2s as well */
- 	snd_soc_component_update_bits(component, AIU_CLK_CTRL_MORE,
- 				      AIU_CLK_CTRL_MORE_HDMI_AMCLK,
-@@ -189,10 +207,11 @@ static int aiu_encoder_i2s_hw_params(struct snd_pcm_substream *substream,
- 				     struct snd_soc_dai *dai)
- {
- 	struct snd_soc_component *component = dai->component;
-+	struct aiu *aiu = snd_soc_component_get_drvdata(dai->component);
- 	int ret;
- 
- 	/* Disable the clock while changing the settings */
--	aiu_encoder_i2s_divider_enable(component, false);
-+	// clk_disable_unprepare(aiu->i2s_extra.clks[AOCLK_DIV_GATE].clk);
- 
- 	ret = aiu_encoder_i2s_setup_desc(component, params);
- 	if (ret) {
-@@ -200,13 +219,17 @@ static int aiu_encoder_i2s_hw_params(struct snd_pcm_substream *substream,
- 		return ret;
- 	}
- 
--	ret = aiu_encoder_i2s_set_clocks(component, params);
-+	ret = aiu_encoder_i2s_set_clocks(component, params, dai);
- 	if (ret) {
- 		dev_err(dai->dev, "setting i2s clocks failed\n");
- 		return ret;
- 	}
- 
--	aiu_encoder_i2s_divider_enable(component, true);
-+	ret = clk_prepare_enable(aiu->i2s_extra.clks[AOCLK_DIV_GATE].clk);
-+	if (ret) {
-+		dev_err(dai->dev, "failed to enable AOCLK_DIV_GATE\n");
-+		return ret;
-+	}
- 
- 	return 0;
- }
-@@ -214,10 +237,10 @@ static int aiu_encoder_i2s_hw_params(struct snd_pcm_substream *substream,
- static int aiu_encoder_i2s_hw_free(struct snd_pcm_substream *substream,
- 				   struct snd_soc_dai *dai)
- {
--	struct snd_soc_component *component = dai->component;
--
--	aiu_encoder_i2s_divider_enable(component, false);
-+	struct aiu *aiu = snd_soc_component_get_drvdata(dai->component);
- 
-+	clk_disable_unprepare(aiu->i2s_extra.clks[AOCLK_DIV_GATE].clk);
-+	
- 	return 0;
- }
- 
-diff --git a/sound/soc/meson/aiu.c b/sound/soc/meson/aiu.c
-index f2890111c1d2..ef3365348aa1 100644
---- a/sound/soc/meson/aiu.c
-+++ b/sound/soc/meson/aiu.c
-@@ -9,6 +9,8 @@
- #include <linux/of_platform.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
-+#include <linux/clk-provider.h>
-+#include "../../../drivers/clk/meson/clk-regmap.h"
- #include <sound/soc.h>
- #include <sound/soc-dai.h>
- 
-@@ -203,6 +205,13 @@ static const char * const aiu_i2s_ids[] = {
- 	[MIXER]	= "i2s_mixer",
- };
- 
-+static const char * const aiu_i2s_extra_ids[] = {
-+	[AOCLK_DIV_GATE]	= "i2s_aoclk_div_gate",
-+	[AOCLK_BASIC_DIV]	= "i2s_aoclk_basic_div",
-+	[AOCLK_MORE_DIV]	= "i2s_aoclk_more_div",
-+	[LRCLK_DIV]		= "i2s_lrclk_div",
-+};
-+
- static const char * const aiu_spdif_ids[] = {
- 	[PCLK]	= "spdif_pclk",
- 	[AOCLK]	= "spdif_aoclk",
-@@ -229,6 +238,13 @@ static int aiu_clk_get(struct device *dev)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Can't get the i2s clocks\n");
- 
-+	ret = aiu_clk_bulk_get(dev, aiu_i2s_extra_ids,
-+			       ARRAY_SIZE(aiu_i2s_extra_ids),
-+			       &aiu->i2s_extra);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Can't get the i2s extra clocks\n");
-+
- 	ret = aiu_clk_bulk_get(dev, aiu_spdif_ids, ARRAY_SIZE(aiu_spdif_ids),
- 			       &aiu->spdif);
- 	if (ret)
-@@ -278,6 +294,12 @@ static int aiu_probe(struct platform_device *pdev)
- 	if (aiu->spdif.irq < 0)
- 		return aiu->spdif.irq;
- 
-+	ret = aiu_register_clocks(dev, map);
-+	if (ret) {
-+		dev_err(dev, "Failed to register AIU clocks\n");
-+		return ret;
-+	}
-+
- 	ret = aiu_clk_get(dev);
- 	if (ret)
- 		return ret;
-diff --git a/sound/soc/meson/aiu.h b/sound/soc/meson/aiu.h
-index 0f94c8bf6081..847466c02408 100644
---- a/sound/soc/meson/aiu.h
-+++ b/sound/soc/meson/aiu.h
-@@ -21,6 +21,13 @@ enum aiu_clk_ids {
- 	MIXER
- };
- 
-+enum aiu_i2s_extra_clk_ids {
-+	AOCLK_DIV_GATE = 0,
-+	AOCLK_BASIC_DIV,
-+	AOCLK_MORE_DIV,
-+	LRCLK_DIV,
-+};
-+
- struct aiu_interface {
- 	struct clk_bulk_data *clks;
- 	unsigned int clk_num;
-@@ -35,6 +42,7 @@ struct aiu_platform_data {
- struct aiu {
- 	struct clk *spdif_mclk;
- 	struct aiu_interface i2s;
-+	struct aiu_interface i2s_extra;
- 	struct aiu_interface spdif;
- 	const struct aiu_platform_data *platform;
- };
-@@ -54,6 +62,8 @@ int aiu_acodec_ctrl_register_component(struct device *dev);
- int aiu_fifo_i2s_dai_probe(struct snd_soc_dai *dai);
- int aiu_fifo_spdif_dai_probe(struct snd_soc_dai *dai);
- 
-+int aiu_register_clocks(struct device *dev, struct regmap *map);
-+
- extern const struct snd_soc_dai_ops aiu_fifo_i2s_dai_ops;
- extern const struct snd_soc_dai_ops aiu_fifo_spdif_dai_ops;
- extern const struct snd_soc_dai_ops aiu_encoder_i2s_dai_ops;
++#endif /* __DT_MESON_AUDIN_H */
 -- 
 2.39.5
 
