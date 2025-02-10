@@ -1,155 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224631F4629;
-	Mon, 10 Feb 2025 17:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8472255E29;
+	Mon, 10 Feb 2025 17:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739207661; cv=none; b=Dmx/ZZK4aGDDB0yWA9mz6C9JnBoue4MsDyo3ApppwPXp/YpQvlqA+bmzSVuJnlsVWDQRLvM0O1OgClqhogs0qlnYyMKb7iNCr5B4j9FTA3vD6e4siQtbLTSd2WKYoLqvoYP7TE9U/76v/HIwbgD8j3ArPmiA4ZgrNPZGweV38lA=
+	t=1739208192; cv=none; b=RE1Q85fxwsukQCrPikmagobmw2x4IY7hhuujr+CYE3dGitBn7CE6AaIW0TQ/Jj5tV0i8T0X8CjZGEXgFyUw7TmQowKsK7kw8egwhUKJDtd2PX1NIE+wdVQPYCR53HC8qqXO8//dUg2cOtiAfzM3S/HFgwITnDZ2yT1BTjnhP2x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739207661; c=relaxed/simple;
-	bh=RHJ/mE+3CIXJ26NK0VzyZMCtDgPhWyECcVBdhzfFpV0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sksv3UqP9Ncu9x3gMoZcGU8JoA2gByRu8wHaw6egTDSUtw27lpHHuSU/jTEIK2UvYb1ykGuSELPH+Ugljt4GFbBbphhJ5fu3N/oSbm4eBz9bFV+kVaCLpxilJTYuTclmKo5K9EaZWBx7/xZM4CmD801wwAOOvT1+z/NcXz2nVLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dG214BhH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+A1v9IkE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DiIo31ja; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=j8b+8T/D; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1739208192; c=relaxed/simple;
+	bh=Fp/GvLOIEh7W+kfps4T6VXAGBZGptQGu47xgJiHj1FY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=iDhHQLD3cPCgEqbhbi7ODoTHwoIwfLKL7dSr8yW4z4Is9ut83T/qiISvqsdVPDcnuFTcy8E9aa2BS6ByqucXo5ETPRKbwp3O135ejSl54V8G6HVUoc03De21zH6lbEEVR6ybGsSwANehoriQv5QWMdNH/YzZsqEuowCGsT9fNK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gj3HTFZh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dG214BhH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+A1v9IkE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DiIo31ja";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j8b+8T/D"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 411AD21102;
-	Mon, 10 Feb 2025 17:14:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1739207658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QWAbgjUI+Y3HKFjPsXNiudAooyxa5r8YZAL/8whS31w=;
-	b=dG214BhHjqYrZNqlpEJitq6mZ0FbiUG1E2WZBo4c/11Yd9Yqj8n9uHiXU3AXkNq7l/Hsh/
-	fZhSixfj2NENCLPHd9mxnAgd3x7UGhAM+IujS4/OTBVRGILxmqjEfvm0Vlf0sRjXMz7sxI
-	abZ5FBvtx3v7JQCfBgMxDjuiSlT4Is8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1739207658;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QWAbgjUI+Y3HKFjPsXNiudAooyxa5r8YZAL/8whS31w=;
-	b=+A1v9IkE6gGbBBWlODNSRDVmgP3AkkUX/JN0Zis8TiM4JJ4N0QjunRQ1WXWol+uuw8Vz47
-	ILCWqtW4OhYvZeCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1739207657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QWAbgjUI+Y3HKFjPsXNiudAooyxa5r8YZAL/8whS31w=;
-	b=DiIo31jaS/R22hbO5uIJU867Brjuq3xMin3kG0Nvk8x/gJ2wJNpB0/EsQ5GTVSpA0pfR3L
-	sw1He/mxyXWFOLhi2MwNQG+MDwaMQX7jNgvdfp4/0ZC9y3CAJMqC0r17hM6duq/oDnYNw0
-	+lYObECkDV9jVlMkObJJWKqJtgd8TQY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1739207657;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QWAbgjUI+Y3HKFjPsXNiudAooyxa5r8YZAL/8whS31w=;
-	b=j8b+8T/DQTCLs+xajPrzUypzMEY/Z5yrZVKVdqvWzhGTQXzzEqtdKm8nS9MCQ19ocJzb1q
-	OO+6CTpnJ+MeLVCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E126013707;
-	Mon, 10 Feb 2025 17:14:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id R53DNegzqmcTXAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 10 Feb 2025 17:14:16 +0000
-Date: Mon, 10 Feb 2025 18:14:16 +0100
-Message-ID: <8734glafiv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	bhelgaas@google.com,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] ASoC/SOF/PCI/Intel: add PantherLake H support
-In-Reply-To: <20250210081730.22916-1-peter.ujfalusi@linux.intel.com>
-References: <20250210081730.22916-1-peter.ujfalusi@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gj3HTFZh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54924C4CED1;
+	Mon, 10 Feb 2025 17:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739208192;
+	bh=Fp/GvLOIEh7W+kfps4T6VXAGBZGptQGu47xgJiHj1FY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=gj3HTFZhbixjp3aYSM74GYTu9nxAnc3yd0pzUGX+IrZjW/nKQstIB/WRi0qVW99p2
+	 pHSl/OY4do03VY+Xu7T+jZGtjjIj+6cBbpRtceB7WvN5GbsgYiHE3NxG7f/+mYzQYH
+	 bAdMSx+CZ/sqKp5+Be/CUkS7egNqfWHM8fG0qryOmHPm4RAYitB49ZWQHf9yl8Csbo
+	 dyw5+3SkDgIyXI6e1cgrKPAiLqkM+q/HsA+If09SSDdJ9YRhr07TJ65EKf6DllVI0w
+	 tl0CDEVrDpCK3jaPgc/jA6UYwx+c+L86uRKY86iYk8NcekprPFg1ZPug1tTTP8PjSe
+	 QDx2k82lBjyLw==
+From: Mark Brown <broonie@kernel.org>
+To: Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Thorsten Blum <thorsten.blum@linux.dev>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250210115937.53654-1-thorsten.blum@linux.dev>
+References: <20250210115937.53654-1-thorsten.blum@linux.dev>
+Subject: Re: [PATCH] ASoC: tscs454: Use str_enable_disable() in
+ pll_power_event()
+Message-Id: <173920819109.83245.7957527721534200073.b4-ty@kernel.org>
+Date: Mon, 10 Feb 2025 17:23:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,suse.com,vger.kernel.org,linux.intel.com,linux.dev,google.com];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-On Mon, 10 Feb 2025 09:17:26 +0100,
-Peter Ujfalusi wrote:
+On Mon, 10 Feb 2025 12:59:37 +0100, Thorsten Blum wrote:
+> Remove hard-coded strings by using the str_enable_disable() helper
+> function.
 > 
-> Hi,
 > 
-> Changes since v1:
-> - Updated the commit messages
-> - added the Acked-by from Bjorn and Mark
-> 
-> The audio IP in PTL-H is identical to the already supported PTL but the
-> PCI-ID has been changes due to the differences in the product's
-> configuration outside of audio.
-> 
-> To support PTL-H we really just need to wire up the new ID.
-> 
-> Regards,
-> Peter
-> --- 
-> Peter Ujfalusi (1):
->   ASoC: SOF: Intel: pci-ptl: Add support for PTL-H
-> 
-> Pierre-Louis Bossart (3):
->   PCI: pci_ids: add INTEL_HDA_PTL_H
->   ALSA: hda: intel-dsp-config: Add PTL-H support
->   ALSA: hda: hda-intel: add Panther Lake-H support
 
-As all those are trivial ID-addition changes, I picked up now to
-for-linus branch.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-thanks,
+Thanks!
 
-Takashi
+[1/1] ASoC: tscs454: Use str_enable_disable() in pll_power_event()
+      commit: e97d06cb4386af4e069a2dc713de70500538d0bd
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
