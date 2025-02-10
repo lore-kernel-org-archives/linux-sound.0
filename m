@@ -1,325 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B8426462C;
-	Mon, 10 Feb 2025 21:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D427224E4D1;
+	Mon, 10 Feb 2025 22:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739223320; cv=none; b=GCO7QfKRmRG60DnffvX1QsDUoiihAuzz6pDMJYHrHHCoRAlRqLJY5JkhRh2tte8TEryQcy+3E9Q/zsi+RjDDDh8vUn9BkPsIdJV0w09UiWqtaX1e8zQOQnGwzmT59CrOm/CruZDmbZq2iiDFZgmMcfimy7y8KnZ47AW6hnHMUa0=
+	t=1739226513; cv=none; b=qnWTdPN4m8CwssgsQBFQHNloY9l9WsKWpdypH5JE1f8+aLp8BSTYEhOF2ALcW3WoCrzTOGKRa0l3pY1E2aqJmVAkTFXVDAa8eVtYiMcEaQ3OVNzYfMflRxlzEVaOsIaDmXjmrPEILd7Az+rqAs6jO/nNrpZGIY7+88sCC9+LBZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739223320; c=relaxed/simple;
-	bh=H7RSqJLsURJtj4e0K5zWf3Vea8L8TxbXHl2Kl4kO0KA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WSwiadaxd3SJRx+bcKK5AJXUeKLLxVj6c+E1moPZkYtv/3BqPWMmHXvB7+WQUUa3u8WgYPfudmoDS3eHynrdGLrRlzka1nFAo8EXC1wqleA8OEvO1SScwRDi0HqK/1HrTx6v97wdo5a/iMQph+5At4UIc8P/+L37GYpamDxMgpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UEfCDIaq; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739226513; c=relaxed/simple;
+	bh=ByFoZYycOEnMo8v+be1ijDpKswWGIl5bZwExcPiyvvw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sQM4Elr+912U2/AC5AYpqio9WQkLSy+XL9e4p7o+eO7v3QE/RWiNlIBCmh59t2erXelOuQzqFI8kT8ylSD3P1oaTTpjutD2zGgQV4G+EaPXfKWQwoeTM/qJCawnbqaEkifBNk/LNRQ9T092egwPcErP8P5BNgMuTOddv4A7c6qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eX4691bW; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UEfCDIaq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739223318; x=1770759318;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H7RSqJLsURJtj4e0K5zWf3Vea8L8TxbXHl2Kl4kO0KA=;
-  b=UEfCDIaq5sj1xixvHWxVUpohvY1cMJb3+GYJ10xZcgL3DUGuqOcr9YRu
-   UXDuTH22JewcOlI7yf38f3oeX2R7kPAANkdeGdY4kYuJumVo0TEHIKbpl
-   8vAkNg/JM8/UOz6hqcd97GmIcYtbnRYrYmZ2hjk+kW+OmW61xxDau97ho
-   iebU6qS6qoUwDnLLMTdCTfY0OY1b2TSAcESupitZQGxKrqtj1haomyDdh
-   GqRYPb32vAHFQth8vuAi1qRPtE84NVxCh/gjghVndU9pqVLlg2Ap0vsPG
-   xVLg2Pe8grgyn6ZJ+ATRga0EnuK8xZRgU5ZH6UZRI3EDPxzGwl9RFiDVp
-   A==;
-X-CSE-ConnectionGUID: jtk2WAk+R+aNd0UzDRV87w==
-X-CSE-MsgGUID: vSmdpoXdSxyCD/2BvkiLGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50812055"
-X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="50812055"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 13:35:17 -0800
-X-CSE-ConnectionGUID: glPiKZtjRjS9g6fzlCmivQ==
-X-CSE-MsgGUID: heVC2K6PRKyNOw3v7yoCeg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117515530"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 13:35:12 -0800
-Date: Mon, 10 Feb 2025 23:35:09 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
-	gregkh@linuxfoundation.org, rafael@kernel.org,
-	linus.walleij@linaro.org, mika.westerberg@linux.intel.com,
-	dmitry.torokhov@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	sre@kernel.org, jic23@kernel.org, przemyslaw.kitszel@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <Z6pxDTUE60CKwHlE@black.fi.intel.com>
-References: <20250210064906.2181867-2-raag.jadav@intel.com>
- <202502102201.zLWaJC6V-lkp@intel.com>
- <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eX4691bW"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-38ddc36b81dso1174370f8f.1;
+        Mon, 10 Feb 2025 14:28:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739226510; x=1739831310; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3d3ndInuX+/aX+c3kZ16FGE7FXky+SP+vLiCNKyizbs=;
+        b=eX4691bWq5//3lmddX+e5Kd9fMIU0OhRUjv3cyijQGu7qpVEqtMeC9390ncJH30kGf
+         BsC+vreKjrPAIu9r7MWCFwkEc7qg4y0h8IPf25V+AeqbXB+8c4H588AjMTsqlerTRObK
+         YOjkXQ2UJV/xair6VF2bFApNzle8HVym5wKOgboX+S2kM+F9yr+NCAKEpToBOh4CtvZH
+         O9ISEImPPC2hLdaCvYog4p/L7czzovsZtoozVHckmdsajfGZU8lrlxX+NhGDIPjBcdZF
+         ZImJ26RfRBA2IF71tLTSvFFbxL63K0OCscPDT675Ddok8JNsraeXi63BM9fdcOOe653Y
+         CWYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739226510; x=1739831310;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3d3ndInuX+/aX+c3kZ16FGE7FXky+SP+vLiCNKyizbs=;
+        b=JiHITDb05rXXTN9Sa1y/r1VnkxqH7IU+tGkExsWtY0qL+rCYIGkkJ+9foO8o+wfWRD
+         uxgGCYOI8IIxHTErXPyIZoGd32UoIOGQXYlfKAU51IB4TiC5Q05DTKYWN9QFKSYEGhZf
+         VoJZCpm6Arf8p5E/1AOASLBWBAgLhn2+xZUu7BbEeN74pENe6Po6AoOYQBaIXh2+KUcs
+         35xx7SMR571plT6FML5+h4o2W8z//cl4s8cX7dKbpv9KdiEakqq6fqxM2tgzxGJTfEBp
+         UOKyCfAwwtyj1piBJ5R1giL7J6uWZTflbmpF6U9QMs96mnzcjH7oXO5se4DYPzEQxdCj
+         unZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUHQbMRyEmuadwFzGMfZEG0q2c+GdJMhKeBIXcTWISvoGKHdjwgD4Dts9LXcU+C5XgZCDCAEoWYXfO+@vger.kernel.org, AJvYcCVOlf/fGQaKbMKWfuuVkvMLpjjcV/0dRhKJli9DPbIy+ADWiNyBrTre5eQCAIbHMVf7VjBrKRHlyIgCeu2n@vger.kernel.org, AJvYcCVu2DmlDVYY62Ra8DZVsfVUYaBA/yviYL0MnSjiQ4+ig4jW5HhtLf2c2fOVy0dPkUSeCR4Icof65s3ZQnA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgW4j5GEBXV0WPayU0qXAj6lmUpWuxyu/PZmXo+1NS0SLa2Vl2
+	y9KQUV5jL6r4L7CAPL3z+Pc80giqr5pQ54MRqTGQ5nspltzUx6lYsddo76XcHPs=
+X-Gm-Gg: ASbGnct9djqM+fLk6lXYEy3F8DSo7hWnXEjveBSEF03PlQgoB0B8eFb9BPW7PqswZbq
+	o4DtRzCAx3ThqeEYAd5zrsm8LVwfGEzc2JK/Et+5oWg3zD1/oXwhgC48ANFgDUuttcTdFtKsLBF
+	pNa7oMMIFuff06TUqCL6BFyMGbITDZ2zFpxgccDXI6ESwiCbV72pDstNMsqvrfKr/vKlOkOo82M
+	NRZAUIkRoDDVSW2FOnLfkI72QtYf67WXdmf3oYkP6gP3IWVo/5EU9Rmz3biYBKQXzKWF6EpfIir
+	4eim7XUyvwHeHLIrYAqQGBEE8Ketr0s=
+X-Google-Smtp-Source: AGHT+IFXIU18dLzViUZXXs3cfXXsk83rSkzcXzRc+lVd4GO++ZwyVOmMLXMNDGsW6Y9xo1I8lGPpSQ==
+X-Received: by 2002:a5d:598d:0:b0:38a:8b34:76b0 with SMTP id ffacd0b85a97d-38de43ec4b6mr836146f8f.27.1739226509950;
+        Mon, 10 Feb 2025 14:28:29 -0800 (PST)
+Received: from CYBER-ABAKUS.kucica ([87.116.134.57])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4390d94d802sm198475845e9.12.2025.02.10.14.28.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2025 14:28:28 -0800 (PST)
+From: Nikola Jelic <nikola.jelic83@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: rwalton@cmlmicro.com
+Subject: [PATCH 1/2] ASoC: dt-bindings: Add cmx655 codec
+Date: Mon, 10 Feb 2025 23:28:06 +0100
+Message-ID: <20250210222825.88248-1-nikola.jelic83@gmail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 10, 2025 at 05:23:33PM +0200, Andy Shevchenko wrote:
-> +Cc: Arnd
-> 
-> On Mon, Feb 10, 2025 at 10:30:28PM +0800, kernel test robot wrote:
-> > Hi Raag,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250210-145732
-> > base:   a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744
-> > patch link:    https://lore.kernel.org/r/20250210064906.2181867-2-raag.jadav%40intel.com
-> > patch subject: [PATCH v4 01/20] driver core: Split devres APIs to device/devres.h
-> > config: powerpc64-randconfig-002-20250210 (https://download.01.org/0day-ci/archive/20250210/202502102201.zLWaJC6V-lkp@intel.com/config)
-> > compiler: powerpc64-linux-gcc (GCC) 14.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502102201.zLWaJC6V-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202502102201.zLWaJC6V-lkp@intel.com/
-> > 
-> > All error/warnings (new ones prefixed by >>):
-> 
-> TBH I have no quick idea how to address this. It seems that io.h includes device.h
-> for no reason (but I haven't checked that carefully). OTOH, we need only
-> IOMEM_IS_ERR() definition which can simply be moved from io.h to err.h as the
-> former includes the latter and the definition depends only on compiler_types.h.
+Signed-off-by: Nikola Jelic <nikola.jelic83@gmail.com>
 
-I atleast managed to build this after dropping device.h from asm/io.h however
-eeh.h is just something else.
+---
+V2 -> V3: fixed dt_binding_check + yamllint warnings
+V1 -> V2: removed the txt file, fixed review remarks
+---
+ .../bindings/sound/cml,cmx655d.yaml           | 78 +++++++++++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
 
-Raag
+diff --git a/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml b/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
+new file mode 100644
+index 000000000000..1648f606bf48
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
+@@ -0,0 +1,78 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/cml,cmx655d.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: CML Micro CMX655D codec
++
++maintainers:
++  - Richard Walton <rwalton@cmlmicro.com>
++  - Nikola Jelic <nikola.jelic83@gmail.com>
++
++description:
++  The CMX655D is an ultra-low power voice codec.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - cml,cmx655d
++
++  reg:
++    description: Local bus address
++    maxItems: 1
++
++  "#sound-dai-cells":
++    description: The first cell indicating the audio interface
++    const: 0
++
++  reset-gpios:
++    description: GPIO used for codec reset, negative logic
++    maxItems: 1
++
++  interrupts:
++    description: Interrupt for the CMX655D IRQ line
++    maxItems: 1
++
++  interrupt-names:
++    description: Interrupt name for the CMX655D IRQ line
++    maxItems: 1
++
++  cml,classd-oc-reset-attempts:
++    description: Maximum number of times to reset CMX655 class-D
++      following a overcurrent event.
++      >10000 = disable limit.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 1
++    maximum: 10001
++    default: 5
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/gpio/gpio.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        status = "okay";
++        audio-codec@54 {
++            compatible = "cml,cmx655d";
++            #sound-dai-cells = <0>;
++            reg = <0x54>;
++            reset-gpios = <&gpio 24 GPIO_ACTIVE_LOW>;
++            interrupt-parent = <&gpio>;
++            interrupts = <25 IRQ_TYPE_EDGE_RISING>;
++            cml,classd-oc-reset-attempts = <5>;
++        };
++
++    };
++...
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 333491cba969..bdb42c22325a 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -308,6 +308,8 @@ patternProperties:
+     description: Carl Cloos Schweisstechnik GmbH.
+   "^cloudengines,.*":
+     description: Cloud Engines, Inc.
++  "^cml,.*":
++    description: CML Micro, Ltd.
+   "^cnm,.*":
+     description: Chips&Media, Inc.
+   "^cnxt,.*":
+-- 
+2.47.2
 
-> Arnd?
-> 
-> >    In file included from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from arch/powerpc/include/asm/io.h:22,
-> >                     from include/linux/scatterlist.h:9,
-> >                     from crypto/rsassa-pkcs1.c:11:
-> >    include/linux/io.h: In function 'pci_remap_cfgspace':
-> >    include/linux/io.h:106:16: error: implicit declaration of function 'ioremap_np' [-Wimplicit-function-declaration]
-> >      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-> >          |                ^~~~~~~~~~
-> >    include/linux/io.h:106:44: error: implicit declaration of function 'ioremap' [-Wimplicit-function-declaration]
-> >      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-> >          |                                            ^~~~~~~
-> >    include/linux/io.h:106:42: error: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-> >      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-> >          |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-> >    arch/powerpc/include/asm/io.h: At top level:
-> > >> arch/powerpc/include/asm/io.h:885:22: error: conflicting types for 'ioremap'; have 'void *(phys_addr_t,  long unsigned int)' {aka 'void *(long long unsigned int,  long unsigned int)'}
-> >      885 | extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
-> >          |                      ^~~~~~~
-> >    include/linux/io.h:106:44: note: previous implicit declaration of 'ioremap' with type 'int()'
-> >      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-> >          |                                            ^~~~~~~
-> >    In file included from include/asm-generic/io.h:17,
-> >                     from arch/powerpc/include/asm/io.h:1031:
-> > >> include/asm-generic/iomap.h:106:20: error: conflicting types for 'ioremap_np'; have 'void *(phys_addr_t,  size_t)' {aka 'void *(long long unsigned int,  long unsigned int)'}
-> >      106 | #define ioremap_np ioremap_np
-> >          |                    ^~~~~~~~~~
-> >    include/asm-generic/iomap.h:107:29: note: in expansion of macro 'ioremap_np'
-> >      107 | static inline void __iomem *ioremap_np(phys_addr_t offset, size_t size)
-> >          |                             ^~~~~~~~~~
-> >    include/linux/io.h:106:16: note: previous implicit declaration of 'ioremap_np' with type 'int()'
-> >      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-> >          |                ^~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/acpi.h:14,
-> >                     from include/linux/i2c.h:13,
-> >                     from drivers/input/touchscreen/ili210x.c:5:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/touchright.c:17:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/touchright.c: In function 'tr_connect':
-> >    drivers/input/touchscreen/touchright.c:114:49: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      114 |         snprintf(tr->phys, sizeof(tr->phys), "%s/input0", serio->phys);
-> >          |                                                 ^~~~~~~
-> >    drivers/input/touchscreen/touchright.c:114:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      114 |         snprintf(tr->phys, sizeof(tr->phys), "%s/input0", serio->phys);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/penmount.c:17:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/penmount.c: In function 'pm_connect':
-> >    drivers/input/touchscreen/penmount.c:211:49: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      211 |         snprintf(pm->phys, sizeof(pm->phys), "%s/input0", serio->phys);
-> >          |                                                 ^~~~~~~
-> >    drivers/input/touchscreen/penmount.c:211:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      211 |         snprintf(pm->phys, sizeof(pm->phys), "%s/input0", serio->phys);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/inexio.c:19:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/inexio.c: In function 'inexio_connect':
-> >    drivers/input/touchscreen/inexio.c:126:59: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      126 |         snprintf(pinexio->phys, sizeof(pinexio->phys), "%s/input0", serio->phys);
-> >          |                                                           ^~~~~~~
-> >    drivers/input/touchscreen/inexio.c:126:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      126 |         snprintf(pinexio->phys, sizeof(pinexio->phys), "%s/input0", serio->phys);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/touchwin.c:24:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/touchwin.c: In function 'tw_connect':
-> >    drivers/input/touchscreen/touchwin.c:121:49: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      121 |         snprintf(tw->phys, sizeof(tw->phys), "%s/input0", serio->phys);
-> >          |                                                 ^~~~~~~
-> >    drivers/input/touchscreen/touchwin.c:121:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      121 |         snprintf(tw->phys, sizeof(tw->phys), "%s/input0", serio->phys);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/hampshire.c:19:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/hampshire.c: In function 'hampshire_connect':
-> >    drivers/input/touchscreen/hampshire.c:122:21: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      122 |                  "%s/input0", serio->phys);
-> >          |                     ^~~~~~~
-> >    drivers/input/touchscreen/hampshire.c:121:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      121 |         snprintf(phampshire->phys, sizeof(phampshire->phys),
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >      122 |                  "%s/input0", serio->phys);
-> >          |                  ~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/tsc40.c:12:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/tsc40.c: In function 'tsc_connect':
-> >    drivers/input/touchscreen/tsc40.c:95:53: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >       95 |         snprintf(ptsc->phys, sizeof(ptsc->phys), "%s/input0", serio->phys);
-> >          |                                                     ^~~~~~~
-> >    drivers/input/touchscreen/tsc40.c:95:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >       95 |         snprintf(ptsc->phys, sizeof(ptsc->phys), "%s/input0", serio->phys);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/dynapro.c:20:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/dynapro.c: In function 'dynapro_connect':
-> >    drivers/input/touchscreen/dynapro.c:123:21: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      123 |                  "%s/input0", serio->phys);
-> >          |                     ^~~~~~~
-> >    drivers/input/touchscreen/dynapro.c:122:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      122 |         snprintf(pdynapro->phys, sizeof(pdynapro->phys),
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >      123 |                  "%s/input0", serio->phys);
-> >          |                  ~~~~~~~~~~~~~~~~~~~~~~~~~
-> > 
-> > 
-> > vim +885 arch/powerpc/include/asm/io.h
-> > 
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  853  
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  854  /**
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  855   * ioremap     -   map bus memory into CPU space
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  856   * @address:   bus address of the memory
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  857   * @size:      size of the resource to map
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  858   *
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  859   * ioremap performs a platform specific sequence of operations to
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  860   * make bus memory CPU accessible via the readb/readw/readl/writeb/
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  861   * writew/writel functions and the other mmio helpers. The returned
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  862   * address is not guaranteed to be usable directly as a virtual
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  863   * address.
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  864   *
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  865   * We provide a few variations of it:
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  866   *
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  867   * * ioremap is the standard one and provides non-cacheable guarded mappings
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  868   *   and can be hooked by the platform via ppc_md
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  869   *
-> > 40f1ce7fb7e8b5d arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  870   * * ioremap_prot allows to specify the page flags as an argument and can
-> > 40f1ce7fb7e8b5d arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  871   *   also be hooked by the platform via ppc_md.
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  872   *
-> > be135f40899cb33 arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  873   * * ioremap_wc enables write combining
-> > be135f40899cb33 arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  874   *
-> > 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  875   * * ioremap_wt enables write through
-> > 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  876   *
-> > 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  877   * * ioremap_coherent maps coherent cached memory
-> > 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  878   *
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  879   * * iounmap undoes such a mapping and can be hooked
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  880   *
-> > 1cdab55d8a8313f arch/powerpc/include/asm/io.h Benjamin Herrenschmidt 2009-02-22  881   * * __ioremap_caller is the same as above but takes an explicit caller
-> > 1cdab55d8a8313f arch/powerpc/include/asm/io.h Benjamin Herrenschmidt 2009-02-22  882   *   reference rather than using __builtin_return_address(0)
-> > 1cdab55d8a8313f arch/powerpc/include/asm/io.h Benjamin Herrenschmidt 2009-02-22  883   *
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  884   */
-> > 68a64357d15ae4f include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-13 @885  extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
-> > 8d05554dca2af6a arch/powerpc/include/asm/io.h Christophe Leroy       2023-07-06  886  #define ioremap ioremap
-> > 8d05554dca2af6a arch/powerpc/include/asm/io.h Christophe Leroy       2023-07-06  887  #define ioremap_prot ioremap_prot
-> > be135f40899cb33 arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  888  extern void __iomem *ioremap_wc(phys_addr_t address, unsigned long size);
-> > 894fa235eb4ca0b arch/powerpc/include/asm/io.h Christophe Leroy       2020-11-21  889  #define ioremap_wc ioremap_wc
-> > 894fa235eb4ca0b arch/powerpc/include/asm/io.h Christophe Leroy       2020-11-21  890  
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
