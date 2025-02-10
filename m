@@ -1,66 +1,65 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A01D26216B
-	for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 22:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B498F26216A
+	for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 22:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739227093; cv=none; b=TebSLHMHXTblB8J/zWkv9bsMN/pTeslE65b058SqE/vDrpYtuviS6ssa5XWuwW+n+Rr4+ExaqQuwcCIZPSlejzBEG8pLcvZga8benbVtUabrgrB0WC2N9sZ1ZTkCnvbyrtVBiVuUgFOQlnK0sszs2JlHAVti3HwSMMC8LeyJ3Tw=
+	t=1739227096; cv=none; b=jBtov6xcDGudQjeRg2OktYzJpvnDiUvfGbWxQe4LDdxHbyQoBGM4/5sy14yNjpDAcXdITlK5NnJRhF036g9Kdd/eSKqbDpyc7mLFVK7oRdQG65cAHBRTKuYpedUSlxMRM61gsLufF9vBY2/dbkIdt4ZSD4///7RMFpEy/qoPjeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739227093; c=relaxed/simple;
-	bh=S7dgE3UPYoL2oEd02LPby/4FImzR8JSvqPwrh4K9qkM=;
+	s=arc-20240116; t=1739227096; c=relaxed/simple;
+	bh=QtC6oLxmw2DvbNfS+XsWeQUt9WZBo54DTtz6cY2CdFQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SNZkGguYKid9U3bwIDTz2qMtQZcTuo+gCZJA1utIgWwZdauerr3mNtphjO92uIYYuFm2ZA3/5Bdy5LbfVb8/QWis86TiQ6zGxjHuzu3QnUbFxRXFZ7NYD1XLjkXnyaejTT9CT2FJ+9zNs4R/VpZln2upuEDn1SYs0IDEcgjSSFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BJ0usfEc; arc=none smtp.client-ip=209.85.167.176
+	 In-Reply-To:To:Cc; b=KINSs26QmYyKy9eOoyN3a3ZufL0hsLtPzgjb9GaUsQz/rdM3x8EAg4ldduWPKK3EVjG6mVGAcDtCeg3ouGy5b9ynQ+4O/nNldRBd8bQA9eZ4wtezJqRMjW9D8x/0TgpWn0YaNFJ5sEaPhFzdtwTlCfpToWGIOErAVuTReYo5JP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zEC5uXyi; arc=none smtp.client-ip=209.85.167.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BJ0usfEc"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3f3b93e4e32so650354b6e.0
-        for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 14:38:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zEC5uXyi"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3f3b2de8c0eso496009b6e.2
+        for <linux-sound@vger.kernel.org>; Mon, 10 Feb 2025 14:38:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739227090; x=1739831890; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739227094; x=1739831894; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wW6RHWEtayZ55WpdhtLO2i1JoETOot8MdB4MGkvPArg=;
-        b=BJ0usfEc8bq2iGaNqvnO+QrMUgXM4SZlUqy86xdWNruvIJewuF0mRFPLiTJrvKgBkD
-         SjPXKAuhfZoCQlkwLVxSwPryGbpR7fHGwTcWaL8B8PpBUn+bjKC76ATM2e3VE9qQna6J
-         B+5N59bxZXtcAONRrE4AThe7VNP4QoM3rAF43E3RumEFvj/I3GwobPkbndcTNDJqN+Wr
-         kQOX41HS5dORLNUgDRg0VlhIa0xDaxRzpL3BEY9N3YGYpdQQE+zOUSIQsGC0QMOhrJbJ
-         ilScfPVVtamPAZvcWVgMwsr4k0+HYngZSpXAKdfgPw0ott3VUMhIQcvo22BQqYhqlEfR
-         9mwg==
+        bh=Rir37DR+dGjXzV88JkfAUftf+GWLKbTzx84djPKNaJM=;
+        b=zEC5uXyiKhnWOqx5/A8Yv466JRMMJpfwQTn92/mpKZPcLRRpvvrtis3ZcZ8KXEs2bZ
+         MYupPNSVfFZyhyW8mGDUXI7AkGkRPbwA5Ip8LRCzhWlJNwQ8JW1hHsZnwHNb90V0OYyN
+         DyaeDXGZtV6R4og2AP/D+rqByz5AEqDCvkw+vDjbZOT/yDIPlpGbDsdU987VvJhNr3Rm
+         LgUIQVTjmd6QOgHUUBpVWidY5H2scFqZbGYGkzFylqfteOf5Lui0VIZgYmrn9uwBVKfv
+         iYI7mnqGc/V52O3qyFceLfV+fnXugHeokcmKk86QXw6q21/eBgjFmexD0j/GxKETOMKu
+         KnJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739227090; x=1739831890;
+        d=1e100.net; s=20230601; t=1739227094; x=1739831894;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wW6RHWEtayZ55WpdhtLO2i1JoETOot8MdB4MGkvPArg=;
-        b=KubdcVarGX62iBtksimo1VrUPfxdYMOSLZtpUDdq+fahOdj19zCVjukIsZK41QsiZi
-         9O9MDnlL42Ob81zM0VrhUg3XNkIH4DOpLHXHFJPHGMFOa6SxAk2jFzKShOSUoMeeReVM
-         Hnb8G6UwScjWz6khmJNEUySu5fpRHfQ04YTRx+1byyUYm80qhjQP27YkVpBX027pi7xa
-         7wOqo9IwfcI55uS9ESVKdm6pGmtAozNr7AzXUsWhI9rD11Z4aFpXH2i1IQIQMsPZCWBJ
-         /CuUdlxVTddlohmjfKRHMHsfdoXE26DM70/s6v3M40/xqQR3N7mesID0W0pWaor/+OTt
-         qn7A==
-X-Forwarded-Encrypted: i=1; AJvYcCVa9IJiyIz922twVuMwW/Q4u9BJUr5kzIYHF4nPIlbemS7LBoGuRiGOOMdXUllde2LAbF2Kp3bWEqYRuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRnYI8Q27GBHAYLkIVKYeEGodmL0mX2RuP4gcgYEGDv4EFUqm/
-	M3FdTR8nDVUvZXePx7V0QZJFbvT00Lecfq5vY4EZ/y3bcrqVx+5+w5gfZtMECQTVZByUGeizykd
-	W
-X-Gm-Gg: ASbGncsxl+7pzrdlpYzPFdzL+VN4uzP1slTUJVpDLFqGUc5PsW/tZdZeZykMkij+3ce
-	mISNcQfrcuQ8SQkZLXBhLtNO68bT8sX3AcykylGhW8k0At9vIAqhTBhc4LW+/k/6QCD1lFVF0MH
-	9EuQ3S7imBvbkm+BPaCvvkXVhF3FZFUD5WLI3+fznZLydh7u8Q9BmLG1KH2dPIqN/GUXaXFY3DB
-	j+raVKxt2ByzLFMWvYZaVl8ldM/bmEfxIuXUSxTiVRHQiQlxaf88TxWUMZdJZp1O0QZBcmj/5sF
-	dIZ4JTcBKU7QZuKCn13EQeRFnwY3WXUclEgvC84J2qQeZsI=
-X-Google-Smtp-Source: AGHT+IExgIdSlhgQSDcOsxwx6WPuocJhwApgTGH7w9m44PNZh2BZdc/bphIdIFYjyr15eu6B7MhSQQ==
-X-Received: by 2002:a05:6808:308e:b0:3e6:54c8:fad3 with SMTP id 5614622812f47-3f3c2abf6c3mr690448b6e.19.1739227090579;
-        Mon, 10 Feb 2025 14:38:10 -0800 (PST)
+        bh=Rir37DR+dGjXzV88JkfAUftf+GWLKbTzx84djPKNaJM=;
+        b=KnJ1PVmbNeCAkhHiqQK0u54Isi2Nrp7t+lWzJluV8ipb8XrbQnIBzv6o8K1rPlbMSq
+         OIxaluWAqQiuM8ljz5DUWWQHsWhbrua3kDpTVm//+8BESFu0CkS8Si5zh1+bfQYqPKtS
+         IEVmhuzYenu5mEOa2tjmGJY5DC+6LEIXYyumJANOa5UR3L2ajsw9Wk33NxAvfuJNA3jz
+         6q232jITYHEDRhddr5O8jtqbfLr27YCwvjjQDvlcoGqiJceRAnUu6gLW8J7PdEfP9SO9
+         xrzDPfk/0mkLri4psaDm/ZTdKsaHi6m9Lk+BeRCaydla7INTx0PbPtXjWNLkyY6ns0Ri
+         6WOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4aYNoeV7Fl6shENYkeIamCVYnpTl7EbcM5zjnYwsasgBD39AMeYe4n7c8bueMPXZFYVQanwsFwHb52w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLWOrrLryHGm1jX6EKdSe9kzsa8IruMrkAOWYia1IxtVBb2kod
+	5udZpEpPfuUoXmomC70bopKPZGXvazBVek1lQwwhyToyjJTroED9LInMGAyFV8s=
+X-Gm-Gg: ASbGncvEYjQAt/YmKE6I+6cwA1wo2pXIh4MlBOHXKZwiFmfL05iL8IobrmiWFaly7VP
+	3vmJd9kgnoti46S9R0DPEvgdNG3dEaaFEdDD1PMi04wtON/3dhmIg/FaOwcNdk0WvJQvTYcGhQ9
+	cFnwf19xy24vqr+3xtvVqJ+i/bFzm4ebCMCZjifL287/WBtK3qldBo2mP6KQg0iHNW+mfM5h4L9
+	UT7sXaYCTCWWnbKmToWXHl/hWzFhlnc3Qz0MbBwp1ME0sAjAPhoq6H/kOQMsUyrEt4MObI8l3yu
+	z2K7Ye+URHYN0ofPzyKmZE7Y7LiBEPS+q+EvsNb8ojrUtvY=
+X-Google-Smtp-Source: AGHT+IEVAt15PQdS8DVNqyeJacSiAcXpbNeOp6OkG5/0y5b43SqHZC4XrUJm46YNpLSsnE3NWRVPBQ==
+X-Received: by 2002:a05:6808:150e:b0:3ea:519e:cc71 with SMTP id 5614622812f47-3f39242c9d0mr8056705b6e.39.1739227093792;
+        Mon, 10 Feb 2025 14:38:13 -0800 (PST)
 Received: from [127.0.1.1] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f389ed1ca2sm2521820b6e.11.2025.02.10.14.38.07
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f389ed1ca2sm2521820b6e.11.2025.02.10.14.38.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 14:38:09 -0800 (PST)
+        Mon, 10 Feb 2025 14:38:12 -0800 (PST)
 From: David Lechner <dlechner@baylibre.com>
-Date: Mon, 10 Feb 2025 16:33:39 -0600
-Subject: [PATCH v3 13/15] net: mdio: mux-gpio: use
+Date: Mon, 10 Feb 2025 16:33:40 -0600
+Subject: [PATCH v3 14/15] phy: mapphone-mdm6600: use
  gpiod_multi_set_value_cansleep
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -70,7 +69,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250210-gpio-set-array-helper-v3-13-d6a673674da8@baylibre.com>
+Message-Id: <20250210-gpio-set-array-helper-v3-14-d6a673674da8@baylibre.com>
 References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
 In-Reply-To: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
 To: Linus Walleij <linus.walleij@linaro.org>, 
@@ -97,26 +96,31 @@ X-Mailer: b4 0.14.2
 Reduce verbosity by using gpiod_multi_set_value_cansleep() instead of
 gpiod_set_array_value_cansleep().
 
+ddata->cmd_gpios->ndescs is validated to be equal to
+PHY_MDM6600_NR_CMD_LINES during driver probe, so it will have the same
+value as the previously hard-coded argument.
+
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/net/mdio/mdio-mux-gpio.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/phy/motorola/phy-mapphone-mdm6600.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/net/mdio/mdio-mux-gpio.c b/drivers/net/mdio/mdio-mux-gpio.c
-index ef77bd1abae984e5b1e51315de39cae33e0d063d..fefa40ea5227c5a35d89ec2c6f95c6668a2470f6 100644
---- a/drivers/net/mdio/mdio-mux-gpio.c
-+++ b/drivers/net/mdio/mdio-mux-gpio.c
-@@ -30,8 +30,7 @@ static int mdio_mux_gpio_switch_fn(int current_child, int desired_child,
+diff --git a/drivers/phy/motorola/phy-mapphone-mdm6600.c b/drivers/phy/motorola/phy-mapphone-mdm6600.c
+index 152344e4f7e44de0f8ab1cae6ae01a1f1c5408e9..fd0e0cd1c1cfb10fb55ed271e47b6a0bf857028e 100644
+--- a/drivers/phy/motorola/phy-mapphone-mdm6600.c
++++ b/drivers/phy/motorola/phy-mapphone-mdm6600.c
+@@ -177,9 +177,7 @@ static void phy_mdm6600_cmd(struct phy_mdm6600 *ddata, int val)
  
- 	values[0] = desired_child;
+ 	values[0] = val;
  
--	gpiod_set_array_value_cansleep(s->gpios->ndescs, s->gpios->desc,
--				       s->gpios->info, values);
-+	gpiod_multi_set_value_cansleep(s->gpios, values);
- 
- 	return 0;
+-	gpiod_set_array_value_cansleep(PHY_MDM6600_NR_CMD_LINES,
+-				       ddata->cmd_gpios->desc,
+-				       ddata->cmd_gpios->info, values);
++	gpiod_multi_set_value_cansleep(ddata->cmd_gpios, values);
  }
+ 
+ /**
 
 -- 
 2.43.0
