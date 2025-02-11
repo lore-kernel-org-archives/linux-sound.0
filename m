@@ -1,248 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2056.outbound.protection.outlook.com [40.107.249.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C3D79C8;
-	Tue, 11 Feb 2025 00:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739232659; cv=none; b=AHy1BwQzM/qRHGlvd4W8iGja8QcmTkvg/xsBQgyFpFKev1+hLBQaXKrKqW2NVmjsAmtXVe2DwNRNVnSsEdBnd0ODud1DrK9bjcgPZtppMvtjPk2ZFycSUaBTNf5SwQZcWZISd/CL7+BECdlpnE22Z5z/ycjK7Y0UXJ4sFqPVkVo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739232659; c=relaxed/simple;
-	bh=Sp1oSx+SumT2w0Ph6TCS3iJkcnssGSZqf8MrbZyf9cY=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=efrTbcurTm4KfqZN73CI6gEVYgg6qwF9siSHBlyciKUgDMrtjslbGtemCG3EHP/Yt8wh+rlv3lBioN0SAMjczt0IV61INg+hUn3JUHcJl/8r0OuNNnf99IyYDPB1sBqEIOiRi2p0mqgWlDHVCYpvJZ6UJwqEQc1W7uXKefUdL7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k1StL1MD; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA5D26BD8A;
+	Tue, 11 Feb 2025 03:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739246321; cv=fail; b=LvTcZqD8K0Knhd1R2TFQAPWZRITqGPXDqSteuIDoWSwtkuw+BWwErbO8QwhP6ZVURPSQk3wJGktZlicu9kY3m2dKQ8Os4ELXXE3k7iPI4JsPYw2M86DpcPa9sq0vi6pkB7FJxk70Kr3iDG4NK9xvginI4eSJerGt/9iLmI3hUgU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739246321; c=relaxed/simple;
+	bh=8fJf5Pij0+aAgXNGr0ahQqRvwk+GtCrxfBmFDGqm0K8=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=cbWM40GhMJgiDslhAizJCItkxzPAYRQoZdHMLGdnUR6xwcABIIJNoJalFrr/ztBHQkHBsACJ91oy9G/hoAte/oIPVG+1mprCHFsYotQPztUrNiIOMbbLdwU1588cgl9co6a4MZoUSudN3VSeL15UFScjJoxy1ZUiWL6Hp4CoUZ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=moioQhPX; arc=fail smtp.client-ip=40.107.249.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k1StL1MD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB906C4CEE9;
-	Tue, 11 Feb 2025 00:10:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739232658;
-	bh=Sp1oSx+SumT2w0Ph6TCS3iJkcnssGSZqf8MrbZyf9cY=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=k1StL1MDMJNDhsxB3AGmGS371JqIo9suu850R50X2ZgKThHN238Gx0O4f3+A/a6yC
-	 GEVwlmTqzV9vtKYd347TP9AwCuJ+MvJl2s3FPpAria6DOjZnmscaP0SKsrmveUkhFa
-	 Gi8KzUNN7byhJ11ZlgqZdAHeubi8i1Kfr70pKqs+KIQaOmS/ApUgg0vSAoCO4h8lt3
-	 fkwwmNU/i31Zi7cgKw9WxCJH7UfGx5gEi4XfEQDxniO6IAsL2ToMB4FLN5AJ5uYnCM
-	 R+0cNVQH01ZsSkoqcq8Bu+BdBiFlUeAbOOOd2DQBaW+Ubwf1FKYIxvrC/J+hHstNGp
-	 MLjdaOOzboKpg==
-Date: Mon, 10 Feb 2025 18:10:57 -0600
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="moioQhPX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y5mtD3BPuFjEWhFuSgVd8OwXVtKmTf/Q0QpuvUZVvM9y0lGIqOHuOiK0OfAaIgB6WF8Wi99YtdEFiATySgAgJF8wJyL9soOxNfcrKZj9+JTK1wLgW9mpKnRVY7r4nbj83mOWVYl3K25ujQSFv8rzKMkIiurXfWB13gcSuYwZx4IRWjHWcUe5rcPz3aaqOzRTof/4bmrUn4+1hbzxcbWPzLPqvvemGf6nPtP3Dttj29lsye5QZVN5p6a4QM1mwlb5ctan8rI4c8X1Y7rVIdZvbtFHgN9VG+F5PNDnbocCLBSLDxYdqsBfSkjBMkuJAhHvgDvK0lDjbNS5Ixa5ZxI8Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nOUx0sc3xw06PFDBKSCrBLAsZuZbVbNGYlDN8iWhksk=;
+ b=M8ARdXNxlG4vd2LrccHDpcfQCVFfUsL9L7/aJDhc2ivcJdtlw40AVzJEBJE6P6wf8nJ8M8gxr23eU3/j/+0POjwAegV+5rLKs64638O5uzBnET1C3agwg9unPHdcZ92swkD9t7wBc48gLcq/vwofOappLAs2iC08rsZ4otL4AHfg5aj5z/DAahL/EsJY/poICPgWWR5H8+s7+qZ8FQknziqoNpKdIKNSIvD88fxePPHV6eL8pjqlCdMyu0gju+q+KlDclZpNfjBbTr4BW0aQszpjS0xo/BDP679qxIb16WvxZNyXfhXjBUzG1wsJztgdMFL/S6+CgopxefzNfDBKMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nOUx0sc3xw06PFDBKSCrBLAsZuZbVbNGYlDN8iWhksk=;
+ b=moioQhPX30RT/OwEsNO13BY+reURDhjb1OZI8/TLqUXGLWXW05h1ZYP1z1Pn+u4zjsa1pOKrj+5oHeobXx0FP7AVlve1Fkaq6KnACthPeSErNbybh76cruUbClZta9rapPz4UTa+BuchuVNKzkN6WW6cnI2vUTZl3JwwBrVf6X9mL8dDWKEIKQ0STH5+YNAzw+OcoIF+ZjKQba5uAagS99pgckN52S3EuuOU7Lw5QfQUM6YJJIPWbYLUafSBavpO108nezIdEi3pEg/b4jLyZgeWwBffEtKvdTd3Ja6kLcxwJCcYU/wXF+3LhR5AKPuXdaIYT6Z/5Hh+0WyG1TzgOA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by DBAPR04MB7304.eurprd04.prod.outlook.com (2603:10a6:10:1ab::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.19; Tue, 11 Feb
+ 2025 03:58:37 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891%3]) with mapi id 15.20.8422.015; Tue, 11 Feb 2025
+ 03:58:36 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH 0/2] ASoC: imx-card: support playback or capture only
+Date: Tue, 11 Feb 2025 11:57:35 +0800
+Message-Id: <20250211035737.3886974-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0045.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::16) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: martin.blumenstingl@googlemail.com, neil.armstrong@linaro.org, 
- jbrunet@baylibre.com, linux-sound@vger.kernel.org, khilman@baylibre.com, 
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org
-To: Valerio Setti <vsetti@baylibre.com>
-In-Reply-To: <20250210150129.40248-1-vsetti@baylibre.com>
-References: <20250210150129.40248-1-vsetti@baylibre.com>
-Message-Id: <173923232962.304484.3474753599811601913.robh@kernel.org>
-Subject: Re: [PATCH RFC 0/6] Add support for AUDIN driver in Amlogic GXBB
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|DBAPR04MB7304:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c5a4aaf-5d80-43dd-83e5-08dd4a505c6b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|52116014|366016|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?0cODYNWzoJKsjVkYAQ1Nc1Fr2v06/ATihbRHdAKf6Z797l2+FaHN1HzC7TOq?=
+ =?us-ascii?Q?1ec/0heJY3fSJ5BKfikNQ2GtN6uMOgcVUeA73sThh8wfS2IGqpEDorArZ5Vl?=
+ =?us-ascii?Q?35uG6ISrSGsftFUFWzcYDIrFHAUHdNTok7N+yzT8mhX2stg7VBdk4EDC9kDg?=
+ =?us-ascii?Q?vhG9JGBQwNYh4U3KZXmof93UhlJD9mugh04xKL0w+/rd+jMNrZuNrhz8RndD?=
+ =?us-ascii?Q?Xo4ZoMZnF9HX7TpxYSmYOXVcnVQ3Se+SBNKPFLzNqrXLvnzNKpBzeT93asSM?=
+ =?us-ascii?Q?GVImijjq5bSrCncDyxYMj968i+sRVoOfyZzwjyqO7D6GqRZbjKaeohapkLux?=
+ =?us-ascii?Q?KH5w202eO2FQc1h+PrHf2VDZoRTm01FKPaOrqDyGkwWgRbxYQ0zsAslz6s0J?=
+ =?us-ascii?Q?/ixs4eB400uwFGfnYbwdqwwn4sdy5nZg79Vejvzg4O/2xjBNi6uDpzHCWmO1?=
+ =?us-ascii?Q?CDPyNCJtbmJ3iBYGhlWSAf0OZb0Um0jHPkUPA0pHlZMT2w8CRP2UcdXq8kiZ?=
+ =?us-ascii?Q?H7DYiBxdxhAvSfyCeuLjLdzpEzb4ITtZRUbPLJQhH/IdRRBNOsQhOU2z76OK?=
+ =?us-ascii?Q?AAxEeaN7fZ5BZ94SHwkNC9/sntymZs5bMDGXXSVmZ0yj3KUviW8p8XiaJ/Em?=
+ =?us-ascii?Q?oQBgkYyYvebl23JxEQkFSeMqwjEBzYMvNpgLL/Cg96pFSGZv6bIiG5VZB/dh?=
+ =?us-ascii?Q?RKJ2/c2x+n1pA3XiFZ72UfDURSG75/4Arwi7lFOGEiH8xzAes79pGF06P0F0?=
+ =?us-ascii?Q?+FIZDvyYmpZDE7t+FJUKlglwP+ONtTQN3QiALlSNUTUE07ChS3r+n1n3iNO0?=
+ =?us-ascii?Q?03F4x81YnCAsFeXezQn5yksJsa6xsQmiGhhLIP7kbuNf6GCRBT7lLIKalC6b?=
+ =?us-ascii?Q?fQcdZBhfSWA778mcovEyIHOhiceGVouePzy9fX2niCRzdrOf93GiYXv1/rw4?=
+ =?us-ascii?Q?3vhO6tbOMJrnjwYdblAl1GhKBGbDAK3aD7lpCZCgbqxwaIhV9ph36gnIn4Ws?=
+ =?us-ascii?Q?urL9+DCxDuqakXhRJ6cPkVd+mOFXeQ+QqNqsSoGUI9nAlSvqQHr40whJeXJJ?=
+ =?us-ascii?Q?NRrv8cqCFWMM2tMUuBRK9xsRsBEtGc/wu3ntIp7fISA4ZNm2B/qn8guPEXh1?=
+ =?us-ascii?Q?lh0z3mL6EBOAq2mTIN+HpOdy+8rzJG9RjO7jbNl3H2MUKy5ejWCkQrCowOng?=
+ =?us-ascii?Q?ccxqjqKL8xSiu6oW3GpdsPPoTCT6VkPDufgJZVWCFd80+KU0ShXp0iPnlL7L?=
+ =?us-ascii?Q?6lZPgaeoqgYkA4vfX/IHUkpWnHc0MD8IBQmiu/ZdRx+b8lfD8rdb5c0lnokU?=
+ =?us-ascii?Q?Ps0MTUzC6j7fGUuWV32P/0AdWeJk1Gzy+LJcGWlh8bVXm8rqeZvrfEpkUFGE?=
+ =?us-ascii?Q?1IkdlT7Ih3tWbOIs1WSvSemYpyGRD21YG/tliVtY7lWlKf9PVwvEK4hyEnHz?=
+ =?us-ascii?Q?f4s77tPlEJxoCVdsB9dSs3vN5ILw64OECKidq4XueSCLdbzklRTH4Q=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(52116014)(366016)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Xi9ibGsARwq2UhGDt67Z/Dzu5nOwhBDJa38VHYfYAbjFWHkqIYWaVvjeUxgO?=
+ =?us-ascii?Q?NTR5iQzAdabMiLcALETbgS2N82G4ShdOk3MQuaUfbpLrQu0UYJ0r7goI6h/8?=
+ =?us-ascii?Q?Hkyy2e/jC0c7LPO+hRs1TTvNfIGrsfrYZxwoCB7jHUauYdh73nSrPbRF5LYF?=
+ =?us-ascii?Q?lCQ3m6xoW2hD0495ZxYHWRpsfbPRsykuaquoIESGEweq4Y8QTj9LBL3yrgtl?=
+ =?us-ascii?Q?h8l2J/4NtNRnb6l1AyiIX/+SAUMO5/xymHAX0me6gv3gssYWknubBbcQXqW0?=
+ =?us-ascii?Q?cxepFGiDa22EHzMFmWgzrUCluXQc2ap/CdeY5YpnzwxJxy5HBjOOrkAz00fX?=
+ =?us-ascii?Q?e51juXNvB63f++nhF4+2winzkjDtXL2VOoVuhEbT6aFCuqCdSqYzgh5DwAN5?=
+ =?us-ascii?Q?cHxDl9grN1N654o2kk+9NTW1bIJLWMqlQm+SGLsZ5tgBpWG2KcoaHemNnn3S?=
+ =?us-ascii?Q?DtSWhau3yk8hmgQHskpT4AjXRVBi2pDvdahZOTzLU6N2pg9w7Ld0DDCOWO93?=
+ =?us-ascii?Q?g9VhDwbVCOUQIjPpgI5s1oXnbKp++bFHuJ3u0TnRhPjmOwQ3QtvK4deLWX3d?=
+ =?us-ascii?Q?ep9GwFFqW3A4Uc4I9i8zgHRJTvTVdQVV7lftNPSymTb39A/dDsbuqQrWEbfH?=
+ =?us-ascii?Q?SOefdt4UI/w0HEV7xXQHBrfc6IoEKQxL+ocIZObjgNDRSygmSGpug3aHB9VX?=
+ =?us-ascii?Q?9uQqjhCaybmj19cDcviUaz5K5kZDIlP/I563ChorWv6PcILwFaqNNm1oIm/G?=
+ =?us-ascii?Q?5UdgWE+rm1V8xp5F5nAuXcRSsN9ClplMom2O15yh0Z9n7UFv9Ajqb1g54DS1?=
+ =?us-ascii?Q?+2qFL6iGZMTn34scmmU3oGvOxjzrL0nxhctkoFIr5GeQ4EZh1dipW9RkbHFG?=
+ =?us-ascii?Q?YRZwCle+k2xiDpmpdBCXAcpSWMx94WAsFJ7pUp5PKKLkSS2Aeh8gNbBs+co8?=
+ =?us-ascii?Q?Aa+CAZ4N/0mS2mf4KrX/uvu+N8soZ3bGoxzhr7/fGwFIuauXz+/0LNC1NXEt?=
+ =?us-ascii?Q?asm7ne32qdWYsYNwsaw85ErNCbLlDEp62MJgdi6x/ioSrTGOqlWTFDNrCit3?=
+ =?us-ascii?Q?SS6K0VeLd9Ma/Af4OGDtsf7S8tLxaof1FGJh3ESxfBGrE2ri5eV+3Rm4I06B?=
+ =?us-ascii?Q?gfNiv/cOmmHKP+Smg07iomscIV8FjTRQVUGf3K62ACQei+EJj6i5EjCLb0pw?=
+ =?us-ascii?Q?6FcPJ1UoaaudQ/9Vay/otXCUhBpSdXyM9XZsXdJ//nyXi6HluUKnS4BiqYLI?=
+ =?us-ascii?Q?b1S5j2plzL4JCgzvQY2o5gyeSUvep1fDWMqg2x/aE47AJXjz/YsDYH58UvfW?=
+ =?us-ascii?Q?yyL1QI4PtsuHth+BCGobI0i/JVhzFjQN+tpjwnDCpC42Ci/SE7FLf0v4/BrL?=
+ =?us-ascii?Q?SxcZjFNzv+balCNWgEGRhStkhZLgcYkicIdl+jGjPPxtWGM50qD6n0hN4ksF?=
+ =?us-ascii?Q?6ZlSnifaHc/qvLxOwSmUda/2Cmp0WaKzidSF2W575jJ44eaivvO8rsTrafKm?=
+ =?us-ascii?Q?ygvtR//LM90oL3F4YAIoQyE38pJjWCIi7B7Z7oMPU9pWw3kxj5hwrCc5jJOo?=
+ =?us-ascii?Q?V37dGjqD7CLjYhCV+YYk2ibWjM1KtEM3t+JDSiZX?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c5a4aaf-5d80-43dd-83e5-08dd4a505c6b
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 03:58:36.8806
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PwVkkY+SksHyhIriWDaaO0yOdAnvuRaL/KSkqB83lwcFbiAdqlDnI7u0kRw8TvL7dIfwAQDhbbahEa/4d8MkFA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7304
 
+Be similar to audio graph card, support playback or capture only
+for imx-audio-card.
 
-On Mon, 10 Feb 2025 16:01:23 +0100, Valerio Setti wrote:
-> This series adds support for audio input (AUDIN) on the Amlogic GXBB platform.
-> 
-> It starts with a HACK commit which is necessary to make AIU (audio output)
-> export its clocks. These clocks are necessary also for AUDIN, but they are
-> already owned and controlled by AIU. Therefore in order to avoid direct
-> dependencies between AIU and AUDIN drivers, we let AIU export its clocks.
-> This export is done through the clk-regmap interface which is not public yet,
-> so that's why the commit is marked as HACK.
-> 
-> The series then continues with adding dt-bindings, driver and DTS support
-> for AUDIN. As of now only I2S input is supported, because it's the only one
-> I could physically test in my setup, but other input sources (ex: SPDIF) are
-> also allowed according to the SOC's manual and can be added in the future.
-> 
-> This series was tested on an OdroidC2 board (Amlogic S905 SOC) with an
-> NXP SGTL5000 codec connected to its I2S input port. It was tested on tag
-> v6.14-rc1.
-> 
-> Valerio Setti (6):
->   ASoC: meson: [HACK] let AIU export its clocks through clk-regmap
->   ASoC: meson: audin: add audio input dt-bindings
->   ASoC: meson: add AUDIN driver
->   ASoC: meson: add support for AUDIN in gx-card
->   arm64: dts: meson-gx: add audin support
->   arm64: dts: meson-gx: enable audin on odroidc2 platform
-> 
->  .../bindings/sound/amlogic,audin.yaml         | 104 +++++
->  arch/arm64/boot/dts/amlogic/meson-gx.dtsi     |   8 +
->  .../boot/dts/amlogic/meson-gxbb-odroidc2.dts  |   9 +
->  arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi   |  39 +-
->  include/dt-bindings/sound/meson-aiu.h         |   5 +
->  include/dt-bindings/sound/meson-audin.h       |  10 +
->  sound/soc/meson/Kconfig                       |   6 +
->  sound/soc/meson/Makefile                      |   5 +
->  sound/soc/meson/aiu-clocks.c                  | 123 ++++++
->  sound/soc/meson/aiu-encoder-i2s.c             | 119 +++---
->  sound/soc/meson/aiu.c                         |  22 +
->  sound/soc/meson/aiu.h                         |  10 +
->  sound/soc/meson/audin-decoder-i2s.c           | 247 +++++++++++
->  sound/soc/meson/audin-toddr.c                 | 403 ++++++++++++++++++
->  sound/soc/meson/audin.c                       | 321 ++++++++++++++
->  sound/soc/meson/audin.h                       | 119 ++++++
->  sound/soc/meson/gx-card.c                     |  12 +-
->  17 files changed, 1509 insertions(+), 53 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/sound/amlogic,audin.yaml
->  create mode 100644 include/dt-bindings/sound/meson-audin.h
->  create mode 100644 sound/soc/meson/aiu-clocks.c
->  create mode 100644 sound/soc/meson/audin-decoder-i2s.c
->  create mode 100644 sound/soc/meson/audin-toddr.c
->  create mode 100644 sound/soc/meson/audin.c
->  create mode 100644 sound/soc/meson/audin.h
-> 
-> --
-> 2.39.5
-> 
-> 
-> 
+Shengjiu Wang (2):
+  ASoC: dt-bindings: imx-card: Add playback-only and capture-only
+    property
+  ASoC: imx-card: Add playback_only or capture_only support
 
+ .../devicetree/bindings/sound/imx-audio-card.yaml         | 8 ++++++++
+ sound/soc/fsl/imx-card.c                                  | 5 +++++
+ 2 files changed, 13 insertions(+)
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/amlogic/' for 20250210150129.40248-1-vsetti@baylibre.com:
-
-arch/arm64/boot/dts/amlogic/meson-gxl-s905d-sml5442tw.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905x-khadas-vim.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxm-s912-libretech-pc.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905w-p281.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxm-q200.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905x-hwacom-amazetv.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxlx-s905l-p271.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905d-phicomm-n1.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxm-mecool-kiii-pro.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxm-nexbox-a1.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxm-vega-s96.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxm-wetek-core2.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-telos.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc-v2.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxm-q201.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p230.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-pro.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-play2.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905d-mecool-kii-pro.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxm-gt1-ultimate.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905d-p231.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905d-libretech-pc.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905x-vero4k.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905w-tx3-mini.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxm-minix-neo-u9h.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-vega-s95-meta.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905d-vero4k-plus.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905x-p212.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-p201.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxm-rbox-pro.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-p200.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905x-libretech-cc.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905x-nexbox-a95x.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s905w-jethome-jethub-j80.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-wetek-hub.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-nexbox-a95x.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxl-s805x-p241.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb: audio-controller@5400: clocks: [[3, 38], [3, 40], [3, 80], [3, 107], [3, 44], [3, 39], [3, 81], [3, 110], [3, 113], [17, 0], [17, 1], [17, 2], [17, 3]] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb: audio-controller@5400: clock-names: ['pclk', 'i2s_pclk', 'i2s_aoclk', 'i2s_mclk', 'i2s_mixer', 'spdif_pclk', 'spdif_aoclk', 'spdif_mclk', 'spdif_mclk_sel', 'i2s_aoclk_div_gate', 'i2s_aoclk_basic_div', 'i2s_aoclk_more_div', 'i2s_lrclk_div'] is too long
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb: audio-controller@5400: '#clock-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sound/amlogic,aiu.yaml#
-arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-arch/arm64/boot/dts/amlogic/meson-gxbb-nanopi-k2.dtb: /soc/bus@c1100000/audio-input-controller@a000: failed to match any schema with compatible: ['amlogic,audin-gxbb', 'amlogic,audin']
-
-
-
-
+-- 
+2.34.1
 
