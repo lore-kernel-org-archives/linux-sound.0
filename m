@@ -1,97 +1,82 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEC820CCF4;
-	Tue, 11 Feb 2025 13:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F92B214811;
+	Tue, 11 Feb 2025 13:13:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739279099; cv=none; b=WsYID+KFOzkzkOu6nsmihPI9miatFKaf/ptwDNA3pcl3SoA//FKPE2padGoA2VcZS3IW1FtkbO2lD/RZkCAJOvt5SE/MMBNg2vToKYPcCtzIHmL2wX6kJ8Ueb2SnSEYASHL+kH1iqwY/i2sJgB4phADFMwaq2U4R3AsZWwXldmc=
+	t=1739279603; cv=none; b=g2Pg5DgGVWEvXzceEOE93MiOOt7aP+pAFbkAzx/VtzEME5J6/y0upi81Jen/FNuJ815Q8uQYZ/oQgMscAgZnHsbFfMA6q5xdgr5E0fFaQmjWQFW1XXvtgOWhBlPf68SjvvJAH0sajZXH4uwlEBbKaIh6a8UxsVGlexuVAkncQ1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739279099; c=relaxed/simple;
-	bh=sXnE1EmrYVMTqzdCX051zDX20HTB+AMpDH5rWReVBoc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=onFojaMEjjNNhgjRvCywBmVm9J+hSZDaKacP3wYZ/I9ABzaVGtEykJbmHVXYeXNA0pwpqjQVFb4wiiQ0JZi0Hk5fPbtSj27XjzrcBddW0FyklUDA0m5jSTKAqNLXKXfo+/VIaXHW4skw9IapkcREo/53AoZBb8ZYNhSyySFMDk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O+fMJtZn; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739279603; c=relaxed/simple;
+	bh=DXHDCcdSZ74+HT8JhefhzAUBoSlZIMztGyfXMF9pxcM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AEVevlynOFGxoAkV42DAiD+DM2EB7lGq5/XNe9UETr8mXOxsz2nWdedrzWgBfsSrPMEK1TpGOU6X0RHTuUtXQdbLeKZL773hKhqduuYGh2FpSw6i47GkLhZCfWH6UKhy1PJY1O1WwvIiJFGKqOEgtJFMGRJSe3LG9j0ccwbbb6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D7LnbAvU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O+fMJtZn"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2fa1a3c88c5so7098542a91.3;
-        Tue, 11 Feb 2025 05:04:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739279097; x=1739883897; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I5mGdMwF5cu1aorS2vZbnAj6wLlbFO7781j7ylyHZ94=;
-        b=O+fMJtZnlYAVqbCU/z23VvaLDr1hwJGmAAGxuAhg8fEGWA0rRP+bZwWsfW6n3TztjW
-         Yg0yE266w7159ANtyaxufr2ljgzx5Bp9qSYWcdyF4sT9Ss90Yc4fB0WPpy/nZSOh9WnV
-         kfStmedMCnLbvDHUxeiNmY1TKt2hrABt9D5Gy5nkwa12hPISdlNKgXu4HJi5V0v66OXE
-         20SAcWODtyBZaoDtC66OUddfEU90ed9CeBx+faFLuP/ltHpd9se4W19e1YpIimIUDHxB
-         AxSZbADIK61FnTiPZth6ULds4IL4cp4+3AVYLjZYITE1qGYYFSYjpmBs6U0YmhMHKRIb
-         O3Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739279097; x=1739883897;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I5mGdMwF5cu1aorS2vZbnAj6wLlbFO7781j7ylyHZ94=;
-        b=k+xV5vMV9pGiinrwcK66w1YCuP93+3kAhuI2351Z6LqE6Hv4DgdGhDxYrUhRrErAfv
-         DJOhZJT7rc0CW8xBWIHC3ab+5Kx7RtnejOJahDpa7UHZrTnDbckslyakqryZng0nv0EC
-         8s9dYr1iCMC/DiJE2haf3ZDOrmtd2Jfh78UJVcOPP6gH6guJEr3bgUxBPD1vbT475LwE
-         GWyhZe1gftFM0H9bRdZSIHhgzfTvIj0w3KHKPRp/i8365FGFMge8fU2jIHyLSmejI/tk
-         MIk6lBYlmMLG0P3gmD9aimTCxg+dyT1ldP+NhMfiiPoPzGZLS5z3HISdLDfCyiujMoM6
-         w0HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVoyPYdCSxTgj4phbKKNM4mZ90TlGVs71+jUtQEEv7VjUKj6iHg/IdNSPVJ4e2CYyRyVhe+hJbLU/Km9Icd@vger.kernel.org, AJvYcCXNYi6Jnp6P8Hx+5lAGq3UIgO7+NVIMLj4RKE7GOMOEfwQKCxEcONnM4YV7iPB8f1yWSHiFs2ELXr0MCeQ=@vger.kernel.org, AJvYcCXbPcBP3zzhs/LLAV9YtJ2Aug0Y/0+Cyg7mDhTpsTobzHBf16wQK8KtkVMZQ4svjvVeQgHRKgZQb5S7@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyt5DAdvNhwXvI1KzVgIGi1xMf5ZetaLchHDXr3ZV1X3J6bkEIH
-	UAFVWRQ4xCR9PjeZBIFBixJ5uBJ8g4W/+etxK9KyfHf5/lclRT/Ftcw+yEuts4rXjMGnI9bjpDv
-	425q3By18E9VkbqJ/avqSK+fXAS8=
-X-Gm-Gg: ASbGnctN0G8lSyBEG9c/+AwUm/23PgzFYmkwJ8Z8AW/FU4YICb3DQ3KCQWbI0B+Unp0
-	ngx8FXcaUWtcD/6OftlcV3J8VnEcX7msltjVrR1j7W3+BJWK1M1Bo2PETPG5A14cIvTr9Hw==
-X-Google-Smtp-Source: AGHT+IHxrSbz+UMf0ZSE5PZbnCLY0l+6wu1dbGZuTcxLw9cyD1B/2N0NzHUPXxohK81nTZucVVt76ckOaeCaUTE/ZDI=
-X-Received: by 2002:a17:90b:2545:b0:2ee:f687:6ad5 with SMTP id
- 98e67ed59e1d1-2fa9ed5d37bmr5548858a91.2.1739279097573; Tue, 11 Feb 2025
- 05:04:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D7LnbAvU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F064C4CEDD;
+	Tue, 11 Feb 2025 13:13:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739279602;
+	bh=DXHDCcdSZ74+HT8JhefhzAUBoSlZIMztGyfXMF9pxcM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D7LnbAvUGrVDhyysGn7C7ourOQIjJ2uwjXz7Kt38gn1eVvhJUEnyG+AtDw7TzCGE6
+	 l9me+Lv9VSuQMnB9b9D8WgRw/lxoFRLsEyIulZTZEWA4/D+WmkJTVAoGS5NwtoIwa+
+	 FWawIAwTrlggUeLDRN/wj9v4p+XWf1AlAz+1RqV+pgvlIveMCxH+lkKc5qgYR+w4dE
+	 A87s7M2yZrNT4gK0O6ehD7vmBaW+9WTF0nKT7qvoOQsXGXr695ZDzmBpiu/85f2ii2
+	 CgvRI2Rt9YNX3KYFmKSZGAoiOLO1Tbr4B5j/0ihjo/PBHtX0ulzlaG+2kZydONBtVG
+	 +IAZ6njAAxFaw==
+Date: Tue, 11 Feb 2025 13:13:18 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Ethan Carter Edwards <ethan@ethancedwards.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] ASoC: Intel: sof_sdw: initialize ret in
+ asoc_sdw_rt_amp_spk_rtd_init()
+Message-ID: <ad5eb513-d3ef-42b8-b4a7-88a6ecf08804@sirena.org.uk>
+References: <20250210-soc_sdw_rt_amp-v1-1-1ee1afcd8941@ethancedwards.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250211035737.3886974-1-shengjiu.wang@nxp.com>
-In-Reply-To: <20250211035737.3886974-1-shengjiu.wang@nxp.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Tue, 11 Feb 2025 15:06:26 +0200
-X-Gm-Features: AWEUYZkxR9jtS8NDetBx_vRl7m1cPQuJxMC1s9IXybxI-_qoyigAvbqfYgvFG70
-Message-ID: <CAEnQRZDC+mQ=QzzpBsXzt0kSSDAo-LbfRkbDLfxrbxW9Nse-+w@mail.gmail.com>
-Subject: Re: [PATCH 0/2] ASoC: imx-card: support playback or capture only
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="KlwLJ2hhBEf8MsIq"
+Content-Disposition: inline
+In-Reply-To: <20250210-soc_sdw_rt_amp-v1-1-1ee1afcd8941@ethancedwards.com>
+X-Cookie: Printed on recycled paper.
+
+
+--KlwLJ2hhBEf8MsIq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 11, 2025 at 5:58=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.co=
-m> wrote:
->
-> Be similar to audio graph card, support playback or capture only
-> for imx-audio-card.
->
-> Shengjiu Wang (2):
->   ASoC: dt-bindings: imx-card: Add playback-only and capture-only
->     property
->   ASoC: imx-card: Add playback_only or capture_only support
->
->  .../devicetree/bindings/sound/imx-audio-card.yaml         | 8 ++++++++
->  sound/soc/fsl/imx-card.c                                  | 5 +++++
->  2 files changed, 13 insertions(+)
+On Mon, Feb 10, 2025 at 11:08:27PM -0500, Ethan Carter Edwards wrote:
+> There is a possibility for an uninitialized *ret* variable to be
+> returned in some code paths.
+>=20
+> Setting to 0 prevents a random value from being returned.
 
-For entire patchseries,
+That'll shut up the warning but is the warning trying to tell us that
+there's a logic bug somewhere in the function and we're for example
+forgetting to look at a return value in some path in the function?
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+--KlwLJ2hhBEf8MsIq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmerTO0ACgkQJNaLcl1U
+h9AZowf/aDiZbuROEyPiikzdBtyZNIv0RE/feOqyLJttpANt80Ha6yTGBnkEi6Ok
+xBRMlSQ0Xfz5k4Gz6kX1Sk79LIFyUfSGnNW/0rjzVhxdT6PfM8Hg0K4ujZ6DxpmJ
+BuicLQVEfWMJCw688UliIC2IK6AkET84jHpXYmgyVBH4GQ7wVbb2F2qaicUg39IZ
++W+/T4juBjH+QVia2/k9IDpfgtupug29KyPPAAIJwDrdCTk1RJDQfNV8xJaIxCUp
+nVQFRBeWbIdE30zLlbmu0T0yvoAKdSpPwdSWarXTO9uiEsrlb3TXFIOo1055uxWx
+e0NpolOzog/setmRTDDRiDqq3LPq2Q==
+=UEE1
+-----END PGP SIGNATURE-----
+
+--KlwLJ2hhBEf8MsIq--
