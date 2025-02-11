@@ -1,35 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8304C263885;
-	Tue, 11 Feb 2025 22:19:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A061DDC14;
+	Tue, 11 Feb 2025 22:31:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739312347; cv=none; b=URfeI6mg8jt9zQsReNmWM86z7GooH7qSwD1s9Zq7E5deJpNcbKVPMvTLo1CPSr56134gz3zk9zWthF2IsGljR1f45+TODT49KJJXcGmG4QoQH3STmibMGxiGZQNEokgtLHC/gGy/asvnO+RtUcns46I77YEWdBlmswNKtvuW6kw=
+	t=1739313082; cv=none; b=eFAEzqQdFapviHaqnpW5AAtgyuLJwZSMAP4W0L5SxxkKsPcoXD35Ig8H2P9nrTpRk2GjOGDHWG87Wln9DBbmjiw21KdGq8x3jrDKZi6u2OQlxrEQnF+xnGYle+0yWs3YY4ktAcH86fThUgB7B1WUzRwPV1nypXy+197jekIlBXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739312347; c=relaxed/simple;
-	bh=3L2XukuatOYg5/zh3ZhOK3hqE29EONmvF6HXiPcG9bU=;
+	s=arc-20240116; t=1739313082; c=relaxed/simple;
+	bh=oKiytre//4VdWD8ww4w5uW85mMA9TzV2kpcRlAyNNLQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iCT1Z2ozZeWXiy6SKtqOpF5HWWINXusYBGLDHiJDmiWL2sOGmoIAiGsogny0D/P7ACOvLlN7CRgx3kU5NAfOlKOq5ppXiq/UfmEPh6zNKtcdp3SwiGq1J5BP5H56d7x8tZDSN+AfoK3pRqHJ1M3MSpNKpn4a/7be4wmKm6bT3SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dbtqrJNF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GC/W+kMvH75QDt2fXUtn7WTdi7PvGYtAObP/dpTtvEWeVJoL0OKt/ayqnRl8HrNEvaKjfVaf6gIu+iHXrknA63U1LPUaBhrXZpYQdxUsBrllEC2fYP146XVaeTs8zoNlsI4fQqnicUaev74twzESlDzzimRtd/YqP9ohy2zk8BQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YY0DPekn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dbtqrJNF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3780C4CEDD;
-	Tue, 11 Feb 2025 22:19:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YY0DPekn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEFB1C4CEDD;
+	Tue, 11 Feb 2025 22:31:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739312346;
-	bh=3L2XukuatOYg5/zh3ZhOK3hqE29EONmvF6HXiPcG9bU=;
+	s=k20201202; t=1739313081;
+	bh=oKiytre//4VdWD8ww4w5uW85mMA9TzV2kpcRlAyNNLQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dbtqrJNFdT+wza4ffDei+crWQwihl/ahZeMM3x7EEDlkbBxi1pccSFpfAIsDUqbYv
-	 s81wMKJ48U/AC2VFesMhld2JyVQPtLkUo5FNhlaI82bCethp96jT8LRamy98lojUzb
-	 Exh65uaKDPM+EKp2/Ms0Xi7WyP8E11vLrUDQIw8q1Yn5caJA167rhpa7e6cIT1dY3J
-	 6+THLxSJAyghgqJqn1VU9uecbMXMzqtftmlI0Kx09XCEuTTXjPltu0FYzsSuEa6aTM
-	 cTEGm9CGfvyr696xNEJ+4nbwZj9oLMLu50GkmuU3HuYLo74NhuYj7kHNYgHLtEGnxd
-	 jt/ci5e5/sqIg==
-Date: Tue, 11 Feb 2025 16:19:04 -0600
-From: Rob Herring <robh@kernel.org>
-To: Francesco Dolcini <francesco@dolcini.it>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	b=YY0DPeknXpkCAAXSI/htfS+mSF4sQokI5EXqV26pE0Iiz3gWGhUcsu/Sl0AoqKAba
+	 o2eMhE0iKTOth9xArDpXJaNhj3z6uPjHgwxl05oTMjZ5Cf3gxbtCo3/FMmG+kI8jwJ
+	 ltLNGMdGV7/JWngxIjQSB8qzLlYlGfWqjtzYNHlgKVMHg2SmGIw/kCMeVgTvvhwUsN
+	 BCC7YBZP1oV/RpxEieng1tfx44s7eUjwVJzZaQk7mBNByXnn/bJqcorcaH0gMsuhiV
+	 eecy8beIZkmC68h62ApUK0Ldk46fbbDAXuN2Q8y+NsNmbHN9yD6T82EC6I/YLJNj1c
+	 rldcDOK2FCMYA==
+Date: Tue, 11 Feb 2025 22:31:15 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Francesco Dolcini <francesco@dolcini.it>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Saravana Kannan <saravanak@google.com>,
@@ -41,169 +42,56 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Francesco Dolcini <francesco.dolcini@toradex.com>
 Subject: Re: [PATCH v1 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC
  and EQ support
-Message-ID: <20250211221904.GA1270109-robh@kernel.org>
+Message-ID: <d42f6600-4233-4438-9636-d2892f3d11c1@sirena.org.uk>
 References: <20250206163152.423199-1-francesco@dolcini.it>
  <20250206163152.423199-4-francesco@dolcini.it>
+ <20250211221904.GA1270109-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AS7+IzE+cm9e530p"
+Content-Disposition: inline
+In-Reply-To: <20250211221904.GA1270109-robh@kernel.org>
+X-Cookie: Printed on recycled paper.
+
+
+--AS7+IzE+cm9e530p
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206163152.423199-4-francesco@dolcini.it>
 
-On Thu, Feb 06, 2025 at 05:31:50PM +0100, Francesco Dolcini wrote:
-> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-> 
-> Add two properties to select the IN1L/DMICDAT1 and IN2R/DMICDAT2
-> functionality:
-> - wlf,in1l-as-dmicdat1
-> - wlf,in1r-as-dmicdat2
-> 
-> Add a property to describe the GPIO configuration registers, that can be
-> used to set the four multifunction pins:
-> - wlf,gpio-cfg
-> 
-> Add a property to describe the mic bias control registers:
-> - wlf,mic-cfg
-> 
-> Add two properties to describe the Dynamic Range Controller (DRC),
-> allowing multiple named configurations where each config sets the 4 DRC
-> registers (R40-R43):
-> - wlf,drc-cfg-regs
-> - wlf,drc-cfg-names
-> 
-> Add three properties to describe the equalizer (ReTune Mobile), allowing
-> multiple named configurations (associated with a samplerate) that set
-> the 24 (R134-R157) EQ registers:
-> - wlf,retune-mobile-cfg-regs
-> - wlf,retune-mobile-cfg-names
-> - wlf,retune-mobile-cfg-rates
-> 
-> Datasheet: https://statics.cirrus.com/pubs/proDatasheet/WM8904_Rev4.1.pdf
-> Signed-off-by: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> ---
->  .../devicetree/bindings/sound/wlf,wm8904.yaml | 88 +++++++++++++++++++
->  1 file changed, 88 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
-> index 329260cf0fa0..b89d9db02848 100644
-> --- a/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
-> +++ b/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
-> @@ -38,6 +38,74 @@ properties:
->    DCVDD-supply: true
->    MICVDD-supply: true
->  
-> +  wlf,in1l-as-dmicdat1:
-> +    type: boolean
-> +    description:
-> +      Use IN1L/DMICDAT1 as DMICDAT1, enabling the DMIC input path.
-> +
-> +  wlf,in1r-as-dmicdat2:
-> +    type: boolean
-> +    description:
-> +      Use IN1R/DMICDAT2 as DMICDAT2, enabling the DMIC input path.
-> +
-> +  wlf,gpio-cfg:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 4
-> +    maxItems: 4
-> +    description:
-> +      Default register values for R121/122/123/124 (GPIO Control).
-> +      If any entry has the value 0xFFFF, the related register won't be set.
-> +    default: [0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF]
-> +
-> +  wlf,mic-cfg:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 2
-> +    maxItems: 2
-> +    description:
-> +      Default register values for R6/R7 (Mic Bias Control).
-> +    default: [0, 0]
-> +
-> +  wlf,drc-cfg-names:
-> +    $ref: /schemas/types.yaml#/definitions/string-array
-> +    description:
-> +      List of strings for the available DRC modes.
-> +      If absent, DRC is disabled.
-> +
-> +  wlf,drc-cfg-regs:
-> +    $ref: /schemas/types.yaml#/definitions/uint16-array
-> +    description:
-> +      Default register values for R40/41/42/43 (DRC).
-> +      The list must be 4 times the length of wlf,drc-cfg-names.
-> +      If absent, DRC is disabled.
-> +
-> +  wlf,retune-mobile-cfg-names:
-> +    $ref: /schemas/types.yaml#/definitions/string-array
-> +    description:
-> +      List of strings for the available retune modes.
-> +      If absent, retune is disabled.
+On Tue, Feb 11, 2025 at 04:19:04PM -0600, Rob Herring wrote:
+> On Thu, Feb 06, 2025 at 05:31:50PM +0100, Francesco Dolcini wrote:
 
-Is there no defined set of names?
+> > +  wlf,retune-mobile-cfg-names:
+> > +    $ref: /schemas/types.yaml#/definitions/string-array
+> > +    description:
+> > +      List of strings for the available retune modes.
+> > +      If absent, retune is disabled.
 
-> +
-> +  wlf,retune-mobile-cfg-rates:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description:
-> +      List of rates for the available retune modes.
-> +      The list must be the same length as wlf,retune-mobile-cfg-names.
-> +      If absent, retune is disabled.
-> +
-> +  wlf,retune-mobile-cfg-regs:
-> +    $ref: /schemas/types.yaml#/definitions/uint16-array
-> +    description:
-> +      Default register values for R134/.../157 (EQ).
-> +      The list must be 24 times the length of wlf,retune-mobile-cfg-names.
-> +      If absent, retune is disabled.
-> +
-> +dependencies:
-> +  wlf,drc-cfg-names: [ 'wlf,drc-cfg-regs' ]
-> +  wlf,drc-cfg-regs: [ 'wlf,drc-cfg-names' ]
-> +
-> +  wlf,retune-mobile-cfg-names: [ 'wlf,retune-mobile-cfg-rates', 'wlf,retune-mobile-cfg-regs' ]
-> +  wlf,retune-mobile-cfg-regs: [ 'wlf,retune-mobile-cfg-names', 'wlf,retune-mobile-cfg-rates' ]
-> +  wlf,retune-mobile-cfg-rates: [ 'wlf,retune-mobile-cfg-names', 'wlf,retune-mobile-cfg-regs' ]
+> Is there no defined set of names?
 
-I'm not really a fan of these long lists of properties, but codecs and 
-touchscreens seem to need a bunch of parameters.
+No, this set of names is for system integrator specified tunings so they
+can make up whatever is appropriate for their system and use cases (or
+otherwise amuses them).  The names will end up getting exposed directly
+to userspace as options that can be selected at runtime.
 
-> +
->  required:
->    - compatible
->    - reg
-> @@ -70,5 +138,25 @@ examples:
->              DBVDD-supply = <&reg_1p8v>;
->              DCVDD-supply = <&reg_1p8v>;
->              MICVDD-supply = <&reg_1p8v>;
-> +
-> +            wlf,drc-cfg-names = "default", "peaklimiter", "tradition", "soft", "music";
-> +            wlf,drc-cfg-regs =
-> +                /* coded default: KNEE_IP = KNEE_OP = 0, HI_COMP = LO_COMP = 1  */
-> +                /bits/ 16 <0x01af 0x3248 0x0000 0x0000>,
-> +                /* coded default: KNEE_IP = -24, KNEE_OP = -6, HI_COMP = 1/4, LO_COMP = 1 */
-> +                /bits/ 16 <0x04af 0x324b 0x0010 0x0408>,
-> +                /* coded default: KNEE_IP = -42, KNEE_OP = -3, HI_COMP = 0, LO_COMP = 1 */
-> +                /bits/ 16 <0x04af 0x324b 0x0028 0x0704>,
-> +                /* coded default: KNEE_IP = -45, KNEE_OP = -9, HI_COMP = 1/8, LO_COMP = 1 */
-> +                /bits/ 16 <0x04af 0x324b 0x0018 0x078c>,
-> +                /* coded default: KNEE_IP = -30, KNEE_OP = -10.5, HI_COMP = 1/4, LO_COMP = 1 */
-> +                /bits/ 16 <0x04af 0x324b 0x0010 0x050e>;
-> +
-> +            wlf,gpio-cfg = <
-> +                0x0018 /* GPIO1 => DMIC_CLK */
-> +                0xffff /* GPIO2 => don't touch */
-> +                0xffff /* GPIO3 => don't touch */
-> +                0xffff /* GPIO4 => don't touch */
-> +            >;
+--AS7+IzE+cm9e530p
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please make your example full and add all the optional properties.
+-----BEGIN PGP SIGNATURE-----
 
->          };
->      };
-> -- 
-> 2.39.5
-> 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmerz7IACgkQJNaLcl1U
+h9CJ/Qf/e19uP4duTkk/90jausJYsKrWocRj+OfkBnGKJcpqBYoYbYAL93oFPaq1
+ldCKokt7jBx3WlAFR9SmxZkRUi4V0HgwyiD4mVdkpyWQyxP/E4XCT+vM5Su98K6l
+71gTIc5LUO3E3FABIulpIKiVzAHO0T3B+d8pTN9ebAjP80tSRrFJjDOsCJwSNSSh
+KAInIVy9XhAaHVNtVJGEuM0j/AgLR3Ny1vm/0tzpKR2tvPGQz1y4WXYB4ikuIqIV
+m2a49nrOUSw4Zje3er7HsbKDBnjVulrjMXVSF1Mc+dZJmJCw2GDtDPLDh/GzH4bG
+o5Le8tlk3/qzTcci/yUk6zNUtpba1g==
+=kP6n
+-----END PGP SIGNATURE-----
+
+--AS7+IzE+cm9e530p--
