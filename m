@@ -1,221 +1,156 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2054.outbound.protection.outlook.com [40.107.100.54])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B4F1EE021;
-	Tue, 11 Feb 2025 08:21:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739262120; cv=fail; b=U11oR6zR2FSTpbrmZH+dB5iVFXCc2ols62nMUpeqTMiF7cVZvCHX0/VXYYe9FZQdiB6aYTe+W/g+g558IPq14Asxm1OGWs+JpcQGgWDLB4+LTCXi2Zf2ObTJIhQRnmyZ1GJGVNK37yDQRMZ0e0KiWuu/U+VkmA/fds0E63FN+To=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739262120; c=relaxed/simple;
-	bh=qKguWasAukKX/vr6LRmdIqmywBMmAG4dGs0KRHR0mkc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ktMId2Mb0hy8qx9U1uEegCx9tBQH/Cch/LQkclA8bIanWfvyDslk2LSpCaxbjb9WIw/+6XDo5g64BA2Q2q8NPa4elqEv79B0iSjN0SXu30mu1leOPswqeAZtuvQPF/Z8lWCl6WmMRoKLVP3Yc/+PfJXbHm3c1V31AM9FY3UxBDI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2gnHYT3v; arc=fail smtp.client-ip=40.107.100.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D771F03C7;
+	Tue, 11 Feb 2025 08:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739263242; cv=none; b=lkNA8hkvFxTW2tm16/l3iNlplZsKxamiGOMEMbjMM2ewIeIix+Rv83bI5ALaSUzkkmtlXw1U54TZAuO0R8pK80Q7juMogbmnMkhRXHYQH2xHhbiKQ2GhyCwyLMw7G96rMVrkMiMKTgC/G1B4S5y7XeM7urmR7SmriTXksrz7uyw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739263242; c=relaxed/simple;
+	bh=W4DRSL4K/KEOy9AvY0O91anOHMQHX+GYFB/twvnu8S4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kBBBrmBYn0NRXHuTS0rZBAaIZ1jsg4sKQoWwkMG8eYwEbZoIMKgIZNsaP4W0QwASiqJSG5LhT8KZuL+vUksTt5TLnt1Nnfg/BJjIkUJy7NGvEkfJhQJl0NSCiI+cnOVBra1pHkoV+nH2+SWkakXDj6wgxqXdSB8fgg8YsmWb9e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Uwd9kh2u; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2gnHYT3v"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tqr54alwSiNNMm4VcoeFPX1k/N4dDhiLbNXg3CThVhQzGilncQS+uD/rJo6K57/mXPcYd/20dNh+mQGVJR3cSIvnaJOlY3mWuMmoP3vrquR9lB1gTgyThDOBn0nwUk3EdFFtf3MyGvLibaAzETqfDPgPt9HYqtAG+JpI4+gXCGDMT/tpjmHiuCWWDQM4i5PYnfcmF2cCXIuCP8HuSRruBYsz2HE8bnxsRsus7xEinCXbvV8eJP2XHwq8ceCm1ftM5iHRO68jKXs7tcPXUaAphaba0fKGJJg8i17CD1wsCvHCh+4ZrbjcNwamXLamJKnC92uIit08FSvLY4x0PoPgew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sLCYkT7mYPYDBlK2MoFUZShMGZTdaxMYRgxP4ZlBDNY=;
- b=UyXGoPxSTKC/cLv55FCOVGLBcOvd7nB/klrfWjKzPMv3mSbuLpYe7bKW2VKimhyKuLShzf4HeiPTTJaheyIkzsvt34ZB5acoCPCaCsUBWXC3UCKQ2BA5wGYrBUPZ5hP1JCg9t0aFFJs211Pr+fz5s5AQVC0sEQjhBdSzILVeue0xtpW6nAbe/7ffSUjEOw5tDRSxz6HgxfJ2LNv0wcOxXpE0ij/O7XWYhZSfGVZahDpuICLIqfKn/S6KGmtFe8B2WZDnTmZJNbVxiSVvPS3Tsuyt7dmqCbQP/rX/m8szcbepQhg/TLPlBSHJ4jahy/GnX0QhxzlggRBbDZIIGEOMVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sLCYkT7mYPYDBlK2MoFUZShMGZTdaxMYRgxP4ZlBDNY=;
- b=2gnHYT3vmymwWZLqWC4EO6HCYuu06vvSv/poHZ9tbifaczFr6zcbUCSzvl9dt9BL1lrLwyuEU0Rq2ORF4pli43p7s9jaivOBddt+orUAqbbyONg8ipvgTV/NTX/bef3+6xGaphvOia07QzaaHYFQCYbpoSrVEc5y8AHHB/dOeq0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
- by PH0PR12MB7488.namprd12.prod.outlook.com (2603:10b6:510:1e9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Tue, 11 Feb
- 2025 08:21:55 +0000
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf]) by DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf%3]) with mapi id 15.20.8422.015; Tue, 11 Feb 2025
- 08:21:55 +0000
-Message-ID: <f5f829d2-6e38-4d91-9621-94a85c0d8e14@amd.com>
-Date: Tue, 11 Feb 2025 13:51:47 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 00/23] ASoC: amd: acp70: add soundwire and acp pdm
- support
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
- venkataprasad.potturu@amd.com, Mario.Limonciello@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250120100130.3710412-1-Vijendar.Mukunda@amd.com>
- <173920499691.65690.5029473211250633476.b4-ty@kernel.org>
- <d16ce74f-3320-49ec-a195-a473e03a9fc4@amd.com>
- <d1d08149-3b4c-44ff-99f0-34cdf70eb67f@sirena.org.uk>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <d1d08149-3b4c-44ff-99f0-34cdf70eb67f@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0186.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:e8::13) To DM6PR12MB4123.namprd12.prod.outlook.com
- (2603:10b6:5:21f::23)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Uwd9kh2u"
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 51B8eJH53663813
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 11 Feb 2025 02:40:19 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1739263219;
+	bh=MRx1F45NLGZ+RvK84XPegyXLR2nCJ1Bf5SbXjicPzSw=;
+	h=From:To:CC:Subject:Date;
+	b=Uwd9kh2uLYX0JVizzc2biAe+gl52zyV7MevItIDCTCyKFv8blul/cutDkeRTgjJBF
+	 Avdq7mzBjyl+GIwrLpoajsTv+bO0bzH7qAL9f8JBjbxTJjvBpUuteIOqcPaPL2zyi4
+	 H2pnRyzZmYbc5fsglc0JQve/QNdiY2tahNPRcfdg=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 51B8eJxW094261
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 11 Feb 2025 02:40:19 -0600
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 11
+ Feb 2025 02:40:18 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 11 Feb 2025 02:40:19 -0600
+Received: from lelvsmtp5.itg.ti.com ([10.250.165.138])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51B8e9X1020567;
+	Tue, 11 Feb 2025 02:40:10 -0600
+From: Baojun Xu <baojun.xu@ti.com>
+To: <tiwai@suse.de>
+CC: <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <lgirdwood@gmail.com>, <perex@perex.cz>, <shenghao-ding@ti.com>,
+        <navada@ti.com>, <13916275206@139.com>, <v-hampiholi@ti.com>,
+        <v-po@ti.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <liam.r.girdwood@intel.com>,
+        <yung-chuan.liao@linux.intel.com>, <baojun.xu@ti.com>,
+        <broonie@kernel.org>, <antheas.dk@gmail.com>,
+        <stuart.a.hayhurst@gmail.com>, <dan.carpenter@linaro.org>
+Subject: [PATCH v1] ALSA: hda/tas2781: Update tas2781 hda SPI driver
+Date: Tue, 11 Feb 2025 16:39:41 +0800
+Message-ID: <20250211083941.5574-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|PH0PR12MB7488:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f8bdc35-a632-403f-b7ac-08dd4a75253f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MDdqdm55QS9xdXRxNTg4eXJTU1JubjBVY3FwcjJ0cGN1cjBpdmdYeGpaaUt0?=
- =?utf-8?B?NFRGWTVTSC9iVWg5TzdKMnF0cTQ4S0hXL2lhTy80aEtpcXFTeUZraElvNWNI?=
- =?utf-8?B?ZHJUOXRUWTNMckE1SnhUWUUyYkd5SEF1MEphSjUxSUc3UFBTRVI2WXFRWUdt?=
- =?utf-8?B?M2c5dkpHNkp2d0pheGE3NmNMWTZxcUMraEk4c1R2OHRQVkpIMTVvQkF2N25C?=
- =?utf-8?B?WnhINmExRXlaWHNqSVA2V2NQcmhEK2lyWDdiVkFranA1aTlDdVlaL2pUYlhX?=
- =?utf-8?B?MUF1YWNtWVQ2M2d4UFNnUzFSU1VQMnBBNHZTTmV5VlQyY1RGcFlRd0kvVllY?=
- =?utf-8?B?SjZ3MDRaU00xWFVTUzVOaDRFeGVCOFNuQ21GWmVDSElwc01BSS9QMmduRTNK?=
- =?utf-8?B?K29kZTlRM2w5UDhMVnVhdGhqMlQ3S3FpV2lhTUg3Z01xYW5MUmVycTAwdTAz?=
- =?utf-8?B?L1dtMkMyeTN6SGJZY0NHajhTaFlCdElUb0pNZFpRVWtUNEp1OHRDRnRRbFdw?=
- =?utf-8?B?Uzg5TGIwMHVBL25vdTgxRGdEQ1gvenlNOC9sZnR3ZGlzQ2l5YjBoNlI0N1J3?=
- =?utf-8?B?V3VnTW8ycS9pWE8veFlmUmxZNjFNRVYyWkpVcHdBdlZlSWwvVzFWdUwzR0p1?=
- =?utf-8?B?VnJNcEZUck9YUVB2Z29NdWJqUkVCeFVCZHg3OHJneTV5NE1JYTl5NDZVc3ha?=
- =?utf-8?B?SXpwdlJ1L3hwWUliamRKZHZkS2dLdWVwb0hmSU9NRjhEN1JWZDhURURYOVRD?=
- =?utf-8?B?VlRVbUo1ZU9MMEJTem9RNXk0aWMxQ3hKdGl6NU5nRnJScjgwWjlrV1pGMlR0?=
- =?utf-8?B?aG9rUkhPSGxDU2MzQ0pFUER3VWgycFpoRXAxcnJnKzdFZ0oweThCRjZERHZE?=
- =?utf-8?B?eWFsQVkxSk5zbkR0OC9GV1A0eUlGUU5TTXY4WEgvMHkwQUE3czB4a2hTTVpi?=
- =?utf-8?B?UmN3OVE3cGc4Z1RSd2RrVUVTSnB0Z2o4cWl0LzhFUDZSczNRRzA2emUwS0cr?=
- =?utf-8?B?MG5JVmR0aGZaT2pGVWZ5clZvR1d4eG5sTVh4VG0zZkp5YVRMZkVaYkluY1dY?=
- =?utf-8?B?ZTRIL3B6UWkyaVJTQ0xFZHBCZ2tEeG5YdExXQ2JGMVg5N0FoT0l2Wkl2U1A5?=
- =?utf-8?B?RndtQmcwSVNsV0gyeS9TUklmWXdKazlOTEZpMEdQeDlaM2FGampkaWZaT0Vr?=
- =?utf-8?B?RFR0NmJDMnM4RzJIcUt1SkVhQVJZbXlUUFRPRkh2bzFFbWRESmJyVEZleG50?=
- =?utf-8?B?dG1NTlQzQm5UZFpLeWV1TVpNZG96L0s1N2dNbFR0SFZLaytITFFLMGpIZTVW?=
- =?utf-8?B?Y0krWW03UjBjQlg2QXJucTJhK1J4M1JmZEc2YWN0VzIrNWsrTWRmUFkwcXJT?=
- =?utf-8?B?QjlxNXgyY3hPWm5UOHc2SW5oWm5JTFNmbzUrRXFIVkdDTUtpQ0dSbytMNDk2?=
- =?utf-8?B?ZmtCWGIvcWpWQmNrZGQ1WUF2RThyMTdaUDdnOFNJZVJaRHlxM0RsNHZJVzUv?=
- =?utf-8?B?bkJGR1E4RzN4YXF1OUg0b0c1Q05jQWRXZGxBS0ZsZllzc0ZMUXUrME4yalRn?=
- =?utf-8?B?ZnhEcXk3bml6akJma2ZNdERQT1JGSnlNRVhFcEJ5aUVSNkEreXIvblE3QTAw?=
- =?utf-8?B?S25tSExrakJtTHZtZDliSnR4NUgxMHdiVXoxOFowSm43NWZuZFFTNUgyZGlE?=
- =?utf-8?B?RkMxckZYbmVCYzA3QzF1bmJnU21BaFF0bnphejZwT0dxWm9iMUtuQ3hpaVRn?=
- =?utf-8?B?MExjd2ZzK2ZxY1UwdE4rRm42SXpmOHlCU2dITWpSU0VwQUhsMVR2RzdTUWZZ?=
- =?utf-8?B?RGJ1RHBRVXZLeS8wYk9RaWFFMHVLcnpvekZXYmR0QjJPaW1YSnFtVWExNXpm?=
- =?utf-8?Q?h0B3NQaumDn5J?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dlNKL095VEdxQ1NNVWFSazV0R1RycGdjd1FPTkpmcjZPTjVucEthUnlBZUxz?=
- =?utf-8?B?U3YzdEd3bk9tUnhtWk05RnI1M2lqMkVvZDluazZrdzl1VVlMSGhMdTAvajRG?=
- =?utf-8?B?VWZGR3hhSTBzWmVqajIzZFVIWWZrcDNpVy9MYzYxRC9Fd0wvT29pMWZ2eXQz?=
- =?utf-8?B?RVNGRXArRGpMVi91WjNWRmNOK1JnNWVSdko2SC95bGJ5Q0dhZEsxaEI2aDky?=
- =?utf-8?B?OXZQUnNFTXU1TnlrV2NOR3FxL0ptN3JoeXRwalNRQStrdkZrVkQ2VlVGSjlm?=
- =?utf-8?B?T1IyeitHNjdQUXFRNVlOdTRlekRnR08zaHAvOS9BU2wvRGtWTGI1bGpQNDNE?=
- =?utf-8?B?S2JLNnRlNFlwOW50MThWVXRqa0t1dTJ0bEUwVHhrNzVOTmphYkJENFJLVWVm?=
- =?utf-8?B?dFl6cmozb3dLKy9oZUo2RmxIL29xNWhSdW9HWXJ1N0EwQUZueSs3cjNNcnBy?=
- =?utf-8?B?ejU0WlJrOFpyT3NRdCtyamZkZTI3SEkxeVkrblUva2wvSzRLdjUyUElBQXdW?=
- =?utf-8?B?RytneU1hMFFjZXlWdlQ4VmRXL0VZcWJGSXdQYzViSlJVRlNNL2h4dG0xbUdC?=
- =?utf-8?B?MXN3RmZocmxNd3kxR1JOdG4wdXNJRUZrelVEVDFYMGJTa1VCdVpJeHJUZGtk?=
- =?utf-8?B?bTYzb1U0K3hMTXI4a1NEZFdhVWY5SS9sOUtjN253WllMcG03VDVJYnJDa081?=
- =?utf-8?B?d3NDK2Y0UHJJRnVJSnpBVjNOSGVlb2dVWGRveDNpL3ZyQVBDazg0R0F1YzRa?=
- =?utf-8?B?R2QzcElCRis1YUtwMWJBYzZ2VzBNOTc1NVIrSmppL1FvRmUzeHhlWkhhTDlV?=
- =?utf-8?B?aFlEQjdmWXI5bEVzUjhGbStNd0t4RmpIMmlka2xFQzQwWUJyN3BxNTg2Wm54?=
- =?utf-8?B?bTk3OXZhYitjNmNHeWNpNzN3ODRyMVg1cTByK0JCNkgyUHV5dW9laFpzTjZ6?=
- =?utf-8?B?SEtXa3QwQVBKemZnNVhsR2RPTVhGSTF1SnZMY25xNmJxL2tUczFPMjZkNlBC?=
- =?utf-8?B?Mm9zczdEemc0eXZHNlZzc253eDhwTFJsU0hnb1Q1UGNaUG5rNk94clZLQldD?=
- =?utf-8?B?RHJyN0NCNFBwQnBDbjNCMWUwWHVWUVhOaFBkV2hVWVU3WnU5SE1vbDNEYUdK?=
- =?utf-8?B?LzA2NVJmS09SdWlIZDl5ei9YcWFZUmtBL2wrelYxREd3dFkzMXJxOEp4a2d0?=
- =?utf-8?B?cWU3RWZQUFE4TXZDWUtHcldKTHYvYWFzTjZseU9QLzVGaUtYTzZzNWhUNzMz?=
- =?utf-8?B?UTVPRitZMStGWCtDSkVqZjErRURkbTJiWk1Cd3hKV0owSnptR1RzME8yT3Zi?=
- =?utf-8?B?N0M5eUFpelhKSUEvWFdGSXJDMXRXRlVneHJjbEFuYTUrZ3RqRkRrTXM0Rk9u?=
- =?utf-8?B?UzI5RERZTmFTY1Rxd1hYTzVpUTVndDZ1bjhxTUUvMC9ZUnhZeDNCWURYM0dY?=
- =?utf-8?B?dlB2RkU4QkpFTkpXOWpkcE5abitXZVdGVFNrVWVSWFJYRFRQV2NuWm1SRG9C?=
- =?utf-8?B?Mm9rbEZIbklmaTNuVk55QWFaYWVqaG5jdHNyUmsyTnZSdU1KWm5oMkNPdG1D?=
- =?utf-8?B?K0xldnRBTXV5RmZxdU1iekozMEtwN3FLVDlCcjlZbVRJNXBqOSt3TFI5T3hr?=
- =?utf-8?B?d2tVdzU1VW03UmxRMnJWcUlCdDEvNElLVTJFUUFRTUxGb0RMNGlqVEVQZzdW?=
- =?utf-8?B?MVRab1ZsV1gwcDkwWE9NMnQ2TTAydWhBUDJzc3UycHY1WkhER2Z5dHFUQndv?=
- =?utf-8?B?TE0zcUxCbnk4V0pkY2JQZ0F1RTFJMjhPTVhyYW5vR1FWWWQ5eUI4T2xoOU9x?=
- =?utf-8?B?ejhVMGE0UnNaMUQzWXhzZ2tGTGVxS0FaS3F2alZQdDZ3aTFtTEUzV1ZPU2RI?=
- =?utf-8?B?MytpQkgwWEZ1N25WSHVmTXdOOTl0VEgvN3NpL21udGtSMGVWSU1XK3JkNDI1?=
- =?utf-8?B?Szl0SEpyTnFsWXNESGIzakVySEtXcGx4UTFRMTRwVEJ0ejJFOW9RRWQyZGtu?=
- =?utf-8?B?RkRzNWZXc0JIcmVIZjRXdTBEV1Z2cGd3cHdnaDdRalJUMTF2dURrV2pZQWNs?=
- =?utf-8?B?V1VmTjBKcHRsWkU5dERwRjZBd3YyNzM3NUk1cmtBMGtNMTVNVzlYMFBFSWNQ?=
- =?utf-8?Q?vUSzfQpGaza6xJZR7P1ngTTFl?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f8bdc35-a632-403f-b7ac-08dd4a75253f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 08:21:55.6903
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3HP7eChBCvNVZKsoXaQcli8j3GarDUzak3LIPIRigdM7wWxmE+JC2S5XsPHsCPKmQwVzyT6Dh/U060JuC55Fpw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7488
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On 10/02/25 23:34, Mark Brown wrote:
-> On Mon, Feb 10, 2025 at 10:16:05PM +0530, Mukunda,Vijendar wrote:
->> On 10/02/25 21:59, Mark Brown wrote:
->>>> [...]
->> This patch series should be dropped and V3 version should be picked.
-> All the "no commit info"s here:
->
->>> [01/23] ASoC: amd: add register header file for ACP7.0 platform
->>>         (no commit info)
->>> [02/23] ASoC: amd: acp70: add acp pci driver for ACP7.0 and ACP7.1 platforms
->>>         (no commit info)
->>> [03/23] ASoC: amd: acp70: add acp init and de-init functions
->>>         (no commit info)
->>> [04/23] ASoC: amd: acp70: add logic for scanning acp child devices
->>>         (no commit info)
->>> [05/23] ASoC: amd: acp70: create platform devices for acp child nodes
->>>         (no commit info)
->>> [06/23] ASoC: amd: acp70: enable driver build for ACP7.0 platform
->>>         (no commit info)
->>> [07/23] ASoC: amd: acp70: add acp pdm platform driver
->>>         (no commit info)
->>> [08/23] ASoC: amd: acp70: add acp pdm driver dma ops and dai ops
->>>         (no commit info)
->>> [09/23] ASoC: amd: acp70: add acp soundwire dma driver
->>>         (no commit info)
->>> [10/23] ASoC: amd: update ACP7.0 KConfig option description
->>>         (no commit info)
->>> [11/23] ASoC: amd: acp70: add soundwire dma driver dma ops
->>>         (no commit info)
->>> [12/23] ASoC: amd: acp70: add acp ip interrupt handler
->>>         (no commit info)
->>> [13/23] ASoC: amd: acp70: add acp pdm driver pm ops
->>>         (no commit info)
->>> [14/23] ASoC: amd: acp70: add pm ops support for soundwire dma driver
->>>         (no commit info)
->>> [15/23] ASoC: amd: acp70: add acp driver pm ops support
->>>         (no commit info)
->>> [16/23] ASoC: amd: acp70: enable wake capability for acp pci driver
->>>         (no commit info)
->>> [17/23] ASoC: amd: acp70: add soundwire wake interrupt handling
->>>         (no commit info)
->>> [18/23] ASoC: amd: acp70: enable soundwire host wake irq mask
->>>         (no commit info)
->>> [19/23] ASoC: amd: acp70: enable acp pme enable during acp init sequence
->>>         (no commit info)
->>> [20/23] ASoC: amd: acp70: create a device node for soundwire machine driver
->>>         (no commit info)
-> mean that these patches weren't actually applied, it's only these ones:
->
->>> [21/23] ASoC: amd: acp: add machine driver changes for ACP7.0 and ACP7.1 platforms
->>>         commit: 638ad2bdb2f994c8bd99cc40e0c4796a8617ccf3
->>> [22/23] ASoC: amd: acp: add RT711, RT714 & RT1316 support for ACP7.0 platform
->>>         commit: 187150671d83324f1ca56f7ab5e00f16a3b9f2a9
->>> [23/23] ASoC: amd: acp: amd-acp70-acpi-match: Add rt722 support
->>>         commit: d0252b0b945ec67fd09fc764dcadf445fb7757ee
-> which were actually applied out of v3, they just didn't change much if
-> at all between the two versions and the tooling knew about v2 as well.
-Got it. Thanks
+Because firmware issue of platform, found spi device is not stable,
+so add status check before firmware download, and remove some
+operations which is not must in current stage.
+
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ sound/pci/hda/tas2781_hda_spi.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
+
+diff --git a/sound/pci/hda/tas2781_hda_spi.c b/sound/pci/hda/tas2781_hda_spi.c
+index d91b19602485..00676cbb2c8e 100644
+--- a/sound/pci/hda/tas2781_hda_spi.c
++++ b/sound/pci/hda/tas2781_hda_spi.c
+@@ -909,7 +909,7 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
+ 	struct tasdevice_priv *tas_priv = context;
+ 	struct tas2781_hda *tas_hda = dev_get_drvdata(tas_priv->dev);
+ 	struct hda_codec *codec = tas_priv->codec;
+-	int i, j, ret;
++	int i, j, ret, val;
+ 
+ 	pm_runtime_get_sync(tas_priv->dev);
+ 	guard(mutex)(&tas_priv->codec_lock);
+@@ -978,13 +978,16 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
+ 
+ 	/* Perform AMP reset before firmware download. */
+ 	tas_priv->rcabin.profile_cfg_id = TAS2781_PRE_POST_RESET_CFG;
+-	tasdevice_spi_tuning_switch(tas_priv, 0);
+ 	tas2781_spi_reset(tas_priv);
+ 	tas_priv->rcabin.profile_cfg_id = 0;
+-	tasdevice_spi_tuning_switch(tas_priv, 1);
+ 
+ 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
+-	ret = tasdevice_spi_prmg_load(tas_priv, 0);
++	ret = tasdevice_spi_dev_read(tas_priv, TAS2781_REG_CLK_CONFIG, &val);
++	if (ret < 0)
++		goto out;
++
++	if (val == TAS2781_REG_CLK_CONFIG_RESET)
++		ret = tasdevice_spi_prmg_load(tas_priv, 0);
+ 	if (ret < 0) {
+ 		dev_err(tas_priv->dev, "FW download failed = %d\n", ret);
+ 		goto out;
+@@ -998,7 +1001,6 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
+ 	 * If calibrated data occurs error, dsp will still works with default
+ 	 * calibrated data inside algo.
+ 	 */
+-	tas_priv->save_calibration(tas_priv);
+ 
+ out:
+ 	if (fmw)
+@@ -1157,7 +1159,8 @@ static int tas2781_runtime_suspend(struct device *dev)
+ 
+ 	guard(mutex)(&tas_hda->priv->codec_lock);
+ 
+-	tasdevice_spi_tuning_switch(tas_hda->priv, 1);
++	if (tas_hda->priv->playback_started)
++		tasdevice_spi_tuning_switch(tas_hda->priv, 1);
+ 
+ 	tas_hda->priv->cur_book = -1;
+ 	tas_hda->priv->cur_conf = -1;
+@@ -1171,7 +1174,8 @@ static int tas2781_runtime_resume(struct device *dev)
+ 
+ 	guard(mutex)(&tas_hda->priv->codec_lock);
+ 
+-	tasdevice_spi_tuning_switch(tas_hda->priv, 0);
++	if (tas_hda->priv->playback_started)
++		tasdevice_spi_tuning_switch(tas_hda->priv, 0);
+ 
+ 	return 0;
+ }
+@@ -1186,12 +1190,9 @@ static int tas2781_system_suspend(struct device *dev)
+ 		return ret;
+ 
+ 	/* Shutdown chip before system suspend */
+-	tasdevice_spi_tuning_switch(tas_hda->priv, 1);
+-	tas2781_spi_reset(tas_hda->priv);
+-	/*
+-	 * Reset GPIO may be shared, so cannot reset here.
+-	 * However beyond this point, amps may be powered down.
+-	 */
++	if (tas_hda->priv->playback_started)
++		tasdevice_spi_tuning_switch(tas_hda->priv, 1);
++
+ 	return 0;
+ }
+ 
+-- 
+2.34.1
 
