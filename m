@@ -1,129 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD71E1F193C
-	for <linux-sound@vger.kernel.org>; Tue, 11 Feb 2025 10:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9221F8BBF;
+	Tue, 11 Feb 2025 11:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739271227; cv=none; b=AANBlEa4iByD2EfwwaiXHN3ih8O5Ay4eC+Sb6ZMtgGAI5owmsN+BHjsYWY+QzGWDArymVOxgWZ3ZNGBZR+oy0rxdebTuVD+s6QnW4u7IU1QMI0JEiilB2wEDp/teELYQg9/qFVcUnmnuI1Vqqoc99IyoPvFqzlgVGk/LwVh0d40=
+	t=1739273850; cv=none; b=FdWgDA9L+tArFNbdOYHbUIUI/JYCR34XwGJH8LNnPTr+cpFDPxkbVVqN7+CFmc5D0NJNqDoioqn20pHJiyF+NYEXrWIxDHadhNz3WTmM4tiQGvQAMABuApiWIFQ8+aC06rT5xPw9D7Qnbvf526yYch6BSSzK1sTWpc5T5J5AJvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739271227; c=relaxed/simple;
-	bh=TdP6qszpl7Tv4luXtPG6NFfS7ugOA+gXe07ooKqNteE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FPDCKW4dON3xk069bvz5wJIyaoQqoBN5IdILQxF00O+amSxwWlxkOC4URDF7DYno6QOgb8DaSjFREELHJB1LkPANPzSLvQV8inxRivfEfUGCkAHdFVMmIIocdF5+0U9uPwzsOLKeH2ZAH983oWAQ2V8B4u/WYYm81JOECHrY7NY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jpzi5/Ln; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1739273850; c=relaxed/simple;
+	bh=I5AdoWmvDU3PLEQCbDE5u9wLf7B+tx82l9Cux6XsAos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NCIvWbIle2Y1uKk7KwTSC5aseynXNNefNi1z2W6OH1ff4lw19et1jqD1KS1k2RjFG6jT+VLw51yrnwlRYgfU/i+3/W1KQgu6mbq/5pSgI5A0/kUrs76PlhS2mfqKUJ/i+k9w27CyjjTH5VzMwN2ZxQkPw1bMR179eDDA29Kl2Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3P0zPTl; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jpzi5/Ln"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3P0zPTl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739271226; x=1770807226;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=TdP6qszpl7Tv4luXtPG6NFfS7ugOA+gXe07ooKqNteE=;
-  b=jpzi5/LneIZSPVE51k7ZpCmR4XQo6WMUvxn7RR/1F7QwDTZFY92NreId
-   iN+7gqjpKzrFdnP/HEpo9rMnLZ7MGywY3t1DkMpcwGWf+E+4PtofykM32
-   7ouVon/Uirqehigv7WlXYSQUbL8+MRI8ypG5VHShdXlaZa3qNhB0wbCZq
-   hMQLC3qBvljEGy2US5hNQ0GpFf6GNsr6SXffa0mKD4oR54UsUnPxsasjT
-   jxWF2wZyfsn8xImxPFEDnh36CdJBTEj0Zr1e+/4U2giQIHIEbcEC+CjPK
-   KhbCImysiDVPBtLUZFc3Eb851mOeI2yVu45FD5hIU3pDivn551LH/YT48
-   A==;
-X-CSE-ConnectionGUID: t7ypiqtmSKWo47kjpGSgoQ==
-X-CSE-MsgGUID: 82TaB2VLQgCs/2vchxeunQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39120394"
+  t=1739273849; x=1770809849;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I5AdoWmvDU3PLEQCbDE5u9wLf7B+tx82l9Cux6XsAos=;
+  b=l3P0zPTli0n8CwFc60929ER0eF3mT0lfl7v5dYHZqlS5G2TC3ECeIkDA
+   gsML5n356sdLz4zVf8uB1fQduqnNsRNgsYmdmSoQSCeTBphBXfPq1/mRb
+   JBgKsmiyBlCh8hzLQxXg1oxc9Pk2+5uCs7jZTV3K6vJpZnlkS1n4p/Hbg
+   5Y/BxkuyffCMnbwN2Ug9SQKirOad7Q5HOM8gfNE83Wy/qW0IrJkcmMmU5
+   QNn1tKViOCgLhd0hWtwdc8uJJfFGMLEiWo0ql+bFt2OoIzV1xn+Q7d1JP
+   oIKYqS+OxtbRxQetBE5Iyuq75peY6vLnGd4p9kQyhunor+7259Y3Te5Op
+   w==;
+X-CSE-ConnectionGUID: kizH9LRyRA6FGI8f1xGP7Q==
+X-CSE-MsgGUID: YYCMM1ToSw6BiQ0G8kt9kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="40155613"
 X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="39120394"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 02:53:45 -0800
-X-CSE-ConnectionGUID: DPJd5o9jS9KwYQMXe05wUw==
-X-CSE-MsgGUID: 2VCN0Kc8TFCi/vnRZGQ4MA==
+   d="scan'208";a="40155613"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 03:37:28 -0800
+X-CSE-ConnectionGUID: TJ+sGaBPSISuK0fXAhAI6w==
+X-CSE-MsgGUID: GJZ279LaR/u2M3O1nsWMMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="117560184"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 02:53:43 -0800
-Message-ID: <4c46ebfa-2892-462f-9f6f-98bec8620e5a@linux.intel.com>
-Date: Tue, 11 Feb 2025 11:53:41 +0100
+   d="scan'208";a="113123900"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 03:37:24 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1thoZt-0000000AUGl-0uDM;
+	Tue, 11 Feb 2025 13:37:21 +0200
+Date: Tue, 11 Feb 2025 13:37:20 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: kernel test robot <lkp@intel.com>, Raag Jadav <raag.jadav@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, lgirdwood@gmail.com,
+	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	oe-kbuild-all@lists.linux.dev,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
+ device/devres.h
+Message-ID: <Z6s2cGMM9R6SZ9Le@smile.fi.intel.com>
+References: <20250210064906.2181867-2-raag.jadav@intel.com>
+ <202502102201.zLWaJC6V-lkp@intel.com>
+ <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+ <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
+ <Z6sYAxRIeCzw12nY@smile.fi.intel.com>
+ <c1184a91-e216-423d-b956-d4b22116a171@app.fastmail.com>
+ <Z6siYlWfvfUvNLpX@smile.fi.intel.com>
+ <279d9f32-a1c9-41aa-b15a-e1485877b2d5@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: core: Change device numbering
-To: Jaroslav Kysela <perex@perex.cz>,
- Cezary Rojewski <cezary.rojewski@intel.com>, Takashi Iwai <tiwai@suse.com>,
- Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-References: <20250127144445.2739017-1-amadeuszx.slawinski@linux.intel.com>
- <f8f2b8f9-527e-486d-ae83-34abd13ef968@linux.intel.com>
- <6fcbc9d3-93d4-4485-9f9f-5bef61476ef3@perex.cz>
- <811c03ef-03a2-44a3-969b-5a2d55f2f876@intel.com>
- <2a772972-3011-4083-9d5d-e1bfe297998b@linux.intel.com>
- <50f5fa11-55f2-4928-97a6-b4758e8d9d52@perex.cz>
- <fabca478-69cc-436e-b0c4-2ffec183e66a@linux.intel.com>
- <675dba40-e559-45bf-b9ec-65f4d4c60923@perex.cz>
-Content-Language: en-US
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <675dba40-e559-45bf-b9ec-65f4d4c60923@perex.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <279d9f32-a1c9-41aa-b15a-e1485877b2d5@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 1/31/2025 5:18 PM, Jaroslav Kysela wrote:
-> On 31. 01. 25 13:41, Amadeusz Sławiński wrote:
+On Tue, Feb 11, 2025 at 11:23:07AM +0100, Arnd Bergmann wrote:
+> On Tue, Feb 11, 2025, at 11:11, Andy Shevchenko wrote:
+> > On Tue, Feb 11, 2025 at 10:39:16AM +0100, Arnd Bergmann wrote:
+> >> On Tue, Feb 11, 2025, at 10:27, Andy Shevchenko wrote:
+> >
+> >> I don't mind moving that if it helps you, but don't see what
+> >> the problem is here. Is this missing because of a circular
+> >> #include list with linux/device.h including asm/io.h and vice
+> >> versa? If that is the root cause, then I assume there will be
+> >> additional problems either way until the loop can be broken.
+> >
+> > I don't see how. io.h already includes err.h, so whoever includes io.h should
+> > have that as previously.
 > 
->> So, as I understand you want something like the following and to
->> differentiate cards in UCM using component?
-> 
->> - card: 0
->>     id: avshdaudio
->>     name: avs_hdaudio
->>     longname: LENOVO-20KH006LPB-ThinkPadX1Carbon6th
->>     driver_name: avs_hdaudio
->>     mixer_name: Realtek ALC285
->>     components: HDA:10ec0285,17aa225c,00100002
-> 
-> The short name (name:) may be better like 'AVS HD-Audio' (almost all 
-> ASoC drivers suffers here), but the proposed driver_name is fine from my 
-> view.
-> 
+> I mean I never understood what problem you are trying to solve
+> exactly. From the log, it appears that the problem is an include
+> loop between linux/device.h, linux/device/devres.h and asm/io.h,
+> and anything that breaks the loop should work. Your suggestion of
+> stopping asm/io.h from including linux/device.h sounds like
+> the most promising here, but this should be possible regardless
+> of whether IOMEM_ERR_PTR() gets moved.
 
-We had some more discussions, what about something like:
+The problem this series solves at the beginning is that not all the consumers
+of device.h needs it, in many cases the device/devres.h (or subset of
+device/*.h) is enough to include. While solving this, it appears that
+the current code uses ERR_PTR() instead of IOMEM_ERR_PTR() in devm_*io*() APIs
+and kernel test robot found this and complained about. While solving
+this new issue, LKP found another issue that is circular dependency.
+But the original code only wants to have an access to IOMEM_ERR_PTR() which
+is in io.h and can be moved to err.h AFAICS. Does this sound reasonable?
 
-card X: HDAudio [AVS HD-Audio], device X: HDAudio Analog () []
-card X: HDMI [AVS HDMI], device X: HDMI 1 () []
-card X: ALC274 [AVS I2S ALC274], device X: Audio () []
+-- 
+With Best Regards,
+Andy Shevchenko
 
-- card: X
-   id: HDAudio
-   name: AVS HD-Audio
-   longname: LENOVO-20KH006LPB-ThinkPadX1Carbon6th
-   driver_name: avs_hdaudio
-   mixer_name: Realtek ALC285
-   components: HDA:10ec0285,17aa225c,00100002
-   controls_count: 14
-
-- card: X
-   id: HDMI
-   name: AVS HDMI
-   longname: LENOVO-20KH006LPB-ThinkPadX1Carbon6th
-   driver_name: avs_hdaudio
-   mixer_name: Intel Kabylake HDMI
-   components: HDA:8086280b,80860101,00100000
-   controls_count: 21
-
-- card: X
-   id: ALC274
-   name: AVS I2S ALC274
-   longname: 
-IntelCorporation-CannonLakeClientPlatform-0.1-CannonLakeYLPDDR4RVP
-   driver_name: avs_rt274
-   mixer_name:
-   components:
-   controls_count: 17
-
-it feels like it is more descriptive.
 
