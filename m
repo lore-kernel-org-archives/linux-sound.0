@@ -1,90 +1,91 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826C81F1524;
-	Tue, 11 Feb 2025 09:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC94B1BD9D2;
+	Tue, 11 Feb 2025 09:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739266150; cv=none; b=eCp2g5NGTm9PNbCU/IF6+fbrSd3uT/DlHXzi0a4QI+Jz/XHhQQJ9nYmOnkL01inymMmy5nVWMofWqxDMz3tS5hK0jJmpyompj9WDhodmSpENIZdQXZYfOxX3LTXhuvd4A3Sw7hU8b84+8vuLtHyvY66Uo+jp2qw8/JZqt7MtjNw=
+	t=1739266762; cv=none; b=p3YSNqtaLLxSY5kE6ZSCJxV7HNN4LhvJeRdb2FgOm9rpr/PwG1MLaQVFeYBN6LBl/H6bqP0iJ4FDqjYRilPNfTdMygI9qrfPdUOoej51gQ/d0UYBq12wHo0TaIbtiaUQyvhPyUT6lCtSbKWtv+tDyMi/lzdtoQoFJQ6cvbqYLv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739266150; c=relaxed/simple;
-	bh=okPQbVYPT1ntp/61RJEoRgq8G3igp9SZpAcnOema58I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bH8cMG8jmev8DKsbzbOlyt88VRpGzGk9l+PKGdo9ATxPek0xoZ5IVxfRVLcn6eHarmeYcqo7uO2+mmuReAAxwe7OoPcjU9OMqU10xX1iGM2q+mRzuxADQQnID9THUhkqY0oONrDWcj+1w/zwsfucwziQcT/63nfG64ajRvisu1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=me0RZXfq; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="me0RZXfq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=l9ZBxMcRpMoEoqbx44hfP6cOQVSEwX25fwYpyRa9ruc=; b=me0RZXfqHze4mlDOIlcJ7qvLr8
-	ACyYFpmquyLcJKuo7Wz6huORLPFTUERbLsUPoFi7Zj/9u0vGueiWrrMJVImF6++N4WeoebeicgpwE
-	/jnsq6u6K19up+6du/Xeqf72zRq4ivUA5rUO+5wsAdGT6ik8AJ5qlrZZ3RM4BUeBBs7pq63JhWOPP
-	mnVpHHGb2d5LUw1ZxplJRsxfbI9wCXM8hPhJEinFqiFRs4oX2Q84knBlh6DOiaf8xyITbl3Fu4+BE
-	6BipW7k10w0MCKDn95OXmu7dsqq0C3FUjNKvj/UjdXY1nMaqa6bBvUziNFpiYHq+sFZNfnlRRhfV6
-	RV/pXW7A==;
-Received: from i53875bc0.versanet.de ([83.135.91.192] helo=localhost.localdomain)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1thmZi-0005mx-Oe; Tue, 11 Feb 2025 10:29:02 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexey Charkov <alchark@gmail.com>
-Cc: Heiko Stuebner <heiko@sntech.de>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/3] arm64: dts: rockchip: Add SPDIF on RK3588
-Date: Tue, 11 Feb 2025 10:28:50 +0100
-Message-ID: <173926612570.1219038.2885465365177392240.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250120-rk3588-spdif-v1-0-1415f5871dc7@gmail.com>
-References: <20250120-rk3588-spdif-v1-0-1415f5871dc7@gmail.com>
+	s=arc-20240116; t=1739266762; c=relaxed/simple;
+	bh=FDMciW6TLpEAMbkjQIVGCNbvKy5Ug5oPSQE/94sMcPM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p4Xcwmg0Y3b3C2eXnhuM1COgM0BRQodHZkgT5hU9MJxPMD9uht6vkSkA2gfTwOnZ9UgTz33HzRuk6C7d4qpm10yegoaZAl7/FITnCCbcE7+/qxdu4vNaVM3GURzzU4vkR3lwQFcRaq1OnSGBg7D1kSCnrS8OvVdIp12lprad09U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: 8YpW5iXTSEGIQ/5t0VYFRQ==
+X-CSE-MsgGUID: Q0G+jQrCRISzqKzSRNH6Pg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50512301"
+X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
+   d="scan'208";a="50512301"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:39:20 -0800
+X-CSE-ConnectionGUID: cJvLFL1FQAm1X4Xl9szJ9g==
+X-CSE-MsgGUID: WtVy6JKQSCiOBQl3Jo+Lvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112318016"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:39:13 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andy@kernel.org>)
+	id 1thmjV-0000000ASXJ-1H97;
+	Tue, 11 Feb 2025 11:39:09 +0200
+Date: Tue, 11 Feb 2025 11:39:09 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v3 01/15] gpiolib: add gpiod_multi_set_value_cansleep()
+Message-ID: <Z6savSGQhDGA_Z9k@smile.fi.intel.com>
+References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
+ <20250210-gpio-set-array-helper-v3-1-d6a673674da8@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250210-gpio-set-array-helper-v3-1-d6a673674da8@baylibre.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-
-On Mon, 20 Jan 2025 13:01:26 +0400, Alexey Charkov wrote:
-> RK3588(s) uses a several SPDIF transmitters which are software
-> compatible with those found in RK3568. This series adds the required
-> device tree nodes in SoC .dtsi and enables the dedicated optical
-> SPDIF output on the H96 Max V58.
+On Mon, Feb 10, 2025 at 04:33:27PM -0600, David Lechner wrote:
+> Add a new gpiod_multi_set_value_cansleep() helper function with fewer
+> parameters than gpiod_set_array_value_cansleep().
 > 
-> Note that only SPDIF 0/1 are meant as externally connected outputs,
-> while SPDIF 2/3/4/5 are internally routed to the various display
-> encoders inside the SoC. Thus, using SPDIF 0/1 only requires their
-> device tree nodes to be enabled (provided that the signal is routed
-> somewhere usable on the board itself), while the rest rely on driver
-> support on the display connector side and are therefore not touched
-> here.
-> 
-> [...]
+> Calling gpiod_set_array_value_cansleep() can get quite verbose. In many
+> cases, the first arguments all come from the same struct gpio_descs, so
+> having a separate function where we can just pass that cuts down on the
+> boilerplate.
 
-Applied, thanks!
+LGTM now,
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
-[2/3] arm64: dts: rockchip: Add SPDIF nodes to RK3588(s) device trees
-      commit: 271ba4d6c56c7cb295def511cbcdd9880ec41e1b
-[3/3] arm64: dts: rockchip: Enable SPDIF output on H96 Max V58
-      commit: cd81ee8667cc13ff69e11b44a727be07035aa536
-
-Best regards,
 -- 
-Heiko Stuebner <heiko@sntech.de>
+With Best Regards,
+Andy Shevchenko
+
+
