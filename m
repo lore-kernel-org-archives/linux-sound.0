@@ -1,64 +1,50 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3093D2641C4;
-	Tue, 11 Feb 2025 21:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D097266573;
+	Tue, 11 Feb 2025 21:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739307954; cv=none; b=CMoEL5NXmciVwEn7B7HcNM8qYvJ6TzSlxVOAibYbDQAGqvfeR8imDHohIwn3CGglnfz7ndHJghWGhuG3jzDTSwOfeaE+uqCN90kb93w4ysq/cfbH4rl/B8wZjeu5d3fhhg/GhJq2qEB774f6prhecb5eDMcCLO7h4s5McPGKy7M=
+	t=1739308640; cv=none; b=fDjE/GDZq5WVmABsubdGVoB7WvBIUxUcp1XSyMiNeXn8YgSCy8dHAFt3RbQB30sgz6lElctQQmkFGVnicfgJVtCDi5v4kHZpZdB+YOewXcMpB67yNSuNaJ1ELsP1EaehUS28hZ9lHXqrjJ/tJSbyq4ahbPRIZlNn4h+eOY85qEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739307954; c=relaxed/simple;
-	bh=F3M7/vdEchhlxBmMPU2kECuy/0/n1nc42/4z338w5lU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gmY2ghWb976yYbbQsW3sVxgJr3xdhn6Wk9tFcO89E+ecZ5pejHnEJBLQicCjmyxcQdkJIkkMT+pNMVRJqz6RQLQO08ENYHHyE5bxPO1Cnlixw56g0uMsJ0K9RtFL8ulUXGguT6B93EjDFf3bJNF6peduVJ7/F6Dsn+khc12Rlc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bbjttmu3; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739308640; c=relaxed/simple;
+	bh=WST1rFYXOpIGTlAZP+5s+kcNl9LC28WLODWtbc03+u0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=anAQYOkr3r8ap0Hk0ETPcSSkeAgbyJaqkzD9BCwidSgcWEwpBCAH0ho12ioLwOg08xngS0bumYt65gSi/t0nLmzuLvabohw3ig0B/7vqKPWewM6bXX7axQHzdE/y27MoZ5eIxdKInQOzHtGSXaD0lwXz2g72NGUfV/7lrF0JM4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=jE82wuKF; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bbjttmu3"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5de4f4b0e31so7697545a12.0;
-        Tue, 11 Feb 2025 13:05:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739307950; x=1739912750; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FJXKo1rnLuFl+cPx44PrgMfGxNwkvUIiAKY29YBOxLs=;
-        b=Bbjttmu3WWgofjQ7XSRxCyr3Ng2C/z6rAb/t/DR7yegg1ZFET/NrGUANveLyglqpps
-         e43oJK7XdGm4+JRbxt2G8Hb/EbYe5+2xRl7l4oxFh/N4G5YRgkUXryDeLqWaYkwIe4OW
-         u0LgfhhSStYk58doAedPd4nsLzsL+BpgVv6rkhz+bfvs/87Jyu8cnwVTj8RiKxdiZfoL
-         mGrSIM0nt35bGXicY/joE6hRjYlgsrLHiSavXW2NheOZtKTnBn04XLx4nd2q5rUQyrf4
-         xgy5lh2hoL5AR2jZaK25RiGYpjmo9flKzuZu9m9Q/HN8xOo1/kMEHz20s7y73mePThWH
-         53Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739307950; x=1739912750;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FJXKo1rnLuFl+cPx44PrgMfGxNwkvUIiAKY29YBOxLs=;
-        b=F79hA8bYRjkU66Dj/elLQWyedZiJw0NdyaI6EytSqfKb4bY98Yn7ezI/WfUwqDbE2F
-         nlJoFgjs9Vhnd2hd1LUIoHRE3YuP9IsjED6WTBxwfaDPt3ZquWkDPS+7eb8hLyu3Qy6p
-         e5eOJDv6eJ3gDYkbnUoD06BXDZbckvjmcyJnhYskrmJbPYEJPahSahy/5tdfqUe3qBYT
-         uoJ11oyEW7bkIfGIz/tCllv+tP8TXvsK86Ao1hZE7YXWg9oSJnUrfnRk8JsJ8JQnIBk0
-         /453/xtafxn0fBHhklZRLw7uCXWbZn2//ydrm5vVj9Shw2Ux4Own7qKIUcgiy+IY3OHp
-         Om8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVfdk0LFIDz5eVTsfYlH9oPAdtHfm/E63uVDn9sl9aaoQIYTiBmNj1+2xZAHEGJC9thiJFLs/RCex2c@vger.kernel.org
-X-Gm-Message-State: AOJu0YysT2yyOA//0hjpmJzpg8VvD4sJYAXq4mzLqASqQ8oa/w1s/eMj
-	ek2nPKZr7HSAeWDq9KwEWfsvr2YyQNdmQribQQ1n1eQQUqOZmEnrVsNtJpT+Fg8=
-X-Gm-Gg: ASbGncs4YePUhGzNN5sSk0PiF0RWPwmKRwe/5XpmSXpyd8YdvpNN7qUTCQgX8xjArLn
-	4pyyu6l1URGEp2q4qGa7ut4Sm1aoBLDo9Gg6wk30md4Eu6UtoxbufpOM22guJ7gUWZQx8vcpQ2t
-	vnYlH6q3iPpkXTJDfnaIb2zHu16tnM4KHp0ZPmjG93QTTASBDJ3gnZ8ZOUTKX8l0sPK2ktn8Q0R
-	VUYGPch/wVDlEiY6B6cA4iL55LiAHeQrYl+4pG0JWd+EkNlJnMSVMC53rCb3GBchXafvnk0yfqZ
-	ZXFUeBWxMIt0aNN1XgkTaEhmI2O+ghTx91qr3emqtBXlvtAUDMX6DttrSSwRSXBpJe4o
-X-Google-Smtp-Source: AGHT+IE7TnL7jc5Iz6vTWhHrtrNij1s82deccxe7iwkiWATFIsU+z46kqSPjvpXY20QnIYGBevoc4Q==
-X-Received: by 2002:a17:907:7251:b0:ab6:d7c5:124 with SMTP id a640c23a62f3a-ab7f347db92mr40005066b.43.1739307950174;
-        Tue, 11 Feb 2025 13:05:50 -0800 (PST)
-Received: from [192.168.1.23] (146.10-240-81.adsl-dyn.isp.belgacom.be. [81.240.10.146])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7bc28c58csm526166266b.135.2025.02.11.13.05.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Feb 2025 13:05:49 -0800 (PST)
-Message-ID: <7251062a-c665-4f09-ba47-6e890e2911d6@gmail.com>
-Date: Tue, 11 Feb 2025 22:05:49 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="jE82wuKF"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51B4t7P1017344;
+	Tue, 11 Feb 2025 15:16:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=yFTvWYtswL6Stag7MtQQ4DhpB+TBM1nS0tEOtGMa39I=; b=
+	jE82wuKFuI0qb7jXycselz3zY/P6+IwWgQrtOvXbS6ex242hcj1SqQZ9DSOG8w5Y
+	pOEWz6sUp68RWpRP992NUlPeSUcLiHyKSv7wKhRVzhDuJxF31Y0JcY6prhcug0bi
+	d635KPPSwIAdK0QV7c/rJAoiCGQ3axnYdm7SzbBM5oJR4FGMVkOIGQVtXFfLp8+O
+	3/mRxyAo3cxo2xfApmDaOIkAGGkyooIx2tGtueSE52siLA3Sz5wXzLbBfL5nGNxV
+	M3NxqUK6gzD4faHx8QnaySL0I0+DIHl7lwv4UKhZZYmoRyd64YfsyDNXiJL9YZ7w
+	OC11PEllU974ThnuJUOhKA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 44p5j75dqt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Feb 2025 15:16:25 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 11 Feb
+ 2025 21:16:22 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Tue, 11 Feb 2025 21:16:17 +0000
+Received: from [141.131.145.81] (ftrev.ad.cirrus.com [141.131.145.81])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 880E5822563;
+	Tue, 11 Feb 2025 21:16:13 +0000 (UTC)
+Message-ID: <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
+Date: Tue, 11 Feb 2025 15:16:12 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,53 +52,450 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] ASoC: sun4i-codec: add headphone dectection for
- Anbernic RG35XX devices
-To: Ryan Walklin <ryan@testtoast.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- Chris Morgan <macromorgan@hotmail.com>
-References: <20250125070458.13822-1-ryan@testtoast.com>
+Subject: Re: [PATCH RESEND 5/7] mfd: cs40l26: Add support for CS40L26 core
+ driver
+To: Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Simon Trimmer <simont@opensource.cirrus.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        James Ogletree <jogletre@opensource.cirrus.com>,
+        Ben Bright
+	<ben.bright@cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Jeff LaBundy
+	<jeff@labundy.com>, Heiko Stuebner <heiko@sntech.de>,
+        Karel Balej
+	<balejk@matfyz.cz>,
+        Igor Prusov <ivprusov@salutedevices.com>,
+        Jack Yu
+	<jack.yu@realtek.com>,
+        Weidong Wang <wangweidong.a@awinic.com>,
+        Binbin Zhou
+	<zhoubinbin@loongson.cn>,
+        Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+        "Paul
+ Handrigan" <paulha@opensource.cirrus.com>,
+        Masahiro Yamada
+	<masahiroy@kernel.org>, Nuno Sa <nuno.sa@analog.com>
+CC: <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-sound@vger.kernel.org>
+References: <20250204231835.2000457-1-ftreven@opensource.cirrus.com>
+ <20250204231835.2000457-6-ftreven@opensource.cirrus.com>
+ <4e5f0194-22bc-4e17-85f4-6dbc145a936b@kernel.org>
+From: Fred Treven <ftreven@opensource.cirrus.com>
 Content-Language: en-US
-From: Philippe Simons <simons.philippe@gmail.com>
-In-Reply-To: <20250125070458.13822-1-ryan@testtoast.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <4e5f0194-22bc-4e17-85f4-6dbc145a936b@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=EPD800ZC c=1 sm=1 tr=0 ts=67abbe29 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=P-IC7800AAAA:8 a=IeTf_krrYSk4UIakRS0A:9 a=QEXdDO2ut3YA:10
+ a=d3PnA9EDa4IxuAV0gXij:22
+X-Proofpoint-GUID: 6XEI0Bz6LWfhen5hlc2gDBVmh52xfdfy
+X-Proofpoint-ORIG-GUID: 6XEI0Bz6LWfhen5hlc2gDBVmh52xfdfy
+X-Proofpoint-Spam-Reason: safe
 
-Tested on Allwinner H700 devices.
+On 2/5/25 04:34, Krzysztof Kozlowski wrote:
+> On 05/02/2025 00:18, Fred Treven wrote:
+>> Introduce support for Cirrus Logic Device CS40L26:
+>> A boosted haptic driver with integrated DSP and
+>> waveform memory with advanced closed loop algorithms
+>> and LRA protection.
+>>
+> Please wrap commit message according to Linux coding style / submission
+> process (neither too early nor over the limit):
+> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+> 
+> 
+>> +
+>> +#include <linux/cleanup.h>
+>> +#include <linux/mfd/core.h>
+>> +#include <linux/mfd/cs40l26.h>
+>> +#include <linux/property.h>
+>> +#include <linux/regulator/consumer.h>
+>> +
+>> +static const struct mfd_cell cs40l26_devs[] = {
+>> +	{ .name = "cs40l26-codec", },
+>> +	{ .name = "cs40l26-vibra", },
+>> +};
+>> +
+>> +const struct regmap_config cs40l26_regmap = {
+>> +	.reg_bits = 32,
+>> +	.val_bits = 32,
+>> +	.reg_stride = 4,
+>> +	.reg_format_endian = REGMAP_ENDIAN_BIG,
+>> +	.val_format_endian = REGMAP_ENDIAN_BIG,
+>> +	.max_register = CS40L26_LASTREG,
+>> +	.cache_type = REGCACHE_NONE,
+>> +};
+>> +EXPORT_SYMBOL_GPL(cs40l26_regmap);
+>> +
+>> +static const char *const cs40l26_supplies[] = {
+>> +	"va", "vp",
+>> +};
+>> +
+>> +inline void cs40l26_pm_exit(struct device *dev)
+> 
+> Exported function and inlined? This feels odd. Anyway, don't use any
+> inline keywords in C units.
+> 
+>> +{
+>> +	pm_runtime_mark_last_busy(dev);
+>> +	pm_runtime_put_autosuspend(dev);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cs40l26_pm_exit);
+>> +
+>> +static int cs40l26_fw_write_raw(struct cs_dsp *dsp, const char *const name,
+>> +				const unsigned int algo_id, const u32 offset_words,
+>> +				const size_t len_words, u32 *buf)
+>> +{
+>> +	struct cs_dsp_coeff_ctl *ctl;
+>> +	__be32 *val;
+>> +	int i, ret;
+>> +
+>> +	ctl = cs_dsp_get_ctl(dsp, name, WMFW_ADSP2_XM, algo_id);
+>> +	if (!ctl) {
+>> +		dev_err(dsp->dev, "Failed to find FW control %s\n", name);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	val = kzalloc(len_words * sizeof(u32), GFP_KERNEL);
+> 
+> Looks like an array, so kcalloc
+> 
+>> +	if (!val)
+>> +		return -ENOMEM;
+>> +
+>> +	for (i = 0; i < len_words; i++)
+>> +		val[i] = cpu_to_be32(buf[i]);
+>> +
+>> +	ret = cs_dsp_coeff_write_ctrl(ctl, offset_words, val, len_words * sizeof(u32));
+>> +	if (ret < 0)
+>> +		dev_err(dsp->dev, "Failed to write FW control %s\n", name);
+>> +
+>> +	kfree(val);
+>> +
+>> +	return (ret < 0) ? ret : 0;
+>> +}
+>> +
+>> +inline int cs40l26_fw_write(struct cs_dsp *dsp, const char *const name, const unsigned int algo_id,
+>> +			    u32 val)
+>> +{
+>> +	return cs40l26_fw_write_raw(dsp, name, algo_id, 0, 1, &val);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cs40l26_fw_write);
+>> +
+>> +static int cs40l26_fw_read_raw(struct cs_dsp *dsp, const char *const name,
+>> +			       const unsigned int algo_id, const unsigned int offset_words,
+>> +			       const size_t len_words, u32 *buf)
+>> +{
+>> +	struct cs_dsp_coeff_ctl *ctl;
+>> +	int i, ret;
+>> +
+>> +	ctl = cs_dsp_get_ctl(dsp, name, WMFW_ADSP2_XM, algo_id);
+>> +	if (!ctl) {
+>> +		dev_err(dsp->dev, "Failed to find FW control %s\n", name);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	ret = cs_dsp_coeff_read_ctrl(ctl, offset_words, buf, len_words * sizeof(u32));
+>> +	if (ret) {
+>> +		dev_err(dsp->dev, "Failed to read FW control %s\n", name);
+>> +		return ret;
+>> +	}
+>> +
+>> +	for (i = 0; i < len_words; i++)
+>> +		buf[i] = be32_to_cpu(buf[i]);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +inline int cs40l26_fw_read(struct cs_dsp *dsp, const char *const name, const unsigned int algo_id,
+> 
+> All your exported functions should have kerneldoc.
 
-Tested-by: Philippe Simons <simons.philippe@gmail.com>
+I'm happy to add this, but I don't know where this directive comes from.
+Could you share where in the kernel style guide (or elsewhere) this is stated?
+There are also hundreds of examples in MFD in which exported functions
+do not have kerneldoc which is why I'm curious.
 
-On 25/01/2025 08:00, Ryan Walklin wrote:
-> Hi All,
->
-> V2 of this patch adding support for headphone detection on the Anbernic RG35XX series. No functional changes on this revision, patches refactored to more clearly represent a single change per individual patch, remove vendor prefixing for the device tree binding, improve documentation of the DAPM widget changes and associated UCM, and small whitespace fixes.
->
-> Original message below:
->
-> This series adds the required device tree bindings to describe GPIOs for jack detection in the sun4i-codec driver, adds support for jack detection to the codec machine driver, and describes the hardware configuration in the RG35XX DTS. The existing speaker amplifier GPIO pin can then be used in concert with jack detection to enable userspace sound servers (via an ALSA UCM configuration) to disable the speaker route when headphones are connected.
->
-> Thanks to Chris Morgan for his assistance putting this series together.
->
-> Regards,
->
-> Ryan
->
-> Chris Morgan (4):
->    ASoC: dt-bindings: sun4i-a10-codec: add hp-det-gpios
->    ASoC: sun4i-codec: correct dapm widgets and controls for h616
->    ASoC: sun4i-codec: support hp-det-gpios property
->    arm64: dts: allwinner: h700: Add hp-det-gpios for Anbernic RG35XX
->
-> Ryan Walklin (1):
->    ASoC: sun4i-codec: change h616 card name
->
->   .../sound/allwinner,sun4i-a10-codec.yaml      |  6 ++
->   .../sun50i-h700-anbernic-rg35xx-2024.dts      |  5 +-
->   sound/soc/sunxi/sun4i-codec.c                 | 59 ++++++++++++++++++-
->   3 files changed, 67 insertions(+), 3 deletions(-)
->
+> 
+>> +			   u32 *buf)
+>> +{
+>> +	return cs40l26_fw_read_raw(dsp, name, algo_id, 0, 1, buf);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cs40l26_fw_read);
+>> +
+>> +static struct cs40l26_irq *cs40l26_get_irq(struct cs40l26 *cs40l26, const int num, const int bit);
+>> +
+>> +static int cs40l26_gpio1_rise_irq(void *data)
+>> +{
+>> +	struct cs40l26 *cs40l26 = data;
+>> +
+>> +	if (cs40l26->wksrc_sts & CS40L26_WKSRC_STS_EN)
+>> +		dev_dbg(cs40l26->dev, "GPIO1 Rising Edge Detected\n");
+>> +
+>> +	cs40l26->wksrc_sts |= CS40L26_WKSRC_STS_EN;
+>> +
+>> +	return 0;
+>> +}
+> 
+> 
+> ...
+> 
+>> +err:
+>> +	dev_err(cs40l26->dev, "Invalid revision 0x%02X for device 0x%06X\n", cs40l26->revid,
+>> +		cs40l26->devid);
+>> +	return -EINVAL;
+>> +}
+>> +
+>> +int cs40l26_set_pll_loop(struct cs40l26 *cs40l26, const u32 pll_loop)
+>> +{
+>> +	int i;
+>> +
+>> +	/* Retry in case DSP is hibernating */
+>> +	for (i = 0; i < CS40L26_PLL_NUM_SET_ATTEMPTS; i++) {
+>> +		if (!regmap_update_bits(cs40l26->regmap, CS40L26_REFCLK_INPUT,
+>> +					CS40L26_PLL_REFCLK_LOOP_MASK,
+>> +					pll_loop << CS40L26_PLL_REFCLK_LOOP_SHIFT))
+>> +			break;
+>> +	}
+>> +
+>> +	if (i == CS40L26_PLL_NUM_SET_ATTEMPTS) {
+>> +		dev_err(cs40l26->dev, "Failed to configure PLL\n");
+>> +		return -ETIMEDOUT;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(cs40l26_set_pll_loop);
+>> +
+> 
+> This looks way past simple MFD driver. Not only this - entire file. You
+> configure there quite a lot and for example setting PLLs is not job for
+> MFD. This should be placed in appropriate subsystem.
+> 
+I disagree here because the configuration being done in this file
+is essential to the core operation of the part. For instance,
+setting the PLL to open-loop here is required to prevent any
+external interference (e.g. GPIO events) from interrupting
+the part while loading firmware.
+
+The other hardware configuration being done here is required for
+both the Input and ASoC operations of the part.
+
+Lastly, these need to be done in order and independently of which
+child driver (ASoC or input) the user adds. If this is moved
+to cs40l26-vibra.c (the input driver), for instance,
+and that module is then not added, it will disturb the
+required setup for use by the ASoC driver.
+
+I would really like to get Lee's opinion here because it does not
+make sense to me why this is inappropriate when the configuration
+done in the core MFD driver is required for use by all of its
+children.
+
+> 
+>> +
+>> +static const struct cs_dsp_client_ops cs40l26_cs_dsp_client_ops = {
+>> +	.pre_run = cs40l26_cs_dsp_pre_run,
+>> +	.post_run = cs40l26_cs_dsp_post_run,
+>> +};
+>> +
+>> +static void cs40l26_cs_dsp_remove(void *data)
+>> +{
+>> +	cs_dsp_remove((struct cs_dsp *)data);
+>> +}
+>> +
+>> +static struct cs_dsp_coeff_desc cs40l26_coeffs[] = {
+> 
+> This cannto be const?
+
+This cannot be const since coeff_firmware needs to be
+requested and assigned at the time of .bin file loading.
+Only the names are available beforehand.
+
+> 
+>> +	{ .coeff_firmware = NULL, .coeff_filename = "cs40l26.bin" },
+>> +	{ .coeff_firmware = NULL, .coeff_filename = "cs40l26-svc.bin" },
+>> +	{ .coeff_firmware = NULL, .coeff_filename = "cs40l26-dvl.bin" },
+>> +};
+>> +
+>> +static int cs40l26_cs_dsp_init(struct cs40l26 *cs40l26)
+>> +{
+>> +	struct cs_dsp *dsp = &cs40l26->dsp;
+>> +	int ret;
+>> +
+>> +	dsp->num = 1;
+>> +	dsp->type = WMFW_HALO;
+>> +	dsp->dev = cs40l26->dev;
+>> +	dsp->regmap = cs40l26->regmap;
+>> +	dsp->base = CS40L26_DSP_CTRL_BASE;
+>> +	dsp->base_sysinfo = CS40L26_DSP1_SYS_INFO_ID;
+>> +	dsp->mem = cs40l26_dsp_regions;
+>> +	dsp->num_mems = ARRAY_SIZE(cs40l26_dsp_regions);
+>> +	dsp->client_ops = &cs40l26_cs_dsp_client_ops;
+>> +
+>> +	ret = cs_dsp_halo_init(dsp);
+>> +	if (ret) {
+>> +		dev_err(cs40l26->dev, "Failed to initialize HALO core\n");
+>> +		return ret;
+>> +	}
+>> +
+> 
+> ...
+> 
+>> +
+>> +static int __maybe_unused cs40l26_suspend(struct device *dev)
+>> +{
+>> +	struct cs40l26 *cs40l26 = dev_get_drvdata(dev);
+>> +
+>> +	guard(mutex)(&cs40l26->lock);
+>> +
+>> +	dev_dbg(dev, "%s: Enabling hibernation\n", __func__);
+> 
+> Drop. No need to re-implement tracing.
+> 
+>> +
+>> +	cs40l26->wksrc_sts = 0x00;
+>> +
+>> +	/* Don't poll DSP since reading for ACK will wake the device again */
+>> +	return regmap_write(cs40l26->regmap, CS40L26_DSP_QUEUE, CS40L26_DSP_CMD_ALLOW_HIBER);
+>> +}
+>> +
+>> +static int __maybe_unused cs40l26_sys_suspend(struct device *dev)
+>> +{
+>> +	struct cs40l26 *cs40l26 = dev_get_drvdata(dev);
+>> +
+>> +	dev_dbg(dev, "System suspend, disabling IRQ\n");
+> 
+> Drop.
+> 
+>> +
+>> +	disable_irq(cs40l26->irq);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int __maybe_unused cs40l26_sys_suspend_noirq(struct device *dev)
+>> +{
+>> +	struct cs40l26 *cs40l26 = dev_get_drvdata(dev);
+>> +
+>> +	dev_dbg(dev, "Late system suspend, re-enabling IRQ\n");
+> 
+> 
+> Drop.
+> 
+>> +
+>> +	enable_irq(cs40l26->irq);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int __maybe_unused cs40l26_resume(struct device *dev)
+>> +{
+>> +	struct cs40l26 *cs40l26 = dev_get_drvdata(dev);
+>> +
+>> +	dev_dbg(dev, "%s: Disabling hibernation\n", __func__);
+> 
+> Drop.
+> 
+>> +
+>> +	guard(mutex)(&cs40l26->dsp.pwr_lock);
+>> +
+>> +	return cs40l26_prevent_hiber(cs40l26);
+>> +}
+>> +
+>> +static int __maybe_unused cs40l26_sys_resume(struct device *dev)
+>> +{
+>> +	struct cs40l26 *cs40l26 = dev_get_drvdata(dev);
+>> +
+>> +	dev_dbg(dev, "System resume, re-enabling IRQ\n");
+> 
+> Drop.
+> 
+>> +
+>> +	enable_irq(cs40l26->irq);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int __maybe_unused cs40l26_sys_resume_noirq(struct device *dev)
+>> +{
+>> +	struct cs40l26 *cs40l26 = dev_get_drvdata(dev);
+>> +
+>> +	dev_dbg(dev, "Early system resume, disabling IRQ\n");
+>> +
+> 
+> Drop.
+> ...
+> 
+>> +
+>> +static int cs40l26_spi_probe(struct spi_device *spi)
+>> +{
+>> +	struct cs40l26 *cs40l26;
+>> +
+>> +	cs40l26 = devm_kzalloc(&spi->dev, sizeof(struct cs40l26), GFP_KERNEL);
+> 
+> sizeof(*)
+> 
+> 
+>> +	if (!cs40l26)
+>> +		return -ENOMEM;
+>> +
+>> +	spi_set_drvdata(spi, cs40l26);
+>> +
+>> +	cs40l26->dev = &spi->dev;
+>> +	cs40l26->irq = spi->irq;
+>> +	cs40l26->bus = &spi_bus_type;
+>> +
+>> +	cs40l26->regmap = devm_regmap_init_spi(spi, &cs40l26_regmap);
+>> +	if (IS_ERR(cs40l26->regmap))
+>> +		return dev_err_probe(cs40l26->dev, PTR_ERR(cs40l26->regmap),
+>> +				     "Failed to allocate register map\n");
+>> +
+>> +	return cs40l26_probe(cs40l26);
+>> +}
+>> +
+>> +static const struct spi_device_id cs40l26_id_spi[] = {
+>> +	{ "cs40l26a", 0 },
+>> +	{ "cs40l27b", 1 },
+> 
+> What are these 0 and 1?
+
+I will make it clear that these are enumerating the different possible
+device variants.
+
+
+> 
+>> +	{}
+>> +};
+>> +MODULE_DEVICE_TABLE(spi, cs40l26_id_spi);
+>> +
+>> +static const struct of_device_id cs40l26_of_match[] = {
+>> +	{ .compatible = "cirrus,cs40l26a" },
+>> +	{ .compatible = "cirrus,cs40l27b" },
+> 
+> So devices are compatible? Or rather this is unsynced with other ID table.
+I'm not sure what you mean by this.
+
+> 
+> Best regards,
+> Krzysztof
+> 
+
+Thanks for your review.
+I will include the agreed upon fixes in v2.
+
+Best regards,
+Fred
