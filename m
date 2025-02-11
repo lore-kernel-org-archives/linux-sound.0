@@ -1,133 +1,129 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A841F37BC;
-	Tue, 11 Feb 2025 10:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD71E1F193C
+	for <linux-sound@vger.kernel.org>; Tue, 11 Feb 2025 10:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739269410; cv=none; b=rWSns3msUH0+KzC9o2xNjv2HJJ0xWZ1hgw1xiezNXG97uB8v39nqQ7QpRbz3Yqkfa30zwnO4t7tAGS9JSZehqZuNFSHW+u9kkKLt2zXCBR+m7phlt+3i/KDIdyCSIkvjuCk6bqMakFCyZzqAE12K5EcFgjHV1o8GNlynMSnbEdo=
+	t=1739271227; cv=none; b=AANBlEa4iByD2EfwwaiXHN3ih8O5Ay4eC+Sb6ZMtgGAI5owmsN+BHjsYWY+QzGWDArymVOxgWZ3ZNGBZR+oy0rxdebTuVD+s6QnW4u7IU1QMI0JEiilB2wEDp/teELYQg9/qFVcUnmnuI1Vqqoc99IyoPvFqzlgVGk/LwVh0d40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739269410; c=relaxed/simple;
-	bh=xGVNrU+Td07Sq/OfoziyU6CAIh+CFau93NGRqIkJUjg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=bHeyZxm0yqDBIKnLM/sb52sdI0YgzT8ro3l3bgZSJz+lPXXMGia/3E+Saz6XmqrD2WwIFdVMddET87WA9roqh87Frq9xy+7QKj62K5636L87PhwRl8U6MUyHRQlrBd2Dq9UHpR0I+otxJAP+htHNLBJWHj/po0+4NkUw8nm+rtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=7jiT3OiS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=o4dWhCRk; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1739271227; c=relaxed/simple;
+	bh=TdP6qszpl7Tv4luXtPG6NFfS7ugOA+gXe07ooKqNteE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FPDCKW4dON3xk069bvz5wJIyaoQqoBN5IdILQxF00O+amSxwWlxkOC4URDF7DYno6QOgb8DaSjFREELHJB1LkPANPzSLvQV8inxRivfEfUGCkAHdFVMmIIocdF5+0U9uPwzsOLKeH2ZAH983oWAQ2V8B4u/WYYm81JOECHrY7NY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jpzi5/Ln; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="7jiT3OiS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="o4dWhCRk"
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3235613801EA;
-	Tue, 11 Feb 2025 05:23:28 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-07.internal (MEProxy); Tue, 11 Feb 2025 05:23:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1739269408;
-	 x=1739355808; bh=8OyYLNftrq4qsPpVbcCZjPTAkDXA++bvU6mWCFjEjgw=; b=
-	7jiT3OiSpA32reTMzba8ong48JFOgVF1U6a/YhE+4hM+N4lPWP6VdAMdNJG4eqpW
-	jy2ZuhgN8H4sARf6uwBwrUfOBu1EYIKmIgq/E5rSmLNchTlhwv3Qwui5NOMUKE77
-	uuQHRJxqvlbIIUvsSvpIrfDt7VIX32RPC6LAEhr3R0N6+uwY+lggC2MYpfPglDAA
-	x1cY0JNj9pgZT92ohW9w03Q7Oqp53okxso3H3D+dYMDiOAEYcY8CvIE1DggWn+7M
-	LnYgWH19tkgs9IC0BJjs+6geR/ZvlQhiAEIp0j9nKZGPemiNzOhVypH7R5LgQRbE
-	Ruvri524FrQeNymKKkhJGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739269408; x=
-	1739355808; bh=8OyYLNftrq4qsPpVbcCZjPTAkDXA++bvU6mWCFjEjgw=; b=o
-	4dWhCRkdj4qkaNqhhPfJvLUVKiW9tPyFpvdyy9b0EGiPkRcll+xQkcbrSPJ7aj7x
-	0WLpuT6sDRveNwFp1OmHd+d68i0kuE+AfPp9SKs8bP3llOZ41o74GPbRHVmZZBPT
-	cqz9T+R44zFDcyumuIhpLjdUu/QvXhb4z/4soGf+vBJX3dF5jGK6FjCS8Osf5WZO
-	YaOr8zQeGgrxrH1seTBbcWm/eZCbqwa80f5meNvG/OJedAKPf6Pqdorl/26V8pxn
-	UrNuCGuKhmxv9c/5Y0LxDu11S+EJaKnNuMTn17Dv4nzD6m24376CM7eDV3K285rR
-	L+CAUxMCaiNPnvKR3XUeA==
-X-ME-Sender: <xms:HyWrZ26wHeJmj1eYHHDJ_3ZWEa_xwAeSt6ZCS6aWQfgb7qDfoAM2Dw>
-    <xme:HyWrZ9sAr9XdFcg7XJplGIdZ9q0Vb3LpTZsQL3ikp9EWV2eYAYPB3s0n2WxsHbqa4
-    FmCG1BmSUquhX0hYkM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegtdejhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
-    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
-    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopedv
-    tddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepughmihhtrhihrdhtohhrohhkhh
-    hovhesghhmrghilhdrtghomhdprhgtphhtthhopehlghhirhgufihoohgusehgmhgrihhl
-    rdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehprh
-    iivghmhihslhgrfidrkhhithhsiigvlhesihhnthgvlhdrtghomhdprhgtphhtthhopehr
-    rggrghdrjhgruggrvhesihhnthgvlhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehjihgtvdefsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhrvg
-    eskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:HyWrZ_5UbZd6U-PsEAdgo-UuxpcBhgDo44UH9H0ZQWE9eV-SlLTvDA>
-    <xmx:HyWrZwWyp6B9-dwn-rssMz-baxnFh-3GaCaPG-BGfm2skTTAb0GcBg>
-    <xmx:HyWrZ59d3gv-TbLJSalbb526wpA9l5YwAcQI5vgVAp71mgRA6mOjlw>
-    <xmx:HyWrZ0mdiyFLSyGCoKVFrxDMPn4pJf2nuCY-ELIgdb46mVwJZNOS7w>
-    <xmx:ICWrZ8EhdH1Y_BZY7xcGwPfx99z1LQ-8fLRW3OD5Qa3L5OxUSU3Xytjw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id C3E5D2220073; Tue, 11 Feb 2025 05:23:27 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jpzi5/Ln"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739271226; x=1770807226;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=TdP6qszpl7Tv4luXtPG6NFfS7ugOA+gXe07ooKqNteE=;
+  b=jpzi5/LneIZSPVE51k7ZpCmR4XQo6WMUvxn7RR/1F7QwDTZFY92NreId
+   iN+7gqjpKzrFdnP/HEpo9rMnLZ7MGywY3t1DkMpcwGWf+E+4PtofykM32
+   7ouVon/Uirqehigv7WlXYSQUbL8+MRI8ypG5VHShdXlaZa3qNhB0wbCZq
+   hMQLC3qBvljEGy2US5hNQ0GpFf6GNsr6SXffa0mKD4oR54UsUnPxsasjT
+   jxWF2wZyfsn8xImxPFEDnh36CdJBTEj0Zr1e+/4U2giQIHIEbcEC+CjPK
+   KhbCImysiDVPBtLUZFc3Eb851mOeI2yVu45FD5hIU3pDivn551LH/YT48
+   A==;
+X-CSE-ConnectionGUID: t7ypiqtmSKWo47kjpGSgoQ==
+X-CSE-MsgGUID: 82TaB2VLQgCs/2vchxeunQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39120394"
+X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
+   d="scan'208";a="39120394"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 02:53:45 -0800
+X-CSE-ConnectionGUID: DPJd5o9jS9KwYQMXe05wUw==
+X-CSE-MsgGUID: 2VCN0Kc8TFCi/vnRZGQ4MA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
+   d="scan'208";a="117560184"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 02:53:43 -0800
+Message-ID: <4c46ebfa-2892-462f-9f6f-98bec8620e5a@linux.intel.com>
+Date: Tue, 11 Feb 2025 11:53:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 11 Feb 2025 11:23:07 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-Cc: "kernel test robot" <lkp@intel.com>, "Raag Jadav" <raag.jadav@intel.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Mika Westerberg" <mika.westerberg@linux.intel.com>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, lgirdwood@gmail.com,
- "Mark Brown" <broonie@kernel.org>, "Sebastian Reichel" <sre@kernel.org>,
- "Jonathan Cameron" <jic23@kernel.org>,
- "Przemek Kitszel" <przemyslaw.kitszel@intel.com>,
- oe-kbuild-all@lists.linux.dev,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-iio@vger.kernel.org
-Message-Id: <279d9f32-a1c9-41aa-b15a-e1485877b2d5@app.fastmail.com>
-In-Reply-To: <Z6siYlWfvfUvNLpX@smile.fi.intel.com>
-References: <20250210064906.2181867-2-raag.jadav@intel.com>
- <202502102201.zLWaJC6V-lkp@intel.com> <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
- <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
- <Z6sYAxRIeCzw12nY@smile.fi.intel.com>
- <c1184a91-e216-423d-b956-d4b22116a171@app.fastmail.com>
- <Z6siYlWfvfUvNLpX@smile.fi.intel.com>
-Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to device/devres.h
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: core: Change device numbering
+To: Jaroslav Kysela <perex@perex.cz>,
+ Cezary Rojewski <cezary.rojewski@intel.com>, Takashi Iwai <tiwai@suse.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+References: <20250127144445.2739017-1-amadeuszx.slawinski@linux.intel.com>
+ <f8f2b8f9-527e-486d-ae83-34abd13ef968@linux.intel.com>
+ <6fcbc9d3-93d4-4485-9f9f-5bef61476ef3@perex.cz>
+ <811c03ef-03a2-44a3-969b-5a2d55f2f876@intel.com>
+ <2a772972-3011-4083-9d5d-e1bfe297998b@linux.intel.com>
+ <50f5fa11-55f2-4928-97a6-b4758e8d9d52@perex.cz>
+ <fabca478-69cc-436e-b0c4-2ffec183e66a@linux.intel.com>
+ <675dba40-e559-45bf-b9ec-65f4d4c60923@perex.cz>
+Content-Language: en-US
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <675dba40-e559-45bf-b9ec-65f4d4c60923@perex.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 11, 2025, at 11:11, Andy Shevchenko wrote:
-> On Tue, Feb 11, 2025 at 10:39:16AM +0100, Arnd Bergmann wrote:
->> On Tue, Feb 11, 2025, at 10:27, Andy Shevchenko wrote:
->
->> I don't mind moving that if it helps you, but don't see what
->> the problem is here. Is this missing because of a circular
->> #include list with linux/device.h including asm/io.h and vice
->> versa? If that is the root cause, then I assume there will be
->> additional problems either way until the loop can be broken.
->
-> I don't see how. io.h already includes err.h, so whoever includes io.h should
-> have that as previously.
+On 1/31/2025 5:18 PM, Jaroslav Kysela wrote:
+> On 31. 01. 25 13:41, Amadeusz Sławiński wrote:
+> 
+>> So, as I understand you want something like the following and to
+>> differentiate cards in UCM using component?
+> 
+>> - card: 0
+>>     id: avshdaudio
+>>     name: avs_hdaudio
+>>     longname: LENOVO-20KH006LPB-ThinkPadX1Carbon6th
+>>     driver_name: avs_hdaudio
+>>     mixer_name: Realtek ALC285
+>>     components: HDA:10ec0285,17aa225c,00100002
+> 
+> The short name (name:) may be better like 'AVS HD-Audio' (almost all 
+> ASoC drivers suffers here), but the proposed driver_name is fine from my 
+> view.
+> 
 
-I mean I never understood what problem you are trying to solve
-exactly. From the log, it appears that the problem is an include
-loop between linux/device.h, linux/device/devres.h and asm/io.h,
-and anything that breaks the loop should work. Your suggestion of
-stopping asm/io.h from including linux/device.h sounds like
-the most promising here, but this should be possible regardless
-of whether IOMEM_ERR_PTR() gets moved.
+We had some more discussions, what about something like:
 
-    Arnd
+card X: HDAudio [AVS HD-Audio], device X: HDAudio Analog () []
+card X: HDMI [AVS HDMI], device X: HDMI 1 () []
+card X: ALC274 [AVS I2S ALC274], device X: Audio () []
+
+- card: X
+   id: HDAudio
+   name: AVS HD-Audio
+   longname: LENOVO-20KH006LPB-ThinkPadX1Carbon6th
+   driver_name: avs_hdaudio
+   mixer_name: Realtek ALC285
+   components: HDA:10ec0285,17aa225c,00100002
+   controls_count: 14
+
+- card: X
+   id: HDMI
+   name: AVS HDMI
+   longname: LENOVO-20KH006LPB-ThinkPadX1Carbon6th
+   driver_name: avs_hdaudio
+   mixer_name: Intel Kabylake HDMI
+   components: HDA:8086280b,80860101,00100000
+   controls_count: 21
+
+- card: X
+   id: ALC274
+   name: AVS I2S ALC274
+   longname: 
+IntelCorporation-CannonLakeClientPlatform-0.1-CannonLakeYLPDDR4RVP
+   driver_name: avs_rt274
+   mixer_name:
+   components:
+   controls_count: 17
+
+it feels like it is more descriptive.
+
