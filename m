@@ -1,132 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6E826BDB6;
-	Tue, 11 Feb 2025 07:33:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAE11EB186;
+	Tue, 11 Feb 2025 07:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739259188; cv=none; b=jpErARH2oHotGuyF54fJl41jPLePKrdct2EKvcXRcSXAWe7mFiM6p6D8vA5IHhjpY8WLuJBIOzeRgF5ULlm7wia+wN2VcAS9U4Dg8OjMniC12icge+rCmPxDzNsAuAAwfqJQHUXrDiJEa6tL2KT+KLOM+HVQT9KiQ829sijCR4c=
+	t=1739259370; cv=none; b=UfuqLro+YyLiqu7kncg72Abz4wn1+2wJQEzE571MjKp/bsgyYQ0Oi/JJJXMoMIpYrY0MKqH+bq1ZCRm1o7sEjul/de1TcO9964UXWxNHauoPmklFR6qCkNX9YpHwa6UbYj5Kq+4g630ukf0zIhAXWjTzDHZHc8EnyKUEa+CPcBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739259188; c=relaxed/simple;
-	bh=PVm34sRwJKOOdV/7ETG2W+w9ztF8ObZo4O9RDaILuSE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XMIW/QeqF5HT3mIyzpy0f/KkATOxZP/xu3sNwIpR0aG1JxW/2sOB4ccY+iGL5IUfwk3PuXpM3WawPAhPRhG0boT2rXOT9XISXFtK/4NfXczC/Zvk7V1GoHdYzvxJPIJ7bpinA6jdKqk2DIFHzQ7D2YEGsiZbrik/SoyL/A6yhPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jsb32L3Y; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jsb32L3Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69000C4CEE4;
-	Tue, 11 Feb 2025 07:33:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739259187;
-	bh=PVm34sRwJKOOdV/7ETG2W+w9ztF8ObZo4O9RDaILuSE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Jsb32L3YoqQdguEtsLK8fHrFEGidoKFElYrmFVzqULZCguziHs2jHTinFJtZUQR7o
-	 Z6tTqpWHyIKSP0ky/IoYVYKAsNQSodzcklb6cGP2S7RQphPbCmqYrEA7LU51vUMvyk
-	 wZ3ahFk4Rdad287DzmMrTNw82txgP/mlkQRK9CNC0wK1IbENapgMb5ORmfsBAh7wFx
-	 YqxRAeqtCfabAtwLe2TTujhSgfrW9DL2rmFIYpZK/PwTe1vFAenOcu/aZNBswS+ZZQ
-	 IFbjhOj4cRJXx6aKydbIpFkDi730megM2GAmOMZXdrj7LPYL88Mop5fU3UNpPPzA7C
-	 zSzKv+poUA91g==
-Message-ID: <860f0bab-1f4b-4d4c-86c1-8a0ce389033c@kernel.org>
-Date: Tue, 11 Feb 2025 08:33:03 +0100
+	s=arc-20240116; t=1739259370; c=relaxed/simple;
+	bh=ca9qHkrngL3pZjIQUsPXDFnGS5wTD5NqFcVTg825OqQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ACm9WPqY4cWJoigST/Gns/UtFyxeGOcz0AQ0gyBdDQj0BTbO9zP5ynckw4YsZ6vo5+IBBixVLDOtuEnE2aN+lgbVYYGsra5TZJlE1PW+uRKLstuIGgway+rWOtS25291KbmBuBLUWlp3Mb0uY+lCP9v+KdwW+Yb0YHY9itg2964=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-866f0d69843so2839387241.3;
+        Mon, 10 Feb 2025 23:36:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739259364; x=1739864164;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v4rL6fRpPDW3WWAnvPDGJsUVffkkAT6CPBcGQAburtc=;
+        b=IjCQCuDLwRcOSFOLv2XBVUPIC7LM7UPQ2rt9+biA3Eq9/BU1SFLzTFzVWoTsJ8Auaa
+         09EfbP5mdx0BCZWT1aydakQyOmxGbOiZcNEC0yyH7KKrCUi1ZVR7WudYSAe+AVGrpd+l
+         gjSBjYkHv6MHJGQBrCE+e94DV8yRpyGM6zGvRERya34RL/9cDvSmfEJ4xrTi8yqgyMiP
+         V3/gA9Nd9078zDqLm60FC7p3r9RXu1auF4urVmiaGWfEFiJUoXdtbU0g3OHfs3vBNB8o
+         JDHi6CobSYnSQ7UjX7FHo7LD+yrXQrDy0PSlBbz+ABjCUhkx8WGlcO83IyrlD1daJS9G
+         2Teg==
+X-Forwarded-Encrypted: i=1; AJvYcCUu2s9tK68BWK66zYL+zJh0M5SsPqEdzmHn30Y7FWyI2ka8ULSBmXWDNOZlW0ydiJDCcPhCQgaF37d2wYBC@vger.kernel.org, AJvYcCV4nMmbydhW60EY8ivDbl+4MaVajgnbTVGrlTae2VWjIYbc2Q11gB2Yo3I658QBMRpyvuNkC3r/ogKj@vger.kernel.org, AJvYcCVmB7yfD0rMA7UysIiF64ma0X2nIXE5gLwd20nAQrOWinW7Y06Iw/UdinxRp3Ihba4X7o5fqusA@vger.kernel.org, AJvYcCWdwuab1uXU4rVW1R59AiqpyHjvmxa+EB0lVovXslfIe1LGt7/d2H8zJzja3PUyFN2jGblmMrq/UmXNTZs=@vger.kernel.org, AJvYcCX8NZb3kS42V6UpVR8cNg6nvYx0tRNRMZCKk6jUAO9dHtLWk9u9rAjXhfUq9tM3LTuTChvpI4wsK2fp@vger.kernel.org, AJvYcCXgx3xBK2mtkA8G6cIV/l1pIZIRT5TjsunMr8XdRp4yatTC/KhyivlcVmWE+KWhu9f75hZPvx4uyOEf@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx88uvnu4sYV79zRyfMdM3lyM/X4jJZp3UgYWc07+xMbpVYrkEx
+	rtMJv1Hr/eDffDzdwoXnxwhVSkXKTMEUBU2feHmpyAg9z3ykScQ9En06YrbE
+X-Gm-Gg: ASbGnctsyU7at4vXDHYGb0+TEGT2uguqgFm26YaTBmVSi0MVZsaCjeiOOMip2rCHHUz
+	3TutCLaHkFs8sX8kRvrepCKDmOoAqjaQS1WqVTcLdJkbfFHcNApmyLsBUC+xMwN+ANDhceX8zwP
+	2+nIdrX09N3v5rf2iHMoysDfhM2DObtuCfqMnRs+ti5aFLl4ya9olQYuRiIwYWNTxZFjKWcPsuN
+	gmJUjHSR2xEi9Uy6poJ8avXc/0eSQonHdzkgRocuOWpgL9RQy1IqxBcCw0X5oauow2W4gnUnyri
+	h6jcZ+c2r3605fWgCQIewAZCSjSe1XgWPFIvTpJGienAFZ+Kx1cJ7Y+UEA==
+X-Google-Smtp-Source: AGHT+IH64OMvNI//DHpqIhBXMfnM3nyG8byXREG186/r6xJVCGhlgNO0z9wcmRT5dF5guMFstYW10w==
+X-Received: by 2002:a05:6102:2ad2:b0:4bb:dc3c:1b71 with SMTP id ada2fe7eead31-4bbdc3c2999mr2831244137.13.1739259363945;
+        Mon, 10 Feb 2025 23:36:03 -0800 (PST)
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4bbbebc1fa0sm891895137.15.2025.02.10.23.36.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Feb 2025 23:36:02 -0800 (PST)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5203e0d0139so1197419e0c.1;
+        Mon, 10 Feb 2025 23:36:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU+kKNVvHLE2TTHJH5UfWbOsVz9muNHonu5dCRZzdFKsKUyZr5FAbq7AEe9UcURNu6pveFMYGLnNZho@vger.kernel.org, AJvYcCUcwtAIrcYbnU91dowQJWRxG/47CVPCU5f9nddEkXwaIwCggJVxhL9CUQm+K4Y038GUWe/1XQQNRLA4@vger.kernel.org, AJvYcCUjf+3CsH2Z2UZr5HFghS8YMRUx1GWrjica4Rg5ddFCIPf4woAie+G7Pg6d2Lh9s88bZVh//mQdyUkjK5I=@vger.kernel.org, AJvYcCVVHf3ee+qZhIBFB/drNez6MsADke/1F+Qax3Oyb6PQ3+AfCeF9Isn7CQDKr6AL+qPxzcb6Ui6Q/Ev3@vger.kernel.org, AJvYcCWDmpd2eZQ0DV0Rq+wdnMMSw+NVxYSoRIEfC8NFz5aMgBtFwAkZ7J6gLCcZHU1lFO57KJlwDWx2@vger.kernel.org, AJvYcCX49hiBd4gA6pGNwslE80tPwtcXHY2VBRxyj6Lysa1xo9ORhQWfwHCYCJyKUjMmxHqEEl7vX+X94BoM2Hvp@vger.kernel.org
+X-Received: by 2002:a05:6122:1d44:b0:520:61ee:c7f9 with SMTP id
+ 71dfb90a1353d-52061eecb62mr56803e0c.7.1739259362582; Mon, 10 Feb 2025
+ 23:36:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 2/6] ASoC: meson: audin: add audio input dt-bindings
-To: Valerio Setti <vsetti@baylibre.com>, jbrunet@baylibre.com,
- neil.armstrong@linaro.org, khilman@baylibre.com,
- martin.blumenstingl@googlemail.com, linux-amlogic@lists.infradead.org,
- linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-References: <20250210150129.40248-1-vsetti@baylibre.com>
- <20250210150129.40248-3-vsetti@baylibre.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250210150129.40248-3-vsetti@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com> <20250210-gpio-set-array-helper-v3-1-d6a673674da8@baylibre.com>
+In-Reply-To: <20250210-gpio-set-array-helper-v3-1-d6a673674da8@baylibre.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 11 Feb 2025 08:35:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXFXbzeus6yzeBsjOvTsD+AOLKjyRySCYo4YkjSZByZAQ@mail.gmail.com>
+X-Gm-Features: AWEUYZkcG2r9GXDExtVTd3MXygmVQFQr3aQqn2D5K57fCGs7Av6ow06VQ5r6ees
+Message-ID: <CAMuHMdXFXbzeus6yzeBsjOvTsD+AOLKjyRySCYo4YkjSZByZAQ@mail.gmail.com>
+Subject: Re: [PATCH v3 01/15] gpiolib: add gpiod_multi_set_value_cansleep()
+To: David Lechner <dlechner@baylibre.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/02/2025 16:01, Valerio Setti wrote:
-> Add the dt-bindings and documentation of the AUDIN audio controller.
-> This component provides most audio input found on the Amlogic GXBB SoC
-> family.
-> 
-> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
+On Mon, 10 Feb 2025 at 23:37, David Lechner <dlechner@baylibre.com> wrote:
+> Add a new gpiod_multi_set_value_cansleep() helper function with fewer
+> parameters than gpiod_set_array_value_cansleep().
+>
+> Calling gpiod_set_array_value_cansleep() can get quite verbose. In many
+> cases, the first arguments all come from the same struct gpio_descs, so
+> having a separate function where we can just pass that cuts down on the
+> boilerplate.
+>
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+Gr{oetje,eeting}s,
 
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+                        Geert
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
-
-(unless this RFC means you do not expect review)
-
-Best regards,
-Krzysztof
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
