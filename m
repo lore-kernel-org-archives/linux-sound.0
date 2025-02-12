@@ -1,172 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC039204097;
-	Wed, 12 Feb 2025 07:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FD22040A4
+	for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 07:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739344529; cv=none; b=QV8Lmh5WWZZIYLXmPXfWkeryJi4rMHnHKC5kq9oyQWDtGffgZwyC3b9+5wfkaj79gVQ0VJmxNw9ZOcTjOQZR83Dh5gPhcD9q2RL1lJuCs5vqqq8DjMHRn+7GjSXmdx5ax2Tu5qodSBOyfDYkufGTvFL/VIFcqkP9+h1GHiGuofo=
+	t=1739345271; cv=none; b=F0QovkR8e7OiGpG6vT05ukMR9FWdh/KSRLhdP5cyPUKm+Cb/ePzvAd8p/8LcdDfQe8+G34EJu9ETmO6+dZSfF2W1d4jyzHV43HQ1RN5iPFsI4rfUZu2M7F1UwPCbpbfxtCZvlq+nYJu+ubQV3vwZdPoQ1NdhndfZ5b2a165Wa1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739344529; c=relaxed/simple;
-	bh=V66YCvC0FuwsQ3Tm8P1Y43IROGLiDwhKoiqjaV3vOeg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qhwv4403ud+xDuPOYWoynW2IeDSL+j2xBFy7Mrzy3e5joiPuDl/EOgr6aoYBcHyTDEGVeUijQmrmXTRlnqmG+c1xOwLcbEgHbq5fnAXZJ9lKpp+cIsxXuZRUzpsKUj2zOkGkW4edKLJS0BYwHxHVieTNlWSrOfpRw54SP9/JaNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ligrOa55; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739345271; c=relaxed/simple;
+	bh=Iph/hlnOouwb8lFk08QEfpJMJKP+e/wvR7Qi5Lk6xd4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i7YLQ1/EGt+S+HRVfXK+kC2d5juur/k6xTCBFwUb2xWNjqrt5ptMiayJ3S5hk20XJaHoHr92JUq8E9SNrqSBQLjO4OjH2F9QiRQSFHdK8uPXP3TZkzzhA+BW2UEti+1t3iJnjBZdN5M9xb5xG/4Szg7gaQ5+9PzoR2J/sv5Oh2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v7bWenjp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kFZJufXc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v7bWenjp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kFZJufXc; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ligrOa55"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE5C5C4CEDF;
-	Wed, 12 Feb 2025 07:15:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739344528;
-	bh=V66YCvC0FuwsQ3Tm8P1Y43IROGLiDwhKoiqjaV3vOeg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ligrOa55dlzfdnDNNi2tX2QeAofE/o4XhppmFpY7n4ksubSdNSb60y7Bv6fuhL42G
-	 uKARlCvUJFO1cT6RY9+AvvtLe5EDhgYZFeOvnmrXPMp/49YIKZ5uHAE/twE56SpwLh
-	 55crwSbwXweCl07jG+fHp2plhJe3umU1DSp1JC+88dBg/NIDszVLXgRHmXyq2Y4WR/
-	 2NQIMtvvEKuR8m+D9TQYZ4dLkvrOTNK9Yc5sNXfnp0FxALkKTbzmxbV3BC0qj0Ctn3
-	 s1Pj8lhSdOb+agDfHyayP96xBWZVhNQJM8yEjna46SC+2ml/6QU5lfYoYRdxEyHQJk
-	 hEJt7Sfw2gwaw==
-Date: Wed, 12 Feb 2025 08:15:25 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Nikola Jelic <nikola.jelic83@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, 
-	tiwai@suse.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rwalton@cmlmicro.com
-Subject: Re: [PATCH V3 1/2] ASoC: dt-bindings: Add cmx655 codec
-Message-ID: <20250212-gabby-aardwolf-of-chivalry-a7fda2@krzk-bin>
-References: <20250210222903.88282-1-nikola.jelic83@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v7bWenjp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kFZJufXc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v7bWenjp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kFZJufXc"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B971D1FF19;
+	Wed, 12 Feb 2025 07:27:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739345267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ImmAqJDtxtPT/B4My6qRZkO4rZFgf9SVoU27wxXTllQ=;
+	b=v7bWenjpHAnNm5+qY873PuQjwJn2EGyqwbuIm6Km8FI5aOZtojWrB7cm8WJV+V/ylrC+ww
+	hAiaSCW+/v6O8WTFOcs5xEYIJXu/bt5R5ypiF7IbTDlpaxFYL94RJYrKTSMwN3UASTyBM6
+	pDJigtDsNKRW/FutR7BmfkKvZDlIBPI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739345267;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ImmAqJDtxtPT/B4My6qRZkO4rZFgf9SVoU27wxXTllQ=;
+	b=kFZJufXchEry4sCr18asfm99g7JKFS6Vhe3oTiCn/MWuroz3+RU4j1UdhHj761KZO+5Efo
+	ffylJM5via5VV0DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739345267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ImmAqJDtxtPT/B4My6qRZkO4rZFgf9SVoU27wxXTllQ=;
+	b=v7bWenjpHAnNm5+qY873PuQjwJn2EGyqwbuIm6Km8FI5aOZtojWrB7cm8WJV+V/ylrC+ww
+	hAiaSCW+/v6O8WTFOcs5xEYIJXu/bt5R5ypiF7IbTDlpaxFYL94RJYrKTSMwN3UASTyBM6
+	pDJigtDsNKRW/FutR7BmfkKvZDlIBPI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739345267;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ImmAqJDtxtPT/B4My6qRZkO4rZFgf9SVoU27wxXTllQ=;
+	b=kFZJufXchEry4sCr18asfm99g7JKFS6Vhe3oTiCn/MWuroz3+RU4j1UdhHj761KZO+5Efo
+	ffylJM5via5VV0DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93BB013AEF;
+	Wed, 12 Feb 2025 07:27:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id A7kyInNNrGczGwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 12 Feb 2025 07:27:47 +0000
+Date: Wed, 12 Feb 2025 08:27:47 +0100
+Message-ID: <87frkjmxl8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Kailang <kailang@realtek.com>
+Cc: "bugzilla-daemon@kernel.org" <bugzilla-daemon@kernel.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	" (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>
+Subject: Re: [Bug 219743] [REGRESSION, BISECTED] ASUS GA402XY Headset mic stopped working after 6.12.2
+In-Reply-To: <0474a095ab0044d0939ec4bf4362423d@realtek.com>
+References: <bug-219743-196757@https.bugzilla.kernel.org/>
+	<bug-219743-196757-RLkOfxHF9E@https.bugzilla.kernel.org/>
+	<0474a095ab0044d0939ec4bf4362423d@realtek.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250210222903.88282-1-nikola.jelic83@gmail.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Mon, Feb 10, 2025 at 11:28:46PM +0100, Nikola Jelic wrote:
-> Signed-off-by: Nikola Jelic <nikola.jelic83@gmail.com>
+On Wed, 12 Feb 2025 07:55:20 +0100,
+Kailang wrote:
 > 
+> Fixup headset MIC no function.
 
-Nothing improved here. Respond to previous comments or implement them.
-
-Some things got better in this patch, thank you. Other did not. Maybe
-there is misunderstanding about my comments, but you never replied to
-them, so I would assume you will be implementing them fully. If
-something is unclear, ask responding inline.
+Applied now.  Thanks.
 
 
-> ---
-> V2 -> V3: fixed dt_binding_check + yamllint warnings
-> V1 -> V2: removed the txt file, fixed review remarks
-> ---
->  .../bindings/sound/cml,cmx655d.yaml           | 78 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  2 files changed, 80 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml b/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
-> new file mode 100644
-> index 000000000000..1648f606bf48
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
-> @@ -0,0 +1,78 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/cml,cmx655d.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: CML Micro CMX655D codec
-> +
-> +maintainers:
-> +  - Richard Walton <rwalton@cmlmicro.com>
-> +  - Nikola Jelic <nikola.jelic83@gmail.com>
-> +
-> +description:
-> +  The CMX655D is an ultra-low power voice codec.
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cml,cmx655d
-> +
-> +  reg:
-> +    description: Local bus address
-
-Drop, why did this appear?
-
-> +    maxItems: 1
-> +
-> +  "#sound-dai-cells":
-> +    description: The first cell indicating the audio interface
-
-Drop, redundant. It wasn't here before and I did not ask for this, so why?
-
-> +    const: 0
-> +
-> +  reset-gpios:
-> +    description: GPIO used for codec reset, negative logic
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    description: Interrupt for the CMX655D IRQ line
-
-Drop
-
-> +    maxItems: 1
-> +
-> +  interrupt-names:
-> +    description: Interrupt name for the CMX655D IRQ line
-
-Nothing improved. Maybe there was some misunderstanding. I asked to look
-at other bindings doing this. Where do you see syntax like that for
-interrupt-names? What syntax do you see for interrupt-names?
-
-> +    maxItems: 1
-> +
-> +  cml,classd-oc-reset-attempts:
-> +    description: Maximum number of times to reset CMX655 class-D
-> +      following a overcurrent event.
-> +      >10000 = disable limit.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 1
-> +    maximum: 10001
-> +    default: 5
-
-Still no answer why this is board configurable.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        status = "okay";
-
-Another ignored comment.
-
-> +        audio-codec@54 {
-> +            compatible = "cml,cmx655d";
-> +            #sound-dai-cells = <0>;
-> +            reg = <0x54>;
-
-Another...
-
-
-Best regards,
-Krzysztof
-
+Takashi
