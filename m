@@ -1,127 +1,278 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121E81E0DB3;
-	Wed, 12 Feb 2025 03:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254B61F0E55;
+	Wed, 12 Feb 2025 06:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739332307; cv=none; b=fZPhsxC4VyU7mCiY0tianPw7CnbotKvIT/1qOg3MiXk8ZjCHpr9lH16wlnZbtnyYuhQwb7lNJB+y/sfFF5GGwhSxVQqb26tgfPD2ZcvdO7nQMo0a4qthKOwkH5TXu6Opcq4sr1CiwrwGnkTT3BwgrP+t4RIo3wqTcb7NlORv21M=
+	t=1739341213; cv=none; b=bX1IKrk3VpplZxzmuV9XtiSNnmncYTDZcvQBWJqv297VXwximQ/MLKOeWqNa/YZ/yc28WANg8JXs+i/5tAwXjqoYFB8oGsaz1AS6KrNOX41/A8DO0OA0xqlIp7fXyCBrkWAOvAaoCuAUvKBA2IJn03ifrMYcVbHSjWxBYXvegAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739332307; c=relaxed/simple;
-	bh=kozFMohFM7Fntd0TGvXH1XXN77KIL5Uk6EH9MHO1Jiw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qwqntHaMDspheA9XmCvBC+2J5PAW+yxiQ88EAsKRPtEs4+v/xQqnJBwmrrl9pXg9pvnN+6/JlobtyOhGmRwq+zb0Xwb7sQdSjI3rsANqAiPhz7QcbJBPBinnbhSguqiqCddxBcL8Q1P4ozOOJ+JaqiaheP8RNnBei+7pN5hUIqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A6h6wo88; arc=none smtp.client-ip=209.85.166.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739341213; c=relaxed/simple;
+	bh=wbDldYyO3Krmi8fOY3r5irpwmx7oocImb77NHiathKU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jnb2A8KqC/sLWkUZ7uFAFoHqwvHzmmgRAAnTShY5ug9YOs/riNFuNCF7NtOnO4vFSqIEqCBFN/3/ZSCZsksEjW+GSEmTOFiSfZEggeal5jwe6nGYTZ7NKMch9OVenXMltN8xT6FYO2+0MGLmG1duq+ANr3BiQAMW0QAEXQDHFzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XVXpk/Dg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A6h6wo88"
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3d15ce78fecso23793195ab.2;
-        Tue, 11 Feb 2025 19:51:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739332305; x=1739937105; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lOjNpQnzjVItcjZQzSaRVqafGTbidnsz64LyMqqRnyg=;
-        b=A6h6wo88QOZBsQoVyq2N6gTqC2/25GtViUKeZ+BCLShe0kUCeD1RqTB7gvMiSfzNiT
-         PmPvmC29WvXGFN2vq6WRcnTmtApIPaCpOyl8TBxCEZkagUDQweh29F3ro07trncMEm/f
-         hPbh6M3XWIwXm3Sc6LbKGo9YonA37WA+SwumtR8KsobGZ4eA6FE+2s0G3XUso68KBDyo
-         oxeqtzwTXQ8wOO+KiMrCOMHwUi27AukcwLmCdKWhcCfqosQKI+8dKgYX8oF5YkakB5dG
-         ql0yCaudeBFN4N+gXlPkeHyt54g9s7B3CiHlAUDiXkbFSi2HR8BfU9gWxv6zsLfRYpCt
-         gWlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739332305; x=1739937105;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lOjNpQnzjVItcjZQzSaRVqafGTbidnsz64LyMqqRnyg=;
-        b=RVG1xqW0GPRr6Xx0XDjg6VrSmjN0oYCMoaah7HPmqdXvxWtwfrfAYmmvoE1VQZMvYn
-         eRhAooPl6rJtVvAQmC9/1r+FdAsLKUbMEf3w+zDAL7PWXwcDFsx5rb5GOQ0Gdwgjhr30
-         RjcP9ARXLAH/6kkRfcbmpifEGPGnnqe7VZxvIb7CXIDrOZdYCuS1Kmrv5tX/EHtr9H7g
-         wpsI67iz3bR+ScI1I0oKo18H5bHIGv9HtVyglTJuHHvlnm0FL/vz4dL4X4FzeQPIR9JI
-         YAMAK+eiNEAGxQrGdz+2l/B32kjyx6DP/zICGVZ0/L04klTQFAmRaB9Pv5zfBeTyIev/
-         9Emg==
-X-Forwarded-Encrypted: i=1; AJvYcCUj6foOsGHUbIc+PLmLwzLX+f+2QX4glNWo9GVmDji1eMdCOJYBKeXGJdIzVCk8maAJZYawHRRan+IWRhI=@vger.kernel.org, AJvYcCXBC7Eiq+RnuPVHvwKBZiemN3ysa06FRQ4p0ZlhvAVXO6h+UzGy3iRcpaC2EydllwlWQw5shiCP76r9@vger.kernel.org, AJvYcCXY7cTNQChUUjhYyWXxynz5+xsO4l3C5zRS1DT32QaNx86dEdt7B2UGfM19gijiSPMpVK5Jj3RWzhbY1iSL@vger.kernel.org
-X-Gm-Message-State: AOJu0YwadZM+9yhFomYpSuvZYtOLeJapFHAMYlWPEgEBPlxkM/SEQgUk
-	2G9QcS8MxG45fjmiEXk4a05/afaIMERUfksibX6qQ7JlmAsFvimMVZEG5bEqgs+LSS1/iI3y2Rg
-	4DL1p4LA9f3h2Jn9drRSnPiXBUT4=
-X-Gm-Gg: ASbGncu2GJtR2qfG9cayu8zfUirJ5p0Kztk7I+ZxxzYT5vM61+Xzj9wx/AEQl6pvmY4
-	tFw850uAL0Je6Ph4pxrYFgj7hkO/aK3m3IXi3MpAFSrFDPJlTusWVp5aGfJ+b4OQCT8Jhd2YD
-X-Google-Smtp-Source: AGHT+IELmMC+rEqMtc5H2YZuEE1iKouS45lV6N0hJ5Or/LuqIGNtJHv3ZlrPMODm1vA23GJ/GTBsAYKKjidNOlR17CI=
-X-Received: by 2002:a05:6e02:180b:b0:3cf:b365:dcf8 with SMTP id
- e9e14a558f8ab-3d17c21ba5emr21495995ab.21.1739332305183; Tue, 11 Feb 2025
- 19:51:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XVXpk/Dg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A88CFC4CEDF;
+	Wed, 12 Feb 2025 06:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739341212;
+	bh=wbDldYyO3Krmi8fOY3r5irpwmx7oocImb77NHiathKU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XVXpk/DgCwaNVCGDEZVAiGW6rDtf8SH+KZOwpopORY23oSAi8lG06HP19CSNKYyW0
+	 44K664T75rH/rSQ7R1IVgSA5OTyljYnuju/Wq+qDtFNIQaC4L5mnubg7JGp1cQYpF6
+	 kJWJdST8/YY7TAHhrwyBQKM6SdxNFcXTXKiCEzHkdQF4+hQBuEJR3Cn6TaIrnMzZo6
+	 i+msqotNM79mD04/hMypkfzMCl2W5qo6tCGy7gVA4PLlrbjyhKN3bAtUau2zYof/FZ
+	 AnT+rDoBFlb3ICd5b50aHY8eVLqFWz5gaMAfIW/LcWPaXkCCKB2aJyWzURFASlPKZ+
+	 mJhrkJGN70GEg==
+Message-ID: <50f8e238-c9f5-4af2-adec-deee98dbb5e4@kernel.org>
+Date: Wed, 12 Feb 2025 07:19:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250211035737.3886974-1-shengjiu.wang@nxp.com>
- <20250211035737.3886974-2-shengjiu.wang@nxp.com> <Z6ttkyfUapRKGMsk@lizhi-Precision-Tower-5810>
-In-Reply-To: <Z6ttkyfUapRKGMsk@lizhi-Precision-Tower-5810>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 12 Feb 2025 11:51:32 +0800
-X-Gm-Features: AWEUYZl3szAb6kdvVRYt667G1aLNreWAtpJFe-4jAXLL0jVOJ3awo1RObh0k1-U
-Message-ID: <CAA+D8APFPKGGNHiiRYFgGVM-AL4LrE-q0zy9i0mErjeJU+KbuQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: imx-card: Add playback-only and
- capture-only property
-To: Frank Li <Frank.li@nxp.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND 5/7] mfd: cs40l26: Add support for CS40L26 core
+ driver
+To: Fred Treven <ftreven@opensource.cirrus.com>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Simon Trimmer <simont@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ James Ogletree <jogletre@opensource.cirrus.com>,
+ Ben Bright <ben.bright@cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Jeff LaBundy <jeff@labundy.com>, Heiko Stuebner <heiko@sntech.de>,
+ Karel Balej <balejk@matfyz.cz>, Igor Prusov <ivprusov@salutedevices.com>,
+ Jack Yu <jack.yu@realtek.com>, Weidong Wang <wangweidong.a@awinic.com>,
+ Binbin Zhou <zhoubinbin@loongson.cn>,
+ Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+ Paul Handrigan <paulha@opensource.cirrus.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nuno Sa <nuno.sa@analog.com>
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20250204231835.2000457-1-ftreven@opensource.cirrus.com>
+ <20250204231835.2000457-6-ftreven@opensource.cirrus.com>
+ <4e5f0194-22bc-4e17-85f4-6dbc145a936b@kernel.org>
+ <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 11, 2025 at 11:32=E2=80=AFPM Frank Li <Frank.li@nxp.com> wrote:
->
-> On Tue, Feb 11, 2025 at 11:57:36AM +0800, Shengjiu Wang wrote:
-> > Refer to audio graph card, add playback-only and capture-only property
-> > for imx-audio-card.yaml for the case that only playback or capture
-> > is supported.
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
-> >  .../devicetree/bindings/sound/imx-audio-card.yaml         | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/sound/imx-audio-card.yam=
-l b/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
-> > index f7ad5ea2491e..86571fa930f6 100644
-> > --- a/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
-> > +++ b/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
-> > @@ -46,6 +46,14 @@ patternProperties:
-> >          description: see tdm-slot.txt.
-> >          $ref: /schemas/types.yaml#/definitions/uint32
-> >
-> > +      playback-only:
-> > +        description: link is used only for playback
-> > +        $ref: /schemas/types.yaml#/definitions/flag
-> > +
-> > +      capture-only:
-> > +        description: link is used only for capture
-> > +        $ref: /schemas/types.yaml#/definitions/flag
-> > +
->
-> why not ref to audio-graph-port.yaml?
->
-audio-graph-port are based on 'port'. which is not used
-in imx-card.  imx-card can't directly refer to audio-graph-port.yaml.
+On 11/02/2025 22:16, Fred Treven wrote:
+>>
+>>> +	if (!val)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	for (i = 0; i < len_words; i++)
+>>> +		val[i] = cpu_to_be32(buf[i]);
+>>> +
+>>> +	ret = cs_dsp_coeff_write_ctrl(ctl, offset_words, val, len_words * sizeof(u32));
+>>> +	if (ret < 0)
+>>> +		dev_err(dsp->dev, "Failed to write FW control %s\n", name);
+>>> +
+>>> +	kfree(val);
+>>> +
+>>> +	return (ret < 0) ? ret : 0;
+>>> +}
+>>> +
+>>> +inline int cs40l26_fw_write(struct cs_dsp *dsp, const char *const name, const unsigned int algo_id,
+>>> +			    u32 val)
+>>> +{
+>>> +	return cs40l26_fw_write_raw(dsp, name, algo_id, 0, 1, &val);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(cs40l26_fw_write);
+>>> +
+>>> +static int cs40l26_fw_read_raw(struct cs_dsp *dsp, const char *const name,
+>>> +			       const unsigned int algo_id, const unsigned int offset_words,
+>>> +			       const size_t len_words, u32 *buf)
+>>> +{
+>>> +	struct cs_dsp_coeff_ctl *ctl;
+>>> +	int i, ret;
+>>> +
+>>> +	ctl = cs_dsp_get_ctl(dsp, name, WMFW_ADSP2_XM, algo_id);
+>>> +	if (!ctl) {
+>>> +		dev_err(dsp->dev, "Failed to find FW control %s\n", name);
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	ret = cs_dsp_coeff_read_ctrl(ctl, offset_words, buf, len_words * sizeof(u32));
+>>> +	if (ret) {
+>>> +		dev_err(dsp->dev, "Failed to read FW control %s\n", name);
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	for (i = 0; i < len_words; i++)
+>>> +		buf[i] = be32_to_cpu(buf[i]);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +inline int cs40l26_fw_read(struct cs_dsp *dsp, const char *const name, const unsigned int algo_id,
+>>
+>> All your exported functions should have kerneldoc.
+> 
+> I'm happy to add this, but I don't know where this directive comes from.
+> Could you share where in the kernel style guide (or elsewhere) this is stated?
+> There are also hundreds of examples in MFD in which exported functions
+> do not have kerneldoc which is why I'm curious.
 
-Best regards
-Shengjiu Wang
 
-> Frank
->
-> >        cpu:
-> >          description: Holds subnode which indicates cpu dai.
-> >          type: object
-> > --
-> > 2.34.1
-> >
+You are not looking hard enough. It's explicitly mentioned in kernel doc
+documentation.
+
+> 
+>>
+>>> +			   u32 *buf)
+>>> +{
+>>> +	return cs40l26_fw_read_raw(dsp, name, algo_id, 0, 1, buf);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(cs40l26_fw_read);
+>>> +
+>>> +static struct cs40l26_irq *cs40l26_get_irq(struct cs40l26 *cs40l26, const int num, const int bit);
+>>> +
+>>> +static int cs40l26_gpio1_rise_irq(void *data)
+>>> +{
+>>> +	struct cs40l26 *cs40l26 = data;
+>>> +
+>>> +	if (cs40l26->wksrc_sts & CS40L26_WKSRC_STS_EN)
+>>> +		dev_dbg(cs40l26->dev, "GPIO1 Rising Edge Detected\n");
+>>> +
+>>> +	cs40l26->wksrc_sts |= CS40L26_WKSRC_STS_EN;
+>>> +
+>>> +	return 0;
+>>> +}
+>>
+>>
+>> ...
+>>
+>>> +err:
+>>> +	dev_err(cs40l26->dev, "Invalid revision 0x%02X for device 0x%06X\n", cs40l26->revid,
+>>> +		cs40l26->devid);
+>>> +	return -EINVAL;
+>>> +}
+>>> +
+>>> +int cs40l26_set_pll_loop(struct cs40l26 *cs40l26, const u32 pll_loop)
+>>> +{
+>>> +	int i;
+>>> +
+>>> +	/* Retry in case DSP is hibernating */
+>>> +	for (i = 0; i < CS40L26_PLL_NUM_SET_ATTEMPTS; i++) {
+>>> +		if (!regmap_update_bits(cs40l26->regmap, CS40L26_REFCLK_INPUT,
+>>> +					CS40L26_PLL_REFCLK_LOOP_MASK,
+>>> +					pll_loop << CS40L26_PLL_REFCLK_LOOP_SHIFT))
+>>> +			break;
+>>> +	}
+>>> +
+>>> +	if (i == CS40L26_PLL_NUM_SET_ATTEMPTS) {
+>>> +		dev_err(cs40l26->dev, "Failed to configure PLL\n");
+>>> +		return -ETIMEDOUT;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(cs40l26_set_pll_loop);
+>>> +
+>>
+>> This looks way past simple MFD driver. Not only this - entire file. You
+>> configure there quite a lot and for example setting PLLs is not job for
+>> MFD. This should be placed in appropriate subsystem.
+>>
+> I disagree here because the configuration being done in this file
+> is essential to the core operation of the part. For instance,
+> setting the PLL to open-loop here is required to prevent any
+> external interference (e.g. GPIO events) from interrupting
+> the part while loading firmware.
+> 
+> The other hardware configuration being done here is required for
+> both the Input and ASoC operations of the part.
+> 
+> Lastly, these need to be done in order and independently of which
+> child driver (ASoC or input) the user adds. If this is moved
+> to cs40l26-vibra.c (the input driver), for instance,
+> and that module is then not added, it will disturb the
+> required setup for use by the ASoC driver.
+> 
+> I would really like to get Lee's opinion here because it does not
+> make sense to me why this is inappropriate when the configuration
+> done in the core MFD driver is required for use by all of its
+> children.
+
+Sure.
+
+...
+
+> 
+> 
+>>
+>>> +	{}
+>>> +};
+>>> +MODULE_DEVICE_TABLE(spi, cs40l26_id_spi);
+>>> +
+>>> +static const struct of_device_id cs40l26_of_match[] = {
+>>> +	{ .compatible = "cirrus,cs40l26a" },
+>>> +	{ .compatible = "cirrus,cs40l27b" },
+>>
+>> So devices are compatible? Or rather this is unsynced with other ID table.
+> I'm not sure what you mean by this.
+
+
+Lack of driver data means devices are compatible or some sort of other
+problem (e.g. ID tables not being in sync, because they are supposed to
+be always in sync). Choose, but it is almost never correct. Either
+correct the issue or mention why exception is justified.
+
+Best regards,
+Krzysztof
