@@ -1,192 +1,134 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C11A20B1E4
-	for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 09:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC42420B7F7
+	for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 09:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739353005; cv=none; b=U5femplrwtGFAtVmZyB3SX0YtQcIDJtHIxfG8sB7oVWpzZ6ddxsqECpz7rZYOoydIUkH4lgAZqLXhv6Xc4TO9ix4gx0bqhqu3luM2xpF+lJ8Fb8As/mYj/8cP4fsLpU/VmCV2FxM0dsOLZzkeGHLF3hFaO/IDtcV/aXfzc4A2i8=
+	t=1739353019; cv=none; b=glvZbNNAEhFqPfbZbJ+DKJ/vqdMvgGrP5uxZi5KZzszImWis2UmzLoIAzTQm5Sgq1cKohP13Vbj+wW0aHEA+ZISNpudE2qUqnow9+FAQNquGCmAyRNCkYM3ceVwq99Lg9udvr1WDmmh81zqVH47dOHPCb6++/kEfR5+WPpyFyZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739353005; c=relaxed/simple;
-	bh=fJ0oQVoe3v+GZGtKDqY/m+T+upxz/j86dCJyFecV9bQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ic7aHqySDtDA/G3zkMeo2bEO8ScmBvu0RW/00w8YA82alQPws0ulf5LLEXtHiVoGf84n8xoJB73X4FcEm2g4AnrilMkyFPCGi7syEwmwFcryoTSLGSYcldlb63saVJRSkU0IczHoh3W0CDIxK9dOltvQjO2EZsIPGmiKVt6fjqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1ti9AB-0003qj-6V; Wed, 12 Feb 2025 10:36:11 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1ti9AA-000Z2U-1y;
-	Wed, 12 Feb 2025 10:36:10 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1ti9AA-00AzSK-1c;
-	Wed, 12 Feb 2025 10:36:10 +0100
-Date: Wed, 12 Feb 2025 10:36:10 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1739353019; c=relaxed/simple;
+	bh=7KT0FF/FzIbIE6w2ehfIcEyeGHIB5NZeS2fUmYmWmwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a0t78fda63BKLBuqvTfENIL5KKuNmw1lcASZoMk4538UkIQ8wuh5GfqnVfsNhssO2L7+7V6/s3UCh6x8UyB1A0EBVhN71iJfGI8a5gDuveZwZv3hpb8OXCD8yXslf25KLxbIKGQ2N4x718H2jSXjcbqWhGWhY5oP/q0LbnzTlDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=1bY7ylZ7; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="1bY7ylZ7"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4394820123dso18647095e9.2
+        for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 01:36:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1739353016; x=1739957816; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NRhZaB3W6faFlCbku+LscU579s6QSzZfyLaHX9G8q1c=;
+        b=1bY7ylZ78sEe+qzdUjM2zmGfl1QOFXMRsX6hXdSa68HPLuyAOu9iJXDh0S+L6QuX6e
+         NGG0J80Xki52AuIezFQssR0b3LYZRjmc7w2Mi+gjGrz5fFn4u9aYZ9BEBvvJl2YQVLzm
+         34JyT8vew1VSBU9l4TeMWsrWJoOSZqen1K0wrXR5UVDzay1x1nMCl2fgAkqD0yTgz+6l
+         rvVXrBNSuIMhJtFa8EvuqyyKbBN1JrdwVZDhRpe+gGQDpssIr6uTkd3BnUVVRgbzh/6k
+         JwBUSbRHO5tJlDdyhhgPLpTIFpDVbsOizKfSb9nUArzef29+F7UPKxezK8ze/Pok4iI8
+         CHKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739353016; x=1739957816;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NRhZaB3W6faFlCbku+LscU579s6QSzZfyLaHX9G8q1c=;
+        b=GRCpOvgZOOFqxS6vHk668qh+HI40/njhoATBxa0zPYORZeBnJhDB9l2DFx4xCa0XSp
+         zaq8IlDvvbysDcol+ilDZQ+b31sjWd43HqAi7N/Gnn8UrVWsnvm5r0zJeWprQLCcOFqs
+         FGX5PU7nhnkuuyEbwxaluB64TZ5/kB6juiQft/wp0mat+MlpSThDpVB4d54N4BCbX41o
+         hx9hr0b+8DA5Ek7Y9vYGHDQOEp/mz8NQnTIdik4XstOyi8iefEX9pqM09++48KXuKvzm
+         R28FgHUadUxp4aVf1Tqxwuk2zMmr5Wx+LfKilQDRuBMzZK4qN0AeUnAmP0CPBMfu4gvN
+         IChw==
+X-Forwarded-Encrypted: i=1; AJvYcCXctbCCcjkJq3XyYHuC64CiZh3mH/KUdL/WCqs5fZeAsJ0HqKcNrc49ac4jsuF87y0AgoJbOgBCQzPiPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNVP+rWotSKVvPciQiQ6YkTqUufrGYUY06p5jC0N6sEKiSYUV2
+	jcSQybiSJcNKG3Da944S7qr0sh6XXAaej0pXHX4ON1UAQB3NoCI/8PEgb0hb0hQ=
+X-Gm-Gg: ASbGncsHizXLPiHRfEKwIu6E+/DpVrYcbJ5sjKiTMR0tpmmZ3C+nBptZ8QZ8YTh5z6u
+	GR45Zjak/kSDRgJCvyt6M+REBQdkZPq3c1b2KBWR/NrwSlo9QzKhJFtrkm1RkBgsDN5hsSoucx0
+	xMVraLviT0ET3Z5j8cI0SAt7D8LMOJwAQvVjsbQEJNux7RN2NiUIkwvWb+Xdwq03Yq/QiWafcdn
+	Am/WHwBPW9AqKzgIVj97NaQIBltvBmko5j7+M0DGf79I2P/15OWYaAHgk6hLX0u44lHcy8bZKN/
+	r8Jp3WcbyG3HXmk=
+X-Google-Smtp-Source: AGHT+IFQnul0kNzls6ThIvi1z7bQ429pLFDaGlT/FcOXJm3pTEnq6re0+Qc4O8V8syw5sWV5sK78UQ==
+X-Received: by 2002:a05:6000:188b:b0:38d:b34a:679 with SMTP id ffacd0b85a97d-38dea2cefc8mr1824460f8f.37.1739353016217;
+        Wed, 12 Feb 2025 01:36:56 -0800 (PST)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:521c:13af:4882:344c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a078448sm14132935e9.34.2025.02.12.01.36.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 01:36:55 -0800 (PST)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andy Shevchenko <andy@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Peter Rosin <peda@axentia.se>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	David Lechner <dlechner@baylibre.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-phy@lists.infradead.org,
 	linux-sound@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 1/3] ASoC: dt-bindings: support imx95's CM7 core
-Message-ID: <20250212093610.x4ixrackmn3u2xrf@pengutronix.de>
-References: <20250211225808.3050-1-laurentiumihalcea111@gmail.com>
- <20250211225808.3050-2-laurentiumihalcea111@gmail.com>
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: (subset) [PATCH v3 00/15] gpiolib: add gpiod_multi_set_value_cansleep
+Date: Wed, 12 Feb 2025 10:36:53 +0100
+Message-ID: <173935301204.11039.10193374588878813157.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
+References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250211225808.3050-2-laurentiumihalcea111@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 25-02-11, Laurentiu Mihalcea wrote:
-> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> 
-> Add binding for imx95's CM7 core, used for audio processing.
-> Additionally, introduce a common binding for NXP audio processors with
-> Sound Open Firmware (SOF) support.
-> 
-> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> ---
->  .../bindings/sound/fsl,imx95-cm7-sof.yaml     | 64 +++++++++++++++++++
->  .../bindings/sound/fsl,sof-cpu.yaml           | 27 ++++++++
->  2 files changed, 91 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml b/Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml
-> new file mode 100644
-> index 000000000000..f00ae3219e15
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml
-> @@ -0,0 +1,64 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/fsl,imx95-cm7-sof.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP imx95 CM7 core
-> +
-> +maintainers:
-> +  - Daniel Baluta <daniel.baluta@nxp.com>
-> +
-> +description: NXP imx95 CM7 core used for audio processing
-> +
-> +properties:
-> +  compatible:
-> +    const: fsl,imx95-cm7-sof
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Albeit Krzysztof already add his Reviewed-by, can I ask why we need to
-add the -sof suffix instead of -audio or so? SOF is a software project
-but you can clearly run different software on the audio-copro as well.
 
-Regards,
-  Marco
+On Mon, 10 Feb 2025 16:33:26 -0600, David Lechner wrote:
+> This series was inspired by some minor annoyance I have experienced a
+> few times in recent reviews.
+> 
+> Calling gpiod_set_array_value_cansleep() can be quite verbose due to
+> having so many parameters. In most cases, we already have a struct
+> gpio_descs that contains the first 3 parameters so we end up with 3 (or
+> often even 6) pointer indirections at each call site. Also, people have
+> a tendency to want to hard-code the first argument instead of using
+> struct gpio_descs.ndescs, often without checking that ndescs >= the
+> hard-coded value.
+> 
+> [...]
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reg-names:
-> +    const: sram
-> +
-> +  memory-region:
-> +    maxItems: 1
-> +
-> +  memory-region-names:
-> +    const: dma
-> +
-> +  port:
-> +    description: SAI3 port
-> +    $ref: audio-graph-port.yaml#
-> +    unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - memory-region
-> +  - memory-region-names
-> +  - port
-> +
-> +allOf:
-> +  - $ref: fsl,sof-cpu.yaml#
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    cm7-cpu@80000000 {
-> +        compatible = "fsl,imx95-cm7-sof";
-> +        reg = <0x80000000 0x6100000>;
-> +        reg-names = "sram";
-> +        mboxes = <&mu7 2 0>, <&mu7 2 1>, <&mu7 3 0>, <&mu7 3 1>;
-> +        mbox-names = "txdb0", "txdb1", "rxdb0", "rxdb1";
-> +        memory-region = <&adma_res>;
-> +        memory-region-names = "dma";
-> +        port {
-> +            /* SAI3-WM8962 link */
-> +            endpoint {
-> +                remote-endpoint = <&wm8962_ep>;
-> +            };
-> +        };
-> +    };
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml b/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
-> new file mode 100644
-> index 000000000000..31863932dbc3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
-> @@ -0,0 +1,27 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/fsl,sof-cpu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP audio processor common properties
-> +
-> +maintainers:
-> +  - Daniel Baluta <daniel.baluta@nxp.com>
-> +
-> +properties:
-> +  mboxes:
-> +    maxItems: 4
-> +
-> +  mbox-names:
-> +    items:
-> +      - const: txdb0
-> +      - const: txdb1
-> +      - const: rxdb0
-> +      - const: rxdb1
-> +
-> +required:
-> +  - mboxes
-> +  - mbox-names
-> +
-> +additionalProperties: true
-> -- 
-> 2.34.1
-> 
-> 
-> 
+Applied, thanks!
+
+[06/15] gpio: max3191x: use gpiod_multi_set_value_cansleep
+        commit: eb2e9c308d2882d9d364af048eb3d8336d41c4bb
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
