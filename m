@@ -1,134 +1,192 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB742080F6
-	for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 09:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C11A20B1E4
+	for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 09:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739352989; cv=none; b=FPLFMczh4m+16LCAQ36/QkfXxhqoAh8PX+tB13Yd3H8domSRQLSyuUYhkvat2aQXQu9P4yro3vsADed1bGaLi3LKMmWs65/6u6vUhFqERcfY//FA+0AAXq1i2F3V5z4YQyj4e6seEwE84Ye4dTpwMpoXe0T8xkYTGmh1yetdTLU=
+	t=1739353005; cv=none; b=U5femplrwtGFAtVmZyB3SX0YtQcIDJtHIxfG8sB7oVWpzZ6ddxsqECpz7rZYOoydIUkH4lgAZqLXhv6Xc4TO9ix4gx0bqhqu3luM2xpF+lJ8Fb8As/mYj/8cP4fsLpU/VmCV2FxM0dsOLZzkeGHLF3hFaO/IDtcV/aXfzc4A2i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739352989; c=relaxed/simple;
-	bh=I7CFgTkt0jzyGzG4M7RjYnnbGhlCBrEk+jlNQ3TAQts=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GzJQ0wCoeXAioPkZkdsO5eC4mlU3gDVlExq2FW2UDFGELKuh2AmLZMMtaQYZb20KRD+F2pMmM+4Y4pz/GoZPRUIieJkpQrQUkvtjat+PFAdmiHDBnab637xpcc2P1ZFbBysIIOceUuLpyoV668xAt025ROZcbZ6AilJ2KM2xTqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=QrIgjLpE; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="QrIgjLpE"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4395a917f33so2117775e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 01:36:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1739352986; x=1739957786; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SrbuHpRRCn2ojY6FY2MTuNNVYvVFb7ykFJzn4YLtY68=;
-        b=QrIgjLpEkIg4TvIfUDn3FaU9UtGn68UJuWXMMFjnw4pJIp7q01+sRhx2F0VZ4ntyrb
-         DTrq8sVzdwrJu4TaGKOY7n4aBTY3xdvnVEV6RW6DqZIv/2RDmCOBhHwewUPWzzIrta00
-         6z6P91/vFUQ0zF8LZCpJr9M3F5EY9/g8LjPGBEhOfymyTWlJxA4VzKyVrx12AKeSF+YZ
-         N7DVbbx7q2oHHAL1uMEw6zDoSO2LbkqwINA0HKNuZ2PGQp0DLiZj+skDYbmiuEAiXFsf
-         A0t/Z66W3OLN9cEEH23FX16CE5d+yhQDNxfHJo+KiM/hL2ihtEeKhNQeTCl+gYpINcHO
-         cFfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739352986; x=1739957786;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SrbuHpRRCn2ojY6FY2MTuNNVYvVFb7ykFJzn4YLtY68=;
-        b=noNvg2t6KKrdqytJq4+DgiYe++7cJsPkLjt9tT6NMeE91FXzVKIyDOMKnyY+TiJlie
-         JJSz0rTuwUSUXL3txLgZQIw36UwXMlN2Le4jZyCnxqrjuIUCULzDw42Pi/J29Hv6N+oq
-         5aHH3WsKhDoUrbDC6zbalUQpLCTM+wBOKhylHxjeCYKRJiSTC62NcHqZT6jhjKXgUfUn
-         mOG/tgKUb74ufxkw00+NZYTvAivTMlIK6M6S4x08heNb1p+v5ydYwWAglYucEhGl4zNc
-         mv22KIszdwVSLvlgw66arNRU6ep+n1vbOs6qTb6+1/E0SLDWwCQ7qNkPu7XNMThE9OB+
-         bvaA==
-X-Forwarded-Encrypted: i=1; AJvYcCVt2JEKR/v1HnP/BiPeNQhoP+NAX/cZlIckC8QE90QjzDPKGq+U9Ds+GR4L41oNwlXxD+jnMqLf7xX1Gg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1EvBgSoBqdfAZ9ewdBRr0ew88/m9w35CqjOrhGfSIzWL9C+3f
-	U2iW8a+yfxt20Po0+5K5P7q/sqA6+LNs2y9Ck2iW9KaKfdSizOyWrJU1OR1aNTI=
-X-Gm-Gg: ASbGncsAO6w07dQbNOhI306sTN0EBHkkBEvDTjDi9xFq+boKTVVBuM82iIj9utWdxJU
-	JcMWs0DCdfh1fDgBRf1jqgHoksyG25kDTKH/8DsTly0oTX1pzi7UHVb1i+vV1CIhoF1qrmEjv6Y
-	/Iioek4bXjEDQ+cNSpOP69FnXj/t5tcGg07plHx5b2Stb1jEcn6ifhr8bOoGbniVeHNuhFYZYV6
-	zqXA38RSHv/6QYEZfiou4fdHRwSP3TupQZ22wywwEOeUHD3Be3D/8uIv/wA2+zSpgSeW37BZXIU
-	KyRUvxGfVy+94OY=
-X-Google-Smtp-Source: AGHT+IFudfgBGV0+IDygsdoLTA/5igyJSZtMJXjbCQPeBSc7oN4L55kdXKAZLq0JA2599sk+IrdqDA==
-X-Received: by 2002:a05:600c:3ac4:b0:434:f9ad:7222 with SMTP id 5b1f17b1804b1-439583b4e03mr18452935e9.7.1739352985575;
-        Wed, 12 Feb 2025 01:36:25 -0800 (PST)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:521c:13af:4882:344c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dd8dee385sm9918965f8f.61.2025.02.12.01.36.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 01:36:25 -0800 (PST)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andy@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Peter Rosin <peda@axentia.se>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	David Lechner <dlechner@baylibre.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-phy@lists.infradead.org,
+	s=arc-20240116; t=1739353005; c=relaxed/simple;
+	bh=fJ0oQVoe3v+GZGtKDqY/m+T+upxz/j86dCJyFecV9bQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ic7aHqySDtDA/G3zkMeo2bEO8ScmBvu0RW/00w8YA82alQPws0ulf5LLEXtHiVoGf84n8xoJB73X4FcEm2g4AnrilMkyFPCGi7syEwmwFcryoTSLGSYcldlb63saVJRSkU0IczHoh3W0CDIxK9dOltvQjO2EZsIPGmiKVt6fjqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1ti9AB-0003qj-6V; Wed, 12 Feb 2025 10:36:11 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1ti9AA-000Z2U-1y;
+	Wed, 12 Feb 2025 10:36:10 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1ti9AA-00AzSK-1c;
+	Wed, 12 Feb 2025 10:36:10 +0100
+Date: Wed, 12 Feb 2025 10:36:10 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: (subset) [PATCH v3 00/15] gpiolib: add gpiod_multi_set_value_cansleep
-Date: Wed, 12 Feb 2025 10:36:23 +0100
-Message-ID: <173935297467.10817.9536577313319553775.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
-References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 1/3] ASoC: dt-bindings: support imx95's CM7 core
+Message-ID: <20250212093610.x4ixrackmn3u2xrf@pengutronix.de>
+References: <20250211225808.3050-1-laurentiumihalcea111@gmail.com>
+ <20250211225808.3050-2-laurentiumihalcea111@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250211225808.3050-2-laurentiumihalcea111@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-
-
-On Mon, 10 Feb 2025 16:33:26 -0600, David Lechner wrote:
-> This series was inspired by some minor annoyance I have experienced a
-> few times in recent reviews.
+On 25-02-11, Laurentiu Mihalcea wrote:
+> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 > 
-> Calling gpiod_set_array_value_cansleep() can be quite verbose due to
-> having so many parameters. In most cases, we already have a struct
-> gpio_descs that contains the first 3 parameters so we end up with 3 (or
-> often even 6) pointer indirections at each call site. Also, people have
-> a tendency to want to hard-code the first argument instead of using
-> struct gpio_descs.ndescs, often without checking that ndescs >= the
-> hard-coded value.
+> Add binding for imx95's CM7 core, used for audio processing.
+> Additionally, introduce a common binding for NXP audio processors with
+> Sound Open Firmware (SOF) support.
 > 
-> [...]
+> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> ---
+>  .../bindings/sound/fsl,imx95-cm7-sof.yaml     | 64 +++++++++++++++++++
+>  .../bindings/sound/fsl,sof-cpu.yaml           | 27 ++++++++
+>  2 files changed, 91 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml
+>  create mode 100644 Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml b/Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml
+> new file mode 100644
+> index 000000000000..f00ae3219e15
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml
+> @@ -0,0 +1,64 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/fsl,imx95-cm7-sof.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP imx95 CM7 core
+> +
+> +maintainers:
+> +  - Daniel Baluta <daniel.baluta@nxp.com>
+> +
+> +description: NXP imx95 CM7 core used for audio processing
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,imx95-cm7-sof
 
-Applied, thanks!
+Albeit Krzysztof already add his Reviewed-by, can I ask why we need to
+add the -sof suffix instead of -audio or so? SOF is a software project
+but you can clearly run different software on the audio-copro as well.
 
-[01/15] gpiolib: add gpiod_multi_set_value_cansleep()
-        commit: 91931af18bd22437e08e2471f5484d6fbdd8ab93
+Regards,
+  Marco
 
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  reg-names:
+> +    const: sram
+> +
+> +  memory-region:
+> +    maxItems: 1
+> +
+> +  memory-region-names:
+> +    const: dma
+> +
+> +  port:
+> +    description: SAI3 port
+> +    $ref: audio-graph-port.yaml#
+> +    unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - memory-region
+> +  - memory-region-names
+> +  - port
+> +
+> +allOf:
+> +  - $ref: fsl,sof-cpu.yaml#
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    cm7-cpu@80000000 {
+> +        compatible = "fsl,imx95-cm7-sof";
+> +        reg = <0x80000000 0x6100000>;
+> +        reg-names = "sram";
+> +        mboxes = <&mu7 2 0>, <&mu7 2 1>, <&mu7 3 0>, <&mu7 3 1>;
+> +        mbox-names = "txdb0", "txdb1", "rxdb0", "rxdb1";
+> +        memory-region = <&adma_res>;
+> +        memory-region-names = "dma";
+> +        port {
+> +            /* SAI3-WM8962 link */
+> +            endpoint {
+> +                remote-endpoint = <&wm8962_ep>;
+> +            };
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml b/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
+> new file mode 100644
+> index 000000000000..31863932dbc3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
+> @@ -0,0 +1,27 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/fsl,sof-cpu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP audio processor common properties
+> +
+> +maintainers:
+> +  - Daniel Baluta <daniel.baluta@nxp.com>
+> +
+> +properties:
+> +  mboxes:
+> +    maxItems: 4
+> +
+> +  mbox-names:
+> +    items:
+> +      - const: txdb0
+> +      - const: txdb1
+> +      - const: rxdb0
+> +      - const: rxdb1
+> +
+> +required:
+> +  - mboxes
+> +  - mbox-names
+> +
+> +additionalProperties: true
+> -- 
+> 2.34.1
+> 
+> 
+> 
