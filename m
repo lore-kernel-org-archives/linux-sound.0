@@ -1,93 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E883211473;
-	Wed, 12 Feb 2025 14:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C302A271800;
+	Wed, 12 Feb 2025 15:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739372331; cv=none; b=K2T4VhWL6K6C2f/z5ZIEYBOutajdZDqze2ZIYLViC1/0Hq3Aj1/oGwCptNQMF/rYiBgNahuPXZwNrT54lee0I6K0LspU6Hmoarfh83h7/33ZZrYzJNbHpzeuVYJ83O6WPqouMjpLY1oiha0NE3naxbXuf2KTNI1gIUP+JqRAwqc=
+	t=1739373116; cv=none; b=Y8N4I/r/YMg3xVX/7UfawLD6oByj3rWx0VgIdf6iYah2PFtf/AWyERwIeWDB4wue1JDgcbV7PiRjubignpcp1YHcJGxpZ0HA/VecvjQZBMsWlK0CebxXlll82Zs6CvaiH5h9QIzFyITWoQ8PuwS4mUarI20s3brCt4smpbnkwrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739372331; c=relaxed/simple;
-	bh=VfPCsV6WWIedIQpMHbXE7Twk3RA4OVR/ycnIBsYi/5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qg8PY/sUa6I+Kq1gD4p/soyasVm3UH6Ec0pUJje2zr8u94QS3ZwcrOjaOid/5auETGFP6vPACr5g4wRa+X+/dxPa1aLq5+C1hzm7Jn7738q6ss3A46zjBOqBFcGiweq/NjGrrSg40+Rmip8YT/qCOjriGpF9+u62bKYE/U+C+cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKCazHFO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739373116; c=relaxed/simple;
+	bh=99arZH731iDZzfa8ZZPAfBQWn0acSMZBM8u1cuqUXuo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=HfEl+3/rLsWjFeqfpcHn4mJ9q/FWMLTUjktaGQPUAlSNg1fUvN4FjQFX1MvcVIf8UlJL56bLoEFrTJGjwL2J/uOknA2mIK3zd3trdNSyeh8xI0e/ZU2xJy/zlYJZ1AYzPMseE/AggvYufSLWBQfZi8PVSMkpOs2p2O1MVqBtNRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=imuTfGHs; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKCazHFO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ABD8C4CEDF;
-	Wed, 12 Feb 2025 14:58:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739372330;
-	bh=VfPCsV6WWIedIQpMHbXE7Twk3RA4OVR/ycnIBsYi/5k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vKCazHFOn2V5aNKha56y6oXj8E3nQcQFhDCe7vTDA6PTEFuURoB42/DkJS1CYL+sq
-	 e+f9mX+XUIP4zwMpyjcVwPJTneK1nqUJSwyt3X2M7Guu0ZPB5QWjYu/G5RuxARTXrg
-	 SKX++juExqFMlzI9bU0+SaOTvn2UtCu8X81f9/tNE2hICBtd/PAJSi/npE/+ZWNcO3
-	 nWR+H9WwO1HcLvwYGsKzdc9sfpk+HL3sL2b14Yn4b+tnpOiR1aDl+SQT9+Wr4cghc8
-	 pKhpA5DHRA0yeinKGgWg7kUNWGKCt356sgaGG6suJfPzeC/F0KEZEk8OShe6AHM8D1
-	 ylcVRVJAA9aZA==
-Date: Wed, 12 Feb 2025 14:58:45 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: imx-audmix: release cpu_mclk clock at failure
-Message-ID: <7e37e951-17ad-4cac-a855-33c48ae0a283@sirena.org.uk>
-References: <20250212093816.1857188-1-shengjiu.wang@nxp.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="imuTfGHs"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C6u2Y2016943;
+	Wed, 12 Feb 2025 09:10:58 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=gaOUuX7MQMuia9McaDE2MM2EVmIcLDAQ3K7abX1j5EI=; b=
+	imuTfGHsfbgtQ94PMHcxX8dKsZW+Oc0j6LC0gyMYNSvSxqzXnaTaNlWMlRasdXb8
+	Nvpn0HrIn7DtIobeHILQes4oMoaNlG73Y8wm7zusuXTIV6LoUIk3ST5faNQWzKj7
+	2XJD6A9hHaGH09OdY5nTy3QSOpzWbQYodSyX3CAwKuhjM2+KS9YZc3YNNmmV8m25
+	D9i01azVLWhpnnkJTPvSjBepXblKH+VJ8YY/c8ZMwcYO3NAnwIbcl3MiiiWby1mp
+	TT9kYkZsv9tR2sHEUE1gVttwJMs81xJPVCfBthzNAaJGreCY6mhx/w0flyThJr4r
+	+d2ehwWTAzHOVJUxjx+Tfw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 44rpsv8nss-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Feb 2025 09:10:58 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 12 Feb
+ 2025 15:10:56 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Wed, 12 Feb 2025 15:10:51 +0000
+Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1F10582025A;
+	Wed, 12 Feb 2025 15:10:51 +0000 (UTC)
+Message-ID: <c92f8f5b-e6f4-41bb-86c1-dc45b80cd49b@opensource.cirrus.com>
+Date: Wed, 12 Feb 2025 15:10:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fAwhL1alp7d3aLFt"
-Content-Disposition: inline
-In-Reply-To: <20250212093816.1857188-1-shengjiu.wang@nxp.com>
-X-Cookie: Reality does not exist -- yet.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND 5/7] mfd: cs40l26: Add support for CS40L26 core
+ driver
+To: Fred Treven <ftreven@opensource.cirrus.com>,
+        Krzysztof Kozlowski
+	<krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Simon Trimmer <simont@opensource.cirrus.com>,
+        Charles Keepax
+	<ckeepax@opensource.cirrus.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        James Ogletree <jogletre@opensource.cirrus.com>,
+        Ben Bright
+	<ben.bright@cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Jeff LaBundy
+	<jeff@labundy.com>, Heiko Stuebner <heiko@sntech.de>,
+        Karel Balej
+	<balejk@matfyz.cz>,
+        Igor Prusov <ivprusov@salutedevices.com>,
+        Jack Yu
+	<jack.yu@realtek.com>,
+        Weidong Wang <wangweidong.a@awinic.com>,
+        Binbin Zhou
+	<zhoubinbin@loongson.cn>,
+        Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+        "Paul
+ Handrigan" <paulha@opensource.cirrus.com>,
+        Masahiro Yamada
+	<masahiroy@kernel.org>, Nuno Sa <nuno.sa@analog.com>
+CC: <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-sound@vger.kernel.org>
+References: <20250204231835.2000457-1-ftreven@opensource.cirrus.com>
+ <20250204231835.2000457-6-ftreven@opensource.cirrus.com>
+ <4e5f0194-22bc-4e17-85f4-6dbc145a936b@kernel.org>
+ <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=O73DvA9W c=1 sm=1 tr=0 ts=67acba02 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=_SCIqTSYrM5XDuVbtgUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: dGfg_TWu3AP67jc1rHjLAyjt-XIXdm3d
+X-Proofpoint-GUID: dGfg_TWu3AP67jc1rHjLAyjt-XIXdm3d
+X-Proofpoint-Spam-Reason: safe
+
+On 11/02/2025 9:16 pm, Fred Treven wrote:
+> On 2/5/25 04:34, Krzysztof Kozlowski wrote:
+>> On 05/02/2025 00:18, Fred Treven wrote:
+>>> Introduce support for Cirrus Logic Device CS40L26:
+>>> A boosted haptic driver with integrated DSP and
+>>> waveform memory with advanced closed loop algorithms
+>>> and LRA protection.
+>>>
+
+<SNIP>
+
+>>> +static const struct spi_device_id cs40l26_id_spi[] = {
+>>> +    { "cs40l26a", 0 },
+>>> +    { "cs40l27b", 1 },
+>>
+>> What are these 0 and 1?
+> 
+> I will make it clear that these are enumerating the different possible
+> device variants.
+> 
+> 
+>>
+>>> +    {}
+>>> +};
+>>> +MODULE_DEVICE_TABLE(spi, cs40l26_id_spi);
+>>> +
+>>> +static const struct of_device_id cs40l26_of_match[] = {
+>>> +    { .compatible = "cirrus,cs40l26a" },
+>>> +    { .compatible = "cirrus,cs40l27b" },
+>>
+>> So devices are compatible? Or rather this is unsynced with other ID 
+>> table.
+> I'm not sure what you mean by this.
+> 
+
+cs40l26_id_spi[] has the 0/1 cookie values to indicate which part
+variant is being instantiated. But cs40l26_of_match[] doesn't have
+these cookie values to indicate which part ID was matched.
 
 
---fAwhL1alp7d3aLFt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Feb 12, 2025 at 05:38:16PM +0800, Shengjiu Wang wrote:
-> When defer probe happens, there may be below error:
->=20
-> platform 59820000.sai: Resources present before probing
->=20
-> The cpu_mclk clock is from the cpu dai device, if it is
-> not released, then the cpu dai device probe will fail
-> for the second time.
-
->  	ret =3D devm_snd_soc_register_card(&pdev->dev, &priv->card);
->  	if (ret) {
-> +		devm_clk_put(&cpu_pdev->dev, priv->cpu_mclk);
-
-The driver shouldn't be using another driver's device to do devm_
-requests (or really to look anything up), that's just going to lead to
-trouble like this - if it's got to look up another device's clocks it
-should do a regular clk_get().  There will also potentially be problems
-if the other device unregisters first and frees our clock underneath us,
-and this will request multiple copies of the clock if we unbind and
-rebind the imx-audmix driver.
-
---fAwhL1alp7d3aLFt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmestyQACgkQJNaLcl1U
-h9Bjngf/WfuwuKGeK2nB+kS9poygpKCLuG9wbqSJbBo3TWSTk4l/5HcDoYFMf3Qd
-DMjzt+C6i1ZKZ3aL7+jm4sQvxWUHX8ciF0FQqarOjN7ZVbCRNQggndMqphCuaNpJ
-TMeIlSrKjSEDiajGNLjt0cbusl/CLP6nsHzfp+HCc2WSe6b12QSqndtJCB+seG9c
-jVdR6dNZc2yePUIUVP+MeafpbWpru2KS0N+Fg3Fle0VNhs1TJ1+W3qKsLfUQQStR
-Xr9JQdSzrjdIw3Vr2jDyKcWGVTh05G0BsZ+OLCAQo3PuaoFg2/lrs4HP7t7KGfnK
-i4hrFK/hPV7ZZkWL0NxgTSGVeRjJ3g==
-=Of57
------END PGP SIGNATURE-----
-
---fAwhL1alp7d3aLFt--
