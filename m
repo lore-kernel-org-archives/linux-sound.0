@@ -1,241 +1,290 @@
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2067.outbound.protection.outlook.com [40.107.249.67])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1F1271814;
-	Wed, 12 Feb 2025 15:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739375261; cv=fail; b=klA7+4il+8al5SokC4kqbv5hAVyZjJHS9PoEWU7dU84cIkPfZgLY+ABuCNkIe1fu+7ixfq+Q/eCgFvPlHm6FgFFMHngQezlL/i6e1fN6iXHRHbZNoXMed2/IrA9iwvhjMgYErNPoNawohhxbkiC34zFTor8KcKsCy5kKxnQbjNA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739375261; c=relaxed/simple;
-	bh=cRv6NgOmBfoNCL/9xJwt7ASpu58DhphgPhS34QujCFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=G2bOuP0UToIscu96xjudjDLxZlqe6JyYOFQaFyMVBLuGbfmsbdqjS9LOsyLkzywLBuggf2hujxd7pAK6nxZzFgM6utNFyYqzBByThccpS5dAxa3QIvhIqk2mU9ucTHwzOWfLmUm76sdwTfHfKoAHt4eeKDlHsyjq6xUeBJdsaXc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Ciz7kOn0; arc=fail smtp.client-ip=40.107.249.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8D0271814;
+	Wed, 12 Feb 2025 15:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739375459; cv=none; b=T9LgARlIKrfU3PSzsQ1hQvq5KG3mzYwQJBHtIOF2uTkSUhlKnryQY1oPgux/IEyRMdh5YQolJfps+g9lC6yAr/WtXhFtpxhq/LisxLb7FzG8egaCOGpbrMSMVMEmqFoN6brIBKfeZ1fUWplfjXTf7QZoFCTfyDGRzqh+gdMM9i8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739375459; c=relaxed/simple;
+	bh=veRJ1seuG5meNk+CJnoyOMvxRECby9IaNKYibL9rsv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OFRVFVSwSNkDQ/YIrxQISq4Mm6F9vdHA9cyzRd/ONocitJTiMzYRR5VXolP6oFpKuwJur0z4XanksTdJHSjDhstvVOORwNdzpkSvXXQucLvtRsTDxtEUZli8XAxhfMrgN3a4/3jygRIi7yfsk8Or15x4UnNFoKVvR/1zfnaEMK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=URfurnxK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Ciz7kOn0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JCGx6yYQmjNowstW6lw7+IyiK6UyVkARzkXYevdHdseNAjGm3IyIigOzuXy1oDTeeefgGaoAwlLmI6AwUNle+2eXEu28O4mntbXqk6Qtw8GiS6kd0G5nLLHGIbu3ltDDHbn12+3SNxILrw7tDzhj89VuANwRY0nkH5U+rahIRykHfnRL0YJ0UwY8/hAHFyj1qpNZSRLhsPpFNADCwvZFuIaJaReKY8qGNAhLFwYh0tZxUYL6m6ydZwYaY28rfsRWtREexyMY8OLh9GdjVX9Fy8aVSkaC58SE6W/E2tDMxsCog+Uo41Ln8grwtD5PpWTPQW7CnLbePmO3jiTRWpvKSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0Nem88b8qmvxPwwrv866nL0iyBq3IdKeXoRuK8nU3xY=;
- b=Esfp9oAB3AofkfllUWmZjIETyWWwSI1J+0ZEZXlxe4Tkr2OldLwT244rmLXYN71eoosfAphJ32QfnjsFsDxDv5Ryhkg40qc7BQBfyiBeomkxJqU/prrBPSXkdTunH4s6Na8nKw3pj1Cc9a+LS37BQue7ZZDOW2Wxb1EepzCR2jFQuNN/P96bLsGYNyvBAdnjqE8YETZhrwSv/gD4gv24uI51Vd9lXaOyY5ydV7Em5a6aR2ozadX9KJYEismTFW5Z6uvUjTEBR/7sci2NlZ71oKzHywkfuN+h4BQQYb8ZgwnCo8HdWpfxUUe/YtiZQVH/Uf1XyPw7aRpQdBKpHCyECA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0Nem88b8qmvxPwwrv866nL0iyBq3IdKeXoRuK8nU3xY=;
- b=Ciz7kOn09Cr5qpU+D6anHlDu5Vzz20UCqrz+Il6TDzYVzCEvDxZGeWPT1O2b4U2BgPKqZ0sskH3UG4I+KZLiyFm/f6eSUeZI+qOBEMh/EpCtkjdJ1NRWwmSofcimkWD0OZ0oxmgBcb3ZJ0vsnNGYP9FqHK4MsHFhQ2Te/q2fDk5QaFJ9nY1d5IOd39pZhl7O1f5xCX4KqxGLg18EXP8D24SCCyqWNW4SqNdkmvsquh/D9mKTch0kWsb5YMyL5ZNjesRUQedkWjO2taWyicIrb6EeKJIPXf6qxdg+91CLxtqT9lh12nlF6fXQ8ZQMADlZp3QXWgkq9g10WQnswvbfAA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by GV1PR04MB10846.eurprd04.prod.outlook.com (2603:10a6:150:210::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.12; Wed, 12 Feb
- 2025 15:47:35 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%6]) with mapi id 15.20.8422.012; Wed, 12 Feb 2025
- 15:47:35 +0000
-Date: Wed, 12 Feb 2025 10:47:25 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo.Lee@gmail.com,
-	festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
-	broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: imx-card: Add playback_only or capture_only
- support
-Message-ID: <Z6zCjXr6vsVF/6Ag@lizhi-Precision-Tower-5810>
-References: <20250211035737.3886974-1-shengjiu.wang@nxp.com>
- <20250211035737.3886974-3-shengjiu.wang@nxp.com>
- <Z6tuFp9nZFMJMgDa@lizhi-Precision-Tower-5810>
- <CAA+D8AMyXVdAWOTGHtrOyXjSLiMioAhZ1awepX3nproom87azQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA+D8AMyXVdAWOTGHtrOyXjSLiMioAhZ1awepX3nproom87azQ@mail.gmail.com>
-X-ClientProxiedBy: SJ0PR03CA0276.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::11) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="URfurnxK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6EE5C4AF0B;
+	Wed, 12 Feb 2025 15:50:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739375458;
+	bh=veRJ1seuG5meNk+CJnoyOMvxRECby9IaNKYibL9rsv8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=URfurnxKnHDqT67NaXeF+MY87//DBPNEdgtMNSbHJuEcs2WqelZJAMtNB2a7ExU3R
+	 qNYbQaQH4EXETek/dstSEgt8j8HVHlX3VGNiv3f55CHQM6nvHpMKqdnZiZr39oPXUj
+	 okfs6CO8CLUMyPiPLBzo+rU8ouluHvfaJdBM/aun3YMNEorHsyDPUVk9OTp1nVv+s5
+	 hnIkBcqy8Ljx+z7bcLIDvwwE+jdBqmB4lu9wYSXb6GU+2pv6d3fhKh1eG34RodGRV0
+	 V2acr5V1TiHFPzw0sCLhkCcpaxrDduHi7b6jaq1dcs3B6TK2Quh+5YEqLvXQiXzlOl
+	 2Dmt7EuKcWo4g==
+Date: Wed, 12 Feb 2025 15:50:50 +0000
+From: Lee Jones <lee@kernel.org>
+To: Fred Treven <ftreven@opensource.cirrus.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	James Ogletree <jogletre@opensource.cirrus.com>,
+	Ben Bright <ben.bright@cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Jeff LaBundy <jeff@labundy.com>, Heiko Stuebner <heiko@sntech.de>,
+	Karel Balej <balejk@matfyz.cz>,
+	Igor Prusov <ivprusov@salutedevices.com>,
+	Jack Yu <jack.yu@realtek.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	Paul Handrigan <paulha@opensource.cirrus.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nuno Sa <nuno.sa@analog.com>, alsa-devel@alsa-project.org,
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH RESEND 5/7] mfd: cs40l26: Add support for CS40L26 core
+ driver
+Message-ID: <20250212155050.GC2274105@google.com>
+References: <20250204231835.2000457-1-ftreven@opensource.cirrus.com>
+ <20250204231835.2000457-6-ftreven@opensource.cirrus.com>
+ <4e5f0194-22bc-4e17-85f4-6dbc145a936b@kernel.org>
+ <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|GV1PR04MB10846:EE_
-X-MS-Office365-Filtering-Correlation-Id: b516fcea-7eca-4b5a-e31b-08dd4b7c91da
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|1800799024|376014|7416014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?SnZmenFCQkNzVnhzT0F3RlFndzNFZWZKM2h5aDlZdmFwNi9JQWhHSTVtMnFD?=
- =?utf-8?B?SXRYbS9XVFRzZUE2SDE5aGZ1K3ZuUU84eGJJOTZNQ3U1Q0RTbnphazJmZlhn?=
- =?utf-8?B?QnJiWUhUdHRZMTRQS0M2YnZYQ3R3cDJ3bm5xclBqWUowTTJPejNrZi80czdm?=
- =?utf-8?B?T0trL0d6ckcwVTZiWUpVMDJaMkZrRU05d0I0NzF2eDVPVFZWN1F5bXpRcVR6?=
- =?utf-8?B?c1EyNFgrejRFL3M2cytWMzJBa3pEVndNOU03eW5JdEkrdndMRzQzVEV2WTBX?=
- =?utf-8?B?N1BNMGk0NHVOT1lmOWtoWlg1MWltWC9ncVpkNmRDRTFiYTdvQWR2dmNEQWxj?=
- =?utf-8?B?NUNaQS9SNzExVHRQQkdCN0VtVXlIRjhmQTJCMURXaWtpeHlSRDhTUnB1RHF0?=
- =?utf-8?B?c1h4Sk5PK0RjaWZHUUw3YzRzeGpBdWxtOFZWYmQ0c3dKTWdJK2w1ZEU0QzN1?=
- =?utf-8?B?a0lEeU41Q2Uvdm9mVG13UXh4MDVLaWNTMHArWjgrazRHZDJUVDJXRm00azRF?=
- =?utf-8?B?eHlOWllsQlprOStPblJkY252WHowRE1WZ1RuT3hTaG11UEtDaWM4TVEweGpn?=
- =?utf-8?B?ZDFhYW1Oa0VOR3V4ZENqZ0FnblVHOG1uKzNyRUwxNU1IMjdpU21mRGVqeFRI?=
- =?utf-8?B?S2paRDE4OU8wTjc2MHRRVzB0NjFqc1l1clZJSDdWZmRxVStLTXZaSHBPb1dp?=
- =?utf-8?B?WTI0RHlGVXhBa1NSMllIT2NNRTdwM1dJTEFuM2YrRmRHUDFoK3BKRVoreEJE?=
- =?utf-8?B?dEZoeWJrUjN6UFZuSThnRnJrc0VjREpYZHZVTm1sTnFSTjdGandWOWwyWllR?=
- =?utf-8?B?TDlybTFvKzFaeUZTa3VjL3FuL1krM215b3piZXh0RlcxR0pkSHh4YWs5dTJC?=
- =?utf-8?B?NE12UkhBaEh2a2dSQkNrbXV2enJSWE9JQjdGSk5MVXBqU3doTWJIeVJjRDda?=
- =?utf-8?B?dGlGQXhlN2dPMUx6aVU2SXZuY0FMMjYzb3NuVEtwZGxDbEowcTZqYWZOZ1ZJ?=
- =?utf-8?B?U3MrVlJyc3VvZ0JaV1djclNkQ3lmQ0ZRd0dDMVdCT3hVdE9ua3lKMXpvTndR?=
- =?utf-8?B?MVVjc3RwcnY2RnhXdzl3N2RTblJGVWlTMEUydGwxQTFhUnFPTVNyb3M1d24v?=
- =?utf-8?B?Qi95UFRTanlZVE5OU0VuY1h4Y3d6enZJTWYxaUJINWJnQmF4NjBONm1WeVBr?=
- =?utf-8?B?d3VvT1FHajBYenh4d2FuZ2JnOERFcEFBcFBpeFFIY2FnNVVlc0dpSisySDNW?=
- =?utf-8?B?Z0FYWmt5YnNpdXlmNG1DdEtndXVpYkVhajI4NWJabU1veXNkNWVzMFlhVG1t?=
- =?utf-8?B?NzBnN1RFRjVVMUp2QktwRGdEcVBLOEd5WUhzYk9rWGlXaXAwYkRWNEJJTG52?=
- =?utf-8?B?NEJRaEFRVnI4Y0tkcStzM1hYM1NRandNNjcvd3VjcnRCbGxqOWJoWUh3N3Y1?=
- =?utf-8?B?Q2luMG1jKzhFSHVsdGRsejh4QzhKMWF1Q2FGQkRZcGxlR2tzYVlmTWFtVWRE?=
- =?utf-8?B?cjdhVFN0VjQxRUQvMmZQanhSejMxVWF2aU8xd3VWR3haK3V6WllQQ3F1eURC?=
- =?utf-8?B?WGIweWo5MUlWSXV1NDI5ZVJFNmlUcVdyWEJ2a0ZtbjRYcnZyVXNkd0tTcHRX?=
- =?utf-8?B?Y2QzRDFZdFdpSldoY1RoOGpkY21sa3hFbEFvQ1N4d0k1TTBNMHRhZUI0ZkFC?=
- =?utf-8?B?T0JVdkdxbG53T1NqOFdsZFNMdUR2L2QwUUF5YkpoOVU5LzlkakFDSjNBMHQy?=
- =?utf-8?B?UVk0cUVXOHB6WGN1NWN5MDk3RkJjSWFyMWdlTFdOQ3BVRVB6VFRicko0bFM1?=
- =?utf-8?B?NEpGaTc1ZzJLZ2VoTExtSzd2SGlUazBaaUpjME43RmhCSnV0YldmbVpwYUdr?=
- =?utf-8?B?Zk1RTWtZdWFxWUIzZU8vZTd6c1poZUliL3FLOUVWcUJkOG5xaDJ6TkwwWFkr?=
- =?utf-8?Q?M1H3LBuEXqssBKnIk0Kg+v/xfZ8keRIy?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(376014)(7416014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dkFLbHlkUEt0b0lLMC92bDc1YU0zby8yMmwzQ3hmbEZ5bU51Rk1tem9BZHRk?=
- =?utf-8?B?cEFTZ05iZkl4NlBjeGxiZ1hyWVVuU1pyMTBVMnFqRllSblQ1RHV1OGlCdmVk?=
- =?utf-8?B?QmhCUkZCczVDSEc0S0FTUERtNVA4Mmk0TnBuOWFqYVZRWng1VHlaQlpTMSsx?=
- =?utf-8?B?Rkl2dWorZzRScTFYelR1cEtZanYyV2pBNENaL1JBRzVJdTlZMldhVUNmWHBE?=
- =?utf-8?B?aktWZ0pRVkE2Y3FvRWtweHoyOTFpM0FUc2hRTjQwSDg1R0J1bmRpTTRVRmg2?=
- =?utf-8?B?WUNZYlFUSmlzM01PMGZkRXZpZEhqZTlsbXIxeFFEWUJZYlRrMncwNE84dnVV?=
- =?utf-8?B?SnhldXJBSEFDQ1VySW9kK244WkVhaEJKMndYd0FyRDkvTXBEb05rcHlJc2pt?=
- =?utf-8?B?VWlmUUQ4UXR3ZExacEVrUFZjK3Rrckp5V3FKY2F1WHgvamdwTjdaakdpTzgy?=
- =?utf-8?B?bEZ6c1c3eWpNWWhBM2V4ZmNNUHNqMFE3djFZbkdmUnl3R1gvQjVaL2x2d2Fp?=
- =?utf-8?B?UEZneVIvYS9MYlM5ZkdPVDFrTjVFVFRDbVpDRmJPZ21DcEZpM0dmVGdNTTc3?=
- =?utf-8?B?OHBPdi8vQ254czRmL0Jac055NjdGUVhLZDJRZVNpSzdFWXloU25ZUnhBQmdF?=
- =?utf-8?B?ZkR6OVZRWTlkRnpNd2xhY2hMZytSZTZaSnlMZkdwVFJqNWdFRzFlVmRqU05D?=
- =?utf-8?B?dldueEtJaktvdldZVmhMR2NuZmc2eGlSK0RMVVFoekdLM0hhY0dUbXhpNDhk?=
- =?utf-8?B?Y0xoc1d1Rm5nSzFDNlZLTlpGNitNTWVBc1BUQ2FRbm5DMEdYNitVajhLREgw?=
- =?utf-8?B?NTlyblVXL3JoQWYrV3pLeXltSTViSkNQbHg3TUVabWFlaVVSQ2IrZFRxbUVv?=
- =?utf-8?B?OVlSRHBXODBCMFcwbUZHdlRtRzROQVZtcDRBcG5FNXJ5MU5KWGV2bnhKVFVq?=
- =?utf-8?B?ZlRid01ETjlGcFlNTElMQXg0b21ZaU9EM0x6c0tRaUYvbm04azZ6bTd1WmlT?=
- =?utf-8?B?bjJBRkJXL245cTFxeDlHaGRqWGhRbmtyOXhha1pSTUUyc2RIRkVOTktNMGdv?=
- =?utf-8?B?czBzK2NQQitQZmo5aTVweE03VWJFWGNlaDJGb3pQdVFyMHk1KzBzU05DdUZE?=
- =?utf-8?B?YTFNeGxYZ0hrVThiMHI0SXlRdzRMOERtL1hvYUdEMEZRa1hNdXhqMEUzaksz?=
- =?utf-8?B?Y0FOVi9xbjB4RDFqTDZENlE4eXJIWFQ5amNXTVVJL20zNW1KRGJwaHVOTndm?=
- =?utf-8?B?TEduUXJJenAweCt1VnVpdERuTWFsS3MrRW1hYm5WZ1VHM0JCZ1dGMGQ2Uno0?=
- =?utf-8?B?UDU0ODdGMUdsMSs0Tm5aYkNtcmhJUHZjQlc2ZWhSaEtBUUNkVTk0dkJINEh1?=
- =?utf-8?B?N1MrRWhpZFZDMkZ6TGRoOHFMZGk1NE0vaDE1TW5qejcrMWxwTGJUK1pIOEhM?=
- =?utf-8?B?aVFHQjhzL0ZXaHR6a1cyZHQrVHhWZmt3R1psRGxYRVB1MmZQY3E5K1JvVkQ0?=
- =?utf-8?B?Q0xrVHRyWEQ2SjliQ3I0NVVXMCtScEVIZlhMcTYyblB2bWlMSHNKT0FZbEp1?=
- =?utf-8?B?MWZudEphVTg4Y3FXRG5uVCtFSnVabER5MWRNNmxGaUlJRkNNZ0E1VzArTk9K?=
- =?utf-8?B?czlHb2RqZ08rby9BbmpvZVczcmw3amJNTUhnZUpTWm5oVkxWeHBJaXd5Ui9Q?=
- =?utf-8?B?bjhpL01EZU1zZytnWVU0WGhsMEF1OUdYQmRJSUo0N3Q2VXhtMXJaSlB6eWhR?=
- =?utf-8?B?ZzJQaEV2SndNOWlpV3RyOURoVkswNVlYMVExZERQWW9zZysrM2VIRmlGSEpX?=
- =?utf-8?B?NjJRaWtocEdBN0hoZW1VMWh4NWhOay9rLzM4eXNtZlh3S3UxYXlnRDhMNFlB?=
- =?utf-8?B?Z1lSNUdpaE1Ta1hKNEtVc0JXRlJQdTMvaTQ1Z1ZBR0tZTEQ3bUxqUzBCdFpP?=
- =?utf-8?B?b0c5M2hheGtXSitic0RpbXhsc1k2SVpTZFhUU0JwMW9qOWt2VXVvcEZka3dE?=
- =?utf-8?B?QUx1Wk9Ea2VqbjF3QkRHUWhVZzdGNmFYazRFUDRmTDVPcVk1NGlMUVZRc3hR?=
- =?utf-8?B?V3J4OEY0WTJZTWJRUW5RZURrZjFVeXB6aUFqNVBsT29DZDFUNDdGMHdJcm5G?=
- =?utf-8?Q?MYZ/AKj7xhw1IrmpJULjQ0tmI?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b516fcea-7eca-4b5a-e31b-08dd4b7c91da
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 15:47:35.3473
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +HDbjKmvxS/wyHC7ovVr/c25t9OxdCKU1IP8ID/2IySsdPyShtKfisg3qlvz8uU1SLtYjTIHgFlmfMdkLeSA3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10846
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
 
-On Wed, Feb 12, 2025 at 11:48:43AM +0800, Shengjiu Wang wrote:
-> On Tue, Feb 11, 2025 at 11:34 PM Frank Li <Frank.li@nxp.com> wrote:
-> >
-> > On Tue, Feb 11, 2025 at 11:57:37AM +0800, Shengjiu Wang wrote:
-> > > With the DPCM case, the backend only support capture or
-> > > playback, then the linked frontend can only support
-> > > capture or playback, but frontend can't automatically
-> > > enable only capture or playback, it needs the input
-> > > from dt-binding.
-> >
-> > wrap at 75 chars
->
-> On my side, there are in 75 chars...
->
-> >
-> > >
-> > > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > > ---
-> > >  sound/soc/fsl/imx-card.c | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >
-> > > diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
-> > > index ac043ad367ac..905294682996 100644
-> > > --- a/sound/soc/fsl/imx-card.c
-> > > +++ b/sound/soc/fsl/imx-card.c
-> > > @@ -518,6 +518,7 @@ static int imx_card_parse_of(struct imx_card_data *data)
-> > >       struct snd_soc_dai_link *link;
-> > >       struct dai_link_data *link_data;
-> > >       struct of_phandle_args args;
-> > > +     bool playback_only, capture_only;
-> > >       int ret, num_links;
-> > >       u32 asrc_fmt = 0;
-> > >       u32 width;
-> > > @@ -679,6 +680,10 @@ static int imx_card_parse_of(struct imx_card_data *data)
-> > >                       link->ops = &imx_aif_ops;
-> > >               }
-> > >
-> > > +             graph_util_parse_link_direction(np, &playback_only, &capture_only);
-> > > +             link->playback_only = playback_only;
-> > > +             link->capture_only = capture_only;
+On Tue, 11 Feb 2025, Fred Treven wrote:
+
+> On 2/5/25 04:34, Krzysztof Kozlowski wrote:
+> > On 05/02/2025 00:18, Fred Treven wrote:
+> > > Introduce support for Cirrus Logic Device CS40L26:
+> > > A boosted haptic driver with integrated DSP and
+> > > waveform memory with advanced closed loop algorithms
+> > > and LRA protection.
+> > > 
+> > Please wrap commit message according to Linux coding style / submission
+> > process (neither too early nor over the limit):
+> > https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+> > 
+> > 
 > > > +
-> >
-> > if only use once, needn't local variable.
-> >
-> > graph_util_parse_link_direction(np, &link->playback_only, &link->capture_only)
->
-> sound/soc/fsl/imx-card.c:683:53: error: cannot take address of
-> bit-field ‘playback_only’
->   683 |                 graph_util_parse_link_direction(np,
-> &link->playback_only, &link->capture_only);
->       |                                                     ^
-> sound/soc/fsl/imx-card.c:683:75: error: cannot take address of
-> bit-field ‘capture_only’
->   683 |                 graph_util_parse_link_direction(np,
-> &link->playback_only, &link->capture_only);
->
-> There are errors with it.
+> > > +#include <linux/cleanup.h>
+> > > +#include <linux/mfd/core.h>
+> > > +#include <linux/mfd/cs40l26.h>
+> > > +#include <linux/property.h>
+> > > +#include <linux/regulator/consumer.h>
+> > > +
+> > > +static const struct mfd_cell cs40l26_devs[] = {
+> > > +	{ .name = "cs40l26-codec", },
+> > > +	{ .name = "cs40l26-vibra", },
+> > > +};
+> > > +
+> > > +const struct regmap_config cs40l26_regmap = {
+> > > +	.reg_bits = 32,
+> > > +	.val_bits = 32,
+> > > +	.reg_stride = 4,
+> > > +	.reg_format_endian = REGMAP_ENDIAN_BIG,
+> > > +	.val_format_endian = REGMAP_ENDIAN_BIG,
+> > > +	.max_register = CS40L26_LASTREG,
+> > > +	.cache_type = REGCACHE_NONE,
+> > > +};
+> > > +EXPORT_SYMBOL_GPL(cs40l26_regmap);
+> > > +
+> > > +static const char *const cs40l26_supplies[] = {
+> > > +	"va", "vp",
+> > > +};
+> > > +
+> > > +inline void cs40l26_pm_exit(struct device *dev)
+> > 
+> > Exported function and inlined? This feels odd. Anyway, don't use any
+> > inline keywords in C units.
+> > 
+> > > +{
+> > > +	pm_runtime_mark_last_busy(dev);
+> > > +	pm_runtime_put_autosuspend(dev);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(cs40l26_pm_exit);
+> > > +
+> > > +static int cs40l26_fw_write_raw(struct cs_dsp *dsp, const char *const name,
+> > > +				const unsigned int algo_id, const u32 offset_words,
+> > > +				const size_t len_words, u32 *buf)
+> > > +{
+> > > +	struct cs_dsp_coeff_ctl *ctl;
+> > > +	__be32 *val;
+> > > +	int i, ret;
+> > > +
+> > > +	ctl = cs_dsp_get_ctl(dsp, name, WMFW_ADSP2_XM, algo_id);
+> > > +	if (!ctl) {
+> > > +		dev_err(dsp->dev, "Failed to find FW control %s\n", name);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	val = kzalloc(len_words * sizeof(u32), GFP_KERNEL);
+> > 
+> > Looks like an array, so kcalloc
+> > 
+> > > +	if (!val)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	for (i = 0; i < len_words; i++)
+> > > +		val[i] = cpu_to_be32(buf[i]);
+> > > +
+> > > +	ret = cs_dsp_coeff_write_ctrl(ctl, offset_words, val, len_words * sizeof(u32));
+> > > +	if (ret < 0)
+> > > +		dev_err(dsp->dev, "Failed to write FW control %s\n", name);
+> > > +
+> > > +	kfree(val);
+> > > +
+> > > +	return (ret < 0) ? ret : 0;
+> > > +}
+> > > +
+> > > +inline int cs40l26_fw_write(struct cs_dsp *dsp, const char *const name, const unsigned int algo_id,
+> > > +			    u32 val)
+> > > +{
+> > > +	return cs40l26_fw_write_raw(dsp, name, algo_id, 0, 1, &val);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(cs40l26_fw_write);
+> > > +
+> > > +static int cs40l26_fw_read_raw(struct cs_dsp *dsp, const char *const name,
+> > > +			       const unsigned int algo_id, const unsigned int offset_words,
+> > > +			       const size_t len_words, u32 *buf)
+> > > +{
+> > > +	struct cs_dsp_coeff_ctl *ctl;
+> > > +	int i, ret;
+> > > +
+> > > +	ctl = cs_dsp_get_ctl(dsp, name, WMFW_ADSP2_XM, algo_id);
+> > > +	if (!ctl) {
+> > > +		dev_err(dsp->dev, "Failed to find FW control %s\n", name);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	ret = cs_dsp_coeff_read_ctrl(ctl, offset_words, buf, len_words * sizeof(u32));
+> > > +	if (ret) {
+> > > +		dev_err(dsp->dev, "Failed to read FW control %s\n", name);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	for (i = 0; i < len_words; i++)
+> > > +		buf[i] = be32_to_cpu(buf[i]);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +inline int cs40l26_fw_read(struct cs_dsp *dsp, const char *const name, const unsigned int algo_id,
+> > 
+> > All your exported functions should have kerneldoc.
+> 
+> I'm happy to add this, but I don't know where this directive comes from.
+> Could you share where in the kernel style guide (or elsewhere) this is stated?
+> There are also hundreds of examples in MFD in which exported functions
+> do not have kerneldoc which is why I'm curious.
+> 
+> > 
+> > > +			   u32 *buf)
+> > > +{
+> > > +	return cs40l26_fw_read_raw(dsp, name, algo_id, 0, 1, buf);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(cs40l26_fw_read);
+> > > +
+> > > +static struct cs40l26_irq *cs40l26_get_irq(struct cs40l26 *cs40l26, const int num, const int bit);
+> > > +
+> > > +static int cs40l26_gpio1_rise_irq(void *data)
+> > > +{
+> > > +	struct cs40l26 *cs40l26 = data;
+> > > +
+> > > +	if (cs40l26->wksrc_sts & CS40L26_WKSRC_STS_EN)
+> > > +		dev_dbg(cs40l26->dev, "GPIO1 Rising Edge Detected\n");
+> > > +
+> > > +	cs40l26->wksrc_sts |= CS40L26_WKSRC_STS_EN;
+> > > +
+> > > +	return 0;
+> > > +}
+> > 
+> > 
+> > ...
+> > 
+> > > +err:
+> > > +	dev_err(cs40l26->dev, "Invalid revision 0x%02X for device 0x%06X\n", cs40l26->revid,
+> > > +		cs40l26->devid);
+> > > +	return -EINVAL;
+> > > +}
+> > > +
+> > > +int cs40l26_set_pll_loop(struct cs40l26 *cs40l26, const u32 pll_loop)
+> > > +{
+> > > +	int i;
+> > > +
+> > > +	/* Retry in case DSP is hibernating */
+> > > +	for (i = 0; i < CS40L26_PLL_NUM_SET_ATTEMPTS; i++) {
+> > > +		if (!regmap_update_bits(cs40l26->regmap, CS40L26_REFCLK_INPUT,
+> > > +					CS40L26_PLL_REFCLK_LOOP_MASK,
+> > > +					pll_loop << CS40L26_PLL_REFCLK_LOOP_SHIFT))
+> > > +			break;
+> > > +	}
+> > > +
+> > > +	if (i == CS40L26_PLL_NUM_SET_ATTEMPTS) {
+> > > +		dev_err(cs40l26->dev, "Failed to configure PLL\n");
+> > > +		return -ETIMEDOUT;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(cs40l26_set_pll_loop);
+> > > +
+> > 
+> > This looks way past simple MFD driver. Not only this - entire file. You
+> > configure there quite a lot and for example setting PLLs is not job for
+> > MFD. This should be placed in appropriate subsystem.
+> > 
+> I disagree here because the configuration being done in this file
+> is essential to the core operation of the part. For instance,
+> setting the PLL to open-loop here is required to prevent any
+> external interference (e.g. GPIO events) from interrupting
+> the part while loading firmware.
+> 
+> The other hardware configuration being done here is required for
+> both the Input and ASoC operations of the part.
+> 
+> Lastly, these need to be done in order and independently of which
+> child driver (ASoC or input) the user adds. If this is moved
+> to cs40l26-vibra.c (the input driver), for instance,
+> and that module is then not added, it will disturb the
+> required setup for use by the ASoC driver.
+> 
+> I would really like to get Lee's opinion here because it does not
+> make sense to me why this is inappropriate when the configuration
+> done in the core MFD driver is required for use by all of its
+> children.
 
-Okay, it should be fine.
+FWIW, I agree with Krzysztof.
 
-Frank
+There's a bunch of functionality in here that should be exported out to
+leaf drivers which should reside in their associated subsystems.  From
+just a quick glance that looks to include, but not necessary limited
+to; IRQs, GPIOs and PLLs (Clocks).
 
->
-> best regards
-> Shengjiu Wang
-> >
-> > Frank
-> >
-> > >               /* Get dai fmt */
-> > >               ret = simple_util_parse_daifmt(dev, np, codec,
-> > >                                              NULL, &link->dai_fmt);
-> > > --
-> > > 2.34.1
-> > >
+MFD has been used for a dumping ground under the premise of "core
+functionality" before.  Tolerance for those arguments are now fairly
+low.
+
+-- 
+Lee Jones [李琼斯]
