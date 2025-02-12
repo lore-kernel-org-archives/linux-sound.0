@@ -1,84 +1,96 @@
-Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com [91.218.175.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86162063EE
-	for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 09:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D23C205ADD;
+	Wed, 12 Feb 2025 09:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739351603; cv=none; b=nPjgjIULBhU63QU1944FKnVGpkWhkMhU1o3sAraVOf9G+st2BnRO12b1maxbhVHzlp57sX+LrzAmPkU0XJ5HCujBfDnMoATasmdDeYe1F9AU0DP7fkNMPk77rnhP1TRrXxB/9AIs/Zqy4rjtEIZhzZGmmf1O+Zn0gwzayBadEGI=
+	t=1739352073; cv=none; b=Wd7gt4klY+If9T2ZaXUebI3ZdIq+lwFcNWS99hXS5fdtdtI/42ZvUkYl3CyeE0vkqGXR7ifXKkqA/Sltof44eKZnjXOePv0qDnx23hsUjlP65WrB3UX89qUlbolgG/+Je8ysrafx1QvijldCI3C3c9Gy7tYyk5ArJEgbGgrozHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739351603; c=relaxed/simple;
-	bh=E9lu+GG0AYXIafs+8hw2iWDNPfH1dvmIXwviHzeIWsQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L6OOTOiIqdfJsnNMXO8HPvjSwN6Ll+8Bl/w4MfHoUF5oZ9tC4eeYkfwGdEv1h5YVhykhoojeWL1qFOIgZx/eDed8KVdS2JJ4tINnQDq+boqvSW+UiQt6CuwdDpsSY6Buyvqdx0I8vaJf0JYpqBLs1PlRbopa+A+uTZcnIF4g3BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GVFYKxZ5; arc=none smtp.client-ip=91.218.175.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1739352073; c=relaxed/simple;
+	bh=ZdCk17au8xwp6xQabJ9SUU2OiCQghf6je+QyJ5T8xMY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eg9h2EvcHWST08uNcvbYltk/VaRMkxxRSFoK/cgNvIDHUFjpJuSD8VUkdsjl7eBCk2iMYsUxlARqUvbvvMAxgU8/LUqZ3mxkN68rbDpqFRwOLQYHFt/iA/4xA8IBabA4dXZ2+wvRo6t2A2egPV8Jf4hhgR0OjQDXNEpo5Ra2B+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NMMs7dZB; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GVFYKxZ5"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1739351589;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GLTcxnoejq9g8W1Zy6A2WIqaQC5yyGpPrqr18o1paAY=;
-	b=GVFYKxZ50LRjTxhPPZs3jH9Rzb7ql8wztw+/QJR2oxlY/HjZ3dJqOSXRwk42FjrJRQxQvO
-	NFrP7Uu3v0o5MUtAqxYMEBCkZ6UQPtnekL6pPjbdGpkpcXq0zDdZZWa2R8s45EUXgylolJ
-	B2cJZNmEvWo28V9eHinGDkHVMH8M4h0=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: avs: Use str_on_off() in avs_dsp_core_power()
-Date: Wed, 12 Feb 2025 10:12:26 +0100
-Message-ID: <20250212091227.1217-3-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NMMs7dZB"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-220c665ef4cso1864315ad.3;
+        Wed, 12 Feb 2025 01:21:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739352070; x=1739956870; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZdCk17au8xwp6xQabJ9SUU2OiCQghf6je+QyJ5T8xMY=;
+        b=NMMs7dZBkVhdvdW71OGbM6QDA+eZWmhprNBqtuR9+XRIMSNkb1EHTQ0fpD4OVJ9DI0
+         Iw69mFQ2ODkrLwxBP7JjkFrq267kuC8SWsQhm1FI5KJBK10LrrVpFJ99V+9TDUwz1jTq
+         DrB6/O6CCfaWzEs5FalCAkPI+C9OfVnJJigynVhyn9/DLzg4slbqJJLjpsXA9CpUo4TI
+         W9hx54PvLmPgrDTjCZiNeJ6X5bCLfLP/2JfXkjfmB51eE7pRVuoPSKbkVGjXWCzr0rwf
+         YF91+5Wb3VPMgpWSgdjM1X7ajSaFGJTuLKzcbqvywekjfMjaSgQNexMY8YhHj1awmWpp
+         d2xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739352070; x=1739956870;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZdCk17au8xwp6xQabJ9SUU2OiCQghf6je+QyJ5T8xMY=;
+        b=Ak0yfJ4pPDs/hLZzBIvt964t53H8YoIyB7GdcczTZkCvSdCrrN+u0Xau7lISJFbFKi
+         Fq80cIFN2nYD+QtSKfGnrGTQPrpR+xO3i01vjJJ01lObE/uHp00csq4/H4IJDKYlXV1i
+         VUZpmsBi/w7CurOQlM2LvSfvfG/MUqW7VUvLLziueWrUODfS49d5bo2lAJKHoXIOXf+s
+         knft/ZLfFKoZFQW2UMdpxjDwLiWIgQx/lHspn/dcUodXWq79SEb/0q5DdwhD8RChWPHc
+         ez0QKNDDSNi+nn1Hg1pfhPdebsOG6XA9PNCboBN/Kqxly/jasqIvmO+At74cpFX02Zpn
+         238Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV67DlfWpD8BTZ5mwFBIKgEzugI6crLOWZLPgrbh9dtMXlAdewE/LuPU75AuVUpsX+tElkYxEPI0KIIdxI=@vger.kernel.org, AJvYcCX9jn5eZRt2z9BrxC+7KmbPk4aBioys0J0GDO/oI32joIu1To/qbGXet7fnghX7c5UJiv/j9BkTVFNdV9g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlPzs3+DsO9iiVXhy92btZUkubk5UspzOWuVxRaEyICx4tIZOR
+	UQvX/hGDQdvbeB9tW7PDIU0cH/GBMy638BDqjouZ1ExZjZvTn+HnOsoW5ZmEJWo58eEWFHnjo3u
+	vFjrVoW9EoKiknOXTQHlqRjLSyPQ=
+X-Gm-Gg: ASbGnctAgyLPuuEd1f+E/p5K/u8ikJI2NPnGcwR2CaPh1HyE1YNCFtAzPwlE2vT3YBB
+	DmhGxmcNEKJCyGTe+eUOsMFbh5w5pQ0nmNOrO+celkvjcnOqc9dE0wZy+zLdDWF3xsqzYQw==
+X-Google-Smtp-Source: AGHT+IFIYrNXPCtCpXpuE+cUBbtKtexwn5rrPm2wY9NepWlkuErIAfcW8lAkQqMlLlKPI7uSLLuikxG2ZiJyOJDuxzY=
+X-Received: by 2002:a17:903:2289:b0:215:4d90:4caf with SMTP id
+ d9443c01a7336-220bdef0463mr36079195ad.14.1739352070395; Wed, 12 Feb 2025
+ 01:21:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250211225018.2642-1-laurentiumihalcea111@gmail.com>
+In-Reply-To: <20250211225018.2642-1-laurentiumihalcea111@gmail.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Wed, 12 Feb 2025 11:22:44 +0200
+X-Gm-Features: AWEUYZnMCWedaqcatxfni4tn_ELXHzMLDDkwLubYPADMeAbDeWbIHEv8qAemnDM
+Message-ID: <CAEnQRZBEKoXeuUXat+EGfGcYMGKpRW-2RgNQWnKLXSxfKe+oFw@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: SOF: imx-common: set sdev->pdata->hw_pdata after
+ common is alloc'd
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
+	imx@lists.linux.dev, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove hard-coded strings by using the str_on_off() helper function.
+On Wed, Feb 12, 2025 at 12:50=E2=80=AFAM Laurentiu Mihalcea
+<laurentiumihalcea111@gmail.com> wrote:
+>
+> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+>
+> 'imx_unregister_action' uses 'sdev->pdata->hw_pdata' to fetch the pointer
+> to the common data structure. As such, if 'sdev->pdata->hw_pdata' is not
+> set before adding 'imx_unregister_action' to the devres list, we risk
+> derefrencing a NULL pointer if any of the calls between
+> 'devm_add_action_or_reset' and 'sdev->pdata->hw_pdata =3D common' fails.
+>
+> Set 'sdev->pdata->hw_pdata' to point to 'common' as soon as 'common' is
+> allocated.
+>
+> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- sound/soc/intel/avs/dsp.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Fixes: 651e0ed391b1 (" ASoC: SOF: imx: introduce more common
+structures and functions")
 
-diff --git a/sound/soc/intel/avs/dsp.c b/sound/soc/intel/avs/dsp.c
-index 7b47e52c2b39..b9de691e9b9b 100644
---- a/sound/soc/intel/avs/dsp.c
-+++ b/sound/soc/intel/avs/dsp.c
-@@ -6,6 +6,7 @@
- //          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
- //
- 
-+#include <linux/string_choices.h>
- #include <sound/hdaudio_ext.h>
- #include "avs.h"
- #include "registers.h"
-@@ -39,7 +40,7 @@ int avs_dsp_core_power(struct avs_dev *adev, u32 core_mask, bool power)
- 				       AVS_ADSPCS_TIMEOUT_US);
- 	if (ret)
- 		dev_err(adev->dev, "core_mask %d power %s failed: %d\n",
--			core_mask, power ? "on" : "off", ret);
-+			core_mask, str_on_off(power), ret);
- 
- 	return ret;
- }
--- 
-2.48.1
-
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
