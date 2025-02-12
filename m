@@ -1,107 +1,71 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3931DDA1B
-	for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 06:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6600C20103F;
+	Wed, 12 Feb 2025 07:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739343349; cv=none; b=Rrxt/J8Bm/C8onJ0WQhGPsqTlqbWldDYMmST2NfnEHNuqTOsInLtz/gH7VLpjMKEypNxgKS5aV3e3mnXY3ZsIyJYOWRhg2z/4tB+vTqpWYc0eSIQ8mj4TFlt7NRM45zd6WyenakWQ9eBALMYDiP4uFJSSNFfmpyyDOl9YWtHzrA=
+	t=1739344147; cv=none; b=G4x2uASn4fzz8upx/arvnVft+wNMf9Iz4VTQF/XHykkWBoVE8ZPMY4lRwUGF+l6t3qR8ggvcyNqOSMnKnY5V6IsTVRxHeu3yNdnIUDWc5EEzbgysBQvhAOPZNeDSp0ddWr+deg29jpikPH/6RxrH8tFQkQzT0EFOSbEpBCencVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739343349; c=relaxed/simple;
-	bh=zt7iDenZyRr2ZhjXd9FrArhigiID8+lzpGKIMUUhPWs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=krTNg8X/eBpo1qJVxFP0f+9wONgvofy+61/zBTKH8TNjdzwmsfP3YSQQGp/PinUIaMT9fTc1YxsCZ50FeiyykIAc56xinh9uKBXX9rrq12W72e+MVwi8OYWgcjYmKffpX/LlzhoZYimFcWyDjzL7lzY9GL6axXotGq5Wl6Q+OEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=FshMaKw/; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1739344147; c=relaxed/simple;
+	bh=dO8kQ7f4GRkQ9UG4gm8xbzd7RbRvjodzFGlo41ASAc8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jETrdbs3p4bKbqVwr3wS3s3mXVqWykdlsdHF03FFusJazF9V288fKr2LgyTVsfQZtrOsuwB38d+Yy7Xkr5TpZD9lEEVchY9+1tbWQw6vTuIIv+ZBiCPnkXX5G+J1QEftf7fmrcQAPOCnWyji8hhQcVaVDptHiOEOJKdYGn3RMvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AxMC7bO7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="FshMaKw/"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 51C6tKfjD1749646, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1739343320; bh=zt7iDenZyRr2ZhjXd9FrArhigiID8+lzpGKIMUUhPWs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version;
-	b=FshMaKw/xE+f6PjKWomiVpDW5XQ4S7wAcTRNk9kr1Aj4B3VA8F5u53dK7B/quPMoo
-	 SFZ6LQwUi5RaQ84W36A18sstzWc+5l/QulDei3vK2rN9ICYqSEH4VujK+qDMkKz4BU
-	 z8WDV/peIjbHx7c4ZDgCuMPX19inkSeECXDr6ZJumpeWrFnXk3nyG/pmPji2w3jXqD
-	 CnqXUiYefmI1juxb4poVUvaXVUmMQ8YH6CN/5b8dxa4iaiDMeF1vXFUAf8ZmF4Ohzl
-	 ecdGfu3Guq+u8LrE7fKVhEUfNp+mvghNwnJwlY9S2Tykhf0Ns0a5PMcBR7StzVZQN9
-	 WHhOBilMqNmmQ==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 51C6tKfjD1749646
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 12 Feb 2025 14:55:20 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 12 Feb 2025 14:55:20 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 12 Feb 2025 14:55:20 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
- RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
- 15.01.2507.035; Wed, 12 Feb 2025 14:55:20 +0800
-From: Kailang <kailang@realtek.com>
-To: "bugzilla-daemon@kernel.org" <bugzilla-daemon@kernel.org>,
-        "Takashi Iwai
- (tiwai@suse.de)" <tiwai@suse.de>
-CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "
- (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>
-Subject: RE: [Bug 219743] [REGRESSION, BISECTED] ASUS GA402XY Headset mic stopped working after 6.12.2
-Thread-Topic: [Bug 219743] [REGRESSION, BISECTED] ASUS GA402XY Headset mic
- stopped working after 6.12.2
-Thread-Index: AQHbe5CALM4/NqKCy0ae6JW97tmZU7NDPn7Q
-Date: Wed, 12 Feb 2025 06:55:20 +0000
-Message-ID: <0474a095ab0044d0939ec4bf4362423d@realtek.com>
-References: <bug-219743-196757@https.bugzilla.kernel.org/>
- <bug-219743-196757-RLkOfxHF9E@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219743-196757-RLkOfxHF9E@https.bugzilla.kernel.org/>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: yes
-x-kse-serverinfo: RTEXMBS01.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: multipart/mixed;
-	boundary="_002_0474a095ab0044d0939ec4bf4362423drealtekcom_"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AxMC7bO7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E511C4CEDF;
+	Wed, 12 Feb 2025 07:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739344146;
+	bh=dO8kQ7f4GRkQ9UG4gm8xbzd7RbRvjodzFGlo41ASAc8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AxMC7bO7N6u0XwMUb5QrqxgoSU1vY8QiHAuHpKGQlNLGEgazP0nkYCVD1P6jPBGFl
+	 M2HCoXFPMJLufIcaSvxgbi02EXEKeLNOj53NP3qThZlhwifSxFMKn/aUVf50ClDxJk
+	 mresRF3ejV5XzIcfZJHoMqhWeM7d1gXOhDuuwiY4XTY64/rohsI7nb2EBukFCeLAYa
+	 MtYVtnHE5HwAl/LO3bWS2jl3ghnl7IOW1XFKNA0kDNX7iF+JH/mRJKHoo8c9v47YXq
+	 Mi3oqXgf6D9qiAopYo3jmQewqHR80nX1e7x+MP12dNEdF7jvuebFx4Ek309piv1Zl8
+	 xrTZBNRfL1TfA==
+Date: Wed, 12 Feb 2025 08:09:03 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 1/3] ASoC: dt-bindings: support imx95's CM7 core
+Message-ID: <20250212-stalwart-sambar-of-satiation-4845dd@krzk-bin>
+References: <20250211225808.3050-1-laurentiumihalcea111@gmail.com>
+ <20250211225808.3050-2-laurentiumihalcea111@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250211225808.3050-2-laurentiumihalcea111@gmail.com>
 
---_002_0474a095ab0044d0939ec4bf4362423drealtekcom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Tue, Feb 11, 2025 at 05:58:06PM -0500, Laurentiu Mihalcea wrote:
+> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> 
+> Add binding for imx95's CM7 core, used for audio processing.
+> Additionally, introduce a common binding for NXP audio processors with
+> Sound Open Firmware (SOF) support.
+> 
+> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> ---
+>  .../bindings/sound/fsl,imx95-cm7-sof.yaml     | 64 +++++++++++++++++++
+>  .../bindings/sound/fsl,sof-cpu.yaml           | 27 ++++++++
+>  2 files changed, 91 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml
+>  create mode 100644 Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
 
-Rml4dXAgaGVhZHNldCBNSUMgbm8gZnVuY3Rpb24uDQo=
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
---_002_0474a095ab0044d0939ec4bf4362423drealtekcom_
-Content-Type: application/octet-stream; name="0000-alc285-depop-fixup.patch"
-Content-Description: 0000-alc285-depop-fixup.patch
-Content-Disposition: attachment; filename="0000-alc285-depop-fixup.patch";
-	size=849; creation-date="Wed, 12 Feb 2025 06:42:20 GMT";
-	modification-date="Wed, 12 Feb 2025 06:52:54 GMT"
-Content-Transfer-Encoding: base64
+Best regards,
+Krzysztof
 
-RnJvbSA5MzI1ZTJkMzBlNTYzNmIxZWQ3ZDM4OGJjYjlmZWY1NTE1ZTAxMTNjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
-dGU6IFdlZCwgMTIgRmViIDIwMjUgMTQ6NDA6NDYgKzA4MDAKU3ViamVjdDogW1BBVENIXSBBTFNB
-OiBoZGEvcmVhbHRlazogRml4dXAgQUxDMjI1IGRlcG9wIHByb2NlZHVyZQoKSGVhZHNldCBNSUMg
-d2lsbCBubyBmdW5jdGlvbiB3aGVuIHBvd2VyX3NhdmU9MC4KCkZpeGVzOiAxZmQ1MDUwOWZlMTQg
-KCJBTFNBOiBoZGEvcmVhbHRlazogVXBkYXRlIEFMQzIyNSBkZXBvcCBwcm9jZWR1cmUiKQpTaWdu
-ZWQtb2ZmLWJ5OiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CgpkaWZmIC0tZ2l0
-IGEvc291bmQvcGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMgYi9zb3VuZC9wY2kvaGRhL3BhdGNoX3Jl
-YWx0ZWsuYwppbmRleCBhZTBiZWI1MmU3YjAuLjIyNDYxNmZiZWM0ZiAxMDA2NDQKLS0tIGEvc291
-bmQvcGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMKKysrIGIvc291bmQvcGNpL2hkYS9wYXRjaF9yZWFs
-dGVrLmMKQEAgLTM3ODgsNiArMzc4OCw3IEBAIHN0YXRpYyB2b2lkIGFsYzIyNV9pbml0KHN0cnVj
-dCBoZGFfY29kZWMgKmNvZGVjKQogCQkJCSAgICBBQ19WRVJCX1NFVF9BTVBfR0FJTl9NVVRFLCBB
-TVBfT1VUX1VOTVVURSk7CiAKIAkJbXNsZWVwKDc1KTsKKwkJYWxjX3VwZGF0ZV9jb2VmX2lkeChj
-b2RlYywgMHg0YSwgMyA8PCAxMCwgMCk7CiAJCWFsY191cGRhdGVfY29lZmV4X2lkeChjb2RlYywg
-MHg1NywgMHgwNCwgMHgwMDA3LCAweDQpOyAvKiBIaWdodCBwb3dlciAqLwogCX0KIH0K
-
---_002_0474a095ab0044d0939ec4bf4362423drealtekcom_--
