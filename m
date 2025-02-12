@@ -1,59 +1,59 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010018.outbound.protection.outlook.com [52.101.228.18])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010004.outbound.protection.outlook.com [52.101.228.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D4D1C462D
-	for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 02:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02FA1D515A
+	for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 02:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.4
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739327098; cv=fail; b=WFlBMI7vrysoeBQ0HkurQcP09biwp2Kqg0QSOoi+9DBQCk+znsMrtfbHhkz6vQIYRKFUCWGruF83/oszecGCq9XNpYcgjwsz4R3Np29PLR1gkgrS1sw+XXKZfBRVPqDmnlffwayyVAHgEGkxdDHG2idHEEIcjVKuLqVDrHrY5hc=
+	t=1739327329; cv=fail; b=Ezd3GuL1cUozIY1QW/DTD8ArEVBO7p6XfaHpIuDOqm3jkBSMfjCDsNW5csKFvBHplAWtJPViHhFRQWIMtGAkQYXpQEYeigLkMapcekCWanWAofgnhVwala/6Rf5PNdoplB3legH28otWd6dpuEi3qtQzhFgMJ2Nwl58xVHPrmY8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739327098; c=relaxed/simple;
-	bh=Drx0c8+OVZwBpB/BqAaL4jcwrRA9LMcf9e2BpNrItS4=;
+	s=arc-20240116; t=1739327329; c=relaxed/simple;
+	bh=EkXW7/Z1SiP/0RS0n23O0igm6PpjjjgH2tP0TWFCjzk=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=dpKfA66YB3Usso9HJAVrv4DdkyUCPzfUvAAlbVhJM2IFWxhde3/HE2WgSh8+Jm2VeJhfYMWoi5Zi762qG9jrfs+zgHJCpq1c57nAJJvqD7E1oHXYSqstODeziGw0hbttfRd0tCuTTpO2nSBRs7NJEqrQmpi1XzrUHrIfjV0QNTY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=IAjDUCKJ; arc=fail smtp.client-ip=52.101.228.18
+	 Date:MIME-Version; b=Cu+GVUejuNfjntgTGdxsqqYK3yJ/v4AnuCatOiLBPrqeP4t+LGMkarZaNhRIbc2PsQ/PcE00tlDszxeWusVMQuuCd5edMifDtj7/1gEMlieyFfr+Ao7YqYLxos7Md1Syz1bzCYbCH1V87R2jUoetp63MEhE9vNC1UQ0jZ8sHt/0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=mEWzNzNa; arc=fail smtp.client-ip=52.101.228.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="IAjDUCKJ"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="mEWzNzNa"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bXYkJck7O5yVZjGle7pS9mLKoTsI5ITBDrslYK4Zl3IZ51b0NwwSB8qEKfrKhfdvbC0fOWLmoa0g0ERY8olAiuLUQxLkNk1ayuhSwYYU3TcmoHCq1Xd5zgELuvHxEDDIs6iZim31hqPjl/vwgcNaxuTmOUcw2UNmIhkPI0XGptfPrQkoo1FOpFELvrak3mEyuz6Yq9cbv6dpjWk8qtBDBZHJDLfQvyiFYsnRjEVWYuPnEF+2yOO8zOy/7DPqBDc4jm+TXoV5kRx8e7wK4Got9Ju7vDmclszbpKeooy2pNAqVI3pAx6DHzqGtreBjVAjBX1Rypf4L4i9VAKgUKpZfxw==
+ b=vCBEseNJQGb0nbf1qggCUANks2RJ2vE1Cnbw9OOFy1mMXBSH8UoDWyBhCFBTHpDM2g0bNgYsjWL2vdFEWZKJKdiGlnex0JvWY0makw2rEyK4E7PR/4QBH8dbxtE4SvFalQBO/m1mI0Vi2ODWGVtNFP7tbPKqIcO5AfS0J71lYp+oHuId/pimftxeI186WVwPkaDJELZ058FZJlicVZIC65ORi0E37qlatnJIFzccg2mYsXoig8oCnMuJsRt8d7dY2KWAFLoTuJmshYFEIUtfNS51X91/9NspXsLSBXObXLUsi65Ymo0lfpyi+o87P0DpPnhWDjnuoEg8NAKwrbY4NA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=984SSBlUcZ3GZ3ifLfSkCM8CJtOQP6hfyLjurOtBg9c=;
- b=cYyl5+/1v37QxIjVvRJjlfJ3I9lfdG0p9Fxh1Dks68aSxwSu7BdgnQh0KLICAj/sYEeV4AxgRvcY1dVCcA6ZQSzuAklhFStZHIgYDB1Xd5NtZyQPLCpt12WIO+Trg1wXfr2c/ppquqRjgFJ/2JV8t44o8ydOW28Qs45NyrkG3+qt4NA35tcM/8HLu6ICcsyOAnHFJOr18J6pbPzMGULdgHw2TvEEJ0oGFcBC75LgmV2YW/krzQMiEUVzmzbNoERb0ZBkeRsEuBnWMTj4yFRRZ/1IbuO6l7t4RcZtH9iCTX1TRykqDLYztTWkPQ84udH1x7NbkLt0BjaeVTwFoKiagg==
+ bh=u2olIib8Qg2U8YAYE3ef8OqJbS7+ULw3jxPPMwUBv5o=;
+ b=VYtOQt7UpoNeJ4ETuUHiKSzWQJh7sLnQ9PEqbNMWP+lu8FgHX4TNfKWAzqsXK4pdzHUaF/wryg7+UUvoay+eVwAVJKOyuGWrp9Ew6sO4y66W3V2u+89u1VzVIb6nJu/eqNK1SNe526WiPEYQ/JYPJHmcqmm6E/ZQVWW5euOb5VYGLW/nqZJT8RWEDz6ZGJ6TcD0cG07+JNYiqdaezV9kSE4q3kRxcFdHlKpxvofZnDtN31Na6PEdgLrmIlckYJry5gJuyif6vpK9pE+3/ff9vjW8ZZKit/HsN0oGvxglF0WuD5fFE7IiIXHRlvINPQ1X7yoDYISNr9FB9UprAJH9+Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=984SSBlUcZ3GZ3ifLfSkCM8CJtOQP6hfyLjurOtBg9c=;
- b=IAjDUCKJWMV+OaqxlVnODYWCWg2cesnwTBE5ScGSxYpxUYOxylEFgBTPh2LVCemkVbHugDOFBp4YGC8BJf0g1iX2+qzvRiHeoMut4Iqks8OdbibAQ4/6vXrpri+5rvubak+ZhqHM1cBMxEmDvO6ZrdwuWf5fJPLeIPq3yfRTdWU=
+ bh=u2olIib8Qg2U8YAYE3ef8OqJbS7+ULw3jxPPMwUBv5o=;
+ b=mEWzNzNaYOiGKD2qmxMReW7Rn+gbrtsbfvhv0tbm33V0NsTDx0o9267aaRraiJyUHZlp9nzidmz3Dk4Nt9UcZ9jO586JHzlrKqqGBCCbX220heH4BADOXaRarIyXLR1hrzqHmTHgF/5I+tV1SjIv4jPOKIUwVwkxDl8RqTnYO+M=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TY7PR01MB13706.jpnprd01.prod.outlook.com
- (2603:1096:405:1ed::8) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:1096:400:3a9::11) by OS7PR01MB12096.jpnprd01.prod.outlook.com
+ (2603:1096:604:260::5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.11; Wed, 12 Feb
- 2025 02:24:55 +0000
+ 2025 02:28:43 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8422.015; Wed, 12 Feb 2025
- 02:24:54 +0000
-Message-ID: <87mseryk5l.wl-kuninori.morimoto.gx@renesas.com>
+ 02:28:43 +0000
+Message-ID: <87ldubyjz9.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 08/12] ASoC: soc-pcm: remove duplicate param from __soc_pcm_hw_params()
+Subject: [PATCH 09/12] ASoC: remove update from snd_soc_card
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
 In-Reply-To: <87y0ybyk8p.wl-kuninori.morimoto.gx@renesas.com>
 References: <87y0ybyk8p.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 12 Feb 2025 02:24:54 +0000
-X-ClientProxiedBy: TYCP301CA0028.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:381::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Wed, 12 Feb 2025 02:28:43 +0000
+X-ClientProxiedBy: TYCP301CA0034.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:380::14) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -62,134 +62,277 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY7PR01MB13706:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a577e05-870c-4691-94b0-08dd4b0c7010
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS7PR01MB12096:EE_
+X-MS-Office365-Filtering-Correlation-Id: f6fe594e-1d67-448c-b76b-08dd4b0cf837
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
+	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?nh9jYRqrQSxwq2EEGSJyU7xBuCP2c8Q/zWCU7oJXQm4HSVPz0TG+PPLABTO/?=
- =?us-ascii?Q?qlhBNgH2GKrM1JdL0dvwdJ1z7leiXaYA8gHXrr/o8JqqWBj9rxw+uvPlTeU3?=
- =?us-ascii?Q?ls6A4lJ3+zdidkJou4+xJAPj1QlU0Mvx+3GInnZmCM3k3fVtFBsaNRpDnFGs?=
- =?us-ascii?Q?ylXReqx62xpev9zLP9tTOAnXwnQQA17Wizll+fbbGeSJsNmZcqOwsJJ6AFou?=
- =?us-ascii?Q?B6cmjMw36pX8B1DVFwk0zcKBP3GgcBUrIpTWlVUoF27NacmHxlMSYp+nVCO+?=
- =?us-ascii?Q?t4A9G0ID8PhjexZFVkMLaI7+L4T5XCfZOyy2zVEjZycofxufUNY3VVy2kLM0?=
- =?us-ascii?Q?ftXAZoQsxB+ad97hald8fdnWDysg4qQ2aJEW9zT+U9rxRACDm41DL+v7RQSY?=
- =?us-ascii?Q?3GqG1JQ9Q/ZA3elStZ2I1scpPFJTSWSFVNkOYugQM6MEwtc4o23yYbj0u3RB?=
- =?us-ascii?Q?3ZjCwbJzxmRdXo2/pf8GEpYluJLhHLrX2dl/HzYUWjm+CAnVqjY1NawAfYVD?=
- =?us-ascii?Q?0ueGSBKKKQ8ilG7LSgewhj9Dybnj89GGOLt7u17ur3GM9lO6mOhJwvJ0pBFM?=
- =?us-ascii?Q?PDABPO1/vTGh4kvCiRLariDQ8PmfQ45MfeumAdZlepFizEK0Nm+DyAYAOY/8?=
- =?us-ascii?Q?wmMNOpx9n5PvC2vboHwldRasIXyTyruGNXgzAdXfdL+lzmS8lhzvsKqHHqut?=
- =?us-ascii?Q?wuTjiow3xqKYz9/bqMsMVAyngE+I4eWSQycMFob7N2KENCfIWIdx+7jg59uk?=
- =?us-ascii?Q?qbo4DjAMr3DLVHtqODW7YyrSIvbx/FgW04we1tSq6sS0iiX/pp0QLKFtM2aL?=
- =?us-ascii?Q?7w6Va+RqeLMUKmXS81RntkJ52LFA5cPGF6iDlHaSDiNYPPuAKIzmMgpcbyCL?=
- =?us-ascii?Q?U3A37kpjc9N1oQjowr3fRlKrTY3rFmHN+HVShG/ZhQ97X5O858dNdLD/2nWq?=
- =?us-ascii?Q?SEAxc1bAFH6puDuu4Im8QyQoVGMgzqExcs0mLEOadx7QlEtrRM1KMg0830Gy?=
- =?us-ascii?Q?O03gRLRgUKybWnFAI/kBsglJ+Cdi8yCTOH9guREug8ecQt63NhgiCl2pl3Q9?=
- =?us-ascii?Q?XeEG1qzqbSAOXktzlZqsITKiBP4dfYdrH7/yvUtjyrD7PTNTy0XyFvyVVAev?=
- =?us-ascii?Q?XNiavEPYNe7dc3a6IFJoG84jhVpOesQmo+t3sgxz9QsdqZKj/X5aKaEEJwoW?=
- =?us-ascii?Q?BbUYp0raKPyzW9fOr7K02hJowC9XlV4d06RQ2sBXS30QzmCJMEdx8iFdGLlM?=
- =?us-ascii?Q?Pkuwhuv5Skq/UhUlj34ztrP5ZccNsjAfIhS187obuQaeKB7XbU2azawCWPpQ?=
- =?us-ascii?Q?ZgwTB6avUx3SzsbXTpYRa0+OCbwCNiehkuvfeR5DI7BqQ11ytmisXiWPC287?=
- =?us-ascii?Q?d3AQ1924Ca/kWH5JDpdxvpg0tvSEV1Wnqf6HLCQESqUfIXhauBRrfjLdgaT0?=
- =?us-ascii?Q?bLpLxLpVLBEpSuasXaWjkEeLeLEX4fC9?=
+	=?us-ascii?Q?iErBO8Y0X96CHIbx54w2Vm7ZSoUSmRWEFxY3YzTVZ+0J180JzhNjx3LAxOHK?=
+ =?us-ascii?Q?kBchOX5LismGKs5DwIdM/bs6Nx28OhWT+iU+8gIvvSe2qu3OKnwc6wqigeTg?=
+ =?us-ascii?Q?hpU/jH91ZfvQzSFdz4GAR2+a0U0fZ+wKYdd8NN6Av0bayrtuHt9q8hW6QyCQ?=
+ =?us-ascii?Q?841v+ZqHlAtUSRoeaoa9+zAH6Er4XO9dnSb/TQx6k2vaMweK3ndMUrxtuzVw?=
+ =?us-ascii?Q?U7FnV1j3I0AIiU1+g+0LlKxteIzqSOmOOCusUgZ7KGpYca4G77KSFScHbxgz?=
+ =?us-ascii?Q?y+WR2M2pyxnDw8dXqJblJ6hh3nkjR3urmHm27KyY0dvzL1NPrkMQLLlgI1BK?=
+ =?us-ascii?Q?dpzd9bGO/fGFsY46PdhSX/NgCbv1mcdfV/I9fhxzRJfT+11wwlpEd88RR4MX?=
+ =?us-ascii?Q?uD3dMNMZSwbzcf7eo+nZbFIKj3q0fxjiXWqQ/EKHrmpJSsaFdLg8woRhtPtx?=
+ =?us-ascii?Q?Xb42CS8k+VtRviM9Q42FVIcDABfsb1Xj6icWgqYV16X76uM4J2Xmfh1q+Wbi?=
+ =?us-ascii?Q?Xg/mlQ7w0MB3HyT+goIiciveYq1qQ/T2MRTfhZ1q16Jz0EIMaFCZJWXf2HEy?=
+ =?us-ascii?Q?3KmjYmoYkvy6WlBB1HTQz4qgIfqd/cNvtPZUqA6w+mF9xf3h63zP6Bk9P7wC?=
+ =?us-ascii?Q?nuoUUyQdiHlGFGhtfXbo/VORo4X+UuYTjtSJDKUH4vu8k9e8w4dAL5VTEfHj?=
+ =?us-ascii?Q?WKmrrbjL6jAEHZha7UgpeWQFFZvw9LZXguw1WZaVoBlLJwCTY5P7RQ/bZ9ZH?=
+ =?us-ascii?Q?hlpU9bgCSK9AMp3JQZVWBTQYL7kYiEHv020/PUP76/ouaOG/3C/7MXGO4Bhb?=
+ =?us-ascii?Q?+fGtRI4YPkHmEX4WJnBBPpvA5yh4f5FlgVKZJKvlL7aDPt8FCenqNeeXB9D1?=
+ =?us-ascii?Q?7gUYGD2gsqV9Vgn40YFvn7ET9hfP2tAWGMOZyu5Guox966sdS209CM2/jvZ/?=
+ =?us-ascii?Q?kWkVEwE9bSBwrUWTI5612P6+EUasmafJHx+KqgQHFvV8jpFXuaEbnSfdfrmS?=
+ =?us-ascii?Q?MFimvYxjH3CQE8kaatyWv/DHXRNEMwYpHlE1UrAFm+3G9P2SKEuQLsY6WlJK?=
+ =?us-ascii?Q?j/fhy41IlGAYxnJO+gpkTHQTkJJNxZExWSykOjOFeFEdrIx0wRkcZ5mnp0pI?=
+ =?us-ascii?Q?CQQZ3xZzFsTCQiaZ6cxdoHJHhv2BfbPP5z7FmaKYePz8gfM6sWXPJldVFAL2?=
+ =?us-ascii?Q?VIvax6YU/XG4gNCu0Z8jv7nYnC6/qf+WJew9RgVsPvw+VFvtP2I0e5bAUnlY?=
+ =?us-ascii?Q?tEAesp0VsJzDba2GC3HLgMoDa06ZXGIOsxsAWJL0HExJAGsAxmRw1GRGq6h8?=
+ =?us-ascii?Q?xQOse3fQF560A4GAtnxgJnJHL2S+ifL4D552ctnTh/6wKrV9SpxUTZJOCx16?=
+ =?us-ascii?Q?f3Lz6iYaZ/UmBiszX0n/EuuMLf/dMYspO14NflemR+nQvpL/9fNHUus4SXr6?=
+ =?us-ascii?Q?RUs/2Ewifuv1/pA3fGMn3qhHlC5ku8e8?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?lGNL90A03DnjMGQ8oEzBrd6ngNR8IAUyHaNnSuD+IU3itX6XlDnOXobM56sz?=
- =?us-ascii?Q?tcu680YDkdYXwTSXLaw2MqaGwSP95cosCYtSvJgavZpVb2zo7Xy4qljZD3A4?=
- =?us-ascii?Q?j2dxTr818T3Z/KxR9WYsTbyp5S43Xff9fIYX27O0W6BOoou/POUGsOKERm/o?=
- =?us-ascii?Q?P71xRzY2j4pjxuuOQwogcS1AZkrPHFriFHDaDlpsIWQwdB0yu+ArOOdLmhch?=
- =?us-ascii?Q?ZGUY3nkd3JmsfRF/KXEBV9xpOnRHrJITOLFtHw5lWe/Oy1gP0HpQfMucP89b?=
- =?us-ascii?Q?71PtHQDpKE8/0Bal/EZmKTTjTlsrZ+RwzmE1vQAfGlFRgV2qxdN+W9Wt6jaN?=
- =?us-ascii?Q?XO402KWS+DXEsOXGXTikWrLGzr8uAJhX5r22vtVdCJKDwkQogo/nGJL4+/IG?=
- =?us-ascii?Q?yjDbQ2gAEQ7/CDLwh3c+ru5L523ORUXCPSmm4CKbHHVy6Nfaws8+hxt9omL+?=
- =?us-ascii?Q?sFDmgwT0g8npHgsCgrpMzLOJWYwMe5PC+cnBYS4bJrmZclaKWvHb0qRqatGN?=
- =?us-ascii?Q?JOSBwYNMoX2ZP6V5QTvgLxpqLue8Ta4d1jZH1Jby1nbzCikLXeqUsgoiEs42?=
- =?us-ascii?Q?5mTYEIKejbJbktqIGKst4gFyi4T65YVEGuZ2JjeNXna+gsO1VGK2xa93VV1S?=
- =?us-ascii?Q?ysRNLFZwRbn0+moJnnrKVbAPAF9v1sDsdwN1Rx+wmDJtovf5PJ2dInUvhPUb?=
- =?us-ascii?Q?yuPIJsPJO1DuyTeFKewep3mgB4D8whR/YSqa6fGTdukTzy9dEf3uHZFBrbmN?=
- =?us-ascii?Q?JaNlhooNbkglLlG9oaadaAy+6Mi0MKGmKE+OrAxPXskGIF1Rtn9R572dg7uW?=
- =?us-ascii?Q?x3T3WZp9LhbYmhtk7QMeH5+kw0vKfdVbrJfQKYD9hQ5yjhA15KJ5exjzH5qL?=
- =?us-ascii?Q?c1zIbMjfLmf85eAR+vJi0yokcrBLzL6lHXkVrBfT41/XHCCLoKIRtyYmRLYQ?=
- =?us-ascii?Q?Oil/WqadZWJsICB5yulpPTBbKN83eI4CM+AE/9Zi3MFNXuHC539C1k6EzVmk?=
- =?us-ascii?Q?kzGpX8JLWpxTikI6AdQ+aUdfEDmVfBR6KdIzekpFrJAlQefyOMMgP0bGHMvL?=
- =?us-ascii?Q?79hrC9hFWI17eoalpFjyzX23A6JOk2JVGJXNFS6lWC0mHjtxoNVk07G380t2?=
- =?us-ascii?Q?uPBLAMXx+dMczJThMS7NkQDNPZKAOKQH2AWNUUv6ny+JjYJ29QIZ+HZNB2z0?=
- =?us-ascii?Q?ontcLF274+VTAtzW5rr0QdUZ3efkN6omAbYcKh9njlXwR2OJ1SN1tJVo+VGW?=
- =?us-ascii?Q?2iEQeMLrbrbr99SrNPE2DNiALbVZuaABHCHAeuwSWMmdU/C4c6oLhNMtJhie?=
- =?us-ascii?Q?GtKh5ZuNdhbis4uc+oj3zw3JsamC/iY3ArTfgK9kgAXls7TMpZnYNXpKFLUw?=
- =?us-ascii?Q?8tl9gZhwV8IgyWliNZ7ds+WxomG/Z5GmLplR2EMRBIn4op/qagW4tCB7IPnQ?=
- =?us-ascii?Q?l3lxRj66j8PKm/U3v3nVa0mrIQS6pQAFn9vCloEXRqlCyTdUZuFlxfof5vkv?=
- =?us-ascii?Q?YmFLMbEs28paUeT993or2sjGJge+ObQFkN1lg5sLu8cPxD+Y1pcqI6aeT48i?=
- =?us-ascii?Q?EFc2Qec1ZI36AxeBkVqxh/2Jt8lPWYu2Vi5pp981EfUHR+ZLZJOdg8YTmFkR?=
- =?us-ascii?Q?jp5X76prt6nFyo09PoZZ+50=3D?=
+	=?us-ascii?Q?0SXlcmDlSy3GLpXAH6lSGpWTUqR7BlSXEOTj3ht+dvLTl2tJCNRK/RfvVjhl?=
+ =?us-ascii?Q?qFbuuj1K2cODlRpnrEv0DZFOGpCq3AYGNBE9Kqdb3JkIjArALQl/ESB/D4Gr?=
+ =?us-ascii?Q?YKXC3lGjUAmCEDfa/N3N2XFqvLRPbjw9cm0kJukA6MjqI8mkSIYrN8RNDDX4?=
+ =?us-ascii?Q?kLg8g3915cimgPyqlTr6TKtYXCfeRSQ1qlZN1ArULrI6Z7inWmC6g9PHCMNF?=
+ =?us-ascii?Q?+2FHsAxFCJBSD4moUflTC95U7kuK6Z3IHzFu9vUBkMdaTNCwdv2h9RsV+vIf?=
+ =?us-ascii?Q?csn6cbpKPYF4vD5D5lPEzndeUlc+t1tH56hR/WcK6eeMQVGXQkL/TrTrKsGg?=
+ =?us-ascii?Q?TIyD84mkqnLXp4IWkCzwZFlrOTDZAPb/ZOrubqLi7UxCrsyMGB5dau8tMkMu?=
+ =?us-ascii?Q?q/KOrUPvafP7zDMonf+8W5ktkTw2o/M53X365HzOIXT7dhycMrFwgpbnHePt?=
+ =?us-ascii?Q?+TxR4DZ+2jx2uB2Re4I8Fp9vtrOOyWoXgz70fofbtu4YAGKDB49wy14AV/Dm?=
+ =?us-ascii?Q?YSbosahNh7Y9R7B9r6MbX6didAYd95Rm2df7aFxIMvBPZ8LeDyo2cZ8+N8dS?=
+ =?us-ascii?Q?BL05eACv9WBH+57JXYojl9BnxKbo6azfP633/wRMSRLUhFy5zYpEw7ne1jBR?=
+ =?us-ascii?Q?Vc7LbcTsbxpxYOPBPkfeHLgR1XEF4BaotQMBJ6E2B0x1RIOR2ngQpnmuzWCz?=
+ =?us-ascii?Q?DxMpNZpq8RK2mljxEJHiXowka7fJB9Su+tIsMrdufURgqYG0Zilz8t3w9Ewk?=
+ =?us-ascii?Q?xKX7xngNid62HWKY95fKqFGoH05GUPgyMkrpQwxF307Cyqw/P7Y4gjTAIhE3?=
+ =?us-ascii?Q?B2jrirbg82VGc/lWQkrn5pQBYLeW3L0L2diJxRbseBJ0WDCqYpZYYrJVZA2C?=
+ =?us-ascii?Q?Ur9bypUX19jNNXrUKlb2wbrJTLNCtc7SzxTKOZNaLAvSK7YPhy+U/heRBCuq?=
+ =?us-ascii?Q?2j63E1KW8gUoIWY1bSYPO2OY0kL5y50BuZXBLm9JuA2intrUu2LRD5gMrEnx?=
+ =?us-ascii?Q?mJ84h5dHXXowBEH0DwpZ3M9TcrWDRl8CVDEAJHS9dITmA9mycZhbQ+8jBhuC?=
+ =?us-ascii?Q?4g2sCPv6aX90aIysCL/ovlw/Lku+YXOXEJ24bxr7prbCl1fPnytgdLR9QmGa?=
+ =?us-ascii?Q?g4kzpAddpccWsA3z/PscPuBvjQIYzFnOI1LwxpL0H/UbMRE29YVTtGdeMiiz?=
+ =?us-ascii?Q?ZfT1YIuxYzZUrJ8IGnW3grauVYpi/cnk38DLRBpqXrDUThckWN7WEXarKceB?=
+ =?us-ascii?Q?KB/eqpyDk5R78wwoBsun18F+RjWKagaqINOhlEm1eGZ8Z505WxZV7dwAL/b6?=
+ =?us-ascii?Q?+zduAPvyL6NPLwzhiSrWYzR4a5o3B87+SmMN5684WkftvuaEQkykSsPjhu/I?=
+ =?us-ascii?Q?AI4H6o3aUt4znwhf8NCJOj83TMtPixzVjz/LaoDYuWdBf9+0ihGAPa8930+z?=
+ =?us-ascii?Q?0yqZ+xILOIyYlZn2vJGfyJa2Eh7WUeosgGmtJlWrHZz2UUuzL86145tx7i4d?=
+ =?us-ascii?Q?bq6pHI3h08NmpqNDJVjauPb21sJbh/mhocIMbiqyL1wP3g/KRgvQ6hOXWuih?=
+ =?us-ascii?Q?GiHnEl2VlKLtFehX4m3+g9Ri9C6qX/8RMAb+/PCmPvAHWKlbSBOaye7okJgm?=
+ =?us-ascii?Q?7H/dDiuZFk0BL0J9+4bRXcg=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a577e05-870c-4691-94b0-08dd4b0c7010
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6fe594e-1d67-448c-b76b-08dd4b0cf837
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 02:24:54.9383
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 02:28:43.3750
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T9mT/aUhMOZVXCV8YfXuQtHlyHEQGLqz1oL1YwntjWW9OjJLKzH7nF3S5nfcKE5vxUSjZOgxaSAOBMaCEPt3BhaTwUKbsSv8qWp93ojYYfQuiA8dPnwHOfdnpe9hmbyx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB13706
+X-MS-Exchange-CrossTenant-UserPrincipalName: KD0mHlZUUhugn2WYTjhcU9CeVLdO7thLlNWbbSaJkv32CwIIIdM+jyGdSi7BAA2VnXiD19KaDOyFSlFvI/xiscNo0azKBb+q9icS3npXEbBDgHzrskcx9sw8q1O6EprL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB12096
 
-We can get struct snd_soc_pcm_runtime from struct snd_pcm_substream,
-no need to have both as function parameter. Let's shrink it.
+snd_soc_card :: update is used only for passing parameters to
+dapm_widget_update() like below.
+
+	card->update = update;
+	ret = soc_dapm_xxx(card, ...);
+	card->update = NULL;
+
+Let's passing it via function parameter and remove update from
+snd_soc_card.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/soc-pcm.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ include/sound/soc.h  |  1 -
+ sound/soc/soc-dapm.c | 48 +++++++++++++++++++-------------------------
+ 2 files changed, 21 insertions(+), 28 deletions(-)
 
-diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-index a206a25451f7c..062e2cc467cdd 100644
---- a/sound/soc/soc-pcm.c
-+++ b/sound/soc/soc-pcm.c
-@@ -1062,10 +1062,10 @@ static int soc_pcm_hw_free(struct snd_pcm_substream *substream)
-  * function can also be called multiple times and can allocate buffers
-  * (using snd_pcm_lib_* ). It's non-atomic.
-  */
--static int __soc_pcm_hw_params(struct snd_soc_pcm_runtime *rtd,
--			       struct snd_pcm_substream *substream,
-+static int __soc_pcm_hw_params(struct snd_pcm_substream *substream,
- 			       struct snd_pcm_hw_params *params)
+diff --git a/include/sound/soc.h b/include/sound/soc.h
+index 62c90ef40f1a5..644cfe26022ed 100644
+--- a/include/sound/soc.h
++++ b/include/sound/soc.h
+@@ -1106,7 +1106,6 @@ struct snd_soc_card {
+ 	/* Generic DAPM context for the card */
+ 	struct snd_soc_dapm_context dapm;
+ 	struct snd_soc_dapm_stats dapm_stats;
+-	struct snd_soc_dapm_update *update;
+ 
+ #ifdef CONFIG_DEBUG_FS
+ 	struct dentry *debugfs_card_root;
+diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+index 7f18968097924..2a2c1f5941222 100644
+--- a/sound/soc/soc-dapm.c
++++ b/sound/soc/soc-dapm.c
+@@ -1743,9 +1743,8 @@ static void dapm_seq_run(struct snd_soc_card *card,
+ 		soc_dapm_async_complete(d);
+ }
+ 
+-static void dapm_widget_update(struct snd_soc_card *card)
++static void dapm_widget_update(struct snd_soc_card *card, struct snd_soc_dapm_update *update)
  {
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct snd_soc_dai *cpu_dai;
- 	struct snd_soc_dai *codec_dai;
- 	struct snd_pcm_hw_params tmp_params;
-@@ -1171,7 +1171,7 @@ static int soc_pcm_hw_params(struct snd_pcm_substream *substream,
+-	struct snd_soc_dapm_update *update = card->update;
+ 	struct snd_soc_dapm_widget_list *wlist;
+ 	struct snd_soc_dapm_widget *w = NULL;
+ 	unsigned int wi;
+@@ -1951,7 +1950,8 @@ static bool dapm_idle_bias_off(struct snd_soc_dapm_context *dapm)
+  *  o Input pin to Output pin (bypass, sidetone)
+  *  o DAC to ADC (loopback).
+  */
+-static int dapm_power_widgets(struct snd_soc_card *card, int event)
++static int dapm_power_widgets(struct snd_soc_card *card, int event,
++			      struct snd_soc_dapm_update *update)
+ {
+ 	struct snd_soc_dapm_widget *w;
+ 	struct snd_soc_dapm_context *d;
+@@ -2059,7 +2059,7 @@ static int dapm_power_widgets(struct snd_soc_card *card, int event)
+ 	/* Power down widgets first; try to avoid amplifying pops. */
+ 	dapm_seq_run(card, &down_list, event, false);
+ 
+-	dapm_widget_update(card);
++	dapm_widget_update(card, update);
+ 
+ 	/* Now power up. */
+ 	dapm_seq_run(card, &up_list, event, true);
+@@ -2332,7 +2332,9 @@ static void soc_dapm_connect_path(struct snd_soc_dapm_path *path,
+ 
+ /* test and update the power status of a mux widget */
+ static int soc_dapm_mux_update_power(struct snd_soc_card *card,
+-				 struct snd_kcontrol *kcontrol, int mux, struct soc_enum *e)
++				     struct snd_kcontrol *kcontrol,
++				     struct snd_soc_dapm_update *update,
++				     int mux, struct soc_enum *e)
+ {
+ 	struct snd_soc_dapm_path *path;
+ 	int found = 0;
+@@ -2353,7 +2355,7 @@ static int soc_dapm_mux_update_power(struct snd_soc_card *card,
+ 	}
+ 
+ 	if (found)
+-		dapm_power_widgets(card, SND_SOC_DAPM_STREAM_NOP);
++		dapm_power_widgets(card, SND_SOC_DAPM_STREAM_NOP, update);
+ 
+ 	return found;
+ }
+@@ -2366,9 +2368,7 @@ int snd_soc_dapm_mux_update_power(struct snd_soc_dapm_context *dapm,
  	int ret;
  
- 	snd_soc_dpcm_mutex_lock(rtd);
--	ret = __soc_pcm_hw_params(rtd, substream, params);
-+	ret = __soc_pcm_hw_params(substream, params);
- 	snd_soc_dpcm_mutex_unlock(rtd);
- 	return ret;
+ 	snd_soc_dapm_mutex_lock(card);
+-	card->update = update;
+-	ret = soc_dapm_mux_update_power(card, kcontrol, mux, e);
+-	card->update = NULL;
++	ret = soc_dapm_mux_update_power(card, kcontrol, update, mux, e);
+ 	snd_soc_dapm_mutex_unlock(card);
+ 	if (ret > 0)
+ 		snd_soc_dpcm_runtime_update(card);
+@@ -2379,6 +2379,7 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_mux_update_power);
+ /* test and update the power status of a mixer or switch widget */
+ static int soc_dapm_mixer_update_power(struct snd_soc_card *card,
+ 				       struct snd_kcontrol *kcontrol,
++				       struct snd_soc_dapm_update *update,
+ 				       int connect, int rconnect)
+ {
+ 	struct snd_soc_dapm_path *path;
+@@ -2418,7 +2419,7 @@ static int soc_dapm_mixer_update_power(struct snd_soc_card *card,
+ 	}
+ 
+ 	if (found)
+-		dapm_power_widgets(card, SND_SOC_DAPM_STREAM_NOP);
++		dapm_power_widgets(card, SND_SOC_DAPM_STREAM_NOP, update);
+ 
+ 	return found;
  }
-@@ -2123,7 +2123,7 @@ int dpcm_be_dai_hw_params(struct snd_soc_pcm_runtime *fe, int stream)
- 		dev_dbg(be->dev, "ASoC: hw_params BE %s\n",
- 			be->dai_link->name);
+@@ -2431,9 +2432,7 @@ int snd_soc_dapm_mixer_update_power(struct snd_soc_dapm_context *dapm,
+ 	int ret;
  
--		ret = __soc_pcm_hw_params(be, be_substream, &hw_params);
-+		ret = __soc_pcm_hw_params(be_substream, &hw_params);
- 		if (ret < 0)
- 			goto unwind;
+ 	snd_soc_dapm_mutex_lock(card);
+-	card->update = update;
+-	ret = soc_dapm_mixer_update_power(card, kcontrol, connect, -1);
+-	card->update = NULL;
++	ret = soc_dapm_mixer_update_power(card, kcontrol, update, connect, -1);
+ 	snd_soc_dapm_mutex_unlock(card);
+ 	if (ret > 0)
+ 		snd_soc_dpcm_runtime_update(card);
+@@ -2689,7 +2688,7 @@ int snd_soc_dapm_sync_unlocked(struct snd_soc_dapm_context *dapm)
+ 	if (!snd_soc_card_is_instantiated(dapm->card))
+ 		return 0;
  
-@@ -2179,7 +2179,7 @@ static int dpcm_fe_dai_hw_params(struct snd_pcm_substream *substream,
- 			params_channels(params), params_format(params));
+-	return dapm_power_widgets(dapm->card, SND_SOC_DAPM_STREAM_NOP);
++	return dapm_power_widgets(dapm->card, SND_SOC_DAPM_STREAM_NOP, NULL);
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_dapm_sync_unlocked);
  
- 	/* call hw_params on the frontend */
--	ret = __soc_pcm_hw_params(fe, substream, params);
-+	ret = __soc_pcm_hw_params(substream, params);
- 	if (ret < 0)
- 		dpcm_be_dai_hw_free(fe, stream);
- 	else
+@@ -3358,7 +3357,7 @@ int snd_soc_dapm_new_widgets(struct snd_soc_card *card)
+ 		dapm_debugfs_add_widget(w);
+ 	}
+ 
+-	dapm_power_widgets(card, SND_SOC_DAPM_STREAM_NOP);
++	dapm_power_widgets(card, SND_SOC_DAPM_STREAM_NOP, NULL);
+ 	snd_soc_dapm_mutex_unlock(card);
+ 	return 0;
+ }
+@@ -3447,6 +3446,7 @@ int snd_soc_dapm_put_volsw(struct snd_kcontrol *kcontrol,
+ 	unsigned int val, rval = 0;
+ 	int connect, rconnect = -1, change, reg_change = 0;
+ 	struct snd_soc_dapm_update update = {};
++	struct snd_soc_dapm_update *pupdate = NULL;
+ 	int ret = 0;
+ 
+ 	val = (ucontrol->value.integer.value[0] & mask);
+@@ -3495,13 +3495,9 @@ int snd_soc_dapm_put_volsw(struct snd_kcontrol *kcontrol,
+ 			update.reg = reg;
+ 			update.mask = mask << shift;
+ 			update.val = val;
+-			card->update = &update;
++			pupdate = &update;
+ 		}
+-
+-		ret = soc_dapm_mixer_update_power(card, kcontrol, connect,
+-						  rconnect);
+-
+-		card->update = NULL;
++		ret = soc_dapm_mixer_update_power(card, kcontrol, pupdate, connect, rconnect);
+ 	}
+ 
+ 	snd_soc_dapm_mutex_unlock(card);
+@@ -3568,6 +3564,7 @@ int snd_soc_dapm_put_enum_double(struct snd_kcontrol *kcontrol,
+ 	unsigned int val, change, reg_change = 0;
+ 	unsigned int mask;
+ 	struct snd_soc_dapm_update update = {};
++	struct snd_soc_dapm_update *pupdate = NULL;
+ 	int ret = 0;
+ 
+ 	if (item[0] >= e->items)
+@@ -3595,12 +3592,9 @@ int snd_soc_dapm_put_enum_double(struct snd_kcontrol *kcontrol,
+ 			update.reg = e->reg;
+ 			update.mask = mask;
+ 			update.val = val;
+-			card->update = &update;
++			pupdate = &update;
+ 		}
+-
+-		ret = soc_dapm_mux_update_power(card, kcontrol, item[0], e);
+-
+-		card->update = NULL;
++		ret = soc_dapm_mux_update_power(card, kcontrol, pupdate, item[0], e);
+ 	}
+ 
+ 	snd_soc_dapm_mutex_unlock(card);
+@@ -4522,7 +4516,7 @@ static void soc_dapm_stream_event(struct snd_soc_pcm_runtime *rtd, int stream,
+ 	for_each_rtd_dais(rtd, i, dai)
+ 		soc_dapm_dai_stream_event(dai, stream, event);
+ 
+-	dapm_power_widgets(rtd->card, event);
++	dapm_power_widgets(rtd->card, event, NULL);
+ }
+ 
+ /**
 -- 
 2.43.0
 
