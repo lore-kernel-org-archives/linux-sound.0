@@ -1,290 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8D0271814;
-	Wed, 12 Feb 2025 15:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6CE20E314
+	for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 17:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739375459; cv=none; b=T9LgARlIKrfU3PSzsQ1hQvq5KG3mzYwQJBHtIOF2uTkSUhlKnryQY1oPgux/IEyRMdh5YQolJfps+g9lC6yAr/WtXhFtpxhq/LisxLb7FzG8egaCOGpbrMSMVMEmqFoN6brIBKfeZ1fUWplfjXTf7QZoFCTfyDGRzqh+gdMM9i8=
+	t=1739381411; cv=none; b=m4pUQucgZLWyHcGaf2kOBwh9FPumLxu8ib98/WYreZF3pHipDQ5HvC98zylx9ZOLTQaSO9I4df1PMZRBIUXGA8HKx85X9FTVQG+IQ7ZxNz4oGd0xJ2uu5Cz9r/AJKPIlfOLF4VOA9t7/H7Q0UnE1NEAR8XVAm/vO6YJnr4FW46M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739375459; c=relaxed/simple;
-	bh=veRJ1seuG5meNk+CJnoyOMvxRECby9IaNKYibL9rsv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OFRVFVSwSNkDQ/YIrxQISq4Mm6F9vdHA9cyzRd/ONocitJTiMzYRR5VXolP6oFpKuwJur0z4XanksTdJHSjDhstvVOORwNdzpkSvXXQucLvtRsTDxtEUZli8XAxhfMrgN3a4/3jygRIi7yfsk8Or15x4UnNFoKVvR/1zfnaEMK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=URfurnxK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739381411; c=relaxed/simple;
+	bh=laYiaUcTGUX7WZdRFzgO/xJoajwzTuQucUs/osES3q0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lljYwUFmIB0SVAl8XRZuhMlWV1CoCjJ30LR+6uZ+5BWLXigWIizqa/6VXbsrlnWZEdBDfMk/4bL1d1ynjf+gaZfvRCHg/u9NMWabamL0MEM6nuVLADJ5GI/WvuzoKQy2FmhdqcAF/ErbODTkzqvJ6/UH2cAV7fhdfKYaInxdNu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=qsVZO20T; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="URfurnxK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6EE5C4AF0B;
-	Wed, 12 Feb 2025 15:50:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739375458;
-	bh=veRJ1seuG5meNk+CJnoyOMvxRECby9IaNKYibL9rsv8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=URfurnxKnHDqT67NaXeF+MY87//DBPNEdgtMNSbHJuEcs2WqelZJAMtNB2a7ExU3R
-	 qNYbQaQH4EXETek/dstSEgt8j8HVHlX3VGNiv3f55CHQM6nvHpMKqdnZiZr39oPXUj
-	 okfs6CO8CLUMyPiPLBzo+rU8ouluHvfaJdBM/aun3YMNEorHsyDPUVk9OTp1nVv+s5
-	 hnIkBcqy8Ljx+z7bcLIDvwwE+jdBqmB4lu9wYSXb6GU+2pv6d3fhKh1eG34RodGRV0
-	 V2acr5V1TiHFPzw0sCLhkCcpaxrDduHi7b6jaq1dcs3B6TK2Quh+5YEqLvXQiXzlOl
-	 2Dmt7EuKcWo4g==
-Date: Wed, 12 Feb 2025 15:50:50 +0000
-From: Lee Jones <lee@kernel.org>
-To: Fred Treven <ftreven@opensource.cirrus.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	James Ogletree <jogletre@opensource.cirrus.com>,
-	Ben Bright <ben.bright@cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Jeff LaBundy <jeff@labundy.com>, Heiko Stuebner <heiko@sntech.de>,
-	Karel Balej <balejk@matfyz.cz>,
-	Igor Prusov <ivprusov@salutedevices.com>,
-	Jack Yu <jack.yu@realtek.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	Paul Handrigan <paulha@opensource.cirrus.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nuno Sa <nuno.sa@analog.com>, alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="qsVZO20T"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-439554db49dso21394715e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 12 Feb 2025 09:30:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739381407; x=1739986207; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fm33hzJFjmJ8ryY5EAhPR6Zq4d9imOcOnZK3nzb8Vvg=;
+        b=qsVZO20TA4YcqJkokAIpE+CPbPih43vzwFIonEmfjibtZIzwYSn8vlyI2l96QWkWdh
+         OlKiCow25TjJzqshdFRiEZ8YTlihWkPRJsIDbBTQSSl5oppxFkBVcjqcFPtUd8ycjL9M
+         hCgr6v7a05XsIBoAWKLECOcd/bnpRaZGC5PY2AYR2jWjj5UKjVO2DWrJDf9/o4n7MpY3
+         9SU3mcJkJiB/aFfyzSBtn6fFbjYsg4QJ5XAr/ITa28zDhz+zXEBNw5x/plGl50xrZsXb
+         RHo35gcTVhJEm0lAdjDcfXNhEX1eO+BDYgtOKL4g+XM1d7BpMsb0X5HycuqTI8n1CO0v
+         /ZPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739381407; x=1739986207;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fm33hzJFjmJ8ryY5EAhPR6Zq4d9imOcOnZK3nzb8Vvg=;
+        b=rjmipK6ecOxKqMZoX/tEInHHUNie8Ogup9J/xUEyEDluRcYHzNqdUBawX8GGnQp8bg
+         UtnoYDhDRM40uGTnh7NwrpavFBFAVb+WfyX2eV7iB8iaSfTX3Ow4X0qPlDfb6TGaJfB0
+         aI+rm1o7m9hsLJtqBET8Hx9M2qOPDcwh0GWgqC4JZKdHI5EeLH0HUYA0NBaXZj4fYkny
+         GNL8KVPJmfkLBP+Qhstp56feEYyvt+1KLv2pidOO4y1ykAoIEIeBa/BrAHm7Vv+uEJkU
+         yFJyHPZsxOJ1FISbtDsHwtgq7YKeWsmNV2paZe8QevTSufDutWnr8ZOEzsVtxz2zmnyd
+         DQeA==
+X-Forwarded-Encrypted: i=1; AJvYcCW7mYuWCWzK4Qw7bCG189khy+bwlsKFbD3InsvllRfqqiWig1lIID3lWwmW4TCR/muGJyAELqSoYaH9xQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXlLCmrltXijAdAneXc9lxbDmSwTXfk60+Nn71eCch8aNaQfhl
+	H/2nrW2akT2C0WaJ1zUsWUM+LGCUtvPHCUetjjRoUoqPfChbMa8KUjikf7UFzBs=
+X-Gm-Gg: ASbGnct8l/0DK3lNtGto/yjydoHnkZpdKLDOYMqCXK48ATDLG4Igi15H/tvjOIXxAAv
+	X2d4Bbx7XrV/vAwiAPfEHu+1Tf341v/83BTDHoOLORLOsiKxhDOP/MP2QgMbgbhviWk6qHn+0Mi
+	oep8m3iJ2Z2s5p0SXlgimNpawKtt+hqclyJevjc2ZVJRETTvtliwWy4nail2ymsqEkpWdtX0gHa
+	HxQzGRH++ZiunFkt2IYo9dhAX9cCDFZ1AvnypnIPwIEw6ax5N56+L/MQJFy4XjFhzRIhdQI5QEI
+	TQvwcKf9deD/HHhy2bNPOXoszlwJ3ePHt5RqsR+JxwJDs2PhbDsD6sb80Q==
+X-Google-Smtp-Source: AGHT+IFmtH/Z0/wfvfi4zBd/2JuSkW4YNabBwKnrELBkty/sNT0IOpB5DaaClkovSbkXskxtQ4Vp9A==
+X-Received: by 2002:a05:600c:1909:b0:439:4a1f:cf8e with SMTP id 5b1f17b1804b1-439580d5f07mr47517675e9.0.1739381404118;
+        Wed, 12 Feb 2025 09:30:04 -0800 (PST)
+Received: from localhost (p200300f65f083b0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f08:3b04::1b9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43959d3ca9fsm26613465e9.0.2025.02.12.09.30.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 09:30:03 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Luoxi Li <lee.lockhey@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: Re: [PATCH RESEND 5/7] mfd: cs40l26: Add support for CS40L26 core
- driver
-Message-ID: <20250212155050.GC2274105@google.com>
-References: <20250204231835.2000457-1-ftreven@opensource.cirrus.com>
- <20250204231835.2000457-6-ftreven@opensource.cirrus.com>
- <4e5f0194-22bc-4e17-85f4-6dbc145a936b@kernel.org>
- <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
+Subject: [PATCH] ASoC: SOF: Intel: Don't import non-existing module namespace
+Date: Wed, 12 Feb 2025 18:29:47 +0100
+Message-ID: <20250212172947.38970-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2090; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=laYiaUcTGUX7WZdRFzgO/xJoajwzTuQucUs/osES3q0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnrNqLELLkjra0885y2Rx/x4p/lb/4/2SnPkLJm 2wgZCszcuSJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZ6zaiwAKCRCPgPtYfRL+ TnwwB/sEqsIHtsoz/5FrIMoIO3yYNFDbfwywPBSPEUQZ4jAGy/S/sXJgFcP8DQ+Z116NP+hu2C4 zFW2cMjvaRAhust2jaw/fbsrofvRYo47IXJA1NQeBvtDMj2/W03g/TQK234uliwZl11R+ycRXN9 9SirscZkuVV7Zgc4XKuMN6nGk1VTPvobRVnjpLQnPlfPDFqghW6tRPpBnw+TKssguMeLbZp2AXj EqVzSI2ZrUBPrkfHXZPKVSvNQGakVix8miWScNoQcDuPxh1goH0/Zz0MrVTdnsPO9ysDrZ0gxOt 5nitufhpqFaSeCwX5w/+pseaNK81We5R2hPcNuLO/Luy1BHB
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3bff0ff8-7397-414d-a701-011d5b5a41f4@opensource.cirrus.com>
 
-On Tue, 11 Feb 2025, Fred Treven wrote:
+There is no module namespace "SND_SOC_SOF_INTEL_HIFI_EP_IPC", so don't
+import it. Historically there was such a namespace, but it was dropped
+in commit 97e22cbd0dc3 ("ASoC: SOF: Make Intel IPC stream ops generic").
 
-> On 2/5/25 04:34, Krzysztof Kozlowski wrote:
-> > On 05/02/2025 00:18, Fred Treven wrote:
-> > > Introduce support for Cirrus Logic Device CS40L26:
-> > > A boosted haptic driver with integrated DSP and
-> > > waveform memory with advanced closed loop algorithms
-> > > and LRA protection.
-> > > 
-> > Please wrap commit message according to Linux coding style / submission
-> > process (neither too early nor over the limit):
-> > https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-> > 
-> > 
-> > > +
-> > > +#include <linux/cleanup.h>
-> > > +#include <linux/mfd/core.h>
-> > > +#include <linux/mfd/cs40l26.h>
-> > > +#include <linux/property.h>
-> > > +#include <linux/regulator/consumer.h>
-> > > +
-> > > +static const struct mfd_cell cs40l26_devs[] = {
-> > > +	{ .name = "cs40l26-codec", },
-> > > +	{ .name = "cs40l26-vibra", },
-> > > +};
-> > > +
-> > > +const struct regmap_config cs40l26_regmap = {
-> > > +	.reg_bits = 32,
-> > > +	.val_bits = 32,
-> > > +	.reg_stride = 4,
-> > > +	.reg_format_endian = REGMAP_ENDIAN_BIG,
-> > > +	.val_format_endian = REGMAP_ENDIAN_BIG,
-> > > +	.max_register = CS40L26_LASTREG,
-> > > +	.cache_type = REGCACHE_NONE,
-> > > +};
-> > > +EXPORT_SYMBOL_GPL(cs40l26_regmap);
-> > > +
-> > > +static const char *const cs40l26_supplies[] = {
-> > > +	"va", "vp",
-> > > +};
-> > > +
-> > > +inline void cs40l26_pm_exit(struct device *dev)
-> > 
-> > Exported function and inlined? This feels odd. Anyway, don't use any
-> > inline keywords in C units.
-> > 
-> > > +{
-> > > +	pm_runtime_mark_last_busy(dev);
-> > > +	pm_runtime_put_autosuspend(dev);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(cs40l26_pm_exit);
-> > > +
-> > > +static int cs40l26_fw_write_raw(struct cs_dsp *dsp, const char *const name,
-> > > +				const unsigned int algo_id, const u32 offset_words,
-> > > +				const size_t len_words, u32 *buf)
-> > > +{
-> > > +	struct cs_dsp_coeff_ctl *ctl;
-> > > +	__be32 *val;
-> > > +	int i, ret;
-> > > +
-> > > +	ctl = cs_dsp_get_ctl(dsp, name, WMFW_ADSP2_XM, algo_id);
-> > > +	if (!ctl) {
-> > > +		dev_err(dsp->dev, "Failed to find FW control %s\n", name);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	val = kzalloc(len_words * sizeof(u32), GFP_KERNEL);
-> > 
-> > Looks like an array, so kcalloc
-> > 
-> > > +	if (!val)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	for (i = 0; i < len_words; i++)
-> > > +		val[i] = cpu_to_be32(buf[i]);
-> > > +
-> > > +	ret = cs_dsp_coeff_write_ctrl(ctl, offset_words, val, len_words * sizeof(u32));
-> > > +	if (ret < 0)
-> > > +		dev_err(dsp->dev, "Failed to write FW control %s\n", name);
-> > > +
-> > > +	kfree(val);
-> > > +
-> > > +	return (ret < 0) ? ret : 0;
-> > > +}
-> > > +
-> > > +inline int cs40l26_fw_write(struct cs_dsp *dsp, const char *const name, const unsigned int algo_id,
-> > > +			    u32 val)
-> > > +{
-> > > +	return cs40l26_fw_write_raw(dsp, name, algo_id, 0, 1, &val);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(cs40l26_fw_write);
-> > > +
-> > > +static int cs40l26_fw_read_raw(struct cs_dsp *dsp, const char *const name,
-> > > +			       const unsigned int algo_id, const unsigned int offset_words,
-> > > +			       const size_t len_words, u32 *buf)
-> > > +{
-> > > +	struct cs_dsp_coeff_ctl *ctl;
-> > > +	int i, ret;
-> > > +
-> > > +	ctl = cs_dsp_get_ctl(dsp, name, WMFW_ADSP2_XM, algo_id);
-> > > +	if (!ctl) {
-> > > +		dev_err(dsp->dev, "Failed to find FW control %s\n", name);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	ret = cs_dsp_coeff_read_ctrl(ctl, offset_words, buf, len_words * sizeof(u32));
-> > > +	if (ret) {
-> > > +		dev_err(dsp->dev, "Failed to read FW control %s\n", name);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	for (i = 0; i < len_words; i++)
-> > > +		buf[i] = be32_to_cpu(buf[i]);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +inline int cs40l26_fw_read(struct cs_dsp *dsp, const char *const name, const unsigned int algo_id,
-> > 
-> > All your exported functions should have kerneldoc.
-> 
-> I'm happy to add this, but I don't know where this directive comes from.
-> Could you share where in the kernel style guide (or elsewhere) this is stated?
-> There are also hundreds of examples in MFD in which exported functions
-> do not have kerneldoc which is why I'm curious.
-> 
-> > 
-> > > +			   u32 *buf)
-> > > +{
-> > > +	return cs40l26_fw_read_raw(dsp, name, algo_id, 0, 1, buf);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(cs40l26_fw_read);
-> > > +
-> > > +static struct cs40l26_irq *cs40l26_get_irq(struct cs40l26 *cs40l26, const int num, const int bit);
-> > > +
-> > > +static int cs40l26_gpio1_rise_irq(void *data)
-> > > +{
-> > > +	struct cs40l26 *cs40l26 = data;
-> > > +
-> > > +	if (cs40l26->wksrc_sts & CS40L26_WKSRC_STS_EN)
-> > > +		dev_dbg(cs40l26->dev, "GPIO1 Rising Edge Detected\n");
-> > > +
-> > > +	cs40l26->wksrc_sts |= CS40L26_WKSRC_STS_EN;
-> > > +
-> > > +	return 0;
-> > > +}
-> > 
-> > 
-> > ...
-> > 
-> > > +err:
-> > > +	dev_err(cs40l26->dev, "Invalid revision 0x%02X for device 0x%06X\n", cs40l26->revid,
-> > > +		cs40l26->devid);
-> > > +	return -EINVAL;
-> > > +}
-> > > +
-> > > +int cs40l26_set_pll_loop(struct cs40l26 *cs40l26, const u32 pll_loop)
-> > > +{
-> > > +	int i;
-> > > +
-> > > +	/* Retry in case DSP is hibernating */
-> > > +	for (i = 0; i < CS40L26_PLL_NUM_SET_ATTEMPTS; i++) {
-> > > +		if (!regmap_update_bits(cs40l26->regmap, CS40L26_REFCLK_INPUT,
-> > > +					CS40L26_PLL_REFCLK_LOOP_MASK,
-> > > +					pll_loop << CS40L26_PLL_REFCLK_LOOP_SHIFT))
-> > > +			break;
-> > > +	}
-> > > +
-> > > +	if (i == CS40L26_PLL_NUM_SET_ATTEMPTS) {
-> > > +		dev_err(cs40l26->dev, "Failed to configure PLL\n");
-> > > +		return -ETIMEDOUT;
-> > > +	}
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(cs40l26_set_pll_loop);
-> > > +
-> > 
-> > This looks way past simple MFD driver. Not only this - entire file. You
-> > configure there quite a lot and for example setting PLLs is not job for
-> > MFD. This should be placed in appropriate subsystem.
-> > 
-> I disagree here because the configuration being done in this file
-> is essential to the core operation of the part. For instance,
-> setting the PLL to open-loop here is required to prevent any
-> external interference (e.g. GPIO events) from interrupting
-> the part while loading firmware.
-> 
-> The other hardware configuration being done here is required for
-> both the Input and ASoC operations of the part.
-> 
-> Lastly, these need to be done in order and independently of which
-> child driver (ASoC or input) the user adds. If this is moved
-> to cs40l26-vibra.c (the input driver), for instance,
-> and that module is then not added, it will disturb the
-> required setup for use by the ASoC driver.
-> 
-> I would really like to get Lee's opinion here because it does not
-> make sense to me why this is inappropriate when the configuration
-> done in the core MFD driver is required for use by all of its
-> children.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+ sound/soc/sof/intel/bdw.c     | 1 -
+ sound/soc/sof/intel/byt.c     | 1 -
+ sound/soc/sof/intel/pci-tng.c | 1 -
+ 3 files changed, 3 deletions(-)
 
-FWIW, I agree with Krzysztof.
+diff --git a/sound/soc/sof/intel/bdw.c b/sound/soc/sof/intel/bdw.c
+index e1f0e38c2407..79374dcde89f 100644
+--- a/sound/soc/sof/intel/bdw.c
++++ b/sound/soc/sof/intel/bdw.c
+@@ -694,6 +694,5 @@ module_platform_driver(snd_sof_acpi_intel_bdw_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
+ MODULE_DESCRIPTION("SOF support for Broadwell platforms");
+-MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_HIFI_EP_IPC");
+ MODULE_IMPORT_NS("SND_SOC_SOF_XTENSA");
+ MODULE_IMPORT_NS("SND_SOC_SOF_ACPI_DEV");
+diff --git a/sound/soc/sof/intel/byt.c b/sound/soc/sof/intel/byt.c
+index cae7dc0036c6..900cc10a3b7f 100644
+--- a/sound/soc/sof/intel/byt.c
++++ b/sound/soc/sof/intel/byt.c
+@@ -475,7 +475,6 @@ module_platform_driver(snd_sof_acpi_intel_byt_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
+ MODULE_DESCRIPTION("SOF support for Baytrail/Cherrytrail");
+-MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_HIFI_EP_IPC");
+ MODULE_IMPORT_NS("SND_SOC_SOF_XTENSA");
+ MODULE_IMPORT_NS("SND_SOC_SOF_ACPI_DEV");
+ MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_ATOM_HIFI_EP");
+diff --git a/sound/soc/sof/intel/pci-tng.c b/sound/soc/sof/intel/pci-tng.c
+index b585ac4a85c2..3eb7400942dd 100644
+--- a/sound/soc/sof/intel/pci-tng.c
++++ b/sound/soc/sof/intel/pci-tng.c
+@@ -245,7 +245,6 @@ module_pci_driver(snd_sof_pci_intel_tng_driver);
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
+ MODULE_DESCRIPTION("SOF support for Tangier platforms");
+-MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_HIFI_EP_IPC");
+ MODULE_IMPORT_NS("SND_SOC_SOF_XTENSA");
+ MODULE_IMPORT_NS("SND_SOC_SOF_PCI_DEV");
+ MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_ATOM_HIFI_EP");
 
-There's a bunch of functionality in here that should be exported out to
-leaf drivers which should reside in their associated subsystems.  From
-just a quick glance that looks to include, but not necessary limited
-to; IRQs, GPIOs and PLLs (Clocks).
-
-MFD has been used for a dumping ground under the premise of "core
-functionality" before.  Tolerance for those arguments are now fairly
-low.
-
+base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
 -- 
-Lee Jones [李琼斯]
+2.47.1
+
