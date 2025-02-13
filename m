@@ -1,110 +1,116 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40ADA2040B7;
-	Thu, 13 Feb 2025 17:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F42428A2D6;
+	Thu, 13 Feb 2025 17:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739468744; cv=none; b=aLlTLwJHmY8nKXGKm/AlylExHNrctWj8TBzeVGJBy/8pl14xSdKhaDvVPHx3ceO6t6UkzGCgI+UPTMGBuj022y5G87uaEEaBstv7Tjjfw6umvNHfe25VRrs7Mvk+mvA4xFH6yg9jjcdlsSovncX6mtKmglc5WGcWmfGc8Jf2z7U=
+	t=1739469186; cv=none; b=eNnQr+rN+u0IbyLM7iOdGRD3YG8tMKwBpf7hWq6dxDxpQ5wwQC0bfv+4rWy7AEHTEl5fue8FylNtl1qAQpyR36O/4WobrdYOHRqbBHFHDQvFiYKLTkaEOsnObF3rjc8Wh63KsCC3m7+dAgXZ1w7Oi1HdmGaT3X1nC9ZDkJ0OWtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739468744; c=relaxed/simple;
-	bh=9g9XvpJ4vTHZRdoVn0NNOAe0M9fMrmh7qRY4E5RBo5I=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=JaRg7IidlKAQiBO4hGtq62ejHDNeya3befkWh7RYalf+92TzzDR2PJFtN6D3BKgVriWc/QsnRwtmnQLNK0gKn0wLnbvi/aHzIh+06UuPRUEPj1t96ZRi2b9Xbh6ZWGsb79MRdTILvmmMji50gKfCVYe8c/Ic2c+52AHMy5M/UDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=MqwOKrlM; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1739469186; c=relaxed/simple;
+	bh=0/EZ08bVHan3Oir1oM3FqVRV3qOf4zQaimq6QliMxv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JY6yDt3qvEY7GByuphWWoFV6bfhzOGux+q8hk1rXOFIoEg6t2nfHHYERrcXILtvoG/lj11ghi+eENbIUM6lMdtvTo4rBzP/JtkBLazrKiDKLWFo22FrW9O1yA82XKFt2RLOsbxlaA1+8dZz4diZXfFr33wwwAAYxoSzk/uhsQQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tS2lLmVd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MqwOKrlM"
-Received: from [100.65.1.94] (unknown [20.236.11.69])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D7186203D61D;
-	Thu, 13 Feb 2025 09:45:40 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D7186203D61D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1739468742;
-	bh=CjdDB9uvZBBF3c03e9VylpCG5WkQPsjk1qSKlO3MQtE=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=MqwOKrlM0wNKTlUgCtpn9gJKIpfGiwVh9dHGNNF4ycPmXa/idcQ30iiksOd4FJJaH
-	 jrqNCD9r00CbzdjGOPFOZ+MnFU6woy29/+YEkOfP14iTKCcgK64o8pGQaLxlVNUpHe
-	 bIb4sXQD9rr6g8CsvFcC34/zgx+kxX5/LItW+SLg=
-Message-ID: <8f80b65e-724c-439c-a094-4bfbb1e296f1@linux.microsoft.com>
-Date: Thu, 13 Feb 2025 09:45:41 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tS2lLmVd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFEA1C4CED1;
+	Thu, 13 Feb 2025 17:52:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739469186;
+	bh=0/EZ08bVHan3Oir1oM3FqVRV3qOf4zQaimq6QliMxv8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tS2lLmVdPvAZXUu/UmlDRziM1qm9d2Bg4NRvDv5uzGqDYiZOSrgzi5no2n9N++ZdX
+	 oHRJkPLSZq+PrL7V5NEMyvzmmpeKsnPoXZNx42bTHsBpLj5Jxv68XPw3GHbduDjrJf
+	 qgF8Tmb+/6RUUNVT83x9CWZ41jUMN0XZq7jgyJ5WVa6Gj6LLFiIvFLcNN2tyxGpUjt
+	 VLVljmLmMshzHV7jEmI7CfmG6EC/KfO6/Y+nBzMu0p4O7UwC49DjNkXZsTy/8CPZiy
+	 wBY1c5w+Vwg0jyxI9nrF7NKhxt0MDnJsutq0jwETD6vEkiF37z7pigNaiWF04Zbfop
+	 X8TgFF+tmoELQ==
+Date: Thu, 13 Feb 2025 17:52:56 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: David Lechner <dlechner@baylibre.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: (subset) [PATCH v3 00/15] gpiolib: add
+ gpiod_multi_set_value_cansleep
+Message-ID: <7989a6a0-b761-416c-ad97-69bd23fdc2c4@sirena.org.uk>
+References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
+ <173935301204.11039.10193374588878813157.b4-ty@linaro.org>
+ <801b5364-129f-42e9-bf9a-a90d9eeb4629@baylibre.com>
+ <CAMRc=MeXTvPnEPjOmPd5Vw0FYKHzndsB0SVjQErA4CY_0MGsMQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: eahariha@linux.microsoft.com, Yaron Avizrat <yaron.avizrat@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
- Nicolas Palix <nicolas.palix@imag.fr>, James Smart
- <james.smart@broadcom.com>, Dick Kennedy <dick.kennedy@broadcom.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>,
- Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>,
- Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>,
- "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>,
- Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Selvin Xavier <selvin.xavier@broadcom.com>,
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- cocci@inria.fr, linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
- linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
- linux-rdma@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 00/16] Converge on using secs_to_jiffies() part two
-To: Andrew Morton <akpm@linux-foundation.org>
-References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
- <20250128161643.289d9fe705ef2fdba0b82a52@linux-foundation.org>
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Content-Language: en-US
-In-Reply-To: <20250128161643.289d9fe705ef2fdba0b82a52@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ZlXg6mnu447oqkvT"
+Content-Disposition: inline
+In-Reply-To: <CAMRc=MeXTvPnEPjOmPd5Vw0FYKHzndsB0SVjQErA4CY_0MGsMQ@mail.gmail.com>
+X-Cookie: Take it easy, we're in a hurry.
 
-On 1/28/2025 4:16 PM, Andrew Morton wrote:
-> On Tue, 28 Jan 2025 18:21:45 +0000 Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
-> 
->> This is the second series (part 1*) that converts users of msecs_to_jiffies() that
->> either use the multiply pattern of either of:
->> - msecs_to_jiffies(N*1000) or
->> - msecs_to_jiffies(N*MSEC_PER_SEC)
->>
->> where N is a constant or an expression, to avoid the multiplication.
->>
->> The conversion is made with Coccinelle with the secs_to_jiffies() script
->> in scripts/coccinelle/misc. Attention is paid to what the best change
->> can be rather than restricting to what the tool provides.
->>
->> Andrew has kindly agreed to take the series through mm.git modulo the
->> patches maintainers want to pick through their own trees.
-> 
-> I added patches 2-16 to mm.git.  If any of these later get merged into
-> a subsystem tree, Stephen will tell us and I'll drop the mm.git copy.
 
-Hi Andrew, I don't see these in mm-nonmm-unstable. Did these get dropped in the confusion around
-casting secs_to_jiffies() to unsigned long[1]? That has since been merged in 6.14-rc2 via tglx' tree,
-and I have a v2 for just the ceph patches that needed some fixups at [2].
+--ZlXg6mnu447oqkvT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1] https://lore.kernel.org/all/20250130192701.99626-1-eahariha@linux.microsoft.com/
-[2] https://lore.kernel.org/all/20250203-converge-secs-to-jiffies-part-two-v2-0-d7058a01fd0e@linux.microsoft.com/
+On Thu, Feb 13, 2025 at 06:42:19PM +0100, Bartosz Golaszewski wrote:
+> On Thu, Feb 13, 2025 at 6:25=E2=80=AFPM David Lechner <dlechner@baylibre.=
+com> wrote:
 
-Thanks,
-Easwar (he/him)
+> > Do you plan to pick up the other patches that have been acked
+> > as well? It seems like most folks were OK with everything going
+> > though the gpio tree since the changes are small.
+
+> Jonathan requested a branch so I made one and sent out a PR. I figured
+> people would just pick the relevant patches into their respective
+> trees? For patches that won't be in next by rc5 - I will take them if
+> Acked - just remind me.
+
+If people are acking things that generally means they're expecting them
+to go along with the rest of the series.  When you didn't apply the ASoC
+patch I did actually put into CI but it was a bit surprising that you
+seemed to be expecting that.
+
+--ZlXg6mnu447oqkvT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeuMXgACgkQJNaLcl1U
+h9BoDgf/W5CpihAHC/LYRf8SQvXiRwjxswvLLHFJuH31Mlm004xXbQEhnVGnx0y5
+BQuUSIV5VBOy8sV3etF5jay1rfAtGlXAa6tfyCNLSjF6164Pa3MmGuNcxlA6mijW
+bHTSKgw0661wFELE/2qvRoPQKQmeo6POj/IJBf5mM4u4keHyjlCm+3FaYkBMTz16
+Plm2wDHNvrjxP4KKza3/uwwcSJTSQrVF2SXDqi/bFgV18RrljglU4KJAiM+K08OB
+o0BJjYG+Rxesf072hc7kDvG/B3yk/8cC8bnDpdtIkeVN+dVcW2d7QktryNVqQgbM
+xlC6PgwJOwzMzOkxSTgIUpQqYYa8nQ==
+=Ir02
+-----END PGP SIGNATURE-----
+
+--ZlXg6mnu447oqkvT--
