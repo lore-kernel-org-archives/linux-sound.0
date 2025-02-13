@@ -1,124 +1,118 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373E41F8BCA;
-	Wed, 12 Feb 2025 19:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76552063E8
+	for <linux-sound@vger.kernel.org>; Thu, 13 Feb 2025 06:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739388985; cv=none; b=XsvqC96B4+O5i9S/9UovXYB/urkxyHpnvb5+Hhb2nQMPQvZyL6hayvfSFjK0cIOlpXo/n9TEeyhWQ0fMEKV2y+sHBZjjAS0Ff3/hFmFAiXtIZf8vFm21VujIzoZjGHqmJYRtvz4casKEGXr9BWuQp9rX9v2cif9BrIDIEFhdApE=
+	t=1739429266; cv=none; b=B5aYG+7HgK4tdTummsIBtHjNmqxcj743q4YKhghFtJ6qOxH3JpJdw9p9hcxQfAia6R0ihw3pmAcAJWLHotKEj1yR/qFJWZCkdn5ltClN3Z23snexo5ABSdxYHVho+Ju8T2XaG+iLQvj41mFCzvyIY/2wR1+R9ne/zMoNwvvKJbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739388985; c=relaxed/simple;
-	bh=QO4/KNc9x4dzK3QBi705JZGrxHHJJZS+sDqwNV41osA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lVJMpmqEHMR8Fe0T+bDLb/b2vRqykxj6iL7e+OOwuUw+9iONj2NOdPsqioHKjM5zMRtwI7u9TIRMbxo08is9tcM+bAselakFLjH4yYtBDbpnvOqvQPGGRH6+/HALOwsYJpifg4Ahue6Z3uZJv7qMNhoAUIIiSsB+HvRG0JEY0lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MlbpXgJP; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MlbpXgJP"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ab7c07e8b9bso28235866b.1;
-        Wed, 12 Feb 2025 11:36:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739388982; x=1739993782; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nj8WHZGsoOuauuYxbxbB7oKPr0MKW37ni43BF0NAcDg=;
-        b=MlbpXgJPjTDxVQl+8o1+S4FQLUDymcFGF/idWH1AHcpSpW22L1t6WRmY7kjnLYveMA
-         PTTRj3ao6M6hHJ/sQPN3S9ZJu49pJOq/YbOZ//KpIs89O2NdYzWoMU3DnbMjSZSwUHXT
-         R/wiEKuidHvtIISI+eyfS/BhS4aXoHq+S5kmDvkYBMFjhf7V2cxfRnX9571fyX56LJrD
-         EhnRC0TgblsMqPA/S7sOnM19JuGK/DreIDbcrggjOVCoWvzfvJqFIsULOZRn7zfdZWjN
-         1OiY65D9X6YloEXhb40WUGVs9qb/KKxr2LFF2G8/HK5L6S74OHPiC5n+6L00LC9qfYUs
-         pPdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739388982; x=1739993782;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nj8WHZGsoOuauuYxbxbB7oKPr0MKW37ni43BF0NAcDg=;
-        b=DmEnsX4ZEXEjQoFK7QyGEFydtngaxKFWcQuqNzhwvb9qUgxqnJlnUtmk1AwD+zC/zM
-         wwNiZcovKfDdu7iJDzLoKRFyEYh9ZOR+bb8hy7RLMT9DLccHHJTfWKBWdjKJEB3Edmkc
-         bmxgmCsInVNGgaxjyoLHHV2RqvbaK9+9LC+tefJ4EBig0sgWfn7NiSkwtDXs9oozwU9y
-         AOXyfm/aBLIRLzD3jdc2uAu5nWY0bXkOqYrHu4C6NS9EQzsYEWpporfsgOBvEIK34Eda
-         qrZadVDcNGP8S+h7G/4lX2aW6irH03ElyuZ4dOXdt/HUMrJtgTH1ce6jz/h6pOLGL3nX
-         wNqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUq0Ma7JQHlk9S3lF9IySoQxZWnEVeMt368hQxvuLcy4cgH7v1pwgvYPIyGNHHRi0xcXDQrxtO1zpw+mo=@vger.kernel.org, AJvYcCWfhMY3KNg1SYndXeWcWld1t0XTWXt9mAeTx80+8OowbdKFENci8coqaHWl/zRMFvsPHPlrF64tEBzwZMZV@vger.kernel.org, AJvYcCXwrf/HdyTFq7W0v/rU5/oFn1PfRvIUkPIKN7uxCA2gZNHy2r11AXNRN2uvB+KSH6LFCWTLkz6+jDis@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmEDPi44muMUy45cBn+mhK+182NPR8i203588oIxQ6QWNCX0V2
-	pumQ4Hkx3GrnlCILzwDFoJLdk02SR4n3umIfvOZov6PDXB+7epku/h7jq6U2
-X-Gm-Gg: ASbGncvNxwdXITrfPKJe+zi6AFCTWwmzjiCVUydOb7uc24XiE7y+9xtwv/l9GQ4anat
-	rTPwM2U7V0OzYxB8bIayihx0X0GmMiANc6cCa/TODn87pwfi7nAjsQIiHwgiJF/PAZIXZm3J0eJ
-	T6QrkZXs5ll8pfSkdyrl/cIaxzssLwoWTqWP0hQ/zF7zu+64pnVJzY1rukWWeRiijK/VEHIj/4e
-	5YsnKhI/fC+wy6UBoptysEZvQFNG1so5XTxLUxXNAuo/oX58vSAhHYjUpfGIa3CPiw0+Yb367PX
-	xvVL5h8d64ixU+hsHTBn2bBeNRpLcqkFlQ+mj4i364nl
-X-Google-Smtp-Source: AGHT+IGL83Kis97/b459m6UtdYpnAuiWRMSSg5OjvrrLppYn0/cJ+CJ1qwhXz6yKmy+MT4z9GaeW5g==
-X-Received: by 2002:a17:907:c1e:b0:ab7:9b86:598d with SMTP id a640c23a62f3a-ab7f33c1e0amr401910866b.17.1739388982053;
-        Wed, 12 Feb 2025 11:36:22 -0800 (PST)
-Received: from [192.168.1.130] ([82.79.237.175])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab772f49361sm1319997166b.33.2025.02.12.11.36.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2025 11:36:21 -0800 (PST)
-Message-ID: <e45411df-1b8b-4f21-878d-d52e1112e62d@gmail.com>
-Date: Wed, 12 Feb 2025 21:36:19 +0200
+	s=arc-20240116; t=1739429266; c=relaxed/simple;
+	bh=Ui9tV08ii4vDqsenJvS2hHYGvjrn1LMX+Edc6aM9628=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dT//AhzNMjLdIWjFcwbHqBmp0iWwFx3tX/DcLzrN4HdyPFAeSPdWsOvonQco5NPkCmAZ6TwNY99jMQqWy/v08YpAngeNjBrWM/wtxjeyRfL3ARy27BBkRecDIquy4khi9Jvo1LjXHxjH+ON+696aE8tWenwSPXQ/zTYdY+XxToc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tiT0P-0007gj-8H; Thu, 13 Feb 2025 07:47:25 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tiT0O-000hzs-1x;
+	Thu, 13 Feb 2025 07:47:24 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tiT0O-00CmQq-1c;
+	Thu, 13 Feb 2025 07:47:24 +0100
+Date: Thu, 13 Feb 2025 07:47:24 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Daniel Baluta <daniel.baluta@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 1/3] ASoC: dt-bindings: support imx95's CM7 core
+Message-ID: <20250213064724.kbmxsk5szpxwclj6@pengutronix.de>
+References: <20250211225808.3050-1-laurentiumihalcea111@gmail.com>
+ <20250211225808.3050-2-laurentiumihalcea111@gmail.com>
+ <20250212093610.x4ixrackmn3u2xrf@pengutronix.de>
+ <CAEnQRZBeQdnC+K92+Udb5awTmom10YHHNt7Ld-pYK4A1i8sr3Q@mail.gmail.com>
+ <d66996eb-f49b-448b-9743-d19a3c3eba52@sirena.org.uk>
+ <e45411df-1b8b-4f21-878d-d52e1112e62d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] ASoC: dt-bindings: support imx95's CM7 core
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>, Daniel Baluta <daniel.baluta@gmail.com>
-Cc: Marco Felsch <m.felsch@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, Pengutronix Kernel Team
- <kernel@pengutronix.de>, linux-arm-kernel@lists.infradead.org
-References: <20250211225808.3050-1-laurentiumihalcea111@gmail.com>
- <20250211225808.3050-2-laurentiumihalcea111@gmail.com>
- <20250212093610.x4ixrackmn3u2xrf@pengutronix.de>
- <CAEnQRZBeQdnC+K92+Udb5awTmom10YHHNt7Ld-pYK4A1i8sr3Q@mail.gmail.com>
- <d66996eb-f49b-448b-9743-d19a3c3eba52@sirena.org.uk>
-From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-In-Reply-To: <d66996eb-f49b-448b-9743-d19a3c3eba52@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <e45411df-1b8b-4f21-878d-d52e1112e62d@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
+Hi Laurentiu, Daniel,
 
+On 25-02-12, Laurentiu Mihalcea wrote:
+> 
+> On 2/12/2025 2:38 PM, Mark Brown wrote:
+> > On Wed, Feb 12, 2025 at 12:11:49PM +0200, Daniel Baluta wrote:
+> >> On Wed, Feb 12, 2025 at 11:38 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> >>> On 25-02-11, Laurentiu Mihalcea wrote:
+> >>>> +    const: fsl,imx95-cm7-sof
+> >>> Albeit Krzysztof already add his Reviewed-by, can I ask why we need to
+> >>> add the -sof suffix instead of -audio or so? SOF is a software project
+> >>> but you can clearly run different software on the audio-copro as well.
+> >> Sure you can run a different software project on the audio DSP but
+> >> you will need a way to distinguish between the different projects.
+> >> There might be different mailbox, memory configurations. So you will  need
+> >> to invent another suffix specific to the new project.
+> >> We can make  const: fsl,imx95-cm7-audio as the one used with SOF
+> >> and think about a different name later for when another project will
+> >> want to use the DSP.
+> > I think the point here was that the DT should stay the same even if the
+> > DSP firwmare changes, just as how changing the main OS shouldn't affect
+> > the DT.
+> 
+> It's rather unfortunate but based on the experience from the 8 series
+> (imx8qm, imx8qxp, imx8mp), the programming model can differ quite
+> a bit (e.g: remoteproc vs SOF) even if the core is the same (i.e: DSP core).
+> 
+> The different programming models also required different DT configurations
+> (e.g: dif. mboxes as Daniel mentioned, some extra properties (i.e: reg-names), etc...)
+> 
+> The "-sof" suffix was chosen here instead of the more generic "-audio" (or whatever else
+> alternative) because the DT configuration is specific to SOF's programming model. Other
+> audio applications running on the same core may have dif. configurations (e.g: use
+> DTCM/ITCM for memory instead of DDR, dif. mbox count, etc...). I suppose this kind of thing
+> is bound to happen to some degree since the DT node doesn't just describe the CM7 core
+> (but, rather, it also encompasses information on the memory, mboxes, etc. used)
+> but perhaps I'm wrong?
 
-On 2/12/2025 2:38 PM, Mark Brown wrote:
-> On Wed, Feb 12, 2025 at 12:11:49PM +0200, Daniel Baluta wrote:
->> On Wed, Feb 12, 2025 at 11:38 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
->>> On 25-02-11, Laurentiu Mihalcea wrote:
->>>> +    const: fsl,imx95-cm7-sof
->>> Albeit Krzysztof already add his Reviewed-by, can I ask why we need to
->>> add the -sof suffix instead of -audio or so? SOF is a software project
->>> but you can clearly run different software on the audio-copro as well.
->> Sure you can run a different software project on the audio DSP but
->> you will need a way to distinguish between the different projects.
->> There might be different mailbox, memory configurations. So you will  need
->> to invent another suffix specific to the new project.
->> We can make  const: fsl,imx95-cm7-audio as the one used with SOF
->> and think about a different name later for when another project will
->> want to use the DSP.
-> I think the point here was that the DT should stay the same even if the
-> DSP firwmare changes, just as how changing the main OS shouldn't affect
-> the DT.
+Time will tell if there will be any other user except for SOF for the
+DSP but and this is what I wanted to point out: the DTS should abstract
+the HW. IMHO The CM7-Audio node should contain all properties required
+to turn power and reset the core (e.g. clocks, reset, pm-domains). I get
+your point regarding different configs but please have a look at
+mt8183-kukui.dtsi. Here the rpmsg config is a subnode of the actual
+system-control-proc. This makes much more sense to me since the HW part
+is part of the generic core-node and all the software config goes into a
+separate subnode.
 
-It's rather unfortunate but based on the experience from the 8 series
-(imx8qm, imx8qxp, imx8mp), the programming model can differ quite
-a bit (e.g: remoteproc vs SOF) even if the core is the same (i.e: DSP core).
-
-The different programming models also required different DT configurations
-(e.g: dif. mboxes as Daniel mentioned, some extra properties (i.e: reg-names), etc...)
-
-The "-sof" suffix was chosen here instead of the more generic "-audio" (or whatever else
-alternative) because the DT configuration is specific to SOF's programming model. Other
-audio applications running on the same core may have dif. configurations (e.g: use
-DTCM/ITCM for memory instead of DDR, dif. mbox count, etc...). I suppose this kind of thing
-is bound to happen to some degree since the DT node doesn't just describe the CM7 core
-(but, rather, it also encompasses information on the memory, mboxes, etc. used)
-but perhaps I'm wrong?
-
+Regards,
+  Marco
