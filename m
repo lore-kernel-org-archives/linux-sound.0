@@ -1,131 +1,110 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8CD22156F
-	for <linux-sound@vger.kernel.org>; Thu, 13 Feb 2025 17:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40ADA2040B7;
+	Thu, 13 Feb 2025 17:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739468554; cv=none; b=bkcYB7xa67bwr2QSrkGky3S/ko9rIIXov/MtPtRqMETHtdhr/FqGEKXdn/YeOnqzYWMbPK2lmp/oso0zXecUa+ryD4De1Ch8TfHUgDqm/Mp2Qu7NVjDnvIvkvIikditGUm/7VePqqFVafxTlSmop1e/ar6EAgyIb/hEe+Z9xQhw=
+	t=1739468744; cv=none; b=aLlTLwJHmY8nKXGKm/AlylExHNrctWj8TBzeVGJBy/8pl14xSdKhaDvVPHx3ceO6t6UkzGCgI+UPTMGBuj022y5G87uaEEaBstv7Tjjfw6umvNHfe25VRrs7Mvk+mvA4xFH6yg9jjcdlsSovncX6mtKmglc5WGcWmfGc8Jf2z7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739468554; c=relaxed/simple;
-	bh=ry5HU2b5JpTWT9D21OGSEN89Xcj4kAma40gpiFnwdJE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QFt+CO9vlea+9DKqT0HRS2U2P5wC74PHxVy9CtK4VMY82ptRcvDY6N4gWAnjEDiMi114AORGbf295+Y2nQdavkV9TBb9TbraW+DMv5FRoe6S4iYAccMAL+ygz9n7fHAHzohUxkvQLIh4CKTTjoCVV2l8v4ZCABBRhKX58miE9sQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=YsnRVMjz; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1739468744; c=relaxed/simple;
+	bh=9g9XvpJ4vTHZRdoVn0NNOAe0M9fMrmh7qRY4E5RBo5I=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=JaRg7IidlKAQiBO4hGtq62ejHDNeya3befkWh7RYalf+92TzzDR2PJFtN6D3BKgVriWc/QsnRwtmnQLNK0gKn0wLnbvi/aHzIh+06UuPRUEPj1t96ZRi2b9Xbh6ZWGsb79MRdTILvmmMji50gKfCVYe8c/Ic2c+52AHMy5M/UDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=MqwOKrlM; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="YsnRVMjz"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-54505a75445so1323758e87.1
-        for <linux-sound@vger.kernel.org>; Thu, 13 Feb 2025 09:42:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1739468551; x=1740073351; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o7poaTbadceb30IF+pZHsHhZOoR9b8z1fPvVtB4cPUk=;
-        b=YsnRVMjzJpPBywIoYZCkd40noCATJ91FhwUJPHKaTaC5FOJQEwcOwlDqAvaHXqvm0Z
-         CU4elwzrofsWwdQSvQiYO1hWORw3Z+62DEHhDGrCmIbikCcknlRFciQXerV2e2i3cDA/
-         AfD8pviyuSDCjbF5YE2hPy7fvBPLyJoLniHlKHa0DAvIUdNw1GLmZkpBZnIDjEfXfDfK
-         dMIv3VUkCFRVc46vU67s46hNoz2AZu4WCp41nITN1eB4E3qkxQLyljvBIG97NDXub+Zs
-         rPkwcTfCyY8cJ8mVpJr5xyE8ktDb017ab7j/XLJ7AYMKrfJXdki3HfDwesmN3gVeuFRh
-         gO1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739468551; x=1740073351;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o7poaTbadceb30IF+pZHsHhZOoR9b8z1fPvVtB4cPUk=;
-        b=ZU+glPHy23IBonEpt5g2HynT69UyCDN1D/s8eb2qGOQjTeEcfsiWuo2mJ8isAUtHdn
-         dw5BI49i3INt+u7PapcrxAJm8L9Jq9kAN4b4qrwX1HMC8D5irguv7EtyRt56y4P2hr1A
-         nbdWXPBFaKMiy5O16s2xkloVid0c+/fa0CgvjBpjtx+ogTc3nQ+w6gFRSEfMo7swqgp3
-         oroz8OWhMf/nzvguWDPGNMQR2cGobddLUUmE4fnD2qjx0qlhEWUGGske2j2wMd7x04vF
-         nFnfEe92RhJ+aG1puNGPvykRapBCtUr+Khv957x+6HBDiCz6wa/FenYO/Wryv0jn/fYZ
-         AKFw==
-X-Forwarded-Encrypted: i=1; AJvYcCXYowqUgNT3VtccCsJpLLk46AM1uDgVd5sXJ/i2hjJHxZBXXbAa9GlzzdcFM2Nfc3kq/5GFOXAuSfU5cQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhoRgr3bcXPr08RHVbIvK7SB/CGKtunV4AZEsGbWiGBKx18Pgw
-	WJlRFXHImGpm0w/MlXQnDOw+LH3jLKEeU8hcW90kd2tnzdGBrcerGdIM11VYzfZFNXjJ7TiAqgz
-	jyvHcM0VI1OGCiWv9vs2Qb9qbexFFxQykExb7Pw==
-X-Gm-Gg: ASbGncvz4+spQM7TIimVSABYEgfzlwqyr4ZMpN5Gjjut4/FsOHcdWjlrjyD6KdYuRT7
-	iIUlCGKqVoM6U4z7oV64ZQIU/Z6OAt6O2MOtDjJ8Iz2872ijeeEagz4UCZ3lIufD7RuFfxiJGkZ
-	AaLFQIZCx4gBypfF4rRIykblKJxGnk
-X-Google-Smtp-Source: AGHT+IF+fWjLMy4RC4fJfJhppdyGnDeRMMDIkKzyGd/CQOlFqBivCx8W/IGAYdJvOJJTC/43hOWG0nQaRr0ngZJNi/U=
-X-Received: by 2002:a05:6512:3d88:b0:545:8cb:2183 with SMTP id
- 2adb3069b0e04-54518122c71mr2468700e87.29.1739468550462; Thu, 13 Feb 2025
- 09:42:30 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MqwOKrlM"
+Received: from [100.65.1.94] (unknown [20.236.11.69])
+	by linux.microsoft.com (Postfix) with ESMTPSA id D7186203D61D;
+	Thu, 13 Feb 2025 09:45:40 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D7186203D61D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1739468742;
+	bh=CjdDB9uvZBBF3c03e9VylpCG5WkQPsjk1qSKlO3MQtE=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=MqwOKrlM0wNKTlUgCtpn9gJKIpfGiwVh9dHGNNF4ycPmXa/idcQ30iiksOd4FJJaH
+	 jrqNCD9r00CbzdjGOPFOZ+MnFU6woy29/+YEkOfP14iTKCcgK64o8pGQaLxlVNUpHe
+	 bIb4sXQD9rr6g8CsvFcC34/zgx+kxX5/LItW+SLg=
+Message-ID: <8f80b65e-724c-439c-a094-4bfbb1e296f1@linux.microsoft.com>
+Date: Thu, 13 Feb 2025 09:45:41 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
- <173935301204.11039.10193374588878813157.b4-ty@linaro.org> <801b5364-129f-42e9-bf9a-a90d9eeb4629@baylibre.com>
-In-Reply-To: <801b5364-129f-42e9-bf9a-a90d9eeb4629@baylibre.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 13 Feb 2025 18:42:19 +0100
-X-Gm-Features: AWEUYZkzHoDq5i_PpQBC_MEOqx6J4QYBMs6-RGY-gc-y6YI9Zv84ton-OV3XB6s
-Message-ID: <CAMRc=MeXTvPnEPjOmPd5Vw0FYKHzndsB0SVjQErA4CY_0MGsMQ@mail.gmail.com>
-Subject: Re: (subset) [PATCH v3 00/15] gpiolib: add gpiod_multi_set_value_cansleep
-To: David Lechner <dlechner@baylibre.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Cc: eahariha@linux.microsoft.com, Yaron Avizrat <yaron.avizrat@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
+ Nicolas Palix <nicolas.palix@imag.fr>, James Smart
+ <james.smart@broadcom.com>, Dick Kennedy <dick.kennedy@broadcom.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+ David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
+ Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>,
+ Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>,
+ Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+ "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>,
+ Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ Selvin Xavier <selvin.xavier@broadcom.com>,
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ cocci@inria.fr, linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+ linux-rdma@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 00/16] Converge on using secs_to_jiffies() part two
+To: Andrew Morton <akpm@linux-foundation.org>
+References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
+ <20250128161643.289d9fe705ef2fdba0b82a52@linux-foundation.org>
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Content-Language: en-US
+In-Reply-To: <20250128161643.289d9fe705ef2fdba0b82a52@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 13, 2025 at 6:25=E2=80=AFPM David Lechner <dlechner@baylibre.co=
-m> wrote:
->
-> On 2/12/25 3:36 AM, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> >
-> >
-> > On Mon, 10 Feb 2025 16:33:26 -0600, David Lechner wrote:
-> >> This series was inspired by some minor annoyance I have experienced a
-> >> few times in recent reviews.
-> >>
-> >> Calling gpiod_set_array_value_cansleep() can be quite verbose due to
-> >> having so many parameters. In most cases, we already have a struct
-> >> gpio_descs that contains the first 3 parameters so we end up with 3 (o=
-r
-> >> often even 6) pointer indirections at each call site. Also, people hav=
-e
-> >> a tendency to want to hard-code the first argument instead of using
-> >> struct gpio_descs.ndescs, often without checking that ndescs >=3D the
-> >> hard-coded value.
-> >>
-> >> [...]
-> >
-> > Applied, thanks!
-> >
-> > [06/15] gpio: max3191x: use gpiod_multi_set_value_cansleep
-> >         commit: eb2e9c308d2882d9d364af048eb3d8336d41c4bb
-> >
-> > Best regards,
->
-> Hi Bartosz,
->
-> Do you plan to pick up the other patches that have been acked
-> as well? It seems like most folks were OK with everything going
-> though the gpio tree since the changes are small.
->
+On 1/28/2025 4:16 PM, Andrew Morton wrote:
+> On Tue, 28 Jan 2025 18:21:45 +0000 Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
+> 
+>> This is the second series (part 1*) that converts users of msecs_to_jiffies() that
+>> either use the multiply pattern of either of:
+>> - msecs_to_jiffies(N*1000) or
+>> - msecs_to_jiffies(N*MSEC_PER_SEC)
+>>
+>> where N is a constant or an expression, to avoid the multiplication.
+>>
+>> The conversion is made with Coccinelle with the secs_to_jiffies() script
+>> in scripts/coccinelle/misc. Attention is paid to what the best change
+>> can be rather than restricting to what the tool provides.
+>>
+>> Andrew has kindly agreed to take the series through mm.git modulo the
+>> patches maintainers want to pick through their own trees.
+> 
+> I added patches 2-16 to mm.git.  If any of these later get merged into
+> a subsystem tree, Stephen will tell us and I'll drop the mm.git copy.
 
-Jonathan requested a branch so I made one and sent out a PR. I figured
-people would just pick the relevant patches into their respective
-trees? For patches that won't be in next by rc5 - I will take them if
-Acked - just remind me.
+Hi Andrew, I don't see these in mm-nonmm-unstable. Did these get dropped in the confusion around
+casting secs_to_jiffies() to unsigned long[1]? That has since been merged in 6.14-rc2 via tglx' tree,
+and I have a v2 for just the ceph patches that needed some fixups at [2].
 
-Bart
+[1] https://lore.kernel.org/all/20250130192701.99626-1-eahariha@linux.microsoft.com/
+[2] https://lore.kernel.org/all/20250203-converge-secs-to-jiffies-part-two-v2-0-d7058a01fd0e@linux.microsoft.com/
+
+Thanks,
+Easwar (he/him)
