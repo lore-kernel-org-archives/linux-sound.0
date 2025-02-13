@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96C720B80D;
-	Thu, 13 Feb 2025 13:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C6038389;
+	Thu, 13 Feb 2025 14:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739454110; cv=none; b=b1KbKW6h4jj1JBX3SC6Zgq32K0XRvi3jqd75nu9zqavAv8Ug+N2dmKeY8bKbU9pG88WypmUTmlKEZWi7Fnz0Ie8x94tAPJWW18bUlm/QnInQl6TqoQnYLjt2gX+5QZO1u4ZwFboDwMmCOw0ACXjpXmzhHYDYo/WaL7k4L8/VJ9w=
+	t=1739455696; cv=none; b=p1uMryBADMB1YZeQ5HUnoC7Z40u4Tkc6woCU4j/8TcsM9A2ap/rUPc8aNU1LU7mzI1OzKj63HQovxQ14yFGtrMtWb3hhgyhJF/LPsHaEthEHYm0k7mpKu0eNSs492TA6uXiVOP0Dhxpcf+FQcjV0IjUdTsjJGuz8s9rhoJC/mpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739454110; c=relaxed/simple;
-	bh=imDG3gI4Tn0Lpp/po3awdM1bNVdqzmKlF13bpxX6/Uw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UoHZdYSKQWDEOLjiEaAXN4+ujvLjBozjRwwgySGrCWfNRus/3hW6SjGu8g256ow335pHyoVgE99imeK2xGrzTlfkNrf8ENWxRmcnf3XRgSIjwF63F69khCKD1Znl/WmFKL80119PMXNPHLpaiZvRSYLHC9vdnma8XYlwuWzkrhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fYT9iz0N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739455696; c=relaxed/simple;
+	bh=r1KafGyCz1KTAkGpi3NYt3q72aE3wU997ChKRQT9+AM=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=g7rjeMXPwQKf0f6TvzF+iEoM1Pq2q/IvNeFSRE9TNxHaoMspgEknXSOPVpEFqjYG623ryr5VdllHXj/k9IXv3GF22A9nF3xzENz61n2U+qt1OjdM+lz39Ffn/zAlwvMls8NFo5KkmAz9B5wuzRu8rR8ol0aO14DxBNKaE3qr250=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CPoSaAu2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fYT9iz0N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE968C4CED1;
-	Thu, 13 Feb 2025 13:41:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CPoSaAu2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11EC5C4CED1;
+	Thu, 13 Feb 2025 14:08:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739454109;
-	bh=imDG3gI4Tn0Lpp/po3awdM1bNVdqzmKlF13bpxX6/Uw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fYT9iz0Np9RBwoxj0zZnYhM5MxAGZeLT1r9aA3ncUp1qQpOkggCXf8oyWIUfGMhGf
-	 07w9OtySQNt0UBR7Mxlg86BBHgWdR1Vs/yN2yIStcgWa8TOEKSCZEEZ3bhLLTNWcqN
-	 eUUG3XLRVSOmFRLqiiJRCXy1r/mRBKANWvbjJ8172MKz2p6fI/PsCcqCPxEiWspGGV
-	 1KlK8l5EAeQDMMJ9WM5qlRNcHXPIcVsXP11/u8bHU2x4d/6J+4fTNmXteukAkLvgF/
-	 q1Uxft+eyN4ueSDaIIma/eR+/Fff7QPa6Rc6EAB3W2rJPKbSf3phFumJxBLvJ5WOT5
-	 NfrUCeEMpPZbQ==
+	s=k20201202; t=1739455694;
+	bh=r1KafGyCz1KTAkGpi3NYt3q72aE3wU997ChKRQT9+AM=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=CPoSaAu2vf1OgUPzJOdAsLcl1QV6xnbgFfDsgeYR/nVzw6lK70tufn0ArfjSwWQh0
+	 E+DtLhuP7n5LfrKtUkbw5zA2tef1lxMfN9NAtY5/GYGauvnPdgv+NZzQ8cymp8j9BA
+	 HWqSOE6fdiHqroFWvZuOadrHwPTveSBpDQR1t3oMl3HOdrPNvCfcLqMDCGIJ0Y7y6z
+	 rp7X2VZAvY0iRqZlBxBFfYyQ1D2YAHWtUrKnusP7XNWkrkFk/DCRUDkhFNdxp7DYcg
+	 QCP2DRmsNnRSvabsRXlSaFaS5bY7TZj5pmis+4qBN2sQCTSqft3KINoejkMAUqDGwO
+	 bPEST9AkKQaVw==
 From: Mark Brown <broonie@kernel.org>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-Cc: imx@lists.linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250211225018.2642-1-laurentiumihalcea111@gmail.com>
-References: <20250211225018.2642-1-laurentiumihalcea111@gmail.com>
-Subject: Re: [PATCH] ASoC: SOF: imx-common: set sdev->pdata->hw_pdata after
- common is alloc'd
-Message-Id: <173945410762.135699.10442254060928769655.b4-ty@kernel.org>
-Date: Thu, 13 Feb 2025 13:41:47 +0000
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20250213070518.547375-1-shengjiu.wang@nxp.com>
+References: <20250213070518.547375-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v2] ASoC: imx-audmix: remove cpu_mclk which is from cpu
+ dai device
+Message-Id: <173945569179.146917.8081621260856817199.b4-ty@kernel.org>
+Date: Thu, 13 Feb 2025 14:08:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,15 +47,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, 11 Feb 2025 17:50:18 -0500, Laurentiu Mihalcea wrote:
-> 'imx_unregister_action' uses 'sdev->pdata->hw_pdata' to fetch the pointer
-> to the common data structure. As such, if 'sdev->pdata->hw_pdata' is not
-> set before adding 'imx_unregister_action' to the devres list, we risk
-> derefrencing a NULL pointer if any of the calls between
-> 'devm_add_action_or_reset' and 'sdev->pdata->hw_pdata = common' fails.
+On Thu, 13 Feb 2025 15:05:18 +0800, Shengjiu Wang wrote:
+> When defer probe happens, there may be below error:
 > 
-> Set 'sdev->pdata->hw_pdata' to point to 'common' as soon as 'common' is
-> allocated.
+> platform 59820000.sai: Resources present before probing
+> 
+> The cpu_mclk clock is from the cpu dai device, if it is not released,
+> then the cpu dai device probe will fail for the second time.
 > 
 > [...]
 
@@ -67,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: imx-common: set sdev->pdata->hw_pdata after common is alloc'd
-      commit: f22ba3561daa792dd138ed543e0bf48efe0b999c
+[1/1] ASoC: imx-audmix: remove cpu_mclk which is from cpu dai device
+      commit: 571b69f2f9b1ec7cf7d0e9b79e52115a87a869c4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
