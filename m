@@ -1,42 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C6038389;
-	Thu, 13 Feb 2025 14:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B013281377;
+	Thu, 13 Feb 2025 14:29:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739455696; cv=none; b=p1uMryBADMB1YZeQ5HUnoC7Z40u4Tkc6woCU4j/8TcsM9A2ap/rUPc8aNU1LU7mzI1OzKj63HQovxQ14yFGtrMtWb3hhgyhJF/LPsHaEthEHYm0k7mpKu0eNSs492TA6uXiVOP0Dhxpcf+FQcjV0IjUdTsjJGuz8s9rhoJC/mpo=
+	t=1739456974; cv=none; b=urkaGEeAbQLXItBIoxREDpUtSzrFB16DykTsQTy7pNgvq8aUkR0vSq1aohphWlngu0DPOQASnA/cJXn+BJDfqnALqxXVs7pedNwOLl1/BdgZQATsX0yi4FOF4Plxt3aAJofhqXMG0WIix3f5iJMraeuj6RAXKiCmwCpNjxNsIXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739455696; c=relaxed/simple;
-	bh=r1KafGyCz1KTAkGpi3NYt3q72aE3wU997ChKRQT9+AM=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=g7rjeMXPwQKf0f6TvzF+iEoM1Pq2q/IvNeFSRE9TNxHaoMspgEknXSOPVpEFqjYG623ryr5VdllHXj/k9IXv3GF22A9nF3xzENz61n2U+qt1OjdM+lz39Ffn/zAlwvMls8NFo5KkmAz9B5wuzRu8rR8ol0aO14DxBNKaE3qr250=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CPoSaAu2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739456974; c=relaxed/simple;
+	bh=HUdrlX2MtZKsLwMOSsoa4AP7fbIIfr20YZg8Tm0wdYg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pkAs1vph4LajHo44jY9X+ehpHRHd0c/JngIO8p8eokBwPwrNx+BDKnFquoMtQFTVmyTerVAggZQTgIlpuAyG39UMx6QlE2ZoRSn8d2hKrgqhUSBVzS6+18xq+MLdS4LTHC+si+A3N+Y/dpd9ghc0Ig3Y9Y7mmpQWZ7Y+89bD/sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TM1XYQBg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CPoSaAu2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11EC5C4CED1;
-	Thu, 13 Feb 2025 14:08:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TM1XYQBg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B131FC4CED1;
+	Thu, 13 Feb 2025 14:29:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739455694;
-	bh=r1KafGyCz1KTAkGpi3NYt3q72aE3wU997ChKRQT9+AM=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=CPoSaAu2vf1OgUPzJOdAsLcl1QV6xnbgFfDsgeYR/nVzw6lK70tufn0ArfjSwWQh0
-	 E+DtLhuP7n5LfrKtUkbw5zA2tef1lxMfN9NAtY5/GYGauvnPdgv+NZzQ8cymp8j9BA
-	 HWqSOE6fdiHqroFWvZuOadrHwPTveSBpDQR1t3oMl3HOdrPNvCfcLqMDCGIJ0Y7y6z
-	 rp7X2VZAvY0iRqZlBxBFfYyQ1D2YAHWtUrKnusP7XNWkrkFk/DCRUDkhFNdxp7DYcg
-	 QCP2DRmsNnRSvabsRXlSaFaS5bY7TZj5pmis+4qBN2sQCTSqft3KINoejkMAUqDGwO
-	 bPEST9AkKQaVw==
+	s=k20201202; t=1739456973;
+	bh=HUdrlX2MtZKsLwMOSsoa4AP7fbIIfr20YZg8Tm0wdYg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=TM1XYQBgWt5Zx3+B1g3byTwhgvV3eN9EnsHfNCXXJFQR1H4eYQAJik3H/N/lJGIa9
+	 l/ony8uN3cDb7u3rIGm115wJoCZ0EqLbumn8ip/zT976urzefWUzxVHoTXvuJGxdpr
+	 o50kQlcSm/AhDI7oRxA3rw1pb1tqFvPvAw6NLjZ4LG/eaz2wORLwnJLl5ngS3SYP34
+	 HWXy30lsOrw/ovif2VKbvQqB8XDMDlbRNMjyuVIDCAAMRT19JgFh4H33P9k0Hd8d6b
+	 36wameN+RBrq0PtKea4id1Texva6p6AU6MFCDrrBnxPLQyrhlRl3Prs++M3Qy6+QFB
+	 7xRIik1A3bthw==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20250213070518.547375-1-shengjiu.wang@nxp.com>
-References: <20250213070518.547375-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v2] ASoC: imx-audmix: remove cpu_mclk which is from cpu
- dai device
-Message-Id: <173945569179.146917.8081621260856817199.b4-ty@kernel.org>
-Date: Thu, 13 Feb 2025 14:08:11 +0000
+To: alsa-devel@alsa-project.org, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: venkataprasad.potturu@amd.com, Basavaraj.Hiregoudar@amd.com, 
+ Sunil-kumar.Dommati@amd.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Syed.SabaKareem@amd.com, Mario.Limonciello@amd.com
+In-Reply-To: <20250213103652.1082203-1-Vijendar.Mukunda@amd.com>
+References: <20250213103652.1082203-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH] ASoC: amd: ps: use switch statements for acp pci
+ revision id check
+Message-Id: <173945697146.151957.15841988796176463409.b4-ty@kernel.org>
+Date: Thu, 13 Feb 2025 14:29:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,15 +49,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Thu, 13 Feb 2025 15:05:18 +0800, Shengjiu Wang wrote:
-> When defer probe happens, there may be below error:
+On Thu, 13 Feb 2025 16:06:52 +0530, Vijendar Mukunda wrote:
+> Use switch statements for acp pci revision id check in SoundWire
+> dma irq handling.
 > 
-> platform 59820000.sai: Resources present before probing
 > 
-> The cpu_mclk clock is from the cpu dai device, if it is not released,
-> then the cpu dai device probe will fail for the second time.
-> 
-> [...]
 
 Applied to
 
@@ -63,8 +61,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: imx-audmix: remove cpu_mclk which is from cpu dai device
-      commit: 571b69f2f9b1ec7cf7d0e9b79e52115a87a869c4
+[1/1] ASoC: amd: ps: use switch statements for acp pci revision id check
+      commit: 828c0aa63706410503526d0ee522b9ac3232c86b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
