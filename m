@@ -1,86 +1,96 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71037205E06;
-	Thu, 13 Feb 2025 07:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249D5208992;
+	Thu, 13 Feb 2025 07:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739430390; cv=none; b=NvDAovr5+JgyrWBjNmk4IXydVHyN1KE7eQTxhTxcGZS8YunMuujvrZ8nsEPzOFh4gKz7ft3+q+3OPWniI8DUxE+1rKtx1gi3EANLfe0E+pqCIrF381yDUtzrTQOrUfTzC72ZSTnGoNRMPVPuzeg0vgbMkkkCUl754SeRaS1ujqE=
+	t=1739431596; cv=none; b=hXY8MMqdMmJXlUecSi+XZeZdKR6NQmd24Uog4VzUhLO/wfEfSKjcqiGX3o9v9sXy/m3CiQwXOAR1j58j3fMZhrqm6xRXliuzdvHWAPrx0wmu4lUnGneYvoB7ug4teHbClBgHWrdYONTPQWUNv5ktum0PIs+Kbrnrtkc8zZG0Zu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739430390; c=relaxed/simple;
-	bh=9V8RYJrwxCeycj3We3K1dXBGOYEqueT+KippZbEYPqE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J4fiWfy427VonmGEhQfuZXuIW7DpmpnrdOhVFBLSd5tQaqeDCyOdzEHAEKPl47O8J1QeFQmNVw5ebGiVoIfmxVCi1t8kXYESsm3h8BJUb8AThvywfpMbt0nOGFXLLMYIGn9OoLwtfrd+DB+dzevWqgdrib3VK5vkWLeQUaQlgLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [124.16.141.245])
-	by APP-01 (Coremail) with SMTP id qwCowADHzm7cma1njg7hDA--.25387S2;
-	Thu, 13 Feb 2025 15:06:08 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: vulab@iscas.ac.cn,
-	cezary.rojewski@intel.com,
-	Julia.Lawall@inria.fr,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda: Add error check for snd_ctl_rename_id() in snd_hda_create_dig_out_ctls()
-Date: Thu, 13 Feb 2025 15:05:46 +0800
-Message-ID: <20250213070546.1572-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.42.0.windows.2
+	s=arc-20240116; t=1739431596; c=relaxed/simple;
+	bh=OTiYJTw6dWzO6R+bnZPo5eajbZ/LQMlpQREGfDWsYh8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=oDMGR0hJFIjIOJO8mXU53gWFL5DyeDJEM7/MRq8q5ivThekoCwF71AfTjFnHhrI7Xxc3VFhZ0EcgyvrEVYxdCWu6aj08Y1RmSGHGiqYW1ljV2bmfyVzllLTwMupqWoYUHubts7lCGxJhG5Kt/ZIexlXs5q4L3AswcJwG/9sBotI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=G02y8nMl; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="G02y8nMl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1739431587; x=1740036387; i=markus.elfring@web.de;
+	bh=OTiYJTw6dWzO6R+bnZPo5eajbZ/LQMlpQREGfDWsYh8=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=G02y8nMl36P0PqPsSbh/94j3hGJZ8voPUGs4Syqukmyz1liCfWDSW5e9W6MynhOk
+	 0IAuxhtpJa6pO5i4jwGoR4pUnwRUPXfHLz8PZKiWz/5DBce15tpeI1m/QDew8XaC9
+	 rWsUzYcuMcEf61qDLfpfSkJwyRAHk07B2xDWTSWUbQKsjBYKXdpUEJoSTHPFBk5qR
+	 3xqEaSmea7W3iFzK2jDCJFK9OmeYyVBfMyMEaBkkp6AE9qCsYsyby7IcB4YkzwLam
+	 QyVHs5tJWJ5R/wP4oSf3mJVySvNvrPVYJt/rSIFO0v7rhxCAITcE31/LezKRhQc1a
+	 dOurSElu3+Qt6zCqOg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.78]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N7QQD-1tIq7S0kof-00vmXo; Thu, 13
+ Feb 2025 08:26:27 +0100
+Message-ID: <491e74f2-b503-4486-a8e0-b4eddc16b2be@web.de>
+Date: Thu, 13 Feb 2025 08:26:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADHzm7cma1njg7hDA--.25387S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gr4xCw1DuF48KFWftrWUArb_yoWfurX_XF
-	18Xw1xWa4UAwnrKr43JrnYvFnag34xZF10grs2qF4UJ393Gr4Yqr45Kw1qkFykWa48GF13
-	CrnrW3yq9ryxKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUf8nOUUU
-	UU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCQ8MA2etUhmyRAABs-
+User-Agent: Mozilla Thunderbird
+To: vulab@iscas.ac.cn, linux-sound@vger.kernel.org
+Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Cezary Rojewski <cezary.rojewski@intel.com>, Jaroslav Kysela
+ <perex@perex.cz>, Julia Lawall <Julia.Lawall@inria.fr>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20250213070546.1572-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] ALSA: hda: Add error check for snd_ctl_rename_id() in
+ snd_hda_create_dig_out_ctls()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250213070546.1572-1-vulab@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:A4/AA8rcihgpl6rsOFxSGFatHFrVBRGoijQL0IrZrjwgjadffvq
+ S0FidvsMStG9EpfZtYOFtiL+iwZsXpcZBZu7OzXP7rgwUl4LCOIa4djO4IH/ZkeD4mpClTl
+ qe54W6/8UBAcvnUZ+z8SiPsIHQ6DikdiOl18VjGVsrRofkMo6A30xXFT/oUT/o4eOFWQxCO
+ Ee4CrlVdLkOna1IjKriTw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Dj6pCAqs3Ks=;XbWPrYIAhujbPECWV0/rzt+UUsY
+ R+hCQFFiGkuvLCkdo2lTGMaMyd5tTaRD35SFIRRto61K7Wh3Pmt/LYaIOv07VoVO2KnN+MYxC
+ D0DRAxbfLnOxnQDAayhHe/QXgNvxnTyoi1v8OIGu51hv0ZrRiqiTvtZksy5LdtFuMcdABlGST
+ tuCnWwxij04KoewGBQKZ9cU8b/MmXX+YuU6+kOn45dqxgLByV0Lh8L8qIHosrrDV1RQl1EcSL
+ rAI8UWmqu/VlrTb7LacPH0BhWfyWnPDX4axTK1zDz0DuL/+HcjczYzqzLM5ajED9m+vWxU91V
+ KgkIgYOHAGsKaj/75SaU+EhwzqKga2B7MLZGCIyjOqF7ABOSb1IFuQFW29OuvxDvMQVOl4Tmi
+ IBmvsStqiKOkMz4/nAg6aAv0y77gQ/0UhA/RULCs/8s1dzH9IDJTxeRSfHaGVhIvQTEpdprfA
+ RMTBYgMqRsl+pfZ7/++QfZ6nYX1x5ljdZhxB4EYU9DfDOEmSJ4au8VerTyxDun+nHLR1Cped5
+ r5tBlHyYNCFSQF1YAowmjgfj8qy0E6Yi0bz940OSyIVNjNr4GjDJ/aJveHTAb64WAP5830FD/
+ zyn3Nu1p7yyvISKoAoXSYqLGSEq89tEy7KObCHgMr011q0y2kJptfsZQmBe1yRLmy429+q2yb
+ iurlKfqfNqf2ihll9aU6XhXnkcBQ6+FXzfmDWgEvaTS6B+0lHilQImbi+1GPD11sBTtRv+dBP
+ yhF60+Q80NX3cSvW4m/xoP8lpKARKM3bqMhd14OdYOcxjMPrjp3rm6A/CFev/WITautHpcSR1
+ AFiD14mKBfyWSuJaq1PE6rKX9nLwfFiWQfOZl1pYgy9B8ESsWvPAIAnFLyHPwuJc3wRIYQd6r
+ GICP4Ooud+5jh1tON2ykw244dXN68zG6m182Xlg3d//rTEPIMmipfp2Cmee0rlSfUv7g9AbOG
+ DFMSJXYEcJbCiVb6y3iVOeaQWbE8jklthDH+gDGE5Icuq4v7+JqxC+AXwMhB8qCfJ2DueuSIt
+ tlPNnnDFysmkLZPdlzZWpPL2lOarfqfDA1N1qNLl92zH3d/RU70T7o6oLiAu8+bPHXH/AQpAv
+ vfcH/DWt37hB9BLws7SsRuyT9FhUOlExXL1eznXASLjvZLH35k7CA48JWNnPUIosaAaXMjzNd
+ OUy0vx7PwZRsSXYu2TXJqjlJe+s7UO4UWEkFH24O5s78hnsnITyQ+0zZwQye14jN0rhUTnT+x
+ ou1NXt8P7lWpZt0fCJPXArqBzlR7RqkgPwdRlAdwaW7B+iBDA2IGGs6OsxJBc/06Yid+J7jaf
+ TZg9mKro6TZt4vr9maX5rxZgXJoRIH3DAQfdjuSaUEPh49GFKFE3U9uNPD2I1woEzFWO7W96g
+ 1RyKNkLWmrzS2QC2dN84cVSmnrkA2eHgkTlxmb/SnbGwrfb+MSSqVrJeLaLOWsQQkvSBrCDSO
+ AOfsjicdFL8QuzwoJD1NRb4nOubs=
 
-Check the return value of snd_ctl_rename_id() in
-snd_hda_create_dig_out_ctls(). Ensure that potential
-failures are properly handled.
+> Check the return value of snd_ctl_rename_id() in
+> snd_hda_create_dig_out_ctls(). Ensure that potential
+> failures are properly handled.
 
-Fixes: 5c219a340850 ("ALSA: hda: Fix kctl->id initialization")
-Cc: stable@vger.kernel.org # 6.4+
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- sound/pci/hda/hda_codec.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I would prefer a change description variant without the word =E2=80=9Cpote=
+ntial=E2=80=9D
+for this issue.
+https://cwe.mitre.org/data/definitions/252.html
 
-diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
-index 14763c0f31ad..46a220404999 100644
---- a/sound/pci/hda/hda_codec.c
-+++ b/sound/pci/hda/hda_codec.c
-@@ -2470,7 +2470,9 @@ int snd_hda_create_dig_out_ctls(struct hda_codec *codec,
- 				break;
- 			id = kctl->id;
- 			id.index = spdif_index;
--			snd_ctl_rename_id(codec->card, &kctl->id, &id);
-+			err = snd_ctl_rename_id(codec->card, &kctl->id, &id);
-+			if (err < 0)
-+				return err;
- 		}
- 		bus->primary_dig_out_type = HDA_PCM_TYPE_HDMI;
- 	}
--- 
-2.42.0.windows.2
-
+Regards,
+Markus
