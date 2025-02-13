@@ -1,104 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C73211A36;
-	Thu, 13 Feb 2025 16:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5391288C3E
+	for <linux-sound@vger.kernel.org>; Thu, 13 Feb 2025 16:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739463337; cv=none; b=cfcN9Q4J7+QkaRbks30U4bGZTw5nQhr/J7evTo0oRvQ3/3URKBy5TGDJrWmtdorTYVuRgWEL8HbgOWEp+NNsJIHY6xOaCInCqpaFbmxRaWH54ELvv1ML1YT7CbSXdOnijedYI8iZwSVNpfHa3TP9VYypEiKsuGOlXLiu46mi55U=
+	t=1739463514; cv=none; b=kTTM9rTe8s1gTqqhQlO4rEwkW8co2JljUh+bWPrjKl+Fe5X6zDlp88smEBuqFdT6u53+H9DtmWebT9lR1BElZjtDEC6zPSQ7EyqMQQaVGMazvOl05WvfF85wesQsKcyjsqLbU+zbU0viXv8lsyi6HifCe4FzeHlObJm4e5RRGZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739463337; c=relaxed/simple;
-	bh=HbYnqyNNOZ3X0ssMhWFk2VYAZhe/38v3IVglUdJr+dM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VoQnsoDB+P0BSEBDtUveM22gib36qnfQB0ynNLqIXF/HdWk+/BKFMiKJhsWCKAZ3Zw4HC/2I+Jww1S28irA/9wg+cYJMPeBW2nr7VDdMVUucCKVJslwTHytES316bVzVVuLn53HBEyYD9B57VZcFJEcn+seEwYoGRa4rK15fgE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i4UajAWy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739463514; c=relaxed/simple;
+	bh=Vrn/4vwdmsdokkCuLMXfyT1nZ/jStbBCx0QhOmJ6E80=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=gxB/j/4Igc5umgWbU1jTVuEGaoFt3w1Ftfc3n24FXMQQ0+vFlUoTfk5bUCMjGrSN2jL1nP7AOOViF/dvn00fQ9ciYF5mNpU4WwS9UZnpopISkh7CJ3vltqRdnMdcjThF+rz+KNkQgpjZOy/rlPChd8wGL1TTpuNQP005LtJG3BM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JUqOtsiR; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i4UajAWy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65272C4CED1;
-	Thu, 13 Feb 2025 16:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739463336;
-	bh=HbYnqyNNOZ3X0ssMhWFk2VYAZhe/38v3IVglUdJr+dM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i4UajAWyXVeEGHPfIH0T6x8Iucjj7jf4PwLRNWLc/TMhtGkd2+Lr94n4ORbzAsxXD
-	 imjfZzVdjTgWySoRZMNukQYcz1GgEkqAFhzooORTUlQhtZ6JUiajCkTeJ0/CDLptW/
-	 9mFwyMGXa028MgrHuzSkelTDBcf6yrU64RrcsEaW/qn+4HdwK4dSismi35oT6uklv9
-	 TBoIyJnCnHeS18V9om5MgRnFBx99HJOAF3KVZTSacwBGMvhziAKxRDz7wQWbhKn1/X
-	 y+vjNhbChzsq/y13ZhRb2eCbedSqq4HBd3ebc+nGLbwVItKX5dyfOOT2DFMVDolXeK
-	 jfzfhPWKxMo7w==
-Date: Thu, 13 Feb 2025 21:45:33 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev, bard.liao@intel.com
-Subject: Re: [PATCH 2/2] Revert "soundwire: intel_auxdevice: start the bus at
- default frequency"
-Message-ID: <Z64apTrlAbvUDQLx@vaman>
-References: <20250205074232.87537-1-yung-chuan.liao@linux.intel.com>
- <20250205074232.87537-3-yung-chuan.liao@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JUqOtsiR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739463511;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iKzjBSUkdHDLfZzf4JfzRiz+zb6GftCtkHoeHOHlZwU=;
+	b=JUqOtsiR+ODQNkafGefj2w0b50pdy6/eaUZ5DLluWK5OxQq8jt4t3FMRDos5dvJS7BTxKt
+	7tbfdTP7tRIRIfAiI1Gsm4w85V1lZXETqYFqjEnK80bSo4+KA7FY53flJ8jDxW/+rUzAa2
+	8aCDSA6y3YTWXbliUHYnHWCeQgrkprI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-447-dn1mCjxENV-k2yGH293z1g-1; Thu, 13 Feb 2025 11:18:30 -0500
+X-MC-Unique: dn1mCjxENV-k2yGH293z1g-1
+X-Mimecast-MFC-AGG-ID: dn1mCjxENV-k2yGH293z1g
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4395586f952so5515735e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 13 Feb 2025 08:18:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739463509; x=1740068309;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iKzjBSUkdHDLfZzf4JfzRiz+zb6GftCtkHoeHOHlZwU=;
+        b=IHHzUEEx3X0py7Xq9doxJez3uWrsJ0CxBzVvWSuo/rZ9ZFN56Kj6PgZKAH7EeTOolk
+         gpsd37P/UzEEsUw+X73V1z91ldVU9BzPRw8f3bdLjEtrwsliLCPPViz7zqoZbpzGWgKC
+         5qy+CJp/9OTbgGLdYlvUVCtG6pEsyR6z/RaGwpHKcYr16S62xIB6Uc3chJAT9NZdHmjH
+         infdnwmUHmK5cjpmZlCVVAFhoq5P5+aPzRL8RZbSh5Hky4l74H0cGEFnCR+UfbNoT3Sf
+         8cOVq5CcchyzhNLjFOWInQY4xpcGvanNioz6dKx0sAmDUJpyzL7iMk31Jvyfv3Q+Lr2m
+         umog==
+X-Forwarded-Encrypted: i=1; AJvYcCWF+lptacL0+botLAdOrS41mobHPhmuLhY9YlSTNXQKaHTkLE4AazQbYyW80UJzmVlxocgtnB49AVnPhw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwToMX5jg1r2WJasfoHjnv3nZwAFHoLHgGEwtK8NdZcGZ9+HpBO
+	UNcbVLXS4fI2v+SbLWVUpWwm0o4p+X+lEDqIVIagl8wE2WA0ETCrTd8V8wZLLgU28TDEYjRLUqN
+	VYMZWFiCit1QRCAbDPwebSfHKIGcmDcRBlFghDbq6Ji57p82zCKfdCkecX0r+
+X-Gm-Gg: ASbGnctRlsI6AoxfsKqXqwbMevy59kNqrrADTjz7e/jKzfMlQC0R8oZuiJvU9KCorF2
+	U+GCp6eSQGTnYKNOfSHTVuOElnoMabhJrqmG9NgJCBM/364BHpfLzhWZfYkFfKteDyP8sv2X9Ex
+	Wc9+/YBHyl4xEbJk62DxMH8nW7ROKrr2U8mZnz8fsGPyNcMTyW71zLrTPIwo2NPYXo+iU0Hkv+B
+	b49Gd5U29+eiZVqS6YiGUZ+Zhu0BzGfRs0d0nThzA3kfic44lweF/qGanAzRuwjs71jvs3O3BoE
+	/yk6bgi5x7/uh/5TBcTRsVT/CT8vAMe4uQvTBhN3eLjEjfUiTM/W+/I=
+X-Received: by 2002:a05:600c:698d:b0:439:574c:bf76 with SMTP id 5b1f17b1804b1-43960179b7amr57710515e9.7.1739463509141;
+        Thu, 13 Feb 2025 08:18:29 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFu6y21w757rvE76+QUOv51wsc6Q/8KLtoBTuUd9R2tuHYuDtc916mYTl90tlTU0umnS7sdnA==
+X-Received: by 2002:a05:600c:698d:b0:439:574c:bf76 with SMTP id 5b1f17b1804b1-43960179b7amr57709765e9.7.1739463508492;
+        Thu, 13 Feb 2025 08:18:28 -0800 (PST)
+Received: from stex1.redhat.com (host-79-46-200-29.retail.telecomitalia.it. [79.46.200.29])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a06d237sm52922715e9.21.2025.02.13.08.18.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 08:18:27 -0800 (PST)
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: virtualization@lists.linux.dev
+Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Matias Ezequiel Vara Larsen <mvaralar@redhat.com>,
+	linux-sound@vger.kernel.org,
+	Jason Wang <jasowang@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>
+Subject: [PATCH] virtio_snd.h: clarify that `controls` depends on VIRTIO_SND_F_CTLS
+Date: Thu, 13 Feb 2025 17:18:25 +0100
+Message-ID: <20250213161825.139952-1-sgarzare@redhat.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: O9tcM3et7nKXKlajENk2wGr3V5ODe_OGcbMt8Rz9deY_1739463509
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250205074232.87537-3-yung-chuan.liao@linux.intel.com>
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On 05-02-25, 15:42, Bard Liao wrote:
-> Now, we can support more than 1 soundwire bus clock frequency.
-> 
-> This reverts commit c326356188f1dc2d7a2c55b30dac6a8b76087bc6.
+As defined in the specification, the `controls` field in the configuration
+space is only valid/present if VIRTIO_SND_F_CTLS is negotiated.
 
-Pls use full patch title and not just the sha
+  From https://docs.oasis-open.org/virtio/virtio/v1.3/virtio-v1.3.html:
 
-> 
-> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-> Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> ---
->  drivers/soundwire/intel_auxdevice.c | 21 ---------------------
->  1 file changed, 21 deletions(-)
-> 
-> diff --git a/drivers/soundwire/intel_auxdevice.c b/drivers/soundwire/intel_auxdevice.c
-> index b34b897400fc..5ea6399e6c9b 100644
-> --- a/drivers/soundwire/intel_auxdevice.c
-> +++ b/drivers/soundwire/intel_auxdevice.c
-> @@ -243,30 +243,9 @@ static int sdw_master_read_intel_prop(struct sdw_bus *bus)
->  
->  static int intel_prop_read(struct sdw_bus *bus)
->  {
-> -	struct sdw_master_prop *prop;
-> -
->  	/* Initialize with default handler to read all DisCo properties */
->  	sdw_master_read_prop(bus);
->  
-> -	/*
-> -	 * Only one bus frequency is supported so far, filter
-> -	 * frequencies reported in the DSDT
-> -	 */
-> -	prop = &bus->prop;
-> -	if (prop->clk_freq && prop->num_clk_freq > 1) {
-> -		unsigned int default_bus_frequency;
-> -
-> -		default_bus_frequency =
-> -			prop->default_frame_rate *
-> -			prop->default_row *
-> -			prop->default_col /
-> -			SDW_DOUBLE_RATE_FACTOR;
-> -
-> -		prop->num_clk_freq = 1;
-> -		prop->clk_freq[0] = default_bus_frequency;
-> -		prop->max_clk_freq = default_bus_frequency;
-> -	}
-> -
->  	/* read Intel-specific properties */
->  	sdw_master_read_intel_prop(bus);
->  
-> -- 
-> 2.43.0
+  5.14.4 Device Configuration Layout
+    ...
+    controls
+       (driver-read-only) indicates a total number of all available control
+       elements if VIRTIO_SND_F_CTLS has been negotiated.
 
+Let's use the same style used in virtio_blk.h to clarify this and to avoid
+confusion as happened in QEMU (see link).
+
+Link: https://gitlab.com/qemu-project/qemu/-/issues/2805
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+---
+ include/uapi/linux/virtio_snd.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/uapi/linux/virtio_snd.h b/include/uapi/linux/virtio_snd.h
+index 5f4100c2cf04..a4cfb9f6561a 100644
+--- a/include/uapi/linux/virtio_snd.h
++++ b/include/uapi/linux/virtio_snd.h
+@@ -25,7 +25,7 @@ struct virtio_snd_config {
+ 	__le32 streams;
+ 	/* # of available channel maps */
+ 	__le32 chmaps;
+-	/* # of available control elements */
++	/* # of available control elements (if VIRTIO_SND_F_CTLS) */
+ 	__le32 controls;
+ };
+ 
 -- 
-~Vinod
+2.48.1
+
