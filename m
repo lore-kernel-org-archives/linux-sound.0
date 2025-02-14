@@ -1,75 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D20F1F8908;
-	Fri, 14 Feb 2025 08:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF4B21B192
+	for <linux-sound@vger.kernel.org>; Fri, 14 Feb 2025 09:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739522421; cv=none; b=t2miGPj75YYxfODN2XKkR3WfDRoFIlqNOYE5SxSSY37qxT8oG3chfhb26RgQCj+pt1gqHgSdV+T5H/6anf8Wf1P4bSR5wxSO4gs1iI9YnNj8PBEnGnnQb8Qi/2wOwiJNgsHmeoHOGMikhUR7YEwpYpO+pSZqcqOpSwriGGjd+4Q=
+	t=1739524338; cv=none; b=drptwbmkq/rNyr+rvh1hB8FJiKaV6J3vUvtNdQnIhmjMzzZ2rcH+9LtmVjx9VscoQ/dX0qCtimxR9im/Ng3LvVEVCMHrsRHtw+NAIUfJ2jb9ZmYBoG3xkkbCvlnQ3PQqdmjjb+4u35irvoW5sKYWOj5gzPA89AwplglvBcwyWiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739522421; c=relaxed/simple;
-	bh=YE4l8V3UVTEVbSPXutJ4j6Y6NMn523OYmOJG5yYkcjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FRzqTg1SRKymRXw+/QtzzpibCpi2DG3pFeh0Fesv6KDIDdyALYrMAIBWHTntPKLmfvdoddLb2xtvBylx77O9LR4sR+7C0KTqTMQV8YY0jYkqMfcE//QYkDvprO6iCIxvUa2uMOigtjPOwOChsqGNKb+HtNL77297wrV3d5ijWU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sxINyX1n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739524338; c=relaxed/simple;
+	bh=09wSG3UP8DXNAydNOXO7UcqtL1Q2WajdRDiW/oR5ky0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QVdKgoldGYWFn765P7/m569emWSTuG5x0SSqHa1Uc5Yv08KbXl6ZY2LlhjVtpEG6QSHajpapPTDufB45avZZf6GxRPBd5XsISqQE+tt+6o06pW1+A8n1OPw9chcIEggoI+QdbM2EWJn32waAZeD3r/A8mkRo1kLzWimK2FEIt54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=w/ZqNx6a; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sxINyX1n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6005C4CED1;
-	Fri, 14 Feb 2025 08:40:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739522420;
-	bh=YE4l8V3UVTEVbSPXutJ4j6Y6NMn523OYmOJG5yYkcjQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sxINyX1nsva9oK8xaDH5WHmRvU01UOW+REYlhjfVDrEpNU6+U56EAL9RwOXo95DNB
-	 7XBTBPaSi0G7m/Xs0liBIg4I+e06vkyyR2ealXUjZkTkwLZWYOF318xBUOJyytKNdF
-	 cjNehgtBM61B9JadQkJiimYpwpzWNke42cqAUXi+aM8ZVfBH7lS7n6MyywYjwwZX2D
-	 75LlyJhFchFWEMQH9boTW6UAptsFmDLqaudauFkPFIZiq1X+ADDIwL+c07xDoq0IH2
-	 SGHv/PJHYTS8VqT3p3NNcHrpIqheXwleoSgmispXJxDb32yPv7KY/7ih+J3QkYiCjQ
-	 tKz++T9bnGklw==
-Date: Fri, 14 Feb 2025 09:40:16 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, 
-	tiwai@suse.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: imx-card: Add playback-only
- and capture-only property
-Message-ID: <20250214-honest-puzzling-bear-b8060d@krzk-bin>
-References: <20250214070533.2808496-1-shengjiu.wang@nxp.com>
- <20250214070533.2808496-2-shengjiu.wang@nxp.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="w/ZqNx6a"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4395f66a639so11258165e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 14 Feb 2025 01:12:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739524334; x=1740129134; darn=vger.kernel.org;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XWPLpS01eydUHu6GBaBUe8/ayY4CKHZMhz0y47NMUSQ=;
+        b=w/ZqNx6a+M2Pc/myYEC492A2kNrYpbyRBq0ytUzsSS1GYHgLk1bcaaIeoAJvRF2JJ2
+         01ivQJTq/vrsfJztn42XLtvO5Alo4Cuk1XcjK6UHr1MwFxe9CAmAHj5C292A93AFvtCj
+         p2GPoFJ6pY6K/B/RxaMj04qIhr5blexwqgCcjqBWKOYilwSqwap+9Qb9/MXvJge6eO4K
+         UYbimlzsfQjh1IPuUAOdlPpwMnCIbtbvPWTm6FY+2Mzn6dJuAQ1ylJN+t9FQ3RSh778j
+         aXIk5WgprR9E6MndzyjQlfxBc0sKOLOwlBJq4PBayY42jxeM4w6gkc1sFrNFPudcPqYp
+         3RbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739524334; x=1740129134;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XWPLpS01eydUHu6GBaBUe8/ayY4CKHZMhz0y47NMUSQ=;
+        b=qaYXPzkBKxx561lwVn1mT2izGtHcMWv4fFGaDtDtsMv52zlsEMaqhUQl1HDWU4xWdO
+         F4hRxgM/rNgyxCTnQUhdBp27X+og5LAzZnybPZk50nmDe0EpDVwh5JGfHI6a64XTOz5c
+         EV17zTMz4wnx2ocubJVfvxhCiC2xmyauOJqA1GNEG9tPIDFeaxEZa+7Sqt/64742QGg+
+         QW5Sr24YRVgWgmzf7AbMnejJ52oXJVxSni+uhpNONAxYkkmxJ5aGGMbYWYrDpcZsM+Ld
+         0f0YuW+R6/wz6VCgy1YohORUGWEUKiUbTX5auV5MaPpdnyeWZ1sr81xfSdjhBtftrf+z
+         69sg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUt1FTDR/6R2+pPB0LyNDZTdRyV06wJ4LT8KfOOiq9e/qOpbvT9jUjJT/Wm+IpVJAR2QojTi4kHigQyw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx26dGEh3zbNDq/ZscKaYiCyUDN8kTA7pUOiGnM8I+s3T9ZK5aO
+	9jog3sBU9jOh22p+015ssGhWTv6RrUMdZaOfqF7mPI4EZhZGsryIP5udRlCdJcw=
+X-Gm-Gg: ASbGncsqIiMKmWoc+j4aoIU3Oqbm2+kfVvcTyUlmbmQz8sn7cSQEiVt0q4doe5sY6ev
+	l0hAFJtMnn6rAUaU86+eEXnwcOMldLIxa8K54dhtfMLsb7GyRcbz3cBgGg6uetWbhTgiVyg96wE
+	I4o8M2BBCo0a6Ojn7ly2qO30R0thsBrG2+LmnHenFr6JUaHHdC+jyW1L9nApsmzqVC9vjfxa1yK
+	PiSMobz2+9DDxaQsvTtdHNB90wJDOQWA1iPUqZy+J64JJjQKLBTqinpDMe/O8V5NOoiGfhFKR1C
+	b/gRkuRvu6vZsZc=
+X-Google-Smtp-Source: AGHT+IHB7Zaq1DV8SNQlu/uvUkXW1GOYMzSJKw6n2qPshAIpNTdXKTBQ2IDut6nlYHPtUDgvHL/tTA==
+X-Received: by 2002:adf:e390:0:b0:388:da10:ff13 with SMTP id ffacd0b85a97d-38dea26e7e4mr10175098f8f.21.1739524334488;
+        Fri, 14 Feb 2025 01:12:14 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:baa6:bc65:b9db:3759])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38f258dcc45sm4114605f8f.33.2025.02.14.01.12.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2025 01:12:14 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
+  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>,  Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
+ <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,  Michael Turquette
+ <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,
+  jiebing.chen@amlogic.com,  linux-sound@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-amlogic@lists.infradead.org,
+  linux-clk@vger.kernel.org,  jian.xu@amlogic.com,  shuai.li@amlogic.com,
+  zhe.wang@amlogic.com
+Subject: Re: [PATCH v2 1/5] dt-bindings: clock: axg-audio: Add mclk and sclk
+ pad for s4
+In-Reply-To: <20250214-audio_drvier-v2-1-37881fa37c9e@amlogic.com> (jiebing
+	chen via's message of "Fri, 14 Feb 2025 10:13:40 +0800")
+References: <20250214-audio_drvier-v2-0-37881fa37c9e@amlogic.com>
+	<20250214-audio_drvier-v2-1-37881fa37c9e@amlogic.com>
+User-Agent: mu4e 1.12.8; emacs 29.4
+Date: Fri, 14 Feb 2025 10:12:13 +0100
+Message-ID: <1jjz9szy8i.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250214070533.2808496-2-shengjiu.wang@nxp.com>
+Content-Type: text/plain
 
-On Fri, Feb 14, 2025 at 03:05:32PM +0800, Shengjiu Wang wrote:
-> diff --git a/Documentation/devicetree/bindings/sound/imx-audio-card.yaml b/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
-> index f7ad5ea2491e..86571fa930f6 100644
-> --- a/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
-> +++ b/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
-> @@ -46,6 +46,14 @@ patternProperties:
->          description: see tdm-slot.txt.
->          $ref: /schemas/types.yaml#/definitions/uint32
+On Fri 14 Feb 2025 at 10:13, jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org> wrote:
+
+> From: jiebing chen <jiebing.chen@amlogic.com>
+>
+> add the s4 audio power domain, add the mclk pad, sclk pad
+> and lrclk pad clock id for s4
+
+Incomplete description of the changes that follows
+
+Also the change mixes 2 differents topic for no reason AFAICT.
+
+>
+> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
+> ---
+>  .../bindings/clock/amlogic,axg-audio-clkc.yaml         | 18 ++++++++++++++++++
+>  include/dt-bindings/clock/axg-audio-clkc.h             | 11 +++++++++++
+>  2 files changed, 29 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml b/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+> index fd7982dd4ceab82389167079c2258a9acff51a76..364783c6f7572b09d57de2b35d33adb7bcf7db18 100644
+> --- a/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+> +++ b/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+> @@ -21,6 +21,7 @@ properties:
+>        - amlogic,axg-audio-clkc
+>        - amlogic,g12a-audio-clkc
+>        - amlogic,sm1-audio-clkc
+> +      - amlogic,s4-audio-clkc
 >  
-> +      playback-only:
-> +        description: link is used only for playback
-> +        $ref: /schemas/types.yaml#/definitions/flag
+>    '#clock-cells':
+>      const: 1
+> @@ -100,6 +101,9 @@ properties:
+>    resets:
+>      description: internal reset line
+>  
+> +  power-domains:
+> +    description: audio controller power
 > +
-> +      capture-only:
+>  required:
+>    - compatible
+>    - '#clock-cells'
+> @@ -116,12 +120,26 @@ allOf:
+>              enum:
+>                - amlogic,g12a-audio-clkc
+>                - amlogic,sm1-audio-clkc
+> +              - amlogic,s4-audio-clkc
+>      then:
+>        required:
+>          - '#reset-cells'
+>      else:
+>        properties:
+>          '#reset-cells': false
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - amlogic,s4-audio-clkc
+> +    then:
+> +      required:
+> +        - power-domains
+> +
+> +    else:
+> +      properties:
+> +        power-domains: false
+>  
+>  additionalProperties: false
+>  
+> diff --git a/include/dt-bindings/clock/axg-audio-clkc.h b/include/dt-bindings/clock/axg-audio-clkc.h
+> index 607f23b83fa7287fe0403682ebf827e2df26a1ce..75dde05343d1fa74304ee21c9ec0541a8f51b15e 100644
+> --- a/include/dt-bindings/clock/axg-audio-clkc.h
+> +++ b/include/dt-bindings/clock/axg-audio-clkc.h
+> @@ -162,5 +162,16 @@
+>  #define AUD_CLKID_EARCRX_DMAC_SEL	182
+>  #define AUD_CLKID_EARCRX_DMAC_DIV	183
+>  #define AUD_CLKID_EARCRX_DMAC		184
+> +#define AUD_CLKID_TDM_MCLK_PAD0_SEL     185
+> +#define AUD_CLKID_TDM_MCLK_PAD1_SEL     186
+> +#define AUD_CLKID_TDM_MCLK_PAD0_DIV     187
+> +#define AUD_CLKID_TDM_MCLK_PAD1_DIV     188
+> +#define AUD_CLKID_TDM_MCLK_PAD2         189
+> +#define AUD_CLKID_TDM_MCLK_PAD2_SEL     190
+> +#define AUD_CLKID_TDM_MCLK_PAD2_DIV     191
+> +#define AUD_CLKID_TDM_SCLK_PAD3		192
+> +#define AUD_CLKID_TDM_SCLK_PAD4		193
+> +#define AUD_CLKID_TDM_LRCLK_PAD3	194
+> +#define AUD_CLKID_TDM_LRCLK_PAD4	195
 
-Aren't these mutually exclusive? If so, you need proper schema for this.
+I think we've been over the fact that s4 audio clock is very unlikely to be
+compatible with the axg/g12 generation.
 
-https://lore.kernel.org/all/20230118163208.GA117919-robh@kernel.org/
+I doubt they should share the same bindings ID.
 
-Best regards,
-Krzysztof
+>  
+>  #endif /* __AXG_AUDIO_CLKC_BINDINGS_H */
 
+-- 
+Jerome
