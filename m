@@ -1,233 +1,113 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF041519BF
-	for <linux-sound@vger.kernel.org>; Fri, 14 Feb 2025 16:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDC8264FA7;
+	Fri, 14 Feb 2025 17:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739551843; cv=none; b=B0VcGNaafDfSgQlaBwtG/ooFogAHOKp8eu0eINMG+fPCKPqcSgjHMN7YRMO8Yr5XG0Ppl3RcVytwH7tSDQjb6hQMx/wW4TNFG9WcYuquiVM+I7v7+ZnHr04htnNDU30kolceYL8JMw0+LDgUZQZeHSKyjZZDP6+1SUBtFjRLPjQ=
+	t=1739553559; cv=none; b=XUvO/8kMEPHCZl/7MqbKRfmOhY3HduQWA1aRdbpBh8dIYlJYfAr1c+lVMcrESiu/ScqwkhUBzn1d99f/HSfFR4dVGAIy+0gtNZEWofSBr7nogps20e7jQgp/uH3rA4ivYzMeYTVo3a435kMKVYq2BGuMKmQeywUntKKKPZLLvM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739551843; c=relaxed/simple;
-	bh=qlMMIibr9KHm9ibM7FFd+UmdB3uLuPPaikSJNH1wDkA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=daQaDxhc0XENMfb/+PwTS25CyyZ0DvwLA8SdsQ7Q022X7YRPWzyoZUOjXu8MhgyVXNTD5BYCpDIB92NKxksYF8f2lUIqQqtHkX6YYSnKK7YwREaZZSkYJ2BcdueaQ6na5i0nm0RKbRozsRiHWQbTnaoAU/mxcp2Fwnc2S7Qmq4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cIVL5YoV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=We6OT8FI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cIVL5YoV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=We6OT8FI; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1739553559; c=relaxed/simple;
+	bh=/Vq4HRI2BN0XjmmO8kOb2O01hlISp/5ZPmuCinm7xyQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=refzVZnRLeIrL8E52Y57UHT1ES7x+Sr7bGElF2opbpf0V1cg4LpddmlJTxoMUsY4vy9cSUV2ax9FsfZ1Y3rlHoQDU4f6CZ9aVFGVLH5jdQGITLq4Diz3nuPmDRG0LQ6VsHzMUm0VSn9dnn2b3kqbywPa9Z2rdbO4xeHBhSF+GFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=IUGXUY/i; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cIVL5YoV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="We6OT8FI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cIVL5YoV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="We6OT8FI"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="IUGXUY/i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1739553554;
+	bh=/Vq4HRI2BN0XjmmO8kOb2O01hlISp/5ZPmuCinm7xyQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=IUGXUY/ikc92B5KBNi1Q/E/BPJeorXdvdXpf9z4MeLr8tHubO3s6O1iySo15XcYST
+	 6B226mq0N8mUcJH3admq/6+MBMlT7HUgPMxa/51nMmJbRP1pXX/VTjlGz95cMO/JwO
+	 vc+dIWIB9bz3wf2E5o7JNYWZxGIB7pvDEYVWOwoZaJIICHdHBvcq9KrkL2BrND1+Y7
+	 odvR+2y6YZ4HymROR5zvlB4de0l3ZnCTgPcP+9upl45Do7khw20IBeggDCkaxPsfn/
+	 RMwtzwVK/LOJ1p2dpzIxIUM0mZqA9bZL8HQ6W8SoDtdedZwgiMF6iUGElE++mnBLar
+	 jNYjW/FkrF8eg==
+Received: from [192.168.0.47] (unknown [IPv6:2804:14c:1a9:53ee::1003])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2D93B210F8;
-	Fri, 14 Feb 2025 16:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1739551839; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uikJNsa0IsBWSXLjFgb4Adl8m/7KsWzFWxdjjTDyTkI=;
-	b=cIVL5YoVjkvzFr7Efl0axtuYsaDsbq8cx2bwfrepPrZ4jv4bL5eSduLsfzE6bxIRHKl5nR
-	B3xxdVc3xNxH2rBj9noXYQyzRZX+9pQQj7H3TXym+N8k0X9Sj+TwP6kapcHURnU6eNnGbT
-	PbaCVB0VA5XjQLHnamzUSNK1yoWOphk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1739551839;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uikJNsa0IsBWSXLjFgb4Adl8m/7KsWzFWxdjjTDyTkI=;
-	b=We6OT8FIsda5aiJFsE/SDB68Tx1jSUFNFc/+i3L0AXI+shYLBTHvK8tbtb3zp5409xXIvo
-	gRB/301CUZzxH2BQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1739551839; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uikJNsa0IsBWSXLjFgb4Adl8m/7KsWzFWxdjjTDyTkI=;
-	b=cIVL5YoVjkvzFr7Efl0axtuYsaDsbq8cx2bwfrepPrZ4jv4bL5eSduLsfzE6bxIRHKl5nR
-	B3xxdVc3xNxH2rBj9noXYQyzRZX+9pQQj7H3TXym+N8k0X9Sj+TwP6kapcHURnU6eNnGbT
-	PbaCVB0VA5XjQLHnamzUSNK1yoWOphk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1739551839;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uikJNsa0IsBWSXLjFgb4Adl8m/7KsWzFWxdjjTDyTkI=;
-	b=We6OT8FIsda5aiJFsE/SDB68Tx1jSUFNFc/+i3L0AXI+shYLBTHvK8tbtb3zp5409xXIvo
-	gRB/301CUZzxH2BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE03E137DB;
-	Fri, 14 Feb 2025 16:50:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id c7UUJ150r2dRUAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 14 Feb 2025 16:50:38 +0000
-Date: Fri, 14 Feb 2025 17:50:33 +0100
-Message-ID: <87seog1ndy.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH 1/2] ALSA: hda/cirrus: Correct the full scale volume set logic
-In-Reply-To: <20250214162354.2675652-1-vitalyr@opensource.cirrus.com>
-References: <20250214162354.2675652-1-vitalyr@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id EDEEA17E0239;
+	Fri, 14 Feb 2025 18:19:09 +0100 (CET)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH 00/13] Get mt6359-accdet ready for usage in Devicetree
+Date: Fri, 14 Feb 2025 14:18:31 -0300
+Message-Id: <20250214-mt6359-accdet-dts-v1-0-677a151b9b4c@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.994];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,cirrus.com:email,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOd6r2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDI0MT3dwSM2NTS93E5OSU1BLdlJJiXQODJEMLSwsT8zTjZCWgvoKi1LT
+ MCrCZ0bG1tQBQBtbGYwAAAA==
+X-Change-ID: 20250214-mt6359-accdet-dts-00b189847f3c
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, 
+ Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-pm@vger.kernel.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
+ Andrew Perepech <andrew.perepech@mediatek.com>
+X-Mailer: b4 0.14.2
 
-On Fri, 14 Feb 2025 17:23:25 +0100,
-Vitaly Rodionov wrote:
-> 
-> This patch corrects the full-scale volume setting logic. On certain
-> platforms, the full-scale volume bit is required. The current logic
-> mistakenly sets this bit and incorrectly clears reserved bit 0, causing
-> the headphone output to be muted.
-> 
-> Signed-off-by: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+This series prepares the MT6359 ACCDET for actual usage in the
+Devicetree. Patches 1 and 2 add the required DT bindings, patches 3 and
+4 get the mt6359-accdet driver probing, patches 5-12 clean up code
+related to DT property parsing, and patch 13 adds the node in the
+Devicetree.
 
-Can we have a Fixes tag?
+Together with the series "Allow retrieving accessory detection reference
+on MT8188" [1], and one extra patch on top enabling it on the
+genio-700-evk DT, this series was tested on the Genio 700 EVK to get
+audio jack detection working on it.
 
+[1] https://lore.kernel.org/all/20250214-mt8188-accdet-v1-0-6bbd5483855b@collabora.com
 
-thanks,
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+---
+Andrew Perepech (3):
+      mfd: mt6397-core: Add mfd_cell for mt6359-accdet
+      ASoC: mediatek: mt6359-accdet: Implement EINT IRQ polarity configuration
+      ASoC: mediatek: mt6359-accdet: Use IRQ_TYPE_LEVEL_LOW not raw value
 
-Takashi
+Nícolas F. R. A. Prado (10):
+      ASoC: dt-bindings: Add document for mt6359-accdet
+      dt-bindings: mfd: mediatek: mt6397: Add accdet subnode
+      ASoC: mediatek: mt6359-accdet: Add compatible property
+      ASoC: mediatek: mt6359-accdet: Drop dead code for EINT/GPIO IRQ handling
+      ASoC: mediatek: mt6359-accdet: Drop dead code for EINT trigger setting
+      ASoC: mediatek: mt6359-accdet: Drop dead code for button detection
+      ASoC: mediatek: mt6359-accdet: Drop dead code for plugout-debounce
+      ASoC: mediatek: mt6359-accdet: Handle mediatek,eint-use-ext-res as bool
+      ASoC: mediatek: mt6359-accdet: Split mediatek,pwm-deb-setting properties
+      arm64: dts: mt6359: Add accessory detect node
 
-> ---
->  sound/pci/hda/patch_cs8409-tables.c |  6 +++---
->  sound/pci/hda/patch_cs8409.c        | 20 +++++++++++---------
->  sound/pci/hda/patch_cs8409.h        |  5 +++--
->  3 files changed, 17 insertions(+), 14 deletions(-)
-> 
-> diff --git a/sound/pci/hda/patch_cs8409-tables.c b/sound/pci/hda/patch_cs8409-tables.c
-> index 759f48038273..621f947e3817 100644
-> --- a/sound/pci/hda/patch_cs8409-tables.c
-> +++ b/sound/pci/hda/patch_cs8409-tables.c
-> @@ -121,7 +121,7 @@ static const struct cs8409_i2c_param cs42l42_init_reg_seq[] = {
->  	{ CS42L42_MIXER_CHA_VOL, 0x3F },
->  	{ CS42L42_MIXER_CHB_VOL, 0x3F },
->  	{ CS42L42_MIXER_ADC_VOL, 0x3f },
-> -	{ CS42L42_HP_CTL, 0x03 },
-> +	{ CS42L42_HP_CTL, 0x0D },
->  	{ CS42L42_MIC_DET_CTL1, 0xB6 },
->  	{ CS42L42_TIPSENSE_CTL, 0xC2 },
->  	{ CS42L42_HS_CLAMP_DISABLE, 0x01 },
-> @@ -315,7 +315,7 @@ static const struct cs8409_i2c_param dolphin_c0_init_reg_seq[] = {
->  	{ CS42L42_ASP_TX_SZ_EN, 0x01 },
->  	{ CS42L42_PWR_CTL1, 0x0A },
->  	{ CS42L42_PWR_CTL2, 0x84 },
-> -	{ CS42L42_HP_CTL, 0x03 },
-> +	{ CS42L42_HP_CTL, 0x0D },
->  	{ CS42L42_MIXER_CHA_VOL, 0x3F },
->  	{ CS42L42_MIXER_CHB_VOL, 0x3F },
->  	{ CS42L42_MIXER_ADC_VOL, 0x3f },
-> @@ -371,7 +371,7 @@ static const struct cs8409_i2c_param dolphin_c1_init_reg_seq[] = {
->  	{ CS42L42_ASP_TX_SZ_EN, 0x00 },
->  	{ CS42L42_PWR_CTL1, 0x0E },
->  	{ CS42L42_PWR_CTL2, 0x84 },
-> -	{ CS42L42_HP_CTL, 0x01 },
-> +	{ CS42L42_HP_CTL, 0x0D },
->  	{ CS42L42_MIXER_CHA_VOL, 0x3F },
->  	{ CS42L42_MIXER_CHB_VOL, 0x3F },
->  	{ CS42L42_MIXER_ADC_VOL, 0x3f },
-> diff --git a/sound/pci/hda/patch_cs8409.c b/sound/pci/hda/patch_cs8409.c
-> index 614327218634..b760332a4e35 100644
-> --- a/sound/pci/hda/patch_cs8409.c
-> +++ b/sound/pci/hda/patch_cs8409.c
-> @@ -876,7 +876,7 @@ static void cs42l42_resume(struct sub_codec *cs42l42)
->  		{ CS42L42_DET_INT_STATUS2, 0x00 },
->  		{ CS42L42_TSRS_PLUG_STATUS, 0x00 },
->  	};
-> -	int fsv_old, fsv_new;
-> +	unsigned int fsv;
->  
->  	/* Bring CS42L42 out of Reset */
->  	spec->gpio_data = snd_hda_codec_read(codec, CS8409_PIN_AFG, 0, AC_VERB_GET_GPIO_DATA, 0);
-> @@ -893,13 +893,15 @@ static void cs42l42_resume(struct sub_codec *cs42l42)
->  	/* Clear interrupts, by reading interrupt status registers */
->  	cs8409_i2c_bulk_read(cs42l42, irq_regs, ARRAY_SIZE(irq_regs));
->  
-> -	fsv_old = cs8409_i2c_read(cs42l42, CS42L42_HP_CTL);
-> -	if (cs42l42->full_scale_vol == CS42L42_FULL_SCALE_VOL_0DB)
-> -		fsv_new = fsv_old & ~CS42L42_FULL_SCALE_VOL_MASK;
-> -	else
-> -		fsv_new = fsv_old & CS42L42_FULL_SCALE_VOL_MASK;
-> -	if (fsv_new != fsv_old)
-> -		cs8409_i2c_write(cs42l42, CS42L42_HP_CTL, fsv_new);
-> +	fsv = cs8409_i2c_read(cs42l42, CS42L42_HP_CTL);
-> +	if (cs42l42->full_scale_vol) {
-> +		// Set the full scale volume bit
-> +		fsv |= CS42L42_FULL_SCALE_VOL_MASK;
-> +		cs8409_i2c_write(cs42l42, CS42L42_HP_CTL, fsv);
-> +	}
-> +	// Unmute analog channels A and B
-> +	fsv = (fsv & ~CS42L42_ANA_MUTE_AB);
-> +	cs8409_i2c_write(cs42l42, CS42L42_HP_CTL, fsv);
->  
->  	/* we have to explicitly allow unsol event handling even during the
->  	 * resume phase so that the jack event is processed properly
-> @@ -920,7 +922,7 @@ static void cs42l42_suspend(struct sub_codec *cs42l42)
->  		{ CS42L42_MIXER_CHA_VOL, 0x3F },
->  		{ CS42L42_MIXER_ADC_VOL, 0x3F },
->  		{ CS42L42_MIXER_CHB_VOL, 0x3F },
-> -		{ CS42L42_HP_CTL, 0x0F },
-> +		{ CS42L42_HP_CTL, 0x0D },
->  		{ CS42L42_ASP_RX_DAI0_EN, 0x00 },
->  		{ CS42L42_ASP_CLK_CFG, 0x00 },
->  		{ CS42L42_PWR_CTL1, 0xFE },
-> diff --git a/sound/pci/hda/patch_cs8409.h b/sound/pci/hda/patch_cs8409.h
-> index 5e48115caf09..14645d25e70f 100644
-> --- a/sound/pci/hda/patch_cs8409.h
-> +++ b/sound/pci/hda/patch_cs8409.h
-> @@ -230,9 +230,10 @@ enum cs8409_coefficient_index_registers {
->  #define CS42L42_PDN_TIMEOUT_US			(250000)
->  #define CS42L42_PDN_SLEEP_US			(2000)
->  #define CS42L42_INIT_TIMEOUT_MS			(45)
-> +#define CS42L42_ANA_MUTE_AB			(0x0C)
->  #define CS42L42_FULL_SCALE_VOL_MASK		(2)
-> -#define CS42L42_FULL_SCALE_VOL_0DB		(1)
-> -#define CS42L42_FULL_SCALE_VOL_MINUS6DB		(0)
-> +#define CS42L42_FULL_SCALE_VOL_0DB		(0)
-> +#define CS42L42_FULL_SCALE_VOL_MINUS6DB		(1)
->  
->  /* Dell BULLSEYE / WARLOCK / CYBORG Specific Definitions */
->  
-> -- 
-> 2.43.0
-> 
+ .../devicetree/bindings/mfd/mediatek,mt6397.yaml   |   7 +
+ .../bindings/sound/mediatek,mt6359-accdet.yaml     | 293 +++++++++++++++++++++
+ arch/arm64/boot/dts/mediatek/mt6359.dtsi           |  24 ++
+ drivers/mfd/mt6397-core.c                          |  12 +
+ sound/soc/codecs/mt6359-accdet.c                   | 208 +++++----------
+ sound/soc/codecs/mt6359-accdet.h                   |  18 +-
+ 6 files changed, 404 insertions(+), 158 deletions(-)
+---
+base-commit: dab2734f8e9ecba609d66d1dd087a392a7774c04
+change-id: 20250214-mt6359-accdet-dts-00b189847f3c
+
+Best regards,
+-- 
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
