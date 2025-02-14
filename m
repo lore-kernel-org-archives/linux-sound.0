@@ -1,188 +1,147 @@
-Received: from AS8PR03CU001.outbound.protection.outlook.com (mail-westeuropeazon11012034.outbound.protection.outlook.com [52.101.71.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA03C13A3EC;
-	Fri, 14 Feb 2025 07:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.71.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739517514; cv=fail; b=H8tme221Xn0fm2fYbcTRGolhC7wd0pLXD06VesGGP4qri31Ai2jZr3IUPVyCHn5yYJnLyDxQThy+LymR/e0rtRrU+NwZ9lWvOTF42VagJ+o5hgbobg09CaUeJ/diKU11KfjfLiqyxt7YFD1X/Zly0K78C7nibqF+WLnwYzIx7lI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739517514; c=relaxed/simple;
-	bh=kdGfsSuJDWiUuDcs1IyGOxiLS4IG4vUMpSqUli0bRbI=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ECD8BmfrqtnGrs1ikvzfi8QYXl2hHHeK+Ll/6GggxWZkLFbbKs2Nn+LcvXtcvaGXUGoDRX1Y2e7TDqmkmMlmHyFhrvVYBSqklOiFgUT6lS9UTWWAih6ys98flzUWacPWE/MUK2h4kMpSP6Xvsgse24HoveCeaSW10jFO15njQLA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=JMjJ6TYv; arc=fail smtp.client-ip=52.101.71.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365D3215058;
+	Fri, 14 Feb 2025 07:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739518848; cv=none; b=SGacS6DfHsLvwBxReayJKouTn+F9QGH2Ws5MmD7DIhNYvu/ra9corgE+DX1ZVOI4nGXLy5jiIFzBVq63ibhIGxBBJwixz5TTVgKbW5oYXVCivVD+VIhHjGGBdDPp//6q8mJl0XBW1UKWB6pCrAXjPZV8teoiaB7qe3VeHLjelQk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739518848; c=relaxed/simple;
+	bh=Fscm2DnKxcZ7JkSZocJpCyabSuzUogGQBUqYh36yXUk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=S2d7HNMTKn4VGv5TB+5cqruoQ+E4IpOOuLQqxFAoDpvx0F3hwq8mloDCmpCOhI6cTab7A+RQ8vqyVXl79Mfb3uA5hztL6vzQbaUhc/F/ieAai0av+QYy2ODZOfZtRi6P6mlNZHSjyZeDD+srsiNMDRLY8LW3hiJ2h4X+FkBIPAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zWJLrTfd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sicEhh96; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zWJLrTfd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sicEhh96; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="JMjJ6TYv"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JKcy2K1KhMcVPy2xFvi51IFXv4ptDXcso7LPcZQZcefGrWW2GetmMGbVLyZ1ahBrYUF2Tm5oIRG1wXC/3+Gc/SoB7ZMB3mz4t93VqCjnnU6JNk805BqSX/UASqiNbRDysQoHUuMVJkvjHfhjOBiccVX0XED5FXbe1vB6/zhkfQmk/K9P7oNv+HqnnTE4dazRBpVpT0aElYpaIOy64Xrvw/fHaf5MAbAFbMDcRircl8zrL8YyoC8tIxwGSpnHsa/sNOIENtvsX4H/6X+ZoWP7C5HRPKtyr7A0XcjTOD0nwYANpJWirc8Gr4ENqTwpK3Hwvxu7hr1143LxQVAeJsrw9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=djZ7OGIeytxWR8I6ZeAgwHGFZjhdUKxOp2h94vljgDo=;
- b=M+JkNzc1Y4cqeAZYH/S5TT+ND+0GE9bGXPWuTA9Us3OSlK+Z1+ouXrU7vtymyg9CHNGcsBLqCnotMn5M9PQaomChgElI5BwLl110KrqVfKepCuuC5NbYFq1S6j1Jlnh9/jASjCxkCtlDCqeUIGji58rK2kDjTBvyeFQL6CoDkWLkE/jc4sXz2I/XMW0XRf6DrJzoq9vHdYXEcn50AY/8oPebNwlSkXGscgy0L6KWd98VWPw7EVmWYhb0FReJYObfNJS0b3tB4c9EcNXGDTt7Hj70gKtm42rVGqvX9dITJaLP0PqM4CquqD0hCFqbuqD5XKzpGs2PgvyvGesVw7tLFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=djZ7OGIeytxWR8I6ZeAgwHGFZjhdUKxOp2h94vljgDo=;
- b=JMjJ6TYvGhtprY2J8O8ZEyyReaAEZ39LZJDlSZQk52mCZjgNRLDICJZlW/JBE8p2PU23HLOXI3eHXBJHW0WZbdqyEBfghEGE+4gn3IF2VVnx4Dyp3sTz/4VGGFafGVqXN4tnPHyfGEA6xAoqpLbaR3BAUD7YVyrJMEoltlCDRmvmGdXQx7y/l8NqfsU/IxGmQlajRwCd/yqzTGQY4vT+ZmMNoV60gMopmGlBbh84/Tbteo8HJl8jAKMvDMBPVo8KSrF/XhcwnruS2W6oLvHYjrtBNhGOPHRh3LL0pCe3Wkm8zCImypgLpiIclt9VmrLJbqe3VEOmgTWW6C7NIdC0wA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9498.eurprd04.prod.outlook.com (2603:10a6:10:360::21)
- by AM7PR04MB6887.eurprd04.prod.outlook.com (2603:10a6:20b:10a::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.17; Fri, 14 Feb
- 2025 07:18:29 +0000
-Received: from DB9PR04MB9498.eurprd04.prod.outlook.com
- ([fe80::24fa:6f9:8247:c5dc]) by DB9PR04MB9498.eurprd04.prod.outlook.com
- ([fe80::24fa:6f9:8247:c5dc%4]) with mapi id 15.20.8445.016; Fri, 14 Feb 2025
- 07:18:28 +0000
-From: Chancel Liu <chancel.liu@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: fsl_sai: Rename stream name of dai driver
-Date: Fri, 14 Feb 2025 16:17:47 +0900
-Message-ID: <20250214071747.229719-1-chancel.liu@nxp.com>
-X-Mailer: git-send-email 2.47.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0005.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::13) To DB9PR04MB9498.eurprd04.prod.outlook.com
- (2603:10a6:10:360::21)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zWJLrTfd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sicEhh96";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zWJLrTfd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sicEhh96"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3A8811F78F;
+	Fri, 14 Feb 2025 07:40:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739518845; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=88Y1nS1A2QfT5gFlu1HZuxZ/b065jAtb+T0yyIARB2w=;
+	b=zWJLrTfd+vzuPXLGY9aWH8DZBJv1NmZ+Ik9Y44ogzsqG3JNw7nkVwOodYt7o4AL8JpsIOx
+	SzBYZgaB+ktBne7GFmS7dMQYw78R2r99ZIT4r9OOWha2vxuC/jeDmQOur0pRqUSekHCVuj
+	i7NWSqqXu3Oxb7VO1nmgFqfmjES2EHY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739518845;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=88Y1nS1A2QfT5gFlu1HZuxZ/b065jAtb+T0yyIARB2w=;
+	b=sicEhh96KfU2TvYGFoDX9Fyqq6X3R+usoecj/dtpK8kuMbixkG+hj8mjpr+aE5H2pM07WH
+	UIoXfptXnE9G9kCg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739518845; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=88Y1nS1A2QfT5gFlu1HZuxZ/b065jAtb+T0yyIARB2w=;
+	b=zWJLrTfd+vzuPXLGY9aWH8DZBJv1NmZ+Ik9Y44ogzsqG3JNw7nkVwOodYt7o4AL8JpsIOx
+	SzBYZgaB+ktBne7GFmS7dMQYw78R2r99ZIT4r9OOWha2vxuC/jeDmQOur0pRqUSekHCVuj
+	i7NWSqqXu3Oxb7VO1nmgFqfmjES2EHY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739518845;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=88Y1nS1A2QfT5gFlu1HZuxZ/b065jAtb+T0yyIARB2w=;
+	b=sicEhh96KfU2TvYGFoDX9Fyqq6X3R+usoecj/dtpK8kuMbixkG+hj8mjpr+aE5H2pM07WH
+	UIoXfptXnE9G9kCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 09EA313285;
+	Fri, 14 Feb 2025 07:40:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id TgCfOnvzrmdCFgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 14 Feb 2025 07:40:43 +0000
+Date: Fri, 14 Feb 2025 08:40:43 +0100
+Message-ID: <87h64x2cuc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: <tiwai@suse.de>,
+	<robh+dt@kernel.org>,
+	<andriy.shevchenko@linux.intel.com>,
+	<lgirdwood@gmail.com>,
+	<perex@perex.cz>,
+	<shenghao-ding@ti.com>,
+	<navada@ti.com>,
+	<13916275206@139.com>,
+	<v-hampiholi@ti.com>,
+	<v-po@ti.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<liam.r.girdwood@intel.com>,
+	<yung-chuan.liao@linux.intel.com>,
+	<broonie@kernel.org>,
+	<antheas.dk@gmail.com>,
+	<stuart.a.hayhurst@gmail.com>,
+	<dan.carpenter@linaro.org>
+Subject: Re: [PATCH v1] ALSA: hda/tas2781: Fix index issue in tas2781 hda SPI driver
+In-Reply-To: <20250214013021.6072-1-baojun.xu@ti.com>
+References: <20250214013021.6072-1-baojun.xu@ti.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9498:EE_|AM7PR04MB6887:EE_
-X-MS-Office365-Filtering-Correlation-Id: 51622916-1e7d-42cd-05b3-08dd4cc7c71d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|1800799024|7416014|366016|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LuVliDGepiNIZyXyogiKgoHMA/4tqC/vqisWknTTF7frw/H7XZnpljNaIGRM?=
- =?us-ascii?Q?sjqK0vL7dmmc1HPIGE/I0IqugUuIWf2+rx0cbwXCSjuNDFoAp5UgesGN7eHe?=
- =?us-ascii?Q?wri7uy04Lv8iquwDRQS+UUz+ljelYlYqD3rxqMQo18e+o4TT2YKbP3Odnz95?=
- =?us-ascii?Q?3phixj8HJ2m131nDTdh3rxg7PqMGiSAVdbhv/HS3lC8yvV7I0BZ19lPhQDmk?=
- =?us-ascii?Q?MdIQ9X/DeEwDCBjHDZod8tCtXcifGhLlsfRNyioqKAiozrqNz1iYqGEYBOqd?=
- =?us-ascii?Q?9iKHzsSYXjqBrZXQCpk7gTuTpzHE0tPHBjGCnfQevzZsiWfFFEa9yW2R+m1I?=
- =?us-ascii?Q?I2zQfD/YxxltRo5W+3evyYEtdV1LAtXxRAtYerFTW76r8uzR+uPG140rcElp?=
- =?us-ascii?Q?HUPCRMarOz1NtXnoGsO7S4+cN+NILAsr/eCk0DH79ChhgcGo17FYOwEj4p4p?=
- =?us-ascii?Q?+qkMK3qpKr8/cgvd5lIJZ+5V2nnE0VtSWoGS0PemMs9VeAItU9eslNbQpjQ5?=
- =?us-ascii?Q?zBAa/84uEQhAe7HvuNAd+h0ZgTrlzQQ3KR+ONP175Wd4O9rJcV0Ujtj8zI4x?=
- =?us-ascii?Q?2r0mITkEV1NkSDhQsSrntZv6QCoJt7szBCYLalVkl8mOdMDlgqsF10YB3wgV?=
- =?us-ascii?Q?i0XSEZHe8SDjg4LLayBiw95/zDYjCxTNT7M66NJ7b9YiUeqRk9Mk9m0n+Mkp?=
- =?us-ascii?Q?FMfk2+4X64c78KeUIg3MQ2gUw3+WAUg3f7i+Ci8BfAhjIg+PTAqqcg4EB31T?=
- =?us-ascii?Q?Uv/xYD6Ir2Z/HWYUfexP2uRyjBlzDUk8z2R9pYYBHpi/IFvbUSXCQWAvWL6Y?=
- =?us-ascii?Q?2kKX5Gea7aFNgq9XFdKekvLF4Fhouv7ejVdFfF44JAg8NIgGZJhV4ZKJ3QGj?=
- =?us-ascii?Q?tTbND9ak81JEk7JULSuTBmmohj5vA3Ld1cYQbYJGfTip/kKTwLqYYfU9MPMV?=
- =?us-ascii?Q?J5lSHAPJ9QgjC7DM4OyTsLwwtZ5N0VYp/6GTLyKKj5ZErQpAkQDcteO8jy6/?=
- =?us-ascii?Q?8rHjJ35UYzYZgnV+JcB3o+caAFGk8aHcv9pyD2y0SihWibf4gw0V2dluv72f?=
- =?us-ascii?Q?wAymVA7k8GIPZv2Mm8gH6i1HxCQzjo9f82UuF6NesciYy1y5qA7rJ8pDWJps?=
- =?us-ascii?Q?0BlXyQbvufSxLpu384kkwo9wnVzmErXbZgeuzHz1RgU2XPH1nSOEqEztYk8K?=
- =?us-ascii?Q?vd2VzmnVdgddLvV2yQxD2itn/ifCxna6PeUGGSvsWX62Jsrintvjum0kKdzK?=
- =?us-ascii?Q?3O771hqtI56md6f0F0ORJYpr05w7hcV+GW+zlD6m8obc8hX3TT8USyRIxjec?=
- =?us-ascii?Q?kISzdmcwUUs6xuqpll+1D13lNaqydrmJIyLZ8GLlj9CdnUFSG7n8ftruqNo0?=
- =?us-ascii?Q?1zDigAqMVIcymDkiXU/3ZrT80nITtm8nMXc5F4Lx02zG0GLLQVOnHGfrqLb3?=
- =?us-ascii?Q?M5cebhpBG5/vz/+V1yNxOHXle5WCX7jOI95wIPTMvayOiABjUuA3Cw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9498.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(7416014)(366016)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0fASn0NgU1NRG5DmFlIRcxlxbPteUV7Y1tARuJdj+O75C/UG50oXjDyXhQO1?=
- =?us-ascii?Q?CLWlWjw7h7bbgRd7T2wBHKf0MDyDabHl/g94W8751AotrKgqqLKnuYZY8/gL?=
- =?us-ascii?Q?r+6fdzKs8oN43LYhb6PCcMMsnR+xwGiMu9HYy518uok0kkcPfcQkB8EqjweN?=
- =?us-ascii?Q?tVwwsfXg8nMY8taowiNew97mdsabM8pVQ5q4XKErVzVOqgHxMGClFk31MwGN?=
- =?us-ascii?Q?lOplOCgNMEx8hvIHYgNQX6zH26pc/RO66VFSYCXFIXxwkDKlkKYFwv35kIui?=
- =?us-ascii?Q?sMM0/izGlaHTbFglanOrc/2cHnwYcPDx9QC1qSjgQpIYFWzXSt+dO+Hh5k8E?=
- =?us-ascii?Q?WApzTZJQWEWyF7nDzUmUcQjHD7MkzehOC1vjMhVOm8LTm6OBTEKkzEaNqHz7?=
- =?us-ascii?Q?4LAleA/95Uu3z5pfwXYtanc+zW7frQ+5odLZmNq7a2PaGsijrcIPXSGxdgW9?=
- =?us-ascii?Q?tJCpYmpnGfGzYMtxRGZQzTvHxVO2CoiOWd8vWZidhDny1rR/3hCnPK2IuhGm?=
- =?us-ascii?Q?xqzA8uYVzsQX/n/rG5EnP/CndDZkfATVZ7JS2eOJFJk7tcmksq84KdXSE69q?=
- =?us-ascii?Q?Xq9DdjJ+j7wgqxNKJtJ6jzUcRTXjGWY2Tm5mGMVhQqYJEqc6t8denMzhgtFe?=
- =?us-ascii?Q?ZNblCtZPxcgFZrlKEUO8qbzekLL4lRTRyiJB0LZu/lTodWNLzz7FElSfl0pU?=
- =?us-ascii?Q?C3lO5Jq/xmSAAt1tMn/U54MunajiprQ0TBHJp1p3Fr5UKNUuOqo2r+Pg9bFz?=
- =?us-ascii?Q?T7E0hbnUzCvnvpCJDtyfwGLDGHy6hDWOw3aDR04Cay73BcLCs5jvkp4a/pCH?=
- =?us-ascii?Q?979YT9NBwDQibemX/wYaBz+1x3v8UF8VGD3sJ7GSFWfcg55v92PLIJ9kbb+E?=
- =?us-ascii?Q?MGoCsSTB7KchzFr6lPsAcz6zSD0X7ll2whP2SnNOm5aO9Xn7MG0N+jJfPmOG?=
- =?us-ascii?Q?Dhhx7LErQX0iu/LeEp+gvJs7ufsoPaRyZPVbCgSJHxzJOsXA56KKGrdLGvaK?=
- =?us-ascii?Q?hsxRHCjikEY3lpdl8O/XcA/FXrNe5gVDXiyNC5CpH9CP4q74Xj9EOAIPteVX?=
- =?us-ascii?Q?runTTBvuIEJ+dq66ZumPVXYEu0Mx2g/Jz/g3CCPeC1pBOy7PrnhF06E3tOXp?=
- =?us-ascii?Q?meFFZwh+u4op+/bqEzXh+q83U6XWHa/osuS9ubejDoSx+xVl0koLWeUHOXrZ?=
- =?us-ascii?Q?sHNTBOuCCTF+zDZ70RDtVMZf7Evrnshwu6Qlq3CtHqIe7sgpoD33Z577HCb9?=
- =?us-ascii?Q?rY8/Z59lRMuknCL0hAUExuBiUK+vrSUIOlrDyJg1Ma4gyeVWG3IRVVnxGz/e?=
- =?us-ascii?Q?+ZwBxGHBrznqKNmPRhtepulNlMa361xgZ/Yb9xWZHgfvHzzpkEbDYGAUxRqO?=
- =?us-ascii?Q?7fQI4h/oSa7oi5i22M4BbIyZYQEiclUV6bP8ltqhNHccw8zTMXhsk0RqWBL1?=
- =?us-ascii?Q?tiSxjKwOMQjSydz9STz9BPprpDV2nPf2BlqWIBujaRnC6Fe2JCy0uEBccSFd?=
- =?us-ascii?Q?rvvAOk4z8oshmzbGvxzt9T8/IxbiUUHZM6u5GAbHJ3XFiLhacDvSuil2Ekds?=
- =?us-ascii?Q?zD/OHq0eanE37m6tTTrU+xlyKAApaP3tt8eNYQox?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51622916-1e7d-42cd-05b3-08dd4cc7c71d
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9498.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2025 07:18:28.1009
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Do6yp1LAr1z7R790un6EyZFN4oOHC/B2CRBeJj4UBagtapqx36aAdplYXXLbPYd/uPjkRL91BDqQF3AhpgsR0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6887
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[dt];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,kernel.org,linux.intel.com,gmail.com,perex.cz,ti.com,139.com,vger.kernel.org,intel.com,linaro.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-If stream names of dai driver are duplicated there'll be warnings when
-machine driver tries to add widgets on a route:
+On Fri, 14 Feb 2025 02:30:21 +0100,
+Baojun Xu wrote:
+> 
+> Correct wrong mask for device index.
+> 
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-[    8.831335] fsl-asoc-card sound-wm8960: ASoC: sink widget CPU-Playback overwritten
-[    8.839917] fsl-asoc-card sound-wm8960: ASoC: source widget CPU-Capture overwritten
+Applied now with Fixes tag to commit bb5f86ea50ff ("ALSA: hda/tas2781:
+Add tas2781 hda SPI driver").
 
-Use different stream names to avoid such warnings.
+Please put the proper Fix tag at the next time.
 
-Fixes: 15c958390460 ("ASoC: fsl_sai: Add separate DAI for transmitter and receiver")
-Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
----
- sound/soc/fsl/fsl_sai.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index c4eb87c5d39e..9f33dd11d47f 100644
---- a/sound/soc/fsl/fsl_sai.c
-+++ b/sound/soc/fsl/fsl_sai.c
-@@ -994,10 +994,10 @@ static struct snd_soc_dai_driver fsl_sai_dai_template[] = {
- 	{
- 		.name = "sai-tx",
- 		.playback = {
--			.stream_name = "CPU-Playback",
-+			.stream_name = "SAI-Playback",
- 			.channels_min = 1,
- 			.channels_max = 32,
--				.rate_min = 8000,
-+			.rate_min = 8000,
- 			.rate_max = 2822400,
- 			.rates = SNDRV_PCM_RATE_KNOT,
- 			.formats = FSL_SAI_FORMATS,
-@@ -1007,7 +1007,7 @@ static struct snd_soc_dai_driver fsl_sai_dai_template[] = {
- 	{
- 		.name = "sai-rx",
- 		.capture = {
--			.stream_name = "CPU-Capture",
-+			.stream_name = "SAI-Capture",
- 			.channels_min = 1,
- 			.channels_max = 32,
- 			.rate_min = 8000,
--- 
-2.47.1
+thanks,
 
+Takashi
