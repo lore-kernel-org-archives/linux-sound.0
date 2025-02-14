@@ -1,159 +1,129 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E81A267739;
-	Fri, 14 Feb 2025 16:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5971519BF;
+	Fri, 14 Feb 2025 16:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739550259; cv=none; b=UHFJi7bu5taWkEalA5AU/WTRV9uc/DISisZO9Pd69mqe71uHIOTdJK/MJ9jx/5lhsde9305+0TyDEn0Olttm4m7Z3CZGAnc58pmwePlMHK7XdVJrkNCplAqYg+/WC1wCBqJGB3dBFzOlfskPH8cgn297XsSz3+IVtZGIYcUKakI=
+	t=1739551581; cv=none; b=uVc3s7BBkLX6D65sXFUwUZlx3uXNKwjdYKXMQU7dT8D1NKvCYA3vFulIULH3pNDM920RE5HJxxJvDYoLTyz0NuOxJxvRnO/BDrhKymoh3i4OncK6bbmRwZuMNbJyAAyNwxCvrjrtbwf8DZPqbVQcIoPWUG1IW9txv1PD3xvYgJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739550259; c=relaxed/simple;
-	bh=7AgIKn7csdyYxmF3m/Q7J4+PJzNeiOLf9q091XJ4E/4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y8yQpiuHIkBfBS/ffAmrf/r/4rMDbIknuS4xhRWl4VjGdvlNPx40oZMR3vGF+9SFhNGvydRPMKJ97jX++utD+dZORFhGa5kDCrgzh9xTb2xEEg+G9KQlWh8tszSahov7xlJRi6KK+TMxK4cypVo4DG8H+T+LD3oWSToGlzu1G/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=H105/2Jg; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1739551581; c=relaxed/simple;
+	bh=zG4mJe4owvwGLwC906K8suHMoRJnspdnmPqfvRkK3NQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=E2fLxbS2SVq9gN4TfngIvDohd4zSYDbE3mO6216v69p6DKZDNwjfMANEs2oE/TuJT7PNncCkKRhwrcErbUrrcSkly15dHqMRm6LFerjTpHXvnpHKq4BC8RJWeh+V4pf4oHGgUYrgUo6h4TuJk5sZGzcvVm6EkuGDg0Z45nqERuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fAQePg0K; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="H105/2Jg"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51E4od4M018291;
-	Fri, 14 Feb 2025 10:24:04 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=0VhoGhsglbZJj1oXUFMWOU4f5t2yztkzd93wyUTPzZY=; b=
-	H105/2JgbrA/WYv3hsQb3DdrPqxFmYe1eURYuGZwqywplmHsLdBRy7SFG9rAX3SV
-	+ajzfrON5XUCtGCY3F7M1H5CleZrlaKPvCT32uO+X3WzWfsFhhN3O2QzXAFMflZh
-	ZOuijwwZCAltfP9iqSFe83mohBzkECHICoAfeEWY7urydM+6ob7ZDASYQxg3MtMx
-	clwzASLLgSQX4LPvObjDmzVLidWbAQ+454btL23XAIAoeIVp8ZdEo28wZQ36cU/7
-	E6Y90VqqB8K9eKiqP3xsEeB3Nr4j109JD8ur8VyL1Bz8IyEoG6ZQlKacSsXCf1Zg
-	tmrL7BHnYgnecvNlYXl6yw==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 44rpsvcvvs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Feb 2025 10:24:04 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 14 Feb
- 2025 16:24:02 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Fri, 14 Feb 2025 16:24:02 +0000
-Received: from lonswws03.ad.cirrus.com (lonswws03.ad.cirrus.com [198.90.188.34])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 2A48B82025A;
-	Fri, 14 Feb 2025 16:24:02 +0000 (UTC)
-From: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>,
-        Vitaly Rodionov
-	<vitalyr@opensource.cirrus.com>
-Subject: [PATCH 2/2] ALSA: hda/cirrus: Reduce codec resume time
-Date: Fri, 14 Feb 2025 16:23:26 +0000
-Message-ID: <20250214162354.2675652-2-vitalyr@opensource.cirrus.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250214162354.2675652-1-vitalyr@opensource.cirrus.com>
-References: <20250214162354.2675652-1-vitalyr@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAQePg0K"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38f2cb1ba55so773553f8f.3;
+        Fri, 14 Feb 2025 08:46:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739551578; x=1740156378; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gEUK7M60lRQardXDr3rcqI3xJ8vpCF/l2APWaA9DFUQ=;
+        b=fAQePg0KX/ovVhCMZ0a0eWgYfWs09N7n+zg5KUef6HHZyHU8w04QcvECStOaCR2fzz
+         Es1d15DrFhH3leuNL6UgqVCS7KM4z9HhHOXeI0Q8CAUwxWYMv3Ft65K1T8dFqwUcJdwq
+         DLvV3yQrlE3EUy6xjXz97sWNjcRqPAqYe0rwkHCDSYp+o8q2rXU3fjPNHPdyrVZmygdp
+         O/6/e9IXBMKHVhat9MEvYqWp3z9WXlAiQVPGs5XokGF03VVav3LZWhJihP5fGt3CRUpc
+         iTEXDr9wIorIOYtT51yyOPWqhVrY6pweF1xk5MER35qwSzTHD0pTo5k9PH1fxJ/UVSFV
+         X8SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739551578; x=1740156378;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gEUK7M60lRQardXDr3rcqI3xJ8vpCF/l2APWaA9DFUQ=;
+        b=k8jzEi6F56iJh0VK7/bS+3NajblSXXUBZwqpvwSzPuOuNBb67lVV3fpkLRTkeSjPb9
+         SF52znbSRbyiUduT/yIHNxAm4wzBmPDZsEf4SLM/e2feyiTNfXig8G0PGkwZ2BO47jlr
+         jqEDJrcy6//hwdIJ7fDYfx14ynzhFuazqatxQO0dJpW0Y8YPiFO8fCG3ke6vSv/dko9J
+         OpFVlLUdcPtbmMynqkgTjJ8NScXFd5ukj5NyMArfYjhH2Hy9U7oNz4olPAA7Pio8OeIy
+         B7e6nkySDaS8db+yPLxHAenQihBc6l+FdsEhxAcYHhplK5pzvZwQ+rZxC9o6hIIrhYDT
+         9o7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU1Zdf4fBVlHK4MWugJ3uWNrK/6LYsdisHmoQd/eQbGkX45DmvSmTAKKSYns2ZJCmYah2WA+9gD4rrs@vger.kernel.org, AJvYcCUCipk2X2XIUx4bwULHfKHsyg7BZ7jE2dopU0Mx76UNvPinPWVWokDfpkH3J5Ru5+YN45G3kDcj3GarSOk=@vger.kernel.org, AJvYcCW94QmidKbb4EAIYCxoJ6WFdFfphEZUWq1Pb48fxT2WnYYDdaAG8zCC/e5f8OwZDu46t1k8YUXycNHtugxc@vger.kernel.org, AJvYcCWUnYeT4YAMPkZk9iXPjUdD3dzYhibvKlEMhiCJvASijQpTqnm5CqnfW88vt0RpmhEOG5EfVYHiDxB8xQ==@vger.kernel.org, AJvYcCXcyrRMBaNkIj4TtTGTLNJHOU+JOldthbJCzqOmOCLvDhtrfFiV81q00Vu2/8lUscItKyn3/OqMfIxqarZC@vger.kernel.org, AJvYcCXp0hc5zxzMMiqpke7GnkmBF6fQkaGeNz77VgBNllSU5tOLcFJfg5ZVJLHzpIT2jR2AO6M4DaJAQ50=@vger.kernel.org, AJvYcCXxkXzKOxN7C5ZAjCGD+BEgf2MNITMB19al2ORgPOmX2voSMRPUTo1IahPD/kkOPzFCGsZ5HaGBR1DY5kHwKzlyFn4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZnjVNulkh2ccbDW1uzVPKGXZs9P508aO2X9SsbSOkHaJweMFy
+	qnuMcwHBOkFw34QmLWcUlJeNCY5SEVk5ZBdIno1bJNDzNYQU4Ds6
+X-Gm-Gg: ASbGncsH1SidTUEuD7ilwDGry6lKGCScU4XnhALYjwa1FsbszV4KCFH1vrewtWNxp7A
+	0WdAsy9jz2Ts4xV5kkMgurcG+J27hJIev/HtNaqdELz49XkKKctQegj7p4x90PYO4lyZLEZycdM
+	rTCxvSEzj1iDUDxRk8HvPw5CelTViuqSqq9uXP8SJ7PDAv+liyDFydAaRvTelK6ZryBZ90zScUy
+	m2H8pLodAUFH/l7uNdztbI1C4ZgDvKXQAOMmU416y6yTdcwapRnEFdhqNQI/F8tuzPMV5EcUiaf
+	k3v8fbD1R7+Y3uEZlKpKECCCpanVwyk8Rb8AsBJw3yprdlZqFRItMQ==
+X-Google-Smtp-Source: AGHT+IG9iRvkwD2Pnjr513qQIYSAcwjpWUdTSopHyr3FX8/GpCTlATk6Kd4aSQlT7eXs7Bpa1c1skw==
+X-Received: by 2002:a05:6000:1f81:b0:38f:2173:b7b7 with SMTP id ffacd0b85a97d-38f2173b9aemr11306900f8f.18.1739551577421;
+        Fri, 14 Feb 2025 08:46:17 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259f8217sm5125878f8f.90.2025.02.14.08.46.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2025 08:46:17 -0800 (PST)
+Date: Fri, 14 Feb 2025 16:46:14 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, David Miller <davem@davemloft.net>, Linus
+ Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
+ <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang
+ <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, Yury Norov
+ <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Johannes
+ Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>, Vincent
+ Mailhol <mailhol.vincent@wanadoo.fr>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, qat-linux@intel.com,
+ linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH treewide v3 2/4] bitfield: Add non-constant
+ field_{prep,get}() helpers
+Message-ID: <20250214164614.29bbc620@pumpkin>
+In-Reply-To: <20250214073402.0129e259@kernel.org>
+References: <cover.1739540679.git.geert+renesas@glider.be>
+	<2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
+	<20250214073402.0129e259@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=O73DvA9W c=1 sm=1 tr=0 ts=67af6e24 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=U9z2HhxXZIhU2ysfx1IA:9 a=+jEqtf1s3R9VXZ0wqowq2kgwd+I=:19 a=GIWBuCPpE9siKy2bWEcf:22
- a=YXXWInSmI4Sqt1AkVdoW:22
-X-Proofpoint-ORIG-GUID: yjz1QX87CfhbG4UR3NR9bStIaeQ14Hgh
-X-Proofpoint-GUID: yjz1QX87CfhbG4UR3NR9bStIaeQ14Hgh
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This patch reduces the resume time by half and introduces an option to
-include a delay after a single write operation before continuing.
+On Fri, 14 Feb 2025 07:34:02 -0800
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-Signed-off-by: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
----
- sound/pci/hda/patch_cs8409-tables.c | 6 +++---
- sound/pci/hda/patch_cs8409.c        | 6 +++++-
- sound/pci/hda/patch_cs8409.h        | 2 +-
- 3 files changed, 9 insertions(+), 5 deletions(-)
+> On Fri, 14 Feb 2025 14:55:51 +0100 Geert Uytterhoeven wrote:
+> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> > constants.  However, it is very common to prepare or extract bitfield
+> > elements where the bitfield mask is not a compile-time constant.
+> > 
+> > To avoid this limitation, the AT91 clock driver and several other
+> > drivers already have their own non-const field_{prep,get}() macros.
+> > Make them available for general use by consolidating them in
+> > <linux/bitfield.h>, and improve them slightly:
+> >   1. Avoid evaluating macro parameters more than once,
+> >   2. Replace "ffs() - 1" by "__ffs()",
+> >   3. Support 64-bit use on 32-bit architectures.
+> > 
+> > This is deliberately not merged into the existing FIELD_{GET,PREP}()
+> > macros, as people expressed the desire to keep stricter variants for
+> > increased safety, or for performance critical paths.  
+> 
+> I really really think that people should just use the static inline
+> helpers if the field is not constant. And we should do something like
+> below so that people can actually find them.
 
-diff --git a/sound/pci/hda/patch_cs8409-tables.c b/sound/pci/hda/patch_cs8409-tables.c
-index 621f947e3817..09240138e087 100644
---- a/sound/pci/hda/patch_cs8409-tables.c
-+++ b/sound/pci/hda/patch_cs8409-tables.c
-@@ -131,7 +131,7 @@ static const struct cs8409_i2c_param cs42l42_init_reg_seq[] = {
- 	{ CS42L42_RSENSE_CTL3, 0x00 },
- 	{ CS42L42_TSENSE_CTL, 0x80 },
- 	{ CS42L42_HS_BIAS_CTL, 0xC0 },
--	{ CS42L42_PWR_CTL1, 0x02 },
-+	{ CS42L42_PWR_CTL1, 0x02, 10000 },
- 	{ CS42L42_ADC_OVFL_INT_MASK, 0xff },
- 	{ CS42L42_MIXER_INT_MASK, 0xff },
- 	{ CS42L42_SRC_INT_MASK, 0xff },
-@@ -328,7 +328,7 @@ static const struct cs8409_i2c_param dolphin_c0_init_reg_seq[] = {
- 	{ CS42L42_RSENSE_CTL3, 0x00 },
- 	{ CS42L42_TSENSE_CTL, 0x80 },
- 	{ CS42L42_HS_BIAS_CTL, 0xC0 },
--	{ CS42L42_PWR_CTL1, 0x02 },
-+	{ CS42L42_PWR_CTL1, 0x02, 10000 },
- 	{ CS42L42_ADC_OVFL_INT_MASK, 0xff },
- 	{ CS42L42_MIXER_INT_MASK, 0xff },
- 	{ CS42L42_SRC_INT_MASK, 0xff },
-@@ -384,7 +384,7 @@ static const struct cs8409_i2c_param dolphin_c1_init_reg_seq[] = {
- 	{ CS42L42_RSENSE_CTL3, 0x00 },
- 	{ CS42L42_TSENSE_CTL, 0x80 },
- 	{ CS42L42_HS_BIAS_CTL, 0xC0 },
--	{ CS42L42_PWR_CTL1, 0x06 },
-+	{ CS42L42_PWR_CTL1, 0x06, 10000 },
- 	{ CS42L42_ADC_OVFL_INT_MASK, 0xff },
- 	{ CS42L42_MIXER_INT_MASK, 0xff },
- 	{ CS42L42_SRC_INT_MASK, 0xff },
-diff --git a/sound/pci/hda/patch_cs8409.c b/sound/pci/hda/patch_cs8409.c
-index b760332a4e35..e50006757a2c 100644
---- a/sound/pci/hda/patch_cs8409.c
-+++ b/sound/pci/hda/patch_cs8409.c
-@@ -346,6 +346,11 @@ static int cs8409_i2c_bulk_write(struct sub_codec *scodec, const struct cs8409_i
- 
- 		if (cs8409_i2c_wait_complete(codec) < 0)
- 			goto error;
-+		/* Certain use cases may require a delay
-+		 * after a write operation before proceeding.
-+		 */
-+		if (seq[i].delay)
-+			fsleep(seq[i].delay);
- 	}
- 
- 	mutex_unlock(&spec->i2c_mux);
-@@ -888,7 +893,6 @@ static void cs42l42_resume(struct sub_codec *cs42l42)
- 
- 	/* Initialize CS42L42 companion codec */
- 	cs8409_i2c_bulk_write(cs42l42, cs42l42->init_seq, cs42l42->init_seq_num);
--	msleep(CS42L42_INIT_TIMEOUT_MS);
- 
- 	/* Clear interrupts, by reading interrupt status registers */
- 	cs8409_i2c_bulk_read(cs42l42, irq_regs, ARRAY_SIZE(irq_regs));
-diff --git a/sound/pci/hda/patch_cs8409.h b/sound/pci/hda/patch_cs8409.h
-index 14645d25e70f..e4bd2e12110b 100644
---- a/sound/pci/hda/patch_cs8409.h
-+++ b/sound/pci/hda/patch_cs8409.h
-@@ -229,7 +229,6 @@ enum cs8409_coefficient_index_registers {
- #define CS42L42_I2C_SLEEP_US			(2000)
- #define CS42L42_PDN_TIMEOUT_US			(250000)
- #define CS42L42_PDN_SLEEP_US			(2000)
--#define CS42L42_INIT_TIMEOUT_MS			(45)
- #define CS42L42_ANA_MUTE_AB			(0x0C)
- #define CS42L42_FULL_SCALE_VOL_MASK		(2)
- #define CS42L42_FULL_SCALE_VOL_0DB		(0)
-@@ -291,6 +290,7 @@ enum {
- struct cs8409_i2c_param {
- 	unsigned int addr;
- 	unsigned int value;
-+	unsigned int delay;
- };
- 
- struct cs8409_cir_param {
--- 
-2.43.0
+Especially since you really don't want to be calling ffs() on variables.
 
+Much better to have saved the low bit and field width/mask.
+
+	David
