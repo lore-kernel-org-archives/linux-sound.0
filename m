@@ -1,129 +1,233 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5971519BF;
-	Fri, 14 Feb 2025 16:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF041519BF
+	for <linux-sound@vger.kernel.org>; Fri, 14 Feb 2025 16:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739551581; cv=none; b=uVc3s7BBkLX6D65sXFUwUZlx3uXNKwjdYKXMQU7dT8D1NKvCYA3vFulIULH3pNDM920RE5HJxxJvDYoLTyz0NuOxJxvRnO/BDrhKymoh3i4OncK6bbmRwZuMNbJyAAyNwxCvrjrtbwf8DZPqbVQcIoPWUG1IW9txv1PD3xvYgJU=
+	t=1739551843; cv=none; b=B0VcGNaafDfSgQlaBwtG/ooFogAHOKp8eu0eINMG+fPCKPqcSgjHMN7YRMO8Yr5XG0Ppl3RcVytwH7tSDQjb6hQMx/wW4TNFG9WcYuquiVM+I7v7+ZnHr04htnNDU30kolceYL8JMw0+LDgUZQZeHSKyjZZDP6+1SUBtFjRLPjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739551581; c=relaxed/simple;
-	bh=zG4mJe4owvwGLwC906K8suHMoRJnspdnmPqfvRkK3NQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E2fLxbS2SVq9gN4TfngIvDohd4zSYDbE3mO6216v69p6DKZDNwjfMANEs2oE/TuJT7PNncCkKRhwrcErbUrrcSkly15dHqMRm6LFerjTpHXvnpHKq4BC8RJWeh+V4pf4oHGgUYrgUo6h4TuJk5sZGzcvVm6EkuGDg0Z45nqERuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fAQePg0K; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739551843; c=relaxed/simple;
+	bh=qlMMIibr9KHm9ibM7FFd+UmdB3uLuPPaikSJNH1wDkA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=daQaDxhc0XENMfb/+PwTS25CyyZ0DvwLA8SdsQ7Q022X7YRPWzyoZUOjXu8MhgyVXNTD5BYCpDIB92NKxksYF8f2lUIqQqtHkX6YYSnKK7YwREaZZSkYJ2BcdueaQ6na5i0nm0RKbRozsRiHWQbTnaoAU/mxcp2Fwnc2S7Qmq4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cIVL5YoV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=We6OT8FI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cIVL5YoV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=We6OT8FI; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAQePg0K"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38f2cb1ba55so773553f8f.3;
-        Fri, 14 Feb 2025 08:46:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739551578; x=1740156378; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gEUK7M60lRQardXDr3rcqI3xJ8vpCF/l2APWaA9DFUQ=;
-        b=fAQePg0KX/ovVhCMZ0a0eWgYfWs09N7n+zg5KUef6HHZyHU8w04QcvECStOaCR2fzz
-         Es1d15DrFhH3leuNL6UgqVCS7KM4z9HhHOXeI0Q8CAUwxWYMv3Ft65K1T8dFqwUcJdwq
-         DLvV3yQrlE3EUy6xjXz97sWNjcRqPAqYe0rwkHCDSYp+o8q2rXU3fjPNHPdyrVZmygdp
-         O/6/e9IXBMKHVhat9MEvYqWp3z9WXlAiQVPGs5XokGF03VVav3LZWhJihP5fGt3CRUpc
-         iTEXDr9wIorIOYtT51yyOPWqhVrY6pweF1xk5MER35qwSzTHD0pTo5k9PH1fxJ/UVSFV
-         X8SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739551578; x=1740156378;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gEUK7M60lRQardXDr3rcqI3xJ8vpCF/l2APWaA9DFUQ=;
-        b=k8jzEi6F56iJh0VK7/bS+3NajblSXXUBZwqpvwSzPuOuNBb67lVV3fpkLRTkeSjPb9
-         SF52znbSRbyiUduT/yIHNxAm4wzBmPDZsEf4SLM/e2feyiTNfXig8G0PGkwZ2BO47jlr
-         jqEDJrcy6//hwdIJ7fDYfx14ynzhFuazqatxQO0dJpW0Y8YPiFO8fCG3ke6vSv/dko9J
-         OpFVlLUdcPtbmMynqkgTjJ8NScXFd5ukj5NyMArfYjhH2Hy9U7oNz4olPAA7Pio8OeIy
-         B7e6nkySDaS8db+yPLxHAenQihBc6l+FdsEhxAcYHhplK5pzvZwQ+rZxC9o6hIIrhYDT
-         9o7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU1Zdf4fBVlHK4MWugJ3uWNrK/6LYsdisHmoQd/eQbGkX45DmvSmTAKKSYns2ZJCmYah2WA+9gD4rrs@vger.kernel.org, AJvYcCUCipk2X2XIUx4bwULHfKHsyg7BZ7jE2dopU0Mx76UNvPinPWVWokDfpkH3J5Ru5+YN45G3kDcj3GarSOk=@vger.kernel.org, AJvYcCW94QmidKbb4EAIYCxoJ6WFdFfphEZUWq1Pb48fxT2WnYYDdaAG8zCC/e5f8OwZDu46t1k8YUXycNHtugxc@vger.kernel.org, AJvYcCWUnYeT4YAMPkZk9iXPjUdD3dzYhibvKlEMhiCJvASijQpTqnm5CqnfW88vt0RpmhEOG5EfVYHiDxB8xQ==@vger.kernel.org, AJvYcCXcyrRMBaNkIj4TtTGTLNJHOU+JOldthbJCzqOmOCLvDhtrfFiV81q00Vu2/8lUscItKyn3/OqMfIxqarZC@vger.kernel.org, AJvYcCXp0hc5zxzMMiqpke7GnkmBF6fQkaGeNz77VgBNllSU5tOLcFJfg5ZVJLHzpIT2jR2AO6M4DaJAQ50=@vger.kernel.org, AJvYcCXxkXzKOxN7C5ZAjCGD+BEgf2MNITMB19al2ORgPOmX2voSMRPUTo1IahPD/kkOPzFCGsZ5HaGBR1DY5kHwKzlyFn4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZnjVNulkh2ccbDW1uzVPKGXZs9P508aO2X9SsbSOkHaJweMFy
-	qnuMcwHBOkFw34QmLWcUlJeNCY5SEVk5ZBdIno1bJNDzNYQU4Ds6
-X-Gm-Gg: ASbGncsH1SidTUEuD7ilwDGry6lKGCScU4XnhALYjwa1FsbszV4KCFH1vrewtWNxp7A
-	0WdAsy9jz2Ts4xV5kkMgurcG+J27hJIev/HtNaqdELz49XkKKctQegj7p4x90PYO4lyZLEZycdM
-	rTCxvSEzj1iDUDxRk8HvPw5CelTViuqSqq9uXP8SJ7PDAv+liyDFydAaRvTelK6ZryBZ90zScUy
-	m2H8pLodAUFH/l7uNdztbI1C4ZgDvKXQAOMmU416y6yTdcwapRnEFdhqNQI/F8tuzPMV5EcUiaf
-	k3v8fbD1R7+Y3uEZlKpKECCCpanVwyk8Rb8AsBJw3yprdlZqFRItMQ==
-X-Google-Smtp-Source: AGHT+IG9iRvkwD2Pnjr513qQIYSAcwjpWUdTSopHyr3FX8/GpCTlATk6Kd4aSQlT7eXs7Bpa1c1skw==
-X-Received: by 2002:a05:6000:1f81:b0:38f:2173:b7b7 with SMTP id ffacd0b85a97d-38f2173b9aemr11306900f8f.18.1739551577421;
-        Fri, 14 Feb 2025 08:46:17 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259f8217sm5125878f8f.90.2025.02.14.08.46.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 08:46:17 -0800 (PST)
-Date: Fri, 14 Feb 2025 16:46:14 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, David Miller <davem@davemloft.net>, Linus
- Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
- <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang
- <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, Yury Norov
- <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Johannes
- Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>, Vincent
- Mailhol <mailhol.vincent@wanadoo.fr>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-crypto@vger.kernel.org, qat-linux@intel.com,
- linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH treewide v3 2/4] bitfield: Add non-constant
- field_{prep,get}() helpers
-Message-ID: <20250214164614.29bbc620@pumpkin>
-In-Reply-To: <20250214073402.0129e259@kernel.org>
-References: <cover.1739540679.git.geert+renesas@glider.be>
-	<2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
-	<20250214073402.0129e259@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cIVL5YoV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="We6OT8FI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cIVL5YoV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="We6OT8FI"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2D93B210F8;
+	Fri, 14 Feb 2025 16:50:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739551839; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uikJNsa0IsBWSXLjFgb4Adl8m/7KsWzFWxdjjTDyTkI=;
+	b=cIVL5YoVjkvzFr7Efl0axtuYsaDsbq8cx2bwfrepPrZ4jv4bL5eSduLsfzE6bxIRHKl5nR
+	B3xxdVc3xNxH2rBj9noXYQyzRZX+9pQQj7H3TXym+N8k0X9Sj+TwP6kapcHURnU6eNnGbT
+	PbaCVB0VA5XjQLHnamzUSNK1yoWOphk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739551839;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uikJNsa0IsBWSXLjFgb4Adl8m/7KsWzFWxdjjTDyTkI=;
+	b=We6OT8FIsda5aiJFsE/SDB68Tx1jSUFNFc/+i3L0AXI+shYLBTHvK8tbtb3zp5409xXIvo
+	gRB/301CUZzxH2BQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739551839; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uikJNsa0IsBWSXLjFgb4Adl8m/7KsWzFWxdjjTDyTkI=;
+	b=cIVL5YoVjkvzFr7Efl0axtuYsaDsbq8cx2bwfrepPrZ4jv4bL5eSduLsfzE6bxIRHKl5nR
+	B3xxdVc3xNxH2rBj9noXYQyzRZX+9pQQj7H3TXym+N8k0X9Sj+TwP6kapcHURnU6eNnGbT
+	PbaCVB0VA5XjQLHnamzUSNK1yoWOphk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739551839;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uikJNsa0IsBWSXLjFgb4Adl8m/7KsWzFWxdjjTDyTkI=;
+	b=We6OT8FIsda5aiJFsE/SDB68Tx1jSUFNFc/+i3L0AXI+shYLBTHvK8tbtb3zp5409xXIvo
+	gRB/301CUZzxH2BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE03E137DB;
+	Fri, 14 Feb 2025 16:50:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id c7UUJ150r2dRUAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 14 Feb 2025 16:50:38 +0000
+Date: Fri, 14 Feb 2025 17:50:33 +0100
+Message-ID: <87seog1ndy.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH 1/2] ALSA: hda/cirrus: Correct the full scale volume set logic
+In-Reply-To: <20250214162354.2675652-1-vitalyr@opensource.cirrus.com>
+References: <20250214162354.2675652-1-vitalyr@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.994];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,cirrus.com:email,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Fri, 14 Feb 2025 07:34:02 -0800
-Jakub Kicinski <kuba@kernel.org> wrote:
-
-> On Fri, 14 Feb 2025 14:55:51 +0100 Geert Uytterhoeven wrote:
-> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> > constants.  However, it is very common to prepare or extract bitfield
-> > elements where the bitfield mask is not a compile-time constant.
-> > 
-> > To avoid this limitation, the AT91 clock driver and several other
-> > drivers already have their own non-const field_{prep,get}() macros.
-> > Make them available for general use by consolidating them in
-> > <linux/bitfield.h>, and improve them slightly:
-> >   1. Avoid evaluating macro parameters more than once,
-> >   2. Replace "ffs() - 1" by "__ffs()",
-> >   3. Support 64-bit use on 32-bit architectures.
-> > 
-> > This is deliberately not merged into the existing FIELD_{GET,PREP}()
-> > macros, as people expressed the desire to keep stricter variants for
-> > increased safety, or for performance critical paths.  
+On Fri, 14 Feb 2025 17:23:25 +0100,
+Vitaly Rodionov wrote:
 > 
-> I really really think that people should just use the static inline
-> helpers if the field is not constant. And we should do something like
-> below so that people can actually find them.
+> This patch corrects the full-scale volume setting logic. On certain
+> platforms, the full-scale volume bit is required. The current logic
+> mistakenly sets this bit and incorrectly clears reserved bit 0, causing
+> the headphone output to be muted.
+> 
+> Signed-off-by: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
 
-Especially since you really don't want to be calling ffs() on variables.
+Can we have a Fixes tag?
 
-Much better to have saved the low bit and field width/mask.
 
-	David
+thanks,
+
+Takashi
+
+> ---
+>  sound/pci/hda/patch_cs8409-tables.c |  6 +++---
+>  sound/pci/hda/patch_cs8409.c        | 20 +++++++++++---------
+>  sound/pci/hda/patch_cs8409.h        |  5 +++--
+>  3 files changed, 17 insertions(+), 14 deletions(-)
+> 
+> diff --git a/sound/pci/hda/patch_cs8409-tables.c b/sound/pci/hda/patch_cs8409-tables.c
+> index 759f48038273..621f947e3817 100644
+> --- a/sound/pci/hda/patch_cs8409-tables.c
+> +++ b/sound/pci/hda/patch_cs8409-tables.c
+> @@ -121,7 +121,7 @@ static const struct cs8409_i2c_param cs42l42_init_reg_seq[] = {
+>  	{ CS42L42_MIXER_CHA_VOL, 0x3F },
+>  	{ CS42L42_MIXER_CHB_VOL, 0x3F },
+>  	{ CS42L42_MIXER_ADC_VOL, 0x3f },
+> -	{ CS42L42_HP_CTL, 0x03 },
+> +	{ CS42L42_HP_CTL, 0x0D },
+>  	{ CS42L42_MIC_DET_CTL1, 0xB6 },
+>  	{ CS42L42_TIPSENSE_CTL, 0xC2 },
+>  	{ CS42L42_HS_CLAMP_DISABLE, 0x01 },
+> @@ -315,7 +315,7 @@ static const struct cs8409_i2c_param dolphin_c0_init_reg_seq[] = {
+>  	{ CS42L42_ASP_TX_SZ_EN, 0x01 },
+>  	{ CS42L42_PWR_CTL1, 0x0A },
+>  	{ CS42L42_PWR_CTL2, 0x84 },
+> -	{ CS42L42_HP_CTL, 0x03 },
+> +	{ CS42L42_HP_CTL, 0x0D },
+>  	{ CS42L42_MIXER_CHA_VOL, 0x3F },
+>  	{ CS42L42_MIXER_CHB_VOL, 0x3F },
+>  	{ CS42L42_MIXER_ADC_VOL, 0x3f },
+> @@ -371,7 +371,7 @@ static const struct cs8409_i2c_param dolphin_c1_init_reg_seq[] = {
+>  	{ CS42L42_ASP_TX_SZ_EN, 0x00 },
+>  	{ CS42L42_PWR_CTL1, 0x0E },
+>  	{ CS42L42_PWR_CTL2, 0x84 },
+> -	{ CS42L42_HP_CTL, 0x01 },
+> +	{ CS42L42_HP_CTL, 0x0D },
+>  	{ CS42L42_MIXER_CHA_VOL, 0x3F },
+>  	{ CS42L42_MIXER_CHB_VOL, 0x3F },
+>  	{ CS42L42_MIXER_ADC_VOL, 0x3f },
+> diff --git a/sound/pci/hda/patch_cs8409.c b/sound/pci/hda/patch_cs8409.c
+> index 614327218634..b760332a4e35 100644
+> --- a/sound/pci/hda/patch_cs8409.c
+> +++ b/sound/pci/hda/patch_cs8409.c
+> @@ -876,7 +876,7 @@ static void cs42l42_resume(struct sub_codec *cs42l42)
+>  		{ CS42L42_DET_INT_STATUS2, 0x00 },
+>  		{ CS42L42_TSRS_PLUG_STATUS, 0x00 },
+>  	};
+> -	int fsv_old, fsv_new;
+> +	unsigned int fsv;
+>  
+>  	/* Bring CS42L42 out of Reset */
+>  	spec->gpio_data = snd_hda_codec_read(codec, CS8409_PIN_AFG, 0, AC_VERB_GET_GPIO_DATA, 0);
+> @@ -893,13 +893,15 @@ static void cs42l42_resume(struct sub_codec *cs42l42)
+>  	/* Clear interrupts, by reading interrupt status registers */
+>  	cs8409_i2c_bulk_read(cs42l42, irq_regs, ARRAY_SIZE(irq_regs));
+>  
+> -	fsv_old = cs8409_i2c_read(cs42l42, CS42L42_HP_CTL);
+> -	if (cs42l42->full_scale_vol == CS42L42_FULL_SCALE_VOL_0DB)
+> -		fsv_new = fsv_old & ~CS42L42_FULL_SCALE_VOL_MASK;
+> -	else
+> -		fsv_new = fsv_old & CS42L42_FULL_SCALE_VOL_MASK;
+> -	if (fsv_new != fsv_old)
+> -		cs8409_i2c_write(cs42l42, CS42L42_HP_CTL, fsv_new);
+> +	fsv = cs8409_i2c_read(cs42l42, CS42L42_HP_CTL);
+> +	if (cs42l42->full_scale_vol) {
+> +		// Set the full scale volume bit
+> +		fsv |= CS42L42_FULL_SCALE_VOL_MASK;
+> +		cs8409_i2c_write(cs42l42, CS42L42_HP_CTL, fsv);
+> +	}
+> +	// Unmute analog channels A and B
+> +	fsv = (fsv & ~CS42L42_ANA_MUTE_AB);
+> +	cs8409_i2c_write(cs42l42, CS42L42_HP_CTL, fsv);
+>  
+>  	/* we have to explicitly allow unsol event handling even during the
+>  	 * resume phase so that the jack event is processed properly
+> @@ -920,7 +922,7 @@ static void cs42l42_suspend(struct sub_codec *cs42l42)
+>  		{ CS42L42_MIXER_CHA_VOL, 0x3F },
+>  		{ CS42L42_MIXER_ADC_VOL, 0x3F },
+>  		{ CS42L42_MIXER_CHB_VOL, 0x3F },
+> -		{ CS42L42_HP_CTL, 0x0F },
+> +		{ CS42L42_HP_CTL, 0x0D },
+>  		{ CS42L42_ASP_RX_DAI0_EN, 0x00 },
+>  		{ CS42L42_ASP_CLK_CFG, 0x00 },
+>  		{ CS42L42_PWR_CTL1, 0xFE },
+> diff --git a/sound/pci/hda/patch_cs8409.h b/sound/pci/hda/patch_cs8409.h
+> index 5e48115caf09..14645d25e70f 100644
+> --- a/sound/pci/hda/patch_cs8409.h
+> +++ b/sound/pci/hda/patch_cs8409.h
+> @@ -230,9 +230,10 @@ enum cs8409_coefficient_index_registers {
+>  #define CS42L42_PDN_TIMEOUT_US			(250000)
+>  #define CS42L42_PDN_SLEEP_US			(2000)
+>  #define CS42L42_INIT_TIMEOUT_MS			(45)
+> +#define CS42L42_ANA_MUTE_AB			(0x0C)
+>  #define CS42L42_FULL_SCALE_VOL_MASK		(2)
+> -#define CS42L42_FULL_SCALE_VOL_0DB		(1)
+> -#define CS42L42_FULL_SCALE_VOL_MINUS6DB		(0)
+> +#define CS42L42_FULL_SCALE_VOL_0DB		(0)
+> +#define CS42L42_FULL_SCALE_VOL_MINUS6DB		(1)
+>  
+>  /* Dell BULLSEYE / WARLOCK / CYBORG Specific Definitions */
+>  
+> -- 
+> 2.43.0
+> 
