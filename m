@@ -1,56 +1,76 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B0D1C8615;
-	Fri, 14 Feb 2025 21:07:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E8D6AAD;
+	Fri, 14 Feb 2025 21:58:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739567273; cv=none; b=fIq9GjtjvPk818Y2cxy0VO8U8zm5xuiS2gVzhqHkvMK4SjcvyQ2oTfI2wpZ/S7BOtHZBR7L6dUZL3Sj0XzLEZLFkXUmot9Z0UaCGWgVHwOXdJ8jNvkZud9RHLrdBIvq18so0vk0G0S0BkCWtIq0rIH7QPiyXnNaOQNEczWIcOz8=
+	t=1739570314; cv=none; b=Op46RcDJRZtW4gtLdMKC4t+6DGFsQw7GTWGPne2v0Zr0ltKMkVvMGjn/iKfBk4UdSbeXhz1OmF8VYiE0itgivnI/8cz0bewlyY7n2D1t98ZVndu5ZPCRRnBW0THObrJNiiLhsccZF0PS2bBIK6PKniyBu8K/HKlC9/VgVxGkpjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739567273; c=relaxed/simple;
-	bh=yiFJ/w+t21ZJtRX+N65ptSLB8hi9/hvCcwQLwkf3pI0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ekfm9mNHLAZHcuOmfHQiDH5k/aiQ6levz8HeV1hrKTIYPuJKA+YRsfnWDrLl1GI+vJoSwLG82DCeYw+DPWQJY9Gpm6G/xhKAInMACe1FgrKMSBr6QaX4qyMQyX8MLf3OS02rSJlm4IeR76AE3WbJ/MQlnu4/fJuAaYcur9AJ26Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=MMHBIqNV; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1739570314; c=relaxed/simple;
+	bh=iSUEhgvx0wFV9+Nn3QSRw8A/ciA7RcP9dHPQWTkLMTc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ciTYG28JlbWc1OwODriWK7rwZe6lSup2Hl018MDZwiORGqyO2Vz/8N54aqbexK/l9OiCTVTc+CVvbeQwzHfZ+0tN+qx17WYlZn+xwBedgEeBW4CDbIGjljHuOUyi87Mq7VtG+SmyMf0aFrBP6czz8D8ZH1qv+vb8eTuim7yHzyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sw9Yp+Hj; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="MMHBIqNV"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51E7rio7015159;
-	Fri, 14 Feb 2025 15:07:41 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=qTuyMCHe3gaLKjJw
-	y9hTJZOKgIkyKL37R7E6Ty15deg=; b=MMHBIqNVFbSpk3w8F6N21UhLY83kgrxm
-	Q91IXkcCoDlTs9bRO2UPksYpFuZv0A6/Mh6MRol0moXEPtc22IKKUsRbmgr8l/ZV
-	wAp7+1zGedpCP2AMxQ9tgT7gMxHTRTnGH6Mae/eCaBHglt/nJxgWfeU9/sEMEJh1
-	tXV6coEFFt55r2dZ0vZ2VW/0+ofG6pgCE64gQMZloCPuP9QsO7JdkXrupygzU0t5
-	6j8Erbb+xdKwYGgGjG2BuRYVj0qbCUmf2746BlYfrcPHjpOp2HNo7+2rURA8X5Oc
-	5Eknff7m/3+09jWwHcOw1sLn5i0sm0XeblEh2bqd5WrPI6vii5VpUA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 44rpsvdecv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Feb 2025 15:07:41 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 14 Feb
- 2025 21:07:38 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Fri, 14 Feb 2025 21:07:38 +0000
-Received: from lonswws03.ad.cirrus.com (lonswws03.ad.cirrus.com [198.90.188.34])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 80215820248;
-	Fri, 14 Feb 2025 21:07:38 +0000 (UTC)
-From: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>,
-        Vitaly Rodionov
-	<vitalyr@opensource.cirrus.com>
-Subject: [PATCH 1/2 v2] ALSA: hda/cirrus: Correct the full scale volume set logic
-Date: Fri, 14 Feb 2025 21:07:28 +0000
-Message-ID: <20250214210736.30814-1-vitalyr@opensource.cirrus.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sw9Yp+Hj"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-38f24fc466aso1742208f8f.2;
+        Fri, 14 Feb 2025 13:58:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739570311; x=1740175111; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HjHdIFNpacetIZjKxU9WkI1c16gFjSb3NmTyh+Z5Omw=;
+        b=Sw9Yp+HjBcDyzpEDucWhsAQBzpaaUREOt63f5DpR/JeGT04obvJoJL1rgk9aIMcIQV
+         taeiSSVSVyDrj5K8uQfUgOQwMPO2IMnxecBxWi7HTFu2PtTynFQfTvtyDyRMLir+yz9A
+         fgVgVkYDzYje9VUfd93AN/M0y5My+A5ah4kl8aNwUvZjeJCtaCS4ApLCuYYcgZ6GeE+G
+         5s6Xn/XmChAZ0oej1kuq9kz7Caww6HE3MRVWwx5LvbtIjkWwCtBcdecFy4XuY0MKq39O
+         HtxKjcBKa58D8GhYUKw2DeyegIIb4LXgFIdrbKfuLCJRPBAK9B2aJZxaZMrMYnBO1ahG
+         sh9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739570311; x=1740175111;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HjHdIFNpacetIZjKxU9WkI1c16gFjSb3NmTyh+Z5Omw=;
+        b=FEGYQNTyGL+PQn3Y4K+sA4wF5AYbwS3dHfs1N/uRdgv5zfyw1cs8EeLscixCUeAzSf
+         8beWjgsAkV6+j5I+TzZyGUfF1oCTM90dW2Gd3vkNX+mmjvW/GO8K2ZEMcxM7I88snwQB
+         n0u0goLGCzfqoM6EUHEHber7/YM/RHIdYBfQi7X9aeifsL+2cDxEXwV39jXdG2uju+ip
+         iB2gzUBCWD9y9rkBKVCOmFutwKb9b6bpeqscHVsw8NQykuUUx8L9JS9rXgzEN9xHFWe0
+         K2v9YkiM9lGBb+m26+tUfCs03t2qZG4aFiUaMF9nSc1pTqi2KORYAUWeXJZPcQ+r6hpg
+         IVjA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDneO98C5hMPWn+i8SNDufwb6t6yfZgfVXSp786APd0I6lYj3sDhvgGuWioSNVY4KyEYHvSK+TaCXAn3Tj@vger.kernel.org, AJvYcCWEQ1uh1VwKm8z/MCTGbVXQJho5uS6Nqo1cu9OdfPoFiU9oNmq17NCgxTa/I7Y6WLJiBk9fHvb0oAih@vger.kernel.org, AJvYcCWutmffxp13awfiTmawuBRkHQ1zp6fcoc+KK+PtSfW8u12YbFtWl9PQtvTkJcFXxRiXVUKJiMK7lKMF6Ew=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEiEE9UTbrPUIhpawqNvQcRR2yEfOOvwXMevfJEwyWFft4sFTD
+	+kSADs4V+iKRcUOL6WHJ5rkKVaBC27YbpGxaC7lCY527ukkqVXmP
+X-Gm-Gg: ASbGncvP9huvHBd9lD5HKuq0hxHfOi8o2EhylqZDijQsqji6ckRDF/irLAoCCIRGWl9
+	fp2QihROUZHYO/FlXpJ7htCm8B8Xbjj1ry3vJA6G3B74glWdZSz8+eiQom+bJcBRQqi0SOSy+dc
+	CSiOju3uPGOZeIpaEB4zDk3Qag5D1j5SXh0XHxRzNHgWjmDYCNE+Q77LCULxzLCIu9XtZHZjiuW
+	OJAyvGekDEWjAfEiw9x0uuaYme5OaopheSgwbD/jgQtluZC5Cq3IjNSC7tltQVNWjsHVibZ9bsl
+	BAfpna83oFTHUCwIZDIeXbP5AUEo3VQ=
+X-Google-Smtp-Source: AGHT+IFAkyA+auhZYxZHiiVU7CrJjKC7m/ayNJTLshQZe6et28NL4/Sd0WpkVR3JHBODymhMpQQ05Q==
+X-Received: by 2002:a05:6000:1845:b0:385:fd07:8616 with SMTP id ffacd0b85a97d-38f33e80e93mr985951f8f.0.1739570310711;
+        Fri, 14 Feb 2025 13:58:30 -0800 (PST)
+Received: from CYBER-ABAKUS.kucica ([87.116.134.57])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38f259d5ee2sm5558903f8f.80.2025.02.14.13.58.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2025 13:58:29 -0800 (PST)
+From: Nikola Jelic <nikola.jelic83@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: rwalton@cmlmicro.com
+Subject: [PATCH 1/2 V4] ASoC: dt-bindings: Add cmx655 codec
+Date: Fri, 14 Feb 2025 22:58:01 +0100
+Message-ID: <20250214215826.80878-1-nikola.jelic83@gmail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,118 +78,100 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=O73DvA9W c=1 sm=1 tr=0 ts=67afb09d cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=qwdXLPsP7PC7M7duAzoA:9 a=YXXWInSmI4Sqt1AkVdoW:22
-X-Proofpoint-ORIG-GUID: tVYZgrvTPEJYCX5BOxkKaVD14vaXIgSK
-X-Proofpoint-GUID: tVYZgrvTPEJYCX5BOxkKaVD14vaXIgSK
-X-Proofpoint-Spam-Reason: safe
 
-This patch corrects the full-scale volume setting logic. On certain
-platforms, the full-scale volume bit is required. The current logic
-mistakenly sets this bit and incorrectly clears reserved bit 0, causing
-the headphone output to be muted.
+Signed-off-by: Nikola Jelic <nikola.jelic83@gmail.com>
 
-Fixies: 342b6b610ae2 (ALSA: hda/cs8409: Fix Full Scale Volume setting for all variants)
-Signed-off-by: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
 ---
- sound/pci/hda/patch_cs8409-tables.c |  6 +++---
- sound/pci/hda/patch_cs8409.c        | 20 +++++++++++---------
- sound/pci/hda/patch_cs8409.h        |  5 +++--
- 3 files changed, 17 insertions(+), 14 deletions(-)
+V3 -> V4: review remarks
+V2 -> V3: fixed dt_binding_check + yamllint warnings
+V1 -> V2: removed the txt file, fixed review remarks
+---
+ .../bindings/sound/cml,cmx655d.yaml           | 62 +++++++++++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
 
-diff --git a/sound/pci/hda/patch_cs8409-tables.c b/sound/pci/hda/patch_cs8409-tables.c
-index 759f48038273..621f947e3817 100644
---- a/sound/pci/hda/patch_cs8409-tables.c
-+++ b/sound/pci/hda/patch_cs8409-tables.c
-@@ -121,7 +121,7 @@ static const struct cs8409_i2c_param cs42l42_init_reg_seq[] = {
- 	{ CS42L42_MIXER_CHA_VOL, 0x3F },
- 	{ CS42L42_MIXER_CHB_VOL, 0x3F },
- 	{ CS42L42_MIXER_ADC_VOL, 0x3f },
--	{ CS42L42_HP_CTL, 0x03 },
-+	{ CS42L42_HP_CTL, 0x0D },
- 	{ CS42L42_MIC_DET_CTL1, 0xB6 },
- 	{ CS42L42_TIPSENSE_CTL, 0xC2 },
- 	{ CS42L42_HS_CLAMP_DISABLE, 0x01 },
-@@ -315,7 +315,7 @@ static const struct cs8409_i2c_param dolphin_c0_init_reg_seq[] = {
- 	{ CS42L42_ASP_TX_SZ_EN, 0x01 },
- 	{ CS42L42_PWR_CTL1, 0x0A },
- 	{ CS42L42_PWR_CTL2, 0x84 },
--	{ CS42L42_HP_CTL, 0x03 },
-+	{ CS42L42_HP_CTL, 0x0D },
- 	{ CS42L42_MIXER_CHA_VOL, 0x3F },
- 	{ CS42L42_MIXER_CHB_VOL, 0x3F },
- 	{ CS42L42_MIXER_ADC_VOL, 0x3f },
-@@ -371,7 +371,7 @@ static const struct cs8409_i2c_param dolphin_c1_init_reg_seq[] = {
- 	{ CS42L42_ASP_TX_SZ_EN, 0x00 },
- 	{ CS42L42_PWR_CTL1, 0x0E },
- 	{ CS42L42_PWR_CTL2, 0x84 },
--	{ CS42L42_HP_CTL, 0x01 },
-+	{ CS42L42_HP_CTL, 0x0D },
- 	{ CS42L42_MIXER_CHA_VOL, 0x3F },
- 	{ CS42L42_MIXER_CHB_VOL, 0x3F },
- 	{ CS42L42_MIXER_ADC_VOL, 0x3f },
-diff --git a/sound/pci/hda/patch_cs8409.c b/sound/pci/hda/patch_cs8409.c
-index 614327218634..b760332a4e35 100644
---- a/sound/pci/hda/patch_cs8409.c
-+++ b/sound/pci/hda/patch_cs8409.c
-@@ -876,7 +876,7 @@ static void cs42l42_resume(struct sub_codec *cs42l42)
- 		{ CS42L42_DET_INT_STATUS2, 0x00 },
- 		{ CS42L42_TSRS_PLUG_STATUS, 0x00 },
- 	};
--	int fsv_old, fsv_new;
-+	unsigned int fsv;
- 
- 	/* Bring CS42L42 out of Reset */
- 	spec->gpio_data = snd_hda_codec_read(codec, CS8409_PIN_AFG, 0, AC_VERB_GET_GPIO_DATA, 0);
-@@ -893,13 +893,15 @@ static void cs42l42_resume(struct sub_codec *cs42l42)
- 	/* Clear interrupts, by reading interrupt status registers */
- 	cs8409_i2c_bulk_read(cs42l42, irq_regs, ARRAY_SIZE(irq_regs));
- 
--	fsv_old = cs8409_i2c_read(cs42l42, CS42L42_HP_CTL);
--	if (cs42l42->full_scale_vol == CS42L42_FULL_SCALE_VOL_0DB)
--		fsv_new = fsv_old & ~CS42L42_FULL_SCALE_VOL_MASK;
--	else
--		fsv_new = fsv_old & CS42L42_FULL_SCALE_VOL_MASK;
--	if (fsv_new != fsv_old)
--		cs8409_i2c_write(cs42l42, CS42L42_HP_CTL, fsv_new);
-+	fsv = cs8409_i2c_read(cs42l42, CS42L42_HP_CTL);
-+	if (cs42l42->full_scale_vol) {
-+		// Set the full scale volume bit
-+		fsv |= CS42L42_FULL_SCALE_VOL_MASK;
-+		cs8409_i2c_write(cs42l42, CS42L42_HP_CTL, fsv);
-+	}
-+	// Unmute analog channels A and B
-+	fsv = (fsv & ~CS42L42_ANA_MUTE_AB);
-+	cs8409_i2c_write(cs42l42, CS42L42_HP_CTL, fsv);
- 
- 	/* we have to explicitly allow unsol event handling even during the
- 	 * resume phase so that the jack event is processed properly
-@@ -920,7 +922,7 @@ static void cs42l42_suspend(struct sub_codec *cs42l42)
- 		{ CS42L42_MIXER_CHA_VOL, 0x3F },
- 		{ CS42L42_MIXER_ADC_VOL, 0x3F },
- 		{ CS42L42_MIXER_CHB_VOL, 0x3F },
--		{ CS42L42_HP_CTL, 0x0F },
-+		{ CS42L42_HP_CTL, 0x0D },
- 		{ CS42L42_ASP_RX_DAI0_EN, 0x00 },
- 		{ CS42L42_ASP_CLK_CFG, 0x00 },
- 		{ CS42L42_PWR_CTL1, 0xFE },
-diff --git a/sound/pci/hda/patch_cs8409.h b/sound/pci/hda/patch_cs8409.h
-index 5e48115caf09..14645d25e70f 100644
---- a/sound/pci/hda/patch_cs8409.h
-+++ b/sound/pci/hda/patch_cs8409.h
-@@ -230,9 +230,10 @@ enum cs8409_coefficient_index_registers {
- #define CS42L42_PDN_TIMEOUT_US			(250000)
- #define CS42L42_PDN_SLEEP_US			(2000)
- #define CS42L42_INIT_TIMEOUT_MS			(45)
-+#define CS42L42_ANA_MUTE_AB			(0x0C)
- #define CS42L42_FULL_SCALE_VOL_MASK		(2)
--#define CS42L42_FULL_SCALE_VOL_0DB		(1)
--#define CS42L42_FULL_SCALE_VOL_MINUS6DB		(0)
-+#define CS42L42_FULL_SCALE_VOL_0DB		(0)
-+#define CS42L42_FULL_SCALE_VOL_MINUS6DB		(1)
- 
- /* Dell BULLSEYE / WARLOCK / CYBORG Specific Definitions */
- 
+diff --git a/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml b/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
+new file mode 100644
+index 000000000000..577e1d4942c6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/cml,cmx655d.yaml
+@@ -0,0 +1,62 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/cml,cmx655d.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: CML Micro CMX655D codec
++
++maintainers:
++  - Richard Walton <rwalton@cmlmicro.com>
++  - Nikola Jelic <nikola.jelic83@gmail.com>
++
++description:
++  The CMX655D is an ultra-low power voice codec.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: cml,cmx655d
++
++  reg:
++    maxItems: 1
++
++  "#sound-dai-cells":
++    const: 0
++
++  reset-gpios:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  interrupt-names:
++    const: cmx-irq
++
++required:
++  - compatible
++  - reg
++  - '#sound-dai-cells'
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/gpio/gpio.h>
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        audio-codec@54 {
++            compatible = "cml,cmx655d";
++            reg = <0x54>;
++            #sound-dai-cells = <0>;
++            reset-gpios = <&gpio 24 GPIO_ACTIVE_LOW>;
++            interrupt-parent = <&gpio>;
++            interrupts = <25 IRQ_TYPE_EDGE_RISING>;
++        };
++
++    };
++...
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index dac80c62b742..74f925f3e3cb 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -310,6 +310,8 @@ patternProperties:
+     description: Carl Cloos Schweisstechnik GmbH.
+   "^cloudengines,.*":
+     description: Cloud Engines, Inc.
++  "^cml,.*":
++    description: CML Micro, Ltd.
+   "^cnm,.*":
+     description: Chips&Media, Inc.
+   "^cnxt,.*":
 -- 
-2.43.0
+2.47.2
 
