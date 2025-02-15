@@ -1,144 +1,175 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBAD1DC198;
-	Fri, 14 Feb 2025 22:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E2B18B03;
+	Sat, 15 Feb 2025 00:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739570613; cv=none; b=phuLvYSAdHc319beo/p7N+c0zcLXWnMngQAiGf389qBAGkDXSjX57253FKM9/HL/KPEpm58KIUp908ag98emxnAaYBG/qBrownTApejo10/9abPL/XsDCjb8hbfi7/YZlcomRpXv0+T4B4gkvJaUiejWSIfS+APe5a+deb/uAUQ=
+	t=1739577794; cv=none; b=QMg3j1jtJPuRu7wZByJfjGdMzyTP8ZRvNTLX5rzIx6zjuIOblwnr5TbhE41YwyRzXt8lDpcvg8K3czI0dDy/kiP5RwSbTzsQuK74ok/qOX7Cv3vdpvqnHhR5o/oy0XS/jTM0UnS8HpJarZShycIDWl/B3RykfdBQSFqfO+vq/ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739570613; c=relaxed/simple;
-	bh=C1pSc+Q88lWwv8lyzUEZsi+O8dQyzz/w4NmzIChw0I4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XsMk8lpgd6aXfuMuOElKYWpwpgUxXJBvjLlQ0062nOFmHzJVRIe7tCUfWDDPLl0AzGAgg9YkaR6bR/A+2gVJlmZL0OrAlC/mSzWNxSp7jyPMOj2lov7w8Xniis+8SDKnfNMqSDsLHUM/aiBzYDgu/2y1b49Zc+tPv/XPZtrnHZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=Ebm2AD8T; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qk9WjaBg; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1739577794; c=relaxed/simple;
+	bh=75ue9XmQyJ8qhP80PF/AOl1KCjY+SUIQzJSjEnRvCuw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MZ0xdxcAT0dVExk0SZp3Jeb+DrleDMIuX36fK3msOl5QhBigIR0W5ZWq0mocx4GgThCg5uMkcwiSGgT5nVWJGufCf22BgViRs630ilxxy5nQpl7uFyCDWHZjVcs/c6qCVCC861SdtmYeVEhtbLe8+1luZ86F+np6dC8GtIi2r2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bn23Mbon; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="Ebm2AD8T";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qk9WjaBg"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id BD7AD11400E1;
-	Fri, 14 Feb 2025 17:03:29 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Fri, 14 Feb 2025 17:03:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1739570609; x=
-	1739657009; bh=gTke6NecdvaDv8ZvNHp8Udw6/L8ag3GpaDjR8TobllU=; b=E
-	bm2AD8TMqXNNsfgC2vUjpOf2c5IJ4IFSFrvzCqYSGdA6o86oFkLDAeV9f0lE01wR
-	rQEkZ2zuo1D4bM1oN79/kqd4L9j3e+5I/0IXpHNKCDCTrF6w0rAGpEibA9Eo3HR4
-	wmFzPRJlIWiNgroFrnR6Oqhtzt2xw+dJwMrxbozdr8F4JoK5xHzsBQPPkuY+OClm
-	F7NouZDzY4cg4+LiMZIvWT9QaUkvva5mP3TGL3VIN9dCbn30eBSxJm+jsIxxRf87
-	7/w0V2YSP4pzvStDauhdOXiHD39Qt149H7vpjpJ+1gUgxM3BB44bTZ7GxJ4RqHXf
-	OkK5qpaoByDCD34NXNmqQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1739570609; x=1739657009; bh=g
-	Tke6NecdvaDv8ZvNHp8Udw6/L8ag3GpaDjR8TobllU=; b=qk9WjaBgPkQweCi9l
-	bljhlilpSmnnKxuGgXp61UxqYVTtu1wuhRvLuALCAuZBkhUCKiyZ9eLQUkHoWFLd
-	3+6DUMXu5LuJAXAzNuTsYW/uiqe/PeXCq8XJOGVr8C/cbati1WnvU0BlxWzaN7Lk
-	3bofUSa1mcYHioRjDkCS13b0WLW0KBLJUCy9yJ0yh/64GFSz9o6OX2ypS2JNviu3
-	kK0pvmuFFOGitb7to6CX2pQiMTgd8VbU87QhaEQGLb/Fz7EVOPUqQZQRzeMmeb3j
-	SmmuDocGi0LksOkxtQL+4oGkq8my7ChndpeOWb8h/io61xOIOqX3bKXJELaEEv/7
-	0OhyQ==
-X-ME-Sender: <xms:sb2vZ965bj3wDXGmpLSgqOl7KGmRKnm2vGHQByxRr3tTE5O6kxlFLg>
-    <xme:sb2vZ66zwMcuXX4bf6suR_yUb7bkeb7r-Ag0yZbaXK4wDVFYtjcVDbaDlrGtGAWpR
-    meq9wltxMMpP9HakQ>
-X-ME-Received: <xmr:sb2vZ0ctQ67_0vZ_oTjfGeDC-w128Qm20PFIodMr5gjeLi-M_fX3KRuZr6D9U7NG1GnHQaNm3uZ2NFfsmVsFVuAf8D5Kw6tdqZz2MnH9boQz>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehtdektdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddt
-    necuhfhrohhmpefthigrnhcuhggrlhhklhhinhcuoehrhigrnhesthgvshhtthhorghsth
-    drtghomheqnecuggftrfgrthhtvghrnhepjeevhedtjeeuvdeiteelgeehjeegieeuveev
-    ffetffdvudevfefhudejiedvgfdunecuffhomhgrihhnpehgihhthhhusgdrtghomhenuc
-    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrhigrnhes
-    thgvshhtthhorghsthdrtghomhdpnhgspghrtghpthhtohepudehpdhmohguvgepshhmth
-    hpohhuthdprhgtphhtthhopehlghhirhgufihoohgusehgmhgrihhlrdgtohhmpdhrtghp
-    thhtohepsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgvrhgvgi
-    esphgvrhgvgidrtgiipdhrtghpthhtohepthhifigrihesshhushgvrdgtohhmpdhrtghp
-    thhtohepfigvnhhssegtshhivgdrohhrghdprhgtphhtthhopehjvghrnhgvjhdrshhkrh
-    grsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehsrghmuhgvlhesshhhohhllhgr
-    nhgurdhorhhgpdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishht
-    shdrihhnfhhrrgguvggrugdrohhrgh
-X-ME-Proxy: <xmx:sb2vZ2J9nyHit3mtK5G3FqZIQDyrbCWBw-yECW_Ph8yk2rHbSP4OXw>
-    <xmx:sb2vZxIzKmrZmcYahuk36aP-feetw6ho5x2PZiF6h5TUBVD8QXtO8g>
-    <xmx:sb2vZ_yGWE8H82E5x9ulrXtqMoUNXhW16MglSDpKFCjB639VfcViqg>
-    <xmx:sb2vZ9Jy5bwDdA9Ld7MYEmFppEZMC31AqrexI6OSv48GXEjchbnAXg>
-    <xmx:sb2vZ64UdEzLeQeGzmY8s1S8C2cthtzJH8TMNtgGEGXX-b1PfVlkdVRm>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 14 Feb 2025 17:03:24 -0500 (EST)
-From: Ryan Walklin <ryan@testtoast.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	Ryan Walklin <ryan@testtoast.com>
-Subject: [PATCH v3 5/5] ASoC: sun4i-codec: add h616 card long_name
-Date: Sat, 15 Feb 2025 11:02:27 +1300
-Message-ID: <20250214220247.10810-6-ryan@testtoast.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250214220247.10810-1-ryan@testtoast.com>
-References: <20250214220247.10810-1-ryan@testtoast.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bn23Mbon"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-220f048c038so21024025ad.2;
+        Fri, 14 Feb 2025 16:03:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739577792; x=1740182592; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hlljIDmRX1XH1IW3oY9g1rM7wniUPX9ut1iHFiQ3C7I=;
+        b=Bn23MbonObpYsoZ2W/HbxH+Jm+kM4ZwZ4AI0XGwca4ugekWa3nVgS3mwwmGWOxV+F4
+         cnWOo9LqlHEiZQ8rvDzfEyZZY3560f+f8bwjw9xpUQy8gG0UgcVpGirkH4Mkh5xkF/r4
+         VqTRaIFXUkOtMBs+TPWNn6tAoQamdwGJfUuFhUv8iZ9ziJ/FgScOSTUMB9PMMW4WDct5
+         aVPDwlmuvOl2g2bkjyYivXYhcTKW3DMxfStmmiXKQXU26LLL8guKaw5RtGYATEmytJrN
+         g8JD3ruV0dIeQTs/Ok50Iigmf35sD/WCMiW7/TgiL2xokCudaXPdWHpw99DhcGa9DTvu
+         6XYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739577792; x=1740182592;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hlljIDmRX1XH1IW3oY9g1rM7wniUPX9ut1iHFiQ3C7I=;
+        b=epyjSObyie4bZgJBnIoixUa/3GEXfpYwtrFPr42+kAtMmGMkRkQGZOYxF8HxqIX6GT
+         vngZtQXHa6uyLc9Y97hRUm9LBDAeCJGkM+JOIldY6GCHac8TYNFrPCi3rda59Z9TioyK
+         AAvss2JBkQRt8+T6i+HAmqU6ozj4YKL54A7T1Xc6g0GsYFBYfIJ7GVGETHb4hZi3S46U
+         Fh+3tVyduqOTkw7o9tsAcCfLuc7ccXwo15X8DHqsCAj8wwrnISGCR1RGQP9p/sVztCNw
+         tTHVPeG9y3yP1Q+TlHSnXGlVhVRaguWRyrSc4wlNHaX3UQT4kQCJufbumwzq0rZvFckQ
+         NGrA==
+X-Forwarded-Encrypted: i=1; AJvYcCVHcQyIynHODI4O5qIsfPyzRKpIIU0aVJASDXrzJTtSdLEjv8bHxqRaropgQXJfZYNadO22svLwgFzrMxM=@vger.kernel.org, AJvYcCVugfKqBGStOmJeuoCBT6UYSIzSemNjm3D3dgc7dVf++Tzwu8r1XGDlySeKiECh9egBedN6owqn544RAeJl@vger.kernel.org, AJvYcCXuDlX3E9AyypkeDGcS8sppCX35Jp0r0pLrsoUAHuzQDpCx0jVBQFSSFG4nJushpXCQyAK+4lyGH9/E@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxgn77eT59VaL15w2qYiyKSo5XIsTejtkkCx3hrskI/QGQC4Ykk
+	zDwcdKeSMXGB0qoIW2Rr1fAL7a/V4E7MKXnVXQjdM+Gp4cr9cYu/
+X-Gm-Gg: ASbGncszDIwDi10AhSAIcec/T2ShPA/ro352t+7how5gKnbmBTTZGG+AD+bd117o8Xp
+	XkD433x2Wdkofh73wn6XP2pD3CO64xFagOpWodpPhJUqCuVCGMGjpOK5SXg4wYWhdtAIZ0VwSzA
+	bUvP5pfpKScuT8Z6hIOz1EBeNj+4ouU5VzCfeu9qH3SyV3nrGtXaLW2pBH97mQPthRIt9ZNIelu
+	BOO3Klvj0L2AIP7c22ubnUbXB1FNow5x6QqlTzjJen7RtH6YIKn62NaetGqUi2hSz0PVC1G3+w2
+	rAP7OLY7Hr3Wy1lniyx37X1/m4dGg9xoW/i8cbumFubgqeG6O1s4qVgtedGPRuJdkke+bz0nIZj
+	p+XAx1SDYYA==
+X-Google-Smtp-Source: AGHT+IEup2zgA/YTbycAj6IzspoC2++Jftu7jKLzx1hPV3+F+i7RaOUhB21dbPrRSyLCtfppm6LLiw==
+X-Received: by 2002:a17:902:fc4e:b0:220:ecf7:4b5c with SMTP id d9443c01a7336-22103f16d99mr19774315ad.14.1739577792063;
+        Fri, 14 Feb 2025 16:03:12 -0800 (PST)
+Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220f26ea127sm15071155ad.96.2025.02.14.16.03.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2025 16:03:11 -0800 (PST)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH 00/27] ASoC: tas27{64,70}: improve support for Apple codec
+ variants
+Date: Sat, 15 Feb 2025 10:02:33 +1000
+Message-Id: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAJnZr2cC/yWMQQqAIBQFryJ/3QcVddFVokXoqz5EiUIE0d2TW
+ g7MzE0VRVCpVzcVnFLl2BuYTlFcp30BS2pMVluvrXE85byB45EQ+TcqBwQfUjSwLlErc8Es13c
+ dxud5AZVWfeBlAAAA
+X-Change-ID: 20250214-apple-codec-changes-6e656dc1e24d
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ asahi@lists.linux.dev, James Calligeros <jcalligeros99@gmail.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik@protonmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3173;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=75ue9XmQyJ8qhP80PF/AOl1KCjY+SUIQzJSjEnRvCuw=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOnrb268Kpqxx+/WY2FLY4/4DzG3N+7VWbr5oo5UrpSnt
+ YO5IrNzRykLgxgXg6yYIsuGJiGP2UZsN/tFKvfCzGFlAhnCwMUpABPZeZyR4TDH5wyzDGvO3T3e
+ s54v3XRAtLxbx1HiubkI94EDgnn3JjL8ld63WOZ3e2io9OOT6W9nn3zUsiMtesnuKy/PJ3UcfV4
+ TyA0A
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Adding jack detection requires sound servers to act on the emitted
-events, which are described by ALSA Use Case Manager configurations in
-userspace. These configurations include the long card name in the file
-path (falling back to card->name if this is not present), so add a long
-card name for the H616 without spaces, making UCM referencing easier.
+Hi all,
 
-The corresponding ALSA UCM patch is here (now merged):
-https://github.com/alsa-project/alsa-ucm-conf/pull/491
+This series introduces a number of changes to the drivers for
+the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
+introduce (and improve in the case of TAS2770) support for the
+variants of these amps found in Apple Silicon Macs.
 
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+Apple's variant of TAS2764 is known as SN012776, and as always with
+Apple is a subtly incompatible variant with a number of quirks. It
+is not publicly available. The TAS2770 variant is known as TAS5770L,
+and does not require incompatible handling.
 
---
-Changelog v1..v2:
-- Separate patch for card->long_name
-- Note UCM patch link
+Much as with the Cirrus codec patches, I do not
+expect that we will get any official acknowledgement that these parts
+exist from TI, however I would be delighted to be proven wrong.
 
-Changelog v2..v3:
-- Add card->long_name rather than change existing card->name
+This series has been living in the downstream Asahi kernel tree[1]
+for over two years, and has been tested by many thousands of users
+by this point[2].
+
+Regards,
+James
+
+[1] https://github.com/AsahiLinux/linux/tree/asahi-wip
+[2] https://stats.asahilinux.org/
+
 ---
- sound/soc/sunxi/sun4i-codec.c | 1 +
- 1 file changed, 1 insertion(+)
+Hector Martin (14):
+      ASoC: tas2764: Enable main IRQs
+      ASoC: tas2764: Power up/down amp on mute ops
+      ASoC: tas2764: Add SDZ regulator
+      ASoC: tas2764: Add reg defaults for TAS2764_INT_CLK_CFG
+      ASoC: tas2764: Mark SW_RESET as volatile
+      ASoC: tas2764: Fix power control mask
+      ASoC: tas2764: Wait for ramp-down after shutdown
+      ASoC: tas2770: Add SDZ regulator
+      ASoC: tas2770: Power cycle amp on ISENSE/VSENSE change
+      ASoC: tas2770: Add zero-fill and pull-down controls
+      ASoC: tas2770: Support setting the PDM TX slot
+      ASoC: tas2770: Fix volume scale
+      ASoC: tas2764: Set the SDOUT polarity correctly
+      ASoC: tas2770: Set the SDOUT polarity correctly
 
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 3701f56c72756..93733ff2e32a0 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -2013,6 +2013,7 @@ static struct snd_soc_card *sun50i_h616_codec_create_card(struct device *dev)
- 	card->dev		= dev;
- 	card->owner		= THIS_MODULE;
- 	card->name		= "H616 Audio Codec";
-+	card->long_name		= "h616-audio-codec";
- 	card->driver_name	= "sun4i-codec";
- 	card->controls		= sun50i_h616_card_controls;
- 	card->num_controls	= ARRAY_SIZE(sun50i_h616_card_controls);
+James Calligeros (2):
+      ASoC: dt-bindings: tas27xx: add compatible for SN012776
+      ASoC: dt-bindings: tas2770: add compatible for TAS5770L
+
+Martin Povišer (11):
+      ASoC: tas2764: Extend driver to SN012776
+      ASoC: tas2764: Add control concerning overcurrent events
+      ASoC: tas2770: Factor out set_ivsense_slots
+      ASoC: tas2770: Fix and redo I/V sense TDM slot setting logic
+      ASoC: tas2764: Reinit cache on part reset
+      ASoC: tas2764: Configure zeroing of SDOUT slots
+      ASoC: tas2764: Apply Apple quirks
+      ASoC: tas2764: Raise regmap range maximum
+      ASoC: tas2770: Export 'die_temp' to sysfs
+      ASoC: tas2764: Export 'die_temp' to sysfs
+      ASoC: tas2764: Crop SDOUT zero-out mask based on BCLK ratio
+
+ .../bindings/sound/ti,tas2770.yaml       |   1 +
+ .../bindings/sound/ti,tas27xx.yaml       |   1 +
+ sound/soc/codecs/Kconfig                 |   1 +
+ sound/soc/codecs/tas2764-quirks.h        | 188 +++++++++++++++
+ sound/soc/codecs/tas2764.c               | 302 +++++++++++++++++++++----
+ sound/soc/codecs/tas2764.h               |  29 ++-
+ sound/soc/codecs/tas2770.c               | 264 +++++++++++++++++----
+ sound/soc/codecs/tas2770.h               |  20 ++
+ 8 files changed, 711 insertions(+), 95 deletions(-)
+---
+base-commit: cc7708ae5e2aab296203fcec774695fc9d995f48
+change-id: 20250214-apple-codec-changes-6e656dc1e24d
+
+Best regards,
 -- 
-2.48.1
+James Calligeros <jcalligeros99@gmail.com>
 
