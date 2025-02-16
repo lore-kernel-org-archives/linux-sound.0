@@ -1,108 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159872E64A;
-	Sun, 16 Feb 2025 14:23:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB9C6A33F
+	for <linux-sound@vger.kernel.org>; Sun, 16 Feb 2025 15:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739715808; cv=none; b=Ft6U3LRdKCRmoqaRF6l5Yzz0zEf+R9I78CAayXbnoz+k45DNVqm4pjc5p/Oeli2QeGTtpvEoIR6M3XGpirHAm+76Ep7qZ4e859jTL2KYejQtYRDgTBY+BWCV3oBAkRC4HVxxNh/BDJFgA5dD2cK6v7mckJIXOzGM8/9FzK1w1pY=
+	t=1739721319; cv=none; b=JaRA0jzvdgMLjFoB9c4PPxR6v5Rda7SlvnKY9JFJvIKmYI52eIRWOSmwqJE+J/fvzR3JefPIl0kLSR5iZZ/d6c1FUEsllmiJvjO1wQLkrHpu3WEFgy4td1/5LIKeoLfXmg6CneAH5BcTH4WO8QcUxUTCzeB79PUQla6mI/ga63w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739715808; c=relaxed/simple;
-	bh=CHx2ST4zktCV02lmLrwqE/s3ts+t8MfWDPW0ZGK9ATc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dRk3Tdhvi9dpfHHTmVGutLUU3b9Kujj6PnV6rgcRwdjniln7PQQMQxwBlITzz1GV3y64QjEY0w+ahdr3LHLr1rajQL3FABDVnnV1Q/iqlwyxa7JtEWFv2tMex8AOR1V7wJm4bH7boFo6QLQ80L4rEO1ApnIHIgL/7pJ6tHfAENU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nLFeQF/y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739721319; c=relaxed/simple;
+	bh=fmKJhAkPeYFVEblE7yGmDKB1vPuz4ognRbo9aIWQDQk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n7Qwp2hlJRhm1854swfXyF4GF7vS+c15BWgPR7qZkOjCk3TVyavqLj3V//knc78q1VjgoepeAfaL6fm3lZCszSx0wxKTpAhx6F5JEZRX/3uyFgpSqQrB25w/8xY4Nhg1zfdZaRdDrk7Cwc+VmjqSByIAsKLrfMicJ3hZSZat/6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=u86vVIsY; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nLFeQF/y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 340B2C4CEDD;
-	Sun, 16 Feb 2025 14:23:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739715807;
-	bh=CHx2ST4zktCV02lmLrwqE/s3ts+t8MfWDPW0ZGK9ATc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nLFeQF/y42wVWIR3fGqepgiiyhB1EMEB9TJ3SxTEdt2lKEf0g4hRNmC7jJ+NbpAOR
-	 FbMTsQsbvPG0N5aYlW699M3UJR8kOZElpZ05ZhxdLoNuqk5WQHFqIV/BOKjWqhu95I
-	 dVeYlaYtBZdi3TGnVNeIAqiSv6gHo/fwe2q80M5SxfwzQhapn+/E534ECVjw68f4Cx
-	 3Y7i7V1iYpLbT9Wj2lta8S9X3+9CVDnTMRy0TEzfct3l5Hgzlkcz0UgKcmIYqiwoeo
-	 Vn1UOBHP/I2zQV0z1jKxy/e5fBQg8ZsYsMj7VRz99WJUKJ+yOympCuVgQLJL9PAkos
-	 +KMSCyNkdXjnQ==
-Date: Sun, 16 Feb 2025 14:23:13 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Linus Walleij
- <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>, Geert
- Uytterhoeven <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay
- Abraham I <kishon@kernel.org>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, David
- Lechner <dlechner@baylibre.com>, Bartosz Golaszewski
- <bartosz.golaszewski@linaro.org>, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-sound@vger.kernel.org, Jonathan
- Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: (subset) [PATCH v3 00/15] gpiolib: add
- gpiod_multi_set_value_cansleep
-Message-ID: <20250216142313.743af564@jic23-huawei>
-In-Reply-To: <CAMRc=MefPRs-REL=OpuUFJe=MVbmeqqodp+wCxLCE8CQqdL4gQ@mail.gmail.com>
-References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
-	<173952845012.57797.11986673064009251713.b4-ty@linaro.org>
-	<CAHp75VcjAFEdaDQAMXVMO96uxwz5byWZvybhq2fdL9ur4WP3rg@mail.gmail.com>
-	<CAMRc=MefPRs-REL=OpuUFJe=MVbmeqqodp+wCxLCE8CQqdL4gQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="u86vVIsY"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-546202d633dso246820e87.2
+        for <linux-sound@vger.kernel.org>; Sun, 16 Feb 2025 07:55:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1739721316; x=1740326116; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WkW3Uzq4pFyxE3zKB7NeWEe8NL5/OGKMv8Mar8FWkgQ=;
+        b=u86vVIsYDx9zfwa3/ZhSypq++5AbM/V257JopekX0hLcIC4BYNt3Kl8zNNr905sUjs
+         8C5IE/Gajx0Jr3Drzdn2hD+qxpej2YX30QNNItS/bJpK1D5zVstdlfNDcKygOYlgnuJ9
+         DRmMJoHs2oecxWqG6llTcp0vuJ8p67FHjJxyQ9U95z9btpw3eylcbftbZ9eamtOpDdh4
+         pHEsgIhZsqegEAN9IX/Ulo5IM3vvJ7ML8aTumKDzoRWg0OfkpipXYoWKTX2oTInxEg/+
+         bxKpn9UdzEUEGYblJLRKdD7jx5iQdZ1QAGHRp3IFJun4+tX91uWR2HL+Us2YaolE0fun
+         ShKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739721316; x=1740326116;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WkW3Uzq4pFyxE3zKB7NeWEe8NL5/OGKMv8Mar8FWkgQ=;
+        b=R7h97a2bkaOv6qaaiKvEI42pScfpU+hecd/GVQhTn50fuU4/pjj0WiHpgRwXoCs+VV
+         dEF2PRvLh6x2jTgdERLnRMp8C/S7/f7d9hQv46DpPMgdnCREQbubPYXXBkIIuoPg8RiP
+         BqcN/nkpJU5Yfc6ohGw1Kzo6CHfzv0m2i3d1qWBEToxPqZmDX/G5FxvlYg0pqkeuRmlL
+         owgKAjx+fEICUObhWnlBn95UFITJVmHiUxjVWwQrN/NZvKwYMQ7hRO+Yh/jtFpJpo516
+         ABtUzScPXHA4v2cPHh+f1dLAyguvH8MQ3T1k+FotxtqFiUnu0ReXETfo9hr/t6kdAw6H
+         Lhzg==
+X-Forwarded-Encrypted: i=1; AJvYcCUnOeqErw/2jr5nUlt0Z/7i2NTJP1gBarKPYGKTTkgxmfY+CDY3JMnGRfAKRR7XcyUHxfV5CRu6hwDSbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yysz2Ug7Q3H+l6b4QAY7wkEILIdJ0/qcYcK3P5eO7S3MwcU1F9A
+	ISLso6TK8AJiyMU2hF2z/q5/m5fTtK6X/SBiTURO9SWdyJISyzh9qQT9i/yDv9QnWiSZuoG9KH+
+	jRG7h5OZd8v3JhSySy8zdJGMzuu6F+6tAbNNAEQ==
+X-Gm-Gg: ASbGncu//ylK2kl3rHN3jgoU2iqxvQ7nIjiRxASSxHBhR0KbAZ3l233n6kdDEwlJnne
+	OTHYC34747lfme1RmQ6RSniovD5kCA70NOpWkrHtsNG2Hfyv1qg/+aDUY/N4U53+NYacABkfpK0
+	2onLZ+QsQNRVM38ANzbeiXD/+EoHCF
+X-Google-Smtp-Source: AGHT+IG2BEfJtto7vZKlWMr7rwzaPz49+FDMar4oAHkHlYmVolmXyGHpWwSYEsdEq+L5tztvS5LmTmktUkAulacIOqw=
+X-Received: by 2002:a05:6512:3dab:b0:545:d72:95e5 with SMTP id
+ 2adb3069b0e04-5452fe2e42cmr2095090e87.7.1739721315922; Sun, 16 Feb 2025
+ 07:55:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
+ <173952845012.57797.11986673064009251713.b4-ty@linaro.org>
+ <CAHp75VcjAFEdaDQAMXVMO96uxwz5byWZvybhq2fdL9ur4WP3rg@mail.gmail.com>
+ <CAMRc=MefPRs-REL=OpuUFJe=MVbmeqqodp+wCxLCE8CQqdL4gQ@mail.gmail.com> <20250216142313.743af564@jic23-huawei>
+In-Reply-To: <20250216142313.743af564@jic23-huawei>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Sun, 16 Feb 2025 16:55:04 +0100
+X-Gm-Features: AWEUYZm8mDhVubH4-WZdsHqF8a_56E8frsslpTDc00yv0WTOnH25v97UXrDvKPg
+Message-ID: <CAMRc=Meq639NMz6TuOw=xQ_A8VDwA5OXoXU47JNt7x0C7jDtGQ@mail.gmail.com>
+Subject: Re: (subset) [PATCH v3 00/15] gpiolib: add gpiod_multi_set_value_cansleep
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, David Lechner <dlechner@baylibre.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 14 Feb 2025 15:37:48 +0100
-Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-
-> On Fri, Feb 14, 2025 at 3:35=E2=80=AFPM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
+On Sun, Feb 16, 2025 at 3:23=E2=80=AFPM Jonathan Cameron <jic23@kernel.org>=
+ wrote:
+>
+> On Fri, 14 Feb 2025 15:37:48 +0100
+> Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>
+> > On Fri, Feb 14, 2025 at 3:35=E2=80=AFPM Andy Shevchenko
+> > <andy.shevchenko@gmail.com> wrote:
+> > >
+> > > On Fri, Feb 14, 2025 at 12:21=E2=80=AFPM Bartosz Golaszewski <brgl@bg=
+dev.pl> wrote:
+> > > > On Mon, 10 Feb 2025 16:33:26 -0600, David Lechner wrote:
+> > > > > This series was inspired by some minor annoyance I have experienc=
+ed a
+> > > > > few times in recent reviews.
+> > >
+> > > ...
+> > >
+> > > > [07/15] iio: adc: ad7606: use gpiod_multi_set_value_cansleep
+> > > >         commit: 8203bc81f025a3fb084357a3d8a6eb3053bc613a
+> > > > [08/15] iio: amplifiers: hmc425a: use gpiod_multi_set_value_canslee=
+p
+> > > >         commit: e18d359b0a132eb6619836d1bf701f5b3b53299b
+> > > > [09/15] iio: resolver: ad2s1210: use gpiod_multi_set_value_cansleep
+> > > >         commit: 7920df29f0dd3aae3acd8a7115d5a25414eed68f
+> > > > [10/15] iio: resolver: ad2s1210: use bitmap_write
+> > > >         commit: a67e45055ea90048372066811da7c7fe2d91f9aa
+> > >
+> > > FWIW, Jonathan usually takes care of patch queue on weekends.
+> > > But whatever, it's not my business after all :-)
+> > >
 > >
-> > On Fri, Feb 14, 2025 at 12:21=E2=80=AFPM Bartosz Golaszewski <brgl@bgde=
-v.pl> wrote: =20
-> > > On Mon, 10 Feb 2025 16:33:26 -0600, David Lechner wrote: =20
-> > > > This series was inspired by some minor annoyance I have experienced=
- a
-> > > > few times in recent reviews. =20
-> >
-> > ...
-> > =20
-> > > [07/15] iio: adc: ad7606: use gpiod_multi_set_value_cansleep
-> > >         commit: 8203bc81f025a3fb084357a3d8a6eb3053bc613a
-> > > [08/15] iio: amplifiers: hmc425a: use gpiod_multi_set_value_cansleep
-> > >         commit: e18d359b0a132eb6619836d1bf701f5b3b53299b
-> > > [09/15] iio: resolver: ad2s1210: use gpiod_multi_set_value_cansleep
-> > >         commit: 7920df29f0dd3aae3acd8a7115d5a25414eed68f
-> > > [10/15] iio: resolver: ad2s1210: use bitmap_write
-> > >         commit: a67e45055ea90048372066811da7c7fe2d91f9aa =20
-> >
-> > FWIW, Jonathan usually takes care of patch queue on weekends.
-> > But whatever, it's not my business after all :-)
-> > =20
->=20
-> Too many conflicting suggestions. I just picked up all Acked patches. =C2=
-=AF\_(=E3=83=84)_/=C2=AF
+> > Too many conflicting suggestions. I just picked up all Acked patches. =
+=C2=AF\_(=E3=83=84)_/=C2=AF
+>
+> Resolution of any issues 'should' be easy enough. Let's keep an eye on ho=
+w
+> it goes as other series hit Linux next.  Might be a little work to be don=
+e there
+> and by Linus in next merge window.
+>
+> Jonathan
+>
 
-Resolution of any issues 'should' be easy enough. Let's keep an eye on how
-it goes as other series hit Linux next.  Might be a little work to be done =
-there
-and by Linus in next merge window.
+I'm totally fine with removing the iio commits from my queue if you
+prefer to take them.
 
-Jonathan
-
->=20
-> Bart
-
+Bartosz
