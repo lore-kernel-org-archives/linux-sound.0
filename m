@@ -1,73 +1,99 @@
-Received: from mx1.mythic-beasts.com (mx1.mythic-beasts.com [46.235.224.141])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD00F42070
-	for <linux-sound@vger.kernel.org>; Sun, 16 Feb 2025 23:50:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.224.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CAB42070;
+	Sun, 16 Feb 2025 23:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739749827; cv=none; b=AxuhTOGyVOTsdj9WetYCjV0LyOlODYwgEj94YxnW5n1XqzGKlVw4oQFBtO7/gNg7kEIT4NV7jwcIwluzqJqyYWGajrydMgCi4PvKpM7GV7GB8kG2vtLOn3QwT9OAaUgpZ37P7y46f0ad3jjsenn0IFnhemJlka4wYfuFuqHjK4U=
+	t=1739750074; cv=none; b=KBrt+9JTsfR+Vl9tYryUJXfMSyr2j2WIV1laHP1I0l5huDtt3hQ3JDsyHh8K/NI2z1zmqL/HRl/hZoxr6ir1J5LBRjWbZyCW0nmisHIdm01WlFUX03Ch4iCEWn+aUT8/Jo0Gd7n9TcnA7txSikGbMC29pK3hges+is/aTJYOozk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739749827; c=relaxed/simple;
-	bh=Zru3qjjZ/xHjkvhXoWel5L2BRG5dcqbEAecT6k3izBU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=BrfgmmRMzD8R60VcFwQ2nKJQBEr0IWemAtDEyKShiBZh9UJi4SF/9caoYTT0rALFz01C1AFQHe4fIB4bmO5bdihkenoCyY14+B/bxU/lWqk+fCIICUBNbfTmAFwnenD6DZlA1Tk0B62PlOaRkFO3ZICE7zVKF4a6iwZzGCtYCDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk; spf=pass smtp.mailfrom=pelago.org.uk; dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b=vDk9SP2H; arc=none smtp.client-ip=46.235.224.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pelago.org.uk
+	s=arc-20240116; t=1739750074; c=relaxed/simple;
+	bh=dRbOoNPDAav7vOon2bl1IWC4PYB584wp3fauzmyTL10=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=icw9wZaGk9/MNyGQ50QIbynuCvNigv6srsjV0cZgN/pR7mSPdSA7yVvqPPQe0zXgh91J0In36ngPdRZNcZpAwtAy5OXXlPuQznCD1rA4+4EknRgFHQ2UyL8Hivmr91zcldUIckx0mTQRMhxK835viU2ekXbGKMdAvms2lOHLTkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eVNbZTBJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b="vDk9SP2H"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=pelago.org.uk; s=mythic-beasts-k1; h=To:Subject:From:Date;
-	bh=E20lXXT++Nd36TJqc3nT2gD7SfgfFAHeV6k5+TWAs5g=; b=vDk9SP2HHs0ZoN3IAMkjh3kl4R
-	bqYMyCJU3rUgxgsn5mm+dkF53kFTp9fGBQcvQAaeiNXk8cQBsOT/o67jILRIhkztTn22aRtHaeULC
-	f+Jhu2/LeYFr1zTgs386PSqQi3BsNZWoJPjtJfhZ+dsZq3HVGWLDvog7TAMuvnV9Jern1to0zD7Nt
-	nKCEFF60xPeJvuUg4BnHF/PXoZ4RH/5PT84mXejGVyYZiNlePLqmJu4aR2pmOr+BStXUSg8rTP1UC
-	iB77u0/RnViQDeqyCyU2W+py8PU7bfQObz6V+P/U6MiCkTkEn13vEnH4ALFJ7OUnLG4J2s9Put03K
-	oJ0aXJbQ==;
-Received: by mailhub-cam-d.mythic-beasts.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <john-linux@pelago.org.uk>)
-	id 1tjnxc-00AyhI-AC; Sun, 16 Feb 2025 23:22:04 +0000
-Message-ID: <5eb4305d-48b2-43a4-a30e-2bbe8d409146@pelago.org.uk>
-Date: Sun, 16 Feb 2025 23:21:57 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVNbZTBJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BACD0C4CEDD;
+	Sun, 16 Feb 2025 23:54:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739750073;
+	bh=dRbOoNPDAav7vOon2bl1IWC4PYB584wp3fauzmyTL10=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eVNbZTBJYP00hVBmRgPdsaVj9nN1CQ5ZC7NBZp4+8tRK6NDu+dytcq3CTwLuuYk9x
+	 439TR1HYSDyPB98VHZi9M7Wk3IgyX8J8yhXXKiNn2Gm399mA1z/QFUbbg5KSdCS8Y7
+	 0h1VYTDnIgAXoDrQW/tuvRChTjJ4tMHL8XIv3wvm3pOHI9S+8rGj0pF/BQ1ahM1sZu
+	 paVUhfdiIEMWxRdZ2l49e74Sk8zqQyERNIQ+d5ScZfIZYfzzgRE9Got8xGb4R0C5ze
+	 4IzqGyqm+lRKx7SQjZ+WyI9G2winxVAw4PBWi5MD33qADqc+dT7hsK50ie355kYWGL
+	 uEId50/Ul3djw==
+Date: Sun, 16 Feb 2025 23:54:26 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: James Calligeros <jcalligeros99@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shi Fu <shifu0704@thundersoft.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH 03/27] ASoC: tas2764: Extend driver to SN012776
+Message-ID: <72674ddb-6b5f-40b1-bed8-edaf4547b27b@sirena.org.uk>
+References: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
+ <20250215-apple-codec-changes-v1-3-723569b21b19@gmail.com>
+ <Z7JtoIOECq-BjT9V@blossom>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: John Veness <john-linux@pelago.org.uk>
-Subject: [PATCH] ALSA: hda/conexant: Add quirk for HP ProBook 450 G4 mute LED
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org
-Content-Language: en-GB
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-BlackCat-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6X4NoWFeMpCzPIN9"
+Content-Disposition: inline
+In-Reply-To: <Z7JtoIOECq-BjT9V@blossom>
+X-Cookie: This is a good time to punt work.
 
-Allows the LED on the dedicated mute button on the HP ProBook 450 G4 laptop
-to change colour correctly.
 
-Signed-off-by: John Veness <john-linux@pelago.org.uk>
----
-I have only tested this with 6.13, but I expect it could be applied to older
-stable kernels too. The HP ProBook 450 G4 laptop was released in 2017. 
+--6X4NoWFeMpCzPIN9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
- sound/pci/hda/patch_conexant.c | 1 +
- 1 file changed, 1 insertion(+)
+On Sun, Feb 16, 2025 at 05:58:40PM -0500, Alyssa Rosenzweig wrote:
+> >  config SND_SOC_TAS2764
+> >  	tristate "Texas Instruments TAS2764 Mono Audio amplifier"
+> >  	depends on I2C
+> > +	depends on OF
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index 4985e72b9..34874039a 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -1090,6 +1090,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
-        SND_PCI_QUIRK(0x103c, 0x814f, "HP ZBook 15u G3", CXT_FIXUP_MUTE_LED_GPIO),
-        SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
-        SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
-+       SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
-        SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
-        SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
-        SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
--- 
-2.48.1
+> Do we want to drop support for !OF configurations? The alternative would
+> be extra #ifdef soup. I don't know if this is a useful build configuration but we should be deliberate about adding the depends.
 
+If the Apple variants of these chips are making their way into laptops
+I'd not be surprised if the other variants might appear in x86 laptops
+too.  What's the specific reason for dropping the build coverage, is it
+actually getting in the way at all?  We have lots of drivers which build
+happily with !OF even if practically speaking they'll never appear on
+such systems since it helps improve build coverage which makes life
+easier for people doing general coverage.
+
+--6X4NoWFeMpCzPIN9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeyerEACgkQJNaLcl1U
+h9CURAf+Ndu7lZbQOyYpeCgjFeV/eBVg/L33ogoUSCpxmlR7xM9XxYVkDr1XQ1JZ
+HveuFs38BCFXqubRUN5fIZKZq9RWV6B30V4j1rDNEKFtZ8BwuerFVV6b+zD2Ncjo
+tyKSvRq/EGGSh7yhVPwEgZkZbgwhe6lH05uG3/x8Q2eBKfF3qT0GITu0sxp+AIf7
+VL7hJyHjYxmxUL/JkXWQMxw8XTx3W3RpKvdOG0aexeDe9CFYjlNukg/2RwGEwebU
+dyCSkKX/iKi5weJ1k6952E0BZG6rr4sOQyNMX6gWSY/8joQcKY1YCgCzX3FcX3uI
+AayVFhpaMGpqhi1RorPXCTQ7Hr4eEw==
+=pNZo
+-----END PGP SIGNATURE-----
+
+--6X4NoWFeMpCzPIN9--
