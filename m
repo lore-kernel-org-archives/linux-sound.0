@@ -1,146 +1,73 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from mx1.mythic-beasts.com (mx1.mythic-beasts.com [46.235.224.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE6E189F39
-	for <linux-sound@vger.kernel.org>; Sun, 16 Feb 2025 23:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD00F42070
+	for <linux-sound@vger.kernel.org>; Sun, 16 Feb 2025 23:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.224.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739747046; cv=none; b=uOtn9Reuwb6ZRrFEvEB3WnU2WP8Ev47oHilouBHVXqdDUXF6CyGVPEkuciKXeb85vb0YmKXxzLHCycLTX/KiqOoyq1fr168W/rWCidAUaYUqRoovIxLIWf+OeQMM+h6DI8MyUn0AWGMzdaXEFGEeZUDLG0n1h8kaML2DH9wT5Vo=
+	t=1739749827; cv=none; b=AxuhTOGyVOTsdj9WetYCjV0LyOlODYwgEj94YxnW5n1XqzGKlVw4oQFBtO7/gNg7kEIT4NV7jwcIwluzqJqyYWGajrydMgCi4PvKpM7GV7GB8kG2vtLOn3QwT9OAaUgpZ37P7y46f0ad3jjsenn0IFnhemJlka4wYfuFuqHjK4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739747046; c=relaxed/simple;
-	bh=wkzegGe6PuDvfuysYYpmOfCYrAJvZhUqTEETXwxIkeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gZ1AtEJJTG/a+4EltUrwCDNVV/JePLuQOvT9Sakh7fEgJ+2vOXUX9P4SIjlXR7Iww4UpEzBr0BY9TQ0mfG0uQ7kr5YEyRiUFprhPVRNOWV+3TGOkQTup6XCH7sTWMEZu7kra+oJfSyqo1ICZ4aKB6N9wbpo3ZU6VdyQ1+gmFaGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=ESMd6txQ; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	s=arc-20240116; t=1739749827; c=relaxed/simple;
+	bh=Zru3qjjZ/xHjkvhXoWel5L2BRG5dcqbEAecT6k3izBU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=BrfgmmRMzD8R60VcFwQ2nKJQBEr0IWemAtDEyKShiBZh9UJi4SF/9caoYTT0rALFz01C1AFQHe4fIB4bmO5bdihkenoCyY14+B/bxU/lWqk+fCIICUBNbfTmAFwnenD6DZlA1Tk0B62PlOaRkFO3ZICE7zVKF4a6iwZzGCtYCDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk; spf=pass smtp.mailfrom=pelago.org.uk; dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b=vDk9SP2H; arc=none smtp.client-ip=46.235.224.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pelago.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="ESMd6txQ"
-Date: Sun, 16 Feb 2025 18:03:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1739747041;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5jBKuQz78Uh8OIAFgi4TgrQwNoRPu6E6igkIETLWFjs=;
-	b=ESMd6txQJdqiAM+dkUY7rHkSJxpUqdFMgq2PMVM2FJcWFxi62dlUYzkfAyu87m9vqelXz8
-	6SzMxZSRqNu8hyIPpqfV9IOLNLfsEGr3DsN8dd02Jm5wSnfwql16zisNzALr4QsyEDmZmK
-	0hi/+jrHd4d36OXpHzhImQqO/v8pk1ccLWW3LLqcZr1ugFJvhjG0MfowQweeI8mdYdOPxv
-	lNcvYkvxLWkwHuK6YWB2X+RrgHQIgHRfUUD0LqJE1H03juyrMK0k0oBHOti4CDgADNglCG
-	X/YPzL2IY4CrRbzX+Pxl+4l0tx42vE7bRX+OlQaSpbwTEceSgseQ1Hv/LGy2tg==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shi Fu <shifu0704@thundersoft.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	asahi@lists.linux.dev,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik@protonmail.com>
-Subject: Re: [PATCH 00/27] ASoC: tas27{64,70}: improve support for Apple
- codec variants
-Message-ID: <Z7Ju3HFQaLKgQJmC@blossom>
-References: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
+	dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b="vDk9SP2H"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=pelago.org.uk; s=mythic-beasts-k1; h=To:Subject:From:Date;
+	bh=E20lXXT++Nd36TJqc3nT2gD7SfgfFAHeV6k5+TWAs5g=; b=vDk9SP2HHs0ZoN3IAMkjh3kl4R
+	bqYMyCJU3rUgxgsn5mm+dkF53kFTp9fGBQcvQAaeiNXk8cQBsOT/o67jILRIhkztTn22aRtHaeULC
+	f+Jhu2/LeYFr1zTgs386PSqQi3BsNZWoJPjtJfhZ+dsZq3HVGWLDvog7TAMuvnV9Jern1to0zD7Nt
+	nKCEFF60xPeJvuUg4BnHF/PXoZ4RH/5PT84mXejGVyYZiNlePLqmJu4aR2pmOr+BStXUSg8rTP1UC
+	iB77u0/RnViQDeqyCyU2W+py8PU7bfQObz6V+P/U6MiCkTkEn13vEnH4ALFJ7OUnLG4J2s9Put03K
+	oJ0aXJbQ==;
+Received: by mailhub-cam-d.mythic-beasts.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <john-linux@pelago.org.uk>)
+	id 1tjnxc-00AyhI-AC; Sun, 16 Feb 2025 23:22:04 +0000
+Message-ID: <5eb4305d-48b2-43a4-a30e-2bbe8d409146@pelago.org.uk>
+Date: Sun, 16 Feb 2025 23:21:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+From: John Veness <john-linux@pelago.org.uk>
+Subject: [PATCH] ALSA: hda/conexant: Add quirk for HP ProBook 450 G4 mute LED
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org
+Content-Language: en-GB
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-BlackCat-Spam-Score: 0
 
-This looks much better than the v0 I eyeballed last week, good stuff :-)
-Will leave the technical review on this to people who know more audio
-than me but it /looks/ just about right to me. Thanks for getting this
-into shape and submitting it, James :-)
+Allows the LED on the dedicated mute button on the HP ProBook 450 G4 laptop
+to change colour correctly.
 
-Le Sat, Feb 15, 2025 at 10:02:33AM +1000, James Calligeros a écrit :
-> Hi all,
-> 
-> This series introduces a number of changes to the drivers for
-> the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
-> introduce (and improve in the case of TAS2770) support for the
-> variants of these amps found in Apple Silicon Macs.
-> 
-> Apple's variant of TAS2764 is known as SN012776, and as always with
-> Apple is a subtly incompatible variant with a number of quirks. It
-> is not publicly available. The TAS2770 variant is known as TAS5770L,
-> and does not require incompatible handling.
-> 
-> Much as with the Cirrus codec patches, I do not
-> expect that we will get any official acknowledgement that these parts
-> exist from TI, however I would be delighted to be proven wrong.
-> 
-> This series has been living in the downstream Asahi kernel tree[1]
-> for over two years, and has been tested by many thousands of users
-> by this point[2].
-> 
-> Regards,
-> James
-> 
-> [1] https://github.com/AsahiLinux/linux/tree/asahi-wip
-> [2] https://stats.asahilinux.org/
-> 
-> ---
-> Hector Martin (14):
->       ASoC: tas2764: Enable main IRQs
->       ASoC: tas2764: Power up/down amp on mute ops
->       ASoC: tas2764: Add SDZ regulator
->       ASoC: tas2764: Add reg defaults for TAS2764_INT_CLK_CFG
->       ASoC: tas2764: Mark SW_RESET as volatile
->       ASoC: tas2764: Fix power control mask
->       ASoC: tas2764: Wait for ramp-down after shutdown
->       ASoC: tas2770: Add SDZ regulator
->       ASoC: tas2770: Power cycle amp on ISENSE/VSENSE change
->       ASoC: tas2770: Add zero-fill and pull-down controls
->       ASoC: tas2770: Support setting the PDM TX slot
->       ASoC: tas2770: Fix volume scale
->       ASoC: tas2764: Set the SDOUT polarity correctly
->       ASoC: tas2770: Set the SDOUT polarity correctly
-> 
-> James Calligeros (2):
->       ASoC: dt-bindings: tas27xx: add compatible for SN012776
->       ASoC: dt-bindings: tas2770: add compatible for TAS5770L
-> 
-> Martin Povišer (11):
->       ASoC: tas2764: Extend driver to SN012776
->       ASoC: tas2764: Add control concerning overcurrent events
->       ASoC: tas2770: Factor out set_ivsense_slots
->       ASoC: tas2770: Fix and redo I/V sense TDM slot setting logic
->       ASoC: tas2764: Reinit cache on part reset
->       ASoC: tas2764: Configure zeroing of SDOUT slots
->       ASoC: tas2764: Apply Apple quirks
->       ASoC: tas2764: Raise regmap range maximum
->       ASoC: tas2770: Export 'die_temp' to sysfs
->       ASoC: tas2764: Export 'die_temp' to sysfs
->       ASoC: tas2764: Crop SDOUT zero-out mask based on BCLK ratio
-> 
->  .../bindings/sound/ti,tas2770.yaml       |   1 +
->  .../bindings/sound/ti,tas27xx.yaml       |   1 +
->  sound/soc/codecs/Kconfig                 |   1 +
->  sound/soc/codecs/tas2764-quirks.h        | 188 +++++++++++++++
->  sound/soc/codecs/tas2764.c               | 302 +++++++++++++++++++++----
->  sound/soc/codecs/tas2764.h               |  29 ++-
->  sound/soc/codecs/tas2770.c               | 264 +++++++++++++++++----
->  sound/soc/codecs/tas2770.h               |  20 ++
->  8 files changed, 711 insertions(+), 95 deletions(-)
-> ---
-> base-commit: cc7708ae5e2aab296203fcec774695fc9d995f48
-> change-id: 20250214-apple-codec-changes-6e656dc1e24d
-> 
-> Best regards,
-> -- 
-> James Calligeros <jcalligeros99@gmail.com>
-> 
+Signed-off-by: John Veness <john-linux@pelago.org.uk>
+---
+I have only tested this with 6.13, but I expect it could be applied to older
+stable kernels too. The HP ProBook 450 G4 laptop was released in 2017. 
+
+ sound/pci/hda/patch_conexant.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+index 4985e72b9..34874039a 100644
+--- a/sound/pci/hda/patch_conexant.c
++++ b/sound/pci/hda/patch_conexant.c
+@@ -1090,6 +1090,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+        SND_PCI_QUIRK(0x103c, 0x814f, "HP ZBook 15u G3", CXT_FIXUP_MUTE_LED_GPIO),
+        SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
+        SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
++       SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
+        SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
+        SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+        SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+-- 
+2.48.1
+
