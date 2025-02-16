@@ -1,81 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D5718B484;
-	Sat, 15 Feb 2025 07:52:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3906A1624E7;
+	Sun, 16 Feb 2025 13:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739605937; cv=none; b=A4tpJeqgJLql4vLTaI3nEgPDKfxt1eeil37aF0EM3X1rd9yYpr2aA72OT041TOHLxN4CNAw/3Kzgi+jwCTsa6UOPA5FzSoj0BuK0zmd4Kby3NajEbOPP4t4ZaaLOp03JH9UadtePwhpFYkITXDeZGlpHhPK+s6OUQ2dGdHzODGA=
+	t=1739710989; cv=none; b=LDgko5y5582/MAnTr2HLM8o5WDHEkZH0prAZ0hZPdSYuYLJga983NtL8NsNfmxeQTpUjG+JlAwqxBjY7s3krQ4ESnSIhRJ0xLyOQ8aAijbBOKFhMkvLA8a/+hmMa7vs+6BKOgEntW3983UXfaO4lnPHlE5Jv9vXGt7ShLtWqYlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739605937; c=relaxed/simple;
-	bh=iEO4fZVVqTnk+DHtCerwPLANOhBbouzKPWaUP8b/LgI=;
+	s=arc-20240116; t=1739710989; c=relaxed/simple;
+	bh=SY1bppY9XWbNItLiPZtP5Z/ine5onr/3mr/FP+7Wreo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RbiqVp9kvnpnLE3o2EeLJjpnONWtPTdTnX0v9gViadnqN6yL6BAmo9xZSJrZXnUDhc/yB8kdHLJhUCQ0vOGR94pxOmGMwxF+KMC88JfdHVJgGZ2nscVY5KZcMG3kkLzRJDNhohP9JLF8XCWQ4udr2MRMAc8/AStbGANC+Za02Z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=O7UlnbKr; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MZfBeM1jPdFAaVXTWlHymdBQKIbxedFsrQRTOzJKTIPdZ74jyKVG3RDmFbosuJVfjKC4JTIAF8HZ9JLmI/v4RLxdL6CWu6C2eP3XpDfJvR7N9FpZFqn1jiZA1Ceahqn10LZ4YyFmA6pqL9Oi79QiXFoKps/wl0QlfGVPQ6lJNyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iPJmzPJ0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="O7UlnbKr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4EF4C4CEDF;
-	Sat, 15 Feb 2025 07:52:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1739605936;
-	bh=iEO4fZVVqTnk+DHtCerwPLANOhBbouzKPWaUP8b/LgI=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iPJmzPJ0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02FCFC4CEDD;
+	Sun, 16 Feb 2025 13:03:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739710988;
+	bh=SY1bppY9XWbNItLiPZtP5Z/ine5onr/3mr/FP+7Wreo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O7UlnbKrM3z04uhmrFgA8uEAq5rEViUUqd0AYd13/LDeu31ccU+fw4BUo6lqSaurF
-	 VRbdHPy/7IBAiQagjEurhJKemUnOaajIAgoRZf1Bs1fgjnBLlanW4N9+THzs/DONUT
-	 q2kKNkIf1yvRcl8gJNdWYeHE0MZfFLaBZPfVg6So=
-Date: Sat, 15 Feb 2025 08:52:13 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, tiwai@suse.com,
-	krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
-	Thinh.Nguyen@synopsys.com, robh@kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v34 00/31] Introduce QC USB SND audio offloading support
-Message-ID: <2025021500-clang-suspect-0cb3@gregkh>
-References: <20250121210518.2436771-1-quic_wcheng@quicinc.com>
- <3b9447e2-4be8-479b-a418-5fd45369fb55@quicinc.com>
- <2025021413-favorable-manatee-6859@gregkh>
- <f5dfc875-d5bd-49d7-b998-6d25f59e849a@quicinc.com>
+	b=iPJmzPJ0urkkWLi/8fuB6IGhKQCgIwemIpEbsnmsPa4GJRJEs9MTKRDC748+b6egY
+	 GgMNmk/tkLrcb5bWFkZAbWWbkiUUmDj1RR/+uOCbrg4bklkVAeJiVA4MfhjkHg7gmW
+	 PzGbSUcfOm1c4VIzWAMNO9tcWMR1iXniF2R0/PTIrBrpEUcPjiMLXgQEQNSsKl/cGa
+	 h2SJUrFiH1BY1HdIoZDKCY6ZETtxeSFw6cbsa6W9NeGWbEt/IbLxz9G4iEfVCdWROX
+	 ZXamjuOu02FVxZDOlTwvFm3rjJvvDf9111Pn70kWzWBtYXzVe5gvqwKym091J/afeb
+	 wodG2nKCwzJuQ==
+Date: Sun, 16 Feb 2025 14:03:05 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Nikola Jelic <nikola.jelic83@gmail.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, 
+	tiwai@suse.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rwalton@cmlmicro.com
+Subject: Re: [PATCH 1/2 V4] ASoC: dt-bindings: Add cmx655 codec
+Message-ID: <20250216-fearless-arcane-koel-3c75ad@krzk-bin>
+References: <20250214215826.80878-1-nikola.jelic83@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f5dfc875-d5bd-49d7-b998-6d25f59e849a@quicinc.com>
+In-Reply-To: <20250214215826.80878-1-nikola.jelic83@gmail.com>
 
-On Fri, Feb 14, 2025 at 07:07:15PM -0800, Wesley Cheng wrote:
-> Hi Greg,
+On Fri, Feb 14, 2025 at 10:58:01PM +0100, Nikola Jelic wrote:
+> Signed-off-by: Nikola Jelic <nikola.jelic83@gmail.com>
 > 
-> On 2/14/2025 12:33 AM, Greg KH wrote:
-> > On Tue, Feb 11, 2025 at 12:35:23PM -0800, Wesley Cheng wrote:
-> >> Hi,
-> >>
-> >> On 1/21/2025 1:04 PM, Wesley Cheng wrote:
-> >>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
-> >>>
-> >>
-> >> Just seeing if we have any further feedback on this series? Thanks.
-> > 
-> > Given the lack of responses, and the huge number of iterations of this,
-> > I've applied it now to my usb-testing branch to give 0-day some better
-> > runs at it.  If it passes that in a few days, I'll move it to my
-> > usb-next branch for inclusion into linux-next and hopefully 6.15-rc1.
-> > 
-> > thanks for sticking with this!
-> > 
-> 
-> I saw that kernel test bot reported some sparse errors.  I had some issue with my config and looks like sparse wasn't actually scanning the files I added.  Will fix that and resubmit another rev that addresses any errors.  Apologies for not catching this beforehand.
+> ---
+> V3 -> V4: review remarks
 
-Not a problem, I've dropped them all from my tree now.
+You keep sending the same, not responding to comments and not fixing
+them. Still nothing improved - same problems as v1.
 
-thanks,
+What above changelog even mean?
 
-greg k-h
+Please respond to the feedback, the best to the v1 which you received,
+that you acknowledge and implement it. If you have questions, then ask.
+Sending something with the same mistakes for 5th or 6th time means we do
+not understand each other.
+
+Best regards,
+Krzysztof
+
