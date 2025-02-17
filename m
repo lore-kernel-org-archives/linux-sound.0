@@ -1,91 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD4121CC6F;
-	Mon, 17 Feb 2025 13:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F052621CC42;
+	Mon, 17 Feb 2025 14:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739799518; cv=none; b=GIo6kMwZIziYCHMm+kfGwIa0UZ9CIXBJyfQ+8Qkd/WuQIgTZF7LS+Dzpi0cHcs2DB62bPQzH0gJmHNU1iF5DTmmkpr0ozqc9z/96sNPhtEUWTT8YnAReCyEGzrY9MVbZYpvmN+lA1Tvu7Xmfg5kYZCaTVzHtghl/0c8NSGIAJy0=
+	t=1739800937; cv=none; b=u25qMco5EFBYhpHWUUHFXf8WuttWFAUnp4AzyVfavMmcJVa5w/732kepHjZToIvuvdjbZeNJ6bhPTDhVALxBv7J2fTAZ26cREizJbpBAj/1CCTrWHSXk4fsqHL32FTgP9yVVsIXGEggJF05pAzQbWQGYr/EnA/Wo0vqKPtIqcHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739799518; c=relaxed/simple;
-	bh=bwCO4+Tx7gU9kUyzPdUYqi6Fd1HdmEggPCYdx85+U/o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oCq7akINQuHZ6j8ZxbQp26d7c0FdHkyScR1eXyI6maqWmGBNOTilZPAf5aGF22Nos3LgIAqyNFa6J1+sNNsYItHzqBcpLwazw74vPQidbK77n0li27fnerVSp3o5AMcx3Cjz8MSSJ4NfZ26m270gzk9mv8hb4nti+jG/DrVy7BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qk/EGXLn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739800937; c=relaxed/simple;
+	bh=kfkeDYaU/dVnJVEN5e+VabJI8XJNukmOaSEstRDdNKg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VpP3TE25B13/sZBlQHhYdMzMzysR4lIHP3Cclphr4eU9vP1G2LztVr0fQHVbSvOAR6Lbj4oUNbyR78yoDN7qDu7QtLW0NjVXYZBJyiuhKA4pBTDHZiJJgNX++2V0QcwLMP5VT8jjViGGY7t+Mm5947lbJc2UsO+ZExDmvViNmk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=XeBHt+5d; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qk/EGXLn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD824C4CEED;
-	Mon, 17 Feb 2025 13:38:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739799517;
-	bh=bwCO4+Tx7gU9kUyzPdUYqi6Fd1HdmEggPCYdx85+U/o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Qk/EGXLn7F902xvWDvKE6FwxOw1KzFO7iVEOae3RtqfftpqjaCM+oGHOtXYCahIA0
-	 HDYspxq0acnsHBfPShS7EOaY7oek69wGYZztg9yZyptrDdDRYa+kXFaQmlmC1Qcsmq
-	 aJA5iHPNEqqcKOGrFJyrPY1p6Wcv1XBHsSxRTiB4FjjEasSxyL2j47qNabdlgAhEFK
-	 3cjW4d6oiOwWPMG9TUNjIwfOzNbdnLcC2HMRYMGNw8emFvWPgsQbxA/MnpXajR7Z8k
-	 mkjVwgvxbRkd77NtMRnA/J6PkCupdDxImbvU8RhY+auuHfokPmMNMoUCV/9nfEsXIA
-	 ekJbjVthZPZlQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Rander Wang <rander.wang@intel.com>, Fred Oh <fred.oh@linux.intel.com>, 
- Peter Zijlstra <peterz@infradead.org>, 
- Thorsten Blum <thorsten.blum@linux.dev>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250210120132.53831-2-thorsten.blum@linux.dev>
-References: <20250210120132.53831-2-thorsten.blum@linux.dev>
-Subject: Re: [PATCH] ASoC: SOF: Intel: Use str_enable_disable() helper
-Message-Id: <173979951452.40079.1050416586788749768.b4-ty@kernel.org>
-Date: Mon, 17 Feb 2025 13:38:34 +0000
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="XeBHt+5d"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51HCcKM0008975;
+	Mon, 17 Feb 2025 08:02:01 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=aXywMi9MJQ31GNPV
+	ZBE09RlVxjK+AkC/PXIrTo2PFI8=; b=XeBHt+5d33atooeewNQ7Fd0QlbzWmZou
+	xwaXRbYl+vH4ZK/5N2mWUVOitG3/aodxShoE7QTHQB2VmjtPpUfky6SzGJk1t/Kb
+	YnygF8ZH96sGB9RRPdapDhINET5kFtR3Cu1vrF8wLlETb9iysKpb1sQyBHJQlVc3
+	Rh9xqzDk/vlL9xrlS+ZG3boDnwOKOqQmBU36gmyz/dqh7lVBuubcpGtYPdOEXpfk
+	Kb3vgRez2Fppi5L1oTOUSq/xOEisvLbFl6PnlAuj9E5efypDeiHC3YV1Km2MOlFR
+	yU5ZhX6L5KkZfBE8riVZVknLx8alraGDL6fZnSkzBFxAi36QaiVbhQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44uwg18x31-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Feb 2025 08:02:01 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 17 Feb
+ 2025 14:01:59 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Mon, 17 Feb 2025 14:01:59 +0000
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id B5451822561;
+	Mon, 17 Feb 2025 14:01:59 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <peter.ujfalusi@linux.intel.com>,
+        <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>
+Subject: [PATCH 0/4] Add SDCA register map support
+Date: Mon, 17 Feb 2025 14:01:55 +0000
+Message-ID: <20250217140159.2288784-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: AgCBs5DDDpcugdzOABSlKJvgIPrnCma_
+X-Proofpoint-ORIG-GUID: AgCBs5DDDpcugdzOABSlKJvgIPrnCma_
+X-Authority-Analysis: v=2.4 cv=CYzy5Krl c=1 sm=1 tr=0 ts=67b34159 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=Vaa6vib34c3EycRUSZkA:9
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, 10 Feb 2025 13:01:30 +0100, Thorsten Blum wrote:
-> Remove hard-coded strings by using the str_enable_disable() helper
-> function.
-> 
-> 
+This series is the next step of adding SDCA support. Here we add
+helper functions to allow drivers to easily use the SDCA DisCo
+information to create a register map for the device.
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: SOF: Intel: Use str_enable_disable() helper
-      commit: e08fe24c34d37d00e84009f2fb4c35f5978041e6
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+The basic idea here is the code takes the list of SDCA controls parsed
+from DisCo and uses primarily the Access Mode to determine if the
+register should be marked as readable/writable etc. Further more
+some additional concepts such as DisCo Constants and Defaults are
+handled. There is some potential confusion, as DisCo Constants are
+handled as an entry in the regmap defaults table, whereas a DisCo
+Default is simply handled as a write to the register. Alas the naming
+confusion is an unavoidable result of the slight impedance mismatch
+between the two systems.
 
 Thanks,
-Mark
+Charles
+
+Charles Keepax (4):
+  regcache: Add support for sorting defaults arrays
+  ASoC: SDCA: Add generic regmap SDCA helpers
+  ASoC: SDCA: Add regmap helpers for parsing for DisCo Constant values
+  ASoC: SDCA: Add helper to write out defaults and fixed values
+
+ drivers/base/regmap/regcache.c |  31 ++++
+ include/linux/regmap.h         |   7 +
+ include/sound/sdca_regmap.h    |  31 ++++
+ sound/soc/sdca/Makefile        |   2 +-
+ sound/soc/sdca/sdca_regmap.c   | 321 +++++++++++++++++++++++++++++++++
+ 5 files changed, 391 insertions(+), 1 deletion(-)
+ create mode 100644 include/sound/sdca_regmap.h
+ create mode 100644 sound/soc/sdca/sdca_regmap.c
+
+-- 
+2.39.5
 
