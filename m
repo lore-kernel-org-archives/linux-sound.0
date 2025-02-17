@@ -1,111 +1,313 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF70E2163AD;
-	Mon, 17 Feb 2025 09:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6355F2165E3
+	for <linux-sound@vger.kernel.org>; Mon, 17 Feb 2025 10:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739786259; cv=none; b=c2QorVMJp8kcv75QWDT9YPBvNKZ/lBngN3Cp3MsI7kUmj647z08t9dCxZYUiG7mPVJI4ALwLxN5C4ArSiGA6lCpxauXEgYcwW94v2fL9R0v64X3/6FfdKjp2NIFjbqGbzWbX6o7/Pu/hVuuAlWO+JF0QZLbYzp6GytaPQTA3FSE=
+	t=1739786542; cv=none; b=sClV3sS6icQHSXb+fORDL7lVIz0yncHbwoy+XqKGC8NXvWkkDTHnB/s3bBQaW9OfSpqkb58GAIim4BW6yvDljnEd2mzzPSvnDirQ5V6u1srSCKNvz+of3SmplVDM5I70p7xt3I8+2dmrvs1FbzAsYLNGpRFzdrqdiJyDz87WxLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739786259; c=relaxed/simple;
-	bh=ff/ojdVCfYwCjERwRe/r6CKIxlJq2Z0EEhLcqhySaGA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=asCUVut2Dwzgmqj/CxyfSwdzS57VGuXJ3INqDroxg2VsAxVeJK7zFabJQFMsUtfGIURYrY11TeTSo9BQG4ou+kN58oBCPTk35zqHmi36OzKgG5DUH4Uu4S4Zn4+/HHj14Ue6lOH+n0qQqk5/WZEW3ogRYemlQKe+7iA/7t54AEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=MIKIQw9U; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1739786542; c=relaxed/simple;
+	bh=nACg6DT5VGn5eRpJp6XUU9IwP23zS21ckD3gLftmPeA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kc+2lS1u/oFLJOV2rmPJKz+Gcrzk0/gJHF5WkJDHDLmCLkypM1WduoFTZXLiAyMcbjUP7lKUvUZo597ZjT8OxkPtjZZ8npNChrEGvJ5OqY2usR0Yt8rqm6TlkdeDgx0UKyd8rtJvNuJvFgG7QM6LmurUacLdtzHMgZwFkqqDJg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VL6NvyDt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jbPvxmCf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D0phiIw9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lhFa6Qn+; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="MIKIQw9U"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51H6wncn032475;
-	Mon, 17 Feb 2025 03:57:06 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=VQnPTbRnGx3MDcwlem
-	XHsudsRqJWoOG4TTIJvD7dU94=; b=MIKIQw9UHMR+nhAJNeX77+8ZgBYF3r6t0L
-	ZynOZRXOCsPGNgM0/jaTybOXbOwRKNRBHm49LaLhRQJKazuoCzuQIk3fu3oh7Kr2
-	FGTTDRIyfsmsUgo5sQByZtdfxMfbJXTB7oj+WkZXcGFL2MK2XNnowsB7xJcFCJuO
-	YS1mwChT3ddp8HplGu+kQuonyOCsueBfwBxfuhQI9ecdm2J4erwQ2xJYUGyicC6F
-	pi7LiPmU5FFwL6C8vpdHDxWibCe2tcHxylSjOnwOND7kqkGf5KVrWBWKshEgTXeK
-	HH54jNoTuvvnW8GU8FY9oKF7Fdh3u6AQhg9IuwflgzwRmFX8IVoA==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 44ts75uhpr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Feb 2025 03:57:06 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 17 Feb
- 2025 09:57:03 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Mon, 17 Feb 2025 09:57:03 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id C4BB3822561;
-	Mon, 17 Feb 2025 09:57:03 +0000 (UTC)
-Date: Mon, 17 Feb 2025 09:57:02 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Francesco Dolcini <francesco@dolcini.it>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        "Rob
- Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor
- Dooley" <conor+dt@kernel.org>,
-        Saravana Kannan <saravanak@google.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        <patches@opensource.cirrus.com>,
-        Ernest Van Hoecke
-	<ernest.vanhoecke@toradex.com>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        "Francesco
- Dolcini" <francesco.dolcini@toradex.com>
-Subject: Re: [PATCH v1 2/5] ASoC: wm8904: Don't touch GPIO configs set to
- 0xFFFF
-Message-ID: <Z7MH7nZHq7GXRoQP@opensource.cirrus.com>
-References: <20250206163152.423199-1-francesco@dolcini.it>
- <20250206163152.423199-3-francesco@dolcini.it>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VL6NvyDt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jbPvxmCf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D0phiIw9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lhFa6Qn+"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 78095211AB;
+	Mon, 17 Feb 2025 10:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739786538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ifCPHsw4hKKup1+tTs8oRsM/KAt89MFr4TFT5o+3jB8=;
+	b=VL6NvyDtBD4IkqizvIRD7R/vRQUOwfrCBbV+FNuZbpVETHzLVvLj8SaSBjtpfkkqtw/xqu
+	Zb6Elr2afgrsHz7UxSrx18rHOHK1pTvlqx/+Strzuab5+U9shFEMP5hJReKmbg263K6wjV
+	hBDdYHW3XbCfA3uzpc4sRvEJ8TLaWS4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739786538;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ifCPHsw4hKKup1+tTs8oRsM/KAt89MFr4TFT5o+3jB8=;
+	b=jbPvxmCfkQ4WQJV4zuxwUr+CcnnVea6xjLbdOukArmIfjsPhVtOdcIwFb1b8Yntg9uMAoY
+	JGIxrMJ45vvl/wAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739786537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ifCPHsw4hKKup1+tTs8oRsM/KAt89MFr4TFT5o+3jB8=;
+	b=D0phiIw9+5XFlGLx8NwTfOKGdoF3NMMOtW8IFfolIqA01PFh8hTylfBx5XgWvbe3k3oVIp
+	a6gtbx3UEy6WnILDxZiqNMug/98V08vwSkxBaB4sIYCFbc4hLLhN8daeAKuqWDKZrGUBNL
+	dT4swSQrfL5Kisp6MF6EhDBp1xfVmKE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739786537;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ifCPHsw4hKKup1+tTs8oRsM/KAt89MFr4TFT5o+3jB8=;
+	b=lhFa6Qn+ZyerYMUxhp+UCMfLykJxzEgBjzr7niL9d5s9yF8ban/JvOnADbNyzw7LPnFl9f
+	+i0l4bzicVe9tHAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D5AF0133F9;
+	Mon, 17 Feb 2025 10:02:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pMgJMSgJs2c7SQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 17 Feb 2025 10:02:16 +0000
+Date: Mon, 17 Feb 2025 11:02:16 +0100
+Message-ID: <87jz9o99ef.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Shuming Fan <shumingf@realtek.com>,
+	Qiu Wenbo <qiuwenbo@kylinos.com.cn>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP EliteBook 855 G7
+In-Reply-To: <7461f695b4daed80f2fc4b1463ead47f04f9ad05.1739741254.git.mail@maciej.szmigiero.name>
+References: <7461f695b4daed80f2fc4b1463ead47f04f9ad05.1739741254.git.mail@maciej.szmigiero.name>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250206163152.423199-3-francesco@dolcini.it>
-X-Proofpoint-GUID: RxRjI2Z8tOCwjc_wg2qm43HxgoGQ0ko2
-X-Authority-Analysis: v=2.4 cv=fepXy1QF c=1 sm=1 tr=0 ts=67b307f2 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=kj9zAlcOel0A:10 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=m8ToADvmAAAA:8 a=2M6oOL_jOPCmwRCwdCkA:9 a=CjuIK1q_8ugA:10
- a=YXXWInSmI4Sqt1AkVdoW:22 a=kCrBFHLFDAq2jDEeoMj9:22
-X-Proofpoint-ORIG-GUID: RxRjI2Z8tOCwjc_wg2qm43HxgoGQ0ko2
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Thu, Feb 06, 2025 at 05:31:49PM +0100, Francesco Dolcini wrote:
-> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
+On Sun, 16 Feb 2025 22:31:03 +0100,
+Maciej S. Szmigiero wrote:
 > 
-> When updating the GPIO registers, do nothing for all fields of gpio_cfg
-> that are "0xFFFF".
+> PC speaker works well on this platform in BIOS and in Linux until sound
+> card drivers are loaded. Then it stops working.
 > 
-> This "do nothing" flag used to be 0 to easily check whether the gpio_cfg
-> field was actually set inside pdata or left empty (default).
+> There seems to be a beep generator node at 0x1a in this CODEC
+> (ALC269_TYPE_ALC215) but it seems to be only connected to capture mixers
+> at nodes 0x22 and 0x23.
+> If I unmute the mixer input for 0x1a at node 0x23 and start recording
+> from its "ALC285 Analog" capture device I can clearly hear beeps in that
+> recording.
 > 
-> However, 0 is a valid configuration for these registers, while 0xFFFF is
-> not.
+> So the beep generator is indeed working properly, however I wasn't able to
+> figure out any way to connect it to speakers.
 > 
-> With this change, users can explicitly set them to 0. Not setting
-> gpio_cfg in the platform data will now lead to setting all GPIO
-> registers to 0 instead of leaving them unset.
+> However, the bits in the "Passthrough Control" register (0x36) seems to
+> work at least partially: by zeroing "B" and "h" and setting "S" I can at
+> least make the PIT PC speaker output appear either in this laptop speakers
+> or headphones (depending on whether they are connected or not).
 > 
-> No one is using this platform data with this codec.
 > 
-> The change gets the driver ready to properly set gpio_cfg from the DT.
+> There are some caveats, however:
+> * If the CODEC gets runtime-suspended the beeps stop so it needs HDA beep
+> device for keeping it awake during beeping.
 > 
-> Datasheet: https://statics.cirrus.com/pubs/proDatasheet/WM8904_Rev4.1.pdf
-> Signed-off-by: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> * If the beep generator node is generating any beep the PC beep passthrough
+> seems to be temporarily inhibited, so the HDA beep device has to be
+> prevented from using the actual beep generator node - but the beep device
+> is still necessary due to the previous point.
+> 
+> * In contrast with other platforms here beep amplification has to be
+> disabled otherwise the beeps output are WAY louder than they were on pure
+> BIOS setup.
+> 
+> 
+> Unless someone (from Realtek probably) knows how to make the beep generator
+> node output appear in speakers / headphones using PC beep passthrough seems
+> to be the only way to make PC speaker beeping actually work on this
+> platform.
+> 
+> Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
 > ---
+> 
+> Since more than 6 weeks has now passed since the previous version of this
+> patch was posted, yet no better or other solution was provided I'm
+> re-submitting an updated version of the original patch.
+>     
+> This solution has been working fine for me on this platform all that time,
+> without any obvious issues.
+>     
+> Changes from v1:
+> * Correct the typo in !IS_ENABLED(CONFIG_INPUT_PCSPKR) code that the
+> kernel test robot found.
+>     
+> * Change codec_warn() into dev_warn_once(hda_codec_dev(codec))
+> to avoid spamming the kernel log at runtime PM CODEC re-init.
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+This is really a thing to be checked by Realtek people at first, as
+it's very vendor-specific thing.
 
-Thanks,
-Charles
+Kailang, please check this.
+
+And, except for that, I'm still concerned by the behavior change.
+Also the caveat you mentioned about the runtime PM raises some doubt,
+too.
+
+
+thanks,
+
+Takashi
+
+> 
+>  include/sound/hda_codec.h     |  1 +
+>  sound/pci/hda/hda_beep.c      | 15 +++++++++------
+>  sound/pci/hda/patch_realtek.c | 34 +++++++++++++++++++++++++++++++++-
+>  3 files changed, 43 insertions(+), 7 deletions(-)
+> 
+> diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+> index 575e55aa08ca..c1fe6290d04d 100644
+> --- a/include/sound/hda_codec.h
+> +++ b/include/sound/hda_codec.h
+> @@ -195,6 +195,7 @@ struct hda_codec {
+>  	/* beep device */
+>  	struct hda_beep *beep;
+>  	unsigned int beep_mode;
+> +	bool beep_just_power_on;
+>  
+>  	/* widget capabilities cache */
+>  	u32 *wcaps;
+> diff --git a/sound/pci/hda/hda_beep.c b/sound/pci/hda/hda_beep.c
+> index e51d47572557..13a7d92e8d8d 100644
+> --- a/sound/pci/hda/hda_beep.c
+> +++ b/sound/pci/hda/hda_beep.c
+> @@ -31,8 +31,9 @@ static void generate_tone(struct hda_beep *beep, int tone)
+>  			beep->power_hook(beep, true);
+>  		beep->playing = 1;
+>  	}
+> -	snd_hda_codec_write(codec, beep->nid, 0,
+> -			    AC_VERB_SET_BEEP_CONTROL, tone);
+> +	if (!codec->beep_just_power_on)
+> +		snd_hda_codec_write(codec, beep->nid, 0,
+> +				    AC_VERB_SET_BEEP_CONTROL, tone);
+>  	if (!tone && beep->playing) {
+>  		beep->playing = 0;
+>  		if (beep->power_hook)
+> @@ -212,10 +213,12 @@ int snd_hda_attach_beep_device(struct hda_codec *codec, int nid)
+>  	struct hda_beep *beep;
+>  	int err;
+>  
+> -	if (!snd_hda_get_bool_hint(codec, "beep"))
+> -		return 0; /* disabled explicitly by hints */
+> -	if (codec->beep_mode == HDA_BEEP_MODE_OFF)
+> -		return 0; /* disabled by module option */
+> +	if (!codec->beep_just_power_on) {
+> +		if (!snd_hda_get_bool_hint(codec, "beep"))
+> +			return 0; /* disabled explicitly by hints */
+> +		if (codec->beep_mode == HDA_BEEP_MODE_OFF)
+> +			return 0; /* disabled by module option */
+> +	}
+>  
+>  	beep = kzalloc(sizeof(*beep), GFP_KERNEL);
+>  	if (beep == NULL)
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index 224616fbec4f..fff6e7c1c265 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -28,6 +28,7 @@
+>  #include <sound/hda_codec.h>
+>  #include "hda_local.h"
+>  #include "hda_auto_parser.h"
+> +#include "hda_beep.h"
+>  #include "hda_jack.h"
+>  #include "hda_generic.h"
+>  #include "hda_component.h"
+> @@ -6923,6 +6924,30 @@ static void alc285_fixup_hp_envy_x360(struct hda_codec *codec,
+>  	}
+>  }
+>  
+> +static void alc285_fixup_hp_beep(struct hda_codec *codec,
+> +				 const struct hda_fixup *fix, int action)
+> +{
+> +	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
+> +		codec->beep_just_power_on = true;
+> +	} else  if (action == HDA_FIXUP_ACT_INIT) {
+> +#ifdef CONFIG_SND_HDA_INPUT_BEEP
+> +		/*
+> +		 * Just enable loopback to internal speaker and headphone jack.
+> +		 * Disable amplification to get about the same beep volume as
+> +		 * was on pure BIOS setup before loading the driver.
+> +		 */
+> +		alc_update_coef_idx(codec, 0x36, 0x7070, BIT(13));
+> +
+> +		snd_hda_enable_beep_device(codec, 1);
+> +
+> +#if !IS_ENABLED(CONFIG_INPUT_PCSPKR)
+> +		dev_warn_once(hda_codec_dev(codec),
+> +			      "enable CONFIG_INPUT_PCSPKR to get PC beeps\n");
+> +#endif
+> +#endif
+> +	}
+> +}
+> +
+>  /* for hda_fixup_thinkpad_acpi() */
+>  #include "thinkpad_helper.c"
+>  
+> @@ -7707,6 +7732,7 @@ enum {
+>  	ALC285_FIXUP_HP_GPIO_LED,
+>  	ALC285_FIXUP_HP_MUTE_LED,
+>  	ALC285_FIXUP_HP_SPECTRE_X360_MUTE_LED,
+> +	ALC285_FIXUP_HP_BEEP_MICMUTE_LED,
+>  	ALC236_FIXUP_HP_MUTE_LED_COEFBIT2,
+>  	ALC236_FIXUP_HP_GPIO_LED,
+>  	ALC236_FIXUP_HP_MUTE_LED,
+> @@ -9303,6 +9329,12 @@ static const struct hda_fixup alc269_fixups[] = {
+>  		.type = HDA_FIXUP_FUNC,
+>  		.v.func = alc285_fixup_hp_spectre_x360_mute_led,
+>  	},
+> +	[ALC285_FIXUP_HP_BEEP_MICMUTE_LED] = {
+> +		.type = HDA_FIXUP_FUNC,
+> +		.v.func = alc285_fixup_hp_beep,
+> +		.chained = true,
+> +		.chain_id = ALC285_FIXUP_HP_MUTE_LED,
+> +	},
+>  	[ALC236_FIXUP_HP_MUTE_LED_COEFBIT2] = {
+>  	    .type = HDA_FIXUP_FUNC,
+>  	    .v.func = alc236_fixup_hp_mute_led_coefbit2,
+> @@ -10392,7 +10424,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x103c, 0x8730, "HP ProBook 445 G7", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+>  	SND_PCI_QUIRK(0x103c, 0x8735, "HP ProBook 435 G7", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+>  	SND_PCI_QUIRK(0x103c, 0x8736, "HP", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+> -	SND_PCI_QUIRK(0x103c, 0x8760, "HP", ALC285_FIXUP_HP_MUTE_LED),
+> +	SND_PCI_QUIRK(0x103c, 0x8760, "HP EliteBook 8{4,5}5 G7", ALC285_FIXUP_HP_BEEP_MICMUTE_LED),
+>  	SND_PCI_QUIRK(0x103c, 0x876e, "HP ENVY x360 Convertible 13-ay0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
+>  	SND_PCI_QUIRK(0x103c, 0x877a, "HP", ALC285_FIXUP_HP_MUTE_LED),
+>  	SND_PCI_QUIRK(0x103c, 0x877d, "HP", ALC236_FIXUP_HP_MUTE_LED),
