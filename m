@@ -1,56 +1,56 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F046321CA07;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04C821CA14;
 	Mon, 17 Feb 2025 14:02:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739800938; cv=none; b=KrmGyUHdn+ssbvxzOwkeoDvfSuP5GJbxD3i/7QoA+EOjPiTqQXk0A9xE8qjxK2lYjYNjQ4P6fXJgYmqXGsvOD8v690Fc0bcuIA9i+3UeVmDgoEVh8xVk+3RaXVYkkyHJ2TvYn0SnZnCSLka+O1M1ohbtg9L9AIlC0fHLsj2/Gc0=
+	t=1739800938; cv=none; b=KKr4+l81j1+SMIDER6z9t6LBSdnAWP+VELHhZdSYNtvwgoaFo0sRN+/gxJumKrqtuzCo5tQqIXHYgvIkCtTKLZcni4KFtmqpwn1ONmh2lgtXp0I+cIJui8ZTp5hB6F6jtibhImVjbHHIcZHLn0X+KqTHPd6mGbgsKMrqnBGmhfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739800938; c=relaxed/simple;
-	bh=9vgloSa3Vd9OdC6UhcZ4UgFC32u1Ukmdre3LQ+St0uc=;
+	bh=bLmQRNhJGp37BO1Oi54whZkh82Syrfh2M0KXYDJpLmA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ADuRZRL5bBT17aZkRWwrDYqdDrutMFntJG2wfbfEkDjW4l4PveTqfxWQdOn7dI/zMVQnTjMGBd2TFA+hxa/QLdK6olmSw+YSKUmzujrDnRKHNRgQTGj++S+8qwG5+tJvDaYx3hosBNOHYN8oyipwbqoKy+wR4WxD5tAauALKUvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=YxrmzJhO; arc=none smtp.client-ip=67.231.152.168
+	 MIME-Version:Content-Type; b=mEY+ugmJ9RwaqnxNS6lFIXXQal0hu6i0SrchL9z4WbnkwYkOCJqBx8rikzSYLzXHXKELlknTnqlFb8GXktOg8ND904eJ4zrJR51fO/fgKkReRsfXq9tGuslp2VDKoFofpPt9/fuEnTdfJ53F0+kqebn4hcREJ5ViUHsavX1+/N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=QHjPfQVy; arc=none smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="YxrmzJhO"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="QHjPfQVy"
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51HCcKM1008975;
-	Mon, 17 Feb 2025 08:02:02 -0600
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51HCcKM2008975;
+	Mon, 17 Feb 2025 08:02:03 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=6puuLeKxWyXy3jwD4IO5Rzl47Ex+h1cy6nZQ2HKYBhg=; b=
-	YxrmzJhOWh3qD4dA6TZe8KJRCIyirDWWtUIaGzHXKvGTnGxWffhrf6RMByo0t9TT
-	5yT3bPexmRJpH/E+/SbM+dWkYYJxnspRGyAt25sdRnpv3mE14e8P67jBI6iolJJs
-	8Xb5dh1/+CjipSioL8crlZtlHh9yPpxX2X2Dnp8rXEavk/i1GdytunpipiPWA6y9
-	bt54lHaUrxnVpuEYuTBakuVbvbUqU2TOMPuPdoclt7S0HHmNqgySDGvJ1AP+Mo6R
-	ddGwMSgL7da7OlQI2KrZ41Qal8+V7Ur1V67gE8dogcWB5JJMoOj3IdNr20QPyUp0
-	4yNXaeyvcfmsUBEQpB2yBg==
+	PODMain02222019; bh=99ULd/dMeouDFHx6C8mCV8lHHYdW8FLhAx4UMJ1ztJk=; b=
+	QHjPfQVy2A28Z9VA9sS8k5i2bz3A2V/okHIfemwxvC+OCqmR8z+366yJH+dvoysy
+	TVGGeVE0S0NiXzvB4lF+5d6rRoy/XLSxwpkr2w+eeeHTBJMdXlbwtRlaXciTzyMz
+	a3aoDEPYdTAe+GI91AWwxY4qihZgiX4NH9kdPrvcoBFoSdSCORKvuWizOCgHm6E8
+	Our82Vs9Lkgw/IkRBHjkuX03rucMQMthn6NejrmFLgBLMlOURMeEMILuGvQmo95o
+	YqDZlD12XsC5tw491odFS0QbTQoxfoEOdadRAYwi8KSfVke1b28q0nphXcKh6wln
+	5l3//ViLuoOgr2D9mA4foQ==
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44uwg18x31-2
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44uwg18x31-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Feb 2025 08:02:01 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+	Mon, 17 Feb 2025 08:02:02 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
  (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 17 Feb
- 2025 14:01:59 +0000
+ 2025 14:02:00 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Mon, 17 Feb 2025 14:01:59 +0000
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Mon, 17 Feb 2025 14:02:00 +0000
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id C3671822563;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id EBF04822568;
 	Mon, 17 Feb 2025 14:01:59 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <peter.ujfalusi@linux.intel.com>,
         <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
         <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>
-Subject: [PATCH 1/4] regcache: Add support for sorting defaults arrays
-Date: Mon, 17 Feb 2025 14:01:56 +0000
-Message-ID: <20250217140159.2288784-2-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 4/4] ASoC: SDCA: Add helper to write out defaults and fixed values
+Date: Mon, 17 Feb 2025 14:01:59 +0000
+Message-ID: <20250217140159.2288784-5-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250217140159.2288784-1-ckeepax@opensource.cirrus.com>
 References: <20250217140159.2288784-1-ckeepax@opensource.cirrus.com>
@@ -62,90 +62,107 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 2E_Q-FXb_KihsFeQdGR262NJv8rviXPh
-X-Proofpoint-ORIG-GUID: 2E_Q-FXb_KihsFeQdGR262NJv8rviXPh
-X-Authority-Analysis: v=2.4 cv=CYzy5Krl c=1 sm=1 tr=0 ts=67b3415a cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=ARAoAZWLIMcJkYGXL3wA:9 a=YXXWInSmI4Sqt1AkVdoW:22
+X-Proofpoint-GUID: NcxQjK5ji-Lwwu9FSAGflLxzKkm6HzwX
+X-Proofpoint-ORIG-GUID: NcxQjK5ji-Lwwu9FSAGflLxzKkm6HzwX
+X-Authority-Analysis: v=2.4 cv=CYzy5Krl c=1 sm=1 tr=0 ts=67b3415a cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=y--imf3Z3oHrnomrQQsA:9 a=YXXWInSmI4Sqt1AkVdoW:22
 X-Proofpoint-Spam-Reason: safe
 
-The defaults array in regcache must be sorted into ascending register
-address order, because binary search is used to locate values in
-the array. Add a helper to sort the register defaults array which
-can be useful for systems that dynamically create a defaults array
-based on external information.
+The concept of an SDCA default value differs slightly from the regmap
+usage of the term. An SDCA default is a value that is parsed from DisCo
+and then written out to the hardware if no user value has superceded
+it. Add a helper function that will iterate through all the SDCA
+Controls and write out any default values. After these have been written
+out once they will exist in the cache and that will take care of any
+user values superceeding them. The code here also writes out any
+Controls with a fixed value as there is only one available value for
+these Controls there is no point in allowing the user to select them,
+simply treat them similarly to a default.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- drivers/base/regmap/regcache.c | 31 +++++++++++++++++++++++++++++++
- include/linux/regmap.h         |  7 +++++++
- 2 files changed, 38 insertions(+)
+ include/sound/sdca_regmap.h  |  4 +++
+ sound/soc/sdca/sdca_regmap.c | 49 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
 
-diff --git a/drivers/base/regmap/regcache.c b/drivers/base/regmap/regcache.c
-index b1f8508c3966..f7fcf2de1301 100644
---- a/drivers/base/regmap/regcache.c
-+++ b/drivers/base/regmap/regcache.c
-@@ -21,6 +21,37 @@ static const struct regcache_ops *cache_types[] = {
- 	&regcache_flat_ops,
- };
+diff --git a/include/sound/sdca_regmap.h b/include/sound/sdca_regmap.h
+index 850533e83f3b..b2e3c2ad2bb8 100644
+--- a/include/sound/sdca_regmap.h
++++ b/include/sound/sdca_regmap.h
+@@ -12,6 +12,7 @@
  
-+static int regcache_defaults_cmp(const void *a, const void *b)
-+{
-+	const struct reg_default *x = a;
-+	const struct reg_default *y = b;
-+
-+	if (x->reg > y->reg)
-+		return 1;
-+	else if (x->reg < y->reg)
-+		return -1;
-+	else
-+		return 0;
-+}
-+
-+static void regcache_defaults_swap(void *a, void *b, int size)
-+{
-+	struct reg_default *x = a;
-+	struct reg_default *y = b;
-+	struct reg_default tmp;
-+
-+	tmp = *x;
-+	*x = *y;
-+	*y = tmp;
-+}
-+
-+void regcache_sort_defaults(struct reg_default *defaults, unsigned int ndefaults)
-+{
-+	sort(defaults, ndefaults, sizeof(*defaults),
-+	     regcache_defaults_cmp, regcache_defaults_swap);
-+}
-+EXPORT_SYMBOL_GPL(regcache_sort_defaults);
-+
- static int regcache_hw_init(struct regmap *map)
- {
- 	int i, j;
-diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index 3a96d068915f..d17c5ea3d55d 100644
---- a/include/linux/regmap.h
-+++ b/include/linux/regmap.h
-@@ -1352,6 +1352,7 @@ bool regmap_can_raw_write(struct regmap *map);
- size_t regmap_get_raw_read_max(struct regmap *map);
- size_t regmap_get_raw_write_max(struct regmap *map);
+ struct device;
+ struct sdca_function_data;
++struct regmap;
+ struct reg_default;
  
-+void regcache_sort_defaults(struct reg_default *defaults, unsigned int ndefaults);
- int regcache_sync(struct regmap *map);
- int regcache_sync_region(struct regmap *map, unsigned int min,
- 			 unsigned int max);
-@@ -2043,6 +2044,12 @@ static inline bool regmap_might_sleep(struct regmap *map)
- 	return true;
+ bool sdca_regmap_readable(struct sdca_function_data *function, unsigned int reg);
+@@ -24,4 +25,7 @@ int sdca_regmap_count_constants(struct device *dev, struct sdca_function_data *f
+ int sdca_regmap_populate_constants(struct device *dev, struct sdca_function_data *function,
+ 				   struct reg_default *consts);
+ 
++int sdca_regmap_write_defaults(struct device *dev, struct regmap *regmap,
++			       struct sdca_function_data *function);
++
+ #endif // __SDCA_REGMAP_H__
+diff --git a/sound/soc/sdca/sdca_regmap.c b/sound/soc/sdca/sdca_regmap.c
+index dba4188620f9..4b78188cfceb 100644
+--- a/sound/soc/sdca/sdca_regmap.c
++++ b/sound/soc/sdca/sdca_regmap.c
+@@ -268,5 +268,54 @@ int sdca_regmap_populate_constants(struct device *dev,
  }
+ EXPORT_SYMBOL_NS(sdca_regmap_populate_constants, "SND_SOC_SDCA");
  
-+static inline void regcache_sort_defaults(struct reg_default *defaults,
-+					  unsigned int ndefaults)
++/**
++ * sdca_regmap_write_defaults - write out DisCo defaults to device
++ * @dev: Pointer to the device.
++ * @regmap: Pointer to the Function register map.
++ * @function: Pointer to the Function information, to be parsed.
++ *
++ * This function will write out to the hardware all the DisCo default and
++ * fixed value controls. This will cause them to be populated into the cache,
++ * and subsequent handling can be done through a cache sync.
++ *
++ * Return: Returns zero on success, and a negative error code on failure.
++ */
++int sdca_regmap_write_defaults(struct device *dev, struct regmap *regmap,
++			       struct sdca_function_data *function)
 +{
-+	WARN_ONCE(1, "regmap API is disabled");
-+}
++	int i, j;
++	int ret;
 +
- static inline int regcache_sync(struct regmap *map)
- {
- 	WARN_ONCE(1, "regmap API is disabled");
++	for (i = 0; i < function->num_entities; i++) {
++		struct sdca_entity *entity = &function->entities[i];
++
++		for (j = 0; j < entity->num_controls; j++) {
++			struct sdca_control *control = &entity->controls[j];
++			int cn;
++
++			if (control->mode == SDCA_ACCESS_MODE_DC)
++				continue;
++
++			if (!control->has_default && !control->has_fixed)
++				continue;
++
++			for_each_set_bit(cn, (unsigned long *)&control->cn_list,
++					 BITS_PER_TYPE(control->cn_list)) {
++				unsigned int reg;
++
++				reg = SDW_SDCA_CTL(function->desc->adr, entity->id,
++						   control->sel, cn);
++
++				ret = regmap_write(regmap, reg, control->value);
++				if (ret)
++					return ret;
++			}
++		}
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_NS(sdca_regmap_write_defaults, "SND_SOC_SDCA");
++
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("SDCA library");
 -- 
 2.39.5
 
