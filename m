@@ -1,34 +1,35 @@
 Received: from mx2.mythic-beasts.com (mx2.mythic-beasts.com [46.235.227.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E862218842;
-	Mon, 17 Feb 2025 12:25:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9871219EAD;
+	Mon, 17 Feb 2025 12:28:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739795158; cv=none; b=A4+vpsN6AJIZPlvtCQQ8UdlSX3T8KYMSP2Y7ytl8GbV/ryHLuzyzjx3regxhbkpBkXyWNpnE1VlKG0TpzAGUk7KdcUlL1GexXMScHeUZ8ai2T+ErDZKdM3w5BVwyr2uwQNorPPyQJZkDWGL7+p2fX2vZVWnI5ja7/B+cTDoRWZg=
+	t=1739795300; cv=none; b=NTULfNuds/Iq1Zbgx7eCGMAz7jNWojrRjY0xcBStV8fwgaHDyVq0D8qGXUAxMWJmI7UKPtq+zSjQkjZrek55sOL3J6TSbnx9R6gPSe8yJOT+q6Gizf/YvNRC/my3Tk7LE+4CTeEVZ6zB528j8tkSlBSorp5dXknlYqX8lmornqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739795158; c=relaxed/simple;
-	bh=lFJsXlgEY82n+SX5Ibkp2jyxFTxnjgwhZlkrhHi3tzc=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=l84grobQbuVKX7IZP7Y3xHVMxboVi70iTIxknLE9keCmlpcElEcJ/T9AEPHVW63RXixhueo7v04V+MSioLY4MqhtcqKMNCotexZY/eWvzIwxnmF8MSJqcvSVKr0KbdHGKc2JI+YWWqsvsE6zqSDagibC7/7Pp9JGIwtJ3myPouM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk; spf=pass smtp.mailfrom=pelago.org.uk; dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b=EY5mGSWv; arc=none smtp.client-ip=46.235.227.24
+	s=arc-20240116; t=1739795300; c=relaxed/simple;
+	bh=RvlUp0pIHgqWEN8J+3t45WxbRXgImYVMQcmeJ+Avtdg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PlLW1H/PGT6V37xONEWNy9ZhzWeRZZtREuqI6A0KMwY6oV403U8r6KRD2hZx5Q7p1fgPTjTsPfJMr/PzzF388cEZskmUo5EwCjt8jxbUSq9SK8GF7uxgtbqAv2cxGW7y0F8dF/lYOEXgXXfzWo5UFp531xp8aHkCAfuGq7x602I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk; spf=pass smtp.mailfrom=pelago.org.uk; dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b=NFSkMLLO; arc=none smtp.client-ip=46.235.227.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pelago.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b="EY5mGSWv"
+	dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b="NFSkMLLO"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=pelago.org.uk; s=mythic-beasts-k1; h=To:Subject:From:Date;
-	bh=CviyWBmyPdnlT0TjppgyZxk7v9bpeFzOVnWOqtTK928=; b=EY5mGSWv+YCfGvTHU/IXarZcEY
-	Au0oDEgJ5aPk3Zop3VG4pnVNJWNIEAeT9QZkMK3rw4S7s8oEopKqz9Vj2bRAB4/H7hT1bQwtItQD7
-	JVLj0yxsU8zZI+90M4dKYyT1mFU5/Jg8TUlWqv923esjM+9pOWYur1EJQYH+alwO3D/dnSkA3iXYo
-	W/LQQYtCYhBm2OaceFdmG9WHHyOjvJW7ExC2P7Z1mRocy0a5oA00ursKWzQQ8v7PGkolg6x41uBuf
-	6SzofvjELAk4BhGamfVrCKtIKB47WAyWVq/imvHzsGf0Usjmx+AaDSLXkW+GSRLUvg4eoeWoc+TaA
-	8ejpt/rg==;
+	d=pelago.org.uk; s=mythic-beasts-k1; h=From:To:Subject:Date;
+	bh=o8Ww5RMDvSBbJqnbwfQK+oljKxs5sRZoy/vOcaUCC9c=; b=NFSkMLLOX7IWSwmNiuJt5tLqgQ
+	tSYbCr1NpHDvkB/gbr08oiKH6Qwc2DNZeRX3JpXVPlHi8mererYc+0JF5Xwmmn0HuV+N1sUIV6vjz
+	rIEFSJoKOYcRIAlh+faLg14KTIKP5Z60YPUUo+xz8ysEF7bQSBRbkC5U2Z/jUhJMEFj0QfUDK748s
+	u6zsKacaCF9mbsoBW7lm7+q6FNtPF3ewvPiywFzBr5X0TColYKrdkQhlGjrcHP3GqqJ+vhEv8vETH
+	3Id2RQUDTW2WNcXAR0VDPZwPEpofyFZAPJ5CZvESM4CYI2nWcvhqJ6kZZwJmGHV9ZC0sw4MeOh5C2
+	8ZWePZzQ==;
 Received: by mailhub-hex-d.mythic-beasts.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <john-linux@pelago.org.uk>)
-	id 1tk0CA-0057lr-AK; Mon, 17 Feb 2025 12:25:54 +0000
-Message-ID: <690b6c31-67b3-42c5-86a0-0efe3640724e@pelago.org.uk>
-Date: Mon, 17 Feb 2025 12:25:53 +0000
+	id 1tk0ER-00589X-Oz; Mon, 17 Feb 2025 12:28:16 +0000
+Message-ID: <c8556845-7d12-46aa-ab28-138da8903583@pelago.org.uk>
+Date: Mon, 17 Feb 2025 12:28:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -36,41 +37,61 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ALSA: hda/conexant: Add quirk for HP ProBook 450 G4
+ mute LED
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <2fb55d48-6991-4a42-b591-4c78f2fad8d7@pelago.org.uk>
+ <877c5o92sg.wl-tiwai@suse.de>
 From: John Veness <john-linux@pelago.org.uk>
-Subject: [PATCH v3] ALSA: hda/conexant: Add quirk for HP ProBook 450 G4 mute
- LED
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
 Content-Language: en-GB
+In-Reply-To: <877c5o92sg.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BlackCat-Spam-Score: 0
 
-Allows the LED on the dedicated mute button on the HP ProBook 450 G4
-laptop to change colour correctly.
+On 17/02/2025 12:25, Takashi Iwai wrote:
+> On Mon, 17 Feb 2025 13:15:50 +0100,
+> John Veness wrote:
+>>
+>> Allows the LED on the dedicated mute button on the HP ProBook 450 G4
+>> laptop to change colour correctly.
+>>
+>> Signed-off-by: John Veness <john-linux@pelago.org.uk>
+>> ---
+>> Re-submitted with correct tabs (I hope!)
+> 
+> Now the patch is cleanly applicable, so I took now.
+> But, the Cc-to-stable should have been put in the patch itself (around
+> your Signed-off-by line).  I put it locally.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: John Veness <john-linux@pelago.org.uk>
+Whoops, I just submitted a v3 to fix the stable CC, after "kernel test
+robot" alerted me. I hope that doesn't mess things up.
 
----
-Re-submitted with correct stable CC'ing method hopefully! Sorry, I'm
-still new to this.
+John
 
- sound/pci/hda/patch_conexant.c | 1 +
- 1 file changed, 1 insertion(+)
+> thanks,
+> 
+> Takashi
+> 
+>>
+>>  sound/pci/hda/patch_conexant.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+>> index 4985e72b9..34874039a 100644
+>> --- a/sound/pci/hda/patch_conexant.c
+>> +++ b/sound/pci/hda/patch_conexant.c
+>> @@ -1090,6 +1090,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+>>  	SND_PCI_QUIRK(0x103c, 0x814f, "HP ZBook 15u G3", CXT_FIXUP_MUTE_LED_GPIO),
+>>  	SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
+>>  	SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
+>> +	SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
+>>  	SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
+>>  	SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+>>  	SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+>> -- 
+>> 2.48.1
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index 4985e72b9..34874039a 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -1090,6 +1090,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x103c, 0x814f, "HP ZBook 15u G3", CXT_FIXUP_MUTE_LED_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
- 	SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
-+	SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
- 	SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
--- 
-2.48.1
