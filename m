@@ -1,111 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB40E2206B3
-	for <linux-sound@vger.kernel.org>; Mon, 17 Feb 2025 14:32:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D4E22540C;
+	Mon, 17 Feb 2025 16:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739802751; cv=none; b=gFwTgySSZ/FBnGGbIA0mxTTlnlMMW6TVgJus5f+QennnT5SfDydMKsizr8C5nK4wcIwM23yg7ieopieK45Sq75cdJwNuc+Vz2TkBCG0eKvx/7tguli0aXMWhHvG3TMoanNYl2Ag8TkDVqDWrXWsfyeAOt+b1nMsxqdERgPRt808=
+	t=1739809487; cv=none; b=NN/n3O17FHqpyPRn7qZkz9x8fOA3Cf7Mx3BouXC0754q1pL2aK3c2mTkutsXcVumB8f0KTxnoI2PPyvI4nwXSu+zflzcliAJqtiRwkzSgyY8M72YKB6D40+Dz6JFU9K+69TGL2KnB08mZ2aq1OpO1h0tdOFj2RFtkZMObRPMREU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739802751; c=relaxed/simple;
-	bh=n5Ga8groeJZrSIREQWIKUJEaLYhRBQ8zudkgA8+H6Ok=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=pAhIV/du4BywcMhPK9Wec7vH+Tcr8lFdeCRaFF/R4sN1S/ItVyBOPPHmz3/sZepRJdWkXrR75mJgrbOV5AwgB8xSAkOqKp4YTMpE+ydunCT5VsCGwDISbwPKMKKfyjkREUkSu9gtBP6+zCNH/m1O/t66RsNyhQ0bYuLNBtRmeGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WJGiNIjJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739809487; c=relaxed/simple;
+	bh=IMJW+363IVg5kD8bsAouG7m9/UBKsClnNgoauqWSL/w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dV5LacGRFguRFv9yW376GsUS3waIA5ZQPkRuMLLtX01W0EupQ9DbdGoJzA/IJ2PdGxng49KIp88nEGXRAZPsDan0FN1pTl5Pb3HA/wxs3M+eyno57TaWGXO8V4G2YYmGFNaKAaiJq2b9qXvyPuKMY92iDTn0uj/hf+Ng2OjBjj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nEAEMI5f; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WJGiNIjJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A6DC4CEE7;
-	Mon, 17 Feb 2025 14:32:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739802751;
-	bh=n5Ga8groeJZrSIREQWIKUJEaLYhRBQ8zudkgA8+H6Ok=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=WJGiNIjJH1yKhJZ4sIqHrmhXJuJd0/rGrp3OO4762oA0Exb0YWlSEN/JSao+Cm80T
-	 ODSs05GxMU9hQL09xqugdq8hdYjKeJVZLOGL5WxSEqXoX6Hbl4zgNb91phcwExTgtb
-	 xkQ5aia3N/r/jDwhoDsUu9Xdapv2EQlGN9gr7l0ilL7HdwmPRJlcPUx88Aq8uo8qHV
-	 4cGpAw6lpP0McBCyggCUgy6feazUeDg9WRSffzBAWnN+/sQeXAYg8dKbFadXvjyEVu
-	 OUj9xrtvy917f27jwlBWmBbweRTCIkSTQy58e4xlbJQUE3eiNzjgJUoL5ohA/dI4yr
-	 aguC1Hiz2GU1A==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87y0ybyk8p.wl-kuninori.morimoto.gx@renesas.com>
-References: <87y0ybyk8p.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: (subset) [PATCH 00/12] ASoC: random cleanup
-Message-Id: <173980275047.49890.1756192412914778088.b4-ty@kernel.org>
-Date: Mon, 17 Feb 2025 14:32:30 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nEAEMI5f"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-abb86beea8cso320718166b.1;
+        Mon, 17 Feb 2025 08:24:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739809484; x=1740414284; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x6Me8ZURi9BHMA5VBv/dcrhQFM3Dtg/x5OSHUQbvC6g=;
+        b=nEAEMI5fGgUMlSb9oSB4W8JFUNdkAQ9hvgoaCVUomNnx9SD+laJYho3GTDIW4W9sGn
+         rdLtG2SbXgqOzQaz2hxrxZIaeb7/DukBOYswUStwCzK+yt75Dv3ikJR8R+/QkGb+6LUs
+         QTFFT3dmn18yGTO7pDewuL4TQpjYGJBoRDMv0P/uOFJU5QF2idgPBjMlh9MDxrZKIMHT
+         0LrCeJUZqv4Pqu7N8GHquIjfCOIgLuSsH4uufvLFTeObKdHk1lcO72TS0ho1VRUjVkKw
+         zhKMaOVrAaF3I/piHmrUf/RFypSaRp4F7kzuhmFM+M9Dmz1jn7KcFZX+qMo3YPPN9GD9
+         L1hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739809484; x=1740414284;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x6Me8ZURi9BHMA5VBv/dcrhQFM3Dtg/x5OSHUQbvC6g=;
+        b=DpUkfRDrj5nZEa7zB+0WaHDHEq6OVeKBvCJCNS3BF9Xdap9hkvzsmkcOwvaRIByjuj
+         eTOODoIDEGVJeUwGGrn8iI7JUPzvF9bXIEXTNzbEMw0rvSGruOmihJoQfeEWXJEUa/yb
+         VRi9EQWFk1zhEgXu0xUUSnIExNn6zB22BbLp7rbLhLx00J782erqYLhlPMY1tpJIUmgU
+         YuHdWFklPBj7cIOGo0lkf9EdUgY6oZALMpcgbm14pn/lsskbPOAmHzRibGMdeHoWdcun
+         PsF6OR7W3p/IGX92ykEKrLLn6bzo4amcq5fPh2Y2ij0gfP+ITcQ+4MdtIvENrOa1d0bz
+         bB1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUMbxHjebN6Fr+pPOZD5QVqk//Dh/QPERl+1UMDB6BjILI+WJjACu5MsNH4YaR46C+laq1S2z8QovVoeZM=@vger.kernel.org, AJvYcCXwscf3QOi+QZg7+OGoxf29vJXyIO9Ds38H76jU7H2P9pPQtwLCipknzTM8J5xGUo9uKJrbhgFahqPyOBQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeM+C4a5BUGWeZxnyVWf5oyVg6sDOyTimjoZwM7UYOUDmmhMjF
+	VF8LLWw8u/EWDToPi5BzmMRiSlw4Kf6F5Py2P0mmGx18GJZ8Ruhr
+X-Gm-Gg: ASbGncuTUv0bU+Q7uD2Bie3QVvdfdZwTD3g/wniiroy4e76bCtRMLqb3/o//2R1qxKt
+	DMJmgSu8Bwh2kMPO5cQFLaHQ2e70uWmCC33Hfw74TAJzNWlKwjIt2LZ0ZY3PxB5ZmzdCsEkfm/b
+	S1Xjom4s8ZZLD5v8tw972jDW+0Md0FNoGpkvP7MnX443HYBA+If8kmNbGSzgI9iamSJ8L1yBh/d
+	tcZOMv8FX909xM4NPFCmJiO96bfPYQG5lQCm3LZypvyo0ljG1BkSAp1rkEBKVu0Dag3aK/oZy4q
+	CzLvFA4LWhGgWcIs3r6SASbIJvWt/M3uNiGoXGni5Aly
+X-Google-Smtp-Source: AGHT+IF485TpglsHoYcM2qPJw/DdadQMT0idtEVOh9tCPnUieChDKELqnF5ni403s2wOT43n83j0+A==
+X-Received: by 2002:a17:907:1b04:b0:ab7:d66f:c86d with SMTP id a640c23a62f3a-abb70df5d76mr1030222066b.34.1739809483644;
+        Mon, 17 Feb 2025 08:24:43 -0800 (PST)
+Received: from [192.168.1.130] ([82.79.237.175])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb837378e7sm421915566b.52.2025.02.17.08.24.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Feb 2025 08:24:43 -0800 (PST)
+Message-ID: <c6c5e039-7c86-4813-a880-89b864822d80@gmail.com>
+Date: Mon, 17 Feb 2025 18:24:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] ASoC: SOF: imx: fix a couple Smatch bugs
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Fabio Estevam <festevam@gmail.com>,
+ Frank Li <Frank.Li@nxp.com>, imx@lists.linux.dev,
+ Jaroslav Kysela <perex@perex.cz>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ sound-open-firmware@alsa-project.org, Takashi Iwai <tiwai@suse.com>
+References: <fffa1613-72e8-4cd0-a4db-b6b13a5222e9@stanley.mountain>
+From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+In-Reply-To: <fffa1613-72e8-4cd0-a4db-b6b13a5222e9@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
 
-On Wed, 12 Feb 2025 02:23:02 +0000, Kuninori Morimoto wrote:
-> These are random cleanup patch-set for ASoC
-> 
-> Kuninori Morimoto (12):
->   ASoC: soc-pcm: no need to check dpcm->fe on dpcm_be_connect()
->   ASoC: soc-core: makes snd_soc_set_dmi_name() local
->   ASoC: soc-ops: makes snd_soc_read_signed() void
->   ASoC: soc-pcm: makes dpcm_dapm_stream_event() void
->   ASoC: soc-core: line cleanup on snd_soc_bind_card()
->   ASoC: soc-dapm: line cleanup on snd_soc_dai_link_event_pre_pmu()
->   ASoC: soc-dai: check return value at snd_soc_dai_set_tdm_slot()
->   ASoC: soc-pcm: remove duplicate param from __soc_pcm_hw_params()
->   ASoC: remove update from snd_soc_card
->   ASoC: remove dpcm_process_paths()
->   ASoC: soc-pcm: cleanup dpcm_dai_trigger_fe_be()
->   ASoC: soc-pcm: cleanup dpcm_fe_dai_do_trigger()
-> 
-> [...]
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[01/12] ASoC: soc-pcm: no need to check dpcm->fe on dpcm_be_connect()
-        commit: 11c1967f1a796bf2ff56a7118147f1d39d9f5ee0
-[02/12] ASoC: soc-core: makes snd_soc_set_dmi_name() local
-        commit: 238c863eb3d3c6ed58493bacfd1f4b36bdcfa92f
-[03/12] ASoC: soc-ops: makes snd_soc_read_signed() void
-        commit: 1248d29464cc682c2a1793cfc5d4ebeb374c6738
-[04/12] ASoC: soc-pcm: makes dpcm_dapm_stream_event() void
-        commit: 7e1caa679686dde5c24d60b139f234568045758f
-[07/12] ASoC: soc-dai: check return value at snd_soc_dai_set_tdm_slot()
-        commit: 7f1186a8d738661b941b298fd6d1d5725ed71428
-[08/12] ASoC: soc-pcm: remove duplicate param from __soc_pcm_hw_params()
-        commit: 0c4a06395156d16ea33e959fccea84e4cfec04c4
-[09/12] ASoC: remove update from snd_soc_card
-        commit: 257a060fe219bb0dcb98f12ce34f04eca6d08352
-[10/12] ASoC: remove dpcm_process_paths()
-        commit: 40b1f89a1691c4b7740bec2c868f1e4c60346353
-[11/12] ASoC: soc-pcm: cleanup dpcm_dai_trigger_fe_be()
-        commit: 3aebbcba4baaa81bc8c83f2229ed8e774cf40618
-[12/12] ASoC: soc-pcm: cleanup dpcm_fe_dai_do_trigger()
-        commit: 42da18e62652b58ba5ecd1524c146b202cda9bb7
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+On 2/17/2025 9:32 AM, Dan Carpenter wrote:
+> Fix a couple of bugs which were detected using Smatch.
+> (https://github.com/error27/smatch)
+>
+> Dan Carpenter (2):
+>   ASoC: SOF: imx: Fix an IS_ERR() vs NULL bug in
+>     imx_parse_ioremap_memory()
+>   ASoC: SOF: imx: Fix error code in probe()
+>
+>  sound/soc/sof/imx/imx-common.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+Thanks! For the whole series: Reviewed-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
