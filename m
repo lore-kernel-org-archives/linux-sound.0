@@ -1,156 +1,82 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD4A21C9EA
-	for <linux-sound@vger.kernel.org>; Mon, 17 Feb 2025 13:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB21321A44E;
+	Mon, 17 Feb 2025 13:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739798706; cv=none; b=IsDE+rp9n0gfvLXyZ+qgCUsbRP+3GokFDHe7TQ6hM0HAYWEBxhPf1nc1mhKDD01CYuDUQ/+qLOlBU2GyXNozI1zSlRKzrRkLyYKdaPRrIsoe0eVBahCxdiUJfhTBjUHp59zyk5v0k8sKccP3o/VE8rsBAcJgYLR8dpoqtUn2ZME=
+	t=1739799505; cv=none; b=QJ9zUcUqn3kGf9umE/LnCU/l6sCd9W9G04kmKZJIHhqsmNJz0F77y6ikv85njDKdYM04jzWduv6H3OdvP0lwsKVx13M9+kSt+d5254KawdRYq1BvoBLJejMdm9gcGdAUKEEfEbSFfTjNCnxgPWIxHvcBOvuTLScQxSH45hk7FU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739798706; c=relaxed/simple;
-	bh=/IxJ3NIw21C6bPgo5OoXJUUJgi1LWRyeVZJoDftgUuc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mQyZKhXudpNVSQMz45RWu8EkJ52AVALa9NetVb4Q56bT5EjilU+criCWdfO3oh14zH+kmJ0N6GhUFOD72iWizNBFYsjijIsbHIR5qUawzRfJY4HAOiYVv7ybRPYfg3vCBJfYuSA4J7HCuF7uYoq6F/c9xMDrR1w3VyW5sntj3kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=eyTAC92q; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1739799505; c=relaxed/simple;
+	bh=7UVLZYO1jC9r+aq/aAikU6zNFC32kIkAJxpVjI0hht8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=QDdvjADYBugxcNzBvPDSmr/dRzfwahNJyfoLCGhPZNnEZ7WB2tvreVQXsEO/f1gaTF2tFJsvGNK5qDctxyrg1F9Afn8q/z6CzwLBe+ulS51fzgNYhN8osZFzki7VyWaWWlRGtCI3QrOscxBGr2n8fh7qKT2dq2Im9l9Rct+x/aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BUn6I2CV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="eyTAC92q"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5452efeb87aso3040269e87.3
-        for <linux-sound@vger.kernel.org>; Mon, 17 Feb 2025 05:25:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1739798702; x=1740403502; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QiVy1LLX/U1j468xBgrLR30ZUfJCR/waZMXhb8yr69M=;
-        b=eyTAC92quW21+ZsY2EpTqJJPuo+/qjonIFQnTJaQ7o6RvbJfyt13pZLuXlznWnNZMt
-         4TAIllzj/JN3sN8WdMjxCqg04WYOo88xL2tWznMiMTL3HqTk6rgrl2KBQxD2zKbgWEam
-         uW6GmAY0SYML9jXE7HjYQ6Fnf+JnsQl+XnWVTy6EcwqvNvyA9B/vJ+EkQhPcpVecW+7A
-         GWcs1kD7Nf4C5GUrcJvd/IUJJ59YJbQJAmGyVQAkqqZ8aT6xudq7kg0g8rHVWKm6H35Q
-         b/CziyXb53YcIjZb+ktUTSxCqKjCeWH9E1h4w92KEGQNSk793OfDsh0YhaxyGsukU2g3
-         6cVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739798702; x=1740403502;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QiVy1LLX/U1j468xBgrLR30ZUfJCR/waZMXhb8yr69M=;
-        b=e6FZl4jq4uXVF7wlGk4vNlXpKfo12A6CEOMkn6zl8HLUSCRsoAqid2GtKRZUZof9HE
-         Fppft9maAanP6WtTm+E8ZoDxtTK1niftgV2Z62NBB/ffHhppwaXAWydnNPvhY6KZ/zsf
-         HMSQ4SLzaMaw90VULFBLc6/4E/x0et/zlbsVLwKb8YF6M4618irgFeNY1t5zPNdg97uK
-         yz67DSjwFaM/4Gw0Z2NScdkEX9PhBKRgK8yVfN8Pq6F6d15KBaJyNZLI0FiQCE51T0ab
-         1rck6960CrVHQJVGKBcVDbPz+gSSRlP+pS1TAxjeyAj3QDODFAjrSvVZEuG9Kgf3qzEQ
-         ueiw==
-X-Forwarded-Encrypted: i=1; AJvYcCXfDt76ElK1gBP1j+9stR0xF1gqzbn2YJyq1J7+iyEwBmZFRA1kPzmMUVCjkrcEm+PHtiO4RNTGeNmsVA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6pRIBQto6SH7wm00Vyf7UzHJfMA7PSMmsom2N5vCXUxxgSDOU
-	F/rUAfsf3VfzIJmWgWeJ4SbButEeSqNSMcjxrHk0Lh0899v4WO8zNJ6hK/jBlBNuOzdrLo1x1Ld
-	QPf4XnrBsZ9W6A4RZ2I8QuVPfmyMS/dbF+PtSnA==
-X-Gm-Gg: ASbGnctfpoOuUsZrevAujFosIz3OroCUd2tlYePqR6LbrL2FHhjsAVk/pPENTe0YJqJ
-	e+YSn99nw/lEGw6WGOyCd624Z59xlz3FJLKuZdACL5lUqAgpgg/6ib6bkgwNLGJNruh+ISPD2PW
-	jLg9MVOdwumPUKhidwEbXKF2tsuQ==
-X-Google-Smtp-Source: AGHT+IEb6JHw/5PakMZCVTYAlw84c60jmNtNM9WQpCnIP/Vmd74RSHMRaGMUWCimKY7la7twkBPZRBodM2VgArHLkgI=
-X-Received: by 2002:a05:6512:2396:b0:545:bb6:8e32 with SMTP id
- 2adb3069b0e04-5452fe2eb21mr2817688e87.12.1739798702259; Mon, 17 Feb 2025
- 05:25:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BUn6I2CV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0322BC4CED1;
+	Mon, 17 Feb 2025 13:38:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739799505;
+	bh=7UVLZYO1jC9r+aq/aAikU6zNFC32kIkAJxpVjI0hht8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=BUn6I2CVRvkGw28MzkLgGh1TCoKYB+lYFY8DhBgUjDNQgTe0yXIFe03J8KxToiNnC
+	 fz3AaNM347Z5NcE19PsXMMnlIzzeFtDpOOpnlc7K2z1Halq1TF4TU32k+fwv/1Ai69
+	 CP4aAvU+o6qFzZXlDZ4A4o2di9J+bAn+578j0e5/OSKrSqjGnpAnFElPES7kUocQ4Z
+	 QqoSZPxYvnpiamd0nerJub03r5lJqWbzONL32NiOfw1UwWWncSfT+63+E3RtwvsYdd
+	 EHjwZBWPBCOufOq3eFJqBCFsWNX5WQakpCNN3C7s1acL/7RVVaXyXc6gtxwB21XjWP
+	 W35S1pcBF/72w==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.orG>
+In-Reply-To: <20250208-asoc-volume-limit-v1-1-b98fcf4cdbad@kernel.org>
+References: <20250208-asoc-volume-limit-v1-1-b98fcf4cdbad@kernel.org>
+Subject: Re: [PATCH] ASoC: ops: Enforce platform maximum on initial value
+Message-Id: <173979950372.40079.2365634213946678394.b4-ty@kernel.org>
+Date: Mon, 17 Feb 2025 13:38:23 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
- <173952845012.57797.11986673064009251713.b4-ty@linaro.org>
- <CAHp75VcjAFEdaDQAMXVMO96uxwz5byWZvybhq2fdL9ur4WP3rg@mail.gmail.com>
- <CAMRc=MefPRs-REL=OpuUFJe=MVbmeqqodp+wCxLCE8CQqdL4gQ@mail.gmail.com>
- <20250216142313.743af564@jic23-huawei> <CAMRc=Meq639NMz6TuOw=xQ_A8VDwA5OXoXU47JNt7x0C7jDtGQ@mail.gmail.com>
- <20250217131110.5803b68b@jic23-huawei>
-In-Reply-To: <20250217131110.5803b68b@jic23-huawei>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 17 Feb 2025 14:24:51 +0100
-X-Gm-Features: AWEUYZmts5pHMv-WTAD5H0ycHChA4PeALdc-KhHeVO2LZrBUG0P1He-nzm1gLUk
-Message-ID: <CAMRc=McM-f3NKGGPs9UCzDyOO2Fw_N+2HzyTPajcZiPTAUXDUw@mail.gmail.com>
-Subject: Re: (subset) [PATCH v3 00/15] gpiolib: add gpiod_multi_set_value_cansleep
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, David Lechner <dlechner@baylibre.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-On Mon, Feb 17, 2025 at 2:11=E2=80=AFPM Jonathan Cameron <jic23@kernel.org>=
- wrote:
->
-> On Sun, 16 Feb 2025 16:55:04 +0100
-> Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->
-> > On Sun, Feb 16, 2025 at 3:23=E2=80=AFPM Jonathan Cameron <jic23@kernel.=
-org> wrote:
-> > >
-> > > On Fri, 14 Feb 2025 15:37:48 +0100
-> > > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> > >
-> > > > On Fri, Feb 14, 2025 at 3:35=E2=80=AFPM Andy Shevchenko
-> > > > <andy.shevchenko@gmail.com> wrote:
-> > > > >
-> > > > > On Fri, Feb 14, 2025 at 12:21=E2=80=AFPM Bartosz Golaszewski <brg=
-l@bgdev.pl> wrote:
-> > > > > > On Mon, 10 Feb 2025 16:33:26 -0600, David Lechner wrote:
-> > > > > > > This series was inspired by some minor annoyance I have exper=
-ienced a
-> > > > > > > few times in recent reviews.
-> > > > >
-> > > > > ...
-> > > > >
-> > > > > > [07/15] iio: adc: ad7606: use gpiod_multi_set_value_cansleep
-> > > > > >         commit: 8203bc81f025a3fb084357a3d8a6eb3053bc613a
-> > > > > > [08/15] iio: amplifiers: hmc425a: use gpiod_multi_set_value_can=
-sleep
-> > > > > >         commit: e18d359b0a132eb6619836d1bf701f5b3b53299b
-> > > > > > [09/15] iio: resolver: ad2s1210: use gpiod_multi_set_value_cans=
-leep
-> > > > > >         commit: 7920df29f0dd3aae3acd8a7115d5a25414eed68f
-> > > > > > [10/15] iio: resolver: ad2s1210: use bitmap_write
-> > > > > >         commit: a67e45055ea90048372066811da7c7fe2d91f9aa
-> > > > >
-> > > > > FWIW, Jonathan usually takes care of patch queue on weekends.
-> > > > > But whatever, it's not my business after all :-)
-> > > > >
-> > > >
-> > > > Too many conflicting suggestions. I just picked up all Acked patche=
-s. =C2=AF\_(=E3=83=84)_/=C2=AF
-> > >
-> > > Resolution of any issues 'should' be easy enough. Let's keep an eye o=
-n how
-> > > it goes as other series hit Linux next.  Might be a little work to be=
- done there
-> > > and by Linus in next merge window.
-> > >
-> > > Jonathan
-> > >
-> >
-> > I'm totally fine with removing the iio commits from my queue if you
-> > prefer to take them.
-> >
-> Hi Bartosz,
->
-> That's probably going to prove slightly less painful, so please do.
-> I'll merge in that immutable tag and pick them up once you've dropped the=
-m.
->
+On Sat, 08 Feb 2025 00:57:22 +0000, broonie@kernel.org wrote:
+> Lower the volume if it is violating the platform maximum at its initial
+> value (i.e. at the time of the 'snd_soc_limit_volume' call).
+> 
+> 
 
-Done, you can push your branch out and the next "next" should be ok now.
+Applied to
 
-Bart
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: ops: Enforce platform maximum on initial value
+      commit: 783db6851c1821d8b983ffb12b99c279ff64f2ee
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
