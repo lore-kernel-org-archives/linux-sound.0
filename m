@@ -1,104 +1,149 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D4E22540C;
-	Mon, 17 Feb 2025 16:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0C922538B
+	for <linux-sound@vger.kernel.org>; Mon, 17 Feb 2025 17:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739809487; cv=none; b=NN/n3O17FHqpyPRn7qZkz9x8fOA3Cf7Mx3BouXC0754q1pL2aK3c2mTkutsXcVumB8f0KTxnoI2PPyvI4nwXSu+zflzcliAJqtiRwkzSgyY8M72YKB6D40+Dz6JFU9K+69TGL2KnB08mZ2aq1OpO1h0tdOFj2RFtkZMObRPMREU=
+	t=1739811646; cv=none; b=KD9AXl10TgHn5VVNHUZ+KaPP/c21o+JW2abpAtLabDr3a+YdtU1wknrqc+IlUB3NUklHWGeu96N9hKF+R/hpUfFx8WSbs3PaBtWsThLREY8hE5jX/JACxqJgtY9bC/bHFxXCL2TkvQY7uL9NVyP7Fm30nSTGPJfZqDf/IndA4sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739809487; c=relaxed/simple;
-	bh=IMJW+363IVg5kD8bsAouG7m9/UBKsClnNgoauqWSL/w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dV5LacGRFguRFv9yW376GsUS3waIA5ZQPkRuMLLtX01W0EupQ9DbdGoJzA/IJ2PdGxng49KIp88nEGXRAZPsDan0FN1pTl5Pb3HA/wxs3M+eyno57TaWGXO8V4G2YYmGFNaKAaiJq2b9qXvyPuKMY92iDTn0uj/hf+Ng2OjBjj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nEAEMI5f; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739811646; c=relaxed/simple;
+	bh=/0LZmfXOfYmuixW/npLNr6IVBtoN3xuDbuMDHIqeo/I=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=HbiYskK3MlkG9VNOvxoeA8r7nRT04UzLcg1CdsB4O678sM+8jRQkr0nm448Ru0YC1RjmYbS71ocFhpTqQ2grUjoS0Bxyw1Vx/HBEpN5T3cPPrMi1HcKaXgFmNfjDo2sNJ/EvlIePgNxecHulaThZL+7u7geshPdyjeV05wg3LQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Im0nRmyZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cTo3GwNK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Im0nRmyZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cTo3GwNK; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nEAEMI5f"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-abb86beea8cso320718166b.1;
-        Mon, 17 Feb 2025 08:24:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739809484; x=1740414284; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=x6Me8ZURi9BHMA5VBv/dcrhQFM3Dtg/x5OSHUQbvC6g=;
-        b=nEAEMI5fGgUMlSb9oSB4W8JFUNdkAQ9hvgoaCVUomNnx9SD+laJYho3GTDIW4W9sGn
-         rdLtG2SbXgqOzQaz2hxrxZIaeb7/DukBOYswUStwCzK+yt75Dv3ikJR8R+/QkGb+6LUs
-         QTFFT3dmn18yGTO7pDewuL4TQpjYGJBoRDMv0P/uOFJU5QF2idgPBjMlh9MDxrZKIMHT
-         0LrCeJUZqv4Pqu7N8GHquIjfCOIgLuSsH4uufvLFTeObKdHk1lcO72TS0ho1VRUjVkKw
-         zhKMaOVrAaF3I/piHmrUf/RFypSaRp4F7kzuhmFM+M9Dmz1jn7KcFZX+qMo3YPPN9GD9
-         L1hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739809484; x=1740414284;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x6Me8ZURi9BHMA5VBv/dcrhQFM3Dtg/x5OSHUQbvC6g=;
-        b=DpUkfRDrj5nZEa7zB+0WaHDHEq6OVeKBvCJCNS3BF9Xdap9hkvzsmkcOwvaRIByjuj
-         eTOODoIDEGVJeUwGGrn8iI7JUPzvF9bXIEXTNzbEMw0rvSGruOmihJoQfeEWXJEUa/yb
-         VRi9EQWFk1zhEgXu0xUUSnIExNn6zB22BbLp7rbLhLx00J782erqYLhlPMY1tpJIUmgU
-         YuHdWFklPBj7cIOGo0lkf9EdUgY6oZALMpcgbm14pn/lsskbPOAmHzRibGMdeHoWdcun
-         PsF6OR7W3p/IGX92ykEKrLLn6bzo4amcq5fPh2Y2ij0gfP+ITcQ+4MdtIvENrOa1d0bz
-         bB1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUMbxHjebN6Fr+pPOZD5QVqk//Dh/QPERl+1UMDB6BjILI+WJjACu5MsNH4YaR46C+laq1S2z8QovVoeZM=@vger.kernel.org, AJvYcCXwscf3QOi+QZg7+OGoxf29vJXyIO9Ds38H76jU7H2P9pPQtwLCipknzTM8J5xGUo9uKJrbhgFahqPyOBQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeM+C4a5BUGWeZxnyVWf5oyVg6sDOyTimjoZwM7UYOUDmmhMjF
-	VF8LLWw8u/EWDToPi5BzmMRiSlw4Kf6F5Py2P0mmGx18GJZ8Ruhr
-X-Gm-Gg: ASbGncuTUv0bU+Q7uD2Bie3QVvdfdZwTD3g/wniiroy4e76bCtRMLqb3/o//2R1qxKt
-	DMJmgSu8Bwh2kMPO5cQFLaHQ2e70uWmCC33Hfw74TAJzNWlKwjIt2LZ0ZY3PxB5ZmzdCsEkfm/b
-	S1Xjom4s8ZZLD5v8tw972jDW+0Md0FNoGpkvP7MnX443HYBA+If8kmNbGSzgI9iamSJ8L1yBh/d
-	tcZOMv8FX909xM4NPFCmJiO96bfPYQG5lQCm3LZypvyo0ljG1BkSAp1rkEBKVu0Dag3aK/oZy4q
-	CzLvFA4LWhGgWcIs3r6SASbIJvWt/M3uNiGoXGni5Aly
-X-Google-Smtp-Source: AGHT+IF485TpglsHoYcM2qPJw/DdadQMT0idtEVOh9tCPnUieChDKELqnF5ni403s2wOT43n83j0+A==
-X-Received: by 2002:a17:907:1b04:b0:ab7:d66f:c86d with SMTP id a640c23a62f3a-abb70df5d76mr1030222066b.34.1739809483644;
-        Mon, 17 Feb 2025 08:24:43 -0800 (PST)
-Received: from [192.168.1.130] ([82.79.237.175])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb837378e7sm421915566b.52.2025.02.17.08.24.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Feb 2025 08:24:43 -0800 (PST)
-Message-ID: <c6c5e039-7c86-4813-a880-89b864822d80@gmail.com>
-Date: Mon, 17 Feb 2025 18:24:40 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Im0nRmyZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cTo3GwNK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Im0nRmyZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cTo3GwNK"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 694AA21185;
+	Mon, 17 Feb 2025 17:00:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739811642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=qKnX5W/cYK5Y/uASAe2r3zdAHGQO12StIQ8UPn1vJOg=;
+	b=Im0nRmyZVRNIMk84MP5XqiHkFKzt9aPELmZ4yTwFLEnTRFQH+55oaCTefVn9HguptjPxx4
+	xwpllqPsm0LszNBklHybtckOx6h/B2qkiAOCD7no0yaW3spaQkEpFnteJwkwuljlaK41LA
+	eK0VEDwqBrCHSILNQW0kMSFLk/U2pZg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739811642;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=qKnX5W/cYK5Y/uASAe2r3zdAHGQO12StIQ8UPn1vJOg=;
+	b=cTo3GwNK4VSPuYKHXT6wViXaIgK3QwnwMOJmVkJ2BkPM3za8/Vsc5hLCk+TjA4KtFuBKix
+	MrETpejDBhouv4Dg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739811642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=qKnX5W/cYK5Y/uASAe2r3zdAHGQO12StIQ8UPn1vJOg=;
+	b=Im0nRmyZVRNIMk84MP5XqiHkFKzt9aPELmZ4yTwFLEnTRFQH+55oaCTefVn9HguptjPxx4
+	xwpllqPsm0LszNBklHybtckOx6h/B2qkiAOCD7no0yaW3spaQkEpFnteJwkwuljlaK41LA
+	eK0VEDwqBrCHSILNQW0kMSFLk/U2pZg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739811642;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=qKnX5W/cYK5Y/uASAe2r3zdAHGQO12StIQ8UPn1vJOg=;
+	b=cTo3GwNK4VSPuYKHXT6wViXaIgK3QwnwMOJmVkJ2BkPM3za8/Vsc5hLCk+TjA4KtFuBKix
+	MrETpejDBhouv4Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2970A1379D;
+	Mon, 17 Feb 2025 17:00:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IAKgBjprs2dOXAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 17 Feb 2025 17:00:42 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: seq: Drop UMP events when no UMP-conversion is set
+Date: Mon, 17 Feb 2025 18:00:30 +0100
+Message-ID: <20250217170034.21930-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] ASoC: SOF: imx: fix a couple Smatch bugs
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Fabio Estevam <festevam@gmail.com>,
- Frank Li <Frank.Li@nxp.com>, imx@lists.linux.dev,
- Jaroslav Kysela <perex@perex.cz>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>, Liam Girdwood <lgirdwood@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- sound-open-firmware@alsa-project.org, Takashi Iwai <tiwai@suse.com>
-References: <fffa1613-72e8-4cd0-a4db-b6b13a5222e9@stanley.mountain>
-From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-In-Reply-To: <fffa1613-72e8-4cd0-a4db-b6b13a5222e9@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
+When a destination client is a user client in the legacy MIDI mode and
+it sets the no-UMP-conversion flag, currently the all UMP events are
+still passed as-is.  But this may confuse the user-space, because the
+event packet size is different from the legacy mode.
 
-On 2/17/2025 9:32 AM, Dan Carpenter wrote:
-> Fix a couple of bugs which were detected using Smatch.
-> (https://github.com/error27/smatch)
->
-> Dan Carpenter (2):
->   ASoC: SOF: imx: Fix an IS_ERR() vs NULL bug in
->     imx_parse_ioremap_memory()
->   ASoC: SOF: imx: Fix error code in probe()
->
->  sound/soc/sof/imx/imx-common.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-Thanks! For the whole series: Reviewed-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+Since we cannot handle UMP events in user clients unless it's running
+in the UMP client mode, we should filter out those events instead of
+accepting blindly.  This patch addresses it by slightly adjusting the
+conditions for UMP event handling at the event delivery time.
+
+Fixes: 329ffe11a014 ("ALSA: seq: Allow suppressing UMP conversions")
+Link: https://lore.kernel.org/b77a2cd6-7b59-4eb0-a8db-22d507d3af5f@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/seq/seq_clientmgr.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
+index 073b56dc2225..cb66ec42a3f8 100644
+--- a/sound/core/seq/seq_clientmgr.c
++++ b/sound/core/seq/seq_clientmgr.c
+@@ -678,12 +678,18 @@ static int snd_seq_deliver_single_event(struct snd_seq_client *client,
+ 					  dest_port->time_real);
+ 
+ #if IS_ENABLED(CONFIG_SND_SEQ_UMP)
+-	if (!(dest->filter & SNDRV_SEQ_FILTER_NO_CONVERT)) {
+-		if (snd_seq_ev_is_ump(event)) {
++	if (snd_seq_ev_is_ump(event)) {
++		if (!(dest->filter & SNDRV_SEQ_FILTER_NO_CONVERT)) {
+ 			result = snd_seq_deliver_from_ump(client, dest, dest_port,
+ 							  event, atomic, hop);
+ 			goto __skip;
+-		} else if (snd_seq_client_is_ump(dest)) {
++		} else if (dest->type == USER_CLIENT &&
++			   !snd_seq_client_is_ump(dest)) {
++			result = 0; // drop the event
++			goto __skip;
++		}
++	} else if (snd_seq_client_is_ump(dest)) {
++		if (!(dest->filter & SNDRV_SEQ_FILTER_NO_CONVERT)) {
+ 			result = snd_seq_deliver_to_ump(client, dest, dest_port,
+ 							event, atomic, hop);
+ 			goto __skip;
+-- 
+2.43.0
+
