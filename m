@@ -1,34 +1,35 @@
 Received: from mx2.mythic-beasts.com (mx2.mythic-beasts.com [46.235.227.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A47B18DB37;
-	Mon, 17 Feb 2025 12:15:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D74521A453
+	for <linux-sound@vger.kernel.org>; Mon, 17 Feb 2025 12:24:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739794559; cv=none; b=ETpaFMXgulKLHWqPP+tl+dJ8eKQCrN058Cft9smuq2TbW72EfudEn3WdeXdTX6NMoYQ46racRCl0NYKkNvm6ddDYfMCdjzbUyhg0MREyCJSPzAUhwOeCwmwgyQUNSzd8hWBbR7uqM+8qYyb/+jMI+OOHnAmq9PV5oXC2oHqOoio=
+	t=1739795086; cv=none; b=gmopTXZQHsA8X0FMwzPH0F23Dd0tiOTJTZjJ8xuvXuJ2e43OLOfeSpVa0DdHWRISiheWGvpkEnFdm9WFxZr/GpNWTiYaQBymon9/88I8RjCyYfjHzn7RXJNXRitCuTVhzK923QeLoKwMC2LqAn4OzHeF7WMBRCrmXAGGEfJdY0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739794559; c=relaxed/simple;
-	bh=IUpcs5fuPv0MlqHTX1WqaxfwSXVbNE64n/vXBNN2vFI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=oXSV4dabLnOsxA2yhyRnMyFExYB7IEp+UAgpgTlqdX8zeuWityPeruAm8L4mX00b9Ggcd/tsR48LLMQo15+tcg9vkzKUdvSg68y6b675XgCvi0qB716M2OQNxs0CaTEB1A6pFzuts0QrK6hHlUIsHwY+LUq8KP5o6vPTKMowd7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk; spf=pass smtp.mailfrom=pelago.org.uk; dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b=iWuF2D/t; arc=none smtp.client-ip=46.235.227.24
+	s=arc-20240116; t=1739795086; c=relaxed/simple;
+	bh=1Rbdw1jo8y1jG8aQWvwWlh7ZxFRiMVFPDdbYfrQQpu4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j+tvoFCeDYB2C9cLbWlLHF9y2JKouu86jLiC8t5BN9ATbVWh/JT1GNZYxN5Rv1RP7H4nk/g6n6Y4vVdcbx9zWsWgmYJFhzWcmEdm1l8OTlp0y5D6ZFuwdXqMNl+IxLKELN45T6PpFHgYMTb92iYmsTyoW7yFvUIMFroEGCS9uz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk; spf=pass smtp.mailfrom=pelago.org.uk; dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b=m6dQkMrn; arc=none smtp.client-ip=46.235.227.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pelago.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b="iWuF2D/t"
+	dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b="m6dQkMrn"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=pelago.org.uk; s=mythic-beasts-k1; h=To:Subject:From:Date;
-	bh=N29UVb7lsFIAUeKtfz7zQQ1tY8pSM+hJIbIL5FWIg6I=; b=iWuF2D/tIqz9lu7WQd1IKMPx/g
-	98XTkVwpg0VIafwEjfl3c5jCOmSbN1SDL7aJz4s8o3tGWpv3Zh2uIgAntHOXoDrZXLK6/wkF8QDL6
-	/TN+G/adWi0WXg7BeyAC16IQEHvcLxcp/OxWNSx2mRuydLEli1feK5uK0423NE5XcpWvcDhDcZADN
-	VP6M9BvVHboj3xTt6a1dX9j9w6goy+tV+dXt7qYTgUvYHQ8X4MmQzBksLVpZQKOiiMcnc9qWa3/P/
-	fibw9LPjf4kQK7sJgBtUsWUL2XOxkK5WBkk4WRvBaHzJavqxDCu7vRkQ1l4ZXdNGEf/8Etjzmsm72
-	CY68dURg==;
+	d=pelago.org.uk; s=mythic-beasts-k1; h=From:To:Subject:Date;
+	bh=XKW39DGIEWHkuJRWSZvkjvHZkMxsKoeOekz/TnEzjBs=; b=m6dQkMrn2Dss04Eg2W+lOBxdA4
+	Evm6R9zzaKrNX1xlkq5/IKy1gWSEeOVjbvjEmDemF7Wgf9pZVSDbV60sPxITEVvTg8uE5/ebCXCHy
+	rLFAI3uEwel7kX8jUkq/+/1bCF0br8zOuIIXyq2VaLnnZZ+4XUhDIZbfN2ltv9By1ZpFica7gsear
+	iQCC4LVxxUABmlDwandOKcjtvLO1OGKOQKvWMr/kS1v01ak1ZTowzE53H08wFO7YaYzKUhOb7lCUf
+	C3Nd+OkYx9U1hig4YLRLduXV4K+4NRE9ovPa4jYLxvSYgPyB4IBpPLvn7Qx5UqeJB3sJ3TCzvjTws
+	Q6TQw/vA==;
 Received: by mailhub-hex-d.mythic-beasts.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <john-linux@pelago.org.uk>)
-	id 1tk02U-0054vQ-VP; Mon, 17 Feb 2025 12:15:55 +0000
-Message-ID: <2fb55d48-6991-4a42-b591-4c78f2fad8d7@pelago.org.uk>
-Date: Mon, 17 Feb 2025 12:15:50 +0000
+	id 1tjzov-0051qI-Us; Mon, 17 Feb 2025 12:01:54 +0000
+Message-ID: <6c69024a-bfd5-421f-8b0d-c0a4543481b0@pelago.org.uk>
+Date: Mon, 17 Feb 2025 12:01:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -36,38 +37,64 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: John Veness <john-linux@pelago.org.uk>
-Subject: [PATCH v2] ALSA: hda/conexant: Add quirk for HP ProBook 450 G4 mute
+Subject: Re: [PATCH] ALSA: hda/conexant: Add quirk for HP ProBook 450 G4 mute
  LED
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  linux-sound@vger.kernel.org
+References: <5eb4305d-48b2-43a4-a30e-2bbe8d409146@pelago.org.uk>
+ <87ldu499nn.wl-tiwai@suse.de>
+From: John Veness <john-linux@pelago.org.uk>
 Content-Language: en-GB
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <87ldu499nn.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BlackCat-Spam-Score: 0
 
-Allows the LED on the dedicated mute button on the HP ProBook 450 G4
-laptop to change colour correctly.
+On 17/02/2025 09:56, Takashi Iwai wrote:
+> On Mon, 17 Feb 2025 00:21:57 +0100,
+> John Veness wrote:
+>>
+>> Allows the LED on the dedicated mute button on the HP ProBook 450 G4 laptop
+>> to change colour correctly.
+>>
+>> Signed-off-by: John Veness <john-linux@pelago.org.uk>
+>> ---
+>> I have only tested this with 6.13, but I expect it could be applied to older
+>> stable kernels too. The HP ProBook 450 G4 laptop was released in 2017. 
+> 
+> It's fine to put Cc to stable in the patch, then.
+> 
+> But, your patch seems inapplicable, likely because your mailer
+> converted tabs to spaces.  Could you fix the mailer setup and
+> resubmit?
 
-Signed-off-by: John Veness <john-linux@pelago.org.uk>
----
-Re-submitted with correct tabs (I hope!)
+Ah darn it! I think this was a copy-and-paste issue. I'll resubmit with
+tabs, and CC stable too. Thanks for the feedback.
 
- sound/pci/hda/patch_conexant.c | 1 +
- 1 file changed, 1 insertion(+)
+John
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index 4985e72b9..34874039a 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -1090,6 +1090,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x103c, 0x814f, "HP ZBook 15u G3", CXT_FIXUP_MUTE_LED_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
- 	SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
-+	SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
- 	SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
--- 
-2.48.1
+> thanks,
+> 
+> Takashi
+> 
+>>
+>>  sound/pci/hda/patch_conexant.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+>> index 4985e72b9..34874039a 100644
+>> --- a/sound/pci/hda/patch_conexant.c
+>> +++ b/sound/pci/hda/patch_conexant.c
+>> @@ -1090,6 +1090,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+>>         SND_PCI_QUIRK(0x103c, 0x814f, "HP ZBook 15u G3", CXT_FIXUP_MUTE_LED_GPIO),
+>>         SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
+>>         SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
+>> +       SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
+>>         SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
+>>         SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+>>         SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+>> -- 
+>> 2.48.1
+>>
+
