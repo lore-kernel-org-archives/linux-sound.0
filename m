@@ -1,97 +1,129 @@
-Received: from mx2.mythic-beasts.com (mx2.mythic-beasts.com [46.235.227.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9871219EAD;
-	Mon, 17 Feb 2025 12:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE89921B1B4;
+	Mon, 17 Feb 2025 13:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739795300; cv=none; b=NTULfNuds/Iq1Zbgx7eCGMAz7jNWojrRjY0xcBStV8fwgaHDyVq0D8qGXUAxMWJmI7UKPtq+zSjQkjZrek55sOL3J6TSbnx9R6gPSe8yJOT+q6Gizf/YvNRC/my3Tk7LE+4CTeEVZ6zB528j8tkSlBSorp5dXknlYqX8lmornqw=
+	t=1739797888; cv=none; b=GzxWQBlSRrEmjeztLKRvmDM1ZMgwsrNImyX97Yry5J09ztxwzb/JMX+6t6IRPnj68YXGtdWDzKv6oE+duCzceDucZF07FNBspDWVNPWIWpSt5wl6bS1o0v0Kdmqiz4NsbKwNmmUT1IUeZXzItL1qwHWBES1bXWGoMH6vSro10uU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739795300; c=relaxed/simple;
-	bh=RvlUp0pIHgqWEN8J+3t45WxbRXgImYVMQcmeJ+Avtdg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PlLW1H/PGT6V37xONEWNy9ZhzWeRZZtREuqI6A0KMwY6oV403U8r6KRD2hZx5Q7p1fgPTjTsPfJMr/PzzF388cEZskmUo5EwCjt8jxbUSq9SK8GF7uxgtbqAv2cxGW7y0F8dF/lYOEXgXXfzWo5UFp531xp8aHkCAfuGq7x602I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk; spf=pass smtp.mailfrom=pelago.org.uk; dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b=NFSkMLLO; arc=none smtp.client-ip=46.235.227.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pelago.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pelago.org.uk
+	s=arc-20240116; t=1739797888; c=relaxed/simple;
+	bh=1PiBDGXviXFsoAeEznRpjkJuqVWjReFh5mfoR8+tPJo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HzyIOBOT0PbYJe+ILGoJ48YZHiqhF2QMfDa7B8OoWKk+hXxIUMx2sAqHQwUaopJj0pyq57ShR6dhce0MmOZs+s6JLuSTfO3opIe7IJtF8MtCjRrpD6IhB973Nd0av49jcaRFYM37E8yv4uRaJbD4SOP8ocglDOqroeWpRxFLgfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WLtC95GD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pelago.org.uk header.i=@pelago.org.uk header.b="NFSkMLLO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=pelago.org.uk; s=mythic-beasts-k1; h=From:To:Subject:Date;
-	bh=o8Ww5RMDvSBbJqnbwfQK+oljKxs5sRZoy/vOcaUCC9c=; b=NFSkMLLOX7IWSwmNiuJt5tLqgQ
-	tSYbCr1NpHDvkB/gbr08oiKH6Qwc2DNZeRX3JpXVPlHi8mererYc+0JF5Xwmmn0HuV+N1sUIV6vjz
-	rIEFSJoKOYcRIAlh+faLg14KTIKP5Z60YPUUo+xz8ysEF7bQSBRbkC5U2Z/jUhJMEFj0QfUDK748s
-	u6zsKacaCF9mbsoBW7lm7+q6FNtPF3ewvPiywFzBr5X0TColYKrdkQhlGjrcHP3GqqJ+vhEv8vETH
-	3Id2RQUDTW2WNcXAR0VDPZwPEpofyFZAPJ5CZvESM4CYI2nWcvhqJ6kZZwJmGHV9ZC0sw4MeOh5C2
-	8ZWePZzQ==;
-Received: by mailhub-hex-d.mythic-beasts.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <john-linux@pelago.org.uk>)
-	id 1tk0ER-00589X-Oz; Mon, 17 Feb 2025 12:28:16 +0000
-Message-ID: <c8556845-7d12-46aa-ab28-138da8903583@pelago.org.uk>
-Date: Mon, 17 Feb 2025 12:28:15 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WLtC95GD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E40C3C4CED1;
+	Mon, 17 Feb 2025 13:11:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739797887;
+	bh=1PiBDGXviXFsoAeEznRpjkJuqVWjReFh5mfoR8+tPJo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WLtC95GDNZ/X0s+hfQucYzO3kU+Rh5UgXxg+E6+ek+M4ridMVG6kAEleF01gndwVH
+	 8kbjGK8bw3shQpq+zR5Sq5mTGyLenbNNTpk6vPcSBAERAm/YqIrevEy6deAw2gYd51
+	 +6Z0P/gt6AH2RWzUjQCrhRXFdo7ErlgscBvdmNbqoywYjXZQybziAkfobxVGYS3OxT
+	 5cOCBqcqHwvqlDolpX+gjqdLDpktZKKuSPwD6bYWh/ueX9jKkMRNJsJfc3krmttNSP
+	 0x5gToctYLmU18WiDPJ6s/4/w8DzpdAuT9WEgRG5brTf7wwxDY2ymWUYBFwU8gqN7U
+	 PmtYI/xK+DYfA==
+Date: Mon, 17 Feb 2025 13:11:10 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>, Geert
+ Uytterhoeven <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay
+ Abraham I <kishon@kernel.org>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, David
+ Lechner <dlechner@baylibre.com>, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-sound@vger.kernel.org, Jonathan
+ Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: (subset) [PATCH v3 00/15] gpiolib: add
+ gpiod_multi_set_value_cansleep
+Message-ID: <20250217131110.5803b68b@jic23-huawei>
+In-Reply-To: <CAMRc=Meq639NMz6TuOw=xQ_A8VDwA5OXoXU47JNt7x0C7jDtGQ@mail.gmail.com>
+References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
+	<173952845012.57797.11986673064009251713.b4-ty@linaro.org>
+	<CAHp75VcjAFEdaDQAMXVMO96uxwz5byWZvybhq2fdL9ur4WP3rg@mail.gmail.com>
+	<CAMRc=MefPRs-REL=OpuUFJe=MVbmeqqodp+wCxLCE8CQqdL4gQ@mail.gmail.com>
+	<20250216142313.743af564@jic23-huawei>
+	<CAMRc=Meq639NMz6TuOw=xQ_A8VDwA5OXoXU47JNt7x0C7jDtGQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ALSA: hda/conexant: Add quirk for HP ProBook 450 G4
- mute LED
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <2fb55d48-6991-4a42-b591-4c78f2fad8d7@pelago.org.uk>
- <877c5o92sg.wl-tiwai@suse.de>
-From: John Veness <john-linux@pelago.org.uk>
-Content-Language: en-GB
-In-Reply-To: <877c5o92sg.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-BlackCat-Spam-Score: 0
+Content-Transfer-Encoding: quoted-printable
 
-On 17/02/2025 12:25, Takashi Iwai wrote:
-> On Mon, 17 Feb 2025 13:15:50 +0100,
-> John Veness wrote:
->>
->> Allows the LED on the dedicated mute button on the HP ProBook 450 G4
->> laptop to change colour correctly.
->>
->> Signed-off-by: John Veness <john-linux@pelago.org.uk>
->> ---
->> Re-submitted with correct tabs (I hope!)
-> 
-> Now the patch is cleanly applicable, so I took now.
-> But, the Cc-to-stable should have been put in the patch itself (around
-> your Signed-off-by line).  I put it locally.
+On Sun, 16 Feb 2025 16:55:04 +0100
+Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 
-Whoops, I just submitted a v3 to fix the stable CC, after "kernel test
-robot" alerted me. I hope that doesn't mess things up.
+> On Sun, Feb 16, 2025 at 3:23=E2=80=AFPM Jonathan Cameron <jic23@kernel.or=
+g> wrote:
+> >
+> > On Fri, 14 Feb 2025 15:37:48 +0100
+> > Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> > =20
+> > > On Fri, Feb 14, 2025 at 3:35=E2=80=AFPM Andy Shevchenko
+> > > <andy.shevchenko@gmail.com> wrote: =20
+> > > >
+> > > > On Fri, Feb 14, 2025 at 12:21=E2=80=AFPM Bartosz Golaszewski <brgl@=
+bgdev.pl> wrote: =20
+> > > > > On Mon, 10 Feb 2025 16:33:26 -0600, David Lechner wrote: =20
+> > > > > > This series was inspired by some minor annoyance I have experie=
+nced a
+> > > > > > few times in recent reviews. =20
+> > > >
+> > > > ...
+> > > > =20
+> > > > > [07/15] iio: adc: ad7606: use gpiod_multi_set_value_cansleep
+> > > > >         commit: 8203bc81f025a3fb084357a3d8a6eb3053bc613a
+> > > > > [08/15] iio: amplifiers: hmc425a: use gpiod_multi_set_value_cansl=
+eep
+> > > > >         commit: e18d359b0a132eb6619836d1bf701f5b3b53299b
+> > > > > [09/15] iio: resolver: ad2s1210: use gpiod_multi_set_value_cansle=
+ep
+> > > > >         commit: 7920df29f0dd3aae3acd8a7115d5a25414eed68f
+> > > > > [10/15] iio: resolver: ad2s1210: use bitmap_write
+> > > > >         commit: a67e45055ea90048372066811da7c7fe2d91f9aa =20
+> > > >
+> > > > FWIW, Jonathan usually takes care of patch queue on weekends.
+> > > > But whatever, it's not my business after all :-)
+> > > > =20
+> > >
+> > > Too many conflicting suggestions. I just picked up all Acked patches.=
+ =C2=AF\_(=E3=83=84)_/=C2=AF =20
+> >
+> > Resolution of any issues 'should' be easy enough. Let's keep an eye on =
+how
+> > it goes as other series hit Linux next.  Might be a little work to be d=
+one there
+> > and by Linus in next merge window.
+> >
+> > Jonathan
+> > =20
+>=20
+> I'm totally fine with removing the iio commits from my queue if you
+> prefer to take them.
+>=20
+Hi Bartosz,
 
-John
+That's probably going to prove slightly less painful, so please do.
+I'll merge in that immutable tag and pick them up once you've dropped them.
 
-> thanks,
-> 
-> Takashi
-> 
->>
->>  sound/pci/hda/patch_conexant.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
->> index 4985e72b9..34874039a 100644
->> --- a/sound/pci/hda/patch_conexant.c
->> +++ b/sound/pci/hda/patch_conexant.c
->> @@ -1090,6 +1090,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
->>  	SND_PCI_QUIRK(0x103c, 0x814f, "HP ZBook 15u G3", CXT_FIXUP_MUTE_LED_GPIO),
->>  	SND_PCI_QUIRK(0x103c, 0x8174, "HP Spectre x360", CXT_FIXUP_HP_SPECTRE),
->>  	SND_PCI_QUIRK(0x103c, 0x822e, "HP ProBook 440 G4", CXT_FIXUP_MUTE_LED_GPIO),
->> +	SND_PCI_QUIRK(0x103c, 0x8231, "HP ProBook 450 G4", CXT_FIXUP_MUTE_LED_GPIO),
->>  	SND_PCI_QUIRK(0x103c, 0x828c, "HP EliteBook 840 G4", CXT_FIXUP_HP_DOCK),
->>  	SND_PCI_QUIRK(0x103c, 0x8299, "HP 800 G3 SFF", CXT_FIXUP_HP_MIC_NO_PRESENCE),
->>  	SND_PCI_QUIRK(0x103c, 0x829a, "HP 800 G3 DM", CXT_FIXUP_HP_MIC_NO_PRESENCE),
->> -- 
->> 2.48.1
+Jonathan
+
+> Bartosz
 
