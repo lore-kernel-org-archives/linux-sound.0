@@ -1,89 +1,208 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2059.outbound.protection.outlook.com [40.107.104.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACDD2C9D;
-	Mon, 17 Feb 2025 00:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739750449; cv=none; b=aDEEzM9WEanNMeaOpMWRObcBef4+I8GRaOl6fLgvx5P+H7lycxVH6CKcCdTApOavYxnHNnw+54UsM0vSsGzqYKJ7KKQrAUeTUj4g/pSusZlxUIOaSj8/YHbqrn0cdvl6jml1xhzpGLnAqVE8xrT75z9fAiuYyar3XAMV0FY+ICs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739750449; c=relaxed/simple;
-	bh=eSP9o7bMvgAT9G8orH5Tws3JfI0o1msv/DmweYrihxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R5BrfUk5K2X+9kbMuOiKTlUDSm4moIV9e7574Usz1CcyBsKG8D0CyCDt2iqHnSFW3pTHxDVqPWv0mT74RpiEyrhr4SHokWhlpRmnFbZDLTJ4FSnYARcE6vgcVuDd4oLpaU9wVehWpHsCR1XUr8UisIGADm4pfZ9YpK0yZVpUEnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W0g5H7OE; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F451611E;
+	Mon, 17 Feb 2025 01:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739754332; cv=fail; b=In8DJ86tlJS8VDHJHztLPKHNtNIB+2/MTb1Lf4G3/+29pOkG4Bgi4zTHXxwpE/y93aRRPjfN9pE0ORVAMUPqemKGnTdV8/RlvZOjp2h2Nb4xhkKraWAjAbtbkTeAZBIlMYcT5yqxVtal8MfkvvLaodWl7reDqtMaJBpmhRSonZI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739754332; c=relaxed/simple;
+	bh=s1k/IzCKhZtWGls2frJZJLV+zIySjJ0/FnH2a8YI3qE=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=OY04eBLLQtkyJIkmnsD/Kmkevk50fwC+acLPnwnUw0zk9NJlKVXhJJ+uNLYtu2Adl8ztUCLw7pNmlaRCqNu2X3ID6Hz8u4VD5UlnLMAIOPg7YGyxqvdigHEVD0imIIYNML+FgOM43VKZvyd+WrdNZ3kZehfIgzhxEGagRym0qD4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=BOEVpoNF; arc=fail smtp.client-ip=40.107.104.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W0g5H7OE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F878C4CEDD;
-	Mon, 17 Feb 2025 00:00:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739750448;
-	bh=eSP9o7bMvgAT9G8orH5Tws3JfI0o1msv/DmweYrihxY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W0g5H7OEPR/oyel1NMUUvLTByUpGtzJ8rXpDEbWo7tAWeZoIQbkAQllMe/Gw7Talm
-	 JER7qt2Z8VYjRmXmMl7LQMWATbxldvgb5AnDIQBqpwOB4iRDwnU8TQ4B+mtEYgNmSt
-	 9iJYj34cKo5fRorAc8j+864+lunav36AUV6PHxa1g2aAyQd8uD/IOWCVo4/Y5WTaAK
-	 tbg6qUzNYKnlicuLSQt3oylsY7TlHxlomU6mhuQGhNKPa4qKsf7PWuowlXzgJMtymH
-	 AXj9rpNMeP6z+6A5mzNeM6N/w/HKhNVbnEvvhjItFrcmxqxN0fMdhZmWI1PzieqZW5
-	 GAh6FqCKOYSbA==
-Date: Mon, 17 Feb 2025 00:00:42 +0000
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
-	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shi Fu <shifu0704@thundersoft.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH 25/27] ASoC: tas2770: Fix volume scale
-Message-ID: <e63802aa-16e9-4efd-8ba1-d112848b6e98@sirena.org.uk>
-References: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
- <20250215-apple-codec-changes-v1-25-723569b21b19@gmail.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="BOEVpoNF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LPEc9/ShA7zOxc6WwI4rErt4HfNWjsbXVVQivhhhAQZxO8FyqwylcHaZiXqFEXmctdHBnAtk+vy0g1/ZXorBfOaIlUt4tRqZ7vJRx0696Tri2pm0Y20Wh6hgqytjMXbQTysoKamkdCIwY28kXUDncFIcjqB421UfMNM76VORJGZmVyXuI1aLeNhqkT2XgTNAEXgrFvd0p/hJAPxg7vZBA8iItMrVxp39oZdN/8c9g3mCvNIuqhcZVcZgYpbOjRxu/zJhHtlsbk+nmTSEkQgm4Gm2pRLr9UBrQ0uzgl42dfxjvq7WO78Shv/KBuoJBTo9JQBiKxhMp8BUlAUeADQx7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X4frsu+/tPNrmYFYXyifCue68lAXIBQHV1W8/wlACxg=;
+ b=vJ1SJBiGL5L5VXvvHXn0B81O+87qOkf9PCw4wRIpBzHgkZYEfXxUuQcJFSwCwQQSaxS6hEZg3r71ZRPtDp2ZvkBdUoH1BobrLbqjP7ZIPs2S5IX7ZgG/zKJnQS1q+AIyIaxqTW6p4dUKpyQklechQnbVUWdNxRoSd1tq/SlwCIf1nFJCmbsiNcmN43TJmAdJSjLinUhsVJh4SROUP0t3qP+uJvQtV0NoCfynbLJ7B6d0ee/m+ZyuII2OYSca+1MwhSJqki5AAzVbm25sSApP45AI+V6n/Dnu13vykHp/T/Gk3feE6fzKrr90qT/ZC/hrYvM1FcLDJWVQzssFpomnEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X4frsu+/tPNrmYFYXyifCue68lAXIBQHV1W8/wlACxg=;
+ b=BOEVpoNFcS+1c9QnfuGoMK+lGyBymwMonKuJ6wR86mUrAcB2dzqomknH2x9Ey15yxHhwpIUuep8QnMYHlfo6MV+dxzblNNvZZhys6SNd08Z/eFJLmvFu6t2K+12oVV6PKybNU/okm0GIN5xOpaau9qhadsAczfkviSH0p2kYNp1ZS2ZaWoEgTS1Tqt8gecMcFkPmpk6ywIyEJbTZSA+HhrH00W3jk/SD88zBClP987oM/fyrmrKIhVbLq21zAff9VrV2RO+pmC0zWe7XN3NA5Yz/dTllUhFwt/xBKmqWi60w4W5KysfFxdmaTmybT47IkibFsqv0mjaoSKqLY3D0KA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com (2603:10a6:10:360::21)
+ by GVXPR04MB9925.eurprd04.prod.outlook.com (2603:10a6:150:112::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.18; Mon, 17 Feb
+ 2025 01:05:27 +0000
+Received: from DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::24fa:6f9:8247:c5dc]) by DB9PR04MB9498.eurprd04.prod.outlook.com
+ ([fe80::24fa:6f9:8247:c5dc%4]) with mapi id 15.20.8445.016; Mon, 17 Feb 2025
+ 01:05:26 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v3] ASoC: fsl: Rename stream name of SAI DAI driver
+Date: Mon, 17 Feb 2025 10:04:37 +0900
+Message-ID: <20250217010437.258621-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.47.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0033.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::23) To DB9PR04MB9498.eurprd04.prod.outlook.com
+ (2603:10a6:10:360::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YvtZ4gaHZqFG+sI6"
-Content-Disposition: inline
-In-Reply-To: <20250215-apple-codec-changes-v1-25-723569b21b19@gmail.com>
-X-Cookie: This is a good time to punt work.
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9498:EE_|GVXPR04MB9925:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2ac3e53-2f04-4718-dc41-08dd4eef2a16
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|52116014|1800799024|376014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?WkfB9HQmO968OlM5+wKFLeaDhnApHUvPWpBB7q8gYWFqMTIunPhEBbtYuoTk?=
+ =?us-ascii?Q?5zS8wj9XTgpolCtpZkMs4x76c4jzCVvXTk8Lb/5JC1LeQdLcMkgJY1S7wQQi?=
+ =?us-ascii?Q?jKFMB/p8wTBzpfNZqZX4LoiB9jxrwhw1qByX3mInkEkREtsDOxAVsKTgFxbW?=
+ =?us-ascii?Q?8GHnNa0u77TunzPOVm2b2Ix4fNapAsWhWH1WxFIcHY2yZHVqdSkfV3qz+d47?=
+ =?us-ascii?Q?4syhwNvYuGzTWNzsN0ST8XTR9uekI3U6vOpBlFm6mvNfeTbzu05CU3acJ7FT?=
+ =?us-ascii?Q?SuejYkt6vSOWUGpOc6l/K/nGrTahAMc1f71jN6J+yuRB24+Sd2taQftlmOg8?=
+ =?us-ascii?Q?QpZE2nb0aTDK0DB2hl+ZdDAUqmMyuPzVtsv5SUAgjoF8AP77ChJYGm6pBB3w?=
+ =?us-ascii?Q?HJ1gyZubxFmbrqcP/ozcwtHlDqZr7TvniYKOfmBSMcmdCPjxuAEv08baAOHa?=
+ =?us-ascii?Q?3io3baY+bf0FWtVSD+aA1UgmWTbQmb8krNk08Xka+Bd1P9gDOR2FkGShSl/w?=
+ =?us-ascii?Q?1SsElrKrvtk+FmZ5/VzUW14gy8hhN3Az5Wz8Iocz+CMpqrLaWB0I5FitIN9U?=
+ =?us-ascii?Q?pu1lJJsBdTtWcK3rOq3afklOeevVHzWVwH1TIEjj4/RUBCg0Mw+jEPl5FFSP?=
+ =?us-ascii?Q?iIvPw0/2pnET3es7jfLOqEsvfrPcSZhqOknUR7mkG20qcXLJwv35KTuOxu3h?=
+ =?us-ascii?Q?esVWPIqg/HRqoFefCOY/bXCKOFVJ9baoMztWhg7lRIM5s/4MUCph6PchBKML?=
+ =?us-ascii?Q?QaIeDjph1BbKzgv9VUqHSGZE2eeUkUJnwQanl9Z6rNFOKqO8z4ykW0h2yn6R?=
+ =?us-ascii?Q?ikHuP0Z+bn3pvv/GhQLJ7JIqMQfL6zB33o9HGoZxekPeiDnmlaR4MYTQH3lP?=
+ =?us-ascii?Q?2NxrVVtYdeep9jqpVeG5nvXROYTkI+G7MWUp2vEajOVdvKtr1aQ4Sx9KBRgF?=
+ =?us-ascii?Q?hR1BS3f3gKLE3cugh6W3KHCqzsLsVTphOz0jCK/l6CNiCnM8Lwy8tdhwLSK1?=
+ =?us-ascii?Q?yGinIGkyR2gwEsi5Z/yRsBqGKTcCxKv6M1x3VHogUng+Lky9XGn3FE4d14nD?=
+ =?us-ascii?Q?kmK3dvfl2WBEfm54BEcSTvQZfuk4lA7fOI1rgXwz+QJEg+r1pco/83elJqcD?=
+ =?us-ascii?Q?+9HyUDvhXuXs6/LbPURDtF+M4ji0TMlAGqdTY1dFqJ/k064L/8f9tyDkelFt?=
+ =?us-ascii?Q?q6ZJLZUPjeKdcLDxwzPZOmMPSr4ueZBa543WymnXTUNZKNyWLzNvmP0Pf1vu?=
+ =?us-ascii?Q?jyn8qo3iGhGTawY1wSzyczhzcfXkeKQD8t2qLwQzrHC8iqWLOm841ESQl4CC?=
+ =?us-ascii?Q?RXKmxkKmeRlS0EAaxLut0eg00/W7G/e4ucKMly4mXmXylhJNS7on/X8C03N4?=
+ =?us-ascii?Q?y/3n/pLCI6X8FFjELkRUZF5TfglXpVv9xKzjn4wdlIh2v6DeziaC73E7d6gu?=
+ =?us-ascii?Q?c8Y+nN6/f6V23KFzMdr1jOizhdVGJik7ftnO8VPFkQXmLdAVZw671A=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9498.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(52116014)(1800799024)(376014)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?XynllqDehdvxhJ6Hj8GuVoLxKN1bl+7vTk3pq2aXNiLsgVThKtKl6oQsZjZ5?=
+ =?us-ascii?Q?S5NA2QoMly/XqgBjiu0+js6K5396Hidkt+n8V94w5Bd+oU9j6MqNKWwueDd1?=
+ =?us-ascii?Q?FFLVbsGT4MP6QeR9x6ghnkpYvqsDQA7qLHcy84b6wgcG1tOFOVOKVQhvEekU?=
+ =?us-ascii?Q?psq073TLkAtMXk3k/NTZ6rxIsoXkbipMZhGAsXjGvC+TYiUR3Vn6AFy0+R4J?=
+ =?us-ascii?Q?zWO1NKnEkcYzDe6kGNxUrjz4pd5BoMHSxzApvZ/CMDR2sLw3fm0vGHeWrlSo?=
+ =?us-ascii?Q?I9U8WeHPYJfTJ2tO+V5nqBKYPOTy6oEPFCmy5LGRTa7j6XQ6ApTNvro/Igq4?=
+ =?us-ascii?Q?kcYmix7oI/wpFPOUnnS7N7fyXEerfXKw8mUiZQY2S3RYCON4QiHC4MG4dQRI?=
+ =?us-ascii?Q?Jwbnk/SItxjehz1cCEsS3yQgWfQO5oO/zjv3zctJDYxKRdHP6v6xKXkjBdJw?=
+ =?us-ascii?Q?MDiVp69VfvvpL8q3EeXSsjXITTpD1+sSKnY6YB+7BTQwLaEgjP8ufUg9HJur?=
+ =?us-ascii?Q?LuoIlax18J5KzhGXAWyewdSqwPel+WtFUpEXw+GJ1miwXvvUwdE8A3SAEwG0?=
+ =?us-ascii?Q?Rdy/ZEa3cW6UaO9A32sCIsfXzAL4rZC3KCkKmYICJgXORhBfEBNcSPBVez4l?=
+ =?us-ascii?Q?uV//JzucPFwtQ+yg4ywD5hOdJ3mClf3j7lSFeyivpj9WNx3GkhOoZrYeRQv5?=
+ =?us-ascii?Q?Py24acKTDfuk9EurzqKlBUOxLeGbMsNKN5NEiMtSf/Hbn6PTnstd8zd74b3+?=
+ =?us-ascii?Q?li11+paTTQRdXn4VdV8a4jPtr8MIx9UrYWisOGh3p8lpvspfJEdjRcXEH9wy?=
+ =?us-ascii?Q?Ne4fRXb+tIy0eZswHtYpb+57luaoiR61Bt2ohDQBp4LRisWs10CIxIi40Nq1?=
+ =?us-ascii?Q?ILyQwgObhRqDAisiYl082jhvnhJJHe/NofehQFJsfz4OPes85us5/2qLRCfz?=
+ =?us-ascii?Q?fnxcfxJj9AXvHnIERgCpo8OwRno4E1MLKL0z3lCs6+mo2TgZYPP7GFIjeO3Z?=
+ =?us-ascii?Q?Nvioeii6PPmM5wsXNPrYycwfCDtrxSEyuR18opRZcdCa+aAX/E7YagYWJYxX?=
+ =?us-ascii?Q?m9JFLg3LTbgHj70vkkDhnUP+tghWTt/+UHXxQxlP4L3qlGMN8z6vWO8Fh0hE?=
+ =?us-ascii?Q?mlbNKbZBYnH/WZEod8e3yUgurC87GDgrSdpsxCYDSnLbOIk9v5hVyAEONX91?=
+ =?us-ascii?Q?nZ3KbeRm2vq6JsxqpILmHJwJFKwABQASbsfCyBOKxrgIy0cgHSJCXgW/190N?=
+ =?us-ascii?Q?ARZLAsVd8PTYlshQ5tBm5QeuiyVg/W3ogBydyzdwe0tfKUhc9FwX2p/T3jAU?=
+ =?us-ascii?Q?6gyBjRBD6dHOfw07UXIMGr/qQ9rF6kmCMnidvmonsWJchj0PUX2OUwizEIIX?=
+ =?us-ascii?Q?H3OzIHFoik79Q4+33nIqezwshABfpIfoLXDQoKEHXgwK7ZKFF19zTABUShma?=
+ =?us-ascii?Q?BoMjOFRfQuP9pcyKifzkBawjq9LUmZC7NHXYZczUuyDMPW0FHMuBWepZiAK2?=
+ =?us-ascii?Q?BDrTIAptlFdAfozii6uud/k2AMsuGWasb22you4Coupjtj2JViVvVcKYIStl?=
+ =?us-ascii?Q?m/Uao3y6gU7IeIAcu2sZN2nr+qtpR9c8lotZlHMP?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2ac3e53-2f04-4718-dc41-08dd4eef2a16
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9498.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2025 01:05:26.8875
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 17jFU6mQfUxBMuU5LI8uLyGAoeiBws4ekasVS3bOQRYgsFfwmAbbBGMyZZJHibcmsGG0TbGxjlwacMgj6/h9Og==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB9925
 
+If stream names of DAI driver are duplicated there'll be warnings when
+machine driver tries to add widgets on a route:
 
---YvtZ4gaHZqFG+sI6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[    8.831335] fsl-asoc-card sound-wm8960: ASoC: sink widget CPU-Playback overwritten
+[    8.839917] fsl-asoc-card sound-wm8960: ASoC: source widget CPU-Capture overwritten
 
-On Sat, Feb 15, 2025 at 10:02:58AM +1000, James Calligeros wrote:
-> From: Hector Martin <marcan@marcan.st>
->=20
-> The scale starts at -100dB, not -128dB.
+Use different stream names to avoid such warnings.
+DAI names in AUDMIX are also updated accordingly.
 
-This was one of the patches I pulled out, it's already in CI (I left
-everything for a week in case there were review comments).
+Fixes: 15c958390460 ("ASoC: fsl_sai: Add separate DAI for transmitter and receiver")
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+---
+- changes in v3
+Squash two fix patches in one commit
 
---YvtZ4gaHZqFG+sI6
-Content-Type: application/pgp-signature; name="signature.asc"
+ sound/soc/fsl/fsl_sai.c    | 6 +++---
+ sound/soc/fsl/imx-audmix.c | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+index c4eb87c5d39e..9f33dd11d47f 100644
+--- a/sound/soc/fsl/fsl_sai.c
++++ b/sound/soc/fsl/fsl_sai.c
+@@ -994,10 +994,10 @@ static struct snd_soc_dai_driver fsl_sai_dai_template[] = {
+ 	{
+ 		.name = "sai-tx",
+ 		.playback = {
+-			.stream_name = "CPU-Playback",
++			.stream_name = "SAI-Playback",
+ 			.channels_min = 1,
+ 			.channels_max = 32,
+-				.rate_min = 8000,
++			.rate_min = 8000,
+ 			.rate_max = 2822400,
+ 			.rates = SNDRV_PCM_RATE_KNOT,
+ 			.formats = FSL_SAI_FORMATS,
+@@ -1007,7 +1007,7 @@ static struct snd_soc_dai_driver fsl_sai_dai_template[] = {
+ 	{
+ 		.name = "sai-rx",
+ 		.capture = {
+-			.stream_name = "CPU-Capture",
++			.stream_name = "SAI-Capture",
+ 			.channels_min = 1,
+ 			.channels_max = 32,
+ 			.rate_min = 8000,
+diff --git a/sound/soc/fsl/imx-audmix.c b/sound/soc/fsl/imx-audmix.c
+index 50ecc5f51100..dac5d4ddacd6 100644
+--- a/sound/soc/fsl/imx-audmix.c
++++ b/sound/soc/fsl/imx-audmix.c
+@@ -119,8 +119,8 @@ static const struct snd_soc_ops imx_audmix_be_ops = {
+ static const char *name[][3] = {
+ 	{"HiFi-AUDMIX-FE-0", "HiFi-AUDMIX-FE-1", "HiFi-AUDMIX-FE-2"},
+ 	{"sai-tx", "sai-tx", "sai-rx"},
+-	{"AUDMIX-Playback-0", "AUDMIX-Playback-1", "CPU-Capture"},
+-	{"CPU-Playback", "CPU-Playback", "AUDMIX-Capture-0"},
++	{"AUDMIX-Playback-0", "AUDMIX-Playback-1", "SAI-Capture"},
++	{"SAI-Playback", "SAI-Playback", "AUDMIX-Capture-0"},
+ };
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeyfCkACgkQJNaLcl1U
-h9CSrwf9E0w8I+/F3NRQ3YIK1ehAafc+rgjLcq/PZHkZ6iVFMF9AKUD8LKzoeZYF
-HfTXnOCqDN5KkMvBDrJA6+DAeMpgUx4znD0f7YSwMZpZqx8COFj208yQUDoHR1Y1
-9z7p1CMfbkkWSds1RumDwhFqeD4Uz9/I6j1QIwZJmNXXc1RZ+i9lqMphZpcMDrbs
-o/RdQgkeMk06SihjVHdr7itWXHZv754v/54FLzkJe3wS8xEGodBdiKRpOAgItz9P
-KvMUosd+MjRRdG5D5rSAku8LviRyE489e8bJ6D/DesXcPsfx6eI0tHATFXdbvfsk
-vx+5MoNQxZhTtFiM6WysQffKnBqVmQ==
-=sFyb
------END PGP SIGNATURE-----
+ static int imx_audmix_probe(struct platform_device *pdev)
+--
+2.47.1
 
---YvtZ4gaHZqFG+sI6--
