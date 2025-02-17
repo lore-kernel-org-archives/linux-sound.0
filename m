@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF4D217733;
-	Mon, 17 Feb 2025 11:57:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9B821A422
+	for <linux-sound@vger.kernel.org>; Mon, 17 Feb 2025 11:57:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739793438; cv=none; b=ecABmzOyNTvxfx1X+IRVfCOTtPeervHMV/gWrggYx8az8gIT28CH4wWLACK/8RzAQwPRPbBFUg3F9qpzTTjDu6aZ7JRZJEXLb2ZKmGteXio1blzazv8Ib4h6/TOkE/vdj4Axe6k4P1BuLv3ZLNFIwfv4/vsKoULYNME1y8LN8Eg=
+	t=1739793440; cv=none; b=kS5REfWeeL2hZdOWvlhtV6QZLR6re0SXAosBrjGSz6pM5lYDz1W6W+rWDAogCOdEy6ISW7xGCvTYHZMYp5ZogmOR2dLzQ+jDNXqRR8NejhCXx78KFWy20gBPWsx1slltlP0zz1NxACz1l+y7CcuiktGtDvt1NDQXctjwKUgtLeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739793438; c=relaxed/simple;
-	bh=HUGZHMnwHSyonTTeXcEt3TS6l+rI6EOru85XAt7Si/s=;
+	s=arc-20240116; t=1739793440; c=relaxed/simple;
+	bh=/3+sJwIfRCmKrviKd236FwmFr7wVUJjZOrDCBxeTg6w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NC4Gq9OoN0xWqRhWiQUvPZxq4h5WIrNmxtfR+tzWls6BfeMm4hYRmDL7y+iks8TvDqBsMNEMcKoWJHi6X+jtBni2NP1vyIOqpCnoz81lWQXIsvmwW9p1HTaUbedE0PeYO3PxUwoDSCktIpqV1M6qyVbmJ/nDXUFZ7djUDppTReY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b6f87SYp; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Uxe5jaeGzOXCqTcgxNB1xE53uEF4+DCHO2WGMuGsAvVSwQHTYhLw9+C5P5YpcLuaK36XKSx3c2jzNep/UKiRk2rqIY9Zj962JfNjHxGsxLHmdnDnumwzYJwEjHHwXDcSWXdez2OkXDIzxHRL9WZ8d98pDm/VhC+z2gIy97GeW9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WYJ4oYef; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b6f87SYp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E970AC4CED1;
-	Mon, 17 Feb 2025 11:57:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WYJ4oYef"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BE35C4CEE4;
+	Mon, 17 Feb 2025 11:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739793437;
-	bh=HUGZHMnwHSyonTTeXcEt3TS6l+rI6EOru85XAt7Si/s=;
+	s=k20201202; t=1739793439;
+	bh=/3+sJwIfRCmKrviKd236FwmFr7wVUJjZOrDCBxeTg6w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=b6f87SYpL/vdAUuEoSjhuSQ1LDS9J4ho6P+A/VQ1BjA1PMYmA4++gYwXNNm2lLyhE
-	 RBe0PUYFxVt3SKqB4+UHRescHnMskNlRo21kiGX20zDjmDmDxVuRc177p9rAE2SGuv
-	 nP/AVx8JR5C3YiHYOx4NVLH70j7EPgGxNiLv6pMHZZXa8wQNoV0TZcC/ZsDOdoB5Wx
-	 6rBSo9llUPwJiXVyQalhmPCaiIYPkAV8xIyIM3+/3y/1gl2o9zh3SLRRmwTvIX1cK/
-	 KheZDD+8w0EFZZ6jh3E2B34Xm+TrYEs2iPszyePK/3PZK/OUoLWbZAMxvP+hSrLjSp
-	 AloIkEdR9Khag==
+	b=WYJ4oYefPp2cROg1yhxwWDPfwu0hDPxQzIgYrbqFBuw54kfWsv757v0biKJEzCozw
+	 Gjoc6SOQgS3ZKyM7tPqOITjL0qxYONXuUVmA3bYOasCBv/qjHeaZ+oQNAxKq5H0M9e
+	 uRGD1dtK0+C4nHGXxhs9JxJPgK6/NS8miJSPakScgcywH2Jrjxd3EQKxDagCh+7rEG
+	 G8qLHFcuvrO1KZdYxIyA0Kk6WBg0PmiKGKBJUyne90tVCfeCbBE2evRyPQMTry8Qoo
+	 TC9JghuWpl2NjhdmOksu9f4IvoX0xkVYV43mgGCdS2agkFpHDBe4Zuc6J2mw3WS0T1
+	 Y4KhB1TshIVzQ==
 From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Hector Martin <marcan@marcan.st>, broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250208-asoc-tas2770-v1-1-cf50ff1d59a3@kernel.org>
-References: <20250208-asoc-tas2770-v1-1-cf50ff1d59a3@kernel.org>
-Subject: Re: [PATCH] ASoC: tas2770: Fix volume scale
-Message-Id: <173979343450.13947.18258886798038196730.b4-ty@kernel.org>
-Date: Mon, 17 Feb 2025 11:57:14 +0000
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com
+In-Reply-To: <20250210031954.6287-1-yung-chuan.liao@linux.intel.com>
+References: <20250210031954.6287-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH v2 0/2] ASoC: Intel: soc-acpi-intel-ptl-match typo
+ fixups
+Message-Id: <173979343767.13947.17376397871267812196.b4-ty@kernel.org>
+Date: Mon, 17 Feb 2025 11:57:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,10 +46,19 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Sat, 08 Feb 2025 00:54:35 +0000, broonie@kernel.org wrote:
-> The scale starts at -100dB, not -128dB.
+On Mon, 10 Feb 2025 11:19:52 +0800, Bard Liao wrote:
+> Fix copy paste of lnl into ptl.
 > 
+> v2:
+>  - Remove "fixup!:" from the the subject lines.
 > 
+> Peter Ujfalusi (2):
+>   ASoC: Intel: soc-acpi-intel-ptl-match: revise typo of rt712_vb +
+>     rt1320 support
+>   ASoC: Intel: soc-acpi-intel-ptl-match: revise typo of
+>     rt713_vb_l2_rt1320_l13
+> 
+> [...]
 
 Applied to
 
@@ -58,8 +66,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: tas2770: Fix volume scale
-      commit: 579cd64b9df8a60284ec3422be919c362de40e41
+[1/2] ASoC: Intel: soc-acpi-intel-ptl-match: revise typo of rt712_vb + rt1320 support
+      commit: 78ccf6a6bae11e451e20a52dd2bc2ab98f66326b
+[2/2] ASoC: Intel: soc-acpi-intel-ptl-match: revise typo of rt713_vb_l2_rt1320_l13
+      commit: cb78b8dc7834066539253c039f276b3625fecd9f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
