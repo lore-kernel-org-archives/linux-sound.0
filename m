@@ -1,41 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FBF21CC63;
-	Mon, 17 Feb 2025 13:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FBD621D01D
+	for <linux-sound@vger.kernel.org>; Mon, 17 Feb 2025 13:38:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739799507; cv=none; b=dojWh5DcaQqqFQCQqcf8uUIKXNfwrC2VPNxNo6sgHkPSmQaIyWg/E/y0A6FQ/MQcZD8ZdOFylxxNhY0qmhi2Uhg/3K8XMyIutGrTxSmdJSXhVz5lg+g3Mw1Apo3P3MXzk97YtxN4PSaPmo2WOYDEgL7+zq7EsTbMCKAohQ0apg8=
+	t=1739799510; cv=none; b=e5K9uXayKDSsHD5ASoOpzt3J/2v0Onme1o+agzVvybQtBK0TR3jmnHqXzwcu6CxkwejZwT25tmxtsZ62+nwnfOSHWw8VKoMvNcE5nm4KItY4lHs7+VB1Z9G+0m9Gn/N/8fdyZOEjUUcGMrAQTT+aotxfo1EhIPiZLw+93OERuA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739799507; c=relaxed/simple;
-	bh=zMdGWJp3+Q85tNq2jwMB6nkQk9pTkBBt/pztVGDMZpE=;
+	s=arc-20240116; t=1739799510; c=relaxed/simple;
+	bh=iObqk2SYyxMTubpCChBFv6Xvv/Bumwc/IIdb2e8b/4Y=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BgsfTuZeD6+dZOti0DDMs+K8bXqCE6m2cpLl+MsM98YYXVXp6E/PCwyaiAiPreD6R0ts7oFrivSQU+oBSh6Y2xGeWq0m9x8ZXuv950BMBHVwyg1NRxAHPyGAi31et3wRGpUOALiAciMHPziJxEgPYTbLPhn2je1y9qbYjlDJXYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DI/U20Sj; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=pDx9mjggrf7LSLlYyBSwuynK1F92wQEdXBRspxfmy/xXISZEMVHmLVNvacidWB7FBI7x6JKcpN91nnaOvE9khjKX1CXeIQJwIgQOGnaMxCSoqi3ridcGuKQkRn3eVsGs/M1eJIuticr4tfyTj+K7m/4acv74/4ROuZapPmxmFzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WJvUkouO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DI/U20Sj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 949BDC4CEE2;
-	Mon, 17 Feb 2025 13:38:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WJvUkouO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62FA3C4CEE9;
+	Mon, 17 Feb 2025 13:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739799506;
-	bh=zMdGWJp3+Q85tNq2jwMB6nkQk9pTkBBt/pztVGDMZpE=;
+	s=k20201202; t=1739799509;
+	bh=iObqk2SYyxMTubpCChBFv6Xvv/Bumwc/IIdb2e8b/4Y=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DI/U20Sje9MbGSNT81jDaQz8QYb5EPBAVNYSC7U+p3q/fgoqfN2RTWd3LE8XV8Evm
-	 sxerrIWfVqIjm+psgGDxNAuXFu2sIBLX1QI/bAP2of5+5Gwe+A6rm3IcSmbuiXPSc5
-	 KiJo0lgR5kOv9YOlY9sh3coJ8Vsiic2FQ3pANGVNP9sQ55ER58LlJxSpDjdPxpI3Wc
-	 Q/QWJeBecnlMaXPClF1EWPrgqlVKpEUYp3nnBkB92EBdXbtwBW9cev1ceDAjopFp3N
-	 3vu/pWrGul2/qlCbHMvua2HlE0/OnGdI6L7aAENNUA+GBtlQFZLCHqw+5+1lvjIBHy
-	 TvzBDiB7uXM8w==
+	b=WJvUkouOcDHIdZbNturSpueTqI8MDwj8SHIQkOIYEZVT0t2LQbPuCFXbZP424MV8i
+	 HNILOHOFwL54K9RDKbjf4if1KEg/ouX5yS6WbDuQ3V88oWL2WztWBVjAcBlyx3kQns
+	 1/f1m6z6jyIyhXJ+uq6g5oS8Ogu8Zy2osTbX3yeF/XRR1Rr0l9L6Vj+MHccUaKyZr7
+	 O5CsiYv01BBBg6NWo4R8LJCS8tvmKSJHh/FdrSjsCuT+Us3Cib01mOnHf5WA6sTFsx
+	 dy7cY3QQuGXLLAp3Oz9kvInJ1LHJhdfj+LgTHd6lJhuwC0j1vuVlMOoFp39ZaGRGCt
+	 m6nBkDfruX6kA==
 From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250207163029.3365-1-laurentiumihalcea111@gmail.com>
-References: <20250207163029.3365-1-laurentiumihalcea111@gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: wlf,wm8960: add 'port' property
-Message-Id: <173979950535.40079.2153617057920573361.b4-ty@kernel.org>
-Date: Mon, 17 Feb 2025 13:38:25 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Luoxi Li <lee.lockhey@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Thorsten Blum <thorsten.blum@linux.dev>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, sound-open-firmware@alsa-project.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20250212172947.38970-2-u.kleine-koenig@baylibre.com>
+References: <20250212172947.38970-2-u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: Don't import non-existing module
+ namespace
+Message-Id: <173979950715.40079.1710107883732812775.b4-ty@kernel.org>
+Date: Mon, 17 Feb 2025 13:38:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,12 +52,13 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Fri, 07 Feb 2025 11:30:29 -0500, Laurentiu Mihalcea wrote:
-> The wm8960 codec may be used with audio graph card and thus may require an
-> additional property: 'port'. Add it.
+On Wed, 12 Feb 2025 18:29:47 +0100, Uwe Kleine-König wrote:
+> There is no module namespace "SND_SOC_SOF_INTEL_HIFI_EP_IPC", so don't
+> import it. Historically there was such a namespace, but it was dropped
+> in commit 97e22cbd0dc3 ("ASoC: SOF: Make Intel IPC stream ops generic").
 > 
 > 
 
@@ -58,8 +68,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: wlf,wm8960: add 'port' property
-      commit: 5c7e4c4da8586d2ef55a11a9f4df626b8ea9a146
+[1/1] ASoC: SOF: Intel: Don't import non-existing module namespace
+      commit: 9dc016eaba3a70febcd1db5f1a0beeb7430166aa
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
