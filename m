@@ -1,155 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B382165E3
-	for <linux-sound@vger.kernel.org>; Mon, 17 Feb 2025 10:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70864217F24;
+	Mon, 17 Feb 2025 10:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739786860; cv=none; b=PIifVfQ9N8rq7si4mhMYqimYy8t7QgZxF4zEKwWvwCfGjNevODKlIo5e/DQ6bqOiSw4zyfqLWXjOuHkcLo4H5bjC4hfsMvuK3HzlR/zhJzpoq9e+VZv/z0naUCsxVx7gOWKlrDtcBwNYoVFJr5XJiD1mnOkG6bpsM0J9fNcs6fA=
+	t=1739786878; cv=none; b=lWFerPoVxX5bBQwu+PTrynZ376yDtBAHqihdsML92+dX7JuDgxSyr9TJJCRIPkCjrOZ6rMOVhfLBIQJAW/FzDNmTNZm5AChiMNybrIU1LsZByp919N9NpxXMl5AImD1w81CL7Y43tkIEFGoODwNnE9HCdWo9wLgIxnOJ5TivxfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739786860; c=relaxed/simple;
-	bh=Z9wYJSdPhi3GkG4catQnHY9r2j1Sf1qWKaNVh/ObkTQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sJ24uHni7ZgfUJBcoHLAU7P72tZVUp0k2/FHYdm3Vfph83HWCvIZQEl5K6Qb4FEFR9Rj/q9r6lVrKBcQ+g4vj6HwUA7EMdo7O1K8hawpdPmiNR6uwW+/tyAXjEuoli355upZ81ohebpXm5JIaSfa0YsbNFw/1+0oNgueJNaKum8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ry4Cv1PT; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739786878; c=relaxed/simple;
+	bh=WTEkBJbEoohvOnLs8ZG8ZjIpCctoGaPaGiS99nzNFK0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SouZbqk9zSTE6M2Ywn6Tr3qRx0yLf7RD/9HsGiSQey22rnm77un9af1pcei8aV+BSgnpWaPPPzkxRcsa6YSqXWAcjEBMdRQZ9l61SKbGTqt5+j4IS2tm64ZREtb7Y5ICtLb2QwrHP2xFmz674yDI30v+Au+DVl+FpZRNEKq6xUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=TqBgJJoo; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ry4Cv1PT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739786859; x=1771322859;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Z9wYJSdPhi3GkG4catQnHY9r2j1Sf1qWKaNVh/ObkTQ=;
-  b=Ry4Cv1PTHE960qpnshIYCKAvYCyO8rooX4ZMxCqeMKjcMuDHmM6UWgNE
-   zDebwBE5u9GEYkk1d3mNFNOt9kr0HPbuGDz7V1vVkKRNPWqRsSuo5mBUI
-   dW5ZURzDWzV5jGZZbwPA0EF9S3rC9wezUMbVzWQ/Eadux4GXYMYurZe7i
-   gdFTq2IHm/i+d5tOy0RXlmkKIUhAm5S/N/KGH1bGU2EfK7nsV8OX1lZbf
-   uAWQRFstx0k0hkNo7kiufJhg0s/MEjTjcIsZAR9vj3TksvpyyiyZmICKj
-   TinF/Wdik+eZK2NIe91Yj9uOhcdNCHWgPxsIPZyqv1CzFhGJaW42yYr0S
-   Q==;
-X-CSE-ConnectionGUID: 4qptTQZRT72HFFQGpu6cAA==
-X-CSE-MsgGUID: L1qs54TSTIy3sGIX/B0E7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="65818342"
-X-IronPort-AV: E=Sophos;i="6.13,292,1732608000"; 
-   d="scan'208";a="65818342"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 02:07:38 -0800
-X-CSE-ConnectionGUID: 7EhWxeYySDq7xwi+i2jZQg==
-X-CSE-MsgGUID: 3r7NH+CnQMazvWn+TL96Dw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118219080"
-Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Feb 2025 02:07:37 -0800
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: broonie@kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	amadeuszx.slawinski@linux.intel.com,
-	linux-sound@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 10/10] ASoC: Intel: avs: Support multi-channel PEAKVOL instantiation
-Date: Mon, 17 Feb 2025 11:21:15 +0100
-Message-Id: <20250217102115.3539427-11-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250217102115.3539427-1-cezary.rojewski@intel.com>
-References: <20250217102115.3539427-1-cezary.rojewski@intel.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="TqBgJJoo"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51H7w1Pk014998;
+	Mon, 17 Feb 2025 04:07:38 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=wakwyFHAJCVvGbhqrn
+	JLBZqnmDFS/vx4KyMQ/0AZRz8=; b=TqBgJJooCiD0i3nqRH/tNYo9ETb0kO2R9f
+	r2ZCPpXFcLEPuvhAO4cEV0+MP8sXyjkGyO9bxQvmg3k7t5Ovl4aAyAp+yoLG5hYF
+	guDr+YvW9d1A9ivbdqbUVIi/A3VIgnOd3SNmQIK8J+E7V6CLtNBI5GzrMrhD+OeL
+	9vgjF9av3PsEu4L7rkpqi4Qnfy6EP+hhXXK/IiSgxyIkJhLNktjdo+EcQA9cKkds
+	Ku9hIhJLnBhWFLxj7KAyJVyHHdWwoBDz3zW4xbBlBysaWQXCSbzF5snxl1QykDdL
+	gcEHgLCMOLgZ9HLN+uEwxxHMPAA+iAtF9apRPc2/WjnwDhuKWh9A==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44uwg18j61-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Feb 2025 04:07:38 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 17 Feb
+ 2025 10:07:37 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Mon, 17 Feb 2025 10:07:37 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id ECD59822561;
+	Mon, 17 Feb 2025 10:07:36 +0000 (UTC)
+Date: Mon, 17 Feb 2025 10:07:35 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Francesco Dolcini <francesco@dolcini.it>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        <patches@opensource.cirrus.com>,
+        Ernest Van Hoecke
+	<ernest.vanhoecke@toradex.com>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Francesco
+ Dolcini" <francesco.dolcini@toradex.com>
+Subject: Re: [PATCH v1 4/5] ASoC: wm8904: get platform data from DT
+Message-ID: <Z7MKZ11fRNN5XS90@opensource.cirrus.com>
+References: <20250206163152.423199-1-francesco@dolcini.it>
+ <20250206163152.423199-5-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250206163152.423199-5-francesco@dolcini.it>
+X-Proofpoint-GUID: zFVgUBsuYQTWAFBp4JceVwXbSnEn3_pf
+X-Proofpoint-ORIG-GUID: zFVgUBsuYQTWAFBp4JceVwXbSnEn3_pf
+X-Authority-Analysis: v=2.4 cv=CYzy5Krl c=1 sm=1 tr=0 ts=67b30a6a cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=kj9zAlcOel0A:10 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=m8ToADvmAAAA:8 a=dvSm-TvE4kW1qXnr-8MA:9 a=CjuIK1q_8ugA:10
+ a=YXXWInSmI4Sqt1AkVdoW:22 a=kCrBFHLFDAq2jDEeoMj9:22
+X-Proofpoint-Spam-Reason: safe
 
-The PEAKVOL module initialization procedure allows for specifying
-default configuration for all individual channels. To reflect that in
-the code, first update avs_get_module_control() to allow for selecting
-Volume or Mute control based on needs and then apply the settings with
-newly added avs_peakvol_set_volume() and avs_peakvol_set_mute().
+On Thu, Feb 06, 2025 at 05:31:51PM +0100, Francesco Dolcini wrote:
+> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
+> 
+> Read in optional codec-specific properties from the device tree.
+> 
+> The platform_data structure is not populated when using device trees.
+> This change parses optional dts properties to populate it.
+> 
+> - wlf,in1l-as-dmicdat1
+> - wlf,in1r-as-dmicdat2
+> - wlf,gpio-cfg
+> - wlf,mic-cfg
+> - wlf,drc-cfg-regs
+> - wlf,drc-cfg-names
+> - wlf,retune-mobile-cfg-regs
+> - wlf,retune-mobile-cfg-names
+> - wlf,retune-mobile-cfg-rates
+> 
+> Datasheet: https://statics.cirrus.com/pubs/proDatasheet/WM8904_Rev4.1.pdf
+> Signed-off-by: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> ---
 
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
- sound/soc/intel/avs/path.c | 32 ++++++++++++++++++++------------
- 1 file changed, 20 insertions(+), 12 deletions(-)
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
-index 403510494e77..ef0c1d125d66 100644
---- a/sound/soc/intel/avs/path.c
-+++ b/sound/soc/intel/avs/path.c
-@@ -300,7 +300,8 @@ static int avs_whm_create(struct avs_dev *adev, struct avs_path_module *mod)
- 	return ret;
- }
- 
--static struct avs_control_data *avs_get_module_control(struct avs_path_module *mod)
-+static struct soc_mixer_control *avs_get_module_control(struct avs_path_module *mod,
-+							const char *name)
- {
- 	struct avs_tplg_module *t = mod->template;
- 	struct avs_tplg_path_template *path_tmpl;
-@@ -316,8 +317,8 @@ static struct avs_control_data *avs_get_module_control(struct avs_path_module *m
- 
- 		mc = (struct soc_mixer_control *)w->kcontrols[i]->private_value;
- 		ctl_data = (struct avs_control_data *)mc->dobj.private;
--		if (ctl_data->id == t->ctl_id)
--			return ctl_data;
-+		if (ctl_data->id == t->ctl_id && strstr(w->kcontrols[i]->id.name, name))
-+			return mc;
- 	}
- 
- 	return NULL;
-@@ -398,17 +399,11 @@ int avs_peakvol_set_mute(struct avs_dev *adev, struct avs_path_module *mod,
- static int avs_peakvol_create(struct avs_dev *adev, struct avs_path_module *mod)
- {
- 	struct avs_tplg_module *t = mod->template;
--	struct avs_control_data *ctl_data;
-+	struct soc_mixer_control *mc;
- 	struct avs_peakvol_cfg *cfg;
--	int volume = S32_MAX;
- 	size_t cfg_size;
- 	int ret;
- 
--	ctl_data = avs_get_module_control(mod);
--	if (ctl_data)
--		volume = ctl_data->values[0];
--
--	/* As 2+ channels controls are unsupported, have a single block for all channels. */
- 	cfg_size = struct_size(cfg, vols, 1);
- 	if (cfg_size > AVS_MAILBOX_SIZE)
- 		return -EINVAL;
-@@ -420,15 +415,28 @@ static int avs_peakvol_create(struct avs_dev *adev, struct avs_path_module *mod)
- 	cfg->base.obs = t->cfg_base->obs;
- 	cfg->base.is_pages = t->cfg_base->is_pages;
- 	cfg->base.audio_fmt = *t->in_fmt;
--	cfg->vols[0].target_volume = volume;
- 	cfg->vols[0].channel_id = AVS_ALL_CHANNELS_MASK;
-+	cfg->vols[0].target_volume = S32_MAX;
- 	cfg->vols[0].curve_type = t->cfg_ext->peakvol.curve_type;
- 	cfg->vols[0].curve_duration = t->cfg_ext->peakvol.curve_duration;
- 
- 	ret = avs_dsp_init_module(adev, mod->module_id, mod->owner->instance_id, t->core_id,
- 				  t->domain, cfg, cfg_size, &mod->instance_id);
-+	if (ret)
-+		return ret;
- 
--	return ret;
-+	/* Now configure both VOLUME and MUTE parameters. */
-+	mc = avs_get_module_control(mod, "Volume");
-+	if (mc) {
-+		ret = avs_peakvol_set_volume(adev, mod, mc, NULL);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	mc = avs_get_module_control(mod, "Switch");
-+	if (mc)
-+		return avs_peakvol_set_mute(adev, mod, mc, NULL);
-+	return 0;
- }
- 
- static int avs_updown_mix_create(struct avs_dev *adev, struct avs_path_module *mod)
--- 
-2.25.1
-
+Thanks,
+Charles
