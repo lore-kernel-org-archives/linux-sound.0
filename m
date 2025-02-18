@@ -1,96 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7D726FA66;
-	Tue, 18 Feb 2025 17:29:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE91246348;
+	Tue, 18 Feb 2025 17:41:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739899796; cv=none; b=ANrSIfzf3Uo/S1qzX3cqQqPKNDHeabbzPnPweMyOGHQgpYvNjGG4jMWkGbs3xCBRS0x9I484GEgyhOcFaMn3Nap/+fEUxSfSgCzy0NLJa5Oo/2ppAO13edYl/b7BbQgtbelaoWn11zR9+SYeavVlOs9zLEO+fdu63eg4x/qauIw=
+	t=1739900506; cv=none; b=m7U69WfJuCNOLgm8tOFK3WUWKZYrkKbFPtO0UeX3QKjQLbZvygxqJUUZZ2jdBsf0WVyXqJ6bcCURPITwip3ATAdbgRvO/+I72MVuyYJGXP9BxHn9jihpiYMXORWHbNhdmKRDsvMtsD+/4JAjotA9EhR6xCzkFFo5NA/r3YJppxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739899796; c=relaxed/simple;
-	bh=emS3jjUdRxAkZX0/Wg/p0kV5/i72KFjYTYkDUpcXmW0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J3qGVMPYpYYqL83uyP6acavrNPtd/OImTH+4sDhUC9pcfj53cNcR45fosJv4Dc4Hn5j04DTqT8IYZiZ36oOLwFYjBRhEfB63l1gHLpoVd9NdoKi7qphN7Md6KQ0yfHkEf0qzA/Wdo4ATy3B4i1enPO9SbUnA6o985jfc4yV/GEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s+vFfbbw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739900506; c=relaxed/simple;
+	bh=C2z/kdIlboJJr3csVRvaHezYh78r7gHfkrMTfeZM1kw=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=XsMAqvp1LU3dbj24mUwY0ZxCRHCBpJSkDorn/8qQGDO/TBxEDfkXTmywanQiwckJjqiBkhJVnToNO19bfE0Nn1450hl6TNghkASj0eCn6L7f3w3hxevKOTBwwGXesJOPIzul+uOB3GaMkDx3r/vNU+WfBIg5U24XmI4i1lSqIZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h8gqtht1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s+vFfbbw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C26F7C4CEE2;
-	Tue, 18 Feb 2025 17:29:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h8gqtht1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF1CC4CEE2;
+	Tue, 18 Feb 2025 17:41:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739899795;
-	bh=emS3jjUdRxAkZX0/Wg/p0kV5/i72KFjYTYkDUpcXmW0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=s+vFfbbwo9m1fZgTAeijqNdnoXzw+R8VMVeiuUaxWN+leCTtyn20NI8cbpv2TtRaL
-	 56SlzZZOYpHIo8Kef0J68Ejk1XHOcJYHmawd/KanOR6d8PqS7xdGyjiGUk42EaZXgA
-	 YPucXca5ekgoXdG3JdiQOQAF7E2E2i4NDeys0y2oyGIhEdxA51AgfqQrnWZv+4y1Po
-	 BsEJhrP8Mfrxek4ZTHb4Agze0O9pWvBlU4FXLiqUP9Vc7kt+XaTCyeVOwH4uoMA7w2
-	 hjIhEyA0PYIdnzfkhC2oVIPYCvUNtYfIPz4jJWURFia7eVxHtZ9qxTqKel33W40QIL
-	 V0GcIE9S993UQ==
-Message-ID: <23b98c23-c408-40b8-bab2-cae0fe8455d4@kernel.org>
-Date: Tue, 18 Feb 2025 11:29:51 -0600
+	s=k20201202; t=1739900505;
+	bh=C2z/kdIlboJJr3csVRvaHezYh78r7gHfkrMTfeZM1kw=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=h8gqtht1e3FwLRccIOHU71Ty8kY8XLrnoxnTRMQkO5nhRSXgm8tl1zdHU4hlp4jQP
+	 PYfyTrT8OeM90VuF4fogtEzAXEp0OVNd2KEZ+8JoJ2q16SDMOOk5RHdkfLZusGfYqk
+	 7BbNB2WN3NYQBEpIVUFygaA1m+SyE0LNhTYkym6IMC3Sf9d+5GztHHv/7OJDPmO7ly
+	 rN3wgQeSlEO7UsGB16LT1CuPnMRDrCPMVtByKNPWB1V4roT/Ae0oyngqVO9qIqCi6u
+	 hpO0KBuKTOr3HhTMiZ5eB49c6butNbl7zHCT80q/3UZwZxoqYeoVqFQxfmFDvpZkFE
+	 diJzQbEVKCUDA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70FD6380AAE9;
+	Tue, 18 Feb 2025 17:42:17 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.14-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87jz9n5w0u.wl-tiwai@suse.de>
+References: <87jz9n5w0u.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87jz9n5w0u.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc4
+X-PR-Tracked-Commit-Id: e77aa4b2eaa7fb31b2a7a50214ecb946b2a8b0f6
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6537cfb395f352782918d8ee7b7f10ba2cc3cbf2
+Message-Id: <173990053592.4164673.2846170891019501927.pr-tracker-bot@kernel.org>
+Date: Tue, 18 Feb 2025 17:42:15 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] Adjust all AMD audio drivers to use AMD_NODE
-To: Borislav Petkov <bp@alien8.de>, Mark Brown <broonie@kernel.org>
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
- "H . Peter Anvin" <hpa@zytor.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Jeff Johnson <quic_jjohnson@quicinc.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- "open list:AMD NODE DRIVER" <linux-kernel@vger.kernel.org>,
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <linux-sound@vger.kernel.org>,
- "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS"
- <sound-open-firmware@alsa-project.org>
-References: <20250217231747.1656228-1-superm1@kernel.org>
- <Z7SjI-NIZbMEgz2y@finisterre.sirena.org.uk>
- <b2876489-7bd5-4c38-b1f8-2d2fcb5a9aba@kernel.org>
- <20250218152649.GKZ7SmubM_YWhDqaPo@fat_crate.local>
- <f037a5a9-7e5a-4582-9a35-90e8442c6ed6@kernel.org>
- <20250218172650.GOZ7TC2mHXJdO7_iAd@fat_crate.local>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250218172650.GOZ7TC2mHXJdO7_iAd@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 2/18/2025 11:26, Borislav Petkov wrote:
-> On Tue, Feb 18, 2025 at 09:33:03AM -0600, Mario Limonciello wrote:
->> Yeah; please get that ready and I'll rebase the series and send out a v2 on
->> that branch.
-> 
-> There it is:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/log/?h=x86/misc
-> 
+The pull request you sent on Tue, 18 Feb 2025 12:31:45 +0100:
 
-Thanks.
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc4
 
-Mark,
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6537cfb395f352782918d8ee7b7f10ba2cc3cbf2
 
-I confirmed that a test merge of tip/x86/misc into ASoC/for-next and 
-then applying the remaining 6 patches worked properly, so you can pick 
-up and do that.
+Thank you!
 
-Thanks,
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
