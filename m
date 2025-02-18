@@ -1,863 +1,155 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010001.outbound.protection.outlook.com [52.101.228.1])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2066.outbound.protection.outlook.com [40.107.102.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4D61DFF0
-	for <linux-sound@vger.kernel.org>; Tue, 18 Feb 2025 01:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5BD1AC882;
+	Tue, 18 Feb 2025 05:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.66
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739841303; cv=fail; b=gEKcoSZmGfhuFBTK5772vn5a8Vljh5gLtcLSh3Czg/1utQzAcURBw1Bp4DtocserSOzxDnyf13KGBla/CgdJmSaD9Y9p+Mo6rcjWkvFt6hv8wlI5ETZ38dSLggpvL15o1XhkjrPcVpBq8upGUwJtWfizsCZbz+tZo6ya38YIPL0=
+	t=1739855526; cv=fail; b=iViq/loVoKYEr1OHPWYGOmNlQjEMRWCJKE0x5sF1+SbgPw90w0LOkvapEZJvY7dPCsY7KgIvBVrL5WL/KxmdPp9aYBsKIYDuJO4TdMnGfqVZXTSUZugFKUaEVyLJ/YhREqm5Y1ipRCLivCphWW3fs95Ue2wh5gWvMkgxhqdACHU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739841303; c=relaxed/simple;
-	bh=Wy4z/sx/r850WTrCzKA8/pNLDSVQB1A13N1D6HBYn0k=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=M6ZzOZobQi8U0DD7r6NrwMD3kqB2seYAkyxE5XveuuVp45u3eR759NzlOaBpLDS/9ku1jyC2kKCSXfN1v/wsrAFFZFf/HrA9yXaT1ONWl2PgI6NuLes474041kieXNdte3sWVks4zPF2GJEwQ3EMgp0EvSOVX3mildW0nGeuy5k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=pHIq7uNU; arc=fail smtp.client-ip=52.101.228.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	s=arc-20240116; t=1739855526; c=relaxed/simple;
+	bh=NQNBrmA08AJnaKeguoVZjoiXNlu6aaRDB2hnkfznkrU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kSSKcuHxxDmadKsLwztzHiRNNd+d3p1st6R3z+Ix2VXDJ8u4UN/+51xfVBRRO13oLHIrzlMO8Y0olNA71bkJZ9hNvL+o7+WH+jdZC/ga+nbSI6Ad+Eq83oxKxSzANKlmqHkg203squQV2hw5q12HISr4zruEkhoFlpHBy2Kn9ZQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sr1I313A; arc=fail smtp.client-ip=40.107.102.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="pHIq7uNU"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sr1I313A"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cx5vbMZIgIojPJYCPJMlQWTNE8DuI6B/NZMOG+tA/kiMuXW5FZl2TxsKRTHwuAUWNwwW+/aSXs2R9gZce7w7vykqOftnG8enmHauLDHt7jZAPhPYAC+f+IRSgX3v/7TEwC9qN4B/jRYf+mZOxMew7c+6e+pZCIL730nKBTmM2qsg+5Up49faflpajFD7uvOlqJnAot4XlA02uAP4Q9XN5BpBlujKO4N1AgmpC6U02bRA6sfdhvLPizOkNvMedPeWn4pORkqqK/Y7e88Ix9ES95RmevyWannr5LR0tnHTTluWjE3i/y+TodlNiXiJLRqBasp4Bh5Lb6nTc1pnGpJYfw==
+ b=FChrDerF6tpwYuQD+DyfWBwjLGnyNcU5RYuyUzf9xgoiOBT2GmiMRhTYD88b3o6sCeYsHLMQUZbQPCc1tDzG3wu89Qb3srZ0myB8VBEvwbUZM6P1FKXP6iqCMxup78Wx+V9Why4QBMgmSYeQ0wCD1cAzzFQaI8fiNe2UwrQ5kS9PU5R+zy8b71AfitwBlfWf/oTSU+q94dTBbRSGgYr/VsScCdCvNPaVxCBvM4KjPkd0gsKtvUpPLKFC3d3fYxkanZu8xF1CUEB3dIdG9/ajMd6m/JgZHu0jzyLR9AzEtuknfb7nqpwhLsBIVBfkprbxjpX9vg0NuMYensweYIzSKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wWn1QJUs3D8pMO2MQIyAANEOGuPgEE5N62hItD5kpwQ=;
- b=wtsIL1w2DE3/FixcU27aYIBWTpAfIDsHZmoGLl6+TjWOTh5OKhtv9WZhodKZTzXM8bukPRX9ZIzqtz7K26RNGgKRMr/5VBr6l/2at9PofNRR4Asq6AQsEqyml0AuLYMHaGmKYxQnJzuJfoKnlhrmtLNHl7yzXerxBNe6dj4arVWxiqB55OnppI0QyzTa52/2urpFsRGwkDYnWaxgxMWoiWX8bwraJmfwaJeRufk1kzkFYf0YNv0rVkoc8gFQl1IBqQ0955mXpG7yAcXQIpBeRdhoC2ep8U5FqZZECPb7OLLabCZfZdph+oBRcfnwCZra/FSSaDZ8O2i5YqS64tLosg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
+ bh=znLxHlOrgSpLn3xlANZIe2Ewij6YgDgv5/qcUlvoxNs=;
+ b=QuskOn4TDDTiBLRiTnSQDFovFU+GD+thUbM+MASmgfHozzRSIUnrW0Di4WX7GgNhgfU0IHvZBfjcOoOR9xWiM+A71sVVgnt1ponmoYEj8ImUDSlgcVrMhWRByuz2prScr9lM0IQxIUpT6i60Cq8ww3KCscoZmoz8oBnIkfQkDMpcOm84JsliYWRx56eghSuU9SrJO0wR4oZAsZkmAlFiymuf3vg1xRjhMMeCgElwvkywQ0g3+uoHo7R+5Gmf6SnrzP9Zu1VkK11hJr5GZALR2WAYa9c8lZ1rJjTsUEaMXgAMm3QHSWY3l5jO4YHOduuj/sUv8uzE9sKxHlC6zPyvqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wWn1QJUs3D8pMO2MQIyAANEOGuPgEE5N62hItD5kpwQ=;
- b=pHIq7uNUpnE3gZNYyJCN9dTLWRf69RTK2IdOOlw+ob0NzPvNa+matb3X/NZPtRUoC1ufWpZSae/tm8Z5ijAP+uTsk5J2qnj6X1dD/44SPtEJwT0j/eU1VGlLdRVVRZmWONOGRaOUNQQzQ4EyTWp3P3qZibjtDG7NRhsx5Wc3Hp0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB10906.jpnprd01.prod.outlook.com
- (2603:1096:400:3af::14) by TYCPR01MB5934.jpnprd01.prod.outlook.com
- (2603:1096:400:40::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.20; Tue, 18 Feb
- 2025 01:14:58 +0000
-Received: from TY3PR01MB10906.jpnprd01.prod.outlook.com
- ([fe80::592:9b7b:ef57:2dd8]) by TY3PR01MB10906.jpnprd01.prod.outlook.com
- ([fe80::592:9b7b:ef57:2dd8%4]) with mapi id 15.20.8445.017; Tue, 18 Feb 2025
- 01:14:58 +0000
-Message-ID: <87tt8s9hpp.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 3/3] ASoC: audio-graph-card2-custom-sample.dtsi: remove original sample
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87y0y49hqe.wl-kuninori.morimoto.gx@renesas.com>
-References: <87y0y49hqe.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 18 Feb 2025 01:14:58 +0000
-X-ClientProxiedBy: TYAPR01CA0079.jpnprd01.prod.outlook.com
- (2603:1096:404:2c::19) To TY3PR01MB10906.jpnprd01.prod.outlook.com
- (2603:1096:400:3af::14)
+ bh=znLxHlOrgSpLn3xlANZIe2Ewij6YgDgv5/qcUlvoxNs=;
+ b=sr1I313A7RzHQXfBtUiaxaBy/545iC24bn7RdOmS8gK+VAJ+AmT1qsYUKHKEkaHLdfr9x+UxRXdwzn8TWvbobdFtcAJOIfnsLeKrSIEerc1tmIJPY/16IOVpvd5hHH1DW23MTaJNHT5w1bwpEQMqoy1ZyG8Oc4ifRIvle+Cx8F8=
+Received: from MN0P220CA0001.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:52e::29)
+ by MW4PR12MB6849.namprd12.prod.outlook.com (2603:10b6:303:20d::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Tue, 18 Feb
+ 2025 05:12:00 +0000
+Received: from BL02EPF0001A0FD.namprd03.prod.outlook.com
+ (2603:10b6:208:52e:cafe::bb) by MN0P220CA0001.outlook.office365.com
+ (2603:10b6:208:52e::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8445.18 via Frontend Transport; Tue,
+ 18 Feb 2025 05:12:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0001A0FD.mail.protection.outlook.com (10.167.242.104) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8466.11 via Frontend Transport; Tue, 18 Feb 2025 05:11:41 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 17 Feb 2025 23:10:56 -0600
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<Mario.Limonciello@amd.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] ASoC: amd: ps: fix inconsistent indenting warning in check_and_handle_sdw_dma_irq()
+Date: Tue, 18 Feb 2025 10:40:00 +0530
+Message-ID: <20250218051000.254265-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB10906:EE_|TYCPR01MB5934:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f8fd926-e6f4-4c98-8b92-08dd4fb9a978
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FD:EE_|MW4PR12MB6849:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a08bd7b-119a-4d65-3ef5-08dd4fdac5f1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
+	BCL:0;ARA:13230040|1800799024|376014|82310400026|36860700013|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?OzvWmntz0tvUoy4y0ZBXh6g75WRyBNvRO9qzZhuqjoJhOm6/328jQj8221dt?=
- =?us-ascii?Q?nXy8jjhaByRp4AHuWIZbrErcF2oGjJy6ukbwfzndttGn1PGOLaXTFutAFeVM?=
- =?us-ascii?Q?ybYMUkdU+MT+d/7tQPWzaTPLuXWQH2kAyhx1iiM9DkJpAI6KaAwADC4OFqci?=
- =?us-ascii?Q?E2QKaisgosFDnDeVvAIVd1Vigkn+YXWC/k1zylh4u7xOGGZMttOZ3ctAh00N?=
- =?us-ascii?Q?wRImK9kgn1YozWixn166yTGSEqJCCb8K2l+2hiovmR6/MrXX3JoSYGQw/AYn?=
- =?us-ascii?Q?unV/no7Nf9a13GnVygarESvklH7Gn3oz1FEOaYg8Sq5U/SjW3NK7djcFrUKY?=
- =?us-ascii?Q?gkcf/8llgjNiFPl4JSG1Tinju8I/LFLRO3x5I5hVjhlHEdl2Cu4tugj8TsWL?=
- =?us-ascii?Q?zQd7emXY0aIsPW9NSTMrPD67R+ezxbMaVIOz1W1Cikb6dTJl3TFmK6x04BG0?=
- =?us-ascii?Q?+qaGUPF/Zvp0g9PI7JjZzJip9ULiEPRtubW2NoYjng+hWY3O/I5p6oW9S8hl?=
- =?us-ascii?Q?9Blnu9x3/j60kIQk/JUAAtgUJA5jwDD02vlm2IgEfOUa/aJN4vu97EXJAplj?=
- =?us-ascii?Q?cAFER0C1SbjBcJOLGfoZaJkx3N4PxJBVQHlBba5wqt9oHLiLAV4yRJtu8Us+?=
- =?us-ascii?Q?bs6yU2fqEBn3cAahbH5iXbBxaf0WVGUt2/xYIYe+d4dOlg2CHRNHqvDrbpL+?=
- =?us-ascii?Q?x5PuRCN7CbWXKJO+GzUEZTzEvf8e3cspTE8Uen6t5psltKcf+vN7MkCsxyFS?=
- =?us-ascii?Q?+CFbNoQ6aeKy2KHsR2hf75p5pwu+jHHsSTK4z/BSpeM5HP+r/7pGkmSUO7o6?=
- =?us-ascii?Q?7jnhAJtCMSRXPxHTAvhYmIdiDHHYDZ14FBYty4rEysUDLNI9MDaSCfWM6w4R?=
- =?us-ascii?Q?sjlHSs8eSEbhnCH5bYd+8kWGdCDWgiGMLjxJF028unWki/6pUWZG0wUZfN8Y?=
- =?us-ascii?Q?yTlLSZiWhHdQ+yRcsN1kkGpYtzoWkg8a8C9KlyrxpTxmkAnGHCaNBKh7dm5M?=
- =?us-ascii?Q?U9C+wYrQuwVcGbgdtCr/ZTW31cHbNty5ZDVvU4XyixqITuKFuADPRM/90i/a?=
- =?us-ascii?Q?7XdFMZAPlMVu5f6/r09y6hx8ucWux7PT+xGQSm6bwV+WYwsxx31bB0/SVzO9?=
- =?us-ascii?Q?+HI/SoZsjzAZAzUSauOpTl6qk7SSiGt5BO7n5U1sqYJY+EFXmfAskOjwa41U?=
- =?us-ascii?Q?mXfrIbVxSd+ojptArZE9efLY/23w/zdYWu2LrL+BumKLceHE3SKMbrqZ7hBH?=
- =?us-ascii?Q?i4nsm26Z5B/kVlKAW3FSRq3abXVfW7dnhydO1xNcPOMK8/n9sqwrn1zT98IO?=
- =?us-ascii?Q?Rp0qDH7Mbs73M/kAWC+BE+wiRlGNeSzfhYSKtb2+EPC5E87NuUhBc7vk+oD/?=
- =?us-ascii?Q?i6pX3ojQlSaF7Ag1pqaaqFOkxB9VVdvT4NGIuKtfC5ltcF8FWq5QSh28tG7U?=
- =?us-ascii?Q?y+h9vrA67JC71ObLxWbgk5+W5AoWJVo1?=
+	=?us-ascii?Q?xXnu02xJ42OHmza5vpAyRJuAnIfx0s0Zv86Yp3PD1Z54gysSo8NObDfD33gA?=
+ =?us-ascii?Q?hcx04R9dCQS958cCWoMLkSrEeN4mqPX0H36kh+a+k13QAnhel2Wpbk10Gm7b?=
+ =?us-ascii?Q?JpRW3n/3wKW4sYzoCjF4X49WE/PyWcj2ufdpJbywI58Vb84cjZXOFMOS3P+s?=
+ =?us-ascii?Q?+VsN/2XgdDpAcZL9SsoOSL2hBHxsmA3E7FIuV5MCQpVf3DCUQjgvqobo1mCm?=
+ =?us-ascii?Q?lEQ5yTh/51eOVorqnQfoWbl3PrApFV4V3YuvLYiDuDgKHMP4VfDDKggSPhLV?=
+ =?us-ascii?Q?kAWN0HliGiVxc/+JPmsU3sivIRJKRQVw7JCT/6m1Rn7EhiUwtCTvGbraJFvr?=
+ =?us-ascii?Q?liTmyj5tCPoj/PcBAJTkcy9+rd3VBgzxdKyU5mHl4kNKAcy42C6Og3oIHWrx?=
+ =?us-ascii?Q?uyYpU7AbnTnIPQUsTxMJo4QQkLusptZ/zsW+t5D4P28CLb+DNzO9VESWXpnL?=
+ =?us-ascii?Q?G4upm+qpyeE5gi62WwuDAfc0sZC8cA2eVFILbmxKxVxYUzApyau7clLYU6BV?=
+ =?us-ascii?Q?Fr5JWE6Oqg8wQnlrbBHsSBw21ky7qpvbLeFB4lStGbWrwmymTg+ZS0ZbOTAj?=
+ =?us-ascii?Q?WLd1K8U5ssfbSKNWiKRgYu6ASCTuKkQEr0P4B+pjpjYuBauAYKMXX7GAbCw4?=
+ =?us-ascii?Q?ClWdGNs62lqOn1q/kxKg8g7VNzl/uqmf0vhEtdBdVJDChTRz6VpHQ5cI+G2T?=
+ =?us-ascii?Q?A9drToSJ+ySXxPvATcaZLSyjONMl1j3xpjCN39VKhiCtUT8AFF5Fa8LxW4eD?=
+ =?us-ascii?Q?BtCAJA7g1Y3gUXdIzdfe6zk4lRmZ0tucYcs78ks0IP2E9zRqS1sKuoWabX6U?=
+ =?us-ascii?Q?Gul8N+LTW+LY3mhwmaTzf4whLJmMZk/okL8HiOCNYHonB/hemz994SUJ0mqN?=
+ =?us-ascii?Q?A007lj64bSmoTZj2vIUlqv726zQEB8/IdITLEkV6M8YlMnFSZlrR5WVq7uNT?=
+ =?us-ascii?Q?FMXiYPC21uyKwjuJtx/udf6iIWXZPNpEzUXMArwhYLXgqIY13p5Ma1/8FiZb?=
+ =?us-ascii?Q?LrXPHP/DNzWXpofhdxu6Pl4YQL3TTeUW5WxGqoHGFybgQ8W+BHPT0yiIFI05?=
+ =?us-ascii?Q?dmNDjcsWpau79gqnIhmbV0RNoC/MuOxDpwqsiP4Tihs5zblgjWBDva5rdYcW?=
+ =?us-ascii?Q?gElifiTDXv7rdflbwxgZw0o/+UNQGlyXtwKeRc+/Ybl17CUp+4oxHgMvKteb?=
+ =?us-ascii?Q?XsXbdDDcHyfZmjBNTRMNXMADXFkZXM6rPCrnA4wzthBQh7BKB4gkD/1u3Igo?=
+ =?us-ascii?Q?aHhGX4mhdYE1rMVVar0r/1n0kUjOec0SJOEFndfrIeJ0uAZsS2kWT96aPw8Y?=
+ =?us-ascii?Q?8tTDClWKau4nXklznOrPPTuFcBmpIUkVYhElXHWu8xEMQ/3UWlB1Pl87BtrJ?=
+ =?us-ascii?Q?R4AbIODnXCsC1sowvFiq9l4cVSroHjdbT9bA2ARx/WDPnfo48zFJRS12VQIa?=
+ =?us-ascii?Q?n2QtjNK7FJt8ZRuqbpvCGqwcc2P7Ex8Ny3xuiYQoYaHwdAvGbqwMiSzoSEfX?=
+ =?us-ascii?Q?OgL7odL3sYklssM=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB10906.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?p3IHWT8kossbQsHQazj2Ac1X3Vpe/TO6CA77shjW0YDLQMseTC4tASF6DgOJ?=
- =?us-ascii?Q?dO+wkjlGJBDYbMXrnfNpKqjL9NzBqUCH9dpYNFIeuiqRXYH67ckb0xuEFYJ7?=
- =?us-ascii?Q?xOhVKTHWqkZOl93SSVr4iYDa/M0nexRLpTx3f1boUrGC+di4kPpdlRHPTxFS?=
- =?us-ascii?Q?BxeraWvMK/VLqrisFwi0hInMoV/diya8b9FcStXipuX8iQVAb2om/8FRc+2d?=
- =?us-ascii?Q?FgLreoL/IWY+8EXIR1mgrbNIyUW2ICIHVYXKLuxripJLH7I/zKAYHHUfrZKe?=
- =?us-ascii?Q?3J2vTyE5eD+Rl+0vgDhipty96p+aAP6m5B9EbQaUiU6jZsJzJRdh61/dcLgA?=
- =?us-ascii?Q?roVhg7sno+N3KwaShhe29ZooTCyAhxE5z9HsAvQYkZN2/UzWtAiwmqclAfyg?=
- =?us-ascii?Q?ADuoWWsZT9mGTkJ4RdICPtH15VqHPmLBWc/qkk4G/zdsaEeEfO6YdwJO6Qcr?=
- =?us-ascii?Q?0KYzuYt9HJsy9MAJF0dPtyGADe/vct33VxL12jMuTuSnvVGJJAoe7G6vpomr?=
- =?us-ascii?Q?RYSpCHvYjoM1CCLqZMU5c5egTMz5v6l3ullnWjzpcNFUbyHdZewGwO4FiWZQ?=
- =?us-ascii?Q?FTI/0vLXpZo6dfsjRPLxUkNJTaB10pxq/ytYfiA2d8ENauClcDJm9Cjvu7Hh?=
- =?us-ascii?Q?jssETsplqmi4uS9kvG/tiqQ4MSJXlBYEV8AHbNCgLEFeLDfeZjfYaz14zmVR?=
- =?us-ascii?Q?bh8N07IWLQMPZgtyoESv2z+W4mXa1d41MqOJl0vyIkPfrmaMAaI8+NsoOlMr?=
- =?us-ascii?Q?TVE8pAxM0kNMPJH80/xCQ3LYV4BJlTRqtYiKqF02nhCvH0WrxUQ/8ZshkQKH?=
- =?us-ascii?Q?wvHlYFJm1AHP0BVsxk5bO73hP3xyAqn69YU8aTnBRPV0GT5iebax7gays1iW?=
- =?us-ascii?Q?33GRi+B0vHvJO4QMB0Qsesd4jQHx/l7ACuS+9ZiTa3MGtXmWPEmtJKv+eJHv?=
- =?us-ascii?Q?R9oH8MWweC7TR0pPtqHfVizgqZWXVQJmlzklgXhahS7ONfanvJYa4kJ5IWhp?=
- =?us-ascii?Q?cHc2uW0uh0Mj3ahv1twvyHGdLiuHaGL+AfmvVPWvgtMXojTA9M8O/eWYcgbC?=
- =?us-ascii?Q?9HEk8GkMJD2w018KqXUj/M2939vPB3xtJ9H8r/+w7b6chrXHDWAEiRrFHzHw?=
- =?us-ascii?Q?QkrlNKgFED9pI9WqilUNPirhFXpoHG6HyhDH8LMLyZzlUQDsQa0P4zFpIWBJ?=
- =?us-ascii?Q?E8dldZgp6KcWgS0zprYyCIf3GW+ZQI9mEofy6PofFhkBl1wXlKjPttIr/j11?=
- =?us-ascii?Q?MyI4GCQg9rt/yQmATfGIwufQTsGE0pTtY3KwOe9PEI005gKOcPs+L4aXy4mi?=
- =?us-ascii?Q?ACMNMd/JVOz5pU5Pvl37QH1aOK+Fu5eJ92oSBTb7WtM2bKtotdjj6RDgOy+b?=
- =?us-ascii?Q?dNSfhHO+17r/5XDnKg6DPQp9a4iI5QI0SZjYKbefvNAU7X4/Z2dsSq2L//3f?=
- =?us-ascii?Q?9j3oN1Pw81Jez4cGxJNUyHKeY/qBMyXY2LBexhm/PJcFOi6JI+9mPGHrskNz?=
- =?us-ascii?Q?es3nmLhtV1CC2y1X94hNXCnt4raEUQxY1NKUnIu1ltKBCmP+aD9t0Kz400/o?=
- =?us-ascii?Q?KhYWVisXuVUBHaRflk4un/K4mKmyvK+wGoyVyBVFInbNf+jNa11sYu3p9F0Q?=
- =?us-ascii?Q?RjqQ/C+pRf7qV2KMd1XpLTE=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f8fd926-e6f4-4c98-8b92-08dd4fb9a978
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB10906.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 01:14:58.8378
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 05:11:41.8238
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Hprw+6BMoq/rfwwfx2yBlmJiekIlZdr00CiIFnfQvSgebG5POV550elb952+9Kj113qqsL0/F+NNwdGE+47/dYmKsJpOb4n1gddGa6uSkjmH6RTkbFzfFn1oZXSFEP6F
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB5934
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a08bd7b-119a-4d65-3ef5-08dd4fdac5f1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A0FD.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6849
 
-audio-graph-card2-custom-sample has many sample connections, but because
-ALSA card has number limition for links, it is impossible to have all
-samples into 1 ASoC card.
+Fix below inconsistent indenting smatch warning.
+smatch warnings:
+sound/soc/amd/ps/pci-ps.c:68 check_and_handle_sdw_dma_irq() warn: inconsistent indenting
 
-The sample is separated into 2 samples. Remove original sample.
-
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Fixes: 4516be370ced ("ASoC: amd: ps: refactor soundwire dma interrupt handling")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202502132134.BlkNw1Iq-lkp@intel.com/
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
- .../audio-graph-card2-custom-sample.dtsi      | 702 ------------------
- 1 file changed, 702 deletions(-)
- delete mode 100644 sound/soc/generic/audio-graph-card2-custom-sample.dtsi
+ sound/soc/amd/ps/pci-ps.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/generic/audio-graph-card2-custom-sample.dtsi b/sound/soc/generic/audio-graph-card2-custom-sample.dtsi
-deleted file mode 100644
-index 9efd31206c9b3..0000000000000
---- a/sound/soc/generic/audio-graph-card2-custom-sample.dtsi
-+++ /dev/null
-@@ -1,702 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * audio-graph-card2-custom-sample.dtsi
-- *
-- * Copyright (C) 2020 Renesas Electronics Corp.
-- * Copyright (C) 2020 Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-- *
-- * This sample indicates how to use audio-graph-card2 and its
-- * custom driver. "audio-graph-card2-custom-sample" is the custome driver
-- * which is using audio-graph-card2.
-- *
-- * You can easily use this sample by adding below line on your DT file,
-- * and add new CONFIG to your .config.
-- *
-- *	#include "../../../../../sound/soc/generic/audio-graph-card2-custom-sample.dtsi"
-- *
-- *	CONFIG_SND_AUDIO_GRAPH_CARD2
-- *	CONFIG_SND_AUDIO_GRAPH_CARD2_CUSTOM_SAMPLE
-- *	CONFIG_SND_TEST_COMPONENT
-- *
-- *
-- * You can indicate more detail each device behavior as debug if you modify
-- * "compatible" on each test-component. see below
-- *
-- *	test_cpu {
-- *	-	compatible = "test-cpu";
-- *	+	compatible = "test-cpu-verbose";
-- *		...
-- *	};
-- *
-- *	test_codec {
-- *	-	compatible = "test-codec";
-- *	+	compatible = "test-codec-verbose";
-- *		...
-- *	};
-- *
-- *
-- * Below sample doesn't use "format" property,
-- * because test-component driver (test-cpu/test-codec) is supporting
-- * snd_soc_dai_ops :: .auto_selectable_formats.
-- * see
-- *	snd_soc_runtime_get_dai_fmt()
-- *	linux/sound/soc/generic/test-component.c :: test_dai_formats
-- */
--/ {
--	/*
--	 * @ : used at links
--	 *
--	 * [Normal]
--	 *	cpu0 <-@-----------------> codec0
--	 *
--	 * [Semi-Multi]
--	 *
--	 * CPU:Codec = 1:N
--	 *
--	 *			+-+
--	 *	cpu7 <-@------->| |-> codec12
--	 *			| |-> codec13
--	 *			+-+
--	 *
--	 * [Multi-CPU/Codec-0]
--	 *		+-+		+-+
--	 *	cpu1 <--| |<-@--------->| |-> codec1
--	 *	cpu2 <--| |		| |-> codec2
--	 *		+-+		+-+
--	 *
--	 * [Multi-CPU/Codec-1]
--	 *
--	 *		+-+		+-+
--	 *		| |<-@--------->| |
--	 *		| |		| |
--	 *	cpu8 <--| |<----------->| |-> codec14
--	 *	cpu9 <--| |<---+------->| |-> codec15
--	 *		+-+	\------>| |-> codec16
--	 *				+-+
--	 *
--	 * [Multi-CPU/Codec-2]
--	 *
--	 *		+-+		+-+
--	 *		| |<-@--------->| |
--	 *		| |		| |
--	 *	cpu10 <-| |<----------->| |-> codec17
--	 *	cpu11 <-| |<-----+----->| |-> codec18
--	 *	cpu12 <-| |<----/	+-+
--	 *		+-+
--	 *
--	 * [DPCM]
--	 *
--	 *	CPU3/CPU4 are converting rate to 44100
--	 *
--	 *	FE		BE
--	 *		  ****
--	 *	cpu3 <-@--*  *--@-> codec3
--	 *	cpu4 <-@--*  *  (44.1kHz)
--	 *		  ****
--	 *
--	 * [DPCM-Multi]
--	 *
--	 * --NOTE--
--	 * Multi-FE is not supported by ASoC.
--	 *
--	 *	FE		BE
--	 *		  ****	    +-+
--	 *	cpu5 <-@--*  *--@-> | | -> codec4
--	 *	cpu6 <-@--*  *	    | | -> codec5
--	 *		  ****	    +-+
--	 *
--	 * [Codec2Codec]
--	 *			   +-@-> codec6
--	 *			   |
--	 *			   +---> codec7
--	 *
--	 * [Codec2Codec-Multi]
--	 *
--	 * --NOTE--
--	 * Multi connect N:M is not supported by ASoC.
--	 *
--	 *				+-+
--	 *			   +-@->| |-> codec8
--	 *			   |	| |-> codec9
--	 *			   |	+-+
--	 *			   |	+-+
--	 *			   +--->| |-> codec10
--	 *				| |-> codec11
--	 *				+-+
--	 */
--	audio-graph-card2-custom-sample {
--		/*
--		 * You can use audio-graph-card2 directly by using
--		 *
--		 * compatible = "audio-graph-card2";
--		 */
--		compatible = "audio-graph-card2-custom-sample";
--
--			/* for [DPCM]		   */
--			/* BE			FE */
--		routing = "TC DAI3 Playback",	"DAI3 Playback",
--			  "TC DAI3 Playback",	"DAI4 Playback",
--			  "DAI3 Capture",	"TC DAI3 Capture",
--			  "DAI4 Capture",	"TC DAI3 Capture",
--			/* for [DPCM-Multi]	   */
--			/* BE			FE */
--			  "TC DAI4 Playback",	"DAI5 Playback",
--			  "TC DAI5 Playback",	"DAI5 Playback",
--			  "TC DAI4 Playback",	"DAI6 Playback",
--			  "TC DAI5 Playback",	"DAI6 Playback",
--			  "DAI5 Capture",	"TC DAI4 Capture",
--			  "DAI5 Capture",	"TC DAI5 Capture",
--			  "DAI6 Capture",	"TC DAI4 Capture",
--			  "DAI6 Capture",	"TC DAI5 Capture",
--			/* for [Codec2Codec] */
--			  "TC OUT",		"TC DAI7 Playback",
--			  "TC DAI6 Capture",	"TC IN",
--			/* for [Codec2Codec-Multi] */
--			  "TC OUT",		"TC DAI10 Playback",
--			  "TC DAI8 Capture",	"TC IN",
--			  "TC OUT",		"TC DAI11 Playback",
--			  "TC DAI9 Capture",	"TC IN";
--
--		links = <
--			/*
--			 * [Normal]: cpu side only
--			 * cpu0/codec0
--			 */
--			 &cpu0
--
--			/*
--			 * [Semi-Multi]
--			 * cpu7/codec12/codec13
--			 */
--			&sm0
--
--			/*
--			 * [Multi-CPU/Codec-0]: cpu side only
--			 * cpu1/cpu2/codec1/codec2
--			 */
--			 &mcpu0
--
--			/*
--			 * [Multi-CPU/Codec-1]: cpu side only
--			 * cpu8/cpu9/codec14/codec15/codec16
--			 *
--			 * Because it will reach to the maximum of sound minor number,
--			 * disable it so far.
--			 * If you want to try it, please disable some other one instead.
--			 */
--			//&mcpu1
--
--			/*
--			 * [Multi-CPU/Codec-2]: cpu side only
--			 * cpu10/cpu11/cpu12/codec17/codec18
--			 *
--			 * Because it will reach to the maximum of sound minor number,
--			 * disable it so far.
--			 * If you want to try it, please disable some other one instead.
--			 */
--			//&mcpu2
--
--			/*
--			 * [DPCM]: both FE / BE
--			 * cpu3/cpu4/codec3
--			 */
--			 &fe00 &fe01 &be0
--
--			/*
--			 * [DPCM-Multi]: both FE / BE
--			 * cpu5/cpu6/codec4/codec5
--			 */
--			 &fe10 &fe11 &be1
--
--			/*
--			 * [Codec2Codec]: cpu side only
--			 * codec6/codec7
--			 */
--			 &c2c
--
--			/*
--			 * [Codec2Codec-Multi]: cpu side only
--			 * codec8/codec9/codec10/codec11
--			 */
--			 &c2c_m
--		>;
--
--		multi {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			/*
--			 * [Multi-CPU-0]
--			 *
--			 *		+---+		+---+
--			 *	cpu1 <--|A X|<-@------->|x a|-> codec1
--			 *	cpu2 <--|B  |		|  b|-> codec2
--			 *		+---+		+---+
--			 */
--			ports@0 {
--				reg = <0>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--			mcpu0:	port@0 { reg = <0>; mcpu00_ep: endpoint { remote-endpoint = <&mcodec00_ep>; };};/* (X) to pair */
--				port@1 { reg = <1>; mcpu01_ep: endpoint { remote-endpoint = <&cpu1_ep>;     };};/* (A) Multi Element */
--				port@2 { reg = <2>; mcpu02_ep: endpoint { remote-endpoint = <&cpu2_ep>;     };};/* (B) Multi Element */
--			};
--
--			/*
--			 * [Multi-Codec-0]
--			 *
--			 *		+---+		+---+
--			 *	cpu1 <--|A X|<-@------->|x a|-> codec1
--			 *	cpu2 <--|B  |		|  b|-> codec2
--			 *		+---+		+---+
--			 */
--			ports@1 {
--				reg = <1>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--				port@0 { reg = <0>; mcodec00_ep: endpoint { remote-endpoint = <&mcpu00_ep>; };};/* (x) to pair */
--				port@1 { reg = <1>; mcodec01_ep: endpoint { remote-endpoint = <&codec1_ep>; };};/* (a) Multi Element */
--				port@2 { reg = <2>; mcodec02_ep: endpoint { remote-endpoint = <&codec2_ep>; };};/* (b) Multi Element */
--			};
--
--			/*
--			 * [DPCM-Multi]::BE
--			 *
--			 *	FE			BE
--			 *		  ****		+---+
--			 *	cpu5 <-@--*  *-----@--->|x a|-> codec4
--			 *	cpu6 <-@--*  *		|  b|-> codec5
--			 *		  ****		+---+
--			 */
--			ports@2 {
--				reg = <2>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--				port@0 { reg = <0>; mbe_ep:  endpoint { remote-endpoint = <&be10_ep>;   };};/* (x) to pair */
--				port@1 { reg = <1>; mbe1_ep: endpoint { remote-endpoint = <&codec4_ep>; };};/* (a) Multi Element */
--				port@2 { reg = <2>; mbe2_ep: endpoint { remote-endpoint = <&codec5_ep>; };};/* (b) Multi Element */
--			};
--
--			/*
--			 * [Codec2Codec-Multi]::CPU
--			 *
--			 *		+---+
--			 *	   +-@->|X A|-> codec8
--			 *	   |	|  B|-> codec9
--			 *	   |	+---+
--			 *	   |	+---+
--			 *	   +--->|x a|-> codec10
--			 *		|  b|-> codec11
--			 *		+---+
--			 */
--			ports@3 {
--				reg = <3>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--				port@0 { reg = <0>; mc2c0_ep:  endpoint { remote-endpoint = <&c2cmf_ep>;  };};/* (X) to pair */
--				port@1 { reg = <1>; mc2c00_ep: endpoint { remote-endpoint = <&codec8_ep>; };};/* (A) Multi Element */
--				port@2 { reg = <2>; mc2c01_ep: endpoint { remote-endpoint = <&codec9_ep>; };};/* (B) Multi Element */
--			};
--
--			/*
--			 * [Codec2Codec-Multi]::Codec
--			 *
--			 *		+---+
--			 *	   +-@->|X A|-> codec8
--			 *	   |	|  B|-> codec9
--			 *	   |	+---+
--			 *	   |	+---+
--			 *	   +--->|x a|-> codec10
--			 *		|  b|-> codec11
--			 *		+---+
--			 */
--			ports@4 {
--				reg = <4>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--				port@0 { reg = <0>; mc2c1_ep:  endpoint { remote-endpoint = <&c2cmb_ep>;   };};/* (x) to pair */
--				port@1 { reg = <1>; mc2c10_ep: endpoint { remote-endpoint = <&codec10_ep>; };};/* (a) Multi Element */
--				port@2 { reg = <2>; mc2c11_ep: endpoint { remote-endpoint = <&codec11_ep>; };};/* (b) Multi Element */
--			};
--
--			/*
--			 * [Semi-Multi]
--			 *
--			 *			+---+
--			 *	cpu7 <-@------->|X A|-> codec12
--			 *			|  B|-> codec13
--			 *			+---+
--			 */
--			ports@5 {
--				reg = <5>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--				port@0 { reg = <0>; smcodec0_ep: endpoint { remote-endpoint = <&cpu7_ep>;    };};/* (X) to pair */
--				port@1 { reg = <1>; smcodec1_ep: endpoint { remote-endpoint = <&codec12_ep>; };};/* (A) Multi Element */
--				port@2 { reg = <2>; smcodec2_ep: endpoint { remote-endpoint = <&codec13_ep>; };};/* (B) Multi Element */
--			};
--
--			/*
--			 * [Multi-CPU-1]
--			 *
--			 *		+---+		+---+
--			 *		|  X|<-@------->|x  |
--			 *		|   |		|   |
--			 *	cpu8 <--|A 1|<--------->|3 a|-> codec14
--			 *	cpu9 <--|B 2|<---+----->|4 b|-> codec15
--			 *		+---+	  \---->|5 c|-> codec16
--			 *				+---+
--			 */
--			ports@6 {
--				reg = <6>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--			mcpu1:	port@0 { reg = <0>; mcpu10_ep: endpoint { remote-endpoint = <&mcodec10_ep>; };};    /* (X) to pair */
--				port@1 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <1>;
--					mcpu11_ep:   endpoint@0 { reg = <0>; remote-endpoint = <&cpu8_ep>;       }; /* (A) Multi Element */
--					mcpu11_ep_0: endpoint@1 { reg = <1>; remote-endpoint = <&mcodec11_ep_0>; }; /* (1) connected Codec */
--				};
--				port@2 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <2>;
--					mcpu12_ep:   endpoint@0 { reg = <0>; remote-endpoint = <&cpu9_ep>;       }; /* (B) Multi Element */
--					mcpu12_ep_0: endpoint@1 { reg = <1>; remote-endpoint = <&mcodec12_ep_0>; }; /* (2) connected Codec */
--					mcpu12_ep_1: endpoint@2 { reg = <2>; remote-endpoint = <&mcodec13_ep_0>; }; /* (2) connected Codec */
--				};
--			};
--
--			/*
--			 * [Multi-Codec-1]
--			 *
--			 *		+---+		+---+
--			 *		|  X|<-@------->|x  |
--			 *		|   |		|   |
--			 *	cpu8 <--|A 1|<--------->|3 a|-> codec14
--			 *	cpu9 <--|B 2|<---+----->|4 b|-> codec15
--			 *		+---+	  \---->|5 c|-> codec16
--			 *				+---+
--			 */
--			ports@7 {
--				reg = <7>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--				port@0 { reg = <0>; mcodec10_ep: endpoint { remote-endpoint = <&mcpu10_ep>;  };};   /* (x) to pair */
--				port@1 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <1>;
--					mcodec11_ep:   endpoint@0 { reg = <0>; remote-endpoint = <&codec14_ep>;  }; /* (a) Multi Element */
--					mcodec11_ep_0: endpoint@1 { reg = <1>; remote-endpoint = <&mcpu11_ep_0>; }; /* (3) connected CPU */
--				};
--				port@2 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <2>;
--					mcodec12_ep:   endpoint@0 { reg = <0>; remote-endpoint = <&codec15_ep>;  }; /* (b) Multi Element */
--					mcodec12_ep_0: endpoint@1 { reg = <1>; remote-endpoint = <&mcpu12_ep_0>; }; /* (4) connected CPU */
--				};
--				port@3 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <3>;
--					mcodec13_ep:   endpoint@0 { reg = <0>; remote-endpoint = <&codec16_ep>;  }; /* (c) Multi Element */
--					mcodec13_ep_0: endpoint@1 { reg = <1>; remote-endpoint = <&mcpu12_ep_1>; }; /* (5) connected CPU */
--				};
--			};
--
--			/*
--			 * [Multi-CPU-2]
--			 *
--			 *		+---+		+---+
--			 *		|  X|<-@------->|x  |
--			 *		|   |		|   |
--			 *	cpu10 <-|A 1|<--------->|4 a|-> codec17
--			 *	cpu11 <-|B 2|<-----+--->|5 b|-> codec18
--			 *	cpu12 <-|C 3|<----/	+---+
--			 *		+---+
--			 */
--			ports@8 {
--				reg = <8>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--			mcpu2:	port@0 { reg = <0>; mcpu20_ep: endpoint { remote-endpoint = <&mcodec20_ep>; };};    /* (X) to pair */
--				port@1 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <1>;
--					mcpu21_ep:   endpoint@0 { reg = <0>; remote-endpoint = <&cpu10_ep>;      }; /* (A) Multi Element */
--					mcpu21_ep_0: endpoint@1 { reg = <1>; remote-endpoint = <&mcodec21_ep_0>; }; /* (1) connected Codec */
--				};
--				port@2 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <2>;
--					mcpu22_ep:   endpoint@0 { reg = <0>; remote-endpoint = <&cpu11_ep>;      }; /* (B) Multi Element */
--					mcpu22_ep_0: endpoint@1 { reg = <1>; remote-endpoint = <&mcodec22_ep_0>; }; /* (2) connected Codec */
--				};
--				port@3 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <3>;
--					mcpu23_ep:   endpoint@0 { reg = <0>; remote-endpoint = <&cpu12_ep>;      }; /* (C) Multi Element */
--					mcpu23_ep_0: endpoint@1 { reg = <1>; remote-endpoint = <&mcodec22_ep_1>; }; /* (3) connected Codec */
--				};
--			};
--
--			/*
--			 * [Multi-Codec-2]
--			 *
--			 *		+---+		+---+
--			 *		|  X|<-@------->|x  |
--			 *		|   |		|   |
--			 *	cpu10 <-|A 1|<--------->|4 a|-> codec17
--			 *	cpu11 <-|B 2|<-----+--->|5 b|-> codec18
--			 *	cpu12 <-|C 3|<----/	+---+
--			 *		+---+
--			 */
--			ports@9 {
--				reg = <9>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--				port@0 { reg = <0>; mcodec20_ep: endpoint { remote-endpoint = <&mcpu20_ep>;  };};   /* (x) to pair */
--				port@1 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <1>;
--					mcodec21_ep:   endpoint@0 { reg = <0>; remote-endpoint = <&codec17_ep>;  }; /* (a) Multi Element */
--					mcodec21_ep_0: endpoint@1 { reg = <1>; remote-endpoint = <&mcpu21_ep_0>; }; /* (4) connected CPU */
--				};
--				port@2 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <2>;
--					mcodec22_ep:   endpoint@0 { reg = <0>; remote-endpoint = <&codec18_ep>;  }; /* (b) Multi Element */
--					mcodec22_ep_0: endpoint@1 { reg = <1>; remote-endpoint = <&mcpu22_ep_0>; }; /* (5) connected CPU */
--					mcodec22_ep_1: endpoint@2 { reg = <2>; remote-endpoint = <&mcpu23_ep_0>; }; /* (5) connected CPU */
--				};
--			};
--		};
--
--		dpcm {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			ports@0 {
--				reg = <0>;
--
--				#address-cells = <1>;
--				#size-cells = <0>;
--				/*
--				 * [DPCM]::FE
--				 *
--				 *	FE				BE
--				 *			****
--				 *	cpu3 <-@(fe00)--*  *--(be0)@--> codec3
--				 *	cpu4 <-@(fe01)--*  *		(44.1kHz)
--				 *			****
--				 */
--			fe00:	port@0 { reg = <0>; fe00_ep: endpoint { remote-endpoint = <&cpu3_ep>; }; };
--			fe01:	port@1 { reg = <1>; fe01_ep: endpoint { remote-endpoint = <&cpu4_ep>; }; };
--
--				/*
--				 * [DPCM-Multi]::FE
--				 *
--				 *		FE			BE
--				 *			****		+-+
--				 *	cpu5 <-@(fe10)--*  *---(be1)@-->| |-> codec4
--				 *	cpu6 <-@(fe11)--*  *		| |-> codec5
--				 *			****		+-+
--				 */
--			fe10:	port@2 { reg = <2>; fe10_ep: endpoint { remote-endpoint = <&cpu5_ep>; }; };
--			fe11:	port@3 { reg = <3>; fe11_ep: endpoint { remote-endpoint = <&cpu6_ep>; }; };
--			};
--
--			ports@1 {
--				reg = <1>;
--
--				#address-cells = <1>;
--				#size-cells = <0>;
--				/*
--				 * [DPCM]::BE
--				 *
--				 *	FE				BE
--				 *			****
--				 *	cpu3 <-@(fe00)--*  *--(be0)@--> codec3
--				 *	cpu4 <-@(fe01)--*  *		(44.1kHz)
--				 *			****
--				 */
--			be0:	port@0 { reg = <0>; be00_ep: endpoint { remote-endpoint = <&codec3_ep>; }; };
--
--				/*
--				 * [DPCM-Multi]::BE
--				 *
--				 *		FE			BE
--				 *			****		+-+
--				 *	cpu5 <-@(fe10)--*  *---(be1)@-->| |-> codec4
--				 *	cpu6 <-@(fe11)--*  *		| |-> codec5
--				 *			****		+-+
--				 */
--			be1:	port@1 { reg = <1>; be10_ep: endpoint { remote-endpoint = <&mbe_ep>; }; };
--			};
--		};
--
--		codec2codec {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			/*
--			 * [Codec2Codec]
--			 *
--			 *	+-@(c2c)-> codec6
--			 *	|
--			 *	+--------> codec7
--			 */
--			ports@0 {
--				reg = <0>;
--
--				#address-cells = <1>;
--				#size-cells = <0>;
--
--				/* use default settings */
--			c2c:	port@0 { reg = <0>; c2cf_ep: endpoint { remote-endpoint = <&codec6_ep>; }; };
--				port@1 { reg = <1>; c2cb_ep: endpoint { remote-endpoint = <&codec7_ep>; }; };
--			};
--
--			/*
--			 * [Codec2Codec-Multi]
--			 *
--			 *			+-+
--			 *	   +-@(c2c_m)-->| |-> codec8
--			 *	   |		| |-> codec9
--			 *	   |		+-+
--			 *	   |		+-+
--			 *	   +----------->| |-> codec10
--			 *			| |-> codec11
--			 *			+-+
--			 */
--			ports@1 {
--				reg = <1>;
--
--				#address-cells = <1>;
--				#size-cells = <0>;
--
--				/* use original settings */
--				rate = <48000>;
--			c2c_m:	port@0 { reg = <0>; c2cmf_ep: endpoint { remote-endpoint = <&mc2c0_ep>; }; };
--				port@1 { reg = <1>; c2cmb_ep: endpoint { remote-endpoint = <&mc2c1_ep>; }; };
--			};
--		};
--	};
--
--	test_cpu {
--		/*
--		 * update compatible to indicate more detail behaviour
--		 * if you want. see test-compatible for more detail.
--		 *
--		 * ex)
--		 *	- compatible = "test-cpu";
--		 *	+ compatible = "test-cpu-verbose";
--		 */
--		compatible = "test-cpu";
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			bitclock-master;
--			frame-master;
--			/* [Normal] */
--			cpu0: port@0 { reg = <0>; cpu0_ep: endpoint { remote-endpoint = <&codec0_ep>; }; };
--
--			/* [Multi-CPU-0] */
--			      port@1 { reg = <1>; cpu1_ep: endpoint { remote-endpoint = <&mcpu01_ep>; }; };
--			      port@2 { reg = <2>; cpu2_ep: endpoint { remote-endpoint = <&mcpu02_ep>; }; };
--
--			/* [DPCM]::FE */
--			      port@3 { reg = <3>; cpu3_ep: endpoint { remote-endpoint = <&fe00_ep>; }; };
--			      port@4 { reg = <4>; cpu4_ep: endpoint { remote-endpoint = <&fe01_ep>; }; };
--
--			/* [DPCM-Multi]::FE */
--			      port@5 { reg = <5>; cpu5_ep: endpoint { remote-endpoint = <&fe10_ep>; }; };
--			      port@6 { reg = <6>; cpu6_ep: endpoint { remote-endpoint = <&fe11_ep>; }; };
--
--			/* [Semi-Multi] */
--			sm0:  port@7 { reg = <7>; cpu7_ep: endpoint { remote-endpoint = <&smcodec0_ep>; }; };
--
--			/* [Multi-CPU-1] */
--			      port@8 { reg = <8>; cpu8_ep: endpoint { remote-endpoint = <&mcpu11_ep>;   }; };
--			      port@9 { reg = <9>; cpu9_ep: endpoint { remote-endpoint = <&mcpu12_ep>;   }; };
--			/* [Multi-CPU-2] */
--			      port@a { reg = <10>; cpu10_ep: endpoint { remote-endpoint = <&mcpu21_ep>; }; };
--			      port@b { reg = <11>; cpu11_ep: endpoint { remote-endpoint = <&mcpu22_ep>; }; };
--			      port@c { reg = <12>; cpu12_ep: endpoint { remote-endpoint = <&mcpu23_ep>; }; };
--		};
--	};
--
--	test_codec {
--		/*
--		 * update compatible to indicate more detail behaviour
--		 * if you want. see test-compatible for more detail.
--		 *
--		 * ex)
--		 *	- compatible = "test-codec";
--		 *	+ compatible = "test-codec-verbose";
--		 */
--		compatible = "test-codec";
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			/*
--			 * prefix can be added to *component*,
--			 * see audio-graph-card2::routing
--			 */
--			prefix = "TC";
--
--			/* [Normal] */
--			port@0  { reg = <0>; codec0_ep:  endpoint { remote-endpoint = <&cpu0_ep>; }; };
--
--			/* [Multi-Codec-0] */
--			port@1  { reg = <1>; codec1_ep:  endpoint { remote-endpoint = <&mcodec01_ep>; }; };
--			port@2  { reg = <2>; codec2_ep:  endpoint { remote-endpoint = <&mcodec02_ep>; }; };
--
--			/* [DPCM]::BE */
--			port@3  {
--				convert-rate = <44100>;
--				reg = <3>; codec3_ep:  endpoint { remote-endpoint = <&be00_ep>; };
--			};
--
--			/* [DPCM-Multi]::BE */
--			port@4  { reg = <4>; codec4_ep:  endpoint { remote-endpoint = <&mbe1_ep>; }; };
--			port@5  { reg = <5>; codec5_ep:  endpoint { remote-endpoint = <&mbe2_ep>; }; };
--
--			/* [Codec2Codec] */
--			port@6  { bitclock-master;
--				  frame-master;
--				  reg = <6>; codec6_ep:  endpoint { remote-endpoint = <&c2cf_ep>; }; };
--			port@7  { reg = <7>; codec7_ep:  endpoint { remote-endpoint = <&c2cb_ep>; }; };
--
--			/* [Codec2Codec-Multi] */
--			port@8  { bitclock-master;
--				  frame-master;
--				  reg = <8>;  codec8_ep:  endpoint { remote-endpoint = <&mc2c00_ep>; }; };
--			port@9  { reg = <9>;  codec9_ep:  endpoint { remote-endpoint = <&mc2c01_ep>; }; };
--			port@a  { reg = <10>; codec10_ep: endpoint { remote-endpoint = <&mc2c10_ep>; }; };
--			port@b  { reg = <11>; codec11_ep: endpoint { remote-endpoint = <&mc2c11_ep>; }; };
--
--			/* [Semi-Multi] */
--			port@c { reg = <12>; codec12_ep: endpoint { remote-endpoint = <&smcodec1_ep>; }; };
--			port@d { reg = <13>; codec13_ep: endpoint { remote-endpoint = <&smcodec2_ep>; }; };
--
--			/* [Multi-Codec-1] */
--			port@e  { reg = <14>; codec14_ep: endpoint { remote-endpoint = <&mcodec11_ep>; }; };
--			port@f  { reg = <15>; codec15_ep: endpoint { remote-endpoint = <&mcodec12_ep>; }; };
--			port@10 { reg = <16>; codec16_ep: endpoint { remote-endpoint = <&mcodec13_ep>; }; };
--			/* [Multi-Codec-2] */
--			port@11 { reg = <17>; codec17_ep: endpoint { remote-endpoint = <&mcodec21_ep>; }; };
--			port@12 { reg = <18>; codec18_ep: endpoint { remote-endpoint = <&mcodec22_ep>; }; };
--		};
--	};
--};
+diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
+index 2ff8e67c19bd..221c65ff03c9 100644
+--- a/sound/soc/amd/ps/pci-ps.c
++++ b/sound/soc/amd/ps/pci-ps.c
+@@ -129,7 +129,7 @@ static short int check_and_handle_sdw_dma_irq(struct acp63_dev_data *adata, u32
+ 		if (ext_intr_stat1 & ACP63_P1_AUDIO1_RX_THRESHOLD) {
+ 			writel(ACP63_P1_AUDIO1_RX_THRESHOLD,
+ 			       adata->acp63_base + ACP_EXTERNAL_INTR_STAT1);
+-		       adata->acp63_sdw1_dma_intr_stat[ACP63_SDW1_AUDIO1_RX] = 1;
++			adata->acp63_sdw1_dma_intr_stat[ACP63_SDW1_AUDIO1_RX] = 1;
+ 			sdw_dma_irq_flag = 1;
+ 		}
+ 		if (ext_intr_stat1 & ACP63_P1_AUDIO1_TX_THRESHOLD) {
 -- 
-2.43.0
+2.34.1
 
