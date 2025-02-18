@@ -1,117 +1,145 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02949230D2F;
-	Tue, 18 Feb 2025 13:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949E6243387;
+	Tue, 18 Feb 2025 13:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739884721; cv=none; b=W8Jbe6VbQjNj2ff2pPfdZndF/e/s6g7kcnfYQkYT4N8+skXQ/mjtLy57h8ahMSA9UOfNQlONttTVnJapiBPrSSD845utoFE7FUsfBBqcGbTJqkU6UuJbojeQstdB9wlTdtPvwkjTEzUyPeLdGXqpr7Rr4cBviVXcqiGucDBQcx0=
+	t=1739886782; cv=none; b=jPOecxht6jE92S0mc8/H9VN67Bfs7Rvy0bk4DYz8vO7gnXjPfP4eJR9bV79N8ReDQlfUPDVYJOOcqsyEfkaYoGuP4oiIJqNnjsEDavXWPvOskSUChhl+NkHlhiHk68wBAgQ2f9rJyV2QtAQ0Spk4QWlTVYPuYo1qBeGg5T8D7kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739884721; c=relaxed/simple;
-	bh=FPWHPpu0oh2a3YB49PZMeRnbaB9j7/2z74Gs213PxMM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NZ3lEe7ArruhPWzB8UEIIdSPZLmyo+S9CqJ/9945MbPu5Qw+YebHP+WBO0OK7iqEwOcG35HUwzOno9LNCyvLdVLEDqKn+CU1pXwOXmUsD9KdojYI/18bNIhfZNHzsumNGDleOeUWgatMCS9+02noIDAPczMV1k2EChTXG8JGXu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=AYpRsrYd; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="AYpRsrYd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1739884718;
-	bh=FPWHPpu0oh2a3YB49PZMeRnbaB9j7/2z74Gs213PxMM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AYpRsrYdp8B3SpEganL2jKb8Bs73o8Tn+ptsaTezupvmkOLsCMRb0NJW+Qy6PiEwE
-	 OqyREqyyT7zX7wl/QvPmk2ihB0UqByW6nErSSkS4sRhEp9aiJPPWtxyFfnf+UqLsi8
-	 YC7oePKC9WKeq3bZI7VphNuCq0mYxBFjZlNOqNasFpnnSryDt1KK3o4r0wquxiB+v5
-	 Gg2/Zkuzk6Ii9d4MWQyxwlErJjxsVvzwepBA/tVJaQzpXa9DNe8rIickZG79CkQOPK
-	 Qc5MGaavU0xUguPKekofn8VFtZCjUpwnkeDzvHSD2BiU4ZAbSiWkaON3VDXkN6BE3f
-	 DcjsGH6vLF4Xw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1EC9017E0657;
-	Tue, 18 Feb 2025 14:18:37 +0100 (CET)
-Message-ID: <0ec8b0a5-d9b0-4090-a6b0-22537f449176@collabora.com>
-Date: Tue, 18 Feb 2025 14:18:36 +0100
+	s=arc-20240116; t=1739886782; c=relaxed/simple;
+	bh=qg6tR2OJ5fUk+PNSPNlhAUrEokpSrd88BUu/FLoWZZ0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QG8cjrNKl510s7GXm8i9ScF97CszT9BALnuHoGi4NoPtGfnFQ3/f5K1VY1XV4KZO8uclLl629uPPtxEF62v4KQu1Liuo+lW3MTj+TV5mpPnCqvObR6isel3skewmuzinzZjdEI3B6JapPvNGTsCNHJ361BYyGYzaurmYMcLlcxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-868e8cf9e20so2880223241.3;
+        Tue, 18 Feb 2025 05:53:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739886778; x=1740491578;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SEMYvJ02y6eE/skRVfH3zjf1LQbRZ9uPnuefeC3IoK4=;
+        b=ZDR0TNGT2aRUszR7hF/fU0/kFJnrmxkJf6Xt/hGbwcntuvw/0gFRhCK2jmSlq12l9U
+         Ey2fVDVImwvd2hxgECoFzWd9+eKuw0x+t9JPmHhM38hLyswrUe5xMgcEtF4ZsO2X7bEF
+         ObvutWbijQQ/C433cjoX3kKE7ps2U4OT1RCMhv7CTOhzReFP6+ECgaJM81kNlPYXpBCf
+         1cS1IaRs6q39hpzT20jAuInA/3wFEwhMJQHs+jRDNgtiqf9HsfUqR5j/iY7xOHwBbqBB
+         iD0Hszi6OwoXSN0iD6+Zt/qHOc2yZr5R4o2XfLOZp4DWhNMIQdv7pIs7v14JvMWbnlez
+         nd9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVwWUS4MijVEdBdwmBezlRDDO3pMIqIJOdvNMsEGWbIQD2PmAB1FyhI6ELZYfLCLb2f8uGJPxwIA+JV9UI=@vger.kernel.org, AJvYcCXlMobpJsN7brnBs1ZOIECT7E2GIY3jXadzhXa/JEiAbLU4yIXlnG/qp4mZMzVndpFNPV9bmvD8HSCUQ3k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsmT6a3vtlnoMnabV0XVZ+ztfsyUhu//NfCs0+AO2fpDKO/tRj
+	ZcCJ6MRSy62brh6kTauzA5NoMNokCfuGQ/oZcU54zNg3y8Gcc8L/Ok+xXZrQ
+X-Gm-Gg: ASbGncv5jk+R0mojVhKFeowaq2vDmq80oTL+CoBGC5RAho5IEBUujZ6mg7PESujjyx6
+	H11l7ND0rdNAPb4Pq6B0AqpoR6ZvfhM/RdRUe1HrrU5rIIEOdOYLQzUABBFvDkBo54B5WXfe6pJ
+	YDz6ec44zzMeAYa4vLk8bcGPN6Dy7jCUadfMRyKXyD8v1YoyaN+bDDUlfhd3w3MbrGQhcVBUMt2
+	wu6Bd7CiYBBeAU20rMyTI1T7drl/m/PWkpp/Ckc5d99sw1VilmhbFmSnjP6EhOba4+DfOvSaHhx
+	vRdxMQlr7BU5bIPdy/LzY04irgCQMbhPflnXe2JQjfEsASQzycuSurFVtg==
+X-Google-Smtp-Source: AGHT+IF1Ro/S8O5svSKZB96rUDRWsXa6girkn4hsNP60BWSy2k2OJOBigRaOS672YfZ+oGdc4FqQzA==
+X-Received: by 2002:a05:6102:cca:b0:4bb:e511:15a6 with SMTP id ada2fe7eead31-4bd3fcd6f97mr7973838137.11.1739886778536;
+        Tue, 18 Feb 2025 05:52:58 -0800 (PST)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4bd3c9acda5sm1906921137.9.2025.02.18.05.52.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Feb 2025 05:52:58 -0800 (PST)
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-520a48f37b4so1344086e0c.2;
+        Tue, 18 Feb 2025 05:52:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUrxvDx0+ivuwyqddQbf8VZPKLej6qLwQ16W4L0UFNoxbuQmigkqIgtpj68hu5vvnOerz4Mt7DZ2fkFLrU=@vger.kernel.org, AJvYcCW1y5Va5SDRLRodd95ZEpASJFYYY02drbXoOa7RkmqcL4Xf7vBn0K9LXiHrPRQXJAF/3d+DxKHPIxVfXnA=@vger.kernel.org
+X-Received: by 2002:a05:6102:4b12:b0:4ba:9689:870e with SMTP id
+ ada2fe7eead31-4bd3fe8cda3mr7352135137.21.1739886778052; Tue, 18 Feb 2025
+ 05:52:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/13] ASoC: mediatek: mt6359-accdet: Add compatible
- property
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Sen Chu <sen.chu@mediatek.com>,
- Sean Wang <sean.wang@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
- Lee Jones <lee@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-pm@vger.kernel.org, Andrew Perepech <andrew.perepech@mediatek.com>
-References: <20250214-mt6359-accdet-dts-v1-0-677a151b9b4c@collabora.com>
- <20250214-mt6359-accdet-dts-v1-4-677a151b9b4c@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250214-mt6359-accdet-dts-v1-4-677a151b9b4c@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250208-asoc-volume-limit-v1-1-b98fcf4cdbad@kernel.org>
+In-Reply-To: <20250208-asoc-volume-limit-v1-1-b98fcf4cdbad@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 18 Feb 2025 14:52:46 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXc8j14PwNnO2e3sPDCeS9fXx01qoMJHxWjxtuT3DrDNQ@mail.gmail.com>
+X-Gm-Features: AWEUYZmYXLEgw1DblqJn6pERZY_THetfHNXj7RUJTuj4dr2XcgbmEMykqQHvEKo
+Message-ID: <CAMuHMdXc8j14PwNnO2e3sPDCeS9fXx01qoMJHxWjxtuT3DrDNQ@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: ops: Enforce platform maximum on initial value
+To: broonie@kernel.org, =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Il 14/02/25 18:18, Nícolas F. R. A. Prado ha scritto:
-> Add a compatible property and add it to the module device table for the
-> mt6359-accdet platform driver to allow automatic module loading and
-> probing when the compatible is present in DT.
-> 
-> Co-developed-by: Andrew Perepech <andrew.perepech@mediatek.com>
-> Signed-off-by: Andrew Perepech <andrew.perepech@mediatek.com>
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> ---
->   sound/soc/codecs/mt6359-accdet.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
-> 
-> diff --git a/sound/soc/codecs/mt6359-accdet.c b/sound/soc/codecs/mt6359-accdet.c
-> index ed34cc15b80e856356c07fd53af22207124e0d19..6f07db879c6a56ce4843954f51bb9602373e4aa5 100644
-> --- a/sound/soc/codecs/mt6359-accdet.c
-> +++ b/sound/soc/codecs/mt6359-accdet.c
-> @@ -1047,9 +1047,19 @@ static int mt6359_accdet_probe(struct platform_device *pdev)
->   	return ret;
->   }
->   
-> +const struct of_device_id accdet_of_match[] = {
-> +	{
-> +		.compatible = "mediatek,mt6359-accdet",
-> +	}, {
-> +		/* sentinel */
-> +	},
+Hi Mark, Martin,
 
-Compress that stuff please...
+On Sat, 8 Feb 2025 at 01:57, <broonie@kernel.org> wrote:
+> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+>
+> Lower the volume if it is violating the platform maximum at its initial
+> value (i.e. at the time of the 'snd_soc_limit_volume' call).
+>
+> Signed-off-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+> [Cherry picked from the Asahi kernel with fixups -- broonie]
+> Signed-off-by: Mark Brown <broonie@kernel.orG>
 
-	{ .compatible .. },
-	{ /* sentinel */ }
-};
+Thanks for your patch, which is now commit 783db6851c1821d8 ("ASoC:
+ops: Enforce platform maximum on initial value") in linux-next/master
+next-20250218 sound-asoc/for-next
 
-after which:
+> --- a/sound/soc/soc-ops.c
+> +++ b/sound/soc/soc-ops.c
+> @@ -640,6 +640,33 @@ int snd_soc_get_volsw_range(struct snd_kcontrol *kco=
+ntrol,
+>  }
+>  EXPORT_SYMBOL_GPL(snd_soc_get_volsw_range);
+>
+> +static int snd_soc_clip_to_platform_max(struct snd_kcontrol *kctl)
+> +{
+> +       struct soc_mixer_control *mc =3D (struct soc_mixer_control *)kctl=
+->private_value;
+> +       struct snd_ctl_elem_value uctl;
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+sizeof(snd_ctl_elem_value) =3D 1224, causing:
 
-> +};
-> +MODULE_DEVICE_TABLE(of, accdet_of_match);
+    sound/soc/soc-ops.c:657:1: error: the frame size of 1232 bytes is
+larger than 1024 bytes [-Werror=3Dframe-larger-than=3D]
+
+> +       int ret;
 > +
->   static struct platform_driver mt6359_accdet_driver = {
->   	.driver = {
->   		.name = "pmic-codec-accdet",
-> +		.of_match_table = accdet_of_match,
->   	},
->   	.probe = mt6359_accdet_probe,
->   };
-> 
+> +       if (!mc->platform_max)
+> +               return 0;
+> +
+> +       ret =3D kctl->get(kctl, &uctl);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       if (uctl.value.integer.value[0] > mc->platform_max)
+> +               uctl.value.integer.value[0] =3D mc->platform_max;
+> +
+> +       if (snd_soc_volsw_is_stereo(mc) &&
+> +           uctl.value.integer.value[1] > mc->platform_max)
+> +               uctl.value.integer.value[1] =3D mc->platform_max;
+> +
+> +       ret =3D kctl->put(kctl, &uctl);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       return 0;
+> +}
+> +
+>  /**
+>   * snd_soc_limit_volume - Set new limit to an existing volume control.
+>   *
 
+Gr{oetje,eeting}s,
 
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
