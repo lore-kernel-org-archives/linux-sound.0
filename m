@@ -1,218 +1,226 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2114.outbound.protection.outlook.com [40.107.244.114])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E856C22D4C9;
-	Tue, 18 Feb 2025 10:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.114
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739876191; cv=fail; b=VRvEcq+yQmLpguhphaZ21rg3n4WxlWoFVSrKErVvVxxihtvk7/CYqs7EhReIz0prrM2Z2BvSGUWdgqwry03Hx8/yWINi0eoIRreGeN0hUW3/3QY9PjEp1NaoD4zHsbWXAJ4EbALGaFExMKBcFY6+uNJ5iy+UUcsIaa4LsCYiba8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739876191; c=relaxed/simple;
-	bh=PbIvCHwsSIA31Mbe9dz20y1DTTSWNCzjFjKRlAYXpTI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=fg8icFVVub8Sy4KZpa/25u5gVSgvgrHEXT57h8SyeWkovjHha1Y0J4/Tc/g0SpGWd3YfTfggCmygUzSl+HNXrEGGUzF3B+HRafLacyJtduA5IiVu/z803k0zvgGxMRhumYFH0q5tL2whgB9reHEN+wE77P57FgjtoHhtvYehF/I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inmusicbrands.com; spf=pass smtp.mailfrom=inmusicbrands.com; dkim=pass (1024-bit key) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b=D5vYkBB0; arc=fail smtp.client-ip=40.107.244.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inmusicbrands.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inmusicbrands.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F1E1A8413;
+	Tue, 18 Feb 2025 11:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739876426; cv=none; b=pKHx5kSuow6BzXDpVnRf/8CanzyIO31CjMKZXPAixeIJruXXAkvgqVquigMxvX16orHr1kN3fLoxDassiWdKTc5RadBI0su2Itwrc6bS/t/Jy4cCd/izxvGETuBHCSmxPnBm7Yzp55rvesT0HTlcdjZjMF+uRf1AMmnM161Pz+M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739876426; c=relaxed/simple;
+	bh=mwAvFgfM059obgvyujGkz/CD8+qzGmT95qVrT+A0kJs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XMorebdMS90vvEhd/O3W99Q/dxb1+17a1dpCEGdQ0mjjhSyQd8iqUzErUJVt6sWrX4Q/0EPl/XxJWbTycJklYacXI0gMCb2mtyePb4arbcDsItyYWwn0mYxEXBl0ub+rZhAKnu8RrW5es40HvlGVfKL8QqlE873rHSxmgeyQHrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PjE5ugKE; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b="D5vYkBB0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oKoZEmj6MxJ/ZAc03xxHHWe06Lx+41ILHqfUeKzgtGa20GjAsnoB4grBdeC4VjZnnmlRqVNXfWre33C5vHNTzKYdskE1Bpol58TLvl5BbwTyBB9Rd5a6ZXTZlVG/vHs6ni5iPzmVHV+VR9aM+2UzVYXcEe1fNaCy12xzsnWyoteLrM2GeeAhB2u6kLFkKHbmvdX3oM89tyN7qoslbTj0fdtGyotVAYLlqXzfOAxMYKNZueRSnX6Of+KEIsPIVHgeY62mHO9Z5ezoUb5Kz6wSObMJzxYYeJmMlV6sDfpfJe8SRGfY+ow0HsNeayqzSrNar+RSlUgpVZB/tXZ05HK8tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bdc3awizyXpUCVtM35uDczcHOk5FISfHsLBDt5hSaTM=;
- b=QNpMD1erjmLclKXJ185UGIBsrQMms7OM6dYJJ6LtLY5+8RxjLWutYuznjArCPBS5Tctdol2lF5dKM7NZRABFvclstB8ojamGq7EGJdggxZUVtKw0p0dfsz/zd90nOO2LKxHTOeM9p+EHoFFmuED0OVidPIuVomzex8hkmZi2QTcseUZCjP+aPWsn2PCAGg0i17kzzNgUnHRb2uQA2jI1n6j8QNd4qEOA3kkggkF3JaToj53wLSMlqqYnNAfd1cTf0fKg68T7uGX4YYX5qtNgjBiyp5799s3swWwHCpML7As4zjbuvK71zEHzEvOlLRQvd6RoFqDcFHiIh6PjmmUdWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=inmusicbrands.com; dmarc=pass action=none
- header.from=inmusicbrands.com; dkim=pass header.d=inmusicbrands.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inmusicbrands.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bdc3awizyXpUCVtM35uDczcHOk5FISfHsLBDt5hSaTM=;
- b=D5vYkBB0fQJCj8gPNOaQRlmLWFvjJ4UyTu8OQTKJafNLGdMOyxEwFY9OVhvSYlw9zuVO8wnJyZ/FSZmhctDNOKqcZ2vGhYLnYzJhYo9FMCZnYrH/cvTa3/fY1RxJXU7H0JVfwFkNZS6BLamfSO4Ux6tLTAJzfwNYeJxvuZ9igUU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=inmusicbrands.com;
-Received: from MW4PR08MB8282.namprd08.prod.outlook.com (2603:10b6:303:1bd::18)
- by DS1PR08MB10198.namprd08.prod.outlook.com (2603:10b6:8:217::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.14; Tue, 18 Feb
- 2025 10:56:26 +0000
-Received: from MW4PR08MB8282.namprd08.prod.outlook.com
- ([fe80::55b3:31f1:11c0:4401]) by MW4PR08MB8282.namprd08.prod.outlook.com
- ([fe80::55b3:31f1:11c0:4401%7]) with mapi id 15.20.8466.013; Tue, 18 Feb 2025
- 10:56:26 +0000
-Date: Tue, 18 Feb 2025 10:56:19 +0000
-From: John Keeping <jkeeping@inmusicbrands.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, Clemens Ladisch <clemens@ladisch.de>,
-	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] ALSA: usb-audio: drain may fail with multi-port close race
-Message-ID: <Z7RnUwatOnxYxNfI-jkeeping@inmusicbrands.com>
-References: <20250217111647.3368132-1-jkeeping@inmusicbrands.com>
- <8734gc8prr.wl-tiwai@suse.de>
- <Z7OCJ2DikMvhAxVf-jkeeping@inmusicbrands.com>
- <87zfij65hd.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zfij65hd.wl-tiwai@suse.de>
-X-ClientProxiedBy: LO2P123CA0072.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1::36) To MW4PR08MB8282.namprd08.prod.outlook.com
- (2603:10b6:303:1bd::18)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PjE5ugKE"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5A850442BD;
+	Tue, 18 Feb 2025 11:00:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739876416;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Tb2ydThktZ74L8NUf/2CNU7XkUMfYk3Aa0EcOihVnnc=;
+	b=PjE5ugKECQRb/m56G5pfVRRWl3J3FNLU/Pps2mxZ4e7bdU7rIAvlWJIwEWhBuOSugX1kS2
+	Zq2MIuKZQ92/Zbek19ZwgLnkxqafJ9oHF87HqIKhu7Un5S/7T8/V7iu6QwB/Ih8LWtngf6
+	CtsaLo47bGU1qI9viieNSxsJxdoBc+zl/G0Stmruwpd44wHSz6I+Z7TuYS9kDEZ2XYdf5J
+	H7PvBqpPXus8HaLq6iJtMtCkP6VfD7X0w+9YWXvz68UYADyxzXvUs/V0GrT2qEdGBhk7sA
+	FhhkCinq6dZpfpyQDVjM+DKfmisWOMy1TMPsopKpED79YyV4TQkI/R53d9hrbA==
+From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+Subject: [PATCH 0/2] driver core: platform: avoid use-after-free on device
+ name
+Date: Tue, 18 Feb 2025 12:00:11 +0100
+Message-Id: <20250218-pdev-uaf-v1-0-5ea1a0d3aba0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR08MB8282:EE_|DS1PR08MB10198:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0937ff97-6e1f-4f46-f7f2-08dd500ae3d5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?UArJZMAuYdeo9MQjEMrwh5HJNUTeX1JgcuRkqyXgxtrE4rxqESnWy4pntAfq?=
- =?us-ascii?Q?1BULszG91wwPxn9RR841JVUgK3iP0XTnyIzRUs4Gt5FfcdEcUROSFiwLPAUw?=
- =?us-ascii?Q?I8NUTa3mHe10e8xEzQFWnVvLK8v8JKlmb2bIf8rCVv0vZvoD0YnPfYyZALs2?=
- =?us-ascii?Q?5L9ACMSJofx6ErMochNYfLvGkLnaOkKPBqlQoujSzbJVA5tyUxnplyIB8lOf?=
- =?us-ascii?Q?n7BQEglktNgOtgiYn+Z2PR3oH8DOxTFAcDtTcGjR1aU/F0EiMGT8fXjIldX3?=
- =?us-ascii?Q?V2kxiaf3L1gVTRCG0PHhhMhAdux11/y9kvFe2zctoURHQ5nbptDxMEZKE6ua?=
- =?us-ascii?Q?sCxVDmZfubAuLoinx223KJZp/YZxur913KPx3ZpjnlpnDyEjS0sqSqWqUshS?=
- =?us-ascii?Q?x5ehS7P7YieZbQ2giat0W0mNuRgb/iVWAEfVATCirZD/fKmgqaNcXknbRE7M?=
- =?us-ascii?Q?0w2kDDc3R7np0Qm+odoyMLSjqH0n9mwZDTlDf+fLX8AWeoJ2T9C0u0Ih6M2n?=
- =?us-ascii?Q?hfV52EXdHLANL3UOxhsqS2w3GSRCmW5j5xPuSDZlk3pl/5Y7yyk4e8gbOf3S?=
- =?us-ascii?Q?RUb+D0Z0Q7oGfe2EPC1+6GXtIjzCLbTwqkRErXV8Y5+G+tEvPgvXwjCtpR6u?=
- =?us-ascii?Q?34pe4NeeGVGv/UOrxLrZlmwqFa+uPdKDVlctXNu6wejb0xNTaMOEKuWaT7+D?=
- =?us-ascii?Q?3t5ftRB9riLCvBY+Q8950WlCWnEx6yJsotnl6D50eP2XQjkD+YDkdauwOsKB?=
- =?us-ascii?Q?6hUKfExYqu/2wsrMJiOFYXaAhDBX4XykVQzbAQSXk7E1svznzjgiRHrAFmJZ?=
- =?us-ascii?Q?dU2nrCZ4kcU028xovns3AP64LrzatgTqq6wPAJbAnMutDA8U7NeyURBq26Vj?=
- =?us-ascii?Q?8azhaaFDJ9oe0V717pjhZ/kpHbC5z7RbIagmHWH06ZRInkSUhNjKkU89dcWe?=
- =?us-ascii?Q?UDM3ujX+zLuRWC0wWICQ34S2S3zNaa118rARxHwIoY1VGex55g04PXHskA7c?=
- =?us-ascii?Q?QeVStvZFUPffsLcNSEPVx4UQvWPdxkQHZwcJTxkzNi3f0s10H1e8Zng1l2Ww?=
- =?us-ascii?Q?Tu3zsm+xKaoohBAn39pr6kQGoOKwHsjGTzbgB5fXUv55oJxnIfms21pYuYos?=
- =?us-ascii?Q?jpaBltk5SK6EXGrvmMjKynqp4k6M9QHNafXlgYMBpMOT13J8SLfERIgZh4Nh?=
- =?us-ascii?Q?3GVmo6lM0R2Y3rWQe7OA1UrF1hNh2d67PMuaNG4uxHL7LfTfdroOGKp5arEs?=
- =?us-ascii?Q?U5ku8B345gj+GtarQQ8QLCk0Wi9lta4KGNd+lcBblxExXyK2qQtBBgSeVOYC?=
- =?us-ascii?Q?tzjryQNS2EfUZo5Ipfr1R02gnkxKMpjpsJGdq8Ae9fUAGQLPcVX7cmVPs2fn?=
- =?us-ascii?Q?bzeQi1NqiQ2/BRxsBxupXkKIoVUF+/ay7zRd+YO1yn1ybQI/KnB/H/JUcKUz?=
- =?us-ascii?Q?SZLGh5cOwLB/4dE+aI6MloNmYsDemocf?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR08MB8282.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1weQSFQx+s69So2bMPjVH6Rcq0oemTgw3QI5JCVB9o5BKqL3iiUeVoE0OaDE?=
- =?us-ascii?Q?A8InSaqgV6mZHOw+Q3ur3ge4+t/ghGG2l3/Y9kx7tsrASoI6AsrzAsXFkuHZ?=
- =?us-ascii?Q?E8PmzTzvqsH3TkQhC00r0NkobrZKYjsmimhn8mW70zNq/pWMIlf2wsSESkfx?=
- =?us-ascii?Q?vRX34roXhp3x1byGqc7K6Gje9VjAssy8O70EgV0YibnK//AIUaKfij22f+NG?=
- =?us-ascii?Q?pwgtRWo5axBfcFvSrQzuBq/i8giZa1IVo6Q59n22GVPZfmNHP90IL1F+SVRL?=
- =?us-ascii?Q?/xyy5akJlq3By+2Pq0G7P7PnJ+YXHtgL+azRvkS8wyURFgr/zIqF6AvRJw3h?=
- =?us-ascii?Q?tJOuGJpmrj2JTWZdjko/XE/Qaiky0L0+ZAm7pDP9B0goAA8o5ir3tOqH9VqE?=
- =?us-ascii?Q?W/2jVoLBlqklu0Bn2UND5u7rCQSB0ko5QFimkyJJJP2QLV1yHjlubIZ1OB54?=
- =?us-ascii?Q?wUAZn2dxs+JQvWNMOuIDD+UaIjBsXKEYOr2Pz8E2BxalcResYK5nYpCc/2gk?=
- =?us-ascii?Q?QBM4vWSbuhFIw2RTLAWtyrIGhhSKT8UUKSWv6Xoty/opOTIXsOZ8BH2EKZ3K?=
- =?us-ascii?Q?Rumu+iGt2ssFlm2NXVhW747/uKfIODNIOEp6/Cz9W5vCasVUZ+6wCt+1/C1c?=
- =?us-ascii?Q?wdEI3hl4zyxZShPhXAnw1p8sFYfshMbazyhrdSc60s/vdWQzNwbfd7VEtsOy?=
- =?us-ascii?Q?dTNy09TRFun5ioIoBCtS3bu3DL2CZCGyXVeKzMSqUaYjFxeMsyPy3RVS9m5l?=
- =?us-ascii?Q?CWEVT2EIX89KaSITRldVLwtWgrG4aGLygPIU8SXUPuTFHLT6vxHJpKYQRxcp?=
- =?us-ascii?Q?wZgTeUHkA7gty7fEZ8EYU8lyy2+2mgkLjUjrtVM+c8p8DgKeVbGi3OYdEbvV?=
- =?us-ascii?Q?U7Sd/v9jS/2lwXKiDM4jFv1Y2XRgvYn1S6zjJs/jxioUqToTicO8QH9q+oPo?=
- =?us-ascii?Q?af6ACyDs8zv10ietM9XKKEp84NuI4YSXV24K9vhsh2hMufXbfU1E+5Q6U5LO?=
- =?us-ascii?Q?Z2Q8la1GfBv9JY7Vf7mo/UvZrOhAFMDi0IoZJiVmChjl0Mg8nZC/vLvTVW6c?=
- =?us-ascii?Q?ePnFwg6Av80ruJSXLWo4JNuikleeyED/QGTVzPGyzKNauDCukr2naNCdHq4/?=
- =?us-ascii?Q?Uu9r8uJPs2n9xzqPJXgaUkgeIaYsKUO3gHGdsX/zVrudqQAVwzAHkWGlnZnW?=
- =?us-ascii?Q?+ziliXdenlU8zYWzXjOGN9sjQL2AwWY1oG2uoHqo7gUk5FLN6paF2ycQR22R?=
- =?us-ascii?Q?DOi6vpfXkKdeBcN/QV53uk4ySSzjma/A77troMehZQ02oPCXZPWMfJ92Qe8L?=
- =?us-ascii?Q?QnckmQH2d1xA7SfvX+ob+D35UWnb76MFG3wFNqy9TyWA2JP310Xr3pm6IkaX?=
- =?us-ascii?Q?jSXvXpqRcAzyiOrYd1gPNHH4bqAH+3WfFRqElXmF3FdHfRos1icPzUBw+Fok?=
- =?us-ascii?Q?6M/TmdXOSsbxFhJt2ftPl+CGUs1Wf0uwaaaB9Dwmb4dYVSuMMXUK7S30kvoL?=
- =?us-ascii?Q?JoSOVFchbJjNTB8q8RAU5ZU8R0zVqKO5qCMEF0bghtJ2nLoTaPs4Cf7Dm4/J?=
- =?us-ascii?Q?lla2KzU2OOGFoAcPsySxZqh9HCs1Wz/tfwWJWiSRb0lJ3V3LzMmhW9kaAl5H?=
- =?us-ascii?Q?cg=3D=3D?=
-X-OriginatorOrg: inmusicbrands.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0937ff97-6e1f-4f46-f7f2-08dd500ae3d5
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR08MB8282.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 10:56:25.9699
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 24507e43-fb7c-4b60-ab03-f78fafaf0a65
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OmzgQ5P/qVgxm82STYsDcVpo9bpJV/0QFH9N6XD20LAjDujZ83FSyM54salYy+P2iU08kLu8cs4Ws5Coju6w79vv4NR0g9gH5zR7rF52VxI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS1PR08MB10198
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADtotGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDI0Nz3YKU1DLd0sQ0XcNEc3PLREuLFAvDJCWg8oKi1LTMCrBR0bG1tQC
+ NeVcHWgAAAA==
+X-Change-ID: 20250217-pdev-uaf-1a779a98d81b
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Grant Likely <grant.likely@secretlab.ca>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Binbin Zhou <zhoubinbin@loongson.cn>, linux-sound@vger.kernel.org, 
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
+ =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Tawfik Bayouk <tawfik.bayouk@mobileye.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtkeertdertdejnecuhfhrohhmpefvhhorohcunfgvsghruhhnuceothhhvghordhlvggsrhhunhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieehhfdtvedtjeetudeluddugfetlefhgfeukeehffejlefhjeejvdfhvdelhfefnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemieeigegsmehftdhffhemfhgvuddtmeelvghfugenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemieeigegsmehftdhffhemfhgvuddtmeelvghfugdphhgvlhhopegludelvddrudeikedruddtrdeliegnpdhmrghilhhfrhhomhepthhhvghordhlvggsrhhunhessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddupdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkv
+ ghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopeiihhhouhgsihhnsghinheslhhoohhnghhsohhnrdgtnhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhgvohdrlhgvsghruhhnsegsohhothhlihhnrdgtohhm
+X-GND-Sasl: theo.lebrun@bootlin.com
 
-On Tue, Feb 18, 2025 at 09:07:26AM +0100, Takashi Iwai wrote:
-> On Mon, 17 Feb 2025 19:38:31 +0100,
-> John Keeping wrote:
-> > 
-> > On Mon, Feb 17, 2025 at 06:06:16PM +0100, Takashi Iwai wrote:
-> > > On Mon, 17 Feb 2025 12:16:46 +0100,
-> > > John Keeping wrote:
-> > > > 
-> > > > I'm seeing a bug where data sometimes fails to send on USB MIDI devices
-> > > > with multiple ports which seems to be a result of a race around closing
-> > > > ports introduced by commit 0125de38122f0 ("ALSA: usb-audio: Cancel
-> > > > pending work at closing a MIDI substream").
-> > > > 
-> > > > The scenario is essentially this program:
-> > > > 
-> > > > 	snd_rawmidi_t *port0, *port1;
-> > > > 	snd_rawmidi_open(NULL, &port0, "hw:0,0,0", 0);
-> > > > 	snd_rawmidi_open(NULL, &port1, "hw:0,0,1", 0);
-> > > > 
-> > > > 	snd_rawmidi_write(port0, data, len);
-> > > > 
-> > > > 	snd_rawmidi_close(port1);
-> > > > 	snd_rawmidi_close(port0);
-> > > > 
-> > > > What happens seems to be the following:
-> > > > 
-> > > > 	write(port0)
-> > > > 	`- snd_usbmidi_output_trigger
-> > > > 	   `- queue_work()
-> > > >         close(port1)
-> > > > 	`- snd_usbmidi_output_close
-> > > > 	   `- cancel_work_sync()	# Work has not yet started here
-> > > > 	close(port0)
-> > > > 	`- snd_rawmidi_drain_output
-> > > > 	   # Times out because nothing is processing outbound data!
-> > > > 
-> > > > The two ports interact like this because they are on the same endpoint,
-> > > > so should the work only be cancelled when the last endpoint is closed?
-> > > 
-> > > How about the following patch work?
-> > > It's a band-aid, but should suffice.  The callback is already
-> > > protected with rawmidi open_mutex.
-> > 
-> > Yes, this patch fixes it and is
-> > 
-> > Tested-by: John Keeping <jkeeping@inmusicbrands.com>
-> 
-> Thank you for quick testing!
-> 
-> Looking at the code again, I think the suggested fix isn't right.
-> It still allows some pending work accessing the freed object.
-> 
-> Could you test the following one-liner instead?
+The use-after-free bug appears when:
+ - A platform device is created from OF, by of_device_add();
+ - The same device's name is changed afterwards using dev_set_name(),
+   by its probe for example.
 
-Tested-by: John Keeping <jkeeping@inmusicbrands.com>
+Out of the 37 drivers that deal with platform devices and do a
+dev_set_name() call, only one might be affected. That driver is
+loongson-i2s-plat [0]. All other dev_set_name() calls are on children
+devices created on the spot. The issue was found on downstream kernels
+and we don't have what it takes to test loongson-i2s-plat.
 
-The patch below also fixes the issue.  Thanks!
+Note: loongson-i2s-plat maintainers are CCed.
 
+   ⟩ # Finding potential trouble-makers:
+   ⟩ git grep -l 'struct platform_device' | xargs grep -l dev_set_name
 
-John
+The solution proposed is to add a flag to platform_device that tells if
+it is responsible for freeing its name. We can then duplicate the
+device name inside of_device_add() instead of copying the pointer.
 
-> -- 8< --
-> --- a/sound/usb/midi.c
-> +++ b/sound/usb/midi.c
-> @@ -1145,7 +1145,7 @@ static int snd_usbmidi_output_close(struct snd_rawmidi_substream *substream)
->  {
->  	struct usbmidi_out_port *port = substream->runtime->private_data;
->  
-> -	cancel_work_sync(&port->ep->work);
-> +	flush_work(&port->ep->work);
->  	return substream_open(substream, 0, 0);
->  }
->  
+What is done elsewhere?
+ - Platform bus code does a copy of the argument name that is stored
+   alongside the struct platform_device; see platform_device_alloc()[1].
+ - Other busses duplicate the device name; either through a dynamic
+   allocation [2] or through an array embedded inside devices [3].
+ - Some busses don't have a separate name; when they want a name they
+   take it from the device [4].
+
+[0]: https://elixir.bootlin.com/linux/v6.13.2/source/sound/soc/loongson/loongson_i2s_plat.c#L155
+[1]: https://elixir.bootlin.com/linux/v6.13.2/source/drivers/base/platform.c#L581
+[2]: https://elixir.bootlin.com/linux/v6.13.2/source/drivers/gpu/drm/drm_drv.c#L679
+[3]: https://elixir.bootlin.com/linux/v6.13.2/source/include/linux/i2c.h#L343
+[4]: https://elixir.bootlin.com/linux/v6.13.2/source/include/linux/pci.h#L2150
+
+This can be reproduced using Buildroot's qemu_aarch64_virt_defconfig
+with CONFIG_KASAN=y and a dev_set_name() inside the probe of:
+drivers/pci/controller/pci-host-common.c
+
+The below splat appears at boot. It happens whenever something tries to
+access pdev->name; one big consumer of this field is platform_match()
+that fallbacks to name matching.
+
+   ==================================================================
+   BUG: KASAN: slab-use-after-free in strcmp+0x2c/0x78
+   Read of size 1 at addr ffffff80c0300160 by task swapper/0/1
+
+   CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.6.32 #1
+   Hardware name: linux,dummy-virt (DT)
+   Call trace:
+    dump_backtrace+0x90/0xe8
+    show_stack+0x18/0x24
+    dump_stack_lvl+0x48/0x60
+    print_report+0xf8/0x5d8
+    kasan_report+0x90/0xcc
+    __asan_load1+0x60/0x6c
+    strcmp+0x2c/0x78
+    platform_match+0xd0/0x140
+    __driver_attach+0x44/0x240
+    bus_for_each_dev+0xe4/0x160
+    driver_attach+0x34/0x44
+    bus_add_driver+0x134/0x270
+    driver_register+0xa4/0x1e4
+    __platform_driver_register+0x44/0x54
+    ged_driver_init+0x1c/0x28
+    do_one_initcall+0xdc/0x260
+    kernel_init_freeable+0x314/0x448
+    kernel_init+0x2c/0x1e0
+    ret_from_fork+0x10/0x20
+
+   Allocated by task 1:
+    kasan_save_stack+0x3c/0x64
+    kasan_set_track+0x2c/0x40
+    kasan_save_alloc_info+0x24/0x34
+    __kasan_kmalloc+0xb8/0xbc
+    __kmalloc_node_track_caller+0x64/0xa4
+    kvasprintf+0xcc/0x16c
+    kvasprintf_const+0xe8/0x180
+    kobject_set_name_vargs+0x54/0xd4
+    dev_set_name+0xa8/0xe4
+    of_device_make_bus_id+0x298/0x2b0
+    of_device_alloc+0x1ec/0x204
+    of_platform_device_create_pdata+0x60/0x168
+    of_platform_bus_create+0x20c/0x4a0
+    of_platform_populate+0x50/0x10c
+    of_platform_default_populate_init+0xe0/0x100
+    do_one_initcall+0xdc/0x260
+    kernel_init_freeable+0x314/0x448
+    kernel_init+0x2c/0x1e0
+    ret_from_fork+0x10/0x20
+
+   Freed by task 1:
+    kasan_save_stack+0x3c/0x64
+    kasan_set_track+0x2c/0x40
+    kasan_save_free_info+0x38/0x60
+    __kasan_slab_free+0xe4/0x150
+    __kmem_cache_free+0x134/0x26c
+    kfree+0x54/0x6c
+    kfree_const+0x34/0x40
+    kobject_set_name_vargs+0xa8/0xd4
+    dev_set_name+0xa8/0xe4
+    pci_host_common_probe+0x9c/0x294
+    platform_probe+0x90/0x100
+    really_probe+0x100/0x3cc
+    __driver_probe_device+0xb8/0x18c
+    driver_probe_device+0x108/0x1d8
+    __driver_attach+0xc8/0x240
+    bus_for_each_dev+0xe4/0x160
+    driver_attach+0x34/0x44
+    bus_add_driver+0x134/0x270
+    driver_register+0xa4/0x1e4
+    __platform_driver_register+0x44/0x54
+    gen_pci_driver_init+0x1c/0x28
+    do_one_initcall+0xdc/0x260
+    kernel_init_freeable+0x314/0x448
+    kernel_init+0x2c/0x1e0
+    ret_from_fork+0x10/0x20
+
+   The buggy address belongs to the object at ffffff80c0300160
+    which belongs to the cache kmalloc-16 of size 16
+   The buggy address is located 0 bytes inside of
+    freed 16-byte region [ffffff80c0300160, ffffff80c0300170)
+
+   The buggy address belongs to the physical page:
+   page:0000000099fe29a0 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x100300
+   flags: 0x8000000000000800(slab|zone=2)
+   page_type: 0xffffffff()
+   raw: 8000000000000800 ffffff80c00013c0 dead000000000122 0000000000000000
+   raw: 0000000000000000 0000000080800080 00000001ffffffff 0000000000000000
+   page dumped because: kasan: bad access detected
+
+   Memory state around the buggy address:
+    ffffff80c0300000: fa fb fc fc fa fb fc fc 00 07 fc fc 00 07 fc fc
+    ffffff80c0300080: 00 07 fc fc 00 02 fc fc 00 02 fc fc 00 02 fc fc
+   >ffffff80c0300100: 00 06 fc fc 00 06 fc fc 00 06 fc fc fa fb fc fc
+                                                          ^
+    ffffff80c0300180: 00 00 fc fc 00 00 fc fc 00 06 fc fc 00 06 fc fc
+    ffffff80c0300200: 00 06 fc fc 00 06 fc fc 00 06 fc fc 00 06 fc fc
+   ==================================================================
+
+Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
+---
+Théo Lebrun (2):
+      driver core: platform: turn pdev->id_auto into pdev->flags
+      driver core: platform: avoid use-after-free on pdev->name
+
+ drivers/base/platform.c         |  8 +++++---
+ drivers/of/platform.c           | 12 +++++++++++-
+ include/linux/platform_device.h |  4 +++-
+ 3 files changed, 19 insertions(+), 5 deletions(-)
+---
+base-commit: 0ad2507d5d93f39619fc42372c347d6006b64319
+change-id: 20250217-pdev-uaf-1a779a98d81b
+
+Best regards,
+-- 
+Théo Lebrun <theo.lebrun@bootlin.com>
+
