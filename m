@@ -1,105 +1,96 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5E326B97A;
-	Tue, 18 Feb 2025 17:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7D726FA66;
+	Tue, 18 Feb 2025 17:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739899654; cv=none; b=n+6PIp3otnjaeH+iyMTVG7r06DIBxlFpHRVbiW37NtqR9FRAfNF+1NkmikbBQthm2KnuK0MubJLfriwlWTwmc9KLThq2ZZGNGp3tdR16ydXtmT09wFSJYuso4UKwnXzBx0M25QdS7OFHPKmZx1EmdvrMuK7IKkd6lZ+qvcR/+QU=
+	t=1739899796; cv=none; b=ANrSIfzf3Uo/S1qzX3cqQqPKNDHeabbzPnPweMyOGHQgpYvNjGG4jMWkGbs3xCBRS0x9I484GEgyhOcFaMn3Nap/+fEUxSfSgCzy0NLJa5Oo/2ppAO13edYl/b7BbQgtbelaoWn11zR9+SYeavVlOs9zLEO+fdu63eg4x/qauIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739899654; c=relaxed/simple;
-	bh=y+ZJhN7cpCMY1NqHSQ85BW/kzeO13CqDDWrCmla8GbU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KB0+JUO3RYHPdO4jSI6+/myeuqGQsT9S8bLmZMkJNYGhaUkdS3QCNlCF2qGLqjyGgeuKDvsdAXYp/D3V8CsWxLrwzgT5pcvSjiwx+7iG6zEvXHvJtcuwXdDprOYGYxC+WrHGZaGREmyMBsd1wTbmQh3nA0BUOCliAaeHwKE/sqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MELFlR/1; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1739899796; c=relaxed/simple;
+	bh=emS3jjUdRxAkZX0/Wg/p0kV5/i72KFjYTYkDUpcXmW0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J3qGVMPYpYYqL83uyP6acavrNPtd/OImTH+4sDhUC9pcfj53cNcR45fosJv4Dc4Hn5j04DTqT8IYZiZ36oOLwFYjBRhEfB63l1gHLpoVd9NdoKi7qphN7Md6KQ0yfHkEf0qzA/Wdo4ATy3B4i1enPO9SbUnA6o985jfc4yV/GEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s+vFfbbw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MELFlR/1"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D3A9140E01A1;
-	Tue, 18 Feb 2025 17:27:29 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 6AkQQoTT4_i9; Tue, 18 Feb 2025 17:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1739899645; bh=Y6l26zakd0qr5x+UfVU6l/SEd51HbajlWRpTRHIZo0o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MELFlR/1TPAb9F1YEuWm8zv5UBrwEbnoQN3iUpfknIf9hDXFJCiS1q7hLJrNsYJBW
-	 Q1MFxA2Squ/FTDM1QpsOM3qOxg/P5S4psD6NHQcigFIyJFs6QMm51mYF2ITQmEJopZ
-	 bH/vIrppCu2WnZNptZCcVw6tiwvwwpoevyGo1/OwXDx0Rc4uKELGZ6z1H6YoW5mnXD
-	 SRcNa7f9nXtobH1bDReaUmKp4rC7QX4ZFYiO00qciv8TlWVFKI9V4j9eE2077PjCRQ
-	 hQqRzMb5Any0KikitnOlF4sQZMc7sd/W09C38HONF5ddxqaXIhez0ZDn6Ca8ze0i4h
-	 0O0XbWWEhJH1XEFNabHbfUIfvhQXQ8Tqujl8CtLgfbUsV7eSumOOLOS+zJAqVsPFaP
-	 a+tfW08I7f8a/c1twuB3gu4YGsaQ7BzS6v7cf6S0EofztZ/hAdjn7lkhF6hTFiQD72
-	 A2sAFRsE7Ds8VC+Q+eNkX2COso1uHGXm+wOj8d2JesZnsQ8kjAZ+vqbUvSXzLW52Z2
-	 nUsbUZ3THA0eRCrFAdSQdmbEtS8457vlkIxO9Gae0J09CR6GPHbB2x8OXpraLEmfiR
-	 3JyPccNGlT5SH7VUQIzueLxPfVVieWhM3AH+d9mHuAw2rEvOCz78K1USubvM18XFU9
-	 Z/bD/NjdvTJsZnG0dXTHORyo=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 47B1E40E020E;
-	Tue, 18 Feb 2025 17:26:57 +0000 (UTC)
-Date: Tue, 18 Feb 2025 18:26:50 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Yazen Ghannam <yazen.ghannam@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	"open list:AMD NODE DRIVER" <linux-kernel@vger.kernel.org>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	"moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>
-Subject: Re: [PATCH 0/7] Adjust all AMD audio drivers to use AMD_NODE
-Message-ID: <20250218172650.GOZ7TC2mHXJdO7_iAd@fat_crate.local>
-References: <20250217231747.1656228-1-superm1@kernel.org>
- <Z7SjI-NIZbMEgz2y@finisterre.sirena.org.uk>
- <b2876489-7bd5-4c38-b1f8-2d2fcb5a9aba@kernel.org>
- <20250218152649.GKZ7SmubM_YWhDqaPo@fat_crate.local>
- <f037a5a9-7e5a-4582-9a35-90e8442c6ed6@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s+vFfbbw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C26F7C4CEE2;
+	Tue, 18 Feb 2025 17:29:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739899795;
+	bh=emS3jjUdRxAkZX0/Wg/p0kV5/i72KFjYTYkDUpcXmW0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=s+vFfbbwo9m1fZgTAeijqNdnoXzw+R8VMVeiuUaxWN+leCTtyn20NI8cbpv2TtRaL
+	 56SlzZZOYpHIo8Kef0J68Ejk1XHOcJYHmawd/KanOR6d8PqS7xdGyjiGUk42EaZXgA
+	 YPucXca5ekgoXdG3JdiQOQAF7E2E2i4NDeys0y2oyGIhEdxA51AgfqQrnWZv+4y1Po
+	 BsEJhrP8Mfrxek4ZTHb4Agze0O9pWvBlU4FXLiqUP9Vc7kt+XaTCyeVOwH4uoMA7w2
+	 hjIhEyA0PYIdnzfkhC2oVIPYCvUNtYfIPz4jJWURFia7eVxHtZ9qxTqKel33W40QIL
+	 V0GcIE9S993UQ==
+Message-ID: <23b98c23-c408-40b8-bab2-cae0fe8455d4@kernel.org>
+Date: Tue, 18 Feb 2025 11:29:51 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f037a5a9-7e5a-4582-9a35-90e8442c6ed6@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/7] Adjust all AMD audio drivers to use AMD_NODE
+To: Borislav Petkov <bp@alien8.de>, Mark Brown <broonie@kernel.org>
+Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+ "H . Peter Anvin" <hpa@zytor.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Jeff Johnson <quic_jjohnson@quicinc.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ "open list:AMD NODE DRIVER" <linux-kernel@vger.kernel.org>,
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+ <linux-sound@vger.kernel.org>,
+ "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS"
+ <sound-open-firmware@alsa-project.org>
+References: <20250217231747.1656228-1-superm1@kernel.org>
+ <Z7SjI-NIZbMEgz2y@finisterre.sirena.org.uk>
+ <b2876489-7bd5-4c38-b1f8-2d2fcb5a9aba@kernel.org>
+ <20250218152649.GKZ7SmubM_YWhDqaPo@fat_crate.local>
+ <f037a5a9-7e5a-4582-9a35-90e8442c6ed6@kernel.org>
+ <20250218172650.GOZ7TC2mHXJdO7_iAd@fat_crate.local>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20250218172650.GOZ7TC2mHXJdO7_iAd@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 18, 2025 at 09:33:03AM -0600, Mario Limonciello wrote:
-> Yeah; please get that ready and I'll rebase the series and send out a v2 on
-> that branch.
+On 2/18/2025 11:26, Borislav Petkov wrote:
+> On Tue, Feb 18, 2025 at 09:33:03AM -0600, Mario Limonciello wrote:
+>> Yeah; please get that ready and I'll rebase the series and send out a v2 on
+>> that branch.
+> 
+> There it is:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/log/?h=x86/misc
+> 
 
-There it is:
+Thanks.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/log/?h=x86/misc
+Mark,
 
--- 
-Regards/Gruss,
-    Boris.
+I confirmed that a test merge of tip/x86/misc into ASoC/for-next and 
+then applying the remaining 6 patches worked properly, so you can pick 
+up and do that.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks,
