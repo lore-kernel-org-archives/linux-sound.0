@@ -1,106 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCE526B2A2;
-	Tue, 18 Feb 2025 15:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC73F13DBA0;
+	Tue, 18 Feb 2025 15:18:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739891785; cv=none; b=iGPTKBgX5j1al6CslZqN8OWa+DuK1SWc8K18IdeDSCCrOzX0orsTiMv8DTsBIBgdKUWAnAkFqjN2OsUccyZPBMQz6PZongzVhyTq9IQE0ACoYCqpFouiAHjTuqrb7XzGhPb3SRwA1PXDYiMQnoe6neFa4qL359YtxN4CN66tKok=
+	t=1739891897; cv=none; b=bPORkxVM7jo8LBmqriqln4QRmIDDt44TeuCsa4BuIvc8YVXnM6/WNLQKxsHQJoi/xFxznLXtbDzMO00dzE4JDKUd/zM15NGSwFw5cGzkZ2wvNOOEUdUZsS7QorIp7HFfNyS4T9I7rPGQ/4i9Agl2ln/ffeqmsarPJI+4lLcxswc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739891785; c=relaxed/simple;
-	bh=AceSqE+dN1fqncQf3jSZVkxkI4JsO0+9I/Rm/ds/R/Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YyFm3HNYpHmzjOgoCoJr3EIze2Hq72Q6brC133Kx6mIfseu+OCMrufSB0sQh/m7C6ybeSrb7GypTwZBzJQDeNfPgti3GZP+hmdl8b3GT1hs8MsG5EyFx6XDaEpjMrIqufmFMLL1jTXB4Hap80pwyReTeaovhhVl0sj8q64l9XFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJhGCAuo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739891897; c=relaxed/simple;
+	bh=WNiRmK4EogoQLQp8Y1WXGzt5lwEyX5i3uO+8yUl4hUQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=trwrpL0hzzdCHWozUw+KyXETwfAA9a5ppZ2gg/DICTKgtmTeQhZcTKtITCkMWXymHPh89X0g29Gcc9GvM02/xn1Wz0R0WSKvlOpP/EKMvBzX899Mhm5zalL+z+K6JUu7rLC6jW6SQN+8oqX0eD1zBzE7p7d/xDvwYzAik2uPxcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lJs+qgNS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJhGCAuo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0402DC4CEE2;
-	Tue, 18 Feb 2025 15:16:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lJs+qgNS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58EB7C4CEE2;
+	Tue, 18 Feb 2025 15:18:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739891784;
-	bh=AceSqE+dN1fqncQf3jSZVkxkI4JsO0+9I/Rm/ds/R/Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZJhGCAuoRW4LKYqn1tFbJZJ9GkQKkOn5zHhRmSA66HDExxvLHkOjU0LuQN3lOcj6Z
-	 TQ3A4ylu2YsB2dUBDZvJaIVuvdm7o51sLerNLcXoouyDRIZecxq2BIXrVdshNi8DIh
-	 gNqL/o/QWzrtMw2vSUWe0ivH3p1AD4MAH7h/BPdhYDKx4Bl/tvxSogkNGpl6jb+c+Z
-	 8WdJ9KGKL++lx76jCRK92/EhQAmaXAEWZ+cHNdY1+Zu6H6NaKPGZo5dJ8UK8YfgLx7
-	 G++xW2k+1gf5B9NONT5HK/3ILTmpSEqokLW44m3Vmwbjn+omuzGN0mB8Z7GQg0KRpT
-	 GCu36+ESNBRBw==
-Message-ID: <b2876489-7bd5-4c38-b1f8-2d2fcb5a9aba@kernel.org>
-Date: Tue, 18 Feb 2025 09:16:20 -0600
+	s=k20201202; t=1739891897;
+	bh=WNiRmK4EogoQLQp8Y1WXGzt5lwEyX5i3uO+8yUl4hUQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lJs+qgNS5PeOgjGSKOdxxBdaTb6bVZ0+lbx2qyEtHIG6VZXx23wsx+oPZAxXjXLr0
+	 KvtMaVs5IEU2miwHo8Ht/ExjNri4Fm8Gm4TEarJpSzSds2pRCBYDBzdH3op19mCcEQ
+	 AyVZGoeE7No9o/znffewjb1nAJdjJn9JzhEbJxHAZw9EdmxHEoUEyVEfhWDGsI0tlx
+	 6hKpgzeSmqfGFHQGjwBmjgD8v0mmk8Ig6+RjnLoOXCF/uBwOKih6nSl5zaQmEPiLnt
+	 xEPfRXdlMN/ZtTVtiqPznIdhucSM42v+ziCetjFkxq8dipq75VFg8FoXBUqLuRMPyH
+	 gBL70RhaLozCg==
+Date: Tue, 18 Feb 2025 15:18:12 +0000
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shi Fu <shifu0704@thundersoft.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	Neal Gompa <neal@gompa.dev>
+Subject: Re: [PATCH v2 09/29] ASoC: tas2764: Reinit cache on part reset
+Message-ID: <Z7SktJ7Ajw1pmlSt@finisterre.sirena.org.uk>
+References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
+ <20250218-apple-codec-changes-v2-9-932760fd7e07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] Adjust all AMD audio drivers to use AMD_NODE
-To: Mark Brown <broonie@kernel.org>, Borislav Petkov <bp@alien8.de>
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
- "H . Peter Anvin" <hpa@zytor.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Jeff Johnson <quic_jjohnson@quicinc.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- "open list:AMD NODE DRIVER" <linux-kernel@vger.kernel.org>,
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <linux-sound@vger.kernel.org>,
- "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS"
- <sound-open-firmware@alsa-project.org>
-References: <20250217231747.1656228-1-superm1@kernel.org>
- <Z7SjI-NIZbMEgz2y@finisterre.sirena.org.uk>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <Z7SjI-NIZbMEgz2y@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="D5JGNK4VoKGS1UkQ"
+Content-Disposition: inline
+In-Reply-To: <20250218-apple-codec-changes-v2-9-932760fd7e07@gmail.com>
+X-Cookie: Editing is a rewording activity.
 
-On 2/18/2025 09:11, Mark Brown wrote:
-> On Mon, Feb 17, 2025 at 05:17:40PM -0600, Mario Limonciello wrote:
-> 
->> The various AMD audio drivers have self contained implementations
->> for SMN router communication that require hardcoding the bridge ID.
-> 
->> These implementations also don't prevent race conditions with other
->> drivers performing SMN communication.
-> 
->> A new centralized driver AMD_NODE is introduced and all drivers in
->> the kernel should use this instead. Adjust all AMD audio drivers to
->> use it.
->> Mario Limonciello (7):
->>    x86/amd_node: Add a helper for use with `read_poll_timeout`
-> 
-> What's the thinking for merging this - the SMN driver is in arch/x86 but
-> the bulk of the changes are in ASoC?  My first thought is that it's
-> mostly ASoC stuff, are the x86 people OK with me picking up the arch
-> patch (I'd put it on a branch anyway so if needed we can do a merge
-> later)?
 
-Probably need Boris' perspective here.
+--D5JGNK4VoKGS1UkQ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There are some patches that just landed to tip/tip.git today which I 
-believe the first patch needs to rebase on top of.
+On Tue, Feb 18, 2025 at 06:35:43PM +1000, James Calligeros wrote:
+> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+>=20
+> When the part is reset in component_probe, do not forget to reinit the
+> regcache, otherwise the cache can get out of sync with the part's
+> actual state. This fix is similar to commit 0a0342ede303
+> ("ASoC: tas2770: Reinit regcache on reset") which concerned the
+> tas2770 driver.
 
-My thought is maybe:
-1) We can get an immutable branch from tip/tip.git with the conflicting 
-changes.
+Fixes should go at the start of a series so they can be applied easily
+without spurious dependencies.
 
-2) An Ack from x86 maintainers on the first patch.
+--D5JGNK4VoKGS1UkQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-3) ASoC merges immutable branch and takes the series through ASoC tree.
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme0pLQACgkQJNaLcl1U
+h9ATvAf+KuTl4o2nwbZbzxU/IP0+CGJWK2DmINuZ1Co5/Cqrb7eiMdqDDeyzXHBG
+bjSCOESirN9nH/Plqp9VWSkFwZXn5Vp3jr/lZJMR7ClxfmDBe0izzueM1Q7VXHj8
+eeZNXVCquel7RCyS6X18C1fLiJKCP6otwqRF2X0Rka8iEsmtVxlU69r4fTL1xTzy
+Hag4VL7xE/8Zr1AqgNAta6zOxyRDXO8nttZzMpIAjm/aPDSCXOMXQiNq2HwXy+hR
+5t7djXbRU/mch/kni1iNotp1CuBoDjk+u1Waj920aN/MtUTzK4LaazGP8eFhvTr1
+2178F4q/lMhI8WbYAR0DG8OgqkK+1g==
+=DhgZ
+-----END PGP SIGNATURE-----
+
+--D5JGNK4VoKGS1UkQ--
