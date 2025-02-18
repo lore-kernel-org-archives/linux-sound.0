@@ -1,145 +1,112 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949E6243387;
-	Tue, 18 Feb 2025 13:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3084F26B2A2;
+	Tue, 18 Feb 2025 15:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739886782; cv=none; b=jPOecxht6jE92S0mc8/H9VN67Bfs7Rvy0bk4DYz8vO7gnXjPfP4eJR9bV79N8ReDQlfUPDVYJOOcqsyEfkaYoGuP4oiIJqNnjsEDavXWPvOskSUChhl+NkHlhiHk68wBAgQ2f9rJyV2QtAQ0Spk4QWlTVYPuYo1qBeGg5T8D7kw=
+	t=1739891496; cv=none; b=cR0/Rh2ZC6cFV0oaNc9o12yX0EbeLEWPYTa5VmEapWmk2UgkrmWk+1JO2bVYTrnRLaIkrjO1T6Ui1x8GMyOBmvOMhoXiuyGC5KmYMZpEYA7PLWMArLot70BxCm9zvo3i5Vc10lOhygefpW5QWAp7HeGvdGgdBG0txv8eMV3Vjaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739886782; c=relaxed/simple;
-	bh=qg6tR2OJ5fUk+PNSPNlhAUrEokpSrd88BUu/FLoWZZ0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QG8cjrNKl510s7GXm8i9ScF97CszT9BALnuHoGi4NoPtGfnFQ3/f5K1VY1XV4KZO8uclLl629uPPtxEF62v4KQu1Liuo+lW3MTj+TV5mpPnCqvObR6isel3skewmuzinzZjdEI3B6JapPvNGTsCNHJ361BYyGYzaurmYMcLlcxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-868e8cf9e20so2880223241.3;
-        Tue, 18 Feb 2025 05:53:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739886778; x=1740491578;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SEMYvJ02y6eE/skRVfH3zjf1LQbRZ9uPnuefeC3IoK4=;
-        b=ZDR0TNGT2aRUszR7hF/fU0/kFJnrmxkJf6Xt/hGbwcntuvw/0gFRhCK2jmSlq12l9U
-         Ey2fVDVImwvd2hxgECoFzWd9+eKuw0x+t9JPmHhM38hLyswrUe5xMgcEtF4ZsO2X7bEF
-         ObvutWbijQQ/C433cjoX3kKE7ps2U4OT1RCMhv7CTOhzReFP6+ECgaJM81kNlPYXpBCf
-         1cS1IaRs6q39hpzT20jAuInA/3wFEwhMJQHs+jRDNgtiqf9HsfUqR5j/iY7xOHwBbqBB
-         iD0Hszi6OwoXSN0iD6+Zt/qHOc2yZr5R4o2XfLOZp4DWhNMIQdv7pIs7v14JvMWbnlez
-         nd9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVwWUS4MijVEdBdwmBezlRDDO3pMIqIJOdvNMsEGWbIQD2PmAB1FyhI6ELZYfLCLb2f8uGJPxwIA+JV9UI=@vger.kernel.org, AJvYcCXlMobpJsN7brnBs1ZOIECT7E2GIY3jXadzhXa/JEiAbLU4yIXlnG/qp4mZMzVndpFNPV9bmvD8HSCUQ3k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsmT6a3vtlnoMnabV0XVZ+ztfsyUhu//NfCs0+AO2fpDKO/tRj
-	ZcCJ6MRSy62brh6kTauzA5NoMNokCfuGQ/oZcU54zNg3y8Gcc8L/Ok+xXZrQ
-X-Gm-Gg: ASbGncv5jk+R0mojVhKFeowaq2vDmq80oTL+CoBGC5RAho5IEBUujZ6mg7PESujjyx6
-	H11l7ND0rdNAPb4Pq6B0AqpoR6ZvfhM/RdRUe1HrrU5rIIEOdOYLQzUABBFvDkBo54B5WXfe6pJ
-	YDz6ec44zzMeAYa4vLk8bcGPN6Dy7jCUadfMRyKXyD8v1YoyaN+bDDUlfhd3w3MbrGQhcVBUMt2
-	wu6Bd7CiYBBeAU20rMyTI1T7drl/m/PWkpp/Ckc5d99sw1VilmhbFmSnjP6EhOba4+DfOvSaHhx
-	vRdxMQlr7BU5bIPdy/LzY04irgCQMbhPflnXe2JQjfEsASQzycuSurFVtg==
-X-Google-Smtp-Source: AGHT+IF1Ro/S8O5svSKZB96rUDRWsXa6girkn4hsNP60BWSy2k2OJOBigRaOS672YfZ+oGdc4FqQzA==
-X-Received: by 2002:a05:6102:cca:b0:4bb:e511:15a6 with SMTP id ada2fe7eead31-4bd3fcd6f97mr7973838137.11.1739886778536;
-        Tue, 18 Feb 2025 05:52:58 -0800 (PST)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4bd3c9acda5sm1906921137.9.2025.02.18.05.52.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2025 05:52:58 -0800 (PST)
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-520a48f37b4so1344086e0c.2;
-        Tue, 18 Feb 2025 05:52:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUrxvDx0+ivuwyqddQbf8VZPKLej6qLwQ16W4L0UFNoxbuQmigkqIgtpj68hu5vvnOerz4Mt7DZ2fkFLrU=@vger.kernel.org, AJvYcCW1y5Va5SDRLRodd95ZEpASJFYYY02drbXoOa7RkmqcL4Xf7vBn0K9LXiHrPRQXJAF/3d+DxKHPIxVfXnA=@vger.kernel.org
-X-Received: by 2002:a05:6102:4b12:b0:4ba:9689:870e with SMTP id
- ada2fe7eead31-4bd3fe8cda3mr7352135137.21.1739886778052; Tue, 18 Feb 2025
- 05:52:58 -0800 (PST)
+	s=arc-20240116; t=1739891496; c=relaxed/simple;
+	bh=turHXDwkpIiNyMXD+1g9N3ggiuvF4xsG88lQ77iVpMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DV3x6OjFUh+u8jmkyrwC1xwKnUDIP7SOJkTNKj4DWigSnej/f5V4bSP9NPNA9aGGC/tDEtZ85FoKvP8GzL/HzoJkaOsUwQg/oQ7nuM9upkFMnVok/s8vn0qYqN/QbveyQiohqypGWKUXh9oR1EXKANdCF1U3772zzpkIBwOYJzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wl2JcCyL; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wl2JcCyL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12CEDC4CEE2;
+	Tue, 18 Feb 2025 15:11:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739891495;
+	bh=turHXDwkpIiNyMXD+1g9N3ggiuvF4xsG88lQ77iVpMU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Wl2JcCyL4swZSuUygn4Mzpv3os6pEXc/Xbr1/vWWY5IyafBrMKvXEASGwevuLat4r
+	 Z6TJyTiWlybPvKSApyQY9lBPY9/PMPF9wxMumJFAhV+L3BvLCyNy+7uDZ91uERbH2+
+	 9rU5SleansbmIovtyxv3DYQj4t74iG/G1XfQQywCn0Sj4kVvFx/iHr/09gSsFtga71
+	 d/+NprrZcDkP6QRJ6Vfw0rb1P2Got9udCzoce4ibw4IruU7Z+t8Er6ducD2tr3yyTJ
+	 maSn1PLFu8A9VQAjQHMClVKAPjd9o6hLxsM2FxxhRWVPM0tkor8ewOVplAM5rhXALI
+	 PboQctBfpWfdw==
+Date: Tue, 18 Feb 2025 15:11:31 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Yazen Ghannam <yazen.ghannam@amd.com>, Borislav Petkov <bp@alien8.de>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Jeff Johnson <quic_jjohnson@quicinc.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	"open list:AMD NODE DRIVER" <linux-kernel@vger.kernel.org>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	"moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>
+Subject: Re: [PATCH 0/7] Adjust all AMD audio drivers to use AMD_NODE
+Message-ID: <Z7SjI-NIZbMEgz2y@finisterre.sirena.org.uk>
+References: <20250217231747.1656228-1-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250208-asoc-volume-limit-v1-1-b98fcf4cdbad@kernel.org>
-In-Reply-To: <20250208-asoc-volume-limit-v1-1-b98fcf4cdbad@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 18 Feb 2025 14:52:46 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXc8j14PwNnO2e3sPDCeS9fXx01qoMJHxWjxtuT3DrDNQ@mail.gmail.com>
-X-Gm-Features: AWEUYZmYXLEgw1DblqJn6pERZY_THetfHNXj7RUJTuj4dr2XcgbmEMykqQHvEKo
-Message-ID: <CAMuHMdXc8j14PwNnO2e3sPDCeS9fXx01qoMJHxWjxtuT3DrDNQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: ops: Enforce platform maximum on initial value
-To: broonie@kernel.org, =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="170e2EepvI2niirm"
+Content-Disposition: inline
+In-Reply-To: <20250217231747.1656228-1-superm1@kernel.org>
+X-Cookie: Editing is a rewording activity.
 
-Hi Mark, Martin,
 
-On Sat, 8 Feb 2025 at 01:57, <broonie@kernel.org> wrote:
-> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
->
-> Lower the volume if it is violating the platform maximum at its initial
-> value (i.e. at the time of the 'snd_soc_limit_volume' call).
->
-> Signed-off-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
-> [Cherry picked from the Asahi kernel with fixups -- broonie]
-> Signed-off-by: Mark Brown <broonie@kernel.orG>
+--170e2EepvI2niirm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for your patch, which is now commit 783db6851c1821d8 ("ASoC:
-ops: Enforce platform maximum on initial value") in linux-next/master
-next-20250218 sound-asoc/for-next
+On Mon, Feb 17, 2025 at 05:17:40PM -0600, Mario Limonciello wrote:
 
-> --- a/sound/soc/soc-ops.c
-> +++ b/sound/soc/soc-ops.c
-> @@ -640,6 +640,33 @@ int snd_soc_get_volsw_range(struct snd_kcontrol *kco=
-ntrol,
->  }
->  EXPORT_SYMBOL_GPL(snd_soc_get_volsw_range);
->
-> +static int snd_soc_clip_to_platform_max(struct snd_kcontrol *kctl)
-> +{
-> +       struct soc_mixer_control *mc =3D (struct soc_mixer_control *)kctl=
-->private_value;
-> +       struct snd_ctl_elem_value uctl;
+> The various AMD audio drivers have self contained implementations
+> for SMN router communication that require hardcoding the bridge ID.
 
-sizeof(snd_ctl_elem_value) =3D 1224, causing:
+> These implementations also don't prevent race conditions with other
+> drivers performing SMN communication.
 
-    sound/soc/soc-ops.c:657:1: error: the frame size of 1232 bytes is
-larger than 1024 bytes [-Werror=3Dframe-larger-than=3D]
+> A new centralized driver AMD_NODE is introduced and all drivers in
+> the kernel should use this instead. Adjust all AMD audio drivers to
+> use it.
+> Mario Limonciello (7):
+>   x86/amd_node: Add a helper for use with `read_poll_timeout`
 
-> +       int ret;
-> +
-> +       if (!mc->platform_max)
-> +               return 0;
-> +
-> +       ret =3D kctl->get(kctl, &uctl);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       if (uctl.value.integer.value[0] > mc->platform_max)
-> +               uctl.value.integer.value[0] =3D mc->platform_max;
-> +
-> +       if (snd_soc_volsw_is_stereo(mc) &&
-> +           uctl.value.integer.value[1] > mc->platform_max)
-> +               uctl.value.integer.value[1] =3D mc->platform_max;
-> +
-> +       ret =3D kctl->put(kctl, &uctl);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       return 0;
-> +}
-> +
->  /**
->   * snd_soc_limit_volume - Set new limit to an existing volume control.
->   *
+What's the thinking for merging this - the SMN driver is in arch/x86 but
+the bulk of the changes are in ASoC?  My first thought is that it's
+mostly ASoC stuff, are the x86 people OK with me picking up the arch
+patch (I'd put it on a branch anyway so if needed we can do a merge
+later)?
 
-Gr{oetje,eeting}s,
+--170e2EepvI2niirm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                        Geert
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme0oyMACgkQJNaLcl1U
+h9C4Lwf+JXdKsotpmFA5I71pyqyK9Ort4MqCE+7/frPtYibf+Aiy/gWhSctb2pUD
+wmjX0NU8EZMHV34AAErrfrGTDuV+h9TadhSkcD4RdhCQEf616Y1D7aM79/YI91zt
+fxayA3z7vIZgpwZsNOyNGtUZHCiPVKb43G7ZYoSSPL2QNJc3GxL5ijXQHrttQPcl
+tpmH8wYyvOFUylR9w+HL8ldh1LbBIEveuA8CJQgGfGYdAdG1Zv0bPMc/3/QDA5WQ
+pfxA+95+rzN43+B+ug3HWJfV8SE38NHPDE45b9sHLqIHuSwSa3wYQ/376zM+5Iwt
+K/3TKWL47Rq4sgxsTJiGUDeL7UNeqA==
+=wt+f
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--170e2EepvI2niirm--
