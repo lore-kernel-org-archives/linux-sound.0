@@ -1,179 +1,258 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0BD234987;
-	Tue, 18 Feb 2025 11:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7893423FC42
+	for <linux-sound@vger.kernel.org>; Tue, 18 Feb 2025 11:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739876428; cv=none; b=Tr0pCLe5aDiKCsqoza9pzXl7BrjQw25Vj+bwJb7xxozdDZx0v94KmsM7QGWx/gTwOqycV0YHXocSMPli0sodj3ajiQysfRmYi8xc8mqGaNxoueFUIkbcyR5vXIyjFs+ZSKqTAGQLC7Zq45MjKtcov28bU7fO5IyW5LtTn/zHtNY=
+	t=1739878311; cv=none; b=KthZu+2BVoPvS97pnbHsOHjjKe+UQlDyGWGPhTaULf5m7Xw3TgZ7cpRgjdUFCkY4GrFeaE39vEjS4t8ayyuqzOuFTcVOhN3ic6P3owNXc0OqTBEm5Cig3MMRenoVfHY5IT1W2fLQDiYAo5X8era/PSEwURy511UaWHdORnrB3Yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739876428; c=relaxed/simple;
-	bh=18UqQUnfWxPFzrfW52abmx+X/vjz3e8/GrGdCva8woY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UWWCllgYK/ZkPFNxFiJ/IKDnRZI9CFOMxOZvwjFUGEkTImWVw90ezZ1jqjDsTlytdfAH9GTjkQ4zHFk7qT79OhfxuowZmnpJwthcltUG/crCCLFwdCXehF9zd9BL/SjddqcyDHdg+3BGYOgVuTcOdaGHglXYkKU+uhXkbNbavDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WdjqSWal; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1739878311; c=relaxed/simple;
+	bh=c9kDDkRSwo3NwDUYJsOqjCYZWHbmZ8OAUMYaM2jKYE4=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=kLvySVPhyrfBx43rT7TTR+2nVcrkShlYpahPGkuBjh5K/FMEckraSmJ24/C5hWY2xILK7NdQIuLIeT1Od8EMy269QrGiWvDt8XE6L0O2gygUyOI+nQLMCfnbcHAabVsHkmOxpQojwZ8d9Wqr0ayf8ne2k72tin69wUJSaBdHQ/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bbWJk+Ik; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MhAwsvC3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bbWJk+Ik; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MhAwsvC3; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WdjqSWal"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 083BF4427A;
-	Tue, 18 Feb 2025 11:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1739876417;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ezOVk0Z1kc4cZQkyFk+U3tiggWL6VOIY8xHUunjQ3Sc=;
-	b=WdjqSWalyguIP4azpLTk8IVxnK/WFUd6RZq9cEEVHMjzqA4+vK8u89/tb/aty+WSFkIZ+C
-	p0xYzREqGf9btP8agFd039X52tuuvP86PYqlvesaGM5A1ptEkJJ7xu79kfT94XtKAIovuD
-	UPimBftdBNpMmaaxWQ2ymRByjEZJyNUnHiyRQScpXlyH8MXZF11SCRpx3GF/xHCs8k3lT4
-	JKb/MosnulC942bZs2AnqEmfC9MDccDiu7YmujBN2/GI7wum0DiyM0AQnjOAF/xAEVgwIm
-	obtVCfJIiD9nuxhzGgLH0j/n+bfjjock0QbZMgIQVQhFwcdBj+agnVAff+V27w==
-From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Date: Tue, 18 Feb 2025 12:00:13 +0100
-Subject: [PATCH 2/2] driver core: platform: avoid use-after-free on
- pdev->name
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bbWJk+Ik";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MhAwsvC3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bbWJk+Ik";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MhAwsvC3"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 71C2121164;
+	Tue, 18 Feb 2025 11:31:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739878306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=c5fF7JpvJH2DLgRsuojPxlvr2gmpS/fg7TGIXVKHJAc=;
+	b=bbWJk+IkxZJ9JxM+wW2LLPgO3W4dMjVB2C5AOlZXcmrm7UZdjg8HApkoKV+MKx+kPB1IJS
+	FglEp9tehsfDBrz5h13z2lSQkRMgl/Ll9uZ7oe6edOumoilgFyRPfcdDw60oNNMV/DDofp
+	naDFbEPyXrq+IDEW6vY4I+9V6PHkJbs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739878306;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=c5fF7JpvJH2DLgRsuojPxlvr2gmpS/fg7TGIXVKHJAc=;
+	b=MhAwsvC33lewKxHgMN85FzhRdQ1XEZ6b3g3PaVuJAXjtIaN4z+AHqbli5TJ1AYgzNuJSCD
+	0GGyG7qpLN8Uc6Aw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739878306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=c5fF7JpvJH2DLgRsuojPxlvr2gmpS/fg7TGIXVKHJAc=;
+	b=bbWJk+IkxZJ9JxM+wW2LLPgO3W4dMjVB2C5AOlZXcmrm7UZdjg8HApkoKV+MKx+kPB1IJS
+	FglEp9tehsfDBrz5h13z2lSQkRMgl/Ll9uZ7oe6edOumoilgFyRPfcdDw60oNNMV/DDofp
+	naDFbEPyXrq+IDEW6vY4I+9V6PHkJbs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739878306;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=c5fF7JpvJH2DLgRsuojPxlvr2gmpS/fg7TGIXVKHJAc=;
+	b=MhAwsvC33lewKxHgMN85FzhRdQ1XEZ6b3g3PaVuJAXjtIaN4z+AHqbli5TJ1AYgzNuJSCD
+	0GGyG7qpLN8Uc6Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0AEB613A1D;
+	Tue, 18 Feb 2025 11:31:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9YC2OqFvtGf3IAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 18 Feb 2025 11:31:45 +0000
+Date: Tue, 18 Feb 2025 12:31:45 +0100
+Message-ID: <87jz9n5w0u.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.14-rc4
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250218-pdev-uaf-v1-2-5ea1a0d3aba0@bootlin.com>
-References: <20250218-pdev-uaf-v1-0-5ea1a0d3aba0@bootlin.com>
-In-Reply-To: <20250218-pdev-uaf-v1-0-5ea1a0d3aba0@bootlin.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Grant Likely <grant.likely@secretlab.ca>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Binbin Zhou <zhoubinbin@loongson.cn>, linux-sound@vger.kernel.org, 
- Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
- =?utf-8?q?Gr=C3=A9gory_Clement?= <gregory.clement@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Tawfik Bayouk <tawfik.bayouk@mobileye.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpefvhhorohcunfgvsghruhhnuceothhhvghordhlvggsrhhunhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepleevhfekueefvdekgfehhffgudekjeelgfdthedtiedvtdetteegvdeileeiuefhnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemieeigegsmehftdhffhemfhgvuddtmeelvghfugenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemieeigegsmehftdhffhemfhgvuddtmeelvghfugdphhgvlhhopegludelvddrudeikedruddtrdeliegnpdhmrghilhhfrhhomhepthhhvghordhlvggsrhhunhessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddupdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehli
- hhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopeiihhhouhgsihhnsghinheslhhoohhnghhsohhnrdgtnhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhgvohdrlhgvsghruhhnsegsohhothhlihhnrdgtohhm
-X-GND-Sasl: theo.lebrun@bootlin.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-The issue is with this:
+Linus,
 
-	int of_device_add(struct platform_device *ofdev)
-	{
-		// ...
-		ofdev->name = dev_name(&ofdev->dev);
-		// ...
-	}
+please pull sound fixes for v6.14-rc4 from:
 
-We store the current device name pointer. If the device name changes
-through a `dev_set_name(dev, "foo")` call:
- - old device name is freed: kfree(dev->name);
- - new device name is allocated: kmalloc(...);
- - notice pdev->name is still the old device name, ie a freed pointer.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc4
 
-OF is at fault here, taking the pointer to the device name in
-of_device_add().
+The topmost commit is e77aa4b2eaa7fb31b2a7a50214ecb946b2a8b0f6
 
-The new PLATFORM_DEVICE_FLAG_FREE_NAME flag tells platform devices if
-they own their pdev->name pointer and if it requires a kfree() call.
+----------------------------------------------------------------
 
-Considerations:
+sound fixes for 6.14-rc4
 
- - The generic case in platform_device_register_full() is not faulty
-   because it allocates memory for storing the name adjacent to the
-   `struct platform_device` alloc; see platform_device_alloc():
+A slightly large collection of fixes, spread over various drivers.
+Almost all are small and device-specific fixes and quirks in ASoC
+SOF Intel and AMD, Renesas, Cirrus, HD-audio, in addition to a small
+fix for MIDI 2.0.
 
-	struct platform_object *pa;
-	pa = kzalloc(sizeof(*pa) + strlen(name) + 1, GFP_KERNEL);
+----------------------------------------------------------------
 
-   We cannot rely on this codepath in all cases because OF wants to
-   change the name after the platform device creation.
+Baojun Xu (2):
+      ALSA: hda/tas2781: Update tas2781 hda SPI driver
+      ALSA: hda/tas2781: Fix index issue in tas2781 hda SPI driver
 
- - kfree_const() cannot solve the issue: either we allocated pdev->name
-   separately or it is part of the platform_object allocation.
-   pdev->name is never coming from read-only data.
+Bard Liao (2):
+      ASoC: Intel: soc-acpi-intel-tgl-match: declare adr as ull
+      ASoC: Intel: soc-acpi-intel-mtl-match: declare adr as ull
 
- - It is important to duplicate! pdev->name must not change to make sure
-   the platform_match() return value is stable over time. If we updated
-   pdev->name alongside dev->name, once a device probes and changes its
-   name then the platform_match() return value would change.
+Cristian Ciocaltea (4):
+      ASoC: SOF: amd: Add post_fw_run_delay ACP quirk
+      ASoC: SOF: amd: Drop unused includes from Vangogh driver
+      ASoC: SOF: amd: Handle IPC replies before FW_BOOT_COMPLETE
+      ASoC: SOF: amd: Add branch prediction hint in ACP IRQ handler
 
- - In of_device_add(), we make sure to kstrdup() the new name before
-   freeing the old one; if alloc fails, we leave the device as-is.
+Edson Juliano Drosdeck (1):
+      ALSA: hda/realtek: Limit mic boost on Positivo ARN50
 
-Fixes: eca3930163ba ("of: Merge of_platform_bus_type with platform_bus_type")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
+John Keeping (1):
+      ASoC: rockchip: i2s-tdm: fix shift config for SND_SOC_DAIFMT_DSP_[AB]
+
+John Veness (1):
+      ALSA: hda/conexant: Add quirk for HP ProBook 450 G4 mute LED
+
+Kailang Yang (1):
+      ALSA: hda/realtek: Fixup ALC225 depop procedure
+
+Kuninori Morimoto (4):
+      ASoC: simple-card-utils.c: add missing dlc->of_node
+      ASoC: rsnd: indicate unsupported clock rate
+      ASoC: rsnd: don't indicate warning on rsnd_kctrl_accept_runtime()
+      ASoC: rsnd: adjust convert rate limitation
+
+Nam Cao (1):
+      ALSA: Switch to use hrtimer_setup()
+
+Nikita Zhandarovich (1):
+      ASoC: fsl_micfil: Enable default case in micfil_set_quality()
+
+Peter Ujfalusi (6):
+      ASoC: SOF: stream-ipc: Check for cstream nullity in sof_ipc_msg_data()
+      ASoC: SOF: pcm: Clear the susbstream pointer to NULL on close
+      ASoC: SOF: ipc4-topology: Harden loops for looking up ALH copiers
+      ASoC: SOF: Intel: pci-ptl: Add support for PTL-H
+      ASoC: Intel: soc-acpi-intel-ptl-match: revise typo of rt712_vb + rt1320 support
+      ASoC: Intel: soc-acpi-intel-ptl-match: revise typo of rt713_vb_l2_rt1320_l13
+
+Pierre-Louis Bossart (3):
+      PCI: pci_ids: add INTEL_HDA_PTL_H
+      ALSA: hda: intel-dsp-config: Add PTL-H support
+      ALSA: hda: hda-intel: add Panther Lake-H support
+
+Richard Fitzgerald (2):
+      ASoC: Intel: sof_sdw: Add lookup of quirk using PCI subsystem ID
+      ASoC: Intel: sof_sdw: Add quirk for Asus Zenbook S14
+
+Shenghao Ding (1):
+      ASoC: tas2781: drop a redundant code
+
+Shengjiu Wang (1):
+      ASoC: imx-audmix: remove cpu_mclk which is from cpu dai device
+
+Stefan Binding (2):
+      ASoC: cs35l41: Fallback to using HID for system_name if no SUB is available
+      ASoC: cs35l41: Fix acpi_device_hid() not found
+
+Stefano Garzarella (1):
+      virtio_snd.h: clarify that `controls` depends on VIRTIO_SND_F_CTLS
+
+Takashi Iwai (1):
+      ALSA: seq: Drop UMP events when no UMP-conversion is set
+
+Terry Cheong (1):
+      ASoC: SOF: Intel: hda: add softdep pre to snd-hda-codec-hdmi module
+
+Uday M Bhat (1):
+      ASoC: Intel: sof_sdw: Add support for Fatcat board with BT offload enabled in PTL platform
+
+Vitaly Rodionov (3):
+      ASoC: arizona/madera: use fsleep() in up/down DAPM event delays.
+      ALSA: hda/cirrus: Correct the full scale volume set logic
+      ALSA: hda/cirrus: Reduce codec resume time
+
+Wentao Liang (1):
+      ALSA: hda: Add error check for snd_ctl_rename_id() in snd_hda_create_dig_out_ctls()
+
 ---
- drivers/base/platform.c         |  2 ++
- drivers/of/platform.c           | 12 +++++++++++-
- include/linux/platform_device.h |  1 +
- 3 files changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index e2284482c7ba7c12fe2ab3c715e7d1daa3f65021..3548714d6ba408abc6c7ab0f3e7496c6e27ba060 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -563,6 +563,8 @@ static void platform_device_release(struct device *dev)
- 	kfree(pa->pdev.mfd_cell);
- 	kfree(pa->pdev.resource);
- 	kfree(pa->pdev.driver_override);
-+	if (pa->pdev.flags & PLATFORM_DEVICE_FLAG_FREE_NAME)
-+		kfree(pa->pdev.name);
- 	kfree(pa);
- }
- 
-diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-index c6d8afb284e88061eb6fb0ba02e429cec702664c..ef6f341fd9b77a9e0ed6969c3f322b9bc91d0e8d 100644
---- a/drivers/of/platform.c
-+++ b/drivers/of/platform.c
-@@ -44,11 +44,21 @@ EXPORT_SYMBOL(of_find_device_by_node);
- 
- int of_device_add(struct platform_device *ofdev)
- {
-+	char *new_name;
-+
- 	BUG_ON(ofdev->dev.of_node == NULL);
- 
-+	new_name = kstrdup(dev_name(&ofdev->dev), GFP_KERNEL);
-+	if (!new_name)
-+		return -ENOMEM;
-+
-+	if (ofdev->flags & PLATFORM_DEVICE_FLAG_FREE_NAME)
-+		kfree(ofdev->name);
-+
- 	/* name and id have to be set so that the platform bus doesn't get
- 	 * confused on matching */
--	ofdev->name = dev_name(&ofdev->dev);
-+	ofdev->name = new_name;
-+	ofdev->flags |= PLATFORM_DEVICE_FLAG_FREE_NAME;
- 	ofdev->id = PLATFORM_DEVID_NONE;
- 
- 	/*
-diff --git a/include/linux/platform_device.h b/include/linux/platform_device.h
-index d842b21ba3791f974fa62f52bd160ef5820261c1..203016afc3899ffa05f38b9d4ce3bfc02d5b75ef 100644
---- a/include/linux/platform_device.h
-+++ b/include/linux/platform_device.h
-@@ -25,6 +25,7 @@ struct platform_device {
- 	int		id;
- 	u8		flags;
- #define PLATFORM_DEVICE_FLAG_ID_AUTO	BIT(0)
-+#define PLATFORM_DEVICE_FLAG_FREE_NAME	BIT(1)
- 	struct device	dev;
- 	u64		platform_dma_mask;
- 	struct device_dma_parameters dma_parms;
-
--- 
-2.48.1
+ include/linux/pci_ids.h                           |   1 +
+ include/uapi/linux/virtio_snd.h                   |   2 +-
+ sound/core/hrtimer.c                              |   3 +-
+ sound/core/seq/seq_clientmgr.c                    |  12 ++-
+ sound/drivers/dummy.c                             |   3 +-
+ sound/drivers/pcsp/pcsp.c                         |   3 +-
+ sound/hda/intel-dsp-config.c                      |   5 +
+ sound/pci/hda/hda_codec.c                         |   4 +-
+ sound/pci/hda/hda_intel.c                         |   2 +
+ sound/pci/hda/patch_conexant.c                    |   1 +
+ sound/pci/hda/patch_cs8409-tables.c               |  12 +--
+ sound/pci/hda/patch_cs8409.c                      |  26 +++--
+ sound/pci/hda/patch_cs8409.h                      |   7 +-
+ sound/pci/hda/patch_realtek.c                     |   2 +
+ sound/pci/hda/tas2781_hda_spi.c                   |  27 ++---
+ sound/pci/hda/tas2781_spi_fwlib.c                 |  10 +-
+ sound/sh/sh_dac_audio.c                           |   3 +-
+ sound/soc/codecs/arizona.c                        |  14 +--
+ sound/soc/codecs/cs35l41.c                        |  30 ++++--
+ sound/soc/codecs/madera.c                         |  10 +-
+ sound/soc/codecs/tas2781-i2c.c                    |   4 +-
+ sound/soc/codecs/wm5110.c                         |   8 +-
+ sound/soc/fsl/fsl_micfil.c                        |   2 +
+ sound/soc/fsl/imx-audmix.c                        |  31 ------
+ sound/soc/generic/simple-card-utils.c             |   1 +
+ sound/soc/intel/boards/sof_sdw.c                  |  41 ++++++--
+ sound/soc/intel/common/soc-acpi-intel-mtl-match.c |   2 +-
+ sound/soc/intel/common/soc-acpi-intel-ptl-match.c |  12 +--
+ sound/soc/intel/common/soc-acpi-intel-tgl-match.c |  16 +--
+ sound/soc/renesas/rcar/core.c                     |  14 ---
+ sound/soc/renesas/rcar/rsnd.h                     |   1 -
+ sound/soc/renesas/rcar/src.c                      | 116 +++++++++++++++++-----
+ sound/soc/renesas/rcar/ssi.c                      |   3 +-
+ sound/soc/rockchip/rockchip_i2s_tdm.c             |   4 +-
+ sound/soc/sof/amd/acp-ipc.c                       |  25 +++--
+ sound/soc/sof/amd/acp.c                           |   1 +
+ sound/soc/sof/amd/acp.h                           |   1 +
+ sound/soc/sof/amd/pci-vangogh.c                   |   2 -
+ sound/soc/sof/amd/vangogh.c                       |  22 +++-
+ sound/soc/sof/intel/hda-codec.c                   |   1 +
+ sound/soc/sof/intel/pci-ptl.c                     |   1 +
+ sound/soc/sof/ipc4-topology.c                     |  12 ++-
+ sound/soc/sof/pcm.c                               |   2 +
+ sound/soc/sof/stream-ipc.c                        |   6 +-
+ 44 files changed, 319 insertions(+), 186 deletions(-)
 
