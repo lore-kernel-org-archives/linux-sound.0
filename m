@@ -1,185 +1,88 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602DA1DF73C
-	for <linux-sound@vger.kernel.org>; Tue, 18 Feb 2025 08:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0221A841B;
+	Tue, 18 Feb 2025 08:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739866057; cv=none; b=R3zOf+Y2u1A7fJC8v20j/zGsy4AHHNAp0Agjh4Mok+2SzQF7uhuR0c/NwMzGLLEd3pbqi7TPYDSPZ/NZtSwsCBzkg2C4mqXC5A+eOS52QCNfBQG1vtjuevTfNcxhklYrq9hlwiaJW+prZIuyvg/vEjJfbmhHEEK4m5J5dfj3/gY=
+	t=1739867150; cv=none; b=IAkuEcpiAFAYhzb2LcNfGL+YCvbTedjcocrxGrZDPIKVk3TDLsX7wdKMtbC+C27qkDTGjTIJaIMSebqXyKH+0oz27bVxHgxAWmHqhlVY8NumCMvQiViVVYPQAp/GE7HVrE2tDuXUg+snsVe4k7GLRfD2EvRfpQo4IvcqN2M3M4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739866057; c=relaxed/simple;
-	bh=n8hdxqea0Cii7OvjC4177i8E3IGatQMn5FrjuusoBws=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UjzUHefnk+LAjsyxC3uxF26bpTTitgfiruxfSymCi0zOwgnkNeJ1NF8DWQ6c4jRGnntt0KAs4kkoPtKn03EfaPuH6EJyNhaEqMkAFRMZtgHgs2FaYkqZEKSEPdx6jtXJzY9e+yMGpFOuLUKtyQ546/YKXZcafmsmPytU5/pvAhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Jf1SZCwg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O/5UskKI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Jf1SZCwg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O/5UskKI; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1739867150; c=relaxed/simple;
+	bh=EvID7D86PKXTeqELs9veszakyXMUP1t20zGjfOD7Rt4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u1l1FDXY72pPhwogVPO8gG67DNI4NezrgPDvGteJVIGnw3dJZI/vxPJ7rHP96ux4VCqtmlaJ2i4E0g2iqU8SFhrmLAmXpToGXhEXnNb+OEPCCcvhFJbx7+mWbYuyaV7FgPxzzPCTg0Uut0Eiv2koMiwp4nTKAtNfRaqpJpFBpjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X3r4LZVw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Jf1SZCwg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O/5UskKI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Jf1SZCwg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O/5UskKI"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5E6F91F396;
-	Tue, 18 Feb 2025 08:07:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1739866048; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s8rH66VwakmIVEj/znEtIpDflz8sHWMRIsQr8wdgyxk=;
-	b=Jf1SZCwgLmk8GfWDRpkOrvOl/QIM3TVKeZvbvnJhYnkyGtlZWs+Jn59GVY2JQr7HbM3K9P
-	Wpp59uJaBLcAxYM0EI1UFLQ2uRP3L24IUcAhrD4Cu5u/DfNlk4+CUIoCpY8EMA730s77iJ
-	TffB2+Qn2rRyDkrJVIAGhRwC+SED0iA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1739866048;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s8rH66VwakmIVEj/znEtIpDflz8sHWMRIsQr8wdgyxk=;
-	b=O/5UskKIHAr2Oq0o9YYLVhqkxf51VbheQrA5g/PJWQ62DQJ2HUhaxBbQBSQJARfk6kdC+v
-	ha8ttrSvmfVeSlAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1739866048; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s8rH66VwakmIVEj/znEtIpDflz8sHWMRIsQr8wdgyxk=;
-	b=Jf1SZCwgLmk8GfWDRpkOrvOl/QIM3TVKeZvbvnJhYnkyGtlZWs+Jn59GVY2JQr7HbM3K9P
-	Wpp59uJaBLcAxYM0EI1UFLQ2uRP3L24IUcAhrD4Cu5u/DfNlk4+CUIoCpY8EMA730s77iJ
-	TffB2+Qn2rRyDkrJVIAGhRwC+SED0iA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1739866048;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s8rH66VwakmIVEj/znEtIpDflz8sHWMRIsQr8wdgyxk=;
-	b=O/5UskKIHAr2Oq0o9YYLVhqkxf51VbheQrA5g/PJWQ62DQJ2HUhaxBbQBSQJARfk6kdC+v
-	ha8ttrSvmfVeSlAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D648E132C7;
-	Tue, 18 Feb 2025 08:07:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id A8v0ML8/tGc4VQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 18 Feb 2025 08:07:27 +0000
-Date: Tue, 18 Feb 2025 09:07:26 +0100
-Message-ID: <87zfij65hd.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: John Keeping <jkeeping@inmusicbrands.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] ALSA: usb-audio: drain may fail with multi-port close race
-In-Reply-To: <Z7OCJ2DikMvhAxVf-jkeeping@inmusicbrands.com>
-References: <20250217111647.3368132-1-jkeeping@inmusicbrands.com>
-	<8734gc8prr.wl-tiwai@suse.de>
-	<Z7OCJ2DikMvhAxVf-jkeeping@inmusicbrands.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X3r4LZVw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A7A8C4CEE2;
+	Tue, 18 Feb 2025 08:25:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739867150;
+	bh=EvID7D86PKXTeqELs9veszakyXMUP1t20zGjfOD7Rt4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X3r4LZVwnWLy/POh9hH3tZRQxKLNC1XClRyAHPbp2o1mm4xMHA4MRjgdRBRszn8tX
+	 y7VJKFLeiz+p+r2UUM82Nptn726NNgkG/JuPjxcYYDTQIRneYDE/hKbRtXngp00Fph
+	 g68+Z3QiTUgGQfW6oOOEGwZmsYRwJLkvJ8xXh0IItNPlFBaBjArVl8TDhPv76WXnuD
+	 xxv2EdFS64ShgdI6qiezKwfEqLbBNmWw98LM9ys50zz9t3GqWgDmXWlOIV4jB5WlkT
+	 GASt9J1eAtYDKfm+/6e9gfIP5l47Q3ERmlNZx4TuosVJPnKlT/9byu1o0WovsunJJK
+	 ExYJsVmS1wKEQ==
+Date: Tue, 18 Feb 2025 09:25:46 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: jiebing chen <jiebing.chen@amlogic.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, jian.xu@amlogic.com, 
+	shuai.li@amlogic.com, zhe.wang@amlogic.com
+Subject: Re: [PATCH v2 2/5] dt-bindings: Asoc: axg-audio: Add s4 audio tocodec
+Message-ID: <20250218-opalescent-teal-of-patience-82cecb@krzk-bin>
+References: <20250214-audio_drvier-v2-0-37881fa37c9e@amlogic.com>
+ <20250214-audio_drvier-v2-2-37881fa37c9e@amlogic.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250214-audio_drvier-v2-2-37881fa37c9e@amlogic.com>
 
-On Mon, 17 Feb 2025 19:38:31 +0100,
-John Keeping wrote:
+On Fri, Feb 14, 2025 at 10:13:41AM +0800, jiebing chen wrote:
+> add the s4 tocodec compatible
+
+1. Please write full sentences.
+2. We see that from the diff. Say something about hardware instead.
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
 > 
-> On Mon, Feb 17, 2025 at 06:06:16PM +0100, Takashi Iwai wrote:
-> > On Mon, 17 Feb 2025 12:16:46 +0100,
-> > John Keeping wrote:
-> > > 
-> > > I'm seeing a bug where data sometimes fails to send on USB MIDI devices
-> > > with multiple ports which seems to be a result of a race around closing
-> > > ports introduced by commit 0125de38122f0 ("ALSA: usb-audio: Cancel
-> > > pending work at closing a MIDI substream").
-> > > 
-> > > The scenario is essentially this program:
-> > > 
-> > > 	snd_rawmidi_t *port0, *port1;
-> > > 	snd_rawmidi_open(NULL, &port0, "hw:0,0,0", 0);
-> > > 	snd_rawmidi_open(NULL, &port1, "hw:0,0,1", 0);
-> > > 
-> > > 	snd_rawmidi_write(port0, data, len);
-> > > 
-> > > 	snd_rawmidi_close(port1);
-> > > 	snd_rawmidi_close(port0);
-> > > 
-> > > What happens seems to be the following:
-> > > 
-> > > 	write(port0)
-> > > 	`- snd_usbmidi_output_trigger
-> > > 	   `- queue_work()
-> > >         close(port1)
-> > > 	`- snd_usbmidi_output_close
-> > > 	   `- cancel_work_sync()	# Work has not yet started here
-> > > 	close(port0)
-> > > 	`- snd_rawmidi_drain_output
-> > > 	   # Times out because nothing is processing outbound data!
-> > > 
-> > > The two ports interact like this because they are on the same endpoint,
-> > > so should the work only be cancelled when the last endpoint is closed?
-> > 
-> > How about the following patch work?
-> > It's a band-aid, but should suffice.  The callback is already
-> > protected with rawmidi open_mutex.
+> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
+> ---
+>  Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Yes, this patch fixes it and is
-> 
-> Tested-by: John Keeping <jkeeping@inmusicbrands.com>
+> diff --git a/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml b/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
+> index 23f82bb89750898d20c866015bc2e1a4b0554846..ea669f4359bc81b0f45bc2105c832fc2b11d8441 100644
+> --- a/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
+> +++ b/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
+> @@ -26,6 +26,7 @@ properties:
+>        - items:
+>            - enum:
+>                - amlogic,sm1-toacodec
+> +              - amlogic,s4-toacodec
 
-Thank you for quick testing!
+Keep alphabetical order.
 
-Looking at the code again, I think the suggested fix isn't right.
-It still allows some pending work accessing the freed object.
+Best regards,
+Krzysztof
 
-Could you test the following one-liner instead?
-
-
-Takashi
-
--- 8< --
---- a/sound/usb/midi.c
-+++ b/sound/usb/midi.c
-@@ -1145,7 +1145,7 @@ static int snd_usbmidi_output_close(struct snd_rawmidi_substream *substream)
- {
- 	struct usbmidi_out_port *port = substream->runtime->private_data;
- 
--	cancel_work_sync(&port->ep->work);
-+	flush_work(&port->ep->work);
- 	return substream_open(substream, 0, 0);
- }
- 
