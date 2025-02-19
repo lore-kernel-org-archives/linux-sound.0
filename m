@@ -1,106 +1,152 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE591D6193;
-	Tue, 18 Feb 2025 21:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D7C2BAF4;
+	Wed, 19 Feb 2025 00:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739914228; cv=none; b=hYcoR0aGsD9hdmQK7FLqefdUs+nrB4Wt1MSrBiNTAS2y6nF1pf608Fyc4P90/BmFDTDVrldVMTGvizE3KtQEum0rHoa6oDjwz0TrSKWOi8QgaHALc2Scox1JH8iTREb9Zs7ImK9PVS+yOxr+2MvmsuL0+36leGyZwM6SqUeKIrw=
+	t=1739925738; cv=none; b=W/RZgcq+2vVU5oY3GP0S5wgjpQjbO10PYEez7LFmMDMJH388juB5tyuYRXG7uL55Cl7kxWXOaXqfxhGF2p50ZiS9pa0pznPV5Hr5bv2BdyAKFShg3imqQTKDwejds72uQP2bZa3kgQ3D8QjAwdOJ1+qk2uV0MF9N+sW2j2swpUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739914228; c=relaxed/simple;
-	bh=Q2f4Q77ZxtAHwIj0TA+cUIks/SfvfVoLP55KGfTHXtY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=F+0mM/NNAZF28FB/bQ/oW/AfVXe93IFH4RNVyB698YIhAE8wtaSr4bFi9Mfl9+G0vuZhNooa5xGXu7fkm5MtwyZf6AT5gpDxyHI017yGoc3UewjWbtgPev7w1rjNpA5Wg2dMg17P9HcNwzv/D5exm8kiA6f8+LTuZp+Yi5F+HD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MA/+ZmWI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739925738; c=relaxed/simple;
+	bh=khIFgwQ769ZHyT5CdIGu1HrTamF79U/Lvixfrt97yy4=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=uLLMWCYjNkLIyJ4ty/+6rDstB+QFifnNxW5pyXbK8DFBzaPbp5aI3Ep6IHw4TJvLDZysgti4vPfj3mh8QhkdyKd9h2Y5p/ISJewpeWx6ZceF6sdXePcvLcFoK9gesuQ4wkRNN3ujASUYzLFd9eGn19LL9Rb3YsGYjbq49bwczwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tYMECnuh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MA/+ZmWI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 950A5C4CEE6;
-	Tue, 18 Feb 2025 21:30:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tYMECnuh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E737C4CEEA;
+	Wed, 19 Feb 2025 00:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739914227;
-	bh=Q2f4Q77ZxtAHwIj0TA+cUIks/SfvfVoLP55KGfTHXtY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MA/+ZmWIs01t2MPpzoXjfx9yIuNBMoLHYTENYpQ4yORDB06ifQsNZNJnX5PX6viCw
-	 ZbbAkYJcBLFrwkFQtBsKKyA9wOeQQ4FHjADS9024d0n4Q1+U9A82ivPIvRK2moyOUk
-	 +OX7mqLcNROUrsyj7vNgnHiWi3gVdZ72dy6Ilwn0OBlj3nUC2ZuZRmxbvhN6sF/Asy
-	 RORGNYOk5OW22lo9Fzs2TiobOydaTFBilco26EHAeeiwezslJ3MGjvPuXDIM16DYTq
-	 PzqsRy7rw6XrroWXPTf5oWxpfbT9Zs6hJPM7dVqlsyGkOt1dWcfwoaLOGdi0Fl7YGw
-	 iY2mBMAqJy+6A==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
- Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
- Neal Gompa <neal@gompa.dev>
-In-Reply-To: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
-References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
-Subject: Re: (subset) [PATCH v2 00/29] ASoC: tas27{64,70}: improve support
- for Apple codec variants
-Message-Id: <173991422225.1713371.7641143097837420691.b4-ty@kernel.org>
-Date: Tue, 18 Feb 2025 21:30:22 +0000
+	s=k20201202; t=1739925737;
+	bh=khIFgwQ769ZHyT5CdIGu1HrTamF79U/Lvixfrt97yy4=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=tYMECnuhBbykHVm1RU15MSPfwodg3z1htxAN/KBLJjEfTm6ZjKKZzvM4LQNkkEvqR
+	 ClaezR+1hPyqLCLF9vcsJwyS3LhntD+NWvyEi5YBIFSW0FufMXlY1v2Y3LqPPUDAVR
+	 xk+l2T+xh4m0oCPjiQ6a6pP+ZQSZLa2lgZFSJkOQe1mAAOjV497vgDKm+pNJJooPld
+	 hebKKloMzj0TIyTVuWJP9YJgRpgmVHlc7LehcPCefynw7SIqVXZockj4d/PfPp8T8+
+	 mDTXJSCkCKGNNLetz1B3T4purqsau+/G7TLHts/6T/lZbHqDxHtSBH5R8JQkvnWwJT
+	 sCoYAzENbIfkw==
+Date: Tue, 18 Feb 2025 18:42:16 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-42535
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+ Kevin Hilman <khilman@baylibre.com>, Takashi Iwai <tiwai@suse.com>, 
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ shuai.li@amlogic.com, Stephen Boyd <sboyd@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, zhe.wang@amlogic.com, 
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, jian.xu@amlogic.com, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Mark Brown <broonie@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+To: jiebing chen <jiebing.chen@amlogic.com>
+In-Reply-To: <20250214-audio_drvier-v2-0-37881fa37c9e@amlogic.com>
+References: <20250214-audio_drvier-v2-0-37881fa37c9e@amlogic.com>
+Message-Id: <173992515659.2064996.1911122760174546370.robh@kernel.org>
+Subject: Re: [PATCH v2 0/5] Add support for S4 audio
 
-On Tue, 18 Feb 2025 18:35:34 +1000, James Calligeros wrote:
-> This series introduces a number of changes to the drivers for
-> the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
-> introduce (and improve in the case of TAS2770) support for the
-> variants of these amps found in Apple Silicon Macs.
+
+On Fri, 14 Feb 2025 10:13:39 +0800, jiebing chen wrote:
+> Add s4 audio base driver.
 > 
-> Apple's variant of TAS2764 is known as SN012776, and as always with
-> Apple is a subtly incompatible variant with a number of quirks. It
-> is not publicly available. The TAS2770 variant is known as TAS5770L,
-> and does not require incompatible handling.
+> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
+> ---
+> Changes in v2:
+> - remove tdm pad control and change tocodec base on g12a
+> - change hifipll rate to support 24bit
+> - add s4 audio clock
+> - Link to v1: https://lore.kernel.org/r/20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com
 > 
-> [...]
+> ---
+> jiebing chen (5):
+>       dt-bindings: clock: axg-audio: Add mclk and sclk pad for s4
+>       dt-bindings: Asoc: axg-audio: Add s4 audio tocodec
+>       ASoC: meson: s4:support the audio clk
+>       ASoC: meson: s4:support audio tocodec
+>       arm64: dts: amlogic: Add Amlogic S4 Audio
+> 
+>  .../bindings/clock/amlogic,axg-audio-clkc.yaml     |  18 +
+>  .../bindings/sound/amlogic,g12a-toacodec.yaml      |   1 +
+>  .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts     | 219 +++++++++++
+>  arch/arm64/boot/dts/amlogic/meson-s4.dtsi          | 370 ++++++++++++++++++-
+>  drivers/clk/meson/axg-audio.c                      | 410 ++++++++++++++++++++-
+>  drivers/clk/meson/axg-audio.h                      |   4 +
+>  include/dt-bindings/clock/axg-audio-clkc.h         |  11 +
+>  sound/soc/meson/axg-card.c                         |   3 +-
+>  sound/soc/meson/g12a-toacodec.c                    |  64 ++++
+>  9 files changed, 1095 insertions(+), 5 deletions(-)
+> ---
+> base-commit: 6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
+> change-id: 20250110-audio_drvier-07a5381c494b
+> 
+> Best regards,
+> --
+> jiebing chen <jiebing.chen@amlogic.com>
+> 
+> 
+> 
 
-Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-Thanks!
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-[01/29] ASoC: tas2764: Fix power control mask
-        commit: a3f172359e22b2c11b750d23560481a55bf86af1
-[09/29] ASoC: tas2764: Reinit cache on part reset
-        (no commit info)
-[28/29] ASoC: tas2764: Set the SDOUT polarity correctly
-        commit: f5468beeab1b1adfc63c2717b1f29ef3f49a5fab
-[29/29] ASoC: tas2770: Set the SDOUT polarity correctly
-        (no commit info)
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+  pip3 install dtschema --upgrade
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/amlogic/' for 20250214-audio_drvier-v2-0-37881fa37c9e@amlogic.com:
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-0: clock-names:0: 'sclk' was expected
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-0: clock-names:1: 'lrclk' was expected
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-0: clock-names:2: 'mclk' was expected
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-0: Unevaluated properties are not allowed ('clock-names' was unexpected)
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-1: clock-names:0: 'sclk' was expected
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-1: clock-names:1: 'lrclk' was expected
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-1: clock-names:2: 'mclk' was expected
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-1: Unevaluated properties are not allowed ('clock-names' was unexpected)
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-2: clock-names:0: 'sclk' was expected
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-2: clock-names:1: 'lrclk' was expected
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-2: clock-names:2: 'mclk' was expected
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller-2: Unevaluated properties are not allowed ('clock-names' was unexpected)
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: audio-controller@740: compatible: 'oneOf' conditional failed, one must be fixed:
+	['amlogic,s4-toacodec'] is too short
+	'amlogic,g12a-toacodec' was expected
+	from schema $id: http://devicetree.org/schemas/sound/amlogic,g12a-toacodec.yaml#
+arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: sound: 'anyOf' conditional failed, one must be fixed:
+	'clocks' is a required property
+	'#clock-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
 
-Thanks,
-Mark
+
+
+
 
