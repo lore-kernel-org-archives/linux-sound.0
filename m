@@ -1,68 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FD21ADC99;
-	Wed, 19 Feb 2025 08:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98A41C68A6;
+	Wed, 19 Feb 2025 08:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739953203; cv=none; b=HBgemYJ78wkIyP4i247KXArfPmtZNbPdMvTTWtTsfeJvk/ZjhJjsJpCBotNgaxThjchXy5o8b39mpfzcsix3Nl5B7s7Tx+lnpewSjz5j9xEsuGLRJ4zH7Qr7Y6Sn/OT58NMWdwdpVdHxeOlsAmldMUAnMKQrZJaV1lHk+V/VU1s=
+	t=1739953973; cv=none; b=BDf+dxa54fot2n5J1RzikR1P6WAGKt6qW5aZ6Mx79/mg1namOK/burvWGGco1Kozuz3MoTmfs8L9QkCyXgF6jzMmACPHWr0Zq2PBFUpI6PaK1FPiWEk5khrqw7S7sb215Z0718+Mw6zvXyNvyiwz6qd2W8a0UYxRK5I1jyRYGxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739953203; c=relaxed/simple;
-	bh=f9iAeR1IOQP8kmg5+b4WgQh9Utss7fF0baQU25zQRh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qrzm0JVPeqeeKVpu7mdkxSQrX6MKZLptoYCyaAbsHnk4q2VIQ5InV5Lt+wNrK07impT8svAErEGrGWKUqP3zh3C1l/EkN7d7Dvx0NLX+q6CIj4vi07oK7DOC3joB8+NFzkb703RtuQmeYQ1L0uCqiHy7uh74ctZrMU9rUWhkpvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WvrZMDgj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739953973; c=relaxed/simple;
+	bh=p8ISVEVcjD4emNEQ9vavFRhlStV/heXGlu9P8t2vCZo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:Content-Type:
+	 MIME-Version; b=GArxT/iOu8jqN9GUNlqGkHCAHYvVz2QbD0f948U4kokRBXyv1JcuR8Y/DzezHQU9JMArWPTtyhpQ58zDjk1Y5WoSVc4qKaTKwHM9c8zGtwzLaTrn1D8T3Oi7vTGG4T5R8HXh6XqgCWpVB+EodThHOu0FC5+q1Y5BT/LEdybyEso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=jU3C9QoP; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WvrZMDgj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B645C4CED1;
-	Wed, 19 Feb 2025 08:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739953202;
-	bh=f9iAeR1IOQP8kmg5+b4WgQh9Utss7fF0baQU25zQRh4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WvrZMDgjSl0CSSQCGL3t0GjL5zUupEtWr9dK6c23NVo/rvVZCUVL30qNdCqASRZa7
-	 aE1WBn3Y4r9MWNRoufWG+X/u9Sh/F7jhuLG7B2jCFwAUoWTB99hXiHJWxAasKgIjef
-	 ka30iRBL9WlsjV0NjiuA1sZQCrJvTZU5K3Y9YOX4Fk2aQbP69eBAy3wJpcmCdoo61B
-	 xtGds4u6BQ5A5cvTVXkvQ4UwDTGxgv20yilzkbOUAnMWg5h3SRBiPoe1f1JGZA7W+W
-	 CtMf7LPQNKV309/0Ifr7hzZGx2atLRAuilBn/VNVER91PRi+FvAeNZpQjgC0c7GI8F
-	 ZeDx+f09/wUdw==
-Date: Wed, 19 Feb 2025 09:19:59 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Andrei Simion <andrei.simion@microchip.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ASoC: dt-bindings: atmel-at91sam9g20ek: convert to
- json-schema
-Message-ID: <20250219-strange-quizzical-peacock-eb077b@krzk-bin>
-References: <20250219-sound-atmel-at91sam9g20ek-v3-1-d7c082af4e14@microchip.com>
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="jU3C9QoP"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 51J8WXCW03088461, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1739953953; bh=p8ISVEVcjD4emNEQ9vavFRhlStV/heXGlu9P8t2vCZo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	b=jU3C9QoPyx9XbGeBLusDbwNv61wxaR431cfXjw91xOEv9ZDuxVXzc+iXx1Ty31jkg
+	 HiUQMgzs7lTc0fksAvGB5wY5LtY8Rhn+NE8Y4PdurrSrHkUYTxeaIXslNjX57QH2DK
+	 sbDg5pzZR5U/sldT+nBN8X15Ugy/lo9y/GkRw6lbZlR2X7DnlEmgdDCofVFC90C1Bc
+	 pXuRoPJEPSOEtvplLnf/CQGKMlEgGTFxS07qoLyBJL6BK+dUSIRSPPAhfhtuSz9ASR
+	 BMoVLEr3DL+d2uoRAcFl/nKGY+2b5SMCDhZ5WQi0MYbkjYw7YoPjxud2JNG2IY1iJx
+	 gXw+Hi8VxfHYg==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 51J8WXCW03088461
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 19 Feb 2025 16:32:33 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 19 Feb 2025 16:32:33 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 19 Feb 2025 16:32:32 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
+ RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
+ 15.01.2507.035; Wed, 19 Feb 2025 16:32:32 +0800
+From: Kailang <kailang@realtek.com>
+To: Takashi Iwai <tiwai@suse.de>,
+        "Maciej S. Szmigiero"
+	<mail@maciej.szmigiero.name>
+CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP EliteBook 855 G7
+Thread-Topic: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP
+ EliteBook 855 G7
+Thread-Index: AQHbgSMJVrDFmK8Mp0CrjaEmJFua+rNLUekPgAL4rhCAAARNMA==
+Date: Wed, 19 Feb 2025 08:32:32 +0000
+Message-ID: <6224620265674b09b5762f908b5158f9@realtek.com>
+References: <7461f695b4daed80f2fc4b1463ead47f04f9ad05.1739741254.git.mail@maciej.szmigiero.name>
+	<87jz9o99ef.wl-tiwai@suse.de>
+	<a02344f2-3b99-41ea-af64-8d2bcb01e435@maciej.szmigiero.name>
+ <87h64s972a.wl-tiwai@suse.de> 
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250219-sound-atmel-at91sam9g20ek-v3-1-d7c082af4e14@microchip.com>
 
-On Wed, Feb 19, 2025 at 11:22:27AM +0530, Balakrishnan Sambath wrote:
-> Convert atmel-at91sam9g20ek-wm8731-audio DT binding to yaml
-> based json-schema.Change file name to match json-scheme naming.
-> 
-> Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-> ---
-> Changes in v3:
-> - Add recommended minItems and maxItems.
-> - Fix commit subject and a typo in example.
-> - Link to v2: https://lore.kernel.org/r/20241211-sound-atmel-at91sam9g20ek-v2-1-86a0e31e6af9@microchip.com
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
+Hi Maciej S,
+=20
+ Could you test plug headphone then speaker will mute or not?
+=20
+ Below was why I close the beep mode.
+ https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/commit/?id=
+=3Dfcf c9f711d1e2fc7876ac12b1b16c509404b9625
+=20
+=20
+ Hi Takashi,
+=20
+ COEF 0x36 bit 13 was the enable bit for pcbeep passthrough for 0x14.
+ If this patch no PM issues and speaker can mute by plug headphone or heads=
+et,
+ I think this work for me.
 
