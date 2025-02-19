@@ -1,40 +1,40 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396261DF72D;
-	Wed, 19 Feb 2025 11:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD241DF755;
+	Wed, 19 Feb 2025 11:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739964564; cv=none; b=SQKnUh4A2PGG5M1a+5z9CyFHxWQeYqDg15N682bJuXFHJFQi+tdJYNtHkzIXxX4PbFnmYOpSGFx2OXs3IwyO+XXows1L3dTMYEyUOcJ45J3k7WBMglG33FYecU2ANCKboH4R045T9lcRzmLuwGXY1lcQad7MA8s2tWczmbY64SM=
+	t=1739964566; cv=none; b=YsJ987xCgl/FXjBmHFeo1xeq3WezZGI6D35yyLvqRDO8mLgSu9j3dvgUnbYToKnnYhH/xW5spGZuxS8wpd/rDBURRwZLZPodK4wKFKMwIuN/R/htglFEZIZJVPLYhz64hlOTRJB2qznKnSBxFElF2DcLPXOrt5Zj6cMc/1MotlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739964564; c=relaxed/simple;
-	bh=Uuiwp5a925+mqRbjAQSitBZGlf30fFYVlceOO8DU7tA=;
+	s=arc-20240116; t=1739964566; c=relaxed/simple;
+	bh=tN6WEDR1AiRFyMbMUMu3VS4saSRBZMCNYL/A1DybkbI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uKLltSvimO7Rs6mg9ozuxah8R980D5okB3DzryAG4TQRKQV3/KX82M43utz15o+4fR+AvXuB2lETzcsW4I2F21PGbQgvqHSu98iWFqa8VgBpESj7b5tI8qi3MhJWd0acluMEbOVba86k8RbSbSLX0YXlcgAnYR9VJPsAymPwZ3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Dpk7DRDT; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=C4W74QLv9bdPYx4yrJvJZdLoJcpm+ql7PEX3Xb3YiStR+Ij59K8OzbBfnAiaIhI+KgL/n/H1BjKzoUCwab3WnBJbyVvPWyG/FQj7HBaVXYbcZFF+AQqJbv96/b/Pv4fbvFLZYhNNHFe4TRV9p+QDqG64Pu72oLrHmpSScGBkZF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HBwcvFSA; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Dpk7DRDT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HBwcvFSA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1739964554;
-	bh=Uuiwp5a925+mqRbjAQSitBZGlf30fFYVlceOO8DU7tA=;
+	s=mail; t=1739964562;
+	bh=tN6WEDR1AiRFyMbMUMu3VS4saSRBZMCNYL/A1DybkbI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Dpk7DRDTDqGrV2K4HKfSwGNO/jbFgRGc/0iJ+9dx/sI8mMKmXJFUcOk6/NKEYcROg
-	 0jqMrUWIuvkXZVKnpFDxQFOlBg5guB4z24PiOXJ0juzqXLgMUvVyW9jNbIvTnaVMg/
-	 1jnzKBYrNAByALxj653jsFeuX0DgOlEGUoxRfpTcCdgVbR3MIhXWqcOUlBc+AXXtpp
-	 2vvWnzBsfRcyMznFjayhJPxkSJIvDf5r1lVUkomPs2hjP919XW2xAQtcFADOp2gFe8
-	 lEsinOw7o7IzAnb8KLADSWyfhOKuriotj8fi1SDiyDhN/s7hwLYCkNSI7AkSL8TAm/
-	 m+4LruStF3G5A==
+	b=HBwcvFSAJBqL0cqZaEXuOVDLwC85LkTybMrZkelTOGsFm/2GE5cwAP1wxNpgIC5oB
+	 03D8YMmlDT44THbtloNW03EnzqJeRHjglYQTj/in5ZLYwdtA4WgTKAvNJVBLJ+DoAA
+	 ccS6oJk05pETwYZTtQBcvxgpKnKFsGR9t1NgDx7E/szT1L47y9GI3UFJBpV/cKf4d0
+	 bOR9db3RnHE2GnWL6T3mmqS7tvICsitVxqvmR0FH4tg7vkhclcvbpMWz1dT7ZMgtTb
+	 clhwNcAOXlNpWAKpI1h4jjNNqHd/0vSPS+udXawIXharMCWecWWd8HpAgPvonA2WtL
+	 BC6Qr2w9BtSxg==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0C15017E0E92;
-	Wed, 19 Feb 2025 12:29:14 +0100 (CET)
-Message-ID: <6cd2be03-a3e8-4bdc-b91e-51b3e1029782@collabora.com>
-Date: Wed, 19 Feb 2025 12:29:13 +0100
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9A7E617E00F0;
+	Wed, 19 Feb 2025 12:29:21 +0100 (CET)
+Message-ID: <1dc0da53-0bc1-41f2-8478-f72bd0f33115@collabora.com>
+Date: Wed, 19 Feb 2025 12:29:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,7 +42,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] ASoC: mediatek: mt8188: Support DMIC in AFE
+Subject: Re: [PATCH 2/6] ASoC: mediatek: mt8188: Add reference for dmic clocks
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -50,45 +50,68 @@ To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- parkeryang <Parker.Yang@mediatek.com>
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org
 References: <20250218-genio700-dmic-v1-0-6bc653da60f7@collabora.com>
- <20250218-genio700-dmic-v1-4-6bc653da60f7@collabora.com>
+ <20250218-genio700-dmic-v1-2-6bc653da60f7@collabora.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20250218-genio700-dmic-v1-4-6bc653da60f7@collabora.com>
+In-Reply-To: <20250218-genio700-dmic-v1-2-6bc653da60f7@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 Il 18/02/25 21:52, Nícolas F. R. A. Prado ha scritto:
-> From: parkeryang <Parker.Yang@mediatek.com>
+> Add the names for the dmic clocks, aud_afe_dmic* and aud_dmic_hires*, so
+> they can be acquired and enabled by the platform driver.
 > 
-> Add the AFE routes that connect the DMIC (I004-I011) to the UL9 frontend
-> (O002-O009) and register the mt8188-dmic DAI driver during probe.
-> 
-> Signed-off-by: parkeryang <Parker.Yang@mediatek.com>
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 > ---
->   sound/soc/mediatek/mt8188/Makefile            |  1 +
->   sound/soc/mediatek/mt8188/mt8188-afe-common.h |  1 +
->   sound/soc/mediatek/mt8188/mt8188-afe-pcm.c    | 24 ++++++++++++++++++++++++
->   3 files changed, 26 insertions(+)
+>   sound/soc/mediatek/mt8188/mt8188-afe-clk.c | 8 ++++++++
+>   sound/soc/mediatek/mt8188/mt8188-afe-clk.h | 8 ++++++++
+>   2 files changed, 16 insertions(+)
 > 
-> diff --git a/sound/soc/mediatek/mt8188/Makefile b/sound/soc/mediatek/mt8188/Makefile
-> index 1178bce45c50ba252672a32b3877732a5a76c610..b9f3e4ad7b07ba9e21c846706371c53269f894db 100644
-> --- a/sound/soc/mediatek/mt8188/Makefile
-> +++ b/sound/soc/mediatek/mt8188/Makefile
-> @@ -6,6 +6,7 @@ snd-soc-mt8188-afe-y := \
->   	mt8188-afe-pcm.o \
->   	mt8188-audsys-clk.o \
->   	mt8188-dai-adda.o \
-> +	mt8188-dai-dmic.o \
->   	mt8188-dai-etdm.o \
->   	mt8188-dai-pcm.o
+> diff --git a/sound/soc/mediatek/mt8188/mt8188-afe-clk.c b/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
+> index e69c1bb2cb239596dee50b166c20192d5408be10..44c25b6e3d873448163b22e70f5b94cb5070654d 100644
+> --- a/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
+> +++ b/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
+> @@ -58,6 +58,14 @@ static const char *aud_clks[MT8188_CLK_NUM] = {
+>   	[MT8188_CLK_AUD_ADC] = "aud_adc",
+>   	[MT8188_CLK_AUD_DAC_HIRES] = "aud_dac_hires",
+>   	[MT8188_CLK_AUD_A1SYS_HP] = "aud_a1sys_hp",
+> +	[MT8188_CLK_AUD_AFE_DMIC1] = "aud_afe_dmic1",
+> +	[MT8188_CLK_AUD_AFE_DMIC2] = "aud_afe_dmic2",
+> +	[MT8188_CLK_AUD_AFE_DMIC3] = "aud_afe_dmic3",
+> +	[MT8188_CLK_AUD_AFE_DMIC4] = "aud_afe_dmic4",
+> +	[MT8188_CLK_AUD_DMIC_HIRES1] = "aud_dmic_hires1",
+> +	[MT8188_CLK_AUD_DMIC_HIRES2] = "aud_dmic_hires2",
+> +	[MT8188_CLK_AUD_DMIC_HIRES3] = "aud_dmic_hires3",
+> +	[MT8188_CLK_AUD_DMIC_HIRES4] = "aud_dmic_hires4",
+>   	[MT8188_CLK_AUD_ADC_HIRES] = "aud_adc_hires",
+>   	[MT8188_CLK_AUD_I2SIN] = "aud_i2sin",
+>   	[MT8188_CLK_AUD_TDM_IN] = "aud_tdm_in",
+> diff --git a/sound/soc/mediatek/mt8188/mt8188-afe-clk.h b/sound/soc/mediatek/mt8188/mt8188-afe-clk.h
+> index ec53c171c170a8b4b47900e63ef79d53641e9b12..68c46feb72271b950d4e538f63cedf524354147e 100644
+> --- a/sound/soc/mediatek/mt8188/mt8188-afe-clk.h
+> +++ b/sound/soc/mediatek/mt8188/mt8188-afe-clk.h
+> @@ -54,6 +54,14 @@ enum {
+>   	MT8188_CLK_AUD_ADC,
+>   	MT8188_CLK_AUD_DAC_HIRES,
+>   	MT8188_CLK_AUD_A1SYS_HP,
+> +	MT8188_CLK_AUD_AFE_DMIC1,
+> +	MT8188_CLK_AUD_AFE_DMIC2,
+> +	MT8188_CLK_AUD_AFE_DMIC3,
+> +	MT8188_CLK_AUD_AFE_DMIC4,
+> +	MT8188_CLK_AUD_DMIC_HIRES1,
+> +	MT8188_CLK_AUD_DMIC_HIRES2,
+> +	MT8188_CLK_AUD_DMIC_HIRES3,
+> +	MT8188_CLK_AUD_DMIC_HIRES4,
+>   	MT8188_CLK_AUD_ADC_HIRES,
 
-The Makefile addition doesn't belong to this commit. Please fix.
-
-The rest looks good.
+Following the comments from audsys, put those after CLK_AUD_ADC_HIRES.
 
 Cheers,
 Angelo
+
+>   	MT8188_CLK_AUD_I2SIN,
+>   	MT8188_CLK_AUD_TDM_IN,
+> 
+
