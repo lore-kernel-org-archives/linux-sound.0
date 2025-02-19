@@ -1,120 +1,123 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38EEA920
-	for <linux-sound@vger.kernel.org>; Wed, 19 Feb 2025 04:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D759146593;
+	Wed, 19 Feb 2025 04:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739939371; cv=none; b=neZBeg+TQFDV4fCC3bGbDXTubsQ3Iyed3lW57ZIWLAR8s163dXzmgbDBZTVxhIP0TEd3OcutfAe89QjQv+O8gmfinfebyN4Ycb/bII3Vd8RP0quF72yonv4NLSfHNtq4JeDzBwGtsGtvTeL5kd2RtTvUojj0l5YyL2Wi0KfXhQ8=
+	t=1739940458; cv=none; b=uGJ7aL4kngv3OUki6mkEfU2RWZfloY/Q3MOW+Mw4Ahw6GhvQZhFOqHVul7LCZV+f4b68e0DNI1+uXnhH5OgiYR+dl2nRdoKpxuUtQ0c+iohuYafvbS8hk7Jvlnsr1kpSOnAbgZNsBvcq9Jagby7oQksMkY8cMfOoiwZSBgV2PMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739939371; c=relaxed/simple;
-	bh=zb/9KgFfbpk6f/2smouuL+kG7zlSq7ptifNXDJHDfA4=;
+	s=arc-20240116; t=1739940458; c=relaxed/simple;
+	bh=j/FGScFKYIvNF8gNYGwyaBT7JxKCpP+A94CkyRWi/Uk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SPCDoSlkrImH3BMl6E6IYvrxuz6Eqq4oovM3I9ZCEiGGr5Iuv8cpLU33YVz/sO7q6swunk+S011se0+3cblLe/f4mOMypO4ly1/LluEffrSvzSDs46lbozyHJywLiWKwlWRfZs3qg8mt9GfJWBESsoIxNLlx6zK6lHRo5Z+ujq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FcxhHo88; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 To:Cc:Content-Type; b=m5Ro8Y7TWmG92nWIB0gg9yBlCeIOBJURsjBKubuNgHJKycvnNTVi13cf5nVHY7PPfC2pkJXdDeAmw6PI8s6Qe4vLKaAi1VhINbp8NOLA7A1ualj5TwR/aTZGwuiYmTXIkhaS+3gfWoYI3NMh7XhM/u9QKc1DMrIPBzwtz2Nv824=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qfn7nshH; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FcxhHo88"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5452ca02bdbso4576742e87.1
-        for <linux-sound@vger.kernel.org>; Tue, 18 Feb 2025 20:29:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qfn7nshH"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-47200236004so15455551cf.3;
+        Tue, 18 Feb 2025 20:47:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1739939367; x=1740544167; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1739940456; x=1740545256; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6VEqGe71O4B6jvfykXcb0jRrukuykdD7MfjxVd1svFc=;
-        b=FcxhHo88lA3YUC6lyZGCLtuE8o8haZuf05zOPMCMiChbPYAlGSs1rXu3phsaFt+/ud
-         FcHr6ild44OfnrLB0ubk5EDXNon5iyG0DPXR15poxsczeDqunu1ypeDyZlL+4V4IzhSW
-         xXqFxKH2fYCp815Oxtd1YMwJOkwDJ1+XZDbz8=
+        bh=QS3nGYs5YKxyOBVxJ1oYq+XkO0+0BktASGS0GSAFnog=;
+        b=Qfn7nshHvH9QGNtPQAUA/DBSUoGx3o+kg5OKZp7IEsPNcs5umHKNvRb/Dd8gMftZXD
+         nJamyTXv9YTB1EKKfZeBAASKbQSD13/I3izH5OOmFNEvf+dNoHyKq/Huk48DPuC/ioMk
+         /JdAolXB06OqKB0K6noR01a3iQIOJzod3/HCZjJKinsh5rWGlE3QsRp1WhsHgg4S6K4H
+         hxhxekoZ26iYKCT/wDCDgUSDgrxCApM1ww65XRLtQrAaoAg9J2rtF3bD2Rs+0TBcXpd9
+         /04W6mqrMIfdQzMpjs3ovtqSxX1fgg6d0voMxP3yt0eRrX5VScAYPrK+BKKI2YCX+twf
+         Iq3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739939367; x=1740544167;
+        d=1e100.net; s=20230601; t=1739940456; x=1740545256;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6VEqGe71O4B6jvfykXcb0jRrukuykdD7MfjxVd1svFc=;
-        b=PMHqrsF+L5NFqj6kBqxtDMZZJCfsSR+mu895nQmOkaO9ywdzmlmccJY+zLganvSVGr
-         0lMI/LWNwcVJU48ppUIsMEbE4dcnu3g6ARX0kAEhIiueEgtoyjz98rRqVFPkiVVPFBv+
-         ehbtnukBh6o9HOS/OXg4Z8x5fb3C474EiZySH72QGE3s627LZ+28EDNN+mfjTimL47Sp
-         /zOaMxNSqo0gu9ric5huSce8/2fvAnBRX9t5osoBJfpkryw2ww+nYyD0DgObVpm6lh4+
-         qOaEh/Q1S3c8TeijmnFkggDPjZZQqorQ+ERcKCu/urgG3YeQxrAybggjHaRUPnW+DQ1G
-         uwNg==
-X-Forwarded-Encrypted: i=1; AJvYcCViHK2qavw3ObfmfCKY2OEmlQzwI/t/AiYlRofnO0Am1F5kVMjek5wRLlcLUrHErSipJqRZcp5c4j5LyQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSefpx6gZj0K0vkZTQu5YocS80hA1bEdkSCujv50Nui5mPQfMD
-	ah4+UJNyWhEBIk6s1wEEYCbcjoqDsbIOAqRiQUrS5NdcrvE9++eJ+6DTyodA79U36MLmJPZFeIk
-	fnxlhrgX176gXo0dzabuHX1rUzCwYCzcrJLRB
-X-Gm-Gg: ASbGncsh+A0+rMTr8aON/bfZF6HE3kp9nX2Et3gDUVuT0MaqNpwefWOQrixPiRJh1Q2
-	FwTfJwAFeXCLRQe0Jz3K7MNeMsU4WALCAD3Ft/0wvL0RqOBKi+RgIqBB5swrY/yKLtJAn4RWww0
-	/mJYNzWhp+hftSGF7lkEN8BkmQ
-X-Google-Smtp-Source: AGHT+IFDON5BTBrIkCqYoruAW+GgEU4kzLUMfNza88SwUu5KL01SJq4OJVKPavaKWnoXBdabjUxCkcKdf2JVNhz5ek0=
-X-Received: by 2002:a05:6512:3d8a:b0:545:85f:4962 with SMTP id
- 2adb3069b0e04-5452fe5bd65mr6877441e87.20.1739939366740; Tue, 18 Feb 2025
- 20:29:26 -0800 (PST)
+        bh=QS3nGYs5YKxyOBVxJ1oYq+XkO0+0BktASGS0GSAFnog=;
+        b=OVBZN8TSKaUu/4arD46YI1Wo136yUUaVF87q3ANS7Hc/HflMdOueFctboOLdDp+lg3
+         T5vLJMIIFznOK5zrUUlNisCt3slCAHmlm3w96iOvCfKgHQgEJVqXRcZL9B64VuRJ6f+h
+         3YeTVaDhah7PuXiFKgxPQrkJ55d6ok1XqnF6TnBo8wq1Y0crLkd1Buwn3XbyP3jeoGgt
+         hTHoS919058B66LcWyfoIlPjnHFKe+nDmw96+MlHhJ8adsDDSBGn3f01fL5qA67N8FaV
+         1SM4KrrU6al/zlfa8vC5BhtBYr3gf+tgEvey1Sj1XeA/H0L1ieDnlRQ9+Wesas0E9igs
+         C4Xg==
+X-Forwarded-Encrypted: i=1; AJvYcCUsAQ4ZGZQ6TUrURX5mQ2iTFHAQVqAgnwNQxokgPnbh5H5py5/98DD5VONBk0EG+m6Uxfyis4osnw+va4ZY@vger.kernel.org, AJvYcCVWeiiw4ft0/zqVc3S/0H3o8fP8+2hF1VDuH8rvmRdL3Clk5s7iFjcPLLB/kPNG6SHKpf4w21c23PbEPdU=@vger.kernel.org, AJvYcCW1oOdRn5hwUS0o+P5tKkMYMQAPDjKgMdK79a5ehpOIr5x+fcub9YSBaKaecM4VuMwD56lmR400EsKT38M=@vger.kernel.org, AJvYcCXsDFSzyJNAG2qNbKwVkUFoSKhJ67KeVxDxmZ0LMDXmhlfc/f3nx64wPzHpy76QWUoQFuIPF43WlRMj@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyPnocteX1fB+2d48rJf5eIY768pI4QmeOZXLJNn4qacUzHEEC
+	hGMlD0FrHSyW9o6sx3am5fRj4u6L5J0G9/JR4wCVOlqCK6ojp6DpfvhWZsmaZfB8A1ncsVsdV28
+	T0BWJm2cdxKs6Wl4dOsRRnAB8W3FSSjPRd8c=
+X-Gm-Gg: ASbGncs4EZYuvaH4lZIBlaHrtFxnEqRnlKWWn891YLOT55CsOQowI0KlBErSmpnkfX8
+	LH53oT7GmDP0wJ0ckJ1CJqzSvzp4w5Ur8d8WNL+P40MLYHoL7CbgvWiuJx01jLpMEUEe/rW0=
+X-Google-Smtp-Source: AGHT+IGrYhj6Gx1SpOFsGXGJgvmhAlAoqQFszNmC5NEGHxmqY4dRbJCZ6QFbIRC7yBQuaRyXOgmzghwDfIcQ4wY8hFA=
+X-Received: by 2002:ac8:5e4e:0:b0:471:bd14:a77c with SMTP id
+ d75a77b69052e-472082a97c3mr30546691cf.44.1739940455934; Tue, 18 Feb 2025
+ 20:47:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250218-genio700-dmic-v1-0-6bc653da60f7@collabora.com> <20250218-genio700-dmic-v1-6-6bc653da60f7@collabora.com>
-In-Reply-To: <20250218-genio700-dmic-v1-6-6bc653da60f7@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 19 Feb 2025 12:29:15 +0800
-X-Gm-Features: AWEUYZkGeDpr43jARxyOu4uYPJJwq5tj1ueAuV0HV6f4Jx2FAOS0QlcBYZWYQSE
-Message-ID: <CAGXv+5H1pfJMQPBTF_K72D3-JFsZDvZ277erZ449sc6FTkNFSA@mail.gmail.com>
-Subject: Re: [PATCH 6/6] arm64: dts: mediatek: mt8390-genio-common: Add routes
- for DMIC
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, kernel@collabora.com, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	devicetree@vger.kernel.org, parkeryang <Parker.Yang@mediatek.com>
+References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
+ <20250218-apple-codec-changes-v2-20-932760fd7e07@gmail.com> <Z7SoL3HN7Xb3HUTm@finisterre.sirena.org.uk>
+In-Reply-To: <Z7SoL3HN7Xb3HUTm@finisterre.sirena.org.uk>
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Wed, 19 Feb 2025 14:47:04 +1000
+X-Gm-Features: AWEUYZnqxv5OtWJXczEOpJ1iX6Kd6zGGSMM0m7kJKbH_xe86Di0nRmqCnpc3oHU
+Message-ID: <CAHgNfTwmR57GyiMk+-_x3jVNjxCpgLvS4dY2wbZkJN68PgSdjQ@mail.gmail.com>
+Subject: Re: [PATCH v2 20/29] ASoC: tas2764: Add SDZ regulator
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shi Fu <shifu0704@thundersoft.com>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+	Neal Gompa <neal@gompa.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 19, 2025 at 5:27=E2=80=AFAM N=C3=ADcolas F. R. A. Prado
-<nfraprado@collabora.com> wrote:
->
-> Add necessary routes for the onboard dual DMIC present on the Genio
-> 700/510 EVK. The dmic is supplied by micbias0 and micbias2, and inputs
-> into the MT8188 DMIC DAI.
->
-> Co-developed-by: parkeryang <Parker.Yang@mediatek.com>
-> Signed-off-by: parkeryang <Parker.Yang@mediatek.com>
-> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
-> ---
->  arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi b/arch=
-/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi
-> index a37cf102a6e928440cc88e7e8fe0225fc28ec962..efdeca88b8c4e58f0c1782515=
-6276babf19af145 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi
-> @@ -959,7 +959,11 @@ &sound {
->         pinctrl-0 =3D <&audio_default_pins>;
->         audio-routing =3D
->                 "Headphone", "Headphone L",
-> -               "Headphone", "Headphone R";
-> +               "Headphone", "Headphone R",
-> +               "DMIC_INPUT", "AP DMIC",
-> +               "AP DMIC", "AUDGLB",
-> +               "AP DMIC", "MIC_BIAS_0",
-> +               "AP DMIC", "MIC_BIAS_2";
->         mediatek,adsp =3D <&adsp>;
->         status =3D "okay";
+Hi Mark,
 
-Shouldn't there also be one or two new dmic-codecs, and a dai-link here?
+On Wed, Feb 19, 2025 at 1:33=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Tue, Feb 18, 2025 at 06:35:54PM +1000, James Calligeros wrote:
+>
+> > Multiple amps can be connected to the same SDZ GPIO. Using raw GPIOs fo=
+r
+> > this breaks, as there is no concept of refcounting/sharing. In order to
+> > model these platforms, introduce support for an SDZ "regulator". This
+> > allows us to represent the SDZ GPIO as a simple regulator-fixed, and
+> > then the regulator core takes care of refcounting so that all codecs ar=
+e
+> > only powered down once all the driver instances are in the suspend
+> > state.
+>
+> I get that the reference counting that the regulator API does is useful
+> here but this isn't a regulator so shouldn't be exposed as such,
+> particularly since this winds up being visible in the DT ABI.  I
+> could've sworn that someone did some helpers for this case but now I go
+> looking I can't find them, we certainly don't use any in the regulator
+> core.
 
-ChenYu
+From what I recall, no attempt at shared GPIO infrastructure has actually
+landed. The multiple {de}assertions of SDZ put each chip on the same line
+into an unusable state that requires a full power cycle to clear, so
+we can't live without
+handling the shared GPIO somewhat sensibly.
 
->
-> --
-> 2.48.1
->
->
+One alternative off the top of my head is adding a dummy reset controller
+to the DTs and integrating it into the ASoC machine driver (which we have
+downstream). We could then put the GPIO behind a shared reset line, and hit
+that instead of the GPIO. This does seem a little complex/odd, and IIRC we
+considered this at some point and decided against it.
+
+Is there any other option that may work here? I'm open to ideas.
+
+Regards,
+James
