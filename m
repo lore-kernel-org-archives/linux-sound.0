@@ -1,89 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13CA25D550;
-	Wed, 19 Feb 2025 23:08:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABED81B2193;
+	Wed, 19 Feb 2025 23:13:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740006491; cv=none; b=crh8Ks6rndS8nyPaIHommHQYMjqluTdBQrY/6Ocu1Sdaw4W5OkxqvjSAQuGwGPEJjjW4euXsoghRwx+5aLBk/EoeQ4pbWwLdDY/DQjxog9uAMu9VwNCGuFp8jbhOttMBPlD5vl4JTb6cjhthQ88unZC8BuHmbqw/0cohyVeS+MQ=
+	t=1740006809; cv=none; b=O7AFlkDn5YQPzwUQrkANzg0YU8v6c67AyG2nsWiW4xx4lkApd/EjTCQ7l6rPzzr0ACcBOC+4c2o3/2FG2olA+JW2utcibu+1GVZFG+KngeacqRbN2HM5dxXyEyhYN1wNttWqpMUnxMiO7F+b3uRLeEXUeFNP0vxRr0QjqQd/DTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740006491; c=relaxed/simple;
-	bh=Xs1gPh4JhWP/8ya71+EAU0oDhPGutD9vI7+Q3WYB95M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rOYWyj+zcflKuc1RkmyyuQme4sYarZ7E7o7Wzr73gp1vPuMm/rMDn5e37P+gyJZLTsXwxBfwrEldr8Np6bvHeg7IO20gsvq2IEkcQv8X8v7mlCFgqyqCFdUmNLsGYDJfgf0aGDsAI7gd4nRz7l6+5mM0F0xdPhMmebpoAyXPKpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D1WQq79V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740006809; c=relaxed/simple;
+	bh=1hogxnuECIzSV/Tm1A6DPdaKyUbceozlacoXk8KBzwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EA4z8H/c5C/tPxpuVeZtWmwczWdBV2PMvshutya96Vjf3Krz7snDqM9du0BKKdXyfdPk9XlDK3QiTLDo6zWDmsd+clCJzmqCqj0RgTOu62SSIdqd/ftOOwrcbZi7ddd1KWdqx3vkgk/gcg5eZXUD4bBiGGAejuaAHqQH88ct2RU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XzKjMpVZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D1WQq79V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 993ECC4CEE0;
-	Wed, 19 Feb 2025 23:08:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XzKjMpVZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEDA2C4CED1;
+	Wed, 19 Feb 2025 23:13:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740006490;
-	bh=Xs1gPh4JhWP/8ya71+EAU0oDhPGutD9vI7+Q3WYB95M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=D1WQq79VgZEirpJs744p3R9dpoIsArvKYimSeVZi9Dr/le2i6qCy1OkEdhSUia5RK
-	 5V/5naZORZ8p0bbk1NWRUso5TaVI/orUw64L+b/z9b3Z3YSfhD9XXmEFShUwly5fD2
-	 eqEXkgKpORJq0TvVtEgo6wgEuyB+0V2WiLI5RMSnBcUT+nDM8CG8oTGskabVj86COH
-	 i3mZw0gXSp/TVXy7CPNzGsvkvavbejDF02r5ACd8t+rOLHZaAzqDt/AfNm7cJJtdNA
-	 obprQoZVpM3MMKGKZsVJgP1ZbnF2af9DmBr59HPqdyINDhLD9vLP+MSe2EHP7hiZUY
-	 Hq1f4T0gWj8ww==
-From: Mark Brown <broonie@kernel.org>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Andrei Simion <andrei.simion@microchip.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250219-sound-atmel-at91sam9g20ek-v3-1-d7c082af4e14@microchip.com>
-References: <20250219-sound-atmel-at91sam9g20ek-v3-1-d7c082af4e14@microchip.com>
-Subject: Re: [PATCH v3] ASoC: dt-bindings: atmel-at91sam9g20ek: convert to
- json-schema
-Message-Id: <174000648731.2064138.12115170736497220241.b4-ty@kernel.org>
-Date: Wed, 19 Feb 2025 23:08:07 +0000
+	s=k20201202; t=1740006809;
+	bh=1hogxnuECIzSV/Tm1A6DPdaKyUbceozlacoXk8KBzwo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XzKjMpVZTHiOg2EJoOlVL4olptH5P+B4qffLfXz7wGY66guDlrYX+4e5KUQkW9sKY
+	 6R2AFlEJugpdEnFSQ/H2mlGKdXx+tdG3k60h6YqhneYWj1cIjubwOvc8uf0lWHFl24
+	 GgA+JrgVRpMpG56fLXy48jK7Wbe8yPsBC/s9M8RoqDFRCgNcV26n7c4r9PLszkqtr3
+	 F58GOyDBrW/fBfUUInEQz3HpjhKovHygjHOpeEinKTG+VCqsXO3B0oT61JLltE1rMQ
+	 BxWYAOUo22Dhf1nKmmHbXpWSW9L7WEbKobvm/IhASjJ5FS/bntuL24BQh7wgdjowg6
+	 A+oCUMMd+oG3Q==
+Date: Wed, 19 Feb 2025 17:13:28 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: shengjiu.wang@gmail.com, festevam@gmail.com, krzk+dt@kernel.org,
+	lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, devicetree@vger.kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, shawnguo@kernel.org,
+	tiwai@suse.com, nicoleotsuka@gmail.com, conor+dt@kernel.org,
+	perex@perex.cz, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	broonie@kernel.org, Xiubo.Lee@gmail.com
+Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: imx-card: Add playback-only
+ and capture-only property
+Message-ID: <174000680771.3151442.2014916167117128565.robh@kernel.org>
+References: <20250217021715.284951-1-shengjiu.wang@nxp.com>
+ <20250217021715.284951-2-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-42535
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250217021715.284951-2-shengjiu.wang@nxp.com>
 
-On Wed, 19 Feb 2025 11:22:27 +0530, Balakrishnan Sambath wrote:
-> Convert atmel-at91sam9g20ek-wm8731-audio DT binding to yaml
-> based json-schema.Change file name to match json-scheme naming.
+
+On Mon, 17 Feb 2025 10:17:14 +0800, Shengjiu Wang wrote:
+> Refer to audio graph card, add playback-only and capture-only property
+> for imx-audio-card.yaml for the case that only playback or capture is
+> supported.
 > 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+> Reviewed-by: Iuliana Prodan <iuliana.prodan@nxp.com>
+> ---
+>  .../devicetree/bindings/sound/imx-audio-card.yaml  | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: dt-bindings: atmel-at91sam9g20ek: convert to json-schema
-      commit: c8d08464bce947ee060e0174a3f4e87503269d0c
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
