@@ -1,125 +1,71 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000A719149F;
-	Wed, 19 Feb 2025 15:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA2D25B68C;
+	Wed, 19 Feb 2025 22:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739978511; cv=none; b=OxzTxv8aJkjyDvFJLLhfegwEXRBGu8kKf56y0gTPZ1rVCFvSBr5aFkb92XEfwtu9TQkJmoo8GjuSGMhw2QFgpjOqoKUhbopjQPRgPs3rcsDTCBZjE1gR1RpmG2LPVNC8mfZAr7fmvVIm4CxJKfXCW1uhgBsuHT+79D6w1ZPbJCY=
+	t=1740005726; cv=none; b=nufi9WC+0bldB4yzwetixIHFWo+A9D1EDjYDJP3zT9uwZFB+jlAEz/yAU43kRiUL/JrC9S5DONDkraPlhSWVgZoxFidtzDqbNhIPj94ysJNAykY7jicZDSXEQUSHD5KsjWX7b83n3xzHTXWRbNamMECNP2AWl69MleAzBOJaxEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739978511; c=relaxed/simple;
-	bh=lOJucpUBW1weD9sd1p/IHAQeHP3/bAsh8f4KjOledd0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tVCshiVBdCLtmAyFWSkBG7K8FwdojeTuWwqzbFJHg9PaU19kH8pAb0PPKnsIPvwzsDS7ppqSpIznE7wME8fciLWw4u6EZ0ei4InU7nVAa03B2y/+YtG0RpUUaG+M7RpIebQBsmKeUsCmTlvKect8aOwHmhblT/xlUOiEQGoDEII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=PgvKnhgm; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1740005726; c=relaxed/simple;
+	bh=yPOGyniujTU3i3EYp1mV5Ro0Ed1aoGTxmIBahrWVhCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L2nWL/mAC5giwIsSkNfHAtBRK4RrtxL+Tp/nSOBFPBDSkWPAyRraM3ZLoJrPxJHgsj1qg7sDsdaPBq7WERn0Gji8sWXOfmfKTxCaSHmXK73LuLaA/TwqjmFk+NZwDo9A+2OlpOuGwFLpnX/yKymGnhWqMsPNFAP+4814i0aGQDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m5yHDyHf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="PgvKnhgm"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51JFH0rb028064;
-	Wed, 19 Feb 2025 09:21:34 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=/4n+9sQ6e4VHuMQm
-	Z1ycsESMXapriznal3x1bbRBntY=; b=PgvKnhgmJA+B2vQzECXpHdxyYgWfwhEq
-	AYGFLzn3LXmVINz5V3SwiREPa+iAuH18j3vTjw7cpErxMfiJYXEINlrkcdevcaHa
-	Q71Ht0eudcljTzP0d9r9w0eB7KQD2+yc8werYv4Xc/PPZHMBMNoUJg9CluIkpQ6g
-	NaPkncPDYFeGaOqrYBgqmPQvh86KHgOzkzLbsySk+O6oVKeNY+yQ67071d5Enrmt
-	5hvVHsZI2pgRFyyhTnpa6rpdkTjltzJz91bUstQ1qKy5Gcj7+FfKZOqJ/A30+Mv7
-	sIcr4Lx1jQzJOBD2607FnvEeMaEpd3yamE8r6SfTzfvLcTS93tKovg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44w8j7h2yx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Feb 2025 09:21:33 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 19 Feb
- 2025 15:21:32 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Wed, 19 Feb 2025 15:21:32 +0000
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 31C5882025A;
-	Wed, 19 Feb 2025 15:21:32 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>
-Subject: [PATCH] firmware: cs_dsp: test_bin_error: Use same test cases for adsp2 and Halo Core
-Date: Wed, 19 Feb 2025 15:21:32 +0000
-Message-ID: <20250219152132.1285941-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m5yHDyHf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F05BBC4CED1;
+	Wed, 19 Feb 2025 22:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740005726;
+	bh=yPOGyniujTU3i3EYp1mV5Ro0Ed1aoGTxmIBahrWVhCA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m5yHDyHfKflXsCv0KJrRUoPY2Qu7zHAmEi0xb0kyFMVA9rHPPQa0uOJZlUm/NNe8p
+	 zRYzB71H5qGooCPgnngDsHEdJJZJ08HdEbTdlohCXYoMpsaHkAsULAmUgUD2Py71S8
+	 zTvERcwWEZfBX6ZqHuXel7JF65LjKx5Yxqhsbg1rwffkiZCtLakUnKz7zyG2yMcwrT
+	 nJ+aMWJbM65I+tUPhpoWEvHpLz4kfqySFJU0/mp1adrKUHXyG+MffU641dvoM98Flr
+	 1ncI1iDXIB9qTXFZMmCfBbwDQgs3nz3SxQKJUMWtnI/C1T6AJY4vuk4e/fQzlSmK+2
+	 wCRkYSqliAxYw==
+Date: Wed, 19 Feb 2025 16:55:25 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Cc: Trevor Wu <trevor.wu@mediatek.com>, Takashi Iwai <tiwai@suse.com>,
+	kernel@collabora.com, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-arm-kernel@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add
+ mediatek,accdet
+Message-ID: <174000572376.3122081.10881553608590420273.robh@kernel.org>
+References: <20250214-mt8188-accdet-v1-0-6bbd5483855b@collabora.com>
+ <20250214-mt8188-accdet-v1-1-6bbd5483855b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: S1lhIE8zSIITQ9PYVKKrYFCSdQkJ8ihs
-X-Proofpoint-GUID: S1lhIE8zSIITQ9PYVKKrYFCSdQkJ8ihs
-X-Authority-Analysis: v=2.4 cv=ZY7nNtVA c=1 sm=1 tr=0 ts=67b5f6fd cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=jpo4JabcuIscFAbp0T0A:9 a=YXXWInSmI4Sqt1AkVdoW:22
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <20250214-mt8188-accdet-v1-1-6bbd5483855b@collabora.com>
 
-Re-use the adsp2 test cases for the Halo Core test run. Before this the
-Halo Core kunit_case array was an empty placeholder.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- .../firmware/cirrus/test/cs_dsp_test_bin_error.c    | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+On Fri, 14 Feb 2025 12:14:29 -0300, Nícolas F. R. A. Prado wrote:
+> Add a mediatek,accdet phandle property to allow getting a reference to
+> the MT6359 ACCDET block, which is responsible for detecting jack
+> insertion/removal.
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+>  Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-diff --git a/drivers/firmware/cirrus/test/cs_dsp_test_bin_error.c b/drivers/firmware/cirrus/test/cs_dsp_test_bin_error.c
-index 5dcf62f19fafd..8748874f05524 100644
---- a/drivers/firmware/cirrus/test/cs_dsp_test_bin_error.c
-+++ b/drivers/firmware/cirrus/test/cs_dsp_test_bin_error.c
-@@ -534,11 +534,6 @@ static int cs_dsp_bin_err_test_adsp2_16bit_init(struct kunit *test)
- 	return cs_dsp_bin_err_test_common_init(test, dsp, 1);
- }
- 
--static struct kunit_case cs_dsp_bin_err_test_cases_halo[] = {
--
--	{ } /* terminator */
--};
--
- static void cs_dsp_bin_err_block_types_desc(const struct cs_dsp_bin_test_param *param,
- 					    char *desc)
- {
-@@ -560,7 +555,7 @@ KUNIT_ARRAY_PARAM(bin_test_block_types,
- 		  bin_test_block_types_cases,
- 		  cs_dsp_bin_err_block_types_desc);
- 
--static struct kunit_case cs_dsp_bin_err_test_cases_adsp2[] = {
-+static struct kunit_case cs_dsp_bin_err_test_cases[] = {
- 	KUNIT_CASE(bin_load_with_unknown_blocks),
- 	KUNIT_CASE(bin_err_wrong_magic),
- 	KUNIT_CASE(bin_err_too_short_for_header),
-@@ -578,21 +573,21 @@ static struct kunit_suite cs_dsp_bin_err_test_halo = {
- 	.name = "cs_dsp_bin_err_halo",
- 	.init = cs_dsp_bin_err_test_halo_init,
- 	.exit = cs_dsp_bin_err_test_exit,
--	.test_cases = cs_dsp_bin_err_test_cases_halo,
-+	.test_cases = cs_dsp_bin_err_test_cases,
- };
- 
- static struct kunit_suite cs_dsp_bin_err_test_adsp2_32bit = {
- 	.name = "cs_dsp_bin_err_adsp2_32bit",
- 	.init = cs_dsp_bin_err_test_adsp2_32bit_init,
- 	.exit = cs_dsp_bin_err_test_exit,
--	.test_cases = cs_dsp_bin_err_test_cases_adsp2,
-+	.test_cases = cs_dsp_bin_err_test_cases,
- };
- 
- static struct kunit_suite cs_dsp_bin_err_test_adsp2_16bit = {
- 	.name = "cs_dsp_bin_err_adsp2_16bit",
- 	.init = cs_dsp_bin_err_test_adsp2_16bit_init,
- 	.exit = cs_dsp_bin_err_test_exit,
--	.test_cases = cs_dsp_bin_err_test_cases_adsp2,
-+	.test_cases = cs_dsp_bin_err_test_cases,
- };
- 
- kunit_test_suites(&cs_dsp_bin_err_test_halo,
--- 
-2.39.5
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
