@@ -1,214 +1,239 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3B01AF0DC;
-	Wed, 19 Feb 2025 05:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ACB1BC099;
+	Wed, 19 Feb 2025 06:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739944671; cv=none; b=HeR4p+oSUnxsNeB9UuOlQVfn3Q8A3HGIgKzmMk6E8MDJwrSTtR8L01Pf07wN8SpZV6NuutglqvShnZZMg6mdnORPXgd0UCl2tbjlCUkVkg0UHL074zj15+wY+cv5C9ylDgeqSAjksTEPPUmYhlhzWGHf1cmE5D9sbXjLRZM3PvM=
+	t=1739944863; cv=none; b=mn/6151Ph3SqdgXU6micGCx51aQfL3KQKzwUbd7/4EDlfv9WUO2O28fX6ZRMNwFln06LIyB76n9qoTIJCT9q6UZOjbiZLuDEy7C3/id2PbgNa6flQJCqJd1Gzz+wmPeDHx5Doima4Js03L5FMoHxhVBeMu7oYjCsQwSOpo21bAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739944671; c=relaxed/simple;
-	bh=pfHqlSLud+JXl9D7n5BlEkHhIeYAhbebredddS+EqlM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=lzLlUyEQ0qaTEahHu5Jq+V+9z2vB6gr63uQGN606vlOwdnjBJD2YsVlnWK1pM4OX81H4un5Q6gKg2Q6vZIth/9JB91d3kT1XxOUt1GuJON/X9HMdK9jkjkjY5Dc1jfBsX0pGRV1AaFDvF2WeDGIp6m7Bvxp0+G2BpgUjiIK76os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=rBsELHd3; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1739944863; c=relaxed/simple;
+	bh=vWpexB3Z37+uBHIEZXJwZ+p7XRaP4pQXt3ty6W+ODNY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=AZi2NHDZTtzirKaaVVFd3QqeAgoi2l4wjxSUvFuulWkGMVC0fpnkJyun8FNB+KbWq/PsmZHNEdXvvZyXHXrBgcc9SCIl6H5tMhfemprhQgZFaCXIkBH0Eyd4zewOXDXs1vxPOaCYOaQzDroOGtxvJgTBwA3TqrzIxNNX54iQ1zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=WQd4o0Fz; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="rBsELHd3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1739944670; x=1771480670;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:to:cc;
-  bh=pfHqlSLud+JXl9D7n5BlEkHhIeYAhbebredddS+EqlM=;
-  b=rBsELHd3O8u2BDLTWlqnTm737daUqi7VfMQXjB6sj3o6Eyf1oxMiDv6B
-   N84QtODxV/hDlCMxwVcrF6geKPGFfv0xq7BkSOWYaE/dGhZOAPTcAvpWC
-   5R7Xe9Vg/DBA7sLdnVHIehkLeuNjWh3LgQ6QbmgrXeb30x1IJnKL+N5rW
-   vafH36nabrms9QvbJp4Z0CMmTM2/3DXn76MXpZV/uIGD791/+tV5mzCHi
-   lTVcVnmSDYhbYyg1XmddzV7Be+GHojG/JgznSOUtcGc/PUSqPR64/UqgY
-   EFm71BVCPOdlJ1W92xS2uhSy0ILo1wLAOGUzGyyIGwu1fMLaCeH3zTUkQ
-   w==;
-X-CSE-ConnectionGUID: H/CF0+SBQUK7yXSaxQ9BXA==
-X-CSE-MsgGUID: tuIP3dstSBa4Jp38XcbJ+Q==
-X-IronPort-AV: E=Sophos;i="6.13,298,1732604400"; 
-   d="scan'208";a="37849285"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Feb 2025 22:57:49 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 18 Feb 2025 22:57:21 -0700
-Received: from [10.40.56.22] (10.10.85.11) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Tue, 18 Feb 2025 22:57:17 -0700
-From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Date: Wed, 19 Feb 2025 11:22:27 +0530
-Subject: [PATCH v3] ASoC: dt-bindings: atmel-at91sam9g20ek: convert to
- json-schema
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="WQd4o0Fz"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 51J60LmF42889342, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1739944821; bh=vWpexB3Z37+uBHIEZXJwZ+p7XRaP4pQXt3ty6W+ODNY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=WQd4o0Fz7cY4ROniG/DkZyERr4uuIhJo/GDPaswZpLynRzL4N3eFwx+vfDRjZ98sF
+	 T/n3AveDRo5nFDZZrEdF8jnpsUR5GIZpw6Xp2XRcA0hvrshRaE4Ba7+kl43x0KNqv2
+	 nzO6NeY6L6EjHcPySV8d34dqDJD0V2+9sbwQCezY4BK/Wnpzb/38V6xgwHp+PAfD36
+	 vCFlsd4IPu+CU7XmdaySb+VObBr9mAsXIq2tPuiaZm1MviWnvn/NbMSsm5WE8gm6+Q
+	 4qcMdTYLpW5n9tqzBGTUFfdGUILJVcGJUPLTX/Gf1vpyUalR6Zi1VVQqa2Rj5vRWsM
+	 N5KPmwIg7rVDw==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 51J60LmF42889342
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 19 Feb 2025 14:00:21 +0800
+Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 19 Feb 2025 14:00:21 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 19 Feb 2025 14:00:20 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
+ RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
+ 15.01.2507.035; Wed, 19 Feb 2025 14:00:20 +0800
+From: Kailang <kailang@realtek.com>
+To: Takashi Iwai <tiwai@suse.de>,
+        "Maciej S. Szmigiero"
+	<mail@maciej.szmigiero.name>
+CC: Jaroslav Kysela <perex@perex.cz>,
+        "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP EliteBook 855 G7
+Thread-Topic: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP
+ EliteBook 855 G7
+Thread-Index: AQHbgSMJVrDFmK8Mp0CrjaEmJFua+rNOJFaw
+Date: Wed, 19 Feb 2025 06:00:20 +0000
+Message-ID: <8718c132e8674ca7a79330a672d8704a@realtek.com>
+References: <7461f695b4daed80f2fc4b1463ead47f04f9ad05.1739741254.git.mail@maciej.szmigiero.name>
+ <87jz9o99ef.wl-tiwai@suse.de>
+In-Reply-To: <87jz9o99ef.wl-tiwai@suse.de>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250219-sound-atmel-at91sam9g20ek-v3-1-d7c082af4e14@microchip.com>
-X-B4-Tracking: v=1; b=H4sIAJpxtWcC/32NywrCMBREf6XctZE8ajGu+h/SRUxum4umKUktS
- um/Gwtu3QycgTmzQsZEmOFSrZBwoUxxLKAOFVhvxgEZucIguayFFJzl+BwdM3PAR0ktsgl6kBz
- v7MZRO8T6pJSFsp8S9vTa3deusKc8x/Terxb5bX9W8ce6SCbYuTEclcDG9LoNZFO0nqajjQG6b
- ds+vyWJRMYAAAA=
-X-Change-ID: 20241210-sound-atmel-at91sam9g20ek-b0e9dee4533c
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrei Simion
-	<andrei.simion@microchip.com>, Liam Girdwood <lgirdwood@gmail.com>, "Mark
- Brown" <broonie@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Nicolas
- Ferre" <nicolas.ferre@microchip.com>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>
-CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	Balakrishnan Sambath <balakrishnan.s@microchip.com>
-X-Mailer: b4 0.14.2
 
-Convert atmel-at91sam9g20ek-wm8731-audio DT binding to yaml
-based json-schema.Change file name to match json-scheme naming.
-
-Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
----
-Changes in v3:
-- Add recommended minItems and maxItems.
-- Fix commit subject and a typo in example.
-- Link to v2: https://lore.kernel.org/r/20241211-sound-atmel-at91sam9g20ek-v2-1-86a0e31e6af9@microchip.com
-
-Changes in v2:
-- Add missing CODEC pin options to 'atmel,audio-routing' items.
-- Drop 'minItems' from 'atmel,audio-routing' since enum defines valid connections.
-- Add subsystem tag to subject.
-- Add blank line between properties and fix typo.
-- Add audio complex description.
-- Link to v1: https://lore.kernel.org/lkml/20240214-at91sam9g20ek-wm8731-yaml-v1-1-33333e17383b@microchip.com
----
- .../bindings/sound/atmel,at91sam9g20ek-wm8731.yaml | 72 ++++++++++++++++++++++
- .../sound/atmel-at91sam9g20ek-wm8731-audio.txt     | 26 --------
- 2 files changed, 72 insertions(+), 26 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.yaml b/Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..627da2d890b24a14e595d1752276c94b158451a8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.yaml
-@@ -0,0 +1,72 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/atmel,at91sam9g20ek-wm8731.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Atmel at91sam9g20ek wm8731 audio complex
-+
-+maintainers:
-+  - Balakrishnan Sambath <balakrishnan.s@microchip.com>
-+
-+description:
-+  The audio complex configuration for Atmel at91sam9g20ek with WM8731 audio codec.
-+
-+properties:
-+  compatible:
-+    const: atmel,at91sam9g20ek-wm8731-audio
-+
-+  atmel,model:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: The user-visible name of this sound complex.
-+
-+  atmel,audio-routing:
-+    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-+    description: A list of the connections between audio components.
-+    minItems: 2
-+    maxItems: 4
-+    items:
-+      enum:
-+        # Board Connectors
-+        - Ext Spk
-+        - Int Mic
-+
-+        # CODEC Pins
-+        - LOUT
-+        - ROUT
-+        - LHPOUT
-+        - RHPOUT
-+        - LLINEIN
-+        - RLINEIN
-+        - MICIN
-+
-+  atmel,ssc-controller:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of the SSC controller.
-+
-+  atmel,audio-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of WM8731 audio codec.
-+
-+required:
-+  - compatible
-+  - atmel,model
-+  - atmel,audio-routing
-+  - atmel,ssc-controller
-+  - atmel,audio-codec
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "atmel,at91sam9g20ek-wm8731-audio";
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&pinctrl_pck0_as_mck>;
-+        atmel,model = "wm8731 @ AT91SAMG20EK";
-+        atmel,audio-routing =
-+            "Ext Spk", "LHPOUT",
-+            "Int Mic", "MICIN";
-+        atmel,ssc-controller = <&ssc0>;
-+        atmel,audio-codec = <&wm8731>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/atmel-at91sam9g20ek-wm8731-audio.txt b/Documentation/devicetree/bindings/sound/atmel-at91sam9g20ek-wm8731-audio.txt
-deleted file mode 100644
-index 9c5a9947b64d454a892e1e4148ff06be7c33d6cd..0000000000000000000000000000000000000000
---- a/Documentation/devicetree/bindings/sound/atmel-at91sam9g20ek-wm8731-audio.txt
-+++ /dev/null
-@@ -1,26 +0,0 @@
--* Atmel at91sam9g20ek wm8731 audio complex
--
--Required properties:
--  - compatible: "atmel,at91sam9g20ek-wm8731-audio"
--  - atmel,model: The user-visible name of this sound complex.
--  - atmel,audio-routing: A list of the connections between audio components.
--  - atmel,ssc-controller: The phandle of the SSC controller
--  - atmel,audio-codec: The phandle of the WM8731 audio codec
--Optional properties:
--  - pinctrl-names, pinctrl-0: Please refer to pinctrl-bindings.txt
--
--Example:
--sound {
--	compatible = "atmel,at91sam9g20ek-wm8731-audio";
--	pinctrl-names = "default";
--	pinctrl-0 = <&pinctrl_pck0_as_mck>;
--
--	atmel,model = "wm8731 @ AT91SAMG20EK";
--
--	atmel,audio-routing =
--		"Ext Spk", "LHPOUT",
--		"Int MIC", "MICIN";
--
--	atmel,ssc-controller = <&ssc0>;
--	atmel,audio-codec = <&wm8731>;
--};
-
----
-base-commit: 0ad2507d5d93f39619fc42372c347d6006b64319
-change-id: 20241210-sound-atmel-at91sam9g20ek-b0e9dee4533c
-
-Best regards,
--- 
-Balakrishnan Sambath <balakrishnan.s@microchip.com>
-
+DQpQbGVhc2UgbGV0IG1lIGNoZWNrIHdpdGggb3VyIEFFIHRlYW0uDQoNCj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogVGFrYXNoaSBJd2FpIDx0aXdhaUBzdXNlLmRlPg0KPiBT
+ZW50OiBNb25kYXksIEZlYnJ1YXJ5IDE3LCAyMDI1IDY6MDIgUE0NCj4gVG86IE1hY2llaiBTLiBT
+em1pZ2llcm8gPG1haWxAbWFjaWVqLnN6bWlnaWVyby5uYW1lPg0KPiBDYzogSmFyb3NsYXYgS3lz
+ZWxhIDxwZXJleEBwZXJleC5jej47IFRha2FzaGkgSXdhaSA8dGl3YWlAc3VzZS5jb20+OyBLYWls
+YW5nDQo+IDxrYWlsYW5nQHJlYWx0ZWsuY29tPjsgT2RlciBDaGlvdSA8b2Rlcl9jaGlvdUByZWFs
+dGVrLmNvbT47IFNodW1pbmcgW61TDQo+IK7Ru8pdIDxzaHVtaW5nZkByZWFsdGVrLmNvbT47IFFp
+dSBXZW5ibyA8cWl1d2VuYm9Aa3lsaW5vcy5jb20uY24+Ow0KPiBsaW51eC1zb3VuZEB2Z2VyLmtl
+cm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQ
+QVRDSCB2Ml0gQUxTQTogaGRhL3JlYWx0ZWs6IEVuYWJsZSBQQyBiZWVwIHBhc3N0aHJvdWdoIGZv
+ciBIUA0KPiBFbGl0ZUJvb2sgODU1IEc3DQo+IA0KPiANCj4gRXh0ZXJuYWwgbWFpbCA6IFRoaXMg
+ZW1haWwgb3JpZ2luYXRlZCBmcm9tIG91dHNpZGUgdGhlIG9yZ2FuaXphdGlvbi4gRG8gbm90DQo+
+IHJlcGx5LCBjbGljayBsaW5rcywgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IHJlY29n
+bml6ZSB0aGUgc2VuZGVyIGFuZA0KPiBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUuDQo+IA0KPiAN
+Cj4gDQo+IE9uIFN1biwgMTYgRmViIDIwMjUgMjI6MzE6MDMgKzAxMDAsDQo+IE1hY2llaiBTLiBT
+em1pZ2llcm8gd3JvdGU6DQo+ID4NCj4gPiBQQyBzcGVha2VyIHdvcmtzIHdlbGwgb24gdGhpcyBw
+bGF0Zm9ybSBpbiBCSU9TIGFuZCBpbiBMaW51eCB1bnRpbA0KPiA+IHNvdW5kIGNhcmQgZHJpdmVy
+cyBhcmUgbG9hZGVkLiBUaGVuIGl0IHN0b3BzIHdvcmtpbmcuDQo+ID4NCj4gPiBUaGVyZSBzZWVt
+cyB0byBiZSBhIGJlZXAgZ2VuZXJhdG9yIG5vZGUgYXQgMHgxYSBpbiB0aGlzIENPREVDDQo+ID4g
+KEFMQzI2OV9UWVBFX0FMQzIxNSkgYnV0IGl0IHNlZW1zIHRvIGJlIG9ubHkgY29ubmVjdGVkIHRv
+IGNhcHR1cmUNCj4gPiBtaXhlcnMgYXQgbm9kZXMgMHgyMiBhbmQgMHgyMy4NCj4gPiBJZiBJIHVu
+bXV0ZSB0aGUgbWl4ZXIgaW5wdXQgZm9yIDB4MWEgYXQgbm9kZSAweDIzIGFuZCBzdGFydCByZWNv
+cmRpbmcNCj4gPiBmcm9tIGl0cyAiQUxDMjg1IEFuYWxvZyIgY2FwdHVyZSBkZXZpY2UgSSBjYW4g
+Y2xlYXJseSBoZWFyIGJlZXBzIGluDQo+ID4gdGhhdCByZWNvcmRpbmcuDQo+ID4NCj4gPiBTbyB0
+aGUgYmVlcCBnZW5lcmF0b3IgaXMgaW5kZWVkIHdvcmtpbmcgcHJvcGVybHksIGhvd2V2ZXIgSSB3
+YXNuJ3QNCj4gPiBhYmxlIHRvIGZpZ3VyZSBvdXQgYW55IHdheSB0byBjb25uZWN0IGl0IHRvIHNw
+ZWFrZXJzLg0KPiA+DQo+ID4gSG93ZXZlciwgdGhlIGJpdHMgaW4gdGhlICJQYXNzdGhyb3VnaCBD
+b250cm9sIiByZWdpc3RlciAoMHgzNikgc2VlbXMNCj4gPiB0byB3b3JrIGF0IGxlYXN0IHBhcnRp
+YWxseTogYnkgemVyb2luZyAiQiIgYW5kICJoIiBhbmQgc2V0dGluZyAiUyIgSQ0KPiA+IGNhbiBh
+dCBsZWFzdCBtYWtlIHRoZSBQSVQgUEMgc3BlYWtlciBvdXRwdXQgYXBwZWFyIGVpdGhlciBpbiB0
+aGlzDQo+ID4gbGFwdG9wIHNwZWFrZXJzIG9yIGhlYWRwaG9uZXMgKGRlcGVuZGluZyBvbiB3aGV0
+aGVyIHRoZXkgYXJlIGNvbm5lY3RlZA0KPiBvciBub3QpLg0KPiA+DQo+ID4NCj4gPiBUaGVyZSBh
+cmUgc29tZSBjYXZlYXRzLCBob3dldmVyOg0KPiA+ICogSWYgdGhlIENPREVDIGdldHMgcnVudGlt
+ZS1zdXNwZW5kZWQgdGhlIGJlZXBzIHN0b3Agc28gaXQgbmVlZHMgSERBDQo+ID4gYmVlcCBkZXZp
+Y2UgZm9yIGtlZXBpbmcgaXQgYXdha2UgZHVyaW5nIGJlZXBpbmcuDQo+ID4NCj4gPiAqIElmIHRo
+ZSBiZWVwIGdlbmVyYXRvciBub2RlIGlzIGdlbmVyYXRpbmcgYW55IGJlZXAgdGhlIFBDIGJlZXAN
+Cj4gPiBwYXNzdGhyb3VnaCBzZWVtcyB0byBiZSB0ZW1wb3JhcmlseSBpbmhpYml0ZWQsIHNvIHRo
+ZSBIREEgYmVlcCBkZXZpY2UNCj4gPiBoYXMgdG8gYmUgcHJldmVudGVkIGZyb20gdXNpbmcgdGhl
+IGFjdHVhbCBiZWVwIGdlbmVyYXRvciBub2RlIC0gYnV0DQo+ID4gdGhlIGJlZXAgZGV2aWNlIGlz
+IHN0aWxsIG5lY2Vzc2FyeSBkdWUgdG8gdGhlIHByZXZpb3VzIHBvaW50Lg0KPiA+DQo+ID4gKiBJ
+biBjb250cmFzdCB3aXRoIG90aGVyIHBsYXRmb3JtcyBoZXJlIGJlZXAgYW1wbGlmaWNhdGlvbiBo
+YXMgdG8gYmUNCj4gPiBkaXNhYmxlZCBvdGhlcndpc2UgdGhlIGJlZXBzIG91dHB1dCBhcmUgV0FZ
+IGxvdWRlciB0aGFuIHRoZXkgd2VyZSBvbg0KPiA+IHB1cmUgQklPUyBzZXR1cC4NCj4gPg0KPiA+
+DQo+ID4gVW5sZXNzIHNvbWVvbmUgKGZyb20gUmVhbHRlayBwcm9iYWJseSkga25vd3MgaG93IHRv
+IG1ha2UgdGhlIGJlZXANCj4gPiBnZW5lcmF0b3Igbm9kZSBvdXRwdXQgYXBwZWFyIGluIHNwZWFr
+ZXJzIC8gaGVhZHBob25lcyB1c2luZyBQQyBiZWVwDQo+ID4gcGFzc3Rocm91Z2ggc2VlbXMgdG8g
+YmUgdGhlIG9ubHkgd2F5IHRvIG1ha2UgUEMgc3BlYWtlciBiZWVwaW5nDQo+ID4gYWN0dWFsbHkg
+d29yayBvbiB0aGlzIHBsYXRmb3JtLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogTWFjaWVqIFMu
+IFN6bWlnaWVybyA8bWFpbEBtYWNpZWouc3ptaWdpZXJvLm5hbWU+DQo+ID4gLS0tDQo+ID4NCj4g
+PiBTaW5jZSBtb3JlIHRoYW4gNiB3ZWVrcyBoYXMgbm93IHBhc3NlZCBzaW5jZSB0aGUgcHJldmlv
+dXMgdmVyc2lvbiBvZg0KPiA+IHRoaXMgcGF0Y2ggd2FzIHBvc3RlZCwgeWV0IG5vIGJldHRlciBv
+ciBvdGhlciBzb2x1dGlvbiB3YXMgcHJvdmlkZWQNCj4gPiBJJ20gcmUtc3VibWl0dGluZyBhbiB1
+cGRhdGVkIHZlcnNpb24gb2YgdGhlIG9yaWdpbmFsIHBhdGNoLg0KPiA+DQo+ID4gVGhpcyBzb2x1
+dGlvbiBoYXMgYmVlbiB3b3JraW5nIGZpbmUgZm9yIG1lIG9uIHRoaXMgcGxhdGZvcm0gYWxsIHRo
+YXQNCj4gPiB0aW1lLCB3aXRob3V0IGFueSBvYnZpb3VzIGlzc3Vlcy4NCj4gPg0KPiA+IENoYW5n
+ZXMgZnJvbSB2MToNCj4gPiAqIENvcnJlY3QgdGhlIHR5cG8gaW4gIUlTX0VOQUJMRUQoQ09ORklH
+X0lOUFVUX1BDU1BLUikgY29kZSB0aGF0IHRoZQ0KPiA+IGtlcm5lbCB0ZXN0IHJvYm90IGZvdW5k
+Lg0KPiA+DQo+ID4gKiBDaGFuZ2UgY29kZWNfd2FybigpIGludG8gZGV2X3dhcm5fb25jZShoZGFf
+Y29kZWNfZGV2KGNvZGVjKSkNCj4gPiB0byBhdm9pZCBzcGFtbWluZyB0aGUga2VybmVsIGxvZyBh
+dCBydW50aW1lIFBNIENPREVDIHJlLWluaXQuDQo+IA0KPiBUaGlzIGlzIHJlYWxseSBhIHRoaW5n
+IHRvIGJlIGNoZWNrZWQgYnkgUmVhbHRlayBwZW9wbGUgYXQgZmlyc3QsIGFzIGl0J3MgdmVyeQ0K
+PiB2ZW5kb3Itc3BlY2lmaWMgdGhpbmcuDQo+IA0KPiBLYWlsYW5nLCBwbGVhc2UgY2hlY2sgdGhp
+cy4NCj4gDQo+IEFuZCwgZXhjZXB0IGZvciB0aGF0LCBJJ20gc3RpbGwgY29uY2VybmVkIGJ5IHRo
+ZSBiZWhhdmlvciBjaGFuZ2UuDQo+IEFsc28gdGhlIGNhdmVhdCB5b3UgbWVudGlvbmVkIGFib3V0
+IHRoZSBydW50aW1lIFBNIHJhaXNlcyBzb21lIGRvdWJ0LCB0b28uDQo+IA0KPiANCj4gdGhhbmtz
+LA0KPiANCj4gVGFrYXNoaQ0KPiANCj4gPg0KPiA+ICBpbmNsdWRlL3NvdW5kL2hkYV9jb2RlYy5o
+ICAgICB8ICAxICsNCj4gPiAgc291bmQvcGNpL2hkYS9oZGFfYmVlcC5jICAgICAgfCAxNSArKysr
+KysrKystLS0tLS0NCj4gPiAgc291bmQvcGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMgfCAzNA0KPiAr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystDQo+ID4gIDMgZmlsZXMgY2hhbmdlZCwg
+NDMgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9p
+bmNsdWRlL3NvdW5kL2hkYV9jb2RlYy5oIGIvaW5jbHVkZS9zb3VuZC9oZGFfY29kZWMuaA0KPiA+
+IGluZGV4IDU3NWU1NWFhMDhjYS4uYzFmZTYyOTBkMDRkIDEwMDY0NA0KPiA+IC0tLSBhL2luY2x1
+ZGUvc291bmQvaGRhX2NvZGVjLmgNCj4gPiArKysgYi9pbmNsdWRlL3NvdW5kL2hkYV9jb2RlYy5o
+DQo+ID4gQEAgLTE5NSw2ICsxOTUsNyBAQCBzdHJ1Y3QgaGRhX2NvZGVjIHsNCj4gPiAgICAgICAv
+KiBiZWVwIGRldmljZSAqLw0KPiA+ICAgICAgIHN0cnVjdCBoZGFfYmVlcCAqYmVlcDsNCj4gPiAg
+ICAgICB1bnNpZ25lZCBpbnQgYmVlcF9tb2RlOw0KPiA+ICsgICAgIGJvb2wgYmVlcF9qdXN0X3Bv
+d2VyX29uOw0KPiA+DQo+ID4gICAgICAgLyogd2lkZ2V0IGNhcGFiaWxpdGllcyBjYWNoZSAqLw0K
+PiA+ICAgICAgIHUzMiAqd2NhcHM7DQo+ID4gZGlmZiAtLWdpdCBhL3NvdW5kL3BjaS9oZGEvaGRh
+X2JlZXAuYyBiL3NvdW5kL3BjaS9oZGEvaGRhX2JlZXAuYyBpbmRleA0KPiA+IGU1MWQ0NzU3MjU1
+Ny4uMTNhN2Q5MmU4ZDhkIDEwMDY0NA0KPiA+IC0tLSBhL3NvdW5kL3BjaS9oZGEvaGRhX2JlZXAu
+Yw0KPiA+ICsrKyBiL3NvdW5kL3BjaS9oZGEvaGRhX2JlZXAuYw0KPiA+IEBAIC0zMSw4ICszMSw5
+IEBAIHN0YXRpYyB2b2lkIGdlbmVyYXRlX3RvbmUoc3RydWN0IGhkYV9iZWVwICpiZWVwLCBpbnQN
+Cj4gdG9uZSkNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgYmVlcC0+cG93ZXJfaG9vayhiZWVw
+LCB0cnVlKTsNCj4gPiAgICAgICAgICAgICAgIGJlZXAtPnBsYXlpbmcgPSAxOw0KPiA+ICAgICAg
+IH0NCj4gPiAtICAgICBzbmRfaGRhX2NvZGVjX3dyaXRlKGNvZGVjLCBiZWVwLT5uaWQsIDAsDQo+
+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICBBQ19WRVJCX1NFVF9CRUVQX0NPTlRST0wsIHRv
+bmUpOw0KPiA+ICsgICAgIGlmICghY29kZWMtPmJlZXBfanVzdF9wb3dlcl9vbikNCj4gPiArICAg
+ICAgICAgICAgIHNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMsIGJlZXAtPm5pZCwgMCwNCj4gPiAr
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQUNfVkVSQl9TRVRfQkVFUF9DT05UUk9M
+LA0KPiB0b25lKTsNCj4gPiAgICAgICBpZiAoIXRvbmUgJiYgYmVlcC0+cGxheWluZykgew0KPiA+
+ICAgICAgICAgICAgICAgYmVlcC0+cGxheWluZyA9IDA7DQo+ID4gICAgICAgICAgICAgICBpZiAo
+YmVlcC0+cG93ZXJfaG9vaykNCj4gPiBAQCAtMjEyLDEwICsyMTMsMTIgQEAgaW50IHNuZF9oZGFf
+YXR0YWNoX2JlZXBfZGV2aWNlKHN0cnVjdA0KPiBoZGFfY29kZWMgKmNvZGVjLCBpbnQgbmlkKQ0K
+PiA+ICAgICAgIHN0cnVjdCBoZGFfYmVlcCAqYmVlcDsNCj4gPiAgICAgICBpbnQgZXJyOw0KPiA+
+DQo+ID4gLSAgICAgaWYgKCFzbmRfaGRhX2dldF9ib29sX2hpbnQoY29kZWMsICJiZWVwIikpDQo+
+ID4gLSAgICAgICAgICAgICByZXR1cm4gMDsgLyogZGlzYWJsZWQgZXhwbGljaXRseSBieSBoaW50
+cyAqLw0KPiA+IC0gICAgIGlmIChjb2RlYy0+YmVlcF9tb2RlID09IEhEQV9CRUVQX01PREVfT0ZG
+KQ0KPiA+IC0gICAgICAgICAgICAgcmV0dXJuIDA7IC8qIGRpc2FibGVkIGJ5IG1vZHVsZSBvcHRp
+b24gKi8NCj4gPiArICAgICBpZiAoIWNvZGVjLT5iZWVwX2p1c3RfcG93ZXJfb24pIHsNCj4gPiAr
+ICAgICAgICAgICAgIGlmICghc25kX2hkYV9nZXRfYm9vbF9oaW50KGNvZGVjLCAiYmVlcCIpKQ0K
+PiA+ICsgICAgICAgICAgICAgICAgICAgICByZXR1cm4gMDsgLyogZGlzYWJsZWQgZXhwbGljaXRs
+eSBieSBoaW50cyAqLw0KPiA+ICsgICAgICAgICAgICAgaWYgKGNvZGVjLT5iZWVwX21vZGUgPT0g
+SERBX0JFRVBfTU9ERV9PRkYpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgIHJldHVybiAwOyAv
+KiBkaXNhYmxlZCBieSBtb2R1bGUgb3B0aW9uICovDQo+ID4gKyAgICAgfQ0KPiA+DQo+ID4gICAg
+ICAgYmVlcCA9IGt6YWxsb2Moc2l6ZW9mKCpiZWVwKSwgR0ZQX0tFUk5FTCk7DQo+ID4gICAgICAg
+aWYgKGJlZXAgPT0gTlVMTCkNCj4gPiBkaWZmIC0tZ2l0IGEvc291bmQvcGNpL2hkYS9wYXRjaF9y
+ZWFsdGVrLmMNCj4gPiBiL3NvdW5kL3BjaS9oZGEvcGF0Y2hfcmVhbHRlay5jIGluZGV4IDIyNDYx
+NmZiZWM0Zi4uZmZmNmU3YzFjMjY1DQo+ID4gMTAwNjQ0DQo+ID4gLS0tIGEvc291bmQvcGNpL2hk
+YS9wYXRjaF9yZWFsdGVrLmMNCj4gPiArKysgYi9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsu
+Yw0KPiA+IEBAIC0yOCw2ICsyOCw3IEBADQo+ID4gICNpbmNsdWRlIDxzb3VuZC9oZGFfY29kZWMu
+aD4NCj4gPiAgI2luY2x1ZGUgImhkYV9sb2NhbC5oIg0KPiA+ICAjaW5jbHVkZSAiaGRhX2F1dG9f
+cGFyc2VyLmgiDQo+ID4gKyNpbmNsdWRlICJoZGFfYmVlcC5oIg0KPiA+ICAjaW5jbHVkZSAiaGRh
+X2phY2suaCINCj4gPiAgI2luY2x1ZGUgImhkYV9nZW5lcmljLmgiDQo+ID4gICNpbmNsdWRlICJo
+ZGFfY29tcG9uZW50LmgiDQo+ID4gQEAgLTY5MjMsNiArNjkyNCwzMCBAQCBzdGF0aWMgdm9pZCBh
+bGMyODVfZml4dXBfaHBfZW52eV94MzYwKHN0cnVjdA0KPiBoZGFfY29kZWMgKmNvZGVjLA0KPiA+
+ICAgICAgIH0NCj4gPiAgfQ0KPiA+DQo+ID4gK3N0YXRpYyB2b2lkIGFsYzI4NV9maXh1cF9ocF9i
+ZWVwKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBjb25zdCBzdHJ1Y3QgaGRhX2ZpeHVwICpmaXgsIGludA0KPiA+ICthY3Rpb24pIHsN
+Cj4gPiArICAgICBpZiAoYWN0aW9uID09IEhEQV9GSVhVUF9BQ1RfUFJFX1BST0JFKSB7DQo+ID4g
+KyAgICAgICAgICAgICBjb2RlYy0+YmVlcF9qdXN0X3Bvd2VyX29uID0gdHJ1ZTsNCj4gPiArICAg
+ICB9IGVsc2UgIGlmIChhY3Rpb24gPT0gSERBX0ZJWFVQX0FDVF9JTklUKSB7ICNpZmRlZg0KPiA+
+ICtDT05GSUdfU05EX0hEQV9JTlBVVF9CRUVQDQo+ID4gKyAgICAgICAgICAgICAvKg0KPiA+ICsg
+ICAgICAgICAgICAgICogSnVzdCBlbmFibGUgbG9vcGJhY2sgdG8gaW50ZXJuYWwgc3BlYWtlciBh
+bmQgaGVhZHBob25lDQo+IGphY2suDQo+ID4gKyAgICAgICAgICAgICAgKiBEaXNhYmxlIGFtcGxp
+ZmljYXRpb24gdG8gZ2V0IGFib3V0IHRoZSBzYW1lIGJlZXANCj4gdm9sdW1lIGFzDQo+ID4gKyAg
+ICAgICAgICAgICAgKiB3YXMgb24gcHVyZSBCSU9TIHNldHVwIGJlZm9yZSBsb2FkaW5nIHRoZSBk
+cml2ZXIuDQo+ID4gKyAgICAgICAgICAgICAgKi8NCj4gPiArICAgICAgICAgICAgIGFsY191cGRh
+dGVfY29lZl9pZHgoY29kZWMsIDB4MzYsIDB4NzA3MCwgQklUKDEzKSk7DQo+ID4gKw0KPiA+ICsg
+ICAgICAgICAgICAgc25kX2hkYV9lbmFibGVfYmVlcF9kZXZpY2UoY29kZWMsIDEpOw0KPiA+ICsN
+Cj4gPiArI2lmICFJU19FTkFCTEVEKENPTkZJR19JTlBVVF9QQ1NQS1IpDQo+ID4gKyAgICAgICAg
+ICAgICBkZXZfd2Fybl9vbmNlKGhkYV9jb2RlY19kZXYoY29kZWMpLA0KPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAiZW5hYmxlIENPTkZJR19JTlBVVF9QQ1NQS1IgdG8gZ2V0IFBDDQo+
+ID4gK2JlZXBzXG4iKTsgI2VuZGlmICNlbmRpZg0KPiA+ICsgICAgIH0NCj4gPiArfQ0KPiA+ICsN
+Cj4gPiAgLyogZm9yIGhkYV9maXh1cF90aGlua3BhZF9hY3BpKCkgKi8NCj4gPiAgI2luY2x1ZGUg
+InRoaW5rcGFkX2hlbHBlci5jIg0KPiA+DQo+ID4gQEAgLTc3MDcsNiArNzczMiw3IEBAIGVudW0g
+ew0KPiA+ICAgICAgIEFMQzI4NV9GSVhVUF9IUF9HUElPX0xFRCwNCj4gPiAgICAgICBBTEMyODVf
+RklYVVBfSFBfTVVURV9MRUQsDQo+ID4gICAgICAgQUxDMjg1X0ZJWFVQX0hQX1NQRUNUUkVfWDM2
+MF9NVVRFX0xFRCwNCj4gPiArICAgICBBTEMyODVfRklYVVBfSFBfQkVFUF9NSUNNVVRFX0xFRCwN
+Cj4gPiAgICAgICBBTEMyMzZfRklYVVBfSFBfTVVURV9MRURfQ09FRkJJVDIsDQo+ID4gICAgICAg
+QUxDMjM2X0ZJWFVQX0hQX0dQSU9fTEVELA0KPiA+ICAgICAgIEFMQzIzNl9GSVhVUF9IUF9NVVRF
+X0xFRCwNCj4gPiBAQCAtOTMwMyw2ICs5MzI5LDEyIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaGRh
+X2ZpeHVwIGFsYzI2OV9maXh1cHNbXSA9IHsNCj4gPiAgICAgICAgICAgICAgIC50eXBlID0gSERB
+X0ZJWFVQX0ZVTkMsDQo+ID4gICAgICAgICAgICAgICAudi5mdW5jID0gYWxjMjg1X2ZpeHVwX2hw
+X3NwZWN0cmVfeDM2MF9tdXRlX2xlZCwNCj4gPiAgICAgICB9LA0KPiA+ICsgICAgIFtBTEMyODVf
+RklYVVBfSFBfQkVFUF9NSUNNVVRFX0xFRF0gPSB7DQo+ID4gKyAgICAgICAgICAgICAudHlwZSA9
+IEhEQV9GSVhVUF9GVU5DLA0KPiA+ICsgICAgICAgICAgICAgLnYuZnVuYyA9IGFsYzI4NV9maXh1
+cF9ocF9iZWVwLA0KPiA+ICsgICAgICAgICAgICAgLmNoYWluZWQgPSB0cnVlLA0KPiA+ICsgICAg
+ICAgICAgICAgLmNoYWluX2lkID0gQUxDMjg1X0ZJWFVQX0hQX01VVEVfTEVELA0KPiA+ICsgICAg
+IH0sDQo+ID4gICAgICAgW0FMQzIzNl9GSVhVUF9IUF9NVVRFX0xFRF9DT0VGQklUMl0gPSB7DQo+
+ID4gICAgICAgICAgIC50eXBlID0gSERBX0ZJWFVQX0ZVTkMsDQo+ID4gICAgICAgICAgIC52LmZ1
+bmMgPSBhbGMyMzZfZml4dXBfaHBfbXV0ZV9sZWRfY29lZmJpdDIsDQo+ID4gQEAgLTEwMzkyLDcg
+KzEwNDI0LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBoZGFfcXVpcmsgYWxjMjY5X2ZpeHVwX3Ri
+bFtdDQo+ID0gew0KPiA+ICAgICAgIFNORF9QQ0lfUVVJUksoMHgxMDNjLCAweDg3MzAsICJIUCBQ
+cm9Cb29rIDQ0NSBHNyIsDQo+IEFMQzIzNl9GSVhVUF9IUF9NVVRFX0xFRF9NSUNNVVRFX1ZSRUYp
+LA0KPiA+ICAgICAgIFNORF9QQ0lfUVVJUksoMHgxMDNjLCAweDg3MzUsICJIUCBQcm9Cb29rIDQz
+NSBHNyIsDQo+IEFMQzIzNl9GSVhVUF9IUF9NVVRFX0xFRF9NSUNNVVRFX1ZSRUYpLA0KPiA+ICAg
+ICAgIFNORF9QQ0lfUVVJUksoMHgxMDNjLCAweDg3MzYsICJIUCIsDQo+IEFMQzI4NV9GSVhVUF9I
+UF9HUElPX0FNUF9JTklUKSwNCj4gPiAtICAgICBTTkRfUENJX1FVSVJLKDB4MTAzYywgMHg4NzYw
+LCAiSFAiLA0KPiBBTEMyODVfRklYVVBfSFBfTVVURV9MRUQpLA0KPiA+ICsgICAgIFNORF9QQ0lf
+UVVJUksoMHgxMDNjLCAweDg3NjAsICJIUCBFbGl0ZUJvb2sgOHs0LDV9NSBHNyIsDQo+ID4gKyBB
+TEMyODVfRklYVVBfSFBfQkVFUF9NSUNNVVRFX0xFRCksDQo+ID4gICAgICAgU05EX1BDSV9RVUlS
+SygweDEwM2MsIDB4ODc2ZSwgIkhQIEVOVlkgeDM2MCBDb252ZXJ0aWJsZQ0KPiAxMy1heTB4eHgi
+LCBBTEMyNDVfRklYVVBfSFBfWDM2MF9NVVRFX0xFRFMpLA0KPiA+ICAgICAgIFNORF9QQ0lfUVVJ
+UksoMHgxMDNjLCAweDg3N2EsICJIUCIsDQo+IEFMQzI4NV9GSVhVUF9IUF9NVVRFX0xFRCksDQo+
+ID4gICAgICAgU05EX1BDSV9RVUlSSygweDEwM2MsIDB4ODc3ZCwgIkhQIiwNCj4gQUxDMjM2X0ZJ
+WFVQX0hQX01VVEVfTEVEKSwNCg==
