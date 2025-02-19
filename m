@@ -1,47 +1,47 @@
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98A41C68A6;
-	Wed, 19 Feb 2025 08:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BAD1DE3AC;
+	Wed, 19 Feb 2025 08:39:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739953973; cv=none; b=BDf+dxa54fot2n5J1RzikR1P6WAGKt6qW5aZ6Mx79/mg1namOK/burvWGGco1Kozuz3MoTmfs8L9QkCyXgF6jzMmACPHWr0Zq2PBFUpI6PaK1FPiWEk5khrqw7S7sb215Z0718+Mw6zvXyNvyiwz6qd2W8a0UYxRK5I1jyRYGxU=
+	t=1739954394; cv=none; b=AzFt+NJ2owUhNKh/eU/EGy1Ja8su1wtLor1jVtbxcxiPAmhf/NS3brJgvKwJM2dKfppUbUoaI+vIv8b7vEZdJ4bFAwJq1ty1Ko0N+FMopfpfJ6LGzWpA2TtrWh95K1ZkU6ICxnNlekl2xab3xjnFdyZP1BwWAACqTOD3oKwHV8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739953973; c=relaxed/simple;
-	bh=p8ISVEVcjD4emNEQ9vavFRhlStV/heXGlu9P8t2vCZo=;
+	s=arc-20240116; t=1739954394; c=relaxed/simple;
+	bh=VAzyzemlx4t2eUJLd09d54BbdfsXKkEuJHEH/d9W9Rg=;
 	h=From:To:CC:Subject:Date:Message-ID:References:Content-Type:
-	 MIME-Version; b=GArxT/iOu8jqN9GUNlqGkHCAHYvVz2QbD0f948U4kokRBXyv1JcuR8Y/DzezHQU9JMArWPTtyhpQ58zDjk1Y5WoSVc4qKaTKwHM9c8zGtwzLaTrn1D8T3Oi7vTGG4T5R8HXh6XqgCWpVB+EodThHOu0FC5+q1Y5BT/LEdybyEso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=jU3C9QoP; arc=none smtp.client-ip=211.75.126.72
+	 MIME-Version; b=G/T7EeUuapmBYg09TdpmjJxSwmeUSW002oNKRduQZrG6THre8ivtIOKNrTNCY9FvALOA+tZxm6jtIyGReScz9p8qgEcWzMRCvjnww8A2o7quM/GlZR9vAwySmyMKRAl1niNet1IbLKMtGvFZmz51jRtN+vwA52hpOeA5daUCBDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=o7Pc3b5f; arc=none smtp.client-ip=211.75.126.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="jU3C9QoP"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 51J8WXCW03088461, This message is accepted by code: ctloc85258
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="o7Pc3b5f"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 51J8dZNx93095045, This message is accepted by code: ctloc85258
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1739953953; bh=p8ISVEVcjD4emNEQ9vavFRhlStV/heXGlu9P8t2vCZo=;
+	t=1739954375; bh=VAzyzemlx4t2eUJLd09d54BbdfsXKkEuJHEH/d9W9Rg=;
 	h=From:To:CC:Subject:Date:Message-ID:References:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	b=jU3C9QoPyx9XbGeBLusDbwNv61wxaR431cfXjw91xOEv9ZDuxVXzc+iXx1Ty31jkg
-	 HiUQMgzs7lTc0fksAvGB5wY5LtY8Rhn+NE8Y4PdurrSrHkUYTxeaIXslNjX57QH2DK
-	 sbDg5pzZR5U/sldT+nBN8X15Ugy/lo9y/GkRw6lbZlR2X7DnlEmgdDCofVFC90C1Bc
-	 pXuRoPJEPSOEtvplLnf/CQGKMlEgGTFxS07qoLyBJL6BK+dUSIRSPPAhfhtuSz9ASR
-	 BMoVLEr3DL+d2uoRAcFl/nKGY+2b5SMCDhZ5WQi0MYbkjYw7YoPjxud2JNG2IY1iJx
-	 gXw+Hi8VxfHYg==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 51J8WXCW03088461
+	b=o7Pc3b5fcpxRaAvsa94AOdcKf70JCtSbdFI9TdZPb2Ftz7BWmmrw/hxGR3x8hemNO
+	 Z290A0BW7+3L9fDCrdrHvyVUlS+zLysZlD+3u/Zgn2iueXM9Z01J88h8NxCuk++aWH
+	 mQ/oRnZWepUZld9H6w8OOm9vXXt/M2+dq5H5un45vrWfQaei4bpY+0K+XFYrJTxSZL
+	 D+6efgtFlR3QSWQKaXk+8ARtLMoUjIgOnPScLQu740ji6slOdrD3/PIypyLxujQ+9X
+	 mNPljJgD2Q4bx0L2pI2fmIZ6Ri06v88lCpCi6qqofwaFhdTynmItwOkNzRanr8X3AP
+	 w4Ylz5hpl+TCg==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 51J8dZNx93095045
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 Feb 2025 16:32:33 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+	Wed, 19 Feb 2025 16:39:35 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 19 Feb 2025 16:32:33 +0800
+ 15.1.2507.39; Wed, 19 Feb 2025 16:39:36 +0800
 Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
+ RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 19 Feb 2025 16:32:32 +0800
+ 15.1.2507.35; Wed, 19 Feb 2025 16:39:35 +0800
 Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
  RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
- 15.01.2507.035; Wed, 19 Feb 2025 16:32:32 +0800
+ 15.01.2507.035; Wed, 19 Feb 2025 16:39:35 +0800
 From: Kailang <kailang@realtek.com>
 To: Takashi Iwai <tiwai@suse.de>,
         "Maciej S. Szmigiero"
@@ -51,13 +51,13 @@ CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
 Subject: RE: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP EliteBook 855 G7
 Thread-Topic: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP
  EliteBook 855 G7
-Thread-Index: AQHbgSMJVrDFmK8Mp0CrjaEmJFua+rNLUekPgAL4rhCAAARNMA==
-Date: Wed, 19 Feb 2025 08:32:32 +0000
-Message-ID: <6224620265674b09b5762f908b5158f9@realtek.com>
+Thread-Index: AQHbgSMJVrDFmK8Mp0CrjaEmJFua+rNLUekPgAL4rhCAAARNMIAAAgOA
+Date: Wed, 19 Feb 2025 08:39:35 +0000
+Message-ID: <3f8c4726cac24e86a6c106efcdc84d7f@realtek.com>
 References: <7461f695b4daed80f2fc4b1463ead47f04f9ad05.1739741254.git.mail@maciej.szmigiero.name>
 	<87jz9o99ef.wl-tiwai@suse.de>
 	<a02344f2-3b99-41ea-af64-8d2bcb01e435@maciej.szmigiero.name>
- <87h64s972a.wl-tiwai@suse.de> 
+ <87h64s972a.wl-tiwai@suse.de>  
 Accept-Language: zh-TW, en-US
 Content-Language: zh-TW
 Content-Type: text/plain; charset="us-ascii"
@@ -70,19 +70,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
-Hi Maciej S,
-=20
- Could you test plug headphone then speaker will mute or not?
-=20
- Below was why I close the beep mode.
- https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/commit/?id=
-=3Dfcf c9f711d1e2fc7876ac12b1b16c509404b9625
-=20
-=20
- Hi Takashi,
-=20
- COEF 0x36 bit 13 was the enable bit for pcbeep passthrough for 0x14.
- If this patch no PM issues and speaker can mute by plug headphone or heads=
-et,
- I think this work for me.
+Paste link again.
+https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/commit/?id=
+=3Dfcfc9f711d1e2fc7876ac12b1b16c509404b9625
 
