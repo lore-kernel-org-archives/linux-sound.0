@@ -1,117 +1,143 @@
-Received: from vps-ovh.mhejs.net (vps-ovh.mhejs.net [145.239.82.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C2C1C1F10;
-	Wed, 19 Feb 2025 11:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.239.82.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDF91DF24B
+	for <linux-sound@vger.kernel.org>; Wed, 19 Feb 2025 11:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739963814; cv=none; b=U+QdHsa/FPzlgUwmeQAUqsnR8o0BwJiM4/k2tqr0Y54hVfdbgAW2WydACtQu5r92mgu758Jm1h/Uc0mnCcdu2Fz52HlrB/B9kRmra2EC4ymQhEasiWOCRboyDDv4O2Dkuvab1L7ERf6RJN6TPNoeian9b0jvEqk4oceQ6xwOb3A=
+	t=1739964257; cv=none; b=HVNMQ+QfHyd+WvvZVqWRd3HN4vDJm3ZLWt4U0j61p3V+HSSpk8DK3PqSkSPZF7RpHY/ad9vonG3arovM+J1z5Z19z9VqPCV8JYo3VQjBWgVYrxK4RVt+JWbG+WXEyW+7iPA+BT6zNuZzmazeXzRD67gaMOBusPt7OKgNUVahyus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739963814; c=relaxed/simple;
-	bh=/A71ixBfrbsxLYktfMtE0bphvcLJ5h6ELKtXJujLpKk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d0leMfh59PiAwCLjsayqJT4X1vosnW30mmTYqf+rqbNu7iSNlsP2HZKqlLYwSkKVX9Eo8fjnmSkbVtBK3QKdBMsEpOVC15IxOcfRQ4Nq2ikWpmrMyyooSqGtv3v5ucM9ZAznRqr7SkEYKwUFXCyWZg/BHxYUq6NPsERS8CAAebc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maciej.szmigiero.name; spf=pass smtp.mailfrom=vps-ovh.mhejs.net; arc=none smtp.client-ip=145.239.82.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maciej.szmigiero.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vps-ovh.mhejs.net
-Received: from MUA
-	by vps-ovh.mhejs.net with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
-	(Exim 4.98)
-	(envelope-from <mhej@vps-ovh.mhejs.net>)
-	id 1tki4G-00000007ULN-2YeG;
-	Wed, 19 Feb 2025 12:16:40 +0100
-Message-ID: <2fea9fe8-312f-45a0-9bed-455c910fba43@maciej.szmigiero.name>
-Date: Wed, 19 Feb 2025 12:16:35 +0100
+	s=arc-20240116; t=1739964257; c=relaxed/simple;
+	bh=3IlmgeaiPcaakLVe2YScE/woJneyFZcSXJq5bqdngbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q2pvG2sIzykhzk1eKVZsT9NlYvlqd+rMYjr12pSLYSiqND2sh2a5kX3vOoFY0sulf1YnxBcCfhp54onjCrfQFzLfmSWMK1yUu1oDshFhLJR+QSBpn9ge2G3uYzttRR4Huw2bEaonScccd3rI4c9GwmKHSHRhtnNRU/u+AaM+nJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q5vS1YIY; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q5vS1YIY"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43948021a45so66591925e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 19 Feb 2025 03:24:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739964253; x=1740569053; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tdPhTPgNb5WdAwuNYkFk04LlQR8UkULvprs/hSb+yyI=;
+        b=Q5vS1YIY7lYTNSNgI7OTgjuJ17bFqhTU5i2mw0UjNn5eVsfe+q6aGOu4g6Oz9Vu2gh
+         VY6etKU1zT+j05fs9hdjdxiuDu8pz6bSLgP+7pMVdi/0PdCzFnksTt+lYOtDAlUnP7Zl
+         pdW1pf598RJC3r9gW87TWDOJUNogkDbvvlYafZzE18MXs3gmS4JjFAklM6Cl8ip4iuMo
+         qeGs/QwfrsyhBkwre2IRRyoSef0qNv36C/aGKSqd9tLTqMVo93reNoghnnAmoUTsRJzL
+         XXjkm0wWzbBNGX48R3C4ABCP1E7fKnBFEzI2BT5Mu83WCbEtdC+XI1A/EKDXDjY9VGGc
+         36xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739964253; x=1740569053;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tdPhTPgNb5WdAwuNYkFk04LlQR8UkULvprs/hSb+yyI=;
+        b=ujJfDG/VCocAqtabZzelzLtUf48UXJ0rDraoFbrJR2ySslOQedKmYTRVg9kskGRaZz
+         xPm2R0NyVAfl2bBJo6a6UyVPw2K/4IqoUZiUQ78/fuxh8nt8C+08x8fWgIykfNsh7pGL
+         qoQ1BMoCcTjcrjVd8BIz5TzvVFHPj1kHxzxUe94AQMqdqYRzfaX30/xSoj7c9z+ezHdX
+         ccoD1EAGTQQgSCafAoxtBiU14iYIl0Q/uHj6hs4xRVWVPvScyl2V6o1FSTixIGwkyg/v
+         idzT9rjp4PVOj6tZhRe1KJMi5Y1zXZVcwvxI5spAWCI1T+C2YFQNykszlHcgGBdP/GpI
+         HLqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkMWJvqbbT2AV+c0LG6/SfnfV4UdyDgzANvXdwefQbFx3/B8Pe6hcVtuu6M7DNgyC+cG4kxImxayk+rQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YylzN8zE6/g/EaaLihqAGGqxtyyDuBX2WWE8gXFktXZzbylWvJ6
+	LB1UudT6hilFxQxSpAWpJXjIDZNTTV0SdIBJgD3uSaLTc0GiU/hlVBLhm406zxs=
+X-Gm-Gg: ASbGncvtlc2c78m7/Gfj0Lg7GWIyxZt7OmaDA5BJY+3vQht51r0+V3IoTvek/pzNxBO
+	hB3wnOATakcEc8eRjqEi6KEM82xfcnPhqa7k7vUgr7B7874Bu+b/2cdpB0cQ4cAWhC9/zJ/ALnM
+	k9k+kMldk+nzSqVwfXyBXZ9lZciRQ/u+s4yq1Lz3o5SImRrlU6i+wz5VOG82NCeh3lY3eDIHhQY
+	stns/mSLLWUry27FDiUFMEkzKlnFW4DBeny/JryXBJnu2dVOh/R7Jbdal1NgjxtXeIVHiLgUOL9
+	oJ581ZgpeMds5MEsRaC5eAwenxk=
+X-Google-Smtp-Source: AGHT+IHyRalKTLx08DMpyY8D7tJnSYBfCjrsKNqbrlJWe/vLGSVDWGPykiVGFecncMvPPlaiWmLh0w==
+X-Received: by 2002:a05:600c:3b9c:b0:439:967b:46fc with SMTP id 5b1f17b1804b1-43999d8f506mr31097145e9.8.1739964253497;
+        Wed, 19 Feb 2025 03:24:13 -0800 (PST)
+Received: from linaro.org ([2a02:2454:ff21:ef30:6f72:6161:57cf:1c9a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43992ad82cfsm51235505e9.37.2025.02.19.03.24.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 03:24:12 -0800 (PST)
+Date: Wed, 19 Feb 2025 12:24:07 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Wesley Cheng <quic_wcheng@quicinc.com>,
+	Greg KH <gregkh@linuxfoundation.org>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
+	broonie@kernel.org, lgirdwood@gmail.com, tiwai@suse.com,
+	krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
+	Thinh.Nguyen@synopsys.com, robh@kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v35 00/31] Introduce QC USB SND audio offloading support
+Message-ID: <Z7W_Vz_kVDjIcp5N@linaro.org>
+References: <20250219004754.497985-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP
- EliteBook 855 G7
-To: Kailang <kailang@realtek.com>, Takashi Iwai <tiwai@suse.de>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <7461f695b4daed80f2fc4b1463ead47f04f9ad05.1739741254.git.mail@maciej.szmigiero.name>
- <87jz9o99ef.wl-tiwai@suse.de>
- <a02344f2-3b99-41ea-af64-8d2bcb01e435@maciej.szmigiero.name>
- <87h64s972a.wl-tiwai@suse.de> <6224620265674b09b5762f908b5158f9@realtek.com>
-Content-Language: en-US, pl-PL
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Autocrypt: addr=mail@maciej.szmigiero.name; keydata=
- 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
-In-Reply-To: <6224620265674b09b5762f908b5158f9@realtek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Sender: mhej@vps-ovh.mhejs.net
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250219004754.497985-1-quic_wcheng@quicinc.com>
 
-Hi Kailang,
-
-On 19.02.2025 09:32, Kailang wrote:
+On Tue, Feb 18, 2025 at 04:47:23PM -0800, Wesley Cheng wrote:
+> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
 > 
-> Hi Maciej S,
->   
->   Could you test plug headphone then speaker will mute or not?
->   
->   Below was why I close the beep mode.
->   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/commit/?id=fcf c9f711d1e2fc7876ac12b1b16c509404b9625
-
-
-When I plug headphones then both normal sound playback (ALSA) and PC beep move to headphones.
-The main laptop speaker gets muted indeed.
-
-I'm testing on kernel 6.12 so the Dell patch above is included.
-
->   Hi Takashi,
->   
->   COEF 0x36 bit 13 was the enable bit for pcbeep passthrough for 0x14.
->   If this patch no PM issues and speaker can mute by plug headphone or headset,
->   I think this work for me.
+> Several Qualcomm based chipsets can support USB audio offloading to a
+> dedicated audio DSP, which can take over issuing transfers to the USB
+> host controller.  The intention is to reduce the load on the main
+> processors in the SoC, and allow them to be placed into lower power modes.
+> There are several parts to this design:
+>   1. Adding ASoC binding layer
+>   2. Create a USB backend for Q6DSP
+>   3. Introduce XHCI interrupter support
+>   4. Create vendor ops for the USB SND driver
+> 
+>       USB                          |            ASoC
+> --------------------------------------------------------------------
+>                                    |  _________________________
+>                                    | |sm8250 platform card     |
+>                                    | |_________________________|
+>                                    |         |           |
+>                                    |      ___V____   ____V____
+>                                    |     |Q6USB   | |Q6AFE    |  
+>                                    |     |"codec" | |"cpu"    |
+>                                    |     |________| |_________|
+>                                    |         ^  ^        ^
+>                                    |         |  |________|
+>                                    |      ___V____    |
+>                                    |     |SOC-USB |   |
+>    ________       ________               |        |   |
+>   |USB SND |<--->|QC offld|<------------>|________|   |
+>   |(card.c)|     |        |<----------                |
+>   |________|     |________|___     | |                |
+>       ^               ^       |    | |    ____________V_________
+>       |               |       |    | |   |APR/GLINK             |
+>    __ V_______________V_____  |    | |   |______________________|
+>   |USB SND (endpoint.c)     | |    | |              ^
+>   |_________________________| |    | |              |
+>               ^               |    | |   ___________V___________
+>               |               |    | |->|audio DSP              |
+>    ___________V_____________  |    |    |_______________________|
+>   |XHCI HCD                 |<-    |
+>   |_________________________|      |
 > 
 
-Nice, thanks for clarifying.
+As I noted on v34 [1], this version is still missing instructions and
+changes needed for testing this series. The device tree changes don't
+need to be part of the same series, but there should be at least a link
+provided to give other people the chance to provide Tested-by tags.
+
+IMO we shouldn't merge this series without those instructions, otherwise
+we risk that this just ends up being dead code that no one can use.
+
+Can you please share the device tree changes for a board upstream and
+any other changes needed to be able to test this series? E.g. for
+sm8250-mtp.dts, based on the examples in your cover letter.
 
 Thanks,
-Maciej
+Stephan
 
+[1]: https://lore.kernel.org/linux-arm-msm/Z63B_UE61OdrgEJY@linaro.org/
