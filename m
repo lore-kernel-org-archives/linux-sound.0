@@ -1,112 +1,245 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796661D5CDB
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 18:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48B72147E7;
+	Thu, 20 Feb 2025 18:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740075930; cv=none; b=LyvxzCw1r07CGMHYnd9F1IISXHkfJQgarzZziBGsD4Umsg1SAwos6L76xgfpCxvaF5hVp+J0rIPJzGf9Sotp0vXPXcooVUDh30B9teKL4PQD9HgGmgdjQnNv2z5RCuYVJtC5vVne5uQHbiA3iswWu4ZQizuQux6yYY7DL5NiRrM=
+	t=1740076014; cv=none; b=k4MucXMn64fH9gNLoG8Z3C/6gzV2nxKdhi0HkYWe8EiI08y9sw+lqyw1dAEJMGZng3DkzbqHg8xyMPZ7hDDMIklgSBqGld3EFHjY2xQxeOQTy1/HGH6d0Mykw8DHqgHyYz0iQOK8o9nRrqAqz3uRy+4fI+soUzBL7cfVV7bXTJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740075930; c=relaxed/simple;
-	bh=zwCbAmV0UrBlFPKO7+y7rUPu1f/T2W+am4nE33G3l4M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jN7NtgAj99464/18wqM5ECeKhDxPM4b3Oxv4JQU0PiutqYSVyZhtB9JoOKYIGg5Tvv458M185CaCI14g5UwECBzCeaCmuWi8BMkXzYWz0cM9ii2zobF1n0/oxZEsB5mCCKNR+sousKaFgmiGlhf/qIJnGFz+gv0wC0Cm8wq7Wfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=k28nTghD; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1740076014; c=relaxed/simple;
+	bh=MJIFizcVzBwkI/LZ/a9I38tiNTjYxi6bRlm0QJbxXtg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=qUl7zxsZG2MzXXClqDQAkrw6DcjOwtMUD9UiPJShd1MNjhmygAb0SJNlTLn57lBVBcnfezDetEM9ZAuUBJonQFdiyifCwubQr+mS1uubNe/n0mgNbrAzzD+UBADTMjv/NVg6ECyookA7HCYeHM3iL7U9PXien5cd9ob+7bEHOmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oYXetD+H; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="k28nTghD"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KGEmMl001819
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 18:25:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zwCbAmV0UrBlFPKO7+y7rUPu1f/T2W+am4nE33G3l4M=; b=k28nTghDKXuyqiXx
-	KkyT59ePUeNrjQW7JPaOD90jil7FKgGl2iNr3YCcZZY80phoI4Ym04lAwGCUTVTn
-	kfKXuCueHEiPDwU/iP1YEeM3ueTtu49Gjs55bkyNLRGi38IkkKvBEtpKkMIJyt9w
-	yE0iGlNI8uhbfJS+MOho09d5uj/odOkHohaArbxj7IxFI4he11rJYS8yYW6xOgg8
-	E1+VIDkm1XJW5RbpxnLiPpkZPolztS/PTXIpBuaSfeH5j5JSRPgRErcKTf8Iat3o
-	o0ZFD9MGcqTRlj9oNuvk0XwF6FoAmO8mHuYb7Lj8kno5FpEclD5ajJDvKdF8pViE
-	uuI1cw==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy2f34s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 18:25:28 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-2fc4dc34291so2530490a91.3
-        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 10:25:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740075927; x=1740680727;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zwCbAmV0UrBlFPKO7+y7rUPu1f/T2W+am4nE33G3l4M=;
-        b=uv5kOx/R0SNZZrNSajKdXGTModDpfcRurl8pVJXbGIDPx9mfvl1Q+I/Vi2JzKBFLDY
-         Dl//wt9o1LU920JTeF7gpr9Plq3VeVRw8bVGdmJlwEZ7Ti+qb9Q5NMh8e49bBzjgACiu
-         /xl8OubXW24wcNhSJ0VzyQ+zMTUltUtuDk1qsP/rCNkhFJs1Eb+jKxe8SwO/34rBdxZN
-         XqOWGKD+DuLEtYwNk5ROl/omZJ/SVL225E8STLqynPKKZG8nBKTQOuXonqNJvnidnEw6
-         aKb1JX0M9gtq9n6/v7SMMKVVOwsVgesk8133JYOk1kAOfR22b43CGFq+sl7WK/UGqVXc
-         GFZA==
-X-Forwarded-Encrypted: i=1; AJvYcCWg6TwHZn1/dIZubyn+5ENs7FE1wCK4lcWtHDuNhnE36v6ZDtxjdk1/9NJS021K0Sil/HWbKTNe18xDkw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj9L36P+Bp9pb6rxciSdxbfu9UaV8ETZuqRXHmRak8dhE7i5IS
-	RmvFj70nmAXEBkWsshoMlLcpODmXZSFOmZNMNnXG8QnACU5ChOkLji7uYuzQLJ87Bk5u9eIk2cr
-	DpdlD3Qw9ka9hqUGnmEVMDtZAHVYZ0lDCSjfMG1ASKInzY+n8quzFSxnZC/4Iwg==
-X-Gm-Gg: ASbGnctja7NCBgLFVIckTpdJL46t+aUhq4CRzVSIGQvcQBQS0G2r5+jft/oMU8BYbYJ
-	g0ZWaAUozNjcEC9ZXuy4Q8UuLhRnt8Q+Wl4AT6oM3vckcEW+LVtzaxfAQV0spySUp09bVTpeZnT
-	CCyTg0P6Km7gUzVAoOMglSvrCPer1tBGpKuiLz4r7jeWekBQgB3iAxGCM9Vwcoo/NIVJggUazG0
-	IDXHJYvoJmUSFt/VqKQNiCpLY9fy6hN0eAFOvhVWQ5wPFsRUrUO65mklfaiaOMksgowKhyMKvMH
-	qfMPL075d+2PsGv5OZ69M2+b2S5PcJ0mHuJZmiQX8g==
-X-Received: by 2002:a05:6a00:1946:b0:730:98ef:30b5 with SMTP id d2e1a72fcca58-73417248ca4mr5086325b3a.5.1740075927596;
-        Thu, 20 Feb 2025 10:25:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHFckRaUzuorR6iq3G8vZw77O9EGpXw2kTJ9r8K+EpTbyO815b1qt4EuvJSSauA6JfdjTwccw==
-X-Received: by 2002:a05:6a00:1946:b0:730:98ef:30b5 with SMTP id d2e1a72fcca58-73417248ca4mr5086286b3a.5.1740075927240;
-        Thu, 20 Feb 2025 10:25:27 -0800 (PST)
-Received: from [10.81.24.74] (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7340f6357d5sm2453160b3a.165.2025.02.20.10.25.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Feb 2025 10:25:26 -0800 (PST)
-Message-ID: <14f2dbb2-0f8c-4b07-9d9c-17688691a189@oss.qualcomm.com>
-Date: Thu, 20 Feb 2025 10:25:24 -0800
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oYXetD+H"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4FDF44432C;
+	Thu, 20 Feb 2025 18:26:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740076009;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8N1W7bpFCC1lJyHqVVXv9yI+RBiWfy8yehmTn+fTAA=;
+	b=oYXetD+Hh3kngz99yHGRz+jVCmBVyklHlh8//ZP7EHav0jzCBeggxe95iJ+f+H+tMZTx2D
+	5WxRfKeOdVFetSfsGJan0WQFfxP1yYdL8CXbelYl8eryldnnSiQZ7iopnsvJasB88Gq80b
+	LPt1F8ZbGbqLN9+epfDLJh+dAVf7kBK0w+/M66BvCjcjd/km2DBtNU87FDIv/nGSs5QzSX
+	Mm12eQZbcV3JbE9dY7PppZtCWz++TKSLtPqe3Pwi++zBlSr/6OQFqE9xBr/iSDHR3qwfXp
+	83OVi34TT9hJmRiPq4Ug6knuuJTvqtf/BFsZ5Ca13hPqqNrj/3mps3RKAl8o1A==
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/16] ASoC: SOF: Intel: hda-sdw-bpt: add helpers for
- SoundWire BPT DMA
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org,
-        vkoul@kernel.org
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org,
-        pierre-louis.bossart@linux.dev, bard.liao@intel.com
-References: <20250205084531.158763-1-yung-chuan.liao@linux.intel.com>
- <20250205084531.158763-12-yung-chuan.liao@linux.intel.com>
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20250205084531.158763-12-yung-chuan.liao@linux.intel.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 6vlo69RnhVS2v7pB8Fx223MRMDzrj9rr
-X-Proofpoint-GUID: 6vlo69RnhVS2v7pB8Fx223MRMDzrj9rr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-20_08,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 clxscore=1011 adultscore=0 phishscore=0 mlxlogscore=999
- bulkscore=0 malwarescore=0 impostorscore=0 priorityscore=1501 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2502200127
+Date: Thu, 20 Feb 2025 19:26:41 +0100
+Message-Id: <D7XHGNJMMUMF.OUL1VHGK5KVM@bootlin.com>
+From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+Subject: Re: [PATCH 0/2] driver core: platform: avoid use-after-free on
+ device name
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Rob Herring" <robh@kernel.org>, "Saravana Kannan"
+ <saravanak@google.com>, "David S. Miller" <davem@davemloft.net>, "Grant
+ Likely" <grant.likely@secretlab.ca>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark
+ Brown" <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, "Binbin Zhou" <zhoubinbin@loongson.cn>,
+ <linux-sound@vger.kernel.org>, "Vladimir Kondratiev"
+ <vladimir.kondratiev@mobileye.com>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Tawfik Bayouk"
+ <tawfik.bayouk@mobileye.com>, <stable@vger.kernel.org>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250218-pdev-uaf-v1-0-5ea1a0d3aba0@bootlin.com>
+ <2025022005-affluent-hardcore-c595@gregkh>
+ <D7XB6MXRYVLY.3RM4EJEWD1IQM@bootlin.com>
+ <2025022004-scheming-expend-b9b3@gregkh>
+ <D7XE2DSESCHX.328BJ5KCEFH0A@bootlin.com>
+ <2025022019-enigmatic-mace-60ca@gregkh>
+In-Reply-To: <2025022019-enigmatic-mace-60ca@gregkh>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeijeekvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffhufevvffofhgjsehtqhertdertdejnecuhfhrohhmpefvhhorohcunfgvsghruhhnuceothhhvghordhlvggsrhhunhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvedvfedufffghfekuddvffefieekueevffejvdfhteegvdefkeehteehuefggffgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepkedtrddvudegrddugeehrdelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeektddrvddugedrudeghedrleefpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehthhgvohdrlhgvsghruhhnsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvtddprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrrhgrvhgrnhgrkhesghhoo
+ hhglhgvrdgtohhmpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopehgrhgrnhhtrdhlihhkvghlhiesshgvtghrvghtlhgrsgdrtggrpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-GND-Sasl: theo.lebrun@bootlin.com
 
-On 2/5/25 00:45, Bard Liao wrote:
-> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-...
-> +MODULE_LICENSE("Dual BSD/GPL");
-> +MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_HDA_COMMON");
-> +MODULE_IMPORT_NS("SND_SOC_SOF_HDA_MLINK");
+On Thu Feb 20, 2025 at 5:19 PM CET, Greg Kroah-Hartman wrote:
+> On Thu, Feb 20, 2025 at 04:46:59PM +0100, Th=C3=A9o Lebrun wrote:
+>> On Thu Feb 20, 2025 at 3:06 PM CET, Greg Kroah-Hartman wrote:
+>> > On Thu, Feb 20, 2025 at 02:31:29PM +0100, Th=C3=A9o Lebrun wrote:
+>> >> On Thu Feb 20, 2025 at 1:41 PM CET, Greg Kroah-Hartman wrote:
+>> >> > On Tue, Feb 18, 2025 at 12:00:11PM +0100, Th=C3=A9o Lebrun wrote:
+>> >> >> The solution proposed is to add a flag to platform_device that tel=
+ls if
+>> >> >> it is responsible for freeing its name. We can then duplicate the
+>> >> >> device name inside of_device_add() instead of copying the pointer.
+>> >> >
+>> >> > Ick.
+>> >> >
+>> >> >> What is done elsewhere?
+>> >> >>  - Platform bus code does a copy of the argument name that is stor=
+ed
+>> >> >>    alongside the struct platform_device; see platform_device_alloc=
+()[1].
+>> >> >>  - Other busses duplicate the device name; either through a dynami=
+c
+>> >> >>    allocation [2] or through an array embedded inside devices [3].
+>> >> >>  - Some busses don't have a separate name; when they want a name t=
+hey
+>> >> >>    take it from the device [4].
+>> >> >
+>> >> > Really ick.
+>> >> >
+>> >> > Let's do the right thing here and just get rid of the name pointer
+>> >> > entirely in struct platform_device please.  Isn't that the correct
+>> >> > thing that way the driver core logic will work properly for all of =
+this.
+>> >>=20
+>> >> I would agree, if it wasn't for this consideration that is found in t=
+he
+>> >> commit message [0]:
+>> >
+>> > What, that the of code is broken?  Then it should be fixed, why does i=
+t
+>> > need a pointer to a name at all anyway?  It shouldn't be needed there
+>> > either.
+>>=20
+>> I cannot guess why it originally has a separate pdev->name field.
+>
+> Many people got this wrong when we designed busses, it's not unique.
+> But we should learn from our mistakes where we can :)
+>
+>> >> > It is important to duplicate! pdev->name must not change to make su=
+re
+>> >> > the platform_match() return value is stable over time. If we update=
+d
+>> >> > pdev->name alongside dev->name, once a device probes and changes it=
+s
+>> >> > name then the platform_match() return value would change.
+>> >>=20
+>> >> I'd be fine sending a V2 that removes the field *and the fallback* [1=
+],
+>> >> but I don't have the full scope in mind to know what would become bro=
+ken.
+>> >>=20
+>> >> [0]: https://lore.kernel.org/lkml/20250218-pdev-uaf-v1-2-5ea1a0d3aba0=
+@bootlin.com/
+>> >> [1]: https://elixir.bootlin.com/linux/v6.13.3/source/drivers/base/pla=
+tform.c#L1357
+>> >
+>> > The fallback will not need to be removed, properly point to the name o=
+f
+>> > the device and it should work correctly.
+>>=20
+>> No, it will not work correctly, as the above quote indicates.
+>
+> I don't know which quote, sorry.
+>
+>> Let's assume we remove the field, this situation would be broken:
+>>  - OF allocates platform devices and gives them names.
+>>  - A device matches with a driver, which gets probed.
+>>  - During the probe, driver does a dev_set_name().
+>>  - Afterwards, the upcoming platform_match() against other drivers are
+>>    called with another device name.
+>>=20
+>> We should be safe as there are guardraids to not probe twice a device,
+>> see __driver_probe_device() that checks dev->driver is NULL. But it
+>> isn't a situation we should be in.
+>
+> The fragility of attempting to match a driver to a device purely by a
+> name is a very week part of using platform devices.
 
-Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
-description is missing"), a module without a MODULE_DESCRIPTION() will
-result in a warning with make W=1. Please add a MODULE_DESCRIPTION()
-to avoid this warning.
+I never said the opposite, and I agree.
+However the mechanism exists and I was focused on not breaking it.
+
+> Why would a driver change the device name?  It's been given to the
+> driver to "bind to" not to change its name.  That shouldn't be ok, fix
+> those drivers.
+
+I do get the argument that devices shouldn't change device names. I'll
+take the devil's advocate and give at least one argument FOR allowing
+changing names: prettier names, especially as device names leak into
+userspace through pseudo filesystems.
+
+If we agree that device names shouldn't be changed one a device is
+matched with a driver, then (1) we can remove the pdev->name field and
+(2) `dev_set_name()` should warn when used too late.
+
+Turn the implicit explicit.
+
+
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 5a1f05198114..3532b068e32d 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -3462,10 +3462,13 @@ static void device_remove_class_symlinks(struct dev=
+ice *dev)
+ int dev_set_name(struct device *dev, const char *fmt, ...)
+ {
+        va_list vargs;
+        int err;
+
++       if (dev_WARN_ONCE(dev, dev->driver, "device name is static once mat=
+ched"))
++               return -EPERM;
++
+        va_start(vargs, fmt);
+        err =3D kobject_set_name_vargs(&dev->kobj, fmt, vargs);
+        va_end(vargs);
+        return err;
+ }
+
+(Unsure about the exact error code to return.)
+
+[...]
+
+> Do we have examples today of platform drivers that like to rename
+> devices?  I did a quick search and couldn't find any in-tree, but I
+> might have missed some.
+
+The cover letter expands on the quest for those drivers:
+
+On Tue Feb 18, 2025 at 12:00 PM CET, Th=C3=A9o Lebrun wrote:
+> Out of the 37 drivers that deal with platform devices and do a
+> dev_set_name() call, only one might be affected. That driver is
+> loongson-i2s-plat [0]. All other dev_set_name() calls are on children
+> devices created on the spot. The issue was found on downstream kernels
+> and we don't have what it takes to test loongson-i2s-plat.
+[...]
+>
+>    =E2=9F=A9 # Finding potential trouble-makers:
+>    =E2=9F=A9 git grep -l 'struct platform_device' | xargs grep -l dev_set=
+_name
+>
+[...]
+> [0]: https://elixir.bootlin.com/linux/v6.13.2/source/sound/soc/loongson/l=
+oongson_i2s_plat.c#L155
+
+[...]
+
+> Or if this really is an issue, let's fix OF to not use the platform bus
+> and have it's own bus for stuff like this.
+
+That used to exist! I cannot see how it could be a good idea to
+reintroduce the distinction though.
+
+commit eca3930163ba8884060ce9d9ff5ef0d9b7c7b00f
+Author: Grant Likely <grant.likely@secretlab.ca>
+Date:   Tue Jun 8 07:48:21 2010 -0600
+
+    of: Merge of_platform_bus_type with platform_bus_type
+
+Thanks,
+
+--
+Th=C3=A9o Lebrun, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
