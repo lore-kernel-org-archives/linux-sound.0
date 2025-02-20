@@ -1,60 +1,62 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00211FECD8
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 16:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31201FFC4E
+	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 16:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740068964; cv=none; b=SadlPjyJRrdhan/iXhU4D1eJeYTyDf81F1YwKgCoRnm/aVuDKp37QFkCb488j2wApqHsTE5LS7tvIIno301OjSZoSaFuo7F8qTQ4ApucLW2huklPiAuemkJDtFoDtdfBgtiyiDBIowRhOFbk0y7Pg7Tk2+Trvuy2he6h/vHmSKo=
+	t=1740068965; cv=none; b=fLYSKwyVNp6/ddxKtCcZWtwoQgZFEWAcXE62hdtrbnX1Hl9p7wYzeaXIdyrhmJFpeIkkFdAu8HvpOhGG+MMqQfNx4uyzS9GP0fcvFVPZ5G8dJ7iPwLw1E6drbf5PFSGz2n6Yk4RtQz6MSE/WNT1q9qoDax+p5NNn3I6Oc210WoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740068964; c=relaxed/simple;
-	bh=zT+KI4WcFHKjsYVAFKapOCUJXXn7d1Fjj9NRnfss8wQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=K+i/O74lcdlI6kKiJvd1aQSyh0SXiyjBMUJbnYIKNAkLLBPI75gO8APjQuHNwZESjiV82Oxj0KGM0yEvZXT7Gnx3oTirnkYSvQvNtE2QcGChqyvyLXAPo5i9Hw6PF/Oa1UsTHlUKlQBEpvR8dmz9MUgbmfxrnRYzUsDE7AlI6t4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zYgSBQeO; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1740068965; c=relaxed/simple;
+	bh=KxZTxc4fxRw7OMyGGA5HOYd9rCClNlteupN9ItslzT8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=t62p+URaJMIWeqJFM0Mbo6fv3Gu517XjDCTErH1WP1KqpVzo6eVtC+IddaR6ACZ1JkmmJE++91u00WlqdF0p9y52jAguWqndjreujU+Gq502XF5jOluNiYuthVGo/VfyZi3CCnKOGxP6wa8Y0wFvRk9gi2+h/mkVqJ8e79TI4xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qNoIsMas; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zYgSBQeO"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38f1e8efef5so690071f8f.1
-        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 08:29:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qNoIsMas"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38f406e9f80so1091506f8f.2
+        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 08:29:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740068961; x=1740673761; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bZKdzzhd6qiS30Fu8KqeF6do85NZpqdplWUIHWAq4YQ=;
-        b=zYgSBQeOD6kC4CdHqhSobbv1M5PMIUhV+M9EKLzOmuXAoBegv4nu5B0VvVxrATsY+W
-         mT8gU8d85ZdthO+gjJwk4SmmVMBJAENznnbNQzvolCNtdvn3UkEKrbJQr5Q4Ao4yuFGC
-         neJUAJBbBTAegOlHDU5wI9HGKEyILUMg024Pr+mxj7M8QFhjIiKpsnERKhg5oEp4b+m1
-         fQxONc9Cjzbl3O6PYelav18u31lqFmYTg5qV/7G/ectE3B5SPUr9K8vap5WM2l7ldLnR
-         R9MQQiUeX+RmY4vfUdKlBlWdh0fhRnzuqYu7Ao5SyNOBGERgI/MmljBza6DokiTy4G8V
-         SV3Q==
+        d=linaro.org; s=google; t=1740068962; x=1740673762; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xe1FIG0EUV5vtEiip0bMJp8pcyFVOy9gW9Da1yY8B3U=;
+        b=qNoIsMas+gv+WiFlcDibu9VvIfGI5+xGsSynwJ2esMJlNBuWtmvlH1VfpLsa65IePJ
+         7H4RULnC4Kk4paev3IEV07W738cDLenZO3kAxAe0ls9hwnZ9jS3yf5rFvGFa8jYCpruR
+         rRtmcuJ+71snKr2dvjDMhqj9W+Ifm+MC8wmPDAc1/YdaylvvKF/fGIWdSaoWXtV0uAHt
+         Zbe1YL8yK5Q1nESMwEEuFsVibcwe8ufyuKBGQvwfOvmmz3U+CfbJYwEdS1f/CWfmqMQY
+         7crhOIXdZtuiIMmXrU3vjiXN7m4Rxln/Lr32G5xW6UchnCXzhZ2fOPninufdycYZcWI9
+         x+jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740068961; x=1740673761;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bZKdzzhd6qiS30Fu8KqeF6do85NZpqdplWUIHWAq4YQ=;
-        b=A/kHZpsJlRrpBd3d1XoLLqmZsdVEGIDH7pH9BoXVTYIqVhFEKmucN8om7MaVX1AAJP
-         X7++/nFHutJucBhrUH62ujmU/WpGrBmKepHKHdn0zMgx+NHlHmO+9WpKGyq/2+lr+WH2
-         7hl4VJm0I509yc/W0Xzu5SY2E73L3upyRblahQCRjCjBihoyscyLMEz3AcbHTfHzlUYZ
-         ckZwoTm1w6yp54d4LYnDkLRo/Rhc5mp8ejVmMLcRxt+zxfUKk5siG8ucjLOWiIP7chdx
-         xMI00TF1c0vjRi0v9Te9rXmDWYgJEKGUXmJM4UzDwa97xYxbMcj72RBhK6iSBIV8WcAA
-         TrHg==
-X-Forwarded-Encrypted: i=1; AJvYcCXrg0Fh8oi3vetUUSquxTs2A23ZUnfqZnnvhYW0k+d9kNCnol5seqFwyE1ZbDMif4IrIUJFi8s+QZENpw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpViebuoR0O36Cb6U+XSz8gEAEg0HY3+QXRhKjfBqEczvVU5AJ
-	07fivZCIWCijiqIsmmxTpWEhDY2xEsckLeCK1aVCKTyyS53EwnZdXzm7Wb2RxMA=
-X-Gm-Gg: ASbGncuzYRG4RDB4tFIlYxWwfU5CoPAJELIPf26E1YKGEZmbbhUQ0CwDADZc5M68LwL
-	MrRWn05Yz/GCkpzeuRr5Ejyploa3QDtTuly7zC5k/X9GrO/Q1SzUQNiuv+N3/ri2usr/mLZ48yd
-	g4gr6rf02Dwqi82kU2YXkkg1qrsC4mAy4Cz2YkuKPCsKcFJpyW5+poyJDl/TlEf5WB4BEbHp914
-	K6pxzH+WZDKnV0a20vzY2doOK5tTQ1vsmbCcDuCpmz26ODR2i+JyUL3VPS4buDYaVjBCIFN+t+2
-	iAZwukdKXoz1rPctTbeKsuR/UwIPJ78MOuej6HIx
-X-Google-Smtp-Source: AGHT+IH2gjQh7JBQ8ejAnR21ptNUN/KQFBPj5kyJgCsQVyb/b2MhEDxyhW0FhxZk7ZUcbhlqfOowSQ==
-X-Received: by 2002:a5d:6402:0:b0:38f:2f0e:980c with SMTP id ffacd0b85a97d-38f33f57c13mr14497953f8f.47.1740068961049;
-        Thu, 20 Feb 2025 08:29:21 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740068962; x=1740673762;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xe1FIG0EUV5vtEiip0bMJp8pcyFVOy9gW9Da1yY8B3U=;
+        b=I5dvc0/3zJxLVdl6UjE7vgVEwLGyu/crnxb7qUld0doe7GYWwEgNi1IaXPS7+qFo9N
+         NCsIhXWqHDi6rjxgicw/7qRHnjqvIbrA1OHjFA73lOwBQsQr0ygyQT3Z5cWKBqBzNk9k
+         OFsKhRrBuI7F+XdTL9a/ic9ZgV/M4j6wnPByKRgC8mp53XiaH+8dShznVi1ofb2Xs5iH
+         vO/6YBr9/r6dZPGRScoty3F06fa/wiqDRB6d5idetSmCOeDAOyn+g6LFWAPxjlDPDUzE
+         QyvcL3Tu7IMqcFvUUXyZp/mYjq2Y81eYPYMC3E+hKF6S2hQ1BQjJCHssaiT095wP1/lF
+         ut5w==
+X-Forwarded-Encrypted: i=1; AJvYcCW+EhryHy1SCEjJeYZP27lyWqdwtuxGDekjRiRlxOy/VAqYl+QfydtdjGk+keYRAn+sAe/bpC77F3CMOw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+BDtaJiZvgYmIBrWa+8qs1m1F0NES5YRziHQkS71mBlO9ePc7
+	yUbpVqq/4xCVDM7xN0eJyI9zlc4DkUswFzfukHwUHjJ46khd+97i22rj4UrSzsM=
+X-Gm-Gg: ASbGncu1/H+9n1l02FbBlF/9AGbIQJp8CGK0gixZFEPo2TqxzqSYqj+uaT7e4dg/bum
+	jMGodfR3Ceh44NQ9F71pkaT1cTe2q/0zko18mmmMgohwedBFIKFuYNJo1cYe2TjCcZm6Cm5+T2i
+	EYcqm/Qtk1PLdJc8sf5hqgHU1N+zevpUQmmXWt57/r0rPTSk2kKtrdwXFNUdKrZ2175eyG6SBUp
+	wpLQt7r4pyPWpQMZ7G+1QmJmQ2RQtziOOnE0VSxWuV9I8yC3+lVIX3fhs28Yhbg6nYohmVBUU9D
+	hkdyKwI5Srs6E7qSEN39DYmgcCdhGcABusVVwSNK
+X-Google-Smtp-Source: AGHT+IFeFUNS6+fpxgZcJiw03GQfFy8Cu2R2NlAoQdwczmUQmL/WjMlMRJlHB4Ht882oa1KtvLVMLA==
+X-Received: by 2002:a05:6000:1866:b0:38d:d223:f8e6 with SMTP id ffacd0b85a97d-38f585ea6cfmr7098326f8f.0.1740068962219;
+        Thu, 20 Feb 2025 08:29:22 -0800 (PST)
 Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f5fabsm20813753f8f.45.2025.02.20.08.29.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f5fabsm20813753f8f.45.2025.02.20.08.29.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 08:29:20 -0800 (PST)
+        Thu, 20 Feb 2025 08:29:21 -0800 (PST)
 From: srinivas.kandagatla@linaro.org
 To: broonie@kernel.org
 Cc: perex@perex.cz,
@@ -66,10 +68,12 @@ Cc: perex@perex.cz,
 	dmitry.baryshkov@linaro.org,
 	johan+linaro@kernel.org,
 	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH v2 0/5] ASoC: q6apm: fix under runs and fragment sizes
-Date: Thu, 20 Feb 2025 16:28:42 +0000
-Message-Id: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
+Subject: [PATCH v2 1/5] ASoC: q6apm-dai: schedule all available frames to avoid dsp under-runs
+Date: Thu, 20 Feb 2025 16:28:43 +0000
+Message-Id: <20250220162847.11994-2-srinivas.kandagatla@linaro.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
+References: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,36 +84,97 @@ Content-Transfer-Encoding: 8bit
 
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-On Qualcomm Audioreach setup, some of the audio artifacts are seen in
-both recording and playback. These patches fix issues by
-1. Adjusting the fragment size that dsp can service.
-2. schedule available playback buffers in time for dsp to not hit under runs 
-3. remove some of the manual calculations done to get hardware pointer.
+With the existing code, we are only setting up one period at a time, in a
+ping-pong buffer style. This triggers lot of underruns in the dsp
+leading to jitter noise during audio playback.
 
-With these patches, am able to see Audio quality improvements.
+Fix this by scheduling all available periods, this will ensure that the dsp
+has enough buffer feed and ultimatley fixing the underruns and audio
+distortion.
 
-Any testing would be appreciated.
+Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
+Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+---
+ sound/soc/qcom/qdsp6/q6apm-dai.c | 33 +++++++++++++++++++++++++++-----
+ 1 file changed, 28 insertions(+), 5 deletions(-)
 
-thanks,
-Srini
-
-Changes since v1:
-	- added new patches to fix the fragment size, pointer
-	  calculations
-	- updated to schedule only available buffers.
-
-Srinivas Kandagatla (4):
-  ASoC: q6apm-dai: schedule all available frames to avoid dsp under-runs
-  ASoC: q6apm: add q6apm_get_hw_pointer helper
-  ASoC: q6apm-dai: make use of q6apm_get_hw_pointer
-  ASoC: qdsp6: q6apm-dai: set correct period size
-  ASoC: q6apm-dai: remove redundant hw_constraints setup
-
- sound/soc/qcom/qdsp6/q6apm-dai.c | 94 +++++++++++++-------------------
- sound/soc/qcom/qdsp6/q6apm.c     | 18 +++++-
- sound/soc/qcom/qdsp6/q6apm.h     |  3 +
- 3 files changed, 57 insertions(+), 58 deletions(-)
-
+diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+index c9404b5934c7..eba51e88a297 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+@@ -70,6 +70,7 @@ struct q6apm_dai_rtd {
+ 	unsigned int bytes_received;
+ 	unsigned int copied_total;
+ 	uint16_t bits_per_sample;
++	unsigned int pb_tail;
+ 	bool next_track;
+ 	enum stream_state state;
+ 	struct q6apm_graph *graph;
+@@ -134,8 +135,6 @@ static void event_handler(uint32_t opcode, uint32_t token, void *payload, void *
+ 		prtd->pos += prtd->pcm_count;
+ 		spin_unlock_irqrestore(&prtd->lock, flags);
+ 		snd_pcm_period_elapsed(substream);
+-		if (prtd->state == Q6APM_STREAM_RUNNING)
+-			q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
+ 
+ 		break;
+ 	case APM_CLIENT_EVENT_DATA_READ_DONE:
+@@ -294,6 +293,31 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
+ 	return 0;
+ }
+ 
++static int q6apm_dai_ack(struct snd_soc_component *component,
++		struct snd_pcm_substream *substream)
++{
++	struct snd_pcm_runtime *runtime = substream->runtime;
++	struct q6apm_dai_rtd *prtd = runtime->private_data;
++	unsigned int tail;
++	int i, ret = 0, avail_periods;
++
++	tail = runtime->control->appl_ptr/runtime->period_size;
++
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
++		avail_periods = tail - prtd->pb_tail;
++		for (i = 0; i < avail_periods; i++) {
++			ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
++			if (ret < 0) {
++				dev_err(component->dev, "Error queuing playback buffer %d\n", ret);
++				return ret;
++			}
++			prtd->pb_tail++;
++		}
++	}
++
++	return ret;
++}
++
+ static int q6apm_dai_trigger(struct snd_soc_component *component,
+ 			     struct snd_pcm_substream *substream, int cmd)
+ {
+@@ -305,13 +329,11 @@ static int q6apm_dai_trigger(struct snd_soc_component *component,
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_RESUME:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+-		 /* start writing buffers for playback only as we already queued capture buffers */
+-		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+-			ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 		/* TODO support be handled via SoftPause Module */
+ 		prtd->state = Q6APM_STREAM_STOPPED;
++		prtd->pb_tail = 0;
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+@@ -836,6 +858,7 @@ static const struct snd_soc_component_driver q6apm_fe_dai_component = {
+ 	.hw_params	= q6apm_dai_hw_params,
+ 	.pointer	= q6apm_dai_pointer,
+ 	.trigger	= q6apm_dai_trigger,
++	.ack		= q6apm_dai_ack,
+ 	.compress_ops	= &q6apm_dai_compress_ops,
+ 	.use_dai_pcm_id = true,
+ };
 -- 
 2.39.5
 
