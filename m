@@ -1,168 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B7B1FF7C3;
-	Thu, 20 Feb 2025 16:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00211FECD8
+	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 16:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740068370; cv=none; b=nirfQlbe0fSeHCT9UkABruw2EDeaehmTx7uy6XrVln+9ZqMdTVFDY91+YMyaOSpiErjajEcACbHtiQBleMmix5+4BMgWSdcuyD4qNq9olkh/GepGfvhb7wZoJ0drpRatBW3PT5P9koyOYmmyq1V/pJel1lHceUNM+Xk+9dahwYA=
+	t=1740068964; cv=none; b=SadlPjyJRrdhan/iXhU4D1eJeYTyDf81F1YwKgCoRnm/aVuDKp37QFkCb488j2wApqHsTE5LS7tvIIno301OjSZoSaFuo7F8qTQ4ApucLW2huklPiAuemkJDtFoDtdfBgtiyiDBIowRhOFbk0y7Pg7Tk2+Trvuy2he6h/vHmSKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740068370; c=relaxed/simple;
-	bh=fdNUkWYIqBHHk1Go5mS2hsO50NlDOAYmlPsOmBBjZlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nY2l03Skn3Pqoix/p2XCc7dR0CoeqZ9LmjR33H6USvvg7Ohl2+8kLC58zV+l10EZoIh7LXSHeTwIDWHhZ+yed4BMnUeSCBJxmSFC7m49Lax4hYWnMgN46nW63cjqgD3cSyZhGLwTDi0hbq7va/PUxUQqFRgzFszyD2B5WNKGElQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1IWJEYbs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740068964; c=relaxed/simple;
+	bh=zT+KI4WcFHKjsYVAFKapOCUJXXn7d1Fjj9NRnfss8wQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=K+i/O74lcdlI6kKiJvd1aQSyh0SXiyjBMUJbnYIKNAkLLBPI75gO8APjQuHNwZESjiV82Oxj0KGM0yEvZXT7Gnx3oTirnkYSvQvNtE2QcGChqyvyLXAPo5i9Hw6PF/Oa1UsTHlUKlQBEpvR8dmz9MUgbmfxrnRYzUsDE7AlI6t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zYgSBQeO; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1IWJEYbs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A253C4CED1;
-	Thu, 20 Feb 2025 16:19:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1740068369;
-	bh=fdNUkWYIqBHHk1Go5mS2hsO50NlDOAYmlPsOmBBjZlw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1IWJEYbswD+naPjeNo5FuOFVhsGLrJofycv1yDl5WSTL52fwYUtfFNeUHS8Oa8AXR
-	 V+g9s4tgdRdEhH2td2TixDDT01QKffhpCISQ35siDl30FtTZCp1bTZvk3SgOtJNhzK
-	 V173iCyMghCLpORb/jZl6f70iQZj5wcLlSHNdnvc=
-Date: Thu, 20 Feb 2025 17:19:26 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Grant Likely <grant.likely@secretlab.ca>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Binbin Zhou <zhoubinbin@loongson.cn>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zYgSBQeO"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38f1e8efef5so690071f8f.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 08:29:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740068961; x=1740673761; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bZKdzzhd6qiS30Fu8KqeF6do85NZpqdplWUIHWAq4YQ=;
+        b=zYgSBQeOD6kC4CdHqhSobbv1M5PMIUhV+M9EKLzOmuXAoBegv4nu5B0VvVxrATsY+W
+         mT8gU8d85ZdthO+gjJwk4SmmVMBJAENznnbNQzvolCNtdvn3UkEKrbJQr5Q4Ao4yuFGC
+         neJUAJBbBTAegOlHDU5wI9HGKEyILUMg024Pr+mxj7M8QFhjIiKpsnERKhg5oEp4b+m1
+         fQxONc9Cjzbl3O6PYelav18u31lqFmYTg5qV/7G/ectE3B5SPUr9K8vap5WM2l7ldLnR
+         R9MQQiUeX+RmY4vfUdKlBlWdh0fhRnzuqYu7Ao5SyNOBGERgI/MmljBza6DokiTy4G8V
+         SV3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740068961; x=1740673761;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bZKdzzhd6qiS30Fu8KqeF6do85NZpqdplWUIHWAq4YQ=;
+        b=A/kHZpsJlRrpBd3d1XoLLqmZsdVEGIDH7pH9BoXVTYIqVhFEKmucN8om7MaVX1AAJP
+         X7++/nFHutJucBhrUH62ujmU/WpGrBmKepHKHdn0zMgx+NHlHmO+9WpKGyq/2+lr+WH2
+         7hl4VJm0I509yc/W0Xzu5SY2E73L3upyRblahQCRjCjBihoyscyLMEz3AcbHTfHzlUYZ
+         ckZwoTm1w6yp54d4LYnDkLRo/Rhc5mp8ejVmMLcRxt+zxfUKk5siG8ucjLOWiIP7chdx
+         xMI00TF1c0vjRi0v9Te9rXmDWYgJEKGUXmJM4UzDwa97xYxbMcj72RBhK6iSBIV8WcAA
+         TrHg==
+X-Forwarded-Encrypted: i=1; AJvYcCXrg0Fh8oi3vetUUSquxTs2A23ZUnfqZnnvhYW0k+d9kNCnol5seqFwyE1ZbDMif4IrIUJFi8s+QZENpw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpViebuoR0O36Cb6U+XSz8gEAEg0HY3+QXRhKjfBqEczvVU5AJ
+	07fivZCIWCijiqIsmmxTpWEhDY2xEsckLeCK1aVCKTyyS53EwnZdXzm7Wb2RxMA=
+X-Gm-Gg: ASbGncuzYRG4RDB4tFIlYxWwfU5CoPAJELIPf26E1YKGEZmbbhUQ0CwDADZc5M68LwL
+	MrRWn05Yz/GCkpzeuRr5Ejyploa3QDtTuly7zC5k/X9GrO/Q1SzUQNiuv+N3/ri2usr/mLZ48yd
+	g4gr6rf02Dwqi82kU2YXkkg1qrsC4mAy4Cz2YkuKPCsKcFJpyW5+poyJDl/TlEf5WB4BEbHp914
+	K6pxzH+WZDKnV0a20vzY2doOK5tTQ1vsmbCcDuCpmz26ODR2i+JyUL3VPS4buDYaVjBCIFN+t+2
+	iAZwukdKXoz1rPctTbeKsuR/UwIPJ78MOuej6HIx
+X-Google-Smtp-Source: AGHT+IH2gjQh7JBQ8ejAnR21ptNUN/KQFBPj5kyJgCsQVyb/b2MhEDxyhW0FhxZk7ZUcbhlqfOowSQ==
+X-Received: by 2002:a5d:6402:0:b0:38f:2f0e:980c with SMTP id ffacd0b85a97d-38f33f57c13mr14497953f8f.47.1740068961049;
+        Thu, 20 Feb 2025 08:29:21 -0800 (PST)
+Received: from localhost.localdomain ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f5fabsm20813753f8f.45.2025.02.20.08.29.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 08:29:20 -0800 (PST)
+From: srinivas.kandagatla@linaro.org
+To: broonie@kernel.org
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	krzysztof.kozlowski@linaro.org,
 	linux-sound@vger.kernel.org,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 0/2] driver core: platform: avoid use-after-free on
- device name
-Message-ID: <2025022019-enigmatic-mace-60ca@gregkh>
-References: <20250218-pdev-uaf-v1-0-5ea1a0d3aba0@bootlin.com>
- <2025022005-affluent-hardcore-c595@gregkh>
- <D7XB6MXRYVLY.3RM4EJEWD1IQM@bootlin.com>
- <2025022004-scheming-expend-b9b3@gregkh>
- <D7XE2DSESCHX.328BJ5KCEFH0A@bootlin.com>
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmitry.baryshkov@linaro.org,
+	johan+linaro@kernel.org,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: [PATCH v2 0/5] ASoC: q6apm: fix under runs and fragment sizes
+Date: Thu, 20 Feb 2025 16:28:42 +0000
+Message-Id: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <D7XE2DSESCHX.328BJ5KCEFH0A@bootlin.com>
 
-On Thu, Feb 20, 2025 at 04:46:59PM +0100, Théo Lebrun wrote:
-> On Thu Feb 20, 2025 at 3:06 PM CET, Greg Kroah-Hartman wrote:
-> > On Thu, Feb 20, 2025 at 02:31:29PM +0100, Théo Lebrun wrote:
-> >> On Thu Feb 20, 2025 at 1:41 PM CET, Greg Kroah-Hartman wrote:
-> >> > On Tue, Feb 18, 2025 at 12:00:11PM +0100, Théo Lebrun wrote:
-> >> >> The solution proposed is to add a flag to platform_device that tells if
-> >> >> it is responsible for freeing its name. We can then duplicate the
-> >> >> device name inside of_device_add() instead of copying the pointer.
-> >> >
-> >> > Ick.
-> >> >
-> >> >> What is done elsewhere?
-> >> >>  - Platform bus code does a copy of the argument name that is stored
-> >> >>    alongside the struct platform_device; see platform_device_alloc()[1].
-> >> >>  - Other busses duplicate the device name; either through a dynamic
-> >> >>    allocation [2] or through an array embedded inside devices [3].
-> >> >>  - Some busses don't have a separate name; when they want a name they
-> >> >>    take it from the device [4].
-> >> >
-> >> > Really ick.
-> >> >
-> >> > Let's do the right thing here and just get rid of the name pointer
-> >> > entirely in struct platform_device please.  Isn't that the correct
-> >> > thing that way the driver core logic will work properly for all of this.
-> >> 
-> >> I would agree, if it wasn't for this consideration that is found in the
-> >> commit message [0]:
-> >
-> > What, that the of code is broken?  Then it should be fixed, why does it
-> > need a pointer to a name at all anyway?  It shouldn't be needed there
-> > either.
-> 
-> I cannot guess why it originally has a separate pdev->name field.
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-Many people got this wrong when we designed busses, it's not unique.
-But we should learn from our mistakes where we can :)
+On Qualcomm Audioreach setup, some of the audio artifacts are seen in
+both recording and playback. These patches fix issues by
+1. Adjusting the fragment size that dsp can service.
+2. schedule available playback buffers in time for dsp to not hit under runs 
+3. remove some of the manual calculations done to get hardware pointer.
 
-> >> > It is important to duplicate! pdev->name must not change to make sure
-> >> > the platform_match() return value is stable over time. If we updated
-> >> > pdev->name alongside dev->name, once a device probes and changes its
-> >> > name then the platform_match() return value would change.
-> >> 
-> >> I'd be fine sending a V2 that removes the field *and the fallback* [1],
-> >> but I don't have the full scope in mind to know what would become broken.
-> >> 
-> >> [0]: https://lore.kernel.org/lkml/20250218-pdev-uaf-v1-2-5ea1a0d3aba0@bootlin.com/
-> >> [1]: https://elixir.bootlin.com/linux/v6.13.3/source/drivers/base/platform.c#L1357
-> >
-> > The fallback will not need to be removed, properly point to the name of
-> > the device and it should work correctly.
-> 
-> No, it will not work correctly, as the above quote indicates.
+With these patches, am able to see Audio quality improvements.
 
-I don't know which quote, sorry.
-
-> Let's assume we remove the field, this situation would be broken:
->  - OF allocates platform devices and gives them names.
->  - A device matches with a driver, which gets probed.
->  - During the probe, driver does a dev_set_name().
->  - Afterwards, the upcoming platform_match() against other drivers are
->    called with another device name.
-> 
-> We should be safe as there are guardraids to not probe twice a device,
-> see __driver_probe_device() that checks dev->driver is NULL. But it
-> isn't a situation we should be in.
-
-The fragility of attempting to match a driver to a device purely by a
-name is a very week part of using platform devices.
-
-Why would a driver change the device name?  It's been given to the
-driver to "bind to" not to change its name.  That shouldn't be ok, fix
-those drivers.
-
-> Another broken situation:
->  - OF allocates platform devices and gives them names.
->  - A device matches with a driver, which gets probed based on its name.
->  - During the probe, driver does a dev_set_name().
-
-Again, don't do that.  That's the breaking part.
-
->  - Module is removed.
->  - Module is re-added, the (driver, device) pair don't end up matching
->    again because the device name changed.
-
-Sure, that was a bug in the driver.  It shouldn't be changing the name,
-the name is set/owned by the bus, not the driver.
-
-Do we have examples today of platform drivers that like to rename
-devices?  I did a quick search and couldn't find any in-tree, but I
-might have missed some.
-
-Again, the bus controls the name when the device is created, changing it
-after the fact is generally not a good idea.
-
-> I might be missing other edge-cases.
-> 
-> Conclusion: we need a constant name for platform devices as we want the
-> return value of platform_match() to stay stable across time.
-
-No, let's just not rename devices in platform drivers.
-
-Or if this really is an issue, let's fix OF to not use the platform bus
-and have it's own bus for stuff like this.
+Any testing would be appreciated.
 
 thanks,
+Srini
 
-greg k-h
+Changes since v1:
+	- added new patches to fix the fragment size, pointer
+	  calculations
+	- updated to schedule only available buffers.
+
+Srinivas Kandagatla (4):
+  ASoC: q6apm-dai: schedule all available frames to avoid dsp under-runs
+  ASoC: q6apm: add q6apm_get_hw_pointer helper
+  ASoC: q6apm-dai: make use of q6apm_get_hw_pointer
+  ASoC: qdsp6: q6apm-dai: set correct period size
+  ASoC: q6apm-dai: remove redundant hw_constraints setup
+
+ sound/soc/qcom/qdsp6/q6apm-dai.c | 94 +++++++++++++-------------------
+ sound/soc/qcom/qdsp6/q6apm.c     | 18 +++++-
+ sound/soc/qcom/qdsp6/q6apm.h     |  3 +
+ 3 files changed, 57 insertions(+), 58 deletions(-)
+
+-- 
+2.39.5
+
