@@ -1,62 +1,62 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09EC212B0C
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 16:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57ED1212FB8
+	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 16:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740068970; cv=none; b=LdJVYCHaocgC9UwyJYXvP0Rz/EcbxYN1oRU6Xf0kkVHQDb+akQ+dR5qEsfY/tJc6HmMQyxd55CQsQc02DbdcAsx2B3w8pcKXEx0YiGur3t5Za1zP5wJusm0MwshkQ9n5aMs+Zmbmu25exJixDBX/fmtDss4DF0D+u4QQ4Y1HINM=
+	t=1740068972; cv=none; b=XC6VMJK3SSf6t9O6nSWVwPWxtV1y2RVEjJd+WInr4I/B7Kjk7lZarfyTydXghEr0LnMEdKd+PYi/1cKKkoYd3f+IH4EcqEg6Ywi8GKN6gvKds8IYvJHCAYIJ8irbuBagzip3/sWMAfzpcd328UM4pUM3Mb/WVo9s9gJVNi++iaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740068970; c=relaxed/simple;
-	bh=/VfHNWugQzZOouS7hKpPuUUlotDhboVqpoBQsz75KJI=;
+	s=arc-20240116; t=1740068972; c=relaxed/simple;
+	bh=G44mzomd17zjRW176IaSow82CVHdPVhJq52qbX/krTc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Air8OE04yyt9uJeBeH2akCfN75qYSKFFa5xmB8rppLmXBGWFRxSwuFGsif10t8POl8QCYN7OD6ZG1g2gpsrNaM6sRHeKwkDvq6e8kV2lWdwesw7bXq7YD6AF3IpOFXC5ElGuQ7aV/PNDh7CEhl47PuteVqN8zW0xFhbSLAypOrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n5mN0vFR; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=F38bwPUnr5KczahMsiDwx2AfhRJCeluAEpld0NVbAOfVbZE+aox2WqgkE+kU4hPqMK2EA/mAFSwQ/jT7w7x1EMPbCfb+VwpeIgOWUsukcTXIodWXILAinL6adGQZIhAPmr9KTsvyWqwRWT1Um1PqFDFkatgDTrM6ndlqzq+pprs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zE1N0M+m; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n5mN0vFR"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38f325ddbc2so826420f8f.1
-        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 08:29:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zE1N0M+m"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38f2b7ce319so970575f8f.2
+        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 08:29:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740068967; x=1740673767; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1740068969; x=1740673769; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kNs8W2h+NxjkcVzoJNbEyvvCSIIo8azfvztr8o7DSmU=;
-        b=n5mN0vFR1IPe65oQy+wbhA8osJ7mkeTeTJNjdDqudAuPm0weqIAeqMdiHBajOO5MVw
-         BkJjvqaJeoDf7/zHNNLBzavmWK0x/uk+aB7vvoFr/TFssJLg0eYd6I4aRD9SO5xGmrKy
-         LAumR0Q9NgNst1iJckuJLQj2jG1ckbcn7IyXXQG1ZBbujCN3g8er2BcHJog7tXAjI5tq
-         c0Do7BFknFGODU2dp6+ObO8PE0HFD1xeJHQEA+lj/HNZJW2TkcILX6voJkE+nIOY5wxo
-         wvzma5b4pTErJhKIAIRTo9NqZ368DWp67wCQL9/C9PhNLoQ3xmu5wMa2DY8Qbn5rq2Ap
-         c63g==
+        bh=7m/CTzgrh0AA9xzhVYZwH6Z/AB9cMb21X+WgCPYE0r0=;
+        b=zE1N0M+mcG6yeCVrShQIusxoURBJlTD5R/+EL5iJJCd42rO9aXh8QlISKn09oAZlS8
+         cfuZOZ46FL/dKy0jV2g1yq01U1RDQD/zt4t843n0+SdmkNtrT08e0aHKh7zGTPJtXwLX
+         L1wJYAhc5cHI+csGZirsREJBWUDOSoGIhB/90u0PnS+w6Lubjz0TZ28u/3YncEB+r1aI
+         ay9GT5GmWW5hhn6loUsx9pvBRrEyUzrA943X9GWhdrLgK3N6tGOQSaCT4lYNFY0XvCAR
+         OaX98jS8UX0PYG0L/nvQLWfi0bU7lj//ommHFy9MpbMyjLJjCG85ifjpu0Ujr9UAgcEV
+         wz8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740068967; x=1740673767;
+        d=1e100.net; s=20230601; t=1740068969; x=1740673769;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kNs8W2h+NxjkcVzoJNbEyvvCSIIo8azfvztr8o7DSmU=;
-        b=ZQTx5fy5bfOgj+gAw2aW0CmM5DsRQo2D/vjUDGDmXAViXnUWv4F6lsBG6fjiBG9u43
-         Xrjr5spuUMQkdBb30Mp1GfkGwJqoZWhawbZ8m9pEZWLMkzuVFK8NhqSKdGPtnN+nnU9O
-         9HwIg8JQO4z7QlyavRiuzlG4INdQxXnN3xLyHu3rVsv+Oi5KBletFy5ssgAehgLTP4WW
-         wVZrjmEWQCfrPrGfNNSwnay9hs1YHCmzI/b/+cby1nm9cU8mcfj5pFBSPRzifcvWRx9K
-         3KqocyMheDd25cjnRs8TBkZ5bLDfkdlTyrCIFeta4NF3Vqm7zdEtv422UD0BwZUG+soV
-         ifIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXk+R5f/yJfbujhdmKtgdLagVRJa/4Tb9isiE1XcfDS27lv49HKorsfRast0rO8uUFR2eFOiSsPs+tfFw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwurRYOMUFD+c/ffmg/Owsr91jCBZY69W7zzW6nbYSE5QOWUD1R
-	mLDaut6KooK4p/kjKYWz4GTpCPNxTi5PmVYY+OiIIGYB4QVim4BU+6egvWq6xQE=
-X-Gm-Gg: ASbGncub6D+Hb7M4zzkuVaqCq+9g3uVeV7xfjIAgCyQx43l0GTqIXHTj5hP/tesDNUw
-	CxHqVwTQxMts5njaSG5NzSurPjYmiEbGhzoPkUdA+7bKZkL8be727l24ENoJlVSqwwFErslFEJP
-	3PQ5DfDfcNtf6+0KSfkJimSHKjoJSSCAoHUUPjFuTF9x/UN3XC88Qe+DEKaL6sB25PNHGApQtP1
-	rrOxDhGmdm6W2Fmp+1u7LYPuqRpRan3V+E1SktS2XFYvOOxpnPLN5/obYnd//WB8N7JhDmWe036
-	fC41z//pwCXI4CyrwREJZDs77jsdSY3saYfDA8nI
-X-Google-Smtp-Source: AGHT+IHjLSNxeifF/38VMi7dEG8R8mOoiltOqfkJG6DXGhVBYkNfwPD9ab3HxUNuKUZ0XFxpl43IYA==
-X-Received: by 2002:adf:f3cb:0:b0:38f:2a7f:b6cd with SMTP id ffacd0b85a97d-38f33f3dba5mr15018331f8f.20.1740068966979;
-        Thu, 20 Feb 2025 08:29:26 -0800 (PST)
+        bh=7m/CTzgrh0AA9xzhVYZwH6Z/AB9cMb21X+WgCPYE0r0=;
+        b=V9e4HNAkTOCrDJpVhCy0WBou0V/kCGAwPfIjaGYSV8LCidLiIewnNb5YbBbdePQXW4
+         mB3/jpzXnfWQjb6AN0waMpJmRdswx6Bwp/gaHkjUGOd2zNgbIEKV3SUXstsubTDbfCkh
+         FLpqj6WSLJzJsweuw3XjuE9/tkVXURqBcIKxwKjeKL9iNGQBZLvZDddqOhwVvYFeroz3
+         hO/Ievg3OLKhws5vfCgbgDZHr9Ci/5KCvUQYJSAfYVQJVh91kmzkyaI2ABhJGNaLYOt5
+         0r8CoOouCvtwCANSSAqbAUdfUgM2O5xssJxYn4m4psTT67cP07k6duHmkZ95ATOU/XWx
+         L0/g==
+X-Forwarded-Encrypted: i=1; AJvYcCVICunJy3yYNwdFfTgRngO7KqxD7ZNDGvQR5B+PB0UoycX644H7b0YB/FxFz5tZ/lFLbNLNm0YPQQy/CA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7M9C75sp0okg4bQ+lbX/5QEGKlZmrZnk8W/B7y8NzXiTiWrOd
+	ITC2cZgkdPXVlU8ZTEloAkoRgRpU8p+C/zvDMyrmbxsq+08DLbMUTsQkGGmS/Ho=
+X-Gm-Gg: ASbGncs2T5PV23RjND/JRe8+O7b3gEzU9hAI1Ok2SPYZopQAJDSWgrfo4BKfu3U89n2
+	JbLG8lqVtEtuoUdW99Z7SfGsRUXIr66nq363fKscKdZYHjjEKVj5Sxtgv0C67jvkJZTxuDB/AnG
+	Gx1lCNIWeqOx61cLTnVLlLRSkiZSCj1IhcMaX8O11XGuot0vpDR1WwO4sf4RhX6b4oeAl2BPn+/
+	x2/KlPRMIO4lgGXhXTOFm82VJnEwPmmWz0cV05dtF89XK7A4d9ZSxjh4NbxZX8K8eTBNII8XYKg
+	dJVO/sNk2WtYrJyKySVq7hK24tu8ITpvBarJT8z3
+X-Google-Smtp-Source: AGHT+IErNAEoXnEuPGcHDzaI4u+qesPWr2oJ8v0KPpx1eLR4SBNS7L5XLR9zDyZbvaRrA+qYm3ZYUA==
+X-Received: by 2002:adf:fa86:0:b0:38d:dffc:c144 with SMTP id ffacd0b85a97d-38f587e73a2mr5603019f8f.55.1740068968673;
+        Thu, 20 Feb 2025 08:29:28 -0800 (PST)
 Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f5fabsm20813753f8f.45.2025.02.20.08.29.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f5fabsm20813753f8f.45.2025.02.20.08.29.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 08:29:25 -0800 (PST)
+        Thu, 20 Feb 2025 08:29:27 -0800 (PST)
 From: srinivas.kandagatla@linaro.org
 To: broonie@kernel.org
 Cc: perex@perex.cz,
@@ -68,9 +68,9 @@ Cc: perex@perex.cz,
 	dmitry.baryshkov@linaro.org,
 	johan+linaro@kernel.org,
 	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH v2 4/5] ASoC: qdsp6: q6apm-dai: set correct period size
-Date: Thu, 20 Feb 2025 16:28:46 +0000
-Message-Id: <20250220162847.11994-5-srinivas.kandagatla@linaro.org>
+Subject: [PATCH v2 5/5] ASoC: q6apm-dai: remove redundant hw_constraints setup
+Date: Thu, 20 Feb 2025 16:28:47 +0000
+Message-Id: <20250220162847.11994-6-srinivas.kandagatla@linaro.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
 References: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
@@ -84,36 +84,55 @@ Content-Transfer-Encoding: 8bit
 
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-For some reason we ended up with a period size which is less than 1ms,
-DSP does not support such a small fragment size. Adjust this to be in
-the range of 16ms to 32ms.
+pcm core already does setup the hw_constraints from struct snd_pcm_hardware
+values, setting this in q6apm-dai is redundant.
+
+Remove the code that sets this.
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- sound/soc/qcom/qdsp6/q6apm-dai.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ sound/soc/qcom/qdsp6/q6apm-dai.c | 28 ----------------------------
+ 1 file changed, 28 deletions(-)
 
 diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index 7466fe0c661a..049b91fd7a23 100644
+index 049b91fd7a23..b644ce7d394b 100644
 --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
 +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -21,11 +21,11 @@
- #define PLAYBACK_MIN_NUM_PERIODS	2
- #define PLAYBACK_MAX_NUM_PERIODS	8
- #define PLAYBACK_MAX_PERIOD_SIZE	65536
--#define PLAYBACK_MIN_PERIOD_SIZE	128
--#define CAPTURE_MIN_NUM_PERIODS		2
--#define CAPTURE_MAX_NUM_PERIODS		8
--#define CAPTURE_MAX_PERIOD_SIZE		4096
--#define CAPTURE_MIN_PERIOD_SIZE		320
-+#define PLAYBACK_MIN_PERIOD_SIZE	6144
-+#define CAPTURE_MIN_NUM_PERIODS		PLAYBACK_MIN_NUM_PERIODS
-+#define CAPTURE_MAX_NUM_PERIODS		PLAYBACK_MAX_NUM_PERIODS
-+#define CAPTURE_MAX_PERIOD_SIZE		PLAYBACK_MAX_PERIOD_SIZE
-+#define CAPTURE_MIN_PERIOD_SIZE		PLAYBACK_MIN_PERIOD_SIZE
- #define BUFFER_BYTES_MAX (PLAYBACK_MAX_NUM_PERIODS * PLAYBACK_MAX_PERIOD_SIZE)
- #define BUFFER_BYTES_MIN (PLAYBACK_MIN_NUM_PERIODS * PLAYBACK_MIN_PERIOD_SIZE)
- #define COMPR_PLAYBACK_MAX_FRAGMENT_SIZE (128 * 1024)
+@@ -374,34 +374,6 @@ static int q6apm_dai_open(struct snd_soc_component *component,
+ 	else if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
+ 		runtime->hw = q6apm_dai_hardware_capture;
+ 
+-	/* Ensure that buffer size is a multiple of period size */
+-	ret = snd_pcm_hw_constraint_integer(runtime, SNDRV_PCM_HW_PARAM_PERIODS);
+-	if (ret < 0) {
+-		dev_err(dev, "snd_pcm_hw_constraint_integer failed\n");
+-		goto err;
+-	}
+-
+-	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+-		ret = snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
+-						   BUFFER_BYTES_MIN, BUFFER_BYTES_MAX);
+-		if (ret < 0) {
+-			dev_err(dev, "constraint for buffer bytes min max ret = %d\n", ret);
+-			goto err;
+-		}
+-	}
+-
+-	ret = snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 32);
+-	if (ret < 0) {
+-		dev_err(dev, "constraint for period bytes step ret = %d\n", ret);
+-		goto err;
+-	}
+-
+-	ret = snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_BUFFER_BYTES, 32);
+-	if (ret < 0) {
+-		dev_err(dev, "constraint for buffer bytes step ret = %d\n", ret);
+-		goto err;
+-	}
+-
+ 	runtime->private_data = prtd;
+ 	runtime->dma_bytes = BUFFER_BYTES_MAX;
+ 	if (pdata->sid < 0)
 -- 
 2.39.5
 
