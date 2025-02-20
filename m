@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCE61EEA38
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 11:14:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3BD51EF096
+	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 11:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740050067; cv=none; b=QxnkJahsbtqjbOyTTTAEkIeEZT058dXnbwzCjTitRn5fD95DhD0RsH7j2yu2OhjM0JiB5Y1gvCHDeSrO3ZM/NJP5A9zHgsXcueh8Ory203/ltHmQP9G/AmbTAU6DOqs8i1MHRyclMaTpBt330HdZpBHJXgSFWEuDor0jcQynEF4=
+	t=1740050069; cv=none; b=h5+9YcZAwe0QFZQCiSmK9awCbIO0ZbTelXhPlCumPRCWgxev+ZmkDccb4fDNgpo9UqCrfWlvCjU57JeUWYsptCNK0vvs+pSfghDNSy3p3eBgBOoq8FRU0ksVOG/CgwziTYvkR14Gt4SmePAdcfww8/V/HEAuxE/V+5zRjxCJKMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740050067; c=relaxed/simple;
-	bh=Rz8BS7cGg5pxytOcGDA9W9UYvvxmmEV5t4j33Ks3AWU=;
+	s=arc-20240116; t=1740050069; c=relaxed/simple;
+	bh=TzfOFkI/7l77pMLio/uIkIjJg4iSW+3uLVMbDOi61VE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nwHNX6skiF6rdz57CjEVvmP/JiMZpjNxblCJsNm4V/tTkAyzdwwCoJ8nlXGMJGWu7Qse7a+t0rUF2gEUdnq3Kcp0QTb+tRvE+dDdfPDtEcF2Q8GMAbzMiYA28yKw+1ASm+FxabE53PWnr51QShjZvyicK9hbndAgWCjfJVU8aaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHg9oZUl; arc=none smtp.client-ip=198.175.65.13
+	 MIME-Version; b=GTt/tRheWD8FX7x+1+ysQAUTvXI3zJFH+AU5bkCzBop+I12blj0/fF7fHMyRpxYLDpQ06XPYFhsZ7jFZmLeaCKxwMj8locWZGrrXYUo3I4sV/ZWcMz1zuR49MbMO6u/luMpX4uOWVWHQlfBG1z13RrBYAqqvSRmRsRDXbdV/Hm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KMk5af76; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHg9oZUl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KMk5af76"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740050066; x=1771586066;
+  t=1740050068; x=1771586068;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Rz8BS7cGg5pxytOcGDA9W9UYvvxmmEV5t4j33Ks3AWU=;
-  b=JHg9oZUliOZsJcVGN2hZqfyaUvoKdo7klYWPKreJzOXbL+7wwhm83RjO
-   GfClH8Gn2y51uSBvsNR2sTlcsKUC2j6de9RnPVJ6uhTlEM/Laj/a24suE
-   pCbMLQmCMsJLcoaVfOPwyRlj3zOYL9M2fR67LQiEw90WcTzIDPn8HtK/I
-   9T5Y5ahx5FbSVlEQ/nARKTnpBme7RwLSgtFytMuQyUVpAhRwlt8SBbHFT
-   XB708IKW7UZQnWD3CEud6bzmT1+J8O7y95zLMjxGVzgFBsswWj5xV3NmG
-   ICimnajVoAAJ29/WpLqgr6V5hG9MJXjdhGnIMlMKV3zqSm/wnYLd8kSBT
+  bh=TzfOFkI/7l77pMLio/uIkIjJg4iSW+3uLVMbDOi61VE=;
+  b=KMk5af76TfTvmF3nq2koEkb122e3grr4R14dkQ44CjuMmCBPcDK5bCXJ
+   9VgCpP4eskvcZPTF8AX/pyl6NTdo4JTT+/4FffkNhVFvTB6SgDJaNJ98e
+   8rD/Dm4sRtsa/akExm2fKpS7y4QkgO0d86MwXGVrdW6+6xtMFGLQfBcrv
+   fat7zCtVJhZI4QVEAnV4XIiK82y625j5LsQD8QAu3bDaonsDhVwPQQNrd
+   gkMxNv69gPZY8KwnKDTsLkdMEeF9xUgndHXoOcNg0v9Qf7e42ZGKk0UKG
+   qM1CXQRsD2bF/SxT+mILBEnRe1AoRQ+w2bfrYu76+3WaDrkIlqAHxBrE3
    A==;
-X-CSE-ConnectionGUID: 8Ut7WqooRtC02+zm21RnZg==
-X-CSE-MsgGUID: b+6lDXJAQwiLGGTUyb0fZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="51808191"
+X-CSE-ConnectionGUID: oG4eGvQjQNOYeX15bSqc4Q==
+X-CSE-MsgGUID: TpALItR3QDeHz2/Mh9Kc2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="51808208"
 X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="51808191"
+   d="scan'208";a="51808208"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 03:14:25 -0800
-X-CSE-ConnectionGUID: 4uP7kg8hSTeb3YC2sV8JWA==
-X-CSE-MsgGUID: qBi4I8BYT3SZERJRvQ0R4A==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 03:14:27 -0800
+X-CSE-ConnectionGUID: GS7K3JvYQ3OSxPrxKVQi3Q==
+X-CSE-MsgGUID: l1Q+j2n4Q1K5NvlCrnRw7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="114865295"
+   d="scan'208";a="114865304"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
-  by orviesa010.jf.intel.com with ESMTP; 20 Feb 2025 03:14:22 -0800
+  by orviesa010.jf.intel.com with ESMTP; 20 Feb 2025 03:14:25 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -53,9 +53,9 @@ Cc: tiwai@suse.com,
 	flove@realtek.com,
 	andriy.shevchenko@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 05/24] ASoC: codecs: rt1305: Fix definition of device_id tables
-Date: Thu, 20 Feb 2025 12:26:24 +0100
-Message-Id: <20250220112643.3813295-6-cezary.rojewski@intel.com>
+Subject: [PATCH 06/24] ASoC: codecs: rt1308: Fix definition of device_id tables
+Date: Thu, 20 Feb 2025 12:26:25 +0100
+Message-Id: <20250220112643.3813295-7-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250220112643.3813295-1-cezary.rojewski@intel.com>
 References: <20250220112643.3813295-1-cezary.rojewski@intel.com>
@@ -72,25 +72,31 @@ fields with 0 for statically defined structs is redundant.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/codecs/rt1305.c | 6 +++---
+ sound/soc/codecs/rt1308.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/rt1305.c b/sound/soc/codecs/rt1305.c
-index c2b55be8d165..b4e10ba00dca 100644
---- a/sound/soc/codecs/rt1305.c
-+++ b/sound/soc/codecs/rt1305.c
-@@ -973,9 +973,9 @@ MODULE_DEVICE_TABLE(of, rt1305_of_match);
+diff --git a/sound/soc/codecs/rt1308.c b/sound/soc/codecs/rt1308.c
+index b366338cea71..a9ba66228301 100644
+--- a/sound/soc/codecs/rt1308.c
++++ b/sound/soc/codecs/rt1308.c
+@@ -781,15 +781,15 @@ static const struct regmap_config rt1308_regmap = {
+ #ifdef CONFIG_OF
+ static const struct of_device_id rt1308_of_match[] = {
+ 	{ .compatible = "realtek,rt1308", },
+-	{ },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(of, rt1308_of_match);
+ #endif
  
  #ifdef CONFIG_ACPI
- static const struct acpi_device_id rt1305_acpi_match[] = {
--	{"10EC1305", 0,},
--	{"10EC1306", 0,},
--	{},
-+	{ "10EC1305" },
-+	{ "10EC1306" },
+ static const struct acpi_device_id rt1308_acpi_match[] = {
+-	{ "10EC1308", 0, },
+-	{ },
++	{ "10EC1308" },
 +	{}
  };
- MODULE_DEVICE_TABLE(acpi, rt1305_acpi_match);
+ MODULE_DEVICE_TABLE(acpi, rt1308_acpi_match);
  #endif
 -- 
 2.25.1
