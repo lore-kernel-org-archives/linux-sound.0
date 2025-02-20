@@ -1,229 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6594262D3F;
-	Thu, 20 Feb 2025 18:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DA81DE8A8;
+	Thu, 20 Feb 2025 19:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740077746; cv=none; b=TwKImzGimqeZgmuuzIjPEYOFaFjlXfyQ5un1/VjeUP62E+BI1J5HcwQkt+IhP9AQpJWBJN9aEkaY4g1SpGygAPF4UjB9sK/paOqo2TIBI3AzAkBoBxjLJcwDnV755pbVcGj5rdjikHFw2lkSczwuW6ikMumP8O2QE6DmrkF/hYA=
+	t=1740078344; cv=none; b=GoxLrYm2DpbugRHYYzI0FO3QlXjyokN7nW8KQPF3Q1eZ0kD/oFOZKgSiNJO8FZKmDyUi25yKSVN/A5/f9LKBf6gtrqp4dcs53PyTv7pgp2wCzAwa2c/Lawn0r1LBtmi4mwtd2S/39MZFhtDDt72QAOJOHhhpIF0RUw1XsH2fcfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740077746; c=relaxed/simple;
-	bh=WndaJvfa9ap2UrSfD6FG4qjtrHLbOmfjna8J1EtVtVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Aupbzy1yDa1Hd5wCM+7f7nHlnVQYmxPmCUf7s1SskLmLu6wgh+5wYqHqeKyjyYhtKQMsTHk/dUk1xGnqrW99igT9JevDW5Jn947z18nx+Ne6pmpouh50hApPDve6sRCfOxGJM1BiBov4OG1MgI0diq3jXHD3ukHjmAkfb84/00A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=r8bjeQvc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740078344; c=relaxed/simple;
+	bh=7Q6Q5WJ5jLsdiIjqXRzNZWHgWgvJqZqVEo0Zn5BT6K4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bCBnU8JBBRDhZmJp6IGWNPemEBJ/Fh6TI2SxHnuooAbcYCoTUEbr71aYbgrjpJJquDPONSapRQRuFrt8oFMmpX0z4JM2Bq5sjaYuIPeamRc4G60wtGXYcXOn/8wbcLeAZt98qYbg0z6Z7G6Q6r7iB0UkantlPqasVo+3GAF9ZIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dWUWI141; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="r8bjeQvc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5DBEC4CED1;
-	Thu, 20 Feb 2025 18:55:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1740077745;
-	bh=WndaJvfa9ap2UrSfD6FG4qjtrHLbOmfjna8J1EtVtVI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r8bjeQvcRkDymICywYT9q7QL5RUGwa+PkIOjJmN8jrS0hbyLuHPFsX4eW9fBSAebZ
-	 vBMiptw8y7VcvOgVnTE9Bcn65kGPbAKYoao7aeHsLNlw+ZoSum9j7yQUap15a3+AhU
-	 5LKcIGaGdeDuf5aFE+WlzoJ8w3gLnGT19PduqGjs=
-Date: Thu, 20 Feb 2025 19:55:42 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Grant Likely <grant.likely@secretlab.ca>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Binbin Zhou <zhoubinbin@loongson.cn>,
-	linux-sound@vger.kernel.org,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 0/2] driver core: platform: avoid use-after-free on
- device name
-Message-ID: <2025022017-tarot-harbor-965d@gregkh>
-References: <20250218-pdev-uaf-v1-0-5ea1a0d3aba0@bootlin.com>
- <2025022005-affluent-hardcore-c595@gregkh>
- <D7XB6MXRYVLY.3RM4EJEWD1IQM@bootlin.com>
- <2025022004-scheming-expend-b9b3@gregkh>
- <D7XE2DSESCHX.328BJ5KCEFH0A@bootlin.com>
- <2025022019-enigmatic-mace-60ca@gregkh>
- <D7XHGNJMMUMF.OUL1VHGK5KVM@bootlin.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dWUWI141"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38f1e8efef5so789855f8f.1;
+        Thu, 20 Feb 2025 11:05:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740078341; x=1740683141; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oxXRd6kScNWklP0aI84Uk3jfvKHEaeWScRLyJ37G088=;
+        b=dWUWI141+0vA8n+QGvVPjlkNz+DESv4djYG4Rx5Yw8VP5XSjwrj66cgE9ODia4JGrh
+         DWdlVnNi/carAqmyKpMRleOi3BW5SRHi26fTMEWAHGmzP9e13FPeCH3yDCy8giR2BrUJ
+         TiLR1jRzSAvHdw5yWNk1EcHMXPxQ44zGpem7WcA5SQB8zlK0julXFaBz7/ju6MTuQ0PI
+         agp1HxZ7OjL2Pde/IKzgPVcaWKloRsQWZRZW4A7Ims3cqTDyO61mwIBkASa+q/+EtYG9
+         Odpdi7rHevslkVjgLX6E8CcppLSUfM8dr2B2kJXVzpYkYZTbOK7mbzI5F6iOr2byykBw
+         zUCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740078341; x=1740683141;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oxXRd6kScNWklP0aI84Uk3jfvKHEaeWScRLyJ37G088=;
+        b=kPMGHq/XDtdaC3w9TnDQh5EST2qjkH3KM/MJPzT0ZgYJ7HCyzb12Sklm3FiWcltvFQ
+         ekot3O+tzjlchnIOu6yPr1BN/OIYsrDZQZrRAY4wq9h0uiEIt/qH0KsMGQPbL5o9Kl5H
+         bw6jajcEeS16huJiZbvAIR0bpDUbYimfkHjx1IflH5wv0dgMPM6HuKjOzuNB13iZ80/1
+         IV/+EIeiZUSiho4TW683Kyz72NuLqmBQ/2GtTS9kvBco/NF9oZrM0XOZCqa0esRCjTBG
+         CgsUnjev7aPWwBeupnaZJ8c2d2J/LFha3jwTEUXTzqCZL5KiR9ar0owXuGweulgLK1Yn
+         OSMg==
+X-Forwarded-Encrypted: i=1; AJvYcCX5ljQPQLW2k6DRVzHLDHfsKOxcJ6K+hI8nTRKi6VOoCHdMVo0BQ0LSD7HFxAEHrISpCjgefpJXLyKk@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzaclsodShf9JWnouuZT13TurajqrN3eBgUBRAJwBeSOq1nlXs
+	Nq5hyj03sU0guyqg6Eow5z1MTexP4MeS5MRYhzihiJv1Cd9yw9cI
+X-Gm-Gg: ASbGncuT7ItdOU3Dg4+E0Sps06cH/K0+KA0iLhVV0ObszhdNBs7DPdHb4/3GhLJLm60
+	C2rOxb6CnQKejvFRVForVvAXKBqYeGYm+kc9aBXsY3HHZW7ED3VkbljWK/hhhtKmNmyNNLG0l9a
+	kkaUojQLnIQz9wrlHsYDBxw5D479bTp55W2mcil+HnyPOilbsqLXA22PCyt1ayBiLXUoQD+cldg
+	TJr54o0YnLb8P7HY3O5HcNSTGKBrU9dIYMNAjlQGYPaKpPgy+XVJuxVKJi9PNHxGvUQZlfUkf47
+	wIyunG61uyfwsUALvRoh3UwL5V4qgLI9hmJVUUb85E59l1QdQ6UOFG7emTVmwpvLcRM=
+X-Google-Smtp-Source: AGHT+IHGlrHIltTgTcFWFI4O0gp4KyFom8vkd8k5Kir49mlEGZQwrYgDsE0U7DMZu3givQVd9isJuA==
+X-Received: by 2002:a05:6000:1ac6:b0:38f:6149:9235 with SMTP id ffacd0b85a97d-38f6e95f233mr316305f8f.16.1740078341247;
+        Thu, 20 Feb 2025 11:05:41 -0800 (PST)
+Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259f8121sm21083169f8f.88.2025.02.20.11.05.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 11:05:40 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Ryan Walklin <ryan@testtoast.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ Chris Morgan <macromorgan@hotmail.com>, Rob Herring <robh@kernel.org>,
+ Philippe Simons <simons.philippe@gmail.com>,
+ Ryan Walklin <ryan@testtoast.com>
+Subject:
+ Re: [PATCH v3 2/5] ASoC: sun4i-codec: correct dapm widgets and controls for
+ h616
+Date: Thu, 20 Feb 2025 20:05:39 +0100
+Message-ID: <2733255.KRxA6XjA2N@jernej-laptop>
+In-Reply-To: <20250214220247.10810-3-ryan@testtoast.com>
+References:
+ <20250214220247.10810-1-ryan@testtoast.com>
+ <20250214220247.10810-3-ryan@testtoast.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D7XHGNJMMUMF.OUL1VHGK5KVM@bootlin.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Thu, Feb 20, 2025 at 07:26:41PM +0100, Théo Lebrun wrote:
-> On Thu Feb 20, 2025 at 5:19 PM CET, Greg Kroah-Hartman wrote:
-> > On Thu, Feb 20, 2025 at 04:46:59PM +0100, Théo Lebrun wrote:
-> >> On Thu Feb 20, 2025 at 3:06 PM CET, Greg Kroah-Hartman wrote:
-> >> > On Thu, Feb 20, 2025 at 02:31:29PM +0100, Théo Lebrun wrote:
-> >> >> On Thu Feb 20, 2025 at 1:41 PM CET, Greg Kroah-Hartman wrote:
-> >> >> > On Tue, Feb 18, 2025 at 12:00:11PM +0100, Théo Lebrun wrote:
-> >> >> >> The solution proposed is to add a flag to platform_device that tells if
-> >> >> >> it is responsible for freeing its name. We can then duplicate the
-> >> >> >> device name inside of_device_add() instead of copying the pointer.
-> >> >> >
-> >> >> > Ick.
-> >> >> >
-> >> >> >> What is done elsewhere?
-> >> >> >>  - Platform bus code does a copy of the argument name that is stored
-> >> >> >>    alongside the struct platform_device; see platform_device_alloc()[1].
-> >> >> >>  - Other busses duplicate the device name; either through a dynamic
-> >> >> >>    allocation [2] or through an array embedded inside devices [3].
-> >> >> >>  - Some busses don't have a separate name; when they want a name they
-> >> >> >>    take it from the device [4].
-> >> >> >
-> >> >> > Really ick.
-> >> >> >
-> >> >> > Let's do the right thing here and just get rid of the name pointer
-> >> >> > entirely in struct platform_device please.  Isn't that the correct
-> >> >> > thing that way the driver core logic will work properly for all of this.
-> >> >> 
-> >> >> I would agree, if it wasn't for this consideration that is found in the
-> >> >> commit message [0]:
-> >> >
-> >> > What, that the of code is broken?  Then it should be fixed, why does it
-> >> > need a pointer to a name at all anyway?  It shouldn't be needed there
-> >> > either.
-> >> 
-> >> I cannot guess why it originally has a separate pdev->name field.
-> >
-> > Many people got this wrong when we designed busses, it's not unique.
-> > But we should learn from our mistakes where we can :)
-> >
-> >> >> > It is important to duplicate! pdev->name must not change to make sure
-> >> >> > the platform_match() return value is stable over time. If we updated
-> >> >> > pdev->name alongside dev->name, once a device probes and changes its
-> >> >> > name then the platform_match() return value would change.
-> >> >> 
-> >> >> I'd be fine sending a V2 that removes the field *and the fallback* [1],
-> >> >> but I don't have the full scope in mind to know what would become broken.
-> >> >> 
-> >> >> [0]: https://lore.kernel.org/lkml/20250218-pdev-uaf-v1-2-5ea1a0d3aba0@bootlin.com/
-> >> >> [1]: https://elixir.bootlin.com/linux/v6.13.3/source/drivers/base/platform.c#L1357
-> >> >
-> >> > The fallback will not need to be removed, properly point to the name of
-> >> > the device and it should work correctly.
-> >> 
-> >> No, it will not work correctly, as the above quote indicates.
-> >
-> > I don't know which quote, sorry.
-> >
-> >> Let's assume we remove the field, this situation would be broken:
-> >>  - OF allocates platform devices and gives them names.
-> >>  - A device matches with a driver, which gets probed.
-> >>  - During the probe, driver does a dev_set_name().
-> >>  - Afterwards, the upcoming platform_match() against other drivers are
-> >>    called with another device name.
-> >> 
-> >> We should be safe as there are guardraids to not probe twice a device,
-> >> see __driver_probe_device() that checks dev->driver is NULL. But it
-> >> isn't a situation we should be in.
-> >
-> > The fragility of attempting to match a driver to a device purely by a
-> > name is a very week part of using platform devices.
-> 
-> I never said the opposite, and I agree.
-> However the mechanism exists and I was focused on not breaking it.
-> 
-> > Why would a driver change the device name?  It's been given to the
-> > driver to "bind to" not to change its name.  That shouldn't be ok, fix
-> > those drivers.
-> 
-> I do get the argument that devices shouldn't change device names. I'll
-> take the devil's advocate and give at least one argument FOR allowing
-> changing names: prettier names, especially as device names leak into
-> userspace through pseudo filesystems.
+Dne petek, 14. februar 2025 ob 23:02:24 Srednjeevropski standardni =C4=8Das=
+ je Ryan Walklin napisal(a):
+> The previous H616 support patch added a single LINEOUT DAPM pin switch
+> to the card controls. As the codec in this SoC only has a single route,
+> this seemed reasonable at the time, however is redundant given the
+> existing DAPM codec widget definitions controlling the digital and
+> analog sides of the codec.
+>=20
+> It is also insufficient to describe the scenario where separate
+> components (muxes, jack detection etc) are used to modify the audio
+> route external to the SoC. For example the Anbernic RG(##)XX series of
+> devices uses a headphone jack detection switch, GPIO-controlled speaker
+> amplifier and a passive external mux chip to route audio.
+>=20
+> Remove the redundant LINEOUT card control, and add a Speaker pin switch
+> control and Headphone DAPM widget to allow control of the above
+> hardware.
+>=20
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> ---
+>  sound/soc/sunxi/sun4i-codec.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+> index 886b3fa537d26..f24bbefeb3923 100644
+> --- a/sound/soc/sunxi/sun4i-codec.c
+> +++ b/sound/soc/sunxi/sun4i-codec.c
+> @@ -1916,10 +1916,11 @@ static const struct snd_soc_component_driver sun5=
+0i_h616_codec_codec =3D {
+>  };
+> =20
+>  static const struct snd_kcontrol_new sun50i_h616_card_controls[] =3D {
+> -	SOC_DAPM_PIN_SWITCH("LINEOUT"),
+> +	SOC_DAPM_PIN_SWITCH("Speaker"),
 
-Then that same driver should have created a prettier name when it
-created the device and sent it to the driver core :)
+Will this break sun50i-h616-x96-mate and sun50i-h616-orangepi-zero based bo=
+ards?
+If so, other solution must be found.
 
-> If we agree that device names shouldn't be changed one a device is
-> matched with a driver, then (1) we can remove the pdev->name field and
-> (2) `dev_set_name()` should warn when used too late.
-> 
-> Turn the implicit explicit.
-> 
-> 
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 5a1f05198114..3532b068e32d 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -3462,10 +3462,13 @@ static void device_remove_class_symlinks(struct device *dev)
->  int dev_set_name(struct device *dev, const char *fmt, ...)
->  {
->         va_list vargs;
->         int err;
-> 
-> +       if (dev_WARN_ONCE(dev, dev->driver, "device name is static once matched"))
-> +               return -EPERM;
+Best regards,
+Jernej
 
-What?  No, this is a platform driver thing, not a driver core thing.
-Let's just remove the name pointer in the platform driver structure and
-then we can handle the rest from there.
-
-> +
->         va_start(vargs, fmt);
->         err = kobject_set_name_vargs(&dev->kobj, fmt, vargs);
->         va_end(vargs);
->         return err;
->  }
-> 
-> (Unsure about the exact error code to return.)
-> 
-> [...]
-> 
-> > Do we have examples today of platform drivers that like to rename
-> > devices?  I did a quick search and couldn't find any in-tree, but I
-> > might have missed some.
-> 
-> The cover letter expands on the quest for those drivers:
-> 
-> On Tue Feb 18, 2025 at 12:00 PM CET, Théo Lebrun wrote:
-> > Out of the 37 drivers that deal with platform devices and do a
-> > dev_set_name() call, only one might be affected. That driver is
-> > loongson-i2s-plat [0]. All other dev_set_name() calls are on children
-> > devices created on the spot. The issue was found on downstream kernels
-> > and we don't have what it takes to test loongson-i2s-plat.
-
-out-of-tree drivers don't matter to us :)
+>  };
+> =20
+>  static const struct snd_soc_dapm_widget sun50i_h616_codec_card_dapm_widg=
+ets[] =3D {
+> +	SND_SOC_DAPM_HP("Headphone", NULL),
+>  	SND_SOC_DAPM_LINE("Line Out", NULL),
+>  	SND_SOC_DAPM_SPK("Speaker", sun4i_codec_spk_event),
+>  };
+>=20
 
 
-> [...]
-> >
-> >    ⟩ # Finding potential trouble-makers:
-> >    ⟩ git grep -l 'struct platform_device' | xargs grep -l dev_set_name
-> >
-> [...]
-> > [0]: https://elixir.bootlin.com/linux/v6.13.2/source/sound/soc/loongson/loongson_i2s_plat.c#L155
-> 
-> [...]
-> 
-> > Or if this really is an issue, let's fix OF to not use the platform bus
-> > and have it's own bus for stuff like this.
-> 
-> That used to exist! I cannot see how it could be a good idea to
-> reintroduce the distinction though.
-> 
-> commit eca3930163ba8884060ce9d9ff5ef0d9b7c7b00f
-> Author: Grant Likely <grant.likely@secretlab.ca>
-> Date:   Tue Jun 8 07:48:21 2010 -0600
-> 
->     of: Merge of_platform_bus_type with platform_bus_type
 
-True, that was nice, but we shouldn't let one force bugs in the other :)
 
-Anyway try removing the name pointer and let's see what falls out.
-
-thanks,
-
-greg k-h
