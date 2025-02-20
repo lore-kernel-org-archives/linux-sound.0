@@ -1,93 +1,131 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E02C1F5434
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 13:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874CE288A2;
+	Thu, 20 Feb 2025 13:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740056523; cv=none; b=FKYDZsRuXgGWg7O2f7wtp+EA3LyGkKcdbHyUtG0JCba4z/MZizqszWpKSqkkxDLKOMJW+iVESuBetQ9ZUq6dLBTrbAuPPcEDcxTrq4tFvwK6dR8o3A1MQNZXhl6ZTdXwga1kLL2EWiNqCaauvFsFl0dTfYNxSgZBBUnDMA2CuPA=
+	t=1740058297; cv=none; b=SVqaEylj6hs18AOlJnsNw9ESrXtiGNQFwJQM89K+kGbO343qBK3BOVJRYkreYCatBAJ3zAQMuK37IBY5iM7iYmtY6IntPCSVPhC8PcPEyiJemwTNXnPNQYlFNjtC8mfDayF4etWS7AXSkRIWMhVohdjG0OCiz3o7+Xnhqi3O/Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740056523; c=relaxed/simple;
-	bh=HoqQPl5WNh81ytcpLYsVJDOIdbPoM6Aw2o0cWqE6Wak=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cQC/W7ydUzupEu8Dy2jZEGnCGLP8MyfsD9LDgugUJit4Q3dyqUcC3BhSRQxfe+fZ+tMSEBIv9x+NoUdEua6toRQ0t3NeyLIfS19izq7rtRDj7Yu+ncFJNULc/bmQC4G6fraiMcNIMZDEgfGASyPExl/oYXCJ+t6bn3+DSJBO2Po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=I9rMGuZJ; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1740058297; c=relaxed/simple;
+	bh=+BLHUOTGg4Xc2Cd4lVLcPAZ39MPOBrnJ+minoVo+LZE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=rWrekwomzUAYgjCJtWLfmp+0K9uvAY8AHWEPdVUkVIGdbBw/7VBg2YXvtUyVrAfrrYfM/XbACMqzfZ/2+H3Q8nKCsF9WjiImDmMKczpmwxh3ge1L8NIRaf+6wyBENL4aLyaXhY+ECVFCTlr5ZdyIpW/Wq8BlOtA5B3U2otnA3jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bwOJo+lI; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="I9rMGuZJ"
-Message-ID: <8f0f70de-d3cf-4956-a5aa-c5bed91a61cf@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1740056518;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bwOJo+lI"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7AB664329B;
+	Thu, 20 Feb 2025 13:31:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740058292;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tk2n0Y50QyFeoq+91cfSIBmVd1XuNHVLziM+sS8UnqY=;
-	b=I9rMGuZJodAakZLt0rexMUIQxukTxb4990H9S4mWR0iRr2QNbvghIURwbNodL8vhgIIkIp
-	h6DlCbtZ0SA1oAbR8BixlCtDucuBEjSLEU1Zb4mIlrKDlT9/ph+laXkkcyMKoni0r/ph2/
-	3fIW0G3/en/JPsYwxekWSalgTBX0grk=
-Date: Thu, 20 Feb 2025 07:01:44 -0600
+	bh=CkUjsmd0pVsmitb0WeguhFZha5DdicaUilLQLg4YgVA=;
+	b=bwOJo+lIPQFFU574qPjJZ2V7C45r99lHmH2oSTCQ2yKnmcrL2Ei5+4CvHysZrdIs9saOar
+	0hDeIGSy//DHPp3fwPKI35rErylX5qWTujxuA9uujmRaSFHNB8I3iZ78v4ejX8abfDncsE
+	ND4CHpeaYnGqrihatO3n4LD18RCIAZ2VTdw7y0vTO+j8/y2izOyzFY06+zPUsiAvMJUgbh
+	tA+98IWix4u2J8Tag8BnLuU+B52JVvCIFQLfQ10CdgpV70C53w8MXvhnyCuVnVo7lS9g6N
+	OFPRKsw/H0UH9RiE2Kbz1K/omGs8BqSwljQnuT+Br0X2ODuDB+a5elIJK00C4A==
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH 0/4] Add SDCA register map support
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com,
- yung-chuan.liao@linux.intel.com, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20250217140159.2288784-1-ckeepax@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20250217140159.2288784-1-ckeepax@opensource.cirrus.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Date: Thu, 20 Feb 2025 14:31:29 +0100
+Message-Id: <D7XB6MXRYVLY.3RM4EJEWD1IQM@bootlin.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+Subject: Re: [PATCH 0/2] driver core: platform: avoid use-after-free on
+ device name
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Rob Herring" <robh@kernel.org>, "Saravana Kannan"
+ <saravanak@google.com>, "David S. Miller" <davem@davemloft.net>, "Grant
+ Likely" <grant.likely@secretlab.ca>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark
+ Brown" <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, "Binbin Zhou" <zhoubinbin@loongson.cn>,
+ <linux-sound@vger.kernel.org>, "Vladimir Kondratiev"
+ <vladimir.kondratiev@mobileye.com>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Tawfik Bayouk"
+ <tawfik.bayouk@mobileye.com>, <stable@vger.kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250218-pdev-uaf-v1-0-5ea1a0d3aba0@bootlin.com>
+ <2025022005-affluent-hardcore-c595@gregkh>
+In-Reply-To: <2025022005-affluent-hardcore-c595@gregkh>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeijedviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggfgtgffkffvhffuvefofhgjsehtqhertdertdejnecuhfhrohhmpefvhhorohcunfgvsghruhhnuceothhhvghordhlvggsrhhunhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgedvffeftddukedvffffjeehvedtueeuteefffeijeeiteelgefgfeeihfduheeinecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeiieegsgemfhdtfhhfmehfvgdutdemlegvfhgunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeiieegsgemfhdtfhhfmehfvgdutdemlegvfhgupdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehthhgvohdrlhgvsghruhhnsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvtddprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrkhhrsehkvghrn
+ hgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrrhgrvhgrnhgrkhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopehgrhgrnhhtrdhlihhkvghlhiesshgvtghrvghtlhgrsgdrtggrpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-GND-Sasl: theo.lebrun@bootlin.com
 
-On 2/17/25 08:01, Charles Keepax wrote:
-> This series is the next step of adding SDCA support. Here we add
-> helper functions to allow drivers to easily use the SDCA DisCo
-> information to create a register map for the device.
+Hello Greg,
 
-Can you remind me where we ended-up in the discussion on one regmap per physical device or one regmap per function?
+On Thu Feb 20, 2025 at 1:41 PM CET, Greg Kroah-Hartman wrote:
+> On Tue, Feb 18, 2025 at 12:00:11PM +0100, Th=C3=A9o Lebrun wrote:
+>> The use-after-free bug appears when:
+>>  - A platform device is created from OF, by of_device_add();
+>>  - The same device's name is changed afterwards using dev_set_name(),
+>>    by its probe for example.
+>>=20
+>> Out of the 37 drivers that deal with platform devices and do a
+>> dev_set_name() call, only one might be affected. That driver is
+>> loongson-i2s-plat [0]. All other dev_set_name() calls are on children
+>> devices created on the spot. The issue was found on downstream kernels
+>> and we don't have what it takes to test loongson-i2s-plat.
+>>=20
+>> Note: loongson-i2s-plat maintainers are CCed.
+>>=20
+>>    =E2=9F=A9 # Finding potential trouble-makers:
+>>    =E2=9F=A9 git grep -l 'struct platform_device' | xargs grep -l dev_se=
+t_name
+>>=20
+>> The solution proposed is to add a flag to platform_device that tells if
+>> it is responsible for freeing its name. We can then duplicate the
+>> device name inside of_device_add() instead of copying the pointer.
+>
+> Ick.
+>
+>> What is done elsewhere?
+>>  - Platform bus code does a copy of the argument name that is stored
+>>    alongside the struct platform_device; see platform_device_alloc()[1].
+>>  - Other busses duplicate the device name; either through a dynamic
+>>    allocation [2] or through an array embedded inside devices [3].
+>>  - Some busses don't have a separate name; when they want a name they
+>>    take it from the device [4].
+>
+> Really ick.
+>
+> Let's do the right thing here and just get rid of the name pointer
+> entirely in struct platform_device please.  Isn't that the correct
+> thing that way the driver core logic will work properly for all of this.
 
-The DisCo definition are all function-centric, but the physical SoundWire bus access for all read/writes is shared by all functions so having a single regmap isn't silly either.
+I would agree, if it wasn't for this consideration that is found in the
+commit message [0]:
 
-> The basic idea here is the code takes the list of SDCA controls parsed
-> from DisCo and uses primarily the Access Mode to determine if the
-> register should be marked as readable/writable etc. Further more
-> some additional concepts such as DisCo Constants and Defaults are
-> handled. There is some potential confusion, as DisCo Constants are
-> handled as an entry in the regmap defaults table, whereas a DisCo
-> Default is simply handled as a write to the register. Alas the naming
-> confusion is an unavoidable result of the slight impedance mismatch
-> between the two systems.
-> 
-> Thanks,
-> Charles
-> 
-> Charles Keepax (4):
->   regcache: Add support for sorting defaults arrays
->   ASoC: SDCA: Add generic regmap SDCA helpers
->   ASoC: SDCA: Add regmap helpers for parsing for DisCo Constant values
->   ASoC: SDCA: Add helper to write out defaults and fixed values
+> It is important to duplicate! pdev->name must not change to make sure
+> the platform_match() return value is stable over time. If we updated
+> pdev->name alongside dev->name, once a device probes and changes its
+> name then the platform_match() return value would change.
 
-The code looks fine, thanks!
+I'd be fine sending a V2 that removes the field *and the fallback* [1],
+but I don't have the full scope in mind to know what would become broken.
 
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+[0]: https://lore.kernel.org/lkml/20250218-pdev-uaf-v1-2-5ea1a0d3aba0@bootl=
+in.com/
+[1]: https://elixir.bootlin.com/linux/v6.13.3/source/drivers/base/platform.=
+c#L1357
 
-> 
->  drivers/base/regmap/regcache.c |  31 ++++
->  include/linux/regmap.h         |   7 +
->  include/sound/sdca_regmap.h    |  31 ++++
->  sound/soc/sdca/Makefile        |   2 +-
->  sound/soc/sdca/sdca_regmap.c   | 321 +++++++++++++++++++++++++++++++++
->  5 files changed, 391 insertions(+), 1 deletion(-)
->  create mode 100644 include/sound/sdca_regmap.h
->  create mode 100644 sound/soc/sdca/sdca_regmap.c
-> 
+Regards,
 
+--
+Th=C3=A9o Lebrun, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
