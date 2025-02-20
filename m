@@ -1,64 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com [95.215.58.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9541F4634
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 11:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9781F5433
+	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 12:01:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740050112; cv=none; b=mlgV4OzDMQfsE6rVD9zVtL238pnDg3uJ6PLCvkbW4Juo6vMxcwC/kIJOt0SXOSXOPgCRuz7o7UpzajxKettC/aBdb7JcjwTJve2xfS/2ZQsjnMGqu2ZmpuOQkuOHINIJMrqzG7xSOu8+GVUdi/BMTgRn16FMaW8CtNcyPIBzVlg=
+	t=1740052914; cv=none; b=s0sgNRCwMX6c9IOjVcyXDw/quGqEmV73t2OX63kixSh3vipc2bQ5cVCEFoz1qRpwK6JeHHfE9gB/EmYfkGAJEh+nYWq7bZ45Ez0i2UasUY9HF0lcXWHIJ4Wex0BT6tMKPQ2KkSldb8/pEtdBb40IS3QRURH5B5WB/KfUEJOvUTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740050112; c=relaxed/simple;
-	bh=Eq4CqaiTWbZFE0piZkwfzvY33uZxTMvvcIePmzFhl34=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=c7ddem5rNnwoy4haonvVydY16r36zDqB+5soaCOuLZXJXucgOAs43fyiTVcCtJEs4z022qzdzPNLYTNYkMOto1U12IyCABSrCNfYhYO72S5HtFJJXnSJU9nPJzI4F2HVMnry05LRUEL2/Nnul9F7qqSFPFJ12LTsGcpIqs2xTTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BFrPEVAt; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740052914; c=relaxed/simple;
+	bh=+cjoYnPhl7go8vNPd0AzCZxrUj9Vc0ZTGF3CSggyUh0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N4pIWCxkK4CGsDesKr1KVhhGel06nt43J2nOvA5pu/xOAcY2GsLA+tSequ4UW3oUpDT+XRQxvsVrLYeuMXhxBacYZw3JLP7QsZxiMwTD+xkGHuoEDMXjkv8zUcV1d61csPSnooN8Tgv8AUx9LZZJ82v0Xr6Ev+9EBT60st8CVH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aAkr6XlP; arc=none smtp.client-ip=95.215.58.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BFrPEVAt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740050111; x=1771586111;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Eq4CqaiTWbZFE0piZkwfzvY33uZxTMvvcIePmzFhl34=;
-  b=BFrPEVAtxIBARtvACaewP+1tKk9yEilZdw6hHX582SZBMZJabaVvA159
-   6FKZ4jbAeDZQw/Z64wCpDeGj/A0WllmszD9lEqJP60yKH+EPizizfhlIu
-   LteXtWkbHbHNPXLZFLvZdb3zauTeoSMzwZvyx52e2q789ypAf1OprwSEr
-   RAx2xD+DvI4hJZr9Vig/crn9k2DX12J7qOgqGe3NeJ3xeTHcpi2qH5TNn
-   02NeEg1dS5n1nC9bcI132rWNjuAGHxEfeZn50Sww4ZTlLJhwXfAuyLi0z
-   V4Z06XAgMv13Jaj8de6AurbupUNTIrLdGYPFKPIAU6WV3Yp+XNMHqkojp
-   Q==;
-X-CSE-ConnectionGUID: tD676jSXQW+TRTAOmSjghg==
-X-CSE-MsgGUID: dGPw1WCtS2G00QJxf/7YXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="51808397"
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="51808397"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 03:15:11 -0800
-X-CSE-ConnectionGUID: WKtwv/LeTVyy6YKQHZgK6Q==
-X-CSE-MsgGUID: x3jU1gO5SLScHLFdIfYT8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="114865534"
-Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
-  by orviesa010.jf.intel.com with ESMTP; 20 Feb 2025 03:15:08 -0800
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: broonie@kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	amadeuszx.slawinski@linux.intel.com,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aAkr6XlP"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1740052901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mgkXS4965mRZXXmxJJl0d53HLCngL7V5dDdxIELeblI=;
+	b=aAkr6XlP1qCgm2YwlGLBOsB7XXQ63mlMaWwlaKKe7XtPkaA19Ubno4hqmG2U+bYqU+l/z0
+	8185mxXHilAly9FBeTi/yObE8+N3ehEnbV431B/rBWMSa8UckbA97vEQgpyq510orKL2V3
+	WOvhw2Cxr/YjgXgHIN8oxyTS2yN6qYg=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Cheng-Yi Chiang <cychiang@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Benson Leung <bleung@chromium.org>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	chrome-platform@lists.linux.dev,
 	linux-sound@vger.kernel.org,
-	oder_chiou@realtek.com,
-	flove@realtek.com,
-	andriy.shevchenko@linux.intel.com,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 24/24] ASoC: codecs: rt5682s: Update definition of device_id tables
-Date: Thu, 20 Feb 2025 12:26:43 +0100
-Message-Id: <20250220112643.3813295-25-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250220112643.3813295-1-cezary.rojewski@intel.com>
-References: <20250220112643.3813295-1-cezary.rojewski@intel.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: cros_ec_codec: Use str_enable_disable() helper in wov_enable_put()
+Date: Thu, 20 Feb 2025 13:01:01 +0100
+Message-ID: <20250220120100.1530-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,40 +48,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Follow PCI-based format (10ECxxxx) for ACPI IDs by adding relevant
-entries to the existing table.
+Remove hard-coded strings by using the str_enable_disable() helper
+function.
 
-While at it, there shall be no comma after the terminator entry and
-initializing fields with 0 for statically defined structs is redundant.
-
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
- sound/soc/codecs/rt5682s.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ sound/soc/codecs/cros_ec_codec.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/rt5682s.c b/sound/soc/codecs/rt5682s.c
-index ce2e88e066f3..5ad0cc3fab7f 100644
---- a/sound/soc/codecs/rt5682s.c
-+++ b/sound/soc/codecs/rt5682s.c
-@@ -3310,13 +3310,14 @@ static void rt5682s_i2c_remove(struct i2c_client *client)
- 
- static const struct of_device_id rt5682s_of_match[] = {
- 	{.compatible = "realtek,rt5682s"},
--	{},
-+	{}
- };
- MODULE_DEVICE_TABLE(of, rt5682s_of_match);
- 
- static const struct acpi_device_id rt5682s_acpi_match[] = {
--	{"RTL5682", 0,},
--	{},
-+	{ "RTL5682" },
-+	{ "10EC5682" },
-+	{}
- };
- MODULE_DEVICE_TABLE(acpi, rt5682s_acpi_match);
+diff --git a/sound/soc/codecs/cros_ec_codec.c b/sound/soc/codecs/cros_ec_codec.c
+index 11e7b3f6d410..571222ec520c 100644
+--- a/sound/soc/codecs/cros_ec_codec.c
++++ b/sound/soc/codecs/cros_ec_codec.c
+@@ -21,6 +21,7 @@
+ #include <linux/platform_data/cros_ec_commands.h>
+ #include <linux/platform_data/cros_ec_proto.h>
+ #include <linux/platform_device.h>
++#include <linux/string_choices.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+@@ -657,7 +658,7 @@ static int wov_enable_put(struct snd_kcontrol *kcontrol,
+ 					   (uint8_t *)&p, sizeof(p), NULL, 0);
+ 		if (ret) {
+ 			dev_err(priv->dev, "failed to %s wov\n",
+-				enabled ? "enable" : "disable");
++				str_enable_disable(enabled));
+ 			return ret;
+ 		}
  
 -- 
-2.25.1
+2.48.1
 
