@@ -1,113 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F786212D69
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 16:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984411E0B66
+	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 16:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740070290; cv=none; b=uU1Jo3lkSfePmQBDlXcgfZjfJdU4L9u67DfPh4BzJV/Gg8qio1j/3WTreZ0MVJqj1g8oT4PeoXJRNEZkNj2sEPTDkkS1KBUF6vWJPm+A0BoS2OYdmtpmedT8hUP5dIYGy/rfTiFBcN2LAW/IS88qQqG8M1Gv3Ih88MZ465M7XWg=
+	t=1740070679; cv=none; b=VMkTb5Zd6Zy6IxBbmpu6HK90rtUhcm2ojup4Ak0ucY1GXy2v+kko2DlGmiq6ucnjc3KD2v0sm2dFyXqoTDPQHNEpijnxyOaI9uVxZN7c/f2l0Hyz+nbEj8TMUnoWlfLlSjzzbwfekUGfkUB3N7lJQVlCcDr41zr91jPRFLFkbWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740070290; c=relaxed/simple;
-	bh=2Mn0FbrRTTD96RspkydLAH88fgCfIhE8hu8tR2JtIds=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tnPVCAupkpoY9NVfyptGkWRLYTZRQqozSIFiuYxMvnJMe0PGaLAKMweo7P6nzIaj7nnSZ3Id1jC/mA2ai6eK1F6hV0qnmeyAG7GN0BYMpRA23p92Y49x3f4HChXRRDX6FXI5W8y/h3T9zc3YteV1MXtfNcqFi4YARCKOTvQieIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2Aaf1Aj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740070679; c=relaxed/simple;
+	bh=5JtfmGOicW04al1EGAJOYw0ML135NPF9yS3PcFGnjN0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FlP70VSAX8ZX8EpwKDZisSJVj+rwW5KvyI/fPoHhbxx8P0HDuEdPE8om+Mo2sVjK8c8IvRm+otgszNmt0Y2cYVRSfw/TcBGJ5P6DWCjblPurn3cpP2g0J9isVyhhABji/2yK4qAaMc1RudY9Whn6EuRVVMl8Qi+lKqhO0h+TS3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=imxWhsdc; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2Aaf1Aj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 540C3C4CED1;
-	Thu, 20 Feb 2025 16:51:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740070290;
-	bh=2Mn0FbrRTTD96RspkydLAH88fgCfIhE8hu8tR2JtIds=;
-	h=From:To:Cc:Subject:Date:From;
-	b=a2Aaf1AjyDYYlxTfW6WKQb78ydjGAdORn4peli/k/fe1nGGZ6gjwAoev19gMXydbb
-	 5W+sigF387qrVDeUCtSzOMHJy6rLdPaSw/WU3lN+PZ0rACXlhh9rw45lrp9VgcmsCV
-	 jqDsScDjchL/3GnbsuLA33qjWrE+kFLHl180wJYyfdOEhcTfRKPaLhhLQh3tavYgeV
-	 uh0r4Kp3Mnl3Ry3eIonOK2JH4FzIW/VRBZhaAozcm02ddY+TMZXXAo5IwKZN4gMeBi
-	 a7AiuXOVsrzesA4UBWLzxsmoN02hbT7IOqI1G/pejqBpX1SmNQ1dIms5uOF+sBzPKi
-	 F8xTBUV0ZtePQ==
-From: Mario Limonciello <superm1@kernel.org>
-To: mario.limonciello@amd.com,
-	lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: SOF: amd: Add depends on CPU_SUP_AMD
-Date: Thu, 20 Feb 2025 10:51:26 -0600
-Message-ID: <20250220165127.492927-1-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="imxWhsdc"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6fbaa0582a6so15486987b3.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 08:57:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740070676; x=1740675476; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nQNdnw8eZcrMXGZ8JezKGVHSn8lKXmz+Y4gt/ozVgyY=;
+        b=imxWhsdcKPmAfS0pvHjf7vKwBi0OSZxi08cTK9hPdblU8Clo7MQwv0k6XWZFDO4F9k
+         qCBC/TswOy14n8hmy5XkKDhNRE//wqqFALVEQQc/hv7eSYBTJuCthhWErQd0lHLGuTon
+         7aaWHoLbCR59y78X+MNM/Q3SBZLaxUteffUXyD91a1oNsy063Zh62n3pg4cojasCoKRH
+         TJ4wHpr364v4deD+ZFEpIW8kWJTnxOc1f7Bn2/q4VNZEk2cQpn3zNjlpTHxp3GdP/viP
+         ogcCONmFnIQYZx00IE5c/X3Xlx/eH6tmONCQvpCo6P8+NdHVGcHKKOt33mZYJ3SFgOBh
+         moMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740070676; x=1740675476;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nQNdnw8eZcrMXGZ8JezKGVHSn8lKXmz+Y4gt/ozVgyY=;
+        b=sbd9fdd+DK6KD7z05QD9LTyWq9QCgfObu3LXhyJAIetOBkCsiWrHZUsYWgM53YNO1X
+         YYfCTnp3c9cm5lzP9RWgSX0D2E834njE39ZAV7bpkZH7pHUVlf0t2l4yWGWJy5ciu2zM
+         NZaJpixiWjTK6vsvcBvbfGHwtkeqS9HcLB+JyUmu1cGBztnIseHLaoB24ySkP6hNRWDY
+         AATTXESC0/Xxpc2o6v5McRcZbJC305UXU3WZZjBnfqX32yozAjIKTAeo+Vh/dvR3AJ6X
+         GhCxeCcvToGIIU0vRoQNAqM+uiR2jzjUEMEI+s+gPCwPiltnAFx7o1hGh/SHXuie9M0Q
+         orJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBbxqp49de6ATuOMyOzUqZtaI2pyjIyxGf6pDNyFDQ9nY7mrRw4JGYB5V8njIWulSUfbqT9wj//OF44Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzFKXQS6el0Fnc52dWoZNTZBaBHLjfRl3mLenoZrMGC9tKOuGG
+	5On3wn1GJPKrrqLS+aJCF53K23UP6AbVo1RevSxyH9clYHwa+cWVp1bvO5MaJc9AopaX+GGD3/F
+	uuyqPs0eMQGU3woNTV4S/xkDvt5UCv8R5U/ct4GFkuSKZbhX2
+X-Gm-Gg: ASbGncv8dD0k4IeWUMDzA+pKQKXxCSeRcDQZsUUPbPbjxwT83Mar/bHOhebWHd0GRsY
+	dAGw3GTMuJe2OeLX6gaieMSXBTeykccOtO1qwohBxWy4ULJOm+hjApOnPa9B/7TutwJxgzkVXL6
+	1JDi6JBg1R5ls=
+X-Google-Smtp-Source: AGHT+IGTzwdM7XAGbT4Wb/bnOnPG0YkAOA4aOQm7K+g+wi5SiNeO8OVb3mOzmK0qbEZl7WVYr9JV+AZdIttBgIk5bNc=
+X-Received: by 2002:a05:690c:4d42:b0:6fb:b38e:2076 with SMTP id
+ 00721157ae682-6fbb798d491mr39535587b3.11.1740070674841; Thu, 20 Feb 2025
+ 08:57:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250220162847.11994-1-srinivas.kandagatla@linaro.org> <20250220162847.11994-5-srinivas.kandagatla@linaro.org>
+In-Reply-To: <20250220162847.11994-5-srinivas.kandagatla@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 20 Feb 2025 18:57:44 +0200
+X-Gm-Features: AWEUYZmKSThXa-h2i8izvX0JkpbHRtsDXDUdPOdCOOOy3PX0YOtduln-ftn-Tik
+Message-ID: <CAA8EJprX9j_pTXxC9o0RGTNgos6ao2aLcRKsgv3pfNAQOrbChA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] ASoC: qdsp6: q6apm-dai: set correct period size
+To: srinivas.kandagatla@linaro.org
+Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	johan+linaro@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+On Thu, 20 Feb 2025 at 18:29, <srinivas.kandagatla@linaro.org> wrote:
+>
+> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>
+> For some reason we ended up with a period size which is less than 1ms,
 
-When SMN support was switched to the kernel wide AMD_NODE instead of
-local implementation this broke compilation on the allyesconfig for
-some architectures.  AMD_NODE is only supported on AMD platforms, so
-modify all the AMD drivers that use it to also require CPU_SUP_AMD.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20250220160950.2cd64bdb@canb.auug.org.au/
-Fixes: f120cf33d232 ("ASoC: SOF: amd: Use AMD_NODE")
----
- sound/soc/sof/amd/Kconfig | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/sound/soc/sof/amd/Kconfig b/sound/soc/sof/amd/Kconfig
-index 28216c8c1cf97..6eb5b2d148430 100644
---- a/sound/soc/sof/amd/Kconfig
-+++ b/sound/soc/sof/amd/Kconfig
-@@ -33,6 +33,7 @@ config SND_SOC_SOF_AMD_COMMON
- config SND_SOC_SOF_AMD_RENOIR
- 	tristate "SOF support for RENOIR"
- 	depends on SND_SOC_SOF_PCI
-+	depends on CPU_SUP_AMD
- 	select SND_SOC_SOF_AMD_COMMON
- 	help
- 	  Select this option for SOF support on AMD Renoir platform
-@@ -40,6 +41,7 @@ config SND_SOC_SOF_AMD_RENOIR
- config SND_SOC_SOF_AMD_VANGOGH
- 	tristate "SOF support for VANGOGH"
- 	depends on SND_SOC_SOF_PCI
-+	depends on CPU_SUP_AMD
- 	select SND_SOC_SOF_AMD_COMMON
- 	help
- 	  Select this option for SOF support
-@@ -50,6 +52,7 @@ config SND_SOC_SOF_AMD_VANGOGH
- config SND_SOC_SOF_AMD_REMBRANDT
- 	tristate "SOF support for REMBRANDT"
- 	depends on SND_SOC_SOF_PCI
-+	depends on CPU_SUP_AMD
- 	select SND_SOC_SOF_AMD_COMMON
- 	help
- 	  Select this option for SOF support on AMD Rembrandt platform
-@@ -82,6 +85,7 @@ config SND_SOC_SOF_AMD_SOUNDWIRE
- config SND_SOC_SOF_AMD_ACP63
- 	tristate "SOF support for ACP6.3 platform"
- 	depends on SND_SOC_SOF_PCI
-+	depends on CPU_SUP_AMD
- 	select SND_SOC_SOF_AMD_COMMON
- 	select SND_SOC_SOF_AMD_SOUNDWIRE_LINK_BASELINE
- 	help
-@@ -93,6 +97,7 @@ config SND_SOC_SOF_AMD_ACP63
- config SND_SOC_SOF_AMD_ACP70
- 	tristate "SOF support for ACP7.0 platform"
- 	depends on SND_SOC_SOF_PCI
-+	depends on CPU_SUP_AMD
- 	select SND_SOC_SOF_AMD_COMMON
- 	help
- 	  Select this option for SOF support on
+> DSP does not support such a small fragment size. Adjust this to be in
+> the range of 16ms to 32ms.
+>
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
+Fixes: ?
+
+> ---
+>  sound/soc/qcom/qdsp6/q6apm-dai.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+> index 7466fe0c661a..049b91fd7a23 100644
+> --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
+> +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+> @@ -21,11 +21,11 @@
+>  #define PLAYBACK_MIN_NUM_PERIODS       2
+>  #define PLAYBACK_MAX_NUM_PERIODS       8
+>  #define PLAYBACK_MAX_PERIOD_SIZE       65536
+> -#define PLAYBACK_MIN_PERIOD_SIZE       128
+> -#define CAPTURE_MIN_NUM_PERIODS                2
+> -#define CAPTURE_MAX_NUM_PERIODS                8
+> -#define CAPTURE_MAX_PERIOD_SIZE                4096
+> -#define CAPTURE_MIN_PERIOD_SIZE                320
+> +#define PLAYBACK_MIN_PERIOD_SIZE       6144
+> +#define CAPTURE_MIN_NUM_PERIODS                PLAYBACK_MIN_NUM_PERIODS
+> +#define CAPTURE_MAX_NUM_PERIODS                PLAYBACK_MAX_NUM_PERIODS
+> +#define CAPTURE_MAX_PERIOD_SIZE                PLAYBACK_MAX_PERIOD_SIZE
+> +#define CAPTURE_MIN_PERIOD_SIZE                PLAYBACK_MIN_PERIOD_SIZE
+>  #define BUFFER_BYTES_MAX (PLAYBACK_MAX_NUM_PERIODS * PLAYBACK_MAX_PERIOD_SIZE)
+>  #define BUFFER_BYTES_MIN (PLAYBACK_MIN_NUM_PERIODS * PLAYBACK_MIN_PERIOD_SIZE)
+>  #define COMPR_PLAYBACK_MAX_FRAGMENT_SIZE (128 * 1024)
+> --
+> 2.39.5
+>
+
+
 -- 
-2.43.0
-
+With best wishes
+Dmitry
