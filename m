@@ -1,194 +1,75 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5CE2116E1
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 17:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24F8212B0A;
+	Thu, 20 Feb 2025 17:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740072737; cv=none; b=NnFdD5/GUAFP7vSgtqRsJq077ac2k66yl/dZ9HTn603tmY8Cx7qK22t0VvNPEcz114QOhcOZVgz/+sGZxJ4g1s9slomGnwMvM+uGaEaVp5YCOyzJ3IKeYTsqmrLcGQPvFGqaArV81gLRwi88/UJ2cFMCGpFDdYytwN+uCiZhQF4=
+	t=1740073081; cv=none; b=FrjBvWI7+UjkcANo3nma/6KPPsWUuBi29B9s4NUjGvMLeuVphn+oj5Iplu1kew/BttnCIZ1yhyqVmjdEi/Ngq3Shr/e7U8UCpXWLAttAER0KG2NiCXLM1/ikJNCFR6t8626Fo1ihiSSTrNlSSrax6y1lWnu62mew0+S2047HEqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740072737; c=relaxed/simple;
-	bh=3sYO6hLTbz1Yx4jhh2H9VLVNmtvcj0Yg/VTm0rvs6nk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j2w3hij9Lt9BSY5e8Fh3t9JpNfSJAWTGJLuri14zsjrvyUODetQ10N+bvjgYIuhJPbafcdQXxq6Z41QlX6GL06ksLskh6TOuh0h0xGJDroLXgAPrMQMjY6IUjYG5XlxZKCaQzme1KVA7u2t+jOpZ/ANFJ5G6SP6SVh8qsv9pezI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=nbJmFXiM; arc=none smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1740073081; c=relaxed/simple;
+	bh=Q6mv3wC12R2i4rVWNsCzc8JGM+sJu0C3ob8GC6M5YIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NPwf5oG3eQWXYQihtMA5zKn//EQSGR7GG1x5myKQ5JmTNdhg7mBMQEsJ2wpkxrAAMz5ikYd968pzc0vfEgdZPoDxO3liNPKNwjKawPg5AdTdNF1tAeK+lGGozozU2AgdxUtaZZ4ectxhNdT73MNxv5or6wLTmMrIQoE41BRz+lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F5P7BXnj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="nbJmFXiM"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5fce03395d4so1037915eaf.2
-        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 09:32:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740072733; x=1740677533; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AIc+j8TxBrdPej0mz926UOoeIMB5TisIsEjQp/BF3M8=;
-        b=nbJmFXiMhYuFOf79oDrqVL0kUcFacWOkUYIIIVtNWcAouw843PQE6H6udff9h7i+gU
-         K4eFJbkxtrv33IsMJtypin5N4rSk0sdRI+ttHI/mxSDO4A0KnN4PzZ/P3HpBfceM97AN
-         ZSFW8VtWZMDA1DKxgTQ0KjPIWp5/P1usyYosKLxCjuVu4/4KU9tdMgYQyt7hqqGP2/JS
-         XniHexCZveNbWFfTk4e5SAcDRtuwuZtXbx1TAY8A889gGMqIMoOECdNpUlX6+oR1TmrQ
-         ncy6dQ1Cxw4daDyqeZsTLbhTWMqIFz3GX9XN+ELoQoHLWvGmr2inL/N9EN9OVTsJ+xkM
-         tzOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740072733; x=1740677533;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AIc+j8TxBrdPej0mz926UOoeIMB5TisIsEjQp/BF3M8=;
-        b=KY2I1g9DQ303Dz6zRuneBnqdqcXF84pcuF+7rgimEM4UZJMLz6ElXMcuQOZNMzFkNV
-         FoBlWMjbsFk7ylMBuQEWD7B5EZdcml3yiwr7yTBo9sEQXtGF7+aE77wqEeziObBKdNT9
-         KThTch6MF1wfwewl8oq2p3Jn0sgEV2a13T9BJoevO6NAn3Hbhj/gI4SsDsSQZhKCWAbb
-         rrpkGCDffVPpaFFNLEg7IXb3AoeZVhajpJRGf5ALfU3WicV/7WN34JQJy3ZL0jPxzVh9
-         cS7ZrYIL+tTK6EnCyPzgIwyKcI+eJUnYurUt8Q6mXD6N6o2wjfDURHx5fwj38pfgAqU8
-         MUsA==
-X-Forwarded-Encrypted: i=1; AJvYcCXP0PeXrKocqDr3xpr4KzF31gXEysPBNoWbJQutXM756H32GUVNHxw+vu5yNC60/dMZU+rIQ97M386FsA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTiy5M/NhwiwCXfxusv1e7QEel9Xgryd6crYnrYhUuPlBHiEiv
-	tKk70vW0UHfW9tDU5ld/E+Houj9A1BhoxpkB2+z4V6ZXFO6KojRApg6QNQQrqW0=
-X-Gm-Gg: ASbGnctMer4k84skB+vRftomDVyuh/A6xMNkgrCAfryVNbDvzX4/pWxaakLy++E9/WQ
-	L8nlMlCHaftyDYW5bx/Ii+pVYTtqezK7hAk46K61up9J1UoClT07hLjVHl6XZYXXO71ScfbkOug
-	C+R0+Ni7vphD0jEGNiHogfD7x4nfplGcpkcVK5+SJ25u3EcWn+z/uH3AlA/ADbrc2ejNRkkOlDV
-	5kvwPv5vmDe6IOO9wcB6shC5Nz4r/bW/lAfbiV7m78hsCcGX5z+HJk72BaCbHkl6j6HbVDH7EXS
-	gDkC6hqlxq/BY//TOJGimL2v7wqSDIAycY+inICXR8ftuGk8eo51
-X-Google-Smtp-Source: AGHT+IHr8T5reKexqMOxlmPqVf7GUavXfHMshpa/XldJ83QUP4dtM6xNCp5f26J8xaA/wL6S5nPJuQ==
-X-Received: by 2002:a05:6820:260d:b0:5fc:92b3:2b03 with SMTP id 006d021491bc7-5fd1949807fmr168082eaf.1.1740072733243;
-        Thu, 20 Feb 2025 09:32:13 -0800 (PST)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7271f7c5ba8sm2752929a34.32.2025.02.20.09.32.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Feb 2025 09:32:12 -0800 (PST)
-Message-ID: <0084eef7-3831-4e62-acf1-6c2dc0e15dd1@baylibre.com>
-Date: Thu, 20 Feb 2025 11:32:10 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F5P7BXnj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D851C4CED1;
+	Thu, 20 Feb 2025 17:38:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740073081;
+	bh=Q6mv3wC12R2i4rVWNsCzc8JGM+sJu0C3ob8GC6M5YIE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F5P7BXnjFl0hwqtUO2HoMhl26OfiT7PBAzOyx0RfsI3waezekRiZswaA1kD+SXpK/
+	 lEx7s1IA7wtLxkvpWx/VlrnqEhuS7fuyKiorCB0KZZoTUUks0VuEHnuvM1uKV+r8nb
+	 s/didwRe73lUkxCx5mdPxLM8g+4wgMvMkAoMRPAKebaTkcBKD7Y67FrrF2RoC+wiCg
+	 e0nhe4niDZZLLFzVsPyMd6BdQKxKgV8hPdtTO9wB7UiTjOPZGWPXD/EDAFEkUf9yts
+	 vb7q4z63+9Jc3X0ReAgU5O6qGrEqzAOFn2F9Jifvke9h5QCudgZvnUYOQc6TdFOh6I
+	 ELsTxivybBhBg==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tlAV1-000000007lw-3opl;
+	Thu, 20 Feb 2025 18:38:12 +0100
+Date: Thu, 20 Feb 2025 18:38:11 +0100
+From: Johan Hovold <johan@kernel.org>
+To: srinivas.kandagatla@linaro.org
+Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
+Subject: Re: [PATCH v2 0/5] ASoC: q6apm: fix under runs and fragment sizes
+Message-ID: <Z7dog3cWe4BroZdT@hovoldconsulting.com>
+References: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/15] bus: ts-nbus: use bitmap_get_value8()
-To: Simon Horman <horms@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-sound@vger.kernel.org,
- Andy Shevchenko <andy.shevchenko@gmail.com>
-References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
- <20250210-gpio-set-array-helper-v3-5-d6a673674da8@baylibre.com>
- <20250220101742.GR1615191@kernel.org>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20250220101742.GR1615191@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
 
-On 2/20/25 4:17 AM, Simon Horman wrote:
-> On Mon, Feb 10, 2025 at 04:33:31PM -0600, David Lechner wrote:
->> Use bitmap_get_value8() instead of accessing the bitmap directly.
->>
->> Accessing the bitmap directly is not considered good practice. We now
->> have a helper function that can be used instead, so let's use it.
->>
->> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> u> Signed-off-by: David Lechner <dlechner@baylibre.com>
->> ---
->>  drivers/bus/ts-nbus.c | 5 +++--
->>  1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/bus/ts-nbus.c b/drivers/bus/ts-nbus.c
->> index b4c9308caf0647a3261071d9527fffce77784af2..beac67f3b820377f8bb1fc4f4ee77e15ee240834 100644
->> --- a/drivers/bus/ts-nbus.c
->> +++ b/drivers/bus/ts-nbus.c
->> @@ -10,6 +10,7 @@
->>   * TS-4600 SoM.
->>   */
->>  
->> +#include <linux/bitmap.h>
->>  #include <linux/bitops.h>
->>  #include <linux/gpio/consumer.h>
->>  #include <linux/kernel.h>
->> @@ -107,7 +108,7 @@ static void ts_nbus_reset_bus(struct ts_nbus *ts_nbus)
->>  {
->>  	DECLARE_BITMAP(values, 8);
->>  
->> -	values[0] = 0;
->> +	bitmap_set_value8(values, byte, 0);
-> 
-> Hi David,
-> 
-> byte doesn't appear to exist in the scope of this function.
-> 
-> I tried this:
-> 
-> 	bitmap_set_value8(values, 0, 8);
-> 
-> But when compiling with GCC 14.2.0 I see warnings that values
-> is used uninitialised - bitmap_set_value8() appears to rely on
-> it being so.
+Hi Srini,
 
-Ah yes, I see the problem (I don't think this driver compiles with
-allmodconfig so the compiler didn't catch it for me).
+On Thu, Feb 20, 2025 at 04:28:42PM +0000, Srinivas Kandagatla wrote:
 
+> On Qualcomm Audioreach setup, some of the audio artifacts are seen in
+> both recording and playback. These patches fix issues by
+> 1. Adjusting the fragment size that dsp can service.
+> 2. schedule available playback buffers in time for dsp to not hit under runs 
+> 3. remove some of the manual calculations done to get hardware pointer.
 > 
->   CC      drivers/bus/ts-nbus.o
-> In file included from drivers/bus/ts-nbus.c:13:
-> In function ‘bitmap_write’,
->     inlined from ‘ts_nbus_reset_bus’ at drivers/bus/ts-nbus.c:111:2:
-> ./include/linux/bitmap.h:818:12: error: ‘values’ is used uninitialized [-Werror=uninitialized]
->   818 |         map[index] &= (fit ? (~(mask << offset)) : ~BITMAP_FIRST_WORD_MASK(start));
->       |         ~~~^~~~~~~
-> In file included from ./include/linux/kasan-checks.h:5,
->                  from ./include/asm-generic/rwonce.h:26,
->                  from ./arch/x86/include/generated/asm/rwonce.h:1,
->                  from ./include/linux/compiler.h:344,
->                  from ./include/linux/build_bug.h:5,
->                  from ./include/linux/bits.h:22,
->                  from ./include/linux/bitops.h:6,
->                  from ./include/linux/bitmap.h:8:
-> drivers/bus/ts-nbus.c: In function ‘ts_nbus_reset_bus’:
-> drivers/bus/ts-nbus.c:109:24: note: ‘values’ declared here
->   109 |         DECLARE_BITMAP(values, 8);
->       |                        ^~~~~~
-> ./include/linux/types.h:11:23: note: in definition of macro ‘DECLARE_BITMAP’
->    11 |         unsigned long name[BITS_TO_LONGS(bits)]
->       |                       ^~~~
+> With these patches, am able to see Audio quality improvements.
 > 
-> 
->>  
->>  	gpiod_multi_set_value_cansleep(ts_nbus->data, values);
->>  	gpiod_set_value_cansleep(ts_nbus->csn, 0);
->> @@ -151,7 +152,7 @@ static void ts_nbus_write_byte(struct ts_nbus *ts_nbus, u8 byte)
->>  {
->>  	DECLARE_BITMAP(values, 8);
+> Any testing would be appreciated.
 
-We can fix by zero-initialing the bitmap.
+With this series, the choppy (robotic) capture when using pipewire
+appears to be fixed (pulseaudio worked before).
 
-	DECLARE_BITMAP(values, 8) = { };
+Playback is still choppy (heavily distorted), though, and now it also
+appears to be too slow.
 
-Would you like me to send a new version of the patch?
+I tested using pw-record and pw-play (and mpv) on the T14s (6.14-rc3).
 
->>  
->> -	values[0] = byte;
->> +	bitmap_set_value8(values, byte, 8);
->>  
->>  	gpiod_multi_set_value_cansleep(ts_nbus->data, values);
->>  }
->>
->> -- 
->> 2.43.0
->>
-
+Johan
