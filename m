@@ -1,222 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DD41FECBA
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 15:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740066176; cv=fail; b=mdYwCWnT7rl93RnHXEuGFWm7qQPcQgESpf+qfaxtN6C80kA8ZSQMCKLrKJUB3UMR0MWZM0xqO05+h/QkNUiV3pAn0YetsqDCP4FlBXyx5/Ed9pClXe39/mVQL4ikNcZkVEVuv1xYxqnqGfeb2UA3N+lCTwkZlItgxwuTpjkdRQo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740066176; c=relaxed/simple;
-	bh=FK4Qu6MJy4KMZezYWHn7tLEiwICuvGh5yNgqbg3v8F0=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=lYbyK26OLZhfMssh70nSezjcGixRMlcklku0qrWIxvA7qeH1EpplTSA1OGpUL6Yt0iEnkj3D1J58vDJVIe0PbSjS3Ky9vy+1TyQRxVikZp/MIE0tR/1U28Xzq7yFWV8wkoCkoJ96cvJQqdh4dfVjrLpR+8fB6I7Fbp08xeOhY9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I7HreAux; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8358C13BACC;
+	Thu, 20 Feb 2025 15:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740066432; cv=none; b=ko320whSvU4XjJQQv62vrS+IabETHNCev/gyYfhfHqbQHr23/UtUTgY7Og2YFSkKUyd/CLRen0/oEVjK5t9+M/UUUKF+ePfyk5liTbt6aT3EkCfwj9KPI+K5wu5UMvhRHgpPDpxsn8ezYjOgWbcTj+LEtqENGH+qCK9v7lEbEZM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740066432; c=relaxed/simple;
+	bh=4ni84CzkNyV93MRYSwVLLXyfCfXfk8pzJmoa9OW/6cA=;
+	h=Content-Type:Date:Message-Id:From:Subject:Cc:To:Mime-Version:
+	 References:In-Reply-To; b=GLIbJhDgxg6UMq0co7Nlv8RAFsrXTLMnomb61mg2xkAg3MwovaY9Zz8lBiuieX0cFkjD2hUk2fSFZcQnPB2nVaxT1cOmLnjGiEdfz06b1bi4CDCEpGt1hkbIjul64ihbt6NBNEySPbfMJ9BNdTfid6V2jWE8gRfq/An96bmphhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bDdFbWWV; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I7HreAux"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740066175; x=1771602175;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=FK4Qu6MJy4KMZezYWHn7tLEiwICuvGh5yNgqbg3v8F0=;
-  b=I7HreAuxgh30kwv4Ac4b5s2ZGXhomiJxvqrCGrlH9yw+RHFZ2gJNslxy
-   UCgLbBwkTKLFhtTilO4+3nOxn1pDcX+cflF9H7BFwkUvOmMtNHqcfBzfx
-   1da1RG/LNs0T2im+9lfQI5uhnp9RkXJpF/wYjqovbEShrJ9LJ7Pv7lwWY
-   fLArlPUNUcq7j7xHXh+2ebvZB2Ef3yO7RqNsHE9z+lfRFdQP6pUSVZrMR
-   im5OIpiEhRuQRX3p0E79Ipm8Le/UWB0/MB6sZEocAi/Ob/tvsbIO/lnxw
-   xU3yRYwbGWiNWTK+24PQZYhw1MrwV2SxCX4YM7U4m8PxaRxjmyKd5c8Q+
-   w==;
-X-CSE-ConnectionGUID: QPc6Wr3xSk+WdkaYsNEkNg==
-X-CSE-MsgGUID: ki54K+q5QNG1FS6T1FTtrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51469871"
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="51469871"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 07:42:54 -0800
-X-CSE-ConnectionGUID: 3FvQLsgISvKNj3ApHtIABw==
-X-CSE-MsgGUID: 79XsmCc+TZG3vGhS7YNxXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="152262925"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Feb 2025 07:42:54 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Thu, 20 Feb 2025 07:42:53 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 20 Feb 2025 07:42:53 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.42) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 20 Feb 2025 07:42:49 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fqwDi4L54U02L5CpnLGFqwirVI+BdmT8CBo6EknFqSiGMt2NgZSj2gw3hRvc1WskvIUm9+9lg8paNTX2bJ9/uEZl09Lu53mHalwjlK1eryX1F7RKMqlaqRSCy7xH3a4UVTDmWNqTfQLQlC+qT2eE+N59N/3gUtR4VUZXI74IAt7RKIjhyBhgAFqDx2eXP0IUX5ZUgDRqPfTjQnVL/gmv9kX3CrWJcQpHzMtVt5/DObnMiEeU+KyO0UycOMZxkabRWa6abwlvH3ET6nu0Y9Nvtmh70phCvJ9dLzZQH5FDzdlBf1l6MTLTCPCL3/XnUgBtme9To68tKwj2p7BnPlvEmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CZlFAmiQo9Lct2QibfWH5XeGh5VyDx/MPPBWNBY0So4=;
- b=p7YGCSethJ4sRuS1U8tSebM7xpJXC5T6hrmHPPvegtd9oZ9BikJ8PDvMaTS9dNJZOUI8qorDMbrakAJFmLxnRVlNYWWWyx8MI7HcMdcLGdy9MHJT5OwxjSF9kvjQcnd2pIXai/0TZeEYiK5F2MfrQ0thLFKpSUF0fLr+jK7Kvdel04SFMwG1mAZ0835f64O8dTVxKT576e3yC6JRMmsbyjEW3MV1Dz3+uih8I5h68cuGpRv/+tPLVE2wXZKutCjN76BcgFzUSf2kwpXUDaFnZfj6N1I9oFvy/WnEKHG/EmZcrrZQU47JXKYSPzjNzyezNy/RylpKBuk6sFZcj8vxcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com (2603:10b6:8:c9::21) by
- SA1PR11MB6783.namprd11.prod.outlook.com (2603:10b6:806:25f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.21; Thu, 20 Feb
- 2025 15:42:28 +0000
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::cd01:59f6:b0f8:c832]) by DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::cd01:59f6:b0f8:c832%4]) with mapi id 15.20.8466.013; Thu, 20 Feb 2025
- 15:42:28 +0000
-Message-ID: <e605b550-fa8a-43a8-920f-f2ea2a17a110@intel.com>
-Date: Thu, 20 Feb 2025 16:42:22 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/24] ASoC: codecs: rt5660: Fix definition of device_id
- tables
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: <broonie@kernel.org>, <tiwai@suse.com>, <perex@perex.cz>,
-	<amadeuszx.slawinski@linux.intel.com>, <linux-sound@vger.kernel.org>,
-	<oder_chiou@realtek.com>, <flove@realtek.com>
-References: <20250220112643.3813295-1-cezary.rojewski@intel.com>
- <20250220112643.3813295-15-cezary.rojewski@intel.com>
- <Z7c4j74gUjtbvgo8@smile.fi.intel.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <Z7c4j74gUjtbvgo8@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR02CA0075.eurprd02.prod.outlook.com
- (2603:10a6:802:14::46) To DS0PR11MB6375.namprd11.prod.outlook.com
- (2603:10b6:8:c9::21)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bDdFbWWV"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 66093443FB;
+	Thu, 20 Feb 2025 15:47:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740066422;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hFrZx3aO5d5jVw4+5EsyssrmSSe7/642XQj528XSzqM=;
+	b=bDdFbWWVaeY1uvx7YeYMrUZTlW/PU/1bK5dr2xnrgNxYMFOQbIGd81V+YSMLywKxmebUJV
+	MX4enZUVeRaqtpAI8r3O5MSD+CZ3nL6QRh1bg4czEFxcEbwwpGmk4oYse4rTaqLJ3uJGTS
+	Y8DdvjlcWYs29T1nNZFQXMaZ9kosaHhd6301rlaA4kY5jYBvO7pGw3Esy5vbhl/cTrrm47
+	yJ++wTWIgVWRQ0XOWUtTWMbd/HfmIHON7/EMmF4v5D8mFoMSsgUv3trgt+acqJh5VmopgE
+	tmVxfYkcBOBWVwfKcBCLNZtZzlLpPsWG8U0o4XB2ICDW1urDcqB856Ea2Fsdsg==
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 20 Feb 2025 16:46:59 +0100
+Message-Id: <D7XE2DSESCHX.328BJ5KCEFH0A@bootlin.com>
+From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+Subject: Re: [PATCH 0/2] driver core: platform: avoid use-after-free on
+ device name
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Rob Herring" <robh@kernel.org>, "Saravana Kannan"
+ <saravanak@google.com>, "David S. Miller" <davem@davemloft.net>, "Grant
+ Likely" <grant.likely@secretlab.ca>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark
+ Brown" <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, "Binbin Zhou" <zhoubinbin@loongson.cn>,
+ <linux-sound@vger.kernel.org>, "Vladimir Kondratiev"
+ <vladimir.kondratiev@mobileye.com>, =?utf-8?q?Gr=C3=A9gory_Clement?=
+ <gregory.clement@bootlin.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, "Tawfik Bayouk"
+ <tawfik.bayouk@mobileye.com>, <stable@vger.kernel.org>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|SA1PR11MB6783:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2f214a69-ee89-4243-f3e8-08dd51c52e30
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bzhKVWJDZXJrN2tTTnk5QldqZnhwNFVyMldXWVNTbzNPWlM1aUllS1hFeFZu?=
- =?utf-8?B?UnR6UFdYRzMwdEREazNNQkc0OWIxY1dWbUdKdllRd0hnM2dhYXd4TjhXSm9I?=
- =?utf-8?B?ZHJtb1NkdEt0QzVzNUQwQWlHTlN0V0ZGUEdQL0hvb3F2MThSUFFwR0pGRTRx?=
- =?utf-8?B?SWVxUE1KYVVxcDdZbzlkdWcwN2NHN2QxVW5NQVNHNmFLQVpBb0tud1o5c25I?=
- =?utf-8?B?YkRZS1F0TE5UZzBYdCtDWGlDRDl2YmJFdVF6bTF5QllGaTgzaElMNjljYnlU?=
- =?utf-8?B?cGFzTWlhNDNucDlsT3hHcVQ2MHBLSzhoTDZuejNDdTkyY1N0UWpLMG5RYktt?=
- =?utf-8?B?dm1XVE1yOGNrdzgrYitxN2ZiREtaRVBkS2xzSEZCT2JicEpJK1F2SDJHcldQ?=
- =?utf-8?B?d2YxZFo0Q1FuQk1QcXl0ZlkxUXlwVDRjRkl4VHlKdU1BUGxWRUF3WXNLbXVR?=
- =?utf-8?B?cU43dE5HNkRVdzRGRGRrdzlkU1JlOGlNODlmdjVrdkg1VzVkOVh1dFVxa2dm?=
- =?utf-8?B?Uzh4d0FqMndkaGdxRkFqUEtSc01yOFNKKzVheS8vcVNRQlVaUmsrVnRDVVpt?=
- =?utf-8?B?TmJPTk55T2F1aVM0b21Dc0x5aVFXN2VjQitCMDlMaHBJU0V1M2hyazAwQTFl?=
- =?utf-8?B?UFZBV2RGYUwzY2JaS215ejRhY2x5azlIMXNOMDJua2UrWFBkZ3F6RW0wYjhy?=
- =?utf-8?B?TW9Dc3VDRi91YmlkSjFMOWE5Yyt2QWRmZUNVOXdyKzArZ2ZDdHBqMnREbWxS?=
- =?utf-8?B?di9pNjYrcnhqdGhNL0txdFB4ZkhtNzRPMGhSdEJnNDdxV005RTRhWGp2NFN1?=
- =?utf-8?B?UGE0cmtCR1k5aElGRTRJK1hpNmt0U3NKZmxsK2pUZUJZWlBXSWdScEg3T3Qw?=
- =?utf-8?B?MWkvQmJURVVGcGY4ZHY1d2NyOWM4V3I0anRmYi9wUHY3OE01L1JZenZNb0Zp?=
- =?utf-8?B?QktrV0ovZy9XL1dNRUVoQnRNSG9hdS9IRFd3WEIza05ZbjRSSE9mcmplamJO?=
- =?utf-8?B?V2UzREtMV24wRHBuNW9NclNLZHFQZTFEUlB4ZmxVQmVQMitBYnVkV3BwdlVj?=
- =?utf-8?B?Mk1odUY0c0NtNWk4aGYzZUZXTFY4UkJEcmY4SmxVcnBLY2V5TnBya0plcWZp?=
- =?utf-8?B?K05EL3U1YWJsakxZVnRDRy95K2RtY1BSTFFGSEVIdWgvNkJDcEwyYUVFdTZB?=
- =?utf-8?B?VC9xTTZXMXdqeXVseFkvRXJUdVBFTHFETUxOOUQvYmlXUHJhMit1dEZVRlNl?=
- =?utf-8?B?UmFIZCtXakc2RmhCaGRoNGcvcTRHMjJOQ1JzT0RPUGU4ZDBjRyt1N0FSWEEw?=
- =?utf-8?B?SmhxVXBhL1pnRVo4WmJxQjdJcG5yckZyK2FYUWlJd1JoSVNWdEtnNERuUFY3?=
- =?utf-8?B?Y3RORnhPczcxc0pZY0dqTVpkN3BCanJZbWdydU54U0t3YTVMa0pmRHhabzBo?=
- =?utf-8?B?bkVqN3ZUeEM3WHZKcXgxRytGdW1RSWNZYXp0QTJkUmNaM21BMVNwK3V2RmZp?=
- =?utf-8?B?bDJ3OXhBQ0xYU2tYM29OdCtLMWtyMzdkanJUS3RoWVNWTXJ1Wml4REhDQUY5?=
- =?utf-8?B?YUZOU3hSNjlmcnlhZE5iNHZDNDR2c1E0MDQzWFJkbkFRVklMR3pRSk9aVXky?=
- =?utf-8?B?NmVCdXpWL2YvclcxUGZGREVsWFFzcTRzRVhkV2VLWVFxQTZDSlZqQXFXTDNv?=
- =?utf-8?B?QW1SVWVMcDloMDNxcXBmWTA1QTdhcEdXZ0QrTEZ6aXlrT0djNU9HYkJvYVNz?=
- =?utf-8?B?c1hZOFJGRENyRXdPUTFiMDhNNVg0c3ZLSFpWeDdLRXFPQlFIZ1k4R3h4Ymlk?=
- =?utf-8?B?alRQakQrdDJ5eDR3ZG82Kzl4QVhKRVlCSWJwZkJBSGtxNk1yM1d5dnRuelY4?=
- =?utf-8?Q?aw37mLTb8S4eu?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0ZpR1dTWjhNN09abWpsWDVOYlRGZ3YwWmxBZVg3R1lyUG9ZRmFGUldXMmVt?=
- =?utf-8?B?SnB1dGQ0ZzI0Qi9IL1J5aG1qcDFDZ2dhM0lab0NLMEtEVTRaUS9jV3E0VXl0?=
- =?utf-8?B?eWZpbjhDS0NpYUJmVkFnUXYxSFRsVGZOdVBleTVwTDc2RmdCM1p0aER6Y1Nn?=
- =?utf-8?B?eXc5b25neUpOZEpMUFVaT2hMamZybzNmMlJGWlZTbGF6aXdmeUVDcXRyb0pW?=
- =?utf-8?B?ZEVWajUyR0dQbGlDYk8ySDJUdlN2aVZxa1JQMno1UzNua2VvWFNBVU9vL002?=
- =?utf-8?B?T1RvU3M2REVzVXA2U2dlS29GNzk2dTRPYzNYQldPMStIUkVxMFhZRFQ5K1l4?=
- =?utf-8?B?TmVnM3ZZYTU3THJ2YncvYVR2bzZHVmk0SlYxbi9MSzJ6bldjc3htYnFZaGR4?=
- =?utf-8?B?TFRlbkF1QkhxY0pubVZCa29jTWduaUhrd3RMWjEwYk5aSkh3YWZBWXR6Wm5o?=
- =?utf-8?B?eHBPakxacjZLTWc3Tjd0bVBhZjdRc3FsdXlqVXpHWUVqYmZwNnpHRTU2bU92?=
- =?utf-8?B?Z3gyRW4zT0dTS2padUthanhrd2MwSlJUbE96YkpHN2ZWbVNzc1RWYzdwb3RX?=
- =?utf-8?B?cnhwVURGdEM1ZzdubVZSWEh3R3RpRzR0R0JLVytPd1FVcHFjYVdBd3VHQUlU?=
- =?utf-8?B?eUNoMm8rWHl4RDArbVNWVk9VTjNub2pQZXJiRG56U21mazdacjg1b25NZDRy?=
- =?utf-8?B?MW42eU0vcEpwa09yOXh4QU5ZQ2dpRERHaUk3bzVFeXphMWZtY2hETlo2dGQw?=
- =?utf-8?B?dm5rMmxDN1M1d21KUm01RmhDWFFJalkrWTNuVWMybXBXdGRXS1VSMkZiT3pY?=
- =?utf-8?B?bFdHb0FGUFMxSWUxazViOVBlZG1HVk9rZ1JWenl4TWZ3RE1odmtzVlprTUtO?=
- =?utf-8?B?WUtTV0lOSThvM3ljRXNwRXY5QUw0cEhqMWJoaHhOdEJWakM4Tmx0bXZxRklJ?=
- =?utf-8?B?RWlLaUdIYlJRLzJOT1JXYlpac1Q3dEhlU3RpMklLWVVzVnBnMEN2OUNobEZG?=
- =?utf-8?B?KzJLSkVjOGIyM2ZvdE51ZkNIczQrNDlHWkpjTWtQazZ3TG1HUDlCZW12Z2Zq?=
- =?utf-8?B?aDFBVVJjeStpSElnU1Rld09neGlVYTlrVVNxTlB5aXFmdDVZT1JpemVWRjFm?=
- =?utf-8?B?NXEzakpJRlk3eHBVMW9TamlFNUlDZ29FaXJ0Rml5SGg3cU93QzJRdXNNbkxG?=
- =?utf-8?B?bTRHZ0JOSXBhV0QxaVpQbUkyMTVzWjdmYWdPSHN6cHlTOThNZzNiSFBXdVlz?=
- =?utf-8?B?c3dOUkEvOCsxUVRFYkxkZndqSWF5bStJVFU1ck1qbzhhSlJjYzlCV1d2bDY2?=
- =?utf-8?B?dzVoY1g3enVFNWp5djR1UHptTm9wcGppRFdycTJYUU56T3dHelYvbU5YWUR4?=
- =?utf-8?B?Q0dtbWNQZ0FDSjVwdGJnS0FBaUxxMUlDZk5Uc2E0SlNIbmJyWThhQU1FK1N5?=
- =?utf-8?B?bEhnZE84eVI1TE5rNUVkalRoa2NqZW9HOFR4c2tUYW9SM2tYU1doS0xWcm9w?=
- =?utf-8?B?dGV1UkEyTkZiNU1nQ2ZnU1lPM3ZsRjVsalpPeDQxaUUrdFBIdnc1TEUwYS9o?=
- =?utf-8?B?ZXk0YUxmSFhJVkhtc1hyZHlhQmU5ZXZRQ0t4bWdTd09kN20reXJzNkdydUxh?=
- =?utf-8?B?M3g3VmxEOVZ3dHdsdE9GWUJBVnpGUXdTUGxYMUp6SVl2Y3RuUnRSc2dJNzV1?=
- =?utf-8?B?cDVzc2xlWGZHeDZwZUFHTkRSa0ErSEltbC9qNm0zS2o3N1ArQ3ZRVE53YXg0?=
- =?utf-8?B?UHh1MlJxU3dha1prWUsraUxXOG8wK0F0QTNaSlBqVlgrdS9OdUpRVXJobUhz?=
- =?utf-8?B?b013UDFCc2RJVjdmbEJaT0dYN3d3aXIxeEYwbElMMUNTaHNDMnJnS2YremdB?=
- =?utf-8?B?dFA3dEd4TW1QRGV5K0tPNzhJcmpBVGQ4TnhYY3dLbkhGYWJBSE1Uc05zUXJE?=
- =?utf-8?B?OVJ1MFBKZEIxdjhrYkF6Smpwam5HZWlRMkdXRCs2cUM5WHVxQXpTeEpHVk9Y?=
- =?utf-8?B?RU80K3h6dXNVdTJEZnI3anJKdEdoUXQzeURsbHJnWFpTcEdVaG1ydVJUK1h4?=
- =?utf-8?B?aWxPQjNRRmpNTTM4ZnpRRVJ2RXNiSXBMT0JEVG9pTWZqTVRXNll0UEtiWlgx?=
- =?utf-8?B?Qm5SYzN4Y0pUVDFDS2VSN01Ub1FncDJuRDkzTlBxeGZCSUl5RndqTXBubHJ2?=
- =?utf-8?B?emc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f214a69-ee89-4243-f3e8-08dd51c52e30
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6375.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 15:42:28.4567
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J7WtARg+DyZIKCBU/B58K3+pTTwD+fK3zqKyBS1B2EV4yD7HUanzs4Rt/VUzaJbLTYp4bnfqWXANQkO4zaoK4Bd3vkl/qR7ck2AzhO/rl5Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6783
-X-OriginatorOrg: intel.com
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250218-pdev-uaf-v1-0-5ea1a0d3aba0@bootlin.com>
+ <2025022005-affluent-hardcore-c595@gregkh>
+ <D7XB6MXRYVLY.3RM4EJEWD1IQM@bootlin.com>
+ <2025022004-scheming-expend-b9b3@gregkh>
+In-Reply-To: <2025022004-scheming-expend-b9b3@gregkh>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeijeehtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurheptgffkffhufevvfgggffofhgjsehtqhertdertdejnecuhfhrohhmpefvhhorohcunfgvsghruhhnuceothhhvghordhlvggsrhhunhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeevvedugefhudfhgedtgeeuhfeufeejteeikeefledtheektdehgeekkeevleeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmeeiieegsgemfhdtfhhfmehfvgdutdemlegvfhgunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmeeiieegsgemfhdtfhhfmehfvgdutdemlegvfhgupdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehthhgvohdrlhgvsghruhhnsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvtddprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrkhhrsehkvghrn
+ hgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrrhgrvhgrnhgrkhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopehgrhgrnhhtrdhlihhkvghlhiesshgvtghrvghtlhgrsgdrtggrpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-GND-Sasl: theo.lebrun@bootlin.com
 
-On 2025-02-20 3:13 PM, Andy Shevchenko wrote:
-> On Thu, Feb 20, 2025 at 12:26:33PM +0100, Cezary Rojewski wrote:
->> There shall be no comma after the terminator entry and initializing
->> fields with 0 for statically defined structs is redundant.
-> 
-> ...
-> 
->>   static const struct acpi_device_id rt5660_acpi_match[] = {
->> -	{ "10EC5660", 0 },
->> -	{ "10EC3277", 0 },
->> -	{ },
->> +	{ "10EC5660" },
->> +	{ "10EC3277" },
->> +	{}
->>   };
-> 
-> While at it, can you sort them alphabetically?
+On Thu Feb 20, 2025 at 3:06 PM CET, Greg Kroah-Hartman wrote:
+> On Thu, Feb 20, 2025 at 02:31:29PM +0100, Th=C3=A9o Lebrun wrote:
+>> On Thu Feb 20, 2025 at 1:41 PM CET, Greg Kroah-Hartman wrote:
+>> > On Tue, Feb 18, 2025 at 12:00:11PM +0100, Th=C3=A9o Lebrun wrote:
+>> >> The solution proposed is to add a flag to platform_device that tells =
+if
+>> >> it is responsible for freeing its name. We can then duplicate the
+>> >> device name inside of_device_add() instead of copying the pointer.
+>> >
+>> > Ick.
+>> >
+>> >> What is done elsewhere?
+>> >>  - Platform bus code does a copy of the argument name that is stored
+>> >>    alongside the struct platform_device; see platform_device_alloc()[=
+1].
+>> >>  - Other busses duplicate the device name; either through a dynamic
+>> >>    allocation [2] or through an array embedded inside devices [3].
+>> >>  - Some busses don't have a separate name; when they want a name they
+>> >>    take it from the device [4].
+>> >
+>> > Really ick.
+>> >
+>> > Let's do the right thing here and just get rid of the name pointer
+>> > entirely in struct platform_device please.  Isn't that the correct
+>> > thing that way the driver core logic will work properly for all of thi=
+s.
+>>=20
+>> I would agree, if it wasn't for this consideration that is found in the
+>> commit message [0]:
+>
+> What, that the of code is broken?  Then it should be fixed, why does it
+> need a pointer to a name at all anyway?  It shouldn't be needed there
+> either.
 
-Ack.
+I cannot guess why it originally has a separate pdev->name field.
+All I can tell you is a good reason to have one, as quoted below.
 
-> Also, a side note: perhaps at some point you are going to remove those ugly
-> ifdeffery around them along with unuseful ACPI_PTR() / of_match_ptr() calls.
-> With that in some cases we can get rid of unneeded of.h and/or acpi.h inclusions
-> (the ID table definitions come from mod_devicetable.h).
+>> > It is important to duplicate! pdev->name must not change to make sure
+>> > the platform_match() return value is stable over time. If we updated
+>> > pdev->name alongside dev->name, once a device probes and changes its
+>> > name then the platform_match() return value would change.
+>>=20
+>> I'd be fine sending a V2 that removes the field *and the fallback* [1],
+>> but I don't have the full scope in mind to know what would become broken=
+.
+>>=20
+>> [0]: https://lore.kernel.org/lkml/20250218-pdev-uaf-v1-2-5ea1a0d3aba0@bo=
+otlin.com/
+>> [1]: https://elixir.bootlin.com/linux/v6.13.3/source/drivers/base/platfo=
+rm.c#L1357
+>
+> The fallback will not need to be removed, properly point to the name of
+> the device and it should work correctly.
 
-I do not see a reason not to. We'll do so in a separate series to not 
-mix the subjects though. This will probably also scale beyond 'just' rt*.
+No, it will not work correctly, as the above quote indicates.
 
-Czarek
+Let's assume we remove the field, this situation would be broken:
+ - OF allocates platform devices and gives them names.
+ - A device matches with a driver, which gets probed.
+ - During the probe, driver does a dev_set_name().
+ - Afterwards, the upcoming platform_match() against other drivers are
+   called with another device name.
+
+We should be safe as there are guardraids to not probe twice a device,
+see __driver_probe_device() that checks dev->driver is NULL. But it
+isn't a situation we should be in.
+
+Another broken situation:
+ - OF allocates platform devices and gives them names.
+ - A device matches with a driver, which gets probed based on its name.
+ - During the probe, driver does a dev_set_name().
+ - Module is removed.
+ - Module is re-added, the (driver, device) pair don't end up matching
+   again because the device name changed.
+
+I might be missing other edge-cases.
+
+Conclusion: we need a constant name for platform devices as we want the
+return value of platform_match() to stay stable across time.
+
+Regards,
+
+--
+Th=C3=A9o Lebrun, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
