@@ -1,71 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A5825E475
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 18:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C681E3761
+	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 18:48:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740077207; cv=none; b=QTgIL1QKn/jtfcIy6n/KoLuWR9bfbk1F22Nd6HilaQa16kwHg40O9XIQZvnzn6R5haT9+oy643P1J/WAicF45jRNxupLJQBcNNpKFEEtLh7RAHWYT4OeZZogR9Vz3AMVIMld07rzvmI4fnpxnD7tXxqDQtjJ6E5vuJ5dtSaXH5M=
+	t=1740077308; cv=none; b=eHSLAM0iDahDCyiUcsTBGeTlVRjvgwPJxNq5mnLf590NVfwAJ65q2M8LZUTELeSvnaw6Uc82/6oYXiZXvRLoTAb057VyCRSZbBzIlL1Qt6ONs1rDQIF4q6Mt34hsxOsI+rVTTpgB6FJ6sEq/wYCaNO0E8mdTqEQWOzSAUewNtq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740077207; c=relaxed/simple;
-	bh=6hvWLbt500F/ZfTb9gRi919LYwu2xVpuFfyEb1lDALU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pyR+hK2mkrBnjmpFyECam6+LzRnSOQlHZPYlESu0+MmxcW625AHcx6hV78xBTWzkYMGEhZlechWWrr21fy/2AQkymdv9SkhYcRIopOH7YJmahpcm5xSAN+kstzx/LPB6N643bqSeljQzJokuXHzpCx+vscc1ifR43z0D96UVHgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P1OFcNN/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740077308; c=relaxed/simple;
+	bh=eHZ3IzZ28mNPIYkCIhphl9kVzpAWR5keaVhYW//xdjk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Zbc7Qkv+sqA78D+7UySGxg6zSub8et9WHpJcgQHMsnTphBcYjnFaF2aIpSDjxC+LAdpZMtoKhkdd/86/tx01qkFTsDgXeIT+Ticvg8/csqhSCleDAJUICcnxYAqFv9cxErdtpQWz1fgnBAWz1Ep3kH2s0CryCZUGYiAO4i/R8C8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nsbrs6Qm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P1OFcNN/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72B32C4CED1;
-	Thu, 20 Feb 2025 18:46:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nsbrs6Qm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE2EFC4CED1;
+	Thu, 20 Feb 2025 18:48:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740077206;
-	bh=6hvWLbt500F/ZfTb9gRi919LYwu2xVpuFfyEb1lDALU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=P1OFcNN/A07/FVLpqTjWQloHBt3kwKiBVgnaD+yh9pStCE+2WGPoGHDJ0+TslYB03
-	 SIpdx8V5Rc6Uazcu3YAHZXYieI0xMYX8guug+4QndvIwM9pvSG5h+FAeRVbpZwSavz
-	 nfHBX89yiNVqB3/jlmuCUOImCTi3ipLfTE5dtXPCJtmhigcqPjrVGZEnjIGP4C6CTT
-	 Quado5owYADuUqRQOWhvwbl9Gjd2/GgcjCM2bP2FVtGVZTv3929d1hrAJR3s7MAs8m
-	 Wvp9pjSaCQtUkAGXpoTXiLhN6rAa/9y1rS6pillK7W82VKr/v9VV15D0Cd55vDnUK8
-	 y09ruMJBqfW7Q==
-Message-ID: <0ce85813-3c23-4363-94df-889e40785aa2@kernel.org>
-Date: Thu, 20 Feb 2025 12:46:44 -0600
+	s=k20201202; t=1740077308;
+	bh=eHZ3IzZ28mNPIYkCIhphl9kVzpAWR5keaVhYW//xdjk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Nsbrs6QmohEPSYa2Ljp3/9NoBeSqKxgy6FemnXC9V3q3Qr+sjv737VQzpjc1x3/5Y
+	 myz/75A1BlFc/diM3QgZ76mY1cuu/+DwloRQ/4xP8beqEB4C4D+tDMWl3QCIddtIur
+	 6QDEW/5mVPgCWeVdd7yTQQRSG/NAEXKZZNwf7X58Xmdj3GJDaSHkov+d5C4EFTAmae
+	 edFuN9cNTGWQC0urioDOQoKrDLj7CxZv5y/6esOYa/FGpH8NePZWHfBPFWx85rUxJl
+	 NNtRjUO0zOngZigPWtieaymbvtre/KJcCGpIBOaEMooHRvykaJhDEKM4fS2v2F+6Ep
+	 Vj6Lh/2IVUcIA==
+From: Mario Limonciello <superm1@kernel.org>
+To: mario.limonciello@amd.com,
+	lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: amd: Add depends on CPU_SUP_AMD
+Date: Thu, 20 Feb 2025 12:48:20 -0600
+Message-ID: <20250220184822.916090-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: amd: Add depends on CPU_SUP_AMD
-To: Mark Brown <broonie@kernel.org>
-Cc: mario.limonciello@amd.com, lgirdwood@gmail.com,
- peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
- ranjani.sridharan@linux.intel.com, daniel.baluta@nxp.com, perex@perex.cz,
- tiwai@suse.com, Stephen Rothwell <sfr@canb.auug.org.au>,
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org
-References: <20250220165127.492927-1-superm1@kernel.org>
- <Z7d356eKF2gCNjfO@finisterre.sirena.org.uk>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <Z7d356eKF2gCNjfO@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/20/2025 12:43, Mark Brown wrote:
-> On Thu, Feb 20, 2025 at 10:51:26AM -0600, Mario Limonciello wrote:
->> From: Mario Limonciello <mario.limonciello@amd.com>
->>
->> When SMN support was switched to the kernel wide AMD_NODE instead of
->> local implementation this broke compilation on the allyesconfig for
->> some architectures.  AMD_NODE is only supported on AMD platforms, so
->> modify all the AMD drivers that use it to also require CPU_SUP_AMD.
->>
->> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
->> Closes: https://lore.kernel.org/linux-next/20250220160950.2cd64bdb@canb.auug.org.au/
->> Fixes: f120cf33d232 ("ASoC: SOF: amd: Use AMD_NODE")
->> ---
-> 
-> You've not provided a Signed-off-by for this so I can't do anything with
-> it, please see Documentation/process/submitting-patches.rst for details
-> on what this is and why it's important.
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-Whoops, sorry about that, will resend.
+When SMN support was switched to the kernel wide AMD_NODE instead of
+local implementation this broke compilation on the allyesconfig for
+some architectures.  AMD_NODE is only supported on AMD platforms, so
+modify all the AMD drivers that use it to also require CPU_SUP_AMD.
+
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20250220160950.2cd64bdb@canb.auug.org.au/
+Fixes: f120cf33d232 ("ASoC: SOF: amd: Use AMD_NODE")
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+Resend with S-o-b
+---
+ sound/soc/sof/amd/Kconfig | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/sound/soc/sof/amd/Kconfig b/sound/soc/sof/amd/Kconfig
+index 28216c8c1cf97..6eb5b2d148430 100644
+--- a/sound/soc/sof/amd/Kconfig
++++ b/sound/soc/sof/amd/Kconfig
+@@ -33,6 +33,7 @@ config SND_SOC_SOF_AMD_COMMON
+ config SND_SOC_SOF_AMD_RENOIR
+ 	tristate "SOF support for RENOIR"
+ 	depends on SND_SOC_SOF_PCI
++	depends on CPU_SUP_AMD
+ 	select SND_SOC_SOF_AMD_COMMON
+ 	help
+ 	  Select this option for SOF support on AMD Renoir platform
+@@ -40,6 +41,7 @@ config SND_SOC_SOF_AMD_RENOIR
+ config SND_SOC_SOF_AMD_VANGOGH
+ 	tristate "SOF support for VANGOGH"
+ 	depends on SND_SOC_SOF_PCI
++	depends on CPU_SUP_AMD
+ 	select SND_SOC_SOF_AMD_COMMON
+ 	help
+ 	  Select this option for SOF support
+@@ -50,6 +52,7 @@ config SND_SOC_SOF_AMD_VANGOGH
+ config SND_SOC_SOF_AMD_REMBRANDT
+ 	tristate "SOF support for REMBRANDT"
+ 	depends on SND_SOC_SOF_PCI
++	depends on CPU_SUP_AMD
+ 	select SND_SOC_SOF_AMD_COMMON
+ 	help
+ 	  Select this option for SOF support on AMD Rembrandt platform
+@@ -82,6 +85,7 @@ config SND_SOC_SOF_AMD_SOUNDWIRE
+ config SND_SOC_SOF_AMD_ACP63
+ 	tristate "SOF support for ACP6.3 platform"
+ 	depends on SND_SOC_SOF_PCI
++	depends on CPU_SUP_AMD
+ 	select SND_SOC_SOF_AMD_COMMON
+ 	select SND_SOC_SOF_AMD_SOUNDWIRE_LINK_BASELINE
+ 	help
+@@ -93,6 +97,7 @@ config SND_SOC_SOF_AMD_ACP63
+ config SND_SOC_SOF_AMD_ACP70
+ 	tristate "SOF support for ACP7.0 platform"
+ 	depends on SND_SOC_SOF_PCI
++	depends on CPU_SUP_AMD
+ 	select SND_SOC_SOF_AMD_COMMON
+ 	help
+ 	  Select this option for SOF support on
+-- 
+2.43.0
+
