@@ -1,124 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3E1A8F94;
-	Thu, 20 Feb 2025 14:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA5E1BD9FA
+	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 14:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740060392; cv=none; b=unMqydj/LulESYOddfqj63/ooyal//Nmo7UbUcp30faAJgTgP/vmpIyfr54vCvgLi1CEmBIxOKOmxjnCDkdDcyVgmLUGMW8Z+mb90/2D8wGaXjZ6fivEjAMOas1s1UeHV00HxGfM7Jq8nxIHoO9r3dcW97Trg2MPIPZXyxMtvLo=
+	t=1740060586; cv=none; b=Kd5PPaxtgFPNHJShC+Tuer8dQ/yW2qFZ4carKlzZI2H6wPwiOpHBRhdeetG6ioX1egKFAg3UziEM4dPTZ6xc7WKnnCgZDi8/DZQA4eHDNy+lYsieoJ4qAoWnfMSXt87WhUkF2mb7vis5iYHhLeVtdlFgKItXjLzffg+acDfArXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740060392; c=relaxed/simple;
-	bh=4oo5bwiM+XhKfUR8UYyGQVQWQ/6Ov6wGIKczUKT0zuU=;
+	s=arc-20240116; t=1740060586; c=relaxed/simple;
+	bh=g7v12vt9e8MKexgw3ZfrO5ejhn5gDJxR6HnVjPT0FeQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EAm3ZB5L12/umHboqDi2IKSuOUVC02hExqFtx4T7Kyce992jW+qF8iqE7reJW6+XimuD8NyDSYByePL0Bkla2uZ5q5+6Yket4rZ3c2G60mXaNLsXzY9Ta8aUBpPuT8PIK6aXS6Jop0zHl/cFQXgNc9PMbxUmn6qeEiCzT0EOXDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=btmol7l+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MGiRb3dLONPa4gAPkamslakUebnw0sOsVJ2Rd6qd01KhYbAUve8hdG/eimZmToaHxOcTXHY/nu4RZ9jPj3okBnxNvYhGJy+Iju3m9mASGLQLbWgJ7cU1VSuI7fI5+AVS0pUWhNiQ6hLEfIzCjLZVPmC+Qa4phTH7FTlSZ7HIJjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7UM6Tpu; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="btmol7l+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B85BC4CEDD;
-	Thu, 20 Feb 2025 14:06:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1740060391;
-	bh=4oo5bwiM+XhKfUR8UYyGQVQWQ/6Ov6wGIKczUKT0zuU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=btmol7l+E9F0Dq7CHFxzj9ptIoP+WuCKdQeF+u8NmZcIuPkyJT5yDE84M3+w0mGE/
-	 p/2qSrormQ0zOOprtPL8ucuyM3VHc7dHH7VBp0EWNDJDfNSbLCDVQSzYiq5Orhkqic
-	 7RCgsE2BhKYMI1t2f75vNDYQLIB6HMfqUkhwybrk=
-Date: Thu, 20 Feb 2025 15:06:28 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Grant Likely <grant.likely@secretlab.ca>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Binbin Zhou <zhoubinbin@loongson.cn>,
-	linux-sound@vger.kernel.org,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 0/2] driver core: platform: avoid use-after-free on
- device name
-Message-ID: <2025022004-scheming-expend-b9b3@gregkh>
-References: <20250218-pdev-uaf-v1-0-5ea1a0d3aba0@bootlin.com>
- <2025022005-affluent-hardcore-c595@gregkh>
- <D7XB6MXRYVLY.3RM4EJEWD1IQM@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7UM6Tpu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740060585; x=1771596585;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g7v12vt9e8MKexgw3ZfrO5ejhn5gDJxR6HnVjPT0FeQ=;
+  b=A7UM6Tpuwjadne8TjAQJaiCe+gF3BVDgHVIk6uuo1hAWQGRyoYZ5pZwB
+   AoyVYayqc47WwljtM6yIrxc5xeaAx+7SFxeTO6pKGjXA4KV9OzJ0A2ZK5
+   ucQ+yxwGdAiy/YOIVwXBpjKv15Z51twFbWq9grgXSBDDpmPYDYZqSIzHM
+   KkUHv/v1Jvgh8VV4SZO87CYlFVc8e5r3n4jo3o4bR0bZTQEUpbHCnFjgs
+   WwktSqdeh0HIQKmVr73iGXErxwzevrtKI8/H6Hv0z9i28f2i54lqmQ7BE
+   +nqqPa0by5+XKXc8Szk61592YWW7tVXb5/6HZoPKIoNDY/WGOn+D2yuJ4
+   Q==;
+X-CSE-ConnectionGUID: rJ0oEZ4IQheJv/oVrGYC+w==
+X-CSE-MsgGUID: /X7x5Rd6T8q+bqV2juhmZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="66200423"
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
+   d="scan'208";a="66200423"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 06:09:45 -0800
+X-CSE-ConnectionGUID: 2iok5xPVTee/GC0vqYO4PQ==
+X-CSE-MsgGUID: P1f7ZCI7RsWFtd/B1cxJsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
+   d="scan'208";a="115721347"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 06:09:42 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tl7FD-0000000DM3x-2JkJ;
+	Thu, 20 Feb 2025 16:09:39 +0200
+Date: Thu, 20 Feb 2025 16:09:39 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com, linux-sound@vger.kernel.org,
+	oder_chiou@realtek.com, flove@realtek.com
+Subject: Re: [PATCH 00/24] ASoC: codecs: Update device_id tables for Realtek
+ drivers
+Message-ID: <Z7c3o6ajInD0ay5Q@smile.fi.intel.com>
+References: <20250220112643.3813295-1-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D7XB6MXRYVLY.3RM4EJEWD1IQM@bootlin.com>
+In-Reply-To: <20250220112643.3813295-1-cezary.rojewski@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Feb 20, 2025 at 02:31:29PM +0100, Théo Lebrun wrote:
-> Hello Greg,
+On Thu, Feb 20, 2025 at 12:26:19PM +0100, Cezary Rojewski wrote:
+> The series aims to streamline the formatting for ACPI IDs so that a
+> single pattern can be used to identify the device.
 > 
-> On Thu Feb 20, 2025 at 1:41 PM CET, Greg Kroah-Hartman wrote:
-> > On Tue, Feb 18, 2025 at 12:00:11PM +0100, Théo Lebrun wrote:
-> >> The use-after-free bug appears when:
-> >>  - A platform device is created from OF, by of_device_add();
-> >>  - The same device's name is changed afterwards using dev_set_name(),
-> >>    by its probe for example.
-> >> 
-> >> Out of the 37 drivers that deal with platform devices and do a
-> >> dev_set_name() call, only one might be affected. That driver is
-> >> loongson-i2s-plat [0]. All other dev_set_name() calls are on children
-> >> devices created on the spot. The issue was found on downstream kernels
-> >> and we don't have what it takes to test loongson-i2s-plat.
-> >> 
-> >> Note: loongson-i2s-plat maintainers are CCed.
-> >> 
-> >>    ⟩ # Finding potential trouble-makers:
-> >>    ⟩ git grep -l 'struct platform_device' | xargs grep -l dev_set_name
-> >> 
-> >> The solution proposed is to add a flag to platform_device that tells if
-> >> it is responsible for freeing its name. We can then duplicate the
-> >> device name inside of_device_add() instead of copying the pointer.
-> >
-> > Ick.
-> >
-> >> What is done elsewhere?
-> >>  - Platform bus code does a copy of the argument name that is stored
-> >>    alongside the struct platform_device; see platform_device_alloc()[1].
-> >>  - Other busses duplicate the device name; either through a dynamic
-> >>    allocation [2] or through an array embedded inside devices [3].
-> >>  - Some busses don't have a separate name; when they want a name they
-> >>    take it from the device [4].
-> >
-> > Really ick.
-> >
-> > Let's do the right thing here and just get rid of the name pointer
-> > entirely in struct platform_device please.  Isn't that the correct
-> > thing that way the driver core logic will work properly for all of this.
+> Work implicitly suggested by Andy Shevchenko - reading and learning from
+> number of his reviews on the Linux mailing lists.
 > 
-> I would agree, if it wasn't for this consideration that is found in the
-> commit message [0]:
+> Several formats do exists, however, after technical discussion PCI-based
+> format has been selected as the recommended one. For Realtek devices, it
+> is going to be 10ECxxxx where 10EC unambiguously identifies Realtek
+> company whereas the following 4 hexes specify the PART_ID i.e.: the
+> device.
 
-What, that the of code is broken?  Then it should be fixed, why does it
-need a pointer to a name at all anyway?  It shouldn't be needed there
-either.
+> While at it, there shall be no comma after the terminator entry and
+> initializing fields with 0 for statically defined structs is redundant.
 
-> > It is important to duplicate! pdev->name must not change to make sure
-> > the platform_match() return value is stable over time. If we updated
-> > pdev->name alongside dev->name, once a device probes and changes its
-> > name then the platform_match() return value would change.
-> 
-> I'd be fine sending a V2 that removes the field *and the fallback* [1],
-> but I don't have the full scope in mind to know what would become broken.
-> 
-> [0]: https://lore.kernel.org/lkml/20250218-pdev-uaf-v1-2-5ea1a0d3aba0@bootlin.com/
-> [1]: https://elixir.bootlin.com/linux/v6.13.3/source/drivers/base/platform.c#L1357
+I should add that the latter one (removing '0':s) is basically Uwe's idea
+in a long-term conversion driver_data to become a const void * instead of
+kernel_ulong_t (in some cases).
 
-The fallback will not need to be removed, properly point to the name of
-the device and it should work correctly.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-thanks,
 
-greg k-h
