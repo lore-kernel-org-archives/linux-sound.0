@@ -1,62 +1,62 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31201FFC4E
-	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 16:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E4D1FF5FE
+	for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 16:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740068965; cv=none; b=fLYSKwyVNp6/ddxKtCcZWtwoQgZFEWAcXE62hdtrbnX1Hl9p7wYzeaXIdyrhmJFpeIkkFdAu8HvpOhGG+MMqQfNx4uyzS9GP0fcvFVPZ5G8dJ7iPwLw1E6drbf5PFSGz2n6Yk4RtQz6MSE/WNT1q9qoDax+p5NNn3I6Oc210WoQ=
+	t=1740068967; cv=none; b=qD2Lm04vONwmHmS5RSlMqpdNIrEp5OP6+7n49RjoAL5wIKg5X2p9CkO49UDx+czZEjFnNG1Rje7aivdju3/hu+j1e8+6y/FxNmiMGHLNcubH1AKxd0/H1Ox4wQymH67LSURApUoJonz8Vt6zHxLKGa3TNezgsCKPkUFZvqgLTBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740068965; c=relaxed/simple;
-	bh=KxZTxc4fxRw7OMyGGA5HOYd9rCClNlteupN9ItslzT8=;
+	s=arc-20240116; t=1740068967; c=relaxed/simple;
+	bh=jtgmyAUl97OttcegIr//hFBjAziiMMMYiBD7pE3sZEI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=t62p+URaJMIWeqJFM0Mbo6fv3Gu517XjDCTErH1WP1KqpVzo6eVtC+IddaR6ACZ1JkmmJE++91u00WlqdF0p9y52jAguWqndjreujU+Gq502XF5jOluNiYuthVGo/VfyZi3CCnKOGxP6wa8Y0wFvRk9gi2+h/mkVqJ8e79TI4xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qNoIsMas; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version; b=PMB7a0feiIF5YBgc2RUoisNHxQ0+GnXzfqRUm3nfiYjgaBZ0NQsMQwUyK3UJxc+84Ar1UBKGstcwqcMqwQfbCLOZjtfZgjnSlRFqoveorAY8peAqgkXgkkJV03luAYP6fZuNSK99iwGtxfjEwXArGWRz7PXUEKkTFqNx0N24V1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GMVOe6X+; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qNoIsMas"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38f406e9f80so1091506f8f.2
-        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 08:29:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GMVOe6X+"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-38f5fc33602so671128f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 08:29:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740068962; x=1740673762; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1740068963; x=1740673763; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xe1FIG0EUV5vtEiip0bMJp8pcyFVOy9gW9Da1yY8B3U=;
-        b=qNoIsMas+gv+WiFlcDibu9VvIfGI5+xGsSynwJ2esMJlNBuWtmvlH1VfpLsa65IePJ
-         7H4RULnC4Kk4paev3IEV07W738cDLenZO3kAxAe0ls9hwnZ9jS3yf5rFvGFa8jYCpruR
-         rRtmcuJ+71snKr2dvjDMhqj9W+Ifm+MC8wmPDAc1/YdaylvvKF/fGIWdSaoWXtV0uAHt
-         Zbe1YL8yK5Q1nESMwEEuFsVibcwe8ufyuKBGQvwfOvmmz3U+CfbJYwEdS1f/CWfmqMQY
-         7crhOIXdZtuiIMmXrU3vjiXN7m4Rxln/Lr32G5xW6UchnCXzhZ2fOPninufdycYZcWI9
-         x+jQ==
+        bh=uMzT+jdHxkf1ujL8A9tZIPDjBjm8GU3C3qT78yn8Ois=;
+        b=GMVOe6X+ksfb2KYw3ulfKjCkKKED2gn/IKcnwOz228HCTzUSw0kU9an9K76kl3UD8Q
+         pva4IsqFLhIahIgFBi2wvBWy9L38D6CT+jLH+Jfyb3cZ96Wu+H2vgZYn0/hYtkAdzvPy
+         zj7vMolV2mYQJdEhremHjCgUgtmBgX7nO7KxAjIldqMDw5vDvdLYB6mbbs192tTQYvQv
+         fr6k90811m8dPN21Lzce46Hj5t8T8oWNjotBNHwQrCnceLmqSNLiTEIx+4qfr1NIuONI
+         L8amp1/tyfHQSjNMAe+zQU1pcUU4Nd0dJHPKRGwLF/gzJ9vVrLaq87G0pGhFsnkTaHBR
+         iM9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740068962; x=1740673762;
+        d=1e100.net; s=20230601; t=1740068963; x=1740673763;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xe1FIG0EUV5vtEiip0bMJp8pcyFVOy9gW9Da1yY8B3U=;
-        b=I5dvc0/3zJxLVdl6UjE7vgVEwLGyu/crnxb7qUld0doe7GYWwEgNi1IaXPS7+qFo9N
-         NCsIhXWqHDi6rjxgicw/7qRHnjqvIbrA1OHjFA73lOwBQsQr0ygyQT3Z5cWKBqBzNk9k
-         OFsKhRrBuI7F+XdTL9a/ic9ZgV/M4j6wnPByKRgC8mp53XiaH+8dShznVi1ofb2Xs5iH
-         vO/6YBr9/r6dZPGRScoty3F06fa/wiqDRB6d5idetSmCOeDAOyn+g6LFWAPxjlDPDUzE
-         QyvcL3Tu7IMqcFvUUXyZp/mYjq2Y81eYPYMC3E+hKF6S2hQ1BQjJCHssaiT095wP1/lF
-         ut5w==
-X-Forwarded-Encrypted: i=1; AJvYcCW+EhryHy1SCEjJeYZP27lyWqdwtuxGDekjRiRlxOy/VAqYl+QfydtdjGk+keYRAn+sAe/bpC77F3CMOw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+BDtaJiZvgYmIBrWa+8qs1m1F0NES5YRziHQkS71mBlO9ePc7
-	yUbpVqq/4xCVDM7xN0eJyI9zlc4DkUswFzfukHwUHjJ46khd+97i22rj4UrSzsM=
-X-Gm-Gg: ASbGncu1/H+9n1l02FbBlF/9AGbIQJp8CGK0gixZFEPo2TqxzqSYqj+uaT7e4dg/bum
-	jMGodfR3Ceh44NQ9F71pkaT1cTe2q/0zko18mmmMgohwedBFIKFuYNJo1cYe2TjCcZm6Cm5+T2i
-	EYcqm/Qtk1PLdJc8sf5hqgHU1N+zevpUQmmXWt57/r0rPTSk2kKtrdwXFNUdKrZ2175eyG6SBUp
-	wpLQt7r4pyPWpQMZ7G+1QmJmQ2RQtziOOnE0VSxWuV9I8yC3+lVIX3fhs28Yhbg6nYohmVBUU9D
-	hkdyKwI5Srs6E7qSEN39DYmgcCdhGcABusVVwSNK
-X-Google-Smtp-Source: AGHT+IFeFUNS6+fpxgZcJiw03GQfFy8Cu2R2NlAoQdwczmUQmL/WjMlMRJlHB4Ht882oa1KtvLVMLA==
-X-Received: by 2002:a05:6000:1866:b0:38d:d223:f8e6 with SMTP id ffacd0b85a97d-38f585ea6cfmr7098326f8f.0.1740068962219;
-        Thu, 20 Feb 2025 08:29:22 -0800 (PST)
+        bh=uMzT+jdHxkf1ujL8A9tZIPDjBjm8GU3C3qT78yn8Ois=;
+        b=RxHTRmkeZDbZhLH5ndbVjkiieNW10JrH7BXnkle8f+Th06knBTB7PUDDA11Sa35Efx
+         5mNeiGAZM1jmT4Ke7pPX2L/h+4xe5qdeh9fSRiMsOCKYVQ4NZsmCtJ+NSbPFlpLP4fMK
+         RyTaFIERBpIAvWqUeC82+fg0qHP+UuUFrnc8g4AbKYpkxUOYGYv1hhKtwoaHuamBmatf
+         VrzyLkPkcPkABDJlP995ZSRzwqJn1lE5MzkT1QRVXNf5/4pGqic9O835vj6yRDdFtXf7
+         0LhzwDr1b5+HxmqKg4llLr7XJC8TcLw+u6YjkjALg4nnDfNmkOFS9KompXBuBh/73/fr
+         r+wQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXUJvq6+I3WcQCM/fSoDr1nJUHbD7we8EKCP1Ey9Di0W4/CI5AVYRbqUPbWHRCZTWudHxFgt1cFBj+/vQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZ7oMWuM7bd880vj1MPJwdVDLf2cIKupgj/OnAtNwZhJ7ykWiR
+	fj/lsYlJusIsS599XYiaXp1nIGKAjjxRrJGpvP/u+i1lIcfsRV/CP6oieL6wwOA=
+X-Gm-Gg: ASbGncuOYNc6Y5w3JIGaLe46ezcSe7u1UTl8/sPpCiiFp2eRzmP+xeCnklB1IxCfDI6
+	IRT3GbVyy4CAbLH1mpdX+wlsF+M9b2feAPvKkEYGLd6paB5whMsgo0RFrkrlcAcXk4XZB1ul2Gm
+	Z71dt60jx50DfWUoKABT5LEEifbph8Dx/l1uy86c+hG+pPeT7zEQ/Nq0r92rENSFw8WU9yolOGo
+	tEWNngchisxzW74oXrg+LZw2RfKjYr4bMXchVcIw98R6td2E0ZSCaeJN/xB1srG3rrO6wV6FoOC
+	PIsBAOJGYCDKDsWroFX6m/nOC0ehl7RADRekwe/3
+X-Google-Smtp-Source: AGHT+IFEwnzc4gMpLn2JhX4tSeUOi2UNl4o8mWNSCnBzMlPANfjpmZejT80sXvTiQRWgRNzSUA2rHg==
+X-Received: by 2002:a5d:4f0d:0:b0:38d:fede:54f8 with SMTP id ffacd0b85a97d-38f615d2048mr3025832f8f.16.1740068963497;
+        Thu, 20 Feb 2025 08:29:23 -0800 (PST)
 Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f5fabsm20813753f8f.45.2025.02.20.08.29.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258f5fabsm20813753f8f.45.2025.02.20.08.29.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 08:29:21 -0800 (PST)
+        Thu, 20 Feb 2025 08:29:22 -0800 (PST)
 From: srinivas.kandagatla@linaro.org
 To: broonie@kernel.org
 Cc: perex@perex.cz,
@@ -68,9 +68,9 @@ Cc: perex@perex.cz,
 	dmitry.baryshkov@linaro.org,
 	johan+linaro@kernel.org,
 	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH v2 1/5] ASoC: q6apm-dai: schedule all available frames to avoid dsp under-runs
-Date: Thu, 20 Feb 2025 16:28:43 +0000
-Message-Id: <20250220162847.11994-2-srinivas.kandagatla@linaro.org>
+Subject: [PATCH v2 2/5] ASoC: q6apm: add q6apm_get_hw_pointer helper
+Date: Thu, 20 Feb 2025 16:28:44 +0000
+Message-Id: <20250220162847.11994-3-srinivas.kandagatla@linaro.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
 References: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
@@ -84,97 +84,88 @@ Content-Transfer-Encoding: 8bit
 
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-With the existing code, we are only setting up one period at a time, in a
-ping-pong buffer style. This triggers lot of underruns in the dsp
-leading to jitter noise during audio playback.
+Implement an helper function in q6apm to be able to read the current
+hardware pointer for both read and write buffers.
 
-Fix this by scheduling all available periods, this will ensure that the dsp
-has enough buffer feed and ultimatley fixing the underruns and audio
-distortion.
+This should help q6apm-dai to get the hardware pointer consistently
+without it doing manual calculation, which could go wrong in some race
+conditions.
 
-Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
-Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 ---
- sound/soc/qcom/qdsp6/q6apm-dai.c | 33 +++++++++++++++++++++++++++-----
- 1 file changed, 28 insertions(+), 5 deletions(-)
+ sound/soc/qcom/qdsp6/q6apm.c | 18 +++++++++++++++++-
+ sound/soc/qcom/qdsp6/q6apm.h |  3 +++
+ 2 files changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index c9404b5934c7..eba51e88a297 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -70,6 +70,7 @@ struct q6apm_dai_rtd {
- 	unsigned int bytes_received;
- 	unsigned int copied_total;
- 	uint16_t bits_per_sample;
-+	unsigned int pb_tail;
- 	bool next_track;
- 	enum stream_state state;
- 	struct q6apm_graph *graph;
-@@ -134,8 +135,6 @@ static void event_handler(uint32_t opcode, uint32_t token, void *payload, void *
- 		prtd->pos += prtd->pcm_count;
- 		spin_unlock_irqrestore(&prtd->lock, flags);
- 		snd_pcm_period_elapsed(substream);
--		if (prtd->state == Q6APM_STREAM_RUNNING)
--			q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
- 
- 		break;
- 	case APM_CLIENT_EVENT_DATA_READ_DONE:
-@@ -294,6 +293,31 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
- 	return 0;
+diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
+index 2a2a5bd98110..ca57413cb784 100644
+--- a/sound/soc/qcom/qdsp6/q6apm.c
++++ b/sound/soc/qcom/qdsp6/q6apm.c
+@@ -494,6 +494,19 @@ int q6apm_read(struct q6apm_graph *graph)
  }
+ EXPORT_SYMBOL_GPL(q6apm_read);
  
-+static int q6apm_dai_ack(struct snd_soc_component *component,
-+		struct snd_pcm_substream *substream)
++int q6apm_get_hw_pointer(struct q6apm_graph *graph, int dir)
 +{
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+	struct q6apm_dai_rtd *prtd = runtime->private_data;
-+	unsigned int tail;
-+	int i, ret = 0, avail_periods;
++	struct audioreach_graph_data *data;
 +
-+	tail = runtime->control->appl_ptr/runtime->period_size;
++	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
++		data = &graph->rx_data;
++	else
++		data = &graph->tx_data;
 +
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		avail_periods = tail - prtd->pb_tail;
-+		for (i = 0; i < avail_periods; i++) {
-+			ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
-+			if (ret < 0) {
-+				dev_err(component->dev, "Error queuing playback buffer %d\n", ret);
-+				return ret;
-+			}
-+			prtd->pb_tail++;
-+		}
-+	}
-+
-+	return ret;
++	return (int)atomic_read(&data->hw_ptr);
 +}
++EXPORT_SYMBOL_GPL(q6apm_get_hw_pointer);
 +
- static int q6apm_dai_trigger(struct snd_soc_component *component,
- 			     struct snd_pcm_substream *substream, int cmd)
+ static int graph_callback(struct gpr_resp_pkt *data, void *priv, int op)
  {
-@@ -305,13 +329,11 @@ static int q6apm_dai_trigger(struct snd_soc_component *component,
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_RESUME:
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
--		 /* start writing buffers for playback only as we already queued capture buffers */
--		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
--			ret = q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, 0);
- 		break;
- 	case SNDRV_PCM_TRIGGER_STOP:
- 		/* TODO support be handled via SoftPause Module */
- 		prtd->state = Q6APM_STREAM_STOPPED;
-+		prtd->pb_tail = 0;
- 		break;
- 	case SNDRV_PCM_TRIGGER_SUSPEND:
- 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-@@ -836,6 +858,7 @@ static const struct snd_soc_component_driver q6apm_fe_dai_component = {
- 	.hw_params	= q6apm_dai_hw_params,
- 	.pointer	= q6apm_dai_pointer,
- 	.trigger	= q6apm_dai_trigger,
-+	.ack		= q6apm_dai_ack,
- 	.compress_ops	= &q6apm_dai_compress_ops,
- 	.use_dai_pcm_id = true,
+ 	struct data_cmd_rsp_rd_sh_mem_ep_data_buffer_done_v2 *rd_done;
+@@ -520,7 +533,8 @@ static int graph_callback(struct gpr_resp_pkt *data, void *priv, int op)
+ 		done = data->payload;
+ 		phys = graph->rx_data.buf[token].phys;
+ 		mutex_unlock(&graph->lock);
+-
++		/* token numbering starts at 0 */
++		atomic_set(&graph->rx_data.hw_ptr, token + 1);
+ 		if (lower_32_bits(phys) == done->buf_addr_lsw &&
+ 		    upper_32_bits(phys) == done->buf_addr_msw) {
+ 			graph->result.opcode = hdr->opcode;
+@@ -553,6 +567,8 @@ static int graph_callback(struct gpr_resp_pkt *data, void *priv, int op)
+ 		rd_done = data->payload;
+ 		phys = graph->tx_data.buf[hdr->token].phys;
+ 		mutex_unlock(&graph->lock);
++		/* token numbering starts at 0 */
++		atomic_set(&graph->tx_data.hw_ptr, hdr->token + 1);
+ 
+ 		if (upper_32_bits(phys) == rd_done->buf_addr_msw &&
+ 		    lower_32_bits(phys) == rd_done->buf_addr_lsw) {
+diff --git a/sound/soc/qcom/qdsp6/q6apm.h b/sound/soc/qcom/qdsp6/q6apm.h
+index c248c8d2b1ab..7ce08b401e31 100644
+--- a/sound/soc/qcom/qdsp6/q6apm.h
++++ b/sound/soc/qcom/qdsp6/q6apm.h
+@@ -2,6 +2,7 @@
+ #ifndef __Q6APM_H__
+ #define __Q6APM_H__
+ #include <linux/types.h>
++#include <linux/atomic.h>
+ #include <linux/slab.h>
+ #include <linux/wait.h>
+ #include <linux/kernel.h>
+@@ -77,6 +78,7 @@ struct audioreach_graph_data {
+ 	uint32_t num_periods;
+ 	uint32_t dsp_buf;
+ 	uint32_t mem_map_handle;
++	atomic_t hw_ptr;
  };
+ 
+ struct audioreach_graph {
+@@ -150,4 +152,5 @@ int q6apm_enable_compress_module(struct device *dev, struct q6apm_graph *graph,
+ int q6apm_remove_initial_silence(struct device *dev, struct q6apm_graph *graph, uint32_t samples);
+ int q6apm_remove_trailing_silence(struct device *dev, struct q6apm_graph *graph, uint32_t samples);
+ int q6apm_set_real_module_id(struct device *dev, struct q6apm_graph *graph, uint32_t codec_id);
++int q6apm_get_hw_pointer(struct q6apm_graph *graph, int dir);
+ #endif /* __APM_GRAPH_ */
 -- 
 2.39.5
 
