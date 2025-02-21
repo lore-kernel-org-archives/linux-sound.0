@@ -1,134 +1,398 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6299C21128F
-	for <linux-sound@vger.kernel.org>; Fri, 21 Feb 2025 18:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579DF25333E
+	for <linux-sound@vger.kernel.org>; Fri, 21 Feb 2025 20:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740161931; cv=none; b=YNrqIH8KDd+lWJLoHmwW1mRER2zrjZYHoId2QjsZS50DfawBSnhdBodQDRtQRC5QuJ04zqm9s4tQzxB89A79WxZGGxOW4cpOrg4NoPHf+nSd2AfSsi3jB9vkY7osN2VnleMQDIGE/mmod0t7/AfBEVQ3RBsuu7d/38Gix74JZYQ=
+	t=1740168659; cv=none; b=lU7eZi80ycG5jG8DdvCEGZ2fLEhYOYAVpdEnPsk7b2px6niLxV+rQ1U0WfgA4UChOUXMqpDdJnt6X5mxLZScxca0yoegHv/aJ5bW2wa+pHRhK6x3Lnyd2zAoDmuO6MrDgpvk7Xx7ne6RuoPgEL2wyAL3QKLkg9P64FunrPIle68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740161931; c=relaxed/simple;
-	bh=FUYEgtKOBlWdF5NF4x4EhlQX40g4at2PAlgir/PeVaE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HnVlXwk0cc/UBqc+x71uYgy/Y2YSj4pq49Gpa2tlWz5HbdEAyTU5sp8H/d3NSHm1F2ydfc0OsHb4dvrB+1OSoB7SG8A7lHWPaRaXotXv6vqlHIntuRQlbTNE4wEV6v8z+GoG6pjOvpGHFDzYbpHyD3HgXC+lEHqSjeYmr1d+5rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWFC5vm/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740168659; c=relaxed/simple;
+	bh=EDWww/LgXi4rD2gjhpGMFHSy1Axfqo7k3FPoX59UcOs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=K1liSHkDORTorm42pT+IeIKDstZm117RUmnnomiRRMt7h2xJxx9YLg3M8hb6stn7W7SrbLssR4vRaGByK/fSGriHJiu/XjstszAHKDYqdEs1l0xKs5Fgy+vz5lkU9QAcpeCFmcqWr7+uj5Ys/broPD/kNYQzBy2aWeLYtcOuB5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org; spf=pass smtp.mailfrom=kali.org; dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b=dUBlFg1l; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kali.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWFC5vm/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5B96C4CED6;
-	Fri, 21 Feb 2025 18:18:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740161931;
-	bh=FUYEgtKOBlWdF5NF4x4EhlQX40g4at2PAlgir/PeVaE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=TWFC5vm/VXg8U5eObTMf71EDxq62lorIMYFciNnn/bZtQyFN+cBZndQxjHTHR5BWQ
-	 +Z9D4sSLZjuyzC/OLtASFPJRV6di0rjcqRxFPQk9KHCNDCVLdUIWDDrUFF4s62SOiJ
-	 ecyWE/ILbP51qNrdLBLdGaEF43wQXAoXktlqFXkZqcCdL6OtWb/spmAmkhn+YrCO++
-	 GBn7TjFWojxsNFr/oJgFgIJb5wV0VX1y6D3pdfLlaPsorE/NUcaPtRd6ofHC0M9oLS
-	 CcH+51+vvnZ+zOHQkAOfoNx+RXRucNmj55yOI0dXYiOLxA33L4IH9zvFPfvYHI6F7d
-	 whwHLwNRf3/WQ==
-From: Mario Limonciello <superm1@kernel.org>
-To: mario.limonciello@amd.com,
-	lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: kernel test robot <lkp@intel.com>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: SOF: amd: Move depends on AMD_NODE to consumers
-Date: Fri, 21 Feb 2025 12:18:12 -0600
-Message-ID: <20250221181840.2639793-1-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b="dUBlFg1l"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5dc89df7eccso4622514a12.3
+        for <linux-sound@vger.kernel.org>; Fri, 21 Feb 2025 12:10:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kali.org; s=google; t=1740168655; x=1740773455; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Bo9ISiBdYLAO7mwWcXDsfQJTeIVmf8ba5d1w8C/Q7H8=;
+        b=dUBlFg1li9W9ijZ5XW04sUbkKVadrbPTx1upHDq/F43vjBJ5vX5Hp+35eMOLJPEBFQ
+         nr6W1TQRD4S0NNCT6k0LyMT9GBERW+IPEzB58+zOO4hKHTnhsvs9S4zHfkw27iv6djjO
+         0Yj/qfiOjwrrotD6zi1zoKbHxjRdVQRq6CY90cTRnRyoe6iqXLW7l65EopKCX3DYOQfD
+         UYP2u7amYqOnxswm+C8AqtGBOujs6IDRnE6cIF7hi0ggswuasjXoAGNte17coEhHMjmo
+         KwPi4W5Vii09seTRXR7P2wCYc0baz3t31KOFzBctCDLoWsVKUmqhQ+TBlpwPFUa+Y/P2
+         +9RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740168655; x=1740773455;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Bo9ISiBdYLAO7mwWcXDsfQJTeIVmf8ba5d1w8C/Q7H8=;
+        b=EGh9zjAoqp6C2VETeU5+WqeTB2clfzB/9IJ6QL9HGLZaiuA7OIc2JA1VfROu2RrUYb
+         8cp1PhFI23QEX0/D1xXG5UKSvn9yp2NOz30lLA8VMZS0ae7AOVco9YCZaRqt6DcUI8UN
+         y07MNefbXLj0Tm3AtuDPrtYGKHnfaEg7tCT75RVpf8sCGNZcfBYvt8AYECOW2NMvPX3t
+         UbmbN1qbMD4KxijRNpElaQI+HghHyCQF14gzJvafCQdDdKUSQ9P+BU0NEiZtfUNEFz3U
+         3KwCEmtHEAbVciOKI10iBsNGI/ny8T3cNDV3cZyzHWNC62Vta0PC08/cwyGEqrTQ/On8
+         uYlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXJY81dIuvPnHYjv9ZUwsAaz+cDm9yJgUhsG+v6Ay/X6xKLxRGav8hZ9PvTJKY1NXG13JUHIFSa3brk3w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzq6WcXfOjqcGNYEl1ZY/Ohj83zEPxP/kPSuKPRHkUu+/Pm8+56
+	zWhMwxxkuhPJ/BU7oYPMtlSWL3RLVRQcKI3vowbPCyCfF6KZ8UphXab1f5LTmhVY1CQbUwzrXg/
+	+SNK7ZyGDOs12TVMGMZRhebBgNrCITZ5ZwaooMw==
+X-Gm-Gg: ASbGncsnoIREG/xsntDje12UzMjPZdGQFLxLX2hvLFshC3i94QRJ1elLswwvkVhdLgO
+	5QmOZADNDE64aPRztc3kj8hhI/CEbZE4OQehUAFMaF35tlCbxqhPx7x661EhXshUaJDaERbcikL
+	sNHjVmmQv1
+X-Google-Smtp-Source: AGHT+IH2/qlbQgPbIh/nbYWi/sUpWIZX1a8MxJ070ntxeD0TZgcVfNJ3nmCoSR7bEK91zKOVWBiymAVyhtJ0SVa7Cyo=
+X-Received: by 2002:a05:6402:51cf:b0:5e0:8c35:a137 with SMTP id
+ 4fb4d7f45d1cf-5e0b7247888mr3715021a12.23.1740168655462; Fri, 21 Feb 2025
+ 12:10:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250221032141.1206902-1-alexey.klimov@linaro.org>
+In-Reply-To: <20250221032141.1206902-1-alexey.klimov@linaro.org>
+From: Steev Klimaszewski <steev@kali.org>
+Date: Fri, 21 Feb 2025 14:10:44 -0600
+X-Gm-Features: AWEUYZkAkKBDn-7D-WRkZwle1yjWvpLxfhceFL155lYDXn9_dqF05SAG85Mwlwo
+Message-ID: <CAKXuJqj4zKfA4HNNcooG5Ffqi+EKQ1RvuzWndZd=htoatwszOw@mail.gmail.com>
+Subject: Re: [PATCH v2] ASoC: codecs: wsa883x: Implement temperature reading
+ and hwmon
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: srinivas.kandagatla@linaro.org, broonie@kernel.org, lgirdwood@gmail.com, 
+	krzysztof.kozlowski@linaro.org, perex@perex.cz, tiwai@suse.com, 
+	jdelvare@suse.com, linux@roeck-us.net, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+Hi Alexey,
 
-CONFIG_SND_SOC_SOF_AMD_COMMON is a hidden option that is only selected by
-other options.  It can't have a direct depends on AMD_NODE because select
-can't pick another option automatically.
+On Thu, Feb 20, 2025 at 9:21=E2=80=AFPM Alexey Klimov <alexey.klimov@linaro=
+.org> wrote:
+>
+> Read temperature of the amplifier and expose it via hwmon interface, whic=
+h
+> will be later used during calibration of speaker protection algorithms.
+> The method is the same as for wsa884x and therefore this is based on
+> Krzysztof Kozlowski's approach implemented in commit 6b99dc62d940 ("ASoC:
+> codecs: wsa884x: Implement temperature reading and hwmon").
+>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Cc: Steev Klimaszewski <steev@kali.org>
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
+>
+> Changes in v2:
+> - add temperature conversion to millidegrees of Celcius
+>   when amplifier is on to report correct data to hwmon;
+> - minor coding style fixes to make checkpatch --strict happy;
+> - correct typo (reference to wsa884x in the comment), small rewording.
+>
+>  sound/soc/codecs/wsa883x.c | 194 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 194 insertions(+)
+>
+> diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
+> index 47da5674d7c9..a5a6cb90bb43 100644
+> --- a/sound/soc/codecs/wsa883x.c
+> +++ b/sound/soc/codecs/wsa883x.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/bitops.h>
+>  #include <linux/device.h>
+>  #include <linux/gpio/consumer.h>
+> +#include <linux/hwmon.h>
+>  #include <linux/init.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> @@ -156,8 +157,28 @@
+>  #define WSA883X_PA_FSM_ERR_COND         (WSA883X_DIG_CTRL_BASE + 0x0014)
+>  #define WSA883X_PA_FSM_MSK              (WSA883X_DIG_CTRL_BASE + 0x0015)
+>  #define WSA883X_PA_FSM_BYP              (WSA883X_DIG_CTRL_BASE + 0x0016)
+> +#define WSA883X_PA_FSM_BYP_DC_CAL_EN_MASK              0x01
+> +#define WSA883X_PA_FSM_BYP_DC_CAL_EN_SHIFT             0
+> +#define WSA883X_PA_FSM_BYP_CLK_WD_EN_MASK              0x02
+> +#define WSA883X_PA_FSM_BYP_CLK_WD_EN_SHIFT             1
+> +#define WSA883X_PA_FSM_BYP_BG_EN_MASK                  0x04
+> +#define WSA883X_PA_FSM_BYP_BG_EN_SHIFT                 2
+> +#define WSA883X_PA_FSM_BYP_BOOST_EN_MASK               0x08
+> +#define WSA883X_PA_FSM_BYP_BOOST_EN_SHIFT              3
+> +#define WSA883X_PA_FSM_BYP_PA_EN_MASK                  0x10
+> +#define WSA883X_PA_FSM_BYP_PA_EN_SHIFT                 4
+> +#define WSA883X_PA_FSM_BYP_D_UNMUTE_MASK               0x20
+> +#define WSA883X_PA_FSM_BYP_D_UNMUTE_SHIFT              5
+> +#define WSA883X_PA_FSM_BYP_SPKR_PROT_EN_MASK           0x40
+> +#define WSA883X_PA_FSM_BYP_SPKR_PROT_EN_SHIFT          6
+> +#define WSA883X_PA_FSM_BYP_TSADC_EN_MASK               0x80
+> +#define WSA883X_PA_FSM_BYP_TSADC_EN_SHIFT              7
+>  #define WSA883X_PA_FSM_DBG              (WSA883X_DIG_CTRL_BASE + 0x0017)
+>  #define WSA883X_TADC_VALUE_CTL          (WSA883X_DIG_CTRL_BASE + 0x0020)
+> +#define WSA883X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK   0x01
+> +#define WSA883X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_SHIFT  0
+> +#define WSA883X_TADC_VALUE_CTL_VBAT_VALUE_RD_EN_MASK   0x02
+> +#define WSA883X_TADC_VALUE_CTL_VBAT_VALUE_RD_EN_SHIFT  1
+>  #define WSA883X_TEMP_DETECT_CTL         (WSA883X_DIG_CTRL_BASE + 0x0021)
+>  #define WSA883X_TEMP_MSB                (WSA883X_DIG_CTRL_BASE + 0x0022)
+>  #define WSA883X_TEMP_LSB                (WSA883X_DIG_CTRL_BASE + 0x0023)
+> @@ -427,6 +448,17 @@
+>                 SNDRV_PCM_FMTBIT_S24_LE |\
+>                 SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S32_LE)
+>
+> +/* Two-point trimming for temperature calibration */
+> +#define WSA883X_T1_TEMP                        -10L
+> +#define WSA883X_T2_TEMP                        150L
+> +
+> +/*
+> + * Device will report senseless data in many cases, so discard any measu=
+rements
+> + * outside of valid range.
+> + */
+> +#define WSA883X_LOW_TEMP_THRESHOLD     5
+> +#define WSA883X_HIGH_TEMP_THRESHOLD    45
+> +
+>  struct wsa883x_priv {
+>         struct regmap *regmap;
+>         struct device *dev;
+> @@ -441,6 +473,13 @@ struct wsa883x_priv {
+>         int active_ports;
+>         int dev_mode;
+>         int comp_offset;
+> +       /*
+> +        * Protects temperature reading code (related to speaker protecti=
+on) and
+> +        * fields: temperature and pa_on.
+> +        */
+> +       struct mutex sp_lock;
+> +       unsigned int temperature;
+> +       bool pa_on;
+>  };
+>
+>  enum {
+> @@ -1186,6 +1225,10 @@ static int wsa883x_spkr_event(struct snd_soc_dapm_=
+widget *w,
+>
+>         switch (event) {
+>         case SND_SOC_DAPM_POST_PMU:
+> +               mutex_lock(&wsa883x->sp_lock);
+> +               wsa883x->pa_on =3D true;
+> +               mutex_unlock(&wsa883x->sp_lock);
+> +
+>                 switch (wsa883x->dev_mode) {
+>                 case RECEIVER:
+>                         snd_soc_component_write_field(component, WSA883X_=
+CDC_PATH_MODE,
+> @@ -1235,6 +1278,9 @@ static int wsa883x_spkr_event(struct snd_soc_dapm_w=
+idget *w,
+>                                               WSA883X_GLOBAL_PA_EN_MASK, =
+0);
+>                 snd_soc_component_write_field(component, WSA883X_PDM_WD_C=
+TL,
+>                                               WSA883X_PDM_EN_MASK, 0);
+> +               mutex_lock(&wsa883x->sp_lock);
+> +               wsa883x->pa_on =3D false;
+> +               mutex_unlock(&wsa883x->sp_lock);
+>                 break;
+>         }
+>         return 0;
+> @@ -1367,6 +1413,140 @@ static struct snd_soc_dai_driver wsa883x_dais[] =
+=3D {
+>         },
+>  };
+>
+> +static int wsa883x_get_temp(struct wsa883x_priv *wsa883x, long *temp)
+> +{
+> +       unsigned int d1_msb =3D 0, d1_lsb =3D 0, d2_msb =3D 0, d2_lsb =3D=
+ 0;
+> +       unsigned int dmeas_msb =3D 0, dmeas_lsb =3D 0;
+> +       int d1, d2, dmeas;
+> +       unsigned int mask;
+> +       int ret, range;
+> +       long val;
+> +
+> +       guard(mutex)(&wsa883x->sp_lock);
+> +
+> +       if (wsa883x->pa_on) {
+> +               /*
+> +                * Reading temperature is possible only when Power Amplif=
+ier is
+> +                * off. Report last cached data.
+> +                */
+> +               *temp =3D wsa883x->temperature * 1000;
+> +               return 0;
+> +       }
+> +
+> +       ret =3D pm_runtime_resume_and_get(wsa883x->dev);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       mask =3D WSA883X_PA_FSM_BYP_DC_CAL_EN_MASK |
+> +              WSA883X_PA_FSM_BYP_CLK_WD_EN_MASK |
+> +              WSA883X_PA_FSM_BYP_BG_EN_MASK |
+> +              WSA883X_PA_FSM_BYP_D_UNMUTE_MASK |
+> +              WSA883X_PA_FSM_BYP_SPKR_PROT_EN_MASK |
+> +              WSA883X_PA_FSM_BYP_TSADC_EN_MASK;
+> +
+> +       /*
+> +        * Here and further do not care about read or update failures.
+> +        * For example, before turning the amplifier on for the first
+> +        * time, reading WSA883X_TEMP_DIN_MSB will always return 0.
+> +        * Instead, check if returned value is within reasonable
+> +        * thresholds.
+> +        */
+> +       regmap_update_bits(wsa883x->regmap, WSA883X_PA_FSM_BYP, mask, mas=
+k);
+> +
+> +       regmap_update_bits(wsa883x->regmap, WSA883X_TADC_VALUE_CTL,
+> +                          WSA883X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK,
+> +                          FIELD_PREP(WSA883X_TADC_VALUE_CTL_TEMP_VALUE_R=
+D_EN_MASK, 0x0));
+> +
+> +       regmap_read(wsa883x->regmap, WSA883X_TEMP_MSB, &dmeas_msb);
+> +       regmap_read(wsa883x->regmap, WSA883X_TEMP_LSB, &dmeas_lsb);
+> +
+> +       regmap_update_bits(wsa883x->regmap, WSA883X_TADC_VALUE_CTL,
+> +                          WSA883X_TADC_VALUE_CTL_TEMP_VALUE_RD_EN_MASK,
+> +                          FIELD_PREP(WSA883X_TADC_VALUE_CTL_TEMP_VALUE_R=
+D_EN_MASK, 0x1));
+> +
+> +       regmap_read(wsa883x->regmap, WSA883X_OTP_REG_1, &d1_msb);
+> +       regmap_read(wsa883x->regmap, WSA883X_OTP_REG_2, &d1_lsb);
+> +       regmap_read(wsa883x->regmap, WSA883X_OTP_REG_3, &d2_msb);
+> +       regmap_read(wsa883x->regmap, WSA883X_OTP_REG_4, &d2_lsb);
+> +
+> +       regmap_update_bits(wsa883x->regmap, WSA883X_PA_FSM_BYP, mask, 0x0=
+);
+> +
+> +       dmeas =3D (((dmeas_msb & 0xff) << 0x8) | (dmeas_lsb & 0xff)) >> 0=
+x6;
+> +       d1 =3D (((d1_msb & 0xff) << 0x8) | (d1_lsb & 0xff)) >> 0x6;
+> +       d2 =3D (((d2_msb & 0xff) << 0x8) | (d2_lsb & 0xff)) >> 0x6;
+> +
+> +       if (d1 =3D=3D d2) {
+> +               /* Incorrect data in OTP? */
+> +               ret =3D -EINVAL;
+> +               goto out;
+> +       }
+> +
+> +       val =3D WSA883X_T1_TEMP + (((dmeas - d1) * (WSA883X_T2_TEMP - WSA=
+883X_T1_TEMP)) / (d2 - d1));
+> +       range =3D WSA883X_HIGH_TEMP_THRESHOLD - WSA883X_LOW_TEMP_THRESHOL=
+D;
+> +       if (in_range(val, WSA883X_LOW_TEMP_THRESHOLD, range)) {
+> +               wsa883x->temperature =3D val;
+> +               *temp =3D val * 1000;
+> +               ret =3D 0;
+> +       } else {
+> +               ret =3D -EAGAIN;
+> +       }
+> +out:
+> +       pm_runtime_mark_last_busy(wsa883x->dev);
+> +       pm_runtime_put_autosuspend(wsa883x->dev);
+> +
+> +       return ret;
+> +}
+> +
+> +static umode_t wsa883x_hwmon_is_visible(const void *data,
+> +                                       enum hwmon_sensor_types type, u32=
+ attr,
+> +                                       int channel)
+> +{
+> +       if (type !=3D hwmon_temp)
+> +               return 0;
+> +
+> +       switch (attr) {
+> +       case hwmon_temp_input:
+> +               return 0444;
+> +       default:
+> +               break;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int wsa883x_hwmon_read(struct device *dev,
+> +                             enum hwmon_sensor_types type,
+> +                             u32 attr, int channel, long *temp)
+> +{
+> +       int ret;
+> +
+> +       switch (attr) {
+> +       case hwmon_temp_input:
+> +               ret =3D wsa883x_get_temp(dev_get_drvdata(dev), temp);
+> +               break;
+> +       default:
+> +               ret =3D -EOPNOTSUPP;
+> +               break;
+> +       }
+> +
+> +       return ret;
+> +}
+> +
+> +static const struct hwmon_channel_info *const wsa883x_hwmon_info[] =3D {
+> +       HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
+> +       NULL
+> +};
+> +
+> +static const struct hwmon_ops wsa883x_hwmon_ops =3D {
+> +       .is_visible     =3D wsa883x_hwmon_is_visible,
+> +       .read           =3D wsa883x_hwmon_read,
+> +};
+> +
+> +static const struct hwmon_chip_info wsa883x_hwmon_chip_info =3D {
+> +       .ops    =3D &wsa883x_hwmon_ops,
+> +       .info   =3D wsa883x_hwmon_info,
+> +};
+> +
+>  static int wsa883x_probe(struct sdw_slave *pdev,
+>                          const struct sdw_device_id *id)
+>  {
+> @@ -1402,6 +1582,7 @@ static int wsa883x_probe(struct sdw_slave *pdev,
+>         wsa883x->sconfig.bps =3D 1;
+>         wsa883x->sconfig.direction =3D SDW_DATA_DIR_RX;
+>         wsa883x->sconfig.type =3D SDW_STREAM_PDM;
+> +       mutex_init(&wsa883x->sp_lock);
+>
+>         /**
+>          * Port map index starts with 0, however the data port for this c=
+odec
+> @@ -1424,6 +1605,19 @@ static int wsa883x_probe(struct sdw_slave *pdev,
+>                                     "regmap_init failed\n");
+>                 goto err;
+>         }
+> +
+> +       if (IS_REACHABLE(CONFIG_HWMON)) {
+> +               struct device *hwmon;
+> +
+> +               hwmon =3D devm_hwmon_device_register_with_info(dev, "wsa8=
+83x",
+> +                                                            wsa883x,
+> +                                                            &wsa883x_hwm=
+on_chip_info,
+> +                                                            NULL);
+> +               if (IS_ERR(hwmon))
+> +                       return dev_err_probe(dev, PTR_ERR(hwmon),
+> +                                            "Failed to register hwmon se=
+nsor\n");
+> +       }
+> +
+>         pm_runtime_set_autosuspend_delay(dev, 3000);
+>         pm_runtime_use_autosuspend(dev);
+>         pm_runtime_mark_last_busy(dev);
+> --
+> 2.47.2
+>
 
-This was attempted to be fixed in commit b47834ee4485b ("ASoC: SOF: amd:
-Add depends on CPU_SUP_AMD") but this just masked the issue as it was found
-in another config.
+With v2 applied, I do get the cached value showing up in monitoring
+and not 0C or 1C whenever audio playback occurs!
 
-Instead move the `depends on AMD_NODE` out of SND_SOC_SOF_AMD_COMMON to
-all the consumers and drop `depends on CPU_SUP_AMD`.
-
-Fixes: b47834ee4485b ("ASoC: SOF: amd: Add depends on CPU_SUP_AMD")
-Fixes: f120cf33d232 ("ASoC: SOF: amd: Use AMD_NODE")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202502220104.a8P6ApQN-lkp@intel.com/
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- sound/soc/sof/amd/Kconfig | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/sof/amd/Kconfig b/sound/soc/sof/amd/Kconfig
-index 6eb5b2d148430..3ea82fa72e353 100644
---- a/sound/soc/sof/amd/Kconfig
-+++ b/sound/soc/sof/amd/Kconfig
-@@ -25,7 +25,6 @@ config SND_SOC_SOF_AMD_COMMON
- 	select SND_SOC_SOF_ACP_PROBES
- 	select SND_SOC_ACPI_AMD_MATCH
- 	select SND_SOC_ACPI if ACPI
--	depends on AMD_NODE
- 	help
- 	  This option is not user-selectable but automatically handled by
- 	  'select' statements at a higher level
-@@ -33,7 +32,7 @@ config SND_SOC_SOF_AMD_COMMON
- config SND_SOC_SOF_AMD_RENOIR
- 	tristate "SOF support for RENOIR"
- 	depends on SND_SOC_SOF_PCI
--	depends on CPU_SUP_AMD
-+	depends on AMD_NODE
- 	select SND_SOC_SOF_AMD_COMMON
- 	help
- 	  Select this option for SOF support on AMD Renoir platform
-@@ -41,7 +40,7 @@ config SND_SOC_SOF_AMD_RENOIR
- config SND_SOC_SOF_AMD_VANGOGH
- 	tristate "SOF support for VANGOGH"
- 	depends on SND_SOC_SOF_PCI
--	depends on CPU_SUP_AMD
-+	depends on AMD_NODE
- 	select SND_SOC_SOF_AMD_COMMON
- 	help
- 	  Select this option for SOF support
-@@ -52,7 +51,7 @@ config SND_SOC_SOF_AMD_VANGOGH
- config SND_SOC_SOF_AMD_REMBRANDT
- 	tristate "SOF support for REMBRANDT"
- 	depends on SND_SOC_SOF_PCI
--	depends on CPU_SUP_AMD
-+	depends on AMD_NODE
- 	select SND_SOC_SOF_AMD_COMMON
- 	help
- 	  Select this option for SOF support on AMD Rembrandt platform
-@@ -85,7 +84,7 @@ config SND_SOC_SOF_AMD_SOUNDWIRE
- config SND_SOC_SOF_AMD_ACP63
- 	tristate "SOF support for ACP6.3 platform"
- 	depends on SND_SOC_SOF_PCI
--	depends on CPU_SUP_AMD
-+	depends on AMD_NODE
- 	select SND_SOC_SOF_AMD_COMMON
- 	select SND_SOC_SOF_AMD_SOUNDWIRE_LINK_BASELINE
- 	help
-@@ -97,7 +96,7 @@ config SND_SOC_SOF_AMD_ACP63
- config SND_SOC_SOF_AMD_ACP70
- 	tristate "SOF support for ACP7.0 platform"
- 	depends on SND_SOC_SOF_PCI
--	depends on CPU_SUP_AMD
-+	depends on AMD_NODE
- 	select SND_SOC_SOF_AMD_COMMON
- 	help
- 	  Select this option for SOF support on
--- 
-2.43.0
-
+Tested-by: Steev Klimaszewski <steev@kali.org> #Thinkpad X13s
