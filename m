@@ -1,82 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3B7200BAA;
-	Fri, 21 Feb 2025 08:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDA91C5F3B;
+	Fri, 21 Feb 2025 08:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740126569; cv=none; b=sAlyPAgA442XoU+iGMyTRmti7W1JeO8ezD4gqysBIz57YufpgTgzYXoghkpqSKAj4R0LrHcFF/uFEEWL7dMie3fWbXcqs0hq9yPmqyrVW6BlL+fQRMCyWe9/zwXp5ONI/zvmb4Nw9JUJEmHy5dTA3kwj9xZl5TcE8Qap+gXFJnw=
+	t=1740127581; cv=none; b=cQBF02ErQnpwjTfI5H7qHJJ0jAXmd2Uo5UzQlDwkIGTv3FXfBcxsXlMBUo9bJecimLiZPxII6FlIitpmZ6NNDSvk0wcG+7ILjkbL7K2kkhvmeeBT8uPFUNcDtHt7vNd/E2W9r6XGLnaSypvSpw5Gl7zpLbdyyuMaiCXuLJU5zjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740126569; c=relaxed/simple;
-	bh=mOw3fLi7y14ixK4M6buUbXvYjK33rdnARXUAfg8bOfA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SbOBUxi+kT/Q+/Jd6SazLy7hbUEW3tF5bXAJ1M2Bvvv8GTzjzIC3k3fgQRsIzHxgCubrFhmwWoG9IikzAuJIsJCg5I/wFzTr1Y5BOLIh0vkLFNzIM6VtqstJVnidQcRGz8h7Ggeb5ppE0tEuEmGPaShXRCM2yv+HvRQIlZBfMXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNQxhl27; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740127581; c=relaxed/simple;
+	bh=uxE/14AZJPOwjkNfM0o2kRICEkDY6NPqie4S2ZZ7nl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fC1Cou/Nd4ZoKaqqjbu9R8RMcRZfWLYuWjTHjHAogqmbeY+emr66dgvDC/MQ6Ytk9/EVHaElXNRyW5soRAu+Ctv3aIYT59IfJHE98xjSJsKM3cVYifEnoi2fRXgmDgGj5PJCrNWTaWE7eYc/CHQH5LY1V31iLGALdXxhl6oK6qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Fcc7LM+e; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNQxhl27"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 902EEC4CED6;
-	Fri, 21 Feb 2025 08:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740126568;
-	bh=mOw3fLi7y14ixK4M6buUbXvYjK33rdnARXUAfg8bOfA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lNQxhl27aoZwze66Rg7H7PTpDbG+3zeCZmYgQw0MXPiG8shdpaDAxayeGRIOqylvu
-	 pydJBZ6+VoAl9qs8xi7RVVVju1wiqER618kugwWjMmsrxt/PlxTOhYF5szMoZ9J/oa
-	 C+3JCJwqMBx70HZ76keZX+fT9KLI5/j2hu3jQ6Yqk5UPI5bkA825G/T4fhPRqK73TJ
-	 64qvX7V9SwCqslMJdRZJnJdZdDxgXnPLU+y46Yl1e+GsNVA5dI4boI9tDc7GzffnJX
-	 73VOuTQKDcwOU6Uh5tJmD/ba/In+FXxc+puG5uAXtkUhIkAGt4IJFN6XNDTuvyP2I+
-	 fczKdMejvFJIQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1tlOPj-000000007He-0gXd;
-	Fri, 21 Feb 2025 09:29:39 +0100
-Date: Fri, 21 Feb 2025 09:29:39 +0100
-From: Johan Hovold <johan@kernel.org>
-To: srinivas.kandagatla@linaro.org
-Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
-Subject: Re: [PATCH v2 0/5] ASoC: q6apm: fix under runs and fragment sizes
-Message-ID: <Z7g5c0_vJNpN9fI4@hovoldconsulting.com>
-References: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
- <Z7dog3cWe4BroZdT@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Fcc7LM+e"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A765A4437F;
+	Fri, 21 Feb 2025 08:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740127576;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hZqai5OGQRe1+S+SWHr4U/ETYReiLVZF4TVJLDQapsk=;
+	b=Fcc7LM+e4fObYR7C5N6IVkXCzOJOsztWAk/zf7zbXIkCXuiIzW0j3Z00cQQh8Hk9mE5/tq
+	k48bRopraJoeuvMUqYnEQBEqkuFXhKajhiCzeFrXgId8xaK9RxU+D1K6karK93nBHi5gEn
+	VTLtqhQZDk/e3bCLgiATPrWp0jpJKw/TDiwSlHh8+IDEMf2DJdyb7l1+eI+wV5uMAYVPBY
+	9dCfw8Ujc14UxfLoE6Ol/ag/f/mG7O5NQ3CQtwVmgW/gKFwfPD5WKU0OOC/jhBS6Z1vzzH
+	05GXyrELB1epD0yZJmAO4rd+PGDludXJukMGrpJwxtxbO+8cQx/A9CXygSMaoA==
+Date: Fri, 21 Feb 2025 09:46:13 +0100
+From: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+To: =?UTF-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>, "Rob Herring"
+ <robh@kernel.org>, "Saravana Kannan" <saravanak@google.com>, "David S.
+ Miller" <davem@davemloft.net>, "Grant Likely" <grant.likely@secretlab.ca>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>, "Liam
+ Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Binbin Zhou" <zhoubinbin@loongson.cn>, <linux-sound@vger.kernel.org>,
+ "Vladimir Kondratiev" <vladimir.kondratiev@mobileye.com>, =?UTF-8?B?R3I=?=
+ =?UTF-8?B?w6lnb3J5?= Clement <gregory.clement@bootlin.com>, "Tawfik Bayouk"
+ <tawfik.bayouk@mobileye.com>, <stable@vger.kernel.org>
+Subject: Re: [PATCH 0/2] driver core: platform: avoid use-after-free on
+ device name
+Message-ID: <20250221094613.7b9b5bf8@windsurf>
+In-Reply-To: <D7XHGNJMMUMF.OUL1VHGK5KVM@bootlin.com>
+References: <20250218-pdev-uaf-v1-0-5ea1a0d3aba0@bootlin.com>
+	<2025022005-affluent-hardcore-c595@gregkh>
+	<D7XB6MXRYVLY.3RM4EJEWD1IQM@bootlin.com>
+	<2025022004-scheming-expend-b9b3@gregkh>
+	<D7XE2DSESCHX.328BJ5KCEFH0A@bootlin.com>
+	<2025022019-enigmatic-mace-60ca@gregkh>
+	<D7XHGNJMMUMF.OUL1VHGK5KVM@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7dog3cWe4BroZdT@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeileehlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepvfhhohhmrghsucfrvghtrgiiiihonhhiuceothhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehudetueefkeeiveeigeeugeeigfdvveehgffguddtieeuvddtgfelvdegveelieenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgduleemkedtiegtmehfrgdttdemtgegjeekmeektddtieemvdefudegmeehkegutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudelmeektdeitgemfhgrtddtmegtgeejkeemkedttdeimedvfedugeemheekugdtpdhhvghlohepfihinhgushhurhhfpdhmrghilhhfrhhomhepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvtddprhgtphhtthhopehthhgvohdrlhgvsghruhhnsegsohhothhlihhnrdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpt
+ hhtoheprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsrghrrghvrghnrghksehgohhoghhlvgdrtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepghhrrghnthdrlhhikhgvlhihsehsvggtrhgvthhlrggsrdgtrg
+X-GND-Sasl: thomas.petazzoni@bootlin.com
 
-On Thu, Feb 20, 2025 at 06:38:11PM +0100, Johan Hovold wrote:
-> On Thu, Feb 20, 2025 at 04:28:42PM +0000, Srinivas Kandagatla wrote:
+On Thu, 20 Feb 2025 19:26:41 +0100
+Th=C3=A9o Lebrun <theo.lebrun@bootlin.com> wrote:
 
-> > On Qualcomm Audioreach setup, some of the audio artifacts are seen in
-> > both recording and playback. These patches fix issues by
-> > 1. Adjusting the fragment size that dsp can service.
-> > 2. schedule available playback buffers in time for dsp to not hit under runs 
-> > 3. remove some of the manual calculations done to get hardware pointer.
-> > 
-> > With these patches, am able to see Audio quality improvements.
-> > 
-> > Any testing would be appreciated.
-> 
-> With this series, the choppy (robotic) capture when using pipewire
-> appears to be fixed (pulseaudio worked before).
-> 
-> Playback is still choppy (heavily distorted), though, and now it also
-> appears to be too slow.
-> 
-> I tested using pw-record and pw-play (and mpv) on the T14s (6.14-rc3).
+> That used to exist! I cannot see how it could be a good idea to
+> reintroduce the distinction though.
+>=20
+> commit eca3930163ba8884060ce9d9ff5ef0d9b7c7b00f
+> Author: Grant Likely <grant.likely@secretlab.ca>
+> Date:   Tue Jun 8 07:48:21 2010 -0600
+>=20
+>     of: Merge of_platform_bus_type with platform_bus_type
 
-Retested this morning and realised that playback is only choppy (and too
-slow) while I have pavucontrol open. That would be nice to fix if
-possible, but this is still a great improvement since pipewire was not
-usable at all before these changes.
+I don't really see how an of_platform bus would make sense. OF is not a
+bus at all, it's a way of providing HW description to an operating
+system.
 
-Tested-by: Johan Hovold <johan+linaro@kernel.org>
+What would IMO make a lot more sense is mmio_bus, for Memory-Mapped I/O
+peripherals. mmio_device can be described through OF, through old-style
+board.c, possibly through ACPI, or other means.
 
-Johan
+But in my eyes, the current platform bus is exactly this: the bus for
+MMIO devices. It would have be clearer to name it mmio_bus, and that
+would have probably prevented abuses of the platform bus for things
+that aren't memory-mapped peripherals.
+
+But clearly any bus that has "OF" in its name is wrong, as OF cannot be
+a bus. Keep in mind that OF allows to describe not only MMIO devices,
+but also I2C devices, SPI devices, MMC/SDIO devices, PCI devices, USB
+devices, etc. OF is a description of the HW, not a bus.
+
+Best regards,
+
+Thomas
+--=20
+Thomas Petazzoni, co-owner and CEO, Bootlin
+Embedded Linux and Kernel engineering and training
+https://bootlin.com
