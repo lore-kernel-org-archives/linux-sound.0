@@ -1,92 +1,127 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C65F204C23;
-	Fri, 21 Feb 2025 09:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3461205ADD
+	for <linux-sound@vger.kernel.org>; Fri, 21 Feb 2025 10:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740131216; cv=none; b=qc/YDGeuIpDAqaoX/FZNKqQJZ5WHBHauGbPAJOMMPVdLir+8s6zjGwQgth6yi2FWlSYi8HrY8cOJ/6wjGWNcEpNqHu6ahwZBSM9zUcOMXlwpklgQig6/wPnqwbiDfL7WdHOz4URY++YgvZSYBvVtkVcwfXn9mIjGbFO4PvjE/Bw=
+	t=1740132916; cv=none; b=jZy2DsDCp4ORki3//L4Zsmi86HAc0NUMsZIedEZpqnd2Xme2xvoGYChEDigzV58GaV7j5myrci2JQbBf+TlVPILJ8ymhd1xWiSFN1zgzu1976V3jOSdqjxbXljP45bunuJLvKc+A24KUgSKnpgMxfHBUr7R7HjDHhOusFXUODk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740131216; c=relaxed/simple;
-	bh=zf1SyORZqfZjkffuYXcPmbuH1XsivG8HNOpibUwyJd0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J2UM/C28+TR04AO0jwQ5/ZSURcH7SSm6IHT4u2WUaIj+OpmQgcW9ppBlCOhbrIPb3EfRnYrRjo6uZAVJZ3jRZmX94ZFIXGvyD5CP9C8/nMZVNIIhbaOz12NpAdzJcOjbOPnCmqJ0i0xgAtcmofWj1yKSLKfB8PXjZgIwXURPzmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=c9CW/cbQ; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1740132916; c=relaxed/simple;
+	bh=UdcYjV22LJAtanzSNBkgkEhCCbJV4PqgUmZbYYZfH78=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z7fqRmMz2Ley/rtj5w4VIWGarg7QUZe/I93ivkavsl19BnxK5v4+nT5KMHqUKB6gtQ3iSCQJnaNk4gZdmX1ddfp1gpJejyXUEj0n0mV8mabAmBH4CafiiKfjy8anLQNmhy+W6hOdQ3FCSSc8WKrC97Aj3N8TeOEpRREqKz9qxCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wlY7dJEi; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="c9CW/cbQ"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51L6jgZF013439;
-	Fri, 21 Feb 2025 03:46:30 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=kUXpsxt39/VziyhmUX
-	TXA0VmtdZKPc6S0GNSpJjMKek=; b=c9CW/cbQMnC1eifeuLXSEXgXwExxtRQ0dx
-	7j1h8JMLeOInLC3HHite1vVEDEUDrBx/HCuSmvQL+Bup+vVjxWPUPwGMl8V8tH7B
-	DMoDRCCaEqc4ubr59+GGms9wBfYkdm9IKDXCRxCGDeQI5p5Ymx/ZHr9088nxMw6f
-	btDoNMXgrdAR0utt1Umk9UHUaaFFir8AkoWhZlNbNuPOaDlJ+VhmRi5p3CnHGYF8
-	6OLnrZ/HYcb3uRmIyBdRuRuSSfRthV3AEB0UcFk+b6y7SQ2YTRSg1ss56hXecJsB
-	VNBrdvkY23RFeJ3WM1OHAU8gxahdKpWWvkkRsgiRUlR2j9QNMUog==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44wjcamjv7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Feb 2025 03:46:29 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 21 Feb
- 2025 09:46:28 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Fri, 21 Feb 2025 09:46:28 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 20908820248;
-	Fri, 21 Feb 2025 09:46:28 +0000 (UTC)
-Date: Fri, 21 Feb 2025 09:46:27 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-CC: <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
-        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH 0/4] Add SDCA register map support
-Message-ID: <Z7hLc647A8wUIQtO@opensource.cirrus.com>
-References: <20250217140159.2288784-1-ckeepax@opensource.cirrus.com>
- <8f0f70de-d3cf-4956-a5aa-c5bed91a61cf@linux.dev>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wlY7dJEi"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-439846bc7eeso11914555e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 21 Feb 2025 02:15:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740132913; x=1740737713; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=i87rotjO6zoXIGEp7j7IctCY9/qoavWizZ0RPKxAJoU=;
+        b=wlY7dJEiFC1MWUMWTeI/GakHlLPoYi6H8wd85GepYwm7fR7lbDBP91KzJCH78jAK3D
+         JDKHptco5BlagjdDG9jSo0lkXRniiPjt4RSXhW3Xv1WSXnR6rPWJ76Z8cXpcl446yby+
+         7vUh5jEG/PdRd9A49/FC/yeNYY0np24sLUCeg6Aduolu9qStfW+7bwxBTwOOzxtKr+C7
+         RB2MqrcKtlDdYBfjV17Byz9g7NRykTn6Zcj5MJYCseGrsQqUbyGbLUkIimRGwb8V0lOs
+         x21wTF9trSNAtSnHjVqDhP5OyzvJbWpBFLwXdo/lT4zHUbGafGwOWf49KlQWTCBRXTP4
+         NIxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740132913; x=1740737713;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i87rotjO6zoXIGEp7j7IctCY9/qoavWizZ0RPKxAJoU=;
+        b=vFl0AgcYtTz4zrWZd1XO2dVUkOSRIq1JRSr4ek/mFr/PNoyraI4SjjtSicY1PEI+lQ
+         m/B97zaiCxlHfTdyfTdXGIpAqYrnNHPdmnrlfrEDac6Uzdx/pZ36tbnaU9BPcGf3sRiw
+         lP9pF6E7cbSMOF7GrkNyb3tRHFW9dOrVz6FMm8BKbzRVP47JJReKgA8/MNsQM449xo74
+         tWFO83MNG0GbTco75QVt7ineiNvaQOUYxjfsfC8kld2bjZ/rnoyw8eHxXjJa7JNxBXfh
+         8Hq++1OqZpScPkXe1dH6d9C3U21PXk4RwwRw5KViFfbj5gTnhekEIhmb5c14SLa4X2QJ
+         qX1A==
+X-Forwarded-Encrypted: i=1; AJvYcCWuk+wlEmopz8owHW911b75AULdY9lbDwrMRL0b9Hy8NMms1t5gMuAuB4SwXjhpM1PMvJCreE7/h/GccQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqJI+wz6t0gmaMGWKtenqJZvLyusiAF8xANzllHXPAYeq5t8Lp
+	h7vviHQqaQeEeoz3icjqXdtHuV6ndzivZ4H3I1k5OQQleZgO2mDVgTlrGy+lIiE=
+X-Gm-Gg: ASbGncsGx0yZv4PnTqOwpVIuoH+besnUBtMD2ir96mK1Q0BVyKA44W8xRu2soC6I0H6
+	UFlTH3WBjOpg5yo+MVCn59wMl8ZOlI4wWK1ne2Cb3z95tVlhuJt6nRrnTnsBDeYIZZbCHovvOic
+	N/DU/cWsufMznbOs9CXnnyemm1QAUmkydE1qSUBMc2Ofy1YHtUBUlzKfHMOBF796lZU87k6oUhE
+	v3HGF/Px3EsSRSj+PwgpxF+TFuz5NZkNKCJyIqXTG76BxtRiEVIXFx4DQ3mce1xCeqBwUxvrEkB
+	f+VXiOAnUoduECoQYPMCJ1TxoqSwyAZBpWec/2aSSiFY
+X-Google-Smtp-Source: AGHT+IGs9NvKFIrKnXrzHMSGbBJ0oy+uXlJm086a7XejqQUgpF1zmN5RxP381nbAlt43bqejwAwrgQ==
+X-Received: by 2002:a05:600c:354f:b0:439:6ab6:5d46 with SMTP id 5b1f17b1804b1-439ae21d210mr20795145e9.27.1740132913197;
+        Fri, 21 Feb 2025 02:15:13 -0800 (PST)
+Received: from [192.168.68.111] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38f64b0f565sm4215318f8f.51.2025.02.21.02.15.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Feb 2025 02:15:12 -0800 (PST)
+Message-ID: <b359e44c-fb9f-412c-bc3b-f0a129d0c34e@linaro.org>
+Date: Fri, 21 Feb 2025 10:15:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <8f0f70de-d3cf-4956-a5aa-c5bed91a61cf@linux.dev>
-X-Authority-Analysis: v=2.4 cv=aplICTZV c=1 sm=1 tr=0 ts=67b84b75 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=kj9zAlcOel0A:10 a=T2h4t0Lz3GQA:10 a=4Vqx6HtD56EmJ5slJp8A:9 a=CjuIK1q_8ugA:10 a=zZCYzV9kfG8A:10
-X-Proofpoint-ORIG-GUID: uwfMfv4jYVSXbopqAuSshCoMsxoKDdJU
-X-Proofpoint-GUID: uwfMfv4jYVSXbopqAuSshCoMsxoKDdJU
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] ASoC: q6apm: fix under runs and fragment sizes
+To: Johan Hovold <johan@kernel.org>
+Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
+References: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
+ <Z7dog3cWe4BroZdT@hovoldconsulting.com>
+ <Z7g5c0_vJNpN9fI4@hovoldconsulting.com>
+ <Z7hAfGHvdeWpZ4Y3@hovoldconsulting.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <Z7hAfGHvdeWpZ4Y3@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 20, 2025 at 07:01:44AM -0600, Pierre-Louis Bossart wrote:
-> On 2/17/25 08:01, Charles Keepax wrote:
-> > This series is the next step of adding SDCA support. Here we add
-> > helper functions to allow drivers to easily use the SDCA DisCo
-> > information to create a register map for the device.
+
+
+On 21/02/2025 08:59, Johan Hovold wrote:
+> On Fri, Feb 21, 2025 at 09:29:39AM +0100, Johan Hovold wrote:
+>> On Thu, Feb 20, 2025 at 06:38:11PM +0100, Johan Hovold wrote:
+>>> On Thu, Feb 20, 2025 at 04:28:42PM +0000, Srinivas Kandagatla wrote:
+>>
+>>>> On Qualcomm Audioreach setup, some of the audio artifacts are seen in
+>>>> both recording and playback. These patches fix issues by
+>>>> 1. Adjusting the fragment size that dsp can service.
+>>>> 2. schedule available playback buffers in time for dsp to not hit under runs
+>>>> 3. remove some of the manual calculations done to get hardware pointer.
+>>>>
+>>>> With these patches, am able to see Audio quality improvements.
+>>>>
+>>>> Any testing would be appreciated.
+>>>
+>>> With this series, the choppy (robotic) capture when using pipewire
+>>> appears to be fixed (pulseaudio worked before).
+>>>
+>>> Playback is still choppy (heavily distorted), though, and now it also
+>>> appears to be too slow.
+>>>
+>>> I tested using pw-record and pw-play (and mpv) on the T14s (6.14-rc3).
+>>
+>> Retested this morning and realised that playback is only choppy (and too
+>> slow) while I have pavucontrol open. That would be nice to fix if
+>> possible, but this is still a great improvement since pipewire was not
+>> usable at all before these changes.
+>>
+>> Tested-by: Johan Hovold <johan+linaro@kernel.org>
 > 
-> Can you remind me where we ended-up in the discussion on one
-> regmap per physical device or one regmap per function?
+> Hmm... Scratch that.
 > 
-> The DisCo definition are all function-centric, but the physical
-> SoundWire bus access for all read/writes is shared by all functions
-> so having a single regmap isn't silly either.
+> This series apparently breaks pulseaudio instead.
 > 
-
-We haven't really fully resolved that yet, however, I have
-came to the conclusion that all the helper function bits I am
-currently adding are completely agnostic of the choice.
-
-So I think it makes most sense to address this once we are adding
-an actually driver component. That way we will have the most
-context for discussion.
-
-Thanks,
-Charles
+Thanks for trying out pulseaudio, I will try to reproduce this with my t14.
+--srini
+> Too fast playback on the T14s with mpv, and after I stopped it I wasn't
+> able too play any audio anymore. And systemd complains about a stop job
+> running for long when rebooting. Similar issues on the X13s.
+> 
+> Johan
