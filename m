@@ -1,145 +1,82 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BAE1E5739
-	for <linux-sound@vger.kernel.org>; Fri, 21 Feb 2025 04:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3B7200BAA;
+	Fri, 21 Feb 2025 08:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740112831; cv=none; b=FUD4jOArIepCFi+C3ua9pj4e2l5LoJ9znpHQSQHS7vLY33JMgTef7Cfb6niVnNYod/Hm43pW5jqyLjzPBiit922fXxSzrsgSf9G4am4Gexglg99U2iu3zKb3H5y2JQbkOyxr1aZqkizU1SzeiFgzRSAUIfUi41YdzlHpF6AVfCA=
+	t=1740126569; cv=none; b=sAlyPAgA442XoU+iGMyTRmti7W1JeO8ezD4gqysBIz57YufpgTgzYXoghkpqSKAj4R0LrHcFF/uFEEWL7dMie3fWbXcqs0hq9yPmqyrVW6BlL+fQRMCyWe9/zwXp5ONI/zvmb4Nw9JUJEmHy5dTA3kwj9xZl5TcE8Qap+gXFJnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740112831; c=relaxed/simple;
-	bh=A370FwgmOcGxdQpV0Y3cC3Eh1VAs/X7rXfoHTYBE+vs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FoD2Ibn6uz3rEg+/F0qDW+kh+hUhN772DLoYCgo0WYYx14ZcS7aoSykYcLG7JUnHrl/dkUOvKysNnrTL8OSV4AnkSo736R8RoO15JhKlqjN4SWG/MGtn16BSNa+UVWHB3mrQZyznALa7DsVCqUE8kzxYeYA19BL8ftr6s7cgeio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TwdRa2E2; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740126569; c=relaxed/simple;
+	bh=mOw3fLi7y14ixK4M6buUbXvYjK33rdnARXUAfg8bOfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SbOBUxi+kT/Q+/Jd6SazLy7hbUEW3tF5bXAJ1M2Bvvv8GTzjzIC3k3fgQRsIzHxgCubrFhmwWoG9IikzAuJIsJCg5I/wFzTr1Y5BOLIh0vkLFNzIM6VtqstJVnidQcRGz8h7Ggeb5ppE0tEuEmGPaShXRCM2yv+HvRQIlZBfMXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNQxhl27; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TwdRa2E2"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4399d14334aso14623325e9.0
-        for <linux-sound@vger.kernel.org>; Thu, 20 Feb 2025 20:40:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740112827; x=1740717627; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dUxQ8JHeZTOHPECNht+upnWJNGmFSV4ta5CH2/NFhzA=;
-        b=TwdRa2E2FgdYdAtyqMcPFqPuo0MSIr7+RJaRe4wls56hcgiWr8Y/NKCQhViJ8mcxvZ
-         tsyI+5t8ZhSEDFXUmrKoKijK+p6N6ECwfzWYSeiHFc3Vb0LeGA/0VVsIvl0s9XCQJSGC
-         iKiDx7/V1p+u4/ImWVaCjqkqTIOr8QTFiXvDGaPo9oPvXfzyYYwO5Afk14SexuLMkM6g
-         5NgjukzjXAD+Z7+J7P3pFMv0INDG4xeng0RSUnhrfg7UaGpWY0JUwUDlRjdKul8+un6C
-         ZCKENt0oniKziiLGEZaLUIHybIVNLr/njTb3uhQQICKQdauOnANQVu5w81oqdOKm776o
-         P+7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740112827; x=1740717627;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dUxQ8JHeZTOHPECNht+upnWJNGmFSV4ta5CH2/NFhzA=;
-        b=Xr6VvNCGx5LXOCBc4qMp3opCxD5hDcWfiOmgZtB0XQD1sS7IuwozpM5jtZ7bNhI8Dw
-         0WWmew+ufAvm5XrgzDS/ShFWVLLVK0CAFdgGQJlCh81iNvkfUE72+dPU8sNKF1bBFddV
-         oNDB2J1+xAW+7ArWGRL56kRoFcVEKqnP6n6aSDIZWjm9oQJjEkwDz4IB0z+MSejS+uL8
-         nwwIVgH8I5R94JRxxvhzdnFRXn56DhuELMHdBEkxW4Yjvpeb9mIEuBOikWpnYaazpQLF
-         2K1eh3qrGn6yOJlACN6Fk9EFh0P/jAygSAAKtzoHTVxNcvaKu+WqZKiGfSVCenSDI9Vb
-         YqDA==
-X-Forwarded-Encrypted: i=1; AJvYcCVfwL7Yhas8wkiewAYOenlhzYLYW1QA3rjnbzuZGulWWtPpe9Mle4EOCgzxZYv+xnE3qWa5ZY2kkFCT/g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnL9nN4kIIHvzdBmqvSsbLBmxGSoWa4mGxQ7t1flUoDMTi1yW2
-	wpXvxR7+Q4pqXy5CfCAGNIQr+tOq5nSYF57b9Tp5c14gbFdbeUVW9tBKxOkd/D0=
-X-Gm-Gg: ASbGncudBc7i8YpFEkURQbviDKvKgvETuDlujVx7m1uF8mN6hu4KA0IGg0EdsNiZogz
-	+WMLV2FrI/mMoalufWYNaCeEXEElp/4UHzA2kcuo0TfX2kx5kPeKjD8u4jMwBSZ372Y4Yd0nfJF
-	W2DJw5sDE3iNMH3XbsFh0OlugXxuMAIAiCt73v6OzvwPeGzpBU3TDlCnbMdVygjFKgn1ZEFsCx6
-	4VgFMowoQpw01LvnaZUWUb0ohlqLJZOQsKCa/qi815CJPV0OqmTwkPLoycTaKmzqGAOsvwfyZyC
-	a/RJWCB38SNDnvLLmYItAjoZ7V18M/qYb0TisI5mGL2s
-X-Google-Smtp-Source: AGHT+IFZX2tGs3D96ENsDWlpydZ+9vz8q8gMCtR61BTdHRxHTAdwzjKTs3WtllXebpcvU3jdBD83Ug==
-X-Received: by 2002:a05:6000:1546:b0:38f:3c8a:4bf4 with SMTP id ffacd0b85a97d-38f6e7561cdmr1272842f8f.6.1740112826930;
-        Thu, 20 Feb 2025 20:40:26 -0800 (PST)
-Received: from localhost.localdomain ([2.124.154.225])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f25915688sm22618671f8f.57.2025.02.20.20.40.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 20:40:25 -0800 (PST)
-From: Alexey Klimov <alexey.klimov@linaro.org>
-To: srinivas.kandagatla@linaro.org,
-	broonie@kernel.org,
-	lgirdwood@gmail.com
-Cc: krzysztof.kozlowski@linaro.org,
-	abel.vesa@linaro.org,
-	neil.armstrong@linaro.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	jdelvare@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: wsa884x: report temps to hwmon in millidegree of Celsius
-Date: Fri, 21 Feb 2025 04:40:24 +0000
-Message-ID: <20250221044024.1207921-1-alexey.klimov@linaro.org>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNQxhl27"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 902EEC4CED6;
+	Fri, 21 Feb 2025 08:29:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740126568;
+	bh=mOw3fLi7y14ixK4M6buUbXvYjK33rdnARXUAfg8bOfA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lNQxhl27aoZwze66Rg7H7PTpDbG+3zeCZmYgQw0MXPiG8shdpaDAxayeGRIOqylvu
+	 pydJBZ6+VoAl9qs8xi7RVVVju1wiqER618kugwWjMmsrxt/PlxTOhYF5szMoZ9J/oa
+	 C+3JCJwqMBx70HZ76keZX+fT9KLI5/j2hu3jQ6Yqk5UPI5bkA825G/T4fhPRqK73TJ
+	 64qvX7V9SwCqslMJdRZJnJdZdDxgXnPLU+y46Yl1e+GsNVA5dI4boI9tDc7GzffnJX
+	 73VOuTQKDcwOU6Uh5tJmD/ba/In+FXxc+puG5uAXtkUhIkAGt4IJFN6XNDTuvyP2I+
+	 fczKdMejvFJIQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tlOPj-000000007He-0gXd;
+	Fri, 21 Feb 2025 09:29:39 +0100
+Date: Fri, 21 Feb 2025 09:29:39 +0100
+From: Johan Hovold <johan@kernel.org>
+To: srinivas.kandagatla@linaro.org
+Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
+Subject: Re: [PATCH v2 0/5] ASoC: q6apm: fix under runs and fragment sizes
+Message-ID: <Z7g5c0_vJNpN9fI4@hovoldconsulting.com>
+References: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
+ <Z7dog3cWe4BroZdT@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z7dog3cWe4BroZdT@hovoldconsulting.com>
 
-Temperatures are reported in units of Celsius however hwmon expects
-values to be in millidegree of Celsius. Userspace tools observe values
-close to zero and report it as "Not available" or incorrect values like
-0C or 1C. Add a simple conversion to fix that.
+On Thu, Feb 20, 2025 at 06:38:11PM +0100, Johan Hovold wrote:
+> On Thu, Feb 20, 2025 at 04:28:42PM +0000, Srinivas Kandagatla wrote:
 
-Before the change:
+> > On Qualcomm Audioreach setup, some of the audio artifacts are seen in
+> > both recording and playback. These patches fix issues by
+> > 1. Adjusting the fragment size that dsp can service.
+> > 2. schedule available playback buffers in time for dsp to not hit under runs 
+> > 3. remove some of the manual calculations done to get hardware pointer.
+> > 
+> > With these patches, am able to see Audio quality improvements.
+> > 
+> > Any testing would be appreciated.
+> 
+> With this series, the choppy (robotic) capture when using pipewire
+> appears to be fixed (pulseaudio worked before).
+> 
+> Playback is still choppy (heavily distorted), though, and now it also
+> appears to be too slow.
+> 
+> I tested using pw-record and pw-play (and mpv) on the T14s (6.14-rc3).
 
-wsa884x-virtual-0
-Adapter: Virtual device
-temp1:         +0.0°C
---
-wsa884x-virtual-0
-Adapter: Virtual device
-temp1:         +0.0°C
+Retested this morning and realised that playback is only choppy (and too
+slow) while I have pavucontrol open. That would be nice to fix if
+possible, but this is still a great improvement since pipewire was not
+usable at all before these changes.
 
-Also reported as N/A before first amplifier power on.
+Tested-by: Johan Hovold <johan+linaro@kernel.org>
 
-After this change and initial wsa884x power on:
-
-wsa884x-virtual-0
-Adapter: Virtual device
-temp1:        +39.0°C
---
-wsa884x-virtual-0
-Adapter: Virtual device
-temp1:        +37.0°C
-
-Tested on sm8550 only.
-
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
----
- sound/soc/codecs/wsa884x.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-index 86df5152c547..560a2c04b695 100644
---- a/sound/soc/codecs/wsa884x.c
-+++ b/sound/soc/codecs/wsa884x.c
-@@ -1875,7 +1875,7 @@ static int wsa884x_get_temp(struct wsa884x_priv *wsa884x, long *temp)
- 		 * Reading temperature is possible only when Power Amplifier is
- 		 * off. Report last cached data.
- 		 */
--		*temp = wsa884x->temperature;
-+		*temp = wsa884x->temperature * 1000;
- 		return 0;
- 	}
- 
-@@ -1934,7 +1934,7 @@ static int wsa884x_get_temp(struct wsa884x_priv *wsa884x, long *temp)
- 	if ((val > WSA884X_LOW_TEMP_THRESHOLD) &&
- 	    (val < WSA884X_HIGH_TEMP_THRESHOLD)) {
- 		wsa884x->temperature = val;
--		*temp = val;
-+		*temp = val * 1000;
- 		ret = 0;
- 	} else {
- 		ret = -EAGAIN;
--- 
-2.47.2
-
+Johan
