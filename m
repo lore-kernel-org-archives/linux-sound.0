@@ -1,92 +1,178 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729DB33EA;
-	Fri, 21 Feb 2025 08:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D58F202F96;
+	Fri, 21 Feb 2025 09:24:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740128370; cv=none; b=NuHZw3g+EaMflxLMYL7ZK9aEKaIs5KtWRbaWkxvScBrv+cGmkS4PZU3B/A0GZgw49vrqNuHaLrNI8xwUSn3ZQQYhU8qWod0PXssfp3etHqGjOipDffpIBYulqZm17nIqMKrqZpUSG2A/Qq2lBAKhRBc3MGoxhIidsI2avdvj5hw=
+	t=1740129880; cv=none; b=KmhdntIVP9UB0FpbqQU5bf1gVnEVhY8NhWcuXP0TFh3pPA7YBU4HRZjZIM7mnqocOycB5UTk9cPqMmsFCmUQGJnZSJks/PAUvlNB3BKZqfnPqnHTboKuHhOJmeiQ8f/JgnMllWMyBv7pKjq9CN7/4N36PwtARAkxGOZapVDyZKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740128370; c=relaxed/simple;
-	bh=vF9wawzvcizoo6jSYAx1QotnSijKYox7CG3RzFsjghM=;
+	s=arc-20240116; t=1740129880; c=relaxed/simple;
+	bh=0XvHhHCp8UD0T0S2F3TcjKx5PbjsjRTd7om3G9mT0zA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sncplpdWTgtCwT4IPorUcbbkTU5Hwf6+EK0T0S9OogF5lJltRLi5EU5G0Pa4Xml9Ac2nf3R84nRErakXMMsHcG3Weji6KtC5dfp3TjeeOdclc43RIMGC/Y/iC6n0MBPN6zqNpdfLAHTEm4WoNgVnPvaTEib23Z5z5wQ1IHqScik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jj++nu2J; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oo71sZOxC8/iVD8YzYRbh/0cXwfM4XAS6Fk4mqlIu6iK2EvbpVKqTa2396fpPptNd8AJjVbBrM93WNnvHqQKtZabI9LgToykVcSH6g885ZiFJrTDVPLRBOayDO7f1lrmaRQ6ZQnd0ARj2FWUuyKN7z0duq3uLAwR0QYwo7etHII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lG0mlwtJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jj++nu2J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7FE4C4CED6;
-	Fri, 21 Feb 2025 08:59:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lG0mlwtJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 337D7C4CED6;
+	Fri, 21 Feb 2025 09:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740128369;
-	bh=vF9wawzvcizoo6jSYAx1QotnSijKYox7CG3RzFsjghM=;
+	s=k20201202; t=1740129879;
+	bh=0XvHhHCp8UD0T0S2F3TcjKx5PbjsjRTd7om3G9mT0zA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jj++nu2JRWU+mpnJyThMIp/baCyMMBclJ1fPSRowj67WpZUeNQRSiapJWFtZoOz9M
-	 8YR5NBqebC9xd466eZM3YDbRP+vnz4BKVsnSJfT49Q2sbvajTxnnBRzygp9X0otzn3
-	 vAep/+DdRRg9456PdROhN7mbYERQujC1WvU2iZzKsLwZ0Rj1RZARSynFGjJ+A5cYRN
-	 RLPYlY+ZV6M8YVwwZqtDHrGMH9BodqS/Y8wtaQ5DhMhg6nCCA+foJhrgKZw5XrFqqI
-	 RX2OyI4TDMv54itd51l4NHN45Yb8NxgkGaaE738o3/ErMfad3+vqe6oX3923VXhqMF
-	 +19pQ8cTCAJkQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1tlOsm-000000002td-26Nv;
-	Fri, 21 Feb 2025 09:59:40 +0100
-Date: Fri, 21 Feb 2025 09:59:40 +0100
-From: Johan Hovold <johan@kernel.org>
-To: srinivas.kandagatla@linaro.org
-Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
-Subject: Re: [PATCH v2 0/5] ASoC: q6apm: fix under runs and fragment sizes
-Message-ID: <Z7hAfGHvdeWpZ4Y3@hovoldconsulting.com>
-References: <20250220162847.11994-1-srinivas.kandagatla@linaro.org>
- <Z7dog3cWe4BroZdT@hovoldconsulting.com>
- <Z7g5c0_vJNpN9fI4@hovoldconsulting.com>
+	b=lG0mlwtJZr90iiEgPpXWZcAJeoQ7w6hJnCabn1hKI4nUWNnfPjKxHgPmjZFREDhIc
+	 sOo8AsSd9BxATe2pJaizh0r/gtKN58rIoyunLYb375hBIClvoL8TwtTtrD6DhhE3+P
+	 UM8ayvN8x4zuk2tBlPadja42ddXDzYbevhO/F2nD4jCoCyI22mBrX0h6K+7+y0aW7c
+	 /ddFCibmqojyrq+UHdQeAXco07No29ahVpM5/bJZrkeCjvxWdW4CXnlUeysngvx+Cr
+	 D+pqqRL9iuDE01WMcaZ8qKDPwjX8xWf9Jwfi+Q2fKt07we0zcfWHUWdxZHOZVZEYdb
+	 1YS0IduJaYf2A==
+Date: Fri, 21 Feb 2025 09:24:31 +0000
+From: Simon Horman <horms@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andy Shevchenko <andy@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org,
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v3 05/15] bus: ts-nbus: use bitmap_get_value8()
+Message-ID: <20250221092431.GE1615191@kernel.org>
+References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
+ <20250210-gpio-set-array-helper-v3-5-d6a673674da8@baylibre.com>
+ <20250220101742.GR1615191@kernel.org>
+ <0084eef7-3831-4e62-acf1-6c2dc0e15dd1@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z7g5c0_vJNpN9fI4@hovoldconsulting.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0084eef7-3831-4e62-acf1-6c2dc0e15dd1@baylibre.com>
 
-On Fri, Feb 21, 2025 at 09:29:39AM +0100, Johan Hovold wrote:
-> On Thu, Feb 20, 2025 at 06:38:11PM +0100, Johan Hovold wrote:
-> > On Thu, Feb 20, 2025 at 04:28:42PM +0000, Srinivas Kandagatla wrote:
-> 
-> > > On Qualcomm Audioreach setup, some of the audio artifacts are seen in
-> > > both recording and playback. These patches fix issues by
-> > > 1. Adjusting the fragment size that dsp can service.
-> > > 2. schedule available playback buffers in time for dsp to not hit under runs 
-> > > 3. remove some of the manual calculations done to get hardware pointer.
-> > > 
-> > > With these patches, am able to see Audio quality improvements.
-> > > 
-> > > Any testing would be appreciated.
+On Thu, Feb 20, 2025 at 11:32:10AM -0600, David Lechner wrote:
+> On 2/20/25 4:17 AM, Simon Horman wrote:
+> > On Mon, Feb 10, 2025 at 04:33:31PM -0600, David Lechner wrote:
+> >> Use bitmap_get_value8() instead of accessing the bitmap directly.
+> >>
+> >> Accessing the bitmap directly is not considered good practice. We now
+> >> have a helper function that can be used instead, so let's use it.
+> >>
+> >> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > u> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> >> ---
+> >>  drivers/bus/ts-nbus.c | 5 +++--
+> >>  1 file changed, 3 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/bus/ts-nbus.c b/drivers/bus/ts-nbus.c
+> >> index b4c9308caf0647a3261071d9527fffce77784af2..beac67f3b820377f8bb1fc4f4ee77e15ee240834 100644
+> >> --- a/drivers/bus/ts-nbus.c
+> >> +++ b/drivers/bus/ts-nbus.c
+> >> @@ -10,6 +10,7 @@
+> >>   * TS-4600 SoM.
+> >>   */
+> >>  
+> >> +#include <linux/bitmap.h>
+> >>  #include <linux/bitops.h>
+> >>  #include <linux/gpio/consumer.h>
+> >>  #include <linux/kernel.h>
+> >> @@ -107,7 +108,7 @@ static void ts_nbus_reset_bus(struct ts_nbus *ts_nbus)
+> >>  {
+> >>  	DECLARE_BITMAP(values, 8);
+> >>  
+> >> -	values[0] = 0;
+> >> +	bitmap_set_value8(values, byte, 0);
 > > 
-> > With this series, the choppy (robotic) capture when using pipewire
-> > appears to be fixed (pulseaudio worked before).
+> > Hi David,
 > > 
-> > Playback is still choppy (heavily distorted), though, and now it also
-> > appears to be too slow.
+> > byte doesn't appear to exist in the scope of this function.
 > > 
-> > I tested using pw-record and pw-play (and mpv) on the T14s (6.14-rc3).
+> > I tried this:
+> > 
+> > 	bitmap_set_value8(values, 0, 8);
+> > 
+> > But when compiling with GCC 14.2.0 I see warnings that values
+> > is used uninitialised - bitmap_set_value8() appears to rely on
+> > it being so.
 > 
-> Retested this morning and realised that playback is only choppy (and too
-> slow) while I have pavucontrol open. That would be nice to fix if
-> possible, but this is still a great improvement since pipewire was not
-> usable at all before these changes.
+> Ah yes, I see the problem (I don't think this driver compiles with
+> allmodconfig so the compiler didn't catch it for me).
+
+Thanks, that would explain things.
+
+FWIIW, I think you can exercise this with allmodconfig by simply running:
+
+  make drivers/bus/ts-nbus.o
+
 > 
-> Tested-by: Johan Hovold <johan+linaro@kernel.org>
+> > 
+> >   CC      drivers/bus/ts-nbus.o
+> > In file included from drivers/bus/ts-nbus.c:13:
+> > In function ‘bitmap_write’,
+> >     inlined from ‘ts_nbus_reset_bus’ at drivers/bus/ts-nbus.c:111:2:
+> > ./include/linux/bitmap.h:818:12: error: ‘values’ is used uninitialized [-Werror=uninitialized]
+> >   818 |         map[index] &= (fit ? (~(mask << offset)) : ~BITMAP_FIRST_WORD_MASK(start));
+> >       |         ~~~^~~~~~~
+> > In file included from ./include/linux/kasan-checks.h:5,
+> >                  from ./include/asm-generic/rwonce.h:26,
+> >                  from ./arch/x86/include/generated/asm/rwonce.h:1,
+> >                  from ./include/linux/compiler.h:344,
+> >                  from ./include/linux/build_bug.h:5,
+> >                  from ./include/linux/bits.h:22,
+> >                  from ./include/linux/bitops.h:6,
+> >                  from ./include/linux/bitmap.h:8:
+> > drivers/bus/ts-nbus.c: In function ‘ts_nbus_reset_bus’:
+> > drivers/bus/ts-nbus.c:109:24: note: ‘values’ declared here
+> >   109 |         DECLARE_BITMAP(values, 8);
+> >       |                        ^~~~~~
+> > ./include/linux/types.h:11:23: note: in definition of macro ‘DECLARE_BITMAP’
+> >    11 |         unsigned long name[BITS_TO_LONGS(bits)]
+> >       |                       ^~~~
+> > 
+> > 
+> >>  
+> >>  	gpiod_multi_set_value_cansleep(ts_nbus->data, values);
+> >>  	gpiod_set_value_cansleep(ts_nbus->csn, 0);
+> >> @@ -151,7 +152,7 @@ static void ts_nbus_write_byte(struct ts_nbus *ts_nbus, u8 byte)
+> >>  {
+> >>  	DECLARE_BITMAP(values, 8);
+> 
+> We can fix by zero-initialing the bitmap.
+> 
+> 	DECLARE_BITMAP(values, 8) = { };
 
-Hmm... Scratch that.
+Thanks, I confirmed that adding that to ts_nbus_reset_bus()
+makes the compiler happy. And it seems sensible to me.
 
-This series apparently breaks pulseaudio instead.
+I guess that theoretically it should also be added to ts_nbus_write_byte(),
+although GCC has nothing to say about that either way.
 
-Too fast playback on the T14s with mpv, and after I stopped it I wasn't
-able too play any audio anymore. And systemd complains about a stop job
-running for long when rebooting. Similar issues on the X13s.
+> Would you like me to send a new version of the patch?
 
-Johan
+It's not really my call. But I would expect that is a good next step.
+
+> >> -	values[0] = byte;
+> >> +	bitmap_set_value8(values, byte, 8);
+> >>  
+> >>  	gpiod_multi_set_value_cansleep(ts_nbus->data, values);
+> >>  }
