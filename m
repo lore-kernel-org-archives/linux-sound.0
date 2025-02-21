@@ -1,73 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9DD253358;
-	Fri, 21 Feb 2025 20:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740169478; cv=none; b=uvdhm895TjRyZ6uE9mLj8y1F6SXpUOFwg9UkvWWWKs5tl5Z3iNhusWV5lFVCo2XD1LcpdY8pI2jhsjS4q45khLbb1MFbjBbAOYlxJE7OyhSzKUsTt34oNJGOLzLX1XgOSxD1KvY/5V8bpFaQ6dMiK4tM5++LiGzY6TbvY2ZV6RM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740169478; c=relaxed/simple;
-	bh=mBxOob9mR9l0oBnEHnalaehXgK5zljRRPtdejwjytTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kA41tvExsfnBegD0CrWg9qEhuGM7hXhZFq+0KhqYD6HtE3k7M+byUbjNGyLNzYq/623Dwl20AmVnRqlp2ytqTY68LZv6VlaRI91jwtsxXBQHkqtk9nTvWwHsqLCFk1G9oC7mMT0vND7V/mUF9g2+g+jI/tams/r6B0ayuiO0tk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UsLfve8U; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679501FC102;
+	Fri, 21 Feb 2025 20:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740170400; cv=pass; b=DSLxXQWoIxPCyOdi24SFdF4+/shFBD9JaSVk1pRHBT/bC26gYrV1rSnzNwO4pOXO+NoD3y+ShWPan7XElrFHHUtiFyNLJRgGM64DzaQLaOzUG49GCRnoHNjoj6hFIvw/JIvCJNiZS+2LLo7fp1fIOSpQIeibp4ecFBKXmQDYD5A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740170400; c=relaxed/simple;
+	bh=g+zbCpZ+1FMbrKP6uJKG+9dae8cgqKA78FJKbCxMPF4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=T8kU2CvDWYSMh5t+CUM/W3+38LmYkB9gSdsvm3OLXmisrxxOxd7LFQzrHEHDH+N3lYUFwVzEtE44ipShqWXoYjef336+lEMiPAlcl+W5mrzfiFnYh35lqu/IXpLe52HnxWESREPOeGmvtxbDQU8PXn6O7KY1YQ9bZzu6ZgBAVIw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=RsWbBg4q; arc=pass smtp.client-ip=136.143.188.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UsLfve8U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61DD3C4CED6;
-	Fri, 21 Feb 2025 20:24:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740169477;
-	bh=mBxOob9mR9l0oBnEHnalaehXgK5zljRRPtdejwjytTE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UsLfve8UhiJdIdS7O/I4w2L9xjbFX0/6hNAk1uZEDS6mMBTEKyC+W/vroPDxIYwWL
-	 ZFdMgFV3HA6gwJDD0ZrR1Wbedb0dMXIVGivmiHKYgVIj8J683EEkeUB+jUnLXuFCMw
-	 DwUqYeTbi7DfUdo1TErzfzy2qffpXB/YNeVrdMtvaRlsTOdupQ74A/FLpV1uC7Z08j
-	 ZXj5GqRSlWgoZK3j+n77/CznraznV4auFXe88siGFwGqo7WWyLndWJubrT7nRUChhk
-	 /8b2ueOCmfIOvyWeO6vDKRsjjTTUmgi2c1/JYP80cHEI6ULW6Mf9FC0o8yclGEuBqY
-	 Q4EjSXPgJuWSA==
-Date: Fri, 21 Feb 2025 14:24:35 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-	linux-hwmon@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Baojun Xu <baojun.xu@ti.com>, Mark Brown <broonie@kernel.org>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Shi Fu <shifu0704@thundersoft.com>, Kevin Lu <kevin-lu@ti.com>,
-	Hector Martin <marcan@marcan.st>, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	Neal Gompa <neal@gompa.dev>, Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [PATCH v2 04/29] ASoC: dt-bindings: tas2770: add compatible for
- TAS5770L
-Message-ID: <174016947515.19125.7118711540459460393.robh@kernel.org>
-References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
- <20250218-apple-codec-changes-v2-4-932760fd7e07@gmail.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="RsWbBg4q"
+ARC-Seal: i=1; a=rsa-sha256; t=1740170387; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=XYp1ymi2/abVGMkwCN5ogf3ba4e8+qdOh0RBhUSSq7BuIQOzsYCpQrVgzKeiFPVQTOndlxswFlVw7Tw5oiXgTBFhYNg/HOuyCOCxymVXJR6cpYWbGPqXloU6Logi0SYtLs89AwaFIPrKoEHCK8m5mxrP+nNIMEB+MZmUcXCb8YY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1740170387; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=YPVDhutFqE0CHWS8gowpekGV6zc0YkLczaOqICj/amY=; 
+	b=EGYR1e0iXaNZZevZNGaDG+vb+JL2jNovi48h4C78OrZLB5h5xPIncrFIEAqI+b9iwHJxGfsoy1PstloRYqtgmi0aUITPliiObNXYRgGjlpe0HZFcjzzIHKRMAggWmtuvWQJQH4tnLbn3AgpzYpOS6xx6KLYeSVBbjsDZkQAd4rM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740170387;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Cc:Cc:Reply-To;
+	bh=YPVDhutFqE0CHWS8gowpekGV6zc0YkLczaOqICj/amY=;
+	b=RsWbBg4qGq+F7+dT6+rWeR0W3Ose4pwp2+VPoA3KBSCEH4UvbhDlZasAoKQfqo3U
+	T9FeOQpW13hMfeDj/PEcMvu5SYOodkvIghskwF/kqLHe/7JzMlitiTswgM241tCu+BM
+	+6oljbhZqUsAZVsUc4HHWBlTM6QPfsC35XSPB1NA=
+Received: by mx.zohomail.com with SMTPS id 174017038484339.05431959157954;
+	Fri, 21 Feb 2025 12:39:44 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Date: Fri, 21 Feb 2025 21:39:32 +0100
+Subject: [PATCH] ASoC: dapm-graph: set fill colour of turned on nodes
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250218-apple-codec-changes-v2-4-932760fd7e07@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250221-dapm-graph-node-colour-v1-1-514ed0aa7069@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAIPkuGcC/x3MQQqAIBBA0avErBtQyYiuEi0spxoolZEiiO6et
+ HyL/x/IJEwZ+uoBoYszx1Cg6wrmzYWVkH0xGGWsMkajd+nAVVzaMERPOMc9noI0KaW1a2xnWyh
+ xElr4/sfD+L4f+zVZW2gAAAA=
+X-Change-ID: 20250221-dapm-graph-node-colour-eb0011a45856
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+X-Mailer: b4 0.14.2
 
+Some tools like KGraphViewer interpret the "ON" nodes not having an
+explicitly set fill colour as them being entirely black, which obscures
+the text on them and looks funny. In fact, I thought they were off for
+the longest time. Comparing to the output of the `dot` tool, I assume
+they are supposed to be white.
 
-On Tue, 18 Feb 2025 18:35:38 +1000, James Calligeros wrote:
-> A variant of TAS2770 known as TAS5770L is found in Apple Silicon Macs.
-> 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  .../bindings/sound/ti,tas2770.yaml       | 1 +
->  1 file changed, 1 insertion(+)
-> 
+Instead of speclawyering over who's in the wrong and must immediately
+atone for their wickedness at the altar of RFC2119, just be explicit
+about it, set the fillcolor to white, and nobody gets confused.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+---
+This is somewhat "just thrown out there"; I noticed that not setting the
+fill colour breaks KGraphViewer only *after* I thought this was just how
+they were for several days. With this change, both dot and KGraphViewer
+render it correctly, but I have no clue as to whether it's in the spirit
+of the file format at all. I figure that if this saves some other poor
+souls a bit of time and confusion, then it's worth it.
+---
+ tools/sound/dapm-graph | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/sound/dapm-graph b/tools/sound/dapm-graph
+index f14bdfedee8f11507a6b7b04f6dd1847513e6da8..b6196ee5065a4e72069df663775518352d75d410 100755
+--- a/tools/sound/dapm-graph
++++ b/tools/sound/dapm-graph
+@@ -10,7 +10,7 @@ set -eu
+ 
+ STYLE_COMPONENT_ON="color=dodgerblue;style=bold"
+ STYLE_COMPONENT_OFF="color=gray40;style=filled;fillcolor=gray90"
+-STYLE_NODE_ON="shape=box,style=bold,color=green4"
++STYLE_NODE_ON="shape=box,style=bold,color=green4,fillcolor=white"
+ STYLE_NODE_OFF="shape=box,style=filled,color=gray30,fillcolor=gray95"
+ 
+ # Print usage and exit
+
+---
+base-commit: 0ad2507d5d93f39619fc42372c347d6006b64319
+change-id: 20250221-dapm-graph-node-colour-eb0011a45856
+
+Best regards,
+-- 
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
