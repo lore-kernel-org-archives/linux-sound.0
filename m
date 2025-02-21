@@ -1,178 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D58F202F96;
-	Fri, 21 Feb 2025 09:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C65F204C23;
+	Fri, 21 Feb 2025 09:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740129880; cv=none; b=KmhdntIVP9UB0FpbqQU5bf1gVnEVhY8NhWcuXP0TFh3pPA7YBU4HRZjZIM7mnqocOycB5UTk9cPqMmsFCmUQGJnZSJks/PAUvlNB3BKZqfnPqnHTboKuHhOJmeiQ8f/JgnMllWMyBv7pKjq9CN7/4N36PwtARAkxGOZapVDyZKk=
+	t=1740131216; cv=none; b=qc/YDGeuIpDAqaoX/FZNKqQJZ5WHBHauGbPAJOMMPVdLir+8s6zjGwQgth6yi2FWlSYi8HrY8cOJ/6wjGWNcEpNqHu6ahwZBSM9zUcOMXlwpklgQig6/wPnqwbiDfL7WdHOz4URY++YgvZSYBvVtkVcwfXn9mIjGbFO4PvjE/Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740129880; c=relaxed/simple;
-	bh=0XvHhHCp8UD0T0S2F3TcjKx5PbjsjRTd7om3G9mT0zA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oo71sZOxC8/iVD8YzYRbh/0cXwfM4XAS6Fk4mqlIu6iK2EvbpVKqTa2396fpPptNd8AJjVbBrM93WNnvHqQKtZabI9LgToykVcSH6g885ZiFJrTDVPLRBOayDO7f1lrmaRQ6ZQnd0ARj2FWUuyKN7z0duq3uLAwR0QYwo7etHII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lG0mlwtJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740131216; c=relaxed/simple;
+	bh=zf1SyORZqfZjkffuYXcPmbuH1XsivG8HNOpibUwyJd0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J2UM/C28+TR04AO0jwQ5/ZSURcH7SSm6IHT4u2WUaIj+OpmQgcW9ppBlCOhbrIPb3EfRnYrRjo6uZAVJZ3jRZmX94ZFIXGvyD5CP9C8/nMZVNIIhbaOz12NpAdzJcOjbOPnCmqJ0i0xgAtcmofWj1yKSLKfB8PXjZgIwXURPzmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=c9CW/cbQ; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lG0mlwtJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 337D7C4CED6;
-	Fri, 21 Feb 2025 09:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740129879;
-	bh=0XvHhHCp8UD0T0S2F3TcjKx5PbjsjRTd7om3G9mT0zA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lG0mlwtJZr90iiEgPpXWZcAJeoQ7w6hJnCabn1hKI4nUWNnfPjKxHgPmjZFREDhIc
-	 sOo8AsSd9BxATe2pJaizh0r/gtKN58rIoyunLYb375hBIClvoL8TwtTtrD6DhhE3+P
-	 UM8ayvN8x4zuk2tBlPadja42ddXDzYbevhO/F2nD4jCoCyI22mBrX0h6K+7+y0aW7c
-	 /ddFCibmqojyrq+UHdQeAXco07No29ahVpM5/bJZrkeCjvxWdW4CXnlUeysngvx+Cr
-	 D+pqqRL9iuDE01WMcaZ8qKDPwjX8xWf9Jwfi+Q2fKt07we0zcfWHUWdxZHOZVZEYdb
-	 1YS0IduJaYf2A==
-Date: Fri, 21 Feb 2025 09:24:31 +0000
-From: Simon Horman <horms@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andy@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-sound@vger.kernel.org,
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v3 05/15] bus: ts-nbus: use bitmap_get_value8()
-Message-ID: <20250221092431.GE1615191@kernel.org>
-References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
- <20250210-gpio-set-array-helper-v3-5-d6a673674da8@baylibre.com>
- <20250220101742.GR1615191@kernel.org>
- <0084eef7-3831-4e62-acf1-6c2dc0e15dd1@baylibre.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="c9CW/cbQ"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51L6jgZF013439;
+	Fri, 21 Feb 2025 03:46:30 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=kUXpsxt39/VziyhmUX
+	TXA0VmtdZKPc6S0GNSpJjMKek=; b=c9CW/cbQMnC1eifeuLXSEXgXwExxtRQ0dx
+	7j1h8JMLeOInLC3HHite1vVEDEUDrBx/HCuSmvQL+Bup+vVjxWPUPwGMl8V8tH7B
+	DMoDRCCaEqc4ubr59+GGms9wBfYkdm9IKDXCRxCGDeQI5p5Ymx/ZHr9088nxMw6f
+	btDoNMXgrdAR0utt1Umk9UHUaaFFir8AkoWhZlNbNuPOaDlJ+VhmRi5p3CnHGYF8
+	6OLnrZ/HYcb3uRmIyBdRuRuSSfRthV3AEB0UcFk+b6y7SQ2YTRSg1ss56hXecJsB
+	VNBrdvkY23RFeJ3WM1OHAU8gxahdKpWWvkkRsgiRUlR2j9QNMUog==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 44wjcamjv7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 21 Feb 2025 03:46:29 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 21 Feb
+ 2025 09:46:28 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Fri, 21 Feb 2025 09:46:28 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 20908820248;
+	Fri, 21 Feb 2025 09:46:28 +0000 (UTC)
+Date: Fri, 21 Feb 2025 09:46:27 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+CC: <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
+        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH 0/4] Add SDCA register map support
+Message-ID: <Z7hLc647A8wUIQtO@opensource.cirrus.com>
+References: <20250217140159.2288784-1-ckeepax@opensource.cirrus.com>
+ <8f0f70de-d3cf-4956-a5aa-c5bed91a61cf@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0084eef7-3831-4e62-acf1-6c2dc0e15dd1@baylibre.com>
+In-Reply-To: <8f0f70de-d3cf-4956-a5aa-c5bed91a61cf@linux.dev>
+X-Authority-Analysis: v=2.4 cv=aplICTZV c=1 sm=1 tr=0 ts=67b84b75 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=kj9zAlcOel0A:10 a=T2h4t0Lz3GQA:10 a=4Vqx6HtD56EmJ5slJp8A:9 a=CjuIK1q_8ugA:10 a=zZCYzV9kfG8A:10
+X-Proofpoint-ORIG-GUID: uwfMfv4jYVSXbopqAuSshCoMsxoKDdJU
+X-Proofpoint-GUID: uwfMfv4jYVSXbopqAuSshCoMsxoKDdJU
+X-Proofpoint-Spam-Reason: safe
 
-On Thu, Feb 20, 2025 at 11:32:10AM -0600, David Lechner wrote:
-> On 2/20/25 4:17 AM, Simon Horman wrote:
-> > On Mon, Feb 10, 2025 at 04:33:31PM -0600, David Lechner wrote:
-> >> Use bitmap_get_value8() instead of accessing the bitmap directly.
-> >>
-> >> Accessing the bitmap directly is not considered good practice. We now
-> >> have a helper function that can be used instead, so let's use it.
-> >>
-> >> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > u> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> >> ---
-> >>  drivers/bus/ts-nbus.c | 5 +++--
-> >>  1 file changed, 3 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/bus/ts-nbus.c b/drivers/bus/ts-nbus.c
-> >> index b4c9308caf0647a3261071d9527fffce77784af2..beac67f3b820377f8bb1fc4f4ee77e15ee240834 100644
-> >> --- a/drivers/bus/ts-nbus.c
-> >> +++ b/drivers/bus/ts-nbus.c
-> >> @@ -10,6 +10,7 @@
-> >>   * TS-4600 SoM.
-> >>   */
-> >>  
-> >> +#include <linux/bitmap.h>
-> >>  #include <linux/bitops.h>
-> >>  #include <linux/gpio/consumer.h>
-> >>  #include <linux/kernel.h>
-> >> @@ -107,7 +108,7 @@ static void ts_nbus_reset_bus(struct ts_nbus *ts_nbus)
-> >>  {
-> >>  	DECLARE_BITMAP(values, 8);
-> >>  
-> >> -	values[0] = 0;
-> >> +	bitmap_set_value8(values, byte, 0);
-> > 
-> > Hi David,
-> > 
-> > byte doesn't appear to exist in the scope of this function.
-> > 
-> > I tried this:
-> > 
-> > 	bitmap_set_value8(values, 0, 8);
-> > 
-> > But when compiling with GCC 14.2.0 I see warnings that values
-> > is used uninitialised - bitmap_set_value8() appears to rely on
-> > it being so.
+On Thu, Feb 20, 2025 at 07:01:44AM -0600, Pierre-Louis Bossart wrote:
+> On 2/17/25 08:01, Charles Keepax wrote:
+> > This series is the next step of adding SDCA support. Here we add
+> > helper functions to allow drivers to easily use the SDCA DisCo
+> > information to create a register map for the device.
 > 
-> Ah yes, I see the problem (I don't think this driver compiles with
-> allmodconfig so the compiler didn't catch it for me).
-
-Thanks, that would explain things.
-
-FWIIW, I think you can exercise this with allmodconfig by simply running:
-
-  make drivers/bus/ts-nbus.o
-
+> Can you remind me where we ended-up in the discussion on one
+> regmap per physical device or one regmap per function?
 > 
-> > 
-> >   CC      drivers/bus/ts-nbus.o
-> > In file included from drivers/bus/ts-nbus.c:13:
-> > In function ‘bitmap_write’,
-> >     inlined from ‘ts_nbus_reset_bus’ at drivers/bus/ts-nbus.c:111:2:
-> > ./include/linux/bitmap.h:818:12: error: ‘values’ is used uninitialized [-Werror=uninitialized]
-> >   818 |         map[index] &= (fit ? (~(mask << offset)) : ~BITMAP_FIRST_WORD_MASK(start));
-> >       |         ~~~^~~~~~~
-> > In file included from ./include/linux/kasan-checks.h:5,
-> >                  from ./include/asm-generic/rwonce.h:26,
-> >                  from ./arch/x86/include/generated/asm/rwonce.h:1,
-> >                  from ./include/linux/compiler.h:344,
-> >                  from ./include/linux/build_bug.h:5,
-> >                  from ./include/linux/bits.h:22,
-> >                  from ./include/linux/bitops.h:6,
-> >                  from ./include/linux/bitmap.h:8:
-> > drivers/bus/ts-nbus.c: In function ‘ts_nbus_reset_bus’:
-> > drivers/bus/ts-nbus.c:109:24: note: ‘values’ declared here
-> >   109 |         DECLARE_BITMAP(values, 8);
-> >       |                        ^~~~~~
-> > ./include/linux/types.h:11:23: note: in definition of macro ‘DECLARE_BITMAP’
-> >    11 |         unsigned long name[BITS_TO_LONGS(bits)]
-> >       |                       ^~~~
-> > 
-> > 
-> >>  
-> >>  	gpiod_multi_set_value_cansleep(ts_nbus->data, values);
-> >>  	gpiod_set_value_cansleep(ts_nbus->csn, 0);
-> >> @@ -151,7 +152,7 @@ static void ts_nbus_write_byte(struct ts_nbus *ts_nbus, u8 byte)
-> >>  {
-> >>  	DECLARE_BITMAP(values, 8);
+> The DisCo definition are all function-centric, but the physical
+> SoundWire bus access for all read/writes is shared by all functions
+> so having a single regmap isn't silly either.
 > 
-> We can fix by zero-initialing the bitmap.
-> 
-> 	DECLARE_BITMAP(values, 8) = { };
 
-Thanks, I confirmed that adding that to ts_nbus_reset_bus()
-makes the compiler happy. And it seems sensible to me.
+We haven't really fully resolved that yet, however, I have
+came to the conclusion that all the helper function bits I am
+currently adding are completely agnostic of the choice.
 
-I guess that theoretically it should also be added to ts_nbus_write_byte(),
-although GCC has nothing to say about that either way.
+So I think it makes most sense to address this once we are adding
+an actually driver component. That way we will have the most
+context for discussion.
 
-> Would you like me to send a new version of the patch?
-
-It's not really my call. But I would expect that is a good next step.
-
-> >> -	values[0] = byte;
-> >> +	bitmap_set_value8(values, byte, 8);
-> >>  
-> >>  	gpiod_multi_set_value_cansleep(ts_nbus->data, values);
-> >>  }
+Thanks,
+Charles
