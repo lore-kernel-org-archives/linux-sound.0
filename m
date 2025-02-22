@@ -1,151 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77202481D1;
-	Sat, 22 Feb 2025 11:39:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7231C6FC3
+	for <linux-sound@vger.kernel.org>; Sat, 22 Feb 2025 11:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740224344; cv=none; b=U00x98L2ht5n2fhOuNGWrdPQdRRQmVsHwGapQCy7KsOeEij88fmkuEjdcBYRi61CmBtngDqRbNOhYduNY/5XqR7agIjT+br1mvjkGHZ0DtA4tn0skLm28wyoBYPNZv6DYGOieJI2CM83rRpQZGcwlb4Qik8WC4PNaJP+el9V00s=
+	t=1740224495; cv=none; b=CbMwVtOCCEHX9+8F5POJJZdpEZN0h+fz18knAqRF/hmk9hxRcTIoiZrrjMs1Cv+JDBjTEyCW12oAGEXXLNIr5VaL0AyrJzWKTxAtE3eR3/1kNlKuNsdcLogaUN0HMs9v9miIR0WcEIGPoin+D6sJ8xzCWEtclpPCmyGFKK6n1MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740224344; c=relaxed/simple;
-	bh=hGYACRH4NSFXISS0yNXyHQkm5sHgl63iunTToFzBQes=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W8ycBYrssLkmlUj5Y06UhHD9D8YIa92dMIDSsnNAjr6ZG2IQ959ZPmhnxBqtBWcmFa6xJZHcD9PLoS18tiqJQpArkOYH3cyFTL5FqXahlsKZRqZ7d3JSPj9bkbADaVcOhdmBblqw72mgk8VG9LffTLH4PaWgxbzDTS0SlbQSBec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bV+Inc/j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740224495; c=relaxed/simple;
+	bh=0eo+dpDy0u5yQPp5P4K2//p/JaR4GQuP29JV3GjQaoo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E9Rbz7Eweu7nFbIQi3lJ96ovav/dAV1o9JISldEw3dGV/jZfaInqGLbHQ3ZthQFlQdt8DpAeatOjG0vH21gbg+/0/3nuIxKu1yNJTB6y97CA8iiU41kH1T2mP1rw4zQN62qLpL02x3SR2a/dqMxsFdm64vFH3KaIQAbYZnhHUgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F5rMLQzS; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bV+Inc/j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 747F4C4CEE6;
-	Sat, 22 Feb 2025 11:38:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740224344;
-	bh=hGYACRH4NSFXISS0yNXyHQkm5sHgl63iunTToFzBQes=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bV+Inc/jpruzlj+Oqx3JK5QXBD3gH4CK+1Asp1nPagpbRbnTZElz2BbHfuxl9ycsd
-	 He2f2g7PIvdpfqtpmUJJQtqTBz2PQHI27JyjPd0dnbxW3wQrnohQnM9/TPInqrk6W8
-	 7fIm4yGfNTGn9ACtFweHqgS2qHxrdnX+N7begLyCO0AQc0NpsMEbYSOwtZO+V1E/Pg
-	 Vu/Mt7EpH9zVnsLzWAXJ2+4+SCjhpzVbu7bHySbteeA6clGk5Gu8OiwhmvWrEOWX3T
-	 N+zW/Gg5DQKxoNhCFgQCKhbW9g7q7o9Qa27BfW7nRZxEuu3xqCH0D7bgq7BvBt+2Os
-	 jNEK7FGOhteXg==
-Date: Sat, 22 Feb 2025 11:38:48 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay
- Abraham I <kishon@kernel.org>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 10/15] iio: resolver: ad2s1210: use bitmap_write
-Message-ID: <20250222113848.75baa883@jic23-huawei>
-In-Reply-To: <4052fd7b-dd8c-4a5a-8f82-dd515de14d20@baylibre.com>
-References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
-	<20250210-gpio-set-array-helper-v3-10-d6a673674da8@baylibre.com>
-	<4052fd7b-dd8c-4a5a-8f82-dd515de14d20@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F5rMLQzS"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5debb4aef2eso474332a12.3
+        for <linux-sound@vger.kernel.org>; Sat, 22 Feb 2025 03:41:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740224492; x=1740829292; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HoSZUQ2VMWFtlgAIDLEnV7B9Mgl5ZO2Q7HcxD/gCGf0=;
+        b=F5rMLQzSScsWihIKdvc8QTVr6HTx/bgnWTbubCniUbhDBv0REjDskNAMwMZIhUsUmv
+         9O+IZ9xNA6znZozFeeGVrsRRkFJg0jE1QwFvrDlA7rDahYqET0N3vEHMS5xnJFn5Zspl
+         L++P/HokhtOMIzoTPqqOmNe4m/gpC/FwRi7tpjEU9Pp3sqBKo7U7rxSYrE2CKWqKxrzd
+         BimOtcUwPvtonkpy3VPJ4Ejt604enlpCZKm/njeS7Zr/ycZojzrQYxAy5n9xp2w0HDx4
+         w19WOQoGGaLQYbhopOx4zH0oTXvEhggFo9yu1XbqswLx7sQly3Exma6I5ZSxYsA3633n
+         lvpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740224492; x=1740829292;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HoSZUQ2VMWFtlgAIDLEnV7B9Mgl5ZO2Q7HcxD/gCGf0=;
+        b=LCUQqIP8jCgEjkbDDmtZ/Ruxs3mzyo0q8u7axKWAiYRNXCgrjvb0CZ3XIFcOLpQpGW
+         P4VGORisvJDzjvAU+PEUEFjr3hXqN4kEZqEmuysB/36F5sn36gTBlBkv4vYcECHd/v89
+         GQ+IGQ3XtT6Sa3xgYuSIlBHva7MZRfxzKMjEroJvVDYHMCCBih1uR8L1SumL4md4yal5
+         7xfBqxEqJa2iFmFf046t8MWLCNeW6zxpFW4wa1khqxgnwUJZhF/BkEDAAdQraAniuB7G
+         rquxpmNXcurkYy07MddytsO1iNuKOODb6dXmZfCBW1+ZJEhdW2pExs5SREKkqcplKNW0
+         YRRw==
+X-Forwarded-Encrypted: i=1; AJvYcCXasBuR+h+gunKUlKhwE8IqLuqY5BzTxprJKbe0laNro9SV2Nm/CJ9Zm+KASnTqTScJtSLkgKIVkeSXwQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3Azt712aMGYazZfEpVuTpzlvpVrpDbHvM4XyVJXHVIQG/NfJB
+	NUwlGBySsJyLX1WMjQJmQjT0hqJT6Vp4FIEJkxvyAjVHPCGWieoLgWxb8ydNAnw=
+X-Gm-Gg: ASbGncuGU+Z/q8h5/l2uf0CeQUC8T2tY2RTUD4Y3pK2I4Qo3ILeDBRXAlxWrOPKSsZq
+	uonwhlOtNeiqriLLfayoLJxdN4P705R7Eu9ZepGzi0kv5+nmIa26jWUImepcyyCHFpIXg3HOt5/
+	7RZDED0IWYYiWegj3mElQIAGj47n0zKhZSTNdb8L9YV9cnow5UZDaoW+aABk6N8YptfZXSpUHFZ
+	PqtK71T74i8k60Q5u7nzEHgxE+kEYlVWdjs0BsMDplP7sLgersxNg6IhlYbrmqGhKKG7USwr5Ft
+	KkQXVcI79xfrOZ7MNbwamGl0e8UWXSaqb4l5sRE4c4G9yl1yQMuLfqThxcvOf7SEEsbICkoDKww
+	=
+X-Google-Smtp-Source: AGHT+IHwhMxegxJLpOX8mxPkjYTencEu7XqqUkNBqFCyXK2r+OfVJTBxshzlcy8+OorXLkNnvmH1IA==
+X-Received: by 2002:a17:907:7f28:b0:abb:eec3:3937 with SMTP id a640c23a62f3a-abc09c0a42bmr227118066b.10.1740224491862;
+        Sat, 22 Feb 2025 03:41:31 -0800 (PST)
+Received: from krzk-bin.. (78-11-220-99.static.ip.netia.com.pl. [78.11.220.99])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba53232275sm1833180466b.31.2025.02.22.03.41.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Feb 2025 03:41:31 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Russell King <linux@armlinux.org.uk>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ALSA: arm: aaci: Constify amba_id table
+Date: Sat, 22 Feb 2025 12:41:29 +0100
+Message-ID: <20250222114129.162794-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 20 Feb 2025 14:54:53 -0600
-David Lechner <dlechner@baylibre.com> wrote:
+'struct amba_id' table is not modified so can be changed to const for
+more safety.
 
-> On 2/10/25 4:33 PM, David Lechner wrote:
-> > Replace bitmap array access with bitmap_write.
-> > 
-> > Accessing the bitmap array directly is not recommended and now there is
-> > a helper function that can be used.
-> > 
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > Signed-off-by: David Lechner <dlechner@baylibre.com>
-> > ---
-> >  drivers/iio/resolver/ad2s1210.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/iio/resolver/ad2s1210.c b/drivers/iio/resolver/ad2s1210.c
-> > index 7f18df790157f1e411fb70de193a49f0677c999f..04879e6d538bce664469c5f6759d8b1cedea16e9 100644
-> > --- a/drivers/iio/resolver/ad2s1210.c
-> > +++ b/drivers/iio/resolver/ad2s1210.c
-> > @@ -46,6 +46,7 @@
-> >   */
-> >  
-> >  #include <linux/bitfield.h>
-> > +#include <linux/bitmap.h>
-> >  #include <linux/bits.h>
-> >  #include <linux/cleanup.h>
-> >  #include <linux/clk.h>
-> > @@ -180,7 +181,7 @@ static int ad2s1210_set_mode(struct ad2s1210_state *st, enum ad2s1210_mode mode)
-> >  	if (!gpios)
-> >  		return mode == st->fixed_mode ? 0 : -EOPNOTSUPP;
-> >  
-> > -	bitmap[0] = mode;
-> > +	bitmap_write(bitmap, mode, 0, 2);
-> >  
-> >  	return gpiod_multi_set_value_cansleep(gpios, bitmap);
-> >  }
-> > @@ -1470,7 +1471,7 @@ static int ad2s1210_setup_gpios(struct ad2s1210_state *st)
-> >  			return dev_err_probe(dev, -EINVAL,
-> >  				      "requires exactly 2 resolution-gpios\n");
-> >  
-> > -		bitmap[0] = st->resolution;
-> > +		bitmap_write(bitmap, st->resolution, 0, 2);
-> >  
-> >  		ret = gpiod_multi_set_value_cansleep(resolution_gpios, bitmap);
-> >  		if (ret < 0)
-> >   
-> 
-> There is actually a bug here pointed out in a similar patch. bitmap_write()
-> only modifies the bitmap, so this introduces an unintialized use bug. [1]
-> Here, we only use the bits that we set, so runtime behavior would not actually
-> be buggy but still best to fully initialize the memory.
-> 
-> I'm a bit surprised that my local compiler and iio/testing both didn't catch that
-> since GCC 14 caught it in the other driver.
-> 
-> [1]: https://lore.kernel.org/linux-gpio/20250217132152.29d86d6c@jic23-huawei/T/#m3163d2c5db5b7376504d8ad6f23716f1119de761
-> 
-> The fix is simple, we can zero-initialize the bitmap.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ sound/arm/aaci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please send this as a fix patch on top as I'd rather not unwind my tree
-for just this and the patch is already pushed out on what is mostly a non
-rebasing branch.
-
-> 
-> diff --git a/drivers/iio/resolver/ad2s1210.c b/drivers/iio/resolver/ad2s1210.c
-> index 04879e6d538b..ab860cedecd1 100644
-> --- a/drivers/iio/resolver/ad2s1210.c
-> +++ b/drivers/iio/resolver/ad2s1210.c
-> @@ -176,7 +176,7 @@ struct ad2s1210_state {
->  static int ad2s1210_set_mode(struct ad2s1210_state *st, enum ad2s1210_mode mode)
->  {
->  	struct gpio_descs *gpios = st->mode_gpios;
-> -	DECLARE_BITMAP(bitmap, 2);
-> +	DECLARE_BITMAP(bitmap, 2) = { };
->  
->  	if (!gpios)
->  		return mode == st->fixed_mode ? 0 : -EOPNOTSUPP;
-> @@ -1427,7 +1427,7 @@ static int ad2s1210_setup_gpios(struct ad2s1210_state *st)
->  	struct device *dev = &st->sdev->dev;
->  	struct gpio_descs *resolution_gpios;
->  	struct gpio_desc *reset_gpio;
-> -	DECLARE_BITMAP(bitmap, 2);
-> +	DECLARE_BITMAP(bitmap, 2) = { };
->  	int ret;
->  
->  	/* should not be sampling on startup */
-> 
+diff --git a/sound/arm/aaci.c b/sound/arm/aaci.c
+index c3340b8ff3da..243965615ef2 100644
+--- a/sound/arm/aaci.c
++++ b/sound/arm/aaci.c
+@@ -1061,7 +1061,7 @@ static void aaci_remove(struct amba_device *dev)
+ 	}
+ }
+ 
+-static struct amba_id aaci_ids[] = {
++static const struct amba_id aaci_ids[] = {
+ 	{
+ 		.id	= 0x00041041,
+ 		.mask	= 0x000fffff,
+-- 
+2.43.0
 
