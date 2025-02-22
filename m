@@ -1,149 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8A0207E18;
-	Sat, 22 Feb 2025 11:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C3D18F2FC;
+	Sat, 22 Feb 2025 19:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740225110; cv=none; b=dk6WsQaVHxULKJxMuEcbHhhAj4VDCQzmqtATicjsLx6KyswiVv7lHney3N+hNZgO9bva8FE4CjbskxhrvT5TGL8F942kmCdRLuJVxuKverHqqjn2KgGHYAFZMtMT0kyL/23d1aJ3uMCA2Wkcl4rXz0JMa/bQdc2h/zWHJeotLdo=
+	t=1740252373; cv=none; b=W6RkGs7CfiYuaj/H+Gi0He7wBi6iHaEPYA7Lww8LuEHNQCZhVlTZZTuxdZf/IC0KTQ483bjpCFJjK3W9S5Iwyr2iqhDCb1lIzvZwth71qMFDbf3N5tIWWKEP73pYqTe6YX3mO/a9N1kw3lihHl19ny4WrlgvYDDAZ1Td1sS6uOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740225110; c=relaxed/simple;
-	bh=sifDgvYlQN5FrcMLya3et5Zf5/0nSv8Le44LEJPVOBY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=shNkUiBwM7bgvrzzsNqRxg64nN8kBD60uOhi6zD3gD6zYalEittS98h9akF7uXtGeQYm/nw85HAXlO7gOmdr/zP/WAzMnk4rjFBhOzfXMU2kf5Wv1YQw1azZsuR5w4bAvPnn519gDKTmhP+56C3VLm59Zz4twBxqTRDabPWlnV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1MnTsDy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740252373; c=relaxed/simple;
+	bh=2s5bZx8UtviIS3xhQ0sLk1pPacXIKC0ImhvYY7AtgJc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RIaJb8XDWVbUWb6MjLtAd61K+sImdmcsn6RoxKVuP4XATHI/vqcXkBAT9Kb0mV12u5Lht8sls367wJCOuPcVteTFBPxoxjveQigliUayvkqlzKAz+4hBv95ertT2kf+vQ6x5S5+PH8Fw1ho9FqwEbPCUms5/RPxgk62kcQkQtd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BwOLtVL2; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1MnTsDy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD18CC4CED1;
-	Sat, 22 Feb 2025 11:51:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740225110;
-	bh=sifDgvYlQN5FrcMLya3et5Zf5/0nSv8Le44LEJPVOBY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=o1MnTsDy7B2ADdlQeonDeLn/bPpPFyOtYvttzKdblxFD2XxoY7ShPnHXf3XPJ2Cxd
-	 tPSR6pQspqTlbXMcbM3c5gCwkD2tdh3CkJhCc1Kk++fCG0bVcIYy1qIKjN7s/IpaZk
-	 9WZyTjucoFNU8hg+r8vAs9hSg6cXKhyQiY/REj9Qkb9Q0zfp2in7aegcZpi/HtRKUl
-	 OAeM5BZnhLowo6McrOfKl45uhs4OlzKy4EiIbQsXV0rEu+57oXYB5WdDWtaXP+K672
-	 x5kmB5UkDMg7YZEDbIpRlZVdnMG5xUYcEWVbedH7CkU08KVsQ9fuNt7cehavP1i9Tl
-	 MiXi1OF+BQ3/Q==
-Date: Sat, 22 Feb 2025 11:51:34 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay
- Abraham I <kishon@kernel.org>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 10/15] iio: resolver: ad2s1210: use bitmap_write
-Message-ID: <20250222115134.7379f785@jic23-huawei>
-In-Reply-To: <4052fd7b-dd8c-4a5a-8f82-dd515de14d20@baylibre.com>
-References: <20250210-gpio-set-array-helper-v3-0-d6a673674da8@baylibre.com>
-	<20250210-gpio-set-array-helper-v3-10-d6a673674da8@baylibre.com>
-	<4052fd7b-dd8c-4a5a-8f82-dd515de14d20@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BwOLtVL2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740252372; x=1771788372;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2s5bZx8UtviIS3xhQ0sLk1pPacXIKC0ImhvYY7AtgJc=;
+  b=BwOLtVL2omk21ZPMZXyrvgZXN0EEgiicU5OsPyyyULUsAlUnA7SNzuee
+   Eyr/1t75rztrjw8itzWtFXYlMWh53gC2QAXeMLgG8eU8jcYJNJtsB/YzG
+   2OV2nsHAR4G3ZB0swzleljRYE5t+xeU+rTT2iWKuHWtBPpKITJh678vHc
+   etn34PoMbYNHL2Qdxpci7edCzYkQmW2Mpcq5sYoGMA3nmbHbA5PWhHbDH
+   aIBbuI5cygFJPqWxRuQLvLfz6NElkc26VcYCdTfU14M1BFO1/PheZvN74
+   QXPOOcQGNrpPyvmAqS0YpvC5Sa9bfeuSeUGHVNyNi/BhuziQ883TpAFZj
+   Q==;
+X-CSE-ConnectionGUID: UKtxV7KJRpen74f1IBwM2A==
+X-CSE-MsgGUID: PWFF9f3/R2a7awDjRuivOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="51678571"
+X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
+   d="scan'208";a="51678571"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 11:26:11 -0800
+X-CSE-ConnectionGUID: e3Et3qLpRDak3dassD98OA==
+X-CSE-MsgGUID: p/RH7JihSw6T2Pin3kCEkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116586745"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 22 Feb 2025 11:26:08 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tlv8U-0006q7-2b;
+	Sat, 22 Feb 2025 19:26:03 +0000
+Date: Sun, 23 Feb 2025 03:25:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	linux-sound@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] MAINTAINERS: Add Vincenzo Frascino as Xilinx
+ Sound Driver Maintainer
+Message-ID: <202502230334.bQ3wP2MG-lkp@intel.com>
+References: <20250221175030.1395815-5-vincenzo.frascino@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250221175030.1395815-5-vincenzo.frascino@arm.com>
 
-On Thu, 20 Feb 2025 14:54:53 -0600
-David Lechner <dlechner@baylibre.com> wrote:
+Hi Vincenzo,
 
-> On 2/10/25 4:33 PM, David Lechner wrote:
-> > Replace bitmap array access with bitmap_write.
-> > 
-> > Accessing the bitmap array directly is not recommended and now there is
-> > a helper function that can be used.
-> > 
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > Signed-off-by: David Lechner <dlechner@baylibre.com>
-> > ---
-> >  drivers/iio/resolver/ad2s1210.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/iio/resolver/ad2s1210.c b/drivers/iio/resolver/ad2s1210.c
-> > index 7f18df790157f1e411fb70de193a49f0677c999f..04879e6d538bce664469c5f6759d8b1cedea16e9 100644
-> > --- a/drivers/iio/resolver/ad2s1210.c
-> > +++ b/drivers/iio/resolver/ad2s1210.c
-> > @@ -46,6 +46,7 @@
-> >   */
-> >  
-> >  #include <linux/bitfield.h>
-> > +#include <linux/bitmap.h>
-> >  #include <linux/bits.h>
-> >  #include <linux/cleanup.h>
-> >  #include <linux/clk.h>
-> > @@ -180,7 +181,7 @@ static int ad2s1210_set_mode(struct ad2s1210_state *st, enum ad2s1210_mode mode)
-> >  	if (!gpios)
-> >  		return mode == st->fixed_mode ? 0 : -EOPNOTSUPP;
-> >  
-> > -	bitmap[0] = mode;
-> > +	bitmap_write(bitmap, mode, 0, 2);
-> >  
-> >  	return gpiod_multi_set_value_cansleep(gpios, bitmap);
-> >  }
-> > @@ -1470,7 +1471,7 @@ static int ad2s1210_setup_gpios(struct ad2s1210_state *st)
-> >  			return dev_err_probe(dev, -EINVAL,
-> >  				      "requires exactly 2 resolution-gpios\n");
-> >  
-> > -		bitmap[0] = st->resolution;
-> > +		bitmap_write(bitmap, st->resolution, 0, 2);
-> >  
-> >  		ret = gpiod_multi_set_value_cansleep(resolution_gpios, bitmap);
-> >  		if (ret < 0)
-> >   
-> 
-> There is actually a bug here pointed out in a similar patch. bitmap_write()
-> only modifies the bitmap, so this introduces an unintialized use bug. [1]
-> Here, we only use the bits that we set, so runtime behavior would not actually
-> be buggy but still best to fully initialize the memory.
-> 
-> I'm a bit surprised that my local compiler and iio/testing both didn't catch that
-> since GCC 14 caught it in the other driver.
-> 
-> [1]: https://lore.kernel.org/linux-gpio/20250217132152.29d86d6c@jic23-huawei/T/#m3163d2c5db5b7376504d8ad6f23716f1119de761
-> 
-> The fix is simple, we can zero-initialize the bitmap.
-Ignore previous. I'm looking at wrong branch. I can tweak this just fine.
-Done so and tree pushed out.
+kernel test robot noticed the following build warnings:
 
-> 
-> diff --git a/drivers/iio/resolver/ad2s1210.c b/drivers/iio/resolver/ad2s1210.c
-> index 04879e6d538b..ab860cedecd1 100644
-> --- a/drivers/iio/resolver/ad2s1210.c
-> +++ b/drivers/iio/resolver/ad2s1210.c
-> @@ -176,7 +176,7 @@ struct ad2s1210_state {
->  static int ad2s1210_set_mode(struct ad2s1210_state *st, enum ad2s1210_mode mode)
->  {
->  	struct gpio_descs *gpios = st->mode_gpios;
-> -	DECLARE_BITMAP(bitmap, 2);
-> +	DECLARE_BITMAP(bitmap, 2) = { };
->  
->  	if (!gpios)
->  		return mode == st->fixed_mode ? 0 : -EOPNOTSUPP;
-> @@ -1427,7 +1427,7 @@ static int ad2s1210_setup_gpios(struct ad2s1210_state *st)
->  	struct device *dev = &st->sdev->dev;
->  	struct gpio_descs *resolution_gpios;
->  	struct gpio_desc *reset_gpio;
-> -	DECLARE_BITMAP(bitmap, 2);
-> +	DECLARE_BITMAP(bitmap, 2) = { };
->  	int ret;
->  
->  	/* should not be sampling on startup */
-> 
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.14-rc3 next-20250221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincenzo-Frascino/ASoC-dt-bindings-xlnx-i2s-Convert-to-json-schema/20250222-015201
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250221175030.1395815-5-vincenzo.frascino%40arm.com
+patch subject: [PATCH v2 4/4] MAINTAINERS: Add Vincenzo Frascino as Xilinx Sound Driver Maintainer
+reproduce: (https://download.01.org/0day-ci/archive/20250223/202502230334.bQ3wP2MG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502230334.bQ3wP2MG-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/xlnx,i2s.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/xlnx,spdif.txt
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
