@@ -1,131 +1,148 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3D81DDC12;
-	Sun, 23 Feb 2025 09:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93458202C40;
+	Sun, 23 Feb 2025 11:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740304234; cv=none; b=ZH20BqOaxhqkj6GiNgXgWOIGPuLouJ4dosQgq+l77gdlvXeKDW2luHAdyhHdBhcHNr9yzjQDdPKnqz13CV/xBKC+9qs96YrNkg1N7L2fIiQv5tggD/+ARk/dcTD2XKcrl8QoYo4KJYT8+7uk+8r+y6J3ED0IQHC5J3Uu0weanMg=
+	t=1740311178; cv=none; b=K7C+KknOXQCqJ1Hr9H+CX5QHuW7VY8Ov9pTtuOm8uRR02ZWEn7ilD+JWEjBELEaxXoU7b/qF3W00o1jgxJ8VSJVrmk4m9Aw4+iTi4pqm2LYNG9YSROQICZQo77B162Y8gHIYvL1fuVr7vWiv8gDjNlr26uzFnzHyE5snj7OvieE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740304234; c=relaxed/simple;
-	bh=d58RwVa7DbcO1qKm0r+LcPPaDjg73Am3OIA+pp6DxJ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sF4Xx2yWSYyuYIuKU+a7Fu2xmIJVZAVqyxYejSmmCkuHkKX/I3VMsrxj1FYxYxP8bBUWZw0smen3/cTONlYyjCjo1PKs3l7A/euz0UTNP2k5KQJOzJ3+PjuDukKFpniQe82AbeVdkrr3sHfaswNDGnXVurHq5NmZLvX/wS/QXTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=MUrgKJvn; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1740311178; c=relaxed/simple;
+	bh=nAbja8HoHc7FV9fbU4e1eHEna2Z/28F9vllkkY2dU/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iLx4ZNPnzTqGIdeoMEI2wU+w7MfRga7p/XAW/PvBN58nfhZi+dy4qWROpdUGxrW5sQ3sg0pdG7hBhti/zVcDiuTAg3w8Ob7IsPXo7yR4eYw+mOiYJeFMa4ahGib9T29HalkV3ior5sZXFu0sIeXJbCsydcdmdtaWGHOoXUo+V3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pAsaSH6Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="MUrgKJvn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1740304218; x=1740909018; i=markus.elfring@web.de;
-	bh=uNqtagFfaX+k1TuZfiWllVGWvAnzX37lvyjkNmWZte8=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=MUrgKJvnzf8bl89mBXk5+a6sYHhBCdm/CbvdYwA/gAlYSkF42N0tsuTCi190Ycwb
-	 joYGEspNS+fL16QoyidqL6tOBXrRcNfFDtU57gDS6J87HucPdFV8YHWu1uQG+3qk5
-	 1BXo4H43AoRrC46G38VZiWN3RM37/QjlDoxSOoW+vaOjY6kyypc7fNS0PmfMQ4q6M
-	 GgYVTvXggPwyuCTz8kzlwbmeJG14+9Co4lk1Fawa7clMF9kIdBDvVFC2P8VQARoUh
-	 ifgFfyZp9tXBk6D0VUtyGUTIzBZT2zRkoHSEYGwGEplIfJ+zKixc1BmpcPntmOypF
-	 MnSPXtjUeiH84Kca3w==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.18]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MOUxo-1txcWq2vV8-00Wa8T; Sun, 23
- Feb 2025 10:50:18 +0100
-Message-ID: <c8cb0a78-c547-41dc-ac35-d569c57ebe3c@web.de>
-Date: Sun, 23 Feb 2025 10:50:08 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pAsaSH6Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64D7BC4CEDD;
+	Sun, 23 Feb 2025 11:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740311177;
+	bh=nAbja8HoHc7FV9fbU4e1eHEna2Z/28F9vllkkY2dU/Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pAsaSH6QSZ5kjsiL36nrWTB0upJ0U5laUfp2NrZ6GqDkeUzv+AsHZawCs8c9Qivf/
+	 IR0ZPO6SjDR5A10gj7URcnMP1v01ySNgw51DbWz/0GVVSuI1zlqwuB3a71QvoNvy8K
+	 dFe1AM71LQsVxyZCFMFZ1jiaOJFRY5qRx4MsKU1Ny0mus/1RwoklIYAuJR9YpAlmBA
+	 sVSiMpToKrB0CBGlhtTIMvkupjiqWL8jBP6FWsFvFgYJxzTBN7X1CuXSSrPxOTmusc
+	 ftCOjoDaEqNi5gscgQ9slQcR0dLOeESCu2WDSIo5D1WmXqIm4gnG5Dcx/V84GGb40n
+	 cKBFAuFr7vjLw==
+Date: Sun, 23 Feb 2025 12:46:14 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: wangweidong.a@awinic.com
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	rf@opensource.cirrus.com, jack.yu@realtek.com, ivprusov@salutedevices.com, 
+	zhoubinbin@loongson.cn, quic_pkumpatl@quicinc.com, paulha@opensource.cirrus.com, 
+	nuno.sa@analog.com, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, yijiangtao@awinic.com
+Subject: Re: [PATCH V1 2/2] ASoC: codecs: Add aw88166 amplifier driver
+Message-ID: <20250223-vigilant-cooperative-snake-2d810b@krzk-bin>
+References: <20250221102623.369435-1-wangweidong.a@awinic.com>
+ <20250221102623.369435-3-wangweidong.a@awinic.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2?] ASoC: q6dsp: q6apm: replace kzalloc() with kcalloc()
- in q6apm_map_memory_regions()
-To: Ethan Carter Edwards <ethan@ethancedwards.com>,
- linux-sound@vger.kernel.org, linux-hardening@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Takashi Iwai <tiwai@suse.com>
-References: <20250222-q6apm-kcalloc-v1-1-6f09dae6c31c@ethancedwards.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250222-q6apm-kcalloc-v1-1-6f09dae6c31c@ethancedwards.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rYfx/2i6V4IQ3Dw4RZIfxE9GJ1AH7VPLFCjjLUor9tddYNk4qf4
- iR936YWJXwQd3oOEGiX+aBc0Vp+qvfEnlIhqn4CqP3xhrSD9qo8QFD1dYP+nA4tfpqUS24t
- hjmGFdu/eHaXNsOPMC8iSSebejS+z80IEnt6oJasWJ+zkDJThr/aoJRgiSlPcJG5ET+ztBc
- LAr8LbKkCaQZIcUBmKxaQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:frMgY1647xs=;/6lsbY/b9/Ua30DHNQG4CgdhlcX
- xHZHCdor/0mLXZXYLmpmCujHrSgZnHpfzzwFNqe61jwJfFCLE/D4r6MeJDOhl+ITz+U871kge
- +w82eon+5hQy1gWoa4f0YJAjXSInBmncXldm1xfZf1ut5JwLtnjDcQP8JNFgZkhzR4BmOq89p
- KUf22pKeCdMuxP7e08ThjEB/R89F7wDL35d6id7YCs+1/cyQwYeoGKX5dEvUt3dEimXIPCigP
- AdUWNVrC2dvI2sh2vX+uIKy0Uq8iSZPWgAeEhqbicUTsQZBuFCfjbcg5CoVIPb7JWJTDxpM/U
- PwRNU1DyrJbfrFaGyGS+wH9tWPckM9no+EoulC5s6TBCRkaWRvpRmFFj2Ip9qUMuQLQUvHsGA
- Ln7L1HroGOT3wCQFELsnHAwr0WObQ/mnVck1RvxId415T1wREz1UflTYvYhgJs0LjIYL3fuWy
- Yh8W/dY3wGZ0gqhj7X5CLnngZH42hGyXnPbGVpe+t2tliRmL+HJGTa7wP2Q580iSwBu9G5wdT
- jTmVhv7UQMa3yybacDsRH3csuaVEXIIigUpaKHdn/cCLI4gzgEPJ9J2exGQOgJChx+rxIVKK6
- V3pjQ4e1HchVSBuJIhu2dy+b8exO66mNaGjL82lHtJDJEUPmKLpHkQQI/DzB1I/NvTeYgu7Sp
- FdnRkv7dKDZ6BCZ3cNHPaNROBgIGUFp5Em+zTFmjhHG0xfSB7AZikrwybNRp2khS31L6TiSpv
- K97TaIEkp64XITs7dgqIerOrFR/8WOQa6CRex8/yhWhzbXckm7HsJkM5kEu68vR8q2EpY393E
- ijU6iRg2oidTgdz3+gtgI5o/Kq6WxW/lLnoW2eTc2Zug+zS/L2Q5QmNkbK3RCSJ2enikZVQez
- Lh5mU15nM/ttRlnMkHmKMZR6do9H9rIajkCIV8N/Qfc1cSVxNfM9X1FW/drYp80Yka7WvVkWO
- Qw9VDWsLfQpa38/GxMy4k3Dm40CBSo/3g34ZGCn3iSoi/zmAnnSBwoI2PAtkdrhgjUlrYbEg/
- 3b5jiGnUTt4TaRDeuQ7O5LVbUe2jnB/uSiIPxRsBBxd8VmIO5Bbo9tM4H73ZTadAN7/4fQo66
- j7UK65xNgJWjw9usG9b7zdC4YfJlchcB2WTtTFEUeCikL7vfVSD+AabrZabRWj1tGYzYbd1P9
- ZABRPqwOp9ZYGqGNjn1D7JQAT4IwpuZ9jO0ZCXRyhu7m2x2jnNBJMS5uZUGMPyNrGLvqMcDpu
- j6Z1TIbffqX5fVM11kKf0CIBNnK/fROC6/3QnXAeQn0IhQU7bVK57quPHr/Hfp7vrsOtiN50l
- TvKnMUe7SeVDJLMXbP69JYZOct2a6pTjOp5PJkfSakLCLi91YV4cEqE8LmXyYUJUqt7fRbhGY
- VtIgY2UePs9cRdexwKBohYNiI1bhLNrK4ZVqin1Bqr17LEIcRxL5r4/ofE6HTetmrTRMiZ4bo
- NDhnLHN/iKnwrjSakBIaCvIsjxJk=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250221102623.369435-3-wangweidong.a@awinic.com>
 
-=E2=80=A6
-> We are trying to get rid of all multiplications from allocation
-> functions to prevent integer overflows[1]. =E2=80=A6
+On Fri, Feb 21, 2025 at 06:26:23PM +0800, wangweidong.a@awinic.com wrote:
+> +
+> +static void aw88166_hw_reset(struct aw88166 *aw88166)
+> +{
+> +	if (aw88166->reset_gpio) {
+> +		gpiod_set_value_cansleep(aw88166->reset_gpio, 1);
+> +		usleep_range(AW88166_1000_US, AW88166_1000_US + 10);
+> +		gpiod_set_value_cansleep(aw88166->reset_gpio, 0);
+> +		usleep_range(AW88166_1000_US, AW88166_1000_US + 10);
+> +		gpiod_set_value_cansleep(aw88166->reset_gpio, 1);
 
-Is an imperative wording more desirable for such a change description?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.14-rc3#n94
+Why do you keep reset as active after reset? How is it suppose to work?
+
+> +		usleep_range(AW88166_1000_US, AW88166_1000_US + 10);
+> +	}
+> +}
+> +
+> +static void aw88166_parse_channel_dt(struct aw88166 *aw88166)
+> +{
+> +	struct aw_device *aw_dev = aw88166->aw_pa;
+> +	struct device_node *np = aw_dev->dev->of_node;
+> +	u32 channel_value;
+> +
+> +	of_property_read_u32(np, "awinic,audio-channel", &channel_value);
+> +	aw_dev->channel = channel_value;
+> +	aw88166->phase_sync = of_property_read_bool(np, "awinic,sync-flag");
+> +}
+> +
+> +static int aw88166_init(struct aw88166 *aw88166, struct i2c_client *i2c, struct regmap *regmap)
+> +{
+> +	struct aw_device *aw_dev;
+> +	unsigned int chip_id;
+> +	int ret;
+> +
+> +	ret = regmap_read(regmap, AW88166_ID_REG, &chip_id);
+> +	if (ret) {
+> +		dev_err(&i2c->dev, "%s read chipid error. ret = %d\n", __func__, ret);
+> +		return ret;
+> +	}
+> +
+> +	aw_dev = devm_kzalloc(&i2c->dev, sizeof(*aw_dev), GFP_KERNEL);
+> +	if (!aw_dev)
+> +		return -ENOMEM;
+> +	aw88166->aw_pa = aw_dev;
+> +
+> +	aw_dev->i2c = i2c;
+> +	aw_dev->dev = &i2c->dev;
+> +	aw_dev->regmap = regmap;
+> +	mutex_init(&aw_dev->dsp_lock);
+> +
+> +	aw_dev->chip_id = chip_id;
+> +	aw_dev->acf = NULL;
+> +	aw_dev->prof_info.prof_desc = NULL;
+> +	aw_dev->prof_info.count = 0;
+> +	aw_dev->prof_info.prof_type = AW88395_DEV_NONE_TYPE_ID;
+> +	aw_dev->channel = AW88166_DEV_DEFAULT_CH;
+> +	aw_dev->fw_status = AW88166_DEV_FW_FAILED;
+> +
+> +	aw_dev->fade_step = AW88166_VOLUME_STEP_DB;
+> +	aw_dev->volume_desc.ctl_volume = AW88166_VOL_DEFAULT_VALUE;
+> +
+> +	aw88166_parse_channel_dt(aw88166);
+> +
+> +	return 0;
+> +}
+> +
+> +static int aw88166_i2c_probe(struct i2c_client *i2c)
+> +{
+> +	struct aw88166 *aw88166;
+> +	int ret;
+> +
+> +	if (!i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C))
+> +		return dev_err_probe(&i2c->dev, -ENXIO, "check_functionality failed\n");
+> +
+> +	aw88166 = devm_kzalloc(&i2c->dev, sizeof(*aw88166), GFP_KERNEL);
+> +	if (!aw88166)
+> +		return -ENOMEM;
+> +
+> +	mutex_init(&aw88166->lock);
+> +
+> +	i2c_set_clientdata(i2c, aw88166);
+> +
+> +	aw88166->reset_gpio = devm_gpiod_get_optional(&i2c->dev, "reset", GPIOD_OUT_LOW);
 
 
-=E2=80=A6
-> ---
->  sound/soc/qcom/qdsp6/q6apm.c | 2 +-
-=E2=80=A6
+So here reset is low...
 
-How do you think about to improve your version management?
-https://lore.kernel.org/all/?q=3D%22This+looks+like+a+new+version+of+a+pre=
-viously+submitted+patch%22
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.14-rc3#n780
+> +	if (IS_ERR(aw88166->reset_gpio))
+> +		return dev_err_probe(&i2c->dev, PTR_ERR(aw88166->reset_gpio),
+> +							"reset gpio not defined\n");
+> +	aw88166_hw_reset(aw88166);
 
+and here is high afterwards?
 
-=E2=80=A6
-> +++ b/sound/soc/qcom/qdsp6/q6apm.c
-> @@ -230,7 +230,7 @@ int q6apm_map_memory_regions(struct q6apm_graph *gra=
-ph, unsigned int dir, phys_a
->  		return 0;
->  	}
->
-> -	buf =3D kzalloc(((sizeof(struct audio_buffer)) * periods), GFP_KERNEL)=
-;
-> +	buf =3D kcalloc(periods, sizeof(struct audio_buffer), GFP_KERNEL);
-=E2=80=A6
+Best regards,
+Krzysztof
 
-See also:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/coding-style.rst?h=3Dv6.14-rc3#n941
-
-
-How do you think about to increase the application of scope-based resource=
- management?
-
-Regards,
-Markus
