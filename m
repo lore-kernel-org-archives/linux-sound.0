@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E872571B2;
-	Mon, 24 Feb 2025 21:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7DA1C8621;
+	Mon, 24 Feb 2025 21:33:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740432512; cv=none; b=OMtIxIgOYQpKmFTK9mIBrDa/sPk+mYwEr+i5axAEFa6ZNSvYS6klZjp/B01JvRZCVgdYHhPsZFBllQToB4QKAXRDZosn2dEai5C+Biq9VTwOuAPaYaZkU7GwBJHsYdtjCbjjC2fNQFSlJIdB4i354/VdMECAXDLgAB7Loa8u5Q4=
+	t=1740432811; cv=none; b=brZqsQO0YC7F/LxtjZEo7b5b9psxDc/OmzjrmnarpVdKoV1Ecq2GpWfIo1cO+tJigQBu2HM0gaYf82pILneCy/p51eAFwJthFAvmioVTO8qcPce1jt1H5CgmonGjjfeC/Fa7IAY9XyO4dTiCa7EwjukW2FoDimlhvN+YaM+W3Y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740432512; c=relaxed/simple;
-	bh=5vFlbGbmL33Vsp34b7HJu8E3SuCqLrHQhEH3L3HCMYQ=;
+	s=arc-20240116; t=1740432811; c=relaxed/simple;
+	bh=9HjqOTzB0ZWkUjJj4bfaVy2BMPhz6StSpstkHw9pnOE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HzFS9Tu7oeCY1SmBHP8Os4AasoKVSuCdX7wUwtYngqNvmZjn9eIPnMVZP/eNT+/T5HaWSFWU7NGBND6MkIv+yCv4z3MgavrBBiBFDiYZWjeYwfOEvBxlY9UObjjqqksVIf1CY8kJ6wYWPg2KgjeMQj/UV3GT393nZi6ylyxoJbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FGg+zl5w; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GOMpTvhdjsDV9jPI5qBO/ie3OcDoxMUcEIamAc+bSDvWfGUh7R8eIblAq+EsnLq44D2KCP7WbkFsTRaXzKIrdDcJGRiAdAjGwKJYw+oq9M7XAMNcgJjwclBRtyJekG60+klvD0imzwDwlaV4RdW9W8+jSHoq27U+5bG/DEqJS/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uqj/vsks; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FGg+zl5w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA164C4CED6;
-	Mon, 24 Feb 2025 21:28:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uqj/vsks"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3948DC4CED6;
+	Mon, 24 Feb 2025 21:33:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740432512;
-	bh=5vFlbGbmL33Vsp34b7HJu8E3SuCqLrHQhEH3L3HCMYQ=;
+	s=k20201202; t=1740432810;
+	bh=9HjqOTzB0ZWkUjJj4bfaVy2BMPhz6StSpstkHw9pnOE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FGg+zl5w/17Nl5M0v45HIg5YnqFhDHf7+SdeFh9m6pJiw0fSlF8td8NHy0IhV2I1I
-	 PKvcgu5jMM+9d3zX6OcZ71ZLR1+V3OY5x+9uL/q+xhtHf5cjE83cN7U5ElLv1sQgIY
-	 t7/eHKa/s1Nuz1bX0hjAJwB8uPi4XunjOh+zKtqvNw7mQXJx7hay5BlR9InRN1kK4y
-	 A6o/sB3Cm7ZPqrE55olZhq7Aqsaie/sumjXa0P+uOT6yTjGP8RoMY+Whyyx32G9Q/F
-	 i+GU9gZRhdJNxhQDvZoxeJNSfCvMW6DM9ipViklweQ6cGBfN5d5c0SkiwGZQGpZWJf
-	 reS9TYVPlU3yA==
-Date: Mon, 24 Feb 2025 15:28:30 -0600
+	b=Uqj/vsksO6F0MSH5GCmObkOaFAgMuMpG0CJzdilCS7OqQ0aMwPONo1h/VdTGr4noZ
+	 BfpV2XTAmHDlZrQD5fCT3CAYYEO2iAvWixYIMBd69m/lYVaz8pDvuqFqSwhbLeTcPT
+	 zJFaGS0qvnmPrD2E8nt/YZgpzA09+HFajAIt6EKNsEQXbis+y/M50RNd/zryEhCcRV
+	 TD2On5Irsd/UDDTS6wHx9jU7LHys3S5BcEr2OrrfmUMN9lpF79Yxwplu3d7Mnd6js2
+	 A29SqD9ZSQ77j0CXZIvvwBufM/ySZGvzIeLfE5Dqu73YYGGYVmwLLZNU5+2vl0L5v5
+	 w0IYEK/w2zgyA==
+Date: Mon, 24 Feb 2025 15:33:28 -0600
 From: Rob Herring <robh@kernel.org>
 To: Vincenzo Frascino <vincenzo.frascino@arm.com>
 Cc: linux-sound@vger.kernel.org,
@@ -37,11 +37,11 @@ Cc: linux-sound@vger.kernel.org,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] ASoC: dt-bindings: xlnx,audio-formatter: Convert
- to json-schema
-Message-ID: <20250224212830.GA4107125-robh@kernel.org>
+Subject: Re: [PATCH v4 3/4] ASoC: dt-bindings: xlnx,spdif: Convert to
+ json-schema
+Message-ID: <20250224213328.GB4107125-robh@kernel.org>
 References: <20250224182548.2715896-1-vincenzo.frascino@arm.com>
- <20250224182548.2715896-3-vincenzo.frascino@arm.com>
+ <20250224182548.2715896-4-vincenzo.frascino@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,75 +50,70 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250224182548.2715896-3-vincenzo.frascino@arm.com>
+In-Reply-To: <20250224182548.2715896-4-vincenzo.frascino@arm.com>
 
-On Mon, Feb 24, 2025 at 06:25:46PM +0000, Vincenzo Frascino wrote:
-> Convert the Xilinx Audio Formatter 1.0  device tree binding documentation
-> to json-schema.
+On Mon, Feb 24, 2025 at 06:25:47PM +0000, Vincenzo Frascino wrote:
+> Convert the Xilinx SPDIF 2.0 device tree binding documentation to
+> json-schema.
 > 
 > Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 > ---
->  .../bindings/sound/xlnx,audio-formatter.txt   | 29 -------
->  .../bindings/sound/xlnx,audio-formatter.yaml  | 77 +++++++++++++++++++
->  2 files changed, 77 insertions(+), 29 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/xlnx,audio-formatter.yaml
+>  .../devicetree/bindings/sound/xlnx,spdif.txt  | 28 ------
+>  .../devicetree/bindings/sound/xlnx,spdif.yaml | 85 +++++++++++++++++++
+>  2 files changed, 85 insertions(+), 28 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt b/Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
+> diff --git a/Documentation/devicetree/bindings/sound/xlnx,spdif.txt b/Documentation/devicetree/bindings/sound/xlnx,spdif.txt
 > deleted file mode 100644
-> index cbc93c8f4963..000000000000
-> --- a/Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
+> index 15c2d64d247c..000000000000
+> --- a/Documentation/devicetree/bindings/sound/xlnx,spdif.txt
 > +++ /dev/null
-> @@ -1,29 +0,0 @@
-> -Device-Tree bindings for Xilinx PL audio formatter
+> @@ -1,28 +0,0 @@
+> -Device-Tree bindings for Xilinx SPDIF IP
 > -
-> -The IP core supports DMA, data formatting(AES<->PCM conversion)
-> -of audio samples.
+> -The IP supports playback and capture of SPDIF audio
 > -
 > -Required properties:
-> - - compatible: "xlnx,audio-formatter-1.0"
-> - - interrupt-names: Names specified to list of interrupts in same
-> -		    order mentioned under "interrupts".
-> -		    List of supported interrupt names are:
-> -		    "irq_mm2s" : interrupt from MM2S block
-> -		    "irq_s2mm" : interrupt from S2MM block
+> - - compatible: "xlnx,spdif-2.0"
+> - - clock-names: List of input clocks.
+> -   Required elements: "s_axi_aclk", "aud_clk_i"
+> - - clocks: Input clock specifier. Refer to common clock bindings.
+> - - reg: Base address and address length of the IP core instance.
 > - - interrupts-parent: Phandle for interrupt controller.
 > - - interrupts: List of Interrupt numbers.
-> - - reg: Base address and size of the IP core instance.
-> - - clock-names: List of input clocks.
-> -   Required elements: "s_axi_lite_aclk", "aud_mclk"
-> - - clocks: Input clock specifier. Refer to common clock bindings.
+> - - xlnx,spdif-mode: 0 :- receiver mode
+> -		    1 :- transmitter mode
+> - - xlnx,aud_clk_i: input audio clock value.
 > -
 > -Example:
-> -	audio_ss_0_audio_formatter_0: audio_formatter@80010000 {
-> -		compatible = "xlnx,audio-formatter-1.0";
-> -		interrupt-names = "irq_mm2s", "irq_s2mm";
+> -	spdif_0: spdif@80010000 {
+> -		clock-names = "aud_clk_i", "s_axi_aclk";
+> -		clocks = <&misc_clk_0>, <&clk 71>;
+> -		compatible = "xlnx,spdif-2.0";
+> -		interrupt-names = "spdif_interrupt";
 > -		interrupt-parent = <&gic>;
-> -		interrupts = <0 104 4>, <0 105 4>;
-> -		reg = <0x0 0x80010000 0x0 0x1000>;
-> -		clock-names = "s_axi_lite_aclk", "aud_mclk";
-> -		clocks = <&clk 71>, <&clk_wiz_1 0>;
+> -		interrupts = <0 91 4>;
+> -		reg = <0x0 0x80010000 0x0 0x10000>;
+> -		xlnx,spdif-mode = <1>;
+> -		xlnx,aud_clk_i = <49152913>;
 > -	};
-> diff --git a/Documentation/devicetree/bindings/sound/xlnx,audio-formatter.yaml b/Documentation/devicetree/bindings/sound/xlnx,audio-formatter.yaml
+> diff --git a/Documentation/devicetree/bindings/sound/xlnx,spdif.yaml b/Documentation/devicetree/bindings/sound/xlnx,spdif.yaml
 > new file mode 100644
-> index 000000000000..a83af71401aa
+> index 000000000000..ad0b40a12c2b
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/xlnx,audio-formatter.yaml
-> @@ -0,0 +1,77 @@
+> +++ b/Documentation/devicetree/bindings/sound/xlnx,spdif.yaml
+> @@ -0,0 +1,85 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/sound/xlnx,audio-formatter.yaml#
+> +$id: http://devicetree.org/schemas/sound/xlnx,spdif.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Xilinx PL audio formatter
+> +title: Xilinx SPDIF IP
 > +
-> +description: |
-
-Don't need '|'
-
-> +  The IP core supports DMA, data formatting(AES<->PCM conversion)
-> +  of audio samples.
+> +description:
+> +  The IP supports playback and capture of SPDIF audio.
 > +
 > +maintainers:
 > +  - Vincenzo Frascino <vincenzo.frascino@arm.com>
@@ -129,43 +124,27 @@ Don't need '|'
 > +properties:
 > +  compatible:
 > +    enum:
-> +      - xlnx,audio-formatter-1.0
+> +      - xlnx,spdif-2.0
 > +
 > +  reg:
 > +    maxItems: 1
 > +
 > +  interrupt-names:
-> +    minItems: 1
 > +    items:
-> +      - const: irq_mm2s
-> +      - const: irq_s2mm
-> +    description: |
-> +      Names specified to list of interrupts in same order mentioned under
-> +      "interrupts". List of supported interrupt names are:
-> +      - "irq_mm2s" : interrupt from MM2S block
-> +      - "irq_s2mm" : interrupt from S2MM block
-
-Don't repeat constraints in prose and don't describe how common 
-properties work. IOW, drop the description completely.
-
+> +      - const: spdif_interrupt
 > +
 > +  interrupts:
-> +    minItems: 1
-> +    maxItems: 2
+> +    maxItems: 1
+> +    description: |
+> +      List of Interrupt numbers.
 
-If you want to describe each interrupt, then here put:
-
-minItems: 1
-items:
-  - description: describe 1st interrupt...
-  - description: ...
+Drop description.
 
 > +
 > +  clock-names:
-> +    minItems: 1
 > +    items:
-> +      - const: s_axi_lite_aclk
-> +      - const: aud_mclk
+> +      - const: aud_clk_i
+> +      - const: s_axi_aclk
 > +    description: |
 > +      List of input clocks.
 
@@ -173,12 +152,31 @@ Drop
 
 > +
 > +  clocks:
-> +    minItems: 1
 > +    maxItems: 2
 > +    description: |
 > +      Input clock specifier. Refer to common clock bindings.
 
 Drop
+
+> +
+> +  xlnx,spdif-mode:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum:
+> +      - 0
+> +      - 1
+> +    description: |
+> +      0 - receiver
+> +      1 - transmitter
+> +
+> +  xlnx,aud_clk_i:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+
+Drop '|'
+
+> +      Input audio clock value.
+
+Is value the frequency? If you know more detail, please add it.
 
 > +
 > +required:
@@ -193,15 +191,25 @@ Drop
 > +
 > +examples:
 > +  - |
-> +    audio_ss_0_audio_formatter_0: audio_formatter@80010000 {
-> +      compatible = "xlnx,audio-formatter-1.0";
-> +      interrupt-names = "irq_mm2s", "irq_s2mm";
+> +    spdif_0: spdif@80010000 {
+
+Drop unused labels.
+
+> +      clock-names = "aud_clk_i", "s_axi_aclk";
+> +      clocks = <&misc_clk_0>, <&clk 71>;
+> +      compatible = "xlnx,spdif-2.0";
+
+'compatible' goes first. Then reg. See 
+Documentation/devicetree/bindings/dts-coding-style.rst for more details.
+
+> +      interrupt-names = "spdif_interrupt";
 > +      interrupt-parent = <&gic>;
-> +      interrupts = <0 104 4>, <0 105 4>;
-> +      reg = <0x80010000 0x1000>;
-> +      clock-names = "s_axi_lite_aclk", "aud_mclk";
-> +      clocks = <&clk 71>, <&clk_wiz_1 0>;
+> +      interrupts = <0 91 4>;
+> +      reg = <0x80010000 0x10000>;
+> +      xlnx,spdif-mode = <1>;
+> +      xlnx,aud_clk_i = <49152913>;
 > +    };
+> +
 > +...
 > -- 
 > 2.43.0
