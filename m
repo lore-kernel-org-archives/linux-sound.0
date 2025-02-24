@@ -1,55 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485BF26156C;
-	Mon, 24 Feb 2025 11:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C72E264A7F;
+	Mon, 24 Feb 2025 11:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740395860; cv=none; b=dJieiy7I39DjdEOJAjsYkOpbu4JZyZzJcJ9pdyKbeyGWtRBEOxMoVUOKl1A7+2dQAnQRczgzFK8fiKAwM1jiKcvsxbTPp+EGRgfkSg5Ta2GPZRkjhlcGpha3aWL7OJeXs08PvwVp9klTnl44lmnsUPLbg4ajuNVpSjr6VGS+NpM=
+	t=1740395889; cv=none; b=qiDkri4CHFW6PlSovxPL0eqX6Xj9Vgq5UCuu9FCHLFzrauvRXrruLO0XAi57mygRHtFjr8xLMzGb6U7M8qqOLqELFU39qbX5CxUerpdmI1CqVX/cha1PLPqbarsouikBGFYdI0DS3Qc0POhP/ykKkO+QQJNyVdWYLEMuTTtLnpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740395860; c=relaxed/simple;
-	bh=HuzOtvANT2iS/b8mzEPUx/768H2RHmHBD/7ZWLQmsWo=;
+	s=arc-20240116; t=1740395889; c=relaxed/simple;
+	bh=0lz0fiyiL0oqUiQGqCjmSs7vLdseJRl2Qcxpeys47qk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pR6MAU5F3mTHJa9T68pPDqXYiN1k/Ar75nKEGzBpox9NtKCV4f5x73CrX0KGfx9kYaeRc2sPS8OxhHGCyn807thdBb4GQZMCdrMt1EkZVRkoS6OinC4ZpXkiXmUFssO4XXnbAa/WsJ7q1+35PwJ6TZtVYzqcZUcxclz4Zy9VOBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmdrX6Bn; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=GPx8sU24g3KW0+Sn+XELua8naRdR6f/J3ykT3WwxmCiHxpF8UEi46xZeYiUE2N0/sxqzT9rJBZYvh+nja9oexoYgBi9GMCtbvRa3WQ4/WT0WOJJ6woqZAhEmnmS7H5YJJor8QQun0vwpoQ8AYPA7qghaZPKB3056NCZhQwriCWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qs8U+O88; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmdrX6Bn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E4DDC4CED6;
-	Mon, 24 Feb 2025 11:17:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qs8U+O88"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F28BCC4CEE6;
+	Mon, 24 Feb 2025 11:18:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740395860;
-	bh=HuzOtvANT2iS/b8mzEPUx/768H2RHmHBD/7ZWLQmsWo=;
+	s=k20201202; t=1740395888;
+	bh=0lz0fiyiL0oqUiQGqCjmSs7vLdseJRl2Qcxpeys47qk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jmdrX6BnoKhD+78XURTEbbQu9izHD8Pd2jCl7+deSPgSHUhDrPeDRyN4zYi6uaENn
-	 q+qvOr2oHPjy3z6atS852UHc8jrEqnpgg+YkKQmf9kUW7xnj4iRsXdkP52L6fvf9HB
-	 b9mZOM+ha27Tnm4/440Gu/IuAyH6rSX6MT70uigA1C9p0N0XjN1TRypL4f3zQ1KxPJ
-	 QM3HJzdq3HHwfB/AqeusxQGEOefgGovzHJree6g3fvcV1bAp8tXZIss9sBgD1Oy92m
-	 um0FIOSpBUOYPY1WQkYkWdBc84dVQ7bwXGZ1UG44CXHbLGxjfRAS49cdt7tumkFzSs
-	 35K8fS2ZPa9ew==
+	b=qs8U+O88hg5yXc83nFEwy3Iq3nCybeXp5iL0JTfn1tdvdCQqrAEVR6CEGaivTZhiI
+	 oQfmmcuw+yVEXTWhN+YQf5o4hk/0a0myrIo3pLhpHrWEtAZyvDRDJiMv/Pnav9qXcL
+	 gtNcmvIi+solVBt6+nwz3/RYz79Zev1TVdVGo5uEO8VrCyqgaB/7W79kWPxNCbxulp
+	 9T7VbddnPgTJ8RHwgiyifcukZL0MQq2cqHZVDl88fH4xcp8t9FAP1koeaGzDWmSPyb
+	 jUJlRfKmE7go4iXJp04VIpuhHWGD35hRIizpoajDyKyjmMyShIV2ohQQZG7qkNg8K1
+	 tXmgrEqV2Gb5Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <liam.r.girdwood@intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
 	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
 	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	gregkh@linuxfoundation.org,
-	peterz@infradead.org,
-	venkataprasad.potturu@amd.com,
-	sound-open-firmware@alsa-project.org,
+	pierre-louis.bossart@linux.dev,
+	ckeepax@opensource.cirrus.com,
+	Vijendar.Mukunda@amd.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 20/32] ASoC: SOF: amd: Handle IPC replies before FW_BOOT_COMPLETE
-Date: Mon, 24 Feb 2025 06:16:26 -0500
-Message-Id: <20250224111638.2212832-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 03/28] ASoC: Intel: sof_sdw: Add lookup of quirk using PCI subsystem ID
+Date: Mon, 24 Feb 2025 06:17:34 -0500
+Message-Id: <20250224111759.2213772-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250224111638.2212832-1-sashal@kernel.org>
-References: <20250224111638.2212832-1-sashal@kernel.org>
+In-Reply-To: <20250224111759.2213772-1-sashal@kernel.org>
+References: <20250224111759.2213772-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,69 +59,96 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.4
+X-stable-base: Linux 6.12.16
 Content-Transfer-Encoding: 8bit
 
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-[ Upstream commit ac84ca815adb4171a4276b1d44096b75f6a150b7 ]
+[ Upstream commit fc016ef7da64fd473d73ee6c261ba1b0b47afe2b ]
 
-In some cases, e.g. during resuming from suspend, there is a possibility
-that some IPC reply messages get received by the host while the DSP
-firmware has not yet reached the complete boot state.
+Add lookup of PCI subsystem vendor:device ID to find a quirk.
 
-Detect when this happens and do not attempt to process the unexpected
-replies from DSP.  Instead, provide proper debugging support.
+The subsystem ID (SSID) is part of the PCI specification to uniquely
+identify a particular system-specific implementation of a hardware
+device.
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Link: https://patch.msgid.link/20250207-sof-vangogh-fixes-v1-3-67824c1e4c9a@collabora.com
+Unlike DMI information, it identifies the sound hardware itself, rather
+than a specific model of PC. SSID can be more reliable and stable than
+DMI strings, and is preferred by some vendors as the way to identify
+the actual sound hardware.
+
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Link: https://patch.msgid.link/20250204053943.93596-2-yung-chuan.liao@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/sof/amd/acp-ipc.c | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
+ sound/soc/intel/boards/sof_sdw.c | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/sof/amd/acp-ipc.c b/sound/soc/sof/amd/acp-ipc.c
-index 5f371d9263f3b..12caefd087885 100644
---- a/sound/soc/sof/amd/acp-ipc.c
-+++ b/sound/soc/sof/amd/acp-ipc.c
-@@ -167,6 +167,7 @@ irqreturn_t acp_sof_ipc_irq_thread(int irq, void *context)
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 84fc35d88b926..8f2416b73dc43 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -13,6 +13,7 @@
+ #include <linux/soundwire/sdw.h>
+ #include <linux/soundwire/sdw_type.h>
+ #include <linux/soundwire/sdw_intel.h>
++#include <sound/core.h>
+ #include <sound/soc-acpi.h>
+ #include "sof_sdw_common.h"
+ #include "../../codecs/rt711.h"
+@@ -685,6 +686,22 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 	{}
+ };
  
- 	if (sdev->first_boot && sdev->fw_state != SOF_FW_BOOT_COMPLETE) {
- 		acp_mailbox_read(sdev, sdev->dsp_box.offset, &status, sizeof(status));
++static const struct snd_pci_quirk sof_sdw_ssid_quirk_table[] = {
++	{}
++};
 +
- 		if ((status & SOF_IPC_PANIC_MAGIC_MASK) == SOF_IPC_PANIC_MAGIC) {
- 			snd_sof_dsp_panic(sdev, sdev->dsp_box.offset + sizeof(status),
- 					  true);
-@@ -188,13 +189,21 @@ irqreturn_t acp_sof_ipc_irq_thread(int irq, void *context)
++static void sof_sdw_check_ssid_quirk(const struct snd_soc_acpi_mach *mach)
++{
++	const struct snd_pci_quirk *quirk_entry;
++
++	quirk_entry = snd_pci_quirk_lookup_id(mach->mach_params.subsystem_vendor,
++					      mach->mach_params.subsystem_device,
++					      sof_sdw_ssid_quirk_table);
++
++	if (quirk_entry)
++		sof_sdw_quirk = quirk_entry->value;
++}
++
+ static struct snd_soc_dai_link_component platform_component[] = {
+ 	{
+ 		/* name might be overridden during probe */
+@@ -1212,6 +1229,13 @@ static int mc_probe(struct platform_device *pdev)
  
- 	dsp_ack = snd_sof_dsp_read(sdev, ACP_DSP_BAR, ACP_SCRATCH_REG_0 + dsp_ack_write);
- 	if (dsp_ack) {
--		spin_lock_irq(&sdev->ipc_lock);
--		/* handle immediate reply from DSP core */
--		acp_dsp_ipc_get_reply(sdev);
--		snd_sof_ipc_reply(sdev, 0);
--		/* set the done bit */
--		acp_dsp_ipc_dsp_done(sdev);
--		spin_unlock_irq(&sdev->ipc_lock);
-+		if (likely(sdev->fw_state == SOF_FW_BOOT_COMPLETE)) {
-+			spin_lock_irq(&sdev->ipc_lock);
-+
-+			/* handle immediate reply from DSP core */
-+			acp_dsp_ipc_get_reply(sdev);
-+			snd_sof_ipc_reply(sdev, 0);
-+			/* set the done bit */
-+			acp_dsp_ipc_dsp_done(sdev);
-+
-+			spin_unlock_irq(&sdev->ipc_lock);
-+		} else {
-+			dev_dbg_ratelimited(sdev->dev, "IPC reply before FW_BOOT_COMPLETE: %#x\n",
-+					    dsp_ack);
-+		}
-+
- 		ipc_irq = true;
- 	}
+ 	snd_soc_card_set_drvdata(card, ctx);
  
++	if (mach->mach_params.subsystem_id_set) {
++		snd_soc_card_set_pci_ssid(card,
++					  mach->mach_params.subsystem_vendor,
++					  mach->mach_params.subsystem_device);
++		sof_sdw_check_ssid_quirk(mach);
++	}
++
+ 	dmi_check_system(sof_sdw_quirk_table);
+ 
+ 	if (quirk_override != -1) {
+@@ -1227,12 +1251,6 @@ static int mc_probe(struct platform_device *pdev)
+ 	for (i = 0; i < ctx->codec_info_list_count; i++)
+ 		codec_info_list[i].amp_num = 0;
+ 
+-	if (mach->mach_params.subsystem_id_set) {
+-		snd_soc_card_set_pci_ssid(card,
+-					  mach->mach_params.subsystem_vendor,
+-					  mach->mach_params.subsystem_device);
+-	}
+-
+ 	ret = sof_card_dai_links_create(card);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.39.5
 
