@@ -1,79 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56A818B46C;
-	Mon, 24 Feb 2025 12:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249571DDE9;
+	Mon, 24 Feb 2025 12:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740400374; cv=none; b=ZxpFPfpIcFC2g9M6N7lvKsRQo4IKUBqdeqXSeLlAKIWnI4W9efpmDmTEwwyWChaQ7e2z6iGP5GND8DwFZ6qUzr6G2P+8BJwH1VtLNf+sCc6JMDo+b3pQyZC3gRvwHAyJOqW2K7O9lccbJLfN3UfupzpDfjDCKSTI65tZdvJAFgc=
+	t=1740400758; cv=none; b=b2HBVERB/xrS2e+sd7Y2dVTNHe71CY9t9BD04tGepin5tUUXDWqeYWmUZcVCSZSwbh+PH2lYE39AWTA8ZjIV80qxe1yvQXryxdHEwlHZHjxNBaeckPgrJ8bPouDAS6ybHbtZMelDd5nkhzxjH8hnhqIawySLSYcrz9J69Cn8SUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740400374; c=relaxed/simple;
-	bh=UQ+8Z+wAgnnwuuJhQbev2mb59lIpjo0E70e/qGy4/4Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XL0beXms9LV5HGxC3zl5sa3isuvEQhJ0t0lfvgRnhTZv0IZRIodyPZiWWU4sOFJCm4k8neAVGivKhkFoECGHLwFOTuTkM0J/tlmdm7v7/DsOYxKLJF0d5KzfCEXWUfTJVDnK3lHPvaL9ZdXrroBc52+6cnc1nKQIPphFJB3bs4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ib0qfIDe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740400758; c=relaxed/simple;
+	bh=I4zwzRfgVjDsqL3gEcvnfx+MpbnW+WUPLHL5AHyvtfs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o+ck0SEvXsQnet4VV/hqn1ubG0e/9TjPJUthNhbtwtHKWjOc/66s7+Z3FsP0+LyrZINYEChVg7qLHSPJlKcZOZsVOlMvvj0hk1XPlPsdxRhODiGigAuvbQ8y57yhjVwTyI8qP5PYAX8yEWax4IrYQufQmY+WkZaNZemw0ekCCWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGbUDI3j; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ib0qfIDe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 464ECC4CEE6;
-	Mon, 24 Feb 2025 12:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740400374;
-	bh=UQ+8Z+wAgnnwuuJhQbev2mb59lIpjo0E70e/qGy4/4Y=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ib0qfIDe3OOuvBzVrWCmmLH460v2SIM6VasAJBujRptEfcHm3PqnGr7L9iVznDLEF
-	 3jNDpzbqBYg1+hoZ8Xhg3A20IB0NkMmJRhRBqTGpMrvie/hKD1TIUYcrFsQssqKrCi
-	 +3HcpOCVVKvyD9locSrHHN4yFMfWolOe48dyWPFs0f09Do1J6BFwD78Afcsu3CizX3
-	 xCYWkxxBfNhrCkXtgO/HSCmCznepYHTU50RX/yS89U/2YFOLD74r8t9QfElzkxzqpV
-	 g2Vk4IOfwL3b95IJIGFR6Y+Hh1z8EciEw5scW+Se1SwnB/boOa0hAOrfCier3qkCSR
-	 g5Mj9jQaPVc8g==
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-abb892fe379so689579466b.0;
-        Mon, 24 Feb 2025 04:32:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU2agcYkkVW6qtHrnoAYU92N4kjf3CP0sQ03ebmBOFcYNz1vT21N5isNsSoCo/vNu3bAVzBf4FqDZCA@vger.kernel.org, AJvYcCWrVRaA1uxMlaVCD/DjXeVTlvhLxXWHWoodkyeZ2tfnoO1ZKnYwkZFc7Xm7KH9MeDnn1kF7x+Wu9B+7svmV@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEGZa5G424vyHAFoCjO39Cg4OZEw/H5K+M6fyk9ZGbx9bsPsMy
-	ecyphmg9Y/4DlOrPLIBMKXUAfRXcNqvRXnAcRCycPG2Gkar40aASkPv4UJ+kmtuFHsS2r/JuMkD
-	938hAt+SU4oSEQC9fC7fpO1xhNA==
-X-Google-Smtp-Source: AGHT+IHL3KrJSkqIVBufq5WKDsEAyCjHw9G4sSu2AxzVPr1GREze63H6Wcwa6uRBFUk5VisJGiZga96347ickz870Fs=
-X-Received: by 2002:a05:6402:26d2:b0:5dc:80ba:dda1 with SMTP id
- 4fb4d7f45d1cf-5e0b70df049mr27708183a12.9.1740400372901; Mon, 24 Feb 2025
- 04:32:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGbUDI3j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740400757; x=1771936757;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I4zwzRfgVjDsqL3gEcvnfx+MpbnW+WUPLHL5AHyvtfs=;
+  b=bGbUDI3jU+8G0lMyD1MaN7WzggW3cGswR8plSEdS/kZ8yF9QiO1ZnmB7
+   iyyT2ga7XWIV3kEWS/Vkb0lUMmkyJhFIb2JrhRd5byH+otMfq5qWjZgXG
+   nb5lVB9Jz04qFA+0az7KgybuKoAQJEl+QbFxcz0SFpFhbAtfltyOOWTap
+   J/wQQ+IGnkHly0fgkmXjstjI/xdXO99yE4SNcerwDwnBn/ToCJ9LE/HzN
+   REzR33rcpPF71omBNrUSbrcTjzLoi9MGsv9S4E2En44+HIUd2Y0ZCjEwH
+   +fPZkeJZY3PPOOd6vyMK8yZucKxqrhrCy8p1i6fdW9T1Kw0gn5o8hHELx
+   w==;
+X-CSE-ConnectionGUID: xr1416diTaKv3HKJZr8+XA==
+X-CSE-MsgGUID: E/dN3DWHQ/O9NQ+c8Fs2eQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="44804206"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="44804206"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:39:16 -0800
+X-CSE-ConnectionGUID: TOwLHXo3SgmVXIMwNmb0vQ==
+X-CSE-MsgGUID: z2UkMDxrQkWgeU8zvFf0YQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="121321317"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:39:10 -0800
+Date: Mon, 24 Feb 2025 14:39:07 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: perex@perex.cz, tiwai@suse.com, broonie@kernel.org, lgirdwood@gmail.com,
+	deller@gmx.de, andriy.shevchenko@linux.intel.com, sre@kernel.org,
+	sakari.ailus@linux.intel.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com
+Cc: linux-sound@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+	ntb@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 00/13] Convert to use devm_kmemdup_array()
+Message-ID: <Z7xoa9FbuvIaTJFt@black.fi.intel.com>
+References: <20250221165333.2780888-1-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250224114648.1606184-1-vincenzo.frascino@arm.com> <20250224114648.1606184-4-vincenzo.frascino@arm.com>
-In-Reply-To: <20250224114648.1606184-4-vincenzo.frascino@arm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 24 Feb 2025 06:32:41 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJGHnZpJ_rLEj3Q_wwXB4Esh6roUwgcen5dd3SY6BMoMQ@mail.gmail.com>
-X-Gm-Features: AWEUYZkblcUi0AUvyNMYBv_8CKhFt0PJZbd08-zFgoDnv6Yjm9EHCszL8R47ptU
-Message-ID: <CAL_JsqJGHnZpJ_rLEj3Q_wwXB4Esh6roUwgcen5dd3SY6BMoMQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] ASoC: dt-bindings: xlnx,spdif: Convert to json-schema
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: linux-sound@vger.kernel.org, 
-	Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250221165333.2780888-1-raag.jadav@intel.com>
 
-On Mon, Feb 24, 2025 at 5:47=E2=80=AFAM Vincenzo Frascino
-<vincenzo.frascino@arm.com> wrote:
->
-> Convert the Xilinx SPDIF 2.0 device tree binding documentation to
-> json-schema.
+On Fri, Feb 21, 2025 at 10:23:20PM +0530, Raag Jadav wrote:
+> This series is the second wave of patches to add users of newly introduced
+> devm_kmemdup_array() helper. Original series on [1].
+> 
+> This depends on changes available on immutable tag[2]. Feel free to pick
+> your subsystem patches with it, or share your preferred way to route them.
+> 
+> [1] https://lore.kernel.org/r/20250212062513.2254767-1-raag.jadav@intel.com
+> [2] https://lore.kernel.org/r/Z7cqCaME4LxTTBn6@black.fi.intel.com
 
-All the same issues here.
+Update: Anyone wishing to pull from this series, please use the updated
+tag[3]. I'll wait for a few days for review comments and send out a v2
+with fbdev fix.
 
-> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> ---
->  .../devicetree/bindings/sound/xlnx,spdif.txt  | 28 ------
->  .../devicetree/bindings/sound/xlnx,spdif.yaml | 92 +++++++++++++++++++
->  2 files changed, 92 insertions(+), 28 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.tx=
-t
->  create mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.ya=
-ml
+[3] https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com
+
+Apologies for the inconvenience.
+
+Raag
