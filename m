@@ -1,128 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16762263F26;
-	Mon, 24 Feb 2025 17:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D2B264FA9;
+	Mon, 24 Feb 2025 17:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740417563; cv=none; b=nORxHtFTlkDMAWtl4D7iNNJIA5yqfcPaF+aCTsiP5Fh7eOBUZd0mQC2ukYCxuQLwwqX7ewtYoLSINI+acT2tkUb+KTS2dgtxHza9M0LuR3YgFYerCoXUm43JD3vZfrMd7jtv4xVFPXWU6rLb6iLZM3KlD46+X9PfCVXFUYcPtaI=
+	t=1740418751; cv=none; b=NW79Oa4E97yE1sSXqfrieLpsDcrcf2ym+ud0bVXbDVYHv1nRwPSiZaajv0QiPHUpFcWHj7yiUwO7eC4kJcGUNf3++mbt5rFjnHzJcj+Gyuys3pd+Mwp1zqbgKm1Eg+6X+WG1i2M/t+pNxT83ht6hRwpMqI+FTbR38EeG5RIgH4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740417563; c=relaxed/simple;
-	bh=DqLA3R9+ncfGcr/YJS6lhTf2TaveCWhzLJel4MYNo6I=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=K/QVkVf7vaOBt93/nMmZuvE9H5OnyGgJl6loaUkpw3A1PHw7syCDxFea95JKSuaNPh8vslGQEjd3Uuy2mW3+EFeK18+/DTjC22svL8Yr73VnShMdhOzEaIMWYPeLhfEw3mm9oO8q8wjoaN+DjB92s1gEscOM6IuuFPqPywjE8eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oj/5A4d6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740418751; c=relaxed/simple;
+	bh=uEaCqTit3Hs30MjNpx5mW1Lh1YKGgfb9eHc2xm3HRtU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XXgU835IiVbVG5ipOZ/0AUUoGQY6KWIBG2zEv6kGhgJ+Aj+R6Ou0pB1JdGQXLCTzBUzctHETslwio1cqIJDL/zvpaXYBTRKO9tG56DLoMlvgyEX49mqbjJmQdcCnug6EXdfIwIRhFz0GCSyWUcmTAK1EVJYz17Kd3uxESE7J2WM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=pfZLdgoZ; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oj/5A4d6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F9ADC4CEEB;
-	Mon, 24 Feb 2025 17:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740417561;
-	bh=DqLA3R9+ncfGcr/YJS6lhTf2TaveCWhzLJel4MYNo6I=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=oj/5A4d6B52s9netUSHzaXDHUKauk4ZcSJNpUdrGaxvCn3ezRAPD/QQgUpzHjFm8X
-	 f7h1I9h9c3piFl0NU62S/i0PL1ErNr0MKeaC8ADaF9VbT15kotJwl2t1to39SP/jNY
-	 bn6N5EXWAA6d4cigSjRIPgSOPtnVRmnW0FQW+ll+UHHHNeTMG+4MqDGCwTtMi2DBse
-	 rDBqxn9i1tPyVu5UKn3YYJZ8rfMJh43d0JGdXGi2CQgxm9yBtkmwVImJhhLQkNyTrs
-	 OK26oVeHXewjJaBw/jQElWNnnMCC2kMkmRT+p6ckzKEzWk0MfYEWWZUnXrPVb1YDxM
-	 UC96q7730INBA==
-Date: Mon, 24 Feb 2025 11:19:19 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="pfZLdgoZ"
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id F128D2E08FD2;
+	Mon, 24 Feb 2025 19:39:01 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1740418744;
+	bh=uEaCqTit3Hs30MjNpx5mW1Lh1YKGgfb9eHc2xm3HRtU=;
+	h=Received:From:Subject:To;
+	b=pfZLdgoZRsGj7flsBNAsYCE/QWi/Gwn6lfqVKEY4tz12sW08w3pwnRZLwYBlOM/sb
+	 5OVO6NBiWIThF866NR0t7DwOkYeOJZYaXdVhJ+M3RJCmKQ5xY35OQv9P33jvocfC3V
+	 n+dA1Bx7u64EjNq1WS4/H/PoL6jMDIS161WLIVOQ=
+Authentication-Results: linux1587.grserver.gr;
+        spf=pass (sender IP is 209.85.208.177) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f177.google.com
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-307325f2436so45402691fa.0;
+        Mon, 24 Feb 2025 09:39:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVFXogWmP14jkFpjeRCsdWw31DaclK9XelGGnxl9RQ6nAn8Zbkre8lJ1fJZWGa3WCQbscbCpjvpc5CFOxw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw316CQQAt9pa7W0ErLk7DtaVaeKGVcbazrusChdplGtrhFVtMI
+	BMcmDdYoUY8xJiAxO1QOU3FXIm58z54pwcNQHQ/jXcDyWwcKbJhhkAM2SjHU77X0DYH3wQeCCOE
+	wy6vdlbsYW7DYFWNK3Ien6ftvZrc=
+X-Google-Smtp-Source: 
+ AGHT+IHDf/8mxULisWDqSsVCPQZDiH/35WgwcCQjxHgPMcGxWVL12+DEduABrs4BXemzCqAtnX9uVLyIsSHQNmJSzuM=
+X-Received: by 2002:a2e:b006:0:b0:308:f01f:182c with SMTP id
+ 38308e7fff4ca-30a59898391mr43439631fa.12.1740418741149; Mon, 24 Feb 2025
+ 09:39:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org, 
- Takashi Iwai <tiwai@suse.com>, 
- Francesco Dolcini <francesco.dolcini@toradex.com>, 
- Ernest Van Hoecke <ernest.vanhoecke@toradex.com>, 
- patches@opensource.cirrus.com, Saravana Kannan <saravanak@google.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sound@vger.kernel.org, 
- Jaroslav Kysela <perex@perex.cz>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, devicetree@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
-To: Francesco Dolcini <francesco@dolcini.it>
-In-Reply-To: <20250224155500.52462-4-francesco@dolcini.it>
-References: <20250224155500.52462-1-francesco@dolcini.it>
- <20250224155500.52462-4-francesco@dolcini.it>
-Message-Id: <174041755964.3547413.4477664481191696884.robh@kernel.org>
-Subject: Re: [PATCH v2 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC
- and EQ support
+References: <20250224161016.439696-1-lkml@antheas.dev>
+ <20250224161016.439696-3-lkml@antheas.dev>
+ <004001db86dc$b32dec60$1989c520$@opensource.cirrus.com>
+ <CAGwozwHSbzDxCiO-xYNqNH20HovMnMk+rNLEatToX4js=gO_RQ@mail.gmail.com>
+ <CAGwozwE3dceooZouM2Ay9YXfehrQBk+STa1HRH5nkZ6QohTjhA@mail.gmail.com>
+In-Reply-To: 
+ <CAGwozwE3dceooZouM2Ay9YXfehrQBk+STa1HRH5nkZ6QohTjhA@mail.gmail.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Mon, 24 Feb 2025 18:38:49 +0100
+X-Gmail-Original-Message-ID: 
+ <CAGwozwHwbX_LCm5ZOJzC3CxR3UkGnmo1UVUE0685FZdjFV806Q@mail.gmail.com>
+X-Gm-Features: AWEUYZlX79aScACefcN5jqida4vr4EdufKHNwqv2xqoy0LRMx0MNbhSHtemmY8c
+Message-ID: 
+ <CAGwozwHwbX_LCm5ZOJzC3CxR3UkGnmo1UVUE0685FZdjFV806Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ALSA: hda/realtek: Fix Asus Z13 2025 audio
+To: "Stefan Binding (Opensource)" <sbinding@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, kailang@realtek.com,
+	linux-kernel@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
+	baojun.xu@ti.com, simont@opensource.cirrus.com,
+	Kyle Gospodnetich <me@kylegospodneti.ch>
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <174041874381.28762.2039195872684370119@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
+Sounds about the same, perhaps a bit better. I'll swap to that one for
+our use and for when/if there is a V2.
 
-On Mon, 24 Feb 2025 16:54:58 +0100, Francesco Dolcini wrote:
-> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-> 
-> Add two properties to select the IN1L/DMICDAT1 and IN2R/DMICDAT2
-> functionality:
-> - wlf,in1l-as-dmicdat1
-> - wlf,in1r-as-dmicdat2
-> 
-> Add a property to describe the GPIO configuration registers, that can be
-> used to set the four multifunction pins:
-> - wlf,gpio-cfg
-> 
-> Add a property to describe the mic bias control registers:
-> - wlf,mic-cfg
-> 
-> Add two properties to describe the Dynamic Range Controller (DRC),
-> allowing multiple named configurations where each config sets the 4 DRC
-> registers (R40-R43):
-> - wlf,drc-cfg-regs
-> - wlf,drc-cfg-names
-> 
-> Add three properties to describe the equalizer (ReTune Mobile), allowing
-> multiple named configurations (associated with a samplerate) that set
-> the 24 (R134-R157) EQ registers:
-> - wlf,retune-mobile-cfg-regs
-> - wlf,retune-mobile-cfg-names
-> - wlf,retune-mobile-cfg-rates
-> 
-> Datasheet: https://statics.cirrus.com/pubs/proDatasheet/WM8904_Rev4.1.pdf
-> Signed-off-by: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> ---
-> v2: Added an example of how to use the ReTune Mobile config properties
-> v1: https://lore.kernel.org/lkml/20250206163152.423199-4-francesco@dolcini.it/
-> ---
->  .../devicetree/bindings/sound/wlf,wm8904.yaml | 106 ++++++++++++++++++
->  1 file changed, 106 insertions(+)
-> 
+Any tips about going through this stuff are well appreciated. Online
+documentation is very sparse
 
-My bot found errors running 'make dt_binding_check' on your patch:
+On that note, what's the timeline for adding support to these laptops?
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/sound/wlf,wm8904.yaml:167:111: [warning] line too long (154 > 110 characters) (line-length)
-./Documentation/devicetree/bindings/sound/wlf,wm8904.yaml:172:111: [warning] line too long (154 > 110 characters) (line-length)
-./Documentation/devicetree/bindings/sound/wlf,wm8904.yaml:177:111: [warning] line too long (154 > 110 characters) (line-length)
+And speaking of a V2, the Ally X quirk is a bit suspect. Yes it fixes
+the popping during boot, but which part of it does that? It is very
+long and touches a different amp quirk in the process I'd say, so it
+would be nice to clean up. Let's forget about the original Ally, but
+the Ally X is still relevant.
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/sound/wlf,wm8904.example.dts:52.17-18 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/sound/wlf,wm8904.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1511: dt_binding_check] Error 2
-make: *** [Makefile:251: __sub-make] Error 2
+Of course, I do not expect an answer from you Stefan, as it is a
+competitor amp, haha. This is mostly for Baojun et al.
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250224155500.52462-4-francesco@dolcini.it
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Best,
+Antheas
