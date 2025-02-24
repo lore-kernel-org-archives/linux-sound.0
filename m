@@ -1,45 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAE01F416D;
-	Mon, 24 Feb 2025 20:10:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DF01D6DB9;
+	Mon, 24 Feb 2025 21:24:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740427822; cv=none; b=OPnAV4Q4orH3vyCMeALqLsFTZElqrBT1CO5EHaZosZpT6VlOfuJnSNbkZeEftxV/rn1nrpOOGqkorGj2TdPuYdaIHo2Rl8crZ45WiXcpQm3knH0mQFo4vnoKZwg4oBzjxfq7IB4NaAoGOE8/uAeLlZgCplp/Vr3s5Nit0wPNTVo=
+	t=1740432267; cv=none; b=gJ0eDD25Q1MgP0PPKiFeOKBJ9X0cawEG9r/jrN9vjhYV4Jy8zEk3tvHpyBRryC3pAybh4qmC22qNLch53xAjTo4WGyoo57FOTD84reO7aTSGOxI1UmfqnVZR3XG7VYnpu3uX/50ufQ95w3pyzF/Mvr4POVwL2JHmJY6tFtsXLiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740427822; c=relaxed/simple;
-	bh=//I4s2iMr9J6rEdDAzVgVvZ0bgv+PoI6wUAC1Ve268s=;
+	s=arc-20240116; t=1740432267; c=relaxed/simple;
+	bh=OH9HRn20JiKKaAGSLEL4MYnRi8OT3aRzUFDVE/OJuug=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VopgTlJsMjP9ZLJJY2lPfnnFntuE1vazJq/uxEkCXqKygebWkbUhFOqec01Jl4tQmUb6tLe1PF01mbxwoOWWSY/ChEL4TRPQd2ZW6Mx3KhnE7LzeeaQE9Z3r8AlxoRNK4MifiNhUxgCcyLhgFGycbG7y2krwboUr8eULvNWIAcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LLh1QEjv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZmMyXLyHksOEu4B29Nek1CbamyF4G+h0CTt/Jck89SklTOkX5opvqRI7dM68omiN2ZB8KGyOpfG4B12bKIRSG9chp/Jq/j03WgH+oW3iiq+GOID2IKJO7vuP+BQtgPYRGxMPcd7xwHrbR9sLPBN24bs9mT6MYO6816nIuixLRJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QaeYlsBd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LLh1QEjv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FE86C4CED6;
-	Mon, 24 Feb 2025 20:10:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QaeYlsBd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C99DC4CED6;
+	Mon, 24 Feb 2025 21:24:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740427822;
-	bh=//I4s2iMr9J6rEdDAzVgVvZ0bgv+PoI6wUAC1Ve268s=;
+	s=k20201202; t=1740432266;
+	bh=OH9HRn20JiKKaAGSLEL4MYnRi8OT3aRzUFDVE/OJuug=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LLh1QEjvRNIcuhtCtWxYwMeqdndZeuETHVY2Zuyp83rJDJ9eYOnSB+RDITXFc929h
-	 jTaNDmQGFUIFWzu+L5lT4DBF5Fkz9w9vup88nYgrb1Oo8OlSn0CpncSwSK5dBiHu8D
-	 5/LD2tsNm+maVu0/2Ik4OkbcA5dOojRMyuqsrlp9hdS2Fr0PN8ZcokvGPvD9G5Jd4S
-	 +Xk+7l2PWOxwnVyfd+75hMRTgvwyE8gYtcCTDOGDNWCAkUZzZoZpXXqazTFY4ZMUWV
-	 maLviKqCVoJTYK9667ObN1pKQsUfMp31WWjyQd/+pbW8+pk/2jOi8/vtQXpVQxKXl3
-	 aMNRBiWr0Lh7A==
-Date: Mon, 24 Feb 2025 14:10:20 -0600
+	b=QaeYlsBdL/4Fb5unmU8HsyjnGf8zkxlmb4nv2ssrjKIp4Y3tGfs25mWqiFyRaPhg5
+	 yyPJ0/RMETv+HhXDUiEQpEarCuhfMYLCjI8rixNWZrYL5zh5bWiuSEhyb+lQXKZ4Dg
+	 3QETmDTebYntHZOC/ARZowJRnBo7ezfOeE9h13nVoZDzfYXxYxCtdYg3zcDBomyfJX
+	 19luIYfne+3yz3/XAvcO0/9X3xaQwMloB5G9m3RdJWAcb7EebcXnUW5hDpNNoqQymZ
+	 /DrqLIpwKayCvt0f4FoW1eRX5bum6eESBqggFN/RofXgWqxPPJX027IgDmXWunSxja
+	 Az2qKUGIqzCoQ==
+Date: Mon, 24 Feb 2025 15:24:25 -0600
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: imx@lists.linux.dev, shawnguo@kernel.org, linux-kernel@vger.kernel.org,
-	s.hauer@pengutronix.de, devicetree@vger.kernel.org,
-	krzk+dt@kernel.org, festevam@gmail.com, lgirdwood@gmail.com,
-	broonie@kernel.org, conor+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: dt-bindings: fsl,imx-asrc: Reference common
- DAI properties
-Message-ID: <174042782051.4022847.1009470798524846957.robh@kernel.org>
-References: <20250224090413.727911-1-shengjiu.wang@nxp.com>
- <20250224090413.727911-3-shengjiu.wang@nxp.com>
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: [PATCH v4 1/4] ASoC: dt-bindings: xlnx,i2s: Convert to
+ json-schema
+Message-ID: <174043226450.4106940.4348756285400472131.robh@kernel.org>
+References: <20250224182548.2715896-1-vincenzo.frascino@arm.com>
+ <20250224182548.2715896-2-vincenzo.frascino@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,18 +49,20 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250224090413.727911-3-shengjiu.wang@nxp.com>
+In-Reply-To: <20250224182548.2715896-2-vincenzo.frascino@arm.com>
 
 
-On Mon, 24 Feb 2025 17:04:13 +0800, Shengjiu Wang wrote:
-> Reference the dai-common.yaml schema to allow '#sound-dai-cells' and
-> "sound-name-prefix' to be used.
+On Mon, 24 Feb 2025 18:25:45 +0000, Vincenzo Frascino wrote:
+> Convert the Xilinx I2S device tree binding documentation to json-schema.
 > 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 > ---
->  Documentation/devicetree/bindings/sound/fsl,imx-asrc.yaml | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  .../devicetree/bindings/sound/xlnx,i2s.txt    | 28 --------
+>  .../devicetree/bindings/sound/xlnx,i2s.yaml   | 65 +++++++++++++++++++
+>  2 files changed, 65 insertions(+), 28 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,i2s.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/xlnx,i2s.yaml
 > 
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
