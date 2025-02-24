@@ -1,176 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8596A25486A;
-	Mon, 24 Feb 2025 11:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B735257AC8;
+	Mon, 24 Feb 2025 11:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740396079; cv=none; b=eWSEL0ASEIX2pQTt0twmr+HoLcrA45ZhJ28KFG5jnyWF4OEiEKwyglfw1h/cR0uOM5EDh6R5XBqb8T/rsvCqhoUBs0++v+uam3g8GQw77vj1KiaEzJrNSmMBFg6zVZeO9HpKOe9QZJdtJnodMh49vKjF6yx6kTUGszU2hnAEp9o=
+	t=1740396258; cv=none; b=ulCrSc8dF7Db4BnlfAp/5lqgAUwH1eSk3ndN6CxPS8CmhWDopTc8XTdBe9SPKagxIsy03E23DkBOuPobg/s2a2WrLzuwmAzGV1armjFH3uLAeWGxARoMuo6CxjronsIDP4L0ML48b1DaSJjRm8necIPQF4b2I+vUASu2CS6j2Sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740396079; c=relaxed/simple;
-	bh=toydJgH2nmF7gMH3/64+M1PbX4qPotu5zduetlLV84s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W/jXdym5X9WsEUkFnRTOr02YlFcqHrfUHRsJg7nXU/rYHneroE5TItWunOsWz7O1lR9Ka6voKOrl8mQafDHrDySWJ4JK6dEjPDRibX3UJYNXDI4d1te0uzy5QMp44MyysCh1/nWH3CKOTDxADWLFFjGHFdCdR7MTSD7xztWWYRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGRcgeRo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740396258; c=relaxed/simple;
+	bh=JEcP7qUK6u00OAPytLU3TUQotFYzjM6j/mx4+g5gaUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XBhr6+nH8Ulkfwc86Y4KrwdxN9tHIPvl3BRdbD1i9U7jbC0pOxIsbc92tmQau6ulkI1XywtB/UjLkZ9+FlbPC8kO3GKc8Cy3WW1hWqUpSoNW5vzUQ+GBCk5T/19BqBkqB1tYhYep+gFE4sP6Mh+A+9QVGh0vgiHOpnC4AZLHWQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DIgyjQrb; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGRcgeRo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A3DC4CEE8;
-	Mon, 24 Feb 2025 11:21:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740396078;
-	bh=toydJgH2nmF7gMH3/64+M1PbX4qPotu5zduetlLV84s=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hGRcgeRo1SaxSIxq//YYD4fn4pTLuY7BpeqJNWM/Fnlr9/87SrKJUvRBg/RKbydo0
-	 iTfxtFZKvIuskZkl487DlnoP7azt4UQloXCb2sUomP6NAH0IRuqRPfNN/HK/RsyH25
-	 cW408ycm/ISfL20aH3iL5LUhsKTME5sGALq2M4ufjW1YG3/K8b/Mt6xqyZ6TQFcYEN
-	 QpRvOhhY27kKlEwjNhzyN24DUVB2mR+wQ1HBXgg7SwQnXNc2ohzp4dNoQ7kTa4s0sx
-	 ixWETuwGx60EB0f5ZTM4SLB7SRsPBOBtxZbbV7m8FtNtZB1kZY+E9/raT7RX0/CBWT
-	 GYgxP4xDL5S/A==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	krzysztof.kozlowski@linaro.org,
-	u.kleine-koenig@baylibre.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 1/4] ASoC: rsnd: don't indicate warning on rsnd_kctrl_accept_runtime()
-Date: Mon, 24 Feb 2025 06:21:09 -0500
-Message-Id: <20250224112115.2215137-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DIgyjQrb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740396256; x=1771932256;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JEcP7qUK6u00OAPytLU3TUQotFYzjM6j/mx4+g5gaUo=;
+  b=DIgyjQrbkeRqNWPkeg47gnpy2SynWRatdH9otyUEy6iiCErFWbhtLsd3
+   BrimtGIKJPA1zYpCC/exr6vX8bW2JL/9IcFsZ3e/c9wQLr6flQk7lHRmk
+   4cIUpxQb8ejArKf/XKWp0Bl5FxzMlWRgaAgmum/72Zz+4BrrG7TF1sVnk
+   BTMclSyHO4qLPDY8FfpqD2wE+Wpsl5Iuuxa3+oEtegN4cm9FN5U+mp0cE
+   DHz55Lz368Mmv0PptD3jKz/K+dNhZssID1SEKU1Y6rIlcd1t0JIL+eykR
+   zbtRomloI5oq1/aX264FZHL06VUY//IBmZoLIPvquwSyf2hY2Tv5YV+MS
+   w==;
+X-CSE-ConnectionGUID: aWTxoC83Qc609azyz6kJ/w==
+X-CSE-MsgGUID: zW3fyXE2Sqa4BS8gUdaFjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="41284554"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="41284554"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 03:24:15 -0800
+X-CSE-ConnectionGUID: XyR0He+eS9uuuEihv2486A==
+X-CSE-MsgGUID: u4XpFd1CQeOL5c8P45fx7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="120159488"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 03:24:11 -0800
+Date: Mon, 24 Feb 2025 13:24:08 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: kernel test robot <lkp@intel.com>, perex@perex.cz, tiwai@suse.com,
+	broonie@kernel.org, lgirdwood@gmail.com, deller@gmx.de,
+	sre@kernel.org, sakari.ailus@linux.intel.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com,
+	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-media@vger.kernel.org, ntb@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
+Message-ID: <Z7xW2AIz6vUo6mu-@black.fi.intel.com>
+References: <20250221165333.2780888-8-raag.jadav@intel.com>
+ <202502220449.DvJuMgsL-lkp@intel.com>
+ <Z7xQ2y-7U5-OhzhB@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.290
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z7xQ2y-7U5-OhzhB@smile.fi.intel.com>
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Mon, Feb 24, 2025 at 12:58:35PM +0200, Andy Shevchenko wrote:
+> On Sat, Feb 22, 2025 at 05:41:24AM +0800, kernel test robot wrote:
+> > Hi Raag,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on b16e9f8547a328b19af59afc213ce323124d11e9]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/ASoC-Intel-avs-use-devm_kmemdup_array/20250222-010322
+> > base:   b16e9f8547a328b19af59afc213ce323124d11e9
+> > patch link:    https://lore.kernel.org/r/20250221165333.2780888-8-raag.jadav%40intel.com
+> > patch subject: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
+> > config: arm-randconfig-004-20250222 (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/config)
+> > compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202502220449.DvJuMgsL-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    drivers/video/fbdev/pxafb.c: In function 'pxafb_probe':
+> > >> drivers/video/fbdev/pxafb.c:2236:13: warning: unused variable 'i' [-Wunused-variable]
+> >     2236 |         int i, irq, ret;
+> >          |             ^
+> 
+> Ragg, please, fix this, and issue a v2 with the link to fixed PR:
+> https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com.
 
-[ Upstream commit c3fc002b206c6c83d1e3702b979733002ba6fb2c ]
+Sure, but perhaps wait a few days for review comments.
 
-rsnd_kctrl_accept_runtime() (1) is used for runtime convert rate
-(= Synchronous SRC Mode). Now, rsnd driver has 2 kctrls for it
-
-(A):	"SRC Out Rate Switch"
-(B):	"SRC Out Rate"		// it calls (1)
-
-(A): can be called anytime
-(B): can be called only runtime, and will indicate warning if it was used
-   at non-runtime.
-
-To use runtime convert rate (= Synchronous SRC Mode), user might uses
-command in below order.
-
-(X):	> amixer set "SRC Out Rate" on
-	> aplay xxx.wav &
-(Y):	> amixer set "SRC Out Rate" 48010 // convert rate to 48010Hz
-
-(Y): calls B
-(X): calls both A and B.
-
-In this case, when user calls (X), it calls both (A) and (B), but it is not
-yet start running. So, (B) will indicate warning.
-
-This warning was added by commit b5c088689847 ("ASoC: rsnd: add warning
-message to rsnd_kctrl_accept_runtime()"), but the message sounds like the
-operation was not correct. Let's update warning message.
-
-The message is very SRC specific, implement it in src.c
-
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Link: https://patch.msgid.link/8734gt2qed.wl-kuninori.morimoto.gx@renesas.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/soc/sh/rcar/core.c | 14 --------------
- sound/soc/sh/rcar/rsnd.h |  1 -
- sound/soc/sh/rcar/src.c  | 18 +++++++++++++++++-
- 3 files changed, 17 insertions(+), 16 deletions(-)
-
-diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
-index df8d7b53b7600..1564809dff3c9 100644
---- a/sound/soc/sh/rcar/core.c
-+++ b/sound/soc/sh/rcar/core.c
-@@ -1612,20 +1612,6 @@ int rsnd_kctrl_accept_anytime(struct rsnd_dai_stream *io)
- 	return 1;
- }
- 
--int rsnd_kctrl_accept_runtime(struct rsnd_dai_stream *io)
--{
--	struct snd_pcm_runtime *runtime = rsnd_io_to_runtime(io);
--	struct rsnd_priv *priv = rsnd_io_to_priv(io);
--	struct device *dev = rsnd_priv_to_dev(priv);
--
--	if (!runtime) {
--		dev_warn(dev, "Can't update kctrl when idle\n");
--		return 0;
--	}
--
--	return 1;
--}
--
- struct rsnd_kctrl_cfg *rsnd_kctrl_init_m(struct rsnd_kctrl_cfg_m *cfg)
- {
- 	cfg->cfg.val = cfg->val;
-diff --git a/sound/soc/sh/rcar/rsnd.h b/sound/soc/sh/rcar/rsnd.h
-index d47608ff5facc..ea7a9939981b5 100644
---- a/sound/soc/sh/rcar/rsnd.h
-+++ b/sound/soc/sh/rcar/rsnd.h
-@@ -737,7 +737,6 @@ struct rsnd_kctrl_cfg_s {
- #define rsnd_kctrl_vals(x)	((x).val)	/* = (x).cfg.val[0] */
- 
- int rsnd_kctrl_accept_anytime(struct rsnd_dai_stream *io);
--int rsnd_kctrl_accept_runtime(struct rsnd_dai_stream *io);
- struct rsnd_kctrl_cfg *rsnd_kctrl_init_m(struct rsnd_kctrl_cfg_m *cfg);
- struct rsnd_kctrl_cfg *rsnd_kctrl_init_s(struct rsnd_kctrl_cfg_s *cfg);
- int rsnd_kctrl_new(struct rsnd_mod *mod,
-diff --git a/sound/soc/sh/rcar/src.c b/sound/soc/sh/rcar/src.c
-index fd52e26a3808b..577d50e2cf8c6 100644
---- a/sound/soc/sh/rcar/src.c
-+++ b/sound/soc/sh/rcar/src.c
-@@ -521,6 +521,22 @@ static irqreturn_t rsnd_src_interrupt(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
-+static int rsnd_src_kctrl_accept_runtime(struct rsnd_dai_stream *io)
-+{
-+	struct snd_pcm_runtime *runtime = rsnd_io_to_runtime(io);
-+
-+	if (!runtime) {
-+		struct rsnd_priv *priv = rsnd_io_to_priv(io);
-+		struct device *dev = rsnd_priv_to_dev(priv);
-+
-+		dev_warn(dev, "\"SRC Out Rate\" can use during running\n");
-+
-+		return 0;
-+	}
-+
-+	return 1;
-+}
-+
- static int rsnd_src_probe_(struct rsnd_mod *mod,
- 			   struct rsnd_dai_stream *io,
- 			   struct rsnd_priv *priv)
-@@ -584,7 +600,7 @@ static int rsnd_src_pcm_new(struct rsnd_mod *mod,
- 			       rsnd_io_is_play(io) ?
- 			       "SRC Out Rate" :
- 			       "SRC In Rate",
--			       rsnd_kctrl_accept_runtime,
-+			       rsnd_src_kctrl_accept_runtime,
- 			       rsnd_src_set_convert_rate,
- 			       &src->sync, 192000);
- 
--- 
-2.39.5
-
+Raag
