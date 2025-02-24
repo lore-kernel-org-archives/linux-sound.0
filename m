@@ -1,79 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F661474A9;
-	Mon, 24 Feb 2025 14:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1708A1714CF;
+	Mon, 24 Feb 2025 14:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740406385; cv=none; b=aAFN1s6HwkPNiU0pHa9ArQFCepCSzG2npZKGR2IA++QhqoUxT0mPSEpSrcp057PrUMGVtiSHS6X3+RxYssZ59/ttFno5mYvjS+zoDkWHp449/udq5jhrmI0KTAApmJpNjB1xb5sGQ8mqCr5FgFCoI1MxrUfDiuGYrbHoBiQMg0A=
+	t=1740407379; cv=none; b=ehAYajX9cPuu6TQuHbjyud1LMV3cUvVueq0KmFOihy7xGzKWncwFDCRKIfsXisVhNUfH4xSJzVEInw5X+fAs4xlZkq7NqOxOywWkDstoRCdzbgg7f780LMzIz8cXvBtGAJLAPFfRdoKAzm6GN5zk6LRtBJXmkFWOhG2VNGNe5QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740406385; c=relaxed/simple;
-	bh=Et8fg0y3kdfto8fS3aVI6HZ7850HYN1zFXNYVQgyg88=;
+	s=arc-20240116; t=1740407379; c=relaxed/simple;
+	bh=dzZWpseyrev5OlunHDNaX/H3YV4k079RCauuuFOelKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K4C4bCk6n+9nceR+spLy4ap/7KgSKWGeTxJyD6QFkYUa/MF7q4NDauzYdaD5Q6iv/QoSAsoRynj3rSoPub2OwcHJ/oKsD491cj8ubJib3K4UDaeD418Vq1MPCcjcBs5InPWfLUiJlNOS1f2rlRuzfydNPxEd7lDFUxBkv8awNVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bx+mZ8GL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZlwKUPetKJA+Sj4yHddYiLMSMjTpbNV1Ty7ED6Jnmv5XQJtn5JxGUuU+PO7EqrW6cYvg+ki8HXaMkjnIwMmhcdIvxzZBwxe30gnkz0X2qeExThnA7HlODGxlKXEW87PXKFpedxYUdEBN2poXu2S/uwQiJ+WandTLmMCBT2sFerU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P/UIet10; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bx+mZ8GL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1605BC4CED6;
-	Mon, 24 Feb 2025 14:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740406384;
-	bh=Et8fg0y3kdfto8fS3aVI6HZ7850HYN1zFXNYVQgyg88=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bx+mZ8GLycHcxXpDCwCVm6tsXvfkGsrEGpPFRN2tDZbtKyboYXdqQtaxB/nmVqwyk
-	 qUeptF7lubDpKHG05+a+ZITHFaGBSdsm6ZwQBcx5btgb38RI7Nrw0xGIw8RWS/qDRx
-	 prGl46+/bfV//9iidZRj8c7l6y4wQNNgPC3IdtBRO1XtQ7rwRx/l/o/1KAFbs9HGwq
-	 0nKroS4TASV0IyMIjCDKAGe4hbr+kB3Vs7htf8HRQJbZWSKBsp6XyNhKlKdg6xoqMm
-	 +3NsGQAmalTNd5FaMwrlX8hHS8y7qa6OhABGldgWnG/Vn+aKmy3R+r0P5RIph7M9kV
-	 +zWTk6Xv+SOIw==
-Date: Mon, 24 Feb 2025 14:13:00 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, tiwai@suse.de, vkoul@kernel.org,
-	vinod.koul@linaro.org, linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev, bard.liao@intel.com
-Subject: Re: [PATCH v2 16/16] ASoC: rt711-sdca: add DP0 support
-Message-ID: <d5b03e44-19f6-4bb4-b62d-f6cf5d01806e@sirena.org.uk>
-References: <20250224064451.33772-1-yung-chuan.liao@linux.intel.com>
- <20250224064451.33772-17-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P/UIet10"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740407378; x=1771943378;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dzZWpseyrev5OlunHDNaX/H3YV4k079RCauuuFOelKs=;
+  b=P/UIet10gFvil3cezh3xGVeq8gLVBYl69ieg/0vShY5c6L9gzZL1bQbP
+   /6eSe6kihsq9Q/pKC3eDTB9uAvLG8flbF/din4QKRlWPNsxoth72ycj/E
+   vtCAs7M0LAomPyJEgPeNnKVY1/Z42sHOo322C3ZnrwRbzs8alEHRGSKL5
+   EPzETr9WYWO1XcQlfHf3Pq8k7jhnSsRitIOdIXQmjhxl7hUSNRm8yLWHS
+   tUoS0cPEs1Lfu6uF+Ye0OdkhyRfvJBXgVhTwdUEigCtQ2a9RK0xLMOj5F
+   CYvVYkmqoGMHfeHnTdpJQ4CvkgJbbQQnD8s83HAD0VHvzy42ge6k4+kEX
+   g==;
+X-CSE-ConnectionGUID: Vi1ZG0tATFuM3h4I4baDuA==
+X-CSE-MsgGUID: wYKMN0rKTpmput2ibhHzWA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="41179717"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="41179717"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:29:37 -0800
+X-CSE-ConnectionGUID: 1OsmfyM1ToGAN7Rk7KutlA==
+X-CSE-MsgGUID: nrHSlI1ESqCvxmEiS39VoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116557596"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:29:34 -0800
+Date: Mon, 24 Feb 2025 16:29:30 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, deller@gmx.de,
+	andriy.shevchenko@linux.intel.com, sre@kernel.org,
+	sakari.ailus@linux.intel.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com,
+	linux-sound@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+	ntb@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 00/13] Convert to use devm_kmemdup_array()
+Message-ID: <Z7yCStqIMZfuWcAJ@black.fi.intel.com>
+References: <20250221165333.2780888-1-raag.jadav@intel.com>
+ <31f8302b-96be-41f1-9e58-c9f8cb2a9524@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NVtClzgfj5Nb+JZK"
-Content-Disposition: inline
-In-Reply-To: <20250224064451.33772-17-yung-chuan.liao@linux.intel.com>
-X-Cookie: Phone call for chucky-pooh.
-
-
---NVtClzgfj5Nb+JZK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <31f8302b-96be-41f1-9e58-c9f8cb2a9524@sirena.org.uk>
 
-On Mon, Feb 24, 2025 at 02:44:50PM +0800, Bard Liao wrote:
-> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
->=20
-> DP0 is required for BPT/BRA transport.
+On Mon, Feb 24, 2025 at 01:46:29PM +0000, Mark Brown wrote:
+> On Fri, Feb 21, 2025 at 10:23:20PM +0530, Raag Jadav wrote:
+> > This series is the second wave of patches to add users of newly introduced
+> > devm_kmemdup_array() helper. Original series on [1].
+> > 
+> > This depends on changes available on immutable tag[2]. Feel free to pick
+> > your subsystem patches with it, or share your preferred way to route them.
+> 
+> Please don't combine patches for multiple subsystems into a single patch
+> series, it just makes everything more complex to deal with - it creates
+> cross tree issues that wouldn't otherwise exist.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Sure, will split v2 per subsystem.
 
---NVtClzgfj5Nb+JZK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme8fmsACgkQJNaLcl1U
-h9BIkwf/bOOm22XBmdI5qmWSFTvpILaNUE37r4RmVFpJGSDGzZSnptMomWS2Wecz
-MqZGXcjlY+YjZKY094TXCGb/OA4vwXEQVEIcWwIhMOlxJalpBvSuksSwjkNCVnEI
-p9p2LnwZu1ZCM94gM8dk1gmh9cWmd3GMtdOML04LY1NV52G8S221DgrqdTTazfPh
-m5w8AUz4vtPg5VCd5o+18mCU2iUIG84/75kEPJTXxSm2T6BubNSLf6TV6lF9tTxO
-0AqPqNBE++qln1m+e4RzKfgNhXheA8+GAAxiRPnMe40oajCaCoqmUTXEg0e5/zyD
-TVqXn80uVc6YfqFoWsEtI35GcxFGxw==
-=IHu4
------END PGP SIGNATURE-----
-
---NVtClzgfj5Nb+JZK--
+Raag
