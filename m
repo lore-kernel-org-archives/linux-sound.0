@@ -1,117 +1,208 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9222192F9;
-	Mon, 24 Feb 2025 12:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2837221F1B;
+	Mon, 24 Feb 2025 12:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740399738; cv=none; b=b3Q9ZzNiOst/i/Vpt+eTTmhiLQMnl3n7JBmjsl7w5j6j+/Zd/bL6gJq6KiYYYQv2uudDZfRYQEQQdFCUIXl0Fm78s4fxTK7Fo6dWaefj63Q4uEgVoVuAXaIQfR/Ag1OJ51VAWkzd3XVqgHWLHkQAaz5l/10Tzj+34eOYubGdHQc=
+	t=1740400020; cv=none; b=olCf4ObUO9C8zcLYwM4/Frzn4uKuMQjaidRtzkTwKZwO0M4rgmCZczzKc425z0rF0ZFmMRdi9YvZY9bAmYklvNDHHhbR/J12Od2FzdfGeOjwqMa/1EiklI6/nDJWNsk8Yaw5e7R9G8xzorReW+2m2aw6cUsQ9MW2r1DQSbqgGi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740399738; c=relaxed/simple;
-	bh=HFUefC/P5P0u1guY5j9N980bP23neVViId3YrVW8xJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SMqFLvpPAX6/Sicm1H7MYwhSLelFXlvHPaLo9BExiY3/E4tgOU0opjv2Nnfuk1tPH5zzIssdMLOyzKDZF2uqmgTE43LfO8Wo88B015XWhWTwHjrA0enT85HKUuDGu8AthG3W25fZYqANWGogsC6Wb1P5qE5r1EkTRjIrgREujCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WgOB4+I0; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740400020; c=relaxed/simple;
+	bh=lMaZnIo/c51auDH+6WQwJ9/tpgxxJvj9CF15z4hlGWQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Uyfc4DT3dV9K2+QNZexpMGZ0XrBo2Lwkfw/dAIk6zSxpyXeYDC0fSP0zN0KUbfBlwSluD3b9WDrazHjuCkRZtvBUDO/r/LILU0LD0XoxXawVL0FfngeHrJsJbKFnOkRVKff6ihp3BLuti4iDrfWXporG+S0aiJ3XqwUCDfvYc4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RU33N3fL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WgOB4+I0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740399736; x=1771935736;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HFUefC/P5P0u1guY5j9N980bP23neVViId3YrVW8xJ4=;
-  b=WgOB4+I0DzWSlyqMzsmrTdq8bK6COP2BFnsR30cPKNz6l/3yIB4bCiaK
-   tcLmRrZ4xPvlmySdwxyXYaSf1vUJzM4zK8T8Mo0CrPkC+2UFJ8SWSwC9Q
-   B65A/sL1hBAwfkzLPJ3ogL886hTKCrfSdSFt2bZCTpq/OPvv2O1VXM4tL
-   UpGrAlZf7LLffpT58ZiPA+eOOdQF+ugppVdREpXdZQhlAjo+gN/cB2Sq0
-   Zea7KVYs/1+6LmZ549+r/lvD5t1ZELzfpIfhGAtHhexw6EQajYh9+tqHq
-   2m15rACDVR7YESYU+kZhZDxG2/Bq6taKJ1+SeVPLE1wvqnDffzBw98LaV
-   Q==;
-X-CSE-ConnectionGUID: I5OWSUiaQK+WCiEFKwui4A==
-X-CSE-MsgGUID: K3dDzPUQRY+gfIxaAP6rTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="52552225"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="52552225"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:22:15 -0800
-X-CSE-ConnectionGUID: ZrQLmEUcTo+rS7YahFOsHQ==
-X-CSE-MsgGUID: a+u+R8KQQWaj7Y8awt/CjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="116034465"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:22:10 -0800
-Date: Mon, 24 Feb 2025 14:22:07 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>, perex@perex.cz, tiwai@suse.com,
-	broonie@kernel.org, lgirdwood@gmail.com, deller@gmx.de,
-	sre@kernel.org, sakari.ailus@linux.intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com,
-	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-media@vger.kernel.org, ntb@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
-Message-ID: <Z7xkb9m_Qc54znOH@black.fi.intel.com>
-References: <20250221165333.2780888-8-raag.jadav@intel.com>
- <202502220449.DvJuMgsL-lkp@intel.com>
- <Z7xQ2y-7U5-OhzhB@smile.fi.intel.com>
- <Z7xW2AIz6vUo6mu-@black.fi.intel.com>
- <Z7xa0cGZvGxsGCrI@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RU33N3fL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30E6DC4AF09;
+	Mon, 24 Feb 2025 12:27:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740400020;
+	bh=lMaZnIo/c51auDH+6WQwJ9/tpgxxJvj9CF15z4hlGWQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=RU33N3fLUHbl4fLDk+4+4/KChfNrl/ODuy1CGNeQxxo8Ju3ZjG/upPsFp75dbUrma
+	 ONfNyRQJLq4ex8Jt9xfBuEcTi6tnarW0vBkLn6OI36iOwHLwtDZI6GLqawGYnU6Vyq
+	 EnTbnTfROMyE1TErimAq2KJgT8EGuN6BKZPJKbpDDCId4VAD568hqkT8Prn3Ia6X7m
+	 BC8GtkJx//yNrr20ou4x9jelVEDmu6WcRrMs3T1nnOIJnAdXNd+rV4eBkIqpvIHr5J
+	 MmgpZT9DpU4JcHSsxG5bcyM0O1vLpcgP9AY2o6XqPD5+/UH7eOAhWPfUi/c3qEm+7k
+	 UZeXwafboJPMA==
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aaeec07b705so695003466b.2;
+        Mon, 24 Feb 2025 04:27:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUeSbwjLOGg3Jze6kcGSr7rhXZBGgW86FWJXnP7OgPlKeX3/Q0SNPqDdj5A3eCL3q052X/L5vfhc3hyHc9F@vger.kernel.org, AJvYcCVt3E+/cJUHHEZ2HrLHPZy+24TezOE0G7A6tb9EkuSm0+XqSd33KZxol3U8LFDUPIonLiZ8L2+YJ3Ei@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQDTXWmd54PX4+cMLoKzSb9ACPbXh420gqSw8G7a7YvA/w7wxY
+	wqeoovcxazfJfAkRltiBaE3zmzToiEqZXIhcPpZFtigekRcio6Jp0Pqib/JpltCeRRn4HQzvFtE
+	YQ+KyisqsAu5hF8F6UjkE6ZlC+w==
+X-Google-Smtp-Source: AGHT+IE0bdnAF+czJ4RoK5ksBXS0GISmkLkK0AOBEJHD5YhJY25EFFnVa4LvHrvx4VDNZsHs7ulbsTvrislbrRlsIW4=
+X-Received: by 2002:a17:906:3199:b0:ab6:32d2:16d4 with SMTP id
+ a640c23a62f3a-abc0de519c6mr975592166b.56.1740400018723; Mon, 24 Feb 2025
+ 04:26:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7xa0cGZvGxsGCrI@smile.fi.intel.com>
+References: <20250224114648.1606184-1-vincenzo.frascino@arm.com> <20250224114648.1606184-2-vincenzo.frascino@arm.com>
+In-Reply-To: <20250224114648.1606184-2-vincenzo.frascino@arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 24 Feb 2025 06:26:45 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJTsk6uudqNJ7dpkH_GeKnAuqTWHSw=WmeN=-PBXDS1Pg@mail.gmail.com>
+X-Gm-Features: AWEUYZmi7hUhVER6mycTzw9mt2QdU5RhHSNKbnPAfDOl3xceqac7UV8a1ZEPzTQ
+Message-ID: <CAL_JsqJTsk6uudqNJ7dpkH_GeKnAuqTWHSw=WmeN=-PBXDS1Pg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] ASoC: dt-bindings: xlnx,i2s: Convert to json-schema
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: linux-sound@vger.kernel.org, 
+	Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 24, 2025 at 01:41:05PM +0200, Andy Shevchenko wrote:
-> On Mon, Feb 24, 2025 at 01:24:08PM +0200, Raag Jadav wrote:
-> > On Mon, Feb 24, 2025 at 12:58:35PM +0200, Andy Shevchenko wrote:
-> > > On Sat, Feb 22, 2025 at 05:41:24AM +0800, kernel test robot wrote:
-> > > > Hi Raag,
-> > > > 
-> > > > kernel test robot noticed the following build warnings:
-> > > > 
-> > > > [auto build test WARNING on b16e9f8547a328b19af59afc213ce323124d11e9]
-> > > > 
-> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/ASoC-Intel-avs-use-devm_kmemdup_array/20250222-010322
-> > > > base:   b16e9f8547a328b19af59afc213ce323124d11e9
-> > > > patch link:    https://lore.kernel.org/r/20250221165333.2780888-8-raag.jadav%40intel.com
-> > > > patch subject: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
-> > > > config: arm-randconfig-004-20250222 (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/config)
-> > > > compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/reproduce)
-> > > > 
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202502220449.DvJuMgsL-lkp@intel.com/
-> > > > 
-> > > > All warnings (new ones prefixed by >>):
-> > > > 
-> > > >    drivers/video/fbdev/pxafb.c: In function 'pxafb_probe':
-> > > > >> drivers/video/fbdev/pxafb.c:2236:13: warning: unused variable 'i' [-Wunused-variable]
-> > > >     2236 |         int i, irq, ret;
-> > > >          |             ^
-> > > 
-> > > Ragg, please, fix this, and issue a v2 with the link to fixed PR:
-> > > https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com.
-> > 
-> > Sure, but perhaps wait a few days for review comments.
-> 
-> Then perhaps answering to the cover letter that the maintainers who want to
-> apply should use the updated PR?
+On Mon, Feb 24, 2025 at 5:47=E2=80=AFAM Vincenzo Frascino
+<vincenzo.frascino@arm.com> wrote:
+>
+> Convert the Xilinx I2S device tree binding documentation to json-schema.
+>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> ---
+>  .../devicetree/bindings/sound/xlnx,i2s.txt    | 28 --------
+>  .../devicetree/bindings/sound/xlnx,i2s.yaml   | 68 +++++++++++++++++++
+>  2 files changed, 68 insertions(+), 28 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,i2s.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/xlnx,i2s.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/sound/xlnx,i2s.txt b/Docum=
+entation/devicetree/bindings/sound/xlnx,i2s.txt
+> deleted file mode 100644
+> index 5e7c7d5bb60a..000000000000
+> --- a/Documentation/devicetree/bindings/sound/xlnx,i2s.txt
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -Device-Tree bindings for Xilinx I2S PL block
+> -
+> -The IP supports I2S based playback/capture audio
+> -
+> -Required property:
+> - - compatible: "xlnx,i2s-transmitter-1.0" for playback and
+> -              "xlnx,i2s-receiver-1.0" for capture
+> -
+> -Required property common to both I2S playback and capture:
+> - - reg: Base address and size of the IP core instance.
+> - - xlnx,dwidth: sample data width. Can be any of 16, 24.
+> - - xlnx,num-channels: Number of I2S streams. Can be any of 1, 2, 3, 4.
+> -                     supported channels =3D 2 * xlnx,num-channels
+> -
+> -Example:
+> -
+> -       i2s_receiver@a0080000 {
+> -               compatible =3D "xlnx,i2s-receiver-1.0";
+> -               reg =3D <0x0 0xa0080000 0x0 0x10000>;
+> -               xlnx,dwidth =3D <0x18>;
+> -               xlnx,num-channels =3D <1>;
+> -       };
+> -       i2s_transmitter@a0090000 {
+> -               compatible =3D "xlnx,i2s-transmitter-1.0";
+> -               reg =3D <0x0 0xa0090000 0x0 0x10000>;
+> -               xlnx,dwidth =3D <0x18>;
+> -               xlnx,num-channels =3D <1>;
+> -       };
+> diff --git a/Documentation/devicetree/bindings/sound/xlnx,i2s.yaml b/Docu=
+mentation/devicetree/bindings/sound/xlnx,i2s.yaml
+> new file mode 100644
+> index 000000000000..5d7f0c651944
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/xlnx,i2s.yaml
+> @@ -0,0 +1,68 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/xlnx,i2s.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Xilinx I2S PL block
+> +
+> +description: |
 
-Okay, but I'm not sure how this plays out for those who already pulled
-the old PR, i.e. Sebastian.
+Don't need '|' if no formatting to preserve.
 
-Anything to worry about here?
+> +  The IP supports I2S based playback/capture audio.
+> +
+> +maintainers:
+> +  - Vincenzo Frascino <vincenzo.frascino@arm.com>
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - xlnx,i2s-receiver-1.0
+> +      - xlnx,i2s-transmitter-1.0
+> +
+> +  reg:
+> +    minItems: 1
+> +    maxItems: 4
 
-Raag
+If there is more than 1 entry, then you need to describe what each one
+is. Looks like 1 entry per channel? But I can only guess.
+
+> +    description: |
+> +      Base address and size of the IP core instance.
+
+That's every 'reg' property if there's only 1 entry. Description
+should be specific to this binding or dropped.
+
+> +
+> +  xlnx,dwidth:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum:
+> +      - 16
+> +      - 24
+> +    description: |
+> +      Sample data width. Can be any of 16, 24.
+
+Don't repeat constraints in prose.
+
+> +
+> +  xlnx,num-channels:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 1
+> +    maximum: 4
+> +    description: |
+> +      Number of I2S streams.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - xlnx,dwidth
+> +  - xlnx,num-channels
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  - |
+> +    i2s_receiver@a0080000 {
+
+i2s@...
+
+> +      compatible =3D "xlnx,i2s-receiver-1.0";
+> +      reg =3D <0x0 0xa0080000 0x0 0x10000>;
+> +      xlnx,dwidth =3D <0x18>;
+> +      xlnx,num-channels =3D <1>;
+> +    };
+> +    i2s_transmitter@a0090000 {
+
+i2s@...
+
+> +      compatible =3D "xlnx,i2s-transmitter-1.0";
+> +      reg =3D <0x0 0xa0090000 0x0 0x10000>;
+> +      xlnx,dwidth =3D <0x18>;
+> +      xlnx,num-channels =3D <1>;
+> +    };
+> +
+> +...
+> --
+> 2.43.0
+>
