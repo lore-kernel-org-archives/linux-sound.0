@@ -1,110 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2C5257AEA;
-	Mon, 24 Feb 2025 10:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C76324BC05;
+	Mon, 24 Feb 2025 11:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740394726; cv=none; b=BFSzKSlefWBI2Nw4hHWVm7wfIJEi5rwizWNpd+j3AMfoyKGcfQcouOWk8TNJ36u5d8RKvofM2+HQy5sfh0Qeqd8mkk1kWyxhHbmacf9GMXyt+MwHS8cCR/ERL1bimlOk1MdYaCKjAnfVRixhhxuIgbtDIKJceTTmQOVb6OgbOfA=
+	t=1740395811; cv=none; b=AiyRRXebMFotywHzgNl4ffhqFlYVZxuhfenJQxj7q6B5PKB0GAdvdHglJOrIwmGL1XdEJFdlSRtmGcwHwQZ5NNjVOYRcroIT186QrxUDw57S96b54Jj3l1Ku+fc9kqhynnh4w/l/il9PC6bp981RYml889tt681AFxacwwcCZfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740394726; c=relaxed/simple;
-	bh=Gd0nmKi+y7imohMgl2KoUoI5yg1NN3mViH62L60pt44=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vGM4ZVKn7vLjPJcyDkRZ+uDrLgs882rHcAgh6zQHQ2NaRbnSS4OhvsL0AFr72J8mgUy0L4qninA3FCRu5BL8yzrwMDjMyQ4eylfE+tITN2hInhpnnF7n+vkBtZKdHI9lAqW+sP4TUW6h049Odfg+kYlGkO39Tm0BlIlji0fIdJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dh5xXM6n; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740395811; c=relaxed/simple;
+	bh=ORWuvybuN31lbTRPvYVJ6fBUcYskFjGCVci229SNWGw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=T2tI5PgrqCLlVxe+MyFTND1LQVpfFU2ADJnvJkk4aNuCJ3V2SifMrSdF2CkLtsWPaJG3GRU+1WCitp2TqsmjtpZ4wadx+FN8QyY6AryDlbNi7OtkkuppZ/EizCujw7OBQi56+Ej7GQR9tGtG6P8vXzVpcCSpNIrUiSVDvLKX6T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mu3fh5lJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dh5xXM6n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740394726; x=1771930726;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Gd0nmKi+y7imohMgl2KoUoI5yg1NN3mViH62L60pt44=;
-  b=dh5xXM6nT8qfUAcVhq+sXroqyLs4Uh+4YNGMuILvQtqzgtmtId9jaHOk
-   U+xcTKYlkw0wKSSGfE8yaD6RTf1WhOcmRagaYGzB70iYicOUhZXlhD8kZ
-   GO9cMXuFSG0IiKVijeTceQ9E/HPQ6EXMkbRfGEvSTVLEdNBZfwax5Th3C
-   rbzc2JOrxDT13m706VOunieALojpY/S5PK0rW27XBdtNmwx39LgqkY7ZX
-   21fmbGRzrWcclnnXFp39UWBhiRlnVDHDJKyvac7Ikq/jtmtdRoHsD18uC
-   Fa2OHgrPLxfkcE6xnhevszMh7S+JUd474VOtvmoNZ1nu1yjELoOp0ISol
-   A==;
-X-CSE-ConnectionGUID: ypU1WSYVR/+QOJb8bQpuuw==
-X-CSE-MsgGUID: oFgfev9sSJWieOz8jBTJlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="44920721"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="44920721"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:58:45 -0800
-X-CSE-ConnectionGUID: JliRsdN2RBCJOvuRyeIrFQ==
-X-CSE-MsgGUID: qp5avr51TuSIlXj+pLby/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116932538"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:58:39 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tmWAW-0000000EfnM-0PEP;
-	Mon, 24 Feb 2025 12:58:36 +0200
-Date: Mon, 24 Feb 2025 12:58:35 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Raag Jadav <raag.jadav@intel.com>, perex@perex.cz, tiwai@suse.com,
-	broonie@kernel.org, lgirdwood@gmail.com, deller@gmx.de,
-	sre@kernel.org, sakari.ailus@linux.intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com,
-	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-media@vger.kernel.org, ntb@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
-Message-ID: <Z7xQ2y-7U5-OhzhB@smile.fi.intel.com>
-References: <20250221165333.2780888-8-raag.jadav@intel.com>
- <202502220449.DvJuMgsL-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mu3fh5lJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5472C4AF0B;
+	Mon, 24 Feb 2025 11:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740395810;
+	bh=ORWuvybuN31lbTRPvYVJ6fBUcYskFjGCVci229SNWGw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mu3fh5lJvsIBSPVwsjOu85mz8g4jr/XrT7Of9n94B2j8014goyiTRFhHjtY5AsbDW
+	 v9hL90CrhJNR4NgYrA1eIBV8JgOnL3eEz05xveEjvPPI17MN3Y2ecN3LvQNPSO6VRm
+	 NqRObEOE5NbZ29T6IdhTxzGmC+x302suLKiaNcu4aJPn2l7hC9y7X4yoZ6JEtdWy8v
+	 TVgqQQzg1nETM4FHdbF0fG/hq1hSn/CSmnvFtTKWZ7y2cUMDYCeSUKa14R1Yl444c1
+	 z7NFxYDNJu5XTlne+q4fYE1yfRTLCHttPTrzXs03SinxreZKxcdxqDiP/DTmWtE+BD
+	 y+0Go5KbsIdfg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <liam.r.girdwood@intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	pierre-louis.bossart@linux.dev,
+	ckeepax@opensource.cirrus.com,
+	Vijendar.Mukunda@amd.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.13 04/32] ASoC: Intel: sof_sdw: Add lookup of quirk using PCI subsystem ID
+Date: Mon, 24 Feb 2025 06:16:10 -0500
+Message-Id: <20250224111638.2212832-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250224111638.2212832-1-sashal@kernel.org>
+References: <20250224111638.2212832-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202502220449.DvJuMgsL-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.13.4
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 22, 2025 at 05:41:24AM +0800, kernel test robot wrote:
-> Hi Raag,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on b16e9f8547a328b19af59afc213ce323124d11e9]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/ASoC-Intel-avs-use-devm_kmemdup_array/20250222-010322
-> base:   b16e9f8547a328b19af59afc213ce323124d11e9
-> patch link:    https://lore.kernel.org/r/20250221165333.2780888-8-raag.jadav%40intel.com
-> patch subject: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
-> config: arm-randconfig-004-20250222 (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502220449.DvJuMgsL-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/video/fbdev/pxafb.c: In function 'pxafb_probe':
-> >> drivers/video/fbdev/pxafb.c:2236:13: warning: unused variable 'i' [-Wunused-variable]
->     2236 |         int i, irq, ret;
->          |             ^
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-Ragg, please, fix this, and issue a v2 with the link to fixed PR:
-https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com.
+[ Upstream commit fc016ef7da64fd473d73ee6c261ba1b0b47afe2b ]
 
+Add lookup of PCI subsystem vendor:device ID to find a quirk.
+
+The subsystem ID (SSID) is part of the PCI specification to uniquely
+identify a particular system-specific implementation of a hardware
+device.
+
+Unlike DMI information, it identifies the sound hardware itself, rather
+than a specific model of PC. SSID can be more reliable and stable than
+DMI strings, and is preferred by some vendors as the way to identify
+the actual sound hardware.
+
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Link: https://patch.msgid.link/20250204053943.93596-2-yung-chuan.liao@linux.intel.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/intel/boards/sof_sdw.c | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
+
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 65e55c46fb064..62e71f56269d8 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -13,6 +13,7 @@
+ #include <linux/soundwire/sdw.h>
+ #include <linux/soundwire/sdw_type.h>
+ #include <linux/soundwire/sdw_intel.h>
++#include <sound/core.h>
+ #include <sound/soc-acpi.h>
+ #include "sof_sdw_common.h"
+ #include "../../codecs/rt711.h"
+@@ -749,6 +750,22 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 	{}
+ };
+ 
++static const struct snd_pci_quirk sof_sdw_ssid_quirk_table[] = {
++	{}
++};
++
++static void sof_sdw_check_ssid_quirk(const struct snd_soc_acpi_mach *mach)
++{
++	const struct snd_pci_quirk *quirk_entry;
++
++	quirk_entry = snd_pci_quirk_lookup_id(mach->mach_params.subsystem_vendor,
++					      mach->mach_params.subsystem_device,
++					      sof_sdw_ssid_quirk_table);
++
++	if (quirk_entry)
++		sof_sdw_quirk = quirk_entry->value;
++}
++
+ static struct snd_soc_dai_link_component platform_component[] = {
+ 	{
+ 		/* name might be overridden during probe */
+@@ -1276,6 +1293,13 @@ static int mc_probe(struct platform_device *pdev)
+ 
+ 	snd_soc_card_set_drvdata(card, ctx);
+ 
++	if (mach->mach_params.subsystem_id_set) {
++		snd_soc_card_set_pci_ssid(card,
++					  mach->mach_params.subsystem_vendor,
++					  mach->mach_params.subsystem_device);
++		sof_sdw_check_ssid_quirk(mach);
++	}
++
+ 	dmi_check_system(sof_sdw_quirk_table);
+ 
+ 	if (quirk_override != -1) {
+@@ -1291,12 +1315,6 @@ static int mc_probe(struct platform_device *pdev)
+ 	for (i = 0; i < ctx->codec_info_list_count; i++)
+ 		codec_info_list[i].amp_num = 0;
+ 
+-	if (mach->mach_params.subsystem_id_set) {
+-		snd_soc_card_set_pci_ssid(card,
+-					  mach->mach_params.subsystem_vendor,
+-					  mach->mach_params.subsystem_device);
+-	}
+-
+ 	ret = sof_card_dai_links_create(card);
+ 	if (ret < 0)
+ 		return ret;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.5
 
