@@ -1,216 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7DA1C8621;
-	Mon, 24 Feb 2025 21:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5371FCD07
+	for <linux-sound@vger.kernel.org>; Mon, 24 Feb 2025 22:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740432811; cv=none; b=brZqsQO0YC7F/LxtjZEo7b5b9psxDc/OmzjrmnarpVdKoV1Ecq2GpWfIo1cO+tJigQBu2HM0gaYf82pILneCy/p51eAFwJthFAvmioVTO8qcPce1jt1H5CgmonGjjfeC/Fa7IAY9XyO4dTiCa7EwjukW2FoDimlhvN+YaM+W3Y0=
+	t=1740435469; cv=none; b=SzIxUFWWUekuu2OxaoUTDFComOIuSpcbdQeiy0wp6yrBwDHZvL9PXeOqd9042jpJh64AfxZeq68eGr+I2wbta62joUm0yRLEbkb4ciVITF0SqE9rqRi/bal4i94sHRqz5uUO3ZrhbiTfqKZ0Gydan24JXViaIxHZcnly/DCLrnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740432811; c=relaxed/simple;
-	bh=9HjqOTzB0ZWkUjJj4bfaVy2BMPhz6StSpstkHw9pnOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GOMpTvhdjsDV9jPI5qBO/ie3OcDoxMUcEIamAc+bSDvWfGUh7R8eIblAq+EsnLq44D2KCP7WbkFsTRaXzKIrdDcJGRiAdAjGwKJYw+oq9M7XAMNcgJjwclBRtyJekG60+klvD0imzwDwlaV4RdW9W8+jSHoq27U+5bG/DEqJS/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uqj/vsks; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740435469; c=relaxed/simple;
+	bh=j9ul9lajmssaQGsq2f0RPtIkSoaHICdgb6sZ0MzTFZI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dExLq/KXpsVWoZY7LwGyiSkGzVnLG7NCKaxGdT/4nRrhsCPxvC43RdKmtRxenOvAdute9lp/eoUt/5dlevzKloH6FmIpQoZS5iwbNwFtT2wx328ZpmAvmODCM1P4OPwFP4DOh/QgG8k1+/AvPPPdl7MCvUn3z/INq3yWRS2DtDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jPh52aGb; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uqj/vsks"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3948DC4CED6;
-	Mon, 24 Feb 2025 21:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740432810;
-	bh=9HjqOTzB0ZWkUjJj4bfaVy2BMPhz6StSpstkHw9pnOE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uqj/vsksO6F0MSH5GCmObkOaFAgMuMpG0CJzdilCS7OqQ0aMwPONo1h/VdTGr4noZ
-	 BfpV2XTAmHDlZrQD5fCT3CAYYEO2iAvWixYIMBd69m/lYVaz8pDvuqFqSwhbLeTcPT
-	 zJFaGS0qvnmPrD2E8nt/YZgpzA09+HFajAIt6EKNsEQXbis+y/M50RNd/zryEhCcRV
-	 TD2On5Irsd/UDDTS6wHx9jU7LHys3S5BcEr2OrrfmUMN9lpF79Yxwplu3d7Mnd6js2
-	 A29SqD9ZSQ77j0CXZIvvwBufM/ySZGvzIeLfE5Dqu73YYGGYVmwLLZNU5+2vl0L5v5
-	 w0IYEK/w2zgyA==
-Date: Mon, 24 Feb 2025 15:33:28 -0600
-From: Rob Herring <robh@kernel.org>
-To: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: linux-sound@vger.kernel.org,
-	Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jPh52aGb"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1740435455;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dwgY2gg0fChR9PNYJGZKx8vqnKeNt/Cl9yuFpNMFMTQ=;
+	b=jPh52aGbtItWazshP7zdpw3qDR5bkqzjfncQ/BYRKizUSg5as3bcDNA/K/truiH4Y+MzQ0
+	fYBcpOn4VLSDOVQevunASLIKWA6H4NOu7oxgilCvCw67DTn5CoFbk5js9DNLQIQTJe/S1I
+	liyvH0h0VPyEZKdNu9D1v0nZUzhLHKA=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] ASoC: dt-bindings: xlnx,spdif: Convert to
- json-schema
-Message-ID: <20250224213328.GB4107125-robh@kernel.org>
-References: <20250224182548.2715896-1-vincenzo.frascino@arm.com>
- <20250224182548.2715896-4-vincenzo.frascino@arm.com>
+Subject: [PATCH] ASoC: amd: acp: acp70: Remove unnecessary if-check
+Date: Mon, 24 Feb 2025 23:12:12 +0100
+Message-ID: <20250224221214.199849-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250224182548.2715896-4-vincenzo.frascino@arm.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Feb 24, 2025 at 06:25:47PM +0000, Vincenzo Frascino wrote:
-> Convert the Xilinx SPDIF 2.0 device tree binding documentation to
-> json-schema.
-> 
-> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> ---
->  .../devicetree/bindings/sound/xlnx,spdif.txt  | 28 ------
->  .../devicetree/bindings/sound/xlnx,spdif.yaml | 85 +++++++++++++++++++
->  2 files changed, 85 insertions(+), 28 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/xlnx,spdif.txt b/Documentation/devicetree/bindings/sound/xlnx,spdif.txt
-> deleted file mode 100644
-> index 15c2d64d247c..000000000000
-> --- a/Documentation/devicetree/bindings/sound/xlnx,spdif.txt
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -Device-Tree bindings for Xilinx SPDIF IP
-> -
-> -The IP supports playback and capture of SPDIF audio
-> -
-> -Required properties:
-> - - compatible: "xlnx,spdif-2.0"
-> - - clock-names: List of input clocks.
-> -   Required elements: "s_axi_aclk", "aud_clk_i"
-> - - clocks: Input clock specifier. Refer to common clock bindings.
-> - - reg: Base address and address length of the IP core instance.
-> - - interrupts-parent: Phandle for interrupt controller.
-> - - interrupts: List of Interrupt numbers.
-> - - xlnx,spdif-mode: 0 :- receiver mode
-> -		    1 :- transmitter mode
-> - - xlnx,aud_clk_i: input audio clock value.
-> -
-> -Example:
-> -	spdif_0: spdif@80010000 {
-> -		clock-names = "aud_clk_i", "s_axi_aclk";
-> -		clocks = <&misc_clk_0>, <&clk 71>;
-> -		compatible = "xlnx,spdif-2.0";
-> -		interrupt-names = "spdif_interrupt";
-> -		interrupt-parent = <&gic>;
-> -		interrupts = <0 91 4>;
-> -		reg = <0x0 0x80010000 0x0 0x10000>;
-> -		xlnx,spdif-mode = <1>;
-> -		xlnx,aud_clk_i = <49152913>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/sound/xlnx,spdif.yaml b/Documentation/devicetree/bindings/sound/xlnx,spdif.yaml
-> new file mode 100644
-> index 000000000000..ad0b40a12c2b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/xlnx,spdif.yaml
-> @@ -0,0 +1,85 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/xlnx,spdif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Xilinx SPDIF IP
-> +
-> +description:
-> +  The IP supports playback and capture of SPDIF audio.
-> +
-> +maintainers:
-> +  - Vincenzo Frascino <vincenzo.frascino@arm.com>
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - xlnx,spdif-2.0
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: spdif_interrupt
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description: |
-> +      List of Interrupt numbers.
+Since list_for_each_entry() expects the list to not be empty, the
+iterator variable cannot be NULL and the unnecessary if-check can be
+removed. Remove it and indent the code accordingly.
 
-Drop description.
+Compile-tested only.
 
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aud_clk_i
-> +      - const: s_axi_aclk
-> +    description: |
-> +      List of input clocks.
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/soc/amd/acp/acp70.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-Drop
+diff --git a/sound/soc/amd/acp/acp70.c b/sound/soc/amd/acp/acp70.c
+index ef3f6504bc7f..7f4ec3bfaeab 100644
+--- a/sound/soc/amd/acp/acp70.c
++++ b/sound/soc/amd/acp/acp70.c
+@@ -230,18 +230,16 @@ static int __maybe_unused acp70_pcm_resume(struct device *dev)
+ 
+ 	spin_lock(&adata->acp_lock);
+ 	list_for_each_entry(stream, &adata->stream_list, list) {
+-		if (stream) {
+-			substream = stream->substream;
+-			if (substream && substream->runtime) {
+-				buf_in_frames = (substream->runtime->buffer_size);
+-				buf_size = frames_to_bytes(substream->runtime, buf_in_frames);
+-				config_pte_for_stream(adata, stream);
+-				config_acp_dma(adata, stream, buf_size);
+-				if (stream->dai_id)
+-					restore_acp_i2s_params(substream, adata, stream);
+-				else
+-					restore_acp_pdm_params(substream, adata);
+-			}
++		substream = stream->substream;
++		if (substream && substream->runtime) {
++			buf_in_frames = (substream->runtime->buffer_size);
++			buf_size = frames_to_bytes(substream->runtime, buf_in_frames);
++			config_pte_for_stream(adata, stream);
++			config_acp_dma(adata, stream, buf_size);
++			if (stream->dai_id)
++				restore_acp_i2s_params(substream, adata, stream);
++			else
++				restore_acp_pdm_params(substream, adata);
+ 		}
+ 	}
+ 	spin_unlock(&adata->acp_lock);
+-- 
+2.48.1
 
-> +
-> +  clocks:
-> +    maxItems: 2
-> +    description: |
-> +      Input clock specifier. Refer to common clock bindings.
-
-Drop
-
-> +
-> +  xlnx,spdif-mode:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 0
-> +      - 1
-> +    description: |
-> +      0 - receiver
-> +      1 - transmitter
-> +
-> +  xlnx,aud_clk_i:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-
-Drop '|'
-
-> +      Input audio clock value.
-
-Is value the frequency? If you know more detail, please add it.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupt-names
-> +  - interrupts
-> +  - clock-names
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    spdif_0: spdif@80010000 {
-
-Drop unused labels.
-
-> +      clock-names = "aud_clk_i", "s_axi_aclk";
-> +      clocks = <&misc_clk_0>, <&clk 71>;
-> +      compatible = "xlnx,spdif-2.0";
-
-'compatible' goes first. Then reg. See 
-Documentation/devicetree/bindings/dts-coding-style.rst for more details.
-
-> +      interrupt-names = "spdif_interrupt";
-> +      interrupt-parent = <&gic>;
-> +      interrupts = <0 91 4>;
-> +      reg = <0x80010000 0x10000>;
-> +      xlnx,spdif-mode = <1>;
-> +      xlnx,aud_clk_i = <49152913>;
-> +    };
-> +
-> +...
-> -- 
-> 2.43.0
-> 
