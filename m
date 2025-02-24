@@ -1,104 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9EA24BC0B;
-	Mon, 24 Feb 2025 06:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD80C4414;
+	Mon, 24 Feb 2025 07:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740379547; cv=none; b=rLvKJ8lWQeCev3fLLsLPaNwMSjEn+oTS+5mavell9DctBpaJnZ1EUTYMej1mGNbK94sjc/K18kASRA7IWMWMAXRvs/5oL6wAx7IBYpzzWTPAT2PkQVR0T8uWpJHVMjJ9/SjO0VYIzUqiAxalV7iD80jIyE3FOOPQQvPP0qvxA6A=
+	t=1740382029; cv=none; b=MFKlwJbRF3b17stmjRN7/QBnYHL1P6syb+bT/+kr10Mpvsimff4eu9usbI3bU6HykKdQvchxgujk4vPYzhMhA8FF+X8kFH5HsGLQXpKst2SIpQBHgzw/pjpV96yqye8l8svNyJPrnLsFs7AMeOZQAf492hz3DFeWbQdJ+gzWy0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740379547; c=relaxed/simple;
-	bh=goZDLHvWODKwCst2CM1CW/pL0JVHaP6YCWm3xiQc4VU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s7We/Jq+AV1IQvyB8v5s2U9Yff7EXEoOm7PmV9ILaRKX/JpNMIEajf+ytgY3oWVi7cgZJvE/GA73v5qHOliKAoIGqu7/EvF7FxIXlrbsf8Gx2Xp14W8NFy6v7HPYqHax+VfcYDgY21MQ+bmCUf95a7z7d/BAFXLGeUsB6Yvz7Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A0EMSkvV; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740382029; c=relaxed/simple;
+	bh=fj9ATARjbXR29ISCacUsG5uVWZEBOqKd2CTMA8IFPLM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jwFB5gaB17LM5fzfLAsjQt2lrSQgTHHBb1Id+dnCjKpORmWnxRHvIIJVSBeUC95bcyolINQIzxkE5YYSvfqnht9lkEqHy8w7lUCwMu6OZT9X6VBdCnto6m5BF0Xr1mmvmQo0SVwQPOwprmdGS1zbBzGDP8aqMH1gjLAHKMLi4c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=kT03KoYd; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A0EMSkvV"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="kT03KoYd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740379546; x=1771915546;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1740382028; x=1771918028;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=goZDLHvWODKwCst2CM1CW/pL0JVHaP6YCWm3xiQc4VU=;
-  b=A0EMSkvVDB9dg3kfA4Tvlr9qqrp0gIHG21XUA8Q/oszNKzdKqy7c2a2M
-   W9VoEeLhbWka5SE3hQKrNezpK3rmwnY7ig2JEZL2LNQjaYbCX0Kp33qiC
-   1fswbufPG+2WlDN5JjTx0StRlNTHpKSgXMl2SCTcpNU8Kue+FeuNHA0Qw
-   QEiyeQB0pdR5UwndDJM0CgLARAHtFNqxNeXwQv7S10/s5ALj+zSjcqoF1
-   mQ1qrq/Fo8qk7uoOA+1vrC4CD4+Ab8PpgPtxjDjPMoAqeRomTEVjOgQx1
-   SjvoOwE4WLvwBNd0/zJtxpF7U9+RVLc5MnSmd6yOFrqq6VhO2DgXZ1w+9
-   Q==;
-X-CSE-ConnectionGUID: 3XR6j0jpSH2URwUDkEN+hw==
-X-CSE-MsgGUID: v6oXg7NfQdCIaKx1A+YhLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="58539005"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="58539005"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 22:45:44 -0800
-X-CSE-ConnectionGUID: Hltnk+N9TcKZ3XpdyEqzcA==
-X-CSE-MsgGUID: rv1wvSlSQ3WfHosguoOkIQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="120597762"
-Received: from ssimmeri-mobl2.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.222.232])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 22:45:42 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	broonie@kernel.org,
-	tiwai@suse.de,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH v2 16/16] ASoC: rt711-sdca: add DP0 support
-Date: Mon, 24 Feb 2025 14:44:50 +0800
-Message-ID: <20250224064451.33772-17-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250224064451.33772-1-yung-chuan.liao@linux.intel.com>
-References: <20250224064451.33772-1-yung-chuan.liao@linux.intel.com>
+  bh=fj9ATARjbXR29ISCacUsG5uVWZEBOqKd2CTMA8IFPLM=;
+  b=kT03KoYdsFKAEPq0DQLXgh1wI8h0Nq4cJ4ttHeqK0lTrGXbSzt0li2z7
+   K2ylPZ/I4jvU5w9wV1g6mvGFbgx4UCHwBPawi5Rphw0HOxdKwVG7/vEp8
+   cJh888/G9HQHNKGltgIMZLMMJlJp9u/4J0pSja1PsQC6bqvexNLTV8KY0
+   b3sX+O0kkXVEpw1aLDNMXqw5Vv7cVdIFAky0sJbdyFzZKsDGb8Oy2DzBm
+   vFp8jfs4FJcqOMoBQhGvIoX+2/wyiabtXFU5KirgJ7f4JnLwEA/masOVz
+   FAsRnpiEg3KaSp7LIjn9xwVJK95OSNWLkGLAaNVbAhvIezRYtz4QqFFSK
+   w==;
+X-CSE-ConnectionGUID: m2OKtz9RQ8GGzkYxdWztiQ==
+X-CSE-MsgGUID: 4T49poF1RKCLNxbUY6QxcQ==
+X-IronPort-AV: E=Sophos;i="6.13,309,1732604400"; 
+   d="scan'208";a="38035487"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Feb 2025 00:27:07 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 24 Feb 2025 00:26:52 -0700
+Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Mon, 24 Feb 2025 00:26:50 -0700
+From: Andrei Simion <andrei.simion@microchip.com>
+To: <thorsten.blum@linux.dev>
+CC: <alexandre.belloni@bootlin.com>, <andrei.simion@microchip.com>,
+	<broonie@kernel.org>, <claudiu.beznea@tuxon.dev>, <lgirdwood@gmail.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <nicolas.ferre@microchip.com>,
+	<perex@perex.cz>, <tiwai@suse.com>
+Subject: Re: [PATCH] ASoC: atmel: atmel-classd: Use str_enabled_disabled() helper
+Date: Mon, 24 Feb 2025 09:26:15 +0200
+Message-ID: <20250224072614.6811-1-andrei.simion@microchip.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250222225925.539840-2-thorsten.blum@linux.dev>
+References: <20250222225925.539840-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Hi,
 
-DP0 is required for BPT/BRA transport.
+On 23.02.2025 00:59, Thorsten Blum wrote:
+> Remove hard-coded strings by using the str_enabled_disabled() helper
+> function.
+>
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/codecs/rt711-sdca-sdw.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Reviewed-by: Andrei Simion <andrei.simion@microchip.com>
 
-diff --git a/sound/soc/codecs/rt711-sdca-sdw.c b/sound/soc/codecs/rt711-sdca-sdw.c
-index f5933d2e085e..e87e2e1bfff7 100644
---- a/sound/soc/codecs/rt711-sdca-sdw.c
-+++ b/sound/soc/codecs/rt711-sdca-sdw.c
-@@ -225,6 +225,14 @@ static int rt711_sdca_read_prop(struct sdw_slave *slave)
- 		j++;
- 	}
- 
-+	prop->dp0_prop = devm_kzalloc(&slave->dev, sizeof(*prop->dp0_prop),
-+				      GFP_KERNEL);
-+	if (!prop->dp0_prop)
-+		return -ENOMEM;
-+
-+	prop->dp0_prop->simple_ch_prep_sm = true;
-+	prop->dp0_prop->ch_prep_timeout = 10;
-+
- 	/* set the timeout values */
- 	prop->clk_stop_timeout = 700;
- 
--- 
-2.43.0
+> ---
+>  sound/soc/atmel/atmel-classd.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/sound/soc/atmel/atmel-classd.c b/sound/soc/atmel/atmel-classd.c
+> index ba314b279919..1f8c60d2de82 100644
+> --- a/sound/soc/atmel/atmel-classd.c
+> +++ b/sound/soc/atmel/atmel-classd.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/regmap.h>
+> +#include <linux/string_choices.h>
+>  #include <sound/core.h>
+>  #include <sound/dmaengine_pcm.h>
+>  #include <sound/pcm_params.h>
+> @@ -275,7 +276,7 @@ static int atmel_classd_component_probe(struct snd_soc_component *component)
+>  	dev_info(component->dev,
+>  		"PWM modulation type is %s, non-overlapping is %s\n",
+>  		pwm_type[pdata->pwm_type],
+> -		pdata->non_overlap_enable?"enabled":"disabled");
+> +		str_enabled_disabled(pdata->non_overlap_enable));
+>
+>  	return 0;
+>  }
 
+Best Regards,
+Andrei Simion
