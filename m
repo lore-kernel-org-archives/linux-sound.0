@@ -1,56 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CC919B5A3;
-	Mon, 24 Feb 2025 12:31:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56A818B46C;
+	Mon, 24 Feb 2025 12:32:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740400275; cv=none; b=q2EqTGABboJGHKGSP8uJgz8Spu5hP2Oh/Rl09+i7EnLrHD75YmodQo+3+Al+2VDnIDHZ+Y21brdAGf6mZlqrlEbiCw0Z6MJAhrEiX/DcnKaAd9hTr6TgUP0rRXcMv//zJtjg38d2cj1g9wi/biGXrv1l4wuLRMkIcIMubE4375I=
+	t=1740400374; cv=none; b=ZxpFPfpIcFC2g9M6N7lvKsRQo4IKUBqdeqXSeLlAKIWnI4W9efpmDmTEwwyWChaQ7e2z6iGP5GND8DwFZ6qUzr6G2P+8BJwH1VtLNf+sCc6JMDo+b3pQyZC3gRvwHAyJOqW2K7O9lccbJLfN3UfupzpDfjDCKSTI65tZdvJAFgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740400275; c=relaxed/simple;
-	bh=gc1D//Ffey8erAww4BtrYA/C5TzLux2XzdYyCROK0w8=;
+	s=arc-20240116; t=1740400374; c=relaxed/simple;
+	bh=UQ+8Z+wAgnnwuuJhQbev2mb59lIpjo0E70e/qGy4/4Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LzANUy6i5YYIG+IFLTvme9S4SY6qgPW+Viq2CE5VWkK8N2kAF0xuVyol9zALe2AeCvYjo27dhmWHLUxHJu2e74Z/xof1CXnAB0xxv/V337VGhhkQc7LyOqMG/J+SXbxNotMp/Sx04+rRtYTDgMVIlUjBaDgqsvgBNJPi+A5zexQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NukBH3qI; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=XL0beXms9LV5HGxC3zl5sa3isuvEQhJ0t0lfvgRnhTZv0IZRIodyPZiWWU4sOFJCm4k8neAVGivKhkFoECGHLwFOTuTkM0J/tlmdm7v7/DsOYxKLJF0d5KzfCEXWUfTJVDnK3lHPvaL9ZdXrroBc52+6cnc1nKQIPphFJB3bs4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ib0qfIDe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NukBH3qI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13225C4CEE8;
-	Mon, 24 Feb 2025 12:31:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ib0qfIDe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 464ECC4CEE6;
+	Mon, 24 Feb 2025 12:32:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740400275;
-	bh=gc1D//Ffey8erAww4BtrYA/C5TzLux2XzdYyCROK0w8=;
+	s=k20201202; t=1740400374;
+	bh=UQ+8Z+wAgnnwuuJhQbev2mb59lIpjo0E70e/qGy4/4Y=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=NukBH3qIVuiuCGmBh6hzBM9KH8XfZoGm6ggcvta1b0j3EqI8yvPp1hK8BXG1rzhvt
-	 wqU9Ywx17tLnCYsKlocPE8Q1k/QqJzITn8vHKDjsdOsz7Ic4ULY7At/6EemgMn2ZSb
-	 Bz/3HNWekpcA7BDZtiVk8MJimEdwZH+58oskxrA68Q9hQnojTFf+O1v1mlt44mhh7I
-	 4L2Zzwa5aWCdp8hUSKO2HIHXPgADlYuZvlqur9HpQ9DTSQg/fG5BRiPEG/iQXgVV/u
-	 aNiMX2PPaWLTEUyayv8v6b0Hn8kk+AxEDI92+/hsLWWieqIV5Mwvuuw+iOEVSA7Xpi
-	 8HoIgSbXxDmYw==
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e04f87584dso6355341a12.3;
-        Mon, 24 Feb 2025 04:31:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVE3zeWQnaAfw8geMkzAAo2wy3gBQgLDdO2qeos7VjGKGCWkymvdRteh1h2Bs2qWu8TBJ8aAkd3SGuB@vger.kernel.org, AJvYcCVn+/7OxqHxjnOGRe5tyJcEmyF0X/XCGAMeyIDuDY4/43KiMS+Wwm6fLSMtdX4Y0HdbwIDAhUYzWAL13ks/@vger.kernel.org
-X-Gm-Message-State: AOJu0YztbMgIaIgVHHEHtpkChbz8q2FpYTqEa8uw7PddxN31yo3a8uEx
-	Aa564jxSZKBzNXPb/c/NY2Mq//CxENNyZNB9O75g39nJjZzYGlk+RZSW6i/NZLlpay5BA19qq+u
-	tgtAgQ4XSAOphibJ6/Oo0yJhwrw==
-X-Google-Smtp-Source: AGHT+IHIrFLQGrUmr0/vRBFFvkZaV+UNoXq1Y47I6/AgegFXRC8cAvE98Z6EsH8IgPlqwmpF0VzqMVFcZN6ZdyHqFN4=
-X-Received: by 2002:a05:6402:35c9:b0:5dc:c9ce:b029 with SMTP id
- 4fb4d7f45d1cf-5e0b70b6efamr12810252a12.5.1740400273495; Mon, 24 Feb 2025
- 04:31:13 -0800 (PST)
+	b=Ib0qfIDe3OOuvBzVrWCmmLH460v2SIM6VasAJBujRptEfcHm3PqnGr7L9iVznDLEF
+	 3jNDpzbqBYg1+hoZ8Xhg3A20IB0NkMmJRhRBqTGpMrvie/hKD1TIUYcrFsQssqKrCi
+	 +3HcpOCVVKvyD9locSrHHN4yFMfWolOe48dyWPFs0f09Do1J6BFwD78Afcsu3CizX3
+	 xCYWkxxBfNhrCkXtgO/HSCmCznepYHTU50RX/yS89U/2YFOLD74r8t9QfElzkxzqpV
+	 g2Vk4IOfwL3b95IJIGFR6Y+Hh1z8EciEw5scW+Se1SwnB/boOa0hAOrfCier3qkCSR
+	 g5Mj9jQaPVc8g==
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-abb892fe379so689579466b.0;
+        Mon, 24 Feb 2025 04:32:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU2agcYkkVW6qtHrnoAYU92N4kjf3CP0sQ03ebmBOFcYNz1vT21N5isNsSoCo/vNu3bAVzBf4FqDZCA@vger.kernel.org, AJvYcCWrVRaA1uxMlaVCD/DjXeVTlvhLxXWHWoodkyeZ2tfnoO1ZKnYwkZFc7Xm7KH9MeDnn1kF7x+Wu9B+7svmV@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEGZa5G424vyHAFoCjO39Cg4OZEw/H5K+M6fyk9ZGbx9bsPsMy
+	ecyphmg9Y/4DlOrPLIBMKXUAfRXcNqvRXnAcRCycPG2Gkar40aASkPv4UJ+kmtuFHsS2r/JuMkD
+	938hAt+SU4oSEQC9fC7fpO1xhNA==
+X-Google-Smtp-Source: AGHT+IHL3KrJSkqIVBufq5WKDsEAyCjHw9G4sSu2AxzVPr1GREze63H6Wcwa6uRBFUk5VisJGiZga96347ickz870Fs=
+X-Received: by 2002:a05:6402:26d2:b0:5dc:80ba:dda1 with SMTP id
+ 4fb4d7f45d1cf-5e0b70df049mr27708183a12.9.1740400372901; Mon, 24 Feb 2025
+ 04:32:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250224114648.1606184-1-vincenzo.frascino@arm.com> <20250224114648.1606184-3-vincenzo.frascino@arm.com>
-In-Reply-To: <20250224114648.1606184-3-vincenzo.frascino@arm.com>
+References: <20250224114648.1606184-1-vincenzo.frascino@arm.com> <20250224114648.1606184-4-vincenzo.frascino@arm.com>
+In-Reply-To: <20250224114648.1606184-4-vincenzo.frascino@arm.com>
 From: Rob Herring <robh@kernel.org>
-Date: Mon, 24 Feb 2025 06:31:01 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+h5Dt=_mSaew269pXnuR-nQjgzRcdkN2XdCJjwMX-YqQ@mail.gmail.com>
-X-Gm-Features: AWEUYZm3u587qtfsFiWkv7dVwFwrNgMkCER2T9IDPbRJEnI5_7JDV-pRlScrhz8
-Message-ID: <CAL_Jsq+h5Dt=_mSaew269pXnuR-nQjgzRcdkN2XdCJjwMX-YqQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] ASoC: dt-bindings: xlnx,audio-formatter: Convert
- to json-schema
+Date: Mon, 24 Feb 2025 06:32:41 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJGHnZpJ_rLEj3Q_wwXB4Esh6roUwgcen5dd3SY6BMoMQ@mail.gmail.com>
+X-Gm-Features: AWEUYZkblcUi0AUvyNMYBv_8CKhFt0PJZbd08-zFgoDnv6Yjm9EHCszL8R47ptU
+Message-ID: <CAL_JsqJGHnZpJ_rLEj3Q_wwXB4Esh6roUwgcen5dd3SY6BMoMQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] ASoC: dt-bindings: xlnx,spdif: Convert to json-schema
 To: Vincenzo Frascino <vincenzo.frascino@arm.com>
 Cc: linux-sound@vger.kernel.org, 
 	Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>, 
@@ -64,158 +63,17 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Feb 24, 2025 at 5:47=E2=80=AFAM Vincenzo Frascino
 <vincenzo.frascino@arm.com> wrote:
 >
-> Convert the Xilinx Audio Formatter 1.0  device tree binding documentation
-> to json-schema.
+> Convert the Xilinx SPDIF 2.0 device tree binding documentation to
+> json-schema.
 
-Similar issues in this one I won't repeat...
+All the same issues here.
 
->
 > Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 > ---
->  .../bindings/sound/xlnx,audio-formatter.txt   | 29 -------
->  .../bindings/sound/xlnx,audio-formatter.yaml  | 76 +++++++++++++++++++
->  2 files changed, 76 insertions(+), 29 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,audio-fo=
-rmatter.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/xlnx,audio-fo=
-rmatter.yaml
->
-> diff --git a/Documentation/devicetree/bindings/sound/xlnx,audio-formatter=
-.txt b/Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
-> deleted file mode 100644
-> index cbc93c8f4963..000000000000
-> --- a/Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
-> +++ /dev/null
-> @@ -1,29 +0,0 @@
-> -Device-Tree bindings for Xilinx PL audio formatter
-> -
-> -The IP core supports DMA, data formatting(AES<->PCM conversion)
-> -of audio samples.
-> -
-> -Required properties:
-> - - compatible: "xlnx,audio-formatter-1.0"
-> - - interrupt-names: Names specified to list of interrupts in same
-> -                   order mentioned under "interrupts".
-> -                   List of supported interrupt names are:
-> -                   "irq_mm2s" : interrupt from MM2S block
-> -                   "irq_s2mm" : interrupt from S2MM block
-> - - interrupts-parent: Phandle for interrupt controller.
-> - - interrupts: List of Interrupt numbers.
-> - - reg: Base address and size of the IP core instance.
-> - - clock-names: List of input clocks.
-> -   Required elements: "s_axi_lite_aclk", "aud_mclk"
-> - - clocks: Input clock specifier. Refer to common clock bindings.
-> -
-> -Example:
-> -       audio_ss_0_audio_formatter_0: audio_formatter@80010000 {
-> -               compatible =3D "xlnx,audio-formatter-1.0";
-> -               interrupt-names =3D "irq_mm2s", "irq_s2mm";
-> -               interrupt-parent =3D <&gic>;
-> -               interrupts =3D <0 104 4>, <0 105 4>;
-> -               reg =3D <0x0 0x80010000 0x0 0x1000>;
-> -               clock-names =3D "s_axi_lite_aclk", "aud_mclk";
-> -               clocks =3D <&clk 71>, <&clk_wiz_1 0>;
-> -       };
-> diff --git a/Documentation/devicetree/bindings/sound/xlnx,audio-formatter=
-.yaml b/Documentation/devicetree/bindings/sound/xlnx,audio-formatter.yaml
-> new file mode 100644
-> index 000000000000..52a685519bc0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/xlnx,audio-formatter.yaml
-> @@ -0,0 +1,76 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/xlnx,audio-formatter.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Xilinx PL audio formatter
-> +
-> +description: |
-> +  The IP core supports DMA, data formatting(AES<->PCM conversion)
-> +  of audio samples.
-> +
-> +maintainers:
-> +  - Vincenzo Frascino <vincenzo.frascino@arm.com>
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - xlnx,audio-formatter-1.0
-> +
-> +  reg:
-> +    minItems: 1
-> +    maxItems: 4
-> +    description: |
-> +      Base address and size of the IP core instance.
-> +
-> +  interrupt-names:
-> +    minItems: 1
-> +    maxItems: 3
-> +    description: |
-> +      Names specified to list of interrupts in same order mentioned unde=
-r
-> +      "interrupts".
-
-You didn't define the order though...
-
-You must define what the names are and the order. We had that, but you
-dropped them.
-
-> +
-> +  interrupts:
-> +    minItems: 1
-> +    maxItems: 3
-> +    description: |
-> +      List of Interrupt numbers.
-
-Generic description of 'interrupts' is not useful.
-
-> +
-> +  clock-names:
-> +    minItems: 2
-> +    maxItems: 3
-> +    description: |
-> +      List of input clocks.
-
-Must define the names and order.
-
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 3
-> +    description: |
-> +      Input clock specifier. Refer to common clock bindings.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupt-names
-> +  - interrupts
-> +  - clock-names
-> +  - clocks
-> +
-> +additionalProperties: true
-
-Only common schemas which are incomplete can use 'true'. This must be false=
-.
-
-> +
-> +examples:
-> +  - |
-> +    audio_ss_0_audio_formatter_0: audio_formatter@80010000 {
-> +      compatible =3D "xlnx,audio-formatter-1.0";
-> +      interrupt-names =3D "irq_mm2s", "irq_s2mm";
-> +      interrupt-parent =3D <&gic>;
-> +      interrupts =3D <0 104 4>, <0 105 4>;
-> +      reg =3D <0x0 0x80010000 0x0 0x1000>;
-> +      clock-names =3D "s_axi_lite_aclk", "aud_mclk";
-> +      clocks =3D <&clk 71>, <&clk_wiz_1 0>;
-> +    };
-> +...
-> --
-> 2.43.0
->
+>  .../devicetree/bindings/sound/xlnx,spdif.txt  | 28 ------
+>  .../devicetree/bindings/sound/xlnx,spdif.yaml | 92 +++++++++++++++++++
+>  2 files changed, 92 insertions(+), 28 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.tx=
+t
+>  create mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.ya=
+ml
