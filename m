@@ -1,101 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C848281378;
-	Mon, 24 Feb 2025 11:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2AA23371F;
+	Mon, 24 Feb 2025 11:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740396044; cv=none; b=Ptu9tAiQcWIIaU+4U5YzG8cdjB82Xoea6GC8D2PkvZIt4+7hD2Bc2kfmL3E15Wk2Nos2OWNF1wJnN2Zcz5xpiPAXyj8QtR+4ZyEMB6XQuw25wO+9NIobbrz7pR3tAYPoK2U7IHNCQSm5bVpbd1umfgnzar3gNBloDxLgDklE2sU=
+	t=1740396055; cv=none; b=f/zpRT21f1psAq892W7D8Ur7iO0jgS4PCdLim8lZdpgxDA+7RDBsv0bUyuyacJ4gJrLxVUCl1s8nMtWJ48zmNT+CBbm7bxUo0Qr7DnLH1MqxYQHISBb0vTUG8f/l3mehZVCB9qcb/96v/a40bLfnjlV2meQ1ek8l4a90dV3OaZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740396044; c=relaxed/simple;
-	bh=Nta6SfkxSvH7zeTF4vPYsbeZW+YfKlQw6mpUKwHK9l4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nYn6V4bAM2RmnflE20APbrzMIcCwNgBjNoyhatcH5VaZLiKqTcT1gvCfT1YyfNPIzepuP0xEtq1FRgeljgwZndXct0m63dyvy/M4xSh6b4aL2xw00m3XzA2Pr+jvLvfjk1cQ4gyAS1px8UDOWxvYK68GHtJcKf59nYCfhoACzb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BOmXoDWt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740396055; c=relaxed/simple;
+	bh=1OXLo0LAR1N71lfPQvkQ1ANITGql7CpTEjDaL8Dt48c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o6IZZJew9UM+7lj7qzPikvlLNRQ5A6dj3mycbFL6JD/f3MnluDKI1w54YRVW2srK7abJGNRQ8sP33co/rt4YTjMG9HfBqNIDYjSf17JjtFqZooK5zoR5LJQDQP0t1ksxeKvRW2tFm+qz8Dv5iTu5IgI7joUICP/aZQSlpwUMtbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ttVIb1C0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BOmXoDWt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20E60C4CEE8;
-	Mon, 24 Feb 2025 11:20:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ttVIb1C0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 407C3C4CED6;
+	Mon, 24 Feb 2025 11:20:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740396044;
-	bh=Nta6SfkxSvH7zeTF4vPYsbeZW+YfKlQw6mpUKwHK9l4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BOmXoDWtsNV2yzJynwDWvUct/vINYolEFYnW58tHuwHzZIW5Ba82ZyoxOUYW8WAgE
-	 5J2ymK70c4oVdOTsQ7wNQ2V9FgcRU+HVXYQR/+y7D62/d4ijzPk/C00PBu/W/JN4oZ
-	 xeSNwoOqdjzw/TM+l8BnkH8zjQhfGM02YByNkmOWDz6F+4jFz1y8uQAaWChBb0HlC3
-	 LGyz+dtlWmvCcCKxq6bcQVFlZSWzBeI7IYNvOZg2kMIPXwvfv9fWgI1m79E1O/C5yC
-	 +302xVFl1tPH2PhtnH7XxY2QXudP0cB5eNCmygW+Ud8KSwI6DGruGRtlpNvP6OfVXA
-	 GRM85dNPIA2Dw==
+	s=k20201202; t=1740396055;
+	bh=1OXLo0LAR1N71lfPQvkQ1ANITGql7CpTEjDaL8Dt48c=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ttVIb1C0p8IQnCS3bjnu2dFjr6qtBZxQQ2DhQifMNbt2qQxup0N2lqvijb/Eg3fJR
+	 uN7718vnPoEELqmRBbdwYDJieKI32kN/vh0uvtSMhEuLvx7jaxY2RY1/JZz3oiae5y
+	 nEUOdyX9iMmjgVxiEvbe++V6/6AYO/Ukh/UrXuMXoL+sAFLkDJKFnDamfJTBK9h/J/
+	 dseqZYKfug7+yJhBX/+uDzQr75yEixTKVxswaz3lVK8Ke35YrNxnkLXlyYcfKh7atp
+	 2VJKaf3v5vJG6mke590u+nBoBOxp5TmmMOFeaK9rr7UFA2zfLsPUtUKbYd2c2SFLl7
+	 D9lUXyzlaYK7w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Terry Cheong <htcheong@chromium.org>,
+Cc: Uday M Bhat <uday.m.bhat@intel.com>,
+	Jairaj Arava <jairaj.arava@intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Johny Lin <lpg76627@gmail.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	pierre-louis.bossart@linux.dev,
-	cezary.rojewski@intel.com,
-	peterz@infradead.org,
-	sound-open-firmware@alsa-project.org,
+	ckeepax@opensource.cirrus.com,
+	Vijendar.Mukunda@amd.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 3/7] ASoC: SOF: Intel: hda: add softdep pre to snd-hda-codec-hdmi module
-Date: Mon, 24 Feb 2025 06:20:26 -0500
-Message-Id: <20250224112033.2214818-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 1/7] ASoC: Intel: sof_sdw: Add support for Fatcat board with BT offload enabled in PTL platform
+Date: Mon, 24 Feb 2025 06:20:44 -0500
+Message-Id: <20250224112051.2215017-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250224112033.2214818-1-sashal@kernel.org>
-References: <20250224112033.2214818-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.178
+X-stable-base: Linux 5.10.234
 Content-Transfer-Encoding: 8bit
 
-From: Terry Cheong <htcheong@chromium.org>
+From: Uday M Bhat <uday.m.bhat@intel.com>
 
-[ Upstream commit 33b7dc7843dbdc9b90c91d11ba30b107f9138ffd ]
+[ Upstream commit d8989106287d3735c7e7fc6acb3811d62ebb666c ]
 
-In enviornment without KMOD requesting module may fail to load
-snd-hda-codec-hdmi, resulting in HDMI audio not usable.
-Add softdep to loading HDMI codec module first to ensure we can load it
-correctly.
+    This change adds an entry for fatcat boards in soundwire quirk table
+    and also, enables BT offload for PTL RVP.
 
-Signed-off-by: Terry Cheong <htcheong@chromium.org>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Johny Lin <lpg76627@gmail.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Link: https://patch.msgid.link/20250206094723.18013-1-peter.ujfalusi@linux.intel.com
+Signed-off-by: Uday M Bhat <uday.m.bhat@intel.com>
+Signed-off-by: Jairaj Arava <jairaj.arava@intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Link: https://patch.msgid.link/20250204053943.93596-4-yung-chuan.liao@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/sof/intel/hda-codec.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/intel/boards/sof_sdw.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/soc/sof/intel/hda-codec.c b/sound/soc/sof/intel/hda-codec.c
-index 6744318de612e..0449e7a2669ff 100644
---- a/sound/soc/sof/intel/hda-codec.c
-+++ b/sound/soc/sof/intel/hda-codec.c
-@@ -258,6 +258,7 @@ int hda_codec_i915_exit(struct snd_sof_dev *sdev)
- }
- EXPORT_SYMBOL_NS(hda_codec_i915_exit, SND_SOC_SOF_HDA_AUDIO_CODEC_I915);
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 25bf73a7e7bfa..387d7f679d64c 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -234,6 +234,16 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)(RT711_JD2_100K),
+ 	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Google"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Fatcat"),
++		},
++		.driver_data = (void *)(SOC_SDW_PCH_DMIC |
++					SOF_BT_OFFLOAD_SSP(2) |
++					SOF_SSP_BT_OFFLOAD_PRESENT),
++	},
+ 	{}
+ };
  
-+MODULE_SOFTDEP("pre: snd-hda-codec-hdmi");
- #endif
- 
- MODULE_LICENSE("Dual BSD/GPL");
 -- 
 2.39.5
 
