@@ -1,101 +1,128 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5C7263F39
-	for <linux-sound@vger.kernel.org>; Mon, 24 Feb 2025 17:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16762263F26;
+	Mon, 24 Feb 2025 17:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740416786; cv=none; b=gFAWcdH4cJocZBZWoVlhAb0PYpQpRB3Tj+gLX1GA0MhgowKIQldovtrTMe1/grX+pWhdB8dNDGEiB97RcS1aANFYcMWZk002ZIv/cradVJyNbDvosGYa4BTvzBsfDKmCjDHvgENJLDnxfqq5jNgVGiIMIiwlsL+Hq6xv0SyaX8U=
+	t=1740417563; cv=none; b=nORxHtFTlkDMAWtl4D7iNNJIA5yqfcPaF+aCTsiP5Fh7eOBUZd0mQC2ukYCxuQLwwqX7ewtYoLSINI+acT2tkUb+KTS2dgtxHza9M0LuR3YgFYerCoXUm43JD3vZfrMd7jtv4xVFPXWU6rLb6iLZM3KlD46+X9PfCVXFUYcPtaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740416786; c=relaxed/simple;
-	bh=yvED5J2XN1JbyB5oPdWALpBVxI60w9uI2eoMV6sBGTI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AkSRwEMxNzrb24wbxCL+weesoRl75vkJvJIZOyyxdlDQNQfMu1FfYl/JJ5RbUmSdQjXDPuxW1ov4MXEiBSVD8tlWfC+nYu2MOtg3wTQdzX8oEWpM4gZe/HhkWxyz+UGkCv6IPXb93649mx+ff0I5oncAZCuniJ53XkEZ6tY0Evc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ac1+xFJY; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740417563; c=relaxed/simple;
+	bh=DqLA3R9+ncfGcr/YJS6lhTf2TaveCWhzLJel4MYNo6I=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=K/QVkVf7vaOBt93/nMmZuvE9H5OnyGgJl6loaUkpw3A1PHw7syCDxFea95JKSuaNPh8vslGQEjd3Uuy2mW3+EFeK18+/DTjC22svL8Yr73VnShMdhOzEaIMWYPeLhfEw3mm9oO8q8wjoaN+DjB92s1gEscOM6IuuFPqPywjE8eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oj/5A4d6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ac1+xFJY"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5462a2b9dedso5554538e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 24 Feb 2025 09:06:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740416782; x=1741021582; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KAI2Dv3BmBIOzPpofW0T5viVb5YozbQk3DlKy+pFvjU=;
-        b=ac1+xFJYJqvRiGGwpw8SFzUn8WXs8x46p2JV1qUVNAqP7iATAnoxsJWSI24D2FT45J
-         ISurQeo0qRmI6HH+6Y1xnUOuJunASeP79uf8QqSbgvBvZ2EOCi/ZEsWnt96vpxz15iKZ
-         +HRibIgukvIaWkBc4TBfhbCAEdzXmlSjAtWrJGAJR2OiLXolTfvunCyYi4Mhwx1UQDus
-         z/mfYy9wRSRbF6BaQ3u91YPCKZxmurYmBBx4dV53G5QCu35EGdee7VlIoPsjyTefxPIK
-         iZTlDUnSMTDQcuTpG2JQ80WqjXlGyIedaIZku/m2ffX2KsXCOqg0wGRDAvzDah6YWsr/
-         tu4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740416782; x=1741021582;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KAI2Dv3BmBIOzPpofW0T5viVb5YozbQk3DlKy+pFvjU=;
-        b=IF3wue3vi0q9wtxYS/LoR1qvJWfgK0A1CtS54MHMoXcLMp4A5jfJbQ07lYn8/YZ9dB
-         FJaomSlfp+CjOT0CjI7BDWfb1GYn0jhQ0aOi5mmI62YhXlOuQRgeqHPzBQWwqeu7qUba
-         hCYS9p415IM3BSFvTgxJ2TX8rhP/HHUdKaeDEUf9rw+UqsFObWPpokoeJKEr7vEBZ65B
-         PCEbWjzZjOus7sCRauopvMcJf0TKGGPucxUXlTa8+fP27O0Y+7zCPZQtcbYYtuprLO/b
-         uqrgK0D+evjxFBVzssRfyDciStG3MHXrEQwUa2h3AsT6NT12d7EucshBfbbYKZHEttwM
-         e27w==
-X-Forwarded-Encrypted: i=1; AJvYcCXe2sW8Wju9+2ssCRIDv68D7srkJw69gW+2EHX7YeYVddEOu1NzQOr32LVCDyUMMavLRv8AGzueXONkQg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFA6Oa86BG8nHNSAiEcQfJCYrE10xswdoYqNrZZc3zTERfSt9l
-	xEFajaN9g2T2PLMKks4qtoShHniW5cSOhykuDLYAzGzaGNVOUR5JbK5wdOY1BhU=
-X-Gm-Gg: ASbGncu3QXaO3dKvYxiUZLufXBKenEYeF9cAb8fPidQJzamXNYqoqqdlP6M+4JHDFgS
-	+KTlbJzPb1169Nd3JyWEfPnAgt+TxNaQmHOu5zIcCvZ/NFD2BoaAYs9vGMpPjZXz1jNgy2nfCuM
-	604Ifsvr4WgAfIC3AElEG/FKRpXANMMeCYw8AdU3cbxUzvN7XXsimQGgWjMQn9m8cMeKllv+17w
-	cfYI8dMSoJsDC8+lmAJz7Nk/DSIZvvl7DuSzXJF5e08I2YZwbTmNhXHzDist3Aah4giL462y85s
-	6l+ZeUoaIRbnaZIvX4bJnk50qqz83+qa4x8Wp7jJmZJ5a52HRn+lBxwfDXFSAF5z+Ru7lTwbq16
-	qol/OUw==
-X-Google-Smtp-Source: AGHT+IGLfOFOqzaQJyDCTcv0MpDet3B2RRWuZ7gWh8BalbKLyn2Zcyxy6bVh1dYMVsTGa+JcYy5D2g==
-X-Received: by 2002:a05:6512:31cf:b0:545:a5e:b4ef with SMTP id 2adb3069b0e04-5483913ae13mr6288350e87.16.1740416782196;
-        Mon, 24 Feb 2025 09:06:22 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5452b496aafsm3110858e87.29.2025.02.24.09.06.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 09:06:21 -0800 (PST)
-Date: Mon, 24 Feb 2025 19:06:20 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: Markus Elfring <Markus.Elfring@web.de>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] ASoC: q6dsp: q6apm: replace kzalloc() with kcalloc() in
- q6apm_map_memory_regions()
-Message-ID: <taqe76gyodbrbp3qxvzhgmhdaae5jrun66wtlrq5jeklonp2sh@ujmwaxdhjxcc>
-References: <20250222-q6apm-kcalloc-v1-1-6f09dae6c31c@ethancedwards.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oj/5A4d6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F9ADC4CEEB;
+	Mon, 24 Feb 2025 17:19:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740417561;
+	bh=DqLA3R9+ncfGcr/YJS6lhTf2TaveCWhzLJel4MYNo6I=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=oj/5A4d6B52s9netUSHzaXDHUKauk4ZcSJNpUdrGaxvCn3ezRAPD/QQgUpzHjFm8X
+	 f7h1I9h9c3piFl0NU62S/i0PL1ErNr0MKeaC8ADaF9VbT15kotJwl2t1to39SP/jNY
+	 bn6N5EXWAA6d4cigSjRIPgSOPtnVRmnW0FQW+ll+UHHHNeTMG+4MqDGCwTtMi2DBse
+	 rDBqxn9i1tPyVu5UKn3YYJZ8rfMJh43d0JGdXGi2CQgxm9yBtkmwVImJhhLQkNyTrs
+	 OK26oVeHXewjJaBw/jQElWNnnMCC2kMkmRT+p6ckzKEzWk0MfYEWWZUnXrPVb1YDxM
+	 UC96q7730INBA==
+Date: Mon, 24 Feb 2025 11:19:19 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250222-q6apm-kcalloc-v1-1-6f09dae6c31c@ethancedwards.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Francesco Dolcini <francesco.dolcini@toradex.com>, 
+ Ernest Van Hoecke <ernest.vanhoecke@toradex.com>, 
+ patches@opensource.cirrus.com, Saravana Kannan <saravanak@google.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sound@vger.kernel.org, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, devicetree@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
+To: Francesco Dolcini <francesco@dolcini.it>
+In-Reply-To: <20250224155500.52462-4-francesco@dolcini.it>
+References: <20250224155500.52462-1-francesco@dolcini.it>
+ <20250224155500.52462-4-francesco@dolcini.it>
+Message-Id: <174041755964.3547413.4477664481191696884.robh@kernel.org>
+Subject: Re: [PATCH v2 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC
+ and EQ support
 
-On Sat, Feb 22, 2025 at 02:55:20PM -0500, Ethan Carter Edwards wrote:
-> We are trying to get rid of all multiplications from allocation
-> functions to prevent integer overflows[1]. Here the multiplication is
-> obviously safe, but using kcalloc() is more appropriate and improves
-> readability. This patch has no effect on runtime behavior.
+
+On Mon, 24 Feb 2025 16:54:58 +0100, Francesco Dolcini wrote:
+> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
 > 
-> Link: https://github.com/KSPP/linux/issues/162 [1]
-> Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments
+> Add two properties to select the IN1L/DMICDAT1 and IN2R/DMICDAT2
+> functionality:
+> - wlf,in1l-as-dmicdat1
+> - wlf,in1r-as-dmicdat2
 > 
-> Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
+> Add a property to describe the GPIO configuration registers, that can be
+> used to set the four multifunction pins:
+> - wlf,gpio-cfg
+> 
+> Add a property to describe the mic bias control registers:
+> - wlf,mic-cfg
+> 
+> Add two properties to describe the Dynamic Range Controller (DRC),
+> allowing multiple named configurations where each config sets the 4 DRC
+> registers (R40-R43):
+> - wlf,drc-cfg-regs
+> - wlf,drc-cfg-names
+> 
+> Add three properties to describe the equalizer (ReTune Mobile), allowing
+> multiple named configurations (associated with a samplerate) that set
+> the 24 (R134-R157) EQ registers:
+> - wlf,retune-mobile-cfg-regs
+> - wlf,retune-mobile-cfg-names
+> - wlf,retune-mobile-cfg-rates
+> 
+> Datasheet: https://statics.cirrus.com/pubs/proDatasheet/WM8904_Rev4.1.pdf
+> Signed-off-by: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 > ---
->  sound/soc/qcom/qdsp6/q6apm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> v2: Added an example of how to use the ReTune Mobile config properties
+> v1: https://lore.kernel.org/lkml/20250206163152.423199-4-francesco@dolcini.it/
+> ---
+>  .../devicetree/bindings/sound/wlf,wm8904.yaml | 106 ++++++++++++++++++
+>  1 file changed, 106 insertions(+)
 > 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+My bot found errors running 'make dt_binding_check' on your patch:
 
--- 
-With best wishes
-Dmitry
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/sound/wlf,wm8904.yaml:167:111: [warning] line too long (154 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/sound/wlf,wm8904.yaml:172:111: [warning] line too long (154 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/sound/wlf,wm8904.yaml:177:111: [warning] line too long (154 > 110 characters) (line-length)
+
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/sound/wlf,wm8904.example.dts:52.17-18 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/sound/wlf,wm8904.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1511: dt_binding_check] Error 2
+make: *** [Makefile:251: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250224155500.52462-4-francesco@dolcini.it
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
