@@ -1,197 +1,127 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C7C4C8F
-	for <linux-sound@vger.kernel.org>; Mon, 24 Feb 2025 03:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998CF207DF6;
+	Mon, 24 Feb 2025 06:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740366930; cv=none; b=aqdV9yVLN9B1+zJmkBov7SrDXQQ8F53u9twFoS1W5cFERGm244qzd8eXL4cSaYxSx5zfjEvrpAlEnm+Zt7T0B3asOQ8/TJNThZXTaV4aDDZauApPwXBAMGAwdQq73P+K09iE+ATPLHZsF3FXFKAAEhFurNZAH4VJ5Y42zKRjIo8=
+	t=1740379519; cv=none; b=EBdXsRAHVW45eKcHwCmHfx47gsqzydYsla88G9XTM6cau1c8445kjo5y/7N3SnPokTTCX+bRYmI7YjRZJIrRHg8siAozv4WXmHwRBfyiVHU8ZjxarBph+TDGDGx7IclMxuogTzKhLEa8YUJ/mtXw3sNj/NNBpBZGp3ewsBqRnbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740366930; c=relaxed/simple;
-	bh=TolZibTye9Vgmxg4+PmIgf1+lFbxpf6v2FBrinSOxHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QcU207cXDcZxgI6e0XqqCJ7m1gs+lcVRr6kXWjmMKODKhX3ep49HYHERjmtPY5aFZwEtrRDQxxYh1hSx9clxoeL9S0SATmTnPen39fNi12RojYb3KT4tDcHB0VSThQ1XbTuire+uuDH2HjYZzgPOdClM/heJTLcQhn1zuaGX/Yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oQwD05d8; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740379519; c=relaxed/simple;
+	bh=0TnaDdbMR1QNtHbB/qr6uHPlnA8ZDUaXNcbX/zWenMY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JraYOEhe9Abp0tJxyKmcrC5k8W1juhIsh4ioLokVqr/0K18inUkwHR2tg4jnxr2m+RmdEdk6KpBYobdGh3gqk98lU0cMyHwd+8yNOA+aN/+pBv5VmwuHbLUo45BFZivuMuyoSfT9EW/VP2ftMjfMZG4cJlUvnDZCC9FC+V9nTUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcpoDRGN; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oQwD05d8"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30613802a04so41761171fa.2
-        for <linux-sound@vger.kernel.org>; Sun, 23 Feb 2025 19:15:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740366926; x=1740971726; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=60oW0NE+5WvAkx2Mu3B4WEX9+Sk/VuCzxW52FoixHDs=;
-        b=oQwD05d8vbFPHYMhonTUQb5O10c2dzcOWFMWus5JL9ZLMrkoMVCzpjRIPqmuTN8FK8
-         Q07uivrj0hKX/bhZ+r0v8xD2aLdWm3dNtd5wQPdx63S7A5KEkTy0cDtca9JyQ+CxL/2Y
-         rSWhOuruiHcA4FQqYQN/LvgVLCZCNvS1NSLstF8SBqWByZ1U8jgrOnc5GtD1fAxjz+vO
-         Gr5ou1M4/yPCgo7yzwFHP7LQAnkHFXH/A0UyPFwsU59d8dlHbeafTZ3V/3Xef0u8ghlE
-         TS1FSDvCmLgMedzbtoHIZE1AmeaLVCBJv03yS5fZZxpjAzIO9NflnTd/8YDoj10wQRdu
-         /y7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740366926; x=1740971726;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=60oW0NE+5WvAkx2Mu3B4WEX9+Sk/VuCzxW52FoixHDs=;
-        b=rIznQhyAEDkERyLjG8ms4VUH3zxwzBj8it/XmnmjunItySNegewF+RDIRNvqudJGe5
-         N9ZTNxoSTbNuBMcmd0ryS347lXq34+Q9gP4lsnuIXw3BRQIkXN6t5aZWW97/tcjANJ8B
-         pHGubVLkUtrRv1u7HOb9HevBZ8Mt6tqryn/E+rSRXovRHgTk7L+VD+PSkn4kGA3gqQnG
-         p5jgZATm73QlkXYaBpNeWoAEL/1szkQogbsG2nbDxAY5SjMM5j9jh1Vw5BS4PeG1cQUP
-         KCdwgLk4tMCizxcFz90ZcDT95bKVdyxQSKYLypJZxUsbo0c4NHUcs2T49c6hF4HOyfa6
-         a0BQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVM8ZxYUqLZhcULw1I7tVkycLR7NJoXMwUVhTIE170jsz9psG5WTTy11Dtq3Ic0uuqLtBSF4W1tSQyW2g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXfYBqTcGdHk3ADW/Vy4RLt0SOqlHr2ejNMTQcF1BLFY+IFE8e
-	Ytyn9FHIkNRrXqiVLZE7imAduKRoPXhXMG9s1EB8YgZZ2DJt1g3kmKKHMyKUDic=
-X-Gm-Gg: ASbGnctqQ+zqAIec5SlAFbJOs4qxXhqHIJNL3YCbkoaC36eXMCyfobRKksqHHoW5lgY
-	JJW76KzeAU13l/Rotfn6JVJ+hiAAPF/wOEYaUwtdgEt4l3bpiBmU5AEFKbX6k8BJMIVrDEcgw7p
-	wR3X/Z0OqBjmPFd/zsqFRm3kMqlQtT7LzzSOJgcEBypZs8SddOTQK6SNMXb1xx2NWKpTykcwDSh
-	JytRpbZHDSFvxAPKRGzLNbPzD3eog6Nqs9iblfpC3kL5y87ECKLdXAN40jLhfGZtsrd+0bkUyNx
-	drlVQw9TNOGKVyaHAJz21VCJya7J4TGKifkqASAkpmOEEH4xMRBx+WJobL95T/i3v8ccKDd7JmK
-	dZEMtig==
-X-Google-Smtp-Source: AGHT+IHhiKmfrH5ka4uDKdUNP+Kqb6vQhRfA/nDzn2mvuW92iiRvCMWFslhv/a7ivXaSSdw6dmkihQ==
-X-Received: by 2002:a2e:9f06:0:b0:308:eabd:297f with SMTP id 38308e7fff4ca-30a5b182b9cmr32215911fa.14.1740366926080;
-        Sun, 23 Feb 2025 19:15:26 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a23dddef9sm28895541fa.37.2025.02.23.19.15.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Feb 2025 19:15:24 -0800 (PST)
-Date: Mon, 24 Feb 2025 05:15:22 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Maxime Ripard <mripard@kernel.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
-	kernel-list@raspberrypi.com, linux-sound@vger.kernel.org, 
-	David Turner <david.turner@raspberrypi.com>
-Subject: Re: [PATCH RFC] drm/vc4: hdmi: Add jack detection to HDMI audio
- driver
-Message-ID: <3jyp24gystyet326exnbudsprwlpswacmcnvllumgapxlzz7n3@toysyujvsqwq>
-References: <20250222102921.75496-1-wahrenst@gmx.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcpoDRGN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740379517; x=1771915517;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0TnaDdbMR1QNtHbB/qr6uHPlnA8ZDUaXNcbX/zWenMY=;
+  b=dcpoDRGN7ZBRE2G6ct/xYEOgaX+UnpJTHje1rcx9GHVFG7To+N0AiOxH
+   3b/pG04mDBujXBStGRut0v9BM089JKCOphA+09qxhaB41KH6Zcv4q805F
+   sFO9QTuT88KwkjF6GnfN5xT+OnHlowAVAQoe4bBmnzkZ1mzAHifahCYf8
+   pP7TpJqylhA12cCjFeXKEiVr2qfRt3XV8qZNoHMEFSGCiiLBJEyr8R4ua
+   ndKaifwUrt0n50g/CF/ZAueWMI9SKONNzTrhl5xbcLC6EvTE/lhOiRtn8
+   0wSe6gH+dySR+KVitwCttqerrDyFwusmitox4kEEynp1hDdP+ejj2tQ+9
+   Q==;
+X-CSE-ConnectionGUID: JcQemXKkSruM4YrgcQQ9Ag==
+X-CSE-MsgGUID: AE2jahrhQN+nqmsoHncrIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="58538911"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="58538911"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 22:45:17 -0800
+X-CSE-ConnectionGUID: +VoswLeYSDWSD+X/KVZezw==
+X-CSE-MsgGUID: aWexeXhpTTWewOaj/4ntOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="120597638"
+Received: from ssimmeri-mobl2.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.222.232])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 22:45:15 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	broonie@kernel.org,
+	tiwai@suse.de,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH v2 00/16] SoundWire/ASoC: add SDW BPT/BRA support
+Date: Mon, 24 Feb 2025 14:44:34 +0800
+Message-ID: <20250224064451.33772-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250222102921.75496-1-wahrenst@gmx.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 22, 2025 at 11:29:21AM +0100, Stefan Wahren wrote:
-> From: David Turner <david.turner@raspberrypi.com>
-> 
-> Add ALSA jack detection to the vc4-hdmi audio driver so userspace knows
-> when to add/remove HDMI audio devices.
-> 
-> Signed-off-by: David Turner <david.turner@raspberrypi.com>
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 26 ++++++++++++++++++++++++--
->  drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
->  2 files changed, 31 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 47d9ada98430..d24ae86d799e 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -51,6 +51,7 @@
->  #include <linux/reset.h>
->  #include <sound/dmaengine_pcm.h>
->  #include <sound/hdmi-codec.h>
-> +#include <sound/jack.h>
->  #include <sound/pcm_drm_eld.h>
->  #include <sound/pcm_params.h>
->  #include <sound/soc.h>
-> @@ -386,6 +387,12 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
->  	struct drm_connector *connector = &vc4_hdmi->connector;
->  	int ret;
-> 
-> +	/*
-> +	 * Needs to be called for both connects and disconnects for HDMI
-> +	 * audio hotplug to work correctly.
-> +	 */
-> +	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
-> +
->  	/*
->  	 * NOTE: This function should really be called with vc4_hdmi->mutex
->  	 * held, but doing so results in reentrancy issues since
-> @@ -405,8 +412,6 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
->  		return;
->  	}
-> 
-> -	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
-> -
->  	cec_s_phys_addr(vc4_hdmi->cec_adap,
->  			connector->display_info.source_physical_address, false);
-> 
-> @@ -2203,6 +2208,22 @@ static const struct drm_connector_hdmi_audio_funcs vc4_hdmi_audio_funcs = {
->  	.shutdown = vc4_hdmi_audio_shutdown,
->  };
-> 
-> +static int vc4_hdmi_codec_init(struct snd_soc_pcm_runtime *rtd)
-> +{
-> +	struct vc4_hdmi *vc4_hdmi = snd_soc_card_get_drvdata(rtd->card);
-> +	struct snd_soc_component *component = snd_soc_rtd_to_codec(rtd, 0)->component;
-> +	int ret;
-> +
-> +	ret = snd_soc_card_jack_new(rtd->card, "HDMI Jack", SND_JACK_LINEOUT,
-> +				    &vc4_hdmi->hdmi_jack);
-> +	if (ret) {
-> +		dev_err(rtd->dev, "HDMI Jack creation failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return snd_soc_component_set_jack(component, &vc4_hdmi->hdmi_jack, NULL);
+This series adds support for SoundWire BPT/BRA. The change is mainly on
+the SoundWire tree. It is better to go through the SoundWire tree with
+Mark's Acked-by tag.
 
-PLease excuse my ignorance, but dows this work. In other words, how is
-the driver exporting the plugged state through this jack?
+v2:
+ - Add MODULE_DESCRIPTION in the "ASoC: SOF: Intel: hda-sdw-bpt: add
+   helpers for SoundWire BPT DMA" patch.
 
+Bard Liao (1):
+  ASoC: SOF: Intel: hda-sdw-bpt: add CHAIN_DMA support
 
-> +}
-> +
->  static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
->  {
->  	const struct vc4_hdmi_register *mai_data =
-> @@ -2316,6 +2337,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
->  	dai_link->cpus->dai_name = dev_name(dev);
->  	dai_link->codecs->name = dev_name(&vc4_hdmi->connector.hdmi_audio.codec_pdev->dev);
->  	dai_link->platforms->name = dev_name(dev);
-> +	dai_link->init = vc4_hdmi_codec_init;
-> 
->  	card->dai_link = dai_link;
->  	card->num_links = 1;
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index e3d989ca302b..a31157c99bee 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -4,6 +4,7 @@
->  #include <drm/drm_connector.h>
->  #include <media/cec.h>
->  #include <sound/dmaengine_pcm.h>
-> +#include <sound/hdmi-codec.h>
->  #include <sound/soc.h>
-> 
->  #include "vc4_drv.h"
-> @@ -211,6 +212,12 @@ struct vc4_hdmi {
->  	 * KMS hooks. Protected by @mutex.
->  	 */
->  	enum hdmi_colorspace output_format;
-> +
-> +	/**
-> +	 * @hdmi_jack: Represents the connection state of the HDMI plug, for
-> +	 * ALSA jack detection.
-> +	 */
-> +	struct snd_soc_jack hdmi_jack;
->  };
-> 
->  #define connector_to_vc4_hdmi(_connector)				\
-> --
-> 2.34.1
-> 
+Pierre-Louis Bossart (15):
+  Documentation: driver: add SoundWire BRA description
+  soundwire: cadence: add BTP support for DP0
+  soundwire: extend sdw_stream_type to BPT
+  soundwire: stream: extend sdw_alloc_stream() to take 'type' parameter
+  soundwire: stream: special-case the bus compute_params() routine
+  soundwire: stream: reuse existing code for BPT stream
+  soundwire: bus: add send_async/wait APIs for BPT protocol
+  soundwire: bus: add bpt_stream pointer
+  soundwire: cadence: add BTP/BRA helpers to format data
+  soundwire: intel_auxdevice: add indirection for BPT send_async/wait
+  ASoC: SOF: Intel: hda-sdw-bpt: add helpers for SoundWire BPT DMA
+  soundwire: intel: add BPT context definition
+  soundwire: intel_ace2x: add BPT send_async/wait callbacks
+  soundwire: debugfs: add interface for BPT/BRA transfers
+  ASoC: rt711-sdca: add DP0 support
+
+ Documentation/driver-api/soundwire/bra.rst    | 336 +++++++++
+ .../driver-api/soundwire/bra_cadence.rst      |  67 ++
+ Documentation/driver-api/soundwire/index.rst  |   2 +
+ Documentation/driver-api/soundwire/stream.rst |   2 +-
+ .../driver-api/soundwire/summary.rst          |   8 -
+ drivers/soundwire/Kconfig                     |   1 +
+ drivers/soundwire/bus.c                       |  43 ++
+ drivers/soundwire/bus.h                       |  18 +
+ drivers/soundwire/cadence_master.c            | 658 +++++++++++++++++-
+ drivers/soundwire/cadence_master.h            |  20 +
+ drivers/soundwire/debugfs.c                   |  84 ++-
+ .../soundwire/generic_bandwidth_allocation.c  |  48 ++
+ drivers/soundwire/intel.h                     |  23 +
+ drivers/soundwire/intel_ace2x.c               | 312 +++++++++
+ drivers/soundwire/intel_auxdevice.c           |  24 +
+ drivers/soundwire/stream.c                    | 140 +++-
+ include/linux/soundwire/sdw.h                 |  33 +-
+ include/linux/soundwire/sdw_intel.h           |   4 +
+ include/sound/hda-sdw-bpt.h                   |  69 ++
+ sound/soc/codecs/rt711-sdca-sdw.c             |   8 +
+ sound/soc/qcom/sdw.c                          |   2 +-
+ sound/soc/sof/intel/Kconfig                   |   7 +
+ sound/soc/sof/intel/Makefile                  |   4 +
+ sound/soc/sof/intel/hda-sdw-bpt.c             | 445 ++++++++++++
+ 24 files changed, 2294 insertions(+), 64 deletions(-)
+ create mode 100644 Documentation/driver-api/soundwire/bra.rst
+ create mode 100644 Documentation/driver-api/soundwire/bra_cadence.rst
+ create mode 100644 include/sound/hda-sdw-bpt.h
+ create mode 100644 sound/soc/sof/intel/hda-sdw-bpt.c
 
 -- 
-With best wishes
-Dmitry
+2.43.0
+
