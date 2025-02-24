@@ -1,81 +1,95 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063E92571B8;
-	Mon, 24 Feb 2025 13:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C5E24BBF3;
+	Mon, 24 Feb 2025 13:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740404024; cv=none; b=DR5O5S/9blL8rBpekKkZ/GPrbUk9F475GRbLn6DksjxITrMU6Gv+LeOuUFOuA4vmzrZl/2P/MDyqtV0N1KIaFRNmpy9TEVXYWgn8LScnWfQ7WaqPgHDW/kkcoiqS1y/ngAZmy21VrUp4LUnA/qiR3YR6q0mEeHZpe5ilznNTYWk=
+	t=1740404194; cv=none; b=O8eVEhAlhYfVaHsyWL/w5x1Xdhdwtn9a1V/co+dj6c4YcZUUrp9SgO7GGDzrdHQ5XS8CSsCWkU/8E2O5wkgJNqTW5JIOIVtax5/dwnzGrG7XDxNg2eVaORgf3GjPb3imtSjSIBKoWrSe2pazI2yckWwc+dhFbH5W/s6QWKdfmKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740404024; c=relaxed/simple;
-	bh=XqzTQYDdjRp+kJRIiPtsJDmCZ/ltriwS9uE21T5YcRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lbXFx0Xkp8yc5eR+IJv2a+lqceCdPAFksSS/0HbyOlqCk3LpvoZuoUDSdysSEZ/u/aCA/2ZfQXM2ehRNcTRLDGJRSBTyQeu7t/gTrt6UUfvd5RfWh8jnBmQR1awgiBX6ZcdIoP5CGrPFMytL6SNQw+k+pKaI2d+SvO+GzjmrSA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bkRLBWZS; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1740404194; c=relaxed/simple;
+	bh=VhFuW1YX+WDguNbx1Pqhdgwyq1wth1UVzs2bcOFTY6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gs8X8VW//irdQ4FqWcmlvjSqmbIxPQX4i2vbp3PumsdBPCQC/OMIBLTiNoTy88iLP4XA4fydK8FDDJD6Pa59gICoPINvAbeNQ7SvTDf88+fdHm7LX5U49416rSJXNgx46uvCOraOb2+daIM3ppojJQVbBFgAR7tmQ3DpnJwBeXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1qIi2DA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bkRLBWZS"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5874E432EB;
-	Mon, 24 Feb 2025 13:33:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1740404018;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cIagspXsyAvHsd8swjUvOQxymK0QzUmAeQhYVXlxXmw=;
-	b=bkRLBWZSZYwEnqDK+klu7rd0l1E+6IiG/EYUYbESdAfhkj4M9ALlTJHtr+pVyFDLerKsE/
-	T1hopPA/Z0C32ITyH4ZsnAWWStf9Bpeyx2lXc+mvhad48M4ewoWgz7gZI2oG6TgsE3k+Sd
-	98JOcpeli4mW61IPIk8R4h+AvcFEzVKQbtp9S4hp4l0qvqhNsJm8VXZMqdGi0vfnTE4XSg
-	Nh9cOR7gZ/e0+9Rgw6KF05mjQv4hBr1iclFE18TVDRfwt+b6CCmKgMajR5bofvM6vNmcss
-	My0CYfv4Gl0NhQFesREjV+1ixiwIf0wkPDsC0oIAeGSmrd9hEKAWWwYConETxA==
-Date: Mon, 24 Feb 2025 14:33:36 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: fsl: fsl_qmc_audio: Remove unnecessary bool
- conversions
-Message-ID: <20250224143336.75fe1e10@bootlin.com>
-In-Reply-To: <20250223202741.1916-2-thorsten.blum@linux.dev>
-References: <20250223202741.1916-2-thorsten.blum@linux.dev>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1qIi2DA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03DC5C4CED6;
+	Mon, 24 Feb 2025 13:36:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740404193;
+	bh=VhFuW1YX+WDguNbx1Pqhdgwyq1wth1UVzs2bcOFTY6s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G1qIi2DAwoQ/P1Re3G3WBaoT1KaYq+h3Yy0OxGNJWSsO8k5Nle1HFV3fXkLVu/7ol
+	 bRA4ewU6jH6usaAvxmTaUuBSmVSNpymyu4x1NqhaaYH1buNB9MpXaSFUfjdCZkESxW
+	 50IkRrzj1TRwCFjbO8EJUiNbwIcB0qNs3m9/uaTSJa8Ef09V2g3Vvp0cz9cCNmKd/g
+	 OfS0xiMSu4egIuoxXWwz9QziulS0mWQ5FVPvuq9qw2yQucnPyey5OaOlgRl9c/PL+f
+	 Em5/L/SKjsRvBpAMG7u68U98/CwIzi7gciO4gyYX9C+NsYuwpfEtBfdUHtvnb//cUB
+	 d7S9jQngIHsIw==
+Date: Mon, 24 Feb 2025 13:36:27 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Steev Klimaszewski <steev@kali.org>
+Cc: Alexey Klimov <alexey.klimov@linaro.org>,
+	srinivas.kandagatla@linaro.org, lgirdwood@gmail.com,
+	krzysztof.kozlowski@linaro.org, perex@perex.cz, tiwai@suse.com,
+	jdelvare@suse.com, linux@roeck-us.net, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: codecs: wsa883x: Implement temperature reading
+ and hwmon
+Message-ID: <1a667486-590d-47c9-b23a-069e3d51cb54@sirena.org.uk>
+References: <20250221032141.1206902-1-alexey.klimov@linaro.org>
+ <CAKXuJqj4zKfA4HNNcooG5Ffqi+EKQ1RvuzWndZd=htoatwszOw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejkeeludcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthekredtredtjeenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeviefffeegiedtleelieeghfejleeuueevkeevteegffehledtkeegudeigffgvdenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddvpdhrtghpthhtohepthhhohhrshhtvghnrdgslhhumheslhhinhhugidruggvvhdprhgtphhtthhopehshhgvnhhgjhhiuhdrfigrnhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepighiuhgsohdrnfgvvgesghhmrghilhdrtghomhdprhgtphhtthhopehfvghsthgvvhgrmhesghhmrghilhdrtghomhdprhgtphhtthhopehnihgtohhlvghothhsuhhkrgesghhmrghilhdrtghomhdprhgtphhtthhop
- ehlghhirhgufihoohgusehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgii
-X-GND-Sasl: herve.codina@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9sSdn6rh6EA/NDBo"
+Content-Disposition: inline
+In-Reply-To: <CAKXuJqj4zKfA4HNNcooG5Ffqi+EKQ1RvuzWndZd=htoatwszOw@mail.gmail.com>
+X-Cookie: Phone call for chucky-pooh.
 
-On Sun, 23 Feb 2025 21:27:41 +0100
-Thorsten Blum <thorsten.blum@linux.dev> wrote:
 
-> Remove unnecessary bool conversions and simplify the code.
-> 
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> ---
->  sound/soc/fsl/fsl_qmc_audio.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/fsl/fsl_qmc_audio.c b/sound/soc/fsl/fsl_qmc_audio.c
-> index e257b8adafe0..b2979290c973 100644
-> --- a/sound/soc/fsl/fsl_qmc_audio.c
-> +++ b/sound/soc/fsl/fsl_qmc_audio.c
+--9sSdn6rh6EA/NDBo
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Herve Codina <herve.codina@bootlin.com>
+On Fri, Feb 21, 2025 at 02:10:44PM -0600, Steev Klimaszewski wrote:
+> Hi Alexey,
+>=20
+> On Thu, Feb 20, 2025 at 9:21=E2=80=AFPM Alexey Klimov <alexey.klimov@lina=
+ro.org> wrote:
+> >
+> > Read temperature of the amplifier and expose it via hwmon interface, wh=
+ich
+> > will be later used during calibration of speaker protection algorithms.
+> > The method is the same as for wsa884x and therefore this is based on
+> > Krzysztof Kozlowski's approach implemented in commit 6b99dc62d940 ("ASo=
+C:
+> > codecs: wsa884x: Implement temperature reading and hwmon").
 
-Best regards,
-Hervé
+Please delete unneeded context from mails when replying.  Doing this
+makes it much easier to find your reply in the message, helping ensure
+it won't be missed by people scrolling through the irrelevant quoted
+material.
+
+--9sSdn6rh6EA/NDBo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme8ddsACgkQJNaLcl1U
+h9B8igf8DvVM3ehtTA/kt8PFdlYgC7fDa+W9NdQiGnL5dBWxZHkjW/K/+0BdZcLZ
+oUYwbPazrLOk/UNutZEPtmTeA/tsDICgJkRqo4JNr+ieJCYi5cx4ndnC41p9NaN+
+fBJmvIwp5fR3Xf7xqcNUYODzUV4up5UNcSrZ6XLbe7Gu9ARUDnbysW6xiDPrwT5f
+Vs4Dxbebd3DAc6AYaUY/238U7UMIs1grbd3n31BEDpHqARVEacRfrDs3T6HfJMcG
+QYifRzsro6uoZYLyqEQDQ8Arxz5mEXpJBMK1xUdtNPH3qElOLdhR0ilIJlGRmKIH
+fATfb92v3UosKMkBU1NWq2aU3ph4Gg==
+=v9FJ
+-----END PGP SIGNATURE-----
+
+--9sSdn6rh6EA/NDBo--
