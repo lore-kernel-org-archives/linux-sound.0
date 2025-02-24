@@ -1,96 +1,103 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D2B264FA9;
-	Mon, 24 Feb 2025 17:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2181B198A38;
+	Mon, 24 Feb 2025 18:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740418751; cv=none; b=NW79Oa4E97yE1sSXqfrieLpsDcrcf2ym+ud0bVXbDVYHv1nRwPSiZaajv0QiPHUpFcWHj7yiUwO7eC4kJcGUNf3++mbt5rFjnHzJcj+Gyuys3pd+Mwp1zqbgKm1Eg+6X+WG1i2M/t+pNxT83ht6hRwpMqI+FTbR38EeG5RIgH4M=
+	t=1740421557; cv=none; b=p7pN/H+RfSBDQgNa88U5uZ3YnU4OBVMa6fMX2igR2C3x5QycuV1sIxMWcB6et/6zN3hdnCO5GatBGpItRrtciMB+zvh/V72fSATKZK1l447/M0f6Hp924RChDbemfrvOK53tWcB7O45signckSfmK9eMHUVpvNqhGDnxfHXFJt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740418751; c=relaxed/simple;
-	bh=uEaCqTit3Hs30MjNpx5mW1Lh1YKGgfb9eHc2xm3HRtU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XXgU835IiVbVG5ipOZ/0AUUoGQY6KWIBG2zEv6kGhgJ+Aj+R6Ou0pB1JdGQXLCTzBUzctHETslwio1cqIJDL/zvpaXYBTRKO9tG56DLoMlvgyEX49mqbjJmQdcCnug6EXdfIwIRhFz0GCSyWUcmTAK1EVJYz17Kd3uxESE7J2WM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=pfZLdgoZ; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="pfZLdgoZ"
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id F128D2E08FD2;
-	Mon, 24 Feb 2025 19:39:01 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1740418744;
-	bh=uEaCqTit3Hs30MjNpx5mW1Lh1YKGgfb9eHc2xm3HRtU=;
-	h=Received:From:Subject:To;
-	b=pfZLdgoZRsGj7flsBNAsYCE/QWi/Gwn6lfqVKEY4tz12sW08w3pwnRZLwYBlOM/sb
-	 5OVO6NBiWIThF866NR0t7DwOkYeOJZYaXdVhJ+M3RJCmKQ5xY35OQv9P33jvocfC3V
-	 n+dA1Bx7u64EjNq1WS4/H/PoL6jMDIS161WLIVOQ=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.177) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f177.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-307325f2436so45402691fa.0;
-        Mon, 24 Feb 2025 09:39:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVFXogWmP14jkFpjeRCsdWw31DaclK9XelGGnxl9RQ6nAn8Zbkre8lJ1fJZWGa3WCQbscbCpjvpc5CFOxw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw316CQQAt9pa7W0ErLk7DtaVaeKGVcbazrusChdplGtrhFVtMI
-	BMcmDdYoUY8xJiAxO1QOU3FXIm58z54pwcNQHQ/jXcDyWwcKbJhhkAM2SjHU77X0DYH3wQeCCOE
-	wy6vdlbsYW7DYFWNK3Ien6ftvZrc=
-X-Google-Smtp-Source: 
- AGHT+IHDf/8mxULisWDqSsVCPQZDiH/35WgwcCQjxHgPMcGxWVL12+DEduABrs4BXemzCqAtnX9uVLyIsSHQNmJSzuM=
-X-Received: by 2002:a2e:b006:0:b0:308:f01f:182c with SMTP id
- 38308e7fff4ca-30a59898391mr43439631fa.12.1740418741149; Mon, 24 Feb 2025
- 09:39:01 -0800 (PST)
+	s=arc-20240116; t=1740421557; c=relaxed/simple;
+	bh=4wX8Yy+j0Jz+myikKPUI4GIa4qvN0F+C5YtIPn0dP50=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Jb7mcuuNin7kb7bsFZbWn5mgfXDzDv7hxtuZ4xsAomlLwNshOgcTELrD1lQZL/KnXvF7iAcA0RGlzOCwxkZFoAE9IjHU0S7aTy1/m2Uh3Qz0iiR/zLGpGqo8YShrg6YYR0L9m0Iq7FvxV1lm+E437wC8FqweFhl1LXjeDz/plJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F27741477;
+	Mon, 24 Feb 2025 10:26:10 -0800 (PST)
+Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B61E83F5A1;
+	Mon, 24 Feb 2025 10:25:52 -0800 (PST)
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+To: linux-sound@vger.kernel.org
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/4] xlnx: dt-bindings: Convert to json-schema
+Date: Mon, 24 Feb 2025 18:25:44 +0000
+Message-ID: <20250224182548.2715896-1-vincenzo.frascino@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250224161016.439696-1-lkml@antheas.dev>
- <20250224161016.439696-3-lkml@antheas.dev>
- <004001db86dc$b32dec60$1989c520$@opensource.cirrus.com>
- <CAGwozwHSbzDxCiO-xYNqNH20HovMnMk+rNLEatToX4js=gO_RQ@mail.gmail.com>
- <CAGwozwE3dceooZouM2Ay9YXfehrQBk+STa1HRH5nkZ6QohTjhA@mail.gmail.com>
-In-Reply-To: 
- <CAGwozwE3dceooZouM2Ay9YXfehrQBk+STa1HRH5nkZ6QohTjhA@mail.gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Mon, 24 Feb 2025 18:38:49 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwHwbX_LCm5ZOJzC3CxR3UkGnmo1UVUE0685FZdjFV806Q@mail.gmail.com>
-X-Gm-Features: AWEUYZlX79aScACefcN5jqida4vr4EdufKHNwqv2xqoy0LRMx0MNbhSHtemmY8c
-Message-ID: 
- <CAGwozwHwbX_LCm5ZOJzC3CxR3UkGnmo1UVUE0685FZdjFV806Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ALSA: hda/realtek: Fix Asus Z13 2025 audio
-To: "Stefan Binding (Opensource)" <sbinding@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, kailang@realtek.com,
-	linux-kernel@vger.kernel.org, perex@perex.cz, tiwai@suse.com,
-	baojun.xu@ti.com, simont@opensource.cirrus.com,
-	Kyle Gospodnetich <me@kylegospodneti.ch>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <174041874381.28762.2039195872684370119@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 
-Sounds about the same, perhaps a bit better. I'll swap to that one for
-our use and for when/if there is a V2.
+This series converts the folling Xilinx device tree binding documentation:
+ - xlnx,i2s
+ - xlnx,audio-formatter
+ - xlnx,spdif
+to json-schema.
 
-Any tips about going through this stuff are well appreciated. Online
-documentation is very sparse
+To simplify the testing a linux tree rebased on 6.13-rc4 is accessible
+at [1].
 
-On that note, what's the timeline for adding support to these laptops?
+[1] https://codeberg.org/vincenzo/linux/src/branch/xlnx/dt-bindings/v4
 
-And speaking of a V2, the Ally X quirk is a bit suspect. Yes it fixes
-the popping during boot, but which part of it does that? It is very
-long and touches a different amp quirk in the process I'd say, so it
-would be nice to clean up. Let's forget about the original Ally, but
-the Ally X is still relevant.
+Note: These bindings are required for future work on the ARM Morello
+Platforms device tree.
 
-Of course, I do not expect an answer from you Stefan, as it is a
-competitor amp, haha. This is mostly for Baojun et al.
+Cc: Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-Best,
-Antheas
+Changes
+=======
+v4:
+  - Address review comments.
+v3:
+  - Address an issue with the MAINTAINERS file reported by the kernel
+    test robot. 
+v2:
+  - Address review comments.
+  - Rebase on 6.14-rc4.
+
+Vincenzo Frascino (4):
+  ASoC: dt-bindings: xlnx,i2s: Convert to json-schema
+  ASoC: dt-bindings: xlnx,audio-formatter: Convert to json-schema
+  ASoC: dt-bindings: xlnx,spdif: Convert to json-schema
+  MAINTAINERS: Add Vincenzo Frascino as Xilinx Sound Driver Maintainer
+
+ .../bindings/sound/xlnx,audio-formatter.txt   | 29 -------
+ .../bindings/sound/xlnx,audio-formatter.yaml  | 77 +++++++++++++++++
+ .../devicetree/bindings/sound/xlnx,i2s.txt    | 28 ------
+ .../devicetree/bindings/sound/xlnx,i2s.yaml   | 65 ++++++++++++++
+ .../devicetree/bindings/sound/xlnx,spdif.txt  | 28 ------
+ .../devicetree/bindings/sound/xlnx,spdif.yaml | 85 +++++++++++++++++++
+ MAINTAINERS                                   |  8 ++
+ 7 files changed, 235 insertions(+), 85 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/xlnx,audio-formatter.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,i2s.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/xlnx,i2s.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.yaml
+
+-- 
+2.43.0
+
