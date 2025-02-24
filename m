@@ -1,84 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1708A1714CF;
-	Mon, 24 Feb 2025 14:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E174723BCF5;
+	Mon, 24 Feb 2025 15:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740407379; cv=none; b=ehAYajX9cPuu6TQuHbjyud1LMV3cUvVueq0KmFOihy7xGzKWncwFDCRKIfsXisVhNUfH4xSJzVEInw5X+fAs4xlZkq7NqOxOywWkDstoRCdzbgg7f780LMzIz8cXvBtGAJLAPFfRdoKAzm6GN5zk6LRtBJXmkFWOhG2VNGNe5QI=
+	t=1740411197; cv=none; b=CfRJRVs1/7Ayp2k5aW4BYEPreNwDbE6YqJqMVVVLm6HQeOOaFCa4gGDKjvaPn2lUv3a+UaOilMo+ehpSZyznZVHVuIcX5PirVT7MdB4SkCGrmmy55pG43H8dUuARl8Q4cIhhvb6nuHqUp+J79l+CQP26kfeyUWA9mmpkfaqJsmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740407379; c=relaxed/simple;
-	bh=dzZWpseyrev5OlunHDNaX/H3YV4k079RCauuuFOelKs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZlwKUPetKJA+Sj4yHddYiLMSMjTpbNV1Ty7ED6Jnmv5XQJtn5JxGUuU+PO7EqrW6cYvg+ki8HXaMkjnIwMmhcdIvxzZBwxe30gnkz0X2qeExThnA7HlODGxlKXEW87PXKFpedxYUdEBN2poXu2S/uwQiJ+WandTLmMCBT2sFerU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P/UIet10; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740411197; c=relaxed/simple;
+	bh=O2tJz2i0vD7hotp7+UD3YrNL14k8fLmcgvxxr3HFIFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DLYeyd5PaZ12p+sUwDsiM01ZaELOELSLh7SMVsNTuBNeQ/SbWZzMBjfkIxebodETlJsy5Z+gPt19zitRdQgO9V3If8F+oad2UsO8neNI3Dgb+F/KvmOV/2V6PWzzLx8H/mscwZOXlDzBlSwjENm5srbsfI5dR/TUvHwUWBuaH1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JE3OS9YN; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P/UIet10"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740407378; x=1771943378;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dzZWpseyrev5OlunHDNaX/H3YV4k079RCauuuFOelKs=;
-  b=P/UIet10gFvil3cezh3xGVeq8gLVBYl69ieg/0vShY5c6L9gzZL1bQbP
-   /6eSe6kihsq9Q/pKC3eDTB9uAvLG8flbF/din4QKRlWPNsxoth72ycj/E
-   vtCAs7M0LAomPyJEgPeNnKVY1/Z42sHOo322C3ZnrwRbzs8alEHRGSKL5
-   EPzETr9WYWO1XcQlfHf3Pq8k7jhnSsRitIOdIXQmjhxl7hUSNRm8yLWHS
-   tUoS0cPEs1Lfu6uF+Ye0OdkhyRfvJBXgVhTwdUEigCtQ2a9RK0xLMOj5F
-   CYvVYkmqoGMHfeHnTdpJQ4CvkgJbbQQnD8s83HAD0VHvzy42ge6k4+kEX
-   g==;
-X-CSE-ConnectionGUID: Vi1ZG0tATFuM3h4I4baDuA==
-X-CSE-MsgGUID: wYKMN0rKTpmput2ibhHzWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="41179717"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="41179717"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:29:37 -0800
-X-CSE-ConnectionGUID: 1OsmfyM1ToGAN7Rk7KutlA==
-X-CSE-MsgGUID: nrHSlI1ESqCvxmEiS39VoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116557596"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:29:34 -0800
-Date: Mon, 24 Feb 2025 16:29:30 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, deller@gmx.de,
-	andriy.shevchenko@linux.intel.com, sre@kernel.org,
-	sakari.ailus@linux.intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com,
-	linux-sound@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
-	ntb@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 00/13] Convert to use devm_kmemdup_array()
-Message-ID: <Z7yCStqIMZfuWcAJ@black.fi.intel.com>
-References: <20250221165333.2780888-1-raag.jadav@intel.com>
- <31f8302b-96be-41f1-9e58-c9f8cb2a9524@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JE3OS9YN"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8EB7D4430D;
+	Mon, 24 Feb 2025 15:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740411193;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4nBcEB5ZqYv4lPSZ2d5hbWxLCG+9RTl08TMuDme7c2c=;
+	b=JE3OS9YN7ghRFygCXouzH5Hykp/g+2H8PEbNXBASW39se3lPZvGwelkhojmFETkz2DK5Ak
+	HMiwkmNZukMo8/YPFbm6t7qiCXZCZin5ZoaKjhR4AHkwfvKjMJFKdpA9R7Vo6sCddHRYGa
+	KHjgeo93uRoZBJw9PXzFyOnHWKUNeCNeso0T8ITE7I8tWuU+Bz6IhKsbMGJUB9TUm4kWX/
+	TG3J7R1z7KX+PtytluXEOMd6kmM0ZByl+pTVjidIc1jHXlh2iCkbc0QwIfRT8iy030AyVA
+	xIZt0bWA2qSV7cbkXZ3zsAmj3P2O+XZH5LgRgdMNMWomuR4kH6V0rah5hHwXQQ==
+Date: Mon, 24 Feb 2025 16:33:11 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH] ASoC: dapm-graph: set fill colour of turned on nodes
+Message-ID: <20250224163311.0611da3f@booty>
+In-Reply-To: <20250221-dapm-graph-node-colour-v1-1-514ed0aa7069@collabora.com>
+References: <20250221-dapm-graph-node-colour-v1-1-514ed0aa7069@collabora.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <31f8302b-96be-41f1-9e58-c9f8cb2a9524@sirena.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejleduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehpdhrtghpthhtohepnhhitgholhgrshdrfhhrrghtthgrrhholhhisegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepkhgvrhhnvghlsegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtoheplhhinhhugidqshhouhhnu
+ gesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Mon, Feb 24, 2025 at 01:46:29PM +0000, Mark Brown wrote:
-> On Fri, Feb 21, 2025 at 10:23:20PM +0530, Raag Jadav wrote:
-> > This series is the second wave of patches to add users of newly introduced
-> > devm_kmemdup_array() helper. Original series on [1].
-> > 
-> > This depends on changes available on immutable tag[2]. Feel free to pick
-> > your subsystem patches with it, or share your preferred way to route them.
+Hello Nicolas,
+
++Cc: Mark Brown
+
+On Fri, 21 Feb 2025 21:39:32 +0100
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
+
+> Some tools like KGraphViewer interpret the "ON" nodes not having an
+> explicitly set fill colour as them being entirely black, which obscures
+> the text on them and looks funny. In fact, I thought they were off for
+> the longest time. Comparing to the output of the `dot` tool, I assume
+> they are supposed to be white.
 > 
-> Please don't combine patches for multiple subsystems into a single patch
-> series, it just makes everything more complex to deal with - it creates
-> cross tree issues that wouldn't otherwise exist.
+> Instead of speclawyering over who's in the wrong and must immediately
+> atone for their wickedness at the altar of RFC2119, just be explicit
+> about it, set the fillcolor to white, and nobody gets confused.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+> This is somewhat "just thrown out there"; I noticed that not setting the
+> fill colour breaks KGraphViewer only *after* I thought this was just how
+> they were for several days. With this change, both dot and KGraphViewer
+> render it correctly, but I have no clue as to whether it's in the spirit
+> of the file format at all. I figure that if this saves some other poor
+> souls a bit of time and confusion, then it's worth it.
 
-Sure, will split v2 per subsystem.
+I confirm the issue with a plain installation of KGraphViewer (which I
+didn't know at all before -- interesting tool).
 
-Raag
+So, let's have mercy on the poor souls:
+
+Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
