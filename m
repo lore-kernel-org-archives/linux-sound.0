@@ -1,92 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C5F2561C2;
-	Mon, 24 Feb 2025 15:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16DF19C54F;
+	Mon, 24 Feb 2025 15:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740411734; cv=none; b=HQq/zTxl9HZjAmMOO6BMT+XHMryldZxTyYeWM+WHIAw0XfsrgdbV5e6As9/vDu8im+nPhRKPAaE2wZwxSFfbd82DLLb0J+bga6/fxfumyKhIBW/NQ6+HakjuPJyubbsMJBWCZMQAJ7iagJAeGiyx99iDl4WkMQc+zW3PbwKLwpk=
+	t=1740412517; cv=none; b=ijplNOHQj44lX+fx8tkkYRHFHKTPxp0C0FjoFBHWSiZzaGucbLzSYbhSBIsIdt09ARxFsy2TVp0FyneXbR67EMEjN4ezh5azFm6nNNaro/L0bs5STsrbpGz3hb+6Y/2G92xevieIGpUJblzH+oNz685pJtZxOabDoPOcBJ1Z5Jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740411734; c=relaxed/simple;
-	bh=bNIcr4Fz4MgFSDcxSksqWLxES7aDz2dSI+VqqsfI3g8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eq8ZQtJqexHs3zcu3SgJpF68FVBrlwI1GdBscsEWL1eZ3WUAp5lio91NoxBRLNY5lwvMhNdGc5j/7BOvlwgZXHyBfQFKlTBu4NBNxNnTykC3DS+goBbMpSbQFlhCWrNfslB03n9JfGDdlpaD24hwVMWjj3g1EZTcc+w9ao+oQRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=caGtuwmh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740412517; c=relaxed/simple;
+	bh=STtZQuv+RzF4rVxvmkNwLZdufziGvVoQP7iTUf+pLVU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=X39rSruTnQcVBF0U/z+a5L/tWz2ryzkjBxBErVetWacitn8H2t2j/CYDolMUyAvdPIHpUxs/ZNpf+W4QrIwgXKZ/Szt4+fRzdMWtMmtA7haT//ydaV5a7LRw893MKYiHrqta26pJc7ZhPB8KLH5ZLQTMpqWVosgiykSaMko5yNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=Vhux80ft; arc=none smtp.client-ip=217.194.8.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="caGtuwmh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAD1DC4CED6;
-	Mon, 24 Feb 2025 15:42:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740411734;
-	bh=bNIcr4Fz4MgFSDcxSksqWLxES7aDz2dSI+VqqsfI3g8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=caGtuwmhiH5TEjWTo4MeM6H6LSDoh30IAwE77NZXJTXKNDOv3XaCRHTzcsTcbkqKE
-	 xuCMeVUjGEBeNSlEBHNupLGj8l8QycXnc0+rPcHeWhErVhgHG+ABiupHYNuV6WLATo
-	 bQ2YkI8Jm9zQ9EyNI4IcOFOe2rPQY/NEh3uOZCdH1/O/XfXyFOzB+XPhBhqZhbJSP+
-	 Eb9Z6b73rS+o2FCu19FScc3WLmhvWqRpLdfbH3Gclmu2Imm6h6kthUdoRBPKRasDA3
-	 imbnucL9qPZWMdXkFV5J/CdqUmgFmzmMvK8Yn5h4AYnj5II39nqJLvRmYfygPSy+oi
-	 tLceB0o9wdXKw==
-Date: Mon, 24 Feb 2025 15:42:08 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	kernel@collabora.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: dapm-graph: set fill colour of turned on nodes
-Message-ID: <3d15fd23-3756-4a17-a447-b5ccb2c564df@sirena.org.uk>
-References: <20250221-dapm-graph-node-colour-v1-1-514ed0aa7069@collabora.com>
- <20250224163311.0611da3f@booty>
+	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="Vhux80ft"
+Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id E449B1FB22;
+	Mon, 24 Feb 2025 16:55:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+	s=default; t=1740412505;
+	bh=oOZsJETrHiWMcgnzrNm+dbY9GEM5Tyg2OUYuM9f3MOo=; h=From:To:Subject;
+	b=Vhux80ftJX44Ow17yakA/3w48rbgqf10bi7LUuUk39ZoEmlgYvsKq1p//YqF32hDC
+	 Mpb4h9G5eVdMdpBBpZsQl2aUuIXBrcFgFHEUDKbjpeK/t2i22t2NXkrVodBy2n6u3K
+	 YgxyOgTc1awAy6KSebtj7EJnUwo2N7DMqyW386pvHW5ptNY2RwIqpdTNy7z6z33rdK
+	 RBR90koDtmfxXPIsgUlTBYrjhe3DxE0v9SVVSfvL9bW30N7XzvooGTNwshPwBH5na8
+	 XGaXXsdtV99xdHiZEWbYLgmmX3/RafkQjsQ+VIG+6htXdnWqRDN2NPgjdhGK+5IO5e
+	 yhPkKeVGnSzvA==
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	patches@opensource.cirrus.com
+Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ckeepax@opensource.cirrus.com
+Subject: [PATCH v2 0/5] ASoC: wm8904: Add DMIC and DRC support
+Date: Mon, 24 Feb 2025 16:54:55 +0100
+Message-Id: <20250224155500.52462-1-francesco@dolcini.it>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="doMF8Qx3qZEMyGkm"
-Content-Disposition: inline
-In-Reply-To: <20250224163311.0611da3f@booty>
-X-Cookie: Phone call for chucky-pooh.
+Content-Transfer-Encoding: 8bit
+
+From: Francesco Dolcini <francesco.dolcini@toradex.com>
+
+This patch series adds DMIC and DRC support to the WM8904 driver, a new
+of_ helper is added to simplify the driver code.
+
+DRC functionality is added in the same patch series to provide the
+necessary dynamic range control to make DMIC support useful.
+
+The WM8904 supports digital microphones on two of its inputs:
+IN1L/DMICDAT1 and IN1R/DMICDAT2. These two inputs can either be
+connected to an ADC or to the DMIC system. There is an ADC for each
+line, and only one DMIC block. This DMIC block is either connected to
+DMICDAT1 or to DMICDAT2. One DMIC data line supports two digital
+microphones via time multiplexing.
+
+The pin's functionality is decided during hardware design (IN1L vs
+DMICDAT1 and IN1R vs DMICDAT2). This is reflected in the Device Tree.
+
+If one line is analog and one is DMIC, we need to be able to switch
+between ADC and DMIC at runtime. The DMIC source is known from the
+Device Tree. If both are DMIC inputs, we need to be able to switch the
+DMIC source. There is no need to switch between ADC and DMIC at runtime.
+
+Therefore, kcontrols are dynamically added by the driver depending on
+its Device Tree configuration.
+
+This is a heavy rework of a previous patch series provided by Alifer
+Moraes and Pierluigi Passaro,
+https://lore.kernel.org/lkml/20220307141041.27538-1-alifer.m@variscite.com.
+
+v2:
+ * Fixed a bug in wm8904_parse_retune_cfg_from_of()
+ * Added full usage example of the three ReTune Mobile config properties in the
+   DT binding.
+ * Improved the DAPM routing:
+   * Only add IN1L/IN1R routes to ADCL/ADCR conditionally depending on which
+     DMIC is in use.
+   * Do not connect PGAs to ADC when they are not needed.
+   * Keep the mux between ADC/DMIC even when two DMICs are used, as the IN1
+     pins share a mux with IN2 and IN3 and the ADC could still be used for
+     them.
+
+v1: https://lore.kernel.org/all/20250206163152.423199-1-francesco@dolcini.it/
 
 
---doMF8Qx3qZEMyGkm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ernest Van Hoecke (5):
+  of: Add of_property_read_u16_index
+  ASoC: wm8904: Don't touch GPIO configs set to 0xFFFF
+  ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC and EQ support
+  ASoC: wm8904: get platform data from DT
+  ASoC: wm8904: add DMIC support
 
-On Mon, Feb 24, 2025 at 04:33:11PM +0100, Luca Ceresoli wrote:
-> Hello Nicolas,
->=20
-> +Cc: Mark Brown
->=20
-> On Fri, 21 Feb 2025 21:39:32 +0100
-> Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
->=20
-> > Some tools like KGraphViewer interpret the "ON" nodes not having an
-> > explicitly set fill colour as them being entirely black, which obscures
-> > the text on them and looks funny. In fact, I thought they were off for
-> > the longest time. Comparing to the output of the `dot` tool, I assume
-> > they are supposed to be white.
+ .../devicetree/bindings/sound/wlf,wm8904.yaml | 106 ++++++
+ drivers/of/property.c                         |  33 ++
+ include/linux/of.h                            |   9 +
+ include/sound/wm8904.h                        |   3 +
+ sound/soc/codecs/wm8904.c                     | 317 +++++++++++++++++-
+ 5 files changed, 461 insertions(+), 7 deletions(-)
 
-As documented in submitting-patches.rst please send patches to the=20
-maintainers for the code you would like to change.  The normal kernel
-workflow is that people apply patches from their inboxes, if they aren't
-copied they are likely to not see the patch at all and it is much more
-difficult to apply patches.
+-- 
+2.39.5
 
---doMF8Qx3qZEMyGkm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme8k1AACgkQJNaLcl1U
-h9BwlAgAhHv+PFXM5e0zQ9dTmKEVwx63AYqZQO/rfIr4Kz3gzekJI5dDY+AT+inb
-pPp1JwXFhEKlunLXD5VNMPJGs2c4gH8YI6wvyKazNNw7kMewPxSRvYq6Y62FuPxd
-F6h89riZfV7IIO5vcLz5nrO7tY/MftZilRFnKmSFvTLbpjMAG3vFNCgaDwU8igkw
-6UsCT55+7xLCZXSnjIHJPm9a98ALujJ7iU0WbqA0FekIRqkgRM6HdGFGxiKthe62
-jBTkmmn1QRb2qsVTUWY517ATl49KQOpWaZ9Hj2m08qVjIhnUhpVH8CDzJkEZ9THv
-8bRvaEP8LNA1DIQrXt4Z16dZKP3jxg==
-=eUne
------END PGP SIGNATURE-----
-
---doMF8Qx3qZEMyGkm--
