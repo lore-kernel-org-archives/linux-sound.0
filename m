@@ -1,76 +1,92 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E27C1CEAB2;
-	Tue, 25 Feb 2025 19:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB02183CB0
+	for <linux-sound@vger.kernel.org>; Tue, 25 Feb 2025 19:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740510482; cv=none; b=lm3OcsYzE68LypdiWXjyqtlXENQyL0tWx8viHrFTNCRQhTdpZrSX6Nj5XtxhTqH0HrnoPpnBFG6XBgcqZG1giNN5S1R5EETbvlLG4mmnFzEsKKON8oJiJlIcdmStp2UmKaqzlZVgi/7MzIJsr7qQltVjzvHDbPlmzP69qZUMDWo=
+	t=1740511962; cv=none; b=mgh5IL+4jfNhGEiaMyeFfNnheLFoCmX5BN4wVBiteva+mybMaga16WpN5FzvshLoz/26rcxEkAQqZJHkNXVovyz8gbMwJZjjGkw4DJz2K0zbdpuxYuh8hvEgwW99/ZU2OXuAZJQS2SH2qV9S1E3P9YuQtiBWIwIzYH4GUIju+4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740510482; c=relaxed/simple;
-	bh=8HFWOPfaQ6julYwmLt/9ypWpA6ib6AebIuo0sdAJ4YQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UecimwBS/3oWbSd07RHmtNJmp8GBWLgtkNxrvqnGSUXa/Cu9feaKE4DAqqHz4vQXwGEvRdizxzrZXW+LcKSWJVPFKEONyrUcTMCt4EeYsyJN0uRh7K10jUofNfm94sbCdKJNKdSIa/G+Z+quh7EW3kBPPpthO80cqYGA6/GmDJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A492152B;
-	Tue, 25 Feb 2025 11:08:16 -0800 (PST)
-Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4EBDC3F5A1;
-	Tue, 25 Feb 2025 11:07:58 -0800 (PST)
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-To: linux-sound@vger.kernel.org
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 4/4] MAINTAINERS: Add Vincenzo Frascino as Xilinx Sound Driver Maintainer
-Date: Tue, 25 Feb 2025 19:07:46 +0000
-Message-ID: <20250225190746.541587-5-vincenzo.frascino@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250225190746.541587-1-vincenzo.frascino@arm.com>
-References: <20250225190746.541587-1-vincenzo.frascino@arm.com>
+	s=arc-20240116; t=1740511962; c=relaxed/simple;
+	bh=VVAetV0FJAo2Zz7yiuhRIRip/0eIdti7z4izGMtu0iw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=jH1tyHhOpMkpIEIzBeQNaZHaOzqA0A/zhwI7cfHf6GoIXgWHVjDY9h3zcGkhTImwfI4QoU1doXUE59cu2NSHY08xNy8t3QrtfWsMaoP2GRSu3yVvL+kJ1zOXaT/KYV45v3sRgaj/k87OoEwkrBSs1z8ultTSa7rfc68OJv1sSBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCWU0t9f; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCWU0t9f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753DDC4CEDD;
+	Tue, 25 Feb 2025 19:32:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740511961;
+	bh=VVAetV0FJAo2Zz7yiuhRIRip/0eIdti7z4izGMtu0iw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=HCWU0t9fa8U/1cjuUigHhUr5+nqmjNe1DUlKaeuLDwkerlUnPAgtIo5itYkvZ+s51
+	 IKSwTdTsW1om3xzmQ17gkiDViGNHJOQ+hvG14Mp8IrtPVD95jfkf5QShPJyxVvbjSE
+	 DuofwxAcOJdY2v3XCi1/Y8YuwneeSA2Txe2MMWhj+HKC1QA0WNZsHScbnScDXfBQ4T
+	 +VMI9WRnhs2gv0OGi30btR41fvXzVUKe3dncyBsNHBife0hWWeTnSIVBEbyZKLcWhb
+	 5L3q9TFmc+ifDYANObDxJV4NNsGQAF0c0hdRraICBEoRJ0GN4FRaZmxc/Y6/zIEyiC
+	 3+gFMVDjVM2Rg==
+From: Mark Brown <broonie@kernel.org>
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com, peter.ujfalusi@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com
+In-Reply-To: <20250225093716.67240-1-yung-chuan.liao@linux.intel.com>
+References: <20250225093716.67240-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/2] ASoC: Intel: don't check number of sdw links when
+ set dmic_fixup
+Message-Id: <174051196020.229034.10193588209583066159.b4-ty@kernel.org>
+Date: Tue, 25 Feb 2025 19:32:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-Add Vincenzo Frascino <vincenzo.frascino@arm.com> as Xilinx Sound Driver
-Maintainer.
+On Tue, 25 Feb 2025 17:37:14 +0800, Bard Liao wrote:
+> Currently, we assume that the PCH DMIC pins are pin-muxed with SoundWire
+> links. However, we do see a HW design that use PCH DMIC along with 3
+> SoundWire links. Remove the check and add warning to let users know that
+> SoundWire MIC and PCH DMIC are both present and they could overwrite it
+> with kernel params.
+> 
+> Bard Liao (2):
+>   ASoC: SOF: Intel: don't check number of sdw links when set dmic_fixup
+>   ASoC: Intel: sof_sdw: warn both sdw and pch dmic are used
+> 
+> [...]
 
-Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Applied to
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index db9588b1065c..98c878b1aa05 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -26011,6 +26011,14 @@ S:	Maintained
- F:	drivers/pwm/pwm-xilinx.c
- F:	include/clocksource/timer-xilinx.h
- 
-+XILINX SOUND DRIVERS
-+M:	Vincenzo Frascino <vincenzo.frascino@arm.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/sound/xlnx,i2s.yaml
-+F:	Documentation/devicetree/bindings/sound/xlnx,audio-formatter.yaml
-+F:	Documentation/devicetree/bindings/sound/xlnx,spdif.yaml
-+F:	sound/soc/xilinx/*
-+
- XILINX SD-FEC IP CORES
- M:	Derek Kiernan <derek.kiernan@amd.com>
- M:	Dragan Cvetic <dragan.cvetic@amd.com>
--- 
-2.43.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] ASoC: SOF: Intel: don't check number of sdw links when set dmic_fixup
+      commit: 56a677293509b2a0d39ac8d02b583c1ab1fe4d94
+[2/2] ASoC: Intel: sof_sdw: warn both sdw and pch dmic are used
+      commit: 4bcef04ca67fa8c46591a211885bb9c37f25dbbd
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
