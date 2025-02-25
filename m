@@ -1,95 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57165433CE;
-	Tue, 25 Feb 2025 13:20:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FFE269819
+	for <linux-sound@vger.kernel.org>; Tue, 25 Feb 2025 13:38:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740489624; cv=none; b=RwNWZnpUKZQa90LJRGyq0V96NzLRIbKflzD5QEh17UWjelkcntjHnFJQKEEoLAcemGo1WyMtIhtlP9febnzLOcALH5PZfRMeVx7JYUfOczsSNQ8avEkKQkNjnwGltb7TNzcGY8GwVRjU9/MKQhJLVBUhrK7WXIFUOo9bTDgs3oU=
+	t=1740490724; cv=none; b=oj0Ih/sBzRXelbdo/mykvoo9hamoI9CIwbjqU6meVc19V+gALTXUcbuucgCX3/8Wx7J4O1TtkZmiOs2nLwgvQlGjnGq4K52o82QC2gLhZd1qUsKc9dT25+KNCZFCO5TXmkfsMdhMaod0PSXbTAhY8FBh6sAnR/aO32jyZHob5qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740489624; c=relaxed/simple;
-	bh=dfAK7SX3PAcngLvN+TTXq78fi95cSmXCJNnXQz5sDYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EvsGyALcSQ15EIg+sUQ0CbyAf2GpvJzx2pee4zGOw5TR1yJuTz9D9U+UL/uo+8Ic/aYKfvAvj8vR32tLrOnVK6Pg5HY+h2nzbyT83sGIdaq9LwMlIywcih/2E9bIj7ee2iIpj1ryUwPKPhRT5pJbHu1vdA6uDQxRaCj0g5A5V5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XdhwUbrR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740490724; c=relaxed/simple;
+	bh=VQQ3tfdhuiZOJaETR0gtKr/t8m/ZjoasMFKJM59eNxM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=QaP6umXdB8FDhPvhmhLM+6fqtzAUd0S6QkvvXmvQRzbWHc0YkjKh4o0XrHH/o9S+nMkKEskSIzPsKeoPtqOBRDQBKevK1NU7Pum4+NXyWrB0hFSv2xYyhEYocdkoziokdKjD6eApC0XqnZfG5CvAHaOqPQHOMzPe4aSQ5IxzZb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWnU9YFp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XdhwUbrR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDC9C4CEDD;
-	Tue, 25 Feb 2025 13:20:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWnU9YFp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0098EC4CEDD;
+	Tue, 25 Feb 2025 13:38:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740489623;
-	bh=dfAK7SX3PAcngLvN+TTXq78fi95cSmXCJNnXQz5sDYg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XdhwUbrRy4MkEPdJOvsjlXWHY9v2ddvBSerrHVuHx7x/aUgSeZ+HouitztqlMatlK
-	 sKJbq8sknggxLvSqNgGqA0O80avqdF0t1MWfvF7gFY9Z4K8MCqRX1P8qyKGqHhkSYJ
-	 35/DClm8586xGkiD/U8UTDzGvqEL8A1U3E5yjWInyLqYVhajagM/N/MaW4Y/QMlJR5
-	 sb5rf1RdMZljuGDxzliuSri1KaSWhO+gzvZgTTkE7LdlrWV/93FAhp4fMVnZt2Keq5
-	 2Yf/eiOxOg3rI5AZV9Hxjqpkw4kXwPVMUmz5XDgHVp1jy43q0JZblxZ3r3redl/4iD
-	 sGXe37pzc63xA==
-Date: Tue, 25 Feb 2025 13:20:17 +0000
+	s=k20201202; t=1740490723;
+	bh=VQQ3tfdhuiZOJaETR0gtKr/t8m/ZjoasMFKJM59eNxM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=TWnU9YFpY09GzmUB/h2a/Ee/pjhwSk1gfjYvwNx897GrP4Elh5rnBVncT57Ceda9+
+	 hFAYlYY0ozXGINzIDYL0XlSxPGK7KnIHAOdnIxkqJia5+DwiDieKUI4iX6jmpxzY5i
+	 mWYnrolTUXB+pM8cUVYr8z18uU5WnaIOLonKSWv2BmdMSNsjUlR/bRgujR+2ygxRdj
+	 Ev/FoYrdJd1i4syD7eQBdaGX386DHCvq+Cu5Elha7pn1VeGixtAI6lLkKhJcdM8+76
+	 vkB4qRk6skVYu8SDmoYVHbLWKg2a7YBsBjCcL4SuArXu6dwvv4/hiP1CzbhTrjGbQo
+	 FpK6QJRfDH/jw==
 From: Mark Brown <broonie@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Weidong Wang <wangweidong.a@awinic.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-	Ben Yi <yijiangtao@awinic.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Igor Prusov <ivprusov@salutedevices.com>,
-	Jack Yu <jack.yu@realtek.com>, Jaroslav Kysela <perex@perex.cz>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Paul Handrigan <paulha@opensource.cirrus.com>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH 2/2] ASoC: codecs: Add aw88166 amplifier driver
-Message-ID: <2f9dcbc4-22dc-4663-8972-328a2faab5de@sirena.org.uk>
-References: <20250221102623.369435-3-wangweidong.a@awinic.com>
- <32992dc7-15a1-4ca5-a5a1-e7e26ce74fbc@web.de>
+To: mario.limonciello@amd.com, lgirdwood@gmail.com, 
+ peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, daniel.baluta@nxp.com, perex@perex.cz, 
+ tiwai@suse.com, Mario Limonciello <superm1@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, sound-open-firmware@alsa-project.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20250221181840.2639793-1-superm1@kernel.org>
+References: <20250221181840.2639793-1-superm1@kernel.org>
+Subject: Re: [PATCH] ASoC: SOF: amd: Move depends on AMD_NODE to consumers
+Message-Id: <174049072070.42497.4513505959055428564.b4-ty@kernel.org>
+Date: Tue, 25 Feb 2025 13:38:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5ksm0M28hlCWRaWJ"
-Content-Disposition: inline
-In-Reply-To: <32992dc7-15a1-4ca5-a5a1-e7e26ce74fbc@web.de>
-X-Cookie: I'm not available for comment..
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
+On Fri, 21 Feb 2025 12:18:12 -0600, Mario Limonciello wrote:
+> CONFIG_SND_SOC_SOF_AMD_COMMON is a hidden option that is only selected by
+> other options.  It can't have a direct depends on AMD_NODE because select
+> can't pick another option automatically.
+> 
+> This was attempted to be fixed in commit b47834ee4485b ("ASoC: SOF: amd:
+> Add depends on CPU_SUP_AMD") but this just masked the issue as it was found
+> in another config.
+> 
+> [...]
 
---5ksm0M28hlCWRaWJ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Tue, Feb 25, 2025 at 02:09:39PM +0100, Markus Elfring wrote:
-> =E2=80=A6
-> > The driver is for amplifiers aw88166 of Awinic Technology
-> =E2=80=A6
->=20
-> You may occasionally put more than 57 characters into text lines
-> of such a change description.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Feel free to ignore Markus, he has a long history of sending
-unhelpful review comments and continues to ignore repeated requests
-to stop.
+Thanks!
 
---5ksm0M28hlCWRaWJ
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: SOF: amd: Move depends on AMD_NODE to consumers
+      commit: 91b75129149429bb16927cda8b5642c04c59e6b0
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme9w5AACgkQJNaLcl1U
-h9ASjwf/R7DZkWb0naPakmHeXGgxosFU2gDD3YLyChZWaCOyoXciu1t2yk7Nf9EY
-WBj9hulz0Ycae1Ll/hYDw5yoG6Uxwi7CrUlHg1g2u9ws/IkIegzP1oMVFu5iCAeu
-ONtCH4Zfw/RL7PvcCnK50XN6cqwcVGGlaTrJFX+DMjRdL8FfcJlgzjTDMzHY/HYc
-Nj31A0bH76+7BduJndc0/W5DieFTxCxOYpRVMWbArdHLLrp1uK8PJAEayPXd7oR/
-H34gQkXoAEc+vYHtTP56761jX3uCBcpwGNgknVOA4qL0upasUof2HLfQU3/pYGr0
-TMwlAGyv+xYWBdCIpd55eopERPdTQg==
-=X+KE
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---5ksm0M28hlCWRaWJ--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
