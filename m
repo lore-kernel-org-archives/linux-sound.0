@@ -1,112 +1,82 @@
-Received: from out28-221.mail.aliyun.com (out28-221.mail.aliyun.com [115.124.28.221])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E3A25A326;
-	Tue, 25 Feb 2025 08:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B16525EF9A
+	for <linux-sound@vger.kernel.org>; Tue, 25 Feb 2025 09:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740473034; cv=none; b=Es23f16/ZZkszP0qqpteGjsiiIqFZSRfnIkM5zGrlRSfdXnT8gTd8qYhKhlDtYII0FhLhbXpN8ND+0sEytr0IdMJVRHjbC4nrQcLGcA7BHKtQK8szIK+TWr5pLbygVkTjIHzYMqJgZwMxVIhF7BdxjmwKJJIwKvRJFbSQVskeac=
+	t=1740476247; cv=none; b=P27br8qozT0gWqkzHIGaUpdRvxdk11cqSFMVmHidXlbl0n+p1opcqf8XHwiXY0x3vpBX7yr9/9+fKp6nuIqrvxjpeCNdtePdbKd0+0wKfS1gb22vfkOW8fctAqo8/yNZ/YCw6mrICwRRFhhZmkZ5VZPQVX+525FxjNVEyqVIcGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740473034; c=relaxed/simple;
-	bh=8yUlIoEzbCjT7IopLPQVynw1cUw5sKDknmbbjhGd4PI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=klTqIm+xJNFzAI0Ty2fhNpVU/3hG0wwMPUzktmmhKiBStTz9/8Nve/ewBkfLw7DYCjQD/h3i1xbQGuFxWNOrw5HxTR1DfSN+CO6xDUuPC92HeV68d4iPYdHRTQEU8apvqhWeg5etKvHpi+PrVavi4LVLWD6J2c9T6bGy4a/X53g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=115.124.28.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.bcH-6Kr_1740469334 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Tue, 25 Feb 2025 15:42:20 +0800
-From: wangweidong.a@awinic.com
-To: krzk@kernel.org
-Cc: broonie@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	ivprusov@salutedevices.com,
-	jack.yu@realtek.com,
-	krzk+dt@kernel.org,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	nuno.sa@analog.com,
-	paulha@opensource.cirrus.com,
-	perex@perex.cz,
-	quic_pkumpatl@quicinc.com,
-	rf@opensource.cirrus.com,
-	robh@kernel.org,
-	tiwai@suse.com,
-	wangweidong.a@awinic.com,
-	yijiangtao@awinic.com,
-	zhoubinbin@loongson.cn
-Subject: Re: [PATCH V1 2/2] ASoC: codecs: Add aw88166 amplifier driver
-Date: Tue, 25 Feb 2025 15:42:14 +0800
-Message-ID: <20250225074214.29902-1-wangweidong.a@awinic.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20250223-vigilant-cooperative-snake-2d810b@krzk-bin>
-References: <20250223-vigilant-cooperative-snake-2d810b@krzk-bin>
+	s=arc-20240116; t=1740476247; c=relaxed/simple;
+	bh=817N/dZbJa0+gFxCENWTTOs1XfTr4j6TpSDvqUNq2yU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tBvF+Axb6K+0oaZGZTBYEEGNT+4fANskohyazmZjC8DUW0DwXTff60GE5zrfbBUtu9kgCHE8luLQiRS3uyUaNz04HmF4LeKjXfxt/3hty0qbt1HSgWCCov9e1QQfguUwZGpQsGD3kiXe5Ec5wRetafjLAFalQqtzCXG+OBkDj88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y6pZuG3o; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y6pZuG3o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740476246; x=1772012246;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=817N/dZbJa0+gFxCENWTTOs1XfTr4j6TpSDvqUNq2yU=;
+  b=Y6pZuG3oRmJlmBx2+kcCo9SB5qnQbTNhRuLcS8H+JOrjf6J7QZV9bwF6
+   dRIXPJub87/C4lzv34GB8lBut1No4UBpIMu0gbMvP9rXcHwMCwXwZ0OTG
+   WVvYQ/oPX+bsIML4dNAJfX/C+2mKABhykf79+KadNhcs67YqMHkJ1lx/N
+   m8i1l3UME1H37x8HvQACIpaL0CxMB9bzru5lv3rentieOsdrziXjmmYxT
+   HGB4cKWkOTffqIimjiDzZOJcyq7rsn4Gptit9BEv4VxTQ1+Q6b6JOXsUY
+   zhhAFUfUWib6I0KyUei/Fgowi+/6QBhek5O7J1DzmyCbfwc4dGPW5MP9J
+   A==;
+X-CSE-ConnectionGUID: a7SghU44TNGM/tjCSSVlUA==
+X-CSE-MsgGUID: UvRX5ZrcSa6d08qVskpS1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="40458588"
+X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
+   d="scan'208";a="40458588"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 01:37:25 -0800
+X-CSE-ConnectionGUID: 8RqLCoJ6S/S5eHRA7lIM0w==
+X-CSE-MsgGUID: eGuCVr5WR5ybv7X+R/ncMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="120439329"
+Received: from tfalcon-desk.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.223.91])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 01:37:24 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com,
+	ranjani.sridharan@linux.intel.com
+Subject: [PATCH 0/2] ASoC: Intel: don't check number of sdw links when set dmic_fixup
+Date: Tue, 25 Feb 2025 17:37:14 +0800
+Message-ID: <20250225093716.67240-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Thank you very much for your review
+Currently, we assume that the PCH DMIC pins are pin-muxed with SoundWire
+links. However, we do see a HW design that use PCH DMIC along with 3
+SoundWire links. Remove the check and add warning to let users know that
+SoundWire MIC and PCH DMIC are both present and they could overwrite it
+with kernel params.
 
-On Fri, Feb 23, 2025 at 12:46:14 +0100, krzk@kernel.org wrote:
-> On Fri, Feb 21, 2025 at 06:26:23PM +0800, wangweidong.a@awinic.com wrote:
->> +
->> +static void aw88166_hw_reset(struct aw88166 *aw88166)
->> +{
->> +	if (aw88166->reset_gpio) {
->> +		gpiod_set_value_cansleep(aw88166->reset_gpio, 1);
->> +		usleep_range(AW88166_1000_US, AW88166_1000_US + 10);
->> +		gpiod_set_value_cansleep(aw88166->reset_gpio, 0);
->> +		usleep_range(AW88166_1000_US, AW88166_1000_US + 10);
->> +		gpiod_set_value_cansleep(aw88166->reset_gpio, 1);
+Bard Liao (2):
+  ASoC: SOF: Intel: don't check number of sdw links when set dmic_fixup
+  ASoC: Intel: sof_sdw: warn both sdw and pch dmic are used
 
-> Why do you keep reset as active after reset? How is it suppose to work?
+ sound/soc/intel/boards/sof_sdw.c |  7 +++++++
+ sound/soc/sof/intel/hda.c        | 18 ++----------------
+ 2 files changed, 9 insertions(+), 16 deletions(-)
 
-The gpio port of the AW88166 is reset when it is low.
-So it's working now, I will modify it as follows:
-if (aw88166->reset_gpio) {
-	gpiod_set_value_cansleep(aw88166->reset_gpio, 0);
-	usleep_range(AW88166_1000_US, AW88166_1000_US + 10);
-	gpiod_set_value_cansleep(aw88166->reset_gpio, 1);
-	usleep_range(AW88166_1000_US, AW88166_1000_US + 10);
-}
+-- 
+2.43.0
 
->> +static int aw88166_i2c_probe(struct i2c_client *i2c)
->> +{
->> +	struct aw88166 *aw88166;
->> +	int ret;
->> +
->> +	if (!i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C))
->> +		return dev_err_probe(&i2c->dev, -ENXIO, "check_functionality failed\n");
->> +
->> +	aw88166 = devm_kzalloc(&i2c->dev, sizeof(*aw88166), GFP_KERNEL);
->> +	if (!aw88166)
->> +		return -ENOMEM;
->> +
->> +	mutex_init(&aw88166->lock);
->> +
->> +	i2c_set_clientdata(i2c, aw88166);
->> +
->> +	aw88166->reset_gpio = devm_gpiod_get_optional(&i2c->dev, "reset", GPIOD_OUT_LOW);
-
-
-> So here reset is low...
-
-
->> +	if (IS_ERR(aw88166->reset_gpio))
->> +		return dev_err_probe(&i2c->dev, PTR_ERR(aw88166->reset_gpio),
->> +							"reset gpio not defined\n");
->> +	aw88166_hw_reset(aw88166);
-
-> and here is high afterwards?
-
-Yes, low indicates reset state, high indicates working state
-
-Best regards,
-Weidong Wang
