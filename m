@@ -1,47 +1,34 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28671B2182;
-	Tue, 25 Feb 2025 19:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 721E920FA9E;
+	Tue, 25 Feb 2025 20:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740511966; cv=none; b=BW5XGfqM6ewyFlbFwcBsK7n5VH2CwKeL5JTvaErnUcz36IuD8CHmu9hIPUpZh8ge3II0BYebGYD35zYyLbPlN5iOXP6TGeMFLkhY6ZGdlq0gDKukFusiMAaAWlCqM0v9Mc5vTekurxR8grTnNEIPCwD/7I3zjiRMWoNNq51V6wQ=
+	t=1740514642; cv=none; b=HfN5ACIIQ4aTXMkuXPurzGkWaRdF6ZKet0Vuu0XmfEacWndGdqZBFwaCIhhqOY10MXEj9cTHxi4e9FF4fDcfcdduWlw421LG+Nr+bFW8HjIPVYIu7yJLFx6eqijsLY1NcFCoE2STLPaiJn0kay1V6OzPg07LSNHf9Fu0TnvGchg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740511966; c=relaxed/simple;
-	bh=EJ0p7kJP7tcBXTVtX2EQW5Eqt9I/PZY1PRXbITilg4Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oF4ejbuA3lzc5VjAVk3kkm5nWvIgBOL46UC/Smi97ohi6JjvMKmlRH+VEfYVmoulEo/MNOfzhCihZWgMVjZVRKKJxXK9EBb5UwJMzjoAfjfVHQqRcrH/nXFN9qe0MN47wbL8O+gU8f9CtNORQzWmk6yNLx/2s6aJTL2hlMIglqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mTrZE4Wu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740514642; c=relaxed/simple;
+	bh=KhNEyo7WFu+pfBKWpwr7dBCkfYqG9oS0AfyoC6gzP2I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=b3CDrWiJDIGshR/XpN3pqHS/BsSmvt33nMebk7jMiVa7MQsOzCdU5JwlkeKMsjXF2SgBjJX0S0IFvZttUS1Cg/Ay15em5GbA0wrNRkGzARh34kc8iImSxqoVBwVqB32R2EEn990KaRwXWQ9mjwVAh4sGwKKX8chWalSsBUqtNPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OP63wp67; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mTrZE4Wu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52DDDC4CEE2;
-	Tue, 25 Feb 2025 19:32:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740511965;
-	bh=EJ0p7kJP7tcBXTVtX2EQW5Eqt9I/PZY1PRXbITilg4Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mTrZE4WuJLivocdDlOAyUC2sQPoGHxDaCYT9NHKSq28BUTlAulfb4fehDp0FsRufS
-	 wN2GyPsPi6OmFzTc6Ee2sTqgm3ETtXKtEe6iEdhwM7NDGtfgbvQFp4cOJ8WNAcZfBT
-	 BFiGFR6ejC//8RQRWhkzVwv1JEOxWPjZq/K8aBcaurTcLTt+xmYzVyl5eL1Yx7gEG/
-	 d5hPZA2+vFU/+Mx2BzCzyS6yUNx0qvgMlmexsoD8ynAY+8glKvJmR/lCTKClqV9Lc+
-	 CyfjXuELUxxY24pzKEo5rik8bu9FfV+No86fQNUU58QoDTwOBhtCTXtmOZwL8WPsSy
-	 V5yFbpl2Z+/Iw==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Trevor Wu <trevor.wu@mediatek.com>, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
- parkeryang <Parker.Yang@mediatek.com>, Zoran Zhan <zoran.zhan@mediatek.com>
-In-Reply-To: <20250225-genio700-dmic-v2-0-3076f5b50ef7@collabora.com>
-References: <20250225-genio700-dmic-v2-0-3076f5b50ef7@collabora.com>
-Subject: Re: (subset) [PATCH v2 0/8] Enable DMIC for Genio 700/510 EVK
-Message-Id: <174051196206.229034.7513749709146445847.b4-ty@kernel.org>
-Date: Tue, 25 Feb 2025 19:32:42 +0000
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OP63wp67"
+Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
+	by linux.microsoft.com (Postfix) with ESMTPSA id BF51B203CDFD;
+	Tue, 25 Feb 2025 12:17:19 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BF51B203CDFD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1740514639;
+	bh=iYMbK5A793RDdkoEPga+PoRyWET+ntXiAELhCjFiDKo=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=OP63wp67iKSqHjNTjMNd+sihLCyoASTZi2GNLl0ELqRwvrBXcEngcH+yXafC8Yprq
+	 nAvYY5Wrea0EY1UvsDuANN22sm/ZDZFvEyjRA+KLA6UssBgo0/5UVPQNqQpxTLUDBc
+	 wEQUX4uMwl08WGSAzFvomPPI3q3DYIQICkks+WHI=
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Date: Tue, 25 Feb 2025 20:17:15 +0000
+Subject: [PATCH v3 01/16] coccinelle: misc: secs_to_jiffies: Patch
+ expressions too
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,58 +36,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250225-converge-secs-to-jiffies-part-two-v3-1-a43967e36c88@linux.microsoft.com>
+References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
+ Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
+ James Smart <james.smart@broadcom.com>, 
+ Dick Kennedy <dick.kennedy@broadcom.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
+ David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, 
+ Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>, 
+ Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>, 
+ Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
+ Selvin Xavier <selvin.xavier@broadcom.com>, 
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>
+Cc: cocci@inria.fr, linux-kernel@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-spi@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+ ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org, 
+ Easwar Hariharan <eahariha@linux.microsoft.com>
+X-Mailer: b4 0.14.2
 
-On Tue, 25 Feb 2025 11:33:46 -0300, Nícolas F. R. A. Prado wrote:
-> This series enables the dual digital microphones present on the Genio
-> 700 and 510 EVK boards.
-> 
-> Patches 1 and 2 add some required clocks, patch 3 changes volatility
-> handling of some registers to prevent issues, patch 3 adds the DMIC DAI
-> driver for MT8188 and updates the AFE with its routes, patch 4 adds the
-> DMIC backend and widget to the mt8188-6359 machine sound driver, patch 5
-> adds the audio routes for the DMIC to the Devicetree, patch 6 adds
-> DMIC_BE in the dt-binding and patch 6 assigns a wakeup-delay-ms to the
-> DMIC DAI.
-> 
-> [...]
+Teach the script to suggest conversions for timeout patterns where the
+arguments to msecs_to_jiffies() are expressions as well.
 
-Applied to
+Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+---
+ scripts/coccinelle/misc/secs_to_jiffies.cocci | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+diff --git a/scripts/coccinelle/misc/secs_to_jiffies.cocci b/scripts/coccinelle/misc/secs_to_jiffies.cocci
+index 8bbb2884ea5db939c63fd4513cf5ca8c977aa8cb..416f348174ca659b544441f5f68f04a41d1ad4a3 100644
+--- a/scripts/coccinelle/misc/secs_to_jiffies.cocci
++++ b/scripts/coccinelle/misc/secs_to_jiffies.cocci
+@@ -20,3 +20,13 @@ virtual patch
+ 
+ - msecs_to_jiffies(C * MSEC_PER_SEC)
+ + secs_to_jiffies(C)
++
++@depends on patch@ expression E; @@
++
++- msecs_to_jiffies(E * 1000)
+++ secs_to_jiffies(E)
++
++@depends on patch@ expression E; @@
++
++- msecs_to_jiffies(E * MSEC_PER_SEC)
+++ secs_to_jiffies(E)
 
-Thanks!
-
-[1/8] ASoC: mediatek: mt8188: Add audsys hires clocks
-      commit: ef6a24c79d5047c029577113af43eddd1d0f1bd2
-[2/8] ASoC: mediatek: mt8188: Add reference for dmic clocks
-      commit: bf1800073f4d55f08191b034c86b95881e99b6fd
-[3/8] ASoC: mediatek: mt8188: Treat DMIC_GAINx_CUR as non-volatile
-      commit: 7d87bde21c73731ddaf15e572020f80999c38ee3
-[4/8] ASoC: mediatek: mt8188: Add support for DMIC
-      commit: c1e42ec04197ac013d049dde40d9c72cf543b5f6
-[5/8] ASoC: mediatek: mt8188-mt6359: Add DMIC support
-      commit: 390ebb24b3c3a95e109c28e14c2ec9fe3f0f8aaa
-[7/8] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add DMIC backend to dai-link
-      commit: f00b3056843d14754ac1bab2106cf5599680f115
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.43.0
 
