@@ -1,90 +1,95 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1F726981C;
-	Tue, 25 Feb 2025 13:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57165433CE;
+	Tue, 25 Feb 2025 13:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740489540; cv=none; b=rWuIc999DjGtKawcvVHPD9QcwXl0q8cs1b0N21qiMK+cTeq3g2ZrR4lCEM86+GdR4mZb7EpHTZSCKA8W+rLSHsghAgG40ImZCSlLewpodQs08a9NdOUOie/TgL06kM8b5aTnliVpxwv/yxnCypnzWcagmYMdvpDN4V7cx6GiePo=
+	t=1740489624; cv=none; b=RwNWZnpUKZQa90LJRGyq0V96NzLRIbKflzD5QEh17UWjelkcntjHnFJQKEEoLAcemGo1WyMtIhtlP9febnzLOcALH5PZfRMeVx7JYUfOczsSNQ8avEkKQkNjnwGltb7TNzcGY8GwVRjU9/MKQhJLVBUhrK7WXIFUOo9bTDgs3oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740489540; c=relaxed/simple;
-	bh=3Br8De3rsbk5eXKIjNmSvdHO8Uz1uZyZg2mMvLBwt5M=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PqtJRLKgQ9URON6iWbqhNPhziB1vmtGPWg8CY8SXFQquxBakJJskMmZSJVUYT56etIByGAvmI1O8aZBYf3n2knpQltz2wnXXmRPv+g9PbK/igRtKCbJkbkCNJfVecLouZ3vlV2vtrg6XJfLT7b1s5CKX1ULnXtCcUz1fVVzJ3JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=PQ6t27+J; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1740489624; c=relaxed/simple;
+	bh=dfAK7SX3PAcngLvN+TTXq78fi95cSmXCJNnXQz5sDYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EvsGyALcSQ15EIg+sUQ0CbyAf2GpvJzx2pee4zGOw5TR1yJuTz9D9U+UL/uo+8Ic/aYKfvAvj8vR32tLrOnVK6Pg5HY+h2nzbyT83sGIdaq9LwMlIywcih/2E9bIj7ee2iIpj1ryUwPKPhRT5pJbHu1vdA6uDQxRaCj0g5A5V5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XdhwUbrR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="PQ6t27+J"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51P4j5jJ001538;
-	Tue, 25 Feb 2025 07:18:47 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=icybtQtm8VTLJVPt
-	AfJ8hZ7tG9SIv3LwIg71SMmRhM8=; b=PQ6t27+J8rJd2k8VbOw4CR62VkBGaNaj
-	wD3SLPYg3Y1Ptkj0fFRWQGSx8jOuNm3cEdwlpJtOamtVPkdNh1S/ZkTWzqxg+8Kr
-	1sZ4Fz9GNvgaPPgiKIrGDYC7MazXr+vDgYGHRE0IFdqpbjZ8sHlah19G5AfeAMEk
-	84jmiIjY1726LmozPiqXj5SNfjXkRUTuk12SNRhTqxIKa+UBKiVOlxDtv2DfMs+p
-	VxAEHMIPipYxQci5mrSBmVUDOsyREYj/EgjojhyBml4PsiNZSDdqnuD0oOm1YdRC
-	M2Skag3mNgR4Y9Ch1ZLagpVxbSolfEZK/qWi6uA+oWtc1k7v01IPmg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 44ycv5ptdu-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Feb 2025 07:18:47 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 25 Feb
- 2025 13:18:43 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Tue, 25 Feb 2025 13:18:43 +0000
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 43F6682025A;
-	Tue, 25 Feb 2025 13:18:43 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>, <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: [PATCH 0/2] ALSA: cs35l56: Fix for races when soft-resetting on SPI
-Date: Tue, 25 Feb 2025 13:18:41 +0000
-Message-ID: <20250225131843.113752-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XdhwUbrR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDC9C4CEDD;
+	Tue, 25 Feb 2025 13:20:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740489623;
+	bh=dfAK7SX3PAcngLvN+TTXq78fi95cSmXCJNnXQz5sDYg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XdhwUbrRy4MkEPdJOvsjlXWHY9v2ddvBSerrHVuHx7x/aUgSeZ+HouitztqlMatlK
+	 sKJbq8sknggxLvSqNgGqA0O80avqdF0t1MWfvF7gFY9Z4K8MCqRX1P8qyKGqHhkSYJ
+	 35/DClm8586xGkiD/U8UTDzGvqEL8A1U3E5yjWInyLqYVhajagM/N/MaW4Y/QMlJR5
+	 sb5rf1RdMZljuGDxzliuSri1KaSWhO+gzvZgTTkE7LdlrWV/93FAhp4fMVnZt2Keq5
+	 2Yf/eiOxOg3rI5AZV9Hxjqpkw4kXwPVMUmz5XDgHVp1jy43q0JZblxZ3r3redl/4iD
+	 sGXe37pzc63xA==
+Date: Tue, 25 Feb 2025 13:20:17 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Weidong Wang <wangweidong.a@awinic.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	Ben Yi <yijiangtao@awinic.com>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Igor Prusov <ivprusov@salutedevices.com>,
+	Jack Yu <jack.yu@realtek.com>, Jaroslav Kysela <perex@perex.cz>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Paul Handrigan <paulha@opensource.cirrus.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH 2/2] ASoC: codecs: Add aw88166 amplifier driver
+Message-ID: <2f9dcbc4-22dc-4663-8972-328a2faab5de@sirena.org.uk>
+References: <20250221102623.369435-3-wangweidong.a@awinic.com>
+ <32992dc7-15a1-4ca5-a5a1-e7e26ce74fbc@web.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=HoqMG1TS c=1 sm=1 tr=0 ts=67bdc337 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=oBivd6-D-XcVIxPnMd4A:9
-X-Proofpoint-GUID: OVvdlIHVe5Z_bjjltr5ErmOuOVfJK4kO
-X-Proofpoint-ORIG-GUID: OVvdlIHVe5Z_bjjltr5ErmOuOVfJK4kO
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5ksm0M28hlCWRaWJ"
+Content-Disposition: inline
+In-Reply-To: <32992dc7-15a1-4ca5-a5a1-e7e26ce74fbc@web.de>
+X-Cookie: I'm not available for comment..
 
-These two patches fix a race condition between driver and amp when issuing
-a soft-reset over SPI. The main problem with the race is that the driver
-could read the amp status as fully booted, when in fact the amp is about
-to reset or is in the process of resetting.
 
-This is mainly contained within the ASoC driver code but a small change is
-needed to the HDA driver.
+--5ksm0M28hlCWRaWJ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The first patch, to cs_dsp, is to remove async regmap writes so that the
-cs35l56 driver can call spi_bus_lock() without breaking firmware download to
-other amps on the same SPI bus.
+On Tue, Feb 25, 2025 at 02:09:39PM +0100, Markus Elfring wrote:
+> =E2=80=A6
+> > The driver is for amplifiers aw88166 of Awinic Technology
+> =E2=80=A6
+>=20
+> You may occasionally put more than 57 characters into text lines
+> of such a change description.
 
-Richard Fitzgerald (2):
-  firmware: cs_dsp: Remove async regmap writes
-  ASoC: cs35l56: Prevent races when soft-resetting using SPI control
+Feel free to ignore Markus, he has a long history of sending
+unhelpful review comments and continues to ignore repeated requests
+to stop.
 
- drivers/firmware/cirrus/cs_dsp.c  | 24 +++-------
- include/sound/cs35l56.h           | 31 ++++++++++++
- sound/pci/hda/cs35l56_hda_spi.c   |  3 ++
- sound/soc/codecs/cs35l56-shared.c | 80 +++++++++++++++++++++++++++++++
- sound/soc/codecs/cs35l56-spi.c    |  3 ++
- 5 files changed, 123 insertions(+), 18 deletions(-)
+--5ksm0M28hlCWRaWJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-2.39.5
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme9w5AACgkQJNaLcl1U
+h9ASjwf/R7DZkWb0naPakmHeXGgxosFU2gDD3YLyChZWaCOyoXciu1t2yk7Nf9EY
+WBj9hulz0Ycae1Ll/hYDw5yoG6Uxwi7CrUlHg1g2u9ws/IkIegzP1oMVFu5iCAeu
+ONtCH4Zfw/RL7PvcCnK50XN6cqwcVGGlaTrJFX+DMjRdL8FfcJlgzjTDMzHY/HYc
+Nj31A0bH76+7BduJndc0/W5DieFTxCxOYpRVMWbArdHLLrp1uK8PJAEayPXd7oR/
+H34gQkXoAEc+vYHtTP56761jX3uCBcpwGNgknVOA4qL0upasUof2HLfQU3/pYGr0
+TMwlAGyv+xYWBdCIpd55eopERPdTQg==
+=X+KE
+-----END PGP SIGNATURE-----
+
+--5ksm0M28hlCWRaWJ--
