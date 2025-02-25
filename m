@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FFE269819
-	for <linux-sound@vger.kernel.org>; Tue, 25 Feb 2025 13:38:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AFC269819;
+	Tue, 25 Feb 2025 13:38:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740490724; cv=none; b=oj0Ih/sBzRXelbdo/mykvoo9hamoI9CIwbjqU6meVc19V+gALTXUcbuucgCX3/8Wx7J4O1TtkZmiOs2nLwgvQlGjnGq4K52o82QC2gLhZd1qUsKc9dT25+KNCZFCO5TXmkfsMdhMaod0PSXbTAhY8FBh6sAnR/aO32jyZHob5qM=
+	t=1740490726; cv=none; b=ArRTpYrYosGLFw7Cv7gqBN0/cg5fjIqWjgoQhZeWvpKlPm4Chzh3YgLN90ZU8hicgNcVZOMbmT2S+1uOOMGhxqKsupx+Ancie2dIjXJYZq1d2sgMHGA/QEtX6SsDOttaN44wVUBVX9JCcWw7TXqiCkAb8ST1Y3csps6pEDBzgAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740490724; c=relaxed/simple;
-	bh=VQQ3tfdhuiZOJaETR0gtKr/t8m/ZjoasMFKJM59eNxM=;
+	s=arc-20240116; t=1740490726; c=relaxed/simple;
+	bh=UPwGdf4XoJMItFYS8KBqZHuoRc5P6DTbta0DBll+khg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QaP6umXdB8FDhPvhmhLM+6fqtzAUd0S6QkvvXmvQRzbWHc0YkjKh4o0XrHH/o9S+nMkKEskSIzPsKeoPtqOBRDQBKevK1NU7Pum4+NXyWrB0hFSv2xYyhEYocdkoziokdKjD6eApC0XqnZfG5CvAHaOqPQHOMzPe4aSQ5IxzZb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWnU9YFp; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=fY5nZ6zFZJOom/9ymFo4RStAe674Cewpu5k8So2hGwQwKQKE+iCqvvE2TexSmcDQmyV9GdtWboPcN66n9lG2n9UNr1jTY8LOTt8I8/tDH9RAQzJ+PgCWMrjAB3YZSM6lcxsV2bMiwnXMM7NbBmf1AYfxt4HN6L44CqadNM6DkRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TvqjUDqo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWnU9YFp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0098EC4CEDD;
-	Tue, 25 Feb 2025 13:38:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TvqjUDqo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D842EC4CEE8;
+	Tue, 25 Feb 2025 13:38:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740490723;
-	bh=VQQ3tfdhuiZOJaETR0gtKr/t8m/ZjoasMFKJM59eNxM=;
+	s=k20201202; t=1740490726;
+	bh=UPwGdf4XoJMItFYS8KBqZHuoRc5P6DTbta0DBll+khg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=TWnU9YFpY09GzmUB/h2a/Ee/pjhwSk1gfjYvwNx897GrP4Elh5rnBVncT57Ceda9+
-	 hFAYlYY0ozXGINzIDYL0XlSxPGK7KnIHAOdnIxkqJia5+DwiDieKUI4iX6jmpxzY5i
-	 mWYnrolTUXB+pM8cUVYr8z18uU5WnaIOLonKSWv2BmdMSNsjUlR/bRgujR+2ygxRdj
-	 Ev/FoYrdJd1i4syD7eQBdaGX386DHCvq+Cu5Elha7pn1VeGixtAI6lLkKhJcdM8+76
-	 vkB4qRk6skVYu8SDmoYVHbLWKg2a7YBsBjCcL4SuArXu6dwvv4/hiP1CzbhTrjGbQo
-	 FpK6QJRfDH/jw==
+	b=TvqjUDqoZnLZ1CKRTfEe/kAlPzaswhfI8+hgOVkWa8Xa34befAncEym4ln5rtOQeu
+	 vT1iJkR2JB9gSKmUlcHQ5U7zCNw4mYSWRJ/EhyEUl7vUaBV3pPyzIFCP+BKmf9hPGK
+	 w0REPfP1XHFCQmXnUBJfsD9vzKKHFVLwpD4fwUnS5/Y46NWKI4SqV9dA8Af+1yW7+v
+	 K9fY7qhKo/CgaRThzEqyV/5ieqwX8DcFs+rchEfPCeDYfx9x7cu3QKlMWq/j7Rl8HO
+	 oBRvJEi2nH4Wv1gnbp3F3Q3rKllMQne78ZV8pPPIkFexrkRgV2ZOJrYnqFNWWLHEEC
+	 G3u1iDccY0jCw==
 From: Mark Brown <broonie@kernel.org>
-To: mario.limonciello@amd.com, lgirdwood@gmail.com, 
- peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, daniel.baluta@nxp.com, perex@perex.cz, 
- tiwai@suse.com, Mario Limonciello <superm1@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, sound-open-firmware@alsa-project.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20250221181840.2639793-1-superm1@kernel.org>
-References: <20250221181840.2639793-1-superm1@kernel.org>
-Subject: Re: [PATCH] ASoC: SOF: amd: Move depends on AMD_NODE to consumers
-Message-Id: <174049072070.42497.4513505959055428564.b4-ty@kernel.org>
-Date: Tue, 25 Feb 2025 13:38:40 +0000
+To: Cheng-Yi Chiang <cychiang@chromium.org>, 
+ Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Benson Leung <bleung@chromium.org>, 
+ Thorsten Blum <thorsten.blum@linux.dev>
+Cc: chrome-platform@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250220120100.1530-2-thorsten.blum@linux.dev>
+References: <20250220120100.1530-2-thorsten.blum@linux.dev>
+Subject: Re: [PATCH] ASoC: cros_ec_codec: Use str_enable_disable() helper
+ in wov_enable_put()
+Message-Id: <174049072359.42497.10441700607973248883.b4-ty@kernel.org>
+Date: Tue, 25 Feb 2025 13:38:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,16 +50,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Fri, 21 Feb 2025 12:18:12 -0600, Mario Limonciello wrote:
-> CONFIG_SND_SOC_SOF_AMD_COMMON is a hidden option that is only selected by
-> other options.  It can't have a direct depends on AMD_NODE because select
-> can't pick another option automatically.
+On Thu, 20 Feb 2025 13:01:01 +0100, Thorsten Blum wrote:
+> Remove hard-coded strings by using the str_enable_disable() helper
+> function.
 > 
-> This was attempted to be fixed in commit b47834ee4485b ("ASoC: SOF: amd:
-> Add depends on CPU_SUP_AMD") but this just masked the issue as it was found
-> in another config.
 > 
-> [...]
 
 Applied to
 
@@ -65,8 +62,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: amd: Move depends on AMD_NODE to consumers
-      commit: 91b75129149429bb16927cda8b5642c04c59e6b0
+[1/1] ASoC: cros_ec_codec: Use str_enable_disable() helper in wov_enable_put()
+      commit: 10efa807929084a8a1c38655942a3bf83bce587a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
