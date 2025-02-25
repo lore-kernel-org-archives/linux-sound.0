@@ -1,108 +1,85 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20CE26FD82;
-	Tue, 25 Feb 2025 14:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226C0268C7D;
+	Tue, 25 Feb 2025 15:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740494524; cv=none; b=j04eyLka+Q+g3upcMWx6O+VR8Wq+sIYzsFg1qhYQGXQ1BOU/WiUf/6q1ra47K4XOZT20Kshjc2rdtF5Z0oCV41oRgoSwSaZPUQOVbDvgOc3ob3Tqm1QFlYuEkIrObVaM55GEpPatFQSiUKk2JrQFduVVLS23jJJ5MUBDpsYl7zI=
+	t=1740496520; cv=none; b=Y79+g4tkzexsk8a3oQGalIAvhuO2g/D8XawYk8b0dEGQVPmGkEv4AbA06N3SrISYurE1Uoxdqeb52X8rHkrF4gOxlpHdE3PVDMXK+wIh2AH+Za8tfeoKE/u6j8x0cb1c4+hPyjqwqj+6cD0KjuOfs42/eIum7jD+of9XlleAYHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740494524; c=relaxed/simple;
-	bh=HfTj5K9Kjj+z5exhuyb8N2wVDV/qu3WxEJW/q8QSD6Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tMAFcHDTfAzpaU4ygD0O+gAnk5yIMk0iiP3fQVBd0cK1pns1x8P8r8ks1+jpf2BddcIc9J07gLMWhmT1+n/D4+jtaM2pKB9575o3pZQ3n+4h4tLcHS/hgNkvOFi7wcjrSQRrvQPQiQK6qCq9xlF9G2MqO1oNH9I1y/q67LgWEwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZO2QbpmM; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1740496520; c=relaxed/simple;
+	bh=6f5OEnzY9m9xXiDHb3EeYpobugQNcSW5nVamDn3gNno=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U4iTqQ32/5e13K/cvhDWkhxzsHhACdAvM1MlS2E83KDjqMEBGpYzI/NhVylrZZzUuMOe+un8ZFQX/F9jSBuHW1LJSVvY/bTxjXcMwX7mEiSBmW/rBeWeEA6EwjMKETHCGHtAveoS+3MOSCG24t+hFWJYiAJcmJFF8p1+zH9T2Ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FJd6DEYP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZO2QbpmM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1740494521;
-	bh=HfTj5K9Kjj+z5exhuyb8N2wVDV/qu3WxEJW/q8QSD6Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZO2QbpmMUpNVhvsrZelu+P5KHnWA9JLuq5mB+DNwu9jzh6np56CMors6MuuU5BYNQ
-	 qTcApVXJ+jXzhYyExUzIdQuNvScXRyLM+iU+WCNBqn+PHsbvF0ziLgqa+CQbDI97I3
-	 He4GS6mZXSvWXlXmFeXvu/kRQSLz5MtzASQCIkKTH335dP0DR3RBCadLEmsJ6p9B+S
-	 ciLHsybTC7UUJpmUO6HkLs+QeI8N7vC542vW4QTU8xjGAGwzkVoRUxmptFkZVmQ+Ys
-	 8La6q6JxOluCZMBIWKN8W/2gb6f5eCZebzXEi8WOE8hjAnmSKxlsn/aJEAe2+9BU1Q
-	 1GDGtjXCg8XSg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4FE0217E0E91;
-	Tue, 25 Feb 2025 15:42:00 +0100 (CET)
-Message-ID: <7ca0eb8a-de9d-48a1-87ca-f563c607929c@collabora.com>
-Date: Tue, 25 Feb 2025 15:42:00 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FJd6DEYP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74671C4CEDD;
+	Tue, 25 Feb 2025 15:15:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740496520;
+	bh=6f5OEnzY9m9xXiDHb3EeYpobugQNcSW5nVamDn3gNno=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FJd6DEYPLQYmP52tzuiGreDumf8FYrOpuh9r2tDDHvRvzlqZnfajjidJFiZDS2Gph
+	 A/eIIlLrORzz7RIY84LgZ8bvkaOV1JMruLSB3EcYuB7jPZfpBGObQDdMH70TFoVy8E
+	 tsBuUvuZBYv9wjYCkb8vL71Eg0HHvY3FOaNr91b4T4ThtqndYE8kSIC6W8sG0/dJRb
+	 ysGmT/us08zoN8ry9LtNDUzebAQ8Nb68sZQc/laKQBI0Q70Vk+blax2XX6JAI8sISs
+	 7ew4OlCVE36P+2IF1OQL2dnwSOApbI2VI4ODhsuC1MvkyNW8xVicBGaubBDSzIMYqY
+	 3dGc2YrCZ7oxg==
+Date: Tue, 25 Feb 2025 15:15:15 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: tiwai@suse.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 1/2] firmware: cs_dsp: Remove async regmap writes
+Message-ID: <e2f3397b-05c0-42f7-9950-29c4d9b24350@sirena.org.uk>
+References: <20250225131843.113752-1-rf@opensource.cirrus.com>
+ <20250225131843.113752-2-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/8] ASoC: mediatek: mt8188: Add audsys hires clocks
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Trevor Wu <trevor.wu@mediatek.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org
-References: <20250225-genio700-dmic-v2-0-3076f5b50ef7@collabora.com>
- <20250225-genio700-dmic-v2-1-3076f5b50ef7@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250225-genio700-dmic-v2-1-3076f5b50ef7@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Il 25/02/25 15:33, Nícolas F. R. A. Prado ha scritto:
-> Describe and register the aud_dmic_hires audsys clocks, which are needed
-> when recording the DMIC at a sample rate of 96k.
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-> ---
->   sound/soc/mediatek/mt8188/mt8188-audsys-clk.c   | 4 ++++
->   sound/soc/mediatek/mt8188/mt8188-audsys-clkid.h | 4 ++++
->   2 files changed, 8 insertions(+)
-> 
-> diff --git a/sound/soc/mediatek/mt8188/mt8188-audsys-clk.c b/sound/soc/mediatek/mt8188/mt8188-audsys-clk.c
-> index c796ad8b62eeaa929f24c09755f428116b105404..40d2ab0a7677b64985f9fc9eb38f67bca7ecd4f9 100644
-> --- a/sound/soc/mediatek/mt8188/mt8188-audsys-clk.c
-> +++ b/sound/soc/mediatek/mt8188/mt8188-audsys-clk.c
-> @@ -84,6 +84,10 @@ static const struct afe_gate aud_clks[CLK_AUD_NR_CLK] = {
->   	GATE_AUD1(CLK_AUD_AFE_26M_DMIC_TM, "aud_afe_26m_dmic_tm", "top_a1sys_hp", 14),
->   	GATE_AUD1(CLK_AUD_UL_TML_HIRES, "aud_ul_tml_hires", "top_audio_h", 16),
->   	GATE_AUD1(CLK_AUD_ADC_HIRES, "aud_adc_hires", "top_audio_h", 17),
-> +	GATE_AUD1(CLK_AUD_DMIC_HIRES1, "aud_dmic_hires1", "top_audio_h", 20),
-> +	GATE_AUD1(CLK_AUD_DMIC_HIRES2, "aud_dmic_hires2", "top_audio_h", 21),
-> +	GATE_AUD1(CLK_AUD_DMIC_HIRES3, "aud_dmic_hires3", "top_audio_h", 22),
-> +	GATE_AUD1(CLK_AUD_DMIC_HIRES4, "aud_dmic_hires4", "top_audio_h", 23),
->   
->   	/* AUD3 */
->   	GATE_AUD3(CLK_AUD_LINEIN_TUNER, "aud_linein_tuner", "top_apll5", 5),
-> diff --git a/sound/soc/mediatek/mt8188/mt8188-audsys-clkid.h b/sound/soc/mediatek/mt8188/mt8188-audsys-clkid.h
-> index 6f34ffc760e03beddc3001046e554edd7ea2c478..9cb732863c104383b9859b4bb5b3f5c289ad1864 100644
-> --- a/sound/soc/mediatek/mt8188/mt8188-audsys-clkid.h
-> +++ b/sound/soc/mediatek/mt8188/mt8188-audsys-clkid.h
-> @@ -33,6 +33,10 @@ enum{
->   	CLK_AUD_AFE_26M_DMIC_TM,
->   	CLK_AUD_UL_TML_HIRES,
->   	CLK_AUD_ADC_HIRES,
-> +	CLK_AUD_DMIC_HIRES1,
-> +	CLK_AUD_DMIC_HIRES2,
-> +	CLK_AUD_DMIC_HIRES3,
-> +	CLK_AUD_DMIC_HIRES4,
->   	CLK_AUD_LINEIN_TUNER,
->   	CLK_AUD_EARC_TUNER,
->   	CLK_AUD_I2SIN,
-> 
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CXDYsStpVtdJdK5s"
+Content-Disposition: inline
+In-Reply-To: <20250225131843.113752-2-rf@opensource.cirrus.com>
+X-Cookie: I'm not available for comment..
 
 
+--CXDYsStpVtdJdK5s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Feb 25, 2025 at 01:18:42PM +0000, Richard Fitzgerald wrote:
+
+> The async writes are a 12-year-old workaround for inefficiency of
+> synchronous writes in the SPI subsystem. The SPI subsystem has since
+> been changed to avoid the overheads, so this workaround should not be
+> necessary.
+
+That wasn't really the issue, it was that on systems with low numbers of
+slower cores (especially single core but there were some dual core
+systems too) there was a surprisingly low threashold where it was useful
+to overlap the marshalling of data to send to the device with
+transmitting already marshalled data.  SMP adds locking requirements
+which loose a lot of the gains, and it's controller dependent where the
+cuttoff points for interrupts and/or DMA are.
+
+--CXDYsStpVtdJdK5s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme93oIACgkQJNaLcl1U
+h9DUygf8D2z/MW2+ckLJ3lDNYEYhiSZDQMkXrfzN3XjEGDpC50i+C2dl0ZcQUKVt
+4jz+afxVVzohIZ1WVuxwrHv00kokY6j57sklMwsIrIc8IVIyXSBfjdD4j0O863ir
+A9BLFarfpXbFw0jCl5k1wSa+uewGBl/GZ73VgWq/HIzMwWZMuzNovvPyaCZN74lM
+xg1QDwreF4m+amhmSjCHCOjF2CA0KGRsGkP1iIU38x8HMgAJ9YWBeaXF5SR58FQe
+GlF/faKmObLRZeTN3zsZpRVkoeoiA9cSA6Jx7LOCeeAIdI26JKWz8jRmR4lZmWSY
+rL2BGaPdwCZ51C6uUiHsT3bLxepi6g==
+=ShGq
+-----END PGP SIGNATURE-----
+
+--CXDYsStpVtdJdK5s--
