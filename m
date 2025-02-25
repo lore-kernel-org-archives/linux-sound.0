@@ -1,89 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F57186287;
-	Tue, 25 Feb 2025 17:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B47B1993A3;
+	Tue, 25 Feb 2025 19:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740503095; cv=none; b=aLK3YkYoST+hR+KHRcJ/O4U/+N/qCbJRt0JnAfFRqI+3X8pcBAcIRgefWzBYlP7IYvjB+SXdqMo+zMNy65bicNx75kCC8NhLhMRxhM82lEeaAmKMPfMkc+peBoZkOx/P6VidOFi4Z3MZdTuG7AVZpS7/ToYVKgaLJwAJEHrNZ7M=
+	t=1740510475; cv=none; b=gRGlQRCdufVX88AI6D+N2nHNt6e47+DiVTnYxTMWo2rqQqVkYe8DEp/U3g1qLGtFwDYJdNjs5Tab7QrZdDL/jJNFsib2+su/LH3xhQ/gJIqIeHlopZDKMsLZ9ImuM/VWq+SYTTIiAMoz+0NkI8f2ybvmin5SB8vZkA25wdq1EME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740503095; c=relaxed/simple;
-	bh=PYIKWFAhLrenPko0j94P9t8Yakf9ynY0f2VJEpzxp/Q=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MO5Xvfn4p+UpYNgagsna63kJuc6/Z0pojLfbEdCryq3YF/a0I3PEKEQDuXP3jasobdnkpE8etQ0d9FnfC9EXHv0KKIbJ+Yu6pdvRKUGWJzIZrMOuijjydWW/F7TDJtDlzY7GuURJ4hkRh1U3PZ79W6h35ftilpQeLxBGB/P/GjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=REucVwfi; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="REucVwfi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C0D3C4CEE8;
-	Tue, 25 Feb 2025 17:04:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740503095;
-	bh=PYIKWFAhLrenPko0j94P9t8Yakf9ynY0f2VJEpzxp/Q=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=REucVwfiOZjRmnlHLVkj94SmAs1xeGeu87b24dfU1Baim3dMetLwdvkmpVz9auq3I
-	 S5ZDhROTtf4Qf94GBpd4XKK3FpuulYMcwF5bvqjC9n5BJ2Q5fJ1PTubm0GrI9OZhRz
-	 Cg3wJff6E1kuabPZPBKwOwCYJOZBfJeZADXVpQuZTo2pWXDXfyljgyQCxCrp/e059A
-	 QAv5r24qGJzbdPnPfpZmA4LHEoJiT0hMhETV34sITkGBj7k1GYUVPkcrtxe0ZEAsmi
-	 IYXZ19CqBc+FWOaZp0Cvft0IspJBuKXw6k/2zDSRAT7yJJIGda9wFZAOZQVSu8//FG
-	 FbXl0vMSohSwQ==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20250225131843.113752-1-rf@opensource.cirrus.com>
-References: <20250225131843.113752-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 0/2] ALSA: cs35l56: Fix for races when soft-resetting
- on SPI
-Message-Id: <174050309387.106105.14789849081879688731.b4-ty@kernel.org>
-Date: Tue, 25 Feb 2025 17:04:53 +0000
+	s=arc-20240116; t=1740510475; c=relaxed/simple;
+	bh=g+deXqOloQCFwg54PuD8QZZavgR7jJw/KP46B1+ucYU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TS1W6JewPRXknXhkykyUgj8dgkrs63jFmD/SnVHHnWPXwD8xO/FM0pIjWepgtYC/HMnkrAjSBrZqa9RpoQx92IEazFA4hJwbta5PITz+mslQgycGL6my4stWPUW3crPFPjH0LWUQs9vv68ANVktDNbGazGJnxi9cI1hEJJL4yfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80081152B;
+	Tue, 25 Feb 2025 11:08:08 -0800 (PST)
+Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A2B413F5A1;
+	Tue, 25 Feb 2025 11:07:50 -0800 (PST)
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+To: linux-sound@vger.kernel.org
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/4] xlnx: dt-bindings: Convert to json-schema
+Date: Tue, 25 Feb 2025 19:07:42 +0000
+Message-ID: <20250225190746.541587-1-vincenzo.frascino@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: 8bit
 
-On Tue, 25 Feb 2025 13:18:41 +0000, Richard Fitzgerald wrote:
-> These two patches fix a race condition between driver and amp when issuing
-> a soft-reset over SPI. The main problem with the race is that the driver
-> could read the amp status as fully booted, when in fact the amp is about
-> to reset or is in the process of resetting.
-> 
-> This is mainly contained within the ASoC driver code but a small change is
-> needed to the HDA driver.
-> 
-> [...]
+This series converts the folling Xilinx device tree binding documentation:
+ - xlnx,i2s
+ - xlnx,audio-formatter
+ - xlnx,spdif
+to json-schema.
 
-Applied to
+To simplify the testing a linux tree rebased on 6.13-rc4 is accessible
+at [1].
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[1] https://codeberg.org/vincenzo/linux/src/branch/xlnx/dt-bindings/v5
 
-Thanks!
+Note: These bindings are required for future work on the ARM Morello
+Platforms device tree.
 
-[1/2] firmware: cs_dsp: Remove async regmap writes
-      commit: fe08b7d5085a9774abc30c26d5aebc5b9cdd6091
-[2/2] ASoC: cs35l56: Prevent races when soft-resetting using SPI control
-      commit: 769c1b79295c38d60fde4c0a8f5f31e01360c54f
+Cc: Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Changes
+=======
+v5:
+  - Address review comments.
+v4:
+  - Address review comments.
+v3:
+  - Address an issue with the MAINTAINERS file reported by the kernel
+    test robot. 
+v2:
+  - Address review comments.
+  - Rebase on 6.14-rc4.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Vincenzo Frascino (4):
+  ASoC: dt-bindings: xlnx,i2s: Convert to json-schema
+  ASoC: dt-bindings: xlnx,audio-formatter: Convert to json-schema
+  ASoC: dt-bindings: xlnx,spdif: Convert to json-schema
+  MAINTAINERS: Add Vincenzo Frascino as Xilinx Sound Driver Maintainer
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+ .../bindings/sound/xlnx,audio-formatter.txt   | 29 -------
+ .../bindings/sound/xlnx,audio-formatter.yaml  | 75 +++++++++++++++++
+ .../devicetree/bindings/sound/xlnx,i2s.txt    | 28 -------
+ .../devicetree/bindings/sound/xlnx,i2s.yaml   | 65 +++++++++++++++
+ .../devicetree/bindings/sound/xlnx,spdif.txt  | 28 -------
+ .../devicetree/bindings/sound/xlnx,spdif.yaml | 83 +++++++++++++++++++
+ MAINTAINERS                                   |  8 ++
+ 7 files changed, 231 insertions(+), 85 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/xlnx,audio-formatter.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,i2s.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/xlnx,i2s.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/xlnx,spdif.yaml
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.43.0
 
