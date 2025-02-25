@@ -1,42 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB02183CB0
-	for <linux-sound@vger.kernel.org>; Tue, 25 Feb 2025 19:32:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28671B2182;
+	Tue, 25 Feb 2025 19:32:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740511962; cv=none; b=mgh5IL+4jfNhGEiaMyeFfNnheLFoCmX5BN4wVBiteva+mybMaga16WpN5FzvshLoz/26rcxEkAQqZJHkNXVovyz8gbMwJZjjGkw4DJz2K0zbdpuxYuh8hvEgwW99/ZU2OXuAZJQS2SH2qV9S1E3P9YuQtiBWIwIzYH4GUIju+4U=
+	t=1740511966; cv=none; b=BW5XGfqM6ewyFlbFwcBsK7n5VH2CwKeL5JTvaErnUcz36IuD8CHmu9hIPUpZh8ge3II0BYebGYD35zYyLbPlN5iOXP6TGeMFLkhY6ZGdlq0gDKukFusiMAaAWlCqM0v9Mc5vTekurxR8grTnNEIPCwD/7I3zjiRMWoNNq51V6wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740511962; c=relaxed/simple;
-	bh=VVAetV0FJAo2Zz7yiuhRIRip/0eIdti7z4izGMtu0iw=;
+	s=arc-20240116; t=1740511966; c=relaxed/simple;
+	bh=EJ0p7kJP7tcBXTVtX2EQW5Eqt9I/PZY1PRXbITilg4Y=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jH1tyHhOpMkpIEIzBeQNaZHaOzqA0A/zhwI7cfHf6GoIXgWHVjDY9h3zcGkhTImwfI4QoU1doXUE59cu2NSHY08xNy8t3QrtfWsMaoP2GRSu3yVvL+kJ1zOXaT/KYV45v3sRgaj/k87OoEwkrBSs1z8ultTSa7rfc68OJv1sSBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCWU0t9f; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=oF4ejbuA3lzc5VjAVk3kkm5nWvIgBOL46UC/Smi97ohi6JjvMKmlRH+VEfYVmoulEo/MNOfzhCihZWgMVjZVRKKJxXK9EBb5UwJMzjoAfjfVHQqRcrH/nXFN9qe0MN47wbL8O+gU8f9CtNORQzWmk6yNLx/2s6aJTL2hlMIglqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mTrZE4Wu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCWU0t9f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753DDC4CEDD;
-	Tue, 25 Feb 2025 19:32:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mTrZE4Wu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52DDDC4CEE2;
+	Tue, 25 Feb 2025 19:32:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740511961;
-	bh=VVAetV0FJAo2Zz7yiuhRIRip/0eIdti7z4izGMtu0iw=;
+	s=k20201202; t=1740511965;
+	bh=EJ0p7kJP7tcBXTVtX2EQW5Eqt9I/PZY1PRXbITilg4Y=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HCWU0t9fa8U/1cjuUigHhUr5+nqmjNe1DUlKaeuLDwkerlUnPAgtIo5itYkvZ+s51
-	 IKSwTdTsW1om3xzmQ17gkiDViGNHJOQ+hvG14Mp8IrtPVD95jfkf5QShPJyxVvbjSE
-	 DuofwxAcOJdY2v3XCi1/Y8YuwneeSA2Txe2MMWhj+HKC1QA0WNZsHScbnScDXfBQ4T
-	 +VMI9WRnhs2gv0OGi30btR41fvXzVUKe3dncyBsNHBife0hWWeTnSIVBEbyZKLcWhb
-	 5L3q9TFmc+ifDYANObDxJV4NNsGQAF0c0hdRraICBEoRJ0GN4FRaZmxc/Y6/zIEyiC
-	 3+gFMVDjVM2Rg==
+	b=mTrZE4WuJLivocdDlOAyUC2sQPoGHxDaCYT9NHKSq28BUTlAulfb4fehDp0FsRufS
+	 wN2GyPsPi6OmFzTc6Ee2sTqgm3ETtXKtEe6iEdhwM7NDGtfgbvQFp4cOJ8WNAcZfBT
+	 BFiGFR6ejC//8RQRWhkzVwv1JEOxWPjZq/K8aBcaurTcLTt+xmYzVyl5eL1Yx7gEG/
+	 d5hPZA2+vFU/+Mx2BzCzyS6yUNx0qvgMlmexsoD8ynAY+8glKvJmR/lCTKClqV9Lc+
+	 CyfjXuELUxxY24pzKEo5rik8bu9FfV+No86fQNUU58QoDTwOBhtCTXtmOZwL8WPsSy
+	 V5yFbpl2Z+/Iw==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com, peter.ujfalusi@linux.intel.com, 
- ranjani.sridharan@linux.intel.com
-In-Reply-To: <20250225093716.67240-1-yung-chuan.liao@linux.intel.com>
-References: <20250225093716.67240-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: Intel: don't check number of sdw links when
- set dmic_fixup
-Message-Id: <174051196020.229034.10193588209583066159.b4-ty@kernel.org>
-Date: Tue, 25 Feb 2025 19:32:40 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Trevor Wu <trevor.wu@mediatek.com>, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+ parkeryang <Parker.Yang@mediatek.com>, Zoran Zhan <zoran.zhan@mediatek.com>
+In-Reply-To: <20250225-genio700-dmic-v2-0-3076f5b50ef7@collabora.com>
+References: <20250225-genio700-dmic-v2-0-3076f5b50ef7@collabora.com>
+Subject: Re: (subset) [PATCH v2 0/8] Enable DMIC for Genio 700/510 EVK
+Message-Id: <174051196206.229034.7513749709146445847.b4-ty@kernel.org>
+Date: Tue, 25 Feb 2025 19:32:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,19 +49,20 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, 25 Feb 2025 17:37:14 +0800, Bard Liao wrote:
-> Currently, we assume that the PCH DMIC pins are pin-muxed with SoundWire
-> links. However, we do see a HW design that use PCH DMIC along with 3
-> SoundWire links. Remove the check and add warning to let users know that
-> SoundWire MIC and PCH DMIC are both present and they could overwrite it
-> with kernel params.
+On Tue, 25 Feb 2025 11:33:46 -0300, Nícolas F. R. A. Prado wrote:
+> This series enables the dual digital microphones present on the Genio
+> 700 and 510 EVK boards.
 > 
-> Bard Liao (2):
->   ASoC: SOF: Intel: don't check number of sdw links when set dmic_fixup
->   ASoC: Intel: sof_sdw: warn both sdw and pch dmic are used
+> Patches 1 and 2 add some required clocks, patch 3 changes volatility
+> handling of some registers to prevent issues, patch 3 adds the DMIC DAI
+> driver for MT8188 and updates the AFE with its routes, patch 4 adds the
+> DMIC backend and widget to the mt8188-6359 machine sound driver, patch 5
+> adds the audio routes for the DMIC to the Devicetree, patch 6 adds
+> DMIC_BE in the dt-binding and patch 6 assigns a wakeup-delay-ms to the
+> DMIC DAI.
 > 
 > [...]
 
@@ -66,10 +72,18 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: SOF: Intel: don't check number of sdw links when set dmic_fixup
-      commit: 56a677293509b2a0d39ac8d02b583c1ab1fe4d94
-[2/2] ASoC: Intel: sof_sdw: warn both sdw and pch dmic are used
-      commit: 4bcef04ca67fa8c46591a211885bb9c37f25dbbd
+[1/8] ASoC: mediatek: mt8188: Add audsys hires clocks
+      commit: ef6a24c79d5047c029577113af43eddd1d0f1bd2
+[2/8] ASoC: mediatek: mt8188: Add reference for dmic clocks
+      commit: bf1800073f4d55f08191b034c86b95881e99b6fd
+[3/8] ASoC: mediatek: mt8188: Treat DMIC_GAINx_CUR as non-volatile
+      commit: 7d87bde21c73731ddaf15e572020f80999c38ee3
+[4/8] ASoC: mediatek: mt8188: Add support for DMIC
+      commit: c1e42ec04197ac013d049dde40d9c72cf543b5f6
+[5/8] ASoC: mediatek: mt8188-mt6359: Add DMIC support
+      commit: 390ebb24b3c3a95e109c28e14c2ec9fe3f0f8aaa
+[7/8] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add DMIC backend to dai-link
+      commit: f00b3056843d14754ac1bab2106cf5599680f115
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
