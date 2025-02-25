@@ -1,41 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A7B26A1C1;
-	Tue, 25 Feb 2025 13:38:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B962673BC;
+	Tue, 25 Feb 2025 14:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740490736; cv=none; b=gfaV0AVRPHFVHyzb/CZlOt3ZFq+zgGBveaQ9yW2Pp9/uUkI46gCVcpOXjjjprioKHalQhPQaQFbvOmmYodMFSOEHkYcvAK6GuHLNU+DPKA9FqFQBzTU7LjdVeCC3p1hAonO1xb9IzV+ZqUwMVAatadmoI+NVqeTZakJzr9xJh9w=
+	t=1740494105; cv=none; b=nioc33AIN9I4GGKCgQlpPeHVlD634DnFqJuwX+BniKqti9Lofq48lbZiGYTn2F832lrbDJar8gIcb37sOoYSPvSF7NFuAGrtNDP9Rh7CRmuwhLn+r/oFftxOgVaG5OKyBcm/qXgoxcoMqAAxxpnY7OBG/U/8voW/L2pIXm+vKZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740490736; c=relaxed/simple;
-	bh=w7BtHlDsE/wNj/6FsWMNUTOpXSl/xAGx5czTS7gbsro=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=buV8SmdS8d+A3q8zMd6VYl5AaE9md92lQTuZSZjawSHmYPXAwHzF3ZfZu+OJ1o4G50du9V688AxRQxg/cvvazw3YNKbuDBS8HHaIQGVOcR8h0sUZQ2nJDxFC/9HNs5Z4So267RJMCSR0BMywPWuzeWHzWHoe2mMPW9Ks90lAxIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AuVH1J1i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740494105; c=relaxed/simple;
+	bh=rqlDudHnuYgq9wewNcojaTJbeYRPypypRFN8oxFuEys=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PzTTpU+tgm7qmz00v8Z10XPdztl/TdqdUEJZt0GdqPCAv2S1GQBRSGQik9UIqSjXm6pFX0Htxqnt889J/NpWoF/nf2JoxsFqGDLe2JcoBWiIdX5HADJjdpfsJkyg0TmWRCOF0LKn71lvQNppIv36h8bsIwE+OkkLs85mTO+OXFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=mieflFWp; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AuVH1J1i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEFBDC4CEEA;
-	Tue, 25 Feb 2025 13:38:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740490735;
-	bh=w7BtHlDsE/wNj/6FsWMNUTOpXSl/xAGx5czTS7gbsro=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=AuVH1J1i9uyNpC5b4VeLzwaHmMLldiBmSCC+XM4hylJmAvWmBRRxMG/rZdTTy1mFo
-	 pjQQteuXqSRlEL+q4WaijfPkoSOmsVTMjZfGh/keTQ+rG3M95RIDCTd2mpsr1HyqWN
-	 FpUpMYqcJ1RflInsQvQIQdFLmwEhgHlWr3algs8xZzUOWyy/RNDVUbw82fZtwzMFci
-	 l1UaRLq9tjSm7m4XzZE25WzL6jtlUf7Xcq2KgA5dHRRmltm+tpLbhcxYO0MWFx78MU
-	 qT2pEbjXbhRJFKwnPZ7YgBYINfqizVk8XYQuyMDAleCxcUHbvImltKmuYWXb42CVqs
-	 tFtP2v1jzEabA==
-From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, Chancel Liu <chancel.liu@nxp.com>
-In-Reply-To: <20250217010437.258621-1-chancel.liu@nxp.com>
-References: <20250217010437.258621-1-chancel.liu@nxp.com>
-Subject: Re: [PATCH v3] ASoC: fsl: Rename stream name of SAI DAI driver
-Message-Id: <174049073341.42497.16361417560871466113.b4-ty@kernel.org>
-Date: Tue, 25 Feb 2025 13:38:53 +0000
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="mieflFWp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1740494101;
+	bh=rqlDudHnuYgq9wewNcojaTJbeYRPypypRFN8oxFuEys=;
+	h=From:Subject:Date:To:Cc:From;
+	b=mieflFWpfr41xUm3kcgFxounly6rCgJ9vy95rvSTvxSxGuyZImksH2Ck3cNtX7Itg
+	 I8MMTy/+7qkiMtnDKbUh92Jx5nZiGIvkJaG4O47Kz/+xYP9b60Hv6Epl32gbxmh069
+	 ykIri/kV9y5eBIf/gTPgUXi0kl6LNz2x0ewG9Hrt1xPA14ODF9JmvbRlNoKOSKzGNA
+	 8m8pr7l76ZkD41bpb+be72pfdIPs6QQcARVymDGVTG5Qaqgm29TitexDj9WuCw84h6
+	 OeS+gMihRBIY9UIUtHZWN4oPXgR1N5oolrAk+O6zEv30kqX6XOgDOlLlcL0vMDzYZT
+	 RKXODWXBcc6+Q==
+Received: from [192.168.0.47] (unknown [IPv6:2804:14c:1a9:53ee::1004])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id F277B17E0DB7;
+	Tue, 25 Feb 2025 15:34:56 +0100 (CET)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH v2 0/8] Enable DMIC for Genio 700/510 EVK
+Date: Tue, 25 Feb 2025 11:33:46 -0300
+Message-Id: <20250225-genio700-dmic-v2-0-3076f5b50ef7@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,46 +43,79 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMrUvWcC/3XMQQqDMBCF4avIrJsyRoy2q96juIiTUQfUSFJCi
+ 3j3pu67/B+8b4fIQTjCvdghcJIofs2hLwXQZNeRlbjcoFHXqMtWjbyKbxCVW4SUI8N8c4SmaiF
+ /tsCDvE/v2eWeJL58+Jx8Kn/rPymVCpXpydSVswaH5kF+nm3vg72SX6A7juMLnKzYQK4AAAA=
+X-Change-ID: 20250218-genio700-dmic-dc6ee9dc0638
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Trevor Wu <trevor.wu@mediatek.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
+ parkeryang <Parker.Yang@mediatek.com>, Zoran Zhan <zoran.zhan@mediatek.com>
+X-Mailer: b4 0.14.2
 
-On Mon, 17 Feb 2025 10:04:37 +0900, Chancel Liu wrote:
-> If stream names of DAI driver are duplicated there'll be warnings when
-> machine driver tries to add widgets on a route:
-> 
-> [    8.831335] fsl-asoc-card sound-wm8960: ASoC: sink widget CPU-Playback overwritten
-> [    8.839917] fsl-asoc-card sound-wm8960: ASoC: source widget CPU-Capture overwritten
-> 
-> Use different stream names to avoid such warnings.
-> DAI names in AUDMIX are also updated accordingly.
-> 
-> [...]
+This series enables the dual digital microphones present on the Genio
+700 and 510 EVK boards.
 
-Applied to
+Patches 1 and 2 add some required clocks, patch 3 changes volatility
+handling of some registers to prevent issues, patch 3 adds the DMIC DAI
+driver for MT8188 and updates the AFE with its routes, patch 4 adds the
+DMIC backend and widget to the mt8188-6359 machine sound driver, patch 5
+adds the audio routes for the DMIC to the Devicetree, patch 6 adds
+DMIC_BE in the dt-binding and patch 6 assigns a wakeup-delay-ms to the
+DMIC DAI.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+---
+Changes in v2:
+- Reordered clocks in patches 1 & 2
+- Split DMIC_GAINx_CUR volatile configuration into its own patch (3)
+- Squashed patch "ASoC: mediatek: mt8188: Support DMIC in AFE" into
+  "ASoC: mediatek: mt8188-mt6359: Add DMIC"
+- Patch 4 ("ASoC: mediatek: mt8188: Add support for DMIC"):
+  - Performed the many cleanups suggested on v1 for code style and
+    removing redundancy
+- Added patches 5 and 6 to add wakeup-delay-ms to the dmic
+- Link to v1: https://lore.kernel.org/r/20250218-genio700-dmic-v1-0-6bc653da60f7@collabora.com
 
-Thanks!
+---
+Nícolas F. R. A. Prado (7):
+      ASoC: mediatek: mt8188: Add audsys hires clocks
+      ASoC: mediatek: mt8188: Add reference for dmic clocks
+      ASoC: mediatek: mt8188: Treat DMIC_GAINx_CUR as non-volatile
+      ASoC: mediatek: mt8188-mt6359: Add DMIC support
+      arm64: dts: mediatek: mt8390-genio-common: Add routes for DMIC
+      ASoC: dt-bindings: mediatek,mt8188-mt6359: Add DMIC backend to dai-link
+      arm64: dts: mediatek: mt8390-genio-common: Add delay codec for DMIC
 
-[1/1] ASoC: fsl: Rename stream name of SAI DAI driver
-      commit: 0da83ab025bc45e9742e87c2cce19bff423377c8
+parkeryang (1):
+      ASoC: mediatek: mt8188: Add support for DMIC
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+ .../bindings/sound/mediatek,mt8188-mt6359.yaml     |   1 +
+ .../boot/dts/mediatek/mt8390-genio-common.dtsi     |  21 +-
+ sound/soc/mediatek/mt8188/Makefile                 |   1 +
+ sound/soc/mediatek/mt8188/mt8188-afe-clk.c         |   8 +
+ sound/soc/mediatek/mt8188/mt8188-afe-clk.h         |   8 +
+ sound/soc/mediatek/mt8188/mt8188-afe-common.h      |   1 +
+ sound/soc/mediatek/mt8188/mt8188-afe-pcm.c         |  28 +-
+ sound/soc/mediatek/mt8188/mt8188-audsys-clk.c      |   4 +
+ sound/soc/mediatek/mt8188/mt8188-audsys-clkid.h    |   4 +
+ sound/soc/mediatek/mt8188/mt8188-dai-dmic.c        | 682 +++++++++++++++++++++
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c          |  14 +
+ sound/soc/mediatek/mt8188/mt8188-reg.h             |  17 +-
+ 12 files changed, 782 insertions(+), 7 deletions(-)
+---
+base-commit: 253c82b3a2cec22bf9db65645f934fbe095899a3
+change-id: 20250218-genio700-dmic-dc6ee9dc0638
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+-- 
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
