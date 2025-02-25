@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB3D263C6A
-	for <linux-sound@vger.kernel.org>; Tue, 25 Feb 2025 09:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4DDF26157A
+	for <linux-sound@vger.kernel.org>; Tue, 25 Feb 2025 09:37:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740476249; cv=none; b=q25+REtb7mfNMx5c9RVTvW6O8M7ywRIumIk4BMjYnNI+xXsxjB91vERYRslqIUjNv5db9jMn/fhMcys76Co5kuklhSKzCUB5tun0OE6tx7Fr05GhIhZWFD2RARjdorzFSX8CEno9d+U8oRyTPFRJB0SpA3CQz4Etwn80FOUkQbc=
+	t=1740476250; cv=none; b=Coo00fqyiA9UqRVqCDNJYrqtBE8j7YhggcdtF75P+56GcnfGdp0wyYNBS0uatjjn1kqEUQb4BSEA0NRFR38XU0ZkH2flPMVxnmfaGxdp8jyhSMkDrrK+xCnAFQIXNdNdGfQGkYP2m7/LYVk+RBGOS1OQlrNoHKvusaS6hsMASBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740476249; c=relaxed/simple;
-	bh=rlSHFBV3fiPFgpmxPOG3nt87Eu9Y4e1F/BbcgI9O6jM=;
+	s=arc-20240116; t=1740476250; c=relaxed/simple;
+	bh=IU/28gRu7ULFTb29n7jsSlp804AvwidCQ2d7Z+/4vSA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gbSiRZW9j/4AXS7/kUnfwebso+1EO1YMzHCZUgghe3APMmZ3oW5VF0C9VvQHU41p22KqvNpmQ1vHlka0yFq1z29MrBCLnB7lHkmihSOxYpkbH08DwcaPiu4oTBIST23Qo7gvJ3upiNnl4ZSnBOoJRANyAozVHrzaJfFnW/LNvwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4HF/QzS; arc=none smtp.client-ip=192.198.163.19
+	 MIME-Version:Content-Type; b=lf2qMRg5GXTJ6rvRuw0XgzJJjqjX3IAcYRunzzVkuY5dhtvligmKzPyr+HQLYNnRIwDeHYKHP8Da+2M6dgeXjN6AUu4pliKf+ImXafhgFPbF6/1X9zLNm6dVMOYJoEQTX1wNpr+rnQGZCdgxw9QKF/xE1aLr09ZeSUi2v1DOCAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SD1lH1Ai; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4HF/QzS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SD1lH1Ai"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740476247; x=1772012247;
+  t=1740476248; x=1772012248;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=rlSHFBV3fiPFgpmxPOG3nt87Eu9Y4e1F/BbcgI9O6jM=;
-  b=S4HF/QzSBM+RESd9CAniN/Xmr5oq5O2gF3hmUIt8iy2tC0HIIzOIuBhI
-   6/enELHDoyz02mR51sf6LJXnk7mVREnN2NJKPUrtWjXf07fvj/2soNncP
-   h7LaUc0jLt60mJq59Xpt+OmMXxo0edZcOykr2G6yRl1Eug1pjY98i4KYn
-   R4H2G209CTOArV4OWDg7kvJ97rjwHh9Hi7BBO+FY2fognc8mbctm6B/jV
-   f+uukS5xovy1DwX9ta7jlnBSUYsDufEt7smG4ALWfMwZtlM/QQnJVoKTt
-   jY7YwNlzluu89VEyySWbziI8JECIjbBlqWjgByptDMa8JV9tL8rUmL2+0
-   g==;
-X-CSE-ConnectionGUID: lTokejStQzaG1cHttRH12g==
-X-CSE-MsgGUID: xiW0WkdeQNmOcjVl0GVtVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="40458593"
+  bh=IU/28gRu7ULFTb29n7jsSlp804AvwidCQ2d7Z+/4vSA=;
+  b=SD1lH1Ais051Qk01025p45ua3/3C9ajeFoaj40CTzxV61FUeICH1hRMq
+   6R7/hyZ5V5qSmw22vJIw5ACmA6wSDPuRRQFmW5q50VFDDRtuRAMvagDSe
+   uRLHA+nr/vJbBSJvh2WWo710IL/ExvhPnW7kYr1dpJcT5nkkPE+XrGjxN
+   US3mrdtJ0uJp+3r1ZHt3KH0fyOut5eZ5lU3iJvvLstrVhwZXy9xnSc6Vs
+   a7h8W6D05y767UHQr4VEYxkHVYOl36lMOpELhI1T8Mo/w7Ntey9WIoRJo
+   PBIXGXLSWQCT6X0PbsD4bwIBzfs3pxZzCqDzRIK1vW1iMzTHdYHpMixGe
+   A==;
+X-CSE-ConnectionGUID: aRxJFwziTLm6JCI6CDA6ag==
+X-CSE-MsgGUID: AdQerYKYT5O0zv7yF3l3Hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="40458597"
 X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
-   d="scan'208";a="40458593"
+   d="scan'208";a="40458597"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 01:37:27 -0800
-X-CSE-ConnectionGUID: xgF9K11RTC+kC60wmzBFFA==
-X-CSE-MsgGUID: PP9uWse5ReWuQPmwoLUYEA==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 01:37:28 -0800
+X-CSE-ConnectionGUID: xtCEwJ31S86jMC3adoDCig==
+X-CSE-MsgGUID: tW/ZQo8hQ8SKgGjJdk5fFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120439334"
+   d="scan'208";a="120439341"
 Received: from tfalcon-desk.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.223.91])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 01:37:25 -0800
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 01:37:27 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
@@ -51,9 +51,9 @@ Cc: linux-sound@vger.kernel.org,
 	bard.liao@intel.com,
 	peter.ujfalusi@linux.intel.com,
 	ranjani.sridharan@linux.intel.com
-Subject: [PATCH 1/2] ASoC: SOF: Intel: don't check number of sdw links when set dmic_fixup
-Date: Tue, 25 Feb 2025 17:37:15 +0800
-Message-ID: <20250225093716.67240-2-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 2/2] ASoC: Intel: sof_sdw: warn both sdw and pch dmic are used
+Date: Tue, 25 Feb 2025 17:37:16 +0800
+Message-ID: <20250225093716.67240-3-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250225093716.67240-1-yung-chuan.liao@linux.intel.com>
 References: <20250225093716.67240-1-yung-chuan.liao@linux.intel.com>
@@ -66,48 +66,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Currently, we assume that the PCH DMIC pins are pin-muxed with SoundWire
-links. However, we do see a HW design that use PCH DMIC along with 3
-SoundWire links. Remove the check now.
-With this change the PCM DMIC will be presented if it is reported by the
-BIOS irrespective of whether there are SDW links present or not.
+Typically, SoundWire MIC and PCH DMIC will not coexist. However, we may
+want to use both of them in some special cases. Add a warning to let
+users know that SoundWire MIC and PCH DMIC are both present and they
+could overwrite it with kernel params.
 
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/sof/intel/hda.c | 18 ++----------------
- 1 file changed, 2 insertions(+), 16 deletions(-)
+ sound/soc/intel/boards/sof_sdw.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index be689f6e10c8..a1ccd95da8bb 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -1312,22 +1312,8 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
- 		/* report to machine driver if any DMICs are found */
- 		mach->mach_params.dmic_num = check_dmic_num(sdev);
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 203b07d4d833..c13064c77726 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -803,7 +803,9 @@ static int create_sdw_dailink(struct snd_soc_card *card,
+ 			      int *be_id, struct snd_soc_codec_conf **codec_conf)
+ {
+ 	struct device *dev = card->dev;
++	struct snd_soc_acpi_mach *mach = dev_get_platdata(card->dev);
+ 	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
++	struct snd_soc_acpi_mach_params *mach_params = &mach->mach_params;
+ 	struct intel_mc_ctx *intel_ctx = (struct intel_mc_ctx *)ctx->private;
+ 	struct asoc_sdw_endpoint *sof_end;
+ 	int stream;
+@@ -900,6 +902,11 @@ static int create_sdw_dailink(struct snd_soc_card *card,
  
--		if (sdw_mach_found) {
--			/*
--			 * DMICs use up to 4 pins and are typically pin-muxed with SoundWire
--			 * link 2 and 3, or link 1 and 2, thus we only try to enable dmics
--			 * if all conditions are true:
--			 * a) 2 or fewer links are used by SoundWire
--			 * b) the NHLT table reports the presence of microphones
--			 */
--			if (hweight_long(mach->link_mask) <= 2)
--				dmic_fixup = true;
--			else
--				mach->mach_params.dmic_num = 0;
--		} else {
--			if (mach->tplg_quirk_mask & SND_SOC_ACPI_TPLG_INTEL_DMIC_NUMBER)
--				dmic_fixup = true;
--		}
-+		if (sdw_mach_found || mach->tplg_quirk_mask & SND_SOC_ACPI_TPLG_INTEL_DMIC_NUMBER)
-+			dmic_fixup = true;
+ 			codecs[j].name = sof_end->codec_name;
+ 			codecs[j].dai_name = sof_end->dai_info->dai_name;
++			if (sof_end->dai_info->dai_type == SOC_SDW_DAI_TYPE_MIC &&
++			    mach_params->dmic_num > 0) {
++				dev_warn(dev,
++					 "Both SDW DMIC and PCH DMIC are present, if incorrect, please set kernel params snd_sof_intel_hda_generic dmic_num=0 to disable PCH DMIC\n");
++			}
+ 			j++;
+ 		}
  
- 		if (tplg_fixup &&
- 		    dmic_fixup &&
 -- 
 2.43.0
 
