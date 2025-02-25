@@ -1,46 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB3614A60A;
-	Tue, 25 Feb 2025 17:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD741991C9
+	for <linux-sound@vger.kernel.org>; Tue, 25 Feb 2025 17:03:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740503031; cv=none; b=cRnvqWjvKY0UHazDqFhU98HiyRzetcUEdIEY/h/R2ehiJ9uNRJiMkFf6bX1QZFDVznwlXp888uJilmFk/+coM2/IXE1k9LLKsI9wMjZoG9WuuOzscxRJnr7WUN4J14I484XuzWnuE7/CZG+LkOkE4oVlTpYUPmdr9OYpKoZ0aEA=
+	t=1740503033; cv=none; b=kJYHbK9Cuj8A9DbgNWfLMlpteKT8Cg7gC5O9hBS/e+Vk4AnpemVv736mAuMSKPRxyFTfVt7zVvGgsVvTFU4wlYpjltQf62GCsSeAjhutLx5DIINb9aseXyNQzmpxF3WpL71ZT7EaN42YZXgZrbj2JB/upOOX8mqnJuLTRtgIlHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740503031; c=relaxed/simple;
-	bh=m/Rhl9xk8wb/gA4pl1Wi+ZgfjJHp6A4PuropwF5UbcM=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=unuR8K96T4+7BdvPVAKeUCjPCCwspx98UOdOj5Bvy1bvh+p/7rtTxXnKbI/rM6yMfi8/fMmkHtB8QTrhTNInhE84GW845xO6cVOFDTNyACHQJmv+slSn6S8ntZNAOobtaEbG6SP6M2yYBHQLiNAmSrZROHVUh6QGkb2n8x6oIn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EMndOmQm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740503033; c=relaxed/simple;
+	bh=pvJNH/c0buve8nqoCe7NxeMNwR2qQkMU1E0lE9vjpsw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=N3eNBDlgv+ZTehJvmk7H6XH3T5P0lS0Ncqsn8vKtaN+PeCHNa24T5X5AOtheMNDbOQcAJSU/Bqyp4D0YXZ/g2uvppam88o310GxTPlkQIiLfNh7iLUnABR5vziYfaqz37nXcGUH/8p1TC0E1lei/hGgxy/Vb6n00FRaXjbwuJtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XoLo1lsf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EMndOmQm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB2A9C4CEE7;
-	Tue, 25 Feb 2025 17:03:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XoLo1lsf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07450C4CEDD;
+	Tue, 25 Feb 2025 17:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740503030;
-	bh=m/Rhl9xk8wb/gA4pl1Wi+ZgfjJHp6A4PuropwF5UbcM=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=EMndOmQmf/64HxjrnZOJV3XEL66bANshmMnGQu6jQUgnrLdh14x8E6YqA4WNj+JCX
-	 UiK16lOpKnn5WZ1CN8qshhMRjYcopfxJl1KZY3okjGR5Z2bS1PT4/+VPqKXaFwB6wx
-	 GaKxUVbP0z+pxmCX3KE/Xeg6qUKLu5RXvTO4Gqvb1EUYR3XHEeCfTY+0q4tUEq8XT5
-	 ojKPuTCLsVIqfZw9Inz4N+s8AM99yQzm16VWWLXGXQPLymOla2qx0tsVlWnwHIaL0F
-	 +fbHN30DytgN3R531Bgva9TbEBaTNp8Y8RIdtziam8mDF0KRgvnCkNXMH44H/9nlvK
-	 Eg0XB4AwC7CBw==
+	s=k20201202; t=1740503032;
+	bh=pvJNH/c0buve8nqoCe7NxeMNwR2qQkMU1E0lE9vjpsw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=XoLo1lsftGKrRd33p81OEXkXp4hBapJneUpM+VUSCLko8miU4DQ2abkHBSyw7cPDV
+	 IYHgbAMYkMvbk3s38W3AlMvLWrY2sTExW3kt0bqY+ICYI9i1ascIz/cp8/tC6qZtL/
+	 B0D62xYYWWkTD4nrKMi9YEyuhvw9n09bw4DhYfiDikRJggCZEiY83OIYrixuPmy45X
+	 z88hAtJ/QPRpEHO3QfLVzIFmQZgdr/ZYpgssGqFYKHJAgJe84mu9FwOdBMhUQtyN36
+	 NAwVssuTHnZi3LulmSj0CNyO6K/W9ETmRSqyS5B+4yFeVmqImBtYDLTPy74SnSCDAi
+	 fvFcep9B+PiHw==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, devicetree@vger.kernel.org, 
- Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20250217021715.284951-1-shengjiu.wang@nxp.com>
-References: <20250217021715.284951-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v3 0/2] ASoC: imx-card: support playback or capture
- only
-Message-Id: <174050302640.104078.14845338578152445669.b4-ty@kernel.org>
-Date: Tue, 25 Feb 2025 17:03:46 +0000
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20250217102115.3539427-1-cezary.rojewski@intel.com>
+References: <20250217102115.3539427-1-cezary.rojewski@intel.com>
+Subject: Re: [PATCH 00/10] ASoC: Intel: avs: Mute and multi-channel
+ controls support
+Message-Id: <174050303073.104078.1162956157654528539.b4-ty@kernel.org>
+Date: Tue, 25 Feb 2025 17:03:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,13 +46,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Mon, 17 Feb 2025 10:17:13 +0800, Shengjiu Wang wrote:
-> Be similar to audio graph card, support playback or capture only for
-> imx-audio-card.
+On Mon, 17 Feb 2025 11:21:05 +0100, Cezary Rojewski wrote:
+> Note: the patchset DOES provide functional changes to the ASoC
+> framework.
 > 
-> imx-card can't directly refer to audio-graph-port.yaml, because it is
-> not based on 'ports'. Add playback-only and capture-only property
-> directly
+> Current kcontrols loaded with ASoC topology allow for mono or stereo
+> configuration only. To expand this and provide support to up to 8
+> channels, first address the limitations found within the ASoC core and
+> then update the user (avs-driver) so that it can utilize these new
+> functionality. The 8 channels max stems from SND_SOC_TPLG_MAX_CHAN
+> constant which is part of UAPI - asoc.h.
 > 
 > [...]
 
@@ -67,10 +65,26 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: dt-bindings: imx-card: Add playback-only and capture-only property
-      commit: 8c6ede5cc4226fd841f252d02ab0372cb92ee75c
-[2/2] ASoC: imx-card: Add playback_only or capture_only support
-      commit: 1877c3e7937fb2b9373ba263a4900448d50917b7
+[01/10] ASoC: topology: Create kcontrols based on their type
+        commit: 758beab0252912395efb79f34095c5ae7e3e58b1
+[02/10] ASoC: topology: Save num_channels value for mixer controls
+        commit: 81eb3a2bd273b84fa9808e6b13b533f9c55e16eb
+[03/10] ASoC: Intel: avs: Make PEAKVOL configurable from topology
+        commit: 28feec15fa285e561c626b3490bc5a10f5d177c8
+[04/10] ASoC: Intel: avs: Add volume control for GAIN module
+        commit: 4c43a930e3e165ca6890147a309508ccb6768faf
+[05/10] ASoC: Intel: avs: Update VOLUME and add MUTE IPCs
+        commit: 10188a25c9b5944c0a912482011b484b7c2e22d4
+[06/10] ASoC: Intel: avs: New volume control operations
+        commit: c321a4d705a31a50d7580516422aaa5b853e7602
+[07/10] ASoC: Intel: avs: Move to the new control operations
+        commit: 4c32ebcc8650ce506632a32136993c85537fb01a
+[08/10] ASoC: Intel: avs: Add support for mute for PEAKVOL and GAIN
+        commit: a4217a03686989c4a79530fe54fa17576aff7330
+[09/10] ASoC: Intel: avs: Honor the invert flag for mixer controls
+        commit: 76e013152891a69dfe68a28706a51a7df9ed4c42
+[10/10] ASoC: Intel: avs: Support multi-channel PEAKVOL instantiation
+        commit: a9409fcb979eaff401837b955b234ca1ee05fdbd
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
