@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8C820E31F
-	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 11:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1512147EA
+	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 11:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740568249; cv=none; b=vEjLWN6x8tz4lN659WaqHli/YX8dowwTRy3tb/aKTQeDr17hfKi+bNA2tzCJclinmLfEhOBnBx0ci6WSpL7+Yb3PTR3bZwysFRMr+i/kR0XFvOiQLNKEGfIm7m50HSxL3W33GIaRNKtjPEoR7EVAoA9yEEPgrF0mRORALB0tEog=
+	t=1740568251; cv=none; b=eOB+CtZo3lZ8d2y6KoNSJVFsG0FYLewNa1Dwd3WVqTpr2bELlRu6z4Szu+A7jUnRcU+GumMu/Ey67siWWakrk7KDWZW4c3PVhqCyRg7vJlcmJKtA7t8KMqdQ8mDIX/nOmxmC+IQmK9zD0NaPT1CJWAzplrwRP9jjpkPk245hh5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740568249; c=relaxed/simple;
-	bh=e2akSwKcnQzQk+RsgcyrMigltP8+nDzlylID6dVNLYI=;
+	s=arc-20240116; t=1740568251; c=relaxed/simple;
+	bh=CsYmwdM4K4i5hkFeQerNDLtCd6nmRJ8Bop1F49Ux+D8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bmBL1qpN4K8S4IXe6HqaF/3cTDHXEKb5+Ne3y9yOt8Nr0hwHI4KHDKxHctgRF29Pk7PoLh+LhH/YkxFHyswCmnEmGIKitDvrnVQApYtLitx3G5ezec10If2uPLbRe/HvqpHPsTycBZp2iz/aBXcDGzx++dKTizQWgIjmy78jrnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JFvmYK6r; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=ZQAqqvs6566wvBje7xFlyLuyJ7WAAjfVmabpMuUzoH3JwIVMIe8HiR19w0K2wYSs7sttlBveP28lGzVfQmVsIy6oeH+s9ul95QKJ+Dnx38R6MS27zJAjVEdxCGpJfkvWufyQrNvKGZKHYNex0kosSj6hL34r98llkXKL3TQabBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Txyd8J7R; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JFvmYK6r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Txyd8J7R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740568248; x=1772104248;
+  t=1740568251; x=1772104251;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=e2akSwKcnQzQk+RsgcyrMigltP8+nDzlylID6dVNLYI=;
-  b=JFvmYK6rhLg3YiyyRz95JqHskFwMVPZ4Tm09grlXExu+7TmyxlAoNy5T
-   c6iOXtlWu6ylL1eepM+ZPHzdaTR1hjHJDv/gq/HFphleC0AyjtaZM8o+J
-   fM/jgfcRx9yFOrot7Op6i9+Vu5gFLHQBnp0kAWp61uwdfHOMi5RdJ/47j
-   wOx06oxqHPup1EbT853uCpI7DZkSs8+fm6u0rd66AuEksCuHl3PAKZkX9
-   KXYAURmkpm43T0XAWo2Z11n3DDG1+UtdNh5ic0giZInxxY2VjoBJ3h9B3
-   x2cZ5hkHoNPtE6BNyqwn36DusIEuQBJ6u2T6RYCOs8rwPcUlgv4pHPoqs
+  bh=CsYmwdM4K4i5hkFeQerNDLtCd6nmRJ8Bop1F49Ux+D8=;
+  b=Txyd8J7RHv4L03CeeIY7szfdDcupzBN/1KTM6lVWTgFYGdGPzh7Hs7hA
+   iuz7mmiJe1/BI3q7a85UuIt5IPp1v6/YGdqS/VQ9yoqHB5MBtLK24ug+/
+   vcoCWl4IXk4J5RRLXMzc/+0sPU3LYahIW7jJ6Ts9gt9L6vBuQE+UVvNeq
+   vTSw+SkY3sAPqf8fW+ta5HfRp+m8hjCmiHyoqBXvufdEtzNQjeJy2LpQl
+   Llx+jwH2zjqGknzPZuKZhK9andWQSP/rRr9Lw5JDyjGYQ7HWbsbAYpVXC
+   n0NmqTk8XESh5fZ6S5vi750pBmqpRwWIrL4lWmV1MYMc4pMIh5ALwAhUz
    g==;
-X-CSE-ConnectionGUID: auNWczbrTKa2QHPiPjEW1A==
-X-CSE-MsgGUID: wf/Psu6TRwCmZokpaxXfiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41111227"
+X-CSE-ConnectionGUID: NH7zKUUmTDKgtCcmBUIL2A==
+X-CSE-MsgGUID: Ww6dXKUKT+mM9WxrjUrAiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41111236"
 X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="41111227"
+   d="scan'208";a="41111236"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 03:10:48 -0800
-X-CSE-ConnectionGUID: 1m82FCXMQHyU2HqHoUPa3g==
-X-CSE-MsgGUID: 0cpsoF+BT0iDmwCPxfdIcQ==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 03:10:51 -0800
+X-CSE-ConnectionGUID: JOhKqOOmTw6/UNOJXejcIA==
+X-CSE-MsgGUID: w6jgN0ysQBazBWZaie1wNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="116685212"
+   d="scan'208";a="116685221"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
-  by orviesa006.jf.intel.com with ESMTP; 26 Feb 2025 03:10:45 -0800
+  by orviesa006.jf.intel.com with ESMTP; 26 Feb 2025 03:10:48 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -54,9 +54,9 @@ Cc: tiwai@suse.com,
 	shumingf@realtek.com,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v2 20/22] ASoC: codecs: rt286: Update definition of device_id tables
-Date: Wed, 26 Feb 2025 12:26:10 +0100
-Message-Id: <20250226112612.166989-21-cezary.rojewski@intel.com>
+Subject: [PATCH v2 21/22] ASoC: codecs: rt298: Update definition of device_id tables
+Date: Wed, 26 Feb 2025 12:26:11 +0100
+Message-Id: <20250226112612.166989-22-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250226112612.166989-1-cezary.rojewski@intel.com>
 References: <20250226112612.166989-1-cezary.rojewski@intel.com>
@@ -76,24 +76,24 @@ initializing fields with 0 for statically defined structs is redundant.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/codecs/rt286.c | 5 +++--
+ sound/soc/codecs/rt298.c | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/rt286.c b/sound/soc/codecs/rt286.c
-index d0f533120c33..5ad1b9311d11 100644
---- a/sound/soc/codecs/rt286.c
-+++ b/sound/soc/codecs/rt286.c
-@@ -1083,8 +1083,9 @@ MODULE_DEVICE_TABLE(i2c, rt286_i2c_id);
+diff --git a/sound/soc/codecs/rt298.c b/sound/soc/codecs/rt298.c
+index 13aef6c5e91c..dd2d27515e7e 100644
+--- a/sound/soc/codecs/rt298.c
++++ b/sound/soc/codecs/rt298.c
+@@ -1144,8 +1144,9 @@ MODULE_DEVICE_TABLE(i2c, rt298_i2c_id);
  
  #ifdef CONFIG_ACPI
- static const struct acpi_device_id rt286_acpi_match[] = {
+ static const struct acpi_device_id rt298_acpi_match[] = {
 -	{ "INT343A", 0 },
 -	{},
-+	{ "10EC0286" },
++	{ "10EC0298" },
 +	{ "INT343A" },
 +	{ }
  };
- MODULE_DEVICE_TABLE(acpi, rt286_acpi_match);
+ MODULE_DEVICE_TABLE(acpi, rt298_acpi_match);
  #endif
 -- 
 2.25.1
