@@ -1,157 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010049.outbound.protection.outlook.com [52.101.229.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B2F25CC80;
-	Wed, 26 Feb 2025 22:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740608820; cv=none; b=POV7BqsHltpNjnKUrPjztvHFEcZ+6WK3ydlheME3M4koO1aiqck8q7NT25G405El5rtfgRuB3QEwKf9RJJyYHXvHlUtZhmyly0gHR7LsnR9oRhSCfzvpWlvw6VCClD5Z8bOUkvP/JXKoscYGJaJ2vy5lErpyxHSQkNCDLz6xf/0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740608820; c=relaxed/simple;
-	bh=O5zZ7g63I+0ZeYH00JZerlvbNik71qO0CgwvkTnWcIs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B3PfCFO5hiCvcw4q9HDa7O6w1BcxdYyvtboUer8VaVjxnn/e+ZoolJsLiRIbGay97ZQtUsYOjEzMOr7VY1p+umFvz0OMlOvg2ZwM6UAP/drhv8KyxVLzlcvlp3L1hhaU+OvDLXbJxsvPqX8FyP+yA7mTntWmpXd1Tj4wcbQBGQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aqYqpdVV; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480522702D1
+	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 23:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740611479; cv=fail; b=OabxuJVfg7u+6V0EgeT3j4eJxtBQT/1bbclSDqka3qNEL334IdrLKwQ5Km73VxPM/yrCCpkAMQ+i0Mh87OVjKK8+aYN+R7naNv98VfWolxTggFF2bZIUo5cu88J2adfNrCTS74Clr6ifslQw5BPyhkBB1NHtsGufs9MvKtoq/7s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740611479; c=relaxed/simple;
+	bh=PbIg1i/l8mT8OfXG7Zb1oCGW2uqjVBEcK91gc3kSRkM=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=nQYCZI/aguMhrEqaew3aJYcc4GgAt/9vvAUOdbJyBixeMv5OUSVgxgkdAZag0m65M1o/ek+qz7TW/IX6hm0Zb6GO/p4mwUxojteW9lknVJFzp3OTZq2r55TFvTyuanMKMB6QvfFtpx9RLe8h9+q/6gslFILDoJo9qcol08vt0BI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=BxLwzlpD; arc=fail smtp.client-ip=52.101.229.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aqYqpdVV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D179C4CED6;
-	Wed, 26 Feb 2025 22:26:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740608820;
-	bh=O5zZ7g63I+0ZeYH00JZerlvbNik71qO0CgwvkTnWcIs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aqYqpdVVpkD5NJn6jpo0cdClxOspwzsi8RCKpRnA88J5OPdmx1mMru31LZxBFgp96
-	 SZb3oRy0Fxzg1qr18ZQYO7NtEHrnW1kSYRo35qghO1/ESXhb4R4oAXKE6PoHpaKtQk
-	 rw/ltpwe8XfbrUtfiq6lveoAbVX0jopaapPwU3slyk58T6gzgfoVr9fY71ajwj3kUT
-	 xvbk1I9lC3b2larN7+jztDKNXSrFhP0QhpXpDklrqd7y0o0NsfVUuwegc/GYneM1Nf
-	 LoD2swB/LWax0rd/I8YAe0yQ9kMiS9zB3fdg0qmIVaFo3k/1cDqwlB1rT1yn4zBMcR
-	 ST+zf0908vWAA==
-Date: Wed, 26 Feb 2025 22:26:46 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Yaron Avizrat <yaron.avizrat@intel.com>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Nicolas Palix <nicolas.palix@imag.fr>,
-	James Smart <james.smart@broadcom.com>,
-	Dick Kennedy <dick.kennedy@broadcom.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
-	David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
-	Dongsheng Yang <dongsheng.yang@easystack.cn>,
-	Jens Axboe <axboe@kernel.dk>, Xiubo Li <xiubli@redhat.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Selvin Xavier <selvin.xavier@broadcom.com>,
-	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
-	cocci@inria.fr, linux-kernel@vger.kernel.org,
-	linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-spi@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	platform-driver-x86@vger.kernel.org,
-	ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>,
-	Carlos Maiolino <cmaiolino@redhat.com>
-Subject: Re: [PATCH v3 00/16] Converge on using secs_to_jiffies() part two
-Message-ID: <594169fd-5ba6-42d5-ad35-bb8c7720904b@sirena.org.uk>
-References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
- <79b24031-5776-4eb3-960b-32b0530647fb@sirena.org.uk>
- <20250226123851.a50e727d0a1bfe639ece4a72@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="BxLwzlpD"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EbnXlp+y6FrSYrHCZytdKgwqJRTRcOiPQ0eCVqGuPuSrSQKAgQJpcDDR94KO2HIl+yJDkH8JNrxzynNvoaYO5nZkap6loz6WoUgxzCXk/skq91uwug3jko4Zdv1jYq3xSQQcPBBKwhCzFF3Wzn1Zjw22KvNRWR8ni1SAx5BeFzGXaemxitFTMk+DNC0NCEIq4iNeAsIxksdBM+NtOt6SG23O606NA6pJFwYxYrkTkpH4/QE3t2wCMiUkanjqzhtV44BWITUuxl44Jha1yAGMXZzWOK2ka2nAE69bltF7jfCBA3z75Fc+v0/0CUC4Kd+ahUS+HBJH6v1eRZMwtdiN0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iWJ+sVuPc9eJyit6E1Nabr8wm55u7zKWACXIm1AkGH4=;
+ b=LT7ifu9F8Y8FBNX3JjvfCDRWBrSMnNHFMxQD9ZAFKB9As5FghgCPW5YGrRCIohhKQkEQnSu4BVYti8N3NCPCGLNH2BM0UMdec8IEChVbWGTFwfI21JUG99+MxnJaKaB7JRh8vJrnpV4L5a6SHB8vEtUgBYS7waiUFze1gw5Cq8dS3fTAEs6xp2Cjd5tV23zE0T7moGfqEZ2JZhy6qi2Sw7rawWlykd85wxXuL1EVKyypuMVs32ID5yGDSp1mnbGSCIiGXM8r7E5D7h/P5cSpKOFMryXgKkxlikvlR/Qz2spGOIWWFAkrIGqSOMnclMbBuMTXk+pgdBhGMoKcEODKUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iWJ+sVuPc9eJyit6E1Nabr8wm55u7zKWACXIm1AkGH4=;
+ b=BxLwzlpDIDfraVYnNb0yBDiy1Xd7sh1dICTQOUfkYuSPmmNY+qePOiWWpMsd7AiajjyhvcHqyjj1/DUSxpGlF5Pe9qDdgbPDErN8/p6wlP+1/zmgT+iqfLloXAccGvLeYdw3VLJUZIkko9EkwsqOOIgrolRypTHgWiaOE1nN+aU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYYPR01MB15051.jpnprd01.prod.outlook.com
+ (2603:1096:405:1a4::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.21; Wed, 26 Feb
+ 2025 23:11:13 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8489.018; Wed, 26 Feb 2025
+ 23:11:13 +0000
+Message-ID: <87h64gqp2n.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 3/3] ASoC: hdmi-codec: use DAI ID and Name for ELD entry
+In-Reply-To: <742390ec-7272-4fc7-9fe9-865ff5247c79@sirena.org.uk>
+References: <87frk16wxt.wl-kuninori.morimoto.gx@renesas.com>
+	<87bjup6wx3.wl-kuninori.morimoto.gx@renesas.com>
+	<742390ec-7272-4fc7-9fe9-865ff5247c79@sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 26 Feb 2025 23:11:13 +0000
+X-ClientProxiedBy: TY2PR02CA0034.apcprd02.prod.outlook.com
+ (2603:1096:404:a6::22) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ktE/+HW2BMMja6u3"
-Content-Disposition: inline
-In-Reply-To: <20250226123851.a50e727d0a1bfe639ece4a72@linux-foundation.org>
-X-Cookie: I've been there.
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYYPR01MB15051:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d86b176-3c8f-4480-7e37-08dd56badd4c
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|376014|52116014|366016|1800799024|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?i2NVa0ALuCYYgXeAsHh7AZ6bhvyNzTPkgCjnfBXGXTXtOE1zjSCgJ+UtMSw/?=
+ =?us-ascii?Q?UJcbuVttAZC0QDfka9iyp5n26xcK0B9am2kUK8KJjFNpZXCOK3U407G1h+X7?=
+ =?us-ascii?Q?z7ErR1Oi4zlptTGdXmZwh/x3+S7Gtn3jm13Pw34ZnIKQzlyVaxvJ2FlWedJI?=
+ =?us-ascii?Q?PexfZC8Bswf9ucocWSaFX2Defqg6r4WfwM85OOEOd0C9Uokn1wRD16xXlsoR?=
+ =?us-ascii?Q?mTZUJ+biOkpryMuI3PNHp+ATaP/YXXnvuDY3qJ5TuzKwP44Me8N9EL4FBQoM?=
+ =?us-ascii?Q?NQfOMyC5rDgTZ8GuzRKZs5IG3x91v25BQW6JEUfnjDnVPYRXK2bnIDx5KjCv?=
+ =?us-ascii?Q?wKXpv2Wmq9FeN7wOkdd33FiCSwqxquUiJgWMUsglYsAFTdS9VioqtavFxtqB?=
+ =?us-ascii?Q?Sn54IP8zWV6NHilWns3uG03V2Ur8xqc6Yw1QEUuen0JX+ydclM7esAtT5/zx?=
+ =?us-ascii?Q?YZrdBEtyMP91cq20Ea27CG5tBOrIShhn6IkmSab5+5DhWWEQ6isrmHIkTtdS?=
+ =?us-ascii?Q?/60TldeWK9M9SJyoTO7aXWBoxogMeJQfF1R9BNRnfbngeMuMUNSY9nn2YEdP?=
+ =?us-ascii?Q?DC6u8pQXZNHhaiKKkIeaphHrH2ofoFgDI7weyNAEPFk8ThqTXjJ6saCIrOSa?=
+ =?us-ascii?Q?4Y75GsqE9NhN6RKOSObQKGUpFglU8FadPrHRvorR3cqHbtshwW+F1RJFCKgD?=
+ =?us-ascii?Q?Ye/k+71yxqE8mGaQ4P6QDhZyU1CYrARmDEAok6Gk2LlWJlbNQk+ov0R5blAy?=
+ =?us-ascii?Q?YwUTx0CX1FydNffP6ezMvRIJkFk1bIGLEFPjq0Uh1uROt4GLEj5bWMqRlmWg?=
+ =?us-ascii?Q?hE2gg92gCTa7r2ZsGdIFrLUjoT9SYs0hWKKx4dSpRiZ/c12pEEgD5sLpB0Qz?=
+ =?us-ascii?Q?QqSD7BPubqY5s26VQjhp2gaDZYmXLYMMb6azpqWFRFZYEqIzq/SAj267ox6z?=
+ =?us-ascii?Q?FXqzfSUjhKHTxJsuf0Y4XSH37U4VJ3WE2zjhmOEluYwmZpNID3h9O7LzmFgf?=
+ =?us-ascii?Q?P8f4ISi8SRQOik5WO4VbS8ZzgUjOdsqZQRqMyCIqoq5Ttk2VglBAvBN71WGO?=
+ =?us-ascii?Q?mdwB6FYjcmz0DnmmoXh3sSI78WZ+4iteuFdoOT3j3AFQUnaxO3w5k5ICKLCC?=
+ =?us-ascii?Q?jxty2ZBqj//vVMudK54maQAbwENn8SalBqsKXFOPcxFQMrXefNsGOwNL1WLG?=
+ =?us-ascii?Q?Hfy9esGNdtSFYfP8WpnpC2ISlAQpA6rrd2oyXTwTh508VfWriJYNTEgSKjvm?=
+ =?us-ascii?Q?zT0c1DXKIesj2wzRvPZrp5HAfIbpcPOzNh16hplHRQyl1qfUNks3BXM96gSK?=
+ =?us-ascii?Q?NlTtj2LeuVhrxaS3UhboRz+zEee4Ll/xLaPv91UhFDEg/RTYn8P1+3TONjK9?=
+ =?us-ascii?Q?UdVw6FyRdxPRDJW/H6519Ne6xgoDhlxJxJutNGU5VV2pxDH5MU8O4ZdRQxlN?=
+ =?us-ascii?Q?u/j5k3u4+ERb8+Hi5Rru1GOo6dejum4E?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?gV0y+Bdq0vlM+aS1IVkayWJ3s3DELR9lPosD/A4Vr4BwTPBlKpgHdtFthThG?=
+ =?us-ascii?Q?v6zFo1cfVakkaPfk59MGUsm9jDZci3Sll+89C4BUbVatu6QlzLbVb7XCykMe?=
+ =?us-ascii?Q?GZ5y0h3lDA19cmtt0ZUzJ/MnEaekr6WmlfwV4ho3viK0xKtcsRSyXKkBSV5y?=
+ =?us-ascii?Q?tLrH5lPejSYVQP4RAwhDjjlyT5ufCBBTy3hzb5R17haIeG/XaGmWsAdAVbEq?=
+ =?us-ascii?Q?/G7KvfArCIuUJqpVOdYsXfjBJFXbshGwzUfFRmKmku1z8MZmcGIV5fiGhjQ1?=
+ =?us-ascii?Q?vTeBHxtlpM5ms+NBsXSxQukcKbiW1VCroy/nhUeXlTnF8kmrME+aWqnyOlTI?=
+ =?us-ascii?Q?M2QxbvJNWVzu6jLo4X80WTEFZmArWjitj1HJO0m8FHjQXLTo9q58uqUJARdI?=
+ =?us-ascii?Q?vmqY/YQlHp/x0Svmwp6/4JhqI3SBoZmMVRvMnkdfbbOEEFDr3Waud3sH8ZJX?=
+ =?us-ascii?Q?TvV5jgHr8+bUw1boZiYtgogI3GD7HCHXtmpjXiRmv3iHpZD4wAQotFHNDa5w?=
+ =?us-ascii?Q?MSAFnhJDxum3kDMdRZwE1vWeyIZJ+uQbzqxesSRci5SHn8Va34sbS1PBXZGS?=
+ =?us-ascii?Q?OebrAgpJ+jT7Aj88SuyGLrDeGK+TeJUhfLZg9M1EthixmKx2g3QokwfBKmi1?=
+ =?us-ascii?Q?DPwM6mKdLNLKp0jFQsa3cc73n09IbpwqDWLHQ/LeAkwm8eza3wC+ZSKRj4Da?=
+ =?us-ascii?Q?8MvIDYu4AAK28UHdg6o3nybPuZTJBsnh8VO4QNTuRtXotde8ZhOgAGCWUcg1?=
+ =?us-ascii?Q?5HrvZyxZeDNdt02QvpuVjFFeepli3nE7SmjhvFz9EY/9Gcvi7XXNzvLY4pAu?=
+ =?us-ascii?Q?kzEQMOWy3htdEdtYMYD/R8NPLvoiLQnDvPKCpExD9suo9kU/khGTYiakDZe3?=
+ =?us-ascii?Q?AD4oeNsBktJvBubuoCMRpHIcc7xS6Qfi2zYIg8iVFngMlzlr5daZEjyFCMSa?=
+ =?us-ascii?Q?AqTChChw+zGjVXjq9INMgQKlcfMGX1wDLY+c1z/rIEQD416ZKZ1AewjXw1xA?=
+ =?us-ascii?Q?oE2EAK30AVlNoisAJDm72351Tqtc4XkxoDhnQzr7N+6VnAKaxweBGzsboSFR?=
+ =?us-ascii?Q?exzL4HBgwP3jF8ODSjqSaA9Cjw5unW2MeWAZGOpeiE32LHKbsRqTJITkw9hQ?=
+ =?us-ascii?Q?2nw0EbIEWJNOluz8zhAiRVBu058QqGXuHAXZt7FtVquxbjpQl44JzTQpu6Q6?=
+ =?us-ascii?Q?4Q+u2Y5ng6mrThm/d5AOpFUSRHbZ5A738pNMMaAtpvUavVk7pQX5Boj7iK6o?=
+ =?us-ascii?Q?tiiCcUVqqCij5kIuykexU7m+Rhq5ApOdIi34QmWu+LxZ6Fm72SDt/+YBlNNa?=
+ =?us-ascii?Q?MMC0ffgPVzsuPqQ2LSU2P7zCfAtD0G6Wp6Zuv9MUd6JKdkFTLIDsoxE4VPP/?=
+ =?us-ascii?Q?g0XGr5D2+tm2bNsjZzOP6HuwV9diZrq3eHJPpq4quve4jZzZHPx2gWwdQ6aG?=
+ =?us-ascii?Q?p40M/YhcSwW0zU2w2CZ9NEJGSXX9+loIXc4hayP1xmv0PPm6X+ZTZgT+ptdp?=
+ =?us-ascii?Q?H/iUOT+oTHqrkg0ZQhqX/I+YNUDJgxFEGm8JIMZ8HWLaPDSqacdZV6TFpv+V?=
+ =?us-ascii?Q?JXzwdYQKd1mVljVn81n6vxHktSElmg0iq/6GYVn7rfLvVKzjQh0GR3X1xeiv?=
+ =?us-ascii?Q?FeYIYMIFwE8MKO+8YfaWHsc=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d86b176-3c8f-4480-7e37-08dd56badd4c
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2025 23:11:13.4748
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F+LE/9hrN+yuYu/hzuvQsLVZDyNOC1ri0DzTZo5u5JkJIX1RcmgSqwrIjlW6NkEYoEWjWJNOICA/mWJbXDqK/GORy4j9iJpn0CTOp6FzIAFjTHiQoPMEhUy6J3DYjeKb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB15051
 
 
---ktE/+HW2BMMja6u3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Mark, Takashi
 
-On Wed, Feb 26, 2025 at 12:38:51PM -0800, Andrew Morton wrote:
-> On Wed, 26 Feb 2025 11:29:53 +0000 Mark Brown <broonie@kernel.org> wrote:
+> > commit 0ecd24a6d8b2 ("ASoC: hdmi-codec: dump ELD through procfs") adds
+> > "eld#%d" entry for sound proc. It is using DAI ID. But it is possible to
+> > have duplicate DAI ID on same Sound Card. In such case, we will get below
+> > error. To avoid duplicate entry name, use RTD ID instead of DAI ID.
+> 
+> Acked-by: Mark Brown <broonie@kernel.org>
+> 
+> Given that this doesn't depend on the first two patches it'd probably
+> have been better sent separately, especially since it needs to get
+> merged via a separate tree.
 
-> > Please don't combine patches for multiple subsystems into a single
-> > series if there's no dependencies between them, it just creates
-> > confusion about how things get merged, problems for tooling and makes
-> > everything more noisy.  It's best to split things up per subsystem in
-> > that case.
+OK, thanks. Will do
 
-> I asked for this.  I'll merge everything, spend a few weeks gathering
-> up maintainer acks.  Anything which a subsystem maintainer merges will
-> be reported by Stephen and I'll drop that particular patch.
+# I noticed that the Subject was not matched, and the patch is missing
+# Fixes tag. I will post it as v2 patch, soon
 
-> This way, nothing gets lost.  I take this approach often and it works.
 
-I've only started seeing these in the past few weeks, but we do have a
-bunch of people routinely doing cross tree stuff who split things up and
-it seems to work OK there.
+Thank you for your help !!
 
-> If these were sent as a bunch of individual patches then it would be up
-> to the sender to keep track of what has been merged and what hasn't.=20
-> That person will be resending some stragglers many times.  Until they
-> give up and some patches get permanently lost.
-
-Surely the sender can just CC you on each individual thing just as well?
-Ensuring things get picked up is great, but it's not clear to me that
-copying everyone on a cross tree series is helping with that.
-
-> Scale all that across many senders and the whole process becomes costly
-> and unreliable.  Whereas centralizing it on akpm is more efficient,
-> more reliable, more scalable, lower latency and less frustrating for
-> senders.
-
-Whereas copying everyone means all the maintainers see something that
-looks terribly complicated in their inboxes and have to figure out if
-there are actually any dependencies in the series and how it's supposed
-to be handed, and then every reply goes to a huge CC list.  That's not
-good for either getting people to look at things or general noise
-avoidance, especially for people who are expecting to get cross tree
-serieses which do have dependencies that need to be managed.
-
-There's also some bad failure modes as soon as anyone has any sort of
-comment on the series, suddenly everyone's got a coding style debate or
-whatever in their inboxes they can pile into.
-
---ktE/+HW2BMMja6u3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme/lSYACgkQJNaLcl1U
-h9DO/Qf/a9HWwKcXS5+hFxQJSm6QW0NLy2NbqHre8UKfa7aKUVgjHmVnb1gIAdSh
-gY+WUz9p7S+67TovmO+FlVs/KDBaHyw8J0auw2I/uFK7bDhNHXtiUi32jBCyuQD4
-w+yhOC50NrB6ZXh/FpBk8EXI4DSUoaL5z6KMVYItTTfl0lCtBbTGJSAPXswWc3u1
-5ZXriY5GR9Q2MwY4Fs6QN6pbKucqtpxnhiL26E8ic/kdpVh6ZGEoFhFWweV6nD/+
-ttggFNcFA98M8YYEySK/p9ls4PyRF4dXL+oQWEXWvylpGogCDAcCj7Igb8CuyJRn
-G2+ftlgr6xEk4hOBnRKBY7Ts/BcKqg==
-=3AEq
------END PGP SIGNATURE-----
-
---ktE/+HW2BMMja6u3--
+Best regards
+---
+Kuninori Morimoto
