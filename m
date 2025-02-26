@@ -1,68 +1,66 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC2F315C0;
-	Wed, 26 Feb 2025 12:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927A42153C8
+	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 12:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740572724; cv=none; b=EvoQXZNdoJNdcFB3lJ/+zH+1uVpa8uhZpoFFA1SRDqq3yCdLEC5Q9/h6/r8jcgmPWIKTy8wxljE9C+MWeWE53lQY1jEIJ/haBqHH81YWroY/M94hxKUqZz8sQfz2NSF/5uQR5kUF3c+eMAoCSp9Z9B4LCD6IQoK+RfSXjsh/u+0=
+	t=1740573911; cv=none; b=PN1pfUrKZ03FwrV5yNDs3urMeFzDDfzG38EQsjZOdCf72PiO/oVQMD+GW/eLyApwzZ1Mjb911uX8Eb2Sus3MgEVA34ZvXzK5WyLHeY+HEDB23qEBTmHFxDYilfuZVBZ46pSJGBUHGndAtodxri778CFpxP0xU0LsX5f7TxGZv40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740572724; c=relaxed/simple;
-	bh=mpx3OIfBMVbXEbYqM4lIodKuC+dxywUF7P5xsFaOeA0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uOTXi3s+E0orU1DGhkt6gphNKvzQOiBfLjJ/l8gZgVjT5vFC9sPHe7QWRADrmejYzpwjeXdwvxqtKL3iOV0XA6BGWtINcYDYtXhv3uaTN1px1qTrI6GkKmqKUCdwCbnvQpxVKgoHDXMQ2Sq830ibTHDLqjWpi86haIKj3FiOJh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D573497;
-	Wed, 26 Feb 2025 04:25:38 -0800 (PST)
-Received: from [10.57.78.198] (unknown [10.57.78.198])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 51E4B3F5A1;
-	Wed, 26 Feb 2025 04:25:21 -0800 (PST)
-Message-ID: <01eec26d-9ddd-4ef4-b921-dd7ff4dd0e23@arm.com>
-Date: Wed, 26 Feb 2025 12:25:19 +0000
+	s=arc-20240116; t=1740573911; c=relaxed/simple;
+	bh=Yyy18qKjq6WWcNNrHiZjhxMlZg0K62qDA8PvIO8C9tE=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=BMPlqMtTuvpMdQm+fr7Gra4lUWwcC01EVh3XrprBvFAXD1zdKk1wMoESUKdpmR3zLJkZA1NW+bAqY8JR+OCLqsSuPqY4AY1ZttjjlSg+vYNiWxTwRbG5xyKY0INgH7Ig1DtHZuJclVnGWq6C+Nn5BN1kS/8/1nNjdQRlqluI8xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PYei3yz2; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PYei3yz2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77D85C4CED6;
+	Wed, 26 Feb 2025 12:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740573911;
+	bh=Yyy18qKjq6WWcNNrHiZjhxMlZg0K62qDA8PvIO8C9tE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PYei3yz2DGSgUdD1SKv6jWcG5NlnujPEQP2s2bXyuuipQpsvTDejMa7/pxlKTIoPH
+	 wM10AXJkfn4HEsi2m4+fM3j65QCLJOfy3HUnngFTC0NC8+dJqXCf4kHRb90rAz6UhK
+	 sBn3GDpzRABY6onNDigibzUbDgr5aPzDSHqPVGEqq7iIcKBo8X7I22jNmabXv76IlE
+	 qEaGykuDthqLbuXlQ58YgmpUXme3virpkzfWAcl+GlgxJ0CKwcT/Fr2L0e42bUWf/x
+	 eooJE7yHAaF3aQV1W+Jl4pbk6EXg9SSQ5PJExrs915cXaumUMOpw1kdgDMtyz2o0X6
+	 sx6DJCfXeRG3A==
+Message-ID: <493624e8678463b8204354f06fd00e02.broonie@kernel.org>
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.14-rc3
+Date: Wed, 26 Feb 2025 12:45:06 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] ASoC: dt-bindings: xlnx,spdif: Convert to
- json-schema
-Content-Language: en-GB
-To: Rob Herring <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org,
- Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
- Sudeep Holla <sudeep.holla@arm.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250225190746.541587-1-vincenzo.frascino@arm.com>
- <20250225190746.541587-4-vincenzo.frascino@arm.com>
- <20250225221945.GB3224894-robh@kernel.org>
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-In-Reply-To: <20250225221945.GB3224894-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi Rob
+The following changes since commit 571b69f2f9b1ec7cf7d0e9b79e52115a87a869c4:
 
-On 25/02/2025 22:19, Rob Herring wrote:
-> This was in the example, but otherwise wasn't documented before. And the 
-> Linux driver doesn't need it. So let's drop 'interrupt-names' because it 
-> is pointless here. 'spdif' is redundant because this the the spdif 
-> block. 'interrupt' is redundant because it's only interrupts in this 
-> list.
-> 
-> Don't forget the example.
-> 
-> With that,
-> 
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+  ASoC: imx-audmix: remove cpu_mclk which is from cpu dai device (2025-02-13 11:34:32 +0000)
 
-Thank you for your help!
+are available in the Git repository at:
 
--- 
-Regards,
-Vincenzo
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.14-rc3
 
+for you to fetch changes up to f5468beeab1b1adfc63c2717b1f29ef3f49a5fab:
+
+  ASoC: tas2764: Set the SDOUT polarity correctly (2025-02-18 20:08:43 +0000)
+
+----------------------------------------------------------------
+ASoC: Fixes for v6.14
+
+A few fixes I and James Calligero picked out of the Asahi tree.
+
+----------------------------------------------------------------
+Hector Martin (3):
+      ASoC: tas2770: Fix volume scale
+      ASoC: tas2764: Fix power control mask
+      ASoC: tas2764: Set the SDOUT polarity correctly
+
+ sound/soc/codecs/tas2764.c | 10 +++++++++-
+ sound/soc/codecs/tas2764.h |  8 +++++++-
+ sound/soc/codecs/tas2770.c |  2 +-
+ 3 files changed, 17 insertions(+), 3 deletions(-)
