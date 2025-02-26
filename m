@@ -1,76 +1,68 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A02E2206BB;
-	Wed, 26 Feb 2025 12:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC2F315C0;
+	Wed, 26 Feb 2025 12:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740572619; cv=none; b=pRybqMyYSzj6BU0Z505QRQvJRLKMARTmCIby1aFr/r6g82jsUHg+zHW7Je1yurKEMrqsj6BGmmyXJNE4zlRIv25G90EP5P/LMPM+hcTR4Us3Qmy5CpXta+U9bvjbK/82E3glXXfDywd0dMvQtaBjW2CAW9cwO+dhtdaj54ApLDA=
+	t=1740572724; cv=none; b=EvoQXZNdoJNdcFB3lJ/+zH+1uVpa8uhZpoFFA1SRDqq3yCdLEC5Q9/h6/r8jcgmPWIKTy8wxljE9C+MWeWE53lQY1jEIJ/haBqHH81YWroY/M94hxKUqZz8sQfz2NSF/5uQR5kUF3c+eMAoCSp9Z9B4LCD6IQoK+RfSXjsh/u+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740572619; c=relaxed/simple;
-	bh=nFlhUJpu5IyDOM3Yvq2TQXWWyR5FKc900AMjUz0SMXU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DsD2EMmBe4PmritLdSZVdzoDb5lztElgCBiq7yTVKZ7pQhRBJ/b0Bp1t/8cqz/kki9PQKZbMGY3jn3tr0dhKt2Y86mT22z6jk9nvLoO/RmDgQps7wRdzT8YqRSrJl5/vKtwDwquthSj+6xFDXOE16ORE+6wwns+tVVzk6mec6Is=
+	s=arc-20240116; t=1740572724; c=relaxed/simple;
+	bh=mpx3OIfBMVbXEbYqM4lIodKuC+dxywUF7P5xsFaOeA0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uOTXi3s+E0orU1DGhkt6gphNKvzQOiBfLjJ/l8gZgVjT5vFC9sPHe7QWRADrmejYzpwjeXdwvxqtKL3iOV0XA6BGWtINcYDYtXhv3uaTN1px1qTrI6GkKmqKUCdwCbnvQpxVKgoHDXMQ2Sq830ibTHDLqjWpi86haIKj3FiOJh0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C61F813D5;
-	Wed, 26 Feb 2025 04:23:53 -0800 (PST)
-Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 374903F5A1;
-	Wed, 26 Feb 2025 04:23:36 -0800 (PST)
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-To: linux-sound@vger.kernel.org
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 4/4] MAINTAINERS: Add Vincenzo Frascino as Xilinx Sound Driver Maintainer
-Date: Wed, 26 Feb 2025 12:23:25 +0000
-Message-ID: <20250226122325.2014547-5-vincenzo.frascino@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250226122325.2014547-1-vincenzo.frascino@arm.com>
-References: <20250226122325.2014547-1-vincenzo.frascino@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D573497;
+	Wed, 26 Feb 2025 04:25:38 -0800 (PST)
+Received: from [10.57.78.198] (unknown [10.57.78.198])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 51E4B3F5A1;
+	Wed, 26 Feb 2025 04:25:21 -0800 (PST)
+Message-ID: <01eec26d-9ddd-4ef4-b921-dd7ff4dd0e23@arm.com>
+Date: Wed, 26 Feb 2025 12:25:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] ASoC: dt-bindings: xlnx,spdif: Convert to
+ json-schema
+Content-Language: en-GB
+To: Rob Herring <robh@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+ Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
+ Sudeep Holla <sudeep.holla@arm.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250225190746.541587-1-vincenzo.frascino@arm.com>
+ <20250225190746.541587-4-vincenzo.frascino@arm.com>
+ <20250225221945.GB3224894-robh@kernel.org>
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+In-Reply-To: <20250225221945.GB3224894-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add Vincenzo Frascino <vincenzo.frascino@arm.com> as Xilinx Sound Driver
-Maintainer.
+Hi Rob
 
-Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On 25/02/2025 22:19, Rob Herring wrote:
+> This was in the example, but otherwise wasn't documented before. And the 
+> Linux driver doesn't need it. So let's drop 'interrupt-names' because it 
+> is pointless here. 'spdif' is redundant because this the the spdif 
+> block. 'interrupt' is redundant because it's only interrupts in this 
+> list.
+> 
+> Don't forget the example.
+> 
+> With that,
+> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1b0cc181db74..8dea8da3d6d6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -26011,6 +26011,14 @@ S:	Maintained
- F:	drivers/pwm/pwm-xilinx.c
- F:	include/clocksource/timer-xilinx.h
- 
-+XILINX SOUND DRIVERS
-+M:	Vincenzo Frascino <vincenzo.frascino@arm.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/sound/xlnx,i2s.yaml
-+F:	Documentation/devicetree/bindings/sound/xlnx,audio-formatter.yaml
-+F:	Documentation/devicetree/bindings/sound/xlnx,spdif.yaml
-+F:	sound/soc/xilinx/*
-+
- XILINX SD-FEC IP CORES
- M:	Derek Kiernan <derek.kiernan@amd.com>
- M:	Dragan Cvetic <dragan.cvetic@amd.com>
+Thank you for your help!
+
 -- 
-2.43.0
+Regards,
+Vincenzo
 
