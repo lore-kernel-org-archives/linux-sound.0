@@ -1,149 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A214B5AE
-	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 14:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5BB82192F4
+	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 14:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740578495; cv=none; b=eOTbY8inyn/U3wXWNlc06J77aldaCziEg2N5hbCm8zl7MIbnAfm/yV5njyLp0zgPycPgeQB8R2ZuEz1VtyW/Hx1SCzYKI42ZV6feqQK+WqDcUtYXfEosBasfTvA3MUTRtxKMdjRGZM2x8xELcv9B6Er4JkaDi/nBMcDCvwZsywg=
+	t=1740578772; cv=none; b=Gn+gKiIODMNv+FeomBH66Z7DWYLsqy6QSpCBQYZHHjusWLpbjv5S1C/Wy+GxLxlTV0WeUHhAcIbQaez9iq9bcupdQOjV0JP+JX68nkm061RvLGMOvvXPD66XGj0BWbsROHgmJeqvCznGKrPBtGJIHG1NEdobIpNZAYfdtji9muE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740578495; c=relaxed/simple;
-	bh=vGtG3Xj6OTTgJNRnUx51vwJ6ar8tEyKW/zQSTELPtiI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PACENErHDc1qS2UH7eaAWG1I6xRGKtWONF4+hs8Mr1hcts1u1icqtBKYn33C8HX9G9YAZRhcVr8bG1czJ20cXzo5HNGbFsnGD8Q8pSYawNH1linFuJWrL4zITViAW7SIfTO7Fk9BEOsk65r/Pd5BQ4KYkRujLNM1MZA3AVEH5Yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LJTzm91s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NmMGuhp3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EfQvHbmb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=afbI9cAF; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1740578772; c=relaxed/simple;
+	bh=q2jt7HFFYcjcUTNvbImCY6F3nDu6Fz7PkvgS9S7nxts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GeRMglBVuVa84rwDbHMqxT44GV/89bnxIGXYKPuGdiif0xjPrUoDWw6vwUY6CuUN6urIRQiT3mn50z3R7sPlfaxIkoLcpZbhREquI2WTg7QHlf0MypjMZnN/X8YtMkWfkP7tS7M8sLrW7FWgUdDI5blZQLbEHQYkZAynJe1Bmyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dUIYN8Hj; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LJTzm91s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NmMGuhp3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EfQvHbmb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="afbI9cAF"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EF54A21170;
-	Wed, 26 Feb 2025 14:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740578492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kwxu0MXBuD9Mqd9aCuVvWjdS/V3foYvAimw90gqFadg=;
-	b=LJTzm91sfwajW0PynBIl+X1SrPnEvqhJ2rn9RWkCF4X6lHhUWKPFxJxSmkQIC+CNUSxBNG
-	oGy6P9rqRlKsIQAivni9Hwo55YkNRMCWPUmjCZHCXh/WqIHfUCmyyV/Suws60rsFuCWp/M
-	sl7HdCXIAkog03DLG5+CxZTmeCOH7sU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740578492;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kwxu0MXBuD9Mqd9aCuVvWjdS/V3foYvAimw90gqFadg=;
-	b=NmMGuhp3wOqyiufszbATGl7ahOrKJQOfhceqMQvy2aj9A079VrAZ80Kfn8NNvthJqf52L/
-	cmGLR2mhn4P1UzAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EfQvHbmb;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=afbI9cAF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740578491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kwxu0MXBuD9Mqd9aCuVvWjdS/V3foYvAimw90gqFadg=;
-	b=EfQvHbmbLZ+vDIfwJbRrZQPu5kX+LoeUrIHnbuHEa0wUKFyBc8i8LhPF+0zt3CPt5r45ll
-	vNCppURaqAAwVfw3CKRtuU8xs9SW8Rtvd007eLnnj7m1EarpQvFaG3noMIoOfz9PhNGL27
-	Qbm7WbEorQwbj4V/wH/pzH5jmKg1ph4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740578491;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kwxu0MXBuD9Mqd9aCuVvWjdS/V3foYvAimw90gqFadg=;
-	b=afbI9cAFK3g4diOGEWBrcBq/pXRlnwBAxI/8XN5YpM6q9zKFPhjEPPCHw5goxl4MDgcOOs
-	0rrgv3pIHfyMBLCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DC39713A53;
-	Wed, 26 Feb 2025 14:01:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UcgfNbsev2fTOgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 26 Feb 2025 14:01:31 +0000
-Date: Wed, 26 Feb 2025 15:01:27 +0100
-Message-ID: <87mse84xfs.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v6.14-rc4
-In-Reply-To: <7ff673840a72f27faae049d16ea12029.broonie@kernel.org>
-References: <7ff673840a72f27faae049d16ea12029.broonie@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dUIYN8Hj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740578771; x=1772114771;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=q2jt7HFFYcjcUTNvbImCY6F3nDu6Fz7PkvgS9S7nxts=;
+  b=dUIYN8HjXUWUAn8Eig+sZJjp1Vsi4wyCdkqgQJK33tF7vRG0ZpLt5w8U
+   gJ4mRf/AHFPTScXQbz4YGoRfYmnxLCkroRsYdQW/GHwIaLAaaermafGIO
+   6r+E/f7dkD0KTmGVUz56Vz3HIBiu66NdHpe/9khEJbk4Ve6E/+Fm2Ds0K
+   9AmG8Yo0NLgSQhA3rEzptvnQv+8OIhj2U+F68BW5+F6oJfacOunCbEL7J
+   f+sdH6Usv7IiYxROBya6nc/++FmJXsvWJjQk+rYd9aturTRju5gmpZGWU
+   Q3EpVWf5yVfkaM9tKMlT7zS3UoCb8sDv6bWqalrKqjtyBRfczJbCzxmZO
+   A==;
+X-CSE-ConnectionGUID: eAA0pzluSaujfpmHv6S+WA==
+X-CSE-MsgGUID: a/Ns4vR8QsC5AR/zHvizhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="52414017"
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
+   d="scan'208";a="52414017"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 06:06:10 -0800
+X-CSE-ConnectionGUID: nrP5ycs3TryKjbNHlWb7qQ==
+X-CSE-MsgGUID: XAQrbxsdREKr1sq0K1OOGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
+   d="scan'208";a="121703631"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 06:06:08 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tnI33-0000000FLGa-1ADx;
+	Wed, 26 Feb 2025 16:06:05 +0200
+Date: Wed, 26 Feb 2025 16:06:05 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com, flove@realtek.com,
+	oder_chiou@realtek.com, shumingf@realtek.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 22/22] ASoC: codecs: rt5677: Update definition of
+ device_id tables
+Message-ID: <Z78fzR8DOR8X1nh4@smile.fi.intel.com>
+References: <20250226112612.166989-1-cezary.rojewski@intel.com>
+ <20250226112612.166989-23-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: EF54A21170
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250226112612.166989-23-cezary.rojewski@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, 26 Feb 2025 13:45:14 +0100,
-Mark Brown wrote:
+On Wed, Feb 26, 2025 at 12:26:12PM +0100, Cezary Rojewski wrote:
+> Follow PCI-based format (10ECxxxx) for ACPI IDs by adding relevant
+> entries to the existing table.
 > 
-> The following changes since commit 571b69f2f9b1ec7cf7d0e9b79e52115a87a869c4:
-> 
->   ASoC: imx-audmix: remove cpu_mclk which is from cpu dai device (2025-02-13 11:34:32 +0000)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.14-rc4
-> 
-> for you to fetch changes up to 9da0ed4a85027063441fa1c73967cafc38f0677c:
-> 
->   ASoC: Intel: don't check number of sdw links when set (2025-02-25 17:47:04 +0000)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v6.14
-> 
-> More driver specific fixes, the firmware change is part of fixing the
-> race conditions in the Cirrus driver.
+> While at it, there shall be no comma after the terminator entry
 
-Pulled now.  Thanks.
+And there is none already.
+
+> and
+> initializing fields with 0 for statically defined structs is redundant.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Takashi
