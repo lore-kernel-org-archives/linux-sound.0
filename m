@@ -1,73 +1,164 @@
-Received: from mx1.trustlab.cz (mx1.trustlab.cz [171.25.222.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A2419CD0B
-	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 14:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=171.25.222.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D7E222590;
+	Wed, 26 Feb 2025 15:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740580897; cv=none; b=o4zDCRkQawuWPiVDMr2jEERMKnCUY+g1Dau1wbzWFkdhBnG/bU4yiTAMCydsHD2srXR6NE2GD5jym1iOLJHCPgE2wosjxVeG971PQgO7rvHq9NziRWo48rbIHicfVzyKLIfj8zPs5vFic5ruCmjm98IVKgsAktJ96cZV0rpJb7k=
+	t=1740582043; cv=none; b=qcBF9nb0Uj0CrRPU0mZlARdeSJkPJCWiki2vyGAyFF6/f9ShcNVL1sUs1x70dIguZRqsNM8xpsWcnsbGMAiSAT8Lllh7ZRq3B/mVvVXBxl0apdLejpa22I8Dfq/ykCaP1/JN7xyGWMPHumZQW9tTfy9v/ws5UpxwVELs0G5YNus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740580897; c=relaxed/simple;
-	bh=CoUTWvf8ksdA1IBfBS8UonSQrzaKqGE8yaVyn5W2Y/E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=N729iMx2gs8LIIuJg576GiC6AcXW+/2NLh0sVlAQVZX7015qiPTZqR9qUXaiGYDi/JGHNnDFh+vPtPqlvWcE3Zgi/Pnq4jRmi4ACZqLgQ2LO9u43esvGG2FPW1bG/EbNkIhddzIZatDj7aLPVQ6tU6EDqiAB1dHUcYZYxALehTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trustlab.cz; spf=pass smtp.mailfrom=trustlab.cz; dkim=pass (1024-bit key) header.d=trustlab.cz header.i=@trustlab.cz header.b=gAXyz9Zx; arc=none smtp.client-ip=171.25.222.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=trustlab.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trustlab.cz
+	s=arc-20240116; t=1740582043; c=relaxed/simple;
+	bh=SNUssUfj17J4uIaq7GMjKEnFmTIghJOj6hKk940Kd6E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CrOib1E1RF6dvfOnUWSqOQAGd3YOuskSMwkr3Y3cv45HxmZ77948X43H3yayzxNX8hafoO9Kv8G8BZetgIKZmBJI/aQf3E6nF/7J6sZ/L6b0r9a0sZaICt+ju/zn0IjSRHJP2qaNa+A5g4HW8n8Jj/5WWqlMe2TjDOQP15JBBOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pVL1Sy0U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=trustlab.cz header.i=@trustlab.cz header.b="gAXyz9Zx"
-Received: from localhost (localhost [127.0.0.1])
-	by mx1.trustlab.cz (Postfix) with ESMTP id 03D7A52C63;
-	Wed, 26 Feb 2025 15:36:01 +0100 (CET)
-X-Virus-Scanned: amavis at trustlab.cz
-Received: from mx1.trustlab.cz ([127.0.0.1])
- by localhost (mx1.trustlab.cz [127.0.0.1]) (amavis, port 10024) with LMTP
- id LlALfVvdGGDK; Wed, 26 Feb 2025 15:35:59 +0100 (CET)
-Received: from IO.chodovska.trustlab.local (unknown [82.117.137.78])
-	by mx1.trustlab.cz (Postfix) with ESMTPSA id 363B052C51;
-	Wed, 26 Feb 2025 15:35:59 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.trustlab.cz 363B052C51
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trustlab.cz;
-	s=default; t=1740580559;
-	bh=CoUTWvf8ksdA1IBfBS8UonSQrzaKqGE8yaVyn5W2Y/E=;
-	h=From:To:Cc:Subject:Date:From;
-	b=gAXyz9ZxSlNdtKz0tQ9fAI7MiWvfv8a5psMb02DKK+DP4P5QNSiDV/RFOcKclDpk+
-	 YPgxPHWak3ErvFcX/t9bjrKl4TMAA9KfV4Vwo/bywr9nFj89bi2Pkdl+Xjr5HioOHt
-	 ozQg2n07HNn3zewRH8+eNuwImTWSUrK9SNiIyyUA=
-From: =?UTF-8?q?Daniel=20B=C3=A1rta?= <daniel.barta@trustlab.cz>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	=?UTF-8?q?Daniel=20B=C3=A1rta?= <daniel.barta@trustlab.cz>
-Subject: [PATCH] In order to get speakers working on ASUS P5405CSA laptop (ID 0x1043, 0x1f63), which are dependent on Cirrus CS3551 smart speaker amplifiers located on SPI bus, I had to add line that applies fixup ALC245_FIXUP_CS35L41_SPI_2 for this system. Fixup enables correct detection of aplifiers and asks for firmware files (which are available in official sound card drivers for Windows from Cirrus).
-Date: Wed, 26 Feb 2025 15:33:49 +0100
-Message-ID: <20250226143348.137808-2-daniel.barta@trustlab.cz>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pVL1Sy0U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F29CC4CED6;
+	Wed, 26 Feb 2025 15:00:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740582041;
+	bh=SNUssUfj17J4uIaq7GMjKEnFmTIghJOj6hKk940Kd6E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pVL1Sy0Ujj3kI3JO7Yn8jGwom9daT9LLYY6j4fA86+X0nuR17W0j53jAMT7sN2a7M
+	 frH3iTtwuQ7E0CxvryIpQAsU4tDbOwLy6QkFWrtyY1EwV9VD4YEeDWs1cnvP6fSEY2
+	 7aQAy5c4rd3HSqbeAUPHDTLnLSinpAKHkpo69fWGmfDmbTjLSRzrb30sDJigMnIbD3
+	 zCoszkQhQOLO/iyfxbfvvCNbD68ENnoAfDFoXeGPHzan/XpkB5odxm4WZriR14qFo1
+	 UQp6C7eSeQhhgYqdDEAbfNHvdC2gFrYwgOik+/gm1c2HWQbzarLap99gjn3dRskn+c
+	 SwbPCv9nJ98Dw==
+Message-ID: <bed0195c-8691-4269-9d29-7fb820087f03@kernel.org>
+Date: Wed, 26 Feb 2025 16:00:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 7/8] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add
+ DMIC backend to dai-link
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Trevor Wu <trevor.wu@mediatek.com>,
+ kernel@collabora.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org
+References: <20250225-genio700-dmic-v2-0-3076f5b50ef7@collabora.com>
+ <20250225-genio700-dmic-v2-7-3076f5b50ef7@collabora.com>
+ <20250226-ludicrous-seagull-of-music-a40daf@krzk-bin>
+ <9240905b-29af-4ea7-8ff9-a0cb2233da72@notapiano>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <9240905b-29af-4ea7-8ff9-a0cb2233da72@notapiano>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Daniel Bárta <daniel.barta@trustlab.cz>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+On 26/02/2025 14:30, Nícolas F. R. A. Prado wrote:
+> On Wed, Feb 26, 2025 at 09:22:29AM +0100, Krzysztof Kozlowski wrote:
+>> On Tue, Feb 25, 2025 at 11:33:53AM -0300, Nícolas F. R. A. Prado wrote:
+>>> MT8188 platforms also have DMIC DAIs, which were previously undescribed.
+>>> Add DMIC_BE as a possible backend for the dai-link property.
+>>>
+>>> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+>>> ---
+>>>  Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
+>>> index 362e729b51b43ec16716aee70ad736420def81f3..8c77e7f68ad7b6f5b88b53cedccb291139a2eeea 100644
+>>> --- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
+>>> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
+>>> @@ -62,6 +62,7 @@ patternProperties:
+>>>              - PCM1_BE
+>>>              - DL_SRC_BE
+>>>              - UL_SRC_BE
+>>> +            - DMIC_BE
+>>
+>> Any reason why you keep adding to the end of the lists but not
+>> alphabetically sorted? It's enum, so it's expected to be sorted which
+>> reduces conflicts between edits. Last commit already broke sorting :/
+> 
+> Well, I wasn't aware enums were supposed to be sorted. That doesn't seem to be
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 224616fbec4f..360131dd2d06 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10699,6 +10699,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1f1f, "ASUS H7604JI/JV/J3D", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI_2),
-+	SND_PCI_QUIRK(0x1043, 0x1f63, "ASUS P5405CSA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1f92, "ASUS ROG Flow X16", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x3030, "ASUS ZN270IE", ALC256_FIXUP_ASUS_AIO_GPIO2),
- 	SND_PCI_QUIRK(0x1043, 0x31d0, "ASUS Zen AIO 27 Z272SD_A272SD", ALC274_FIXUP_ASUS_ZEN_AIO_27),
--- 
-2.47.2
+If the code is sorted, which was the case here, why there has to be an
+explicit rule telling you must sort it? Just keep existing style.
 
+> documented anywhere. In fact, in example-schema.yaml the enum is not sorted [1].
+
+Way of avoiding conflicts in some sort of lists is valid more or less
+everywhere.
+
+> So it'd be great to update that example to follow that rule as well as
+> explicitly document it. Maybe even a dt-binding check that checks for this?
+> That'll make it much easier to learn about and follow this rule :).
+
+That would lead to numerous exceptions, because some places choose to
+sort not alphanumerically and that's fine as well.
+
+If checkpatch was no written in Perl, I would be happy to grow the tool,
+but from all cryptic languages to re-learn again Rust is much higher
+than Perl.
+
+> 
+> I don't think it'd be worth it to send another patch just to fix sorting in
+> this case as it's already been merged, but I'll keep this in mind whenever I
+> send future dt-binding patches.
+
+Indeed, I found only later that Mark applied.
+
+> 
+> Thanks,
+> Nícolas
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/example-schema.yaml#n52
+
+
+Best regards,
+Krzysztof
