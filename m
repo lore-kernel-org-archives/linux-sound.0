@@ -1,96 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0AB1854
-	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 12:45:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2A02CAB
+	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 12:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740573926; cv=none; b=YwQA9j/bXTs46v2HG+PnvUWtJ9RvfTGvHmJ0zGeBFvPSJkA2iNED7JpZlakjL+uGPsVMfggVN4cO0Zbs9nM36oFhwjgxRabQELHem36TIBKGb7CZNaxxL2XbiRZ+lLzAUtUBAWy76sh/Vqzn5Q6MnCiWHgNzcMknZhR90+UkLyE=
+	t=1740574179; cv=none; b=cuRleLT86jAZsuNZ8Q1Q4Vi8Eddna/0PDzPJKfjEodfqRYLgF0jxomN1OWKIg0VkbWzND1Tz8YC40sB0QIOreqr7n6+PILUefxGPb8N+QxNInmpqBNYBomScguvtUcv5LYxQAurWBI4d4BYGmVeByDnZqpnUb43SoSdkL7pWmPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740573926; c=relaxed/simple;
-	bh=v7ZauxEkKjGbV+nPAeMypKY9bPiXqp1EoZS0H+Hp8cY=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=eeRitSmOB/yr1KkJgnPrFvOeu6ckWGVMNebNZEa/2GDraWiXn52HEzs5h2o/K/sJdIzqAXeW/dYOlsuMbR6QnX5iRbthfRzOkCSVWvfiUFVznEmLzMDoQx2yqD+cXNNfJqhRzmvmKWPwXT+Uj74MOkN0cbHHw9SEH9ebHctH4QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mQ49ICta; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740574179; c=relaxed/simple;
+	bh=0Qdb/p27Xl/rAs5FZXv/LdNFOTLwrltYWKyIjNgz6B0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FYSHL4HivhZ7QS43JKQdCSxdyrufeSB8Pqcf0TJOnpuX3MMG0pTJLaRQVPbux8roeVPAAi9ZBnaHaOtDIpYc9YXuuiW3BQOfcYrbnnXCNbYezAo/dpC+dm3eo2gaR6bcclwWtk3DZuGohNb/xRDPZxpWQMPS1kjLoQ2SlR5h4Ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NiunkJ+L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mQ49ICta"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09D29C4CED6;
-	Wed, 26 Feb 2025 12:45:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NiunkJ+L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CF68C4CEE4;
+	Wed, 26 Feb 2025 12:49:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740573925;
-	bh=v7ZauxEkKjGbV+nPAeMypKY9bPiXqp1EoZS0H+Hp8cY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=mQ49ICtaw8ts2wvVhA+8cOZpZ023Gz7IDReEYIMoH7pf+l/BF/75IbHZXsuMM4kYp
-	 uH0X0ISsMLgWQqNsNYDvA1SfyPty3gSSM7OWHZSVmA+jZaQ+rT77HdVWYlUIhS2tD2
-	 +6OkCD0zMTT81VENPfKhosmD4SnS3yKsZa4DCIHeCswL+ebopVukWr4LPpS720gKlc
-	 iipgNXqQSYNto0hFUXYn6BzuSrdBYxlyz74hxnBVPr442RfZ85L+B7BLsslD64ef3p
-	 afOaezCxQydv/nooSeqVszXP4356zoKXjeAjaIacRDjylEJJl+ADbqwuhYpyhGrPXB
-	 H8a/oIr3u9pkw==
-Message-ID: <7ff673840a72f27faae049d16ea12029.broonie@kernel.org>
+	s=k20201202; t=1740574178;
+	bh=0Qdb/p27Xl/rAs5FZXv/LdNFOTLwrltYWKyIjNgz6B0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NiunkJ+LjW+gTfBIRG0jVQ1CZvfy+DTVIqFuTjXF2bALOg/TIKKomhTC2yCOf7jrz
+	 fWsz2zSLAsqojYvnMXFbBFr9vZtlEMmjevWQ0cZCcYNRXsq4cGeTqqoz6jfhwXK0B0
+	 Sp8SDTQD5xyuD+iP0baEePLzV2Ay4nIrDt/muS0Spc1mqQAIs8gMSpWUZoJmy4D7sl
+	 TVH+C+h7qW4foQoxpKiKeTG8nSqeuFB1h9qygRw7FvRDHklS1QstJ+1f0yb6KgPZ8c
+	 RJxLVePaae55OfTLqYGBS00s5rQRSno+eOvuhHzcSdjNud8LXwlMoISLwG1laEqluf
+	 WCfLvPGR6XsoA==
+Date: Wed, 26 Feb 2025 12:49:34 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v6.14-rc4
-Date: Wed, 26 Feb 2025 12:45:14 +0000
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
+	Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 0/3] ASoC: bug fix patches
+Message-ID: <968e6830-2826-46dd-b7ca-107cd3af89b0@sirena.org.uk>
+References: <87frk16wxt.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qmFoNHwOCuzKNXvW"
+Content-Disposition: inline
+In-Reply-To: <87frk16wxt.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: I've been there.
 
-The following changes since commit 571b69f2f9b1ec7cf7d0e9b79e52115a87a869c4:
 
-  ASoC: imx-audmix: remove cpu_mclk which is from cpu dai device (2025-02-13 11:34:32 +0000)
+--qmFoNHwOCuzKNXvW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-are available in the Git repository at:
+On Wed, Feb 26, 2025 at 06:29:19AM +0000, Kuninori Morimoto wrote:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.14-rc4
+> asoc/for-6.15 branch includes my patch (419d1918105e) which uses __free(),
+> but because of it, it has of_node_put() count underrun issue.
+> [1/3] will solve it.
 
-for you to fetch changes up to 9da0ed4a85027063441fa1c73967cafc38f0677c:
+That's actually in Linus' tree isn't it?
 
-  ASoC: Intel: don't check number of sdw links when set (2025-02-25 17:47:04 +0000)
+--qmFoNHwOCuzKNXvW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-----------------------------------------------------------------
-ASoC: Fixes for v6.14
+-----BEGIN PGP SIGNATURE-----
 
-More driver specific fixes, the firmware change is part of fixing the
-race conditions in the Cirrus driver.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme/Dd0ACgkQJNaLcl1U
+h9BEmgf/SdGt87fIAK0e4NO77rupZhutJhpOfsVIWAj8pr86tABiFkuEnYcXGE+c
+aXQ14YUbtKSB84uZ+3PU9anowgc3bebYcaiUOloBpjPB2vKoNrxRa+Sqfik/uvSb
+2cYw5NdB4hTRJ5mGuRN6n3ANJ+FuSCK7tZH7psePgKxcfHkXmiauLZQ62Tez7uyW
+LLP3G3/5gggeJsO4nt04hqMCoszanXJoR3n1Y5bAndcSMiJ3E5C8EKV3tK94Gkyp
+5pTJVS9fVAbiDIkCF5St5Vqj8TUAfacITUrzJlkz9YgxBMYeEOPDHi8uSrTjISMc
+8U2/wXGYVGy1zIEjgZyAl9bidV0T6A==
+=WGw2
+-----END PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Bard Liao (2):
-      ASoC: SOF: Intel: don't check number of sdw links when set dmic_fixup
-      ASoC: Intel: sof_sdw: warn both sdw and pch dmic are used
-
-Chancel Liu (1):
-      ASoC: fsl: Rename stream name of SAI DAI driver
-
-Hector Martin (3):
-      ASoC: tas2770: Fix volume scale
-      ASoC: tas2764: Fix power control mask
-      ASoC: tas2764: Set the SDOUT polarity correctly
-
-Mark Brown (1):
-      ASoC: Intel: don't check number of sdw links when set
-
-Nicolas Frattaroli (2):
-      ASoC: es8328: fix route from DAC to output
-      ASoC: dapm-graph: set fill colour of turned on nodes
-
-Richard Fitzgerald (2):
-      firmware: cs_dsp: Remove async regmap writes
-      ASoC: cs35l56: Prevent races when soft-resetting using SPI control
-
- drivers/firmware/cirrus/cs_dsp.c  | 24 +++---------
- include/sound/cs35l56.h           | 31 +++++++++++++++
- sound/pci/hda/cs35l56_hda_spi.c   |  3 ++
- sound/soc/codecs/cs35l56-shared.c | 80 +++++++++++++++++++++++++++++++++++++++
- sound/soc/codecs/cs35l56-spi.c    |  3 ++
- sound/soc/codecs/es8328.c         | 15 ++------
- sound/soc/codecs/tas2764.c        | 10 ++++-
- sound/soc/codecs/tas2764.h        |  8 +++-
- sound/soc/codecs/tas2770.c        |  2 +-
- sound/soc/fsl/fsl_sai.c           |  6 +--
- sound/soc/fsl/imx-audmix.c        |  4 +-
- sound/soc/intel/boards/sof_sdw.c  |  7 ++++
- sound/soc/sof/intel/hda.c         | 18 +--------
- tools/sound/dapm-graph            |  2 +-
- 14 files changed, 159 insertions(+), 54 deletions(-)
+--qmFoNHwOCuzKNXvW--
