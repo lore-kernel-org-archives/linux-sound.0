@@ -1,185 +1,148 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A443C1DDA15
-	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 11:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA501A3169
+	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 11:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740567910; cv=none; b=Vu3rnyRq+Tyz9wE5CG+p0VcK6ycc4+M9pj/JhK1qXjaS0LUJ76I8tqWU4q0t1FGWA8tea/Go+SFFoIq52HiZLdiQfk8zANcnQt7/ot3SRndmwdJzTG49n5tJ9vsxRRI54XT9EtDzOlROLiZ8Gc6ZeSmZnpP27SxSRjsIZcQtXbc=
+	t=1740568198; cv=none; b=N7a2IISz3mamnssiyeG1WoD5h2RhgMBdBvP4hMjtQs0llZoG7vk3jYGx/JLsU/WXmz9GEFNHWgzbf37WFLoaMKGHFh/5GMxeRPzwYIgWjVtlQy+7jccdcupqhh70NxDtbQvWICjTRkdnu3BAP5ycbZdn3Pz8uzDttWlhpPSUP/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740567910; c=relaxed/simple;
-	bh=pnfbS5UMZBhKQWUZ6CpJgpJ1ehp+0S3gBQcH2I7NNbM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PJfhUoxk1tsJpKV3oLYLHaLhukYs2xpGmZ9imuefvWBjmvZyNQ/FrVSeWtTawONebfLX6FQ+vBJo9KlxrtwYN3z8f/Lc3MzuSzrSLcPuRm+8d8KxuQ7uHRJpFrJUlLrJjTI0srXuTB9hzZeDAV8dwyDchhgMBOgZTZ0ywj2jjtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=UPIM+Gms; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1740568198; c=relaxed/simple;
+	bh=nnbonDbf3eq8KnbToPvYwcWz6rMoI7oUYDFZuKLgiqs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tw4arzwXaP6U3Lt1k0Vh0rdbq+JoTvSEuw781CYD+lCjhQu6rG4Wl6ms8pB+yO7cAn+n7Nq59/R1CdqCdrWzunrPsuG3+r7iu7CekCLozindg2UM1Lf0xaSAr5Nysfbj+vk8seHoSmlbeMkqICdialGwhsW4xG2ywjn4X3GZ+Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQP3j4fL; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="UPIM+Gms"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1740567898; x=1741172698; i=wahrenst@gmx.net;
-	bh=6z1xx2C1SeUR1zcFP+YxzGvFZwlZ+pbYA6k2oewlkfQ=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=UPIM+Gmsxs3lkr7lIOWfUs1KPx5kNi8YHuLSS7Q8L14Uwyi3+b146XiXIZNUv3pd
-	 myIYeHoKdM6bRMatoaMBt7dIjlvPRLU8CHHQrAJelabNy+NXa5wqBuGXilWNUDqOV
-	 Uy1s58BAW4CZJThoxoks6dlN6Td6e9WiAz36tuoi9NcgL6j5pGmeRiGfQbmmmz+gj
-	 MulMuRafXl4o+5vJAceGhWaF1FIRar2Cj+cDR5TQogyWCeHLN7GP5hS462rI75xOM
-	 ZD8a6WVcRz0F/pZzI+EKriCTfIV8dME/OXvA2FCH2hJwsxUmF8tI+GUZLnuyVy8nT
-	 1JipiZQ0URIgW74hcw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.107] ([37.4.251.153]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwQTF-1tUbqJ1cwf-015VFE; Wed, 26
- Feb 2025 12:04:58 +0100
-Message-ID: <2585e14d-bb91-4d0a-b0e0-39e60b0b88bd@gmx.net>
-Date: Wed, 26 Feb 2025 12:04:56 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQP3j4fL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740568197; x=1772104197;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nnbonDbf3eq8KnbToPvYwcWz6rMoI7oUYDFZuKLgiqs=;
+  b=IQP3j4fLIYXyuoKvjFPemhlokyLk32EpX8eEX2c3UGyvU/ILMqDQcrgV
+   pgm2uTWMfsPAd9jgmR7veMH2PIS/pekN5O/HJLd3tUWFpiJ8inc01dCky
+   wWLSyZzVI0t2/vTnofHMBh9L984bBE5mOtBcy5ljt6BjWi8s0PJhXp1NM
+   PcnwjNOK6IVs3Rvi96B+9LDfBI7oAcr/SwkQlMQFhYwQHRat+IgEWabhR
+   5gyfxFezQGa587Fk3qxcfDLJ48hEvVkRGYXwenp4YTZ75UskwS3A1BY/3
+   j+b5IM9OgpY6i63uzo/SSR7LnFknXtc6Wvri+g+lExkq0gCJZiG0mwMJz
+   Q==;
+X-CSE-ConnectionGUID: nduzeph3RLq2nyKt+wCN2A==
+X-CSE-MsgGUID: SyZAOA/FRPWcbNxkC5kfOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41111002"
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
+   d="scan'208";a="41111002"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 03:09:55 -0800
+X-CSE-ConnectionGUID: XzuGZc9DSei1ygmP5hCZaA==
+X-CSE-MsgGUID: Z071TiDCSa2SWrcz73aBWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
+   d="scan'208";a="116684936"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
+  by orviesa006.jf.intel.com with ESMTP; 26 Feb 2025 03:09:52 -0800
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	andriy.shevchenko@linux.intel.com,
+	flove@realtek.com,
+	oder_chiou@realtek.com,
+	shumingf@realtek.com,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH v2 00/22] ASoC: codecs: Update device_id tables for Realtek drivers
+Date: Wed, 26 Feb 2025 12:25:50 +0100
+Message-Id: <20250226112612.166989-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] drm/vc4: hdmi: Add jack detection to HDMI audio
- driver
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- kernel-list@raspberrypi.com, David Turner <david.turner@raspberrypi.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org
-References: <20250222102921.75496-1-wahrenst@gmx.net>
- <3jyp24gystyet326exnbudsprwlpswacmcnvllumgapxlzz7n3@toysyujvsqwq>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <3jyp24gystyet326exnbudsprwlpswacmcnvllumgapxlzz7n3@toysyujvsqwq>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:x3HOS9jzbIPHd+tOUa1+3KQTjvMtc9T6xurAc23BxLRgboQpRWb
- aiCIffU5ZPBN4fw57OJc6CwHmMXbMBvzdy048DD6z1vqo9kKDUg9XalJJ5nq5FOXb4qnkdf
- YyRlrn4xTLtQE8LjXlNnc7y/owbweqnExo5b5vUFOBnnD3fLlr0gTGHlYkOAHlF7kMo3lzu
- KGA83DC3bnSmq8JY8fLTg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:xGbvkLpBHU4=;W0KEZojLr0EbZR/ak4rnQCTC3U6
- OZxVIQKjyloPoy7dNKv5m6MD+C+W58FljV14ZWs9HRn3Kp0Lv7cKjAENHHHIUNl6uLEthqpvG
- 2hZqrxMlJN2OgZ2ZvVosD8nG3LG73njM0OY8gUBQqa6wGl9OLP3Dm91nkrqo7YceRAipoMpoR
- DP05Uy37q9nKTguM20rFU26aVAo6pKDI6sTjjT5Ct/OBvGFirI34yPrON+Di4b/hcuu1CAAbc
- aj1aLJvcy0J1gKQy/xekZY3WuSJra/d+Rew3ddgYjGMwQxPb93rUknNiKiUCMz1U5CkPlPMJU
- kL61G+V/7TD1UovakqsTCeBmHs+WEn2kDkhPKQsYsTAVhknOPbzw4O7nGoZUOHedmjKOoauEz
- buYjCYo0IDKLyX96MwTMhf05pP/SgNfXLOn6lk3aBE8cYEE/Tw6K0wDnraEy4Xyqn1CB1kdWy
- o9fVBl6/Kbk/Cgx0p8ryH7H9IqjhXV7pFpNTRHkYywNwA1Jwzn2AXuMS6KcchX3/merbEAx1o
- w0FXZQG/8DV2PozNzOtUR6J2AjoNiKocqPTieFy1NpjMxKzxVAqxW/xmeSkQ/gWw8YFhfiXlJ
- dBkH8Uf42YTXAnA22Mssd3KmnBDPq5TsmF6FBs3S5uNRZi1wFbhBH4kbSvW8+uo8i2nXTUcWj
- 1wHHsl2bZQvEiVNnYTtqTslLvUo6BIm1Ta4itYLv1TeynRnnfbfY+EiWuAd/r2VDMQLcf9Xzp
- XYYgzgkcr9BYq+T4N3mmcYIdT87DFTy7Xcw5m72ExjOdbnfVwt6NDQEb/g/2pK7X+50z6QaKi
- mpO2QhY5L0CjNwcgDZsHylSMNFQR1tUDrqc5lRxtHAQdr156NWB6/7k35rhJYGW2q3aSwUBLL
- RqTeDwU3SUE54KpGIWT9e5/O6Src3sJa5wba73qAC3Xu26vUewgc0ZdAEkVWIrDhdZJ95oUtp
- KUrqeOY3/f4KCOuKXkalUFRpH1FMPHVTyvIPj9DRqbe9AJTub/SMQXX9+jeRHhBzSTim/BWQs
- W3GQ1Z8XEiyqpZ+KlExOnk84t4zXQb719wKFAYHprajcIwHRh8tSBbMK7RgnfGutj+V0Pa+Gz
- 2g+bpErViqoHUbcGvLQ9B3tF2xMOVIZXBbxLLpv9IDwPtaF1fE/iLS+WLvn9VJHWr7EhXXbem
- bQmzOul/WyQ12RaSOJgWuxeChzW5Sbm04ATAYpuz3raQlnvZO9HXQWGr4oGoLZ3wXzq2DNrCc
- R0e8oFtVTk5dVu2WlbksMqrQxelPyAOjh5LxNvAAXHMv6Cc/b4b5MfzeXOYqnvoXlUUzRF9LW
- fKTvqTicfhl7PeuuL9uuEA6H4gzfRj2i9qpr7ZmIRYKGE+CvfKmpcXdATjf6GeKqvZaLABQKp
- lzsxd1ubZO97iPf0SRF5tCk8eh4lN2wTC4LoaxQJD22rL/L8Z8VbkKtgVY
+Content-Transfer-Encoding: 8bit
 
-Hi Dmitry,
+The series aims to streamline the formatting for ACPI IDs so that a
+single pattern can be used to identify the device.
 
-Am 24.02.25 um 04:15 schrieb Dmitry Baryshkov:
-> On Sat, Feb 22, 2025 at 11:29:21AM +0100, Stefan Wahren wrote:
->> From: David Turner <david.turner@raspberrypi.com>
->>
->> Add ALSA jack detection to the vc4-hdmi audio driver so userspace knows
->> when to add/remove HDMI audio devices.
->>
->> Signed-off-by: David Turner <david.turner@raspberrypi.com>
->> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
->> ---
->>   drivers/gpu/drm/vc4/vc4_hdmi.c | 26 ++++++++++++++++++++++++--
->>   drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
->>   2 files changed, 31 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
-dmi.c
->> index 47d9ada98430..d24ae86d799e 100644
->> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
->> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
->> @@ -51,6 +51,7 @@
->>   #include <linux/reset.h>
->>   #include <sound/dmaengine_pcm.h>
->>   #include <sound/hdmi-codec.h>
->> +#include <sound/jack.h>
->>   #include <sound/pcm_drm_eld.h>
->>   #include <sound/pcm_params.h>
->>   #include <sound/soc.h>
->> @@ -386,6 +387,12 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdm=
-i *vc4_hdmi,
->>   	struct drm_connector *connector =3D &vc4_hdmi->connector;
->>   	int ret;
->>
->> +	/*
->> +	 * Needs to be called for both connects and disconnects for HDMI
->> +	 * audio hotplug to work correctly.
->> +	 */
->> +	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
->> +
->>   	/*
->>   	 * NOTE: This function should really be called with vc4_hdmi->mutex
->>   	 * held, but doing so results in reentrancy issues since
->> @@ -405,8 +412,6 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi=
- *vc4_hdmi,
->>   		return;
->>   	}
->>
->> -	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
->> -
->>   	cec_s_phys_addr(vc4_hdmi->cec_adap,
->>   			connector->display_info.source_physical_address, false);
->>
->> @@ -2203,6 +2208,22 @@ static const struct drm_connector_hdmi_audio_fun=
-cs vc4_hdmi_audio_funcs =3D {
->>   	.shutdown =3D vc4_hdmi_audio_shutdown,
->>   };
->>
->> +static int vc4_hdmi_codec_init(struct snd_soc_pcm_runtime *rtd)
->> +{
->> +	struct vc4_hdmi *vc4_hdmi =3D snd_soc_card_get_drvdata(rtd->card);
->> +	struct snd_soc_component *component =3D snd_soc_rtd_to_codec(rtd, 0)-=
->component;
->> +	int ret;
->> +
->> +	ret =3D snd_soc_card_jack_new(rtd->card, "HDMI Jack", SND_JACK_LINEOU=
-T,
->> +				    &vc4_hdmi->hdmi_jack);
->> +	if (ret) {
->> +		dev_err(rtd->dev, "HDMI Jack creation failed: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	return snd_soc_component_set_jack(component, &vc4_hdmi->hdmi_jack, NU=
-LL);
-> PLease excuse my ignorance, but dows this work. In other words, how is
-> the driver exporting the plugged state through this jack?
-there is no ignorance just a valid question. Unfortunately my knowledge
-here is very limited and I just wanted to minimize the delta between
-vendor and mainline tree. That's why I marked it as RFC.
+Work implicitly suggested by Andy Shevchenko - reading and learning from
+number of his reviews on the Linux mailing lists.
 
-Can someone from Raspberry Pi helps here?
+Several formats do exists, however, after technical discussion PCI-based
+format has been selected as the recommended one. For Realtek devices, it
+is going to be 10ECxxxx where 10EC unambiguously identifies Realtek
+company whereas the following 4 hexes specify the PART_ID i.e.: the
+device.
 
-The patch seems to fix an issue? But I don't know the broader context.
+While at it, there shall be no comma after the terminator entry and
+initializing fields with 0 for statically defined structs is redundant.
 
-Regards
+Patches sorted into two groups:
+- fixes, no functional changes
+- updates: fix + addition of new ACPI ID entries
+
+
+Changes in v2:
+- dropped 2 conflicting patches for rt1015p and rt5682s as pointed out
+  by Choiu and Shuming
+- sorted ACPI IDs alphabetically as suggested by Andy. This targets
+  numerous patches and is noted by 'While at it, sort the IDs
+  alphabetically.' in the commit message
+- spacing (whitespaces) should now be cohesive across all patches
+
+
+Cezary Rojewski (22):
+  ASoC: codecs: rt1011: Fix definition of device_id tables
+  ASoC: codecs: rt1015: Fix definition of device_id tables
+  ASoC: codecs: rt1016: Fix definition of device_id tables
+  ASoC: codecs: rt1019: Fix definition of device_id tables
+  ASoC: codecs: rt1305: Fix definition of device_id tables
+  ASoC: codecs: rt1308: Fix definition of device_id tables
+  ASoC: codecs: rt1318: Fix definition of device_id tables
+  ASoC: codecs: rt274: Fix definition of device_id tables
+  ASoC: codecs: rt5514: Fix definition of device_id tables
+  ASoC: codecs: rt5640: Fix definition of device_id tables
+  ASoC: codecs: rt5645: Fix definition of device_id tables
+  ASoC: codecs: rt5651: Fix definition of device_id tables
+  ASoC: codecs: rt5659: Fix definition of device_id tables
+  ASoC: codecs: rt5660: Fix definition of device_id tables
+  ASoC: codecs: rt5663: Fix definition of device_id tables
+  ASoC: codecs: rt5665: Fix definition of device_id tables
+  ASoC: codecs: rt5668: Fix definition of device_id tables
+  ASoC: codecs: rt5670: Fix definition of device_id tables
+  ASoC: codecs: rt5682: Fix definition of device_id tables
+  ASoC: codecs: rt286: Update definition of device_id tables
+  ASoC: codecs: rt298: Update definition of device_id tables
+  ASoC: codecs: rt5677: Update definition of device_id tables
+
+ sound/soc/codecs/rt1011.c     |  6 +++---
+ sound/soc/codecs/rt1015.c     |  6 +++---
+ sound/soc/codecs/rt1016.c     |  6 +++---
+ sound/soc/codecs/rt1019.c     |  6 +++---
+ sound/soc/codecs/rt1305.c     |  8 ++++----
+ sound/soc/codecs/rt1308.c     |  6 +++---
+ sound/soc/codecs/rt1318.c     |  6 +++---
+ sound/soc/codecs/rt274.c      |  8 ++++----
+ sound/soc/codecs/rt286.c      |  5 +++--
+ sound/soc/codecs/rt298.c      |  5 +++--
+ sound/soc/codecs/rt5514.c     |  6 +++---
+ sound/soc/codecs/rt5640.c     | 14 +++++++-------
+ sound/soc/codecs/rt5645.c     | 12 ++++++------
+ sound/soc/codecs/rt5651.c     |  8 ++++----
+ sound/soc/codecs/rt5659.c     |  8 ++++----
+ sound/soc/codecs/rt5660.c     |  8 ++++----
+ sound/soc/codecs/rt5663.c     |  6 +++---
+ sound/soc/codecs/rt5665.c     |  8 ++++----
+ sound/soc/codecs/rt5668.c     |  6 +++---
+ sound/soc/codecs/rt5670.c     |  8 ++++----
+ sound/soc/codecs/rt5677-spi.c |  3 ++-
+ sound/soc/codecs/rt5677.c     |  1 +
+ sound/soc/codecs/rt5682-i2c.c |  6 +++---
+ 23 files changed, 80 insertions(+), 76 deletions(-)
+
+-- 
+2.25.1
+
