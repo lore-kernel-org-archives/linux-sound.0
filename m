@@ -1,85 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218C421A429
-	for <linux-sound@vger.kernel.org>; Wed, 26 Feb 2025 12:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B463E15E5AE;
+	Wed, 26 Feb 2025 13:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740574335; cv=none; b=DfZwQjA3sHrETSDM5otl4rp9rNlyz2spL87XwPS76H9XLBYL22nrCSOaQEZgMI4MAx5mKbI80T10Y9eVOSSclQFc/smpEsPhwoFyb+2zyF4XDU6q5Nsbmjmoe6qZLKy+qZUBI20Ym8lOKE4JwWwhlUi1lMG5XGIMWzuvyrvkPVM=
+	t=1740576613; cv=none; b=a3NtrU2OVVz20hKphXP+DnwdTgE+0NhHbNg9kmDChqqIYnHcXrK0md6gT6umzVzDTvUzIFCHLqGMwGOR/mtJ2FSgGdAgnoUGQF2HHp+RooSy+4s3ZZIFaOG2m0oUFPdR813eS9mXg2FraRJyiiCeax5csvcOG0aNd/Chbb23fyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740574335; c=relaxed/simple;
-	bh=JFG6+0bA6YKvd2aYjVb9QsYwre5Ei6m7qBE69KwGRSc=;
+	s=arc-20240116; t=1740576613; c=relaxed/simple;
+	bh=sCJ6jojoxc5SezhVGVdeO6sZxq4gq9c05ziXwDfmpkc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjrUltCg8vmEyvhQlvONsS/mb5OySVl5IZfe/rlZ3Z2nHBWThEOqtnNBdS/qmsJ5VfBbIy3W8jdIeXo8nbXTkkitqxJ5xxJM13SgO+MfoeU2axYchIE4WU3Mh6Ww+OOWBAr/irgUtDm+HjdbcV2YIOxgIlx/cqBbERyJ8Tbb4UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fToYRXkQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=NcZQ4oSsGL0wV9ohLSBER+TclzxlNd+r82gyctd/gNg6S6Md8mykJCtM5Tq6g3UdKVGajtyS2Ae6hHouoB/3Q/zIucG6bsu6jLTV1GGX0StKtQo/6rcmHfIqqU54amByBlqu+eAdgSXSx4kU8BdzPmzsZswLtWfBPLJRay5YXzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=B24RGItM; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fToYRXkQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50582C4CED6;
-	Wed, 26 Feb 2025 12:52:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740574334;
-	bh=JFG6+0bA6YKvd2aYjVb9QsYwre5Ei6m7qBE69KwGRSc=;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="B24RGItM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1740576609;
+	bh=sCJ6jojoxc5SezhVGVdeO6sZxq4gq9c05ziXwDfmpkc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fToYRXkQRibhLpNTEWb2fiMePKSbjeZmsUEL3z0Sw10q0kakKCviLglEcFiZRk2GG
-	 MYhJc/Whepn5Fus3yzGQENWliDL6/p5DSsCJLMMwzu78+02kOhtpX3pEp9BFzoLUz1
-	 Eh2PcwLvH3vKQhjrfyfjXN5h+42rpFS3eaV+oPZeLSKklucyZNe6zxdc+fm1lh0Rd6
-	 Szx/a+q4J5M8DHui5nLEq6Fn3ojG2jB7ACuaDTVdDCH+MU+nlrWypbAR+NWksDs2Fv
-	 +osacP8G1C7LwiYcNo1YtM25+AZf1HDA+vXQEJ3V2xb0PZ1TtG2x+jPsNgD7hBSHIa
-	 QL4gEl9bz+yag==
-Date: Wed, 26 Feb 2025 12:52:10 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
-	Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 3/3] ASoC: hdmi-codec: use DAI ID and Name for ELD entry
-Message-ID: <742390ec-7272-4fc7-9fe9-865ff5247c79@sirena.org.uk>
-References: <87frk16wxt.wl-kuninori.morimoto.gx@renesas.com>
- <87bjup6wx3.wl-kuninori.morimoto.gx@renesas.com>
+	b=B24RGItMUUWDCFWd7lymvY6aJ7jX/Le5eCguhwra3Hjc/FnVrPoKrsceMDm0N5tw7
+	 tsvF10smahGg4io7pJeXc6UcfoWhp78IA+OAJbzE0pzHhwG7bMDKWkm1Dm22+szeyi
+	 cnGxha5uPB4hLJSHPJiS4C1tJPx43dkfsP9n0cLCBUhtP71P68LUf88l3998f8TFPe
+	 Lxdgeq/lwoRc4L4q/JtOrnY655lYdR+xIky/IJ5KN10q/QjPjGT7F1NCGL2IacQCce
+	 vUgtIR+LpTT9PjS/SDrAMIxstCaiG1Pah6P2LaD9g/XAIA3MoXHo9gUORhFNw4Hdjf
+	 qO8qW0rZmaBIQ==
+Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1003])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A072317E05C1;
+	Wed, 26 Feb 2025 14:30:05 +0100 (CET)
+Date: Wed, 26 Feb 2025 10:30:03 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Trevor Wu <trevor.wu@mediatek.com>, kernel@collabora.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 7/8] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add
+ DMIC backend to dai-link
+Message-ID: <9240905b-29af-4ea7-8ff9-a0cb2233da72@notapiano>
+References: <20250225-genio700-dmic-v2-0-3076f5b50ef7@collabora.com>
+ <20250225-genio700-dmic-v2-7-3076f5b50ef7@collabora.com>
+ <20250226-ludicrous-seagull-of-music-a40daf@krzk-bin>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MwVdUuSOpFLMmUIG"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <87bjup6wx3.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: I represent a sardine!!
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250226-ludicrous-seagull-of-music-a40daf@krzk-bin>
 
+On Wed, Feb 26, 2025 at 09:22:29AM +0100, Krzysztof Kozlowski wrote:
+> On Tue, Feb 25, 2025 at 11:33:53AM -0300, Nícolas F. R. A. Prado wrote:
+> > MT8188 platforms also have DMIC DAIs, which were previously undescribed.
+> > Add DMIC_BE as a possible backend for the dai-link property.
+> > 
+> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > ---
+> >  Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
+> > index 362e729b51b43ec16716aee70ad736420def81f3..8c77e7f68ad7b6f5b88b53cedccb291139a2eeea 100644
+> > --- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
+> > +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
+> > @@ -62,6 +62,7 @@ patternProperties:
+> >              - PCM1_BE
+> >              - DL_SRC_BE
+> >              - UL_SRC_BE
+> > +            - DMIC_BE
+> 
+> Any reason why you keep adding to the end of the lists but not
+> alphabetically sorted? It's enum, so it's expected to be sorted which
+> reduces conflicts between edits. Last commit already broke sorting :/
 
---MwVdUuSOpFLMmUIG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Well, I wasn't aware enums were supposed to be sorted. That doesn't seem to be
+documented anywhere. In fact, in example-schema.yaml the enum is not sorted [1].
+So it'd be great to update that example to follow that rule as well as
+explicitly document it. Maybe even a dt-binding check that checks for this?
+That'll make it much easier to learn about and follow this rule :).
 
-On Wed, Feb 26, 2025 at 06:29:44AM +0000, Kuninori Morimoto wrote:
+I don't think it'd be worth it to send another patch just to fix sorting in
+this case as it's already been merged, but I'll keep this in mind whenever I
+send future dt-binding patches.
 
-> commit 0ecd24a6d8b2 ("ASoC: hdmi-codec: dump ELD through procfs") adds
-> "eld#%d" entry for sound proc. It is using DAI ID. But it is possible to
-> have duplicate DAI ID on same Sound Card. In such case, we will get below
-> error. To avoid duplicate entry name, use RTD ID instead of DAI ID.
+Thanks,
+Nícolas
 
-Acked-by: Mark Brown <broonie@kernel.org>
-
-Given that this doesn't depend on the first two patches it'd probably
-have been better sent separately, especially since it needs to get
-merged via a separate tree.
-
---MwVdUuSOpFLMmUIG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme/DnkACgkQJNaLcl1U
-h9BYpAf9HpA9ZNGt8nl3cgLbc9P32OlUzLhdkKa+Y/RDJlMtDwkSE3ZDo6C9GMSy
-VUFLuQ0yw5qNn1iX7YH521Mtx9Z3VrbtQWrquYQhhGuplVGR1cgFXe1fIs98Utx+
-hluQplh3tyvid284avmbobw/i9AgUfv8iX9WENbU7OWl2nzOhX2gaoDeir2unK59
-HYv3f8JysJ679g9SlsryzFdIIjaOJu3MmUiFM8eKtr5pxGfMGV6yRZ0rNZyukapw
-1JqccpV0F7kBX9H2pipTRpKBsPBOvlik47sJbHSO9DnbgkI8cjJd+eTqIGcvPf2W
-NtmCl4A2Q7xwBLurtz5X7em1acFQsQ==
-=1iBt
------END PGP SIGNATURE-----
-
---MwVdUuSOpFLMmUIG--
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/example-schema.yaml#n52
