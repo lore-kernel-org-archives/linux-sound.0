@@ -1,287 +1,193 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C8F229B27;
-	Wed, 26 Feb 2025 15:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03D721E0AA;
+	Wed, 26 Feb 2025 15:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740583936; cv=none; b=QaS+vRAVI+RrE6N/NBq7oBUClrlIaY+3NeoHvWg2/ecT9vtcbf1Ll3uu+xV3ZpeDJjTq3wW3EdZNTKi1Tr0h01pEZ3LMqmNxKFGHq43xzCu1Ive4Lppp0sD61f+hEhKRku/kJrhFXhIDTrzYlfWM/1lrYgkwKDyGZK5ig6L2xxs=
+	t=1740584211; cv=none; b=XMGOvvTpP2ZL1eCzFL24jhWKYqLnGU5x3xViOxoeeFPBjdpvxb8wrln68qq/JufkfmjYNWsvBwvSzs6I7Ua5ZipOcjtNJldWo3vHKTo+4bac3VZjlvi0ZsqQI1UwPGukefj7ytXwlC6iHj9cy2YephVWg8VFoT+RgePv8VQhFPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740583936; c=relaxed/simple;
-	bh=GP14c/N7IybcGglpwY5AgZfDbOHUX4VZIEO4OwFewEs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jiH8prNU34twM54Q0IQR0LoZG7rhjN682B8DPsExJKL3LpIyZGcBwvCdiq4PAOkDCWWQ/V3SLyACbwLtSK8l1eQJZ0Opinffc5XO6uo0Tc5zFfU3noXbiYZEl+9P8RFNvHon4i4cuCSM3mGfCMcuM0/7GNvOw+u0Dmb31kBv0uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DEvtpH/7; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1740584211; c=relaxed/simple;
+	bh=Kcxlg+wkdwQqRcewEbnIH5bR8ZjExYIUPT/bKiPZZzA=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=FKsGtzfk8E9Os/fu4OkZz2lolyGjnAWM0OhXjmk7O/dxYSpmBBfm6+7YXRTnoi+JfIY7v0rnLMOb3+RAUm9ZKXyqruucriNQlcwU+Q0nUSuWptQLVi6HGGZJKQ+QMMfda/O3iKS7mL33aq8tnd+VNFo+SXFqRsxiAZFC2a1QkIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jPiIIrpc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DEvtpH/7"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51QFJEx4014247;
-	Wed, 26 Feb 2025 09:31:42 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=76ijef4UCe5nb9rX9ISSn5SeDuo8SSHxJvfwJfgjhR0=; b=
-	DEvtpH/76NoV2MrZtsnvrashFtF2aatMF7mMCQKRd+r0o1ZZXKPNYt6KyrEm0cbp
-	/QipNApOdk6T3O2pt4jm2t6wtZs+HGTRnt6o8frWUxdcYsta1AhdZYIhDuyxWSrL
-	D12EBQIEVE8k/USCNe799K2xlyGKh7dtVDkUOfyBMP93mNEZtXgGSDI0sAX/Ovfl
-	6RIyNissVjEBB3ULCisTViaYtpY2gW0wJ9pd2nzJqmotVGtqUU76PyVKuRJ0/FYr
-	1QqlOXLcKpLZoiTpJ9Ixx2nwJjVOY1kxGy1A3Y+vZJqAmGHRFCLxV14+n0z+7d/u
-	8sr4SDgSzlEdAlC35mmQPA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 451pt3hq9w-4
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Feb 2025 09:31:42 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 26 Feb
- 2025 15:31:38 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Wed, 26 Feb 2025 15:31:38 +0000
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 2D7FE820270;
-	Wed, 26 Feb 2025 15:31:38 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <peda@axentia.se>, <andrei.simion@microchip.com>,
-        <nuno.sa@analog.com>, <paul@crapouillou.net>, <oder_chiou@realtek.com>,
-        <kiseok.jo@irondevice.com>, <shenghao-ding@ti.com>, <kevin-lu@ti.com>,
-        <baojun.xu@ti.com>, <srinivas.kandagatla@linaro.org>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: [PATCH 12/12] ASoC: Tidy up SOC_DOUBLE_* and SOC_SINGLE_* helpers
-Date: Wed, 26 Feb 2025 15:31:37 +0000
-Message-ID: <20250226153137.2791938-13-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250226153137.2791938-1-ckeepax@opensource.cirrus.com>
-References: <20250226153137.2791938-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jPiIIrpc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC8C9C4CED6;
+	Wed, 26 Feb 2025 15:36:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740584211;
+	bh=Kcxlg+wkdwQqRcewEbnIH5bR8ZjExYIUPT/bKiPZZzA=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=jPiIIrpcBQVeaLUguCnE87OKpBphKCIQfTlQz+vcSIczYpVQ64VB/o+lcViLlKG1Z
+	 1tYvK4Iqgx4+qMw2GZx6BgbCkn5MS7TxFQSD5RWKB8F3Vah68MeDQgss2MrdGRE/j0
+	 Qz96eWw+jFIjVdXqNA/i4aA7wrG0Bc/3Im/DHKKyHntOzH+ygaG3hZt7ogO9SYFnyv
+	 WRWxe58bAbz9p019/dVtcPlGswsEw+FaFRSK4KvOoDup58AJR/iY1DJGV+37OuSwEt
+	 0MYoLrYZXmhPhxBQWUbPflEF8XkJg9AVZ/E+bYIiZG5oeg4YiiwTfcEFOYPbnMWOJe
+	 xz5HzbdDfK1bA==
+Date: Wed, 26 Feb 2025 09:36:49 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=XrQAOUF9 c=1 sm=1 tr=0 ts=67bf33de cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=LuYPZTa0VuMH1JCmcYwA:9 a=YXXWInSmI4Sqt1AkVdoW:22
-X-Proofpoint-ORIG-GUID: -bP2yqci2CCTnJBZ3RPV6FoKEqEu_oh6
-X-Proofpoint-GUID: -bP2yqci2CCTnJBZ3RPV6FoKEqEu_oh6
-X-Proofpoint-Spam-Reason: safe
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ cros-qcom-dts-watchers@chromium.org, Mark Brown <broonie@kernel.org>, 
+ devicetree@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
+ linux-arm-msm@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+In-Reply-To: <20250225-starqltechn_integration_upstream-v9-0-a5d80375cb66@gmail.com>
+References: <20250225-starqltechn_integration_upstream-v9-0-a5d80375cb66@gmail.com>
+Message-Id: <174058387176.2466803.5224190356165061330.robh@kernel.org>
+Subject: Re: [PATCH v9 00/12] This is continued work on Samsung S9(SM-9600)
+ starqltechn
 
-Re-implement SOC_DOUBLE_VALUE() in terms of SOC_DOUBLE_S_VALUE().
-SOC_DOUBLE_S_VALUE() already had a minimum value so add this to
-SOC_DOUBLE_VALUE as well, this allows replacement of several hard coded
-value entries. Likewise update SOC_SINGLE_VALUE to match, which allows
-replacement of even more hard coded values.
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- include/sound/soc-dapm.h |  4 +--
- include/sound/soc.h      | 65 +++++++++++++++-------------------------
- 2 files changed, 26 insertions(+), 43 deletions(-)
+On Tue, 25 Feb 2025 19:38:51 +0300, Dzmitry Sankouski wrote:
+> Contains starqltechn device tree changes.
+> Add support for new features:
+> - sound (headphones and mics only)
+> - gpu
+> - panel
+> - buttons
+> - MAX77705 MFD:
+>   - charger
+>   - fuelgauge
+>   - haptic
+>   - led
+> 
+> Binding Dependencies:
+> - s2dos05: https://lore.kernel.org/r/20241007-starqltechn_integration_upstream-v6-0-264309aa66de@gmail.com
+>   - This series was applied to krzk/linux.git (for-next)
+> 
+> - max77705: https://lore.kernel.org/r/20241209-starqltechn_integration_upstream-v11-4-dc0598828e01@gmail.com
+>   - applied to
+>     git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
+> 
+> - s6e3ha8 panel: https://lore.kernel.org/r/20241006-starqltechn_integration_upstream-v6-0-8336b9cd6c34@gmail.com
+>   - applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+> 
+> Runtime Dependencies:
+> - gcc845 gp clock: https://lore.kernel.org/r/20241007-starqltechn_integration_upstream-v6-0-dd75c06c708d@gmail.com
+>   - applied to clk-next
+> 
+> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+> ---
+> Changes in v9:
+> - update applied dependency patchsets
+> - Link to v8: https://lore.kernel.org/r/20241209-starqltechn_integration_upstream-v8-0-ec604481d691@gmail.com
+> 
+> Changes in v8:
+> - add reviewed tags
+> - minor fixes
+> - remove 'reg' property in fuel-gauge to comply with v11 max77705 mfd
+> - Link to v7: https://lore.kernel.org/r/20241205-starqltechn_integration_upstream-v7-0-84f9a3547803@gmail.com
+> 
+> Changes in v7:
+> - review fixes.
+> - new patch with dt-binding header for wcd934x
+> - Link to v6: https://lore.kernel.org/r/20241008-starqltechn_integration_upstream-v6-0-5445365d3052@gmail.com
+> 
+> Changes in v6:
+> - refactor: no space between tags in commit message
+> - rename starqltechn to sdm845-starqltechn in commit summaries
+> - Link to v5: https://lore.kernel.org/r/20240926-starqltechn_integration_upstream-v5-0-d2084672ff2f@gmail.com
+> 
+> Changes in v5:
+> - Split patchset per subsystem
+> - Add links to subsystem patchsets in description
+> - Link to v4: https://lore.kernel.org/r/20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com
+> 
+> Changes in v4:
+> - Rewrite max77705, max77705_charger, max77705_fuel_gauge from scratch
+> - Reorder patches:
+>   - squash max77705 subdevice bindings in core file because
+>     no resources there
+>   - split device tree changes
+> - Use _ as space for filenames in power/supply like the majority
+> - Replace gcc-845 freq_tbl frequencies patch with new approach,
+>   based on automatic m/n/pre_div value generation
+> - Link to v3: https://lore.kernel.org/r/20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com
+> 
+> Changes in version 3:
+> - disable crypto patch removed(disabled on distro level)
+> - dts framebuffer node along with related patches removed,
+> because panel driver added
+> - fix 'make O=.output_arm64 CHECK_DTBS=y qcom/sdm845-samsung-starqltechn.dtb'
+> errors, but it still complains on 'monitored-battery' and
+> 'power-supplies' though I have 'power-supply.yaml' link in charger
+> and fuel gauge bindings.
+> 
+> ---
+> Dzmitry Sankouski (12):
+>       arm64: dts: qcom: sdm845: enable gmu
+>       arm64: dts: qcom: sdm845-starqltechn: remove wifi
+>       arm64: dts: qcom: sdm845-starqltechn: fix usb regulator mistake
+>       arm64: dts: qcom: sdm845-starqltechn: refactor node order
+>       arm64: dts: qcom: sdm845-starqltechn: remove excess reserved gpios
+>       arm64: dts: qcom: sdm845-starqltechn: add gpio keys
+>       arm64: dts: qcom: sdm845-starqltechn: add max77705 PMIC
+>       arm64: dts: qcom: sdm845-starqltechn: add display PMIC
+>       arm64: dts: qcom: sdm845-starqltechn: add touchscreen support
+>       arm64: dts: qcom: sdm845-starqltechn: add initial sound support
+>       arm64: dts: qcom: sdm845-starqltechn: add graphics support
+>       arm64: dts: qcom: sdm845-starqltechn: add modem support
+> 
+>  arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi                   |   4 ---
+>  arch/arm64/boot/dts/qcom/sdm845-db845c.dts                   |   4 ---
+>  arch/arm64/boot/dts/qcom/sdm845-mtp.dts                      |   4 ---
+>  arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi          |   4 ---
+>  arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts      | 600 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+>  arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts            |   4 ---
+>  arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama.dtsi        |   4 ---
+>  arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi |   4 ---
+>  arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dts           |   4 ---
+>  arch/arm64/boot/dts/qcom/sdm845.dtsi                         |   2 --
+>  arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dts         |   4 ---
+>  11 files changed, 591 insertions(+), 47 deletions(-)
+> ---
+> base-commit: d4b0fd87ff0d4338b259dc79b2b3c6f7e70e8afa
+> change-id: 20240617-starqltechn_integration_upstream-bc86850b2fe3
+> 
+> Best regards,
+> --
+> Dzmitry Sankouski <dsankouski@gmail.com>
+> 
+> 
 
-diff --git a/include/sound/soc-dapm.h b/include/sound/soc-dapm.h
-index 4b8ef5b8a391e..af802ef536e73 100644
---- a/include/sound/soc-dapm.h
-+++ b/include/sound/soc-dapm.h
-@@ -356,14 +356,14 @@ struct soc_enum;
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
- 	.info = snd_soc_info_volsw, \
- 	.get = snd_soc_dapm_get_volsw, .put = snd_soc_dapm_put_volsw, \
--	.private_value = SOC_SINGLE_VALUE(reg, shift, max, invert, 1) }
-+	.private_value = SOC_SINGLE_VALUE(reg, shift, 0, max, invert, 1) }
- #define SOC_DAPM_SINGLE_TLV_AUTODISABLE(xname, reg, shift, max, invert, tlv_array) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
- 	.info = snd_soc_info_volsw, \
- 	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ | SNDRV_CTL_ELEM_ACCESS_READWRITE,\
- 	.tlv.p = (tlv_array), \
- 	.get = snd_soc_dapm_get_volsw, .put = snd_soc_dapm_put_volsw, \
--	.private_value = SOC_SINGLE_VALUE(reg, shift, max, invert, 1) }
-+	.private_value = SOC_SINGLE_VALUE(reg, shift, 0, max, invert, 1) }
- #define SOC_DAPM_PIN_SWITCH(xname) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname " Switch", \
- 	.info = snd_soc_dapm_info_pin_switch, \
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 390e08ba4dd45..a42d8d865eb12 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -39,18 +39,17 @@ struct platform_device;
- /*
-  * Convenience kcontrol builders
-  */
--#define SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, xmax, xinvert, xautodisable) \
--	((unsigned long)&(struct soc_mixer_control) \
--	{.reg = xreg, .rreg = xreg, .shift = shift_left, \
--	.rshift = shift_right, .max = xmax, \
--	.invert = xinvert, .autodisable = xautodisable})
--#define SOC_DOUBLE_S_VALUE(xreg, shift_left, shift_right, xmin, xmax, xsign_bit, xinvert, xautodisable) \
-+#define SOC_DOUBLE_S_VALUE(xreg, shift_left, shift_right, xmin, xmax, xsign_bit, \
-+			   xinvert, xautodisable) \
- 	((unsigned long)&(struct soc_mixer_control) \
- 	{.reg = xreg, .rreg = xreg, .shift = shift_left, \
- 	.rshift = shift_right, .min = xmin, .max = xmax, \
- 	.sign_bit = xsign_bit, .invert = xinvert, .autodisable = xautodisable})
--#define SOC_SINGLE_VALUE(xreg, xshift, xmax, xinvert, xautodisable) \
--	SOC_DOUBLE_VALUE(xreg, xshift, xshift, xmax, xinvert, xautodisable)
-+#define SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, xmin, xmax, xinvert, xautodisable) \
-+	SOC_DOUBLE_S_VALUE(xreg, shift_left, shift_right, xmin, xmax, 0, xinvert, \
-+			   xautodisable)
-+#define SOC_SINGLE_VALUE(xreg, xshift, xmin, xmax, xinvert, xautodisable) \
-+	SOC_DOUBLE_VALUE(xreg, xshift, xshift, xmin, xmax, xinvert, xautodisable)
- #define SOC_DOUBLE_R_S_VALUE(xlreg, xrreg, xshift, xmin, xmax, xsign_bit, xinvert) \
- 	((unsigned long)&(struct soc_mixer_control) \
- 	{.reg = xlreg, .rreg = xrreg, .shift = xshift, .rshift = xshift, \
-@@ -63,15 +62,12 @@ struct platform_device;
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
- 	.info = snd_soc_info_volsw, .get = snd_soc_get_volsw,\
- 	.put = snd_soc_put_volsw, \
--	.private_value = SOC_SINGLE_VALUE(reg, shift, max, invert, 0) }
-+	.private_value = SOC_SINGLE_VALUE(reg, shift, 0, max, invert, 0) }
- #define SOC_SINGLE_RANGE(xname, xreg, xshift, xmin, xmax, xinvert) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
- 	.info = snd_soc_info_volsw_range, .get = snd_soc_get_volsw_range, \
- 	.put = snd_soc_put_volsw_range, \
--	.private_value = (unsigned long)&(struct soc_mixer_control) \
--		{.reg = xreg, .rreg = xreg, .shift = xshift, \
--		 .rshift = xshift,  .min = xmin, .max = xmax, \
--		 .invert = xinvert} }
-+	.private_value = SOC_SINGLE_VALUE(xreg, xshift, xmin, xmax, xinvert, 0) }
- #define SOC_SINGLE_TLV(xname, reg, shift, max, invert, tlv_array) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
- 	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |\
-@@ -79,7 +75,7 @@ struct platform_device;
- 	.tlv.p = (tlv_array), \
- 	.info = snd_soc_info_volsw, .get = snd_soc_get_volsw,\
- 	.put = snd_soc_put_volsw, \
--	.private_value = SOC_SINGLE_VALUE(reg, shift, max, invert, 0) }
-+	.private_value = SOC_SINGLE_VALUE(reg, shift, 0, max, invert, 0) }
- #define SOC_SINGLE_SX_TLV(xname, xreg, xshift, xmin, xmax, tlv_array) \
- {       .iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
- 	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ | \
-@@ -88,10 +84,7 @@ struct platform_device;
- 	.info = snd_soc_info_volsw_sx, \
- 	.get = snd_soc_get_volsw_sx,\
- 	.put = snd_soc_put_volsw_sx, \
--	.private_value = (unsigned long)&(struct soc_mixer_control) \
--		{.reg = xreg, .rreg = xreg, \
--		.shift = xshift, .rshift = xshift, \
--		.max = xmax, .min = xmin} }
-+	.private_value = SOC_SINGLE_VALUE(xreg, xshift, xmin, xmax, 0, 0) }
- #define SOC_SINGLE_RANGE_TLV(xname, xreg, xshift, xmin, xmax, xinvert, tlv_array) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
- 	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |\
-@@ -99,16 +92,13 @@ struct platform_device;
- 	.tlv.p = (tlv_array), \
- 	.info = snd_soc_info_volsw_range, \
- 	.get = snd_soc_get_volsw_range, .put = snd_soc_put_volsw_range, \
--	.private_value = (unsigned long)&(struct soc_mixer_control) \
--		{.reg = xreg, .rreg = xreg, .shift = xshift, \
--		 .rshift = xshift, .min = xmin, .max = xmax, \
--		 .invert = xinvert} }
-+	.private_value = SOC_SINGLE_VALUE(xreg, xshift, xmin, xmax, xinvert, 0) }
- #define SOC_DOUBLE(xname, reg, shift_left, shift_right, max, invert) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
- 	.info = snd_soc_info_volsw, .get = snd_soc_get_volsw, \
- 	.put = snd_soc_put_volsw, \
- 	.private_value = SOC_DOUBLE_VALUE(reg, shift_left, shift_right, \
--					  max, invert, 0) }
-+					  0, max, invert, 0) }
- #define SOC_DOUBLE_STS(xname, reg, shift_left, shift_right, max, invert) \
- {									\
- 	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),		\
-@@ -116,7 +106,7 @@ struct platform_device;
- 	.access = SNDRV_CTL_ELEM_ACCESS_READ |				\
- 		SNDRV_CTL_ELEM_ACCESS_VOLATILE,				\
- 	.private_value = SOC_DOUBLE_VALUE(reg, shift_left, shift_right,	\
--					  max, invert, 0) }
-+					  0, max, invert, 0) }
- #define SOC_DOUBLE_R(xname, reg_left, reg_right, xshift, xmax, xinvert) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname), \
- 	.info = snd_soc_info_volsw, \
-@@ -138,7 +128,7 @@ struct platform_device;
- 	.info = snd_soc_info_volsw, .get = snd_soc_get_volsw, \
- 	.put = snd_soc_put_volsw, \
- 	.private_value = SOC_DOUBLE_VALUE(reg, shift_left, shift_right, \
--					  max, invert, 0) }
-+					  0, max, invert, 0) }
- #define SOC_DOUBLE_SX_TLV(xname, xreg, shift_left, shift_right, xmin, xmax, tlv_array) \
- {       .iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname), \
- 	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ | \
-@@ -147,10 +137,8 @@ struct platform_device;
- 	.info = snd_soc_info_volsw_sx, \
- 	.get = snd_soc_get_volsw_sx, \
- 	.put = snd_soc_put_volsw_sx, \
--	.private_value = (unsigned long)&(struct soc_mixer_control) \
--		{.reg = xreg, .rreg = xreg, \
--		.shift = shift_left, .rshift = shift_right, \
--		.max = xmax, .min = xmin} }
-+	.private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
-+					  xmin, xmax, 0, 0) }
- #define SOC_DOUBLE_RANGE_TLV(xname, xreg, xshift_left, xshift_right, xmin, xmax, \
- 			     xinvert, tlv_array) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
-@@ -159,10 +147,8 @@ struct platform_device;
- 	.tlv.p = (tlv_array), \
- 	.info = snd_soc_info_volsw, \
- 	.get = snd_soc_get_volsw, .put = snd_soc_put_volsw, \
--	.private_value = (unsigned long)&(struct soc_mixer_control) \
--		{.reg = xreg, .rreg = xreg, \
--		 .shift = xshift_left, .rshift = xshift_right, \
--		 .min = xmin, .max = xmax, .invert = xinvert} }
-+	.private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
-+					  xmin, xmax, xinvert, 0) }
- #define SOC_DOUBLE_R_TLV(xname, reg_left, reg_right, xshift, xmax, xinvert, tlv_array) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
- 	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |\
-@@ -250,14 +236,14 @@ struct platform_device;
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
- 	.info = snd_soc_info_volsw, \
- 	.get = xhandler_get, .put = xhandler_put, \
--	.private_value = SOC_SINGLE_VALUE(xreg, xshift, xmax, xinvert, 0) }
-+	.private_value = SOC_SINGLE_VALUE(xreg, xshift, 0, xmax, xinvert, 0) }
- #define SOC_DOUBLE_EXT(xname, reg, shift_left, shift_right, max, invert,\
- 	 xhandler_get, xhandler_put) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
- 	.info = snd_soc_info_volsw, \
- 	.get = xhandler_get, .put = xhandler_put, \
- 	.private_value = \
--		SOC_DOUBLE_VALUE(reg, shift_left, shift_right, max, invert, 0) }
-+		SOC_DOUBLE_VALUE(reg, shift_left, shift_right, 0, max, invert, 0) }
- #define SOC_DOUBLE_R_EXT(xname, reg_left, reg_right, xshift, xmax, xinvert,\
- 	 xhandler_get, xhandler_put) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname), \
-@@ -273,7 +259,7 @@ struct platform_device;
- 	.tlv.p = (tlv_array), \
- 	.info = snd_soc_info_volsw, \
- 	.get = xhandler_get, .put = xhandler_put, \
--	.private_value = SOC_SINGLE_VALUE(xreg, xshift, xmax, xinvert, 0) }
-+	.private_value = SOC_SINGLE_VALUE(xreg, xshift, 0, xmax, xinvert, 0) }
- #define SOC_SINGLE_RANGE_EXT_TLV(xname, xreg, xshift, xmin, xmax, xinvert, \
- 				 xhandler_get, xhandler_put, tlv_array) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname),\
-@@ -282,10 +268,7 @@ struct platform_device;
- 	.tlv.p = (tlv_array), \
- 	.info = snd_soc_info_volsw_range, \
- 	.get = xhandler_get, .put = xhandler_put, \
--	.private_value = (unsigned long)&(struct soc_mixer_control) \
--		{.reg = xreg, .rreg = xreg, .shift = xshift, \
--		 .rshift = xshift, .min = xmin, .max = xmax, \
--		 .invert = xinvert} }
-+	.private_value = SOC_SINGLE_VALUE(xreg, xshift, xmin, xmax, xinvert, 0) }
- #define SOC_DOUBLE_EXT_TLV(xname, xreg, shift_left, shift_right, xmax, xinvert,\
- 	 xhandler_get, xhandler_put, tlv_array) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname), \
-@@ -295,7 +278,7 @@ struct platform_device;
- 	.info = snd_soc_info_volsw, \
- 	.get = xhandler_get, .put = xhandler_put, \
- 	.private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
--					  xmax, xinvert, 0) }
-+					  0, xmax, xinvert, 0) }
- #define SOC_DOUBLE_R_EXT_TLV(xname, reg_left, reg_right, xshift, xmax, xinvert,\
- 	 xhandler_get, xhandler_put, tlv_array) \
- {	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = (xname), \
--- 
-2.39.5
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250225-starqltechn_integration_upstream-v9-0-a5d80375cb66@gmail.com:
+
+arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: /soc@0/geniqup@ac0000/i2c@a98000/pmic@66: failed to match any schema with compatible: ['maxim,max77705']
+arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: /soc@0/geniqup@ac0000/i2c@a98000/pmic@66/leds: failed to match any schema with compatible: ['maxim,max77705-rgb']
+arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: /soc@0/geniqup@ac0000/i2c@a98000/pmic@66/haptic: failed to match any schema with compatible: ['maxim,max77705-haptic']
+arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: /soc@0/geniqup@ac0000/i2c@a98000/charger@69: failed to match any schema with compatible: ['maxim,max77705-charger']
+
+
+
+
 
