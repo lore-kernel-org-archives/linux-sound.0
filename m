@@ -1,112 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4BA22576C;
-	Thu, 27 Feb 2025 09:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E411EB5F3
+	for <linux-sound@vger.kernel.org>; Thu, 27 Feb 2025 09:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740646985; cv=none; b=SXR8cJvgeK28GNoIUbBSC2CPnlCrYcK/9dVqrQpjDaOGIlyGtuwOtFQzhJipfNsUeKFa/BIMsHrA1G2R803n1cQaxQVYJz9d+QJehmR/Yf+HaVqdBnH8oJyFsNBBR3+r4BDXyug7fcHXuRTj/6ijAVIDeeyMWCfqhxBC2jokAUY=
+	t=1740647317; cv=none; b=YXoDgFIPr+RY7tvfRHmJ9vQOCNmvriVXr743YZkagc9oE/bHGizWrdbP0iXDwiV+pkQ+d50XRm74YREvmPCZik2g2S2+nsShrdKEaTGaktlFjBPvxIBJBKs2Vl5ZcC3El+24ypteKmq0nU4L9hYnHIfTAs9cmSCux1jDde0C+wU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740646985; c=relaxed/simple;
-	bh=NVCpCk+nbSUsNJ/EU7EEuGOPqCNbb7okhZbn+Sil+6M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tiKcbViOayNAePsy0pUklxZwqZAKz5ZhJDjiW/QdW5lHGaxT+Vo5tfm0VqNhLPVFOMwAeAQi6wKqh5GEy+E3dflZVAGVaC6KcIWdzpA9FRLlTu4DM+sBdi+mk0OWcEJ+q7823JMaOAgky+oPyeIZyWfWStoybPumk/gacdR9Byw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nLspYqEw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740647317; c=relaxed/simple;
+	bh=tZzhL1Wrhwyi+glKlZwiIhFsYadgWIqkxDKf51DDCOo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=m2ZLjTsUIkuNlQ9pcfLYgyxHLDkeV8FcFCHmsZB+3kAQymDigXseKI2Hyx3w+utzGff/a24kh4/Kqb4aOmaR3JDyqOVRzhSNjhuhyrbd38BS2XxirAL85Ngl/SK+fbZ8/zZKTyASoOu7AQlicjUMgZEm4H0KsaxULwceuWVumOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PKOOUFwM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BPu9yKfQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PKOOUFwM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BPu9yKfQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nLspYqEw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B7E3C4CEDD;
-	Thu, 27 Feb 2025 09:02:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740646984;
-	bh=NVCpCk+nbSUsNJ/EU7EEuGOPqCNbb7okhZbn+Sil+6M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nLspYqEw609cIT0ad0o594ZSe9+944oOqgtsX4PvzoyBCh2CjxvcaZKHcRlfZbkg3
-	 o98sgutNPNtNQvtB1V2TWfdkxk0jvPKNau6dHa8OKjnpZRzHC9C6ErL5o2r0XNXfYe
-	 ynD51HJPuofVM3zovm3pWhAZDAaeGPoIRj6tCVyu8o4t7sFTQlvipwFQwyRdAzsR2d
-	 B6voWJuIrlI+Cf1lPSYN2ZjYhqS7rvygaip7lyyFeeh6HBrO8Q/DpezIvl2iQUtyVl
-	 OXwKmfMuglQQ5kuzM1Q6kxE36HyfrIokC3I3woeNs2DsuZou71wXc13B0RkvyLg9Ys
-	 NykE1mhZbbdJQ==
-Date: Thu, 27 Feb 2025 10:02:45 +0100
-From: Carlos Maiolino <cem@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, 
-	Easwar Hariharan <eahariha@linux.microsoft.com>, Yaron Avizrat <yaron.avizrat@intel.com>, 
-	Oded Gabbay <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>, 
-	Nicolas Palix <nicolas.palix@imag.fr>, James Smart <james.smart@broadcom.com>, 
-	Dick Kennedy <dick.kennedy@broadcom.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
-	David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, 
-	Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>, Xiubo Li <xiubli@redhat.com>, 
-	Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
-	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>, Selvin Xavier <selvin.xavier@broadcom.com>, 
-	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, cocci@inria.fr, linux-kernel@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
-	ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, 
-	Carlos Maiolino <cmaiolino@redhat.com>
-Subject: Re: [PATCH v3 00/16] Converge on using secs_to_jiffies() part two
-Message-ID: <3apo7evpkvcy5mafw7zdatr3n7lytugvfmumq2zou4nifyptnc@ucbu4c5g5jrq>
-References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
- <79b24031-5776-4eb3-960b-32b0530647fb@sirena.org.uk>
- <hJl1qb89zCHWejINoRSGGIO0m7NNi3wAmY9N_VC7royLnZoyL-ZozLkmLO-vCPlYc55-IPh76PIB_2_aKKjp1A==@protonmail.internalid>
- <20250226123851.a50e727d0a1bfe639ece4a72@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PKOOUFwM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BPu9yKfQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PKOOUFwM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BPu9yKfQ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3F44B210ED;
+	Thu, 27 Feb 2025 09:08:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1740647308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jKUlxxj443QwKFoG2c1qfTGieAAKYm/ZmPHhDHoJCEw=;
+	b=PKOOUFwMjuxIH5GCnd7Wu7g5rsDj3nGNsW9ZKCarnCVzbR2kmIzQv1yhldgMz+I+Eij1S7
+	oTz47iWWNXWCqh0/FM09ccnYpO6W65zMDbffeABDS2bVi3rxG00M/owJjmrkaYJINNdkGP
+	xEf9PImfL+yRrSBxJNBbMH8Vxnb/mlg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1740647308;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jKUlxxj443QwKFoG2c1qfTGieAAKYm/ZmPHhDHoJCEw=;
+	b=BPu9yKfQJDAJ9/m78cyWcvaGR/MjD5YvZZZ7dCeDpB5ZHryKU4XJ30XEABQMVIbG3XZqKN
+	971YpTmHM0fykxCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1740647308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jKUlxxj443QwKFoG2c1qfTGieAAKYm/ZmPHhDHoJCEw=;
+	b=PKOOUFwMjuxIH5GCnd7Wu7g5rsDj3nGNsW9ZKCarnCVzbR2kmIzQv1yhldgMz+I+Eij1S7
+	oTz47iWWNXWCqh0/FM09ccnYpO6W65zMDbffeABDS2bVi3rxG00M/owJjmrkaYJINNdkGP
+	xEf9PImfL+yRrSBxJNBbMH8Vxnb/mlg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1740647308;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jKUlxxj443QwKFoG2c1qfTGieAAKYm/ZmPHhDHoJCEw=;
+	b=BPu9yKfQJDAJ9/m78cyWcvaGR/MjD5YvZZZ7dCeDpB5ZHryKU4XJ30XEABQMVIbG3XZqKN
+	971YpTmHM0fykxCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A30C13888;
+	Thu, 27 Feb 2025 09:08:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kRjrAIwrwGeNDQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 27 Feb 2025 09:08:28 +0000
+Date: Thu, 27 Feb 2025 10:08:27 +0100
+Message-ID: <87r03j7o1g.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Daniel =?ISO-8859-1?Q?B=E1rta?= <daniel.barta@trustlab.cz>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH] In order to get speakers working on ASUS P5405CSA laptop (ID 0x1043, 0x1f63), which are dependent on Cirrus CS3551 smart speaker amplifiers located on SPI bus, I had to add line that applies fixup ALC245_FIXUP_CS35L41_SPI_2 for this system. Fixup enables correct detection of aplifiers and asks for firmware files (which are available in official sound card drivers for Windows from Cirrus).
+In-Reply-To: <20250226143348.137808-2-daniel.barta@trustlab.cz>
+References: <20250226143348.137808-2-daniel.barta@trustlab.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226123851.a50e727d0a1bfe639ece4a72@linux-foundation.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -0.31
+X-Spamd-Result: default: False [-0.31 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	LONG_SUBJ(2.99)[399];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, Feb 26, 2025 at 12:38:51PM -0800, Andrew Morton wrote:
-> On Wed, 26 Feb 2025 11:29:53 +0000 Mark Brown <broonie@kernel.org> wrote:
+On Wed, 26 Feb 2025 15:33:49 +0100,
+Daniel Bárta wrote:
 > 
-> > On Tue, Feb 25, 2025 at 08:17:14PM +0000, Easwar Hariharan wrote:
-> > > This is the second series (part 1*) that converts users of msecs_to_jiffies() that
-> > > either use the multiply pattern of either of:
-> > > - msecs_to_jiffies(N*1000) or
-> > > - msecs_to_jiffies(N*MSEC_PER_SEC)
-> > >
-> > > where N is a constant or an expression, to avoid the multiplication.
-> >
-> > Please don't combine patches for multiple subsystems into a single
-> > series if there's no dependencies between them, it just creates
-> > confusion about how things get merged, problems for tooling and makes
-> > everything more noisy.  It's best to split things up per subsystem in
-> > that case.
-> 
-> I asked for this.  I'll merge everything, spend a few weeks gathering
-> up maintainer acks.  Anything which a subsystem maintainer merges will
-> be reported by Stephen and I'll drop that particular patch.
+> Signed-off-by: Daniel Bárta <daniel.barta@trustlab.cz>
 
-I'm removing this from my queue then and let it go through your tree.
-Cheers,
+Could you fix the patch in a proper format and resubmit?
+Namely, instead of putting all texts in the Subject line, give a
+proper subject (e.g. "[PATCH] ALSA: hda: Fix speakers on ASUS
+P5405CSA"), then put more patch descriptions in the body, finally put
+your Signed-off-by.
 
-Carlos
+Also, let's put patches@opensource.cirrus.com to Cc, so that they can
+verify whether the added quirk for Cirrus code is correct.
 
+
+thanks,
+
+Takashi
+
+> ---
+>  sound/pci/hda/patch_realtek.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> This way, nothing gets lost.  I take this approach often and it works.
-> 
-> If these were sent as a bunch of individual patches then it would be up
-> to the sender to keep track of what has been merged and what hasn't.
-> That person will be resending some stragglers many times.  Until they
-> give up and some patches get permanently lost.
-> 
-> Scale all that across many senders and the whole process becomes costly
-> and unreliable.  Whereas centralizing it on akpm is more efficient,
-> more reliable, more scalable, lower latency and less frustrating for
-> senders.
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index 224616fbec4f..360131dd2d06 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -10699,6 +10699,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302", ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x1043, 0x1f1f, "ASUS H7604JI/JV/J3D", ALC245_FIXUP_CS35L41_SPI_2),
+>  	SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI_2),
+> +	SND_PCI_QUIRK(0x1043, 0x1f63, "ASUS P5405CSA", ALC245_FIXUP_CS35L41_SPI_2),
+>  	SND_PCI_QUIRK(0x1043, 0x1f92, "ASUS ROG Flow X16", ALC289_FIXUP_ASUS_GA401),
+>  	SND_PCI_QUIRK(0x1043, 0x3030, "ASUS ZN270IE", ALC256_FIXUP_ASUS_AIO_GPIO2),
+>  	SND_PCI_QUIRK(0x1043, 0x31d0, "ASUS Zen AIO 27 Z272SD_A272SD", ALC274_FIXUP_ASUS_ZEN_AIO_27),
+> -- 
+> 2.47.2
 > 
