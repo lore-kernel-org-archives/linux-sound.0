@@ -1,63 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62C51DE3B7;
-	Thu, 27 Feb 2025 17:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0552702D7;
+	Thu, 27 Feb 2025 21:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740678869; cv=none; b=fPx69lXQJZbbaALZIGz8gHQhewWnZtYCuhjgzcijP2Rol4CpKe6kqHJwb2EEXNsEtOvNDgrODY2UHBp7f6+ZgvKc58XFnPL4nOLGf7gFr4drJnwHxKBMx6CemrAJtLlsqg1aPFqdbt6tNqxDjF6ZW3uWAppm3el962zyLSy9oAE=
+	t=1740693534; cv=none; b=DoV8myTjxsPuFGCuuZBhZJSZ9E/E7FGkiij+5KKEWTJUSATAsKClltCJWPupLp92q4rtNahDo84ExDkL/zTpoxSxmsvg7HC+YDN0qIwMEsldq8fzNlSv82RIqWN4bYOyoaCLyirZ+SqS3LStL2RlXRcdEMIy5gMCR3ezKRZjTuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740678869; c=relaxed/simple;
-	bh=S02zTvbL3+eRRVplJS+PBhMPAL9V8UPLaHK5FAzZ+54=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=NRPdlxEVfAd2anXO4bHceqNzHXldrS0uWuaparXFdEcTgS0flvsSfN9cwPS2x7Hn9BaK8f8JDieBuCZ2XJ13XdUnP/PAeLT2hjTalePJDnxPhzMpnGeMIuHS5B3Tk/HXbgBx94ytVdtn/omhw6sSAaziC5Yk+8IRf7S9BD4FTJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSEL4u1i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740693534; c=relaxed/simple;
+	bh=Dm3RxaB0CXAQe1z7lgXkILph+xq5j+lovtkROFEkZdE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XHivdrWziKojtDiIPYEMmNlhpW1jMs6i1mBdMSv0+q89bzV7ewuoFcA5jCNL/yUGp5tX3gUaQbyxZ4KYX3dIEwuttDC9odt+z0toXTEJ96YOIO05Xjg6MnQjj5j//oEEc1BIUjvmj4mfAw5dJZGQpi3t5hltd92FjID6eunV3nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KWiG7gSf; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSEL4u1i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1582C4CEDD;
-	Thu, 27 Feb 2025 17:54:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740678869;
-	bh=S02zTvbL3+eRRVplJS+PBhMPAL9V8UPLaHK5FAzZ+54=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=ZSEL4u1iY0y8Q5pXsC7DPH08EOs5oNfXVzymBlVsxy8Ct2YkzdxLd88amBuO0hYiN
-	 ZnvR7YdIXAJ0tWxsFc/JUW8RsD5bfc1PianqRYpPPw/KCAHlFqLiA1lQ6Amj/okqYo
-	 K+XRa/ATykcccVW4zB3e1k8hvLRBDsCiQquTeTjublK47JAAzuavgpiCmAbmfeJAX8
-	 GdycFXIbjKvKtz+ELc6brPrDfwuxv+YjbCzTFCEqnP6/kVUJipBcIb4F7twd+1KtHG
-	 vKisLXMaZRv3IIQkm/zP+QqYyT9qeBMRgs9myT3G5YnR/hROM/vTlmtvJYCD66OD6R
-	 UKANK5/a9li3g==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EAF6F380AACB;
-	Thu, 27 Feb 2025 17:55:02 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.14-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87mse75pdj.wl-tiwai@suse.de>
-References: <87mse75pdj.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87mse75pdj.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc5
-X-PR-Tracked-Commit-Id: fe1544deda605f6100cbff1d5aeb179c3aa1515c
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: f09d694cf799d27d6de25f04f3fd5ba9190631e1
-Message-Id: <174067890147.1513849.12801631979481455909.pr-tracker-bot@kernel.org>
-Date: Thu, 27 Feb 2025 17:55:01 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KWiG7gSf"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-471f16f4b73so14224191cf.1;
+        Thu, 27 Feb 2025 13:58:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740693532; x=1741298332; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dm3RxaB0CXAQe1z7lgXkILph+xq5j+lovtkROFEkZdE=;
+        b=KWiG7gSfBf4wGfKvY5ibhhZfYa7dtDt3IdGRtzsKbbabkgDcF24VShprByqUB0INNE
+         9yGUD7hxW+iqEauU8O9CqmgJYib9MRFE0Yz537CEhnOqXNjMht9TZcY7MOfG26vjHjPH
+         TmpdTiywRmthss4yewWtR4rV4Vsl09xPLm/tj19XxiUIGqtFkFmnjN+6LtD0tPENDtCa
+         9RlKIcq6Pt+tBcKnN3CvY78Cn3tB4YnX8NEzmzbWGqh8yqU4YN1EtC65da++PP0ZBliL
+         /9G0gFTIEq6BABkrGh9eT3otjYfhYawjvbx82u2fkLDNi23BZd8ZciMZ4NjiyG2TZvxf
+         CmPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740693532; x=1741298332;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Dm3RxaB0CXAQe1z7lgXkILph+xq5j+lovtkROFEkZdE=;
+        b=SjqKsGs1F/iQrRrMUHwsRBWIV2g8VH/VZa8KCeFM+VjQuc/EPZ2uZLbxIAXVn2HQg5
+         IJ45q49Cvqng6ovd5RYUCLG7ri2SrJXv1/Lr/mVNHcMVsMpZX9Gjz/p6WAO60CrNSAot
+         tu+jjfR1/rYhPhu/RwuSlvc065dejl+tZ7xvG/qhZer7yMnNR6lY7Ds1tm7e0OEf7rXC
+         lAYjwo8y4Jnw3qEY121XadkUPJ4QwjsOISDKGahW3noUq3VbFvO9l9LGzwgxkiGku5vC
+         iQtUAd2ddTaf15UdZQ63retJUYd35tPtq/i2m59rLv0cV6i+M+7z52FaVu1Fak7t2fB0
+         36fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU+L/VoFXPajW4+9SH1F6x86W+XJtPE9s3F4SrmFe3ODdkLXjiMOSzApo8h0jaESmrNWXZf2YtP3OQqLw/H@vger.kernel.org, AJvYcCUOug3lEs6QBvOjSEzsOVune/qwLFjhNRIxv3HmvdjJWonhpoDzFgd08CJbKzTcuObGAk1uMSPNBmJoUmY=@vger.kernel.org, AJvYcCV2MeQiaO8PEwHX3SHhfR2I4dqhVQNnqq5dfA5n8DHMSle/UUYACYqgpdePiqIK6YN3m7hU5ZCDI9hXSD0=@vger.kernel.org, AJvYcCXA6kxLdqyfoSmHBE7BHx2ALJqlxpM94+xl/lFZ0mcrI5MYY6Grx1YKt21cftdsJdeWAsdMqcONWs3V@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMvLeYNXbi226kkLOlzn+rhTNiPoQiyMCGINICFoMXIDXS8naZ
+	EAQrWW6ypD2JMBax83Nui9llkeLdRL7sVwCg5cVr9B7W2kmH62YrkHU/0KOaF4/WAVeO5fA8/WM
+	QKtq87cJv4MAI1vHR70ya1w472qaMFV49
+X-Gm-Gg: ASbGnctGESNdbgWz/aK24Q4LUh0uT4ukOMG18993Qr58V596RuY4yD0mHg/xnRG4f7i
+	hXXC9xHee2f/oPePEce+XmA9NPrzLfxo905zPguJAmHXJToiWYW0JI2WBSzRiso5woix/P5lSK5
+	6dduwJ1A==
+X-Google-Smtp-Source: AGHT+IGZycxF9mK2j7Xgw/jf4P4PzwJkPkA+YQ8gNsvWst/YlqRF9ahH2kcIfaFTwicW7dgH/uB2VhA7H7UVn8sEOSQ=
+X-Received: by 2002:ac8:5ad0:0:b0:473:87fb:2ecf with SMTP id
+ d75a77b69052e-474bc068615mr12002921cf.21.1740693531852; Thu, 27 Feb 2025
+ 13:58:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <20250227-apple-codec-changes-v3-15-cbb130030acf@gmail.com> <f3eecce4-51d1-4414-af85-680d51e588fa@sirena.org.uk>
+In-Reply-To: <f3eecce4-51d1-4414-af85-680d51e588fa@sirena.org.uk>
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Fri, 28 Feb 2025 07:58:33 +1000
+X-Gm-Features: AQ5f1JqhIE5frhKKp88Yce4HcYqH0rbyxjCTlt3Y9iZPbu-hf4o4-EBYqcvAUCc
+Message-ID: <CAHgNfTx_kMj=rsd4nUCiX_PvgC4GX3DsPDwXHdEyEeLMbDFccw@mail.gmail.com>
+Subject: Re: [PATCH v3 15/20] ASoC: tas2764: Enable main IRQs
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shi Fu <shifu0704@thundersoft.com>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+	Neal Gompa <neal@gompa.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Thu, 27 Feb 2025 17:22:32 +0100:
+On Fri, Feb 28, 2025 at 2:23=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Thu, Feb 27, 2025 at 10:07:42PM +1000, James Calligeros wrote:
+> > From: Hector Martin <marcan@marcan.st>
+> >
+> > IRQ handling was added in commit dae191fb957f ("ASoC: tas2764: Add IRQ
+> > handling") however that same commit masks all interrupts coming from
+> > the chip. Unmask the "main" interrupts so that we can see and
+> > deal with a number of errors including clock, voltage, and current.
+>
+> Shouldn't this also be a fix?
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc5
+I don't think so. The referenced commit only says that it adds an IRQ handl=
+er.
+I don't think this commit is actually "fixing" anything - it's just
+enabling previously
+masked interrupts.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/f09d694cf799d27d6de25f04f3fd5ba9190631e1
+Happy to move things around if you disagree.
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+James
