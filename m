@@ -1,276 +1,293 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6B027003F
-	for <linux-sound@vger.kernel.org>; Thu, 27 Feb 2025 12:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740660271; cv=fail; b=RlcB0/nuLcTXiYiS7TcRQX3eXT7+rPliVvQAOM7pdnzDhUc2YR9986XZM4lflURQeXFDJaMIFJCnOV5pofzxY2vmSbwLwEek2FNl2Z/tkqxRtu6ovCjiaJ+n4zndzMJN8hQI9YIrhukwv+/qDgahAzltF33OZ1D1tRrTEZjj87c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740660271; c=relaxed/simple;
-	bh=g0eT5H0g2wjV88jMBfRrkfcfiJ1bcSXvDVmtKe3ZGt4=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mv9QeK1xGpIi5ExNzN/pbBTvA2Jj973hr/XKduOOFPgL/XzariBDRg3iNnoN0qsZ+F3Z2eX4dc9UCBuEWRgF100Z8CHMGJ6/fvsgPtGqCaaBbzkrHptXMY4rWC+tp/rF6w7TW2dvXavnw+mX/HWEaIIr7sdI6PMJ+uv7DijXRwg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J5NHaWFB; arc=fail smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE5246BF;
+	Thu, 27 Feb 2025 12:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740660340; cv=none; b=IzslVjaiTew1Pxh/zwdjvneVg6IpH8c9VZ8Ac0TySsmTIOfv3Bs68h9rrSzeqAvPe8UOj3dkWGNQfZXONEHbuEfPSb95uLj3wm8cpXD1/bja7/DD7CLV7bqAm+fnshNkZYLjAp00TbVHGW5wXq/JuWVv4o22r1hvGj17Fx3D0c8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740660340; c=relaxed/simple;
+	bh=fWnzntoPDeya2tebONYCDCnkBxEo93LOZEjPITsWVOk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ED8/Xi3N6PGqmD475+4B00Rg3OCX9GPFwL+dJQenHpvqo7v3EFQdttNe07ruBapLZW4OITkXoJx4gHSGP4xuXNGuaIxussg3fX0do4e7VhEos1wbuiDiZHXTmVE7g90stjNHy3UiEULDBXpkKvAj05qXkKJV1dRGuBI+RY6qHbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ewA+zyCM; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J5NHaWFB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740660268; x=1772196268;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=g0eT5H0g2wjV88jMBfRrkfcfiJ1bcSXvDVmtKe3ZGt4=;
-  b=J5NHaWFB4m7Hq8r/sXS9b4xhi2fQc2XiHDCFWF+ah49SGuA8MisSM48+
-   bU8jhcJYVJ4Pf9LGVwY79ppuLDhkURsYQgD8B84IS1ie/qvNyFHQoBeh9
-   XWqgOVxd7BokPxGi1VHZzpNhVL/QQSgnPLWSa9ohlMTaL7BHDLhrZhGip
-   CGy/GZ1d17AXGvrgbJ+Hb5JdP+5KTIVCY+xeBqfTELMmOR8a+EcEgD85l
-   KLZAojL7FILgYiLU4MvK1eZAfccWMRRQJuRwDkkpS7XUniGrg73dYCRh/
-   hNM88EAFUQYwIoL0K6FLBkdCtdady7utJZe58Y+v/ffHDkaOHyLO1pBjp
-   w==;
-X-CSE-ConnectionGUID: dl9Pi14KSA2debGpGjvK9w==
-X-CSE-MsgGUID: KUpNt40XRAekIqhviHe/lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="45460707"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="45460707"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 04:44:27 -0800
-X-CSE-ConnectionGUID: osZKVYhsT6SkuB8IllSMfQ==
-X-CSE-MsgGUID: 0Ij7UD/wRL+tcVRI4AYMpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116885075"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 04:44:28 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 27 Feb 2025 04:44:27 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 27 Feb 2025 04:44:26 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.43) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 27 Feb 2025 04:44:26 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KQy+XLxpQPyPsP53+eSkbaBKgsqu077czsNvCiEzL0W+7V7QJ36mMWU8hglpnPgLekzm2DdAbSvalNWIgZY5klaumB3bXF1cx3/K50iBG/L7kaHC2w8TCvZK9GM7BFyXN/In42vKNd5IboT61iMOZ90dLJt5bD67zk5tK0vo+RUsdsUIlFhmhtSyzaJTVS8ydQkFDlyhNKfN4bXv9k8UUkcgZ4J/UqDFi8ON/cD1Y6BnPJhxw+PnfRgWPsZtpwGyPQkHkNN02FP0wy+sZi77ZCyQyxYMRDNfQ0Xmmgf2tGzyFKl2e5zhq4u8Bb/ia04xx3LgicyS1N/Zoj26ryGPcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9L7KpfYZDvHrLDkN10c+XgerDjQPOni+rrtTg8WWN4M=;
- b=jMir3ZoXb1OwkqT2iEzLOS72TOXvEeEWTmj2Di/Z/9zqZDYxwZe6iOx0eFTtjYS3kAQ3e4y8HxkafWS63zW2kU2wlnPdSx8MLwio2qpCg+zTaW6LwlWLJakLcmEtHmGemdOGP6nwFHCuwcStjXJ+0WUFMobaGMwFQdemB+Rxg4GmlImpq6YCndh+tskHV663wMw6hPuu25BCP1xjA8arV1cF2N5sR8Kb5EoWWf7yFXuwzHrNIhiaL24sn4VnKOT80AT7uw2A5BfHN1TK/xMWPTCQnhx9KIooxeIRaGZxeQVbek4/aBh8MGXeRYMaLsf51IHWy4U/6G8fmbwgf5fqOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com (2603:10b6:8:c9::21) by
- PH7PR11MB6771.namprd11.prod.outlook.com (2603:10b6:510:1b5::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.19; Thu, 27 Feb
- 2025 12:43:43 +0000
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::cd01:59f6:b0f8:c832]) by DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::cd01:59f6:b0f8:c832%4]) with mapi id 15.20.8466.016; Thu, 27 Feb 2025
- 12:43:43 +0000
-Message-ID: <3fccbd20-693b-46d5-bf31-2beb73aa7e54@intel.com>
-Date: Thu, 27 Feb 2025 13:43:38 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 20/24] ASoC: codecs: rt1015p: Update definition of
- device_id tables
-To: Oder Chiou <oder_chiou@realtek.com>, "broonie@kernel.org"
-	<broonie@kernel.org>
-CC: "tiwai@suse.com" <tiwai@suse.com>, "perex@perex.cz" <perex@perex.cz>,
-	"amadeuszx.slawinski@linux.intel.com" <amadeuszx.slawinski@linux.intel.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "Flove(HsinFu)"
-	<flove@realtek.com>, "andriy.shevchenko@linux.intel.com"
-	<andriy.shevchenko@linux.intel.com>, =?UTF-8?B?U2h1bWluZyBb6IyD5pu46YqYXQ==?=
-	<shumingf@realtek.com>, Jack Yu <jack.yu@realtek.com>,
-	=?UTF-8?B?RGVyZWsgW+aWueW+t+e+qV0=?= <derek.fang@realtek.com>
-References: <20250220112643.3813295-1-cezary.rojewski@intel.com>
- <20250220112643.3813295-21-cezary.rojewski@intel.com>
- <d1fe2ca16a7c4c9c90bdd5a8480ca497@realtek.com>
- <fcb19c07-9daf-4fa4-a856-5e8726a98873@intel.com>
- <fa960c2c016342e5addf2eba19881d64@realtek.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <fa960c2c016342e5addf2eba19881d64@realtek.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1P191CA0014.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:800:1ba::14) To DS0PR11MB6375.namprd11.prod.outlook.com
- (2603:10b6:8:c9::21)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ewA+zyCM"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22359001f1aso9893295ad.3;
+        Thu, 27 Feb 2025 04:45:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740660338; x=1741265138; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=YtmwYaqxFssIW0Pa2qC6sbwgJvuzp7NSxjltk2LJnU8=;
+        b=ewA+zyCMgDPPD0whKe0KeMr8rN6031ZacQMAwtVsNpR4ER6KScmFyoNqc3OwON92oY
+         CzqlhroEH9W0xNG4KbqVs2RGAbGUqUgZvwdYpaIEGeKnHxUNutzu6nO+6l81U5y2Tfz1
+         wpVEDMds38wbjnw++Gc+VLRG9cencUtkxb/A46UlLuI/IFX0WSftZZkkXqqvbBuzd9Lw
+         oEJBlxmhYYF+EJwUT3EP7+EMQg6qNQHs6T4r4o2Y/vCVcq50KcEkAysPvlDdtzdGxgue
+         c5PSdisRLhHkWL1AVOCywVWZ77NTCzCE/fmxZ9hG4Jq2tfTf2MRwKNeP1vjFfu7iTNEJ
+         1EHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740660338; x=1741265138;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YtmwYaqxFssIW0Pa2qC6sbwgJvuzp7NSxjltk2LJnU8=;
+        b=RA0GXGAEWCuhl1msdcCwYv56Di9wZY7g1hso7phO2vnz97UTJR0ypkoEAN1kOAwW78
+         P5m4nqTIgmcPgAjJSsp5cgq33bkhPjBDgOBenwwMCAq1FL6d2w0cM8XAkB5TPDNbQKN+
+         adi61vYiCaBYGTKN6+dxpBz5nUpD2M3lFfTfhpOwlBIY1BECGOiDd7iutxBwKTBoLZBD
+         pY3AZfU5vz+sbRnADSsk2qR/StSLG8B7K3uH/ZUZggmFFRYP+dt8lUSgUMs5L+wgkSiI
+         2xIb005x4PsjsRT9PA333ukjg43ZzF/TOon/HQQHID/szptjDY2XK0KMCiHH/XmNmfV8
+         TOhw==
+X-Forwarded-Encrypted: i=1; AJvYcCWG4I3zSIcj8NDw9HuEDac3VTMMxIGnn+j3nFcqCl+PIFus5bWsuKO3qopLRts4SMCX1UXUfBIbBVsG@vger.kernel.org, AJvYcCWvS8EfVV2EJOcnNQSrFoU4GO7DImwc4MRFKw3xMoD2MkagDnSN+UMUbsvKqMNmuWgBJiCcrrTC3jmK4LA=@vger.kernel.org, AJvYcCXgTSSZr3NM1LL3jg3Bks4MkYFjLuMGdrv4Pu1xAqANdnhuOfRQJ5IGBX1J4XKXCyEUoc8wpyl8VA5GllY=@vger.kernel.org, AJvYcCXnKMTcnpF+jBYfDQWx0xv0oUh586iBTadGIvOOPkMFQlT/nobU7N6HKJZen6ZTZYZMsS+BUqUqqF4GW92f@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywy3YpIQ61H5f0nn6IO6uedXSP2p90d1y4YYyha7ry/V/HXscnZ
+	bEg4u2fkL2eERmkG8qRumn2JUrQos5gdirLAeXbztmHCzfbJOR1R1I7zAQ==
+X-Gm-Gg: ASbGnctn30AavARL30LQO2Ul0Dv1g7DSMK5TVpdN6AvGiPJ5IFijbPx4u54L40fWF0y
+	0OvZNLZdCz+Z92CZiFCTQ0Nr4PMrCoxZg6WwqPugl9AiJsWJ5gicYi4QHB4RQ8vXuJm8gD5DOLo
+	DKa8ylhlJ4+16VBUvY6a7vv1SAINd4MbDkESpAMLfGbXYMU42oXtcnqlqndTJOfJNlcwBOkK/ei
+	3ZI4jbYTU5Kv889m+SbIg8Roj0twZnPcGklryiUweB0URvZuRCD7lXsy6wZ0kIZy+rrYRpiBcMr
+	2HZ7hmhjR7RuAb9I6lZ9g4uA4igmUaDHKj1LSDBU/tEzC2EZiOH5+sN4SSPz5duf+8907xLm5Dk
+	=
+X-Google-Smtp-Source: AGHT+IEu1z9o+etyWQ3GYKQxj9svNIE80SY1i5LrNL1f5QPKZ8haclw49WFVfET5tXTwPShEIFk0HQ==
+X-Received: by 2002:a05:6a00:1a86:b0:730:74f8:25b9 with SMTP id d2e1a72fcca58-73426d81592mr36627859b3a.17.1740660337486;
+        Thu, 27 Feb 2025 04:45:37 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-734a003ec4fsm1474157b3a.130.2025.02.27.04.45.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Feb 2025 04:45:36 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <b1be4c35-b452-479c-9dcb-700ae276e8b7@roeck-us.net>
+Date: Thu, 27 Feb 2025 04:45:35 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|PH7PR11MB6771:EE_
-X-MS-Office365-Filtering-Correlation-Id: 15ff7c59-caa2-4a5c-6cd5-08dd572c5eaa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|1800799024|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QkxxSGJBdEpPZXB3ejAzOGhnY3Fma0JIaFNLUlZmZThzSmpObHJRWHRxSHJy?=
- =?utf-8?B?N2xyM1RGcCtsNUQxazN1VXRwdzlvUXJEdFVWczBIQTVBcklrTjJjVWRxZU1q?=
- =?utf-8?B?ay8zcXByOG1ZYzU5RnRMOGRUQ0Nzd2JxcTVmTVYveVQzMFFsdXYxdTV5SGVp?=
- =?utf-8?B?UkVXUFhsQmZ0TmtIL09LRTFxcm5NRDM5Ym9zeld4ek1vMkx3dFJUZ0puR0E5?=
- =?utf-8?B?QzhNV28xTGFObmVpcDZONWJFN2U5ODAyZjlYeFpiemgwU2RhWldtZi9KOXJj?=
- =?utf-8?B?K3I1OEtUYVlndEEyaVpLeVNjeEloZVR3bnZXMUpPYUJmWW0xQURxYkFpclAy?=
- =?utf-8?B?VUlZVUdlWU5MWDZyUUw1bWVTYVVydTh0RUdtWkZRWHdHNTVNaCtZQm1HRXhP?=
- =?utf-8?B?YXRpcmM0SysrTG5jOFZuTDFJZnV2d0VzektGMnZvSkxJaFVDakhKMkdEMmEr?=
- =?utf-8?B?aHNVSWN2QThvV0NNWWdwSmtoRFQwb3FWcXhwWU9XNEJHaDlNRjBkaTF3RjdK?=
- =?utf-8?B?NFU4dHdhNXZHMW9pZDg0Z1NwY1F0YmVVSGNNL3VZS2dSMUdCUmFDUHdrTDk1?=
- =?utf-8?B?bzZiQ1owVGQ4NkxWUDRnYjZ4eEJSQ0hRdjZ6ajh3MkkrTjZOV3lPRG93L3dm?=
- =?utf-8?B?ZmowOVF1N0ZVRTJwc3BzM0NrV1VKQVBZK3gyaUFvbFZsSDYrU242VTZ5REly?=
- =?utf-8?B?R0ppRHR1bG55ZmJUUURCSkhZS0lXdFlpeVpWR3VXVUFUUXBxLzRFaEV1VUM0?=
- =?utf-8?B?d3FueUM1c2l2U3J6djlGVmdmU0ZualEwUTlzOVlWRC9NcVF5S2xjZFFKNVZW?=
- =?utf-8?B?ZHhaQUNyNi9LWHhEaHFiSHhlSmoxcmp6QzZNSHMrdEdjN2dPNS94eHJhcWN4?=
- =?utf-8?B?TTNtTlhJejVYYzFnVDBZS1NKbEtJbE5ZWWJ0U1o4MU1Zbk1IdGZyT0pkRFJq?=
- =?utf-8?B?d3F5bjgxWWNRMTFrNndLVDZPVHpaelBmMGhLeHdkYUYzcTRXTnI4cExWTVhs?=
- =?utf-8?B?d3NYVndRMmJ6bjkvck54LzRva0NpdVdvbWp6eTRJalZnNFJNcGtBNjBlNjM2?=
- =?utf-8?B?T3FnMXlPV2RCeUxlbXZVV2hTRU9IckwzZytmcEpMTE1rd0ZIb0V4V2pET0xF?=
- =?utf-8?B?ZHBTbnBJNXFKV0FtT0dRM1pUbHEvR3lRMDRZSU9HMC90M1NmaTRsVUU5Slla?=
- =?utf-8?B?TlBmVmpJMFpSdUR2WDNnTy9MZHNuaGllT0MzRWlDNTVvcnRvZzAxMVZNaFRE?=
- =?utf-8?B?YlFkZ0FranNCczhzdlppcFJEaW1WOVF3L1RveHh6RVJ3UUI3Q1BOVVRNTnor?=
- =?utf-8?B?NHNsQkVuNzN6VktvWUVIbG1xQ0tHS2VzWCtDSDU5S0Fva05UM0tMYzZGRmJW?=
- =?utf-8?B?ZGhPQVNOTnZxRzRhLzl3UHFVWVVyT0tUd2hyajh4Wm5FVVhpRkJOaENOWHRq?=
- =?utf-8?B?Tnc5eFVGb1luQVZCYmp5em0zbng5Y0tlajRJdFNJaEg2WjVmZFA5emV2c1pG?=
- =?utf-8?B?bnY5Mm0yQ0paZVRLaHRJMS9WcTZ6eGo0dXVacjIrOXhubitjODcxeFpxU1ZT?=
- =?utf-8?B?UXdLL3VkUWFVOWg0SGpvT1QyeDhwYmpGZkorV3FVdHJSdkE4OEZvdkFiKzVV?=
- =?utf-8?B?WGJ2bWh0NVo0cnJiK0h5YVRENTM1enVGMlhqQmFjUFZ4SitzdWNsaWU3T2NJ?=
- =?utf-8?B?eG4zSzkzVXVGeC9YTXNLbjJ6Vzh2bVZ3YjByaDVHRVMrY29KWnRodkMyTUJO?=
- =?utf-8?B?bjRYMDRNTlg2Y2ozTGNiVzNJZk5HOUpENFNTbVlwOTE4cEZlVEVGTFZ6TTVW?=
- =?utf-8?B?MmExWWM2c1o0eFFPdGovdz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGVuc29ISElKVjJXL2Noek5wcVBsNjBWbXVJdUF5R2p2eU0rV0dpOW1hOEZh?=
- =?utf-8?B?M2xPaSsvWm1nY1lVNTVkWG5XUEs3RDJVQ0ZYYlFGYzRiOXozMjNPNkNzYVQ0?=
- =?utf-8?B?Wm9OUnBJVUkvaWhNV1J5NERmNjFtRFlUb0hSOUh5N2tXYVpQU1R1TkJKSGU3?=
- =?utf-8?B?YVFTRE1mSUdqK01rNWdDTW1tTDlPa2Zjd01UbU9vRlhmUURJVDBNUFA5dGM1?=
- =?utf-8?B?c2Z2VDNndGdDV1hPRGIyY0lpK251SUdXNU51eGpYT28zL3pwTU4rYjU1SXkw?=
- =?utf-8?B?RDJGTmxoZk5ZNVhMaGM5eXN3Q003bWtNaHVwYUdsK0kwSzUrRk9vRytOQmlj?=
- =?utf-8?B?ZjhVbndWcytVSXFTaHdiNEt2QUF6V2cwMFF3L0Q0ODNSUkNrRTFCSTRqeXR5?=
- =?utf-8?B?UndzT0kvSExMOTA2eTZCVVJWQzU1MTRtOERjUEhxOEd4bEhwTXRRZmR5ek1v?=
- =?utf-8?B?ZVNtZ1JVVUhPQjMyN1YrOU1lK2pwZTVjVHZnK0VyMHBwdkpnVDVjM3lLcTJa?=
- =?utf-8?B?WlRoc0IyQ0g5OXNpejc0ZWY0WmNlSXk3Mzg2RVNud2lMUVUzbWdjaEJBOUZR?=
- =?utf-8?B?Y29TOE80N2ZKWHRBejRVbWVvQlp6bnFVNE4xT0xXRDBreDZIalRDb3RpVmdy?=
- =?utf-8?B?cXA0TVZ6enoxVDBiSUg3bVFUSmxpdHl2TzdzMEpxMkZ6YnAyUzYzK0lPOXlL?=
- =?utf-8?B?dTkvU3BMdUpYSW10azN3ZFdSb21LUk53UU1PbFJ5R0JvejRrQnFQRDdTaVU3?=
- =?utf-8?B?Z2p1YkZPT21RWVFOYXNIbUkvUUl4WENWdDRCcVk3V1YyQ2N4alNQSnl2cWdr?=
- =?utf-8?B?YldQcEgvblZMVEpJdzc2MWJ4eEVGMU0yelBLa2JSQmpISktQSFl5aVpJQktB?=
- =?utf-8?B?MStpMTU5UVArRGFFZTVwSS92Rnk1Q010VEJITk1nUmxKQUNER2Nja05EclI1?=
- =?utf-8?B?Vk5XKytqUE4yVHZNOGkvYzVZWlZIMnQzYTVhcTdMb0ZMZ3BsbTN6SUNLZXdm?=
- =?utf-8?B?eE40VWpRNVk2VnVIdUZiNzMzSFJDUHZhZnUzRUxMek5jcnhqM1NyUTBqbndz?=
- =?utf-8?B?Z25BZnlHSVVqWlVsc2pmZVNDKzNSNXB1VG12YytuY3R6L1pwOC9NWjRWZ21m?=
- =?utf-8?B?MHBCVDl1Z08vVURDbmcweG0rQWNkc2o1KzFxM2NhVGJzTktwZENia2xFdy9t?=
- =?utf-8?B?Y0hmMFlmbDJTbVdDQWZPaC9JcVFRQzNRdlY4clZwUHVzclp4ZWV4SlA1QmVB?=
- =?utf-8?B?YXVxVkRZK3BxbnY5NHBvTzc5YWxWeWM1MTFvVEl0RnhlMEdWR0gxUmcwVzdI?=
- =?utf-8?B?dlhKMjRpZGNnelNwSHJYUkZXQ0hPZXZCZmM4ZFYzeXVRL1FVSEdEN2JCeHRJ?=
- =?utf-8?B?R0x6aUpOQUpLWnlSclhuY3htVXc3QzU4Vy9TazBjcERvQVlNeE40K1FaM1Rr?=
- =?utf-8?B?eXRjLzJzTHh4L0xBYlFiNmRUS2tZTjlGalg1ZjBIMWk0eVpHb3pOclAwVHdC?=
- =?utf-8?B?ckl5b3JtTzZHZndvZ2VsNVFTSjAwWjF2SmhjZUtEQ3BiMk5VcDVHZGZKaE0z?=
- =?utf-8?B?Y0pteFRsbU9sUU9QOGtQRWRhUGNUVTlCS3dmZmphMDN2YytwTjZ3d25pTWJm?=
- =?utf-8?B?a2xzUEFuTnpsU3gweURzTHlQY1lVcGJUUDlLOHZ3NWMrL2tNdVlURTdtQXdj?=
- =?utf-8?B?bG0yNmpnRzJyMGJ1SWpFMm9RT1lxNDl3cGVnNmRtZllWVmtKYUxwMEJHU2hl?=
- =?utf-8?B?KzBlMDVpc213b0RWVGNRU2kybzh4dm1ZQisxSGhaN1AvRUcwV3crU0NKZVV4?=
- =?utf-8?B?TUx2VDNZeElyRERTZ1FWRzdLRGx1TG9WK0xwNk9UQzZ5NlMrU0VJRHdrdllR?=
- =?utf-8?B?dGZZSnFmZzNEak13Qi8yYm9vMjd6VFlhcDFQNzIvdnFnU2tQTkxVM2VnOVhE?=
- =?utf-8?B?bXVuQ2RqT05tdjJNSzFHcDBjOHdOMHdibExUZWVGOFR2ZXc5Ky9Bb3RUbDdt?=
- =?utf-8?B?M2E5blcwZnA2cUNBbFF3SERNM2d6cVVtVjNET1lBdnNhVU5nZWI5RExMRVZU?=
- =?utf-8?B?WjBZWDVJYXJqbXhFenVCeXZObU9hcmZsRjNzTUJtMW5OZmJjUjh6WVVWNXVF?=
- =?utf-8?B?dXBXTUczQ2VUeUU5cVZxTGRSZFgxVnJnZWZsOTdHNWdrbWc0MHdyNjMzRmw0?=
- =?utf-8?B?RUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15ff7c59-caa2-4a5c-6cd5-08dd572c5eaa
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6375.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2025 12:43:43.7398
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ebE6Ryyf9cOo9HZa7mwI8diiLWImLPex3omYqpwaUq4uxii6el8W87aqtISpdBs7kjRfh8gf2TL+lXLljkvKLcwaY//4SUbudSRaZNAuMv0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6771
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 12/20] ASoC: tas2770: expose die temp to hwmon
+To: James Calligeros <jcalligeros99@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>,
+ Jean Delvare <jdelvare@suse.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <20250227-apple-codec-changes-v3-12-cbb130030acf@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20250227-apple-codec-changes-v3-12-cbb130030acf@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2025-02-27 6:11 AM, Oder Chiou wrote:
->> -----Original Message-----
->> From: Cezary Rojewski <cezary.rojewski@intel.com>
->> Sent: Wednesday, February 26, 2025 5:42 PM
->> To: Oder Chiou <oder_chiou@realtek.com>; broonie@kernel.org
->> Cc: tiwai@suse.com; perex@perex.cz; amadeuszx.slawinski@linux.intel.com;
->> linux-sound@vger.kernel.org; Flove(HsinFu) <flove@realtek.com>;
->> andriy.shevchenko@linux.intel.com; Shuming [范書銘]
->> <shumingf@realtek.com>; Jack Yu <jack.yu@realtek.com>; Derek [方德義]
->> <derek.fang@realtek.com>
->> Subject: Re: [PATCH 20/24] ASoC: codecs: rt1015p: Update definition of
->> device_id tables
+On 2/27/25 04:07, James Calligeros wrote:
+> TAS2770 includes an ADC which reports the chip's die temperature.
+> As per the datasheet, the temperature in degrees Celsius is derived
+> ny taking the raw value stored in the ADC's registers, dividing by 16,
+> then subtracting 93.
+> 
+> Create and register a hwmon device to expose the chip's die temperature
+> to the hwmon interface.
+> 
+> The ADC is shut down during software shutdown mode, and its registers
+> are initialised to 0 on reset. This means that the die temperature will
+> read -93 *C until the chip has been fully powered up at least once (e.g.
+> the PCM its attached to is opened). Once the chip is put into software
+> shutdown again, the ADC will also shut down. The last value sampled
+> before this happens will persist in the ADC's registers.
+> 
+> Co-developed-by: Martin Povišer <povik+lin@cutebit.org>
+> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>   sound/soc/codecs/tas2770.c | 102 +++++++++++++++++++++++++
+>   1 file changed, 102 insertions(+)
+> 
+> diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+> index 7f219df8be7046912bf3ef452f75c17b5118bcf6..9cdd3470e9a04d5a5f801c3690d40f8fd131cd94 100644
+> --- a/sound/soc/codecs/tas2770.c
+> +++ b/sound/soc/codecs/tas2770.c
+> @@ -12,6 +12,7 @@
+>   #include <linux/err.h>
+>   #include <linux/init.h>
+>   #include <linux/delay.h>
+> +#include <linux/hwmon.h>
+>   #include <linux/pm.h>
+>   #include <linux/i2c.h>
+>   #include <linux/gpio/consumer.h>
+> @@ -491,6 +492,94 @@ static struct snd_soc_dai_driver tas2770_dai_driver[] = {
+>   	},
+>   };
+>   
+> +static int tas2770_read_die_temp(struct tas2770_priv *tas2770, long *result)
+> +{
+> +	int ret, reading;
+> +
+> +	/*
+> +	 * component could be uninitialised if the codec is not
+> +	 * attached to a machine driver
+> +	 */
+> +	if (!tas2770->component)
+> +		return -EINVAL;
+> +
 
-...
+If this is temporary, it should return -ENODATA or better only instantiate after
+a component is attached. If it is permanent, the device should not instantiate
+in the first place.
 
->>>> diff --git a/sound/soc/codecs/rt1015p.c b/sound/soc/codecs/rt1015p.c
->>>> index 44e7fe3c32da..33917438196f 100644
->>>> --- a/sound/soc/codecs/rt1015p.c
->>>> +++ b/sound/soc/codecs/rt1015p.c
->>>> @@ -133,9 +133,11 @@ MODULE_DEVICE_TABLE(of, rt1015p_device_id);
->>>>
->>>>    #ifdef CONFIG_ACPI
->>>>    static const struct acpi_device_id rt1015p_acpi_match[] = {
->>>> -       { "RTL1015", 0},
->>>> -       { "RTL1019", 0},
->>>> -       { },
->>>> +       { "RTL1015" },
->>>> +       { "RTL1019" },
->>>> +       { "10EC1015" },
->>>> +       { "10EC1019" },
->>>> +       {}
->>>
->>> There are different settings for RTL1015, RTL1019, 10EC1015, and 10EC1019.
->>> RTL1015 and RTL1019 are used for powering up and down via the GPIO.
->>> 10EC1015 and 10EC1019 are used for the I2C-controlled driver.
->>> Therefore 10EC1015 and 10EC1019 should be removed.
->>
->> Sorry for the delay in response and thank for you the feedback.
->>
->> I'm surprised this hasn't come up earlier in the discussion. I'll
->> probably cut off problematic patches so that majority can be merged.
->> It's important to have some follow up though, on the subject you
->> mentioned. Correct me if I'm wrong but from the .c files it seems:
->>
->> for DT/ARM rt1015 & rt1015p are represented by:
->>          .compatible = "realtek,rt1015"
->>          .compatible = "realtek,rt1015p"
->>
->> for ACPI/x86 rt1015 & rt1015p are represented by:
->>          "10EC1015"
->>          "RTL1015"
->>
->> The first pair is nice and clean, the second is confusing and error
->> prone. Do you know where the second pair originated from?
-> 10EC is defined by the PCI domain, and RTL is defined by the PNP domain.
-> To distinguish these, 1015, 1019, and 5682 use different drivers,
-> with the RTL prefix being used to instead of the p postfix in the DT.
+> +	ret = snd_soc_component_read(tas2770->component, TAS2770_TEMP_MSB);
+> +	if (ret < 0)
+> +		return ret;
+> +	reading = ret << 4;
+> +
+> +	ret = snd_soc_component_read(tas2770->component, TAS2770_TEMP_LSB);
+> +	if (ret < 0)
+> +		return ret;
+> +	reading |= ret >> 4;
+> +
+> +	/*
+> +	 * As per datasheet: divide register by 16 and subtract 93 to get
+> +	 * degrees Celsius. hwmon requires millidegrees. Let's avoid rounding
+> +	 * errors by subtracting 93 * 16 then multiplying by 1000 / 16.
+> +	 *
+> +	 * NOTE: The ADC registers are initialised to 0 on reset. This means
+> +	 * that the temperature will read -93 *C until the chip is brought out
+> +	 * of software shutdown (e.g. the PCM it's attached to is opened). The
+> +	 * ADC is also shut down in software shutdown/low-power mode, so the
+> +	 * value read back from its registers will be the last value sampled
+> +	 * before entering software shutdown.
+> +	 */
+> +	*result = (reading - (93 * 16)) * (1000 / 16);
+> +	return 0;
+> +}
+> +
+> +static umode_t tas2770_hwmon_is_visible(const void *data,
+> +					enum hwmon_sensor_types type, u32 attr,
+> +					int channel)
+> +{
+> +	if (type != hwmon_temp)
+> +		return 0;
+> +
+> +	switch (attr) {
+> +	case hwmon_temp_input:
+> +		return 0444;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int tas2770_hwmon_read(struct device *dev,
+> +			      enum hwmon_sensor_types type,
+> +			      u32 attr, int channel, long *val)
+> +{
+> +	struct tas2770_priv *tas2770 = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	switch (attr) {
+> +	case hwmon_temp_input:
+> +		ret = tas2770_read_die_temp(tas2770, val);
+> +		break;
+> +	default:
+> +		ret = -EOPNOTSUPP;
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct hwmon_channel_info *const tas2770_hwmon_info[] = {
+> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_ops tas2770_hwmon_ops = {
+> +	.is_visible	= tas2770_hwmon_is_visible,
+> +	.read		= tas2770_hwmon_read,
+> +};
+> +
+> +static const struct hwmon_chip_info tas2770_hwmon_chip_info = {
+> +	.ops	= &tas2770_hwmon_ops,
+> +	.info	= tas2770_hwmon_info,
+> +};
+> +
+>   static const struct regmap_config tas2770_i2c_regmap;
+>   
+>   static int tas2770_codec_probe(struct snd_soc_component *component)
+> @@ -707,6 +796,19 @@ static int tas2770_i2c_probe(struct i2c_client *client)
+>   		}
+>   	}
+>   
+> +	if (IS_REACHABLE(CONFIG_HWMON)) {
+> +		struct device *hwmon;
+> +
+> +		hwmon = devm_hwmon_device_register_with_info(&client->dev, "tas2770",
+> +							tas2770,
+> +							&tas2770_hwmon_chip_info,
+> +							NULL);
+> +		if (IS_ERR(hwmon)) {
+> +			return dev_err_probe(&client->dev, PTR_ERR(hwmon),
+> +					     "Failed to register temp sensor\n");
+> +		}
+> +	}
+> +
+>   	result = tas2770_register_codec(tas2770);
+>   	if (result)
+>   		dev_err(tas2770->dev, "Register codec failed.\n");
+> 
 
-Thank you for the reminder. I'm aware of the origins for PCI/PNP 
-prefixes, though. In fact, there is more to it - OBDA [1] and ALG [2]. 
-The idea is to choose one _recommended path_ and follow it. If the 
-desire is to name future chips using suffixes such as -p or -s, then 
-perhaps PNP-based naming should have been selected instead. Another 
-option would be to change the hardware naming scheme e.g: '1016' instead 
-of '1015p'.
-
-If the latter is not an option, why not:
-	RTL1015
-	RTL1015P
-
-on ACPI/x86 side? Aligns with ARM equivalent nicely, no?
-
-[1]: https://uefi.org/ACPI_ID_List?acpi_search=realtek
-[2]: https://uefi.org/PNP_ID_List?pnp_search=realtek
-
-Kind regards,
-Czarek
