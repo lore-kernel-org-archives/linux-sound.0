@@ -1,68 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ssh247.corpemail.net (ssh247.corpemail.net [210.51.61.247])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFB08BEC;
-	Thu, 27 Feb 2025 07:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4BC1F16B;
+	Thu, 27 Feb 2025 08:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.61.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740639720; cv=none; b=G1wuj8It4AjowvVepm5B71z6Du5aAicLFA+60FEYQNZXHuQj0dv5no2JJSIinqLJr1RzpdLHPgdtrE2EOdN6Z1t5Bp6+ADQnBjcekx5GgE+7SSpG5uCBlH4uGnuEH4SBrUiNky82dpDWp+bbqhJQW+3Idu/RBrADKp+Ru/lyPy0=
+	t=1740646514; cv=none; b=XmyZF/s6gl0Mf4Muqp32DJiiNWfHZqX3FMMA9C/Z/TShReonhn+CznqWTlw/9w89lIiatz845CrBjL4W/UNiOzMB9KtafQF3fd39QX4Q8cAASu6VhzC/HKdbDIwwmYHBCzeJzitYmEgE+cRKb2VYO7rhb4SlMTMqwISaicMn8m4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740639720; c=relaxed/simple;
-	bh=AbENd3rh+ZqB84Y0VY+S3ZID/ZQPE1RX+fpvwRkj3xA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lVP3Ll0CmFi74rAj2GZD5XrpR2LLoBIJkM8Suqlv0XgFgXPXbLupvM+bcy8V4EVW5/XI31is1Je3La9X3qjEKyEVqQNKmZb/XnRbbIqZIUwkWOUtM0JX6wFTxWQajaRsOul4FURZ3Nzz3wAc3CQUIgmli1Z4GeP+w32c0QMToFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ffa++XjS; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ffa++XjS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33C75C4CEDD;
-	Thu, 27 Feb 2025 07:01:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740639720;
-	bh=AbENd3rh+ZqB84Y0VY+S3ZID/ZQPE1RX+fpvwRkj3xA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ffa++XjSc94ZsuP7KA/LgNaUHH4FycIC9WVCJG/n2q+JCRIBeDdlY58+iAux2JsYp
-	 UasMgQx6bF8Fv7jHimGGibFavqeK95pQ/F3odsByOFxpe7Qqlg84cpT0fRm+qEz6Fe
-	 Z4yx67xPd2KBXNvgd+GN8edlzqwbX8L2+pH/7BfJ5ibt1K9xJB+QFh+mApWFQ81ACW
-	 AbWx74erRxrvJTReaWz103zTebRb2he5A/wLAA2GDmhw39fVNUKgD56IljwqP9Jho+
-	 FuIgIvCA5pOxyBxQpu8XxjxxZrcYeOuaaxaNjNyJKYAUV2Rm1J1oJXMMkWv5H1qWcJ
-	 uu9hXEzCX64gg==
-From: Vinod Koul <vkoul@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, Basavaraj.Hiregoudar@amd.com, 
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com, 
- Mario.Limonciello@amd.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250218065924.917915-1-Vijendar.Mukunda@amd.com>
-References: <20250218065924.917915-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH] soundwire: amd: change the log level for command
- response log
-Message-Id: <174063971678.346386.9561215750981668144.b4-ty@kernel.org>
-Date: Thu, 27 Feb 2025 12:31:56 +0530
+	s=arc-20240116; t=1740646514; c=relaxed/simple;
+	bh=aYzgU0t8poztoe0nxjONtkodc3MdC9aMA+pf7C0XWU0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l7FWNt7QwALe1Wx6inbRToaAM0qcBSjDPoK185GN2Gwaywja7gXOWu98ypQ1tIABujqz0xkLs1vXDztQZmtVIK11OMGzacAhRlQJRgdxakHx6n+ByZS5ebiE59FjkkWpA7Bxio1pDQa1D+jYCG4DstLFC75sTY825uIkCQhxSTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.61.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
+Received: from jtjnmail201612.home.langchao.com
+        by ssh247.corpemail.net ((D)) with ASMTP (SSL) id 202502271653527198;
+        Thu, 27 Feb 2025 16:53:52 +0800
+Received: from locahost.localdomain (10.94.4.82) by
+ jtjnmail201612.home.langchao.com (10.100.2.12) with Microsoft SMTP Server id
+ 15.1.2507.39; Thu, 27 Feb 2025 16:53:48 +0800
+From: Charles Han <hanchunchao@inspur.com>
+To: <perex@perex.cz>, <tiwai@suse.com>, <oswald.buddenhagen@gmx.de>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Charles Han
+	<hanchunchao@inspur.com>
+Subject: [PATCH] Sound: pci: emu10k1: fix inconsistent indenting warning in snd_emu10k1_synth_free()
+Date: Thu, 27 Feb 2025 16:52:00 +0800
+Message-ID: <20250227085243.18413-1-hanchunchao@inspur.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+tUid: 20252271653533f52f137c123be1237982b5635f4c22a
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 
+Fix below inconsistent indenting smatch warning.
+smatch warnings:
+sound/pci/emu10k1/memory.c:444 snd_emu10k1_synth_free() warn: inconsistent indenting
 
-On Tue, 18 Feb 2025 12:29:24 +0530, Vijendar Mukunda wrote:
-> Change log level for command response log to dev_dbg_ratelimited when
-> command is ignored.
-> 
-> 
+Signed-off-by: Charles Han <hanchunchao@inspur.com>
+---
+ sound/pci/emu10k1/memory.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks!
-
-[1/1] soundwire: amd: change the log level for command response log
-      commit: be2f35e15939836d0e0115e99d8cd7a49b89cc8f
-
-Best regards,
+diff --git a/sound/pci/emu10k1/memory.c b/sound/pci/emu10k1/memory.c
+index d29711777161..f6982bc6ff0d 100644
+--- a/sound/pci/emu10k1/memory.c
++++ b/sound/pci/emu10k1/memory.c
+@@ -441,7 +441,7 @@ snd_emu10k1_synth_free(struct snd_emu10k1 *emu, struct snd_util_memblk *memblk)
+ 		unmap_memblk(emu, blk);
+ 	spin_unlock_irqrestore(&emu->memblk_lock, flags);
+ 	synth_free_pages(emu, blk);
+-	 __snd_util_mem_free(hdr, memblk);
++	__snd_util_mem_free(hdr, memblk);
+ 	mutex_unlock(&hdr->block_mutex);
+ 	return 0;
+ }
 -- 
-~Vinod
-
+2.43.0
 
