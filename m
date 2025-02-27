@@ -1,148 +1,132 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2611D22A1EC
-	for <linux-sound@vger.kernel.org>; Thu, 27 Feb 2025 10:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398C51DC997;
+	Thu, 27 Feb 2025 11:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740651676; cv=none; b=kEmI7XwMB6HWIyASmE/DOY9MHEzM0ulkwX/3xnTyIZv08RUmgw1+5SW3ftmg3Kczs4AFOu4smY2O+4/owOe3wTvtX5vFFiH/MjqPrj1/QbycCK1c50rpF5TB2ZTIeFUGr7r9o9GFUG6lBmm6SzunPs/Ce02i0jfl7izhRcX2kdo=
+	t=1740654703; cv=none; b=uU5wvMU4rA/u3JHgpBpj/f3+oODGRKNvvJRTDtujx111CG1KSkcx0aH9x5eDezrgHvOChTeIAohCufXfIYPOavIq1xxh0Q/PZHldyfFJJGTlWC733lJjNNwQ0HAwQRZmT0QfQcfcIBIq3pB9Fciwq7RTzGSF5AbNfHtBAqARcW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740651676; c=relaxed/simple;
-	bh=YoV0Ho8VbeX7QdfnW9hKC4inbEbS7ucIBRTNRRxc9H4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UiKbHD7X5adZ7h3/q/K+Z836We0vpwpyCtfGGNtu4Jayrvx453MvQj/3PPRXXw8jiEnnFlTebLSPhSonM1UQfTtnVIdwF54zzx4m37hAMK3Oil5pfW3AgHfSqC3+p+pHmb38yH/cn/nGLhKrLeWRiwkzjBVC6Ip47bmEve/JD1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e4sYQt5L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3ffahikF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JlIYfMy2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aBOvGw1d; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1740654703; c=relaxed/simple;
+	bh=puyOqXTaAFdAHzneFujskoG6Urd7foCgfpM+CyvxkDg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=g8e8IPvEXFnGl4vnp9OgFLw+HFsCaPUKdU6SPCjohWppt3I3LIhWgczfy8hVB1DhAaM+UhCNnUnOToU7f8jN1kQyzCRQfalhFtqZlTV2SGjC++eBNC36sOGwkZweCHLYVRAFZWdHSiY1srnZVYyYVMsKbMTX8pexnQNsOAiAJvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dNyOrG8B; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e4sYQt5L";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3ffahikF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JlIYfMy2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aBOvGw1d"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 324001F38A;
-	Thu, 27 Feb 2025 10:21:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740651673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yzzF53d4A8R5a5kWjqkAAyKX91eyek1MAytqRR0wP0Y=;
-	b=e4sYQt5L+K8DH6ZcE2tqdgdS0QqkUUEerzjE9/iN8OnJ+hr4wc9iwz2zWblx7OSu+4iY+Q
-	uvL48Aedtk+9Mo0gwpfNKdZvrHrMDn+OlVIQW6XYP/s+RT0H/a8zesDbCd+IswTV4Qk/Q6
-	vt+SGdoxik6CqIDtCQEasb7FSGpGe40=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740651673;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yzzF53d4A8R5a5kWjqkAAyKX91eyek1MAytqRR0wP0Y=;
-	b=3ffahikFm8SXC2EOuM3dPF9kOGJ+rzXZZLBSzsUiG4eqB5dilyB2rE5njE2Nb7a+QHetyV
-	JdEdD/T1igGmJNAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740651672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yzzF53d4A8R5a5kWjqkAAyKX91eyek1MAytqRR0wP0Y=;
-	b=JlIYfMy2CdlCI9JSf22WJQXl83Mc/KyEfJyUsnSlJ1w4lwIoEGSEycy6G3zuZBIRpLpAQ1
-	oWo6hV5oxpMlEVuVQRTetH71Cv+lggdgUYVaVLZf9hs+Co3rtqFUvgC/UbxBAfACk3SGgS
-	mUeaWd8zyf0X+2scf8cwLRluVk2LU/s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740651672;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yzzF53d4A8R5a5kWjqkAAyKX91eyek1MAytqRR0wP0Y=;
-	b=aBOvGw1d86fnIPnqDKviMZd6KOSJo3EpQq65YUQEAz10gHU+Dplek1QfmxU2uEng1ttjhb
-	g3e+WCn72cPH8pDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF71A1376A;
-	Thu, 27 Feb 2025 10:21:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id b8/YOJc8wGdxJQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 27 Feb 2025 10:21:11 +0000
-Date: Thu, 27 Feb 2025 11:21:11 +0100
-Message-ID: <87frjz7ko8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Charles Han <hanchunchao@inspur.com>
-Cc: <perex@perex.cz>,
-	<tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: seq: seq_oss_event: fix inconsistent indenting warning in note_on_event()
-In-Reply-To: <20250227092441.19044-1-hanchunchao@inspur.com>
-References: <20250227092441.19044-1-hanchunchao@inspur.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dNyOrG8B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740654702; x=1772190702;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=puyOqXTaAFdAHzneFujskoG6Urd7foCgfpM+CyvxkDg=;
+  b=dNyOrG8BjILr/plBEomfGPaybuKACRYkmju4z7daKOwEWoypzgh80jjV
+   e+JeA6AmbKq4vDJTJ5arakqrsPxIFUqvJElwfkTLSXZnfY02WEoffBwKb
+   hlJOAajW5u77w7oJV1R1H1zDFyRvOc40CYItqBxA8Lkuw7+U1FkVeiHGP
+   ivkICzFRO1tx7CWuhQwqdegiNfSMNVSqDxRBHf/aJp6HbX6ZYeHjLJZKI
+   NiXl9MtTwqs/MBPAsNI2PSPC044OV47j99NQ/Nug0r4FLs8+kXnWlQ793
+   IALB/S3eYQxVQGoDiVoayhlXrfKU+UgDf7rK556X7yUdkkbiyNKZnfK0r
+   g==;
+X-CSE-ConnectionGUID: nmOg+TZ0Q9qvir+Ozt0WBQ==
+X-CSE-MsgGUID: XNmv65EDS/es/rlScnTfWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="45189781"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="45189781"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 03:11:41 -0800
+X-CSE-ConnectionGUID: gE3XcC18ScGnK0pM5r7C+Q==
+X-CSE-MsgGUID: lVrehQdLQry3NKbIWluP1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="154178899"
+Received: from johunt-mobl9.ger.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.220.110])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 03:11:39 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	broonie@kernel.org,
+	tiwai@suse.de,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH v3 00/16] SoundWire/ASoC: add SDW BPT/BRA support
+Date: Thu, 27 Feb 2025 19:11:13 +0800
+Message-ID: <20250227111130.272698-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[inspur.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 27 Feb 2025 10:24:41 +0100,
-Charles Han wrote:
-> 
-> Fix below inconsistent indenting smatch warning.
-> smatch warnings:
-> sound/core/seq/oss/seq_oss_event.c:297 note_on_event() warn: inconsistent indenting
-> 
-> Signed-off-by: Charles Han <hanchunchao@inspur.com>
-> ---
->  sound/core/seq/oss/seq_oss_event.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/core/seq/oss/seq_oss_event.c b/sound/core/seq/oss/seq_oss_event.c
-> index 7b7c925dd3aa..9a42713c7bdd 100644
-> --- a/sound/core/seq/oss/seq_oss_event.c
-> +++ b/sound/core/seq/oss/seq_oss_event.c
-> @@ -294,7 +294,7 @@ note_on_event(struct seq_oss_devinfo *dp, int dev, int ch, int note, int vel, st
->  				/* set volume to zero -- note off */
->  			//	type = SNDRV_SEQ_EVENT_NOTEOFF;
->  			//else
-> -				if (info->ch[ch].vel)
-> +			if (info->ch[ch].vel)
->  				/* sample already started -- volume change */
->  				type = SNDRV_SEQ_EVENT_KEYPRESS;
->  			else
+This series adds support for SoundWire BPT/BRA. The change is mainly on
+the SoundWire tree. It is better to go through the SoundWire tree with
+Mark's Acked-by tag.
 
-I'd rather clean up the commented-out dead lines and fix the indent as
-well.  The indent was because of the "else" line.
+v2:
+ - Add MODULE_DESCRIPTION in the "ASoC: SOF: Intel: hda-sdw-bpt: add
+   helpers for SoundWire BPT DMA" patch.
 
-Care to resubmit with that?
+v3:
+ - Change sdw_cdns_write_pdi1_buffer_size and sdw_cdns_read_pdi0_buffer_size
+   to static values.
 
 
-thanks,
+Bard Liao (1):
+  ASoC: SOF: Intel: hda-sdw-bpt: add CHAIN_DMA support
 
-Takashi
+Pierre-Louis Bossart (15):
+  Documentation: driver: add SoundWire BRA description
+  soundwire: cadence: add BTP support for DP0
+  soundwire: extend sdw_stream_type to BPT
+  soundwire: stream: extend sdw_alloc_stream() to take 'type' parameter
+  soundwire: stream: special-case the bus compute_params() routine
+  soundwire: stream: reuse existing code for BPT stream
+  soundwire: bus: add send_async/wait APIs for BPT protocol
+  soundwire: bus: add bpt_stream pointer
+  soundwire: cadence: add BTP/BRA helpers to format data
+  soundwire: intel_auxdevice: add indirection for BPT send_async/wait
+  ASoC: SOF: Intel: hda-sdw-bpt: add helpers for SoundWire BPT DMA
+  soundwire: intel: add BPT context definition
+  soundwire: intel_ace2x: add BPT send_async/wait callbacks
+  soundwire: debugfs: add interface for BPT/BRA transfers
+  ASoC: rt711-sdca: add DP0 support
+
+ Documentation/driver-api/soundwire/bra.rst    | 336 +++++++++
+ .../driver-api/soundwire/bra_cadence.rst      |  67 ++
+ Documentation/driver-api/soundwire/index.rst  |   2 +
+ Documentation/driver-api/soundwire/stream.rst |   2 +-
+ .../driver-api/soundwire/summary.rst          |   8 -
+ drivers/soundwire/Kconfig                     |   1 +
+ drivers/soundwire/bus.c                       |  43 ++
+ drivers/soundwire/bus.h                       |  18 +
+ drivers/soundwire/cadence_master.c            | 646 +++++++++++++++++-
+ drivers/soundwire/cadence_master.h            |  20 +
+ drivers/soundwire/debugfs.c                   |  84 ++-
+ .../soundwire/generic_bandwidth_allocation.c  |  48 ++
+ drivers/soundwire/intel.h                     |  23 +
+ drivers/soundwire/intel_ace2x.c               | 312 +++++++++
+ drivers/soundwire/intel_auxdevice.c           |  24 +
+ drivers/soundwire/stream.c                    | 140 +++-
+ include/linux/soundwire/sdw.h                 |  33 +-
+ include/linux/soundwire/sdw_intel.h           |   4 +
+ include/sound/hda-sdw-bpt.h                   |  69 ++
+ sound/soc/codecs/rt711-sdca-sdw.c             |   8 +
+ sound/soc/qcom/sdw.c                          |   2 +-
+ sound/soc/sof/intel/Kconfig                   |   7 +
+ sound/soc/sof/intel/Makefile                  |   4 +
+ sound/soc/sof/intel/hda-sdw-bpt.c             | 445 ++++++++++++
+ 24 files changed, 2282 insertions(+), 64 deletions(-)
+ create mode 100644 Documentation/driver-api/soundwire/bra.rst
+ create mode 100644 Documentation/driver-api/soundwire/bra_cadence.rst
+ create mode 100644 include/sound/hda-sdw-bpt.h
+ create mode 100644 sound/soc/sof/intel/hda-sdw-bpt.c
+
+-- 
+2.43.0
+
