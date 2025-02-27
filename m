@@ -1,83 +1,63 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94681D5CD3;
-	Thu, 27 Feb 2025 17:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62C51DE3B7;
+	Thu, 27 Feb 2025 17:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740678682; cv=none; b=LDPzPuldqV5JQG9kNAi3JE+/aM/zzvZtDJZt0xh4GIglAFCImz0qBKzr5jU3ARezDjUP349TbCuyOXKcDfJe+/pjjn6Y+7OryiezADLGDIolsMAjLmfjlQjMCqg7IUzu/vVX2Ns5GZ4qiyh9VHogKP55fycWvrrI0IZyLzvewYU=
+	t=1740678869; cv=none; b=fPx69lXQJZbbaALZIGz8gHQhewWnZtYCuhjgzcijP2Rol4CpKe6kqHJwb2EEXNsEtOvNDgrODY2UHBp7f6+ZgvKc58XFnPL4nOLGf7gFr4drJnwHxKBMx6CemrAJtLlsqg1aPFqdbt6tNqxDjF6ZW3uWAppm3el962zyLSy9oAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740678682; c=relaxed/simple;
-	bh=5HJSoQYB/GNMpDTh++aUhKd+mAn9BqMW5mqV2UA3wT4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=puaBG4qmYR6uxjhbpXHhJYs0iQEqbJihgrHqloUAp05SL6FVo5qbC3s1f1TOqdDU3ovq2SH1qxg3bjgvS33byx9a6+6IjEAXo+qI9V4LoAmeKkcnL7KyERRxPfycQPulZVRSzlPJ1nlgTFMouftkbYh9hHd6nByny4oqlJDwXi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=o28bQWrv; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1740678869; c=relaxed/simple;
+	bh=S02zTvbL3+eRRVplJS+PBhMPAL9V8UPLaHK5FAzZ+54=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=NRPdlxEVfAd2anXO4bHceqNzHXldrS0uWuaparXFdEcTgS0flvsSfN9cwPS2x7Hn9BaK8f8JDieBuCZ2XJ13XdUnP/PAeLT2hjTalePJDnxPhzMpnGeMIuHS5B3Tk/HXbgBx94ytVdtn/omhw6sSAaziC5Yk+8IRf7S9BD4FTJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSEL4u1i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="o28bQWrv"
-Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:8d8a:5967:d692:ea4e])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 610B22E000C0;
-	Thu, 27 Feb 2025 19:51:15 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1740678676;
-	bh=UCsnlrVcfEZ9dmEDvjRCrlbNeiteXx7Fw8k3nqnief8=; h=From:To:Subject;
-	b=o28bQWrvdkExkpGVCug4p1Us/oekTqZ1XE4y1fSmQEe7XH9MPyAiQ5rdnt9aN6VEu
-	 WU/VTpzYvRP+7z4cc6gpcg6w95CYast294IYRpI6kf6sjGQ+RkeY8aa6KMkLdPxbWz
-	 9EKNRVrwc0ofVtxbPhRoyPJ41GefZfXehLBM+KyA=
-Authentication-Results: linux1587.grserver.gr;
-	spf=pass (sender IP is 2a05:f6c2:511b:0:8d8a:5967:d692:ea4e) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: linux-sound@vger.kernel.org,
-	kailang@realtek.com
-Cc: linux-kernel@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	baojun.xu@ti.com,
-	simont@opensource.cirrus.com,
-	Antheas Kapenekakis <lkml@antheas.dev>,
-	Kyle Gospodnetich <me@kylegospodneti.ch>
-Subject: [PATCH v2 2/2] ALSA: hda/realtek: Fix Asus Z13 2025 audio
-Date: Thu, 27 Feb 2025 18:51:07 +0100
-Message-ID: <20250227175107.33432-3-lkml@antheas.dev>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250227175107.33432-1-lkml@antheas.dev>
-References: <20250227175107.33432-1-lkml@antheas.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSEL4u1i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1582C4CEDD;
+	Thu, 27 Feb 2025 17:54:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740678869;
+	bh=S02zTvbL3+eRRVplJS+PBhMPAL9V8UPLaHK5FAzZ+54=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=ZSEL4u1iY0y8Q5pXsC7DPH08EOs5oNfXVzymBlVsxy8Ct2YkzdxLd88amBuO0hYiN
+	 ZnvR7YdIXAJ0tWxsFc/JUW8RsD5bfc1PianqRYpPPw/KCAHlFqLiA1lQ6Amj/okqYo
+	 K+XRa/ATykcccVW4zB3e1k8hvLRBDsCiQquTeTjublK47JAAzuavgpiCmAbmfeJAX8
+	 GdycFXIbjKvKtz+ELc6brPrDfwuxv+YjbCzTFCEqnP6/kVUJipBcIb4F7twd+1KtHG
+	 vKisLXMaZRv3IIQkm/zP+QqYyT9qeBMRgs9myT3G5YnR/hROM/vTlmtvJYCD66OD6R
+	 UKANK5/a9li3g==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EAF6F380AACB;
+	Thu, 27 Feb 2025 17:55:02 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.14-rc5
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87mse75pdj.wl-tiwai@suse.de>
+References: <87mse75pdj.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87mse75pdj.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc5
+X-PR-Tracked-Commit-Id: fe1544deda605f6100cbff1d5aeb179c3aa1515c
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: f09d694cf799d27d6de25f04f3fd5ba9190631e1
+Message-Id: <174067890147.1513849.12801631979481455909.pr-tracker-bot@kernel.org>
+Date: Thu, 27 Feb 2025 17:55:01 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <174067867642.23360.17289059988517600062@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
 
-Use the basic quirk for this type of amplifier. Sound works in speakers,
-headphones, and microphone. Whereas none worked before.
+The pull request you sent on Thu, 27 Feb 2025 17:22:32 +0100:
 
-Tested-by: Kyle Gospodnetich <me@kylegospodneti.ch>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc5
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 84e60c50cdb4..67c06ee9e332 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10692,6 +10692,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1f1f, "ASUS H7604JI/JV/J3D", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1f62, "ASUS UX7602ZM", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1f92, "ASUS ROG Flow X16", ALC289_FIXUP_ASUS_GA401),
-+	SND_PCI_QUIRK(0x1043, 0x1fb3, "ASUS ROG Flow Z13 GZ302EA", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x3030, "ASUS ZN270IE", ALC256_FIXUP_ASUS_AIO_GPIO2),
- 	SND_PCI_QUIRK(0x1043, 0x31d0, "ASUS Zen AIO 27 Z272SD_A272SD", ALC274_FIXUP_ASUS_ZEN_AIO_27),
- 	SND_PCI_QUIRK(0x1043, 0x3a20, "ASUS G614JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/f09d694cf799d27d6de25f04f3fd5ba9190631e1
+
+Thank you!
+
 -- 
-2.48.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
