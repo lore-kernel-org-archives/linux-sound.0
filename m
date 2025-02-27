@@ -1,99 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC741DE2A7;
-	Thu, 27 Feb 2025 17:27:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3121AC43A;
+	Thu, 27 Feb 2025 17:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740677240; cv=none; b=M8WpeoANxzBn/vvT9RP8DBPtdKeVfxH1L0X1wIlIjMH9WUlD4g6YN+nx+3p2fg74OKARvsnZ8Jg0p0tnYs1oOOzD/4EkC3wf/uUrYTGehk8Ny69vk4jaBnQ8Q0v2PT2aqxCBYti561Jtvuuv+bHWHmRDh1smw7lYCfg/RaNIm2k=
+	t=1740678679; cv=none; b=dQaLAf7XxomlVM+Y3QxuiKDG3sIwturRTILaRpkHbeclg4eFoHN6804eECEEDhy8uyFGNZ03o0vA1DnaanbomN7hf5ETVDhDSYMW55J+e+rRamjX5UHwhO+008I+t4vBC+qP3T0QkBp+rTima0WXcv7WyO1AnyQywnfQIJsunH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740677240; c=relaxed/simple;
-	bh=krunXr5w8ZQ2DT47MBNeiyRY+vqHzT6dlAWTnz9cDh0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TwiE7bc0OInN9wOGbCiLa6EU/8Sfb1nDj3zaU4YwfFxBVGvtlhrjUEpBm07D94rJLoPPp2VZ34N1kzmkVYrAanHwRQ5Qsg4Mk40m0AYH6TQ3AX/EUrnBZN+IXnY1IHH+gIg5Sj46+POgVLizrAHEVTssrrjywusjIepR8cefQQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCSrc9wY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740678679; c=relaxed/simple;
+	bh=Uu53v7OAZd9cxabebPTJCIgKi3GUnTCTvQ8bGTllcBw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ogqRr50J6GDDgfgPVzgrJZ/Ajm8ys1Tnl0noVYRksZcNsBf2IzkFKRzWuRg4dM2UltzOZoLDnSPlg2euGmYGDerJ5he7TGJXhIC3rOiRYoF9IFnQKmx8Gw9mE2vj7lNjWsAYAyNegazRQmgVb1KT+6Iq9RLKqIASCYYuTXoscE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=TmpSkyB0; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCSrc9wY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A47BC4CEDD;
-	Thu, 27 Feb 2025 17:27:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740677240;
-	bh=krunXr5w8ZQ2DT47MBNeiyRY+vqHzT6dlAWTnz9cDh0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cCSrc9wYu5ICYApSHYsALJbFjD73ZCkPDinzcfu6xp/mEL0fXgEbFmYrZfwSbpiu+
-	 xZ4fcUsRRPPy+A8J4P5u4R4cRv7gi9RzR+HpL8lh0RDQWwr2jQS8olIXzosV+/X/oi
-	 yMyUJZz41NGibTX2yEaY8x1060MMKo197laumUc2UN1IXrRj3U+kmqymNMW9KU/ylG
-	 UJ4WroMXDylHZdxO3O6ebEhulChc/GBo2vX4qasYG4CJlaFMHc8Hs9M0b9SNXnXyMd
-	 GsPkQgtFrnh4HXdVu6Y0Gf+mIKaJbn2rpx2DjfdwljRmPx7aRwo08IMr5WdQgp30Wi
-	 ESpzFPhdM/0ww==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20250217140159.2288784-1-ckeepax@opensource.cirrus.com>
-References: <20250217140159.2288784-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH 0/4] Add SDCA register map support
-Message-Id: <174067723773.191869.7077783208967189821.b4-ty@kernel.org>
-Date: Thu, 27 Feb 2025 17:27:17 +0000
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="TmpSkyB0"
+Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:8d8a:5967:d692:ea4e])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 8CB2C2E08F16;
+	Thu, 27 Feb 2025 19:51:12 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1740678673;
+	bh=AJQ4Y3BRtnLTcKa09IOwGaYMDWWG5wbyuh+74vdzxWQ=; h=From:To:Subject;
+	b=TmpSkyB04uVIcRvIWtg8qk/50NU82ei7XnTJfRISdr/ewl07lOaf0T+AxR1EvBYXk
+	 36034Tzce6yabfxf3b7ff56E9mSKTz3Geu2oJ+VdzZ0FBnAFZgjtQtsJiXiwyUsHAs
+	 3M7IsKiJABqDkBLjD+1FfUIh6RuOkHgyS6a1YWNk=
+Authentication-Results: linux1587.grserver.gr;
+	spf=pass (sender IP is 2a05:f6c2:511b:0:8d8a:5967:d692:ea4e) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: linux-sound@vger.kernel.org,
+	kailang@realtek.com
+Cc: linux-kernel@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	baojun.xu@ti.com,
+	simont@opensource.cirrus.com,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH v2 0/2] ALSA: hda/realtek: Sort Ally X properly,
+ fix Asus Z13 2025 audio
+Date: Thu, 27 Feb 2025 18:51:05 +0100
+Message-ID: <20250227175107.33432-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <174067867346.23193.5813168137912565692@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-On Mon, 17 Feb 2025 14:01:55 +0000, Charles Keepax wrote:
-> This series is the next step of adding SDCA support. Here we add
-> helper functions to allow drivers to easily use the SDCA DisCo
-> information to create a register map for the device.
-> 
-> The basic idea here is the code takes the list of SDCA controls parsed
-> from DisCo and uses primarily the Access Mode to determine if the
-> register should be marked as readable/writable etc. Further more
-> some additional concepts such as DisCo Constants and Defaults are
-> handled. There is some potential confusion, as DisCo Constants are
-> handled as an entry in the regmap defaults table, whereas a DisCo
-> Default is simply handled as a write to the register. Alas the naming
-> confusion is an unavoidable result of the slight impedance mismatch
-> between the two systems.
-> 
-> [...]
+The Ally X has two quirks in the kernel currently. This is due to the
+previous quirk not being sorted properly, whoopsies. Therefore, only one
+has to stay. During AB testing, the configs were found to be close to
+identical. Around 20 reboots later, it seems they feature a small pop
+when at full volume on boot at an identical probability.
 
-Applied to
+Then, add the Asus Z13 2025 quirk to the list. In the V1 of this series,
+the Ally config was used, which (see above) is a bit ambitious. Testing
+found that the stock quirk works just as well, so use that instead.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+@Stefan: the Z13 is a big launch for Asus, could we do something to
+expedite things just for this laptop? As far as Bazzite is concerned,
+we shipped the stock quirk as of today, and included the firmware. This
+is moreso for mainline distributions.
 
-Thanks!
+The Z13 was tested with the following firmware files:
 
-[1/4] regcache: Add support for sorting defaults arrays
-      commit: fd80df352ba1884ce2b62dd8d9495582308101b7
-[2/4] ASoC: SDCA: Add generic regmap SDCA helpers
-      commit: e3f7caf74b795621252e3c25b4a9fb6888336ef1
-[3/4] ASoC: SDCA: Add regmap helpers for parsing for DisCo Constant values
-      commit: 28c12866c22c2826ccbd8c82dc353f02ab2deea5
-[4/4] ASoC: SDCA: Add helper to write out defaults and fixed values
-      commit: c143755d8cce31e770234732ff23134993b0550f
+sha256sum *
+79cc046b2a1a89fd250dadfb47bdcb8a3c3d7df80452079f64e5417b237f4889  cs35l41-dsp1-spk-cali-10431fb3-l0.bin
+3027249f8a340a8fb0034d67e5af8787789c83e9b3623664dab744668272b54e  cs35l41-dsp1-spk-cali-10431fb3-r0.bin
+a8f3d1735c03383cd8567713e510034b0f98df0264fa7135e6e8186e0ea346de  cs35l41-dsp1-spk-prot-10431fb3-l0.bin
+f0cdcf6d72bc591dec8a7bacba3ad8b46742207807c1e3c7787171de66e6f815  cs35l41-dsp1-spk-prot-10431fb3-r0.bin
+e4e73d47203e0badc913b4a1317d48cb0e1b54d7d737f339148068f0cde34b16  cs35l41-dsp1-spk-prot-10431fb3.wmfw
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Changelog since V1:
+    - Revert Ally X config to use the stock quirk instead
+    - Use a stock quirk for the Z13 too
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Antheas Kapenekakis (2):
+  ALSA: hda/realtek: Remove (revert) duplicate Ally X config
+  ALSA: hda/realtek: Fix Asus Z13 2025 audio
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+ sound/pci/hda/patch_realtek.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.48.1
 
