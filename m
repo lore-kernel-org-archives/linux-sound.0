@@ -1,141 +1,113 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailintern.ednic.net (mailintern.ednic.net [89.58.10.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD051270024
-	for <linux-sound@vger.kernel.org>; Thu, 27 Feb 2025 09:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0EF82D98
+	for <linux-sound@vger.kernel.org>; Thu, 27 Feb 2025 10:03:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.58.10.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740649916; cv=none; b=XwdxNd1+Tv65/UNcmYOPU2HeZRgGdR1ZBeZAC6wEn9l4+xeaA7iOWf3Znk3w6rDN9JvMUeWxfteaIrf+C2grN+6IyUKRwSac8u98dcIWeQnGa99FJzPaRPWBd+NeqJm4fEefjbkK4yaPV9p2sb3KeXSLnXFkZZaz4JvbqICQiw0=
+	t=1740650632; cv=none; b=iXznxZtgQoNdzFeAF5ZU0W5np5OoelO0ldSoRX0VpjIldQUJkmks3n2b/4m1+XacsCg5smC/FRHYtjY0uL841mnFRg3AMyaJ7Vzlftjj/layXRtNCONrAXKe7vJXt4cM1r+p2qtQlRU+HFo7Z9QbUeE8Rw39DXb1aKw+RFKEhOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740649916; c=relaxed/simple;
-	bh=ykGUvFOLPHltTFwdyyLSx9VgVUAYhgKZViXNqacoHyI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=lRZ+viIROa0FWcVbS6x+tp1FbL7vZ0X6GTLqAN2HE0TXsKryeiQQXTHu/Ja6JsD9lYxh5RXZkQUy/iXolwXXwGB2i384KGYAdxR1CB8nJ9SYt7COUujk8jS0yxrUZMv69Nh3THQeHsXM63FU/OO4E3EURcZPgDGPWE928WkR11U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=th2zmAJH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X/jI6t28; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=th2zmAJH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X/jI6t28; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="th2zmAJH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X/jI6t28";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="th2zmAJH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X/jI6t28"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	s=arc-20240116; t=1740650632; c=relaxed/simple;
+	bh=5b4EG3lPUl+EAv5cEjH94/9rR2BJETVgsz35t8ctpvU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NaVrrG0Tehp8v8tUc8P1GUwRt7+H6QY0TUn0gLm+1SS2f2XESnGPCDAlN60pNIOKAXIEz8jtkr9Y3SRsrx7HdiCTwvtuvgdnKHuqz/E0Z+Pi1n1FbIjWezKiZL6jL9idP/GHMeMWBcvmqwZWRLuNtBjclWHlCEAR2AJoKwTiOkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=s7u.net; spf=pass smtp.mailfrom=s7u.net; arc=none smtp.client-ip=89.58.10.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=s7u.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=s7u.net
+Received: from localhost (localhost [127.0.0.1])
+	by mailintern.ednic.net (Postfix) with ESMTP id F1C25A0108;
+	Thu, 27 Feb 2025 10:53:42 +0100 (CET)
+X-Virus-Scanned: Debian amavis at mailintern.ednic.net
+Received: from mailintern.ednic.net ([127.0.0.1])
+ by localhost (mailintern.ednic.net [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id NDjM4FvmbeTt; Thu, 27 Feb 2025 10:53:41 +0100 (CET)
+Received: from [192.168.17.17] (p579d906e.dip0.t-ipconnect.de [87.157.144.110])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DEAEA21185;
-	Thu, 27 Feb 2025 09:51:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740649912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=H28wFOxPLqveV8rFAWZi8zLi6W5jNGZfs0+OKyO5jDY=;
-	b=th2zmAJHhJ1qnqRcuHefDCwx1+yL0VGNiQVNEPoKonkw9dBTXnal2NUF923QJMXpXuHvY7
-	rCkNJimetyw67KV7xh0pccxfKlPvX2ibC410RHhZOmMV8ufMevm8bXTWMy6U+MLaXw6djx
-	i1cDWmT6LhyVJEIxkm+vWtVgNBFZFn8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740649912;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=H28wFOxPLqveV8rFAWZi8zLi6W5jNGZfs0+OKyO5jDY=;
-	b=X/jI6t28qubc/o119nMyZOcqjBXr/33fAFSG4iW0h1nUQeohpqBDdVc3tOGGS5nw5Yj08F
-	0xf0jHyF0MKE5hBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740649912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=H28wFOxPLqveV8rFAWZi8zLi6W5jNGZfs0+OKyO5jDY=;
-	b=th2zmAJHhJ1qnqRcuHefDCwx1+yL0VGNiQVNEPoKonkw9dBTXnal2NUF923QJMXpXuHvY7
-	rCkNJimetyw67KV7xh0pccxfKlPvX2ibC410RHhZOmMV8ufMevm8bXTWMy6U+MLaXw6djx
-	i1cDWmT6LhyVJEIxkm+vWtVgNBFZFn8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740649912;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=H28wFOxPLqveV8rFAWZi8zLi6W5jNGZfs0+OKyO5jDY=;
-	b=X/jI6t28qubc/o119nMyZOcqjBXr/33fAFSG4iW0h1nUQeohpqBDdVc3tOGGS5nw5Yj08F
-	0xf0jHyF0MKE5hBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BBACD1376A;
-	Thu, 27 Feb 2025 09:51:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DoaYK7g1wGfgGwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 27 Feb 2025 09:51:52 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: pcm: Drop superfluous NULL check in snd_pcm_format_set_silence()
-Date: Thu, 27 Feb 2025 10:51:49 +0100
-Message-ID: <20250227095150.8187-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	by mailintern.ednic.net (Postfix) with ESMTPSA id 4981DA0102;
+	Thu, 27 Feb 2025 10:53:41 +0100 (CET)
+Message-ID: <ecdb2314-fb78-47d6-96d0-dcd4a51ee397@s7u.net>
+Date: Thu, 27 Feb 2025 10:53:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] rename s1810c* to presonus_studio to get s1824c working
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+References: <20250227064308.154758-1-git@amin85.de>
+ <87mse77n1t.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Amin Dandache <amin@s7u.net>
+In-Reply-To: <87mse77n1t.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-We applied a fix for a KASAN issue for snd_pcm_format_set_silence(),
-and it introduced a NULL check of pat.  But this turned out to be
-utterly superfluous; it points to pcm_formats[].silence, and this is
-an array, which can be never NULL.
+Hi,
 
-The problem (supposedly) it tried to address at that time was likely
-already fixed by another commit 8423f0b6d513 ("ALSA: pcm: oss: Fix
-race at SNDCTL_DSP_SYNC") instead.
 
-So let's drop the superfluous NULL check again.  While we're at it,
-keep the whitespace fix and move the pat assignment after the width
-check for a bit better code readability.
+Yes, the previous file was named after the exact model 1810c.
+I would not like to put the 1824c into the file as it suggest its just 
+one model.
+It feels like monkey patching for me.
 
-Fixes: 2f7a26abb824 ("ALSA: pcm: Test for "silence" field in struct "pcm_format_data"")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/pcm_misc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Also it's the same series: Presonus Studio.
 
-diff --git a/sound/core/pcm_misc.c b/sound/core/pcm_misc.c
-index 4f556211bb56..d3a08e292072 100644
---- a/sound/core/pcm_misc.c
-+++ b/sound/core/pcm_misc.c
-@@ -432,9 +432,9 @@ int snd_pcm_format_set_silence(snd_pcm_format_t format, void *data, unsigned int
- 	if (samples == 0)
- 		return 0;
- 	width = pcm_formats[(INT)format].phys; /* physical width */
--	pat = pcm_formats[(INT)format].silence;
--	if (!width || !pat)
-+	if (!width)
- 		return -EINVAL;
-+	pat = pcm_formats[(INT)format].silence;
- 	/* signed or 1 byte data */
- 	if (pcm_formats[(INT)format].signd == 1 || width <= 8) {
- 		unsigned int bytes = samples * width / 8;
--- 
-2.43.0
+And yes it's just a new device ID, but there are some features missing 
+like SPDIF which i could not test yet, also if every function is adopted 
+by the 1810c.
 
+I just tested the basic functionality and it works perfect for analog 
+signals.
+
+In the future there could be some differences in the handling for the 
+models, so i tried to prepare that and rename it to a global name that 
+supports more devices inside and more cases for the devices.
+like the mixer_scarlett.c which supports all focusrite scarlett devices 
+in one file.
+
+I will refactor the proper subject and try put the signed-off-by tag, as 
+this is my first commit i have to learn a little bit new.
+
+
+Best Regards,
+Amin
+
+On 27.02.25 10:29, Takashi Iwai wrote:
+> On Thu, 27 Feb 2025 07:43:08 +0100,
+> Amin Dandache wrote:
+>> ---
+>>   sound/usb/Makefile                            |   2 +-
+>>   sound/usb/format.c                            |  12 +-
+>>   ...mixer_s1810c.c => mixer_presonus_studio.c} | 247 +++++++++---------
+>>   sound/usb/mixer_presonus_studio.h             |   8 +
+>>   sound/usb/mixer_quirks.c                      |  12 +-
+>>   sound/usb/mixer_s1810c.h                      |   7 -
+>>   sound/usb/quirks.c                            |   9 +-
+>>   7 files changed, 161 insertions(+), 136 deletions(-)
+>>   rename sound/usb/{mixer_s1810c.c => mixer_presonus_studio.c} (59%)
+>>   create mode 100644 sound/usb/mixer_presonus_studio.h
+>>   delete mode 100644 sound/usb/mixer_s1810c.h
+> First off, could you give the reason why you must rename the whole
+> stuff?  Is it just to add the support of a new device ID 194f:010d?
+> If so, we don't have to rename everything, but just keep using the
+> same function as is.  You can put simply a comment that the function
+> supports both devices, instead.
+>
+> And, the patch should be formatted properly. You need a proper subject
+> prefix (e.g. "ALSA: usb-audio: ....."), then put more detailed patch
+> description texts.
+>
+> Last but not least, most importantly, we need your Signed-off-by tag.
+> It's a legal requirement.
+>
+> Could you address the above and resubmit?
+>
+>
+> thanks,
+>
+> Takashi
