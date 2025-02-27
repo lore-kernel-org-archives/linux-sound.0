@@ -1,84 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90FE322F3A3;
-	Thu, 27 Feb 2025 13:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0B122F38E;
+	Thu, 27 Feb 2025 13:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740662386; cv=none; b=ijWnc7Vg3HVHi5mJ+c5NRsJk+XCb69WMqh5iJ+d8kjpQzeJv0rxuN6pQQlF0RSm4eGCrgLqXb+3kwyFT0sYkb9dGgdgGiZtkWLe0fOWNRL4rEcVzttAjR5hMq7O7lDC4iaMQxRjgLv36Rq7Xe8SJp1FpenBlGuaRlhDopPthL/A=
+	t=1740662702; cv=none; b=UfmbDMWNSYlk8B1Da6J2uIko/LT4baSymKUaPIhUFeVMekkuMHPqENvBFc4G85pvbAYRgdh2JUn/NvMaqh3uKHLyNC5llDoAK/PgbuV/L+H+DK56MVnyQehsrjLeUSjIuJWc+LG5ulbNAtox0CH5kmw25d5P/foW1rsRAr9w9tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740662386; c=relaxed/simple;
-	bh=nW5BiIn0YY0mTP99cWvGx5b/yVrftP8IeddADOYqBGs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gNT0int2029bDD3b14NsodtprIV40QV+0OAcz12pE3bvkIHVdohM4Cg1RoohcH+dX0KnBRH6/LslTL8pnVYuA8VDM24o6BJH4Ni2BsGIKNcR9miT0hWL5iS2KbKLb1qSuqnHgTI2tPB738b2sHdh1lRoYAlBjDf03T3PyRCNqvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YUzIF0sw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740662702; c=relaxed/simple;
+	bh=AJjwwKgwMjC0SHvP8uGYEB65jk8pzela6cd/RTnaqyI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qcrANAppk+6XIgYamA7Pw9coyq6RXiLARj/iRht5AErw9CMkOVjUNGcZZ7YtSYWjld2x6OropzxTt+uXUzQiI/iBA7ca2QKhY2i+Jj92yw5+hgrM1z+2MSU0bMEbnrCymrFzWsZ9wC2ichVCiO/t9RVYI4X4rcpnniQ94Dm8kw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=f0QoHOnX; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUzIF0sw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C302C4CEE7;
-	Thu, 27 Feb 2025 13:19:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740662386;
-	bh=nW5BiIn0YY0mTP99cWvGx5b/yVrftP8IeddADOYqBGs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YUzIF0swFxoup6z6QOJJrcJn1JjDsL6QInSriI61Pf/0VegFMk6tDcJT1zJEJkTFo
-	 ed+CujGahHYepR+8jK4o/1IVlTdEpgpbAlhQRFfixz0Hr4zLaWVBQre3YrbPqO85Aj
-	 HS9TjEuWpdL8aKMDXb5kdlTGtxqdVUMRFTFr2a2frvxby8vNaDhkgzDVHFeM7YGiUg
-	 F4hlXpVB2bS/GOhqUPYp5iRjDqzaoYPwfx97C9GyFYYxoNRtSoGag4QxCvHsmVnAm4
-	 CAX20iulNsI/YyQ1JgXYr7OBm8eNDQjuhs5VIufCY8tx9buHuA2jvZz+Baxfd4EY4G
-	 /KXk10eol7QCw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="f0QoHOnX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1740662693;
+	bh=AJjwwKgwMjC0SHvP8uGYEB65jk8pzela6cd/RTnaqyI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f0QoHOnX0vfIw3O2gfZkLHAuREA7zqlhfAXRUqRTnz3tMmR/P6bX01jtVhZhiSNsb
+	 KTMNTR1tfU2FzIvyQqXfXlCtiViHA2xQpirTrCZasgyrGvdKZe5VP1H7H5QZcOx4HJ
+	 qj4S4fh5MzByO2uVP/AZyX0b/VihXBMYEfYMfhMmGi/oSFuTszR36M2WAYkjGeWBHO
+	 xddc5dHCgX1E2TaUKfH3JVOLFbsBUXNmMNbgIlNXkSpCEKvs64nGWwgq0QvrUI0Uh5
+	 sXITq27v9U+ngQ2VQ4Ry3NHafY+G5CHE39/9I3E0ijvX33261CBk7246U5tf21hAWv
+	 lpAppYbIn3Ijw==
+Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1003])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2E41517E0880;
+	Thu, 27 Feb 2025 14:24:48 +0100 (CET)
+Date: Thu, 27 Feb 2025 10:24:46 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	parkeryang <Parker.Yang@mediatek.com>,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	parkeryang <Parker.Yang@mediatek.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH] ASoC: mediatek: mt8188: avoid uninitialized variable use
-Date: Thu, 27 Feb 2025 14:19:01 +0100
-Message-Id: <20250227131939.1040168-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+Subject: Re: [PATCH] ASoC: mediatek: mt8188: avoid uninitialized variable use
+Message-ID: <34a4f185-f4a8-4055-bfe6-68be9a3a7a89@notapiano>
+References: <20250227131939.1040168-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250227131939.1040168-1-arnd@kernel.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, Feb 27, 2025 at 02:19:01PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The 'msk' variable has no initialization:
+> 
+> sound/soc/mediatek/mt8188/mt8188-dai-dmic.c:311:4: error: variable 'msk' is uninitialized when used here [-Werror,-Wuninitialized]
+>   311 |                         msk |= PWR2_TOP_CON1_DMIC_FIFO_SOFT_RST_EN(i);
+>       |                         ^~~
+> 
+> Set it to zero before the loop.
+> 
+> Fixes: c1e42ec04197 ("ASoC: mediatek: mt8188: Add support for DMIC")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-The 'msk' variable has no initialization:
+Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-sound/soc/mediatek/mt8188/mt8188-dai-dmic.c:311:4: error: variable 'msk' is uninitialized when used here [-Werror,-Wuninitialized]
-  311 |                         msk |= PWR2_TOP_CON1_DMIC_FIFO_SOFT_RST_EN(i);
-      |                         ^~~
+Sorry about the delay, I was about to send this myself.
 
-Set it to zero before the loop.
-
-Fixes: c1e42ec04197 ("ASoC: mediatek: mt8188: Add support for DMIC")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- sound/soc/mediatek/mt8188/mt8188-dai-dmic.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/mediatek/mt8188/mt8188-dai-dmic.c b/sound/soc/mediatek/mt8188/mt8188-dai-dmic.c
-index 4cfbcb71d2d9..adcea7818be2 100644
---- a/sound/soc/mediatek/mt8188/mt8188-dai-dmic.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-dai-dmic.c
-@@ -307,6 +307,7 @@ static int mtk_dmic_event(struct snd_soc_dapm_widget *w,
- 	switch (event) {
- 	case SND_SOC_DAPM_PRE_PMU:
- 		/* request fifo soft rst */
-+		msk = 0;
- 		for (i = dmic_num; i >= DMIC0; i--)
- 			msk |= PWR2_TOP_CON1_DMIC_FIFO_SOFT_RST_EN(i);
- 
--- 
-2.39.5
-
+Thanks,
+Nícolas
