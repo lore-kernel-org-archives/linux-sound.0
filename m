@@ -1,74 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E494223F36E;
-	Fri, 28 Feb 2025 20:22:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C9A1C54B2;
+	Fri, 28 Feb 2025 21:22:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740774163; cv=none; b=heE/BcM3LZ2nx+iz1yyl2VjrtDtJiZbCKqxurKdikH2KL5O0jSgGCztjLYDo6tsnkqJsxUb0+gs0aJ4fOSCQlYipl8RfNotK6CrenznoXaWircf3Fq5yxVdLVL1kURQcyO0JqYtpI72Pv9NnIghYTFFVDVuiO3lNZQrhZtLueJM=
+	t=1740777756; cv=none; b=HDxVCuSGbAiD3+eExQK6a6CoAC8Zn1NDRwOpxYjz6wIbX0fAd4EAUvoZy2KADkS6dQMSiWuUOaudBKiQLwthxGaXfsezsnHJyrHqbsJEOIkdtoATK7QSsml4zop+TKoImR0JQIIVhFGie1HeQhvP9z4GEc5k6ncw+9ggksBYHn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740774163; c=relaxed/simple;
-	bh=wfzANROPsaWWkrbci7qA/4XmAh6NIwZYuO5mE+y69ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X6LU2P9DxuLeqgWyApXEPn43YrQJZ4i6/7ULshZv2vbOH9+BSv+l1ksN8J3J5F20ngmJmevR5O/rv6YUF62qj/J3r0tQ8zFtz11ZVmi829/iNsfYBjhLf5ChHcWnaxAjZjWsKPHVGy3zc42b0cFtJicPX/w64xfol4E9TtyBnQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fo4RKDdZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740777756; c=relaxed/simple;
+	bh=QJ0zj7q3m9VCBWyN4qRgjdsWckJViQOTLhy+VWuHH+s=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=CNo6+Q0t9LwqhlWwxxJbLLC+4ai40nEZpQXypWjYVtbrGn6uDm0edgQag+71CNVTmUn5jt3RuUd5ETvedIFh5ycOIJzsBdcxhlbnPVaf40S4rqiVMVYMtn1Fpr72cxecYob6SiZTxcrAagq/Y7NHagFjnp9FCdOMg8q9SSoiZog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qE00zGYo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fo4RKDdZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9943C4CED6;
-	Fri, 28 Feb 2025 20:22:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qE00zGYo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A94A1C4CED6;
+	Fri, 28 Feb 2025 21:22:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740774162;
-	bh=wfzANROPsaWWkrbci7qA/4XmAh6NIwZYuO5mE+y69ts=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fo4RKDdZT8HC+g+RwI0lGMwqaLJlwh8rxhiTYyqw9KgjrDktXJYU1nwEPPAWC/fB8
-	 oePssIAPkDjkYUD+o9575KTvwaKVNbnFqHjBbKJNkkDIYgfI4n+alfz5W3nibHQTnH
-	 gbtElWOEjFGyby6xJyOgVzw4ljdvaq1UcSlqcFhoy9OHeb4XaBYl/Sde1hc+ffWwJK
-	 7Fa2AVXhEUhHg/sZbfESY1XLHMRGZyShZsFbmeB2epNmBODWRQ8EA6LWYM/HBIWNKA
-	 i8Wp4kbIjCSIUm8f2tcX7UfHklguDYUP+8Z1qVVA4UIBO8qotz6XfUys0PVVJKzaMR
-	 VY4b/UwQxI8Pw==
-Date: Fri, 28 Feb 2025 14:22:40 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Baojun Xu <baojun.xu@ti.com>, Takashi Iwai <tiwai@suse.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Shi Fu <shifu0704@thundersoft.com>, linux-hwmon@vger.kernel.org,
-	Jean Delvare <jdelvare@suse.com>, Kevin Lu <kevin-lu@ti.com>,
-	Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org,
-	Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>, Jaroslav Kysela <perex@perex.cz>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Shenghao Ding <shenghao-ding@ti.com>
-Subject: Re: [PATCH v3 08/20] ASoC: dt-bindings: tas27xx: document
- ti,sdout-force-zero-mask property
-Message-ID: <174077415940.3647975.15902049404570656565.robh@kernel.org>
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <20250227-apple-codec-changes-v3-8-cbb130030acf@gmail.com>
+	s=k20201202; t=1740777755;
+	bh=QJ0zj7q3m9VCBWyN4qRgjdsWckJViQOTLhy+VWuHH+s=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=qE00zGYo7RbZFlefLj31un3are+kZDjTdfJAedqV22tQksPSKeTcZBwP6PLSUnH0Q
+	 0pHdbfzxt/3MCgDdbMG6ZJXDJhw491xO6VFnzMvX4X+vbiShfWW5bc2bAj+sDpPxlu
+	 XLU13odEliHXol4VamgB9TtlgdfWo1sFJBGuXCZCJnJWpzyz7OuYv+e4RQApJIKn0C
+	 5MqWjyuj5JIVFzv/IRqg9VKoSRqKcsQlwPDm+M2//X0aSatn9FsJMY8ySUx4NuXgGz
+	 1q6H4ljhhbHKFxJnVOu1oIvf3RVJON5gfw/JBKAe2zQGVIpxOVTuvABPcZA/otoLI5
+	 yANTXce4Z7e5A==
+From: Mark Brown <broonie@kernel.org>
+To: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, 
+ andriy.shevchenko@linux.intel.com, cezary.rojewski@intel.com, 
+ amadeuszx.slawinski@linux.intel.com, shenghao-ding@ti.com, kevin-lu@ti.com, 
+ baojun.xu@ti.com, jbrunet@baylibre.com, neil.armstrong@linaro.org, 
+ khilman@baylibre.com, hayashi.kunihiko@socionext.com, mhiramat@kernel.org, 
+ Raag Jadav <raag.jadav@intel.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250228062812.150004-1-raag.jadav@intel.com>
+References: <20250228062812.150004-1-raag.jadav@intel.com>
+Subject: Re: [PATCH v2 0/6] Convert sound drivers to use
+ devm_kmemdup_array()
+Message-Id: <174077775241.602624.10081824574862077124.b4-ty@kernel.org>
+Date: Fri, 28 Feb 2025 21:22:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250227-apple-codec-changes-v3-8-cbb130030acf@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-
-On Thu, 27 Feb 2025 22:07:35 +1000, James Calligeros wrote:
-> TAS2764 can be programmed to zero-fill/ignore certain TDM slots on a
-> shared I2S bus. Since this is a per-chip setting that is a consequence
-> of how it is implemented on a specific board, express this as a Devicetree
-> property.
+On Fri, 28 Feb 2025 11:58:06 +0530, Raag Jadav wrote:
+> This series converts sound drivers to use the newly introduced[1]
+> devm_kmemdup_array() helper. This depends on changes available on
+> immutable tag[2].
 > 
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  .../bindings/sound/ti,tas27xx.yaml       | 4 ++++
->  1 file changed, 4 insertions(+)
+> [1] https://lore.kernel.org/r/20250212062513.2254767-1-raag.jadav@intel.com
+> [2] https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com
 > 
+> [...]
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/6] ASoC: Intel: avs: use devm_kmemdup_array()
+      commit: 0bd862846e7f89910252cbef8718a757950f1683
+[2/6] ASoC: hdac_hdmi: use devm_kmemdup_array()
+      commit: 3e706be02befae55b50b240d4360b5993f9879a8
+[3/6] ASoC: tlv320dac33: use devm_kmemdup_array()
+      commit: 69aaab0e65e9bd7601740c1e14cc6de86dafb621
+[4/6] ASoC: uda1380: use devm_kmemdup_array()
+      commit: d9d71a6e2d19a2f3ccebea0092b8ddc1e935886f
+[5/6] ASoC: meson: axg-tdm-interface: use devm_kmemdup_array()
+      commit: b26205e172ca035e327e49edb0c2611e5d2ede8d
+[6/6] ASoC: uniphier: use devm_kmemdup_array()
+      commit: c173b5ee81a25e8aafb21ccdb7ab457da7783bf1
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
