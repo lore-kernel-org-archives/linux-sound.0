@@ -1,137 +1,111 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A779317A2E8
-	for <linux-sound@vger.kernel.org>; Fri, 28 Feb 2025 16:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB8D271818;
+	Fri, 28 Feb 2025 16:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740759793; cv=none; b=mFxRMEryEHAblCoF9dDa9D57AyB9cuEGcdxLh0GXLMxI7VKm3Cwm5v4QN15BcnUYex2bpchAuYLbZscnSbPMbywokPEs44rCjQ3s/gWw9dcXk2pWzXc3J7Hk7jcuTSvf6DoxamHSa86IJQnKX/jwsduItGSFUzEs51G37YVIuac=
+	t=1740760341; cv=none; b=CRpOXc49msb7kZO28/8L6vU71NGWXKD86R2Xx+P/jEw9BfWGm/QdTjDydVOaaviUXM8FRsSRSolBKkuu4nHgjFkWgWXFrwdYE9lVtQf3dYucpBDx+/E/oxMDUic9IXR6H7vNAjO7y6eej0hrK14dO2oBrhHXgCiKXkkuswxbB28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740759793; c=relaxed/simple;
-	bh=UMUMB04Duvtt1hisoD9El/5o2j4ORykTX88imss5UUM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FAuj4RZ8gNHGujhFkcNje7Eyg42XjMc6aqF24WZJvhquB+Dw9VkYWB8kuzzJ9LDieRyJycuY044xsZpPd7SdXNR2frk/6tgWbSO405yyUGf/dzsttfJNs6zxmwZuLuGBOhu7f2BLl200LjWLb3IYtoxpHueQ9ywXNlOs31Yg778=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yS5wuYoh; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740760341; c=relaxed/simple;
+	bh=naU5NcTyc/mk/u2vWARR4qABxP0SYCsR8XPzuhcXIqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=rfTCLR0RU/PevXxlQm4P22ooybW95NXSx3hHiqE7QkSnNuVkQ1sHx1NSFyxbgd9u/wWmucRldT+Gn0w13dRh8LuQat7jIR1JgDRTkPTuO1Dz0nrpz6xpgEP4ggZp82U5mPBPWoNSHL+z7h0HOWHNDG5tiX8iw/5wvmftW8she34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FpDetBCS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yS5wuYoh"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-390dd362848so1821004f8f.3
-        for <linux-sound@vger.kernel.org>; Fri, 28 Feb 2025 08:23:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740759790; x=1741364590; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=B9NRbb2H47YH88i6L1c0H91IgGIN8sJwVUopLL7++Gk=;
-        b=yS5wuYoh+WcM+/mRR6da1K+ieuMlInn+BlRyHhDTw19oJmYi1C9XPzmAbCPotmUY9l
-         +Zyr7wXdWZKsBBvzWV8+gCquHD8pu0NOYfoXAyN6KVo29kbt8r992QD7QKp1poBqduwN
-         SQl8kaEd5HXITXH4/EbnUzgD9HLe/rpuxRibj2rkB+6ESnAPffyEGE6U3bNBKVaXxttV
-         bORhgu4VE04xhUqcb4pcyG1s88q7jXWNwdWTRH2f3klmlyieLNVY8qJfeUdgo55jPrIq
-         7u7gKmSwuH3NMrgEN1mITSn3Gb5PL1mq8nr150vy5szZQChE76tJX8yH3eZU2KJX1vwr
-         IDzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740759790; x=1741364590;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B9NRbb2H47YH88i6L1c0H91IgGIN8sJwVUopLL7++Gk=;
-        b=TIZIMQf9eZrfFt1k9rekrwsk6dyH4Hqr1uL8F9RkQhZGswQ7XiNdcO13WRwwqOcG0n
-         4WKcLAEj1XuUgsmGiM4Vrl5TmI4oatidRKzWTwaXPzDRvPbsR4er/VgotPjLt7HGwGAr
-         FkWEmMJJhk6gdshou8bw56jt7wFgPMPv+Hx1Y3DX034Bsal0MagICjiRrLdyuRpo3noW
-         +PCI18bbL1oVpH+WvbI4YQ4ntcX37ZxOv5ikAEPv4cULiCi/3W/SMRsfuJypiK16Sx/g
-         O4twks8t3fYeYEp6bo20vTH9xBBO1Jm+rGc7lxIsvzY9FJQR2WCXekrrzIaGjbpLBvPJ
-         adIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhxHPvpPqZDspyAEDF7kLEXl22ojuVZj3PhOhDIMBGyZqFZSt2dgxqaTRAnBUnsfbnOPmgs029nvzPjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMUAuRSs7fweGTQ0zlcV59MBzs+okMX4Vy+ft3aJ44s775fT9S
-	HK8A7Qwfv/7WSnudx7DS+s1navv0op+f4GkLTyeXxYkhs9tIBmRBs6TYUaOVvQE=
-X-Gm-Gg: ASbGncsvsgl7GYLGT06chBXYTEZb6MLt2sQZMAI/UDNKtNvwB2haMSVTI8dt2RQdzB3
-	6d2hh5NcweIUYbNbTBuouGVf5GuCoQioisy+5DGmhEjgowTF4RHPiqc0UsO7Q0SGP3lQWq9q2s3
-	vCRtmTuz5Z+felX4v1Q1ONalT/sbUHEeIZx32lT/PV2Kz3/jKb2p4YE+N7BF1OmdrfGFxWZTkbS
-	h92sazZsoizzGdWxuOcESZocF5UePNkmTN92kYhBDgPJ11OZ1VXkdByIa8fcewUXVPMhvHgBR0K
-	X+Vc3z+PnA541PM1V3x6ajwkbiv3wvM=
-X-Google-Smtp-Source: AGHT+IGtvBLdlQKwy4eRpJlFTD3uaH0lWK59AI4HrdVHengzh1kTNPMLeyRP3eg+L8x2PLVmtb6iXA==
-X-Received: by 2002:a5d:5f91:0:b0:38f:3c8a:4bf4 with SMTP id ffacd0b85a97d-390ec7cd27fmr3516679f8f.6.1740759789972;
-        Fri, 28 Feb 2025 08:23:09 -0800 (PST)
-Received: from tux.Home ([2a02:c7c:7213:c700:e992:6869:474c:a63f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba53945bsm93905965e9.23.2025.02.28.08.23.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 08:23:09 -0800 (PST)
-From: Alexey Klimov <alexey.klimov@linaro.org>
-To: andersson@kernel.org,
-	konradybcio@kernel.org
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	srinivas.kandagatla@linaro.org,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64: dts: qcom: qrb5165-rb5: add compressed playback support
-Date: Fri, 28 Feb 2025 16:23:08 +0000
-Message-ID: <20250228162308.388818-1-alexey.klimov@linaro.org>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FpDetBCS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1E2AC4CED6;
+	Fri, 28 Feb 2025 16:32:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740760340;
+	bh=naU5NcTyc/mk/u2vWARR4qABxP0SYCsR8XPzuhcXIqY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=FpDetBCSWlgBGYHmAWsX4bv9+6pykViHpztrT9L1JYjeU3X9vHu6CnxAb8/rNlZz5
+	 uy+YeWzp8yVumQidC26CsgCnE3548jkJtzNMhmeWgfvdaVyVJplORBp3crJXQdqHdw
+	 Rz+66HRBsjvAa1q/yryzfaAwPGme+RTEAVCgjoSi+p9Y36s8hGra/REouAYQ77UJiZ
+	 mFBa0noorypX9k+GbmhYHvVAiNjRL9qz6F6tyv1RmW931vVthfC+cs0ZEw4KLAIVBf
+	 gCozJs12v1nuz6hYZ0dZ9mvuNonVlaBmiZb7x5Z+FT1RsLEJzBQI5ukPGImylQRKIK
+	 fOYmFS4uZoxJg==
+Date: Fri, 28 Feb 2025 10:32:19 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Muni Sekhar <munisekharrms@gmail.com>
+Cc: linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Sanyog Kale <sanyog.r.kale@intel.com>, linux-sound@vger.kernel.org
+Subject: Re: pci: acpi: Query on ACPI Device Tree Representation and
+ Enumeration for Xilinx FPGA PCIe Endpoint functions
+Message-ID: <20250228163219.GA54330@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHhAz+j46nus_rGJ72rZ86UyzL+AM_HBCivjpZEx3T0thOxqAQ@mail.gmail.com>
 
-Audio DSP supports compressed playback on this SoC. It is required
-to add compressed DAI and separate MultimeMedia DAI link to enable this.
+[+cc SoundWire folks]
 
-Fcplay or cplay tools from tinycompress can playback, say, mp3 files:
-fcplay -c 0 -d 3 test.mp3
+On Fri, Feb 28, 2025 at 08:19:44PM +0530, Muni Sekhar wrote:
+> On Thu, Feb 27, 2025 at 9:34 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > On Thu, Feb 27, 2025 at 07:25:32PM +0530, Muni Sekhar wrote:
+> > > I am currently working on a project involving a Xilinx FPGA connected
+> > > to an x86 CPU via a PCIe root port. The Xilinx FPGA functions as a
+> > > PCIe endpoint with single function capability and is programmed to
+> > > emulate the Soundwire Master controller. It can be dynamically
+> > > reprogrammed to emulate other interfaces as needed. Essentially, the
+> > > FPGA emulates an interface and connects to the CPU via the PCIe bus.
+> > >
+> > > Given this setup, the BIOS does not have prior knowledge of the
+> > > function implemented in the Xilinx FPGA PCIe endpoint. I have a couple
+> > > of questions regarding this configuration:
+> > >
+> > > Is it possible to define an ACPI Device Tree representation for this
+> > > type of hardware setup?
+> > > Can we achieve ACPI-based device enumeration with this configuration?
+> >
+> > If the FPGA is programmed before BIOS enumerates PCI devices, the FPGA
+> > would look just like any other PCI device, and BIOS would be able to
+> > read the Vendor ID and Device ID and would be able to size and program
+> > the BARs.
+>
+> Yes, the FPGA is programmed with this Soundwire IP before the BIOS
+> enumerates PCI devices.
+> We need to port the Soundwire driver
+> (https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/soundwire/qcom.c)
+>  to the x86 platform.
+> 
+> Since x86 platforms typically do not use device trees, and the
+> Soundwire IP is implemented in the FPGA, how can we emulate device
+> tree functionality or use a different mechanism to pass hardware
+> configuration to the driver? Specifically, how can we handle the
+> following API calls on an x86 platform?
+> 
+>    ret = of_property_read_u32(np, "qcom,din-ports", &val);
+>    ret = of_property_read_u32(np, "qcom,dout-ports", &val);
+>    ret = of_property_read_u8_array(np, "qcom,ports-offset1", off1, nports);
+> 
+> static const struct of_device_id qcom_swrm_of_match[] = {
+> { .compatible = "qcom,soundwire-v1.3.0", .data = &swrm_v1_3_data },
+> { .compatible = "qcom,soundwire-v1.5.1", .data = &swrm_v1_5_data },
+> { .compatible = "qcom,soundwire-v1.6.0", .data = &swrm_v1_6_data },
+> { .compatible = "qcom,soundwire-v1.7.0", .data = &swrm_v1_5_data },
+> { .compatible = "qcom,soundwire-v2.0.0", .data = &swrm_v2_0_data },
+> {/* sentinel */},
+> };
+> 
+> Basically, how can we define ACPI tables for functions implemented in
+> an FPGA that connects to the system via PCI?
 
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
----
- arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+Seems like a generic problem for PCI sound devices, and I don't know
+how drivers deal with it.  It looks like all the SoundWire drivers
+are platform drivers (not PCI drivers), so there's nothing there to
+look at.
 
-diff --git a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-index 7afa5acac3fc..dcb7dca20415 100644
---- a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-+++ b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-@@ -1018,6 +1018,12 @@ dai@1 {
- 	dai@2 {
- 		reg = <2>;
- 	};
-+
-+	dai@3 {
-+		direction = <Q6ASM_DAI_RX>;
-+		is-compress-dai;
-+		reg = <3>;
-+	};
- };
- 
- &sdhc_2 {
-@@ -1044,7 +1050,8 @@ &sound {
- 		"VA DMIC1", "vdd-micb",
- 		"MM_DL1",  "MultiMedia1 Playback",
- 		"MM_DL2",  "MultiMedia2 Playback",
--		"MultiMedia3 Capture", "MM_UL3";
-+		"MultiMedia3 Capture", "MM_UL3",
-+		"MM_DL4", "MultiMedia4 Playback";
- 
- 	mm1-dai-link {
- 		link-name = "MultiMedia1";
-@@ -1067,6 +1074,14 @@ cpu {
- 		};
- 	};
- 
-+	mm4-dai-link {
-+		link-name = "MultiMedia4";
-+
-+		cpu {
-+			sound-dai = <&q6asmdai MSM_FRONTEND_DAI_MULTIMEDIA4>;
-+		};
-+	};
-+
- 	hdmi-dai-link {
- 		link-name = "HDMI Playback";
- 		cpu {
--- 
-2.47.2
+Maybe the sound folks have ideas.
 
+Bjorn
