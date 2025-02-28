@@ -1,122 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C641F4C83;
-	Fri, 28 Feb 2025 17:23:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E494223F36E;
+	Fri, 28 Feb 2025 20:22:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740763402; cv=none; b=ImJEFfZCVYPO/CKi+t7NzifHHToGjnDBaJm8y6uD/NMq+i1MYCub0BVKhWzCkRnnIt/0VCaNW1QAWuFMQ9JQEXG8MJoLyvHMlzFlwM7ll1YbNWB6+q7zDuvpbqxK55eoQC/Rn0cwaADhrmvdBlzSBewq7Y1VQ2TTeLfBLEtFEJA=
+	t=1740774163; cv=none; b=heE/BcM3LZ2nx+iz1yyl2VjrtDtJiZbCKqxurKdikH2KL5O0jSgGCztjLYDo6tsnkqJsxUb0+gs0aJ4fOSCQlYipl8RfNotK6CrenznoXaWircf3Fq5yxVdLVL1kURQcyO0JqYtpI72Pv9NnIghYTFFVDVuiO3lNZQrhZtLueJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740763402; c=relaxed/simple;
-	bh=kpa5gUq601xY2LLqyDkp+ULt9YfNAfqA5DJnA1T2tiI=;
+	s=arc-20240116; t=1740774163; c=relaxed/simple;
+	bh=wfzANROPsaWWkrbci7qA/4XmAh6NIwZYuO5mE+y69ts=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E80ss6GaMNFGbP+2uTZ8cyaPQpS9WxkWRqgjlbmb3yj4ShhSkE9oOPEDD9XnnEX1U7z5QrYnkVFd6Gm/C82MptNPprb58yASthjesRrZqPvqp9Y/53LXeA48DW7sS52DXhJ8wJnynL/HiV/1uVT5TAsaPdgYLAB17Ap4l36q6Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qI4+5GWu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=X6LU2P9DxuLeqgWyApXEPn43YrQJZ4i6/7ULshZv2vbOH9+BSv+l1ksN8J3J5F20ngmJmevR5O/rv6YUF62qj/J3r0tQ8zFtz11ZVmi829/iNsfYBjhLf5ChHcWnaxAjZjWsKPHVGy3zc42b0cFtJicPX/w64xfol4E9TtyBnQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fo4RKDdZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qI4+5GWu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0163C4CEE2;
-	Fri, 28 Feb 2025 17:23:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fo4RKDdZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9943C4CED6;
+	Fri, 28 Feb 2025 20:22:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740763401;
-	bh=kpa5gUq601xY2LLqyDkp+ULt9YfNAfqA5DJnA1T2tiI=;
+	s=k20201202; t=1740774162;
+	bh=wfzANROPsaWWkrbci7qA/4XmAh6NIwZYuO5mE+y69ts=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qI4+5GWu3Wl6VXYHL4b3Ve6TMGej7QVi3Gue5LFr1UrE0smNW9exm5xZmGc5P1H7M
-	 IcPoEhQ7oP2NiOIYjqTII48zvHmppdJY/JvBeWUglKBAWO+b7M5CeSa69+W9lMhP7y
-	 K88IrRDlpBjDiQkcdeMtk05EK4xijZ+Y30glFh82APDAw8MvBOoXTyBU6YZG3rJ843
-	 rxCFHfOZB36Sd1kCXxuZ7j7OWmIH+ZJuC319gGGcR0Ci0q64IDDEn9oRBI4eK0xSS1
-	 j40o6g1LKTK1yKF1xKCIMJccoPo1gHDp2vqkkD2GZjsy8sQRMIjaD7YJasRe9RTbDn
-	 g7X6bzxXphj2A==
-Date: Fri, 28 Feb 2025 22:53:17 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Muni Sekhar <munisekharrms@gmail.com>, linux-pci@vger.kernel.org,
-	linux-acpi@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Sanyog Kale <sanyog.r.kale@intel.com>, linux-sound@vger.kernel.org
-Subject: Re: pci: acpi: Query on ACPI Device Tree Representation and
- Enumeration for Xilinx FPGA PCIe Endpoint functions
-Message-ID: <Z8HxBQbLzgV5NDYA@vaman>
-References: <CAHhAz+j46nus_rGJ72rZ86UyzL+AM_HBCivjpZEx3T0thOxqAQ@mail.gmail.com>
- <20250228163219.GA54330@bhelgaas>
+	b=Fo4RKDdZT8HC+g+RwI0lGMwqaLJlwh8rxhiTYyqw9KgjrDktXJYU1nwEPPAWC/fB8
+	 oePssIAPkDjkYUD+o9575KTvwaKVNbnFqHjBbKJNkkDIYgfI4n+alfz5W3nibHQTnH
+	 gbtElWOEjFGyby6xJyOgVzw4ljdvaq1UcSlqcFhoy9OHeb4XaBYl/Sde1hc+ffWwJK
+	 7Fa2AVXhEUhHg/sZbfESY1XLHMRGZyShZsFbmeB2epNmBODWRQ8EA6LWYM/HBIWNKA
+	 i8Wp4kbIjCSIUm8f2tcX7UfHklguDYUP+8Z1qVVA4UIBO8qotz6XfUys0PVVJKzaMR
+	 VY4b/UwQxI8Pw==
+Date: Fri, 28 Feb 2025 14:22:40 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Baojun Xu <baojun.xu@ti.com>, Takashi Iwai <tiwai@suse.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Shi Fu <shifu0704@thundersoft.com>, linux-hwmon@vger.kernel.org,
+	Jean Delvare <jdelvare@suse.com>, Kevin Lu <kevin-lu@ti.com>,
+	Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org,
+	Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>, Jaroslav Kysela <perex@perex.cz>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Shenghao Ding <shenghao-ding@ti.com>
+Subject: Re: [PATCH v3 08/20] ASoC: dt-bindings: tas27xx: document
+ ti,sdout-force-zero-mask property
+Message-ID: <174077415940.3647975.15902049404570656565.robh@kernel.org>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <20250227-apple-codec-changes-v3-8-cbb130030acf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250228163219.GA54330@bhelgaas>
+In-Reply-To: <20250227-apple-codec-changes-v3-8-cbb130030acf@gmail.com>
 
-On 28-02-25, 10:32, Bjorn Helgaas wrote:
-> [+cc SoundWire folks]
+
+On Thu, 27 Feb 2025 22:07:35 +1000, James Calligeros wrote:
+> TAS2764 can be programmed to zero-fill/ignore certain TDM slots on a
+> shared I2S bus. Since this is a per-chip setting that is a consequence
+> of how it is implemented on a specific board, express this as a Devicetree
+> property.
 > 
-> On Fri, Feb 28, 2025 at 08:19:44PM +0530, Muni Sekhar wrote:
-> > On Thu, Feb 27, 2025 at 9:34 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > On Thu, Feb 27, 2025 at 07:25:32PM +0530, Muni Sekhar wrote:
-> > > > I am currently working on a project involving a Xilinx FPGA connected
-> > > > to an x86 CPU via a PCIe root port. The Xilinx FPGA functions as a
-> > > > PCIe endpoint with single function capability and is programmed to
-> > > > emulate the Soundwire Master controller. It can be dynamically
-> > > > reprogrammed to emulate other interfaces as needed. Essentially, the
-> > > > FPGA emulates an interface and connects to the CPU via the PCIe bus.
-> > > >
-> > > > Given this setup, the BIOS does not have prior knowledge of the
-> > > > function implemented in the Xilinx FPGA PCIe endpoint. I have a couple
-> > > > of questions regarding this configuration:
-> > > >
-> > > > Is it possible to define an ACPI Device Tree representation for this
-> > > > type of hardware setup?
-> > > > Can we achieve ACPI-based device enumeration with this configuration?
-> > >
-> > > If the FPGA is programmed before BIOS enumerates PCI devices, the FPGA
-> > > would look just like any other PCI device, and BIOS would be able to
-> > > read the Vendor ID and Device ID and would be able to size and program
-> > > the BARs.
-> >
-> > Yes, the FPGA is programmed with this Soundwire IP before the BIOS
-> > enumerates PCI devices.
-> > We need to port the Soundwire driver
-> > (https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/soundwire/qcom.c)
-> >  to the x86 platform.
-> > 
-> > Since x86 platforms typically do not use device trees, and the
-> > Soundwire IP is implemented in the FPGA, how can we emulate device
-> > tree functionality or use a different mechanism to pass hardware
-> > configuration to the driver? Specifically, how can we handle the
-> > following API calls on an x86 platform?
-> > 
-> >    ret = of_property_read_u32(np, "qcom,din-ports", &val);
-> >    ret = of_property_read_u32(np, "qcom,dout-ports", &val);
-> >    ret = of_property_read_u8_array(np, "qcom,ports-offset1", off1, nports);
-> > 
-> > static const struct of_device_id qcom_swrm_of_match[] = {
-> > { .compatible = "qcom,soundwire-v1.3.0", .data = &swrm_v1_3_data },
-> > { .compatible = "qcom,soundwire-v1.5.1", .data = &swrm_v1_5_data },
-> > { .compatible = "qcom,soundwire-v1.6.0", .data = &swrm_v1_6_data },
-> > { .compatible = "qcom,soundwire-v1.7.0", .data = &swrm_v1_5_data },
-> > { .compatible = "qcom,soundwire-v2.0.0", .data = &swrm_v2_0_data },
-> > {/* sentinel */},
-> > };
-> > 
-> > Basically, how can we define ACPI tables for functions implemented in
-> > an FPGA that connects to the system via PCI?
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  .../bindings/sound/ti,tas27xx.yaml       | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> Seems like a generic problem for PCI sound devices, and I don't know
-> how drivers deal with it.  It looks like all the SoundWire drivers
-> are platform drivers (not PCI drivers), so there's nothing there to
-> look at.
-> 
-> Maybe the sound folks have ideas.
 
-X86-Intel devices are PCI devices but then they are compound devices
-with DSP and SoundWire links. Please check the DisCo spec for SoundWire,
-that already defines the ACPI tables and properties which both Intel and
-AMD drivers already use
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-That should be your start point...
-
--- 
-~Vinod
