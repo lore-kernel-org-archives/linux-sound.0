@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C9A1C54B2;
-	Fri, 28 Feb 2025 21:22:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADEE1D63FD;
+	Fri, 28 Feb 2025 21:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740777756; cv=none; b=HDxVCuSGbAiD3+eExQK6a6CoAC8Zn1NDRwOpxYjz6wIbX0fAd4EAUvoZy2KADkS6dQMSiWuUOaudBKiQLwthxGaXfsezsnHJyrHqbsJEOIkdtoATK7QSsml4zop+TKoImR0JQIIVhFGie1HeQhvP9z4GEc5k6ncw+9ggksBYHn0=
+	t=1740777767; cv=none; b=ROalhsp0za0donSNri+N0FTiIv9OgfTe9XpwH36cWFK45SuN+3Q9enzME0U8WSbnGpd7J61QwyqaIQJ/uv7gnKeHtaQXBn3nBUggX87RWgbkqXkMizUwyEMiiw0w5tDx2NLKOGqTcuHvizRo/a6QzxALU/W/afqJphZQthOgnVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740777756; c=relaxed/simple;
-	bh=QJ0zj7q3m9VCBWyN4qRgjdsWckJViQOTLhy+VWuHH+s=;
+	s=arc-20240116; t=1740777767; c=relaxed/simple;
+	bh=JBzeKdwhC3moTlOZODJUQj1pAUwMAaCEBCLwB//XK6k=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CNo6+Q0t9LwqhlWwxxJbLLC+4ai40nEZpQXypWjYVtbrGn6uDm0edgQag+71CNVTmUn5jt3RuUd5ETvedIFh5ycOIJzsBdcxhlbnPVaf40S4rqiVMVYMtn1Fpr72cxecYob6SiZTxcrAagq/Y7NHagFjnp9FCdOMg8q9SSoiZog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qE00zGYo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=UiWvG9xSXlw3R5sADk8ic7VKgmBHDGgVpXX5uxCUcJiJu7Al/vVBqE6PLqsGJ542FsYSZrENvUr0h1WTKdY9IY3Msf6IaQ9MzXTeY9MYEqCZKxmJeFblwpCO8UMLlwu2Z+ESqJErECvhAbAKBxnNQXltE0yvUwvhZQTvsQiuc6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HZfGsz4a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qE00zGYo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A94A1C4CED6;
-	Fri, 28 Feb 2025 21:22:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HZfGsz4a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1BE6C4CEE2;
+	Fri, 28 Feb 2025 21:22:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740777755;
-	bh=QJ0zj7q3m9VCBWyN4qRgjdsWckJViQOTLhy+VWuHH+s=;
+	s=k20201202; t=1740777767;
+	bh=JBzeKdwhC3moTlOZODJUQj1pAUwMAaCEBCLwB//XK6k=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qE00zGYo7RbZFlefLj31un3are+kZDjTdfJAedqV22tQksPSKeTcZBwP6PLSUnH0Q
-	 0pHdbfzxt/3MCgDdbMG6ZJXDJhw491xO6VFnzMvX4X+vbiShfWW5bc2bAj+sDpPxlu
-	 XLU13odEliHXol4VamgB9TtlgdfWo1sFJBGuXCZCJnJWpzyz7OuYv+e4RQApJIKn0C
-	 5MqWjyuj5JIVFzv/IRqg9VKoSRqKcsQlwPDm+M2//X0aSatn9FsJMY8ySUx4NuXgGz
-	 1q6H4ljhhbHKFxJnVOu1oIvf3RVJON5gfw/JBKAe2zQGVIpxOVTuvABPcZA/otoLI5
-	 yANTXce4Z7e5A==
+	b=HZfGsz4a/Wb5K190mpN0hUEjxtlng3IksnID5Wqmy//b3riT8NlHGzftLdTW4732C
+	 A3p/X+JU6g2AfKE+5gkGxi9bch0utFZvBMR3iURHDPgc/gSjeKW/9+7Eh8cHh8jtcs
+	 zCl96QPfdnZKij5aMeAZSyjVYMDu/mcIy0JsRE8/tjDiuo85z4Voyr6Lp/vEFt/g6b
+	 xxagA/4BYOfJrJ0RwB1bzwQRXjrOESSMtjivw9MltIyDdFYGzb/ndaU0IkRR1oWA/e
+	 sCe3zg6XH/ElnzZkSNbxGJiodB6gvt4DwmBWPW0Pk0oHfs0vn1M/T3FDCwcD4p+9UD
+	 Dp8OXQLTITh5A==
 From: Mark Brown <broonie@kernel.org>
-To: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, 
- andriy.shevchenko@linux.intel.com, cezary.rojewski@intel.com, 
- amadeuszx.slawinski@linux.intel.com, shenghao-ding@ti.com, kevin-lu@ti.com, 
- baojun.xu@ti.com, jbrunet@baylibre.com, neil.armstrong@linaro.org, 
- khilman@baylibre.com, hayashi.kunihiko@socionext.com, mhiramat@kernel.org, 
+To: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, deller@gmx.de, 
+ andriy.shevchenko@linux.intel.com, sre@kernel.org, 
+ sakari.ailus@linux.intel.com, mchehab@kernel.org, jdmason@kudzu.us, 
+ fancer.lancer@gmail.com, Hans Verkuil <hverkuil@xs4all.nl>, 
  Raag Jadav <raag.jadav@intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250228062812.150004-1-raag.jadav@intel.com>
-References: <20250228062812.150004-1-raag.jadav@intel.com>
-Subject: Re: [PATCH v2 0/6] Convert sound drivers to use
- devm_kmemdup_array()
-Message-Id: <174077775241.602624.10081824574862077124.b4-ty@kernel.org>
-Date: Fri, 28 Feb 2025 21:22:32 +0000
+Cc: linux-sound@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-media@vger.kernel.org, ntb@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250221165333.2780888-1-raag.jadav@intel.com>
+References: <20250221165333.2780888-1-raag.jadav@intel.com>
+Subject: Re: (subset) [PATCH v1 00/13] Convert to use devm_kmemdup_array()
+Message-Id: <174077776364.602863.4317015681907674937.b4-ty@kernel.org>
+Date: Fri, 28 Feb 2025 21:22:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,34 +50,28 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Fri, 28 Feb 2025 11:58:06 +0530, Raag Jadav wrote:
-> This series converts sound drivers to use the newly introduced[1]
-> devm_kmemdup_array() helper. This depends on changes available on
-> immutable tag[2].
+On Fri, 21 Feb 2025 22:23:20 +0530, Raag Jadav wrote:
+> This series is the second wave of patches to add users of newly introduced
+> devm_kmemdup_array() helper. Original series on [1].
+> 
+> This depends on changes available on immutable tag[2]. Feel free to pick
+> your subsystem patches with it, or share your preferred way to route them.
 > 
 > [1] https://lore.kernel.org/r/20250212062513.2254767-1-raag.jadav@intel.com
-> [2] https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com
+> [2] https://lore.kernel.org/r/Z7cqCaME4LxTTBn6@black.fi.intel.com
 > 
 > [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
 Thanks!
 
-[1/6] ASoC: Intel: avs: use devm_kmemdup_array()
-      commit: 0bd862846e7f89910252cbef8718a757950f1683
-[2/6] ASoC: hdac_hdmi: use devm_kmemdup_array()
-      commit: 3e706be02befae55b50b240d4360b5993f9879a8
-[3/6] ASoC: tlv320dac33: use devm_kmemdup_array()
-      commit: 69aaab0e65e9bd7601740c1e14cc6de86dafb621
-[4/6] ASoC: uda1380: use devm_kmemdup_array()
-      commit: d9d71a6e2d19a2f3ccebea0092b8ddc1e935886f
-[5/6] ASoC: meson: axg-tdm-interface: use devm_kmemdup_array()
-      commit: b26205e172ca035e327e49edb0c2611e5d2ede8d
-[6/6] ASoC: uniphier: use devm_kmemdup_array()
-      commit: c173b5ee81a25e8aafb21ccdb7ab457da7783bf1
+[09/13] regulator: devres: use devm_kmemdup_array()
+        commit: 6ddd1159825c516b8f64fda83177c161434141f5
+[10/13] regulator: cros-ec: use devm_kmemdup_array()
+        commit: c5c4ce6612bb25ce6d6936d8ade96fcba635da54
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
