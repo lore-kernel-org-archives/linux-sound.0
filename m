@@ -1,81 +1,107 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0AB25E471;
-	Fri, 28 Feb 2025 13:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE1D26D5A4;
+	Fri, 28 Feb 2025 13:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740748454; cv=none; b=i3E0J56CbME7Ji/8eEgs7GdR0957ntTpMQX7kXnX4NQ0ds8u9xWi4BytCrCwH11wVgNAQkYLDKq8/aGTgI0eQprVo5bN2nuvOlUCfrwuM/VZd2ekvHimues1oCMiVc09BTCYJXq1zEepCikGNx7xigjpkx34trKR+MnqCj5hB1k=
+	t=1740750845; cv=none; b=RM1KzRKvtH7MWhUk7ULOpM38xxnSRceByNwuEHyCviLeuzhm6MneuLPGQBFcaNeOpA7VjWuo4ozqT3bDByZ1rlYWhFgkQCcAwBiB36w1MymOC4WE30PbdF6aClHZYQP5wZuRxlXwtl7QisuZ6wNDXA7piVelIoZWeMsIEzgbjHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740748454; c=relaxed/simple;
-	bh=21m3In4wCH+q/UoEDYx7ymPFrvABWf4Rd32gUSleQA4=;
+	s=arc-20240116; t=1740750845; c=relaxed/simple;
+	bh=PJN2LJY1zOX4ftevEUh2wxj5EtexemsOWVyrqD0LUbk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SvWNjoDfF5WDPSD3P+eiS+4+D5tKzo1YGYjNnVFWozXRfDpF2pqReaj9DM0WeyXItvrk6hl/ItNPYOfbx0+QEIGOvfVHjN+jxSuhK0HzKhe0HN0tqJf/Vt7qOtauPZP88I51G/mjnIMDG3FZpUukwoUQM19nWyqfHqAdD8geHYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=eNabF+ok; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=oXuTGrTGVLq9EdpPsyYm7402HUKnRQx27Ny6NR6QqcYcl2sXPnfq0/jW6+qiYJUrJvEXNp3p5IBB0jgwOKdNmMRFQ+1g58YM3YJ4jHeInOiUq6hIfwu0mFnJ5o4NAMmzumGczfSHxr+NSIxiIODMgVngcjOAM4SY9sDfl7ktcpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=shIDGphM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eNabF+ok"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1740748450;
-	bh=21m3In4wCH+q/UoEDYx7ymPFrvABWf4Rd32gUSleQA4=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="shIDGphM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EEB4C4CED6;
+	Fri, 28 Feb 2025 13:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740750844;
+	bh=PJN2LJY1zOX4ftevEUh2wxj5EtexemsOWVyrqD0LUbk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eNabF+okts2wj5dvZqEBsxkC50bHNM+f5w4lqa7moXIz4uTrl2Dwht6hOqGiod1MK
-	 yrrwclkFsnIodC7SDWabOXUO3KABtHYviBa3il6GwIrYgwLH1s/hT7ISUti/D3SMy2
-	 I+fy4+hm4Sg/qB4K5PCskuRuHDn2TNybZUYToHnYwKxd/1QU0ldBXskBiTgmqL0Ipg
-	 mKxcYEzHxnzBDfv+RguYfrrK7hCZU09YDF3GPxBBGxVMOJcXbQGd2bHXiFKEGKMWKH
-	 bAhOirJHBRJ8C00gWbsqCRO83L4G0d4KGf2d7+IJgDWSEEMdUhkN/fV2iypTRhWoaJ
-	 azj0xU0CSrUkw==
-Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1003])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 733C217E087E;
-	Fri, 28 Feb 2025 14:14:07 +0100 (CET)
-Date: Fri, 28 Feb 2025 10:14:05 -0300
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>, kernel@collabora.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] ASoC: mediatek: mt6359: Fix DT parse error due to wrong
- child node name
-Message-ID: <59f79e0a-c99f-4b30-b0dd-81c4889c7807@notapiano>
-References: <20250228-mt6359-fix-probe-failed-v1-1-64941d387b2c@collabora.com>
+	b=shIDGphM7vaQLJjGY/X+Rjd1UxdtYZIba70NWQYhJqxq4Q86mmQVOUfyj62fr49Fz
+	 8DVr7L0ygLbvElSK9WkCjpu9HVBcCK5+22/GTC5TMkuqNcEobyqkGoW+Dx0+aH2aiC
+	 3g2tRmJdWli2Ebknj5FMhCb4fLZneK1Wrx1D3IapW6R/QGrXD772kBvcreXr1YSKF+
+	 CRaJojXLJnYkGuH/E69dPJxNH8VpBSUWvMOiasc1avt7t5tMYQ48AkCLtq6FWP/ie+
+	 KDZ28MnDAhMvpDkI5kNQetuDcbP3N0gGubPYDe2G8JDIyaXa8Z1nsaWtUi2UsAXU+P
+	 MAA0znUrFB5BA==
+Date: Fri, 28 Feb 2025 13:53:56 +0000
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shi Fu <shifu0704@thundersoft.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	Neal Gompa <neal@gompa.dev>
+Subject: Re: [PATCH v3 15/20] ASoC: tas2764: Enable main IRQs
+Message-ID: <ba20e709-517b-441a-8f89-37518d0a1d4f@sirena.org.uk>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <20250227-apple-codec-changes-v3-15-cbb130030acf@gmail.com>
+ <f3eecce4-51d1-4414-af85-680d51e588fa@sirena.org.uk>
+ <CAHgNfTx_kMj=rsd4nUCiX_PvgC4GX3DsPDwXHdEyEeLMbDFccw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YYYkVjdyM/0A8vBd"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250228-mt6359-fix-probe-failed-v1-1-64941d387b2c@collabora.com>
+In-Reply-To: <CAHgNfTx_kMj=rsd4nUCiX_PvgC4GX3DsPDwXHdEyEeLMbDFccw@mail.gmail.com>
+X-Cookie: Avoid gunfire in the bathroom tonight.
 
-On Fri, Feb 28, 2025 at 11:32:19AM +0100, Louis-Alexis Eyraud wrote:
-> A recent dtbs_check error fix in mt6359.dtsi file changed a node name
-> (from "mt6359codec" to "audio-codec") without modifying the mt6539
-> codec code that uses it.
-> It leads to a probe failure after devicetree parsing returns in error:
-> ```
-> [    1.354025] mt6359-sound mt6359-sound: mt6359_platform_driver_probe() failed to parse dts
-> [    1.355066] mt6359-sound mt6359-sound: probe with driver mt6359-sound failed with error -22
-> ```
-> 
-> So, add the child node retrieval with the new name and if not found,
-> try with the older one for backward compatibility.
-> 
-> Fixes: 76b35f59bbe6 ("arm64: dts: mediatek: mt6359: fix dtbs_check error for audio-codec")
-> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
 
-Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+--YYYkVjdyM/0A8vBd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Nícolas
+On Fri, Feb 28, 2025 at 07:58:33AM +1000, James Calligeros wrote:
+> On Fri, Feb 28, 2025 at 2:23=E2=80=AFAM Mark Brown <broonie@kernel.org> w=
+rote:
+> > On Thu, Feb 27, 2025 at 10:07:42PM +1000, James Calligeros wrote:
+
+> > > IRQ handling was added in commit dae191fb957f ("ASoC: tas2764: Add IRQ
+> > > handling") however that same commit masks all interrupts coming from
+> > > the chip. Unmask the "main" interrupts so that we can see and
+> > > deal with a number of errors including clock, voltage, and current.
+
+> > Shouldn't this also be a fix?
+
+> I don't think so. The referenced commit only says that it adds an IRQ han=
+dler.
+> I don't think this commit is actually "fixing" anything - it's just
+> enabling previously
+> masked interrupts.
+
+I think the expectation would be that when the interrupt handler was
+added it would've been possible for it to fire.
+
+--YYYkVjdyM/0A8vBd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfBv/MACgkQJNaLcl1U
+h9DAZAf/ZrFnKZ/FuBMjARilKSLNHLOP7jWlIxEpAeaOpAnoNzqydRcLKZFmfObm
+X3k/p5RujSvvZykZfpl21qgxEJeeN3q9mCoWd5QebZTJa4GljGyM2gMDGwQE+wcx
+dKGCDAZwyiwwKSd1UML9U+Gjqb5WcouYMXC+nJM3xoauhz615Kz8JsIsOo9nZ2Jp
+KrQQ83tZD59O81MOL3glAMJ9wDIj7kpQRHMJkXfQYYN1794HK0h6hfgdni1n3ij9
+Bi2+Vzxw+f+wVRZVNFydQPOBeDca1aihac4QngDHbcRCP+ngYkJ7mvV+vFWhleJg
+5VOFhK/5/NxifNyAKRWkUWX9BP2Xrg==
+=9AfO
+-----END PGP SIGNATURE-----
+
+--YYYkVjdyM/0A8vBd--
