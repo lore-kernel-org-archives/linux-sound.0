@@ -1,55 +1,73 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4140F1C07F5
-	for <linux-sound@vger.kernel.org>; Fri, 28 Feb 2025 15:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C525188CCA
+	for <linux-sound@vger.kernel.org>; Fri, 28 Feb 2025 16:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740755708; cv=none; b=gSkUTog8LILBZVFpXx3aV1wydMtyLi30xFoRvwTDhGT+k4iUv1mwaf7VeA4RRpYgPAMv6TDkl19PkHVKaxRp+7EZUv6j31lt5R/cOZA4cXDYM3ONkZUvXPwT2VNUsOBQ7d03BT1DQCywg2AZ++7ym1yP6BpHZusZ6NRcrdyFwSI=
+	t=1740759276; cv=none; b=n2zjBznKMd/H86qU2SJXsk1sR5GwwTRqphBfua/+ognAHbSz2BAfJ+4hWxKyxoqVy2ajAaO1xxSruAfSY50Z4IOvk+q853xKMa3pgtyed/Qk+EYRCfbSCr12ACyl8T/E5G2g5WRASjYd45saJyeQOIB8Sw9C25RI2aRHzupUvXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740755708; c=relaxed/simple;
-	bh=7gkzsMvPsYunmt8HD1Mywaen5jwtCYZyLbopCCXJpE8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=az9AOrVRxkXHb1YxCnhMZlHPMpNMfdnM2A2bRuLRNC7CZaoyp8++ve19VJS6fosHPeR+wJaUi7KYYNPAOqmFPnDXJey3/bC54ZhJdLxJIFy0Fm8BnzFv0AlMAOP5vMZY1hE0AhQR7zZi1ewhWzBEyGKXPhcwmKlPF2IhLLHwTAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=kzwlEyQQ; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1740759276; c=relaxed/simple;
+	bh=TsOMlzyWGhLPB8XA0OFllVNotLhXSAWLfRCutrm2gDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Jm6Wnmgbxe7XGYszsaQQU+j4NL3MsmwueecBHYEYvEP6sSALudAxzhhQ2HVAz+eemdV/aVtxxFWdpqCuBM1LKqbjtSLrjevA/kFELxdy6ErsAieMA8evwuPcthmzFxUrf+djX86QQUsR14nhvww6vUGZV+Xn1sixdYXHr0dGWWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fSR635T8; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="kzwlEyQQ"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51S90tM5000323;
-	Fri, 28 Feb 2025 09:14:59 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=dms7S9KwFOPXxwJx
-	LA90kIeIUysK6IeuABhO3blQT9M=; b=kzwlEyQQWFOIU5y4Pl6oN9sesoGPWlxG
-	7G1FeXIzcXAxTfF/cQlPJIHBisUCxl+oPpse0QtMObd7sgI0i4YMBMVFSE5fa1O3
-	qx42uM/JGdUjwuU47vCDIsAb/RGuV0rZIt/zhTnfLr6KKMh0qgI7wdG6sAR6adEZ
-	fCQ+mmfBg8vrAH2tenuPnyl4hJaJtZiVwKeJW7jzGwE35FOT8lqe5wc0hBNG4wWO
-	lKyXZCAo4zg5lUQ/Pd0SR7YSbAZ4qU5DkheLkS+gztA0THUlNbqX+sPe2FDmystM
-	ZIuuJDhlYRNrgnKf6HmCSLXvsWL926y7iR1ZM4ECQrSMTRUbP92pKA==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 451pspy5au-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 28 Feb 2025 09:14:58 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 28 Feb
- 2025 15:14:57 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Fri, 28 Feb 2025 15:14:57 +0000
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id EED3A82025A;
-	Fri, 28 Feb 2025 15:14:56 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <johan+linaro@kernel.org>,
-        <srinivas.kandagatla@linaro.org>, <marex@denx.de>,
-        <linux-sound@vger.kernel.org>, <patches@opensource.cirrus.com>
-Subject: [PATCH v2] ASoC: ops: Consistently treat platform_max as control value
-Date: Fri, 28 Feb 2025 15:14:56 +0000
-Message-ID: <20250228151456.3703342-1-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fSR635T8"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-390edaee0cfso665590f8f.2
+        for <linux-sound@vger.kernel.org>; Fri, 28 Feb 2025 08:14:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740759272; x=1741364072; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mA0q1eDANk1VuTwQiJxyjICzoV7Kt4ns/vCaHe1Vf1s=;
+        b=fSR635T8Kz+puUHI2t35h/u3ZBDd6ZToYjmF4jyGBsk3OKDYMqAgFhAv+gUqZDA9++
+         KfhHtcev2KBB5BYVM3nG3ro0OiieDOIy2nMFmu1v3igUG+q9NeyYQN5v2lXa0IREIxwO
+         R19pNE63UIe7PDs3uyoyhcfHP+lX6xg9iAvjVaJ9C/B+P6ik0sXOUDkdhAvGpZN1cd4E
+         DCmebjW+CzpC9kxT28P0iiF7nUA19l0B3YLtD5CzFe0OT30AFvsdN1+62A4g8SppxAIV
+         vnttJU7LYREJQIzbrOy4jL8QVw6o+M+GoQgGkLrJxjCJmFCnj+Nw8Uz00jw0EEJ+rs8O
+         qfPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740759272; x=1741364072;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mA0q1eDANk1VuTwQiJxyjICzoV7Kt4ns/vCaHe1Vf1s=;
+        b=CwvT0/T4BSFgqJf1RRg+aKLYPX/AzOd3nKYW9qkpwU6wF+OVK1nSXcLb76H1rVFLpx
+         SLjysYB4a8keb7sPhPbctCSMdpEIhx7fTqnX2+IHAHCsTG+sHKhVJgE4gAdvxRRZYnzo
+         agf1gAZFZEaJPGp2yNqU63UunvQmkfRGvXBTnIumW81PqtgYM3V2OloexcO1DKM6z16Y
+         3dGytTZnNaWPZHWGprOrLEwIwZchkN3RCvaHY5Y4x2OMY2zz3XLC7MwJI4Wgs6YfAUNU
+         xMmL4o1Fb+BbLdhUh82KSGDfmizUpUm0NVVYtazWPYGfa0PBn8/DnvtoJht2a3Bmro/x
+         5zdw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyjR/ZLJZpWd1i+bY06qQDOXRa6l64AYveCrOB1UCZuotMkc10s2x5L3iwzIzaMC2Gdwne3FBWF7ffJg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+89cOh/IRa5Sp1Gmq48g6c6IPYTz3aPiongqcf6EDbA8YPwg7
+	ftZtutzzE4TS00yogHGYBzkanuxNtpCqb0X7akpxFo/jTbTy2WdX7syPz3CTc60=
+X-Gm-Gg: ASbGnctBHCVclW2rvh4BuvqkNpB66CzOj4RO0qGrYVS5Csf3y1GNazKNmRn8pFMTus4
+	z6PSQXg5OxFNwpH5z6fsqzE/Bx9++8L0kURkt3YysiHpTHUIXxAR5qCdpcY+WWlCXLCP76w2HF7
+	db77X9B0SiVNt2ufxHyi/pCy5FwVOKqG2cb2odtX+HYiDRjnvkXFTbWIGuOFMGW2ycDJHx6sJnA
+	v5axDzflxFvuCHc82DciWrwfWZgfAwBK/jJgdciaP0eZj8XbuG1XZgbHAg8WDD/p6kijwjaKnhV
+	mtxsF6rJjilCIwCB/m/BFlzJlglyCD81necK5wTDrvCaDM02
+X-Google-Smtp-Source: AGHT+IEorpcQWBNQMknvoMwXDyrUVNGuGeLWwhyPQjwWgrfHo9N4oJU2oROHaGMiKCwUM7rlOaPVbg==
+X-Received: by 2002:a5d:5c84:0:b0:390:e62e:f31f with SMTP id ffacd0b85a97d-390ec7c67damr3299605f8f.3.1740759272554;
+        Fri, 28 Feb 2025 08:14:32 -0800 (PST)
+Received: from localhost.localdomain ([2a02:c7c:7213:c700:e992:6869:474c:a63f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e4795d30sm5690232f8f.10.2025.02.28.08.14.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Feb 2025 08:14:31 -0800 (PST)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+To: srinivas.kandagatla@linaro.org,
+	broonie@kernel.org,
+	lgirdwood@gmail.com
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: qcom: sm8250: explicitly set format in sm8250_be_hw_params_fixup()
+Date: Fri, 28 Feb 2025 16:14:30 +0000
+Message-ID: <20250228161430.373961-1-alexey.klimov@linaro.org>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,115 +75,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: tUoby5KhWa-xIEXaS4WMoCNlkVvKvOVV
-X-Proofpoint-ORIG-GUID: tUoby5KhWa-xIEXaS4WMoCNlkVvKvOVV
-X-Authority-Analysis: v=2.4 cv=U8ZoDfru c=1 sm=1 tr=0 ts=67c1d2f2 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=T2h4t0Lz3GQA:10 a=w1d2syhTAAAA:8 a=Gxd7u8OaNTtAyedCQjQA:9 a=NmmzKBL2sG_d-YaMeJu7:22 a=YXXWInSmI4Sqt1AkVdoW:22
-X-Proofpoint-Spam-Reason: safe
 
-This reverts commit 9bdd10d57a88 ("ASoC: ops: Shift tested values in
-snd_soc_put_volsw() by +min"), and makes some additional related
-updates.
+Setting format to s16le is required for compressed playback on compatible
+soundcards.
 
-There are two ways the platform_max could be interpreted; the maximum
-register value, or the maximum value the control can be set to. The
-patch moved from treating the value as a control value to a register
-one. When the patch was applied it was technically correct as
-snd_soc_limit_volume() also used the register interpretation. However,
-even then most of the other usages treated platform_max as a
-control value, and snd_soc_limit_volume() has since been updated to
-also do so in commit fb9ad24485087 ("ASoC: ops: add correct range
-check for limiting volume"). That patch however, missed updating
-snd_soc_put_volsw() back to the control interpretation, and fixing
-snd_soc_info_volsw_range(). The control interpretation makes more
-sense as limiting is typically done from the machine driver, so it is
-appropriate to use the customer facing representation rather than the
-internal codec representation. Update all the code to consistently use
-this interpretation of platform_max.
-
-Finally, also add some comments to the soc_mixer_control struct to
-hopefully avoid further patches switching between the two approaches.
-
-Fixes: fb9ad24485087 ("ASoC: ops: add correct range check for limiting volume")
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 ---
+ sound/soc/qcom/sm8250.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Note v1 was under the slightly different title of:
- ASoC: ops: Revert addition of min whilst checking platform max
-
-Changes since v1:
- - Also updated the code in snd_soc_info_volsw_range.
- - Minor tweaks to the commit message to reflect there were actually
-   2 places still using the incorrect interpretation of platform_max.
-
-Thanks,
-Charles
-
- include/sound/soc.h |  5 ++++-
- sound/soc/soc-ops.c | 15 +++++++--------
- 2 files changed, 11 insertions(+), 9 deletions(-)
-
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 6bb2fca044c5e..bd7a0514ad7fa 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -1251,7 +1251,10 @@ void snd_soc_close_delayed_work(struct snd_soc_pcm_runtime *rtd);
+diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
+index 45e0c33fc3f3..9039107972e2 100644
+--- a/sound/soc/qcom/sm8250.c
++++ b/sound/soc/qcom/sm8250.c
+@@ -7,6 +7,7 @@
+ #include <sound/soc.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/pcm.h>
++#include <sound/pcm_params.h>
+ #include <linux/soundwire/sdw.h>
+ #include <sound/jack.h>
+ #include <linux/input-event-codes.h>
+@@ -39,9 +40,11 @@ static int sm8250_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 					SNDRV_PCM_HW_PARAM_RATE);
+ 	struct snd_interval *channels = hw_param_interval(params,
+ 					SNDRV_PCM_HW_PARAM_CHANNELS);
++	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
  
- /* mixer control */
- struct soc_mixer_control {
--	int min, max, platform_max;
-+	/* Minimum and maximum specified as written to the hardware */
-+	int min, max;
-+	/* Limited maximum value specified as presented through the control */
-+	int platform_max;
- 	int reg, rreg;
- 	unsigned int shift, rshift;
- 	u32 num_channels;
-diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index 60b33e22ac08c..cd5f927bcd4eb 100644
---- a/sound/soc/soc-ops.c
-+++ b/sound/soc/soc-ops.c
-@@ -325,7 +325,7 @@ int snd_soc_put_volsw(struct snd_kcontrol *kcontrol,
- 	if (ucontrol->value.integer.value[0] < 0)
- 		return -EINVAL;
- 	val = ucontrol->value.integer.value[0];
--	if (mc->platform_max && ((int)val + min) > mc->platform_max)
-+	if (mc->platform_max && val > mc->platform_max)
- 		return -EINVAL;
- 	if (val > max - min)
- 		return -EINVAL;
-@@ -338,7 +338,7 @@ int snd_soc_put_volsw(struct snd_kcontrol *kcontrol,
- 		if (ucontrol->value.integer.value[1] < 0)
- 			return -EINVAL;
- 		val2 = ucontrol->value.integer.value[1];
--		if (mc->platform_max && ((int)val2 + min) > mc->platform_max)
-+		if (mc->platform_max && val2 > mc->platform_max)
- 			return -EINVAL;
- 		if (val2 > max - min)
- 			return -EINVAL;
-@@ -491,17 +491,16 @@ int snd_soc_info_volsw_range(struct snd_kcontrol *kcontrol,
- {
- 	struct soc_mixer_control *mc =
- 		(struct soc_mixer_control *)kcontrol->private_value;
--	int platform_max;
--	int min = mc->min;
-+	int max;
- 
--	if (!mc->platform_max)
--		mc->platform_max = mc->max;
--	platform_max = mc->platform_max;
-+	max = mc->max - mc->min;
-+	if (mc->platform_max && mc->platform_max < max)
-+		max = mc->platform_max;
- 
- 	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
- 	uinfo->count = snd_soc_volsw_is_stereo(mc) ? 2 : 1;
- 	uinfo->value.integer.min = 0;
--	uinfo->value.integer.max = platform_max - min;
-+	uinfo->value.integer.max = max;
+ 	rate->min = rate->max = 48000;
+ 	channels->min = channels->max = 2;
++	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S16_LE);
  
  	return 0;
  }
 -- 
-2.39.5
+2.47.2
 
