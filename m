@@ -1,122 +1,133 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62A88F6B;
-	Fri, 28 Feb 2025 08:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5562566F4
+	for <linux-sound@vger.kernel.org>; Fri, 28 Feb 2025 09:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740731830; cv=none; b=g9kSwfOPf971uoj7ocGwG1Ll/p7nTlJxUkWkpVo/+Bcs3mJ+Ub326XNYfAJ+adL1Tfbr+e0b4/Snb5O0dQvG7fnrWTkJjzgst02qe6wxwOBnqXvzEUcGDk9bY9RwhwX++BZ5CjMk16GYSRbE1zLnEcf32kef8mGq7CtKacFpVcA=
+	t=1740735266; cv=none; b=qciAAUsK4pT1R7qMfRqBmzx8ED5OeWn34cnbspqWBiCSVmfy3cPO4DcMqUnNpOuMwNc6RlWz/PI/PBP4oTY1WPBL6u0DmoglV2dEQdLONTULXc8DsDUhirXMelLdUi2GJnLSWo5Ki1MRHpIn5RI9T7u0acHcosiUqxViOUpV+pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740731830; c=relaxed/simple;
-	bh=iHiRNdH+KFNaZqiPcYsSwcL8n4jnbuJvjPdyjBAQp+c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CUp18qG7Y/9Z8kFgTABm+6ejh5Pos7LMHGvVmFMxTm66b7sQi9qigQMdqyMBKsOrblIkzoRBKm72Yhq7BEX9/cvUoRbOeggaCfrKBx9uqVeKmE+Zi9kxOBIryf1MAiOb1ertzOLkrIYAuKSmT5CCnH/NJVFncqQ6RooC0ujTEGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nRieokzY; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740735266; c=relaxed/simple;
+	bh=Im2a/0X06QiaDgfIu1zzZCTXu2OE9FAUimiT0s41/dc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FP6CXA6cVgY94t4U5odlBK/TAJUfUza3kKEKv8yL26oyG8Oa3JtqkhoDLLJFyOz7HboX1vlizZXEuRiQ/3inMoGbox3o+96zQWuSB6nHFLxNuTKFh4SEad3X3otyO1Zhf+a/yasnt7GQ2aqy1XAcEvQjvFcmPdA90SxrqtYk3dM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OHdIQEge; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Aacb2I55; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ez2YI5Os; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yHxR+hdY; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nRieokzY"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43aac0390e8so11930465e9.2;
-        Fri, 28 Feb 2025 00:37:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740731827; x=1741336627; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PX9T+rP9CC7EvLoe0Jx75LYBu203Hhbldl2vmfUt5nQ=;
-        b=nRieokzY2nUkpnL6CsU/tslULZb8mDFMokngozG4zGnZzvQ6IggtVPj/2D9L5FQAub
-         liudCqSM+sTbWPUZXCq5/Ymmpz/z0C0ooPoDqW2uF4NG4eH5LBxVOslWjc5hsZAqU6Oi
-         TWTXxYiwcrjc4o1xRUkr6zM5gmyDQLQjO4inT6ufTFwLmj+kz5t3JQxO2jxYlXwb6sfg
-         yvpmjArVBFkWRAFPsx2yCPo9Xff1puQvvVvGdBw+pyk8LsoSyKoUQLD/OIdV/DKouVmw
-         /QgrsE3Fy/GiZvOIaLZ7SHZBMXYbbkBiIemRAbOjbSsJZ4f7I7fxqFFsy3lFosDMdrJv
-         EDbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740731827; x=1741336627;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PX9T+rP9CC7EvLoe0Jx75LYBu203Hhbldl2vmfUt5nQ=;
-        b=Q7LE7/miljwoi7XQUls4CF16GCWpg+T+poPV2do9dqh13HTdfzAylpFBXMKMt7U5al
-         1dKuhYPJDHGAJD19y22KN5NqoPKXwmdrVW6pUE207VpyVqF/HgjNUy3c0w/CPESK5bbz
-         pPafbNZCe8uV1FQ/uBBr9VRLFaPH8o5WNBt7VRmjOnUUWHQyYZybeYiIAmHzmpsE4DtY
-         z5bQ6gI8DR12KGHWeyieF2Q3cOw8ffAfsFqlKfy2EeUq+pOnZ872kxlCaWC7fvNf6eAB
-         hO4XfaiXAc/LubBMlh7P2Y+5t3JhSjOhMIzzJBuYHHQpaH83IAqj8dE+tdQyFv+ohbfr
-         A8uw==
-X-Forwarded-Encrypted: i=1; AJvYcCWmk/NoBkqPEzuGJK7qu9hgWPpZHxxAKeoUGp9sHo+B0c/oezOz0Er95o4/y8ZPdeAmG0s6zPhzPZY1Y2E=@vger.kernel.org, AJvYcCXYHKraDvOxwJXDoRqfNoJIJxrtwdlPsc6ud4e6STrdxa99BSFIxVLDB7WoCYpJYTRGerCJNlJXyq37dKA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBnn5T9zrrSHR1/jX52bi8s6nuw8Rcjh2bf5a4JRo1F/2U5sOu
-	GNQ7IXxYC+r2UfWiAobuf2+XfOrKYl4pFJsjrURCw5Wp0qsQvHpg
-X-Gm-Gg: ASbGnct7Zuzxa36MMzkXkk/2G1YHz/jaR5CdXOrFv4xL77tH8aXnfZSQjl3Y/j+BZtb
-	zin7K4UZeAaz9vj9/NTtEYZ6C3txsZiP7qPSTx9/tCp69WyGVQQ8mfT/wmcp56Dm5jP7wwodFYI
-	S9AwsTPvEdgA9NlGDEqQB9NLr9nvIhc4TgzaOesrxBHbrdI9B1HIJoHc7qSX/fNnAN4XCWgwBr5
-	kvyZfVC4K+sGjCC3+cx7gFscp0M9xVxl/32xqF5/rJy/cKUUJQEPflh6QOiMJX6aLYAwdCW14Kl
-	Wd9Xsn/0aI9DIHYd/Vk0BnVJjGI=
-X-Google-Smtp-Source: AGHT+IGKtBXnAxwKr6WSIpLjGkowwxL79Uai/VAiCI3qG0ApVeeVhNw9AiVdWLtob5QmA69nC2ljIw==
-X-Received: by 2002:a05:600c:4ed0:b0:439:8ec2:a9dc with SMTP id 5b1f17b1804b1-43ba6771538mr18212775e9.31.1740731826920;
-        Fri, 28 Feb 2025 00:37:06 -0800 (PST)
-Received: from localhost ([194.120.133.72])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ab39ed2a6sm65936305e9.3.2025.02.28.00.37.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 00:37:06 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] ALSA: es18xx: Fix spelling mistake "grap" -> "grab"
-Date: Fri, 28 Feb 2025 08:36:31 +0000
-Message-ID: <20250228083631.676877-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OHdIQEge";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Aacb2I55";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ez2YI5Os";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yHxR+hdY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 321F821162;
+	Fri, 28 Feb 2025 09:34:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1740735257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QHqqJ0Tar941S5F+zuDGQ2UdVkNKuFWs4oLy55LKnRc=;
+	b=OHdIQEgexqzB3TJNQHkNlWt38s8LTjpA5LkL8+IV9fBCu+Xw2vkQ00SJq1Y+IJxkS4iMUl
+	9cVLdV1/QX4MebUxCd4xKQMQr1h5RSCXb/Bcq7ZgrsMrpilxreUGsNrn7GMdlsMKskNu+V
+	lmDA2Sv2n0xXDzP+nzgHADucb98Xv54=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1740735257;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QHqqJ0Tar941S5F+zuDGQ2UdVkNKuFWs4oLy55LKnRc=;
+	b=Aacb2I55Xq1zMcPLI2JdbCjRPH2lSDKi4OUagQlh1433H+orFEmTm5x1LE9t/NWl7tF+4b
+	naBjKJf4fWK8JODQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1740735256; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QHqqJ0Tar941S5F+zuDGQ2UdVkNKuFWs4oLy55LKnRc=;
+	b=ez2YI5Osl+KbKemlWGdUEz3pyx76u8CbJ/WZv43xOc8FsNZSPCWv8D8Fd29fAJQLwtd2xP
+	NKSSS/bOH8P+lIvMJytOqDkz8WfpdPj0CBY6HlsDsG2rlGWAc/vLA83AVWkb0mPjUZmtuA
+	pJkpZD/qdsQCfdl6CuQQJfYhT1N2pC4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1740735256;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QHqqJ0Tar941S5F+zuDGQ2UdVkNKuFWs4oLy55LKnRc=;
+	b=yHxR+hdYwi4D1F3LCmlEn1cP6wzYMSChPrBt5Kosd62yLXJefBOdppV7izwHvV2B+Nk+kw
+	V/BrElWe9hGcgNDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 036131344A;
+	Fri, 28 Feb 2025 09:34:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ciDFOheDwWcoUAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 28 Feb 2025 09:34:15 +0000
+Date: Fri, 28 Feb 2025 10:34:15 +0100
+Message-ID: <87frjyct0o.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Amin Dandache <amin.dandache@googlemail.com>
+Cc: linux-sound@vger.kernel.org,
+	Amin Dandache <git@amin85.de>,
+	Amin Dandache <amin.dandache@gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: enable support for Presonus Studio 1824c within 1810c file
+In-Reply-To: <20250227133027.21148-1-git@amin85.de>
+References: <20250227133027.21148-1-git@amin85.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[googlemail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,amin85.de,gmail.com];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -1.80
+X-Spam-Flag: NO
 
-There are spelling mistakes in dev_err messages. Fix them.
+On Thu, 27 Feb 2025 14:30:27 +0100,
+Amin Dandache wrote:
+> 
+> This patch adds support for Presonus Studio 1824c, a usb interface
+> that's UAC2 compliant and it is enabled by identifying the device
+> ID 194f:010d and works with the code brought in by the 1810c change from
+> Nick Kossifidis in 2020-02-15.
+> 
+> More infos on the card:
+> https://www.presonus.com/products/Studio-1824c
+> 
+> Signed-off-by: Amin Dandache <amin.dandache@gmail.com>
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/isa/es18xx.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Thanks, applied now to for-next branch.
 
-diff --git a/sound/isa/es18xx.c b/sound/isa/es18xx.c
-index 59c784a70ac1..e35c727a52fa 100644
---- a/sound/isa/es18xx.c
-+++ b/sound/isa/es18xx.c
-@@ -1735,27 +1735,27 @@ static int snd_es18xx_new_device(struct snd_card *card,
- 	chip->active = 0;
- 
- 	if (!devm_request_region(card->dev, port, 16, "ES18xx")) {
--		dev_err(card->dev, "unable to grap ports 0x%lx-0x%lx\n", port, port + 16 - 1);
-+		dev_err(card->dev, "unable to grab ports 0x%lx-0x%lx\n", port, port + 16 - 1);
- 		return -EBUSY;
- 	}
- 
- 	if (devm_request_irq(card->dev, irq, snd_es18xx_interrupt, 0, "ES18xx",
- 			     (void *) card)) {
--		dev_err(card->dev, "unable to grap IRQ %d\n", irq);
-+		dev_err(card->dev, "unable to grab IRQ %d\n", irq);
- 		return -EBUSY;
- 	}
- 	chip->irq = irq;
- 	card->sync_irq = chip->irq;
- 
- 	if (snd_devm_request_dma(card->dev, dma1, "ES18xx DMA 1")) {
--		dev_err(card->dev, "unable to grap DMA1 %d\n", dma1);
-+		dev_err(card->dev, "unable to grab DMA1 %d\n", dma1);
- 		return -EBUSY;
- 	}
- 	chip->dma1 = dma1;
- 
- 	if (dma2 != dma1 &&
- 	    snd_devm_request_dma(card->dev, dma2, "ES18xx DMA 2")) {
--		dev_err(card->dev, "unable to grap DMA2 %d\n", dma2);
-+		dev_err(card->dev, "unable to grab DMA2 %d\n", dma2);
- 		return -EBUSY;
- 	}
- 	chip->dma2 = dma2;
--- 
-2.47.2
 
+Takashi
