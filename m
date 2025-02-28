@@ -1,40 +1,46 @@
-Received: from ssh247.corpemail.net (ssh247.corpemail.net [210.51.61.247])
+Received: from out198-8.us.a.mail.aliyun.com (out198-8.us.a.mail.aliyun.com [47.90.198.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5970D1A8409;
-	Fri, 28 Feb 2025 03:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.61.247
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DEE180A80;
+	Fri, 28 Feb 2025 03:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740713682; cv=none; b=YkBJYdymByyT6T3QnZy2GQ5EiNF+QRWaEGauEiaqohwUUk+8X0ikVz7HNi5sSRtzuNjDln5dAp/b3jVr2oxKuLWaShXtWMf8QhvZueND2IBL9gOc9uvnDkBHVHNqBSKzFgAHFW9pKhBSM53nAR5Bn7a/QyyEkEn+uPK3aPBUa8U=
+	t=1740714950; cv=none; b=AS0YPpHcKZ3sGouR43Pyj5gxQ+yTAQWw23YFilIa4FSnmuRXLib+dVpQ+AtKsJMkoc4r6I4W67ZyZhKTIYafgkpl+oS+oqxj/6co+FAQdrqNP22CB0EaDNtHxxHP2aXIu9y20FqDp0+hvQU6psB5AJ2oEvzuQZUNGv0hYGEloyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740713682; c=relaxed/simple;
-	bh=sZuew6/qnh9yp1NKKxOuD9FyuFysq44fEgAQWmRiQjQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ks2gZnpRxyXvHkx80jtPa5mfedDY6N8AM0KlxFryMWfkzbgTibAAlZxmptCtMoy2UgcDmESCS/MidMybVD4Np78PBcfmjSSnrksN+hNwIc2dZr0vYLXibAxkAq7ptvXa6FbR5mMd57VavzzZeDqtgdnc6oQm4f9gFL10nfDqqNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.61.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
-Received: from jtjnmail201622.home.langchao.com
-        by ssh247.corpemail.net ((D)) with ASMTP (SSL) id 202502281134312562;
-        Fri, 28 Feb 2025 11:34:31 +0800
-Received: from jtjnmail201607.home.langchao.com (10.100.2.7) by
- jtjnmail201622.home.langchao.com (10.100.2.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 28 Feb 2025 11:34:30 +0800
-Received: from locahost.localdomain (10.94.9.231) by
- jtjnmail201607.home.langchao.com (10.100.2.7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 28 Feb 2025 11:34:30 +0800
-From: Charles Han <hanchunchao@inspur.com>
-To: <perex@perex.cz>, <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Charles Han
-	<hanchunchao@inspur.com>
-Subject: [PATCH v2] ALSA: seq: seq_oss_event: fix inconsistent indenting warning in note_on_event()
-Date: Fri, 28 Feb 2025 11:34:27 +0800
-Message-ID: <20250228033427.7056-1-hanchunchao@inspur.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250227092441.19044-1-hanchunchao@inspur.com>
-References: <20250227092441.19044-1-hanchunchao@inspur.com>
+	s=arc-20240116; t=1740714950; c=relaxed/simple;
+	bh=i6bW/rHcvgT89EAEJIDB0utm9PBMM3NgXDcWd3OeJ18=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fBog+wefkDHEytIGvAe+GHSmgHiB3/oGd9QQy4lI6sLCYgHOA2MqkgEENVjwJpCUGvBAFZT8vigB6s5W0O6o0xP9QnhFobQkMqBtGd5UUl1As9BsZP/oBavm43dGa4SvWWPD+vywVn6ikjscVgCjG+bkAmeyYpuJCpia8p1rb2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=47.90.198.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
+Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.bfYTayM_1740714599 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 28 Feb 2025 11:50:05 +0800
+From: wangweidong.a@awinic.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	ivprusov@salutedevices.com,
+	jack.yu@realtek.com,
+	wangweidong.a@awinic.com,
+	zhoubinbin@loongson.cn,
+	luca.ceresoli@bootlin.com,
+	quic_pkumpatl@quicinc.com,
+	paulha@opensource.cirrus.com,
+	rf@opensource.cirrus.com,
+	nuno.sa@analog.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: yijiangtao@awinic.com
+Subject: [PATCH V2 0/2] ASoC: codecs: Add aw88166 amplifier driver
+Date: Fri, 28 Feb 2025 11:49:56 +0800
+Message-ID: <20250228034958.181934-1-wangweidong.a@awinic.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,48 +48,33 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Jtjnmail201614.home.langchao.com (10.100.2.14) To
- jtjnmail201607.home.langchao.com (10.100.2.7)
-tUid: 20252281134315347d902aec45dbc892b8b30f4291622
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
 
-Fix below inconsistent indenting smatch warning.
-smatch warnings:
-sound/core/seq/oss/seq_oss_event.c:297 note_on_event() warn: inconsistent indenting
+From: Weidong Wang <wangweidong.a@awinic.com>
 
-Signed-off-by: Charles Han <hanchunchao@inspur.com>
----
- sound/core/seq/oss/seq_oss_event.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Add the awinic,aw88166 property to support the aw88166 chip.
 
-diff --git a/sound/core/seq/oss/seq_oss_event.c b/sound/core/seq/oss/seq_oss_event.c
-index 7b7c925dd3aa..76fb81077eef 100644
---- a/sound/core/seq/oss/seq_oss_event.c
-+++ b/sound/core/seq/oss/seq_oss_event.c
-@@ -290,16 +290,14 @@ note_on_event(struct seq_oss_devinfo *dp, int dev, int ch, int note, int vel, st
- 		if (note == 255 && info->ch[ch].note >= 0) {
- 			/* volume control */
- 			int type;
--			//if (! vel)
--				/* set volume to zero -- note off */
--			//	type = SNDRV_SEQ_EVENT_NOTEOFF;
--			//else
--				if (info->ch[ch].vel)
-+
-+			if (info->ch[ch].vel)
- 				/* sample already started -- volume change */
- 				type = SNDRV_SEQ_EVENT_KEYPRESS;
- 			else
- 				/* sample not started -- start now */
- 				type = SNDRV_SEQ_EVENT_NOTEON;
-+
- 			info->ch[ch].vel = vel;
- 			return set_note_event(dp, dev, type, ch, info->ch[ch].note, vel, ev);
- 		} else if (note >= 128)
+The driver is for amplifiers aw88166 of Awinic Technology
+Corporation. The AW88166 is a high efficiency digital
+Smart K audio amplifier
+
+v1 -> v2: Modify the problem that the reset function
+           does not match the definition in the yaml file
+
+Weidong Wang (2):
+  ASoC: dt-bindings: Add schema for "awinic,aw88166"
+  ASoC: codecs: Add aw88166 amplifier driver
+
+ .../bindings/sound/awinic,aw88395.yaml        |    1 +
+ sound/soc/codecs/Kconfig                      |   13 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/aw88166.c                    | 1935 +++++++++++++++++
+ sound/soc/codecs/aw88166.h                    |  534 +++++
+ 5 files changed, 2485 insertions(+)
+ create mode 100644 sound/soc/codecs/aw88166.c
+ create mode 100644 sound/soc/codecs/aw88166.h
+
+
+base-commit: 1e15510b71c99c6e49134d756df91069f7d18141
 -- 
-2.43.0
+2.47.0
 
