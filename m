@@ -1,90 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7A31E492
-	for <linux-sound@vger.kernel.org>; Fri, 28 Feb 2025 09:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982D4254867
+	for <linux-sound@vger.kernel.org>; Fri, 28 Feb 2025 09:45:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740735925; cv=none; b=DYmXLra+kDmVctoj58oz0rwwk3sMzSHYgR/xo4GeSjJS6JvNGuiOBfeKEnwyc50jcINneWCNetVbazVcPPYJhn2ztJOKw6F+5tZGtr1e63PFy5MFnNTBiWsUlCPLjhQIUSGBZjOCcO9j4aIps4p7jBigJ89k7LmiF7WiXWida0M=
+	t=1740735958; cv=none; b=BJy93NjHi6GKjT2zk04HDVFUwmHDhm8gzJzTxHPVXEhhTFKJaMq4aj9LFg1ZWnI0Shj3gWM/Gpd+r/oJH3P+8+QDK4PsK+0nI7KQfYomsKBEV35SPY1VdBllEs+gcgqGJh9sa/R6OpM3uN4YbBpgHKeGsWB+tL17QXwxDc+SReo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740735925; c=relaxed/simple;
-	bh=0JCerKlrD1J4ZOG71HdFL5SOCFUL1nJTUxKwuCgBqvk=;
+	s=arc-20240116; t=1740735958; c=relaxed/simple;
+	bh=hiqhnVazLVly2La7BHwSGoBYhBhY6Ydgn9RFJNlag74=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qSzs9ZRU2B0Iv3RYKOSFBUQpezReYIJxZWPX7pPoegffwigV5PD3SL/Kbu8rigWKbQN521RDLKcU0u7VAR8aeo9WtXTgyBE0N6ifF4zlWL/V9BakZc2k4b/Oxz5WqcWQPO4dUZ/jqrYOoh20y+R2Xxn+XW11eYMrwTnEBVRi410=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w94Seuay; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IjDl0axT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w94Seuay; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IjDl0axT; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=Iu04yxnNMSGG+FIu4ahImupqFWuVMWqa0M9Y1NkHuJYpVzdY5VE0gqDPJwyRFlTOTynjTAGl6ZG/NgetKtkEjmM1QcV+s+eSDnPDDF6Jo59jKPgXOeqXyzXqidlrEXDhSnQqEYKbblZnQygUgzjHAS56DHTKqo18R3VXYaBDFos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uVoDNQ0V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vDXUDRon; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uVoDNQ0V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vDXUDRon; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w94Seuay";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IjDl0axT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w94Seuay";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IjDl0axT"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uVoDNQ0V";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vDXUDRon";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uVoDNQ0V";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vDXUDRon"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7406121162;
-	Fri, 28 Feb 2025 09:45:21 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 97F831F38F;
+	Fri, 28 Feb 2025 09:45:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740735921; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1740735948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=evhCa8YSYws/rx6wH6x9M86mfsCuLduea+a/iSVSAlc=;
-	b=w94SeuaypfWThRaH/Ea9RB8h/4q2BjwgL7SVlEhWtW3ERLcTYw7tDa76pnPX96xZmqVbYX
-	64moZKDZEbv43zlprbGKzEyzxNvv2GK3FQJ+AZjonJf1HdsAR0sL4n08YLkxwddhEnTpWC
-	Jfg3SUSfZku0nU2r2P2xtj0qtGVUDso=
+	bh=LS/7qy6HiKHKtDsXcA71rpwuUX3wJVLYwNeJyHnEIhE=;
+	b=uVoDNQ0VPm3xpOXqmWsHSriQIzfE+b8kaxmXNq+FfOBxpqQ2Raslfn0giuHQTHhLrEpwpA
+	1A9Q2EZH3rs67w/HaS4xt+z698tP2/Keh4GbHFrZSbjoEOqpSkHIybGmuHbuFyK9TdyiQF
+	i4SUcOtwNKQKB7OpmoGIY4dIPxj5gjM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740735921;
+	s=susede2_ed25519; t=1740735948;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=evhCa8YSYws/rx6wH6x9M86mfsCuLduea+a/iSVSAlc=;
-	b=IjDl0axTTJsU/IssOMzThUYJxTt0Cz51m8vZ4LbNbbyS0Ov7m62iHw6rpS823y5R3VnOv3
-	/041fxqphcPt0aAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=w94Seuay;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=IjDl0axT
+	bh=LS/7qy6HiKHKtDsXcA71rpwuUX3wJVLYwNeJyHnEIhE=;
+	b=vDXUDRonM9CIxZJk/P6k+smz/Yg0JvnZZXTwDAfmhq1M0e/Q+IXsmHTfNh9Emjq0HpGCMb
+	Lz+LyAvID1hSNcCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uVoDNQ0V;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vDXUDRon
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740735921; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1740735948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=evhCa8YSYws/rx6wH6x9M86mfsCuLduea+a/iSVSAlc=;
-	b=w94SeuaypfWThRaH/Ea9RB8h/4q2BjwgL7SVlEhWtW3ERLcTYw7tDa76pnPX96xZmqVbYX
-	64moZKDZEbv43zlprbGKzEyzxNvv2GK3FQJ+AZjonJf1HdsAR0sL4n08YLkxwddhEnTpWC
-	Jfg3SUSfZku0nU2r2P2xtj0qtGVUDso=
+	bh=LS/7qy6HiKHKtDsXcA71rpwuUX3wJVLYwNeJyHnEIhE=;
+	b=uVoDNQ0VPm3xpOXqmWsHSriQIzfE+b8kaxmXNq+FfOBxpqQ2Raslfn0giuHQTHhLrEpwpA
+	1A9Q2EZH3rs67w/HaS4xt+z698tP2/Keh4GbHFrZSbjoEOqpSkHIybGmuHbuFyK9TdyiQF
+	i4SUcOtwNKQKB7OpmoGIY4dIPxj5gjM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740735921;
+	s=susede2_ed25519; t=1740735948;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=evhCa8YSYws/rx6wH6x9M86mfsCuLduea+a/iSVSAlc=;
-	b=IjDl0axTTJsU/IssOMzThUYJxTt0Cz51m8vZ4LbNbbyS0Ov7m62iHw6rpS823y5R3VnOv3
-	/041fxqphcPt0aAg==
+	bh=LS/7qy6HiKHKtDsXcA71rpwuUX3wJVLYwNeJyHnEIhE=;
+	b=vDXUDRonM9CIxZJk/P6k+smz/Yg0JvnZZXTwDAfmhq1M0e/Q+IXsmHTfNh9Emjq0HpGCMb
+	Lz+LyAvID1hSNcCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3D0881344A;
-	Fri, 28 Feb 2025 09:45:21 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 508111344A;
+	Fri, 28 Feb 2025 09:45:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id a/o7DbGFwWeoUwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 28 Feb 2025 09:45:21 +0000
-Date: Fri, 28 Feb 2025 10:45:20 +0100
-Message-ID: <87a5a6csi7.wl-tiwai@suse.de>
+	id EVqGEcyFwWfPUwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 28 Feb 2025 09:45:48 +0000
+Date: Fri, 28 Feb 2025 10:45:47 +0100
+Message-ID: <878qpqcshg.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Daniel =?ISO-8859-1?Q?B=E1rta?= <daniel.barta@trustlab.cz>
-Cc: perex@perex.cz,
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: linux-sound@vger.kernel.org,
+	kailang@realtek.com,
+	linux-kernel@vger.kernel.org,
+	perex@perex.cz,
 	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ALSA: hda: Fix speakers on ASUS EXPERTBOOK P5405CSA 1.0  
-In-Reply-To: <20250227161256.18061-2-daniel.barta@trustlab.cz>
-References: <20250227161256.18061-2-daniel.barta@trustlab.cz>
+	baojun.xu@ti.com,
+	simont@opensource.cirrus.com
+Subject: Re: [PATCH v2 0/2] ALSA: hda/realtek: Sort Ally X properly, fix Asus Z13 2025 audio
+In-Reply-To: <20250227175107.33432-1-lkml@antheas.dev>
+References: <20250227175107.33432-1-lkml@antheas.dev>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -92,54 +91,75 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 7406121162
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 97F831F38F
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	SUBJECT_ENDS_SPACES(0.50)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Thu, 27 Feb 2025 17:12:55 +0100,
-Daniel Bárta wrote:
+On Thu, 27 Feb 2025 18:51:05 +0100,
+Antheas Kapenekakis wrote:
 > 
-> Good day,
-> speakers on ASUS EXPERTBOOK P5405CSA 1.0 are not working out of the box.
+> The Ally X has two quirks in the kernel currently. This is due to the
+> previous quirk not being sorted properly, whoopsies. Therefore, only one
+> has to stay. During AB testing, the configs were found to be close to
+> identical. Around 20 reboots later, it seems they feature a small pop
+> when at full volume on boot at an identical probability.
 > 
-> After some digging around I have found that this laptop has Cirrus's smart
-> aplifiers connected to SPI bus (spi1-CSC3551:00-cs35l41-hda).
+> Then, add the Asus Z13 2025 quirk to the list. In the V1 of this series,
+> the Ally config was used, which (see above) is a bit ambitious. Testing
+> found that the stock quirk works just as well, so use that instead.
 > 
-> To get them correctly detected and working I had to modify patch_realtek.c
-> with ASUS EXPERTBOOK P5405CSA 1.0 SystemID (0x1043, 0x1f63) and add
-> corresponding hda_quirk (ALC245_FIXUP_CS35L41_SPI_2).
+> @Stefan: the Z13 is a big launch for Asus, could we do something to
+> expedite things just for this laptop? As far as Bazzite is concerned,
+> we shipped the stock quirk as of today, and included the firmware. This
+> is moreso for mainline distributions.
 > 
-> Signed-off-by: Daniel Bárta <daniel.barta@trustlab.cz>
+> The Z13 was tested with the following firmware files:
+> 
+> sha256sum *
+> 79cc046b2a1a89fd250dadfb47bdcb8a3c3d7df80452079f64e5417b237f4889  cs35l41-dsp1-spk-cali-10431fb3-l0.bin
+> 3027249f8a340a8fb0034d67e5af8787789c83e9b3623664dab744668272b54e  cs35l41-dsp1-spk-cali-10431fb3-r0.bin
+> a8f3d1735c03383cd8567713e510034b0f98df0264fa7135e6e8186e0ea346de  cs35l41-dsp1-spk-prot-10431fb3-l0.bin
+> f0cdcf6d72bc591dec8a7bacba3ad8b46742207807c1e3c7787171de66e6f815  cs35l41-dsp1-spk-prot-10431fb3-r0.bin
+> e4e73d47203e0badc913b4a1317d48cb0e1b54d7d737f339148068f0cde34b16  cs35l41-dsp1-spk-prot-10431fb3.wmfw
+> 
+> Changelog since V1:
+>     - Revert Ally X config to use the stock quirk instead
+>     - Use a stock quirk for the Z13 too
+> 
+> Antheas Kapenekakis (2):
+>   ALSA: hda/realtek: Remove (revert) duplicate Ally X config
+>   ALSA: hda/realtek: Fix Asus Z13 2025 audio
 
-Applied now to for-linus branch.  Thanks.
+Applied both patches now to for-linus branch.
+I added Fixes tag to the former.
 
+
+thanks,
 
 Takashi
