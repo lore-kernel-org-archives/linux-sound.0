@@ -1,116 +1,89 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ssh247.corpemail.net (ssh247.corpemail.net [210.51.61.247])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A44125B2;
-	Fri, 28 Feb 2025 02:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5970D1A8409;
+	Fri, 28 Feb 2025 03:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.61.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740708018; cv=none; b=XQHM8uFz57jxH9DsiT9P7q6rchBASK/v6bMgcrqD4XNmftVL9Hbm9iYzxI20Umq2xo4LpQtDazjY/CFGzFBom+3Okg9UbmRNM7mJt/2uVZ/Zh+CVhCVf/N26v9/U44uwFFSESQQYPIigtohwU1+JC00Qlca6kQT6hdMkQWWjLao=
+	t=1740713682; cv=none; b=YkBJYdymByyT6T3QnZy2GQ5EiNF+QRWaEGauEiaqohwUUk+8X0ikVz7HNi5sSRtzuNjDln5dAp/b3jVr2oxKuLWaShXtWMf8QhvZueND2IBL9gOc9uvnDkBHVHNqBSKzFgAHFW9pKhBSM53nAR5Bn7a/QyyEkEn+uPK3aPBUa8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740708018; c=relaxed/simple;
-	bh=i0m66G0oGYlw4dGrr3+zeRfE5q6XWuv5OG1RasO80/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MUuITUp0szCow/2jMaKWiUhphmsdqkBy/C3hlqANS+VaQiK05Efrf2svQ6pBMx4fydrl9ZF15Ed70ea8wTf8pCcpQTyIAPOxFHqlwmyW9W60VWjh9J0cKwsjNvEPkv8Z0KSjcZzzzy8LSHt5+/+CQwyM+17UrFo7f2lPZt7IFMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YPrKQvl8; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YPrKQvl8"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22104c4de96so27624805ad.3;
-        Thu, 27 Feb 2025 18:00:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740708016; x=1741312816; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i0m66G0oGYlw4dGrr3+zeRfE5q6XWuv5OG1RasO80/A=;
-        b=YPrKQvl8aElWP6bgNo7sEUyPVTbitwxK1rspwSPNdsjuiwjfax3oTd/opt8dst9oXm
-         d4SsNk3BG5HWIBin4Vrl2Xu65MkxXUyDU+egFGFMEiXFyHHoZu/nnni82qeSWsQ/J/f5
-         CX47d2U/ZhRC4tXrgYbnUnBxk+ilJSXN1ylkSOGoTiLk6nJuEVzW3pvmEhsVjUXok1ib
-         kKe/KRMIsWjpQnOLk4sRMR8GJhELLJFIycVpZ/1MhiOVJto68ykGqaukRs2c+aJfWws1
-         xT1/ZmAcSph8ZPrdWE94euKb7Sha2+7/U+BY33BrqqcEBt0sIPnMIMFKkY7rF486rr1b
-         ic+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740708016; x=1741312816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i0m66G0oGYlw4dGrr3+zeRfE5q6XWuv5OG1RasO80/A=;
-        b=TJVK0p0UeMdKnltJmS6aoAzGnDfdDcmL2Ub5W3BIcArreZRXhpZ75xXWO6R1yjTsAK
-         J4j8dRwblX3QYBP3RWmTtyxzwWYZOIivZ3cNaEiYrYQeGgVDKZolvufXXr/YMAwcK3uU
-         j/j03T9EGDdXonFCKn6+ldnGZsOyGjhdZZaPl9ksAKGCF+NQYiDWBw11jHcjFFiXopZ4
-         Z3Me0ylPeM3SCU6ytCHWviTJCfHNp2H8wU3TE+Y18ihV9cNCMocDrvtFFOZs/npHvKeH
-         unt0OTuinxhLdgWc8bg2i469V17sECxNiYaRAf/CBEXjmdhykQiqwvozvQk2VpgKcA3m
-         ingg==
-X-Forwarded-Encrypted: i=1; AJvYcCV2a1JQtipWZUvuAOQBGyW8WFAN4uxQ9MnistgIxoLvNId7yGlbnquiEA8b+7YZBEXE2QCmEpiZhpz59qc=@vger.kernel.org, AJvYcCVd+xNHzjT/4qBxLwbm2D5z5Kfq47yQUYSWRmDVzKvADmBaJOTiLqhHodfgnhMs26JcHkT8cgyYWy4VrJM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDA4mxiosN2qpjcm7zZuxcOzqxSYpPk12IW9CSdUrsi/i5SdXV
-	09XKwFCKYRYFsP+7kQs8DP1Zihp0+EACZ2VMUWysMh613Wa+p4Y/
-X-Gm-Gg: ASbGncvOESHY8IFntfCQ6ZptAHMbmd5ztUOK44UAKGMlNGxm7rbIjBgccFTCiIXFh0d
-	c0XRVESTsQMruyxWqmGamSwaPkcwJ9mk26I9Z9OhI4QmtHg4aJaLCP4VyFJRHwo6hycB39QcTmD
-	QixR2RhOK47Cb2ZR8lw+KYTotR3EwXb8Dxa+qouEegL+FnLIQYeT4piIEUsPpOiUu0Txs3EpwZs
-	AZ84/zlLJ3bvbsezMILbUd3kX9RwOuLz9dzEOiDyl/WAqTgktT5JGOuzDSVGSXV0AyxLSnnNc6C
-	WsYAz0OkdAdZP/5A4oPy8aW/+A==
-X-Google-Smtp-Source: AGHT+IGW0dMFonepaakj1wuRrMpQ/un424w5pZ0d2CME1+ku+UQCi3/74lPDSjsGl3+iiwyUPwVOKA==
-X-Received: by 2002:a17:903:2412:b0:21f:8099:72e4 with SMTP id d9443c01a7336-22368fc97b7mr28153775ad.28.1740708016067;
-        Thu, 27 Feb 2025 18:00:16 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-223501f972esm22767215ad.58.2025.02.27.18.00.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2025 18:00:15 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 2B1D9412B0AC; Fri, 28 Feb 2025 09:00:11 +0700 (WIB)
-Date: Fri, 28 Feb 2025 09:00:11 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>,
-	linux-sound@vger.kernel.org, broonie@kernel.org, tiwai@suse.de,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev, bard.liao@intel.com
-Subject: Re: [PATCH v4 01/16] Documentation: driver: add SoundWire BRA
- description
-Message-ID: <Z8EYqyqfW1xUpdAo@archie.me>
-References: <20250227140615.8147-1-yung-chuan.liao@linux.intel.com>
- <20250227140615.8147-2-yung-chuan.liao@linux.intel.com>
+	s=arc-20240116; t=1740713682; c=relaxed/simple;
+	bh=sZuew6/qnh9yp1NKKxOuD9FyuFysq44fEgAQWmRiQjQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ks2gZnpRxyXvHkx80jtPa5mfedDY6N8AM0KlxFryMWfkzbgTibAAlZxmptCtMoy2UgcDmESCS/MidMybVD4Np78PBcfmjSSnrksN+hNwIc2dZr0vYLXibAxkAq7ptvXa6FbR5mMd57VavzzZeDqtgdnc6oQm4f9gFL10nfDqqNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.61.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
+Received: from jtjnmail201622.home.langchao.com
+        by ssh247.corpemail.net ((D)) with ASMTP (SSL) id 202502281134312562;
+        Fri, 28 Feb 2025 11:34:31 +0800
+Received: from jtjnmail201607.home.langchao.com (10.100.2.7) by
+ jtjnmail201622.home.langchao.com (10.100.2.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 28 Feb 2025 11:34:30 +0800
+Received: from locahost.localdomain (10.94.9.231) by
+ jtjnmail201607.home.langchao.com (10.100.2.7) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 28 Feb 2025 11:34:30 +0800
+From: Charles Han <hanchunchao@inspur.com>
+To: <perex@perex.cz>, <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Charles Han
+	<hanchunchao@inspur.com>
+Subject: [PATCH v2] ALSA: seq: seq_oss_event: fix inconsistent indenting warning in note_on_event()
+Date: Fri, 28 Feb 2025 11:34:27 +0800
+Message-ID: <20250228033427.7056-1-hanchunchao@inspur.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250227092441.19044-1-hanchunchao@inspur.com>
+References: <20250227092441.19044-1-hanchunchao@inspur.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lH9YPecz6GDZKscb"
-Content-Disposition: inline
-In-Reply-To: <20250227140615.8147-2-yung-chuan.liao@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: Jtjnmail201614.home.langchao.com (10.100.2.14) To
+ jtjnmail201607.home.langchao.com (10.100.2.7)
+tUid: 20252281134315347d902aec45dbc892b8b30f4291622
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 
+Fix below inconsistent indenting smatch warning.
+smatch warnings:
+sound/core/seq/oss/seq_oss_event.c:297 note_on_event() warn: inconsistent indenting
 
---lH9YPecz6GDZKscb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Charles Han <hanchunchao@inspur.com>
+---
+ sound/core/seq/oss/seq_oss_event.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-On Thu, Feb 27, 2025 at 10:06:00PM +0800, Bard Liao wrote:
-> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
->=20
-> The Bulk Register Access protocol was left as a TODO topic since
-> 2018. It's time to document this protocol and the design of its Linux
-> support.
->=20
+diff --git a/sound/core/seq/oss/seq_oss_event.c b/sound/core/seq/oss/seq_oss_event.c
+index 7b7c925dd3aa..76fb81077eef 100644
+--- a/sound/core/seq/oss/seq_oss_event.c
++++ b/sound/core/seq/oss/seq_oss_event.c
+@@ -290,16 +290,14 @@ note_on_event(struct seq_oss_devinfo *dp, int dev, int ch, int note, int vel, st
+ 		if (note == 255 && info->ch[ch].note >= 0) {
+ 			/* volume control */
+ 			int type;
+-			//if (! vel)
+-				/* set volume to zero -- note off */
+-			//	type = SNDRV_SEQ_EVENT_NOTEOFF;
+-			//else
+-				if (info->ch[ch].vel)
++
++			if (info->ch[ch].vel)
+ 				/* sample already started -- volume change */
+ 				type = SNDRV_SEQ_EVENT_KEYPRESS;
+ 			else
+ 				/* sample not started -- start now */
+ 				type = SNDRV_SEQ_EVENT_NOTEON;
++
+ 			info->ch[ch].vel = vel;
+ 			return set_note_event(dp, dev, type, ch, info->ch[ch].note, vel, ev);
+ 		} else if (note >= 128)
+-- 
+2.43.0
 
-The doc looks good, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---lH9YPecz6GDZKscb
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ8EYpQAKCRD2uYlJVVFO
-ow9hAP9LdvfzTcTegjos7NiaBDntFIH12hipdZ/yfwB49Tj2tAD/UvVnRMtymG8P
-KMdB/2WZ1/1su+ZTXFYqdAZp+f7T4wY=
-=+mgO
------END PGP SIGNATURE-----
-
---lH9YPecz6GDZKscb--
