@@ -1,72 +1,272 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f206.google.com (mail-il1-f206.google.com [209.85.166.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919701D9A50;
-	Fri, 28 Feb 2025 21:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D42E179BC
+	for <linux-sound@vger.kernel.org>; Sat,  1 Mar 2025 02:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740779668; cv=none; b=SdXFph5/BdaFp5coDO5OUEmm9iXk/2u2c/ai/Re0vfKa79xjmSKInGFMcZcloWHmXAhk9mXqyK61sWy3RTFLuzmQxenjBCutuDcM5syiO/V9egrE3s1CfWz39szMUyXLdzgapIrsgWBpbx43OtYEIiS884Lys9mnM3SS4cqVjWc=
+	t=1740796648; cv=none; b=SPREXOGuj1Xi2r7k7MFWNT91zvegyXJKeZa6gse2awnxVQXhpgOEDIrdL0r7WR4DmQHQ0mn09dy3+YfiO+buyNt2bBMPdZpaZ67ldzF0IQPE2kgfZwlj7csksW1mDB0+RfyVLZsjMiwtmSip4mnI5E42Gi+za2XU/pHTnTv7tzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740779668; c=relaxed/simple;
-	bh=lPLFh+00xp78235bh44TfGLXIDG+nOh0mclninRKRyY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YmLZj081h2+McKrrp2mWbfzL2qJ3xYYbK6C2iyaSQGF2bs96kMuEGbzmVH9LuTU7iJWj78G59IdCkKl/N9LfP2GohxXSkazGx+acRfpIl3FjA9zILZPWRaD3jO1yBrxwWYcOHIpdVC5zp0M1eWaPX6ksGGnft13lbXGOF0erEvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EBfYwbSn; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EBfYwbSn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D28DAC4CED6;
-	Fri, 28 Feb 2025 21:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740779668;
-	bh=lPLFh+00xp78235bh44TfGLXIDG+nOh0mclninRKRyY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EBfYwbSngjDbqOzR37piyYJJcx6t1dyst5pJ6u5QbGRVsI5Wu4tc5qP/SD0Nw0BzE
-	 ONw014XSi7UKWKvJdb+MHaHs5D8sKdo5SrTUVqZGEr+QO4F41ztzXcC/Jm/1OqaKab
-	 EmwWw91YTylLtqIt4Gi7fjSotl5uiEboYIqoBhAJn8X5A0saOO/GKC7QleUfY1EGmO
-	 Gqyy/IRssEDpX5gH4JSQDPpdIOZhujelNTaCFZrdF5nBfriVDUxn0cJ3FWZ/LcgIJ4
-	 ghbLoGVGmVgYc+X+cddNHGq6MA6ruxhvVkrmtlB92ltBiHsS4iQr7bh1ZSl5zAGw0M
-	 jjnvymy+QCHjA==
-Date: Fri, 28 Feb 2025 15:54:26 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: jiebing chen <jiebing.chen@amlogic.com>
-Cc: shuai.li@amlogic.com, Jaroslav Kysela <perex@perex.cz>,
-	linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-clk@vger.kernel.org,
-	linux-sound@vger.kernel.org, zhe.wang@amlogic.com,
-	Mark Brown <broonie@kernel.org>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Conor Dooley <conor+dt@kernel.org>, jian.xu@amlogic.com,
-	Michael Turquette <mturquette@baylibre.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 3/6] dt-bindings: Asoc: axg-audio: Add s4 audio tocodec
-Message-ID: <174077966526.3761473.14676912177806602380.robh@kernel.org>
-References: <20250228-audio_drvier-v3-0-dbfd30507e4c@amlogic.com>
- <20250228-audio_drvier-v3-3-dbfd30507e4c@amlogic.com>
+	s=arc-20240116; t=1740796648; c=relaxed/simple;
+	bh=cTGPlx7pw6RIp8KSQT6BuCHfpEYmkepudlGmEEz51Ik=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=CuIUKvL+tein/o7HtyZU5ls58aXwrP9OJZE/Izy/iZFYbi406zy+tytuTqnGlXi+6Q1O+7G+McBpe9i7dz9LOSTB4jR59VbHl+Nqq4nnYbfomxscsnN30MsCVdRyGbyuLfUq371yerHbCzRgNcsI8SnOHGs1NI2bqvQ82ZftQGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f206.google.com with SMTP id e9e14a558f8ab-3d2a379bbf0so49960015ab.1
+        for <linux-sound@vger.kernel.org>; Fri, 28 Feb 2025 18:37:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740796645; x=1741401445;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KCt8WYLGPXzaOcIY+HeTQ3rXzOz4MRgxVUe/NkPCXPA=;
+        b=Vd+qcNgWYHKAov4gLLPywsNhV3AB6BVJlJHwPeA3Nre7NmQc19ZG52mD4DoNfNXjDZ
+         F6lK0OKqrmbSlVX6CJtHd65G3az/GnkwcZnMwSYDYOcVLRe3qu/qGUG8NBaV1A/26oIJ
+         1weS1Jzs5/2nxewQcJYenhYndM+/WfZyUNssirru6pfDcBS2zVNG6uyx4havDkQxvUqu
+         BZabMdjLx9pDcHt3HG+hoEfAoE8iP+Vbvo1DtDKPUTu5+Q9oWSDQQrC/mTE6jrGhvrZb
+         7L6g7jjwm6IsF0m7YZZnGEZY71FBIGun9oYu68Mbuk3eMKfxzWW2Nfs3NT361310EdNk
+         xCoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWfIkEkXk6a1Gx1Ubg9dmKVJa9nldUvoPa00RPL6iFPRPEHxUJOiHamWYZGk+ZwtK+dH3zTn8vUs101Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhoVviQYS2nzGHY+1L6yAlesEr7jvvOrhqFsSvDyqORy4WqvMs
+	tB7ICcu1sCjx0/YxYjpfHVEW0KLOHPgn5WbK1zpR6N5khstsK5EwQfyHqSMLyjF3+912nWHl4TI
+	+xbuK+TNFa1YSk7ioAWzZ23MP2QUf0vfqsqCPU9DaouM71JWGbazOb9I=
+X-Google-Smtp-Source: AGHT+IGiFd/UGDzTZZkUgVY/g2QjAZHGl8ItGLWRcWiifbfFjrn4Xps15mUfmqrKQVmbmM85FZ5Oz3ZzrqGBH1vXEeuFj6GkX3Ui
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250228-audio_drvier-v3-3-dbfd30507e4c@amlogic.com>
+X-Received: by 2002:a05:6e02:1d87:b0:3d1:980a:6a7c with SMTP id
+ e9e14a558f8ab-3d3e6e736dfmr62211305ab.8.1740796645694; Fri, 28 Feb 2025
+ 18:37:25 -0800 (PST)
+Date: Fri, 28 Feb 2025 18:37:25 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67c272e5.050a0220.dc10f.0159.GAE@google.com>
+Subject: [syzbot] [sound?] BUG: sleeping function called from invalid context
+ in snd_card_locked
+From: syzbot <syzbot+4cb9fad083898f54c517@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    d082ecbc71e9 Linux 6.14-rc4
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14e3d7a4580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8f2f8fb6ad08b539
+dashboard link: https://syzkaller.appspot.com/bug?extid=4cb9fad083898f54c517
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-d082ecbc.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f7cfa9bd3468/vmlinux-d082ecbc.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d47dd7c3fc5d/bzImage-d082ecbc.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+4cb9fad083898f54c517@syzkaller.appspotmail.com
+
+BUG: sleeping function called from invalid context at kernel/locking/mutex.c:562
+in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid: 1167, name: kworker/0:1H
+preempt_count: 0, expected: 0
+RCU nest depth: 0, expected: 0
+2 locks held by kworker/0:1H/1167:
+ #0: ffff88801b089148 ((wq_completion)events_highpri){+.+.}-{0:0}, at: process_one_work+0x1293/0x1ba0 kernel/workqueue.c:3211
+ #1: ffffc900061f7d18 ((work_completion)(&timer->task_work)){+.+.}-{0:0}, at: process_one_work+0x921/0x1ba0 kernel/workqueue.c:3212
+irq event stamp: 1044
+hardirqs last  enabled at (1043): [<ffffffff8b59c523>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
+hardirqs last  enabled at (1043): [<ffffffff8b59c523>] _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:202
+hardirqs last disabled at (1044): [<ffffffff8b59c2c2>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (1044): [<ffffffff8b59c2c2>] _raw_spin_lock_irqsave+0x52/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (204): [<ffffffff817c131b>] softirq_handle_end kernel/softirq.c:407 [inline]
+softirqs last  enabled at (204): [<ffffffff817c131b>] handle_softirqs+0x5bb/0x8f0 kernel/softirq.c:589
+softirqs last disabled at (183): [<ffffffff817c17e9>] __do_softirq kernel/softirq.c:595 [inline]
+softirqs last disabled at (183): [<ffffffff817c17e9>] invoke_softirq kernel/softirq.c:435 [inline]
+softirqs last disabled at (183): [<ffffffff817c17e9>] __irq_exit_rcu+0x109/0x170 kernel/softirq.c:662
+CPU: 0 UID: 0 PID: 1167 Comm: kworker/0:1H Not tainted 6.14.0-rc4-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Workqueue: events_highpri snd_timer_work
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ __might_resched+0x3c0/0x5e0 kernel/sched/core.c:8767
+ __mutex_lock_common kernel/locking/mutex.c:562 [inline]
+ __mutex_lock+0x108/0xb10 kernel/locking/mutex.c:730
+ class_mutex_constructor include/linux/mutex.h:201 [inline]
+ snd_card_locked+0x1b/0x60 sound/core/init.c:399
+ snd_request_card+0x14/0x70 sound/core/sound.c:62
+ snd_seq_client_use_ptr+0x375/0x3c0 sound/core/seq/seq_clientmgr.c:152
+ get_event_dest_client sound/core/seq/seq_clientmgr.c:533 [inline]
+ snd_seq_deliver_single_event+0xdb/0x6e0 sound/core/seq/seq_clientmgr.c:663
+ snd_seq_deliver_event+0x291/0x4b0 sound/core/seq/seq_clientmgr.c:822
+ snd_seq_dispatch_event+0x117/0x580 sound/core/seq/seq_clientmgr.c:897
+ snd_seq_check_queue+0x248/0x510 sound/core/seq/seq_queue.c:256
+ snd_seq_timer_interrupt+0x2e3/0x390 sound/core/seq/seq_timer.c:153
+ snd_timer_process_callbacks+0x217/0x2e0 sound/core/timer.c:785
+ snd_timer_work+0xa9/0x100 sound/core/timer.c:815
+ process_one_work+0x9c5/0x1ba0 kernel/workqueue.c:3236
+ process_scheduled_works kernel/workqueue.c:3317 [inline]
+ worker_thread+0x6c8/0xf00 kernel/workqueue.c:3398
+ kthread+0x3af/0x750 kernel/kthread.c:464
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+
+================================
+WARNING: inconsistent lock state
+6.14.0-rc4-syzkaller #0 Tainted: G        W         
+--------------------------------
+inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage.
+kworker/0:1H/1167 [HC0[0]:SC0[0]:HE1:SE1] takes:
+ffff8880236dc148 (&timer->lock){?.-.}-{3:3}, at: spin_lock include/linux/spinlock.h:351 [inline]
+ffff8880236dc148 (&timer->lock){?.-.}-{3:3}, at: snd_timer_process_callbacks+0x227/0x2e0 sound/core/timer.c:786
+{IN-HARDIRQ-W} state was registered at:
+  lock_acquire.part.0+0x11b/0x380 kernel/locking/lockdep.c:5851
+  __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+  _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
+  spin_lock include/linux/spinlock.h:351 [inline]
+  class_spinlock_constructor include/linux/spinlock.h:559 [inline]
+  snd_hrtimer_callback+0x53/0x400 sound/core/hrtimer.c:38
+  __run_hrtimer kernel/time/hrtimer.c:1801 [inline]
+  __hrtimer_run_queues+0x20a/0xae0 kernel/time/hrtimer.c:1865
+  hrtimer_interrupt+0x392/0x8e0 kernel/time/hrtimer.c:1927
+  local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1038 [inline]
+  __sysvec_apic_timer_interrupt+0x10f/0x400 arch/x86/kernel/apic/apic.c:1055
+  instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1049 [inline]
+  sysvec_apic_timer_interrupt+0x9f/0xc0 arch/x86/kernel/apic/apic.c:1049
+  asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
+  __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+  _raw_spin_unlock_irqrestore+0x31/0x80 kernel/locking/spinlock.c:194
+  class_raw_spinlock_irqsave_destructor include/linux/spinlock.h:551 [inline]
+  try_to_wake_up+0x949/0x1490 kernel/sched/core.c:4214
+  wake_up_process kernel/sched/core.c:4463 [inline]
+  wake_up_q+0x9c/0x160 kernel/sched/core.c:1075
+  raw_spin_unlock_irqrestore_wake include/linux/sched/wake_q.h:96 [inline]
+  __mutex_unlock_slowpath+0x231/0x6a0 kernel/locking/mutex.c:933
+  device_unlock include/linux/device.h:1045 [inline]
+  hub_event+0xc5f/0x4e10 drivers/usb/core/hub.c:5954
+  process_one_work+0x9c5/0x1ba0 kernel/workqueue.c:3236
+  process_scheduled_works kernel/workqueue.c:3317 [inline]
+  worker_thread+0x6c8/0xf00 kernel/workqueue.c:3398
+  kthread+0x3af/0x750 kernel/kthread.c:464
+  ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:148
+  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+irq event stamp: 1197
+hardirqs last  enabled at (1197): [<ffffffff8b59c5b2>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (1197): [<ffffffff8b59c5b2>] _raw_spin_unlock_irqrestore+0x52/0x80 kernel/locking/spinlock.c:194
+hardirqs last disabled at (1196): [<ffffffff8b59c2c2>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (1196): [<ffffffff8b59c2c2>] _raw_spin_lock_irqsave+0x52/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (1156): [<ffffffff817c131b>] softirq_handle_end kernel/softirq.c:407 [inline]
+softirqs last  enabled at (1156): [<ffffffff817c131b>] handle_softirqs+0x5bb/0x8f0 kernel/softirq.c:589
+softirqs last disabled at (1047): [<ffffffff817c17e9>] __do_softirq kernel/softirq.c:595 [inline]
+softirqs last disabled at (1047): [<ffffffff817c17e9>] invoke_softirq kernel/softirq.c:435 [inline]
+softirqs last disabled at (1047): [<ffffffff817c17e9>] __irq_exit_rcu+0x109/0x170 kernel/softirq.c:662
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&timer->lock);
+  <Interrupt>
+    lock(&timer->lock);
+
+ *** DEADLOCK ***
+
+2 locks held by kworker/0:1H/1167:
+ #0: ffff88801b089148 ((wq_completion)events_highpri){+.+.}-{0:0}, at: process_one_work+0x1293/0x1ba0 kernel/workqueue.c:3211
+ #1: ffffc900061f7d18 ((work_completion)(&timer->task_work)){+.+.}-{0:0}, at: process_one_work+0x921/0x1ba0 kernel/workqueue.c:3212
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 1167 Comm: kworker/0:1H Tainted: G        W          6.14.0-rc4-syzkaller #0
+Tainted: [W]=WARN
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Workqueue: events_highpri snd_timer_work
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ print_usage_bug.part.0+0x3fb/0x680 kernel/locking/lockdep.c:4040
+ print_usage_bug kernel/locking/lockdep.c:4008 [inline]
+ valid_state kernel/locking/lockdep.c:4054 [inline]
+ mark_lock_irq kernel/locking/lockdep.c:4265 [inline]
+ mark_lock+0x92d/0xc60 kernel/locking/lockdep.c:4751
+ mark_usage kernel/locking/lockdep.c:4660 [inline]
+ __lock_acquire+0x98e/0x3c40 kernel/locking/lockdep.c:5182
+ lock_acquire.part.0+0x11b/0x380 kernel/locking/lockdep.c:5851
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ snd_timer_process_callbacks+0x227/0x2e0 sound/core/timer.c:786
+ snd_timer_work+0xa9/0x100 sound/core/timer.c:815
+ process_one_work+0x9c5/0x1ba0 kernel/workqueue.c:3236
+ process_scheduled_works kernel/workqueue.c:3317 [inline]
+ worker_thread+0x6c8/0xf00 kernel/workqueue.c:3398
+ kthread+0x3af/0x750 kernel/kthread.c:464
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+------------[ cut here ]------------
+raw_local_irq_restore() called with IRQs enabled
+WARNING: CPU: 0 PID: 1167 at kernel/locking/irqflag-debug.c:10 warn_bogus_irq_restore+0x29/0x30 kernel/locking/irqflag-debug.c:10
+Modules linked in:
+CPU: 0 UID: 0 PID: 1167 Comm: kworker/0:1H Tainted: G        W          6.14.0-rc4-syzkaller #0
+Tainted: [W]=WARN
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Workqueue: events_highpri snd_timer_work
+RIP: 0010:warn_bogus_irq_restore+0x29/0x30 kernel/locking/irqflag-debug.c:10
+Code: 90 f3 0f 1e fa 90 80 3d f9 a7 f3 04 00 74 06 90 c3 cc cc cc cc c6 05 ea a7 f3 04 01 90 48 c7 c7 c0 e6 6c 8b e8 58 df 22 f6 90 <0f> 0b 90 90 eb df 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+RSP: 0018:ffffc900061f7c18 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffff8880236dc130 RCX: ffffffff817a1229
+RDX: ffff888028238000 RSI: ffffffff817a1236 RDI: 0000000000000001
+RBP: 0000000000000286 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 61636f6c5f776172 R12: ffff8880236dc000
+R13: ffff8880236dc1b0 R14: 0000000000000000 R15: ffff88801b09d800
+FS:  0000000000000000(0000) GS:ffff88806a600000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fecdd000218 CR3: 0000000031f9c000 CR4: 0000000000352ef0
+DR0: 0000000000000002 DR1: fffffffffffffffb DR2: 0000000000010001
+DR3: 0000000000000004 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+ _raw_spin_unlock_irqrestore+0x74/0x80 kernel/locking/spinlock.c:194
+ spin_unlock_irqrestore include/linux/spinlock.h:406 [inline]
+ class_spinlock_irqsave_destructor include/linux/spinlock.h:572 [inline]
+ snd_timer_work+0xbe/0x100 sound/core/timer.c:814
+ process_one_work+0x9c5/0x1ba0 kernel/workqueue.c:3236
+ process_scheduled_works kernel/workqueue.c:3317 [inline]
+ worker_thread+0x6c8/0xf00 kernel/workqueue.c:3398
+ kthread+0x3af/0x750 kernel/kthread.c:464
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:148
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
 
 
-On Fri, 28 Feb 2025 16:04:11 +0800, jiebing chen wrote:
-> Add the s4 tocodec compatible
-> 
-> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
-> ---
->  Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
