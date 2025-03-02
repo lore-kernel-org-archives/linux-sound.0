@@ -1,89 +1,95 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A951EB1BF;
-	Sun,  2 Mar 2025 16:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A871EEA37
+	for <linux-sound@vger.kernel.org>; Sun,  2 Mar 2025 23:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740933172; cv=none; b=kALCtawNTA/0Nxkh9fSV8VcUpYUaI31BH0qNWyIc5TiOhCmidQpnXdw9VQTvZ/RjwturpbjUi1XTeh1gGAb4yZQ6qlzLkzeRPqhYuC5kG6BLuhQFydJw4/znnhtqc89U8YmVqv5/OMH0RS8ZvWVO/iUMA/eAtQtirUqQzBMixXQ=
+	t=1740956408; cv=none; b=WF6jXmyGBJi0MXuANUophVr/LIgu8pTzbs7bE2/YPR0VOb8s/uOP7boxXkETUf2d0GviHwDKuynDWVYClkWG3agJ4k8Oirn7Wx3A/Kr0cGn1zj4XI5KNf3rP1y/AhHHO3YMKNqMR0vJm0edDTK0qaECdhUxEjbgPIyQp79zyh3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740933172; c=relaxed/simple;
-	bh=vy7W4XMABxoxejxdW3NIH5jjNnEdXu3h8szhJ30eV5s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YYZcggLbzoUnQP+rqYfBxLtV4dcak8PZ9o4L+nohlnziKU4400y2VSIw39rScDHZ6DweYHCxwNlDE9J5B9DBUcO9gyB+gNvqOzj6Wd8l/z+ofvVhkFFXRL/PuVlQRacSqeORgqBx9By5IwfxgfL8DRpkZF7xFQtDfN4TID34TWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gMRm2RCw; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1740956408; c=relaxed/simple;
+	bh=8xX8lbiW+5RQ+wFxa3JghYTzhMpaR5RIrDRPY8soEFM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HWnWSuOQ4aJVmofu4snG5uxYJEq/v740aQK0/ino4tzSYC3GsZMlQtfiWYcpDa7XyUzt3nKLzfqt1qJoOvZFYPQTGHXRiB+JHpfmdcpauclhUVR0T8ieb2kdqx9u1Y5yCykJP4JVBuI8lgDa90x9EAgh4OJN43KY3GVIy2RSc/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KFCuaIPm; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gMRm2RCw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1740933169;
-	bh=vy7W4XMABxoxejxdW3NIH5jjNnEdXu3h8szhJ30eV5s=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=gMRm2RCwsPFGw7WJ7Tn7/ZFH8fpan3ZHxSy5CkP7HU11qyYX9nHj0STvUe93UMPFX
-	 iTpEwzTB+MhioplZOqrgARamas0vuKGEDyKkCJpp0AcCGVX2WA6hf15W96A2IWG3wN
-	 nCCrWqoU0i0w0nyLef8wgC0YkAymZpWGEhP4a2mUpUQRXom7covdScFFnOxFUED4V+
-	 YZsFqHg2ul7FW7Bpk10AoVEJiWeWGGZrIb/nQ/nAJn1w622V52pfn9fjegxSN3YrlS
-	 A1GT3YZR4bS/4OJjkgBrSKsg8fuMnxUct//F45XNmdebYq7N/oxdVKGzGkUSOrj96/
-	 FLSc+gCOFZ5JQ==
-Received: from [192.168.0.47] (unknown [IPv6:2804:14c:1a9:53ee::1002])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A570517E023F;
-	Sun,  2 Mar 2025 17:32:44 +0100 (CET)
-From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Sun, 02 Mar 2025 13:30:59 -0300
-Subject: [PATCH v2 20/20] arm64: defconfig: Enable MT6359 ACCDET
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KFCuaIPm"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1740956393;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=9ZqF8FngRBwwLVOgM6/1uD7/Y5CAfT801f3ud25fkUA=;
+	b=KFCuaIPmd13ybDYCHp+sSPU7HHo9wt9W0jWX5EnmXe4UfJn/SSkPBGLGraL5ojTNQZ26qa
+	bdwn0i3YIzCVRtG+Z3wiqQflKrGwb7H8iEOcjJkufxt/Teo1OEQY25aYqM/RfE4wSMHPjs
+	245ntXw/wAV/sFegitdGvTqNRkRcd8k=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sameer Pujar <spujar@nvidia.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Sheetal <sheetal@nvidia.com>,
+	Ritu Chaudhary <rituc@nvidia.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	stable@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH] ASoC: tegra: Fix ADX S24_LE audio format
+Date: Sun,  2 Mar 2025 23:59:25 +0100
+Message-ID: <20250302225927.245457-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250302-mt6359-accdet-dts-v2-20-5bd633ee0d47@collabora.com>
-References: <20250302-mt6359-accdet-dts-v2-0-5bd633ee0d47@collabora.com>
-In-Reply-To: <20250302-mt6359-accdet-dts-v2-0-5bd633ee0d47@collabora.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, 
- Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-pm@vger.kernel.org, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-X-Mailer: b4 0.14.2
+X-Migadu-Flow: FLOW_OUT
 
-Enable support for the ACCDET block in the MT6359 PMIC, which provides
-jack detection capabilities to MediaTek platforms.
+Commit 4204eccc7b2a ("ASoC: tegra: Add support for S24_LE audio format")
+added support for the S24_LE audio format, but duplicated S16_LE in
+OUT_DAI() for ADX instead.
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Fix this by adding support for the S24_LE audio format.
+
+Compile-tested only.
+
+Cc: stable@vger.kernel.org
+Fixes: 4204eccc7b2a ("ASoC: tegra: Add support for S24_LE audio format")
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/tegra/tegra210_adx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index e675bedbc170ccb191f4991e348e36b5de0707a7..dec4708d5e946fc890751cab8de2cf3f302e9447 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -1065,6 +1065,7 @@ CONFIG_SND_SOC_WM8978=m
- CONFIG_SND_SOC_WSA881X=m
- CONFIG_SND_SOC_WSA883X=m
- CONFIG_SND_SOC_WSA884X=m
-+CONFIG_SND_SOC_MT6359_ACCDET=m
- CONFIG_SND_SOC_NAU8822=m
- CONFIG_SND_SOC_LPASS_WSA_MACRO=m
- CONFIG_SND_SOC_LPASS_VA_MACRO=m
-
+diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_adx.c
+index 3e6e8f51f380..0aa93b948378 100644
+--- a/sound/soc/tegra/tegra210_adx.c
++++ b/sound/soc/tegra/tegra210_adx.c
+@@ -264,7 +264,7 @@ static const struct snd_soc_dai_ops tegra210_adx_out_dai_ops = {
+ 			.rates = SNDRV_PCM_RATE_8000_192000,	\
+ 			.formats = SNDRV_PCM_FMTBIT_S8 |	\
+ 				   SNDRV_PCM_FMTBIT_S16_LE |	\
+-				   SNDRV_PCM_FMTBIT_S16_LE |	\
++				   SNDRV_PCM_FMTBIT_S24_LE |	\
+ 				   SNDRV_PCM_FMTBIT_S32_LE,	\
+ 		},						\
+ 		.capture = {					\
+@@ -274,7 +274,7 @@ static const struct snd_soc_dai_ops tegra210_adx_out_dai_ops = {
+ 			.rates = SNDRV_PCM_RATE_8000_192000,	\
+ 			.formats = SNDRV_PCM_FMTBIT_S8 |	\
+ 				   SNDRV_PCM_FMTBIT_S16_LE |	\
+-				   SNDRV_PCM_FMTBIT_S16_LE |	\
++				   SNDRV_PCM_FMTBIT_S24_LE |	\
+ 				   SNDRV_PCM_FMTBIT_S32_LE,	\
+ 		},						\
+ 		.ops = &tegra210_adx_out_dai_ops,		\
 -- 
 2.48.1
 
