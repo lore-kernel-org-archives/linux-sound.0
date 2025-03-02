@@ -1,114 +1,135 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153A51D5141
-	for <linux-sound@vger.kernel.org>; Sun,  2 Mar 2025 08:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948A9208A7;
+	Sun,  2 Mar 2025 16:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740903653; cv=none; b=fU2NDROc7oSIskLVR3bD8jtTFRSYOIT15ktVrEyAyMkjhQ6RWKxqrsiF7mOzb8El+lecDoCdy2yd9SET/fI3MOngKrfxnPFWKWv/ysJvqdqKw8xWzxmQ6Ao3wp1AOXNVX70cZ0qwM3RThjunPtSdsvap7fx/0XRFRCempjw9+yE=
+	t=1740933068; cv=none; b=ZBdupR4HkfCriOsOViMcXx2BE/xVM3LtqGLq55btCrFwONS4gEGqV4mUQ/+lS/UkW7GuhOqbKQ/16XJW0rNc+jyAxBIlavafgT3HT7PIWKFQuZkZenoGlvUVZeaaJfZziyrRw89KL5Zo/vCXrzT0b2lQxzqjOMRx1p7D3lTnLVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740903653; c=relaxed/simple;
-	bh=dDu98QeMjbKfxBR7tJUCWsuZcwKiTkC6WMI4ZnynukA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YH+tG90j3ryBlO4Sq2cWV9lRw+zWgR6h4rOj1YTmTEjQVDWOatybxeaV4hbkJGUEjTAc8AJtYa+9+P3udJ6dAFsibC9IVMPRpVnc9Isx2vE/4lm0ge3UPHHNUpupPyMk67kRv9m8Jn26aRA9pXKo+cbuv6EetGWu/Ty0ESgFQMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VlRRSIX1; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740933068; c=relaxed/simple;
+	bh=Te/+ghmA/RZrMtfC1LsnoUqBiFhdUI71MOZB0VoMZmw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UcVb6PRfSxZzmzoS8OXjNaMkRDzoWNysUSm+qh+DIceYt5+6IHqk8pa2Zhc2BcA4Ufhtv11crECmrEboS1NOb/6xg8xkE/tCcMk76kMK+aFJIV6MFBGOxhgr5DkabFk6S9XU4yomfPutkoeutK9pUSxz7AItB9xAX3X/a306oUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HXgX21fR; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VlRRSIX1"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30b83290b7bso40731011fa.1
-        for <linux-sound@vger.kernel.org>; Sun, 02 Mar 2025 00:20:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740903648; x=1741508448; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NfKdwYcU8DQiF6AXOruyp9oIUgOHdVpgmFqLr+oBxX8=;
-        b=VlRRSIX1MmRT6tvkrkKsR0kUqGvXsBo0Eu/wUoCL0J3T9XyylYOK6SLbcAUhlSXKYo
-         SA8OV1PUytzEsKGnjk/DHdoPjyXWq5++qWaz4dAG/5bf4eApWh96s8cg1DvNFOIYbJUh
-         kulELKBTTnUV/YGc50Mmp2Vu7faUnvIGXj8OoYr0iTvdG9CwyoQazIloltTaJkFKUCPo
-         zWND4F2h9nC9AXnSCGUErsvRIDiwqJWNyXU8gszJVKl/8cVGVGTbOfNgTdWlwLVXhwt8
-         0bygA1BlJ4fX9CY7I1DaUfG2eGKU3F0pdt5XxuCIiaqb0h0VZkLHyETrVQksjVUfXoDn
-         UarQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740903648; x=1741508448;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NfKdwYcU8DQiF6AXOruyp9oIUgOHdVpgmFqLr+oBxX8=;
-        b=GONCSyY1K1qzln31neMjcPmaDWWNSCHGxvTODDvAOOnkROnsh5cp68GkIYgh63qCBu
-         KR74fBGerWGckazpYQpFAJHqSXIV50n6NwhQCuL8A97BHNOs0FvPhiSwPXT986y4/lvM
-         SRXr0oGeV48GYxHUw4S6FvillHQgUbsHPa/dROA4lnTmIG66jYh7DbnqHTLqEaVpI4D1
-         BPTKP3JtvCPtYC19yWvwX/hqcYcJt5I1yYWa6smRnTNxToS5d33uA9v4IUeR/FvzlXrj
-         v1W5disrYPAkh8e8Su/ktCWR+wP/p4/a67pSLYwFojzF/yu9+jQgAc/B66WO3ROxgH5v
-         CPnw==
-X-Forwarded-Encrypted: i=1; AJvYcCUDIKWQGUDwqNJVFndVuMLK0l6XSzgqcMTTPd5MDIN4MQiyV62jS/AD9pTJRSQr9vLD9Ss0Dcval9Mhgg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCi4cN+l+JVJXKuFYl2T1RSww3AaQrHbUx5H5pRcE3Sqyjn7bc
-	arCoj3BXd1b+Oj3zAfedR/Sk5X3Wk0PwoaR0Z465yFUAmfRmXcpAusGbLAYqwJc=
-X-Gm-Gg: ASbGncukiQWZAAFMaCRNh8KcauGFhK8eZK9/vPv/B+xdU2D4Yhfhvjl9dZxAgp+l/P9
-	Q4ReG1hWxeLKv6tYztHr2dBv+vnyeSuvcgI7J/gY9v0oZAhCkQ3gGkaHO7SogI9XriuyinaRhWc
-	7k7sBVt/Wo+kfXJrpzAadMzE5UXIvo5mcvLDfBMVLO9y/RUUkyeivZZvoMd1nEL+V0rN6DmTXPJ
-	W5pVRL60gdKcjsaUm8F+f+PG5CokEOamiKMF90ciMMChPn+SlYBfd2QK3iLu4ybwlmJIGXaOrLY
-	Hoq4Xwn0ktJLWoskDhmUz5XalYhtej2Ps1HUNd4AyQw/LEXI1jDxo3AIQyPuXqrDsKwngTjt1Tj
-	3oDlgZMEwyEQMjCtvTcySaNVr
-X-Google-Smtp-Source: AGHT+IHg+KAzyy0IsIZM7j3wFAcOrBBOIer88JW2kHinXd24Lajckl9FIBe+oKIlI8/bfiroAOYlRQ==
-X-Received: by 2002:a2e:bea7:0:b0:30b:b852:2f77 with SMTP id 38308e7fff4ca-30bb85235a4mr2172901fa.6.1740903648125;
-        Sun, 02 Mar 2025 00:20:48 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30b8de780a5sm8800941fa.4.2025.03.02.00.20.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Mar 2025 00:20:46 -0800 (PST)
-Date: Sun, 2 Mar 2025 10:20:44 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 3/5] arm64: dts: qcom: qcm2290: add apr and its services
-Message-ID: <zh2hpp73bzylw5aomljqs62k2tay5cmltvgczo7bi4flmvgd6h@g5hzcax2aqd7>
-References: <20250302-rb1_hdmi_sound_first-v1-0-81a87ae1503c@linaro.org>
- <20250302-rb1_hdmi_sound_first-v1-3-81a87ae1503c@linaro.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HXgX21fR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1740933057;
+	bh=Te/+ghmA/RZrMtfC1LsnoUqBiFhdUI71MOZB0VoMZmw=;
+	h=From:Subject:Date:To:Cc:From;
+	b=HXgX21fRjHhEcq3b8BHzM6FFUGjiTu9fBYysFL0Z6qFQVu8vtMQTx/vtSR4ukAQ8C
+	 IK+HT77hYQTAlrY7wOvabnyxM2QKUZSbZtQBeyR3zXbprnRExQxu0yDbwoE+w0xArf
+	 +vkEbxYDTEIWk/LtPbW1RamznK1t9wsjSmcjg6+FP6vGiLTIq+gwJO6KqZ+4vR2uz2
+	 lrycjkHQldzeSIJTmOTuSQBIF/3TlWr2RkB6DsaHExCh+FDH3/A8quZbmPi8DF848h
+	 fiDK6ir/eHRfFWy8kVaUI6dFI4ijrm7jWDCY7+21l6V0nMCl/fNHUnK+Yu7+0K+dWH
+	 pR7ad5GiRbLmg==
+Received: from [192.168.0.47] (unknown [IPv6:2804:14c:1a9:53ee::1002])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A2B4B17E07F8;
+	Sun,  2 Mar 2025 17:30:52 +0100 (CET)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH v2 00/20] Get mt6359-accdet ready for usage in Devicetree
+Date: Sun, 02 Mar 2025 13:30:39 -0300
+Message-Id: <20250302-mt6359-accdet-dts-v2-0-5bd633ee0d47@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250302-rb1_hdmi_sound_first-v1-3-81a87ae1503c@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAK+HxGcC/32NSwrDIBRFtxLeuK+oMb+Ouo+Sgb6YRkhiUZGW4
+ N5rs4AOz4F77gHBeGsC3KoDvEk2WLcXEJcKaFH706CdCoNgomGCS9xiWzcDKqLJRJxiQMY074d
+ ednNNUHYvb2b7PpuPsfBiQ3T+c14k/rP/aokjw7brFG+4HrSkO7l1Vdp5dSW3wZhz/gIMsO1lt
+ gAAAA==
+X-Change-ID: 20250214-mt6359-accdet-dts-00b189847f3c
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, 
+ Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-pm@vger.kernel.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
+ Andrew Perepech <andrew.perepech@mediatek.com>
+X-Mailer: b4 0.14.2
 
-On Sun, Mar 02, 2025 at 02:49:53AM +0000, Alexey Klimov wrote:
-> Add apr (asynchronous packet router) node and its associated services
+This series prepares the MT6359 ACCDET for actual usage in the
+Devicetree. Patches 1 and 2 add the required DT bindings, patches 3 and
+4 get the mt6359-accdet driver probing, patches 5-18 clean up code
+related to DT property parsing, patch 19 adds the node in the
+Devicetree and patch 20 enables the kconfig for the driver.
 
-Nit: APR?
+Together with the series "Allow retrieving accessory detection reference
+on MT8188" [1], and one extra patch on top enabling it on the
+genio-700-evk DT, this series was tested on the Genio 700 EVK to get
+audio jack detection working on it.
 
-> required to enable audio on QRB2210 RB1 board.
-> 
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/qcm2290.dtsi | 72 +++++++++++++++++++++++++++++++++++
->  1 file changed, 72 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/qcm2290.dtsi b/arch/arm64/boot/dts/qcom/qcm2290.dtsi
-> index f0746123e594d5ce5cc314c956eaca11556a9211..2c90047f7dd867580836284721c60ed5983f3f34 100644
-> --- a/arch/arm64/boot/dts/qcom/qcm2290.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/qcm2290.dtsi
-> @@ -16,6 +16,8 @@
->  #include <dt-bindings/interconnect/qcom,qcm2290.h>
->  #include <dt-bindings/interconnect/qcom,rpm-icc.h>
->  #include <dt-bindings/power/qcom-rpmpd.h>
-> +#include <dt-bindings/soc/qcom,apr.h>
-> +#include <dt-bindings/sound/qcom,q6asm.h>
->  
->  / {
->  	interrupt-parent = <&intc>;
+[1] https://lore.kernel.org/all/20250214-mt8188-accdet-v1-0-6bbd5483855b@collabora.com
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+---
+Changes in v2:
+- Removed all DT-binding properties except for EINT polarity one
+  (mediatek,eint-level-pol / mediatek,hp-eint-high)
+  - Added patches 12-18 to make those settings internal to driver
+- Renamed mediatek,eint-level-pol to mediatek,hp-eint-high and made it
+  bool
+- Added patch 20 to enable the MT6359 ACCDET Kconfig in the defconfig
+- Removed unused btn_type variable as part of "Drop dead code for button
+  detection" patch.
+- Link to v1: https://lore.kernel.org/r/20250214-mt6359-accdet-dts-v1-0-677a151b9b4c@collabora.com
 
+---
+Andrew Perepech (2):
+      mfd: mt6397-core: Add mfd_cell for mt6359-accdet
+      ASoC: mediatek: mt6359-accdet: Implement HP_EINT polarity configuration
+
+Nícolas F. R. A. Prado (18):
+      ASoC: dt-bindings: Add document for mt6359-accdet
+      dt-bindings: mfd: mediatek: mt6397: Add accdet subnode
+      ASoC: mediatek: mt6359-accdet: Add compatible property
+      ASoC: mediatek: mt6359-accdet: Handle hp-eint-high property
+      ASoC: mediatek: mt6359-accdet: Drop dead code for EINT/GPIO IRQ handling
+      ASoC: mediatek: mt6359-accdet: Drop dead code for EINT trigger setting
+      ASoC: mediatek: mt6359-accdet: Drop dead code for button detection
+      ASoC: mediatek: mt6359-accdet: Drop dead code for plugout-debounce
+      ASoC: mediatek: mt6359-accdet: Drop unused moisture variables
+      ASoC: mediatek: mt6359-accdet: Always use internal resistor
+      ASoC: mediatek: mt6359-accdet: Make PWM debounce settings internal
+      ASoC: mediatek: mt6359-accdet: Always use eint detect mode 4
+      ASoC: mediatek: mt6359-accdet: Always set micbias1 to 2.8V
+      ASoC: mediatek: mt6359-accdet: Always configure hardware as mic-mode 2
+      ASoC: mediatek: mt6359-accdet: Always set comp-vth to 1.6V
+      ASoC: mediatek: mt6359-accdet: Always use EINT0 IRQ
+      arm64: dts: mt6359: Add accessory detect node
+      arm64: defconfig: Enable MT6359 ACCDET
+
+ .../devicetree/bindings/mfd/mediatek,mt6397.yaml   |   7 +
+ .../bindings/sound/mediatek,mt6359-accdet.yaml     |  42 ++
+ arch/arm64/boot/dts/mediatek/mt6359.dtsi           |   4 +
+ arch/arm64/configs/defconfig                       |   1 +
+ drivers/mfd/mt6397-core.c                          |  12 +
+ sound/soc/codecs/mt6359-accdet.c                   | 599 +++++----------------
+ sound/soc/codecs/mt6359-accdet.h                   |  55 +-
+ 7 files changed, 196 insertions(+), 524 deletions(-)
+---
+base-commit: c0eb65494e59d9834af7cbad983629e9017b25a1
+change-id: 20250214-mt6359-accdet-dts-00b189847f3c
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
