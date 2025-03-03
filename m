@@ -1,81 +1,142 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FE01F1908;
-	Mon,  3 Mar 2025 11:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1765B7FBAC
+	for <linux-sound@vger.kernel.org>; Mon,  3 Mar 2025 12:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741000529; cv=none; b=lhDWnUCy44M8IFrJtIjOpddzZ8Qp1Mr2XWEWtYbgiedrn2Uc4sE62j+dGQdqB5Lo1PwX/6hk8prW19Tl0z9O7LOuREfdKxgu7Q/YWxrHEb/2GDPEWvejhQl3QrmmqnVKYUqhDCbXzJxOt+FIvhJ3P/1L1/sqSOEeEGEYEAHprOQ=
+	t=1741005654; cv=none; b=mGdtvO8g2aZEZlPvbaZei4Brt1iD0d1f9SEsoYSrD/4YQc2hXq0mSAkmI9hpTJYW1T3Jucll2vSg/r2UJigNRpnHWtn9RPFV4OHgPoRUe9Blf71pVr3153Xv1qtHTTbLF17dxYzgurCvNzdjvYQTb3k2t4x05GoHzUTh/E3PCSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741000529; c=relaxed/simple;
-	bh=zHGCADU56T7A224lF133oGjwzLj/Y9hZrXbv8NOAx1U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ld1jtjYLe40kn+MHF3WbqqH4babcSM6eJKeVz2oq4ARciauCIY25HYusrewEydcQiBeeMpsskmdAaMqD5WD+vBMYLHnUlPy2WkB7aIAUnOnsTJRwERxbLtRMBz9qwFQ/QK+PfJl1qO3NgVECNWlweQ9/oMD5IKl3sbsIQO4YZRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Zp/H58vJ; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1741005654; c=relaxed/simple;
+	bh=mwxaK4669S3GvHcRq4TyN7XjcNBKaAxeBjfvAWZvGvU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oePzK8eT7o5bLavrTjXc3Cv0c0pmFbMy3sXvHaRTRe/e2o8Rbgmy3RZ7fBB7AphhCrsemE9WIT89BzkraExgSCp61oXTkzZkPrhXoJBWMsYbsy5ZHn4wiF+OnYYi1w4VRNdz8fGK/Une6H5bdWGire7id1uj9yfF9/ly2Uzt784=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X2bY2xHa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tkiy+ZMG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZTttCRHq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ChoIAOY2; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Zp/H58vJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1741000525;
-	bh=zHGCADU56T7A224lF133oGjwzLj/Y9hZrXbv8NOAx1U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Zp/H58vJ9rjRaEthdrCDdcQWdjaAb1mvE/B2PKHjamT9xW01devW47qz6T+qEtx6b
-	 M3E0H2siHWMutWk60bE3BnHGzRW5Eim8AOm7eBhMdBAln/VMk4Dd1OHZ/2MlPGZ+Qc
-	 lSfZ4gtN4+f6C/GCTf69DojqEueBPedXBGKiourDxcDKScxW3TnCK7US7PZ/wfq8jA
-	 0rGL0bUZkC19Jr6yWljZK6j9C5NpLmhWh1quFmZ3vosaz6I4szPUqLbOl2kFgnYtId
-	 SH4Q2ocYXq72C6WtD8FKYVuKSV7P1TeZ8/O75g86GPmSEBk4QVOEsvHyRyWdOEjMov
-	 NFjeojr1ZOgBQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X2bY2xHa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tkiy+ZMG";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZTttCRHq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ChoIAOY2"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7517517E086B;
-	Mon,  3 Mar 2025 12:15:24 +0100 (CET)
-Message-ID: <ea3cfb5c-bcba-4530-8bd4-6738acfaad90@collabora.com>
-Date: Mon, 3 Mar 2025 12:15:24 +0100
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ECFD021182;
+	Mon,  3 Mar 2025 12:40:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741005651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LmIPuZjPI2XS9p2XhyzdtDrvchyUKON/ocNRWtdEE4g=;
+	b=X2bY2xHaHp3YDYuWzIom/EYZzyvfZ5s2G6Cxph6GUGM0+yIAlQXK8UC6El8Wp20UHTTPM9
+	p7qh+wIjAkC22bV8rDXiI6uATJoiaEI12N/iosXoxbqDcRw4Ql1plLBYer2Xipuu7o3Hm7
+	XDFXgVqd3sq9DJBdicFa2nb4/a3jHOY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741005651;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LmIPuZjPI2XS9p2XhyzdtDrvchyUKON/ocNRWtdEE4g=;
+	b=Tkiy+ZMGFQrD79qaF1iVv54csXc+EqlAX/AtuCtzLwP+VaYU+dKZLR31eL1DbRc3KUxFki
+	TRSu89Y7spVciRDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZTttCRHq;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ChoIAOY2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741005650; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LmIPuZjPI2XS9p2XhyzdtDrvchyUKON/ocNRWtdEE4g=;
+	b=ZTttCRHqnB6FDN91S/kzMvHah3d/sLBYe2bRZdzKPHlhbP5Yv5jwp2FLhra4JKmg7U9wJa
+	mWXQvcpToWhyZXRYunVrI5UzAwHu9/9Q9QoYfvekhpdedRFb4e8+riihK+s7qL3WLEEFHh
+	F83UtDtikn37qjJKl+I/nmXQGfxraW8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741005650;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LmIPuZjPI2XS9p2XhyzdtDrvchyUKON/ocNRWtdEE4g=;
+	b=ChoIAOY2h8408KaExQCSDVpmkk271GUtj+ajiU4eRyuBcwPf8YXSj38+yV6Y3YELlGiF/N
+	JT7eoQv7WkmgKMCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD41213939;
+	Mon,  3 Mar 2025 12:40:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UJu2KFKjxWdSSAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 03 Mar 2025 12:40:50 +0000
+Date: Mon, 03 Mar 2025 13:40:50 +0100
+Message-ID: <87o6yie17x.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Murad Masimov <m.masimov@mt-integration.ru>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<lvc-project@linuxtesting.org>
+Subject: Re: [PATCH] ALSA: usx2y: validate nrpacks module parameter on probe
+In-Reply-To: <20250303100413.835-1-m.masimov@mt-integration.ru>
+References: <20250303100413.835-1-m.masimov@mt-integration.ru>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/20] ASoC: mediatek: mt6359-accdet: Implement HP_EINT
- polarity configuration
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Sen Chu <sen.chu@mediatek.com>,
- Sean Wang <sean.wang@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
- Lee Jones <lee@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-pm@vger.kernel.org, Andrew Perepech <andrew.perepech@mediatek.com>
-References: <20250302-mt6359-accdet-dts-v2-0-5bd633ee0d47@collabora.com>
- <20250302-mt6359-accdet-dts-v2-6-5bd633ee0d47@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250302-mt6359-accdet-dts-v2-6-5bd633ee0d47@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: ECFD021182
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Il 02/03/25 17:30, Nícolas F. R. A. Prado ha scritto:
-> From: Andrew Perepech <andrew.perepech@mediatek.com>
+On Mon, 03 Mar 2025 11:04:13 +0100,
+Murad Masimov wrote:
 > 
-> The driver currently reads the HP_EINT polarity from the Devicetree but
-> never actually configures the hardware accordingly.
+> The module parameter defines number of iso packets per one URB. User is
+> allowed to set any value to the parameter of type int, which can lead to
+> various kinds of weird and incorrect behavior like integer overflows,
+> truncations, etc. Number of packets should be a small non-negative number.
 > 
-> Implement the polarity configuration in hardware.
+> Since this parameter is read-only, its value can be validated on driver
+> probe.
 > 
-> Signed-off-by: Andrew Perepech <andrew.perepech@mediatek.com>
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: Murad Masimov <m.masimov@mt-integration.ru>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Thanks, applied now.
 
 
+Takashi
