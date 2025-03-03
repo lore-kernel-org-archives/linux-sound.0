@@ -1,139 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A688526FDA6;
-	Mon,  3 Mar 2025 16:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6552D253355;
+	Mon,  3 Mar 2025 17:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741019538; cv=none; b=Y2LAnyfv72K91zQDBf7ZCoz+SDrL7njJtIjwIuPP1S5i4cXixkgymxMt5m5lkrr/wgB0LthS/BHfdhQZpBh74CNlC8iu3S7yvGLl6jSKTrH5bS22mL7TmSgaygQtQhK2sKiaJLB6z/Fixe+w10P9Pk/3uXGY01TgvTbXhn7kUsE=
+	t=1741022094; cv=none; b=A9LsjW15gsHHaMoTQXVxRyf4i76WFFovviRTzjRDyKtWwOZ/kaia1ZnLHk6Pj4BN+1eGJvWfJ90xpUAewvVEqiLHj2sj4mo3IAFy2lzywd1c/j7UyoSUYxC09rA7NzWAikjbR8+Nr1/CtTkwdQeuUdTfyqTc2kywVcPyP88knOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741019538; c=relaxed/simple;
-	bh=CCUwxqKobXieSTyYaGeyLx8VcuRA9frHOzOZcR1ixYI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HkgwlknSsvj4H5DjVe9zUJ4HXQi3s9sxnFHqQRBVJw4PbjW8TGmZWNu+9NDGjGOsjzYYQyTgnWWkCS+6a9FRj82Y8RLOVpa3zgmjJA2BWWyXOXS82YSQsLcDTPd0nYpG5wR98e/criLN2BHMSJ9aJNYWV37e8l5oYC2vBpZ4wgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VZlypjLA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741022094; c=relaxed/simple;
+	bh=0a6GsTu1v6G9IFu27pIz+BEGmc3bjQkUNcbXMT5Kr2s=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cN+Ks1eK2ZRYXJ6DHKmR1NYzXRqP8ITFJh0iH04I1vmqQ9494zk/qJugT22NokAP0tyZ/wrjsFCESDnH4oOl2HDRc+9aihM32Z4es0zUZbyNpHIUSYORASJL4rqMnsXQAl0qiuND8usrrljvHPmRo2k1xzadYVrC9QLKY8iaogw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=gwvodxqU; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VZlypjLA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FA6CC4CED6;
-	Mon,  3 Mar 2025 16:32:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741019538;
-	bh=CCUwxqKobXieSTyYaGeyLx8VcuRA9frHOzOZcR1ixYI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VZlypjLAc9jlkbcdMkaVW0UX0+H0EawFcXez9kPG/mBP0RXqJoaZ1c9VsxMLQZioI
-	 r/aMhd8aR5divrSA1CYuq9/oIu5t8sx9bZVX+VWs1H7cH3AJi815fSj5Reg547wtgg
-	 +XsHRZA7Sq8JtPdgjFh3mxFHzO8KQgUoOvm9G7omkc+M+QyfutuAp342XLmK6UANcT
-	 L3KGKHy5AFSnrk+Hg+q2fowbmfqOeNmyxNeE532mLujXL7XBLFUnNSHpH+AXrFRJr8
-	 yPzVq2n68As5ds/OBtUeumpa3LgvuzKkvLWzUcEvpN2Sfk7yXv9dD82A79U8U1ksD7
-	 Th7EWQEqHmIMA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Hector Martin <marcan@marcan.st>,
-	Neal Gompa <neal@gompa.dev>,
-	James Calligeros <jcalligeros99@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 3/8] ASoC: tas2764: Set the SDOUT polarity correctly
-Date: Mon,  3 Mar 2025 11:32:06 -0500
-Message-Id: <20250303163211.3764282-3-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="gwvodxqU"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5236w7Xd006077;
+	Mon, 3 Mar 2025 11:14:36 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=UhkrunqH3dKw/D1ED3Nwf2ppvHAxhhwCBAUeApJFGC0=; b=
+	gwvodxqUZH2L+mNbmUo8UQ/6USCfRI1x9w3hGIyvoJTdZS+q7oX7vuBL5IgdW/TS
+	Ook9tYMsgnDx7CH0g5U0WCIYIsLG5wtM140NkmznCVtvw6tsNtHaHmgfQDQkdCGY
+	u8M1otwtCUJVzMT/ZZGAZorOLktZlgbq4eMn2DzxlsmfPETlkDQAfl9gjTQ3UWDL
+	82rleCbdWXsuGJgMuexTLwjkV8fsA8VGOvIr6w0diLrFoR+a/7XoeRSrOV1MzrDO
+	LJjC4QPvvNpjFTRLMrRVVI+rebjri3xVyPY/L0vm///8ujCyyoWQYjbhksF8zUBN
+	2LYzHXtcFuZpOKnjdSWkyQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 453yhmdame-7
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Mar 2025 11:14:36 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 3 Mar
+ 2025 17:14:24 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Mon, 3 Mar 2025 17:14:24 +0000
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id B460D82255C;
+	Mon,  3 Mar 2025 17:14:24 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <peda@axentia.se>, <andrei.simion@microchip.com>,
+        <nuno.sa@analog.com>, <paul@crapouillou.net>, <oder_chiou@realtek.com>,
+        <kiseok.jo@irondevice.com>, <shenghao-ding@ti.com>, <kevin-lu@ti.com>,
+        <baojun.xu@ti.com>, <srinivas.kandagatla@linaro.org>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: [PATCH v2 08/13] ASoC: wsa881x: Use SOC_SINGLE_EXT_TLV() helper macro
+Date: Mon, 3 Mar 2025 17:14:19 +0000
+Message-ID: <20250303171424.444556-9-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250303163211.3764282-1-sashal@kernel.org>
-References: <20250303163211.3764282-1-sashal@kernel.org>
+In-Reply-To: <20250303171424.444556-1-ckeepax@opensource.cirrus.com>
+References: <20250303171424.444556-1-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.234
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: YeU0KgxVBju9Aomq6o8PKKQFkWd12p-H
+X-Authority-Analysis: v=2.4 cv=UeirSLSN c=1 sm=1 tr=0 ts=67c5e37c cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=Vs1iUdzkB0EA:10 a=w1d2syhTAAAA:8 a=V7zCF8UxTbGbpslwMU0A:9 a=YXXWInSmI4Sqt1AkVdoW:22
+X-Proofpoint-GUID: YeU0KgxVBju9Aomq6o8PKKQFkWd12p-H
+X-Proofpoint-Spam-Reason: safe
 
-From: Hector Martin <marcan@marcan.st>
+Rather than open coding use the helper macro provided by the ASoC core.
 
-[ Upstream commit f5468beeab1b1adfc63c2717b1f29ef3f49a5fab ]
-
-TX launch polarity needs to be the opposite of RX capture polarity, to
-generate the right bit slot alignment.
-
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-Link: https://patch.msgid.link/20250218-apple-codec-changes-v2-28-932760fd7e07@gmail.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/tas2764.c | 10 +++++++++-
- sound/soc/codecs/tas2764.h |  6 ++++++
- 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index c8f6f5122cacb..dd8eeafa223e8 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -315,7 +315,7 @@ static int tas2764_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- {
- 	struct snd_soc_component *component = dai->component;
- 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
--	u8 tdm_rx_start_slot = 0, asi_cfg_0 = 0, asi_cfg_1 = 0;
-+	u8 tdm_rx_start_slot = 0, asi_cfg_0 = 0, asi_cfg_1 = 0, asi_cfg_4 = 0;
- 	int ret;
+No changes since v1.
+
+ sound/soc/codecs/wsa881x.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/sound/soc/codecs/wsa881x.c b/sound/soc/codecs/wsa881x.c
+index dd2d6661adc71..a3999bb6d5e22 100644
+--- a/sound/soc/codecs/wsa881x.c
++++ b/sound/soc/codecs/wsa881x.c
+@@ -199,13 +199,8 @@
+ #define WSA881X_PROBE_TIMEOUT 1000
  
- 	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
-@@ -324,12 +324,14 @@ static int tas2764_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 		fallthrough;
- 	case SND_SOC_DAIFMT_NB_NF:
- 		asi_cfg_1 = TAS2764_TDM_CFG1_RX_RISING;
-+		asi_cfg_4 = TAS2764_TDM_CFG4_TX_FALLING;
- 		break;
- 	case SND_SOC_DAIFMT_IB_IF:
- 		asi_cfg_0 ^= TAS2764_TDM_CFG0_FRAME_START;
- 		fallthrough;
- 	case SND_SOC_DAIFMT_IB_NF:
- 		asi_cfg_1 = TAS2764_TDM_CFG1_RX_FALLING;
-+		asi_cfg_4 = TAS2764_TDM_CFG4_TX_RISING;
- 		break;
- 	}
+ #define WSA881X_PA_GAIN_TLV(xname, reg, shift, max, invert, tlv_array) \
+-{	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
+-	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |\
+-		 SNDRV_CTL_ELEM_ACCESS_READWRITE,\
+-	.tlv.p = (tlv_array), \
+-	.info = snd_soc_info_volsw, .get = snd_soc_get_volsw,\
+-	.put = wsa881x_put_pa_gain, \
+-	.private_value = SOC_SINGLE_VALUE(reg, shift, max, invert, 0) }
++	SOC_SINGLE_EXT_TLV(xname, reg, shift, max, invert, \
++			   snd_soc_get_volsw, wsa881x_put_pa_gain, tlv_array)
  
-@@ -339,6 +341,12 @@ static int tas2764_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = snd_soc_component_update_bits(component, TAS2764_TDM_CFG4,
-+					    TAS2764_TDM_CFG4_TX_MASK,
-+					    asi_cfg_4);
-+	if (ret < 0)
-+		return ret;
-+
- 	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
- 	case SND_SOC_DAIFMT_I2S:
- 		asi_cfg_0 ^= TAS2764_TDM_CFG0_FRAME_START;
-diff --git a/sound/soc/codecs/tas2764.h b/sound/soc/codecs/tas2764.h
-index b18a637bd9fa3..337bc611bee96 100644
---- a/sound/soc/codecs/tas2764.h
-+++ b/sound/soc/codecs/tas2764.h
-@@ -75,6 +75,12 @@
- #define TAS2764_TDM_CFG3_RXS_SHIFT	0x4
- #define TAS2764_TDM_CFG3_MASK		GENMASK(3, 0)
- 
-+/* TDM Configuration Reg4 */
-+#define TAS2764_TDM_CFG4		TAS2764_REG(0X0, 0x0d)
-+#define TAS2764_TDM_CFG4_TX_MASK	BIT(0)
-+#define TAS2764_TDM_CFG4_TX_RISING	0x0
-+#define TAS2764_TDM_CFG4_TX_FALLING	BIT(0)
-+
- /* TDM Configuration Reg5 */
- #define TAS2764_TDM_CFG5		TAS2764_REG(0X0, 0x0e)
- #define TAS2764_TDM_CFG5_VSNS_MASK	BIT(6)
+ static struct reg_default wsa881x_defaults[] = {
+ 	{ WSA881X_CHIP_ID0, 0x00 },
 -- 
 2.39.5
 
