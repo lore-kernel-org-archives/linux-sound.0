@@ -1,64 +1,64 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107A41EF097
-	for <linux-sound@vger.kernel.org>; Mon,  3 Mar 2025 08:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62B818C937
+	for <linux-sound@vger.kernel.org>; Mon,  3 Mar 2025 08:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740991310; cv=none; b=twgx31ivV0Q37sXejqoiovaX4K6hedr4rTlkATI2NGpRbIvfNWAS17d7S8Fgy75EzozjIMduSCxsEKMabkT9sNTHBnxvDWuIM8Jq8RlkhTYDiQRo2ywxeOAOn7SiRTNGfuEYMUWNVvn68AuVjPIL3y1JOpzJpIX+uGNCNbOzn90=
+	t=1740991312; cv=none; b=F7h4p4WjbK4957OzzrgiZ9rITuQ2EHfnAjcqjMRwMsbOUq+2JwSbCksSx04YpX4+1CQJHf1IO+f2xhhblAKVInrTEfg5hjQD0EVryZZ1xlSx7bVKfiMLWUpy6wiwCSn23gsBEMyhjiTTogAZ1glXXI9qTAh8mvGpUyTprKsCBuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740991310; c=relaxed/simple;
-	bh=eNJCxP0xI756A28+CYKsljy8EYfo5JkNWdxg5zhmKxY=;
+	s=arc-20240116; t=1740991312; c=relaxed/simple;
+	bh=F+mgVQLptCgK1s92YNI7Glhvg+mIjTHO8I7tL0oo6kM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mNKDlVC5I2ucE8DtZbRJ73XXzdSX+5QTaJpYbzdJd3sJDuLEaEKxNdmq1o6hM86jIYsgjmrEGg5CFApHAnbf1f0uxtXXa0Nj+zRWH/7jaYZPRRJsZYIopPdFpkc8c/Y9zxB0CmTnPLIiYSMph35HE4hL1Zqe7IyZukRnakRV01E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DiAmEt05; arc=none smtp.client-ip=209.85.208.180
+	 In-Reply-To:To:Cc; b=WuLiqDZ2Xcl0NLLO+bcMKmFD43OhC2XPDgGBlcd4Ukd0KKPCdu5mx1Re/PhiZGkVzPuMlW+89UE+c8ljIobMrtGWg7CW/e7e4ZKmwwrpke1BMmQqVxxjndg0lheXLyc5lF4wAsR/dNqy9AlxwIz5lIJIhqOo+NlIzAhpmn8jkn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ppmC12ei; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DiAmEt05"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30bb64a4060so7255351fa.2
-        for <linux-sound@vger.kernel.org>; Mon, 03 Mar 2025 00:41:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ppmC12ei"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-548430564d9so4533335e87.2
+        for <linux-sound@vger.kernel.org>; Mon, 03 Mar 2025 00:41:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740991307; x=1741596107; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1740991309; x=1741596109; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QSwJcdDFh8D6SKpgTLO17+NlEvY9pqV/dD+QbbnNntw=;
-        b=DiAmEt05UurRHtwoZ31a3sL8iQK7ZrNd6Wz/q6QL/+hUltAdO7wIwU9/tJ6Nlsde8n
-         KXrsqiO7suAZjp7JsZ8gNdzvPa30GUqamsmvFVm49D+VSGhE+yy1v39B5OfNZZ3OJ4EB
-         vhEIDX2NVpeA4G/RoTjbpzPIA5xbhn/O5UPYecJmytheB2NmvlrvU9huFBDVp/sd3oVm
-         qZ3/GBC4MIR0v3fIIMa58L3akec+UayxQLX6ctrUAtDKu+fqOiINUG7yF47zmtgIblW5
-         709J2iD+HTzYKalJTWCHG8XR7l54ErO+pIZWSC+GB7dJ/19GKg7F/trM7wF7s3bCJdBt
-         QY0A==
+        bh=g9claMY/sNtDyulRMPNNacKp+7WCrxALqvfdJWL7Clw=;
+        b=ppmC12eidsazA+JxU+M6fWssp/rJ6asP0U7IJGQqGf+TDzOxRnSfYlGDwz42rXM9Sy
+         6CZIxjTOcFCC2/2CvA7OmvSGWcD/h/j6Axj9vl8Bad2w2Y5Xv79q5Yh9T7Wo9rlsKSge
+         dj2K0TIKphz2lpTKYLDlRqEyYS5+hFOSY9THOJw5StMnoWa4XiCVmWIT479yyloOc7mM
+         XKOklvsQn/8lfqOMSbSeB260lbTOSQ/pIbyyRYkLpiYulrjFZIbiZ4wStkt4tFXXy46m
+         YwWjyJsahXW64r6EoEjptrWq81pn0Xvaz9J4WLDFoCFZyk/lfbGXAThXlni5t/+k7/ZB
+         JlwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740991307; x=1741596107;
+        d=1e100.net; s=20230601; t=1740991309; x=1741596109;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QSwJcdDFh8D6SKpgTLO17+NlEvY9pqV/dD+QbbnNntw=;
-        b=qfIxuLTs4QEScWslHx+VTYh77yqY88GK985VcX9A3a6CFkeGI1ZHjLxcNe+3Raf8nP
-         7c/H8vEm+k59pIn4k05zeQCHm4TV0xRE04aVJxse7p5QRkuVPfSTIfKZ/QjMWfG/cCFC
-         JX7lTIu51vtF3jbu2KcsPl5X837Md1nQrCCYQs8sJ0nj0blkT9yskAL7U4DOrpSiRLmw
-         Fv8mH4Q9p4VV1fswXpPXWsBliLjnapUBBot6Tfq5+DY5g04DrEzIsNOQJuY8qP7FJMT6
-         EiMinuWgs43y2gbkyYHYnkETB4rvu2dLHWR76ksTXOmQAsnjM4N9JO4aBQ55ULDOjSL0
-         s3Mw==
-X-Gm-Message-State: AOJu0Yz2PkBFtVKNHINzWdY4+mJoQlNF3MY2i8egzKu7NTu9ZsxfWy99
-	Gkj4UwYEsZGD/sEeidP1vHJgeXdV/tFuwSaw0MZBamH5MSa8FeVauJ/BTqO3tOc=
-X-Gm-Gg: ASbGncvuGEbg4cH9QnvRE7FLTRazCairs9Ko4jVVV/SWj/BCz9ZI86MKUWyUZMy4MR/
-	AbmxoXgyGejsCrUSvIMzFx35rxH+jjPNEcrXqqXIKBj0pzLBN1nwEizvCK//T39fwJqa8DcAnhr
-	QX+1wg8v7jX2LS4wRuLG4FkJzsb5sFp+TwjjsyPWeAglcXg/YBH4rWpSb+amTJq7DSgcKjKXEoE
-	ih62a11UWc4iPEGaACdBnMW3qKrUlfrWduyUq4BM5T1q2soi4itqKqeW0+uJMaaOV2BPQVQ8/qs
-	c4EWoZ6InL6ZOlMIHXnu3etRi5UVEy4LuwKc9JKxpoxg3XoV+d0ZqKQ=
-X-Google-Smtp-Source: AGHT+IF6Gh/owdQANIvhyYACKJwghbMIJCt42VIMQ7h6UQPochcPtTUdjjYYrRpdf3fMrNRP+dsYqQ==
-X-Received: by 2002:a05:651c:2227:b0:30b:b908:cddb with SMTP id 38308e7fff4ca-30bb908d758mr10862631fa.16.1740991307204;
-        Mon, 03 Mar 2025 00:41:47 -0800 (PST)
+        bh=g9claMY/sNtDyulRMPNNacKp+7WCrxALqvfdJWL7Clw=;
+        b=IIU3vDy/pjsl7LHKPWDGH2S0rxtAVDuZtazZQSpUgS1zjd+VIsb0KshxgNeO7wQpoa
+         O3y+D/HxhAil/E+ZyOShxwI8Xc1xNfMpd1hUMcxnjOk31LzarxwYyLLFRDhB/ZUTddWq
+         EZFhmhPQkfzWN+xgi8AwvIGK/t8RJrU80cB4IP60uHNpp/inhd3sVi2k89BnBikQVBrD
+         IYUeBdTrzy8SoHtVnO7jbuZKKe6lQZQnK4UFCD8Z7cOXZtzYvYm9AbL8bDYLIV26fxDg
+         IcNJMXr9Huw8iniV3Uqu7fZWAqAzHV0IkC5PHxpBmgX5R/gjU9b1nJn/S3S7T3k58cbw
+         V5Jg==
+X-Gm-Message-State: AOJu0YzrkgHh+II0U3tc6k1kx9GlA/BKN4CqXRGpEE8M1NAEbX2Dya3x
+	g0zyI9PQEhmdfh1OdbBvZddeD5U1rjGTjC3AqSNK+Y20BqtIbG7fUgKJz/PnjNA=
+X-Gm-Gg: ASbGncvbZs5rx5Zo8GDqhexPxwql+fkV+ei509xIQWIhAJNcR3gyUKy7wNU3mPt3WwF
+	6HS/DIMT6hp15d36J989rNX2hi7PDAtDNlF9eG+rdBfb1GOuM43h4EKQWV1INrb9/vPtLYRqlIY
+	qUdtENeMqDbc1/UIoyx3/f0xPuesC5fYHraJr0QuHm9wUhUeRZvK6doOGnaZFKeXoAavSneiiXz
+	Ms+mmfu8vRbNKOjrjMvCV/ZprVVlRqZnlMT+WvD5/PMJb46wegY27HM7kCUJzx17nALUS8RQgBn
+	nnVPbsRl9sJKo9dPKBN0Y38PPx7ElBmxNEUwOWR4ZkWdT7lf22auTpU=
+X-Google-Smtp-Source: AGHT+IFlG0cFLlp/U+9q8TUe6ZVM05em2vtvWiVqlg2cfGZLyTmw4b771FRJAKQSUOIVLv3jJxlrSA==
+X-Received: by 2002:a05:651c:19a2:b0:30b:c6c2:43bc with SMTP id 38308e7fff4ca-30bc6c24656mr881241fa.19.1740991308967;
+        Mon, 03 Mar 2025 00:41:48 -0800 (PST)
 Received: from [192.168.1.140] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30bc49d8b56sm827371fa.80.2025.03.03.00.41.46
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30bc49d8b56sm827371fa.80.2025.03.03.00.41.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 00:41:46 -0800 (PST)
+        Mon, 03 Mar 2025 00:41:47 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 03 Mar 2025 09:41:44 +0100
-Subject: [PATCH 4/6] ASoC: samsung: speyside: Convert to GPIO descriptor
+Date: Mon, 03 Mar 2025 09:41:45 +0100
+Subject: [PATCH 5/6] ASoC: samsung: tobermory: Drop unused include
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250303-samsung-codecs-v1-4-56a2299dd928@linaro.org>
+Message-Id: <20250303-samsung-codecs-v1-5-56a2299dd928@linaro.org>
 References: <20250303-samsung-codecs-v1-0-56a2299dd928@linaro.org>
 In-Reply-To: <20250303-samsung-codecs-v1-0-56a2299dd928@linaro.org>
 To: Sylwester Nawrocki <s.nawrocki@samsung.com>, 
@@ -78,117 +78,26 @@ Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-gpio@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.14.2
 
-The Speyside ASoC uses a single GPIO from the WM8996
-that we can provide from the local offset on that chip
-rather than from the global GPIO numberspace as is being
-done currently.
-
-The offset 2 was done by calculating the base offset
-for the CODEC (i.e. wm8996) GPIOs to 212, by reading
-arch/arm/mach-s3c/gpio-samsung-s3c64xx.h and
-arch/arm/mach-s3c/crag6410.h and adding up all the
-offsets that were occasionally adding a +1 blank GPIO
-between each GPIO provider.
+This file does not use the symbols from the legacy
+<linux/gpio.h> header, so let's drop it.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- sound/soc/samsung/speyside.c | 37 ++++++++++++++++++++++++++++++-------
- 1 file changed, 30 insertions(+), 7 deletions(-)
+ sound/soc/samsung/tobermory.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/samsung/speyside.c b/sound/soc/samsung/speyside.c
-index 79476e8eb680984434a1198ff691ddd4b9fe07c1..947b85ff83f036a0814fd477f5f6f69253a2a2d8 100644
---- a/sound/soc/samsung/speyside.c
-+++ b/sound/soc/samsung/speyside.c
-@@ -7,13 +7,13 @@
+diff --git a/sound/soc/samsung/tobermory.c b/sound/soc/samsung/tobermory.c
+index 2bdd81bf821a5b9bdc56479bb2cd5d0089fab339..bc2608dbaddc4feeb9af77639699fed89540b44b 100644
+--- a/sound/soc/samsung/tobermory.c
++++ b/sound/soc/samsung/tobermory.c
+@@ -7,7 +7,6 @@
  #include <sound/soc.h>
  #include <sound/soc-dapm.h>
  #include <sound/jack.h>
 -#include <linux/gpio.h>
-+#include <linux/gpio/machine.h>
-+#include <linux/gpio/consumer.h>
  #include <linux/module.h>
  
- #include "../codecs/wm8996.h"
- #include "../codecs/wm9081.h"
- 
--#define WM8996_HPSEL_GPIO 214
- #define MCLK_AUDIO_RATE (512 * 48000)
- 
- static int speyside_set_bias_level(struct snd_soc_card *card,
-@@ -105,6 +105,7 @@ static struct snd_soc_jack_pin speyside_headset_pins[] = {
- 	},
- };
- 
-+static struct gpio_desc *speyside_hpsel_gpio;
- /* Default the headphone selection to active high */
- static int speyside_jack_polarity;
- 
-@@ -123,7 +124,7 @@ static void speyside_set_polarity(struct snd_soc_component *component,
- 				  int polarity)
- {
- 	speyside_jack_polarity = !polarity;
--	gpio_direction_output(WM8996_HPSEL_GPIO, speyside_jack_polarity);
-+	gpiod_direction_output(speyside_hpsel_gpio, speyside_jack_polarity);
- 
- 	/* Re-run DAPM to make sure we're using the correct mic bias */
- 	snd_soc_dapm_sync(snd_soc_component_get_dapm(component));
-@@ -145,16 +146,22 @@ static int speyside_wm8996_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct snd_soc_dai *dai = snd_soc_rtd_to_codec(rtd, 0);
- 	struct snd_soc_component *component = dai->component;
-+	enum gpiod_flags flags;
- 	int ret;
- 
- 	ret = snd_soc_dai_set_sysclk(dai, WM8996_SYSCLK_MCLK2, 32768, 0);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = gpio_request(WM8996_HPSEL_GPIO, "HP_SEL");
--	if (ret != 0)
--		pr_err("Failed to request HP_SEL GPIO: %d\n", ret);
--	gpio_direction_output(WM8996_HPSEL_GPIO, speyside_jack_polarity);
-+	if (speyside_jack_polarity)
-+		flags = GPIOD_OUT_HIGH;
-+	else
-+		flags = GPIOD_OUT_LOW;
-+	speyside_hpsel_gpio = devm_gpiod_get(rtd->card->dev,
-+					     "hp-sel",
-+					     flags);
-+	if (IS_ERR(speyside_hpsel_gpio))
-+		return PTR_ERR(speyside_hpsel_gpio);
- 
- 	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset",
- 					 SND_JACK_LINEOUT | SND_JACK_HEADSET |
-@@ -325,6 +332,21 @@ static struct snd_soc_card speyside = {
- 	.late_probe = speyside_late_probe,
- };
- 
-+static struct gpiod_lookup_table wm8996_gpiod_table = {
-+	/* Hardcoded device name in board file mach-crag6410.c */
-+	.dev_id = "speyside",
-+	.table = {
-+		/*
-+		 * This line was hardcoded to 214 in the global GPIO
-+		 * number space, S3C GPIO macros seems top set the
-+		 * wm8996 codec GPIO start offset to 212, so this will
-+		 * be GPIO 214 - 212 = 2 on the wm8996.
-+		 */
-+		GPIO_LOOKUP("wm8996", 2, "hp-sel", GPIO_ACTIVE_HIGH),
-+		{ },
-+	},
-+};
-+
- static int speyside_probe(struct platform_device *pdev)
- {
- 	struct snd_soc_card *card = &speyside;
-@@ -332,6 +354,7 @@ static int speyside_probe(struct platform_device *pdev)
- 
- 	card->dev = &pdev->dev;
- 
-+	gpiod_add_lookup_table(&wm8996_gpiod_table);
- 	ret = devm_snd_soc_register_card(&pdev->dev, card);
- 	if (ret)
- 		dev_err_probe(&pdev->dev, ret, "snd_soc_register_card() failed\n");
+ #include "../codecs/wm8962.h"
 
 -- 
 2.48.1
