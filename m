@@ -1,165 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C70B1EB5D4
-	for <linux-sound@vger.kernel.org>; Mon,  3 Mar 2025 12:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C826A1F19A;
+	Mon,  3 Mar 2025 12:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741005917; cv=none; b=jyB/bIPLf0Z/9pZNHnua8ZrxRGyow9lQ5HJhT2ARjERgEA4WN0b/9BW+o3/qVQG4Rj8yqyepTHLG8Hmq5cSgNjfrMQktGXRCclsePSeo4Nnm+LcDNZAwPdL2sX0W3EM6Rno3F4q38o+crVgwdeBfezfI0FJzAMx0MJzBf9YTiM8=
+	t=1741006326; cv=none; b=jfCCg2D5oxcLuIQn1/xmHZzp417qtEWDeqbkMOgg+IOiGAZ9HpdfoRjSS6Uze2dfsCBOcdiNng1BFwaDToKHXqGf0vH0YT933A0NR5KIc2CywXQn1MRFaulHDooUBSFAblzC64hjPmFvr/e9nHRyiFACama/nWUAQvjjf5mKdoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741005917; c=relaxed/simple;
-	bh=ctXb+Vk4ikF5d2NAAL8/4EeUfcrsXV7pPJi6G8PMurI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rdJc436C590LuulKPVcMhfteX8B+ujU/9QRKEFJk9RaFUGExqPRkkbyKR8xLS72T8VlEiMgwwY1EwStVFx2YNClGtandpm403VMaWxAxR2Uvb8RJriI7hRRByu9PRFprTSMdjC5lgodw+3YIcSzvbBSJy3uTYn0mQWPFv9L3Bqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dQV+9IKO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uGlr0zbc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dQV+9IKO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uGlr0zbc; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1741006326; c=relaxed/simple;
+	bh=vN6ggPv/ECtAyJIOC13/S4vopzaeQ+5ICHdDXWNQvl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GwHYxffdUb1s2Nc3pRfcrqXJx/X6l6X+MU2uucc6hmb0QsZElkLoNkZvlXTb+NdMB7Nemyi0I48YlNHVxih6h1I97s2hNEG+WTNFPcsgtzlT/KaD9BQTgibzbTlxQrY4vguef0NGcAkcIGsRnjpa25ROsfq0YTwRkeGMlIEdSws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONH1ZfPz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dQV+9IKO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uGlr0zbc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dQV+9IKO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uGlr0zbc"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 46C232116B;
-	Mon,  3 Mar 2025 12:45:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741005914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ekAiXbksR6ZxnzQ2JDubU6L33W8b0iyoZPr2f5UoEas=;
-	b=dQV+9IKONC+Zp3RrnURVMKcmZm8YLmoEpBHwLS25gjsxU3wlnugSIwcR/jW+n8rNgnwHxO
-	yPVKTH6lVYrt4VrSXKWOvsvezGx6RFTioqU/U0KSMNL2P4pCCJV6nm1aN6k+pJnxgkMcS/
-	7skmdjfOizTXXiCCRiMyCeI+gInLvmU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741005914;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ekAiXbksR6ZxnzQ2JDubU6L33W8b0iyoZPr2f5UoEas=;
-	b=uGlr0zbcdOvJ7MEeSSteK8faUMUrSU8Peqk7EZg3guUJbmWHTgo4+nvBEatk87gfNKv7Ut
-	5KUy6IcDcr5XloCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dQV+9IKO;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uGlr0zbc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741005914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ekAiXbksR6ZxnzQ2JDubU6L33W8b0iyoZPr2f5UoEas=;
-	b=dQV+9IKONC+Zp3RrnURVMKcmZm8YLmoEpBHwLS25gjsxU3wlnugSIwcR/jW+n8rNgnwHxO
-	yPVKTH6lVYrt4VrSXKWOvsvezGx6RFTioqU/U0KSMNL2P4pCCJV6nm1aN6k+pJnxgkMcS/
-	7skmdjfOizTXXiCCRiMyCeI+gInLvmU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741005914;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ekAiXbksR6ZxnzQ2JDubU6L33W8b0iyoZPr2f5UoEas=;
-	b=uGlr0zbcdOvJ7MEeSSteK8faUMUrSU8Peqk7EZg3guUJbmWHTgo4+nvBEatk87gfNKv7Ut
-	5KUy6IcDcr5XloCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1290713939;
-	Mon,  3 Mar 2025 12:45:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cR3dAlqkxWfzSQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 03 Mar 2025 12:45:14 +0000
-Date: Mon, 03 Mar 2025 13:45:13 +0100
-Message-ID: <87ldtme10m.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Cc: Kailang <kailang@realtek.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP EliteBook 855 G7
-In-Reply-To: <2fea9fe8-312f-45a0-9bed-455c910fba43@maciej.szmigiero.name>
-References: <7461f695b4daed80f2fc4b1463ead47f04f9ad05.1739741254.git.mail@maciej.szmigiero.name>
-	<87jz9o99ef.wl-tiwai@suse.de>
-	<a02344f2-3b99-41ea-af64-8d2bcb01e435@maciej.szmigiero.name>
-	<87h64s972a.wl-tiwai@suse.de>
-	<6224620265674b09b5762f908b5158f9@realtek.com>
-	<2fea9fe8-312f-45a0-9bed-455c910fba43@maciej.szmigiero.name>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONH1ZfPz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76135C4CED6;
+	Mon,  3 Mar 2025 12:52:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741006326;
+	bh=vN6ggPv/ECtAyJIOC13/S4vopzaeQ+5ICHdDXWNQvl4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ONH1ZfPzWGINdRjQAstNyxlvRq0WrepPbpTzxzMkO8ACwrgPNSl2hWt0ohqGNqKuA
+	 uL50x8rLNKdRa9XY7/aeW7PGIw87q9qKRHOXRHrDtwguDhiIN3rzfxldKlRxIBzreB
+	 /3estso0OyqSxlOnsMMjAgNXJ/3pGo8eTz2b/guUTQC2qdVpA/yZZlmht1L3CAbuPo
+	 O/fdWmA6t6nk1wqqWdoCYjsmlMomEjJWZYqFF0q8SEJzK5oxnNj8LDsUXTsvvcZT9w
+	 zTVx+rCHR9aVnZfAVC8g35lY7LBXVKfNrqNeZFnFbpPfFeEIPtzqqUuy/vjAOaxRjp
+	 DjvxWYsY+d68g==
+Date: Mon, 3 Mar 2025 12:52:00 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sameer Pujar <spujar@nvidia.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Sheetal <sheetal@nvidia.com>, Ritu Chaudhary <rituc@nvidia.com>,
+	stable@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH] ASoC: tegra: Fix ADX S24_LE audio format
+Message-ID: <215b6a0e-20db-49dc-b2d2-df8dfaf899f6@sirena.org.uk>
+References: <20250302225927.245457-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 46C232116B
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
-
-On Wed, 19 Feb 2025 12:16:35 +0100,
-Maciej S. Szmigiero wrote:
-> 
-> Hi Kailang,
-> 
-> On 19.02.2025 09:32, Kailang wrote:
-> > 
-> > Hi Maciej S,
-> >     Could you test plug headphone then speaker will mute or not?
-> >     Below was why I close the beep mode.
-> >   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/commit/?id=fcf c9f711d1e2fc7876ac12b1b16c509404b9625
-> 
-> 
-> When I plug headphones then both normal sound playback (ALSA) and PC beep move to headphones.
-> The main laptop speaker gets muted indeed.
-> 
-> I'm testing on kernel 6.12 so the Dell patch above is included.
-> 
-> >   Hi Takashi,
-> >     COEF 0x36 bit 13 was the enable bit for pcbeep passthrough for
-> > 0x14.
-> >   If this patch no PM issues and speaker can mute by plug headphone or headset,
-> >   I think this work for me.
-> > 
-> 
-> Nice, thanks for clarifying.
-
-So, Kailang, is Maciej's patch OK to take from Realtek POV?
-
-If so, feel free to give an Acked-by tag or such for the upstream
-inclusion.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="09veEn5TwlpgDBHd"
+Content-Disposition: inline
+In-Reply-To: <20250302225927.245457-2-thorsten.blum@linux.dev>
+X-Cookie: You will be awarded some great honor.
 
 
-thanks,
+--09veEn5TwlpgDBHd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Takashi
+On Sun, Mar 02, 2025 at 11:59:25PM +0100, Thorsten Blum wrote:
+> Commit 4204eccc7b2a ("ASoC: tegra: Add support for S24_LE audio format")
+> added support for the S24_LE audio format, but duplicated S16_LE in
+> OUT_DAI() for ADX instead.
+
+Please allow a reasonable time for review.  People get busy, go on
+holiday, attend conferences and so on so unless there is some reason for
+urgency (like critical bug fixes) please allow at least a couple of
+weeks for review.  If there have been review comments then people may be
+waiting for those to be addressed.
+
+--09veEn5TwlpgDBHd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfFpe8ACgkQJNaLcl1U
+h9D+Lgf8DTpEtDAyCKsn5luzCVg7TGGIKZrLUvqF0vP7Q3NNkRzoy1cS46E6pZyC
+6wnVbCsOZiQ+Yi0a3s5Dj3L0lYDD5my9AQ41ZooayRTxILP+2QZIrgRZZUadWqa4
+0oT6manyA3BkNAL0y8f9riEPaiUdCGoRH0quWPpX4IdQgNygEXbAXwmfndXnay+c
+DhAyrHT+n5G6RYZwToc5TIzw/NmpjNkUUTEoqVt3gARJ2gSK9Spl6Mph1Ol2DlMX
+giSXUP5+795ONq5EBoO+Zxz0F9KmXcvdvPXy/K7knXaIcOAru+e4W7lidbWncJgX
+pFRb6FUb91C4vXk9U8v8FoL/pZw43A==
+=ZzNs
+-----END PGP SIGNATURE-----
+
+--09veEn5TwlpgDBHd--
