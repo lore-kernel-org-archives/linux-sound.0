@@ -1,95 +1,99 @@
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A871EEA37
-	for <linux-sound@vger.kernel.org>; Sun,  2 Mar 2025 23:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A922C181;
+	Mon,  3 Mar 2025 01:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740956408; cv=none; b=WF6jXmyGBJi0MXuANUophVr/LIgu8pTzbs7bE2/YPR0VOb8s/uOP7boxXkETUf2d0GviHwDKuynDWVYClkWG3agJ4k8Oirn7Wx3A/Kr0cGn1zj4XI5KNf3rP1y/AhHHO3YMKNqMR0vJm0edDTK0qaECdhUxEjbgPIyQp79zyh3k=
+	t=1740966696; cv=none; b=ZFduWC9rffCn+G2GLJG7lQHpuqQSGon5tkQu9o6fz4thK8iWZMO5o7u8XO3RQbK1XE30QK5BbsxP+TH4e4FyPQ0ihYmgr14yE3PRdFx71WVGxLConOKNz0IwkIEatrLlCN92Ea4UGCgAuXN9m4gdbwjPLbHyYxOgpB6P066z9i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740956408; c=relaxed/simple;
-	bh=8xX8lbiW+5RQ+wFxa3JghYTzhMpaR5RIrDRPY8soEFM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HWnWSuOQ4aJVmofu4snG5uxYJEq/v740aQK0/ino4tzSYC3GsZMlQtfiWYcpDa7XyUzt3nKLzfqt1qJoOvZFYPQTGHXRiB+JHpfmdcpauclhUVR0T8ieb2kdqx9u1Y5yCykJP4JVBuI8lgDa90x9EAgh4OJN43KY3GVIy2RSc/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KFCuaIPm; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1740966696; c=relaxed/simple;
+	bh=1dqhsBaZYEZSb6IteqyqxDAm7uzt8Usr6U3inQ/QoU4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=YKVeu66fSJlEDaLnA2buqsULxaZPNmv9TOZ6cARV9AJti29GxO02BgdmBYUfztaD4NPG4AqfwRAOK2wPHCWsXVq7jVMiJK7AkIacY5kPvTuskLArs+fuEg6P1jVBVtk3mDJK31P+u3SjFPX/YkpPlSBK44A52W3jjRb4LougcyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=rweFE0bt; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KFCuaIPm"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1740956393;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=9ZqF8FngRBwwLVOgM6/1uD7/Y5CAfT801f3ud25fkUA=;
-	b=KFCuaIPmd13ybDYCHp+sSPU7HHo9wt9W0jWX5EnmXe4UfJn/SSkPBGLGraL5ojTNQZ26qa
-	bdwn0i3YIzCVRtG+Z3wiqQflKrGwb7H8iEOcjJkufxt/Teo1OEQY25aYqM/RfE4wSMHPjs
-	245ntXw/wAV/sFegitdGvTqNRkRcd8k=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sameer Pujar <spujar@nvidia.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Sheetal <sheetal@nvidia.com>,
-	Ritu Chaudhary <rituc@nvidia.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	stable@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH] ASoC: tegra: Fix ADX S24_LE audio format
-Date: Sun,  2 Mar 2025 23:59:25 +0100
-Message-ID: <20250302225927.245457-2-thorsten.blum@linux.dev>
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="rweFE0bt"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 5231olc07376833, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1740966647; bh=1dqhsBaZYEZSb6IteqyqxDAm7uzt8Usr6U3inQ/QoU4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=rweFE0bt0iwE/dO/Z0KlHqEukRSA6z7NJ0/qIVOzvLSZty7lR3p/tBKsNCHr4NGLx
+	 Qk/Xw4WB33ZT1vSjDHbaylUIVRdyOoVIz5d6IMPuZO2Esv3vMWnKFiEllA4RtcYOd8
+	 jtTcjGVy5Tomh6KNP0t2JmJQe0CHYzuenEi5MmoPAC3cN6x2c/G3GtaFsx5wqXBuhv
+	 tQRqN9ooHxcqqkN2vBZtGn2QrKPNTy7sVSzqr2M/XGA03EdSfHrDEtsMKSkTU9IGQ3
+	 9lVvbj4O2vntprvz1cLBHqFlG7oLxszu1wlhDDRKKLQKbOaa09yeqCdRx+JRRdupie
+	 bEydzBCHSQRhA==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 5231olc07376833
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 3 Mar 2025 09:50:47 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 3 Mar 2025 09:50:48 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 3 Mar 2025 09:50:47 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
+ RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
+ 15.01.2507.035; Mon, 3 Mar 2025 09:50:47 +0800
+From: =?utf-8?B?U2h1bWluZyBb6IyD5pu46YqYXQ==?= <shumingf@realtek.com>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>,
+        "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "tiwai@suse.de" <tiwai@suse.de>, "vkoul@kernel.org" <vkoul@kernel.org>
+CC: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>,
+        "bard.liao@intel.com" <bard.liao@intel.com>
+Subject: RE: [PATCH v4 00/16] SoundWire/ASoC: add SDW BPT/BRA support
+Thread-Topic: [PATCH v4 00/16] SoundWire/ASoC: add SDW BPT/BRA support
+Thread-Index: AQHbiSO5uVBBh0byzkCS/q05z6djELNgqnxg
+Date: Mon, 3 Mar 2025 01:50:47 +0000
+Message-ID: <4d9e4190e4d749b6944408859d660643@realtek.com>
+References: <20250227140615.8147-1-yung-chuan.liao@linux.intel.com>
+In-Reply-To: <20250227140615.8147-1-yung-chuan.liao@linux.intel.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Commit 4204eccc7b2a ("ASoC: tegra: Add support for S24_LE audio format")
-added support for the S24_LE audio format, but duplicated S16_LE in
-OUT_DAI() for ADX instead.
-
-Fix this by adding support for the S24_LE audio format.
-
-Compile-tested only.
-
-Cc: stable@vger.kernel.org
-Fixes: 4204eccc7b2a ("ASoC: tegra: Add support for S24_LE audio format")
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- sound/soc/tegra/tegra210_adx.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_adx.c
-index 3e6e8f51f380..0aa93b948378 100644
---- a/sound/soc/tegra/tegra210_adx.c
-+++ b/sound/soc/tegra/tegra210_adx.c
-@@ -264,7 +264,7 @@ static const struct snd_soc_dai_ops tegra210_adx_out_dai_ops = {
- 			.rates = SNDRV_PCM_RATE_8000_192000,	\
- 			.formats = SNDRV_PCM_FMTBIT_S8 |	\
- 				   SNDRV_PCM_FMTBIT_S16_LE |	\
--				   SNDRV_PCM_FMTBIT_S16_LE |	\
-+				   SNDRV_PCM_FMTBIT_S24_LE |	\
- 				   SNDRV_PCM_FMTBIT_S32_LE,	\
- 		},						\
- 		.capture = {					\
-@@ -274,7 +274,7 @@ static const struct snd_soc_dai_ops tegra210_adx_out_dai_ops = {
- 			.rates = SNDRV_PCM_RATE_8000_192000,	\
- 			.formats = SNDRV_PCM_FMTBIT_S8 |	\
- 				   SNDRV_PCM_FMTBIT_S16_LE |	\
--				   SNDRV_PCM_FMTBIT_S16_LE |	\
-+				   SNDRV_PCM_FMTBIT_S24_LE |	\
- 				   SNDRV_PCM_FMTBIT_S32_LE,	\
- 		},						\
- 		.ops = &tegra210_adx_out_dai_ops,		\
--- 
-2.48.1
-
+PiBUaGlzIHNlcmllcyBhZGRzIHN1cHBvcnQgZm9yIFNvdW5kV2lyZSBCUFQvQlJBLiBUaGUgY2hh
+bmdlIGlzIG1haW5seSBvbiB0aGUNCj4gU291bmRXaXJlIHRyZWUuIEl0IGlzIGJldHRlciB0byBn
+byB0aHJvdWdoIHRoZSBTb3VuZFdpcmUgdHJlZSB3aXRoIE1hcmsncw0KPiBBY2tlZC1ieSB0YWcu
+DQo+IA0KPiB2MjoNCj4gIC0gQWRkIE1PRFVMRV9ERVNDUklQVElPTiBpbiB0aGUgIkFTb0M6IFNP
+RjogSW50ZWw6IGhkYS1zZHctYnB0OiBhZGQNCj4gICAgaGVscGVycyBmb3IgU291bmRXaXJlIEJQ
+VCBETUEiIHBhdGNoLg0KPiANCj4gdjM6DQo+ICAtIENoYW5nZSBzZHdfY2Ruc193cml0ZV9wZGkx
+X2J1ZmZlcl9zaXplIGFuZA0KPiAgICBzZHdfY2Ruc19yZWFkX3BkaTBfYnVmZmVyX3NpemUgdG8g
+c3RhdGljIHZhbHVlcy4NCj4gDQo+IHY0Og0KPiAgLSBSZXZpc2UgYnJhLnJzdCBhcyBzdWdnZXN0
+ZWQuDQo+IA0KPiBCYXJkIExpYW8gKDEpOg0KPiAgIEFTb0M6IFNPRjogSW50ZWw6IGhkYS1zZHct
+YnB0OiBhZGQgQ0hBSU5fRE1BIHN1cHBvcnQNCj4gDQo+IFBpZXJyZS1Mb3VpcyBCb3NzYXJ0ICgx
+NSk6DQo+ICAgRG9jdW1lbnRhdGlvbjogZHJpdmVyOiBhZGQgU291bmRXaXJlIEJSQSBkZXNjcmlw
+dGlvbg0KPiAgIHNvdW5kd2lyZTogY2FkZW5jZTogYWRkIEJUUCBzdXBwb3J0IGZvciBEUDANCj4g
+ICBzb3VuZHdpcmU6IGV4dGVuZCBzZHdfc3RyZWFtX3R5cGUgdG8gQlBUDQo+ICAgc291bmR3aXJl
+OiBzdHJlYW06IGV4dGVuZCBzZHdfYWxsb2Nfc3RyZWFtKCkgdG8gdGFrZSAndHlwZScgcGFyYW1l
+dGVyDQo+ICAgc291bmR3aXJlOiBzdHJlYW06IHNwZWNpYWwtY2FzZSB0aGUgYnVzIGNvbXB1dGVf
+cGFyYW1zKCkgcm91dGluZQ0KPiAgIHNvdW5kd2lyZTogc3RyZWFtOiByZXVzZSBleGlzdGluZyBj
+b2RlIGZvciBCUFQgc3RyZWFtDQo+ICAgc291bmR3aXJlOiBidXM6IGFkZCBzZW5kX2FzeW5jL3dh
+aXQgQVBJcyBmb3IgQlBUIHByb3RvY29sDQo+ICAgc291bmR3aXJlOiBidXM6IGFkZCBicHRfc3Ry
+ZWFtIHBvaW50ZXINCj4gICBzb3VuZHdpcmU6IGNhZGVuY2U6IGFkZCBCVFAvQlJBIGhlbHBlcnMg
+dG8gZm9ybWF0IGRhdGENCj4gICBzb3VuZHdpcmU6IGludGVsX2F1eGRldmljZTogYWRkIGluZGly
+ZWN0aW9uIGZvciBCUFQgc2VuZF9hc3luYy93YWl0DQo+ICAgQVNvQzogU09GOiBJbnRlbDogaGRh
+LXNkdy1icHQ6IGFkZCBoZWxwZXJzIGZvciBTb3VuZFdpcmUgQlBUIERNQQ0KPiAgIHNvdW5kd2ly
+ZTogaW50ZWw6IGFkZCBCUFQgY29udGV4dCBkZWZpbml0aW9uDQo+ICAgc291bmR3aXJlOiBpbnRl
+bF9hY2UyeDogYWRkIEJQVCBzZW5kX2FzeW5jL3dhaXQgY2FsbGJhY2tzDQo+ICAgc291bmR3aXJl
+OiBkZWJ1Z2ZzOiBhZGQgaW50ZXJmYWNlIGZvciBCUFQvQlJBIHRyYW5zZmVycw0KPiAgIEFTb0M6
+IHJ0NzExLXNkY2E6IGFkZCBEUDAgc3VwcG9ydA0KDQpUZXN0ZWQtYnk6IHNodW1pbmdmQHJlYWx0
+ZWsuY29tDQoNCg0K
