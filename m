@@ -1,114 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BBD22B586;
-	Mon,  3 Mar 2025 16:30:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1396823C8DE;
+	Mon,  3 Mar 2025 16:30:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741019407; cv=none; b=ngJhUKTH5yZ4KeBBfr3vyW24dN/t31037bw/tY4R035or7ujcZrUm3V41kO+pA08aCs+e5pY4w1VC6xKHqHcGFrERq8RnWcwr7jV7rcqXQDCE6qW3OzugVjyZCzRB5khlkG/9ZBpTDm6+RbEapV+svalGU2XEStmLhPpqwB7F74=
+	t=1741019436; cv=none; b=bWSka9482Li5yEFC2ElbMj15z61Jf89EF9bnUQpoNX3mXQ+YhfZANWXeUfKnCbYnwJo/D2z0w9Xx1tZwjt5jz8NDLeLR4XCh8YtwhLYOxtlPHQSu+vX3/iyZoxfw7dSdoQ1IPWqgViKtsr4Vypuhc/08CQX4pR+Yk6y1pulsLHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741019407; c=relaxed/simple;
-	bh=B/jYQBJmmTDK3Ilg+X1nlKmMXYvNdEakUMLvXaQ3S7U=;
+	s=arc-20240116; t=1741019436; c=relaxed/simple;
+	bh=4M7qw2BCNap/yj1lp7E2M6gYvaxv2EvIQCTCMGBcr1g=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qsyN498X12SWrTFOpcxkM3Y8LtrwFscY+gxYNiAISrGeNK/3CGVIp5I48imHHQTXewxM+DbdsIghJ3SlSi5gA6LI/SvpBG8M7+IHFUq0ffiIlAv3ZmP4rpNvwFEIC2CYxUYVnom5/wRzHtY5o9WRi87dmTbB+QWmYppOPuxvLj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rYNpP7lC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=noNb9qpJ0gx91lqye8ry2PxOAmfQGBgJa4ZEq6MWtw3PPm5l1XMSKfUT7ShX72aNemiPKfMD4pNckPBeQ09zgtRlSLsQMqrWPCTtuKjw5ronV3rddMH1XxJAbioYSkr9VvsMy/NBCVvFf3vd/4XhtaEE5TvHl3Ax53M5CYaMFh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PBnZRU0r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rYNpP7lC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2788EC4CEE4;
-	Mon,  3 Mar 2025 16:30:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PBnZRU0r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3954AC4CEEF;
+	Mon,  3 Mar 2025 16:30:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741019406;
-	bh=B/jYQBJmmTDK3Ilg+X1nlKmMXYvNdEakUMLvXaQ3S7U=;
+	s=k20201202; t=1741019435;
+	bh=4M7qw2BCNap/yj1lp7E2M6gYvaxv2EvIQCTCMGBcr1g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rYNpP7lCAau1CxO6IWydNfs+XV9kFRHYXR2oJhzqumBlCb8SGyMcNmMVokXAvMp2j
-	 vcbtjSVMy9rKwTXeRo50tH+WCxtiAZs9bc8iMDOUsK8nmBXg5RlDZnyq/iMiUfsunJ
-	 ITtU/wrzlzyGqfNE8hmUhAprusW+ZnIWtOl34cGXOkw0M/8sekw1gyrxyZGptQMrI+
-	 fnuei7oWlYQ60rl5Ut2h7d/o6VAznMsfmrNX7GGc7/tZCPQPILVNeE9PbOTzHAxddc
-	 P3sCMA5F15z5sSH6FLAQAcKN74+LEBIjui7mvy5PB06NrnQzcZHlqlXOO/ntMcNg7p
-	 NF6h6Mhx07RrQ==
+	b=PBnZRU0relCv6+ExKWA83h6t4qBCnbettrKZCKoETcE1EBNtV5FA7LvhaTHA8PgQi
+	 rqN0kWxEDPRYu46RhqfLBUPVq69osNf6SnItBMRNZGiYEVU9HfzTCf8HHkJFO9eOHW
+	 +y1VwKtwsSRdCrSPexgEF85z/10xpwZ4X4Q7yQhwSBOifPmcis9QkPwT7XW/vHDMhN
+	 OQrFpE3m2GyfyASrNtxryAxAZPjuirpOc1SSXduzpJy7devl2ukvqFN4UaKgUo0hUc
+	 3bivlyygXoaKFr1TVS4EYpgJ3yxNsL5Hu2UN7K+zq8C+do18eohyrvm9VyUVppSsLv
+	 I1+/5/3dAlr7g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+Cc: Hector Martin <marcan@marcan.st>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
 	lgirdwood@gmail.com,
-	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	pierre-louis.bossart@linux.dev,
-	brent.lu@intel.com,
-	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 07/17] ASoC: SOF: Intel: don't check number of sdw links when set dmic_fixup
-Date: Mon,  3 Mar 2025 11:29:39 -0500
-Message-Id: <20250303162951.3763346-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 02/17] ASoC: tas2770: Fix volume scale
+Date: Mon,  3 Mar 2025 11:30:14 -0500
+Message-Id: <20250303163031.3763651-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250303162951.3763346-1-sashal@kernel.org>
-References: <20250303162951.3763346-1-sashal@kernel.org>
+In-Reply-To: <20250303163031.3763651-1-sashal@kernel.org>
+References: <20250303163031.3763651-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.5
+X-stable-base: Linux 6.12.17
 Content-Transfer-Encoding: 8bit
 
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
+From: Hector Martin <marcan@marcan.st>
 
-[ Upstream commit 56a677293509b2a0d39ac8d02b583c1ab1fe4d94 ]
+[ Upstream commit 579cd64b9df8a60284ec3422be919c362de40e41 ]
 
-Currently, we assume that the PCH DMIC pins are pin-muxed with SoundWire
-links. However, we do see a HW design that use PCH DMIC along with 3
-SoundWire links. Remove the check now.
-With this change the PCM DMIC will be presented if it is reported by the
-BIOS irrespective of whether there are SDW links present or not.
+The scale starts at -100dB, not -128dB.
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Link: https://patch.msgid.link/20250225093716.67240-2-yung-chuan.liao@linux.intel.com
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Link: https://patch.msgid.link/20250208-asoc-tas2770-v1-1-cf50ff1d59a3@kernel.org
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/sof/intel/hda.c | 18 ++----------------
- 1 file changed, 2 insertions(+), 16 deletions(-)
+ sound/soc/codecs/tas2770.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index be689f6e10c81..a1ccd95da8bb7 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -1312,22 +1312,8 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
- 		/* report to machine driver if any DMICs are found */
- 		mach->mach_params.dmic_num = check_dmic_num(sdev);
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index 9f93b230652a5..863c3f672ba98 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -506,7 +506,7 @@ static int tas2770_codec_probe(struct snd_soc_component *component)
+ }
  
--		if (sdw_mach_found) {
--			/*
--			 * DMICs use up to 4 pins and are typically pin-muxed with SoundWire
--			 * link 2 and 3, or link 1 and 2, thus we only try to enable dmics
--			 * if all conditions are true:
--			 * a) 2 or fewer links are used by SoundWire
--			 * b) the NHLT table reports the presence of microphones
--			 */
--			if (hweight_long(mach->link_mask) <= 2)
--				dmic_fixup = true;
--			else
--				mach->mach_params.dmic_num = 0;
--		} else {
--			if (mach->tplg_quirk_mask & SND_SOC_ACPI_TPLG_INTEL_DMIC_NUMBER)
--				dmic_fixup = true;
--		}
-+		if (sdw_mach_found || mach->tplg_quirk_mask & SND_SOC_ACPI_TPLG_INTEL_DMIC_NUMBER)
-+			dmic_fixup = true;
+ static DECLARE_TLV_DB_SCALE(tas2770_digital_tlv, 1100, 50, 0);
+-static DECLARE_TLV_DB_SCALE(tas2770_playback_volume, -12750, 50, 0);
++static DECLARE_TLV_DB_SCALE(tas2770_playback_volume, -10050, 50, 0);
  
- 		if (tplg_fixup &&
- 		    dmic_fixup &&
+ static const struct snd_kcontrol_new tas2770_snd_controls[] = {
+ 	SOC_SINGLE_TLV("Speaker Playback Volume", TAS2770_PLAY_CFG_REG2,
 -- 
 2.39.5
 
