@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C826A1F19A;
-	Mon,  3 Mar 2025 12:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1E73BBD8;
+	Mon,  3 Mar 2025 12:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741006326; cv=none; b=jfCCg2D5oxcLuIQn1/xmHZzp417qtEWDeqbkMOgg+IOiGAZ9HpdfoRjSS6Uze2dfsCBOcdiNng1BFwaDToKHXqGf0vH0YT933A0NR5KIc2CywXQn1MRFaulHDooUBSFAblzC64hjPmFvr/e9nHRyiFACama/nWUAQvjjf5mKdoI=
+	t=1741006575; cv=none; b=BGtR7lQsIbcWbfXcssCCdUVcVeLFDDPLdIY0y0/hQlA3BAA53hLC0gc2a0C1kUtUeeWGozS+4mcU+/kLcs/FWU2c6Bj7+TyKajy4jAN6fgmd5xwHPZJWXoS00OCFO6TD9CDXn/W1x+AaGnpILqAPk90YlipxwFOUm3ztwPl6eSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741006326; c=relaxed/simple;
-	bh=vN6ggPv/ECtAyJIOC13/S4vopzaeQ+5ICHdDXWNQvl4=;
+	s=arc-20240116; t=1741006575; c=relaxed/simple;
+	bh=Ev5SKxfHjDqDzCGwE0MrQkmFFNsf+Ifg6zSxPrf9e4c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GwHYxffdUb1s2Nc3pRfcrqXJx/X6l6X+MU2uucc6hmb0QsZElkLoNkZvlXTb+NdMB7Nemyi0I48YlNHVxih6h1I97s2hNEG+WTNFPcsgtzlT/KaD9BQTgibzbTlxQrY4vguef0NGcAkcIGsRnjpa25ROsfq0YTwRkeGMlIEdSws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONH1ZfPz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=LEfY4MwppZmFrVOIBSRzbGizJiDyFMJ8jZxNijRkNIvVPN+PO6fKCk4OMcIX06tlxvTbESewme3/n/TnRP8h8SerdYk1VJwG8HWD5tLo0OZSfBXewvAQlx+LzrXX1RbgiC+RJy9fgZijIHgGMpL1d9ma6U2PWSSu1j8U/YhT7Ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nQgWRqwK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONH1ZfPz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76135C4CED6;
-	Mon,  3 Mar 2025 12:52:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nQgWRqwK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB27BC4CED6;
+	Mon,  3 Mar 2025 12:56:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741006326;
-	bh=vN6ggPv/ECtAyJIOC13/S4vopzaeQ+5ICHdDXWNQvl4=;
+	s=k20201202; t=1741006574;
+	bh=Ev5SKxfHjDqDzCGwE0MrQkmFFNsf+Ifg6zSxPrf9e4c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ONH1ZfPzWGINdRjQAstNyxlvRq0WrepPbpTzxzMkO8ACwrgPNSl2hWt0ohqGNqKuA
-	 uL50x8rLNKdRa9XY7/aeW7PGIw87q9qKRHOXRHrDtwguDhiIN3rzfxldKlRxIBzreB
-	 /3estso0OyqSxlOnsMMjAgNXJ/3pGo8eTz2b/guUTQC2qdVpA/yZZlmht1L3CAbuPo
-	 O/fdWmA6t6nk1wqqWdoCYjsmlMomEjJWZYqFF0q8SEJzK5oxnNj8LDsUXTsvvcZT9w
-	 zTVx+rCHR9aVnZfAVC8g35lY7LBXVKfNrqNeZFnFbpPfFeEIPtzqqUuy/vjAOaxRjp
-	 DjvxWYsY+d68g==
-Date: Mon, 3 Mar 2025 12:52:00 +0000
+	b=nQgWRqwKuT1Oo2+hzyUjZaaBeHxS+JzswVkZ3IcpxM+0txxGFd09xfUYwQdAAldMJ
+	 3dxfDjO0/g0d5TI1ztufEITw41xWhqqNNpUf8L0xZ7Wvlivx+O3mY+IuTDFm7libiQ
+	 wj58t/ZQu3Kbx4xnbqecGbW/T2Tt/sPxeErUViGiKe+XyhgTAvx7LoxGZn5NjgOo2Q
+	 rkUoqBsdhVBRmDqHHbcUX3Xh35YRskMrkC+06fWOVf6LERp/KY4ZMM2JfjrRAXNVVc
+	 NSVm9SHGlGvXk82LSYrsI24e0GObX3xEpSGRKd2ew0NAamCwyqorOXXPyD4am65Twu
+	 BUKwepksALVTQ==
+Date: Mon, 3 Mar 2025 12:56:09 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sameer Pujar <spujar@nvidia.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Sheetal <sheetal@nvidia.com>, Ritu Chaudhary <rituc@nvidia.com>,
-	stable@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH] ASoC: tegra: Fix ADX S24_LE audio format
-Message-ID: <215b6a0e-20db-49dc-b2d2-df8dfaf899f6@sirena.org.uk>
-References: <20250302225927.245457-2-thorsten.blum@linux.dev>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, peda@axentia.se, andrei.simion@microchip.com,
+	nuno.sa@analog.com, paul@crapouillou.net, oder_chiou@realtek.com,
+	kiseok.jo@irondevice.com, shenghao-ding@ti.com, kevin-lu@ti.com,
+	baojun.xu@ti.com, srinivas.kandagatla@linaro.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 11/12] ASoC: Tidy up SOC_DOUBLE_R_* helpers
+Message-ID: <5b319436-cf3e-4fd6-89a6-87e1afcf1ee1@sirena.org.uk>
+References: <20250226153137.2791938-1-ckeepax@opensource.cirrus.com>
+ <20250226153137.2791938-12-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,40 +46,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="09veEn5TwlpgDBHd"
+	protocol="application/pgp-signature"; boundary="RoR8hd1BzWUnIGTH"
 Content-Disposition: inline
-In-Reply-To: <20250302225927.245457-2-thorsten.blum@linux.dev>
-X-Cookie: You will be awarded some great honor.
+In-Reply-To: <20250226153137.2791938-12-ckeepax@opensource.cirrus.com>
+X-Cookie: No purchase necessary.
 
 
---09veEn5TwlpgDBHd
+--RoR8hd1BzWUnIGTH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sun, Mar 02, 2025 at 11:59:25PM +0100, Thorsten Blum wrote:
-> Commit 4204eccc7b2a ("ASoC: tegra: Add support for S24_LE audio format")
-> added support for the S24_LE audio format, but duplicated S16_LE in
-> OUT_DAI() for ADX instead.
+On Wed, Feb 26, 2025 at 03:31:36PM +0000, Charles Keepax wrote:
+> Re-implement SOC_DOUBLE_R_VALUE() in terms of SOC_DOUBLE_R_S_VALUE().
+> SOC_DOUBLE_R_S_VALUE() already had a minimum value so add this to
+> SOC_DOUBLE_R_VALUE() as well, which makes SOC_DOUBLE_R_RANGE_VALUE()
+> redundant, so its usage is replaced.
 
-Please allow a reasonable time for review.  People get busy, go on
-holiday, attend conferences and so on so unless there is some reason for
-urgency (like critical bug fixes) please allow at least a couple of
-weeks for review.  If there have been review comments then people may be
-waiting for those to be addressed.
+This doesn't apply against current code, please check and resend.
 
---09veEn5TwlpgDBHd
+--RoR8hd1BzWUnIGTH
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfFpe8ACgkQJNaLcl1U
-h9D+Lgf8DTpEtDAyCKsn5luzCVg7TGGIKZrLUvqF0vP7Q3NNkRzoy1cS46E6pZyC
-6wnVbCsOZiQ+Yi0a3s5Dj3L0lYDD5my9AQ41ZooayRTxILP+2QZIrgRZZUadWqa4
-0oT6manyA3BkNAL0y8f9riEPaiUdCGoRH0quWPpX4IdQgNygEXbAXwmfndXnay+c
-DhAyrHT+n5G6RYZwToc5TIzw/NmpjNkUUTEoqVt3gARJ2gSK9Spl6Mph1Ol2DlMX
-giSXUP5+795ONq5EBoO+Zxz0F9KmXcvdvPXy/K7knXaIcOAru+e4W7lidbWncJgX
-pFRb6FUb91C4vXk9U8v8FoL/pZw43A==
-=ZzNs
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfFpugACgkQJNaLcl1U
+h9AN+Af/fKSNcDYJBdpB2CpuPssT8MvsuizseNovlE8SR67M8irBy34gVRRSEzPQ
+EP+yra221mu+SjIjqlpveqTU3GLfX9gCpbr29lgACZhSeKlB310jtdUOitP7BDB2
+aTxZ2/dkWWQ/CAY2Lf+qE30in5bWSj5CLCXKrDrnqdHIP2UrCxm7O3PIyVVbD+Ow
+aFS7MoPpYasv8AsKpo4CrT/46/Z3blB2K9UwGZqa+yMBEQNJ+v1P5ES6+eQ/4LCr
+57Tb/JsATEmXGCEWgX17X8dVnG9nkhAhZ885xFJorhcMS787R63nr6r27DZQJjWR
+2num4biSZWf0fB8aoK/cCg9455a39g==
+=i4Az
 -----END PGP SIGNATURE-----
 
---09veEn5TwlpgDBHd--
+--RoR8hd1BzWUnIGTH--
