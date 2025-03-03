@@ -1,49 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F072405F9;
-	Mon,  3 Mar 2025 16:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0085243379;
+	Mon,  3 Mar 2025 16:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741019440; cv=none; b=OOihuNOg2T9CX/48R9ic8nsnr+3P3Jg+nG768fhMTlcARAVTGTBC1sfGIutBOqjxtodlGHOWtdOXAtEJH6K3KCtWjuyIzp4ChIOwT+9yzwjiA5Xc0pLchaW5uSbail0Pp4ynYZrfCD+dD6WeQlnUcxtHHFCtKwXdDrUk4JXWTqc=
+	t=1741019443; cv=none; b=Geb6Zz72cQcbr9aQIBmU6Krybp8IqxSN7BLA2wrkjjN7mvTr2JNsHuU/5qRZEkxhGnb2LN9sGztvBQXddxhT1ta0E22ex+++5OgPHfML5ADB2+gThZkdSYqWNNSP5zbjG7L2etdX/FQj5e1NVCZVRX/DTokCCOiA9mHCubEhyx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741019440; c=relaxed/simple;
-	bh=+rFti7JLUng9uHNaMUDth1nB7fGY2RDLZ1u53Q8SCPM=;
+	s=arc-20240116; t=1741019443; c=relaxed/simple;
+	bh=kzBJWSicag1qKjz5770nSTUwj7AkXxzpM6uIrGZGg44=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DXs9RhzGMAPSAlXh3EEHJkw1gfoQJUzx7TGeTNTsaJp6g3h35D2YGePFUK0pd2mrF7nv4MpG8s8mZJzOzVD1p8cj8G2mGnjQZfMpvmtyDfgUUl17Iw689f56ygcZOAhid1TUitWuWQMF19uYAYFUvU3IvODq/sK9veFlR/N875M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=faDVUT59; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=UKNJM7ymdbe2hbeZZvM3XGZK4Qwz2oNr7ekpdg0pCxdugPXV7wpFkxuc4liCuc9q95/q5S5uADbjeClO1xVjidJXEyCdBcB5V7aAmE9hG9dgRmhanW7Ebp2AviM0JJwFHm1KoS7wXNxtDYAH56+80ksNcmT4oHF1GH7hGFi08q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KIWqSzVA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="faDVUT59"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D851C4CED6;
-	Mon,  3 Mar 2025 16:30:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KIWqSzVA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 480F9C4CED6;
+	Mon,  3 Mar 2025 16:30:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741019439;
-	bh=+rFti7JLUng9uHNaMUDth1nB7fGY2RDLZ1u53Q8SCPM=;
+	s=k20201202; t=1741019443;
+	bh=kzBJWSicag1qKjz5770nSTUwj7AkXxzpM6uIrGZGg44=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=faDVUT593UrZlkm+Om3/yxU98B7EXcTOV4l5YFGcPhXK04x9EYctt5yfaZpJZ24l3
-	 qfbS1AC2DgOvq/FG5km80te/MNBQ4EsIxjn7sIngre/jyVPLYhZmsDJpREBLDspMR5
-	 NgGsyBLLisr4U0cmhZY9yEVV9i1zFY3ST/Xs1pbGnzM1DMO7N8nLtwMfGqaIF8klNA
-	 AGyt9b5bSW0/iKCTNXRe3nELBASUyx0f2dpu9AIvlfE4kLjmx6GRLf0QTHVRdnKkUm
-	 5K7Tt+OXwpMWynV1eZBjyBvGaLsx9dq3+y1d3ZVgLw7SykyKpdLABzKbbOdfjR5ruK
-	 Rz1AgljT4UORg==
+	b=KIWqSzVAL7LJAfD7zzSwn1NesMyFw+mUp1uu4XcfEZb1aMuLI8AObBqJbHMit9lFU
+	 nkGkBNLHyWjPW5UVNb01/zt2EOTXnBc6lf0Ii+APiI1E4mdo77Q3Zj9FAwSiz7p+pQ
+	 2FXCr77pTR0uXAPN61NM/BEhJ3e0CvuDaXGSorNzx3yYyrWEBREK3X6IunVtQTKlY/
+	 V0WoGfEE3HJ/9fp5OWgysi5FoyU0HPQbFD4Z4iKaK5D2JNtskl3g57NF4w/lowfrC9
+	 1mxJcNGgjO27wJRuUlgjP2G+mug2/PSXxMTGK46hZs8DWV3BmrxJN3JJI69parrxFt
+	 bNJoDZE7qKjIg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hector Martin <marcan@marcan.st>,
-	Neal Gompa <neal@gompa.dev>,
-	James Calligeros <jcalligeros99@gmail.com>,
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 04/17] ASoC: tas2764: Set the SDOUT polarity correctly
-Date: Mon,  3 Mar 2025 11:30:16 -0500
-Message-Id: <20250303163031.3763651-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 06/17] ASoC: dapm-graph: set fill colour of turned on nodes
+Date: Mon,  3 Mar 2025 11:30:18 -0500
+Message-Id: <20250303163031.3763651-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250303163031.3763651-1-sashal@kernel.org>
 References: <20250303163031.3763651-1-sashal@kernel.org>
@@ -58,82 +51,43 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.17
 Content-Transfer-Encoding: 8bit
 
-From: Hector Martin <marcan@marcan.st>
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-[ Upstream commit f5468beeab1b1adfc63c2717b1f29ef3f49a5fab ]
+[ Upstream commit d31babd7e304d3b800d36ff74be6739405b985f2 ]
 
-TX launch polarity needs to be the opposite of RX capture polarity, to
-generate the right bit slot alignment.
+Some tools like KGraphViewer interpret the "ON" nodes not having an
+explicitly set fill colour as them being entirely black, which obscures
+the text on them and looks funny. In fact, I thought they were off for
+the longest time. Comparing to the output of the `dot` tool, I assume
+they are supposed to be white.
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-Link: https://patch.msgid.link/20250218-apple-codec-changes-v2-28-932760fd7e07@gmail.com
+Instead of speclawyering over who's in the wrong and must immediately
+atone for their wickedness at the altar of RFC2119, just be explicit
+about it, set the fillcolor to white, and nobody gets confused.
+
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Link: https://patch.msgid.link/20250221-dapm-graph-node-colour-v1-1-514ed0aa7069@collabora.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/tas2764.c | 10 +++++++++-
- sound/soc/codecs/tas2764.h |  6 ++++++
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ tools/sound/dapm-graph | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index d482cd194c08c..58315eab492a1 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -365,7 +365,7 @@ static int tas2764_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- {
- 	struct snd_soc_component *component = dai->component;
- 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
--	u8 tdm_rx_start_slot = 0, asi_cfg_0 = 0, asi_cfg_1 = 0;
-+	u8 tdm_rx_start_slot = 0, asi_cfg_0 = 0, asi_cfg_1 = 0, asi_cfg_4 = 0;
- 	int ret;
+diff --git a/tools/sound/dapm-graph b/tools/sound/dapm-graph
+index f14bdfedee8f1..b6196ee5065a4 100755
+--- a/tools/sound/dapm-graph
++++ b/tools/sound/dapm-graph
+@@ -10,7 +10,7 @@ set -eu
  
- 	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
-@@ -374,12 +374,14 @@ static int tas2764_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 		fallthrough;
- 	case SND_SOC_DAIFMT_NB_NF:
- 		asi_cfg_1 = TAS2764_TDM_CFG1_RX_RISING;
-+		asi_cfg_4 = TAS2764_TDM_CFG4_TX_FALLING;
- 		break;
- 	case SND_SOC_DAIFMT_IB_IF:
- 		asi_cfg_0 ^= TAS2764_TDM_CFG0_FRAME_START;
- 		fallthrough;
- 	case SND_SOC_DAIFMT_IB_NF:
- 		asi_cfg_1 = TAS2764_TDM_CFG1_RX_FALLING;
-+		asi_cfg_4 = TAS2764_TDM_CFG4_TX_RISING;
- 		break;
- 	}
+ STYLE_COMPONENT_ON="color=dodgerblue;style=bold"
+ STYLE_COMPONENT_OFF="color=gray40;style=filled;fillcolor=gray90"
+-STYLE_NODE_ON="shape=box,style=bold,color=green4"
++STYLE_NODE_ON="shape=box,style=bold,color=green4,fillcolor=white"
+ STYLE_NODE_OFF="shape=box,style=filled,color=gray30,fillcolor=gray95"
  
-@@ -389,6 +391,12 @@ static int tas2764_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = snd_soc_component_update_bits(component, TAS2764_TDM_CFG4,
-+					    TAS2764_TDM_CFG4_TX_MASK,
-+					    asi_cfg_4);
-+	if (ret < 0)
-+		return ret;
-+
- 	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
- 	case SND_SOC_DAIFMT_I2S:
- 		asi_cfg_0 ^= TAS2764_TDM_CFG0_FRAME_START;
-diff --git a/sound/soc/codecs/tas2764.h b/sound/soc/codecs/tas2764.h
-index d13ecae9c9c2f..9490f2686e389 100644
---- a/sound/soc/codecs/tas2764.h
-+++ b/sound/soc/codecs/tas2764.h
-@@ -79,6 +79,12 @@
- #define TAS2764_TDM_CFG3_RXS_SHIFT	0x4
- #define TAS2764_TDM_CFG3_MASK		GENMASK(3, 0)
- 
-+/* TDM Configuration Reg4 */
-+#define TAS2764_TDM_CFG4		TAS2764_REG(0X0, 0x0d)
-+#define TAS2764_TDM_CFG4_TX_MASK	BIT(0)
-+#define TAS2764_TDM_CFG4_TX_RISING	0x0
-+#define TAS2764_TDM_CFG4_TX_FALLING	BIT(0)
-+
- /* TDM Configuration Reg5 */
- #define TAS2764_TDM_CFG5		TAS2764_REG(0X0, 0x0e)
- #define TAS2764_TDM_CFG5_VSNS_MASK	BIT(6)
+ # Print usage and exit
 -- 
 2.39.5
 
