@@ -1,124 +1,70 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A08F142E6F;
-	Mon,  3 Mar 2025 14:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F9C2135CB;
+	Mon,  3 Mar 2025 15:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741013158; cv=none; b=GXEBwbAsqXsgf0HeejCcIpMkc3djSEFTPt5uSDbbBHty0vwczuwgkktqybn73/eiyfxY00b/XmZF/wpN2SAiSD8zWAUjrxoz9jCINU39BDMRS/ahDXgsV19+3Obpi6Njrs8O8SpVamJAEjGlxRPPYLZRUegA2SSwCRJzpD2Wvi0=
+	t=1741014543; cv=none; b=ExcMnrEnamt6ItPSeYTkler6XgfAbHH4RBDmHZSf9xSHfVrJHNd0DeitDNXdku60QGRNTrgDCP4vwmTntNpTY2xHZltvn7UT+Z77y7/4f50n0aQh+7OFu8RvrudI8lEU2ZF69Fimne11Q/ZWPE3dbh/B5SBKuvdkYDfoP6q9yUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741013158; c=relaxed/simple;
-	bh=oQYo31W0WahUUgGafPAeoZtr6PUwTcxwzU94GR9sNHk=;
+	s=arc-20240116; t=1741014543; c=relaxed/simple;
+	bh=B/RxgGplWHCJm/nG4sQ+Z0xVy9/lkfkkboziNUU3Dxg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RHFbhiEQaaUWaqhPq1MqFiMdYZe7DWZKdk1v3xoLgjrg2iMsNdQwBdGBLe+xORWOrMQsvov/oERZjsSZ1zH/evDfxfmoMVEbu/YT60GpjwMmF52QAy6rj97xR9+NnRJkk8tjAtGebHEXBcIqT2YQGOzYcdSnMHO5MkOQyu0MEoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=pR0IFrRI; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=INX7Tz5dvXQA8bKrTz2M0dQa9FkMnls/YU1QcjYBwQT31CnvWbO9hqhCtso3kM0OknJ4LZiyu0nz1Z1QvwBPHxIlnJyLpCVAfpRPJcc8vCpSiep0Y0m6s5SBztCdOVCqA8U1qIDLj/vs2oRqdaYaFxOQ1k0lihIkl0mnlQP/3P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QT1Yrfqg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="pR0IFrRI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1741013154;
-	bh=oQYo31W0WahUUgGafPAeoZtr6PUwTcxwzU94GR9sNHk=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QT1Yrfqg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5065C4CED6;
+	Mon,  3 Mar 2025 15:09:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741014543;
+	bh=B/RxgGplWHCJm/nG4sQ+Z0xVy9/lkfkkboziNUU3Dxg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pR0IFrRInKm/4EW6eI5mCbpu6AcfVVOO9d1GKUgU8zBG7hrdEKWti0g2z9qKTo7gY
-	 TIySusZ81Wlxzu0ugr8hSJHkluVicHzHktayYvlfQ4JY4C69Xs5d49ZVZ6VP4GF+xF
-	 6x/X1Q1rWFk4lojtvsxX04cw/WDmhoz8DRzu77hkZqIwfXOvX53TDdtA/kVJdWvDSg
-	 tmJPG7aZWAePfIVwt4zSMqPpShGVez3MrIzhk6GdTU3a3lDV8epkhGjXQKMo5WxJ7m
-	 9lKkFUxXIl8HQz2256mS7B6P4G9A2R/UfRp3swUIQHxuY4jUNWGJwtron53UPxB3uN
-	 nbZzneyQzINPw==
-Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1001])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 909A317E0E8D;
-	Mon,  3 Mar 2025 15:45:49 +0100 (CET)
-Date: Mon, 3 Mar 2025 11:45:47 -0300
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
+	b=QT1YrfqgnWQYI4Ycm/WXvNkoC3goiGCfXFocdGWofOwRvbe3dJvvQUog5Pj4T/eeZ
+	 e0HGvLiCGEcCgsM1979Ted+wN3yc6HakbIyBgCFOqU78wnPhfhgVkb9vqZNBkKkIxG
+	 EM1D5EHLa66faeSYjs5+ve7rIOCNLGI6/k91wzrdJxIdMzSP/tfTbmRtznLjIGoTM+
+	 zpe/9WfW+RoWa449lvDwKhjI8qt1pddCsl/YNuK6pIGC9eKdBslzYmfmXB+2hk+rWA
+	 xm5Ga872uG9r1QiPbDbI3czeej5yKuh9ofhiuVteB3zpIV8tP61t8P8GUSXA80+ioD
+	 ICXffMh2jsH7Q==
+Date: Mon, 3 Mar 2025 09:09:01 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: Konrad Dybcio <konradybcio@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, kernel@collabora.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2 01/20] ASoC: dt-bindings: Add document for
- mt6359-accdet
-Message-ID: <0120fe30-43c4-4fec-8b5e-fdb6b382fc2a@notapiano>
-References: <20250302-mt6359-accdet-dts-v2-0-5bd633ee0d47@collabora.com>
- <20250302-mt6359-accdet-dts-v2-1-5bd633ee0d47@collabora.com>
- <628a81c5-b9f1-4be9-84ec-90022a3526da@collabora.com>
+	linux-arm-msm@vger.kernel.org,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	linux-sound@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH 1/5] dt-bindings: pinctrl: qcom,sm6115-lpass-lpi: add
+ QCM2290 compatible
+Message-ID: <174101454086.1861365.1920682427801153215.robh@kernel.org>
+References: <20250302-rb1_hdmi_sound_first-v1-0-81a87ae1503c@linaro.org>
+ <20250302-rb1_hdmi_sound_first-v1-1-81a87ae1503c@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <628a81c5-b9f1-4be9-84ec-90022a3526da@collabora.com>
+In-Reply-To: <20250302-rb1_hdmi_sound_first-v1-1-81a87ae1503c@linaro.org>
 
-On Mon, Mar 03, 2025 at 12:14:51PM +0100, AngeloGioacchino Del Regno wrote:
-> Il 02/03/25 17:30, Nícolas F. R. A. Prado ha scritto:
-> > Add dt-binding for the MT6359 ACCDET hardware block.
-> > 
-> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> > ---
-> >   .../bindings/sound/mediatek,mt6359-accdet.yaml     | 42 ++++++++++++++++++++++
-> >   1 file changed, 42 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt6359-accdet.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt6359-accdet.yaml
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..d08a79301409374714c76135b061e20e8e8acfaf
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/sound/mediatek,mt6359-accdet.yaml
-> > @@ -0,0 +1,42 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/sound/mediatek,mt6359-accdet.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: MT6359 Accessory Detection
-> > +
-> > +maintainers:
-> > +  - Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> > +
-> > +description: |
-> > +  The MT6359 Accessory Detection block is part of the MT6359 PMIC and allows
-> > +  detecting audio jack insertion and removal, as well as identifying the type of
-> > +  events connected to the jack.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: mediatek,mt6359-accdet
-> > +
-> > +  mediatek,hp-eint-high:
-> > +    type: boolean
-> > +    description:
-> > +      By default, the HP_EINT pin is assumed to be pulled high and connected to
+
+On Sun, 02 Mar 2025 02:49:51 +0000, Alexey Klimov wrote:
+> Add a compatible for the LPASS LPI pin controller on QCM2290. It seems
+> to be compatible with sm6115 LPASS pinctrl.
 > 
-> Just to be clearer about this pin being an internal one and not externally sourced,
-> so, *not* a SoC GPIO, but somehing that is completely provided and handled by the
-> accdet IP...
+> Cc: Konrad Dybcio <konradybcio@kernel.org>
+> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
+>  .../bindings/pinctrl/qcom,sm6115-lpass-lpi-pinctrl.yaml           | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> "By default, the accdet IP's internal HP_EINT pin is assumed to be pulled ..."
 
-The HP_EINT is an external, not internal, pin of the MT6359 PMIC. It is an input
-pin of the MT6359 IC that gets wired to the tip (left channel) of a 3.5mm audio
-jack to allow for detecting when a plug is connected.
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-Since this dt-binding is about an IP in the MT6359 PMIC, I think when saying
-"HP_EINT pin" it is already clear that the pin is on the MT6359 IC, but if you
-think it's necessary I could make it "MT6359's HP_EINT pin".
-
-Thanks,
-Nícolas
