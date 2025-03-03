@@ -1,131 +1,89 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2512135BB;
-	Mon,  3 Mar 2025 15:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F3F215193;
+	Mon,  3 Mar 2025 16:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741016596; cv=none; b=H/bIGANSO2JYunReu6XyM85sBL4T032VOn6qRpy1ax3WBP4TRNUgAaDYBa+y2rc4WbcGBc/Xv0B0Csw4ZBMRj5XJqIoNz0hQQi+finKzpqKqtA58+T++ZNXOUSN6Y1kS0nsycNjUqBqw/hMtQ9fYfiBKmeGnp801lY+Iw8z17BY=
+	t=1741019397; cv=none; b=spiArnfIjOAkICTxr++MZI7p+fuC5GkE/YkgpZ3tXl22YmETnBgRMDND4m/3kuVYLwm2KfJaK/YLKgxXoacVeMQwYzI9V6F4BRFuJQz6XkxB3JPv7P1NFH5hDcXQwH0jwcpdZcXFeepSYhl8PRdT3lUWI6wReoxgD/aKRQv6qLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741016596; c=relaxed/simple;
-	bh=ghfaZbIiUJzse2shN7QuXoFlGxnLXRzYB7t3m0+2OGE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y/IIqP7OzibPeihqzt18eI8wLN6eFLKfGRO0czw+QzbuLU4u2LFaLwkgWVf8ebAcP1wtpghcSf+aKibghejdOGWJK/EpkAySmgk7hLQ33jUtAYpn5pda73PFz5Ij618dXA/2AYVeV2/f2w1z91HRwJ7lDb8kwQ5E9fg7g70oSw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PZ6IM/I1; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741019397; c=relaxed/simple;
+	bh=4M7qw2BCNap/yj1lp7E2M6gYvaxv2EvIQCTCMGBcr1g=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=kHOCPMsj4LX1DggPh3MmvEJYRgBLMWy+iOWe7yYoKH5559iJN6BjhreVxN2woOFM0RBaEQz0SqP3bBDD1H0L/gna0RL3uLs2EUTuI7qwJtHCYaIbaghxXhZ3wg5If+76zoJsE9/8xqZOjLHOuc0FuXPD5ERPXCrGuorUFpax/Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HDyeuGs/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZ6IM/I1"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43bc31227ecso6916995e9.1;
-        Mon, 03 Mar 2025 07:43:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741016591; x=1741621391; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gX/3lsZgxbQ9Eu8icrnCZRTD736z7Ychh8myylxpAg0=;
-        b=PZ6IM/I1LAAWOMENoC1M5umG/lqE5PyRxHSG2SgwFt8Q89EyPZ4TgKkOVYV5+ZF+Rh
-         p1TxMldCjmCcVhDCLyUhgPgmPXn7aLCoNcQVWfbkwQn8Mka/hQUAMV8ZaHrRwr9nUcPd
-         BkdbkZvP/Q07kCIFBzbZ5fhI0lO277k+UTmBIpqiI+y52OpKPEUbiN57kcGc/KZWxPX1
-         M4mbaLTqhBt3kcR+JhLS24Kyb2PQ+mkLUK5kjTXgMr6E2M/rihYA2BTXF/rbzR7qnlVg
-         ziPtSplNlM31bpsXo7BLTY6z2fo43LNn6qU4EtCmbIa3T7y2NTvxp4dkssPt+BmW8+7u
-         dRAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741016591; x=1741621391;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gX/3lsZgxbQ9Eu8icrnCZRTD736z7Ychh8myylxpAg0=;
-        b=KUvayw+yZf99wSoSSD4Xq3BnurFegHVNGyV+Ly3Fln+EnQXZtlJezcR8qpZR7gFzJl
-         KoZwDl8jaohrWKt+WWWRfD7LhFCiz2rpgMNZu5kGso/Z8wSKTAPq1L6Ve8+y/voTHG4A
-         Ouc1btrwksGqbKDul2+wmBnk423I5aYu2FxH0xmzAM75mifYn4nqjOm8PdMmv6603v14
-         O6ciY1vl5aHZLtmjj8kHaTfwWS91FKduok7ldiBc45vQD2ynXIZNy9Xn4/1nofq/Y8B4
-         8S9sFEnGKdIJopL1s7YOdE+B9RPjChaJjkb8zhZOHLqiVXWYRX125Xvh/WGx2dzc5QP/
-         2ZBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVWrAJQHIbBIANX9LHSWSUUJj8RPWgk1TfSJ9+ah13SWZgtOJ/2TsyPolBKiN6gXsF13g1IEgLZS3P1BiA=@vger.kernel.org, AJvYcCWLF1OnsAWebbcYZ3PpJnprCIATEaMYTpJNdhaWFIn0X12+vJP5qtyBSVQk9pz+XTGvXITCCwugRZwKai8=@vger.kernel.org, AJvYcCWsdhoBqA0hFibD3eoPQhxBS6WzzIxfonQglIgyaD7gs+9lXbQOjp8HpgCbndO/fucQi/ZDh8roibnTpLE=@vger.kernel.org, AJvYcCWxEs2tCGf+gney1PU03wOMF5RE1wNZjnWtUDHkX4/k74ptI1SuSSCPf9fsQj9ozXhfEPbdZFdu@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDogHWLRFzrZZxCGCLwo+RF74RZ55kqdc5cbupfPZn0ApgKfnd
-	lvpVL5gUE0rSOGmfmhUl4J02mIaHOIzQ0b9UE/BpNDySfDEmM2LEcQoRfw==
-X-Gm-Gg: ASbGncs2y3bISiFRkYP01lcXxm27ujPE6xJnVDwnSMX6P4LzPdtJI+GzCFpQ/mrFSMv
-	dvMrBva3f7ZdHQPxFenu7oY9JOjLY3xQYbRsEQAQzl+ElS/FGrmm7zzxnJz4diKZlJmiahtfVLA
-	UAsVoEEHkF4s2JTQ98D5fKAvRSl3eiwb80Umi8Jjm3ZVipACelRCgpdl9qJts9FQxLeXGZz+QKo
-	SVH5xYXbWvN/pJrZLyEDvSREXPqAY9aVMmis0Bt7R8qgBLtAXNuLRNmOWEMmULoTvRxMu/MFOnf
-	O2YDsp0Kgj6Ua0GdJIAKi+I9UOZEQCkU07EJrhCcMZRi8wx4ep3xrnVeG2TqlLPsd332BFVvWEE
-	4VgWf0WYP5nlQhBm2HJ9NMhstQXMKdX8=
-X-Google-Smtp-Source: AGHT+IHMe/5gEMg5r0++v4ePAUtdrMnkeRZYRGazD6vR/8Czngk/4bbcLGPo6dtarHyEH+gQAJht3g==
-X-Received: by 2002:a05:600c:3505:b0:439:8cbf:3e26 with SMTP id 5b1f17b1804b1-43ba66d5659mr108280575e9.4.1741016590931;
-        Mon, 03 Mar 2025 07:43:10 -0800 (PST)
-Received: from orome (p200300e41f187700f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f18:7700:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e47b792asm14768152f8f.53.2025.03.03.07.43.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 07:43:09 -0800 (PST)
-Date: Mon, 3 Mar 2025 16:43:08 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, Sheetal <sheetal@nvidia.com>, Ritu Chaudhary <rituc@nvidia.com>, 
-	stable@vger.kernel.org, linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH] ASoC: tegra: Fix ADX S24_LE audio format
-Message-ID: <mhqpjehmhw57nljlq2e6ip3qisar7knxku5in3q4grnf3wfwj7@tj3ahtatgjv3>
-References: <20250302225927.245457-2-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HDyeuGs/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6163C4CEE4;
+	Mon,  3 Mar 2025 16:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741019396;
+	bh=4M7qw2BCNap/yj1lp7E2M6gYvaxv2EvIQCTCMGBcr1g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HDyeuGs/lYdy9CEYKCM/ru1OX9ND1XpgOwioW8WGgWWi8arNr8kamubWshaSLhRI7
+	 Wa8N0nuKMAvSiwzYzfZBdJN6BOoi9YYIsG3eIknET8wOdeLCO6i2caFkiZwExTgvBB
+	 2fZbORAnQN2ChgWBmy2ZKKfxPb4PKPogBV7Wchst6pg4J9q4KSlsDcn2iOxS6ylUE0
+	 QxQ/O+SPOcqVjj/SeoE4OwiCqUDkpM21R8dtPKKpTYt+pqq7KhEkxra2r7pPjYKZ6Z
+	 lvASnPNtrCq11vA5K8sLl3y7Ko1gRa5tPmE573cRL2SwxxTuotQXsC7/sgLAv7SgvI
+	 k6kQhApGHPHEA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Hector Martin <marcan@marcan.st>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.13 02/17] ASoC: tas2770: Fix volume scale
+Date: Mon,  3 Mar 2025 11:29:34 -0500
+Message-Id: <20250303162951.3763346-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250303162951.3763346-1-sashal@kernel.org>
+References: <20250303162951.3763346-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xjbbdfvz2jer6yos"
-Content-Disposition: inline
-In-Reply-To: <20250302225927.245457-2-thorsten.blum@linux.dev>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.13.5
+Content-Transfer-Encoding: 8bit
 
+From: Hector Martin <marcan@marcan.st>
 
---xjbbdfvz2jer6yos
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RESEND PATCH] ASoC: tegra: Fix ADX S24_LE audio format
-MIME-Version: 1.0
+[ Upstream commit 579cd64b9df8a60284ec3422be919c362de40e41 ]
 
-On Sun, Mar 02, 2025 at 11:59:25PM +0100, Thorsten Blum wrote:
-> Commit 4204eccc7b2a ("ASoC: tegra: Add support for S24_LE audio format")
-> added support for the S24_LE audio format, but duplicated S16_LE in
-> OUT_DAI() for ADX instead.
->=20
-> Fix this by adding support for the S24_LE audio format.
->=20
-> Compile-tested only.
->=20
-> Cc: stable@vger.kernel.org
-> Fixes: 4204eccc7b2a ("ASoC: tegra: Add support for S24_LE audio format")
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> ---
->  sound/soc/tegra/tegra210_adx.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+The scale starts at -100dB, not -128dB.
 
-Good catch!
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Link: https://patch.msgid.link/20250208-asoc-tas2770-v1-1-cf50ff1d59a3@kernel.org
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/codecs/tas2770.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index 9f93b230652a5..863c3f672ba98 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -506,7 +506,7 @@ static int tas2770_codec_probe(struct snd_soc_component *component)
+ }
+ 
+ static DECLARE_TLV_DB_SCALE(tas2770_digital_tlv, 1100, 50, 0);
+-static DECLARE_TLV_DB_SCALE(tas2770_playback_volume, -12750, 50, 0);
++static DECLARE_TLV_DB_SCALE(tas2770_playback_volume, -10050, 50, 0);
+ 
+ static const struct snd_kcontrol_new tas2770_snd_controls[] = {
+ 	SOC_SINGLE_TLV("Speaker Playback Volume", TAS2770_PLAY_CFG_REG2,
+-- 
+2.39.5
 
---xjbbdfvz2jer6yos
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmfFzgsACgkQ3SOs138+
-s6FhkxAArQUlJi/PQPfUex/iHG7bwTxOAGpHP770c8QqjhekGFUQWErLQwNPqh3V
-3Zv7+PUyqW2UlMuo7PyrUwPj+gl/uER8blYrm1JvDCHTFDU4d7L2EuxyFD6mHeCS
-MYaAeCbmFtGV0BuGBDvUnLV1BXwNftTNaTXOwVuIdUFPlcJ0qpxC+yywv8giuO+q
-Xm2wznbWHhBJXSBUtxvJ1AMOlIEqZdt3Lkb4fh57HCQ3KxgevTuyxy9V9gJLiRv0
-L1pSleqGBNrCSmHEmiP0MGWebp1Q7zHueATkdZc6y9UvzoTjM2CEePq4xfaHvm63
-IIsFXkTtTltzKjeLQDs2lWtG1V+ee+VH/oRYNgol37q/+gO05WhB8ZJmdRrBKjcI
-rjj9WwLt2o4IPkNvR2scU6kWcjmvVwd52HtFU7wKd4C2HT49VyXn7rJenq8M11+l
-ZV3a92+3X982h6vCbWNHcFk8RdOh7GDpJzYPqWXuHkzHfW0T32WqJhMbxhmBWcoU
-eQ8nsz40ty3Hu5x/1ZH9q+6pSQSTD/UQM4lyOefMhc2+S3g5+eToTy8evwY2nbw3
-oIFfZvoG5lIOloC+s/ZWlF8WSdN8itWMN9DvEC0sgcYHgYEImw8C+PR1zQz2uBRD
-qDZXtvIMaFOepuc5z31E58rSx3s0HygoCGgslkqlOTkiR93ABdU=
-=cRoZ
------END PGP SIGNATURE-----
-
---xjbbdfvz2jer6yos--
