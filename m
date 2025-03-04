@@ -1,86 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DAC20459C
-	for <linux-sound@vger.kernel.org>; Tue,  4 Mar 2025 12:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97B6201267;
+	Tue,  4 Mar 2025 13:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741091632; cv=none; b=Q5cXvCeqgdYyxkD2doesCumEgvTygZrMGb2Bc1E9LaTInz8C9W+CLA8vMreMOQepBW5ejXArHRHEJfAcXdRkPxegTYA02RwoPUC4aWptE9/CDyhzG3xgYmrVkomjZOzSGR5VbaVyz1a+dJ/oz18n2sM45gq4CopBTDc2t/w6GI0=
+	t=1741096252; cv=none; b=Dh8rl2JCog5seH969iAt4ktXnFRw3GhX7b/qvUJdIPEqSPBObuE216Ez+uQ+n1Ri6Rtz1xmD0bvtRt0XFp1yeFndEeZx247GDdswMYM7WSKzknJ4OalLivDmd01/ymZlTaSdcUhNukPFfDq1ZkX8TFfXTuAGOh+fK2BtwfHf1+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741091632; c=relaxed/simple;
-	bh=7UMOiOc34dn65R7OKnRMJciolX/oG5hBC2JynSPZq6k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tDKE31Bt8IwWW6feiT7vTtyrb9BeZ9RvUrBH5c89l3HMbAKrjAgNAhz0Olkr0+S4oWQBseZP47SujeT2eAlDSeld6lEXeAl64TaGmIGS2cwu39pJ5Yq03IMceSfaAo46WEHiZ0pMT6NELlrCQ8zgiQ16zBpZjvE2u4RLlNCxXl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XRM0dihJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741096252; c=relaxed/simple;
+	bh=tOj7AtNPRfQWYBosY3NviNmaypYwZ/wUeMOO2JNyg5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jTxw8EuEgy5Bdpf51KykB8pIUvNdKwibQyRX8gG2ZlYHw0J+oPMtDwPnxE7sPvGthCW0W6VyUmmnnCMrdwIGN0/gKqHPXzRXpFAw49UwKaaWgtIHLjmTaaz9S02p6QpgHCF5TpxKGVkRiLQx6l/orpC990i7lY6D/fMrEaXNzhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fU8Ayn/A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XRM0dihJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDDF3C4CEE7;
-	Tue,  4 Mar 2025 12:33:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fU8Ayn/A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BF61C4CEE5;
+	Tue,  4 Mar 2025 13:50:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741091631;
-	bh=7UMOiOc34dn65R7OKnRMJciolX/oG5hBC2JynSPZq6k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XRM0dihJjAg1+gP7fbTkBDuTGuaVzGCOnAk5TSFD1YAcWEdEJ4ZfoBpHgJ8tJxG0K
-	 SUQmJ9g7NwxwjzLCmr7Om6sdVFVJcvswf41joSW00IXObst+qldaWMdU8R9zPEyBjK
-	 vvjZJkqwFwsidxAtmC8Rwpq3jlbXirH8zPrDYk5JS1bkUmLeUWRGEojn7ZbOuY/0ZP
-	 JNCxDQlfJi2LW2YL4VwDzcLAr5qcjkCWPORTJyv+swVbHG82Al2UbP948VT24Fiot5
-	 ceM7Rs5Zp/Uc1xyGRbKz2js71UZmwXEG7EwvZPDZyW1FTX/opfI6HCQbKQQMgyHlKp
-	 BN570RZ+An6Mg==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20250303065552.78328-1-yung-chuan.liao@linux.intel.com>
-References: <20250303065552.78328-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: Intel: sof_sdw: Fix unlikely uninitialized
- variable use in create_sdw_dailinks()
-Message-Id: <174109163064.25452.334539203885204913.b4-ty@kernel.org>
-Date: Tue, 04 Mar 2025 12:33:50 +0000
+	s=k20201202; t=1741096252;
+	bh=tOj7AtNPRfQWYBosY3NviNmaypYwZ/wUeMOO2JNyg5Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fU8Ayn/AKNIlGDHqMSFuAJyIucigEhr73FNjp2lGjmC96/cB6z8BU17dRf1Qn8MLG
+	 p5RgVkUge8WNR5eo2jV+2OZFxJpZ6eTADCvl5K3xR6m3PXgWSymazsmkSH4z/Y1zqD
+	 ulv8nw36XGkwj9ptRof/bmkNJJEiBVsOXItUrDOCk0egK02VpsoMewq64/rms1BMII
+	 UOM5eNG0EYDn662bU/7ZVA13RFg90br60/zw5cr5Ls4taUEyByE4AegS07R/KPZViT
+	 w6yG4NEWhgOJlxt0oEiSxDygBNS0/yJ2CfOUAsQ/P9pGsaPTcX/cNKgJDNKrDvwtg0
+	 PxZaxEXlK1Gew==
+Date: Tue, 4 Mar 2025 07:50:50 -0600
+From: Rob Herring <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shi Fu <shifu0704@thundersoft.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
+ pulldown and zero-fill
+Message-ID: <20250304135050.GA2485358-robh@kernel.org>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com>
 
-On Mon, 03 Mar 2025 14:55:52 +0800, Bard Liao wrote:
-> Initialize current_be_id to 0 to handle the unlikely case when there are
-> no devices connected to a DAI.
-> In this case create_sdw_dailink() would return without touching the passed
-> pointer to current_be_id.
+On Thu, Feb 27, 2025 at 10:07:44PM +1000, James Calligeros wrote:
+> TAS2770 can pull down and zero-fill SDOUT when not actively transmitting
+> TDM slot data. Zero-fill is useful when there are no other amps on the
+> bus. Pulldown is useful when the chip is attached to a shared bus.
 > 
-> Found by gcc -fanalyzer
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  .../bindings/sound/ti,tas2770.yaml       | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> [...]
+> diff --git a/Documentation/devicetree/bindings/sound/ti,tas2770.yaml b/Documentation/devicetree/bindings/sound/ti,tas2770.yaml
+> index 8eab98a0f7a25a9c87d2c56fd0635ff8ecee17d0..3eba9bb34a581526f68b6bf2e8437e1f1e03d26f 100644
+> --- a/Documentation/devicetree/bindings/sound/ti,tas2770.yaml
+> +++ b/Documentation/devicetree/bindings/sound/ti,tas2770.yaml
+> @@ -57,6 +57,18 @@ properties:
+>        - 0 # Rising edge
+>        - 1 # Falling edge
+>  
+> +  ti,sdout-pull-down:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      If present, SDOUT will be pulled low when not
+> +      transmitting.
+> +
+> +  ti,sdout-zero-fill:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      If present, SDOUT will be zero-filled when not
+> +      transmitting.
 
-Applied to
+Can't you align this with the other property you added? Or extend the 
+existing TDM properties we have.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: Intel: sof_sdw: Fix unlikely uninitialized variable use in create_sdw_dailinks()
-      commit: 4363f02a39e25e80e68039b4323c570b0848ec66
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Rob
