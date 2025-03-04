@@ -1,45 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B86259CA0;
-	Tue,  4 Mar 2025 16:18:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E42F281523;
+	Tue,  4 Mar 2025 16:22:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741105106; cv=none; b=YjPA/uGAqaSmMZ5Z1UgQ3DBHrgAurfXHUcl2lplC5DZsSUq7KQm7JE3sGMuteT1GiEcteXBFrZqgQqlCgZjE8SBnpbgALAbovJrIblf6UI5FH7yMGJqPFfJliadUNubIMz1Xf/USTsVy/EE9X60iPxKdK57oPhD+tVN7LB/3wb8=
+	t=1741105367; cv=none; b=BAVXYwHNL7ZHoKKyc5dFIsGVS4knviYUZd1sl6ba+SLYVXvgPZIBGdBbVMaXV12oGuBAklxDvqKHm3HF/gNZ4C7MAZHMng3gwzZ4qNTSEDwmrHUNt94v2F0YV6jf9mmUhtmCWu48ppZXn0xWk66kvdo9CvBWQd+6TBvJ0KQg+Gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741105106; c=relaxed/simple;
-	bh=XhtYLV02qtbsJ7+TV85fVvw/Qxk6F/Hh9cvsI0OjeqA=;
+	s=arc-20240116; t=1741105367; c=relaxed/simple;
+	bh=EV+N2rbqXYmmMk/YyAnKxUxPZrcUg+1PniBKpcv0qKo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=boeYWl3E3q/5pp0qEp7uZImZzWKyWxEeLvIJCtOd8Xu88mIJF+IwR2tL7bAsAeLFZ0LkfPoMD0HocLxk7twwYtNYfVpPRRkVTSjg/VwhDnPr/3zOmErS0bY79HzOwH6zj0SHRCc++aCDCsB+xpqGK4cdKvc0Bk34X4SFHV0qxis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dpvztu/U; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fNFkGTQAeVKq/K3BHzqMrrLfOgvwUCBnw8RuEU8jbHtnKv5qJlb7T3wuq90TYGHkUNYlMuvXLNUQ4V2Vy2wjKnPsoJUDsv3Q1/7uObtqtI6s1TS3WufTym8dqSGg3S2nvcE7O6RNW0u2WXp04tWMM7P8KfDqsJTMnTX9DgNSO+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iXSPILMi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dpvztu/U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 000EFC4CEE5;
-	Tue,  4 Mar 2025 16:18:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iXSPILMi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47A2AC4CEE5;
+	Tue,  4 Mar 2025 16:22:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741105104;
-	bh=XhtYLV02qtbsJ7+TV85fVvw/Qxk6F/Hh9cvsI0OjeqA=;
+	s=k20201202; t=1741105366;
+	bh=EV+N2rbqXYmmMk/YyAnKxUxPZrcUg+1PniBKpcv0qKo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Dpvztu/URG1nraLrZK66ui8QddhoqBabtvjnTJ45RdC3oW/wrWuuoM/q1Pq+7B97d
-	 P/NuEzIsAX7tegU4t6n9LSh1DViOr2G2n8vMDOSgZLfo9xPHm3FEdxAiVcwiZgdlHT
-	 980Weqz3d1eL4c3JeVxQwTH1duzb3mH3zayiKFEmG6fz/4bX7Wl/NKPmoBw1riJuJc
-	 66v4Fi94oEo8SEYU1/7RIBUzTSrcWYcFJUAMgdZno8OYZiAtJ1jhH7s1jJmQ0wlbSZ
-	 e7gAIvKWkl2qP1FjQLsyCs9EAE5sgUjRBD95IA5CqGlgpZgnRJtezba1T4ObgSDQNB
-	 FC62RSs+eu4bA==
-Date: Tue, 4 Mar 2025 16:18:20 +0000
+	b=iXSPILMiDbG1+OfL9Hg/8K3LiBibffVc9koiFnM2f4SjX85WZqd/35e3hGmJFVart
+	 EZIXyoz0VDyoF/0hTkc0OrscHyyAXkZ9jow3TbRh25hxg7YJXDa19/gDb1Nqz+J39Y
+	 wr033y/xY+yvcEKNMbjabpzp6KWPy1+I41dskudD8nPLC/OTlAuW+gKf3tFdZbZfpl
+	 30wIoXqtQvy6jYHh8Z+1ytEScE0DHg1+05nRc64K8sHDeZh9BxZoty17lTAw0VwKhg
+	 H4jjg4Q0AlTNPvhFbKe79qzLoe8wqXzZVZAkQcqXHXuKNjyDCogQ+/06uEqKQryvZB
+	 MP8nJPK4HxjXA==
+Date: Tue, 4 Mar 2025 16:22:39 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
+	Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 0/6] ASoC: samsung: GPIO descriptor conversion
-Message-ID: <7da76b50-67fd-4273-83a3-300f734f7922@sirena.org.uk>
-References: <20250303-samsung-codecs-v1-0-56a2299dd928@linaro.org>
- <174110255924.87345.17067818310965896666.b4-ty@kernel.org>
- <CAMRc=MfqNSZeQxBuEfM1nAo0F3NmEkyG-Les3dyxxuun=4XpuQ@mail.gmail.com>
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, kernel@collabora.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+	Andrew Perepech <andrew.perepech@mediatek.com>
+Subject: Re: [PATCH v3 03/20] mfd: mt6397-core: Add mfd_cell for mt6359-accdet
+Message-ID: <a8fbb536-a246-4650-8085-d576652b0301@sirena.org.uk>
+References: <20250304-mt6359-accdet-dts-v3-0-5b0eafc29f5b@collabora.com>
+ <20250304-mt6359-accdet-dts-v3-3-5b0eafc29f5b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,45 +54,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+ZFwNRSVfzGqExSp"
+	protocol="application/pgp-signature"; boundary="OLmxqaxv809+84Iy"
 Content-Disposition: inline
-In-Reply-To: <CAMRc=MfqNSZeQxBuEfM1nAo0F3NmEkyG-Les3dyxxuun=4XpuQ@mail.gmail.com>
+In-Reply-To: <20250304-mt6359-accdet-dts-v3-3-5b0eafc29f5b@collabora.com>
 X-Cookie: Do not disturb.
 
 
---+ZFwNRSVfzGqExSp
-Content-Type: text/plain; charset=utf-8
+--OLmxqaxv809+84Iy
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 04, 2025 at 04:48:54PM +0100, Bartosz Golaszewski wrote:
-> On Tue, Mar 4, 2025 at 4:36=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
-ote:
+On Tue, Mar 04, 2025 at 12:15:44PM -0300, N=EDcolas F. R. A. Prado wrote:
+> From: Andrew Perepech <andrew.perepech@mediatek.com>
+>=20
+> Add an mfd_cell for mt6359-accdet and describe its IRQ resources to
+> allow the mt6359-accdet driver to probe.
 
-> > [4/6] ASoC: samsung: speyside: Convert to GPIO descriptor
-> >       commit: da9146c19b1774926148ff271c4a3dc8d7891b18
+Lee, is this OK to merge via ASoC?
 
-> I pointed out an issue with patch 4. :(
-
-Oh, sorry - you didn't cut any context so I think it just flashed by
-while paging through the entire message as I was scanning for responses.
-One of the reasons for cutting uneeded context is it makes it easier to
-spot the new content in your message.  It's an issue which can be easily
-addressed incrementally in any case.
-
---+ZFwNRSVfzGqExSp
+--OLmxqaxv809+84Iy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfHJ8sACgkQJNaLcl1U
-h9DH9gf+OVJU37vK8yaU3Mz+qk5DhrweZGTM0BSg//dtPms0VpXZBfsfYezs+Ok8
-o06hRnLequ9qlMSYpbCZKTlIUD/VLWxtamnw+qQByA4UtUGoaCyaHafblWNii8Pt
-szMAIGyzN+Px7YCqVUe1OH0kJNThyGmx6OAnOFfqTuDHzGXEFnJ5FUoxfEZlFcFp
-GBB/Q7XZDebfnMpdzY54PCiNl+yHYJ1UwczZMqlEULygHg8/IGa++nsHXm+ciOJF
-il1UQ/GHk5e9CXm2cdYp38Bj2UmN6Zs3hmkWuVE34+gTcAc2si3QW2tD8LhTeFrr
-WLOhgUgjBEd1+bA99iuE7JdJjec3FQ==
-=Qt2b
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfHKM4ACgkQJNaLcl1U
+h9AGawf+Krbqa+Vm4jfRJRkHk1Bz74IQ/DHedsnpuELy2Rv59vOzi/ONHxJ/Vsq8
+03MvfgczYs8uzSrfII7fto16qxrsRaVGeTkSaanOAZHhFT32ytipNw7CIa03tchc
+8NtyjnLXMDyBqeEuzKVUTmzp5DgA57934vPFsBXP+jix8i0IYKthA2mFxcIVk8AJ
+npoP45KaBxueBRiIbQ88nbeEWMk2zpCYaqDQxeBCROSqF+j+VlV2V9/LFr9nmGla
+fXrY4hD9vRT7RUs7od+v2zpfnn6M4dMqA1gEIoZq5b+NQ3BlVHug4uHInjm7QUqN
+XR/caFRH1sjlz1NMYvElHtzG4TDjtQ==
+=ZRYJ
 -----END PGP SIGNATURE-----
 
---+ZFwNRSVfzGqExSp--
+--OLmxqaxv809+84Iy--
