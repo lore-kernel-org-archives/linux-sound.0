@@ -1,229 +1,105 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9602E1FA262;
-	Tue,  4 Mar 2025 20:16:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BC61E3DF4;
+	Tue,  4 Mar 2025 21:35:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741119416; cv=none; b=PqFy4AnBgjmlMIR3ld8sDCq5w4f17kNFlQD8V1d7DAtbICU62q4F3amUrPV96kbpF0m/uuJca++92oZsrDB5ntXDW0gaHhOTDBohxZ97X3XC/fXQJDVG2VSL/vBoUMzkQeKlAqDCnThv5id0MBkFzZrhRHVtMQFesdOmhOz83x8=
+	t=1741124160; cv=none; b=Ddq+kc7pO3kQ7v4QXKk6f0e3a6Xa4wN0V7EYh9SN5gIaCeW57azDwz1qSiZGvbczq0A3olW/pjWs0OFJBzgTM9+qGTq6vuaqnEuL9sj78zFNDab3tIiYp/wv/+Q0OLExjaqHJc6BYzglYWrWIKPPhZV7kdDU2RGN68LWOu9BbyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741119416; c=relaxed/simple;
-	bh=+m3MSI+Wse2/nqsFrLOXWe0hhVL+hryAhIW9WJvUc8E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QkmRG3eTZPv1RsHZFOerB9XZVpovJ/x2IUlH8PGUxNFXEIOPVZP9jl3ZCiyMJIpNe+R0NjXQk8dhzFIj1J+9z0pneZKsIb+aHXqxmtqdC04ETg0w0ePJL7a/HB8PwbijSEVFCLpDy6CVChuZJWEdgA2OZfnHA/DFRX1qNu5eyWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NNECqxIP; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1741124160; c=relaxed/simple;
+	bh=6Bc7g4mKArhcl6kXe95ybV+LNzHSc7Zsr7451OcuWLY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=q96wume7lqs/UHgdlXJp/gbRqJSQUH2mbKuBauc7H6SDvCkkPjoctMlehgw9+XF7IomDCiXHImk8gW7vS4eA+xUlVAyhebnHcSCw+klLJybojXJy1YFgWA4lXwlEfPEHsIkNwH7SeWcA1RQXT2w2cJC7pdqY+auDeC0iw2StOJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iWVWc1gj; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NNECqxIP"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iWVWc1gj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1741119411;
-	bh=+m3MSI+Wse2/nqsFrLOXWe0hhVL+hryAhIW9WJvUc8E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NNECqxIPqgDEtxC9WNQhyIy2/0BlsbnkQQQ7J3VmPwFXLmxwhcJ+X7zkHWp8SAX7B
-	 80IHb7DobMVk8upoZzv8kZ7Ufys9Hv8cVcU53xTnQY9nprqmn2JHwMQ6VhhJ3NVW5i
-	 0MuVOIz/bQq7nkZfbkrgbWHLZpEtFgKpeYIsMacQFP5CtPp9LtjWqlrdteyopxakxY
-	 cSrHMsNJBsLul3xcQbe8hvEezMHOGJjnWaW18al4Et6xnkoxAIeB3wiAfVgWHkAIK7
-	 SFH9XJHNAiatitTFKSLxGGbiHgdue62MXrDC8rFAOELpfqAHr+gPith0ORbN+P2A2d
-	 418DLNuKI5Leg==
-Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1001])
+	s=mail; t=1741124156;
+	bh=6Bc7g4mKArhcl6kXe95ybV+LNzHSc7Zsr7451OcuWLY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=iWVWc1gj0oidP3d8c6SPfKkJ2A5uSWUUU9U095jDfR+GjEzusAcOqGNJhjLGXbeg3
+	 /NKOt7hJ9awU/+/Rt3budT5uf8iNdUF8sob0ppjb/4/WwcR4iYsB0MUlAYGsNLp1W0
+	 P7/vG+suixChc5YWbKaYMI4cp44iFUiZ3q0iiU3e22O7iJNnfr7e9DV6wKSkNUQibq
+	 daXaAZPYLOJGlUIluYVXRq8f5l5N2vV4/OSv65j0a8W8QIqr1rdjgmuVMCKG0tE7Uc
+	 y31yE9tI1KDYOd69NBp/j0CAWVBFEWgzRX9fZgzwepaJA2z/KbLNhWj1Xh5lM3VnFh
+	 iCacrWb4vDlsA==
+Received: from [192.168.0.47] (unknown [IPv6:2804:14c:1a9:53ee::1001])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B51B417E0630;
-	Tue,  4 Mar 2025 21:16:47 +0100 (CET)
-Date: Tue, 4 Mar 2025 17:16:45 -0300
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Trevor Wu <trevor.wu@mediatek.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	kernel@collabora.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Zoran Zhan <zoran.zhan@mediatek.com>
-Subject: Re: [PATCH 3/3] ASoC: mediatek: mt8188-mt6359: Add headset jack
- detect support
-Message-ID: <fc9863ef-8781-46a0-ba8c-6dabd9fb6cdf@notapiano>
-References: <20250214-mt8188-accdet-v1-0-6bbd5483855b@collabora.com>
- <20250214-mt8188-accdet-v1-3-6bbd5483855b@collabora.com>
- <d976b28d-f44f-4d51-8b61-4c046c571412@collabora.com>
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 46EFE17E088C;
+	Tue,  4 Mar 2025 22:35:52 +0100 (CET)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH v2 0/3] Allow retrieving accessory detection reference on
+ MT8188
+Date: Tue, 04 Mar 2025 18:35:35 -0300
+Message-Id: <20250304-mt8188-accdet-v2-0-27f496c4aede@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d976b28d-f44f-4d51-8b61-4c046c571412@collabora.com>
+X-B4-Tracking: v=1; b=H4sIACdyx2cC/3XMSw7CIBSF4a00dywGKBjiyH2YDnhc7U3aYoAQT
+ cPexc4d/ic53w4ZE2GG67BDwkqZ4tZDngbws92eyCj0Bsml5lIothYjjGHW+4CFqYDWOaP1qAL
+ 0zyvhg96Hd596z5RLTJ+Dr+K3/pOqYJxdnAtambGD7ubjslgXkz37uMLUWvsCB8HLMa4AAAA=
+X-Change-ID: 20250214-mt8188-accdet-4deabb85534d
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Trevor Wu <trevor.wu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
+ Zoran Zhan <zoran.zhan@mediatek.com>
+X-Mailer: b4 0.14.2
 
-On Tue, Mar 04, 2025 at 04:39:33PM +0100, AngeloGioacchino Del Regno wrote:
-> Il 14/02/25 16:14, Nícolas F. R. A. Prado ha scritto:
-> > Enable headset jack detection for MT8188 platforms using the MT6359
-> > ACCDET block for it.
-> > 
-> > Co-developed-by: Zoran Zhan <zoran.zhan@mediatek.com>
-> > Signed-off-by: Zoran Zhan <zoran.zhan@mediatek.com>
-> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> > ---
-> >   sound/soc/mediatek/mt8188/mt8188-mt6359.c | 43 +++++++++++++++++++++++++++++++
-> >   1 file changed, 43 insertions(+)
-> > 
-> > diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-> > index 2d0d04e0232da07ba43a030b14853322427d55e7..4e19e6cfad1e1f42863b2e2f27131f880c5883bf 100644
-> > --- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-> > +++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-> > @@ -17,6 +17,7 @@
-> >   #include "mt8188-afe-common.h"
-> >   #include "../../codecs/nau8825.h"
-> >   #include "../../codecs/mt6359.h"
-> > +#include "../../codecs/mt6359-accdet.h"
-> >   #include "../../codecs/rt5682.h"
-> >   #include "../common/mtk-afe-platform-driver.h"
-> >   #include "../common/mtk-soundcard-driver.h"
-> > @@ -266,6 +267,17 @@ static struct snd_soc_jack_pin nau8825_jack_pins[] = {
-> >   	},
-> >   };
-> > +static struct snd_soc_jack_pin mt8188_headset_jack_pins[] = {
-> 
-> This is the same as nau8825_jack_pins... perhaps we could reuse that?
+This series enables the MT8188-MT6359 sound driver to retrieve the
+MT6359 ACCDET sound component from a mediatek,accdet DT property, which
+allows detecting jack insertion/removal.
 
-The difference is the pin name: "Headphone Jack", which results in a difference
-in the widget's name. I remember you wanted to not have the "Jack" in the
-widget's name to standardize it among other MTK platforms, and we could do that
-here by dropping it from the nau8825_jack_pins. But since that name is also used
-on the audio routes in a few DTs, those would need updating as well:
+Patch 1 describes the new property in the binding. Patch 2 implements
+the sound component retrieval in the common MTK soundcard driver. Patch
+3 updates the MT8188-MT6359 sound driver to register the audio jack and
+initialize the ACCDET driver for detection, if the property is present.
 
-arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dts
-arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dts
-arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dts
-arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dts
-arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dts
-arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dts
-arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dts
-arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dts
+Tested on the Genio 700 EVK board.
 
-The name is not used in upstream alsa-ucm-conf though, so it should be safe to
-update.
+Signed-off-by: NÃ­colas F. R. A. Prado <nfraprado@collabora.com>
+---
+Changes in v2:
+- Added CONFIG_SND_SOC_MT6359_ACCDET select in
+  CONFIG_SND_SOC_MT8188_MT6359 to avoid build failure
+- Clarified in mediatek,accdet dt-binding and commit description that
+  the property should only be present if the accdet is actually used
+- Link to v1: https://lore.kernel.org/r/20250214-mt8188-accdet-v1-0-6bbd5483855b@collabora.com
 
-In any case, I didn't want to expand the scope of this series to that unrelated
-change, so that's why I introduced this separate struct, thinking we could
-commonize as a later step.
+---
+NÃ­colas F. R. A. Prado (3):
+      ASoC: dt-bindings: mediatek,mt8188-mt6359: Add mediatek,accdet
+      ASoC: mediatek: common: Handle mediatek,accdet property
+      ASoC: mediatek: mt8188-mt6359: Add accdet headset jack detect support
 
-> 
-> > +	{
-> > +		.pin    = "Headphone",
-> > +		.mask   = SND_JACK_HEADPHONE,
-> > +	},
-> > +	{
-> > +		.pin    = "Headset Mic",
-> > +		.mask   = SND_JACK_MICROPHONE,
-> > +	},
-> > +};
-> > +
-> >   static const struct snd_kcontrol_new mt8188_dumb_spk_controls[] = {
-> >   	SOC_DAPM_PIN_SWITCH("Ext Spk"),
-> >   };
-> > @@ -500,6 +512,35 @@ static int mt8188_mt6359_mtkaif_calibration(struct snd_soc_pcm_runtime *rtd)
-> >   	return 0;
-> >   }
-> > +static int mt8188_mt6359_accdet_init(struct snd_soc_pcm_runtime *rtd)
-> > +{
-> > +	struct mtk_soc_card_data *soc_card_data = snd_soc_card_get_drvdata(rtd->card);
-> > +	struct snd_soc_jack *jack = &soc_card_data->card_data->jacks[MT8188_JACK_HEADSET];
-> > +	int ret;
-> > +
-> > +	if (!soc_card_data->accdet)
-> > +		return 0;
-> 
-> I'm not sure... if we have mediatek,accdet (so accdet is present here), but we also
-> have a NAU8825, or RT5682S, or ES8326 codec, this function will create a headset
-> jack for MT6359, but then mt8188_headset_codec_init() will do the same again!
-> 
-> I think we should find a way to avoid that situation, as I'm mostly sure that this
-> will give issues in the long run.
-> 
-> Even if it wouldn't, having two headset jacks exposed, of which one doesn't work
-> because it doesn't exist on the physical board... would be confusing for the user.
+ .../bindings/sound/mediatek,mt8188-mt6359.yaml     |  8 ++++
+ sound/soc/mediatek/Kconfig                         |  1 +
+ sound/soc/mediatek/common/mtk-soc-card.h           |  1 +
+ sound/soc/mediatek/common/mtk-soundcard-driver.c   | 15 +++++++-
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c          | 43 ++++++++++++++++++++++
+ 5 files changed, 67 insertions(+), 1 deletion(-)
+---
+base-commit: 20d5c66e1810e6e8805ec0d01373afb2dba9f51a
+change-id: 20250214-mt8188-accdet-4deabb85534d
 
-IMO that situation happening would mean the DT is wrong. If the board has the
-headset jack pins wired to a headset codec, and that's responsible for jack
-detection, then those pins won't be wired to the ACCDET block, and therefore the
-board DT shouldn't have the mediatek,accdet property.
+Best regards,
+-- 
+NÃ­colas F. R. A. Prado <nfraprado@collabora.com>
 
-I think you're imagining having the mediatek,accdet property always present, and
-the logic you propose would allow specifying a headset codec to essentially
-override it (making the mediatek,accdet property useless in this case). But
-there can also be boards with no jacks at all, and in those cases we don't want
-jack widgets exposed to userspace, so the mediatek,accdet property should be
-omitted for those boards, and only present on boards where the ACCDET is
-actually wired to.
-
-> 
-> I guess that the best option here would be:
->  - Let the `for_each_card_prelinks()` loop finish
->  - Check if any of the external codecs are providing 3.5mm jack
->    - External codec providing jack means that the detection should be performed
->      by the external codec, as the jack should not be physically routed to the
->      MediaTek ACCDET related PMIC pins (right?)
->    - No external codec means that the accessory detection can only be performed
->      by the MediaTek ACCDET IP
->  - If external codec manages 3.5mm jack: do nothing
->  - If no external codec managing 3.5mm jack: check if accdet provided in DT and
->    initialize it
-> 
-> ....unless I'm wrong - and if I am, please explain why (and also add explanation
-> to the commit description).
-
-I can add to the commit message:
-
-Only boards that have jack detection managed by the MT6359 ACCDET block will
-have the mediatek,accdet property present.
-
-Thanks,
-Nícolas
-
-> 
-> Cheers,
-> Angelo
-> 
-> > +
-> > +	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
-> > +				   SND_JACK_HEADSET | SND_JACK_BTN_0 |
-> > +				   SND_JACK_BTN_1 | SND_JACK_BTN_2 |
-> > +				   SND_JACK_BTN_3,
-> > +				   jack, mt8188_headset_jack_pins,
-> > +				   ARRAY_SIZE(mt8188_headset_jack_pins));
-> > +	if (ret) {
-> > +		dev_err(rtd->dev, "Headset Jack create failed: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret = mt6359_accdet_enable_jack_detect(soc_card_data->accdet, jack);
-> > +	if (ret) {
-> > +		dev_err(rtd->dev, "Headset Jack enable failed: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >   static int mt8188_mt6359_init(struct snd_soc_pcm_runtime *rtd)
-> >   {
-> >   	struct snd_soc_component *cmpnt_codec =
-> > @@ -512,6 +553,8 @@ static int mt8188_mt6359_init(struct snd_soc_pcm_runtime *rtd)
-> >   	/* mtkaif calibration */
-> >   	mt8188_mt6359_mtkaif_calibration(rtd);
-> > +	mt8188_mt6359_accdet_init(rtd);
-> > +
-> >   	return 0;
-> >   }
-> > 
