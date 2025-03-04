@@ -1,179 +1,229 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636E02E3369
-	for <linux-sound@vger.kernel.org>; Tue,  4 Mar 2025 19:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9602E1FA262;
+	Tue,  4 Mar 2025 20:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741117173; cv=none; b=LLgSTTlb8qSRUs6RNxTRJt174KSbebuBVIEuA2vhr84LjjvTbptkOhuq0HsHUW//KVHeQdjvTIuSEqyFcOZjeO0IHZzlSB9TBgepxLoW3fcInb/8XtaRp64G4erAmm4yMZCiBNKbdwYz4yeUOb2ZuO4hQxLunLH6q297SThQBAE=
+	t=1741119416; cv=none; b=PqFy4AnBgjmlMIR3ld8sDCq5w4f17kNFlQD8V1d7DAtbICU62q4F3amUrPV96kbpF0m/uuJca++92oZsrDB5ntXDW0gaHhOTDBohxZ97X3XC/fXQJDVG2VSL/vBoUMzkQeKlAqDCnThv5id0MBkFzZrhRHVtMQFesdOmhOz83x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741117173; c=relaxed/simple;
-	bh=SRujKWVmMARSEVk2q5XCbTkqQ9Z9OCVSIDWArH35+yA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eCaxqbSZO+Pcg1j82sOcU7/t1f6mCPHm5xEo77RaW5q6pVkO+ijScSDdtgI4MrljTmE8+JawlQuPJYYreLSY/1fXLA9ijGpqURGl1jGDsbW8YGB4ube1ganHMVZxUWxBquclLswgbLOqQwTPOfLp9l7cRLjC0TssDAeN3BvcNvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=Kvh9gWt3; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1741119416; c=relaxed/simple;
+	bh=+m3MSI+Wse2/nqsFrLOXWe0hhVL+hryAhIW9WJvUc8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QkmRG3eTZPv1RsHZFOerB9XZVpovJ/x2IUlH8PGUxNFXEIOPVZP9jl3ZCiyMJIpNe+R0NjXQk8dhzFIj1J+9z0pneZKsIb+aHXqxmtqdC04ETg0w0ePJL7a/HB8PwbijSEVFCLpDy6CVChuZJWEdgA2OZfnHA/DFRX1qNu5eyWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NNECqxIP; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Kvh9gWt3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1741117160; x=1741721960; i=wahrenst@gmx.net;
-	bh=YKYjKZx8w3A6sLa5TEwXKwSikZb7/+1yvyI0VrVHj+I=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Kvh9gWt3yOtA3ZMI3qfi/M0rBNHLL3+sqZzi5VXsv4UVqEFja9mxeecsn1TqA8Nh
-	 DkgLZG7+zURJfltqereB0wBVFQCPGL4UebNDQuWGBdkLhnoCUYjbqaUf4caazabts
-	 9RU/7774HgbS3bJdX+ozkl/5NJ0wkUtLCid1TmUBBfBOr3YUDY1tsoIv4q7aHeciy
-	 vKsaryWx3Qyy5kVeU1DNrD3+upRDhqyjm/5xfPN3z2e7ZhtBDu1OOzVXa6WSemMQE
-	 dFeG/1AFCoQfDeZw4afzujhkMR0y8wnMVojFJeH0uUSGD6bpsqZ9jBXOvvqehPl+q
-	 VeTh3AjWs+zaTx6Kgw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MjS5A-1tQyir3ySA-00eBFr; Tue, 04
- Mar 2025 20:39:20 +0100
-From: Stefan Wahren <wahrenst@gmx.net>
-To: Maxime Ripard <mripard@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: David Turner <david.turner@raspberrypi.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	dri-devel@lists.freedesktop.org,
-	kernel-list@raspberrypi.com,
-	linux-sound@vger.kernel.org,
-	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH V2 2/2] drm/vc4: hdmi: Add jack detection to HDMI audio driver
-Date: Tue,  4 Mar 2025 20:39:12 +0100
-Message-Id: <20250304193912.5696-3-wahrenst@gmx.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250304193912.5696-1-wahrenst@gmx.net>
-References: <20250304193912.5696-1-wahrenst@gmx.net>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NNECqxIP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1741119411;
+	bh=+m3MSI+Wse2/nqsFrLOXWe0hhVL+hryAhIW9WJvUc8E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NNECqxIPqgDEtxC9WNQhyIy2/0BlsbnkQQQ7J3VmPwFXLmxwhcJ+X7zkHWp8SAX7B
+	 80IHb7DobMVk8upoZzv8kZ7Ufys9Hv8cVcU53xTnQY9nprqmn2JHwMQ6VhhJ3NVW5i
+	 0MuVOIz/bQq7nkZfbkrgbWHLZpEtFgKpeYIsMacQFP5CtPp9LtjWqlrdteyopxakxY
+	 cSrHMsNJBsLul3xcQbe8hvEezMHOGJjnWaW18al4Et6xnkoxAIeB3wiAfVgWHkAIK7
+	 SFH9XJHNAiatitTFKSLxGGbiHgdue62MXrDC8rFAOELpfqAHr+gPith0ORbN+P2A2d
+	 418DLNuKI5Leg==
+Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1001])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B51B417E0630;
+	Tue,  4 Mar 2025 21:16:47 +0100 (CET)
+Date: Tue, 4 Mar 2025 17:16:45 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Trevor Wu <trevor.wu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	kernel@collabora.com, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Zoran Zhan <zoran.zhan@mediatek.com>
+Subject: Re: [PATCH 3/3] ASoC: mediatek: mt8188-mt6359: Add headset jack
+ detect support
+Message-ID: <fc9863ef-8781-46a0-ba8c-6dabd9fb6cdf@notapiano>
+References: <20250214-mt8188-accdet-v1-0-6bbd5483855b@collabora.com>
+ <20250214-mt8188-accdet-v1-3-6bbd5483855b@collabora.com>
+ <d976b28d-f44f-4d51-8b61-4c046c571412@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:828YawoCgxuPpSR9+9qJ96Z7jzk9roP007an1KW9tb+BK/LDHaY
- bjobejWuaK0fCgpdvbBqmi6cn8yXVO2SpZ/iJS/fh9ef+fYjiSZE1E7u33zMvm+WyNglG/Q
- wKgPxB10TirdtT/tFXxPHvTly/BwIV+dt+ZKG3Sy2/JBpHvvZxT+vwpmgTFm2aJLL+jXyrl
- TD0bPMeytBB3xkmJ0+3xQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:8KsM8bDU6D0=;7cnyxoolrgQ8aLz45XRKIRtzeba
- rusVi5mA0zHkdWCG7KWMOThWvxKqeGQhuM4/dgleXqqlA4IWgvnMPWbJAXqUQIlBZjBIMd184
- 6H4eZXkuEArd+ZSsWI+dyJZEd+O5e9C1agz9loz760JC9aU2foDvpSJ0nsLJ/2CQYCtHj96Wb
- RcstZiRxsPM4MvcTtJjDD8iivaXQ6L+bZ4Hx/W4hmP4LckSUsMHQ74/CdsBwVyqX7VLHhxC/r
- mOGQoaqfH6CyoOB1SaqKeuBpUSXM4bKoGFxvXP6fnSa1CJzCA7x+WaFizQXLXY1d2F2HCz3Ku
- iKt1wtsh3l75bXoLBZgiJCmrgX9CytR01AkiZTYSoByqU4U/DtMSHyi/6YRKYqU4tHgmZlpgY
- mUBErJnKI9Mjtmf39oZf8/NXiG9xyMklCd3MbvqINxbfyuThFOZQoSupCvwS3TO/pmakdTz29
- keShw8qRggglsO8iQ36pbO9FE/uxuJW/fUFqdiAWbC0vD06szt2TyWK5J0VekiNkFyl4z6Cqc
- uc228Wbxy0Z5LWSpSMLCDc9j+//bmy/gKhc30WgnZuQBBYxiCl9rRcmhoCzX00wsfdKGrSFFF
- 6J6tcMvJjJOmIXofB6P+WW1uB/GI5oNjmpyGfiDlTgL+iIL71hLHUAYr+GSkVWQvsPzH+gg7o
- jZ2Nq3uEwF9HlsTbimH7891WOF4IJL880VT15ES/uC0m5YNYzfCv7QHEmCdlOeBvM6wqP4TwK
- s9DHUezlLcrk4NbA0Lu89BNCfm89GNStAEW5g8sBy64wTZDIHp+X+qpFSX0sMI925v4sqM33A
- HtVOpIY4tPu24dXnqcNtIrBk0zL6rQ5v2mwzpkvoVMnFuW4i9iYJ/ckCir6RK0I9fb9FgbUn/
- rhQqBLV8mhkoVw4aCiujiB3XcnBQ1XMv/CgdpH0c2bQvzx5yh99OQ/qFSLYPGCN5ELk8QGXCB
- fMcwSR5zVRzypai1sZ3Tf/jFD4mzXdlNwf5GmkAZfV4CPhZCuUQYFgzImQ39Ivs8wNVTKrhRT
- +m8R1aykJJWZ6vCqDF6OET401ATI+HZ942Vqp9Jjo8CYHSQIjHDAoaaWkwjkZ1TEWd550zpGZ
- dKWJqq35jsq0yb9mTwE08Qh/b0StUGiG7YrdAPlFiaqyJz7JtApq9br6B0RVnVgwRzNFQsLur
- I9Qr09UTPUcDtfJ+4o63a9W7AaGFafxDVn7R30DFuuDe18v1JXySaDAMHEB3ljVZK3JnTqqB9
- uwz5/0pY13FCPjpw5FChZdYcA77TTwZOcQMY4Q1eE6pBqP+8YM7FOQObDzgvRFKxwBHrIs5ea
- 39K+YDYaCXKFkguQrrbhVl5nnXxZyoo9/oiyyF1zhb2HInNRcPlSnggTecEyofe/+LRcSdSKb
- m8449zMtWikQVOxm730V4u3wXJLCX1alY4BALPr5LxFXZvvb5HRgDl3MWH
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d976b28d-f44f-4d51-8b61-4c046c571412@collabora.com>
 
-From: David Turner <david.turner@raspberrypi.com>
+On Tue, Mar 04, 2025 at 04:39:33PM +0100, AngeloGioacchino Del Regno wrote:
+> Il 14/02/25 16:14, Nícolas F. R. A. Prado ha scritto:
+> > Enable headset jack detection for MT8188 platforms using the MT6359
+> > ACCDET block for it.
+> > 
+> > Co-developed-by: Zoran Zhan <zoran.zhan@mediatek.com>
+> > Signed-off-by: Zoran Zhan <zoran.zhan@mediatek.com>
+> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > ---
+> >   sound/soc/mediatek/mt8188/mt8188-mt6359.c | 43 +++++++++++++++++++++++++++++++
+> >   1 file changed, 43 insertions(+)
+> > 
+> > diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+> > index 2d0d04e0232da07ba43a030b14853322427d55e7..4e19e6cfad1e1f42863b2e2f27131f880c5883bf 100644
+> > --- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+> > +++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+> > @@ -17,6 +17,7 @@
+> >   #include "mt8188-afe-common.h"
+> >   #include "../../codecs/nau8825.h"
+> >   #include "../../codecs/mt6359.h"
+> > +#include "../../codecs/mt6359-accdet.h"
+> >   #include "../../codecs/rt5682.h"
+> >   #include "../common/mtk-afe-platform-driver.h"
+> >   #include "../common/mtk-soundcard-driver.h"
+> > @@ -266,6 +267,17 @@ static struct snd_soc_jack_pin nau8825_jack_pins[] = {
+> >   	},
+> >   };
+> > +static struct snd_soc_jack_pin mt8188_headset_jack_pins[] = {
+> 
+> This is the same as nau8825_jack_pins... perhaps we could reuse that?
 
-Add ALSA jack detection to the vc4-hdmi audio driver so userspace knows
-when to add/remove HDMI audio devices.
+The difference is the pin name: "Headphone Jack", which results in a difference
+in the widget's name. I remember you wanted to not have the "Jack" in the
+widget's name to standardize it among other MTK platforms, and we could do that
+here by dropping it from the nau8825_jack_pins. But since that name is also used
+on the audio routes in a few DTs, those would need updating as well:
 
-Signed-off-by: David Turner <david.turner@raspberrypi.com>
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- drivers/gpu/drm/vc4/vc4_hdmi.c | 18 ++++++++++++++++++
- drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
- 2 files changed, 25 insertions(+)
+arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dts
+arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dts
+arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dts
+arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dts
+arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dts
+arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dts
+arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dts
+arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dts
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi=
-.c
-index e4b027616d04..f46a135568b2 100644
-=2D-- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -51,6 +51,7 @@
- #include <linux/reset.h>
- #include <sound/dmaengine_pcm.h>
- #include <sound/hdmi-codec.h>
-+#include <sound/jack.h>
- #include <sound/pcm_drm_eld.h>
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
-@@ -2203,6 +2204,22 @@ static const struct drm_connector_hdmi_audio_funcs =
-vc4_hdmi_audio_funcs =3D {
- 	.shutdown =3D vc4_hdmi_audio_shutdown,
- };
+The name is not used in upstream alsa-ucm-conf though, so it should be safe to
+update.
 
-+static int vc4_hdmi_codec_init(struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct vc4_hdmi *vc4_hdmi =3D snd_soc_card_get_drvdata(rtd->card);
-+	struct snd_soc_component *component =3D snd_soc_rtd_to_codec(rtd, 0)->co=
-mponent;
-+	int ret;
-+
-+	ret =3D snd_soc_card_jack_new(rtd->card, "HDMI Jack", SND_JACK_LINEOUT,
-+				    &vc4_hdmi->hdmi_jack);
-+	if (ret) {
-+		dev_err(rtd->dev, "HDMI Jack creation failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return snd_soc_component_set_jack(component, &vc4_hdmi->hdmi_jack, NULL)=
-;
-+}
-+
- static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
- {
- 	const struct vc4_hdmi_register *mai_data =3D
-@@ -2316,6 +2333,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_=
-hdmi)
- 	dai_link->cpus->dai_name =3D dev_name(dev);
- 	dai_link->codecs->name =3D dev_name(&vc4_hdmi->connector.hdmi_audio.code=
-c_pdev->dev);
- 	dai_link->platforms->name =3D dev_name(dev);
-+	dai_link->init =3D vc4_hdmi_codec_init;
+In any case, I didn't want to expand the scope of this series to that unrelated
+change, so that's why I introduced this separate struct, thinking we could
+commonize as a later step.
 
- 	card->dai_link =3D dai_link;
- 	card->num_links =3D 1;
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi=
-.h
-index e3d989ca302b..a31157c99bee 100644
-=2D-- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -4,6 +4,7 @@
- #include <drm/drm_connector.h>
- #include <media/cec.h>
- #include <sound/dmaengine_pcm.h>
-+#include <sound/hdmi-codec.h>
- #include <sound/soc.h>
+> 
+> > +	{
+> > +		.pin    = "Headphone",
+> > +		.mask   = SND_JACK_HEADPHONE,
+> > +	},
+> > +	{
+> > +		.pin    = "Headset Mic",
+> > +		.mask   = SND_JACK_MICROPHONE,
+> > +	},
+> > +};
+> > +
+> >   static const struct snd_kcontrol_new mt8188_dumb_spk_controls[] = {
+> >   	SOC_DAPM_PIN_SWITCH("Ext Spk"),
+> >   };
+> > @@ -500,6 +512,35 @@ static int mt8188_mt6359_mtkaif_calibration(struct snd_soc_pcm_runtime *rtd)
+> >   	return 0;
+> >   }
+> > +static int mt8188_mt6359_accdet_init(struct snd_soc_pcm_runtime *rtd)
+> > +{
+> > +	struct mtk_soc_card_data *soc_card_data = snd_soc_card_get_drvdata(rtd->card);
+> > +	struct snd_soc_jack *jack = &soc_card_data->card_data->jacks[MT8188_JACK_HEADSET];
+> > +	int ret;
+> > +
+> > +	if (!soc_card_data->accdet)
+> > +		return 0;
+> 
+> I'm not sure... if we have mediatek,accdet (so accdet is present here), but we also
+> have a NAU8825, or RT5682S, or ES8326 codec, this function will create a headset
+> jack for MT6359, but then mt8188_headset_codec_init() will do the same again!
+> 
+> I think we should find a way to avoid that situation, as I'm mostly sure that this
+> will give issues in the long run.
+> 
+> Even if it wouldn't, having two headset jacks exposed, of which one doesn't work
+> because it doesn't exist on the physical board... would be confusing for the user.
 
- #include "vc4_drv.h"
-@@ -211,6 +212,12 @@ struct vc4_hdmi {
- 	 * KMS hooks. Protected by @mutex.
- 	 */
- 	enum hdmi_colorspace output_format;
-+
-+	/**
-+	 * @hdmi_jack: Represents the connection state of the HDMI plug, for
-+	 * ALSA jack detection.
-+	 */
-+	struct snd_soc_jack hdmi_jack;
- };
+IMO that situation happening would mean the DT is wrong. If the board has the
+headset jack pins wired to a headset codec, and that's responsible for jack
+detection, then those pins won't be wired to the ACCDET block, and therefore the
+board DT shouldn't have the mediatek,accdet property.
 
- #define connector_to_vc4_hdmi(_connector)				\
-=2D-
-2.34.1
+I think you're imagining having the mediatek,accdet property always present, and
+the logic you propose would allow specifying a headset codec to essentially
+override it (making the mediatek,accdet property useless in this case). But
+there can also be boards with no jacks at all, and in those cases we don't want
+jack widgets exposed to userspace, so the mediatek,accdet property should be
+omitted for those boards, and only present on boards where the ACCDET is
+actually wired to.
 
+> 
+> I guess that the best option here would be:
+>  - Let the `for_each_card_prelinks()` loop finish
+>  - Check if any of the external codecs are providing 3.5mm jack
+>    - External codec providing jack means that the detection should be performed
+>      by the external codec, as the jack should not be physically routed to the
+>      MediaTek ACCDET related PMIC pins (right?)
+>    - No external codec means that the accessory detection can only be performed
+>      by the MediaTek ACCDET IP
+>  - If external codec manages 3.5mm jack: do nothing
+>  - If no external codec managing 3.5mm jack: check if accdet provided in DT and
+>    initialize it
+> 
+> ....unless I'm wrong - and if I am, please explain why (and also add explanation
+> to the commit description).
+
+I can add to the commit message:
+
+Only boards that have jack detection managed by the MT6359 ACCDET block will
+have the mediatek,accdet property present.
+
+Thanks,
+Nícolas
+
+> 
+> Cheers,
+> Angelo
+> 
+> > +
+> > +	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
+> > +				   SND_JACK_HEADSET | SND_JACK_BTN_0 |
+> > +				   SND_JACK_BTN_1 | SND_JACK_BTN_2 |
+> > +				   SND_JACK_BTN_3,
+> > +				   jack, mt8188_headset_jack_pins,
+> > +				   ARRAY_SIZE(mt8188_headset_jack_pins));
+> > +	if (ret) {
+> > +		dev_err(rtd->dev, "Headset Jack create failed: %d\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret = mt6359_accdet_enable_jack_detect(soc_card_data->accdet, jack);
+> > +	if (ret) {
+> > +		dev_err(rtd->dev, "Headset Jack enable failed: %d\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >   static int mt8188_mt6359_init(struct snd_soc_pcm_runtime *rtd)
+> >   {
+> >   	struct snd_soc_component *cmpnt_codec =
+> > @@ -512,6 +553,8 @@ static int mt8188_mt6359_init(struct snd_soc_pcm_runtime *rtd)
+> >   	/* mtkaif calibration */
+> >   	mt8188_mt6359_mtkaif_calibration(rtd);
+> > +	mt8188_mt6359_accdet_init(rtd);
+> > +
+> >   	return 0;
+> >   }
+> > 
