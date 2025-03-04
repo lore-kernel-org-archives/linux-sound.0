@@ -1,168 +1,183 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFAA27934B;
-	Tue,  4 Mar 2025 21:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A7D1F4611;
+	Tue,  4 Mar 2025 22:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741124173; cv=none; b=A1je3Cm/h+d0bVGkOPvKjBeb2oTElyv85lN9BHAgkhkdH4ArjL5XLMn8vDaVRmEJ8VzbSfDM8eaDUKhHhFzyYNuvIU65wB5iDhdTi7LUu9vI6+tVfWNesXeV6PA0T5MZDRBhXN8E/Qj+vd9LqgHbTBV4gbEuLzOrPxO58h0sBkE=
+	t=1741128415; cv=none; b=J8RYXTSXzjqwvVnlcboyfnC2lDveBwG4xnancIVJb++yTybgMNrJz9+KfE4EfZjPE2Tpu8wZYeTtdCJ+myV6YlLnEXLM3lVbrZPlyaHxmEyM1+Gn1nzhli/ZJIVx6mMqoLpUXzx28b15RZCKZaDxVRJmzJvt52ehecV0RPkDoJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741124173; c=relaxed/simple;
-	bh=lfPOp8T4qiEf7llUQzd9pn2jZRzzyBoqvXgBW6abtNY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tOI/ZyZvzvcy73KO1BlOFCdXLupGVtCwgkzNMrHf/Ep5492x8cGPBm3CI8wIG78V6Ax5o9YHrStGtuyOW26gUDDM9QY3rTnC5trqOf8+Ls27uxi0+UC7LaRXR9guKs4JZfVgOFBIGxeoutE+fDVYqF/sGlra1d3IVlvjYidBCYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=frOd5W/H; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1741128415; c=relaxed/simple;
+	bh=v0g4BhzX+oxQUTu43WMPEeP6GZ8btdAYmtKYz+4cFHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=QhEEVd3O4uE2VW8LaXmYOyvFK+XPWpPff7r+4LS9ErBEdwkfpqnbmAeaP09A2N4gZHZYrAsjY9mm9hWhybhQXgjDLeEiu18AZtFRsTlaPC/WF/jNSQ41rKLSIVUg+QAEavL6LQMgvZaphNMyYFcY9U6St6OkiG5o8ajtU7WQyrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=D/jcaYBg; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="frOd5W/H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1741124169;
-	bh=lfPOp8T4qiEf7llUQzd9pn2jZRzzyBoqvXgBW6abtNY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=frOd5W/HW4h8YdTloOEWiu6R8JWebj5JId0BfN6oZeGwVVGSpiyErflTPYPLAd02v
-	 WtWkSh726xvr1X2BEWH2kJzUQbi+uyPcsUZV91kndbiu9ImiNE2WuvODnZLLX4cxss
-	 IImWYtML/CW8yKLOum+OEXD/DXXBGxKLhLx/BfPBanzcIxIMEfpMJWGN9y2EY3Ej+k
-	 Nc4XVrf4Iojuzhj0jSFsAtqxyL7xTytv4mWMxXLXVp6suav/KIrJORU3KwLvmFdGTE
-	 /XXCPUcW6KpnpByk2zJoavFr918BomP3ACwuNltI3u1eiYBtnWqvE+j9JMVj46unda
-	 J88pAtw1+VVzw==
-Received: from [192.168.0.47] (unknown [IPv6:2804:14c:1a9:53ee::1001])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0110A17E0B56;
-	Tue,  4 Mar 2025 22:36:05 +0100 (CET)
-From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Tue, 04 Mar 2025 18:35:38 -0300
-Subject: [PATCH v2 3/3] ASoC: mediatek: mt8188-mt6359: Add accdet headset
- jack detect support
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="D/jcaYBg"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 524Kio0i000988;
+	Tue, 4 Mar 2025 22:46:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	3NwIGTcVv3klJr/RLcrTlS8Yu+Du9AxTXUb6muo8eOw=; b=D/jcaYBgLoLOBV00
+	30atQphosIV3bb+gin5IEbuDqLl9VQzDD0IXU8mQz+cOy8eFei7LqghxLy8V4aEO
+	8tThITjPrIJkzmj4eI1uQNEch495xGUyYS59cOmWWXOl2C5QO3leyUAEzpUzVVcR
+	ccekj81muoEpnd3kKbdMuB5rK+3oaRrs6J32K6iYw5Fe5pr6AXtO1Pm+7Gn3M6yw
+	hIvZjrr1cj+sAjFnv0Mt+nEG8DWASyD0n9qPdHqJoqJPBt9hVMlcrcKlO0SZvx8f
+	RitwiINpVd9iq4MSNY+OSHnuMmS9FxYxQLIef9EtaPdbPNRgE39G0vbxVRTBOJJ2
+	ybPkYA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6vkf5d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Mar 2025 22:46:35 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 524MkYrs002179
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 4 Mar 2025 22:46:34 GMT
+Received: from [10.71.114.206] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 4 Mar 2025
+ 14:46:33 -0800
+Message-ID: <ee5cb6bc-963a-4e31-8ac4-07120fb9ff70@quicinc.com>
+Date: Tue, 4 Mar 2025 14:46:28 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250304-mt8188-accdet-v2-3-27f496c4aede@collabora.com>
-References: <20250304-mt8188-accdet-v2-0-27f496c4aede@collabora.com>
-In-Reply-To: <20250304-mt8188-accdet-v2-0-27f496c4aede@collabora.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Trevor Wu <trevor.wu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
- Zoran Zhan <zoran.zhan@mediatek.com>
-X-Mailer: b4 0.14.2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v35 00/31] Introduce QC USB SND audio offloading support
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+CC: Greg KH <gregkh@linuxfoundation.org>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <tiwai@suse.com>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+        <robh@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20250219004754.497985-1-quic_wcheng@quicinc.com>
+ <Z7W_Vz_kVDjIcp5N@linaro.org>
+ <82ce69a3-d248-494f-6ddb-098f392c78a0@quicinc.com>
+ <Z8a4WYq4GqWBVNyX@linaro.org>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <Z8a4WYq4GqWBVNyX@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Lbil9AyCLexrYewfigB777EYp9i9QjEK
+X-Authority-Analysis: v=2.4 cv=LYfG6ifi c=1 sm=1 tr=0 ts=67c782cb cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=OF3dkDXz7wlyf22mrvMA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: Lbil9AyCLexrYewfigB777EYp9i9QjEK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-04_09,2025-03-04_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 clxscore=1015 phishscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 bulkscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2502100000 definitions=main-2503040181
 
-Enable headset jack detection for MT8188 platforms that use the MT6359
-ACCDET block for it, indicated by the mediatek,accdet property in DT.
-For those platforms, register a jack and initialize the ACCDET block to
-report jack events through it.
+Hi Stephan,
 
-Co-developed-by: Zoran Zhan <zoran.zhan@mediatek.com>
-Signed-off-by: Zoran Zhan <zoran.zhan@mediatek.com>
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
- sound/soc/mediatek/Kconfig                |  1 +
- sound/soc/mediatek/mt8188/mt8188-mt6359.c | 43 +++++++++++++++++++++++++++++++
- 2 files changed, 44 insertions(+)
+On 3/4/2025 12:22 AM, Stephan Gerhold wrote:
+> On Mon, Mar 03, 2025 at 06:39:52PM -0800, Wesley Cheng wrote:
+>>
+>>
+>> On 2/19/2025 3:24 AM, Stephan Gerhold wrote:
+>>> On Tue, Feb 18, 2025 at 04:47:23PM -0800, Wesley Cheng wrote:
+>>>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+>>>>
+>>>> Several Qualcomm based chipsets can support USB audio offloading to a
+>>>> dedicated audio DSP, which can take over issuing transfers to the USB
+>>>> host controller.  The intention is to reduce the load on the main
+>>>> processors in the SoC, and allow them to be placed into lower power modes.
+>>>> There are several parts to this design:
+>>>>   1. Adding ASoC binding layer
+>>>>   2. Create a USB backend for Q6DSP
+>>>>   3. Introduce XHCI interrupter support
+>>>>   4. Create vendor ops for the USB SND driver
+>>>>
+>>>>       USB                          |            ASoC
+>>>> --------------------------------------------------------------------
+>>>>                                    |  _________________________
+>>>>                                    | |sm8250 platform card     |
+>>>>                                    | |_________________________|
+>>>>                                    |         |           |
+>>>>                                    |      ___V____   ____V____
+>>>>                                    |     |Q6USB   | |Q6AFE    |
+>>>> |     |"codec" | |"cpu"    |
+>>>>                                    |     |________| |_________|
+>>>>                                    |         ^  ^        ^
+>>>>                                    |         |  |________|
+>>>>                                    |      ___V____    |
+>>>>                                    |     |SOC-USB |   |
+>>>>    ________       ________               |        |   |
+>>>>   |USB SND |<--->|QC offld|<------------>|________|   |
+>>>>   |(card.c)|     |        |<----------                |
+>>>>   |________|     |________|___     | |                |
+>>>>       ^               ^       |    | |    ____________V_________
+>>>>       |               |       |    | |   |APR/GLINK             |
+>>>>    __ V_______________V_____  |    | |   |______________________|
+>>>>   |USB SND (endpoint.c)     | |    | |              ^
+>>>>   |_________________________| |    | |              |
+>>>>               ^               |    | |   ___________V___________
+>>>>               |               |    | |->|audio DSP              |
+>>>>    ___________V_____________  |    |    |_______________________|
+>>>>   |XHCI HCD                 |<-    |
+>>>>   |_________________________|      |
+>>>>
+>>>
+>>> As I noted on v34 [1], this version is still missing instructions and
+>>> changes needed for testing this series. The device tree changes don't
+>>> need to be part of the same series, but there should be at least a link
+>>> provided to give other people the chance to provide Tested-by tags.
+>>>
+>>> IMO we shouldn't merge this series without those instructions, otherwise
+>>> we risk that this just ends up being dead code that no one can use.
+>>>
+>>> Can you please share the device tree changes for a board upstream and
+>>> any other changes needed to be able to test this series? E.g. for
+>>> sm8250-mtp.dts, based on the examples in your cover letter.
+>>>
+>>
+>> To clarify I'm testing this on sm8350 in recent times, but utilizing sm8250
+>> definitions for the ASoC platform card, as the platform sound card is more
+>> or less the same between the two SoCs.  Back
+>> when I started this series, sm8350 was missing a bunch of dependent
+>> components, such as aDSP not being loaded, and missing platform sound card
+>> definition, so I had to define and enable those on my own, which required a
+>> slew of new DT nodes, hence why it wasn't as straight forward to include
+>> the DT definitions yet for sm8350.  Not thinking that this series would
+>> take as long as it did, I was planning on separating out the DT changes in
+>> a different series to enable offloading for the devices I have tested with.
+>> (sm8150, sm8250 and sm8350)
+>>
+>> There's still a pretty big chunk of dependencies missing from sm8350, so
+>> those would also be handled in the follow up DT submission.  For now, its a
+>> much bigger hurdle to get the main/functional changes in, and that was
+>> taking a significant amount of time from my end to manage.
+>>
+>> If you want, I can give you the changes I have offline to enable this for
+>> sm8350, since I haven't spent time formatting/prepping the changes for
+>> submission yet.
+>>
+> 
+> Can you push it to a public branch somewhere (e.g. on CodeLinaro)? I was
+> talking to some people from the community about testing this on some of
+> the smartphones we have in upstream, so it wouldn't help if I just have
+> the changes privately.
 
-diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
-index 3033e2d3fe16840631a465dd967da77f7a6ff43c..64155ea7965a1cc50593fef442ce90761836f328 100644
---- a/sound/soc/mediatek/Kconfig
-+++ b/sound/soc/mediatek/Kconfig
-@@ -237,6 +237,7 @@ config SND_SOC_MT8188_MT6359
- 	select SND_SOC_NAU8825
- 	select SND_SOC_RT5682S
- 	select SND_SOC_ES8326
-+	select SND_SOC_MT6359_ACCDET
- 	help
- 	  This adds support for ASoC machine driver for MediaTek MT8188
- 	  boards with the MT6359 and other I2S audio codecs.
-diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-index 420b1427b71dc1424a52f7ab6140c14659036733..20dc9470ba76b2a750e79a5ae3dafabd7c597f40 100644
---- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-@@ -17,6 +17,7 @@
- #include "mt8188-afe-common.h"
- #include "../../codecs/nau8825.h"
- #include "../../codecs/mt6359.h"
-+#include "../../codecs/mt6359-accdet.h"
- #include "../../codecs/rt5682.h"
- #include "../common/mtk-afe-platform-driver.h"
- #include "../common/mtk-soundcard-driver.h"
-@@ -271,6 +272,17 @@ static struct snd_soc_jack_pin nau8825_jack_pins[] = {
- 	},
- };
- 
-+static struct snd_soc_jack_pin mt8188_headset_jack_pins[] = {
-+	{
-+		.pin    = "Headphone",
-+		.mask   = SND_JACK_HEADPHONE,
-+	},
-+	{
-+		.pin    = "Headset Mic",
-+		.mask   = SND_JACK_MICROPHONE,
-+	},
-+};
-+
- static const struct snd_kcontrol_new mt8188_dumb_spk_controls[] = {
- 	SOC_DAPM_PIN_SWITCH("Ext Spk"),
- };
-@@ -506,6 +518,35 @@ static int mt8188_mt6359_mtkaif_calibration(struct snd_soc_pcm_runtime *rtd)
- 	return 0;
- }
- 
-+static int mt8188_mt6359_accdet_init(struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct mtk_soc_card_data *soc_card_data = snd_soc_card_get_drvdata(rtd->card);
-+	struct snd_soc_jack *jack = &soc_card_data->card_data->jacks[MT8188_JACK_HEADSET];
-+	int ret;
-+
-+	if (!soc_card_data->accdet)
-+		return 0;
-+
-+	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
-+				   SND_JACK_HEADSET | SND_JACK_BTN_0 |
-+				   SND_JACK_BTN_1 | SND_JACK_BTN_2 |
-+				   SND_JACK_BTN_3,
-+				   jack, mt8188_headset_jack_pins,
-+				   ARRAY_SIZE(mt8188_headset_jack_pins));
-+	if (ret) {
-+		dev_err(rtd->dev, "Headset Jack create failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mt6359_accdet_enable_jack_detect(soc_card_data->accdet, jack);
-+	if (ret) {
-+		dev_err(rtd->dev, "Headset Jack enable failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int mt8188_mt6359_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct snd_soc_component *cmpnt_codec =
-@@ -518,6 +559,8 @@ static int mt8188_mt6359_init(struct snd_soc_pcm_runtime *rtd)
- 	/* mtkaif calibration */
- 	mt8188_mt6359_mtkaif_calibration(rtd);
- 
-+	mt8188_mt6359_accdet_init(rtd);
-+
- 	return 0;
- }
- 
+Which CLO project/branch did you want me to push it to?  Sorry, I haven't
+worked too much with the CLO open branches.  I have an account though.
 
--- 
-2.48.1
-
+Thanks
+Wesley Cheng
