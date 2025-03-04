@@ -1,80 +1,55 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09152200B8B
-	for <linux-sound@vger.kernel.org>; Tue,  4 Mar 2025 10:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82153201018;
+	Tue,  4 Mar 2025 11:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741085881; cv=none; b=I7/VetGu4gTkAAwXGFySPJ0pyFfyq5xg049iHMxyt35P1g8rr0Xh5myqHkUFndrqyszx7cdgzzBEgffEEvlJHtiKI2iPTRFPzchMwAuEesvrDIk3juBsYtABRylYm22BRymARlgcI1QnSigNpKjvQtmU5r+4tgsNoLU6ZutQQ34=
+	t=1741089490; cv=none; b=lK1eFdFLEKIjJpt/NYaKy1/F7jAdgYH3dcsIk37De3YgGDjZLhrzakoTeJuSwaicploWESCLfWSyrTJr/cAihJ/gKtuUl9sPU2BKsFU+SQEJvxYkIY3nw9qlhEwNhnBei+WETsyIX8iJuHUPaV3LjgLlXmXTQLqJF9fwi8eX4n4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741085881; c=relaxed/simple;
-	bh=OOlm6HNrfX6e8YtvAb7GXOiQezhdyWO8PXRO+Eqpahg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hNBhoZFP1sU/V8ubemXqXm1gSrFNbeB/rJVHtINu7TrT6H2q0RZTFHiJSa/62ZHqNFdZBlI72vpbKJRfUl6L/hDugyevBSejCdHcOnQJ0yCmf5FyKsYe7HZgLET8Wog6u3Jzc1z6xQ3OIAXRo7zYZOqvVgeNmjZeXNwApuZMzz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=whPv99s3; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741089490; c=relaxed/simple;
+	bh=mxkGe76fANnDNUd93SXNtSBMrY87h5WgLsqxXocUux8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UUcw5leQQqGUvRbwhnvBlWOwn0fUY/Ycrt8U8KapIcPog2VSsbe+j7p9tWx5Z6InR1gEEJpPbAJ5EyuGCZW4dw/q7HI9XehyeO8HHdgkU+ACHVIHH5nvvUkyVcRdhHugyIzR5iA6Qpxz0EEbKum+T2Uu3FU3YnQGuGyrl+7krPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=Uqrg+qR2; arc=none smtp.client-ip=81.200.124.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="whPv99s3"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5e0b70fb1daso9507786a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 04 Mar 2025 02:57:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741085878; x=1741690678; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ECyziH9vC+Bjbefgj+dSQZiFMSs3qn0VmvLNDRi3E2g=;
-        b=whPv99s3ZZXLV09HG/qXihTThG/hPvVlI3lPr04mnk6DjMMa2Wma2pDDbMzWsRChk+
-         1rXFd/wXIUUjLZ8uMZg6zYCeXqDY/Go+0shiokNZ+XZJAdG/36NuBpJJvt0TWsH/vtKZ
-         aC2MGq8aXxny8Jo8V+v8sHbD8kunq4bPUHWsk9QePa8/dAMVkD0kTmYr/ZXxHP1GW7oZ
-         7cnZN0WF/0exB80PQIOTFNv4+5SGrxQS5B5/PFO8bs2/sI6YJXClL3sQUUDU0dufqnvL
-         a1PyqMtyIu9ouqFtkoHeSLgjmqJL8fQMY7NB9pOVrqE3s6DCEL8u+Zibbg1jbL6c9CB0
-         Ar6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741085878; x=1741690678;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ECyziH9vC+Bjbefgj+dSQZiFMSs3qn0VmvLNDRi3E2g=;
-        b=Q7QNNdnnOlWQTXGFoOb19bhYNcEp9X6f8CtT/QrIa5nsWC57sgUY4NJjtBtjZP53z8
-         MQvg8beLfmvG5NSl9DKLkPpcVqo7h8FKuoxsuQ5B12i/20FXB4aEmpAcrZ1hlYRW5y7Y
-         9ZCXVoEBJEb44WwZ30CP5kx6yBYVyZi29T+7wXOAgU8pAcjQLWgjcHFukjgI+ctvagGD
-         kcSay08Q5bQtBvq5fOrihH2EiWIVZipvVRYnka6/1lzBHCLR7Ox4kioA2WhiirZ5eQ6i
-         DslzWd5c+7itZcHUNI7LOoV5t6gw0uazu5Xr5V8hygNvclw1EatFmO2GjBFBvs4WvCxZ
-         w7sw==
-X-Forwarded-Encrypted: i=1; AJvYcCXWkMQ15qAwAkneH9bTr/RV2yCERau8oLDpEuu1JlSnrbFZmiSa/Xb5zuapd9RDU89hdH++UN4x/6Gc0g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7em5nu9Ou2C6gsHRJ76GgX3p0mp2jKsDLEMTMBewClgIGutlJ
-	789lOiczbHk078xlVz/bG6jK4krLc5UZCzaYrXsDdKhDTVW95OOAGrpX/IgDDzRvEkTQYTyoMQO
-	H
-X-Gm-Gg: ASbGncsK42+t9Hhqpd9JvlGZFlOEXYq0ZK46/nZxb6ohGeYSvxOhcvpBMaYvSRTD5k/
-	brSsUWhbU8ovhSzkb1Hbr9JsFytAaaWkxvxZny+c6RC0BukOcH0D0KQSRbd1HQ3OfTR9sEAgtb1
-	7/s5+y+viraCABvf7qAtu0aG/i925RLbNa8idq4rn8FSgbT094kZRqGRLLzrXWfImvYI0J/yKov
-	PrqyeJSP8OolTQTAyM1oOgUrc4rPYvWl/06UM5QiHsfypnPqi7mtLDFlp/Pj84RUKQcDolarbLq
-	oz58m3WqJ4NL6wgit4+oL2EBNmbVM6Hc5A1bYRWKaPcWKs+JrxGCchBkDS4CiORX5NyiIQ==
-X-Google-Smtp-Source: AGHT+IHfeHT/FTjffKPwdBKiP6ewQQTMUOqoklnatPZdqtNFAdsCpP2K8dPS2Eccu/L8rXNPyexCvA==
-X-Received: by 2002:a05:6402:350f:b0:5dc:58ad:b8d5 with SMTP id 4fb4d7f45d1cf-5e4d6ad5fa3mr17089784a12.9.1741085878276;
-        Tue, 04 Mar 2025 02:57:58 -0800 (PST)
-Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e4c43a5acdsm8002966a12.77.2025.03.04.02.57.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 02:57:57 -0800 (PST)
-From: srinivas.kandagatla@linaro.org
-To: broonie@kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	krzysztof.kozlowski@linaro.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmitry.baryshkov@linaro.org,
-	johan+linaro@kernel.org,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH v3 6/6] ASoC: qdsp6: q6apm-dai: fix playback dsp pipeline underruns
-Date: Tue,  4 Mar 2025 10:57:23 +0000
-Message-Id: <20250304105723.10579-7-srinivas.kandagatla@linaro.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250304105723.10579-1-srinivas.kandagatla@linaro.org>
-References: <20250304105723.10579-1-srinivas.kandagatla@linaro.org>
+	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="Uqrg+qR2"
+Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
+	by ksmg01.maxima.ru (Postfix) with ESMTP id 52DFDC000F;
+	Tue,  4 Mar 2025 14:57:57 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 52DFDC000F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
+	s=sl; t=1741089477; bh=I+2PHlKZ/Tp6XTpd0mZkHPbi2TiqITlIRsNyBnyDVK8=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=Uqrg+qR2xSSGqhLQsZENJPDv82LWxWZXKH6/srWXO6zMjr+XgJXVijObEGPaSe8ku
+	 5XdiVSZYkG6zegSk9LiZ6/nQMtniKTjAsXMiu1z6h+o8fQQS5dNOdokgs1lKaOZu/c
+	 9DQFsfdwMEA+5AiWBP83UUUj9KkAP+gcydGYFLcNDvycBWmrHBt5T8lofha6Hmh8tp
+	 3XT0wBz4RHdFeNbKDzz08IhmRlGyth98THP4EvfT+OHJ3eZpaVaS6UOHpmPL7EPDiG
+	 1cKUeML4oP54RE8TOzEJIO6LT3TnW5L3ShbzgW4l4/B3b8jagXOrympzzrfVbUWezQ
+	 p1mMZNdP5hdIw==
+Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+	by ksmg01.maxima.ru (Postfix) with ESMTPS;
+	Tue,  4 Mar 2025 14:57:57 +0300 (MSK)
+Received: from localhost.maximatelecom.ru (5.1.51.168) by mmail-p-exch01.mt.ru
+ (81.200.124.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Tue, 4 Mar 2025
+ 14:57:55 +0300
+From: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+To: David Rhodes <david.rhodes@cirrus.com>
+CC: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>, Richard Fitzgerald
+	<rf@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Lucas Tanure <tanureal@opensource.cirrus.com>, Charles
+ Keepax <ckeepax@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+	<patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>,
+	<lvc-project@linuxtesting.org>
+Subject: [PATCH] ASoC: cs35l41: check the return value from spi_setup()
+Date: Tue, 4 Mar 2025 16:56:37 +0500
+Message-ID: <20250304115643.2748-1-v.shevtsov@mt-integration.ru>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,36 +57,62 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
+ (81.200.124.61)
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;spf=none smtp.mailfrom=mt-integration.ru;dkim=none
+X-KSMG-AntiSpam-Envelope-From: v.shevtsov@mt-integration.ru
+X-KSMG-AntiSpam-Info: LuaCore: 51 0.3.51 68896fb0083a027476849bf400a331a2d5d94398, {rep_avail}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;ksmg01.maxima.ru:7.1.1;81.200.124.61:7.1.2;mt-integration.ru:7.1.1, FromAlignment: s, ApMailHostAddress: 81.200.124.61
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 191457 [Mar 04 2025]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.11
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/03/04 09:41:00 #27591543
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 7
 
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Currently the return value from spi_setup() is not checked for a failure.
+It is unlikely it will ever fail in this particular case but it is still
+better to add this check for the sake of completeness and correctness. This
+is cheap since it is performed once when the device is being probed.
 
-QDSP has latency of 10 plus milli seconds, Which is difficult to acheive
-with just 2 periods and fragment size starting at 128. Increase the number
-of fragments to 8 so that it fulfils the dsp requirements
+Handle spi_setup() return value.
 
-Without this patch, DSP playback pipeline seems to hit few underruns.
+Found by Linux Verification Center (linuxtesting.org) with Svace.
 
-Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Fixes: 872fc0b6bde8 ("ASoC: cs35l41: Set the max SPI speed for the whole device")
+Signed-off-by: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
 ---
- sound/soc/qcom/qdsp6/q6apm-dai.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/codecs/cs35l41-spi.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index aca0a98d58a5..aa6bd359300b 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -18,8 +18,8 @@
+diff --git a/sound/soc/codecs/cs35l41-spi.c b/sound/soc/codecs/cs35l41-spi.c
+index a6db44520c06..f9b6bf7bea9c 100644
+--- a/sound/soc/codecs/cs35l41-spi.c
++++ b/sound/soc/codecs/cs35l41-spi.c
+@@ -32,13 +32,16 @@ static int cs35l41_spi_probe(struct spi_device *spi)
+ 	const struct regmap_config *regmap_config = &cs35l41_regmap_spi;
+ 	struct cs35l41_hw_cfg *hw_cfg = dev_get_platdata(&spi->dev);
+ 	struct cs35l41_private *cs35l41;
++	int ret;
  
- #define DRV_NAME "q6apm-dai"
+ 	cs35l41 = devm_kzalloc(&spi->dev, sizeof(struct cs35l41_private), GFP_KERNEL);
+ 	if (!cs35l41)
+ 		return -ENOMEM;
  
--#define PLAYBACK_MIN_NUM_PERIODS	2
--#define PLAYBACK_MAX_NUM_PERIODS	8
-+#define PLAYBACK_MIN_NUM_PERIODS	8
-+#define PLAYBACK_MAX_NUM_PERIODS	16
- #define PLAYBACK_MAX_PERIOD_SIZE	65536
- #define PLAYBACK_MIN_PERIOD_SIZE	128
- #define CAPTURE_MIN_NUM_PERIODS		2
+ 	spi->max_speed_hz = CS35L41_SPI_MAX_FREQ;
+-	spi_setup(spi);
++	ret = spi_setup(spi);
++	if (ret < 0)
++		return ret;
+ 
+ 	spi_set_drvdata(spi, cs35l41);
+ 	cs35l41->regmap = devm_regmap_init_spi(spi, regmap_config);
 -- 
-2.39.5
+2.48.1
 
