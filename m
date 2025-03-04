@@ -1,132 +1,116 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B9C1FC7DD
-	for <linux-sound@vger.kernel.org>; Tue,  4 Mar 2025 08:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B541D18FC6B;
+	Tue,  4 Mar 2025 09:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741077005; cv=none; b=RoGxrOoQglh3OILAjU/5pL9oVhlig/JArdi33fPDlTUGC/Ht9zmogkbZMWOWEiG+peUgD8eRbsujYGCHFzcBHw7tOg0FbFTUvhtqq9FK3YsuTOXBao2Lc2w8TbSOucjIHIkq3CTBDRJUXHR8QNFWMIWZ6083DsI5lRFL6MY6gf0=
+	t=1741080013; cv=none; b=SI2qwfEpS7r7eSt4zYKtSNKPGUP8qbgUqNJWsOZEo5rtQQEUx7GyYY1g8rUXGIRJ8QyNkJ1jNNSTNrLKti006KMpONp0aAbkqRx6w4y0ghmBrmpX+ypS0poQgVqQXyycG8XlJEEG8TW4OIqqy2khkyA9HnkhqcpsBEgqgCzNotI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741077005; c=relaxed/simple;
-	bh=qZX/k7rR1550QFMgP/CAN3hwJDiPhHLLlqueXHPu1cM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h93fhps/+9ai6pwktXtf2ROPoktQyhICbf719WJlxYV5rndp5Y2X+4rdHw/04ceoU5izfDcD9qsgFDUv9O88nD7dRnW3cx0hX//WyUKeaRoGS6AtMXn8TWZQdBkdnNZapbFZsvp2DZjplnBrCbdLmXRFXhJT1nauFXEiKLQ+4f4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H03S3QAs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I479LckR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H03S3QAs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I479LckR; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1741080013; c=relaxed/simple;
+	bh=xOFxo8gsMiynVWd3ZJwDqa4GVx8u3YsAkiZhHyTFQJs=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YewIApM5rC37iQNmrSfpJycwS+M7CYd8u7Hed4Bx2WU7OuOSxnFeM3W75AtXScocjwPfwEug0J6oPsw5XH3Gslga4fV/g3MtdES32yxO6RjGRDw03pKrEk0x7qhepwcL1tBWCB67StTRIahjQARq/wySaCuQ/xObO4kVfR0Jtd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=WDY4XJlj; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H03S3QAs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I479LckR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H03S3QAs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I479LckR"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 73C291F785;
-	Tue,  4 Mar 2025 08:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741077001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXFuYCyGgWo6k+7zwMgSpre+FC1SzKnV4NZeUKEHMwo=;
-	b=H03S3QAsxYKA8a0roejVW0ctVuvaE/o2+YOApxmUdyjJaalgLE+wA15sdMnKxPAqLbZSx8
-	dMSibUeYtaF2tpwm3ZFC73nmT6fZOX2i3w8hZNdTF7zoDYdSrEgnxB5B2HS6s3QdGWi4Ol
-	cOoNrOAnqvTi44oLEwquejvFSsNmDKw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741077001;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXFuYCyGgWo6k+7zwMgSpre+FC1SzKnV4NZeUKEHMwo=;
-	b=I479LckRDFRdScattXtAM3u3TiVi/AXXdtfRWaObLKmPQp+avxUfVKc119rZBBHM8jzjvG
-	wpI9Q5yRP5Ynx4Cw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741077001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXFuYCyGgWo6k+7zwMgSpre+FC1SzKnV4NZeUKEHMwo=;
-	b=H03S3QAsxYKA8a0roejVW0ctVuvaE/o2+YOApxmUdyjJaalgLE+wA15sdMnKxPAqLbZSx8
-	dMSibUeYtaF2tpwm3ZFC73nmT6fZOX2i3w8hZNdTF7zoDYdSrEgnxB5B2HS6s3QdGWi4Ol
-	cOoNrOAnqvTi44oLEwquejvFSsNmDKw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741077001;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iXFuYCyGgWo6k+7zwMgSpre+FC1SzKnV4NZeUKEHMwo=;
-	b=I479LckRDFRdScattXtAM3u3TiVi/AXXdtfRWaObLKmPQp+avxUfVKc119rZBBHM8jzjvG
-	wpI9Q5yRP5Ynx4Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 341911393C;
-	Tue,  4 Mar 2025 08:30:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Ge/VCgm6xmdvOQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 04 Mar 2025 08:30:01 +0000
-Date: Tue, 04 Mar 2025 09:30:00 +0100
-Message-ID: <87a5a1ci5z.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kailang <kailang@realtek.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	"Maciej S. Szmigiero"
-	<mail@maciej.szmigiero.name>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP EliteBook 855 G7
-In-Reply-To: <31416b81a4f646239d8a17a0fbc71e79@realtek.com>
-References: <7461f695b4daed80f2fc4b1463ead47f04f9ad05.1739741254.git.mail@maciej.szmigiero.name>
-	<87jz9o99ef.wl-tiwai@suse.de>
-	<a02344f2-3b99-41ea-af64-8d2bcb01e435@maciej.szmigiero.name>
-	<87h64s972a.wl-tiwai@suse.de>
-	<6224620265674b09b5762f908b5158f9@realtek.com>
-	<2fea9fe8-312f-45a0-9bed-455c910fba43@maciej.szmigiero.name>
-	<87ldtme10m.wl-tiwai@suse.de>
-	<31416b81a4f646239d8a17a0fbc71e79@realtek.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="WDY4XJlj"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5245gdSF021938;
+	Tue, 4 Mar 2025 03:19:52 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=BZZRwtW2h9tlEFc5ND3Fz0ti//9gALGRUJP7ScdQV1s=; b=
+	WDY4XJljQwvTVZJ2TBxOfPmqhhD7tRjjFcYAmekoF856zw0lxLgRcXObWIldlA2h
+	HgH6SgkpOSTghfyBCyRs+9dKWmh0jFHj0dw9BrhFamgItUuG4GFZTgqZp6uSW2u8
+	P9/8bWxRlFq6udMsPrtt5m9z43gooVwiCXHdLVeLhMjn6dlDQeYNsePHnlebimLk
+	xi20X6q3uG7AYdIJ+OcBILkubOm6YVC4dDZNUiORJJ9i0Xr8AeEXomuvte+Rpl7o
+	do81pVketS+L4wzZl3o0n7D0+k6hOuet0mgI4AdGhWqrvdCk0AIrhI0oacM8Jxzf
+	v9cpIJkVVu0zUys9/HlmAg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 455fyyhhmn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Mar 2025 03:19:51 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 4 Mar
+ 2025 09:19:49 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Tue, 4 Mar 2025 09:19:49 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id F0E3F820248;
+	Tue,  4 Mar 2025 09:19:48 +0000 (UTC)
+Date: Tue, 4 Mar 2025 09:19:47 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <peda@axentia.se>, <andrei.simion@microchip.com>,
+        <nuno.sa@analog.com>, <paul@crapouillou.net>, <oder_chiou@realtek.com>,
+        <kiseok.jo@irondevice.com>, <shenghao-ding@ti.com>, <kevin-lu@ti.com>,
+        <baojun.xu@ti.com>, <srinivas.kandagatla@linaro.org>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: Re: [PATCH v2 13/13] ASoC: Tidy up SOC_DOUBLE_* and SOC_SINGLE_*
+ helpers
+Message-ID: <Z8bFs5xPjVzbLJoa@opensource.cirrus.com>
+References: <20250303171424.444556-1-ckeepax@opensource.cirrus.com>
+ <20250303171424.444556-14-ckeepax@opensource.cirrus.com>
+ <4db99187-63f9-41cc-966b-0c77ba86e390@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4db99187-63f9-41cc-966b-0c77ba86e390@sirena.org.uk>
+X-Proofpoint-GUID: 1FAcLbG5eH93_QGHrjEHF1N4dxMlgdaA
+X-Proofpoint-ORIG-GUID: 1FAcLbG5eH93_QGHrjEHF1N4dxMlgdaA
+X-Authority-Analysis: v=2.4 cv=DaftqutW c=1 sm=1 tr=0 ts=67c6c5b7 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=hR2cDPa-ULlpED4iyd0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, 04 Mar 2025 07:26:13 +0100,
-Kailang wrote:
+On Mon, Mar 03, 2025 at 06:53:08PM +0000, Mark Brown wrote:
+> On Mon, Mar 03, 2025 at 05:14:24PM +0000, Charles Keepax wrote:
+> > Re-implement SOC_DOUBLE_VALUE() in terms of SOC_DOUBLE_S_VALUE().
+> > SOC_DOUBLE_S_VALUE() already had a minimum value so add this to
+> > SOC_DOUBLE_VALUE as well, this allows replacement of several hard coded
+> > value entries. Likewise update SOC_SINGLE_VALUE to match, which allows
+> > replacement of even more hard coded values.
 > 
-> Like below.
+> This breaks an arm64 defconfig build:
 > 
-> Acked-by: kailang@realtek.com
+> In file included from /build/stage/linux/sound/soc/codecs/rk3308_codec.c:24:
+> /build/stage/linux/include/sound/soc.h:150:49: error: ‘shift_left’ undeclared here (not in a function)
+>   150 |         .private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
+>       |                                                 ^~~~~~~~~~
+> /build/stage/linux/include/sound/soc.h:45:46: note: in definition of macro ‘SOC_DOUBLE_S_VALUE’
+>    45 |         {.reg = xreg, .rreg = xreg, .shift = shift_left, \
+>       |                                              ^~~~~~~~~~
+> /build/stage/linux/include/sound/soc.h:150:26: note: in expansion of macro ‘SOC_DOUBLE_VALUE’
+>   150 |         .private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
+>       |                          ^~~~~~~~~~~~~~~~
+> /build/stage/linux/sound/soc/codecs/rk3308_codec.c:171:9: note: in expansion of macro ‘SOC_DOUBLE_RANGE_TLV’
+>   171 |         SOC_DOUBLE_RANGE_TLV("DAC HPMIX Playback Volume",
+>       |         ^~~~~~~~~~~~~~~~~~~~
+> /build/stage/linux/include/sound/soc.h:150:61: error: ‘shift_right’ undeclared here (not in a function)
+>   150 |         .private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
+>       |                                                             ^~~~~~~~~~~
+> /build/stage/linux/include/sound/soc.h:46:19: note: in definition of macro ‘SOC_DOUBLE_S_VALUE’
+>    46 |         .rshift = shift_right, .min = xmin, .max = xmax, \
+>       |                   ^~~~~~~~~~~
+> /build/stage/linux/include/sound/soc.h:150:26: note: in expansion of macro ‘SOC_DOUBLE_VALUE’
+>   150 |         .private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
+>       |                          ^~~~~~~~~~~~~~~~
+> /build/stage/linux/sound/soc/codecs/rk3308_codec.c:171:9: note: in expansion of macro ‘SOC_DOUBLE_RANGE_TLV’
+>   171 |         SOC_DOUBLE_RANGE_TLV("DAC HPMIX Playback Volume",
+>       |         ^~~~~~~~~~~~~~~~~~~~
+> 
 
-Thanks for confirmation, now I applied to for-next ebranch.
+Apologies I will check that out and resend.
 
-
-Takashi
+Thanks,
+Charles
