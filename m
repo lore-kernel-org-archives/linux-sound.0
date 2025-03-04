@@ -1,91 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A902023719E;
-	Tue,  4 Mar 2025 17:17:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4FB27EC81;
+	Tue,  4 Mar 2025 17:19:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741108653; cv=none; b=bCm6CMcKjGCdOnrBqvyQT+1/wMgsRUDakW9AI3e616FSnQxJWVqANsruIZzCepayQOc4wH83sy2duJZK0gDyX+xh7lwnzdZNwelX/7YQA/a96AIGVE3if5efmav3BZtKZ9JgKEDQeAmQCkaPTWOukI7ywvwiQxSnP6dJGMfnhVM=
+	t=1741108798; cv=none; b=ntyn6R8QO7Xzx15+yuRUignbAeDSHyo60q1pUz7+4S+HeAAiuoyHEeG4FuY+CbPhjQHfcmM+3mw41mFSqEofvHAQk07HuFZyMxddflkXPuv++rVqHx1HUrviNuL30gy2S7LRXZCdn74HQoc+plazcVbOr2554n1BY1iOAXGbhBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741108653; c=relaxed/simple;
-	bh=4z7H9csckGqLSufOJUp9XXvgfTc9ZOxQQQ6azPlLWDI=;
+	s=arc-20240116; t=1741108798; c=relaxed/simple;
+	bh=4reLKpViA4wm5wh0RFRhmgSV33Q6idDDEcow760hZmw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pF/2G392pROUM8i+JJYPTyqY9oAMbS6W9AJgEVd9EE2YZDMshjkvAdEPMlks8ySRBnCFpxJfCd0KkcV3WW2/9NASMMuCnbSlTAfRta1HSKFzkTud0zlOjco1C2GnYrm1uTP1i1cOPhmnw5d5h2LEPW/rhj9Q9wv3A7/nEIYg6dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XAkkJIy2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jcTUwZe6TYKMsnmJ9Yxs+497dqnIE8fqam64FuJouZW0mM0DA6SkcVKgh1hWFFktiPO3I/DL+6MuQkXlTApSjYlSERL7mLnnquTgo1//JkA+VJatc49flQ4YwGoy6vW0Qt88mCBcaHL/NVydziPj/EGtd0KgIqC/BD++0Ex2LNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PCZnBc/e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XAkkJIy2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25F3EC4CEE7;
-	Tue,  4 Mar 2025 17:17:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PCZnBc/e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E35DC4CEE9;
+	Tue,  4 Mar 2025 17:19:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741108653;
-	bh=4z7H9csckGqLSufOJUp9XXvgfTc9ZOxQQQ6azPlLWDI=;
+	s=k20201202; t=1741108798;
+	bh=4reLKpViA4wm5wh0RFRhmgSV33Q6idDDEcow760hZmw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XAkkJIy29QnQjVEgSpSYNLm2gsMIuLzqzehYykZ1wUQES+pa8gxoV87KPfcoe80bZ
-	 tYx0igDYoUPO9aoc1Jt5H609W7iXn8yHMs+nELJ1AONXDfICRo8fqyFNhDPyZrE+RI
-	 NJGYelL8lgORMnm8sNpYm/duk6MWrAbNx6fUlsGua+OMxh9wsNRnc+vT/NpQ4FXvKI
-	 Y9hB+p0WfsklwIPoTG4EpkvhGUKhU069cY4d+aexHtKBbmzskFKuv7XFUIeeYOAipi
-	 Ipgi51cn0ijIj1yTPtsOhVmLhslvT9XOrmdoMVRvB78f0mUqFQl2NgfB3KjfT8/DDM
-	 vPtG4ydTU2oQA==
-Date: Tue, 4 Mar 2025 17:17:27 +0000
-From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Trevor Wu <trevor.wu@mediatek.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	kernel@collabora.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Zoran Zhan <zoran.zhan@mediatek.com>
-Subject: Re: [PATCH 3/3] ASoC: mediatek: mt8188-mt6359: Add headset jack
- detect support
-Message-ID: <e544340c-af89-4ba5-b22c-a1fbe1bc18c9@sirena.org.uk>
-References: <20250214-mt8188-accdet-v1-0-6bbd5483855b@collabora.com>
- <20250214-mt8188-accdet-v1-3-6bbd5483855b@collabora.com>
+	b=PCZnBc/eaQKchq4p15B8mjOXiRjUrgid/NMLxJ7MPuxn/86p16SKpiOx/0vvdD9A1
+	 PrAWXwvbl3z06l9S+V3yuB0lwDem8FgS3bsCZfBprYb8fNRXfDolGUTbtXK73szasH
+	 4J4pbiatMRGTBOdYKcT57U8SV4876KOm9U+e/B0rUfOSS3+142Kjwf9ZMpjtIF/a9Z
+	 LFY49wlbTrcZxgQKNfvKZ3CtrQyyUXwbXuMc5JkXvr6IZlZWcnz7aPPRJLSKFQP8pE
+	 gRyhVEyI2g3B+N/Hdc8aZSBArvxQSP2LIq2XoHQo00e2Q9+2cl9LQ1DuRy/4tN4eSI
+	 cx/7CJOn/rJKw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tpVvt-000000007yW-1Ajg;
+	Tue, 04 Mar 2025 18:19:54 +0100
+Date: Tue, 4 Mar 2025 18:19:53 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
+Subject: Re: [PATCH v3 0/6] ASoC: q6apm: fix under runs and fragment sizes
+Message-ID: <Z8c2OVRp8af1K1D1@hovoldconsulting.com>
+References: <20250304105723.10579-1-srinivas.kandagatla@linaro.org>
+ <Z8cyt2n7qj4GkcJC@hovoldconsulting.com>
+ <5831d9b1-4a05-4a7b-8733-5050588b4e59@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sQxBYpJeSEONvwho"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250214-mt8188-accdet-v1-3-6bbd5483855b@collabora.com>
-X-Cookie: No campfires allowed.
+In-Reply-To: <5831d9b1-4a05-4a7b-8733-5050588b4e59@linaro.org>
 
+On Tue, Mar 04, 2025 at 05:12:20PM +0000, Srinivas Kandagatla wrote:
+> On 04/03/2025 17:04, Johan Hovold wrote:
 
---sQxBYpJeSEONvwho
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > Unfortunately, this series still regresses Pulseaudio as capture is now
+> > choppy (e.g. when recording using parecord).
+> 
+> > 
+> > During our off-list debugging sessions you suggested reducing the max
+> > capture period size (that this series increases) to 6144 (same as min)
+> > and that fixed the Pulseaudio capture issue. In v3 the, the max period
+> > is again increased to 65536 which appears to break Pulseaudio capture.
+> 
+> I have verified pulseaudio on my side as well, the 64 byte alignment 
+> should have fixed the issue on the pulseaudio side.
+> 
+> Did you pick up the [PATCH v3 4/6] ASoC: qdsp6: q6apm-dai: set correct 
+> period and buffer alignment. patch in your tests?
 
-On Fri, Feb 14, 2025 at 12:14:31PM -0300, N=EDcolas F. R. A. Prado wrote:
-> Enable headset jack detection for MT8188 platforms using the MT6359
-> ACCDET block for it.
+Yes, I'm running with the full series applied. I tested PA on the X13s
+(and PW on the T14s).
 
-This breaks an arm64 defconfig build:
-
-ERROR: modpost: "mt6359_accdet_enable_jack_detect" [sound/soc/mediatek/mt81=
-88/mt8188-mt6359.ko] undefined!
-
---sQxBYpJeSEONvwho
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfHNaYACgkQJNaLcl1U
-h9CVcwf/cEXGyYbJzY/LG/gtq4RQ3+3Nbsi7YBj19yJ+wFTX/nkro1+oCXhFm/My
-qNPYIfWKzJzREoLN1uolpyWB3ffXgf8K6YMH5gJDSSwBngo3qycJ+Q14OfwoK5PX
-MAHUIulHOADCpMQEtODRPXwtEklB5jlpXyf8trwGIJyIXBFCm1NGw8vNq7XWB0cn
-12wjTmq0Nr2bA7E0LaU4j2pryPCXLkFv3dg6mbrS79GiwQRYUBaURz8saWqj56Oy
-D2k78AJbhycmDKbDKI8pDV34O3VsC/J6/rgYZefvKtDVOia7C89hqSleSTt13fUC
-HTW7JbCtS9/S1+wHTAPb02BP45QAnQ==
-=lfm3
------END PGP SIGNATURE-----
-
---sQxBYpJeSEONvwho--
+Johan
