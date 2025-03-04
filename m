@@ -1,76 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4FB27EC81;
-	Tue,  4 Mar 2025 17:19:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B3124EABB;
+	Tue,  4 Mar 2025 18:38:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741108798; cv=none; b=ntyn6R8QO7Xzx15+yuRUignbAeDSHyo60q1pUz7+4S+HeAAiuoyHEeG4FuY+CbPhjQHfcmM+3mw41mFSqEofvHAQk07HuFZyMxddflkXPuv++rVqHx1HUrviNuL30gy2S7LRXZCdn74HQoc+plazcVbOr2554n1BY1iOAXGbhBs=
+	t=1741113512; cv=none; b=atRt/aMaskewrVRiyKCbM1bufU+fmShSmlCNhELMFTWT7Doho0KmqsmIuCDmj0aun4zt4KeJ1cF34CTxXZUZxPufCVOdMOW6pH6EruO2wGZ5ziSIaTe6EEwuXx8o3OT1TXtkTTX00cvIc98FTn/YHmvChQeBA4IDMJfnewbCROQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741108798; c=relaxed/simple;
-	bh=4reLKpViA4wm5wh0RFRhmgSV33Q6idDDEcow760hZmw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jcTUwZe6TYKMsnmJ9Yxs+497dqnIE8fqam64FuJouZW0mM0DA6SkcVKgh1hWFFktiPO3I/DL+6MuQkXlTApSjYlSERL7mLnnquTgo1//JkA+VJatc49flQ4YwGoy6vW0Qt88mCBcaHL/NVydziPj/EGtd0KgIqC/BD++0Ex2LNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PCZnBc/e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741113512; c=relaxed/simple;
+	bh=DuCorhQ04kUNeL9S8BHnsloluKtrkxjF3QEO7eEGDbY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=M8gK0C+f0HDE4BPGCWRQFnKcHAudzke18onKN2zsCht2+7xOjPsTm5Fk+ZHdzVoLxKqoGPYp+SdtUShjluikqCn5j4P8CoFZRi+mpnJK3ug6JXGKS30j17n+E3nGZuOoTEaHdX4mDokeygOmtTo442GtvLoTyDTRwK9mtS5DWKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SchpDhfV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PCZnBc/e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E35DC4CEE9;
-	Tue,  4 Mar 2025 17:19:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SchpDhfV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B035C4CEE5;
+	Tue,  4 Mar 2025 18:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741108798;
-	bh=4reLKpViA4wm5wh0RFRhmgSV33Q6idDDEcow760hZmw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PCZnBc/eaQKchq4p15B8mjOXiRjUrgid/NMLxJ7MPuxn/86p16SKpiOx/0vvdD9A1
-	 PrAWXwvbl3z06l9S+V3yuB0lwDem8FgS3bsCZfBprYb8fNRXfDolGUTbtXK73szasH
-	 4J4pbiatMRGTBOdYKcT57U8SV4876KOm9U+e/B0rUfOSS3+142Kjwf9ZMpjtIF/a9Z
-	 LFY49wlbTrcZxgQKNfvKZ3CtrQyyUXwbXuMc5JkXvr6IZlZWcnz7aPPRJLSKFQP8pE
-	 gRyhVEyI2g3B+N/Hdc8aZSBArvxQSP2LIq2XoHQo00e2Q9+2cl9LQ1DuRy/4tN4eSI
-	 cx/7CJOn/rJKw==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1tpVvt-000000007yW-1Ajg;
-	Tue, 04 Mar 2025 18:19:54 +0100
-Date: Tue, 4 Mar 2025 18:19:53 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
-Subject: Re: [PATCH v3 0/6] ASoC: q6apm: fix under runs and fragment sizes
-Message-ID: <Z8c2OVRp8af1K1D1@hovoldconsulting.com>
-References: <20250304105723.10579-1-srinivas.kandagatla@linaro.org>
- <Z8cyt2n7qj4GkcJC@hovoldconsulting.com>
- <5831d9b1-4a05-4a7b-8733-5050588b4e59@linaro.org>
+	s=k20201202; t=1741113512;
+	bh=DuCorhQ04kUNeL9S8BHnsloluKtrkxjF3QEO7eEGDbY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=SchpDhfVMRV9vAfZ2gNzNJxcK1IfSSg9A8lZk6+cvZm4NOvdvVGPK3JGCmAUKQKqF
+	 MVsdpzU/dyGcdcFpI1xiW+yqqhEj4CDp4ESydGGTBgFe17qSWwDZ/s4DI6IH1KSMMQ
+	 sAFH6o+uEZMG7/kG06uGg7as3rWSXlQPUwtNnjO3enXoGMkx6mAIbPF8v0Tj7xCu9j
+	 ABYayI8JfyA3Z+OFNsIG1mt/PdhkYgy1eVQl9HT4HEsx+ZZYE2zwBOA4dzr5ZEOnYk
+	 bjG+FEJHAf2lqPgLlaY9nJ/fuy7cBlhE3JqyomPq/pdWz2L0jX5kgLRILSvfLoKGyh
+	 kKi6i8b7QhgqQ==
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, peda@axentia.se, andrei.simion@microchip.com, 
+ nuno.sa@analog.com, paul@crapouillou.net, oder_chiou@realtek.com, 
+ kiseok.jo@irondevice.com, shenghao-ding@ti.com, kevin-lu@ti.com, 
+ baojun.xu@ti.com, srinivas.kandagatla@linaro.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20250304140500.976127-1-ckeepax@opensource.cirrus.com>
+References: <20250304140500.976127-1-ckeepax@opensource.cirrus.com>
+Subject: Re: (subset) [PATCH v3 00/13] Tidy up ASoC VALUE control macros
+Message-Id: <174111350895.235764.8799430713993803159.b4-ty@kernel.org>
+Date: Tue, 04 Mar 2025 18:38:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5831d9b1-4a05-4a7b-8733-5050588b4e59@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, Mar 04, 2025 at 05:12:20PM +0000, Srinivas Kandagatla wrote:
-> On 04/03/2025 17:04, Johan Hovold wrote:
-
-> > Unfortunately, this series still regresses Pulseaudio as capture is now
-> > choppy (e.g. when recording using parecord).
+On Tue, 04 Mar 2025 14:04:47 +0000, Charles Keepax wrote:
+> Tidy up the ASoC control value macros. Fix some drivers that should be
+> using core macros that aren't, combine the existing core macros to be
+> a little more consistent in style, and update the core macros to use
+> each other where possible.
 > 
-> > 
-> > During our off-list debugging sessions you suggested reducing the max
-> > capture period size (that this series increases) to 6144 (same as min)
-> > and that fixed the Pulseaudio capture issue. In v3 the, the max period
-> > is again increased to 65536 which appears to break Pulseaudio capture.
+> Change since v2:
+>  - Fix typo in SOC_DOUBLE_RANGE_TLV refactor
 > 
-> I have verified pulseaudio on my side as well, the 64 byte alignment 
-> should have fixed the issue on the pulseaudio side.
-> 
-> Did you pick up the [PATCH v3 4/6] ASoC: qdsp6: q6apm-dai: set correct 
-> period and buffer alignment. patch in your tests?
+> [...]
 
-Yes, I'm running with the full series applied. I tested PA on the X13s
-(and PW on the T14s).
+Applied to
 
-Johan
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[13/13] ASoC: Tidy up SOC_DOUBLE_* and SOC_SINGLE_* helpers
+        commit: 6db63090272768785e6bb4a3afa16650c1e96c54
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
