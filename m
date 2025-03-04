@@ -1,116 +1,127 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B541D18FC6B;
-	Tue,  4 Mar 2025 09:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03099204F71
+	for <linux-sound@vger.kernel.org>; Tue,  4 Mar 2025 10:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741080013; cv=none; b=SI2qwfEpS7r7eSt4zYKtSNKPGUP8qbgUqNJWsOZEo5rtQQEUx7GyYY1g8rUXGIRJ8QyNkJ1jNNSTNrLKti006KMpONp0aAbkqRx6w4y0ghmBrmpX+ypS0poQgVqQXyycG8XlJEEG8TW4OIqqy2khkyA9HnkhqcpsBEgqgCzNotI=
+	t=1741084696; cv=none; b=Z7R/vpUV+IiZ8QHN9dy9TMmIfRW8BAMoYyvtg+c+VztUF6zezMIdkalcvCKr2sRqsxsI9MZYaJd0KlGrG3gAXJoBvmhmRysaMEpbAyaMjT3OSnHK98NWdCrVheJV2D3n4JnuF3ic68NV2qxi2WBNLLzEPo2acV5H1auvexUT8ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741080013; c=relaxed/simple;
-	bh=xOFxo8gsMiynVWd3ZJwDqa4GVx8u3YsAkiZhHyTFQJs=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YewIApM5rC37iQNmrSfpJycwS+M7CYd8u7Hed4Bx2WU7OuOSxnFeM3W75AtXScocjwPfwEug0J6oPsw5XH3Gslga4fV/g3MtdES32yxO6RjGRDw03pKrEk0x7qhepwcL1tBWCB67StTRIahjQARq/wySaCuQ/xObO4kVfR0Jtd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=WDY4XJlj; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1741084696; c=relaxed/simple;
+	bh=Wam1Dxy8Bbgc/5NwEFi/OZRhWrfo5AHEYP0wl2UfjTs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WrlUdK1agR8zxXswLN+B1u6Dh4zBr8na3SWvmwlGP5wF5YyTukEA2lX5Cpkumzt96hKa/SUCcGEMufStl1d63ENXdrJhpWEwn1NS9nig7bSVDnZXIGFD0OFKl1tMA5uosUcEX0qt9w6oDz3Ym2cEgw3ptf+Y0s+g8kP3ZjghNP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jANpfjcJ; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="WDY4XJlj"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5245gdSF021938;
-	Tue, 4 Mar 2025 03:19:52 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=BZZRwtW2h9tlEFc5ND3Fz0ti//9gALGRUJP7ScdQV1s=; b=
-	WDY4XJljQwvTVZJ2TBxOfPmqhhD7tRjjFcYAmekoF856zw0lxLgRcXObWIldlA2h
-	HgH6SgkpOSTghfyBCyRs+9dKWmh0jFHj0dw9BrhFamgItUuG4GFZTgqZp6uSW2u8
-	P9/8bWxRlFq6udMsPrtt5m9z43gooVwiCXHdLVeLhMjn6dlDQeYNsePHnlebimLk
-	xi20X6q3uG7AYdIJ+OcBILkubOm6YVC4dDZNUiORJJ9i0Xr8AeEXomuvte+Rpl7o
-	do81pVketS+L4wzZl3o0n7D0+k6hOuet0mgI4AdGhWqrvdCk0AIrhI0oacM8Jxzf
-	v9cpIJkVVu0zUys9/HlmAg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 455fyyhhmn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Mar 2025 03:19:51 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 4 Mar
- 2025 09:19:49 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Tue, 4 Mar 2025 09:19:49 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id F0E3F820248;
-	Tue,  4 Mar 2025 09:19:48 +0000 (UTC)
-Date: Tue, 4 Mar 2025 09:19:47 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Mark Brown <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <peda@axentia.se>, <andrei.simion@microchip.com>,
-        <nuno.sa@analog.com>, <paul@crapouillou.net>, <oder_chiou@realtek.com>,
-        <kiseok.jo@irondevice.com>, <shenghao-ding@ti.com>, <kevin-lu@ti.com>,
-        <baojun.xu@ti.com>, <srinivas.kandagatla@linaro.org>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: Re: [PATCH v2 13/13] ASoC: Tidy up SOC_DOUBLE_* and SOC_SINGLE_*
- helpers
-Message-ID: <Z8bFs5xPjVzbLJoa@opensource.cirrus.com>
-References: <20250303171424.444556-1-ckeepax@opensource.cirrus.com>
- <20250303171424.444556-14-ckeepax@opensource.cirrus.com>
- <4db99187-63f9-41cc-966b-0c77ba86e390@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jANpfjcJ"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-439a7d9a87bso4650705e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 04 Mar 2025 02:38:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741084692; x=1741689492; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DRT6zOAR06y6e5a1u/1hudMd12hMY8AMBwvepK3I88Q=;
+        b=jANpfjcJ+9klFJP5zxDmYByJUCIKEF4rTDHsq1rEVZ0D26cDjPi/ABatWZDqSwZ4j5
+         EPhH94D8M4PVKHYdrkMuiOyowRezCwbns0KhmJyWJ7TDMAng78lAoolnaRS5zoEt5wT6
+         F29WQW27Z05V/8LgBDGP8GF0mqxF7xbbdNBODknzTaC0/XwsVaFBWs8FCQZJLepLQdBP
+         JpFGZBxa8R/SFLW3QZeql1dmVabNgMOzJZUDenJAI9yawJK3YnTDXbseVGZWlUzUzhKU
+         A2VJO8AAje4AfyEnJMS/QJEvCUEWya6uWiiQaB/ylE3HZ0HUWx8o5ClY2Z4n9ig8CsnF
+         TdmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741084692; x=1741689492;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DRT6zOAR06y6e5a1u/1hudMd12hMY8AMBwvepK3I88Q=;
+        b=fiFrqiAsV3S9lENh0I7TU4lEkQdH7WFiXOZKlmUHo7oNKIqDMqeoxgbfcXmsWUCIxq
+         XDeazbushtho+GYqgQEDqEL5WtIQpg7AbtbR1qtXHl+vz3IpwKRJc32DzRl1z3fSUDmX
+         Ijx4ji86aSxwFs6uzX7k/SZfhpJwpiIjmT03s+WSUHBM05pz6cFlbCt11kY39RijInur
+         112KX/9KDmJSrIcIP0zcZbp3DdvjQdGLBvMGVM/gouSPRYI6ws5P/ptR2E/nxmQj1TwI
+         lp9MS+emb0asI8o0myA7qSiOgepB4JPo9noZTn46ZYz6g6upWFkOqF08+AnrVTJHXhuU
+         qk3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWIU5KPkla++Pj+i/mmdRDHFxijdGAaqE38vaLZJW1Diz017DkpQJ59E3kBEMbcN0zygx4IbdHhhuGDGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCivujEUfyQtTphoG+m4+ZtYG9/xhWbVwi2T2nBlzEY4WnkjI8
+	HsyGBgMeqVwfkcuXgpAoqLrQdEuo93BXXcghpYLSlpecyePfT7w6PmIhc9t0Pkw=
+X-Gm-Gg: ASbGncvCMpRPKjIdiwsJxGAdGu/nqZ2K7M485vxX4KOSbmaoc4m5V9EA9wWKBKCuAJQ
+	8VF3tPJLuCwV9TO+X1UB22pf7Niny/CVLz9hn7VM8Amz5GNDmD8NF6Z+xCRDVAgg+C2Db6six7e
+	p86JDVhlmItmFOC3bTM3tPa6zJ0cwj2DxSnKMtaWWKbkHgOSJQuGfHqfJbPCE1PK9QLVuR6AUFr
+	snqowp89j8e56gi7ZdsUGNoh9+SZ+Lz9gAiWWExb2GvRP3WeV0dehvb9/HXJs41ixnewqPEQlIi
+	92D96hQq4Tov4BF795KCWahiVQ6w5l6g7GVBWaGf7Q+ALJ4no0QCdPWR7qo=
+X-Google-Smtp-Source: AGHT+IGfNFBtTCkGMjxpoYoMf9mCyMbqZUVYcs5tbE+Zv0fhEqp67tfpgTNytZPPOfLXj9HjjGF61g==
+X-Received: by 2002:a05:600c:b96:b0:439:9a40:aa1a with SMTP id 5b1f17b1804b1-43bcb604fbemr3817175e9.6.1741084692178;
+        Tue, 04 Mar 2025 02:38:12 -0800 (PST)
+Received: from krzk-bin.. ([178.197.206.225])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43b694524c6sm198574825e9.0.2025.03.04.02.38.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 02:38:11 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Yang <yangxiaohua@everest-semi.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 1/2] ASoC: dt-bindings: everest,es8328: Mark ES8388 compatible with ES8328
+Date: Tue,  4 Mar 2025 11:38:07 +0100
+Message-ID: <20250304103808.75236-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4db99187-63f9-41cc-966b-0c77ba86e390@sirena.org.uk>
-X-Proofpoint-GUID: 1FAcLbG5eH93_QGHrjEHF1N4dxMlgdaA
-X-Proofpoint-ORIG-GUID: 1FAcLbG5eH93_QGHrjEHF1N4dxMlgdaA
-X-Authority-Analysis: v=2.4 cv=DaftqutW c=1 sm=1 tr=0 ts=67c6c5b7 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=hR2cDPa-ULlpED4iyd0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Reason: safe
 
-On Mon, Mar 03, 2025 at 06:53:08PM +0000, Mark Brown wrote:
-> On Mon, Mar 03, 2025 at 05:14:24PM +0000, Charles Keepax wrote:
-> > Re-implement SOC_DOUBLE_VALUE() in terms of SOC_DOUBLE_S_VALUE().
-> > SOC_DOUBLE_S_VALUE() already had a minimum value so add this to
-> > SOC_DOUBLE_VALUE as well, this allows replacement of several hard coded
-> > value entries. Likewise update SOC_SINGLE_VALUE to match, which allows
-> > replacement of even more hard coded values.
-> 
-> This breaks an arm64 defconfig build:
-> 
-> In file included from /build/stage/linux/sound/soc/codecs/rk3308_codec.c:24:
-> /build/stage/linux/include/sound/soc.h:150:49: error: ‘shift_left’ undeclared here (not in a function)
->   150 |         .private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
->       |                                                 ^~~~~~~~~~
-> /build/stage/linux/include/sound/soc.h:45:46: note: in definition of macro ‘SOC_DOUBLE_S_VALUE’
->    45 |         {.reg = xreg, .rreg = xreg, .shift = shift_left, \
->       |                                              ^~~~~~~~~~
-> /build/stage/linux/include/sound/soc.h:150:26: note: in expansion of macro ‘SOC_DOUBLE_VALUE’
->   150 |         .private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
->       |                          ^~~~~~~~~~~~~~~~
-> /build/stage/linux/sound/soc/codecs/rk3308_codec.c:171:9: note: in expansion of macro ‘SOC_DOUBLE_RANGE_TLV’
->   171 |         SOC_DOUBLE_RANGE_TLV("DAC HPMIX Playback Volume",
->       |         ^~~~~~~~~~~~~~~~~~~~
-> /build/stage/linux/include/sound/soc.h:150:61: error: ‘shift_right’ undeclared here (not in a function)
->   150 |         .private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
->       |                                                             ^~~~~~~~~~~
-> /build/stage/linux/include/sound/soc.h:46:19: note: in definition of macro ‘SOC_DOUBLE_S_VALUE’
->    46 |         .rshift = shift_right, .min = xmin, .max = xmax, \
->       |                   ^~~~~~~~~~~
-> /build/stage/linux/include/sound/soc.h:150:26: note: in expansion of macro ‘SOC_DOUBLE_VALUE’
->   150 |         .private_value = SOC_DOUBLE_VALUE(xreg, shift_left, shift_right, \
->       |                          ^~~~~~~~~~~~~~~~
-> /build/stage/linux/sound/soc/codecs/rk3308_codec.c:171:9: note: in expansion of macro ‘SOC_DOUBLE_RANGE_TLV’
->   171 |         SOC_DOUBLE_RANGE_TLV("DAC HPMIX Playback Volume",
->       |         ^~~~~~~~~~~~~~~~~~~~
-> 
+Based on Linux driver, the ES8388 looks fully compatible with ES8328.
+One upstream DTS (ARM rk3288-rock2-square.dts) already uses ES8328
+fallback, so mark the devices as compatible in the binding.
 
-Apologies I will check that out and resend.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Thanks,
-Charles
+---
+
+ARM64 Rockchip DTS use only single everest,es8388 compatible, so this
+will trigger dtbs_check warnings which I will fix in separate patchset.
+
+No ABI break/impact expected.
+
+Expected dtbs_check warnings:
+
+arm64/boot/dts/rockchip/rk3399-roc-pc-plus.dtb: es8388@11: compatible: 'oneOf' conditional failed, one must be fixed:
+  ['everest,es8388'] is too short
+  'everest,es8388' is not one of ['everest,es8328']
+  from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
+---
+ .../devicetree/bindings/sound/everest,es8328.yaml      | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/everest,es8328.yaml b/Documentation/devicetree/bindings/sound/everest,es8328.yaml
+index ed18e40dcaac..309c4d01db76 100644
+--- a/Documentation/devicetree/bindings/sound/everest,es8328.yaml
++++ b/Documentation/devicetree/bindings/sound/everest,es8328.yaml
+@@ -24,9 +24,13 @@ maintainers:
+ 
+ properties:
+   compatible:
+-    enum:
+-      - everest,es8328
+-      - everest,es8388
++    oneOf:
++      - enum:
++          - everest,es8328
++      - items:
++          - enum:
++              - everest,es8388
++          - const: everest,es8328
+ 
+   reg:
+     maxItems: 1
+-- 
+2.43.0
+
