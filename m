@@ -1,97 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69997255244;
-	Tue,  4 Mar 2025 19:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65942E338F
+	for <linux-sound@vger.kernel.org>; Tue,  4 Mar 2025 19:39:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741116064; cv=none; b=VkwGKjQZuDcLrQnYrm/EvwzNGiuOwlcnWTjyrdUgdTdGgJiEiGSkZVTaoVRn7UpCdanrLwkcWY7Msntv2Rhgu0e9dJ1KkpgGsa8JYQ2yYQBwc8wnqbifUcDZBCC1lPDFtTS2f1IdbzOV9WTORGBevw1QKW+NbVjLiXmDWJ39quM=
+	t=1741117168; cv=none; b=qowvpW35lo6hQfa2qsGJ0E9kVLd0Fa903tU8BH2YrOGGBB8A+JF6u4A79H1cTm1Pyvo+LK4tTZoLbkJrXPTIGrwXek5gZ2MBVHZHG5O0e/BxheDdzJUCk/rBljkSM1WRZlh3jLgQGiXJrM0Q/UTrijw7tgRIns8rQGk5VQ8yYbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741116064; c=relaxed/simple;
-	bh=6MnWChvdZA4s+8fxB0dv8vXGdMG4i5FgUOx+TUcX3rE=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JNJxk8UOEbb69k9KfVUI6SVQTyWoBAEtxEpnBbyXPYGXINwBFFZ6aOohxB18chlpSBznggV1LaHs06gSqu4kIUr1fstcBtnIbP9HqOdoK0jQPYID4SYT+rZ52Okx+UBOTyv/pnoy6j4s8uowsm3xKqPvT0G5QUvia9uX2Ecn96A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IViO4f30; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741117168; c=relaxed/simple;
+	bh=DjI67WQ7g4COPywYZtvyiq54uWopLVwY+4funO7Yfv8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NQ6NH5aWXHkXxXdFiTbNeSlrupsTx7o3Q71zwuje55afpZp0N5BDdQTA2xo1f+eKhZG1NZSsfQ74I5g92Qz9A/qPlpT+JusOR15kg0I4FevAsqOKtpG+WDg0bgLRpUYDfNIjlnOm9gDicJ/P/qGz7nkyyp/oi9uPjs2ejfPKTi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=TWmC9bxd; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IViO4f30"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13915C4CEE5;
-	Tue,  4 Mar 2025 19:21:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741116063;
-	bh=6MnWChvdZA4s+8fxB0dv8vXGdMG4i5FgUOx+TUcX3rE=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=IViO4f30mVkst2x3qHPFh8izeOtVaw7uz++VewyC1C4wRjjXNjkPpsvdbCKPh5a7p
-	 LqeXcwXMOBn+5V4SsCSDB4zkQJ/L06PEH92xc657CrC1OKTP0fjMViud/W7PWug3Xt
-	 yPOn3BPv2+hsD5y6O5mAh1cC1VOX6ZQIyvHn4ZXfS6Y8NQDAnYA5VViId/1CcZpwmk
-	 KMW67znwGXnZVSH7YKBEcvgHahVyteVyEVvjBoYk73cF2M5BlW/FWFAhYsheUY2uyD
-	 pM4hhX+5F+r32BkLurL55YngI2/BkcGNpQ0ySuBcL2f2C3OvYIZP5suiuVfTftmCRz
-	 6WUb34kNPuMlQ==
-From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, devicetree@vger.kernel.org, 
- Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20250226100508.2352568-1-shengjiu.wang@nxp.com>
-References: <20250226100508.2352568-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH 0/4] ASoC: fsl_audmix: support audio graph card for
- audmix
-Message-Id: <174111606081.246439.10804205280595861731.b4-ty@kernel.org>
-Date: Tue, 04 Mar 2025 19:21:00 +0000
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="TWmC9bxd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1741117158; x=1741721958; i=wahrenst@gmx.net;
+	bh=nttG8vmBl5S+Jbhyb1AzA5ak/FY/MEYHVfIHA12Ql1k=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=TWmC9bxdUBb1UQ7aRDiDhKOJw6NNdS3oUOKktVGaTpx2JKTCUeRzm3st0UkInpZF
+	 4uvscPTVoJNEOerf773XsofWDkbpba3uIclb7OEyeelnXeJTmWZ4YwaPFU4tUKi3p
+	 FQCE7jxeJ4uDtonDt1+n0lp8e/dWoNvplszFpDp15AEduWDMCwLRUNJBbkgTj99j9
+	 ny1LiW5HgEKRThIoNl0i9VJSLXWKNXf3ZIe1bX8geZXru0jpPgluH76//XR8TMF8T
+	 kyifaNKOs8LSdzVdxWP6udBWyngHcGpiPbzTUCYeD7b3KsXOgxSjhbIY36HR61Xis
+	 g5nqoZUViWEkycyxfw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mq2j2-1tT9W824Zu-00bxGt; Tue, 04
+ Mar 2025 20:39:18 +0100
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Maxime Ripard <mripard@kernel.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: David Turner <david.turner@raspberrypi.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org,
+	kernel-list@raspberrypi.com,
+	linux-sound@vger.kernel.org,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH V2 0/2] drm/vc4: hdmi: Add jack detection to HDMI audio driver
+Date: Tue,  4 Mar 2025 20:39:10 +0100
+Message-Id: <20250304193912.5696-1-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pgft3tmVLQxnaN4zBdoWzVaA9S2qlCn6ewUhl8PuTqP5foMOnBf
+ jhtaCl/cXXfEEFv66MZkxzSsITzIBQbBMGHgcsFB4Y6N/q8TmTK15INU+rZVHePi+0rkOkI
+ au4AuCUrhVb7ElhUpMLt/N1YchKlA7a+geEKtgSDQ52RPprZ6PZF2YUQoPTe2JZTxMPrmoN
+ 96isYefB9Y7NscV1N8Umg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:t2XkcuyXQRQ=;2COnGbiAtbnjgH/Z4HKWr1kJjRz
+ KxgHTtpgUvlyyJ5HLBxIkh1ejwWxloK5BNK44s9hLcNaKwXGZOYQQtbeeA029G3Yi841QZq/R
+ SUblD/cpNEDBLQJIWNRSyvxunBRQ3Wf1Wqe7UfoasgKDRJ6zMGHCyrqUcpCyZBrIMF6r0cx3c
+ u4YM6eHRkJFUNPGG6uPG2zE19KS29hfDHWKyfGep4BywzooJj/pkA3Rzs1zsc0gPNUmPM6S/V
+ UO8y8mqQf/w0fmWjrRSvHvCpp7dT8022jyylrEpqGU8RjOVrMM+6knQEDMvas588xVLW3JJfY
+ tj1QWMUkmeANnZiA6Ymxu+ujTqkV6zq08EcEG47bhvTPJhPI3MacucdAhDePDXBpkjWYzQ8lq
+ TcT7cyyZ7nnlpsC9tTeo1nrHqhaGU0jVlbZdedjluZ3BIJvbDxf4MosMa6x8acRwo8CJEfksU
+ /IN/bCYXuWPXQ2i+8cYheFU9QXVULpyfjTvhTRkO7ji3QeOE6XF/ltLMnR+H64/r7QuhPbLq0
+ qcD8yXo6UTdJvD1qbrVSi2pwqIt60BUoTqGNRgmKikBL9+QnXRYfVFgG+xsQhu+4c5xLSkjVg
+ b5la5VDvGplkDO/rwmm+DGCLArGM9Uerl2v3D3suh1P92ZLTr5VApypXQTJeczHvXEnbstbSU
+ B5P9ZXTobUaYJvJNBnj+O5499Q0iycm2n9Uc0IlanbSTuXlJ75C1A7ZIsOFp27+kA/Gy0E9eq
+ U+FBYvPg6/5CyAY/1X2XaFHHMroNjBUsvoB1mLJ1sfDDAyRyJp56TL0FmC7vHSl7V8irxtqbh
+ HnFf0oTVteUMxdAAPCn6UhIGcZr8yGtTOpFCQo/MoyppMoD8diAcjkZQ5cp2st8VYSyKKgiy7
+ HnXYZM3ouAy2FcWjvyeisn8dIbAfqhofGQ9Sba05e8ebfLPz5yX8z5VTndrJqt0HD9/9eVlK/
+ cqfSY9MhRpSuFjUBCxh1kg+ZCd/vnwEG/3V7HqqfrrycKzzGD7qfELnwmMTUVOJO1f0mLCz8U
+ Qopm5zPeJ8GGq2wQywklzJenvI45iDZRsYXApS79tLbocqMjMABMS9QnlHSEvJHkWNmYk6jd3
+ MVAGhWcx+4Dor1RnrYbBRQ2yDMpV55enS+3juUUeYGsHQP1CcNbAkjRl04a74w5NrXq0zem4a
+ iexaFzJgspJ7J9LGQoVrulh/0+CGNvptYvJ1YUZK8XpOfY1iRGAmXG3ka65zdCoeRrU7/pVsc
+ XSTvW0gTTU5rrlCoLbc6Czlusp3+FE+BFRFFx3pVNtHn3UNghxRIenqAIkK3HJ8Jx99ww7/SP
+ enEmlZQBSdOIrJBqMlmMqn61VRZe66UHed5J+VeNTMU1miYAq06pzRRGY1LdzvhRZI0R/z11L
+ 1METFCl4WP7U/l2kfx9GoayMlm/T8389IpHptiVGzft1FFGuHpENKfTVkU
 
-On Wed, 26 Feb 2025 18:05:04 +0800, Shengjiu Wang wrote:
-> Change 'dais' property to be optional, that fsl_audmix device can be
-> linked with SAI device by audio graph card.
-> 
-> Shengjiu Wang (4):
->   ASoC: dt-bindings: fsl,sai: Document audio graph port
->   ASoC: dt-bindings: fsl,audmix: Document audio graph port
->   ASoC: dt-bindings: fsl,audmix: make 'dais' property to be optional
->   ASoC: fsl_audmix: register card device depends on 'dais' property
-> 
-> [...]
+This series ensure the proper jack detection of HDMI audio.
 
-Applied to
+Changes in V2:
+- split initial patch into fix and jack detection feature as
+  suggested by Dmitry
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+David Turner (1):
+  drm/vc4: hdmi: Add jack detection to HDMI audio driver
 
-Thanks!
+Stefan Wahren (1):
+  drm/vc4: hdmi: Call HDMI hotplug helper on disconnect
 
-[1/4] ASoC: dt-bindings: fsl,sai: Document audio graph port
-      commit: abcb9a1fd89144536f3ef604f700e94424867366
-[2/4] ASoC: dt-bindings: fsl,audmix: Document audio graph port
-      commit: 5fee78e517ce0765def9387659fc56a1d5532c60
-[3/4] ASoC: dt-bindings: fsl,audmix: make 'dais' property to be optional
-      commit: 597acf1a04bede55e3ad8a7922bba286c11112d3
-[4/4] ASoC: fsl_audmix: register card device depends on 'dais' property
-      commit: 294a60e5e9830045c161181286d44ce669f88833
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 22 ++++++++++++++++++++--
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  7 +++++++
+ 2 files changed, 27 insertions(+), 2 deletions(-)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+=2D-
+2.34.1
 
