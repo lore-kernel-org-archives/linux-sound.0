@@ -1,78 +1,178 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB8C1DC985;
-	Tue,  4 Mar 2025 06:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780B41FAC42
+	for <linux-sound@vger.kernel.org>; Tue,  4 Mar 2025 08:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741069601; cv=none; b=ghkjM2oyaOyXBptXKqJHxyjiZpxGDlxFt+GU71Mwz/WZWiWJ0rAePg+HOfFTA6/AR0CdTOctX3lL70UJ/kwMCOHx9zdAWQPX4fUpRZ4mx4nlg/uWbAvksdn7dvdWM6GK+Q98ubvk++6W/9x2rifu5zHp8mrMWM9Ok8jz9U7AefQ=
+	t=1741076583; cv=none; b=ia6nnoKdU93qjSWCX+Za9pq/HEQllu8TvnqXAIBRJBFqxZqpmJtaSvekIiv8oDMYkuR8Xp5MNApdsZAoTmwgVLW9KeiPtyh+k7UNe8jBNMlr00+qyeCNPxzaQ4pJW2bnFyUPMJ4fRNNhZ88O9XBmud4Qro+Oxsx8elNrwXcgu4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741069601; c=relaxed/simple;
-	bh=Qytyx0Oyad4uFUbxPJxtPM+fVpsqV8+npLyXPgw3+o0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=bBRpmXz/OJ46D1kU01HvyJjR/j2ItwUKMBvcCj7PZzxhTPVa1oqBTPkllX0ZBgJdKyQThAx3zNLzbPMVF+XPl32iVjtR8C4mSGudOwA9penmTX8czE+0AXZK7UQned2OS8vayFNQ5rDs+r0uW/Lw3Nmqw5fO04K52HSGyjBKGrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=nwhz3ddh; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1741076583; c=relaxed/simple;
+	bh=oJRocjVxvG8aocBlf5vT9fLjx9PJTOnjpaP9NfdgLoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VTE4Pev7Z/FPVTMTnGJrKgyo/ByEssW1BvvZtQ8le6rFPG4eLs1VB8tlo/NCcoqrYHr/Z94ArpDT4mM3M7Af2JlBTBsiJN9XaaKQvuMMHzqQXq5kdhnpfOnTRIHhipDRDkaTTNBPYp2qmBoVj9LATdZGovr8bfTCfBaVMDbzd5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tKLIHTuS; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="nwhz3ddh"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 5246QCRD03215721, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1741069572; bh=Qytyx0Oyad4uFUbxPJxtPM+fVpsqV8+npLyXPgw3+o0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=nwhz3ddh0oPIM62HStFEN+T2DlQn40opMBBWnIMJGTs2jDyFlYvRulcPpX1BaSjTR
-	 5IAiHOTN7X/IeTRf9GYk7xFuSGdSTCup8GWCRNrjEDintxpkMUrkViK26odxs7c6mI
-	 eK4jeFcK+qRMhkQ3K+QpCibC0smhHWe+/yK7A4+iezgRrFqYyMHY3gPzhJ1kR8kp3I
-	 +iwgmNlElPHMzCTdNqb0xlalo/4qn19wR3tnKu1ZYtOgNn0TFZryboTPTb67jLXtVc
-	 YXz3qmQ6jq2BC3QVeZMNFn/EDvBekU2JHQjEmrSpXFJilwTrkUHXlT4IfQBgshzre0
-	 7uUkwrXE2oiOw==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 5246QCRD03215721
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 4 Mar 2025 14:26:12 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 4 Mar 2025 14:26:13 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 4 Mar 2025 14:26:13 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
- RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
- 15.01.2507.035; Tue, 4 Mar 2025 14:26:13 +0800
-From: Kailang <kailang@realtek.com>
-To: Takashi Iwai <tiwai@suse.de>,
-        "Maciej S. Szmigiero"
-	<mail@maciej.szmigiero.name>
-CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP EliteBook 855 G7
-Thread-Topic: [PATCH v2] ALSA: hda/realtek: Enable PC beep passthrough for HP
- EliteBook 855 G7
-Thread-Index: AQHbgSMJVrDFmK8Mp0CrjaEmJFua+rNLUekPgAL4rhCAAARNMIATIxStgAEn/FA=
-Date: Tue, 4 Mar 2025 06:26:13 +0000
-Message-ID: <31416b81a4f646239d8a17a0fbc71e79@realtek.com>
-References: <7461f695b4daed80f2fc4b1463ead47f04f9ad05.1739741254.git.mail@maciej.szmigiero.name>
-	<87jz9o99ef.wl-tiwai@suse.de>
-	<a02344f2-3b99-41ea-af64-8d2bcb01e435@maciej.szmigiero.name>
-	<87h64s972a.wl-tiwai@suse.de>	<6224620265674b09b5762f908b5158f9@realtek.com>
-	<2fea9fe8-312f-45a0-9bed-455c910fba43@maciej.szmigiero.name>
- <87ldtme10m.wl-tiwai@suse.de>
-In-Reply-To: <87ldtme10m.wl-tiwai@suse.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tKLIHTuS"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5dc89df7eccso8763669a12.3
+        for <linux-sound@vger.kernel.org>; Tue, 04 Mar 2025 00:23:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741076580; x=1741681380; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=T6vsEs0w+2fpN2o1KS8VIE9clQoUeLM/QArYwjwqcY0=;
+        b=tKLIHTuSb8EsCI1KkpfUsVKCJmmjnPjmWq6aBgxmRlJtqHk8ikuDpQ8pHQReaI2mzY
+         hSRuBoHrplNxKm+Y4AUGV9s/rpZi3ab7HTGhJPL3UL+H4U4sUbErG02SGoa5LSgQ49lJ
+         EK907gmP/2Nd2Rx9WKHHzLvL/Hayd2zCx/SsnRoV6+qLW0QbLmyVmqKpmmFIgpZi/d+P
+         oOyVrYPQC8+ZdXGCZHDzxOYUHCOpJgGTP8f8IZC2o38X08eQfmkCkksKnHW0A9U/jHsu
+         UF0pqcYRChbbFpJq4Bo5lX4ZWHo5VqiJXAXUKvRfft6HvLeJM3L4MsQVeRM6sf+t+cpL
+         Mbew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741076580; x=1741681380;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T6vsEs0w+2fpN2o1KS8VIE9clQoUeLM/QArYwjwqcY0=;
+        b=h/8q4Ny9WVjC6Tut5M4LkFFE+Q+Ot6AwBJZrgMRQqH/9n1zImeAV9/4Cg3Jj7Ltzta
+         voNN/blNyZFuG/ehx6N8YSU9MUuUEnY4YHeTjzJ9N7aN0E0aw88GQo/HaBzgAgGJNXvF
+         fN+1OuXB5Qd12KOHb9IoK4dUxREyz1/Y9XFOMF7BvL8yw9xLW5W0KLGcg+nXz5hg1eq1
+         BqrzmiQQGaHn5MBqZcLCWAEjyIS5HD0sjtzqvB0QgwKU5VavDb6nkFFY7B2+5UtkwaCP
+         gazckAWQ5LbODNIWqFuzOponrI1cIlyKuU19Whn9X5bxXWhMR0hdvObEu1z7xxJfipTM
+         PZjA==
+X-Forwarded-Encrypted: i=1; AJvYcCVcsrdqBWRAPAtOBCjZuLFnDEEhcvYufyNub2OnMr/xvLmP5TLrc2VhQDStu/yHPeHEuRWKMbz9qtdLag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwROM5BAWySV2pfNhp4gXEEO2RgmYUucF5lrkgF27Mrzd+t74UN
+	cZ3JuyXLXZLBbDF0i7LIxqU2JULi+RodSxd0fROqmKJJC2gOZWoljbcBWuizXhA=
+X-Gm-Gg: ASbGncsiSdpg9GJC/pVRUaUIFOgs09EXRta2Wzs96jlCQdL2tiV+yPPWIQcbPabAa5w
+	SYgdcbtzg1MjFKO2djiDNrX57kGlJ2AiteiU0wOLqozv00nnIDgLJaYzMf6OastQATswYeqdzhg
+	wXgvDRHZrd0ojHfLADeleKEUdn504lQ3lvj7lowVbYejl4djMmyqPhVdAv9c15lBrh/arAz29pP
+	EQtMQt6hFEBvpq7Bv4b34XP823ULt9bRDjn96gkJUBREHm7S6Ffx1qAgPMAqVJzq88NJCyBxr7W
+	QSXKVnS3sZD5POep49KlUa91g8RraJR/EVyIwWhakAOJo56u5DFfa6Er
+X-Google-Smtp-Source: AGHT+IH0Xb393ctWLRXZSas7YgLXGqNPTHNCJsQolq/B1J5pMVs0L4gi+m3eIifTOO2YP/AzGBdjxw==
+X-Received: by 2002:a05:6402:3891:b0:5e0:8c55:531 with SMTP id 4fb4d7f45d1cf-5e4d6af98d1mr18864132a12.14.1741076579579;
+        Tue, 04 Mar 2025 00:22:59 -0800 (PST)
+Received: from linaro.org ([2a02:2454:ff21:ef30:ea7e:cb1f:99c6:de2d])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e5925ff875sm332907a12.20.2025.03.04.00.22.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 00:22:58 -0800 (PST)
+Date: Tue, 4 Mar 2025 09:22:49 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+	lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+	robh@kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v35 00/31] Introduce QC USB SND audio offloading support
+Message-ID: <Z8a4WYq4GqWBVNyX@linaro.org>
+References: <20250219004754.497985-1-quic_wcheng@quicinc.com>
+ <Z7W_Vz_kVDjIcp5N@linaro.org>
+ <82ce69a3-d248-494f-6ddb-098f392c78a0@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <82ce69a3-d248-494f-6ddb-098f392c78a0@quicinc.com>
 
-Like below.
+On Mon, Mar 03, 2025 at 06:39:52PM -0800, Wesley Cheng wrote:
+> 
+> 
+> On 2/19/2025 3:24 AM, Stephan Gerhold wrote:
+> > On Tue, Feb 18, 2025 at 04:47:23PM -0800, Wesley Cheng wrote:
+> > > Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+> > > 
+> > > Several Qualcomm based chipsets can support USB audio offloading to a
+> > > dedicated audio DSP, which can take over issuing transfers to the USB
+> > > host controller.  The intention is to reduce the load on the main
+> > > processors in the SoC, and allow them to be placed into lower power modes.
+> > > There are several parts to this design:
+> > >   1. Adding ASoC binding layer
+> > >   2. Create a USB backend for Q6DSP
+> > >   3. Introduce XHCI interrupter support
+> > >   4. Create vendor ops for the USB SND driver
+> > > 
+> > >       USB                          |            ASoC
+> > > --------------------------------------------------------------------
+> > >                                    |  _________________________
+> > >                                    | |sm8250 platform card     |
+> > >                                    | |_________________________|
+> > >                                    |         |           |
+> > >                                    |      ___V____   ____V____
+> > >                                    |     |Q6USB   | |Q6AFE    |
+> > > |     |"codec" | |"cpu"    |
+> > >                                    |     |________| |_________|
+> > >                                    |         ^  ^        ^
+> > >                                    |         |  |________|
+> > >                                    |      ___V____    |
+> > >                                    |     |SOC-USB |   |
+> > >    ________       ________               |        |   |
+> > >   |USB SND |<--->|QC offld|<------------>|________|   |
+> > >   |(card.c)|     |        |<----------                |
+> > >   |________|     |________|___     | |                |
+> > >       ^               ^       |    | |    ____________V_________
+> > >       |               |       |    | |   |APR/GLINK             |
+> > >    __ V_______________V_____  |    | |   |______________________|
+> > >   |USB SND (endpoint.c)     | |    | |              ^
+> > >   |_________________________| |    | |              |
+> > >               ^               |    | |   ___________V___________
+> > >               |               |    | |->|audio DSP              |
+> > >    ___________V_____________  |    |    |_______________________|
+> > >   |XHCI HCD                 |<-    |
+> > >   |_________________________|      |
+> > > 
+> > 
+> > As I noted on v34 [1], this version is still missing instructions and
+> > changes needed for testing this series. The device tree changes don't
+> > need to be part of the same series, but there should be at least a link
+> > provided to give other people the chance to provide Tested-by tags.
+> > 
+> > IMO we shouldn't merge this series without those instructions, otherwise
+> > we risk that this just ends up being dead code that no one can use.
+> > 
+> > Can you please share the device tree changes for a board upstream and
+> > any other changes needed to be able to test this series? E.g. for
+> > sm8250-mtp.dts, based on the examples in your cover letter.
+> > 
+> 
+> To clarify I'm testing this on sm8350 in recent times, but utilizing sm8250
+> definitions for the ASoC platform card, as the platform sound card is more
+> or less the same between the two SoCs.  Back
+> when I started this series, sm8350 was missing a bunch of dependent
+> components, such as aDSP not being loaded, and missing platform sound card
+> definition, so I had to define and enable those on my own, which required a
+> slew of new DT nodes, hence why it wasn't as straight forward to include
+> the DT definitions yet for sm8350.  Not thinking that this series would
+> take as long as it did, I was planning on separating out the DT changes in
+> a different series to enable offloading for the devices I have tested with.
+> (sm8150, sm8250 and sm8350)
+> 
+> There's still a pretty big chunk of dependencies missing from sm8350, so
+> those would also be handled in the follow up DT submission.  For now, its a
+> much bigger hurdle to get the main/functional changes in, and that was
+> taking a significant amount of time from my end to manage.
+> 
+> If you want, I can give you the changes I have offline to enable this for
+> sm8350, since I haven't spent time formatting/prepping the changes for
+> submission yet.
+> 
 
-Acked-by: kailang@realtek.com
+Can you push it to a public branch somewhere (e.g. on CodeLinaro)? I was
+talking to some people from the community about testing this on some of
+the smartphones we have in upstream, so it wouldn't help if I just have
+the changes privately.
 
+It doesn't have to be perfectly clean as far as I'm concerned, as long
+as it allows to see the whole picture of the additional changes we need
+to make use of this series.
+
+Thanks,
+Stephan
