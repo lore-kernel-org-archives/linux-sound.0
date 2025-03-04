@@ -1,88 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BC6205AC0;
-	Tue,  4 Mar 2025 14:20:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78BB23F415;
+	Tue,  4 Mar 2025 14:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741098051; cv=none; b=i5323iTL+X/4LuDmWdKt9bR/fYBaRPUC9kWFMDDhjZqCcopEbtADuDJFqyvypduEvwmGao4bZ285WClyy3IIRjWo4MC8pxQWTkQSqI+QbxwdRX27FdJ5rERIqB0DqSdoICH51/E4h1vHJVX7ALWD5qP4eBgfdGoNO4nYpwQx6yc=
+	t=1741098385; cv=none; b=Snj+XRxhW3gO5csylhLNdIQn76/1f3MBFPIAhSVFmqOPMT917ixmOWn8ZR55ndIugQApsOlk0Fi0BTAkmyGji6o1nBfD6+4kzkQ7VUWohkbWFz8ZGfuTB/CbKkEyAMRIcapeqGJepq7pbFSRPpdFcv7447YxEtJmckU6cOq8Z/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741098051; c=relaxed/simple;
-	bh=+pBXOayyf9BNqhs5spCaxkRNmpKnPL7e7EGZZvlk7HM=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UaNOKjhUUN7hoCEMzee+0umlpemD//690xl6SMf0nc4OdPaPMyVCTHKiLU/m5rdnW43uUfx5WLeS+kDzeucUsI77AgjtYbM3hdjcClHq+XkBoEnz/irIt00DscrUrUqqeZyGjWHaqTWdWmysHRtEFT9h+O9CiE1F9S4koWwOwY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A6IrCMXj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741098385; c=relaxed/simple;
+	bh=enEki/g6nl9PIJYhlE2BFdEBA9YEqGtw5SW96Ta6j1g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=F1g0VKjH5UeHGtuup/5Lku/BUxMf4LtQ9Z0l/KDhvG1T1tg+I70Vaf8aWAflhss3j+5kAiXH7+6rvi5zMT/SfPR2EnTWH4oEqd+kCgUblTcjI6xHJzGp2i/KFG0XN5/WLUjeiQCgM4MGuOvAi4LX9Rvedk9uECjsnAM2PbmekO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oR9vO6Z1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A6IrCMXj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEAF5C4CEE7;
-	Tue,  4 Mar 2025 14:20:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oR9vO6Z1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593FBC4CEE5;
+	Tue,  4 Mar 2025 14:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741098051;
-	bh=+pBXOayyf9BNqhs5spCaxkRNmpKnPL7e7EGZZvlk7HM=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=A6IrCMXjZWg/IUAoMqmhAKlvFgbE9GqTK+bAh56u8k4L1M8HvRC2PnOON/LFMAkRs
-	 87DYhnv4d21WqPNrCGgI0KiGanS822+3b/vU5TU6THeIBYJD7SUDWbyXtVHSasssv/
-	 Ruh3/4wCz4s46e4JZuaAfIOuCRRmJOl/obrA1ju3Y8krxJvmNqU7AeGIWMvRFi5uh4
-	 POucKMsbJdZHxtJ2mQW1wR8XfuHZfZK36wLjCH8oGR/YuYwvLO9iQF0BkACXNOrFMz
-	 OV2k+xBR+AqJvO2gdopXtQHb++eLTWBTQGsN0pqawV6Hc/1QvBmrW/FVFg6yKxMfxD
-	 vb4Kqo+CB5/rg==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- David Yang <yangxiaohua@everest-semi.com>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20250304103808.75236-1-krzysztof.kozlowski@linaro.org>
-References: <20250304103808.75236-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: everest,es8328: Mark ES8388
- compatible with ES8328
-Message-Id: <174109804942.69310.5970184751465149594.b4-ty@kernel.org>
-Date: Tue, 04 Mar 2025 14:20:49 +0000
+	s=k20201202; t=1741098385;
+	bh=enEki/g6nl9PIJYhlE2BFdEBA9YEqGtw5SW96Ta6j1g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oR9vO6Z1bsWemGUZZIk4ol62qrF1+H251dpkpmyvJjePYQV+IFvGwtCHS2kbDQIPT
+	 b3qAEeWHtRQq1fBflTojTrwZ6LoDIA0w9v6XOawiwV3mmlQGpcciKskd98TGsnYJw4
+	 RdwH7hovdUmYs5ixY5wAq7REWCr9h3Kt56UISHQq36v7lFzFgfc4ZazaVHFYwXJ4ti
+	 +JJQKf0gZyNyY6FpaHD2TpJibwJXsF16yWBiPE3GOKuswFzY0AIFLRxx7n2UYRH83n
+	 CQ8on728rBv0r+tIrcjrc9e3YQX9CUK+W26TmP8MDsz/HTwPw9VI+h9l2oirfFEIvE
+	 tT2MMG71ACVjA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Joshua Grisham <josh@joshuagrisham.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] snd: hda: realtek: fix incorrect IS_REACHABLE() usage
+Date: Tue,  4 Mar 2025 15:25:55 +0100
+Message-Id: <20250304142620.582191-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: 8bit
 
-On Tue, 04 Mar 2025 11:38:07 +0100, Krzysztof Kozlowski wrote:
-> Based on Linux driver, the ES8388 looks fully compatible with ES8328.
-> One upstream DTS (ARM rk3288-rock2-square.dts) already uses ES8328
-> fallback, so mark the devices as compatible in the binding.
-> 
-> 
+From: Arnd Bergmann <arnd@arndb.de>
 
-Applied to
+The alternative path leads to a build error after a recent change:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+sound/pci/hda/patch_realtek.c: In function 'alc233_fixup_lenovo_low_en_micmute_led':
+include/linux/stddef.h:9:14: error: called object is not a function or function pointer
+    9 | #define NULL ((void *)0)
+      |              ^
+sound/pci/hda/patch_realtek.c:5041:49: note: in expansion of macro 'NULL'
+ 5041 | #define alc233_fixup_lenovo_line2_mic_hotkey    NULL
+      |                                                 ^~~~
+sound/pci/hda/patch_realtek.c:5063:9: note: in expansion of macro 'alc233_fixup_lenovo_line2_mic_hotkey'
+ 5063 |         alc233_fixup_lenovo_line2_mic_hotkey(codec, fix, action);
 
-Thanks!
+Using IS_REACHABLE() is somewhat questionable here anyway since it
+leads to the input code not working when the HDA driver is builtin
+but input is in a loadable module. Replace this with a hard compile-time
+dependency on CONFIG_INPUT. In practice this won't chance much
+other than solve the compiler error because it is rare to require
+sound output but no input support.
 
-[1/2] ASoC: dt-bindings: everest,es8328: Mark ES8388 compatible with ES8328
-      commit: 1d251a7adc5b720a71641c758a45b8a119971d80
-[2/2] ASoC: dt-bindings: everest,es8328: Require reg property
-      commit: 8243a49145e59f19032b86b20d8906f05e31bdcc
+Fixes: f603b159231b ("ALSA: hda/realtek - add supported Mic Mute LED for Lenovo platform")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ sound/pci/hda/Kconfig         | 1 +
+ sound/pci/hda/patch_realtek.c | 5 -----
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
+index 9f68cb73b54f..fb955a205d50 100644
+--- a/sound/pci/hda/Kconfig
++++ b/sound/pci/hda/Kconfig
+@@ -222,6 +222,7 @@ comment "Set to Y if you want auto-loading the side codec driver"
+ 
+ config SND_HDA_CODEC_REALTEK
+ 	tristate "Build Realtek HD-audio codec support"
++	depends on INPUT
+ 	select SND_HDA_GENERIC
+ 	select SND_HDA_GENERIC_LEDS
+ 	select SND_HDA_SCODEC_COMPONENT
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index ebf54ef5877a..697a38e41e16 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -4927,7 +4927,6 @@ static void alc298_fixup_samsung_amp_v2_4_amps(struct hda_codec *codec,
+ 		alc298_samsung_v2_init_amps(codec, 4);
+ }
+ 
+-#if IS_REACHABLE(CONFIG_INPUT)
+ static void gpio2_mic_hotkey_event(struct hda_codec *codec,
+ 				   struct hda_jack_callback *event)
+ {
+@@ -5036,10 +5035,6 @@ static void alc233_fixup_lenovo_line2_mic_hotkey(struct hda_codec *codec,
+ 		spec->kb_dev = NULL;
+ 	}
+ }
+-#else /* INPUT */
+-#define alc280_fixup_hp_gpio2_mic_hotkey	NULL
+-#define alc233_fixup_lenovo_line2_mic_hotkey	NULL
+-#endif /* INPUT */
+ 
+ static void alc269_fixup_hp_line1_mic1_led(struct hda_codec *codec,
+ 				const struct hda_fixup *fix, int action)
+-- 
+2.39.5
 
