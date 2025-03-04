@@ -1,94 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97B6201267;
-	Tue,  4 Mar 2025 13:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF9C20485D;
+	Tue,  4 Mar 2025 13:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741096252; cv=none; b=Dh8rl2JCog5seH969iAt4ktXnFRw3GhX7b/qvUJdIPEqSPBObuE216Ez+uQ+n1Ri6Rtz1xmD0bvtRt0XFp1yeFndEeZx247GDdswMYM7WSKzknJ4OalLivDmd01/ymZlTaSdcUhNukPFfDq1ZkX8TFfXTuAGOh+fK2BtwfHf1+4=
+	t=1741096605; cv=none; b=EWx2fj6tPpLWhaGTPvvtuBNPOTCdub/EUfY3T5wRAYAeYXggibDhHJTY8jsdNR6d1njn+a72+kBW33MqSOyvNbbd+tsrJ5mtd9Gt9poiULSN3+WFE9zC9OBHpHk/qXK1k3elgadXVB8GkjthYfhxfxjrlIRp68BmM/qpIv82hF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741096252; c=relaxed/simple;
-	bh=tOj7AtNPRfQWYBosY3NviNmaypYwZ/wUeMOO2JNyg5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jTxw8EuEgy5Bdpf51KykB8pIUvNdKwibQyRX8gG2ZlYHw0J+oPMtDwPnxE7sPvGthCW0W6VyUmmnnCMrdwIGN0/gKqHPXzRXpFAw49UwKaaWgtIHLjmTaaz9S02p6QpgHCF5TpxKGVkRiLQx6l/orpC990i7lY6D/fMrEaXNzhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fU8Ayn/A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741096605; c=relaxed/simple;
+	bh=WX4kS6nIMmulr3rV6w4z+g+wZXdahcIWYzxhlj1Y5YA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vF48xaJ2sTCtRRsPXK1Euttnajm38OBzuiCV3WXxzf57U7Rd8um6TMqDcExEMTNJXyKkPxEHMNBr11JXUVGRVpzUmSc5ruBMihda0pToqmX81q/juXngX+4d9dnqCGR+4XFShwao9Wxwm/Znc6U+0F/LE8unuvsUd7enY1UnL2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=H1hNbkL4; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fU8Ayn/A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BF61C4CEE5;
-	Tue,  4 Mar 2025 13:50:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741096252;
-	bh=tOj7AtNPRfQWYBosY3NviNmaypYwZ/wUeMOO2JNyg5Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fU8Ayn/AKNIlGDHqMSFuAJyIucigEhr73FNjp2lGjmC96/cB6z8BU17dRf1Qn8MLG
-	 p5RgVkUge8WNR5eo2jV+2OZFxJpZ6eTADCvl5K3xR6m3PXgWSymazsmkSH4z/Y1zqD
-	 ulv8nw36XGkwj9ptRof/bmkNJJEiBVsOXItUrDOCk0egK02VpsoMewq64/rms1BMII
-	 UOM5eNG0EYDn662bU/7ZVA13RFg90br60/zw5cr5Ls4taUEyByE4AegS07R/KPZViT
-	 w6yG4NEWhgOJlxt0oEiSxDygBNS0/yJ2CfOUAsQ/P9pGsaPTcX/cNKgJDNKrDvwtg0
-	 PxZaxEXlK1Gew==
-Date: Tue, 4 Mar 2025 07:50:50 -0600
-From: Rob Herring <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shi Fu <shifu0704@thundersoft.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
- pulldown and zero-fill
-Message-ID: <20250304135050.GA2485358-robh@kernel.org>
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="H1hNbkL4"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5244xVpU027794;
+	Tue, 4 Mar 2025 07:56:20 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=fX7b0J1Hf2WyOx0n5V
+	5Uluc5WRes3j4a1QlUJSYsrDs=; b=H1hNbkL4Xy2jkShPJJJRcgDb7QcO5/nQp7
+	9NgWBpW3X08DN56sFZdV+lOOqhxAPG5CXK4RVe3vsC8ejs0sLhpGjBlwNfRax0gh
+	iHfoTdzowmC4M4Qar/pSEa9Kpqg3p0MJBtn6c/24gj5kpgGdYPWzI9Hr7a3QlFrg
+	5YEQFbES2BmS6+XpQAGAhLXDrKJvqZdO2RXr9d4KAF6NNTap6xDhtHFyjAZ39pGY
+	cp+9orqkRiEw+h0zf5tPlMgynuawJ+OtNtBxwxLQXsPnIHusYkXPCQg0Cy75yrnG
+	16CAeNC7FXRt6K7pxv+o2BADDPfQsqOk6DNcQ7Iys1nQmYvPZUpA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 453yhmf8qq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Mar 2025 07:56:20 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 4 Mar
+ 2025 13:56:18 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Tue, 4 Mar 2025 13:56:18 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 88481820248;
+	Tue,  4 Mar 2025 13:56:18 +0000 (UTC)
+Date: Tue, 4 Mar 2025 13:56:17 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Francesco Dolcini <francesco@dolcini.it>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        <patches@opensource.cirrus.com>,
+        Ernest Van Hoecke
+	<ernest.vanhoecke@toradex.com>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Francesco
+ Dolcini" <francesco.dolcini@toradex.com>
+Subject: Re: [PATCH v2 5/5] ASoC: wm8904: add DMIC support
+Message-ID: <Z8cGgcq4ynfeCNKp@opensource.cirrus.com>
+References: <20250224155500.52462-1-francesco@dolcini.it>
+ <20250224155500.52462-6-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com>
+In-Reply-To: <20250224155500.52462-6-francesco@dolcini.it>
+X-Proofpoint-ORIG-GUID: 9S4_Iw2GNLbnxIUqVjjXV3AMQY-u2KCb
+X-Authority-Analysis: v=2.4 cv=UeirSLSN c=1 sm=1 tr=0 ts=67c70684 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=m8ToADvmAAAA:8 a=w1d2syhTAAAA:8 a=ctNVv1JNONuTxNbLFmwA:9 a=CjuIK1q_8ugA:10
+ a=kCrBFHLFDAq2jDEeoMj9:22 a=YXXWInSmI4Sqt1AkVdoW:22
+X-Proofpoint-GUID: 9S4_Iw2GNLbnxIUqVjjXV3AMQY-u2KCb
+X-Proofpoint-Spam-Reason: safe
 
-On Thu, Feb 27, 2025 at 10:07:44PM +1000, James Calligeros wrote:
-> TAS2770 can pull down and zero-fill SDOUT when not actively transmitting
-> TDM slot data. Zero-fill is useful when there are no other amps on the
-> bus. Pulldown is useful when the chip is attached to a shared bus.
+On Mon, Feb 24, 2025 at 04:55:00PM +0100, Francesco Dolcini wrote:
+> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
 > 
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> The WM8904 codec supports both ADC and DMIC inputs.
+> 
+> Get input pin functionality from the platform data and add the necessary
+> controls depending on the possible additional routing.
+> 
+> The ADC and DMIC share the IN1L/DMICDAT1 and IN1R/DMICDAT2 pins.
+> 
+> This leads to a few scenarios requiring different DAPM routing:
+> - When both are connected to an analog input, only the ADC is used.
+> - When one line is a DMIC and the other an analog input, the DMIC source
+>   is set from the platform data and a mux is added to select whether to
+>   use the ADC or DMIC.
+> - When both are connected to a DMIC, another mux is added to this to
+>   select the DMIC source. Note that we still need to be able to select
+>   the ADC system for use with the IN2L, IN2R, IN3L and IN3R pins.
+> 
+> Signed-off-by: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 > ---
->  .../bindings/sound/ti,tas2770.yaml       | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/ti,tas2770.yaml b/Documentation/devicetree/bindings/sound/ti,tas2770.yaml
-> index 8eab98a0f7a25a9c87d2c56fd0635ff8ecee17d0..3eba9bb34a581526f68b6bf2e8437e1f1e03d26f 100644
-> --- a/Documentation/devicetree/bindings/sound/ti,tas2770.yaml
-> +++ b/Documentation/devicetree/bindings/sound/ti,tas2770.yaml
-> @@ -57,6 +57,18 @@ properties:
->        - 0 # Rising edge
->        - 1 # Falling edge
->  
-> +  ti,sdout-pull-down:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description:
-> +      If present, SDOUT will be pulled low when not
-> +      transmitting.
-> +
-> +  ti,sdout-zero-fill:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description:
-> +      If present, SDOUT will be zero-filled when not
-> +      transmitting.
 
-Can't you align this with the other property you added? Or extend the 
-existing TDM properties we have.
+Apologies for the delay, I think this looks good to me:
 
-Rob
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+
+Thanks,
+Charles
