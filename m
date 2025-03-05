@@ -1,57 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E671D540
-	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 13:55:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0F624633D
+	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 13:55:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741182902; cv=none; b=d6lyNyNSwXlNJ1z7jTRMwBAWdE9zttWxnk5o4oIlX4pfLNTNGaP/f9/fa/0c3KdFkuSx6sodmLTnQGeJ0gPVE520OgpHIsi60q+FtXTOv4MlovPSZyPZJzNSqV0UfZaxOodpQP7U/+LEPH9P+AXXpxGFj6ZZEZ2mh/n7FViyyfI=
+	t=1741182905; cv=none; b=ihlUYRbEwUNzzuCAiOHi9JW3asaTqad9dP4p+PWUVIOG4MRN1Dj7qOfVDtSlO5TMr8f7ygMxQFEExkxhxIAxo0EKy8HFb967oJM66JcfdYAcj7eKkWIRuDM3yLo3HkiqIDxbf+fTKWSvuEL+edTUyyw2cEqqhN5+kk8fvoeiNdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741182902; c=relaxed/simple;
-	bh=+W/f8YznPRLvDh5UyNfn+NL5p3lWmLZa8PLkhx/0b0M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l/3d9KPyc0hNs4DVWwOl0y8OZBS53JjQVtP9mux/YiVJ2zNSGpz6jSEiPvYS7TgjI0aGJopT6OZBbytv9g4QaKWKFZgBbyCtezzgz5DnjWZULIMA4oKNX8EsrI3qWNnGGoV///GGwiHlL5XzKQqpSGgxPDh3XYXbBu5lvui6M68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RI0xGQcA; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1741182905; c=relaxed/simple;
+	bh=xKZL2JbUX25WSqXUL157VYzfcc9xprOsRSTmXHqCVZc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sWUolQtQ0KDvXPcbRkKrBZSF5uy8wxGQ62G9iqHlBL4on/PzTlP5reMmmi0uzxqaLTBnpJ2YpBPMAdtSIunMiPrvEzpEG2kb2WMZmvr0ct0gRi1ieaAEQEDBLDbS/nNMw48nSEHWcsyB9O1q+ZW74cgoeeVuzlBjFVARikAjG0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FgDOfEtt; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RI0xGQcA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FgDOfEtt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741182900; x=1772718900;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+W/f8YznPRLvDh5UyNfn+NL5p3lWmLZa8PLkhx/0b0M=;
-  b=RI0xGQcAQb3bsYMyMeqWS7T3ofymFMnf02L6eR1W/4sTpVCh8ijP8K/t
-   CO/MRKfxCRx+Xlq3ur/6LA6HhQ7RLSqCaXsm5XvPCVTsuRKGzcgEztOjz
-   r07t3Teyr3BexVwHR1iJg0gfT80DgjCYSrMc5NLqcxiyOrA5OmZwXK8sa
-   Em3qSsoTkQI+ebGXsX2s1bj6TPcXJohmMqhgcKv4l94eBDwfYnfUDY2aN
-   DUhS0KBbnvR3o9li6D5LTQi7LaEjhfhTgv8NmoacUWMQwQjc1k1G44CeX
-   U/HWCeAFZs8G/B8uQqUR4rTu8XPOdzyGAZGPoCHLUhmtzmO4pGRtdRjJV
+  t=1741182904; x=1772718904;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=xKZL2JbUX25WSqXUL157VYzfcc9xprOsRSTmXHqCVZc=;
+  b=FgDOfEttnuwavY08pU3envsmYOW/fBo5ByB+Ly7FCxiMgqoRHgLRxoze
+   cR9TQyKi46s9qaTV7tYQvVrjx4GcB/rrKZ1i7yg9BaDI96Qj3gAItvFkK
+   SZp95DZq6mMNYyZEDffGPfQDPTTLF5RoghVJrWLYt9WcHPfPDbcifH147
+   MO1uS00Dg+f5lUTPREieB9BKP0EtOZlTVD8GLUwxmwpVm4VIxjTspoLuG
+   /qRI+F4EjhYGr7rdrY+tfCm4Tpg4zLQsvWIpJosZg7cKbZtCBskLN+Klo
+   Tj3qMvo+QKdL1vljHSa4/bAugeQH6Trkk5C4fBorGVb84kVHGEMirkaTY
    Q==;
-X-CSE-ConnectionGUID: xKMvLvfPSmiBasuDSaKjGw==
-X-CSE-MsgGUID: RNcoutprTP+zo+sTwdXKFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="59558055"
+X-CSE-ConnectionGUID: iarHYRZTSNi/cPMb5hppBA==
+X-CSE-MsgGUID: c66RLcaOQq6s1EAo9VRlAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="59558062"
 X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
-   d="scan'208";a="59558055"
+   d="scan'208";a="59558062"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 05:55:00 -0800
-X-CSE-ConnectionGUID: 2u9I54jGSr2Q8GKTBRnkbw==
-X-CSE-MsgGUID: T4zcczQhR3WvpOcvGX9yBA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 05:55:04 -0800
+X-CSE-ConnectionGUID: IuildJROSzae7eQUQ9j63w==
+X-CSE-MsgGUID: vxeWAX9WTziNCWsxsv4FHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
-   d="scan'208";a="118846989"
+   d="scan'208";a="118847027"
 Received: from bvivekan-mobl1.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.175.91])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 05:54:56 -0800
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 05:55:00 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 0/9] ASoC: Intel: boards: updates for 6.15
-Date: Wed,  5 Mar 2025 21:54:34 +0800
-Message-ID: <20250305135443.201884-1-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 1/9] ASoC: Intel: adl: add 2xrt1316 audio configuration
+Date: Wed,  5 Mar 2025 21:54:35 +0800
+Message-ID: <20250305135443.201884-2-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250305135443.201884-1-yung-chuan.liao@linux.intel.com>
+References: <20250305135443.201884-1-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,34 +64,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-1. Add multi-function SDW mockup codec match.
-2. Add couple of new codec configurations for ADL, LNL, and PTL boards.
+That is a speaker only configuration and 2 rt1316 are on link 0 and 2.
 
-Bard Liao (7):
-  ASoC: Intel: adl: add 2xrt1316 audio configuration
-  ASoC: sdw_utils: add mic and amp dais to 0xaaaa codec
-  ASoC: Intel: add multi-function SDW mockup codec match
-  ASoC: Intel: soc-acpi-intel-lnl-match: add sdw multi function mockup
-    codec
-  ASoC: Intel: soc-acpi-intel-ptl-match: add sdw multi function mockup
-    codec
-  ASoC: Intel: soc-acpi-intel-lnl-match: add cs42l43 6x cs35l56 support
-  ASoC: Intel: soc-acpi-intel-ptl-match: add cs42l43 6x cs35l56 support
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+---
+ .../intel/common/soc-acpi-intel-adl-match.c   | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-Peter Ujfalusi (2):
-  ASoC: Intel: soc-acpi-intel-ptl-match: add rt712_vb_l3_rt1320_l2
-    support
-  ASoC: Intel: soc-acpi-intel-ptl-match: add rt713_vb_l3_rt1320_l12
-    support
-
- .../intel/common/soc-acpi-intel-adl-match.c   |  29 +++
- .../intel/common/soc-acpi-intel-lnl-match.c   | 137 ++++++++++
- .../intel/common/soc-acpi-intel-ptl-match.c   | 234 ++++++++++++++++++
- .../common/soc-acpi-intel-sdw-mockup-match.c  |  42 ++++
- .../common/soc-acpi-intel-sdw-mockup-match.h  |   1 +
- sound/soc/sdw_utils/soc_sdw_utils.c           |  14 +-
- 6 files changed, 456 insertions(+), 1 deletion(-)
-
+diff --git a/sound/soc/intel/common/soc-acpi-intel-adl-match.c b/sound/soc/intel/common/soc-acpi-intel-adl-match.c
+index bb1324fb588e..a68efbe98948 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-adl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-adl-match.c
+@@ -214,6 +214,15 @@ static const struct snd_soc_acpi_adr_device rt1316_1_group2_adr[] = {
+ 	}
+ };
+ 
++static const struct snd_soc_acpi_adr_device rt1316_2_group2_adr[] = {
++	{
++		.adr = 0x000232025D131601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "rt1316-2"
++	}
++};
++
+ static const struct snd_soc_acpi_adr_device rt1316_1_single_adr[] = {
+ 	{
+ 		.adr = 0x000130025D131601ull,
+@@ -547,6 +556,20 @@ static const struct snd_soc_acpi_link_adr adl_chromebook_base[] = {
+ 	{}
+ };
+ 
++static const struct snd_soc_acpi_link_adr adl_sdw_rt1316_link02[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(rt1316_0_group2_adr),
++		.adr_d = rt1316_0_group2_adr,
++	},
++	{
++		.mask = BIT(2),
++		.num_adr = ARRAY_SIZE(rt1316_2_group2_adr),
++		.adr_d = rt1316_2_group2_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_codecs adl_max98357a_amp = {
+ 	.num_codecs = 1,
+ 	.codecs = {"MX98357A"}
+@@ -749,6 +772,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_adl_sdw_machines[] = {
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-adl-sdw-max98373-rt5682.tplg",
+ 	},
++	{
++		.link_mask = BIT(0) | BIT(2),
++		.links = adl_sdw_rt1316_link02,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-adl-rt1316-l02.tplg",
++	},
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_adl_sdw_machines);
 -- 
 2.43.0
 
