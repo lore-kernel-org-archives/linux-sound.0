@@ -1,126 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54CC1EDA0E;
-	Wed,  5 Mar 2025 13:18:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C05230BC6;
+	Wed,  5 Mar 2025 13:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741180693; cv=none; b=Qke9J7zS47xERXRH/ewrvIAK6ecU6syUAH9wJkTcxnUstK9d0r/pFCRVUPOAqQJZCndubq8FvkKPZ9untSRPVA3Ey1Ta/L/FBuI2wWTK0LVuQh5AWrpE5fFNhKKXVVA13ndnSaUltsbuU5tsiE4dwMX7Wt8Ph2DNrUbmPu6Fv7I=
+	t=1741180961; cv=none; b=ni3lDCfB8q2gCjEPmv/c1gbMEt/GlZe9+znyplHoYtixMhZgZBVEwzMV0j7RHJoKMBoSt8T8+Y3B7AmBWcvanOzsGC644ET9vC/KeteGR9KheQdwke/oQ2FDBV+tAOGgRNSVUlfJS1nnB4Txna9qlrlbpVagc5KGLwtBcxD6TMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741180693; c=relaxed/simple;
-	bh=mkvPJ4QumDqS6HAf3LUJzR0K1EUYms/KQSx5cZsbzRk=;
+	s=arc-20240116; t=1741180961; c=relaxed/simple;
+	bh=2Bu2IgsWQfcgd5O+NbADT2ErcKX0Ld5Byc6D0Elm9wQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LU4IA2D24up3x7s3P6p7XNvARbzhH6cxNQ/evm3v/tot4BgZ5DUCddzXzz+lE1SKWTuhHQDxPw9pmlJdzjrhDWNOrFhn038tlL4zLxVANFH6VN4s0GobOfkgn760jlXXTokZKKBw2xaJxIKa1lCzODyJY9YS1G2HQlPeksR09RU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1SpsoBa; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=mT/ZkSLSWGeX1YWNqUH0tAnOnBySnlFscL7Y0wEODWlYs70xNvT1ySHKhZvn8iRaV6RPyvQVKzVyPLEuJDpeaMViCghkU7tqUwyU5I/Ob/WQsY6hMcPbA1MyISK/Futasi+VO65HwwQVLkA8j5YUqF5JOMPPmdN4MLQ7/84mecs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Byw7q/iu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1SpsoBa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FA67C4CEE2;
-	Wed,  5 Mar 2025 13:18:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Byw7q/iu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB336C4CEE2;
+	Wed,  5 Mar 2025 13:22:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741180693;
-	bh=mkvPJ4QumDqS6HAf3LUJzR0K1EUYms/KQSx5cZsbzRk=;
+	s=k20201202; t=1741180960;
+	bh=2Bu2IgsWQfcgd5O+NbADT2ErcKX0Ld5Byc6D0Elm9wQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S1SpsoBaX76DjvOnqlwAYpuPI11km6TAPDAp98v0+WMjohMzhFxzPSsOo5IFua2zj
-	 UPlidR4UrL9KeINpe8nhRzE/LYSoDOdOXaFeZblF6KyJ1QS9dEGns5XJWyvolVDwTT
-	 gd8emGKyrJKeC/ZQpH5DuekMOl1xP0H52/278jei4+COPFG3r2Tv7X6WObTDdrW1Dt
-	 u31C3GTt9Ftme6cGJx/h58KYNUMz5Ed+7DIRCsz7awDfZomHMnl+NoBX+699mkv3z6
-	 7HdvwzrnjJO+kYQKU0IEzvl3daEB+nnHzPgJ0eMrlIAOgCg8+WljsvEWgEexJZSUws
-	 wQoVBqrclmDcg==
-Date: Wed, 5 Mar 2025 13:18:05 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-	Ernest Van Hoecke <ernestvanhoecke@gmail.com>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	b=Byw7q/iuGLgydm3rTrQ6qR3u96o6B1oen331kBCeZ5OEEffcSIhz4RnvZZ3JVjdV9
+	 WyrB2S3IxQbCMdz3S6JGvj9M6MpTbJqcKcMVHy9ishP0rpU5b98W9sHS4M+fxW50W4
+	 9y1kF0UfcGQgYXHUBL1ol7PYdpCYLUCFIrYMBVZuaETGvoEJIOIT0WnVF0CO0xr5YQ
+	 0ZOVMpMi2zaLEN0wNB4HOHdT8+TU31SmSQN6KcZMagI55muKwYR2Z3Ciak1VII9lKn
+	 6BV+jWmg5263OmehDaDffOsMgl0zUaoSnc10VVVU63tGW76OTaFTNjrQH8nqWuGJ0d
+	 uTqpSRcL0JKhA==
+Date: Wed, 5 Mar 2025 07:22:39 -0600
+From: Rob Herring <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	patches@opensource.cirrus.com,
-	Ernest Van Hoecke <ernest.vanhoecke@toradex.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Francesco Dolcini <francesco.dolcini@toradex.com>
-Subject: Re: [PATCH v2 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC
- and EQ support
-Message-ID: <f0be0cc3-4349-4300-9fd2-9aecdcd9d099@sirena.org.uk>
-References: <20250224155500.52462-1-francesco@dolcini.it>
- <20250224155500.52462-4-francesco@dolcini.it>
- <20250225-delicate-tortoise-of-management-e43fa2@krzk-bin>
- <er4bcixggriqp6idl6xmr7bjetf5kkhadyeplkbyxvrffuiknc@ews752x4ugh7>
- <f690d858-a427-4db4-81ee-d5eb6223368c@kernel.org>
- <Z8geyb9ilUPmDUXk@opensource.cirrus.com>
+	Shi Fu <shifu0704@thundersoft.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
+ pulldown and zero-fill
+Message-ID: <20250305132239.GA1415729-robh@kernel.org>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com>
+ <20250304135050.GA2485358-robh@kernel.org>
+ <CAHgNfTyVKFuT0fZ3Qj=MdcXs67KscwkSepAH95xkAAKWM1g8Xg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2SZ6TScEb313MOV6"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z8geyb9ilUPmDUXk@opensource.cirrus.com>
-X-Cookie: Everybody gets free BORSCHT!
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHgNfTyVKFuT0fZ3Qj=MdcXs67KscwkSepAH95xkAAKWM1g8Xg@mail.gmail.com>
 
+On Wed, Mar 05, 2025 at 01:19:15AM +0000, James Calligeros wrote:
+> On Tue, Mar 4, 2025 at 1:50 PM Rob Herring <robh@kernel.org> wrote:
+> > Can't you align this with the other property you added? Or extend the
+> > existing TDM properties we have.
+> 
+> I don't think either option makes sense given the functionality. This chip
+> behaves differently to TAS2764, and instead of using a bitmask to determine
+> which slots to ignore, we only get a single bit to tell the chip whether we want
+> it to fill or pull down *all* inactive slots. The property being a u32 mask
+> therefore does not make sense here.
 
---2SZ6TScEb313MOV6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+If there's a single bit control, then that just means there's only 1 
+valid value for a mask in that case.
 
-On Wed, Mar 05, 2025 at 09:52:09AM +0000, Charles Keepax wrote:
-> On Wed, Mar 05, 2025 at 07:45:50AM +0100, Krzysztof Kozlowski wrote:
-> > On 27/02/2025 16:34, Ernest Van Hoecke wrote:
+Or maybe a mask is overkill. What's the usecase for fill or pulldown 
+*some* inactive slots?
 
-> > > I expect most users to use the first five Retune Mobile registers and
-> > > not care about the rest, which require a proprietary tool and are not
-> > > well documented. The example in the binding shows how some simple
-> > > static EQ can be configured. Anyone interested in the extended config
-> > > can also use it (statically).
+> Building the logic off the existing generic TDM slot properties would alter
+> behaviour of existing implementations where zero-fill and pulldown may not be
+> required or even wanted. This may continue to be the case going forward so I'd
+> rather make it an explicit opt-in rather than some unconditional thing we try to
+> turn on heuristically.
 
-> > No, if this is suitable for dynamic configuration then it's a proof it
-> > is not suitable for DT.
+Existing implementations would not have the new/extra properties and 
+would continue to operate as before. Or those drivers could simply 
+ignore the properties.
 
-> Whilst I can see the argument that this could be exposed as an
-> ALSA control. I would also suggest that this is not adding some new
-> feature, these values have been filled in from pdata for 16 years
-> now. Changing the way such a vintage part works at this point feels
-> more problematic to me than a slightly iffy DT property.
+> I gave some thought to flipping these bits if a TDM slot mask is passed to the
+> driver, however it can still be the case that we don't want both zero-fill *and*
+> pulldown active at the same time, or as above some implementations may want
+> neither, so we still need to be able to specify them individually.
 
-> On the flip side of the argument, the parameters that are filled
-> into this are almost certainly specific tuning for the hardware,
-> so in many ways this is hardware description and there is a
-> certain appeal to shipping the tuning with the hardware (ie. in
-> DT).
+This just feels like something common because any TDM interface may need 
+to control this. It's not really a property of the chip, but requirement 
+of the TDM interface.
 
-Right, the intended use case for the dynamic configuration is lab tuning
-rather than with end users - most things that are configured like this
-*can* be tuned interactively (or interactively from the point of view of
-the driver) but that doesn't translate to end users doing it.  It's more
-like coefficient data that could also be loaded from a firmware blob
-(but again, there's a proprietary tool here and it's not expecting to
-produce anything except a list of register values), we do have some EFI
-examples of pulling tuning data from the firmware for things like
-speaker correction (which is one of the use cases here) IIRC.
-
-Like Charles says this scheme has been deployed for a decade or
-something, it seems unhelpful to upend everything right now.  We could
-also implement an alternative scheme but providing something that makes
-DT transition easy seems productive.
-
---2SZ6TScEb313MOV6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfITw0ACgkQJNaLcl1U
-h9C39wf9EwzxjxnqwmMPXRA6fF+xUJYybxJvfyV1u5DNHECxtYqJWZsEuQpRp2CD
-v0OmfZHyVfUcFSWA4+1Tdv5u+F7lxmqCZ6dzeqRz3AAginWJeXiwXR2bwlDJ61oq
-3yHkNm3j0uElMkjJEAP5bw/MHgBE+4Be/PvdnYHipApgEOgQ4TIgHH8yRFCPY3Wo
-kTxPYkufiLRPTmH7t1oonaLddybuyXOlxL9lq+xuhsSDnAbQoOcq4DBg/AcBhMG0
-D+DJr+5C/WCXPRfAqNznBX7wCJNQvfXtwYW0GA13OOWqoTwsjjoeNgK++W73+5/v
-N9IoR2lXdMQWqAexh3v8q3dm33IhbQ==
-=c6jI
------END PGP SIGNATURE-----
-
---2SZ6TScEb313MOV6--
+Rob
