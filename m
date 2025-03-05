@@ -1,113 +1,140 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5595FDA7;
-	Wed,  5 Mar 2025 01:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E6D14658D
+	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 06:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741137568; cv=none; b=PfAbZh7xInBo8yD8uFQEOOrP/eEVeA2QzbYlMIR0bCZa1O3VPXxYQPWVA/ltGg1ebn004wdvtEFZ+2jjxPqqogrgbOMYc3QRUQdjWHbl+NLqJQBxrDSKC36sbree1AuhpPDMeaVFlneTcqC9UjRsl7mXYvX1nDHCkqgUppNf9W8=
+	t=1741156343; cv=none; b=DzMrqStiEvYKMZEVyDAbdQUkyXU6moiUaGNfhl0bIbKuj/tV9CYyz6SyFP1crZDMDhyA4zADKNrORS/u/jKS6G8AzNRoT75n4TU2pySrxlZxWzdnDMsM5ZRdxSq3gjPMvNCJvBCcHNKjOcqB4a6uBDn64j3db3Y7KmXs6cumnqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741137568; c=relaxed/simple;
-	bh=aj7oEpRtbuTIufQ2FwedlFlVEGKMaqVdWjGFOoq8rgo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uaHVk1hK3aiLKRjLw7CcMAZWSoNeHhLRFCWE16cVrWR/kXshRNV9Tkepbaw5S0tc/LQnIvjC5Yn14FaT7+EUI2+f7AeaBw73kLRGdW9P3dU6Qyj4LCgrWneRksHOudm8lbl2+ePJQp+3O4NKwQEQsOfkEA+w4NrRQy6hejoJdNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vm0DwhJJ; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741156343; c=relaxed/simple;
+	bh=v7uXc7+qtBsPOjzkJEp+GYBDzTNQWSX6MDCYF/ovWUI=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=CeeMzRXplD7Xfc4ZMOXOr62Z/6B0fWV0nYeuBokJeUWIyzkNC6Rydyb/62Aj4JEXr3K6KBVHP5ncu+GOvCUXgdNSUdYmXOuOfWIPJ99OPoPVwuo1OizFPeSewh6xYOwkrW4Rw2Gf4rFpSX9ZFm2jINJSWalYtLLaiOQO3NdT3Lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=OEApZaWc; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vm0DwhJJ"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-474e0bd966dso27152651cf.0;
-        Tue, 04 Mar 2025 17:19:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741137566; x=1741742366; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aj7oEpRtbuTIufQ2FwedlFlVEGKMaqVdWjGFOoq8rgo=;
-        b=Vm0DwhJJBhnfy06HdxFNgXYFO9PdkmAvX3uxVTjGjqBA0710xqf3NjG+jiAO60ZWqB
-         0HDkbjj/daocmJh9LpmmSS3BfVdNhYZ4cruDgUQuC3Zy9MqtvpSOi47hhyxIizlR3IBC
-         Suq5tw3vbX5wbpsjPHYw8JbGmP0IkRz0h4S+hOJitfYo10McyoETIDYcVfqc5upCuHaa
-         Yg4R62+j6iC2fUXHA81OkzFnuHV67QE0BU1JxlFW4w/8B8H1cdLRLhpyWFCWBseO3jtg
-         CBv5yqVHeOw59/WVkDpfdbCPQ1UQ/X3swnAcbfvVmfJ8jfAugbKzQqzFDsURmhwB3H6W
-         RePA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741137566; x=1741742366;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aj7oEpRtbuTIufQ2FwedlFlVEGKMaqVdWjGFOoq8rgo=;
-        b=LDXobvd+RF+ZwQxnO058nNCOnG5jCyS4sUhUvTtGa2GZsLcNRWLcftNyeHZ7N66jvr
-         RebR4nWaa0ZexWTEF4AivGEfAg/8yyQo9XYVRyfO+lWbXaJOaLb9pSgbtRRNrwV2HHeD
-         mrihnJqUYoEQUotH/QXO48F6QVHmE8jFl0Fjw1bPkgEpVi0GXjKfonTL3d14l3zyA1NB
-         UXO8fTaPx+TAfJpFO4rFLsjKx3PjSRshnSdMgRY7XON2h7+LZ3DYWB6CgaBIqa7+HqhO
-         UCBuotBwfaRNJCulPQzZ164ZlcA+oVKbQ7jdKwkUNsB6fnQce9yDOckvPs9FHwJHQS7M
-         imZw==
-X-Forwarded-Encrypted: i=1; AJvYcCUMeqxZ7XplCDbDv8x0cssAQHT7jSgeLEYH9IJzaeudssJimMg6oT804wte5Ot9MyFhYIT//di2aZPB@vger.kernel.org, AJvYcCW8PevYiAf/AB67ZHQVqgBxgquF5H7cmMdcZTjz2E/d5psgQGpxWCY85WztgN3M99ieIXkpWTkPZiPZJhNf@vger.kernel.org, AJvYcCWIQdsfx7Hy8u2k5Bn+9OkdbszHEyGvxrP9Z+cMJ0U5MD/U4iRVtnVIVCAz0M9c7QIZzd7jNi7OGBEU8vg=@vger.kernel.org, AJvYcCXL3hEJpsJ5vBwDJ4aIXmuc5XEulo9ULBLfwRCmtFcTw0nh+f5Pt6kNtUzQlP3hDvHUN5DLFnckvo+TXZw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyp++0VfUn2T0SAGW/TzVt2IbwnV+sXxF/Uhb7EzlzjZt0yYP+0
-	/ARDbcDrxgk2L8M7lPKIEnQkzLDJ+XAgmx6awwpv/Sj3VYLOGPvNH3cZ2GI9VjtxViVQG8q5nY1
-	QSr+3W1v88WjcJMTGXXlSglY4I2k=
-X-Gm-Gg: ASbGncu+lgITgzGvvSVuRt8ntNInYlS/wzwtgEPCJfDwuyCLzS/O6d58SzufgQJR19J
-	1j1S5qvH8Y05UrWXzL6Z7+pKoojD7loJdpdCMqmylqj0k37p9SvFfDEt9fnmHwFfP2YsStSPrNS
-	hLs13C4aGWKhVvGMj70/pj3+pqPjMv3YA2+pIbWmJRoqx/LSLuzDPL2oIE
-X-Google-Smtp-Source: AGHT+IH/gZVl6njT5r5xmoZsHMsCaVy4AHjZ3IvtwdL5qtNx7CdcXOgj41fRuij/xZmHZN7CAquryIOYCVl/RGfL4qE=
-X-Received: by 2002:ac8:5750:0:b0:471:cfa9:2612 with SMTP id
- d75a77b69052e-4750b4c62abmr19008121cf.32.1741137566103; Tue, 04 Mar 2025
- 17:19:26 -0800 (PST)
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="OEApZaWc"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 5256W0xE41038228, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1741156320; bh=v7uXc7+qtBsPOjzkJEp+GYBDzTNQWSX6MDCYF/ovWUI=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	b=OEApZaWcp6FxRIR5V306PrpsJKc3SUx+aIKgYAu8JB33m4hNQjf88SkAjVSJIq+AR
+	 KuMlS5hNKkSu33DVb2f9X5kKv3yR8wZHLi5mj60KtrrnFgYWX6BZLlp3O/LIhEBdrz
+	 m6b11loL4V8HL+KHdiCJt3yk5ltewkxO2GOvVRXCuz+BxkKcZKmGyAqXb9D1r1kJKc
+	 zkj9kJ/1Gai6Co09tiWWn49UBPO+gIqFAk89mh4hc0WVyTDEtZsJxAfc9BEptWdZAe
+	 hRQDdZ0SE/0VwnLgaSUCnXe1NGQyQlncW1/8VDZeKi0JJUKDm5h/wF7q2m2x/SuPuV
+	 wxjwzUNswmncg==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 5256W0xE41038228
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 5 Mar 2025 14:32:00 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 5 Mar 2025 14:32:01 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 5 Mar 2025 14:32:00 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
+ RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
+ 15.01.2507.035; Wed, 5 Mar 2025 14:32:00 +0800
+From: Kailang <kailang@realtek.com>
+To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
+CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: update ALC222 depop optimize
+Thread-Topic: update ALC222 depop optimize
+Thread-Index: AduNl/Z/2i7zvjW2RduQNmX+QwAWAA==
+Date: Wed, 5 Mar 2025 06:32:00 +0000
+Message-ID: <81c7f0ec4a2447219c06095e0de4d1d3@realtek.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: multipart/mixed;
+	boundary="_002_81c7f0ec4a2447219c06095e0de4d1d3realtekcom_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com> <20250304135050.GA2485358-robh@kernel.org>
-In-Reply-To: <20250304135050.GA2485358-robh@kernel.org>
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Wed, 5 Mar 2025 01:19:15 +0000
-X-Gm-Features: AQ5f1JqKhAwj6qTqSfRCe3oGAAXCdiK5LgUlvxIRex-ch881UGzuk3RJ4ynlZPQ
-Message-ID: <CAHgNfTyVKFuT0fZ3Qj=MdcXs67KscwkSepAH95xkAAKWM1g8Xg@mail.gmail.com>
-Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
- pulldown and zero-fill
-To: Rob Herring <robh@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shi Fu <shifu0704@thundersoft.com>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-KSE-AntiSpam-Interceptor-Info: fallback
+
+--_002_81c7f0ec4a2447219c06095e0de4d1d3realtekcom_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 4, 2025 at 1:50=E2=80=AFPM Rob Herring <robh@kernel.org> wrote:
-> Can't you align this with the other property you added? Or extend the
-> existing TDM properties we have.
+Hi Takashi,
 
-I don't think either option makes sense given the functionality. This chip
-behaves differently to TAS2764, and instead of using a bitmask to determine
-which slots to ignore, we only get a single bit to tell the chip whether we=
- want
-it to fill or pull down *all* inactive slots. The property being a u32 mask
-therefore does not make sense here.
+Update ALC222 depop optimize as attach.
 
-Building the logic off the existing generic TDM slot properties would alter
-behaviour of existing implementations where zero-fill and pulldown may not =
-be
-required or even wanted. This may continue to be the case going forward so =
-I'd
-rather make it an explicit opt-in rather than some unconditional thing we t=
-ry to
-turn on heuristically.
+BR,
+Kailang
 
-I gave some thought to flipping these bits if a TDM slot mask is passed to =
-the
-driver, however it can still be the case that we don't want both zero-fill =
-*and*
-pulldown active at the same time, or as above some implementations may want
-neither, so we still need to be able to specify them individually.
+--_002_81c7f0ec4a2447219c06095e0de4d1d3realtekcom_
+Content-Type: application/octet-stream;
+	name="0000-alc222-dual-hp-depop.patch"
+Content-Description: 0000-alc222-dual-hp-depop.patch
+Content-Disposition: attachment; filename="0000-alc222-dual-hp-depop.patch";
+	size=2897; creation-date="Thu, 23 Jan 2025 07:10:01 GMT";
+	modification-date="Wed, 05 Mar 2025 06:26:38 GMT"
+Content-Transfer-Encoding: base64
 
-Regards,
-James
+RnJvbSBiODE4YjZhNGY4YmJlMDMxYzVhODVkMzI1Yzg5ZmMwYmJjYmQ1ZTVjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
+dGU6IFdlZCwgNSBNYXIgMjAyNSAxMzo1NDozNCArMDgwMApTdWJqZWN0OiBbUEFUQ0hdIEFMU0E6
+IGhkYS9yZWFsdGVrOiB1cGRhdGUgQUxDMjIyIGRlcG9wIG9wdGltaXplCgpBZGQgQUxDMjIyIGl0
+cyBvd24gZGVwb3AgZnVuY3Rpb25zIGZvciBhbGNfaW5pdCBhbmQgYWxjX3NodXR1cC4KClNpZ25l
+ZC1vZmYtYnk6IEthaWxhbmcgWWFuZyA8a2FpbGFuZ0ByZWFsdGVrLmNvbT4KCmRpZmYgLS1naXQg
+YS9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYyBiL3NvdW5kL3BjaS9oZGEvcGF0Y2hfcmVh
+bHRlay5jCmluZGV4IGNhMTBiOWU5ZTNhNC4uNzA2YTM1NTA5NTE4IDEwMDY0NAotLS0gYS9zb3Vu
+ZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYworKysgYi9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0
+ZWsuYwpAQCAtMzg0NCw2ICszODQ0LDc5IEBAIHN0YXRpYyB2b2lkIGFsYzIyNV9zaHV0dXAoc3Ry
+dWN0IGhkYV9jb2RlYyAqY29kZWMpCiAJfQogfQogCitzdGF0aWMgdm9pZCBhbGMyMjJfaW5pdChz
+dHJ1Y3QgaGRhX2NvZGVjICpjb2RlYykKK3sKKwlzdHJ1Y3QgYWxjX3NwZWMgKnNwZWMgPSBjb2Rl
+Yy0+c3BlYzsKKwloZGFfbmlkX3QgaHBfcGluID0gYWxjX2dldF9ocF9waW4oc3BlYyk7CisJYm9v
+bCBocDFfcGluX3NlbnNlLCBocDJfcGluX3NlbnNlOworCisJaWYgKCFocF9waW4pCisJCXJldHVy
+bjsKKworCW1zbGVlcCgzMCk7CisKKwlocDFfcGluX3NlbnNlID0gc25kX2hkYV9qYWNrX2RldGVj
+dChjb2RlYywgaHBfcGluKTsKKwlocDJfcGluX3NlbnNlID0gc25kX2hkYV9qYWNrX2RldGVjdChj
+b2RlYywgMHgxNCk7CisKKwlpZiAoaHAxX3Bpbl9zZW5zZSB8fCBocDJfcGluX3NlbnNlKSB7CisJ
+CW1zbGVlcCgyKTsKKworCQlpZiAoaHAxX3Bpbl9zZW5zZSkKKwkJCXNuZF9oZGFfY29kZWNfd3Jp
+dGUoY29kZWMsIGhwX3BpbiwgMCwKKwkJCQkgICAgQUNfVkVSQl9TRVRfUElOX1dJREdFVF9DT05U
+Uk9MLCBQSU5fT1VUKTsKKwkJaWYgKGhwMl9waW5fc2Vuc2UpCisJCQlzbmRfaGRhX2NvZGVjX3dy
+aXRlKGNvZGVjLCAweDE0LCAwLAorCQkJCSAgICBBQ19WRVJCX1NFVF9QSU5fV0lER0VUX0NPTlRS
+T0wsIFBJTl9PVVQpOworCQltc2xlZXAoNzUpOworCisJCWlmIChocDFfcGluX3NlbnNlKQorCQkJ
+c25kX2hkYV9jb2RlY193cml0ZShjb2RlYywgaHBfcGluLCAwLAorCQkJCSAgICBBQ19WRVJCX1NF
+VF9BTVBfR0FJTl9NVVRFLCBBTVBfT1VUX1VOTVVURSk7CisJCWlmIChocDJfcGluX3NlbnNlKQor
+CQkJc25kX2hkYV9jb2RlY193cml0ZShjb2RlYywgMHgxNCwgMCwKKwkJCQkgICAgQUNfVkVSQl9T
+RVRfQU1QX0dBSU5fTVVURSwgQU1QX09VVF9VTk1VVEUpOworCisJCW1zbGVlcCg3NSk7CisJfQor
+fQorCitzdGF0aWMgdm9pZCBhbGMyMjJfc2h1dHVwKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQor
+eworCXN0cnVjdCBhbGNfc3BlYyAqc3BlYyA9IGNvZGVjLT5zcGVjOworCWhkYV9uaWRfdCBocF9w
+aW4gPSBhbGNfZ2V0X2hwX3BpbihzcGVjKTsKKwlib29sIGhwMV9waW5fc2Vuc2UsIGhwMl9waW5f
+c2Vuc2U7CisKKwlpZiAoIWhwX3BpbikKKwkJaHBfcGluID0gMHgyMTsKKworCWhwMV9waW5fc2Vu
+c2UgPSBzbmRfaGRhX2phY2tfZGV0ZWN0KGNvZGVjLCBocF9waW4pOworCWhwMl9waW5fc2Vuc2Ug
+PSBzbmRfaGRhX2phY2tfZGV0ZWN0KGNvZGVjLCAweDE0KTsKKworCWlmIChocDFfcGluX3NlbnNl
+IHx8IGhwMl9waW5fc2Vuc2UpIHsKKwkJbXNsZWVwKDIpOworCisJCWlmIChocDFfcGluX3NlbnNl
+KQorCQkJc25kX2hkYV9jb2RlY193cml0ZShjb2RlYywgaHBfcGluLCAwLAorCQkJCSAgICBBQ19W
+RVJCX1NFVF9BTVBfR0FJTl9NVVRFLCBBTVBfT1VUX01VVEUpOworCQlpZiAoaHAyX3Bpbl9zZW5z
+ZSkKKwkJCXNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMsIDB4MTQsIDAsCisJCQkJICAgIEFDX1ZF
+UkJfU0VUX0FNUF9HQUlOX01VVEUsIEFNUF9PVVRfTVVURSk7CisKKwkJbXNsZWVwKDc1KTsKKwor
+CQlpZiAoaHAxX3Bpbl9zZW5zZSkKKwkJCXNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMsIGhwX3Bp
+biwgMCwKKwkJCQkgICAgQUNfVkVSQl9TRVRfUElOX1dJREdFVF9DT05UUk9MLCAweDApOworCQlp
+ZiAoaHAyX3Bpbl9zZW5zZSkKKwkJCXNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMsIDB4MTQsIDAs
+CisJCQkJICAgIEFDX1ZFUkJfU0VUX1BJTl9XSURHRVRfQ09OVFJPTCwgMHgwKTsKKworCQltc2xl
+ZXAoNzUpOworCX0KKwlhbGNfYXV0b19zZXR1cF9lYXBkKGNvZGVjLCBmYWxzZSk7CisJYWxjX3No
+dXR1cF9waW5zKGNvZGVjKTsKK30KKwogc3RhdGljIHZvaWQgYWxjX2RlZmF1bHRfaW5pdChzdHJ1
+Y3QgaGRhX2NvZGVjICpjb2RlYykKIHsKIAlzdHJ1Y3QgYWxjX3NwZWMgKnNwZWMgPSBjb2RlYy0+
+c3BlYzsKQEAgLTExOTM5LDggKzEyMDEyLDExIEBAIHN0YXRpYyBpbnQgcGF0Y2hfYWxjMjY5KHN0
+cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogCQlzcGVjLT5jb2RlY192YXJpYW50ID0gQUxDMjY5X1RZ
+UEVfQUxDMzAwOwogCQlzcGVjLT5nZW4ubWl4ZXJfbmlkID0gMDsgLyogbm8gbG9vcGJhY2sgb24g
+QUxDMzAwICovCiAJCWJyZWFrOworCWNhc2UgMHgxMGVjMDIyMjoKIAljYXNlIDB4MTBlYzA2MjM6
+CiAJCXNwZWMtPmNvZGVjX3ZhcmlhbnQgPSBBTEMyNjlfVFlQRV9BTEM2MjM7CisJCXNwZWMtPnNo
+dXR1cCA9IGFsYzIyMl9zaHV0dXA7CisJCXNwZWMtPmluaXRfaG9vayA9IGFsYzIyMl9pbml0Owog
+CQlicmVhazsKIAljYXNlIDB4MTBlYzA3MDA6CiAJY2FzZSAweDEwZWMwNzAxOgo=
+
+--_002_81c7f0ec4a2447219c06095e0de4d1d3realtekcom_--
