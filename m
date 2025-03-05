@@ -1,189 +1,142 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7342420469F
-	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 09:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056992054E6;
+	Wed,  5 Mar 2025 09:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741167208; cv=none; b=VyuOZ2fOXaa2QIOlPDYMTRtOBTUwiq9EAb0mD0RGDkwcASC9t1oSkGMp7oiYDdpHMOlAS8hOjlIYdIf74C36HSn3OJtHAJJrKCrXyn1+9IhoBmnNMW1pYyAExhnHNxi+mThpILys7RyeCwfFlnK7r1lnajt6cwgNYsQ1aDlLfcI=
+	t=1741168368; cv=none; b=eqQSQK5DjB0OhUMMgqMPkR2TYYyDHbJvWgSDIt6opPml92A2zakvrxEu+4jY0x0vdZVGFojXPAqn6IIlZufe9ux9C1jB4r3Zqg/QASB1AwyF7P/3pB9uBioppCzPUmyltVqBe83k+GObncUb9Dacd3I5ACOSt7XSFuZ6auVlrdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741167208; c=relaxed/simple;
-	bh=8Nwo7D4UD8ql7KK9yeTVQ9rORh9gYJnRId9RnEE8GiI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=sT2a9mWsbcZdBJOJ+Kt2+z0/guZbAEv76Trgbg+0vZZjXXUOVqVJcXqL6DqJSlS+exQIWujVC7Rr2ADUTYKrAcXVo2L46tVPRnHv5DRBZRRDBo4E+jXv0ecIxIt+9ppcSaypFW2HUJM6c1hLuboq79E9xn4X4AOT6X5wgTt3BBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=K6lU+AV/; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1741168368; c=relaxed/simple;
+	bh=f1mtud/yW9wQbOh1V2OywbZmiXFNmrbADFJ8CE9Hmn4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NX5jamp57RffKIZ1krIxFS1gohy44ot8WuaK7a2ZYdSFpN4r0UniD2LutqhrdX4JrecNz+KwwoiDDjglnIeTTkuHepb7or+ruDp9AUfdibGh8CdM4HFrVGuVs/EOUf8O4o/tUKl9HjgpJnILMGshPRedhu6CUMrd/f7GUXYSHBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=cZFNLMc8; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="K6lU+AV/"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 5259XCq541265339, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1741167192; bh=8Nwo7D4UD8ql7KK9yeTVQ9rORh9gYJnRId9RnEE8GiI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=K6lU+AV/aeq4y/nqPyiTE3fsddHRVWyk52qBQSterB3n2jO+lhIxlcnkeRr5tBowG
-	 7vRMlj6GctiTfCoJ2Y04ij7zEUFVPBPWkp2CBVql0x3S9uwX6PYlZD+sphXP99CIR5
-	 kC49Y7sdOYQ628vDkBQ/De2VPXHLZvNVPp+fUwk3OtPKHSd/2FwDuo5baM+KlHhl2r
-	 5LILtrVGZo98W7IlWpvSpzyv9IHH8mo/LH8dYj3QhOPnnk2H08jZSpPa4PwGUfvE/k
-	 RIQLvtbaS76eQoJ3bYYCmhd0OUjzki2Ux0WV3559e/2/lR1fVtuB7wVsPeS2oMpylU
-	 iu4LBjQlAWlLw==
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 5259XCq541265339
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 5 Mar 2025 17:33:12 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 5 Mar 2025 17:33:13 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 5 Mar 2025 17:33:12 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
- RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
- 15.01.2507.035; Wed, 5 Mar 2025 17:33:12 +0800
-From: Kailang <kailang@realtek.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: RE: update ALC222 depop optimize
-Thread-Topic: update ALC222 depop optimize
-Thread-Index: AduNl/Z/2i7zvjW2RduQNmX+QwAWAP//kWCA//95iZCAAIztgP//eTeQgACQHQD//3QI8AAS4BiA//95jpA=
-Date: Wed, 5 Mar 2025 09:33:12 +0000
-Message-ID: <de985451c2c94c1588cd8d211f6a8234@realtek.com>
-References: <81c7f0ec4a2447219c06095e0de4d1d3@realtek.com>
-	<87zfhzud4s.wl-tiwai@suse.de>	<f7fba6fc8d9e4abfb0c89e487e1d5d89@realtek.com>
-	<87wmd3uc28.wl-tiwai@suse.de>	<494a665481e043a38b94d844654fa81f@realtek.com>
-	<87tt87uail.wl-tiwai@suse.de>	<ec41e956050e4ea594daaf8042fd6d1c@realtek.com>
- <87plivu8os.wl-tiwai@suse.de>
-In-Reply-To: <87plivu8os.wl-tiwai@suse.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="cZFNLMc8"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5253vccD015864;
+	Wed, 5 Mar 2025 03:52:13 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=l4O2tAc3nHmi1ElovV
+	b0CMq8ms8e2pPhJCOKTF4kppU=; b=cZFNLMc82MkmtpUQ3zZB+OajgUx/YdPxmb
+	W85CcuVF694+JOpfdLvW86m2xGGK6abacjO8HKAum1zLwmAoyNLdeuULervLnPAp
+	O1H9uD3qwfdekGR/LojP0ZCZPnTSUmK/Je0vPcQ/+AXwP1AIVIqE5wcD2TZiUDoL
+	B1aGwu/jML9hMbFd/ZFvr3k4RECdMcPnTOt/INjF7sRyMzwjfIuHMcc475fry/j/
+	T2ZI1uxOIlyOqn61dACKNWcOz5u3oWM/5G2g0HaaVrrjadsy3soOFArkw3c43vK7
+	PcUxmJkCL/aVkVIsG85H3vxC231dGd0TuUe8nxApk851F32tNVsg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 455fyym3uf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Mar 2025 03:52:13 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 5 Mar
+ 2025 09:52:11 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Wed, 5 Mar 2025 09:52:11 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id EE9E0820248;
+	Wed,  5 Mar 2025 09:52:10 +0000 (UTC)
+Date: Wed, 5 Mar 2025 09:52:09 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Ernest Van Hoecke <ernestvanhoecke@gmail.com>,
+        Francesco Dolcini
+	<francesco@dolcini.it>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Saravana Kannan
+	<saravanak@google.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>,
+        <patches@opensource.cirrus.com>,
+        Ernest Van Hoecke
+	<ernest.vanhoecke@toradex.com>,
+        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Francesco
+ Dolcini" <francesco.dolcini@toradex.com>
+Subject: Re: [PATCH v2 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC
+ and EQ support
+Message-ID: <Z8geyb9ilUPmDUXk@opensource.cirrus.com>
+References: <20250224155500.52462-1-francesco@dolcini.it>
+ <20250224155500.52462-4-francesco@dolcini.it>
+ <20250225-delicate-tortoise-of-management-e43fa2@krzk-bin>
+ <er4bcixggriqp6idl6xmr7bjetf5kkhadyeplkbyxvrffuiknc@ews752x4ugh7>
+ <f690d858-a427-4db4-81ee-d5eb6223368c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <f690d858-a427-4db4-81ee-d5eb6223368c@kernel.org>
+X-Proofpoint-GUID: Y0SbGx_LqAM5I0nHUEImwHbaW5SidVM0
+X-Proofpoint-ORIG-GUID: Y0SbGx_LqAM5I0nHUEImwHbaW5SidVM0
+X-Authority-Analysis: v=2.4 cv=DaftqutW c=1 sm=1 tr=0 ts=67c81ecd cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=fwLFyu2rHDo0oW4pvNQA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Reason: safe
 
+On Wed, Mar 05, 2025 at 07:45:50AM +0100, Krzysztof Kozlowski wrote:
+> On 27/02/2025 16:34, Ernest Van Hoecke wrote:
+> > On Tue, Feb 25, 2025 at 09:41:17AM +0100, Krzysztof Kozlowski wrote:
+> >> On Mon, Feb 24, 2025 at 04:54:58PM +0100, Francesco Dolcini wrote:
+> >>> +  wlf,drc-cfg-regs:
+> >>> +    $ref: /schemas/types.yaml#/definitions/uint16-array
+> >>> +    description:
+> >>> +      Default register values for R40/41/42/43 (DRC).
+> >>> +      The list must be 4 times the length of wlf,drc-cfg-names.
+> >>> +      If absent, DRC is disabled.
+> >>> +
+> >>> +  wlf,retune-mobile-cfg-names:
+> >>> +    $ref: /schemas/types.yaml#/definitions/string-array
+> >>> +    description:
+> >>> +      List of strings for the available retune modes.
+> >>> +      If absent, retune is disabled.
+> >>
+> >> How is this retune supposed to be used? If by user-space I can easily
+> >> imagine that static DTS configuration won't be enough, because you need
+> >> to factor for example temperature or some other minor differences
+> >> between same boards.
+> > 
+> > This is intended for integrators to be able to specify some EQ options,
+> > mirroring the previous behaviour that was possible via platform data.
+> > 
+> > I expect most users to use the first five Retune Mobile registers and
+> > not care about the rest, which require a proprietary tool and are not
+> > well documented. The example in the binding shows how some simple
+> > static EQ can be configured. Anyone interested in the extended config
+> > can also use it (statically).
+> > 
+> > If someone requires dynamic behaviour at runtime that could be a
+> > separate patch that should not be hindered by this static config.
+> 
+> 
+> No, if this is suitable for dynamic configuration then it's a proof it
+> is not suitable for DT.
+> 
 
+Whilst I can see the argument that this could be exposed as an
+ALSA control. I would also suggest that this is not adding some new
+feature, these values have been filled in from pdata for 16 years
+now. Changing the way such a vintage part works at this point feels
+more problematic to me than a slightly iffy DT property.
 
-> -----Original Message-----
-> From: Takashi Iwai <tiwai@suse.de>
-> Sent: Wednesday, March 5, 2025 5:30 PM
-> To: Kailang <kailang@realtek.com>
-> Cc: (alsa-devel@alsa-project.org) <alsa-devel@alsa-project.org>;
-> linux-sound@vger.kernel.org
-> Subject: Re: update ALC222 depop optimize
->=20
->=20
-> External mail : This email originated from outside the organization. Do n=
-ot
-> reply, click links, or open attachments unless you recognize the sender a=
-nd
-> know the content is safe.
->=20
->=20
->=20
-> On Wed, 05 Mar 2025 10:22:04 +0100,
-> Kailang wrote:
-> >
-> >
-> >
-> > > -----Original Message-----
-> > > From: Takashi Iwai <tiwai@suse.de>
-> > > Sent: Wednesday, March 5, 2025 4:50 PM
-> > > To: Kailang <kailang@realtek.com>
-> > > Cc: (alsa-devel@alsa-project.org) <alsa-devel@alsa-project.org>;
-> > > linux-sound@vger.kernel.org
-> > > Subject: Re: update ALC222 depop optimize
-> > >
-> > >
-> > > External mail : This email originated from outside the organization.
-> > > Do not reply, click links, or open attachments unless you recognize
-> > > the sender and know the content is safe.
-> > >
-> > >
-> > >
-> > > On Wed, 05 Mar 2025 09:22:20 +0100,
-> > > Kailang wrote:
-> > > >
-> > > >
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Takashi Iwai <tiwai@suse.de>
-> > > > > Sent: Wednesday, March 5, 2025 4:17 PM
-> > > > > To: Kailang <kailang@realtek.com>
-> > > > > Cc: (alsa-devel@alsa-project.org) <alsa-devel@alsa-project.org>;
-> > > > > linux-sound@vger.kernel.org
-> > > > > Subject: Re: update ALC222 depop optimize
-> > > > >
-> > > > >
-> > > > > External mail : This email originated from outside the organizati=
-on.
-> > > > > Do not reply, click links, or open attachments unless you
-> > > > > recognize the sender and know the content is safe.
-> > > > >
-> > > > >
-> > > > >
-> > > > > On Wed, 05 Mar 2025 08:56:41 +0100, Kailang wrote:
-> > > > > >
-> > > > > >
-> > > > > > > -----Original Message-----
-> > > > > > > From: Takashi Iwai <tiwai@suse.de>
-> > > > > > > Sent: Wednesday, March 5, 2025 3:54 PM
-> > > > > > > To: Kailang <kailang@realtek.com>
-> > > > > > > Cc: (alsa-devel@alsa-project.org)
-> > > > > > > <alsa-devel@alsa-project.org>; linux-sound@vger.kernel.org
-> > > > > > > Subject: Re: update ALC222 depop optimize
-> > > > > > >
-> > > > > > >
-> > > > > > > External mail : This email originated from outside the organi=
-zation.
-> > > > > > > Do not reply, click links, or open attachments unless you
-> > > > > > > recognize the sender and know the content is safe.
-> > > > > > >
-> > > > > > >
-> > > > > > >
-> > > > > > > On Wed, 05 Mar 2025 07:32:00 +0100, Kailang wrote:
-> > > > > > > >
-> > > > > > > > Hi Takashi,
-> > > > > > > >
-> > > > > > > > Update ALC222 depop optimize as attach.
-> > > > > > >
-> > > > > > > Could you give a bit more background info why this change is
-> needed?
-> > > > > > > Is it a mandatory change to fix something, or it improves
-> something?
-> > > > > > >
-> > > > > > This codec has two headphone design.
-> > > > > > The HP2 was nid 0x14.
-> > > > >
-> > > > > Sorry not clear enough: do you mean the patch is to fix the
-> > > > > depop problems on the models with two headphone pins with ALC222?
-> > > >
-> > > > Yes, the original depop was only supported one headphone.
-> > >
-> > > OK, and then would it be a bit risky to blindly assume the second
-> > > headphone pin 0x14?  Isn't it set up via pin config?
-> > >
-> > It doesn't have risk to set this pin as headphone or line out.
-> > This pin (0x14) can be a line out or headphone. It has JD which driver =
-will get
-> it.
-> > Line out and Headhpone were need to do depop procedure.
-> > If pin 0x14 set to speaker, it wouldn't have JD.
-> >
-> > hp2_pin_sense =3D snd_hda_jack_detect(codec, 0x14);
-> >
-> > This just got JD to do depop.
->=20
-> Fair enough, I took the patch now.  Thanks.
+On the flip side of the argument, the parameters that are filled
+into this are almost certainly specific tuning for the hardware,
+so in many ways this is hardware description and there is a
+certain appeal to shipping the tuning with the hardware (ie. in
+DT).
 
-This codec speaker pin will be 0x17. 0x14 pin was not have class D amp. So,=
- 0x14 pin will not assign to speaker pin.
->=20
->=20
-> Takashi
+Thanks,
+Charles
