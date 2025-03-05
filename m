@@ -1,152 +1,147 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE352459FC
-	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 18:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5B7253B7C;
+	Wed,  5 Mar 2025 18:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741200837; cv=none; b=DMNki7IQaw7aDYX3Z/QULJcXrjQZ0XvENa400gMYtdrL1bs2tL2rj7eJNF5PrV6ktekILqY7XYSJiTnrVunf8rXjhR6O4+oONj9IxrbKGoX8m/BY1Fq/fpqzGmY/HGeClFYWY9/++fFqA9nHQGdY3HLIOECRjkU9ZcO9/liaYeg=
+	t=1741201164; cv=none; b=rccEhOOTk2w46D7HcLoeZ92AP9OqzjKEdmJw5zQ7XLjn31OH6OBVlAENFIR2YpQx9JNtDz8BuJgfly4xbgqeUxk03GLATyv+mK0OmguZSlNcvSvAw9TcJBj1Ro2a3xJWUnRy1JYifXr2dQh9PXRWZMKdZWnp3wEp/AaUX3fU3sI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741200837; c=relaxed/simple;
-	bh=3cq7gDHWYX9B5hkXU82IO10/vE5OhALp3Tf7wVmp8rQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MiaNCRhkn7bodO9J0tBPwocy7VWyVRhIy98TmS+OklLtlWLGJxSieh6gZ5w1XC77ffPeD9svS9Z7dZ6OUXQTHpdk3kcREKQE7032fq25uagQ640kN3o09V5TIDgTeyMl1t4S7IjfDbeJP7KQCBiSyYlykTPKPxUDUAwxY+yXr4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PpqEfdfA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uaiZ7kje; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2TiqfMOy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uaiZ7kje; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1741201164; c=relaxed/simple;
+	bh=u/GQhP1xEopgzVBLmurB5SYuCMPtvKHmpfxo57+s2TE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Zz+wVgQBa8aLbh7Ai5SI9o0Tqn96l+xqr/5x8aiRFkh1o3PdAuwM+H5TU+RUaljR/RJZcEGpSSOnq9oL4DpxK7fDicWWAQCJ4FkjW9ZaytEdEs3T1mitG8ccTlfZIkynzRhMALMfXr8FogL4tSix7+sYWFyxlffpplMXxtPqtyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MHW65aF5; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PpqEfdfA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uaiZ7kje";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2TiqfMOy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uaiZ7kje"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MHW65aF5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1741201160;
+	bh=u/GQhP1xEopgzVBLmurB5SYuCMPtvKHmpfxo57+s2TE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=MHW65aF5zt1j/P/JBQGhK4Ht+n1SPqCp9rnl7HVPK/MxufyDMnTGiFq+KJU5To5iu
+	 qjqaWvq5FMB2H4Gf2zY1a1Dj9sbP6up5u5ABBQap/J6xIVvaqHp6a5fm1e6dUlRAW4
+	 XD8uj8A1tPbMEZ9m2HwoRLr3Zga6yX6KmCt96gjg+Gbk5t9yVcxBEq170XEyFJWYDM
+	 qMlqFYxdiINU+ie2Dq6WE1/DzYrAimdTNsALBJFAJ9yXZG3HLif69TPKsAVpP+TtRg
+	 yNEMX5JoFuu4mB+FDfZwjN1Ssfs34DmXKRdaRdL67cCeeeuUIo9rncuCiYScq/P2wF
+	 2ExQ+Tk/zupXQ==
+Received: from [192.168.0.47] (unknown [IPv6:2804:14c:1a9:53ee::1004])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F2B691F37E;
-	Wed,  5 Mar 2025 18:53:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741200834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+FZIZhHm+gbadO7RjQ23J/lkTdz43cQOamtvD4EPji0=;
-	b=PpqEfdfAEwiVTsoQxdtSgYl+now1WuXaBYfPGPFztY7fi6nk9NRe44wyXd14Al7U/oktez
-	wzJ2pUAiUhbnpTebE56Gzo0DoAwjhiX3XlIoTrb4e5deDKt+e7G89XmfES+/eJhWFBR4Ok
-	Wrcaw0fhIuJHJ+c8XPvfkxgtlS1/QH0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741200834;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+FZIZhHm+gbadO7RjQ23J/lkTdz43cQOamtvD4EPji0=;
-	b=uaiZ7kjeim1kvvgs7OdHbRBJQYmdiHaNx7N6Ax5xxw3ujVfVGTgeFCC6uiCGGNh7dKlU/M
-	yQwgLVDapbRWy7Cw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2TiqfMOy;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uaiZ7kje
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741200833; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+FZIZhHm+gbadO7RjQ23J/lkTdz43cQOamtvD4EPji0=;
-	b=2TiqfMOyDaAcDuT2fsd141QWDVuKrwAT47wUlbCKBK5waQuMcn+u8g1Xs6HajVeSWuDKIR
-	8rinkY+xXJktqY43QgCak8wViD3+/Yn4HE59h9cozYnbMQaEoIoSPBWtzimwSss7Jmf5Wy
-	RxpRukTPKBsr15PmOvrGBAqF68623Us=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741200834;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+FZIZhHm+gbadO7RjQ23J/lkTdz43cQOamtvD4EPji0=;
-	b=uaiZ7kjeim1kvvgs7OdHbRBJQYmdiHaNx7N6Ax5xxw3ujVfVGTgeFCC6uiCGGNh7dKlU/M
-	yQwgLVDapbRWy7Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD1C613939;
-	Wed,  5 Mar 2025 18:53:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id k9N3LMGdyGc1KQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 05 Mar 2025 18:53:53 +0000
-Date: Wed, 05 Mar 2025 19:53:53 +0100
-Message-ID: <87plivqpfi.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH v1 0/7] Add Support for various ASUS laptops using CS35L41
-In-Reply-To: <20250305170714.755794-1-sbinding@opensource.cirrus.com>
-References: <20250305170714.755794-1-sbinding@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DFC6717E0599;
+	Wed,  5 Mar 2025 19:59:14 +0100 (CET)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH v4 00/19] Get mt6359-accdet ready for usage in Devicetree
+Date: Wed, 05 Mar 2025 15:58:15 -0300
+Message-Id: <20250305-mt6359-accdet-dts-v4-0-e5ffa5ee9991@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: F2B691F37E
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMeeyGcC/33OSwrCMBCA4auUrI3k2TSuvIe4yGNqA62RpBSl9
+ O6m3ShSXP4D883MKEMKkNGpmlGCKeQQ7yXEoUKuM/cb4OBLI0aYJIwKPIw1lxob5zyM2I8ZE2J
+ poxuhWu5Q2XskaMNzMy/X0l3IY0yv7cRE1+k/baKY4FopQyW12gp3drHvjY3JHF0c0CpO7KNww
+ vYUVhRpfc05APFC7Sn8W9n9hW8KAdM6pltpf5VlWd73WOlzQgEAAA==
+X-Change-ID: 20250214-mt6359-accdet-dts-00b189847f3c
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, 
+ Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-pm@vger.kernel.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
+ Andrew Perepech <andrew.perepech@mediatek.com>
+X-Mailer: b4 0.14.2
 
-On Wed, 05 Mar 2025 18:06:44 +0100,
-Stefan Binding wrote:
-> 
-> Add support for several Commercial and Consumer laptops using CS35L41 HDA.
-> These laptops use combinations of Internal and External boost, as well as
-> SPI and I2C.
-> 
-> Stefan Binding (7):
->   ALSA: hda/realtek: Add support for ASUS ROG Strix G814 Laptop using
->     CS35L41 HDA
->   ALSA: hda/realtek: Add support for ASUS ROG Strix GA603 Laptops using
->     CS35L41 HDA
->   ALSA: hda/realtek: Add support for ASUS ROG Strix G614 Laptops using
->     CS35L41 HDA
->   ALSA: hda/realtek: Add support for various ASUS Laptops using CS35L41
->     HDA
->   ALSA: hda/realtek: Add support for ASUS B3405 and B3605 Laptops using
->     CS35L41 HDA
->   ALSA: hda/realtek: Add support for ASUS B5405 and B5605 Laptops using
->     CS35L41 HDA
->   ALSA: hda/realtek: Add support for ASUS Zenbook UM3406KA Laptops using
->     CS35L41 HDA
+This series prepares the MT6359 ACCDET for actual usage in the
+Devicetree. Patch 1 adds the required DT bindings, patches 2 and 3 get
+the mt6359-accdet driver probing, patches 4-17 clean up code related to
+DT property parsing, patch 18 adds the node in the Devicetree and patch
+19 enables the kconfig for the driver.
 
-Thanks, applied all patches now.
+Together with the series "Allow retrieving accessory detection reference
+on MT8188" [1], and one extra patch on top enabling it on the
+genio-700-evk DT, this series was tested on the Genio 700 EVK to get
+audio jack detection working on it.
 
+[1] https://lore.kernel.org/all/20250214-mt8188-accdet-v1-0-6bbd5483855b@collabora.com
 
-Takashi
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+---
+Changes in v4:
+- Moved DT-binding for accdet from standalone file
+  (sound/mediatek,mt6359-accdet.yaml) to parent mfd's file
+  (mfd/mediatek,mt6397.yaml), squashing patches 1 and 2.
+- Link to v3: https://lore.kernel.org/r/20250304-mt6359-accdet-dts-v3-0-5b0eafc29f5b@collabora.com
+
+Changes in v3:
+- Removed unneeded '|' in mt6359-accdet's dt-binding description
+- Removed unneeded unevaluatedProperties for accdet node in mt6397's
+  dt-binding
+- Clarified HP_EINT pin is on the MT6359 PMIC in mediatek,hp-eint-high's
+  description in the mt6359-accdet dt-binding
+- Link to v2: https://lore.kernel.org/r/20250302-mt6359-accdet-dts-v2-0-5bd633ee0d47@collabora.com
+
+Changes in v2:
+- Removed all DT-binding properties except for EINT polarity one
+  (mediatek,eint-level-pol / mediatek,hp-eint-high)
+  - Added patches 12-18 to make those settings internal to driver
+- Renamed mediatek,eint-level-pol to mediatek,hp-eint-high and made it
+  bool
+- Added patch 20 to enable the MT6359 ACCDET Kconfig in the defconfig
+- Removed unused btn_type variable as part of "Drop dead code for button
+  detection" patch.
+- Link to v1: https://lore.kernel.org/r/20250214-mt6359-accdet-dts-v1-0-677a151b9b4c@collabora.com
+
+---
+Andrew Perepech (2):
+      mfd: mt6397-core: Add mfd_cell for mt6359-accdet
+      ASoC: mediatek: mt6359-accdet: Implement HP_EINT polarity configuration
+
+Nícolas F. R. A. Prado (17):
+      dt-bindings: mfd: mediatek: mt6397: Add accdet subnode
+      ASoC: mediatek: mt6359-accdet: Add compatible property
+      ASoC: mediatek: mt6359-accdet: Handle hp-eint-high property
+      ASoC: mediatek: mt6359-accdet: Drop dead code for EINT/GPIO IRQ handling
+      ASoC: mediatek: mt6359-accdet: Drop dead code for EINT trigger setting
+      ASoC: mediatek: mt6359-accdet: Drop dead code for button detection
+      ASoC: mediatek: mt6359-accdet: Drop dead code for plugout-debounce
+      ASoC: mediatek: mt6359-accdet: Drop unused moisture variables
+      ASoC: mediatek: mt6359-accdet: Always use internal resistor
+      ASoC: mediatek: mt6359-accdet: Make PWM debounce settings internal
+      ASoC: mediatek: mt6359-accdet: Always use eint detect mode 4
+      ASoC: mediatek: mt6359-accdet: Always set micbias1 to 2.8V
+      ASoC: mediatek: mt6359-accdet: Always configure hardware as mic-mode 2
+      ASoC: mediatek: mt6359-accdet: Always set comp-vth to 1.6V
+      ASoC: mediatek: mt6359-accdet: Always use EINT0 IRQ
+      arm64: dts: mt6359: Add accessory detect node
+      arm64: defconfig: Enable MT6359 ACCDET
+
+ .../devicetree/bindings/mfd/mediatek,mt6397.yaml   |  51 ++
+ arch/arm64/boot/dts/mediatek/mt6359.dtsi           |   4 +
+ arch/arm64/configs/defconfig                       |   1 +
+ drivers/mfd/mt6397-core.c                          |  12 +
+ sound/soc/codecs/mt6359-accdet.c                   | 599 +++++----------------
+ sound/soc/codecs/mt6359-accdet.h                   |  55 +-
+ 6 files changed, 198 insertions(+), 524 deletions(-)
+---
+base-commit: 20d5c66e1810e6e8805ec0d01373afb2dba9f51a
+change-id: 20250214-mt6359-accdet-dts-00b189847f3c
+
+Best regards,
+-- 
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
