@@ -1,143 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300991DFD83;
-	Wed,  5 Mar 2025 06:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2B0156F44;
+	Wed,  5 Mar 2025 07:05:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741157161; cv=none; b=oHncKow+vCm5dl4GvKEt45d65IwuolgiE5QGRQq9SZ4n4zwkiOQX6ePe79rMfbUXrHcI0Y/zyzBI1UZXoDmlcgprjSBxFqNJS5IFMlf0xOrSLxOS0bDMWOsMbytXcii8tu2aXZwsL2mfrn3CvWkn6ilVP9f/K+goSCZLANxMYjQ=
+	t=1741158307; cv=none; b=TEnNTeTpDzrs6NY7668RqV8iAasobPu05S36s5s2Etzhz4Uj4A66ZB1edN2Vk6JooLRY9o4BpziwdxS33s8MGCHipWw/oJeP+8UIAmAP37JSb/6uxyzljietpmlYxOjRbSdy0kO652gMuzjjvQPvHi4cZZnDQ92Zz1WYg+1Q50U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741157161; c=relaxed/simple;
-	bh=SMaJCz2LeQnN5psd2ci+mMQcqdxF4t7eL4mO4g+1mp0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nXES4hyJvNAafSR4DGwI0m9atYCIWBMy5ZlC+0ZsLu3No5h6aWyTjHNEVTu8mC0lZ5w4N+h5iSTk988N3EwdKn33QdbsegXk7zyAj9UpmhiKKxMAxEgN+odc7CTnoAcfRHEEoF+fe9RLe6UZELsM4d6kXk4631Bsf3bcs5Om2dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AEC8v5zr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741158307; c=relaxed/simple;
+	bh=UzdLNCI0bfSar6q7q7rZ73KBcX1BCzYbwcMYrNzDXQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cBLRaUoi705TJxZQ+EWGVKQKgER2vexS56asqbS7h+gJh2lnFsf3Nbj/g7pBmqmCHVisHdw1Q+Nky0/Oj/Od7K6cuGTeeeq8H+LipyEYpbb08HN4GAmG4ysdBpjieb2Aoves1QLka4UjvQ0oBlx8QsavXAgoGw+nGjl+CkD+3/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pj/yz0O7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AEC8v5zr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F16AC4CEEA;
-	Wed,  5 Mar 2025 06:45:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pj/yz0O7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B58AC4CEE2;
+	Wed,  5 Mar 2025 07:05:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741157160;
-	bh=SMaJCz2LeQnN5psd2ci+mMQcqdxF4t7eL4mO4g+1mp0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AEC8v5zruSLkxEj1X2aDkMVY0KSaCC0AhA6YGBhGzSeaA8UbHKDnMxFh0Zm/KzDKe
-	 g2meU7hC2I/QWUpqNRds3b2aKIg8nsTGoob78tG0/bGUcUyx6a8E7pk+xL0MFN/xwv
-	 E5INUt9R0kRvMvDH5IuKa/uug8QBqv52suYYzfXB1znaI5VR0aLWqn6anMaXAfdvsy
-	 3FS9x+ybMdjoj5m7zNt3Io4P9pmlH7x4E3+KBX/6S4mG0BstZB07QZZjiKcohF0Pnf
-	 RNUSy+Ip6uCUCMDyKaLW08pm3pFrR1K7NCWv4CNgohgM5/GawtySV+ezjFEfojNwPd
-	 RyWsVXu85OcHw==
-Message-ID: <f690d858-a427-4db4-81ee-d5eb6223368c@kernel.org>
-Date: Wed, 5 Mar 2025 07:45:50 +0100
+	s=k20201202; t=1741158305;
+	bh=UzdLNCI0bfSar6q7q7rZ73KBcX1BCzYbwcMYrNzDXQs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pj/yz0O7pjEBKga/lkQ2UIlP5JHjwdc95mwGGdwFtSrK2EF3Sw5hVWJQZcDgdxMch
+	 zuyubpPULuh80KoCz19ZE0hlZJ9I+2L61+WT2wH98AqF/1Cc3f9NnkbXUlLO+bKPQe
+	 3ZSGMPGGW8Adzo/1FNjDXzE+Z612U5iacNThZ0KoIcSXPFbnAiR2QE/y79RMvGNlyy
+	 USKcSDi7NdhVkos0GFyQ9ffkAmo/X8aRZPE9vIZgboDD//IIyliPAyxgTyZxdV/los
+	 SYZMXwdKK4/RjMZZc1DoLMBZQ7NYFgK/JZe2xQCtq6xrRnY9tqLrBRWWu1gAwWFbjZ
+	 RKwdxU+NI5YfQ==
+Date: Wed, 5 Mar 2025 08:05:02 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sen Chu <sen.chu@mediatek.com>, 
+	Sean Wang <sean.wang@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>, 
+	Lee Jones <lee@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, kernel@collabora.com, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 01/20] ASoC: dt-bindings: Add document for
+ mt6359-accdet
+Message-ID: <20250305-stylish-grumpy-chital-ea6e4c@krzk-bin>
+References: <20250304-mt6359-accdet-dts-v3-0-5b0eafc29f5b@collabora.com>
+ <20250304-mt6359-accdet-dts-v3-1-5b0eafc29f5b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC and
- EQ support
-To: Ernest Van Hoecke <ernestvanhoecke@gmail.com>
-Cc: Francesco Dolcini <francesco@dolcini.it>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- patches@opensource.cirrus.com,
- Ernest Van Hoecke <ernest.vanhoecke@toradex.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>
-References: <20250224155500.52462-1-francesco@dolcini.it>
- <20250224155500.52462-4-francesco@dolcini.it>
- <20250225-delicate-tortoise-of-management-e43fa2@krzk-bin>
- <er4bcixggriqp6idl6xmr7bjetf5kkhadyeplkbyxvrffuiknc@ews752x4ugh7>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <er4bcixggriqp6idl6xmr7bjetf5kkhadyeplkbyxvrffuiknc@ews752x4ugh7>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250304-mt6359-accdet-dts-v3-1-5b0eafc29f5b@collabora.com>
 
-On 27/02/2025 16:34, Ernest Van Hoecke wrote:
-> On Tue, Feb 25, 2025 at 09:41:17AM +0100, Krzysztof Kozlowski wrote:
->> On Mon, Feb 24, 2025 at 04:54:58PM +0100, Francesco Dolcini wrote:
->>> +  wlf,drc-cfg-regs:
->>> +    $ref: /schemas/types.yaml#/definitions/uint16-array
->>> +    description:
->>> +      Default register values for R40/41/42/43 (DRC).
->>> +      The list must be 4 times the length of wlf,drc-cfg-names.
->>> +      If absent, DRC is disabled.
->>> +
->>> +  wlf,retune-mobile-cfg-names:
->>> +    $ref: /schemas/types.yaml#/definitions/string-array
->>> +    description:
->>> +      List of strings for the available retune modes.
->>> +      If absent, retune is disabled.
->>
->> How is this retune supposed to be used? If by user-space I can easily
->> imagine that static DTS configuration won't be enough, because you need
->> to factor for example temperature or some other minor differences
->> between same boards.
-> 
-> This is intended for integrators to be able to specify some EQ options,
-> mirroring the previous behaviour that was possible via platform data.
-> 
-> I expect most users to use the first five Retune Mobile registers and
-> not care about the rest, which require a proprietary tool and are not
-> well documented. The example in the binding shows how some simple
-> static EQ can be configured. Anyone interested in the extended config
-> can also use it (statically).
-> 
-> If someone requires dynamic behaviour at runtime that could be a
-> separate patch that should not be hindered by this static config.
+On Tue, Mar 04, 2025 at 12:15:42PM -0300, N=C3=ADcolas F. R. A. Prado wrote:
+> Add dt-binding for the MT6359 ACCDET hardware block.
+>=20
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+>  .../bindings/sound/mediatek,mt6359-accdet.yaml     | 42 ++++++++++++++++=
+++++++
+>  1 file changed, 42 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt6359-accd=
+et.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt6359-accdet.ya=
+ml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..1d27148ed7bffee3f73015c8a=
+f88bfffa8701843
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt6359-accdet.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/mediatek,mt6359-accdet.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MT6359 Accessory Detection
+> +
+> +maintainers:
+> +  - N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+> +
+> +description:
+> +  The MT6359 Accessory Detection block is part of the MT6359 PMIC and al=
+lows
+> +  detecting audio jack insertion and removal, as well as identifying the=
+ type of
+> +  events connected to the jack.
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt6359-accdet
 
-
-No, if this is suitable for dynamic configuration then it's a proof it
-is not suitable for DT.
+There are no resources here, so this should be folded into parent node.
 
 Best regards,
 Krzysztof
+
