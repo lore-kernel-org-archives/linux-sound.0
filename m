@@ -1,140 +1,143 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E6D14658D
-	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 06:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300991DFD83;
+	Wed,  5 Mar 2025 06:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741156343; cv=none; b=DzMrqStiEvYKMZEVyDAbdQUkyXU6moiUaGNfhl0bIbKuj/tV9CYyz6SyFP1crZDMDhyA4zADKNrORS/u/jKS6G8AzNRoT75n4TU2pySrxlZxWzdnDMsM5ZRdxSq3gjPMvNCJvBCcHNKjOcqB4a6uBDn64j3db3Y7KmXs6cumnqA=
+	t=1741157161; cv=none; b=oHncKow+vCm5dl4GvKEt45d65IwuolgiE5QGRQq9SZ4n4zwkiOQX6ePe79rMfbUXrHcI0Y/zyzBI1UZXoDmlcgprjSBxFqNJS5IFMlf0xOrSLxOS0bDMWOsMbytXcii8tu2aXZwsL2mfrn3CvWkn6ilVP9f/K+goSCZLANxMYjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741156343; c=relaxed/simple;
-	bh=v7uXc7+qtBsPOjzkJEp+GYBDzTNQWSX6MDCYF/ovWUI=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=CeeMzRXplD7Xfc4ZMOXOr62Z/6B0fWV0nYeuBokJeUWIyzkNC6Rydyb/62Aj4JEXr3K6KBVHP5ncu+GOvCUXgdNSUdYmXOuOfWIPJ99OPoPVwuo1OizFPeSewh6xYOwkrW4Rw2Gf4rFpSX9ZFm2jINJSWalYtLLaiOQO3NdT3Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=OEApZaWc; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1741157161; c=relaxed/simple;
+	bh=SMaJCz2LeQnN5psd2ci+mMQcqdxF4t7eL4mO4g+1mp0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nXES4hyJvNAafSR4DGwI0m9atYCIWBMy5ZlC+0ZsLu3No5h6aWyTjHNEVTu8mC0lZ5w4N+h5iSTk988N3EwdKn33QdbsegXk7zyAj9UpmhiKKxMAxEgN+odc7CTnoAcfRHEEoF+fe9RLe6UZELsM4d6kXk4631Bsf3bcs5Om2dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AEC8v5zr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="OEApZaWc"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 5256W0xE41038228, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1741156320; bh=v7uXc7+qtBsPOjzkJEp+GYBDzTNQWSX6MDCYF/ovWUI=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	b=OEApZaWcp6FxRIR5V306PrpsJKc3SUx+aIKgYAu8JB33m4hNQjf88SkAjVSJIq+AR
-	 KuMlS5hNKkSu33DVb2f9X5kKv3yR8wZHLi5mj60KtrrnFgYWX6BZLlp3O/LIhEBdrz
-	 m6b11loL4V8HL+KHdiCJt3yk5ltewkxO2GOvVRXCuz+BxkKcZKmGyAqXb9D1r1kJKc
-	 zkj9kJ/1Gai6Co09tiWWn49UBPO+gIqFAk89mh4hc0WVyTDEtZsJxAfc9BEptWdZAe
-	 hRQDdZ0SE/0VwnLgaSUCnXe1NGQyQlncW1/8VDZeKi0JJUKDm5h/wF7q2m2x/SuPuV
-	 wxjwzUNswmncg==
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 5256W0xE41038228
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 5 Mar 2025 14:32:00 +0800
-Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 5 Mar 2025 14:32:01 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 5 Mar 2025 14:32:00 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
- RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
- 15.01.2507.035; Wed, 5 Mar 2025 14:32:00 +0800
-From: Kailang <kailang@realtek.com>
-To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
-CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: update ALC222 depop optimize
-Thread-Topic: update ALC222 depop optimize
-Thread-Index: AduNl/Z/2i7zvjW2RduQNmX+QwAWAA==
-Date: Wed, 5 Mar 2025 06:32:00 +0000
-Message-ID: <81c7f0ec4a2447219c06095e0de4d1d3@realtek.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: yes
-x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: multipart/mixed;
-	boundary="_002_81c7f0ec4a2447219c06095e0de4d1d3realtekcom_"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AEC8v5zr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F16AC4CEEA;
+	Wed,  5 Mar 2025 06:45:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741157160;
+	bh=SMaJCz2LeQnN5psd2ci+mMQcqdxF4t7eL4mO4g+1mp0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AEC8v5zruSLkxEj1X2aDkMVY0KSaCC0AhA6YGBhGzSeaA8UbHKDnMxFh0Zm/KzDKe
+	 g2meU7hC2I/QWUpqNRds3b2aKIg8nsTGoob78tG0/bGUcUyx6a8E7pk+xL0MFN/xwv
+	 E5INUt9R0kRvMvDH5IuKa/uug8QBqv52suYYzfXB1znaI5VR0aLWqn6anMaXAfdvsy
+	 3FS9x+ybMdjoj5m7zNt3Io4P9pmlH7x4E3+KBX/6S4mG0BstZB07QZZjiKcohF0Pnf
+	 RNUSy+Ip6uCUCMDyKaLW08pm3pFrR1K7NCWv4CNgohgM5/GawtySV+ezjFEfojNwPd
+	 RyWsVXu85OcHw==
+Message-ID: <f690d858-a427-4db4-81ee-d5eb6223368c@kernel.org>
+Date: Wed, 5 Mar 2025 07:45:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC and
+ EQ support
+To: Ernest Van Hoecke <ernestvanhoecke@gmail.com>
+Cc: Francesco Dolcini <francesco@dolcini.it>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ patches@opensource.cirrus.com,
+ Ernest Van Hoecke <ernest.vanhoecke@toradex.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+References: <20250224155500.52462-1-francesco@dolcini.it>
+ <20250224155500.52462-4-francesco@dolcini.it>
+ <20250225-delicate-tortoise-of-management-e43fa2@krzk-bin>
+ <er4bcixggriqp6idl6xmr7bjetf5kkhadyeplkbyxvrffuiknc@ews752x4ugh7>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <er4bcixggriqp6idl6xmr7bjetf5kkhadyeplkbyxvrffuiknc@ews752x4ugh7>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---_002_81c7f0ec4a2447219c06095e0de4d1d3realtekcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On 27/02/2025 16:34, Ernest Van Hoecke wrote:
+> On Tue, Feb 25, 2025 at 09:41:17AM +0100, Krzysztof Kozlowski wrote:
+>> On Mon, Feb 24, 2025 at 04:54:58PM +0100, Francesco Dolcini wrote:
+>>> +  wlf,drc-cfg-regs:
+>>> +    $ref: /schemas/types.yaml#/definitions/uint16-array
+>>> +    description:
+>>> +      Default register values for R40/41/42/43 (DRC).
+>>> +      The list must be 4 times the length of wlf,drc-cfg-names.
+>>> +      If absent, DRC is disabled.
+>>> +
+>>> +  wlf,retune-mobile-cfg-names:
+>>> +    $ref: /schemas/types.yaml#/definitions/string-array
+>>> +    description:
+>>> +      List of strings for the available retune modes.
+>>> +      If absent, retune is disabled.
+>>
+>> How is this retune supposed to be used? If by user-space I can easily
+>> imagine that static DTS configuration won't be enough, because you need
+>> to factor for example temperature or some other minor differences
+>> between same boards.
+> 
+> This is intended for integrators to be able to specify some EQ options,
+> mirroring the previous behaviour that was possible via platform data.
+> 
+> I expect most users to use the first five Retune Mobile registers and
+> not care about the rest, which require a proprietary tool and are not
+> well documented. The example in the binding shows how some simple
+> static EQ can be configured. Anyone interested in the extended config
+> can also use it (statically).
+> 
+> If someone requires dynamic behaviour at runtime that could be a
+> separate patch that should not be hindered by this static config.
 
-Hi Takashi,
 
-Update ALC222 depop optimize as attach.
+No, if this is suitable for dynamic configuration then it's a proof it
+is not suitable for DT.
 
-BR,
-Kailang
-
---_002_81c7f0ec4a2447219c06095e0de4d1d3realtekcom_
-Content-Type: application/octet-stream;
-	name="0000-alc222-dual-hp-depop.patch"
-Content-Description: 0000-alc222-dual-hp-depop.patch
-Content-Disposition: attachment; filename="0000-alc222-dual-hp-depop.patch";
-	size=2897; creation-date="Thu, 23 Jan 2025 07:10:01 GMT";
-	modification-date="Wed, 05 Mar 2025 06:26:38 GMT"
-Content-Transfer-Encoding: base64
-
-RnJvbSBiODE4YjZhNGY4YmJlMDMxYzVhODVkMzI1Yzg5ZmMwYmJjYmQ1ZTVjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
-dGU6IFdlZCwgNSBNYXIgMjAyNSAxMzo1NDozNCArMDgwMApTdWJqZWN0OiBbUEFUQ0hdIEFMU0E6
-IGhkYS9yZWFsdGVrOiB1cGRhdGUgQUxDMjIyIGRlcG9wIG9wdGltaXplCgpBZGQgQUxDMjIyIGl0
-cyBvd24gZGVwb3AgZnVuY3Rpb25zIGZvciBhbGNfaW5pdCBhbmQgYWxjX3NodXR1cC4KClNpZ25l
-ZC1vZmYtYnk6IEthaWxhbmcgWWFuZyA8a2FpbGFuZ0ByZWFsdGVrLmNvbT4KCmRpZmYgLS1naXQg
-YS9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYyBiL3NvdW5kL3BjaS9oZGEvcGF0Y2hfcmVh
-bHRlay5jCmluZGV4IGNhMTBiOWU5ZTNhNC4uNzA2YTM1NTA5NTE4IDEwMDY0NAotLS0gYS9zb3Vu
-ZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYworKysgYi9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0
-ZWsuYwpAQCAtMzg0NCw2ICszODQ0LDc5IEBAIHN0YXRpYyB2b2lkIGFsYzIyNV9zaHV0dXAoc3Ry
-dWN0IGhkYV9jb2RlYyAqY29kZWMpCiAJfQogfQogCitzdGF0aWMgdm9pZCBhbGMyMjJfaW5pdChz
-dHJ1Y3QgaGRhX2NvZGVjICpjb2RlYykKK3sKKwlzdHJ1Y3QgYWxjX3NwZWMgKnNwZWMgPSBjb2Rl
-Yy0+c3BlYzsKKwloZGFfbmlkX3QgaHBfcGluID0gYWxjX2dldF9ocF9waW4oc3BlYyk7CisJYm9v
-bCBocDFfcGluX3NlbnNlLCBocDJfcGluX3NlbnNlOworCisJaWYgKCFocF9waW4pCisJCXJldHVy
-bjsKKworCW1zbGVlcCgzMCk7CisKKwlocDFfcGluX3NlbnNlID0gc25kX2hkYV9qYWNrX2RldGVj
-dChjb2RlYywgaHBfcGluKTsKKwlocDJfcGluX3NlbnNlID0gc25kX2hkYV9qYWNrX2RldGVjdChj
-b2RlYywgMHgxNCk7CisKKwlpZiAoaHAxX3Bpbl9zZW5zZSB8fCBocDJfcGluX3NlbnNlKSB7CisJ
-CW1zbGVlcCgyKTsKKworCQlpZiAoaHAxX3Bpbl9zZW5zZSkKKwkJCXNuZF9oZGFfY29kZWNfd3Jp
-dGUoY29kZWMsIGhwX3BpbiwgMCwKKwkJCQkgICAgQUNfVkVSQl9TRVRfUElOX1dJREdFVF9DT05U
-Uk9MLCBQSU5fT1VUKTsKKwkJaWYgKGhwMl9waW5fc2Vuc2UpCisJCQlzbmRfaGRhX2NvZGVjX3dy
-aXRlKGNvZGVjLCAweDE0LCAwLAorCQkJCSAgICBBQ19WRVJCX1NFVF9QSU5fV0lER0VUX0NPTlRS
-T0wsIFBJTl9PVVQpOworCQltc2xlZXAoNzUpOworCisJCWlmIChocDFfcGluX3NlbnNlKQorCQkJ
-c25kX2hkYV9jb2RlY193cml0ZShjb2RlYywgaHBfcGluLCAwLAorCQkJCSAgICBBQ19WRVJCX1NF
-VF9BTVBfR0FJTl9NVVRFLCBBTVBfT1VUX1VOTVVURSk7CisJCWlmIChocDJfcGluX3NlbnNlKQor
-CQkJc25kX2hkYV9jb2RlY193cml0ZShjb2RlYywgMHgxNCwgMCwKKwkJCQkgICAgQUNfVkVSQl9T
-RVRfQU1QX0dBSU5fTVVURSwgQU1QX09VVF9VTk1VVEUpOworCisJCW1zbGVlcCg3NSk7CisJfQor
-fQorCitzdGF0aWMgdm9pZCBhbGMyMjJfc2h1dHVwKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQor
-eworCXN0cnVjdCBhbGNfc3BlYyAqc3BlYyA9IGNvZGVjLT5zcGVjOworCWhkYV9uaWRfdCBocF9w
-aW4gPSBhbGNfZ2V0X2hwX3BpbihzcGVjKTsKKwlib29sIGhwMV9waW5fc2Vuc2UsIGhwMl9waW5f
-c2Vuc2U7CisKKwlpZiAoIWhwX3BpbikKKwkJaHBfcGluID0gMHgyMTsKKworCWhwMV9waW5fc2Vu
-c2UgPSBzbmRfaGRhX2phY2tfZGV0ZWN0KGNvZGVjLCBocF9waW4pOworCWhwMl9waW5fc2Vuc2Ug
-PSBzbmRfaGRhX2phY2tfZGV0ZWN0KGNvZGVjLCAweDE0KTsKKworCWlmIChocDFfcGluX3NlbnNl
-IHx8IGhwMl9waW5fc2Vuc2UpIHsKKwkJbXNsZWVwKDIpOworCisJCWlmIChocDFfcGluX3NlbnNl
-KQorCQkJc25kX2hkYV9jb2RlY193cml0ZShjb2RlYywgaHBfcGluLCAwLAorCQkJCSAgICBBQ19W
-RVJCX1NFVF9BTVBfR0FJTl9NVVRFLCBBTVBfT1VUX01VVEUpOworCQlpZiAoaHAyX3Bpbl9zZW5z
-ZSkKKwkJCXNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMsIDB4MTQsIDAsCisJCQkJICAgIEFDX1ZF
-UkJfU0VUX0FNUF9HQUlOX01VVEUsIEFNUF9PVVRfTVVURSk7CisKKwkJbXNsZWVwKDc1KTsKKwor
-CQlpZiAoaHAxX3Bpbl9zZW5zZSkKKwkJCXNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMsIGhwX3Bp
-biwgMCwKKwkJCQkgICAgQUNfVkVSQl9TRVRfUElOX1dJREdFVF9DT05UUk9MLCAweDApOworCQlp
-ZiAoaHAyX3Bpbl9zZW5zZSkKKwkJCXNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMsIDB4MTQsIDAs
-CisJCQkJICAgIEFDX1ZFUkJfU0VUX1BJTl9XSURHRVRfQ09OVFJPTCwgMHgwKTsKKworCQltc2xl
-ZXAoNzUpOworCX0KKwlhbGNfYXV0b19zZXR1cF9lYXBkKGNvZGVjLCBmYWxzZSk7CisJYWxjX3No
-dXR1cF9waW5zKGNvZGVjKTsKK30KKwogc3RhdGljIHZvaWQgYWxjX2RlZmF1bHRfaW5pdChzdHJ1
-Y3QgaGRhX2NvZGVjICpjb2RlYykKIHsKIAlzdHJ1Y3QgYWxjX3NwZWMgKnNwZWMgPSBjb2RlYy0+
-c3BlYzsKQEAgLTExOTM5LDggKzEyMDEyLDExIEBAIHN0YXRpYyBpbnQgcGF0Y2hfYWxjMjY5KHN0
-cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogCQlzcGVjLT5jb2RlY192YXJpYW50ID0gQUxDMjY5X1RZ
-UEVfQUxDMzAwOwogCQlzcGVjLT5nZW4ubWl4ZXJfbmlkID0gMDsgLyogbm8gbG9vcGJhY2sgb24g
-QUxDMzAwICovCiAJCWJyZWFrOworCWNhc2UgMHgxMGVjMDIyMjoKIAljYXNlIDB4MTBlYzA2MjM6
-CiAJCXNwZWMtPmNvZGVjX3ZhcmlhbnQgPSBBTEMyNjlfVFlQRV9BTEM2MjM7CisJCXNwZWMtPnNo
-dXR1cCA9IGFsYzIyMl9zaHV0dXA7CisJCXNwZWMtPmluaXRfaG9vayA9IGFsYzIyMl9pbml0Owog
-CQlicmVhazsKIAljYXNlIDB4MTBlYzA3MDA6CiAJY2FzZSAweDEwZWMwNzAxOgo=
-
---_002_81c7f0ec4a2447219c06095e0de4d1d3realtekcom_--
+Best regards,
+Krzysztof
