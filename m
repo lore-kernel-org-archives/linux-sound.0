@@ -1,87 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CEF1FCF4F;
-	Wed,  5 Mar 2025 17:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE352459FC
+	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 18:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741195663; cv=none; b=Ps7uvTt0ctiSri2gEqWrk39Aqb0IV74jX7qyHkCied3k/5tEbBsEn4GSkyg8io5PUpqADLE93gFzP2BOA4SlJxS4gLRMEAyg2YExKOJGwdt9GA7d4FEBGoTd8G2vrQ4PZPqYo5uhet1pyX7EhdyfpEUtXoHdq8LOlr79H9hokeg=
+	t=1741200837; cv=none; b=DMNki7IQaw7aDYX3Z/QULJcXrjQZ0XvENa400gMYtdrL1bs2tL2rj7eJNF5PrV6ktekILqY7XYSJiTnrVunf8rXjhR6O4+oONj9IxrbKGoX8m/BY1Fq/fpqzGmY/HGeClFYWY9/++fFqA9nHQGdY3HLIOECRjkU9ZcO9/liaYeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741195663; c=relaxed/simple;
-	bh=y8aRWtvYgzTCA8bPSW+FmeuF+48CDqkeacK98qix+OI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=opSYPpuMoGA4FEYvIa+39Qr0CVCdGsZDimo3c6Qfh8xXt31IbSDDAObC6pKRGETagNArT1Xc9i2oC2NfNj91dB9kEZWinkAsQoJIIDl1Awx6Vgoyn8e0rpyHjl+1oDTxORq9zFIEs20lhHOqR71z544Dqvf2UGQ/oAIXB9PZ34E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b9OCdmku; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741200837; c=relaxed/simple;
+	bh=3cq7gDHWYX9B5hkXU82IO10/vE5OhALp3Tf7wVmp8rQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MiaNCRhkn7bodO9J0tBPwocy7VWyVRhIy98TmS+OklLtlWLGJxSieh6gZ5w1XC77ffPeD9svS9Z7dZ6OUXQTHpdk3kcREKQE7032fq25uagQ640kN3o09V5TIDgTeyMl1t4S7IjfDbeJP7KQCBiSyYlykTPKPxUDUAwxY+yXr4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PpqEfdfA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uaiZ7kje; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2TiqfMOy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uaiZ7kje; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b9OCdmku"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E6EC4CEE0;
-	Wed,  5 Mar 2025 17:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741195663;
-	bh=y8aRWtvYgzTCA8bPSW+FmeuF+48CDqkeacK98qix+OI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=b9OCdmku55fNor7AKvw2qISbdb24upXR8KXWbkVp/bSYuGMRVngSFZq74WUkbzfdQ
-	 Bd1SMZ5qRMqvmywEA+Q/07XsWfayN/sp2F2dyCF9CXplW6M9Vz2DHGoukrVKZfXHJq
-	 ZgjQ/m+NBA0lyyUl+SKuS4FEeEcMvQHiYzfl4/Icq5TOKGSJ4luDGhksqnoaJl17tL
-	 7O71STpsBiZ803Kdegj3UUBvoHNqIcrjlRi5Nlfo7UIoaLMa91NX/dNMi22XaxYQ5B
-	 7RjnPXV1v7FrxRTtBG3m5AGWG7Qr3t4sWzow5JN2kvhYI1oPn0h97FdrwRRSqPI3Yq
-	 Oeixe8KnqUfOQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PpqEfdfA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uaiZ7kje";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2TiqfMOy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uaiZ7kje"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F2B691F37E;
+	Wed,  5 Mar 2025 18:53:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741200834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+FZIZhHm+gbadO7RjQ23J/lkTdz43cQOamtvD4EPji0=;
+	b=PpqEfdfAEwiVTsoQxdtSgYl+now1WuXaBYfPGPFztY7fi6nk9NRe44wyXd14Al7U/oktez
+	wzJ2pUAiUhbnpTebE56Gzo0DoAwjhiX3XlIoTrb4e5deDKt+e7G89XmfES+/eJhWFBR4Ok
+	Wrcaw0fhIuJHJ+c8XPvfkxgtlS1/QH0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741200834;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+FZIZhHm+gbadO7RjQ23J/lkTdz43cQOamtvD4EPji0=;
+	b=uaiZ7kjeim1kvvgs7OdHbRBJQYmdiHaNx7N6Ax5xxw3ujVfVGTgeFCC6uiCGGNh7dKlU/M
+	yQwgLVDapbRWy7Cw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2TiqfMOy;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uaiZ7kje
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741200833; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+FZIZhHm+gbadO7RjQ23J/lkTdz43cQOamtvD4EPji0=;
+	b=2TiqfMOyDaAcDuT2fsd141QWDVuKrwAT47wUlbCKBK5waQuMcn+u8g1Xs6HajVeSWuDKIR
+	8rinkY+xXJktqY43QgCak8wViD3+/Yn4HE59h9cozYnbMQaEoIoSPBWtzimwSss7Jmf5Wy
+	RxpRukTPKBsr15PmOvrGBAqF68623Us=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741200834;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+FZIZhHm+gbadO7RjQ23J/lkTdz43cQOamtvD4EPji0=;
+	b=uaiZ7kjeim1kvvgs7OdHbRBJQYmdiHaNx7N6Ax5xxw3ujVfVGTgeFCC6uiCGGNh7dKlU/M
+	yQwgLVDapbRWy7Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD1C613939;
+	Wed,  5 Mar 2025 18:53:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id k9N3LMGdyGc1KQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 05 Mar 2025 18:53:53 +0000
+Date: Wed, 05 Mar 2025 19:53:53 +0100
+Message-ID: <87plivqpfi.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: cs42l43: convert to SYSTEM_SLEEP_PM_OPS
-Date: Wed,  5 Mar 2025 18:27:32 +0100
-Message-Id: <20250305172738.3437513-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>
+Subject: Re: [PATCH v1 0/7] Add Support for various ASUS laptops using CS35L41
+In-Reply-To: <20250305170714.755794-1-sbinding@opensource.cirrus.com>
+References: <20250305170714.755794-1-sbinding@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: F2B691F37E
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, 05 Mar 2025 18:06:44 +0100,
+Stefan Binding wrote:
+> 
+> Add support for several Commercial and Consumer laptops using CS35L41 HDA.
+> These laptops use combinations of Internal and External boost, as well as
+> SPI and I2C.
+> 
+> Stefan Binding (7):
+>   ALSA: hda/realtek: Add support for ASUS ROG Strix G814 Laptop using
+>     CS35L41 HDA
+>   ALSA: hda/realtek: Add support for ASUS ROG Strix GA603 Laptops using
+>     CS35L41 HDA
+>   ALSA: hda/realtek: Add support for ASUS ROG Strix G614 Laptops using
+>     CS35L41 HDA
+>   ALSA: hda/realtek: Add support for various ASUS Laptops using CS35L41
+>     HDA
+>   ALSA: hda/realtek: Add support for ASUS B3405 and B3605 Laptops using
+>     CS35L41 HDA
+>   ALSA: hda/realtek: Add support for ASUS B5405 and B5605 Laptops using
+>     CS35L41 HDA
+>   ALSA: hda/realtek: Add support for ASUS Zenbook UM3406KA Laptops using
+>     CS35L41 HDA
 
-The custom suspend function causes a build warning when CONFIG_PM_SLEEP
-is disabled:
+Thanks, applied all patches now.
 
-sound/soc/codecs/cs42l43.c:2405:12: error: unused function 'cs42l43_codec_runtime_force_suspend' [-Werror,-Wunused-function]
 
-Change SET_SYSTEM_SLEEP_PM_OPS() to the newer SYSTEM_SLEEP_PM_OPS(),
-to avoid this.
-
-Fixes: 164b7dd4546b ("ASoC: cs42l43: Add jack delay debounce after suspend")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- sound/soc/codecs/cs42l43.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-index 4257dbefe9dd..e0d630c262f6 100644
---- a/sound/soc/codecs/cs42l43.c
-+++ b/sound/soc/codecs/cs42l43.c
-@@ -2417,7 +2417,7 @@ static int cs42l43_codec_runtime_force_suspend(struct device *dev)
- 
- static const struct dev_pm_ops cs42l43_codec_pm_ops = {
- 	RUNTIME_PM_OPS(NULL, cs42l43_codec_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(cs42l43_codec_runtime_force_suspend, pm_runtime_force_resume)
-+	SYSTEM_SLEEP_PM_OPS(cs42l43_codec_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static const struct platform_device_id cs42l43_codec_id_table[] = {
--- 
-2.39.5
-
+Takashi
