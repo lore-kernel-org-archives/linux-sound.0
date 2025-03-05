@@ -1,187 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D6E155342
-	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 08:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A8B1FCFE6;
+	Wed,  5 Mar 2025 09:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741164615; cv=none; b=uahdEiSxbkr9to3B8fCB11BtOgd1cVnFOgVHXdUk7K2kvJc5OKrfNwXiR1nQzsyvCG6V6VUDFNEP9sgev6RmqbHDdWz9Ma1PEkS8XCmk3tm6FhKvwACxu57pNk5VUqB++VbPNIehk5ZP/oTDDdPDEvWpEo3VXsMcvdlDQ+9Y338=
+	t=1741165617; cv=none; b=sloujEyF2Vfu4oEuprHj3zFB4CX4AwMudrZXeYJSNfYEwDuvSzJ4+xHXq7aNpKMLJ3uSnDX+CjAZzCrpHs2fs+DqhIaZHxN0r8bbFEXMfUz6uH7MraQem/BbuBaroVEhWAEflC9ziroqSu+KwXQBvqmk7HmuYCJcrhm/uPw5dRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741164615; c=relaxed/simple;
-	bh=04ydXd9ZJD8ggoSOkUAHeWehYwl21UxkbE4x2UDfo14=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l7cbQtf93qBN2ZZlpyf7I/B1XZKN1rAnDDkkBFkQk/MhS4vbfKJTPp0EoEUah+a5B9UHdy2bfyaimUD6oBUarTJW+1FVe/eBqYBTDyNhs8svSI0QY3C1H2SnQUVTDT/op8LVJooyVbeKUifwu+l8KvZNP+E1XOJG6rXFkDPcp8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0uKAOdLD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rx471RPS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0uKAOdLD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rx471RPS; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1741165617; c=relaxed/simple;
+	bh=Sbn9TK639K72VAVzN9kXnXqsIEGOQNk0cMqZU0Tm0aU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ST8f/ze9dtFxk4YrIex69aIuOCw4F8z7mDx29zL33Oczyb7Jlxy7TF8wBRKeNQLzG3JbXDmTZxwHl7+wZDExN6568pVc1h/Ci+zXAlOBQnOCSa0JX31VhHlol4oaKLrnNebHJKB1eyDRjm0jtSAXStEPCMH2VNSdgZSBIvT6ThY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rTMC3/s7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0uKAOdLD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rx471RPS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0uKAOdLD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rx471RPS"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 68F9021193;
-	Wed,  5 Mar 2025 08:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741164611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4sJb+1hJybwJ9oz3a1IbC6b0kZKRl4Lv6tcPSNukdjQ=;
-	b=0uKAOdLDdhRub0XKqX7/fWzHZe7BkRNHlAvCCitqAHZOykI4hQyMALa6TaOLlVHfP8Nc9I
-	2txSaH9DSc5rFY9L09Qz6wSt/8waZQ0AW7uhd1X7RopBiX7YMSueNkm5kfAtkz2ZP+AL6b
-	IaNuMAtrWqrBlMmTXGHN85nKBAyjepw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741164611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4sJb+1hJybwJ9oz3a1IbC6b0kZKRl4Lv6tcPSNukdjQ=;
-	b=rx471RPSMPC8R2xP0TFBrI6GCZIFrUIoA7UUmdUgD7CSeIAXyDf4pAFzoiT5i8Vg8ETO1a
-	Vl1xp1S+/iUHvcDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0uKAOdLD;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rx471RPS
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741164611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4sJb+1hJybwJ9oz3a1IbC6b0kZKRl4Lv6tcPSNukdjQ=;
-	b=0uKAOdLDdhRub0XKqX7/fWzHZe7BkRNHlAvCCitqAHZOykI4hQyMALa6TaOLlVHfP8Nc9I
-	2txSaH9DSc5rFY9L09Qz6wSt/8waZQ0AW7uhd1X7RopBiX7YMSueNkm5kfAtkz2ZP+AL6b
-	IaNuMAtrWqrBlMmTXGHN85nKBAyjepw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741164611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4sJb+1hJybwJ9oz3a1IbC6b0kZKRl4Lv6tcPSNukdjQ=;
-	b=rx471RPSMPC8R2xP0TFBrI6GCZIFrUIoA7UUmdUgD7CSeIAXyDf4pAFzoiT5i8Vg8ETO1a
-	Vl1xp1S+/iUHvcDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41E5313939;
-	Wed,  5 Mar 2025 08:50:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BOtvDkMQyGeVXwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 05 Mar 2025 08:50:11 +0000
-Date: Wed, 05 Mar 2025 09:50:10 +0100
-Message-ID: <87tt87uail.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kailang <kailang@realtek.com>
-Cc: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: update ALC222 depop optimize
-In-Reply-To: <494a665481e043a38b94d844654fa81f@realtek.com>
-References: <81c7f0ec4a2447219c06095e0de4d1d3@realtek.com>
-	<87zfhzud4s.wl-tiwai@suse.de>
-	<f7fba6fc8d9e4abfb0c89e487e1d5d89@realtek.com>
-	<87wmd3uc28.wl-tiwai@suse.de>
-	<494a665481e043a38b94d844654fa81f@realtek.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rTMC3/s7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF631C4CEE2;
+	Wed,  5 Mar 2025 09:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741165616;
+	bh=Sbn9TK639K72VAVzN9kXnXqsIEGOQNk0cMqZU0Tm0aU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rTMC3/s7RJKlMMj+hvxFdiKLmYIIF3tfNNh8BobtRAxvwiW+fF7dXOEmU6ObAcBBd
+	 6GqCLFB2QPDSdltaYNSGWZhVJHFwZcKf4SJkWn+GWGcOflJtgDrj8ZAhkTk/SGhHkF
+	 yGoYF+CPcdjXxD/5THcLayVEuMqd4+u48pHY6DLGDfBM7t32PPWJvU34O+HD8JLmwE
+	 o68zQlHSZMQhiK7FtcyfSnvlPQ1ylecEEauoQtksIli9vamEek/zztJd7qvTH5aRvj
+	 6izjDe+InGts7Vydn363p5WfnQThQIUTqQjGP6QMOf3H7iUwLWzn903JS4kk3PFMJm
+	 dypvNEYwJWetQ==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tpkiK-000000006zm-38b7;
+	Wed, 05 Mar 2025 10:06:52 +0100
+Date: Wed, 5 Mar 2025 10:06:52 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
+Subject: Re: [PATCH v3 0/6] ASoC: q6apm: fix under runs and fragment sizes
+Message-ID: <Z8gULECJ463Ilv2p@hovoldconsulting.com>
+References: <20250304105723.10579-1-srinivas.kandagatla@linaro.org>
+ <Z8cyt2n7qj4GkcJC@hovoldconsulting.com>
+ <5831d9b1-4a05-4a7b-8733-5050588b4e59@linaro.org>
+ <Z8c2OVRp8af1K1D1@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 68F9021193
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8c2OVRp8af1K1D1@hovoldconsulting.com>
 
-On Wed, 05 Mar 2025 09:22:20 +0100,
-Kailang wrote:
+On Tue, Mar 04, 2025 at 06:19:53PM +0100, Johan Hovold wrote:
+> On Tue, Mar 04, 2025 at 05:12:20PM +0000, Srinivas Kandagatla wrote:
+> > On 04/03/2025 17:04, Johan Hovold wrote:
 > 
+> > > Unfortunately, this series still regresses Pulseaudio as capture is now
+> > > choppy (e.g. when recording using parecord).
+> > > 
+> > > During our off-list debugging sessions you suggested reducing the max
+> > > capture period size (that this series increases) to 6144 (same as min)
+> > > and that fixed the Pulseaudio capture issue. In v3 the, the max period
+> > > is again increased to 65536 which appears to break Pulseaudio capture.
+> > 
+> > I have verified pulseaudio on my side as well, the 64 byte alignment 
+> > should have fixed the issue on the pulseaudio side.
+> > 
+> > Did you pick up the [PATCH v3 4/6] ASoC: qdsp6: q6apm-dai: set correct 
+> > period and buffer alignment. patch in your tests?
 > 
-> 
-> > -----Original Message-----
-> > From: Takashi Iwai <tiwai@suse.de>
-> > Sent: Wednesday, March 5, 2025 4:17 PM
-> > To: Kailang <kailang@realtek.com>
-> > Cc: (alsa-devel@alsa-project.org) <alsa-devel@alsa-project.org>;
-> > linux-sound@vger.kernel.org
-> > Subject: Re: update ALC222 depop optimize
-> > 
-> > 
-> > External mail : This email originated from outside the organization. Do not
-> > reply, click links, or open attachments unless you recognize the sender and
-> > know the content is safe.
-> > 
-> > 
-> > 
-> > On Wed, 05 Mar 2025 08:56:41 +0100,
-> > Kailang wrote:
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: Takashi Iwai <tiwai@suse.de>
-> > > > Sent: Wednesday, March 5, 2025 3:54 PM
-> > > > To: Kailang <kailang@realtek.com>
-> > > > Cc: (alsa-devel@alsa-project.org) <alsa-devel@alsa-project.org>;
-> > > > linux-sound@vger.kernel.org
-> > > > Subject: Re: update ALC222 depop optimize
-> > > >
-> > > >
-> > > > External mail : This email originated from outside the organization.
-> > > > Do not reply, click links, or open attachments unless you recognize
-> > > > the sender and know the content is safe.
-> > > >
-> > > >
-> > > >
-> > > > On Wed, 05 Mar 2025 07:32:00 +0100,
-> > > > Kailang wrote:
-> > > > >
-> > > > > Hi Takashi,
-> > > > >
-> > > > > Update ALC222 depop optimize as attach.
-> > > >
-> > > > Could you give a bit more background info why this change is needed?
-> > > > Is it a mandatory change to fix something, or it improves something?
-> > > >
-> > > This codec has two headphone design.
-> > > The HP2 was nid 0x14.
-> > 
-> > Sorry not clear enough: do you mean the patch is to fix the depop problems on
-> > the models with two headphone pins with ALC222?
-> 
-> Yes, the original depop was only supported one headphone.
+> Yes, I'm running with the full series applied. I tested PA on the X13s
+> (and PW on the T14s).
 
-OK, and then would it be a bit risky to blindly assume the second
-headphone pin 0x14?  Isn't it set up via pin config?
+I just tested PA on the T14s and it has the same problem with
+choppy recording with this series applied.
 
+As with the (amended) v2, setting the max capture period size to 6144
+appears to make the problem go away.
 
-thanks,
-
-Takashi
+Johan
