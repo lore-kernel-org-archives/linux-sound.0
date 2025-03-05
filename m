@@ -1,141 +1,87 @@
-Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882901EDA21
-	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 17:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CEF1FCF4F;
+	Wed,  5 Mar 2025 17:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741195526; cv=none; b=bzytEZlbnaviPv8thTw+JirAdavTNYUcAaORZxc5HQK8SaIuj+dzALFoF/5f38TKEqBZq7Gc6ScrFiLk8DsS1CtDv0SGTRQ0q5HMNdQRf6HoDjCkVOCFoaMpj3n35kxY1CqictBpDPacndownia422NSAtoRyy37zk8qM8e/Pfw=
+	t=1741195663; cv=none; b=Ps7uvTt0ctiSri2gEqWrk39Aqb0IV74jX7qyHkCied3k/5tEbBsEn4GSkyg8io5PUpqADLE93gFzP2BOA4SlJxS4gLRMEAyg2YExKOJGwdt9GA7d4FEBGoTd8G2vrQ4PZPqYo5uhet1pyX7EhdyfpEUtXoHdq8LOlr79H9hokeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741195526; c=relaxed/simple;
-	bh=isU2KcR+Fc5IeSMj/3VUz+YxBSVpY6egRjgQpVu+WIY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=mh4vLvNM5W8lAIrHAS6HcUzmBAfKfjcPrfqaobESpGpwFVUBfF7uXeevZv2J3mLL++7uMspNqwWM/E50eEO09ydDbj2NFsEnFWpQyIosEa8klCzlwy6FsmnDzjejcHKPEYbTmC/4keqkGv4i67MfOvMzaYmZj3VKrd73JnQ2gQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3d2a379bbf0so135885505ab.1
-        for <linux-sound@vger.kernel.org>; Wed, 05 Mar 2025 09:25:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741195523; x=1741800323;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=76cFd9GTQUM+SI1YOG4WZgV51ROqXYBfRO68m84vkvU=;
-        b=AhTXgnkzbmDD1ioqGR+GCm2z5Ce25nKhS2I8P8+NlaPmz9gmwISBtB5w3d2qA/y+mt
-         Pl8vkUFX3jRjByauCJGly0mK1DaV8QjnbXp0+cvhjnvzfCJmcOa1+5EDGkhXyS3+kVwd
-         8JRmfRyyVOQQKCrGAL91pVqN6D1vDWPC79Q/sibmiMSJzC8kGRG0j/pM0f9g+BY5N9Ok
-         WalliDHgn3o5Gaxl06yrafW9cOhPEO105Oi+KGuzejxH0FRU3qfbsn3xp2cs04YGmBwV
-         cRMrdiyfJFEnGuSDjEVJh+sNvhAHasTMkI4GBoKzpJNz4bKOpcrj8mMc3A6k0COE3TK9
-         xBag==
-X-Forwarded-Encrypted: i=1; AJvYcCX9CHXQuDbRvbSyazyqqsoFnV0cWSxswO1cmg5l3bU3UyadocR1VfR03PYZZX8fw7qZ/+Y+Qm0vYLL+sg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0sSMaHxRnJQ9H+DwI1Zn4jxBMfcU3OWqhbWuuZBywSDFACuTk
-	DEEj5+jZ6SPmTJ+zwqI84pvE4SCEiBwKFRp0FLciMXXBo3PYyc40P2T1c+c4KYIEHy42aDkSPAK
-	N+bis04yQoq3X8lN+4q0CoaNfmrurmMUjdM+xWWmFyABpoCV3/omXBJ0=
-X-Google-Smtp-Source: AGHT+IH9wgZ7e93TVUTcam44ff5H/1ADzcH+Wo9y+7mtzZ/yrv6WY/MHHIPCcignXb7olaFpK04DatK0+JDzTDrn6aq3ZtcRXzM6
+	s=arc-20240116; t=1741195663; c=relaxed/simple;
+	bh=y8aRWtvYgzTCA8bPSW+FmeuF+48CDqkeacK98qix+OI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=opSYPpuMoGA4FEYvIa+39Qr0CVCdGsZDimo3c6Qfh8xXt31IbSDDAObC6pKRGETagNArT1Xc9i2oC2NfNj91dB9kEZWinkAsQoJIIDl1Awx6Vgoyn8e0rpyHjl+1oDTxORq9zFIEs20lhHOqR71z544Dqvf2UGQ/oAIXB9PZ34E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b9OCdmku; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b9OCdmku"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E6EC4CEE0;
+	Wed,  5 Mar 2025 17:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741195663;
+	bh=y8aRWtvYgzTCA8bPSW+FmeuF+48CDqkeacK98qix+OI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=b9OCdmku55fNor7AKvw2qISbdb24upXR8KXWbkVp/bSYuGMRVngSFZq74WUkbzfdQ
+	 Bd1SMZ5qRMqvmywEA+Q/07XsWfayN/sp2F2dyCF9CXplW6M9Vz2DHGoukrVKZfXHJq
+	 ZgjQ/m+NBA0lyyUl+SKuS4FEeEcMvQHiYzfl4/Icq5TOKGSJ4luDGhksqnoaJl17tL
+	 7O71STpsBiZ803Kdegj3UUBvoHNqIcrjlRi5Nlfo7UIoaLMa91NX/dNMi22XaxYQ5B
+	 7RjnPXV1v7FrxRTtBG3m5AGWG7Qr3t4sWzow5JN2kvhYI1oPn0h97FdrwRRSqPI3Yq
+	 Oeixe8KnqUfOQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: cs42l43: convert to SYSTEM_SLEEP_PM_OPS
+Date: Wed,  5 Mar 2025 18:27:32 +0100
+Message-Id: <20250305172738.3437513-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:3a08:b0:3d0:4c9c:965f with SMTP id
- e9e14a558f8ab-3d42b995fbcmr41695335ab.20.1741195523627; Wed, 05 Mar 2025
- 09:25:23 -0800 (PST)
-Date: Wed, 05 Mar 2025 09:25:23 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67c88903.050a0220.15b4b9.0028.GAE@google.com>
-Subject: [syzbot] [sound?] KCSAN: data-race in snd_seq_poll / snd_seq_pool_init
-From: syzbot <syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
-	syzkaller-bugs@googlegroups.com, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+From: Arnd Bergmann <arnd@arndb.de>
 
-syzbot found the following issue on:
+The custom suspend function causes a build warning when CONFIG_PM_SLEEP
+is disabled:
 
-HEAD commit:    48a5eed9ad58 Merge tag 'devicetree-fixes-for-6.14-2' of gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1657d8b7980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=523b0e2f15224775
-dashboard link: https://syzkaller.appspot.com/bug?extid=2d373c9936c00d7e120c
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+sound/soc/codecs/cs42l43.c:2405:12: error: unused function 'cs42l43_codec_runtime_force_suspend' [-Werror,-Wunused-function]
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Change SET_SYSTEM_SLEEP_PM_OPS() to the newer SYSTEM_SLEEP_PM_OPS(),
+to avoid this.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/877a63ac53f2/disk-48a5eed9.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/7b3a614d4df6/vmlinux-48a5eed9.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2ce987fd9e0c/bzImage-48a5eed9.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KCSAN: data-race in snd_seq_poll / snd_seq_pool_init
-
-write to 0xffff888114535610 of 4 bytes by task 7006 on cpu 1:
- snd_seq_pool_init+0x1c1/0x200 sound/core/seq/seq_memory.c:469
- snd_seq_write+0x17f/0x500 sound/core/seq/seq_clientmgr.c:1022
- vfs_write+0x27d/0x920 fs/read_write.c:677
- ksys_write+0xe8/0x1b0 fs/read_write.c:731
- __do_sys_write fs/read_write.c:742 [inline]
- __se_sys_write fs/read_write.c:739 [inline]
- __x64_sys_write+0x42/0x50 fs/read_write.c:739
- x64_sys_call+0x287e/0x2dc0 arch/x86/include/generated/asm/syscalls_64.h:2
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xc9/0x1c0 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-read to 0xffff888114535610 of 4 bytes by task 7005 on cpu 0:
- snd_seq_total_cells sound/core/seq/seq_memory.h:83 [inline]
- snd_seq_write_pool_allocated sound/core/seq/seq_clientmgr.c:95 [inline]
- snd_seq_poll+0x103/0x170 sound/core/seq/seq_clientmgr.c:1139
- vfs_poll include/linux/poll.h:82 [inline]
- __io_arm_poll_handler+0x1e5/0xd50 io_uring/poll.c:582
- io_arm_poll_handler+0x464/0x5b0 io_uring/poll.c:707
- io_queue_async+0x89/0x320 io_uring/io_uring.c:1925
- io_queue_sqe io_uring/io_uring.c:1954 [inline]
- io_req_task_submit+0xb9/0xc0 io_uring/io_uring.c:1373
- io_handle_tw_list+0x1b9/0x200 io_uring/io_uring.c:1059
- tctx_task_work_run+0x6e/0x1c0 io_uring/io_uring.c:1123
- tctx_task_work+0x40/0x80 io_uring/io_uring.c:1141
- task_work_run+0x13a/0x1a0 kernel/task_work.c:227
- get_signal+0xe78/0x1000 kernel/signal.c:2809
- arch_do_signal_or_restart+0x95/0x4b0 arch/x86/kernel/signal.c:337
- exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
- exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
- __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
- syscall_exit_to_user_mode+0x62/0x120 kernel/entry/common.c:218
- do_syscall_64+0xd6/0x1c0 arch/x86/entry/common.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-value changed: 0x00000000 -> 0x000001f4
-
-Reported by Kernel Concurrency Sanitizer on:
-CPU: 0 UID: 0 PID: 7005 Comm: syz.2.1455 Tainted: G        W          6.14.0-rc5-syzkaller-00016-g48a5eed9ad58 #0
-Tainted: [W]=WARN
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
-==================================================================
-
-
+Fixes: 164b7dd4546b ("ASoC: cs42l43: Add jack delay debounce after suspend")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ sound/soc/codecs/cs42l43.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index 4257dbefe9dd..e0d630c262f6 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -2417,7 +2417,7 @@ static int cs42l43_codec_runtime_force_suspend(struct device *dev)
+ 
+ static const struct dev_pm_ops cs42l43_codec_pm_ops = {
+ 	RUNTIME_PM_OPS(NULL, cs42l43_codec_runtime_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(cs42l43_codec_runtime_force_suspend, pm_runtime_force_resume)
++	SYSTEM_SLEEP_PM_OPS(cs42l43_codec_runtime_force_suspend, pm_runtime_force_resume)
+ };
+ 
+ static const struct platform_device_id cs42l43_codec_id_table[] = {
+-- 
+2.39.5
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
