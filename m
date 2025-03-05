@@ -1,88 +1,126 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA451F3FC2
-	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 07:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC6F70831
+	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 07:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741160667; cv=none; b=tPPYEYsT+ifbe4J9TaTz9A8SHdI18H68ecYZvBQVgN/Agd2gleVsO7tnv8RmGqAPd5YqQrWMcXoERxnRxOGICrW9ctaLtWG96DSbYnee0+nXiqIeuv6k2AW8jqn90tlYGZOquj/RFWA2sjqeLqIKiYr+7pTtcKuGakRZgJu8+CU=
+	t=1741161224; cv=none; b=ganH5ZOhDslD+UJhb/3pKvlNyHe6CsFzifmWtq7n6FMUcQpI0/I0eDuXLJ6Tpk726CHhqNzYFvHBf94xAOuer1fvZke/RU1Jjk+P4Q464nVmRUIV3CxOyeLkWP8z8C668MLylB6ktpcqVWeahdT3Dz5af2w54/B4dQgk28Zf0+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741160667; c=relaxed/simple;
-	bh=ifb7s8N7ASNPOB9E6is5k4+Ad3fbrf35zj+T/SPZtk4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ONBrPP+lLVG22v9xHuy4dM65BF91DfhwdL0G931WqMZVukhkR8U0AHIGbkpkDiimxxB3M7ZCoNEtUMUkNaikE27J2kPztyas4y0ciP3A/9Ex8EXjmzye/bSU+BDzzZjZv29q72rAtFavTSXtLF9LisXJL6gM3YwkACFwtD5DgN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qm/YEr6p; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741161224; c=relaxed/simple;
+	bh=K36fAm89X5SrXPwH67TCmdU7lnTx7IUpwd2mFi3bTCc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s8pCG2biDKNP+8LfVKeHZPQ/rIgf6QB2Owm6a7TI2qJfartxYICFPcZjZc9RUl6JUv9sPjyqK8ieBfCozO3+Ttd9UJ6cRz6hd4eAfXkHdLE/iegx/Deo0Cv8c0Z+9HkAQyYpZNfhu3z7H6JlrMKdxZuoHI/vzuJlRPDzmzqsM2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rV2rbFjY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T1pGKUT+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rV2rbFjY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T1pGKUT+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qm/YEr6p"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-543e4bbcd86so7162501e87.1
-        for <linux-sound@vger.kernel.org>; Tue, 04 Mar 2025 23:44:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741160664; x=1741765464; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ifb7s8N7ASNPOB9E6is5k4+Ad3fbrf35zj+T/SPZtk4=;
-        b=Qm/YEr6pMmGvma0NYVZVWOzQVDBkY8ifEK0jHyUlPji7CCEMe8UZgU1QKC3Nk/gOl/
-         Z5Efplxg9rS7zdUTuWeEpiWODOXCYJ8XB9hz0XoHx7UJuuJ3vt4Uf89RJIsACVbCDesK
-         njeMB8JtUGC16bBXvi35/Gc5cQRGEq3OaZpp0qdSh8tw5a8sg4dEM5D3EAdz4YPlLbLK
-         vLSjv5VpBFyIgZfLQT2AQNpeZWy6f8f1Nps94nlpUqclvx1lWtqAt+Wlnfngx140dcNK
-         XvFmPcJKzrMftLflgHldUmoIo/VEi7l2XNqqjbCR01DTNZ28NfViOD0e8oKM3jX/YSx9
-         0U3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741160664; x=1741765464;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ifb7s8N7ASNPOB9E6is5k4+Ad3fbrf35zj+T/SPZtk4=;
-        b=MW9lzbugXpM6yszA87dcW+YuXVygJ6jf7jXMERptENZnvpmeUjSyHL4XGQRcqnwkjA
-         OsG6cJLm0Vbguwp0am3kcumkRJ/JQH7wxKr6wH7HhbH8kTD/IJGW46MIT9PnIYeGqPOw
-         MQlsPyW0F56hSq0Q64N137okqe2FL6DNV9tYN0kGcUTAnIxhJMlXUXUPQPN9/j1CEEUt
-         jv+vLE1TDgoQQrH2Xifk0E1ifFOsLSEjcexQRxLVhgKkabbKpdXjtutAfSBPSjzvYrUT
-         NpxVZYABydhOYKV7IUQfgouo90EpQmorNgqyCFFauAUVzNPKMvgYQdFo3c+v2cpB3xdJ
-         QQjg==
-X-Gm-Message-State: AOJu0Yyvcrf5HKSe/Lp+40KNc4IqjvUpSMPSyjkZ0sG2cQBE0PRZht/N
-	Al/6FnuRFlHA1VOs24SN/pd/b6pCpIrqErBWoW9Zl6mq8wAefAx6l2KJnhAJisLQMRhhffTGkX9
-	O2GeQ9a2WZW3EHOoywoTZUnuY1UArNuj3iPZSkg==
-X-Gm-Gg: ASbGncs/KihGAHCFBD15d5R+PcOqZCTIcxYkt5tRhu10YaOtP/iq283rUPp9MP19b3J
-	JCFyBtjHd6Jzhx+8Q4jj5LGKkuQ3HFUpxnc/OPzrra4kbPzrpANYltxIayZ9B3AhraO89gada3Z
-	gCeCfDBNhSHF92RI7AmynX4gtSWg==
-X-Google-Smtp-Source: AGHT+IH72H1//brTKp7UPeHSY9eMogpG7qFDF82B9TGbZP/N55c5XfFJ3ZljeOaJZN/Ekrf02VMjpTK3YP2YKnwg58U=
-X-Received: by 2002:a05:6512:2308:b0:545:bf4:4bd4 with SMTP id
- 2adb3069b0e04-5497d332250mr683605e87.7.1741160663833; Tue, 04 Mar 2025
- 23:44:23 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rV2rbFjY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T1pGKUT+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rV2rbFjY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T1pGKUT+"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9BC3D1F393;
+	Wed,  5 Mar 2025 07:53:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741161220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VTfGV8Bs9nYJ2LUZx1xbZKnrLQsmMhbvJLY4EmDrEcY=;
+	b=rV2rbFjYWUw2K1OEqJ+TgsMd8Cu9jrr7Bq+XJ0zpMGVGvLyKULpodikWWb1IDfNH2qdYGD
+	NRPp5M4jVDZq47xpSI10XW2Ps6Nqy8EwKpoVdUO0kYsnO6VLfEQMD2BmdTal5njApw5Kta
+	QxFEO47MgTlMCyCy6YKlq3nOBCCFJhA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741161220;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VTfGV8Bs9nYJ2LUZx1xbZKnrLQsmMhbvJLY4EmDrEcY=;
+	b=T1pGKUT+3nZVnVcxJXqCPvR56c+xXo0RUTQ0jvVwOhalI2ItPOwh5n4l9+JPQU49i5DRtG
+	G3m0cdHbKrInGbCg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741161220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VTfGV8Bs9nYJ2LUZx1xbZKnrLQsmMhbvJLY4EmDrEcY=;
+	b=rV2rbFjYWUw2K1OEqJ+TgsMd8Cu9jrr7Bq+XJ0zpMGVGvLyKULpodikWWb1IDfNH2qdYGD
+	NRPp5M4jVDZq47xpSI10XW2Ps6Nqy8EwKpoVdUO0kYsnO6VLfEQMD2BmdTal5njApw5Kta
+	QxFEO47MgTlMCyCy6YKlq3nOBCCFJhA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741161220;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VTfGV8Bs9nYJ2LUZx1xbZKnrLQsmMhbvJLY4EmDrEcY=;
+	b=T1pGKUT+3nZVnVcxJXqCPvR56c+xXo0RUTQ0jvVwOhalI2ItPOwh5n4l9+JPQU49i5DRtG
+	G3m0cdHbKrInGbCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 75A621366F;
+	Wed,  5 Mar 2025 07:53:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2v4KGwQDyGcRTwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 05 Mar 2025 07:53:40 +0000
+Date: Wed, 05 Mar 2025 08:53:39 +0100
+Message-ID: <87zfhzud4s.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Kailang <kailang@realtek.com>
+Cc: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Re: update ALC222 depop optimize
+In-Reply-To: <81c7f0ec4a2447219c06095e0de4d1d3@realtek.com>
+References: <81c7f0ec4a2447219c06095e0de4d1d3@realtek.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250305-samsung-codecs-v2-0-20bc980c6445@linaro.org>
-In-Reply-To: <20250305-samsung-codecs-v2-0-20bc980c6445@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 5 Mar 2025 08:44:12 +0100
-X-Gm-Features: AQ5f1Jr31kdFtNesf13pMh4snaXBkelieuVeF0YyE3rSN-OSc3IL0WrT8xClu-o
-Message-ID: <CACRpkda_QjBpfyA1ig2cC+pn8Xf0Rk8Ox+pecQkbcbYY+8N7Cw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] ASoC: samsung: GPIO descriptor conversion
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-gpio@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, Mar 5, 2025 at 8:39=E2=80=AFAM Linus Walleij <linus.walleij@linaro.=
-org> wrote:
+On Wed, 05 Mar 2025 07:32:00 +0100,
+Kailang wrote:
+> 
+> Hi Takashi,
+> 
+> Update ALC222 depop optimize as attach.
 
-> This drops unused includes and converts one Samsung
-> codec to use GPIO descriptors.
+Could you give a bit more background info why this change is needed?
+Is it a mandatory change to fix something, or it improves something?
 
-Oh I see it was already applied (I don't read my mail fast enough
-in the mornings), no worries I can send an incremental
-fix instead.
 
-Yours,
-Linus Walleij
+thanks,
+
+Takashi
