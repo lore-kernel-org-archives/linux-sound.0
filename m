@@ -1,95 +1,131 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F451A3160;
-	Wed,  5 Mar 2025 17:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2621A3160;
+	Wed,  5 Mar 2025 17:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741194459; cv=none; b=LvkhzJdpNDImr/uzOHrTKjNdXEg0gLfvyf9Iohiw47U23qWtN2f2fx5BSNmqrf6whGD2IYaHZuADbxoMFIwyXF+sHQKKI/uF+i9LwFVZiRpQVJ5dSHxR3qz5CR5hVI3KvbDAVcYdEr9NqIQNUE2RiHjSe+Za0RDgEAN+mkOTSn0=
+	t=1741195127; cv=none; b=n22xYoplFx/5vouB4OynpMkyrj6a7BRWRrm8hISWjnGGOUzHrg6ph1ze/N/fF/1uCeKHV1OiSVuFl1v87Wft1M+KC6aytbrSEGLXsd2trFWzLyEC4P9Iz3GI2df48j899gPLqGgVkrOrWCR4VQeUgNAq1+CesEa7AI7N98Hpsmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741194459; c=relaxed/simple;
-	bh=q4SKOznEVocgStjX34p4kp8/HguVCeqhdHW5g7vgqwY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oxOuTb8txgpJYDGPq1JzjbgNECUCVRZ+hg6nvMGfLIM/BlKExCbsMPK2NWCR0qjAX2yDt1a6Y2IgiIUJIHuM4KCYRR+DMkXnZ5CvHD5YaxYxIUAMOURD5Kx1KZZDI2pyffpFORdPTexbSkm9ADhogKA1tjnsYvD+KnBgcqmLUkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=U1dhaKqp; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1741195127; c=relaxed/simple;
+	bh=VLo1VfKrncc62HR3H2AUBFVFZ8nlgV/Ud1MBfjGjdvc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hVMvaD+D3os09f6Be8vSzyxCC88DJYajb07ARVyaxvQ11LtmJmSkJaY5CT74GpBB0SE9NDjAFqOl7X4GiENGCZ3JbfMBmALK0U+bqkVRuFxYLRCMz3qbFJJBJ6ZD4sc0JtgZOlXzFauP0eQn7cWvQSilPxn+TgkfVCGs3btSMLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=aTA7Zklj; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="U1dhaKqp"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5254p2QA002458;
-	Wed, 5 Mar 2025 11:07:22 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=A2aqQUuruV6O9+XANHGmoeoewN4FwCJ5I6v9hj7Rxfs=; b=
-	U1dhaKqp/VO7PO6qMDJGM3BhEnJxHtE+/0cBjN/+d0bCmldgtSuf0m2bKVmnXX0s
-	h98+1IIBJxK1xh8f/hk98SnetPyM4oaHe4xt9X0xkeApF0y6w7HeSZjWdcIyEQjT
-	MA2j2RdbJ6Af6PrNoLioLvlJwaZC+Je5M7oS8TVSlORBvO+qaCz1/oGt1qXGLF/u
-	wG6tK7YAvvc9sB2K4IAzgvRgSEma4ADyOws2UKVYhAV/l9Ps3AV3I/AKTlwfSv6p
-	k0eQ6HJ3GL4PndVWjlZmD3ETTcenIrpMJb1ebK+V8MkHnxqcN5Wsn9bV/cGVgB1u
-	3BmwLmP4BO89NJH7/q0Q/Q==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 456e8nsap8-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Mar 2025 11:07:22 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 5 Mar
- 2025 17:07:20 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Wed, 5 Mar 2025 17:07:20 +0000
-Received: from lonswws02.ad.cirrus.com (lonswws02.ad.cirrus.com [198.90.188.42])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id EEA8982025A;
-	Wed,  5 Mar 2025 17:07:19 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>,
-        Stefan Binding
-	<sbinding@opensource.cirrus.com>
-Subject: [PATCH v1 2/7] ALSA: hda/realtek: Add support for ASUS ROG Strix GA603 Laptops using CS35L41 HDA
-Date: Wed, 5 Mar 2025 17:06:46 +0000
-Message-ID: <20250305170714.755794-3-sbinding@opensource.cirrus.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250305170714.755794-1-sbinding@opensource.cirrus.com>
-References: <20250305170714.755794-1-sbinding@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aTA7Zklj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1741195122;
+	bh=VLo1VfKrncc62HR3H2AUBFVFZ8nlgV/Ud1MBfjGjdvc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aTA7ZkljZ0mv/kvuFSL6iNhvjnFmepeIqml6cipt78WQCD8DVBYT4ayvgJNa8bDxZ
+	 9eyAoRiJFFSLFDUWN/eYHS4iFF6gG1x21l6eC4OVpNq/LxPxUV3Kag5RH38TpsPS/D
+	 Tj9X1QpmSv3XQOhFpvb0ppJ+71rYZJYxdGx3fjlIjSJoyRErnnPsUJr4+UABm9pOsV
+	 zvkQTu++r3FyH99pMIh36+wrVRM2D62KYLydeDBpxWVRFPd9abf/Yrr0CpuM1WqXDZ
+	 9TzubIlTg/b9ZFaTPbSF20cGG5fT6j1ItwO37jslD/R4XNdUZWZvBK9rMQE+SSp8PI
+	 FpzVtRGmCqe2w==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DB02417E0599;
+	Wed,  5 Mar 2025 18:18:41 +0100 (CET)
+Message-ID: <59d0d382-1d15-46c4-b9e4-b66c32c188d3@collabora.com>
+Date: Wed, 5 Mar 2025 18:18:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] ASoC: mediatek: mt8188-mt6359: Add accdet headset
+ jack detect support
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Trevor Wu <trevor.wu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Zoran Zhan <zoran.zhan@mediatek.com>
+References: <20250304-mt8188-accdet-v2-0-27f496c4aede@collabora.com>
+ <20250304-mt8188-accdet-v2-3-27f496c4aede@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250304-mt8188-accdet-v2-3-27f496c4aede@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=DpWs+H/+ c=1 sm=1 tr=0 ts=67c884ca cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=Vs1iUdzkB0EA:10 a=w1d2syhTAAAA:8 a=JoyzMJ97GOddnGb-qsEA:9 a=YXXWInSmI4Sqt1AkVdoW:22
-X-Proofpoint-GUID: LPDGWUwKaUldlnltg3lXyhWbKEGNgMZM
-X-Proofpoint-ORIG-GUID: LPDGWUwKaUldlnltg3lXyhWbKEGNgMZM
-X-Proofpoint-Spam-Reason: safe
 
-Add support for ASUS GA603KP, GA603KM and GA603KH.
+Il 04/03/25 22:35, Nícolas F. R. A. Prado ha scritto:
+> Enable headset jack detection for MT8188 platforms that use the MT6359
+> ACCDET block for it, indicated by the mediatek,accdet property in DT.
+> For those platforms, register a jack and initialize the ACCDET block to
+> report jack events through it.
+> 
+> Co-developed-by: Zoran Zhan <zoran.zhan@mediatek.com>
+> Signed-off-by: Zoran Zhan <zoran.zhan@mediatek.com>
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-Laptops use 2 CS35L41 Amps with HDA, using Internal boost, with I2C
+We chatted about the issue that I raised before with mt8188_headset_jack_pins[],
+it's fine to have it for now, as whatever we do with that would still duplicate
+things and there's no way around that for now.
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
----
- sound/pci/hda/patch_realtek.c | 2 ++
- 1 file changed, 2 insertions(+)
+The sound card driver should get a bigger cleanup anyway, and it's not really
+possible even because otherwise we'd break UCM2 confs, so it is what it is.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index d23d6fafd009..2fffb923800a 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10743,6 +10743,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x3a40, "ASUS G814JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
- 	SND_PCI_QUIRK(0x1043, 0x3a50, "ASUS G834JYR/JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
- 	SND_PCI_QUIRK(0x1043, 0x3a60, "ASUS G634JYR/JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
-+	SND_PCI_QUIRK(0x1043, 0x3d78, "ASUS GA603KH", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1043, 0x3d88, "ASUS GA603KM", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x3e00, "ASUS G814FH/FM/FP", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x3e20, "ASUS G814PH/PM/PP", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x3e30, "ASUS TP3607SA", ALC287_FIXUP_TAS2781_I2C),
--- 
-2.43.0
+> ---
+>   sound/soc/mediatek/Kconfig                |  1 +
+>   sound/soc/mediatek/mt8188/mt8188-mt6359.c | 43 +++++++++++++++++++++++++++++++
+>   2 files changed, 44 insertions(+)
+> 
+> diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
+> index 3033e2d3fe16840631a465dd967da77f7a6ff43c..64155ea7965a1cc50593fef442ce90761836f328 100644
+> --- a/sound/soc/mediatek/Kconfig
+> +++ b/sound/soc/mediatek/Kconfig
+> @@ -237,6 +237,7 @@ config SND_SOC_MT8188_MT6359
+>   	select SND_SOC_NAU8825
+>   	select SND_SOC_RT5682S
+>   	select SND_SOC_ES8326
+> +	select SND_SOC_MT6359_ACCDET
+
+The only remaining complaint that I have is that this driver shouldn't really
+add a select SND_SOC_MT6359_ACCDET.
+
+Instead, the mt6359-accdet.h header should be modified to stub-ify the accdet
+driver functions in the case in which it's not built in, or not available as a
+module anyway.
+
+This is because the accdet driver is not *mandatory* for this driver to work,
+and being it an optional peripheral, adding a dependency doesn't really make
+a lot of sense as it'd only force in bloat when not wanted.
+
+So...
+
+Get to that mt6359-accdet.h header and:
+
+#if IS_ENABLED(CONFIG_SND_SOC_MT6359_ACCDET)
+
+function signatures
+
+#else
+
+static .... { return -EINVAL; (or whatever else) }
+
+#endif
+
+That said, for the future v3 of this commit, after removing the select
+SND_SOC_MT6359_ACCDET (and granted that the proposed header fix is in place),
+you can add my
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Cheers,
+Angelo
+
 
