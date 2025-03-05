@@ -1,254 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9A3245025
-	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 13:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E5F24EF6B
+	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 16:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741182940; cv=none; b=Yw2fcErsqDzrYNpc5HxubZU8x+GFpHKSvNWLF7H6Hf2ZnJQ9KzItarYzqznJI3Z1yXPBleN0KVm11KaDeWMidq9Nhdh+ueIre3qJEFQRfb3+FNACex3KaJNxWE32b4sAQNzU7TcyVV9fe794IIliXz3U/tGeDz6+qdpg8aSiFXA=
+	t=1741192983; cv=none; b=YzjrDjT3gsGBU+Q4SIloooxdeLvcSBAt1pKxWSxVOuNswIsj/OQEBe5OCeWICQwPhPpZyoSnHWsSJMUVAfirz8TH/CGA638WsoFw2HLJ+AICdfw2fr/Th4zEUO9h0n5DmMJwor4kf1iP10H40LvKWlDiJ2Qw19K6iVPRyO2O3+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741182940; c=relaxed/simple;
-	bh=DSoBmLrCDvKgqoTI2PsIYpYsvDv1jASp+t8DIiuprDM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SnKd2m7Xr6uo8WyaamG2CbDaa+WnmhinWazU0msQTOb7WVGM9ZrlSSld/hCuqAkyk7Pc0DuVVw+jppuRXT27RXFqSCycI/7OnvFWlfFIJg3+RoS4IZZzrdkSMrkfnred8uqjjIDcV9XqgcQ2bhqTc8c28llcmn15A+YB/wJa6os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eh6MiR1e; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1741192983; c=relaxed/simple;
+	bh=MVP2iST+lnFHzqu4yB7R7PAwljyJ2PMYIVTVjUGTGVk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=u2c0+tyKD22X2DLZTIEHKvjWzH015iitijpBLr+ZIH0jpOyzkxit2/uR6lflCBz7I8wjAm12mPdHeOcU6/uxsIaFQdSZfK+yB62jdltkATtuuUFzBlR/jDuSQDZJrhPcjqA+f9tZAPlC2/esinjjlhX+2r9zuKdfpdCDmEH0joY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QD++8gmM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eh6MiR1e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741182939; x=1772718939;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=DSoBmLrCDvKgqoTI2PsIYpYsvDv1jASp+t8DIiuprDM=;
-  b=Eh6MiR1e70R6teJ9TgBZmONc+mItTAUrcue4OQFCaw/ZnrXyaFHKWQu8
-   fYBpFgctXpOtqw+Ny8xd44uDozo8acFzKm7S8luPo4E1XCyshsoqRlsen
-   4Ap/v1MaeOsc+L9z3l8QpyeQIv73u6jnOMx3ApvZGMJms3iAeT0uOl5b3
-   enHrl8ZuYriTsONAtbnCnzr9o1NdXauh9KwW8mfL2egkxOHc0U0mp7Z8T
-   XT4P1+J9TgCSFk2sa6dk+Ht1j0puSqjkhKUYwx+fz9P05Gy9eh8oZSphm
-   cwDN6pf26woD0snmFqGpYcKbiIRgRzyJFsTGMD/pPumKAg1gMX4KcthfG
-   g==;
-X-CSE-ConnectionGUID: MmenaPPISmqOAJcnYPhWmg==
-X-CSE-MsgGUID: XDWeJA6CQ/ecMX+6Gtz1Eg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="59558116"
-X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
-   d="scan'208";a="59558116"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 05:55:38 -0800
-X-CSE-ConnectionGUID: Pg6A7ewRR+y7B+RG5DQMsQ==
-X-CSE-MsgGUID: rlQiJRaoRYaMpCI3oirqjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
-   d="scan'208";a="118847222"
-Received: from bvivekan-mobl1.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.175.91])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 05:55:35 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH 9/9] ASoC: Intel: soc-acpi-intel-ptl-match: add cs42l43 6x cs35l56 support
-Date: Wed,  5 Mar 2025 21:54:43 +0800
-Message-ID: <20250305135443.201884-10-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250305135443.201884-1-yung-chuan.liao@linux.intel.com>
-References: <20250305135443.201884-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QD++8gmM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07DC3C4CED1;
+	Wed,  5 Mar 2025 16:43:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741192982;
+	bh=MVP2iST+lnFHzqu4yB7R7PAwljyJ2PMYIVTVjUGTGVk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=QD++8gmMrkQInMQNUb77a6d2ke5mePKHJoTdcLVjS3kS5EWTkzU+jlMSX/JkgnYIm
+	 qsd29MIB4nIJpHaHthr7vnWuxrgZHjr2kXpUq351cnVXA85WkhPTmDuOHbzE3GWRZq
+	 v08BJYyezqO2OOf8p0NIDtjCn6hSc9Tg+svKxaLLqzGuWQtHN9WR7bgyaXL63Nghjv
+	 XTu7xix9XmyFLP1Cj4VihVYUfF64GgzZA1elqi2ynwJTi8pxcZvCZfk++i1n9oya3n
+	 OM+gD/nplvG8gDnYSX+hC2Srr5MVszzvs+z3kWlh9FEFFaZSE9yl6+8YfjT0W9EgPj
+	 nnfKftUc1kt7g==
+From: Mark Brown <broonie@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87v7soz664.wl-kuninori.morimoto.gx@renesas.com>
+References: <87v7soz664.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: soc-pcm: merge
+ soc_pcm_hw_update_format/subformat()
+Message-Id: <174119298175.155979.16771312287965710442.b4-ty@kernel.org>
+Date: Wed, 05 Mar 2025 16:43:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-This add a match for cs42l43 on sdw link 2, 3 cs35l56 on sdw link 1 and
-3. All speakers are aggregated.
+On Wed, 05 Mar 2025 00:12:52 +0000, Kuninori Morimoto wrote:
+> format() and subformat() should be handled in the same time, no need to
+> have each functions. Let's merge these
+> 
+> 	soc_pcm_hw_update_format()
+> 	soc_pcm_hw_update_subformat()
+> 
+> 
+> [...]
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
----
- .../intel/common/soc-acpi-intel-ptl-match.c   | 145 ++++++++++++++++++
- 1 file changed, 145 insertions(+)
+Applied to
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index 28ee768efd57..a07526eb802b 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -50,6 +50,48 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
- 	.group_id = 1,
- };
- 
-+static const struct snd_soc_acpi_endpoint spk_1_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 1,
-+	.group_id = 1,
-+};
-+
-+static const struct snd_soc_acpi_endpoint spk_2_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 2,
-+	.group_id = 1,
-+};
-+
-+static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 3,
-+	.group_id = 1,
-+};
-+
-+static const struct snd_soc_acpi_endpoint spk_4_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 4,
-+	.group_id = 1,
-+};
-+
-+static const struct snd_soc_acpi_endpoint spk_5_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 5,
-+	.group_id = 1,
-+};
-+
-+static const struct snd_soc_acpi_endpoint spk_6_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 6,
-+	.group_id = 1,
-+};
-+
- /*
-  * Multi-function codecs with three endpoints created for
-  * headset, amp and dmic functions.
-@@ -116,6 +158,84 @@ static const struct snd_soc_acpi_endpoint jack_amp_g1_dmic_endpoints_endpoints[]
- 	},
- };
- 
-+static const struct snd_soc_acpi_endpoint cs42l43_amp_spkagg_endpoints[] = {
-+	{ /* Jack Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* DMIC Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* Jack Capture Endpoint */
-+		.num = 2,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /* Speaker Playback Endpoint */
-+		.num = 3,
-+		.aggregated = 1,
-+		.group_position = 0,
-+		.group_id = 1,
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs42l43_2_adr[] = {
-+	{
-+		.adr = 0x00023001fa424301ull,
-+		.num_endpoints = ARRAY_SIZE(cs42l43_amp_spkagg_endpoints),
-+		.endpoints = cs42l43_amp_spkagg_endpoints,
-+		.name_prefix = "cs42l43"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs35l56_1_3amp_adr[] = {
-+	{
-+		.adr = 0x00013001fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_1_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00013101fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_2_endpoint,
-+		.name_prefix = "AMP2"
-+	},
-+	{
-+		.adr = 0x00013201fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_3_endpoint,
-+		.name_prefix = "AMP3"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs35l56_3_3amp_adr[] = {
-+	{
-+		.adr = 0x00033301fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_4_endpoint,
-+		.name_prefix = "AMP4"
-+	},
-+	{
-+		.adr = 0x00033401fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_5_endpoint,
-+		.name_prefix = "AMP5"
-+	},
-+	{
-+		.adr = 0x00033501fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_6_endpoint,
-+		.name_prefix = "AMP6"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
- 	{
- 		.adr = 0x000030025D071101ull,
-@@ -251,6 +371,25 @@ static const struct snd_soc_acpi_adr_device rt1320_3_group2_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_link_adr ptl_cs42l43_l2_cs35l56x6_l13[] = {
-+	{
-+		.mask = BIT(2),
-+		.num_adr = ARRAY_SIZE(cs42l43_2_adr),
-+		.adr_d = cs42l43_2_adr,
-+	},
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs35l56_1_3amp_adr),
-+		.adr_d = cs35l56_1_3amp_adr,
-+	},
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(cs35l56_3_3amp_adr),
-+		.adr_d = cs35l56_3_3amp_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr ptl_rt722_only[] = {
- 	{
- 		.mask = BIT(0),
-@@ -374,6 +513,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-ptl-rt715-rt711-rt1308-mono.tplg",
- 	},
-+	{
-+		.link_mask = BIT(1) | BIT(2) | BIT(3),
-+		.links = ptl_cs42l43_l2_cs35l56x6_l13,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-ptl-cs42l43-l2-cs35l56x6-l13.tplg",
-+	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = sdw_mockup_multi_func,
--- 
-2.43.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: soc-pcm: merge soc_pcm_hw_update_format/subformat()
+      commit: b92bc4d6e21f1802a39975e3c7cc4f76f591d46f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
