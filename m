@@ -1,126 +1,106 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC6F70831
-	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 07:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332C61DA617
+	for <linux-sound@vger.kernel.org>; Wed,  5 Mar 2025 07:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741161224; cv=none; b=ganH5ZOhDslD+UJhb/3pKvlNyHe6CsFzifmWtq7n6FMUcQpI0/I0eDuXLJ6Tpk726CHhqNzYFvHBf94xAOuer1fvZke/RU1Jjk+P4Q464nVmRUIV3CxOyeLkWP8z8C668MLylB6ktpcqVWeahdT3Dz5af2w54/B4dQgk28Zf0+A=
+	t=1741161420; cv=none; b=iWG6sE/I5OFkOaKvSBv1NSnSIGhKHldIrDxiJuAgV2HhrAz+5XdI6APbDDlWGGo8eJsu8MNYfS7JEq0b87LjjWzC/m2x2jpMomhHkB0gqWGVJMUm2F7VQaNU9abQHCTjkeUOIesurLyfKupgxaautocP3Sikb0KMvu2TBVq6u0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741161224; c=relaxed/simple;
-	bh=K36fAm89X5SrXPwH67TCmdU7lnTx7IUpwd2mFi3bTCc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s8pCG2biDKNP+8LfVKeHZPQ/rIgf6QB2Owm6a7TI2qJfartxYICFPcZjZc9RUl6JUv9sPjyqK8ieBfCozO3+Ttd9UJ6cRz6hd4eAfXkHdLE/iegx/Deo0Cv8c0Z+9HkAQyYpZNfhu3z7H6JlrMKdxZuoHI/vzuJlRPDzmzqsM2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rV2rbFjY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T1pGKUT+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rV2rbFjY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T1pGKUT+; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1741161420; c=relaxed/simple;
+	bh=+mbFw9Ph9X3yqzcwPUFnG0EWQqGmsd8ENbZiOlSx150=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=LjcUF/ay8DlHokrAxf6afaA93mrTXelc0DFreqx7XNF2z0o1LKz+EMmK7I+NpegJmK/UDg3p5J3pvT72bg1r3BpVq3zHhG1Gbi5YS6O13QMjNyO/IzMcHOoAkRC64JaDgwlGJBRj5bCl+0M1If2UlDpQc3HQl/j4lKwElvM15ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=fSy3wO5g; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rV2rbFjY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T1pGKUT+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rV2rbFjY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T1pGKUT+"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9BC3D1F393;
-	Wed,  5 Mar 2025 07:53:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741161220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VTfGV8Bs9nYJ2LUZx1xbZKnrLQsmMhbvJLY4EmDrEcY=;
-	b=rV2rbFjYWUw2K1OEqJ+TgsMd8Cu9jrr7Bq+XJ0zpMGVGvLyKULpodikWWb1IDfNH2qdYGD
-	NRPp5M4jVDZq47xpSI10XW2Ps6Nqy8EwKpoVdUO0kYsnO6VLfEQMD2BmdTal5njApw5Kta
-	QxFEO47MgTlMCyCy6YKlq3nOBCCFJhA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741161220;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VTfGV8Bs9nYJ2LUZx1xbZKnrLQsmMhbvJLY4EmDrEcY=;
-	b=T1pGKUT+3nZVnVcxJXqCPvR56c+xXo0RUTQ0jvVwOhalI2ItPOwh5n4l9+JPQU49i5DRtG
-	G3m0cdHbKrInGbCg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741161220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VTfGV8Bs9nYJ2LUZx1xbZKnrLQsmMhbvJLY4EmDrEcY=;
-	b=rV2rbFjYWUw2K1OEqJ+TgsMd8Cu9jrr7Bq+XJ0zpMGVGvLyKULpodikWWb1IDfNH2qdYGD
-	NRPp5M4jVDZq47xpSI10XW2Ps6Nqy8EwKpoVdUO0kYsnO6VLfEQMD2BmdTal5njApw5Kta
-	QxFEO47MgTlMCyCy6YKlq3nOBCCFJhA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741161220;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VTfGV8Bs9nYJ2LUZx1xbZKnrLQsmMhbvJLY4EmDrEcY=;
-	b=T1pGKUT+3nZVnVcxJXqCPvR56c+xXo0RUTQ0jvVwOhalI2ItPOwh5n4l9+JPQU49i5DRtG
-	G3m0cdHbKrInGbCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 75A621366F;
-	Wed,  5 Mar 2025 07:53:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2v4KGwQDyGcRTwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 05 Mar 2025 07:53:40 +0000
-Date: Wed, 05 Mar 2025 08:53:39 +0100
-Message-ID: <87zfhzud4s.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kailang <kailang@realtek.com>
-Cc: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: update ALC222 depop optimize
-In-Reply-To: <81c7f0ec4a2447219c06095e0de4d1d3@realtek.com>
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="fSy3wO5g"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 5257ugrrF1147908, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1741161402; bh=+mbFw9Ph9X3yqzcwPUFnG0EWQqGmsd8ENbZiOlSx150=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=fSy3wO5gtlPOAi1hh3jXLfDPL14H7/7I0VkshaR3dGq2jhDdeg/TV08BgDklecv0Z
+	 vvQV9eDAYca/txNrIkGWawym7xxUi3e0t9rRFV/QVw6dtOWMfT+e8+uOr9JnMCDSOm
+	 +itqerFyEiv5RDwR7aM7ItL1TMmquPmhwp2Ggxv6PywircZz7Eqoz6CpjY7n42g8Em
+	 C+qcd6XEQ+7KddZPop/bmfwVJeRluHU5SXiyQa1DfYsFiIu6y0a+a5vYapJS60SXNN
+	 krUhAP4Fumdz4pSOxh7v2tHmLbeuuLqZpqzONBsGM/tlHbnKtbnuMaXcQiAJSJTKW8
+	 bakdcGdcKyczw==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 5257ugrrF1147908
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 5 Mar 2025 15:56:42 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 5 Mar 2025 15:56:42 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 5 Mar 2025 15:56:42 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
+ RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
+ 15.01.2507.035; Wed, 5 Mar 2025 15:56:42 +0800
+From: Kailang <kailang@realtek.com>
+To: Takashi Iwai <tiwai@suse.de>
+CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: RE: update ALC222 depop optimize
+Thread-Topic: update ALC222 depop optimize
+Thread-Index: AduNl/Z/2i7zvjW2RduQNmX+QwAWAP//kWCA//95iZA=
+Date: Wed, 5 Mar 2025 07:56:41 +0000
+Message-ID: <f7fba6fc8d9e4abfb0c89e487e1d5d89@realtek.com>
 References: <81c7f0ec4a2447219c06095e0de4d1d3@realtek.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+ <87zfhzud4s.wl-tiwai@suse.de>
+In-Reply-To: <87zfhzud4s.wl-tiwai@suse.de>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-
-On Wed, 05 Mar 2025 07:32:00 +0100,
-Kailang wrote:
-> 
-> Hi Takashi,
-> 
-> Update ALC222 depop optimize as attach.
-
-Could you give a bit more background info why this change is needed?
-Is it a mandatory change to fix something, or it improves something?
+MIME-Version: 1.0
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
 
-thanks,
+> -----Original Message-----
+> From: Takashi Iwai <tiwai@suse.de>
+> Sent: Wednesday, March 5, 2025 3:54 PM
+> To: Kailang <kailang@realtek.com>
+> Cc: (alsa-devel@alsa-project.org) <alsa-devel@alsa-project.org>;
+> linux-sound@vger.kernel.org
+> Subject: Re: update ALC222 depop optimize
+>=20
+>=20
+> External mail : This email originated from outside the organization. Do n=
+ot
+> reply, click links, or open attachments unless you recognize the sender a=
+nd
+> know the content is safe.
+>=20
+>=20
+>=20
+> On Wed, 05 Mar 2025 07:32:00 +0100,
+> Kailang wrote:
+> >
+> > Hi Takashi,
+> >
+> > Update ALC222 depop optimize as attach.
+>=20
+> Could you give a bit more background info why this change is needed?
+> Is it a mandatory change to fix something, or it improves something?
+>=20
+This codec has two headphone design.
+The HP2 was nid 0x14.
 
-Takashi
+>=20
+> thanks,
+>=20
+> Takashi
