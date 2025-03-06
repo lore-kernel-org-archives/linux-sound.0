@@ -1,33 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6B320FAB1;
-	Thu,  6 Mar 2025 13:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570ED13AD11
+	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 13:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741268612; cv=none; b=VKQJLhgivt4d9xLCKNz+UJ8XGBoeU5LyzxPo84VzkbUA80+uZTSXwtCHksdcX2ILz3b2pTLTHG1BKkQjCwv86baEG8MmBmQZbiS8UuvA1BrWc8mOnDnqo7pKxF3JTLoG08ycjagQp7qPvAx5tuUiLSX06MWWfZBxoJrKFI80XQQ=
+	t=1741269425; cv=none; b=NE1IhzGHK4A/uIOJ4TTzHzxf2ldpv62GAfCBpjRKpYTzYgGliskUKBJDUXNSDJjowd+dog/h7oD9Pl1PoZ757zKs1t+cpyxRTHvTHkmZOLV/cxrtJCTFUOyL7QXoVWCGpG0NuCLEn8963mLG5XwvIiZTCiW9I5wQfJTynxLR0JI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741268612; c=relaxed/simple;
-	bh=ZVY3XZxDh1/GgOY9Lyv5EP3ssFkAectXfXg0tT8tH5w=;
+	s=arc-20240116; t=1741269425; c=relaxed/simple;
+	bh=7RTnsZun/Ct1eIi+a3nDzPQbKuuYOXoumaGAJVgDgxw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g5pBrV9+1pjTCw9OcKSU7NB+V3mdYAQnJNUUT3IYrG90QJxhOrj6SMwyjwrPjfmak+tAEFcvxhrD/BFkgVh/KNa0ZPm1zwub1gtoHoADPryzh/xwQg8dhcQgcATykDQxl/uwg7xOFPrfIiq0JnRN3VAyM+WSrtbunddHlaReCos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pp1T372Q; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=N5v4fxBOgBh3ua5vMkaNraRNSzRYmNEvjvoIiUV8sja0eESdFvKfGFBgrZew7sNG9Ia3MqU82olb0lL1Ys2EGKykhIbla23egLTZA7YPiZxNhDJHEpnpG8UNxfBYqKoBDuaGW2IGy+r1kpDt1GM+wNSXippDDFtQNs712WbG/R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HRxndDxA; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pp1T372Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CB10C4CEE0;
-	Thu,  6 Mar 2025 13:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741268612;
-	bh=ZVY3XZxDh1/GgOY9Lyv5EP3ssFkAectXfXg0tT8tH5w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pp1T372QiuWTDRYvmNn3WgU3huZBPmcgcwMXUMXHy5mEuqxVWFmloLbt4gnU6IJ8D
-	 VbWQFjtcecnAPvKIQ8l30PkE6sgzEs5W0POLwTagWl21JfUJYhD2mWNjudyKeDdqe3
-	 GvRXwjIoLKJZSlWh6K6/3cSGvtAYNyHw6YuajEdGrusqkhn2Cn0JVZIA78XWWGFF7P
-	 QNJxI0loCdnSsBP7acFu+64091F2PBq2auOtAwbSQQZgexTy4UyuPyDInaVDPKxGDE
-	 nUq8AFRsPyCoXhWrpNQ3bKf0J+vBwqZqoNIB4h3Amgcf/6XerFPcKnt7q4p1iQ9z+l
-	 XS8JOiDdZZJZA==
-Message-ID: <81d60550-4929-48c1-b4d3-1473b902bf12@kernel.org>
-Date: Thu, 6 Mar 2025 14:43:21 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HRxndDxA"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-390e9e44807so87464f8f.1
+        for <linux-sound@vger.kernel.org>; Thu, 06 Mar 2025 05:57:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741269421; x=1741874221; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=JMSmI6UnnPMHCGXloj5KDBe8CQV2f15FtgYMVwLTLoA=;
+        b=HRxndDxA9LAQLeGFFmbwtUWfnuI9S+2OS+knSLct7C2RYI+RTQugjZGRnRLgxQBOs+
+         LZ6OqmSWh6UMITMptghz+5wyokcKZ6kqsOukFxTJc1yy0w5ioFNisaTEi3+0wlr0/okm
+         URGfE4LRpOMarpxoCw9w1+QOgaZ2cVINe5Lfbdq4B1MrMOobhMh4jhviyV1S8z6zy0RM
+         h+u8aTNHLzy24r9k1gNVgAH89gie9mGCElaOJltc2fYO0XDRIUB9lb5haG2lJGVwdQl/
+         KYBjqvkyuKhLbPzbNSpbTdK8LMdOhTITWzYbfTWOQnEpvgsYbruz4JLI34TdR4VVeMOb
+         3ywQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741269421; x=1741874221;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JMSmI6UnnPMHCGXloj5KDBe8CQV2f15FtgYMVwLTLoA=;
+        b=tC2BwC/RO05OVUTR0da5l7mIU8kjndN5R3svH+smX6eZZ74j6GSbDhWVvkg2rvgcUA
+         vgoi2eXuiGVx0dcXrgf8nv4yB08z53GQUmZPi3bbJSPrhHNywxaniozUuhsm2zEfj5oy
+         SFOE9FK4RZ8r7yKZtMkH5KRlbdwiBTb4ll+LTwYW8nM3g5e6cEHZdRQm76kye7+5K1GR
+         Upzokzbu0+Yl6CA0Pc7GkMqsoPj5RZOHy3G63fgfIFn2FsiT7rNxyEA7mG23cbYffogA
+         8TQkoMKegLPR4VtDTMcYmOdVK8TAoUVZC8GgCIxAyZsOLXpBZMBNxocurtDiGhH6BuRb
+         jrDA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWrjZB5YeXaCqMjW7MjjJX2gRMDX1tWXeaiy0HovHhEikWSh/w8Mu29o1abi8mzKWi0Xbi7GOg6+85Mg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLbwm/sPRWhLSx8d0IaeWFVei+UJq1gvS6MOw/nBf46cKKEsBs
+	+6TAjvAxtSUf94sUwSKKY42GlSuKP0XofYIxebdv+PaMnmFkZxeR3/NvtmSZ9Q8=
+X-Gm-Gg: ASbGncscrz2kbTun7ImvqsvVmVaDFORUCbucWpsMItZ/+uuMFtNavcbIeAEUgjLLKBj
+	0kfitRoo2T1lsy0y34XkoiXtLbGYwX6Or6kW/ZaeWJAsETl/KAk0/NufcBL4xxtc6zuJAJVydrO
+	wr1+IMvra1csQUnikSdOKgCCydWu6jAH47s2K12BfnA2vB5ppFv/7+TlK0HJQeMPE2/Q5PYMziw
+	PhmWJPvArahOaXH6vfBNHKV8SJm23uDei1E2tAYGgGxZ8Npx7DjCx6D4CyxM8OE8v1GoiJqhYVJ
+	vj3Dxh9Ka6OHCFMbCFL7+7j44LiP+2SqmWxJTPls0tmqBlDymKLuF4ZqAN0Xzbe2
+X-Google-Smtp-Source: AGHT+IGKoIWERmRZLpXPe3ACW8OFb4dKT5FNFud4DpgTslSuPl/lMilNfu3dw1ADEPZxCq7k4yM0UQ==
+X-Received: by 2002:a5d:5f4d:0:b0:38f:27d3:1b44 with SMTP id ffacd0b85a97d-3911f72682bmr2278419f8f.2.1741269421609;
+        Thu, 06 Mar 2025 05:57:01 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.206.225])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912c103f57sm2132800f8f.91.2025.03.06.05.56.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 05:57:00 -0800 (PST)
+Message-ID: <602b8bcf-f120-4cb3-871b-adf852a24963@linaro.org>
+Date: Thu, 6 Mar 2025 14:56:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,30 +67,15 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] ASoC: dt-bindings: add schema for rockchip SAI
- controllers
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Sugar Zhang <sugar.zhang@rock-chips.com>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>, kernel@collabora.com,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20250305-rk3576-sai-v1-0-64e6cf863e9a@collabora.com>
- <20250305-rk3576-sai-v1-3-64e6cf863e9a@collabora.com>
- <ffd6287c-cbfd-4ba8-9332-45bad4e60583@kernel.org>
- <2376575.ElGaqSPkdT@workhorse>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3 0/6] ASoC: q6apm: fix under runs and fragment sizes
+To: srinivas.kandagatla@linaro.org, broonie@kernel.org
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
+References: <20250304105723.10579-1-srinivas.kandagatla@linaro.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
  JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
@@ -68,98 +85,60 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  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
- 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 fv0=
-In-Reply-To: <2376575.ElGaqSPkdT@workhorse>
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20250304105723.10579-1-srinivas.kandagatla@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 06/03/2025 14:13, Nicolas Frattaroli wrote:
-> On Thursday, 6 March 2025 08:42:54 Central European Standard Time Krzysztof 
-> Kozlowski wrote:
->> On 05/03/2025 22:24, Nicolas Frattaroli wrote:
->>> Rockchip introduced a new audio controller called the "Serial Audio
->>> Interface", or "SAI" for short, on some of their newer SoCs. In
->>> particular, this controller is used several times on the RK3576 SoC.
->>>
->>> Add a schema for it, with only an RK3576 compatible for now. Other SoCs
->>> may follow as mainline support for them lands.
->>>
->>> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
->>> ---
->>>
->>>  .../devicetree/bindings/sound/rockchip,sai.yaml    | 151
->>>  +++++++++++++++++++++
->> Filename based on compatible.
+On 04/03/2025 11:57, srinivas.kandagatla@linaro.org wrote:
+> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 > 
-> Sure, but more compatibles will follow. Are you certain you want a file named 
-> rockchip,rk3576-sai.yaml to then contain rockchip,rk3528-sai? If so then I do 
-
-Yes (or the other way around if 3528 is older)
-
-> not understand the reason behind this policy.
-
-So the name will match hardware, instead of sai.yaml, sai2.yaml,
-sai3.yaml and sai-green-frog.yaml.
-
+> On Qualcomm Audioreach setup, some of the audio artifacts are seen in
+> both recording and playback. These patches fix issues by
+> 1. Adjusting the fragment size that dsp can service.
+> 2. schedule available playback buffers in time for dsp to not hit under runs 
+> 3. remove some of the manual calculations done to get hardware pointer.
 > 
->>
->>>  MAINTAINERS                                        |   6 +
->>>  2 files changed, 157 insertions(+)
->>
->> ...
->>
->>> +
->>> +  dma-names:
->>> +    minItems: 1
->>> +    maxItems: 2
->>> +    oneOf:
->>> +      - const: tx
->>> +      - const: rx
->>> +      - items:
->>> +          - const: tx
->>> +          - const: rx
->>
->> Why all combinations are possible?
+> With these patches, am able to see Audio quality improvements.
 > 
-> Because they are. sai5 in rk3576 is rx only. sai7 is tx only. Others are both 
+> Any testing would be appreciated.
 
-What is sai5 and sai7? Instances on the same chip? Does it mean some of
-instances can only receive and some only transmit?
+Worked well for my pipewire setup on T14s and X1E8100 CRD.
 
-> tx and rx. Do you want me to enforce that those with both are always tx 
-> followed by rx?
-> 
+Tested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 Best regards,
 Krzysztof
