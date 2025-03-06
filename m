@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0224C6E
-	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 15:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179F51714CF
+	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 15:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741275403; cv=none; b=hiEDs7btYm/TPbRi5Y84qNrJQTMfPdR+294ylfb90yYiOpegqjK5jXKQbeH6/xvqBpKdI0GELH6LZoMoZ7KJ3fnRxuoveSsU+cIDX84lYtLplyk4QQq7c0N5vLRvP3FqCKDildmieMa5+6sW7YDJQ18l68t2ZcP86RZKtnPXLCs=
+	t=1741275607; cv=none; b=gc1glz+GzYqUKeZsUKRtIT2HhkcOfWsxcr1HiKa/5eQtOdnyCl3DvCsXINqc0xuF6d1WwLQI/YmA7bgBJY24QUjBL7zW1VexEXADAQmECW3L2xuIr24+bbUGzjiyBB/ktAtZU9SjONoVcegNCAPP3i98/h34cI5t1vC5rzFwFA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741275403; c=relaxed/simple;
-	bh=zTp5ljnFS/0p1w24q0Jp66vKgxh0EpPHXOAApPe/t9I=;
+	s=arc-20240116; t=1741275607; c=relaxed/simple;
+	bh=cxUGqGlUAvX/Jn2IRjMk4QGNwGfJkHRHJhAy5WdSYGY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QiBbFJ9DWYtdFNPWS2F+W2u8yWmS7+Eln8hT8/lF7r88dHJ/pNrgYBMqgwy1XF5F1i7Vub2vrlW1khZcqjuAjS0+kNG2GexvfkpxrjyCcZXKZLrLAFVrGt61EI93sNSqLazt64bqNSFLJDujGQknmXs6AX9wpij46ryHFZ3igeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OQ6T3zfH; arc=none smtp.client-ip=198.175.65.13
+	 In-Reply-To:Content-Type; b=FvuJ2AydNRDZlN68EPUjT18oYncYsz59enDxBb7yB52V3yH/5gkJpsp7rfcjUwmV1uIe5iv7V7ET2HIxE++J266F6MZn4jyEd1cegZMZ3BAs8YIKpnU9BppDIvUhHaXj+JqyM4LWY9lwVvoAUWL/whk/WUIfimLzbmcY/eEsOt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KVLoAb28; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OQ6T3zfH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVLoAb28"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741275402; x=1772811402;
+  t=1741275606; x=1772811606;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=zTp5ljnFS/0p1w24q0Jp66vKgxh0EpPHXOAApPe/t9I=;
-  b=OQ6T3zfHdUeikAeZaYLHMc8FjHealaw0xzbLIzYgcc2mUpQhzKLmLc/u
-   AvJIAn+jlCtCsYwkxSHAzHdnzb4ph3cceHkXh+gL4tOoqv4oZRs/Dvd0d
-   Ckt59kld6hC/y1kewLCp+K0P27ohZ7YPCY2fEMfprvNtcI9jt0a84P0k7
-   59XUs2V+ADIR87yKnkLhmFRz0S7BPNM4nHvD/dMjnE+7J3kN42dNpOFaY
-   zHJl0tfd51aWlpKnE6PDVOgFi+/OLddy9/ijCFuPY3VrZ7XNIVpNxvzSb
-   uddUajjcts7TxHaBAguUmfnsVsXc/fOYpSf9WD8aMcO8K+gjXbYHjBg11
-   A==;
-X-CSE-ConnectionGUID: +jfhDlvCSceiNjuJnUdyPg==
-X-CSE-MsgGUID: h7DvVQuiRSyu2UUfrrmbMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53278337"
+  bh=cxUGqGlUAvX/Jn2IRjMk4QGNwGfJkHRHJhAy5WdSYGY=;
+  b=KVLoAb28JFNEMI3PmLlUuTbMaoe0w9LNBRJb78/DvFc5rnPuLMiKkfnX
+   Y10Uk/7JFfZQbWXlClQRchQc6xrN0+TB8EajpPGobWLjjJuU/Y9rNIhdU
+   sK+9v8mZe1Fw0+fhXIjub3L1kYTg9tj5z/bctYWbTrlB1mk17kWv2LXLU
+   5ZvZj8i6oEaKh/nf0Qn4ot7PwZXZw62bw7FhV6VIfaX9WAqc9/7tY2uDB
+   2HhtGr52gcOYvw40ncxRIuPuiS0c0j4rmeJt3nT5Hy+GyL6NPO03AxW5t
+   XCmEVUISLcZ95i+CLtjrpWEJNV+DyNf64vTY2TTsM8GE2zUePUsMLkLQu
+   w==;
+X-CSE-ConnectionGUID: 76/0CU0STDGFei/oHi1MRw==
+X-CSE-MsgGUID: 8mJZrRdWTZSohllRgCXjfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="46218045"
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="53278337"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 07:36:39 -0800
-X-CSE-ConnectionGUID: aOziWUOsTWyVBAaSERDkbA==
-X-CSE-MsgGUID: pQbj1YTRSZe+LdnKCR2a2g==
+   d="scan'208";a="46218045"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 07:40:05 -0800
+X-CSE-ConnectionGUID: adfp+GZpQ8Szr6wqpnDQ7g==
+X-CSE-MsgGUID: NgrsYmRmQrasSLiconR6pg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119565642"
+   d="scan'208";a="123231322"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.249.86]) ([10.245.249.86])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 07:36:37 -0800
-Message-ID: <97847fb3-3659-489c-a6a5-3a76cb048523@linux.intel.com>
-Date: Thu, 6 Mar 2025 17:37:12 +0200
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 07:40:02 -0800
+Message-ID: <b52afb54-9f43-4006-9e12-b8d752dc38b0@linux.intel.com>
+Date: Thu, 6 Mar 2025 17:40:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,49 +52,82 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/8] ASoC: SOF: ipc4: Add support for Intel HW managed mic
- privacy messaging
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
- liam.r.girdwood@intel.com
+Subject: Re: [PATCH 8/8] ASoC: SOF: Intel: ptl: Add support for mic privacy
+To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, lgirdwood@gmail.com,
+ broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
 References: <20250306133527.16722-1-peter.ujfalusi@linux.intel.com>
- <20250306133527.16722-6-peter.ujfalusi@linux.intel.com>
- <07d7106e-97fe-4895-a471-db09f7a169e9@sirena.org.uk>
-Content-Language: en-US
+ <20250306133527.16722-9-peter.ujfalusi@linux.intel.com>
+ <2eabbadd-e433-456f-a744-4dc9c843c051@linux.intel.com>
 From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <07d7106e-97fe-4895-a471-db09f7a169e9@sirena.org.uk>
+Content-Language: en-US
+In-Reply-To: <2eabbadd-e433-456f-a744-4dc9c843c051@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 06/03/2025 15:42, Mark Brown wrote:
-> On Thu, Mar 06, 2025 at 03:35:24PM +0200, Peter Ujfalusi wrote:
+On 06/03/2025 16:05, Amadeusz Sławiński wrote:
+> On 3/6/2025 2:35 PM, Peter Ujfalusi wrote:
+>> Implement the three callbacks that is needed to enable support for
+>> reporting the mic privacy change via soundwire.
+>>
+>> In PTL the mic privacy reporting is supported via soundwire and DMIC and
+>> the soundwire is owned by the host, it's interrupt is routed there.
+>>
+>> To enable the interrupt, the sublink mask needs to be passed to the
+>> multilink layer, the check_mic_privacy_irq/process_mic_privacy callbacks
+>> needs to be implemented to check and report the mic privacy change.
+>>
+>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+>> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+>> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+>> ---
+>>   sound/soc/sof/intel/ptl.c | 58 +++++++++++++++++++++++++++++++++++++--
+>>   sound/soc/sof/intel/ptl.h |  5 ++++
+>>   2 files changed, 61 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/sound/soc/sof/intel/ptl.c b/sound/soc/sof/intel/ptl.c
+>> index ae8e9e08ad2a..eeb86c228b2a 100644
+>> --- a/sound/soc/sof/intel/ptl.c
+>> +++ b/sound/soc/sof/intel/ptl.c
+>> @@ -18,10 +18,62 @@
+>>   #include "lnl.h"
+>>   #include "ptl.h"
+>>   -int sof_ptl_set_ops(struct snd_sof_dev *sdev, struct
+>> snd_sof_dsp_ops *dsp_ops)
+>> +static bool sof_ptl_check_mic_privacy_irq(struct snd_sof_dev *sdev,
+>> bool alt,
+>> +                      int elid)
+>> +{
+>> +    if (alt != 1 || elid != AZX_REG_ML_LEPTR_ID_SDW)
 > 
->> Platform code can call sof_ipc4_mic_privacy_state_change() to send the IPC
->> message to the firmware on state change.
+> alt is bool, so let's be type aware and either "alt != true" or just "!
+> alt"?
+
+Sure, I can't explain why it ended up like this.
+
 > 
-> What's the plan for that plaform code - is it expected to be the machine
-> driver, or something else?
-
-By platform code I mean here sound/soc/sof/intel.
-
-This feature is only available for Intel hardware, but I wanted to keep
-the APIs as open as possible for other vendors.
-
-The reason for the implementation is that the interrupt about the change
-in mic privacy is delivered via IP interrupt (piggy-backing on them).
-The interrupt is delivered to the owner of the IP:
-DMIC is owned by DSP, so firmware can handle it
-SNDW is owned by host, so Linux is handling it.
-The firmware needs to be notified of a change to do a nice fade out/in,
-the software cannot block or do anything else, the incoming stream mute
-is done by the hardware.
-
-No plan to integrate it to machine drivers, this is outside of the scope
-of SW. The feedback is also handled by hardware internally.
+>> +        return false;
+>> +
+>> +    return hdac_bus_eml_is_mic_privacy_changed(sof_to_bus(sdev), alt,
+>> elid);
+>> +}
+>> +
+>> +static void sof_ptl_process_mic_privacy(struct snd_sof_dev *sdev,
+>> bool alt,
+>> +                    int elid)
+>> +{
+>> +    bool state;
+>> +
+>> +    if (alt != 1 || elid != AZX_REG_ML_LEPTR_ID_SDW)
+> 
+> same here
+> 
 
 -- 
 Péter
