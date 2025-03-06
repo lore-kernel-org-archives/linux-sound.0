@@ -1,40 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA02145A0B
-	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 16:10:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0006145A0B;
+	Thu,  6 Mar 2025 16:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741277423; cv=none; b=ow6sZR+iDNTHdAv0JVM9tyibe2yW9Zd39VP6sqcgup1W4tMAZIDXuIX3K8CQ4khp+QEl5ol5MD6GKsN1LhvmMkgEQmxRa4Ynq7SjAzOIDu6gMBrfXxklfJt/Kl2DbtC/mrY11yXpnxNwITlAl4oBvDwCUjKlIeBikaAuLDujq38=
+	t=1741277426; cv=none; b=tjsrKOgoA4IQFAiGy2WQX8qMChb1sk8jTLjx7rYCjyq4iiTpUih7YEazHKuq9zIYoSmZ1y2Ar3JWn9VdIXDu12EasV8EyJt9lGxY+8LSwVGBu61UlJcLkwHow2rQfhNVbZ0XmoM5nkNIUXWSanI3JmFr7cKsfM3v6UiJr1dkEeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741277423; c=relaxed/simple;
-	bh=yUNr6keoG2qbqBdDfk20g0ZxkRRh8XECEcBXMAYLWCM=;
+	s=arc-20240116; t=1741277426; c=relaxed/simple;
+	bh=/CafB9CjLNnG+rUtDUJvwj69pDk3YEJSnvrK28dm2XU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Sy1sbkQt/FLoJXxdCmu8FzFc1MWZps63sisJRs+vErNKOMV61EhdT5Jt6oAzs08r8ljgmL9aKOWLvz7smOm3x8VyljCPyyYSQl1ilFrhli2ZgJCBlTmvMeFvj5yrDiRTM514x/MC9Y6L3guZ9BzUWWdC3DfGvJdOP0Gcdt18WdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbDHHkco; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=a7aFtU38Wy4OXUdfJ62hqWUQ9MbQwFc5Y4qSYJKGzw35cLDwA1+MaUggug2ahbpwFTO8Za1fxmIsy2KGh8lM9u+DynLVxPSvtlz5cBYt7hYU8AZbnwUm+NoMOA0L1TfjzZ9uuOUQQK8S8jZmjdficOYj4uzb+KT8LG34/olSH0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fZjGhNJV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbDHHkco"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDB10C4CEE8;
-	Thu,  6 Mar 2025 16:10:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fZjGhNJV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27FD4C4CEE9;
+	Thu,  6 Mar 2025 16:10:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741277422;
-	bh=yUNr6keoG2qbqBdDfk20g0ZxkRRh8XECEcBXMAYLWCM=;
+	s=k20201202; t=1741277426;
+	bh=/CafB9CjLNnG+rUtDUJvwj69pDk3YEJSnvrK28dm2XU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RbDHHkcop+jGqQi3KHn6NgJj8TZdudju9UsSlaoVqylDh24ubY2M6Uia1d5WhorPP
-	 GlmqNsZMEHwvaRLsdwRYFgOM1nnas+9nBFH/GmpNtcv0qSdBNCaQ/kmHmamUBfu5HJ
-	 Nh/PSuEgLXGi+Rdk124LTSlMxKv1W9PGB0b9zdrwY/3MAF0YqSV+5CujrqYOtt9GLZ
-	 8+Ri/eltLjTZiftwK+JJYYst/zwmCFKgDjQPzHPWnkFh1GlGxM7DPRIQBvJyIgP8D4
-	 FMWJ7a+yYbETe3MxqEi3uvS5YCiPoyTWeBvdsvIbyR0r7ALMq8ss4C9i/Qgq6oCYcf
-	 n8tQ/oBK8b4+g==
+	b=fZjGhNJVPiS+5DWgPnN3wPSh0t0snj6e1EfGXc3qWoCYZGssOhO0fFZerSWxAegIF
+	 rK4A6EeK5Y6UVAJpYmDr1DpgMMAvHhxR1kjKCRsFlT+CN01HP57rrb5+FI24TYBhIr
+	 yaS8Dft5TzQySYQlPDGscgpeM1nmCGH/zTKoY7Xkemh5Ry44tRESV83Gkpi3E9Y3C1
+	 q6etvJwc7SKYbRbB0S765WtsKsLKodYhhHfVy6L6754Z/kCSkhBQXgv+4uap+znr3S
+	 CLGhie4n1//oc5g7oKNGICaUe6tMemrnErIkQ46GMETWZmezGG+0fiwhwxe/0GjWYy
+	 I4hMCi7rthuAQ==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20250306133254.1861046-1-ckeepax@opensource.cirrus.com>
-References: <20250306133254.1861046-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs42l43: Fix maximum ADC Volume
-Message-Id: <174127742149.138495.13978255706124433286.b4-ty@kernel.org>
-Date: Thu, 06 Mar 2025 16:10:21 +0000
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+ Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Greg KH <gregkh@linuxfoundation.org>, 
+ Peter Zijlstra <peterz@infradead.org>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250305172738.3437513-1-arnd@kernel.org>
+References: <20250305172738.3437513-1-arnd@kernel.org>
+Subject: Re: [PATCH] ASoC: cs42l43: convert to SYSTEM_SLEEP_PM_OPS
+Message-Id: <174127742288.138495.6148679586151752029.b4-ty@kernel.org>
+Date: Thu, 06 Mar 2025 16:10:22 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,11 +54,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Thu, 06 Mar 2025 13:32:54 +0000, Charles Keepax wrote:
-> The range of ADC volume is -1 -> 3 (-6 to 18dB) so the number of levels
-> should actually be 4.
+On Wed, 05 Mar 2025 18:27:32 +0100, Arnd Bergmann wrote:
+> The custom suspend function causes a build warning when CONFIG_PM_SLEEP
+> is disabled:
 > 
+> sound/soc/codecs/cs42l43.c:2405:12: error: unused function 'cs42l43_codec_runtime_force_suspend' [-Werror,-Wunused-function]
 > 
+> Change SET_SYSTEM_SLEEP_PM_OPS() to the newer SYSTEM_SLEEP_PM_OPS(),
+> to avoid this.
+> 
+> [...]
 
 Applied to
 
@@ -57,8 +71,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: cs42l43: Fix maximum ADC Volume
-      commit: e26f1cfeac6712516bfeed80890da664f4f2e88a
+[1/1] ASoC: cs42l43: convert to SYSTEM_SLEEP_PM_OPS
+      commit: 2c2eadd07e747059ccd65e68cd1d1b23ca96b072
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
