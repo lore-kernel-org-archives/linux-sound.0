@@ -1,223 +1,88 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F73211479
-	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 15:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79E3145A0B
+	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 16:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741276745; cv=none; b=RXwzAeLJ8P2unqTRIWLV5c/5RwPDGMF2IaxvhajlqZ4mRAPqyzHZMcA8lKYlnra9lHmFkG4ZNl1ONJgvuceglMsbx5EGWEChBLWIBeVHr2ctwaAeEZ4/66FwPBS9qtnsXbTx7TGKv7gWy5uhHNZjh85m0Qvz7/t32ShzA3Wz4v8=
+	t=1741277422; cv=none; b=dAyh0F1RGSNxl/nkoUf/ISPR0/WZQSIb78cdWngl31t7rhF3A0PoWLQ0dwP7BknPqpMi4KShmm1/FyN5Msfbk/R5Rc5iqNByTr60aeKSoANnsmkPF5FWJ4Dz6TnBBVunkpj5tRXbtQGQLI1Y6G7MQiy33Y80oRx+4ZcKApE9Olw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741276745; c=relaxed/simple;
-	bh=1jz3wmvzLkfkl5PFGAa1pnV6apaxVdgRZACkDbowk8w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=YGzI2VWTYOwhPgR4rvsmvSiy6UtaB3QOsLewir67nxVsmnSkM/52UEEEeXTN1BvV/RZCHdAtrTtGELxAuBNmwFENx3Z92lpJgIErByIzBZv0JfrAFf0YMHcNQKiDvyFkbzxXaiDsiWmbAhF5zPtMJWcgAkm2JacUp5vBciF3+7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LD9CrNxJ; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1741277422; c=relaxed/simple;
+	bh=Gs0btnOGFHkc4wOn2mjrxcZI/G6INZiAIdx+Q7jAeN0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=iXl5HjSdsyozgFONa2N4CccMupBZZ1Z48kdvt8+Tm8R++UFjtMOSIg3QKw7S6KrYo5O1JkMZoKf28tKOdyk3X6yrYY/wr73hvRqvEcbyTYm6KmHL0SKpZCweSZ2Q0AUGiC3im3jM7luV9MpctS22nZG7t+vQtYrbcpcq2BpONrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JvWnxBW2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LD9CrNxJ"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43bdc607c3fso5556325e9.3
-        for <linux-sound@vger.kernel.org>; Thu, 06 Mar 2025 07:59:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1741276740; x=1741881540; darn=vger.kernel.org;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rr6HJYrIFdh0rI3RgJKPVqyOkkzSUwbjgMWnVkXlprE=;
-        b=LD9CrNxJLsn0xQe8Ti0/QLggnwQkcozZX97HRbp38cecmmTolLyrJhR5Lhoq6j3Xzl
-         /AuyJr8+6nP5cRZ9KLUPBVYVf1jsy+HvsEq/8hsgU5W0pBGcRzcMfFIahiGDpCYq5ANp
-         HINkZQw+Yl1BtXLd5mMgBtcnW/JqSpjhb6sZa0OVPsWVqoQqEobDczbvsHE6tQNDth+q
-         dytHcuOXIGLComwrPyZiLJqxpeUqh/18bqTfDO68Yxe+al16qhMzWDilBJfz8IrRfQlm
-         3TOLjOFVxj0Loomvwqk3BapIrJLFicWTLM7J34u0htkLG7zh2MscE95pcrXAEMSacQ0i
-         8tBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741276740; x=1741881540;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rr6HJYrIFdh0rI3RgJKPVqyOkkzSUwbjgMWnVkXlprE=;
-        b=ZGsB7bEHIb11DGBtOOaOzzxq/mVr+9zpf/EO5LlTlLmjeFmOBXx1U3I3gaLVE1VJfn
-         Bg/8WZ5QK2Ka7hQs7yJOEtkzA7lWX9cpC45MxXxQsD9G4xMZfc3u59b7GWrN0WtJd6qd
-         fnKBrd9Ef71KxKEyWuTy4VWQUmqh9t7yDUV31WbcD7v8vZ3hBqGZREkscm2BxV30xAwy
-         ksC9VlmhbABUMkFq65EIFS9C/Ek6R9eg1PKTn62fk6tgKKtt6PBY2xiByiWVkMJk6voS
-         1TNrXxNwglSIyY6T5TnzKGw1oOe9/crkdpVPstt+64O91rCagZV/Tr41FXGnTio6LIXm
-         Raew==
-X-Forwarded-Encrypted: i=1; AJvYcCXfxTtrO9owbaK5g3VhrB8i7x8OGGqnTmynfoTuFIU1oo66Z69bN/Uzy11NgpgaNwX4NOEkaMx0CoBzHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5IHb+RJN985vdyKDVW3UJBGDA9WFNwRLjqXiipWHTSEjT9rpT
-	AguSEkaGogY5JrOMvRq+euilWNtkJ5/pFkRleJQVHXxVCZDgiRJSnFpaOwgRIoM=
-X-Gm-Gg: ASbGncvPSlgK1k7M+bq0jJ6fwDWqFOvSTHUbLaBoYAV4r/j/H5oFz6efMMwpV96zMxu
-	lRenQYY+ZYchP5vcFnm73kzAzHhGl0y/0EQ60Nayy20kB1Kk35Ez8eeJcSj8pfnL6ZUEYqxqGev
-	UrcTXhpuxQ/5mqhSPPdI7iNQYlJWJXwn6UFLfdMD2YspqKuXPQ4PXEi5bScT0CbvsrA7Gk5D5K3
-	e6lfv2Z1h4YFkQRwgQrKwC2fo2rq8rOU+lIm8RSL+oncp7tzdSokNSeELl8u+7kj8Ux3ewOpTWx
-	xRF2OXWCpul6YO8b+HqnKJ42g+UW8UzWpVxweu2cWto=
-X-Google-Smtp-Source: AGHT+IHVG48PQ3PbBxa6Pppm5OOQfY2250cBwz7kifepeP6HNmcBzErFykhRYqq1LVB1ReOFWmHCsg==
-X-Received: by 2002:a05:6000:4020:b0:391:2e0f:efec with SMTP id ffacd0b85a97d-3912e0ff334mr1501348f8f.7.1741276740418;
-        Thu, 06 Mar 2025 07:59:00 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:29d4:36d9:5043:acd])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3912c103f41sm2391111f8f.85.2025.03.06.07.58.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 07:58:59 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
-  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>,  Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
- <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,  Michael Turquette
- <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,
-  jiebing.chen@amlogic.com,  linux-sound@vger.kernel.org,
-  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-arm-kernel@lists.infradead.org,  linux-amlogic@lists.infradead.org,
-  linux-clk@vger.kernel.org,  jian.xu@amlogic.com,  shuai.li@amlogic.com,
-  zhe.wang@amlogic.com
-Subject: Re: [PATCH v3 5/6] ASoC: meson: s4: Add s4 tocodec driver
-In-Reply-To: <20250228-audio_drvier-v3-5-dbfd30507e4c@amlogic.com> (jiebing
-	chen via's message of "Fri, 28 Feb 2025 16:04:13 +0800")
-References: <20250228-audio_drvier-v3-0-dbfd30507e4c@amlogic.com>
-	<20250228-audio_drvier-v3-5-dbfd30507e4c@amlogic.com>
-User-Agent: mu4e 1.12.8; emacs 29.4
-Date: Thu, 06 Mar 2025 16:58:59 +0100
-Message-ID: <1jfrjq5ews.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JvWnxBW2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1754AC4CEE0;
+	Thu,  6 Mar 2025 16:10:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741277421;
+	bh=Gs0btnOGFHkc4wOn2mjrxcZI/G6INZiAIdx+Q7jAeN0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=JvWnxBW2q1aDDVfm5IY83gMX8xW1tCSAuMJzjEPDM/L5TFUsad+xfxrJgLDup+i0o
+	 8nJn+twJ64+4ehANLIaKJ6VEYnZ0EFujcmQzu0qys4ILDZTnMTLIEgNi8OOHvMe2rH
+	 UGa+FMy2o7NfZdT7yFgPXg513snW78/O1z3VUnHKiswgvPuAHGfkgcQmdKiLPpNiDi
+	 nQwZxSIMubuInkGFt6fforpW3qC3jcgqlqyF4mjL6SqF7m35lkvs6xGaoOYTTHS3e1
+	 xe686Qmblt/CGuSrHMRV5G7lLTn2EYzXba43U8y3/XR9GMZ9u7+vnhFKbzN+jFtP1r
+	 H6rqGOARhRzEw==
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, lars@metafoo.de, nuno.sa@analog.com, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20250306104233.1638625-1-ckeepax@opensource.cirrus.com>
+References: <20250306104233.1638625-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: dapm: Fix changes to
+ DECLARE_ADAU17X1_DSP_MUX_CTRL
+Message-Id: <174127741981.138495.5039210123234437598.b4-ty@kernel.org>
+Date: Thu, 06 Mar 2025 16:10:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-On Fri 28 Feb 2025 at 16:04, jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org> wrote:
+On Thu, 06 Mar 2025 10:42:33 +0000, Charles Keepax wrote:
+> The changes to DECLARE_ADAU17X1_DSP_MUX_CTRL did avoid the issue with a
+> compiler not liking all the macro indirection. However it introduced a
+> new issue with respect to the mux not being declared static:
+> 
+> sound/soc/codecs/adau17x1.c:275:8: sparse: sparse: symbol
+> 'adau17x1_dac_mux' was not declared. Should it be static?
+> sound/soc/codecs/adau17x1.c:278:8: sparse: sparse: symbol
+> 'adau17x1_capture_mux' was not declared. Should it be static?
+> 
+> [...]
 
-> From: jiebing chen <jiebing.chen@amlogic.com>
->
-> S4 tocodec support 8 lane to input, It need to enable
-> bclk and mclk control bit when work
->
-> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
-> ---
->  sound/soc/meson/g12a-toacodec.c | 51 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 51 insertions(+)
->
-> diff --git a/sound/soc/meson/g12a-toacodec.c b/sound/soc/meson/g12a-toacodec.c
-> index 531bb8707a3ec4c47814d6a0676d5c62c705da75..41eef9980059285275f0189a06469fc694775955 100644
-> --- a/sound/soc/meson/g12a-toacodec.c
-> +++ b/sound/soc/meson/g12a-toacodec.c
-> @@ -41,6 +41,9 @@
->  #define  CTRL0_BCLK_SEL_LSB		4
->  #define  CTRL0_MCLK_SEL			GENMASK(2, 0)
->  
-> +#define CTRL0_BCLK_ENABLE_SHIFT		30
-> +#define CTRL0_MCLK_ENABLE_SHIFT		29
-> +
->  #define TOACODEC_OUT_CHMAX		2
->  
->  struct g12a_toacodec {
-> @@ -129,6 +132,10 @@ static const struct snd_kcontrol_new g12a_toacodec_out_enable =
->  	SOC_DAPM_SINGLE_AUTODISABLE("Switch", TOACODEC_CTRL0,
->  				    CTRL0_ENABLE_SHIFT, 1, 0);
->  
-> +static const struct snd_kcontrol_new s4_toacodec_clk_enable =
-> +	SOC_DAPM_DOUBLE("Switch", TOACODEC_CTRL0,
-> +			CTRL0_BCLK_ENABLE_SHIFT, CTRL0_MCLK_ENABLE_SHIFT, 1, 0);
-> +
->  static const struct snd_soc_dapm_widget g12a_toacodec_widgets[] = {
->  	SND_SOC_DAPM_MUX("SRC", SND_SOC_NOPM, 0, 0,
->  			 &g12a_toacodec_mux),
-> @@ -143,6 +150,15 @@ static const struct snd_soc_dapm_widget sm1_toacodec_widgets[] = {
->  			    &g12a_toacodec_out_enable),
->  };
->  
-> +static const struct snd_soc_dapm_widget s4_toacodec_widgets[] = {
-> +	SND_SOC_DAPM_MUX("SRC", SND_SOC_NOPM, 0, 0,
-> +			 &sm1_toacodec_mux),
-> +	SND_SOC_DAPM_SWITCH("OUT EN", SND_SOC_NOPM, 0, 0,
-> +			    &g12a_toacodec_out_enable),
-> +	SND_SOC_DAPM_SWITCH("CLK EN", SND_SOC_NOPM, 0, 0,
-> +			    &s4_toacodec_clk_enable),
+Applied to
 
-I don't see a reason for the user to control that.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-A user controls if the component is enable or not, and possibly select
-the lane ... but that's it
+Thanks!
 
-You could have to flipped automatically which dapm when the component is
-powered, that would make a lot more sense.
+[1/1] ASoC: dapm: Fix changes to DECLARE_ADAU17X1_DSP_MUX_CTRL
+      commit: 269b844239149a9bbaba66518db99ebb06554a15
 
-> +};
-> +
->  static int g12a_toacodec_input_hw_params(struct snd_pcm_substream *substream,
->  					 struct snd_pcm_hw_params *params,
->  					 struct snd_soc_dai *dai)
-> @@ -228,6 +244,15 @@ static const struct snd_soc_dapm_route g12a_toacodec_routes[] = {
->  	{ "OUT Capture", NULL, "OUT EN" },
->  };
->  
-> +static const struct snd_soc_dapm_route s4_toacodec_routes[] = {
-> +	{ "SRC", "I2S A", "IN A Playback" },
-> +	{ "SRC", "I2S B", "IN B Playback" },
-> +	{ "SRC", "I2S C", "IN C Playback" },
-> +	{ "OUT EN", "Switch", "SRC" },
-> +	{ "CLK EN", "Switch", "OUT EN" },
-> +	{ "OUT Capture", NULL, "CLK EN" },
-> +};
-> +
->  static const struct snd_kcontrol_new g12a_toacodec_controls[] = {
->  	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL, 3, 0),
->  };
-> @@ -236,6 +261,10 @@ static const struct snd_kcontrol_new sm1_toacodec_controls[] = {
->  	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL_SM1, 3, 0),
->  };
->  
-> +static const struct snd_kcontrol_new s4_toacodec_controls[] = {
-> +	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL_SM1, 7, 0),
-> +};
-> +
->  static const struct snd_soc_component_driver g12a_toacodec_component_drv = {
->  	.probe			= g12a_toacodec_component_probe,
->  	.controls		= g12a_toacodec_controls,
-> @@ -258,6 +287,17 @@ static const struct snd_soc_component_driver sm1_toacodec_component_drv = {
->  	.endianness		= 1,
->  };
->  
-> +static const struct snd_soc_component_driver s4_toacodec_component_drv = {
-> +	.probe			= sm1_toacodec_component_probe,
-> +	.controls		= s4_toacodec_controls,
-> +	.num_controls		= ARRAY_SIZE(s4_toacodec_controls),
-> +	.dapm_widgets		= s4_toacodec_widgets,
-> +	.num_dapm_widgets	= ARRAY_SIZE(s4_toacodec_widgets),
-> +	.dapm_routes		= s4_toacodec_routes,
-> +	.num_dapm_routes	= ARRAY_SIZE(s4_toacodec_routes),
-> +	.endianness		= 1,
-> +};
-> +
->  static const struct regmap_config g12a_toacodec_regmap_cfg = {
->  	.reg_bits	= 32,
->  	.val_bits	= 32,
-> @@ -278,6 +318,13 @@ static const struct g12a_toacodec_match_data sm1_toacodec_match_data = {
->  	.field_bclk_sel	= REG_FIELD(TOACODEC_CTRL0, 4, 6),
->  };
->  
-> +static const struct g12a_toacodec_match_data s4_toacodec_match_data = {
-> +	.component_drv	= &s4_toacodec_component_drv,
-> +	.field_dat_sel	= REG_FIELD(TOACODEC_CTRL0, 19, 20),
-> +	.field_lrclk_sel = REG_FIELD(TOACODEC_CTRL0, 12, 14),
-> +	.field_bclk_sel	= REG_FIELD(TOACODEC_CTRL0, 4, 6),
-> +};
-> +
->  static const struct of_device_id g12a_toacodec_of_match[] = {
->  	{
->  		.compatible = "amlogic,g12a-toacodec",
-> @@ -287,6 +334,10 @@ static const struct of_device_id g12a_toacodec_of_match[] = {
->  		.compatible = "amlogic,sm1-toacodec",
->  		.data = &sm1_toacodec_match_data,
->  	},
-> +	{
-> +		.compatible = "amlogic,s4-toacodec",
-> +		.data = &s4_toacodec_match_data,
-> +	},
->  	{}
->  };
->  MODULE_DEVICE_TABLE(of, g12a_toacodec_of_match);
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
--- 
-Jerome
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
