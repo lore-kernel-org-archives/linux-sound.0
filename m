@@ -1,144 +1,105 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570ED13AD11
-	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 13:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB09E13B791;
+	Thu,  6 Mar 2025 13:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741269425; cv=none; b=NE1IhzGHK4A/uIOJ4TTzHzxf2ldpv62GAfCBpjRKpYTzYgGliskUKBJDUXNSDJjowd+dog/h7oD9Pl1PoZ757zKs1t+cpyxRTHvTHkmZOLV/cxrtJCTFUOyL7QXoVWCGpG0NuCLEn8963mLG5XwvIiZTCiW9I5wQfJTynxLR0JI=
+	t=1741269566; cv=none; b=bytq9hydvXRPJaVdcSqvtvTOF969VXQJa95ze/On6ev4/eBSAueRlq754gwip9q1diHnM4YtiyYXJBVfVG2Fx5+ZAQfxAmme7Y9Ncg+vhBvrvcPj5cE0VhPoN/KIJ/+wuj2sFC58yWTJk7OcBri5up3orYFXcuTrWqsZ+FSQHIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741269425; c=relaxed/simple;
-	bh=7RTnsZun/Ct1eIi+a3nDzPQbKuuYOXoumaGAJVgDgxw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N5v4fxBOgBh3ua5vMkaNraRNSzRYmNEvjvoIiUV8sja0eESdFvKfGFBgrZew7sNG9Ia3MqU82olb0lL1Ys2EGKykhIbla23egLTZA7YPiZxNhDJHEpnpG8UNxfBYqKoBDuaGW2IGy+r1kpDt1GM+wNSXippDDFtQNs712WbG/R8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HRxndDxA; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741269566; c=relaxed/simple;
+	bh=bol620wlA8oFXEl+/VOP1C5bUp+RHHYaVpeT6V2BsQg=;
+	h=Message-ID:Subject:From:To:CC:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MU86RCP63k18V8zH+o1No6xe/NBUx95FgynhmuvQBXEiLf61Y42L1er5Ka+ZmrQs4Jux5o7KiRnBrXAyyaolj26LDVMjVpjZ+9t2u5Ei0PKwHf31rWDdUmz28cqTVGU3lYQgSzwsBR2WnC4zIbPVgKYNvQSS2eRZu42Aq7C+ijo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Hixp/vSU; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HRxndDxA"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-390e9e44807so87464f8f.1
-        for <linux-sound@vger.kernel.org>; Thu, 06 Mar 2025 05:57:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741269421; x=1741874221; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=JMSmI6UnnPMHCGXloj5KDBe8CQV2f15FtgYMVwLTLoA=;
-        b=HRxndDxA9LAQLeGFFmbwtUWfnuI9S+2OS+knSLct7C2RYI+RTQugjZGRnRLgxQBOs+
-         LZ6OqmSWh6UMITMptghz+5wyokcKZ6kqsOukFxTJc1yy0w5ioFNisaTEi3+0wlr0/okm
-         URGfE4LRpOMarpxoCw9w1+QOgaZ2cVINe5Lfbdq4B1MrMOobhMh4jhviyV1S8z6zy0RM
-         h+u8aTNHLzy24r9k1gNVgAH89gie9mGCElaOJltc2fYO0XDRIUB9lb5haG2lJGVwdQl/
-         KYBjqvkyuKhLbPzbNSpbTdK8LMdOhTITWzYbfTWOQnEpvgsYbruz4JLI34TdR4VVeMOb
-         3ywQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741269421; x=1741874221;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JMSmI6UnnPMHCGXloj5KDBe8CQV2f15FtgYMVwLTLoA=;
-        b=tC2BwC/RO05OVUTR0da5l7mIU8kjndN5R3svH+smX6eZZ74j6GSbDhWVvkg2rvgcUA
-         vgoi2eXuiGVx0dcXrgf8nv4yB08z53GQUmZPi3bbJSPrhHNywxaniozUuhsm2zEfj5oy
-         SFOE9FK4RZ8r7yKZtMkH5KRlbdwiBTb4ll+LTwYW8nM3g5e6cEHZdRQm76kye7+5K1GR
-         Upzokzbu0+Yl6CA0Pc7GkMqsoPj5RZOHy3G63fgfIFn2FsiT7rNxyEA7mG23cbYffogA
-         8TQkoMKegLPR4VtDTMcYmOdVK8TAoUVZC8GgCIxAyZsOLXpBZMBNxocurtDiGhH6BuRb
-         jrDA==
-X-Forwarded-Encrypted: i=1; AJvYcCXWrjZB5YeXaCqMjW7MjjJX2gRMDX1tWXeaiy0HovHhEikWSh/w8Mu29o1abi8mzKWi0Xbi7GOg6+85Mg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLbwm/sPRWhLSx8d0IaeWFVei+UJq1gvS6MOw/nBf46cKKEsBs
-	+6TAjvAxtSUf94sUwSKKY42GlSuKP0XofYIxebdv+PaMnmFkZxeR3/NvtmSZ9Q8=
-X-Gm-Gg: ASbGncscrz2kbTun7ImvqsvVmVaDFORUCbucWpsMItZ/+uuMFtNavcbIeAEUgjLLKBj
-	0kfitRoo2T1lsy0y34XkoiXtLbGYwX6Or6kW/ZaeWJAsETl/KAk0/NufcBL4xxtc6zuJAJVydrO
-	wr1+IMvra1csQUnikSdOKgCCydWu6jAH47s2K12BfnA2vB5ppFv/7+TlK0HJQeMPE2/Q5PYMziw
-	PhmWJPvArahOaXH6vfBNHKV8SJm23uDei1E2tAYGgGxZ8Npx7DjCx6D4CyxM8OE8v1GoiJqhYVJ
-	vj3Dxh9Ka6OHCFMbCFL7+7j44LiP+2SqmWxJTPls0tmqBlDymKLuF4ZqAN0Xzbe2
-X-Google-Smtp-Source: AGHT+IGKoIWERmRZLpXPe3ACW8OFb4dKT5FNFud4DpgTslSuPl/lMilNfu3dw1ADEPZxCq7k4yM0UQ==
-X-Received: by 2002:a5d:5f4d:0:b0:38f:27d3:1b44 with SMTP id ffacd0b85a97d-3911f72682bmr2278419f8f.2.1741269421609;
-        Thu, 06 Mar 2025 05:57:01 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.206.225])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912c103f57sm2132800f8f.91.2025.03.06.05.56.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Mar 2025 05:57:00 -0800 (PST)
-Message-ID: <602b8bcf-f120-4cb3-871b-adf852a24963@linaro.org>
-Date: Thu, 6 Mar 2025 14:56:58 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Hixp/vSU"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5264Mlbf028765;
+	Thu, 6 Mar 2025 07:59:07 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=bol620wlA8oFXEl+/VOP1C5bUp+RHHYaVpeT6V2BsQg=; b=
+	Hixp/vSU/cHFlmU9d4T93x+yg6L0MJPKQg8K9aEGiLHfcFoAELlX/m/syEi3TD6W
+	L88Fq/7X3toQDY0Scy7fr/EXswEq2ypTx81eNayPdR8h5sBnNP0AYXcziUVEEdZY
+	JsiCkX3U8k5LqNijyVjyGCzP/c+Z150sXgf7+R03EYeK8GC36kxscjY1CzmbozS0
+	rnPzAHsZGHP+rgENAPThMuKMXktowubAlYNqhGxw1b5+Db76MLi1yBvNIXQ91L7m
+	LVAo3P3EXZalCwdgFQNDi1tDq3WHBFntRf5MlQa7FFI+P457tRpHSR4Nghnj25SS
+	u8EtrM0RY6F70pT9SHHsAw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4571nu1625-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 06 Mar 2025 07:59:07 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 6 Mar
+ 2025 13:59:05 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Thu, 6 Mar 2025 13:59:05 +0000
+Received: from ediswws03.ad.cirrus.com (ediswws03.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 723A5820248;
+	Thu,  6 Mar 2025 13:59:05 +0000 (UTC)
+Message-ID: <93d5a3926e37fa297ba0c8f3266d2d4fcd429182.camel@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs42l43: convert to SYSTEM_SLEEP_PM_OPS
+From: Maciej Strozek <mstrozek@opensource.cirrus.com>
+To: Arnd Bergmann <arnd@kernel.org>, David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Charles Keepax
+	<ckeepax@opensource.cirrus.com>
+CC: Arnd Bergmann <arnd@arndb.de>, Greg KH <gregkh@linuxfoundation.org>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        Wolfram Sang
+	<wsa+renesas@sang-engineering.com>,
+        <linux-sound@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        <linux-kernel@vger.kernel.org>
+Date: Thu, 6 Mar 2025 13:59:05 +0000
+In-Reply-To: <20250305172738.3437513-1-arnd@kernel.org>
+References: <20250305172738.3437513-1-arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/6] ASoC: q6apm: fix under runs and fragment sizes
-To: srinivas.kandagatla@linaro.org, broonie@kernel.org
-Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
-References: <20250304105723.10579-1-srinivas.kandagatla@linaro.org>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20250304105723.10579-1-srinivas.kandagatla@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 1eGop7Y0KJkxM395FLksWTGHS8ONk7vA
+X-Authority-Analysis: v=2.4 cv=Lqxoymdc c=1 sm=1 tr=0 ts=67c9aa2b cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=w1d2syhTAAAA:8 a=bADtR2mNskJhKBtCSccA:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
+ a=YXXWInSmI4Sqt1AkVdoW:22
+X-Proofpoint-GUID: 1eGop7Y0KJkxM395FLksWTGHS8ONk7vA
+X-Proofpoint-Spam-Reason: safe
 
-On 04/03/2025 11:57, srinivas.kandagatla@linaro.org wrote:
-> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> 
-> On Qualcomm Audioreach setup, some of the audio artifacts are seen in
-> both recording and playback. These patches fix issues by
-> 1. Adjusting the fragment size that dsp can service.
-> 2. schedule available playback buffers in time for dsp to not hit under runs 
-> 3. remove some of the manual calculations done to get hardware pointer.
-> 
-> With these patches, am able to see Audio quality improvements.
-> 
-> Any testing would be appreciated.
+W=C2=A0dniu =C5=9Bro, 05.03.2025 o=C2=A0godzinie 18=E2=88=B627=E2=80=89+010=
+0, u=C5=BCytkownik Arnd Bergmann
+napisa=C5=82:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> The custom suspend function causes a build warning when
+> CONFIG_PM_SLEEP
+> is disabled:
+>=20
+> sound/soc/codecs/cs42l43.c:2405:12: error: unused function
+> 'cs42l43_codec_runtime_force_suspend' [-Werror,-Wunused-function]
+>=20
+> Change SET_SYSTEM_SLEEP_PM_OPS() to the newer SYSTEM_SLEEP_PM_OPS(),
+> to avoid this.
+>=20
+> Fixes: 164b7dd4546b ("ASoC: cs42l43: Add jack delay debounce after
+> suspend")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
 
-Worked well for my pipewire setup on T14s and X1E8100 CRD.
+Reviewed-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
 
-Tested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
+--=20
+Regards,
+Maciej
