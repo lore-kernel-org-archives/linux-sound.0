@@ -1,105 +1,119 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB09E13B791;
-	Thu,  6 Mar 2025 13:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DFB156F5D
+	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 14:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741269566; cv=none; b=bytq9hydvXRPJaVdcSqvtvTOF969VXQJa95ze/On6ev4/eBSAueRlq754gwip9q1diHnM4YtiyYXJBVfVG2Fx5+ZAQfxAmme7Y9Ncg+vhBvrvcPj5cE0VhPoN/KIJ/+wuj2sFC58yWTJk7OcBri5up3orYFXcuTrWqsZ+FSQHIg=
+	t=1741269933; cv=none; b=AVM1drLsyeSg6MaPP+zAPegfY8x5pPRnh1NXzQDYnM45nox1hpMs0rcQnkkUhw1M5JrdFDD2a4rgHFWFIWygNCkMzmEecxrpLQjezk78Paogl7gcPrW/2c/6ewcTYmYGwp7tndoV4EKUQ8gI9VcBGp8fNUiUnjHyWzz1SzL2saQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741269566; c=relaxed/simple;
-	bh=bol620wlA8oFXEl+/VOP1C5bUp+RHHYaVpeT6V2BsQg=;
-	h=Message-ID:Subject:From:To:CC:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MU86RCP63k18V8zH+o1No6xe/NBUx95FgynhmuvQBXEiLf61Y42L1er5Ka+ZmrQs4Jux5o7KiRnBrXAyyaolj26LDVMjVpjZ+9t2u5Ei0PKwHf31rWDdUmz28cqTVGU3lYQgSzwsBR2WnC4zIbPVgKYNvQSS2eRZu42Aq7C+ijo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Hixp/vSU; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1741269933; c=relaxed/simple;
+	bh=eSV3PtozHSAlgJ2C00YYOwr6H8hG/iqpvkJLlDwGZhs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=laEmYCG06m/Ksom84GdL8qfvzV8mtLqdKYptbkP4/iyDRJtzddRJkI0XC8NdXd5OJ8h6aAiUNxM/TNWJ6PRvnoAvQNqJPRrTOwIs08V721SUQyYW/mR8hneINoDnAdEtPvv1eeDhWe3s5U6scQjnAfaCNgg3G6wkviAwmVykuHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bq6cajvG; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Hixp/vSU"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5264Mlbf028765;
-	Thu, 6 Mar 2025 07:59:07 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=bol620wlA8oFXEl+/VOP1C5bUp+RHHYaVpeT6V2BsQg=; b=
-	Hixp/vSU/cHFlmU9d4T93x+yg6L0MJPKQg8K9aEGiLHfcFoAELlX/m/syEi3TD6W
-	L88Fq/7X3toQDY0Scy7fr/EXswEq2ypTx81eNayPdR8h5sBnNP0AYXcziUVEEdZY
-	JsiCkX3U8k5LqNijyVjyGCzP/c+Z150sXgf7+R03EYeK8GC36kxscjY1CzmbozS0
-	rnPzAHsZGHP+rgENAPThMuKMXktowubAlYNqhGxw1b5+Db76MLi1yBvNIXQ91L7m
-	LVAo3P3EXZalCwdgFQNDi1tDq3WHBFntRf5MlQa7FFI+P457tRpHSR4Nghnj25SS
-	u8EtrM0RY6F70pT9SHHsAw==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4571nu1625-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 06 Mar 2025 07:59:07 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 6 Mar
- 2025 13:59:05 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Thu, 6 Mar 2025 13:59:05 +0000
-Received: from ediswws03.ad.cirrus.com (ediswws03.ad.cirrus.com [198.90.208.11])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 723A5820248;
-	Thu,  6 Mar 2025 13:59:05 +0000 (UTC)
-Message-ID: <93d5a3926e37fa297ba0c8f3266d2d4fcd429182.camel@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs42l43: convert to SYSTEM_SLEEP_PM_OPS
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
-To: Arnd Bergmann <arnd@kernel.org>, David Rhodes <david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela
-	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Charles Keepax
-	<ckeepax@opensource.cirrus.com>
-CC: Arnd Bergmann <arnd@arndb.de>, Greg KH <gregkh@linuxfoundation.org>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        Wolfram Sang
-	<wsa+renesas@sang-engineering.com>,
-        <linux-sound@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <linux-kernel@vger.kernel.org>
-Date: Thu, 6 Mar 2025 13:59:05 +0000
-In-Reply-To: <20250305172738.3437513-1-arnd@kernel.org>
-References: <20250305172738.3437513-1-arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bq6cajvG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741269932; x=1772805932;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=eSV3PtozHSAlgJ2C00YYOwr6H8hG/iqpvkJLlDwGZhs=;
+  b=Bq6cajvG9Bde2ARXC/CGEvkfVGMExz9R1iT7h79hRbqe7A9UrZY2tM5T
+   ATF1Z/kQsuKfW0KeaBMizuV3iNDKv7c9Z21zcZ5PaPtMeCNheO9Kf7u/M
+   H6F3aw1ubJEjiNRnou61DE02xg9z++GbJN3OyumSivvqLrOmkmLur/4WP
+   EkUzY+bkr5nWu/aMM7eLxqaK6+ifQZkU/1qsLBxvSK/cV5GQ09uX0Xm2u
+   rvQC6DMeap3SHFFnb+8qqW55bZ/95ct0RvicE3ijvMc1HFlagmLkT2NDO
+   Al60HE/oj9//aTTEdJ9eej57NoGM2mLmAx5LTZCKMAD9IoGY+Pgfo0fHo
+   A==;
+X-CSE-ConnectionGUID: SVpSswHJSx+t53Wsv04uwQ==
+X-CSE-MsgGUID: 16V7kdVRS4afyb0YMbEjxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="46048699"
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
+   d="scan'208";a="46048699"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 06:05:31 -0800
+X-CSE-ConnectionGUID: xRv7Wfp1R6emY8Sksdtv5Q==
+X-CSE-MsgGUID: OFRGuB2HRfulMpzsgSzuIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
+   d="scan'208";a="124044405"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 06:05:28 -0800
+Message-ID: <2eabbadd-e433-456f-a744-4dc9c843c051@linux.intel.com>
+Date: Thu, 6 Mar 2025 15:05:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: 1eGop7Y0KJkxM395FLksWTGHS8ONk7vA
-X-Authority-Analysis: v=2.4 cv=Lqxoymdc c=1 sm=1 tr=0 ts=67c9aa2b cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=w1d2syhTAAAA:8 a=bADtR2mNskJhKBtCSccA:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
- a=YXXWInSmI4Sqt1AkVdoW:22
-X-Proofpoint-GUID: 1eGop7Y0KJkxM395FLksWTGHS8ONk7vA
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 8/8] ASoC: SOF: Intel: ptl: Add support for mic privacy
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
+ broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
+References: <20250306133527.16722-1-peter.ujfalusi@linux.intel.com>
+ <20250306133527.16722-9-peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20250306133527.16722-9-peter.ujfalusi@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-W=C2=A0dniu =C5=9Bro, 05.03.2025 o=C2=A0godzinie 18=E2=88=B627=E2=80=89+010=
-0, u=C5=BCytkownik Arnd Bergmann
-napisa=C5=82:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> The custom suspend function causes a build warning when
-> CONFIG_PM_SLEEP
-> is disabled:
->=20
-> sound/soc/codecs/cs42l43.c:2405:12: error: unused function
-> 'cs42l43_codec_runtime_force_suspend' [-Werror,-Wunused-function]
->=20
-> Change SET_SYSTEM_SLEEP_PM_OPS() to the newer SYSTEM_SLEEP_PM_OPS(),
-> to avoid this.
->=20
-> Fixes: 164b7dd4546b ("ASoC: cs42l43: Add jack delay debounce after
-> suspend")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On 3/6/2025 2:35 PM, Peter Ujfalusi wrote:
+> Implement the three callbacks that is needed to enable support for
+> reporting the mic privacy change via soundwire.
+> 
+> In PTL the mic privacy reporting is supported via soundwire and DMIC and
+> the soundwire is owned by the host, it's interrupt is routed there.
+> 
+> To enable the interrupt, the sublink mask needs to be passed to the
+> multilink layer, the check_mic_privacy_irq/process_mic_privacy callbacks
+> needs to be implemented to check and report the mic privacy change.
+> 
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 > ---
+>   sound/soc/sof/intel/ptl.c | 58 +++++++++++++++++++++++++++++++++++++--
+>   sound/soc/sof/intel/ptl.h |  5 ++++
+>   2 files changed, 61 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/sof/intel/ptl.c b/sound/soc/sof/intel/ptl.c
+> index ae8e9e08ad2a..eeb86c228b2a 100644
+> --- a/sound/soc/sof/intel/ptl.c
+> +++ b/sound/soc/sof/intel/ptl.c
+> @@ -18,10 +18,62 @@
+>   #include "lnl.h"
+>   #include "ptl.h"
+>   
+> -int sof_ptl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops)
+> +static bool sof_ptl_check_mic_privacy_irq(struct snd_sof_dev *sdev, bool alt,
+> +					  int elid)
+> +{
+> +	if (alt != 1 || elid != AZX_REG_ML_LEPTR_ID_SDW)
 
-Reviewed-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+alt is bool, so let's be type aware and either "alt != true" or just "!alt"?
 
---=20
-Regards,
-Maciej
+> +		return false;
+> +
+> +	return hdac_bus_eml_is_mic_privacy_changed(sof_to_bus(sdev), alt, elid);
+> +}
+> +
+> +static void sof_ptl_process_mic_privacy(struct snd_sof_dev *sdev, bool alt,
+> +					int elid)
+> +{
+> +	bool state;
+> +
+> +	if (alt != 1 || elid != AZX_REG_ML_LEPTR_ID_SDW)
+
+same here
+
