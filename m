@@ -1,156 +1,119 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32CF2702CF;
-	Thu,  6 Mar 2025 19:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E6D205502;
+	Thu,  6 Mar 2025 20:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741290802; cv=none; b=QpC9ie+MX9sqrx5jUCTltWX8xepW4G/Kt+ae3IAOQgryVkX6/4lAKgAFd0Bv39ZHfGxrqo/ey7nvxrzPlDLcKLs1Kl5ft0yYlTrJduBWZWgqI39IlpXKKmxLxcqbLWfkvS6KD+LnbegXIoaQbsbH+ZFHMAefehOpWqEwIWo2jqg=
+	t=1741294222; cv=none; b=TpL9wPv8e+2lTuYa6qbfNoItTFj0nH+gmG9tmuagC57DGdlt9WJ1g1My6w7H+OROx1fcMImKjn9fqBiJok6L6+bDFk2u5uIc4XWh/YO5UrtHzypw/HqUlY/xxKqlXUEo6J/HuFCjmK3kkQvvOxAg2teZEzkK4nDRNlWqrBnlv0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741290802; c=relaxed/simple;
-	bh=3Q8MSA2wNdR0EUiQxluJI3UNGeMjPm/pGs/aDkttMcM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c/M9+ia8NqDaF5SQA/hnSS4+cHea7c8HI4KC5K9Kob2CqiLZis52C/KOSJF8EcIb/F6eslyaEEY5GANPwlR6jY/Y83K2lavTBAZNC/TT0Kw6VsmICmHvx/082wQE9ss0BygoyN4UdmMwxAL1Xlz8RhU5TNdlrWdOuQ5FqdNXoJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=FXV0qYSd; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1741294222; c=relaxed/simple;
+	bh=cvf/ipSb+K3a68VNt2N4RXjMJlyp30yAxRniCB2UBM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KADt2pWJIln/dT8qqRXEjv4EGdl/Yopd80QKJDvaeqvOS37bsglCiI8SMROGo8rSOQRiXExm5RVdx017siflOtwAF+GPbolna/cj1e/SY4W2loWfkj8QOOtkwc1rOEBHOxsg04guYNd3lbM0OA73nu0W6N1IpO0PfZbG6LoKGas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IYLduU9d; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FXV0qYSd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1741290799;
-	bh=3Q8MSA2wNdR0EUiQxluJI3UNGeMjPm/pGs/aDkttMcM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=FXV0qYSdbUJaiGw7aWUOKDNl4LkS4msRrc0oNx6njVWV7DQlhLkqLmj5VQpQqANRD
-	 4D7Z+4uFKYYy/AHdSvl6vHk4BQrWgUou6XHBNcXTJ/NtNamNcWVbFEzl0hF8UTXPBG
-	 9VutigQjHoAuvo2RFCiRjHhGt93bD6o/Vpr2IKR2NvWJN9TxmSHF41xp1k1E28ZCnK
-	 rq3PhvRP/Pk3GsjcdqvAKBlAP+e2N42OcclOz8gx+c25U7TN/d2ttg+VCtguERQX+C
-	 NSPUFhIT250yN1S+k41q6xvN3/tRsZOQBUYmsNhQAvYkKlJKsI/fQKDBL1EUgQmI91
-	 SChiFBIB53Vqw==
-Received: from [192.168.0.47] (unknown [IPv6:2804:14c:1a9:53ee::1002])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id AC36A17E05F7;
-	Thu,  6 Mar 2025 20:53:14 +0100 (CET)
-From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Thu, 06 Mar 2025 16:52:18 -0300
-Subject: [PATCH v3 4/4] ASoC: mediatek: mt8188-mt6359: Add accdet headset
- jack detect support
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYLduU9d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741294221; x=1772830221;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=cvf/ipSb+K3a68VNt2N4RXjMJlyp30yAxRniCB2UBM8=;
+  b=IYLduU9dQn2RXRnZfTZHeIilSD0zvpt3Lw8CEWmXDR8nnBw3p3qHTJVn
+   Uclgy1gXhEORB03Tjn9sC5TqkCekrnyNZyXeJX3lUiiNhHJpWE/hqQkUu
+   3lFniyvPhKqyeSfg+e0+aSeXatD9oNPD4x2JRtOXsnnbTx+b9nG/ResCP
+   n8sQw9tJ8rDRw17gqJcPwKmhzBFWW/ycsxGCbC92eo/+SGxL9LzOWgITU
+   caOQ95ukKogQ7UOQ2Pghfj1GoGENkAX+rC2CXrVKey5WAoI3501fytPyJ
+   YswMxPJBZ2kP7w8Nu5ioyQnyuUAtdz6FkMNs4A2WZMIX/maA3HyiI7GnV
+   A==;
+X-CSE-ConnectionGUID: fg45Lxw4QvicRNx6RWFggQ==
+X-CSE-MsgGUID: udITrILpS76cgepxiJHRVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41502045"
+X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; 
+   d="scan'208";a="41502045"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 12:50:20 -0800
+X-CSE-ConnectionGUID: ZCMNw3ZDQFC0f7jhlngx6A==
+X-CSE-MsgGUID: qh4lq5bpSq+Xez7Ou7jcRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119052143"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 06 Mar 2025 12:50:09 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tqIAQ-000NbS-31;
+	Thu, 06 Mar 2025 20:50:06 +0000
+Date: Fri, 7 Mar 2025 04:49:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
+	Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Andrew Perepech <andrew.perepech@mediatek.com>
+Subject: Re: [PATCH v3 04/20] ASoC: mediatek: mt6359-accdet: Add compatible
+ property
+Message-ID: <202503070421.25fbw6zg-lkp@intel.com>
+References: <20250304-mt6359-accdet-dts-v3-4-5b0eafc29f5b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250306-mt8188-accdet-v3-4-7828e835ff4b@collabora.com>
-References: <20250306-mt8188-accdet-v3-0-7828e835ff4b@collabora.com>
-In-Reply-To: <20250306-mt8188-accdet-v3-0-7828e835ff4b@collabora.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Trevor Wu <trevor.wu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
- Zoran Zhan <zoran.zhan@mediatek.com>
-X-Mailer: b4 0.14.2
+In-Reply-To: <20250304-mt6359-accdet-dts-v3-4-5b0eafc29f5b@collabora.com>
 
-Enable headset jack detection for MT8188 platforms that use the MT6359
-ACCDET block for it, indicated by the mediatek,accdet property in DT.
-For those platforms, register a jack and initialize the ACCDET block to
-report jack events through it.
+Hi Nícolas,
 
-Co-developed-by: Zoran Zhan <zoran.zhan@mediatek.com>
-Signed-off-by: Zoran Zhan <zoran.zhan@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: NÃ­colas F. R. A. Prado <nfraprado@collabora.com>
----
- sound/soc/mediatek/mt8188/mt8188-mt6359.c | 43 +++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-index 420b1427b71dc1424a52f7ab6140c14659036733..20dc9470ba76b2a750e79a5ae3dafabd7c597f40 100644
---- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-@@ -17,6 +17,7 @@
- #include "mt8188-afe-common.h"
- #include "../../codecs/nau8825.h"
- #include "../../codecs/mt6359.h"
-+#include "../../codecs/mt6359-accdet.h"
- #include "../../codecs/rt5682.h"
- #include "../common/mtk-afe-platform-driver.h"
- #include "../common/mtk-soundcard-driver.h"
-@@ -271,6 +272,17 @@ static struct snd_soc_jack_pin nau8825_jack_pins[] = {
- 	},
- };
- 
-+static struct snd_soc_jack_pin mt8188_headset_jack_pins[] = {
-+	{
-+		.pin    = "Headphone",
-+		.mask   = SND_JACK_HEADPHONE,
-+	},
-+	{
-+		.pin    = "Headset Mic",
-+		.mask   = SND_JACK_MICROPHONE,
-+	},
-+};
-+
- static const struct snd_kcontrol_new mt8188_dumb_spk_controls[] = {
- 	SOC_DAPM_PIN_SWITCH("Ext Spk"),
- };
-@@ -506,6 +518,35 @@ static int mt8188_mt6359_mtkaif_calibration(struct snd_soc_pcm_runtime *rtd)
- 	return 0;
- }
- 
-+static int mt8188_mt6359_accdet_init(struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct mtk_soc_card_data *soc_card_data = snd_soc_card_get_drvdata(rtd->card);
-+	struct snd_soc_jack *jack = &soc_card_data->card_data->jacks[MT8188_JACK_HEADSET];
-+	int ret;
-+
-+	if (!soc_card_data->accdet)
-+		return 0;
-+
-+	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
-+				   SND_JACK_HEADSET | SND_JACK_BTN_0 |
-+				   SND_JACK_BTN_1 | SND_JACK_BTN_2 |
-+				   SND_JACK_BTN_3,
-+				   jack, mt8188_headset_jack_pins,
-+				   ARRAY_SIZE(mt8188_headset_jack_pins));
-+	if (ret) {
-+		dev_err(rtd->dev, "Headset Jack create failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mt6359_accdet_enable_jack_detect(soc_card_data->accdet, jack);
-+	if (ret) {
-+		dev_err(rtd->dev, "Headset Jack enable failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int mt8188_mt6359_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct snd_soc_component *cmpnt_codec =
-@@ -518,6 +559,8 @@ static int mt8188_mt6359_init(struct snd_soc_pcm_runtime *rtd)
- 	/* mtkaif calibration */
- 	mt8188_mt6359_mtkaif_calibration(rtd);
- 
-+	mt8188_mt6359_accdet_init(rtd);
-+
- 	return 0;
- }
- 
+[auto build test WARNING on 20d5c66e1810e6e8805ec0d01373afb2dba9f51a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/N-colas-F-R-A-Prado/ASoC-dt-bindings-Add-document-for-mt6359-accdet/20250304-233834
+base:   20d5c66e1810e6e8805ec0d01373afb2dba9f51a
+patch link:    https://lore.kernel.org/r/20250304-mt6359-accdet-dts-v3-4-5b0eafc29f5b%40collabora.com
+patch subject: [PATCH v3 04/20] ASoC: mediatek: mt6359-accdet: Add compatible property
+config: s390-randconfig-r133-20250306 (https://download.01.org/0day-ci/archive/20250307/202503070421.25fbw6zg-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20250307/202503070421.25fbw6zg-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503070421.25fbw6zg-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/codecs/mt6359-accdet.c:1050:27: sparse: sparse: symbol 'accdet_of_match' was not declared. Should it be static?
+
+vim +/accdet_of_match +1050 sound/soc/codecs/mt6359-accdet.c
+
+  1049	
+> 1050	const struct of_device_id accdet_of_match[] = {
+  1051		{ .compatible = "mediatek,mt6359-accdet", },
+  1052		{ /* sentinel */ },
+  1053	};
+  1054	MODULE_DEVICE_TABLE(of, accdet_of_match);
+  1055	
 
 -- 
-2.48.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
