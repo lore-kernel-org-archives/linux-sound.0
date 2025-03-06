@@ -1,231 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38F9184E;
-	Thu,  6 Mar 2025 07:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BFA1A238D
+	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 07:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741246985; cv=none; b=enTBCuLHn4H4zdBCSxiGZJvDeAdN6COcdiFvWOCcFzcwaUazjMq6+rChFysZaQQwUsHzu41o/ErlazeOEmaiWhQ7h6WEhuxC+1Gb5h/oW0IZ+jtTLbn1Atyy+CYD/A1980DZX2BdbYAuTwztVYBC8XaSOmUAfkAqEtkbo8B7+T4=
+	t=1741247505; cv=none; b=R2BtTXIKbUu8S25n4s6gxCFMyPtQ0sgyiheGvnFchV5xGDVLywpA7CZLjQRNwZmr98Y3Hs2CWLTt6KXI8HaAmwqHARgyCT0x5mpaxRcUTplMSQGObQ68SVJrCTBzDS9JEoizLBwTERlcWk/j7ZrNnAnJleGN0EfYm48mH92KC8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741246985; c=relaxed/simple;
-	bh=VCgbyCzqfls1y5Bd7zorPMjDYWw8WmCCGOmt74/Sv/E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LIA3hCVYnCuQZgB4ufOmXInfl9FLOMJ+PyZX/RYA1JAKKn4L5dD4kYDxb0o2saXaD6dqELdyc/BQdrv3E9h2/8SCrxfiUO2BCWayGjZfIdBJInZ3hTMBHZIKZe6jwGu1ciuIgx91BZfUPML2SNLQAhWSJLL2YCO224dSnCmngXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oIQkT5GY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741247505; c=relaxed/simple;
+	bh=gjUcrqFcFI1ybL3DB1TbJViwYlIo9rMDGUyEZ0/f13g=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XurCNrVfT7Z/lGjVyS+Js7SMPBBXMSFtoPPyUxV2A5IcOm4r92sg7xXB8feJHzIuc8ehdiwfRw8BnQ4NHwxQHU9yaQ0p64ALBEmGo5zMKujFJn5k3wXa2WO1s/v46r9OPbism5kEXkMHCf7dvF4XWZ83jYmHNWGK/mbV4dJMyP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yyjkv1hQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2YTDgmY9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IpenPWf1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FEMmyrsI; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oIQkT5GY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40CB9C4CEE0;
-	Thu,  6 Mar 2025 07:42:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741246985;
-	bh=VCgbyCzqfls1y5Bd7zorPMjDYWw8WmCCGOmt74/Sv/E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oIQkT5GYdjTm856f2+s4bNtGI2PyU8lQCFOICAeutx+q4rjfuoU7MCD4r9Pdsz8s+
-	 dVt1JCnCVK+zgMDpUhWoWe7HcDYea3GQL6Mx4D7QjMWXlrXNMJk3iXPnvep/g02w4c
-	 V4KooCVrAt/skqiniHAN5uee6IV+cEDMgxjWyzvXrrEkcJnrn2GFs2Fw/UlchHYmER
-	 NhGriQYQBGETg4rl3CucIYOT/SMq0ZXFz+CJlSI2zyS+NM4xEh3LGlnP/LApHwD+nd
-	 bJGNU24o7IrHodjMVfRrD3t8/SZA/2qHO9WTnQBNUKso5YGmWTQ5Q42mOUt0UcE9Bc
-	 w+WcwuBRZug0A==
-Message-ID: <ffd6287c-cbfd-4ba8-9332-45bad4e60583@kernel.org>
-Date: Thu, 6 Mar 2025 08:42:54 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yyjkv1hQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2YTDgmY9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IpenPWf1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FEMmyrsI"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B87401F385;
+	Thu,  6 Mar 2025 07:51:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741247501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5iXPMp1dfiNbGtgtS9kQ0M8cK0gbrvN137GP+WnYpOk=;
+	b=yyjkv1hQcdqQ1bFhmMLhFONh4JNMQURDDMqARtnKqePfsHfSTgNo3dMgqrf4yPGD+OTsEo
+	+uL3Qj5P64LNSyAgSrNg5dqg9635f88tXimfxq2AVe5os5vDxXp7pvJdAO1m0k1XlXHFF8
+	xOqbcbwEgdgWunZTxsXnL/Wn6QD0sW4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741247501;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5iXPMp1dfiNbGtgtS9kQ0M8cK0gbrvN137GP+WnYpOk=;
+	b=2YTDgmY9z+jWBZa0RnOxvBdMWiPtOwfx2SUKaqDN1POxJ7+rWAwnR2QQKYehScDYqhGizv
+	zz3uSGPwPtCIVFAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741247500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5iXPMp1dfiNbGtgtS9kQ0M8cK0gbrvN137GP+WnYpOk=;
+	b=IpenPWf1Pg2cGBV0xueTnpFyzXp2rIahRwLLE0/0r0FztFxGsPbi9+h9D22l9qEocoJ1oz
+	7X+0bZoV5nxEKBRJA2CR+x4mY6ppw5SHtpdUmG+IIRs3gtMhnJu3QFqHbWpx1z5W+F0zFY
+	DB/+mErUCKf7djZK3grEDu6bOMlHMlA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741247500;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5iXPMp1dfiNbGtgtS9kQ0M8cK0gbrvN137GP+WnYpOk=;
+	b=FEMmyrsIxcgCe8VJa4y953YyaRHpZ16A7C+kpxLxPw/Cu9APgwfTN6uWu+TGOjjjOfW7cT
+	hmI116P1+prGz5Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7F2DE13A61;
+	Thu,  6 Mar 2025 07:51:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rXwyHQxUyWcldgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 06 Mar 2025 07:51:40 +0000
+Date: Thu, 06 Mar 2025 08:51:40 +0100
+Message-ID: <87h646r3zn.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Lizhi Xu <lizhi.xu@windriver.com>
+Cc: <syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com>,
+	<linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<perex@perex.cz>,
+	<syzkaller-bugs@googlegroups.com>,
+	<tiwai@suse.com>
+Subject: Re: [PATCH] ALSA: seq: Use atomic to prevent data races in total_elements
+In-Reply-To: <20250306011745.100014-1-lizhi.xu@windriver.com>
+References: <67c88903.050a0220.15b4b9.0028.GAE@google.com>
+	<20250306011745.100014-1-lizhi.xu@windriver.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] ASoC: dt-bindings: add schema for rockchip SAI
- controllers
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Sugar Zhang <sugar.zhang@rock-chips.com>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>, kernel@collabora.com,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20250305-rk3576-sai-v1-0-64e6cf863e9a@collabora.com>
- <20250305-rk3576-sai-v1-3-64e6cf863e9a@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250305-rk3576-sai-v1-3-64e6cf863e9a@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[2d373c9936c00d7e120c];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On 05/03/2025 22:24, Nicolas Frattaroli wrote:
-> Rockchip introduced a new audio controller called the "Serial Audio
-> Interface", or "SAI" for short, on some of their newer SoCs. In
-> particular, this controller is used several times on the RK3576 SoC.
+On Thu, 06 Mar 2025 02:17:45 +0100,
+Lizhi Xu wrote:
 > 
-> Add a schema for it, with only an RK3576 compatible for now. Other SoCs
-> may follow as mainline support for them lands.
+> syzbot reported a data-race in snd_seq_poll / snd_seq_pool_init. [1]
 > 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  .../devicetree/bindings/sound/rockchip,sai.yaml    | 151 +++++++++++++++++++++
-
-Filename based on compatible.
-
->  MAINTAINERS                                        |   6 +
->  2 files changed, 157 insertions(+)
+> Just use atomic_set/atomic_read for handling this case.
 > 
+> [1]
+> BUG: KCSAN: data-race in snd_seq_poll / snd_seq_pool_init
+> 
+> write to 0xffff888114535610 of 4 bytes by task 7006 on cpu 1:
+>  snd_seq_pool_init+0x1c1/0x200 sound/core/seq/seq_memory.c:469
+>  snd_seq_write+0x17f/0x500 sound/core/seq/seq_clientmgr.c:1022
+>  vfs_write+0x27d/0x920 fs/read_write.c:677
+>  ksys_write+0xe8/0x1b0 fs/read_write.c:731
+>  __do_sys_write fs/read_write.c:742 [inline]
+>  __se_sys_write fs/read_write.c:739 [inline]
+>  __x64_sys_write+0x42/0x50 fs/read_write.c:739
+>  x64_sys_call+0x287e/0x2dc0 arch/x86/include/generated/asm/syscalls_64.h:2
+>  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+>  do_syscall_64+0xc9/0x1c0 arch/x86/entry/common.c:83
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> read to 0xffff888114535610 of 4 bytes by task 7005 on cpu 0:
+>  snd_seq_total_cells sound/core/seq/seq_memory.h:83 [inline]
+>  snd_seq_write_pool_allocated sound/core/seq/seq_clientmgr.c:95 [inline]
+>  snd_seq_poll+0x103/0x170 sound/core/seq/seq_clientmgr.c:1139
+>  vfs_poll include/linux/poll.h:82 [inline]
+>  __io_arm_poll_handler+0x1e5/0xd50 io_uring/poll.c:582
+>  io_arm_poll_handler+0x464/0x5b0 io_uring/poll.c:707
+>  io_queue_async+0x89/0x320 io_uring/io_uring.c:1925
+>  io_queue_sqe io_uring/io_uring.c:1954 [inline]
+>  io_req_task_submit+0xb9/0xc0 io_uring/io_uring.c:1373
+>  io_handle_tw_list+0x1b9/0x200 io_uring/io_uring.c:1059
+>  tctx_task_work_run+0x6e/0x1c0 io_uring/io_uring.c:1123
+>  tctx_task_work+0x40/0x80 io_uring/io_uring.c:1141
+>  task_work_run+0x13a/0x1a0 kernel/task_work.c:227
+>  get_signal+0xe78/0x1000 kernel/signal.c:2809
+>  arch_do_signal_or_restart+0x95/0x4b0 arch/x86/kernel/signal.c:337
+>  exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+>  exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
+>  __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+>  syscall_exit_to_user_mode+0x62/0x120 kernel/entry/common.c:218
+>  do_syscall_64+0xd6/0x1c0 arch/x86/entry/common.c:89
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> value changed: 0x00000000 -> 0x000001f4
 
-...
+This is harmless as it's only a reference in poll() and that's rather
+volatile.  So changing the whole with atomic_t is an overkill only for
+that.
 
-> +
-> +  dma-names:
-> +    minItems: 1
-> +    maxItems: 2
-> +    oneOf:
-> +      - const: tx
-> +      - const: rx
-> +      - items:
-> +          - const: tx
-> +          - const: rx
+OTOH, the check of pool size in the caller side is fragile, and it can
+purely rely on snd_seq_pool_poll_wait().  And, there, it should take
+the pool->lock for the data consistency.
 
-Why all combinations are possible?
-
-> +
-> +  clocks:
-> +    items:
-> +      - description: master audio clock
-> +      - description: AHB clock driving the interface
-> +
-> +  clock-names:
-> +    items:
-> +      - const: mclk
-> +      - const: hclk
-> +
-> +  resets:
-> +    minItems: 1
-> +    maxItems: 2
-> +    description: resets for the mclk domain and ahb domain
-
-List the items instead with description and minItems: 1.
-
-> +
-> +  reset-names:
-> +    minItems: 1
-> +    items:
-> +      - const: m
-> +      - const: h
-> +
-> +  port:
-> +    $ref: audio-graph-port.yaml#
-> +    unevaluatedProperties: false
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +  rockchip,sai-rx-route:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description:
-> +      Defines the mapping of the controller's SDI ports to actual input lanes,
-> +      as well as the number of input lanes.
-> +      rockchip,sai-rx-route = <3> would mean sdi3 is receiving from data0, and
-> +      that there is only one receiving lane.
-> +      This property's absence is to be understood as only one receiving lane
-> +      being used if the controller has capture capabilities.
-> +    maxItems: 4
-> +    items:
-> +      enum: [0, 1, 2, 3]
-> +
-> +  rockchip,sai-tx-route:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description:
-> +      Defines the mapping of the controller's SDO ports to actual output lanes,
-> +      as well as the number of output lanes.
-> +      rockchip,sai-tx-route = <3> would mean sdo3 is sending to data0, and
-
-I understand this is only example because = <3> would not be allowed
-(test it).
-
-> +      that there is only one transmitting lane.
-> +      This property's absence is to be understood as only one transmitting lane
-> +      being used if the controller has playback capabilities.
-> +    maxItems: 4
-> +    items:
-> +      enum: [0, 1, 2, 3]
-> +
-> +  rockchip,always-on:
-> +    type: boolean
-> +    description:
-> +      The hardware requires this controller to remain turned on.
-
-How hardware requires this? You rather miss proper PM domain handling or
-some other resources.
-
-> +
-> +
-
-Just one blank line.
-
-> +required:
-> +  - compatible
-> +  - reg
-> +  - dmas
-> +  - dma-names
-> +  - clocks
-> +  - clock-names
-> +  - "#sound-dai-cells"
-> +
-> +unevaluatedProperties: false
+So, if any, an alternative fix would be something like below.
 
 
+thanks,
 
-Best regards,
-Krzysztof
+Takashi
+
+-- 8< --
+--- a/sound/core/seq/seq_clientmgr.c
++++ b/sound/core/seq/seq_clientmgr.c
+@@ -1150,8 +1150,7 @@ static __poll_t snd_seq_poll(struct file *file, poll_table * wait)
+ 	if (snd_seq_file_flags(file) & SNDRV_SEQ_LFLG_OUTPUT) {
+ 
+ 		/* check if data is available in the pool */
+-		if (!snd_seq_write_pool_allocated(client) ||
+-		    snd_seq_pool_poll_wait(client->pool, file, wait))
++		if (snd_seq_pool_poll_wait(client->pool, file, wait))
+ 			mask |= EPOLLOUT | EPOLLWRNORM;
+ 	}
+ 
+--- a/sound/core/seq/seq_memory.c
++++ b/sound/core/seq/seq_memory.c
+@@ -427,6 +427,7 @@ int snd_seq_pool_poll_wait(struct snd_seq_pool *pool, struct file *file,
+ 			   poll_table *wait)
+ {
+ 	poll_wait(file, &pool->output_sleep, wait);
++	guard(spinlock_irq)(&pool->lock);
+ 	return snd_seq_output_ok(pool);
+ }
+ 
+
