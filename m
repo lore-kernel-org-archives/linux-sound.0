@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E129946C
-	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 13:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04ED1946C
+	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 13:35:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741268106; cv=none; b=qwcxF1sbj6h40REVgwn9P1k04oC+Sch5e7nMTE3MlpCQFgxI3b6hg7S8m8zYkWNZOfkpP+GHe6779dSQT0GbbF50UkSKZb94/2nvADwDRh1i7LVfnUAZ7p9oW74UFaOLGgPkKWyweebpKFFmn4ptnelH1fE/xwgOAMS3ERSQbXo=
+	t=1741268109; cv=none; b=Q0HmytKqWIJ/7IskvHHOQZiTZJ/6JHSOz7pZoqI5eWOwc+UZKm/rKbI0CezdNK9Wt1y+ULaWqN6iFPNgBRrQ6Oj/BC4R3iTGrOPpIyj29bx6iZxhiMg7KZy0qEyIbIqvv6nSUpTPKwMNJ04AATRBb4bRPbmUK2jMWV9QnD7phOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741268106; c=relaxed/simple;
-	bh=64cDrEs3dPTQhbf/RFPQR87Ph7tXRhqADvvVwHFrnTw=;
+	s=arc-20240116; t=1741268109; c=relaxed/simple;
+	bh=TROEmg1qplUspzWYktCas206XLJQDXLiqrR1p+lWrho=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CpEIyYX80p/KwOGBHS1KCRcAygEYb0VYEP7NxBMCQZjYzORa5gXhcF8QHs1DZGAVg57hdnk+U37yh6ArWCO5eIwUlGuimFkI8lpiM3ojtuKqcxRB3bpHYjRXi/F/0waW/5uO2Y7ZUuSe7vi42HbpjT3WsYk4zb6gF77KTUNxIhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C8fGUg0V; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version; b=E5mOk6iMSOdKE484y4PDxRvTtU56uvSuf8URmN6GUDe72qkOTHIpdUiaxHFkgxw398jic/N38efhqFcAWsHPYyYJFf8wSvjFIRDj28au+bj80kZD7DesExFLUv7hPpgi3eWOUyxXJB2/YFUwj8iBtjJS+wqxoDKAh6kXR5tfBPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c/zm9E0k; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C8fGUg0V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c/zm9E0k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741268105; x=1772804105;
+  t=1741268108; x=1772804108;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=64cDrEs3dPTQhbf/RFPQR87Ph7tXRhqADvvVwHFrnTw=;
-  b=C8fGUg0VJ/KwSLySQpLySlwP5p2DLdNSmqHUt0fxDC8KDZ4ATfkUwEnI
-   qdONkIL/jEU9zZR1+rW8ZSO6A6B6xeKurX6HsArewjOICSyp9gEALtDDB
-   wUJayA9t4TrJnuRijjY1Ea3vxM2tRIqrSdlaziz9Tm9DgU0/+tipXbOgI
-   MCg0+t7UyHqRIeXBzR0pRZMDi61BM11hDjh5c39yscb1N7iJjqIOYQORS
-   9b9XDFw2saWuO31sd1H6BlIf4F7aA1oUmm26POBw2xowLU+wgIp/A+SoT
-   rGEEVuOsqtMECpqUAuui5NBqCskqhbACp0aegZo+BDf5pHo/iaDmG0CZ1
-   w==;
-X-CSE-ConnectionGUID: pLU76lXDSCOIDtUQFjwJKg==
-X-CSE-MsgGUID: MLTPC48lTAeSNjglQnEM+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42164697"
+  bh=TROEmg1qplUspzWYktCas206XLJQDXLiqrR1p+lWrho=;
+  b=c/zm9E0kfILMXoneRvBBL6rnADUpW8FjJ1XDcbzIUyYAdyBYJkL2yBc7
+   3932LVXJOufu/DDEc2a3riOpE3L7NVJ7wYdrRlCGXKQqT2YyJGWNKWEcc
+   ji04yiJZl9ILR0T4kxhpDme3FI+VbLoDo7W3U8GEQHY/0PaXlF2g2yU4I
+   zgUbJGxE1Sx/kMSysaqPLuGIn7BnVUkiwBxk+Xk3rueWbPXhBR2kpSC99
+   9oma1ris8E3QQkq0k3ewOEFO4bn+hqBVsQo1vOzpSByE0E/9TIzowuL/q
+   mKjsPQRGzCew1HmXZptdHpg5cQz9ZzD5zskQ7iazaz/EkI57yvxbR2iw2
+   A==;
+X-CSE-ConnectionGUID: fzHKRYr5QJGStarkiqyodg==
+X-CSE-MsgGUID: qvm1z0zwS9a5DBf8hQ0pgA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42164707"
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="42164697"
+   d="scan'208";a="42164707"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:35:04 -0800
-X-CSE-ConnectionGUID: m9FLvov+RdSqzwUwjoMiTQ==
-X-CSE-MsgGUID: Zi6JaQIOTN+PVvKXxojsxA==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:35:08 -0800
+X-CSE-ConnectionGUID: 2aGJd5OcRMe7s5XoDbcl7w==
+X-CSE-MsgGUID: rGOFB9hZT3+WvX+k/j5hQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119538993"
+   d="scan'208";a="119539009"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.249.86])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:35:01 -0800
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:35:04 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -52,9 +52,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	liam.r.girdwood@intel.com
-Subject: [PATCH 3/8] ASoC: SOF: Intel: mtl: Stop exporting dsp_ops callback functions
-Date: Thu,  6 Mar 2025 15:35:22 +0200
-Message-ID: <20250306133527.16722-4-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 4/8] ASoC: SOF: Intel: Create ptl.c as placeholder for Panther Lake features
+Date: Thu,  6 Mar 2025 15:35:23 +0200
+Message-ID: <20250306133527.16722-5-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250306133527.16722-1-peter.ujfalusi@linux.intel.com>
 References: <20250306133527.16722-1-peter.ujfalusi@linux.intel.com>
@@ -66,181 +66,224 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is no need to export individual dsp_ops functions anymore as the
-callbacks are filled now by sof_mtl_set_ops()
+Create a minimal placeholder to make it possible to add code to handle
+the new features of Panther Lake compared to MTL/LNL.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 ---
- sound/soc/sof/intel/mtl.c | 30 ++++++++++--------------------
- sound/soc/sof/intel/mtl.h | 15 ---------------
- 2 files changed, 10 insertions(+), 35 deletions(-)
+ sound/soc/sof/intel/Makefile  |  2 +-
+ sound/soc/sof/intel/lnl.c     | 33 ++++------------------
+ sound/soc/sof/intel/lnl.h     |  4 +++
+ sound/soc/sof/intel/pci-ptl.c |  6 ++--
+ sound/soc/sof/intel/ptl.c     | 52 +++++++++++++++++++++++++++++++++++
+ sound/soc/sof/intel/ptl.h     | 14 ++++++++++
+ 6 files changed, 79 insertions(+), 32 deletions(-)
+ create mode 100644 sound/soc/sof/intel/ptl.c
+ create mode 100644 sound/soc/sof/intel/ptl.h
 
-diff --git a/sound/soc/sof/intel/mtl.c b/sound/soc/sof/intel/mtl.c
-index ec563214dd1a..2242c96bfa51 100644
---- a/sound/soc/sof/intel/mtl.c
-+++ b/sound/soc/sof/intel/mtl.c
-@@ -96,7 +96,7 @@ static bool mtl_dsp_check_sdw_irq(struct snd_sof_dev *sdev)
- 	return false;
+diff --git a/sound/soc/sof/intel/Makefile b/sound/soc/sof/intel/Makefile
+index f40daa616803..675f9fc92dde 100644
+--- a/sound/soc/sof/intel/Makefile
++++ b/sound/soc/sof/intel/Makefile
+@@ -34,7 +34,7 @@ snd-sof-pci-intel-icl-y := pci-icl.o icl.o
+ snd-sof-pci-intel-tgl-y := pci-tgl.o tgl.o
+ snd-sof-pci-intel-mtl-y := pci-mtl.o mtl.o
+ snd-sof-pci-intel-lnl-y := pci-lnl.o lnl.o
+-snd-sof-pci-intel-ptl-y := pci-ptl.o
++snd-sof-pci-intel-ptl-y := pci-ptl.o ptl.o
+ 
+ obj-$(CONFIG_SND_SOC_SOF_MERRIFIELD) += snd-sof-pci-intel-tng.o
+ obj-$(CONFIG_SND_SOC_SOF_INTEL_SKL) += snd-sof-pci-intel-skl.o
+diff --git a/sound/soc/sof/intel/lnl.c b/sound/soc/sof/intel/lnl.c
+index ffda39ca3606..2f3222040f98 100644
+--- a/sound/soc/sof/intel/lnl.c
++++ b/sound/soc/sof/intel/lnl.c
+@@ -128,20 +128,22 @@ int sof_lnl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops)
+ EXPORT_SYMBOL_NS(sof_lnl_set_ops, "SND_SOC_SOF_INTEL_LNL");
+ 
+ /* Check if an SDW IRQ occurred */
+-static bool lnl_dsp_check_sdw_irq(struct snd_sof_dev *sdev)
++bool lnl_dsp_check_sdw_irq(struct snd_sof_dev *sdev)
+ {
+ 	struct hdac_bus *bus = sof_to_bus(sdev);
+ 
+ 	return hdac_bus_eml_check_interrupt(bus, true,  AZX_REG_ML_LEPTR_ID_SDW);
  }
++EXPORT_SYMBOL_NS(lnl_dsp_check_sdw_irq, "SND_SOC_SOF_INTEL_LNL");
  
--int mtl_ipc_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *msg)
-+static int mtl_ipc_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *msg)
+-static int lnl_dsp_disable_interrupts(struct snd_sof_dev *sdev)
++int lnl_dsp_disable_interrupts(struct snd_sof_dev *sdev)
  {
- 	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
- 	struct sof_ipc4_msg *msg_data = msg->msg_data;
-@@ -122,7 +122,6 @@ int mtl_ipc_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *msg)
- 
- 	return 0;
- }
--EXPORT_SYMBOL_NS(mtl_ipc_send_msg, "SND_SOC_SOF_INTEL_MTL");
- 
- void mtl_enable_ipc_interrupts(struct snd_sof_dev *sdev)
- {
-@@ -238,7 +237,7 @@ int mtl_enable_interrupts(struct snd_sof_dev *sdev, bool enable)
- EXPORT_SYMBOL_NS(mtl_enable_interrupts, "SND_SOC_SOF_INTEL_MTL");
- 
- /* pre fw run operations */
--int mtl_dsp_pre_fw_run(struct snd_sof_dev *sdev)
-+static int mtl_dsp_pre_fw_run(struct snd_sof_dev *sdev)
- {
- 	struct sof_intel_hda_dev *hdev = sdev->pdata->hw_pdata;
- 	u32 dsphfpwrsts;
-@@ -298,9 +297,8 @@ int mtl_dsp_pre_fw_run(struct snd_sof_dev *sdev)
- 
- 	return ret;
- }
--EXPORT_SYMBOL_NS(mtl_dsp_pre_fw_run, "SND_SOC_SOF_INTEL_MTL");
- 
--int mtl_dsp_post_fw_run(struct snd_sof_dev *sdev)
-+static int mtl_dsp_post_fw_run(struct snd_sof_dev *sdev)
- {
- 	int ret;
- 
-@@ -325,9 +323,8 @@ int mtl_dsp_post_fw_run(struct snd_sof_dev *sdev)
- 	hda_sdw_int_enable(sdev, true);
- 	return 0;
- }
--EXPORT_SYMBOL_NS(mtl_dsp_post_fw_run, "SND_SOC_SOF_INTEL_MTL");
- 
--void mtl_dsp_dump(struct snd_sof_dev *sdev, u32 flags)
-+static void mtl_dsp_dump(struct snd_sof_dev *sdev, u32 flags)
- {
- 	char *level = (flags & SOF_DBG_DUMP_OPTIONAL) ? KERN_DEBUG : KERN_ERR;
- 	u32 fwsts;
-@@ -343,7 +340,6 @@ void mtl_dsp_dump(struct snd_sof_dev *sdev, u32 flags)
- 
- 	sof_ipc4_intel_dump_telemetry_state(sdev, flags);
- }
--EXPORT_SYMBOL_NS(mtl_dsp_dump, "SND_SOC_SOF_INTEL_MTL");
- 
- static bool mtl_dsp_primary_core_is_enabled(struct snd_sof_dev *sdev)
- {
-@@ -559,7 +555,7 @@ int mtl_dsp_cl_init(struct snd_sof_dev *sdev, int stream_tag, bool imr_boot)
- }
- EXPORT_SYMBOL_NS(mtl_dsp_cl_init, "SND_SOC_SOF_INTEL_MTL");
- 
--irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
-+static irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
- {
- 	struct sof_ipc4_msg notification_data = {{ 0 }};
- 	struct snd_sof_dev *sdev = context;
-@@ -641,21 +637,18 @@ irqreturn_t mtl_ipc_irq_thread(int irq, void *context)
- 
- 	return IRQ_HANDLED;
- }
--EXPORT_SYMBOL_NS(mtl_ipc_irq_thread, "SND_SOC_SOF_INTEL_MTL");
- 
--int mtl_dsp_ipc_get_mailbox_offset(struct snd_sof_dev *sdev)
-+static int mtl_dsp_ipc_get_mailbox_offset(struct snd_sof_dev *sdev)
- {
- 	return MTL_DSP_MBOX_UPLINK_OFFSET;
- }
--EXPORT_SYMBOL_NS(mtl_dsp_ipc_get_mailbox_offset, "SND_SOC_SOF_INTEL_MTL");
- 
--int mtl_dsp_ipc_get_window_offset(struct snd_sof_dev *sdev, u32 id)
-+static int mtl_dsp_ipc_get_window_offset(struct snd_sof_dev *sdev, u32 id)
- {
- 	return MTL_SRAM_WINDOW_OFFSET(id);
- }
--EXPORT_SYMBOL_NS(mtl_dsp_ipc_get_window_offset, "SND_SOC_SOF_INTEL_MTL");
- 
--void mtl_ipc_dump(struct snd_sof_dev *sdev)
-+static void mtl_ipc_dump(struct snd_sof_dev *sdev)
- {
- 	u32 hipcidr, hipcidd, hipcida, hipctdr, hipctdd, hipctda, hipcctl;
- 
-@@ -671,7 +664,6 @@ void mtl_ipc_dump(struct snd_sof_dev *sdev)
- 		"Host IPC initiator: %#x|%#x|%#x, target: %#x|%#x|%#x, ctl: %#x\n",
- 		hipcidr, hipcidd, hipcida, hipctdr, hipctdd, hipctda, hipcctl);
- }
--EXPORT_SYMBOL_NS(mtl_ipc_dump, "SND_SOC_SOF_INTEL_MTL");
- 
- static int mtl_dsp_disable_interrupts(struct snd_sof_dev *sdev)
- {
-@@ -680,7 +672,7 @@ static int mtl_dsp_disable_interrupts(struct snd_sof_dev *sdev)
+ 	mtl_disable_ipc_interrupts(sdev);
  	return mtl_enable_interrupts(sdev, false);
  }
++EXPORT_SYMBOL_NS(lnl_dsp_disable_interrupts, "SND_SOC_SOF_INTEL_LNL");
  
--int mtl_dsp_core_get(struct snd_sof_dev *sdev, int core)
-+static int mtl_dsp_core_get(struct snd_sof_dev *sdev, int core)
+-static bool lnl_sdw_check_wakeen_irq(struct snd_sof_dev *sdev)
++bool lnl_sdw_check_wakeen_irq(struct snd_sof_dev *sdev)
  {
- 	const struct sof_ipc_pm_ops *pm_ops = sdev->ipc->ops->pm;
- 
-@@ -692,9 +684,8 @@ int mtl_dsp_core_get(struct snd_sof_dev *sdev, int core)
- 
- 	return 0;
+ 	struct hdac_bus *bus = sof_to_bus(sdev);
+ 	u16 wake_sts;
+@@ -157,6 +159,7 @@ static bool lnl_sdw_check_wakeen_irq(struct snd_sof_dev *sdev)
+ 	/* filter out the range of SDIs that can be set for SoundWire */
+ 	return wake_sts & GENMASK(SDW_MAX_DEVICES, SDW_INTEL_DEV_NUM_IDA_MIN);
  }
--EXPORT_SYMBOL_NS(mtl_dsp_core_get, "SND_SOC_SOF_INTEL_MTL");
++EXPORT_SYMBOL_NS(lnl_sdw_check_wakeen_irq, "SND_SOC_SOF_INTEL_LNL");
  
--int mtl_dsp_core_put(struct snd_sof_dev *sdev, int core)
-+static int mtl_dsp_core_put(struct snd_sof_dev *sdev, int core)
+ const struct sof_intel_dsp_desc lnl_chip_info = {
+ 	.cores_num = 5,
+@@ -182,29 +185,5 @@ const struct sof_intel_dsp_desc lnl_chip_info = {
+ 	.hw_ip_version = SOF_INTEL_ACE_2_0,
+ };
+ 
+-const struct sof_intel_dsp_desc ptl_chip_info = {
+-	.cores_num = 5,
+-	.init_core_mask = BIT(0),
+-	.host_managed_cores_mask = BIT(0),
+-	.ipc_req = MTL_DSP_REG_HFIPCXIDR,
+-	.ipc_req_mask = MTL_DSP_REG_HFIPCXIDR_BUSY,
+-	.ipc_ack = MTL_DSP_REG_HFIPCXIDA,
+-	.ipc_ack_mask = MTL_DSP_REG_HFIPCXIDA_DONE,
+-	.ipc_ctl = MTL_DSP_REG_HFIPCXCTL,
+-	.rom_status_reg = LNL_DSP_REG_HFDSC,
+-	.rom_init_timeout = 300,
+-	.ssp_count = MTL_SSP_COUNT,
+-	.d0i3_offset = MTL_HDA_VS_D0I3C,
+-	.read_sdw_lcount =  hda_sdw_check_lcount_ext,
+-	.check_sdw_irq = lnl_dsp_check_sdw_irq,
+-	.check_sdw_wakeen_irq = lnl_sdw_check_wakeen_irq,
+-	.check_ipc_irq = mtl_dsp_check_ipc_irq,
+-	.cl_init = mtl_dsp_cl_init,
+-	.power_down_dsp = mtl_power_down_dsp,
+-	.disable_interrupts = lnl_dsp_disable_interrupts,
+-	.hw_ip_version = SOF_INTEL_ACE_3_0,
+-};
+-EXPORT_SYMBOL_NS(ptl_chip_info, "SND_SOC_SOF_INTEL_LNL");
+-
+ MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_MTL");
+ MODULE_IMPORT_NS("SND_SOC_SOF_HDA_MLINK");
+diff --git a/sound/soc/sof/intel/lnl.h b/sound/soc/sof/intel/lnl.h
+index e585b93d2b63..2837f818ac51 100644
+--- a/sound/soc/sof/intel/lnl.h
++++ b/sound/soc/sof/intel/lnl.h
+@@ -14,4 +14,8 @@
+ 
+ int sof_lnl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops);
+ 
++bool lnl_dsp_check_sdw_irq(struct snd_sof_dev *sdev);
++int lnl_dsp_disable_interrupts(struct snd_sof_dev *sdev);
++bool lnl_sdw_check_wakeen_irq(struct snd_sof_dev *sdev);
++
+ #endif /* __SOF_INTEL_LNL_H */
+diff --git a/sound/soc/sof/intel/pci-ptl.c b/sound/soc/sof/intel/pci-ptl.c
+index 32f93723ee66..3812ab6d99c0 100644
+--- a/sound/soc/sof/intel/pci-ptl.c
++++ b/sound/soc/sof/intel/pci-ptl.c
+@@ -16,14 +16,14 @@
+ 
+ /* platform specific devices */
+ #include "hda.h"
+-#include "lnl.h"
++#include "ptl.h"
+ 
+ /* PantherLake ops */
+ static struct snd_sof_dsp_ops sof_ptl_ops;
+ 
+ static int sof_ptl_ops_init(struct snd_sof_dev *sdev)
  {
- 	const struct sof_ipc_pm_ops *pm_ops = sdev->ipc->ops->pm;
- 	int ret;
-@@ -710,7 +701,6 @@ int mtl_dsp_core_put(struct snd_sof_dev *sdev, int core)
- 
- 	return 0;
+-	return sof_lnl_set_ops(sdev, &sof_ptl_ops);
++	return sof_ptl_set_ops(sdev, &sof_ptl_ops);
  }
--EXPORT_SYMBOL_NS(mtl_dsp_core_put, "SND_SOC_SOF_INTEL_MTL");
  
- int sof_mtl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops)
- {
-diff --git a/sound/soc/sof/intel/mtl.h b/sound/soc/sof/intel/mtl.h
-index 4d098dae2973..e01a1536709e 100644
---- a/sound/soc/sof/intel/mtl.h
-+++ b/sound/soc/sof/intel/mtl.h
-@@ -122,28 +122,13 @@
- #define MTL_DSP_REG_HfIMRIS1_IU_MASK	BIT(0)
- 
- bool mtl_dsp_check_ipc_irq(struct snd_sof_dev *sdev);
--int mtl_ipc_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *msg);
- 
- void mtl_enable_ipc_interrupts(struct snd_sof_dev *sdev);
- void mtl_disable_ipc_interrupts(struct snd_sof_dev *sdev);
- 
- int mtl_enable_interrupts(struct snd_sof_dev *sdev, bool enable);
- 
--int mtl_dsp_pre_fw_run(struct snd_sof_dev *sdev);
--int mtl_dsp_post_fw_run(struct snd_sof_dev *sdev);
--void mtl_dsp_dump(struct snd_sof_dev *sdev, u32 flags);
--
- int mtl_power_down_dsp(struct snd_sof_dev *sdev);
- int mtl_dsp_cl_init(struct snd_sof_dev *sdev, int stream_tag, bool imr_boot);
- 
--irqreturn_t mtl_ipc_irq_thread(int irq, void *context);
--
--int mtl_dsp_ipc_get_mailbox_offset(struct snd_sof_dev *sdev);
--int mtl_dsp_ipc_get_window_offset(struct snd_sof_dev *sdev, u32 id);
--
--void mtl_ipc_dump(struct snd_sof_dev *sdev);
--
--int mtl_dsp_core_get(struct snd_sof_dev *sdev, int core);
--int mtl_dsp_core_put(struct snd_sof_dev *sdev, int core);
--
- int sof_mtl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops);
+ static const struct sof_dev_desc ptl_desc = {
+@@ -80,6 +80,4 @@ MODULE_LICENSE("Dual BSD/GPL");
+ MODULE_DESCRIPTION("SOF support for PantherLake platforms");
+ MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_HDA_GENERIC");
+ MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_HDA_COMMON");
+-MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_LNL");
+-MODULE_IMPORT_NS("SND_SOC_SOF_HDA_MLINK");
+ MODULE_IMPORT_NS("SND_SOC_SOF_PCI_DEV");
+diff --git a/sound/soc/sof/intel/ptl.c b/sound/soc/sof/intel/ptl.c
+new file mode 100644
+index 000000000000..ae8e9e08ad2a
+--- /dev/null
++++ b/sound/soc/sof/intel/ptl.c
+@@ -0,0 +1,52 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
++//
++// Copyright(c) 2025 Intel Corporation
++
++/*
++ * Hardware interface for audio DSP on PantherLake.
++ */
++
++#include <sound/hda_register.h>
++#include <sound/hda-mlink.h>
++#include <sound/sof/ipc4/header.h>
++#include "../ipc4-priv.h"
++#include "../ops.h"
++#include "hda.h"
++#include "hda-ipc.h"
++#include "../sof-audio.h"
++#include "mtl.h"
++#include "lnl.h"
++#include "ptl.h"
++
++int sof_ptl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops)
++{
++	return sof_lnl_set_ops(sdev, dsp_ops);
++}
++EXPORT_SYMBOL_NS(sof_ptl_set_ops, "SND_SOC_SOF_INTEL_PTL");
++
++const struct sof_intel_dsp_desc ptl_chip_info = {
++	.cores_num = 5,
++	.init_core_mask = BIT(0),
++	.host_managed_cores_mask = BIT(0),
++	.ipc_req = MTL_DSP_REG_HFIPCXIDR,
++	.ipc_req_mask = MTL_DSP_REG_HFIPCXIDR_BUSY,
++	.ipc_ack = MTL_DSP_REG_HFIPCXIDA,
++	.ipc_ack_mask = MTL_DSP_REG_HFIPCXIDA_DONE,
++	.ipc_ctl = MTL_DSP_REG_HFIPCXCTL,
++	.rom_status_reg = LNL_DSP_REG_HFDSC,
++	.rom_init_timeout = 300,
++	.ssp_count = MTL_SSP_COUNT,
++	.d0i3_offset = MTL_HDA_VS_D0I3C,
++	.read_sdw_lcount =  hda_sdw_check_lcount_ext,
++	.check_sdw_irq = lnl_dsp_check_sdw_irq,
++	.check_sdw_wakeen_irq = lnl_sdw_check_wakeen_irq,
++	.check_ipc_irq = mtl_dsp_check_ipc_irq,
++	.cl_init = mtl_dsp_cl_init,
++	.power_down_dsp = mtl_power_down_dsp,
++	.disable_interrupts = lnl_dsp_disable_interrupts,
++	.hw_ip_version = SOF_INTEL_ACE_3_0,
++};
++
++MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_MTL");
++MODULE_IMPORT_NS("SND_SOC_SOF_INTEL_LNL");
++MODULE_IMPORT_NS("SND_SOC_SOF_HDA_MLINK");
+diff --git a/sound/soc/sof/intel/ptl.h b/sound/soc/sof/intel/ptl.h
+new file mode 100644
+index 000000000000..186f7c835acb
+--- /dev/null
++++ b/sound/soc/sof/intel/ptl.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause) */
++/*
++ * This file is provided under a dual BSD/GPLv2 license.  When using or
++ * redistributing this file, you may do so under either license.
++ *
++ * Copyright(c) 2025 Intel Corporation
++ */
++
++#ifndef __SOF_INTEL_PTL_H
++#define __SOF_INTEL_PTL_H
++
++int sof_ptl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops);
++
++#endif /* __SOF_INTEL_PTL_H */
 -- 
 2.48.1
 
