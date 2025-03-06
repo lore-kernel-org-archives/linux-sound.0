@@ -1,205 +1,222 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010058.outbound.protection.outlook.com [52.101.228.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44EB33FD;
-	Thu,  6 Mar 2025 01:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741223893; cv=none; b=BNtaab8+lJsUBi2abJ3/Wc+QT/v8swnJEdTtxjHx1aGyVtbJM0/D4txOq9K0/dc20fmSwWhPr7UrkYF7QUSGOZpN7LOrEUOYR6p3exUpYllje28bgce1SlESEMNfVgj/KIoscDPQ+ntpJuUzCIfkRHs5I5DrVnKMvsKCqtKfcgA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741223893; c=relaxed/simple;
-	bh=dA3VOSRaI0yq7m0/75aUTiC6gOA1Zy5sAhwgijdVq4o=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HGTdJz4bN2FssI6jQqAsmYEYGZc8RL8hmZiDn3u728HlDLDtghmtuRPoDr8o0/h65X5+T5fcQOS8KWkKGA5TjAjDvJeRmfPQBSNKr+FkEnf9SjSxu7a89m3w0396kEMkNjpsDxznYawxdn9Ee1T26d78+4C9kzR+uFq8OcmGKVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 525KXCXI001371;
-	Wed, 5 Mar 2025 17:17:49 -0800
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 456csa1fws-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 05 Mar 2025 17:17:48 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 5 Mar 2025 17:17:48 -0800
-Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 5 Mar 2025 17:17:46 -0800
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <perex@perex.cz>, <syzkaller-bugs@googlegroups.com>, <tiwai@suse.com>
-Subject: [PATCH] ALSA: seq: Use atomic to prevent data races in total_elements
-Date: Thu, 6 Mar 2025 09:17:45 +0800
-Message-ID: <20250306011745.100014-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <67c88903.050a0220.15b4b9.0028.GAE@google.com>
-References: <67c88903.050a0220.15b4b9.0028.GAE@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443A54315F
+	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 01:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741226371; cv=fail; b=Eu7u7g0MnZbAfVKYCgTBEioDv9vYopDC5YgW2eunAqKEtr/3ykve5RbEYZNsboy0z7eZMc2nJlbL41OlGOsZhUxc2rRWTsrkci4SRd4uTwxeSHXKs6h46p26AIJHisYDf9g/MCQ4HzfidWDdnusUmpeGusvPxrT8HI8m7sK5YSM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741226371; c=relaxed/simple;
+	bh=OYQa4+0o8gHMIVpcvdwxh4r4F+HN+VeyyCoi8497rd4=;
+	h=Message-ID:From:Subject:To:Cc:Content-Type:Date:MIME-Version; b=OxNKXcpNep43EgatfT/ZQ8rr9Y2HM8WOidykAy5UBTgHvWzJ4QWYEPJVD7oyySxuJXH5DtR6AiCSJ6fOWFhLeje3sSrXrJOmupblhVmpk/qUFCP6xRwBgwkyMVnpIQT5L3KUyQkIH3i2UVT6XOjbDZ1XwEcZ8eIMuJhRCTFrJ8g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=frYiFakt; arc=fail smtp.client-ip=52.101.228.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="frYiFakt"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xZmsU2OPKBhJTBWiAAne++I1ubJFNxLDLnymTqhzpExL1pETK7ojREYhFdW2RTfBqWnIXDR7HC7HnXAhOZiVofjVDdXunEtjad7V/Go1GGYmdp6dQH1rwhWZzXcAbG3qayLXRp5Y+LGGMmlK2PVlSY8jVlTAvvdZCS88OkRWFul00/ToPaQxbxE8g6rUvBdzU2vM4d4unXkP1SwOPLUpdyBagxrYyGs3U9gnqo7O45C0AoBj4OIpkeAyr2AWRvD1+MhFqMnZ3oMHzKmTtC1Crz+RsSd0OBuopsgbBm1A/IOrkcrJ62FaTYwG2EW9jvmnDtv26maE1D4I6ux4gjnEBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QoquxmRtMOXvTfXTqo8S52eQLO505ctF4WK2NK1MQ0M=;
+ b=xRyIjLb72cYJAP3wV/RBBhrD5ftWCSV400twCKzfqYxWnlgfziebMj6UC978AXsI0SYqMfaXizJav9ZPIpymwERE6+xPsH/bhNPoFNFht63vW6+XS54/hJd9V2E9/1SatrQbnkT8seOqZy6u0Utb0tq7hXWC1pcs9LHO1rlQzwUWmxJnXSiXVYzLOre9+FDiFqqBV2x34rf/5GmQP9JDh6Eo0N+Kjtdij+HTFH5TSmCjZ4wTliiopwOqjG8jaMbqoRufxoCausEbXJjJq3PnL4EqVDASm7Tqe4aMuiU8Kc1h8tVfQFU9+Bz3dm6srvWgbee8W1Xs/FklPX/eb8a8bg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QoquxmRtMOXvTfXTqo8S52eQLO505ctF4WK2NK1MQ0M=;
+ b=frYiFaktue4aUH6YCw8DQRT02aHo+o0UMKMA+MRyQl+HCLaWjISerrs5+O/gh/gNuEER3DQVuwV3nEYIc0dJh3i6la1Mcyn3wI2CNfSEVUDns7/ZkMRKnx7ubwJNdwV8xDjugiCaNQQJULp8Ag8bVYufaLUVzpecqyaliiW9k7A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYWPR01MB11216.jpnprd01.prod.outlook.com
+ (2603:1096:400:3f0::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.28; Thu, 6 Mar
+ 2025 01:59:25 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8511.017; Thu, 6 Mar 2025
+ 01:59:25 +0000
+Message-ID: <871pva6hs2.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH] ASoC: soc-dai: add snd_soc_dai_mute_is_ctrled_at_trigger()
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 6 Mar 2025 01:59:25 +0000
+X-ClientProxiedBy: TY2PR06CA0022.apcprd06.prod.outlook.com
+ (2603:1096:404:42::34) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: b4y4zDI5h0GFdZp1B6ibjkSpm5nfwk3t
-X-Proofpoint-GUID: b4y4zDI5h0GFdZp1B6ibjkSpm5nfwk3t
-X-Authority-Analysis: v=2.4 cv=d4wPyQjE c=1 sm=1 tr=0 ts=67c8f7bc cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=Vs1iUdzkB0EA:10 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8 a=12NZYVJXO6P3OMb9Et4A:9 a=DcSpbTIhAlouE1Uv7lRv:22
- a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-06_01,2025-03-05_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
- impostorscore=0 mlxscore=0 mlxlogscore=923 clxscore=1011
- priorityscore=1501 phishscore=0 lowpriorityscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
- definitions=main-2503060005
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB11216:EE_
+X-MS-Office365-Filtering-Correlation-Id: c24dfaad-6ddb-4f16-00d0-08dd5c52859a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?h9AXQItEho5OvRXqVx/+nshpcEyqmbwVsYfPEOL/t6pxG5c0F+ydcKn/Y2gl?=
+ =?us-ascii?Q?nmXFMsFFFhxLOvJHViagNRLJJL2r5iViMTMFuMuumn6SbhGZUM5J3dJDUIxz?=
+ =?us-ascii?Q?fffHTatIyvsOSoMp4Yg8zqpYyLcd7Ia2Z/pD2YdMThWxT7mdZWeKgv6N/1zs?=
+ =?us-ascii?Q?X1ManorCH/89XR/2MK6HHaOuhzlI/HNJ6yNknB75k6jYdw6NFtQhN3y8W2/g?=
+ =?us-ascii?Q?qyQBv4qO+5dTsvOAOTVf51htXBM6lc7KAcTlthJFchnBHnVAhHbcrPWzBlO3?=
+ =?us-ascii?Q?hTmtv+U3TVJoT3AbCiALxw9vDMRO3v7ULWUevJ9Ki8YUmolcRY3y4wnNTx1k?=
+ =?us-ascii?Q?n1mrbYnApiUCcrL9ELPoRDbh5BZtwoM4vLdeMBTpkIg/dS2G6mdWyi6BmEhY?=
+ =?us-ascii?Q?Z9BtEdORaWBh9A8KdvNixAGBI8nN/VMsLnU3uQGlzmN8f89nvwiHQ588LPQa?=
+ =?us-ascii?Q?zOmQoHyHtNMoar29SuHWQH5mB+xwG9mceDHFRmm3gyTPTRs+y16PW26KLkgE?=
+ =?us-ascii?Q?4d0ESdvHWbHmyN6lMT2v9jm8/eg+ymWgFGCu1FAB5RR/Fme1ALHzlCOzo76k?=
+ =?us-ascii?Q?EpY55lF8l+4Kk0IG22ap6oiMWamI/zaOr15+Tl4NAj+Lb4gpayAnIu9wtgd3?=
+ =?us-ascii?Q?qkGq8L5ww+1Eqrrz61j6dGEKbN/PpJao760v7vCUsgznn7q8s/LWhOzh6/C5?=
+ =?us-ascii?Q?JabISAy5BppfY4NejNnanwOGOl7U390LeG0JVo1NAJX9VI8UK9aAxO/+GrX0?=
+ =?us-ascii?Q?IK/TdllCvRtN9xWySCEmPmzNYD9GbN1lY18POT6qeQaQGa/qmRM/BjwYUVn2?=
+ =?us-ascii?Q?z9c45RMQTXLsdHLPrRa1fzw/q/CRlGLjzBUervB8O2kqKmXqxOckm2U94YsE?=
+ =?us-ascii?Q?jC+xCaQK4R0kxaGnUVB65wqj7YwD2+8qde1iinfXT+zn3Zh9aTf0eMKx1PN7?=
+ =?us-ascii?Q?IQC9p9yQjJlWi7hyG9CljnQ9QZaFvvMRGgvjb1IvzkrJgYjtRmEtFkYGDPL0?=
+ =?us-ascii?Q?VgM5v3hM90W13FFzAr16IRxJm9N2P6NfihaZLlymWThRyb6QwJcJo++Qm5E0?=
+ =?us-ascii?Q?CKoTPPqA9ivX270YCE8HpXt4dmjZbgPqxMQNSSvFRNs/kRGAMbERx3I88Ukm?=
+ =?us-ascii?Q?HtTniL2hatBhh4RMAmZVlV/0TUWUnX8+AyTiy+wEpkpG6a8BbQmjxCIMIyW3?=
+ =?us-ascii?Q?46m/1wezdENEbYXZvT16da1ymyqHCUyBA7Ugk3BsPHHD7L/9l5DQY3/uRcop?=
+ =?us-ascii?Q?Qyh6MdSlmxWTzexBscvs17Kd1tsJ4IcrVJNjRSyKXOdwKE5ZloP3Vtz0f4T6?=
+ =?us-ascii?Q?zKQzxrpVq8Vcdn/zVfcPDewgxGAqHZRnaYRbD5Medh/khLPbXdD03lXK/eFH?=
+ =?us-ascii?Q?TNw8n5TbfIrKy/hIU7EibRZ6sM1i6ZBAZM+JSq5c4xeJV/cFjrwXvhI9yR1Z?=
+ =?us-ascii?Q?oJv2ZGDhfMIYi1AemxM0QoA+l02GCerO?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?i3uQc1Zq1N1r+p0vCV8BCnH6jIHi/hrC3opnnaAyG1OBxNxg64w/I4TykaaG?=
+ =?us-ascii?Q?yvRZMBlwTJadnAUWOvf79vemRYmWD9QpsCZYW9IEBbyKd3DFHrM/THYuGJ+l?=
+ =?us-ascii?Q?8oJ1QaN1wApHB/rqS74yjJyjwWcRP9icZl7fxdVVs72Ark75lKjTXm0MYFQR?=
+ =?us-ascii?Q?TZeI5NQu7LN/lT9elRaFkEAm835l1TILHRrBUhPqQ0n7eX564+W72h98WTBI?=
+ =?us-ascii?Q?C8iNTAIHMJNsLBoMxN+L4TXKH5fdwADYU33CqdEne/GB1Z6GWzkuKJ62kyVc?=
+ =?us-ascii?Q?NRwDPg2RxGtbq/kGGpPQQ64t4ogBJeJGbys9LspXNxXERyiPQUo5vnUyojse?=
+ =?us-ascii?Q?VtnwNVmcVrTjO9vLcH9qyQE/WbMxm8Z3jDIm6ZMTRCh85gOVtNFig7fU8uKQ?=
+ =?us-ascii?Q?uNdTdFsh+iN6ZCZnie091MtMVaDWYiO5wiJhZuwcskgLlrHsV5qu9wB9eE5o?=
+ =?us-ascii?Q?lBtlBs0BmjxFlMDnOYaXcE+rmfiYoSI/X8Jrv3q4FVe+h4OjorIaj9wst03F?=
+ =?us-ascii?Q?Qn7LfOl3mKDDLmWW8oVejrzZa/AAT+J94LsdFBiTwzaEHIp+wEGT9ixn/Mre?=
+ =?us-ascii?Q?kTZsaerMyI1kpFcSxDQzkk9tCUswGxTAZyPOzS84zPwM4TWNsYq5uuen5tgc?=
+ =?us-ascii?Q?TdQeFhDQ3upCv0TeKzS/HKqeZU87W5jV9xgcKqrhhIVaWfLoNSC6+tJy3BhW?=
+ =?us-ascii?Q?cFWJoITWfE23qOjoIVd7z43XhPVdV3O8PlmcCbqXenMiTshgUHIaaFINJJN+?=
+ =?us-ascii?Q?atLzRqokh3qkUGWAeafJLVGiYzxqsHuDEgj4vkMowHNCooAH7mwUTEZ80c6C?=
+ =?us-ascii?Q?DhRNBeK4g+H1j99fqMQD3gcDFr+fUOi/g8CeLR7J6JbxSr13xP77mUgwDgSu?=
+ =?us-ascii?Q?eMyQeUsap1m8cQWpH9zcFCmMc/LwImAcXJ4ZEXlaU7HQngo0EaLsDiX6xEA9?=
+ =?us-ascii?Q?P3Hr0qbyj/bROMXEeSh5rEmdimfcNYcD15zoEczlGQwVSQisrgdGou5Jba8Y?=
+ =?us-ascii?Q?cbp7Omg5gDRfmwCfAZrtgb4bxVUTbNWsL0bjd/ioD/iu966+zdxGRsEDE+Yy?=
+ =?us-ascii?Q?NTqXB7dbgnhPuDqS5+QD+5Z/bH+iRf3m66NUi63E10kYeNvPVcAxEs19y05d?=
+ =?us-ascii?Q?2WAdmw7684dYanuBf3JC7AyX3mr6iY+777oeUmUoqkpF+W/LcGgDqbQI2qfw?=
+ =?us-ascii?Q?MJwig7psHu2cEFvheuSZrGlfrX4iiwf9aaFvEgR6PHbAFp8NS4vSOrkWhPh2?=
+ =?us-ascii?Q?QNlUdrQ7AijqWLf6ihLoU3Ah1U+9aOemEaG1tyKdwosIl/2Z2wkTbOuZa+2e?=
+ =?us-ascii?Q?3krW7oZWALUOLPSFMKJMGxx/V5MMri8lLsOTTMja8MuIWxipnYQ5NVAUIRHm?=
+ =?us-ascii?Q?BO39AcnrqH8qa8c6fOZEdAtjOWnt9lShJj3vE3QqTjgnQqBnE8jh30V5o9Bo?=
+ =?us-ascii?Q?K8uCvRr1S3ENRP4dSIHKUc9dmdalLpeJ84PXfRjIcM9loYDycWuYBO9rdgef?=
+ =?us-ascii?Q?lduDbVZK5xIS23i6lpN+qHHL8KsbeXHjTRqaEcsaqKQ+Nm6eDIm2Y0jNH8Gn?=
+ =?us-ascii?Q?HJXIpNoSDMihpOe8abQOOZKf/KAQFqgLBIQdzw/YCt43JsTRJO6v75HBBwYR?=
+ =?us-ascii?Q?KqatFomFYZth5Wqp3nRF7o4=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c24dfaad-6ddb-4f16-00d0-08dd5c52859a
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 01:59:25.6655
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BXRCn69QPD+z7WW1c/KBpbzvPYVKk1p7wT6AvljMqut4g4gCcH++Qpd7gaTDSiiNqyQ5ORWuZXIkNUm8R2p6hJFhRUK3NkH0mVgWrld07QGzMBpPbDnSNHQcAIZpeI2q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11216
 
-syzbot reported a data-race in snd_seq_poll / snd_seq_pool_init. [1]
+Adds snd_soc_dai_mute_is_ctrled_at_trigger() to judge
+dai->driver->ops->mute_unmute_on_trigger flags
 
-Just use atomic_set/atomic_read for handling this case.
-
-[1]
-BUG: KCSAN: data-race in snd_seq_poll / snd_seq_pool_init
-
-write to 0xffff888114535610 of 4 bytes by task 7006 on cpu 1:
- snd_seq_pool_init+0x1c1/0x200 sound/core/seq/seq_memory.c:469
- snd_seq_write+0x17f/0x500 sound/core/seq/seq_clientmgr.c:1022
- vfs_write+0x27d/0x920 fs/read_write.c:677
- ksys_write+0xe8/0x1b0 fs/read_write.c:731
- __do_sys_write fs/read_write.c:742 [inline]
- __se_sys_write fs/read_write.c:739 [inline]
- __x64_sys_write+0x42/0x50 fs/read_write.c:739
- x64_sys_call+0x287e/0x2dc0 arch/x86/include/generated/asm/syscalls_64.h:2
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xc9/0x1c0 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-read to 0xffff888114535610 of 4 bytes by task 7005 on cpu 0:
- snd_seq_total_cells sound/core/seq/seq_memory.h:83 [inline]
- snd_seq_write_pool_allocated sound/core/seq/seq_clientmgr.c:95 [inline]
- snd_seq_poll+0x103/0x170 sound/core/seq/seq_clientmgr.c:1139
- vfs_poll include/linux/poll.h:82 [inline]
- __io_arm_poll_handler+0x1e5/0xd50 io_uring/poll.c:582
- io_arm_poll_handler+0x464/0x5b0 io_uring/poll.c:707
- io_queue_async+0x89/0x320 io_uring/io_uring.c:1925
- io_queue_sqe io_uring/io_uring.c:1954 [inline]
- io_req_task_submit+0xb9/0xc0 io_uring/io_uring.c:1373
- io_handle_tw_list+0x1b9/0x200 io_uring/io_uring.c:1059
- tctx_task_work_run+0x6e/0x1c0 io_uring/io_uring.c:1123
- tctx_task_work+0x40/0x80 io_uring/io_uring.c:1141
- task_work_run+0x13a/0x1a0 kernel/task_work.c:227
- get_signal+0xe78/0x1000 kernel/signal.c:2809
- arch_do_signal_or_restart+0x95/0x4b0 arch/x86/kernel/signal.c:337
- exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
- exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
- __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
- syscall_exit_to_user_mode+0x62/0x120 kernel/entry/common.c:218
- do_syscall_64+0xd6/0x1c0 arch/x86/entry/common.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-value changed: 0x00000000 -> 0x000001f4
-
-Reported-by: syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=2d373c9936c00d7e120c
-Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/core/seq/seq_memory.c | 12 ++++++------
- sound/core/seq/seq_memory.h |  6 +++---
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ include/sound/soc-dai.h |  2 +-
+ sound/soc/soc-dai.c     | 12 ++++++++++--
+ sound/soc/soc-pcm.c     |  4 ++--
+ 3 files changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/sound/core/seq/seq_memory.c b/sound/core/seq/seq_memory.c
-index 20155e3e87c6..4a5c771ce8f9 100644
---- a/sound/core/seq/seq_memory.c
-+++ b/sound/core/seq/seq_memory.c
-@@ -21,7 +21,7 @@
+diff --git a/include/sound/soc-dai.h b/include/sound/soc-dai.h
+index c3a3ba4b0bb7..d19ab5572d2b 100644
+--- a/include/sound/soc-dai.h
++++ b/include/sound/soc-dai.h
+@@ -193,7 +193,7 @@ int snd_soc_dai_prepare(struct snd_soc_dai *dai,
+ /* Digital Audio Interface mute */
+ int snd_soc_dai_digital_mute(struct snd_soc_dai *dai, int mute,
+ 			     int direction);
+-
++int snd_soc_dai_mute_is_ctrled_at_trigger(struct snd_soc_dai *dai);
  
- static inline int snd_seq_pool_available(struct snd_seq_pool *pool)
- {
--	return pool->total_elements - atomic_read(&pool->counter);
-+	return atomic_read(&pool->total_elements) - atomic_read(&pool->counter);
+ int snd_soc_dai_get_channel_map(const struct snd_soc_dai *dai,
+ 		unsigned int *tx_num, unsigned int *tx_slot,
+diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
+index 8f2b5b840bb0..a210089747d0 100644
+--- a/sound/soc/soc-dai.c
++++ b/sound/soc/soc-dai.c
+@@ -364,6 +364,14 @@ int snd_soc_dai_prepare(struct snd_soc_dai *dai,
  }
+ EXPORT_SYMBOL_GPL(snd_soc_dai_prepare);
  
- static inline int snd_seq_output_ok(struct snd_seq_pool *pool)
-@@ -353,7 +353,7 @@ int snd_seq_event_dup(struct snd_seq_pool *pool, struct snd_seq_event *event,
- 		extlen = event->data.ext.len & ~SNDRV_SEQ_EXT_MASK;
- 		ncells = DIV_ROUND_UP(extlen, sizeof(struct snd_seq_event));
++int snd_soc_dai_mute_is_ctrled_at_trigger(struct snd_soc_dai *dai)
++{
++	if (dai->driver->ops)
++		return dai->driver->ops->mute_unmute_on_trigger;
++
++	return 0;
++}
++
+ /**
+  * snd_soc_dai_digital_mute - configure DAI system or master clock.
+  * @dai: DAI
+@@ -620,7 +628,7 @@ int snd_soc_pcm_dai_trigger(struct snd_pcm_substream *substream,
+ 			if (ret < 0)
+ 				break;
+ 
+-			if (dai->driver->ops && dai->driver->ops->mute_unmute_on_trigger)
++			if (snd_soc_dai_mute_is_ctrled_at_trigger(dai))
+ 				snd_soc_dai_digital_mute(dai, 0, substream->stream);
+ 
+ 			soc_dai_mark_push(dai, substream, trigger);
+@@ -633,7 +641,7 @@ int snd_soc_pcm_dai_trigger(struct snd_pcm_substream *substream,
+ 			if (rollback && !soc_dai_mark_match(dai, substream, trigger))
+ 				continue;
+ 
+-			if (dai->driver->ops && dai->driver->ops->mute_unmute_on_trigger)
++			if (snd_soc_dai_mute_is_ctrled_at_trigger(dai))
+ 				snd_soc_dai_digital_mute(dai, 1, substream->stream);
+ 
+ 			r = soc_dai_trigger(dai, substream, cmd);
+diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+index c79c417b6cff..b31505af9382 100644
+--- a/sound/soc/soc-pcm.c
++++ b/sound/soc/soc-pcm.c
+@@ -949,7 +949,7 @@ static int __soc_pcm_prepare(struct snd_soc_pcm_runtime *rtd,
+ 			SND_SOC_DAPM_STREAM_START);
+ 
+ 	for_each_rtd_dais(rtd, i, dai) {
+-		if (dai->driver->ops && !dai->driver->ops->mute_unmute_on_trigger)
++		if (!snd_soc_dai_mute_is_ctrled_at_trigger(dai))
+ 			snd_soc_dai_digital_mute(dai, 0, substream->stream);
  	}
--	if (ncells >= pool->total_elements)
-+	if (ncells >= atomic_read(&pool->total_elements))
- 		return -ENOMEM;
  
- 	err = snd_seq_cell_alloc(pool, &cell, nonblock, file, mutexp);
-@@ -466,7 +466,7 @@ int snd_seq_pool_init(struct snd_seq_pool *pool)
+@@ -1007,7 +1007,7 @@ static int soc_pcm_hw_clean(struct snd_soc_pcm_runtime *rtd,
+ 			soc_pcm_set_dai_params(dai, NULL);
  
- 	/* init statistics */
- 	pool->max_used = 0;
--	pool->total_elements = pool->size;
-+	atomic_set(&pool->total_elements, pool->size);
- 	return 0;
- }
- 
-@@ -499,7 +499,7 @@ int snd_seq_pool_done(struct snd_seq_pool *pool)
- 		ptr = pool->ptr;
- 		pool->ptr = NULL;
- 		pool->free = NULL;
--		pool->total_elements = 0;
-+		atomic_set(&pool->total_elements, 0);
+ 		if (snd_soc_dai_stream_active(dai, substream->stream) == 1) {
+-			if (dai->driver->ops && !dai->driver->ops->mute_unmute_on_trigger)
++			if (!snd_soc_dai_mute_is_ctrled_at_trigger(dai))
+ 				snd_soc_dai_digital_mute(dai, 1, substream->stream);
+ 		}
  	}
- 
- 	kvfree(ptr);
-@@ -523,7 +523,7 @@ struct snd_seq_pool *snd_seq_pool_new(int poolsize)
- 	spin_lock_init(&pool->lock);
- 	pool->ptr = NULL;
- 	pool->free = NULL;
--	pool->total_elements = 0;
-+	atomic_set(&pool->total_elements, 0);
- 	atomic_set(&pool->counter, 0);
- 	pool->closing = 0;
- 	init_waitqueue_head(&pool->output_sleep);
-@@ -555,7 +555,7 @@ void snd_seq_info_pool(struct snd_info_buffer *buffer,
- {
- 	if (pool == NULL)
- 		return;
--	snd_iprintf(buffer, "%sPool size          : %d\n", space, pool->total_elements);
-+	snd_iprintf(buffer, "%sPool size          : %d\n", space, atomic_read(&pool->total_elements));
- 	snd_iprintf(buffer, "%sCells in use       : %d\n", space, atomic_read(&pool->counter));
- 	snd_iprintf(buffer, "%sPeak cells in use  : %d\n", space, pool->max_used);
- 	snd_iprintf(buffer, "%sAlloc success      : %d\n", space, pool->event_alloc_success);
-diff --git a/sound/core/seq/seq_memory.h b/sound/core/seq/seq_memory.h
-index 7f7a2c0b187d..812edbe8cee0 100644
---- a/sound/core/seq/seq_memory.h
-+++ b/sound/core/seq/seq_memory.h
-@@ -44,7 +44,7 @@ struct snd_seq_pool {
- 	struct snd_seq_event_cell *ptr;	/* pointer to first event chunk */
- 	struct snd_seq_event_cell *free;	/* pointer to the head of the free list */
- 
--	int total_elements;	/* pool size actually allocated */
-+	atomic_t total_elements;	/* pool size actually allocated */
- 	atomic_t counter;	/* cells free */
- 
- 	int size;		/* pool size to be allocated */
-@@ -74,13 +74,13 @@ int snd_seq_event_dup(struct snd_seq_pool *pool, struct snd_seq_event *event,
- /* return number of unused (free) cells */
- static inline int snd_seq_unused_cells(struct snd_seq_pool *pool)
- {
--	return pool ? pool->total_elements - atomic_read(&pool->counter) : 0;
-+	return pool ? atomic_read(&pool->total_elements) - atomic_read(&pool->counter) : 0;
- }
- 
- /* return total number of allocated cells */
- static inline int snd_seq_total_cells(struct snd_seq_pool *pool)
- {
--	return pool ? pool->total_elements : 0;
-+	return pool ? atomic_read(&pool->total_elements) : 0;
- }
- 
- /* init pool - allocate events */
 -- 
 2.43.0
 
