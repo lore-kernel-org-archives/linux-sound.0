@@ -1,187 +1,101 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2082.outbound.protection.outlook.com [40.107.20.82])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059001442E8;
-	Thu,  6 Mar 2025 15:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741273357; cv=fail; b=ewsweBxNCzJsVss/HWrm6i8KjS6yf7HLl7tuOQHDSmca5lndzI1P3xP6WIZEqu9sSH0d9dunDQW28fpJnWTTj5FqfmTZM9QRgA2KSobOqHrkfumDWad6zvnbfXNYwg4yB47dluZutvjtKf3K2OOa1uZm3GsKzRIr+SQKGvuJ5wA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741273357; c=relaxed/simple;
-	bh=SBqLohpb4KFL3ykPQ80jQqRJgZX92rzYeltAR8d9gOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=DD2eNl1u4J1/R77y/qIZ5C+KP+h1ZpB8UBr8bvQb9dlcseXJMKCcq65HX1wGNJccj2xbtl9TEbN3Dp4Sza43E9kBV/Qx4kHIrsQBw/90rPwGVzuFVhta0VFSX43wDJoJtJm69VgJBlBjdFQRTQMiS/FwxV6mNGWdhf0Xr5FIfZs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=KV7WgxUw; arc=fail smtp.client-ip=40.107.20.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0224C6E
+	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 15:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741275403; cv=none; b=hiEDs7btYm/TPbRi5Y84qNrJQTMfPdR+294ylfb90yYiOpegqjK5jXKQbeH6/xvqBpKdI0GELH6LZoMoZ7KJ3fnRxuoveSsU+cIDX84lYtLplyk4QQq7c0N5vLRvP3FqCKDildmieMa5+6sW7YDJQ18l68t2ZcP86RZKtnPXLCs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741275403; c=relaxed/simple;
+	bh=zTp5ljnFS/0p1w24q0Jp66vKgxh0EpPHXOAApPe/t9I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QiBbFJ9DWYtdFNPWS2F+W2u8yWmS7+Eln8hT8/lF7r88dHJ/pNrgYBMqgwy1XF5F1i7Vub2vrlW1khZcqjuAjS0+kNG2GexvfkpxrjyCcZXKZLrLAFVrGt61EI93sNSqLazt64bqNSFLJDujGQknmXs6AX9wpij46ryHFZ3igeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OQ6T3zfH; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="KV7WgxUw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lFVspKVfGr+akC+KBAounM5xZgXGf9d4ZjO4icUhNuj9lHoTtNGFeqzGzcjgWyK0TK+IKwmQVHzYFTGLkHts1aktZ3PxS3oziaLxBmQuIbelArbC9nmFYFVAPdn2afCXjaYzJnwe2UbdGegc9vr+0wBHqpnq0DlUqcSDNE14Cis9j+KP5LetR+WE9xa6R+dlHmZPlW6gT8lqOF1khOai9JWiNyc3DBQqfX+1L80Cv4bYEQ3gPqvRjXssL0aeVyh90tEUTNDbbCDni4ETeqeJQsCA0GH0sssEFg3qC3QQ5l31xDI8UmsB2/d7dwjTrFqgAu3fsZtT2j67dJEk5p4ihQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9Rj/RZrQrfDp/JFuOIJR+RAsh+u9TwZuk/iR9EUFHd8=;
- b=Iw8m1c3Hd5svimGWKYQs33fMX2+Ia9aFJJyuxigzfl412Veoz3Go23EfE7DmpvA4IKB6l/fv1cs28o7IpT7+ofjA00B+8NUCInYAB9vK7gKPxNMKl+VHmI8Nw/SW0CWMNOwfXt32RdV1jgqU5HZBduceiNkEWAAjqLRVEBCmEWGLDDRRTMcEFWNQPmGvo93IDPWbQobSRb9CquKMedAKyAY3pUbGQv3JU2t3yZ+xKQJ4kycGJkn1gGQh3gCZ9V2YPMO36fuELWV43/BFUEY89rn0dL1E8BuZf6gJXKM0OmShaQinKFnIGeUdkQaQL5st3y19s5q/C5PYkt63FSoE9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Rj/RZrQrfDp/JFuOIJR+RAsh+u9TwZuk/iR9EUFHd8=;
- b=KV7WgxUw7V261i1+yAUhN+AjeZpWfusbpYUBm+vliI24ESyELbMq04NrF36KfgCG+t9pL/Txq7TixO+wWC0E0XkNgEJIfGc9vxT5SI0afuaGdIpr+BaDNZ6gyKSU8VFCzxuX7hBGdzIC2j7lYNzDEEQzkKUsaBI7wb8F7wXOXwKqw3sSrib0yb2t1ygg86NkFOhpUZy0YL+l9WzNQ4BSdPsfTs/FoX+jNNL4Ui5JN/eGsnQ7SHm0N4suQa0TsMiQImrE8opYwNIxBP7GWO6kD/qKwvr44eneKiadU9QefLWmEIvRPms2BTuhtmGLjimXNBD0qd6VsXNj3uP8RPfr4A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by AM8PR04MB7233.eurprd04.prod.outlook.com (2603:10a6:20b:1df::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.19; Thu, 6 Mar
- 2025 15:02:32 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%6]) with mapi id 15.20.8511.017; Thu, 6 Mar 2025
- 15:02:32 +0000
-Date: Thu, 6 Mar 2025 10:02:22 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev
-Subject: Re: [PATCH] ASoC: dt-bindings: fsl,imx-asrc: Document audio graph
- port
-Message-ID: <Z8m4/ljU4h6BtB7g@lizhi-Precision-Tower-5810>
-References: <20250306053138.1914956-1-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250306053138.1914956-1-shengjiu.wang@nxp.com>
-X-ClientProxiedBy: BYAPR07CA0038.namprd07.prod.outlook.com
- (2603:10b6:a03:60::15) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OQ6T3zfH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741275402; x=1772811402;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=zTp5ljnFS/0p1w24q0Jp66vKgxh0EpPHXOAApPe/t9I=;
+  b=OQ6T3zfHdUeikAeZaYLHMc8FjHealaw0xzbLIzYgcc2mUpQhzKLmLc/u
+   AvJIAn+jlCtCsYwkxSHAzHdnzb4ph3cceHkXh+gL4tOoqv4oZRs/Dvd0d
+   Ckt59kld6hC/y1kewLCp+K0P27ohZ7YPCY2fEMfprvNtcI9jt0a84P0k7
+   59XUs2V+ADIR87yKnkLhmFRz0S7BPNM4nHvD/dMjnE+7J3kN42dNpOFaY
+   zHJl0tfd51aWlpKnE6PDVOgFi+/OLddy9/ijCFuPY3VrZ7XNIVpNxvzSb
+   uddUajjcts7TxHaBAguUmfnsVsXc/fOYpSf9WD8aMcO8K+gjXbYHjBg11
+   A==;
+X-CSE-ConnectionGUID: +jfhDlvCSceiNjuJnUdyPg==
+X-CSE-MsgGUID: h7DvVQuiRSyu2UUfrrmbMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53278337"
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
+   d="scan'208";a="53278337"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 07:36:39 -0800
+X-CSE-ConnectionGUID: aOziWUOsTWyVBAaSERDkbA==
+X-CSE-MsgGUID: pQbj1YTRSZe+LdnKCR2a2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119565642"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.249.86]) ([10.245.249.86])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 07:36:37 -0800
+Message-ID: <97847fb3-3659-489c-a6a5-3a76cb048523@linux.intel.com>
+Date: Thu, 6 Mar 2025 17:37:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|AM8PR04MB7233:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7fd83afc-21f0-4f81-29ee-08dd5cbfebe9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?pMZj6wnVhUWFeP6SgNnBIex7Sd2089G/mOAPgtrOf3yBXkJDgL60FolaQLZB?=
- =?us-ascii?Q?r0X6o11TAJpZpGIEUXyUnYqWekE0lvHU5Ht3JxFyGyV52VaD0ohIQ6Sy9tW5?=
- =?us-ascii?Q?uNbDb7kY21GTqikxi47x7ZpEifZqB3dn1S5eGEBSaZgkIZfnVLrntXaOHwNJ?=
- =?us-ascii?Q?KLrEUguG87wLKEvBTwJ95tWwzcpWLUlmPWYkFvtUwhsh6Jlb2x7GCblIrNiH?=
- =?us-ascii?Q?D8jVhMLUiXgP8Dm5gqMvTeP1WLOgnFm+z0bvk/RODyBUB/GtP45YfPk0p/NL?=
- =?us-ascii?Q?CUWBMEUSfyfePFnukLqW1iGVvTfZ/JzDNx+tTKNcA/YfRgGDl+y98bV3/uzI?=
- =?us-ascii?Q?YgLCkbIz352ssXKTUePtQmO61xhrYAxYGVBM+b8Lymam8u7Nj0L1KPC6tBa4?=
- =?us-ascii?Q?ExJ57bJnIXiu4EW30IVFl6QYBn7ziRA8zYgDsgk1KTkzBlOLLwzszKMALlm2?=
- =?us-ascii?Q?cES5SaG02X6mY8eQoRuhwzqNDugzAW9ZukOpS2CxmiceQZDiPf7Lt56ca3i7?=
- =?us-ascii?Q?WLw25i8HAg9BwPiRtshxu2MFzuHH+IFLA2nFhj5wfOfI+CqzJElcGDlIBMx6?=
- =?us-ascii?Q?VBITBmEjts2ewR93eYo55z+GvinLqsBTXloT0Mj+hoakoEV33EawuDWK7NQe?=
- =?us-ascii?Q?ijVmxNdClkxa8SwP/qHlxcVNuPj7dfumObKs1xKDwXvQ9/6d+J62JkwFvjHX?=
- =?us-ascii?Q?TD4TEHgCBKVlmQ+5cSQsOHuSXBMkz3Pnh4Fb4FRYTgtNVZtTA1pX8ysiXe9b?=
- =?us-ascii?Q?hrCZA4kZkGeDwBxcThyZlyAw3ozlD19tpVgQT/lGWnf7KkgLalbtW+8/IEV6?=
- =?us-ascii?Q?Vx0s6HwYUgH+tKucBIm0Qe4IIEDAvLVqWgPkmm7Izl0ip04g9r+vvMbI0JyF?=
- =?us-ascii?Q?Aol7GwQqwKglyH/TkglEcEDHy25nYvX0peHsYl9qlbpgzDZoBgfY/rPeHsMn?=
- =?us-ascii?Q?fjhC6eHunsUU5+qnezcRammqnMh6EYAQ00REiD6ouN3UOHIcq/+Wk9Y30TRH?=
- =?us-ascii?Q?yMDcfCnSeEcT4Awk/6h4Rs/113Oa4KLNHsSlsrLpvLtcLLLbRUeLLnpS0/fA?=
- =?us-ascii?Q?l5bN77WfSov5ocpmZHh4jwP2kUKzA8Id4z626mTvePsUAPNsdCKKugkIjjpK?=
- =?us-ascii?Q?EanKASJpEG9UqQ1PaO4b7L/w9APGaO7/Ed5cjnN5c09d5oeqIuTchNr89dNJ?=
- =?us-ascii?Q?HxCOPJHP0vhjgx76XDksBnbc3udXLMEbsde2/XJquIlBEZnfqTPJy2QLxsrW?=
- =?us-ascii?Q?AAsRGlqvjIMVuEuGsGYEPfFNYPpWp5QKQG3f61Up4vupIpjnOKQx4uf8CD6f?=
- =?us-ascii?Q?foyHt1D0X6j/1ZVAXUtnMfpcA5V9wA1Mjgu7FtoUo+lS8gsp7gBSo405W9jX?=
- =?us-ascii?Q?wp7HUH7a8aEj3LJkE/sTkYp/HLlLOG77Z4Z4INpoKGfkzNpI3H/t5HsqMMYI?=
- =?us-ascii?Q?MJnN6c1OZiNLVoDmRaTTdSaRBiDmwM1m?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(7416014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?c79yFEGNgdAOszRPxJju/+TZ6dGBOrpvplu7BE86n61Z5uiztOOYX6rJ7J5a?=
- =?us-ascii?Q?ojaFrkKuRTYH0CUUO5uEEfiHh9j0LkDwkKXZuGOYjmYfKah3WZLgmvltYqtc?=
- =?us-ascii?Q?5tYOU3pi64pkv0fKZqhSDYYzeZJdgYwdGsIYfmoY4VY/LdNTc6dRW2+ulg8U?=
- =?us-ascii?Q?QE6/h5jhnJ9KNUlhvWgBL8BQw4LVFVuWhXGF+0Q3I30su+jp08Fj647EHb1j?=
- =?us-ascii?Q?F7ylcDp/+eZtsEMIJgwdoUKAsvk6U+xpgY7ILzWaMyhel9WHLcU7FHsHkb1g?=
- =?us-ascii?Q?1vxxLnOcNBePoWOXGWsih9UZPzQctSTwTObm9k3y5UgGHYzr4iq9anxxC+M5?=
- =?us-ascii?Q?txIwGjJcuMda8OdbQ+BYWB0UG8sCQCmpqV6qQUDVUwqXrAzt2Oik7sDhXead?=
- =?us-ascii?Q?ajrhFvldUgz69EXDJQJlIzk7A1LaRvx5pTUJMGwzrLusXdvwpCEDLGJX7MhC?=
- =?us-ascii?Q?HS4K5pX4psyUtCl/XiVdwt9npeujz3gwF/97AB8R/RtVvEtnq8pSwlUo5P0Y?=
- =?us-ascii?Q?wcBUIWJrcO+INOhe7ap2fitEydaieZzsFryRx5sTDdhwkD3CBmy5CiWp0osS?=
- =?us-ascii?Q?158hjS08HKTCIdHlZDmihI731hMryaTKsdJWm1cKQq9OdDkgmm6lkFs2nIA6?=
- =?us-ascii?Q?N6/NR2xAZORnc1H78MC57WKoRgdw67fBL8wtByRSgFSQf02xonDhj6Z+Aiyj?=
- =?us-ascii?Q?dUaPc4O6rSuco5Z9avSoTbHAMBhoM5hT/uzZPhdFMRhWpY1hwqrMrD06EgHr?=
- =?us-ascii?Q?rUwci4dsfAJ+nNaLUqT4r0qkapfyUGQc6BDk9PVo+6aVtro2iuGswBtZOrek?=
- =?us-ascii?Q?E2e9HEUnPtEpK9zqBwoZHd/nHmJro4I0mRSL1/tfzDe9aI/WzpjUu1XyZbig?=
- =?us-ascii?Q?UlhyvrRxEjyxp+bb0zA/sVs2Wxg6ufTVK4ynnAMn/FYERd//L2q+MTMa4lVC?=
- =?us-ascii?Q?SWIXFvPI32hFfQ8htiJWLuK46wW/Ay2T5VA4N9y4V0D5WPRz8CVEHPrPq+SZ?=
- =?us-ascii?Q?zZoKeSfI8RGh6IeUfT7lk2g5YxLDoge77TIaJW93ZGSF0GVLHmXgMoOP+9a0?=
- =?us-ascii?Q?xsULKfzYKfxOy+oUkHWEyLNse/zS+xlzYW6gEd7P04AIA266Q54ZufaYGOPH?=
- =?us-ascii?Q?Y6oVERcS5EzlQwGSAN3+bTjTjFL3PRX/iVgQ7Kuieu2FFqBmhq1r4ERqd/rZ?=
- =?us-ascii?Q?NO4UBh8u4WXm+3K6gMBUNE5tcKtIIryWOXtr9VEYjN9kD0/QSxxOiILzu63O?=
- =?us-ascii?Q?V6i3ZUK1uXNefE3bXRzdZ37+qvZdayvU8eWBTceDLSz6jzInq3Z/TTZ8XZ/7?=
- =?us-ascii?Q?41EbtUmzrq/a/N5q/bxkqSsohytTl+zdOIBnan5N7CGicnEUOKmhw7m0IlpW?=
- =?us-ascii?Q?JnVwHFjdGuKFbbKE4c2ZO/F6p/zH2iEyklIK4e8zlAzBOfUmaYndsYgtgwJT?=
- =?us-ascii?Q?qwTSikCg6w/9zsasxg7XzOJ2wB9Xf3IOp0AP4Vk2xR1mgTsgZBq664m5htmQ?=
- =?us-ascii?Q?e9vGa5hP2bUJL4qxHJ6zA6BONzI0IBQEMXB/M+37S8YGmigvcFSi5X0o3De2?=
- =?us-ascii?Q?mAid1yd+sB82pFt9NOjdTekMC9Bl0xubcdXlL2G8?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fd83afc-21f0-4f81-29ee-08dd5cbfebe9
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 15:02:32.4875
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vRPSl9qBZ3/+eYFG9faYHcyjQtHz75siHzMVJfHMowO/ZAm3RlNRpcm+xOK2NMNUHgtyL8OW0LHt7PYe88MgTA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7233
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/8] ASoC: SOF: ipc4: Add support for Intel HW managed mic
+ privacy messaging
+To: Mark Brown <broonie@kernel.org>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+ liam.r.girdwood@intel.com
+References: <20250306133527.16722-1-peter.ujfalusi@linux.intel.com>
+ <20250306133527.16722-6-peter.ujfalusi@linux.intel.com>
+ <07d7106e-97fe-4895-a471-db09f7a169e9@sirena.org.uk>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <07d7106e-97fe-4895-a471-db09f7a169e9@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 06, 2025 at 01:31:38PM +0800, Shengjiu Wang wrote:
-> This device can be used in conjunction with audio-graph-card to provide
-> an endpoint for binding with the other side of the audio link.
->
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-> ---
->  .../devicetree/bindings/sound/fsl,imx-asrc.yaml      | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,imx-asrc.yaml b/Documentation/devicetree/bindings/sound/fsl,imx-asrc.yaml
-> index abac5084d63b..85799f83e65f 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl,imx-asrc.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl,imx-asrc.yaml
-> @@ -77,6 +77,10 @@ properties:
->    power-domains:
->      maxItems: 1
->
-> +  port:
-> +    $ref: audio-graph-port.yaml#
-> +    unevaluatedProperties: false
-> +
->    fsl,asrc-rate:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description: The mutual sample rate used by DPCM Back Ends
-> @@ -174,4 +178,12 @@ examples:
->                      "txa", "txb", "txc";
->          fsl,asrc-rate  = <48000>;
->          fsl,asrc-width = <16>;
-> +
-> +        port {
-> +            playback-only;
-> +
-> +            asrc_endpoint: endpoint {
-> +                remote-endpoint = <&fe00_ep>;
-> +            };
-> +       };
->      };
-> --
-> 2.34.1
->
+On 06/03/2025 15:42, Mark Brown wrote:
+> On Thu, Mar 06, 2025 at 03:35:24PM +0200, Peter Ujfalusi wrote:
+> 
+>> Platform code can call sof_ipc4_mic_privacy_state_change() to send the IPC
+>> message to the firmware on state change.
+> 
+> What's the plan for that plaform code - is it expected to be the machine
+> driver, or something else?
+
+By platform code I mean here sound/soc/sof/intel.
+
+This feature is only available for Intel hardware, but I wanted to keep
+the APIs as open as possible for other vendors.
+
+The reason for the implementation is that the interrupt about the change
+in mic privacy is delivered via IP interrupt (piggy-backing on them).
+The interrupt is delivered to the owner of the IP:
+DMIC is owned by DSP, so firmware can handle it
+SNDW is owned by host, so Linux is handling it.
+The firmware needs to be notified of a change to do a nice fade out/in,
+the software cannot block or do anything else, the incoming stream mute
+is done by the hardware.
+
+No plan to integrate it to machine drivers, this is outside of the scope
+of SW. The feedback is also handled by hardware internally.
+
+-- 
+Péter
+
