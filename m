@@ -1,119 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DFB156F5D
-	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 14:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741269933; cv=none; b=AVM1drLsyeSg6MaPP+zAPegfY8x5pPRnh1NXzQDYnM45nox1hpMs0rcQnkkUhw1M5JrdFDD2a4rgHFWFIWygNCkMzmEecxrpLQjezk78Paogl7gcPrW/2c/6ewcTYmYGwp7tndoV4EKUQ8gI9VcBGp8fNUiUnjHyWzz1SzL2saQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741269933; c=relaxed/simple;
-	bh=eSV3PtozHSAlgJ2C00YYOwr6H8hG/iqpvkJLlDwGZhs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=laEmYCG06m/Ksom84GdL8qfvzV8mtLqdKYptbkP4/iyDRJtzddRJkI0XC8NdXd5OJ8h6aAiUNxM/TNWJ6PRvnoAvQNqJPRrTOwIs08V721SUQyYW/mR8hneINoDnAdEtPvv1eeDhWe3s5U6scQjnAfaCNgg3G6wkviAwmVykuHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bq6cajvG; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475F4DF71;
+	Thu,  6 Mar 2025 14:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741271989; cv=pass; b=tkSGiZt/t2jmr8gmCn0nTtVt6sVJLEWTVQs8O9K7lJJNE9FjMAfurrU9VFq4O8RPe11ZlBTM3wZAgjr4UFm+/Af4bpXQvgDghm616YIHqodGC5Aem18kfXq/vbKribrJ8KJpLharBE3XyoIZUlkolNhbiImXKg7+HcwH/8SgQPg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741271989; c=relaxed/simple;
+	bh=WwQuaLVdpGWctaHJJ2OorTeu2KK/SiSnnjYicksgVYM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XbysQ4X2eDFyEgK5v4YY0OR1TLNcsDqyVVyXD/JxKd0vINpurKv+NL58+fpEjaj9wWnnvHV12tTXdq8Il93LrPyTbiEoNKSiikTIH83QIla5WMFJ43Ojb0WjkL3IgRihV2UNEs6ftkvcjk7E7SHKVt2mSZw/nnpl4Rw5X8IIDsM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=DlU/j4Al; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bq6cajvG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741269932; x=1772805932;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=eSV3PtozHSAlgJ2C00YYOwr6H8hG/iqpvkJLlDwGZhs=;
-  b=Bq6cajvG9Bde2ARXC/CGEvkfVGMExz9R1iT7h79hRbqe7A9UrZY2tM5T
-   ATF1Z/kQsuKfW0KeaBMizuV3iNDKv7c9Z21zcZ5PaPtMeCNheO9Kf7u/M
-   H6F3aw1ubJEjiNRnou61DE02xg9z++GbJN3OyumSivvqLrOmkmLur/4WP
-   EkUzY+bkr5nWu/aMM7eLxqaK6+ifQZkU/1qsLBxvSK/cV5GQ09uX0Xm2u
-   rvQC6DMeap3SHFFnb+8qqW55bZ/95ct0RvicE3ijvMc1HFlagmLkT2NDO
-   Al60HE/oj9//aTTEdJ9eej57NoGM2mLmAx5LTZCKMAD9IoGY+Pgfo0fHo
-   A==;
-X-CSE-ConnectionGUID: SVpSswHJSx+t53Wsv04uwQ==
-X-CSE-MsgGUID: 16V7kdVRS4afyb0YMbEjxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="46048699"
-X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="46048699"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 06:05:31 -0800
-X-CSE-ConnectionGUID: xRv7Wfp1R6emY8Sksdtv5Q==
-X-CSE-MsgGUID: OFRGuB2HRfulMpzsgSzuIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="124044405"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 06:05:28 -0800
-Message-ID: <2eabbadd-e433-456f-a744-4dc9c843c051@linux.intel.com>
-Date: Thu, 6 Mar 2025 15:05:25 +0100
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="DlU/j4Al"
+ARC-Seal: i=1; a=rsa-sha256; t=1741271947; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=f189TiqKaVtBiJW/aJ8g/VLuBqrAnVJqp8Mg2EopEtKZc26oVpxnjy3yehtmCDoo7D4qpSuK2NmEzpCweb7fR1vqnggfZN0noKIBt+yfDGOcC1uhUZIAGA8yZYx74hhwrwaZEpjp2bGyadbSpMw4YHKVmfZ+Gi9AdEMXyu/pQIY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1741271947; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=+//d8YaKM1HPYqDbAwn6xqi0NfBlNp/hPbdkEog/gtk=; 
+	b=e8b6+txvoTW3oZGE3zpaG4sgldvr/Ox9KnpAFU2TXac4jwwo/mjAZbNI+bNsUgjOd3YcBTHybdb6vyfZmkaJ1/kuSSRfTTPwO5nMKIh+iLpycP8XGJudZZ2S17xn37AE4HiodVgkij8pYRIYdnAmsIkaNN9RdO9HA63T1icpEqA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741271947;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=+//d8YaKM1HPYqDbAwn6xqi0NfBlNp/hPbdkEog/gtk=;
+	b=DlU/j4AlaxuLJoq2T4Afnf+/npcH5yCOio/5SydONGIIzFiTihflwKdetE1L4f5i
+	oU8XkhJfbAcv9FsopV7l8iiEoRqCD7Peurlo8e+86FEExWdz10aAS5tim1rjOfWdJul
+	Sln4vqPfohijJjafwzjQkBltx8lP5D19+krFhHA0=
+Received: by mx.zohomail.com with SMTPS id 174127194550959.191258083911634;
+	Thu, 6 Mar 2025 06:39:05 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Sugar Zhang <sugar.zhang@rock-chips.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>, kernel@collabora.com,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject:
+ Re: [PATCH 3/7] ASoC: dt-bindings: add schema for rockchip SAI controllers
+Date: Thu, 06 Mar 2025 15:38:58 +0100
+Message-ID: <8514337.T7Z3S40VBb@workhorse>
+In-Reply-To: <81d60550-4929-48c1-b4d3-1473b902bf12@kernel.org>
+References:
+ <20250305-rk3576-sai-v1-0-64e6cf863e9a@collabora.com>
+ <2376575.ElGaqSPkdT@workhorse>
+ <81d60550-4929-48c1-b4d3-1473b902bf12@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] ASoC: SOF: Intel: ptl: Add support for mic privacy
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
- broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
-References: <20250306133527.16722-1-peter.ujfalusi@linux.intel.com>
- <20250306133527.16722-9-peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20250306133527.16722-9-peter.ujfalusi@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On 3/6/2025 2:35 PM, Peter Ujfalusi wrote:
-> Implement the three callbacks that is needed to enable support for
-> reporting the mic privacy change via soundwire.
-> 
-> In PTL the mic privacy reporting is supported via soundwire and DMIC and
-> the soundwire is owned by the host, it's interrupt is routed there.
-> 
-> To enable the interrupt, the sublink mask needs to be passed to the
-> multilink layer, the check_mic_privacy_irq/process_mic_privacy callbacks
-> needs to be implemented to check and report the mic privacy change.
-> 
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-> ---
->   sound/soc/sof/intel/ptl.c | 58 +++++++++++++++++++++++++++++++++++++--
->   sound/soc/sof/intel/ptl.h |  5 ++++
->   2 files changed, 61 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/sof/intel/ptl.c b/sound/soc/sof/intel/ptl.c
-> index ae8e9e08ad2a..eeb86c228b2a 100644
-> --- a/sound/soc/sof/intel/ptl.c
-> +++ b/sound/soc/sof/intel/ptl.c
-> @@ -18,10 +18,62 @@
->   #include "lnl.h"
->   #include "ptl.h"
->   
-> -int sof_ptl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops)
-> +static bool sof_ptl_check_mic_privacy_irq(struct snd_sof_dev *sdev, bool alt,
-> +					  int elid)
-> +{
-> +	if (alt != 1 || elid != AZX_REG_ML_LEPTR_ID_SDW)
+On Thursday, 6 March 2025 14:43:21 Central European Standard Time Krzysztof 
+Kozlowski wrote:
+> On 06/03/2025 14:13, Nicolas Frattaroli wrote:
+> > On Thursday, 6 March 2025 08:42:54 Central European Standard Time
+> > Krzysztof
+> > 
+> > Kozlowski wrote:
+> >> On 05/03/2025 22:24, Nicolas Frattaroli wrote:
+> >>> Rockchip introduced a new audio controller called the "Serial Audio
+> >>> Interface", or "SAI" for short, on some of their newer SoCs. In
+> >>> particular, this controller is used several times on the RK3576 SoC.
+> >>> 
+> >>> Add a schema for it, with only an RK3576 compatible for now. Other SoCs
+> >>> may follow as mainline support for them lands.
+> >>> 
+> >>> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> >>> ---
+> >>> 
+> >>>  .../devicetree/bindings/sound/rockchip,sai.yaml    | 151
+> >>>  +++++++++++++++++++++
+> >> 
+> >> Filename based on compatible.
+> > 
+> > Sure, but more compatibles will follow. Are you certain you want a file
+> > named rockchip,rk3576-sai.yaml to then contain rockchip,rk3528-sai? If so
+> > then I do
+> Yes (or the other way around if 3528 is older)
 
-alt is bool, so let's be type aware and either "alt != true" or just "!alt"?
+They were released at about the same time from what I know. I'll pick the 
+RK3576 though since it was the first to get upstream support.
 
-> +		return false;
-> +
-> +	return hdac_bus_eml_is_mic_privacy_changed(sof_to_bus(sdev), alt, elid);
-> +}
-> +
-> +static void sof_ptl_process_mic_privacy(struct snd_sof_dev *sdev, bool alt,
-> +					int elid)
-> +{
-> +	bool state;
-> +
-> +	if (alt != 1 || elid != AZX_REG_ML_LEPTR_ID_SDW)
+> 
+> > not understand the reason behind this policy.
+> 
+> So the name will match hardware, instead of sai.yaml, sai2.yaml,
+> sai3.yaml and sai-green-frog.yaml.
 
-same here
+Downstream called the compatible "sai-v1" so you're onto something here I'm 
+afraid. :)
+
+> 
+> >>>  MAINTAINERS                                        |   6 +
+> >>>  2 files changed, 157 insertions(+)
+> >> 
+> >> ...
+> >> 
+> >>> +
+> >>> +  dma-names:
+> >>> +    minItems: 1
+> >>> +    maxItems: 2
+> >>> +    oneOf:
+> >>> +      - const: tx
+> >>> +      - const: rx
+> >>> +      - items:
+> >>> +          - const: tx
+> >>> +          - const: rx
+> >> 
+> >> Why all combinations are possible?
+> > 
+> > Because they are. sai5 in rk3576 is rx only. sai7 is tx only. Others are
+> > both
+> What is sai5 and sai7? Instances on the same chip? Does it mean some of
+> instances can only receive and some only transmit?
+
+sai5 and sai7 are instances on the same chip, yes, see rk3576.dtsi changes in 
+this series. Some instances can only receive, some can only transmit. Some can 
+do both. I think the way I wrote the binding already allows for just "tx", 
+just "rx", and "tx, rx" but not "rx, tx", which is I think what we want here.
+
+> 
+> > tx and rx. Do you want me to enforce that those with both are always tx
+> > followed by rx?
+> 
+> Best regards,
+> Krzysztof
+
+Cheers,
+Nicolas Frattaroli
+
+
 
