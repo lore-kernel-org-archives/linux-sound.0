@@ -1,147 +1,81 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B80269B12;
-	Thu,  6 Mar 2025 17:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B62326BD82
+	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 18:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741281748; cv=none; b=eI2emSnSHE3ExG3yOFaZF984CrHekbfy7X6gAzfDZPplbNYG3AL/ZDKivLpemzUa4Hw7zA1TpucDSYXXIZmdft4vdgav9j87YVmKU7EzTMnFQvCeGCXGP+iI54BCrAruo17yaU8bZjzfMv/nqVX4/uaczlkxHKQRMlll0873Sf0=
+	t=1741287493; cv=none; b=S4TQDCXaB6ZvpiTcjcmIIbr5xBSxo+31ksc9QynfB0mumymd9KxTEz51diQbi6ntFpVmnRQlnRuaciRxhDVxQwtDQvV7Q6yj8clNtE0QsJIomlthyUxYPHgTvv5GQ8GR7JQcycBdqyNiKZfcLjcp73FnU4umRVRIncZBJ6q+omU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741281748; c=relaxed/simple;
-	bh=HRBm/Oot1TUfs1y8xS2C+sYEPpBogIjf8tRBM2T1dYk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F7mPNkK+vSpK9NEI4Txvd1ssnWQi7qLlJUgSKo9EzQZmaBHHzoo8f43Vca3E4bJ6mOTOm2os4gT3b+ti6zx0w7FqhYvVabg4LBYazEFpwafWwbQ7JrZ71bZ61P9AHOYvpYkUPQXCyj4Xwcw32zGrTxsl7zqrtv/YedSZhC9voy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=3rtuLGp9; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1741287493; c=relaxed/simple;
+	bh=eK+Yj+VKPWt1B97GMbBJP0QS/M03xhSXexYkA1evFJw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZAba8cHoHNUQK/P1F4AXWam9Fbealdt1iX9udw0wzERxIUhfsE556//hkp1ENw/ThCNqei/Nj21p7RUG9o2r6vA3qSwr2bUtboE2lziM43ENZZErxNK2rL8LCQpfJiuIn6Ke5PU7YsJhpB+GC4ExJGL9t7Q4/kPXmueLDClNm18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P45IeOgY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="3rtuLGp9"
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 526H1lH8023601;
-	Thu, 6 Mar 2025 18:22:07 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	3q2UpESHByLT6vptLy/ukIpQLBJg/EwgyUQuNp/7HuI=; b=3rtuLGp9ww+C0FcG
-	kEJ763nLrVx28Tu6t5Togc6KEDj0Hh5HdPbNlssCfWGGUjCAhKhX+QjyMDLd0JEc
-	wmLcdA5Y2WjZswxx2TS5JsyN8XclLfp4sWW6UkWbFL0wb+UUahDyKlKkwFC7T/Q6
-	dmtRfOuUUHKhC5vr9rYaBm4IsUuYEeIi6mUB+9c/haF3P3/E5XtmxyFzWN3IFR50
-	K8R3UhR+uJQtDvaAnbHqHM/84/vTfcE5KTBu4bB22RtO63Ozl6xuF74Y4UW5Xt4J
-	5d1hXFQh2pNdA40oAY/Ol7+tkDwFnpNavnjPlPJr2fkQBaWZqE4Elr2cfrPUOYfo
-	WbzRpg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 457dr0h88x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 06 Mar 2025 18:22:07 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B0B5D40077;
-	Thu,  6 Mar 2025 18:21:30 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7E47E5B9F3B;
-	Thu,  6 Mar 2025 18:18:50 +0100 (CET)
-Received: from localhost (10.252.22.44) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 6 Mar
- 2025 18:18:50 +0100
-From: Olivier Moysan <olivier.moysan@foss.st.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: Olivier Moysan <olivier.moysan@foss.st.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] ASoC: dmic: add regulator support
-Date: Thu, 6 Mar 2025 18:18:40 +0100
-Message-ID: <20250306171840.593443-3-olivier.moysan@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250306171840.593443-1-olivier.moysan@foss.st.com>
-References: <20250306171840.593443-1-olivier.moysan@foss.st.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P45IeOgY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D1D7C4CEE8;
+	Thu,  6 Mar 2025 18:58:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741287492;
+	bh=eK+Yj+VKPWt1B97GMbBJP0QS/M03xhSXexYkA1evFJw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=P45IeOgYUO+IahHpk3VYxXxxMUSWp2IjPnm3qgr3cd20sohvhhtja3XbK3+lTk6Ob
+	 jy97rJLGtUeXUm77SkQTcLEHzZxZQjkrie9MLlqVO4FahHLUJzzXxpXDuXlzfz1+VA
+	 Ka9DonS8lqGVogPS//tfI3qTZO+Vv+q2IVSwfksqxCU4KKoW5NL7cy3oWGss1ZzdLY
+	 oGq2Y/6E8+Myc9EoSPwTByaxcThMrewK6IU0yBZM7R2JWkNPWOs+bAmt+JKLoMNQS1
+	 +wGSjptvEkAz/fdKBF1e4FI98CPvLtywH/WxLQBr2VaQr7mnVXyfbfaN2Vy8WQh7GA
+	 ETTFjNXC5c9FA==
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <871pva6hs2.wl-kuninori.morimoto.gx@renesas.com>
+References: <871pva6hs2.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: soc-dai: add
+ snd_soc_dai_mute_is_ctrled_at_trigger()
+Message-Id: <174128749188.180401.14532177427291201878.b4-ty@kernel.org>
+Date: Thu, 06 Mar 2025 18:58:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-06_05,2025-03-06_01,2024-11-22_01
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-Allow management of the regulator that may be used to supply the
-digital microphone.
+On Thu, 06 Mar 2025 01:59:25 +0000, Kuninori Morimoto wrote:
+> Adds snd_soc_dai_mute_is_ctrled_at_trigger() to judge
+> dai->driver->ops->mute_unmute_on_trigger flags
+> 
+> 
 
-Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
----
- sound/soc/codecs/dmic.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+Applied to
 
-diff --git a/sound/soc/codecs/dmic.c b/sound/soc/codecs/dmic.c
-index 0388f115470c..5d3c3f17c6d8 100644
---- a/sound/soc/codecs/dmic.c
-+++ b/sound/soc/codecs/dmic.c
-@@ -9,6 +9,7 @@
- #include <linux/gpio.h>
- #include <linux/gpio/consumer.h>
- #include <linux/platform_device.h>
-+#include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/module.h>
- #include <sound/core.h>
-@@ -25,6 +26,7 @@ module_param(wakeup_delay, uint, 0644);
- 
- struct dmic {
- 	struct gpio_desc *gpio_en;
-+	struct regulator *vref;
- 	int wakeup_delay;
- 	/* Delay after DMIC mode switch */
- 	int modeswitch_delay;
-@@ -55,22 +57,33 @@ static int dmic_aif_event(struct snd_soc_dapm_widget *w,
- 			  struct snd_kcontrol *kcontrol, int event) {
- 	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
- 	struct dmic *dmic = snd_soc_component_get_drvdata(component);
-+	int ret = 0;
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_POST_PMU:
- 		if (dmic->gpio_en)
- 			gpiod_set_value_cansleep(dmic->gpio_en, 1);
- 
-+		if (dmic->vref) {
-+			ret = regulator_enable(dmic->vref);
-+			if (ret)
-+				return ret;
-+		}
-+
- 		if (dmic->wakeup_delay)
- 			msleep(dmic->wakeup_delay);
- 		break;
- 	case SND_SOC_DAPM_POST_PMD:
- 		if (dmic->gpio_en)
- 			gpiod_set_value_cansleep(dmic->gpio_en, 0);
-+
-+		if (dmic->vref)
-+			ret = regulator_disable(dmic->vref);
-+
- 		break;
- 	}
- 
--	return 0;
-+	return ret;
- }
- 
- static struct snd_soc_dai_driver dmic_dai = {
-@@ -100,6 +113,10 @@ static int dmic_component_probe(struct snd_soc_component *component)
- 	if (!dmic)
- 		return -ENOMEM;
- 
-+	dmic->vref = devm_regulator_get_optional(component->dev, "vref");
-+	if (IS_ERR(dmic->vref) && PTR_ERR(dmic->vref) != -ENODEV)
-+		return dev_err_probe(component->dev, PTR_ERR(dmic->vref), "Failed to get vref\n");
-+
- 	dmic->gpio_en = devm_gpiod_get_optional(component->dev,
- 						"dmicen", GPIOD_OUT_LOW);
- 	if (IS_ERR(dmic->gpio_en))
--- 
-2.25.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: soc-dai: add snd_soc_dai_mute_is_ctrled_at_trigger()
+      commit: 5d5eceb9bb1050774dadc6919a258729f276fd00
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
