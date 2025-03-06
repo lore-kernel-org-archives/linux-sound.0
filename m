@@ -1,106 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FE9204698
-	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 10:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B901F1853;
+	Thu,  6 Mar 2025 12:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741258235; cv=none; b=AwXv2+0o6KqIgPLu7YpQhBqBO8N2WPTPAt9rfIqntbbigLEDxkoYegUgVvCgqUyMJyb7kGemvINlc1kJc2DbpEGTLgKU3/Rgu6NIh4aluqzqRX3CwZ/xkUE8hYaTJvvN+/YcmWlMm5o1gj+SnG+eUnpYOzHl3AiGrpkwCnGVCrw=
+	t=1741263579; cv=none; b=J6lEUuYlmAqhFoj5LXfCmVC2TR+CRhTexfh9CYY7HjUINUVgx3LbbAM7eYF2QULRqha49IuaXoF5VNKdyfwxo8RvwmrOy8hx8bZy5/IRZEuRawT/fiL9bYYcTZUvyaCzTSl1RuYPiT/7IsF/i94idqTfHTxKXt3++A4DhuP504E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741258235; c=relaxed/simple;
-	bh=T/n38NAEWA6etPjtyB+FULHf2WKp/ShGrPNrs/ztVEY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GRsIpuVlzfsT6hSw1JJYeBBnvVB+1xtMIorO4PA5FAU0dPBA8ZZwGrMUnrvJa5tVflrVTLsFJlnfLGFVXTX1TfV6JgwpPjdlaaEwEu4PF140bGhDJUGmbK4MDPDplrfBvvP8YNTpxkbFLPBVBS1ruoSvila3zXN3cv/iylFYbbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B6xqp8Ye; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1741263579; c=relaxed/simple;
+	bh=bRmppDD3UR7+vn2dZ4ulwCSuB4hzHfQscGhABBmBL1o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mITzGx5o+ZFl3664l0KltsHvgpJK8QfwZ21lPc8+FuwLMjfVsLFjaSOOs+uSnuVq666oO9DMwhHa2OFsDC8osWqZj8UG7SRwEL99/W1WwgbkGVL2+wlnBDqbCeXgLbFGwHhgk/xmc/PCMODYXjHTRIMr89oifaoJha+HQkGMiiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jTAC4v8c; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B6xqp8Ye"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741258234; x=1772794234;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=T/n38NAEWA6etPjtyB+FULHf2WKp/ShGrPNrs/ztVEY=;
-  b=B6xqp8Ye+LKZ1lTqb03kUEeL7lT2RShp+vIamzicv/gErlU3XvhT2VKG
-   g3oGpLf6rHJjPhpuDRJmU90YfOMx+7t0SCvn9OcOvuy6NZM3AJAOXRixg
-   KySu2w2P7ac3hkafef6GrGm2LzEatpyFQn9+bvuxygwGL8OUqwjSS1Vgl
-   eNRiPqlh7NkjuqusrdEO/xbSPmEuQZQQUz82y7UC5ft5qk0s6t2Bw4Tv3
-   tbLustZTFxtZOMfWOPR2LpkvDkDZ+K2JVtIhsv32YjqUxWrYRtgLZj7aK
-   Lvf/htMLgXhAP1O4hHJW+9FkDW/MhW+yyCKAjtpH7gYABEuIAUUl0Wmir
-   Q==;
-X-CSE-ConnectionGUID: dlYBhId5ShWBekb2hXqZpw==
-X-CSE-MsgGUID: UnZ6uOL5SbW6bINcvgg6dA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53245331"
-X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="53245331"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 02:50:34 -0800
-X-CSE-ConnectionGUID: vSr/iggkQ+GuXENSNZ7G3A==
-X-CSE-MsgGUID: 71YzNRiFQFygW+xg0mx+7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="119487472"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 02:50:33 -0800
-Message-ID: <7b9735d9-8bab-47e4-bee9-77a6c195e562@linux.intel.com>
-Date: Thu, 6 Mar 2025 11:50:30 +0100
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jTAC4v8c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1741263569;
+	bh=bRmppDD3UR7+vn2dZ4ulwCSuB4hzHfQscGhABBmBL1o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jTAC4v8chbBR5zWYrExx/9feWvRDBAz/LoFBo5IIwdoskEr4r4MBezh1BjF9cWhn+
+	 tjB7pNeZO9E8O5wZ/xWAtARkBL4EenhqpLMpN4Sp66HE4LZy/cnIayknvG3sKTf/ai
+	 np6xd/fWMbxKm90MukAR1sIuNERigRVsSFFop5ejqhGc0Digb+w8PbAGR1fIbfS1Py
+	 P+Y5J87e1U0tGrR+x5Lc4aBMzRGYVBxmsFwm39XSPtjG719uhridTSX2nTINBVrex1
+	 N+P0+LiOw6QYBsUCy8Gwd6bSotIzLjdiNVXEZfU0lhOmHxBx21VBn6l3KVwg1eyxYg
+	 kLxABJhWONk/g==
+Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1002])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id CF14317E09AA;
+	Thu,  6 Mar 2025 13:19:24 +0100 (CET)
+Date: Thu, 6 Mar 2025 09:19:22 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
+	Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, kernel@collabora.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v4 01/19] dt-bindings: mfd: mediatek: mt6397: Add accdet
+ subnode
+Message-ID: <2fa6037d-b5e9-45b2-a5d5-dbc92fb3434b@notapiano>
+References: <20250305-mt6359-accdet-dts-v4-0-e5ffa5ee9991@collabora.com>
+ <20250305-mt6359-accdet-dts-v4-1-e5ffa5ee9991@collabora.com>
+ <20250306-certain-jasmine-mastiff-fd67ba@krzk-bin>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: soc-pcm: tidyup function name to
- snd_soc_dpcm_be_can_xxx()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-References: <87zfhy537a.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <87zfhy537a.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250306-certain-jasmine-mastiff-fd67ba@krzk-bin>
 
-On 3/6/2025 2:59 AM, Kuninori Morimoto wrote:
-> We have similar but different function names
+On Thu, Mar 06, 2025 at 08:57:27AM +0100, Krzysztof Kozlowski wrote:
+> On Wed, Mar 05, 2025 at 03:58:16PM -0300, Nícolas F. R. A. Prado wrote:
+> > Describe the accessory detection (accdet) module as a possible subnode
+> > of the MT6359 PMIC.
+> > 
+> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > ---
+> >  .../devicetree/bindings/mfd/mediatek,mt6397.yaml   | 51 ++++++++++++++++++++++
+> >  1 file changed, 51 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
+> > index 6a89b479d10fad3c8b61cab5a3af1453baca4d1a..51012b8bbfaef3df7bdb619a4f8d828d6f9cc15a 100644
+> > --- a/Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
+> > +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
+> > @@ -24,6 +24,7 @@ description: |
+> >    - LED
+> >    - Keys
+> >    - Power controller
+> > +  - Accessory Detection
+> >  
+> >    It is interfaced to host controller using SPI interface by a proprietary hardware
+> >    called PMIC wrapper or pwrap. MT6397/MT6323 PMIC is a child device of pwrap.
+> > @@ -224,6 +225,30 @@ properties:
+> >      description:
+> >        Pin controller
+> >  
+> > +  accdet:
+> > +    type: object
+> > +    additionalProperties: false
+> > +    description:
+> > +      The Accessory Detection module found on the PMIC allows detecting audio
+> > +      jack insertion and removal, as well as identifying the type of events
+> > +      connected to the jack.
+> > +
+> > +    properties:
+> > +      compatible:
+> > +        const: mediatek,mt6359-accdet
 > 
-> 	snd_soc_dpcm_fe_can_xxx()
-> 	snd_soc_dpcm_be_can_xxx()
-> 	snd_soc_dpcm_can_be_xxx()
-> 	             ~~~~~~
-> Let's unified these to can_xx
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->   sound/soc/soc-pcm.c | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-> index 8d88971bdea3..73b05b8f5a07 100644
-> --- a/sound/soc/soc-pcm.c
-> +++ b/sound/soc/soc-pcm.c
-> @@ -36,7 +36,7 @@ static inline int _soc_pcm_ret(struct snd_soc_pcm_runtime *rtd,
->   
->   /* is the current PCM operation for this FE ? */
->   #if 0
-> -static int snd_soc_dpcm_fe_can_update(struct snd_soc_pcm_runtime *fe, int stream)
-> +static int snd_soc_dpcm_can_fe_update(struct snd_soc_pcm_runtime *fe, int stream)
->   {
->   	if (fe->dpcm[stream].runtime_update == SND_SOC_DPCM_UPDATE_FE)
->   		return 1;
-> @@ -1632,7 +1632,7 @@ void dpcm_be_dai_stop(struct snd_soc_pcm_runtime *fe, int stream,
->   			return;
->   
->   		/* is this op for this BE ? */
-> -		if (!snd_soc_dpcm_be_can_update(fe, be, stream))
-> +		if (!snd_soc_dpcm_can_be_update(fe, be, stream))
+> You just removed the other file, no folding happened here. Drop the
+> accdet node and fold this into parent.
 
-Not sure if some part of patch is missing, but shouldn't definition of 
-snd_soc_dpcm_be_can_update() be converted somewhere? I see only calls 
-and _fe variant.
+Sorry, I'm still not sure what you mean by folding here then. Right now the
+accdet is a subnode of the PMIC. If you want me to remove the accdet node, where
+would its compatible and property go?
 
+    pmic {
+        compatible = "mediatek,mt6359";
+        interrupt-controller;
+        #interrupt-cells = <2>;
 
+        accdet {
+            compatible = "mediatek,mt6359-accdet";
+            mediatek,hp-eint-high;
+        };
+    };
+
+Thanks,
+Nícolas
