@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6B2946C
-	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 13:35:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D213946C
+	for <linux-sound@vger.kernel.org>; Thu,  6 Mar 2025 13:35:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741268116; cv=none; b=g7BQebKeBA9x2z0//eRyWQAcPbPw3UdnE9MbPEPLWSd6hUmR5CRBeWDGOZP78eqncCpsiDO/YUrMFnqCX86Ng/CpN1SAgT3twNbe12v3xFL/DQPjfjnxqwLq47uFYrmcAKG8KJ5ALjyS4ODgbxtgQXc6av/i+op/WwYGrRaTmhw=
+	t=1741268119; cv=none; b=JlwNQRCuqvoCAJiODp6WELl3Vapfu8V5uMx/Uu0BCqCC7CSB1urjgygqfwuP/cmME+1qeCIYMWe9zZpW/zjT+QEpTCJOF2oi3tTZU4YnwvWvYeZ+pIEkLWSCRJPKZlTMlJtswHLkr9wew7jL/Yvag6wg0WHh1Y7DEPUAQo1zJUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741268116; c=relaxed/simple;
-	bh=5hYS0wPolyf1ZN4Ynbwm86Z88R7AeoYO9JE6c4Fl0mo=;
+	s=arc-20240116; t=1741268119; c=relaxed/simple;
+	bh=1iqpHSQxqzdDEdT8bSiVNBcx/JhZqRZsDKzSLsZ1+BM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RqLprx9yWo766nm572YsRLUVB0N4WlRoGMwidzKlBZZth0BuBt78FEiR02Ng8Ug1xxchxJ0pqCtaFDbeNvL/coc8Qbk4jdOmG166qH8+bB9kM+Ug5EKIbIwMB3kJWiHrlun+CXkfPPZEhrUHJ0KQbXC35kp/32uqvMBrAAszFGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jqpPR11P; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version; b=ljdgdzPKIRE1wUEFu0O4kjKII5Hfr2WaAXQOFj42VloGJRxpIP/Gv9YqPI9KRh2bK/0jYkJzs+PZFVFfwoMskWaGhYphSvyIFhYZHG/BaM1XyzcwJhA2Ic+XQlv3lRq9xn4eGpuPVTzJjb2LbcaaXYN9/2IfD5xlJy7gposq4n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWRlfzA3; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jqpPR11P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWRlfzA3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741268115; x=1772804115;
+  t=1741268118; x=1772804118;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=5hYS0wPolyf1ZN4Ynbwm86Z88R7AeoYO9JE6c4Fl0mo=;
-  b=jqpPR11P8iWC6pZ8I51nTWAK9jHYOvUuBx2rImUaFoKg19J3NRqEfvrc
-   oBXLE6ssbSji0vq/U1i7otfr3PrbTDMljSZ8RIEo8Tq9utNWeegrlSgY8
-   jucIerPXp8koVji2fW3DWROdjy5GZDUuTZrlTGPtOphpDIPYtusCZJ/q5
-   duOeJjPzv4SdGz0p5HyySRwt0MWMEZhDntR4X7Ak5QrmxqXE3qL7ENAYn
-   5D8keiqGAVP2NgdcVKEAQq92TYULpKhNy0XG7D6yFAxUJA6++xbcgq9UQ
-   ZuLjSVV8DlSUhzg8Knf5q7HfYcsyarp2szuxp+fPo6OnORXkrNctdACQ1
-   A==;
-X-CSE-ConnectionGUID: edgr7y8URp63cxRRkHp7YQ==
-X-CSE-MsgGUID: 6BhWCIMpStKM+2afenlJoQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42164725"
+  bh=1iqpHSQxqzdDEdT8bSiVNBcx/JhZqRZsDKzSLsZ1+BM=;
+  b=iWRlfzA3tw0HQOF3d5HeatBGVPjkf425RCQytdUC5DLrdRDrzBz3wEKf
+   +/9hp9Cbv/JJ5gPMgzhJg93t+2HPZa3UiYzpkY9PjsoDdTnuZkMViioOj
+   WxTv7na62ahUR0zy2XOU0+ckHt6wXOH2baopRL+vTB/a7CTn3LHuPsHoc
+   t6n2joydVtyOHjzkoxAzybCcUKZZUAxd6gpJwrTaueDUHVuo5tuewb5jO
+   Y55DuPfhUx6pfzc4RbfN/bKDSMUKxBC7uGl5DJSp2h2Gyl/AKy6yq5ifz
+   HlkWSq1//bUKBtQLo02Isb8fbPI1k6GTUSpSLDlC/F4Pquf0lsTB6TmKs
+   w==;
+X-CSE-ConnectionGUID: wMIW4wD/QlOrYKd+k8M+Vg==
+X-CSE-MsgGUID: ZLqe8odDR+6huoiglzQ9Lg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42164735"
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="42164725"
+   d="scan'208";a="42164735"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:35:15 -0800
-X-CSE-ConnectionGUID: k0KpcAcMS/eEWLCtNhJs8Q==
-X-CSE-MsgGUID: wtu5mZ2vQZOD6+j+x2tD9g==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:35:18 -0800
+X-CSE-ConnectionGUID: +TWGsuOvRc+mlSY82Z3daA==
+X-CSE-MsgGUID: o6KBNSzVR02u3ohPlJph7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119539046"
+   d="scan'208";a="119539055"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.249.86])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:35:11 -0800
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:35:15 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -52,9 +52,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	liam.r.girdwood@intel.com
-Subject: [PATCH 6/8] ASoC: SOF: Intel: hda-mlink: Add support for mic privacy in VS SHIM registers
-Date: Thu,  6 Mar 2025 15:35:25 +0200
-Message-ID: <20250306133527.16722-7-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 7/8] ASoC: SOF: hda/shim: Add callbacks to handle mic privacy change for sdw
+Date: Thu,  6 Mar 2025 15:35:26 +0200
+Message-ID: <20250306133527.16722-8-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250306133527.16722-1-peter.ujfalusi@linux.intel.com>
 References: <20250306133527.16722-1-peter.ujfalusi@linux.intel.com>
@@ -66,258 +66,93 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-New register has been introduced with PTL in the vendor specific SHIM
-registers, outside of the IPs itself for microphone privacy status handling.
-
-Via the PVCCS register the current microphone privacy status can be checked
-and the interrupt generation on status change can be enabled/disabled.
-The status change interrupt is routed to the owner of the interface
-(DSP/host).
-
-The PVCCS is provided for each sublink under the IP to make it possible to
-control the interrupt generation per sublink.
-On status change the MDSTSCHG bit needs to be cleared for all sublink of
-the interface to be able to detect future changes in privacy.
-
-The status bit (MDSTS) is volatile in all PVCCS register, it reflects the
-current state of the GPIO signal.
-
-Microphone privacy is a hardware feature (if enabled and configured that
-way), the host has only passive, monitoring role.
-
-The added functions are generic to be future proof if the mic privacy
-support is extended beyond Soundwire and DMIC links.
+Add generic callback definitions for checking the mic privacy interrupt and
+status.
+Implement wrappers for mic privacy reported via the Soundwire interrupt and
+its vendor specific SHIM registers.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 ---
- include/sound/hda-mlink.h       |  25 +++++++
- sound/soc/sof/intel/hda-mlink.c | 127 ++++++++++++++++++++++++++++++++
- 2 files changed, 152 insertions(+)
+ sound/soc/sof/intel/hda.c  | 34 ++++++++++++++++++++++++++++++++++
+ sound/soc/sof/intel/shim.h |  2 ++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/include/sound/hda-mlink.h b/include/sound/hda-mlink.h
-index 6774f4b9e5fc..4327317be6af 100644
---- a/include/sound/hda-mlink.h
-+++ b/include/sound/hda-mlink.h
-@@ -62,6 +62,12 @@ struct mutex *hdac_bus_eml_get_mutex(struct hdac_bus *bus, bool alt, int elid);
+diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
+index a1ccd95da8bb..6b1ada566476 100644
+--- a/sound/soc/sof/intel/hda.c
++++ b/sound/soc/sof/intel/hda.c
+@@ -352,6 +352,27 @@ void hda_sdw_process_wakeen_common(struct snd_sof_dev *sdev)
+ }
+ EXPORT_SYMBOL_NS(hda_sdw_process_wakeen_common, "SND_SOC_SOF_INTEL_HDA_GENERIC");
  
- int hdac_bus_eml_enable_offload(struct hdac_bus *bus, bool alt, int elid, bool enable);
- 
-+/* microphone privacy specific function supported by ACE3+ architecture */
-+void hdac_bus_eml_set_mic_privacy_mask(struct hdac_bus *bus, bool alt, int elid,
-+				       unsigned long mask);
-+bool hdac_bus_eml_is_mic_privacy_changed(struct hdac_bus *bus, bool alt, int elid);
-+bool hdac_bus_eml_get_mic_privacy_state(struct hdac_bus *bus, bool alt, int elid);
++static bool hda_dsp_sdw_check_mic_privacy_irq(struct snd_sof_dev *sdev)
++{
++	const struct sof_intel_dsp_desc *chip;
 +
- #else
- 
- static inline int
-@@ -185,4 +191,23 @@ hdac_bus_eml_enable_offload(struct hdac_bus *bus, bool alt, int elid, bool enabl
++	chip = get_chip_info(sdev->pdata);
++	if (chip && chip->check_mic_privacy_irq)
++		return chip->check_mic_privacy_irq(sdev, true,
++						   AZX_REG_ML_LEPTR_ID_SDW);
++
++	return false;
++}
++
++static void hda_dsp_sdw_process_mic_privacy(struct snd_sof_dev *sdev)
++{
++	const struct sof_intel_dsp_desc *chip;
++
++	chip = get_chip_info(sdev->pdata);
++	if (chip && chip->process_mic_privacy)
++		chip->process_mic_privacy(sdev, true, AZX_REG_ML_LEPTR_ID_SDW);
++}
++
+ #else /* IS_ENABLED(CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE) */
+ static inline int hda_sdw_acpi_scan(struct snd_sof_dev *sdev)
  {
- 	return 0;
+@@ -383,6 +404,13 @@ static inline bool hda_sdw_check_wakeen_irq(struct snd_sof_dev *sdev)
+ 	return false;
  }
-+
-+static inline void
-+hdac_bus_eml_set_mic_privacy_mask(struct hdac_bus *bus, bool alt, int elid,
-+				  unsigned long mask)
-+{
-+}
-+
-+static inline bool
-+hdac_bus_eml_is_mic_privacy_changed(struct hdac_bus *bus, bool alt, int elid)
+ 
++static inline bool hda_dsp_sdw_check_mic_privacy_irq(struct snd_sof_dev *sdev)
 +{
 +	return false;
 +}
 +
-+static inline bool
-+hdac_bus_eml_get_mic_privacy_state(struct hdac_bus *bus, bool alt, int elid)
-+{
-+	return false;
-+}
++static inline void hda_dsp_sdw_process_mic_privacy(struct snd_sof_dev *sdev) { }
 +
- #endif /* CONFIG_SND_SOC_SOF_HDA_MLINK */
-diff --git a/sound/soc/sof/intel/hda-mlink.c b/sound/soc/sof/intel/hda-mlink.c
-index fe627bcb0531..ce561fe52bd5 100644
---- a/sound/soc/sof/intel/hda-mlink.c
-+++ b/sound/soc/sof/intel/hda-mlink.c
-@@ -16,6 +16,7 @@
+ #endif /* IS_ENABLED(CONFIG_SND_SOC_SOF_INTEL_SOUNDWIRE) */
  
- #include <linux/bitfield.h>
- #include <linux/module.h>
-+#include <linux/string_choices.h>
+ /* pre fw run operations */
+@@ -678,7 +706,13 @@ static irqreturn_t hda_dsp_interrupt_thread(int irq, void *context)
  
- #if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA_MLINK)
- 
-@@ -42,6 +43,7 @@
-  * @shim_offset:	offset to SHIM register base
-  * @ip_offset:		offset to IP register base
-  * @shim_vs_offset:	offset to vendor-specific (VS) SHIM base
-+ * @mic_privacy_mask:	bitmask of sublinks where mic privacy is applied
-  */
- struct hdac_ext2_link {
- 	struct hdac_ext_link hext_link;
-@@ -65,6 +67,8 @@ struct hdac_ext2_link {
- 	u32 shim_offset;
- 	u32 ip_offset;
- 	u32 shim_vs_offset;
+ 	if (hda_dsp_check_sdw_irq(sdev)) {
+ 		trace_sof_intel_hda_irq(sdev, "sdw");
 +
-+	unsigned long mic_privacy_mask;
- };
- 
- #define hdac_ext_link_to_ext2(h) container_of(h, struct hdac_ext2_link, hext_link)
-@@ -90,6 +94,13 @@ struct hdac_ext2_link {
- #define AZX_REG_INTEL_UAOL_IP_OFFSET			0x100
- #define AZX_REG_INTEL_UAOL_VS_SHIM_OFFSET		0xC00
- 
-+/* Microphone privacy */
-+#define AZX_REG_INTEL_VS_SHIM_PVCCS			0x10
-+#define AZX_REG_INTEL_VS_SHIM_PVCCS_MDSTSCHGIE		BIT(0)
-+#define AZX_REG_INTEL_VS_SHIM_PVCCS_MDSTSCHG		BIT(8)
-+#define AZX_REG_INTEL_VS_SHIM_PVCCS_MDSTS		BIT(9)
-+#define AZX_REG_INTEL_VS_SHIM_PVCCS_FMDIS		BIT(10)
+ 		hda_dsp_sdw_thread(irq, hdev->sdw);
 +
- /* HDAML section - this part follows sequences in the hardware specification,
-  * including naming conventions and the use of the hdaml_ prefix.
-  * The code is intentionally minimal with limited dependencies on frameworks or
-@@ -696,6 +707,20 @@ static int hdac_bus_eml_power_up_base(struct hdac_bus *bus, bool alt, int elid,
- 	}
- 
- 	ret = hdaml_link_init(hlink->ml_addr + AZX_REG_ML_LCTL, sublink);
-+	if ((h2link->mic_privacy_mask & BIT(sublink)) && !ret) {
-+		u16 __iomem *pvccs = h2link->base_ptr +
-+				     h2link->shim_vs_offset +
-+				     sublink * h2link->instance_offset +
-+				     AZX_REG_INTEL_VS_SHIM_PVCCS;
-+		u16 val = readw(pvccs);
-+
-+		writew(val | AZX_REG_INTEL_VS_SHIM_PVCCS_MDSTSCHGIE, pvccs);
-+
-+		if (val & AZX_REG_INTEL_VS_SHIM_PVCCS_MDSTS)
-+			dev_dbg(bus->dev,
-+				"sublink %d (%d:%d): Mic privacy is enabled\n",
-+				sublink, alt, elid);
-+	}
- 
- skip_init:
- 	if (eml_lock)
-@@ -742,6 +767,16 @@ static int hdac_bus_eml_power_down_base(struct hdac_bus *bus, bool alt, int elid
- 		if (--h2link->sublink_ref_count[sublink] > 0)
- 			goto skip_shutdown;
- 	}
-+
-+	if (h2link->mic_privacy_mask & BIT(sublink)) {
-+		u16 __iomem *pvccs = h2link->base_ptr +
-+				     h2link->shim_vs_offset +
-+				     sublink * h2link->instance_offset +
-+				     AZX_REG_INTEL_VS_SHIM_PVCCS;
-+
-+		writew(readw(pvccs) & ~AZX_REG_INTEL_VS_SHIM_PVCCS_MDSTSCHGIE, pvccs);
-+	}
-+
- 	ret = hdaml_link_shutdown(hlink->ml_addr + AZX_REG_ML_LCTL, sublink);
- 
- skip_shutdown:
-@@ -987,6 +1022,98 @@ int hdac_bus_eml_enable_offload(struct hdac_bus *bus, bool alt, int elid, bool e
- }
- EXPORT_SYMBOL_NS(hdac_bus_eml_enable_offload, "SND_SOC_SOF_HDA_MLINK");
- 
-+void hdac_bus_eml_set_mic_privacy_mask(struct hdac_bus *bus, bool alt, int elid,
-+				       unsigned long mask)
-+{
-+	struct hdac_ext2_link *h2link;
-+
-+	if (!mask)
-+		return;
-+
-+	h2link = find_ext2_link(bus, alt, elid);
-+	if (!h2link)
-+		return;
-+
-+	if (__fls(mask) > h2link->slcount) {
-+		dev_warn(bus->dev,
-+			 "%s: invalid sublink mask for %d:%d, slcount %d: %#lx\n",
-+			 __func__, alt, elid, h2link->slcount, mask);
-+		return;
-+	}
-+
-+	dev_dbg(bus->dev, "sublink mask for %d:%d, slcount %d: %#lx\n", alt,
-+		elid, h2link->slcount, mask);
-+
-+	h2link->mic_privacy_mask = mask;
-+}
-+EXPORT_SYMBOL_NS(hdac_bus_eml_set_mic_privacy_mask, "SND_SOC_SOF_HDA_MLINK");
-+
-+bool hdac_bus_eml_is_mic_privacy_changed(struct hdac_bus *bus, bool alt, int elid)
-+{
-+	struct hdac_ext2_link *h2link;
-+	bool changed = false;
-+	u16 __iomem *pvccs;
-+	int i;
-+
-+	h2link = find_ext2_link(bus, alt, elid);
-+	if (!h2link)
-+		return false;
-+
-+	/* The change in privacy state needs to be acked for each link */
-+	for_each_set_bit(i, &h2link->mic_privacy_mask, h2link->slcount) {
-+		u16 val;
-+
-+		if (h2link->sublink_ref_count[i] == 0)
-+			continue;
-+
-+		pvccs = h2link->base_ptr +
-+			h2link->shim_vs_offset +
-+			i * h2link->instance_offset +
-+			AZX_REG_INTEL_VS_SHIM_PVCCS;
-+
-+		val = readw(pvccs);
-+		if (val & AZX_REG_INTEL_VS_SHIM_PVCCS_MDSTSCHG) {
-+			writew(val, pvccs);
-+			changed = true;
++		if (hda_dsp_sdw_check_mic_privacy_irq(sdev)) {
++			trace_sof_intel_hda_irq(sdev, "mic privacy");
++			hda_dsp_sdw_process_mic_privacy(sdev);
 +		}
-+	}
-+
-+	return changed;
-+}
-+EXPORT_SYMBOL_NS(hdac_bus_eml_is_mic_privacy_changed, "SND_SOC_SOF_HDA_MLINK");
-+
-+bool hdac_bus_eml_get_mic_privacy_state(struct hdac_bus *bus, bool alt, int elid)
-+{
-+	struct hdac_ext2_link *h2link;
-+	u16 __iomem *pvccs;
-+	bool state;
-+	int i;
-+
-+	h2link = find_ext2_link(bus, alt, elid);
-+	if (!h2link)
-+		return false;
-+
-+	for_each_set_bit(i, &h2link->mic_privacy_mask, h2link->slcount) {
-+		if (h2link->sublink_ref_count[i] == 0)
-+			continue;
-+
-+		/* Return the privacy state from the first active link */
-+		pvccs = h2link->base_ptr +
-+			h2link->shim_vs_offset +
-+			i * h2link->instance_offset +
-+			AZX_REG_INTEL_VS_SHIM_PVCCS;
-+
-+		state = readw(pvccs) & AZX_REG_INTEL_VS_SHIM_PVCCS_MDSTS;
-+		dev_dbg(bus->dev, "alt: %d, elid: %d: Mic privacy is %s\n", alt,
-+			elid, str_enabled_disabled(state));
-+
-+		return state;
-+	}
-+
-+	return false;
-+}
-+EXPORT_SYMBOL_NS(hdac_bus_eml_get_mic_privacy_state, "SND_SOC_SOF_HDA_MLINK");
-+
- #endif
+ 	}
  
- MODULE_LICENSE("Dual BSD/GPL");
+ 	if (hda_sdw_check_wakeen_irq(sdev)) {
+diff --git a/sound/soc/sof/intel/shim.h b/sound/soc/sof/intel/shim.h
+index 8709b750a11e..d4372f0bff7e 100644
+--- a/sound/soc/sof/intel/shim.h
++++ b/sound/soc/sof/intel/shim.h
+@@ -193,6 +193,8 @@ struct sof_intel_dsp_desc {
+ 	bool (*check_sdw_wakeen_irq)(struct snd_sof_dev *sdev);
+ 	void (*sdw_process_wakeen)(struct snd_sof_dev *sdev);
+ 	bool (*check_ipc_irq)(struct snd_sof_dev *sdev);
++	bool (*check_mic_privacy_irq)(struct snd_sof_dev *sdev, bool alt, int elid);
++	void (*process_mic_privacy)(struct snd_sof_dev *sdev, bool alt, int elid);
+ 	int (*power_down_dsp)(struct snd_sof_dev *sdev);
+ 	int (*disable_interrupts)(struct snd_sof_dev *sdev);
+ 	int (*cl_init)(struct snd_sof_dev *sdev, int stream_tag, bool imr_boot);
 -- 
 2.48.1
 
