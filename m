@@ -1,103 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D36021D3C8;
-	Fri,  7 Mar 2025 15:56:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1750821ADD1;
+	Fri,  7 Mar 2025 17:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741363010; cv=none; b=Unu1ARO33t7y0H44NXRvWWtG4APEqsRwdxKs++zdut8S0gH3n0mUGQ3SdW299qpNXTLxOD0QIHIH+i0Ydk5SB00NSzDQN5vaRhFS/8mutc2X5EbrEMMlZU5R2aHA9mjdSBCKc9R8h86F7jvns6M8/WG/hzzN9JAhdemjNcFbKS4=
+	t=1741368692; cv=none; b=fNcHU6XZGicNKiLEm7B/HYXQ1QfIsjm5089uDR+bar/BWqdUkU9aX1Tvp+9bTpf7Pg35Jb65N4Wp7sEm5tGJK0PgaVqGbzZx2QgM4Otyv+ux8Vqi62Eoy1nQyFZyObLbjVTPQFq2WXBPtctsXr3L8pNhIbPNxnUFhqKo/0epuWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741363010; c=relaxed/simple;
-	bh=snIEFmz9xfWYQzlLczIEsvcAaFsQRt1rMH1p2sngHrM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Va9XQDI9TXv2YukJCdC25eZ08jXd7VPCPYPHtHLZfVR3lfGSrUqa0WkwzXI2rWo9UyxjP5xOWcomR52CHNff43NTFVCulUBOIvgYq9wrO0HfH1ZqsYqVZ5HYNFOF/XzFIEekajnu/VvigLQSRUFHRr8Ptl/HSTGWEUoPzAiO2Ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WtSCAqBy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741368692; c=relaxed/simple;
+	bh=qw3mwNGmk6KcI2pY8/aDI7mU/5wFA8Rs6ZuWfbSBj7w=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=sCIW8xaJTOlhnwtCpqAlED7F9zDM6FOa9VfQ6iWzcxvf0hVol0fXJjzhrcGcM9rILYWiupJd7/Up1RkDWsrfc3ZJFn+H4wnmqJIpDs2uCZOGJcX/ZfEZvOcHgpslbwmswXtEWW3xzZ1krBQPMNEyg2InaN/ozRsTC5l0FVnkHmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCkpBP9S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WtSCAqBy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82C70C4CED1;
-	Fri,  7 Mar 2025 15:56:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCkpBP9S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECF8FC4CED1;
+	Fri,  7 Mar 2025 17:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741363009;
-	bh=snIEFmz9xfWYQzlLczIEsvcAaFsQRt1rMH1p2sngHrM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WtSCAqBydP3J4dcHgQUECWzxCRv7ZnIQnZaF8rpt9JNd+352szrca7CF8RrkLT4Nr
-	 yAPig1lCb5BlnWv/GSOzDjwbrYQoGqOp8br/CCf5SPYi2Csbp9CV4og0fhH4nmooU8
-	 CWcwQQ0JpxcRHVEN4UOOiMw/8B7E6xX3MW2y2XEK9sknyNcohDDRngYZ4dwBmWwSCZ
-	 Rf/tNwAt7QJu18joFvpjLp22JrnEnZdLzRME3Ra353TZYtBnnkLWSNvsUrpjg4pok1
-	 uVTGGru9+Zuemi2U7tTpfF/l6njtqH8ptBultU9vQESMCMJy+Z3fKBOrD3BbDF8zFf
-	 higc/IBxAFPdw==
-Date: Fri, 7 Mar 2025 15:56:45 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
-Subject: Re: [PATCH] ASoC: dt-bindings: fsl,sai: Add i.MX94 support
-Message-ID: <20250307-walmart-frequency-0430bb25a237@spud>
-References: <20250306171013.243332-1-Frank.Li@nxp.com>
+	s=k20201202; t=1741368692;
+	bh=qw3mwNGmk6KcI2pY8/aDI7mU/5wFA8Rs6ZuWfbSBj7w=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=SCkpBP9SToBZ7q1k2N9DffZQqGzrGpJjhIyU8O1GKeihdXLFRsqkQZOHJw00DH/Hm
+	 YVbLzoK0f07fLz+bIF/oToLX7Rs6WQ6SvMk+Q//RnrQNNfAyPQ/YKWxmNuBRMORBa/
+	 UJ1ggQmKezAscRZTgnCFqHpR61Qx+7d4nLY3bGuF6gngBT9oqC7J+qF+8GJkvyX43X
+	 Ujj7eHJjIDhEWi2c8ZqckD4c3T7YtP1JuVBZ0ca6f5svqrq0NndSOaqLHDwx5vxBbi
+	 2VLbyFhVD+0H9YwywQ5kVkmiAbDRzntT2ffhiGPTjc6ZxaHZUEt+fX0KwlgvZ0rSSw
+	 DRMQYP7mTXfJw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AEA71380CFD7;
+	Fri,  7 Mar 2025 17:32:06 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.14-rc6
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <878qphjl4m.wl-tiwai@suse.de>
+References: <878qphjl4m.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <878qphjl4m.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc6
+X-PR-Tracked-Commit-Id: 8463d2adbe1901247937fcdfe4b525130f6db10b
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 2a405b36a6418e9a9e07314c90c14ebe370ed79b
+Message-Id: <174136872531.2423139.3578759195315149109.pr-tracker-bot@kernel.org>
+Date: Fri, 07 Mar 2025 17:32:05 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="FFjeYTYwkjimMl9i"
-Content-Disposition: inline
-In-Reply-To: <20250306171013.243332-1-Frank.Li@nxp.com>
 
+The pull request you sent on Fri, 07 Mar 2025 09:33:13 +0100:
 
---FFjeYTYwkjimMl9i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc6
 
-On Thu, Mar 06, 2025 at 12:10:13PM -0500, Frank Li wrote:
-> Add compatible string "fsl,imx94-sai" for the i.MX94 chip, which is
-> backward compatible with i.MX95. Set it to fall back to "fsl,imx95-sai".
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/2a405b36a6418e9a9e07314c90c14ebe370ed79b
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Thank you!
 
->=20
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  Documentation/devicetree/bindings/sound/fsl,sai.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,sai.yaml b/Docum=
-entation/devicetree/bindings/sound/fsl,sai.yaml
-> index 5c95508ee7075..0d733e5b08a4e 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl,sai.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
-> @@ -41,6 +41,10 @@ properties:
->                - fsl,imx93-sai
->                - fsl,imx95-sai
->                - fsl,vf610-sai
-> +      - items:
-> +          - enum:
-> +              - fsl,imx94-sai
-> +          - const: fsl,imx95-sai
-> =20
->    reg:
->      maxItems: 1
-> --=20
-> 2.34.1
->=20
-
---FFjeYTYwkjimMl9i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ8sXPQAKCRB4tDGHoIJi
-0mlhAQCDLOBTTlzlOnEh8Iq9kRCyrPzNjrGAM3aHNpcBGsUuAwEA6LMpql3Rjt6a
-zrp1FWvr1jsyCMqe9GTDKdMHJIhbhAE=
-=6Rpe
------END PGP SIGNATURE-----
-
---FFjeYTYwkjimMl9i--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
