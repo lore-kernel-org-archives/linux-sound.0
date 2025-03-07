@@ -1,123 +1,120 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C0D39ACC;
-	Fri,  7 Mar 2025 13:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5E821ABA6;
+	Fri,  7 Mar 2025 13:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741353773; cv=none; b=sEtHYYwRR2g2g13XiNv9y6DKfn5U4ILSMscQD6hRTa07obzSUz+VnKh+l5g3/5l72fvNEX5cl2H70MoYBysix4BGq1jnzn8otkoJoeo6Fm93emdaMRLZe1yyLEvc8jxGVeKKI6FlRhFpsqgw1HR1mBHsvOqS/OGMCadpNZlqtLE=
+	t=1741355579; cv=none; b=kIaNtR8rw2VEFW9XGnyDr4Y9G2MYJsH5m5+TBKGdfWfSbp/rO5EioRRfUXS7+t9ByfRShhDLap3xG6D0NYICDl0c+obSTH3hVYZZvLDplbLg8plsNTDCEJdoRU2yRJLaQyKwam17Bao9uUdGINJGXYGEECGhzzlVisB8SaLiNcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741353773; c=relaxed/simple;
-	bh=nMdElkX27SYzjIYLE2Nq3THJhnIkeKxIRL8VmbGk6kM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=abWB9QQ9JjZbBWYLlQlNBXq7d1hQak6UZuYtZ1Wbaa+M/uNvPYx3V5PtXPJoiBRo8m+J6s1llQmzDRz55YLV3L2BOw4gv3kx3LDaoNr0pgBbev4OhAGF66mni8ACf5k1Cp4d4wqGyDkICY41UT15FOUBc0SRsNCqu5otwMYUPpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UH30BZtw; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1741355579; c=relaxed/simple;
+	bh=O7Wl/QJmeufCW8/KBuYCP7hJKBM5Bs/OWab/pCxh8is=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MoIe392EX8MjGfBpMdrEgpmaySLfnlL6H79chOsLxpEkn94lYG9eS/LeP/o2FG3B6p8tZCubTyHDqSBYPms3LRfX67fRHAdiLJJ80N/bCmstPtSYeM1muGqOUgmQXJ378Z0pjHFKSTPCsFJPFepdEPAtx067//WtIGalph/kTk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=V4QIcte+; arc=none smtp.client-ip=217.194.8.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UH30BZtw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1741353763;
-	bh=nMdElkX27SYzjIYLE2Nq3THJhnIkeKxIRL8VmbGk6kM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UH30BZtwjumsTG+ymcK82JDw2TOztk6pPaFGRIpxdfLL1yrF5Rmrv9L+JIpB89d94
-	 ka7coYAc8FoQpIRTFFbPiKgBC//VrsODHU+kGTJxpx9+Ng0X/71/Ny2kMGDpjBVY+0
-	 ODUgWtfT8q1pjxowPX9FiTO3UPu+04ep7laZhiObugs3aPEkCrZr2FrZI6FDCHxv3g
-	 BXWuwjjbT9K0PdGHnHZh131bbuZcUHc1yWlKt0ZMbXggm/q6uOk8W3E54qS4BZJvd6
-	 mkdlKAI6qFkfL7sDjOm41FPFfpS7Qp7vgQzpDzA3oRd6sKGVbxDXyy2Ac0NupiiBG3
-	 9Q96c+BviI4RQ==
-Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1001])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A168917E05C1;
-	Fri,  7 Mar 2025 14:22:38 +0100 (CET)
-Date: Fri, 7 Mar 2025 10:22:36 -0300
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="V4QIcte+"
+Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id 0D15E1F91C;
+	Fri,  7 Mar 2025 14:52:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+	s=default; t=1741355568;
+	bh=SYSgGzv3Y/Vggc6YYeKPxI6ae5Adem+OvWetoQaX484=; h=From:To:Subject;
+	b=V4QIcte+z9iErOEUsA30NKkv40xe+yLdKiwHbHmuKhVhPHKJbl8Ff636iwhMGpIBI
+	 XdgpkdRpaA8hV0NOeSd1RY2Oa4Q4fIt5eTL/q4Z9TUaE7GwSKpeOAl32lb9FyHNpQb
+	 oZmI1Od8/eqDH9M/wRxIdR80fB0/g3ducwdUsmR9tXtFnRfBpbutkb1V9qRbBgqWsJ
+	 cLptVcE0WsUt/vl4E7f8QqHLEaHAqUVhVLajqAxQruj2mAgl+oyh435NbraU50I4/W
+	 3DGvNat+8hnHmJwsGma2xoLYA8TtVB55ymxMBhytDTvr6/I/TTfA37D4Gbq6U7bNbK
+	 VQBvYUn/V4zIw==
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, kernel@collabora.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 01/19] dt-bindings: mfd: mediatek: mt6397: Add accdet
- subnode
-Message-ID: <cb2820d8-84e8-49ca-b497-1ea815679a3d@notapiano>
-References: <20250305-mt6359-accdet-dts-v4-0-e5ffa5ee9991@collabora.com>
- <20250305-mt6359-accdet-dts-v4-1-e5ffa5ee9991@collabora.com>
- <20250306-certain-jasmine-mastiff-fd67ba@krzk-bin>
- <2fa6037d-b5e9-45b2-a5d5-dbc92fb3434b@notapiano>
- <0663e03e-e331-4a06-be95-ce8d9059ed6b@kernel.org>
+	Saravana Kannan <saravanak@google.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	patches@opensource.cirrus.com
+Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/5] ASoC: wm8904: Add DMIC and DRC support
+Date: Fri,  7 Mar 2025 14:52:39 +0100
+Message-Id: <20250307135244.100443-1-francesco@dolcini.it>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0663e03e-e331-4a06-be95-ce8d9059ed6b@kernel.org>
 
-On Fri, Mar 07, 2025 at 08:11:26AM +0100, Krzysztof Kozlowski wrote:
-> On 06/03/2025 13:19, Nícolas F. R. A. Prado wrote:
-> >>>    It is interfaced to host controller using SPI interface by a proprietary hardware
-> >>>    called PMIC wrapper or pwrap. MT6397/MT6323 PMIC is a child device of pwrap.
-> >>> @@ -224,6 +225,30 @@ properties:
-> >>>      description:
-> >>>        Pin controller
-> >>>  
-> >>> +  accdet:
-> >>> +    type: object
-> >>> +    additionalProperties: false
-> >>> +    description:
-> >>> +      The Accessory Detection module found on the PMIC allows detecting audio
-> >>> +      jack insertion and removal, as well as identifying the type of events
-> >>> +      connected to the jack.
-> >>> +
-> >>> +    properties:
-> >>> +      compatible:
-> >>> +        const: mediatek,mt6359-accdet
-> >>
-> >> You just removed the other file, no folding happened here. Drop the
-> >> accdet node and fold this into parent.
-> > 
-> > Sorry, I'm still not sure what you mean by folding here then. Right now the
-> > accdet is a subnode of the PMIC. If you want me to remove the accdet node, where
-> 
-> Yes
-> 
-> > would its compatible and property go?
-> 
-> compatible: nowhere, because it is close to redundancy.
-> 
-> property: to the parent pmic node.
-> 
->     pmic {
->         compatible = "mediatek,mt6359";
->         interrupt-controller;
->         #interrupt-cells = <2>;
-> 
->         mediatek,hp-eint-high;
->     };
+From: Francesco Dolcini <francesco.dolcini@toradex.com>
 
-I'm not sure that's right. The ACCDET submodule does have some resources, IRQs,
-that it registers in its mfd cell, see patch 2 of this series [1]. It also has
-its own driver (sound/soc/codecs/mt6359-accdet.c) that probes based on this
-compatible and handles those interrupts. Why would it not get its own node like
-the other MFD cells?
+This patch series adds DMIC and DRC support to the WM8904 driver, a new
+of_ helper is added to simplify the driver code.
 
-[1] https://lore.kernel.org/all/20250305-mt6359-accdet-dts-v4-2-e5ffa5ee9991@collabora.com
+DRC functionality is added in the same patch series to provide the
+necessary dynamic range control to make DMIC support useful.
 
-Thanks,
-Nícolas
+The WM8904 supports digital microphones on two of its inputs:
+IN1L/DMICDAT1 and IN1R/DMICDAT2. These two inputs can either be
+connected to an ADC or to the DMIC system. There is an ADC for each
+line, and only one DMIC block. This DMIC block is either connected to
+DMICDAT1 or to DMICDAT2. One DMIC data line supports two digital
+microphones via time multiplexing.
+
+The pin's functionality is decided during hardware design (IN1L vs
+DMICDAT1 and IN1R vs DMICDAT2). This is reflected in the Device Tree.
+
+If one line is analog and one is DMIC, we need to be able to switch
+between ADC and DMIC at runtime. The DMIC source is known from the
+Device Tree. If both are DMIC inputs, we need to be able to switch the
+DMIC source. There is no need to switch between ADC and DMIC at runtime.
+
+Therefore, kcontrols are dynamically added by the driver depending on
+its Device Tree configuration.
+
+This is a heavy rework of a previous patch series provided by Alifer
+Moraes and Pierluigi Passaro,
+https://lore.kernel.org/lkml/20220307141041.27538-1-alifer.m@variscite.com.
+
+v3:
+ * Fixed DT binding to conform to the DT schema properly.
+ * Renamed "wlf,retune-mobile-cfg-rates" to "wlf,retune-mobile-cfg-hz", it is now a standard unit suffix property.
+
+v2: https://lore.kernel.org/all/20250224155500.52462-1-francesco@dolcini.it/
+ * Fixed a bug in wm8904_parse_retune_cfg_from_of()
+ * Added full usage example of the three ReTune Mobile config properties in the
+   DT binding.
+ * Improved the DAPM routing:
+   * Only add IN1L/IN1R routes to ADCL/ADCR conditionally depending on which
+     DMIC is in use.
+   * Do not connect PGAs to ADC when they are not needed.
+   * Keep the mux between ADC/DMIC even when two DMICs are used, as the IN1
+     pins share a mux with IN2 and IN3 and the ADC could still be used for
+     them.
+
+v1: https://lore.kernel.org/all/20250206163152.423199-1-francesco@dolcini.it/
+
+Ernest Van Hoecke (5):
+  of: Add of_property_read_u16_index
+  ASoC: wm8904: Don't touch GPIO configs set to 0xFFFF
+  ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC and EQ support
+  ASoC: wm8904: get platform data from DT
+  ASoC: wm8904: add DMIC support
+
+ .../devicetree/bindings/sound/wlf,wm8904.yaml | 116 +++++++
+ drivers/of/property.c                         |  33 ++
+ include/linux/of.h                            |   9 +
+ include/sound/wm8904.h                        |   3 +
+ sound/soc/codecs/wm8904.c                     | 317 +++++++++++++++++-
+ 5 files changed, 471 insertions(+), 7 deletions(-)
+
+-- 
+2.39.5
+
