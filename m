@@ -1,114 +1,150 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9037DDAB;
-	Fri,  7 Mar 2025 06:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A176F1519A3;
+	Fri,  7 Mar 2025 07:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741328325; cv=none; b=C80VBtvhhy2sS/9VMfRKmZ9PWL0SBMdWGBAHmCSRXcYJXoKj6XchKxu6amznKunBWPA7IxFiPsom7zUrWlbf0M+cM72QnkbwyJK2afSjZZxLAa9GVjEERFYT9BLcKYRiInXUE6uayb6S8ohxaieVrm7ZziYr7FyCsyEBdbsi8vE=
+	t=1741331498; cv=none; b=Lj3keTbUnNX8tQHdVh3ACs5jRXGRBuVjSVuoFgtEPUFERMWYelkh+4csMP01QNa3bCXfVRUiuGTfjK1Xiel1t1OUyYV693c3A0X372Kk6RXnmqJjbpPKichs9Br4Bm2Gm0JsY086JX+vowaxo8tEQgXFzFG2QhhTt1rON1mV2VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741328325; c=relaxed/simple;
-	bh=1soUIkK5EKDYaH0c8vrvpJEpTwWQncZv9NclynqEpxM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k/1MgQ/h+eS+T2hhT48THA4INpwEoHDtUackheqVAFvsiwu65y5bFiDvfEVLMy7QOxFqItEnKkOOOp7x9Fv1tPo+Wew2q9gk5B38zrC4scOyjNJ2AL1VUbwVlHiEBs3JV2gh3zDcNA0GwPAI5xz3o6TDFnfqSeBJRW3ZKUoa6f8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DTLXAzr1; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741331498; c=relaxed/simple;
+	bh=bHThK23Ii92GmGLygLItWhYyWiP9FM3nTV3uexprg4A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SlmpW5LQvq4cyg8CmKXy90eJdAsVZVhFiFwn5AKXuR6UYXp7w2t7lj0jVmU4uDU9fR8Em7/fHfvhKqYCx9uir+j4MyOktOrOHrmCsfbHxF2+cqv8S7TM3WCAbmP+VIQc+LvD/wko6neR/Yj9MCaIofPjjfhrPsIMgnlOodPuO8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t3Ks4Gub; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DTLXAzr1"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4750c3b0097so13048881cf.0;
-        Thu, 06 Mar 2025 22:18:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741328322; x=1741933122; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F10fia5s8BJGMmpI4HkuMx1Ala8TT6PDF9W24WMGIHg=;
-        b=DTLXAzr1METQGL1nVOzo0upACWY064ZI9wB9HCG5didw8yBtCBfykQc+DLedE31n+f
-         w4IMOE495czsJlX0IddESs9sDGbQns9n5uR7r2wNMV8Kl5eNb3TSi9nwI2Ved06TuzJY
-         i+ruvU8iGfi5nH/1LTAhjjQYCTVZ39n/F2GBqBZZaFST618gRdMFiUXEsykwiWR9ikXz
-         F1lwHF36Tv2KwTdrOj1yn6bCUNhDLDnjCF+ydd4aZBZujKJJORZHVaDOFDywTWyNvw1b
-         m8H/WiauP9bJ1CdYv5edL9m7DSxVYuKqHhoRdKRpmbHCxWOwyj9gKQFy5aLzcguY81Oz
-         fXJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741328322; x=1741933122;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F10fia5s8BJGMmpI4HkuMx1Ala8TT6PDF9W24WMGIHg=;
-        b=XhF1VP5OU+ulAisigFdv70C4rlBZhQkFOgF/OQelRePe08iIhmzvCpM4hQ9b6EH6FY
-         ck8eKP42hTyrNSRLinlONqBagaPPYrMUSZn3E7+Dsdfxt4sK/T+OVyEHX61yPgGRiu/x
-         e4tJrmZk/Cn75asWzISwcYry0noPuUEVzMvfJhsa+NP0lAivGyHirh7VoYMVvvVPcjZg
-         JHmpAxTdOMX18qYgqN3Cz47u1GKf2R5D8nGXxqsvIiB7b8bQpnF5N9lpF2KZ5E0YKZQV
-         VFtvIi61LMQExdQgUq7F2LN1ZT0kQ7+QQTo+JV1PXK7tChKMusL+yYyClJvcTAvIoCzr
-         dK1w==
-X-Forwarded-Encrypted: i=1; AJvYcCUEKE/H5R++2kpFrFB4UtGNN3O7zD6DNl1+dntV+ydFw7aCBGFTf1N3SS9c5RJXhRYg3raADrwquT9xo/fn@vger.kernel.org, AJvYcCURCQr3oSbQZALmvtbdQUInZlLhsfF5KqBpU0JoL8r9D4eR7nAL1xg93Lq6zm5Shu7h1cymdU9xbq4Q@vger.kernel.org, AJvYcCVGwXQ+KNgkt8uwsDsjkh2ns0LZ0vgNHzTl7gWMvEQKM9viq33oHusvTpqTGeW0pg5Pqpe0y/3vGznU7Bw=@vger.kernel.org, AJvYcCXIGwCEJ+sXhLtyWYGqYaTXUOcK8BfJQP2UN+L67wIZIIdzJlMEh3OnWkcCodcx9CaZomMemCT3qtxChFQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmGaljcnPraTFQ8IOFrFsU5ubY50f1eGVs3hvBgW3wTry3iPhN
-	b5YsCOhUKc7Sx3i6yXjeAklkAIXOWEAxEncqVAXbNtMeqLxYDUlthAWNQNIJFxX4i7AaW0LH4m9
-	yqWSNLkWbpxnNRsSSWyqKatgBFL4=
-X-Gm-Gg: ASbGncuoyiWi/MjzkVtPi/nKkwzo9cUFy18aiksRMqmSMhHcfpA70Gt6tDpgG1a+aQ8
-	LWH8H6EJJ90iM3O/pga1SjvAi/kaO4JbG7UHG5gYTpbMEzCETzldfmjo/EcI1RwLNE2aoQL31qF
-	zXCFlwlQlf/bm2mf7LgGtiyhcIsI1J/SdO0E3uXDk0SgFTXgEsHEfVMd+f
-X-Google-Smtp-Source: AGHT+IHhETGPw/ZFKq+YENLV2u5EcdpAk3T+SS5XFSamMDKfcKgYmQS3Mbj3mWKDGRDz4TBEKSSztO8xYHOfJx/qczs=
-X-Received: by 2002:ac8:5e4d:0:b0:474:f29d:2e96 with SMTP id
- d75a77b69052e-47610978d28mr30024911cf.21.1741328322528; Thu, 06 Mar 2025
- 22:18:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t3Ks4Gub"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7B51C4CED1;
+	Fri,  7 Mar 2025 07:11:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741331498;
+	bh=bHThK23Ii92GmGLygLItWhYyWiP9FM3nTV3uexprg4A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=t3Ks4GubR6FMSUALNFwOmNpiJa/FoAiuAqE+PZPHyD5m7N9+Sf37PY0ELHivyKySR
+	 tApGnEIA5bc6d++EGlWuPmsck/399uKdSBQsNVr6jSnJ+G7IQaGuwOFDwsbvX9iwXs
+	 p2jbsbA5MIqhK5ioqsosWzstY3lrAyH8c6leVbCnhxFN31f5RR1Lu2mew3d8LYKdVz
+	 /DWDVSxCCHetPEPDN9V2BAl4ieQuq5SmyZUnvXIIErvm7mZWVGNJJUsAeSdlSW2hzY
+	 CzfGj1PMo0u1jIN06YKmKzFZO5n5uT50DU5snMibS7xw2oaVAk1lnnk1E/A7Ri20+D
+	 djw20M2ZNP/tg==
+Message-ID: <0663e03e-e331-4a06-be95-ce8d9059ed6b@kernel.org>
+Date: Fri, 7 Mar 2025 08:11:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com>
- <20250304135050.GA2485358-robh@kernel.org> <CAHgNfTyVKFuT0fZ3Qj=MdcXs67KscwkSepAH95xkAAKWM1g8Xg@mail.gmail.com>
- <20250305132239.GA1415729-robh@kernel.org>
-In-Reply-To: <20250305132239.GA1415729-robh@kernel.org>
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Fri, 7 Mar 2025 16:18:31 +1000
-X-Gm-Features: AQ5f1JpO-lY2IBZyJ9phmkLFb8GGKVOf8HdEFFSJcTDAx0YxxJ5ZNijHlkAl-zg
-Message-ID: <CAHgNfTxS1Q4PPsw520-J4Yn6xg+QZOYFkYhg5yv-uZFu5waN_g@mail.gmail.com>
-Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
- pulldown and zero-fill
-To: Rob Herring <robh@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shi Fu <shifu0704@thundersoft.com>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/19] dt-bindings: mfd: mediatek: mt6397: Add accdet
+ subnode
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
+ Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ kernel@collabora.com, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-pm@vger.kernel.org
+References: <20250305-mt6359-accdet-dts-v4-0-e5ffa5ee9991@collabora.com>
+ <20250305-mt6359-accdet-dts-v4-1-e5ffa5ee9991@collabora.com>
+ <20250306-certain-jasmine-mastiff-fd67ba@krzk-bin>
+ <2fa6037d-b5e9-45b2-a5d5-dbc92fb3434b@notapiano>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <2fa6037d-b5e9-45b2-a5d5-dbc92fb3434b@notapiano>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 5, 2025 at 11:22=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
-> This just feels like something common because any TDM interface may need
-> to control this. It's not really a property of the chip, but requirement
-> of the TDM interface.
+On 06/03/2025 13:19, Nícolas F. R. A. Prado wrote:
+>>>    It is interfaced to host controller using SPI interface by a proprietary hardware
+>>>    called PMIC wrapper or pwrap. MT6397/MT6323 PMIC is a child device of pwrap.
+>>> @@ -224,6 +225,30 @@ properties:
+>>>      description:
+>>>        Pin controller
+>>>  
+>>> +  accdet:
+>>> +    type: object
+>>> +    additionalProperties: false
+>>> +    description:
+>>> +      The Accessory Detection module found on the PMIC allows detecting audio
+>>> +      jack insertion and removal, as well as identifying the type of events
+>>> +      connected to the jack.
+>>> +
+>>> +    properties:
+>>> +      compatible:
+>>> +        const: mediatek,mt6359-accdet
+>>
+>> You just removed the other file, no folding happened here. Drop the
+>> accdet node and fold this into parent.
+> 
+> Sorry, I'm still not sure what you mean by folding here then. Right now the
+> accdet is a subnode of the PMIC. If you want me to remove the accdet node, where
 
-What I'm imagining then is something like:
+Yes
 
-dai-link@0 {
-    cpu {
-        sound-dai =3D <&some_cpu>;
+> would its compatible and property go?
+
+compatible: nowhere, because it is close to redundancy.
+
+property: to the parent pmic node.
+
+    pmic {
+        compatible = "mediatek,mt6359";
+        interrupt-controller;
+        #interrupt-cells = <2>;
+
+        mediatek,hp-eint-high;
     };
-    codec {
-        sound-dai =3D <&some_codec>;
-        dai-tdm-tx-zerofill;
-        dai-tdm-tx-pulldown; /* either or, having both makes no sense */
-    };
-};
 
-Codec drivers would then provide a function to set TDM TX behaviour if they
-support it, and export that as a dai op for use by machine drivers
-when they parse
-the dai link similar to dai-tdm-tx-slot and friends. Is that close to
-what you have
-in mind?
 
-Regards,
-James
+Best regards,
+Krzysztof
