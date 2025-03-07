@@ -1,63 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1750821ADD1;
-	Fri,  7 Mar 2025 17:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D32A2417F2
+	for <linux-sound@vger.kernel.org>; Fri,  7 Mar 2025 17:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741368692; cv=none; b=fNcHU6XZGicNKiLEm7B/HYXQ1QfIsjm5089uDR+bar/BWqdUkU9aX1Tvp+9bTpf7Pg35Jb65N4Wp7sEm5tGJK0PgaVqGbzZx2QgM4Otyv+ux8Vqi62Eoy1nQyFZyObLbjVTPQFq2WXBPtctsXr3L8pNhIbPNxnUFhqKo/0epuWI=
+	t=1741370015; cv=none; b=sZniqtZV5O7NEyWgtLiz8RdR32qPF01s0QlBQyws5S7p8scnrl/z716TbmA8XTSRZXt/eSCPlcp9SAtq+LaBUHEFVpV/JTf4BfJnSv+mhvxJEOJeg1BUVwXiESrvhV2mdVVQj2eJYWTcpu/h982g1E+o4SgbPAgl2ZG65i11spM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741368692; c=relaxed/simple;
-	bh=qw3mwNGmk6KcI2pY8/aDI7mU/5wFA8Rs6ZuWfbSBj7w=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=sCIW8xaJTOlhnwtCpqAlED7F9zDM6FOa9VfQ6iWzcxvf0hVol0fXJjzhrcGcM9rILYWiupJd7/Up1RkDWsrfc3ZJFn+H4wnmqJIpDs2uCZOGJcX/ZfEZvOcHgpslbwmswXtEWW3xzZ1krBQPMNEyg2InaN/ozRsTC5l0FVnkHmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCkpBP9S; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCkpBP9S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECF8FC4CED1;
-	Fri,  7 Mar 2025 17:31:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741368692;
-	bh=qw3mwNGmk6KcI2pY8/aDI7mU/5wFA8Rs6ZuWfbSBj7w=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=SCkpBP9SToBZ7q1k2N9DffZQqGzrGpJjhIyU8O1GKeihdXLFRsqkQZOHJw00DH/Hm
-	 YVbLzoK0f07fLz+bIF/oToLX7Rs6WQ6SvMk+Q//RnrQNNfAyPQ/YKWxmNuBRMORBa/
-	 UJ1ggQmKezAscRZTgnCFqHpR61Qx+7d4nLY3bGuF6gngBT9oqC7J+qF+8GJkvyX43X
-	 Ujj7eHJjIDhEWi2c8ZqckD4c3T7YtP1JuVBZ0ca6f5svqrq0NndSOaqLHDwx5vxBbi
-	 2VLbyFhVD+0H9YwywQ5kVkmiAbDRzntT2ffhiGPTjc6ZxaHZUEt+fX0KwlgvZ0rSSw
-	 DRMQYP7mTXfJw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AEA71380CFD7;
-	Fri,  7 Mar 2025 17:32:06 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.14-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <878qphjl4m.wl-tiwai@suse.de>
-References: <878qphjl4m.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
-X-PR-Tracked-Message-Id: <878qphjl4m.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc6
-X-PR-Tracked-Commit-Id: 8463d2adbe1901247937fcdfe4b525130f6db10b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2a405b36a6418e9a9e07314c90c14ebe370ed79b
-Message-Id: <174136872531.2423139.3578759195315149109.pr-tracker-bot@kernel.org>
-Date: Fri, 07 Mar 2025 17:32:05 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=arc-20240116; t=1741370015; c=relaxed/simple;
+	bh=uGp2XOYaAoeUpb/9b5BbIParJDTxLmqRE1Kf/2le0gE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mwSjQFnxAIfgShleMuq7C53mKq6Y3v7rOyqodkmlZuTdV1VPXZIemqK7ng78E72BozQXSxchaw2/aUIpsCc8u/vWSlLP0tuyXKlbm03+ijCC6NlxpPzkoTlSHjWnyry6W5w12DabDga/spSiew7JGjwZyGUR1azcYcTAX6qW1ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tqbsk-0007Ns-8T; Fri, 07 Mar 2025 18:53:10 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tqbsj-004Wj2-1G;
+	Fri, 07 Mar 2025 18:53:09 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tqbsj-000Zmp-0n;
+	Fri, 07 Mar 2025 18:53:09 +0100
+Date: Fri, 7 Mar 2025 18:53:09 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Daniel Baluta <daniel.baluta@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 1/3] ASoC: dt-bindings: support imx95's CM7 core
+Message-ID: <20250307175309.od3grjzr63dxp6ec@pengutronix.de>
+References: <20250211225808.3050-1-laurentiumihalcea111@gmail.com>
+ <20250211225808.3050-2-laurentiumihalcea111@gmail.com>
+ <20250212093610.x4ixrackmn3u2xrf@pengutronix.de>
+ <CAEnQRZBeQdnC+K92+Udb5awTmom10YHHNt7Ld-pYK4A1i8sr3Q@mail.gmail.com>
+ <d66996eb-f49b-448b-9743-d19a3c3eba52@sirena.org.uk>
+ <e45411df-1b8b-4f21-878d-d52e1112e62d@gmail.com>
+ <20250213064724.kbmxsk5szpxwclj6@pengutronix.de>
+ <88584d8f-e1cd-4b56-8906-461e1e6d9cc9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <88584d8f-e1cd-4b56-8906-461e1e6d9cc9@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-The pull request you sent on Fri, 07 Mar 2025 09:33:13 +0100:
+On 25-03-04, Laurentiu Mihalcea wrote:
+> On 2/13/2025 8:47 AM, Marco Felsch wrote:
+> > Hi Laurentiu, Daniel,
+> >
+> > On 25-02-12, Laurentiu Mihalcea wrote:
+> >> On 2/12/2025 2:38 PM, Mark Brown wrote:
+> >>> On Wed, Feb 12, 2025 at 12:11:49PM +0200, Daniel Baluta wrote:
+> >>>> On Wed, Feb 12, 2025 at 11:38 AM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> >>>>> On 25-02-11, Laurentiu Mihalcea wrote:
+> >>>>>> +    const: fsl,imx95-cm7-sof
+> >>>>> Albeit Krzysztof already add his Reviewed-by, can I ask why we need to
+> >>>>> add the -sof suffix instead of -audio or so? SOF is a software project
+> >>>>> but you can clearly run different software on the audio-copro as well.
+> >>>> Sure you can run a different software project on the audio DSP but
+> >>>> you will need a way to distinguish between the different projects.
+> >>>> There might be different mailbox, memory configurations. So you will  need
+> >>>> to invent another suffix specific to the new project.
+> >>>> We can make  const: fsl,imx95-cm7-audio as the one used with SOF
+> >>>> and think about a different name later for when another project will
+> >>>> want to use the DSP.
+> >>> I think the point here was that the DT should stay the same even if the
+> >>> DSP firwmare changes, just as how changing the main OS shouldn't affect
+> >>> the DT.
+> >> It's rather unfortunate but based on the experience from the 8 series
+> >> (imx8qm, imx8qxp, imx8mp), the programming model can differ quite
+> >> a bit (e.g: remoteproc vs SOF) even if the core is the same (i.e: DSP core).
+> >>
+> >> The different programming models also required different DT configurations
+> >> (e.g: dif. mboxes as Daniel mentioned, some extra properties (i.e: reg-names), etc...)
+> >>
+> >> The "-sof" suffix was chosen here instead of the more generic "-audio" (or whatever else
+> >> alternative) because the DT configuration is specific to SOF's programming model. Other
+> >> audio applications running on the same core may have dif. configurations (e.g: use
+> >> DTCM/ITCM for memory instead of DDR, dif. mbox count, etc...). I suppose this kind of thing
+> >> is bound to happen to some degree since the DT node doesn't just describe the CM7 core
+> >> (but, rather, it also encompasses information on the memory, mboxes, etc. used)
+> >> but perhaps I'm wrong?
+> > Time will tell if there will be any other user except for SOF for the
+> > DSP but and this is what I wanted to point out: the DTS should abstract
+> > the HW. IMHO The CM7-Audio node should contain all properties required
+> > to turn power and reset the core (e.g. clocks, reset, pm-domains). I get
+> > your point regarding different configs but please have a look at
+> > mt8183-kukui.dtsi. Here the rpmsg config is a subnode of the actual
+> > system-control-proc. This makes much more sense to me since the HW part
+> > is part of the generic core-node and all the software config goes into a
+> > separate subnode.
+> >
+> > Regards,
+> >   Marco
+> 
+> I understand your point but we're dealing with 2 different programming
+> models here: SOF and remoteproc as opposed to just remoteproc as it's
+> the case for Mediatek.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc6
+The idea is exactly to decouple the CM7 HW config from the
+software/firmware running on it and this is what MediaTek did.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2a405b36a6418e9a9e07314c90c14ebe370ed79b
+Of course they are only interested in teh RPMsg part but this approach
+could be used to decouple the HW and the FW part which is your use-case
+(different FWs running on the CM7).
 
-Thank you!
+> Going for a similar approach would also mean quite a bit of software
+> changes as we'd need to factor out the common bits (most importantly here:
+> core operations like start/stop) and placing them in a common driver. 
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Exactly but shouldn't be to hard to implement. Of course it is more work
+than just adapting the compatible.
+
+> This is not trivial and I'm not sure it's worth the effort right now
+> given that:
+> 
+>     1) The current way we model the hardware inside the DT is not exactly inaccurate.
+>     The core does physically use those memory regions, mailboxes, etc.
+> 
+>     2) Whatever we do, the information in the DT will still depend on the programming model.
+>     It's just that you're placing it in a child node, instead of the parent, which is arguably not that
+>     big of an improvement?
+
+The benefit is to have different configs in place and a board can choose
+between them, e.g.:
+
+	sof_cpu: cm7-cpu@80000000 {
+		compatible = "fsl,imx95-cm7";
+		reg = <0x0 0x80000000 0x0 0x6100000>;
+		reg-names = "sram";
+		clocks = <...>;
+		resets = <...>;
+		access-controllers = <...>;
+
+		firmware-name = "nxp/foo";
+		firmware-config = <&cm7_sof>;
+
+		cm7_sof: cm7-sof {
+			compatible = "fsl,imx95-sof";
+			memory-region = <&adma_res>;
+			memory-region-names = "dma";
+			mboxes = <&mu7 2 0>, <&mu7 2 1>, <&mu7 3 0>, <&mu7 3 1>;
+			mbox-names = "txdb0", "txdb1", "rxdb0", "rxdb1";
+
+			cpu: port {
+				cpu_ep: endpoint {
+					remote-endpoint = <&codec_ep>;
+				};
+			};
+		};
+
+		cm7_rpmsg: cm7-rpmsg {
+			compatible = "fsl,imx95-rpmsg";
+		};
+
+		cm7_foo: cm7-foo {
+			compatible = "fsl,imx95-foo";
+		};
+	};
+
+I get your point and I'm not against your patchset. Just IMHO the above
+example would make more sense to me since the CM7 hardware handling
+(en-/disable/access/reset/clock) can be done by a common driver and must
+not be done by each subsystem driver: sof, rpmsg, etc. Also the since
+the driver would be common it could be reused by other CoProcessors
+within the system as well since there are now more and more CoProcessors
+on a SoC.
+
+Regards,
+  Marco
