@@ -1,57 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB782571DD;
-	Fri,  7 Mar 2025 20:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1399A18A95A;
+	Fri,  7 Mar 2025 21:16:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741381001; cv=none; b=sN4nL05DF3q88OaF40US/ezl1n7fateFw2z4BqTTRvV8NyGch+1SCxkH2pu7kXGPpRQfLXz9FlgRX95IicT4ff7WCH8DJvsdYeLPscpy2IPmpjSAyiAu9thg2LL1Z0Xi6DdHy1TtUcgUpi4qkAq4dfiLmEBL19LYzDgLodPC3fI=
+	t=1741382190; cv=none; b=ZJf1QtsQzrNxlC+wtvyXZiFJUCDAdxstj5E/4nuWlncZPEuf6JyFWyx03uJ7YUtV1xbXrnABfqT25qKFPg/BxUMBE9rxmLP2EE6kMi+mXt3TYa3EdMD9nwrxVoksLruW6KltC25BmEei03Wc2VIkmZFnJVEeU/daWe7x/bClu5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741381001; c=relaxed/simple;
-	bh=UAckJF2HilOwP3ulwN2y9cDVYluwjNJxb5hgmlPbQNg=;
+	s=arc-20240116; t=1741382190; c=relaxed/simple;
+	bh=6aVpZFW4tHxOAaUitb1GesMT9DiFjftuQE+6p0UOB/0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nvXt274/yyH5LJ1jOk/ePibo5qRShg1URfIy32rJ+aFwIOvCaY/IcHjCozv49qRTibzdTycl5Bwc9t8yg0RrTNGXErTn1pmc6INdifJTWUG83DjFPRcysZctTOVzhC40su2hIjbi/sLPin+szs8L0qM9f8XE1CrAqRLA7qiFoeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NdyTEp5t; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jjxh4rqmSYb6sjtG2wR5Vg4hXLs3arC6kA/cX7nnqZIUT+qBEhhg6gOi539aBXnVUCEsxSTJDEkUKtv7aVDEhqQ5LF7u9uJ6bL9V47UqrX1mZldeCoSCsn4rhJYBLenMUXcV+9FEM8c0rl6u7R6roVmZshLelfUzFWvT1L2EfbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ytm7P2hZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NdyTEp5t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43BD1C4CED1;
-	Fri,  7 Mar 2025 20:56:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ytm7P2hZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 536AAC4CED1;
+	Fri,  7 Mar 2025 21:16:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741381000;
-	bh=UAckJF2HilOwP3ulwN2y9cDVYluwjNJxb5hgmlPbQNg=;
+	s=k20201202; t=1741382189;
+	bh=6aVpZFW4tHxOAaUitb1GesMT9DiFjftuQE+6p0UOB/0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NdyTEp5tVfRsF5XrBIraoKeIZVFoJJHn5Soc2r4VTWIrLUyQ/6TDXxiJSU/NsycTD
-	 m2+G6Xmt8M3vzIkZm1H4eCfU1EAamcmn/TNMg6QZrAj1iUOG1Ix/Rn2PaSNG/CToXl
-	 Tlqr7T/yfOqitnuCvvq7Umt4ZsLRPtzpWrVntH2d0at20Rqji3ahwtCtX4kUM4Ik/9
-	 JzjuXSCB074GTNlIcJCn40Fp0t98h9y5znmRMKBUnXp42smm+Llmj3LghgHEFybXeE
-	 ta0zndbOeSAFhfY3/o+oaWsDco/F0GXng6UXW6/QTVzhkhQ24qehrFaWCf5KKjAApu
-	 +mlSejzy/1gLQ==
-Date: Fri, 7 Mar 2025 14:56:38 -0600
-From: Rob Herring <robh@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Sugar Zhang <sugar.zhang@rock-chips.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	kernel@collabora.com, linux-clk@vger.kernel.org,
+	b=Ytm7P2hZRURzdJ+MU/yAIFDZSb+UrdpuCgMMNA+gp5StPf09sk47cIYEtNcl10w/N
+	 xh9SDbphksavDOZuQ2QC+5X1/okH1S3pkn9k0GeJaAFDdwElork59YXyBVbqgYK8fZ
+	 yOFUBLzLEUMZW7QGnQY/j/mEOBo/q+6xMTojJ+fquEt2oKfkC8EbU5Jqh3AmQcAopt
+	 J0MLPZSbE7j1NB6wiKuTHTmCQLDf33ojUtxDw9vcEtGuRVq/8YygfECX6aTuq5LZqg
+	 EFxoI3HJPn5+UM1dK/7zg5+PPZqwn/DTuCGxok4c0Hg6IcXLvnH6uTS0nkiHqQ/z0j
+	 h7XCowHyUAxNQ==
+Date: Fri, 7 Mar 2025 15:16:27 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: kernel@pengutronix.de, conor+dt@kernel.org, imx@lists.linux.dev,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 3/7] ASoC: dt-bindings: add schema for rockchip SAI
- controllers
-Message-ID: <20250307205638.GA595584-robh@kernel.org>
-References: <20250305-rk3576-sai-v1-0-64e6cf863e9a@collabora.com>
- <20250305-rk3576-sai-v1-3-64e6cf863e9a@collabora.com>
+	krzk+dt@kernel.org, linux-kernel@vger.kernel.org,
+	shawnguo@kernel.org, linux-sound@vger.kernel.org,
+	lgirdwood@gmail.com, broonie@kernel.org, festevam@gmail.com,
+	s.hauer@pengutronix.de
+Subject: Re: [PATCH] ASoC: dt-bindings: fsl,imx-asrc: Document audio graph
+ port
+Message-ID: <174138218697.627767.13339354154836355271.robh@kernel.org>
+References: <20250306053138.1914956-1-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,77 +47,18 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250305-rk3576-sai-v1-3-64e6cf863e9a@collabora.com>
+In-Reply-To: <20250306053138.1914956-1-shengjiu.wang@nxp.com>
 
-On Wed, Mar 05, 2025 at 10:24:23PM +0100, Nicolas Frattaroli wrote:
-> Rockchip introduced a new audio controller called the "Serial Audio
-> Interface", or "SAI" for short, on some of their newer SoCs. In
-> particular, this controller is used several times on the RK3576 SoC.
+
+On Thu, 06 Mar 2025 13:31:38 +0800, Shengjiu Wang wrote:
+> This device can be used in conjunction with audio-graph-card to provide
+> an endpoint for binding with the other side of the audio link.
 > 
-> Add a schema for it, with only an RK3576 compatible for now. Other SoCs
-> may follow as mainline support for them lands.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 > ---
->  .../devicetree/bindings/sound/rockchip,sai.yaml    | 151 +++++++++++++++++++++
->  MAINTAINERS                                        |   6 +
->  2 files changed, 157 insertions(+)
+>  .../devicetree/bindings/sound/fsl,imx-asrc.yaml      | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/rockchip,sai.yaml b/Documentation/devicetree/bindings/sound/rockchip,sai.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..8f5a292a7f2a6c737d983d00cbe40ec45bfa6249
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/rockchip,sai.yaml
-> @@ -0,0 +1,151 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/rockchip,sai.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Rockchip Serial Audio Interface Controller
-> +
-> +description:
-> +  The Rockchip Serial Audio Interface (SAI) controller is a flexible audio
-> +  controller that implements the I2S, I2S/TDM and the PDM standards.
-> +
-> +maintainers:
-> +  - Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: rockchip,rk3576-sai
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  dmas:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  dma-names:
-> +    minItems: 1
-> +    maxItems: 2
-> +    oneOf:
-> +      - const: tx
-> +      - const: rx
-> +      - items:
-> +          - const: tx
-> +          - const: rx
 
-You can simplify this to:
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-minItems: 1
-items:
-  - enum: [tx, rx]
-  - const: rx
-
-(By default, we require unique items, so '"rx", "rx"' won't be allowed.
-
-Rob
