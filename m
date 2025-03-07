@@ -1,64 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A0A217F31
-	for <linux-sound@vger.kernel.org>; Fri,  7 Mar 2025 11:28:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C64184E;
+	Fri,  7 Mar 2025 12:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741346893; cv=none; b=mvEkLVo/Hu2Re3gn0iSE3lW0SJ8S4VzwAhL0a18jOK5wB9FdNO376DVVqej2nYZ/BmvKC8Lb0D86KATtyqAVA7lPELCJpkkDtc9xJrt8Hi6XyVCuazcxiaZK+pQzLtw0pw0zMci4yRZlrPAnKhLZt+5ML1VWFy6VcG1wy8ahVzE=
+	t=1741351735; cv=none; b=OtpcONT2ehl6MkmExhHcl10bY+tebp/hzacPWcvJ2Xv7Q5BhzLBQa0RvH5pcc9ixrdDRKANc+Sj12ZEnS17PKm80Xf2swKQrLVZ+ZJVTZ0WyPFHCAkkFcQZR82U1z9S5RPWtpvnf3jASYvmfzwQMptIMClLyCGnToSi0Q+ROVaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741346893; c=relaxed/simple;
-	bh=y7GlNf9+d28AxXBB8J8fWnawXlS8pxJVs8tZ0q+nUSA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bsBTbaEEzvztV7EXwV2dPmA/SSwBu5I81705z5DRXaqLbFcYkdehiercg84ZtOBSNarRPkP34uOR4Gd67INyJXR7yhTSLmvUa3x6cd9eI8bExYeuc49nESKANxaBGoY8mEoxLrFl5/EyENFT7+ACTE+Bx7aBWSrkAlRBmDmpwT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O34qQYS5; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1741351735; c=relaxed/simple;
+	bh=Qx0eR6ifW003J6H6uGcA4Q0ERrSnpHS3FBSvx5nlccU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l28pFjQcY0a7xNnNsm75hWRP+sN2aUB3MwEHrJiD9x97OqhP/Fv8PGz5w1fiBSvRPL6pzRVPFvUAO8Roe/w8lnIyfrEA14OTDarNXSV+sSomYKZAarhOwNrhqLP8oV8R/bH0HXVMwO1KUwa4QT8slI1t0vgqcr2k7effxtspwxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=i84q0r2M; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O34qQYS5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741346891; x=1772882891;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=y7GlNf9+d28AxXBB8J8fWnawXlS8pxJVs8tZ0q+nUSA=;
-  b=O34qQYS5DLPA77OUc9KjAcgaf0DCRYceMBbSBdL+nZNARcWxCpnPadaS
-   b5jPU3S5WiIWZQUDbPVTMAuA8iEaZlRI7j+luWRd+B9Gaw9DKUaQZtudI
-   /165SJ0MZcVWqkLpSBl4fOcyr7I4N+y7L5ysFARyQ4oW2HUckg4FQIgFs
-   3CpBDgZri4acHP3mAMgrld3wNCeEOPjoPs2hJm5SGDyD6mYZQSnsk2n3I
-   usiy7ZyGhipqsDnY6GwkLFbRcV22rl+ERWeMUuOYpRmgRnfbzC0cDBUz7
-   YF9FiYRUrgvFHcTkRjdYaEFuI8eqqAkMh/fxHHwhi69kbZRCbiSO7Mbia
-   Q==;
-X-CSE-ConnectionGUID: XgVlBMULSFmkVWjKi41Jrw==
-X-CSE-MsgGUID: eULFT09yTwOSVNBtdXrJZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="29972338"
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="29972338"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 03:28:11 -0800
-X-CSE-ConnectionGUID: hw1e2S5sRHOQQN9Q0rpf9Q==
-X-CSE-MsgGUID: fQO6bwgTSyaLG6wodYJu2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="124390727"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.249.140])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 03:28:08 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	liam.r.girdwood@intel.com,
-	amadeuszx.slawinski@linux.intel.com
-Subject: [PATCH v2 8/8] ASoC: SOF: Intel: ptl: Add support for mic privacy
-Date: Fri,  7 Mar 2025 13:28:16 +0200
-Message-ID: <20250307112816.1495-9-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250307112816.1495-1-peter.ujfalusi@linux.intel.com>
-References: <20250307112816.1495-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="i84q0r2M"
+X-UUID: 823ec170fb5211ef8eb9c36241bbb6fb-20250307
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=T9Q64H7eOqwbabEl9fMLo/Azsox+IgNpX2vvtqqW2qw=;
+	b=i84q0r2MXPRG68MkBg/YXfM/45iplZe6eYKHIcISNB/VEuz8tFdMJcUQLKTnOgfg3KOMc/gCf6F6XRB+8pLFJX2HuqX1IfqJdz6RljVnOWSSLYBDb7+B6zwHcEJtRawCmjh4S2iypqPPsyk6qGJxXtbGrctlc6Q4lPx0hgVnbgo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.2.1,REQID:79c727e7-328c-49b3-8d58-4077f467e8d7,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:0ef645f,CLOUDID:2413d249-a527-43d8-8af6-bc8b32d9f5e9,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|102,TC:nil,Content:0|50,EDM:-3,IP
+	:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
+	LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 823ec170fb5211ef8eb9c36241bbb6fb-20250307
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
+	(envelope-from <darren.ye@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1057125565; Fri, 07 Mar 2025 20:48:46 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Fri, 7 Mar 2025 20:48:45 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.28 via Frontend Transport; Fri, 7 Mar 2025 20:48:44 +0800
+From: Darren.Ye <darren.ye@mediatek.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-gpio@vger.kernel.org>, Darren Ye
+	<darren.ye@mediatek.com>
+Subject: [PATCH 00/14] ASoC: mediatek: Add support for MT8196 SoC
+Date: Fri, 7 Mar 2025 20:47:26 +0800
+Message-ID: <20250307124841.23777-1-darren.ye@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,120 +64,80 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-Implement the three callbacks that is needed to enable support for
-reporting the mic privacy change via soundwire.
+From: Darren Ye <darren.ye@mediatek.com>
 
-In PTL the mic privacy reporting is supported via soundwire and DMIC and
-the soundwire is owned by the host, it's interrupt is routed there.
+This series of patches adds support for Mediatek AFE of MT8196 SoC.
+Patches are based on broonie tree "for-next" branch.
 
-To enable the interrupt, the sublink mask needs to be passed to the
-multilink layer, the check_mic_privacy_irq/process_mic_privacy callbacks
-needs to be implemented to check and report the mic privacy change.
-
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 ---
- sound/soc/sof/intel/ptl.c | 58 +++++++++++++++++++++++++++++++++++++--
- sound/soc/sof/intel/ptl.h |  5 ++++
- 2 files changed, 61 insertions(+), 2 deletions(-)
+This series patches dependent on:
+[1]
+https://lore.kernel.org/all/20250307032942.10447-1-guangjie.song@mediatek.com/
 
-diff --git a/sound/soc/sof/intel/ptl.c b/sound/soc/sof/intel/ptl.c
-index ae8e9e08ad2a..8fa4bdceedd9 100644
---- a/sound/soc/sof/intel/ptl.c
-+++ b/sound/soc/sof/intel/ptl.c
-@@ -18,10 +18,62 @@
- #include "lnl.h"
- #include "ptl.h"
- 
--int sof_ptl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops)
-+static bool sof_ptl_check_mic_privacy_irq(struct snd_sof_dev *sdev, bool alt,
-+					  int elid)
-+{
-+	if (!alt || elid != AZX_REG_ML_LEPTR_ID_SDW)
-+		return false;
-+
-+	return hdac_bus_eml_is_mic_privacy_changed(sof_to_bus(sdev), alt, elid);
-+}
-+
-+static void sof_ptl_process_mic_privacy(struct snd_sof_dev *sdev, bool alt,
-+					int elid)
-+{
-+	bool state;
-+
-+	if (!alt || elid != AZX_REG_ML_LEPTR_ID_SDW)
-+		return;
-+
-+	state = hdac_bus_eml_get_mic_privacy_state(sof_to_bus(sdev), alt, elid);
-+
-+	sof_ipc4_mic_privacy_state_change(sdev, state);
-+}
-+
-+static void sof_ptl_set_mic_privacy(struct snd_sof_dev *sdev,
-+				    struct sof_ipc4_intel_mic_privacy_cap *caps)
- {
--	return sof_lnl_set_ops(sdev, dsp_ops);
-+	u32 micpvcp;
-+
-+	if (!caps || !caps->capabilities_length)
-+		return;
-+
-+	micpvcp = caps->capabilities[0];
-+
-+	/* No need to set the mic privacy if it is not enabled or forced */
-+	if (!(micpvcp & PTL_MICPVCP_DDZE_ENABLED) ||
-+	    micpvcp & PTL_MICPVCP_DDZE_FORCED)
-+		return;
-+
-+	hdac_bus_eml_set_mic_privacy_mask(sof_to_bus(sdev), true,
-+					  AZX_REG_ML_LEPTR_ID_SDW,
-+					  PTL_MICPVCP_GET_SDW_MASK(micpvcp));
- }
-+
-+int sof_ptl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops)
-+{
-+	struct sof_ipc4_fw_data *ipc4_data;
-+	int ret;
-+
-+	ret = sof_lnl_set_ops(sdev, dsp_ops);
-+	if (ret)
-+		return ret;
-+
-+	ipc4_data = sdev->private;
-+	ipc4_data->intel_configure_mic_privacy = sof_ptl_set_mic_privacy;
-+
-+	return 0;
-+};
- EXPORT_SYMBOL_NS(sof_ptl_set_ops, "SND_SOC_SOF_INTEL_PTL");
- 
- const struct sof_intel_dsp_desc ptl_chip_info = {
-@@ -41,6 +93,8 @@ const struct sof_intel_dsp_desc ptl_chip_info = {
- 	.check_sdw_irq = lnl_dsp_check_sdw_irq,
- 	.check_sdw_wakeen_irq = lnl_sdw_check_wakeen_irq,
- 	.check_ipc_irq = mtl_dsp_check_ipc_irq,
-+	.check_mic_privacy_irq = sof_ptl_check_mic_privacy_irq,
-+	.process_mic_privacy = sof_ptl_process_mic_privacy,
- 	.cl_init = mtl_dsp_cl_init,
- 	.power_down_dsp = mtl_power_down_dsp,
- 	.disable_interrupts = lnl_dsp_disable_interrupts,
-diff --git a/sound/soc/sof/intel/ptl.h b/sound/soc/sof/intel/ptl.h
-index 186f7c835acb..6a7ef11f411e 100644
---- a/sound/soc/sof/intel/ptl.h
-+++ b/sound/soc/sof/intel/ptl.h
-@@ -9,6 +9,11 @@
- #ifndef __SOF_INTEL_PTL_H
- #define __SOF_INTEL_PTL_H
- 
-+#define PTL_MICPVCP_DDZE_FORCED		BIT(16)
-+#define PTL_MICPVCP_DDZE_ENABLED	BIT(17)
-+#define PTL_MICPVCP_DDZLS_SDW		GENMASK(26, 20)
-+#define PTL_MICPVCP_GET_SDW_MASK(x)	(((x) & PTL_MICPVCP_DDZLS_SDW) >> 20)
-+
- int sof_ptl_set_ops(struct snd_sof_dev *sdev, struct snd_sof_dsp_ops *dsp_ops);
- 
- #endif /* __SOF_INTEL_PTL_H */
+Darren Ye (14):
+  ASoC: mediatek: common: modify mtk afe common driver for mt8196
+  ASoC: mediatek: common: modify mtk afe platform driver for mt8196
+  ASoC: mediatek: mt8196: add common header
+  ASoC: mediatek: mt8196: add common interface for mt8196 DAI driver
+  ASoC: mediatek: mt8196: support audio clock control
+  ASoC: mediatek: mt8196: support audio GPIO control
+  ASoC: mediatek: mt8196: support ADDA in platform driver
+  ASoC: mediatek: mt8196: support I2S in platform driver
+  ASoC: mediatek: mt8196: support TDM in platform driver
+  ASoC: mediatek: mt8196: support CM in platform driver
+  ASoC: mediatek: mt8196: add platform driver
+  dt-bindings: mediatek: mt8196: add audio AFE document
+  ASoC: mediatek: mt8196: add machine driver with mt6681
+  dt-bindings: mediatek: mt8196: add mt8196-mt6681 document
+
+ .../bindings/sound/mediatek,mt8196-afe.yaml   |   259 +
+ .../sound/mediatek,mt8196-mt6681.yaml         |   122 +
+ sound/soc/mediatek/Kconfig                    |    30 +
+ sound/soc/mediatek/Makefile                   |     1 +
+ sound/soc/mediatek/common/mtk-afe-fe-dai.c    |    30 +-
+ sound/soc/mediatek/common/mtk-afe-fe-dai.h    |     6 +
+ .../mediatek/common/mtk-afe-platform-driver.c |    63 +-
+ .../mediatek/common/mtk-afe-platform-driver.h |     5 +
+ sound/soc/mediatek/common/mtk-base-afe.h      |    13 +
+ sound/soc/mediatek/mt8196/Makefile            |    19 +
+ sound/soc/mediatek/mt8196/mt8196-afe-clk.c    |   698 +
+ sound/soc/mediatek/mt8196/mt8196-afe-clk.h    |   313 +
+ sound/soc/mediatek/mt8196/mt8196-afe-cm.c     |    94 +
+ sound/soc/mediatek/mt8196/mt8196-afe-cm.h     |    23 +
+ sound/soc/mediatek/mt8196/mt8196-afe-common.h |   290 +
+ .../soc/mediatek/mt8196/mt8196-afe-control.c  |   109 +
+ sound/soc/mediatek/mt8196/mt8196-afe-gpio.c   |   239 +
+ sound/soc/mediatek/mt8196/mt8196-afe-gpio.h   |    58 +
+ sound/soc/mediatek/mt8196/mt8196-afe-pcm.c    |  5134 +++++++
+ sound/soc/mediatek/mt8196/mt8196-dai-adda.c   |  2207 +++
+ sound/soc/mediatek/mt8196/mt8196-dai-i2s.c    |  4399 ++++++
+ sound/soc/mediatek/mt8196/mt8196-dai-tdm.c    |   837 ++
+ .../mediatek/mt8196/mt8196-interconnection.h  |   121 +
+ sound/soc/mediatek/mt8196/mt8196-mt6681.c     |   879 ++
+ sound/soc/mediatek/mt8196/mt8196-reg.h        | 12133 ++++++++++++++++
+ 25 files changed, 28055 insertions(+), 27 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8196-mt6681.yaml
+ create mode 100644 sound/soc/mediatek/mt8196/Makefile
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-clk.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-clk.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-cm.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-cm.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-common.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-control.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-gpio.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-gpio.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-dai-adda.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-dai-i2s.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-dai-tdm.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-interconnection.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-mt6681.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-reg.h
+
 -- 
-2.48.1
+2.45.2
 
