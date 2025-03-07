@@ -1,123 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E869B218827;
-	Fri,  7 Mar 2025 15:33:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D36021D3C8;
+	Fri,  7 Mar 2025 15:56:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741361611; cv=none; b=Doywtphm/V8iZhmeYf2vo6/Wbv58+kf1eBCmGIYHbZK9VDxjbfehWG/C9+HvsPct6GV1PWw4/dusUiE2cAf0EUhikKjg5GFOQp+uQQuZEp7vCFZ0KeM3pM3srUwrN6uUiwRK3tHYHFKKIPwIAwVCwhzvCDtp/C6tidtQRfwKC1o=
+	t=1741363010; cv=none; b=Unu1ARO33t7y0H44NXRvWWtG4APEqsRwdxKs++zdut8S0gH3n0mUGQ3SdW299qpNXTLxOD0QIHIH+i0Ydk5SB00NSzDQN5vaRhFS/8mutc2X5EbrEMMlZU5R2aHA9mjdSBCKc9R8h86F7jvns6M8/WG/hzzN9JAhdemjNcFbKS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741361611; c=relaxed/simple;
-	bh=fucjhRt4B4i0MTYMnz37VVRApNqvklUwdMNx/EW2P5Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fer5Plhafs0dcuWPdikV4tGg8tnl1lsEJo3f2HotoYfKLCmYAcTKj5w4s7OShec8KDPjA0/EMzAPSES3AYS066oLNCebG9h4rItJbUClJpKEriLyTwETxGpXdu+28PlIjHt2PEUBeG6WPzsH9xYo0pqtsDhemAszmLXUdGcfpx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QZ/JP1O2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741363010; c=relaxed/simple;
+	bh=snIEFmz9xfWYQzlLczIEsvcAaFsQRt1rMH1p2sngHrM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Va9XQDI9TXv2YukJCdC25eZ08jXd7VPCPYPHtHLZfVR3lfGSrUqa0WkwzXI2rWo9UyxjP5xOWcomR52CHNff43NTFVCulUBOIvgYq9wrO0HfH1ZqsYqVZ5HYNFOF/XzFIEekajnu/VvigLQSRUFHRr8Ptl/HSTGWEUoPzAiO2Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WtSCAqBy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QZ/JP1O2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBF8EC4CEE3;
-	Fri,  7 Mar 2025 15:33:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WtSCAqBy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82C70C4CED1;
+	Fri,  7 Mar 2025 15:56:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741361610;
-	bh=fucjhRt4B4i0MTYMnz37VVRApNqvklUwdMNx/EW2P5Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QZ/JP1O2zukR7U7fBlk9fa48mjUe5AXkUXRMmycfdndQ1qw2DCMMPm9dvJrrXRXkd
-	 JWIP9KeMxkEXY9AEGh93YG1IVUO/72+K6yrhwp4Reh6tto37Q7kW+6zg1AAVZ4iVNQ
-	 5FWVR/g0cRoNm2il2BCh9XYz7ndB2+Cb/cRA75+/blUj0BysXNcdiltZx0Rfrgmszt
-	 yv6u+NDa/CoUOwtmGc6OXrlru9mgsNIMg4vsBc1l86ZoEGNn2n0by71x4nQ2IVWgbi
-	 YPZl87JZJLqTdu65mHhmwfGputu1IA3P6R3j2CzyyNLti0Dc8fMJTjDD/CCcwXe0y3
-	 n2+a9whRnFTug==
-Message-ID: <40bb42ca-52f5-4579-a9c7-58e6ff5dbbb5@kernel.org>
-Date: Fri, 7 Mar 2025 16:33:22 +0100
+	s=k20201202; t=1741363009;
+	bh=snIEFmz9xfWYQzlLczIEsvcAaFsQRt1rMH1p2sngHrM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WtSCAqBydP3J4dcHgQUECWzxCRv7ZnIQnZaF8rpt9JNd+352szrca7CF8RrkLT4Nr
+	 yAPig1lCb5BlnWv/GSOzDjwbrYQoGqOp8br/CCf5SPYi2Csbp9CV4og0fhH4nmooU8
+	 CWcwQQ0JpxcRHVEN4UOOiMw/8B7E6xX3MW2y2XEK9sknyNcohDDRngYZ4dwBmWwSCZ
+	 Rf/tNwAt7QJu18joFvpjLp22JrnEnZdLzRME3Ra353TZYtBnnkLWSNvsUrpjg4pok1
+	 uVTGGru9+Zuemi2U7tTpfF/l6njtqH8ptBultU9vQESMCMJy+Z3fKBOrD3BbDF8zFf
+	 higc/IBxAFPdw==
+Date: Fri, 7 Mar 2025 15:56:45 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH] ASoC: dt-bindings: fsl,sai: Add i.MX94 support
+Message-ID: <20250307-walmart-frequency-0430bb25a237@spud>
+References: <20250306171013.243332-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/14] ASoC: mediatek: mt8196: support CM in platform
- driver
-To: "Darren.Ye" <darren.ye@mediatek.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org
-References: <20250307124841.23777-1-darren.ye@mediatek.com>
- <20250307124841.23777-11-darren.ye@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250307124841.23777-11-darren.ye@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="FFjeYTYwkjimMl9i"
+Content-Disposition: inline
+In-Reply-To: <20250306171013.243332-1-Frank.Li@nxp.com>
 
-On 07/03/2025 13:47, Darren.Ye wrote:
-> +int mt8196_enable_cm_bypass(struct mtk_base_afe *afe, int id, bool en)
-> +{
-> +	int reg = AFE_CM0_CON0 + 0x10 * id;
-> +
-> +	mtk_regmap_update_bits(afe->regmap, reg, AFE_CM_BYPASS_MODE_MASK,
-> +			       en, AFE_CM_BYPASS_MODE_SFT);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(mt8196_enable_cm_bypass);
-> +
-> +MODULE_DESCRIPTION("Mediatek afe cm");
-> +MODULE_AUTHOR("darren ye <darren.ye@mediatek.com>");
-> +MODULE_LICENSE("GPL");
 
-If this is module, where is Makefile and Kconfig?
+--FFjeYTYwkjimMl9i
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-All previous comments about missing kerneldoc also apply.
+On Thu, Mar 06, 2025 at 12:10:13PM -0500, Frank Li wrote:
+> Add compatible string "fsl,imx94-sai" for the i.MX94 chip, which is
+> backward compatible with i.MX95. Set it to fall back to "fsl,imx95-sai".
 
-Best regards,
-Krzysztof
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+>=20
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  Documentation/devicetree/bindings/sound/fsl,sai.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,sai.yaml b/Docum=
+entation/devicetree/bindings/sound/fsl,sai.yaml
+> index 5c95508ee7075..0d733e5b08a4e 100644
+> --- a/Documentation/devicetree/bindings/sound/fsl,sai.yaml
+> +++ b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
+> @@ -41,6 +41,10 @@ properties:
+>                - fsl,imx93-sai
+>                - fsl,imx95-sai
+>                - fsl,vf610-sai
+> +      - items:
+> +          - enum:
+> +              - fsl,imx94-sai
+> +          - const: fsl,imx95-sai
+> =20
+>    reg:
+>      maxItems: 1
+> --=20
+> 2.34.1
+>=20
+
+--FFjeYTYwkjimMl9i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ8sXPQAKCRB4tDGHoIJi
+0mlhAQCDLOBTTlzlOnEh8Iq9kRCyrPzNjrGAM3aHNpcBGsUuAwEA6LMpql3Rjt6a
+zrp1FWvr1jsyCMqe9GTDKdMHJIhbhAE=
+=6Rpe
+-----END PGP SIGNATURE-----
+
+--FFjeYTYwkjimMl9i--
