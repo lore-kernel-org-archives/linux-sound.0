@@ -1,100 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CAF17A318;
-	Sat,  8 Mar 2025 06:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E6A8BFF;
+	Sat,  8 Mar 2025 18:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741414838; cv=none; b=mQ2ORyrgab1d5lqzvaV9LWo5zV4GSl782imxOSamSVZgGmsd5Wa8b0uWAn7culYeiaB5hvRKxjT55F9uR13+e+EyLVMJrgbRxEpUWlMHriC19KWWdncX/oumBd7TSF58sw/TvFEqqL9/4HEgIEwizieow+YzHQWfr7piNmI6JRw=
+	t=1741459995; cv=none; b=gE2lnMXLabEfGTHYw9v7my0k3vP/R6xDdvMVaBPKQar0j7yL2jjoM28iTVbOLA7rNibESv+By5gUeQct2f9UaEb452XWgWm8zHY/9iv+vXTnWaYDve5RY2CYZTtmi3c24amIJTlDUv9SMMSelup7QX1VRUJwIsrXoqNWkgOsPS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741414838; c=relaxed/simple;
-	bh=5YfqZTbEGIseGzwqMQm6Q/pxFyZ7sTTqrLNxwSsyqPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aTXrOjrlije/A6tj59sV17nlTntn9PS1Y/H6fa2NMcj7eD4Fcn35RTf9u+Nhk7Aksg02M7y9DCS4u/66krmrITfoS5SZzwDHV9+HYAelioC54KszmHxZ1GZtRl/ijGJVnYNChZlz7ybYQZK/LViOrAO4TaCQYIm8qzDLZXgHrIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UngE8yea; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741459995; c=relaxed/simple;
+	bh=6ywE/KCsG0OSGAcCoBVFTnvWrFMrpzEIEtPG/KeiqYw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=bfAMUW60Ap7q7l7HQG6e1pRdI9Xp5yIVBWfKaviuOdL+yn+pMyczxL1prVwx258RsK3A1wbgZ9ft4t4MYMrDBJH0l5MBLEuge37d49qfS1SATMT1L1/sQXpz1eHkTr6N6EH/ZUeFP7mDKTVWouHbiazXfbbgx69kbhTMN8pLAio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=jEO+Wnq4; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UngE8yea"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741414835; x=1772950835;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5YfqZTbEGIseGzwqMQm6Q/pxFyZ7sTTqrLNxwSsyqPc=;
-  b=UngE8yeayas6Tx3Bdc3bNuuFhwChrat7UM3tPDbFIy3W1pzvgwqZBgW/
-   YIEYRvrU5M76euPiL2UVHCxpvmxssHnSB+Rm/PqoHFmIN5efT+YO2Q9eA
-   2gPj7rByDaiGhpKoCBYmybdptDWwjHENldV3OFpUmKLXQkORb+EWXLQlu
-   lIF+CevsX4lNQTbZu3qqqlCMIX4JZsQWjHYRdt7XwQUwmKhCP6HzMiryl
-   /GhHZAnDJd2xUrUGGL2ZBpXhIcKKLEC83VtfeXo19tNUFw+HyFHCytebV
-   xslg9JDdkoDM/3C5AsW1hmtX18ceFebUXfkM+hP3IrLkQVa7p93TuVbrT
-   w==;
-X-CSE-ConnectionGUID: M7TwBbLMQpmLFNSDsqDZAQ==
-X-CSE-MsgGUID: mkNXwAsoRVS1yNhAZ2txIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="42611147"
-X-IronPort-AV: E=Sophos;i="6.14,231,1736841600"; 
-   d="scan'208";a="42611147"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 22:20:34 -0800
-X-CSE-ConnectionGUID: TBMUlj87R0qD7RzuhIEVTg==
-X-CSE-MsgGUID: aA64BUCcSjudK9qzQo3J1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="123689338"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Mar 2025 22:20:30 -0800
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tqnXv-0001Zs-2J;
-	Sat, 08 Mar 2025 06:20:27 +0000
-Date: Sat, 8 Mar 2025 14:20:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: wangweidong.a@awinic.com, lgirdwood@gmail.com, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	perex@perex.cz, tiwai@suse.com, ivprusov@salutedevices.com,
-	jack.yu@realtek.com, zhoubinbin@loongson.cn,
-	luca.ceresoli@bootlin.com, quic_pkumpatl@quicinc.com,
-	paulha@opensource.cirrus.com, rf@opensource.cirrus.com,
-	nuno.sa@analog.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	yijiangtao@awinic.com
-Subject: Re: [PATCH V2 2/2] ASoC: codecs: Add aw88166 amplifier driver
-Message-ID: <202503081433.xufVVq8t-lkp@intel.com>
-References: <20250228034958.181934-3-wangweidong.a@awinic.com>
+	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="jEO+Wnq4"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Z9C326Z90z9sp5;
+	Sat,  8 Mar 2025 19:53:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
+	s=MBO0001; t=1741459983;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=VTH4EiXKCLPkA8f3JyVPpOxN9JqCF6IoIwgh5tn62r8=;
+	b=jEO+Wnq4qhmkOYi6bWahHtVIyqAj/MLjKZBGDYHxNuy77zZXyDOV2btqyiN0xayGKKPZ3y
+	XA1tl5ydjzksnAJT/ntl8t/Evbt/JvEKvwYMNX8tnvl0iWPiirtJiDEtwn0eaUxX6X4K33
+	dQGGxYev1HDjH5yaa6Gw7mONaQjLXYAhdw7SdLrrJxReT1DTmh6DLPy8IC5qb81EdQNiGl
+	QiALYUTLShDqRcHSyiPRmknPrKkQA+V/iutnFrHSzQ8/ZEqekY0aaw3PucFXTlpdbI0hYV
+	Q3MzRnbjEjY19IYPrNY9xWSyTcU65NO1iJfWMBgYd9Yj+FrOJ3XU29vdbjXZzQ==
+From: Ethan Carter Edwards <ethan@ethancedwards.com>
+Date: Sat, 08 Mar 2025 13:52:59 -0500
+Subject: [PATCH] ALSA: ctxfi: change dao_set_input functions from kzalloc
+ to kcalloc
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250228034958.181934-3-wangweidong.a@awinic.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250308-ctdaio-kzalloc-v1-1-804a09875b0e@ethancedwards.com>
+X-B4-Tracking: v=1; b=H4sIAAqSzGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDYwML3eSSlMTMfN3sqsScnPxk3bTkNBPzJItkkzRzEyWgpoKi1LTMCrC
+ B0bG1tQBmipiKYAAAAA==
+X-Change-ID: 20250308-ctdaio-kzalloc-fcf47b8c4f74
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+ Ethan Carter Edwards <ethan@ethancedwards.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1615;
+ i=ethan@ethancedwards.com; h=from:subject:message-id;
+ bh=6ywE/KCsG0OSGAcCoBVFTnvWrFMrpzEIEtPG/KeiqYw=;
+ b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0o0bkp2QXk4ekFKWGJEOXFoNThlVGp6e
+ GhQcXlVeHBKK1p4RDFGZXVkR3U0cy85bHhuV2VIL2RlY0x0WTl6CnkzKzdGOHpZK09DQjZIR1RW
+ WXpHSGFVc0RHSmNETEppaWl6L2M1VFRIbXJPVU5qNTE2VUpaZzRyRThnUUJpNU8KQVpqSXB1V01
+ EQXM2VEdKSzA4VytMNUIvL0ozdm1QbG5sMWVieXI4c3ordFNsLzNrYVpHMGc0dmhENC93dDBNMQ
+ pyVFlYZkdZd3R3bXFmVnNjZC9STjFLdFdvM2Rkdno4Y1VaODdod01BdFJaUSt3PT0KPU5YVWkKL
+ S0tLS1FTkQgUEdQIE1FU1NBR0UtLS0tLQo=
+X-Developer-Key: i=ethan@ethancedwards.com; a=openpgp;
+ fpr=2E51F61839D1FA947A7300C234C04305D581DBFE
+X-Rspamd-Queue-Id: 4Z9C326Z90z9sp5
 
-Hi,
+We are trying to get rid of all multiplications from allocation
+functions to prevent potential integer overflows. Here the
+multiplication is probably safe, but using kcalloc() is more
+appropriate and improves readability. This patch has no effect
+on runtime behavior.
 
-kernel test robot noticed the following build warnings:
+Link: https://github.com/KSPP/linux/issues/162 [1]
+Link: https://www.kernel.org/doc/html/next/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments
 
-[auto build test WARNING on 1e15510b71c99c6e49134d756df91069f7d18141]
+Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
+---
+ sound/pci/ctxfi/ctdaio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/wangweidong-a-awinic-com/ASoC-dt-bindings-Add-schema-for-awinic-aw88166/20250228-115709
-base:   1e15510b71c99c6e49134d756df91069f7d18141
-patch link:    https://lore.kernel.org/r/20250228034958.181934-3-wangweidong.a%40awinic.com
-patch subject: [PATCH V2 2/2] ASoC: codecs: Add aw88166 amplifier driver
-config: x86_64-buildonly-randconfig-004-20250308 (https://download.01.org/0day-ci/archive/20250308/202503081433.xufVVq8t-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503081433.xufVVq8t-lkp@intel.com/reproduce)
+diff --git a/sound/pci/ctxfi/ctdaio.c b/sound/pci/ctxfi/ctdaio.c
+index 9993b02d2968c6c6858475f7ab98d4e90e7ffe2a..806c4d7543877ed74f8ec2dd894cf6b76af6f314 100644
+--- a/sound/pci/ctxfi/ctdaio.c
++++ b/sound/pci/ctxfi/ctdaio.c
+@@ -159,7 +159,7 @@ static int dao_set_left_input(struct dao *dao, struct rsc *input)
+ 	struct daio *daio = &dao->daio;
+ 	int i;
+ 
+-	entry = kzalloc((sizeof(*entry) * daio->rscl.msr), GFP_KERNEL);
++	entry = kcalloc(daio->rscl.msr, sizeof(*entry), GFP_KERNEL);
+ 	if (!entry)
+ 		return -ENOMEM;
+ 
+@@ -188,7 +188,7 @@ static int dao_set_right_input(struct dao *dao, struct rsc *input)
+ 	struct daio *daio = &dao->daio;
+ 	int i;
+ 
+-	entry = kzalloc((sizeof(*entry) * daio->rscr.msr), GFP_KERNEL);
++	entry = kcalloc(daio->rscr.msr, sizeof(*entry), GFP_KERNEL);
+ 	if (!entry)
+ 		return -ENOMEM;
+ 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503081433.xufVVq8t-lkp@intel.com/
+---
+base-commit: 0a2f889128969dab41861b6e40111aa03dc57014
+change-id: 20250308-ctdaio-kzalloc-fcf47b8c4f74
 
-All warnings (new ones prefixed by >>):
-
->> sound/soc/codecs/snd-soc-aw88166.o: warning: objtool: .text.aw_dev_dsp_update_cfg: unexpected end of section
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ethan Carter Edwards <ethan@ethancedwards.com>
+
