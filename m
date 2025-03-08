@@ -1,120 +1,100 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13072CAB;
-	Sat,  8 Mar 2025 04:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CAF17A318;
+	Sat,  8 Mar 2025 06:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741407247; cv=none; b=dz4aQjkU6QWn17MPbvA5cteo5b0cPmhbOdi9ceQFgPlQQx9wrHK7bXOvcehW4cf9qJpq5EulAqOP6/fYVP5SViIYJ2Ng/PceWo8IFdDrAaZumBTfl/D3m+G+VcO0/bwsobDmuqGSMA1iYjQv2WbYPtabzc1N+qKP52ZIU/7e+6A=
+	t=1741414838; cv=none; b=mQ2ORyrgab1d5lqzvaV9LWo5zV4GSl782imxOSamSVZgGmsd5Wa8b0uWAn7culYeiaB5hvRKxjT55F9uR13+e+EyLVMJrgbRxEpUWlMHriC19KWWdncX/oumBd7TSF58sw/TvFEqqL9/4HEgIEwizieow+YzHQWfr7piNmI6JRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741407247; c=relaxed/simple;
-	bh=DqtFNKP9MUEj9WZLATG65iYc6B7K9fovf6GYZcFZh+o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HD0KV6ssG4Z1b8+pM9eDCwwUnkFEcoRgAW7RamKB7CWYeMSvtFMyxewKdhbMDZ03LxR0Ug19r7TPMXs/v4lJP/xLqu2kMNEsmaQ+k0FpohK8/R1dyQ1PHBUwxuvnEbu3CbrhRuD37OFSzJEx41L8PEatZTBRWbwm78kk7Yr+w7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c043zgwn; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741414838; c=relaxed/simple;
+	bh=5YfqZTbEGIseGzwqMQm6Q/pxFyZ7sTTqrLNxwSsyqPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aTXrOjrlije/A6tj59sV17nlTntn9PS1Y/H6fa2NMcj7eD4Fcn35RTf9u+Nhk7Aksg02M7y9DCS4u/66krmrITfoS5SZzwDHV9+HYAelioC54KszmHxZ1GZtRl/ijGJVnYNChZlz7ybYQZK/LViOrAO4TaCQYIm8qzDLZXgHrIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UngE8yea; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c043zgwn"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2f9b9c0088fso4494098a91.0;
-        Fri, 07 Mar 2025 20:14:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741407245; x=1742012045; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3INYmLaQOuwy6XzMyvhLucYfMGdX+9XqD8iYHVj5pcI=;
-        b=c043zgwneWaHO9lsobbOLjQ/XhiM/M7uynA3uhVrGOEcM1007LiTMcW40lNox/py7O
-         Tx/UxcN3++4rSLzbpQwv0P4aR/UoEFViFgdERzKG8xhqBXUsc7IwiCS/zjwz5KOA6C6G
-         RRem4vX9X8DtT8wWDdD0bdl+i/MlSYcFVPnoPTfdFuLk+UiWqqWyywixRWjZ2qc5zbMu
-         Zysx7Brax0qWGAlKKaH3DoHPnxTaOLuZC0NiqXSJHiZxAODf+v7+aAy4R8sG52AsUeB9
-         MRwFCrFuMKqhog1dP105NmOhhWSE49h6Ygan7DAFZSHss6E6P/l+JVxkelIUV8SLyoPG
-         UeIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741407245; x=1742012045;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3INYmLaQOuwy6XzMyvhLucYfMGdX+9XqD8iYHVj5pcI=;
-        b=XDAI8C/6y2ks7aAJWhnNtGngWwrV/dUZndS3UkgUODieOZyX3VkW8/koeF2DNdt1L8
-         HMdYT68CQH9dciMKrcPdQahDZRQ9VXex0FDbfkQrDqcT01V00wBJLEspSFCW1JI077U9
-         bpAleu2AJU4vpKwnQAELiEV6pXzItra9ZCBURIgpz4xs04ewj6KLHsS1ZvTASvkT6iqH
-         8KK0O26ym+Tl4HWpzxQBmGgS0fa21A0zoggxeKtCl6q3zwZ835g2UpzqR94lyPhFvYTK
-         Oij4vXoTTFl7h67xDMsW3RdWk4egIpnUYXp0JZGJGJzOlvh3Rl9Uqr7Dxxxj+XgZmaYe
-         jFSw==
-X-Forwarded-Encrypted: i=1; AJvYcCXu3mbQoG729ygpGlsPbbxqK4VqAtES9Q5LcMvilKGbwlCI5K666R/08FmbnTOig2x0WxGslV0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTdSrdbnK87bijxKBRtkFXRBWgSWUZ599sJP4m+GBCpxGjTLqM
-	B6NmJnxMK3dSXzRfOcI0RmT0ijltQS6BOaYwpZlhcTMFDeZoauEVwN48gKp/
-X-Gm-Gg: ASbGnctrQoweqgfnnnmXhFXX0y0XGRnGD+r+SMapYxX2P6jymfYNFhnhHxlsLe5MKdw
-	03OHh7WESv5Ai7MC5a0TpXZN45ilij6COhwoV4NJfPAzfow88e0gtCIXE2P9u4fJx+kNy932RVe
-	whdMMOB2lRHyRnmjWCU1Up786SfBpIThyJ190UpjoYXhfdnYSM0MTbNNKZ3ohLIJtEnQY94X/sd
-	37AQIrvV9dWUf6z3Le05k5My8Ep59Ot/ElNxn50uZy1n4YOe9mvu8ghLg13EbRAqWZH2im2ieTF
-	Y1yt/nTu0LV3wih93xavldxxQn8HpmgvgVj56wM8hcTOHynBzZKFkKXPvfSaWvInFw7TWDoe0S3
-	EHIkhT0hEeoTIn3rGdRjp
-X-Google-Smtp-Source: AGHT+IFJfVkQfXrwaaOZOFpjOdt127kisOCsit/c9oQIMt1ghlNUdekIEzZ3n9aysSiPZnKUkNPj6g==
-X-Received: by 2002:a17:90a:d404:b0:2fa:562c:c1cf with SMTP id 98e67ed59e1d1-2ffbc1474a2mr3236143a91.1.1741407244789;
-        Fri, 07 Mar 2025 20:14:04 -0800 (PST)
-Received: from localhost.localdomain (host251.190-30-223.telecom.net.ar. [190.30.223.251])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ff693e7fb5sm4354916a91.37.2025.03.07.20.14.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Mar 2025 20:14:04 -0800 (PST)
-From: Thomas Mizrahi <thomasmizra@gmail.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	mario.limonciello@amd.com,
-	Thomas Mizrahi <thomasmizra@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: amd: yc: Support mic on another Lenovo ThinkPad E16 Gen 2 model
-Date: Sat,  8 Mar 2025 01:06:28 -0300
-Message-ID: <20250308041303.198765-1-thomasmizra@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UngE8yea"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741414835; x=1772950835;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5YfqZTbEGIseGzwqMQm6Q/pxFyZ7sTTqrLNxwSsyqPc=;
+  b=UngE8yeayas6Tx3Bdc3bNuuFhwChrat7UM3tPDbFIy3W1pzvgwqZBgW/
+   YIEYRvrU5M76euPiL2UVHCxpvmxssHnSB+Rm/PqoHFmIN5efT+YO2Q9eA
+   2gPj7rByDaiGhpKoCBYmybdptDWwjHENldV3OFpUmKLXQkORb+EWXLQlu
+   lIF+CevsX4lNQTbZu3qqqlCMIX4JZsQWjHYRdt7XwQUwmKhCP6HzMiryl
+   /GhHZAnDJd2xUrUGGL2ZBpXhIcKKLEC83VtfeXo19tNUFw+HyFHCytebV
+   xslg9JDdkoDM/3C5AsW1hmtX18ceFebUXfkM+hP3IrLkQVa7p93TuVbrT
+   w==;
+X-CSE-ConnectionGUID: M7TwBbLMQpmLFNSDsqDZAQ==
+X-CSE-MsgGUID: mkNXwAsoRVS1yNhAZ2txIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="42611147"
+X-IronPort-AV: E=Sophos;i="6.14,231,1736841600"; 
+   d="scan'208";a="42611147"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 22:20:34 -0800
+X-CSE-ConnectionGUID: TBMUlj87R0qD7RzuhIEVTg==
+X-CSE-MsgGUID: aA64BUCcSjudK9qzQo3J1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="123689338"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 07 Mar 2025 22:20:30 -0800
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tqnXv-0001Zs-2J;
+	Sat, 08 Mar 2025 06:20:27 +0000
+Date: Sat, 8 Mar 2025 14:20:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: wangweidong.a@awinic.com, lgirdwood@gmail.com, broonie@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	perex@perex.cz, tiwai@suse.com, ivprusov@salutedevices.com,
+	jack.yu@realtek.com, zhoubinbin@loongson.cn,
+	luca.ceresoli@bootlin.com, quic_pkumpatl@quicinc.com,
+	paulha@opensource.cirrus.com, rf@opensource.cirrus.com,
+	nuno.sa@analog.com, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	yijiangtao@awinic.com
+Subject: Re: [PATCH V2 2/2] ASoC: codecs: Add aw88166 amplifier driver
+Message-ID: <202503081433.xufVVq8t-lkp@intel.com>
+References: <20250228034958.181934-3-wangweidong.a@awinic.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250228034958.181934-3-wangweidong.a@awinic.com>
 
-The internal microphone on the Lenovo ThinkPad E16 model requires a
-quirk entry to work properly. This was fixed in a previous patch (linked
-below), but depending on the specific variant of the model, the product
-name may be "21M5" or "21M6".
+Hi,
 
-The following patch fixed this issue for the 21M5 variant:
-  https://lore.kernel.org/all/20240725065442.9293-1-tiwai@suse.de/
+kernel test robot noticed the following build warnings:
 
-This patch adds support for the microphone on the 21M6 variant.
+[auto build test WARNING on 1e15510b71c99c6e49134d756df91069f7d18141]
 
-Link: https://github.com/ramaureirac/thinkpad-e14-linux/issues/31
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Thomas Mizrahi <thomasmizra@gmail.com>
----
-I recently acquired a ThinkPad E16 Gen 2 AMD and could not get the internal
-microphone working. After some research, I discovered this issue. Since my
-machine is a 21M6 variant, the required quirk was not applied by the
-existing patch. After applying this patch and testing on my machine, the
-microphone was immediately recognized and worked without further issues.
+url:    https://github.com/intel-lab-lkp/linux/commits/wangweidong-a-awinic-com/ASoC-dt-bindings-Add-schema-for-awinic-aw88166/20250228-115709
+base:   1e15510b71c99c6e49134d756df91069f7d18141
+patch link:    https://lore.kernel.org/r/20250228034958.181934-3-wangweidong.a%40awinic.com
+patch subject: [PATCH V2 2/2] ASoC: codecs: Add aw88166 amplifier driver
+config: x86_64-buildonly-randconfig-004-20250308 (https://download.01.org/0day-ci/archive/20250308/202503081433.xufVVq8t-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503081433.xufVVq8t-lkp@intel.com/reproduce)
 
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503081433.xufVVq8t-lkp@intel.com/
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index b16587d8f97a..a7637056972a 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -248,6 +248,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "21M5"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21M6"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+All warnings (new ones prefixed by >>):
+
+>> sound/soc/codecs/snd-soc-aw88166.o: warning: objtool: .text.aw_dev_dsp_update_cfg: unexpected end of section
+
 -- 
-2.48.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
