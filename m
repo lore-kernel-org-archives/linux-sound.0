@@ -1,95 +1,116 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1F1182BD;
-	Sat,  8 Mar 2025 19:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAB21DC99E;
+	Sat,  8 Mar 2025 19:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741461034; cv=none; b=YoESdMcLPY5CIYSsQBpegAk+c5Y/TBr6kvG0Qowh1p7V1LaPfFYTycIXQAzQKUuhAWUBtOWgtIA0v8j14f053t7JcanxbG00vh/xxDwaC6zwZxNJbvENOBMzDnzBhCmNisLbptS5FmyYotO45lYyXIijyv9cbXhhjkyQ5tya1Jc=
+	t=1741462366; cv=none; b=ioJ8M7v467QktOOdEXUqpA3TdR4c9j2bE0x55myf76uIIzPGsdauWWZSL/F+NJPYkNNdTBCwmEqpLosUYchKHUcEHmx5cczhn7kj+RDdRfbYGBC6KkW0oaNSzITm3JTaCLbZpeEiabkYwqOPvcL8clMF0EoWLq3UxEFl7YvOOH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741461034; c=relaxed/simple;
-	bh=MFhWjnwCq9VAZ1ofWC8aiiD17UJ5XlmzNLHT6UJtbaI=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=r2qp60O4yhkbLRU4jjEkSEhtNcsyHkqBs5Vf23YmKZfWRXU42M/jdvWr93wcmh7V73fkOrW5CeniTQnHosq7/UhSY1LF6V7DRw73HCIEuGpLthpZ167clevfsLfYBFNoORGqukpzFUj6HOCkY2/DCKwO3fzfIhkkd0Gz1/75Na8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=GZ9fVXSh; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1741462366; c=relaxed/simple;
+	bh=3n4Gx0k4wvJdU3ldrwBd9uwvsIO6uc7ywXM/gJ1w3vw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GP3DYZ5LHpr5/wXyP1NjRuA0ANBzJq5sM8ZQhpZDeCXb5+V+Cy0jRyoxR8oJrhX4yC+f2lhOaavYNzycTxlba2wjqdcDoV1gjPa9V5Dn4BsLmyiuIEyeykdPPdIJgadWnD8KUoXAsBgj6bbEbYoE8ES1PRMh6+MdYnsKtVWzxFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=qn82shWK; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="GZ9fVXSh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1741461011; x=1742065811; i=markus.elfring@web.de;
-	bh=MFhWjnwCq9VAZ1ofWC8aiiD17UJ5XlmzNLHT6UJtbaI=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=GZ9fVXShcYPk36YjF/USdyCj+HqQr4HPRMvWhpgh9xylo123bKqShlbxZXrNT7Km
-	 1DK8uLkhHaVu5q/forUQc57zNUgVMunq1uluXKpG9kJZ7LT9ef+qtXBsyDqNM9DFF
-	 OGlbI8FzNprEn5/6AlIfAfcdqKzL0/DPxobF7vNEgQ2DicjK4tcEbO+l5uCLxYx6i
-	 CJuvhNR9cMVc1uqXVfEA+nUlLyQ7GUwlt1ea944vMvCajLra8mC91p1IgmcORpeE5
-	 OwKH8mmzEpzeE7LOpx/9yy/4zqT0uNvptaUMVx5hq4oDBMzRYd0x/ODCBnf2VCYFv
-	 GdDN4boGXacaYkTyNg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.79]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MWzCt-1tklNy1ezR-00YcVT; Sat, 08
- Mar 2025 20:10:11 +0100
-Message-ID: <61137c75-1b24-4425-bed8-518e1bfb0e0d@web.de>
-Date: Sat, 8 Mar 2025 20:10:10 +0100
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="qn82shWK"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id 6B63F6668A63; Sun,  9 Mar 2025 06:02:39 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 6B63F6668A63
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1741462359; bh=UEh1amhXjYUH2yT7shpS4PzlgsIWQ03wZXpMr1EMP5Q=;
+	h=Date:From:To:Cc:Subject:From;
+	b=qn82shWKQH8gjGklxTLiESWXGfBHKS0Bdt4HxIm7TwQ/UgiARe2a4vR99Eh4C2hIm
+	 gvdZEYmXXzkHUzJy/36SSlDgJriq54Sry4ccNzXHVpoowmD98MS8FOen5YZgGHamMI
+	 I9vpgVCiWaUuuTcmqtuxNoXtGWqT2gjys3IwqHXgk0foLFiTbokf1b7aAPlcf7Wqfr
+	 UhMx03leIez+cz0YY4Rb8MfGcQMY8nFOckFACqgmr1MsRPiNeMgJv67uyV94wtYbO9
+	 kVIiD2Cqle7xliqv06ru377H+r+ODLbSUrOtZeG/gByFH5sF0Z1LhpEIQylGQp6Wdz
+	 44M+jrxUWCE0A==
+Date: Sun, 9 Mar 2025 06:02:39 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Hao Qin <hao.qin@mediatek.com>
+Cc: linux-bluetooth@vger.kernel.org, Sean Wang <sean.wang@mediatek.com>,
+	Chris Lu <chris.lu@mediatek.com>, linux-sound@vger.kernel.org,
+	Benedikt Ziemons <ben@rs485.network>
+Subject: [PATCH 1/2] Revert "Bluetooth: btusb: mediatek: reset the controller
+ before downloading the fw"
+Message-ID: <Z8ybV04CVUfVAykH@m.b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Ethan Carter Edwards <ethan@ethancedwards.com>,
- linux-sound@vger.kernel.org, linux-hardening@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-References: <20250308-ctdaio-kzalloc-v1-1-804a09875b0e@ethancedwards.com>
-Subject: Re: [PATCH] ALSA: ctxfi: change dao_set_input functions from kzalloc
- to kcalloc
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250308-ctdaio-kzalloc-v1-1-804a09875b0e@ethancedwards.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Dsp8DBc0wP5H3VzZJi1LMWqnO101NZOaF6ZxuUTZpY1kn7sddfe
- hTtY6fvvqnf2WwfRyZpwRVjvrFHCKH7TuI7tzxciBQhYp71Iz88Md+WNor/O0OCRnICmap2
- d+RKhjHEs45pOtRmgBBjmv2rpgLaL9WGYHIG8lM1MFa0YDdzaIpsXcmcVdVRMLYnYQN71S7
- 1ooSS6xxo5Co0w7uJNf9w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:F0IpBO66jtY=;+ffitv7G7GsrvY+Ptl1hdlzG4VM
- tNJOcLiEGykBDZSP7RmjKyrWZoHMGGRRvsZJik/k09qX8nRAeVBCEXrEQT2/KvJOm9sjiRVDn
- JtG09aAYby24JyywHzDCJnWGu3YD286W4FCK9wofsyEALq44GHAs3FC+9VL4nEQNDB51JTbIZ
- G1AHikl7WuDHiZfU8uV1JlJc0qE0JDRq1ogH1yIbC1tzNyVyjObuAIVSTL/ljDzYVs6Qz0bNd
- rv6tmV+GHuyRYS0DEI5Vk7yfLFOzIDqVEX+Ol1VbRGx1owWTywJVbkLwPMH20ODkkiBrHsJW4
- b3eq0bnYPw7u5Td/IHYa9qZHYc0svZVffba1PK2KyCxA2xjaLhfiQq//p72faVHemASG+srxb
- cAi28hYlAGIWu/y9U3AOgiDTbLruPjmkL24SUcL/kKxdrcESLt+Wasi+aTnKlePkcO6qtx4dw
- ZZp7I82lNAsmAO7vkjmGqoCbHvxcpwLJ25Wz36oYr0OQlXeSIZ3yNO8i5Mq0qGNOKIG1SFpXe
- ExBNJuDaU8SNc1Fafj2FDLQH6SY8NpLuQF3GUZO1srIwgFzEcalqKNdzY+1cm0jDYFnGKVvC9
- 7BpFCqib4vriRzieqOuctKBtkLSvGHsfjymD5gHELoW1VsRN65mEA8gO3m8Cg7cpalGEHP7hh
- Ij/mBn+sjis0HVfnuZYC41QZCkSgQSg4DdX7mcBdtdQU8254Rhrkyqqxs6R9jHQx8RLiqujMb
- ktv2FLcSNR0Nc/Wjp3IcGn4cuMV6acIJ6kZXcZFIllLpm/AfDUCABf4mTUIrBV3Wplmzvmi4l
- 4geD5D2w9Oskm8KrGpr2fQyHxyl1Q5EOXbaw+lu7M4tOecxrx/vhfIKIpB6+EsIx7bTyX/4uR
- aHbumsiIPp33d9LfDdpm5kbtJcN45exv94FB+eI1XJHwh0w8j1+nR8KbkexwqIQ4YigsTa2kU
- z16ycaguEnKTbVn09nqAFZyRU3Y53vagfHnVXW41G9dsqQ4oYDlvQfsIGXYX661oe2um/e7hm
- 1TfQLnx2EiV71VB/hbtJ0xFwcqX68W2ptVLUq+JVXeGGw9cGXuX3hAzG+1qW3YwmlRHBLWT/c
- bgRR6+CYwDraEvQC6rqghmfAKQLB/dcmHFQz7ybpQVBqH6GlbYeoowXDf6xNMRFcNU7rOpt5R
- 8uR8IuIsTfWJGbV8jYd3tRdPj1QROVufupukT+WkSSXWB5dWpkfJbaT71T6AfH5L1prk3opYk
- wtRy9E9k800PjVvG/qx0To99y+81tETFTBF09i8X4HpGiZQY5dVCx7cOZS4R6KPSKP3TzPEQN
- CZMFeuqoqwuLkNzj2QozwsmjbiSeaIYPQGfhpjVMV1QdJ/l3ldu03D5LTYqJtrWvqZd2bbB9i
- YQKyIVpN/vv5hOonbBEik0mumeHSnPXaqdJ7REW8iJ+xaFKthg3X1dyeGNKDCJyhcNPHjX61F
- JAML5Z78WVw3tQVSHe9yY69Jb334=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> We are trying to get rid of all multiplications from allocation
-=E2=80=A6
+This reverts commit ccfc8948d7e4d93cab341a99774b24586717d89a.
 
-Please improve such a change description another bit.
+The MediaTek Bluetooth controller reset that was added is causing
+Focusrite USB audio devices to fail to initialise when connected
+during boot on kernels 6.11 and newer.
 
-See also:
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
-e/Documentation/process/submitting-patches.rst?h=3Dv6.14-rc5#n94
+The issue was reported by three users, with Scarlett 2nd Gen 6i6 and
+3rd Gen Solo and 4i4 audio interfaces. Two of the reporters confirmed
+they have an MT7922.
 
-Regards,
-Markus
+The issue causes the interface to not work when connected at boot
+time, with errors like this observed in dmesg:
+
+  usb 3-4: parse_audio_format_rates_v2v3(): unable to find clock source (clock -110)
+  usb 3-4: uac_clock_source_is_valid(): cannot get clock validity for id 41
+  usb 3-4: clock source 41 is not valid, cannot use
+
+The problem only occurs when both devices and kernel modules are
+present and loaded during system boot, so it can be worked around by
+connecting the audio interface after booting.
+
+Fixes: ccfc8948d7e4 ("Bluetooth: btusb: mediatek: reset the controller before downloading the fw")
+Closes: https://github.com/geoffreybennett/linux-fcp/issues/24
+Bisected-by: Benedikt Ziemons <ben@rs485.network>
+Tested-by: Benedikt Ziemons <ben@rs485.network>
+Cc: stable@vger.kernel.org
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+---
+ drivers/bluetooth/btmtk.c | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/drivers/bluetooth/btmtk.c b/drivers/bluetooth/btmtk.c
+index 68846c5bd4f7..4390fd571dbd 100644
+--- a/drivers/bluetooth/btmtk.c
++++ b/drivers/bluetooth/btmtk.c
+@@ -1330,13 +1330,6 @@ int btmtk_usb_setup(struct hci_dev *hdev)
+ 		break;
+ 	case 0x7922:
+ 	case 0x7925:
+-		/* Reset the device to ensure it's in the initial state before
+-		 * downloading the firmware to ensure.
+-		 */
+-
+-		if (!test_bit(BTMTK_FIRMWARE_LOADED, &btmtk_data->flags))
+-			btmtk_usb_subsys_reset(hdev, dev_id);
+-		fallthrough;
+ 	case 0x7961:
+ 		btmtk_fw_get_filename(fw_bin_name, sizeof(fw_bin_name), dev_id,
+ 				      fw_version, fw_flavor);
+@@ -1345,12 +1338,9 @@ int btmtk_usb_setup(struct hci_dev *hdev)
+ 						btmtk_usb_hci_wmt_sync);
+ 		if (err < 0) {
+ 			bt_dev_err(hdev, "Failed to set up firmware (%d)", err);
+-			clear_bit(BTMTK_FIRMWARE_LOADED, &btmtk_data->flags);
+ 			return err;
+ 		}
+
+-		set_bit(BTMTK_FIRMWARE_LOADED, &btmtk_data->flags);
+-
+ 		/* It's Device EndPoint Reset Option Register */
+ 		err = btmtk_usb_uhw_reg_write(hdev, MTK_EP_RST_OPT,
+ 					      MTK_EP_RST_IN_OUT_OPT);
+--
+2.45.0
+
