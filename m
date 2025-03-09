@@ -1,83 +1,148 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84514155316;
-	Sat,  8 Mar 2025 19:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EC540849;
+	Sun,  9 Mar 2025 12:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741462808; cv=none; b=aQufWm3f2d9IKehcN4Jf37YoefIoAK0yhGPj87UmTAnNnv+9eTzIYY/NnKHrhoScPQq04T10y86ZgpKEc8dUd/wo1NrtW++Ej8bJxSRCuZq0S9seL/QuCYNQnY5fdzERIMQo5TTHQH0ox6+I3iZTWoDr5BW6xYQdRuFHTE9Yl4E=
+	t=1741523985; cv=none; b=jtqjxnNgXXm7h2qv71+oxKYA0953TWNH/7N63dDe1BWzTxJo4cf2qNQEv8cdKd8FAnXwWhttTkmd28vv69HU6lu07l5yBkAdnqp11F7mEKVj745P7ZsACHrSoKFyijNyoW3g0DU0pVhFjwjQg4KOcP7IeESeif4N+DIR2jayf5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741462808; c=relaxed/simple;
-	bh=u95SOK8XrtFcUJcoHMZIV67ybjxm9OqN/sfLe0FBqjg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FuHCnophhJAlXS33kGdT4/OfcCY3YUyg8ZqzH6ZQx3ReQcr8EzgHplPdFn2HAk+gAyRpl8zORnhOHD9N2nVfzmzmD1SLDnhXf8kk/d6p8GOe2iy3XKrQQpA/fnrZ4qHvF2FjdQxWS7/wDrg34xypVSkW8ekGCAZ8xsi6l4wFgQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=Xh4hI6n/; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1741523985; c=relaxed/simple;
+	bh=lWl5lYord8cuB5ZzfLS6JRfbOoN/JMaoXnsGUHvSaGI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Q2XHzgekyZcfI8NIhTQ9ynNO8RxpdJxFCAwPeizm98df+zskMKZlehiiqprgwQb2iClxvETNZQ6VRQixXf6Hi0X1DdCpAW/60JUVjOBNbSGhRVcwie37u9z0QiGODxg8cILyEhqJtCN3bjNXBiEL8EynOAUQc/BkF7Lnol3Ctc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bgfRWsIU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="Xh4hI6n/"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 835D66661191; Sun,  9 Mar 2025 06:02:11 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 835D66661191
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1741462331; bh=6nIUT6zNLLVzgjgzFTaOnFCafZ+5lF0wPddW9zDwxB4=;
-	h=Date:From:To:Cc:Subject:From;
-	b=Xh4hI6n/EbO9m6b8XKoBU3l+uN6BiHRPXfGkxBe8qYi5DGoWlbvkBCStjU25QVBTw
-	 pDCneSIelHJtHAe9OgPI7JzwwNFgPGyKKnFq+Cd2kIImE9z2+Kphv/BVD3qgseBeai
-	 0VKaS0xNAkxXR3AYpjZ8ZhcOL8cuwTEAnhz7ulU00e4oRmn7xegCNnJU2txPYCGQ/8
-	 aYDVI/ktUJK7ZAAHYcwml1RSgIx4D/w/y10ZE+LnPx93zYW1Dg32EzMlG4eWOx/OmF
-	 tbf9hafizynbGrQ+2K4Xbk/joq52t7uSysUCR3xpZlLX3SWBt7VglKtqA+ySALciMo
-	 E1AIEhg8N4h5w==
-Date: Sun, 9 Mar 2025 06:02:11 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Hao Qin <hao.qin@mediatek.com>
-Cc: linux-bluetooth@vger.kernel.org, Sean Wang <sean.wang@mediatek.com>,
-	Chris Lu <chris.lu@mediatek.com>, linux-sound@vger.kernel.org,
-	Benedikt Ziemons <ben@rs485.network>
-Subject: [PATCH 0/2] Fix for MediaTek reset affecting Focusrite audio
- interfaces
-Message-ID: <Z8ybO7DfeP3Ag9wz@m.b4.vu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bgfRWsIU"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6175FC4CEE5;
+	Sun,  9 Mar 2025 12:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741523984;
+	bh=lWl5lYord8cuB5ZzfLS6JRfbOoN/JMaoXnsGUHvSaGI=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=bgfRWsIUMV70Z7mSZTYp6dYX+Nu0x7I6acmsohXuLMBoS9N0MJkSUEXwyhdsy7zO1
+	 VuLda67M91B31NqAU/RXeyUOlVFC6tA3oLnjr0Y/49hVGuzJYxfvK3gMBs198/m9RQ
+	 fuExHprQ2Uk/gju4rSahrAkOFPoMZlFOAnw+LHqnzPP01CAAqtziO++SGr2FHJ1dHD
+	 IAKmpfNj7j9K6DmObNvxAHVs+X5dB4WEupANow29TPz5yB8hp2Ft9uPDOAeLdIb+sY
+	 Jll9FSaXWPKl8HzgJYHdk+rqnBlpvwJqUUhp3fQR7YqhWR4MLMsTCVJpjJynJrzSn/
+	 PuwcpN6sWHMTQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56DD3C28B25;
+	Sun,  9 Mar 2025 12:39:44 +0000 (UTC)
+From: "Chester A. Unal via B4 Relay" <devnull+chester.a.unal.arinc9.com@kernel.org>
+Date: Sun, 09 Mar 2025 12:39:36 +0000
+Subject: [PATCH] ALSA: hda/realtek: Limit Internal Microphone boost for
+ ALC3246
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250309-for-sound-alc256-dell-v1-1-aacd84853907@arinc9.com>
+X-B4-Tracking: v=1; b=H4sIAAeMzWcC/x3MQQrDIBBA0avIrDtgTDW1VwlZiI7NgGhREgKSu
+ 1e6fIv/OzSqTA3eokOlkxuXPDA9BPjd5Q8hh2FQUmk5yxfGUrGVIwd0ySttMFBKaCZrlmitp6e
+ G0X4rRb7+33W77x+M9elUZwAAAA==
+X-Change-ID: 20250308-for-sound-alc256-dell-61967f99ce45
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Kailang Yang <kailang@realtek.com>, 
+ Stefan Binding <sbinding@opensource.cirrus.com>, 
+ Simon Trimmer <simont@opensource.cirrus.com>, 
+ Joshua Grisham <josh@joshuagrisham.com>
+Cc: alexander.scholten@xpedite-tech.com, dwayne.dupreez@xpedite-tech.com, 
+ zenon@xpedite-tech.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, "Chester A. Unal" <chester.a.unal@arinc9.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741523982; l=3467;
+ i=chester.a.unal@arinc9.com; s=arinc9; h=from:subject:message-id;
+ bh=6CDVT2SLeMufNzb6wH1khK6tsAEt+ToJ1Hx6kvFEPZs=;
+ b=RjzqhlLgi4pwA4YjdKCIz/HMB6cBnKGtclU9g6cSTRfB9RbgpDMgC/y+bJSUKs3jvW4P7PcwI
+ RUJhN/ob/RZBqerIWNCzYZDzEXBhZhPcQJGv2nv+fTUY1l1+yC7IWti
+X-Developer-Key: i=chester.a.unal@arinc9.com; a=ed25519;
+ pk=/g3vBAV0YSvcIpSQ052xJbid7nrPXz8ExGKhTEuc6IY=
+X-Endpoint-Received: by B4 Relay for chester.a.unal@arinc9.com/arinc9 with
+ auth_id=306
+X-Original-From: "Chester A. Unal" <chester.a.unal@arinc9.com>
+Reply-To: chester.a.unal@arinc9.com
 
-This series (choose 1 of the 2 patches) addresses an issue where the
-MT7922 Bluetooth controller reset added in commit ccfc8948d7e4
-("Bluetooth: btusb: mediatek: reset the controller before downloading
-the fw") is causing Focusrite USB audio devices to fail to initialise
-when connected during boot on kernels 6.11 and newer.
+From: "Chester A. Unal" <chester.a.unal@arinc9.com>
 
-Reported by three users here:
-https://github.com/geoffreybennett/linux-fcp/issues/24
+Internal Microphone is too loud on Dell Latitude 5490, Dell Device
+[1028:0816], which has got ALC3246. I suppose this is the case for all
+devices with ALC3246 which is ALC256 for Dell devices. Therefore, limit the
+Internal Microphone boost for ALC3246. Change
+ALC255_FIXUP_DELL1_MIC_NO_PRESENCE to
+ALC255_FIXUP_DELL1_LIMIT_INT_MIC_BOOST which includes the former fixup.
 
-Two users confirmed they have an MT7922.
+Signed-off-by: Chester A. Unal <chester.a.unal@arinc9.com>
+---
+I don't know ALSA or the Intel HDA specification very well so feel free to
+correct any incorrect information in the patch log.
 
-I'm providing two possible solutions as I note there was a similar
-change made in commit a7208610761a ("Bluetooth: btmtk: Remove
-resetting mt7921 before downloading the fw"), so I'm not sure if the
-reset should be reverted for the MT7925 as well as the MT7922.
+I experience another issue with this laptop that is also there on ALC3204.
+Headphones output loops back to Headset Microphone. So if I record with
+this microphone, sysystem audio is recorded as well. I have tried a fair
+share of fixups by compiling snd-hda-codec-realtek.ko with different fixups
+applied for "0x10ec0256, 0x1028", replacing the existing module in
+/lib/modules, and then rebooting.
 
-Option 1: Revert the problematic reset behaviour entirely (MT7922 +
-MT7925)
+ALC2XX_FIXUP_HEADSET_MIC makes Headset Microphone appear unplugged. But I
+can see on the OS that it detects voice, so, it works. When it appears
+unplugged, Headphones output won't loop back to it. This fixup also makes
+Speakers appear unavailable and makes Microphone disappear, as
+ALC255_FIXUP_DELL1_MIC_NO_PRESENCE won't apply anymore.
 
-Option 2: Remove the reset only for the MT7922
+Another issue is when I toggle capture on Headphone Mic on alsamixer,
+physically no audio will be played on Headphone. Speaker is unaffected. If
+the capture is toggled on anything else, Headphone will play audio.
 
-Geoffrey D. Bennett (2):
+Tested on Debian Trixie Alpha, kernel 6.12.17. My headphones are
+Tip-Ring-Ring-Sleeve. Here's how I test both issues:
 
-  [PATCH 1/2] Revert "Bluetooth: btusb: mediatek: reset the controller
-    before downloading the fw"
+systemctl --user stop pipewire.socket && systemctl --user stop pipewire
+alsamixer -c 0
 
-  [PATCH 2/2] Bluetooth: btmtk: Remove resetting mt7922 before
-    downloading the fw
+speaker-test -Dhw:0,0 -c2 -r48000 -FS16_LE -t sine
 
---
-2.45.0
+arecord -Dhw:0,0 -c2 -r48000 -fS16_LE -d30 test.wav
+aplay -Dhw:0,0 test.wav
+
+Attached is test.wav. The timeline of the recording is:
+- I run speaker-test. Then I run arecord. After that I say: Speaker-test is
+  running. Capture is toggled on Headphone Mic.
+- After about five seconds I say: I am switching capture to Headset Mic.
+- I toggle capture on Headset Mic. After that I say: This is Headset Mic.
+- I kill speaker-test. After that I say: I have killed speaker-test.
+
+Maintainers, please let me know if you have an idea how to fix these two
+issues.
+
+Chester A.
+---
+ sound/pci/hda/patch_realtek.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index d2a1f836dbbf714c26be682133b44cc0bd173ad9..379a325e96641232485a2fc8e6de03798461f466 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -11799,7 +11799,7 @@ static const struct snd_hda_pin_quirk alc269_fallback_pin_fixup_tbl[] = {
+ 	SND_HDA_PIN_QUIRK(0x10ec0295, 0x1028, "Dell", ALC269_FIXUP_DELL4_MIC_NO_PRESENCE_QUIET,
+ 		{0x19, 0x40000000},
+ 		{0x1b, 0x40000000}),
+-	SND_HDA_PIN_QUIRK(0x10ec0256, 0x1028, "Dell", ALC255_FIXUP_DELL1_MIC_NO_PRESENCE,
++	SND_HDA_PIN_QUIRK(0x10ec0256, 0x1028, "Dell", ALC255_FIXUP_DELL1_LIMIT_INT_MIC_BOOST,
+ 		{0x19, 0x40000000},
+ 		{0x1a, 0x40000000}),
+ 	SND_HDA_PIN_QUIRK(0x10ec0236, 0x1028, "Dell", ALC255_FIXUP_DELL1_LIMIT_INT_MIC_BOOST,
+
+---
+base-commit: b7c90e3e717abff6fe06445b98be306b732bbd2b
+change-id: 20250308-for-sound-alc256-dell-61967f99ce45
+
+Best regards,
+-- 
+Chester A. Unal <chester.a.unal@arinc9.com>
+
 
