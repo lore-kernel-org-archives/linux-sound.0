@@ -1,148 +1,139 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743881C5F22;
-	Mon, 10 Mar 2025 09:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F83D21D595
+	for <linux-sound@vger.kernel.org>; Mon, 10 Mar 2025 10:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741599018; cv=none; b=EgvMham+0JT3Qg8JzrqMZ6HM95jE5u1QhZbsiQT3w17ExmfJFm8bJwQbqqyYt8CHmaLhsd1H/p5yiNMOOOW8fvrlJ6XURlSIz1fNK1eS9Ft5EwMVBRtaLZ4eDgwnYGTnZunaNj7VCCFqGAzYB1VtBva78AcQhS28xvrvyxfuiz4=
+	t=1741602506; cv=none; b=n4X+RrPlgDreY5+wC0Z0BGEAYanJOnyVXQzkmTQ4nMGx6/IAp9mzttSfIyu5oDOIsAgBJhSZ8pmmOR0IOHoK7I6ILB+wqcA+t1tjbGMwUtkLM7WpqmgXj4YLrzUlCDusXQTlwc13hDYN1iV2f7DZ2lzn1khlWN+vv7289Ltuu/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741599018; c=relaxed/simple;
-	bh=jUtUQg74aR+QT1pHvyCm57vRLK9jOPZ0YAQlpRfOnKs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jJDVcc7JZKZYsjLeIu1tTiygOHDrfm7sUgQIsPJMMCCRUn6Kxy8EGX/a62gArbEQTAhGFbY5K/GLaQzmphq794FpxLLCmyhLQFgMTfbGYR9jtFEklYuDlUMnT5/dAASG4zeyGYUM989+X4YeuigARg+NbmbRoRe0wNNv2FrvirU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOjRnGk4; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741602506; c=relaxed/simple;
+	bh=aXI+JMKiOqLVkfblHR5HjhlgmjRLkXpcCkuWsHpOjFI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qaSCUAoHPnaivRrhWellUlXBD0pTYYnCXTzcApTksaLm5vWjn5nOvKOzzrxQ5UerovrCwN79KSsQZP4p16rhQFIupMWO8SsBYIjjcmEP9wNSQdOU0uN9ZbCMztWb9M73bTkvCkamob9zhX0g/qlSbe/GJDY7Uo13jmkhFqawma0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A7dDRtIf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jAyVPhJ+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A7dDRtIf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jAyVPhJ+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOjRnGk4"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ff4a4f901fso5746013a91.2;
-        Mon, 10 Mar 2025 02:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741599017; x=1742203817; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p5PO1nUn7Da+eSXJyU+EvbCSWkrbL0y5pIUDKxSEvMI=;
-        b=LOjRnGk4jaYubYrtW7gBdeC2Ufx4Z9DSZFanBCnAUcjr3ytE+Nn+0kq++8zHxox077
-         kJ/lFnxYer2pvzThQmuvV9vDVWA7+HH3INklQTpfl79gT+CYsV7TJZ1CPiPg8IID9Mzc
-         dkN1/D4SLATXK3F4EyAILUAvkcxvBvB0KAfSt1QKWIfy5kCH2s9DEOge/Wg7NLT/hxzc
-         asSD/pdtMzAry+l2DElajpyjS2IG8neKgSXy4HLQzuQAbvcMqiXxn5UMRlxuNPguyD2P
-         Lp/Eq98dswlMm8A0tRFgmE5+xml2voL+/IQs/J5UZT4XK1NkviAUEwvIBqBchx5LkQS1
-         +f2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741599017; x=1742203817;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p5PO1nUn7Da+eSXJyU+EvbCSWkrbL0y5pIUDKxSEvMI=;
-        b=qiv9sjhRnG+PxS6CoKNpdPBCWokSKzxddoz8imv2V1pjH8syCYJO+DoJ7SDIxT8EET
-         5zsFiV1EwdUHL7XpPPE3saVH+7ChlkEZms6V38m947fwP0gQjOhZyxXk2OMkWgIh0pE4
-         WAKLC1wOZ6Xsc5BqudqPIZQZ06/pF6WNkJ89i+J2JlK2kAVnCP6vBuZ98DpO+VATJc02
-         e1JBfztFUst6ZNu58FDrj4pFRQkcaT82HAp7CSvR8kugCNhoXjCtGsv9jqJV37zK2Hcu
-         tT5nNrpb2Ip1g8Gq93yoEqiEhzstm5omgrBO25FR8YTwetCySQv7ShfwhtMJgFLBOsO8
-         z8Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCU07jpTmsI8vnEMiZIMJsdLuFkYcTIwmiAmTLnNx2L+c93pnnpP9HEY+YaRKkoxYi64BerOpxUrvz6WQPo=@vger.kernel.org, AJvYcCV4+dlCEWUDElZKbFgJ0mhXfZCy/bpAOBPi8609t7xNf965Luw5KUjIxqLNFBwCDVToclSB70sygrHEQTU=@vger.kernel.org, AJvYcCWinNLGZD19sPkyVK86ASlHaYpEIlm8dAktw7qznXxJFizwxCd/bkSXXaAjZn0KzUg6JJOwLpXPF+MqF3m5@vger.kernel.org, AJvYcCXgijivGUCto6K97ub+Zu3n/1LMOHUlnC8SuiJDIPrbwLjywx9aJAOm6Al5G10qWdlLRrLoYebxN4/Y@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzl+y6DQUMO16YrIFuoO0NG6RGKMNFFVt/qsbcOWEm9bguk98MI
-	kNGZJOkNswwE/aH/aD7JCkp66DLORhTl6BuYZx6NWPWIJhM04Y9vFqmDOkyN
-X-Gm-Gg: ASbGncsuWbX8zlAB1/2bPfKBEbU0C7WADuLFT6tAnTFkdV1kaxluNiiKlNtqVSrCz4+
-	pk8HFSVugK7whweyTU/cHPGiLQWNjqtLQxKuSpvOmGDZKwQ7xlEuzcbWfbjC4mygwKE94V5Bdwk
-	JNrM5iHLChvx6b+7Vzy5OW+JbKZ6E21aYlrNEgGWtCXXPNeo/bao/28x3xvZXzsThNu3rnWE9m7
-	m8jeN3B7U/qpeWcFcKqszdc1E1Tw+aAkEQuRARjGT1EWxPHllRaiAzTfdu7DJGJ3Q0GrfrPaP+c
-	ioTn3SqEtuqL5yGtz42n4gEUKRyMnfXu1FHuU0RsQDdsNPuITwfd8GRRsgBGLo8OiKjnhOXIxB+
-	NxW57xaDUa0LSlN4ONcrR2UBR0GV2tiDhjHv+mLtdPIk=
-X-Google-Smtp-Source: AGHT+IGUUow1W9RHWgrDcswCnQbDzoJQvZyLilCRmisCyeH8NamOu+V6JXATKLMsX5Bdy5T6O5mGzQ==
-X-Received: by 2002:a17:90a:e7c2:b0:2ee:aed2:c15c with SMTP id 98e67ed59e1d1-2ff7cef5ce5mr19339490a91.28.1741599016487;
-        Mon, 10 Mar 2025 02:30:16 -0700 (PDT)
-Received: from setsuna.localnet (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410a7f98esm72725035ad.155.2025.03.10.02.30.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Mar 2025 02:30:16 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Shi Fu <shifu0704@thundersoft.com>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
- Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
-Subject:
- Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT pulldown
- and zero-fill
-Date: Mon, 10 Mar 2025 19:30:07 +1000
-Message-ID: <5996925.DvuYhMxLoT@setsuna>
-In-Reply-To: <20250307205156.GA583954-robh@kernel.org>
-References:
- <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <CAHgNfTxS1Q4PPsw520-J4Yn6xg+QZOYFkYhg5yv-uZFu5waN_g@mail.gmail.com>
- <20250307205156.GA583954-robh@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A7dDRtIf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jAyVPhJ+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A7dDRtIf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jAyVPhJ+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 067191F387;
+	Mon, 10 Mar 2025 10:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741602503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V0+5Q/4zdvQm4ku6LSLVA8gfuk2ie1/5ffTFd6Zp7eM=;
+	b=A7dDRtIfkpLlfC/A0SDoU1lUGmIP9nyrWqswDTFh1M95ZVjestadNTnKpBHsWrArcyoSyZ
+	JDKuG/XsfEJirj+Rvg785aQEDzE+dxWhjL1Lsb9mI3xvQBBr8/Wf6YY7h8/6hk8vxAhI+p
+	T2edpKBIpgraMZoW+N61K9gs237jYPs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741602503;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V0+5Q/4zdvQm4ku6LSLVA8gfuk2ie1/5ffTFd6Zp7eM=;
+	b=jAyVPhJ+a2tMcGXvsU0yxufznWHpZ3DiMjuLYd38/2KODI6TcpOsi9EAfglTbuN8NoF4iA
+	O1a/8qDBhTDSB9Bw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=A7dDRtIf;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jAyVPhJ+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741602503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V0+5Q/4zdvQm4ku6LSLVA8gfuk2ie1/5ffTFd6Zp7eM=;
+	b=A7dDRtIfkpLlfC/A0SDoU1lUGmIP9nyrWqswDTFh1M95ZVjestadNTnKpBHsWrArcyoSyZ
+	JDKuG/XsfEJirj+Rvg785aQEDzE+dxWhjL1Lsb9mI3xvQBBr8/Wf6YY7h8/6hk8vxAhI+p
+	T2edpKBIpgraMZoW+N61K9gs237jYPs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741602503;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V0+5Q/4zdvQm4ku6LSLVA8gfuk2ie1/5ffTFd6Zp7eM=;
+	b=jAyVPhJ+a2tMcGXvsU0yxufznWHpZ3DiMjuLYd38/2KODI6TcpOsi9EAfglTbuN8NoF4iA
+	O1a/8qDBhTDSB9Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D406B139E7;
+	Mon, 10 Mar 2025 10:28:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 65GUMsa+zmc7aQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 10 Mar 2025 10:28:22 +0000
+Date: Mon, 10 Mar 2025 11:28:22 +0100
+Message-ID: <87r035yybd.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Navon John Lukose <navonjohnlukose@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add mute LED quirk for HP Pavilion x360 14-dy1xxx
+In-Reply-To: <20250307213319.35507-1-navonjohnlukose@gmail.com>
+References: <20250307213319.35507-1-navonjohnlukose@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 067191F387
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Sat, Mar 8, 2025 at 6:51=E2=80=AFAM Rob Herring <robh@kernel.org> wrote:
-> How would it work when you need a mask? "dai-tdm-slot-tx-mask" is
-> enough?
+On Fri, 07 Mar 2025 22:33:19 +0100,
+Navon John Lukose wrote:
+> 
+> Add a fixup to enable the mute LED on HP Pavilion x360 Convertible
+> 14-dy1xxx with ALC295 codec. The appropriate coefficient index and bits
+> were identified through a brute-force method, as detailed in
+> https://bbs.archlinux.org/viewtopic.php?pid=2079504#p2079504.
+> 
+> Signed-off-by: Navon John Lukose <navonjohnlukose@gmail.com>
 
-The existing TX/RX slot masks are used to control which slots the codec
-is operating on, AIUI. I don't know if it makes sense to alter how codecs
-deal with this. Could we combine the suggested dai-tdm-slot-tx-idle
-with an optional dai-tdm-slot-tx-idle-mask property? From the machine
-driver's perspective, the API would then be similar to the existing
-set_tdm_slot ops. The current downstream macaudio machine driver builds
-its links by allowing multiple codecs and CPUs to be linked to a DAI,
-like so:
-
-dai-link@0 {
-	cpu {
-		sound-dai =3D <&cpu0>, <&cpu1>;
-	};
-	codec {
-		sound-dai =3D <&speaker0>,
-			  ...,
-			  <&speaker6>;
-	};
-};
-
-In this case, the codec-specific mask property was added so that a mask
-could be applied to a specific codec rather than the whole dai, however
-from upstream drivers tt looks like the way this should be handled is to
-have "dai-tdm-slot-tx-idle-mask-n" properties at the dai level, then have
-the machine driver set the mask for the appropriate codec during setup. So
-for macaudio, assuming speaker5 requires this zerofill mask, we would
-have something like this:
-
-dai-link@0 {
-	cpu {
-		sound-dai =3D <&cpu0>, <&cpu1>;
-	};
-	codec {
-		sound-dai =3D <&speaker0>,
-			  ...,
-			  <&speaker6>;
-	};
-	/* equivalent to ti,sdout-force-zero-mask =3D <0xf0f0f0> */
-	dai-tdm-slot-tx-idle-mode-5 =3D "zerofill";
-	/* should this be an array like the slot masks? */
-	dai-tdm-slot-tx-idle-mask-5 =3D <0xf0f0f0>;
-};
-
-The machine driver then calls something like
-snd_soc_dai_set_tdm_idle(speaker5_dai, SND_SOC_TDM_IDLE_MODE_ZEROFILL,
-		SND_SOC_TDM_IDLE_MODE_NONE, tx_idle_mask, 0);
-and the codec driver deals with it however it needs to.
-
-Regards,
-James
+Thanks, applied now.
 
 
+Takashi
