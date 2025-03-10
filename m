@@ -1,215 +1,102 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2081.outbound.protection.outlook.com [40.107.236.81])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86ECE1AA1F4;
-	Mon, 10 Mar 2025 12:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741608632; cv=fail; b=QsdJjDOlU3u52vguAookoymrzEZEg5L65IBpQTnWILkYKk/yO5OeP1xyhk6MOLRtb2ezWtrY/kBz0aR0xNxfxW0ZgmyDUaYmgmBGZBNQJTC8xXe/lQPSH11lJmvApP0Ig6cBoRYz9PxJylGYRhJfW26Wx3AUsVZBD5qcKVZuHeM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741608632; c=relaxed/simple;
-	bh=HfrixilfGCP4D+uaIPFvzdGFhLsUNwwA6aPMzfdvU7s=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=QWgNmRDh15vPmA0QvPwLaej2hY0yteyqyPLOUKuF3DRIiOfjzuj9NTxToVcMVYfyx/XlHap9bXTdCuEkXEeqmkEDy8cR4FL2JtVgJeFVl3KEbFYBF3v2aHKXlIDkhr+CBl8PtN2f5jKd4WiqMcdFrkw1nrf1da7a5QT+Aqy2DI8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=XWAPGmJG; arc=fail smtp.client-ip=40.107.236.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1CB21E0AE
+	for <linux-sound@vger.kernel.org>; Mon, 10 Mar 2025 13:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741614674; cv=none; b=eotLpxWudhMjWzR73aSvTEU0twgjwHvCzgNz5AGhNZx/P9KH0qBpGb0iKAO/k0ObwK9kjo35GtAwd7c7rO13qNmTZKAZfTwBSXrM09uSIc65ggS7xKX1CdUAKPaiAQUU0mbDAd3GaDDenQTbb2iRcwRdnMwuKyqDLhrN1Xjtvmk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741614674; c=relaxed/simple;
+	bh=Es9DYIbOCvddMNCMB1N4LXfb4XFWVevll/hVNIpQhQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fMapvhoOcvXbkpUorrf13ACjWv/G5cpVZjLvV4H1MJ0YUihL3A0a3PJ5tLwhGKor0hjpCawrV6betW1zbVSOHnz0ZpuMLaNyxrMN2tfit1ST9bmaMGZvdjkdbn0IHkkoL2oF/BzbNk5emMjXGA9hX5la67BkcdfVExAEA1q+3a4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nVmd/kXu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="XWAPGmJG"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fxiEtSftWhx8BFM9YkrDlLsrcBkYaIsqRG/ZPckXVMZdHA6S9cI6cqmGXZWTWoErXIJUrE6Zz3JudTqtLuPmnvHwelrbmDNwQXIv5bZ1ujuoRH5wutqaj1S7NJ8XBvVGpYYuj+TW+oxkd+ioEwJHnyjAORM9z3t9hshFxwXX6HUvUY30JPl2/+7G2zzkUv377cgOVdC2mKjyAoizt7imU+eIg3XAI/j5caD+F2HHo/sqlkDVswOPJtcUivsLXHfPN7qMhPYs8AV49Q8BY91lj/LEKTbxjqd9mIFz/6Ihxx22MK9GYPPnBR3B5OYej3xpKHyXfoJAp0jVkarNm0s6xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P6Acx4L+zOypZNra/9Ge/KbRCV+Ga04uETHIfge/u7k=;
- b=LRnq9x1oPtpRWTs+4zW8u3vYYwmHxc95yvMBrrNC35mJgRZoZ3iuurOhm3xVSgwDotkFzuSnzDttWSblmB8p6gSz5pOzeFUThAjkQq+OjqGP+QemUEJE0H78FYPjmG86DSYF9wFCyEZ4bdkbEnUJAhGz73T44KRA/NbhWpSt1Mjky7S6QivTYxgWJM2RD0QTrCuEYTcOmAOE3o9rndp6YpSTyIjmP3ou9j1XZ9+6JcVVWTKoG4UcbkxgIC9hSgI9NGQzHQLWb24lPrqSymbcxzaadmPMER3hIoOXug3kHeBPkk7g7udwNXeQqsC+5Aw1KfuuYCaCUItYRU6KSKYL3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P6Acx4L+zOypZNra/9Ge/KbRCV+Ga04uETHIfge/u7k=;
- b=XWAPGmJGYJPMNSNVdrXZ2pIyHcv2S0xxVzN9XBxSm4ACMXg8pcc2e5FSuFXLpvGfFYVzscvpwPUoOEp7WvGAN/OoP9B/7iDEv3ibYK6YYPgNb144wT3vmPJ2uwTHg4tHj3hM9Ygp6QdH7LJ2OB2bPYpVXc5pYJo5+VkoWO3eFw4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5951.namprd12.prod.outlook.com (2603:10b6:510:1da::16)
- by SN7PR12MB7252.namprd12.prod.outlook.com (2603:10b6:806:2ac::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.26; Mon, 10 Mar
- 2025 12:10:28 +0000
-Received: from PH7PR12MB5951.namprd12.prod.outlook.com
- ([fe80::df88:d99:3cf3:dec0]) by PH7PR12MB5951.namprd12.prod.outlook.com
- ([fe80::df88:d99:3cf3:dec0%5]) with mapi id 15.20.8511.026; Mon, 10 Mar 2025
- 12:10:27 +0000
-Message-ID: <09a88230-744a-43de-9346-16cc06766c1a@amd.com>
-Date: Mon, 10 Mar 2025 17:39:58 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/14] ASoC: amd: acp: Refactor dmic-codec platform device
- creation
-Content-Language: en-US
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, broonie@kernel.org,
- alsa-devel@alsa-project.org
-Cc: Vijendar.Mukunda@amd.com, mario.limonciello@amd.com,
- Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
- syed.sabakareem@amd.com, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Peter Zijlstra <peterz@infradead.org>, Greg KH <gregkh@linuxfoundation.org>,
- Jeff Johnson <quic_jjohnson@quicinc.com>,
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-References: <20250310104601.7325-1-venkataprasad.potturu@amd.com>
- <20250310104601.7325-4-venkataprasad.potturu@amd.com>
- <6e892094-ff90-41ef-ac56-b7fcf6abf2a8@linux.intel.com>
-From: potturu venkata prasad <venkataprasad.potturu@amd.com>
-In-Reply-To: <6e892094-ff90-41ef-ac56-b7fcf6abf2a8@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BM1P287CA0005.INDP287.PROD.OUTLOOK.COM
- (2603:1096:b00:40::18) To PH7PR12MB5951.namprd12.prod.outlook.com
- (2603:10b6:510:1da::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nVmd/kXu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3019AC4CEEB;
+	Mon, 10 Mar 2025 13:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741614673;
+	bh=Es9DYIbOCvddMNCMB1N4LXfb4XFWVevll/hVNIpQhQM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nVmd/kXuTHkNgqXj6PX0a8/D1eHIl2hMZq46609cklZPZPplSUZBmOoFKBdHhWInY
+	 nkxGJ6l2TktZyjTEZS8ExDZdlM2NXb9oP9oM34XirJ5I6Xcc1x87VwvIC2HhEGvYkm
+	 DFIv5IO4Yj71yMYO+TVfamSQ6u+JaAZJV5Ak5SxOztl/ND0p+oC4aGgD9SOf9PTXAs
+	 jhAcI3kkvQwbfHkbh4ejxydYl+MNVpcuUA2DwQulF/NMH915rRPbyorkjwJdaCYPaE
+	 eWWdoPgsbk/cyXdHQ9QGnaPek4QWu2YVn0rbv0gy+3nsT4KmqlpKjaQJ+H7dWmcsyW
+	 sfl1toAt091eg==
+Date: Mon, 10 Mar 2025 14:51:10 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: David Turner <david.turner@raspberrypi.com>
+Cc: Stefan Wahren <wahrenst@gmx.net>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com, 
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH V2 2/2] drm/vc4: hdmi: Add jack detection to HDMI audio
+ driver
+Message-ID: <20250310-efficient-nonchalant-lorikeet-e14fc6@houat>
+References: <20250304193912.5696-1-wahrenst@gmx.net>
+ <20250304193912.5696-3-wahrenst@gmx.net>
+ <20250306-delectable-quixotic-polecat-ecd2c3@houat>
+ <CACXvZi-NT1e8YXJEmcHyf29eSr5NSL2fdLXfQb5amCf_YFL16A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5951:EE_|SN7PR12MB7252:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1caa94e9-943d-42bd-a23c-08dd5fcc8b6d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RFl4TThZUXVhMVBuQU02cWNPaHJVN3JOSEVhc0pjS2xsWkRPcFlwdFJ0Q1VT?=
- =?utf-8?B?c1hTQVRPeTR1Qm9ESHRVNjlkcVYyM1RxZmMxUG5kamZGcDE0VEtLTlJYNFBT?=
- =?utf-8?B?MVpLWmlJYjg2amhOOUY2bS9TODRIL0dpNnVjSS9raE9lZVN4aEgxUjJvSk9K?=
- =?utf-8?B?R3ZOM1ZUS2tzTi9qWWZNVEdwd2NNckg4Nzh4amlJay9adW03a0JKS05hM2Mw?=
- =?utf-8?B?TVdmRlpvN1VjY3pUU211WW9WK2RGS2hxaUdCaE9lQmlGenh4K0l4eTBSMWJv?=
- =?utf-8?B?UHlxVHVXS0JwaUJlNW01aUJ0QkFnWDhMTGxjNXFsNTVvTXRMSHcrblMvVUZE?=
- =?utf-8?B?ckVrOFFLTHhITHBMR3VJbFJtS3pGSS9Ud012WS9RNGZ4Z2Q5TXJ2WHczeXU4?=
- =?utf-8?B?TFBuYjFOSDkwdlU1UnQxOVoxMEVuNG1MN1dSNE9KT2d3RWpoYUREcHlVaWR2?=
- =?utf-8?B?UmZoYjM0a0k4SXY5UUE1UXBxc1RPc3kyOHAwZFYrSG5rRWVvY0RycDc0U3Qv?=
- =?utf-8?B?U2txR3RKWEoxNFNiL2ZjMWpNQXhuOEJpLy85UTROZmpvUUdONkw4eWdGNm9V?=
- =?utf-8?B?a2ZxMlh5ZTBxc0RlM2RUaGFxQmEraVVQeUx1anFqOGVHYjlkeUhyY3MyMytn?=
- =?utf-8?B?VllmMnc2SFV1LzY4NHczYTM1WUl5QndyU2tJTGlDZzNWTTRmeUR5alR5Qkt2?=
- =?utf-8?B?bHN5cXBnd3hpMkhKK1V0TWt1QkpaM3drZGhoNTlSeFVUc0Jvc3hlZ2VYWVR1?=
- =?utf-8?B?WlcvTjNnZ3ZCNkxpcWkybytKMWhTVWxzYW83eXdCaG1ab3MvSFEyNWQvZy9E?=
- =?utf-8?B?emRwOTBzbVdKR01QcDU4MkZlZmFEdVVZOTM1VnhYWWZEdnI2eS9uNUs4ZEFP?=
- =?utf-8?B?SzZhR2pLaDFPSUEzMDJGNWt0VFU3SzFFQksxL2xZVDBkT2ZHelZMUDBodXRC?=
- =?utf-8?B?Y1VQdU5TdDhWVTlrWG9vR0FEV0dFcXJDMEpRbWRDMjhsMm9YakpPRzUwZ3hk?=
- =?utf-8?B?S1Vyc1E3dHVBbW0vang5K0FPUW8wT1lFNUQzdEVMWVV2NlBWK0FIREFHdThC?=
- =?utf-8?B?bkYzTVRvbWZWenVPbjBmK0ZYdmJMRTgzdjByL3B5anZ0Ynp3Rzkwd3p6K0s1?=
- =?utf-8?B?ZkNwYlgzWVl3bU44dzBXTVpic3U0ZVRkaE1jbUEycUYrazlxTDljaFlDQW9o?=
- =?utf-8?B?S0htN2FpNFpoUVJ2TDM1T0JBdUJBT3lqWnNFUitzdk83dXJYSmdnZVdGWDBN?=
- =?utf-8?B?MnZGdlRFbmVSd0NmRVg2SVZ5WEc2VFhBZlJhL1IzdklwdHFmeG1IblArK2VB?=
- =?utf-8?B?QTJHeHZxL2c0Q2NkczdUSWRPUlBaYzBXTk1ueldELzZpd1RKaEh6dzJUVHd2?=
- =?utf-8?B?NkpLdXczd2NBWTlRZjhORnhGTUpyNGhvSWZvYUJXckloRXBqUGJTSjlHMTJ1?=
- =?utf-8?B?UWZZZmFKZGloc0N6cUVFOHVoVmR1Qm9qOUdkeW1STWhvcVFaWUtVc2x3ZkZ2?=
- =?utf-8?B?NTNTTndaR2lCYkhDWXlBdCtBMWY5Q3p6d0w5THl3K0ZWaDdoRElXaVY0NzBl?=
- =?utf-8?B?WmYwNkhENjhxQ0FObW1kTFYvdE9yeGJlM2ozRVM0cE9aaTY0ME1qcXlOTDc4?=
- =?utf-8?B?STAxOGk3Yy9Ia3F1WmlYQkZRaVdDNDkvWTJiRlJJZ3c2Yml4SUtLRk5Lbk5s?=
- =?utf-8?B?bXkvbnYyWW9qSU9XTEdjRGlhd2VHaWp6c0hEYUlHYWJrcGVPdjZLQVM0dDEw?=
- =?utf-8?B?ZGROZmlKdEltRFFRTnI0aEhUMmlsUjVOWGhSdnZzUUtSS05tcy8vT0N3dXg5?=
- =?utf-8?B?QmFFaDFKZW1udk4zSnVoRWVBcG9ZOWxyOTdVeVVKb1hxQWd3QUJyS1FqYlJh?=
- =?utf-8?Q?IUMotejUZFJ80?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5951.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZFFiWmZTTU1jbksrYVBVU0xoOEpVbXRONkN3NmtqSkxlQndvalYyL2NYMXZL?=
- =?utf-8?B?bVQrblc3Q2VEQnVUT0Q5YVR4VHE5a051cHBhYUlMMUxNbnMwclh0M3RCMU8w?=
- =?utf-8?B?QlFqVjJoZ0NDMzUwZmUyMWpVaVBqekpCc2VUeHFHOSs1RzNXQUM1TzJRTkVm?=
- =?utf-8?B?Mnp2bGZxL0tFZGxacUhnbUhJT1BxdDA0eEE5Z3BhMks4eEx4bWVJRE5EVGZr?=
- =?utf-8?B?dEl2SHp6a0gyb1RiU0pGanBSSHJrSXVYU000QnI5eUpuN1JtOVlJQlBCdDJV?=
- =?utf-8?B?ZHV3cE9PREtBaWJpMGVGME82VitsK1VSbm0ranh2RXkvQnhHS3JJOS9mUFEz?=
- =?utf-8?B?cVpsN0pCSDVjaXQvT3lmNmx5ZkI2S1AyN3VFYTJKbEo0YUVJRWhlMjhBbVA4?=
- =?utf-8?B?cVZycFBTNjdENDR0bWVQbWVzVjZaOFlFaER6RmhZUm82N2ZURklWb2hkeUdG?=
- =?utf-8?B?WGw2b1RiLyt4R3hneFl0enEzeXM2K0hZQlB0RzM1bU85Q2hUWE0rUklRejRJ?=
- =?utf-8?B?c1dPSjhXcWFEdEVpZEVJeWg2blRYbnVkeGFWbm9sMzJsRzBZZmJxZytxQzVK?=
- =?utf-8?B?aGx0R1NHUU1jaWI2OUZkdEVMd0VaUS92QmVycGsrRzN4VjZNT0NxWVFhSzZQ?=
- =?utf-8?B?c0RBOTdJbHZOMkUzSWQySVNzT01tMktuQ1JhY0htOCtzMzhSQTdjRjZ0ZXZJ?=
- =?utf-8?B?a2dsYnhpdUhHd3FmSlFKMFJaYmM3Nmg2MEZwdDZRZXA1Q1ZxaGNWSEtYSEpx?=
- =?utf-8?B?L014aU9mU0t6Q25vbEZ2UGl5Ry9RbVdsVzJSeHVtZjhCOUFpWHFYR29IMEc4?=
- =?utf-8?B?dUVmR2lna2NLR01KNTZVSWJQWUl1Wi9RU2puVmpiNWt1QzZ5YWJKdzA5eGx5?=
- =?utf-8?B?M09BMVRkWlRmaWJwUEQ3UHkrQ3BIOForaHpNOXNvdWpmRk50TSs0NlhWMHJG?=
- =?utf-8?B?TzF0ZVp6eFhzdXczOFBqMzJPQVRQS2JkeGtjRXZORXJFYXp4KzNtZWM3K21i?=
- =?utf-8?B?aW96V2pES2R3Rkt6SDBtTnRHRUNmZHpSSU5yYi94S0NnblVOcjdXamN4UTFS?=
- =?utf-8?B?UXlmNmNIN1U2TVhkRExEQTlWZUc4OVVkT3dhM1I0dnpvUTJFV0cvb1BjQUk2?=
- =?utf-8?B?ZUR5WVo2SlA0emlxSE9oUm95K0ZmNXcxMkxveHJsZjZBUlBCd1RUa3ZSRk1l?=
- =?utf-8?B?MnJuZUc2UFl3NCtFbERZeDlPYnAzZ1JDTHF0dUE1TzBEQ0UyT3BRek4wMVdG?=
- =?utf-8?B?R3c3NDR2SEEvQml3YXFMN3plOUdMUjl5aGtnLzN6VFFlYm9JblZxTEtjZTk3?=
- =?utf-8?B?bnhxNWN2cTFVelBjNktDRGVmRXM0UEQ1TXE2VTlMeWNERVJ5d1VtRmJqMDlB?=
- =?utf-8?B?OTAvd1JkWTExbjIvT2tRQ2hvWmVMNTNPTVU4czdZQUJnQzkveXNxNjFMNnNs?=
- =?utf-8?B?WGM3TXZRSDNzOUhTaStmVzdYMkhBVkZVTWRWN1p2TkRkbGpJcm1wZTUrdW4v?=
- =?utf-8?B?WHZ0NE1ISlgzNHlscEFneFpjL09lazJvM1FvMEdPblJPU3JJK1lWanltN0k0?=
- =?utf-8?B?blJqa3VhNE1kOWp3Y3crL3Rsd3Ezc1NEUm92UWp1UkNBeUZDVG8xUGlzTFQv?=
- =?utf-8?B?TlYvSkxCdWZTbGRLZVlPdlA1L2VnUHZqMVF0cEd2VW1seENDazVZVlNGc2pn?=
- =?utf-8?B?Z1NMN1V0WU9OMHU4Yi9sQzRVcHhNSEVUMUVPUmliUndsalc1UGR6YnNiNGxl?=
- =?utf-8?B?ZEI5anI3QmI1OUU4V0dtaktvREtPZDlDWTFYY1FRTnA1K1NQeThzd2hjQmh6?=
- =?utf-8?B?RUJUVzA2c0c2cXArdWRjSlhOaW1UZVRSZXM4RzdmS2ZzNzhXZkNFckRhRWFJ?=
- =?utf-8?B?WVF4U2FHTmhTV2lWTHVnMVZrb1lNbEY2d3RhMXRMQ2sxZ01Cd3hxa2VxTThO?=
- =?utf-8?B?YkhiM3lURUg0VTduTXdXTFZXMHBCL3ZtRHNwSlF4UjJpVTdZeFU1OStvY0VR?=
- =?utf-8?B?TEh4SHgyRDkrQWpQckVrVWlMV1dlYkVvcDBzMGE1ZGk5dzEranVVUDQvVnhD?=
- =?utf-8?B?QlhhOHh5Uit4OWsvVmp5Rm1hczJtZnprSGVQcTI1VWJqTjFyUDZlVnEvZlJG?=
- =?utf-8?Q?8Ro3DTY8Y5w67y8shfAwGcXJ/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1caa94e9-943d-42bd-a23c-08dd5fcc8b6d
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5951.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 12:10:27.5174
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ybyYlmx2i2DZR6zzmtDotOAIYr9fr+o2xfKmjfns9JtHreLBKZ/6v9/bzgtl1aUQYW134UcPSGoYyzjP2AArcQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7252
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wbzi2mywobytncqp"
+Content-Disposition: inline
+In-Reply-To: <CACXvZi-NT1e8YXJEmcHyf29eSr5NSL2fdLXfQb5amCf_YFL16A@mail.gmail.com>
 
 
-On 3/10/25 17:00, Amadeusz Sławiński wrote:
-> On 3/10/2025 11:45 AM, Venkata Prasad Potturu wrote:
->> Refactor dmic-codec platform driver creation using helper function.
->>
->> Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
->> ---
->>   sound/soc/amd/acp/acp-pci.c | 49 +++++++++++++++++++++++++------------
->>   sound/soc/amd/acp/amd.h     |  1 +
->>   2 files changed, 35 insertions(+), 15 deletions(-)
->>
->
-> ...
->
->>       addr = pci_resource_start(pci, 0);
->>       chip->base = devm_ioremap(&pci->dev, addr, 
->> pci_resource_len(pci, 0));
->>       if (!chip->base) {
->>           ret = -ENOMEM;
->> -        goto unregister_dmic_dev;
->> +        goto release_regions;
->>       }
->>         chip->acp_hw_ops_init(chip);
->>       ret = acp_hw_init(chip);
->>       if (ret)
->> -        goto unregister_dmic_dev;
->> +        goto release_regions;
->
-> ...
->
->> @@ -168,8 +187,8 @@ static int acp_pci_probe(struct pci_dev *pci, 
->> const struct pci_device_id *pci_id
->>       pm_runtime_allow(&pci->dev);
->>       return ret;
->>   -unregister_dmic_dev:
->> -    platform_device_unregister(dmic_dev);
->> +de_init:
->> +    chip->acp_hw_ops->acp_deinit(chip);
->
-> On init you call acp_hw_init(), but here you call ->acp_deinit() 
-> directly instead of acp_hw_deinit()?
-Sorry, over looked will fix it in v2 patch series.
->
->>   release_regions:
->>       pci_release_regions(pci);
->>   disable_pci:
->
->
+--wbzi2mywobytncqp
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH V2 2/2] drm/vc4: hdmi: Add jack detection to HDMI audio
+ driver
+MIME-Version: 1.0
+
+On Thu, Mar 06, 2025 at 03:47:27PM +0000, David Turner wrote:
+> Hi all,
+>=20
+> On Thu, 6 Mar 2025 at 13:39, Maxime Ripard <mripard@kernel.org> wrote:
+> > It looks fairly generic to me. Is there any reason you didn't put it in
+> > the HDMI audio helpers?
+>=20
+> I originally wrote the downstream patch last year on 6.6, before the
+> generic HDMI audio code existed.
+>=20
+> I just had a look at doing this.  At the moment drm_hdmi_audio_helper
+> doesn't manage the snd_soc_card (needed to setup the jack) at all,
+> that still lives in vc4_hdmi_audio, so I can't see an easy way to move
+> this over without a lot more reorganising.
+
+
+Ah, yes, of course. Most (all?) the other drivers just use an external
+I2S controller so the card is mostly likely going to be described
+through simple-card.
+
+I guess we can always turn that code into a helper if a similar case
+comes along in the future.
+
+Thanks,
+Maxime
+
+--wbzi2mywobytncqp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ87uTgAKCRDj7w1vZxhR
+xQFtAQCcn+WnymsJWLNDwnp9IG/O2RDSYMTmIETZ3NFuaaeOwQEAsQZReyCZR9rK
+Ql1QslSWA5ClgWPNFPgISDUHS2WpFAE=
+=Vj9v
+-----END PGP SIGNATURE-----
+
+--wbzi2mywobytncqp--
