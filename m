@@ -1,191 +1,114 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-77.smtpout.orange.fr [80.12.242.77])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1523622B8AC;
-	Mon, 10 Mar 2025 15:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352452D023;
+	Mon, 10 Mar 2025 17:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741620201; cv=none; b=Y9vrfULYd159Gzu009FnhMKvG6dLyLHABG5K4jKw1ppFbctw6v9TG7pP3Xz4Gf4tX255+hPG8g1Mqt+2GVD/Hs01ecUHtiSCqQVOpe+EQA3dx/B+KofM2J210YWvmfhn9o/Y7Mof2Gfn8Vz4kfrXK2RHUUmrU4ZEVJXo0gUe3oc=
+	t=1741628762; cv=none; b=YSJTEDIrqhKoBCXzUC77vpQzz9xxoOjxDwNnmedhMsAOrWoRpKIEa2RuS8VKeCciDQc2kmuox23s43d8wL9AZolkOklwT2dgVRfLvt9afwyF+motOLJ4v8xg9zuLYtx5/vwHpuP7Haca8Ps7wGqnzLvqy7tBW0kMUStmu26k+Go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741620201; c=relaxed/simple;
-	bh=FsrNob6nsYTinqMDLQnwxWB5JuebUVtbm6f9dPHEPmw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DgfuI2Tr6pLyJG1S2u784nrajeS9U1M1l8pG1UxyBY1/WGD3Ec4HbO9VcybrSdZ6NH9Qy4JSzRJQpn595bxWvEuITK01OyxgGlW7H/V8zmjyEUdfFF8s4c8GEWpMhTeyCQvGGz9E3bl8ZiZzV3JboX6QVX7WPxxYrCAkSrlD9o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ezMjG42P; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1741628762; c=relaxed/simple;
+	bh=81exlbrKrAHzsP57co/n0cRIIxSIC84sZVYHc6JttgU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jK/c6J3e9a3RhTGj/vrU01kA0x+F5Wy6uemL1egrJjF8JsYBTp/+PNP4WQtLY1v6CmQCEJ4p/3rQDFFBtrhRvJrgopFeSnWcwRMVS6bjsyI3UesmYmbgVfaZp+cVvyDxlztHIviZCZHXwBYZ+j2wnlNkt+mvfFUAtTqZAwHXbrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=C+CiSMki; arc=none smtp.client-ip=80.12.242.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ezMjG42P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1741620197;
-	bh=FsrNob6nsYTinqMDLQnwxWB5JuebUVtbm6f9dPHEPmw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ezMjG42PQoCUvWJwyE1etSVSl2pOVbYTTFBd+tpINRFgO3taiRrn8PtdywMYwaP4x
-	 aTwgNJu0MysIGfmJ2Y8sHI64TdtqS5u8bua/d9GF5qTejC+S0qNN5kMlpPQ1fTWlp/
-	 NoJJ2+vAM5BdzXw42ug76qMeVZz3GIDlHBhIa5+Si+sSKb+yL1/eypZ/4pm2eYfNaP
-	 0slTx2WoQjntpRwnDmIYjn+6I/ng4efwbcW3w+BOM52iCIzH4UWksnoHdIe87SDUQC
-	 8R4PYUlwjdJQN+7k76aBvSvQD1IDaLwLSVixwpsgO0iNi0OV7SY/tXsGmptVsYu3rf
-	 WCRYwVYeVW+Sg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 54CA417E0649;
-	Mon, 10 Mar 2025 16:23:16 +0100 (CET)
-Message-ID: <b5fd1376-6abb-40c1-b3f0-238e2b0056fa@collabora.com>
-Date: Mon, 10 Mar 2025 16:23:15 +0100
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="C+CiSMki"
+Received: from fedora.home ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id rhCDtY8LcTyMMrhCGtfIxK; Mon, 10 Mar 2025 18:45:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1741628750;
+	bh=1GNYch+jlMIagTJlEcHgDvxgubC3mGdGRHQ6RC9ibUM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=C+CiSMkiY2hewsNoHt1eNx5UF5P9KdHv7/SFlDHh14FT2/kFyG8A75NLHawel00Fg
+	 NGEfWT3NZXGhcR28ePf9mkLiDn3NOEO9+MN3hPzRTY+Ymu3psSv5UF0nD/n+YIzNMf
+	 xU74/pfuaoL5tImF7WZc+A5vOQMpKHQ4Q1ytxhafXU83DT0juxyFKyp814jvc2zv73
+	 Rk2S9rGQc3U28YDKuBkLig5krCGJK6Q+foqpCzT5Hiiw7ipYddSyUOEiglkPSi0/Xp
+	 X4sj69+76hEi/l7lBo4LP5gV/gaVtAb3C84V16SCS+MkzjQrVe6RoePNoTaHmtNzpR
+	 rcZyd9ihuWSlg==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 10 Mar 2025 18:45:50 +0100
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: amadeuszx.slawinski@linux.intel.com,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Dimitris Papastamos <dp@opensource.wolfsonmicro.com>,
+	Charles Keepax <ckeepax@opensource.wolfsonmicro.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v2] ASoC: codecs: wm0010: Fix error handling path in wm0010_spi_probe()
+Date: Mon, 10 Mar 2025 18:45:36 +0100
+Message-ID: <5139ba1ab8c4c157ce04e56096a0f54a1683195c.1741549792.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/14] ASoC: mediatek: common: modify mtk afe common
- driver for mt8196
-To: "Darren.Ye" <darren.ye@mediatek.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org
-References: <20250307124841.23777-1-darren.ye@mediatek.com>
- <20250307124841.23777-2-darren.ye@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250307124841.23777-2-darren.ye@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Il 07/03/25 13:47, Darren.Ye ha scritto:
-> From: Darren Ye <darren.ye@mediatek.com>
-> 
-> Export register read and write interface, add sample reate interface, and
-> update the mtk_memif_set_channel interface for the mt8196 platform.
-> 
-> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
-> ---
->   sound/soc/mediatek/common/mtk-afe-fe-dai.c | 30 ++++++++++++++--------
->   sound/soc/mediatek/common/mtk-afe-fe-dai.h |  6 +++++
->   sound/soc/mediatek/common/mtk-base-afe.h   | 13 ++++++++++
->   3 files changed, 38 insertions(+), 11 deletions(-)
-> 
-> diff --git a/sound/soc/mediatek/common/mtk-afe-fe-dai.c b/sound/soc/mediatek/common/mtk-afe-fe-dai.c
-> index 3809068f5620..c36dae520f04 100644
-> --- a/sound/soc/mediatek/common/mtk-afe-fe-dai.c
-> +++ b/sound/soc/mediatek/common/mtk-afe-fe-dai.c
-> @@ -18,7 +18,7 @@
->   
->   #define AFE_BASE_END_OFFSET 8
->   
-> -static int mtk_regmap_update_bits(struct regmap *map, int reg,
-> +int mtk_regmap_update_bits(struct regmap *map, int reg,
->   			   unsigned int mask,
->   			   unsigned int val, int shift)
->   {
-> @@ -26,13 +26,16 @@ static int mtk_regmap_update_bits(struct regmap *map, int reg,
->   		return 0;
->   	return regmap_update_bits(map, reg, mask << shift, val << shift);
->   }
-> +EXPORT_SYMBOL(mtk_regmap_update_bits);
+Free some resources in the error handling path of the probe, as already
+done in the remove function.
 
-Please don't export this function: it's not the greatest, `reg` should be unsigned
-and so it should the shift - it's kinda wrong in principle, and you can simply use
-regmap_update_bits() directly in your drivers. Please, do so.
+Fixes: e3523e01869d ("ASoC: wm0010: Add initial wm0010 DSP driver")
+Fixes: fd8b96574456 ("ASoC: wm0010: Clear IRQ as wake source and include missing header")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Compile tested-only.
 
-> +
-> +int mtk_regmap_write(struct regmap *map, int reg, unsigned int val)
->   
-> -static int mtk_regmap_write(struct regmap *map, int reg, unsigned int val)
->   {
->   	if (reg < 0)
->   		return 0;
->   	return regmap_write(map, reg, val);
->   }
-> +EXPORT_SYMBOL(mtk_regmap_write);
->   
+Changes in v2:
+   - Fix a typo in a label (s/free_irq/free_riq)   [Amadeusz Sławiński]
 
-Same here
+v1: https://lore.kernel.org/all/ee39ba19b8c4c157ce04e06096a8f54016831959.1741549792.git.christophe.jaillet@wanadoo.fr/
+---
+ sound/soc/codecs/wm0010.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
->   int mtk_afe_fe_startup(struct snd_pcm_substream *substream,
->   		       struct snd_soc_dai *dai)
-> @@ -459,8 +462,12 @@ int mtk_memif_set_channel(struct mtk_base_afe *afe,
->   	struct mtk_base_afe_memif *memif = &afe->memif[id];
->   	unsigned int mono;
->   
-> -	if (memif->data->mono_shift < 0)
-> -		return 0;
-> +	dev_info(afe->dev, "%s(), id: %d, channel: %d\n", __func__, id, channel);
-
-If you really really really need this print, it's for debugging, so this should be
-dev_dbg() instead... but otherwise just delete it.
-
-> +	mono = memif->data->mono_invert ^ (channel == 1);
-> +
-> +	if (memif->data->mono_shift > 0)
-> +		mtk_regmap_update_bits(afe->regmap, memif->data->mono_reg,
-> +				       0x1, mono, memif->data->mono_shift);
->   
->   	if (memif->data->quad_ch_mask) {
->   		unsigned int quad_ch = (channel == 4) ? 1 : 0;
-> @@ -470,11 +477,6 @@ int mtk_memif_set_channel(struct mtk_base_afe *afe,
->   				       quad_ch, memif->data->quad_ch_shift);
->   	}
->   
-> -	if (memif->data->mono_invert)
-> -		mono = (channel == 1) ? 0 : 1;
-> -	else
-> -		mono = (channel == 1) ? 1 : 0;
-> -
->   	/* for specific configuration of memif mono mode */
->   	if (memif->data->int_odd_flag_reg)
->   		mtk_regmap_update_bits(afe->regmap,
-> @@ -482,8 +484,14 @@ int mtk_memif_set_channel(struct mtk_base_afe *afe,
->   				       1, mono,
->   				       memif->data->int_odd_flag_shift);
->   
-> -	return mtk_regmap_update_bits(afe->regmap, memif->data->mono_reg,
-> -				      1, mono, memif->data->mono_shift);
-
-Don't break older platforms. You're removing functionality here.
-
-> +	if (memif->data->ch_num_maskbit) {
-> +		dev_info(afe->dev, "%s(), set ch num id: %d, channel: %d\n", __func__, id, channel);
-
-Same comment applies (plus, this is a double print, even worse).
-
-> +		mtk_regmap_update_bits(afe->regmap, memif->data->ch_num_reg,
-> +				       memif->data->ch_num_maskbit,
-> +				       channel, memif->data->ch_num_shift);
-> +	}
-> +
-> +	return 0;
->   }
->   EXPORT_SYMBOL_GPL(mtk_memif_set_channel);
->   
-> diff --git a/sound/soc/mediatek/common/mtk-afe-fe-dai.h b/sound/soc/mediatek/common/mtk-afe-fe-dai.h
-> index b6d0f2b27e86..64b10ccba291 100644
-> --- a/sound/soc/mediatek/common/mtk-afe-fe-dai.h
-> +++ b/sound/soc/mediatek/common/mtk-afe-fe-dai.h
-> @@ -12,7 +12,13 @@
->   struct snd_soc_dai_ops;
->   struct mtk_base_afe;
->   struct mtk_base_afe_memif;
-> +struct mtk_base_irq_data;
->   
-> +int mtk_regmap_update_bits(struct regmap *map, int reg,
-> +			   unsigned int mask, unsigned int val,
-> +			   int shift);
-> +int mtk_regmap_write(struct regmap *map, int reg,
-> +		     unsigned int val);
-
-No, don't export these. Use regmap directly.
-
-Regards,
-Angelo
+diff --git a/sound/soc/codecs/wm0010.c b/sound/soc/codecs/wm0010.c
+index edd2cb185c42..28b43fe4dc32 100644
+--- a/sound/soc/codecs/wm0010.c
++++ b/sound/soc/codecs/wm0010.c
+@@ -920,7 +920,7 @@ static int wm0010_spi_probe(struct spi_device *spi)
+ 	if (ret) {
+ 		dev_err(wm0010->dev, "Failed to set IRQ %d as wake source: %d\n",
+ 			irq, ret);
+-		return ret;
++		goto free_irq;
+ 	}
+ 
+ 	if (spi->max_speed_hz)
+@@ -932,9 +932,18 @@ static int wm0010_spi_probe(struct spi_device *spi)
+ 				     &soc_component_dev_wm0010, wm0010_dai,
+ 				     ARRAY_SIZE(wm0010_dai));
+ 	if (ret < 0)
+-		return ret;
++		goto disable_irq_wake;
+ 
+ 	return 0;
++
++disable_irq_wake:
++	irq_set_irq_wake(wm0010->irq, 0);
++
++free_irq:
++	if (wm0010->irq)
++		free_irq(wm0010->irq, wm0010);
++
++	return ret;
+ }
+ 
+ static void wm0010_spi_remove(struct spi_device *spi)
+-- 
+2.48.1
 
