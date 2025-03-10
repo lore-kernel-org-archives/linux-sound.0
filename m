@@ -1,97 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mail78-63.sinamail.sina.com.cn (mail78-63.sinamail.sina.com.cn [219.142.78.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C1221ABDC;
-	Mon, 10 Mar 2025 07:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AA9221735
+	for <linux-sound@vger.kernel.org>; Mon, 10 Mar 2025 07:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.142.78.63
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741592228; cv=none; b=gBZjQYWAid+CnosgiUMXa4ni9CaotJDtJwJ1Bb4yGfonWnJn+wC6RjbopYWQly3S/0hxH6c7yOQTSJ1UhHYL1+lws5vNdq29pZuKX7FON+g+UDC+/GCUTQMj/LNE4EJPFvBjJYH1Rb493MgeLoq5LtdDmY8WWJPNzF0Uknri1v4=
+	t=1741592620; cv=none; b=WMUs+Uisihxaa2ZBEgJ9Alq1oG1JeXcG6JFgzBe8kF1b1Bkah7PoL6hguatk/QrPEvXEPxEObD5MGihQPZSg1vH6cHg2IT5gHUcCtHZ5a0gcCXqkDry/3IgJXzxHvK3gTCsr4c0+hjVPrldEJsCP25+bKZ0DPps1yCEfcDnYHa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741592228; c=relaxed/simple;
-	bh=i4JT+JxMsfFpLvV5/cZxorXR5Kc03qscufvEXCGCJ2k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IsV1vTM1Qr84h/m1VMroM7XuF6f7ETUtlvhJgPNravtb9xYIZBWonVZAkipVLmhxCC5VSAREfz2v51jvypYTQPiJcamshSMAuFIDJqCyieEzVd8a+DhlwXm202Sad/n+2dx7JXEWQBXiPRrwIrEWxdjBlzHeZ46+DXTDPerPtug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kRt9FMkj; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kRt9FMkj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741592227; x=1773128227;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=i4JT+JxMsfFpLvV5/cZxorXR5Kc03qscufvEXCGCJ2k=;
-  b=kRt9FMkjJmJkPsZFNy93oYbS4pM9XsF2UxZHocO+5pQTwRmGDh995NG0
-   OtDGMU6S+jPvxsYn9U1qCpXjXAqJeYmGRh5OmdbhSZwz/Vpua4xjWLRQU
-   maTNph7mz5EEWrQJtiPQfhZO89QwJmPnGgrzkqLVUVqNyndsed/URG2D/
-   CLQieYBtVluOajVRzKu871Ut5xHX8vUJMd5bDvK9orfS5lGKNJIVA7vsI
-   uOjXLcXoWQdzwemfGQt75Z50QZQ5tYv4Vz+LbmvQJtqZUrtL+5i9E+IFF
-   lQoWNIxqfxAXogRxbVIpBhp4fIHByhNKkZ21QASjzAmZOUCUiEtw8FM9X
-   A==;
-X-CSE-ConnectionGUID: bjlnjDCRQiOBrVXW+XMaEg==
-X-CSE-MsgGUID: zp3mW6viSO+nveXi4VZ30A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="46220593"
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="46220593"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 00:37:04 -0700
-X-CSE-ConnectionGUID: KaUImN8HS9G1enupEYM9kw==
-X-CSE-MsgGUID: olnjqPugR2eckjRbMJ0M6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="125159669"
-Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.85])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 00:37:02 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
+	s=arc-20240116; t=1741592620; c=relaxed/simple;
+	bh=+ylCaPqMuBOOPYEKUzjxA2hFKkA6JCzUcwHKkGx4RDo=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=fGHTlCNNuM2JQOtJV2uw9XhAoSULFhC8yu5x0LvEMHiEx/Q4epFIrOWLMQSniOEG+l2EIVc4Wq5xFlTFkzTweerV1qV8P0GUvKrIySkeb2rljr7sc5UD5k2nrQtNdjiSYdUvAlXxU+aH1M1zI0e9NNdHixSXUwVALrMi/rDQbTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=219.142.78.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([180.159.108.137])
+	by sina.net (10.185.250.32) with ESMTP
+	id 67CE981A00004D8A; Mon, 10 Mar 2025 15:43:25 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 76F1BBFE37B4418DA964987A436D7C60
+X-SMAIL-UIID: 76F1BBFE37B4418DA964987A436D7C60-20250310-154325
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: krzk@kernel.org
+Cc: tiwai@suse.com,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	broonie@kernel.org,
+	devicetree@vger.kernel.org,
+	lgirdwood@gmail.com,
 	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH] soundwire: take in count the bandwidth of a prepared stream
-Date: Mon, 10 Mar 2025 15:36:53 +0800
-Message-ID: <20250310073653.56476-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	linux-sound@vger.kernel.org,
+	perex@perex.cz
+Subject: RE: [PATCH v4 1/2] ASoC: codecs: add support for ES8389
+Date: Mon, 10 Mar 2025 15:43:22 +0800
+Message-Id: <20250310074322.122840-1-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-When a stream's state is marked as prepared, it is ready for
-playback/capture. Therefore, we need to include the stream's bandwidth
-when we calculate the required bandwidth of a bus.
+> > I apologize for not responding to this review comment.
+> > But I did view these review comments and fixed the error.
+> > In the meantime I will modify my cc list, do I need to resend a new 
+> > version of the patch to correct my error in my cc list?
+> 
+> Why this list uses different addresses in the first place?
 
-Fixes: 25befdf32aa40 ("soundwire: generic_bandwidth_allocation: count the bandwidth of active streams only")
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Link: https://github.com/thesofproject/linux/issues/5334
-Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- drivers/soundwire/generic_bandwidth_allocation.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+I was trying to show that I have changed my cc list, I apologize if it bothered you
 
-diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
-index b646c2ffe84a..1cfaccf43eac 100644
---- a/drivers/soundwire/generic_bandwidth_allocation.c
-+++ b/drivers/soundwire/generic_bandwidth_allocation.c
-@@ -237,10 +237,11 @@ static int sdw_compute_group_params(struct sdw_bus *bus,
- 				continue;
- 		} else {
- 			/*
--			 * Include runtimes with running (ENABLED state) and paused (DISABLED state)
--			 * streams
-+			 * Include runtimes with running (ENABLED/PREPARED state) and
-+			 * paused (DISABLED state) streams
- 			 */
- 			if (m_rt->stream->state != SDW_STREAM_ENABLED &&
-+			    m_rt->stream->state != SDW_STREAM_PREPARED &&
- 			    m_rt->stream->state != SDW_STREAM_DISABLED)
- 				continue;
- 		}
--- 
-2.43.0
+> None of the patches had changelog, so you put additional effort on us to actually check what changed (see submitting patches).
 
+Can you please check out my new v5 patch, I'll add changlog to the following patch
