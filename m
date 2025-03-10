@@ -1,131 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DB4160783;
-	Sun,  9 Mar 2025 20:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A37D2FB
+	for <linux-sound@vger.kernel.org>; Mon, 10 Mar 2025 01:25:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741552939; cv=none; b=NlDn1D7DK+43/DFLtkxm7q8IkNLmW69+zaj/o3zJucitEitQTmsFZwFqveb5pph8G65aN2Ii4TLwrS73yYclsZZfsRjBi6VwbPFfzuaxSQSaPm4OIWPtyfwrSC5IavARR04RKSStIayxaWOIXSQMfZJjOxsz/rrzgJjzKG0Jc2U=
+	t=1741569959; cv=none; b=ATlXt0uZxS6IS04MI3GxAovDjnDBr0i/GnLbLN6tBwmXJEPU6UdbYgJn5t0pmbwn/LYueQ8Mr9TZkdSZawXVKXP7+fEXN8KtlNc9F9gYyjaeWesQiiuECwVPLUbFTALiebj9+qy1XHYdVRHAlo/uWDKiwQXj38ggpeXmhB5Wmfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741552939; c=relaxed/simple;
-	bh=jTfqTCbDUL9De+VnUopmQtOgbCkPufvbtvYfClQfw3A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iGgZgc8ha02K/ZXsGAFkdTSxaaBa2jZ/jhR/Ug0iTaCrbaWU1DTGngrSK/MKL2fK6cFrPg1PQcVuCLyn+o5IdA7aOT9OZ4F46Mc5xKSHLVosd1lNM3ZJvhxZVBc8kioV37oJqQ5RiDyxoOZhvQqNzTrXdRRchCF+KsGGnj/2qaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eiRxylOy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741569959; c=relaxed/simple;
+	bh=810rfA+6BCrOmQ0+0/Y6pbtTD9P/VSQ6OkgL2wPX/x8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=TyzRKdcqPyjMhY2waruNNnf22V6MRa0EiPRTqtuP872EfupuLGr/AWKp5Q79oNaTDBrKHdyI1DlUPQNmWCc3GVjVi5kYv7ogNPv77E6AJtggfl4+GczlnO+DE8d899MxGXnJ4FzC0t2A5NGuAOpmykrgA5Qy5bQc5gyPIaQjHrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Assnk+xS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eiRxylOy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80657C4CEE3;
-	Sun,  9 Mar 2025 20:42:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Assnk+xS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95011C4CEE3;
+	Mon, 10 Mar 2025 01:25:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741552938;
-	bh=jTfqTCbDUL9De+VnUopmQtOgbCkPufvbtvYfClQfw3A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eiRxylOyLMLaJ81IdMWw8ncRE02cscEzs8gNprls/nRLpwRkWvRLIruRbc8cSUgVk
-	 u18ftdQYxxz1oeRSdaCWkZ9Tm4+klEs3T0H/AKBNVbvvxRESVR27ywt+Hz0sODXUQ4
-	 Maq931lEl6zr6M0qv3vfYoHDw2bbNQJ33+4u1UYcdiFcT2ZemrO7ecq/rcP4MffB9P
-	 lgdENq+VeZ+NWyIGvnCMPjcubCCptvDadloW4984f5GgT+YUQFCD9IK7cCxRol4fGk
-	 XQPY0ChzIPp3HBaDmA4d7aX7iTSbv1cPhKlzv5zHUz0xikesxujYrUzk43A/NdSeeK
-	 HeXuHcaJdiyHQ==
-Date: Sun, 9 Mar 2025 21:42:11 +0100
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>, wangweidong.a@awinic.com
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
-	tiwai@suse.com, ivprusov@salutedevices.com, jack.yu@realtek.com,
-	zhoubinbin@loongson.cn, luca.ceresoli@bootlin.com,
-	quic_pkumpatl@quicinc.com, paulha@opensource.cirrus.com,
-	rf@opensource.cirrus.com, nuno.sa@analog.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, yijiangtao@awinic.com
-Subject: Re: [PATCH V2 2/2] ASoC: codecs: Add aw88166 amplifier driver
-Message-ID: <20250309204211.GA960576@ax162>
-References: <20250228034958.181934-3-wangweidong.a@awinic.com>
- <202503081433.xufVVq8t-lkp@intel.com>
+	s=k20201202; t=1741569958;
+	bh=810rfA+6BCrOmQ0+0/Y6pbtTD9P/VSQ6OkgL2wPX/x8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Assnk+xSKyVQp/kli7VFmSFSJjdUubr7kEikalHFYDCCC9skmllaHl9yDNMoqUvon
+	 NDXYzpL5Uq02IwY80wWbC92KQU2LUCC1LU+jgks0BGwf6aHwDEgD8/1qD9hjjEmtYI
+	 zASYjrzeR2mLmIuwfonxnHezqWz2ya+tuUgFxhGzTF89NAc/PdGbsACmug4AZShgxV
+	 JItKOZgHqz/s8jY2IYoWZiardT+ddsRhrwV8LIwileh16SxOpY2VcHfqNKFb6CFf/E
+	 0QGZmgiYF+O9RgAVZzNKSHeu4TC2KZPO7pk/k1ylsYCWqX/b7DnOglTFxEfVCYokMP
+	 W8OAvyvrferGw==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com, 
+ amadeuszx.slawinski@linux.intel.com
+In-Reply-To: <20250307112816.1495-1-peter.ujfalusi@linux.intel.com>
+References: <20250307112816.1495-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH v2 0/8] ASoC: SOF: Intel: Add support for ACE3+ mic
+ privacy
+Message-Id: <174156995449.2353078.11385767126637673774.b4-ty@kernel.org>
+Date: Mon, 10 Mar 2025 01:25:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202503081433.xufVVq8t-lkp@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-42535
 
-On Sat, Mar 08, 2025 at 02:20:22PM +0800, kernel test robot wrote:
-> Hi,
+On Fri, 07 Mar 2025 13:28:08 +0200, Peter Ujfalusi wrote:
+> Changes since v1:
+> - Use type aware condition checks for 'alt' in patch 8
 > 
-> kernel test robot noticed the following build warnings:
+> Cover letter from v1:
 > 
-> [auto build test WARNING on 1e15510b71c99c6e49134d756df91069f7d18141]
+> ACE3 (Panther Lake) introduced support for microphone privacy feature which
+> can - in hardware - mute incoming audio data based on a state of a physical
+> switch.
+> The change in the privacy state is delivered through interface IP blocks
+> and can only be handled by the link owner.
+> In Intel platforms Soundwire is for example host owned, so the interrupt
+> can only be handled by the host.
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/wangweidong-a-awinic-com/ASoC-dt-bindings-Add-schema-for-awinic-aw88166/20250228-115709
-> base:   1e15510b71c99c6e49134d756df91069f7d18141
-> patch link:    https://lore.kernel.org/r/20250228034958.181934-3-wangweidong.a%40awinic.com
-> patch subject: [PATCH V2 2/2] ASoC: codecs: Add aw88166 amplifier driver
-> config: x86_64-buildonly-randconfig-004-20250308 (https://download.01.org/0day-ci/archive/20250308/202503081433.xufVVq8t-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503081433.xufVVq8t-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503081433.xufVVq8t-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> sound/soc/codecs/snd-soc-aw88166.o: warning: objtool: .text.aw_dev_dsp_update_cfg: unexpected end of section
+> [...]
 
-Neat, it looks like LTO allows clang to figure out that through inlining
-that...
+Applied to
 
-  | static int aw_dev_dsp_read(struct aw_device *aw_dev,
-  |         unsigned short dsp_addr, unsigned int *dsp_data, unsigned char data_type)
-  | {
-  |     ...
-  |     case AW88166_DSP_32_DATA:
-  |         ret = aw_dev_dsp_read_32bit(aw_dev, dsp_addr, dsp_data);
-  |         if (ret)
-  |             dev_err(aw_dev->dev, "read dsp_addr[0x%x] 32r-bit dsp_data[0x%x] failed",
-  |                     (u32)dsp_addr, *dsp_data);
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-                                       ^ This is an uninitialized read...
+Thanks!
 
-  | static int aw_dev_dsp_read_32bit(struct aw_device *aw_dev,
-  |         unsigned short dsp_addr, unsigned int *dsp_data)
-  | {
-  |     unsigned int temp_data;
-  |     int ret;
-  |
-  |     ret = regmap_write(aw_dev->regmap, AW88166_DSPMADD_REG, dsp_addr);
-  |     if (ret) {
-  |         dev_err(aw_dev->dev, "%s write error, ret=%d", __func__, ret);
-  |         return ret;
-  |     }
-  |
-  |     ret = regmap_read(aw_dev->regmap, AW88166_DSPMDAT_REG, &temp_data);
-  |     if (ret) {
-  |         dev_err(aw_dev->dev, "%s read error, ret=%d", __func__, ret);
-  |         return ret;
-  |     }
-  |     *dsp_data = temp_data;
+[1/8] ASoC: SOF: Intel: mtl: Split up dsp_ops setup code
+      commit: 69823334200029767de785d30acf74e4872a11d3
+[2/8] ASoC: SOF: Intel: lnl/ptl: Only set dsp_ops which differs from MTL
+      commit: 0d2d276f53ea3ba1686619cde503d9748f58a834
+[3/8] ASoC: SOF: Intel: mtl: Stop exporting dsp_ops callback functions
+      commit: 80416226920c21e806f93bd0930d67557f41600f
+[4/8] ASoC: SOF: Intel: Create ptl.c as placeholder for Panther Lake features
+      commit: 8aeb7d2c3fc315e629d252cd601598a5af74bbb0
+[5/8] ASoC: SOF: ipc4: Add support for Intel HW managed mic privacy messaging
+      commit: eea84a7f0cdb693c261a7cf84bd4b3d81479c9a6
+[6/8] ASoC: SOF: Intel: hda-mlink: Add support for mic privacy in VS SHIM registers
+      commit: 0978e8207b61ac6d51280e5d28ccfff75d653363
+[7/8] ASoC: SOF: hda/shim: Add callbacks to handle mic privacy change for sdw
+      commit: a0db661e7d8e084e9cf3b9cdca7c6e4e66f2e849
+[8/8] ASoC: SOF: Intel: ptl: Add support for mic privacy
+      commit: 4a43c3241ec3465a501825ecaf051e5a1d85a60b
 
-when either of the two error statements occur before this assignment...
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-  | static int aw_dev_get_ra(struct aw_cali_desc *cali_desc)
-  | {
-  |     struct aw_device *aw_dev =
-  |         container_of(cali_desc, struct aw_device, cali_desc);
-  |     u32 dsp_ra;
-  |     int ret;
-  |
-  |     ret = aw_dev_dsp_read(aw_dev, AW88166_DSP_REG_CFG_ADPZ_RA,
-  |                 &dsp_ra, AW88166_DSP_32_DATA);
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-                    ^ because it was not initialized prior to this point.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Initializng dsp_ra to 0 in aw_dev_get_ra() resolves the issue but that
-may or may not be correct, it just shows where the issue lies.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Cheers,
-Nathan
+Thanks,
+Mark
+
