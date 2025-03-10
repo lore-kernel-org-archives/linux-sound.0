@@ -1,122 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6F72046BF;
-	Mon, 10 Mar 2025 07:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E4584E1C
+	for <linux-sound@vger.kernel.org>; Mon, 10 Mar 2025 08:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741592958; cv=none; b=o5zuJNXQ+QC4vDrxZCXv6jWo+xAP08PuWYoaATndfkLvxC2Hnm/Pqfc6E58oRQFfAg6udeup1I+CL8ChOO63Bg8G8ckz+pfJjzHMQw7k4NsQty/fVXyUg0LKLhNWuOdLla+rkf0usgETzydQkk6jy4p8vxR7PiLWeV6+X4PE9qo=
+	t=1741593893; cv=none; b=Ph5iBLbEUwi2Lam8OaJmNiua4Hiepqd7ui43HBwhUOQD8OWxQeoGocnn3SpygLLIc8Ct2gON12tM5MltRhvLxwTrl6cUaYdSH3H4Yj0HxAxpI3U1J1jVxXtzagpqlzWJNIz78mWwrCnx+mgDlzMko5v1UTEG/Dblr2IzF4P5PNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741592958; c=relaxed/simple;
-	bh=N5vzuCqcFyx4s8ct6bBbLFzZ/cGlLfNv8yq43DhYwqY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DBoG/klIYvm2K4e4L/9j9x/x8YplwrZHb4WDQl17WA/Ic3g+8URUHXA0AF7X+LzlElQELuhGbwKxlSrS1knK+/3cAyEMfnY0kFxcTxlxhcON54J4i/WlNMIfs+O37s2kfVCTmXlZXE4yxMAYsmACK1WnUKLDVvztG0G8uMzth4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ORGCS5kC; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1741593893; c=relaxed/simple;
+	bh=Wnv8haqNeTzLhJ4NwrMRUuhwhw7pLNAy25qAxMpLcB0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UpfU6+DJrNty4DPruxuc/Gl4EM2+aZvC90NHUB3+/kEmAIZiB8qfEOl6K5pWo2mL4SketVyLAk1OotFI/cTDj2MlX1wLfqsqS7Hv0jW4sDJ+9+xmGXpf3EmJoRR/KhwHbHXzbeDVlx7Sc8aUP+PxwvWj373Xyl/odIgpuaLUZMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E9aen6aS; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ORGCS5kC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9aen6aS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741592957; x=1773128957;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=N5vzuCqcFyx4s8ct6bBbLFzZ/cGlLfNv8yq43DhYwqY=;
-  b=ORGCS5kCt7/d1NnittRksrrSDitGimf6RQtPDHXjEQPQATlb+zVAFj1C
-   HAV0yHXmZriT/hWmnhkdZ8zrPnXcitoM5jSitcv7Tl79Xk1TjK3Zvz22B
-   sJ/UeEa1rmsMUNmDE9SqL0ga3dNyFexObDzgp85m7DG6HlZz5eDELkCwJ
-   PuBtXlaNlpPNxKy0v92O5EPO63cp0u+B+p7uhKpXHgDd4OofST3ipwm70
-   HLk5QxshPrBgsC63fpb0jgpyAzmcyofhkIy/jxey7ZNLlK3+L2F6DECs8
-   ZhU/X2PFcuJ8bcl4539x0aibY91Fa0lS0d4qoB6PP7tfcS7RAus6S2mjp
-   w==;
-X-CSE-ConnectionGUID: Z4JckrfXSlmVPGUcg3SNMA==
-X-CSE-MsgGUID: 8/x8UJPUSlaYx+sqtDoA1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="67935590"
+  t=1741593892; x=1773129892;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Wnv8haqNeTzLhJ4NwrMRUuhwhw7pLNAy25qAxMpLcB0=;
+  b=E9aen6aSCGzqt2vxvYjMa/OzNczyuhkrRE/6/MXqVWfhCkeiSvclHA39
+   AQ5fRdck+QYCuomMMVYVfRRtKGPMb4qTsEirC+FiuOdK6YfmmNNVacmNI
+   CJoelxbFE5Sod07rgAsyj9f7c7g4YcXcCTm3Bq/O/FJ//qTsP3bzpujtz
+   +k7gUrTbFXT6YsLhJMPrOO18lkgQ+5E1T91ExVPh5rxZUBFXSabh5vIEk
+   Q3H7OCtY7K+B0wMF1ik8/qvwqmaYUaoe+gYtWfofVztAqmmHBsVgeOVy8
+   52DJetWFhQ++sfxXd8AHKeb7FIPC+kq0WVDpOqDasNjhj/feDaF84N/ON
+   Q==;
+X-CSE-ConnectionGUID: nv2ihvnzRO6K+OjsQqcvRQ==
+X-CSE-MsgGUID: rdMT96fLSGGKxZYoWy8r2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="53202680"
 X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="67935590"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 00:49:16 -0700
-X-CSE-ConnectionGUID: 6nFhWA4IRh++edvRyVpZOg==
-X-CSE-MsgGUID: aWDNEfwgQN+tKR30BSI3BA==
+   d="scan'208";a="53202680"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 01:04:51 -0700
+X-CSE-ConnectionGUID: mb/ineZvR/KVc3s61F3C4A==
+X-CSE-MsgGUID: byp+IForRm6FJzmNo8KDBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="119870467"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 00:49:11 -0700
-Message-ID: <2a333cd4-6ec3-4d80-9d80-ba2add234da8@linux.intel.com>
-Date: Mon, 10 Mar 2025 08:49:07 +0100
+   d="scan'208";a="119761107"
+Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.85])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 01:04:49 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH] ASoC: rt722-sdca: add missing readable registers
+Date: Mon, 10 Mar 2025 16:04:40 +0800
+Message-ID: <20250310080440.58797-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: codecs: wm0010: Fix error handling path in
- wm0010_spi_probe()
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Dimitris Papastamos <dp@opensource.wolfsonmicro.com>,
- Charles Keepax <ckeepax@opensource.wolfsonmicro.com>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Mark Brown <broonie@opensource.wolfsonmicro.com>,
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org
-References: <ee39ba19b8c4c157ce04e06096a8f54016831959.1741549792.git.christophe.jaillet@wanadoo.fr>
-Content-Language: en-US
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <ee39ba19b8c4c157ce04e06096a8f54016831959.1741549792.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/9/2025 8:50 PM, Christophe JAILLET wrote:
-> Free some resources in the error handling path of the probe, as already
-> done in the remove function.
-> 
-> Fixes: e3523e01869d ("ASoC: wm0010: Add initial wm0010 DSP driver")
-> Fixes: fd8b96574456 ("ASoC: wm0010: Clear IRQ as wake source and include missing header")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> Compile tested-only
-> ---
->   sound/soc/codecs/wm0010.c | 13 +++++++++++--
->   1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/wm0010.c b/sound/soc/codecs/wm0010.c
-> index edd2cb185c42..28b43fe4dc32 100644
-> --- a/sound/soc/codecs/wm0010.c
-> +++ b/sound/soc/codecs/wm0010.c
-> @@ -920,7 +920,7 @@ static int wm0010_spi_probe(struct spi_device *spi)
->   	if (ret) {
->   		dev_err(wm0010->dev, "Failed to set IRQ %d as wake source: %d\n",
->   			irq, ret);
-> -		return ret;
-> +		goto free_riq;
+SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT722_SDCA_ENT_FU15,
+RT722_SDCA_CTL_FU_CH_GAIN, CH_01) ... SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY,
+RT722_SDCA_ENT_FU15, RT722_SDCA_CTL_FU_CH_GAIN, CH_04) are used by the
+"FU15 Boost Volume" control, but not marked as readable.
+And the mbq size are 2 for those registers.
 
-typo? riq -> irq
+Fixes: 7f5d6036ca005 ("ASoC: rt722-sdca: Add RT722 SDCA driver")
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/rt722-sdca-sdw.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->   	}
->   
->   	if (spi->max_speed_hz)
-> @@ -932,9 +932,18 @@ static int wm0010_spi_probe(struct spi_device *spi)
->   				     &soc_component_dev_wm0010, wm0010_dai,
->   				     ARRAY_SIZE(wm0010_dai));
->   	if (ret < 0)
-> -		return ret;
-> +		goto disable_irq_wake;
->   
->   	return 0;
-> +
-> +disable_irq_wake:
-> +	irq_set_irq_wake(wm0010->irq, 0);
-> +
-> +free_riq:
-> +	if (wm0010->irq)
-> +		free_irq(wm0010->irq, wm0010);
-> +
-> +	return ret;
->   }
->   
->   static void wm0010_spi_remove(struct spi_device *spi)
+diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
+index 7a38fcf63143..543cb32c2463 100644
+--- a/sound/soc/codecs/rt722-sdca-sdw.c
++++ b/sound/soc/codecs/rt722-sdca-sdw.c
+@@ -104,6 +104,10 @@ static int rt722_sdca_mbq_size(struct device *dev, unsigned int reg)
+ 	case 0x6100067:
+ 	case 0x6100070 ... 0x610007c:
+ 	case 0x6100080:
++	case SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT722_SDCA_ENT_FU15, RT722_SDCA_CTL_FU_CH_GAIN,
++			  CH_01) ...
++	     SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT722_SDCA_ENT_FU15, RT722_SDCA_CTL_FU_CH_GAIN,
++			  CH_04):
+ 	case SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT722_SDCA_ENT_USER_FU1E, RT722_SDCA_CTL_FU_VOLUME,
+ 			CH_01):
+ 	case SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT722_SDCA_ENT_USER_FU1E, RT722_SDCA_CTL_FU_VOLUME,
+-- 
+2.43.0
 
