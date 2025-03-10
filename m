@@ -1,92 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD3022D7BF
-	for <linux-sound@vger.kernel.org>; Mon, 10 Mar 2025 15:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB4722A4C3;
+	Mon, 10 Mar 2025 15:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741619871; cv=none; b=pyQTIu84me33/dFHcW8KT7Imz3V7/dihqJoY8QWDzgKTQaSdg4gWLta79dDJ3Xk9Uv7mC/ScKNTDPTJKCnwTn+IYagJpUi0EUTn6UKZtaP/kQL0mDVpnGJKZpN6mqRs6SnISNsidOYPbJiVbir69tPipSuPU+vFT19qVygyqwUI=
+	t=1741620199; cv=none; b=Rp9ByKdRZ5r9Wyfe68ccY+Np0ibef+9eYRVkfBgxaMsXxf4j+K5k1opFPo6qmYneacL/71Z+xPISDpwZf6hYGWoq+TyPGNPyJos9kkJH1ZDQF9QrrKAeIirVWLK3l1OCpyfJhdCTGGJPV3mliIG41tEaR67zKfeJ88TAY5mSTHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741619871; c=relaxed/simple;
-	bh=jtWKSljuJuijGn9DGfG6LXSEu+xSnYR5E/8RKdlnh/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZF031xX0KVGiT1rLaEMmovVKmzbM84B0yviRQP+oq+Zio8zkTQYRPw87IKPMaY9gLgTqTB0gNg3ZtS7+EYxN+GEkfNejvzAvv2bd2F6El5iR9Ux+df3DaMG67+mDo0yiftwzZZ7WIkZyHJpKQE5yPQmxv8nVx1TkHzeWA7s7VNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnRs3Fc9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741620199; c=relaxed/simple;
+	bh=VYbY9rIbQJQUZihr7MBQ0+PYIh42KLO/D4PgPe54Uxs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AnFlnvlIBpnC6qyTkR67mJtFeTnGTpujwdF9ItH84koGD6B2S6GEmSZJid8khW0ldYHqskUm6NthgHMejhLU8hiYUUUPP0QsPzqhGeI/+cv7hc6RDtpN3vcD5DHoMBDdlLvNqJIWkfp1mPNlIgr1LW9c20O1nkTnXEOizAXk8bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PUog0SG7; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnRs3Fc9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D07C4CEEB;
-	Mon, 10 Mar 2025 15:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741619870;
-	bh=jtWKSljuJuijGn9DGfG6LXSEu+xSnYR5E/8RKdlnh/Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RnRs3Fc99zrNdPcxUm9QLIPPG62546WoncpNqDiwcmWmyYbnAKY6DFtwn+WB1wRWj
-	 pJlM9mDX5rTqXYfdUP2s5t9s+l5gF404ETHnDTWNW8KiEC/RQ2vfhLYeviRulXRtPf
-	 oXDPamBkNL5Ashls2dNk9CFnjDNGXwrYXWpB57L9zLNf19qzNsbui6DRl+WejGwFRV
-	 e/6jkU1WSYUZqNiRZRMc3AYLSRb490QNZ68IYlAIsUgrV5g1uexLyDSyYr2BEO5bAr
-	 zKFi2ayGdho1sB3BkI1PmF3KRuHi0jz8nvztUrVjfgDfaKuoiFLJ5hiKFuEE4MQ1cP
-	 RyXJQRuh1DcgQ==
-Date: Mon, 10 Mar 2025 15:17:46 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: tiwai@suse.de, linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev, bard.liao@intel.com
-Subject: Re: [PATCH] ASoC: Intel: soc-acpi-intel-ptl-match: Add cs42l43
- support
-Message-ID: <ae3ee5b8-e461-42f4-8cd3-97247f28f583@sirena.org.uk>
-References: <20250310080712.58911-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PUog0SG7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1741620196;
+	bh=VYbY9rIbQJQUZihr7MBQ0+PYIh42KLO/D4PgPe54Uxs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PUog0SG76zNzOvlevM9N30C0xe+8NOsE9gTz6GVbGf2rJKtGhTr5/JE3fNIRmPW3T
+	 zErGRWxFE4dNsS/s/Ln2jF0R/b9yX5egA4FMToakgHKnXZw42JWFPrm6pACEyg1Z2u
+	 olcvSsxBG/1RNNi6SWAZ3nWQHcs5kMml3qxedktabQtUF45J1XzWLrina508rjYRZ4
+	 rxdnJX/CQKT6YUyyVcaKmyjpOePusZZqUi//drGXLsExEwIJ3UPsMC2PJ1n502lt11
+	 syWoOoqU8pS0bs6mBf23X/LmC1JbrYoMo3oE4QLCwMmaplEyil0DbxIAcVWBdktBO6
+	 fk/i8Uql6NzKg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3327017E0630;
+	Mon, 10 Mar 2025 16:23:15 +0100 (CET)
+Message-ID: <5983252e-22b6-4150-a770-a6b64031daf5@collabora.com>
+Date: Mon, 10 Mar 2025 16:23:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="To55Jvl1ra4sY+fx"
-Content-Disposition: inline
-In-Reply-To: <20250310080712.58911-1-yung-chuan.liao@linux.intel.com>
-X-Cookie: How do I get HOME?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/14] ASoC: mediatek: mt8196: add common interface for
+ mt8196 DAI driver
+To: "Darren.Ye" <darren.ye@mediatek.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org
+References: <20250307124841.23777-1-darren.ye@mediatek.com>
+ <20250307124841.23777-5-darren.ye@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250307124841.23777-5-darren.ye@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Il 07/03/25 13:47, Darren.Ye ha scritto:
+> From: Darren Ye <darren.ye@mediatek.com>
+> 
+> Implement sample rate conversion and set private data for mt8196.
+> 
+> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
+> ---
+>   .../soc/mediatek/mt8196/mt8196-afe-control.c  | 109 ++++++++++++++++++
+>   1 file changed, 109 insertions(+)
+>   create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-control.c
+> 
+> diff --git a/sound/soc/mediatek/mt8196/mt8196-afe-control.c b/sound/soc/mediatek/mt8196/mt8196-afe-control.c
+> new file mode 100644
+> index 000000000000..bb85f4ad8585
+> --- /dev/null
+> +++ b/sound/soc/mediatek/mt8196/mt8196-afe-control.c
+> @@ -0,0 +1,109 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + *  MediaTek ALSA SoC Audio Control
+> + *
+> + *  Copyright (c) 2024 MediaTek Inc.
+> + *  Author: Darren Ye <darren.ye@mediatek.com>
+> + */
+> +
+> +#include "mt8196-afe-common.h"
+> +#include <linux/pm_runtime.h>
+> +
+> +unsigned int mt8196_general_rate_transform(struct device *dev,
+> +					   unsigned int rate)
+> +{
+> +	switch (rate) {
+> +	case 8000:
+> +		return MTK_AFE_IPM2P0_RATE_8K;
+> +	case 11025:
+> +		return MTK_AFE_IPM2P0_RATE_11K;
+> +	case 12000:
+> +		return MTK_AFE_IPM2P0_RATE_12K;
+> +	case 16000:
+> +		return MTK_AFE_IPM2P0_RATE_16K;
+> +	case 22050:
+> +		return MTK_AFE_IPM2P0_RATE_22K;
+> +	case 24000:
+> +		return MTK_AFE_IPM2P0_RATE_24K;
+> +	case 32000:
+> +		return MTK_AFE_IPM2P0_RATE_32K;
+> +	case 44100:
+> +		return MTK_AFE_IPM2P0_RATE_44K;
+> +	case 48000:
+> +		return MTK_AFE_IPM2P0_RATE_48K;
+> +	case 88200:
+> +		return MTK_AFE_IPM2P0_RATE_88K;
+> +	case 96000:
+> +		return MTK_AFE_IPM2P0_RATE_96K;
+> +	case 176400:
+> +		return MTK_AFE_IPM2P0_RATE_176K;
+> +	case 192000:
+> +		return MTK_AFE_IPM2P0_RATE_192K;
+> +	/* not support 260K */
+> +	case 352800:
+> +		return MTK_AFE_IPM2P0_RATE_352K;
+> +	case 384000:
+> +		return MTK_AFE_IPM2P0_RATE_384K;
+> +	default:
+> +		dev_info(dev, "%s(), rate %u invalid, use %d!!!\n",
+> +			 __func__,
+> +			 rate, MTK_AFE_IPM2P0_RATE_48K);
+> +		return MTK_AFE_IPM2P0_RATE_48K;
+> +	}
+> +}
+> +
+> +static unsigned int pcm_rate_transform(struct device *dev,
+> +				       unsigned int rate)
+> +{
+
+You have this function in mt8186-afe-control.c and mt8192-afe-control.c, with
+the only difference being the default case.
+
+Please commonize this function and handle the default case for each SoC (if needed)
+in each SoC-specific driver.
+
+While at it, please do the same with mt8196_general_rate_transform, as this IPM2.0
+will be in other MediaTek SoCs, and this function will otherwise be commonized next
+time anyway.
+
+Possible names could be mtk_afe_pcm_rate_transform() for one, and probably
+mtk_ipm20_general_rate_transform() for the other.
+
+> +	switch (rate) {
+> +	case 8000:
+> +		return MTK_AFE_PCM_RATE_8K;
+> +	case 16000:
+> +		return MTK_AFE_PCM_RATE_16K;
+> +	case 32000:
+> +		return MTK_AFE_PCM_RATE_32K;
+> +	case 48000:
+> +		return MTK_AFE_PCM_RATE_48K;
+> +	default:
+> +		dev_info(dev, "%s(), rate %u invalid, use %d!!!\n",
+> +			 __func__,
+> +			 rate, MTK_AFE_PCM_RATE_32K);
+> +		return MTK_AFE_PCM_RATE_32K;
+> +	}
+> +}
+> +
+> +unsigned int mt8196_rate_transform(struct device *dev,
+> +				   unsigned int rate, int aud_blk)
+> +{
+> +	switch (aud_blk) {
+> +	case MT8196_DAI_PCM_0:
+> +	case MT8196_DAI_PCM_1:
+> +		return pcm_rate_transform(dev, rate);
+> +	default:
+> +		return mt8196_general_rate_transform(dev, rate);
+> +	}
+> +}
+> +
+> +int mt8196_dai_set_priv(struct mtk_base_afe *afe, int id,
+> +			int priv_size, const void *priv_data)
+> +{
+> +	struct mt8196_afe_private *afe_priv = afe->platform_priv;
+> +	void *temp_data;
+> +
+> +	temp_data = devm_kzalloc(afe->dev,
+> +				 priv_size,
+> +				 GFP_KERNEL);
+> +	if (!temp_data)
+> +		return -ENOMEM;
+> +
+> +	if (priv_data)
+> +		memcpy(temp_data, priv_data, priv_size);
+> +
+> +	if (id >= MT8196_DAI_NUM || id < 0)
+> +		return -EINVAL;
+> +
+> +	afe_priv->dai_priv[id] = temp_data;
+> +
+> +	return 0;
+> +}
+> +
 
 
---To55Jvl1ra4sY+fx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Mar 10, 2025 at 04:07:12PM +0800, Bard Liao wrote:
-> From: Naveen Manohar <naveen.m@intel.com>
->=20
-> Patch adds driver data & match table for cs42l43
-> multi-function codec on PTL-RVP at sdw link3.
-
-This breaks the build:
-
-build/stage/linux/sound/soc/intel/common/soc-acpi-intel-ptl-match.c:583:18:=
- err
-or: =E2=80=98struct snd_soc_acpi_mach=E2=80=99 has no member named =E2=80=
-=98get_function_tplg_files=E2=80=99
-  583 |                 .get_function_tplg_files =3D sof_sdw_get_tplg_files,
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~
-/build/stage/linux/sound/soc/intel/common/soc-acpi-intel-ptl-match.c:583:44=
-: err
-or: =E2=80=98sof_sdw_get_tplg_files=E2=80=99 undeclared here (not in a func=
-tion)
-  583 |                 .get_function_tplg_files =3D sof_sdw_get_tplg_files,
-      |                                            ^~~~~~~~~~~~~~~~~~~~~~
-
---To55Jvl1ra4sY+fx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfPApoACgkQJNaLcl1U
-h9DJ6wf/V0l2u1vpgVduZq46MGqIAKuZrY4Pn1j22DSm9SJo6ddpmcW3V3zosHrF
-A+0k+oCp5ueUqckb0OWLQI1+PVoPtA+dMDEbpd9/i2gQsVwKTTUwUeN4Zaza7OXM
-lDT2WQSgkALsGhX7FlSJyKm8HQsJCFTs3Fy/HMSxHIkZ53TDn2Hfe0vu5OqVkImp
-or+p7LewhXCpkiUsBt2uU3zKFCo03QOw2EufQtgbrFQDqkIWc3ekcyNlt82YW612
-NVqiVYHCeRJpHRh31+vPGTt3caYE2gmwxcZ0ZXysN8TfLSCRCzI2lE9mAywyiodW
-V0f48H6/6syMACIJB0hf+oS4/ZmBHA==
-=MS0B
------END PGP SIGNATURE-----
-
---To55Jvl1ra4sY+fx--
