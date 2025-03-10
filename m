@@ -1,59 +1,122 @@
-Received: from mail78-63.sinamail.sina.com.cn (mail78-63.sinamail.sina.com.cn [219.142.78.63])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AA9221735
-	for <linux-sound@vger.kernel.org>; Mon, 10 Mar 2025 07:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.142.78.63
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6F72046BF;
+	Mon, 10 Mar 2025 07:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741592620; cv=none; b=WMUs+Uisihxaa2ZBEgJ9Alq1oG1JeXcG6JFgzBe8kF1b1Bkah7PoL6hguatk/QrPEvXEPxEObD5MGihQPZSg1vH6cHg2IT5gHUcCtHZ5a0gcCXqkDry/3IgJXzxHvK3gTCsr4c0+hjVPrldEJsCP25+bKZ0DPps1yCEfcDnYHa8=
+	t=1741592958; cv=none; b=o5zuJNXQ+QC4vDrxZCXv6jWo+xAP08PuWYoaATndfkLvxC2Hnm/Pqfc6E58oRQFfAg6udeup1I+CL8ChOO63Bg8G8ckz+pfJjzHMQw7k4NsQty/fVXyUg0LKLhNWuOdLla+rkf0usgETzydQkk6jy4p8vxR7PiLWeV6+X4PE9qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741592620; c=relaxed/simple;
-	bh=+ylCaPqMuBOOPYEKUzjxA2hFKkA6JCzUcwHKkGx4RDo=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=fGHTlCNNuM2JQOtJV2uw9XhAoSULFhC8yu5x0LvEMHiEx/Q4epFIrOWLMQSniOEG+l2EIVc4Wq5xFlTFkzTweerV1qV8P0GUvKrIySkeb2rljr7sc5UD5k2nrQtNdjiSYdUvAlXxU+aH1M1zI0e9NNdHixSXUwVALrMi/rDQbTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=219.142.78.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([180.159.108.137])
-	by sina.net (10.185.250.32) with ESMTP
-	id 67CE981A00004D8A; Mon, 10 Mar 2025 15:43:25 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 76F1BBFE37B4418DA964987A436D7C60
-X-SMAIL-UIID: 76F1BBFE37B4418DA964987A436D7C60-20250310-154325
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: krzk@kernel.org
-Cc: tiwai@suse.com,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	broonie@kernel.org,
-	devicetree@vger.kernel.org,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz
-Subject: RE: [PATCH v4 1/2] ASoC: codecs: add support for ES8389
-Date: Mon, 10 Mar 2025 15:43:22 +0800
-Message-Id: <20250310074322.122840-1-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1741592958; c=relaxed/simple;
+	bh=N5vzuCqcFyx4s8ct6bBbLFzZ/cGlLfNv8yq43DhYwqY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DBoG/klIYvm2K4e4L/9j9x/x8YplwrZHb4WDQl17WA/Ic3g+8URUHXA0AF7X+LzlElQELuhGbwKxlSrS1knK+/3cAyEMfnY0kFxcTxlxhcON54J4i/WlNMIfs+O37s2kfVCTmXlZXE4yxMAYsmACK1WnUKLDVvztG0G8uMzth4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ORGCS5kC; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ORGCS5kC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741592957; x=1773128957;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=N5vzuCqcFyx4s8ct6bBbLFzZ/cGlLfNv8yq43DhYwqY=;
+  b=ORGCS5kCt7/d1NnittRksrrSDitGimf6RQtPDHXjEQPQATlb+zVAFj1C
+   HAV0yHXmZriT/hWmnhkdZ8zrPnXcitoM5jSitcv7Tl79Xk1TjK3Zvz22B
+   sJ/UeEa1rmsMUNmDE9SqL0ga3dNyFexObDzgp85m7DG6HlZz5eDELkCwJ
+   PuBtXlaNlpPNxKy0v92O5EPO63cp0u+B+p7uhKpXHgDd4OofST3ipwm70
+   HLk5QxshPrBgsC63fpb0jgpyAzmcyofhkIy/jxey7ZNLlK3+L2F6DECs8
+   ZhU/X2PFcuJ8bcl4539x0aibY91Fa0lS0d4qoB6PP7tfcS7RAus6S2mjp
+   w==;
+X-CSE-ConnectionGUID: Z4JckrfXSlmVPGUcg3SNMA==
+X-CSE-MsgGUID: 8/x8UJPUSlaYx+sqtDoA1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="67935590"
+X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
+   d="scan'208";a="67935590"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 00:49:16 -0700
+X-CSE-ConnectionGUID: 6nFhWA4IRh++edvRyVpZOg==
+X-CSE-MsgGUID: aWDNEfwgQN+tKR30BSI3BA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
+   d="scan'208";a="119870467"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 00:49:11 -0700
+Message-ID: <2a333cd4-6ec3-4d80-9d80-ba2add234da8@linux.intel.com>
+Date: Mon, 10 Mar 2025 08:49:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: codecs: wm0010: Fix error handling path in
+ wm0010_spi_probe()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Dimitris Papastamos <dp@opensource.wolfsonmicro.com>,
+ Charles Keepax <ckeepax@opensource.wolfsonmicro.com>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Mark Brown <broonie@opensource.wolfsonmicro.com>,
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org
+References: <ee39ba19b8c4c157ce04e06096a8f54016831959.1741549792.git.christophe.jaillet@wanadoo.fr>
+Content-Language: en-US
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <ee39ba19b8c4c157ce04e06096a8f54016831959.1741549792.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> > I apologize for not responding to this review comment.
-> > But I did view these review comments and fixed the error.
-> > In the meantime I will modify my cc list, do I need to resend a new 
-> > version of the patch to correct my error in my cc list?
+On 3/9/2025 8:50 PM, Christophe JAILLET wrote:
+> Free some resources in the error handling path of the probe, as already
+> done in the remove function.
 > 
-> Why this list uses different addresses in the first place?
+> Fixes: e3523e01869d ("ASoC: wm0010: Add initial wm0010 DSP driver")
+> Fixes: fd8b96574456 ("ASoC: wm0010: Clear IRQ as wake source and include missing header")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> Compile tested-only
+> ---
+>   sound/soc/codecs/wm0010.c | 13 +++++++++++--
+>   1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/wm0010.c b/sound/soc/codecs/wm0010.c
+> index edd2cb185c42..28b43fe4dc32 100644
+> --- a/sound/soc/codecs/wm0010.c
+> +++ b/sound/soc/codecs/wm0010.c
+> @@ -920,7 +920,7 @@ static int wm0010_spi_probe(struct spi_device *spi)
+>   	if (ret) {
+>   		dev_err(wm0010->dev, "Failed to set IRQ %d as wake source: %d\n",
+>   			irq, ret);
+> -		return ret;
+> +		goto free_riq;
 
-I was trying to show that I have changed my cc list, I apologize if it bothered you
+typo? riq -> irq
 
-> None of the patches had changelog, so you put additional effort on us to actually check what changed (see submitting patches).
+>   	}
+>   
+>   	if (spi->max_speed_hz)
+> @@ -932,9 +932,18 @@ static int wm0010_spi_probe(struct spi_device *spi)
+>   				     &soc_component_dev_wm0010, wm0010_dai,
+>   				     ARRAY_SIZE(wm0010_dai));
+>   	if (ret < 0)
+> -		return ret;
+> +		goto disable_irq_wake;
+>   
+>   	return 0;
+> +
+> +disable_irq_wake:
+> +	irq_set_irq_wake(wm0010->irq, 0);
+> +
+> +free_riq:
+> +	if (wm0010->irq)
+> +		free_irq(wm0010->irq, wm0010);
+> +
+> +	return ret;
+>   }
+>   
+>   static void wm0010_spi_remove(struct spi_device *spi)
 
-Can you please check out my new v5 patch, I'll add changlog to the following patch
