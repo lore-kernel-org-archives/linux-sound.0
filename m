@@ -1,235 +1,100 @@
-Received: from smtp134-86.sina.com.cn (smtp134-86.sina.com.cn [180.149.134.86])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233BE16BE3A
-	for <linux-sound@vger.kernel.org>; Mon, 10 Mar 2025 03:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.149.134.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876E71D54FA;
+	Mon, 10 Mar 2025 07:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741575854; cv=none; b=uxotJNi+zGehOSFFd7shwCO4xlVATKZc6fSQyc86TA9DgePSGtW0fH74OcuYsGUxE74fPLdtDv8DZahSOJ8Y+Am/YkDBZoJ9wTzCw0mc7Fw5wGH/DAq27cBJuY+Z55BrZSolauLpoy8gUM7AzteorGH9RojDF604c38nDGC7PGI=
+	t=1741590370; cv=none; b=W7CL1zly6dh08x0cYNfwZvOw3+FE03tggMUU7BshvTU9oLw/z/uvk68q7XiFSP2leUggD8e9mLi4XerGvJsOGZdFsTpceWUxQIY2Vk8vTlRk3V2mnXv4rvVWCNIkFe1gKQV/Wdv6ggYthLSEQ00CVAflsUTCnj+ZKeJuWLHl+nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741575854; c=relaxed/simple;
-	bh=26cx/vvyLmyfjqV5b45btoxXJllLg5LCM9Zt3cXbU8Y=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=n5R3YUsodkej1yM7TEuAR8beTBV6QuYgI1gy1uVccUH7P7ZtqatIhXasBIpaVHJZfKqfiCDmv6nd7af5vCoAfO5XZReBU08gaRFXQpNV02A3ReN5qwXXzQq0mwN7wBC3DIoyUupinH6PCJvxN68B0u1EruEJG1HCeth6pHC2SiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=180.149.134.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([180.159.108.137])
-	by sina.net (10.185.250.30) with ESMTP
-	id 67CE569D000009D8; Mon, 10 Mar 2025 11:03:58 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: B3C55CFE67994179ABD0A7C2F67E6B58
-X-SMAIL-UIID: B3C55CFE67994179ABD0A7C2F67E6B58-20250310-110358
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: krzk@kernel.org
-Cc: tiwai@suse.com,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	broonie@kernel.org,
-	devicetree@vger.kernel.org,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz
-Subject: RE: [PATCH v4 1/2] ASoC: codecs: add support for ES8389
-Date: Mon, 10 Mar 2025 11:03:57 +0800
-Message-Id: <20250310030357.120390-1-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1741590370; c=relaxed/simple;
+	bh=dely0WkpZhW9G5y6TR4CN3t7bLGidi5lnjr6+/I7Dw4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZeLFgThqRyHgrc9AKYPLn4pkzJ3vyMjTJSKqTmhjquVFbsNxhz0NfwmL4KM8MuOwpnvUN2gZ7i0iqawDWxBS71Za8HSOBpIYQ52pQ5fa4IEnUNthL/4FD/unotZfKIpFzCJumW6IGe2QwW08j1DCgxfCQroIDGTL4bCCBGSJn2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DwMkueU8; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DwMkueU8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2168C4CEE5;
+	Mon, 10 Mar 2025 07:06:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741590369;
+	bh=dely0WkpZhW9G5y6TR4CN3t7bLGidi5lnjr6+/I7Dw4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=DwMkueU846Ed+Gmf8Ltu6fs8CAyhNAws8EahO5MyBVLHSbML8mIyiv3rW3EIpRct4
+	 AHA5LnSwMfhnVwbZ0xQicPctAJ/w4nPy7r1SIfN6xw3czauXVsdeAhb1Cd/O87euTu
+	 6mEcWc1A/CEoPk9mxIKIA9N1eMpywrgqe8MqM0acHkqSYgDUm0cGVG2rpmKEDevX4L
+	 oRNzE9jzijfEpHsBxrEcTXFtu1SKqUKj7Z9YhCBSspT5cQZQKJZgO6XXWlala9S2mR
+	 ulEUfUGlTJq/U7A/q+5B/jWizv6eg9ISp2gFAHWgDPAhY9PfsNPQrNnU98mN3AYDYm
+	 zUgTGsaYq2y7g==
+From: Vinod Koul <vkoul@kernel.org>
+To: linux-sound@vger.kernel.org, broonie@kernel.org, tiwai@suse.de, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ pierre-louis.bossart@linux.dev, bard.liao@intel.com
+In-Reply-To: <20250227140615.8147-1-yung-chuan.liao@linux.intel.com>
+References: <20250227140615.8147-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH v4 00/16] SoundWire/ASoC: add SDW BPT/BRA support
+Message-Id: <174159036743.426660.895612998776430727.b4-ty@kernel.org>
+Date: Mon, 10 Mar 2025 12:36:07 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-I apologize for not responding to this review comment.
-But I did view these review comments and fixed the error.
-In the meantime I will modify my cc list, do I need to resend a new version
-of the patch to correct my error in my cc list?
 
-> > +static int es8389_probe(struct snd_soc_component *codec)
-> > +{
-> > +	int ret = 0;
-> > +	struct es8389_private *es8389 = snd_soc_component_get_drvdata(codec);
-> > +
-> > +	ret = device_property_read_u8(codec->dev, "everest,mclk-src", &es8389->mclk_src);
-> > +	if (ret != 0) {
-> > +		dev_dbg(codec->dev, "mclk-src return %d", ret);
-> > +		es8389->mclk_src = ES8389_MCLK_SOURCE;
-> > +	}
-> > +
-> > +	ret = device_property_read_u8(codec->dev, "everest,adc-slot", &es8389->adc_slot);
-> > +	if (ret != 0) {
-> > +		dev_dbg(codec->dev, "adc-slot return %d", ret);
-> > +		es8389->adc_slot = 0x00;
-> > +	}
-> > +
-> > +	ret = device_property_read_u8(codec->dev, "everest,dac-slot", &es8389->dac_slot);
-> > +	if (ret != 0) {
-> > +		dev_dbg(codec->dev, "dac-slot return %d", ret);
-> > +		es8389->dac_slot = 0x00;
-> > +	}
-> > +
-> > +	es8389->dmic = device_property_read_bool(codec->dev,
-> > +			"everest,dmic-enabled");
-> > +	dev_dbg(codec->dev, "dmic-enabled %x", es8389->dmic);
-> > +
-> > +	if (!es8389->adc_slot) {
-> > +		es8389->mclk = devm_clk_get(codec->dev, "mclk");
-> > +		if (IS_ERR(es8389->mclk)) {
-> > +			dev_err(codec->dev, "%s,unable to get mclk\n", __func__);
+On Thu, 27 Feb 2025 22:05:59 +0800, Bard Liao wrote:
+> This series adds support for SoundWire BPT/BRA. The change is mainly on
+> the SoundWire tree. It is better to go through the SoundWire tree with
+> Mark's Acked-by tag.
 > 
-> Syntax is return dev_err_probe. Also, drop __func__.
-
-Ok,I'll fix it
-
-> > +static struct snd_soc_component_driver soc_codec_dev_es8389 = {
-> > +	.probe = es8389_probe,
-> > +	.remove = es8389_remove,
-> > +	.suspend = es8389_suspend,
-> > +	.resume = es8389_resume,
-> > +	.set_bias_level = es8389_set_bias_level,
-> > +
-> > +	.controls = es8389_snd_controls,
-> > +	.num_controls = ARRAY_SIZE(es8389_snd_controls),
-> > +	.dapm_widgets = es8389_dapm_widgets,
-> > +	.num_dapm_widgets = ARRAY_SIZE(es8389_dapm_widgets),
-> > +	.dapm_routes = es8389_dapm_routes,
-> > +	.num_dapm_routes = ARRAY_SIZE(es8389_dapm_routes),
-> > +	.idle_bias_on = 1,
-> > +	.use_pmdown_time = 1,
-> > +};
-> > +
-> > +static struct regmap_config es8389_regmap = {
-> > +	.reg_bits = 8,
-> > +	.val_bits = 8,
-> > +
-> > +	.max_register = ES8389_MAX_REGISTER,
-> > +
-> > +	.volatile_reg = es8389_volatile_register,
-> > +	.cache_type = REGCACHE_MAPLE,
-> > +};
-> > +
-> > +#ifdef CONFIG_OF
-> > +static struct of_device_id es8389_if_dt_ids[] = {
-> > +	{ .compatible = "everest,es8389", },
+> v2:
+>  - Add MODULE_DESCRIPTION in the "ASoC: SOF: Intel: hda-sdw-bpt: add
+>    helpers for SoundWire BPT DMA" patch.
 > 
-> Bindings are before the user (see DT submitting patches).
+> [...]
 
-Ok,I'll fix it
+Applied, thanks!
 
-> > +	{ }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, es8389_if_dt_ids);
-> > +#endif
-> > +
-> > +static void es8389_i2c_shutdown(struct i2c_client *i2c)
-> > +{
-> > +	struct snd_soc_component *component;
-> > +	struct es8389_private *es8389;
-> > +
-> > +	es8389 = i2c_get_clientdata(i2c);
-> > +	component = es8389->component;
-> > +	dev_dbg(component->dev, "Enter into %s\n", __func__);
-> 
-> Please drop simple probe enter/exit debugs. Tracing is for that in
-> general.
+[01/16] Documentation: driver: add SoundWire BRA description
+        commit: 3641c6392695b0846e80a4c1245d7139c8ed7d48
+[02/16] soundwire: cadence: add BTP support for DP0
+        commit: 3e3ae0c8fccc51021136b192ec88e94a1bc5704c
+[03/16] soundwire: extend sdw_stream_type to BPT
+        commit: df896e4f7cf5cc3abffb186e2b6815b785500b57
+[04/16] soundwire: stream: extend sdw_alloc_stream() to take 'type' parameter
+        commit: dc90bbefa792031d89fe2af9ad4a6febd6be96a9
+[05/16] soundwire: stream: special-case the bus compute_params() routine
+        commit: 00f57195f10fa7e2fa2ceeac0b2768ae544fee2e
+[06/16] soundwire: stream: reuse existing code for BPT stream
+        commit: b422b7237ead30bfb90f52c7563ef518a5849cd9
+[07/16] soundwire: bus: add send_async/wait APIs for BPT protocol
+        commit: 9a756289ac5a8517dc643555d784d830b61576ad
+[08/16] soundwire: bus: add bpt_stream pointer
+        commit: 8e4a239b403bd8aed8787798de8e4e42f79246c2
+[09/16] soundwire: cadence: add BTP/BRA helpers to format data
+        commit: 8eb5d7ade8b1ed1678cdc5340ef3f6d346eed9be
+[10/16] soundwire: intel_auxdevice: add indirection for BPT send_async/wait
+        commit: 7f17a73a7dd8252aa88c6f5e23310861de3d5423
+[11/16] ASoC: SOF: Intel: hda-sdw-bpt: add helpers for SoundWire BPT DMA
+        commit: 5d5cb86fb46ea1c7efd3b894f63fe364e5847043
+[12/16] soundwire: intel: add BPT context definition
+        commit: 5cdc23764da8be3c1b2c022ddce95dd8e49673da
+[13/16] soundwire: intel_ace2x: add BPT send_async/wait callbacks
+        commit: 4c1ce9f37d8a809dcdfba082cc9003880efa0a63
+[14/16] ASoC: SOF: Intel: hda-sdw-bpt: add CHAIN_DMA support
+        commit: 3394e2b125043aeede344d28fc73b3c0d2a5c21f
+[15/16] soundwire: debugfs: add interface for BPT/BRA transfers
+        commit: bb5cb09eedce756eaeb66c69b6dac0f16e464e24
+[16/16] ASoC: rt711-sdca: add DP0 support
+        commit: 9452422fc321f105a38435bc72afe5fd2c51882b
 
-I'll drop these.
+Best regards,
+-- 
+~Vinod
 
-> > +
-> > +	regmap_write(es8389->regmap, ES8389_MASTER_MODE, 0x28);
-> > +	regmap_write(es8389->regmap, ES8389_HPSW, 0x00);
-> > +	regmap_write(es8389->regmap, ES8389_VMID, 0x00);
-> > +	regmap_write(es8389->regmap, ES8389_RESET, 0x00);
-> > +	regmap_write(es8389->regmap, ES8389_CSM_JUMP, 0xCC);
-> > +	usleep_range(500000, 550000);//500MS
-> > +	regmap_write(es8389->regmap, ES8389_CSM_JUMP, 0x00);
-> > +	regmap_write(es8389->regmap, ES8389_ANA_CTL1, 0x08);
-> > +	regmap_write(es8389->regmap, ES8389_ISO_CTL, 0xC1);
-> > +	regmap_write(es8389->regmap, ES8389_PULL_DOWN, 0x00);
-> > +}
-> > +
-> > +static int es8389_i2c_probe(struct i2c_client *i2c_client)
-> > +{
-> > +	struct es8389_private *es8389;
-> > +	int ret = -1;
-> > +
-> > +	es8389 = devm_kzalloc(&i2c_client->dev,
-> > +			sizeof(*es8389), GFP_KERNEL);
-> 
-> You wrapping is odd: unnecessary and not matching coding style.
 
-Ok,I'll fix it
-
->> +	if (es8389 == NULL)
->> +		return -ENOMEM;
->> +
->> +	i2c_set_clientdata(i2c_client, es8389);
->> +	es8389->regmap = devm_regmap_init_i2c(i2c_client, &es8389_regmap);
->> +	if (IS_ERR(es8389->regmap))
->> +		return dev_err_probe(&i2c_client->dev, PTR_ERR(es8389->regmap),
->> +			"regmap_init() failed\n");
->> +
->> +	ret =  devm_snd_soc_register_component(&i2c_client->dev,
->> +			&soc_codec_dev_es8389,
->> +			&es8389_dai,
->> +			1);
->> +	if (ret < 0) {
->> +		kfree(es8389);
->
->You have a bug here - double free. You can easily trigger this and see
->the result with KASAN.
-
-Ok,I'll fix it
-
-> > +		return ret;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static const struct i2c_device_id es8389_i2c_id[] = {
-> > +	{"es8389"},
-> > +	{ }
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, es8389_i2c_id);
-> > +
-> > +static struct i2c_driver es8389_i2c_driver = {
-> > +	.driver = {
-> > +		.name	= "es8389",
-> > +		.owner	= THIS_MODULE,
-> 
-> So you sent us an old code, probably based on downstream, duplicating
-> issues we already fixed in upstream.
-> 
-> That's really suboptimal choice.
-> 
-> First, you have the issues here which we already fixed. Second, you ask
-> us to review and find the same problems we already pointed out and
-> fixed.
-> 
-> Instead, please take the newest reviewed driver and use it as base.
-
-Ok,I'll fix it
-
-> > +		.of_match_table = of_match_ptr(es8389_if_dt_ids),
-> > +	},
-> > +	.shutdown = es8389_i2c_shutdown,
-> > +	.probe = es8389_i2c_probe,
-> > +	.id_table = es8389_i2c_id,
-> > +};
-> > +module_i2c_driver(es8389_i2c_driver);
-> > +
-> > +MODULE_DESCRIPTION("ASoC es8389 driver");
-> > +MODULE_AUTHOR("Michael Zhang <zhangyi@everest-semi.com>");
-> > +MODULE_LICENSE("GPL");
-> > +
-> > +
-> 
-> No need for blank lines at the end.
-
-Ok,I'll fix it
