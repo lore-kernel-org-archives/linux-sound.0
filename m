@@ -1,176 +1,247 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2089.outbound.protection.outlook.com [40.107.244.89])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2731684AC;
-	Tue, 11 Mar 2025 06:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741674095; cv=fail; b=W+ihAo5XdJCBIxFkXu6XhpX7284Z9EnVfX9wbH19fBufwQoC9K4CbSRBaL72sGEhhZqV9gE6UsuyaHiF8qXSVMAzxbxp2++rMtDT1bNaqPOz4PXCUnnmuYLoGPzFv46SmnA7r6rxA3clGfxv5gCpl2IXVFlXjYxhPB0UR8Hll6A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741674095; c=relaxed/simple;
-	bh=FByc08cvD0NNhBcORZfi/hq272h2/kQeSpmeVEKP3Qs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ffYJ6+1xkseyJ/ykqVdeWnNoKa0aBI6x1K5Ujk0+YEDYzIcUiqNqQwmzSb6vCCe5hJSWnDuu9lCPNs33rq1SdJPrSnXKAoWRAhXZG5qjuaxSvgOx1XLN5mbz3/KujlRYGIc4sr0hg2Vbgogw4LMPafzU1EGsChRAEmbF1LLj0+8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FpvmBb0v; arc=fail smtp.client-ip=40.107.244.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC73D1E9B0C;
+	Tue, 11 Mar 2025 08:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741682568; cv=none; b=i9fzlmevgWYaCzjjY+cGe62I9rFGKCF8zThCOcF/qS0YAR48BCcwXxf/fzOgYhr6gsA+0QEn2zWuJMNdF1Vrnmt7Dpj7SLdJZMo8IFotsvxzc/z64Lrylqz8+jhAvjI+SAF5tCnUOZ20Sid4Uc3hd34xuFFQqb+VH3NbONHIIps=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741682568; c=relaxed/simple;
+	bh=QzsgKSTlkwDsaiuWN6Kc/I7xqmRseAtTWlfyXN3qWiY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JZI+3STa4qxyQkT+wC+qlv7ZEdvYlET66G//oWU5P4Luz0BoliS4teF70LQZAZQaJwllyg2hrJjtnyFy7qCkty/ADZIKs+kxTgw79TsRJM4zaskuVILNC88iXib5lMA5FUyfW6pC3abv+l6kb4aXCqnshQxe06j1uagWR03llWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cF4r1lxe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FpvmBb0v"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y3WL0+OUQve4MbdTPclhpxIvaMX4Y/AFN6rcwpq+ckFk/6WR1NY2QxOy0mlZ4C60/YEO1LbX228np/7h7b+6NR1ESXdUdZR/5vcLQgmqR16kQHtoHC2FZa2jUfejHLtecy/QZwMTFwVF3SFliOBkkDkOsp+RGFSt1rBhW7lV/OrvqwJCkQsrBAsKKli4nmPtURmpgeDr3dm8bmCE0AiVRFwdHU02siJ6toPlKEeSydLMFQ7SIWfohBZNyNg2NnDQrJ3p16YBGttU7vS+tg0y9ihoIspGIfa4ELq/o10t8p64Xf+7IifaZ8S6hVAhKKuYN9s8OXoQb7D6u+UsYr/uAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pGJ/YHD7Y0Amb2zrDwYJ4wBFM+f2UpR9zsgGfCLQmXQ=;
- b=ouNY1fvn3YhX7nO2EQChglh3LcLUlHb9FOGjYdW2WnxfQafowEJ02tIo9QErl/JEoZX7XkdP3x//XORXwdhf7x3rtaIjoX+kN03tDdnAgPstBioHETJa8VT212RrJtLPOBM6587YCoa2iKUDHGzOglGI3afJgRFUV+OBAyrl69Vzsf7IOhcra0pSwrkzmJVFK9xt35SoLfNkI+TpY9tg3izfOrh0ZJo/jtlAmiuBhOMY6jdJOq54rJdZR6Tg2Br2zy3g377iAggTRfUfTUG9gFTzvoTmN+NLHuiqZe4e36Z/qf1ggS4M+LFT4plcmsqavn5C372DdqxSL8Fyz1QkLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pGJ/YHD7Y0Amb2zrDwYJ4wBFM+f2UpR9zsgGfCLQmXQ=;
- b=FpvmBb0vRTB/U0UWu/C4vqLpRBH2Q9EzBJPSsuBc3WVsgtT+LoKCtrFHbQGIlkQjJw4Ybd3yLgvkZMnsPHlo32ZCp2DUuhIfSMxoN7EEVqlGAE+fxz3/sp6mQ72IaUwUe5tv4fKDJSThMH1LzEK63FHvC9PYsxzXDNC+UNuYtKrl+RNX2SR3lpIYHt7GiWV9mGzVllhU0nCrMwUTMpIkWVw5i4qltpDw6lwzZm//uqdQrTs7uHARe3kZP2qOylZWcrM+OhEtoYMoIt2sfCWKa5L5MSndOySAlavLV1b9e50LaB5VnzvkZZblA5z8SaBxnmg+UOKcRCaMRjHgsLNvBg==
-Received: from BY3PR05CA0043.namprd05.prod.outlook.com (2603:10b6:a03:39b::18)
- by CH3PR12MB9281.namprd12.prod.outlook.com (2603:10b6:610:1c8::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Tue, 11 Mar
- 2025 06:21:30 +0000
-Received: from MWH0EPF000989E6.namprd02.prod.outlook.com
- (2603:10b6:a03:39b:cafe::cc) by BY3PR05CA0043.outlook.office365.com
- (2603:10b6:a03:39b::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.21 via Frontend Transport; Tue,
- 11 Mar 2025 06:21:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- MWH0EPF000989E6.mail.protection.outlook.com (10.167.241.133) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8534.20 via Frontend Transport; Tue, 11 Mar 2025 06:21:29 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 10 Mar
- 2025 23:21:22 -0700
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Mon, 10 Mar 2025 23:21:21 -0700
-Received: from build-sheetal-bionic-20250305.nvidia.com (10.127.8.13) by
- mail.nvidia.com (10.126.190.181) with Microsoft SMTP Server id 15.2.1544.14
- via Frontend Transport; Mon, 10 Mar 2025 23:21:21 -0700
-From: "Sheetal ." <sheetal@nvidia.com>
-To: <broonie@kernel.org>, <linux-sound@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<jonathanh@nvidia.com>, <thierry.reding@gmail.com>, <mkumard@nvidia.com>,
-	<spujar@nvidia.com>, Ritu Chaudhary <rituc@nvidia.com>, Sheetal
-	<sheetal@nvidia.com>
-Subject: [PATCH] ASoC: tegra: Use non-atomic timeout for ADX status register
-Date: Tue, 11 Mar 2025 06:20:10 +0000
-Message-ID: <20250311062010.33412-1-sheetal@nvidia.com>
-X-Mailer: git-send-email 2.17.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cF4r1lxe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02112C4CEE9;
+	Tue, 11 Mar 2025 08:42:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741682568;
+	bh=QzsgKSTlkwDsaiuWN6Kc/I7xqmRseAtTWlfyXN3qWiY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cF4r1lxem37JVNj82VdWy2+U8ymAJbgtvA5iei+Cur12H+HvlP9c6gJQejKBdewmd
+	 n3ye/N6xy/Y9u6lCDfzNOyfeLOH+c8coHYmA1GeVutG0KiL0Qz8jy2KMw1SZqiKA7R
+	 CKurl6ZxlzQ/jJcUiL5v9TR9l+sGzqnBfGjv7eOcHvNCpqxxyN7oZVjHFHkDajSV/y
+	 dIqikFyogKorLdNXWQIQ+E91v+8Ayk3mbQRisiS/Y+IcqFsbtkQ32zIeWZ+QhtQUN+
+	 HXL+8IDR1bE/ipYTrPWGPL/11BSLN7YcGkwbPNnmtOy2jYgcD/JD86ywEXaxB1XoQN
+	 z12I7zIsT3Xjw==
+Date: Tue, 11 Mar 2025 09:42:45 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, patches@opensource.cirrus.com, 
+	Ernest Van Hoecke <ernest.vanhoecke@toradex.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Francesco Dolcini <francesco.dolcini@toradex.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v3 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC
+ and EQ support
+Message-ID: <20250311-solid-poetic-camel-77a29b@krzk-bin>
+References: <20250307135244.100443-1-francesco@dolcini.it>
+ <20250307135244.100443-4-francesco@dolcini.it>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000989E6:EE_|CH3PR12MB9281:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6da0aa69-1723-4ff4-5cfa-08dd6064f621
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?UwponhYSN1XXrhTEqi/o61i//w168AY4GtL7S/TvRz6hnJUyQbY7y9Ot5N46?=
- =?us-ascii?Q?351yrT1uLxNqqLZU5y5EcpdlxT13oLjNfzhGDsGcBjZidx3bUa1BDGtFryrQ?=
- =?us-ascii?Q?QSCOpQPGLrilGIo0qv0PHUug4Wz1GHBfkIclsPO+ZDlF+yR0BWAFoXR53b6H?=
- =?us-ascii?Q?+8awdoDX/O79STUoSwYi2k9gs+3Bn3P2d8pCEkFWsYC8jm3PbL+kFplDELmH?=
- =?us-ascii?Q?yRLwwkpp9CvOA/yQP3Huf2M1D4egTQ+nCQsCuThjFvYoR7RyX7RO+v8Q9e0Q?=
- =?us-ascii?Q?yPoXyHsl4lfIWZGqLA/B0JnNfIRqXN2conBGllzdQY0L3WHKmkHyK/KYJbCk?=
- =?us-ascii?Q?7FrZ4smSfjHZNwwLPC6PUgITyTrZmgbke2qRNvtrN1XbrOK6q50tXK9rB9pZ?=
- =?us-ascii?Q?AjuprlVGGQYMdU1SrlVYr2sPikAk5kuwZ1HQPpOLdYl5aNxjVHQJ+seFCM/J?=
- =?us-ascii?Q?7sJn0/UskzZ1e6naXarnqYw/53uc6j2+zMptzfqV8L6xB7AgN8A9eJA3l2SW?=
- =?us-ascii?Q?IcA97Wk4oi0Vejzmnu1slH38X8yqnNdTl/dpjxVfkCetGN4jvtapgFfIUgpY?=
- =?us-ascii?Q?nKBZM36caZXrkkYislOWwcZaon381Ne/aoagWckBt1tSOF0fXjz9qeg3tm67?=
- =?us-ascii?Q?gfjUkds/dFUgtKnPpth/GRaW7aZfruLXYVtVKrSRceEQ4rO0iJ2N8L0dodpc?=
- =?us-ascii?Q?kObf75iZ/tlCLDxm4+AGAu3Y0W8bnrqsvReMIUYZjh2zbxCcReGmIOwMAlh5?=
- =?us-ascii?Q?4k3IRo6IfvCvkNvXR/W1m1bxMjnpRMCJ3o42q9/0e1rliyTcbq9s9TxbFo3p?=
- =?us-ascii?Q?JaLy8pT8izErqG/m3GKwuBww3YKt3kmK9jktnh0zFJGXNOJbaLMbTh3D/pie?=
- =?us-ascii?Q?vVvRm6QHjzmNXQWwGQIiLqGTgJut0WW5QKnKaBAbPsAWQNNlqwjCl42yX3+/?=
- =?us-ascii?Q?Tr1DA6WflTJRiOn3a+gbOEQM5xqPjQKEhBqs60rGxlCM9f5G5gFQb6fxVgTy?=
- =?us-ascii?Q?mnURGYlG0A1kPNsNmhxDVav2Dh69hghXPmxw40bKOTmGJR8vb8jHNloigu9y?=
- =?us-ascii?Q?f1tlXleQew465YepEgkgj4PRgdA4QWp/hIUaEj+1dcYoQ140Ri220LSCNJtd?=
- =?us-ascii?Q?r3AEeL7D0gg0wtVCug+Y3o4Cz1QC1/Ob9yvxuVTkN155VfBQePW/SveHRqEf?=
- =?us-ascii?Q?bAKo4Ez3IEHIwjSeQ2o3R8hGAjibtem3Kg+TNA2/yrZ4RzCMkUP1he+q/JBR?=
- =?us-ascii?Q?Q8YPVNUj6nrKl4r3jv9LWC16dWIw4z5PZ1VpG3gOMlnyaWpoA9c/4WMExp9x?=
- =?us-ascii?Q?ta20PuqOK4qGEGAsGf1u0i9OYAHNQ4jcgguyz/24HpI81XXFyln5ibmt4pM+?=
- =?us-ascii?Q?CtySszpvFvCuZMEUTJpUwBu7EWh5qZPttGyczx3wL1fgaLCha/nuA/Wg0YMy?=
- =?us-ascii?Q?hdSi9KhFuHfrjzCRwfKzJaATiim1QKK2dS9C9xqW2Eg+9tIPs7vfxgi8dvph?=
- =?us-ascii?Q?uv7evUARlxpJSvg=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2025 06:21:29.7918
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6da0aa69-1723-4ff4-5cfa-08dd6064f621
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000989E6.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9281
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250307135244.100443-4-francesco@dolcini.it>
 
-From: Ritu Chaudhary <rituc@nvidia.com>
+On Fri, Mar 07, 2025 at 02:52:42PM +0100, Francesco Dolcini wrote:
+> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
+> 
+> Add two properties to select the IN1L/DMICDAT1 and IN2R/DMICDAT2
+> functionality:
+> - wlf,in1l-as-dmicdat1
+> - wlf,in1r-as-dmicdat2
+> 
+> Add a property to describe the GPIO configuration registers, that can be
+> used to set the four multifunction pins:
+> - wlf,gpio-cfg
+> 
+> Add a property to describe the mic bias control registers:
+> - wlf,mic-cfg
+> 
+> Add two properties to describe the Dynamic Range Controller (DRC),
+> allowing multiple named configurations where each config sets the 4 DRC
+> registers (R40-R43):
+> - wlf,drc-cfg-regs
+> - wlf,drc-cfg-names
+> 
+> Add three properties to describe the equalizer (ReTune Mobile), allowing
+> multiple named configurations (associated with a samplerate) that set
+> the 24 (R134-R157) EQ registers:
+> - wlf,retune-mobile-cfg-regs
+> - wlf,retune-mobile-cfg-hz
+> - wlf,retune-mobile-cfg-rates
+> 
+> Datasheet: https://statics.cirrus.com/pubs/proDatasheet/WM8904_Rev4.1.pdf
+> Signed-off-by: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> ---
+> v3: v2 did not pass dt_binding_check, this is now fixed.
+>     Fixed a DT compilation error by moving a misplaced closing bracket.
+>     Changed 'retune-mobile-cfg-names' to be a nonunique-string-array.
+>     Renamed 'retune-mobile-cfg-rates' to 'retune-mobile-cfg-hz',
+>         dropped the 'ref' because it is now a standard unit suffix prop.
+>     Redid line wrapping to be compliant with the DTS style guidelines.
+> v2: Added an example of how to use the ReTune Mobile config properties
+> v1: https://lore.kernel.org/lkml/20250206163152.423199-4-francesco@dolcini.it/
+> ---
+>  .../devicetree/bindings/sound/wlf,wm8904.yaml | 116 ++++++++++++++++++
+>  1 file changed, 116 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
+> index 329260cf0fa0..4ad8681cb266 100644
+> --- a/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
+> +++ b/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
+> @@ -38,6 +38,72 @@ properties:
+>    DCVDD-supply: true
+>    MICVDD-supply: true
+>  
+> +  wlf,in1l-as-dmicdat1:
+> +    type: boolean
+> +    description:
+> +      Use IN1L/DMICDAT1 as DMICDAT1, enabling the DMIC input path.
+> +
+> +  wlf,in1r-as-dmicdat2:
+> +    type: boolean
+> +    description:
+> +      Use IN1R/DMICDAT2 as DMICDAT2, enabling the DMIC input path.
 
-ADX startup() callback uses atomic poll timeout on ADX status register.
+Are these two properties mutually exclusive?
 
-This is unnecessary because:
+> +
+> +  wlf,gpio-cfg:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 4
+> +    maxItems: 4
+> +    description:
+> +      Default register values for R121/122/123/124 (GPIO Control).
+> +      If any entry has the value 0xFFFF, the related register won't be set.
+> +    default: [0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF]
+> +
+> +  wlf,mic-cfg:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 2
+> +    maxItems: 2
+> +    description:
+> +      Default register values for R6/R7 (Mic Bias Control).
+> +    default: [0, 0]
+> +
+> +  wlf,drc-cfg-names:
+> +    $ref: /schemas/types.yaml#/definitions/string-array
 
-- The startup() callback itself is non-atomic.
-- The subsequent timeout call in the same function already uses a
-  non-atomic version.
+No constraints, so I assume you can have here any number of items?
 
-Using atomic version can hog CPU when it is not really needed,
-so replace it with non-atomic version.
+> +    description:
+> +      List of strings for the available DRC modes.
 
-Fixes: a99ab6f395a9e ("ASoC: tegra: Add Tegra210 based ADX driver")
-Signed-off-by: Ritu Chaudhary <rituc@nvidia.com>
-Signed-off-by: Sheetal <sheetal@nvidia.com>
----
- sound/soc/tegra/tegra210_adx.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Why the actual names are not defined? Why do you need this property if
+they are not defined (thus driver does not request this by the name)?
 
-diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_adx.c
-index 0aa93b948378..3c10e09976ad 100644
---- a/sound/soc/tegra/tegra210_adx.c
-+++ b/sound/soc/tegra/tegra210_adx.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-only
--// SPDX-FileCopyrightText: Copyright (c) 2021-2024 NVIDIA CORPORATION & AFFILIATES.
-+// SPDX-FileCopyrightText: Copyright (c) 2021-2025 NVIDIA CORPORATION & AFFILIATES.
- // All rights reserved.
- //
- // tegra210_adx.c - Tegra210 ADX driver
-@@ -57,8 +57,8 @@ static int tegra210_adx_startup(struct snd_pcm_substream *substream,
- 	int err;
- 
- 	/* Ensure if ADX status is disabled */
--	err = regmap_read_poll_timeout_atomic(adx->regmap, TEGRA210_ADX_STATUS,
--					      val, !(val & 0x1), 10, 10000);
-+	err = regmap_read_poll_timeout(adx->regmap, TEGRA210_ADX_STATUS,
-+				       val, !(val & 0x1), 10, 10000);
- 	if (err < 0) {
- 		dev_err(dai->dev, "failed to stop ADX, err = %d\n", err);
- 		return err;
--- 
-2.17.1
+> +      If absent, DRC is disabled.
+> +
+> +  wlf,drc-cfg-regs:
+> +    $ref: /schemas/types.yaml#/definitions/uint16-array
+> +    description:
+> +      Default register values for R40/41/42/43 (DRC).
+> +      The list must be 4 times the length of wlf,drc-cfg-names.
+> +      If absent, DRC is disabled.
+> +
+> +  wlf,retune-mobile-cfg-names:
+> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
+> +    description:
+> +      List of strings for the available retune modes.
+> +      If absent, retune is disabled.
+> +
+> +  wlf,retune-mobile-cfg-hz:
+> +    description:
+> +      The list must be the same length as wlf,retune-mobile-cfg-names.
+> +      If absent, retune is disabled.
+> +
+> +  wlf,retune-mobile-cfg-regs:
+> +    $ref: /schemas/types.yaml#/definitions/uint16-array
+> +    description:
+> +      Default register values for R134/.../157 (EQ).
+> +      The list must be 24 times the length of wlf,retune-mobile-cfg-names.
+> +      If absent, retune is disabled.
+> +
+> +dependencies:
+> +  wlf,drc-cfg-names: [ 'wlf,drc-cfg-regs' ]
+> +  wlf,drc-cfg-regs: [ 'wlf,drc-cfg-names' ]
+> +
+> +  wlf,retune-mobile-cfg-names: [ 'wlf,retune-mobile-cfg-hz', 'wlf,retune-mobile-cfg-regs' ]
+> +  wlf,retune-mobile-cfg-regs: [ 'wlf,retune-mobile-cfg-names', 'wlf,retune-mobile-cfg-hz' ]
+> +  wlf,retune-mobile-cfg-hz: [ 'wlf,retune-mobile-cfg-names', 'wlf,retune-mobile-cfg-regs' ]
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -70,5 +136,55 @@ examples:
+>              DBVDD-supply = <&reg_1p8v>;
+>              DCVDD-supply = <&reg_1p8v>;
+>              MICVDD-supply = <&reg_1p8v>;
+> +
+> +            wlf,drc-cfg-names = "default", "peaklimiter", "tradition", "soft",
+> +                                "music";
+> +            /*
+> +             * Config registers per name, respectively:
+> +             * KNEE_IP = 0,   KNEE_OP = 0,     HI_COMP = 1,   LO_COMP = 1
+> +             * KNEE_IP = -24, KNEE_OP = -6,    HI_COMP = 1/4, LO_COMP = 1
+> +             * KNEE_IP = -42, KNEE_OP = -3,    HI_COMP = 0,   LO_COMP = 1
+> +             * KNEE_IP = -45, KNEE_OP = -9,    HI_COMP = 1/8, LO_COMP = 1
+> +             * KNEE_IP = -30, KNEE_OP = -10.5, HI_COMP = 1/4, LO_COMP = 1
+> +             */
+> +            wlf,drc-cfg-regs = /bits/ 16 <0x01af 0x3248 0x0000 0x0000>,
+
+<number>, <number>, <number> ...
+
+unless you wanted 64-bit?
+
+> +                               /bits/ 16 <0x04af 0x324b 0x0010 0x0408>,
+> +                               /bits/ 16 <0x04af 0x324b 0x0028 0x0704>,
+> +                               /bits/ 16 <0x04af 0x324b 0x0018 0x078c>,
+> +                               /bits/ 16 <0x04af 0x324b 0x0010 0x050e>;
+> +
+> +            /* GPIO1 = DMIC_CLK, don't touch others */
+> +            wlf,gpio-cfg = <0x0018 0xffff 0xffff 0xffff>;
+
+So how many items here?
+
+> +
+> +            wlf,retune-mobile-cfg-names = "bassboost", "bassboost", "treble";
+> +            wlf,retune-mobile-cfg-hz = <48000 44100 48000>;
+> +            /*
+> +             * Config registers per name, respectively:
+> +             * EQ_ENA,  100 Hz,  300 Hz,  875 Hz, 2400 Hz, 6900 Hz
+> +             *      1,   +6 dB,   +3 dB,    0 dB,    0 dB,    0 dB
+> +             *      1,   +6 dB,   +3 dB,    0 dB,    0 dB,    0 dB
+> +             *      1,   -2 dB,   -2 dB,    0 dB,    0 dB,   +3 dB
+> +             * Each one uses the defaults for ReTune Mobile registers 140-157
+> +             */
+> +            wlf,retune-mobile-cfg-regs = /bits/ 16 <0x1 0x12 0xf 0xc 0xc 0xc>,
+> +                                         /bits/ 16 <0x0fca 0x0400 0x00d8 0x1eb5
+> +                                                    0xf145 0x0bd5 0x0075 0x1c58
+> +                                                    0xf3d3 0x0a54 0x0568 0x168e
+> +                                                    0xf829 0x07ad 0x1103 0x0564
+> +                                                    0x0559 0x4000>,
+
+I am really confused what are the matrix bounds here.
+
+> +
+> +                                         /bits/ 16 <0x1 0x12 0xf 0xc 0xc 0xc>,
+> +                                         /bits/ 16 <0x0fca 0x0400 0x00d8 0x1eb5
+> +                                                    0xf145 0x0bd5 0x0075 0x1c58
+> +                                                    0xf3d3 0x0a54 0x0568 0x168e
+> +                                                    0xf829 0x07ad 0x1103 0x0564
+> +                                                    0x0559 0x4000>,
+
+Best regards,
+Krzysztof
 
