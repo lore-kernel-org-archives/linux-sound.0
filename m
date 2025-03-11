@@ -1,247 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC73D1E9B0C;
-	Tue, 11 Mar 2025 08:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004C223F368
+	for <linux-sound@vger.kernel.org>; Tue, 11 Mar 2025 10:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741682568; cv=none; b=i9fzlmevgWYaCzjjY+cGe62I9rFGKCF8zThCOcF/qS0YAR48BCcwXxf/fzOgYhr6gsA+0QEn2zWuJMNdF1Vrnmt7Dpj7SLdJZMo8IFotsvxzc/z64Lrylqz8+jhAvjI+SAF5tCnUOZ20Sid4Uc3hd34xuFFQqb+VH3NbONHIIps=
+	t=1741689596; cv=none; b=PYl3p7Q9Z81US8WgDCBRC0198UPHv4mJ5YlY0PPdTBIBp7aAdgOe4aOjNIok6bLMA+5zuysZV+hgNImTUyhaYIvq11kFCIJaQVTjPlS4he1gVu9jPONIaleo+wfctf23q2ZEV5CdEEd3URfC18mWqd3BgE8sb5J0o4NXfgnYqyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741682568; c=relaxed/simple;
-	bh=QzsgKSTlkwDsaiuWN6Kc/I7xqmRseAtTWlfyXN3qWiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JZI+3STa4qxyQkT+wC+qlv7ZEdvYlET66G//oWU5P4Luz0BoliS4teF70LQZAZQaJwllyg2hrJjtnyFy7qCkty/ADZIKs+kxTgw79TsRJM4zaskuVILNC88iXib5lMA5FUyfW6pC3abv+l6kb4aXCqnshQxe06j1uagWR03llWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cF4r1lxe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741689596; c=relaxed/simple;
+	bh=1A9DqrzvgSP86RmLS/8pQLub1nZ9094OoP56S8a3cAo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rbJ2LBOIUkB4Y8FmHferIgzHdfHrNryx15UkELyRgUOMO2xxwiNy2f72QHDjfpdus5My6N8EmJvZe5+2ZwW2B3/C/cAEmW/gIf1CFVjI4fKFHF9RW/MHGsj5y9oSC5hCTvDpWn8SwZ1ZBS4lG95kpBp3S2br8vU4bKpqkTsUuCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ujTQ3EAb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O3/J1HCl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XMWEg1dV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ibb0p54z; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cF4r1lxe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02112C4CEE9;
-	Tue, 11 Mar 2025 08:42:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741682568;
-	bh=QzsgKSTlkwDsaiuWN6Kc/I7xqmRseAtTWlfyXN3qWiY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cF4r1lxem37JVNj82VdWy2+U8ymAJbgtvA5iei+Cur12H+HvlP9c6gJQejKBdewmd
-	 n3ye/N6xy/Y9u6lCDfzNOyfeLOH+c8coHYmA1GeVutG0KiL0Qz8jy2KMw1SZqiKA7R
-	 CKurl6ZxlzQ/jJcUiL5v9TR9l+sGzqnBfGjv7eOcHvNCpqxxyN7oZVjHFHkDajSV/y
-	 dIqikFyogKorLdNXWQIQ+E91v+8Ayk3mbQRisiS/Y+IcqFsbtkQ32zIeWZ+QhtQUN+
-	 HXL+8IDR1bE/ipYTrPWGPL/11BSLN7YcGkwbPNnmtOy2jYgcD/JD86ywEXaxB1XoQN
-	 z12I7zIsT3Xjw==
-Date: Tue, 11 Mar 2025 09:42:45 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Francesco Dolcini <francesco@dolcini.it>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, patches@opensource.cirrus.com, 
-	Ernest Van Hoecke <ernest.vanhoecke@toradex.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Francesco Dolcini <francesco.dolcini@toradex.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v3 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC
- and EQ support
-Message-ID: <20250311-solid-poetic-camel-77a29b@krzk-bin>
-References: <20250307135244.100443-1-francesco@dolcini.it>
- <20250307135244.100443-4-francesco@dolcini.it>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ujTQ3EAb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O3/J1HCl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XMWEg1dV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ibb0p54z"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C0C7D1F38F;
+	Tue, 11 Mar 2025 10:39:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741689593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cEeSDF9TWGQ/1xesuqvaCoH529P6am/sq2wj9HJQAh0=;
+	b=ujTQ3EAb+BXCFd/pHq4Qg/4ICUHWbYLSguQvTAkEQr4esyNtMLEdGxm58dPtQk9SC9FlGy
+	dqBwl/aDTAGnJNbrf75xdqwQq5MLWyjoEEZQeFYtsGvZk4Sg0tro3PFs5qFICxALVr7WnV
+	qEiwGQ2ma2v15AXSFR8gjozovSBJjOg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741689593;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cEeSDF9TWGQ/1xesuqvaCoH529P6am/sq2wj9HJQAh0=;
+	b=O3/J1HClwYJ0FB/vhWcUYlaxAZU7EQOKY1LFDT+h+X5DdBwgf6nfDQ4onjlGUCIiwoMaSy
+	ZL9jEn3f/ZgQ0YCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XMWEg1dV;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ibb0p54z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741689592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cEeSDF9TWGQ/1xesuqvaCoH529P6am/sq2wj9HJQAh0=;
+	b=XMWEg1dVtvKKQxwDIX3ENQ33pXDx8XwKEAWf/T+b9N44878c/yRgWSAP7JOErSo0kM9BLX
+	0PCQYb3Ljpdph3u0Y4Pfpjf0xXfmmo3sTzqNupqRY6WltA3vxcbVfkXJkJNBL5WEXZIwf4
+	6FmnzNENkkv5aFFV6/mHbF0L4jguohg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741689592;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cEeSDF9TWGQ/1xesuqvaCoH529P6am/sq2wj9HJQAh0=;
+	b=ibb0p54zvpl/dM2TPpHsdaoUTDk5ET+sTlS3GpModKg+i3UvwmBdXbNaqyWDN3yuPJua4D
+	5W7NVjtBwzyocvAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96AB9132CB;
+	Tue, 11 Mar 2025 10:39:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hdQ6JPgS0GdaCwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 11 Mar 2025 10:39:52 +0000
+Date: Tue, 11 Mar 2025 11:39:52 +0100
+Message-ID: <87tt7zyhon.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: chester.a.unal@arinc9.com,
+	"Chester A. Unal via B4 Relay" <devnull+chester.a.unal.arinc9.com@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Joshua Grisham <josh@joshuagrisham.com>,
+	alexander.scholten@xpedite-tech.com,
+	dwayne.dupreez@xpedite-tech.com,
+	zenon@xpedite-tech.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Limit Internal Microphone boost for ALC3246
+In-Reply-To: <20250309-for-sound-alc256-dell-v1-1-aacd84853907@arinc9.com>
+References: <20250309-for-sound-alc256-dell-v1-1-aacd84853907@arinc9.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250307135244.100443-4-francesco@dolcini.it>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: C0C7D1F38F
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TAGGED_RCPT(0.00)[chester.a.unal.arinc9.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
+X-Spam-Flag: NO
 
-On Fri, Mar 07, 2025 at 02:52:42PM +0100, Francesco Dolcini wrote:
-> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
+On Sun, 09 Mar 2025 13:39:36 +0100,
+Chester A. Unal via B4 Relay wrote:
 > 
-> Add two properties to select the IN1L/DMICDAT1 and IN2R/DMICDAT2
-> functionality:
-> - wlf,in1l-as-dmicdat1
-> - wlf,in1r-as-dmicdat2
+> From: "Chester A. Unal" <chester.a.unal@arinc9.com>
 > 
-> Add a property to describe the GPIO configuration registers, that can be
-> used to set the four multifunction pins:
-> - wlf,gpio-cfg
+> Internal Microphone is too loud on Dell Latitude 5490, Dell Device
+> [1028:0816], which has got ALC3246. I suppose this is the case for all
+> devices with ALC3246 which is ALC256 for Dell devices. Therefore, limit the
+> Internal Microphone boost for ALC3246. Change
+> ALC255_FIXUP_DELL1_MIC_NO_PRESENCE to
+> ALC255_FIXUP_DELL1_LIMIT_INT_MIC_BOOST which includes the former fixup.
 > 
-> Add a property to describe the mic bias control registers:
-> - wlf,mic-cfg
-> 
-> Add two properties to describe the Dynamic Range Controller (DRC),
-> allowing multiple named configurations where each config sets the 4 DRC
-> registers (R40-R43):
-> - wlf,drc-cfg-regs
-> - wlf,drc-cfg-names
-> 
-> Add three properties to describe the equalizer (ReTune Mobile), allowing
-> multiple named configurations (associated with a samplerate) that set
-> the 24 (R134-R157) EQ registers:
-> - wlf,retune-mobile-cfg-regs
-> - wlf,retune-mobile-cfg-hz
-> - wlf,retune-mobile-cfg-rates
-> 
-> Datasheet: https://statics.cirrus.com/pubs/proDatasheet/WM8904_Rev4.1.pdf
-> Signed-off-by: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Signed-off-by: Chester A. Unal <chester.a.unal@arinc9.com>
+
+Thanks for the patch.
+
+The code replaces the quirk entry for a pin-quirk table, and it
+implies that this change will influence on all models that have this
+pin table pattern, which is a bit risky to change.
+IMO, a safer option would be to add an explicit PCI SSID quirk entry
+for your device pointing to ALC255_FIXUP_DELL1_LIMIT_INT_MIC_BOOST.
+
 > ---
-> v3: v2 did not pass dt_binding_check, this is now fixed.
->     Fixed a DT compilation error by moving a misplaced closing bracket.
->     Changed 'retune-mobile-cfg-names' to be a nonunique-string-array.
->     Renamed 'retune-mobile-cfg-rates' to 'retune-mobile-cfg-hz',
->         dropped the 'ref' because it is now a standard unit suffix prop.
->     Redid line wrapping to be compliant with the DTS style guidelines.
-> v2: Added an example of how to use the ReTune Mobile config properties
-> v1: https://lore.kernel.org/lkml/20250206163152.423199-4-francesco@dolcini.it/
-> ---
->  .../devicetree/bindings/sound/wlf,wm8904.yaml | 116 ++++++++++++++++++
->  1 file changed, 116 insertions(+)
+> I don't know ALSA or the Intel HDA specification very well so feel free to
+> correct any incorrect information in the patch log.
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
-> index 329260cf0fa0..4ad8681cb266 100644
-> --- a/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
-> +++ b/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
-> @@ -38,6 +38,72 @@ properties:
->    DCVDD-supply: true
->    MICVDD-supply: true
->  
-> +  wlf,in1l-as-dmicdat1:
-> +    type: boolean
-> +    description:
-> +      Use IN1L/DMICDAT1 as DMICDAT1, enabling the DMIC input path.
-> +
-> +  wlf,in1r-as-dmicdat2:
-> +    type: boolean
-> +    description:
-> +      Use IN1R/DMICDAT2 as DMICDAT2, enabling the DMIC input path.
+> I experience another issue with this laptop that is also there on ALC3204.
+> Headphones output loops back to Headset Microphone. So if I record with
+> this microphone, sysystem audio is recorded as well. I have tried a fair
+> share of fixups by compiling snd-hda-codec-realtek.ko with different fixups
+> applied for "0x10ec0256, 0x1028", replacing the existing module in
+> /lib/modules, and then rebooting.
 
-Are these two properties mutually exclusive?
+The "headphone" mic means to use the pin used for the headphone output
+as the mic input.  If turned on, the pin usage is switched from the
+output to the input, hence no playback from there any longer.
+And, a headphone can be indeed used physically as a mic (although the
+tone is very soft) -- so it's the expected behavior.
 
-> +
-> +  wlf,gpio-cfg:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 4
-> +    maxItems: 4
-> +    description:
-> +      Default register values for R121/122/123/124 (GPIO Control).
-> +      If any entry has the value 0xFFFF, the related register won't be set.
-> +    default: [0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF]
-> +
-> +  wlf,mic-cfg:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 2
-> +    maxItems: 2
-> +    description:
-> +      Default register values for R6/R7 (Mic Bias Control).
-> +    default: [0, 0]
-> +
-> +  wlf,drc-cfg-names:
-> +    $ref: /schemas/types.yaml#/definitions/string-array
+OTOH, "headset" mic is different; it has both the headset output pin
+and the headset mic pin that work individually.
 
-No constraints, so I assume you can have here any number of items?
+> ALC2XX_FIXUP_HEADSET_MIC makes Headset Microphone appear unplugged. But I
+> can see on the OS that it detects voice, so, it works. When it appears
+> unplugged, Headphones output won't loop back to it. This fixup also makes
+> Speakers appear unavailable and makes Microphone disappear, as
+> ALC255_FIXUP_DELL1_MIC_NO_PRESENCE won't apply anymore.
 
-> +    description:
-> +      List of strings for the available DRC modes.
+If the headset isn't detected by plugging to the headset jack, that's
+a bug to be fixed.  Please elaborate the behavior.
 
-Why the actual names are not defined? Why do you need this property if
-they are not defined (thus driver does not request this by the name)?
 
-> +      If absent, DRC is disabled.
-> +
-> +  wlf,drc-cfg-regs:
-> +    $ref: /schemas/types.yaml#/definitions/uint16-array
-> +    description:
-> +      Default register values for R40/41/42/43 (DRC).
-> +      The list must be 4 times the length of wlf,drc-cfg-names.
-> +      If absent, DRC is disabled.
-> +
-> +  wlf,retune-mobile-cfg-names:
-> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-> +    description:
-> +      List of strings for the available retune modes.
-> +      If absent, retune is disabled.
-> +
-> +  wlf,retune-mobile-cfg-hz:
-> +    description:
-> +      The list must be the same length as wlf,retune-mobile-cfg-names.
-> +      If absent, retune is disabled.
-> +
-> +  wlf,retune-mobile-cfg-regs:
-> +    $ref: /schemas/types.yaml#/definitions/uint16-array
-> +    description:
-> +      Default register values for R134/.../157 (EQ).
-> +      The list must be 24 times the length of wlf,retune-mobile-cfg-names.
-> +      If absent, retune is disabled.
-> +
-> +dependencies:
-> +  wlf,drc-cfg-names: [ 'wlf,drc-cfg-regs' ]
-> +  wlf,drc-cfg-regs: [ 'wlf,drc-cfg-names' ]
-> +
-> +  wlf,retune-mobile-cfg-names: [ 'wlf,retune-mobile-cfg-hz', 'wlf,retune-mobile-cfg-regs' ]
-> +  wlf,retune-mobile-cfg-regs: [ 'wlf,retune-mobile-cfg-names', 'wlf,retune-mobile-cfg-hz' ]
-> +  wlf,retune-mobile-cfg-hz: [ 'wlf,retune-mobile-cfg-names', 'wlf,retune-mobile-cfg-regs' ]
-> +
->  required:
->    - compatible
->    - reg
-> @@ -70,5 +136,55 @@ examples:
->              DBVDD-supply = <&reg_1p8v>;
->              DCVDD-supply = <&reg_1p8v>;
->              MICVDD-supply = <&reg_1p8v>;
-> +
-> +            wlf,drc-cfg-names = "default", "peaklimiter", "tradition", "soft",
-> +                                "music";
-> +            /*
-> +             * Config registers per name, respectively:
-> +             * KNEE_IP = 0,   KNEE_OP = 0,     HI_COMP = 1,   LO_COMP = 1
-> +             * KNEE_IP = -24, KNEE_OP = -6,    HI_COMP = 1/4, LO_COMP = 1
-> +             * KNEE_IP = -42, KNEE_OP = -3,    HI_COMP = 0,   LO_COMP = 1
-> +             * KNEE_IP = -45, KNEE_OP = -9,    HI_COMP = 1/8, LO_COMP = 1
-> +             * KNEE_IP = -30, KNEE_OP = -10.5, HI_COMP = 1/4, LO_COMP = 1
-> +             */
-> +            wlf,drc-cfg-regs = /bits/ 16 <0x01af 0x3248 0x0000 0x0000>,
+thanks,
 
-<number>, <number>, <number> ...
-
-unless you wanted 64-bit?
-
-> +                               /bits/ 16 <0x04af 0x324b 0x0010 0x0408>,
-> +                               /bits/ 16 <0x04af 0x324b 0x0028 0x0704>,
-> +                               /bits/ 16 <0x04af 0x324b 0x0018 0x078c>,
-> +                               /bits/ 16 <0x04af 0x324b 0x0010 0x050e>;
-> +
-> +            /* GPIO1 = DMIC_CLK, don't touch others */
-> +            wlf,gpio-cfg = <0x0018 0xffff 0xffff 0xffff>;
-
-So how many items here?
-
-> +
-> +            wlf,retune-mobile-cfg-names = "bassboost", "bassboost", "treble";
-> +            wlf,retune-mobile-cfg-hz = <48000 44100 48000>;
-> +            /*
-> +             * Config registers per name, respectively:
-> +             * EQ_ENA,  100 Hz,  300 Hz,  875 Hz, 2400 Hz, 6900 Hz
-> +             *      1,   +6 dB,   +3 dB,    0 dB,    0 dB,    0 dB
-> +             *      1,   +6 dB,   +3 dB,    0 dB,    0 dB,    0 dB
-> +             *      1,   -2 dB,   -2 dB,    0 dB,    0 dB,   +3 dB
-> +             * Each one uses the defaults for ReTune Mobile registers 140-157
-> +             */
-> +            wlf,retune-mobile-cfg-regs = /bits/ 16 <0x1 0x12 0xf 0xc 0xc 0xc>,
-> +                                         /bits/ 16 <0x0fca 0x0400 0x00d8 0x1eb5
-> +                                                    0xf145 0x0bd5 0x0075 0x1c58
-> +                                                    0xf3d3 0x0a54 0x0568 0x168e
-> +                                                    0xf829 0x07ad 0x1103 0x0564
-> +                                                    0x0559 0x4000>,
-
-I am really confused what are the matrix bounds here.
-
-> +
-> +                                         /bits/ 16 <0x1 0x12 0xf 0xc 0xc 0xc>,
-> +                                         /bits/ 16 <0x0fca 0x0400 0x00d8 0x1eb5
-> +                                                    0xf145 0x0bd5 0x0075 0x1c58
-> +                                                    0xf3d3 0x0a54 0x0568 0x168e
-> +                                                    0xf829 0x07ad 0x1103 0x0564
-> +                                                    0x0559 0x4000>,
-
-Best regards,
-Krzysztof
-
+Takashi
