@@ -1,131 +1,151 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9CC1DFE00;
-	Tue, 11 Mar 2025 01:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3141DE2DF;
+	Tue, 11 Mar 2025 01:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741656050; cv=none; b=Ld2AeR6Fm53m5yz5acuMzB0RkdXXS9SLPxs7Uw6VJaPNFUpOxiYeko5hbP8FfkfcXLhz4vdSIU/sOZEhLOJd6xhitGhRCim1gl5oULtLV8iNq7Wx33gIFYoxuDzWMB3juvK7aNZO46SuCqegv9Noca9gBF7udXDM9xzO3hbRR2Q=
+	t=1741658251; cv=none; b=ZKBERJ70WnTh73oFS/7Sau14IlBKKLfPZLnq84YhbwAHlOpxO4AI9+5idQSdt0wSRoiBsRM0ZR+D5t6SJtxCHGv6CTxR6qW0zmcO3R/2s5dheKsF8nY/a8jlNAkpjXOBmdUDG8Ffs4Xi5JUNgd+vZjGKA6tPkrV2ckrCm6bZ7DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741656050; c=relaxed/simple;
-	bh=3tCGZ+iADYu5Oa8CKzY2Rkhztp4FvrXT9DxF88nUGVI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=unv5yhoGSHOVdBZG+sb9Rj+8iYYZJpjsB8vIAndV7SvDSJ188qRVzI7d2v1uJDWp5LI6QP9QElmN5tIjTINJ8EeboVUSRwx7KVluCYD2tJGx0MHkfGXiGwbxtKtgLmxujbpMK9f1d2iNuoZk8L1EGFX43BdARoHrXXhuYPOb+j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=NJKW6AJB; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1741658251; c=relaxed/simple;
+	bh=LhI04fpHljjvVrHkByXaegpBqu8dEZSJzh7TmUwOtGc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NOMmqiqVFsT/Vo6V/yryPRwMaBdJj55gQEthWAa3Om7hFXitJFGb5ayHjgVBwg92bSMj8M9cNV6tvZj16KMhKYc1C8ux7q/CO7w6ooUkEFD52mKaaDtwM8M8MuF6OjhcIHR1WCZG7lMhFrCcH7N6sQM9MLM5006Tt7Jyhew2iDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l30i7Blt; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NJKW6AJB"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52ALfsCC014731;
-	Tue, 11 Mar 2025 01:19:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=vga/g3evdtXKKUPmygpssFnr7zgCG3URniCGU1ZM1xE=; b=
-	NJKW6AJBCUgSa6sEAdBIf4DaXLPeUgHAKf41rBKDFGo5SjRdlrRbpN54Ty58ItXM
-	oGD7nb3Q0uwkkdmnp0ycEArwam9sgXQD4YMaPgqr389Bd8TyLohkh6ZIKN4rNlT+
-	Bpympy+L/hcrIhDn/kD55cVKOSw8ejQJO36KmiNlf5XfUeQJp6m8Q24vYP8Mf0v1
-	oKp3AZovYIdtDEz3r1hCsceNjBHmSOkEWBsfM1GQaIvGVRKwNq/8RKyo4biJAYa9
-	89xwFFS5UP2nMoHsh70+Pxwh1HmLupNHk+onNTJ3wMWxaPvJ89/dKt8k67AV9RhX
-	i4SZZq8dgRCgXyDYLj3clg==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 458cacbvd9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 11 Mar 2025 01:19:46 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 52ANxWwp015363;
-	Tue, 11 Mar 2025 01:19:45 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 458cbencn1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 11 Mar 2025 01:19:45 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 52B1JfrC014960;
-	Tue, 11 Mar 2025 01:19:44 GMT
-Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 458cbencm8-4;
-	Tue, 11 Mar 2025 01:19:44 +0000
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-        Yaron Avizrat <yaron.avizrat@intel.com>,
-        Oded Gabbay <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        James Smart <james.smart@broadcom.com>,
-        Dick Kennedy <dick.kennedy@broadcom.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
-        Dongsheng Yang <dongsheng.yang@easystack.cn>,
-        Jens Axboe <axboe@kernel.dk>, Xiubo Li <xiubli@redhat.com>,
-        Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
-        Carlos Maiolino <cem@kernel.org>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>, Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-        Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Selvin Xavier <selvin.xavier@broadcom.com>,
-        Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
-        Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>, cocci@inria.fr,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
-        imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-        platform-driver-x86@vger.kernel.org,
-        ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org,
-        Takashi Iwai <tiwai@suse.de>, Carlos Maiolino <cmaiolino@redhat.com>
-Subject: Re: (subset) [PATCH v3 00/16] Converge on using secs_to_jiffies() part two
-Date: Mon, 10 Mar 2025 21:19:03 -0400
-Message-ID: <174165504986.528513.3575505677065987375.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
-References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l30i7Blt"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7c0ca5e6d45so61413185a.3;
+        Mon, 10 Mar 2025 18:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741658249; x=1742263049; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bTbA3z1waEv3baccpL2pucmVyLthoa4/pOBPjlQqSNs=;
+        b=l30i7BltCwzdY8mjrni15CPWT+2zNkcTvhz85ZFGXhmIKNpenc/8zbqrlKRtLC8XIP
+         UzOUIxxCBhckTc4gppoKALG9NlDT71tAcO/GD9qtpQ9XX+bQS1Phlt5062qfBTUjmCJL
+         0M0Jh9CtQOc+UvJn56CVJM32X9Wg4j6Espw9V2XiUs+G76xVQIFDqi/xGx8ZhG6neCpE
+         SfW1JADPLPtOgMGlbWCjpGSJ1e173pCRTpNF67BBTmSQJ7QNR4jhI3eBR1j0aeoPzSRU
+         jS3VXsvRIYjDBZhI8O6xVwSfukJnYzCkLILdbgFLjBWM/GXcOfLUFuTntZ4UXKyJA98n
+         Yvrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741658249; x=1742263049;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bTbA3z1waEv3baccpL2pucmVyLthoa4/pOBPjlQqSNs=;
+        b=eE7SiMfM1P7rh0Yw7rkt/QGzZgbeiWM2QYmhYRs0auRtirmn8+PgPkvY8eTGZ897JD
+         Ej6fHsBC7H00SGxtDKvzOxfhr9D3G9LutkkdNDK+axu4Bn5DurYbrp393Vo2KiX0tlI8
+         tM82A8AHv7ivZJSDelN0BeWgj754nPLZvygoANfrgGmuPtXVS14leHvaHGUnPgL5OTs+
+         wfrzXaZlUYtXQcV6C4mBCbQwo5TKNts6tQzup8Xykk+NCaBcBZdyZQTu2Nuw+7siz+d8
+         gkrHo5OaRWnjnaeNNEG7yASRi1DBI81d9gpie/ONZqCCfjx5nQxDvaxYqZrUT9417H6D
+         cpSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVfcy9mZH3WlKbKlxCxhsFu+mOd/02d+VMyRtMd0ILpEqy9orifxdpIL2rmyg/53MrZp2iv9oKNDb6R7Qk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS3sbYlmOkOfsj5pXNuwXxrJCvc8mCcVykxCsOiKbyU5EkwMO/
+	ChZhEkzmUxQTKfDmIDsRTH4DX4GC2FxEBe7yNT1m7Fqhoixh3q4=
+X-Gm-Gg: ASbGnctmYPOL25b2v8cRa6l7N6yZs0ZV9Fmx5rPoSiW61p118m2fHQFACQETwpTv9EV
+	ZDyXeeEQU0JxuIYnMWtlgml9Y+7cMYGJI667sEeU1GovZg+gEjpohzg01RwL2GW4oA5cRGzzds6
+	zX56hOhGG9/SITwSNLqFtzjKx86NAuE2jHjrSd4T3J2VjpUlMGEeOduklGWTh2kXO4KBSr3H0r8
+	KnWaX6iGqqK9bjgeIlBroC53gzbBLuNBlMmcRjv0wINnLT7VUNWLw5gWo83WdKB5VqdJsQ6m4gC
+	yQWgw1GqVDr4Xhttv8CxeqsWNliwYcbaH4mjQOBaPw==
+X-Google-Smtp-Source: AGHT+IEH2yG3+uT9AKJtKzCvKDd+IFYDwbaaQYjMIVYkhz9uuPvtonSYiFVSxKy3hH/up0CxQg7u4A==
+X-Received: by 2002:a05:620a:17a6:b0:7c3:d3a0:578d with SMTP id af79cd13be357-7c55e93de37mr123349485a.14.1741658248936;
+        Mon, 10 Mar 2025 18:57:28 -0700 (PDT)
+Received: from ise-alpha.. ([2620:0:e00:550a:642:1aff:fee8:511b])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5479ff0d3sm399256185a.29.2025.03.10.18.57.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Mar 2025 18:57:27 -0700 (PDT)
+From: Chenyuan Yang <chenyuan0y@gmail.com>
+To: kiseok.jo@irondevice.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chenyuan Yang <chenyuan0y@gmail.com>
+Subject: [PATCH] ASoC: sma1307: Add NULL check in sma1307_setting_loaded()
+Date: Mon, 10 Mar 2025 20:57:14 -0500
+Message-Id: <20250311015714.1333857-1-chenyuan0y@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-11_01,2025-03-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 suspectscore=0 mlxscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502100000
- definitions=main-2503110007
-X-Proofpoint-ORIG-GUID: sv1nwOEp4AdaVFwdqzCD5uTWITacYh8x
-X-Proofpoint-GUID: sv1nwOEp4AdaVFwdqzCD5uTWITacYh8x
 
-On Tue, 25 Feb 2025 20:17:14 +0000, Easwar Hariharan wrote:
+All varibale allocated by kzalloc and devm_kzalloc could be NULL.
+Multiple pointer checks and their cleanup are added.
 
-> This is the second series (part 1*) that converts users of msecs_to_jiffies() that
-> either use the multiply pattern of either of:
-> - msecs_to_jiffies(N*1000) or
-> - msecs_to_jiffies(N*MSEC_PER_SEC)
-> 
-> where N is a constant or an expression, to avoid the multiplication.
-> 
-> [...]
+This issue is found by our static analysis tool
 
-Applied to 6.15/scsi-queue, thanks!
+Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+---
+ sound/soc/codecs/sma1307.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-[02/16] scsi: lpfc: convert timeouts to secs_to_jiffies()
-        https://git.kernel.org/mkp/scsi/c/a131f20804d6
-
+diff --git a/sound/soc/codecs/sma1307.c b/sound/soc/codecs/sma1307.c
+index 480bcea48541..b9d8136fe3dc 100644
+--- a/sound/soc/codecs/sma1307.c
++++ b/sound/soc/codecs/sma1307.c
+@@ -1728,6 +1728,11 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
+ 	}
+ 
+ 	data = kzalloc(fw->size, GFP_KERNEL);
++	if (!data) {
++		release_firmware(fw);
++		sma1307->set.status = false;
++		return;
++	}
+ 	size = fw->size >> 2;
+ 	memcpy(data, fw->data, fw->size);
+ 
+@@ -1741,6 +1746,12 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
+ 	sma1307->set.header = devm_kzalloc(sma1307->dev,
+ 					   sma1307->set.header_size,
+ 					   GFP_KERNEL);
++	if (!sma1307->set.header) {
++		kfree(data);
++		sma1307->set.status = false;
++		return;
++	}
++
+ 	memcpy(sma1307->set.header, data,
+ 	       sma1307->set.header_size * sizeof(int));
+ 
+@@ -1756,6 +1767,13 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
+ 	sma1307->set.def
+ 	    = devm_kzalloc(sma1307->dev,
+ 			   sma1307->set.def_size * sizeof(int), GFP_KERNEL);
++	if (!sma1307->set.def) {
++		kfree(data);
++		kfree(sma1307->set.header);
++		sma1307->set.status = false;
++		return;
++	}
++
+ 	memcpy(sma1307->set.def,
+ 	       &data[sma1307->set.header_size],
+ 	       sma1307->set.def_size * sizeof(int));
+@@ -1768,6 +1786,16 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
+ 		    = devm_kzalloc(sma1307->dev,
+ 				   sma1307->set.mode_size * 2 * sizeof(int),
+ 				   GFP_KERNEL);
++		if (!sma1307->set.mode_set[i]) {
++			kfree(data);
++			kfree(sma1307->set.header);
++			kfree(sma1307->set.def);
++			for (int j = 0; j < i; j++)
++				kfree(sma1307->set.mode_set[j]);
++			sma1307->set.status = false;
++			return;
++		}
++
+ 		for (int j = 0; j < sma1307->set.mode_size; j++) {
+ 			sma1307->set.mode_set[i][2 * j]
+ 			    = data[offset + ((num_mode + 1) * j)];
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.34.1
+
