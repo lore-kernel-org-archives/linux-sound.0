@@ -1,53 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883391EDA3C;
-	Tue, 11 Mar 2025 17:59:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B672AF06;
+	Tue, 11 Mar 2025 19:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741715973; cv=none; b=QFrn1I5NffD161p7++5kQdpORwyM5BW7TOUfhb93ZhiJCOvF1pQB4o8Cg4pkUyPrSChoTgmnBsS6ZtxsZs5Kkkgptw/YbsfwKY6Us2/yZT0mT9uc7fUFGcPg4iVplrIMrbVwgUOuxMnBLx39YfWcB9VWkoc4bDT/53tJSwpKX28=
+	t=1741721190; cv=none; b=jg6Yg+ThMHf4NmDtdohLDhOlZLmfB3wOiMoY6bGIrjvSN1jCioKfQe+wDlGYlAsY+UMUUD8QVPe+5k7P49ZHi++cqJuxGXXBDaG1/NSy4fKtogiHj+MJQoyGjJagt9T8xOZhj+V0B/e6/a3hmIEpBHh1fncdMaJiqYGtj6l/Y3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741715973; c=relaxed/simple;
-	bh=LcVYG/7KVwJ7seJ/zI0EBvrVmDu677dDQezkVFkJ2JM=;
+	s=arc-20240116; t=1741721190; c=relaxed/simple;
+	bh=LXvcff6ovrE+lWjEH283+ozibg6lrSmGszx8SWB2Els=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J09Pql/SlgWjml90nJKZIyY8AsIfFk8eDWGyuLiqLHUVw0eaJa1FyTq+hQiR+TivhMtaOoAp5JDKRGm96dKhDgcW2lwyeP2MYwQF0x5ZCkYzzDJ4Wq1CfgKoAomV+Epp12j+MENLfZ2iYUg05lINwZFxf8tTXtB+5C2Q9+tlOfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X66YWyFW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=I/NYMC576HlfCq1YOH4o9SpN4NDydS4lLNdVI3rKJ6E1M3b67lujFbfU2wxAA91oikyaONI88KJd9B2Fv5kOrPE10UD0gc9UbEAyLS6vv0qlduIfKihBSdoMm9WYfQef1PfrhcJX0466sMIoyD6ygwutt5m/VVTGIgtI0jQ0EaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gd8ps7tU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X66YWyFW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB94CC4CEE9;
-	Tue, 11 Mar 2025 17:59:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gd8ps7tU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD70DC4CEE9;
+	Tue, 11 Mar 2025 19:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741715973;
-	bh=LcVYG/7KVwJ7seJ/zI0EBvrVmDu677dDQezkVFkJ2JM=;
+	s=k20201202; t=1741721190;
+	bh=LXvcff6ovrE+lWjEH283+ozibg6lrSmGszx8SWB2Els=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X66YWyFWlQavZMSEKVZpeKS06oGHxn3Fzk+AmTT69O4dxKbRK3sGh6aWZDEhK2fAC
-	 S9Lof8uquiB/HTbsxsA592/v98n5mnmvVx1meVzpgzkaARG9PpwprwdUH6r83k6bMu
-	 pVgKqSQ4hrBmuT5tkecjRIEgdgzig3lrBcCbG4tXmffxD/JjR9vJoWuuTRIm2FUQ+e
-	 5AAzWWY0AMmBIw0DHcfJrmVjbqxE4yUFR3sglRidn4TLiuoFkb9XRS/TjO5IKBB0i2
-	 QLvZkVsrlRdAy1uR+5M7QJvptjevcYE154Tfo6fpYoTf/liAyQhCVrkghRrQEp43in
-	 +PBDFAiWcKcbg==
-Date: Tue, 11 Mar 2025 12:59:31 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Francesco Dolcini <francesco@dolcini.it>,
+	b=gd8ps7tULO8XXkXmP6AJtLdw+gDpnZW1O7goGVI+cGeI/JW4cOn6A6JcyERONifij
+	 9gBP8rzLd+fParVkgKJ94dsTCp+tvIWhI86mTGjq9wbs2D2wGQRWf24o7MYCzBxyFc
+	 De8dxrxBsCVzhjG+aTDtSvTtUM1XPOMFoqW4f2qLAF/wFPdSx5yavcD8t+7CsmKoVA
+	 FsHsVOHQ/XeNAotS4vJEelArSnl8OPrPDvNE7k86Wd0Bq3C8V4oz67X1FUSvpSWGw8
+	 0tMR5lTtsVic6R/dQLOAldO0FPK33H86W6OHkrmP8T5kazlUs5yShRi4fl4zWj/X+1
+	 Wo0ie+Nrl/gAQ==
+Date: Tue, 11 Mar 2025 14:26:28 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Jan Dakinevich <jan.dakinevich@salutedevices.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	patches@opensource.cirrus.com,
-	Ernest Van Hoecke <ernest.vanhoecke@toradex.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Francesco Dolcini <francesco.dolcini@toradex.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v3 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC
- and EQ support
-Message-ID: <20250311175931.GA3885406-robh@kernel.org>
-References: <20250307135244.100443-1-francesco@dolcini.it>
- <20250307135244.100443-4-francesco@dolcini.it>
- <20250311-solid-poetic-camel-77a29b@krzk-bin>
+	Takashi Iwai <tiwai@suse.com>, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] ASoC: dt-bindings: meson: g12a-toacodec: add
+ support for A1 SoC family
+Message-ID: <174172118794.4169317.149338949275613581.robh@kernel.org>
+References: <20250309181600.1322701-1-jan.dakinevich@salutedevices.com>
+ <20250309181600.1322701-4-jan.dakinevich@salutedevices.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,51 +54,20 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250311-solid-poetic-camel-77a29b@krzk-bin>
-
-On Tue, Mar 11, 2025 at 09:42:45AM +0100, Krzysztof Kozlowski wrote:
-> On Fri, Mar 07, 2025 at 02:52:42PM +0100, Francesco Dolcini wrote:
-> > From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-> > 
-> > Add two properties to select the IN1L/DMICDAT1 and IN2R/DMICDAT2
-> > functionality:
-> > - wlf,in1l-as-dmicdat1
-> > - wlf,in1r-as-dmicdat2
-> > 
-> > Add a property to describe the GPIO configuration registers, that can be
-> > used to set the four multifunction pins:
-> > - wlf,gpio-cfg
-> > 
-> > Add a property to describe the mic bias control registers:
-> > - wlf,mic-cfg
-> > 
-> > Add two properties to describe the Dynamic Range Controller (DRC),
-> > allowing multiple named configurations where each config sets the 4 DRC
-> > registers (R40-R43):
-> > - wlf,drc-cfg-regs
-> > - wlf,drc-cfg-names
-> > 
-> > Add three properties to describe the equalizer (ReTune Mobile), allowing
-> > multiple named configurations (associated with a samplerate) that set
-> > the 24 (R134-R157) EQ registers:
-> > - wlf,retune-mobile-cfg-regs
-> > - wlf,retune-mobile-cfg-hz
-> > - wlf,retune-mobile-cfg-rates
+In-Reply-To: <20250309181600.1322701-4-jan.dakinevich@salutedevices.com>
 
 
-> > +             * Config registers per name, respectively:
-> > +             * KNEE_IP = 0,   KNEE_OP = 0,     HI_COMP = 1,   LO_COMP = 1
-> > +             * KNEE_IP = -24, KNEE_OP = -6,    HI_COMP = 1/4, LO_COMP = 1
-> > +             * KNEE_IP = -42, KNEE_OP = -3,    HI_COMP = 0,   LO_COMP = 1
-> > +             * KNEE_IP = -45, KNEE_OP = -9,    HI_COMP = 1/8, LO_COMP = 1
-> > +             * KNEE_IP = -30, KNEE_OP = -10.5, HI_COMP = 1/4, LO_COMP = 1
-> > +             */
-> > +            wlf,drc-cfg-regs = /bits/ 16 <0x01af 0x3248 0x0000 0x0000>,
+On Sun, 09 Mar 2025 21:15:59 +0300, Jan Dakinevich wrote:
+> Add support for "toacodec" audio component found A1 SoC family. On this
+> SoC the component supports capture streams, additional DAI ids are added
+> to configure this feature.
 > 
-> <number>, <number>, <number> ...
+> Signed-off-by: Jan Dakinevich <jan.dakinevich@salutedevices.com>
+> ---
+>  .../devicetree/bindings/sound/amlogic,g12a-toacodec.yaml     | 1 +
+>  include/dt-bindings/sound/meson-g12a-toacodec.h              | 5 +++++
+>  2 files changed, 6 insertions(+)
 > 
-> unless you wanted 64-bit?
 
-Why? You would need "/bits/ 16 <number>, /bits/ 16 <number>, ..."
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-Rob
