@@ -1,151 +1,126 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3141DE2DF;
-	Tue, 11 Mar 2025 01:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFF11DED47;
+	Tue, 11 Mar 2025 02:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741658251; cv=none; b=ZKBERJ70WnTh73oFS/7Sau14IlBKKLfPZLnq84YhbwAHlOpxO4AI9+5idQSdt0wSRoiBsRM0ZR+D5t6SJtxCHGv6CTxR6qW0zmcO3R/2s5dheKsF8nY/a8jlNAkpjXOBmdUDG8Ffs4Xi5JUNgd+vZjGKA6tPkrV2ckrCm6bZ7DQ=
+	t=1741658887; cv=none; b=jM0DOXn1GqnLLpb1evWbpUIhFU+j66daX0D7uuiaDKwJBlGoXIl89RbPHAtmsXWZVJOvfLWPeXMEyBHK8LqeqDJMW59ytROmD0eisc9judOyJsnkwaRRHwv7khqH0dzGQ/9qcSQF7kFKQI4uLQjTPOPQRUqzDeaNW/X7EamW4Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741658251; c=relaxed/simple;
-	bh=LhI04fpHljjvVrHkByXaegpBqu8dEZSJzh7TmUwOtGc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NOMmqiqVFsT/Vo6V/yryPRwMaBdJj55gQEthWAa3Om7hFXitJFGb5ayHjgVBwg92bSMj8M9cNV6tvZj16KMhKYc1C8ux7q/CO7w6ooUkEFD52mKaaDtwM8M8MuF6OjhcIHR1WCZG7lMhFrCcH7N6sQM9MLM5006Tt7Jyhew2iDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l30i7Blt; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741658887; c=relaxed/simple;
+	bh=EO2y2EASnimfmC0To8IgjADGLB03IrpBXSrBRgvMOXc=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=MyAQ9PpvHk0UfRBxXL881HgKnFSOb8nyIUas40a6jqHjVvi88sZnO9rGyiWWH98xIYSlpX3AeMEUJZLdoeeJY/ZkK0ArYkRF0JCoad6fLoqYfyGughvYk5tVouV6sR2H6LHKtMbrHUUFzKyJuJkaZyOL4oYjF7osh98JVTajZqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=wQfQZG6I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l30i7Blt"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7c0ca5e6d45so61413185a.3;
-        Mon, 10 Mar 2025 18:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741658249; x=1742263049; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bTbA3z1waEv3baccpL2pucmVyLthoa4/pOBPjlQqSNs=;
-        b=l30i7BltCwzdY8mjrni15CPWT+2zNkcTvhz85ZFGXhmIKNpenc/8zbqrlKRtLC8XIP
-         UzOUIxxCBhckTc4gppoKALG9NlDT71tAcO/GD9qtpQ9XX+bQS1Phlt5062qfBTUjmCJL
-         0M0Jh9CtQOc+UvJn56CVJM32X9Wg4j6Espw9V2XiUs+G76xVQIFDqi/xGx8ZhG6neCpE
-         SfW1JADPLPtOgMGlbWCjpGSJ1e173pCRTpNF67BBTmSQJ7QNR4jhI3eBR1j0aeoPzSRU
-         jS3VXsvRIYjDBZhI8O6xVwSfukJnYzCkLILdbgFLjBWM/GXcOfLUFuTntZ4UXKyJA98n
-         Yvrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741658249; x=1742263049;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bTbA3z1waEv3baccpL2pucmVyLthoa4/pOBPjlQqSNs=;
-        b=eE7SiMfM1P7rh0Yw7rkt/QGzZgbeiWM2QYmhYRs0auRtirmn8+PgPkvY8eTGZ897JD
-         Ej6fHsBC7H00SGxtDKvzOxfhr9D3G9LutkkdNDK+axu4Bn5DurYbrp393Vo2KiX0tlI8
-         tM82A8AHv7ivZJSDelN0BeWgj754nPLZvygoANfrgGmuPtXVS14leHvaHGUnPgL5OTs+
-         wfrzXaZlUYtXQcV6C4mBCbQwo5TKNts6tQzup8Xykk+NCaBcBZdyZQTu2Nuw+7siz+d8
-         gkrHo5OaRWnjnaeNNEG7yASRi1DBI81d9gpie/ONZqCCfjx5nQxDvaxYqZrUT9417H6D
-         cpSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVfcy9mZH3WlKbKlxCxhsFu+mOd/02d+VMyRtMd0ILpEqy9orifxdpIL2rmyg/53MrZp2iv9oKNDb6R7Qk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxS3sbYlmOkOfsj5pXNuwXxrJCvc8mCcVykxCsOiKbyU5EkwMO/
-	ChZhEkzmUxQTKfDmIDsRTH4DX4GC2FxEBe7yNT1m7Fqhoixh3q4=
-X-Gm-Gg: ASbGnctmYPOL25b2v8cRa6l7N6yZs0ZV9Fmx5rPoSiW61p118m2fHQFACQETwpTv9EV
-	ZDyXeeEQU0JxuIYnMWtlgml9Y+7cMYGJI667sEeU1GovZg+gEjpohzg01RwL2GW4oA5cRGzzds6
-	zX56hOhGG9/SITwSNLqFtzjKx86NAuE2jHjrSd4T3J2VjpUlMGEeOduklGWTh2kXO4KBSr3H0r8
-	KnWaX6iGqqK9bjgeIlBroC53gzbBLuNBlMmcRjv0wINnLT7VUNWLw5gWo83WdKB5VqdJsQ6m4gC
-	yQWgw1GqVDr4Xhttv8CxeqsWNliwYcbaH4mjQOBaPw==
-X-Google-Smtp-Source: AGHT+IEH2yG3+uT9AKJtKzCvKDd+IFYDwbaaQYjMIVYkhz9uuPvtonSYiFVSxKy3hH/up0CxQg7u4A==
-X-Received: by 2002:a05:620a:17a6:b0:7c3:d3a0:578d with SMTP id af79cd13be357-7c55e93de37mr123349485a.14.1741658248936;
-        Mon, 10 Mar 2025 18:57:28 -0700 (PDT)
-Received: from ise-alpha.. ([2620:0:e00:550a:642:1aff:fee8:511b])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5479ff0d3sm399256185a.29.2025.03.10.18.57.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Mar 2025 18:57:27 -0700 (PDT)
-From: Chenyuan Yang <chenyuan0y@gmail.com>
-To: kiseok.jo@irondevice.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chenyuan Yang <chenyuan0y@gmail.com>
-Subject: [PATCH] ASoC: sma1307: Add NULL check in sma1307_setting_loaded()
-Date: Mon, 10 Mar 2025 20:57:14 -0500
-Message-Id: <20250311015714.1333857-1-chenyuan0y@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="wQfQZG6I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 872A9C4CEE5;
+	Tue, 11 Mar 2025 02:08:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1741658886;
+	bh=EO2y2EASnimfmC0To8IgjADGLB03IrpBXSrBRgvMOXc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=wQfQZG6IKVV4Tew+S+0o+lnw12y0URQfWSPems1i8x5dKQTaPMYHdQMJDIg/0LCcq
+	 9ysqdCzIccJgUTy5+1XImjyPHewrVrCASW3U/ThAkRtkSNX1mJCMOLQBPQJNwR3UZE
+	 sXCoysWhDTs3Eikr7+eLtWHhOyIiad0yrUckBntM=
+Date: Mon, 10 Mar 2025 19:08:03 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix
+ <nicolas.palix@imag.fr>, James Smart <james.smart@broadcom.com>, Dick
+ Kennedy <dick.kennedy@broadcom.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Chris Mason <clm@fb.com>, Josef Bacik
+ <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Ilya Dryomov
+ <idryomov@gmail.com>, Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens
+ Axboe <axboe@kernel.dk>, Xiubo Li <xiubli@redhat.com>, Damien Le Moal
+ <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Carlos Maiolino
+ <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel
+ <sre@kernel.org>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+ <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Frank Li
+ <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Hans de Goede
+ <hdegoede@redhat.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, Henrique de Moraes Holschuh
+ <hmh@hmh.eng.br>, Selvin Xavier <selvin.xavier@broadcom.com>, Kalesh AP
+ <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>, Leon
+ Romanovsky <leon@kernel.org>, Easwar Hariharan
+ <eahariha@linux.microsoft.com>, cocci@inria.fr,
+ linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+ linux-rdma@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, Carlos Maiolino
+ <cmaiolino@redhat.com>
+Subject: Re: (subset) [PATCH v3 00/16] Converge on using secs_to_jiffies()
+ part two
+Message-Id: <20250310190803.aaf868760781c9ae3fbe6df1@linux-foundation.org>
+In-Reply-To: <174165504986.528513.3575505677065987375.b4-ty@oracle.com>
+References: <20250225-converge-secs-to-jiffies-part-two-v3-0-a43967e36c88@linux.microsoft.com>
+	<174165504986.528513.3575505677065987375.b4-ty@oracle.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-All varibale allocated by kzalloc and devm_kzalloc could be NULL.
-Multiple pointer checks and their cleanup are added.
+On Mon, 10 Mar 2025 21:19:03 -0400 "Martin K. Petersen" <martin.petersen@oracle.com> wrote:
 
-This issue is found by our static analysis tool
+> On Tue, 25 Feb 2025 20:17:14 +0000, Easwar Hariharan wrote:
+> 
+> > This is the second series (part 1*) that converts users of msecs_to_jiffies() that
+> > either use the multiply pattern of either of:
+> > - msecs_to_jiffies(N*1000) or
+> > - msecs_to_jiffies(N*MSEC_PER_SEC)
+> > 
+> > where N is a constant or an expression, to avoid the multiplication.
+> > 
+> > [...]
+> 
+> Applied to 6.15/scsi-queue, thanks!
+> 
+> [02/16] scsi: lpfc: convert timeouts to secs_to_jiffies()
+>         https://git.kernel.org/mkp/scsi/c/a131f20804d6
 
-Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+Really, an acked-by would have been much easier all around, but whatever.
+
+Did you get my fix?
+
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: scsi-lpfc-convert-timeouts-to-secs_to_jiffies-fix
+Date: Tue Feb 25 07:32:03 PM PST 2025
+
+fix build
+
+Cc: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: James Bottomley <james.bottomley@HansenPartnership.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 ---
- sound/soc/codecs/sma1307.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
 
-diff --git a/sound/soc/codecs/sma1307.c b/sound/soc/codecs/sma1307.c
-index 480bcea48541..b9d8136fe3dc 100644
---- a/sound/soc/codecs/sma1307.c
-+++ b/sound/soc/codecs/sma1307.c
-@@ -1728,6 +1728,11 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 	}
+ drivers/scsi/lpfc/lpfc_sli.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/scsi/lpfc/lpfc_sli.c~scsi-lpfc-convert-timeouts-to-secs_to_jiffies-fix
++++ a/drivers/scsi/lpfc/lpfc_sli.c
+@@ -3954,7 +3954,7 @@ void lpfc_poll_eratt(struct timer_list *
+ 	else
+ 		/* Restart the timer for next eratt poll */
+ 		mod_timer(&phba->eratt_poll,
+-			  jiffies + secs_to_jiffies(phba->eratt_poll_interval);
++			  jiffies + secs_to_jiffies(phba->eratt_poll_interval));
+ 	return;
+ }
  
- 	data = kzalloc(fw->size, GFP_KERNEL);
-+	if (!data) {
-+		release_firmware(fw);
-+		sma1307->set.status = false;
-+		return;
-+	}
- 	size = fw->size >> 2;
- 	memcpy(data, fw->data, fw->size);
- 
-@@ -1741,6 +1746,12 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 	sma1307->set.header = devm_kzalloc(sma1307->dev,
- 					   sma1307->set.header_size,
- 					   GFP_KERNEL);
-+	if (!sma1307->set.header) {
-+		kfree(data);
-+		sma1307->set.status = false;
-+		return;
-+	}
-+
- 	memcpy(sma1307->set.header, data,
- 	       sma1307->set.header_size * sizeof(int));
- 
-@@ -1756,6 +1767,13 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 	sma1307->set.def
- 	    = devm_kzalloc(sma1307->dev,
- 			   sma1307->set.def_size * sizeof(int), GFP_KERNEL);
-+	if (!sma1307->set.def) {
-+		kfree(data);
-+		kfree(sma1307->set.header);
-+		sma1307->set.status = false;
-+		return;
-+	}
-+
- 	memcpy(sma1307->set.def,
- 	       &data[sma1307->set.header_size],
- 	       sma1307->set.def_size * sizeof(int));
-@@ -1768,6 +1786,16 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 		    = devm_kzalloc(sma1307->dev,
- 				   sma1307->set.mode_size * 2 * sizeof(int),
- 				   GFP_KERNEL);
-+		if (!sma1307->set.mode_set[i]) {
-+			kfree(data);
-+			kfree(sma1307->set.header);
-+			kfree(sma1307->set.def);
-+			for (int j = 0; j < i; j++)
-+				kfree(sma1307->set.mode_set[j]);
-+			sma1307->set.status = false;
-+			return;
-+		}
-+
- 		for (int j = 0; j < sma1307->set.mode_size; j++) {
- 			sma1307->set.mode_set[i][2 * j]
- 			    = data[offset + ((num_mode + 1) * j)];
--- 
-2.34.1
+_
 
