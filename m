@@ -1,40 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DAE1ADC7D
-	for <linux-sound@vger.kernel.org>; Tue, 11 Mar 2025 13:18:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09761C1F22;
+	Tue, 11 Mar 2025 13:18:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741699113; cv=none; b=ub2ho8UouWS6EEaM/yREdYMVjevdXHx+E6/pcGf9D9XzKErptgvt0v7p/WG5RGqwAiXeSe1WaDi6SiUPuvMwIYxgzahkoxL7etTn8wLld/BRpJJFLgQ7+YV0j9ORrGIOSe2JnllLQ6eJV5W7xBlaIChpxZ2mwmnefTREoz8lAeA=
+	t=1741699116; cv=none; b=bn2O6HoH4f6hkaizkG01MQItilXdht/v4f5EUXzY+PrsLrGpB7CP2aL/tAcO/UjPtZgb7C+e1VUdw+Gp9RpR1kcw4HvOhmB9pm2y8pwGdSIcLoy5i4SDJbFgH8J8mk8XVw3NcIPERjhmhPJvcwZj6Bga4QkrCQgIEKlXGI14LKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741699113; c=relaxed/simple;
-	bh=Z/Oy78S1Ui4o8abvFMNMTBmPa+3ZmL0wmB4+0BFe51I=;
+	s=arc-20240116; t=1741699116; c=relaxed/simple;
+	bh=rtzEfGwsVr5IEohTqKChStg4Lk/Zbrodm9Xa6UeL49w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TuZY0L2XL1sxTh7aqYJ/5AGZ18+KkmjzpvMmj98/sJ+EQbjYEugXt9N2J5FBqfKpmZ6MPc3XJ3TRoff1yJcjc9i6WqcFYKA80tZjXQ4Qow5TQ4PFo9N90Vo+ItkvSRsShqgnNxuw2q0M7025V0gRt/sr//ACRdBExKE/ODq+vUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZfeRg1CN; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=QdCUFWQzT8wHe6VvWX4oiO1g15IX1vgBfS9dSUe1i2dMmtCnuc+Fv4kUNJjGBYUhlgb64NhuGzV7PIK8To8Hq9QBZC2QjZRNch0m5oeZJshCzXBxpYQTyfOv4G2lgG/3xCQ6HOIbmxs47ndw49y5hHxnefo0QVGFAFFU5+l5TCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nxkKueGg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZfeRg1CN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CF06C4CEEC;
-	Tue, 11 Mar 2025 13:18:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nxkKueGg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0C72C4CEED;
+	Tue, 11 Mar 2025 13:18:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741699113;
-	bh=Z/Oy78S1Ui4o8abvFMNMTBmPa+3ZmL0wmB4+0BFe51I=;
+	s=k20201202; t=1741699116;
+	bh=rtzEfGwsVr5IEohTqKChStg4Lk/Zbrodm9Xa6UeL49w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZfeRg1CNL/WHwP4EWNQmGOKd2hHQ/8/WWndFo4AgAlhZdvUj+XC2moHg+a4LoOHXV
-	 zeRxaBDbT9A7ra64A+UyB9gbia40pnUTd9vNir6HYf1R+IEE6AWW3oBx+Do+EdnEkJ
-	 J4blppPpqfR6CG4/cxFYtZuKrH4Hh2lo4+5t67DjcupGKsWV75hh8Dv0h+h2xuYhlT
-	 qFz9qmdP8v/rI4+nBAIp+xSjnGSquIc0Kto70UnLa9t+nWgCHRwo3oAPPNl+1Zf12c
-	 JZN0c8Q0rY+/LzLEXVJswe58Jp0cfM9zPfA3OdlpuUBe3um4YLw0g1fklGoGWz2uAN
-	 fjTDy53ghqslQ==
+	b=nxkKueGgdEC+tFwEi7A4jdAYp8O/FfqC2sfL4AD49QgZgSpS51GXE74JBsIQNM8wg
+	 t2LqtqXLKS82KDyng2Oo7sAHBkUaNbOVH8aS1XwZeMu6mmAWEVluDY8U6pPVSGUg7v
+	 wIElqKAJoTzgln5crrX4zSDO8sAc2juQpofNCITm9kuC+B+TP/HkOfHfY+Zb1esLjX
+	 J7L239wMMEvPNXL3NlBUNQX7mANFVk3HdF65sM/5ojQ4DxtuBgGr8VIJyO6Cjrp10s
+	 0hvRzI2aMHn/LF9u03kYr1Z8LbvymPRxI06IJ2lQow4suEa8vTH3iSuMZP/WLryWPs
+	 KazUmN4Y7FAQg==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20250310080440.58797-1-yung-chuan.liao@linux.intel.com>
-References: <20250310080440.58797-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: rt722-sdca: add missing readable registers
-Message-Id: <174169911190.27942.6295877056083152629.b4-ty@kernel.org>
-Date: Tue, 11 Mar 2025 13:18:31 +0000
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Lucas Tanure <tanureal@opensource.cirrus.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+ lvc-project@linuxtesting.org
+In-Reply-To: <20250304115643.2748-1-v.shevtsov@mt-integration.ru>
+References: <20250304115643.2748-1-v.shevtsov@mt-integration.ru>
+Subject: Re: [PATCH] ASoC: cs35l41: check the return value from spi_setup()
+Message-Id: <174169911354.27942.6320813345687980941.b4-ty@kernel.org>
+Date: Tue, 11 Mar 2025 13:18:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,13 +51,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Mon, 10 Mar 2025 16:04:40 +0800, Bard Liao wrote:
-> SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT722_SDCA_ENT_FU15,
-> RT722_SDCA_CTL_FU_CH_GAIN, CH_01) ... SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY,
-> RT722_SDCA_ENT_FU15, RT722_SDCA_CTL_FU_CH_GAIN, CH_04) are used by the
-> "FU15 Boost Volume" control, but not marked as readable.
-> And the mbq size are 2 for those registers.
+On Tue, 04 Mar 2025 16:56:37 +0500, Vitaliy Shevtsov wrote:
+> Currently the return value from spi_setup() is not checked for a failure.
+> It is unlikely it will ever fail in this particular case but it is still
+> better to add this check for the sake of completeness and correctness. This
+> is cheap since it is performed once when the device is being probed.
 > 
+> Handle spi_setup() return value.
 > 
 > [...]
 
@@ -61,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt722-sdca: add missing readable registers
-      commit: 247fba13416af65b155949bae582d55c310f58b6
+[1/1] ASoC: cs35l41: check the return value from spi_setup()
+      commit: ad5a0970f86d82e39ebd06d45a1f7aa48a1316f8
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
