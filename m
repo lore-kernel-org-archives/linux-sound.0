@@ -1,64 +1,49 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF05258CCF
-	for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 19:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F261F03E4;
+	Wed, 12 Mar 2025 22:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741807660; cv=none; b=nCzPg4xROnZxnoJFC64O3pfCx7eZcvRO64sbhU7O5j/3+GqQBa+ORa4lgkZFE3uA/81ElM2r0cfd0EQCclSFrwjqUnIr0xAie/0uIQ5/qw97803r2MDnsqOoZxmC4KIvVOCeNT4DbEnwX9idi4UC3hGHhb2cWJNZwAIPavRSXx0=
+	t=1741820038; cv=none; b=reKBA34ho+FRh7ACnzEVKYqOOCBcSj7ZIA4DV6fmTy7C6/dSpYCgV5J8viJS8Hsa8ZM9tpEzc+E/PtowyCuUVQApt0eMW82pbgDFLK4v2+ZMHY2coEwMRL3CW+z+IxZZhvewVQA3vEjZT5Fbaho5BdZVCekeHOERvTNlQECUE1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741807660; c=relaxed/simple;
-	bh=0jMuW75ONhCU98g91Ki0i+ClWIuHSukhvmLA5nKGMW8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ua8VAqxZuIdf4adk7lFMRgdqHBcDs/Kr2sELZ8x/Ykl233I+zekTMzofRp5qTuYN+CMB6H2FunQA3+rldO/L52Yz+but9aSG72gtTJsebWwrQ+kvF5ErIPz0X5egFZKCMViauXoGesQUEsY2x2ony71OOvo4YqM9XY5KlYIxQBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lls1XP+V; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741820038; c=relaxed/simple;
+	bh=/CafB9CjLNnG+rUtDUJvwj69pDk3YEJSnvrK28dm2XU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=jyoyjXlsi8wG/UyDTLoFGCSI198YDDgp1czX30YHzOfchrLamrwJL5jyVk2/9s34MxKGg2wS3JBF6xy4WuqKWXmfXlDN+mSIcgTrYFZ5Td2dephVnqVmJdk3xqfPrBVkD0zNtd1P2hE47W9PM63VeC+ixZjNVg/8B9st1EzaFyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iIMRqIvL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lls1XP+V"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf861f936so206275e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 12:27:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741807655; x=1742412455; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TthKowtkg3ZH4r2XBt7MSSpgewnQfw6r9pBf+S41jDs=;
-        b=lls1XP+VmNRIjPDnguDQR/l+7293rxNSZ6NwaT0ZGBQK3QojGx5SyZ4XFEGvatYNYV
-         lW4lN+7fkXTWORq2nyJiiy74QPGuvhK0NYteTmEstrlEV4XkOqOA9pFHfMqVMhwSlpCT
-         TgrgyDvRG5aAFXDJjlq4ZJ2vyXaAl+nLSOLEmd5z50vJGZtpgL7dGnFS1bKlJlfN4uyY
-         wTzfCGiPupmaNUmDJ4TpXKdcaXulSVCCMJ/Sv6lmZAG2e8Pk7c2kR3apJI/0RJtqE1pW
-         4FMQ5KxIkK5Tichwkb8ZSHRcBEmcMtf5cIKDLC1wDQhZglzSfIV5CaxRZxTFMDeW2m2H
-         MSAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741807655; x=1742412455;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TthKowtkg3ZH4r2XBt7MSSpgewnQfw6r9pBf+S41jDs=;
-        b=OW7tIoBzlmmUG6RPozGzaPdBnbDT+BGKF7nBecypvFLkFyirufeU2UBi71z8Kd0JaR
-         HhrjRqGrqJ0sg74G56mc6ROfIFVoTfPoVP/w5vJofWEZcCSMwb6+k3hXt/yzoc7hcorZ
-         jnFLEUp4aRSaZf1L9QY3ja9BgAIuLN8HbvvLAAn/7uxWq1M36tlZRHZBhK5PLa+EG0FE
-         1+yvHvxGb2036UfBbGaMdxE52qubSZ621oaTM2Wk9WlqvRCeL3Qn1kybgnUoYf/W6M4/
-         Dvsi0NVX8TKA4zHdEOqsb9jA3heGWLkpML9u+WoH31gb7ji4Gr5hg3SpHww12SQmbGBq
-         3qKw==
-X-Gm-Message-State: AOJu0YwDVVlrJLyue1egiWMaYVFnDsy+Rfd/uuwt2D8D01bZNFmgD4nX
-	Tnag1fvl+SCglYZuq1jLgs13oDDVfZHs6pTAsqGn+Wnu8tlLp0CmOJXI/B9Km+I=
-X-Gm-Gg: ASbGncuYKLa+Teqje80mfnC3POi65Xc9iujFZ0GN9DiVpcRRNj13OZjlRL6tSzx86Yf
-	wkukAa94SRckI1P8wmthIICT6C7CtnbwTJU027JsMh8DeE2Qpa0hCBNL2OId0/LRtbZ825w+r9B
-	3WEfGW3FaMpiOeqXbWNZNQTSJT2x+cJIKJ/QYDzbrw9Hz4Y082V9/GHIxmc3mH+rbNj6MyrZVBz
-	Gt8NC52Ak1HxVlp+lyGtuzvvx4BvsxCN6JxT2RFnh/eKMjqQD+srfwcwusZY557ZjnBg/1LZVeY
-	HriOdjDhx68yPnVChOeocLNiwxq7Tic9CpPYISvlcqOZDfPEfZXldusy9oA=
-X-Google-Smtp-Source: AGHT+IFNDMKyFlmL29BIYtE87ieQh9czS303C7tJdh4xet0OcI/TZLd5Tui0luLGPrsnPNEL65CGKA==
-X-Received: by 2002:a05:600c:45d3:b0:43b:cd07:92fb with SMTP id 5b1f17b1804b1-43d01c230famr37689245e9.6.1741807655471;
-        Wed, 12 Mar 2025 12:27:35 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.198.86])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d0a7903fbsm29331995e9.32.2025.03.12.12.27.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 12:27:34 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 12 Mar 2025 20:25:00 +0100
-Subject: [PATCH 2/2] ASoC: codecs: wsa884x: Correct VI sense channel mask
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iIMRqIvL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E05BEC4CEDD;
+	Wed, 12 Mar 2025 22:53:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741820037;
+	bh=/CafB9CjLNnG+rUtDUJvwj69pDk3YEJSnvrK28dm2XU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=iIMRqIvLfnPjZLQe0figVe5wHAJC9578kv13FIlhxXaD/wUUj2S6BR9ksGJGqWxM+
+	 8Cj7/Lw7lFCI2lZJl10LidF3gp1g9QAQmp/+iYMnHjtNej3bXaN3DMshSVYqcIwqvi
+	 2SW1Ym9e6sfjIEb9oN8nlHKI7KvlkNWnjYFeelxVGi10+TQRp7GPac1EGH7qagXJuw
+	 2GqoXO5sFwSBlpm56dI24xISrsRNXWcVe9IyE6WkjjiUPS94eCb8CkDhAxt+IARJuQ
+	 kckSJGYrXgUgy6oz1FZg9ssLZqHtyDRKPmttfvDlWI5QzO7P/uJp68WAmn3qFc9IbZ
+	 tNw/pyMCasFVQ==
+From: Mark Brown <broonie@kernel.org>
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+ Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Greg KH <gregkh@linuxfoundation.org>, 
+ Peter Zijlstra <peterz@infradead.org>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250305172738.3437513-1-arnd@kernel.org>
+References: <20250305172738.3437513-1-arnd@kernel.org>
+Subject: Re: [PATCH] ASoC: cs42l43: convert to SYSTEM_SLEEP_PM_OPS
+Message-Id: <174182003460.191802.16024952656577662294.b4-ty@kernel.org>
+Date: Wed, 12 Mar 2025 22:53:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,58 +52,44 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250312-asoc-wsa88xx-visense-v1-2-9ca705881122@linaro.org>
-References: <20250312-asoc-wsa88xx-visense-v1-0-9ca705881122@linaro.org>
-In-Reply-To: <20250312-asoc-wsa88xx-visense-v1-0-9ca705881122@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=927;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=0jMuW75ONhCU98g91Ki0i+ClWIuHSukhvmLA5nKGMW8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBn0eAiJDEepXFTas2u1NQUyIbL1KrfsyTe1AbbJ
- BJGAwCF3QGJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ9HgIgAKCRDBN2bmhouD
- 18a9EACUxXs1HSjzqKRbbCdN6UK1qvRXdWXEgeIyqupA9qLJe+njP4BVQYtWDbV621t7vHeM3H+
- M+WI9phdIiJcd4i3XJhqUdohjQBaCspx2XpW9sDgNCQ6yzNJccs2menIEKqh6J0tNT8VnWE/S+3
- HnR8AtuRZxdY1pW657ElyIOt4hzJfMgvpkPdncgkGWzD6svhQnqjVc5jXtIf5RN7Ui4FIsKY/2w
- Odqm5o/0OcVhMjjZLBc7ta8DIZyK8ylht+eZAeEkJlgVfv4J2wCSlPW0iOKsFrKqScx7zno/JhQ
- LTjN6KQLx2d8YXjKre2sx99d1BAvgwrPYfvIdSl8mNiHgmjMAWF82DqL28LLJPUJuKlrxyr3LON
- W/u0l9QJ7CZkd7/8Mpi7OSpXOSkBfUGqCwWDEIvjVs2N+rcE743MkktRsvC4IC8w5d+a5oOvNOF
- 643walrryb/jloxLJXbPLDYh8NtREUZ0qSh14hMYp7jsjRGZQnC39Om1vCfNEC/MtexYTqeDSSq
- QlBoaNYrednRKM6JNA9o9iquHt+jhIBpCATNSueM9BiQEdSnkY3sxOGpLK0m0uJBRd97re33L54
- RZb08QN8lTFjZ513gHzT8cZa86b7rDy9LBYZvU6cwtVmEce/LdArnWaH4jLPPKlK1eChaHag2ud
- WNF3QUWcC82MoJA==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+X-Mailer: b4 0.15-dev-1b0d6
 
-VI sense port on WSA883x speaker takes only one channel, so use 0x1 as
-channel mask.  This fixes garbage being recorded by the speaker when
-testing the VI sense feedback path.
+On Wed, 05 Mar 2025 18:27:32 +0100, Arnd Bergmann wrote:
+> The custom suspend function causes a build warning when CONFIG_PM_SLEEP
+> is disabled:
+> 
+> sound/soc/codecs/cs42l43.c:2405:12: error: unused function 'cs42l43_codec_runtime_force_suspend' [-Werror,-Wunused-function]
+> 
+> Change SET_SYSTEM_SLEEP_PM_OPS() to the newer SYSTEM_SLEEP_PM_OPS(),
+> to avoid this.
+> 
+> [...]
 
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- sound/soc/codecs/wsa884x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to
 
-diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-index 560a2c04b695535c42bb59b17aa8a671247adf95..18b0ee8f15a55aea370350e31cc3939625fb37a2 100644
---- a/sound/soc/codecs/wsa884x.c
-+++ b/sound/soc/codecs/wsa884x.c
-@@ -891,7 +891,7 @@ static const struct sdw_port_config wsa884x_pconfig[WSA884X_MAX_SWR_PORTS] = {
- 	},
- 	[WSA884X_PORT_VISENSE] = {
- 		.num = WSA884X_PORT_VISENSE + 1,
--		.ch_mask = 0x3,
-+		.ch_mask = 0x1,
- 	},
- 	[WSA884X_PORT_CPS] = {
- 		.num = WSA884X_PORT_CPS + 1,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
--- 
-2.43.0
+Thanks!
+
+[1/1] ASoC: cs42l43: convert to SYSTEM_SLEEP_PM_OPS
+      commit: 2c2eadd07e747059ccd65e68cd1d1b23ca96b072
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
