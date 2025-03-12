@@ -1,169 +1,143 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D6A17C219
-	for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 14:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F60D2CCDB
+	for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 14:56:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741791023; cv=none; b=n9n5h87G000G/PEmDSfWxcDuytXZITQEgCZu5XkWWyMdBPiRiLqE93XdOqC6WSMM9LSCWVl7I8zRqLGaZYPlXjHsl7131Yx2xPo+36db7N8kUA6a0PCSMaeUILhf1AxKSys7WPybeQqxb/Q5WH1LUyhc63foEgu9gwFxx87Xt00=
+	t=1741791408; cv=none; b=o6C+L7AsGUZFFG/C73LrbWvOweFujnIkMjLj8tmdB1I0znRwyflhKcJAmon1xU6/wcNA9Opa3D9C1lxQGHBYz24RBlHDFlvjzjHi+kG5EFZbLePiIZ3zillG6cDSA6QlJI2R6QdAs6G8NC5hmgOq85EBWh5Yn1stCD/FYCnFinw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741791023; c=relaxed/simple;
-	bh=ZJH47BS51vcf2c6lBX0xT6flaBRz9vNqC20UYWo1yjw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=afGTG5O5M9WaSvb/4XNL00AB4GD4qOkpr3G9P9EoHqF8Ca0UPwKWSulVvUGhWV21ooXajeZ80V8SWcy2FJl+B9reRTDYH4DTJ51EEVURbHe6ABQSYwWEZqRRzOqcs14IKidgYpIP/AJUCnNMoj0sqfPIQBWh+M4e/2fxcyN/9cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FZUFD2wM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eVvUOHmN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Miw4Vjso; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dh7fGeUs; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1741791408; c=relaxed/simple;
+	bh=SwJ5kAeaGuhh9X3kHX2xyUWk/+jKztrIjbL849PlchQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RcDU0O6EZhCpl1aicmp5ALUlNp8U6AueGtyEiv1N0Q8RC0dCBepBiO6lHcnci0oceZ3nVnqsRXSXrss/f4AlT9FhoCw4/9DfK9UOntlud9JtOv6j+V3OHPEw/qvx/0vS2oJX6Rhn/vGEkz4V+xjD2g9H6k6M/X9grv6q552zreI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hjz6Dan2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Os0AQf7D; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hjz6Dan2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Os0AQf7D; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FZUFD2wM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eVvUOHmN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Miw4Vjso";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dh7fGeUs"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hjz6Dan2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Os0AQf7D";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hjz6Dan2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Os0AQf7D"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 79E8C1F443;
-	Wed, 12 Mar 2025 14:50:18 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 22DBD1F388;
+	Wed, 12 Mar 2025 14:56:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741791019; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dOFdKjywZF8QIJ75G2gDhIuEm0zcFzQpuqcYivCve0k=;
-	b=FZUFD2wMrFUMAgUcoHMRpFNP53c2D4/cP2IPoJX9Z3WehHgWVx1AYDErpqJ2ZSQsJ8J3QJ
-	H7d8C2/DcP8mDgI/o9MLfpEto1ZAWumGfpWmMYijZ5ZCtx8qsi0upz3+1XIts3SLfo5jx5
-	CIEzU6cFXRC9R0GhgXqtknGlfJQWMJI=
+	t=1741791404; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sIqc2Us3BPTUQvsevLAJTJdf209McDfdIXap2Dikfgc=;
+	b=Hjz6Dan2OhOMBR6hJFXYLFYEScqRzDq3z5F2ZfdSB248svYZ+5oy3UydaNTKxakVGv7h5d
+	mhK80abWhhoSAT4Jy+iXcoOv3n+oQ8ZsPQ17Hie3j/hlEFXUeBNlp4mOWlKpVkwMHvft8Z
+	lN4t1P3eSswmRoTfkbHqW7zRzaNSG/4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741791019;
+	s=susede2_ed25519; t=1741791404;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dOFdKjywZF8QIJ75G2gDhIuEm0zcFzQpuqcYivCve0k=;
-	b=eVvUOHmNQgZRU4mwDZaBrR8ZmQeQdU4kzyM5AyObhQB8Q14TRB6AySmDTaos26GzJczCpT
-	VlokVijrJQENLSAQ==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sIqc2Us3BPTUQvsevLAJTJdf209McDfdIXap2Dikfgc=;
+	b=Os0AQf7DXl+nrhr1Z7dQGXGlQ/NzW5tFKNuFoi3SJ2Hy/8a/0xLYHi7HhA0piXaQHPfNNX
+	6xE9NhetnEkwz0Ag==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Miw4Vjso;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dh7fGeUs
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Hjz6Dan2;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Os0AQf7D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741791018; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dOFdKjywZF8QIJ75G2gDhIuEm0zcFzQpuqcYivCve0k=;
-	b=Miw4VjsomqCDt2+/oQMzdZN9x9A9HVpl4iKkI8IOlEa/nAF3kO4RNZ8oda7507r1TY6qig
-	UKTburLhMmwrCwfsjJ2jYSYavAzTGFLL10QdSE4CNlgqDH0dVe/BwSfsMZ6JjutrFk0xBy
-	6jo4JSv+fnw7WeAt4+EI0l4Sl872iPQ=
+	t=1741791404; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sIqc2Us3BPTUQvsevLAJTJdf209McDfdIXap2Dikfgc=;
+	b=Hjz6Dan2OhOMBR6hJFXYLFYEScqRzDq3z5F2ZfdSB248svYZ+5oy3UydaNTKxakVGv7h5d
+	mhK80abWhhoSAT4Jy+iXcoOv3n+oQ8ZsPQ17Hie3j/hlEFXUeBNlp4mOWlKpVkwMHvft8Z
+	lN4t1P3eSswmRoTfkbHqW7zRzaNSG/4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741791018;
+	s=susede2_ed25519; t=1741791404;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dOFdKjywZF8QIJ75G2gDhIuEm0zcFzQpuqcYivCve0k=;
-	b=dh7fGeUslUIZTUCRkiW+Ac96XZKUaRzipfm//0rQCIK4T+Y9AQI0RAW+UET+g6P3a0fBbt
-	tPjbRAZe1V6hZrAA==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sIqc2Us3BPTUQvsevLAJTJdf209McDfdIXap2Dikfgc=;
+	b=Os0AQf7DXl+nrhr1Z7dQGXGlQ/NzW5tFKNuFoi3SJ2Hy/8a/0xLYHi7HhA0piXaQHPfNNX
+	6xE9NhetnEkwz0Ag==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53DB3132CB;
-	Wed, 12 Mar 2025 14:50:18 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DC3D9132CB;
+	Wed, 12 Mar 2025 14:56:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VyJOEyqf0WeofgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 12 Mar 2025 14:50:18 +0000
-Date: Wed, 12 Mar 2025 15:50:17 +0100
-Message-ID: <87cyemz4k6.wl-tiwai@suse.de>
+	id OmCZNKug0WflAQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 12 Mar 2025 14:56:43 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v6.14-rc6
-In-Reply-To: <3e8be5877ad35b6bc8fb2d148378ea90.broonie@kernel.org>
-References: <3e8be5877ad35b6bc8fb2d148378ea90.broonie@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: cs42l43: Fix build error without CONFIG_PM
+Date: Wed, 12 Mar 2025 15:56:39 +0100
+Message-ID: <20250312145642.26646-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 79E8C1F443
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 22DBD1F388
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_TLS_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, 12 Mar 2025 15:08:20 +0100,
-Mark Brown wrote:
-> 
-> The following changes since commit 7eb172143d5508b4da468ed59ee857c6e5e01da6:
-> 
->   Linux 6.14-rc5 (2025-03-02 11:48:20 -0800)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.14-rc6
-> 
-> for you to fetch changes up to ed92bc5264c4357d4fca292c769ea9967cd3d3b6:
-> 
->   ASoC: codecs: wm0010: Fix error handling path in wm0010_spi_probe() (2025-03-11 13:51:52 +0000)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v6.14
-> 
-> The bulk of this is driver specific fixes, mostly unremarkable.  There's
-> also one core fix from Charles, fixing up confusion around the limiting
-> of maximum control values.
-> 
-> ----------------------------------------------------------------
-> Alexey Klimov (1):
->       ASoC: codecs: wsa884x: report temps to hwmon in millidegree of Celsius
-> 
-> Bard Liao (2):
->       ASoC: rt1320: set wake_capable = 0 explicitly
->       ASoC: rt722-sdca: add missing readable registers
-> 
-> Charles Keepax (2):
->       ASoC: ops: Consistently treat platform_max as control value
->       ASoC: cs42l43: Fix maximum ADC Volume
-> 
-> Christophe JAILLET (1):
->       ASoC: codecs: wm0010: Fix error handling path in wm0010_spi_probe()
-> 
-> Maciej Strozek (1):
->       ASoC: cs42l43: Add jack delay debounce after suspend
+Put __maybe_unused to work around the build error without CONFIG_PM
+or CONFIG_PM_SLEEP for the newly defined system suspend callback.
 
-This one causes a build error without CONFIG_PM.
+Fixes: 164b7dd4546b ("ASoC: cs42l43: Add jack delay debounce after suspend")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/soc/codecs/cs42l43.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index d307b56a7f38..4c7a598f5e73 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -2402,7 +2402,7 @@ static int cs42l43_codec_runtime_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int cs42l43_codec_runtime_force_suspend(struct device *dev)
++static int __maybe_unused cs42l43_codec_runtime_force_suspend(struct device *dev)
+ {
+ 	struct cs42l43_codec *priv = dev_get_drvdata(dev);
+ 
+-- 
+2.43.0
 
-Takashi
