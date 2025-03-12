@@ -1,64 +1,64 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77C02580D0
-	for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 19:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF05258CCF
+	for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 19:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741807657; cv=none; b=iljQB/hzsVvSi5rUolCf6NXBapXTUCj5bi0mHRR2FutAo1wPa7/+MSZ7mXn8jdKyFO/lcQzKMMsfIC+MFi84HVgvDWowkV5stIuV5ucpQejfwqwWnHm37FuGffCZ4rAXas+eMGyNd7W74iZLnE+Hcv6Zd9tzSaUn3/NgriRSrhw=
+	t=1741807660; cv=none; b=nCzPg4xROnZxnoJFC64O3pfCx7eZcvRO64sbhU7O5j/3+GqQBa+ORa4lgkZFE3uA/81ElM2r0cfd0EQCclSFrwjqUnIr0xAie/0uIQ5/qw97803r2MDnsqOoZxmC4KIvVOCeNT4DbEnwX9idi4UC3hGHhb2cWJNZwAIPavRSXx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741807657; c=relaxed/simple;
-	bh=FKL/weB5CPeWneGPsiZ0VbwxQPs03W/Eqnc+Zbi9MsM=;
+	s=arc-20240116; t=1741807660; c=relaxed/simple;
+	bh=0jMuW75ONhCU98g91Ki0i+ClWIuHSukhvmLA5nKGMW8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NicOa6baGt1n8WV/wScMPYG4qe1lph3ulJcn5ZC8kJ+z2SLFKiMUyx+7ULe0qhC5YSiMkiYNqAj738I/RmDCqxsQdZLktCPU7saTUG5uXhLC23T1XgYgsuzFwGppDfYCVD/yTZnwLOZMvthHo1MDrDv5PJVL1SBfNNcX8k3YJDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=W3mltykU; arc=none smtp.client-ip=209.85.128.47
+	 In-Reply-To:To:Cc; b=Ua8VAqxZuIdf4adk7lFMRgdqHBcDs/Kr2sELZ8x/Ykl233I+zekTMzofRp5qTuYN+CMB6H2FunQA3+rldO/L52Yz+but9aSG72gtTJsebWwrQ+kvF5ErIPz0X5egFZKCMViauXoGesQUEsY2x2ony71OOvo4YqM9XY5KlYIxQBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lls1XP+V; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W3mltykU"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43ba8bbeae2so230135e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 12:27:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lls1XP+V"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf861f936so206275e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 12:27:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741807654; x=1742412454; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1741807655; x=1742412455; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5qbK7lmYRGi8wVIRtYM9Yu+84pO626UJc/Ub+6h4fj0=;
-        b=W3mltykUTvkM/KyRQ/LxIpnNURuimCw4zne/kgt1XBdTTdX3RXc8HfKRSi6YNGgBUc
-         E7L6ZUo5MKtKmuKIwX8iUhf4PvVxX7H1O5+evqVCA3gR/9NVuVNiCUiW0S0amWDkBPrf
-         dJoFTXZ4Lg44H2Xi5fDz5C0H9QXaGZrEhUlnLb/kWeCbDCcBk7b5SP4+KE+ZFHiw4eyo
-         qsBhzPq0aXvaXvRx1IDHTXzH0AbVN7F+j5xsoc1CN96/ieOybzqMfwJ7NEcUGWyFmCHx
-         t4hP2iA1tsdR4IaorZyM2udlqPeeqKt9e7jOCZGf7rBCxGGXHRoipXjDUn5sqT7d5s1U
-         ZPUA==
+        bh=TthKowtkg3ZH4r2XBt7MSSpgewnQfw6r9pBf+S41jDs=;
+        b=lls1XP+VmNRIjPDnguDQR/l+7293rxNSZ6NwaT0ZGBQK3QojGx5SyZ4XFEGvatYNYV
+         lW4lN+7fkXTWORq2nyJiiy74QPGuvhK0NYteTmEstrlEV4XkOqOA9pFHfMqVMhwSlpCT
+         TgrgyDvRG5aAFXDJjlq4ZJ2vyXaAl+nLSOLEmd5z50vJGZtpgL7dGnFS1bKlJlfN4uyY
+         wTzfCGiPupmaNUmDJ4TpXKdcaXulSVCCMJ/Sv6lmZAG2e8Pk7c2kR3apJI/0RJtqE1pW
+         4FMQ5KxIkK5Tichwkb8ZSHRcBEmcMtf5cIKDLC1wDQhZglzSfIV5CaxRZxTFMDeW2m2H
+         MSAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741807654; x=1742412454;
+        d=1e100.net; s=20230601; t=1741807655; x=1742412455;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5qbK7lmYRGi8wVIRtYM9Yu+84pO626UJc/Ub+6h4fj0=;
-        b=Gn7df/96rxr8FlMVTOoABph6yY4yujepwnaSgS8Yvf4YohXiey8KiCfzPs1rg19rS5
-         3DOPg8eam5QR1mJq4OqrndwZkzNGBkO/+1GrGYmuvZIDwey12Nkd9PzfHnVZhxd2TZs6
-         w8Q0lOxAWPTSa1W0QZHnRgxUxSOLUirPIrr/QWpkKYrlifZS+1lgYvXckoYDh3vCTRLT
-         PS8yxZWPehDFPKUiWs6piUwRQaOyQq8EqPo2OWsnVLmnFsTC+jkH3RD83ElL/uytvy+G
-         MsgGhDQs+ziBahL3Pl4TxHCfGHb2Grnqaj/WEJ4w5XM00qZwVdCF7YeuEnoapFGfFxZe
-         UpAg==
-X-Gm-Message-State: AOJu0Yw37dl10i30NDobPbJaT8OXsrU4gUnDni+NzGEPcDIGerD6Ai1m
-	1Nybx/fNPdThD5QpvSWqImDZV7Oz10F9zPRHsCKY4BpzC3tnM6381RHDKIiIz7k=
-X-Gm-Gg: ASbGnctQjtwEEuehpKQ1zroXI3KvGqqID9p6bH3dvEqY/wZcyxBYvg14u2S1bavTOBw
-	LQQLoT6II8z7NjsnY1lJE/9FbWDOdEHi5NbKXhiBTOUXV0tfe5+MBCsrAYdn5igI1CIEQqy3SVa
-	NJzQwGJQzhilTvFal6rgLh5GWGyt17TBmgpaSNfOcvBev790oXSYABghNnzYHN9pdx76JYjja8/
-	FuoQH4pUhAkPfTR4xOebHi0Woy+RxgvM8KqLU/yc9WRj+dqIVdQfwsPn95yJtBweeEcPYnDGjuv
-	z/8xnwPK5FCQTQOIB5Ahv7PLV1lt1AGgITo9qDJZUMmeTlHEWNuZ4XU6dJI=
-X-Google-Smtp-Source: AGHT+IFxBzA1CjBiytvmBHMoKUHzC09eJ11SY49j1nNlMfZkupbs5qfdSdty45s06t4JCu4IiJZMhQ==
-X-Received: by 2002:a05:600c:5107:b0:43b:c844:a4ba with SMTP id 5b1f17b1804b1-43d01c12945mr37427075e9.3.1741807654092;
-        Wed, 12 Mar 2025 12:27:34 -0700 (PDT)
+        bh=TthKowtkg3ZH4r2XBt7MSSpgewnQfw6r9pBf+S41jDs=;
+        b=OW7tIoBzlmmUG6RPozGzaPdBnbDT+BGKF7nBecypvFLkFyirufeU2UBi71z8Kd0JaR
+         HhrjRqGrqJ0sg74G56mc6ROfIFVoTfPoVP/w5vJofWEZcCSMwb6+k3hXt/yzoc7hcorZ
+         jnFLEUp4aRSaZf1L9QY3ja9BgAIuLN8HbvvLAAn/7uxWq1M36tlZRHZBhK5PLa+EG0FE
+         1+yvHvxGb2036UfBbGaMdxE52qubSZ621oaTM2Wk9WlqvRCeL3Qn1kybgnUoYf/W6M4/
+         Dvsi0NVX8TKA4zHdEOqsb9jA3heGWLkpML9u+WoH31gb7ji4Gr5hg3SpHww12SQmbGBq
+         3qKw==
+X-Gm-Message-State: AOJu0YwDVVlrJLyue1egiWMaYVFnDsy+Rfd/uuwt2D8D01bZNFmgD4nX
+	Tnag1fvl+SCglYZuq1jLgs13oDDVfZHs6pTAsqGn+Wnu8tlLp0CmOJXI/B9Km+I=
+X-Gm-Gg: ASbGncuYKLa+Teqje80mfnC3POi65Xc9iujFZ0GN9DiVpcRRNj13OZjlRL6tSzx86Yf
+	wkukAa94SRckI1P8wmthIICT6C7CtnbwTJU027JsMh8DeE2Qpa0hCBNL2OId0/LRtbZ825w+r9B
+	3WEfGW3FaMpiOeqXbWNZNQTSJT2x+cJIKJ/QYDzbrw9Hz4Y082V9/GHIxmc3mH+rbNj6MyrZVBz
+	Gt8NC52Ak1HxVlp+lyGtuzvvx4BvsxCN6JxT2RFnh/eKMjqQD+srfwcwusZY557ZjnBg/1LZVeY
+	HriOdjDhx68yPnVChOeocLNiwxq7Tic9CpPYISvlcqOZDfPEfZXldusy9oA=
+X-Google-Smtp-Source: AGHT+IFNDMKyFlmL29BIYtE87ieQh9czS303C7tJdh4xet0OcI/TZLd5Tui0luLGPrsnPNEL65CGKA==
+X-Received: by 2002:a05:600c:45d3:b0:43b:cd07:92fb with SMTP id 5b1f17b1804b1-43d01c230famr37689245e9.6.1741807655471;
+        Wed, 12 Mar 2025 12:27:35 -0700 (PDT)
 Received: from [127.0.1.1] ([178.197.198.86])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d0a7903fbsm29331995e9.32.2025.03.12.12.27.32
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d0a7903fbsm29331995e9.32.2025.03.12.12.27.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 12:27:33 -0700 (PDT)
+        Wed, 12 Mar 2025 12:27:34 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 12 Mar 2025 20:24:59 +0100
-Subject: [PATCH 1/2] ASoC: codecs: wsa883x: Correct VI sense channel mask
+Date: Wed, 12 Mar 2025 20:25:00 +0100
+Subject: [PATCH 2/2] ASoC: codecs: wsa884x: Correct VI sense channel mask
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250312-asoc-wsa88xx-visense-v1-1-9ca705881122@linaro.org>
+Message-Id: <20250312-asoc-wsa88xx-visense-v1-2-9ca705881122@linaro.org>
 References: <20250312-asoc-wsa88xx-visense-v1-0-9ca705881122@linaro.org>
 In-Reply-To: <20250312-asoc-wsa88xx-visense-v1-0-9ca705881122@linaro.org>
 To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
@@ -77,21 +77,21 @@ Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=975;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=927;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=FKL/weB5CPeWneGPsiZ0VbwxQPs03W/Eqnc+Zbi9MsM=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBn0eAh/LQoK52qOZjR6vj46xf8OTmRScxCMYReW
- EcB8rKjv9+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ9HgIQAKCRDBN2bmhouD
- 1x/yD/9ksWN3WISxFG+1/n+g7hrVsU9+/hkl3RcDOUBH7L8fobh9sViifZ+wwB47z8g+TQZHu9U
- TDFSQv01YwbuGxG3y7iNLlIWN+nWgVkbY+HF6aJtPeLaHCCwdtDTmwmvrWFIUDL7Q1/O/h24yyj
- tJ2nE9mobn3O0ekv5kVuCVAQKMlAbZW5H2EYmyoU/Ii8oYsTRWe1dy0lT2uEDu5b/pGCKXyFTvh
- VfBR6tLGCjzJYtYQNdp94KPNqoGSh+ymH3nNNJ2EZgW5JSzGv32qSi2hQ70lD0qF3S+TjC+rx6c
- LsoCw/UBYYM275w8JE5vDLbqXLExxV4en/Hj2wJJcpNWSvI9qf0lr8wF7IvHrBPa60ADWwGw6+z
- cbI0X6UBuarq2S4ueeOwK8uDpXRycLLkoYdXkv1jtdQn9pv+dDyriHByVqTwN/8kz0MdCkUaH8Y
- QlZDK8BfPwZvDfVE0UzZ6qAnF46xOlbdB2J/yzsdt3s9NdOWjmjyBFbVhS+7jgnpMUandPZAtvU
- +Fbg3TBkp61qMISvb6MOuMmnJXfdJB5JpBQwI2CuLW7r99zN9fPOnj7J+bseOmn3HUZEyBT2Vlw
- +zRoxOECSunwhCMpVn5ROsJhQJ7EK2XTZbu3qFqV/MC21ZWhd+ScF+Wir2fxPB4BkCEkDkak6CN
- YO6Zsp3q2DhFjJA==
+ bh=0jMuW75ONhCU98g91Ki0i+ClWIuHSukhvmLA5nKGMW8=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBn0eAiJDEepXFTas2u1NQUyIbL1KrfsyTe1AbbJ
+ BJGAwCF3QGJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ9HgIgAKCRDBN2bmhouD
+ 18a9EACUxXs1HSjzqKRbbCdN6UK1qvRXdWXEgeIyqupA9qLJe+njP4BVQYtWDbV621t7vHeM3H+
+ M+WI9phdIiJcd4i3XJhqUdohjQBaCspx2XpW9sDgNCQ6yzNJccs2menIEKqh6J0tNT8VnWE/S+3
+ HnR8AtuRZxdY1pW657ElyIOt4hzJfMgvpkPdncgkGWzD6svhQnqjVc5jXtIf5RN7Ui4FIsKY/2w
+ Odqm5o/0OcVhMjjZLBc7ta8DIZyK8ylht+eZAeEkJlgVfv4J2wCSlPW0iOKsFrKqScx7zno/JhQ
+ LTjN6KQLx2d8YXjKre2sx99d1BAvgwrPYfvIdSl8mNiHgmjMAWF82DqL28LLJPUJuKlrxyr3LON
+ W/u0l9QJ7CZkd7/8Mpi7OSpXOSkBfUGqCwWDEIvjVs2N+rcE743MkktRsvC4IC8w5d+a5oOvNOF
+ 643walrryb/jloxLJXbPLDYh8NtREUZ0qSh14hMYp7jsjRGZQnC39Om1vCfNEC/MtexYTqeDSSq
+ QlBoaNYrednRKM6JNA9o9iquHt+jhIBpCATNSueM9BiQEdSnkY3sxOGpLK0m0uJBRd97re33L54
+ RZb08QN8lTFjZ513gHzT8cZa86b7rDy9LBYZvU6cwtVmEce/LdArnWaH4jLPPKlK1eChaHag2ud
+ WNF3QUWcC82MoJA==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
@@ -101,29 +101,23 @@ testing the VI sense feedback path.
 
 Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
 ---
-
-Srini,
-I cannot get 0x3 as channel mask working, but I think it was fine in
-your case?
----
- sound/soc/codecs/wsa883x.c | 2 +-
+ sound/soc/codecs/wsa884x.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index a5a6cb90bb43c83de2b498f163d23c52f164ecb9..238ddf0aac3b28f2d0d8b08a069aa2dadea01ff1 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -568,7 +568,7 @@ static const struct sdw_port_config wsa883x_pconfig[WSA883X_MAX_SWR_PORTS] = {
+diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
+index 560a2c04b695535c42bb59b17aa8a671247adf95..18b0ee8f15a55aea370350e31cc3939625fb37a2 100644
+--- a/sound/soc/codecs/wsa884x.c
++++ b/sound/soc/codecs/wsa884x.c
+@@ -891,7 +891,7 @@ static const struct sdw_port_config wsa884x_pconfig[WSA884X_MAX_SWR_PORTS] = {
  	},
- 	[WSA883X_PORT_VISENSE] = {
- 		.num = WSA883X_PORT_VISENSE + 1,
+ 	[WSA884X_PORT_VISENSE] = {
+ 		.num = WSA884X_PORT_VISENSE + 1,
 -		.ch_mask = 0x3,
 +		.ch_mask = 0x1,
  	},
- };
- 
+ 	[WSA884X_PORT_CPS] = {
+ 		.num = WSA884X_PORT_CPS + 1,
 
 -- 
 2.43.0
