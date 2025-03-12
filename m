@@ -1,200 +1,127 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670CF24293B
-	for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 13:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9EE243376;
+	Wed, 12 Mar 2025 14:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741786324; cv=none; b=brVIwQOyYtGILEEF9DEb4yY/iKrhtqCo7mgZYY9WK+jPoeDpDXaZk7vBQ8tHeraF/OaWoKJ1R3cO+23GLz9v6GZPnpHGg+jI04jjoXtjOnvY2HouBWunX1QNe4/4ZcZZ0ACv4bYNvVxWf9w6+7R+Il71uclVmuA5iBaom9Ubk+s=
+	t=1741788076; cv=none; b=XeAni/cR0BnuWpmfk55bgFJgZT+tPqHO7Wd3bCHOFTJh9YPrEHGMBjtzV4qbiosMJdbxACyuoZCtl0UnjyEE9DIHbg1LYv9tGSIq8+YXqLQcmw+0G13IcsUD5BRt94EPhg+7diAr3LJynRC0cFECerqn6AUroC3o5wUvc7210yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741786324; c=relaxed/simple;
-	bh=OKx2k02z23zEcvhATOXAT7P378GIrQR3T0tzoq4hdxM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ns1QBAzdXRlJ3bR4kXOKFSs3YtnlwuWyd8ytGn4xN+mD9bofPbmTW8BF1zIIObxD2NsgmUABTf5XhS7dK0q1NnNkH+vzOS9gBhpgwl6SO4K8E8VgZ+A9U0Rvxc08bE3elGJkKJv56ug0N4fOoRc1oOxrBqCKgi6A7jZNjB2vmz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MpXKQhev; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741788076; c=relaxed/simple;
+	bh=BLeYRhcdEL3qm8+Dg5gyp/bHdbIvZRbqE+W1QtcJa9Q=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=ic/kQdmyDwlht62N+4hVnOXDuR3n9gH+SSthNIVUsMVoKF+7TGTRaARcuiVHXe5IWTHTLLY99fpp84lI9EGi4wBEFg5m9n9wTcYCJbxMEWgAP+9emwmerEaz1zi4nW0rk5a3SUWQ2jpblXAyyXEbz2qe2L79ASw0sn8y80Cw3cE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=XEwLSIwp; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MpXKQhev"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5499bd3084aso4000028e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 06:32:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741786320; x=1742391120; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=d6227D3p3P0gwc0KnsTIE+k7HQimstZwQXxJIFYQCaY=;
-        b=MpXKQhevzkYAPR0eiTFlGxAUeEUHi+1ZCHrtfun8JkgV4YDe9XVpNZl4Tg3c119fDF
-         UwKviwTUlRAfnPPUFe5pNuShM2rNDVMG14wzbny/5RhJMg0+WMtOTbUKnS6P9d/2Kqg/
-         8ScFb7/t0//ww/LvZ9lAb53Gw9yOJh94RLcssE879Y9zDSHpZ1td0YEBbqOJBNGdRh7a
-         ZhK+vVcpYD117S/mw7jRKRCUW2E7z6bJrz9FY94DaTQA4qMxhufkGTt/Zrks2BRy9gcD
-         a9iEJjozeYX+jEQK2wOApdJH6+0sFz2KzpEn/frOv8NrDEYmpwurgJQq54PQFEzPMTtO
-         GaWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741786320; x=1742391120;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d6227D3p3P0gwc0KnsTIE+k7HQimstZwQXxJIFYQCaY=;
-        b=b5Aw8gJ+WgzEZf3MT2CPu5hZH4W5hqiIa/3/WgLggo8dLkFK6M+YNdDq2JZMSgtLto
-         sFv34Yi817KYwuSPOgZZSEkySw/gTSi6spfk3j0OLpXzT1mE5VEyM9GwUs5phznAB1x3
-         PqVJzHfRftc0VLYefVjejJuhJ1+2JLhjeaFrN/l1sQyzMd/jXptbVQts9zPWeb7zHDUg
-         UQAnk6Q+t5B9dAujyp7YLXarMR0WQN4zuPxKfZuSgR6Vys8GsHila09q1KvDQuBhzs9D
-         MFeudBAz6d+zA51eJlodI8/p3ubx4Vy/FMkEsJR38l112k6n6+m9rEEGV3B3riUtYuj6
-         AeBw==
-X-Gm-Message-State: AOJu0Yz3elcor2M0Elbheco3fCyxy1Ro4NjLEYU+szZsP71P4tR7D5UG
-	ASOXT7041iOM3NXd9n4b4LcFkA+HJEQkt/HHhUV2cNLWiWfd3I2uEujLqRTSaYU=
-X-Gm-Gg: ASbGncvbtYQH+JVzttuw5TOAyCUgEUebIwuVxh0ntHxuB75E9Hpj2X2DTvoafKRDt6Y
-	LJW6DXHxzVzAm0e0nt94rC9tH9pBiJeIi7BHvvY+zW7qV61IBOLvNo0ZIV19eC+oJag7+vRbABd
-	XOXtUAWFxEfE5RcVgSU+jHknFRpu7C/HrObyepuSu8dIIjq+Nqal72Flfix2twmXU235Fri6DoY
-	DR+78+yBtRft3SCw/qdFUa2WUYvpmIcP3/Ki95k2MFmh78oZIx/manbcGooTBpl8G0HHcJdAcZv
-	U3kG6j4V4gP9FU9jnfcLhbIZoUql4FZPata8oCs2VbeISmz12qZ3jb33mKf8Kq/isQ==
-X-Google-Smtp-Source: AGHT+IG+ADSPCoGqvuEtats2T3CM9fitXUnTzvBoqRBCavMLmRzv5GI1OBEpjzCqM7eEbpTXVT3w1w==
-X-Received: by 2002:a05:6512:3da4:b0:549:39b1:65c6 with SMTP id 2adb3069b0e04-54990eaa699mr7963530e87.34.1741786320407;
-        Wed, 12 Mar 2025 06:32:00 -0700 (PDT)
-Received: from [192.168.1.140] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5498ae460desm2121858e87.24.2025.03.12.06.31.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 06:31:59 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 12 Mar 2025 14:31:52 +0100
-Subject: [PATCH 3/3] ASoC: pcm6240: Drop bogus code handling IRQ as GPIO
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="XEwLSIwp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1741788047; x=1742392847; i=markus.elfring@web.de;
+	bh=elMb9757xEh9e4uQsN/gdF/SVVTajaw0f8UaKE74UKA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=XEwLSIwpwP0kKruwCvRm7rPzcISxjmJl99nyxNGoG47P5Wh3nGlyhxPnY/hc1YZJ
+	 TjQI+4V4gFHMsOi3Nr0sHopDZmD645+3Yc9y8+6VWecrSwSSzdghW/9mwHe5iUHma
+	 Lkeb+Dib+keicdp+U5kMWF4Jo8Lhu3qy9DhOw/6kYZJejkOxbTmJSutK3YuvwzUMg
+	 9Sv/GP1eRZZ5zB0MstejphFUbVwYQtq0q8yW1n/oBVQpBD+hQDTsXZZFeEETLS5lh
+	 VhDAKr3XBPRV3k5GnqhVaVDo5YT+Q/PcoiE+Q+HpjWsscJP6ToEJM4vG4XCananNh
+	 KeohjR1x1HRzZCmcbQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.19]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MN6BN-1tbf8F3diP-00TJZ3; Wed, 12
+ Mar 2025 15:00:46 +0100
+Message-ID: <85859be0-95f7-48f2-bc51-488531529075@web.de>
+Date: Wed, 12 Mar 2025 15:00:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250312-pcm-codecs-v1-3-41ffc4f8fc5c@linaro.org>
-References: <20250312-pcm-codecs-v1-0-41ffc4f8fc5c@linaro.org>
-In-Reply-To: <20250312-pcm-codecs-v1-0-41ffc4f8fc5c@linaro.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
- Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.14.2
+User-Agent: Mozilla Thunderbird
+To: Weidong Wang <wangweidong.a@awinic.com>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>, anish kumar
+ <yesanishhere@gmail.com>, Ben Yi <yijiangtao@awinic.com>,
+ Binbin Zhou <zhoubinbin@loongson.cn>, Conor Dooley <conor+dt@kernel.org>,
+ Herve Codina <herve.codina@bootlin.com>,
+ Igor Prusov <ivprusov@salutedevices.com>, Jack Yu <jack.yu@realtek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Mark Brown <broonie@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Rob Herring
+ <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>
+References: <20250312120100.9730-3-wangweidong.a@awinic.com>
+Subject: Re: [PATCH V3 2/2] ASoC: codecs: Add aw88166 amplifier driver
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250312120100.9730-3-wangweidong.a@awinic.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:BXsiOiJ0Clwg0NW3EaCHbbcLltCLB2mlIgmufah31UeZw7l65tk
+ WoE7LMnu7zTOLORMe1+cOTYfD2P9/4/BzUfNPwHtIp4tyz6R/VEb4kb2kntShc7Fid8fRp7
+ en1CDllyRxe4HrAfGQ44qnYhyx4tA/Tp2sWegaEI0tsaOKQHHNxrOmjcfkpSCx56TDTfGNr
+ VJFx1OunnjDzydh4o0TZQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:LrJ9B/RARBA=;U2yCqLaLuqXdFUS0cY6t90fVm+V
+ JjGI7law1QjbwmJxtmS/2DK0no2MCzOIwTOLhwnyQxjFMKA06CbhTUvWHb/0M6Us03aNGCyFH
+ GV3nj6qNbMirBM/U7yGOHVocR8VVUThtqpBlpTTDBc/rj8iIkjgf/df8HDYPmJjuAoPvJ8mWI
+ xqe+deqdGVwV/4bmlEBTR/kItQgGNKxCfCfLN4UET0r/wqssE87TLlj1Y+ALdxHtCEGgCyw8M
+ d8NfT23FkUf7nfkjtgJm66vXjbZzcwBAogj+dlpQsTGASQQjL3U9VMHdxLRO8QXKSszv1LzLG
+ 14AAgfJO9S6qsgbP//Fa+6DiN4T8enTgYi6sVL/ipgHuG+DZ0ccrb9hCWM8T6UAtS0Z4IhLwD
+ NPGnn4D+oSTKyvNb9th7hUkh+Mw/1nrJKjLoNf+Mv+zEWaeHO6LMfvRxQeRNhrnV4bxaxqj7f
+ tSulBk7ZKOhUzLHx1y1Wofzo5s2QN3NfntU5PJrmx3aVW3DNUHS+i2Jt4PvvYStpnULIhEnXE
+ 1Yk3/+E4HZiLEzd+xGHO5Bju9vUi2FtJ/jYaHZW2ZZ+/3CtxqxTBL1pIrdoRc38vN+JarH5ng
+ P0ygVMAYDO5QiBH8aUlnuJgbuBJgn545npUU3UE8bz2cf6tyWetS7zR3C9A8cqmCRPXaGuywW
+ LbK92wITRgDazNJ2M8rg0TzU02CEOTo3jvrJWCrcUNzHQIXzIqafPXOeE0WXH5PfkTmnA4LVx
+ KuISrGjfv7IFKmu7hWKdnflBsUJMp75Ko1Bz9EYDJdyqIWEiJ0v5ubwgZrX2BFC7TCQAO3MK3
+ zmuDCHzQpFAx6x3PYNm+MbZlna2xzTom/DIZYma/+5aHiF0b/9RJkuV3wh6pkYSgDud+FAYeK
+ 0O+JTJGIUI5ocLMgTW13bgbE1RwbZfNYuwreEL2S/6e3oog32iTRE03kyhAi8Hh3ghcGGDHLj
+ uRSs/8sWT30gBnJyF+Epx60E+eSdTlm94H2PRN2kn4IbgprnazfWKx1edW8929c0HPbikZl2P
+ VoJcHvrIsOHdSkbMw+kvI/u/9uwY3+ZvVl1a2U+diUFq4KFvXGiCz+aOsj3jZp/lyxCxqYAUQ
+ UGeeCE+zf5eAp6Y5zaQYHCTTb07jFcaSiXzlj26maOSiSqNAnSBmpe7p62TQYfhHaPcFGXow6
+ qLFezCc01DEO+GkfATYUyz0wwPIkbkeSynlIKDgIUysKgiYDbO60euIijFVZkR8v/XoOriS76
+ vD0YiV9vOJ8p4NeTObmmAcCteLontrVQYKBrYKGFBjk/9JcIJiAJCvMj6DtpGsfIB9MEw9d5I
+ wEnRqlMvhRwn1e3vWctwSPz8nnTgONG47jWkDNA3QIey4yVvjvxuPOyHn2K1nLxOfMdR7IpNP
+ 6eYw5umnTuGAv1MlIvEt7+kgOJM6pGTRCBHwQYcPqeLdLauW+FELbx5ZwGYeDVuK2UehnVxPs
+ crig+v643GRfaSnoayuX9DCregovBISNr9p9Ap2N3JYYjP467
 
-The current code for the IRQ in pcm6240 makes no sense:
-it looks up an IRQ with of_irq_get(), treat it as a GPIO
-by issuing gpio_request(), gpio_direction_input()
-and gpio_to_irq() on it.
+=E2=80=A6
+> The driver is for amplifiers aw88166 of Awinic Technology
+=E2=80=A6
 
-This is just wrong, if the device tree assigns the IRQ
-from a GPIO number this is just incorrect: it is clearly
-stated that GPIO providers and IRQ providers are
-orthogonal.
+You may occasionally put more than 57 characters into text lines
+of such a change description.
 
-It is possible to look up an IRQ to a corresponding GPIO
-line but this is taking an IRQ and pretending it's a
-GPIO, which is just semantically wrong.
 
-Drop the offending code and treat the IRQ that we get
-from the device tree as any other IRQ, see for example
-other codec drivers.
+See also:
+https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
+e/Documentation/process/submitting-patches.rst?h=3Dv6.14-rc6#n94
 
-The DT bindings for this codec does not have any in-tree
-DTS files, which may explain why things are weird.
 
-As a bonus, this moves the driver away from the legacy
-<linux/gpio.h> include.
+=E2=80=A6
+> +++ b/sound/soc/codecs/aw88166.c
+> @@ -0,0 +1,1933 @@
+=E2=80=A6
+> +static void aw88166_startup_work(struct work_struct *work)
+> +{
+=E2=80=A6
+> +	mutex_lock(&aw88166->lock);
+> +	aw88166_start_pa(aw88166);
+> +	mutex_unlock(&aw88166->lock);
+> +}
+=E2=80=A6
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- sound/soc/codecs/pcm6240.c | 28 +++++++---------------------
- sound/soc/codecs/pcm6240.h |  7 +------
- 2 files changed, 8 insertions(+), 27 deletions(-)
+Under which circumstances would you become interested to apply a statement
+like =E2=80=9Cguard(mutex)(&aw88166->lock);=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.14-rc6/source/include/linux/mutex.h#L2=
+01
 
-diff --git a/sound/soc/codecs/pcm6240.c b/sound/soc/codecs/pcm6240.c
-index 4ff39e0b95b272c9c6b6f5cca50f595ae39ef056..b2bd2f172ae76e6baa7e6f4ef5fe894701ea4385 100644
---- a/sound/soc/codecs/pcm6240.c
-+++ b/sound/soc/codecs/pcm6240.c
-@@ -14,7 +14,7 @@
- 
- #include <linux/unaligned.h>
- #include <linux/firmware.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/of_irq.h>
-@@ -2035,10 +2035,8 @@ static const struct regmap_config pcmdevice_i2c_regmap = {
- 
- static void pcmdevice_remove(struct pcmdevice_priv *pcm_dev)
- {
--	if (gpio_is_valid(pcm_dev->irq_info.gpio)) {
--		gpio_free(pcm_dev->irq_info.gpio);
--		free_irq(pcm_dev->irq_info.nmb, pcm_dev);
--	}
-+	if (pcm_dev->irq)
-+		free_irq(pcm_dev->irq, pcm_dev);
- 	mutex_destroy(&pcm_dev->codec_lock);
- }
- 
-@@ -2109,7 +2107,7 @@ static int pcmdevice_i2c_probe(struct i2c_client *i2c)
- 		ndev = 1;
- 		dev_addrs[0] = i2c->addr;
- 	}
--	pcm_dev->irq_info.gpio = of_irq_get(np, 0);
-+	pcm_dev->irq = of_irq_get(np, 0);
- 
- 	for (i = 0; i < ndev; i++)
- 		pcm_dev->addr[i] = dev_addrs[i];
-@@ -2132,22 +2130,10 @@ static int pcmdevice_i2c_probe(struct i2c_client *i2c)
- 
- 	if (pcm_dev->chip_id == PCM1690)
- 		goto skip_interrupt;
--	if (gpio_is_valid(pcm_dev->irq_info.gpio)) {
--		dev_dbg(pcm_dev->dev, "irq-gpio = %d", pcm_dev->irq_info.gpio);
--
--		ret = gpio_request(pcm_dev->irq_info.gpio, "PCMDEV-IRQ");
--		if (!ret) {
--			int gpio = pcm_dev->irq_info.gpio;
--
--			gpio_direction_input(gpio);
--			pcm_dev->irq_info.nmb = gpio_to_irq(gpio);
--
--		} else
--			dev_err(pcm_dev->dev, "%s: GPIO %d request error\n",
--				__func__, pcm_dev->irq_info.gpio);
-+	if (pcm_dev->irq) {
-+		dev_dbg(pcm_dev->dev, "irq = %d", pcm_dev->irq);
- 	} else
--		dev_err(pcm_dev->dev, "Looking up irq-gpio failed %d\n",
--			pcm_dev->irq_info.gpio);
-+		dev_err(pcm_dev->dev, "No irq provided\n");
- 
- skip_interrupt:
- 	ret = devm_snd_soc_register_component(&i2c->dev,
-diff --git a/sound/soc/codecs/pcm6240.h b/sound/soc/codecs/pcm6240.h
-index 1e125bb97286030f7e6006970d0be9f40348e952..2d8f9e798139ac7df30606c0e5381a7b24d84728 100644
---- a/sound/soc/codecs/pcm6240.h
-+++ b/sound/soc/codecs/pcm6240.h
-@@ -208,11 +208,6 @@ struct pcmdevice_regbin {
- 	struct pcmdevice_config_info **cfg_info;
- };
- 
--struct pcmdevice_irqinfo {
--	int gpio;
--	int nmb;
--};
--
- struct pcmdevice_priv {
- 	struct snd_soc_component *component;
- 	struct i2c_client *client;
-@@ -221,7 +216,7 @@ struct pcmdevice_priv {
- 	struct gpio_desc *hw_rst;
- 	struct regmap *regmap;
- 	struct pcmdevice_regbin regbin;
--	struct pcmdevice_irqinfo irq_info;
-+	int irq;
- 	unsigned int addr[PCMDEVICE_MAX_I2C_DEVICES];
- 	unsigned int chip_id;
- 	int cur_conf;
-
--- 
-2.48.1
-
+Regards,
+Markus
