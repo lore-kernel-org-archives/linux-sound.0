@@ -1,35 +1,35 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFF538FA3;
-	Wed, 12 Mar 2025 03:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7B11E9B2B;
+	Wed, 12 Mar 2025 07:27:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741751079; cv=none; b=c+rF6bzPxPWUa2DHGATJMUf9JoMPYn+kJ43wliiV9qyLEgDLlguYcUF5p3kApC/VomfYDoSybzPq1Ig358FaTWwvV6hiU6N59SQv4B+zYMn/3gMJNQmKHl42cuuKfbs8ltQ3n2adPx3X6GQoFJ/G6dOU+dzxr5nhlcubT5SPOsM=
+	t=1741764443; cv=none; b=jxOBKnN6Lzo612T1Co03rDaTW6B5R/icf990bFRH7L9UxSdno/svB+AWy0JWS4w3dNtJiEBHzegt69acprU2wb2F/mw3qhMYQgo3MhLl7vosk9ihjS48z+QhHuUDq4K/MiF/rucbO8XXOSdOx0Ks11KQ9ORj8FfPx3LhVp81qRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741751079; c=relaxed/simple;
-	bh=r26RzrmcyIwwfK5053nO2QqbJbt9GQSCfmm9ooy8Vig=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rl2nevKmtWhQ3Bi9bYfZVx8Cyro81LjGR/OjXgYIK4VbAaZRqTcDUV5dpwddjY0y0xWpSIjrF37UHRzYN9QGLjsitgw7IsUIvfMxho7IaaHZC+0ml5ZBImyclcnHDJDZemuwpDzZritKXkFwEa1/m9DpAgtPzR93Yw/y1PYJAwI=
+	s=arc-20240116; t=1741764443; c=relaxed/simple;
+	bh=7Brta7cV5mT7dkBIpMftggggYa6TMZGrN7f114qDyuU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=h8SvNBG8GzpkELHnyc5qrRyTulV+Ucq/IgEaG2Mh1kdW3lp9+Rr3yh+hXclxBSnR/y7DuiGA1d24LklS8TvH4P+G9EdhsLTuQwNcbCbnhrELv9H4enAYuF2c0cqOlxcja1g0BdYhuDbaz8lblAJxtYf1cQzYIBpnApX7eAFAEic=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowAD3_dEdA9FnDwlwFA--.17058S2;
-	Wed, 12 Mar 2025 11:44:29 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowAAHDVVLN9Fn1Yp8FA--.880S2;
+	Wed, 12 Mar 2025 15:27:08 +0800 (CST)
 From: Chen Ni <nichen@iscas.ac.cn>
-To: shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
+To: david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
 	lgirdwood@gmail.com,
 	broonie@kernel.org,
 	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ASoC: tlv320adc3xxx: remove unnecessary NULL check before clk_disable_unprepare()
-Date: Wed, 12 Mar 2025 11:43:37 +0800
-Message-Id: <20250312034337.1235378-1-nichen@iscas.ac.cn>
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Cc: Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] ASoC: cs35l56: Remove redundant 'flush_workqueue()' calls
+Date: Wed, 12 Mar 2025 15:26:35 +0800
+Message-Id: <20250312072635.1429870-1-nichen@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -38,47 +38,55 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAD3_dEdA9FnDwlwFA--.17058S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7XFyrKrWkZry7try8Gw17Jrb_yoWfJwb_Jr
-	4kWrWvgFs8uFnIy34jqF45AF4vgw4kZF4DJw1Iyr48A34UXws5Zw4DAw1ru3WDA3yrJ3W3
-	trnFvryrJr1IvjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbfAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+X-CM-TRANSID:qwCowAAHDVVLN9Fn1Yp8FA--.880S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKF1xZFy7tr1DuryrtFyxZrb_yoWfurb_G3
+	9F9F40gFWYyF1Ik34UJr1YyF40vF1xAF4rZFsxtr9xJa42vw4Yyr4DAFnrZrW5u34rCa47
+	uas7WFW2gr97CjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbfkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
 	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbV
-	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7Cj
-	xVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r48MxAIw28IcxkI7V
-	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
-	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
-	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAI
-	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
-	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjM5l5UUUUU==
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r
+	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+	628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_GF4l42xK82IYc2Ij64
+	vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
+	jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2I
+	x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK
+	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I
+	0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOE_MDUUUU
 X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-clk_disable_unprepare() already checks NULL by using IS_ERR_OR_NULL.
-Remove unneeded NULL check for adc3xxx->mclk here.
+'destroy_workqueue()' already drains the queue before destroying it, so
+there is no need to flush it explicitly.
+
+Remove the redundant 'flush_workqueue()' calls.
+
+This was generated with coccinelle:
+
+@@
+expression E;
+@@
+-flush_workqueue(E);
+ destroy_workqueue(E);
 
 Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
- sound/soc/codecs/tlv320adc3xxx.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/codecs/cs35l56.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/codecs/tlv320adc3xxx.c b/sound/soc/codecs/tlv320adc3xxx.c
-index 1a50ff675244..191e067ed1c9 100644
---- a/sound/soc/codecs/tlv320adc3xxx.c
-+++ b/sound/soc/codecs/tlv320adc3xxx.c
-@@ -1493,8 +1493,7 @@ static void adc3xxx_i2c_remove(struct i2c_client *client)
- {
- 	struct adc3xxx *adc3xxx = i2c_get_clientdata(client);
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index 735a1e487c6f..b3158a84b87a 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -1441,7 +1441,6 @@ void cs35l56_remove(struct cs35l56_private *cs35l56)
+ 	if (cs35l56->base.irq)
+ 		devm_free_irq(cs35l56->base.dev, cs35l56->base.irq, &cs35l56->base);
  
--	if (adc3xxx->mclk)
--		clk_disable_unprepare(adc3xxx->mclk);
-+	clk_disable_unprepare(adc3xxx->mclk);
- 	adc3xxx_free_gpio(adc3xxx);
- 	snd_soc_unregister_component(&client->dev);
- }
+-	flush_workqueue(cs35l56->dsp_wq);
+ 	destroy_workqueue(cs35l56->dsp_wq);
+ 
+ 	pm_runtime_dont_use_autosuspend(cs35l56->base.dev);
 -- 
 2.25.1
 
