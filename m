@@ -1,112 +1,121 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58A425A62C;
-	Wed, 12 Mar 2025 17:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4B7257458
+	for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 19:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741800161; cv=none; b=UhVcJdRJ+/jbWInMp15h2bqBXBjo6n5LDB970cVKDsCFCC5PUwyKTTtZMhkjSCZz/e6Man5rCcR02rNgvr7YDUDlP3ONImejG2XYVLfEnVNiszzGmU+xAv01H0cBaxejXNTt7J7B9fmBWVzSr5Yg3upwHXpiodw8m7+799dsgSs=
+	t=1741807657; cv=none; b=iDbTgEQsdRDpbgsKhIC21SO2+K5lHdw3gpCByRan2XcKoUC9r5bTlhCCYTztm92Q5j2Iomo94WaG4BB/0WQ0m4Xlb3Lz05nQOvyPyRxsRgHuRp5gPagf3BhaPBfIB0giBvF8OG19KzwtTrk+HOWd6GZyGa7wXoT+WHN4VLBRWTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741800161; c=relaxed/simple;
-	bh=6127ygvZXTME1do5wRRtO3kMhMiQO3FkuwzLKOs7VxI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FgjYkfpnpj01LbYN44Acrct8dvEOhnHjfqGGezl9571vsoTubI7WJXiofADlCIxPj3maKgLZL8ulFSUMLdOJc+ih85hqGN03PFolJsjMgPhsUU6IzS+JPQnwJ3RPPBcgvME/p3x+kyaiddVnYEXIk0Ek4r3EQFRSJEw0Rwtbi3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ACL9g4Zq; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1741807657; c=relaxed/simple;
+	bh=8J3A0ji22Y6h/FDPK1qt+T9Apzwb5fa5VQDP9nUjmp8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=to7bo3YpfV36wKoCN0R7Xh+Hhlmham2UzRTPZQqy2x/cZQQU4qQMWaSsSkVbbqI10xqV8dUXEzd82L2dogvcLe5SP40k/i2aHvdfvUlSvKLdFPwlYuxHvoJmR1rEa2qnASh54OHOBhpx91Z434s4hApJblMK/aNZQdcZXdnAxVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yF0Wr/YT; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ACL9g4Zq"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52C5qIHr028516;
-	Wed, 12 Mar 2025 12:22:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=0qla7TqeD7AP0VzkhQh1MZ4NW6vmChNeQKjzTjSN5wI=; b=
-	ACL9g4Zq0BJusHjl8UOPZHH6VAgyfmaaxdU4KqIMDDdAgzeliNsePJrnAtzWNSQt
-	+aesz4FU45VPgGhETW5i76skBQX6QmEYF+DiVaLA8uG6SwAjfU/tjoERdFz77qxE
-	D8plNtvN6dxT+gnqiw3trJMNOZEKl9KREmdkwOli/DgY1BqE2qfPQucla3fCyTQ9
-	uzxMUS6IQCilclzAdN8vduWqWtgH5syZvTcRpONINqj2AwgoOcVUHfkKO2mc401g
-	HwjffHiKmS07A3k6aJXij74s4Is6mC/RU/v/JL8SvTwwxpdv3Pn4IrY0iM0SPvKA
-	sKj8V7a4CMmsoTSXBGDWDg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 45au85tfdn-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Mar 2025 12:22:10 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 12 Mar
- 2025 17:22:05 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Wed, 12 Mar 2025 17:22:05 +0000
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 4A513822560;
-	Wed, 12 Mar 2025 17:22:05 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <pierre-louis.bossart@linux.dev>,
-        <yung-chuan.liao@linux.intel.com>, <peter.ujfalusi@linux.intel.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: [PATCH 5/6] ASoC: SDCA: Add SDCA Control Range data access helper
-Date: Wed, 12 Mar 2025 17:22:04 +0000
-Message-ID: <20250312172205.4152686-6-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250312172205.4152686-1-ckeepax@opensource.cirrus.com>
-References: <20250312172205.4152686-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yF0Wr/YT"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43935d1321aso181535e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 12:27:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741807652; x=1742412452; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9qNFJ58EulLJjjDnGlinq/XAWc4oXkkPOMl7PNRBj5M=;
+        b=yF0Wr/YTsmak84RRHrPibwn2poRCOulMcitW8LTSLzzP0jbZwAG30BLhPBd+H0iLh8
+         /3z56NyNlu3s//HR1k6oMpH6CTt4DF0AO7uL+PcF8R3BuQKZBGv39SFOHrUgbuRuqSWF
+         U38O1Tgh2Q2yjMZL2I/wvo3iyTYs5sq6z9FNXNA6gjkHa5dcaCq1lbCb+CdXMd5DnbT0
+         LQDC9BQQ//VZtEmYiWydsuwUrgThw+U2kkMBWLkKk+/SxOwiFoV3/Z7BdxPkFEU1vRYH
+         kRu2xT0Y4rFjvlh37EtoDG8pIPhL4+HI4b9eN+Dk0PhHyAAGM4VcUN5Z8/8IGb1i2Jg2
+         GGoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741807652; x=1742412452;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9qNFJ58EulLJjjDnGlinq/XAWc4oXkkPOMl7PNRBj5M=;
+        b=ex661PXaiP/bnDiM4KyW6CYDl3lvbaTGhkDeQP9gP9MMmE1wkJahph9Y7F81FWrx/Y
+         aIepPi2TnZKJpFPYTp/bKQRpaqk4+Vce0ErEaaiarPDoLwwqmTdhqluNgUkxLGleEvd7
+         s+Wrrx5derLqvx2PswMhDq0v7Trs7Osh1xHMmfrY4A7ek7PZkypqEHxHoyEJb2AA2s3L
+         DgIph1udOpvpWjjeacLv0UZkOpNURiG/c6Phjl8N5YcFqYCNBtSHWwGopWKPMjYP1R8A
+         jmghkqXdAFZXj+9wd0ekEe+niORjde3XYc+IxJ7rxaViOeCirtdS3qYjtS1GqmSTD7YC
+         jv5Q==
+X-Gm-Message-State: AOJu0Yx1ROx8cOw1+5JgqezW5IViVbplIWOSpIfeFGrkhs6ca6FY910e
+	yysJHbSk5bPqmaCIrW9rl2FMkRDO6j8Tq8LkG7XYexkcZXck4MNoSKqh1lPDBdw=
+X-Gm-Gg: ASbGncvwUR1jn1HthnZjRUqb7LBOK74snNRKdgI5mKY/AxiUboojUVbufP9J6T5f4C/
+	K2emwFvkskj+XJRgCVoFqqruNgxSIFBgNQ1KH/u9scvTT/Io4nNn57EfcnwFgpywWSw+oTv+6YD
+	Rly8PZCaZ4cKVYuAsyRGOhWp082gMdSOroOup45Vy1zdC0lM4/bljQJfQWBzM/TcutIvgw0+koE
+	M2h3aoO9fofqYZhx427lRVT+5Y1o7Boj4GXrlL6PpTcR+OathyWoPyupAJjt1rku1pV61CUGtGU
+	7+hgCwqVr1nBbWPvGiOtS4JB8urBRXRHJjz/6R8BSt4MNu1Lsd0MHjehTpk=
+X-Google-Smtp-Source: AGHT+IFc4gbHbMQDr8/rSMbHEP9yPiMBWXiG9ezpmI6xwNwZDE9d6F1rlpy758Gz8IvrBC2ZvFtPLw==
+X-Received: by 2002:a05:600c:b91:b0:439:9c0e:36e6 with SMTP id 5b1f17b1804b1-43d01c1fa4dmr37678165e9.3.1741807652636;
+        Wed, 12 Mar 2025 12:27:32 -0700 (PDT)
+Received: from [127.0.1.1] ([178.197.198.86])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d0a7903fbsm29331995e9.32.2025.03.12.12.27.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Mar 2025 12:27:32 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/2] ASoC: codecs: wsa88xx: Correct VI sense channel mask
+Date: Wed, 12 Mar 2025 20:24:58 +0100
+Message-Id: <20250312-asoc-wsa88xx-visense-v1-0-9ca705881122@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: I4pgDpYozK6LoXdN2NXB-_dU3ol17Ogp
-X-Proofpoint-GUID: I4pgDpYozK6LoXdN2NXB-_dU3ol17Ogp
-X-Authority-Analysis: v=2.4 cv=fv/cZE4f c=1 sm=1 tr=0 ts=67d1c2c2 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=Vs1iUdzkB0EA:10 a=w1d2syhTAAAA:8 a=-8eBNB2PD3_OK0XNUkQA:9
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIrf0WcC/x2MwQqAIBAFfyX23EIZRvQr0cHsVXuxcKEE6d+Tj
+ gMzk0kRBUpjlSniFpUzFGjrivzhwg6WtTCZxtimaw07PT0/6oYhJS4+goJh/ba63sIsnkp6RWy
+ S/u00v+8HiW9BMmYAAAA=
+X-Change-ID: 20250312-asoc-wsa88xx-visense-e5cfda65e2bc
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=716;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=8J3A0ji22Y6h/FDPK1qt+T9Apzwb5fa5VQDP9nUjmp8=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBn0eAdaFsakhYnGyr0q1TLAq6ZqOsdPYoG7LOWa
+ ZlIAIQyU4uJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ9HgHQAKCRDBN2bmhouD
+ 1y/6D/0UdCfnE6ub6lMVKwcmd6uyIO+GVsH8EH/FlIcPCiUsJItZyWD48h4T16L/+HJKqbktC1u
+ gjg5G0sACnZK8+pn47T6lOFBApvpjffw6b7u/d9oeiydL/Wc5D+wwObX7APc0Z46Yt5SD26MCm/
+ FYzaHmELKaR7wWbL637UnVsdtajjpSDbXROHdKdveGcT/YcR30zGTD8nBwaSbQoffevFhXcNXek
+ e312VtHcBeH8Y0QXuZypSStCp2YFchpvqZmGB/F7Y6kpdN95s8wOejhIZSGRTHgSsLLSW+4d4mw
+ 6jkMmdXyaFr1yPYHHcLa3d+iAGP4ME4jBLr7ZziygOO34RmJCY24pU4Kzfu5OixefL7Cl42Y+jY
+ ek/VfEu2BasnacQWC2irbPBht4pu4HuzbKiuTeiJwzwA7rSwWCaRXxfmZVnI3sl1/jFp0+PVmHI
+ dJ4YnY/EStueDh6brMs6rces6MMjwNhrmj3UwaQw3Ep51KthTlBAKmwPgJLLhrSaCw2GBrR+7Xt
+ WYJOilkcf0qxmsEskoKdl0TqNtO1QjoE3vr4kG0rGemZLlZgWR6Mrh33VD/gl71qR48016CYXhP
+ 6zJ1nbJ5SfuhEMJzoLPZvLy9CTYApHhqfRhJdsPXK7ICXehEy6zUyroO9rY+o7UjMWcJDY0vmaj
+ 3UCHKE5FI582lKQ==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-SDCA Ranges are two dimensional arrays of data associated with controls,
-add a helper to provide an x,y access mechanism to the data and a helper
-to locate a specific value inside a range.
+VI sense port on WSA883x and WSA884x speaker takes only one channel, so
+correct the mask.  At least this works during my tests on different
+devices with both speakers.  With original mask (0x3) I get
+noise/garbage.
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Best regards,
+Krzysztof
+
 ---
- include/sound/sdca_function.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Krzysztof Kozlowski (2):
+      ASoC: codecs: wsa883x: Correct VI sense channel mask
+      ASoC: codecs: wsa884x: Correct VI sense channel mask
 
-diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
-index ca0376903e87c..d7489e3c7e471 100644
---- a/include/sound/sdca_function.h
-+++ b/include/sound/sdca_function.h
-@@ -1136,6 +1136,25 @@ struct sdca_function_data {
- 	unsigned int busy_max_delay;
- };
- 
-+static inline u32 sdca_range(struct sdca_control_range *range,
-+			     unsigned int col, unsigned int row)
-+{
-+	return range->data[(row * range->cols) + col];
-+}
-+
-+static inline u32 sdca_range_search(struct sdca_control_range *range,
-+				    int search_col, int value, int result_col)
-+{
-+	int i;
-+
-+	for (i = 0; i < range->rows; i++) {
-+		if (sdca_range(range, search_col, i) == value)
-+			return sdca_range(range, result_col, i);
-+	}
-+
-+	return 0;
-+}
-+
- int sdca_parse_function(struct device *dev,
- 			struct sdca_function_desc *desc,
- 			struct sdca_function_data *function);
+ sound/soc/codecs/wsa883x.c | 2 +-
+ sound/soc/codecs/wsa884x.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+---
+base-commit: eea255893718268e1ab852fb52f70c613d109b99
+change-id: 20250312-asoc-wsa88xx-visense-e5cfda65e2bc
+
+Best regards,
 -- 
-2.39.5
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
