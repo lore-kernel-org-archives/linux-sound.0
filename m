@@ -1,38 +1,38 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1E725A2B3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD11C2528E3;
 	Wed, 12 Mar 2025 17:22:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741800158; cv=none; b=Ze8SwHhz5dNqSHz8ARBZ4zI9mpTdaekLLfzHSeM5+A9dKgXUwRXI2tYJVjB2YGC9orUP4C9mEGuAPlvb8CpErftMIYPkwq2QmCKukFGGb6ylrdgx62t+P+YNz6ofYh+Bop62p/BWseXOWYx3tmwkb3od8LIRAoS+Mev6VwLR/wI=
+	t=1741800159; cv=none; b=Ao7g9fMAmTPzMh7aNhN+VpHeCFBdYkzHA0UAeBysJ292Grm6HHiHvtOG8XXXyIlSfEJ2A49kl/rnHsUxbFpKBcncyoDi3wnL1swswue2TdpdnhvLDfVm1S8tpbtSjDObc6nKGc1t896S6skvhQe1U0PTLY2/VNDnkw7Q5Dogqic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741800158; c=relaxed/simple;
-	bh=1jv5CvsISS6VubHiNYfPXEiQCOjE2PTh28+yZ7KKLUg=;
+	s=arc-20240116; t=1741800159; c=relaxed/simple;
+	bh=DEBA1DqrD4xhubtAmUSqhvmj3w7ocGcaKJuhEmxFgGk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uZC5Csu4iSSEvMSaB0RQy7t4dY4eC+N1kWO0FQminFz1487g9nZAYmL1B1b/FEu56iYiNrNOnJ4mr0fOTFMWXLZaHtxh2FJExgaiVRDtSW0pEcdNHhMsN3WprgpVjNvmrHdDkn0NJ0C762UHH9uLlp6C0QPlIjY+NmefOCUGGuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=cCu45HK3; arc=none smtp.client-ip=67.231.152.168
+	 MIME-Version:Content-Type; b=kUqrbR1ret0mEx+AdWQJA8V0l7gYpRZD6/6o/q16LR+1HhX2uRPMCc6VfrD1sEjBj53x9W/S9UOIflG93mwZLtTVgLXWuC5gHkXyjbpxMN8hVsREFqYaB5NUk22Ji/SaUSj1pQqN0JtxKj4XI+hcJ8w7BI+IpUhHX7IxLLfjeRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=WHPe6Asv; arc=none smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="cCu45HK3"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="WHPe6Asv"
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52C6FZHP029588;
-	Wed, 12 Mar 2025 12:22:09 -0500
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52C6FZHN029588;
+	Wed, 12 Mar 2025 12:22:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=k9x6Xsf+Pxlzu/Z2hlNLxQlPcOLync0Kzy/PrS741+M=; b=
-	cCu45HK398eJjeAReqqjS5sAjydcphqUle7KfcrEVIx97wuz2mBLs04DmPGjrAcs
-	wciW9JG833hsSnMMYSE8BY1abGnUz3ZdLnYca66d5guOpLznMHzhcYLMHKAvVyXP
-	u8XzqSeM+2eEfi7s/5id2jGWxbopi+m2wrzOHKLsTXU6EXNvkrn4bM46+3RLU+3D
-	K0VTNrMCfqTQGOqjzvgxsYF9CibZ0pkXVlvCWz3BEVHgG4WA+JCG7ei4zD61C8rG
-	mazrpfQ+nF5LqgcbGIsKfliumnsfWZ1If+9OVeG59R0KGi+bvAt0Vsby5LRln14e
-	KQ6/DLLsXr2C0j6Ny2zssQ==
+	PODMain02222019; bh=FCKe6FOW3iK/t8TOPcHhf3i7jr5ixSZpsHGCm7R+a6U=; b=
+	WHPe6AsvCSjoCZvXBRE+tTf1x1pxkPT21uxkPi+ROjj2G9zpycCOdRYZheHlpjoq
+	zGh5K9SVlq3OgLl8ncKB3zdpWiVY3POWL2GKwa8r1dQpXwGuh1Ofdd6vrTIYiTiC
+	FL0DehctuGN5dTQzIT3BuLJbSLmcwOfy+qj6MRN/B/NyTVz1kGrERErBEBW419GC
+	T352WCZQWj+gM4tiZrhkyvla6fIugp0Ty5s0vj5zhyDgDmwJL6rvIn2ym8X9mwVq
+	XUGS5++uFRamOtH1Bbjqx9cYyozMMI+JH+2mHFpwyPQlOcvyben84WWnCYivW3cU
+	rzSQ7qEumm5AB2dfCXcx3A==
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 45au85tfdp-3
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 45au85tfdp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Mar 2025 12:22:08 -0500 (CDT)
+	Wed, 12 Mar 2025 12:22:06 -0500 (CDT)
 Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 12 Mar
@@ -41,7 +41,7 @@ Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
  anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
  15.2.1544.14 via Frontend Transport; Wed, 12 Mar 2025 17:22:05 +0000
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 58FFB822561;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 462D982255F;
 	Wed, 12 Mar 2025 17:22:05 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
@@ -49,9 +49,9 @@ CC: <lgirdwood@gmail.com>, <pierre-louis.bossart@linux.dev>,
         <yung-chuan.liao@linux.intel.com>, <peter.ujfalusi@linux.intel.com>,
         <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <patches@opensource.cirrus.com>
-Subject: [PATCH 6/6] ASoC: SDCA: Add support for GE Entity properties
-Date: Wed, 12 Mar 2025 17:22:05 +0000
-Message-ID: <20250312172205.4152686-7-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 4/6] ASoC: SDCA: Add type flag for Controls
+Date: Wed, 12 Mar 2025 17:22:03 +0000
+Message-ID: <20250312172205.4152686-5-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250312172205.4152686-1-ckeepax@opensource.cirrus.com>
 References: <20250312172205.4152686-1-ckeepax@opensource.cirrus.com>
@@ -63,273 +63,260 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: tvaR9cD-wxFiSL18ngUDqnET8YLwUkrh
-X-Proofpoint-GUID: tvaR9cD-wxFiSL18ngUDqnET8YLwUkrh
-X-Authority-Analysis: v=2.4 cv=fv/cZE4f c=1 sm=1 tr=0 ts=67d1c2c0 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=Vs1iUdzkB0EA:10 a=w1d2syhTAAAA:8 a=MldGFf8XINzs0YfW2RIA:9
+X-Proofpoint-ORIG-GUID: Ao7UG8gO6BhxEMSS2QpAcOphT7nhxK2G
+X-Proofpoint-GUID: Ao7UG8gO6BhxEMSS2QpAcOphT7nhxK2G
+X-Authority-Analysis: v=2.4 cv=fv/cZE4f c=1 sm=1 tr=0 ts=67d1c2be cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=Vs1iUdzkB0EA:10 a=w1d2syhTAAAA:8 a=yK4xkOhfw2pVJqvsVIwA:9
 X-Proofpoint-Spam-Reason: safe
 
-Add support for parsing the Group Entity properties from DisCo/ACPI.
-Group Entities allow control of several other Entities, typically
-Selector Units, from a single control.
+SDCA Controls come in a variety of data formats, to simplify later
+parsing work out this data type as the control is parsed and stash it
+for later use.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- include/sound/sdca_function.h   |  48 ++++++++++++
- sound/soc/sdca/sdca_functions.c | 129 ++++++++++++++++++++++++++++++++
- 2 files changed, 177 insertions(+)
+ include/sound/sdca_function.h   |  23 +++++
+ sound/soc/sdca/sdca_functions.c | 173 ++++++++++++++++++++++++++++++++
+ 2 files changed, 196 insertions(+)
 
 diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
-index d7489e3c7e471..253654568a41e 100644
+index f001ab643fed4..ca0376903e87c 100644
 --- a/include/sound/sdca_function.h
 +++ b/include/sound/sdca_function.h
-@@ -44,6 +44,11 @@ struct sdca_function_desc;
-  */
- #define SDCA_MAX_DELAY_COUNT 256
- 
-+/*
-+ * Sanity check on size of affected controls data, can be expanded if needed.
-+ */
-+#define SDCA_MAX_AFFECTED_COUNT 2048
-+
- /**
-  * enum sdca_function_type - SDCA Function Type codes
-  * @SDCA_FUNCTION_TYPE_SMART_AMP: Amplifier with protection features.
-@@ -927,11 +932,51 @@ enum sdca_entity_type {
- 	SDCA_ENTITY_TYPE_HIDE				= 0x31,
- };
+@@ -600,6 +600,27 @@ enum sdca_entity0_controls {
+ #define SDCA_CTL_DEVICE_VERSION_NAME			"Device Version"
+ #define SDCA_CTL_DEVICE_SDCA_VERSION_NAME		"Device SDCA Version"
  
 +/**
-+ * struct sdca_ge_control - control entry in the affected controls list
-+ * @id: Entity ID of the Control affected.
-+ * @sel: Control Selector of the Control affected.
-+ * @cn: Control Number of the Control affected.
-+ * @val: Value written to Control for this Mode.
++ * enum sdca_control_datatype - SDCA Control Data Types
++ *
++ * Data Types as described in the SDCA specification v1.0 section
++ * 7.3.
 + */
-+struct sdca_ge_control {
-+	int id;
-+	int sel;
-+	int cn;
-+	int val;
-+};
-+
-+/**
-+ * struct sdca_ge_mode - mode entry in the affected controls list
-+ * @controls: Dynamically allocated array of controls written for this Mode.
-+ * @num_controls: Number of controls written in this Mode.
-+ * @val: GE Selector Mode value.
-+ */
-+struct sdca_ge_mode {
-+	struct sdca_ge_control *controls;
-+	int num_controls;
-+	int val;
-+};
-+
-+/**
-+ * struct sdca_entity_ge - information specific to Group Entities
-+ * @kctl: ALSA control pointer that can be used by linked Entities.
-+ * @modes: Dynamically allocated array of Modes and the Controls written
-+ * in each mode.
-+ * @num_modes: Number of Modes.
-+ */
-+struct sdca_entity_ge {
-+	struct snd_kcontrol_new *kctl;
-+	struct sdca_ge_mode *modes;
-+	int num_modes;
++enum sdca_control_datatype {
++	SDCA_CTL_DATATYPE_ONEBIT,
++	SDCA_CTL_DATATYPE_INTEGER,
++	SDCA_CTL_DATATYPE_SPEC_ENCODED_VALUE,
++	SDCA_CTL_DATATYPE_BCD,
++	SDCA_CTL_DATATYPE_Q7P8DB,
++	SDCA_CTL_DATATYPE_BYTEINDEX,
++	SDCA_CTL_DATATYPE_POSTURENUMBER,
++	SDCA_CTL_DATATYPE_DP_INDEX,
++	SDCA_CTL_DATATYPE_BITINDEX,
++	SDCA_CTL_DATATYPE_BITMAP,
++	SDCA_CTL_DATATYPE_GUID,
++	SDCA_CTL_DATATYPE_IMPDEF,
 +};
 +
  /**
-  * struct sdca_entity - information for one SDCA Entity
-  * @label: String such as "OT 12".
-  * @id: Identifier used for addressing.
-  * @type: Type code for the Entity.
-+ * @group: Pointer to Group Entity controlling this one, NULL if N/A.
-  * @sources: Dynamically allocated array pointing to each input Entity
-  * connected to this Entity.
-  * @controls: Dynamically allocated array of Controls.
-@@ -940,12 +985,14 @@ enum sdca_entity_type {
-  * @iot: Input/Output Terminal specific Entity properties.
-  * @cs: Clock Source specific Entity properties.
-  * @pde: Power Domain Entity specific Entity properties.
-+ * @ge: Group Entity specific Entity properties.
-  */
- struct sdca_entity {
- 	const char *label;
- 	int id;
- 	enum sdca_entity_type type;
+  * enum sdca_access_mode - SDCA Control access mode
+  *
+@@ -653,6 +674,7 @@ struct sdca_control_range {
+  * @cn_list: A bitmask showing the valid Control Numbers within this Control,
+  * Control Numbers typically represent channels.
+  * @range: Buffer describing valid range of values for the Control.
++ * @type: Format of the data in the Control.
+  * @mode: Access mode of the Control.
+  * @layers: Bitmask of access layers of the Control.
+  * @deferrable: Indicates if the access to the Control can be deferred.
+@@ -669,6 +691,7 @@ struct sdca_control {
+ 	u64 cn_list;
  
-+	struct sdca_entity *group;
- 	struct sdca_entity **sources;
- 	struct sdca_control *controls;
- 	int num_sources;
-@@ -954,6 +1001,7 @@ struct sdca_entity {
- 		struct sdca_entity_iot iot;
- 		struct sdca_entity_cs cs;
- 		struct sdca_entity_pde pde;
-+		struct sdca_entity_ge ge;
- 	};
- };
+ 	struct sdca_control_range range;
++	enum sdca_control_datatype type;
+ 	enum sdca_access_mode mode;
+ 	u8 layers;
  
 diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index 0cc25fb9679b4..c8efdc5301b53 100644
+index 1e36dd20d7abf..0cc25fb9679b4 100644
 --- a/sound/soc/sdca/sdca_functions.c
 +++ b/sound/soc/sdca/sdca_functions.c
-@@ -1136,6 +1136,92 @@ static int find_sdca_entity_pde(struct device *dev,
- 	return 0;
- }
- 
-+struct raw_ge_mode {
-+	u8 val;
-+	u8 num_controls;
-+	struct {
-+		u8 id;
-+		u8 sel;
-+		u8 cn;
-+		__le32 val;
-+	} __packed controls[] __counted_by(num_controls);
-+} __packed;
-+
-+static int find_sdca_entity_ge(struct device *dev,
-+			       struct fwnode_handle *entity_node,
-+			       struct sdca_entity *entity)
-+{
-+	struct sdca_entity_ge *group = &entity->ge;
-+	u8 *affected_list __free(kfree) = NULL;
-+	u8 *affected_iter;
-+	int num_affected;
-+	int i, j;
-+
-+	num_affected = fwnode_property_count_u8(entity_node,
-+						"mipi-sdca-ge-selectedmode-controls-affected");
-+	if (!num_affected || num_affected == -EINVAL) {
-+		return 0;
-+	} else if (num_affected < 0) {
-+		dev_err(dev, "%s: failed to read affected controls: %d\n",
-+			entity->label, num_affected);
-+		return num_affected;
-+	} else if (num_affected > SDCA_MAX_AFFECTED_COUNT) {
-+		dev_err(dev, "%s: maximum affected controls size exceeded\n",
-+			entity->label);
-+		return -EINVAL;
-+	}
-+
-+	affected_list = kcalloc(num_affected, sizeof(*affected_list), GFP_KERNEL);
-+	if (!affected_list)
-+		return -ENOMEM;
-+
-+	fwnode_property_read_u8_array(entity_node,
-+				      "mipi-sdca-ge-selectedmode-controls-affected",
-+				      affected_list, num_affected);
-+
-+	group->num_modes = *affected_list;
-+	affected_iter = affected_list + 1;
-+
-+	group->modes = devm_kcalloc(dev, group->num_modes, sizeof(*group->modes),
-+				    GFP_KERNEL);
-+	if (!group->modes)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < group->num_modes; i++) {
-+		struct raw_ge_mode *raw = (struct raw_ge_mode *)affected_iter;
-+		struct sdca_ge_mode *mode = &group->modes[i];
-+
-+		affected_iter += sizeof(*raw);
-+		if (affected_iter > affected_list + num_affected)
-+			goto bad_list;
-+
-+		mode->val = raw->val;
-+		mode->num_controls = raw->num_controls;
-+
-+		affected_iter += mode->num_controls * sizeof(raw->controls[0]);
-+		if (affected_iter > affected_list + num_affected)
-+			goto bad_list;
-+
-+		mode->controls = devm_kcalloc(dev, mode->num_controls,
-+					      sizeof(*mode->controls), GFP_KERNEL);
-+		if (!mode->controls)
-+			return -ENOMEM;
-+
-+		for (j = 0; j < mode->num_controls; j++) {
-+			mode->controls[j].id = raw->controls[j].id;
-+			mode->controls[j].sel = raw->controls[j].sel;
-+			mode->controls[j].cn = raw->controls[j].cn;
-+			mode->controls[j].val = le32_to_cpu(raw->controls[j].val);
-+		}
-+	}
-+
-+	return 0;
-+
-+bad_list:
-+	dev_err(dev, "%s: malformed affected controls list\n", entity->label);
-+	return -EINVAL;
-+}
-+
- static int find_sdca_entity(struct device *dev,
- 			    struct fwnode_handle *function_node,
- 			    struct fwnode_handle *entity_node,
-@@ -1174,6 +1260,9 @@ static int find_sdca_entity(struct device *dev,
- 	case SDCA_ENTITY_TYPE_PDE:
- 		ret = find_sdca_entity_pde(dev, entity_node, entity);
- 		break;
-+	case SDCA_ENTITY_TYPE_GE:
-+		ret = find_sdca_entity_ge(dev, entity_node, entity);
-+		break;
- 	default:
- 		break;
+@@ -603,6 +603,178 @@ static unsigned int find_sdca_control_bits(const struct sdca_entity *entity,
  	}
-@@ -1384,6 +1473,42 @@ static int find_sdca_entity_connection_pde(struct device *dev,
- 	return 0;
  }
  
-+static int find_sdca_entity_connection_ge(struct device *dev,
-+					  struct sdca_function_data *function,
-+					  struct fwnode_handle *entity_node,
-+					  struct sdca_entity *entity)
++static enum sdca_control_datatype
++find_sdca_control_datatype(const struct sdca_entity *entity,
++			   const struct sdca_control *control)
 +{
-+	int i, j;
-+
-+	for (i = 0; i < entity->ge.num_modes; i++) {
-+		struct sdca_ge_mode *mode = &entity->ge.modes[i];
-+
-+		for (j = 0; j < mode->num_controls; j++) {
-+			struct sdca_ge_control *affected = &mode->controls[j];
-+			struct sdca_entity *managed;
-+
-+			managed = find_sdca_entity_by_id(function, affected->id);
-+			if (!managed) {
-+				dev_err(dev, "%s: failed to find entity with id %#x\n",
-+					entity->label, affected->id);
-+				return -EINVAL;
-+			}
-+
-+			if (managed->group && managed->group != entity) {
-+				dev_err(dev,
-+					"%s: entity controlled by two groups %s, %s\n",
-+					managed->label, managed->group->label,
-+					entity->label);
-+				return -EINVAL;
-+			}
-+
-+			managed->group = entity;
-+		}
++	switch (SDCA_CTL_TYPE(entity->type, control->sel)) {
++	case SDCA_CTL_TYPE_S(XU, BYPASS):
++	case SDCA_CTL_TYPE_S(MFPU, BYPASS):
++	case SDCA_CTL_TYPE_S(FU, MUTE):
++	case SDCA_CTL_TYPE_S(FU, AGC):
++	case SDCA_CTL_TYPE_S(FU, BASS_BOOST):
++	case SDCA_CTL_TYPE_S(FU, LOUDNESS):
++		return SDCA_CTL_DATATYPE_ONEBIT;
++	case SDCA_CTL_TYPE_S(IT, LATENCY):
++	case SDCA_CTL_TYPE_S(OT, LATENCY):
++	case SDCA_CTL_TYPE_S(MU, LATENCY):
++	case SDCA_CTL_TYPE_S(SU, LATENCY):
++	case SDCA_CTL_TYPE_S(FU, LATENCY):
++	case SDCA_CTL_TYPE_S(XU, LATENCY):
++	case SDCA_CTL_TYPE_S(CRU, LATENCY):
++	case SDCA_CTL_TYPE_S(UDMPU, LATENCY):
++	case SDCA_CTL_TYPE_S(MFPU, LATENCY):
++	case SDCA_CTL_TYPE_S(SMPU, LATENCY):
++	case SDCA_CTL_TYPE_S(SAPU, LATENCY):
++	case SDCA_CTL_TYPE_S(PPU, LATENCY):
++	case SDCA_CTL_TYPE_S(SU, SELECTOR):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_0):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_1):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_2):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_3):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_4):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_5):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_6):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_7):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_8):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_9):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_10):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_11):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_12):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_13):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_14):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_15):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_16):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_17):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_18):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_19):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_20):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_21):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_22):
++	case SDCA_CTL_TYPE_S(UDMPU, OPAQUESET_23):
++	case SDCA_CTL_TYPE_S(SAPU, PROTECTION_MODE):
++	case SDCA_CTL_TYPE_S(SMPU, HIST_BUFFER_PREAMBLE):
++	case SDCA_CTL_TYPE_S(XU, FDL_HOST_REQUEST):
++	case SDCA_CTL_TYPE_S(XU, XU_ID):
++	case SDCA_CTL_TYPE_S(CX, CLOCK_SELECT):
++	case SDCA_CTL_TYPE_S(TG, TONE_DIVIDER):
++	case SDCA_CTL_TYPE_S(ENTITY_0, FUNCTION_MANUFACTURER_ID):
++	case SDCA_CTL_TYPE_S(ENTITY_0, FUNCTION_ID):
++	case SDCA_CTL_TYPE_S(ENTITY_0, FUNCTION_EXTENSION_ID):
++	case SDCA_CTL_TYPE_S(ENTITY_0, DEVICE_MANUFACTURER_ID):
++	case SDCA_CTL_TYPE_S(ENTITY_0, DEVICE_PART_ID):
++	case SDCA_CTL_TYPE_S(XU, FDL_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(XU, FDL_MESSAGELENGTH):
++	case SDCA_CTL_TYPE_S(SPE, AUTHTX_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(SPE, AUTHTX_MESSAGELENGTH):
++	case SDCA_CTL_TYPE_S(SPE, AUTHRX_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(SPE, AUTHRX_MESSAGELENGTH):
++	case SDCA_CTL_TYPE_S(MFPU, AE_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(MFPU, AE_MESSAGELENGTH):
++	case SDCA_CTL_TYPE_S(SMPU, HIST_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(SMPU, HIST_MESSAGELENGTH):
++	case SDCA_CTL_TYPE_S(SMPU, DTODTX_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(SMPU, DTODTX_MESSAGELENGTH):
++	case SDCA_CTL_TYPE_S(SMPU, DTODRX_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(SMPU, DTODRX_MESSAGELENGTH):
++	case SDCA_CTL_TYPE_S(SAPU, DTODTX_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(SAPU, DTODTX_MESSAGELENGTH):
++	case SDCA_CTL_TYPE_S(SAPU, DTODRX_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(SAPU, DTODRX_MESSAGELENGTH):
++	case SDCA_CTL_TYPE_S(HIDE, HIDTX_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(HIDE, HIDTX_MESSAGELENGTH):
++	case SDCA_CTL_TYPE_S(HIDE, HIDRX_MESSAGEOFFSET):
++	case SDCA_CTL_TYPE_S(HIDE, HIDRX_MESSAGELENGTH):
++		return SDCA_CTL_DATATYPE_INTEGER;
++	case SDCA_CTL_TYPE_S(IT, MIC_BIAS):
++	case SDCA_CTL_TYPE_S(SMPU, HIST_BUFFER_MODE):
++	case SDCA_CTL_TYPE_S(PDE, REQUESTED_PS):
++	case SDCA_CTL_TYPE_S(PDE, ACTUAL_PS):
++	case SDCA_CTL_TYPE_S(ENTITY_0, FUNCTION_TYPE):
++		return SDCA_CTL_DATATYPE_SPEC_ENCODED_VALUE;
++	case SDCA_CTL_TYPE_S(XU, XU_VERSION):
++	case SDCA_CTL_TYPE_S(ENTITY_0, FUNCTION_SDCA_VERSION):
++	case SDCA_CTL_TYPE_S(ENTITY_0, FUNCTION_VERSION):
++	case SDCA_CTL_TYPE_S(ENTITY_0, FUNCTION_EXTENSION_VERSION):
++	case SDCA_CTL_TYPE_S(ENTITY_0, DEVICE_VERSION):
++	case SDCA_CTL_TYPE_S(ENTITY_0, DEVICE_SDCA_VERSION):
++		return SDCA_CTL_DATATYPE_BCD;
++	case SDCA_CTL_TYPE_S(FU, CHANNEL_VOLUME):
++	case SDCA_CTL_TYPE_S(FU, GAIN):
++	case SDCA_CTL_TYPE_S(MU, MIXER):
++	case SDCA_CTL_TYPE_S(PPU, HORIZONTALBALANCE):
++	case SDCA_CTL_TYPE_S(PPU, VERTICALBALANCE):
++	case SDCA_CTL_TYPE_S(MFPU, ULTRASOUND_LEVEL):
++	case SDCA_CTL_TYPE_S(UDMPU, ACOUSTIC_ENERGY_LEVEL_MONITOR):
++	case SDCA_CTL_TYPE_S(UDMPU, ULTRASOUND_LOOP_GAIN):
++		return SDCA_CTL_DATATYPE_Q7P8DB;
++	case SDCA_CTL_TYPE_S(IT, USAGE):
++	case SDCA_CTL_TYPE_S(OT, USAGE):
++	case SDCA_CTL_TYPE_S(IT, CLUSTERINDEX):
++	case SDCA_CTL_TYPE_S(CRU, CLUSTERINDEX):
++	case SDCA_CTL_TYPE_S(UDMPU, CLUSTERINDEX):
++	case SDCA_CTL_TYPE_S(MFPU, CLUSTERINDEX):
++	case SDCA_CTL_TYPE_S(MFPU, CENTER_FREQUENCY_INDEX):
++	case SDCA_CTL_TYPE_S(MFPU, AE_NUMBER):
++	case SDCA_CTL_TYPE_S(SAPU, OPAQUESETREQ_INDEX):
++	case SDCA_CTL_TYPE_S(XU, FDL_SET_INDEX):
++	case SDCA_CTL_TYPE_S(CS, SAMPLERATEINDEX):
++	case SDCA_CTL_TYPE_S(GE, SELECTED_MODE):
++	case SDCA_CTL_TYPE_S(GE, DETECTED_MODE):
++		return SDCA_CTL_DATATYPE_BYTEINDEX;
++	case SDCA_CTL_TYPE_S(PPU, POSTURENUMBER):
++		return SDCA_CTL_DATATYPE_POSTURENUMBER;
++	case SDCA_CTL_TYPE_S(IT, DATAPORT_SELECTOR):
++	case SDCA_CTL_TYPE_S(OT, DATAPORT_SELECTOR):
++		return SDCA_CTL_DATATYPE_DP_INDEX;
++	case SDCA_CTL_TYPE_S(MFPU, ALGORITHM_READY):
++	case SDCA_CTL_TYPE_S(MFPU, ALGORITHM_ENABLE):
++	case SDCA_CTL_TYPE_S(MFPU, ALGORITHM_PREPARE):
++	case SDCA_CTL_TYPE_S(SAPU, PROTECTION_STATUS):
++	case SDCA_CTL_TYPE_S(SMPU, TRIGGER_ENABLE):
++	case SDCA_CTL_TYPE_S(SMPU, TRIGGER_STATUS):
++	case SDCA_CTL_TYPE_S(SMPU, TRIGGER_READY):
++	case SDCA_CTL_TYPE_S(SPE, PRIVACY_POLICY):
++	case SDCA_CTL_TYPE_S(SPE, PRIVACY_OWNER):
++		return SDCA_CTL_DATATYPE_BITINDEX;
++	case SDCA_CTL_TYPE_S(IT, KEEP_ALIVE):
++	case SDCA_CTL_TYPE_S(OT, KEEP_ALIVE):
++	case SDCA_CTL_TYPE_S(IT, NDAI_STREAM):
++	case SDCA_CTL_TYPE_S(OT, NDAI_STREAM):
++	case SDCA_CTL_TYPE_S(IT, NDAI_CATEGORY):
++	case SDCA_CTL_TYPE_S(OT, NDAI_CATEGORY):
++	case SDCA_CTL_TYPE_S(IT, NDAI_CODINGTYPE):
++	case SDCA_CTL_TYPE_S(OT, NDAI_CODINGTYPE):
++	case SDCA_CTL_TYPE_S(IT, NDAI_PACKETTYPE):
++	case SDCA_CTL_TYPE_S(OT, NDAI_PACKETTYPE):
++	case SDCA_CTL_TYPE_S(SMPU, HIST_ERROR):
++	case SDCA_CTL_TYPE_S(XU, FDL_STATUS):
++	case SDCA_CTL_TYPE_S(CS, CLOCK_VALID):
++	case SDCA_CTL_TYPE_S(SPE, PRIVACY_LOCKSTATE):
++	case SDCA_CTL_TYPE_S(ENTITY_0, COMMIT_GROUP_MASK):
++	case SDCA_CTL_TYPE_S(ENTITY_0, FUNCTION_STATUS):
++	case SDCA_CTL_TYPE_S(ENTITY_0, FUNCTION_ACTION):
++	case SDCA_CTL_TYPE_S(XU, FDL_CURRENTOWNER):
++	case SDCA_CTL_TYPE_S(SPE, AUTHTX_CURRENTOWNER):
++	case SDCA_CTL_TYPE_S(SPE, AUTHRX_CURRENTOWNER):
++	case SDCA_CTL_TYPE_S(MFPU, AE_CURRENTOWNER):
++	case SDCA_CTL_TYPE_S(SMPU, HIST_CURRENTOWNER):
++	case SDCA_CTL_TYPE_S(SMPU, DTODTX_CURRENTOWNER):
++	case SDCA_CTL_TYPE_S(SMPU, DTODRX_CURRENTOWNER):
++	case SDCA_CTL_TYPE_S(SAPU, DTODTX_CURRENTOWNER):
++	case SDCA_CTL_TYPE_S(SAPU, DTODRX_CURRENTOWNER):
++	case SDCA_CTL_TYPE_S(HIDE, HIDTX_CURRENTOWNER):
++	case SDCA_CTL_TYPE_S(HIDE, HIDRX_CURRENTOWNER):
++		return SDCA_CTL_DATATYPE_BITMAP;
++	case SDCA_CTL_TYPE_S(IT, MATCHING_GUID):
++	case SDCA_CTL_TYPE_S(OT, MATCHING_GUID):
++	case SDCA_CTL_TYPE_S(ENTITY_0, MATCHING_GUID):
++		return SDCA_CTL_DATATYPE_GUID;
++	default:
++		return SDCA_CTL_DATATYPE_IMPDEF;
 +	}
-+
-+	return 0;
 +}
 +
- static int find_sdca_entity_connection(struct device *dev,
- 				       struct sdca_function_data *function,
- 				       struct fwnode_handle *entity_node,
-@@ -1404,6 +1529,10 @@ static int find_sdca_entity_connection(struct device *dev,
- 		ret = find_sdca_entity_connection_pde(dev, function,
- 						      entity_node, entity);
- 		break;
-+	case SDCA_ENTITY_TYPE_GE:
-+		ret = find_sdca_entity_connection_ge(dev, function,
-+						     entity_node, entity);
-+		break;
- 	default:
- 		ret = 0;
- 		break;
+ static int find_sdca_control_range(struct device *dev,
+ 				   struct fwnode_handle *control_node,
+ 				   struct sdca_control_range *range)
+@@ -744,6 +916,7 @@ static int find_sdca_entity_control(struct device *dev, struct sdca_entity *enti
+ 	if (!control->label)
+ 		return -ENOMEM;
+ 
++	control->type = find_sdca_control_datatype(entity, control);
+ 	control->nbits = find_sdca_control_bits(entity, control);
+ 
+ 	dev_info(dev, "%s: %s: control %#x mode %#x layers %#x cn %#llx int %d value %#x %s\n",
 -- 
 2.39.5
 
