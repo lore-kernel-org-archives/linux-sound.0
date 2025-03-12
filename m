@@ -1,161 +1,153 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F36C23278D
-	for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 08:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881EE236420;
+	Wed, 12 Mar 2025 08:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741768369; cv=none; b=ZtSVJSNjDbBTRaoMISGk4dFSzRwwHfmXe2TsSe/k8vGGQ6M40WYhnr28VtBMtKA4q+gU3vUa67ccwOL4pdtG/LovWvCx16K8+cnnWN3X4PVRNFvY8PxDspC+BG4Un3vZEjUlpBxOGrDAiuNl/0h4RnmeMU6oPeas5+VM/FKr5wE=
+	t=1741768809; cv=none; b=ADLtbJIbyZL8FwjEMDyqxSI+aHVrO+mFgXzt4Uk+thvaWq4zGwwMVcgTDlUDysPZdxXO4ZQMOPf86oqhLBUAaAUeQRyqurDqibnar6vJXdQcDTDL/7sgzzM/4r2mKGAp8ryoeTBr4sGMQ8KyptjIuBLXruyv5+n609g4cqFWHbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741768369; c=relaxed/simple;
-	bh=P1bJsi7rmmkeirEqSQYfr92f6q+h9LPLEzrD9H97WUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cUs7EXs9OMfpjq7nak6Vux8ssQ3BhRRlmdmrb1TpTaFcKmxR2VAJObWw6yVg9z7y8f5WyKxFIn1mf9ATFZJf1SUNQt92j8fKphnstqrf4AVXSU47TuGOGOmUeVLmAiVcpTG08wU+WexFcAcr3SMBJI6UBn0+b9QQ4qoPlqYC2ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S04Y1mZf; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741768809; c=relaxed/simple;
+	bh=vjrLKZqFmOgUUOhvEPy7JGLdtin8amu+im5/QhAzgfo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=orMWZftNCfXJq76h1TvIIjyYW1YZIGOyglMIs3fOT2hszuBgTYXOQBgmmsFSyffUR63lJ5ccyrnMUkRVxhKtqE3TE1Zw72APiIg1DUVMv0pIEnOqPvtjP6uAXrw10E5YaKYqXfdLBrisJ0jhOI/h8upOOxC1ZnA8u3cPHT/scnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gJ7+TiBO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S04Y1mZf"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfb6e9031so32320535e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 12 Mar 2025 01:32:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741768366; x=1742373166; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=N6FbGiB8NZGHWYUZ4PyF2aOowTT1UMyFjGU8j+cWXMc=;
-        b=S04Y1mZfQdiO4rPl7Hu/KQqiJSOoDsM5mjv4vP5xtHT//nvRjuGEp4L2S7jBmS1X6a
-         zm8Ka2hfjqTN6FB45SA/0C7P6bLGSmeGFdmMe5/mLiXx+y9D7UiHv3y9+i+hR6/DLiEY
-         pPHTbA9LRS5ZnWNlQqN0vrcKL2tswzkaDlCq6pB/NOQCj2i7Fa882sk0qSCyAbbYMUft
-         LdQ1ni3eGlhxqyrkJk8K7qtl4TuEOhqXwB77wQ0bJYAGpkcuEOoAaGuI8FWjwbmYjrSh
-         VPyrsNSIA0ZKa9oEA57lyw0M0o+XHB8ASIg19INsdL6nEZUXMWED/YH/yPcp6NkInxE1
-         0DbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741768366; x=1742373166;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N6FbGiB8NZGHWYUZ4PyF2aOowTT1UMyFjGU8j+cWXMc=;
-        b=oacVC6Onx8bDjQAObM5pywiIjAhBX2ETHqVUr6IgWfOSS+pLASrmomXW4UANdn++Vp
-         CIpbmQxsArdXteqq3rTSSPfLMTHxKQclS+D4yV3ehQYrrE2uGh8+DjEDC1bosmzd9MFy
-         Y1pno4E1LIFjom9ZyuyKqoEiQgA3WsJhkyfZCmunxVucjdZvehX6XaJo5cGTBvU90D6q
-         1zZMFTS85QsgbXccsZpc2Bs9Vg/zWlGGYKcOQbDBDZ2PbXji3yMpMMPAEt3LNTWDufrA
-         wPt4+B32Ecr1irMVE2nuH2ETh566dZBQGMbkqEq6dIP70ldiwTy/L22r6vXyHH6A/zk1
-         wL0Q==
-X-Gm-Message-State: AOJu0YzucdUIOrOB7U571Jf8GhIxtdGcs3RwrJhKz6Wxdc2aA9vCwA+F
-	9emiaV2yoSpTOe9gv8uOrCXh6F3M8xPhNRJQArbnnCYiTpa8PqrWEupsS15QsxGBY0CO4Ve+5nh
-	m
-X-Gm-Gg: ASbGncvB9f4TYU3/UFryWMSXTq2IQDkbngRe+fczfVYMaERoDMVAklO4Oa2+sv/bcXe
-	qlmk5m8b7SFpcZyNgVv8infUNs7+4BW2h2S32WV1Wu4I8Acf8/zYl5DqHSaynDTWf6n3gC0jxKN
-	htLsxTvV+uncdJ0Koj6QZXJ2PTuhYHI/HaIYjUlzFNLluhsLSvxL6C/270K5PARv8s0Exxpw/Pa
-	q4xaA9YnEHOXnzWijVHUlVuFRi9M9+3omP1eP3lLianA5RkKdovtfojybFApEt5M5/EvC8ynRhH
-	Pu/SCxZ6afLGuqGdU1OgMQ8Gg+jUrODuVqUkZbcwUQzztXuxyg==
-X-Google-Smtp-Source: AGHT+IF5pDMfj6wslWljqfprR8bXyNwnVj0sY/QrSSX/88EDQXVzkyd5LPFMlP+U8SnCGU8Y8wvlWA==
-X-Received: by 2002:a05:600c:4f16:b0:43c:fd72:f039 with SMTP id 5b1f17b1804b1-43cfd72f2ccmr132386305e9.11.1741768365666;
-        Wed, 12 Mar 2025 01:32:45 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d0a72ec8bsm14096155e9.5.2025.03.12.01.32.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 01:32:45 -0700 (PDT)
-Date: Wed, 12 Mar 2025 11:32:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: linux-sound@vger.kernel.org
-Subject: [bug report] soundwire: debugfs: add interface for BPT/BRA transfers
-Message-ID: <0db6d0bf-7bac-43a7-b624-a00d3d2bf829@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gJ7+TiBO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35223C4CEE3;
+	Wed, 12 Mar 2025 08:40:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741768809;
+	bh=vjrLKZqFmOgUUOhvEPy7JGLdtin8amu+im5/QhAzgfo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gJ7+TiBOx9kiYATQSgNGpGTP0hsf97orKtjs2QJBgTWOcu1Oz5Pbx8T5uyVI0sXss
+	 5xiDdsRHRmoc0wTBPPaADb/HYxsUUCn4eEyo2yXAumcxRa2+YyXE64gBc5GKlMrUay
+	 DG1+S7wtGj8LV7AZB54np1yJfp1h/1UVlIgyGxK6vlCylZHT8y7h0Fe9u5TGSEABWq
+	 XOhjJOTgaCmZYbNXEd5lRxeFzHSAUcF37hwlYEoLXQurHSYsc3K7vDDEQot0OV+iTN
+	 PcqWQmA7LG2QcSo7ckUrZHuVGGCefuXNsHW6vxe7tPO7ij5wuqeE7KH2KmFMuGZMcB
+	 QFWo3udgv7vrQ==
+Message-ID: <faad00bf-0274-41b2-91dd-6b2d2dd59b2f@kernel.org>
+Date: Wed, 12 Mar 2025 09:39:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC and
+ EQ support
+To: Rob Herring <robh@kernel.org>
+Cc: Francesco Dolcini <francesco@dolcini.it>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ patches@opensource.cirrus.com,
+ Ernest Van Hoecke <ernest.vanhoecke@toradex.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+References: <20250307135244.100443-1-francesco@dolcini.it>
+ <20250307135244.100443-4-francesco@dolcini.it>
+ <20250311-solid-poetic-camel-77a29b@krzk-bin>
+ <20250311175931.GA3885406-robh@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250311175931.GA3885406-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello Pierre-Louis Bossart,
+On 11/03/2025 18:59, Rob Herring wrote:
+> On Tue, Mar 11, 2025 at 09:42:45AM +0100, Krzysztof Kozlowski wrote:
+>> On Fri, Mar 07, 2025 at 02:52:42PM +0100, Francesco Dolcini wrote:
+>>> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
+>>>
+>>> Add two properties to select the IN1L/DMICDAT1 and IN2R/DMICDAT2
+>>> functionality:
+>>> - wlf,in1l-as-dmicdat1
+>>> - wlf,in1r-as-dmicdat2
+>>>
+>>> Add a property to describe the GPIO configuration registers, that can be
+>>> used to set the four multifunction pins:
+>>> - wlf,gpio-cfg
+>>>
+>>> Add a property to describe the mic bias control registers:
+>>> - wlf,mic-cfg
+>>>
+>>> Add two properties to describe the Dynamic Range Controller (DRC),
+>>> allowing multiple named configurations where each config sets the 4 DRC
+>>> registers (R40-R43):
+>>> - wlf,drc-cfg-regs
+>>> - wlf,drc-cfg-names
+>>>
+>>> Add three properties to describe the equalizer (ReTune Mobile), allowing
+>>> multiple named configurations (associated with a samplerate) that set
+>>> the 24 (R134-R157) EQ registers:
+>>> - wlf,retune-mobile-cfg-regs
+>>> - wlf,retune-mobile-cfg-hz
+>>> - wlf,retune-mobile-cfg-rates
+> 
+> 
+>>> +             * Config registers per name, respectively:
+>>> +             * KNEE_IP = 0,   KNEE_OP = 0,     HI_COMP = 1,   LO_COMP = 1
+>>> +             * KNEE_IP = -24, KNEE_OP = -6,    HI_COMP = 1/4, LO_COMP = 1
+>>> +             * KNEE_IP = -42, KNEE_OP = -3,    HI_COMP = 0,   LO_COMP = 1
+>>> +             * KNEE_IP = -45, KNEE_OP = -9,    HI_COMP = 1/8, LO_COMP = 1
+>>> +             * KNEE_IP = -30, KNEE_OP = -10.5, HI_COMP = 1/4, LO_COMP = 1
+>>> +             */
+>>> +            wlf,drc-cfg-regs = /bits/ 16 <0x01af 0x3248 0x0000 0x0000>,
+>>
+>> <number>, <number>, <number> ...
+>>
+>> unless you wanted 64-bit?
+> 
+> Why? You would need "/bits/ 16 <number>, /bits/ 16 <number>, ..."
+Uh, right.
 
-Commit bb5cb09eedce ("soundwire: debugfs: add interface for BPT/BRA
-transfers") from Feb 27, 2025 (linux-next), leads to the following
-Smatch static checker warning:
-
-drivers/soundwire/debugfs.c:301 cmd_go() error: uninitialized symbol 'finish_t'.
-drivers/soundwire/debugfs.c:301 cmd_go() error: uninitialized symbol 'start_t'.
-
-drivers/soundwire/debugfs.c
-    236 static int cmd_go(void *data, u64 value)
-    237 {
-    238         const struct firmware *fw = NULL;
-    239         struct sdw_slave *slave = data;
-    240         ktime_t start_t;
-    241         ktime_t finish_t;
-    242         int ret;
-    243 
-    244         if (value != 1)
-    245                 return -EINVAL;
-    246 
-    247         /* one last check */
-    248         if (start_addr > SDW_REG_MAX ||
-    249             num_bytes == 0 || num_bytes > MAX_CMD_BYTES)
-    250                 return -EINVAL;
-    251 
-    252         ret = pm_runtime_get_sync(&slave->dev);
-    253         if (ret < 0 && ret != -EACCES) {
-    254                 pm_runtime_put_noidle(&slave->dev);
-    255                 return ret;
-    256         }
-    257 
-    258         if (cmd == 0) {
-    259                 ret = request_firmware(&fw, firmware_file, &slave->dev);
-    260                 if (ret < 0) {
-    261                         dev_err(&slave->dev, "firmware %s not found\n", firmware_file);
-    262                         goto out;
-
-start_t and finish_t are not initialized
-
-    263                 }
-    264                 if (fw->size < num_bytes) {
-    265                         dev_err(&slave->dev,
-    266                                 "firmware %s: firmware size %zd, desired %zd\n",
-    267                                 firmware_file, fw->size, num_bytes);
-    268                         goto out;
-    269                 }
-    270         }
-    271 
-    272         /* Userspace changed the hardware state behind the kernel's back */
-    273         add_taint(TAINT_USER, LOCKDEP_STILL_OK);
-    274 
-    275         dev_dbg(&slave->dev, "starting command\n");
-    276         start_t = ktime_get();
-    277 
-    278         if (cmd == 0) {
-    279                 if (cmd_type)
-    280                         ret = do_bpt_sequence(slave, true, (u8 *)fw->data);
-    281                 else
-    282                         ret = sdw_nwrite_no_pm(slave, start_addr, num_bytes, fw->data);
-    283         } else {
-    284                 memset(read_buffer, 0, sizeof(read_buffer));
-    285 
-    286                 if (cmd_type)
-    287                         ret = do_bpt_sequence(slave, false, read_buffer);
-    288                 else
-    289                         ret = sdw_nread_no_pm(slave, start_addr, num_bytes, read_buffer);
-    290         }
-    291 
-    292         finish_t = ktime_get();
-    293 
-    294 out:
-    295         if (fw)
-    296                 release_firmware(fw);
-    297 
-    298         pm_runtime_mark_last_busy(&slave->dev);
-    299         pm_runtime_put(&slave->dev);
-    300 
---> 301         dev_dbg(&slave->dev, "command completed, num_byte %zu status %d, time %lld ms\n",
-    302                 num_bytes, ret, div_u64(finish_t - start_t, NSEC_PER_MSEC));
-                                                ^^^^^^^^^^^^^^^^^^
-Uninitialized
-
-    303 
-    304         return ret;
-    305 }
-
-regards,
-dan carpenter
+Best regards,
+Krzysztof
