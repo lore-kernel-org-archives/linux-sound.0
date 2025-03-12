@@ -1,83 +1,88 @@
-Received: from out198-16.us.a.mail.aliyun.com (out198-16.us.a.mail.aliyun.com [47.90.198.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5311E8325;
-	Wed, 12 Mar 2025 12:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772E8242923;
+	Wed, 12 Mar 2025 12:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741781844; cv=none; b=P+MwNi+CZmzOw/ioovxq76IGsCLfoLITYaYpvw8LCRiROnSrrj34TI5vj7SQSC32pW73v7ue04l+e7y79frcHdDBjORLqFmrJqFNzg+ekA0ZGdTab4ekGjFMQCkNFr3vpE8khqbkK6JjEPSD7s/aFc3WzLp1tVPc9REV5bOjZmI=
+	t=1741783182; cv=none; b=Lo+9+RPvCrgrMiMyxn1CCPBjEDWMz+RklKTd5jTNhGoPPvB3KLeMbEZT0eZjA/rsgZX6oFzRowXWGQrT3KIcSzrhwdbmwdnMcvNrXZ8AU65iUKmDUfqzzPmyojbcn7D0oGVKVSKIRtvu6VaHL6/jPQApwDiEyTZQGotvcRAqWCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741781844; c=relaxed/simple;
-	bh=8Uh5UnlXuQz7gVtNosUV50tm5cgts+g25qLoM/JcjUk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZN+upmdhiYfmvtwILUovRMa46+UqxXrRCuZjDhEBfmF19pOYiTljfubl2mIooJs+2SF4xHhyTCjEREpHZQsTCSl2h3V71JXs37ooyCbqxKS8FyqsJmZDQqo6f80f9/R9DF4gT+ZJAhQSYkv6r8PwkJaA772XpzYm6z6o8hOYywQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=47.90.198.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.brTSosr_1741780865 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Wed, 12 Mar 2025 20:01:06 +0800
-From: wangweidong.a@awinic.com
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	jack.yu@realtek.com,
-	rf@opensource.cirrus.com,
-	neil.armstrong@linaro.org,
-	ivprusov@salutedevices.com,
-	luca.ceresoli@bootlin.com,
-	zhoubinbin@loongson.cn,
-	quic_pkumpatl@quicinc.com,
-	herve.codina@bootlin.com,
-	masahiroy@kernel.org,
-	nuno.sa@analog.com,
-	wangweidong.a@awinic.com,
-	yesanishhere@gmail.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: yijiangtao@awinic.com
-Subject: [PATCH V3 0/2] ASoC: codecs: Add aw88166 amplifier driver
-Date: Wed, 12 Mar 2025 20:00:58 +0800
-Message-ID: <20250312120100.9730-1-wangweidong.a@awinic.com>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1741783182; c=relaxed/simple;
+	bh=H3HybGaUKBS9YrAf0ND7xXzJkEyXkytMuuP5BxOuzL4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=m9EbCVmjnxhRmmD9exVVUf0SSJvD5HYUBQLY/ldMl3sFWmjFsl5VqM8wZYw7pA6XINWHdr9lx/aLWkv5+UGmbEmAEVtXkd9t0mvFECm6ZgHoS1fPF9aajX2+7xYb25mdlgIurucWgNK0O3+iZ7AYs7hMqTyEDtm4Azq8HPaJKDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uz99a8UG; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uz99a8UG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E64CC4CEE3;
+	Wed, 12 Mar 2025 12:39:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741783181;
+	bh=H3HybGaUKBS9YrAf0ND7xXzJkEyXkytMuuP5BxOuzL4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=uz99a8UGQoTNYfNUu1cSAzael/QVMI439kJK8QuEDN2Mn+CR90x1u1l/jdbWvGr05
+	 6zQNVA2Irl8MgLfXQ4HGPXcjGAHUexQzMT2YqRC8mDTmQzuQD4Tg3ufntP8kAqHLE5
+	 p8JVecBYxzGEM0P0M/mlljtGV24Xo3A+fvgHQkA0GPj1BA86s/YcGSyrupC1p5yMm9
+	 b0h6QypHDraX5O2eJV7aA0BGtOYJzlQu8YPZK6xgcnej0PXwDj9sjeIXoOyn830zGf
+	 OnMAoOYKX92D0+fdwslo05WLy1JHcz8/OcmSLcJ2/hnDLTP+Rx03piBnuJpTcLVaF6
+	 pbJIlVce0wQKw==
+From: Mark Brown <broonie@kernel.org>
+To: amadeuszx.slawinski@linux.intel.com, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Dimitris Papastamos <dp@opensource.wolfsonmicro.com>, 
+ Charles Keepax <ckeepax@opensource.wolfsonmicro.com>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+ Mark Brown <broonie@opensource.wolfsonmicro.com>, 
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org
+In-Reply-To: <5139ba1ab8c4c157ce04e56096a0f54a1683195c.1741549792.git.christophe.jaillet@wanadoo.fr>
+References: <5139ba1ab8c4c157ce04e56096a0f54a1683195c.1741549792.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH v2] ASoC: codecs: wm0010: Fix error handling path in
+ wm0010_spi_probe()
+Message-Id: <174178317936.22408.8969809539586039270.b4-ty@kernel.org>
+Date: Wed, 12 Mar 2025 12:39:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-From: Weidong Wang <wangweidong.a@awinic.com>
+On Mon, 10 Mar 2025 18:45:36 +0100, Christophe JAILLET wrote:
+> Free some resources in the error handling path of the probe, as already
+> done in the remove function.
+> 
+> 
 
-Add the awinic,aw88166 property to support the aw88166 chip.
+Applied to
 
-The driver is for amplifiers aw88166 of Awinic Technology
-Corporation. The AW88166 is a high efficiency digital
-Smart K audio amplifier
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-v2 -> v3: Modified warnings compiled with clang19.1.7,
-           removes printing of uninitialized values
+Thanks!
 
-Weidong Wang (2):
-  ASoC: dt-bindings: Add schema for "awinic,aw88166"
-  ASoC: codecs: Add aw88166 amplifier driver
+[1/1] ASoC: codecs: wm0010: Fix error handling path in wm0010_spi_probe()
+      commit: ed92bc5264c4357d4fca292c769ea9967cd3d3b6
 
- .../bindings/sound/awinic,aw88395.yaml        |    1 +
- sound/soc/codecs/Kconfig                      |   13 +
- sound/soc/codecs/Makefile                     |    2 +
- sound/soc/codecs/aw88166.c                    | 1933 +++++++++++++++++
- sound/soc/codecs/aw88166.h                    |  534 +++++
- 5 files changed, 2483 insertions(+)
- create mode 100644 sound/soc/codecs/aw88166.c
- create mode 100644 sound/soc/codecs/aw88166.h
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-base-commit: 0fed89a961ea851945d23cc35beb59d6e56c0964
--- 
-2.47.0
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
