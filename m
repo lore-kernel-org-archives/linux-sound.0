@@ -1,84 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A931CD215
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FF718C006
 	for <linux-sound@vger.kernel.org>; Thu, 13 Mar 2025 17:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741887954; cv=none; b=a4feOo3futyupm0OwQjfhcMvajFwGBUzYscHh3T7koU8JSOBfHfS1ufxJ0KceyjTWk9Rrj1wR5vfNv0eFTTmZaR0FtMgvEe6FHWG8/7uZ2aLluC/GZWe0Lwix+JHnA1gNUPUE9IRndyAqXHVx5NKmezmEnUKekcVQz8uots8Eoo=
+	t=1741887955; cv=none; b=cT5MS5zJqzOZaMrHrXWszNAVyefRWhMATW41w4OAl43dJDJ9elxdtLdM+chOTDjHS1mBsx9Xh6sFOzETiRQJTQDQwt2a7fCWat7pWViJlgdA1AaJs3rZ3MnvBGzud7bKK27M8YWtJnaCmfdQ1jIm47jss9qch/MHcGwFny2t+n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741887954; c=relaxed/simple;
-	bh=vTn3zLlPxVg1Pun1wyDPHlryGpAPKbs6ILbCFEOhNUI=;
+	s=arc-20240116; t=1741887955; c=relaxed/simple;
+	bh=RsA9j94p+YVvKdB90cd3Q/61+ZX91AldYwaYz9pEC0o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i0xD/6Wq9ZqL9Rsy+mD1k2pSiSBrOIbiLtyTjaZXQVvlASSkCm2w6j7IIfL7V3Mj00FDbajk271unRXTWKOXOwyqrGsdhexC15qJ2EubM2VeVIxgyddq9sVwfhoKBAjFqnILYW73q2erVArxOWl0QJAvfsq5d9wo72ERPhU5w2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r5i6F3ia; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4bciTRQ6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r5i6F3ia; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4bciTRQ6; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=pmSXN++siTVtNzH+43Tbt2MVLNuuu3mqRv0tnEJMuXCndIOa8+zAw2HohwYZNNvdP5ZpKds65UrFrgA42RzpRqDSKU54ekmEgLDJbg7jcgzlrOSiHNcXY5ipzI+wQi7izCLKImd4qrPJML3zDgGM148G3TPnBE9N83FmfJgmLU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ykQTyMem; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=549nby3B; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ykQTyMem; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=549nby3B; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r5i6F3ia";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4bciTRQ6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r5i6F3ia";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4bciTRQ6"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ykQTyMem";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="549nby3B";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ykQTyMem";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="549nby3B"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A9E41211F9;
-	Thu, 13 Mar 2025 17:42:06 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B13611F7B4;
+	Thu, 13 Mar 2025 17:42:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741887726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1741887728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ja/+Kzg3R5DydWGyat0nHpsJx5yiPl5rSjlPBbA4EUw=;
-	b=r5i6F3iaSz7EwbH5yqolg7QuGqbpFxjB0A48QZ7VRipawIZlFqPJHHYdH/kefXERXXPF+8
-	b3/NTYQaVD/CqkbBjd0lxALOYAyVbcK8nBmyCTKYX4spgEYT2izt3yKBZza1uis2vlCHYM
-	Pvbw+xfzNUYq2FxlkQaOPB8wtRdpLzk=
+	bh=CFKEjjkIm78Ad6srk/hCg61amYwn0Z51tJngkFiWp6I=;
+	b=ykQTyMemgcDeUgX3A1DRVqRAcDbTN1CFSySAqMMOPcHtUZX0SNSR22wfzUj5p9kMxcMCw7
+	ibNpQ7U+gxZHsk8CjbB+UwaozPXqDZXqlh1HLp8mAW4EFtR0+X0Nh6dS0UHqnc+MpZxepm
+	LzcWgqAeMpN/R9WQpYXdL6EN1/1E2BE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741887726;
+	s=susede2_ed25519; t=1741887728;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ja/+Kzg3R5DydWGyat0nHpsJx5yiPl5rSjlPBbA4EUw=;
-	b=4bciTRQ6bcPgYH5YOsKnGxDJlKrsIT/2h6NkR85NMgwhvZEtxltyS6mJknmuxMFDoCLqQP
-	XLtoG7bhL/vcopAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=CFKEjjkIm78Ad6srk/hCg61amYwn0Z51tJngkFiWp6I=;
+	b=549nby3BsSdxF4qgTF03aqvKCUWfK6YYKyV+fmMoM/hscJjKMtYEpkmQJGplyZgWXW2J2v
+	B8GJULBPBeY9gOCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ykQTyMem;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=549nby3B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741887726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1741887728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ja/+Kzg3R5DydWGyat0nHpsJx5yiPl5rSjlPBbA4EUw=;
-	b=r5i6F3iaSz7EwbH5yqolg7QuGqbpFxjB0A48QZ7VRipawIZlFqPJHHYdH/kefXERXXPF+8
-	b3/NTYQaVD/CqkbBjd0lxALOYAyVbcK8nBmyCTKYX4spgEYT2izt3yKBZza1uis2vlCHYM
-	Pvbw+xfzNUYq2FxlkQaOPB8wtRdpLzk=
+	bh=CFKEjjkIm78Ad6srk/hCg61amYwn0Z51tJngkFiWp6I=;
+	b=ykQTyMemgcDeUgX3A1DRVqRAcDbTN1CFSySAqMMOPcHtUZX0SNSR22wfzUj5p9kMxcMCw7
+	ibNpQ7U+gxZHsk8CjbB+UwaozPXqDZXqlh1HLp8mAW4EFtR0+X0Nh6dS0UHqnc+MpZxepm
+	LzcWgqAeMpN/R9WQpYXdL6EN1/1E2BE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741887726;
+	s=susede2_ed25519; t=1741887728;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ja/+Kzg3R5DydWGyat0nHpsJx5yiPl5rSjlPBbA4EUw=;
-	b=4bciTRQ6bcPgYH5YOsKnGxDJlKrsIT/2h6NkR85NMgwhvZEtxltyS6mJknmuxMFDoCLqQP
-	XLtoG7bhL/vcopAA==
+	bh=CFKEjjkIm78Ad6srk/hCg61amYwn0Z51tJngkFiWp6I=;
+	b=549nby3BsSdxF4qgTF03aqvKCUWfK6YYKyV+fmMoM/hscJjKMtYEpkmQJGplyZgWXW2J2v
+	B8GJULBPBeY9gOCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A58A13A24;
-	Thu, 13 Mar 2025 17:42:06 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A9C113A24;
+	Thu, 13 Mar 2025 17:42:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4Ct5IO4Y02cFRQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 13 Mar 2025 17:42:06 +0000
+	id EBpRIPAY02cFRQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 13 Mar 2025 17:42:08 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-Subject: [PATCH 72/89] ASoC: mediatek: mt8195: Convert to RUNTIME_PM_OPS()
-Date: Thu, 13 Mar 2025 18:41:17 +0100
-Message-ID: <20250313174139.29942-73-tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH 83/89] ASoC: tegra186: Convert to RUNTIME_PM_OPS() & co
+Date: Thu, 13 Mar 2025 18:41:28 +0100
+Message-ID: <20250313174139.29942-84-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250313174139.29942-1-tiwai@suse.de>
 References: <20250313174139.29942-1-tiwai@suse.de>
@@ -89,64 +91,142 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Rspamd-Queue-Id: B13611F7B4
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL5j9wc7mf8ens4usejdmaiz8d)];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	RCVD_TLS_ALL(0.00)[]
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	R_RATELIMIT(0.00)[to_ip_from(RLi691ga9brjh6qjnnbs1osk4o)];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Spam-Level: 
 
-Use the newer RUNTIME_PM_OPS() macro instead of SET_RUNTIME_PM_OPS()
-together with pm_ptr().
+Use the newer RUNTIME_PM_OPS() and SYSTEM_SLEEP_PM_OPS() macros
+instead of SET_RUNTIME_PM_OPS() and SET_SYSTEM_SLEEP_PM_OPS() together
+with pm_ptr(), which allows us dropping ugly __maybe_unused
+attributes.
 
 This optimizes slightly when CONFIG_PM is disabled, too.
 
+Cc: linux-tegra@vger.kernel.org
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/mediatek/mt8195/mt8195-afe-pcm.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/soc/tegra/tegra186_asrc.c | 13 ++++++-------
+ sound/soc/tegra/tegra186_dspk.c | 13 ++++++-------
+ 2 files changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/sound/soc/mediatek/mt8195/mt8195-afe-pcm.c b/sound/soc/mediatek/mt8195/mt8195-afe-pcm.c
-index 8016bfb35015..5d025ad72263 100644
---- a/sound/soc/mediatek/mt8195/mt8195-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8195/mt8195-afe-pcm.c
-@@ -3188,15 +3188,15 @@ static const struct of_device_id mt8195_afe_pcm_dt_match[] = {
- MODULE_DEVICE_TABLE(of, mt8195_afe_pcm_dt_match);
+diff --git a/sound/soc/tegra/tegra186_asrc.c b/sound/soc/tegra/tegra186_asrc.c
+index d914dba56013..5c67e1f01d9b 100644
+--- a/sound/soc/tegra/tegra186_asrc.c
++++ b/sound/soc/tegra/tegra186_asrc.c
+@@ -76,7 +76,7 @@ static void tegra186_asrc_lock_stream(struct tegra186_asrc *asrc,
+ 		     1);
+ }
  
- static const struct dev_pm_ops mt8195_afe_pm_ops = {
--	SET_RUNTIME_PM_OPS(mt8195_afe_runtime_suspend,
--			   mt8195_afe_runtime_resume, NULL)
-+	RUNTIME_PM_OPS(mt8195_afe_runtime_suspend,
-+		       mt8195_afe_runtime_resume, NULL)
+-static int __maybe_unused tegra186_asrc_runtime_suspend(struct device *dev)
++static int tegra186_asrc_runtime_suspend(struct device *dev)
+ {
+ 	struct tegra186_asrc *asrc = dev_get_drvdata(dev);
+ 
+@@ -86,7 +86,7 @@ static int __maybe_unused tegra186_asrc_runtime_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused tegra186_asrc_runtime_resume(struct device *dev)
++static int tegra186_asrc_runtime_resume(struct device *dev)
+ {
+ 	struct tegra186_asrc *asrc = dev_get_drvdata(dev);
+ 	int id;
+@@ -1021,17 +1021,16 @@ static void tegra186_asrc_platform_remove(struct platform_device *pdev)
+ }
+ 
+ static const struct dev_pm_ops tegra186_asrc_pm_ops = {
+-	SET_RUNTIME_PM_OPS(tegra186_asrc_runtime_suspend,
+-			   tegra186_asrc_runtime_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+-				pm_runtime_force_resume)
++	RUNTIME_PM_OPS(tegra186_asrc_runtime_suspend,
++		       tegra186_asrc_runtime_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
  };
  
- static struct platform_driver mt8195_afe_pcm_driver = {
+ static struct platform_driver tegra186_asrc_driver = {
  	.driver = {
- 		   .name = "mt8195-audio",
- 		   .of_match_table = mt8195_afe_pcm_dt_match,
--		   .pm = &mt8195_afe_pm_ops,
-+		   .pm = pm_ptr(&mt8195_afe_pm_ops),
+ 		.name = "tegra186-asrc",
+ 		.of_match_table = tegra186_asrc_of_match,
+-		.pm = &tegra186_asrc_pm_ops,
++		.pm = pm_ptr(&tegra186_asrc_pm_ops),
  	},
- 	.probe = mt8195_afe_pcm_dev_probe,
- 	.remove = mt8195_afe_pcm_dev_remove,
+ 	.probe = tegra186_asrc_platform_probe,
+ 	.remove = tegra186_asrc_platform_remove,
+diff --git a/sound/soc/tegra/tegra186_dspk.c b/sound/soc/tegra/tegra186_dspk.c
+index 1be6c09cbe1a..21fdab2a1977 100644
+--- a/sound/soc/tegra/tegra186_dspk.c
++++ b/sound/soc/tegra/tegra186_dspk.c
+@@ -181,7 +181,7 @@ static int tegra186_dspk_put_stereo_to_mono(struct snd_kcontrol *kcontrol,
+ 	return 1;
+ }
+ 
+-static int __maybe_unused tegra186_dspk_runtime_suspend(struct device *dev)
++static int tegra186_dspk_runtime_suspend(struct device *dev)
+ {
+ 	struct tegra186_dspk *dspk = dev_get_drvdata(dev);
+ 
+@@ -193,7 +193,7 @@ static int __maybe_unused tegra186_dspk_runtime_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused tegra186_dspk_runtime_resume(struct device *dev)
++static int tegra186_dspk_runtime_resume(struct device *dev)
+ {
+ 	struct tegra186_dspk *dspk = dev_get_drvdata(dev);
+ 	int err;
+@@ -532,17 +532,16 @@ static void tegra186_dspk_platform_remove(struct platform_device *pdev)
+ }
+ 
+ static const struct dev_pm_ops tegra186_dspk_pm_ops = {
+-	SET_RUNTIME_PM_OPS(tegra186_dspk_runtime_suspend,
+-			   tegra186_dspk_runtime_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+-				pm_runtime_force_resume)
++	RUNTIME_PM_OPS(tegra186_dspk_runtime_suspend,
++		       tegra186_dspk_runtime_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+ };
+ 
+ static struct platform_driver tegra186_dspk_driver = {
+ 	.driver = {
+ 		.name = "tegra186-dspk",
+ 		.of_match_table = tegra186_dspk_of_match,
+-		.pm = &tegra186_dspk_pm_ops,
++		.pm = pm_ptr(&tegra186_dspk_pm_ops),
+ 	},
+ 	.probe = tegra186_dspk_platform_probe,
+ 	.remove = tegra186_dspk_platform_remove,
 -- 
 2.43.0
 
