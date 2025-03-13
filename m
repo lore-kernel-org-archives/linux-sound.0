@@ -1,86 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FF718C006
-	for <linux-sound@vger.kernel.org>; Thu, 13 Mar 2025 17:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B82B18C006
+	for <linux-sound@vger.kernel.org>; Thu, 13 Mar 2025 17:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741887955; cv=none; b=cT5MS5zJqzOZaMrHrXWszNAVyefRWhMATW41w4OAl43dJDJ9elxdtLdM+chOTDjHS1mBsx9Xh6sFOzETiRQJTQDQwt2a7fCWat7pWViJlgdA1AaJs3rZ3MnvBGzud7bKK27M8YWtJnaCmfdQ1jIm47jss9qch/MHcGwFny2t+n0=
+	t=1741887959; cv=none; b=qfQ+8lOMxSTF8bF9KcxQt16Qthr7vo868EGue6SuIMTc/n7tgh2bki142ka+6wWleV5YBVMTmd0eVZM8eBykfhLP103rctZ2c8eUzKjghS9y8ogt/qLd2ZNEL1Ni6dUPZu6v7fsg1s6w7fyOinx8vGIFMivmbGOViWtAJ+IRLzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741887955; c=relaxed/simple;
-	bh=RsA9j94p+YVvKdB90cd3Q/61+ZX91AldYwaYz9pEC0o=;
+	s=arc-20240116; t=1741887959; c=relaxed/simple;
+	bh=6b51cI3zloE/Mad0wdGaKdDyQwzaTh5HnqJeIZTnkiw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pmSXN++siTVtNzH+43Tbt2MVLNuuu3mqRv0tnEJMuXCndIOa8+zAw2HohwYZNNvdP5ZpKds65UrFrgA42RzpRqDSKU54ekmEgLDJbg7jcgzlrOSiHNcXY5ipzI+wQi7izCLKImd4qrPJML3zDgGM148G3TPnBE9N83FmfJgmLU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ykQTyMem; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=549nby3B; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ykQTyMem; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=549nby3B; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=VPr0U+twlO+y7HL3IFRDlPxChwkpI3lbyZosQAll+/f+FRbKN03xCdM3GFbiSiWeAdMqR71eigDHPQn1DOpjTTYc7SkKATvMSBvrBYEUU2uq4PMKmwU9sXmZfiBxXGEygAVZeI4gHWKerz+9mCEUZ+PUvKc5za6orYBagq8owNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KF84lCJF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MTcEY++6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KF84lCJF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MTcEY++6; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ykQTyMem";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="549nby3B";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ykQTyMem";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="549nby3B"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KF84lCJF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MTcEY++6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KF84lCJF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MTcEY++6"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B13611F7B4;
-	Thu, 13 Mar 2025 17:42:08 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1423C211FA;
+	Thu, 13 Mar 2025 17:42:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741887728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1741887727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CFKEjjkIm78Ad6srk/hCg61amYwn0Z51tJngkFiWp6I=;
-	b=ykQTyMemgcDeUgX3A1DRVqRAcDbTN1CFSySAqMMOPcHtUZX0SNSR22wfzUj5p9kMxcMCw7
-	ibNpQ7U+gxZHsk8CjbB+UwaozPXqDZXqlh1HLp8mAW4EFtR0+X0Nh6dS0UHqnc+MpZxepm
-	LzcWgqAeMpN/R9WQpYXdL6EN1/1E2BE=
+	bh=Ya/RAB5RvHjOuNGYHnxoKibkHL73yVzql64uhtGOTmY=;
+	b=KF84lCJF/Qe2bH8PNCyyWhL8Z7CO/jrH8BegfppCyG00QU+IyRPGbUdyIYfnjSaOp/zrVP
+	vW6uH8RKXwER6px61uIny7y2pIs9fpdKBqqTJ3CEIcAnRTG3+jyxJM5/bFBXK0eI87MrtP
+	fmCjQEe7mmR47v5HqydYMA3t8T1pblQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741887728;
+	s=susede2_ed25519; t=1741887727;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CFKEjjkIm78Ad6srk/hCg61amYwn0Z51tJngkFiWp6I=;
-	b=549nby3BsSdxF4qgTF03aqvKCUWfK6YYKyV+fmMoM/hscJjKMtYEpkmQJGplyZgWXW2J2v
-	B8GJULBPBeY9gOCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ykQTyMem;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=549nby3B
+	bh=Ya/RAB5RvHjOuNGYHnxoKibkHL73yVzql64uhtGOTmY=;
+	b=MTcEY++6uko4s7y+MldBxYLS7+MUOELc3Tjl+FqQPyONr0Mt/EmmdxR2tYl9+J5lZQEQ8M
+	a4GmBE3+yYKlWfBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KF84lCJF;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MTcEY++6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741887728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1741887727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CFKEjjkIm78Ad6srk/hCg61amYwn0Z51tJngkFiWp6I=;
-	b=ykQTyMemgcDeUgX3A1DRVqRAcDbTN1CFSySAqMMOPcHtUZX0SNSR22wfzUj5p9kMxcMCw7
-	ibNpQ7U+gxZHsk8CjbB+UwaozPXqDZXqlh1HLp8mAW4EFtR0+X0Nh6dS0UHqnc+MpZxepm
-	LzcWgqAeMpN/R9WQpYXdL6EN1/1E2BE=
+	bh=Ya/RAB5RvHjOuNGYHnxoKibkHL73yVzql64uhtGOTmY=;
+	b=KF84lCJF/Qe2bH8PNCyyWhL8Z7CO/jrH8BegfppCyG00QU+IyRPGbUdyIYfnjSaOp/zrVP
+	vW6uH8RKXwER6px61uIny7y2pIs9fpdKBqqTJ3CEIcAnRTG3+jyxJM5/bFBXK0eI87MrtP
+	fmCjQEe7mmR47v5HqydYMA3t8T1pblQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741887728;
+	s=susede2_ed25519; t=1741887727;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CFKEjjkIm78Ad6srk/hCg61amYwn0Z51tJngkFiWp6I=;
-	b=549nby3BsSdxF4qgTF03aqvKCUWfK6YYKyV+fmMoM/hscJjKMtYEpkmQJGplyZgWXW2J2v
-	B8GJULBPBeY9gOCA==
+	bh=Ya/RAB5RvHjOuNGYHnxoKibkHL73yVzql64uhtGOTmY=;
+	b=MTcEY++6uko4s7y+MldBxYLS7+MUOELc3Tjl+FqQPyONr0Mt/EmmdxR2tYl9+J5lZQEQ8M
+	a4GmBE3+yYKlWfBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A9C113A24;
-	Thu, 13 Mar 2025 17:42:08 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D768A13A24;
+	Thu, 13 Mar 2025 17:42:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EBpRIPAY02cFRQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 13 Mar 2025 17:42:08 +0000
+	id yENXM+4Y02cFRQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 13 Mar 2025 17:42:06 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: [PATCH 83/89] ASoC: tegra186: Convert to RUNTIME_PM_OPS() & co
-Date: Thu, 13 Mar 2025 18:41:28 +0100
-Message-ID: <20250313174139.29942-84-tiwai@suse.de>
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: [PATCH 74/89] ASoC: qcom: Convert to SYSTEM_SLEEP_PM_OPS()
+Date: Thu, 13 Mar 2025 18:41:19 +0100
+Message-ID: <20250313174139.29942-75-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250313174139.29942-1-tiwai@suse.de>
 References: <20250313174139.29942-1-tiwai@suse.de>
@@ -91,9 +91,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: B13611F7B4
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 1423C211FA
+X-Spam-Level: 
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -120,113 +119,103 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	R_RATELIMIT(0.00)[to_ip_from(RLi691ga9brjh6qjnnbs1osk4o)];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-Spam-Flag: NO
-X-Spam-Level: 
 
-Use the newer RUNTIME_PM_OPS() and SYSTEM_SLEEP_PM_OPS() macros
-instead of SET_RUNTIME_PM_OPS() and SET_SYSTEM_SLEEP_PM_OPS() together
-with pm_ptr(), which allows us dropping ugly __maybe_unused
-attributes.
+Use the newer SYSTEM_SLEEP_PM_OPS() macro instead of
+SET_SYSTEM_SLEEP_PM_OPS() together with pm_ptr(), which allows us to
+drop ugly __maybe_unused attributes.
 
 This optimizes slightly when CONFIG_PM is disabled, too.
 
-Cc: linux-tegra@vger.kernel.org
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/tegra/tegra186_asrc.c | 13 ++++++-------
- sound/soc/tegra/tegra186_dspk.c | 13 ++++++-------
- 2 files changed, 12 insertions(+), 14 deletions(-)
+ sound/soc/qcom/lpass-sc7180.c | 8 ++++----
+ sound/soc/qcom/lpass-sc7280.c | 8 ++++----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/tegra/tegra186_asrc.c b/sound/soc/tegra/tegra186_asrc.c
-index d914dba56013..5c67e1f01d9b 100644
---- a/sound/soc/tegra/tegra186_asrc.c
-+++ b/sound/soc/tegra/tegra186_asrc.c
-@@ -76,7 +76,7 @@ static void tegra186_asrc_lock_stream(struct tegra186_asrc *asrc,
- 		     1);
- }
- 
--static int __maybe_unused tegra186_asrc_runtime_suspend(struct device *dev)
-+static int tegra186_asrc_runtime_suspend(struct device *dev)
- {
- 	struct tegra186_asrc *asrc = dev_get_drvdata(dev);
- 
-@@ -86,7 +86,7 @@ static int __maybe_unused tegra186_asrc_runtime_suspend(struct device *dev)
+diff --git a/sound/soc/qcom/lpass-sc7180.c b/sound/soc/qcom/lpass-sc7180.c
+index fbead6af3d95..7c6a9b0fda89 100644
+--- a/sound/soc/qcom/lpass-sc7180.c
++++ b/sound/soc/qcom/lpass-sc7180.c
+@@ -160,14 +160,14 @@ static int sc7180_lpass_exit(struct platform_device *pdev)
  	return 0;
  }
  
--static int __maybe_unused tegra186_asrc_runtime_resume(struct device *dev)
-+static int tegra186_asrc_runtime_resume(struct device *dev)
+-static int __maybe_unused sc7180_lpass_dev_resume(struct device *dev)
++static int sc7180_lpass_dev_resume(struct device *dev)
  {
- 	struct tegra186_asrc *asrc = dev_get_drvdata(dev);
- 	int id;
-@@ -1021,17 +1021,16 @@ static void tegra186_asrc_platform_remove(struct platform_device *pdev)
+ 	struct lpass_data *drvdata = dev_get_drvdata(dev);
+ 
+ 	return clk_bulk_prepare_enable(drvdata->num_clks, drvdata->clks);
  }
  
- static const struct dev_pm_ops tegra186_asrc_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra186_asrc_runtime_suspend,
--			   tegra186_asrc_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra186_asrc_runtime_suspend,
-+		       tegra186_asrc_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+-static int __maybe_unused sc7180_lpass_dev_suspend(struct device *dev)
++static int sc7180_lpass_dev_suspend(struct device *dev)
+ {
+ 	struct lpass_data *drvdata = dev_get_drvdata(dev);
+ 
+@@ -176,7 +176,7 @@ static int __maybe_unused sc7180_lpass_dev_suspend(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops sc7180_lpass_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(sc7180_lpass_dev_suspend, sc7180_lpass_dev_resume)
++	SYSTEM_SLEEP_PM_OPS(sc7180_lpass_dev_suspend, sc7180_lpass_dev_resume)
  };
  
- static struct platform_driver tegra186_asrc_driver = {
+ static const struct lpass_variant sc7180_data = {
+@@ -312,7 +312,7 @@ static struct platform_driver sc7180_lpass_cpu_platform_driver = {
  	.driver = {
- 		.name = "tegra186-asrc",
- 		.of_match_table = tegra186_asrc_of_match,
--		.pm = &tegra186_asrc_pm_ops,
-+		.pm = pm_ptr(&tegra186_asrc_pm_ops),
+ 		.name = "sc7180-lpass-cpu",
+ 		.of_match_table = of_match_ptr(sc7180_lpass_cpu_device_id),
+-		.pm = &sc7180_lpass_pm_ops,
++		.pm = pm_ptr(&sc7180_lpass_pm_ops),
  	},
- 	.probe = tegra186_asrc_platform_probe,
- 	.remove = tegra186_asrc_platform_remove,
-diff --git a/sound/soc/tegra/tegra186_dspk.c b/sound/soc/tegra/tegra186_dspk.c
-index 1be6c09cbe1a..21fdab2a1977 100644
---- a/sound/soc/tegra/tegra186_dspk.c
-+++ b/sound/soc/tegra/tegra186_dspk.c
-@@ -181,7 +181,7 @@ static int tegra186_dspk_put_stereo_to_mono(struct snd_kcontrol *kcontrol,
- 	return 1;
- }
- 
--static int __maybe_unused tegra186_dspk_runtime_suspend(struct device *dev)
-+static int tegra186_dspk_runtime_suspend(struct device *dev)
- {
- 	struct tegra186_dspk *dspk = dev_get_drvdata(dev);
- 
-@@ -193,7 +193,7 @@ static int __maybe_unused tegra186_dspk_runtime_suspend(struct device *dev)
+ 	.probe = asoc_qcom_lpass_cpu_platform_probe,
+ 	.remove = asoc_qcom_lpass_cpu_platform_remove,
+diff --git a/sound/soc/qcom/lpass-sc7280.c b/sound/soc/qcom/lpass-sc7280.c
+index 7cd3e291382a..817c824f9179 100644
+--- a/sound/soc/qcom/lpass-sc7280.c
++++ b/sound/soc/qcom/lpass-sc7280.c
+@@ -233,14 +233,14 @@ static int sc7280_lpass_exit(struct platform_device *pdev)
  	return 0;
  }
  
--static int __maybe_unused tegra186_dspk_runtime_resume(struct device *dev)
-+static int tegra186_dspk_runtime_resume(struct device *dev)
+-static int __maybe_unused sc7280_lpass_dev_resume(struct device *dev)
++static int sc7280_lpass_dev_resume(struct device *dev)
  {
- 	struct tegra186_dspk *dspk = dev_get_drvdata(dev);
- 	int err;
-@@ -532,17 +532,16 @@ static void tegra186_dspk_platform_remove(struct platform_device *pdev)
+ 	struct lpass_data *drvdata = dev_get_drvdata(dev);
+ 
+ 	return clk_bulk_prepare_enable(drvdata->num_clks, drvdata->clks);
  }
  
- static const struct dev_pm_ops tegra186_dspk_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra186_dspk_runtime_suspend,
--			   tegra186_dspk_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra186_dspk_runtime_suspend,
-+		       tegra186_dspk_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+-static int __maybe_unused sc7280_lpass_dev_suspend(struct device *dev)
++static int sc7280_lpass_dev_suspend(struct device *dev)
+ {
+ 	struct lpass_data *drvdata = dev_get_drvdata(dev);
+ 
+@@ -249,7 +249,7 @@ static int __maybe_unused sc7280_lpass_dev_suspend(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops sc7280_lpass_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(sc7280_lpass_dev_suspend, sc7280_lpass_dev_resume)
++	SYSTEM_SLEEP_PM_OPS(sc7280_lpass_dev_suspend, sc7280_lpass_dev_resume)
  };
  
- static struct platform_driver tegra186_dspk_driver = {
+ static const struct lpass_variant sc7280_data = {
+@@ -442,7 +442,7 @@ static struct platform_driver sc7280_lpass_cpu_platform_driver = {
  	.driver = {
- 		.name = "tegra186-dspk",
- 		.of_match_table = tegra186_dspk_of_match,
--		.pm = &tegra186_dspk_pm_ops,
-+		.pm = pm_ptr(&tegra186_dspk_pm_ops),
+ 		.name = "sc7280-lpass-cpu",
+ 		.of_match_table = of_match_ptr(sc7280_lpass_cpu_device_id),
+-		.pm = &sc7280_lpass_pm_ops,
++		.pm = pm_ptr(&sc7280_lpass_pm_ops),
  	},
- 	.probe = tegra186_dspk_platform_probe,
- 	.remove = tegra186_dspk_platform_remove,
+ 	.probe = asoc_qcom_lpass_cpu_platform_probe,
+ 	.remove = asoc_qcom_lpass_cpu_platform_remove,
 -- 
 2.43.0
 
