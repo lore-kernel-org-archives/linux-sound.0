@@ -1,87 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894AB1B3F3D
-	for <linux-sound@vger.kernel.org>; Thu, 13 Mar 2025 17:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0918A1607B4
+	for <linux-sound@vger.kernel.org>; Thu, 13 Mar 2025 17:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741887803; cv=none; b=o9K/9nHtRGNNA6iN4yY6Em0K+67BuWC4natQp5xjR+qr33Y2y0xxzI7padMuHhpmVfo8mEfsmruwXJFzh0Yy7TUnwHJCLRR4O7MOtPpdTA90J6CsqbccDcsHoCZ7qeS1RVvGWEeeWvVOzTFNJZ4idmFWezrl0NY35u2XrVW8i2o=
+	t=1741887806; cv=none; b=QWvWbu4IO0Opx4J46WVSZNZdNcl9C92pFQla/Z3nIfNpSIFSZl1G0fc3g4c09ipf6UYxCCeQjEIYJGRkcbRBaynWA34rd324VEo5mykAbSZzvHqnfJwAO3bcrKJVH3ThmLOu1pZPhyi2aPU/OSMDJYN3nHKwsa/B3QXLFCtwaYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741887803; c=relaxed/simple;
-	bh=RE0/Z0kxqGWEbuWg9s+6WtoGV/CtrquKriTqc4IIbC4=;
+	s=arc-20240116; t=1741887806; c=relaxed/simple;
+	bh=xxMUzA9yvOg6ZSIwEnWnzcrnnvGglF5AoxyD/lpq9Jk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HmwOEyZnNbjJryPXldSqPTLLbz+g1MhvGzSNMQVuTcz77vAifpLrIBmc0W+CDW+HmMBgw88/9P+3Rl/P9TIsvGI6FUsVI70PGil3UrwD7VfMBqYGrHeWW/Bnvhdt5Lu1yB626tHJCwhNK2lprwh31VVW2fH54wQPjBvCwZlXcgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W0qK0lPc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kpebkBdD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W0qK0lPc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kpebkBdD; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=dxqkzPbc0poQqUs7ggz1Nso5qkAiW7ZiUznX3OwQzdr5PWykOyyjdt8vqptq8q0che02aU+69ov4xmkpdnoQhTXHcQyoEbxg3hRkmcKbpubiSNTBJ/t/yoIv5wCkBTUUv/IYx3jeyYiZGb9UIUdUYyHMF0dGo/3P4kkIH227xX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=106XobYP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pm24Eq0w; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=106XobYP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pm24Eq0w; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W0qK0lPc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kpebkBdD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W0qK0lPc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kpebkBdD"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="106XobYP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pm24Eq0w";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="106XobYP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pm24Eq0w"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C99411F796;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3441A211D6;
 	Thu, 13 Mar 2025 17:41:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1741887718; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9eEEc6eY8Dw7HlngDDgvADPGCT2Ksurw9wwVJlN8VaQ=;
-	b=W0qK0lPcH0u3z0bpteH50Bp6/QxZD4D7I3r+Bcrw9IVHoHCm9fGHraEKvyGUvrl7x9lRgm
-	YTYAqWAWGq6RpB1oT8VxNzOWh1POgMxBF7lUOfMG0pr83B3CDVthjQPht8NGVDbyKey8it
-	rnDa8IChedKXfwX8exL7kw27h5v+HJ0=
+	bh=uFTpX2RI+ysGNORrqHPtmZLML+elMpMWUmAOjAUQT9w=;
+	b=106XobYP/KhS+W+HcF2fb79Yh8BFHmIYwyNWm1zfTyK9TnAwwohEK92zQ7nSB2RonowFNa
+	pRh9ZXsS+ZsxriRMMe6Uwxa0YKed0gqCmoUqFz8bVJGZ32psixTm+uyXnPYe+0in/4XWB/
+	eIDPeh/Kd1td8Q/giIvMFNlfFfXrCmA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1741887718;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9eEEc6eY8Dw7HlngDDgvADPGCT2Ksurw9wwVJlN8VaQ=;
-	b=kpebkBdDbaYpJmet3kr98N4Up6+rACI7qtPAshXuJFJq5oAM0hkOY73c9NR9NcvlNKjcxf
-	rLej2WBOnE69oLAA==
-Authentication-Results: smtp-out2.suse.de;
+	bh=uFTpX2RI+ysGNORrqHPtmZLML+elMpMWUmAOjAUQT9w=;
+	b=pm24Eq0wFCxI1ygymlbklUxVLDWwA9Vo23T8Bhop63XN3jtC6Ch2IZmbw07zXXJZurWQQL
+	tY46ts+jFU8UU3Aw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1741887718; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9eEEc6eY8Dw7HlngDDgvADPGCT2Ksurw9wwVJlN8VaQ=;
-	b=W0qK0lPcH0u3z0bpteH50Bp6/QxZD4D7I3r+Bcrw9IVHoHCm9fGHraEKvyGUvrl7x9lRgm
-	YTYAqWAWGq6RpB1oT8VxNzOWh1POgMxBF7lUOfMG0pr83B3CDVthjQPht8NGVDbyKey8it
-	rnDa8IChedKXfwX8exL7kw27h5v+HJ0=
+	bh=uFTpX2RI+ysGNORrqHPtmZLML+elMpMWUmAOjAUQT9w=;
+	b=106XobYP/KhS+W+HcF2fb79Yh8BFHmIYwyNWm1zfTyK9TnAwwohEK92zQ7nSB2RonowFNa
+	pRh9ZXsS+ZsxriRMMe6Uwxa0YKed0gqCmoUqFz8bVJGZ32psixTm+uyXnPYe+0in/4XWB/
+	eIDPeh/Kd1td8Q/giIvMFNlfFfXrCmA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1741887718;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9eEEc6eY8Dw7HlngDDgvADPGCT2Ksurw9wwVJlN8VaQ=;
-	b=kpebkBdDbaYpJmet3kr98N4Up6+rACI7qtPAshXuJFJq5oAM0hkOY73c9NR9NcvlNKjcxf
-	rLej2WBOnE69oLAA==
+	bh=uFTpX2RI+ysGNORrqHPtmZLML+elMpMWUmAOjAUQT9w=;
+	b=pm24Eq0wFCxI1ygymlbklUxVLDWwA9Vo23T8Bhop63XN3jtC6Ch2IZmbw07zXXJZurWQQL
+	tY46ts+jFU8UU3Aw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 98034137BA;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 14DF9139D2;
 	Thu, 13 Mar 2025 17:41:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6A3NI+YY02cFRQAAD6G6ig
+	id CHOkA+YY02cFRQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Thu, 13 Mar 2025 17:41:58 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>
-Subject: [PATCH 29/89] ASoC: pcm512x: Convert to EXPORT_GPL_DEV_PM_OPS()
-Date: Thu, 13 Mar 2025 18:40:34 +0100
-Message-ID: <20250313174139.29942-30-tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH 26/89] ASoC: max9860: Convert to RUNTIME_PM_OPS()
+Date: Thu, 13 Mar 2025 18:40:31 +0100
+Message-ID: <20250313174139.29942-27-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250313174139.29942-1-tiwai@suse.de>
 References: <20250313174139.29942-1-tiwai@suse.de>
@@ -92,7 +89,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
+X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -101,90 +98,66 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	R_RATELIMIT(0.00)[to_ip_from(RL5j9wc7mf8ens4usejdmaiz8d)];
-	ARC_NA(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	R_RATELIMIT(0.00)[to_ip_from(RL5j9wc7mf8ens4usejdmaiz8d)];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
 	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.80
 X-Spam-Flag: NO
-X-Spam-Level: 
 
-Use the newer EXPORT_GPL_DEV_PM_OPS() macro together with pm_ptr().
-This allows us to drop superfluous CONFIG_PM ifdefs.
+Use the newer RUNTIME_PM_OPS() macro instead of SET_RUNTIME_PM_OPS()
+together with pm_ptr(), which allows us dropping superfluous CONFIG_PM
+ifdefs.
 
 This optimizes slightly when CONFIG_PM is disabled, too.
 
-Cc: Shenghao Ding <shenghao-ding@ti.com>
-Cc: Kevin Lu <kevin-lu@ti.com>
-Cc: Baojun Xu <baojun.xu@ti.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/pcm512x-i2c.c | 2 +-
- sound/soc/codecs/pcm512x-spi.c | 2 +-
- sound/soc/codecs/pcm512x.c     | 7 ++-----
- 3 files changed, 4 insertions(+), 7 deletions(-)
+ sound/soc/codecs/max9860.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/codecs/pcm512x-i2c.c b/sound/soc/codecs/pcm512x-i2c.c
-index 92bcf5179779..a1d849b0c50f 100644
---- a/sound/soc/codecs/pcm512x-i2c.c
-+++ b/sound/soc/codecs/pcm512x-i2c.c
-@@ -79,7 +79,7 @@ static struct i2c_driver pcm512x_i2c_driver = {
- 		.name	= "pcm512x",
- 		.of_match_table = of_match_ptr(pcm512x_of_match),
- 		.acpi_match_table = ACPI_PTR(pcm512x_acpi_match),
--		.pm     = &pcm512x_pm_ops,
-+		.pm     = pm_ptr(&pcm512x_pm_ops),
- 	},
+diff --git a/sound/soc/codecs/max9860.c b/sound/soc/codecs/max9860.c
+index 4015ed2c47ec..716d16daf7d7 100644
+--- a/sound/soc/codecs/max9860.c
++++ b/sound/soc/codecs/max9860.c
+@@ -539,7 +539,6 @@ static const struct snd_soc_component_driver max9860_component_driver = {
+ 	.endianness		= 1,
  };
- 
-diff --git a/sound/soc/codecs/pcm512x-spi.c b/sound/soc/codecs/pcm512x-spi.c
-index 6629b862f47d..92f7f78a4e20 100644
---- a/sound/soc/codecs/pcm512x-spi.c
-+++ b/sound/soc/codecs/pcm512x-spi.c
-@@ -58,7 +58,7 @@ static struct spi_driver pcm512x_spi_driver = {
- 	.driver = {
- 		.name	= "pcm512x",
- 		.of_match_table = pcm512x_of_match,
--		.pm     = &pcm512x_pm_ops,
-+		.pm     = pm_ptr(&pcm512x_pm_ops),
- 	},
- };
- 
-diff --git a/sound/soc/codecs/pcm512x.c b/sound/soc/codecs/pcm512x.c
-index aa8edf87b743..007dfc0fa224 100644
---- a/sound/soc/codecs/pcm512x.c
-+++ b/sound/soc/codecs/pcm512x.c
-@@ -1725,7 +1725,6 @@ void pcm512x_remove(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(pcm512x_remove);
  
 -#ifdef CONFIG_PM
- static int pcm512x_suspend(struct device *dev)
+ static int max9860_suspend(struct device *dev)
  {
- 	struct pcm512x_priv *pcm512x = dev_get_drvdata(dev);
-@@ -1787,12 +1786,10 @@ static int pcm512x_resume(struct device *dev)
+ 	struct max9860_priv *max9860 = dev_get_drvdata(dev);
+@@ -584,10 +583,9 @@ static int max9860_resume(struct device *dev)
  
  	return 0;
  }
 -#endif
  
--const struct dev_pm_ops pcm512x_pm_ops = {
--	SET_RUNTIME_PM_OPS(pcm512x_suspend, pcm512x_resume, NULL)
-+EXPORT_GPL_DEV_PM_OPS(pcm512x_pm_ops) = {
-+	RUNTIME_PM_OPS(pcm512x_suspend, pcm512x_resume, NULL)
+ static const struct dev_pm_ops max9860_pm_ops = {
+-	SET_RUNTIME_PM_OPS(max9860_suspend, max9860_resume, NULL)
++	RUNTIME_PM_OPS(max9860_suspend, max9860_resume, NULL)
  };
--EXPORT_SYMBOL_GPL(pcm512x_pm_ops);
  
- MODULE_DESCRIPTION("ASoC PCM512x codec driver");
- MODULE_AUTHOR("Mark Brown <broonie@kernel.org>");
+ static int max9860_probe(struct i2c_client *i2c)
+@@ -729,7 +727,7 @@ static struct i2c_driver max9860_i2c_driver = {
+ 	.driver         = {
+ 		.name           = "max9860",
+ 		.of_match_table = max9860_of_match,
+-		.pm             = &max9860_pm_ops,
++		.pm             = pm_ptr(&max9860_pm_ops),
+ 	},
+ };
+ 
 -- 
 2.43.0
 
