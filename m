@@ -1,203 +1,148 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17CA1EE7A5;
-	Wed, 12 Mar 2025 23:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBAA376F1;
+	Thu, 13 Mar 2025 00:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741821453; cv=none; b=anWoRJuHgb/HgFeuJiF6hVCD1q1W4cr/ukCQVSWEzrYZym9vegQiEIRL7MnLm2HadlGBCX9NyDaEL3Ysf84t3qUOhEpx8EwHtOyO4hiGWHyABUhUjqytEFTgmVkcMODaIGeUKoAkyFfWq5ig7dfz4IVHOL/z0vP0zsBZdGJxolY=
+	t=1741826999; cv=none; b=XypMtVS6u4a4AOLamXcQr6VrC69QIuYgtF8yeL03pyuIcrbwOQEF2xY+TEd8NmyeALiGPN7BD+yaIlkckdOmhp1vkL+Newyp7gyYSut9b+zEO0WFIwLJDarlAcfOIst5yQxS0w8ejBKF3iXKEK/qpF570GxT5ARIkL6UXt+sMnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741821453; c=relaxed/simple;
-	bh=02EX/DMIDDWf9CWuaXFpleHjT8LOS9O+SlqdOnu+alw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=HR3iW8kFuQE2VlP9VE+s09qsXHwjKaNyDuzBKiUEqEq7qjA4ndBYlJjRTZemJmThb+4z+EC/7m9uGMU89KRM5vt9sfDPFiwTmC2JJpxbhiNdn++BCQoWR6HnZHKjlBPTyJUs9JRNzprQwHXkngIV102tKpWEHf/OkObd/siuYCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ChrNTiDY; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1741826999; c=relaxed/simple;
+	bh=Z49HXwaxexdDXy7kOpCh40mnlaoCuxB1V0yAtiPZZAo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WpM3gDIR0jtSEzApwqavOEN/civjuXGMCCXNZgBI1D6t8CxOLGIm0cvJ227Jp0EyLu6wZr8kApu+x3kT/MhwgLarWgCrTdl4S4kxyUqLpjew/sg29IR5Hr8rF+wLRJIR3f9/WK5rEBnu8QVsbgEk8Vyp3TXiPotrugqwEG138Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=asP0KWc8; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ChrNTiDY"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52CAKruW008924;
-	Wed, 12 Mar 2025 23:17:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YxUIuMuJ8heLhO7n/roAvP6nMwwqgMTF3z65WOJS+lE=; b=ChrNTiDYUmKKJ9k9
-	hCg7bnLOrdkfpkLnzpcBOu5c23KEXV6ZtlDTPJAm7VBVXmSXfYrlOeP5axy78QEK
-	z4FvrlFZavYX+cN4j3T8v4LrGZv9t2aWdVRLgbxYubwM5gayeIWfAd7HMX03KLin
-	REYq3AiPN53E1FXrJL11U1ItwJPIpjTPiSYGob/+tME0y2tDcs7QWYjcKeYt6dLv
-	TywjcyDAAusMShc/0n483ZSLr0tBbYT/DelahZ/MGmUcw6MR3nWCiE5qWIpBMp6k
-	/Ek4EmNQZlompprZgCIgKAIsua9bB2+8KVfSoH9aFgQfVImby64n4/SLxJ3TP0lM
-	8YZIfA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45au2rbvkv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Mar 2025 23:17:13 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52CNHC01030751
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Mar 2025 23:17:12 GMT
-Received: from [10.110.30.156] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Mar
- 2025 16:17:11 -0700
-Message-ID: <9d30efc3-3315-4ff5-8eb0-c50bccc0a725@quicinc.com>
-Date: Wed, 12 Mar 2025 16:17:07 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="asP0KWc8"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-476775df2f0so14940201cf.1;
+        Wed, 12 Mar 2025 17:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741826997; x=1742431797; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HkeNyflx08eBwoXdOrj+id9tFS6hOSl0Scgwwso0Pdc=;
+        b=asP0KWc85RzWtO8Zf0I6uVwSD26cE0WIeas47M6A/nACTMwyyMP8DZ+K3hqkHvwmq0
+         FW28EQsRHDXsChnAhoKFc31/YP16OKL3IK4DBdKnZUO0NhXjgjNDCIrqXrZtff94BEoJ
+         vvL5rGlsaF0gvhlL4lVl0pUUfUD+HcDYZuc2NIlPDUg3LHhYaTjPRvxi8UuzAaE7y9pz
+         bRHL2FpjTGYyBYHAQT/D/Hb+6IyknrCCcFPYWdn2IEkwRhYgOHjOstL93WXS/0+jWLgd
+         2KdJGG/q1uRvdchZpOdMdXUmWZm923uUuMxm8fe/UMK2XuSzPuDtgepMZ0UpBAteQR92
+         w2eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741826997; x=1742431797;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HkeNyflx08eBwoXdOrj+id9tFS6hOSl0Scgwwso0Pdc=;
+        b=Qvsmv1cmAjzfqqUgxKm1eXKdnZ/InXmSxVlzmU/5cnhcrM3CnSbEUG2E7+xTllnFXS
+         L8TaHLa1r5CmHOJtUPB6tWhCjSdngKKV7hikAr9znlTyvGF48rLcDVmPJ+Di1ZaItoxC
+         9AfZjiB7WXegkeCBfICTU6Y4b+5aBrc1vXka6MEMwEF3mq7+JeOlb9D5k0ZwMUaRWeQc
+         WMHBsoY3RJ5qzZ6NKd3uPBMPrER0nglKC7drjUYfVaVgCpzdvvfsy4aHGeVdlfXXb1h4
+         ujbsG+8OUs5JTPPFvqGYlVzKvx4WvIfOCYgJRybi6t5eZHsdcFrlVM3B7R3U4t7HQjlS
+         aTZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUqC1nwCQKUT1T5fkR4NfDZZQJJuEfQv4HpcY8HKwnNqcb1O6waWdluIotrwlv2wPxWujGMr45NtCM0JmY=@vger.kernel.org, AJvYcCVKaMhrVPevGMycfLZO+BxLybp8CL0WYELLHzF/ebhRNsIdeMfIfJD/ulBXnmj0b+vmIOYMKfGNeBPfeFw=@vger.kernel.org, AJvYcCWbTlJVQiMruj8UVmeJ40D5nx9qpomr9sGNeBxFy/e8IJq1NY/pIyAcyTv/0YFKOR5FZ6sMts0xBTYcAKWa@vger.kernel.org, AJvYcCWuqFeYKQczKuGyzf7dmDuxKE0AprTUqtGXMP2MmoTZIzhb18aq3f5mxboZoyDjxtGahOaxJvUN6ynS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/S4HcFCXfjW+uhjX9yxFkyWT28TjKuobedg4c+uvab3l14HCP
+	Nco9X/WVqosyIWzNThFSrgaBwN5TtNotxlWKmbtYDkUtdPa/J1+oQZHDBnerb7svf07+1YT6t1o
+	LTjE161YSGiGEoJfUowhEN1QPLOA=
+X-Gm-Gg: ASbGncsJfq49Kb0zUk1rvNMAt12uZXnXTUaAk81ETWP0Dwg5UyIQ4n6kQuyhJyMpcQl
+	227JFHD9iJPI0FbdkbEKUTLvcIsbBoxcirX5j3Y8ePy2P1LGa3QjABM4QQTeqB34/SEV2ORuI2V
+	mS86I2SG7xTh7H+m1lC5XglEm5OP7CQYJFJII=
+X-Google-Smtp-Source: AGHT+IE4UMHREzgkQUDlb9f76ML3et+Bb02b5+av1fLvRw1YGIeJDBdw7dFMjSxPahafRrC3GwwrWULZTUZ927Q/Ez0=
+X-Received: by 2002:a05:622a:438a:b0:476:652f:4db4 with SMTP id
+ d75a77b69052e-476ba8b2f27mr8949481cf.5.1741826996633; Wed, 12 Mar 2025
+ 17:49:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v35 00/31] Introduce QC USB SND audio offloading support
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-CC: Greg KH <gregkh@linuxfoundation.org>, <srinivas.kandagatla@linaro.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
-        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <tiwai@suse.com>, <krzk+dt@kernel.org>,
-        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
-        <robh@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20250219004754.497985-1-quic_wcheng@quicinc.com>
- <Z7W_Vz_kVDjIcp5N@linaro.org>
- <82ce69a3-d248-494f-6ddb-098f392c78a0@quicinc.com>
- <Z8a4WYq4GqWBVNyX@linaro.org>
- <ee5cb6bc-963a-4e31-8ac4-07120fb9ff70@quicinc.com>
- <Z8ikt2K0uekU2dVZ@linaro.org>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <Z8ikt2K0uekU2dVZ@linaro.org>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <CAHgNfTxS1Q4PPsw520-J4Yn6xg+QZOYFkYhg5yv-uZFu5waN_g@mail.gmail.com>
+ <20250307205156.GA583954-robh@kernel.org> <5996925.DvuYhMxLoT@setsuna> <20250312125832.GA359842-robh@kernel.org>
+In-Reply-To: <20250312125832.GA359842-robh@kernel.org>
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Thu, 13 Mar 2025 10:49:40 +1000
+X-Gm-Features: AQ5f1JpviH4ysHbqATC6ly_Fa9fyvcQzoJXH7f6pMF6qeXNeHE906TPegzKdRB0
+Message-ID: <CAHgNfTwLfqCP-TL_pdqxs0AC+1z845Ca1zU6dUS=xwNMgaz+5Q@mail.gmail.com>
+Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
+ pulldown and zero-fill
+To: Rob Herring <robh@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shi Fu <shifu0704@thundersoft.com>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=D6NHKuRj c=1 sm=1 tr=0 ts=67d215f9 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=qC_FGOx9AAAA:8 a=HTecfl5s7U67J0CcF8QA:9 a=QEXdDO2ut3YA:10
- a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-GUID: SH3MPeN7uBXWUDXli7heUJQlcykyMSVV
-X-Proofpoint-ORIG-GUID: SH3MPeN7uBXWUDXli7heUJQlcykyMSVV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-12_06,2025-03-11_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- priorityscore=1501 mlxscore=0 spamscore=0 lowpriorityscore=0 phishscore=0
- adultscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015 impostorscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503120166
+Content-Transfer-Encoding: quoted-printable
 
-Hi Stephan,
+On Wed, Mar 12, 2025 at 10:58=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
+e:
+>
+> On Mon, Mar 10, 2025 at 07:30:07PM +1000, James Calligeros wrote:
+> > On Sat, Mar 8, 2025 at 6:51=E2=80=AFAM Rob Herring <robh@kernel.org> wr=
+ote:
+> > > How would it work when you need a mask? "dai-tdm-slot-tx-mask" is
+> > > enough?
+> >
+> > The existing TX/RX slot masks are used to control which slots the codec
+> > is operating on, AIUI. I don't know if it makes sense to alter how code=
+cs
+> > deal with this. Could we combine the suggested dai-tdm-slot-tx-idle
+> > with an optional dai-tdm-slot-tx-idle-mask property? From the machine
+> > driver's perspective, the API would then be similar to the existing
+> > set_tdm_slot ops. The current downstream macaudio machine driver builds
+> > its links by allowing multiple codecs and CPUs to be linked to a DAI,
+> > like so:
+>
+> Wouldn't the NOT of dai-tdm-slot-tx-mask be the idle mask?
 
-On 3/5/2025 11:23 AM, Stephan Gerhold wrote:
-> On Tue, Mar 04, 2025 at 02:46:28PM -0800, Wesley Cheng wrote:
->> On 3/4/2025 12:22 AM, Stephan Gerhold wrote:
->>> On Mon, Mar 03, 2025 at 06:39:52PM -0800, Wesley Cheng wrote:
->>>> On 2/19/2025 3:24 AM, Stephan Gerhold wrote:
->>>>> On Tue, Feb 18, 2025 at 04:47:23PM -0800, Wesley Cheng wrote:
->>>>>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
->>>>>>
->>>>>> Several Qualcomm based chipsets can support USB audio offloading to a
->>>>>> dedicated audio DSP, which can take over issuing transfers to the USB
->>>>>> host controller.  The intention is to reduce the load on the main
->>>>>> processors in the SoC, and allow them to be placed into lower power modes.
->>>>>> There are several parts to this design:
->>>>>>   1. Adding ASoC binding layer
->>>>>>   2. Create a USB backend for Q6DSP
->>>>>>   3. Introduce XHCI interrupter support
->>>>>>   4. Create vendor ops for the USB SND driver
->>>>>>
->>>>>>       USB                          |            ASoC
->>>>>> --------------------------------------------------------------------
->>>>>>                                    |  _________________________
->>>>>>                                    | |sm8250 platform card     |
->>>>>>                                    | |_________________________|
->>>>>>                                    |         |           |
->>>>>>                                    |      ___V____   ____V____
->>>>>>                                    |     |Q6USB   | |Q6AFE    |
->>>>>> |     |"codec" | |"cpu"    |
->>>>>>                                    |     |________| |_________|
->>>>>>                                    |         ^  ^        ^
->>>>>>                                    |         |  |________|
->>>>>>                                    |      ___V____    |
->>>>>>                                    |     |SOC-USB |   |
->>>>>>    ________       ________               |        |   |
->>>>>>   |USB SND |<--->|QC offld|<------------>|________|   |
->>>>>>   |(card.c)|     |        |<----------                |
->>>>>>   |________|     |________|___     | |                |
->>>>>>       ^               ^       |    | |    ____________V_________
->>>>>>       |               |       |    | |   |APR/GLINK             |
->>>>>>    __ V_______________V_____  |    | |   |______________________|
->>>>>>   |USB SND (endpoint.c)     | |    | |              ^
->>>>>>   |_________________________| |    | |              |
->>>>>>               ^               |    | |   ___________V___________
->>>>>>               |               |    | |->|audio DSP              |
->>>>>>    ___________V_____________  |    |    |_______________________|
->>>>>>   |XHCI HCD                 |<-    |
->>>>>>   |_________________________|      |
->>>>>>
->>>>>
->>>>> As I noted on v34 [1], this version is still missing instructions and
->>>>> changes needed for testing this series. The device tree changes don't
->>>>> need to be part of the same series, but there should be at least a link
->>>>> provided to give other people the chance to provide Tested-by tags.
->>>>>
->>>>> IMO we shouldn't merge this series without those instructions, otherwise
->>>>> we risk that this just ends up being dead code that no one can use.
->>>>>
->>>>> Can you please share the device tree changes for a board upstream and
->>>>> any other changes needed to be able to test this series? E.g. for
->>>>> sm8250-mtp.dts, based on the examples in your cover letter.
->>>>>
->>>>
->>>> To clarify I'm testing this on sm8350 in recent times, but utilizing sm8250
->>>> definitions for the ASoC platform card, as the platform sound card is more
->>>> or less the same between the two SoCs.  Back
->>>> when I started this series, sm8350 was missing a bunch of dependent
->>>> components, such as aDSP not being loaded, and missing platform sound card
->>>> definition, so I had to define and enable those on my own, which required a
->>>> slew of new DT nodes, hence why it wasn't as straight forward to include
->>>> the DT definitions yet for sm8350.  Not thinking that this series would
->>>> take as long as it did, I was planning on separating out the DT changes in
->>>> a different series to enable offloading for the devices I have tested with.
->>>> (sm8150, sm8250 and sm8350)
->>>>
->>>> There's still a pretty big chunk of dependencies missing from sm8350, so
->>>> those would also be handled in the follow up DT submission.  For now, its a
->>>> much bigger hurdle to get the main/functional changes in, and that was
->>>> taking a significant amount of time from my end to manage.
->>>>
->>>> If you want, I can give you the changes I have offline to enable this for
->>>> sm8350, since I haven't spent time formatting/prepping the changes for
->>>> submission yet.
->>>>
->>>
->>> Can you push it to a public branch somewhere (e.g. on CodeLinaro)? I was
->>> talking to some people from the community about testing this on some of
->>> the smartphones we have in upstream, so it wouldn't help if I just have
->>> the changes privately.
->>
->> Which CLO project/branch did you want me to push it to?  Sorry, I haven't
->> worked too much with the CLO open branches.  I have an account though.
->>
-> 
-> Any project/branch is fine for me, I suggested CLO only because I
-> assumed you already have an account there.
-> 
-> You should be able to create a personal project and push it there. You
-> could also use the fork button on
-> https://git.codelinaro.org/linaro/linux/kernel/torvalds/linux to avoid
-> having to push the full history yourself. It should result in a project
-> similar to mine: https://git.codelinaro.org/stephan.gerhold/linux
-> 
+Theoretically it should be, and that's probably just what we should do.
+We would then just have the dai-tdm-slot-tx-idle-mode property to worry
+about. There may be a reason a unique property was added however, as only
+some codecs have it set in our downstream DTs. Perhaps Martin can shed
+some light on this?
 
-Can you access the following branch?
-https://git.codelinaro.org/clo/linux-kernel/kernel-qcom/-/commits/usb_audio_offload/?ref_type=heads
+> >
+> > dai-link@0 {
+> >       cpu {
+> >               sound-dai =3D <&cpu0>, <&cpu1>;
+> >       };
+> >       codec {
+> >               sound-dai =3D <&speaker0>,
+> >                         ...,
+> >                         <&speaker6>;
+> >       };
+> > };
+> >
+> > In this case, the codec-specific mask property was added so that a mask
+> > could be applied to a specific codec rather than the whole dai, however
+> > from upstream drivers tt looks like the way this should be handled is t=
+o
+> > have "dai-tdm-slot-tx-idle-mask-n" properties at the dai level, then ha=
+ve
+> > the machine driver set the mask for the appropriate codec during setup.=
+ So
+> > for macaudio, assuming speaker5 requires this zerofill mask, we would
+> > have something like this:
+>
+> I'm now confused why you need n masks and what does n represent?
 
-Should have the DT change I'm using to verify.
+We can have n cpus linked to m codecs in macaudio, and we need to specify
+the TDM properties for each codec individually . There seem to be a couple
+of ways upstream drivers deal with this, but the "nicest" way I've seen is
+what amlogic[1] does, which is extend the dai-tdm-slot-* properties with
+an index (-n) representing the specific codec it's for.
 
-Thanks
-Wesley Cheng
+Regards,
+James
+
+[1] https://github.com/torvalds/linux/blob/master/Documentation/devicetree/=
+bindings/sound/amlogic%2Caxg-sound-card.yaml
