@@ -1,85 +1,85 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FF118A6C1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAD018D65F
 	for <linux-sound@vger.kernel.org>; Thu, 13 Mar 2025 17:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741887948; cv=none; b=LZC9+uxErg85gEJONJZEdyN2UcOYdLaWmX0E2m7Qy1l2vzIad1TLK+HKR00lGTSCZBPvxxaI3H23Wpo9tIo+zNfui4OuHlTeSTsHW7hDl02cub18WAd/Ww8OrznSqj6zselP5YiOpcl6Q6UohgOpFNtnmab1vJy3QgMoWxnLSIc=
+	t=1741887948; cv=none; b=LQOqaHyrulpjg4BA4atqLlVDAx5IRxZua3fk+YoJ1FErkpdJNzG932yQEX6wzf7DeveAwaNADLdBrOwoxmk9y0gSPSj1If08qx9RGJY7gXHWFRRxitqIyv6XLf/uiCyWx/TMHMf5lY0+xMKJzga5+v58neaGiJz3ruDFy1u7fVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741887948; c=relaxed/simple;
-	bh=eHIKEA2KHugNpYbSKyn3zrrERi3WaeAq9hxNzllb+6k=;
+	bh=LE8rlRXX2XEMpTR2y/ESGDcXgYwbUP06X2nB6/RAxYY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j/VRJS7fB5M6ON8E8Im86iRW1dkFnXv0st6lq56bEH4gqpAV4qx+mLTkr2bzNrh7jjFQKBhH4fMH7BqKfgPQ6H2KVyQ9udv7PYWxRHmwqMlBLdi3abC72ZPqMszT8EweEec7TL0LnYs5+gP6Ck8YduFJsH7rRMasFPq0cHiCpvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TFed7rzN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E6tnG7Is; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TFed7rzN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E6tnG7Is; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=AjXJfYk3HgQ9pKujLOGYgRjdiLiXo9xS5rvcSwnYUzWaKVfw5AefwNDt3FwaNbgf6hS5iWFV9MJJ2sfORFBpzb/FLkZXyH5ssm8h7jJs57qC6ilF0r6CKlrEAl9LQcxXqJW0cTk+iIfNpDNyu95EQyPaJTaWv0MTZpkLFT3cEjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x+asJ1Lc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4qOyiY5w; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KAC2VMAD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RhPd69kh; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TFed7rzN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E6tnG7Is";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TFed7rzN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E6tnG7Is"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x+asJ1Lc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4qOyiY5w";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KAC2VMAD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RhPd69kh"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 84332211F8;
-	Thu, 13 Mar 2025 17:42:06 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EBD661F7B2;
+	Thu, 13 Mar 2025 17:42:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741887726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1741887728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=D0DRj73yVF7KH3GCPmJnNH+WIAZISmd7AuVsvp30Rn8=;
-	b=TFed7rzNmNi/muSPFC0f3KY3WLTrqWolBw1LJUx4rUVOSrV2kZ2iebDwb5ynxVC4WuiQIL
-	1A7hQniV2id6+aSIDcwe3cAZ0RJgnV6ZMZ2DqYNXdh32fxuLaNEpl5TgIO2stTOzLhjC8g
-	GYOJb6+ygctMaSof4j8CzcdIsyTfQv0=
+	bh=3PosViUxg1MdzRV9AjysS+ezMvD/5E8Wsxq84yl/270=;
+	b=x+asJ1LcpUhinbQG9eCJG6Au1SceTrWXXs8qeMHE/o5Ba9hvcr+yuTWKbpteib2HQPW8Py
+	YlDuWxVBF3HmmoqOtnr+Ng6v3JqKX/GgbWgptyQQO4Dm4TTsFMVigmuCbMQ4TZX37opzfJ
+	bG770/YLQZDkCrtEeQ14VrPzwcmjVg0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741887726;
+	s=susede2_ed25519; t=1741887728;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=D0DRj73yVF7KH3GCPmJnNH+WIAZISmd7AuVsvp30Rn8=;
-	b=E6tnG7IsPvMV06FVPndm3mceY6YlWaPqqiww95ZirfdEmnFtYAoi1G6+kTdzIZhFNYrLxB
-	gqhCRMW3MfctOXAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TFed7rzN;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=E6tnG7Is
+	bh=3PosViUxg1MdzRV9AjysS+ezMvD/5E8Wsxq84yl/270=;
+	b=4qOyiY5wGg8GfmX0YBDKje+pXBK35ryZwRMmqVuv76fTWvNZlk1fwxF0Li8jrwKHpdOKP7
+	X0hE5S6Hcyvn2NDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741887726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1741887727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=D0DRj73yVF7KH3GCPmJnNH+WIAZISmd7AuVsvp30Rn8=;
-	b=TFed7rzNmNi/muSPFC0f3KY3WLTrqWolBw1LJUx4rUVOSrV2kZ2iebDwb5ynxVC4WuiQIL
-	1A7hQniV2id6+aSIDcwe3cAZ0RJgnV6ZMZ2DqYNXdh32fxuLaNEpl5TgIO2stTOzLhjC8g
-	GYOJb6+ygctMaSof4j8CzcdIsyTfQv0=
+	bh=3PosViUxg1MdzRV9AjysS+ezMvD/5E8Wsxq84yl/270=;
+	b=KAC2VMADvXVNifoiTCnFF9/x6Yi+BXdIZ7lf6lAcj9UuF4CacEz7sYkNTyUjeIT/f3rzCw
+	vLxwCtvVsBsDq/HZ3Ez0GOfdLXSvpiq8i9mREBm0pdyuWFzTiSy86dgKzASIgiZCN9yrgC
+	B2rQ65rMhIYB8NkZS+zr4/XAEjGJCIw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741887726;
+	s=susede2_ed25519; t=1741887727;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=D0DRj73yVF7KH3GCPmJnNH+WIAZISmd7AuVsvp30Rn8=;
-	b=E6tnG7IsPvMV06FVPndm3mceY6YlWaPqqiww95ZirfdEmnFtYAoi1G6+kTdzIZhFNYrLxB
-	gqhCRMW3MfctOXAw==
+	bh=3PosViUxg1MdzRV9AjysS+ezMvD/5E8Wsxq84yl/270=;
+	b=RhPd69khoQwnZ7GVmoQM19uc9jljs7jTTnO30r7x2HiOt99gvMZyI+71cnkokiDFr27p6Z
+	NOnPx5sjLCmVv1Cg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 624B1139D2;
-	Thu, 13 Mar 2025 17:42:06 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C4980139D2;
+	Thu, 13 Mar 2025 17:42:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6L6/Fu4Y02cFRQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 13 Mar 2025 17:42:06 +0000
+	id 4KG4Lu8Y02cFRQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 13 Mar 2025 17:42:07 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-Subject: [PATCH 71/89] ASoC: mediatek: mt8192: Convert to RUNTIME_PM_OPS()
-Date: Thu, 13 Mar 2025 18:41:16 +0100
-Message-ID: <20250313174139.29942-72-tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org,
+	sound-open-firmware@alsa-project.org
+Subject: [PATCH 79/89] ASoC: SOF: pci: Convert to EXPORT_NS_DEV_PM_OPS()
+Date: Thu, 13 Mar 2025 18:41:24 +0100
+Message-ID: <20250313174139.29942-80-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250313174139.29942-1-tiwai@suse.de>
 References: <20250313174139.29942-1-tiwai@suse.de>
@@ -90,73 +90,245 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 84332211F8
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLi691ga9brjh6qjnnbs1osk4o)];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-Use the newer RUNTIME_PM_OPS() macro instead of SET_RUNTIME_PM_OPS()
-together with pm_ptr().
+Use the newer EXPORT_NS_DEV_PM_OPS() macro together with pm_ptr().
 
 This optimizes slightly when CONFIG_PM is disabled, too.
 
+Cc: sound-open-firmware@alsa-project.org
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/mediatek/mt8192/mt8192-afe-pcm.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/soc/sof/amd/pci-acp63.c   | 2 +-
+ sound/soc/sof/amd/pci-acp70.c   | 2 +-
+ sound/soc/sof/amd/pci-rn.c      | 2 +-
+ sound/soc/sof/amd/pci-vangogh.c | 2 +-
+ sound/soc/sof/intel/pci-apl.c   | 2 +-
+ sound/soc/sof/intel/pci-cnl.c   | 2 +-
+ sound/soc/sof/intel/pci-icl.c   | 2 +-
+ sound/soc/sof/intel/pci-lnl.c   | 2 +-
+ sound/soc/sof/intel/pci-mtl.c   | 2 +-
+ sound/soc/sof/intel/pci-ptl.c   | 2 +-
+ sound/soc/sof/intel/pci-skl.c   | 2 +-
+ sound/soc/sof/intel/pci-tgl.c   | 2 +-
+ sound/soc/sof/intel/pci-tng.c   | 2 +-
+ sound/soc/sof/sof-pci-dev.c     | 9 ++++-----
+ 14 files changed, 17 insertions(+), 18 deletions(-)
 
-diff --git a/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c b/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c
-index 80cda7bf5ccc..fd6af74d7995 100644
---- a/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c
-@@ -2313,15 +2313,15 @@ static const struct of_device_id mt8192_afe_pcm_dt_match[] = {
- MODULE_DEVICE_TABLE(of, mt8192_afe_pcm_dt_match);
- 
- static const struct dev_pm_ops mt8192_afe_pm_ops = {
--	SET_RUNTIME_PM_OPS(mt8192_afe_runtime_suspend,
--			   mt8192_afe_runtime_resume, NULL)
-+	RUNTIME_PM_OPS(mt8192_afe_runtime_suspend,
-+		       mt8192_afe_runtime_resume, NULL)
+diff --git a/sound/soc/sof/amd/pci-acp63.c b/sound/soc/sof/amd/pci-acp63.c
+index 13aa87cdeeac..21ffdfdcf03d 100644
+--- a/sound/soc/sof/amd/pci-acp63.c
++++ b/sound/soc/sof/amd/pci-acp63.c
+@@ -104,7 +104,7 @@ static struct pci_driver snd_sof_pci_amd_acp63_driver = {
+ 	.probe = acp63_pci_probe,
+ 	.remove = acp63_pci_remove,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_amd_acp63_driver);
+diff --git a/sound/soc/sof/amd/pci-acp70.c b/sound/soc/sof/amd/pci-acp70.c
+index d886bdf3a112..8fa1170a2161 100644
+--- a/sound/soc/sof/amd/pci-acp70.c
++++ b/sound/soc/sof/amd/pci-acp70.c
+@@ -100,7 +100,7 @@ static struct pci_driver snd_sof_pci_amd_acp70_driver = {
+ 	.probe = acp70_pci_probe,
+ 	.remove = acp70_pci_remove,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_amd_acp70_driver);
+diff --git a/sound/soc/sof/amd/pci-rn.c b/sound/soc/sof/amd/pci-rn.c
+index 4a36029a00de..2b7fbcf11b55 100644
+--- a/sound/soc/sof/amd/pci-rn.c
++++ b/sound/soc/sof/amd/pci-rn.c
+@@ -97,7 +97,7 @@ static struct pci_driver snd_sof_pci_amd_rn_driver = {
+ 	.probe = acp_pci_rn_probe,
+ 	.remove = acp_pci_rn_remove,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_amd_rn_driver);
+diff --git a/sound/soc/sof/amd/pci-vangogh.c b/sound/soc/sof/amd/pci-vangogh.c
+index caf9e2b2e463..6ef692becfb9 100644
+--- a/sound/soc/sof/amd/pci-vangogh.c
++++ b/sound/soc/sof/amd/pci-vangogh.c
+@@ -90,7 +90,7 @@ static struct pci_driver snd_sof_pci_amd_vgh_driver = {
+ 	.probe = acp_pci_vgh_probe,
+ 	.remove = acp_pci_vgh_remove,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_amd_vgh_driver);
+diff --git a/sound/soc/sof/intel/pci-apl.c b/sound/soc/sof/intel/pci-apl.c
+index 94ab3c61e3f7..0bf7ee753bc3 100644
+--- a/sound/soc/sof/intel/pci-apl.c
++++ b/sound/soc/sof/intel/pci-apl.c
+@@ -99,7 +99,7 @@ static struct pci_driver snd_sof_pci_intel_apl_driver = {
+ 	.remove = sof_pci_remove,
+ 	.shutdown = sof_pci_shutdown,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_intel_apl_driver);
+diff --git a/sound/soc/sof/intel/pci-cnl.c b/sound/soc/sof/intel/pci-cnl.c
+index 739c352c3860..de48640024e4 100644
+--- a/sound/soc/sof/intel/pci-cnl.c
++++ b/sound/soc/sof/intel/pci-cnl.c
+@@ -137,7 +137,7 @@ static struct pci_driver snd_sof_pci_intel_cnl_driver = {
+ 	.remove = sof_pci_remove,
+ 	.shutdown = sof_pci_shutdown,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_intel_cnl_driver);
+diff --git a/sound/soc/sof/intel/pci-icl.c b/sound/soc/sof/intel/pci-icl.c
+index 8545ab95eac8..fd219e654844 100644
+--- a/sound/soc/sof/intel/pci-icl.c
++++ b/sound/soc/sof/intel/pci-icl.c
+@@ -102,7 +102,7 @@ static struct pci_driver snd_sof_pci_intel_icl_driver = {
+ 	.remove = sof_pci_remove,
+ 	.shutdown = sof_pci_shutdown,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_intel_icl_driver);
+diff --git a/sound/soc/sof/intel/pci-lnl.c b/sound/soc/sof/intel/pci-lnl.c
+index 91b9cff8c4ca..ae379c23f008 100644
+--- a/sound/soc/sof/intel/pci-lnl.c
++++ b/sound/soc/sof/intel/pci-lnl.c
+@@ -72,7 +72,7 @@ static struct pci_driver snd_sof_pci_intel_lnl_driver = {
+ 	.remove = sof_pci_remove,
+ 	.shutdown = sof_pci_shutdown,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_intel_lnl_driver);
+diff --git a/sound/soc/sof/intel/pci-mtl.c b/sound/soc/sof/intel/pci-mtl.c
+index c5048a4a56be..7b2533999195 100644
+--- a/sound/soc/sof/intel/pci-mtl.c
++++ b/sound/soc/sof/intel/pci-mtl.c
+@@ -135,7 +135,7 @@ static struct pci_driver snd_sof_pci_intel_mtl_driver = {
+ 	.remove = sof_pci_remove,
+ 	.shutdown = sof_pci_shutdown,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_intel_mtl_driver);
+diff --git a/sound/soc/sof/intel/pci-ptl.c b/sound/soc/sof/intel/pci-ptl.c
+index 3812ab6d99c0..7d4c46f56931 100644
+--- a/sound/soc/sof/intel/pci-ptl.c
++++ b/sound/soc/sof/intel/pci-ptl.c
+@@ -71,7 +71,7 @@ static struct pci_driver snd_sof_pci_intel_ptl_driver = {
+ 	.remove = sof_pci_remove,
+ 	.shutdown = sof_pci_shutdown,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_intel_ptl_driver);
+diff --git a/sound/soc/sof/intel/pci-skl.c b/sound/soc/sof/intel/pci-skl.c
+index bd9daae51e4c..a16945dc35f7 100644
+--- a/sound/soc/sof/intel/pci-skl.c
++++ b/sound/soc/sof/intel/pci-skl.c
+@@ -83,7 +83,7 @@ static struct pci_driver snd_sof_pci_intel_skl_driver = {
+ 	.remove = sof_pci_remove,
+ 	.shutdown = sof_pci_shutdown,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_intel_skl_driver);
+diff --git a/sound/soc/sof/intel/pci-tgl.c b/sound/soc/sof/intel/pci-tgl.c
+index f76a7197f6ca..437c43819825 100644
+--- a/sound/soc/sof/intel/pci-tgl.c
++++ b/sound/soc/sof/intel/pci-tgl.c
+@@ -311,7 +311,7 @@ static struct pci_driver snd_sof_pci_intel_tgl_driver = {
+ 	.remove = sof_pci_remove,
+ 	.shutdown = sof_pci_shutdown,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_intel_tgl_driver);
+diff --git a/sound/soc/sof/intel/pci-tng.c b/sound/soc/sof/intel/pci-tng.c
+index 3eb7400942dd..0c11cc1fd820 100644
+--- a/sound/soc/sof/intel/pci-tng.c
++++ b/sound/soc/sof/intel/pci-tng.c
+@@ -238,7 +238,7 @@ static struct pci_driver snd_sof_pci_intel_tng_driver = {
+ 	.remove = sof_pci_remove,
+ 	.shutdown = sof_pci_shutdown,
+ 	.driver = {
+-		.pm = &sof_pci_pm,
++		.pm = pm_ptr(&sof_pci_pm),
+ 	},
+ };
+ module_pci_driver(snd_sof_pci_intel_tng_driver);
+diff --git a/sound/soc/sof/sof-pci-dev.c b/sound/soc/sof/sof-pci-dev.c
+index 103377e2caaf..8ae1562ab4ef 100644
+--- a/sound/soc/sof/sof-pci-dev.c
++++ b/sound/soc/sof/sof-pci-dev.c
+@@ -155,14 +155,13 @@ static const struct dmi_system_id community_key_platforms[] = {
+ 	{},
  };
  
- static struct platform_driver mt8192_afe_pcm_driver = {
- 	.driver = {
- 		   .name = "mt8192-audio",
- 		   .of_match_table = mt8192_afe_pcm_dt_match,
--		   .pm = &mt8192_afe_pm_ops,
-+		   .pm = pm_ptr(&mt8192_afe_pm_ops),
- 	},
- 	.probe = mt8192_afe_pcm_dev_probe,
- 	.remove = mt8192_afe_pcm_dev_remove,
+-const struct dev_pm_ops sof_pci_pm = {
++EXPORT_NS_DEV_PM_OPS(sof_pci_pm, "SND_SOC_SOF_PCI_DEV") = {
+ 	.prepare = snd_sof_prepare,
+ 	.complete = snd_sof_complete,
+-	SET_SYSTEM_SLEEP_PM_OPS(snd_sof_suspend, snd_sof_resume)
+-	SET_RUNTIME_PM_OPS(snd_sof_runtime_suspend, snd_sof_runtime_resume,
+-			   snd_sof_runtime_idle)
++	SYSTEM_SLEEP_PM_OPS(snd_sof_suspend, snd_sof_resume)
++	RUNTIME_PM_OPS(snd_sof_runtime_suspend, snd_sof_runtime_resume,
++		       snd_sof_runtime_idle)
+ };
+-EXPORT_SYMBOL_NS(sof_pci_pm, "SND_SOC_SOF_PCI_DEV");
+ 
+ static void sof_pci_probe_complete(struct device *dev)
+ {
 -- 
 2.43.0
 
