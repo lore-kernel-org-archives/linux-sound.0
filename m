@@ -1,102 +1,168 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7177D1F236B
-	for <linux-sound@vger.kernel.org>; Fri, 14 Mar 2025 10:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948FA1EF09A
+	for <linux-sound@vger.kernel.org>; Fri, 14 Mar 2025 10:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741947110; cv=none; b=ORC0JvqP9xCHDCQmcj2hFm72SlfNLi4tXUFbyerHKGyTxn+DUMeqdyVl4/6hIg5Eciv0QJtI4n57tsIWqw1GkxBHXHY/xe+uWNWVx238VSR0bdCOQz1T85WNdrkDSanF9FGxzRHkySm5dOlKJTkS7aGe1Gnwe9judLaVB5v9QDU=
+	t=1741947550; cv=none; b=TKyezGLIr3p9A2B4LlZmi5GaEGaY/AN944jixkzRpQTbE9GFiZKD8lrQroO1mNtBTpiv28uCujuurOVeTP9lUdLM+S/RvGcBGkeI/q7N9F3MvLLdB48R100KsQ2Dzqh2MG012twU0+aaRJc3zdGZ/1bgSx2+NQjhV2BRoyUc990=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741947110; c=relaxed/simple;
-	bh=1Vi0CajOHRKeNKzH6avY9kIwFZ/TezpCqJGypsjuUds=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cUwQNQqvoHdGa5IteGxyVerEHLzxgaFXUlgR2OPrpJh/JN6+7RiRSon27cmKeJ6x0BaSgjHIzcoyPe9QlEaNcEkr/1BZoYnGGT1rTdfzSfT5xFaWYAXOV8sutQAUHyRIo0wvc7YqGBQq0SJlJfY6NsgnLW4V9fekugNyGa7Vtb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f/BlHhQI; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741947550; c=relaxed/simple;
+	bh=EOgqDjfqM7VBbEiot2b6fCej1BF5paQRm6TKfXdPOkE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ea3ELQ8dRtC2Ju4nNJw+ptFI3kw9IrDCLgbiJyxNWh1BnUxHKLWAk1X56sRFnG3LRMhRSJxSOmwV9VGHDYg4xe4gUlTtHYhd2App5ajq+6IIuc20ZhxWmOEZg8tqGf8GQQ1Whu9A7lmWvulfhmbgSSJBkOwcqLSL4m/Mw6Yycoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PYuOpvm2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AVrCNw5k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PYuOpvm2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AVrCNw5k; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f/BlHhQI"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso12028985e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 14 Mar 2025 03:11:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741947107; x=1742551907; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IXrdPdZYVwV2bWnv1UKchMA+tMF9lSgD0HH6znImayo=;
-        b=f/BlHhQIdTYqTmPA/b5rXE/Z/Uwi37jn73qTlU30S6DYZNhAu/o5Gbd4w3GHON9ZI/
-         fq9Wj4Lt3PLeD4mZKrxRpQghy07pQWxwsGPMEo/P9warcLMx+GcDF5xxbWzDZWEysjyZ
-         ljBZzVros80DZIjd65x8TX5sZ8yMHVjOPDJCyXmMJN4YZL5YM01fJoqLOmzb4pWkz1pi
-         ipvKJj68NGqq9GRer9n9MXwC5Ou2eQJUEnV0ZmG2oR1eFBftJrtgj7umYfNvFb+mToJk
-         42mdbVEhTWL6qkCxmmn+VMF9DydsuAFds1sqUSajijuPmEO4bJf9fUQp87/6SqZS/mZK
-         KikA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741947107; x=1742551907;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IXrdPdZYVwV2bWnv1UKchMA+tMF9lSgD0HH6znImayo=;
-        b=o5DcF9Ev4HdnBDga9zAlpvaa1jpIS20+jL9LkpyM5n6VSaPGu3860hBn2L8iuWXBAn
-         ZjThGeRsycoi6jhZwq3bdmR0HMyZ5Owz+Di9pyhTZzpCBKRFnwr03+FfQ0ZJC8q7csla
-         IltkHEz4M7vRGn6LHWb16HhNvg6/HI7pi8VBN6ySbj4t5WMkJZJcl3EOM7tbRTqxOhmE
-         welNiCSPZsUlc9uMLPuRF1RVJ94bgraTuOAQiP/mnsFlCwMQMOYanQ4afit1CXhbizdy
-         vba38GSBN43R+u4ifxJ2l2BafX4m0FRDZjk7vNVV+ZFNpgu3TwqFCoVXCQLOdKDWIBaq
-         Y3lg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4mTbd/0xSBziT7g2Hqns46lw1tKcTe+2iEC1UXLxhMQoi3M5dEtH08qEun2YDQBAJQgGZ2XkQNNGtQw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlEnBnJp25HlgKXmt7Ha4qin+Z9pFsiR8izVtWYK6VOm3EglQi
-	XYBVeNSBu0n6S0+i6V/j0FNMygBPdBI6YJ6YN2LjR33GJ6bwptDTeuWRV1qdbE8=
-X-Gm-Gg: ASbGncsquJrPzPYu2zGM6JVwNT2ll8/5zWGqxvw8E5Hdo+UCrJrzRt2g7g88dy0xiRI
-	TrxQfmmqXSe10eTP9xiRylpe/pUTUEibE2zUoZiFWWNm+0QB71ROMku/qal2XUOjlZXdFUrzFwb
-	SXmyWfRdINfBYPKX/UA5oKqXzbfdbjXq1xkvJg6VcX2cYgssZMnp3yp4+IhfPJ4NjDzr/a1o3kx
-	0TeHy+RielN4WlMY0/N+bhjFxT/mP7f6h6qo4EWSiPeALs0CxKMV29pKCSkmPCevf7aP3roaohT
-	glM919X5lfyRC/KWpX5RZEFjpE6V7+Ql/0AALoVmMrxsnND+sA==
-X-Google-Smtp-Source: AGHT+IFu33nlZq8eDE9nkYaBwVTjMj37ygSLQh0y3dybArIim3lL6otY1GCHq+RK2eeNyDGoSAttHg==
-X-Received: by 2002:a05:600c:3108:b0:43c:fe15:41e1 with SMTP id 5b1f17b1804b1-43d1ec66daamr22153745e9.4.1741947106739;
-        Fri, 14 Mar 2025 03:11:46 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d2010e2a2sm12352535e9.39.2025.03.14.03.11.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 03:11:46 -0700 (PDT)
-Date: Fri, 14 Mar 2025 13:11:43 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH next] ASoC: amd: acp: Fix leak in acp_pci_probe()
-Message-ID: <3dad80cb-e177-45aa-97ac-df9c98a47d94@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PYuOpvm2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AVrCNw5k";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PYuOpvm2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AVrCNw5k"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B2E9821184;
+	Fri, 14 Mar 2025 10:19:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741947546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DbMEwshk89AHvd1r2trkgy4A2gplprrLPYdXIjP3X4E=;
+	b=PYuOpvm2F0T0InLTDlwY1K9pfHmgqk7jIOMM1vt6II290V9jy+pDkMBMKcVZYJlVwlkSbD
+	bffEb+Jk2YaMCAQ55C3o3wRmK0PPm4mH+bzRdTO6zwfyLJhGS/ZFow0DehrsRii6Juvn4+
+	Tnh8RhWwXkF8n2U/y3uVPn9BfdZcg8c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741947546;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DbMEwshk89AHvd1r2trkgy4A2gplprrLPYdXIjP3X4E=;
+	b=AVrCNw5kosgSDtykgEyx5E8KCDTWEf/Ja910oqWkrequ7TS/dBmI+yBPPbt51pIC7g3gLB
+	VGF65QsTdmrWWNCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PYuOpvm2;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AVrCNw5k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741947546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DbMEwshk89AHvd1r2trkgy4A2gplprrLPYdXIjP3X4E=;
+	b=PYuOpvm2F0T0InLTDlwY1K9pfHmgqk7jIOMM1vt6II290V9jy+pDkMBMKcVZYJlVwlkSbD
+	bffEb+Jk2YaMCAQ55C3o3wRmK0PPm4mH+bzRdTO6zwfyLJhGS/ZFow0DehrsRii6Juvn4+
+	Tnh8RhWwXkF8n2U/y3uVPn9BfdZcg8c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741947546;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DbMEwshk89AHvd1r2trkgy4A2gplprrLPYdXIjP3X4E=;
+	b=AVrCNw5kosgSDtykgEyx5E8KCDTWEf/Ja910oqWkrequ7TS/dBmI+yBPPbt51pIC7g3gLB
+	VGF65QsTdmrWWNCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 856C713A31;
+	Fri, 14 Mar 2025 10:19:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /6FZH5oC1GfLYgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 14 Mar 2025 10:19:06 +0000
+Date: Fri, 14 Mar 2025 11:19:06 +0100
+Message-ID: <87wmcr9ap1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ricard Wanderlof <ricard2013@butoba.net>
+Cc: Clemens Ladisch <clemens@ladisch.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Fix CME quirk for UF series keyboards
+In-Reply-To: <20250313-cme-fix-v1-1-d404889e4de8@butoba.net>
+References: <20250313-cme-fix-v1-1-d404889e4de8@butoba.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: B2E9821184
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-There needs to be some cleanup on this error path.  We can't just
-return directly.
+On Thu, 13 Mar 2025 23:16:17 +0100,
+Ricard Wanderlof wrote:
+> 
+> Fix quirk for CME master keyboards so it not only handles
+> sysex but also song position pointer, MIDI timing clock, start
+> and stop messages, and active sensing. All of these can be
+> output by the CME UF series master keyboards.
+> 
+> Tested with a CME UF6 in a desktop Linux environment as
+> well as on the Zynthian Raspberry Pi based platform.
+> 
+> Signed-off-by: Ricard Wanderlof <ricard2013@butoba.net>
+> ---
+> The CME UF6 not only sends sysex messages using CIN 0xf which
+> in the standard is only intended for single-byte unparsed
+> messages, but also song position pointer, as well as ordinary
+> MIDI timing clock, start, stop and active sensing.
+> 
+> The old quirk sent all four bytes of the USB MIDI message through
+> when CIN 0xf was received, which caused trailing bytes in the case
+> of single byte data, which would be interpreted as zero-valued
+> repeats of the previosly received channel message due to the
+> running status feature of MIDI. (In practice, this causes
+> continuous controllers to be reset to 0 as soon as a new value is
+> set. For note messages, it basically results in a note off for
+> note number 0, which is an annoyance although harmless in 
+> practice.)
+> 
+> Furthermore, the UF6 can send multiple messages in the same
+> packet. Because of this, and the 0xf quirk, we need to parse each
+> such message individually to get the length right, before sending
+> it on.
+> 
+> Finally, the UF6 sends messages with length 0 when it has nothing
+> else to send; don't forward these useless messages.
+> 
+> According to the original comment in the code, the old
+> functionality was intended to handle sysex messages only, and this
+> commit will still handle that case properly, so should be
+> compatible with all devices utilizing this quirk. I have only
+> tested this with a CME UF6 as don't have access to any other
+> CME devices (which are pretty old and rare these days).
 
-Fixes: aaf7a668bb38 ("ASoC: amd: acp: Add new interrupt handle callbacks in acp_common_hw_ops")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- sound/soc/amd/acp/acp-pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks, applied now.
 
-diff --git a/sound/soc/amd/acp/acp-pci.c b/sound/soc/amd/acp/acp-pci.c
-index 9322379cb36f..123524f90d6c 100644
---- a/sound/soc/amd/acp/acp-pci.c
-+++ b/sound/soc/amd/acp/acp-pci.c
-@@ -183,7 +183,7 @@ static int acp_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id
- 			       IRQF_SHARED, "ACP_I2S_IRQ", chip);
- 	if (ret) {
- 		dev_err(&pci->dev, "ACP I2S IRQ request failed %d\n", ret);
--		return ret;
-+		goto de_init;
- 	}
- 
- 	check_acp_config(pci, chip);
--- 
-2.47.2
 
+Takashi
