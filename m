@@ -1,112 +1,162 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB111EB5E2
-	for <linux-sound@vger.kernel.org>; Fri, 14 Mar 2025 10:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DADF4ED;
+	Fri, 14 Mar 2025 13:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.8.165.127
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741947718; cv=none; b=FVHwk7WJHuBZ2ei+J9IDaONNAjPmTdlg7vLDxVzW+a9B1cHk2qXz0cWHRNe5YPE6EC2OKFz8rCPfc5ZuWSD1fbqQdijHOgvo+BUVeoJASw+UgaL3jqOUWaQXjK6WwKX+w4lq9jGlprPMJ3vKuXGDJ+oJ4uAqyu0uG3i2Y0Bcan0=
+	t=1741959087; cv=none; b=UKxbZ9R8SCtvvUm66zgA5+SpwTNAP21LFoTQUp2t7UW0XsaB6lkNy4HRZ1OisueIKxdY6XSRHV3x9ZBGg3eMqucskbbtbmxJK3r+vKJrl8hgpE5hrI5oIsKpW5vURS9Nd9BUcyD5nlKIqy+DwBjhmn45Qn2w13ApmG5gg3dbRmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741947718; c=relaxed/simple;
-	bh=xTpZTX6AMxu3+qazJFqKIwM9kTorD9hdWCEh54oD/yY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MVSzmxo8KOu1Z9XM1Zbva4p3JrRl6oGwDZ2BpIxyl7nW7mwgZRBitHPGI/k0emffcDi1vK8TRuElMfF4wPgolwGxLJHPVWAzJZNIEKpjhu5l8ghMc3IFesA/WLQa29GJeOA6pNP7520C9+UljeuMXCjdDbksixgJISu57SF3Oyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p9zQ3ft0; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741959087; c=relaxed/simple;
+	bh=UATdpA7cgBWM5CfhL0BSNAFRMNZeQJf0RDSodrMiFm8=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=mw+qAguWniGKgaO/P5t64d3VaaJrzpmw4QXo3UerUHUgm1djM+CYJO1yANxxvSSStLC4XFB10m2lDyTXBJitmxYalMhXGeYCNk0oeNTShywG5uk3z4NOqILjx7pVBxx7TEo9345sN8Sa+8w1osfevO9u4BFSa8Ce4+wDyz6+8So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cutebit.org; spf=pass smtp.mailfrom=cutebit.org; dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b=jKqTWJyd; arc=none smtp.client-ip=185.8.165.127
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cutebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cutebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p9zQ3ft0"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54998f865b8so1712916e87.3
-        for <linux-sound@vger.kernel.org>; Fri, 14 Mar 2025 03:21:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741947715; x=1742552515; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xTpZTX6AMxu3+qazJFqKIwM9kTorD9hdWCEh54oD/yY=;
-        b=p9zQ3ft0WTocuto3kxkJdZvK8WPT9p0aKQQAxmKEeEhxOfmQMgVSf0WYouq2RNtnDZ
-         nz+yP1Epw6b136sAePYsDMbo7ZfBWCV898YfqtD4tmE3Guhtz0zr6avLivv9OGMGOzch
-         nFG7Eo0X3COKdmeFB3I2JCqiPxnx69KlVzg4uCEN8pALQplNC3dfBeLdCE+PAusxtQMD
-         v/kMktGMAMG0YKXNuafxPmdDNq0y4kMzgIZ0s9hMg9tWhou/fo12OEHnGVzq9AzbvlYS
-         hELu1wvIyxLtFtNgSphQnXx0ozfRY2z2xBKSS0M+yfRlmTT1mtp+Vrz9w48Fd/YNIh15
-         Adow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741947715; x=1742552515;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xTpZTX6AMxu3+qazJFqKIwM9kTorD9hdWCEh54oD/yY=;
-        b=Kkey4YZpNzEO8XuAiXKnj4zaSSlZbXFQGWN21bifGQIXWu1wYnTlZ2XeBhbO290zUl
-         HLJln4gAam/Bt0z0AzY6VHJ7ghEkxyyfDWLNWq8UoJ+08OEqOuuzT12M59WbB3qjyjWe
-         2bgNiuCu/ymOrnttfTNZDUmLx8p4zYPbEyXnhQq7Vubhp+34x8qIu9sTvLEyGmaWWbvX
-         DS436wh442mWRa9+NBk9ZhYJpP5qj8FUx7CEKXQesnQsLhqvdR6nQMqv6Fv5s+niN3G2
-         lmjQAgKVAHntQge7OmJCkaWTF9bRoo/Todur7meuCyakUDdyrHBHQF8g9+sGmpxLscxy
-         qB+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVB4EhCukBHKkkWFobdAVAdKaPEtkSSRNrSuWB9lYIQTxeVmlL8abd9mC3E3i6VuDsZgI8hDkTsN85uIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOJyspOrQsVlP3rxV9ae9MCsARaWV8kWMB8CyqvWXSTha/DUJ5
-	WKbt+cLZbaF8jvWeBm4k0QXupMItSEFWf0D47ijSQS21MkmQ1M1LyMlYcylNz6Ec/eMK2IQuhdN
-	2JvCSHTxR7R8YmgxpP9NICVntVJRfPRU6kQw+KP4ka5Yy6xP1
-X-Gm-Gg: ASbGncuyaA+MdV9lQ3SPFt8QwHG6n1tTAnciKXnPCLGKCflLC0thWT4/EYTnurIpxZW
-	tw33p3EE1HNktisuZuDb7NnuC0LoayO2xiU855YNgrukbhy7lFQHWyRxPXDvyWiZqHn04JE+D6c
-	cqwRglhvlz9sBdKhrVOUEGLD4rFLXlDoA/jA==
-X-Google-Smtp-Source: AGHT+IEUDgH4hKI/VlqsNxuCaInPD1IYUYUxnK5o+/fyx5ELv/o0sS9qDolaum2DK5go96TmMf3VW3HeNPG9uPpiEA8=
-X-Received: by 2002:a05:6512:b94:b0:545:c1e:65fb with SMTP id
- 2adb3069b0e04-549c38fbccdmr686124e87.18.1741947715080; Fri, 14 Mar 2025
- 03:21:55 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b="jKqTWJyd"
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1741958603; bh=ZHlFpUcnqM8kwtMsWbJUG26ffc8HSmguvMRTzaq18qo=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To;
+	b=jKqTWJydfegfYVUU3CI43+xEXTTX0q0K+BAe7HdFbCdxYFM7FE9x0XVzalHsIuBd2
+	 ryokhFgSViug4ZiAremjxKHXTgDkao/2LXpqjFPGSzxRaEZ8iN/88ISYnRpLtnt3jt
+	 k3XKi7vuXCj9nqxTQIzpAAq5CyutQ4yrSJrz1SU0=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250307124841.23777-1-darren.ye@mediatek.com> <20250307124841.23777-7-darren.ye@mediatek.com>
-In-Reply-To: <20250307124841.23777-7-darren.ye@mediatek.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 14 Mar 2025 11:21:44 +0100
-X-Gm-Features: AQ5f1JoRI9uPFODrP-kekoqBVTf1T6TLHgkeo343GHaQMulDksI11fRwjUXLOnA
-Message-ID: <CACRpkdZ=a0mbir=D3dCSPns1TC_OVWMMTXJKcTYOJeNy7aQ7NQ@mail.gmail.com>
-Subject: Re: [PATCH 06/14] ASoC: mediatek: mt8196: support audio GPIO control
-To: "Darren.Ye" <darren.ye@mediatek.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
+Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
+ pulldown and zero-fill
+From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+In-Reply-To: <20250312125832.GA359842-robh@kernel.org>
+Date: Fri, 14 Mar 2025 14:23:11 +0100
+Cc: James Calligeros <jcalligeros99@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Shenghao Ding <shenghao-ding@ti.com>,
+ Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>,
+ Dan Murphy <dmurphy@ti.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Shi Fu <shifu0704@thundersoft.com>,
+ Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Hector Martin <marcan@marcan.st>,
+ linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ asahi@lists.linux.dev,
+ linux-hwmon@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <BDE96592-9DE8-407C-8FB9-B84B492D7951@cutebit.org>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <CAHgNfTxS1Q4PPsw520-J4Yn6xg+QZOYFkYhg5yv-uZFu5waN_g@mail.gmail.com>
+ <20250307205156.GA583954-robh@kernel.org> <5996925.DvuYhMxLoT@setsuna>
+ <20250312125832.GA359842-robh@kernel.org>
+To: Rob Herring <robh@kernel.org>
 
-Hi Darren,
+Hi Rob, James,
 
-thanks for your patch!
+> On 12. 3. 2025, at 13:58, Rob Herring <robh@kernel.org> wrote:
+>=20
+> On Mon, Mar 10, 2025 at 07:30:07PM +1000, James Calligeros wrote:
+>> On Sat, Mar 8, 2025 at 6:51=E2=80=AFAM Rob Herring <robh@kernel.org> =
+wrote:
+>>> How would it work when you need a mask? "dai-tdm-slot-tx-mask" is
+>>> enough?
+>>=20
+>> The existing TX/RX slot masks are used to control which slots the =
+codec
+>> is operating on, AIUI. I don't know if it makes sense to alter how =
+codecs
+>> deal with this. Could we combine the suggested dai-tdm-slot-tx-idle
+>> with an optional dai-tdm-slot-tx-idle-mask property? =46rom the =
+machine
+>> driver's perspective, the API would then be similar to the existing
+>> set_tdm_slot ops. The current downstream macaudio machine driver =
+builds
+>> its links by allowing multiple codecs and CPUs to be linked to a DAI,
+>> like so:
+>=20
+> Wouldn't the NOT of dai-tdm-slot-tx-mask be the idle mask?
+>=20
+> Don't think about the Linux APIs here. The DT is separate. So think in=20=
 
-On Fri, Mar 7, 2025 at 1:49=E2=80=AFPM Darren.Ye <darren.ye@mediatek.com> w=
-rote:
+> terms of what you need to describe the TDM timing/waveform.
+>=20
+>>=20
+>> dai-link@0 {
+>> cpu {
+>> sound-dai =3D <&cpu0>, <&cpu1>;
+>> };
+>> codec {
+>> sound-dai =3D <&speaker0>,
+>>  ...,
+>>  <&speaker6>;
+>> };
+>> };
+>>=20
+>> In this case, the codec-specific mask property was added so that a =
+mask
+>> could be applied to a specific codec rather than the whole dai, =
+however
+>> from upstream drivers tt looks like the way this should be handled is =
+to
+>> have "dai-tdm-slot-tx-idle-mask-n" properties at the dai level, then =
+have
+>> the machine driver set the mask for the appropriate codec during =
+setup. So
+>> for macaudio, assuming speaker5 requires this zerofill mask, we would
+>> have something like this:
+>=20
+> I'm now confused why you need n masks and what does n represent?
 
-> From: Darren Ye <darren.ye@mediatek.com>
->
-> Implement mode switching for audio GPIO.
->
-> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
+For this setup there are 6 codecs on the same bus but 3 of those are on =
+one
+data line and the other 3 are on another data line. Within the SoC these =
+two
+data lines (both for codec->SoC direction) are ORed together in front of =
+the
+receiver peripheral.
 
-> +#include <linux/gpio.h>
+This means we need at least one codec within each group of the three to =
+zero
+out the bus for the duration of the slots used by the other group of =
+three.
 
-Please don't include this legacy header. I don't think you even need it,
-you are not using any gpio_ symbols at all.
+I solved this by attaching
 
-> +#include <linux/pinctrl/consumer.h>
+ ti,sdout-force-zero-mask =3D <0xf0f0f0>;
 
-You don't seem to use anything from this include either.
+on one codec from the first group, and
 
-Find more specific headers if you need the code to compile.
+ ti,sdout-force-zero-mask =3D <0x0f0f0f>;
 
-I think you should drop both, the name "GPIO" in this file is a bit confusi=
-ng
-because it's not very generic but dealing with audio IO routing. But I gues=
-s
-it is what Mediatek calls it.
+on one from the other group.
 
-Yours,
-Linus Walleij
+FWIW the right form of these masks is not an implementation detail of =
+the
+machine driver spilling into the device tree (so that the mask would =
+need
+to be different if the machine driver was implemented differently). This =
+is
+because the slots used by each codec are specified via a DT property =
+too, e.g.
+
+  ti,imon-slot-no =3D <8>;
+  ti,vmon-slot-no =3D <10>;
+
+Martin
+
+> Rob
+>=20
+
