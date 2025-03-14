@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A402036F3;
-	Fri, 14 Mar 2025 16:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6112B9A5;
+	Fri, 14 Mar 2025 16:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741970623; cv=none; b=OQ92UqHY0jy8vQO/Jo8CffP554Ti+DvDvZhThYtaTGPTohWRFD4BVIAft3rw7JqjoJRS9J60sLxG2l18S2A4lJBndOS3N/sByGlACMChqB3p2PmVbc7PKNhkhfEu1yqrG0IoLoRD6vEI/i/oPKqH2ffvTAcsTh/7n9TL9cjAv5o=
+	t=1741970804; cv=none; b=K3ogztyNoCCC+X1jz4wRnYhW+DNZCW3wYCY2dYNdcgLiCeW4Fgounfoui8tR/K6cqcvNAhnRjyc3B0O28AmDZDdDGoqcfGuuSDxQobgMA2BSK11hIV/ag0UXTZVApRWOg41Ustrfuh9zD1DC3nc6mF6Fs1REKp/UL3xr3hBy5oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741970623; c=relaxed/simple;
-	bh=g+pFKnCIFmlzrO15+eEkGyZ6oAi2qsmhKmTsgkZhi9w=;
+	s=arc-20240116; t=1741970804; c=relaxed/simple;
+	bh=fv3iDtiDXFpq8gGd4TdoFu0Aau3u8SLRJFOBKl5H5HY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TNgg/E2BLh71X8OARerdySPHCnQ2hDPFhhHrBnQ/u5O39FLHgj6AmxMPPT3zlnpdMsv+s31yOGXPEibJjNcD0OeT2ZBmLq2DeSmW518gN91CfdSaBjpbPRH/16dDQoo3gJjYCUsvNcTTF2r71qdMRminyVGCMTn8/o1t1XsGt1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fw4GoLgt; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=U4FzvoWraKfZZLA1JGQlirRT4UUU3k/7T6FHhbmOXGP0AfhOAo2RBKl4CBmqWMQL2UU6hAWtLf+uIDTYAnqmsTkePfkD7sRwDYub+EpdocqyMmDePuR1xGiVgv0mB7J+dj+fmsP+d03CEE7xNO7VxZjHWKXMaLsuNeg22CTz880=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iy9tpTmp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fw4GoLgt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 334C0C4CEE5;
-	Fri, 14 Mar 2025 16:43:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iy9tpTmp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BA89C4CEE3;
+	Fri, 14 Mar 2025 16:46:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741970623;
-	bh=g+pFKnCIFmlzrO15+eEkGyZ6oAi2qsmhKmTsgkZhi9w=;
+	s=k20201202; t=1741970803;
+	bh=fv3iDtiDXFpq8gGd4TdoFu0Aau3u8SLRJFOBKl5H5HY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fw4GoLgtnoyJdwmTxgyMWNMMiYzieByNZtVz6yDPAMNtqis6GKwICYPS++kil9H0t
-	 zL9vGRN7kJAVBdDjkCocXexHfbMcMqrFdHKdC/sEDqs2EGCFkGU2Mk+q/RFgO6SUR2
-	 +Yd/m5Bmi+ZyNl+0ZFjSmQHDRzKrBh+F1zHxB208CO5q0T8YHubu0SOJ8U/DVdPI8l
-	 B8fK5uHobjhHS9rwc91wx72FrKje7DIKybn2z4gPDGxMg0zvnQHjRAxY/JFkPmIqwQ
-	 Jd+OZkQCwQzvvYa7aAksIRty/volC241N1kSNy73fKatfnRAOHzozTlfg6AxNntgpX
-	 QgtplaHDfLKBg==
+	b=iy9tpTmpwvaav5tAsDFi0yB0ASQ/omQACsI1ReeAofbBI0noNW/gIEa1DEc53LHF9
+	 x6LHa3O8WMLi9vP0F6FNCjVwNGPERGAQIh/rG8M7oVlhbnku4Ilh32GO9qOeujQe66
+	 SdfDVtEbA4BQ1Wy6GWWnBB3EbtBiNxvnudMKObLprEbPRFwoFZAUrU2uzRzxLgPpiX
+	 5/eDEBZ9hFQ08FJsVyZTe6D3ysCq4WHoT/wX4C45FF+qciLZ+SpwASfP9YC3A/507K
+	 7cHtfsgdaVAMrMC0yyLRX4r1ZxYtAWa4E/VMXRd7oSfLKNEhMO39E2G53pDqL4DSRc
+	 MTqz+VWP7lMSg==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan@kernel.org>)
-	id 1tt88L-000000000Sx-3fRZ;
-	Fri, 14 Mar 2025 17:43:42 +0100
-Date: Fri, 14 Mar 2025 17:43:41 +0100
+	id 1tt8BH-000000000WT-0aB9;
+	Fri, 14 Mar 2025 17:46:43 +0100
+Date: Fri, 14 Mar 2025 17:46:43 +0100
 From: Johan Hovold <johan@kernel.org>
 To: srinivas.kandagatla@linaro.org
 Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
 	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
 	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org
-Subject: Re: [PATCH v4 0/5] ASoC: q6apm: fix under runs and fragment sizes
-Message-ID: <Z9RcvQBe523KITZW@hovoldconsulting.com>
+Subject: Re: [PATCH v4 4/5] ASoC: qdsp6: q6apm-dai: set 10 ms period and
+ buffer alignment.
+Message-ID: <Z9Rdc-EWhEH8IQPu@hovoldconsulting.com>
 References: <20250314143220.6215-1-srinivas.kandagatla@linaro.org>
+ <20250314143220.6215-5-srinivas.kandagatla@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,55 +50,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250314143220.6215-1-srinivas.kandagatla@linaro.org>
+In-Reply-To: <20250314143220.6215-5-srinivas.kandagatla@linaro.org>
 
-On Fri, Mar 14, 2025 at 02:32:15PM +0000, Srinivas Kandagatla wrote:
+On Fri, Mar 14, 2025 at 02:32:19PM +0000, Srinivas Kandagatla wrote:
 > From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 > 
-> On Qualcomm Audioreach setup, some of the audio artifacts are seen in
-> both recording and playback. These patches fix issues by
-> 1. Adjusting the fragment size that dsp can service.
-> 2. schedule available playback buffers in time for dsp to not hit under runs 
-> 3. remove some of the manual calculations done to get hardware pointer.
+> DSP expects the periods to be aligned to fragment sizes, currently
+> setting up to hw constriants on periods bytes is not going to work
+> correctly as we can endup with periods sizes aligned to 32 bytes however
+> not aligned to fragment size.
 > 
-> With these patches, am able to see significant Audio quality improvements.
-> I have few more patches to optimize the dsp drivers, but for now am
-> keeping this series simple to address the underruns and overruns issues
-> noticed in pipewire setup.
+> Update the constriants to use fragment size, and also set at step of
+> 10ms for period size to accommodate DSP requirements of 10ms latency.
 > 
-> Any testing would be appreciated.
-> 
-> Please note that on pipewire min-latency has to be set to 512 which
-> reflects the DSP latency requirements of 10ms. You might see audio
-> artifacts like glitches if you try to play audio below 256 latency.
+> Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
 
-> Changes since v3:
-> 	- updated period size aligment patch with 10ms period size
-> 	  contstriants.
+For all of the patches, if the intention is that they should be
+backported to stable they should have a CC stable tag here.
+
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> ---
+>  sound/soc/qcom/qdsp6/q6apm-dai.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> Changes since v2:
-> 	- dropped patch which is causing regression with pluseaudio.
-> 	- setup period sizes only for capture path
-> 	- fix underruns/overruns in dsp pipelines.
-> 	- add fixes tag
-> 	- add patch to fix buffer alignment
-> 
-> Changes since v1:
-> 	- added new patches to fix the fragment size, pointer
-> 	  calculations
-> 	- updated to schedule only available buffers.
-> 
+> diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+> index 90cb24947f31..a636f9280645 100644
+> --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
+> +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+> @@ -231,7 +231,6 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
+>  	cfg.bit_width = prtd->bits_per_sample;
+>  	cfg.fmt = SND_AUDIOCODEC_PCM;
+>  	audioreach_set_default_channel_mapping(cfg.channel_map, runtime->channels);
+> -
 
-I tested v4 on the X13s with PulseAudio and T14s with PipeWire.
+nit: unrelated change
 
-I'm no longer noticing any regressions with PulseAudio, while this
-series makes PipeWire actually usable.
-
-I may be hearing some crackling with PipeWire when recording with the 
-pavucontrol volume meters enabled which results in a quantum size of
-256. But I guess that's to be expected. Playback seems to work also at
-256 with v4.
-
-Tested-by: Johan Hovold <johan+linaro@kernel.org>
+>  	if (prtd->state) {
+>  		/* clear the previous setup if any  */
+>  		q6apm_graph_stop(prtd->graph);
 
 Johan
