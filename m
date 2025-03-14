@@ -1,106 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB282066F3;
-	Fri, 14 Mar 2025 20:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8491619883C;
+	Fri, 14 Mar 2025 21:03:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741982492; cv=none; b=V8S3vZmgc4HOJINAueyOUO6Gy1pcAj0gQe2UgbY2QwYAsElTWP1/qTl9YqYOtkA58P8pVjCM91tTrKfAHsV/Nuhyf3q7pX3l20ojJ05Bsh7BSxIlki9mBfBFhi3mdvBGZhAEmg8foH/Kk/2tAreAJmaoMlVNay0zIKRvB7dbt+E=
+	t=1741986210; cv=none; b=YAo75hMt4Rvyk69UnQfuxSfxrZkFqAW7d/a51f6mvMwbmHeGV7XCS7QMGFufU1B42hgzftv/tnyaAWsnTL3ltsqVgNk2zDgB6vbe6cz8/H/Kj4s+nICPEMwZurPCe/WR92uTjhm7+De6sJbh1SyPvCypmVyL6l9tCjGQJ5AaMxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741982492; c=relaxed/simple;
-	bh=DMG9vHIWOAlWHuVKLUZj8NjBupR/jYOKMWwZr0IjvHY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iE/BEe5JLbldMwhVM4jnTOnXvhGdbVLPDamFPDinbUSzIMhz0z5RhIsn/Cr+c+H2KSPi8ikasOPYYowD7RAmWxkiDUxtQhZpJLwoI2bvCU6TMbXgSdoj2RaqZCE21mX6H996SJSCGVbUi9omZK3PF1VqQvBniOHZUAFF9kP9DXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ul6SSsiH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741986210; c=relaxed/simple;
+	bh=nj/t+gJCLAEsHwBXChnTzx8UzU1uWvfbymY8QKB1bV4=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ruWqwqBzPeW+dPBc7QTWu9iFPfVYWH1qmAjbiB2QJ9qXx3x6P8ZOX85og662YgnWgcc1QcGPeJf1UVGdBcmPgsii/7fgXtrtvY9nfmg9lZrVfdv2/ao8Txa4kIbrYUyx7YuoyXC9mvP78sHEoAAotF95thCUxgltfsPun5orr9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKhJfZG8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ul6SSsiH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E41EC4CEEC;
-	Fri, 14 Mar 2025 20:01:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKhJfZG8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6265AC4CEE3;
+	Fri, 14 Mar 2025 21:03:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741982492;
-	bh=DMG9vHIWOAlWHuVKLUZj8NjBupR/jYOKMWwZr0IjvHY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ul6SSsiHnmLnejitfshjrc04CAX1pnbEDmHwFqJfneHZYlHmZfyCohzaIByzefV0l
-	 akL+K0Pc6diSaw8tmReYhEkWjoBqvZ18kXoTiQUN+90JRcu+/v0mMFarAzmmjwIxFd
-	 E/Mb+NiEa7UT9hexdZn6HcXz6tyrh5zQ9pbIdh+uo+p+udhmbBgOczE1FypPY2lXuf
-	 HBgwllBvLwdCCLuQ38fUZFy4QDTivK+IMhs4E7obZjb9RvRYb5ccPUgx8tIhkVPEtk
-	 IVv7yQERlQkOFB+ISl0z2s8qiJGcN4romFXuLds6WvI+yNKVcgbEQC56qrEWcOharb
-	 5w6CXEurN2jPw==
-From: Bjorn Andersson <andersson@kernel.org>
-To: cros-qcom-dts-watchers@chromium.org,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v9 00/12] This is continued work on Samsung S9(SM-9600) starqltechn
-Date: Fri, 14 Mar 2025 15:00:48 -0500
-Message-ID: <174198247879.1604753.3196352252010411170.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250225-starqltechn_integration_upstream-v9-0-a5d80375cb66@gmail.com>
-References: <20250225-starqltechn_integration_upstream-v9-0-a5d80375cb66@gmail.com>
+	s=k20201202; t=1741986210;
+	bh=nj/t+gJCLAEsHwBXChnTzx8UzU1uWvfbymY8QKB1bV4=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=vKhJfZG8kzj65TjbKhqNxTKRmKIk/sAF0mkOJ9gAATSoikJZTauF4A5oi2W0WyrTL
+	 kWiMw1N+hb+fvXly4Tp7UdBFb+EIRCrYEnvZNkPgmoNBN3hA8OpfjjZHYlZRGuvoq5
+	 ofaoTV2UmNaaAkHvrBoXWAKT5mriTKy+45F7zgAcKH6PH59rSPHVXdtW6emtVnwizS
+	 20/fFYDD4kqkOSY2MabbU9KqverjDuTy6M+0MGM4+ZkR9PZyeIo/2r0ahI5pgPNYkL
+	 aVHiQKi/HdSvfoo2Gs/WtrSczGzz1mfceiPi3bFD2IGju40W9BuWFFzYt6aNzCKY6t
+	 Uswzi8ANDpKjA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70F86380CEE2;
+	Fri, 14 Mar 2025 21:04:06 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.14-rc7
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87zfho7x4u.wl-tiwai@suse.de>
+References: <87zfho7x4u.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87zfho7x4u.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc7
+X-PR-Tracked-Commit-Id: de69d56daac6d9b98fa384184078751db1288144
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: b1144bc7cbb91f688a216fdf02ae25050b839c4a
+Message-Id: <174198624513.2382486.16376891881447933072.pr-tracker-bot@kernel.org>
+Date: Fri, 14 Mar 2025 21:04:05 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 
+The pull request you sent on Fri, 14 Mar 2025 10:57:21 +0100:
 
-On Tue, 25 Feb 2025 19:38:51 +0300, Dzmitry Sankouski wrote:
-> Contains starqltechn device tree changes.
-> Add support for new features:
-> - sound (headphones and mics only)
-> - gpu
-> - panel
-> - buttons
-> - MAX77705 MFD:
->   - charger
->   - fuelgauge
->   - haptic
->   - led
-> 
-> [...]
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc7
 
-Applied, thanks!
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/b1144bc7cbb91f688a216fdf02ae25050b839c4a
 
-[01/12] arm64: dts: qcom: sdm845: enable gmu
-        commit: eb8b09e61bd2419263a15c37b068982be620eab6
-[02/12] arm64: dts: qcom: sdm845-starqltechn: remove wifi
-        commit: 2d3dd4b237638853b8a99353401ab8d88a6afb6c
-[03/12] arm64: dts: qcom: sdm845-starqltechn: fix usb regulator mistake
-        commit: 242e4126ee007b95765c21a9d74651fdcf221f2b
-[04/12] arm64: dts: qcom: sdm845-starqltechn: refactor node order
-        commit: cba1dd3d851ebc1b6c5ae4000208a9753320694b
-[05/12] arm64: dts: qcom: sdm845-starqltechn: remove excess reserved gpios
-        commit: fb5fce873b952f8b1c5f7edcabcc8611ef45ea7a
-[06/12] arm64: dts: qcom: sdm845-starqltechn: add gpio keys
-        commit: b58e67cd607e43b56f7cd509bdef0577d4658f10
-[07/12] arm64: dts: qcom: sdm845-starqltechn: add max77705 PMIC
-        commit: 7a88a931d09564b3ae84e7abd5cd412af1dd5280
-[08/12] arm64: dts: qcom: sdm845-starqltechn: add display PMIC
-        commit: 3a4600448befafe598f30d7e30aa89cef8226519
-[09/12] arm64: dts: qcom: sdm845-starqltechn: add touchscreen support
-        commit: 801733b4757ccef4dfce046639cf3ddeae7253b1
-[10/12] arm64: dts: qcom: sdm845-starqltechn: add initial sound support
-        (no commit info)
-[11/12] arm64: dts: qcom: sdm845-starqltechn: add graphics support
-        (no commit info)
-[12/12] arm64: dts: qcom: sdm845-starqltechn: add modem support
-        (no commit info)
+Thank you!
 
-Best regards,
 -- 
-Bjorn Andersson <andersson@kernel.org>
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
