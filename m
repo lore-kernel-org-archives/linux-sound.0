@@ -1,162 +1,134 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DADF4ED;
-	Fri, 14 Mar 2025 13:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.8.165.127
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11325200BB7
+	for <linux-sound@vger.kernel.org>; Fri, 14 Mar 2025 14:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741959087; cv=none; b=UKxbZ9R8SCtvvUm66zgA5+SpwTNAP21LFoTQUp2t7UW0XsaB6lkNy4HRZ1OisueIKxdY6XSRHV3x9ZBGg3eMqucskbbtbmxJK3r+vKJrl8hgpE5hrI5oIsKpW5vURS9Nd9BUcyD5nlKIqy+DwBjhmn45Qn2w13ApmG5gg3dbRmo=
+	t=1741962805; cv=none; b=kpUcPoZRrykOFClFMdUdJTgkfg0AYGRC1+XXONWU8JhwTP3PvdcgMgGiae1wiEYi5t7VvmMIjkH+EDag2tcJfFsgIoi9fBCP7ECebflpy+XcIpty3QStxrAVDN0m76QfyFVGwCjxe5mgMaM+E3MDNczM9HZE5jQGBvtIjYgoWXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741959087; c=relaxed/simple;
-	bh=UATdpA7cgBWM5CfhL0BSNAFRMNZeQJf0RDSodrMiFm8=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=mw+qAguWniGKgaO/P5t64d3VaaJrzpmw4QXo3UerUHUgm1djM+CYJO1yANxxvSSStLC4XFB10m2lDyTXBJitmxYalMhXGeYCNk0oeNTShywG5uk3z4NOqILjx7pVBxx7TEo9345sN8Sa+8w1osfevO9u4BFSa8Ce4+wDyz6+8So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cutebit.org; spf=pass smtp.mailfrom=cutebit.org; dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b=jKqTWJyd; arc=none smtp.client-ip=185.8.165.127
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cutebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cutebit.org
+	s=arc-20240116; t=1741962805; c=relaxed/simple;
+	bh=fV6t0EBtW1B2j37NCyDxPKTtjpES7eWc33aab4NlE1k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ChIzDKdlR/HJtBhThxyvnTre92wGp7gbcACZqekIVoPxKSEBalLz5/nu/F1Un848HITuGyOUVQLCHCXRi0NQZsM8JKVk3hFoFcMjrontJ+QU0HNCuwbyy9lRY1NtC9ktfHldeNue5fk5rxpXMBu+JAerZWB0kngUxg3AcrWiMkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=X+CyNF3q; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b="jKqTWJyd"
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1741958603; bh=ZHlFpUcnqM8kwtMsWbJUG26ffc8HSmguvMRTzaq18qo=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=jKqTWJydfegfYVUU3CI43+xEXTTX0q0K+BAe7HdFbCdxYFM7FE9x0XVzalHsIuBd2
-	 ryokhFgSViug4ZiAremjxKHXTgDkao/2LXpqjFPGSzxRaEZ8iN/88ISYnRpLtnt3jt
-	 k3XKi7vuXCj9nqxTQIzpAAq5CyutQ4yrSJrz1SU0=
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X+CyNF3q"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so14679265e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 14 Mar 2025 07:33:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741962802; x=1742567602; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5gqYv2Yv6I6A8Xg36oF3GXiMSJjKsROFpNr6KE/A4Xs=;
+        b=X+CyNF3qP27Q158oafvSnmQ0W2xP9ONV6CZtSSzbZafSESo1PKPWa4jS+P7lR8Fbe1
+         /3JPTJzjcItdw6sTKO4Et5U/MADrZ0yBJtZWiA7olrX9Zxa0jd79qArHSJFqHS/6YVvT
+         KAdFqz/5XwbH9rXCeZIHf/DyIt9YV2cDK/qUgkZ3y4OlF0WIzFWpiACPadmjhub3H8pG
+         l3sxq3BQbMc3IUwF28lbzuNvUmZs2BGEwcgH8V4H0HNp7MwbYAlbw4SHQ72Og26dzDU3
+         7Se07p7KFE9ltQpqIhijO4VvtKHfSKOGnmjKqnVm2N4wCBd5xRGoePw0sQe/N3ywBl11
+         A9kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741962802; x=1742567602;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5gqYv2Yv6I6A8Xg36oF3GXiMSJjKsROFpNr6KE/A4Xs=;
+        b=qDsot4GT7XCYpITdPhHfyq7swIZffTrPAQjykn3R8WRPuxzXQqOq5M5+EIn8odM4jr
+         vTco3FFQ1eGg0xMchnztWht7xXcCl8Xy/+DUowCGAbNmlIQAvRUnaEqleYIEF2Zixs8D
+         gaQmhlOWGvWnDmMCjiOCOBXZbW7bbbW2+00RcIsO3zOo8DqjUpNm8jx3c0YL0NqXyqz4
+         hqXSDBBvrewpNxuuNPggbUJN37d3rN5I6Len3Qlpp7PdwbFdwsFZR6e88MnBt98AGmBL
+         Z3j0kBuu7cZpUt0TYvCJFX7FUsAAeRTZkMGGG9M3POHtSK1sflSb4KnfWuWBm5ZyB7I8
+         z3Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCVeVfB/ibR+l4j1cmUiestCaZiMLjHCck34vWGEK8N7lQZVxl3T+M4ImW6kxgihtfDugFhzKPrT8h1JxQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYVE2bUHxx1Hy0rB7kA0n71xoFjzJH2kd5UQhDr56z8Z/lRWLH
+	Ddtjq9vQt/LcI3a/ur4cIyMMHpPokAHPehNCaetK03QsjO45zl+XkFLmBOSIpUg=
+X-Gm-Gg: ASbGncufdvcYPgqFw25T8sZBaoCF9nW0moNtuIYELiSjI/6WmDqA2Nrb/f4tLlWZmr1
+	6RW+2lgCsjkC1ErP/v12MKEuQuqL7dZiIeMYkwcArRIm2vZY3jJTaXjqfgtzRdapbtIjvxQ7alQ
+	EYmfSD3gtmC2y+boGmhjZgTpDkxBtDTdk5IYPoPAhFQaMy5P6F/KuXMYHJFGVqKyvPtqEI+Yq42
+	8U3krVbysHaxvn97GkIG9wQOQMM1P/sg56paHRutWTttOEXXbqNL4QZ5UqOJHfaAcQV0KqlhuuR
+	5NHWjFTSlDUzVrMBGdtru117rIr0jKgb8PGz21QV7+GfSbNLJ4xQZ+D4cG/IYBsYfTLVlA==
+X-Google-Smtp-Source: AGHT+IFo3GTKnNz6sDnWrSOXevuP49Y8TVcCWPh2ADI6rNCwCYfYVfD/saldxqETFwjSljt8qsUnFQ==
+X-Received: by 2002:a5d:6da7:0:b0:391:487f:27e4 with SMTP id ffacd0b85a97d-3971ded0dd2mr3465432f8f.27.1741962802213;
+        Fri, 14 Mar 2025 07:33:22 -0700 (PDT)
+Received: from localhost.localdomain ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c82c2690sm5699168f8f.25.2025.03.14.07.33.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Mar 2025 07:33:21 -0700 (PDT)
+From: srinivas.kandagatla@linaro.org
+To: broonie@kernel.org
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	krzysztof.kozlowski@linaro.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmitry.baryshkov@linaro.org,
+	johan+linaro@kernel.org,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: [PATCH v4 0/5] ASoC: q6apm: fix under runs and fragment sizes
+Date: Fri, 14 Mar 2025 14:32:15 +0000
+Message-Id: <20250314143220.6215-1-srinivas.kandagatla@linaro.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
-Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
- pulldown and zero-fill
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <20250312125832.GA359842-robh@kernel.org>
-Date: Fri, 14 Mar 2025 14:23:11 +0100
-Cc: James Calligeros <jcalligeros99@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>,
- Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>,
- Dan Murphy <dmurphy@ti.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Shi Fu <shifu0704@thundersoft.com>,
- Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Hector Martin <marcan@marcan.st>,
- linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org,
- asahi@lists.linux.dev,
- linux-hwmon@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BDE96592-9DE8-407C-8FB9-B84B492D7951@cutebit.org>
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <CAHgNfTxS1Q4PPsw520-J4Yn6xg+QZOYFkYhg5yv-uZFu5waN_g@mail.gmail.com>
- <20250307205156.GA583954-robh@kernel.org> <5996925.DvuYhMxLoT@setsuna>
- <20250312125832.GA359842-robh@kernel.org>
-To: Rob Herring <robh@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Rob, James,
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-> On 12. 3. 2025, at 13:58, Rob Herring <robh@kernel.org> wrote:
->=20
-> On Mon, Mar 10, 2025 at 07:30:07PM +1000, James Calligeros wrote:
->> On Sat, Mar 8, 2025 at 6:51=E2=80=AFAM Rob Herring <robh@kernel.org> =
-wrote:
->>> How would it work when you need a mask? "dai-tdm-slot-tx-mask" is
->>> enough?
->>=20
->> The existing TX/RX slot masks are used to control which slots the =
-codec
->> is operating on, AIUI. I don't know if it makes sense to alter how =
-codecs
->> deal with this. Could we combine the suggested dai-tdm-slot-tx-idle
->> with an optional dai-tdm-slot-tx-idle-mask property? =46rom the =
-machine
->> driver's perspective, the API would then be similar to the existing
->> set_tdm_slot ops. The current downstream macaudio machine driver =
-builds
->> its links by allowing multiple codecs and CPUs to be linked to a DAI,
->> like so:
->=20
-> Wouldn't the NOT of dai-tdm-slot-tx-mask be the idle mask?
->=20
-> Don't think about the Linux APIs here. The DT is separate. So think in=20=
+On Qualcomm Audioreach setup, some of the audio artifacts are seen in
+both recording and playback. These patches fix issues by
+1. Adjusting the fragment size that dsp can service.
+2. schedule available playback buffers in time for dsp to not hit under runs 
+3. remove some of the manual calculations done to get hardware pointer.
 
-> terms of what you need to describe the TDM timing/waveform.
->=20
->>=20
->> dai-link@0 {
->> cpu {
->> sound-dai =3D <&cpu0>, <&cpu1>;
->> };
->> codec {
->> sound-dai =3D <&speaker0>,
->>  ...,
->>  <&speaker6>;
->> };
->> };
->>=20
->> In this case, the codec-specific mask property was added so that a =
-mask
->> could be applied to a specific codec rather than the whole dai, =
-however
->> from upstream drivers tt looks like the way this should be handled is =
-to
->> have "dai-tdm-slot-tx-idle-mask-n" properties at the dai level, then =
-have
->> the machine driver set the mask for the appropriate codec during =
-setup. So
->> for macaudio, assuming speaker5 requires this zerofill mask, we would
->> have something like this:
->=20
-> I'm now confused why you need n masks and what does n represent?
+With these patches, am able to see significant Audio quality improvements.
+I have few more patches to optimize the dsp drivers, but for now am
+keeping this series simple to address the underruns and overruns issues
+noticed in pipewire setup.
 
-For this setup there are 6 codecs on the same bus but 3 of those are on =
-one
-data line and the other 3 are on another data line. Within the SoC these =
-two
-data lines (both for codec->SoC direction) are ORed together in front of =
-the
-receiver peripheral.
+Any testing would be appreciated.
 
-This means we need at least one codec within each group of the three to =
-zero
-out the bus for the duration of the slots used by the other group of =
-three.
+Please note that on pipewire min-latency has to be set to 512 which
+reflects the DSP latency requirements of 10ms. You might see audio
+artifacts like glitches if you try to play audio below 256 latency.
 
-I solved this by attaching
+thanks,
+Srini
 
- ti,sdout-force-zero-mask =3D <0xf0f0f0>;
+Changes since v3:
+	- updated period size aligment patch with 10ms period size
+	  contstriants.
 
-on one codec from the first group, and
+Changes since v2:
+	- dropped patch which is causing regression with pluseaudio.
+	- setup period sizes only for capture path
+	- fix underruns/overruns in dsp pipelines.
+	- add fixes tag
+	- add patch to fix buffer alignment
 
- ti,sdout-force-zero-mask =3D <0x0f0f0f>;
+Changes since v1:
+	- added new patches to fix the fragment size, pointer
+	  calculations
+	- updated to schedule only available buffers.
 
-on one from the other group.
 
-FWIW the right form of these masks is not an implementation detail of =
-the
-machine driver spilling into the device tree (so that the mask would =
-need
-to be different if the machine driver was implemented differently). This =
-is
-because the slots used by each codec are specified via a DT property =
-too, e.g.
+Srinivas Kandagatla (5):
+  ASoC: q6apm-dai: schedule all available frames to avoid dsp under-runs
+  ASoC: q6apm: add q6apm_get_hw_pointer helper
+  ASoC: q6apm-dai: make use of q6apm_get_hw_pointer
+  ASoC: qdsp6: q6apm-dai: set 10 ms period and buffer alignment.
+  ASoC: qdsp6: q6apm-dai: fix capture pipeline overruns.
 
-  ti,imon-slot-no =3D <8>;
-  ti,vmon-slot-no =3D <10>;
+ sound/soc/qcom/qdsp6/q6apm-dai.c | 61 +++++++++++++++++---------------
+ sound/soc/qcom/qdsp6/q6apm.c     | 18 +++++++++-
+ sound/soc/qcom/qdsp6/q6apm.h     |  3 ++
+ 3 files changed, 52 insertions(+), 30 deletions(-)
 
-Martin
-
-> Rob
->=20
+-- 
+2.39.2
 
