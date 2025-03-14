@@ -1,39 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5F81FDE2B
-	for <linux-sound@vger.kernel.org>; Fri, 14 Mar 2025 15:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8FC78F2E;
+	Fri, 14 Mar 2025 15:52:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741967563; cv=none; b=WuYb2GacbUH4Ss7VDsP6aH0er3VlqFpavWvugnha3P8sSE+yCN8yw9p7Ey0uV03vkU1fIqhPhnw9rsJrTSOcBvnt0f8QBrgcdA1rILnyRU6qsqLxd39ND3/gmn7mZMKigE2hkxdba1Y4cpBr21i99r2pbvKa4nTkSpQNxbpGwu0=
+	t=1741967568; cv=none; b=FGPPLldsLwMph5HjznJtYS8xAgD8LVytmGg9VkvzxhYse15yuuSBk1jdYwiz84QluLUMrsqoKpppE6Tz8y8JiWQAkS5Pd3LuZMObecFcifH7rzJriWtT6oBoDsoCI38GYkbLaKbf6q+Ny7RfnjoWXqA1KfriaGSqZNcgB5OFdBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741967563; c=relaxed/simple;
-	bh=1Gy+mb6z9SwcIc1DZs5FG9mPMXx1bEMdQLAdBl3ZtLo=;
+	s=arc-20240116; t=1741967568; c=relaxed/simple;
+	bh=/uS4Ng/WL4Jcl0Ypz9LMLA+hr2onBnAyckmY9Xp0WYE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ayyFk3xQ54KcwlrRNCMxwiMoszCqLOdbNbv2tooYhca99HH8n9iUMfTlnw1NnXP/Ipf8H1tatiJJq1A4dcuqR4I/CQFb0MmoIG6wyDZxUCquZtPOG3Z/sSApJqECLSxxQ+GaQ18+JqJGsPB7+umkuIXX3DiG6X/2HKK0qglPKwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z/bOWPZG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=m0IyQeBQgtBqrNyNKp1BwguHHEPZ1SHWsZOGACsdZLj1XCTv+YjPVRdLBFnBFMcXNbomfzMAlpGpX7erlL4qIJftIt63Ycs7kY2rTnGBTdN7x6ewjOG4y2z2iuchYyiQV/S8We8e5lOoiUY/Xcl0aEy2qWeA/hvxPD51r5pDXUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SPejpvPI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z/bOWPZG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5997C4CEE3;
-	Fri, 14 Mar 2025 15:52:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPejpvPI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3215C4CEE9;
+	Fri, 14 Mar 2025 15:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741967562;
-	bh=1Gy+mb6z9SwcIc1DZs5FG9mPMXx1bEMdQLAdBl3ZtLo=;
+	s=k20201202; t=1741967568;
+	bh=/uS4Ng/WL4Jcl0Ypz9LMLA+hr2onBnAyckmY9Xp0WYE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Z/bOWPZGSIEzCRI5bByNMx0az2HLLPJW/Qm5eNXCTZdu7W8NoXr6W7fictJmB2oSF
-	 Cr19MVb/Qsm29TOj+ysZa+lx2icUxVEZfwo1LQmu1qlNFJEfGW7OZGHwrWhhOOOETg
-	 eIJY3Kg6q23x3GRP0d0HBrXIkEN7imyEzhn4UAKhx6hs7G2lDGrY+yfKYcrBrKqYLo
-	 D2RMtwxzL8aulKujixX3BHVjxtCJIHt9OxDF/kNUneizOpLD4DjP4US9IiZ4pUUHy2
-	 QJ0xyDhZ7JpeJVwjDRdXcoYJcOdS1rsbnN72hgHTWydLmhePSRtQHWBfLetCa5bNjH
-	 NyND9N48CypxA==
+	b=SPejpvPIxJ3EItLLujVnFxouIcFjY4+owwjJUmcJD+19EVLugbpxI4TkF/eBm0w3J
+	 mTTlsL2Q+IbECocAChsyEtVhMEHSFbx/X2rzanjpN3AAmnnmPLdxzUwPRRhGr0Gakt
+	 QiTWToAQcWp+EgeVYDDHzxM65Jm/b4NWAna+wWSwZJBhpPLHT/HJoBg40BERmFRXBH
+	 cxO2pXqNQlOvkn9yReqYMnokyk1EcUYv1ET09Q+aI43rReDO5O66teSETXQGQZ6VKW
+	 lqUYsmshwNU9k5BevBTe0J9FHzPD8j7Y2NINAsFgilmBNC/DJE6MXS4uHzPz7slHo6
+	 VtWusLum1IuGQ==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87bjuoqo6c.wl-kuninori.morimoto.gx@renesas.com>
-References: <87bjuoqo6c.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2 0/2] ASoC: simple-card-utils fixups
-Message-Id: <174196756152.19728.7800874481739177136.b4-ty@kernel.org>
-Date: Fri, 14 Mar 2025 15:52:41 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ James Calligeros <jcalligeros99@gmail.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+ Neal Gompa <neal@gompa.dev>
+In-Reply-To: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+Subject: Re: (subset) [PATCH v3 00/20] ASoC: tas27{64,70}: improve support
+ for Apple codec variants
+Message-Id: <174196756357.19728.11723701852037310950.b4-ty@kernel.org>
+Date: Fri, 14 Mar 2025 15:52:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,15 +57,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Wed, 26 Feb 2025 23:30:36 +0000, Kuninori Morimoto wrote:
-> linus/master includes my patch (419d1918105e) which uses __free() in
-> simple-card-utils. But because of it, it has of_node_put() count underrun
-> issue. [1/2] is needed for it.
+On Thu, 27 Feb 2025 22:07:27 +1000, James Calligeros wrote:
+> This series introduces a number of changes to the drivers for
+> the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
+> introduce (and improve in the case of TAS2770) support for the
+> variants of these amps found in Apple Silicon Macs.
 > 
-> [2/2] is just cleanup patch on top of it.
-> 
-> v1 -> v2
-> 	- Separate patches
+> Apple's variant of TAS2764 is known as SN012776, and as always with
+> Apple is a subtly incompatible variant with a number of quirks. It
+> is not publicly available. The TAS2770 variant is known as TAS5770L,
+> and does not require incompatible handling.
 > 
 > [...]
 
@@ -62,10 +76,18 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: simple-card-utils: Don't use __free(device_node) at graph_util_parse_dai()
-      commit: de74ec718e0788e1998eb7289ad07970e27cae27
-[2/2] ASoC: simple-card-utils: fixup dlc->xxx handling for error case
-      (no commit info)
+[01/20] ASoC: dt-bindings: tas27xx: add compatible for SN012776
+        commit: 25a83f870b8a25a4b10bf5ba474a017ed5a72e7d
+[02/20] ASoC: dt-bindings: tas2770: add compatible for TAS5770L
+        commit: ce9233937f3233e277ff23395e61ea690c769bef
+[03/20] ASoC: tas2764: Extend driver to SN012776
+        commit: ad18392962df46a858432839cc6bcaf2ede7cc86
+[04/20] ASoC: tas2764: Add control concerning overcurrent events
+        commit: f8d5f28e3f2ece5a1392205022afe30c87107a9b
+[05/20] ASoC: tas2770: Factor out set_ivsense_slots
+        commit: 6553ee024b4452ef861de10605156c9d79e208ab
+[06/20] ASoC: tas2770: Fix and redo I/V sense TDM slot setting logic
+        commit: f0066c8d1d3298e9f9d136a365139bac733e84c5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
