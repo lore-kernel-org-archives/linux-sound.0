@@ -1,63 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8491619883C;
-	Fri, 14 Mar 2025 21:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211F253BE;
+	Sat, 15 Mar 2025 02:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741986210; cv=none; b=YAo75hMt4Rvyk69UnQfuxSfxrZkFqAW7d/a51f6mvMwbmHeGV7XCS7QMGFufU1B42hgzftv/tnyaAWsnTL3ltsqVgNk2zDgB6vbe6cz8/H/Kj4s+nICPEMwZurPCe/WR92uTjhm7+De6sJbh1SyPvCypmVyL6l9tCjGQJ5AaMxE=
+	t=1742005590; cv=none; b=hqALVipB++de/Yye00YkxxW9DhfKCRDJUcaPcfKeovKc4yXbB9MCIHt5s1etFfeDbyZX/0Za5zJmHxiAINV8uvp6AJaFoZnUpWsU+D7vKHC7qYktiHFEO0KmLtZe7Mq6uqarfwNVRsvXkTxHm7DL7nDLp1qq1IXwEOkzVkDexqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741986210; c=relaxed/simple;
-	bh=nj/t+gJCLAEsHwBXChnTzx8UzU1uWvfbymY8QKB1bV4=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ruWqwqBzPeW+dPBc7QTWu9iFPfVYWH1qmAjbiB2QJ9qXx3x6P8ZOX85og662YgnWgcc1QcGPeJf1UVGdBcmPgsii/7fgXtrtvY9nfmg9lZrVfdv2/ao8Txa4kIbrYUyx7YuoyXC9mvP78sHEoAAotF95thCUxgltfsPun5orr9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKhJfZG8; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKhJfZG8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6265AC4CEE3;
-	Fri, 14 Mar 2025 21:03:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741986210;
-	bh=nj/t+gJCLAEsHwBXChnTzx8UzU1uWvfbymY8QKB1bV4=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=vKhJfZG8kzj65TjbKhqNxTKRmKIk/sAF0mkOJ9gAATSoikJZTauF4A5oi2W0WyrTL
-	 kWiMw1N+hb+fvXly4Tp7UdBFb+EIRCrYEnvZNkPgmoNBN3hA8OpfjjZHYlZRGuvoq5
-	 ofaoTV2UmNaaAkHvrBoXWAKT5mriTKy+45F7zgAcKH6PH59rSPHVXdtW6emtVnwizS
-	 20/fFYDD4kqkOSY2MabbU9KqverjDuTy6M+0MGM4+ZkR9PZyeIo/2r0ahI5pgPNYkL
-	 aVHiQKi/HdSvfoo2Gs/WtrSczGzz1mfceiPi3bFD2IGju40W9BuWFFzYt6aNzCKY6t
-	 Uswzi8ANDpKjA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70F86380CEE2;
-	Fri, 14 Mar 2025 21:04:06 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.14-rc7
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87zfho7x4u.wl-tiwai@suse.de>
-References: <87zfho7x4u.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87zfho7x4u.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc7
-X-PR-Tracked-Commit-Id: de69d56daac6d9b98fa384184078751db1288144
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b1144bc7cbb91f688a216fdf02ae25050b839c4a
-Message-Id: <174198624513.2382486.16376891881447933072.pr-tracker-bot@kernel.org>
-Date: Fri, 14 Mar 2025 21:04:05 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=arc-20240116; t=1742005590; c=relaxed/simple;
+	bh=yWfJU6HiUiPNc61XsJevE5RFjgaBAeGIb7etxvoFyTM=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=Auqsj1p8TSyeWJPQkH3Op6ykA1lBBZa6K9Ltp2jXwiuGbtD7aqe4rx0BfzEPyju0OYBGrNjuUjeF2dEaAPRCua1zBdHhqC1zb8pCgMLgf13fUcRWJdk6yRM2NG+zxX64XFGhYkZ6zMgraefVK9I5NOtQNfrXj8lOxn4FkfOJPfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZF4qF0GdXz501gV;
+	Sat, 15 Mar 2025 10:26:17 +0800 (CST)
+Received: from xaxapp05.zte.com.cn ([10.99.98.109])
+	by mse-fl1.zte.com.cn with SMTP id 52F2Pw5S018668;
+	Sat, 15 Mar 2025 10:25:58 +0800 (+08)
+	(envelope-from jiang.peng9@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid31;
+	Sat, 15 Mar 2025 10:26:00 +0800 (CST)
+Date: Sat, 15 Mar 2025 10:26:00 +0800 (CST)
+X-Zmail-TransId: 2afa67d4e53836a-81244
+X-Mailer: Zmail v1.0
+Message-ID: <20250315102600136tIj0LVzjTQjRLKNzNwVj2@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+From: <jiang.peng9@zte.com.cn>
+To: <lgirdwood@gmail.com>
+Cc: <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
+        <jiang.peng9@zte.com.cn>, <zhoubinbin@loongson.cn>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBpMnM6IFNpbXBsaWZ5IHJlc291cmNlIHJldHJpZXZhbCBhbmQgbWFwcGluZyBieSB1c2luZwogZGV2bV9wbGF0Zm9ybV9nZXRfYW5kX2lvcmVtYXBfcmVzb3VyY2U=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 52F2Pw5S018668
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 67D4E549.000/4ZF4qF0GdXz501gV
 
-The pull request you sent on Fri, 14 Mar 2025 10:57:21 +0100:
+From: Peng Jiang <jiang.peng9@zte.com.cn>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.14-rc7
+Convert platform_get_resource(), devm_ioremap_resource() to a single call
+to devm_platform_get_and_ioremap_resource().
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b1144bc7cbb91f688a216fdf02ae25050b839c4a
+By making this change, we improve code readability and reduce redundancy
+without affecting the functionality of the driver.
 
-Thank you!
+Signed-off-by: Peng Jiang <jiang.peng9@zte.com.cn>
+---
+ sound/soc/loongson/loongson_i2s_plat.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/sound/soc/loongson/loongson_i2s_plat.c b/sound/soc/loongson/loongson_i2s_plat.c
+index fa2e450ff618..1378abca520b 100644
+--- a/sound/soc/loongson/loongson_i2s_plat.c
++++ b/sound/soc/loongson/loongson_i2s_plat.c
+@@ -126,8 +126,7 @@ static int loongson_i2s_plat_probe(struct platform_device *pdev)
+        if (ret)
+                return ret;
+
+-       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-       i2s->reg_base = devm_ioremap_resource(&pdev->dev, res);
++       i2s->reg_base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+        if (IS_ERR(i2s->reg_base))
+                return dev_err_probe(dev, PTR_ERR(i2s->reg_base),
+                                     "devm_ioremap_resource failed\n");
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.25.1
