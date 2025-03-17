@@ -1,131 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075711F4706;
-	Mon, 17 Mar 2025 16:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E6F1ADFE4;
+	Mon, 17 Mar 2025 16:38:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742229498; cv=none; b=QxY6awmYrWnHZ1sLhP6o1wr9Sq5bOQT4I04VhZ7H0Uom5xJvaWzX8Pf6sZnLEb7S6TAY3rUunKwFaEnymZmyqSXbMdSMdgbRazC5H9RV5uv5NhkYabMHN83FETEDHAnouRJwbRt0zuUlrzKHEL3A7Lw59odEFprAWHngie9liGE=
+	t=1742229505; cv=none; b=tXSUlBBAbw/SBqJTfe90yKRImKEdp+s8hIenb/xSY68tLAdLY+Q0g2T92yQbODXfW7Z5V1F4E8JFkkMa9NmVTmvOT2hY5eqgTEDZ5CfXPyt2yPWYvGPkX/SMx3HY5/5w8ZOOmTxH2rv0DfjdwSBin+EEVbQFlwznD0HTCs40jyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742229498; c=relaxed/simple;
-	bh=cTtWJdgHBaThA0PWeqWg4xK1c4tdQtMTakykwnUudeA=;
+	s=arc-20240116; t=1742229505; c=relaxed/simple;
+	bh=HR4snbWFFwiMo+npQvVU112otp9kuqyRniHfyZV8d3I=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=s+oq3HzYxfzE6fjhdTrzcEgSU0R2Qt+tBPCsVENSFAYW2aV+sGJpubCP/9c9haop6Nd459g50s2d4DnsvnLreWKjuBqhgesc+q3bCAMxPMdEaaK4IUijQwwZeV7gxof9ooFAtsyb2GEL0FZlr1I7cmiM/fmiDft9pjnUKSGKYMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jd4gCWJA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Ik5BGIYw7aDe7Np7aJ9n7tqQ+DNtJWyYVEk9SLDdpg8HlhXqQKSLymT1BqJr5E9jUvw24Eb1WZRvigKT04T8UYNINjXXiyxeH+SzxsK8UBHK/l/RIGBxoVyDHtjuR3knPdAFna544p9z7Mi7bA2JXXLmzCPZZsRvhDO8wlR5m7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BtjMSEnB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jd4gCWJA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E680C4CEED;
-	Mon, 17 Mar 2025 16:38:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BtjMSEnB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1E01C4CEEC;
+	Mon, 17 Mar 2025 16:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742229497;
-	bh=cTtWJdgHBaThA0PWeqWg4xK1c4tdQtMTakykwnUudeA=;
+	s=k20201202; t=1742229505;
+	bh=HR4snbWFFwiMo+npQvVU112otp9kuqyRniHfyZV8d3I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Jd4gCWJA175gnYmv+UUvuESRvNokhMqroAYNgkrmxGygFK+TMmlNmN+nLxw8zxHvL
-	 /GQVzjlCKm6xAnCmcaa4tFFTQrSNDe6Xhli4VrEZg9iQE/eDk2BY9U6etn7erRszB4
-	 r0v2aKogu2wWo3+tZ7uokPvKZLc4X4e9KJ5fJ46lkGjbkKrNgoZQWpc0eE7TtjpQCU
-	 x/3qjUm1p8xTP6aByvS0ILLITbtdibuqCPm9V/d1805JBpENm1RYXYBILw+2w97985
-	 6l6qlD34j0kaprGERd0GXD+S+OQvt90dgnpPSBYyZhl1Ar01Ddm8fJcIVuPZOb+hoQ
-	 D9mBpZ33ejLIA==
+	b=BtjMSEnBSFhcdV6hKhpwL6WjcRXtJ9XJoHrLfFTRviGt3hT+8BoPTq7+xSAkufcg+
+	 1KN6W+QsGoGJRHNbS8QoIu9u688JdYJAfa6UKtwKDtsD1hzUm+y/Ntz/QwCT5srch+
+	 Kx/wgMXeEAPM8WPIqk5B7tnGDh5HsrQ9O8aIwhh8ie8vgLfubazF1xUkSRTofa2hzQ
+	 AZIgt5n/dB6mHSXWuITy2U6CT9snVSKpHx4GiZsPkyyCBBkDq6/2V+kK0vzv6Dhpmi
+	 vvh+vHQ8Jqpdh33EhsH7MQFMVQfhI0jKrHFA+BPr6OBDyD5sge/xg5gKmzPwtC6oBk
+	 4rgfaOLCJRAJg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Navon John Lukose <navonjohnlukose@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Alexey Klimov <alexey.klimov@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	simont@opensource.cirrus.com,
-	josh@joshuagrisham.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 16/16] ALSA: hda/realtek: Add mute LED quirk for HP Pavilion x360 14-dy1xxx
-Date: Mon, 17 Mar 2025 12:37:25 -0400
-Message-Id: <20250317163725.1892824-16-sashal@kernel.org>
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 02/13] ASoC: codecs: wsa884x: report temps to hwmon in millidegree of Celsius
+Date: Mon, 17 Mar 2025 12:38:07 -0400
+Message-Id: <20250317163818.1893102-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250317163725.1892824-1-sashal@kernel.org>
-References: <20250317163725.1892824-1-sashal@kernel.org>
+In-Reply-To: <20250317163818.1893102-1-sashal@kernel.org>
+References: <20250317163818.1893102-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.7
+X-stable-base: Linux 6.12.19
 Content-Transfer-Encoding: 8bit
 
-From: Navon John Lukose <navonjohnlukose@gmail.com>
+From: Alexey Klimov <alexey.klimov@linaro.org>
 
-[ Upstream commit b11a74ac4f545626d0dc95a8ca8c41df90532bf3 ]
+[ Upstream commit d776f016d24816f15033169dcd081f077b6c10f4 ]
 
-Add a fixup to enable the mute LED on HP Pavilion x360 Convertible
-14-dy1xxx with ALC295 codec. The appropriate coefficient index and bits
-were identified through a brute-force method, as detailed in
-https://bbs.archlinux.org/viewtopic.php?pid=2079504#p2079504.
+Temperatures are reported in units of Celsius however hwmon expects
+values to be in millidegree of Celsius. Userspace tools observe values
+close to zero and report it as "Not available" or incorrect values like
+0C or 1C. Add a simple conversion to fix that.
 
-Signed-off-by: Navon John Lukose <navonjohnlukose@gmail.com>
-Link: https://patch.msgid.link/20250307213319.35507-1-navonjohnlukose@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Before the change:
+
+wsa884x-virtual-0
+Adapter: Virtual device
+temp1:         +0.0°C
+--
+wsa884x-virtual-0
+Adapter: Virtual device
+temp1:         +0.0°C
+
+Also reported as N/A before first amplifier power on.
+
+After this change and initial wsa884x power on:
+
+wsa884x-virtual-0
+Adapter: Virtual device
+temp1:        +39.0°C
+--
+wsa884x-virtual-0
+Adapter: Virtual device
+temp1:        +37.0°C
+
+Tested on sm8550 only.
+
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+Link: https://patch.msgid.link/20250221044024.1207921-1-alexey.klimov@linaro.org
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_realtek.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ sound/soc/codecs/wsa884x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 10e9ec74104d2..2eabab0da87d0 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -4792,6 +4792,21 @@ static void alc236_fixup_hp_coef_micmute_led(struct hda_codec *codec,
+diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
+index 86df5152c547b..560a2c04b6955 100644
+--- a/sound/soc/codecs/wsa884x.c
++++ b/sound/soc/codecs/wsa884x.c
+@@ -1875,7 +1875,7 @@ static int wsa884x_get_temp(struct wsa884x_priv *wsa884x, long *temp)
+ 		 * Reading temperature is possible only when Power Amplifier is
+ 		 * off. Report last cached data.
+ 		 */
+-		*temp = wsa884x->temperature;
++		*temp = wsa884x->temperature * 1000;
+ 		return 0;
  	}
- }
  
-+static void alc295_fixup_hp_mute_led_coefbit11(struct hda_codec *codec,
-+				const struct hda_fixup *fix, int action)
-+{
-+	struct alc_spec *spec = codec->spec;
-+
-+	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
-+		spec->mute_led_polarity = 0;
-+		spec->mute_led_coef.idx = 0xb;
-+		spec->mute_led_coef.mask = 3 << 3;
-+		spec->mute_led_coef.on = 1 << 3;
-+		spec->mute_led_coef.off = 1 << 4;
-+		snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
-+	}
-+}
-+
- static void alc285_fixup_hp_mute_led(struct hda_codec *codec,
- 				const struct hda_fixup *fix, int action)
- {
-@@ -7644,6 +7659,7 @@ enum {
- 	ALC290_FIXUP_MONO_SPEAKERS_HSJACK,
- 	ALC290_FIXUP_SUBWOOFER,
- 	ALC290_FIXUP_SUBWOOFER_HSJACK,
-+	ALC295_FIXUP_HP_MUTE_LED_COEFBIT11,
- 	ALC269_FIXUP_THINKPAD_ACPI,
- 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
- 	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
-@@ -9381,6 +9397,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC283_FIXUP_INT_MIC,
- 	},
-+	[ALC295_FIXUP_HP_MUTE_LED_COEFBIT11] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc295_fixup_hp_mute_led_coefbit11,
-+	},
- 	[ALC298_FIXUP_SAMSUNG_AMP] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc298_fixup_samsung_amp,
-@@ -10425,6 +10445,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x84e7, "HP Pavilion 15", ALC269_FIXUP_HP_MUTE_LED_MIC3),
- 	SND_PCI_QUIRK(0x103c, 0x8519, "HP Spectre x360 15-df0xxx", ALC285_FIXUP_HP_SPECTRE_X360),
- 	SND_PCI_QUIRK(0x103c, 0x8537, "HP ProBook 440 G6", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x85c6, "HP Pavilion x360 Convertible 14-dy1xxx", ALC295_FIXUP_HP_MUTE_LED_COEFBIT11),
- 	SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx", ALC285_FIXUP_HP_ENVY_X360),
- 	SND_PCI_QUIRK(0x103c, 0x860f, "HP ZBook 15 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
- 	SND_PCI_QUIRK(0x103c, 0x861f, "HP Elite Dragonfly G1", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+@@ -1934,7 +1934,7 @@ static int wsa884x_get_temp(struct wsa884x_priv *wsa884x, long *temp)
+ 	if ((val > WSA884X_LOW_TEMP_THRESHOLD) &&
+ 	    (val < WSA884X_HIGH_TEMP_THRESHOLD)) {
+ 		wsa884x->temperature = val;
+-		*temp = val;
++		*temp = val * 1000;
+ 		ret = 0;
+ 	} else {
+ 		ret = -EAGAIN;
 -- 
 2.39.5
 
