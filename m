@@ -1,46 +1,45 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9944722E40F
-	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 09:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28B822E3F3
+	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 09:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742205533; cv=none; b=J+q+3jeiStU79KcRMNSDfI9rACKkr0l8OcSAZdCoJjIEScUylFczcbwXor31q7lXVQX2O+XhpL8suBQkzaJGnggks7Pv7NB7g9Ia4eQhdv1v/PzvKew4/jV9bUiOkj4r5UBrqV3KXUaJBJuaFtCGMVKrrHh4RO2Let3U31kZv3E=
+	t=1742205536; cv=none; b=Vp3pl9u001C2bXZ6vabrfV2J7jkCjmTjNAUfIyivV3lzWSJx00Tal8qmcgfXho5xYnD0W3Cdj2/QCJGhJK3lwtnoVOuShV6CGx8RtMcvlHDI3YUv0IL4i48LvGT15kF6T7hIntj3b9Sh1BPnk2XaI/qspkLo6YaYe8mPX3X++Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742205533; c=relaxed/simple;
-	bh=s0tuuFP0bRaw7zKXa4dkbDjKRolbYE2H7mZd0TwEYnI=;
+	s=arc-20240116; t=1742205536; c=relaxed/simple;
+	bh=Rco2S2QBD/VJqA4HWtVariCutQ6fg0MzStVYGuh6sxU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nEP/wf87Qd0X1/IG9x4RA/4d3ZwbsEeemHuaeeUxAC+5BfCApnpzQi7qxmBs+ZaThsCzlqTC6NKhjE1Gu+l/Fvx2bubF+B3vA2Dw8id7U9/QjCl3uE/tUBYPPOp+drNUlntg1qxLiaiSgT7RfV157ju8IIFELyeFlLZSXSwv2P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=a4xisiQJmLXDAcGnqtUnoj+bnF1jDFR6fPqgSUmIe7dQqtfWf8sRbHkw2/7FVwnzRb8Jw+BYj3M4fEmR2BFA9GRLJca4I5e9pWrhAEbuyedITq8fuQLtiY5tPqU8J5Qw0qgnoZyeb9Wa/EVMMWNEBh0OGzSDrpUuDOBjVqyPDS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B0CDC2207A;
-	Mon, 17 Mar 2025 09:56:22 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DB6B320234;
+	Mon, 17 Mar 2025 09:56:20 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 862B8132CF;
-	Mon, 17 Mar 2025 09:56:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B7B39132CF;
+	Mon, 17 Mar 2025 09:56:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mItxH8bx12eaGAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 09:56:22 +0000
+	id ACetK8Tx12eaGAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 09:56:20 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2 54/88] ASoC: wm8994: Convert to SYSTEM_SLEEP_PM_OPS()
-Date: Mon, 17 Mar 2025 10:55:16 +0100
-Message-ID: <20250317095603.20073-55-tiwai@suse.de>
+Subject: [PATCH v2 44/88] ASoC: rtq9128: Convert to RUNTIME_PM_OPS()
+Date: Mon, 17 Mar 2025 10:55:06 +0100
+Message-ID: <20250317095603.20073-45-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250317095603.20073-1-tiwai@suse.de>
 References: <20250317095603.20073-1-tiwai@suse.de>
@@ -54,62 +53,62 @@ Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
-X-Spam-Level: 
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
-X-Spam-Score: -4.00
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: B0CDC2207A
+X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: DB6B320234
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
 X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
 
-Use the newer SYSTEM_SLEEP_PM_OPS() macro instead of
-SET_SYSTEM_SLEEP_PM_OPS() together with pm_ptr(), which allows us
-superfluous CONFIG_PM_SLEEP ifdefs.
+Use the newer RUNTIME_PM_OPS() macro instead of SET_RUNTIME_PM_OPS(),
+which allows us dropping ugly __maybe_unsed attributes.
 
-This optimizes slightly when CONFIG_PM is disabled, too.
+Merely a cleanup, there should be no actual code change.
 
-Cc: patches@opensource.cirrus.com
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Oder Chiou <oder_chiou@realtek.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/wm8994.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ sound/soc/codecs/rtq9128.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/codecs/wm8994.c b/sound/soc/codecs/wm8994.c
-index 69a22992c281..240ec1bed234 100644
---- a/sound/soc/codecs/wm8994.c
-+++ b/sound/soc/codecs/wm8994.c
-@@ -4662,7 +4662,6 @@ static void wm8994_remove(struct platform_device *pdev)
- 	pm_runtime_disable(&pdev->dev);
+diff --git a/sound/soc/codecs/rtq9128.c b/sound/soc/codecs/rtq9128.c
+index aa3eadecd974..391cc03d687f 100644
+--- a/sound/soc/codecs/rtq9128.c
++++ b/sound/soc/codecs/rtq9128.c
+@@ -729,7 +729,7 @@ static int rtq9128_probe(struct i2c_client *i2c)
+ 	return devm_snd_soc_register_component(dev, &rtq9128_comp_driver, &rtq9128_dai, 1);
  }
  
--#ifdef CONFIG_PM_SLEEP
- static int wm8994_suspend(struct device *dev)
+-static int __maybe_unused rtq9128_pm_runtime_suspend(struct device *dev)
++static int rtq9128_pm_runtime_suspend(struct device *dev)
  {
- 	struct wm8994_priv *wm8994 = dev_get_drvdata(dev);
-@@ -4687,16 +4686,15 @@ static int wm8994_resume(struct device *dev)
- 
+ 	struct rtq9128_data *data = dev_get_drvdata(dev);
+ 	struct regmap *regmap = dev_get_regmap(dev, NULL);
+@@ -746,7 +746,7 @@ static int __maybe_unused rtq9128_pm_runtime_suspend(struct device *dev)
  	return 0;
  }
--#endif
  
- static const struct dev_pm_ops wm8994_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(wm8994_suspend, wm8994_resume)
-+	SYSTEM_SLEEP_PM_OPS(wm8994_suspend, wm8994_resume)
+-static int __maybe_unused rtq9128_pm_runtime_resume(struct device *dev)
++static int rtq9128_pm_runtime_resume(struct device *dev)
+ {
+ 	struct rtq9128_data *data = dev_get_drvdata(dev);
+ 	struct regmap *regmap = dev_get_regmap(dev, NULL);
+@@ -764,8 +764,8 @@ static int __maybe_unused rtq9128_pm_runtime_resume(struct device *dev)
+ 	return regcache_sync(regmap);
+ }
+ 
+-static const struct dev_pm_ops __maybe_unused rtq9128_pm_ops = {
+-	SET_RUNTIME_PM_OPS(rtq9128_pm_runtime_suspend, rtq9128_pm_runtime_resume, NULL)
++static const struct dev_pm_ops rtq9128_pm_ops = {
++	RUNTIME_PM_OPS(rtq9128_pm_runtime_suspend, rtq9128_pm_runtime_resume, NULL)
  };
  
- static struct platform_driver wm8994_codec_driver = {
- 	.driver = {
- 		.name = "wm8994-codec",
--		.pm = &wm8994_pm_ops,
-+		.pm = pm_ptr(&wm8994_pm_ops),
- 	},
- 	.probe = wm8994_probe,
- 	.remove = wm8994_remove,
+ static const struct of_device_id rtq9128_device_table[] = {
 -- 
 2.43.0
 
