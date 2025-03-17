@@ -1,84 +1,103 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28D0824110F;
-	Mon, 17 Mar 2025 14:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B91819992D;
+	Mon, 17 Mar 2025 16:24:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742221744; cv=none; b=oNTtCvFD3hGZhsW+TvFRLOu+WY2qSe6pJBfrGrFeiUmTxEox9eeZJ+2y3S8BJHrJ2/+H9u3mcgqlA0XWpa7k2EIrxV+/HT3uPV9S5A2jbWeC/o7M3UNU86VqS8L1j1V+jY5aJwwUhUE9sec2Iu9P/6aXTOd0Wu8b2r2CSnfoyR8=
+	t=1742228640; cv=none; b=pkCtdqqqUaUIx4FGfsd/nCZ/RgPI85+0RP+cACTPPuCHAdzFlmumwVYAHYogWPFKkfu1NBdUi8Bu9kEaOvH/s9LaZBq354y2dHBQ9oaNgfHOrJ1gPojFjnkk6tcO85NZ9giJaI/SYzzGYDHFm858V2Z140LY20bka2fLEJ58JVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742221744; c=relaxed/simple;
-	bh=dzgbwvDxYKxyBzxSvxhiBD6og4kkmAH+ymh2ORT+zoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dC59diCoLT8Q+yy/wVxbEugibpXB4ooJr1X1/2v3ciEbuLZ+WTDcXgdc8UmIeJ2unNx23Tsti2MZY/4JpGtmmoidKrlmj6fd6ZApXN6HhkJj1INPmEBEyFAf80j48NKKgsZNYLkrW0KqAvalAv7ig0aSOnrXtiUE8uIizQGVQx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 749A913D5;
-	Mon, 17 Mar 2025 07:29:11 -0700 (PDT)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EA8E13F63F;
-	Mon, 17 Mar 2025 07:28:58 -0700 (PDT)
-Date: Mon, 17 Mar 2025 14:28:56 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	linux-pm@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
-	linux-crypto@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-	linux-efi@vger.kernel.org,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
-	Borislav Petkov <bp@alien8.de>, linux-acpi@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH 0/9] drivers: Transition to the faux device interface
-Message-ID: <Z9gxqGHS3igb5wOq@bogus>
-References: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
- <2025031705-scouting-scolding-8ff7@gregkh>
+	s=arc-20240116; t=1742228640; c=relaxed/simple;
+	bh=S8rkvyTlbJT1gIhv5b/YRSUsQaaIxz+gef47gM4FQeM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=EPolYucsKCbXnpVh1408Mzb+chXlSmqjaUSxW6ONm8BMgqw9STFFrW/3C5GkHnE5eYf9qJzganCdxcP9+z8X61K95fmTLifh1o1JnbLsqDlV6mQjOBCyk6thXd1U2JMz6qh4Bk/I7Ydq+GTOc3hNr1pyzG63vbzichtHts3wO4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eHgrafX/; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eHgrafX/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01545C4CEE3;
+	Mon, 17 Mar 2025 16:23:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742228640;
+	bh=S8rkvyTlbJT1gIhv5b/YRSUsQaaIxz+gef47gM4FQeM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=eHgrafX/Y7f+UnMCDf310BPSsrehHgdQnjS7tlb/Vz9nUGn4IdyMwWRPbJ4QtXBVq
+	 6RfTjHTbt4s3SOghrDbX0FbHMkuFyZrhe8ha9Ka5gwOaAdK/co+U5myIyoRNl4+nG3
+	 SqRYjMSWX2kiLLq0NB+NdpSIFXg19HNJYh459wh/rpuVl3ayXuVSdIMkFu4mo11/M5
+	 A0t1bnJZLRKmlC4Bz4q5Wo6GyYFqUqXxiA+SZ5F9NewLkxoXLEWeFDjDGXqmev6y3R
+	 ni5Rh0q0RE4lGNyaIKFvbpsN+Okh9m/Yx9n5aV1Hxx/TQNQ2bp9nNFKsBFZktzsDNs
+	 nky42SkDhXM4w==
+From: Mark Brown <broonie@kernel.org>
+To: alsa-devel@alsa-project.org, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: Vijendar.Mukunda@amd.com, mario.limonciello@amd.com, 
+ Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
+ syed.sabakareem@amd.com, nathan@kernel.org, 
+ kernel test robot <lkp@intel.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Jeff Johnson <quic_jjohnson@quicinc.com>, 
+ Greg KH <gregkh@linuxfoundation.org>, Peter Zijlstra <peterz@infradead.org>, 
+ open list <linux-kernel@vger.kernel.org>, 
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>
+In-Reply-To: <20250317072413.88971-1-venkataprasad.potturu@amd.com>
+References: <20250317072413.88971-1-venkataprasad.potturu@amd.com>
+Subject: Re: [PATCH 1/3] ASoC: amd: acp: Fix snd_soc_acpi_mach id's
+ duplicate symbol error
+Message-Id: <174222863673.227953.6804777136695160780.b4-ty@kernel.org>
+Date: Mon, 17 Mar 2025 16:23:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2025031705-scouting-scolding-8ff7@gregkh>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-On Mon, Mar 17, 2025 at 02:01:55PM +0100, Greg Kroah-Hartman wrote:
-> On Mon, Mar 17, 2025 at 10:13:12AM +0000, Sudeep Holla wrote:
-> > Recently when debugging why one of the scmi platform device was not
-> > showing up under /sys/devices/platform/firmware:scmi instead was
-> > appearing directly under /sys/devices/platform, I noticed the new
-> > faux interface /sys/devices/faux.
-> > 
-> > Looking through the discussion and the background, I got excited and
-> > took the opportunity to clear all the platform devices under
-> > /sys/devices/platform on the Arm Juno/FVP platforms that are really
-> > faux devices. Only the platform devices created for the device nodes
-> > from the DT remain under /sys/devices/platform after these changes.
-> > 
-> > All the patches are independent of each other.
+On Mon, 17 Mar 2025 12:54:07 +0530, Venkata Prasad Potturu wrote:
+> Move snd_soc_acpi_mach id's of all acp platforms form header file to
+> amd-acpi-mach.c file to avoid below errors.
 > 
-> That's great, but you need to send these all independently to each
-> subsystem as needed.  Having it all in one series doesn't work for any
-> of the maintainers of any of the subsystems.
+> ld.lld: error: duplicate symbol: amp_rt1019
+> ld.lld: error: duplicate symbol: amp_max
+> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_acp63_acp_machines
+> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_acp70_acp_machines
+> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_rmb_acp_machines
+> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_acp_machines
 > 
+> [...]
 
-Sure I can do that. I initially had idea of creating a macro that made
-all of them depend on the macro but later dropped as I wanted to check
-if that is good or a bad idea. I just asked you in the thread 2/9.
+Applied to
 
-> And I'm glad to see this work happening, thanks for doing that!
-> 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks for adding faux interface!
+Thanks!
 
--- 
-Regards,
-Sudeep
+[1/3] ASoC: amd: acp: Fix snd_soc_acpi_mach id's duplicate symbol error
+      commit: 9c2c0ef6400980f09b377be250f5dff14dbbf3b6
+[2/3] ASoC: amd: acp: Fix acp_resource duplicate symbol error
+      commit: 09dc8031f4a84103f4ba8f704ec21f1926b04366
+[3/3] ASoC: amd: acp: Fix acp_common_hw_ops declaration error
+      commit: 77ad261ecc4aa1b09bc98b32cdbfadb5e92197b7
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
