@@ -1,87 +1,45 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2327422CBC9
-	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 09:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C50821ABDF
+	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 09:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742205521; cv=none; b=WQV4S5DqJp0ISd3DKtbtIwj8C3pEf2yxXfotLySr9p0XcQPSCus2AQSEmqibezIDA989Xu2UU9acQBGSYi1oFhI2nrMKhstJulI8hDyAIL5S7xYxTxRrDCWvhcLnqvnKq9Z8oz9TeDqywHR0NIMZGTUnLaMkV41XgDAo1SpHykg=
+	t=1742205524; cv=none; b=PGtgHd1I6oV0Dj42qiYf7Fskf/VivREC6qFhojRhghBXovPdzpyt4376UmrZNrMnM8r5LX/vuFbEbn9QY9ImqFSLnpxQ+bDWkNz7C6j7tskadJpshB23zaJ20U7LSbCb2ZjOUMovhhzEs+dWZwvcFwXWGv/BRxpr/2z3mpYx+F0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742205521; c=relaxed/simple;
-	bh=a6xsm2g1eg1p/mNPtDazD0ryzHPldAVN7zMpdPjLn5Q=;
+	s=arc-20240116; t=1742205524; c=relaxed/simple;
+	bh=YhX6FSRBwY8qpxBJI1qK6Cn7dWV7UBBJP4KQuAuVrJM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B2EXfpqT2dK6O17pteSH5UYeNeSPRLXotArx/fEMe+3scq9oPI32nwd9d9JI++ykcz4n9rxz87o4y6m0RjU+PaUBGD5p5qM27soWZs8TOTgYTzu3IVfK1ztlFI8KM7smqrQ3zNIeUKlD+9UeQqas6wkrAGuGRM7IJq/gNFq4EG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0WB53bPo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=a9xdbxFE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0WB53bPo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=a9xdbxFE; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=lQ/6/+1in+D4NCe2YCWuJGiCiGObgz0EvAXGj66dvN2Kagp0iyaEZLjp2DoxoTvuC64kobZkXkKaBS6KsBRfzPpQMaZll8niN+LNXW66FOKKGLiZhDTTMdRzRebL032xbg8oFoUHUpWY8PGEHyguP+D1bO9FIVLiuWTPmxS1CQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0WB53bPo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="a9xdbxFE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0WB53bPo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="a9xdbxFE"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4E5E92204E;
-	Mon, 17 Mar 2025 09:56:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742205382; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pxInrLYKWcjtLgCWqK4QPOEuvcsTK8IBg5OB9drpWeM=;
-	b=0WB53bPokzyN6aoIeAh8KWsqv0X9ftLl/Jk0csZ5B9MwnjiB1OtKcI/3ChrXHB2nkv1/ok
-	z8OHx1yeJ4mSASAXIXCsdvfZ7HIdaBAhBkTNGIdXwHJOT6EY+tNC4hPDQ6Gkgoh18Fpq4s
-	rqZb5bWxx/Q1ybByvfBQuRFNwSnM760=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742205382;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pxInrLYKWcjtLgCWqK4QPOEuvcsTK8IBg5OB9drpWeM=;
-	b=a9xdbxFEiyRGqaB5w2qY+9XW7dfUL4wI+W0iSswa0gmaGm0OT1aeFhZLZ5o0cuDawoUAud
-	ZIrjtPqAMY7AU0AQ==
-Authentication-Results: smtp-out1.suse.de;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 655D620232;
+	Mon, 17 Mar 2025 09:56:20 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742205382; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pxInrLYKWcjtLgCWqK4QPOEuvcsTK8IBg5OB9drpWeM=;
-	b=0WB53bPokzyN6aoIeAh8KWsqv0X9ftLl/Jk0csZ5B9MwnjiB1OtKcI/3ChrXHB2nkv1/ok
-	z8OHx1yeJ4mSASAXIXCsdvfZ7HIdaBAhBkTNGIdXwHJOT6EY+tNC4hPDQ6Gkgoh18Fpq4s
-	rqZb5bWxx/Q1ybByvfBQuRFNwSnM760=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742205382;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pxInrLYKWcjtLgCWqK4QPOEuvcsTK8IBg5OB9drpWeM=;
-	b=a9xdbxFEiyRGqaB5w2qY+9XW7dfUL4wI+W0iSswa0gmaGm0OT1aeFhZLZ5o0cuDawoUAud
-	ZIrjtPqAMY7AU0AQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 25E1B132CF;
-	Mon, 17 Mar 2025 09:56:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 32AF813A2C;
+	Mon, 17 Mar 2025 09:56:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2BsECMbx12eaGAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 09:56:22 +0000
+	id uCQiC8Tx12eaGAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 09:56:20 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2 52/88] ASoC: wm8804: Convert to EXPORT_GPL_DEV_PM_OPS()
-Date: Mon, 17 Mar 2025 10:55:14 +0100
-Message-ID: <20250317095603.20073-53-tiwai@suse.de>
+Subject: [PATCH v2 41/88] ASoC: rt721: Convert to RUNTIME_PM_OPS() & co
+Date: Mon, 17 Mar 2025 10:55:03 +0100
+Message-ID: <20250317095603.20073-42-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250317095603.20073-1-tiwai@suse.de>
 References: <20250317095603.20073-1-tiwai@suse.de>
@@ -92,99 +50,84 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -6.80
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	R_RATELIMIT(0.00)[to_ip_from(RL5j9wc7mf8ens4usejdmaiz8d)];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
 X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Score: -4.00
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 655D620232
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-Use the newer EXPORT_GPL_DEV_PM_OPS() macro together with pm_ptr(),
-which allows us to drop superfluous CONFIG_PM ifdefs.
+Use the newer RUNTIME_PM_OPS() and SYSTEM_SLEEP_PM_OPS() macros
+instead of SET_RUNTIME_PM_OPS() and SET_SYSTEM_SLEEP_PM_OPS() together
+with pm_ptr(), which allows us dropping ugly __maybe_unused
+attributes.
 
 This optimizes slightly when CONFIG_PM is disabled, too.
 
-Cc: patches@opensource.cirrus.com
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Oder Chiou <oder_chiou@realtek.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/wm8804-i2c.c | 2 +-
- sound/soc/codecs/wm8804-spi.c | 2 +-
- sound/soc/codecs/wm8804.c     | 7 ++-----
- 3 files changed, 4 insertions(+), 7 deletions(-)
+ sound/soc/codecs/rt721-sdca-sdw.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/codecs/wm8804-i2c.c b/sound/soc/codecs/wm8804-i2c.c
-index e80dad87219b..3380d7301b17 100644
---- a/sound/soc/codecs/wm8804-i2c.c
-+++ b/sound/soc/codecs/wm8804-i2c.c
-@@ -56,7 +56,7 @@ MODULE_DEVICE_TABLE(acpi, wm8804_acpi_match);
- static struct i2c_driver wm8804_i2c_driver = {
- 	.driver = {
- 		.name = "wm8804",
--		.pm = &wm8804_pm,
-+		.pm = pm_ptr(&wm8804_pm),
- 		.of_match_table = of_match_ptr(wm8804_of_match),
- 		.acpi_match_table = ACPI_PTR(wm8804_acpi_match),
- 	},
-diff --git a/sound/soc/codecs/wm8804-spi.c b/sound/soc/codecs/wm8804-spi.c
-index 628568724c20..cf74abfb1a2c 100644
---- a/sound/soc/codecs/wm8804-spi.c
-+++ b/sound/soc/codecs/wm8804-spi.c
-@@ -38,7 +38,7 @@ MODULE_DEVICE_TABLE(of, wm8804_of_match);
- static struct spi_driver wm8804_spi_driver = {
- 	.driver = {
- 		.name = "wm8804",
--		.pm = &wm8804_pm,
-+		.pm = pm_ptr(&wm8804_pm),
- 		.of_match_table = wm8804_of_match,
- 	},
- 	.probe = wm8804_spi_probe,
-diff --git a/sound/soc/codecs/wm8804.c b/sound/soc/codecs/wm8804.c
-index 0a879c29eb04..48700cc25cb0 100644
---- a/sound/soc/codecs/wm8804.c
-+++ b/sound/soc/codecs/wm8804.c
-@@ -680,7 +680,6 @@ void wm8804_remove(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(wm8804_remove);
+diff --git a/sound/soc/codecs/rt721-sdca-sdw.c b/sound/soc/codecs/rt721-sdca-sdw.c
+index c71453da088a..582b47d69278 100644
+--- a/sound/soc/codecs/rt721-sdca-sdw.c
++++ b/sound/soc/codecs/rt721-sdca-sdw.c
+@@ -437,7 +437,7 @@ static const struct sdw_device_id rt721_sdca_id[] = {
+ };
+ MODULE_DEVICE_TABLE(sdw, rt721_sdca_id);
  
--#if IS_ENABLED(CONFIG_PM)
- static int wm8804_runtime_resume(struct device *dev)
+-static int __maybe_unused rt721_sdca_dev_suspend(struct device *dev)
++static int rt721_sdca_dev_suspend(struct device *dev)
  {
- 	struct wm8804_priv *wm8804 = dev_get_drvdata(dev);
-@@ -713,12 +712,10 @@ static int wm8804_runtime_suspend(struct device *dev)
+ 	struct rt721_sdca_priv *rt721 = dev_get_drvdata(dev);
  
+@@ -453,7 +453,7 @@ static int __maybe_unused rt721_sdca_dev_suspend(struct device *dev)
  	return 0;
  }
--#endif
  
--const struct dev_pm_ops wm8804_pm = {
--	SET_RUNTIME_PM_OPS(wm8804_runtime_suspend, wm8804_runtime_resume, NULL)
-+EXPORT_GPL_DEV_PM_OPS(wm8804_pm) = {
-+	RUNTIME_PM_OPS(wm8804_runtime_suspend, wm8804_runtime_resume, NULL)
+-static int __maybe_unused rt721_sdca_dev_system_suspend(struct device *dev)
++static int rt721_sdca_dev_system_suspend(struct device *dev)
+ {
+ 	struct rt721_sdca_priv *rt721_sdca = dev_get_drvdata(dev);
+ 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
+@@ -485,7 +485,7 @@ static int __maybe_unused rt721_sdca_dev_system_suspend(struct device *dev)
+ 
+ #define RT721_PROBE_TIMEOUT 5000
+ 
+-static int __maybe_unused rt721_sdca_dev_resume(struct device *dev)
++static int rt721_sdca_dev_resume(struct device *dev)
+ {
+ 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
+ 	struct rt721_sdca_priv *rt721 = dev_get_drvdata(dev);
+@@ -524,15 +524,15 @@ static int __maybe_unused rt721_sdca_dev_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops rt721_sdca_pm = {
+-	SET_SYSTEM_SLEEP_PM_OPS(rt721_sdca_dev_system_suspend, rt721_sdca_dev_resume)
+-	SET_RUNTIME_PM_OPS(rt721_sdca_dev_suspend, rt721_sdca_dev_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(rt721_sdca_dev_system_suspend, rt721_sdca_dev_resume)
++	RUNTIME_PM_OPS(rt721_sdca_dev_suspend, rt721_sdca_dev_resume, NULL)
  };
--EXPORT_SYMBOL_GPL(wm8804_pm);
  
- MODULE_DESCRIPTION("ASoC WM8804 driver");
- MODULE_AUTHOR("Dimitris Papastamos <dp@opensource.wolfsonmicro.com>");
+ static struct sdw_driver rt721_sdca_sdw_driver = {
+ 	.driver = {
+ 		.name = "rt721-sdca",
+ 		.owner = THIS_MODULE,
+-		.pm = &rt721_sdca_pm,
++		.pm = pm_ptr(&rt721_sdca_pm),
+ 	},
+ 	.probe = rt721_sdca_sdw_probe,
+ 	.remove = rt721_sdca_sdw_remove,
 -- 
 2.43.0
 
