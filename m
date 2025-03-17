@@ -1,46 +1,46 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14612288F4
-	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 09:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B530522A4D3
+	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 09:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742205400; cv=none; b=FmliUmDFa0fKipN6Asvk1669DXf05FzefzrXdcl4MOAoC6gjKWp81k++RLxlo0cHurD5cfqYf0r6EPMvIFtsesVtccLtw1+6sKA9E0+fh7mMCU8LozMu19qnBqAkQHC5xBWkAJFNQ4MICQERNCgbdtuDUBaUtW7bUlEgJBUdots=
+	t=1742205404; cv=none; b=KEpkyi1kcbk2suzHpA3d1YB5FJRfximYG9oRsdMYsi+02jTlMtI0E4xHRFlkfVOGl7s1+dhKyI0sQXoHrAbJtphHMNL6w8T8Fry/TaEK8vUl32hdTCOmP9gRqWE6TzxSUPrcXxVBHMW4+xxwOOtB2b/1GaWPAtE/JPMP40lyb5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742205400; c=relaxed/simple;
-	bh=RhpIct4XqKRGcp0dqGEnnHjnwNgOGVK4RO4aUj7iFwU=;
+	s=arc-20240116; t=1742205404; c=relaxed/simple;
+	bh=LzdNFfL7emP6l/V3OXHXKvAaKH/tFyP/j+T5YWGoxO4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t4eEKKxiq1d0231kNRiCspW9zVGYic9oB1JrHT04UuZiQ/p9OD9FEJ3rZJz/WYgJYuMf8KA0bmud452jM5FsLngwZ29PMJ/n/X7DPIAUCW9wQA+ndoVkShKM/24ZWYJ9jX3waczGEwtgPJmUauQy/SZDB6/VZ+TNQ0hjGS7T+ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=Fs92BqivSr0x9A7qU+4VBgsE09qCvhV/2XdNWHUrVYqFabdlki4T55WLrAX/RChrt3oLuDhWOe2HWXISncpIqj72t0stRv2Foq/bYUGTwMQuuYyGYZDjKym5WLQNnG1vkCtHCAdi+LWzwoK3eKFG8Q5FqUE5gtIo4UNUKvMdwZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6CD3B21D95;
-	Mon, 17 Mar 2025 09:56:15 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C10D320033;
+	Mon, 17 Mar 2025 09:56:13 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4309A132CF;
-	Mon, 17 Mar 2025 09:56:15 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91DDE13A2C;
+	Mon, 17 Mar 2025 09:56:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cEEcD7/x12eaGAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 09:56:15 +0000
+	id iKgqIr3x12eaGAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 09:56:13 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
 	patches@opensource.cirrus.com,
 	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2 13/88] ASoC: cs43130: Convert to RUNTIME_PM_OPS()
-Date: Mon, 17 Mar 2025 10:54:35 +0100
-Message-ID: <20250317095603.20073-14-tiwai@suse.de>
+Subject: [PATCH v2 05/88] ASoC: cs35l32: Convert to RUNTIME_PM_OPS()
+Date: Mon, 17 Mar 2025 10:54:27 +0100
+Message-ID: <20250317095603.20073-6-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250317095603.20073-1-tiwai@suse.de>
 References: <20250317095603.20073-1-tiwai@suse.de>
@@ -58,7 +58,7 @@ X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
 X-Spam-Flag: NO
 X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: 6CD3B21D95
+X-Rspamd-Queue-Id: C10D320033
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
@@ -67,8 +67,8 @@ X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
 
 Use the newer RUNTIME_PM_OPS() macro instead of SET_RUNTIME_PM_OPS()
-together with pm_ptr(), which allows us dropping ugly __maybe_unused
-attributes.
+together with pm_ptr(), which allows us dropping superfluous CONFIG_PM
+ifdefs.
 
 This optimizes slightly when CONFIG_PM is disabled, too.
 
@@ -76,50 +76,43 @@ Cc: patches@opensource.cirrus.com
 Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/cs43130.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ sound/soc/codecs/cs35l32.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
-index cd535be0b4ba..d9b3d73c8388 100644
---- a/sound/soc/codecs/cs43130.c
-+++ b/sound/soc/codecs/cs43130.c
-@@ -2672,7 +2672,7 @@ static void cs43130_i2c_remove(struct i2c_client *client)
- 	regulator_bulk_disable(CS43130_NUM_SUPPLIES, cs43130->supplies);
+diff --git a/sound/soc/codecs/cs35l32.c b/sound/soc/codecs/cs35l32.c
+index 6d78fa953c89..0bb4bdb3deec 100644
+--- a/sound/soc/codecs/cs35l32.c
++++ b/sound/soc/codecs/cs35l32.c
+@@ -504,7 +504,6 @@ static void cs35l32_i2c_remove(struct i2c_client *i2c_client)
+ 	gpiod_set_value_cansleep(cs35l32->reset_gpio, 0);
  }
  
--static int __maybe_unused cs43130_runtime_suspend(struct device *dev)
-+static int cs43130_runtime_suspend(struct device *dev)
+-#ifdef CONFIG_PM
+ static int cs35l32_runtime_suspend(struct device *dev)
  {
- 	struct cs43130_private *cs43130 = dev_get_drvdata(dev);
+ 	struct cs35l32_private *cs35l32 = dev_get_drvdata(dev);
+@@ -543,11 +542,9 @@ static int cs35l32_runtime_resume(struct device *dev)
  
-@@ -2691,7 +2691,7 @@ static int __maybe_unused cs43130_runtime_suspend(struct device *dev)
  	return 0;
  }
+-#endif
  
--static int __maybe_unused cs43130_runtime_resume(struct device *dev)
-+static int cs43130_runtime_resume(struct device *dev)
- {
- 	struct cs43130_private *cs43130 = dev_get_drvdata(dev);
- 	int ret;
-@@ -2727,8 +2727,7 @@ static int __maybe_unused cs43130_runtime_resume(struct device *dev)
- }
- 
- static const struct dev_pm_ops cs43130_runtime_pm = {
--	SET_RUNTIME_PM_OPS(cs43130_runtime_suspend, cs43130_runtime_resume,
+ static const struct dev_pm_ops cs35l32_runtime_pm = {
+-	SET_RUNTIME_PM_OPS(cs35l32_runtime_suspend, cs35l32_runtime_resume,
 -			   NULL)
-+	RUNTIME_PM_OPS(cs43130_runtime_suspend, cs43130_runtime_resume, NULL)
++	RUNTIME_PM_OPS(cs35l32_runtime_suspend, cs35l32_runtime_resume, NULL)
  };
  
- #if IS_ENABLED(CONFIG_OF)
-@@ -2768,7 +2767,7 @@ static struct i2c_driver cs43130_i2c_driver = {
- 		.name			= "cs43130",
- 		.of_match_table		= of_match_ptr(cs43130_of_match),
- 		.acpi_match_table	= ACPI_PTR(cs43130_acpi_match),
--		.pm			= &cs43130_runtime_pm,
-+		.pm			= pm_ptr(&cs43130_runtime_pm),
- 	},
- 	.id_table	= cs43130_i2c_id,
- 	.probe		= cs43130_i2c_probe,
+ static const struct of_device_id cs35l32_of_match[] = {
+@@ -567,7 +564,7 @@ MODULE_DEVICE_TABLE(i2c, cs35l32_id);
+ static struct i2c_driver cs35l32_i2c_driver = {
+ 	.driver = {
+ 		   .name = "cs35l32",
+-		   .pm = &cs35l32_runtime_pm,
++		   .pm = pm_ptr(&cs35l32_runtime_pm),
+ 		   .of_match_table = cs35l32_of_match,
+ 		   },
+ 	.id_table = cs35l32_id,
 -- 
 2.43.0
 
