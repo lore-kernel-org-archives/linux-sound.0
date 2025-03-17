@@ -1,136 +1,115 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849BE1DA53
-	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 10:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B24C322257F;
+	Mon, 17 Mar 2025 10:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742206395; cv=none; b=oUQjvLp9lQ0KnaDIGeP/+rws49K1Q9SxXjBW+YfWZQMEYyp3aW4UkmKhgYZmhyBZjHGgg4bHGNp7EcLAdZQEbKogTCyIYoC5dqIsiKMZKcuDVlLZcJDDteGPxVCKEnGbCYz/no+OnGQtTt0OGtaj2Gwg9aLdfpCyF4WnRy7qai4=
+	t=1742206434; cv=none; b=sVqPf1uq/1G2DjJ+WAiI5W+Hha/aHzDlzUIX6W7E9doOGNPYn2gE1gZR9+gxM3HbQ1yMdHJ1uBfMJibLs/lqe4fuflvfdenKIDmltnxpeLrNrQkOc2IUfd9juQoQ5ucra3iB+nDuXiH3DBvYWwM2wQRSWamOHd/OtqMi6GJSJR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742206395; c=relaxed/simple;
-	bh=zR7z/PA0/ns2JIEYGAfGiyWOrz9GXhwNXm8ZM23tf2M=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WHvKpMRwYiTt6vqJm41njVqtiDHIyt/SA+5LKcmafVPra/dHY1gD0H0ryE6Ho0fXiUQgenv/wp77bfhHHeZlJXLUjWkvdaLhvFrj21H8yN3cWUBQlTmbaY+KstGALelGFmIemt7TERFaYnhng13sasG+RlEuTVxfqtN+rJXtLmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nKUJGdCM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Xxn14Qr/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nKUJGdCM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Xxn14Qr/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nKUJGdCM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xxn14Qr/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nKUJGdCM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xxn14Qr/"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BC1F11F853;
-	Mon, 17 Mar 2025 10:13:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742206391; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cp80IlDz2xvgXYDL44u4ykTaaymBdY9PD+cTqqO902o=;
-	b=nKUJGdCMGp0gtxRvu5sStBV18kSGgBCqr/oN/mwfkGIKrel74qXsuHprdBRAEsA6fgdNsk
-	AMweU0htgINeKkPpStlNI6xzY6OKlY21XDYG5ajgXmD/RYRlb12nqZQm9jTM/ITCTleLM7
-	JLUTeevf/HMgQ9cl/zfS3Fx4rc49CAA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742206391;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cp80IlDz2xvgXYDL44u4ykTaaymBdY9PD+cTqqO902o=;
-	b=Xxn14Qr/WgO3Ag0mIAOnkb/c5fpoTa/vBT/f4sf/nnZX4psrjol8BSRWSmNtoJepa5jikW
-	iyuyk62CedkzQDDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742206391; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cp80IlDz2xvgXYDL44u4ykTaaymBdY9PD+cTqqO902o=;
-	b=nKUJGdCMGp0gtxRvu5sStBV18kSGgBCqr/oN/mwfkGIKrel74qXsuHprdBRAEsA6fgdNsk
-	AMweU0htgINeKkPpStlNI6xzY6OKlY21XDYG5ajgXmD/RYRlb12nqZQm9jTM/ITCTleLM7
-	JLUTeevf/HMgQ9cl/zfS3Fx4rc49CAA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742206391;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cp80IlDz2xvgXYDL44u4ykTaaymBdY9PD+cTqqO902o=;
-	b=Xxn14Qr/WgO3Ag0mIAOnkb/c5fpoTa/vBT/f4sf/nnZX4psrjol8BSRWSmNtoJepa5jikW
-	iyuyk62CedkzQDDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 967ED132CF;
-	Mon, 17 Mar 2025 10:13:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EhlgI7f112cRHgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 10:13:11 +0000
-Date: Mon, 17 Mar 2025 11:13:11 +0100
-Message-ID: <87wmco2ceg.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Mark Brown <broonie@kernel.org>,
-	<linux-sound@vger.kernel.org>
-Subject: Re: [PATCH v2 62/88] ASoC: intel: catpt: Convert to RUNTIME_PM_OPS() & co
-In-Reply-To: <363cb7bf-7ff5-4f14-8de8-4809f7afe891@intel.com>
-References: <20250317095603.20073-1-tiwai@suse.de>
-	<20250317095603.20073-63-tiwai@suse.de>
-	<363cb7bf-7ff5-4f14-8de8-4809f7afe891@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1742206434; c=relaxed/simple;
+	bh=/Q8Aa9fYv9wbyrx2wObs4CMSJP+hTNYqKzlwyrJhFsM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YN9l0KVFSyecyFL1B7mn2mSxeHeYsdL4XmU6fNVw+mPMuJ9yisgVUGw9yhOg2QXbOZryB/AFq8d1x0POIy9Bw6uk1TEW1L1I4GiHbKMTglIDfGL588XAaIDPqjYkUitMiqHnXCZBuDQafn3RA8RO+FH+naSqTiTUHp37qxmPyfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3E2813D5;
+	Mon, 17 Mar 2025 03:14:00 -0700 (PDT)
+Received: from e133711.arm.com (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B7D03F673;
+	Mon, 17 Mar 2025 03:13:47 -0700 (PDT)
+From: Sudeep Holla <sudeep.holla@arm.com>
+Subject: [PATCH 0/9] drivers: Transition to the faux device interface
+Date: Mon, 17 Mar 2025 10:13:12 +0000
+Message-Id: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALv112cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDY0NT3YKcxBKjtMTSiviU1DJdi2QjiyRj06RUS7NEJaCegqLUtMwKsHn
+ RsbW1AJ+HYAdfAAAA
+X-Change-ID: 20250315-plat2faux_dev-8c28b35be96a
+To: linux-kernel@vger.kernel.org
+Cc: Sudeep Holla <sudeep.holla@arm.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, linux-pm@vger.kernel.org, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ Jeff Johnson <jeff.johnson@oss.qualcomm.com>, linux-crypto@vger.kernel.org, 
+ Ard Biesheuvel <ardb@kernel.org>, linux-efi@vger.kernel.org, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ linux-rtc@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+ netdev@vger.kernel.org, Borislav Petkov <bp@alien8.de>, 
+ linux-acpi@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2229; i=sudeep.holla@arm.com;
+ h=from:subject:message-id; bh=/Q8Aa9fYv9wbyrx2wObs4CMSJP+hTNYqKzlwyrJhFsM=;
+ b=owEBbQKS/ZANAwAIAQBBurwxfuKYAcsmYgBn1/XaXg/cczfp9LKToTU0Xvg1jjtICG+G14QuE
+ jF8HdVkidyJAjMEAAEIAB0WIQS6ceUSBvMeskPdk+EAQbq8MX7imAUCZ9f12gAKCRAAQbq8MX7i
+ mL+sEACUOKVk2OIBxRBYI5oleTH4ttn1o568PHz46upYDllAy68d3qhxx0E4xnIdB60mEjQBzDu
+ pZD62v90A+KDS4L4tmUprsU7NWILTGj7z8ga03muX133xHYBl3IBUvax/9o/+bum82neHCv1Pba
+ d8H+us51UfUHU9RNZlv0RBm5VVa/c8Uw1HgXOr5pKwbjSb8e3qQCqNIHDnZlch9Nieifbsr/76z
+ gG6mbYz1uW4/b7QLjmoUjKSeUxVj+2GPLep8+YRtNuA1S4RPJK5HAWWzuehomacfsXjmB58nG+q
+ RnT2Myy8yJNRXSJ2M4hQ4q0xSovkDs1Fs3BsAWVhnk34koAzgflqjj2nSvvviGN1NfHBDbkbsIn
+ ICmtLUmPDj6wh+Iuh95Z7TR2a2bxv4ZcvOdEjiSE3ePYG3mtX71NIGCtGLT/U+heYKLFl80Q288
+ NDDOuKCfChTKQnT1TO4A3iHJBUcm2GH5eQfKisbIr0fGMwWJmzfkkbw/JRUDDgsPLZf+gg4zpbg
+ YuDDMuht91nrSsN6M3frGjU78FZxQBTizKPNnlYBi9rEhb+sN0amzbmmQHOiOLtx/CWe71UQuQu
+ xZRpzua8GypLhrf83niYHYJRoY3H6cihvbNg4Yh/mS87pjun48IYIRWWPRW8PyPsuDd+Zfow2uU
+ 2BgXIq8hNqRm+cw==
+X-Developer-Key: i=sudeep.holla@arm.com; a=openpgp;
+ fpr=7360A21742ADF5A11767C1C139CFD4755FE2D5B4
 
-On Mon, 17 Mar 2025 11:08:54 +0100,
-Cezary Rojewski wrote:
-> 
-> On 2025-03-17 10:55 AM, Takashi Iwai wrote:
-> > Use the newer RUNTIME_PM_OPS() and SYSTEM_SLEEP_PM_OPS() macros
-> > instead of SET_RUNTIME_PM_OPS() and SET_SYSTEM_SLEEP_PM_OPS() together
-> > with pm_ptr(), which allows us dropping ugly __maybe_unused
-> > attributes.
-> 
-> Off-topic comment:
-> While __maybe_unused may not be the prettiest, it is still better
-> alternative than #if/ifdef spam all over the code if you ask me.
+Recently when debugging why one of the scmi platform device was not
+showing up under /sys/devices/platform/firmware:scmi instead was
+appearing directly under /sys/devices/platform, I noticed the new
+faux interface /sys/devices/faux.
 
-Yeah, that's why we introduced it in the past.
+Looking through the discussion and the background, I got excited and
+took the opportunity to clear all the platform devices under
+/sys/devices/platform on the Arm Juno/FVP platforms that are really
+faux devices. Only the platform devices created for the device nodes
+from the DT remain under /sys/devices/platform after these changes.
 
-The downside is it's often more cumbersome to rip it off than the
-explicit ifdef.
+All the patches are independent of each other.
 
+Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+---
+Greg Kroah-Hartman (1):
+      regulator: dummy: convert to use the faux device interface
 
-thanks,
+Sudeep Holla (8):
+      cpuidle: psci: Transition to the faux device interface
+      hwrng: arm-smccc-trng - transition to the faux device interface
+      efi: Remove redundant creation of the "efivars" platform device
+      rtc: efi: Transition to the faux device interface
+      virt: efi_secret: Transition to the faux device interface
+      ASoC: soc-utils: Transition to the faux device interface
+      net: phy: fixed_phy: transition to the faux device interface
+      ACPI: APEI: EINJ: Transition to the faux device interface
 
-Takashi
+ drivers/acpi/apei/einj-core.c             | 32 +++++++++---------------
+ drivers/char/hw_random/arm_smccc_trng.c   | 40 +++++++++++++++++++++---------
+ drivers/cpuidle/cpuidle-psci.c            | 26 +++++++-------------
+ drivers/firmware/efi/efi.c                | 10 --------
+ drivers/firmware/smccc/smccc.c            | 21 ----------------
+ drivers/net/phy/fixed_phy.c               | 16 ++++++------
+ drivers/regulator/dummy.c                 | 37 +++++++---------------------
+ drivers/rtc/rtc-efi.c                     | 31 ++++++++++++++++-------
+ drivers/virt/coco/efi_secret/efi_secret.c | 41 ++++++++++++++++++-------------
+ sound/soc/soc-utils.c                     | 34 +++++++++----------------
+ 10 files changed, 124 insertions(+), 164 deletions(-)
+---
+base-commit: 80e54e84911a923c40d7bee33a34c1b4be148d7a
+change-id: 20250315-plat2faux_dev-8c28b35be96a
+-- 
+Regards,
+Sudeep
+
