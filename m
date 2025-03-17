@@ -1,143 +1,382 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2045.outbound.protection.outlook.com [40.107.244.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6754228E3F;
-	Mon, 17 Mar 2025 06:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742192489; cv=none; b=Q/Vf8o+e5vHxp96wNXaKUU7ARyf0ECt2SQovMWVGXqbr5lTnkryzMraiV2qbcsPj5UgwbV8w9A4vde8EroT+6ASix7wD7N1L9EdjUQmvydlxkQI+ctsWd75V5jgoGGjunblE7sFt87Kr8BLWEsNGAGpHwcAogUoyDU5bplEEYLk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742192489; c=relaxed/simple;
-	bh=fCMBUGoV/CmK63hWHLSVRtiCVntHpGgIWbVE2zyNOeM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lTye33gSr+djVNfPhOj9kMHGzKwyuinKAsVFFeqkV+i26Eqc0QGiqE7Cm0Y6c/hUM+j6mT+g94RkQSSKKO/D7y9JuUmwMoJKJQldor2/rw3HaRR/LJa2ogl6tCLYjSWHfDIli5+A7HTlkGLE8Kehyc//BMWjrgPOfbs2AQWvDPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n1VO9p/+; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7851421ABD4;
+	Mon, 17 Mar 2025 07:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742195854; cv=fail; b=cQFpOdO1Ua2+R92TdlZFpIv7gXkszTTb7Yxk5Q+ZAb4uLUX00GdtnI3WKW8YjWW3/WBWzkzRPO5Cj8uBUZN/keyfGO1ourdWdFj0jiO9Ffz0JlKMQk2oP8oj8u4XXxP8TVbA1JPiiez+Mks5/ZYempcURIDxAIugzK/L6HfniZo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742195854; c=relaxed/simple;
+	bh=WPy+o/ZBZzL4z9Gs+gbRbC1P15ZMy0uChAIIaRxGGsI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Mb5RXESvLa5pE0PWl6ZIVa5wxc8+uTQTvRL6JKbWq1HDeHLSALvL9YVSwNNyddsm9fnXgA83s4FQ/UcVxUJxIaXqP3H+MsXSthw0cTiv1npKp2hzijcIEhgS5xk7YZyyU5Hr0E6DtDMIyHij9F13H6US/KobVGIjFr/2qmkk9FI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HddYq0MH; arc=fail smtp.client-ip=40.107.244.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n1VO9p/+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E73C4CEE3;
-	Mon, 17 Mar 2025 06:21:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742192488;
-	bh=fCMBUGoV/CmK63hWHLSVRtiCVntHpGgIWbVE2zyNOeM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n1VO9p/++wG9AF5fP451/y2IKPOcP+N6cstuUTJC7hHd1vCmLx79K05GAwJiaSffY
-	 n3X9gZ9hHrq1Bk3RJ3i//Gu88zagA+tS1fH26sNPJB1Pp1DCybZdLJgEvieQwzCk8F
-	 XvDm11BPpLTFSLtiu3FfP884iWF5Gxf4Aru7o4E6F3yE6HBpPKrxxViEj3/6vPO7Hk
-	 xBukA7E9OvLDVulB0Mit7dQaiBgxSgdSu8R6ugowmTNRshTqFC5n7fs4RxlxvH0ooB
-	 a2d6sU5IEp5UPqTQGUhtGPWblx3/esdOJ3DCvdnWeBEcVPTT9F2P9xB6e3UoGmRSGB
-	 nBvLYbgDW2E6Q==
-Message-ID: <10eecd8c-52b8-4050-8b1d-f612f4ffc653@kernel.org>
-Date: Mon, 17 Mar 2025 07:21:23 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HddYq0MH"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E/eanyiUewUw0EylU09/ofwj6qQ3ID1C/VuiD0593mY9WRuwA073FXIrYiMKaGpz4J6NYba6pjnE6ly7OtpaRYdFJtaW6ZZ2CiJfN6HAHEsz3zmTNlBmn0K3X2pkxEHHtYhlx0or7tV6mZwy1ndNYrgbXh+dwgaB+qNOFGrHYnCDUnPh6jycaTjWhAnZ/VzuexXTCua+eku3181TZv92vus3qkKh8Ky7ybtH31g81D522Pr8N3jFCHo/OPafP+3yPNfiFMoLzbd43+sSe7RVROfrJBV6IFxrm5iOecg6tSqAz0phmq/TQGoMwZoUGmYErUx97h6Q3Q6nwUC2hGRYCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e61ObnbpjoISsk/90AFWAp/YV+rT3WjvCK4Osbw172k=;
+ b=xEe76Y4XF68qpmJ/19JKo8j3Kz9eRzVVv/Fzo8IqN7jFw4f1b5oLT7yJ8DM07yVe2mU6yAMe4ib4zugbGknJ8GpvO39Ga7/SwtUDGIgxnVUTC3bFBl8fErRCzKotOl5CDdgVdZS7sMtEXR5nf/bxNWLjbmjblrGFmM7FPZU3vibgCwMuOQREhk5AzBifpE6mk1tco/GfcOo00rrAxkrDEBRBUNkzJxjypkchoJlYI1Lw5Lwd/CFzDy1zWnEuMuqmGC1ECe7xlAMf9xRNQw/4dl/N6z5Wwy9/2jFSDbR77nBvKcyyF2oyYhLO7cZ/Cbb3tX1xnrYT1wJJs5yrXPjEOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e61ObnbpjoISsk/90AFWAp/YV+rT3WjvCK4Osbw172k=;
+ b=HddYq0MHCjrWZSxBR70nnRRWlqyny/e3+Ob0s6BPqZLo0x0XE6SnBPhRaEk8KeMOf7sf6kWiY0MW7+5f9MV/rUxN8wIpY3iBV6CKLD8BZX4LgaVBhpF9xuLKL34ADvJCPstEgavhoOzIwL3ZYmc7q/PqsyLlGuco/N/0u3/W2Dw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5951.namprd12.prod.outlook.com (2603:10b6:510:1da::16)
+ by DM4PR12MB5916.namprd12.prod.outlook.com (2603:10b6:8:69::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Mon, 17 Mar
+ 2025 07:17:30 +0000
+Received: from PH7PR12MB5951.namprd12.prod.outlook.com
+ ([fe80::df88:d99:3cf3:dec0]) by PH7PR12MB5951.namprd12.prod.outlook.com
+ ([fe80::df88:d99:3cf3:dec0%4]) with mapi id 15.20.8534.031; Mon, 17 Mar 2025
+ 07:17:29 +0000
+Message-ID: <2e5f5663-62af-42f6-af29-83905485ecd0@amd.com>
+Date: Mon, 17 Mar 2025 12:47:18 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/14] ASoC: amd: acp: Refactor acp machine select
+Content-Language: en-US
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: broonie@kernel.org, alsa-devel@alsa-project.org,
+ Mario.Limonciello@amd.com, Vijendar.Mukunda@amd.com,
+ Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, ssabakar@amd.com,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Jeff Johnson <quic_jjohnson@quicinc.com>,
+ Peter Zijlstra <peterz@infradead.org>, Murad Masimov <m.masimov@maxima.ru>,
+ Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+ <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+References: <20250310183201.11979-1-venkataprasad.potturu@amd.com>
+ <20250310183201.11979-6-venkataprasad.potturu@amd.com>
+ <20250313155255.GA2477963@ax162>
+From: potturu venkata prasad <venkataprasad.potturu@amd.com>
+In-Reply-To: <20250313155255.GA2477963@ax162>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0251.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:21a::17) To PH7PR12MB5951.namprd12.prod.outlook.com
+ (2603:10b6:510:1da::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH linux-next] ASoC: use sysfs_emit() instead of scnprintf().
-To: xie.ludan@zte.com.cn, xiubo.lee@gmail.com
-Cc: shengjiu.wang@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
- lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250315141546004ww7-8GUuuRfAQIb8b4KYZ@zte.com.cn>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20250315141546004ww7-8GUuuRfAQIb8b4KYZ@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5951:EE_|DM4PR12MB5916:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7b901582-a6ed-49f3-8f81-08dd6523c72c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UXVlanl1Y3RTdi9hbHdDdmxFZld1eWl4UFRJVUM0MW1YVlAwTzlzbmVEYnN4?=
+ =?utf-8?B?N3g3RWFkZjRKeklVcHZwbVFNTE5KRytTT0JpUUdTbVo3cC9WOVUyYkdpNkR6?=
+ =?utf-8?B?Q2QwNHV0ZlZsTTNtN2JHMGc3UEhWTHcxUTB4SlNKTFkramQ4WnlIbmcxOWMy?=
+ =?utf-8?B?dnBOZDh1NXkrb21NSm1iWkRJcTZnUGZHaE1lbmFOQUJmam5rRitFd09VVldU?=
+ =?utf-8?B?ZHd2WWh4U1YwajNuU1ZEWkN2cUkrYW1HKzEvcDBvQmhZSlFyMVhrZlJVVWRs?=
+ =?utf-8?B?QmRrT0lpK1NvYnZhUVdJUnNRK2NyN2RxSVMyMTlFaWtKU3d2YXp0NDhSbklJ?=
+ =?utf-8?B?aFMzZm1helJISW45VFl5NDFGQVc5ZHR6R3VsZm51ZlhSbWZHY2Z4TkVuejBk?=
+ =?utf-8?B?c3VOU3ZwekxSSHhKU1JmRlJSMjFrTjNCcjl3VjdYamFUZUpIYm5VdDdjeFc3?=
+ =?utf-8?B?aWpQZUo0OG5xZkxtRDBtVCtpVUZyc0FnT2tNcDJrQWJpR3lWcDJ5Yk80ME1Y?=
+ =?utf-8?B?YXpPdEpiK0tTbE9DTDVYdTg5OFo0dmR6L3ViSzZyTnV2UUhmY25TTkVuTWly?=
+ =?utf-8?B?TWhDbnoyNlFKcTB4VzNwZUVUUFVMWnl2Ry9iU1V6WURjMGRpVlVUbTF6eUxN?=
+ =?utf-8?B?Q0Y1aHVZNmsvTkxmKzhabjhHNmkvdlhwMnE4dmVObTNra1QxMUVqeGp5N1Rt?=
+ =?utf-8?B?b3BTQ1IvQUdyMStuK3pLQlkrYldvUHdncmpBczFQeFB5L0dFT1FkRWdmcWgx?=
+ =?utf-8?B?SGZaeWxLNDFaa2NRL1ptSm03VCtVKy9UM3RmS2RvcG1ST2MvKzcvSUdBY2RV?=
+ =?utf-8?B?ZDZNNVhXeWhtM056dzN6SUhtRXFpZ1l6LzNuOTJIREtEd2lwZ01lZVZpbE1m?=
+ =?utf-8?B?V0ZVM2k0eEV3Tng5OUFLSHY5N09zck1oaGRaekY3WmdmWG05dGdVRnArY20v?=
+ =?utf-8?B?dVAzZTUzQ3pkUFQrelpuZTlBUWtuWUExdnZ3ekRQSWZndDJheGViS1hlV29o?=
+ =?utf-8?B?dEFUeWJYS20rNHV6cm41cjJrd2Rram5Ld3lGOFhEaUhwK3V6dE5jQ2ZQOHcw?=
+ =?utf-8?B?QWUveG1RZG5qNnlyRWNXMkpCcDl3elhzbVY0ZEFXK3JXTVZrRUNSZEM0WmZq?=
+ =?utf-8?B?M2FmajBQay9aaEpyT2N6Ny85VytMaS84cFBJVGJQL2tlQVhxSGFtdUVHL3dw?=
+ =?utf-8?B?Zmxpenduanc0bko1NEU4WjlEUEh1cnVoUXdhRzREMzAzbTM2eDB3b1JNcnVP?=
+ =?utf-8?B?Qk1nWUxMcDF5NTRpc1NBZUVTVi9lZ2xiTVpkaG1rV2dSUTRtMUZzL1VFYnFN?=
+ =?utf-8?B?OXVraXp5NFg5WkJQS2NOUExxTXkrRmJLVVk4cWxPdzViNzBHUE9aV1g1MDB6?=
+ =?utf-8?B?U082K0lwZHgzUE13SU5rZThUOWZsZXJIQ1pBL0lHYWFuRDdONjBvRy9yRGpZ?=
+ =?utf-8?B?Y0FyMVhKemJRY1FSZ2lvdHRWK2RhTitzcEhuMDllSWJNVXhwTVZXb283c1A3?=
+ =?utf-8?B?VDZhQnBRTTIxaW45MU9acDZvbVhnRjNKQzVEZnhkRm16TlJuNmptWW1oUWxK?=
+ =?utf-8?B?ZGplWGoxQk8wcFlFWER4T1NkK01lT0ZMUkRDU0JaZkdWVVFQK29MR1FiSDht?=
+ =?utf-8?B?RGkzOUFraFlhanR3ckVTNjQ0QlBqUm9lTHVFbi9wbzlYVmI0QkkrT0NyRTBr?=
+ =?utf-8?B?S2ZnSWxrZ0FzMVJacGVDVFlMWGk0ZVdXMEkzZ1ZBVGpQb05OeGFPcE1ZbDNF?=
+ =?utf-8?B?ZUI4ZEovQ3IxSVZYYUo3ZHlWTUxKNXdOb0ZQNjN4d1grNk5yWHN3d1dtUmVH?=
+ =?utf-8?B?a0ZKNTcya2ZEbko2dlRNT2lXVEpmWXlnVVVBdXJIdmdjZkJtL0VIQkJzbEVY?=
+ =?utf-8?Q?6ew2C6uSrVJ3w?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5951.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VUlPek5EOEp1ZnFUeDV0dG50WnhvTDlyVWNBU2FBZElHY2V6ZEhnNVJvOEF3?=
+ =?utf-8?B?WWRxV3Bldmo4WG5CK2hkSHhUUE5VMXJPOENXeTl2TUdLeGN6Z1RTbHh5NE9w?=
+ =?utf-8?B?bmxuUDAyWXRHTXdSK0V4bXhwK3Uzaks4dTJGcVdsNWtUdVAwY05PNllvRFky?=
+ =?utf-8?B?azM5T3RDYnNiWkE3YzRIM3NkR1BXTEtkYzdmaDZzNGFIQUdkbG1wYjB1V0F3?=
+ =?utf-8?B?SGN0cmVkeEkzL00zcE5LN0NpYVZ0VTg0VzZZL2ZEOFpDRnVwQ01vNDJTYlMx?=
+ =?utf-8?B?MFI1YndxM3Z0bWNWd1VMVlZnWWh0QTNOZFVKNTUvR2ZBengwSEhWdGU3bElT?=
+ =?utf-8?B?S1FHYmpoelNHcm9vb1Y1WXZEdkRWVXJ1MGp6elFMdEtBVmdPWGR0U2hVb2JH?=
+ =?utf-8?B?RWRCbElIbm8xclkzRmFGN21NWUhwc0ZoYU1YQW15ck9tVXBJS05EckF4UkY4?=
+ =?utf-8?B?ei9KTzhxY0pwK0Q2aUhKUEJ5cTB1ZzlZNWIxWGpIVE9lWEFxTksrWldmRHJC?=
+ =?utf-8?B?TUwxS29jSEFNaTJseVNBSllJa0c2SmI4dnVHaENmRHFEQ3dwWVFWTDduSXhi?=
+ =?utf-8?B?MCtxNDMyd0JMZHF0M2lzMTk1S01ZV1lGbkV6VE5DQ1lyaEVlbWlsZWl5RFFK?=
+ =?utf-8?B?bTM1OThXV2IzYUNxaTdtVUFNazNSTGZzc3hSMFQvQ0NYK29uKzRLTC9zQnJJ?=
+ =?utf-8?B?MTdmZW1lV3RRZEZBd0RlWk1Cb1p2cUFCci92TDVHNVZvUDJWTkJtQmN0V0l6?=
+ =?utf-8?B?NXFrc2R5UUpWczJSaXhva3BDQTBNS3Q0WTAzM1MrVjFvWnp6Yis3VmRpWVJR?=
+ =?utf-8?B?UnNMdUlHaDZsUVUvN1lUaUltT2lCeW1VV2QyaXRFaWhpNzdKYVZSSDNUZ1Rz?=
+ =?utf-8?B?aWtlZkNDMnhqSFVyWkMvZHN2WDFkRkE3L2F6M2VnM0RWei9NSUwxUWR5encw?=
+ =?utf-8?B?d2lUM0dTK01tTDZ2UysyRDgzWUtSTlpWdU9vTkdac1VYM053OWhibDJ1bkMy?=
+ =?utf-8?B?Z2NKUjRRcE1XNENLYjE0K1VCTCtqVXBBZ3JrSFIycTJxRSt3ZTNTQ1lvWFNa?=
+ =?utf-8?B?TE9ZK1J5NHpMNkxqVnl5a29QV0RLblBJbTB5MmpiUnZQUzB6amx6WVZaWDdT?=
+ =?utf-8?B?a1hQTGZSc2d2bnFGR2tHVUV2Z01DMko3d3N3V0V3UkZNK0V2LzZUTjNlWVJC?=
+ =?utf-8?B?eVU5aVo5K21OVHlWcm9lSHpCSU82QzBVYlYzMTU1VTRldHYrdDZtRkZFRVE3?=
+ =?utf-8?B?UzRQQ3VIRjFERy9OYXk1THhJdzlMYStTVi9zYlZTYU5nc2RZUnR1SnozYno1?=
+ =?utf-8?B?ODhjVVBSdTBnOEtMQlB0VlozL0R3TURlMUJyQ2dEbTE1WXZxbTB5YXVUR0Y1?=
+ =?utf-8?B?ZkZnNlhJaHVtNEcvTWREY1lpYXZpL0pkQWV3bUhEUmVySnI0MGJmdDVOY2Ra?=
+ =?utf-8?B?M2N4MEVFS1lHZzBjNHlWWDNlL29XZ1pwUWRzaFlhdEJqZitnMmNhVVFkOXJv?=
+ =?utf-8?B?bm41b0xFM2tzTFJTTk51clhNV0FTQzhGcTFkTkdkQ3NzbDFydTRQeS9iOGJT?=
+ =?utf-8?B?b25zVXJhUFFRYUxYRCtmcHZOWlNzT0t5YXJVcVZDWjNTcldkYWJzbHlUTzR0?=
+ =?utf-8?B?UnlJQWxHa1VVM3dMSkN2eVFncnFlTjRSTFl5Zm4xQlRWQmFrYW41OUQrVE1w?=
+ =?utf-8?B?UWRSZEo3SmkydlhuK2VOUVEyVjNFYTFyN080d1NwNnhVcWYwZEg0dXNTNTZB?=
+ =?utf-8?B?c00vN3pxSGFDbU9BRk9Rb0NOT1J6QVhyRVEwZmNFeHJUeEFCUHQyZEVseGtH?=
+ =?utf-8?B?OWtkTnl1YjdzUTl0cmp6VDdGQlRESk4vYmx2WXVMWG9KSzUzOHhrdFp5aTB4?=
+ =?utf-8?B?bFh1OElReFhkNVUxUWlNbXpMdjZYbTNRSVBhYWpTVHI2Rnh3QXd1VGFLazBz?=
+ =?utf-8?B?UitGMU5OVUlVaVd0eWJTSzBKRUpLTExCUHNUUGdRazA1VlJleGtmM0NrZTEw?=
+ =?utf-8?B?L3FOY2UzR0lWemlLdEpGQU1raVlxWEdUejhKeHdLTU8vNkhtWmVaNTBaMGgy?=
+ =?utf-8?B?dFdQd1FGK21rSWF5NmFPZTdYK2s2TXp6Y1VkdjMxcDdBZCsyd3FJUnI1bzUw?=
+ =?utf-8?Q?hv7uUshu1FspFZH3cyLi4KhBb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b901582-a6ed-49f3-8f81-08dd6523c72c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5951.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2025 07:17:29.9139
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KzSXoEbgCPfujVGFwTSmnhhaa3oEk712foKUdSMJTz+b6t+s4/BBmOBwuxbhzFpxtCNfJYhCHJny/+cm0gSpDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5916
 
-On 15. 03. 25, 7:15, xie.ludan@zte.com.cn wrote:
-> From: XieLudan <xie.ludan@zte.com.cn>
-> 
-> 
-> Follow the advice in Documentation/filesystems/sysfs.rst:
-> 
-> show() should only use sysfs_emit() or sysfs_emit_at() when formatting
-> 
-> the value to be returned to user space.
-> 
-> 
-> Signed-off-by: XieLudan <xie.ludan@zte.com.cn>
-> 
-> ---
-> 
->   sound/soc/fsl/imx-audmux.c | 26 +++++++++++---------------
-> 
->   1 file changed, 11 insertions(+), 15 deletions(-)
-> 
-> 
-> diff --git a/sound/soc/fsl/imx-audmux.c b/sound/soc/fsl/imx-audmux.c
-> 
-> index cc2918ee2cf5..6062503d3543 100644
-> 
-> --- a/sound/soc/fsl/imx-audmux.c
-> 
-> +++ b/sound/soc/fsl/imx-audmux.c
-> 
-> @@ -77,45 +77,41 @@ static ssize_t audmux_read_file(struct file *file, 
-> char __user *user_buf,
-> 
-> ret = sysfs_emit(buf, "PDCR: %08x\nPTCR: %08x\n", pdcr, ptcr);
-> 
-> if (ptcr & IMX_AUDMUX_V2_PTCR_TFSDIR)
-> 
-> -ret += scnprintf(buf + ret, PAGE_SIZE - ret,
-> 
-> +ret += sysfs_emit(buf + ret,
 
-This is wrong too [1].
-
-[1] 
-https://lore.kernel.org/all/9c552d9a-2d46-4069-a9c4-35fab857bfc3@kernel.org/
-
-regards,
--- 
-js
-suse labs
-
+On 3/13/25 21:22, Nathan Chancellor wrote:
+> Hi Venkata,
+>
+> On Tue, Mar 11, 2025 at 12:01:52AM +0530, Venkata Prasad Potturu wrote:
+>> Refactor and move acp machine select function from acp platform
+>> driver to acp pci driver and assign platform specific acpi machines
+>> to chip->machines.
+>>
+>> Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+> ...
+>> diff --git a/sound/soc/amd/acp/amd.h b/sound/soc/amd/acp/amd.h
+>> index be1aa405a14a..b7a1b4aa8fef 100644
+>> --- a/sound/soc/amd/acp/amd.h
+>> +++ b/sound/soc/amd/acp/amd.h
+>> @@ -149,6 +149,8 @@ struct acp_chip_info {
+>>   	struct platform_device *chip_pdev;
+>>   	struct platform_device *dmic_codec_dev;
+>>   	struct platform_device *acp_plat_dev;
+>> +	struct platform_device *mach_dev;
+>> +	struct snd_soc_acpi_mach *machines;
+>>   	u32 addr;
+>>   	unsigned int flag;	/* Distinguish b/w Legacy or Only PDM */
+>>   	bool is_pdm_dev;	/* flag set to true when ACP PDM controller exists */
+>> @@ -195,7 +197,6 @@ struct acp_dev_data {
+>>   	struct list_head stream_list;
+>>   	spinlock_t acp_lock;
+>>   
+>> -	struct snd_soc_acpi_mach *machines;
+>>   	struct platform_device *mach_dev;
+>>   
+>>   	u32 bclk_div;
+>> @@ -245,13 +246,89 @@ enum acp_config {
+>>   	ACP_CONFIG_20,
+>>   };
+>>   
+>> +struct snd_soc_acpi_codecs amp_rt1019 = {
+>> +	.num_codecs = 1,
+>> +	.codecs = {"10EC1019"}
+>> +};
+>> +
+>> +struct snd_soc_acpi_codecs amp_max = {
+>> +	.num_codecs = 1,
+>> +	.codecs = {"MX98360A"}
+>> +};
+>> +
+>> +struct snd_soc_acpi_mach snd_soc_acpi_amd_acp_machines[] = {
+>> +	{
+>> +		.id = "10EC5682",
+>> +		.drv_name = "acp3xalc56821019",
+>> +		.machine_quirk = snd_soc_acpi_codec_list,
+>> +		.quirk_data = &amp_rt1019,
+>> +	},
+>> +	{
+>> +		.id = "RTL5682",
+>> +		.drv_name = "acp3xalc5682sm98360",
+>> +		.machine_quirk = snd_soc_acpi_codec_list,
+>> +		.quirk_data = &amp_max,
+>> +	},
+>> +	{
+>> +		.id = "RTL5682",
+>> +		.drv_name = "acp3xalc5682s1019",
+>> +		.machine_quirk = snd_soc_acpi_codec_list,
+>> +		.quirk_data = &amp_rt1019,
+>> +	},
+>> +	{
+>> +		.id = "AMDI1019",
+>> +		.drv_name = "renoir-acp",
+>> +	},
+>> +	{
+>> +		.id = "ESSX8336",
+>> +		.drv_name = "acp3x-es83xx",
+>> +	},
+>> +	{},
+>> +};
+>> +
+>> +struct snd_soc_acpi_mach snd_soc_acpi_amd_rmb_acp_machines[] = {
+>> +	{
+>> +		.id = "10508825",
+>> +		.drv_name = "rmb-nau8825-max",
+>> +		.machine_quirk = snd_soc_acpi_codec_list,
+>> +		.quirk_data = &amp_max,
+>> +	},
+>> +	{
+>> +		.id = "AMDI0007",
+>> +		.drv_name = "rembrandt-acp",
+>> +	},
+>> +	{
+>> +		.id = "RTL5682",
+>> +		.drv_name = "rmb-rt5682s-rt1019",
+>> +		.machine_quirk = snd_soc_acpi_codec_list,
+>> +		.quirk_data = &amp_rt1019,
+>> +	},
+>> +	{},
+>> +};
+>> +
+>> +struct snd_soc_acpi_mach snd_soc_acpi_amd_acp63_acp_machines[] = {
+>> +	{
+>> +		.id = "AMDI0052",
+>> +		.drv_name = "acp63-acp",
+>> +	},
+>> +	{},
+>> +};
+>> +
+>> +struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_acp_machines[] = {
+>> +	{
+>> +		.id = "AMDI0029",
+>> +		.drv_name = "acp70-acp",
+>> +	},
+>> +	{},
+>> +};
+>> +
+>>   extern const struct snd_soc_dai_ops asoc_acp_cpu_dai_ops;
+>>   extern const struct snd_soc_dai_ops acp_dmic_dai_ops;
+>>   
+>>   int acp_platform_register(struct device *dev);
+>>   int acp_platform_unregister(struct device *dev);
+>>   
+>> -int acp_machine_select(struct acp_dev_data *adata);
+>> +int acp_machine_select(struct acp_chip_info *chip);
+>>   
+>>   int acp_init(struct acp_chip_info *chip);
+>>   int acp_deinit(struct acp_chip_info *chip);
+>> -- 
+>> 2.39.2
+>>
+> I have not done a formal bisect but it seems like this hunk introduces
+> build errors when certain drivers are built into the same image
+> together, as these structures will be externally visible.
+Thanks Nathan, will send a fix patch.
+>
+> $ make -skj"$(nproc)" ARCH=x86_64 CROSS_COMPILE=x86_64-linux- mrproper allyesconfig vmlinux
+> x86_64-linux-ld: sound/soc/amd/acp/acp-i2s.o:(.data+0x3e0): multiple definition of `snd_soc_acpi_amd_acp70_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x20): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-i2s.o:(.data+0x580): multiple definition of `snd_soc_acpi_amd_acp63_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x1c0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-i2s.o:(.data+0x720): multiple definition of `snd_soc_acpi_amd_rmb_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x360): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-i2s.o:(.data+0xf00): multiple definition of `amp_max'; sound/soc/amd/acp/acp-platform.o:(.data+0xb40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-i2s.o:(.data+0xf40): multiple definition of `amp_rt1019'; sound/soc/amd/acp/acp-platform.o:(.data+0xb80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-i2s.o:(.data+0xa40): multiple definition of `snd_soc_acpi_amd_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x680): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-i2s.o:(.data+0xf80): multiple definition of `acp70_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xbc0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-i2s.o:(.data+0xfc0): multiple definition of `acp63_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc00): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-i2s.o:(.data+0x1000): multiple definition of `rmb_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-i2s.o:(.data+0x1040): multiple definition of `rn_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pdm.o:(.data+0xa0): multiple definition of `snd_soc_acpi_amd_acp70_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x20): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pdm.o:(.data+0x240): multiple definition of `snd_soc_acpi_amd_acp63_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x1c0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pdm.o:(.data+0x3e0): multiple definition of `snd_soc_acpi_amd_rmb_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x360): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pdm.o:(.data+0xbc0): multiple definition of `amp_max'; sound/soc/amd/acp/acp-platform.o:(.data+0xb40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pdm.o:(.data+0xc00): multiple definition of `amp_rt1019'; sound/soc/amd/acp/acp-platform.o:(.data+0xb80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pdm.o:(.data+0x700): multiple definition of `snd_soc_acpi_amd_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x680): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pdm.o:(.data+0xc40): multiple definition of `acp70_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xbc0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pdm.o:(.data+0xc80): multiple definition of `acp63_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc00): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pdm.o:(.data+0xcc0): multiple definition of `rmb_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pdm.o:(.data+0xd00): multiple definition of `rn_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-legacy-common.o:(.data+0x1a0): multiple definition of `snd_soc_acpi_amd_acp70_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x20): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-legacy-common.o:(.data+0x340): multiple definition of `snd_soc_acpi_amd_acp63_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x1c0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-legacy-common.o:(.data+0x4e0): multiple definition of `snd_soc_acpi_amd_rmb_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x360): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-legacy-common.o:(.data+0xcc0): multiple definition of `amp_max'; sound/soc/amd/acp/acp-platform.o:(.data+0xb40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-legacy-common.o:(.data+0xd00): multiple definition of `amp_rt1019'; sound/soc/amd/acp/acp-platform.o:(.data+0xb80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-legacy-common.o:(.data+0x800): multiple definition of `snd_soc_acpi_amd_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x680): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-legacy-common.o:(.data+0xd40): multiple definition of `acp70_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xbc0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-legacy-common.o:(.data+0xd80): multiple definition of `acp63_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc00): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-legacy-common.o:(.data+0xdc0): multiple definition of `rmb_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-legacy-common.o:(.data+0xe00): multiple definition of `rn_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pci.o:(.data+0xe60): multiple definition of `rn_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pci.o:(.data+0x860): multiple definition of `snd_soc_acpi_amd_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x680): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pci.o:(.data+0xde0): multiple definition of `acp63_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc00): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pci.o:(.data+0x3a0): multiple definition of `snd_soc_acpi_amd_acp63_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x1c0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pci.o:(.data+0xe20): multiple definition of `rmb_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pci.o:(.data+0x540): multiple definition of `snd_soc_acpi_amd_rmb_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x360): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pci.o:(.data+0xda0): multiple definition of `acp70_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xbc0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pci.o:(.data+0x200): multiple definition of `snd_soc_acpi_amd_acp70_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x20): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pci.o:(.data+0xd20): multiple definition of `amp_max'; sound/soc/amd/acp/acp-platform.o:(.data+0xb40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-pci.o:(.data+0xd60): multiple definition of `amp_rt1019'; sound/soc/amd/acp/acp-platform.o:(.data+0xb80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-renoir.o:(.data+0x360): multiple definition of `snd_soc_acpi_amd_acp70_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x20): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-renoir.o:(.data+0x500): multiple definition of `snd_soc_acpi_amd_acp63_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x1c0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-renoir.o:(.data+0x6a0): multiple definition of `snd_soc_acpi_amd_rmb_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x360): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-renoir.o:(.data+0xe80): multiple definition of `amp_max'; sound/soc/amd/acp/acp-platform.o:(.data+0xb40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-renoir.o:(.data+0xec0): multiple definition of `amp_rt1019'; sound/soc/amd/acp/acp-platform.o:(.data+0xb80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-renoir.o:(.data+0x9c0): multiple definition of `snd_soc_acpi_amd_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x680): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-renoir.o:(.data+0xf00): multiple definition of `acp70_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xbc0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-renoir.o:(.data+0xf40): multiple definition of `acp63_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc00): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-renoir.o:(.data+0xf80): multiple definition of `rmb_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-renoir.o:(.data+0xfc0): multiple definition of `rn_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-rembrandt.o:(.data+0x4c0): multiple definition of `snd_soc_acpi_amd_acp70_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x20): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-rembrandt.o:(.data+0x660): multiple definition of `snd_soc_acpi_amd_acp63_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x1c0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-rembrandt.o:(.data+0x800): multiple definition of `snd_soc_acpi_amd_rmb_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x360): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-rembrandt.o:(.data+0xfe0): multiple definition of `amp_max'; sound/soc/amd/acp/acp-platform.o:(.data+0xb40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-rembrandt.o:(.data+0x1020): multiple definition of `amp_rt1019'; sound/soc/amd/acp/acp-platform.o:(.data+0xb80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-rembrandt.o:(.data+0xb20): multiple definition of `snd_soc_acpi_amd_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x680): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-rembrandt.o:(.data+0x1060): multiple definition of `acp70_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xbc0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-rembrandt.o:(.data+0x10a0): multiple definition of `acp63_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc00): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-rembrandt.o:(.data+0x10e0): multiple definition of `rmb_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp-rembrandt.o:(.data+0x1120): multiple definition of `rn_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp63.o:(.data+0x4c0): multiple definition of `snd_soc_acpi_amd_acp70_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x20): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp63.o:(.data+0x660): multiple definition of `snd_soc_acpi_amd_acp63_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x1c0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp63.o:(.data+0x800): multiple definition of `snd_soc_acpi_amd_rmb_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x360): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp63.o:(.data+0xfe0): multiple definition of `amp_max'; sound/soc/amd/acp/acp-platform.o:(.data+0xb40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp63.o:(.data+0x1020): multiple definition of `amp_rt1019'; sound/soc/amd/acp/acp-platform.o:(.data+0xb80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp63.o:(.data+0xb20): multiple definition of `snd_soc_acpi_amd_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x680): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp63.o:(.data+0x1060): multiple definition of `acp70_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xbc0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp63.o:(.data+0x10a0): multiple definition of `acp63_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc00): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp63.o:(.data+0x10e0): multiple definition of `rmb_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp63.o:(.data+0x1120): multiple definition of `rn_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp70.o:(.data+0x420): multiple definition of `snd_soc_acpi_amd_acp70_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x20): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp70.o:(.data+0x5c0): multiple definition of `snd_soc_acpi_amd_acp63_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x1c0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp70.o:(.data+0x760): multiple definition of `snd_soc_acpi_amd_rmb_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x360): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp70.o:(.data+0xf40): multiple definition of `amp_max'; sound/soc/amd/acp/acp-platform.o:(.data+0xb40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp70.o:(.data+0xf80): multiple definition of `amp_rt1019'; sound/soc/amd/acp/acp-platform.o:(.data+0xb80): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp70.o:(.data+0xa80): multiple definition of `snd_soc_acpi_amd_acp_machines'; sound/soc/amd/acp/acp-platform.o:(.data+0x680): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp70.o:(.data+0xfc0): multiple definition of `acp70_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xbc0): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp70.o:(.data+0x1000): multiple definition of `acp63_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc00): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp70.o:(.data+0x1040): multiple definition of `rmb_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc40): first defined here
+> x86_64-linux-ld: sound/soc/amd/acp/acp70.o:(.data+0x1080): multiple definition of `rn_rsrc'; sound/soc/amd/acp/acp-platform.o:(.data+0xc80): first defined here
+>
+> Cheers,
+> Nathan
