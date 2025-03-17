@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2FD1C3C04;
-	Mon, 17 Mar 2025 16:39:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D070B1A3163;
+	Mon, 17 Mar 2025 16:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742229542; cv=none; b=FQWd6oi2jhZBUeRCtYsm6BU62AvibQy31GJBIG7EnaumM3Bk5Fxh5OqnCvl9KTBNbd6rOB698PvkMW3Je9Nh+FxRh7ALUjGQ3zGnNKmwID19FbDP7owE4DR9RkFh84U/fXIss4ZjpmyQJC0gkdnkXXpz29nag8JBt5xleGPQDVY=
+	t=1742229567; cv=none; b=jFVjAWoaRA5osAClF+lIcpC2TRVVTldBRVOo7W/h2VfCyTu1Gs29lyyWx1DhSwYHjAS1JoGJuN+D+DtAGwcWKEdv3RTnM4tXwt2q/wMCmmZt1+yIwv0Km1cOk9SV/WuU6aRIacFokzr05GOV2KhBShdHa69pbctEDQtYam63WbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742229542; c=relaxed/simple;
-	bh=SI5vEExn5SjKR0b6aiIOMRwU70gYV+hOrxm/rjbA3aY=;
+	s=arc-20240116; t=1742229567; c=relaxed/simple;
+	bh=UeiSQ/hkKZrLMmRLhZRiXRYof6CAysj/kL5O0U1ITzQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RBoqnwnqjQBBpFJCJVa3RCnYY/IFXLevE5xHNNWETz1TzxmO+n6wjlJi0P8RrWxcxI+Qxs5C7ZWXEokQE7U9vOahvhq0Jic+X76JGPeMUWM64BaD8DP1MB4QTByO3SAuY08Krt5HVmtTeAibDpDox4xyTuCCc97TAEtGHd1+lsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RYXWFrOd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=DSV8r8SfsTuPFhWLa8S170k3mgvDYjaqTcjO4haAh9b7NnMNoxUX1iahi7xtLgPgmofJW1ivJR6V4H69loOOrrEMqNM7Z4ONKJQEq5fQxnDLxLGqOdY6LKwpmSWmyMGVEofCB8pEE4ITe8JLFdX4OGCjOMFiPE3ga7ubMF5DgwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XTbEQuVL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RYXWFrOd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D089BC4CEEF;
-	Mon, 17 Mar 2025 16:39:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XTbEQuVL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4C3FC4CEF8;
+	Mon, 17 Mar 2025 16:39:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742229542;
-	bh=SI5vEExn5SjKR0b6aiIOMRwU70gYV+hOrxm/rjbA3aY=;
+	s=k20201202; t=1742229567;
+	bh=UeiSQ/hkKZrLMmRLhZRiXRYof6CAysj/kL5O0U1ITzQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RYXWFrOd5ng7nOd0taJAFCKmm+wKc1D/1ub7lpBRc7whbZRc1p9Orr/CgyKNVZMj0
-	 NDzgzSwtz/nHKBePj1K1v+lk0m+O6RPg3tWd+mr0ZwmvM8RZVhces2M98EbO1cvhKk
-	 G42m9h70Cu/gKefpaKtr5A5alFlLcj2Gc+yuQqy02cSnkGwxWn7q1W7TQBzNEO7JBr
-	 5TVJErnGCtqBTqcKzu4D3cc0O4SrQ/d+6aWUnkXKIeDRfxaCxYuuM7AJUo6jzGLpqv
-	 sAMXvLpw3BNA49Vaq3hSv1M6MZBTDO9yMC9dMz8uxfVbEA66Ucza8mEVFxjNekXj2O
-	 Xn9C18nwjcBEw==
+	b=XTbEQuVLqHPydBk0FrNCgEYgCttYQB3R3WWTdaXY0MV4FakArqD+AqxhWe+KWJIIL
+	 sMJvdjqA/TOvnbNWlEANkuhfHx48J83bIzl5A7gyftaSjI1wmASP9CQzfBHKQyk/SP
+	 2larwp95NEjfelm/+fa6Yo25crvxu0X/FkeHiSm+H7xe1xuc0zL/15BvmGmylpHa9a
+	 8v+JP8PM/6Kib/+wZ0otIeerNvNn7jwPbAO1Dop1mOWefXZ++gJQgYLQ+nDKBQG585
+	 GKq2IXIT0mb6zgrwaJQaoMkWoZptWWVOxH0mYTqIQWlh+C1mUSuvpFEnMpvl61nvlQ
+	 S6qZU+oQQnGVw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -39,12 +39,12 @@ Cc: Navon John Lukose <navonjohnlukose@gmail.com>,
 	simont@opensource.cirrus.com,
 	josh@joshuagrisham.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 13/13] ALSA: hda/realtek: Add mute LED quirk for HP Pavilion x360 14-dy1xxx
-Date: Mon, 17 Mar 2025 12:38:18 -0400
-Message-Id: <20250317163818.1893102-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 8/8] ALSA: hda/realtek: Add mute LED quirk for HP Pavilion x360 14-dy1xxx
+Date: Mon, 17 Mar 2025 12:39:02 -0400
+Message-Id: <20250317163902.1893378-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250317163818.1893102-1-sashal@kernel.org>
-References: <20250317163818.1893102-1-sashal@kernel.org>
+In-Reply-To: <20250317163902.1893378-1-sashal@kernel.org>
+References: <20250317163902.1893378-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.19
+X-stable-base: Linux 6.6.83
 Content-Transfer-Encoding: 8bit
 
 From: Navon John Lukose <navonjohnlukose@gmail.com>
@@ -74,10 +74,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 21 insertions(+)
 
 diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index b559f0d4e3488..a76fdc820f1b1 100644
+index ec57148453c82..29ebcd45233cf 100644
 --- a/sound/pci/hda/patch_realtek.c
 +++ b/sound/pci/hda/patch_realtek.c
-@@ -4792,6 +4792,21 @@ static void alc236_fixup_hp_coef_micmute_led(struct hda_codec *codec,
+@@ -4783,6 +4783,21 @@ static void alc236_fixup_hp_coef_micmute_led(struct hda_codec *codec,
  	}
  }
  
@@ -99,7 +99,7 @@ index b559f0d4e3488..a76fdc820f1b1 100644
  static void alc285_fixup_hp_mute_led(struct hda_codec *codec,
  				const struct hda_fixup *fix, int action)
  {
-@@ -7624,6 +7639,7 @@ enum {
+@@ -7331,6 +7346,7 @@ enum {
  	ALC290_FIXUP_MONO_SPEAKERS_HSJACK,
  	ALC290_FIXUP_SUBWOOFER,
  	ALC290_FIXUP_SUBWOOFER_HSJACK,
@@ -107,7 +107,7 @@ index b559f0d4e3488..a76fdc820f1b1 100644
  	ALC269_FIXUP_THINKPAD_ACPI,
  	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
  	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
-@@ -9359,6 +9375,10 @@ static const struct hda_fixup alc269_fixups[] = {
+@@ -9068,6 +9084,10 @@ static const struct hda_fixup alc269_fixups[] = {
  		.chained = true,
  		.chain_id = ALC283_FIXUP_INT_MIC,
  	},
@@ -118,7 +118,7 @@ index b559f0d4e3488..a76fdc820f1b1 100644
  	[ALC298_FIXUP_SAMSUNG_AMP] = {
  		.type = HDA_FIXUP_FUNC,
  		.v.func = alc298_fixup_samsung_amp,
-@@ -10394,6 +10414,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+@@ -9976,6 +9996,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
  	SND_PCI_QUIRK(0x103c, 0x84e7, "HP Pavilion 15", ALC269_FIXUP_HP_MUTE_LED_MIC3),
  	SND_PCI_QUIRK(0x103c, 0x8519, "HP Spectre x360 15-df0xxx", ALC285_FIXUP_HP_SPECTRE_X360),
  	SND_PCI_QUIRK(0x103c, 0x8537, "HP ProBook 440 G6", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
