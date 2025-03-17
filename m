@@ -1,27 +1,43 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09FC62376E6;
-	Mon, 17 Mar 2025 10:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BA723370D;
+	Mon, 17 Mar 2025 10:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742206441; cv=none; b=Je87YVQaAHcsKJPykVROSmrUsLfBGkrpel+dlc02FOJo7lnUTPLjCqYeWdHHE4Cql98BF8wusN709bouAcE3Z71nlJjt4cOylfFt5FpQePSnsZjg3v6N0ahFwa9PhEtj7BV4hx13z2XLhPAk6943Vcua0U3uvKsq4jTs+gUTORw=
+	t=1742206656; cv=none; b=dtOgVJDirD5nJETJ+oPMs0IYMOwebMfwyoeju9ysp3CMPwtYmfYeTVIgHsvRsd9gfmhalWlKTE/B3n0o1+vH2FKtMUh3aPzm9RWuT8FaaXIpGwgGkqk0yilCHfZELVbnJo58tla4SDtfI3hAJd1rDgcNaXwD8UWKsWfS5ZJNg0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742206441; c=relaxed/simple;
-	bh=x7ZXz4mU9CnfHVM3Z0rwNB7yQx/AvIfPWEc4rRfZlD4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eSj3zy+pAug3PPM2RgmfR+l0HiZ4ftE7OI6ZzfGdIPKtvSnQQV2JhtVdNY6shZr3iCXdgQ7vMWiDM0b86V9P77hsLbn4KYisx007G90R4ur6eL7d1Qnr6jtzxHIlldCJPW/MEgfE4h85Q8ucRhzXzloMh5v3fZAinw4zf87wUOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ADDE325DC;
-	Mon, 17 Mar 2025 03:14:08 -0700 (PDT)
-Received: from e133711.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BA95A3F673;
-	Mon, 17 Mar 2025 03:13:58 -0700 (PDT)
-From: Sudeep Holla <sudeep.holla@arm.com>
-Date: Mon, 17 Mar 2025 10:13:18 +0000
-Subject: [PATCH 6/9] ASoC: soc-utils: Transition to the faux device
- interface
+	s=arc-20240116; t=1742206656; c=relaxed/simple;
+	bh=0h+XlZja1L0Hzx3E+PGSZyubLgYa+1MEZ5jOyeF2nFY=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=O+JXWB9OQIz7Zvs7vFswQHRxsB8up4BWxNP/XTd3+Q43uH5A22uGbrhtiqeJ8qbhkXvbco0tHZ+YD2Ej0mQzLhJlqsDsdkV1d5eY755gTcdcFC3zGnEhe0Xsdx9BJoCXnLb232FbCS/sqTr8yxBm5uZDDHgHA8TejzE4Cyz+088=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SQQd7VAp; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SQQd7VAp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EABBDC4CEE3;
+	Mon, 17 Mar 2025 10:17:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742206656;
+	bh=0h+XlZja1L0Hzx3E+PGSZyubLgYa+1MEZ5jOyeF2nFY=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=SQQd7VAp97n+EP2wnT7EhjnjSQYMqPggqRuKwocLOXd4I5bP+xFBTTUFaPGOfE5eF
+	 YwYoZrchZ/RrDX/Gxs5SvEqk8W0kzi0kaetDdptZ2bOrqdfqGl6gLcKl4BBgftL2F6
+	 KjuBRH4H7ApRz69XnWSmeU7boPakb18YeLqtRQHjJF4M2m4mdjLOFfBVfXzNRB43b4
+	 Cyupa7TPcaUOErZG4fU1KboYM28OAba2Dew+dunNgzt7SUI0dTsvegWtRGXg2+9x45
+	 kQXyuse2Je3cDFQGLPJxgdI55b5Q3jKZfNxdprMDc5MDQgwgeacAqOXwh0A2RaUvIN
+	 wkOFHAJThJiwg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+ amergnat@baylibre.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, Chen Ni <nichen@iscas.ac.cn>
+In-Reply-To: <20250312032600.1235158-1-nichen@iscas.ac.cn>
+References: <20250312032600.1235158-1-nichen@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: mt8365: remove unnecessary NULL check before
+ clk_disable_unprepare()
+Message-Id: <174220665367.86423.10873134642092088398.b4-ty@kernel.org>
+Date: Mon, 17 Mar 2025 10:17:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -30,124 +46,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250317-plat2faux_dev-v1-6-5fe67c085ad5@arm.com>
-References: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
-In-Reply-To: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
-To: linux-kernel@vger.kernel.org
-Cc: Sudeep Holla <sudeep.holla@arm.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2889; i=sudeep.holla@arm.com;
- h=from:subject:message-id; bh=x7ZXz4mU9CnfHVM3Z0rwNB7yQx/AvIfPWEc4rRfZlD4=;
- b=owEBbQKS/ZANAwAIAQBBurwxfuKYAcsmYgBn1/XbmOULwGG3cHOXBy6u8uWE/0CxGGLIC0/+t
- aN37NJqvBeJAjMEAAEIAB0WIQS6ceUSBvMeskPdk+EAQbq8MX7imAUCZ9f12wAKCRAAQbq8MX7i
- mFuFD/9kHeBWU8kPBSge1BvTUCZIXjgpxVnY7k1Zh+ekqiPVFbfa81bN0OyWbSDu/g/PFRDpNzp
- zWED2iQIlyFANDMYLWij1/l1G+/6tsbL7zDM6fWNP6H5WSTr2VGCXfsCd0D3P3/IttypSKlFdGd
- s9lqG1VyfE73bAyY5ZHXKRotN/LCM0aFbjEx73+FqVv+38qNJy7k7mlcOwpGS7WD41k2cVdXyIt
- 7lTETqX1kXnllOce9FSzIc1wRlVuYHzGSr1XIHvz3UmQwA9rp+3tg2FI0CJHMOiWJRIUpJy8cuT
- Pm7n2FPUEJ+iUtfRpNhCIT4LpkxDKwr8+vTV3Jw5fgNh5AAd6Ev/s+eX9jwl7t3X5C5EYcUX9cz
- XJyiI3hmRqnqHjX0KbS52OsEsnR/mRkF0ynMNpSojBvLRkik9vItSJGjTdByLiBex8bks//hgPy
- lH1vZUomA+ToZdQTwgb5nv4aWgI1+qWUR3x9hQIO9GnXjAuj4iw1uplJXBCNMn/HVTwb4EMQSSj
- K6gIuOpc7m7hvrnfrNrEqKJLnfQWU+7xuufhjKJ3SfegdIZeVk/eLhbU9Q+S2Nj1QMqWgR464ES
- mFEJZkzxKyfjZJjOKnXU38L7RahpcfGkYVkTsqQS7ABr9R4j+Zh9jnccK2CaxYMrwLr1VuB93wg
- 2dbwUo65FNOwI4g==
-X-Developer-Key: i=sudeep.holla@arm.com; a=openpgp;
- fpr=7360A21742ADF5A11767C1C139CFD4755FE2D5B4
+X-Mailer: b4 0.15-dev-1b0d6
 
-The ASoC soc-utils driver does not require the creation of a platform
-device. Originally, this approach was chosen for simplicity when the
-driver was first implemented.
+On Wed, 12 Mar 2025 11:26:00 +0800, Chen Ni wrote:
+> clk_disable_unprepare() already checks NULL by using IS_ERR_OR_NULL.
+> Remove unneeded NULL check for clk here.
+> 
+> 
 
-With the introduction of the lightweight faux device interface, we now
-have a more appropriate alternative. Migrate the driver to utilize the
-faux bus, given that the platform device it previously created was not
-a real one anyway. This will simplify the code, reducing its footprint
-while maintaining functionality.
+Applied to
 
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org
-Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
----
- sound/soc/soc-utils.c | 34 ++++++++++++----------------------
- 1 file changed, 12 insertions(+), 22 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/sound/soc/soc-utils.c b/sound/soc/soc-utils.c
-index aa93e77ac937b0255c5dfa519207693fb560a6d6..a795c21756f79411cf59e209133db9f88edeb44c 100644
---- a/sound/soc/soc-utils.c
-+++ b/sound/soc/soc-utils.c
-@@ -7,7 +7,7 @@
- // Author: Mark Brown <broonie@opensource.wolfsonmicro.com>
- //         Liam Girdwood <lrg@slimlogic.co.uk>
- 
--#include <linux/platform_device.h>
-+#include <linux/device/faux.h>
- #include <linux/export.h>
- #include <linux/math.h>
- #include <sound/core.h>
-@@ -235,48 +235,38 @@ struct snd_soc_dai_link_component snd_soc_dummy_dlc = {
- };
- EXPORT_SYMBOL_GPL(snd_soc_dummy_dlc);
- 
--static int snd_soc_dummy_probe(struct platform_device *pdev)
-+static int snd_soc_dummy_probe(struct faux_device *fdev)
- {
- 	int ret;
- 
--	ret = devm_snd_soc_register_component(&pdev->dev,
-+	ret = devm_snd_soc_register_component(&fdev->dev,
- 					      &dummy_codec, &dummy_dai, 1);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = devm_snd_soc_register_component(&pdev->dev, &dummy_platform,
-+	ret = devm_snd_soc_register_component(&fdev->dev, &dummy_platform,
- 					      NULL, 0);
- 
- 	return ret;
- }
- 
--static struct platform_driver soc_dummy_driver = {
--	.driver = {
--		.name = "snd-soc-dummy",
--	},
-+static struct faux_device_ops soc_dummy_ops = {
- 	.probe = snd_soc_dummy_probe,
- };
- 
--static struct platform_device *soc_dummy_dev;
-+static struct faux_device *soc_dummy_dev;
- 
- int __init snd_soc_util_init(void)
- {
--	int ret;
--
--	soc_dummy_dev =
--		platform_device_register_simple("snd-soc-dummy", -1, NULL, 0);
--	if (IS_ERR(soc_dummy_dev))
--		return PTR_ERR(soc_dummy_dev);
-+	soc_dummy_dev = faux_device_create("snd-soc-dummy", NULL,
-+					   &soc_dummy_ops);
-+	if (!soc_dummy_dev)
-+		return -ENODEV;
- 
--	ret = platform_driver_register(&soc_dummy_driver);
--	if (ret != 0)
--		platform_device_unregister(soc_dummy_dev);
--
--	return ret;
-+	return 0;
- }
- 
- void snd_soc_util_exit(void)
- {
--	platform_driver_unregister(&soc_dummy_driver);
--	platform_device_unregister(soc_dummy_dev);
-+	faux_device_destroy(soc_dummy_dev);
- }
+Thanks!
 
--- 
-2.34.1
+[1/1] ASoC: mt8365: remove unnecessary NULL check before clk_disable_unprepare()
+      commit: f37ab219a3336ef787ce4babd20510f060f6f48d
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
