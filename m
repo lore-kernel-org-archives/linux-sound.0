@@ -1,26 +1,27 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B24C322257F;
-	Mon, 17 Mar 2025 10:13:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09FC62376E6;
+	Mon, 17 Mar 2025 10:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742206434; cv=none; b=sVqPf1uq/1G2DjJ+WAiI5W+Hha/aHzDlzUIX6W7E9doOGNPYn2gE1gZR9+gxM3HbQ1yMdHJ1uBfMJibLs/lqe4fuflvfdenKIDmltnxpeLrNrQkOc2IUfd9juQoQ5ucra3iB+nDuXiH3DBvYWwM2wQRSWamOHd/OtqMi6GJSJR4=
+	t=1742206441; cv=none; b=Je87YVQaAHcsKJPykVROSmrUsLfBGkrpel+dlc02FOJo7lnUTPLjCqYeWdHHE4Cql98BF8wusN709bouAcE3Z71nlJjt4cOylfFt5FpQePSnsZjg3v6N0ahFwa9PhEtj7BV4hx13z2XLhPAk6943Vcua0U3uvKsq4jTs+gUTORw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742206434; c=relaxed/simple;
-	bh=/Q8Aa9fYv9wbyrx2wObs4CMSJP+hTNYqKzlwyrJhFsM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YN9l0KVFSyecyFL1B7mn2mSxeHeYsdL4XmU6fNVw+mPMuJ9yisgVUGw9yhOg2QXbOZryB/AFq8d1x0POIy9Bw6uk1TEW1L1I4GiHbKMTglIDfGL588XAaIDPqjYkUitMiqHnXCZBuDQafn3RA8RO+FH+naSqTiTUHp37qxmPyfk=
+	s=arc-20240116; t=1742206441; c=relaxed/simple;
+	bh=x7ZXz4mU9CnfHVM3Z0rwNB7yQx/AvIfPWEc4rRfZlD4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=eSj3zy+pAug3PPM2RgmfR+l0HiZ4ftE7OI6ZzfGdIPKtvSnQQV2JhtVdNY6shZr3iCXdgQ7vMWiDM0b86V9P77hsLbn4KYisx007G90R4ur6eL7d1Qnr6jtzxHIlldCJPW/MEgfE4h85Q8ucRhzXzloMh5v3fZAinw4zf87wUOQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3E2813D5;
-	Mon, 17 Mar 2025 03:14:00 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ADDE325DC;
+	Mon, 17 Mar 2025 03:14:08 -0700 (PDT)
 Received: from e133711.arm.com (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B7D03F673;
-	Mon, 17 Mar 2025 03:13:47 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BA95A3F673;
+	Mon, 17 Mar 2025 03:13:58 -0700 (PDT)
 From: Sudeep Holla <sudeep.holla@arm.com>
-Subject: [PATCH 0/9] drivers: Transition to the faux device interface
-Date: Mon, 17 Mar 2025 10:13:12 +0000
-Message-Id: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
+Date: Mon, 17 Mar 2025 10:13:18 +0000
+Subject: [PATCH 6/9] ASoC: soc-utils: Transition to the faux device
+ interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -29,87 +30,124 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALv112cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDY0NT3YKcxBKjtMTSiviU1DJdi2QjiyRj06RUS7NEJaCegqLUtMwKsHn
- RsbW1AJ+HYAdfAAAA
-X-Change-ID: 20250315-plat2faux_dev-8c28b35be96a
+Message-Id: <20250317-plat2faux_dev-v1-6-5fe67c085ad5@arm.com>
+References: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
+In-Reply-To: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
 To: linux-kernel@vger.kernel.org
 Cc: Sudeep Holla <sudeep.holla@arm.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, linux-pm@vger.kernel.org, 
- Andre Przywara <andre.przywara@arm.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- Jeff Johnson <jeff.johnson@oss.qualcomm.com>, linux-crypto@vger.kernel.org, 
- Ard Biesheuvel <ardb@kernel.org>, linux-efi@vger.kernel.org, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- linux-rtc@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
- netdev@vger.kernel.org, Borislav Petkov <bp@alien8.de>, 
- linux-acpi@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+ Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2229; i=sudeep.holla@arm.com;
- h=from:subject:message-id; bh=/Q8Aa9fYv9wbyrx2wObs4CMSJP+hTNYqKzlwyrJhFsM=;
- b=owEBbQKS/ZANAwAIAQBBurwxfuKYAcsmYgBn1/XaXg/cczfp9LKToTU0Xvg1jjtICG+G14QuE
- jF8HdVkidyJAjMEAAEIAB0WIQS6ceUSBvMeskPdk+EAQbq8MX7imAUCZ9f12gAKCRAAQbq8MX7i
- mL+sEACUOKVk2OIBxRBYI5oleTH4ttn1o568PHz46upYDllAy68d3qhxx0E4xnIdB60mEjQBzDu
- pZD62v90A+KDS4L4tmUprsU7NWILTGj7z8ga03muX133xHYBl3IBUvax/9o/+bum82neHCv1Pba
- d8H+us51UfUHU9RNZlv0RBm5VVa/c8Uw1HgXOr5pKwbjSb8e3qQCqNIHDnZlch9Nieifbsr/76z
- gG6mbYz1uW4/b7QLjmoUjKSeUxVj+2GPLep8+YRtNuA1S4RPJK5HAWWzuehomacfsXjmB58nG+q
- RnT2Myy8yJNRXSJ2M4hQ4q0xSovkDs1Fs3BsAWVhnk34koAzgflqjj2nSvvviGN1NfHBDbkbsIn
- ICmtLUmPDj6wh+Iuh95Z7TR2a2bxv4ZcvOdEjiSE3ePYG3mtX71NIGCtGLT/U+heYKLFl80Q288
- NDDOuKCfChTKQnT1TO4A3iHJBUcm2GH5eQfKisbIr0fGMwWJmzfkkbw/JRUDDgsPLZf+gg4zpbg
- YuDDMuht91nrSsN6M3frGjU78FZxQBTizKPNnlYBi9rEhb+sN0amzbmmQHOiOLtx/CWe71UQuQu
- xZRpzua8GypLhrf83niYHYJRoY3H6cihvbNg4Yh/mS87pjun48IYIRWWPRW8PyPsuDd+Zfow2uU
- 2BgXIq8hNqRm+cw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2889; i=sudeep.holla@arm.com;
+ h=from:subject:message-id; bh=x7ZXz4mU9CnfHVM3Z0rwNB7yQx/AvIfPWEc4rRfZlD4=;
+ b=owEBbQKS/ZANAwAIAQBBurwxfuKYAcsmYgBn1/XbmOULwGG3cHOXBy6u8uWE/0CxGGLIC0/+t
+ aN37NJqvBeJAjMEAAEIAB0WIQS6ceUSBvMeskPdk+EAQbq8MX7imAUCZ9f12wAKCRAAQbq8MX7i
+ mFuFD/9kHeBWU8kPBSge1BvTUCZIXjgpxVnY7k1Zh+ekqiPVFbfa81bN0OyWbSDu/g/PFRDpNzp
+ zWED2iQIlyFANDMYLWij1/l1G+/6tsbL7zDM6fWNP6H5WSTr2VGCXfsCd0D3P3/IttypSKlFdGd
+ s9lqG1VyfE73bAyY5ZHXKRotN/LCM0aFbjEx73+FqVv+38qNJy7k7mlcOwpGS7WD41k2cVdXyIt
+ 7lTETqX1kXnllOce9FSzIc1wRlVuYHzGSr1XIHvz3UmQwA9rp+3tg2FI0CJHMOiWJRIUpJy8cuT
+ Pm7n2FPUEJ+iUtfRpNhCIT4LpkxDKwr8+vTV3Jw5fgNh5AAd6Ev/s+eX9jwl7t3X5C5EYcUX9cz
+ XJyiI3hmRqnqHjX0KbS52OsEsnR/mRkF0ynMNpSojBvLRkik9vItSJGjTdByLiBex8bks//hgPy
+ lH1vZUomA+ToZdQTwgb5nv4aWgI1+qWUR3x9hQIO9GnXjAuj4iw1uplJXBCNMn/HVTwb4EMQSSj
+ K6gIuOpc7m7hvrnfrNrEqKJLnfQWU+7xuufhjKJ3SfegdIZeVk/eLhbU9Q+S2Nj1QMqWgR464ES
+ mFEJZkzxKyfjZJjOKnXU38L7RahpcfGkYVkTsqQS7ABr9R4j+Zh9jnccK2CaxYMrwLr1VuB93wg
+ 2dbwUo65FNOwI4g==
 X-Developer-Key: i=sudeep.holla@arm.com; a=openpgp;
  fpr=7360A21742ADF5A11767C1C139CFD4755FE2D5B4
 
-Recently when debugging why one of the scmi platform device was not
-showing up under /sys/devices/platform/firmware:scmi instead was
-appearing directly under /sys/devices/platform, I noticed the new
-faux interface /sys/devices/faux.
+The ASoC soc-utils driver does not require the creation of a platform
+device. Originally, this approach was chosen for simplicity when the
+driver was first implemented.
 
-Looking through the discussion and the background, I got excited and
-took the opportunity to clear all the platform devices under
-/sys/devices/platform on the Arm Juno/FVP platforms that are really
-faux devices. Only the platform devices created for the device nodes
-from the DT remain under /sys/devices/platform after these changes.
+With the introduction of the lightweight faux device interface, we now
+have a more appropriate alternative. Migrate the driver to utilize the
+faux bus, given that the platform device it previously created was not
+a real one anyway. This will simplify the code, reducing its footprint
+while maintaining functionality.
 
-All the patches are independent of each other.
-
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
 Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
 ---
-Greg Kroah-Hartman (1):
-      regulator: dummy: convert to use the faux device interface
+ sound/soc/soc-utils.c | 34 ++++++++++++----------------------
+ 1 file changed, 12 insertions(+), 22 deletions(-)
 
-Sudeep Holla (8):
-      cpuidle: psci: Transition to the faux device interface
-      hwrng: arm-smccc-trng - transition to the faux device interface
-      efi: Remove redundant creation of the "efivars" platform device
-      rtc: efi: Transition to the faux device interface
-      virt: efi_secret: Transition to the faux device interface
-      ASoC: soc-utils: Transition to the faux device interface
-      net: phy: fixed_phy: transition to the faux device interface
-      ACPI: APEI: EINJ: Transition to the faux device interface
+diff --git a/sound/soc/soc-utils.c b/sound/soc/soc-utils.c
+index aa93e77ac937b0255c5dfa519207693fb560a6d6..a795c21756f79411cf59e209133db9f88edeb44c 100644
+--- a/sound/soc/soc-utils.c
++++ b/sound/soc/soc-utils.c
+@@ -7,7 +7,7 @@
+ // Author: Mark Brown <broonie@opensource.wolfsonmicro.com>
+ //         Liam Girdwood <lrg@slimlogic.co.uk>
+ 
+-#include <linux/platform_device.h>
++#include <linux/device/faux.h>
+ #include <linux/export.h>
+ #include <linux/math.h>
+ #include <sound/core.h>
+@@ -235,48 +235,38 @@ struct snd_soc_dai_link_component snd_soc_dummy_dlc = {
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_dummy_dlc);
+ 
+-static int snd_soc_dummy_probe(struct platform_device *pdev)
++static int snd_soc_dummy_probe(struct faux_device *fdev)
+ {
+ 	int ret;
+ 
+-	ret = devm_snd_soc_register_component(&pdev->dev,
++	ret = devm_snd_soc_register_component(&fdev->dev,
+ 					      &dummy_codec, &dummy_dai, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = devm_snd_soc_register_component(&pdev->dev, &dummy_platform,
++	ret = devm_snd_soc_register_component(&fdev->dev, &dummy_platform,
+ 					      NULL, 0);
+ 
+ 	return ret;
+ }
+ 
+-static struct platform_driver soc_dummy_driver = {
+-	.driver = {
+-		.name = "snd-soc-dummy",
+-	},
++static struct faux_device_ops soc_dummy_ops = {
+ 	.probe = snd_soc_dummy_probe,
+ };
+ 
+-static struct platform_device *soc_dummy_dev;
++static struct faux_device *soc_dummy_dev;
+ 
+ int __init snd_soc_util_init(void)
+ {
+-	int ret;
+-
+-	soc_dummy_dev =
+-		platform_device_register_simple("snd-soc-dummy", -1, NULL, 0);
+-	if (IS_ERR(soc_dummy_dev))
+-		return PTR_ERR(soc_dummy_dev);
++	soc_dummy_dev = faux_device_create("snd-soc-dummy", NULL,
++					   &soc_dummy_ops);
++	if (!soc_dummy_dev)
++		return -ENODEV;
+ 
+-	ret = platform_driver_register(&soc_dummy_driver);
+-	if (ret != 0)
+-		platform_device_unregister(soc_dummy_dev);
+-
+-	return ret;
++	return 0;
+ }
+ 
+ void snd_soc_util_exit(void)
+ {
+-	platform_driver_unregister(&soc_dummy_driver);
+-	platform_device_unregister(soc_dummy_dev);
++	faux_device_destroy(soc_dummy_dev);
+ }
 
- drivers/acpi/apei/einj-core.c             | 32 +++++++++---------------
- drivers/char/hw_random/arm_smccc_trng.c   | 40 +++++++++++++++++++++---------
- drivers/cpuidle/cpuidle-psci.c            | 26 +++++++-------------
- drivers/firmware/efi/efi.c                | 10 --------
- drivers/firmware/smccc/smccc.c            | 21 ----------------
- drivers/net/phy/fixed_phy.c               | 16 ++++++------
- drivers/regulator/dummy.c                 | 37 +++++++---------------------
- drivers/rtc/rtc-efi.c                     | 31 ++++++++++++++++-------
- drivers/virt/coco/efi_secret/efi_secret.c | 41 ++++++++++++++++++-------------
- sound/soc/soc-utils.c                     | 34 +++++++++----------------
- 10 files changed, 124 insertions(+), 164 deletions(-)
----
-base-commit: 80e54e84911a923c40d7bee33a34c1b4be148d7a
-change-id: 20250315-plat2faux_dev-8c28b35be96a
 -- 
-Regards,
-Sudeep
+2.34.1
 
