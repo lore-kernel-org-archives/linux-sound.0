@@ -1,48 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251C61A2381;
-	Mon, 17 Mar 2025 16:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075711F4706;
+	Mon, 17 Mar 2025 16:38:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742229456; cv=none; b=lnSW2laqPqVWh44JC4/U1yooQ+0pnhrV2/+Ko3QTJCi7b21xz1liIXGwjZubI0KvJPxY5uE71P06eIhU2lHP1vs3cLSxGXgH6kJ+xDLuYEGoIylRkksLMoPa7jQFvTtL3NVdRXbhfQod2Xaj4hXm9x/Ayo/asctSzDb9xWoR78E=
+	t=1742229498; cv=none; b=QxY6awmYrWnHZ1sLhP6o1wr9Sq5bOQT4I04VhZ7H0Uom5xJvaWzX8Pf6sZnLEb7S6TAY3rUunKwFaEnymZmyqSXbMdSMdgbRazC5H9RV5uv5NhkYabMHN83FETEDHAnouRJwbRt0zuUlrzKHEL3A7Lw59odEFprAWHngie9liGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742229456; c=relaxed/simple;
-	bh=UHnMipypBFOlF0gd2sNMGr5zIqqimLifnUwYHypE0cc=;
+	s=arc-20240116; t=1742229498; c=relaxed/simple;
+	bh=cTtWJdgHBaThA0PWeqWg4xK1c4tdQtMTakykwnUudeA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nLabKKqP3FImaA8iVohunF00tAObrQgvNVUn4NbMEQ7/cSs+sfFVhnHwAgUKmDxGQjTwOSFsTuds9qJp2KLz8RDePjdWXANxXyNjVMQ9rSc7RuNYn4+TclV50BrGYl3CmSwiY97up4cXCkgbsC2Ch73TA5EQz+mJdFQ3r4zcrNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxjvWwMA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=s+oq3HzYxfzE6fjhdTrzcEgSU0R2Qt+tBPCsVENSFAYW2aV+sGJpubCP/9c9haop6Nd459g50s2d4DnsvnLreWKjuBqhgesc+q3bCAMxPMdEaaK4IUijQwwZeV7gxof9ooFAtsyb2GEL0FZlr1I7cmiM/fmiDft9pjnUKSGKYMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jd4gCWJA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxjvWwMA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CC6EC4CEEC;
-	Mon, 17 Mar 2025 16:37:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jd4gCWJA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E680C4CEED;
+	Mon, 17 Mar 2025 16:38:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742229456;
-	bh=UHnMipypBFOlF0gd2sNMGr5zIqqimLifnUwYHypE0cc=;
+	s=k20201202; t=1742229497;
+	bh=cTtWJdgHBaThA0PWeqWg4xK1c4tdQtMTakykwnUudeA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XxjvWwMAne3I1z2UbMOll6WRU2UCc6gJ5JXCl7ypIv9T+p7CQeccsynKmoiCGOR0l
-	 uFPE4L0jE0ZCqIsusbtwa8ROkpCRR91fLqmSIMrh0axPIoa0wD8ZmqMf3QUINed1lb
-	 vWQK4drdHqNmHjlijHf5VdLShIDqjSqG2vcdVezM7crCe1WhY2Mo4kIpceVNc0T/mq
-	 /TbyR9oDqUsd21SDkrIO29sG8r9DhSlJ+YmdFXfXddj+Dhv2YxEKewm0k850uOO4dg
-	 XPN9Ipgy9y2jqnZj6Ni2GQ8lZydunW9mwVC+Fhp9LS+Ir0zb8msm0LUedOxilIdHnx
-	 PcK0cLKJBBGlA==
+	b=Jd4gCWJA175gnYmv+UUvuESRvNokhMqroAYNgkrmxGygFK+TMmlNmN+nLxw8zxHvL
+	 /GQVzjlCKm6xAnCmcaa4tFFTQrSNDe6Xhli4VrEZg9iQE/eDk2BY9U6etn7erRszB4
+	 r0v2aKogu2wWo3+tZ7uokPvKZLc4X4e9KJ5fJ46lkGjbkKrNgoZQWpc0eE7TtjpQCU
+	 x/3qjUm1p8xTP6aByvS0ILLITbtdibuqCPm9V/d1805JBpENm1RYXYBILw+2w97985
+	 6l6qlD34j0kaprGERd0GXD+S+OQvt90dgnpPSBYyZhl1Ar01Ddm8fJcIVuPZOb+hoQ
+	 D9mBpZ33ejLIA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Shuming Fan <shumingf@realtek.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Navon John Lukose <navonjohnlukose@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	josh@joshuagrisham.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 04/16] ASoC: rt1320: set wake_capable = 0 explicitly
-Date: Mon, 17 Mar 2025 12:37:13 -0400
-Message-Id: <20250317163725.1892824-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 16/16] ALSA: hda/realtek: Add mute LED quirk for HP Pavilion x360 14-dy1xxx
+Date: Mon, 17 Mar 2025 12:37:25 -0400
+Message-Id: <20250317163725.1892824-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250317163725.1892824-1-sashal@kernel.org>
 References: <20250317163725.1892824-1-sashal@kernel.org>
@@ -52,49 +51,81 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.13.7
 Content-Transfer-Encoding: 8bit
 
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
+From: Navon John Lukose <navonjohnlukose@gmail.com>
 
-[ Upstream commit 927e6bec5cf3624665b0a2e9f64a1d32f3d22cdd ]
+[ Upstream commit b11a74ac4f545626d0dc95a8ca8c41df90532bf3 ]
 
-"generic_new_peripheral_assigned: invalid dev_num 1, wake supported 1"
-is reported by our internal CI test.
+Add a fixup to enable the mute LED on HP Pavilion x360 Convertible
+14-dy1xxx with ALC295 codec. The appropriate coefficient index and bits
+were identified through a brute-force method, as detailed in
+https://bbs.archlinux.org/viewtopic.php?pid=2079504#p2079504.
 
-Rt1320's wake feature is not used in Linux and that's why it is not in
-the wake_capable_list[] list in intel_auxdevice.c.
-However, BIOS may set it as wake-capable. Overwrite wake_capable to 0
-in the codec driver to align with wake_capable_list[].
-
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Acked-by: Shuming Fan <shumingf@realtek.com>
-Link: https://patch.msgid.link/20250305134113.201326-1-yung-chuan.liao@linux.intel.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Navon John Lukose <navonjohnlukose@gmail.com>
+Link: https://patch.msgid.link/20250307213319.35507-1-navonjohnlukose@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/rt1320-sdw.c | 3 +++
- 1 file changed, 3 insertions(+)
+ sound/pci/hda/patch_realtek.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index 3510c3819074b..d83b236a04503 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -535,6 +535,9 @@ static int rt1320_read_prop(struct sdw_slave *slave)
- 	/* set the timeout values */
- 	prop->clk_stop_timeout = 64;
- 
-+	/* BIOS may set wake_capable. Make sure it is 0 as wake events are disabled. */
-+	prop->wake_capable = 0;
-+
- 	return 0;
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 10e9ec74104d2..2eabab0da87d0 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -4792,6 +4792,21 @@ static void alc236_fixup_hp_coef_micmute_led(struct hda_codec *codec,
+ 	}
  }
  
++static void alc295_fixup_hp_mute_led_coefbit11(struct hda_codec *codec,
++				const struct hda_fixup *fix, int action)
++{
++	struct alc_spec *spec = codec->spec;
++
++	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
++		spec->mute_led_polarity = 0;
++		spec->mute_led_coef.idx = 0xb;
++		spec->mute_led_coef.mask = 3 << 3;
++		spec->mute_led_coef.on = 1 << 3;
++		spec->mute_led_coef.off = 1 << 4;
++		snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
++	}
++}
++
+ static void alc285_fixup_hp_mute_led(struct hda_codec *codec,
+ 				const struct hda_fixup *fix, int action)
+ {
+@@ -7644,6 +7659,7 @@ enum {
+ 	ALC290_FIXUP_MONO_SPEAKERS_HSJACK,
+ 	ALC290_FIXUP_SUBWOOFER,
+ 	ALC290_FIXUP_SUBWOOFER_HSJACK,
++	ALC295_FIXUP_HP_MUTE_LED_COEFBIT11,
+ 	ALC269_FIXUP_THINKPAD_ACPI,
+ 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
+ 	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
+@@ -9381,6 +9397,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC283_FIXUP_INT_MIC,
+ 	},
++	[ALC295_FIXUP_HP_MUTE_LED_COEFBIT11] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc295_fixup_hp_mute_led_coefbit11,
++	},
+ 	[ALC298_FIXUP_SAMSUNG_AMP] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc298_fixup_samsung_amp,
+@@ -10425,6 +10445,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x84e7, "HP Pavilion 15", ALC269_FIXUP_HP_MUTE_LED_MIC3),
+ 	SND_PCI_QUIRK(0x103c, 0x8519, "HP Spectre x360 15-df0xxx", ALC285_FIXUP_HP_SPECTRE_X360),
+ 	SND_PCI_QUIRK(0x103c, 0x8537, "HP ProBook 440 G6", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
++	SND_PCI_QUIRK(0x103c, 0x85c6, "HP Pavilion x360 Convertible 14-dy1xxx", ALC295_FIXUP_HP_MUTE_LED_COEFBIT11),
+ 	SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx", ALC285_FIXUP_HP_ENVY_X360),
+ 	SND_PCI_QUIRK(0x103c, 0x860f, "HP ZBook 15 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x861f, "HP Elite Dragonfly G1", ALC285_FIXUP_HP_GPIO_AMP_INIT),
 -- 
 2.39.5
 
