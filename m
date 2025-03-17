@@ -1,83 +1,91 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8D51DFCB;
-	Mon, 17 Mar 2025 14:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DFF38DEC;
+	Mon, 17 Mar 2025 14:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742220964; cv=none; b=NiLQGgDBeECz0z7I6xwjSmsg+WrQGoh302r/HS34wY9kCzEcwM7qtit7jRr24EOiW/WGz/vEieGFSu/AN1F+p3gzzp0bQSMSHtBxUmgmQaINl+IocR0Kp3HwFuxqUjx7LbnQUrxWFKYFUGBVZJk8/ZsJUICE0RrlsJwiudR9YUU=
+	t=1742221265; cv=none; b=LXvr1awAGmwCgu4Kbg7BdKcg5VB7YAoC8Ayb/gs1mELLuZZY43r0QPg3R+kb6j6hKj82vRKafg/cRjr2ukHvrZyAkEMfR/Wnz0ST0Qmj/r9EuXIuBsH4jdW1YoDOs3JJp0sDn8VTXCv5BprL0VgIz4rF+Qn7/0qVSP/ppQFEToY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742220964; c=relaxed/simple;
-	bh=AldV/hJHv/I1W5buCOvwpWiW3xaNj5/BwKZ/rUXUNZk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hAQesG1Xftc4zZXNmsLMDYCNQW7fiVMIJCacuAYOXwGTXpbrxYUtVVrrAMoPbaemk7pC53Z/KSeWl1VMTPzpMdbU2clIEiAio1p3bKhqBARK89BkzIUeIQsd71lTgrro099ile5hoXP/ujexOIwuc5vWBhLzKPDmBcSfXOtGDD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [124.16.141.245])
-	by APP-01 (Coremail) with SMTP id qwCowADn7dH+LNhnDJr5FQ--.11818S2;
-	Mon, 17 Mar 2025 22:09:07 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: u.kleine-koenig@baylibre.com,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>
-Subject: [PATCH] ASoC: Add initialization for wm8997 component
-Date: Mon, 17 Mar 2025 22:08:44 +0800
-Message-ID: <20250317140845.702-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.42.0.windows.2
+	s=arc-20240116; t=1742221265; c=relaxed/simple;
+	bh=TAMZO+Www2JXyEzVnkPyMCDlKAnsJn0Ra9/i84lCzU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ImGclvEXrIEZ7rmOE8UPVViltMQowzdNlkhVn5JlPE5+deyucIrSmgCtr72TtLo4rleWo8QqRC3OMFN4ncvIhRfl9c3ZyiMXZ+fkPe5Inf6Sz5iQ+qLDSsSlDEbtvt3sWlhOixwxqYAhiD6m/etlk8fKWEvJL3iRknqy+VIWYJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B5RIiOEC; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B5RIiOEC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF198C4CEE3;
+	Mon, 17 Mar 2025 14:21:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742221265;
+	bh=TAMZO+Www2JXyEzVnkPyMCDlKAnsJn0Ra9/i84lCzU0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B5RIiOECnb6LikTPnK6WERMaIGdBYP74g15Dw9IDaRyga31AvzNbL9Ub6VbrItoZi
+	 AiSpVG60ZnpTuCjJjbgDO+Q/Sh8vdGcU8DQzkYISRqcZ5upfvnubcqKV2mkA9hAkDC
+	 y/6neFTYR6OFo7co4+iuLQYsmLL3aJgRya74lMmMwla7wMw4uTi7kfx+MU5ssJ/mQg
+	 9pWmyqPDk44U+Q5JiSMTAo36yKOZqHofAe2UXHEdqEuVu8O/gp0c38v/+H+dd2hLOl
+	 5NG3qq4xHnNOYhvNB6XVCOh0RCtOYhpO/+LYz5RG54S0DODRrMq9b2lXDoqVhVnGX/
+	 2/9E4tXepoZrA==
+Date: Mon, 17 Mar 2025 14:20:58 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	linux-pm@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	linux-crypto@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	linux-efi@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+	Borislav Petkov <bp@alien8.de>, linux-acpi@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH 0/9] drivers: Transition to the faux device interface
+Message-ID: <b13eb5b3-198e-43e3-831a-45172e9975e9@sirena.org.uk>
+References: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADn7dH+LNhnDJr5FQ--.11818S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtF4fZry7Jr48Cw45Aw48Crg_yoW3twc_Ca
-	1rW3yUZFy3KrZavrW2q3y5K3WkZayxCa1jk3WvqFy5JF47Ja1fJryDJry3uryDW3y0ka45
-	ZF9F9r4jyrWIkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbckFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
-	1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
-	cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
-	ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_Jw0_
-	GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
-	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
-	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
-	1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
-	42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUqeHgUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBg0EA2fYDpVwXwAAsH
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PFsotoYFiaefK9IS"
+Content-Disposition: inline
+In-Reply-To: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
+X-Cookie: I know how to do SPECIAL EFFECTS!!
 
-In wm8997_component_probe(), wm8997 should be initialized by
-arizona_init_gpio(). A proper implementation can be found in
-'wm8998_component_probe()' where the wm8998 component is
-initialized with arizona_init_gpio().
 
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- sound/soc/codecs/wm8997.c | 2 ++
- 1 file changed, 2 insertions(+)
+--PFsotoYFiaefK9IS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/codecs/wm8997.c b/sound/soc/codecs/wm8997.c
-index 5389c363b14e..ef8e09cc7211 100644
---- a/sound/soc/codecs/wm8997.c
-+++ b/sound/soc/codecs/wm8997.c
-@@ -1066,6 +1066,8 @@ static int wm8997_component_probe(struct snd_soc_component *component)
- 	if (ret < 0)
- 		return ret;
- 
-+	arizona_init_gpio(component);
-+
- 	snd_soc_component_disable_pin(component, "HAPTICS");
- 
- 	priv->core.arizona->dapm = dapm;
--- 
-2.42.0.windows.2
+On Mon, Mar 17, 2025 at 10:13:12AM +0000, Sudeep Holla wrote:
 
+> All the patches are independent of each other.
+
+If that's the case don't send them in a series, it makes things more
+complicated to apply and the CCs cause more mail.  Split independent
+things up by subsystem.
+
+--PFsotoYFiaefK9IS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfYL8kACgkQJNaLcl1U
+h9Brtgf/ed8/iheDRmn5QcrxD/Fq2JDB0jFynURxgNQDHy+TfIECBMxr4+ouEvh0
+6BYWqGbAjfU+qCRpcQM+3aIA/MyFE8Ckz6XBD3PkopN9hUwfkaBifc3cZLtPeeap
+OINXiEIOTl/jV4+0xkx0PVsCUy1BXiXCgfReCECnjB3tQxMEYZM5dFxgNYHq125y
+8VIE6wPZd2RtOg12Yg8I4++7o1vI8MP03+hy3P8HEmrzubZ8P/2t52y8OmWaQekJ
+9leSB9QSiycWUZ61emRRcVl6GzExoNf4mvPBTNuWEMFrUAD8AmU7AVtjddGPnSrx
+XFpbyUiXwtvodfzzg6B0KEx5kU9WEQ==
+=ALbI
+-----END PGP SIGNATURE-----
+
+--PFsotoYFiaefK9IS--
