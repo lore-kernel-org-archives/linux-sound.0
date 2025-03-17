@@ -1,44 +1,44 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F254F22F178
-	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 09:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1220922DF94
+	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 09:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742205542; cv=none; b=UpSS75mWxF4z8Zo8cv7LACQdsXtmZ/3rVgd2Kl23CwxISZ9pF+ttm5fhgje/+gTRMyLjdJJ+ShfGyA/dMJvpldvsFECFPAdPnrgOHR50V0SSiajXqVhtTWBgLRtOgVRMUmw3UQ23tgeU1iZaNnQzSQQoeeMTDO8hRiBeXGp90zA=
+	t=1742205545; cv=none; b=L8vO7r2iz0HD9/DpquKfoVYBYJdISdxh5BS+69LNJ2TP5F1Dq5gDBMj9AheG/6US4fu0b+uVw99ARyTbZQDefYrLx+hKljgagCLiTL6lXg+BrNc0dctFaZrUQhEx8fywosfJ/IP8hMHWpKbMu3XMlEfQ9ekoZtVF2tAcmZ0yL3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742205542; c=relaxed/simple;
-	bh=7lFGrMeR9BeZJi16vlYeONBYirmcKgKF00kUl3WrOsU=;
+	s=arc-20240116; t=1742205545; c=relaxed/simple;
+	bh=xCyKN9HjDiAG+dmWnuuVjDNS2OQOIsnp22WD/wi9734=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UjhdXE7I+j1T3gJmgvOUo+IuQSoBqdLWgvIqGEhFw241FCx9YL6ZGaDAS3l1AlI7o+2HiomMUBVQJrrT0qJISJJkktcAuAN5UYCpUwkFL7pbkFDTxD2/5kEBFwEK01f4tMULkwmLnOlXsPs8bLBDmJjwg0jvh5jflU+V4mF9+7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=DvUrCd1kYxX6JQND9ejKXqW/GEgUGDcsPtmACIvgMD4vNsl5RjFpBJP71ZomBVXj1ShOyYD770u8oBYAa9D1lRqrHdW4bgiGh/MURbewaqfVA7uQy+OOs8B4xfWYuC3CjlNPML2b6yIH8S17QNshfek+KgP8WUDgMZ9qxrpIn+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 67CE820235;
-	Mon, 17 Mar 2025 09:56:21 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 677072207E;
+	Mon, 17 Mar 2025 09:56:23 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4961613A2C;
-	Mon, 17 Mar 2025 09:56:21 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4669A132CF;
+	Mon, 17 Mar 2025 09:56:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GLx6EMXx12eaGAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 09:56:21 +0000
+	id qKvnD8fx12eaGAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 09:56:23 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2 47/88] ASoC: wcd937x: Convert to RUNTIME_PM_OPS()
-Date: Mon, 17 Mar 2025 10:55:09 +0100
-Message-ID: <20250317095603.20073-48-tiwai@suse.de>
+Subject: [PATCH v2 58/88] ASoC: dwc: Convert to RUNTIME_PM_OPS()
+Date: Mon, 17 Mar 2025 10:55:20 +0100
+Message-ID: <20250317095603.20073-59-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250317095603.20073-1-tiwai@suse.de>
 References: <20250317095603.20073-1-tiwai@suse.de>
@@ -52,69 +52,67 @@ Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
+X-Spam-Level: 
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
-X-Spam-Flag: NO
 X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: 67CE820235
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 677072207E
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
 X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
 Use the newer RUNTIME_PM_OPS() macro instead of SET_RUNTIME_PM_OPS()
-together with pm_ptr(), which allows us dropping ugly __maybe_unused
-attributes.
+together with pm_ptr(), which allows us dropping superfluous CONFIG_PM
+ifdefs.
 
 This optimizes slightly when CONFIG_PM is disabled, too.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/wcd937x-sdw.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/dwc/dwc-i2s.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd937x-sdw.c b/sound/soc/codecs/wcd937x-sdw.c
-index 4891fa0c963f..1bfe7383b311 100644
---- a/sound/soc/codecs/wcd937x-sdw.c
-+++ b/sound/soc/codecs/wcd937x-sdw.c
-@@ -1124,7 +1124,7 @@ static const struct sdw_device_id wcd9370_slave_id[] = {
+diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
+index 57b789d7fbed..4c4171bb3fbb 100644
+--- a/sound/soc/dwc/dwc-i2s.c
++++ b/sound/soc/dwc/dwc-i2s.c
+@@ -478,7 +478,6 @@ static const struct snd_soc_dai_ops dw_i2s_dai_ops = {
+ 	.set_tdm_slot	= dw_i2s_set_tdm_slot,
  };
- MODULE_DEVICE_TABLE(sdw, wcd9370_slave_id);
  
--static int __maybe_unused wcd937x_sdw_runtime_suspend(struct device *dev)
-+static int wcd937x_sdw_runtime_suspend(struct device *dev)
+-#ifdef CONFIG_PM
+ static int dw_i2s_runtime_suspend(struct device *dev)
  {
- 	struct wcd937x_sdw_priv *wcd = dev_get_drvdata(dev);
- 
-@@ -1136,7 +1136,7 @@ static int __maybe_unused wcd937x_sdw_runtime_suspend(struct device *dev)
+ 	struct dw_i2s_dev *dw_dev = dev_get_drvdata(dev);
+@@ -501,6 +500,7 @@ static int dw_i2s_runtime_resume(struct device *dev)
  	return 0;
  }
  
--static int __maybe_unused wcd937x_sdw_runtime_resume(struct device *dev)
-+static int wcd937x_sdw_runtime_resume(struct device *dev)
++#ifdef CONFIG_PM
+ static int dw_i2s_suspend(struct snd_soc_component *component)
  {
- 	struct wcd937x_sdw_priv *wcd = dev_get_drvdata(dev);
+ 	struct dw_i2s_dev *dev = snd_soc_component_get_drvdata(component);
+@@ -1084,7 +1084,7 @@ MODULE_DEVICE_TABLE(of, dw_i2s_of_match);
+ #endif
  
-@@ -1149,7 +1149,7 @@ static int __maybe_unused wcd937x_sdw_runtime_resume(struct device *dev)
- }
- 
- static const struct dev_pm_ops wcd937x_sdw_pm_ops = {
--	SET_RUNTIME_PM_OPS(wcd937x_sdw_runtime_suspend, wcd937x_sdw_runtime_resume, NULL)
-+	RUNTIME_PM_OPS(wcd937x_sdw_runtime_suspend, wcd937x_sdw_runtime_resume, NULL)
+ static const struct dev_pm_ops dwc_pm_ops = {
+-	SET_RUNTIME_PM_OPS(dw_i2s_runtime_suspend, dw_i2s_runtime_resume, NULL)
++	RUNTIME_PM_OPS(dw_i2s_runtime_suspend, dw_i2s_runtime_resume, NULL)
  };
  
- static struct sdw_driver wcd9370_codec_driver = {
-@@ -1159,7 +1159,7 @@ static struct sdw_driver wcd9370_codec_driver = {
- 	.id_table = wcd9370_slave_id,
- 	.driver = {
- 		.name = "wcd9370-codec",
--		.pm = &wcd937x_sdw_pm_ops,
-+		.pm = pm_ptr(&wcd937x_sdw_pm_ops),
- 	}
+ static struct platform_driver dw_i2s_driver = {
+@@ -1093,7 +1093,7 @@ static struct platform_driver dw_i2s_driver = {
+ 	.driver		= {
+ 		.name	= "designware-i2s",
+ 		.of_match_table = of_match_ptr(dw_i2s_of_match),
+-		.pm = &dwc_pm_ops,
++		.pm = pm_ptr(&dwc_pm_ops),
+ 	},
  };
- module_sdw_driver(wcd9370_codec_driver);
+ 
 -- 
 2.43.0
 
