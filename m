@@ -1,84 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DF823C8D6;
-	Mon, 17 Mar 2025 12:58:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2DD22259A;
+	Mon, 17 Mar 2025 13:03:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742216325; cv=none; b=Nn3MFuCwpyH25qzMvEEW+ctbrBTrZvqNfVnDjwHmQr6YDudGGPVQCqEDi4mw01HPwpQJ4lGCA8Robo1qzUhoEUfhsm5FCzji/7E0X8UvCUO8d/HkbIY9NhxzTe0jf8QmkhZnhdlOtUGr50rSqwoTlL0c+wQJ9U65FGHlCOQwTiI=
+	t=1742216600; cv=none; b=LlouitI/yncX1Fn9yqE1H2OGkkYRES2MI95pYK1Jz6PzJtdMHdgbRE6sZn7go1sW8nfMwT3XuMrDIWzPncxj9SQogMlsOGFu967nn0H7m4d8Gd3WSZD4OFeEJuHlUkwMxwEUhtsNCXB02KKNQsyWxJmsI8mmCrB+V3iZq3Poo0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742216325; c=relaxed/simple;
-	bh=nIxrkln4VTubkXhrnjQl3QY47IU5dzMgVJpZohDtQU4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FMYH+FVPplsJ4Nl2Rbf5CgD30ifCs9s73Ddfu10upJCHdEqTX7P3I1aVh8WGq1GOlwCNECltX6w1009iJ+jrGfLvqyzO9PIM/iplplx9jwqci91TvRl4z9KfL0gY4jgBqzoyOswQWl8WyrWiulVjC09zLqWV/dal/BQTe5SKaJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kKnGsZeg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742216600; c=relaxed/simple;
+	bh=fEwQ0C5kR1bbzBiLEQfApgF2TVTQ7AcnbeLV+bPV28U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MDS46XcIzMn6EHqQQBcx4ZYcs6uxd5qerjcXE9RndGSgOXog/9HCPUbq6L85TayfrcfXuiNii+AlTuMdsAmSuxJ+P//jA54Alxke8IXWvRXpJDZ116WO4kxXomevclsKroRiQ5BfwNHglqdPMYgupsNs8aRwdp/G6Ng7nl4p/d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=goLK9Dhp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kKnGsZeg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824E1C4CEE3;
-	Mon, 17 Mar 2025 12:58:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742216325;
-	bh=nIxrkln4VTubkXhrnjQl3QY47IU5dzMgVJpZohDtQU4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=kKnGsZegWausXyUiP6EoFMkNeKYf7XIVSjkEWQYpJwJto3GPlQtxHwPgY48x+4IgG
-	 90EuQ2etdjctcEmNYOs8aBgIfFgPWiMcZtgOZqGS1+91RqKfOV9+yYqtJWdxn7qH5B
-	 jD9iEz9OyzoDxWIURsh1SLU3Dxvf+FjlVnxAFhurdm3u/6rCgThNdIGlI0NtJLoeHF
-	 guHq2sysJ/eDMCb8dmTMCrRa01BtYGlB9Lw/9YOFXzG8hNj+Hq+GvJuCBVKY4QduLM
-	 ehfcarmnM0D3XIVAH/MHt6ixE36u9ninrijib1/BwV3qJidWnMxMxbEHdS1f5+OT1K
-	 5u7dRDpaEjcag==
-From: Mark Brown <broonie@kernel.org>
-To: perex@perex.cz, tiwai@suse.com, keenplify <keenplify@gmail.com>
-Cc: mario.limonciello@amd.com, venkataprasad.potturu@amd.com, 
- lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250315111617.12194-1-keenplify@gmail.com>
-References: <20250315111617.12194-1-keenplify@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: Add DMI quirk for ACP6X mic support
-Message-Id: <174221632328.149281.304345487408521038.b4-ty@kernel.org>
-Date: Mon, 17 Mar 2025 12:58:43 +0000
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="goLK9Dhp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4476C4CEE3;
+	Mon, 17 Mar 2025 13:03:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1742216599;
+	bh=fEwQ0C5kR1bbzBiLEQfApgF2TVTQ7AcnbeLV+bPV28U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=goLK9DhpAOLTYKopLe7M3gDVmm+fXVJUIiZTmjyu5CMRgXsZlrwDJy+GSmN8k4MjP
+	 8WYiYMBl0Jo5dt7260IQmVrKiWobh6hS2rbBhEenaMs8n39NSDLYvGV1BoaIBDGDl9
+	 tXu3q/tih1qNrKApDk3wjPCkD4vUGsQ8X8DuJqHg=
+Date: Mon, 17 Mar 2025 14:01:55 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: linux-kernel@vger.kernel.org, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	linux-pm@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	linux-crypto@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	linux-efi@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+	Borislav Petkov <bp@alien8.de>, linux-acpi@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH 0/9] drivers: Transition to the faux device interface
+Message-ID: <2025031705-scouting-scolding-8ff7@gregkh>
+References: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
 
-On Sat, 15 Mar 2025 19:16:17 +0800, keenplify wrote:
-> Some AMD laptops with ACP6X do not expose the DMIC properly on Linux.
-> Adding a DMI quirk enables mic functionality.
+On Mon, Mar 17, 2025 at 10:13:12AM +0000, Sudeep Holla wrote:
+> Recently when debugging why one of the scmi platform device was not
+> showing up under /sys/devices/platform/firmware:scmi instead was
+> appearing directly under /sys/devices/platform, I noticed the new
+> faux interface /sys/devices/faux.
 > 
-> Similar to Bugzilla #218402, this issue affects multiple users.
+> Looking through the discussion and the background, I got excited and
+> took the opportunity to clear all the platform devices under
+> /sys/devices/platform on the Arm Juno/FVP platforms that are really
+> faux devices. Only the platform devices created for the device nodes
+> from the DT remain under /sys/devices/platform after these changes.
 > 
-> 
+> All the patches are independent of each other.
 
-Applied to
+That's great, but you need to send these all independently to each
+subsystem as needed.  Having it all in one series doesn't work for any
+of the maintainers of any of the subsystems.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+And I'm glad to see this work happening, thanks for doing that!
 
-Thanks!
-
-[1/1] ASoC: amd: Add DMI quirk for ACP6X mic support
-      commit: 309b367eafc8e162603cd29189da6db770411fea
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+greg k-h
