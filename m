@@ -1,45 +1,44 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D06221C167
-	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 10:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2008121C167
+	for <linux-sound@vger.kernel.org>; Mon, 17 Mar 2025 10:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742205633; cv=none; b=WGPBPkpagIE3WZCOoD2TU5NioIRYMklfdzQdf1jat7yjpsl2Ytl76Gje9ulJ+q7w6tDUBCZc4/FFofLlV5bDenEn4YjLEz99V7OWteQP1Lb6HeMZ7ZD5Rq/mTMr83MvQV3PcdvLJ2MlXYD/giTt/20x1CG8EAljmQPpfJ/J6Nho=
+	t=1742205639; cv=none; b=Y4TEPpZ85vqY4QdB7yBJmgm64zXQ3W0+OPuYzrfrVXONppvekiNMHQAt7Nu4uMwlpeA/jBKmka/bc1RztwQT4DeD7ua2KykXYEli+PXjFVR7mwurnbDp9iXs4FRWh8L+meDuf4a2RkK81Snbi/NLI+DmTOczikqeN5mtvaEVzCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742205633; c=relaxed/simple;
-	bh=iIvbVzMcFcwDv56juXKSPMxS+wYnIL+MESafUX06zGE=;
+	s=arc-20240116; t=1742205639; c=relaxed/simple;
+	bh=i2Zqz7xShbQZIPohY0Ukg09z2z+Bl9ToG+jR+EprSpQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LqF67Y1Z6esgAK2PtI3U4g6JKjXVpsclX5Zbib7Gp0BH5F5wTWA9CZoQDhZyNqXFF4ACnc+If1a3kk+2B6/d1h07yOuzpMoshYNRW6QZmhWWJYxEcZ1+VmH8OulRmJ349K9ndVqGAUvqxQzJDMMjVD1VNjDlM6/tyY4MGs0uJXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=Jnr9EC6L21JzUxfi7cXVlMKrv0ScYDYZPyX2vj9R1/qQSJedii/+//lGN/1vPXczC9xDHBfiTNHrXx7+GKSkz+icDd2WHFC/NrNgxqMsjj2Mnw68N74WVn5gY5FXI/pLKljj18W+cC3LqtvWTwn3XROgQryddvb4Ul9nnMjmWIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 24C2A2213E;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C345520245;
 	Mon, 17 Mar 2025 09:56:28 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E7397132CF;
-	Mon, 17 Mar 2025 09:56:27 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A3D61132CF;
+	Mon, 17 Mar 2025 09:56:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MIErN8vx12eaGAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 09:56:27 +0000
+	id wBS0Jszx12eaGAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 09:56:28 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
 	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2 83/88] ASoC: tegra210: Convert to RUNTIME_PM_OPS() & co
-Date: Mon, 17 Mar 2025 10:55:45 +0100
-Message-ID: <20250317095603.20073-84-tiwai@suse.de>
+Subject: [PATCH v2 87/88] ASoC: amd: Convert to RUNTIME_PM_OPS() & co
+Date: Mon, 17 Mar 2025 10:55:49 +0100
+Message-ID: <20250317095603.20073-88-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250317095603.20073-1-tiwai@suse.de>
 References: <20250317095603.20073-1-tiwai@suse.de>
@@ -53,17 +52,17 @@ Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
+X-Spam-Level: 
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
-X-Spam-Flag: NO
 X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: 24C2A2213E
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: C345520245
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
 X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
 Use the newer RUNTIME_PM_OPS() and SYSTEM_SLEEP_PM_OPS() macros
 instead of SET_RUNTIME_PM_OPS() and SET_SYSTEM_SLEEP_PM_OPS() together
@@ -72,466 +71,491 @@ attributes.
 
 This optimizes slightly when CONFIG_PM is disabled, too.
 
-Cc: linux-tegra@vger.kernel.org
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/tegra/tegra210_admaif.c | 13 ++++++-------
- sound/soc/tegra/tegra210_adx.c    | 13 ++++++-------
- sound/soc/tegra/tegra210_ahub.c   | 13 ++++++-------
- sound/soc/tegra/tegra210_amx.c    | 13 ++++++-------
- sound/soc/tegra/tegra210_dmic.c   | 13 ++++++-------
- sound/soc/tegra/tegra210_i2s.c    | 13 ++++++-------
- sound/soc/tegra/tegra210_mixer.c  | 13 ++++++-------
- sound/soc/tegra/tegra210_mvc.c    | 13 ++++++-------
- sound/soc/tegra/tegra210_ope.c    | 13 ++++++-------
- sound/soc/tegra/tegra210_sfc.c    | 13 ++++++-------
- 10 files changed, 60 insertions(+), 70 deletions(-)
+ sound/soc/amd/acp/acp-pci.c           | 10 +++++-----
+ sound/soc/amd/acp/acp-rembrandt.c     |  6 +++---
+ sound/soc/amd/acp/acp-renoir.c        |  6 +++---
+ sound/soc/amd/acp/acp63.c             |  6 +++---
+ sound/soc/amd/acp/acp70.c             |  6 +++---
+ sound/soc/amd/ps/pci-ps.c             | 12 ++++++------
+ sound/soc/amd/ps/ps-pdm-dma.c         | 12 ++++++------
+ sound/soc/amd/ps/ps-sdw-dma.c         |  6 +++---
+ sound/soc/amd/rpl/rpl-pci-acp6x.c     | 10 +++++-----
+ sound/soc/amd/vangogh/acp5x-pcm-dma.c | 11 +++++------
+ sound/soc/amd/yc/acp6x-pdm-dma.c      | 12 ++++++------
+ sound/soc/amd/yc/pci-acp6x.c          | 10 +++++-----
+ 12 files changed, 53 insertions(+), 54 deletions(-)
 
-diff --git a/sound/soc/tegra/tegra210_admaif.c b/sound/soc/tegra/tegra210_admaif.c
-index f56d1e03239d..76ff4fe40f65 100644
---- a/sound/soc/tegra/tegra210_admaif.c
-+++ b/sound/soc/tegra/tegra210_admaif.c
-@@ -220,7 +220,7 @@ static const struct regmap_config tegra186_admaif_regmap_config = {
- 	.cache_type		= REGCACHE_FLAT,
+diff --git a/sound/soc/amd/acp/acp-pci.c b/sound/soc/amd/acp/acp-pci.c
+index 9322379cb36f..de1cdca5ade7 100644
+--- a/sound/soc/amd/acp/acp-pci.c
++++ b/sound/soc/amd/acp/acp-pci.c
+@@ -221,7 +221,7 @@ static int acp_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id
+ 	return ret;
  };
  
--static int __maybe_unused tegra_admaif_runtime_suspend(struct device *dev)
-+static int tegra_admaif_runtime_suspend(struct device *dev)
+-static int __maybe_unused snd_acp_suspend(struct device *dev)
++static int snd_acp_suspend(struct device *dev)
  {
- 	struct tegra_admaif *admaif = dev_get_drvdata(dev);
- 
-@@ -230,7 +230,7 @@ static int __maybe_unused tegra_admaif_runtime_suspend(struct device *dev)
- 	return 0;
+ 	struct acp_chip_info *chip;
+ 	int ret;
+@@ -233,7 +233,7 @@ static int __maybe_unused snd_acp_suspend(struct device *dev)
+ 	return ret;
  }
  
--static int __maybe_unused tegra_admaif_runtime_resume(struct device *dev)
-+static int tegra_admaif_runtime_resume(struct device *dev)
+-static int __maybe_unused snd_acp_resume(struct device *dev)
++static int snd_acp_resume(struct device *dev)
  {
- 	struct tegra_admaif *admaif = dev_get_drvdata(dev);
- 
-@@ -877,10 +877,9 @@ static void tegra_admaif_remove(struct platform_device *pdev)
+ 	struct acp_chip_info *chip;
+ 	int ret;
+@@ -251,8 +251,8 @@ static int __maybe_unused snd_acp_resume(struct device *dev)
  }
  
- static const struct dev_pm_ops tegra_admaif_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra_admaif_runtime_suspend,
--			   tegra_admaif_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra_admaif_runtime_suspend,
-+		       tegra_admaif_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+ static const struct dev_pm_ops acp_pm_ops = {
+-	SET_RUNTIME_PM_OPS(snd_acp_suspend, snd_acp_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(snd_acp_suspend, snd_acp_resume)
++	RUNTIME_PM_OPS(snd_acp_suspend, snd_acp_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(snd_acp_suspend, snd_acp_resume)
  };
  
- static struct platform_driver tegra_admaif_driver = {
-@@ -889,7 +888,7 @@ static struct platform_driver tegra_admaif_driver = {
+ static void acp_pci_remove(struct pci_dev *pci)
+@@ -289,7 +289,7 @@ static struct pci_driver snd_amd_acp_pci_driver = {
+ 	.probe = acp_pci_probe,
+ 	.remove = acp_pci_remove,
  	.driver = {
- 		.name = "tegra210-admaif",
- 		.of_match_table = tegra_admaif_of_match,
--		.pm = &tegra_admaif_pm_ops,
-+		.pm = pm_ptr(&tegra_admaif_pm_ops),
+-		.pm = &acp_pm_ops,
++		.pm = pm_ptr(&acp_pm_ops),
  	},
  };
- module_platform_driver(tegra_admaif_driver);
-diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_adx.c
-index 0aa93b948378..ff34682ebb15 100644
---- a/sound/soc/tegra/tegra210_adx.c
-+++ b/sound/soc/tegra/tegra210_adx.c
-@@ -84,7 +84,7 @@ static int tegra210_adx_startup(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
--static int __maybe_unused tegra210_adx_runtime_suspend(struct device *dev)
-+static int tegra210_adx_runtime_suspend(struct device *dev)
- {
- 	struct tegra210_adx *adx = dev_get_drvdata(dev);
- 
-@@ -94,7 +94,7 @@ static int __maybe_unused tegra210_adx_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused tegra210_adx_runtime_resume(struct device *dev)
-+static int tegra210_adx_runtime_resume(struct device *dev)
- {
- 	struct tegra210_adx *adx = dev_get_drvdata(dev);
- 
-@@ -524,17 +524,16 @@ static void tegra210_adx_platform_remove(struct platform_device *pdev)
- }
- 
- static const struct dev_pm_ops tegra210_adx_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra210_adx_runtime_suspend,
--			   tegra210_adx_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra210_adx_runtime_suspend,
-+		       tegra210_adx_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static struct platform_driver tegra210_adx_driver = {
- 	.driver = {
- 		.name = "tegra210-adx",
- 		.of_match_table = tegra210_adx_of_match,
--		.pm = &tegra210_adx_pm_ops,
-+		.pm = pm_ptr(&tegra210_adx_pm_ops),
- 	},
- 	.probe = tegra210_adx_platform_probe,
- 	.remove = tegra210_adx_platform_remove,
-diff --git a/sound/soc/tegra/tegra210_ahub.c b/sound/soc/tegra/tegra210_ahub.c
-index 1920b996e9aa..99683f292b5d 100644
---- a/sound/soc/tegra/tegra210_ahub.c
-+++ b/sound/soc/tegra/tegra210_ahub.c
-@@ -1319,7 +1319,7 @@ static const struct of_device_id tegra_ahub_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, tegra_ahub_of_match);
- 
--static int __maybe_unused tegra_ahub_runtime_suspend(struct device *dev)
-+static int tegra_ahub_runtime_suspend(struct device *dev)
- {
- 	struct tegra_ahub *ahub = dev_get_drvdata(dev);
- 
-@@ -1331,7 +1331,7 @@ static int __maybe_unused tegra_ahub_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused tegra_ahub_runtime_resume(struct device *dev)
-+static int tegra_ahub_runtime_resume(struct device *dev)
- {
- 	struct tegra_ahub *ahub = dev_get_drvdata(dev);
- 	int err;
-@@ -1408,10 +1408,9 @@ static void tegra_ahub_remove(struct platform_device *pdev)
- }
- 
- static const struct dev_pm_ops tegra_ahub_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra_ahub_runtime_suspend,
--			   tegra_ahub_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra_ahub_runtime_suspend,
-+		       tegra_ahub_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static struct platform_driver tegra_ahub_driver = {
-@@ -1420,7 +1419,7 @@ static struct platform_driver tegra_ahub_driver = {
- 	.driver = {
- 		.name = "tegra210-ahub",
- 		.of_match_table = tegra_ahub_of_match,
--		.pm = &tegra_ahub_pm_ops,
-+		.pm = pm_ptr(&tegra_ahub_pm_ops),
- 	},
- };
- module_platform_driver(tegra_ahub_driver);
-diff --git a/sound/soc/tegra/tegra210_amx.c b/sound/soc/tegra/tegra210_amx.c
-index a9ef22c19e81..1981b94009cf 100644
---- a/sound/soc/tegra/tegra210_amx.c
-+++ b/sound/soc/tegra/tegra210_amx.c
-@@ -98,7 +98,7 @@ static int tegra210_amx_startup(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
--static int __maybe_unused tegra210_amx_runtime_suspend(struct device *dev)
-+static int tegra210_amx_runtime_suspend(struct device *dev)
- {
- 	struct tegra210_amx *amx = dev_get_drvdata(dev);
- 
-@@ -108,7 +108,7 @@ static int __maybe_unused tegra210_amx_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused tegra210_amx_runtime_resume(struct device *dev)
-+static int tegra210_amx_runtime_resume(struct device *dev)
- {
- 	struct tegra210_amx *amx = dev_get_drvdata(dev);
- 
-@@ -581,17 +581,16 @@ static void tegra210_amx_platform_remove(struct platform_device *pdev)
- }
- 
- static const struct dev_pm_ops tegra210_amx_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra210_amx_runtime_suspend,
--			   tegra210_amx_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra210_amx_runtime_suspend,
-+		       tegra210_amx_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static struct platform_driver tegra210_amx_driver = {
- 	.driver = {
- 		.name = "tegra210-amx",
- 		.of_match_table = tegra210_amx_of_match,
--		.pm = &tegra210_amx_pm_ops,
-+		.pm = pm_ptr(&tegra210_amx_pm_ops),
- 	},
- 	.probe = tegra210_amx_platform_probe,
- 	.remove = tegra210_amx_platform_remove,
-diff --git a/sound/soc/tegra/tegra210_dmic.c b/sound/soc/tegra/tegra210_dmic.c
-index 7986be71f43d..e4a144571265 100644
---- a/sound/soc/tegra/tegra210_dmic.c
-+++ b/sound/soc/tegra/tegra210_dmic.c
-@@ -40,7 +40,7 @@ static const struct reg_default tegra210_dmic_reg_defaults[] = {
- 	{ TEGRA210_DMIC_LP_BIQUAD_1_COEF_4, 0x0 },
- };
- 
--static int __maybe_unused tegra210_dmic_runtime_suspend(struct device *dev)
-+static int tegra210_dmic_runtime_suspend(struct device *dev)
- {
- 	struct tegra210_dmic *dmic = dev_get_drvdata(dev);
- 
-@@ -52,7 +52,7 @@ static int __maybe_unused tegra210_dmic_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused tegra210_dmic_runtime_resume(struct device *dev)
-+static int tegra210_dmic_runtime_resume(struct device *dev)
- {
- 	struct tegra210_dmic *dmic = dev_get_drvdata(dev);
- 	int err;
-@@ -543,10 +543,9 @@ static void tegra210_dmic_remove(struct platform_device *pdev)
- }
- 
- static const struct dev_pm_ops tegra210_dmic_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra210_dmic_runtime_suspend,
--			   tegra210_dmic_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra210_dmic_runtime_suspend,
-+		       tegra210_dmic_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static const struct of_device_id tegra210_dmic_of_match[] = {
-@@ -559,7 +558,7 @@ static struct platform_driver tegra210_dmic_driver = {
- 	.driver = {
- 		.name = "tegra210-dmic",
- 		.of_match_table = tegra210_dmic_of_match,
--		.pm = &tegra210_dmic_pm_ops,
-+		.pm = pm_ptr(&tegra210_dmic_pm_ops),
- 	},
- 	.probe = tegra210_dmic_probe,
- 	.remove = tegra210_dmic_remove,
-diff --git a/sound/soc/tegra/tegra210_i2s.c b/sound/soc/tegra/tegra210_i2s.c
-index 07ce2dbe6c00..766cddebd5f6 100644
---- a/sound/soc/tegra/tegra210_i2s.c
-+++ b/sound/soc/tegra/tegra210_i2s.c
-@@ -166,7 +166,7 @@ static int tegra210_i2s_init(struct snd_soc_dapm_widget *w,
- 	return tegra210_i2s_sw_reset(compnt, stream);
- }
- 
--static int __maybe_unused tegra210_i2s_runtime_suspend(struct device *dev)
-+static int tegra210_i2s_runtime_suspend(struct device *dev)
- {
- 	struct tegra210_i2s *i2s = dev_get_drvdata(dev);
- 
-@@ -178,7 +178,7 @@ static int __maybe_unused tegra210_i2s_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused tegra210_i2s_runtime_resume(struct device *dev)
-+static int tegra210_i2s_runtime_resume(struct device *dev)
- {
- 	struct tegra210_i2s *i2s = dev_get_drvdata(dev);
- 	int err;
-@@ -1010,10 +1010,9 @@ static void tegra210_i2s_remove(struct platform_device *pdev)
- }
- 
- static const struct dev_pm_ops tegra210_i2s_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra210_i2s_runtime_suspend,
--			   tegra210_i2s_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra210_i2s_runtime_suspend,
-+		       tegra210_i2s_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static const struct of_device_id tegra210_i2s_of_match[] = {
-@@ -1026,7 +1025,7 @@ static struct platform_driver tegra210_i2s_driver = {
- 	.driver = {
- 		.name = "tegra210-i2s",
- 		.of_match_table = tegra210_i2s_of_match,
--		.pm = &tegra210_i2s_pm_ops,
-+		.pm = pm_ptr(&tegra210_i2s_pm_ops),
- 	},
- 	.probe = tegra210_i2s_probe,
- 	.remove = tegra210_i2s_remove,
-diff --git a/sound/soc/tegra/tegra210_mixer.c b/sound/soc/tegra/tegra210_mixer.c
-index 410259d98dfb..95d69a7e027f 100644
---- a/sound/soc/tegra/tegra210_mixer.c
-+++ b/sound/soc/tegra/tegra210_mixer.c
-@@ -73,7 +73,7 @@ static const struct tegra210_mixer_gain_params gain_params = {
- 	{ 0, 0, 0x400, 0x8000000 },
- };
- 
--static int __maybe_unused tegra210_mixer_runtime_suspend(struct device *dev)
-+static int tegra210_mixer_runtime_suspend(struct device *dev)
- {
- 	struct tegra210_mixer *mixer = dev_get_drvdata(dev);
- 
-@@ -83,7 +83,7 @@ static int __maybe_unused tegra210_mixer_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused tegra210_mixer_runtime_resume(struct device *dev)
-+static int tegra210_mixer_runtime_resume(struct device *dev)
- {
- 	struct tegra210_mixer *mixer = dev_get_drvdata(dev);
- 
-@@ -666,17 +666,16 @@ static void tegra210_mixer_platform_remove(struct platform_device *pdev)
- }
- 
- static const struct dev_pm_ops tegra210_mixer_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra210_mixer_runtime_suspend,
--			   tegra210_mixer_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra210_mixer_runtime_suspend,
-+		       tegra210_mixer_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static struct platform_driver tegra210_mixer_driver = {
- 	.driver = {
- 		.name = "tegra210_mixer",
- 		.of_match_table = tegra210_mixer_of_match,
--		.pm = &tegra210_mixer_pm_ops,
-+		.pm = pm_ptr(&tegra210_mixer_pm_ops),
- 	},
- 	.probe = tegra210_mixer_platform_probe,
- 	.remove = tegra210_mixer_platform_remove,
-diff --git a/sound/soc/tegra/tegra210_mvc.c b/sound/soc/tegra/tegra210_mvc.c
-index 119f17501478..35b14c8396f4 100644
---- a/sound/soc/tegra/tegra210_mvc.c
-+++ b/sound/soc/tegra/tegra210_mvc.c
-@@ -47,7 +47,7 @@ static const struct tegra210_mvc_gain_params gain_params = {
- 	.duration_inv = 14316558,
- };
- 
--static int __maybe_unused tegra210_mvc_runtime_suspend(struct device *dev)
-+static int tegra210_mvc_runtime_suspend(struct device *dev)
- {
- 	struct tegra210_mvc *mvc = dev_get_drvdata(dev);
- 
-@@ -59,7 +59,7 @@ static int __maybe_unused tegra210_mvc_runtime_suspend(struct device *dev)
- 	return 0;
- }
- 
--static int __maybe_unused tegra210_mvc_runtime_resume(struct device *dev)
-+static int tegra210_mvc_runtime_resume(struct device *dev)
- {
- 	struct tegra210_mvc *mvc = dev_get_drvdata(dev);
- 
-@@ -758,17 +758,16 @@ static void tegra210_mvc_platform_remove(struct platform_device *pdev)
- }
- 
- static const struct dev_pm_ops tegra210_mvc_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra210_mvc_runtime_suspend,
--			   tegra210_mvc_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra210_mvc_runtime_suspend,
-+		       tegra210_mvc_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static struct platform_driver tegra210_mvc_driver = {
- 	.driver = {
- 		.name = "tegra210-mvc",
- 		.of_match_table = tegra210_mvc_of_match,
--		.pm = &tegra210_mvc_pm_ops,
-+		.pm = pm_ptr(&tegra210_mvc_pm_ops),
- 	},
- 	.probe = tegra210_mvc_platform_probe,
- 	.remove = tegra210_mvc_platform_remove,
-diff --git a/sound/soc/tegra/tegra210_ope.c b/sound/soc/tegra/tegra210_ope.c
-index c595cec9baab..5036bcfe0828 100644
---- a/sound/soc/tegra/tegra210_ope.c
-+++ b/sound/soc/tegra/tegra210_ope.c
-@@ -356,7 +356,7 @@ static void tegra210_ope_remove(struct platform_device *pdev)
+ module_pci_driver(snd_amd_acp_pci_driver);
+diff --git a/sound/soc/amd/acp/acp-rembrandt.c b/sound/soc/amd/acp/acp-rembrandt.c
+index 21614e2e1b6c..746b6ed72029 100644
+--- a/sound/soc/amd/acp/acp-rembrandt.c
++++ b/sound/soc/amd/acp/acp-rembrandt.c
+@@ -197,7 +197,7 @@ static void rembrandt_audio_remove(struct platform_device *pdev)
  	pm_runtime_disable(&pdev->dev);
  }
  
--static int __maybe_unused tegra210_ope_runtime_suspend(struct device *dev)
-+static int tegra210_ope_runtime_suspend(struct device *dev)
+-static int __maybe_unused rmb_pcm_resume(struct device *dev)
++static int rmb_pcm_resume(struct device *dev)
  {
- 	struct tegra210_ope *ope = dev_get_drvdata(dev);
+ 	struct acp_chip_info *chip = dev_get_platdata(dev);
+ 	struct acp_stream *stream;
+@@ -227,7 +227,7 @@ static int __maybe_unused rmb_pcm_resume(struct device *dev)
+ }
  
-@@ -374,7 +374,7 @@ static int __maybe_unused tegra210_ope_runtime_suspend(struct device *dev)
+ static const struct dev_pm_ops rmb_dma_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(NULL, rmb_pcm_resume)
++	SYSTEM_SLEEP_PM_OPS(NULL, rmb_pcm_resume)
+ };
+ 
+ static struct platform_driver rembrandt_driver = {
+@@ -235,7 +235,7 @@ static struct platform_driver rembrandt_driver = {
+ 	.remove = rembrandt_audio_remove,
+ 	.driver = {
+ 		.name = "acp_asoc_rembrandt",
+-		.pm = &rmb_dma_pm_ops,
++		.pm = pm_ptr(&rmb_dma_pm_ops),
+ 	},
+ };
+ 
+diff --git a/sound/soc/amd/acp/acp-renoir.c b/sound/soc/amd/acp/acp-renoir.c
+index b8ded929d52e..ebf0106fc737 100644
+--- a/sound/soc/amd/acp/acp-renoir.c
++++ b/sound/soc/amd/acp/acp-renoir.c
+@@ -144,7 +144,7 @@ static void renoir_audio_remove(struct platform_device *pdev)
+ 	acp_platform_unregister(dev);
+ }
+ 
+-static int __maybe_unused rn_pcm_resume(struct device *dev)
++static int rn_pcm_resume(struct device *dev)
+ {
+ 	struct acp_chip_info *chip = dev_get_platdata(dev);
+ 	struct acp_stream *stream;
+@@ -171,7 +171,7 @@ static int __maybe_unused rn_pcm_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops rn_dma_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(NULL, rn_pcm_resume)
++	SYSTEM_SLEEP_PM_OPS(NULL, rn_pcm_resume)
+ };
+ 
+ static struct platform_driver renoir_driver = {
+@@ -179,7 +179,7 @@ static struct platform_driver renoir_driver = {
+ 	.remove = renoir_audio_remove,
+ 	.driver = {
+ 		.name = "acp_asoc_renoir",
+-		.pm = &rn_dma_pm_ops,
++		.pm = pm_ptr(&rn_dma_pm_ops),
+ 	},
+ };
+ 
+diff --git a/sound/soc/amd/acp/acp63.c b/sound/soc/amd/acp/acp63.c
+index 53c013a64854..52d895e624c7 100644
+--- a/sound/soc/amd/acp/acp63.c
++++ b/sound/soc/amd/acp/acp63.c
+@@ -248,7 +248,7 @@ static void acp63_audio_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ }
+ 
+-static int __maybe_unused acp63_pcm_resume(struct device *dev)
++static int acp63_pcm_resume(struct device *dev)
+ {
+ 	struct acp_chip_info *chip = dev_get_platdata(dev);
+ 	struct acp_stream *stream;
+@@ -278,7 +278,7 @@ static int __maybe_unused acp63_pcm_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops acp63_dma_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(NULL, acp63_pcm_resume)
++	SYSTEM_SLEEP_PM_OPS(NULL, acp63_pcm_resume)
+ };
+ 
+ static struct platform_driver acp63_driver = {
+@@ -286,7 +286,7 @@ static struct platform_driver acp63_driver = {
+ 	.remove = acp63_audio_remove,
+ 	.driver = {
+ 		.name = "acp_asoc_acp63",
+-		.pm = &acp63_dma_pm_ops,
++		.pm = pm_ptr(&acp63_dma_pm_ops),
+ 	},
+ };
+ 
+diff --git a/sound/soc/amd/acp/acp70.c b/sound/soc/amd/acp/acp70.c
+index 1a89f8a3724f..6d5f5ade075c 100644
+--- a/sound/soc/amd/acp/acp70.c
++++ b/sound/soc/amd/acp/acp70.c
+@@ -180,7 +180,7 @@ static void acp_acp70_audio_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ }
+ 
+-static int __maybe_unused acp70_pcm_resume(struct device *dev)
++static int acp70_pcm_resume(struct device *dev)
+ {
+ 	struct acp_chip_info *chip = dev_get_platdata(dev);
+ 	struct acp_stream *stream;
+@@ -207,7 +207,7 @@ static int __maybe_unused acp70_pcm_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops acp70_dma_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(NULL, acp70_pcm_resume)
++	SYSTEM_SLEEP_PM_OPS(NULL, acp70_pcm_resume)
+ };
+ 
+ static struct platform_driver acp70_driver = {
+@@ -215,7 +215,7 @@ static struct platform_driver acp70_driver = {
+ 	.remove = acp_acp70_audio_remove,
+ 	.driver = {
+ 		.name = "acp_asoc_acp70",
+-		.pm = &acp70_dma_pm_ops,
++		.pm = pm_ptr(&acp70_dma_pm_ops),
+ 	},
+ };
+ 
+diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
+index 221c65ff03c9..8e57f31ef7f7 100644
+--- a/sound/soc/amd/ps/pci-ps.c
++++ b/sound/soc/amd/ps/pci-ps.c
+@@ -668,24 +668,24 @@ static int snd_acp63_probe(struct pci_dev *pci,
+ 	return ret;
+ }
+ 
+-static int __maybe_unused snd_acp_suspend(struct device *dev)
++static int snd_acp_suspend(struct device *dev)
+ {
+ 	return acp_hw_suspend(dev);
+ }
+ 
+-static int __maybe_unused snd_acp_runtime_resume(struct device *dev)
++static int snd_acp_runtime_resume(struct device *dev)
+ {
+ 	return acp_hw_runtime_resume(dev);
+ }
+ 
+-static int __maybe_unused snd_acp_resume(struct device *dev)
++static int snd_acp_resume(struct device *dev)
+ {
+ 	return acp_hw_resume(dev);
+ }
+ 
+ static const struct dev_pm_ops acp63_pm_ops = {
+-	SET_RUNTIME_PM_OPS(snd_acp_suspend, snd_acp_runtime_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(snd_acp_suspend, snd_acp_resume)
++	RUNTIME_PM_OPS(snd_acp_suspend, snd_acp_runtime_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(snd_acp_suspend, snd_acp_resume)
+ };
+ 
+ static void snd_acp63_remove(struct pci_dev *pci)
+@@ -727,7 +727,7 @@ static struct pci_driver ps_acp63_driver  = {
+ 	.probe = snd_acp63_probe,
+ 	.remove = snd_acp63_remove,
+ 	.driver = {
+-		.pm = &acp63_pm_ops,
++		.pm = pm_ptr(&acp63_pm_ops),
+ 	}
+ };
+ 
+diff --git a/sound/soc/amd/ps/ps-pdm-dma.c b/sound/soc/amd/ps/ps-pdm-dma.c
+index 7cdeb34e8f73..9cfbe05ad996 100644
+--- a/sound/soc/amd/ps/ps-pdm-dma.c
++++ b/sound/soc/amd/ps/ps-pdm-dma.c
+@@ -402,7 +402,7 @@ static void acp63_pdm_audio_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ }
+ 
+-static int __maybe_unused acp63_pdm_resume(struct device *dev)
++static int acp63_pdm_resume(struct device *dev)
+ {
+ 	struct pdm_dev_data *adata;
+ 	struct snd_pcm_runtime *runtime;
+@@ -423,7 +423,7 @@ static int __maybe_unused acp63_pdm_resume(struct device *dev)
  	return 0;
  }
  
--static int __maybe_unused tegra210_ope_runtime_resume(struct device *dev)
-+static int tegra210_ope_runtime_resume(struct device *dev)
+-static int __maybe_unused acp63_pdm_suspend(struct device *dev)
++static int acp63_pdm_suspend(struct device *dev)
  {
- 	struct tegra210_ope *ope = dev_get_drvdata(dev);
+ 	struct pdm_dev_data *adata;
  
-@@ -393,10 +393,9 @@ static int __maybe_unused tegra210_ope_runtime_resume(struct device *dev)
- }
- 
- static const struct dev_pm_ops tegra210_ope_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra210_ope_runtime_suspend,
--			   tegra210_ope_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra210_ope_runtime_suspend,
-+		       tegra210_ope_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static const struct of_device_id tegra210_ope_of_match[] = {
-@@ -409,7 +408,7 @@ static struct platform_driver tegra210_ope_driver = {
- 	.driver = {
- 		.name = "tegra210-ope",
- 		.of_match_table = tegra210_ope_of_match,
--		.pm = &tegra210_ope_pm_ops,
-+		.pm = pm_ptr(&tegra210_ope_pm_ops),
- 	},
- 	.probe = tegra210_ope_probe,
- 	.remove = tegra210_ope_remove,
-diff --git a/sound/soc/tegra/tegra210_sfc.c b/sound/soc/tegra/tegra210_sfc.c
-index df88708c733c..a0bd36f12c68 100644
---- a/sound/soc/tegra/tegra210_sfc.c
-+++ b/sound/soc/tegra/tegra210_sfc.c
-@@ -3056,7 +3056,7 @@ static s32 *coef_addr_table[TEGRA210_SFC_NUM_RATES][TEGRA210_SFC_NUM_RATES] = {
- 	},
- };
- 
--static int __maybe_unused tegra210_sfc_runtime_suspend(struct device *dev)
-+static int tegra210_sfc_runtime_suspend(struct device *dev)
- {
- 	struct tegra210_sfc *sfc = dev_get_drvdata(dev);
- 
-@@ -3066,7 +3066,7 @@ static int __maybe_unused tegra210_sfc_runtime_suspend(struct device *dev)
+@@ -432,7 +432,7 @@ static int __maybe_unused acp63_pdm_suspend(struct device *dev)
  	return 0;
  }
  
--static int __maybe_unused tegra210_sfc_runtime_resume(struct device *dev)
-+static int tegra210_sfc_runtime_resume(struct device *dev)
+-static int __maybe_unused acp63_pdm_runtime_resume(struct device *dev)
++static int acp63_pdm_runtime_resume(struct device *dev)
  {
- 	struct tegra210_sfc *sfc = dev_get_drvdata(dev);
+ 	struct pdm_dev_data *adata;
  
-@@ -3623,17 +3623,16 @@ static void tegra210_sfc_platform_remove(struct platform_device *pdev)
+@@ -442,8 +442,8 @@ static int __maybe_unused acp63_pdm_runtime_resume(struct device *dev)
  }
  
- static const struct dev_pm_ops tegra210_sfc_pm_ops = {
--	SET_RUNTIME_PM_OPS(tegra210_sfc_runtime_suspend,
--			   tegra210_sfc_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(tegra210_sfc_runtime_suspend,
-+		       tegra210_sfc_runtime_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+ static const struct dev_pm_ops acp63_pdm_pm_ops = {
+-	SET_RUNTIME_PM_OPS(acp63_pdm_suspend, acp63_pdm_runtime_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(acp63_pdm_suspend, acp63_pdm_resume)
++	RUNTIME_PM_OPS(acp63_pdm_suspend, acp63_pdm_runtime_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(acp63_pdm_suspend, acp63_pdm_resume)
  };
  
- static struct platform_driver tegra210_sfc_driver = {
+ static struct platform_driver acp63_pdm_dma_driver = {
+@@ -451,7 +451,7 @@ static struct platform_driver acp63_pdm_dma_driver = {
+ 	.remove = acp63_pdm_audio_remove,
  	.driver = {
- 		.name = "tegra210-sfc",
- 		.of_match_table = tegra210_sfc_of_match,
--		.pm = &tegra210_sfc_pm_ops,
-+		.pm = pm_ptr(&tegra210_sfc_pm_ops),
+ 		.name = "acp_ps_pdm_dma",
+-		.pm = &acp63_pdm_pm_ops,
++		.pm = pm_ptr(&acp63_pdm_pm_ops),
  	},
- 	.probe = tegra210_sfc_platform_probe,
- 	.remove = tegra210_sfc_platform_remove,
+ };
+ 
+diff --git a/sound/soc/amd/ps/ps-sdw-dma.c b/sound/soc/amd/ps/ps-sdw-dma.c
+index 21b336109c99..1b933a017c06 100644
+--- a/sound/soc/amd/ps/ps-sdw-dma.c
++++ b/sound/soc/amd/ps/ps-sdw-dma.c
+@@ -767,7 +767,7 @@ static int acp70_restore_sdw_dma_config(struct sdw_dma_dev_data *sdw_data)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused acp63_sdw_pcm_resume(struct device *dev)
++static int acp63_sdw_pcm_resume(struct device *dev)
+ {
+ 	struct sdw_dma_dev_data *sdw_data;
+ 
+@@ -779,7 +779,7 @@ static int __maybe_unused acp63_sdw_pcm_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops acp63_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(NULL, acp63_sdw_pcm_resume)
++	SYSTEM_SLEEP_PM_OPS(NULL, acp63_sdw_pcm_resume)
+ };
+ 
+ static struct platform_driver acp63_sdw_dma_driver = {
+@@ -787,7 +787,7 @@ static struct platform_driver acp63_sdw_dma_driver = {
+ 	.remove = acp63_sdw_platform_remove,
+ 	.driver = {
+ 		.name = "amd_ps_sdw_dma",
+-		.pm = &acp63_pm_ops,
++		.pm = pm_ptr(&acp63_pm_ops),
+ 	},
+ };
+ 
+diff --git a/sound/soc/amd/rpl/rpl-pci-acp6x.c b/sound/soc/amd/rpl/rpl-pci-acp6x.c
+index a8e548ed991b..e3afe9172bdf 100644
+--- a/sound/soc/amd/rpl/rpl-pci-acp6x.c
++++ b/sound/soc/amd/rpl/rpl-pci-acp6x.c
+@@ -159,7 +159,7 @@ static int snd_rpl_probe(struct pci_dev *pci,
+ 	return ret;
+ }
+ 
+-static int __maybe_unused snd_rpl_suspend(struct device *dev)
++static int snd_rpl_suspend(struct device *dev)
+ {
+ 	struct rpl_dev_data *adata;
+ 	int ret;
+@@ -171,7 +171,7 @@ static int __maybe_unused snd_rpl_suspend(struct device *dev)
+ 	return ret;
+ }
+ 
+-static int __maybe_unused snd_rpl_resume(struct device *dev)
++static int snd_rpl_resume(struct device *dev)
+ {
+ 	struct rpl_dev_data *adata;
+ 	int ret;
+@@ -184,8 +184,8 @@ static int __maybe_unused snd_rpl_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops rpl_pm = {
+-	SET_RUNTIME_PM_OPS(snd_rpl_suspend, snd_rpl_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(snd_rpl_suspend, snd_rpl_resume)
++	RUNTIME_PM_OPS(snd_rpl_suspend, snd_rpl_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(snd_rpl_suspend, snd_rpl_resume)
+ };
+ 
+ static void snd_rpl_remove(struct pci_dev *pci)
+@@ -217,7 +217,7 @@ static struct pci_driver rpl_acp6x_driver  = {
+ 	.probe = snd_rpl_probe,
+ 	.remove = snd_rpl_remove,
+ 	.driver = {
+-		.pm = &rpl_pm,
++		.pm = pm_ptr(&rpl_pm),
+ 	}
+ };
+ 
+diff --git a/sound/soc/amd/vangogh/acp5x-pcm-dma.c b/sound/soc/amd/vangogh/acp5x-pcm-dma.c
+index d5965f2b09bc..aa4726899434 100644
+--- a/sound/soc/amd/vangogh/acp5x-pcm-dma.c
++++ b/sound/soc/amd/vangogh/acp5x-pcm-dma.c
+@@ -420,7 +420,7 @@ static void acp5x_audio_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ }
+ 
+-static int __maybe_unused acp5x_pcm_resume(struct device *dev)
++static int acp5x_pcm_resume(struct device *dev)
+ {
+ 	struct i2s_dev_data *adata;
+ 	struct i2s_stream_instance *rtd;
+@@ -473,7 +473,7 @@ static int __maybe_unused acp5x_pcm_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused acp5x_pcm_suspend(struct device *dev)
++static int acp5x_pcm_suspend(struct device *dev)
+ {
+ 	struct i2s_dev_data *adata;
+ 
+@@ -482,7 +482,7 @@ static int __maybe_unused acp5x_pcm_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused acp5x_pcm_runtime_resume(struct device *dev)
++static int acp5x_pcm_runtime_resume(struct device *dev)
+ {
+ 	struct i2s_dev_data *adata;
+ 
+@@ -492,9 +492,8 @@ static int __maybe_unused acp5x_pcm_runtime_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops acp5x_pm_ops = {
+-	SET_RUNTIME_PM_OPS(acp5x_pcm_suspend,
+-			   acp5x_pcm_runtime_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(acp5x_pcm_suspend, acp5x_pcm_resume)
++	RUNTIME_PM_OPS(acp5x_pcm_suspend, acp5x_pcm_runtime_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(acp5x_pcm_suspend, acp5x_pcm_resume)
+ };
+ 
+ static struct platform_driver acp5x_dma_driver = {
+diff --git a/sound/soc/amd/yc/acp6x-pdm-dma.c b/sound/soc/amd/yc/acp6x-pdm-dma.c
+index 3eb3e82efb10..ac758b90f441 100644
+--- a/sound/soc/amd/yc/acp6x-pdm-dma.c
++++ b/sound/soc/amd/yc/acp6x-pdm-dma.c
+@@ -394,7 +394,7 @@ static void acp6x_pdm_audio_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ }
+ 
+-static int __maybe_unused acp6x_pdm_resume(struct device *dev)
++static int acp6x_pdm_resume(struct device *dev)
+ {
+ 	struct pdm_dev_data *adata;
+ 	struct snd_pcm_runtime *runtime;
+@@ -415,7 +415,7 @@ static int __maybe_unused acp6x_pdm_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused acp6x_pdm_suspend(struct device *dev)
++static int acp6x_pdm_suspend(struct device *dev)
+ {
+ 	struct pdm_dev_data *adata;
+ 
+@@ -424,7 +424,7 @@ static int __maybe_unused acp6x_pdm_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused acp6x_pdm_runtime_resume(struct device *dev)
++static int acp6x_pdm_runtime_resume(struct device *dev)
+ {
+ 	struct pdm_dev_data *adata;
+ 
+@@ -434,8 +434,8 @@ static int __maybe_unused acp6x_pdm_runtime_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops acp6x_pdm_pm_ops = {
+-	SET_RUNTIME_PM_OPS(acp6x_pdm_suspend, acp6x_pdm_runtime_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(acp6x_pdm_suspend, acp6x_pdm_resume)
++	RUNTIME_PM_OPS(acp6x_pdm_suspend, acp6x_pdm_runtime_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(acp6x_pdm_suspend, acp6x_pdm_resume)
+ };
+ 
+ static struct platform_driver acp6x_pdm_dma_driver = {
+@@ -443,7 +443,7 @@ static struct platform_driver acp6x_pdm_dma_driver = {
+ 	.remove = acp6x_pdm_audio_remove,
+ 	.driver = {
+ 		.name = "acp_yc_pdm_dma",
+-		.pm = &acp6x_pdm_pm_ops,
++		.pm = pm_ptr(&acp6x_pdm_pm_ops),
+ 	},
+ };
+ 
+diff --git a/sound/soc/amd/yc/pci-acp6x.c b/sound/soc/amd/yc/pci-acp6x.c
+index 7af6a349b1d4..1140ed1cbb3d 100644
+--- a/sound/soc/amd/yc/pci-acp6x.c
++++ b/sound/soc/amd/yc/pci-acp6x.c
+@@ -277,7 +277,7 @@ static int snd_acp6x_probe(struct pci_dev *pci,
+ 	return ret;
+ }
+ 
+-static int __maybe_unused snd_acp6x_suspend(struct device *dev)
++static int snd_acp6x_suspend(struct device *dev)
+ {
+ 	struct acp6x_dev_data *adata;
+ 	int ret;
+@@ -289,7 +289,7 @@ static int __maybe_unused snd_acp6x_suspend(struct device *dev)
+ 	return ret;
+ }
+ 
+-static int __maybe_unused snd_acp6x_resume(struct device *dev)
++static int snd_acp6x_resume(struct device *dev)
+ {
+ 	struct acp6x_dev_data *adata;
+ 	int ret;
+@@ -302,8 +302,8 @@ static int __maybe_unused snd_acp6x_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops acp6x_pm = {
+-	SET_RUNTIME_PM_OPS(snd_acp6x_suspend, snd_acp6x_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(snd_acp6x_suspend, snd_acp6x_resume)
++	RUNTIME_PM_OPS(snd_acp6x_suspend, snd_acp6x_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(snd_acp6x_suspend, snd_acp6x_resume)
+ };
+ 
+ static void snd_acp6x_remove(struct pci_dev *pci)
+@@ -339,7 +339,7 @@ static struct pci_driver yc_acp6x_driver  = {
+ 	.probe = snd_acp6x_probe,
+ 	.remove = snd_acp6x_remove,
+ 	.driver = {
+-		.pm = &acp6x_pm,
++		.pm = pm_ptr(&acp6x_pm),
+ 	}
+ };
+ 
 -- 
 2.43.0
 
