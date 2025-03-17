@@ -1,77 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2DD22259A;
-	Mon, 17 Mar 2025 13:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8D51DFCB;
+	Mon, 17 Mar 2025 14:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742216600; cv=none; b=LlouitI/yncX1Fn9yqE1H2OGkkYRES2MI95pYK1Jz6PzJtdMHdgbRE6sZn7go1sW8nfMwT3XuMrDIWzPncxj9SQogMlsOGFu967nn0H7m4d8Gd3WSZD4OFeEJuHlUkwMxwEUhtsNCXB02KKNQsyWxJmsI8mmCrB+V3iZq3Poo0A=
+	t=1742220964; cv=none; b=NiLQGgDBeECz0z7I6xwjSmsg+WrQGoh302r/HS34wY9kCzEcwM7qtit7jRr24EOiW/WGz/vEieGFSu/AN1F+p3gzzp0bQSMSHtBxUmgmQaINl+IocR0Kp3HwFuxqUjx7LbnQUrxWFKYFUGBVZJk8/ZsJUICE0RrlsJwiudR9YUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742216600; c=relaxed/simple;
-	bh=fEwQ0C5kR1bbzBiLEQfApgF2TVTQ7AcnbeLV+bPV28U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MDS46XcIzMn6EHqQQBcx4ZYcs6uxd5qerjcXE9RndGSgOXog/9HCPUbq6L85TayfrcfXuiNii+AlTuMdsAmSuxJ+P//jA54Alxke8IXWvRXpJDZ116WO4kxXomevclsKroRiQ5BfwNHglqdPMYgupsNs8aRwdp/G6Ng7nl4p/d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=goLK9Dhp; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="goLK9Dhp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4476C4CEE3;
-	Mon, 17 Mar 2025 13:03:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1742216599;
-	bh=fEwQ0C5kR1bbzBiLEQfApgF2TVTQ7AcnbeLV+bPV28U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=goLK9DhpAOLTYKopLe7M3gDVmm+fXVJUIiZTmjyu5CMRgXsZlrwDJy+GSmN8k4MjP
-	 8WYiYMBl0Jo5dt7260IQmVrKiWobh6hS2rbBhEenaMs8n39NSDLYvGV1BoaIBDGDl9
-	 tXu3q/tih1qNrKApDk3wjPCkD4vUGsQ8X8DuJqHg=
-Date: Mon, 17 Mar 2025 14:01:55 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: linux-kernel@vger.kernel.org, Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	linux-pm@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
-	linux-crypto@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-	linux-efi@vger.kernel.org,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
-	Borislav Petkov <bp@alien8.de>, linux-acpi@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH 0/9] drivers: Transition to the faux device interface
-Message-ID: <2025031705-scouting-scolding-8ff7@gregkh>
-References: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
+	s=arc-20240116; t=1742220964; c=relaxed/simple;
+	bh=AldV/hJHv/I1W5buCOvwpWiW3xaNj5/BwKZ/rUXUNZk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hAQesG1Xftc4zZXNmsLMDYCNQW7fiVMIJCacuAYOXwGTXpbrxYUtVVrrAMoPbaemk7pC53Z/KSeWl1VMTPzpMdbU2clIEiAio1p3bKhqBARK89BkzIUeIQsd71lTgrro099ile5hoXP/ujexOIwuc5vWBhLzKPDmBcSfXOtGDD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-01 (Coremail) with SMTP id qwCowADn7dH+LNhnDJr5FQ--.11818S2;
+	Mon, 17 Mar 2025 22:09:07 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: u.kleine-koenig@baylibre.com,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>
+Subject: [PATCH] ASoC: Add initialization for wm8997 component
+Date: Mon, 17 Mar 2025 22:08:44 +0800
+Message-ID: <20250317140845.702-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowADn7dH+LNhnDJr5FQ--.11818S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtF4fZry7Jr48Cw45Aw48Crg_yoW3twc_Ca
+	1rW3yUZFy3KrZavrW2q3y5K3WkZayxCa1jk3WvqFy5JF47Ja1fJryDJry3uryDW3y0ka45
+	ZF9F9r4jyrWIkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbckFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+	1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+	cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
+	ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_Jw0_
+	GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+	1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+	42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUqeHgUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBg0EA2fYDpVwXwAAsH
 
-On Mon, Mar 17, 2025 at 10:13:12AM +0000, Sudeep Holla wrote:
-> Recently when debugging why one of the scmi platform device was not
-> showing up under /sys/devices/platform/firmware:scmi instead was
-> appearing directly under /sys/devices/platform, I noticed the new
-> faux interface /sys/devices/faux.
-> 
-> Looking through the discussion and the background, I got excited and
-> took the opportunity to clear all the platform devices under
-> /sys/devices/platform on the Arm Juno/FVP platforms that are really
-> faux devices. Only the platform devices created for the device nodes
-> from the DT remain under /sys/devices/platform after these changes.
-> 
-> All the patches are independent of each other.
+In wm8997_component_probe(), wm8997 should be initialized by
+arizona_init_gpio(). A proper implementation can be found in
+'wm8998_component_probe()' where the wm8998 component is
+initialized with arizona_init_gpio().
 
-That's great, but you need to send these all independently to each
-subsystem as needed.  Having it all in one series doesn't work for any
-of the maintainers of any of the subsystems.
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ sound/soc/codecs/wm8997.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-And I'm glad to see this work happening, thanks for doing that!
+diff --git a/sound/soc/codecs/wm8997.c b/sound/soc/codecs/wm8997.c
+index 5389c363b14e..ef8e09cc7211 100644
+--- a/sound/soc/codecs/wm8997.c
++++ b/sound/soc/codecs/wm8997.c
+@@ -1066,6 +1066,8 @@ static int wm8997_component_probe(struct snd_soc_component *component)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	arizona_init_gpio(component);
++
+ 	snd_soc_component_disable_pin(component, "HAPTICS");
+ 
+ 	priv->core.arizona->dapm = dapm;
+-- 
+2.42.0.windows.2
 
-greg k-h
