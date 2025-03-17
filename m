@@ -1,53 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DD51D934D;
-	Mon, 17 Mar 2025 18:10:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB84143748;
+	Mon, 17 Mar 2025 18:47:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742235037; cv=none; b=XAIvzORlao7sqDcLZvBBb5W2Fc6yXLR+oIeMHJ7LMz1pVwWWSBJSLiuzEMtVBIbHGOjskEbQy9PA/1tRhRSi58CLapXIjGaRN6X9Pdw+SzU/Off5rxn1fUv2niKrh1rjcWzj32IMaLF9YijptK6NIUDKOade1JX7lZncjEg0NXw=
+	t=1742237222; cv=none; b=jSdpeLRyTcd436Oorfoa4GKb3CslEnO+e28eS3SMEAGkSonpYpbq4sUdPIqQdyipdqzbQ2K274i+3qIhPt0GtUnRPQSgduPcLWZjM1i3F749TuHFME/Ht5KbpJqF22MZgbutsL9nzCKxFhdHi8htNEP4K56yg0f8D1E6VyzELs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742235037; c=relaxed/simple;
-	bh=rT/AyEOiClBtwowhaMQK+QvAwVnXhSvSxxr11FPQ6g0=;
+	s=arc-20240116; t=1742237222; c=relaxed/simple;
+	bh=HxVzpYI9x47IeMZvH4BdX9GwVI0Qz5knIVuS0Jconhw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VeKe04v7KO6f6l3madu+aisfSCMYgyXSeZjFdrVsJaeCqb9Valj3yDgb9jgNvfkLCTuQ0uCRb3C6L5JYCrQ+m9wRXVxRbWT4DM+fJjOvbCt/XHEV0shD2h182qb+FJS6lBC+KE0lWktAN172ZDtGrY8V0Fobznkh/BlSB+4jsA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VO/hjj+n; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=lTdiuLN0MZH4mbJ5HFmmgpIzl4ejftXqWCnEzfDf/U09n2zSnnAOSdqSzDIlBl3QZHm4ovgx5pqiMOJPIQxdWH2fh1tU2cOFFonH1Z+wVUM9MLh6sBU2fQV3UGjQy+KU+5HA0QdrAVl/4Z9BhSUvC6jhMOSVRLL0fQUVt8COeoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GrAqfi7c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VO/hjj+n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86BB6C4CEEE;
-	Mon, 17 Mar 2025 18:10:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GrAqfi7c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8ACC4CEE3;
+	Mon, 17 Mar 2025 18:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742235036;
-	bh=rT/AyEOiClBtwowhaMQK+QvAwVnXhSvSxxr11FPQ6g0=;
+	s=k20201202; t=1742237221;
+	bh=HxVzpYI9x47IeMZvH4BdX9GwVI0Qz5knIVuS0Jconhw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=VO/hjj+nb6Rych/h1Jvx8FICFB3n61x1Pk8D87e0n7pDkIvkOkfSqeglQ6GY71SWx
-	 Jmv34hUKjnd+oRKmrRA3bofcMKIwoY/2tOQAkomHwToncXHPrBS85G1PYnkMoeFeWO
-	 8cdo2H2WtTHfMBMLTpMuDzqXFbQFyx1h9HBpVCE5mLzuYKn6mHg/8gnsWkXP4TGiDY
-	 i6kEN9lQWZ1sHIa9flCOnnxUcIE6SU2zN2eZ8mxHyhYAiw9IFtpPk+Q+UkuJzxpPfy
-	 31bqNbgz/6l2FU7yeTkcwlQMukLa6aBkGNbxVDZM7kePp0Vg+icmrtHaJZ+DZclldS
-	 evoIgTA498v3g==
+	b=GrAqfi7cD/H+cHzZ6RtlF3OKQfeRomkwTolDpEuIefSPVxQLcYNW8IYOTwCO8WYvh
+	 0J2WN84vnd1hJ1ntjXIaGtoq+4UcqpZOjyC2XCj2ZWGRWUM+CWqjndBuSUYXsZDfpf
+	 KNfEqAC47MfDUhXU27pAahMVS+txpg3AZd9o3lONjqaeR2k021kCT6zTE02DixQPB6
+	 CFZq6njrOi1JA8X3L+UsLeDPNHrRd/DYFhqlHTE4wuDmB0/6ypqRuSp4J+iB/nj+bg
+	 Hz/UHqHFqu/B0+/TpgjNNZYpqZe76mq3dSCEEi33VfaBhWuR12AC/DMMIjPMaBxLq/
+	 5gJV6ykYWE3Kg==
 From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, linux-pm@vger.kernel.org, 
- Andre Przywara <andre.przywara@arm.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- Jeff Johnson <jeff.johnson@oss.qualcomm.com>, linux-crypto@vger.kernel.org, 
- Ard Biesheuvel <ardb@kernel.org>, linux-efi@vger.kernel.org, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- linux-rtc@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org, 
- Borislav Petkov <bp@alien8.de>, linux-acpi@vger.kernel.org, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-In-Reply-To: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
-References: <20250317-plat2faux_dev-v1-0-5fe67c085ad5@arm.com>
-Subject: Re: (subset) [PATCH 0/9] drivers: Transition to the faux device
- interface
-Message-Id: <174223503227.270320.5733466951381625938.b4-ty@kernel.org>
-Date: Mon, 17 Mar 2025 18:10:32 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Trevor Wu <trevor.wu@mediatek.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Zoran Zhan <zoran.zhan@mediatek.com>
+In-Reply-To: <20250214-mt8188-accdet-v1-0-6bbd5483855b@collabora.com>
+References: <20250214-mt8188-accdet-v1-0-6bbd5483855b@collabora.com>
+Subject: Re: [PATCH 0/3] Allow retrieving accessory detection reference on
+ MT8188
+Message-Id: <174223721831.287878.9212541577191425735.b4-ty@kernel.org>
+Date: Mon, 17 Mar 2025 18:46:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,20 +52,18 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Mon, 17 Mar 2025 10:13:12 +0000, Sudeep Holla wrote:
-> Recently when debugging why one of the scmi platform device was not
-> showing up under /sys/devices/platform/firmware:scmi instead was
-> appearing directly under /sys/devices/platform, I noticed the new
-> faux interface /sys/devices/faux.
+On Fri, 14 Feb 2025 12:14:28 -0300, Nícolas F. R. A. Prado wrote:
+> This series enables the MT8188-MT6359 sound driver to retrieve the
+> MT6359 ACCDET sound component from a mediatek,accdet DT property, which
+> allows detecting jack insertion/removal.
 > 
-> Looking through the discussion and the background, I got excited and
-> took the opportunity to clear all the platform devices under
-> /sys/devices/platform on the Arm Juno/FVP platforms that are really
-> faux devices. Only the platform devices created for the device nodes
-> from the DT remain under /sys/devices/platform after these changes.
+> Patch 1 describes the new property in the binding. Patch 2 implements
+> the sound component retrieval in the common MTK soundcard driver. Patch
+> 3 updates the MT8188-MT6359 sound driver to register the audio jack and
+> initialize the ACCDET driver for detection, if the property is present.
 > 
 > [...]
 
@@ -78,8 +73,12 @@ Applied to
 
 Thanks!
 
-[6/9] ASoC: soc-utils: Transition to the faux device interface
-      commit: 18abb3797f1ceca97a705aa1c14cbec5c6fcab79
+[1/3] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add mediatek,accdet
+      commit: 3fec903f2cb18805b1ef22a0e310498020c1f15e
+[2/3] ASoC: mediatek: common: Handle mediatek,accdet property
+      commit: cf536e2622e2b0a60c99e799995b6e9acf539c17
+[3/3] ASoC: mediatek: mt8188-mt6359: Add headset jack detect support
+      (no commit info)
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
