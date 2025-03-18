@@ -1,41 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0035520F08A;
-	Tue, 18 Mar 2025 15:34:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E42212B00;
+	Tue, 18 Mar 2025 16:28:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742312059; cv=none; b=JZQRwz+o141YKs3+jwwKNGhA8jlBQHv278XhyCVN64VyChL58X0DCaYAtUz3XeBfnP0NhkmYKEy7xzubrWYHbwNgZzSEKTgcLxW1yRjD7pSRsC0MwJ6D8R/65CVdNALHFb4v43goEOsQA5dx4ycZTVIgBlvEIzQgnwyVNsfmRSE=
+	t=1742315340; cv=none; b=EKtdBOp0Je6i1a8j8efnTKkA79T1NCPUFeAfJVvSz0Fwyl0k4jttak5IPPNdSICVIC5r+n0OUcXTpYEVw5HGdRpUF2GAdwGaH5dukYsgDdF2ov6sNIOnL1K1wZrhBgD6vIzx7lAgbwNnRKYRstB2XK8B7TzIh/4xqycx1H3/BI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742312059; c=relaxed/simple;
-	bh=FomFCw0zAmCRuXTRyuhex/vAVJdRq1ZZMCpn4ZfmrBw=;
+	s=arc-20240116; t=1742315340; c=relaxed/simple;
+	bh=wnl2NwzFRfWI9B+0pXiBWEfiup8Fd+EnVJVjNERrLPw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OuepFA/cWdw9Kk0XSNVm3lS4es52cXaRmCcWJQMux39qrfq64GFjBXGrV9Of2HQAQdMfoYU5Mb/pO0oQjKzO00Vz3tL5pEz/E2j5woXyrYEAl8KVJh9Gk41HRby3N+h1KRRL2bz1vfkfR5Uv0I6tOOiU22os19NFV/nFBMKR2A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hlLL+TSl; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=I8zO+vFP/J7rVda1RsvYGVvPvwR2yakQlcm7MMhfVSlIkaj1Q7QGcaukUGK/9fYx99SktIDH+nZVpVFNMvaKqoeYt4uBTv6KGKmtXS81EYaFghedcbs9mBvXXmFrmu3ZyPKtuPofTICONlLNNt2lBJz/PUXFEcDbdSY+1oTtJag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JvEZAX+C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hlLL+TSl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 033A1C4CEEA;
-	Tue, 18 Mar 2025 15:34:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JvEZAX+C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A678FC4CEDD;
+	Tue, 18 Mar 2025 16:28:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742312057;
-	bh=FomFCw0zAmCRuXTRyuhex/vAVJdRq1ZZMCpn4ZfmrBw=;
+	s=k20201202; t=1742315339;
+	bh=wnl2NwzFRfWI9B+0pXiBWEfiup8Fd+EnVJVjNERrLPw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hlLL+TSlZ8zSbstHJa8o1RHzfwaROpZlvHpq5DRKXJdCN9aNj+oDciRM7CWZfJE7C
-	 /41eBJjHAi2bUijT6YcrY3QFyfisx/bXeXzf/v9sD6qWWL234RYGyz8jIzrNeEUKf/
-	 Cka4WTRYd2DhRhb8ImMFKsLGGaDLjh1fuQvryso4PpgRgdYDgSCeB0lliKXthtHcB8
-	 WGWkUNfB3IzSQfEF8RQ58lthV8akLPKQm+uvvjSw6ggYXMhtAqW6RZufB/KySUQqT0
-	 tL86k9aKz9pctHJWI/ZZE9OzHVyLRc5a6KnlEFAxI0sjvBM1wys/Ehsosr1oiWW+c+
-	 UnS9SSFcK2VqA==
+	b=JvEZAX+CzNQVXbb5F/D/HSjHtJFxHToev4pQQqzooHr/+bRi5Q7KsmwbB7+xkEbkC
+	 HG8dwijBT3EZAiYujC/+JMTeNaslHIV4hO4eD/xgvGgZBIXmTrqcQYyOboBaqnHIWu
+	 zi17KYqbPTBtla9KofDmVmY5COnZjVKLQ3cbAvLRTxaMvCIH5dmPFs39DhlPP1WXrf
+	 2GABIoiXzHqAQIK3GL63tUKgTqGFlEsn/9GXTyNoii7SSB1uUrIyMd6CCiMt9nMRzb
+	 IncEiyopLTHRUmApo/O42wxOOOtCA455nEFEJO5/dY7miOqPSb3CPRCDpFDu9GjIvm
+	 +sKTRiTjDzNMg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- ivprusov@salutedevices.com, u.kleine-koenig@baylibre.com, 
- Chen Ni <nichen@iscas.ac.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250318081043.2870229-1-nichen@iscas.ac.cn>
-References: <20250318081043.2870229-1-nichen@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: codecs: ntp8918: Remove duplicate clk.h header
-Message-Id: <174231205574.165223.12161617500908492912.b4-ty@kernel.org>
-Date: Tue, 18 Mar 2025 15:34:15 +0000
+To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com, jack.yu@realtek.com, 
+ rf@opensource.cirrus.com, neil.armstrong@linaro.org, 
+ ivprusov@salutedevices.com, luca.ceresoli@bootlin.com, 
+ zhoubinbin@loongson.cn, quic_pkumpatl@quicinc.com, herve.codina@bootlin.com, 
+ masahiroy@kernel.org, nuno.sa@analog.com, yesanishhere@gmail.com, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, wangweidong.a@awinic.com
+Cc: yijiangtao@awinic.com
+In-Reply-To: <20250312120100.9730-1-wangweidong.a@awinic.com>
+References: <20250312120100.9730-1-wangweidong.a@awinic.com>
+Subject: Re: [PATCH V3 0/2] ASoC: codecs: Add aw88166 amplifier driver
+Message-Id: <174231533542.179247.14373898557017165095.b4-ty@kernel.org>
+Date: Tue, 18 Mar 2025 16:28:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,10 +51,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, 18 Mar 2025 16:10:43 +0800, Chen Ni wrote:
-> Remove duplicate header which is included twice.
+On Wed, 12 Mar 2025 20:00:58 +0800, wangweidong.a@awinic.com wrote:
+> Add the awinic,aw88166 property to support the aw88166 chip.
 > 
+> The driver is for amplifiers aw88166 of Awinic Technology
+> Corporation. The AW88166 is a high efficiency digital
+> Smart K audio amplifier
 > 
+> v2 -> v3: Modified warnings compiled with clang19.1.7,
+>            removes printing of uninitialized values
+> 
+> [...]
 
 Applied to
 
@@ -57,8 +69,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: ntp8918: Remove duplicate clk.h header
-      commit: 1822c4484efeb8056de53bf4edfca377d2939418
+[1/2] ASoC: dt-bindings: Add schema for "awinic,aw88166"
+      commit: 399f9bd01644c827be8bfca1236ec9b4c211ccbe
+[2/2] ASoC: codecs: Add aw88166 amplifier driver
+      commit: 88f200955977c211be053afebe3264debb9680f8
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
