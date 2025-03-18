@@ -1,90 +1,221 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271CF212FAC;
-	Tue, 18 Mar 2025 16:29:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B814D20F091;
+	Tue, 18 Mar 2025 17:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742315347; cv=none; b=lVCcvNV+ThshYFGlDmSnavEDqUWoZ8Scfq1XWIqopcJic04lDsByST/Lqzslm/7xhUtkLgGZCQn9ca4gYuWpLqX2ieUxVkO2h6gOid06lRQeS5RpujfseAbE8oE2hJEtVgdkSmAe5tN2ipHWT0qIsCCWa2sHyhRtPUjl5znRVGU=
+	t=1742318108; cv=none; b=DMu815pGnshbiNNuRGvhykV8bWEGJCwjLx75L00YW+eTPK5tFU1uweAf2POIA8vhMZ6e5/06/QOzx2IwbgoIgQCD73NtNEWJNkzO+sdB8bDXZMU4JQnyBoqsv+NYTp4vCvhBfIwrjmu6Bcw+DHVCwgTsbpIt46GJtwwk5VvdGe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742315347; c=relaxed/simple;
-	bh=CQkTVR5W6jN8FTtFT51uf7uIVr+B3UlEoOqBrGiOb7M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=U0pQjoeIf/E4cjs2R5ogPtYuSO7YzBuKcEna5QoPGNGDeGLYaxDCZ/vgpZjO5evQeBldm71Grvrk0efqhYAFkCtm5TikscqT0RBeE6IrynBURZw29I9RH8lBiCh7PFTJcVRy0Nsr+jcN9869X88c6S6cSCWS01hEIFCA2uehp7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8rC+aMS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742318108; c=relaxed/simple;
+	bh=oPe4Kq1bj9UBrWcKG8s2HHDATru23tP2EvUetFiYkYg=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QW2gwHDPHg5nALFTciq7/j6A2ojyJ7YkbYEJx0uArWoyXDccJZ/aHtt1+WaZlUbnAUu6kg52qdSmO8ojU2AW8C1AoqLglm4Et1nazAxwzgxUJ/uVLBsPGf+aVuIIU3dt4j71xMrLnyqQIZ/PKqRgZJNTDZhy7LD0mXiUE9vIhu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=YQwhXjo0; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8rC+aMS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F165C4CEDD;
-	Tue, 18 Mar 2025 16:29:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742315345;
-	bh=CQkTVR5W6jN8FTtFT51uf7uIVr+B3UlEoOqBrGiOb7M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=A8rC+aMSvzneKuAVXqlowQjEw7mMOE4/yL/vfEaKET0LPR91ma51QNlLHPWtzcks4
-	 +dq6bkEy+qPOMq+nSVqZfAhnu2PUvSgT0+JRElYe88LOBhKHlpK6/UMiQXeQ8rG53G
-	 DyLSHfS8W91e5XoTwH8PC994bEn/K3fIdRiRUokhrL1wSn/p8j3pMRx0zEeL1Tr2jl
-	 Ooo1+6t0v/OjdAZIKud3IuNVceS+qBJG3ET+pwwpfnYRCArE7Y6JVce2E2frm191CL
-	 T6NGdX83EMKP881E9Swm086+ITvUeXiXjUsCqWtdwFuHsKdGVxoHFb4EH0EWjzk4om
-	 PrPEX6+lUYaIw==
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Frank Li <Frank.li@nxp.com>, Marco Felsch <m.felsch@pengutronix.de>, 
- Iuliana Prodan <iuliana.prodan@nxp.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20250311163255.2664-1-laurentiumihalcea111@gmail.com>
-References: <20250311163255.2664-1-laurentiumihalcea111@gmail.com>
-Subject: Re: (subset) [PATCH v5 0/3] add sof support on imx95
-Message-Id: <174231534280.179247.7213620173027724495.b4-ty@kernel.org>
-Date: Tue, 18 Mar 2025 16:29:02 +0000
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="YQwhXjo0"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I5qiuC018522;
+	Tue, 18 Mar 2025 12:15:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=ptvfhQxzX1FHtfnjtqDwf2qwBEyJBpTeqaAAHPr8Cs4=; b=
+	YQwhXjo0xqvvRD2BKEhy1NlZbEy6n7Pt0oBhU+PcMMG8wCwkRycl8N3FN2NV535P
+	4NujW5zkTvfiV8x3uJR12+NTSijckh1NOwZlpJv/BR5Ef8H3qgQZT5mtGZ0hA9As
+	9ev4aE8Lpv9H66X8TEjYFi+TL1HGO8hh3Av5v1+A3br189FQPlNFdL3g13EBjVOE
+	8a3F238Zlxer5i4aBP49RhbPVWP0ZwhHb8iDrhZjQSZuMFBdVp0y263OazlDvN9H
+	t8EI3dFdQGckDVszssGagpmGBYGrHMK1RYkZy9cp+Fzxl8Jnwxtb+Fk3jICxFmoL
+	Vnl6iHFAgNrMtZC1Ikpq+Q==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 45d5yh879v-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Mar 2025 12:15:01 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 18 Mar
+ 2025 17:14:59 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Tue, 18 Mar 2025 17:14:59 +0000
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8804182255F;
+	Tue, 18 Mar 2025 17:14:59 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <shenghao-ding@ti.com>, <kevin-lu@ti.com>,
+        <baojun.xu@ti.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
+Subject: [PATCH 04/15] ASoC: ops: Update mask generation to use GENMASK
+Date: Tue, 18 Mar 2025 17:14:48 +0000
+Message-ID: <20250318171459.3203730-5-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250318171459.3203730-1-ckeepax@opensource.cirrus.com>
+References: <20250318171459.3203730-1-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=GrhC+l1C c=1 sm=1 tr=0 ts=67d9aa15 cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=Vs1iUdzkB0EA:10 a=w1d2syhTAAAA:8 a=NjVXIjOy9wLvg5dM6DQA:9
+X-Proofpoint-GUID: 0pF1iPF4tAqPD8ohdUNodFyXzJLCjOiC
+X-Proofpoint-ORIG-GUID: 0pF1iPF4tAqPD8ohdUNodFyXzJLCjOiC
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, 11 Mar 2025 12:32:52 -0400, Laurentiu Mihalcea wrote:
-> Add sof support on imx95. This series also includes some changes to
-> the audio-graph-card2 binding required for the support.
-> 
+Use GENMASK to make the masks for the various control helper functions.
+Also factor out a shared helper function for the volsw and volsw_range
+controls since the same code is appropriate for each. Note this does add
+support for sign_bit into the volsw_range callbacks.
 
-Applied to
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+ sound/soc/soc-ops.c | 46 +++++++++++++++++++++++++--------------------
+ 1 file changed, 26 insertions(+), 20 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/3] ASoC: dt-bindings: support imx95's CM7 core
-      commit: 811944a790451169876947a89338d2b86ff9fe5b
-[2/3] ASoC: dt-bindings: audio-graph-card2: add widgets and hp-det-gpios support
-      commit: ed92f40eccc801bd0e5dfd78b1058072638471f1
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
+index dac55138210d5..54945017e1f1e 100644
+--- a/sound/soc/soc-ops.c
++++ b/sound/soc/soc-ops.c
+@@ -158,6 +158,20 @@ static void snd_soc_read_signed(struct snd_soc_component *component,
+ 	*signed_val = ret;
+ }
+ 
++static int soc_mixer_mask(struct soc_mixer_control *mc)
++{
++	if (mc->sign_bit)
++		return GENMASK(mc->sign_bit, 0);
++	else
++		return GENMASK(fls(mc->max) - 1, 0);
++}
++
++static int soc_mixer_sx_mask(struct soc_mixer_control *mc)
++{
++	// min + max will take us 1-bit over the size of the mask
++	return GENMASK(fls(mc->min + mc->max) - 2, 0);
++}
++
+ /**
+  * snd_soc_info_volsw - single mixer info callback
+  * @kcontrol: mixer control
+@@ -260,13 +274,10 @@ int snd_soc_get_volsw(struct snd_kcontrol *kcontrol,
+ 	int max = mc->max;
+ 	int min = mc->min;
+ 	int sign_bit = mc->sign_bit;
+-	unsigned int mask = (1ULL << fls(max)) - 1;
++	unsigned int mask = soc_mixer_mask(mc);
+ 	unsigned int invert = mc->invert;
+ 	int val;
+ 
+-	if (sign_bit)
+-		mask = BIT(sign_bit + 1) - 1;
+-
+ 	snd_soc_read_signed(component, reg, mask, shift, sign_bit, &val);
+ 
+ 	ucontrol->value.integer.value[0] = val - min;
+@@ -312,17 +323,13 @@ int snd_soc_put_volsw(struct snd_kcontrol *kcontrol,
+ 	unsigned int rshift = mc->rshift;
+ 	int max = mc->max;
+ 	int min = mc->min;
+-	unsigned int sign_bit = mc->sign_bit;
+-	unsigned int mask = (1 << fls(max)) - 1;
++	unsigned int mask = soc_mixer_mask(mc);
+ 	unsigned int invert = mc->invert;
+ 	int err, ret;
+ 	bool type_2r = false;
+ 	unsigned int val2 = 0;
+ 	unsigned int val, val_mask;
+ 
+-	if (sign_bit)
+-		mask = BIT(sign_bit + 1) - 1;
+-
+ 	if (ucontrol->value.integer.value[0] < 0)
+ 		return -EINVAL;
+ 	val = ucontrol->value.integer.value[0];
+@@ -391,9 +398,8 @@ int snd_soc_get_volsw_sx(struct snd_kcontrol *kcontrol,
+ 	unsigned int reg2 = mc->rreg;
+ 	unsigned int shift = mc->shift;
+ 	unsigned int rshift = mc->rshift;
+-	int max = mc->max;
+ 	int min = mc->min;
+-	unsigned int mask = (1U << (fls(min + max) - 1)) - 1;
++	unsigned int mask = soc_mixer_sx_mask(mc);
+ 	unsigned int val;
+ 
+ 	val = snd_soc_component_read(component, reg);
+@@ -431,7 +437,7 @@ int snd_soc_put_volsw_sx(struct snd_kcontrol *kcontrol,
+ 	unsigned int val, val_mask;
+ 	int max = mc->max;
+ 	int min = mc->min;
+-	unsigned int mask = (1U << (fls(min + max) - 1)) - 1;
++	unsigned int mask = soc_mixer_sx_mask(mc);
+ 	int err = 0;
+ 	int ret;
+ 
+@@ -525,7 +531,7 @@ int snd_soc_put_volsw_range(struct snd_kcontrol *kcontrol,
+ 	unsigned int shift = mc->shift;
+ 	int min = mc->min;
+ 	int max = mc->max;
+-	unsigned int mask = (1 << fls(max)) - 1;
++	unsigned int mask = soc_mixer_mask(mc);
+ 	unsigned int invert = mc->invert;
+ 	unsigned int val, val_mask;
+ 	int err, ret, tmp;
+@@ -597,7 +603,7 @@ int snd_soc_get_volsw_range(struct snd_kcontrol *kcontrol,
+ 	unsigned int shift = mc->shift;
+ 	int min = mc->min;
+ 	int max = mc->max;
+-	unsigned int mask = (1 << fls(max)) - 1;
++	unsigned int mask = soc_mixer_mask(mc);
+ 	unsigned int invert = mc->invert;
+ 	unsigned int val;
+ 
+@@ -891,9 +897,9 @@ int snd_soc_get_xr_sx(struct snd_kcontrol *kcontrol,
+ 	unsigned int regbase = mc->regbase;
+ 	unsigned int regcount = mc->regcount;
+ 	unsigned int regwshift = component->val_bytes * BITS_PER_BYTE;
+-	unsigned int regwmask = (1UL << regwshift) - 1;
++	unsigned int regwmask = GENMASK(regwshift - 1, 0);
++	unsigned long mask = GENMASK(mc->nbits - 1, 0);
+ 	unsigned int invert = mc->invert;
+-	unsigned long mask = (1UL << mc->nbits) - 1;
+ 	long min = mc->min;
+ 	long max = mc->max;
+ 	long val = 0;
+@@ -938,9 +944,9 @@ int snd_soc_put_xr_sx(struct snd_kcontrol *kcontrol,
+ 	unsigned int regbase = mc->regbase;
+ 	unsigned int regcount = mc->regcount;
+ 	unsigned int regwshift = component->val_bytes * BITS_PER_BYTE;
+-	unsigned int regwmask = (1UL << regwshift) - 1;
++	unsigned int regwmask = GENMASK(regwshift - 1, 0);
++	unsigned long mask = GENMASK(mc->nbits - 1, 0);
+ 	unsigned int invert = mc->invert;
+-	unsigned long mask = (1UL << mc->nbits) - 1;
+ 	long max = mc->max;
+ 	long val = ucontrol->value.integer.value[0];
+ 	int ret = 0;
+@@ -986,7 +992,7 @@ int snd_soc_get_strobe(struct snd_kcontrol *kcontrol,
+ 		(struct soc_mixer_control *)kcontrol->private_value;
+ 	unsigned int reg = mc->reg;
+ 	unsigned int shift = mc->shift;
+-	unsigned int mask = 1 << shift;
++	unsigned int mask = BIT(shift);
+ 	unsigned int invert = mc->invert != 0;
+ 	unsigned int val;
+ 
+@@ -1019,7 +1025,7 @@ int snd_soc_put_strobe(struct snd_kcontrol *kcontrol,
+ 		(struct soc_mixer_control *)kcontrol->private_value;
+ 	unsigned int reg = mc->reg;
+ 	unsigned int shift = mc->shift;
+-	unsigned int mask = 1 << shift;
++	unsigned int mask = BIT(shift);
+ 	unsigned int invert = mc->invert != 0;
+ 	unsigned int strobe = ucontrol->value.enumerated.item[0] != 0;
+ 	unsigned int val1 = (strobe ^ invert) ? mask : 0;
+-- 
+2.39.5
 
