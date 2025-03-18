@@ -1,87 +1,100 @@
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AFD1FA14B;
-	Tue, 18 Mar 2025 10:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1B97E1;
+	Tue, 18 Mar 2025 11:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742294857; cv=none; b=kGOJf67FKWJX0fMWnUtgjUrWjDGwVbYW7wGPNmRjUSNL5Ty+V3GIyP2GbpTzr3zBRWfrEMAHNlqs3jbK2kpmCZXnfTgaUmTJOqWcktLtwVjjq6d40YQsAISJlvGRzGvUoGcqGjVyLBtmEYOpLKjnp+O4CQuBIrMg/Q0FvR9U4aA=
+	t=1742297127; cv=none; b=FTfu0SlNO01YR7rxQJGNnKq0D3LhBixXt7LnSNUL23rG/4TPbbq+9rIGRElg274RO0TMRsq8olb7t6/6+3JzrBS+eXrWjW0lTWBNtU8U6ZfsVkt63WrY1xqoBMHEvJKhG5tFVRibUO6f0TsbtR5td/+nZcgg+eFY6DqF18D/Z90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742294857; c=relaxed/simple;
-	bh=xjjm6uUFdWoj9rCADOjpstQTqGdlzI1AsiThsAQZ/P0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=o4euOSLJ34c4DlNSyHbM1GQu1gZ7N1k+wx4Ef2HTvikYSLm/bOmQo1i2bFFxkzhwWLbDHFgCYAxcQpXd/7Y+burEX1jddQePU+wvOxouIAJdTNsMwrldelK4aRPDd0l2k7HmDuTUczKZNySlta2r4FY5J3kv76LKbeQ6h22QT0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=OdHg6rMf; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1742297127; c=relaxed/simple;
+	bh=1hko+ppXt0dRMWhQzOOAmDEchVvdK62uXhM3cIvTaGo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hB15xra1QPNXlroWklwbf81ZrCTVIWXkgLZlXZCZ5UrOuscO/LYUahVAa7QcpC5dVc+C6xC3dceP7ClUpyhniAIhr+SKQkX+fzwS1KfcPGXS5GYXBlXQc9wepN0mHg6VHkXkYvarwGgtOogr8CmMTvk8RmWbFYYKJHuhaRRZCzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=MahbrOJS; arc=none smtp.client-ip=220.130.44.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="OdHg6rMf"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52IAlHD13130046
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 18 Mar 2025 05:47:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1742294837;
-	bh=lFhoZzRIA7Uvs1Mtqf1M7uFFXyhhUO8+AwRShrEMx34=;
-	h=From:To:CC:Subject:Date;
-	b=OdHg6rMfM8DDVglH5sCTqIOIC8KIcLKADXbAYIY8NQXl8xouGPv1WDo9AxtMnvnwM
-	 t6sxYLb5Ps+aD2Zo0O4I+bUh/QppbygNKZAirPMreP8iJUi4/nPsl0A8zBx2JvZK6i
-	 ZjPn8Y/LRjm7Jt69Kf1QcnPR+cSsAQqcs+ATy4b0=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52IAlHWu013250;
-	Tue, 18 Mar 2025 05:47:17 -0500
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 18
- Mar 2025 05:47:16 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 18 Mar 2025 05:47:16 -0500
-Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com [10.24.68.98])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52IAlFIG090666;
-	Tue, 18 Mar 2025 05:47:16 -0500
-From: Jayesh Choudhary <j-choudhary@ti.com>
-To: <peter.ujfalusi@gmail.com>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC: <perex@perex.cz>, <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
-        <j-choudhary@ti.com>
-Subject: [PATCH] ASoC: ti: j721e-evm: Reduce log level for EPROBE_DEFER
-Date: Tue, 18 Mar 2025 16:17:15 +0530
-Message-ID: <20250318104715.43267-1-j-choudhary@ti.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="MahbrOJS"
+X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1742297113;
+	bh=AXWKcikh7y0dX2+PuBRgIKM1or7UWpe1fD4PbsIUNRU=; l=1405;
+	h=Date:From:To:Subject:Message-ID:MIME-Version;
+	b=MahbrOJStl7BpOg9Dkc6U9LXcy/8LYGgK4j56hzo400w7J/lC6M8Wj7eeGlhU/d5H
+	 TN00um3UPJoVAdwz9uyHIMY/78Vyymb8r5YY7K2YRePxL9huXBl1HRIsFCzyqdgVdZ
+	 MaAz+bi9Q3kKAyFdnIJ1VwbFesApD9tCJu3tcTV5yaHndHZT5Mva0NoXqC3+IWJLYT
+	 GUxgjNEYMCujpIRnCMonsqWehGOz17mtlPrv4YiYz2pC+ReMXz8aGK7uf30EhDCvwu
+	 ui+8wuZp4YFzLmShrI5sAKyx/fxvyI21Li1TX6ZvG+kLvjQKjB2UiElHid3vCH4KfL
+	 3/bhXN7v7hpKA==
+Received: from 192.168.10.47
+	by mg.richtek.com with MailGates ESMTPS Server V6.0(3810276:0:AUTH_RELAY)
+	(envelope-from <cy_huang@richtek.com>)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Tue, 18 Mar 2025 19:25:04 +0800 (CST)
+Received: from ex4.rt.l (192.168.10.47) by ex4.rt.l (192.168.10.47) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 18 Mar
+ 2025 19:25:04 +0800
+Received: from git-send.richtek.com (192.168.10.154) by ex4.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
+ Transport; Tue, 18 Mar 2025 19:25:04 +0800
+Date: Tue, 18 Mar 2025 19:26:14 +0800
+From: ChiYuan Huang <cy_huang@richtek.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Otto Lin <otto_lin@richtek.com>, Allen Lin
+	<allen_lin@richtek.com>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: maxim,max98357a: Add compatible with
+ richtek,rt9123
+Message-ID: <Z9lYVram80dbWWl0@git-send.richtek.com>
+References: <1884c3ce2d901ead5d742958889f5a742e168376.1742259040.git.cy_huang@richtek.com>
+ <20250318-mature-dogfish-of-ecstasy-3dcea5@krzk-bin>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250318-mature-dogfish-of-ecstasy-3dcea5@krzk-bin>
 
-Drop the log level for deferral probe to avoid flooding in kernel logs.
+On Tue, Mar 18, 2025 at 09:55:48AM +0100, Krzysztof Kozlowski wrote:
+> On Tue, Mar 18, 2025 at 08:57:51AM +0800, cy_huang@richtek.com wrote:
+> > From: ChiYuan Huang <cy_huang@richtek.com>
+> > 
+> > The hardware control and specification of 'richtek,rt9123' are similar
+> > with max98357 or max98360. It's no need to add the new source code. So
+> 
+> Are you sure? I looked at datasheet and do not see anything about
+> SD_MODE in RT9123. Also you have two supplies, while max98360a has only
+> one. You have I2C but max98360a has no.
+> 
+Sure, consider the I2C mode. Then it seems different. For the power
+supply, yes, we have one more supply and it's used for digital input
+output reference. It will always tiled to SoC digital power domain.
+It's no need to control, so I think DVDD can be ignored.
 
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
----
- sound/soc/ti/j721e-evm.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+If not considering the I2C, and the DVDD power supply, for HW control
+mode, then it looks the same including sample rate. One pin to turn on
+the amplifier.
 
-diff --git a/sound/soc/ti/j721e-evm.c b/sound/soc/ti/j721e-evm.c
-index c0fa72e626ff..2057d46ad884 100644
---- a/sound/soc/ti/j721e-evm.c
-+++ b/sound/soc/ti/j721e-evm.c
-@@ -913,8 +913,9 @@ static int j721e_soc_probe(struct platform_device *pdev)
- 	mutex_init(&priv->mutex);
- 	ret = devm_snd_soc_register_card(&pdev->dev, card);
- 	if (ret)
--		dev_err(&pdev->dev, "devm_snd_soc_register_card() failed: %d\n",
--			ret);
-+		dev_err_probe(&pdev->dev, ret,
-+			      "devm_snd_soc_register_card() failed: %d\n",
-+			      ret);
- 
- 	return ret;
- }
--- 
-2.34.1
+This IC is designed for 'easy to use'. For the normal condition, HW mode
+will always be suggested to the customer.
 
+May I have your suggestion? If it can not be compatible, should I write
+two drivers, one platform driver for HW control mode, and another I2C driver
+for I2C SW control mode?
+
+Hope to get your feedback.
+
+Sincerely,
+ChiYuan Huang.
+
+> These devices do not look compatible.
+> 
+> Best regards,
+> Krzysztof
+> 
