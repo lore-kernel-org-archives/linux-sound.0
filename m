@@ -1,99 +1,87 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C6B1F4619;
-	Tue, 18 Mar 2025 09:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F2F1EB5F8;
+	Tue, 18 Mar 2025 10:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742290812; cv=none; b=AOsxU3VqbzWDY1xjuy2R/PkuV/sdQdnuJnmfg/6RWbphybbSy9XAz9wPGFMnP6sjDKCf+8oTjEr7WdkGAyK32Kqrd8L6BvC1lGHDWWzhQQDLZT1Jw1V811K7YOzTBKCdv05rhSB8pdHU9OtlzpchGm3Jv2m7A43v3EVzp066Ev0=
+	t=1742292717; cv=none; b=swknIau4Oxm0m9hESJK/LAw0iNUUK2loHmHT1iTzKY5s/ozgeXUsKpRg8Kcaj4lIOrhTipel6gFOfLx/UdSaZcoQC88kbCag1F4b0Wym4hEFTw0ZKsmyWxJi2kYuHvFuhmEBnols6Y2+4JCVj3CpZDg88TnkuHqNZelWP4qWalk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742290812; c=relaxed/simple;
-	bh=atBM9uoHH7gMr/v1f9FwbCCOTrtjCGXtLJB5z+YR6Wo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UNHXNAFEj9tzJ1z7Kzgr3r/2zgkAMdiVhmFXckXcxeQ6z2wChHyEG9YqZHPdwmhsA6nYZObGUzeFqVWIZH8iv/Nh8UZE24YoE7oLgpoKciWqMcIVzzoaD+DqeRzOyxFJ+bN9qraG6u9Yn2nWKCNmz8z4MAN4QeqVzNtw9gCJbAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=c8DBxM16; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1742292717; c=relaxed/simple;
+	bh=F1LgK53DLgHEw/QTvKY2iu1jDZDg/yZwkcwvTw6nH14=;
+	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type; b=PSKp7aHq/Zo5wn8FU4oVfDJfBntnbA34XLy50h+jIEf3ohjzscTNQ7021wEF5ALqqelXnuS6iLLqTvuqzy8JKF5SkWLawZeGg+YOX8Zsiau17jETSBlfPEz9tzuofq03vTuzz1YYWxqxjpegfuxchYHWx97lvt0CwfDb+uAQ/EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=Azt2FBf1; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="c8DBxM16"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I4QToC021542;
-	Tue, 18 Mar 2025 04:39:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=T8k62eV0vAJp0y/Szq
-	D4YHMyYgDeSXiiAponFwPO89Q=; b=c8DBxM16xcHIqK/sI6z5FgmcdmtHkXpeKC
-	sq2jk7YAh2ZhFkXWUBes1Dvo+mTnGA1FHx2707igs3Z4c/10m8EgBDzAonWS0zBh
-	UtT0vYaBAAf0sVGQaZSoRybr04Za+hHNDLiv3G5G1OAdwW+bnELZJO3lksk03a6t
-	pXqu7LOj2iGAEeHH0bPRmRhJjXk7WkeCfUdoo7dUUISAN8CfzSF89SwaULYkdJTP
-	DgHu3Gp63aUSZOUF35zx6hLzsorjIjy9hgG6iyIVirasO9MiU8Ztdq0SJM2UWX63
-	kxAM4TfhK0tA2waSVXLoyZi6XonAclw6sD93I2XcjBRm31fv2lyQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 45d5yh75qn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Mar 2025 04:39:37 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 18 Mar
- 2025 09:39:32 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Tue, 18 Mar 2025 09:39:32 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 1EF6682255A;
-	Tue, 18 Mar 2025 09:39:32 +0000 (UTC)
-Date: Tue, 18 Mar 2025 09:39:31 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Wentao Liang <vulab@iscas.ac.cn>
-CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
-        <tiwai@suse.com>, <u.kleine-koenig@baylibre.com>,
-        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: Add initialization for wm8997 component
-Message-ID: <Z9k/U+8TSVfSzFKw@opensource.cirrus.com>
-References: <20250317140845.702-1-vulab@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="Azt2FBf1"
+Received: from localhost (web.docker-mailserver_default [172.18.0.2])
+	by mail.mainlining.org (Postfix) with ESMTPSA id D92E9BBAC4;
+	Tue, 18 Mar 2025 10:11:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
+	s=psm; t=1742292703;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qXdpvh5mYCminn/8hmVBF6LkXE2iqtzozFhbE29SAHE=;
+	b=Azt2FBf1VeLfTHFxORSXQkPyfyuwnoIGTVaOQLdjBzr6SKiAwOOcV5C6yxI+/EsAIqJJAw
+	kcGBaucSKGhbcFfVYBKChStYMtPmy3LB08Cg9sFlH2xuIz0BYTFqv9aUwrbny7DIohxll9
+	0XsOnWfrbW0/jJGxuXY5S4BVSECeqo2eJ+QLWR//+oINIdJrbIbPnw8+EmZn86PXirHOWj
+	mDwHxNVVWtdAa92ferigIvmEsFc9UTqXpERsdlJ9FFqOW8TK/vDaY70xOd+8bz682mAQ+W
+	dO2oKCzs/mlb2PB/pmfCYXAkqinF4dXJ6uvw+HwgcLazM8h6L1YGEtMWd11q9Q==
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250317140845.702-1-vulab@iscas.ac.cn>
-X-Authority-Analysis: v=2.4 cv=GrhC+l1C c=1 sm=1 tr=0 ts=67d93f5a cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=HBWco2q_b250qaoshC0A:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: w3Pzgv4h-TJHvfdBDGWbP69jN0cytI4k
-X-Proofpoint-ORIG-GUID: w3Pzgv4h-TJHvfdBDGWbP69jN0cytI4k
-X-Proofpoint-Spam-Reason: safe
+Date: Tue, 18 Mar 2025 11:11:43 +0100
+From: David Wronek <david@mainlining.org>
+To: Linux Sound <linux-sound@vger.kernel.org>
+Cc: David Rhodes <david.rhodes@cirrus.com>, Lucas Tanure
+ <lucas.tanure@cirrus.com>, linux-kernel@vger.kernel.org
+Subject: cs35l41: Enable(1) failed: -110
+Message-ID: <f7c97d53a38fb82ba8dab3b5c0c28b48@mainlining.org>
+X-Sender: david@mainlining.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 17, 2025 at 10:08:44PM +0800, Wentao Liang wrote:
-> In wm8997_component_probe(), wm8997 should be initialized by
-> arizona_init_gpio(). A proper implementation can be found in
-> 'wm8998_component_probe()' where the wm8998 component is
-> initialized with arizona_init_gpio().
-> 
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
-> ---
->  sound/soc/codecs/wm8997.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/soc/codecs/wm8997.c b/sound/soc/codecs/wm8997.c
-> index 5389c363b14e..ef8e09cc7211 100644
-> --- a/sound/soc/codecs/wm8997.c
-> +++ b/sound/soc/codecs/wm8997.c
-> @@ -1066,6 +1066,8 @@ static int wm8997_component_probe(struct snd_soc_component *component)
->  	if (ret < 0)
->  		return ret;
->  
-> +	arizona_init_gpio(component);
-> +
+Hi,
 
-This is not a missing initialisation, arizona_init_gpios hooks up
-the signal detect feature. I am not certain it is worth adding the
-signal detect feature to wm8997 at this point given I am not even
-sure it shipped any units. If you do actually have a reason for
-doing so, this is not sufficient to enable the feature. You need
-to also add the Signal Detect widgets and routes.
+I am trying to get the Cirrus CS35L41 amps working on the Lenovo Xiaoxin 
+Pad Pro 2021 on mainline Linux.
+Unfortunately, while enabling the speakers, I encounter the following 
+error with non-working speakers:
 
-Thanks,
-Charles
+```
+[  104.028258] cs35l41 4-0041: Enable(1) failed: -110
+[  104.028597] cs35l41 4-0041: ASoC: PRE_PMU: SPK2 Main AMP event 
+failed: -110
+```
+
+I have looked into the driver and it seems like it timing out while 
+polling the CS35L41_IRQ1_STATUS1 register.
+
+According to the downstream device tree, the amps are connected over 
+MI2S and are using an internal boost. Switching to a shared boost does 
+not work, because the interrupt is never called.
+
+I am not sure what I might be missing here. Sadly, Lenovo has not 
+released the kernel sources used in the Xiaoxin Pad Pro 2021 which is 
+why I can't easily check the downstream driver for potential quirks.
+
+Here is my setup:
+  - Full dmesg: 
+https://paste.mainlining.org/ungeskriptet/66855caf17f342e9b030ffe0640e84de
+  - Device tree: 
+https://github.com/mainlining/linux/blob/f14a883/arch/arm64/boot/dts/qcom/sm8250-lenovo-j716f.dts
+  - ALSA UCM file: 
+https://paste.mainlining.org/ungeskriptet/33fe4907c000413fac94e5052215b1ea
+
+
+Help would be greatly appreciated.
+
+-- 
+Best regards,
+David Wronek <david@mainlining.org>
