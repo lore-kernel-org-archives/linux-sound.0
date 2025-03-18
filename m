@@ -1,102 +1,80 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A83F20B7E9;
-	Tue, 18 Mar 2025 11:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314BD20B1E1;
+	Tue, 18 Mar 2025 15:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742297752; cv=none; b=HKyBYQa3iFW8pqpGrpzA2ssAe4preHK3mBmBX4yeS+tqWOwscd0GmXvYmlxlmSW0CrZr7K0ZUeeZLsshbUM6cJGCQipu5u/FfBUvkf5FGORlFAxnqnM4LLTzhD9icfZVM71HBhJfB2d7m0FUecbk8f1oKWYwT0SGDXDZovGIw5Q=
+	t=1742312057; cv=none; b=UpoGCi9G9/JGTknl81G5FT4hvB+kLmvC9osi6IDogDxeXLgIJZAm2RvC7FkPb92jVvMB03ul5azenH8CfOG701khADkNy6kFOpB7PgbBQ75rQVmFJXFjYIoNI1fNEn6E1oIKFsocRAEpTj1aNCBwxZ45cJ0WF3ulK7+wARDvarI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742297752; c=relaxed/simple;
-	bh=/6CF2wMzbpy7fKpS53DJ5LlhZBb3PsXTEdnWg8I9YkY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RjgMGQDYn2VdQPh3+9dFT8fL6Iu5NyOiGw92Odf0Keaf6u28c0yeEowxp5vANn7WukxdI+eG3FhvyFVW7rR79ITQEpOye9/2IHqplTFp7f7Fw+HJgFpz+LQbQ/W2d5pDih3jw1V4dJD7qWCK9j/LDnFpV+hVPpV60iM3x9PqzRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=JjoaLZnt; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1742312057; c=relaxed/simple;
+	bh=fu21imNYc8W+I9VWuFRVGgik9ETmjd7qRpq7poWLyao=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=iFjlIszrIhrkAcq1U7FSCSFaNzy6J5HKSoZ9Bxg5XaA9jfUZo8Wkxu7dqezQjRr7ia+rVfJd/eDeNPk2DMNuzX/MonAHZRL3ndkxA6EKVqMgxt6VfsdIEjJbrv0JmnKgQyNwb5Y0oOBgzygEikDYlCWwZLqOUnoJ9cojj6k5nLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFaIqcqW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="JjoaLZnt"
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52IBZQeT3053345
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 18 Mar 2025 06:35:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1742297726;
-	bh=DsN1ncMlJ5zo/5NafwL+81jdetyHrIDDsHNQZGF7/6o=;
-	h=From:To:CC:Subject:Date;
-	b=JjoaLZntQRZ0LeHi/40id75IAoZZpZYaPjmx5gcAXlhhNYnRGWOivteR+mjihfXdQ
-	 PDOnhg09I5XAvrjLzmNqrCNrpoODyk11jAfVwBibAS6SQMt+mWRfB/Jy9e6rmz2cxK
-	 Ok9vU98qSxEbgD31N+w/y5/SlLwwRco6+8cASdeU=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 52IBZQLb007471
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 18 Mar 2025 06:35:26 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 18
- Mar 2025 06:35:25 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 18 Mar 2025 06:35:25 -0500
-Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com [10.24.68.98])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52IBZOxL104649;
-	Tue, 18 Mar 2025 06:35:25 -0500
-From: Jayesh Choudhary <j-choudhary@ti.com>
-To: <peter.ujfalusi@gmail.com>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC: <perex@perex.cz>, <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
-        <j-choudhary@ti.com>
-Subject: [PATCH] ASoC: ti: j721e-evm: Fix clock configuration for ti,j7200-cpb-audio compatible
-Date: Tue, 18 Mar 2025 17:05:24 +0530
-Message-ID: <20250318113524.57100-1-j-choudhary@ti.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFaIqcqW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 381F8C4CEDD;
+	Tue, 18 Mar 2025 15:34:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742312055;
+	bh=fu21imNYc8W+I9VWuFRVGgik9ETmjd7qRpq7poWLyao=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=lFaIqcqWfxCdaL2d2RthvSDFgBg13vTDSzEBdkqCq39/DwzfUgLoV04qZHAuYYuP2
+	 1ZiWEjtmNTrShXTG1D7UMPwK275QdzlyOXgTvZ1EBdmfpclO0+KiqnTgW/ljuqj85i
+	 Q2lul/f2auC5YbIG8s6RrOV007ThlrYxyX42qF20Sfx9c98xJv8RN3MyXesJ5ryw+k
+	 6Y4LYRH5mjcw/Mn04eyfiLs2qNzHOVT2fxbkiJIRqdCHC2lFL6ocXLVYqjJEh0uG5u
+	 qVqAGKXoqLJ/TZ/r62mCRVYeUyqoUJDV2zMfLtD2GkRsdmiqNHigkXrVj1kOLYr+vV
+	 Fg+vY7zaTvBsg==
+From: Mark Brown <broonie@kernel.org>
+To: peter.ujfalusi@gmail.com, lgirdwood@gmail.com, 
+ linux-kernel@vger.kernel.org, Jayesh Choudhary <j-choudhary@ti.com>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
+In-Reply-To: <20250318104715.43267-1-j-choudhary@ti.com>
+References: <20250318104715.43267-1-j-choudhary@ti.com>
+Subject: Re: [PATCH] ASoC: ti: j721e-evm: Reduce log level for EPROBE_DEFER
+Message-Id: <174231205391.165223.230616849294611314.b4-ty@kernel.org>
+Date: Tue, 18 Mar 2025 15:34:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-For 'ti,j7200-cpb-audio' compatible, there is support for only one PLL for
-48k. For 11025, 22050, 44100 and 88200 sampling rates, due to absence of
-J721E_CLK_PARENT_44100, we get EINVAL while running any audio application.
-Add support for these rates by using the 48k parent clock and adjusting
-the clock for these rates later in j721e_configure_refclk.
+On Tue, 18 Mar 2025 16:17:15 +0530, Jayesh Choudhary wrote:
+> Drop the log level for deferral probe to avoid flooding in kernel logs.
+> 
+> 
 
-Fixes: 6748d0559059 ("ASoC: ti: Add custom machine driver for j721e EVM (CPB and IVI)")
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
----
+Applied to
 
-Error log for J784S4-EVM platform which uses this compatible:
-<https://gist.github.com/Jayesh2000/22784d790f493ca182bb78c8d5015c9b>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-After this fix, test log for 44100 rate:
-<https://gist.github.com/Jayesh2000/13ab5852109f899fa2ceb466f8c130d9>
+Thanks!
 
-For rates 8k, 16k, 24k, 32k, 48k, 96k the scki used is the default
-value i.e. 24576000 Hz. When any application request sampling rate from
-11025, 22050, 44100 or 88200, the clk_set_rate calls are invoked in
-j721e_configure_refclk and the scki is modified to 22579200 Hz.
+[1/1] ASoC: ti: j721e-evm: Reduce log level for EPROBE_DEFER
+      commit: 340abded86def0ab8ad8ef9ba73d8ac2fb6fe991
 
- sound/soc/ti/j721e-evm.c | 2 ++
- 1 file changed, 2 insertions(+)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-diff --git a/sound/soc/ti/j721e-evm.c b/sound/soc/ti/j721e-evm.c
-index 2057d46ad884..0e7e4ff950b5 100644
---- a/sound/soc/ti/j721e-evm.c
-+++ b/sound/soc/ti/j721e-evm.c
-@@ -182,6 +182,8 @@ static int j721e_configure_refclk(struct j721e_priv *priv,
- 		clk_id = J721E_CLK_PARENT_48000;
- 	else if (!(rate % 11025) && priv->pll_rates[J721E_CLK_PARENT_44100])
- 		clk_id = J721E_CLK_PARENT_44100;
-+	else if (!(rate % 11025) && priv->pll_rates[J721E_CLK_PARENT_48000])
-+		clk_id = J721E_CLK_PARENT_48000;
- 	else
- 		return ret;
- 
--- 
-2.34.1
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
