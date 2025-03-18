@@ -1,100 +1,102 @@
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1B97E1;
-	Tue, 18 Mar 2025 11:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A83F20B7E9;
+	Tue, 18 Mar 2025 11:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742297127; cv=none; b=FTfu0SlNO01YR7rxQJGNnKq0D3LhBixXt7LnSNUL23rG/4TPbbq+9rIGRElg274RO0TMRsq8olb7t6/6+3JzrBS+eXrWjW0lTWBNtU8U6ZfsVkt63WrY1xqoBMHEvJKhG5tFVRibUO6f0TsbtR5td/+nZcgg+eFY6DqF18D/Z90=
+	t=1742297752; cv=none; b=HKyBYQa3iFW8pqpGrpzA2ssAe4preHK3mBmBX4yeS+tqWOwscd0GmXvYmlxlmSW0CrZr7K0ZUeeZLsshbUM6cJGCQipu5u/FfBUvkf5FGORlFAxnqnM4LLTzhD9icfZVM71HBhJfB2d7m0FUecbk8f1oKWYwT0SGDXDZovGIw5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742297127; c=relaxed/simple;
-	bh=1hko+ppXt0dRMWhQzOOAmDEchVvdK62uXhM3cIvTaGo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hB15xra1QPNXlroWklwbf81ZrCTVIWXkgLZlXZCZ5UrOuscO/LYUahVAa7QcpC5dVc+C6xC3dceP7ClUpyhniAIhr+SKQkX+fzwS1KfcPGXS5GYXBlXQc9wepN0mHg6VHkXkYvarwGgtOogr8CmMTvk8RmWbFYYKJHuhaRRZCzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=MahbrOJS; arc=none smtp.client-ip=220.130.44.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
+	s=arc-20240116; t=1742297752; c=relaxed/simple;
+	bh=/6CF2wMzbpy7fKpS53DJ5LlhZBb3PsXTEdnWg8I9YkY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RjgMGQDYn2VdQPh3+9dFT8fL6Iu5NyOiGw92Odf0Keaf6u28c0yeEowxp5vANn7WukxdI+eG3FhvyFVW7rR79ITQEpOye9/2IHqplTFp7f7Fw+HJgFpz+LQbQ/W2d5pDih3jw1V4dJD7qWCK9j/LDnFpV+hVPpV60iM3x9PqzRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=JjoaLZnt; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="MahbrOJS"
-X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
-	s=richtek; t=1742297113;
-	bh=AXWKcikh7y0dX2+PuBRgIKM1or7UWpe1fD4PbsIUNRU=; l=1405;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=MahbrOJStl7BpOg9Dkc6U9LXcy/8LYGgK4j56hzo400w7J/lC6M8Wj7eeGlhU/d5H
-	 TN00um3UPJoVAdwz9uyHIMY/78Vyymb8r5YY7K2YRePxL9huXBl1HRIsFCzyqdgVdZ
-	 MaAz+bi9Q3kKAyFdnIJ1VwbFesApD9tCJu3tcTV5yaHndHZT5Mva0NoXqC3+IWJLYT
-	 GUxgjNEYMCujpIRnCMonsqWehGOz17mtlPrv4YiYz2pC+ReMXz8aGK7uf30EhDCvwu
-	 ui+8wuZp4YFzLmShrI5sAKyx/fxvyI21Li1TX6ZvG+kLvjQKjB2UiElHid3vCH4KfL
-	 3/bhXN7v7hpKA==
-Received: from 192.168.10.47
-	by mg.richtek.com with MailGates ESMTPS Server V6.0(3810276:0:AUTH_RELAY)
-	(envelope-from <cy_huang@richtek.com>)
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Tue, 18 Mar 2025 19:25:04 +0800 (CST)
-Received: from ex4.rt.l (192.168.10.47) by ex4.rt.l (192.168.10.47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 18 Mar
- 2025 19:25:04 +0800
-Received: from git-send.richtek.com (192.168.10.154) by ex4.rt.l
- (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
- Transport; Tue, 18 Mar 2025 19:25:04 +0800
-Date: Tue, 18 Mar 2025 19:26:14 +0800
-From: ChiYuan Huang <cy_huang@richtek.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Otto Lin <otto_lin@richtek.com>, Allen Lin
-	<allen_lin@richtek.com>, <linux-sound@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: maxim,max98357a: Add compatible with
- richtek,rt9123
-Message-ID: <Z9lYVram80dbWWl0@git-send.richtek.com>
-References: <1884c3ce2d901ead5d742958889f5a742e168376.1742259040.git.cy_huang@richtek.com>
- <20250318-mature-dogfish-of-ecstasy-3dcea5@krzk-bin>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="JjoaLZnt"
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52IBZQeT3053345
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Mar 2025 06:35:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1742297726;
+	bh=DsN1ncMlJ5zo/5NafwL+81jdetyHrIDDsHNQZGF7/6o=;
+	h=From:To:CC:Subject:Date;
+	b=JjoaLZntQRZ0LeHi/40id75IAoZZpZYaPjmx5gcAXlhhNYnRGWOivteR+mjihfXdQ
+	 PDOnhg09I5XAvrjLzmNqrCNrpoODyk11jAfVwBibAS6SQMt+mWRfB/Jy9e6rmz2cxK
+	 Ok9vU98qSxEbgD31N+w/y5/SlLwwRco6+8cASdeU=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 52IBZQLb007471
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 18 Mar 2025 06:35:26 -0500
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 18
+ Mar 2025 06:35:25 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 18 Mar 2025 06:35:25 -0500
+Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com [10.24.68.98])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52IBZOxL104649;
+	Tue, 18 Mar 2025 06:35:25 -0500
+From: Jayesh Choudhary <j-choudhary@ti.com>
+To: <peter.ujfalusi@gmail.com>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC: <perex@perex.cz>, <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
+        <j-choudhary@ti.com>
+Subject: [PATCH] ASoC: ti: j721e-evm: Fix clock configuration for ti,j7200-cpb-audio compatible
+Date: Tue, 18 Mar 2025 17:05:24 +0530
+Message-ID: <20250318113524.57100-1-j-choudhary@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250318-mature-dogfish-of-ecstasy-3dcea5@krzk-bin>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Tue, Mar 18, 2025 at 09:55:48AM +0100, Krzysztof Kozlowski wrote:
-> On Tue, Mar 18, 2025 at 08:57:51AM +0800, cy_huang@richtek.com wrote:
-> > From: ChiYuan Huang <cy_huang@richtek.com>
-> > 
-> > The hardware control and specification of 'richtek,rt9123' are similar
-> > with max98357 or max98360. It's no need to add the new source code. So
-> 
-> Are you sure? I looked at datasheet and do not see anything about
-> SD_MODE in RT9123. Also you have two supplies, while max98360a has only
-> one. You have I2C but max98360a has no.
-> 
-Sure, consider the I2C mode. Then it seems different. For the power
-supply, yes, we have one more supply and it's used for digital input
-output reference. It will always tiled to SoC digital power domain.
-It's no need to control, so I think DVDD can be ignored.
+For 'ti,j7200-cpb-audio' compatible, there is support for only one PLL for
+48k. For 11025, 22050, 44100 and 88200 sampling rates, due to absence of
+J721E_CLK_PARENT_44100, we get EINVAL while running any audio application.
+Add support for these rates by using the 48k parent clock and adjusting
+the clock for these rates later in j721e_configure_refclk.
 
-If not considering the I2C, and the DVDD power supply, for HW control
-mode, then it looks the same including sample rate. One pin to turn on
-the amplifier.
+Fixes: 6748d0559059 ("ASoC: ti: Add custom machine driver for j721e EVM (CPB and IVI)")
+Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+---
 
-This IC is designed for 'easy to use'. For the normal condition, HW mode
-will always be suggested to the customer.
+Error log for J784S4-EVM platform which uses this compatible:
+<https://gist.github.com/Jayesh2000/22784d790f493ca182bb78c8d5015c9b>
 
-May I have your suggestion? If it can not be compatible, should I write
-two drivers, one platform driver for HW control mode, and another I2C driver
-for I2C SW control mode?
+After this fix, test log for 44100 rate:
+<https://gist.github.com/Jayesh2000/13ab5852109f899fa2ceb466f8c130d9>
 
-Hope to get your feedback.
+For rates 8k, 16k, 24k, 32k, 48k, 96k the scki used is the default
+value i.e. 24576000 Hz. When any application request sampling rate from
+11025, 22050, 44100 or 88200, the clk_set_rate calls are invoked in
+j721e_configure_refclk and the scki is modified to 22579200 Hz.
 
-Sincerely,
-ChiYuan Huang.
+ sound/soc/ti/j721e-evm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> These devices do not look compatible.
-> 
-> Best regards,
-> Krzysztof
-> 
+diff --git a/sound/soc/ti/j721e-evm.c b/sound/soc/ti/j721e-evm.c
+index 2057d46ad884..0e7e4ff950b5 100644
+--- a/sound/soc/ti/j721e-evm.c
++++ b/sound/soc/ti/j721e-evm.c
+@@ -182,6 +182,8 @@ static int j721e_configure_refclk(struct j721e_priv *priv,
+ 		clk_id = J721E_CLK_PARENT_48000;
+ 	else if (!(rate % 11025) && priv->pll_rates[J721E_CLK_PARENT_44100])
+ 		clk_id = J721E_CLK_PARENT_44100;
++	else if (!(rate % 11025) && priv->pll_rates[J721E_CLK_PARENT_48000])
++		clk_id = J721E_CLK_PARENT_48000;
+ 	else
+ 		return ret;
+ 
+-- 
+2.34.1
+
