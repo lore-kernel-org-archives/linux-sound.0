@@ -1,65 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0491F09B1;
-	Tue, 18 Mar 2025 08:55:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C6B1F4619;
+	Tue, 18 Mar 2025 09:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742288152; cv=none; b=hvZl+NL6JDkXdBF/rek68jX8OuSr2l2r7eTiAHQ/sicyc3wLVBegDlsUmOcfrPzN6qw5/mN1CBRXfbmiUrw5wa02mNXUtlREF1PIjuPGSYlxwi7I1P/7/wgtiJXbbLs6/RemnBB+eWqTf9k57H+6vBsKxH/GjVRb88lngBmnhe8=
+	t=1742290812; cv=none; b=AOsxU3VqbzWDY1xjuy2R/PkuV/sdQdnuJnmfg/6RWbphybbSy9XAz9wPGFMnP6sjDKCf+8oTjEr7WdkGAyK32Kqrd8L6BvC1lGHDWWzhQQDLZT1Jw1V811K7YOzTBKCdv05rhSB8pdHU9OtlzpchGm3Jv2m7A43v3EVzp066Ev0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742288152; c=relaxed/simple;
-	bh=cENHEfBwksetLOQ9Qvuf1qiHYnKO+mYNedIf1arVU3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ev5z7LY7LZLu3xs38t/OeqZy+fYxBa/CIYXKBXKPDusLE/WnR4yAYdylToj+yp/Ga7rbujDWQB1TyV87DoUaO4EE9UwTtPQOyEUoXniI/y6kPQY9YR+KcXP2F8vLeOu4RkW9n7x8Q8qHnvBA3pdfeh13Ut4wErcLun9an+B53MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mPJzoLHA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742290812; c=relaxed/simple;
+	bh=atBM9uoHH7gMr/v1f9FwbCCOTrtjCGXtLJB5z+YR6Wo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UNHXNAFEj9tzJ1z7Kzgr3r/2zgkAMdiVhmFXckXcxeQ6z2wChHyEG9YqZHPdwmhsA6nYZObGUzeFqVWIZH8iv/Nh8UZE24YoE7oLgpoKciWqMcIVzzoaD+DqeRzOyxFJ+bN9qraG6u9Yn2nWKCNmz8z4MAN4QeqVzNtw9gCJbAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=c8DBxM16; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mPJzoLHA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46E6FC4CEDD;
-	Tue, 18 Mar 2025 08:55:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742288152;
-	bh=cENHEfBwksetLOQ9Qvuf1qiHYnKO+mYNedIf1arVU3w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mPJzoLHAe1KrYEsDclnKogknIkT6YOt8k+mz6Z0G5zjil0bQhjmb8d2QUIXsQwSjs
-	 EJPLa1LEHhPSwSN8KPzOhuc5ZqiN0WmvBMW8UgSphPdWc0P5P8vaWmapTsS1mzWITV
-	 73Kr7FQfJyJIJgUTCWBnJCWwEDNxj1ptrwH+YZ++JYazeCTSrEG9ig1RxKOCu/DcAJ
-	 SSPqLZdUwA3nNNYttAJTkzim32AyVFTqNHu8Q4SVnCUvbGiiZhUaPAAGiI2hq/cLaH
-	 JJGv12agVXPlKWfDc0nzI7XsmpyBZqadZeF2UQRSYF9GJnzkvkVqtM63RU9OQ6oFnz
-	 lENpF2x+J7+MQ==
-Date: Tue, 18 Mar 2025 09:55:48 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: cy_huang@richtek.com
-Cc: Mark Brown <broonie@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Otto Lin <otto_lin@richtek.com>, Allen Lin <allen_lin@richtek.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: dt-bindings: maxim,max98357a: Add compatible with
- richtek,rt9123
-Message-ID: <20250318-mature-dogfish-of-ecstasy-3dcea5@krzk-bin>
-References: <1884c3ce2d901ead5d742958889f5a742e168376.1742259040.git.cy_huang@richtek.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="c8DBxM16"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I4QToC021542;
+	Tue, 18 Mar 2025 04:39:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=T8k62eV0vAJp0y/Szq
+	D4YHMyYgDeSXiiAponFwPO89Q=; b=c8DBxM16xcHIqK/sI6z5FgmcdmtHkXpeKC
+	sq2jk7YAh2ZhFkXWUBes1Dvo+mTnGA1FHx2707igs3Z4c/10m8EgBDzAonWS0zBh
+	UtT0vYaBAAf0sVGQaZSoRybr04Za+hHNDLiv3G5G1OAdwW+bnELZJO3lksk03a6t
+	pXqu7LOj2iGAEeHH0bPRmRhJjXk7WkeCfUdoo7dUUISAN8CfzSF89SwaULYkdJTP
+	DgHu3Gp63aUSZOUF35zx6hLzsorjIjy9hgG6iyIVirasO9MiU8Ztdq0SJM2UWX63
+	kxAM4TfhK0tA2waSVXLoyZi6XonAclw6sD93I2XcjBRm31fv2lyQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 45d5yh75qn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Mar 2025 04:39:37 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 18 Mar
+ 2025 09:39:32 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Tue, 18 Mar 2025 09:39:32 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 1EF6682255A;
+	Tue, 18 Mar 2025 09:39:32 +0000 (UTC)
+Date: Tue, 18 Mar 2025 09:39:31 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Wentao Liang <vulab@iscas.ac.cn>
+CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
+        <tiwai@suse.com>, <u.kleine-koenig@baylibre.com>,
+        <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: Add initialization for wm8997 component
+Message-ID: <Z9k/U+8TSVfSzFKw@opensource.cirrus.com>
+References: <20250317140845.702-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <1884c3ce2d901ead5d742958889f5a742e168376.1742259040.git.cy_huang@richtek.com>
+In-Reply-To: <20250317140845.702-1-vulab@iscas.ac.cn>
+X-Authority-Analysis: v=2.4 cv=GrhC+l1C c=1 sm=1 tr=0 ts=67d93f5a cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=HBWco2q_b250qaoshC0A:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: w3Pzgv4h-TJHvfdBDGWbP69jN0cytI4k
+X-Proofpoint-ORIG-GUID: w3Pzgv4h-TJHvfdBDGWbP69jN0cytI4k
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, Mar 18, 2025 at 08:57:51AM +0800, cy_huang@richtek.com wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
+On Mon, Mar 17, 2025 at 10:08:44PM +0800, Wentao Liang wrote:
+> In wm8997_component_probe(), wm8997 should be initialized by
+> arizona_init_gpio(). A proper implementation can be found in
+> 'wm8998_component_probe()' where the wm8998 component is
+> initialized with arizona_init_gpio().
 > 
-> The hardware control and specification of 'richtek,rt9123' are similar
-> with max98357 or max98360. It's no need to add the new source code. So
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> ---
+>  sound/soc/codecs/wm8997.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/soc/codecs/wm8997.c b/sound/soc/codecs/wm8997.c
+> index 5389c363b14e..ef8e09cc7211 100644
+> --- a/sound/soc/codecs/wm8997.c
+> +++ b/sound/soc/codecs/wm8997.c
+> @@ -1066,6 +1066,8 @@ static int wm8997_component_probe(struct snd_soc_component *component)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> +	arizona_init_gpio(component);
+> +
 
-Are you sure? I looked at datasheet and do not see anything about
-SD_MODE in RT9123. Also you have two supplies, while max98360a has only
-one. You have I2C but max98360a has no.
+This is not a missing initialisation, arizona_init_gpios hooks up
+the signal detect feature. I am not certain it is worth adding the
+signal detect feature to wm8997 at this point given I am not even
+sure it shipped any units. If you do actually have a reason for
+doing so, this is not sufficient to enable the feature. You need
+to also add the Signal Detect widgets and routes.
 
-These devices do not look compatible.
-
-Best regards,
-Krzysztof
-
+Thanks,
+Charles
