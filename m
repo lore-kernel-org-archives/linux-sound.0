@@ -1,87 +1,87 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F2F1EB5F8;
-	Tue, 18 Mar 2025 10:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AFD1FA14B;
+	Tue, 18 Mar 2025 10:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742292717; cv=none; b=swknIau4Oxm0m9hESJK/LAw0iNUUK2loHmHT1iTzKY5s/ozgeXUsKpRg8Kcaj4lIOrhTipel6gFOfLx/UdSaZcoQC88kbCag1F4b0Wym4hEFTw0ZKsmyWxJi2kYuHvFuhmEBnols6Y2+4JCVj3CpZDg88TnkuHqNZelWP4qWalk=
+	t=1742294857; cv=none; b=kGOJf67FKWJX0fMWnUtgjUrWjDGwVbYW7wGPNmRjUSNL5Ty+V3GIyP2GbpTzr3zBRWfrEMAHNlqs3jbK2kpmCZXnfTgaUmTJOqWcktLtwVjjq6d40YQsAISJlvGRzGvUoGcqGjVyLBtmEYOpLKjnp+O4CQuBIrMg/Q0FvR9U4aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742292717; c=relaxed/simple;
-	bh=F1LgK53DLgHEw/QTvKY2iu1jDZDg/yZwkcwvTw6nH14=;
-	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type; b=PSKp7aHq/Zo5wn8FU4oVfDJfBntnbA34XLy50h+jIEf3ohjzscTNQ7021wEF5ALqqelXnuS6iLLqTvuqzy8JKF5SkWLawZeGg+YOX8Zsiau17jETSBlfPEz9tzuofq03vTuzz1YYWxqxjpegfuxchYHWx97lvt0CwfDb+uAQ/EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=Azt2FBf1; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1742294857; c=relaxed/simple;
+	bh=xjjm6uUFdWoj9rCADOjpstQTqGdlzI1AsiThsAQZ/P0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=o4euOSLJ34c4DlNSyHbM1GQu1gZ7N1k+wx4Ef2HTvikYSLm/bOmQo1i2bFFxkzhwWLbDHFgCYAxcQpXd/7Y+burEX1jddQePU+wvOxouIAJdTNsMwrldelK4aRPDd0l2k7HmDuTUczKZNySlta2r4FY5J3kv76LKbeQ6h22QT0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=OdHg6rMf; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="Azt2FBf1"
-Received: from localhost (web.docker-mailserver_default [172.18.0.2])
-	by mail.mainlining.org (Postfix) with ESMTPSA id D92E9BBAC4;
-	Tue, 18 Mar 2025 10:11:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
-	s=psm; t=1742292703;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=qXdpvh5mYCminn/8hmVBF6LkXE2iqtzozFhbE29SAHE=;
-	b=Azt2FBf1VeLfTHFxORSXQkPyfyuwnoIGTVaOQLdjBzr6SKiAwOOcV5C6yxI+/EsAIqJJAw
-	kcGBaucSKGhbcFfVYBKChStYMtPmy3LB08Cg9sFlH2xuIz0BYTFqv9aUwrbny7DIohxll9
-	0XsOnWfrbW0/jJGxuXY5S4BVSECeqo2eJ+QLWR//+oINIdJrbIbPnw8+EmZn86PXirHOWj
-	mDwHxNVVWtdAa92ferigIvmEsFc9UTqXpERsdlJ9FFqOW8TK/vDaY70xOd+8bz682mAQ+W
-	dO2oKCzs/mlb2PB/pmfCYXAkqinF4dXJ6uvw+HwgcLazM8h6L1YGEtMWd11q9Q==
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="OdHg6rMf"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52IAlHD13130046
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 18 Mar 2025 05:47:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1742294837;
+	bh=lFhoZzRIA7Uvs1Mtqf1M7uFFXyhhUO8+AwRShrEMx34=;
+	h=From:To:CC:Subject:Date;
+	b=OdHg6rMfM8DDVglH5sCTqIOIC8KIcLKADXbAYIY8NQXl8xouGPv1WDo9AxtMnvnwM
+	 t6sxYLb5Ps+aD2Zo0O4I+bUh/QppbygNKZAirPMreP8iJUi4/nPsl0A8zBx2JvZK6i
+	 ZjPn8Y/LRjm7Jt69Kf1QcnPR+cSsAQqcs+ATy4b0=
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52IAlHWu013250;
+	Tue, 18 Mar 2025 05:47:17 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 18
+ Mar 2025 05:47:16 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 18 Mar 2025 05:47:16 -0500
+Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com [10.24.68.98])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52IAlFIG090666;
+	Tue, 18 Mar 2025 05:47:16 -0500
+From: Jayesh Choudhary <j-choudhary@ti.com>
+To: <peter.ujfalusi@gmail.com>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC: <perex@perex.cz>, <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
+        <j-choudhary@ti.com>
+Subject: [PATCH] ASoC: ti: j721e-evm: Reduce log level for EPROBE_DEFER
+Date: Tue, 18 Mar 2025 16:17:15 +0530
+Message-ID: <20250318104715.43267-1-j-choudhary@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 18 Mar 2025 11:11:43 +0100
-From: David Wronek <david@mainlining.org>
-To: Linux Sound <linux-sound@vger.kernel.org>
-Cc: David Rhodes <david.rhodes@cirrus.com>, Lucas Tanure
- <lucas.tanure@cirrus.com>, linux-kernel@vger.kernel.org
-Subject: cs35l41: Enable(1) failed: -110
-Message-ID: <f7c97d53a38fb82ba8dab3b5c0c28b48@mainlining.org>
-X-Sender: david@mainlining.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi,
+Drop the log level for deferral probe to avoid flooding in kernel logs.
 
-I am trying to get the Cirrus CS35L41 amps working on the Lenovo Xiaoxin 
-Pad Pro 2021 on mainline Linux.
-Unfortunately, while enabling the speakers, I encounter the following 
-error with non-working speakers:
+Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+---
+ sound/soc/ti/j721e-evm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-```
-[  104.028258] cs35l41 4-0041: Enable(1) failed: -110
-[  104.028597] cs35l41 4-0041: ASoC: PRE_PMU: SPK2 Main AMP event 
-failed: -110
-```
-
-I have looked into the driver and it seems like it timing out while 
-polling the CS35L41_IRQ1_STATUS1 register.
-
-According to the downstream device tree, the amps are connected over 
-MI2S and are using an internal boost. Switching to a shared boost does 
-not work, because the interrupt is never called.
-
-I am not sure what I might be missing here. Sadly, Lenovo has not 
-released the kernel sources used in the Xiaoxin Pad Pro 2021 which is 
-why I can't easily check the downstream driver for potential quirks.
-
-Here is my setup:
-  - Full dmesg: 
-https://paste.mainlining.org/ungeskriptet/66855caf17f342e9b030ffe0640e84de
-  - Device tree: 
-https://github.com/mainlining/linux/blob/f14a883/arch/arm64/boot/dts/qcom/sm8250-lenovo-j716f.dts
-  - ALSA UCM file: 
-https://paste.mainlining.org/ungeskriptet/33fe4907c000413fac94e5052215b1ea
-
-
-Help would be greatly appreciated.
-
+diff --git a/sound/soc/ti/j721e-evm.c b/sound/soc/ti/j721e-evm.c
+index c0fa72e626ff..2057d46ad884 100644
+--- a/sound/soc/ti/j721e-evm.c
++++ b/sound/soc/ti/j721e-evm.c
+@@ -913,8 +913,9 @@ static int j721e_soc_probe(struct platform_device *pdev)
+ 	mutex_init(&priv->mutex);
+ 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+ 	if (ret)
+-		dev_err(&pdev->dev, "devm_snd_soc_register_card() failed: %d\n",
+-			ret);
++		dev_err_probe(&pdev->dev, ret,
++			      "devm_snd_soc_register_card() failed: %d\n",
++			      ret);
+ 
+ 	return ret;
+ }
 -- 
-Best regards,
-David Wronek <david@mainlining.org>
+2.34.1
+
