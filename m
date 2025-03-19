@@ -1,196 +1,161 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F1D250C06;
-	Wed, 19 Mar 2025 08:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0350B1EB5F0;
+	Wed, 19 Mar 2025 08:36:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742372796; cv=none; b=FpRAFuPCkec9lfCpCFKNySO9YJ99eTwrxJfoNmCJJ8LbeR5cNLh5xJxhlRXbBjpNAbIyC/b4tW71o0C1Hhj4PmKtnws8pqlVNrTFvg0xIWO2JsNi0XrpoJLD5nobsZEp6dCj5IEwmduxicKD/x97kelsmI0NLXEt/vM+5YHu67o=
+	t=1742373398; cv=none; b=mwLZrn1FpgGb0btByghji0YisdSnw1yv4WhNASt99GiCl+yDmfKcv7SPFw0Ep+sbpUYXid1bkBwjN4Maydmrj65NXbRR8dQwtG+uhd3Er/94M9AVFVbDXKA4RzBTQs/Zz3v4pqLyLKbZj6Wr9gATHJ7eJL6WEVFLrxtzbR04Irc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742372796; c=relaxed/simple;
-	bh=rU8+WkMYfMbYGpZkfzJ96Y2lKsnKTuKpexBprl+FdL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xvh8T5LIpmlZpAqX7UP4papMtyybnYUxKpzEGchb004ispHSxWlClxaG9UXNjfUNhQTN6ErgqcgSwXFvwfhdkNdUZuddL1r87oRNHrP/8uAbTtzbYK7Vri6Yga/3L+QVZJu0+l3pP5+ZPKVkK95p4zrq0q1ADZU8fkKhPujdC7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iD1Q8F9S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742373398; c=relaxed/simple;
+	bh=BdDVPT4azJbf932WZ7rfPtehzkFEwo7z+OMpncLjMh0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WDmaSEWFINK96rbu9rIGqkBkAO94qcmORxwCH1tFmu2wx2l4/hBG1YTtWq2HoSIXJUbAyq9j3Wjw0tDRv8u8/KQ/4B8Io7Nz+J2ReDONzw6DmhI+/2uYNFbJABajIYzBlY4tUy8jHcdwtfPyHcxrpRj969tC1te3igF63OQawo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iLBO0EVH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iD1Q8F9S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42ACEC4CEEF;
-	Wed, 19 Mar 2025 08:26:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iLBO0EVH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3BD7C4CEE9;
+	Wed, 19 Mar 2025 08:36:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742372796;
-	bh=rU8+WkMYfMbYGpZkfzJ96Y2lKsnKTuKpexBprl+FdL0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iD1Q8F9SxEXHSwXQ1X2w7c3ld3gV/mL5RfjN7hAaqzoyXEImk03FucbmYTiLOF1/u
-	 g0fDh1IbMn0C8FwiWcxb/EVy9hblcEpfUSERUkgftXppqOrI26KCxrxi/f4encpSJE
-	 vVBtTaghWd6YD+YWKqSCoeI9lETXJDXCxyzYdAnXOZ0I09UGvtdtJ//Ch0jlfZb/cL
-	 VptXpjYUTop3ncVYD+Q6+AdCzFpDdTmlMGrhklmSFIIL51TDTpf7dwZGN3mIOHj4v9
-	 h6E6qIHTl4iiQ+29rBXbzKFnpGKPNtIP30R6+FpchxFascpfS0oQvCg5VleMat6kAr
-	 9tEn9ZYUSRPPw==
-Date: Wed, 19 Mar 2025 09:26:31 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: jiebing chen <jiebing.chen@amlogic.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, jian.xu@amlogic.com, 
-	shuai.li@amlogic.com, zhe.wang@amlogic.com
-Subject: Re: [PATCH v4 6/6] arm64: dts: amlogic: Add Amlogic S4 Audio
-Message-ID: <20250319-quizzical-coyote-of-assurance-d4c91d@krzk-bin>
-References: <20250319-audio_drvier-v4-0-686867fad719@amlogic.com>
- <20250319-audio_drvier-v4-6-686867fad719@amlogic.com>
+	s=k20201202; t=1742373397;
+	bh=BdDVPT4azJbf932WZ7rfPtehzkFEwo7z+OMpncLjMh0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iLBO0EVHsVkxgByDnLynd4n5DIXZumxYDhnkWn+ofIgM1QzAqQBPxzm4/dqNmOf/n
+	 OHGCaP92JbyeUefi1rgyqJ00+2E3GLcRVWcnMAvQFuIzaKRUapOpqJRQcptaXw2E7m
+	 wqQsnQpNhZh5bfo4jURJUI7VG3RypXPbQANJtv7ytKLUkXQLKlx1O251UBDj8jncl2
+	 huUstqyGgREHjglmF4gTaMNiDge75FuTgcZ7fmW3xVy+JrjoH3sI4cKYW/K9xk5HCj
+	 z/oP/w8w707gSukddE8Iqlj3tVk11iZqyxI6XDUoXuvllLplkdMBeGcpVHMZFE5aFL
+	 oTvEdALTtwBTQ==
+Message-ID: <ad9eecf5-5030-4446-8292-e90a9cabb5ae@kernel.org>
+Date: Wed, 19 Mar 2025 09:36:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250319-audio_drvier-v4-6-686867fad719@amlogic.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: dt-bindings: maxim,max98357a: Add compatible with
+ richtek,rt9123
+To: ChiYuan Huang <cy_huang@richtek.com>
+Cc: Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Tzung-Bi Shih <tzungbi@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Otto Lin <otto_lin@richtek.com>, Allen Lin <allen_lin@richtek.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <1884c3ce2d901ead5d742958889f5a742e168376.1742259040.git.cy_huang@richtek.com>
+ <20250318-mature-dogfish-of-ecstasy-3dcea5@krzk-bin>
+ <Z9lYVram80dbWWl0@git-send.richtek.com>
+ <68e4ce8b-68a9-47a4-88c6-a4a401f5196d@kernel.org>
+ <Z9p+dQaMh4EKqss2@git-send.richtek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <Z9p+dQaMh4EKqss2@git-send.richtek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 19, 2025 at 03:04:49PM +0800, jiebing chen wrote:
-> Add basic audio driver support for the Amlogic S4 based
-> Amlogic AQ222 board. use hifipll pll (1179648000) to
-> support 768k sample rate and 24 bit (s24_le), 24bit sclk
-> is 48fs, use mpll0 (270950400) to support 705.6k sample
-> rate and 32bit, use mpll1 (338688000) to support 705.6k
-> and 24bit.
+On 19/03/2025 09:21, ChiYuan Huang wrote:
+> On Wed, Mar 19, 2025 at 08:42:11AM +0100, Krzysztof Kozlowski wrote:
+>> On 18/03/2025 12:26, ChiYuan Huang wrote:
+>>> On Tue, Mar 18, 2025 at 09:55:48AM +0100, Krzysztof Kozlowski wrote:
+>>>> On Tue, Mar 18, 2025 at 08:57:51AM +0800, cy_huang@richtek.com wrote:
+>>>>> From: ChiYuan Huang <cy_huang@richtek.com>
+>>>>>
+>>>>> The hardware control and specification of 'richtek,rt9123' are similar
+>>>>> with max98357 or max98360. It's no need to add the new source code. So
+>>>>
+>>>> Are you sure? I looked at datasheet and do not see anything about
+>>>> SD_MODE in RT9123. Also you have two supplies, while max98360a has only
+>>>> one. You have I2C but max98360a has no.
+>>>>
+>>> Sure, consider the I2C mode. Then it seems different. For the power
+>>> supply, yes, we have one more supply and it's used for digital input
+>>> output reference. It will always tiled to SoC digital power domain.
+>>> It's no need to control, so I think DVDD can be ignored.
+>>>
+>>> If not considering the I2C, and the DVDD power supply, for HW control
+>>> mode, then it looks the same including sample rate. One pin to turn on
+>>> the amplifier.
+>>>
+>>> This IC is designed for 'easy to use'. For the normal condition, HW mode
+>>> will always be suggested to the customer.
+>>>
+>>> May I have your suggestion? If it can not be compatible, should I write
+>>> two drivers, one platform driver for HW control mode, and another I2C driver
+>>> for I2C SW control mode?
+>>
+>>
+>> We don't talk about drivers here. I only commented that they are not
+>> compatible based on datasheets, so compatibility should not be expressed
+>> in the DT. Considering I2C, this should be in its own binding with full
+>> device description (so for both HW mode and I2C).
+>>
+> Actually, These two mode cannot be coexixted. 
 
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+I did not claim that.
+
+> The HW or SW I2C mode is
+> detected on POR by different external resistor.
+
+Not related to binding. Binding describes hardware and the chip does not
+magically change its transistors based on external resistor, right?
 
 > 
-> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
+> Just for the HW mode, all the controls, even sampling rate, supported
+> bitrate are all similiar with max98357 driver.
+> 
+> That's why I'm trying to treat it to be compatible.
+> 
+> For SW I2C, sure, I can write one for the dedicated usage. Under this
+> mode, all onoff sequences need to be controlled by RG.
 
-...
-
-> +
-> +		dai-link-12 {
-> +			sound-dai = <&toacodec TOACODEC_OUT>;
-> +
-> +			codec {
-> +				sound-dai = <&acodec>;
-> +			};
-> +		};
-> +	};
-> +
-
-Do not add stray blank lines.
-
->  };
->  
->  &pwm_ef {
-> diff --git a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-> index 957577d986c0675a503115e1ccbc4387c2051620..83edafc2646438e3e6b1945fa1c4b327254a4131 100644
-> --- a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-> +++ b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-> @@ -11,7 +11,11 @@
->  #include <dt-bindings/clock/amlogic,s4-peripherals-clkc.h>
->  #include <dt-bindings/power/meson-s4-power.h>
->  #include <dt-bindings/reset/amlogic,meson-s4-reset.h>
-> -
-
-Why?
-
-> +#include <dt-bindings/clock/axg-audio-clkc.h>
-> +#include <dt-bindings/reset/amlogic,meson-axg-audio-arb.h>
-> +#include <dt-bindings/reset/amlogic,meson-g12a-audio-reset.h>
-> +#include <dt-bindings/sound/meson-g12a-toacodec.h>
-> +#include <dt-bindings/sound/meson-g12a-tohdmitx.h>
-
-Old style was correct.
-
->  / {
->  	cpus {
->  		#address-cells = <2>;
-> @@ -46,6 +50,36 @@ cpu3: cpu@3 {
->  		};
->  	};
->  
-> +	tdmif_a: audio-controller-0 {
-> +		compatible = "amlogic,axg-tdm-iface";
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "TDM_A";
-> +		clocks = <&clkc_audio AUD_CLKID_MST_A_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_A_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_A_MCLK>;
-> +		clock-names = "sclk", "lrclk","mclk";
-> +	};
-> +
-> +	tdmif_b: audio-controller-1 {
-> +		compatible = "amlogic,axg-tdm-iface";
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "TDM_B";
-> +		clocks = <&clkc_audio AUD_CLKID_MST_A_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_B_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_B_MCLK>;
-> +		clock-names = "sclk", "lrclk","mclk";
-> +	};
-> +
-> +	tdmif_c: audio-controller-2 {
-> +		compatible = "amlogic,axg-tdm-iface";
-> +		#sound-dai-cells = <0>;
-> +		sound-name-prefix = "TDM_C";
-> +		clocks = <&clkc_audio AUD_CLKID_MST_C_SCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_C_LRCLK>,
-> +			 <&clkc_audio AUD_CLKID_MST_C_MCLK>;
-> +		clock-names = "sclk", "lrclk","mclk";
-> +	};
-> +
->  	timer {
->  		compatible = "arm,armv8-timer";
->  		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-> @@ -101,7 +135,6 @@ apb4: bus@fe000000 {
->  			#address-cells = <2>;
->  			#size-cells = <2>;
->  			ranges = <0x0 0x0 0x0 0xfe000000 0x0 0x480000>;
-> -
-
-Why? What is happening in this patch - why are you changing so many
-other pieces?
-
->  			clkc_periphs: clock-controller@0 {
->  				compatible = "amlogic,s4-peripherals-clkc";
->  				reg = <0x0 0x0 0x0 0x49c>;
-> @@ -134,6 +167,17 @@ clkc_pll: clock-controller@8000 {
->  				#clock-cells = <1>;
->  			};
->  
-> +			acodec: audio-controller@1a000 {
-> +				compatible = "amlogic,t9015";
-> +				reg = <0x0 0x1A000 0x0 0x14>;
-> +				#sound-dai-cells = <0>;
-> +				sound-name-prefix = "ACODEC";
-> +				clocks = <&clkc_periphs CLKID_ACODEC>;
-> +				clock-names = "pclk";
-> +				resets = <&reset RESET_ACODEC>;
-> +				AVDD-supply = <&vddio_ao1v8>;
-> +			};
-> +
->  			watchdog@2100 {
->  				compatible = "amlogic,s4-wdt", "amlogic,t7-wdt";
->  				reg = <0x0 0x2100 0x0 0x10>;
-> @@ -850,3 +894,327 @@ emmc: mmc@fe08c000 {
->  		};
->  	};
->  };
-> +
-> +&apb4 {
-> +	audio: bus@330000 {
-> +		compatible = "simple-bus";
-> +		reg = <0x0 0x330000 0x0 0x1000>;
-
-That's not a simple bus in such case.
-
-NAK
+Did you read my first sentence? We do not talk about drivers. What do
+you want to write? Driver?
 
 
 Best regards,
 Krzysztof
-
