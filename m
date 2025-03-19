@@ -1,190 +1,114 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9902A1E231F;
-	Wed, 19 Mar 2025 17:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8EE1E832C
+	for <linux-sound@vger.kernel.org>; Wed, 19 Mar 2025 18:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742406693; cv=none; b=hTUeENXGgw6rQKIsDJiBvjGa6B7oTiqMLeWSOW+X9DTqeSK4hJOA7oyAvlfUCDdMTQZECVMqy0FJziJpDAyd1nqDE7k1+hNi4Zl1L/vNhvHP4dK7b7IRpxK279wmBtF6ZYUQV99ojEKWWLSKNpLdJ/XaLcGvpEtZ5eOlVgtxrUY=
+	t=1742407256; cv=none; b=rx5ymIB67ndhmYuGe+vOMdJ5es/NymI2MbmAg9JVzouk1TEUXY8xOsIH8aBlJ4Te+xFro7C5+Tw2dxyZgKIThI79vUIYN0XslQeVXibdOLFts4SR5xgJb7abBURpCCAo4ikMmuSsSgNCt2Brtgj2NyGk6Zt9568AFEf8Su8/ZCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742406693; c=relaxed/simple;
-	bh=ARqqEUs3JR21voG0XkmqutV4r2tcM9VDqiEeOLf1vec=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MA+vauRLO+lX3Ch5eiumYGvNCL0MwuGMGmkdPMindqeWFxdims2uQv/JOd7FerMNRHj23bmU4z1n468LLlsNU1FGuyCYLxkriYUN2+Ptn3YYDxoqm0HcNDF+PninFSiIPMbMFXxuyihw2sl9vsJp1ASEx1uXTpVIFwbbIlcvfgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=PethQzR1; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1742407256; c=relaxed/simple;
+	bh=MyGuRyQlDt+foSD6CeJddJn3OL0fjbCOG+6NlRxWHHg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=acG0XuV1FyYgTrxeMeyk2e7SG0Lo9qZJwNQmXmrq6ceAPEq0ISpR+cgWnpdxEyzFg+xI1SXXnbCs5hXBeSFKm8QX6KIlbKqZriQW2QE0/npXr9yX1uxE+oCmYDh7tb2l7+WTaex1IUSeQ08xHRreV87qNYIUs+Fw9qTmzNokqMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IaVVn3EJ; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="PethQzR1"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52J5OEjS031622;
-	Wed, 19 Mar 2025 12:51:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=9VaNBMYlKdQRrnH19hnp/K2dAr5sWjgduN5goWa97WI=; b=
-	PethQzR1dtFqjeysyg27ZEya1M9OtwMkG3Q2Q8BgbkqpwYQy4qBh66vrGI5XAq1m
-	6g1MjN1GLHCFyu4sCE9DIqXw6eAGJsmjSC1PSNDXa7v/l/TGZSddN79kI5IOweBS
-	03sSYHoxQPUfYuKkSUB/IDkSXOxQ4f7GeFDZFZ7ka7M5RqNtKyW0Sl6/TvrSTXh4
-	j933JuxLUj9s9uho7ozZ53MnHdCny0hZPeL8eVRyJsGnWZzzZXAwwdlns+yjQB0u
-	XGVyww5i4q1OaazzmFFBQMtlN8Mt02IWPz81S1hgDNQhnyZYGkMjqtNx/tLDc2uK
-	KGUbqTEUzh/VvHF7S/xsRQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 45dc0mtgjx-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Mar 2025 12:51:26 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 19 Mar
- 2025 17:51:24 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Wed, 19 Mar 2025 17:51:24 +0000
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 0608D82255C;
-	Wed, 19 Mar 2025 17:51:24 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
-Subject: [PATCH v2 1/3] ASoC: ops: Factor out common code from get callbacks
-Date: Wed, 19 Mar 2025 17:51:21 +0000
-Message-ID: <20250319175123.3835849-2-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250319175123.3835849-1-ckeepax@opensource.cirrus.com>
-References: <20250319175123.3835849-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IaVVn3EJ"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cef035a3bso35174605e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 19 Mar 2025 11:00:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742407253; x=1743012053; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/rEfxvBCDj+OUf6/+Bbrxfwwkqzx6X/wza22OdnfwyY=;
+        b=IaVVn3EJ07saxjGiHiWtvGjXIF/qaa3WjClDBp6ylHibk4GkapEP+mybG6d1sDf6Dx
+         KxPmFfnTzHnbrW8rGvo4LTexhNVDI1MR5FPvcg5Auxike2KywKBf3nuA/kREU7L84fk5
+         6l+sy9jDzedPo/5ghDrqZNNVCwEb04nF3lyZXv1d3M6PqXBwXeS4/9JzU+2aSa9/258e
+         TQhNAFFNs9ClowK7BRpJ7yjcOGh3YhL5OjJQW2BQLK/44maAkkt9zrGXb3bYlOZeRPOg
+         C5GxSCoa2OMpiN70ZY5H5KO4tB+E99z/wO/vi2h7Xwv9+cmCLmYSm3HSqr5YGG8LM5IE
+         m6wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742407253; x=1743012053;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/rEfxvBCDj+OUf6/+Bbrxfwwkqzx6X/wza22OdnfwyY=;
+        b=j+LeP5aty7+vfzNwo7zB0ES3QZ5OHhvCRQqZm3cZ3P+Dl6PCg2jCIATp1+KisKc8uD
+         ZMsneAt8+ucRbfzkBk9uS+Eo8VKFHeMfbkkiNHoQlxEfz7slcFdgKynnfrCtP5Vd/Jox
+         VZSMD6c4pQUvvZHjiIjupyoxSMNDzC6G557+t3eW7cs+7Px97qPYOzXwQFXHXb4uYhtv
+         GNoXOXQj8n/10dVWgF5jtjX5eRVaYqISrFbZ59RIXEz2jxZPYDjs93FS3IqmPYiNZyRD
+         tpv9GOn22F4ybh9/Lq7tkUUtl03C4aSZTdKt+wqakXUo1f/NylXq3JdIfVdHvD+jPw3o
+         SwGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxvUHhfESWzsbaiQl/Y6f11GSmpiQ9KFrGGSuvb2a7lkWyQPi1269d39YA3lyGDQxnqFsckA52CfbFRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyesah2RFsLvmqe06EFuj7wlAg0rGsYrcqGc9wkXl8/XValucOP
+	e+nydE7dZbKv4PERTDNrvaXDIsjYJo1MJmlIwVXilfmCgfl7Ge7LnTEOEKmCuYo=
+X-Gm-Gg: ASbGnct8sFXZdNgi3TVDsSK4BgRFmzswh+VI5m9PWfLBwvHt8TKRm4gFRQ7smE/5SIS
+	8JNakk/nvOBQWFZynj3JmMkg5LMyYU4dndgePywsEiwz24fyTrh18KWvul0jSDvyQp+yreKasZa
+	OAfHl65Wx71gVOppZkF36WA0eYbeHOK9V+H0rXOn9X3bvtrGK8V1sIY6FL8PcdiSYCkpzBV7kie
+	4afcluqs8MlKuT8P2SEdn/t51Gjpi8Lcyumn5NONudn7wCZAr8wsxL7po5AFfxTiCkn3bKxdHNa
+	vetmVXP5bI+NeSQRnQgh3iVSuxKvmbjDkbuPGYi/l5hcvomiWPsj6YYIkiFn0pE=
+X-Google-Smtp-Source: AGHT+IFbFV/3Qs4DOHIi0NIjAkZVN8cQrhEL50TvwHlsiVaJpE49IvMubk5v6WpuWc3f92V/RIBWeA==
+X-Received: by 2002:a05:600c:4208:b0:43d:46de:b0eb with SMTP id 5b1f17b1804b1-43d46deb26dmr19657885e9.12.1742407252904;
+        Wed, 19 Mar 2025 11:00:52 -0700 (PDT)
+Received: from [192.168.68.117] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-395cb7ebbb7sm22140437f8f.92.2025.03.19.11.00.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Mar 2025 11:00:52 -0700 (PDT)
+Message-ID: <938cb09f-3fb1-4daf-802d-2d95222f30db@linaro.org>
+Date: Wed, 19 Mar 2025 18:00:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: Y4F-D2kzalOnE23wUNcC-a-cNlXhvg8q
-X-Proofpoint-ORIG-GUID: Y4F-D2kzalOnE23wUNcC-a-cNlXhvg8q
-X-Authority-Analysis: v=2.4 cv=XY+JzJ55 c=1 sm=1 tr=0 ts=67db041e cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=Vs1iUdzkB0EA:10 a=w1d2syhTAAAA:8 a=flwN6VLGnKKmA9wKfI0A:9
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: wcd93xx: add bindings for audio
+ switch controlling hp
+To: Mark Brown <broonie@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ andersson@kernel.org, lgirdwood@gmail.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
+ perex@perex.cz, tiwai@suse.com, dmitry.baryshkov@linaro.org,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ johan+linaro@kernel.org
+References: <20250319091637.4505-1-srinivas.kandagatla@linaro.org>
+ <20250319091637.4505-2-srinivas.kandagatla@linaro.org>
+ <4ie22uuz5tpg77jto3c3hec6lhonr44hrjda7jk655axlaxvba@u3atd4gcyghn>
+ <660115f1-d1fb-4fd7-a453-e8c177be9eed@linaro.org>
+ <51dd7cb2-0c22-4043-b3a1-fa8410903cbd@sirena.org.uk>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <51dd7cb2-0c22-4043-b3a1-fa8410903cbd@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There are only two differences between snd_soc_get_volsw() and
-snd_soc_get_volsw_sx(). The maximum field is handled differently, and
-snd_soc_get_volsw() supports double controls with both values in the
-same register.
 
-Factor out the common code into a new helper and pass in the
-appropriate max value such that it is handled correctly for each
-control.
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
+On 19/03/2025 16:03, Mark Brown wrote:
+> On Wed, Mar 19, 2025 at 03:59:23PM +0000, Srinivas Kandagatla wrote:
+>> On 19/03/2025 10:01, Dmitry Baryshkov wrote:
+> 
+>>> Is this regulator supplying the codec or some external component? In the
+>>> latter case it's likely that it should not be a part of WCD bindings.
+> 
+>> This is regulator powering a mux that is driven by gpio which is part of
+>> codec binding. So I would assume this will fall into the codec.
+> 
+>> Where would we fit this if not part of codec?
+> 
+>> Unless we mark this regulator as always on.
+> 
+> I would expect that the mux would appear in the DT and consume both the
+> GPIO and the regulator.
+Yes, its doable, so we would endup with a mux driver consuming regulator 
+and gpio and move the gpio handling in codec to move to use mux control.
 
-Changes since v1:
- - Drop reg and reg2 local variables that were unused
+Let met try that and see how it looks like.
 
- sound/soc/soc-ops.c | 68 +++++++++++++++++++--------------------------
- 1 file changed, 29 insertions(+), 39 deletions(-)
-
-diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index 0b62ffb2e222f..1d7c28993a631 100644
---- a/sound/soc/soc-ops.c
-+++ b/sound/soc/soc-ops.c
-@@ -243,6 +243,33 @@ static int soc_put_volsw(struct snd_kcontrol *kcontrol,
- 	return ret;
- }
- 
-+static int soc_get_volsw(struct snd_kcontrol *kcontrol,
-+			 struct snd_ctl_elem_value *ucontrol,
-+			 struct soc_mixer_control *mc, int mask, int max)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	unsigned int reg_val;
-+	int val;
-+
-+	reg_val = snd_soc_component_read(component, mc->reg);
-+	val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->shift, max);
-+
-+	ucontrol->value.integer.value[0] = val;
-+
-+	if (snd_soc_volsw_is_stereo(mc)) {
-+		if (mc->reg == mc->rreg) {
-+			val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->rshift, max);
-+		} else {
-+			reg_val = snd_soc_component_read(component, mc->rreg);
-+			val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->shift, max);
-+		}
-+
-+		ucontrol->value.integer.value[1] = val;
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * snd_soc_info_volsw - single mixer info callback with range.
-  * @kcontrol: mixer control
-@@ -299,31 +326,11 @@ EXPORT_SYMBOL_GPL(snd_soc_info_volsw_sx);
- int snd_soc_get_volsw(struct snd_kcontrol *kcontrol,
- 		      struct snd_ctl_elem_value *ucontrol)
- {
--	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct soc_mixer_control *mc =
- 		(struct soc_mixer_control *)kcontrol->private_value;
--	int max = mc->max - mc->min;
- 	unsigned int mask = soc_mixer_mask(mc);
--	unsigned int reg_val;
--	int val;
- 
--	reg_val = snd_soc_component_read(component, mc->reg);
--	val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->shift, max);
--
--	ucontrol->value.integer.value[0] = val;
--
--	if (snd_soc_volsw_is_stereo(mc)) {
--		if (mc->reg == mc->rreg) {
--			val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->rshift, max);
--		} else {
--			reg_val = snd_soc_component_read(component, mc->rreg);
--			val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->shift, max);
--		}
--
--		ucontrol->value.integer.value[1] = val;
--	}
--
--	return 0;
-+	return soc_get_volsw(kcontrol, ucontrol, mc, mask, mc->max - mc->min);
- }
- EXPORT_SYMBOL_GPL(snd_soc_get_volsw);
- 
-@@ -361,28 +368,11 @@ EXPORT_SYMBOL_GPL(snd_soc_put_volsw);
- int snd_soc_get_volsw_sx(struct snd_kcontrol *kcontrol,
- 			 struct snd_ctl_elem_value *ucontrol)
- {
--	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct soc_mixer_control *mc =
- 		(struct soc_mixer_control *)kcontrol->private_value;
--	unsigned int reg = mc->reg;
--	unsigned int reg2 = mc->rreg;
- 	unsigned int mask = soc_mixer_sx_mask(mc);
--	unsigned int reg_val;
--	int val;
--
--	reg_val = snd_soc_component_read(component, reg);
--	val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->shift, mc->max);
--
--	ucontrol->value.integer.value[0] = val;
--
--	if (snd_soc_volsw_is_stereo(mc)) {
--		reg_val = snd_soc_component_read(component, reg2);
--		val = soc_mixer_reg_to_ctl(mc, reg_val, mask, mc->rshift, mc->max);
- 
--		ucontrol->value.integer.value[1] = val;
--	}
--
--	return 0;
-+	return soc_get_volsw(kcontrol, ucontrol, mc, mask, mc->max);
- }
- EXPORT_SYMBOL_GPL(snd_soc_get_volsw_sx);
- 
--- 
-2.39.5
+--srini
 
