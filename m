@@ -1,189 +1,145 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2073.outbound.protection.outlook.com [40.107.20.73])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2801A20F070;
-	Wed, 19 Mar 2025 03:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742355442; cv=fail; b=KG5MzKc3yHB77g4PDkK2djGdQEKfLec+uTNsREaehUs+SkHlK3a1d+/xh8B7ADB0kN4TPUhhvyzSPVHg/q66fML+CLTcUzHffEjNaiDx1kE8VWUJzZnyX/+tzhydkxfG9nPts+WHKPGtYkVO/nHQu6jG1ZVuvzsm0FVpvCWucAc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742355442; c=relaxed/simple;
-	bh=NpIvnUqe2+n6JS7mgWeIb8VA9P15MV1V/kIqww2IqJ0=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=TaBfmmnSnn6UT7H7AXfYGu8P3seRb5nzs5tYXDPprXlB6tzeYNXljaQ/22Og0DDIjp7bz23f7AtYiD088YXDldfGpkTeGNblqPEXxCRDZFtK8J3Ij1HH4VvirqelP640WoyRLmP9nnY5rF8gWst76PLFmQzzXL6lvbT+3wSxLZo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=KLopuN0K; arc=fail smtp.client-ip=40.107.20.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8728B24EF7D;
+	Wed, 19 Mar 2025 07:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742368000; cv=none; b=u7CNaxq9boIDlXuRHui2RSHbEVflzTEym9dsvnxmwxWalRofa7SCrpT4g0lC2CBGLu9zf3Ly0pvMUkin+3Dg+s8/eIyd0O1K7HyUEywjfPIXSmLZIp26EEIm90V+XsNxS18UFkZ6Pyaab2P5GI7phOMGNEjQekqRPEZUH9leYXU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742368000; c=relaxed/simple;
+	bh=tvgPwCRWbi/ALkXQMLlct6LyeXt6Qqe+tJZSRrxXF0I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=l3kJnJ7RsMPAKn4V33p2t+KWQRM5wlL+LJZbMHbH5fwpDPhK8KQ2yh3CMMf5pk4ZG+IbLyx3sE7Vx0q8958Z2nA9lzQYHz3BneCs1Zg8ZTh3+9H+L/YvELNZjHMPRuHlmBkXqJPWxQKxsNBgzm4iz01s/LPf9/eSVqg3ILCjx7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W8JXI4ps; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="KLopuN0K"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M592+N4/NdzDB1dXZtAK8RssytIdD+SPCkTyTnH2EybSoLg+5u7DLRwSzi0MnpPPmNsBQaBOCsSzNLgpUQxxnmScV0lN2/esliWouxmkqbyEIqB39yeITLkGR/05tMwFTnOPnYebqQczy/h8K8oaopINSOSbpcSLsW4edM2TUZFtbDMFjVQeEAmaLzoH+zywI7UDGtvqOTIrKBnvtQ488x91WuBT8tJRXtqzY8nnkcJ3At3HiPR8pzHeHCMhle8vDrElbTr2W0TAJmRFiIQ105PnkFy4EWkE6tYJl63/Fw0h6wsizc0MAhvhoa43DhiqX6ybhOT1Hhks1dAioadTBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EmxTbGPwtUFa1PtyR6FIn43tFIDRWZ+KN9ylEkIO/v4=;
- b=A7u4XZZNystCBk7CfDQYhDbredKcsh1Ka3cietSEsGQbLz8IxxZgROgkMSuQcWGajdTSrklQ1teFDWJPZTiPzPOnVa5WWmYfkJu2FxYFQTcMhhxO96k5u1Thv3YM8r+r67jeqr27qlCmTObtXo7OrfRCbNV15u1vy1UsVwGRgU4O9KNzWQzc5VyzPYcekjfbjpZlO/WI2vvvWXmyqnoDC37BRpIBXsiwnKC4VX0kWiYbhvjPFDp9awEpxoB8wsCUWpljU9bpLCSrNsR1cLtHRZe6o/sCtIIyDdROP3r64ecKpJ7fkExGyGNrOUVh1T7YrX7AHoBcjy2jRsl6P7gFGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EmxTbGPwtUFa1PtyR6FIn43tFIDRWZ+KN9ylEkIO/v4=;
- b=KLopuN0K0wMiL3T/uXn6Ea0skgjg5fwn+lejoahbA/Iwht6naUYDshMK+STPa3YEz9uMtFEJxp4M7T4mTh00d339q5PUP2i9onH2eu4n3+jVlBeiwQiLRQdW2SYlQhXGtMkJ5xah4mI3vLX/txpsm3lgNMY5P3Q8eI9HzAgQg/KWM+DNAChN36ONcik70twlD2KsgHsY1+vVVyNESyfeqpWuO9P4rexxKZqttHD08TqrI178junQXxCpU80VWR2PvUcScIeqTOZDQoNrJe6XalB2XcRjmkMTe1+leHTYsB9TNWf7yYVfbidjPsLHF4tMq5Sy09Vfa98MGooeX5iUnw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by DU4PR04MB10669.eurprd04.prod.outlook.com (2603:10a6:10:58e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Wed, 19 Mar
- 2025 03:37:17 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::7be0:296:768c:e891]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::7be0:296:768c:e891%3]) with mapi id 15.20.8534.031; Wed, 19 Mar 2025
- 03:37:17 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: fsl_asrc_dma: get codec or cpu dai from backend
-Date: Wed, 19 Mar 2025 11:35:04 +0800
-Message-Id: <20250319033504.2898605-1-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0080.apcprd02.prod.outlook.com
- (2603:1096:4:90::20) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W8JXI4ps"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 17C15C4CEEA;
+	Wed, 19 Mar 2025 07:06:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742368000;
+	bh=tvgPwCRWbi/ALkXQMLlct6LyeXt6Qqe+tJZSRrxXF0I=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=W8JXI4ps/GpodZ9fu7N4s22fdmV9+leBQrvBov4qjUUvvZ7JzgZIEMcPGcLSxUavI
+	 bhO8Z05FLZAzpMKLWq9tazy0NcrsHvb5dA0C41XggqZWbV2TdlKyAOy9nDYzD4Ltw9
+	 LUVXlxbDnaz9aKjZDLStMOcsHL8T6c8pvwqBsIQ7YXYX79cIQRywWiDFBGXqA1r80w
+	 vJ3Xuzlwq9Y0RAXrS0PtE7RTLPJPCMaz6nvdH02L5I9n50ooRcHrNUJtvmIk2RpoUy
+	 jHYJ+3YXxotJafv9eVK/Z7AsZ2oNd22AhtvM283Y5IYM5uY0g2qQV+Wd+GvPanE410
+	 GTquB86c6Sueg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0E8C35FFC;
+	Wed, 19 Mar 2025 07:06:39 +0000 (UTC)
+From: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>
+Date: Wed, 19 Mar 2025 15:04:44 +0800
+Subject: [PATCH v4 1/6] dt-bindings: clock: meson: Add audio power domain
+ for s4 soc
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|DU4PR04MB10669:EE_
-X-MS-Office365-Filtering-Correlation-Id: 743d1be8-2e40-4441-9a34-08dd669758c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|7416014|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?5TSg3TclpSne8RbBSV1h8WbLuZEQyAAlkgnnlnkxrSCpQZh6e04nBuun7IqT?=
- =?us-ascii?Q?W23eR6mX3St+w4nOuj49ORnrxNaP7AmnQ9Mg4mgoNPUOBcjp97vv7+HURovR?=
- =?us-ascii?Q?TBufYm9CPjZflSedL60fzlotBN9lbtPR9cptNTfKdAiz/ZUE2Dw8F7q01NXw?=
- =?us-ascii?Q?MJYgDwDFmBJCdjYWqyjXfudAfBuB0hmV6IYHdxC7LYRe2zMzAqmnF5p0N5f+?=
- =?us-ascii?Q?Ek8BJqCuv3UgITPfJhxaZ1zsafk11yljHPhkWSG+QI+v6ngKG7+zo5OdsUqn?=
- =?us-ascii?Q?tYPP23PwpbI/Ae6xriwXYh/MfP122RNRtOSn27mbAkYOEFsI/AT/yKNZVq0t?=
- =?us-ascii?Q?va++pd6kRAkTx8EX+6aCxVjBwuWfGWJS9FgaoXi7jTPM3dVpOhNrVJprasfH?=
- =?us-ascii?Q?leREzBgVL+I08sUwSpGcvrL7CmbxRg42jqkDvfMVHCxNj0nAeLYOideqVibY?=
- =?us-ascii?Q?iSI/4MTte+tTMoT438Zj4pklt8miNkqJs9AMhDdVTMBs43qdPFdwC35aKVAt?=
- =?us-ascii?Q?IXpAvL32G3Dg/Ir2C/y2ZXBVDTgvevYVfGdCw8C0CwjVdgUdGXKeranwI6Vz?=
- =?us-ascii?Q?aVko2n/HP/mvwrFOIFA5dA6DXuL6H/+Lu/Qlyetd6EY9JU/WOFj40SuwuJPo?=
- =?us-ascii?Q?ByZ1J1NNROtBUKFC4wh5SPat30Y48KhDIakh02DtYy8k+bUdjTVHUpV043ku?=
- =?us-ascii?Q?+8nBNVY2P0sdyQktwfZTGBVf6QzUIQs0BYEKeOWLISNe5X531fke4gR4/Dki?=
- =?us-ascii?Q?jp2J5Fi0X7S+UTs2LLdpWD36nwoTSws5T3RY0N1WWSmkntNIPHPib8A5Tyz7?=
- =?us-ascii?Q?v/vh3uQqT/DaDmhak0MbkovM3Qnpn2JnpO40zyI/6m8QGL/bfF4W2t1nIGLv?=
- =?us-ascii?Q?XZWLwrqCHm4NLWFqy8wBN3yiTdWEgML8yHEMAsoHIu9NEku66eDymBVMbQte?=
- =?us-ascii?Q?W2OPMP3hGTZPctHudlCzP4sY7l+JLlx7J8uX7Qyqj1NVb69iBe7yO9Q0Bxvg?=
- =?us-ascii?Q?Dlwu///71wVHu29d/RyhL/20XRTW3L13ELeSHWptIwP9PZX1Gdd+Sx8cuCkI?=
- =?us-ascii?Q?4bIW07BUC47lHzV1mnTh38yfB7sATood8+m6QQuKJdpmvK+dTwUhE7YZx/MM?=
- =?us-ascii?Q?MJAGJ7qlIYkw7fLjmGrObG8wzFQGxn6D6wNlCNlmzINbolDfuHyfmGj8SgDr?=
- =?us-ascii?Q?eq+7Z2IcXuL5uTYYT2+fziNZ64SF0hdqjA3IC4R7bH5+e0SpUl3dg3j949QG?=
- =?us-ascii?Q?MnahqFjDpOYH9JwD3jd28qRHrUz5wTXe6RWiHS4uOT8U9TWHODfkmqGbZz0d?=
- =?us-ascii?Q?H9hhUMYWRpL3QhVCbFrkLeqGq0iaS95Zm7hmaHghMv+6MtLyfNSRc2DS3nOb?=
- =?us-ascii?Q?5wiFWq60NnbAHk5ds7gRy8wtiyiDlerugoq3SkkHi+6Kc0NmM8sihUHUDqvz?=
- =?us-ascii?Q?671COgMTps+G5egL8kw0XGXRZcI6E+fIn6QwQsWwYWN/PnDdfsqKzg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(7416014)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?aYz/XZC3BD+qehgxdGCRzS6emiH8vX13x1Qocc6xq2lJKBM9Yg6j+KJ2gB6u?=
- =?us-ascii?Q?dYhVBhRuwF3bXd1y3Vs2SvFtjXIP31jbSMvt3hHNvH8YjBZLZA+OKNgOOw21?=
- =?us-ascii?Q?1dyMvHOh+haQH2s8gj/qECsm96DH4kZ8ZwOXbUdLMlG2ULD9odV9JggFjX+X?=
- =?us-ascii?Q?wvYMwqQ+t+u/YTwpktPzc0h2uTTi775hGR/xUjabUY3yXddzPLO/dAeejhPa?=
- =?us-ascii?Q?pqZggUroWynxkvw0YxhtRwWR82mxjXqvNkeA9tiR5pokfjL3zGW+8PD6LL3A?=
- =?us-ascii?Q?TCezMlfSYBdvJ0lx3OfhTkgUu3prfysiyczePCvMcZxYEWNxr5SVycxukQiX?=
- =?us-ascii?Q?zsNDXip1ChNwBym5qRB6EVc03e1SvUiA49pam2xvCVb53pHKn5mUpLZC0VSq?=
- =?us-ascii?Q?s3x6YIjFlgZSLSf/oZcDZ7mzHJAUsPJ01AlhVFpE0MyHEABDEl/YqMPwCnyw?=
- =?us-ascii?Q?CKXSg49ORQ3Fe2PaYImxqZvbCBa9xtNx8LdvjDjdn+YBLskrt6qO01qK0idB?=
- =?us-ascii?Q?Y8HHHRO6dSJBUfbYAeg3Hf3tisiq3SbGHgGuGuWjEKcOVlgKMYdqe2o9ZtDS?=
- =?us-ascii?Q?8cu1i14B3PAv3UDfqM2Ylrlur47Wpn2/SK/gEMBvnGfp5t1nmRdIw1t2/1g8?=
- =?us-ascii?Q?SSAgkS96+dXmwsY1GtkvP3xnaXDKL3jjC6DGxKOx1Kw1/4nVEy1oZcNj0tWi?=
- =?us-ascii?Q?rQTud99VW0jTi1U3ZpZq2Mm1D7ElocUGKrDa2l2IRd9fve+XdEKEKgdXgYV+?=
- =?us-ascii?Q?ShLTfkC2+PSRNo4TOZGm15WM+a0XSKUcEuekNTbWndL3BhzPjGJBShvWUHJP?=
- =?us-ascii?Q?puEBKNWersoVpIKUXi3mKv1EB7MjFmmCEsNOOuztvX1tHWS9Tv2h08FSZtVx?=
- =?us-ascii?Q?19t2dl0cLNo5+avvlhtCQ17uwvahNT7xEquXo7dZtzoHSsGoCDlFN1DflyIs?=
- =?us-ascii?Q?D78u+V34jl9DmxFdYQvSiUEh7dnzwWH6N2Uuz948C7G1BlMxAeWFycLS0FU+?=
- =?us-ascii?Q?Yc2YbcPj/6eHhMMb0qVn+sC7sdS4Rjdvrl5F4iIHSo4BPoh9cBBQuxUKJ1BY?=
- =?us-ascii?Q?2GJ89FKrvvx4sEWQ4XV4Jb72H8DD5GS0m+twFadYoQfuqIzwgLP660pA5WXF?=
- =?us-ascii?Q?LlfXidmK7neKrSE/fPNdVUEYmf+RCrCEz0KTv+kY8FUnbX8kx6LUfdnIE8Hz?=
- =?us-ascii?Q?K6/ODoQuYvj4ifVauNVZcEcgktVlziOoVkGzgb6ZR7z/RUsAR4sxhk31XqoT?=
- =?us-ascii?Q?MPh0kxfrieCsifXnDlY2ddJINQNwckx708YaRHFd4JugrypWXyEVXJOMLunQ?=
- =?us-ascii?Q?bPt8zIp9MrHctaIMshonNSMrZOQ5JEkgqaE3SF2D80AgLS2g1VrHXtyFq62I?=
- =?us-ascii?Q?KhfapMdzoarAnr06O2Izx4Y07B8vRwfxh6NCRT+IMgllzjN92V7vyzYs4YFF?=
- =?us-ascii?Q?eu7M918qIxmcu8jRbToHyynesTdhNxQHEjOWXKvOW3OL8cX5nkqfFGcstcHS?=
- =?us-ascii?Q?zixPRz0IbV/QnapQ53neW8ebAgup+B+8L3wo9YAj+V4kv6cM/J00Kg6rwahR?=
- =?us-ascii?Q?/SeSVz54yYnPqNg+HoZs7bMkoiAkZayIewGwc7sx?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 743d1be8-2e40-4441-9a34-08dd669758c5
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 03:37:17.4246
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: reTHGoXTad2ARZ9dU+D3TXOI0mSvT/ngfwI0vtcuYe1Gbs51MCnOMStmnZcUO4YdszyuVk1REdyy+YWWKrT/LA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10669
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250319-audio_drvier-v4-1-686867fad719@amlogic.com>
+References: <20250319-audio_drvier-v4-0-686867fad719@amlogic.com>
+In-Reply-To: <20250319-audio_drvier-v4-0-686867fad719@amlogic.com>
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
+ jian.xu@amlogic.com, shuai.li@amlogic.com, zhe.wang@amlogic.com, 
+ jiebing chen <jiebing.chen@amlogic.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1742367997; l=1779;
+ i=jiebing.chen@amlogic.com; s=20250110; h=from:subject:message-id;
+ bh=LILue2hV/0RBI1wyR/+9esvdXN1gHROx+an1AXnFBQ0=;
+ b=5p4uPDUvvHQ9UwyB7WW54kKulEkuralm/Z3oOIisosXjHg1ryW9BuqvlnKrqjlbFOTuCyxTtp
+ ZB7idtOCV1MAQgWuF9mAAU56S+UpnvWu8ImxLz9HLy4nvtUq8rlKrrr
+X-Developer-Key: i=jiebing.chen@amlogic.com; a=ed25519;
+ pk=6rFvvF45A84pLNRy03hfUHeROxHCnZ+1KAGw/DoqKic=
+X-Endpoint-Received: by B4 Relay for jiebing.chen@amlogic.com/20250110 with
+ auth_id=316
+X-Original-From: jiebing chen <jiebing.chen@amlogic.com>
+Reply-To: jiebing.chen@amlogic.com
 
-With audio graph card, original cpu dai is changed to codec device in
-backend, so if cpu dai is dummy device in backend, get the codec dai
-device, which is the real hardware device connected.
+From: jiebing chen <jiebing.chen@amlogic.com>
 
-The specific case is ASRC->SAI->AMIX->CODEC.
+Audio power domain found on S4 device.it need to enable before audio work.
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
 ---
- sound/soc/fsl/fsl_asrc_dma.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ .../bindings/clock/amlogic,axg-audio-clkc.yaml       | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/fsl/fsl_asrc_dma.c b/sound/soc/fsl/fsl_asrc_dma.c
-index f501f47242fb..1bba48318e2d 100644
---- a/sound/soc/fsl/fsl_asrc_dma.c
-+++ b/sound/soc/fsl/fsl_asrc_dma.c
-@@ -156,11 +156,24 @@ static int fsl_asrc_dma_hw_params(struct snd_soc_component *component,
- 	for_each_dpcm_be(rtd, stream, dpcm) {
- 		struct snd_soc_pcm_runtime *be = dpcm->be;
- 		struct snd_pcm_substream *substream_be;
--		struct snd_soc_dai *dai = snd_soc_rtd_to_cpu(be, 0);
-+		struct snd_soc_dai *dai_cpu = snd_soc_rtd_to_cpu(be, 0);
-+		struct snd_soc_dai *dai_codec = snd_soc_rtd_to_codec(be, 0);
-+		struct snd_soc_dai *dai;
+diff --git a/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml b/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+index fd7982dd4ceab82389167079c2258a9acff51a76..50a5cbb6eb64873dd5aa55f6f1a63e9e97542760 100644
+--- a/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
++++ b/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+@@ -21,6 +21,7 @@ properties:
+       - amlogic,axg-audio-clkc
+       - amlogic,g12a-audio-clkc
+       - amlogic,sm1-audio-clkc
++      - amlogic,s4-audio-clkc
  
- 		if (dpcm->fe != rtd)
- 			continue;
+   '#clock-cells':
+     const: 1
+@@ -29,7 +30,7 @@ properties:
+     const: 1
  
-+		/*
-+		 * With audio graph card, original cpu dai is changed to codec
-+		 * device in backend, so if cpu dai is dummy device in backend,
-+		 * get the codec dai device, which is the real hardware device
-+		 * connected.
-+		 */
-+		if (!snd_soc_dai_is_dummy(dai_cpu))
-+			dai = dai_cpu;
-+		else
-+			dai = dai_codec;
+   reg:
+-    maxItems: 1
++    maxItems: 2
+ 
+   clocks:
+     minItems: 1
+@@ -100,6 +101,9 @@ properties:
+   resets:
+     description: internal reset line
+ 
++  power-domains:
++      maxItems: 1
 +
- 		substream_be = snd_soc_dpcm_get_substream(be, stream);
- 		dma_params_be = snd_soc_dai_get_dma_data(dai, substream_be);
- 		dev_be = dai->dev;
+ required:
+   - compatible
+   - '#clock-cells'
+@@ -116,12 +120,26 @@ allOf:
+             enum:
+               - amlogic,g12a-audio-clkc
+               - amlogic,sm1-audio-clkc
++              - amlogic,s4-audio-clkc
+     then:
+       required:
+         - '#reset-cells'
+     else:
+       properties:
+         '#reset-cells': false
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - amlogic,s4-audio-clkc
++    then:
++      required:
++        - power-domains
++
++    else:
++      properties:
++        power-domains: false
+ 
+ additionalProperties: false
+ 
+
 -- 
-2.34.1
+2.43.0
+
 
