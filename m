@@ -1,113 +1,90 @@
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B92C2505C4;
-	Wed, 19 Mar 2025 08:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840F924E4C6;
+	Wed, 19 Mar 2025 08:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742372416; cv=none; b=aAMszSkeJvCzBu4KxDqH2dYgGCRV94qwQP4+7SDJTaSr6brv0ZIeL7zEGt52naKTdnN/TEO20ewGNivuxxb4ZOteA4RC3IWQph9THV/Ie8+NsBXpU+1eCV9FvLRIapIuAdLvAGl/uusLGuC6gNY/clDVxzh+3wCm6yXr3uWMQEo=
+	t=1742372537; cv=none; b=UDrDSndfFgyNxX/J77gJmM4zqly7kKyoeNxgURQKherE8CPnVVGnMSLdxu7khjWGrkprhym0T9fUJCmGFXyR+Qj754yjXoZvZxy4FsbBh6AdKsqxSPD4wm8pheJ7XXg7PnnKCInPzowHsZyJUOWmNY2PvLtXvWfqlOdTs/pEqeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742372416; c=relaxed/simple;
-	bh=xhi0oQVwruDma9ETGq1OQ0/h+zHO90BLiI9EToiuAH0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eTviWbTvKwTNfhG85fV32mtAH9IhSKwm/w+cHEeb8Q1Ke9EHkcpxXniW9MxzTApvOYR7JGRq0UuX2kuhuCGIIvfENbTa9ejUR06ROdBUxYl9aH9Xtb2n2nwtWfcYX85KQs8sUdekG9gtYPv7GF7jA5gZzy6qBnUwy/9YOty0ABM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=nRS3JJ6z; arc=none smtp.client-ip=220.130.44.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
+	s=arc-20240116; t=1742372537; c=relaxed/simple;
+	bh=qHottCH/UKxNQxJoU8i1IYC7DAOUxp3drrxyBkl7KQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hhEsynGyscb6Sg5KCRjZdqe7vUhiQLn4PC5MgCeoQxP6OUG36MLHDfj3OkQeLuW8kbZ150IOiblm1CneFpXDhjd2mqlxuslucJxu7TAEgpYfJZwti4wqUXOOiQ9/h+VR35sV9AFmm6Lb+5g1mXqsNFmszkNeIN+0DeOb2tCnSxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pLmL4vXN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="nRS3JJ6z"
-X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
-	s=richtek; t=1742372408;
-	bh=rLp3wvwBjciCI34SBDn2RKlhjxLGxJQVYVjsFoNJNCo=; l=2211;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=nRS3JJ6zJTuxcqfbO7qkmLFvIjijuZkGUdJsGpj7h1LiZmJ0Dxvt0DOLP0Blvvank
-	 AZIF2VyPujo3B3k2K/5ZkEIQdeGN/Svm60+x8UlTUAMo0+bdQLhD0pRmwP1XPFrB8s
-	 5/5xITT6hcAfcfOb8YjIIZcLI7u3TMt+PERhlLMj8CLRqKfXk31Z+LLuQgEHYp2zOz
-	 WnAU6LRELvXbRYZhoC12xhLLKH3oupEDOneKFwNEodye6eNSTPUWTDmfL1lgVufc9a
-	 5QpmiqcH0hP0zCBFAj7QYSZpV2fDT6iV4hl6qqDz2Fi3/ioaNWd6Aei+rRB5WoUos4
-	 L/bY+F3JSfzkQ==
-Received: from 192.168.10.47
-	by mg.richtek.com with MailGates ESMTPS Server V6.0(2814888:0:AUTH_RELAY)
-	(envelope-from <cy_huang@richtek.com>)
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Wed, 19 Mar 2025 16:19:58 +0800 (CST)
-Received: from ex3.rt.l (192.168.10.46) by ex4.rt.l (192.168.10.47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 19 Mar
- 2025 16:19:58 +0800
-Received: from git-send.richtek.com (192.168.10.154) by ex3.rt.l
- (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
- Transport; Wed, 19 Mar 2025 16:19:58 +0800
-Date: Wed, 19 Mar 2025 16:21:09 +0800
-From: ChiYuan Huang <cy_huang@richtek.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Otto Lin <otto_lin@richtek.com>, Allen Lin
-	<allen_lin@richtek.com>, <linux-sound@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: maxim,max98357a: Add compatible with
- richtek,rt9123
-Message-ID: <Z9p+dQaMh4EKqss2@git-send.richtek.com>
-References: <1884c3ce2d901ead5d742958889f5a742e168376.1742259040.git.cy_huang@richtek.com>
- <20250318-mature-dogfish-of-ecstasy-3dcea5@krzk-bin>
- <Z9lYVram80dbWWl0@git-send.richtek.com>
- <68e4ce8b-68a9-47a4-88c6-a4a401f5196d@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pLmL4vXN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B3E5C4CEE9;
+	Wed, 19 Mar 2025 08:22:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742372537;
+	bh=qHottCH/UKxNQxJoU8i1IYC7DAOUxp3drrxyBkl7KQQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pLmL4vXNYRImbsRHdoXOTASyKXTCLYTmZU1XVmzyNSJ/5wXrqRTeLkUHdN0h8FOwb
+	 wseediqt69jln1jyt6z2irAxoQHTRp9haUAPDfdqmRXzKrOe7vB2hR+eJevPfpLKfM
+	 My0Ch6CFLjFbQ9TjfqAvhegyUVtzNytaZUXKN9MF5PrQoV35Y4yMBSYAsmzEpLIaHe
+	 PKyKTYWfgjGbt7fUJCMZpP/4DeK8zH2HYZeEk3zGb/0E37UoisK09++33ln2+rqyPF
+	 10ZDQTzFz5K9uA6YVd/leQFkyaOnrvDdL1kVR8/nv1do1eJV7U39mRfZSe7RTdGWDW
+	 AukSgF2M/fLxg==
+Date: Wed, 19 Mar 2025 09:22:13 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: jiebing chen <jiebing.chen@amlogic.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, jian.xu@amlogic.com, 
+	shuai.li@amlogic.com, zhe.wang@amlogic.com
+Subject: Re: [PATCH v4 2/6] dt-bindings: clock: axg-audio: Add mclk and sclk
+ pad clock ids
+Message-ID: <20250319-daffy-classy-kangaroo-023e1f@krzk-bin>
+References: <20250319-audio_drvier-v4-0-686867fad719@amlogic.com>
+ <20250319-audio_drvier-v4-2-686867fad719@amlogic.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <68e4ce8b-68a9-47a4-88c6-a4a401f5196d@kernel.org>
+In-Reply-To: <20250319-audio_drvier-v4-2-686867fad719@amlogic.com>
 
-On Wed, Mar 19, 2025 at 08:42:11AM +0100, Krzysztof Kozlowski wrote:
-> On 18/03/2025 12:26, ChiYuan Huang wrote:
-> > On Tue, Mar 18, 2025 at 09:55:48AM +0100, Krzysztof Kozlowski wrote:
-> >> On Tue, Mar 18, 2025 at 08:57:51AM +0800, cy_huang@richtek.com wrote:
-> >>> From: ChiYuan Huang <cy_huang@richtek.com>
-> >>>
-> >>> The hardware control and specification of 'richtek,rt9123' are similar
-> >>> with max98357 or max98360. It's no need to add the new source code. So
-> >>
-> >> Are you sure? I looked at datasheet and do not see anything about
-> >> SD_MODE in RT9123. Also you have two supplies, while max98360a has only
-> >> one. You have I2C but max98360a has no.
-> >>
-> > Sure, consider the I2C mode. Then it seems different. For the power
-> > supply, yes, we have one more supply and it's used for digital input
-> > output reference. It will always tiled to SoC digital power domain.
-> > It's no need to control, so I think DVDD can be ignored.
-> > 
-> > If not considering the I2C, and the DVDD power supply, for HW control
-> > mode, then it looks the same including sample rate. One pin to turn on
-> > the amplifier.
-> > 
-> > This IC is designed for 'easy to use'. For the normal condition, HW mode
-> > will always be suggested to the customer.
-> > 
-> > May I have your suggestion? If it can not be compatible, should I write
-> > two drivers, one platform driver for HW control mode, and another I2C driver
-> > for I2C SW control mode?
+On Wed, Mar 19, 2025 at 03:04:45PM +0800, jiebing chen wrote:
+> Add clock IDs for the mclk pads found on s4 SoCs
 > 
-> 
-> We don't talk about drivers here. I only commented that they are not
-> compatible based on datasheets, so compatibility should not be expressed
-> in the DT. Considering I2C, this should be in its own binding with full
-> device description (so for both HW mode and I2C).
-> 
-Actually, These two mode cannot be coexixted. The HW or SW I2C mode is
-detected on POR by different external resistor.
+> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
+> ---
+>  include/dt-bindings/clock/axg-audio-clkc.h | 11 +++++++++++
 
-Just for the HW mode, all the controls, even sampling rate, supported
-bitrate are all similiar with max98357 driver.
+This belongs to the binding patch, usually.
 
-That's why I'm trying to treat it to be compatible.
+Anyway - do not ask us to do the work twice.
 
-For SW I2C, sure, I can write one for the dedicated usage. Under this
-mode, all onoff sequences need to be controlled by RG.
+<form letter>
+This is a friendly reminder during the review process.
 
-> Best regards,
-> Krzysztof
+It looks like you received a tag and forgot to add it.
+
+If you do not know the process, here is a short explanation:
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions of patchset, under or above your Signed-off-by tag, unless
+patch changed significantly (e.g. new properties added to the DT
+bindings). Tag is "received", when provided in a message replied to you
+on the mailing list. Tools like b4 can help here. However, there's no
+need to repost patches *only* to add the tags. The upstream maintainer
+will do that for tags received on the version they apply.
+
+Please read:
+https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+
+If a tag was not added on purpose, please state why and what changed.
+</form letter>
+
+Best regards,
+Krzysztof
+
