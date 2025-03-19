@@ -1,46 +1,46 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8871CB51B;
-	Wed, 19 Mar 2025 00:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADE91C9EAA;
+	Wed, 19 Mar 2025 00:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742345539; cv=none; b=gEJGJD3413gMljXWiQPv+n5mrGBwn5rGACV4pGG0PXw2v4FMu/qjOUebpeyNdNyy6NSRxmFRJ+6U1YuRugffg9fQb2YJ+0JyAm3BYwwjIJeAzDz+UudSL9IB9NljwkOtqSNzNx1YAZfTESMSWtO2zajhQ+ScH1nsMM3SuGCfHgs=
+	t=1742345540; cv=none; b=gbB8eNnJqsLihXfFmMf/ZZ24YyabPntUUaT7G2xQwsb8+ZpnE1Jx6cTEL9dECv1si/eFjk0dqB5qJGAlBGIPlTBtfFpxsfc/JbD/Nhb00sxJvOo/WKLSOmnwz9RUQqEfYXcldRvnX/1tEpuxKPevglwHjUfT+HZV09UMSL7lV9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742345539; c=relaxed/simple;
-	bh=2TQXo2YMYhg/mBJxKuqafaOEZef1g+SCKODQN1pqdkU=;
+	s=arc-20240116; t=1742345540; c=relaxed/simple;
+	bh=6soBlSTrs4o2NPOy96vetYueQ33h0vwSEoQPO032eBo=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fybZXgAJ3RuFUvonI2DNUUkrZmxyApMgtyqJw57IW1Jv/n6nJmWXUQz0UUkkimPONwB806O+qoaBo4TY11OvvWfC94kbTFoavLw06Mv0bqr5Cj/0GTMG8TLroN0QLkwtQB/oB5M1aCDCWZtmyE4BKTkt5LB6uib1HoSHEvlnBEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cRPSnKyu; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=qbJXKpHcmU4ajSJ6v5cSu/jh91jLJaunuI6C9tbJmduGdR69eU39X2y8dSsf6JxMNU0A83H3CAn1mQJxjMOt9UgyVR0LeMtIZjKmvJOoO31ikYcxOuLiJKGLzvzg42w62Na4t5MeWYfFzWgJaCB+Wtpv4/IzOsj1dXubQ2j2G6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=U7Y+SsET; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cRPSnKyu"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52IIae0C028628;
-	Wed, 19 Mar 2025 00:51:57 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="U7Y+SsET"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52IIJqvG024976;
+	Wed, 19 Mar 2025 00:51:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/ZM8SPXr7udKkYr/SDUmnoP1IOgbHf5SfkdSPWJ27XA=; b=cRPSnKyu17Xk2tZr
-	heMwKcnnSlpTA3T7xEBM/P2jUpZjZRhC+gTaQNl/iCA8D88InKnoKpFk/zCmDqqO
-	y22ug08Fvhj7/FJklg7HF+zpwHy5QktYetPhtfEtzNt6zh6lcNfV/xfs2es4VpzC
-	r3UzssVKYJvisb6cGaR2CmESrQh8yatNkOa1Mu8V4I4vJ/sbILri08JjasPLVrdE
-	R/vGu1hZBuiOph9JLHKnhrU20TGQJIO4giyM0Wc3O79XEmrcJWQvVkGxOVE3XSXV
-	swGEX1ZruwPDBgP7uJE5OVyMHv5EBh6ZIsq32GDcfiQjNnPimlAPKTuHkTExLohP
-	rVlx6Q==
+	BYGrn1lAShfIJH7sSBgrl86DgdMjcaIN8YuyM99vjSg=; b=U7Y+SsET0WmfYRcT
+	rGlA1OmoRX54rGCt1APUS+6I6oGBohmXCy+3a4jsHeWBPMoV3kkEl0k6qtVTaGO7
+	qRUSuT3KisHrYYVTsZ8pGz3Ih5kd2rpRfUnxhh8IvYL+v1N23QsLbbWFK3JbhCuu
+	ZZx6OXkhmV/gnr3uyQ9GY/DAyyz3DykAVOrqySA9ts4qIE07/nsdrjhvixYYnfE5
+	UZZgK7pBP1dRXDQLBUW8qdOQufqlUdmWTJRBpYEcXp52jSQ4JxHd6fc44gT9dHIv
+	q0VsMMm4TH/VapSOssi08e4vc9AymfUj7PpFRXw7ofPxHzV/If/CiYoQR2ZD+DeV
+	G4M/+w==
 Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exwtkp13-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d1uu1w4u-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Mar 2025 00:51:57 +0000 (GMT)
+	Wed, 19 Mar 2025 00:51:54 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52J0pvmL025741
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52J0prxw025710
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Mar 2025 00:51:57 GMT
+	Wed, 19 Mar 2025 00:51:53 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 18 Mar 2025 17:51:56 -0700
+ 15.2.1544.9; Tue, 18 Mar 2025 17:51:53 -0700
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
@@ -51,11 +51,10 @@ To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
 CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v36 20/31] ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add USB_RX port
-Date: Tue, 18 Mar 2025 17:51:30 -0700
-Message-ID: <20250319005141.312805-21-quic_wcheng@quicinc.com>
+        <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v36 07/31] ALSA: Add USB audio device jack type
+Date: Tue, 18 Mar 2025 17:51:17 -0700
+Message-ID: <20250319005141.312805-8-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250319005141.312805-1-quic_wcheng@quicinc.com>
 References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
@@ -71,39 +70,111 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: efCYpXUIQory3bJZRYEguRYXpyo2YKdA
-X-Proofpoint-ORIG-GUID: efCYpXUIQory3bJZRYEguRYXpyo2YKdA
-X-Authority-Analysis: v=2.4 cv=UoJjN/wB c=1 sm=1 tr=0 ts=67da152d cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=qqYjmcoK_Rhu6-rD2hAA:9 a=cvBusfyB2V15izCimMoJ:22
+X-Authority-Analysis: v=2.4 cv=H8Pbw/Yi c=1 sm=1 tr=0 ts=67da152a cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=Vs1iUdzkB0EA:10 a=QyXUC8HyAAAA:8 a=COk6AnOGAAAA:8 a=KDH7PK-IGdRBExAxqvoA:9
  a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: W5AXELJJejOi_KVQYFXJoIszOanZ3scJ
+X-Proofpoint-ORIG-GUID: W5AXELJJejOi_KVQYFXJoIszOanZ3scJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-18_10,2025-03-17_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- impostorscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=932
- phishscore=0 adultscore=0 clxscore=1015 spamscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ lowpriorityscore=0 bulkscore=0 adultscore=0 spamscore=0 priorityscore=1501
+ mlxscore=0 suspectscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
  definitions=main-2503190003
 
-Q6DSP supports handling of USB playback audio data if USB audio offloading
-is enabled.  Add a new definition for the USB_RX AFE port, which is
-referenced when the AFE port is started.
+Add an USB jack type, in order to support notifying of a valid USB audio
+device.  Since USB audio devices can have a slew of different
+configurations that reach beyond the basic headset and headphone use cases,
+classify these devices differently.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/mod_devicetable.h        | 2 +-
+ include/sound/jack.h                   | 4 +++-
+ include/uapi/linux/input-event-codes.h | 3 ++-
+ sound/core/jack.c                      | 6 ++++--
+ 4 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-index 39f203256c4f..6d1ce7f5da51 100644
---- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-+++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-@@ -139,6 +139,7 @@
- #define DISPLAY_PORT_RX_5	133
- #define DISPLAY_PORT_RX_6	134
- #define DISPLAY_PORT_RX_7	135
-+#define USB_RX			136
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index d67614f7b7f1..b3d7fc59c550 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -340,7 +340,7 @@ struct pcmcia_device_id {
+ #define INPUT_DEVICE_ID_LED_MAX		0x0f
+ #define INPUT_DEVICE_ID_SND_MAX		0x07
+ #define INPUT_DEVICE_ID_FF_MAX		0x7f
+-#define INPUT_DEVICE_ID_SW_MAX		0x10
++#define INPUT_DEVICE_ID_SW_MAX		0x11
+ #define INPUT_DEVICE_ID_PROP_MAX	0x1f
  
- #define LPASS_CLK_ID_PRI_MI2S_IBIT	1
- #define LPASS_CLK_ID_PRI_MI2S_EBIT	2
+ #define INPUT_DEVICE_ID_MATCH_BUS	1
+diff --git a/include/sound/jack.h b/include/sound/jack.h
+index 1ed90e2109e9..bd3f62281c97 100644
+--- a/include/sound/jack.h
++++ b/include/sound/jack.h
+@@ -22,6 +22,7 @@ struct input_dev;
+  * @SND_JACK_VIDEOOUT: Video out
+  * @SND_JACK_AVOUT: AV (Audio Video) out
+  * @SND_JACK_LINEIN:  Line in
++ * @SND_JACK_USB: USB audio device
+  * @SND_JACK_BTN_0: Button 0
+  * @SND_JACK_BTN_1: Button 1
+  * @SND_JACK_BTN_2: Button 2
+@@ -43,6 +44,7 @@ enum snd_jack_types {
+ 	SND_JACK_VIDEOOUT	= 0x0010,
+ 	SND_JACK_AVOUT		= SND_JACK_LINEOUT | SND_JACK_VIDEOOUT,
+ 	SND_JACK_LINEIN		= 0x0020,
++	SND_JACK_USB		= 0x0040,
+ 
+ 	/* Kept separate from switches to facilitate implementation */
+ 	SND_JACK_BTN_0		= 0x4000,
+@@ -54,7 +56,7 @@ enum snd_jack_types {
+ };
+ 
+ /* Keep in sync with definitions above */
+-#define SND_JACK_SWITCH_TYPES 6
++#define SND_JACK_SWITCH_TYPES 7
+ 
+ struct snd_jack {
+ 	struct list_head kctl_list;
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 5a199f3d4a26..3b2524e4b667 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -925,7 +925,8 @@
+ #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
+ #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
+ #define SW_MACHINE_COVER	0x10  /* set = cover closed */
+-#define SW_MAX			0x10
++#define SW_USB_INSERT		0x11  /* set = USB audio device connected */
++#define SW_MAX			0x11
+ #define SW_CNT			(SW_MAX+1)
+ 
+ /*
+diff --git a/sound/core/jack.c b/sound/core/jack.c
+index e4bcecdf89b7..de7c603e92b7 100644
+--- a/sound/core/jack.c
++++ b/sound/core/jack.c
+@@ -34,6 +34,7 @@ static const int jack_switch_types[SND_JACK_SWITCH_TYPES] = {
+ 	SW_JACK_PHYSICAL_INSERT,
+ 	SW_VIDEOOUT_INSERT,
+ 	SW_LINEIN_INSERT,
++	SW_USB_INSERT,
+ };
+ #endif /* CONFIG_SND_JACK_INPUT_DEV */
+ 
+@@ -241,8 +242,9 @@ static ssize_t jack_kctl_id_read(struct file *file,
+ static const char * const jack_events_name[] = {
+ 	"HEADPHONE(0x0001)", "MICROPHONE(0x0002)", "LINEOUT(0x0004)",
+ 	"MECHANICAL(0x0008)", "VIDEOOUT(0x0010)", "LINEIN(0x0020)",
+-	"", "", "", "BTN_5(0x0200)", "BTN_4(0x0400)", "BTN_3(0x0800)",
+-	"BTN_2(0x1000)", "BTN_1(0x2000)", "BTN_0(0x4000)", "",
++	"USB(0x0040)", "", "", "BTN_5(0x0200)", "BTN_4(0x0400)",
++	"BTN_3(0x0800)", "BTN_2(0x1000)", "BTN_1(0x2000)", "BTN_0(0x4000)",
++	"",
+ };
+ 
+ /* the recommended buffer size is 256 */
