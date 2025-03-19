@@ -1,114 +1,141 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8EE1E832C
-	for <linux-sound@vger.kernel.org>; Wed, 19 Mar 2025 18:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC88B20AF6C;
+	Wed, 19 Mar 2025 19:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742407256; cv=none; b=rx5ymIB67ndhmYuGe+vOMdJ5es/NymI2MbmAg9JVzouk1TEUXY8xOsIH8aBlJ4Te+xFro7C5+Tw2dxyZgKIThI79vUIYN0XslQeVXibdOLFts4SR5xgJb7abBURpCCAo4ikMmuSsSgNCt2Brtgj2NyGk6Zt9568AFEf8Su8/ZCc=
+	t=1742411011; cv=none; b=DKgA5I2VYP4Wi0Niz+GTy6Q7wklu6JBloeKhy5WdguYG1/YTLNOLxHtb/PHy4ys4yPfO047XP/nEQrFa+ss/qmvkSPK4j5//RhCfsNCU9Ja/SjAwC+Ij4wQ1oS5N5Aujw4Ih3k1d4cK2y0TN1Z6SHO5cE3O6J1FVqywXaZ7Dzsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742407256; c=relaxed/simple;
-	bh=MyGuRyQlDt+foSD6CeJddJn3OL0fjbCOG+6NlRxWHHg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=acG0XuV1FyYgTrxeMeyk2e7SG0Lo9qZJwNQmXmrq6ceAPEq0ISpR+cgWnpdxEyzFg+xI1SXXnbCs5hXBeSFKm8QX6KIlbKqZriQW2QE0/npXr9yX1uxE+oCmYDh7tb2l7+WTaex1IUSeQ08xHRreV87qNYIUs+Fw9qTmzNokqMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IaVVn3EJ; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1742411011; c=relaxed/simple;
+	bh=kwOrHksy+YhrJJoSEw9ASHTSL1O0f+mcM2mEQsUJ2wI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lqbs4ZFDWWpkcpdQ55IoOw+y6Unrk3kUVFF6mfsK9c1qur8A7gBJC1ptd+BMaHRxCJ8etQgijU8HG5cJFWYozClKEFqn7N6pDfyaJSRm+SaTy8yyPTP0LKYbMn2XTb8KmujX6uJ1R16P3QzNOquM5ZN4GzpSD5/ihp+6SrPC0lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T6cNoFa9; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IaVVn3EJ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cef035a3bso35174605e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 19 Mar 2025 11:00:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742407253; x=1743012053; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/rEfxvBCDj+OUf6/+Bbrxfwwkqzx6X/wza22OdnfwyY=;
-        b=IaVVn3EJ07saxjGiHiWtvGjXIF/qaa3WjClDBp6ylHibk4GkapEP+mybG6d1sDf6Dx
-         KxPmFfnTzHnbrW8rGvo4LTexhNVDI1MR5FPvcg5Auxike2KywKBf3nuA/kREU7L84fk5
-         6l+sy9jDzedPo/5ghDrqZNNVCwEb04nF3lyZXv1d3M6PqXBwXeS4/9JzU+2aSa9/258e
-         TQhNAFFNs9ClowK7BRpJ7yjcOGh3YhL5OjJQW2BQLK/44maAkkt9zrGXb3bYlOZeRPOg
-         C5GxSCoa2OMpiN70ZY5H5KO4tB+E99z/wO/vi2h7Xwv9+cmCLmYSm3HSqr5YGG8LM5IE
-         m6wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742407253; x=1743012053;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/rEfxvBCDj+OUf6/+Bbrxfwwkqzx6X/wza22OdnfwyY=;
-        b=j+LeP5aty7+vfzNwo7zB0ES3QZ5OHhvCRQqZm3cZ3P+Dl6PCg2jCIATp1+KisKc8uD
-         ZMsneAt8+ucRbfzkBk9uS+Eo8VKFHeMfbkkiNHoQlxEfz7slcFdgKynnfrCtP5Vd/Jox
-         VZSMD6c4pQUvvZHjiIjupyoxSMNDzC6G557+t3eW7cs+7Px97qPYOzXwQFXHXb4uYhtv
-         GNoXOXQj8n/10dVWgF5jtjX5eRVaYqISrFbZ59RIXEz2jxZPYDjs93FS3IqmPYiNZyRD
-         tpv9GOn22F4ybh9/Lq7tkUUtl03C4aSZTdKt+wqakXUo1f/NylXq3JdIfVdHvD+jPw3o
-         SwGg==
-X-Forwarded-Encrypted: i=1; AJvYcCVxvUHhfESWzsbaiQl/Y6f11GSmpiQ9KFrGGSuvb2a7lkWyQPi1269d39YA3lyGDQxnqFsckA52CfbFRQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyesah2RFsLvmqe06EFuj7wlAg0rGsYrcqGc9wkXl8/XValucOP
-	e+nydE7dZbKv4PERTDNrvaXDIsjYJo1MJmlIwVXilfmCgfl7Ge7LnTEOEKmCuYo=
-X-Gm-Gg: ASbGnct8sFXZdNgi3TVDsSK4BgRFmzswh+VI5m9PWfLBwvHt8TKRm4gFRQ7smE/5SIS
-	8JNakk/nvOBQWFZynj3JmMkg5LMyYU4dndgePywsEiwz24fyTrh18KWvul0jSDvyQp+yreKasZa
-	OAfHl65Wx71gVOppZkF36WA0eYbeHOK9V+H0rXOn9X3bvtrGK8V1sIY6FL8PcdiSYCkpzBV7kie
-	4afcluqs8MlKuT8P2SEdn/t51Gjpi8Lcyumn5NONudn7wCZAr8wsxL7po5AFfxTiCkn3bKxdHNa
-	vetmVXP5bI+NeSQRnQgh3iVSuxKvmbjDkbuPGYi/l5hcvomiWPsj6YYIkiFn0pE=
-X-Google-Smtp-Source: AGHT+IFbFV/3Qs4DOHIi0NIjAkZVN8cQrhEL50TvwHlsiVaJpE49IvMubk5v6WpuWc3f92V/RIBWeA==
-X-Received: by 2002:a05:600c:4208:b0:43d:46de:b0eb with SMTP id 5b1f17b1804b1-43d46deb26dmr19657885e9.12.1742407252904;
-        Wed, 19 Mar 2025 11:00:52 -0700 (PDT)
-Received: from [192.168.68.117] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-395cb7ebbb7sm22140437f8f.92.2025.03.19.11.00.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Mar 2025 11:00:52 -0700 (PDT)
-Message-ID: <938cb09f-3fb1-4daf-802d-2d95222f30db@linaro.org>
-Date: Wed, 19 Mar 2025 18:00:51 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T6cNoFa9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742411010; x=1773947010;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kwOrHksy+YhrJJoSEw9ASHTSL1O0f+mcM2mEQsUJ2wI=;
+  b=T6cNoFa9acwzV7gGuNP0T9l580e6B1KGPXCqLUnWVxRuCzUyETEoBLZa
+   a43VCIOciCC6AcOcb5dO8HMkzmNWeoXdkHx0CAPmtLJqum5Ly44feh832
+   nojbj8o4Koa/wgYCude98e+Fs6qUH7kJHerFgQKqS6TwwZrILgF66rRRP
+   ATlFk1EsQNxKe43I4EDr2lbU/KrFjlJcZgKRcCl/txQOVxXI+M8PNuAbO
+   SKcaymsFrjNm6/akt03uZ9VkQ6n/bM5XKxRAmVHDce4rUWbYGkLu4LcEW
+   6iOrNpsxIqgDkRgWxn59PM/LbM412n3IxllOwlF/+hpu/ToGY7+zXhEdP
+   A==;
+X-CSE-ConnectionGUID: IH7sMZLeTFGkFxya1loBSA==
+X-CSE-MsgGUID: wU/lHgSoTk2ny+rfoj6Hbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="54997452"
+X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
+   d="scan'208";a="54997452"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 12:03:29 -0700
+X-CSE-ConnectionGUID: Mbl85Yu1QW60SEdFPGiOjw==
+X-CSE-MsgGUID: RJQQdPK8QPK/WswUp91UjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
+   d="scan'208";a="122769594"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 19 Mar 2025 12:03:24 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tuyhG-000FcE-0R;
+	Wed, 19 Mar 2025 19:03:22 +0000
+Date: Thu, 20 Mar 2025 03:02:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+	jian.xu@amlogic.com, shuai.li@amlogic.com, zhe.wang@amlogic.com,
+	jiebing chen <jiebing.chen@amlogic.com>
+Subject: Re: [PATCH v4 4/6] ASoC: meson: g12a-toacodec: Add s4 tocodec driver
+Message-ID: <202503200205.amGhOXua-lkp@intel.com>
+References: <20250319-audio_drvier-v4-4-686867fad719@amlogic.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: wcd93xx: add bindings for audio
- switch controlling hp
-To: Mark Brown <broonie@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- andersson@kernel.org, lgirdwood@gmail.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
- perex@perex.cz, tiwai@suse.com, dmitry.baryshkov@linaro.org,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- johan+linaro@kernel.org
-References: <20250319091637.4505-1-srinivas.kandagatla@linaro.org>
- <20250319091637.4505-2-srinivas.kandagatla@linaro.org>
- <4ie22uuz5tpg77jto3c3hec6lhonr44hrjda7jk655axlaxvba@u3atd4gcyghn>
- <660115f1-d1fb-4fd7-a453-e8c177be9eed@linaro.org>
- <51dd7cb2-0c22-4043-b3a1-fa8410903cbd@sirena.org.uk>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <51dd7cb2-0c22-4043-b3a1-fa8410903cbd@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250319-audio_drvier-v4-4-686867fad719@amlogic.com>
+
+Hi jiebing,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6ecd20965bdc21b265a0671ccf36d9ad8043f5ab]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/jiebing-chen-via-B4-Relay/dt-bindings-clock-meson-Add-audio-power-domain-for-s4-soc/20250319-151110
+base:   6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
+patch link:    https://lore.kernel.org/r/20250319-audio_drvier-v4-4-686867fad719%40amlogic.com
+patch subject: [PATCH v4 4/6] ASoC: meson: g12a-toacodec: Add s4 tocodec driver
+config: i386-buildonly-randconfig-005-20250320 (https://download.01.org/0day-ci/archive/20250320/202503200205.amGhOXua-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200205.amGhOXua-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503200205.amGhOXua-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> sound/soc/meson/g12a-toacodec.c:135:38: warning: 's4_toacodec_clk_enable' defined but not used [-Wunused-const-variable=]
+     135 | static const struct snd_kcontrol_new s4_toacodec_clk_enable =
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
 
 
+vim +/s4_toacodec_clk_enable +135 sound/soc/meson/g12a-toacodec.c
 
-On 19/03/2025 16:03, Mark Brown wrote:
-> On Wed, Mar 19, 2025 at 03:59:23PM +0000, Srinivas Kandagatla wrote:
->> On 19/03/2025 10:01, Dmitry Baryshkov wrote:
-> 
->>> Is this regulator supplying the codec or some external component? In the
->>> latter case it's likely that it should not be a part of WCD bindings.
-> 
->> This is regulator powering a mux that is driven by gpio which is part of
->> codec binding. So I would assume this will fall into the codec.
-> 
->> Where would we fit this if not part of codec?
-> 
->> Unless we mark this regulator as always on.
-> 
-> I would expect that the mux would appear in the DT and consume both the
-> GPIO and the regulator.
-Yes, its doable, so we would endup with a mux driver consuming regulator 
-and gpio and move the gpio handling in codec to move to use mux control.
+   112	
+   113	static SOC_ENUM_SINGLE_DECL(g12a_toacodec_mux_enum, TOACODEC_CTRL0,
+   114				    CTRL0_DAT_SEL_LSB,
+   115				    g12a_toacodec_mux_texts);
+   116	
+   117	static SOC_ENUM_SINGLE_DECL(sm1_toacodec_mux_enum, TOACODEC_CTRL0,
+   118				    CTRL0_DAT_SEL_SM1_LSB,
+   119				    g12a_toacodec_mux_texts);
+   120	
+   121	static const struct snd_kcontrol_new g12a_toacodec_mux =
+   122		SOC_DAPM_ENUM_EXT("Source", g12a_toacodec_mux_enum,
+   123				  snd_soc_dapm_get_enum_double,
+   124				  g12a_toacodec_mux_put_enum);
+   125	
+   126	static const struct snd_kcontrol_new sm1_toacodec_mux =
+   127		SOC_DAPM_ENUM_EXT("Source", sm1_toacodec_mux_enum,
+   128				  snd_soc_dapm_get_enum_double,
+   129				  g12a_toacodec_mux_put_enum);
+   130	
+   131	static const struct snd_kcontrol_new g12a_toacodec_out_enable =
+   132		SOC_DAPM_SINGLE_AUTODISABLE("Switch", TOACODEC_CTRL0,
+   133					    CTRL0_ENABLE_SHIFT, 1, 0);
+   134	
+ > 135	static const struct snd_kcontrol_new s4_toacodec_clk_enable =
+   136		SOC_DAPM_DOUBLE("Switch", TOACODEC_CTRL0,
+   137				CTRL0_BCLK_ENABLE_SHIFT, CTRL0_MCLK_ENABLE_SHIFT, 1, 0);
+   138	
 
-Let met try that and see how it looks like.
-
---srini
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
