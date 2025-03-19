@@ -1,94 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EC31DDA2F;
-	Wed, 19 Mar 2025 16:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F131DE3C8;
+	Wed, 19 Mar 2025 16:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742400236; cv=none; b=Tmjg/i/93d7kwHHaQGBhy00i3k1xi3ywCcPmsFkS+r/JZWqYyYou7MhflRmzAF/NKzB1HdqDgATIMPe7nFD8L8dvKtUVYQgMDZe+Tw8DmrhE3ZrQSnzlEF8jYPQfsLcgk6/c8SNEsD+EoosbQ8FujlJGV+Ee/b7EPSsxfWIq0tA=
+	t=1742400341; cv=none; b=Lb/XpByby2mnXnmx3lZGaSMDIJ0qBE1N6M9UpuDAxTHa0mpcRrZnjkbABx2wiZFtJCGLMmzy5zPgaOOmL2dB4X18ecn2KEoQEUJThKeek8nLWOynuTtVdi8MTFixucwTATZBXVdbHkTtWfdqhdW9/XqLg2IdAo+LXzMOeGcXKgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742400236; c=relaxed/simple;
-	bh=Vf5UegY6RU2as6jwKvb45nmjBtXolykv1xNJq+F+exg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mHLS4FcwcYL+9X7l6Kih8ry8huitHP1SGk3HzBKYvlqvhCyXXYRblLsZYP5tFqfQQl791euC2wz/EK4cfbuYvQZ2XX/1PpsWDJY3GFBeuPYBAOT226ax1LZOGtYueDjVw2utWG2pNpkiccatzsMUI8L7bNFTgYEop812TO4lETI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=irUK4UUL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742400341; c=relaxed/simple;
+	bh=RW64X/teWwNMpQr9/mY+TL0fnZ+0aV8TDGaDi6J9BC0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dhBHKQdf2rPzK9ttvvmqCDUheU1/LVUOelXKH8ONl4ZG1hXQ/eVafn+TeokAr0cAvMvqUke7+3lbmlugu092No8Q4H5NWz6I4N6Vd0DdG0lcHpq7Hp2y6fDyxZZHg3HVrQU6pgJ3ZoOZXW3t3YYWZxaLxPZozdsmnC5UvV6yxw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DYf+UT15; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="irUK4UUL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F42C4CEEA;
-	Wed, 19 Mar 2025 16:03:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742400235;
-	bh=Vf5UegY6RU2as6jwKvb45nmjBtXolykv1xNJq+F+exg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=irUK4UULhUYuw26TD/YmdQM94OxtCoe5o9PRu2Qm+NHTn1eEglxZv76u3edQA0LTb
-	 P/vdztgWg9tU8vUAqFr37PPK5MBpAJ98Xyp/s7bi0JZBEt8z0p2JqEHfeIRIDh/E7Z
-	 r51HLt5QEKzYqaDrityHaOxyyR9FIat0xxeqwxHlMu7wVrXUSvRUyoMci6gyx4mbAW
-	 eTHo8nSPB+SItc1BTixDMNXQiPDAOVkhlcLT29GYQaSZv1jpM9FAbNzRDuEuaHtv/u
-	 AIFvtPb18T/9fi3kh1t6HnQ+aefOFp9omjC1UJzyEbWfMRs92tnzyI9u5Xznozvidh
-	 2LqOkho3ee1wQ==
-Date: Wed, 19 Mar 2025 16:03:49 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	andersson@kernel.org, lgirdwood@gmail.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
-	perex@perex.cz, tiwai@suse.com, dmitry.baryshkov@linaro.org,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	johan+linaro@kernel.org
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: wcd93xx: add bindings for audio
- switch controlling hp
-Message-ID: <51dd7cb2-0c22-4043-b3a1-fa8410903cbd@sirena.org.uk>
-References: <20250319091637.4505-1-srinivas.kandagatla@linaro.org>
- <20250319091637.4505-2-srinivas.kandagatla@linaro.org>
- <4ie22uuz5tpg77jto3c3hec6lhonr44hrjda7jk655axlaxvba@u3atd4gcyghn>
- <660115f1-d1fb-4fd7-a453-e8c177be9eed@linaro.org>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DYf+UT15"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52J5OEcU031622;
+	Wed, 19 Mar 2025 11:05:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=7OgdpVqb9pIwgdd830DoW+VuqcHMk4tD9PfXj/TVj5A=; b=
+	DYf+UT156iQIp4FJyqflNeaOVWR8ulbBme6z+hYtq3/aH9m+V8Z06wtbM0mxnkvX
+	L5izYqc1HFq0sO/rfh/Hsc7ubeu/MuM9SRmYF/+5U8VgmcehptYVxCRpOl3r7boh
+	elMTfk6pDsbASEk36auOKyMYYgb9Lf3B3+4It2K9EoG/rUOH507utR/jCoGnN9K2
+	MXcsS731E0S8Ceb4NvNPN8iNseqUK1rfn0QVlKZK2DDe2RQm1nV1TkLT5B2PwRWc
+	gtr7nVzZNFfPRhALmAzivVJN/bhmsTVX4mmkzRUExnw6d7rZwr7sh5gpfkjUyTQr
+	Adk2YoWgRZuePg170RbikA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 45dc0mt8ys-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Mar 2025 11:05:15 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 19 Mar
+ 2025 16:04:58 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.14 via Frontend Transport; Wed, 19 Mar 2025 16:04:58 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id A9F95822563;
+	Wed, 19 Mar 2025 16:04:58 +0000 (UTC)
+Date: Wed, 19 Mar 2025 16:04:57 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <shenghao-ding@ti.com>, <kevin-lu@ti.com>,
+        <baojun.xu@ti.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
+Subject: Re: [PATCH 13/15] ASoC: ops: Factor out common code from get
+ callbacks
+Message-ID: <Z9rrKd1PoZ0WEaa6@opensource.cirrus.com>
+References: <20250318171459.3203730-1-ckeepax@opensource.cirrus.com>
+ <20250318171459.3203730-14-ckeepax@opensource.cirrus.com>
+ <1d6d7537-1dcf-4bbe-a16b-902705efa860@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="q0oIHXznJOnjkPEP"
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <660115f1-d1fb-4fd7-a453-e8c177be9eed@linaro.org>
-X-Cookie: Chairman of the Bored.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1d6d7537-1dcf-4bbe-a16b-902705efa860@sirena.org.uk>
+X-Proofpoint-GUID: vHAhANNwVBIdA6uPj3k1VZeyBIOEQiJO
+X-Proofpoint-ORIG-GUID: vHAhANNwVBIdA6uPj3k1VZeyBIOEQiJO
+X-Authority-Analysis: v=2.4 cv=XY+JzJ55 c=1 sm=1 tr=0 ts=67daeb3b cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=fExjZ7oZFv1sFj6PVPQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Reason: safe
 
+On Wed, Mar 19, 2025 at 03:12:56PM +0000, Mark Brown wrote:
+> On Tue, Mar 18, 2025 at 05:14:57PM +0000, Charles Keepax wrote:
+> > There are only two differences between snd_soc_get_volsw() and
+> > snd_soc_get_volsw_sx(). The maximum field is handled differently, and
+> > snd_soc_get_volsw() supports double controls with both values in the
+> > same register.
+> 
+> This breaks an x86 allmodconfig build:
+> 
+> /build/stage/linux/sound/soc/soc-ops.c: In function ‘snd_soc_get_volsw_sx’:
+> /build/stage/linux/sound/soc/soc-ops.c:374:22: error: unused variable ‘reg2’ [-W
+> error=unused-variable]
+>   374 |         unsigned int reg2 = mc->rreg;
+>       |                      ^~~~
+> /build/stage/linux/sound/soc/soc-ops.c:373:22: error: unused variable ‘reg’ [-We
+> rror=unused-variable]
+>   373 |         unsigned int reg = mc->reg;
+>       |                      ^~~
+> cc1: all warnings being treated as errors
+> 
+> Please ensure your serieses are bisectable.
 
---q0oIHXznJOnjkPEP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Sorry those do get cleaned up in the next patch but will respin
+to move them into this patch, must have got muddled in the rebase
+at some point.
 
-On Wed, Mar 19, 2025 at 03:59:23PM +0000, Srinivas Kandagatla wrote:
-> On 19/03/2025 10:01, Dmitry Baryshkov wrote:
-
-> > Is this regulator supplying the codec or some external component? In the
-> > latter case it's likely that it should not be a part of WCD bindings.
-
-> This is regulator powering a mux that is driven by gpio which is part of
-> codec binding. So I would assume this will fall into the codec.
-
-> Where would we fit this if not part of codec?
-
-> Unless we mark this regulator as always on.
-
-I would expect that the mux would appear in the DT and consume both the
-GPIO and the regulator.
-
---q0oIHXznJOnjkPEP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfa6uQACgkQJNaLcl1U
-h9Do7gf9FTrhbwuWUqC7of9MeF5NqEmpBeo1duXfoN+W9aE8I3cy/f/fT2QyUQWm
-FJkdZ056lxtJdoZsphOzxAJJpfnXVerUTvmK+ng2PHCBAfaXc8ubj2EuVDmarR25
-JTn1GmkiLEm98tqvt/KCVkSU2WGtXkDpxjytyo8Tj5fM98xMtwSChPcSFBVsVznG
-NSVa8uytrk0NvOGzi8TxSN70dCrD5G560pmbnVXGMWC4ZdEyV5kBsYTqE5j5MYwz
-Hi30Lshw8epe5u9IFD+cddr7pE9kvSBDV1MFjY7B2+eZQBQ+w4DKQX+07mvsItiE
-w6sY9eTqKWDZzTtz4dBxGUg0RIQHoQ==
-=fpT7
------END PGP SIGNATURE-----
-
---q0oIHXznJOnjkPEP--
+Thanks,
+Charles
