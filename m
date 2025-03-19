@@ -1,100 +1,83 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F131DE3C8;
-	Wed, 19 Mar 2025 16:05:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3466B1D61A5;
+	Wed, 19 Mar 2025 16:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742400341; cv=none; b=Lb/XpByby2mnXnmx3lZGaSMDIJ0qBE1N6M9UpuDAxTHa0mpcRrZnjkbABx2wiZFtJCGLMmzy5zPgaOOmL2dB4X18ecn2KEoQEUJThKeek8nLWOynuTtVdi8MTFixucwTATZBXVdbHkTtWfdqhdW9/XqLg2IdAo+LXzMOeGcXKgI=
+	t=1742400498; cv=none; b=V8Id7wPy2LTSOi+snbgHLgfP98lE9rXYQUrvl4X3hJV1ry8GxDa8Uv/nefMH+tTToxT2FDSOww7320sZtXLSAWVbKOGjkjyqpUyS3gx23y+/BcjkiKpRfAHSE/i3ISUGFgqWmh7A44y4Q//VYvmVGMr2XHIgdXQ/BL+TxGY8edU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742400341; c=relaxed/simple;
-	bh=RW64X/teWwNMpQr9/mY+TL0fnZ+0aV8TDGaDi6J9BC0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dhBHKQdf2rPzK9ttvvmqCDUheU1/LVUOelXKH8ONl4ZG1hXQ/eVafn+TeokAr0cAvMvqUke7+3lbmlugu092No8Q4H5NWz6I4N6Vd0DdG0lcHpq7Hp2y6fDyxZZHg3HVrQU6pgJ3ZoOZXW3t3YYWZxaLxPZozdsmnC5UvV6yxw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DYf+UT15; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1742400498; c=relaxed/simple;
+	bh=N18/cuSuzMqhjYi0UDCHrV8LEMGzuWP3weeSt1EyLiM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P5zZ9xMphI5R1JpzKscMZSsTOQz4V6wr+Hpx3kn7TNzgbOVgJa5bQFA93Av7qXGfde81xxnqSCMPFyy5EYq6zD+3d7lNpmaXDBvDlvIEePhx2nGuWei5PqUlvaxSWhSOxXHRYsu2J9wmsbYruHKyYYeTVrtrdttW/a/TMAMCk0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sMLTALj6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DYf+UT15"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52J5OEcU031622;
-	Wed, 19 Mar 2025 11:05:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=7OgdpVqb9pIwgdd830DoW+VuqcHMk4tD9PfXj/TVj5A=; b=
-	DYf+UT156iQIp4FJyqflNeaOVWR8ulbBme6z+hYtq3/aH9m+V8Z06wtbM0mxnkvX
-	L5izYqc1HFq0sO/rfh/Hsc7ubeu/MuM9SRmYF/+5U8VgmcehptYVxCRpOl3r7boh
-	elMTfk6pDsbASEk36auOKyMYYgb9Lf3B3+4It2K9EoG/rUOH507utR/jCoGnN9K2
-	MXcsS731E0S8Ceb4NvNPN8iNseqUK1rfn0QVlKZK2DDe2RQm1nV1TkLT5B2PwRWc
-	gtr7nVzZNFfPRhALmAzivVJN/bhmsTVX4mmkzRUExnw6d7rZwr7sh5gpfkjUyTQr
-	Adk2YoWgRZuePg170RbikA==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 45dc0mt8ys-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Mar 2025 11:05:15 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 19 Mar
- 2025 16:04:58 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.14 via Frontend Transport; Wed, 19 Mar 2025 16:04:58 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id A9F95822563;
-	Wed, 19 Mar 2025 16:04:58 +0000 (UTC)
-Date: Wed, 19 Mar 2025 16:04:57 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Mark Brown <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <shenghao-ding@ti.com>, <kevin-lu@ti.com>,
-        <baojun.xu@ti.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sMLTALj6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED237C4CEE9;
+	Wed, 19 Mar 2025 16:08:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742400497;
+	bh=N18/cuSuzMqhjYi0UDCHrV8LEMGzuWP3weeSt1EyLiM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sMLTALj6s2xXN6cHNjbM8Sk1ewBMw8GSnna52/VE0W76F97tukdEksOl64fDqR40C
+	 mZcAfRTt1sI2JLKh/ULFaC6Hb64UrZCf12SmiLX72cbCCMqY2GC29DEV/rfOsE7i2T
+	 OI9fpFNkxNw58KXvEs077W1JcedH+a5BOLnHT3vvQt1sO1mB30zuy2X6ZflLf5l2AA
+	 y6E6u0VXB5ZzjM11dqXBZG9q8wx4LC4laGOWw539bgHuvemPZ/ZAunFuSlL0FoYD2H
+	 XM31egpIiriB3Bxo5vFhsyq3GFY5e1oUbQXzFWI2XpsCw66a773+I7hg5M8dJShx3l
+	 uYuG8nlrX9RAw==
+Date: Wed, 19 Mar 2025 16:08:13 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, shenghao-ding@ti.com, kevin-lu@ti.com,
+	baojun.xu@ti.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
 Subject: Re: [PATCH 13/15] ASoC: ops: Factor out common code from get
  callbacks
-Message-ID: <Z9rrKd1PoZ0WEaa6@opensource.cirrus.com>
+Message-ID: <51c074c0-3668-4bf4-8cd3-1711d091bdc9@sirena.org.uk>
 References: <20250318171459.3203730-1-ckeepax@opensource.cirrus.com>
  <20250318171459.3203730-14-ckeepax@opensource.cirrus.com>
  <1d6d7537-1dcf-4bbe-a16b-902705efa860@sirena.org.uk>
+ <Z9rrKd1PoZ0WEaa6@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Dtgn5d5paL6V35J3"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1d6d7537-1dcf-4bbe-a16b-902705efa860@sirena.org.uk>
-X-Proofpoint-GUID: vHAhANNwVBIdA6uPj3k1VZeyBIOEQiJO
-X-Proofpoint-ORIG-GUID: vHAhANNwVBIdA6uPj3k1VZeyBIOEQiJO
-X-Authority-Analysis: v=2.4 cv=XY+JzJ55 c=1 sm=1 tr=0 ts=67daeb3b cx=c_pps a=uGhh+3tQvKmCLpEUO+DX4w==:117 a=uGhh+3tQvKmCLpEUO+DX4w==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=fExjZ7oZFv1sFj6PVPQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <Z9rrKd1PoZ0WEaa6@opensource.cirrus.com>
+X-Cookie: Chairman of the Bored.
 
-On Wed, Mar 19, 2025 at 03:12:56PM +0000, Mark Brown wrote:
-> On Tue, Mar 18, 2025 at 05:14:57PM +0000, Charles Keepax wrote:
-> > There are only two differences between snd_soc_get_volsw() and
-> > snd_soc_get_volsw_sx(). The maximum field is handled differently, and
-> > snd_soc_get_volsw() supports double controls with both values in the
-> > same register.
-> 
-> This breaks an x86 allmodconfig build:
-> 
-> /build/stage/linux/sound/soc/soc-ops.c: In function ‘snd_soc_get_volsw_sx’:
-> /build/stage/linux/sound/soc/soc-ops.c:374:22: error: unused variable ‘reg2’ [-W
-> error=unused-variable]
->   374 |         unsigned int reg2 = mc->rreg;
->       |                      ^~~~
-> /build/stage/linux/sound/soc/soc-ops.c:373:22: error: unused variable ‘reg’ [-We
-> rror=unused-variable]
->   373 |         unsigned int reg = mc->reg;
->       |                      ^~~
-> cc1: all warnings being treated as errors
-> 
-> Please ensure your serieses are bisectable.
 
-Sorry those do get cleaned up in the next patch but will respin
-to move them into this patch, must have got muddled in the rebase
-at some point.
+--Dtgn5d5paL6V35J3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks,
-Charles
+On Wed, Mar 19, 2025 at 04:04:57PM +0000, Charles Keepax wrote:
+
+> Sorry those do get cleaned up in the next patch but will respin
+> to move them into this patch, must have got muddled in the rebase
+> at some point.
+
+I've still got all the prior patches queued so only this and following
+patches need a resend unless runtime testing turns something up.
+
+--Dtgn5d5paL6V35J3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfa6+wACgkQJNaLcl1U
+h9DHgAgAhhPP3+ibC6RWzAI6bzhW7cbVL5kJO8s6K4NhRQva4uVkuO7+HdDg2P/3
+ogt4fziiHyR9aA+Dubr2+PkW1CPr8GA57XgaQ9jXcJbkMNE55TMHDIK+FtZUX80k
+uOdfVj9+rtyr3IdIGKFkEQdnfcOQ8Z3CNwnUwn70X/5cKWyhcZlf7kwe53l5BmS/
+4MsjOVJ7euGli32OTOXpwDkMJQfQFJGxK2kKL/sGIMpZDeDd7uQWFsc4b5yYqahd
+7ZDor3lyTSNe/Pdu2MdJCJfkWy/xyd+rWutfxQXUgsZKHBb65P5S+6q/X75lvBGs
+NjjVTd2NLO+qkx4MqTN4KqheIplbeQ==
+=QI01
+-----END PGP SIGNATURE-----
+
+--Dtgn5d5paL6V35J3--
