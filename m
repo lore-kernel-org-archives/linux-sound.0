@@ -1,136 +1,94 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E16D1FB3
-	for <linux-sound@vger.kernel.org>; Wed, 19 Mar 2025 15:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EC31DDA2F;
+	Wed, 19 Mar 2025 16:03:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742399969; cv=none; b=YmzcpzAHxPHCbZAVc2uNyvq8jQOrpznx2HMGtQdYj3tePOsb/VCITKeziZau6Ats6XolztpIRHeOjBcVOLFEtqM4+WZCoyQjsuDodH80xmoI3mZCYQIEj3rkv2fjnWCFvCXW77mZQ0+joclbHNvFwJrtED4gc9a/L8gbWOPHQwc=
+	t=1742400236; cv=none; b=Tmjg/i/93d7kwHHaQGBhy00i3k1xi3ywCcPmsFkS+r/JZWqYyYou7MhflRmzAF/NKzB1HdqDgATIMPe7nFD8L8dvKtUVYQgMDZe+Tw8DmrhE3ZrQSnzlEF8jYPQfsLcgk6/c8SNEsD+EoosbQ8FujlJGV+Ee/b7EPSsxfWIq0tA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742399969; c=relaxed/simple;
-	bh=ILRmyU4myaO9C/neNMKWw4w0x2c4drxeRcZb2f8Rva4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hLJREOP4/lm3HBSxcID0ljGsWJZAHNzIxBAIs9fv1siQzYOSBPkUXipx/uWaLP9bhr/pEcVRCGrKo+mFkNBVEvXuMM/Vv3Aj/4PzfVwMc0aqKXjcOt/Mhw7xH8dtL1U9ZwI7no4GqQRH+12tGlxsGudxLZQAsoOh5D61XK+sQlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CHN+vrmg; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1742400236; c=relaxed/simple;
+	bh=Vf5UegY6RU2as6jwKvb45nmjBtXolykv1xNJq+F+exg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mHLS4FcwcYL+9X7l6Kih8ry8huitHP1SGk3HzBKYvlqvhCyXXYRblLsZYP5tFqfQQl791euC2wz/EK4cfbuYvQZ2XX/1PpsWDJY3GFBeuPYBAOT226ax1LZOGtYueDjVw2utWG2pNpkiccatzsMUI8L7bNFTgYEop812TO4lETI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=irUK4UUL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CHN+vrmg"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4394a0c65fcso42972005e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 19 Mar 2025 08:59:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742399965; x=1743004765; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wtY2N2Z3hL6nDVea2tco/rHxiZy4oFusiROnhy6gmTA=;
-        b=CHN+vrmgMkGPvbQAT593RxBshrs2ccP7MfNzizhLORjvlBAPNJTy71I7Y4Tl4cza0M
-         2w8YTmKhIE94AerAISn9RUPkSmH79q6RZsxGuikcA8b7yfDavyHs/iwvpOvZh6g2Mqd8
-         bEPi9+1FWy605vqJDtmDFoLe/izRBO9V5RwVAXDR559gFfRSjGYrDUWjguO1OpnVoHjn
-         9i4lwg3S1z2DaUpPejoSQrKWZzSkVBSS8F3/jzIfjJRD4OSWkGuj4ZjonLti6hbX6c8B
-         75Zw7Lyyg3HsNJrMdbSZzyYVyx+3lzuUfg3D3jeaXG2YVnXG20sPGxXgahqKQO7lPxuQ
-         lxDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742399965; x=1743004765;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wtY2N2Z3hL6nDVea2tco/rHxiZy4oFusiROnhy6gmTA=;
-        b=Ih8VfuExVvb/P5i8O6jm4tcJsukhC2DADTyT8SNEXUG2LA3g1uzOys7pEGDyHbi51z
-         Ve+q7Sxq8jU/wSk2I+v+Srala2oLwB659WkMdRLiIVce0Qyu5UT9MTBaRByPkth1G1kE
-         dLfYRF/GzmyX7A31fEBnRfdZoUzzhd+iuEqRFv/k9UgQhNNHebyj9FDoz5cZ1K2JmepT
-         3lW7s4x42pmHgqklj18ckQ19bwOCwqEDi0QxMMdvExrrKb3JEZdASVYISRZDbu2k/nEy
-         gZANWxi8tbiZahtg4ycPhDPgW/4Or0nIqR3lSv5mxInRmepAHweENLhR+77N6Q/Upi5b
-         zpPg==
-X-Forwarded-Encrypted: i=1; AJvYcCVGWS+KvkCuB0a7zdr3nA1kfk4yuoi3bubUQXUUI34Sxnq3vsdFy/CodSRK1pJDw3HISDH5g4yljroa8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDw1cSQEDth7Unic4dtLnEidOntlDMruNyQciOeVH445lyUW49
-	YxOTwpexe2s1HkRm4Ho6wNvAhaNVD0Kh7vEXT0sTVgEdIBo+gjAp9SCgaUEL/kQ=
-X-Gm-Gg: ASbGnctT+iFJVw08qDcBFYbxqD+56nqVwafpnoXTzkeFUSfWSJCl+//erD4zBoj7hBX
-	qUqBoQ0TNILb1kXh1BjV2pxGW78KtJFIEBDkHF20Er1drnGCSQsvdD5I/60iRH/QGDYtW14vuj/
-	HAl57dBNDDtm+tNkd0eg/UGvt2o4okDCDwvS35ajkuhH2Mw4SIr3nHbanS45rip9tV5nz7/61oX
-	QXfAlsjNefjWcKCo+PQmZO/XldVsUhkxJhHfttqz0XPkUpFcjb2hpk5kjxAt7/jBTing68S0yQL
-	zyF6XD/8FjpNC3qz16WIVF5iv1JXqyxj1oLtGnySbaYf0pxgdKAjwdcoWgU3tRuh83a1VuNfbw=
-	=
-X-Google-Smtp-Source: AGHT+IFT1fxNfAkvCwKqbkyK9yZU0uyEQjN6KyVSpQ/fVLar6fXo6SrJ0IJJdrOVJ+naJH1oUUHhzw==
-X-Received: by 2002:a05:600c:1e07:b0:43d:b85:1831 with SMTP id 5b1f17b1804b1-43d436c7be6mr33579945e9.0.1742399964859;
-        Wed, 19 Mar 2025 08:59:24 -0700 (PDT)
-Received: from [192.168.68.117] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-43d440ed5e0sm22136525e9.37.2025.03.19.08.59.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Mar 2025 08:59:24 -0700 (PDT)
-Message-ID: <660115f1-d1fb-4fd7-a453-e8c177be9eed@linaro.org>
-Date: Wed, 19 Mar 2025 15:59:23 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="irUK4UUL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F42C4CEEA;
+	Wed, 19 Mar 2025 16:03:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742400235;
+	bh=Vf5UegY6RU2as6jwKvb45nmjBtXolykv1xNJq+F+exg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=irUK4UULhUYuw26TD/YmdQM94OxtCoe5o9PRu2Qm+NHTn1eEglxZv76u3edQA0LTb
+	 P/vdztgWg9tU8vUAqFr37PPK5MBpAJ98Xyp/s7bi0JZBEt8z0p2JqEHfeIRIDh/E7Z
+	 r51HLt5QEKzYqaDrityHaOxyyR9FIat0xxeqwxHlMu7wVrXUSvRUyoMci6gyx4mbAW
+	 eTHo8nSPB+SItc1BTixDMNXQiPDAOVkhlcLT29GYQaSZv1jpM9FAbNzRDuEuaHtv/u
+	 AIFvtPb18T/9fi3kh1t6HnQ+aefOFp9omjC1UJzyEbWfMRs92tnzyI9u5Xznozvidh
+	 2LqOkho3ee1wQ==
+Date: Wed, 19 Mar 2025 16:03:49 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	andersson@kernel.org, lgirdwood@gmail.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
+	perex@perex.cz, tiwai@suse.com, dmitry.baryshkov@linaro.org,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	johan+linaro@kernel.org
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: wcd93xx: add bindings for audio
+ switch controlling hp
+Message-ID: <51dd7cb2-0c22-4043-b3a1-fa8410903cbd@sirena.org.uk>
+References: <20250319091637.4505-1-srinivas.kandagatla@linaro.org>
+ <20250319091637.4505-2-srinivas.kandagatla@linaro.org>
+ <4ie22uuz5tpg77jto3c3hec6lhonr44hrjda7jk655axlaxvba@u3atd4gcyghn>
+ <660115f1-d1fb-4fd7-a453-e8c177be9eed@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: wcd93xx: add bindings for audio
- switch controlling hp
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: broonie@kernel.org, andersson@kernel.org, lgirdwood@gmail.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- konradybcio@kernel.org, perex@perex.cz, tiwai@suse.com,
- dmitry.baryshkov@linaro.org, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, johan+linaro@kernel.org
-References: <20250319091637.4505-1-srinivas.kandagatla@linaro.org>
- <20250319091637.4505-2-srinivas.kandagatla@linaro.org>
- <4ie22uuz5tpg77jto3c3hec6lhonr44hrjda7jk655axlaxvba@u3atd4gcyghn>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <4ie22uuz5tpg77jto3c3hec6lhonr44hrjda7jk655axlaxvba@u3atd4gcyghn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="q0oIHXznJOnjkPEP"
+Content-Disposition: inline
+In-Reply-To: <660115f1-d1fb-4fd7-a453-e8c177be9eed@linaro.org>
+X-Cookie: Chairman of the Bored.
 
 
+--q0oIHXznJOnjkPEP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 19/03/2025 10:01, Dmitry Baryshkov wrote:
-> On Wed, Mar 19, 2025 at 09:16:35AM +0000, srinivas.kandagatla@linaro.org wrote:
->> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->>
->> On some platforms to minimise pop and click during switching between
->> CTIA and OMTP headset an additional HiFi Switch is used. Most common
->> case is that this switch is switched on by default, but on some
->> platforms this needs a regulator enable.
-> 
-> Is this regulator supplying the codec or some external component? In the
-> latter case it's likely that it should not be a part of WCD bindings.
+On Wed, Mar 19, 2025 at 03:59:23PM +0000, Srinivas Kandagatla wrote:
+> On 19/03/2025 10:01, Dmitry Baryshkov wrote:
 
-This is regulator powering a mux that is driven by gpio which is part of 
-codec binding. So I would assume this will fall into the codec.
+> > Is this regulator supplying the codec or some external component? In the
+> > latter case it's likely that it should not be a part of WCD bindings.
 
-Where would we fit this if not part of codec?
+> This is regulator powering a mux that is driven by gpio which is part of
+> codec binding. So I would assume this will fall into the codec.
 
-Unless we mark this regulator as always on.
+> Where would we fit this if not part of codec?
 
---srini
-> 
->> This patch adds required bindings to add such regulator.
->>
->> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->> ---
->>   .../devicetree/bindings/sound/qcom,wcd93xx-common.yaml        | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd93xx-common.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd93xx-common.yaml
->> index f78ba148ad25..fa00570caf24 100644
->> --- a/Documentation/devicetree/bindings/sound/qcom,wcd93xx-common.yaml
->> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd93xx-common.yaml
->> @@ -26,6 +26,10 @@ properties:
->>     vdd-mic-bias-supply:
->>       description: A reference to the 3.8V mic bias supply
->>   
->> +  vdd-hp-switch-supply:
->> +    description: A reference to the audio switch supply
->> +      for switching CTIA/OMTP Headset
->> +
->>     qcom,tx-device:
->>       $ref: /schemas/types.yaml#/definitions/phandle-array
->>       description: A reference to Soundwire tx device phandle
->> -- 
->> 2.39.5
->>
-> 
+> Unless we mark this regulator as always on.
+
+I would expect that the mux would appear in the DT and consume both the
+GPIO and the regulator.
+
+--q0oIHXznJOnjkPEP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfa6uQACgkQJNaLcl1U
+h9Do7gf9FTrhbwuWUqC7of9MeF5NqEmpBeo1duXfoN+W9aE8I3cy/f/fT2QyUQWm
+FJkdZ056lxtJdoZsphOzxAJJpfnXVerUTvmK+ng2PHCBAfaXc8ubj2EuVDmarR25
+JTn1GmkiLEm98tqvt/KCVkSU2WGtXkDpxjytyo8Tj5fM98xMtwSChPcSFBVsVznG
+NSVa8uytrk0NvOGzi8TxSN70dCrD5G560pmbnVXGMWC4ZdEyV5kBsYTqE5j5MYwz
+Hi30Lshw8epe5u9IFD+cddr7pE9kvSBDV1MFjY7B2+eZQBQ+w4DKQX+07mvsItiE
+w6sY9eTqKWDZzTtz4dBxGUg0RIQHoQ==
+=fpT7
+-----END PGP SIGNATURE-----
+
+--q0oIHXznJOnjkPEP--
