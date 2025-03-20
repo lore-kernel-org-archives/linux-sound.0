@@ -1,79 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61C51519BE;
-	Thu, 20 Mar 2025 08:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B394F205E1C
+	for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 08:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742460210; cv=none; b=YHwZBRvdbuUwUkuTAZ/vh1KHp+PXBJsOBJB3sqa7Ia118d99OQJjzFXwpqrUbnLxv9eywZSBAPGW9qx+derJ5uTPw/jzp0drvTYHYUUbAjP7HgAgEcvA5wdqTi0InXFCKOkwxTfhjd9CgV6a4NcYEwPhpqhz+uoMPfQSAmJOOVk=
+	t=1742460401; cv=none; b=rug70AaDe22U1wgRPnMFeIAe2f3YjJl8tlSUIC5FvvkmJKasTrNL0v5zjIZKCVJliL95RpX+o4NxRcHxgXDVkUbU6oCvJwncK7+i+Yt6ztjrL8oc8G8MQVFqyRpYYpPVNPBTF2y/GINrS0pAXTAdrWN0KxJULNYEiwcwjQcVh8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742460210; c=relaxed/simple;
-	bh=++ufMctDs5fNv0l9AGYckpDf5fUM9DVkKKr3peSlS7M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ak/TWECdGWsK/3kr/CiRkxfBqnVDpAJoHO4fITxGkZ0RRRT6yO6uOdsIes5afDtHH3f/y5na+Qg2C7Orlr/DPBuBCw770mAuueyQOofQsaGY0DP/AYeUFXbaTCZ6NaXHM+HVj5uxNSlpHWG1F38ZSB40LtKpvvUdWneA1Jl1ki4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dz5FSb8W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742460401; c=relaxed/simple;
+	bh=jx2e6DSoT90IewT4q/0d/COQs4LVEYMYiIPzr0ZRhi0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=d/r2vJt8LO19F/ZeqNsPJQm03mrMkakyaM4USu4RFjMcOZ3ybj1Nc1mkeZK0r1ozCaUev8tRdPcpcOeDuzzjQiilQlKM9m7fpKU1iVPYF5BKyPHzWf1MwYwyPjWVJ5aNF6VTcPN2eeh89ngbH5bBaEji6ZKDPR0xjtlK5VRhbmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=V8i9susw; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dz5FSb8W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36CB2C4CEEC;
-	Thu, 20 Mar 2025 08:43:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742460209;
-	bh=++ufMctDs5fNv0l9AGYckpDf5fUM9DVkKKr3peSlS7M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dz5FSb8W7/Bp64JHqa+HpEpsHm/PogrI99GQB1HCh2qK8arY1nNZtjn2O0bdks16w
-	 AuLvlCTtPaRQ2YtNe/x4xaS09BSw3KEribOX5tcFfNJfhJPxvZNwh/GJ/1oiUC8fPz
-	 taXcGsNJSN9eYvsdDvW4dExOJTVrTWbcfQjfuGEjuL6Hr9nUA2jJdujDz83d5uU6Ch
-	 ju43SjIL5QbXNIw76iQ2SuQ396UoZsdlP00lsREGuyx+RJKEq/0E4kSCxKaBhorxRr
-	 3qAiv3bxkBK5At8NOTAHoPcH4pSA0wI6WqIF/20CN+JG4Szl4MBOlpNFpFqyG+o6MN
-	 eL3fG1zUssGdA==
-Date: Thu, 20 Mar 2025 09:43:25 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Francesco Dolcini <francesco@dolcini.it>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, patches@opensource.cirrus.com, 
-	Ernest Van Hoecke <ernest.vanhoecke@toradex.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Francesco Dolcini <francesco.dolcini@toradex.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v4 3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC
- and EQ support
-Message-ID: <20250320-lyrical-jaybird-of-security-f5ffd8@krzk-bin>
-References: <20250319142059.46692-1-francesco@dolcini.it>
- <20250319142059.46692-4-francesco@dolcini.it>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="V8i9susw"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfe574976so2504255e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 01:46:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1742460397; x=1743065197; darn=vger.kernel.org;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O3QH3qUlNH/gqSM8rGalO1GesljsIqna87D8tGVSkJw=;
+        b=V8i9suswyIDMZGYzXRPSOvmAdpelFB8GcebKr1nJvQc1sV/NsH8JMC0OP4WlbY2AOD
+         0Ixyh3iRh1LZwHYMEOiioTvQTeVGbC2PthEDqGb8V9PBa7fi8Ws3NieOTrHVl0p6ubqD
+         vCejr6kPQD2b7eD1ogvWyQ0C0YUNS1hmm7UmUmh7COMyLYlJWi7BrEOIC5E1JmQAxdn6
+         p//hpigwDGvpN+rXzXtCvdAhzwzgbmfjo3mEXjo7cIYTP/mly92RLbXue2D2leKPEZNl
+         wFmfO88M8uJHCombhWI4eutoDV07l05650VRVs/aAlKDvQDiGVkn02wehkVgicQWlEEu
+         sDlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742460397; x=1743065197;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O3QH3qUlNH/gqSM8rGalO1GesljsIqna87D8tGVSkJw=;
+        b=kphqFxEJu9g/lCnl9J6+WQ1pPo9tZeECxj/Z0l9T5+rWvkzp0KBLJhberf/v8T/E4j
+         GyqTf7AoSPpf/OZIAx1HQFfKeFGHEBGGAYB9hNm6V2dwKCs9nqvDUrA/RxXJTMErARIq
+         82t7R9kM3NjrgRq0h4B3MbZNBwjYGEMHGlD+H9sBKlkgbmdiVB0g9j9TgHi9m/nf7+el
+         YR8OMbR0LhpBulgkO0Ve+fnJfv6/zgIe+ezoYagdW9Fkz7zolo5fD7GRn5iXWFRIg09M
+         72FsjMuN1svOC+IBAYU0/FhX0gE/X/6r2sLVZOUVY0bgxOvFmLv5yu0xlW+yC3v/eHAB
+         lk6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXUDTCXdiIILZFSQ2u5aSA8xYLI6wx9JatNTC4dlV9ax5YswSP+QuBNyfM/k36Lbjinz38qO/gWbzD+SQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvkV5fYuZAED0uVI8tEgcY2GwZHrB5rWiNfvz28Yh3OQKIH34f
+	Vy1hLnYGo6xENltNjcSYqjqaQzsgib9Xi3umlU+5W0EUUJqpb4w2Q+zRm3tfZv0=
+X-Gm-Gg: ASbGnctwf5Y7RxL47rPfMc30k15GhlamdpJ0hLuSW3EjeazBBb4i6q49gvX0V9GeSqn
+	YyI2BsAloStFniwwT7uEYB+fpQ5pUBnUyDw0UawC4oETZPIGWnMVX6E55i1kyyBSx7+wkJ2xmb9
+	OvoX5ZZXIWtb/yOfl73WfDmDJmXGOMXxbn+POVidP3C4iS0rI2NLO4UQN6NDV/ZuWiAjq/QYex4
+	JfWFdRFuGWz124c/5kDD0SxadVYBuiq16iXCsb5hgG5ztr/ZyPeIflwdomAiFaxbv/QuqeqQnTS
+	ez8aWUaptXxaGO+6j46lx0HZnxCJifTZ38UzA3CXEeQN
+X-Google-Smtp-Source: AGHT+IHQm6xIAgW16c9rSJQfuwSOkpxhl2OJe1D/zAy21xgweiekDmWGRfU5wzJOyEV/LHZraSbP0g==
+X-Received: by 2002:a05:600c:3b20:b0:43c:fd1b:d6d6 with SMTP id 5b1f17b1804b1-43d43842e8bmr48409055e9.31.1742460396893;
+        Thu, 20 Mar 2025 01:46:36 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:e0ba:db2b:7cf4:d967])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-395cb318afbsm23804353f8f.72.2025.03.20.01.46.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Mar 2025 01:46:36 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
+  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>,  Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
+ <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,  Michael Turquette
+ <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,
+  jiebing.chen@amlogic.com,  linux-sound@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-amlogic@lists.infradead.org,
+  linux-clk@vger.kernel.org,  jian.xu@amlogic.com,  shuai.li@amlogic.com,
+  zhe.wang@amlogic.com
+Subject: Re: [PATCH v4 4/6] ASoC: meson: g12a-toacodec: Add s4 tocodec driver
+In-Reply-To: <20250319-audio_drvier-v4-4-686867fad719@amlogic.com> (jiebing
+	chen via's message of "Wed, 19 Mar 2025 15:04:47 +0800")
+References: <20250319-audio_drvier-v4-0-686867fad719@amlogic.com>
+	<20250319-audio_drvier-v4-4-686867fad719@amlogic.com>
+User-Agent: mu4e 1.12.8; emacs 29.4
+Date: Thu, 20 Mar 2025 09:46:36 +0100
+Message-ID: <1jfrj82ioj.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250319142059.46692-4-francesco@dolcini.it>
+Content-Type: text/plain
 
-On Wed, Mar 19, 2025 at 03:20:57PM +0100, Francesco Dolcini wrote:
-> From: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-> 
-> Add two properties to select the IN1L/DMICDAT1 and IN2R/DMICDAT2
-> functionality:
-> - wlf,in1l-as-dmicdat1
-> - wlf,in1r-as-dmicdat2
-> 
-> Add a property to describe the GPIO configuration registers, that can be
-> used to set the four multifunction pins:
-> - wlf,gpio-cfg
-> 
-> Add a property to describe the mic bias control registers:
-> - wlf,micbias-cfg
-> 
-> Add two properties to describe the Dynamic Range Controller (DRC),
-> allowing multiple named configurations where each config sets the 4 DRC
-> registers (R40-R43):
-> - wlf,drc-cfg-regs
-> - wlf,drc-cfg-names
+On Wed 19 Mar 2025 at 15:04, jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org> wrote:
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> From: jiebing chen <jiebing.chen@amlogic.com>
+>
+> S4 tocodec support 8 lane to input, It need to enable
+> bclk and mclk control bit when work
+>
+> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
+> ---
+>  sound/soc/meson/g12a-toacodec.c | 46 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>
+> diff --git a/sound/soc/meson/g12a-toacodec.c b/sound/soc/meson/g12a-toacodec.c
+> index 531bb8707a3ec4c47814d6a0676d5c62c705da75..88f9adabb3b5d7d8881fa110f1d0d51e9ac9c60e 100644
+> --- a/sound/soc/meson/g12a-toacodec.c
+> +++ b/sound/soc/meson/g12a-toacodec.c
+> @@ -41,6 +41,9 @@
+>  #define  CTRL0_BCLK_SEL_LSB		4
+>  #define  CTRL0_MCLK_SEL			GENMASK(2, 0)
+>  
+> +#define CTRL0_BCLK_ENABLE_SHIFT		30
+> +#define CTRL0_MCLK_ENABLE_SHIFT		29
+> +
+>  #define TOACODEC_OUT_CHMAX		2
+>  
+>  struct g12a_toacodec {
+> @@ -129,6 +132,10 @@ static const struct snd_kcontrol_new g12a_toacodec_out_enable =
+>  	SOC_DAPM_SINGLE_AUTODISABLE("Switch", TOACODEC_CTRL0,
+>  				    CTRL0_ENABLE_SHIFT, 1, 0);
+>  
+> +static const struct snd_kcontrol_new s4_toacodec_clk_enable =
+> +	SOC_DAPM_DOUBLE("Switch", TOACODEC_CTRL0,
+> +			CTRL0_BCLK_ENABLE_SHIFT, CTRL0_MCLK_ENABLE_SHIFT, 1, 0);
+> +
 
-Best regards,
-Krzysztof
+I think I remember commenting on this already.
 
+>  static const struct snd_soc_dapm_widget g12a_toacodec_widgets[] = {
+>  	SND_SOC_DAPM_MUX("SRC", SND_SOC_NOPM, 0, 0,
+>  			 &g12a_toacodec_mux),
+> @@ -143,6 +150,19 @@ static const struct snd_soc_dapm_widget sm1_toacodec_widgets[] = {
+>  			    &g12a_toacodec_out_enable),
+>  };
+>  
+> +/*
+> + * FIXME:
+> + * On this soc, tocodec need enable mclk and bclk control
+> + * just enable it when dapm power widget power on.
+> + */
+> +
+> +static const struct snd_soc_dapm_widget s4_toacodec_widgets[] = {
+> +	SND_SOC_DAPM_MUX("SRC", TOACODEC_CTRL0, CTRL0_BCLK_ENABLE_SHIFT, 0,
+> +			 &sm1_toacodec_mux),
+> +	SND_SOC_DAPM_SWITCH("OUT EN", TOACODEC_CTRL0, CTRL0_MCLK_ENABLE_SHIFT, 0,
+> +			    &g12a_toacodec_out_enable),
+> +};
+> +
+>  static int g12a_toacodec_input_hw_params(struct snd_pcm_substream *substream,
+>  					 struct snd_pcm_hw_params *params,
+>  					 struct snd_soc_dai *dai)
+> @@ -236,6 +256,10 @@ static const struct snd_kcontrol_new sm1_toacodec_controls[] = {
+>  	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL_SM1, 3, 0),
+>  };
+>  
+> +static const struct snd_kcontrol_new s4_toacodec_controls[] = {
+> +	SOC_SINGLE("Lane Select", TOACODEC_CTRL0, CTRL0_LANE_SEL_SM1, 7, 0),
+> +};
+> +
+>  static const struct snd_soc_component_driver g12a_toacodec_component_drv = {
+>  	.probe			= g12a_toacodec_component_probe,
+>  	.controls		= g12a_toacodec_controls,
+> @@ -258,6 +282,17 @@ static const struct snd_soc_component_driver sm1_toacodec_component_drv = {
+>  	.endianness		= 1,
+>  };
+>  
+> +static const struct snd_soc_component_driver s4_toacodec_component_drv = {
+> +	.probe			= sm1_toacodec_component_probe,
+> +	.controls		= s4_toacodec_controls,
+> +	.num_controls		= ARRAY_SIZE(s4_toacodec_controls),
+> +	.dapm_widgets		= s4_toacodec_widgets,
+> +	.num_dapm_widgets	= ARRAY_SIZE(s4_toacodec_widgets),
+> +	.dapm_routes		= g12a_toacodec_routes,
+> +	.num_dapm_routes	= ARRAY_SIZE(g12a_toacodec_routes),
+> +	.endianness		= 1,
+> +};
+> +
+>  static const struct regmap_config g12a_toacodec_regmap_cfg = {
+>  	.reg_bits	= 32,
+>  	.val_bits	= 32,
+> @@ -278,6 +313,13 @@ static const struct g12a_toacodec_match_data sm1_toacodec_match_data = {
+>  	.field_bclk_sel	= REG_FIELD(TOACODEC_CTRL0, 4, 6),
+>  };
+>  
+> +static const struct g12a_toacodec_match_data s4_toacodec_match_data = {
+> +	.component_drv	= &s4_toacodec_component_drv,
+> +	.field_dat_sel	= REG_FIELD(TOACODEC_CTRL0, 19, 20),
+> +	.field_lrclk_sel = REG_FIELD(TOACODEC_CTRL0, 12, 14),
+> +	.field_bclk_sel	= REG_FIELD(TOACODEC_CTRL0, 4, 6),
+> +};
+> +
+>  static const struct of_device_id g12a_toacodec_of_match[] = {
+>  	{
+>  		.compatible = "amlogic,g12a-toacodec",
+> @@ -287,6 +329,10 @@ static const struct of_device_id g12a_toacodec_of_match[] = {
+>  		.compatible = "amlogic,sm1-toacodec",
+>  		.data = &sm1_toacodec_match_data,
+>  	},
+> +	{
+> +		.compatible = "amlogic,s4-toacodec",
+> +		.data = &s4_toacodec_match_data,
+> +	},
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, g12a_toacodec_of_match);
+
+-- 
+Jerome
