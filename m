@@ -1,150 +1,129 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CE54A0C;
-	Thu, 20 Mar 2025 12:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A80EC5
+	for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 12:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742474412; cv=none; b=IT0UIv1RwympUkMlSuzmCHwtzDR1e3B3Z2gkWBPyasbxUqEBEr+ufvzIjnQHG0iv7euwI4xALmI+l7T4Waw84KEpS5NbYEn+iXafIQ+yqLafZDDP2D/eMi8gv/Y/hhG3yrNk+8OuPPYvU8SOSTALJXiEmcjYSO1V2Wvpoo/zig4=
+	t=1742474965; cv=none; b=aeZUIVFkK/FmWu5AZ2HJEQUkFoPHLSZRCRuoUFpxxHNmhdeeCIJc0pK/aDMFCEIz+nKcfEZNPJ+C7fenBuQp++k83cH6u2sq5WOEz14siWbXubx5XlsAMcHgmlfARb3I4uXah9XQr3AYQ3EEyNT7fw24VaXTWDHBBnibOmRkHPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742474412; c=relaxed/simple;
-	bh=dSb1rGkUWH+O9PKTS5kcXjpzSzAoMTGvjKFlYsZAbIU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q375/fEo8rUrj1Ze4bBcnmjmpdzAV728Wz+oqyehg0BI+YieuRUw1PL5ag5tzYKm6i6Km5Ad69xUms0DqbIOcRs9zT1p1xai4nX1H7QGdc3eFfOF+Amz+kMPJbwC+HWJldSoJ7NvmV2yEn7IDRdQkFkMOe233EYGFM643haopXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=cDZSPhtQ; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1742474965; c=relaxed/simple;
+	bh=aStHTjdtJrpDKacYsLyzO+frL12AwKU5p8uNGZysYew=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Fg7wdBFC01+fIvvkiTNR910nzeamZI/Fq8ddYvVUqksyocZoEryFFxYCQiPu4TFM7DH/nz8J4N9qcQJkcN2LkKy7w4BYGfZQ5H29IO738cJBP6nWZ98U9rLClpazMLS/zw7+D1L3L1tbV1W0dChRuz12S+KZqd6ZM2zDx+O/Krs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=uEOZUREL; arc=none smtp.client-ip=185.125.188.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="cDZSPhtQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1742474408;
-	bh=dSb1rGkUWH+O9PKTS5kcXjpzSzAoMTGvjKFlYsZAbIU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cDZSPhtQdKCk9SSLCW0czIQ9yP7K095pjew+9ZpZDJDKONmX5x2jONkHAlQJtx4uQ
-	 o9rfqITPbXCkGRMBj5CPsl9zPbzVAFNf5J51mFB6gXfQEC7CsBSJuzqDFEJ1eG7/zc
-	 S2UrL16vN+bnhKwO8Aw19KtICy+DvbAixpJV9bTxx8MhMn94/lGhyKUIybjqBfXAbM
-	 sS1tXxCwunamUN2EYuHcvT8TPTAauxN+LIoRdkFVi3h+NPOdSoivheZMvA6k0lveEF
-	 3oQp00h1eyvJ+wXw689tq3XyK7UJ5xcEqhMUpk9X3o7m2R78dQEG8NfaGj3znYDaSb
-	 n+wIi0IOQ2rRg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="uEOZUREL"
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4A62B17E0607;
-	Thu, 20 Mar 2025 13:40:07 +0100 (CET)
-Message-ID: <204c40d5-de0f-42d0-bc86-d17606c4929f@collabora.com>
-Date: Thu, 20 Mar 2025 13:40:06 +0100
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 2E0433F467
+	for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 12:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1742474959;
+	bh=z9wosfMTvKly19CGRaWf+kiQFrol15FV6ibGh+/i9lo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+	b=uEOZUREL3+idYWcVT9b1UiXQESmT4q9WkMMVVaf5aYjmSUG1RC+wiRaO6XlhyvyQF
+	 aDxRkeUrdAKHVYD9p4f6wM5ce1fWNlj8IlW9gjPvy+CGKRaJ7obcnxFJwUz7zrwWbh
+	 s7AW8Im0pNj7Xo1JXLWin43btCacsqNx/fqnXcA2tNC7eJYo1OeEGczwP3LOU5tdIR
+	 OGx3uNWObogtosUY8CdagN6qPgtzyinkjVB9k78NR7VIUS6gkcWpzQ3WB//ExNHCyX
+	 DPchAxYUkAhSaq5AGIL95LafoVSkNMZP1XDBkQX6x6hx6nhISkZ7I1DNxZHvaB2vaD
+	 LstaUso5xkjww==
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2254bdd4982so15233845ad.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 05:49:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742474956; x=1743079756;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z9wosfMTvKly19CGRaWf+kiQFrol15FV6ibGh+/i9lo=;
+        b=mkcETL3FO31CmYXZbbCZQG9iJFz2Na/t/8LXkfXinW6DN5OZaCkd2jpjRwxLUJUZxT
+         2qvG3/BHiGaWJPrfiFkshdF6fEZ13ru3miyXdHWPid/n+/egsDsA5SxGgN6E8tS2qkjS
+         GzARZW8xLcdzhhAxuLVcnpqjkVOzpxECaJsU5nOvIEIfoF0nz0zUqtiAOyTDdhNTc3vZ
+         VqouUaDPT1Ls2EU+VMAsVbJ9NyQoIhjM7jCKMlJaouQ3pmba2msomsBNbMShz8R19MQL
+         JHW/T5n/95/QzGEJdKVGL00MbWH4hy3O3pablFnJBcgto5qjzCD3BWYH/v3rJfKpd16l
+         /S9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUPN8w/xNfTThMtwnVj29u1cB4l6OFVraDt/6oWUphLSUAZAWK1PNcCHBFEq7KFQC4QhipSc113PAP8dA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5xbZaGTyTu6nP0S4QMRE2T8Pc3MCCwBqPTunFGZUWM1ocrzvM
+	RtC6ik+xG1MoBdo0/x2p6ZX/pPX/4i+lE3JT3S5AsIxJlF2sFci9u7M2JYUfymiIJQI84BsSDdb
+	vfnRTPvWF5B1oPBmpre1zgWymyjvttpoxLSuiI2uT8yvXWQPMJbzwdhWqjG13xmjL0XYwbO0O72
+	ER
+X-Gm-Gg: ASbGncsAzMJ4pwMHn80J6BUaUzU5EWWcqY4wNMUp/KV8qNV4wq9U5WZwf5AjS375wBk
+	6f30dBthpJbdAJGhkXBnlcryA1hM6oNmbgTiYbkyZl/caVXjbNmGs/mqKbZL3BwqNK5t9OXKv7u
+	7C1Uxw2VYaxR9DhsBwCrDqIsvD/r6+YrgYhrraci+E7yGDuf4Px9I1itjofS3ewT395LN1zuufZ
+	G5er9rRVo83lZRxNwdkpmHIKVPzcu2zsNSrD2jGgJQtu57HQrkF/gtNSe/kFBTlzu2J5fBxJkJQ
+	ueUnI2GlSU46xyzTXdw+74mhF7Br+1CXhuNPbkHNuA06O4UOtCw2iARyEAMszA==
+X-Received: by 2002:a17:902:ccc7:b0:224:ff0:4360 with SMTP id d9443c01a7336-22649cb6a06mr113139225ad.53.1742474956693;
+        Thu, 20 Mar 2025 05:49:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFkAIUG73MYvFMvy4ljvO26jN+wzckVfdN6iVioSHGSBxuYYkhKK4/wmd9nZ+AQsMUZfxvlQA==
+X-Received: by 2002:a17:902:ccc7:b0:224:ff0:4360 with SMTP id d9443c01a7336-22649cb6a06mr113138785ad.53.1742474956214;
+        Thu, 20 Mar 2025 05:49:16 -0700 (PDT)
+Received: from u-XPS-9320.. (114-36-229-113.dynamic-ip.hinet.net. [114.36.229.113])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6d2csm134194055ad.125.2025.03.20.05.49.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Mar 2025 05:49:15 -0700 (PDT)
+From: Chris Chiu <chris.chiu@canonical.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: simont@opensource.cirrus.com,
+	sbinding@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chris Chiu <chris.chiu@canonical.com>
+Subject: [PATCH 1/2] ALSA: hda/realtek: fix micmute LEDs on HP Laptops with ALC3315
+Date: Thu, 20 Mar 2025 20:49:07 +0800
+Message-Id: <20250320124908.529842-1-chris.chiu@canonical.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: SOF: MediaTek: Add mt8196 hardware support
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- "hailong.fan" <hailong.fan@mediatek.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, sound-open-firmware@alsa-project.org,
- linux-sound@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, Jjian.Zhou@mediatek.com,
- Xiangzhi.Tang@mediatek.com
-References: <20250320031753.13669-1-hailong.fan@mediatek.com>
- <20250320031753.13669-2-hailong.fan@mediatek.com>
- <20250320-cocky-adventurous-rooster-be2abd@krzk-bin>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250320-cocky-adventurous-rooster-be2abd@krzk-bin>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Il 20/03/25 08:52, Krzysztof Kozlowski ha scritto:
-> On Thu, Mar 20, 2025 at 11:17:24AM +0800, hailong.fan wrote:
->> +
->> +void mt8196_sof_hifixdsp_shutdown(struct snd_sof_dev *sdev)
->> +{
->> +	/* set RUNSTALL to stop core */
->> +	snd_sof_dsp_update_bits(sdev, DSP_REG_BAR, ADSP_HIFI_RUNSTALL,
->> +				RUNSTALL, RUNSTALL);
->> +
->> +	/* assert core reset */
->> +	snd_sof_dsp_update_bits(sdev, DSP_REG_BAR, ADSP_CFGREG_SW_RSTN,
->> +				SW_RSTN_C0 | SW_DBG_RSTN_C0,
->> +				SW_RSTN_C0 | SW_DBG_RSTN_C0);
->> +}
->> +
-> 
-> Drop stray blank line.
-> 
->> diff --git a/sound/soc/sof/mediatek/mt8196/mt8196.c b/sound/soc/sof/mediatek/mt8196/mt8196.c
->> new file mode 100644
->> index 000000000000..364069ce9954
->> --- /dev/null
->> +++ b/sound/soc/sof/mediatek/mt8196/mt8196.c
->> @@ -0,0 +1,650 @@
->> +// SPDX-License-Identifier: GPL-2.0
-> 
-> Look here
-> 
->> +/*
->> + * Copyright (c) 2025 MediaTek Inc.
->> + * Author: Hailong Fan <hailong.fan@mediatek.com>
->> + */
-> 
-> ...
-> 
->> +
->> +static const struct of_device_id sof_of_mt8196_ids[] = {
->> +	{ .compatible = "mediatek,mt8196-dsp", .data = &sof_of_mt8196_desc},
-> 
-> Bindings are before users.
-> 
->> +	{ }
->> +};
->> +MODULE_DEVICE_TABLE(of, sof_of_mt8196_ids);
->> +
->> +/* DT driver definition */
->> +static struct platform_driver snd_sof_of_mt8196_driver = {
->> +	.probe = sof_of_probe,
->> +	.remove = sof_of_remove,
->> +	.shutdown = sof_of_shutdown,
->> +	.driver = {
->> +	.name = "sof-audio-of-mt8196",
->> +		.pm = &sof_of_pm,
->> +		.of_match_table = sof_of_mt8196_ids,
->> +	},
->> +};
->> +module_platform_driver(snd_sof_of_mt8196_driver);
->> +
->> +MODULE_LICENSE("Dual BSD/GPL");
-> 
-> And here Hm? Don't fake the licensing.
-> 
->> +MODULE_DESCRIPTION("SOF support for MT8196 platforms");
->> +MODULE_IMPORT_NS("SND_SOC_SOF_XTENSA");
-> 
-> Is this correct?
-> 
+More HP laptops with Realtek HDA codec ALC3315 with combined CS35L56
+Amplifiers need quirk ALC285_FIXUP_HP_GPIO_LED to fix the micmute LED.
 
-The import namespace you mean? yes, that's for sof_xtensa_arch_ops :-)
+Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
+---
+ sound/pci/hda/patch_realtek.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Cheers
-
-> 
-> Best regards,
-> Krzysztof
-> 
-
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 1d8caf791dbc..30d4cd93dae1 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10723,13 +10723,27 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8d01, "HP ZBook Power 14 G12", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8d84, "HP EliteBook X G1i", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8d85, "HP EliteBook 14 G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8d86, "HP Elite X360 14 G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8d8c, "HP EliteBook 13 G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8d8d, "HP Elite X360 13 G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8d8e, "HP EliteBook 14 G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8d8f, "HP EliteBook 14 G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8d90, "HP EliteBook 16 G12", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8d91, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8d92, "HP ZBook Firefly 16 G12", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8de8, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8de9, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
++	SND_PCI_QUIRK(0x103c, 0x8e14, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8e15, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8e16, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8e17, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8e18, "HP ZBook Firefly 14 G12A", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8e19, "HP ZBook Firefly 14 G12A", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8e1a, "HP ZBook Firefly 14 G12A", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8e1b, "HP EliteBook G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8e1c, "HP EliteBook G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8e2c, "HP EliteBook 16 G12", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300", ALC282_FIXUP_ASUS_TX300),
+ 	SND_PCI_QUIRK(0x1043, 0x1054, "ASUS G614FH/FM/FP", ALC287_FIXUP_CS35L41_I2C_2),
+-- 
+2.34.1
 
