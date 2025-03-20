@@ -1,45 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A19622839A;
-	Thu, 20 Mar 2025 18:45:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D670715574E
+	for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 22:54:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742496351; cv=none; b=ZBCcvF5ZiMZ9GCuH0tkQ1zYiAsPLZ/buVJvcLoODxnIx6FJDeQPoyAvdkh+QMcpPOH6/1rSqRjJuVOQXJ9h+mXVg2t9OcI3c3baDHlcqR6Ns+JHpVPD/sy68sQc0xb723wZto9UdUSc+mR5Y8IDG9gJXuBSsDBhIWnqE7hmCAXQ=
+	t=1742511285; cv=none; b=UwH5pnod1idbkZLmNe0GO3hH49Sw2G3yhgpPeqk9Xy4sQlGAbt1X/uJjqdrlt0Xjexfh4jiJ39Ab5VJCQJUvMk2PWWD6ziWQds8TbbesRJwu6QNJA2Fd0P2jRTRA8DaIjAT+E/bHRqAr2Q9fLfT7hNq0sju6+NuUjn/86DiS9mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742496351; c=relaxed/simple;
-	bh=9GgqdaYLKd7dmzLN4hNOYA1FFmBech8VPXpJw8W5XXw=;
+	s=arc-20240116; t=1742511285; c=relaxed/simple;
+	bh=k4JMSu6667/+rSewCNyUafinoVxtlnnGBFil9hK+u/A=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YeLXBeyadPNK2yHwoi4p9k8G4YFaIDjfu7hG8mjJfO7ECxMvvvAbWw8flDHdiG7K89nGl8YQyjBF/R4P92780LfjzZgy0kVbfQk3MLTiZEyYxVHIuVKZADTnxXU4Zso+W6XVbY74F+iApv0Yxd96qrDZQdsrK1iytupPEo8Dx1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=elKX58B6; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=GhBcQz0VCzhkHsJtQR+yzta83pJlkgnHTyPIHgPzYjPy4ZDrhLuYba4z7dnbY+92wKjz7WmJTJHxecdShLeprCFSpU5oQmHxK2qIr/rWtlMGW1cfXLBTq2vQvC2Ap+5Ur/6RNnyk4XnpuxESqnj4nd3Sa+Ji7YjAklVLs2o63XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nhUulynq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="elKX58B6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36370C4CEEC;
-	Thu, 20 Mar 2025 18:45:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nhUulynq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14A3C4CEDD;
+	Thu, 20 Mar 2025 22:54:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742496350;
-	bh=9GgqdaYLKd7dmzLN4hNOYA1FFmBech8VPXpJw8W5XXw=;
+	s=k20201202; t=1742511285;
+	bh=k4JMSu6667/+rSewCNyUafinoVxtlnnGBFil9hK+u/A=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=elKX58B6TYNLG5yRXK6frhwOhw+PbUVW47rpa+Uw0/X/McE81x2xa7zqWyLK+uRye
-	 3w/SAmqk77qKQaRNs+ny6SawrO6GafiHBaNBZecnsWJuT5495VNkEAkcafE68k1esj
-	 kQblPueB7Im9Oc1jUFS6B61DMEhQjqr/CS31OjydqAxTa+GlDKCOSMf8xE5c7SIITG
-	 6atnbqq3Ps2KfnzFyZCprcGWecR8lqi7eRYS/Spj+zPz09SpoS4FBhVOSXloPdE2hB
-	 fLZVDTSql2Tvpk7DsJkMDQJnuiYZg/zZmi8ttE4SE58pKVlxA6S+tKRbCD2OsPZdGn
-	 6LSK9yd1zWepQ==
+	b=nhUulynqtcQEFuIdoPW13zvu7BSe8NQISfVvbAWYISl2e/Eidq4iaY/UDI9Jf6aae
+	 rELkQdQIx2rsoJr4VQwTgrIUAhlmn6yRIhBSAsitATmJhvvX/tkDmmM6cKSU5tAcNa
+	 Fwa7a5UdhU+jIo1T6acbfpk1iaSfuoJ/3GUtKFLYV0UgEXf9PmfXKc3YFx4XNhUaK3
+	 a+g7HEW0Fw4ggyJ5r+GbQb0FRTwj7JO+a0gq7MG4GM/C0GqlvsRzyt/VXOd+CNLnua
+	 N2otGdQXF/ycKYKyJGnMpek1W0vMTeLjRkmhpr4dkREsQKimf57/lY+Pyrl1Mu1f5O
+	 /QI1yDX6ll2bg==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- patches@opensource.cirrus.com, Francesco Dolcini <francesco@dolcini.it>
-Cc: Francesco Dolcini <francesco.dolcini@toradex.com>, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250319142059.46692-1-francesco@dolcini.it>
-References: <20250319142059.46692-1-francesco@dolcini.it>
-Subject: Re: [PATCH v4 0/5] ASoC: wm8904: Add DMIC and DRC support
-Message-Id: <174249634796.174081.9833862895994881364.b4-ty@kernel.org>
-Date: Thu, 20 Mar 2025 18:45:47 +0000
+To: mario.limonciello@amd.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, olivier.moysan@foss.st.com, 
+ Mario Limonciello <superm1@kernel.org>
+Cc: Akshata V Unkal <Akshata.VUnkal@amd.com>, linux-sound@vger.kernel.org
+In-Reply-To: <20250319145636.2401680-1-superm1@kernel.org>
+References: <20250319145636.2401680-1-superm1@kernel.org>
+Subject: Re: [PATCH] ASoC: dmic: Fix NULL pointer dereference
+Message-Id: <174251128341.367646.7719546523755965599.b4-ty@kernel.org>
+Date: Thu, 20 Mar 2025 22:54:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,19 +46,41 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Wed, 19 Mar 2025 15:20:54 +0100, Francesco Dolcini wrote:
-> This patch series adds DMIC and DRC support to the WM8904 driver, a new
-> of_ helper is added to simplify the driver code.
+On Wed, 19 Mar 2025 09:56:31 -0500, Mario Limonciello wrote:
+> Regulator support was introduced in commit d3321a20b5111 ("ASoC: dmic: add
+> regulator support"). During probe `dmic->vref` is initialized with
+> devm_regulator_get_optional() but in the error flow doesn't get cleared in
+> the case that PTR_ERR(dmic->vref) is -ENODEV. This leads to the following
+> NULL pointer deref.
 > 
-> DRC functionality is added in the same patch series to provide the
-> necessary dynamic range control to make DMIC support useful.
-> 
-> The WM8904 supports digital microphones on two of its inputs:
-> IN1L/DMICDAT1 and IN1R/DMICDAT2. These two inputs can either be
-> connected to an ADC or to the DMIC system. There is an ADC for each
-> line, and only one DMIC block. This DMIC block is either connected to
-> DMICDAT1 or to DMICDAT2. One DMIC data line supports two digital
-> microphones via time multiplexing.
+> ```
+> Oops: Oops: 0000 [#1] SMP NOPTI
+> CPU: 7 UID: 1000 PID: 1587 Comm: wireplumber Not tainted 6.14.0-rc7-next-20250318 #1 PREEMPT(voluntary)
+> RIP: 0010:regulator_enable+0x17/0x70
+> RSP: 0018:ffffcc10c1fe7a38 EFLAGS: 00010282
+> RAX: ffff8bccc1c25010 RBX: ffffffffffffffed RCX: 0000000000000000
+> RDX: 0000000000000002 RSI: ffffcc10c1fe7a38 RDI: ffffffffffffffed
+> RBP: ffffcc10c1fe7a68 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000000 R12: ffff8bcccd51f800
+> R13: ffffffffc1086e88 R14: 0000000000000001 R15: 0000000000000001
+> FS:  00007f927bc35800(0000) GS:ffff8bd44f09f000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000065 CR3: 00000001332c6000 CR4: 0000000000750ef0
+> PKRU: 55555554
+> Call Trace:
+>  <TASK>
+>  ? show_regs+0x6c/0x80
+>  ? __die+0x24/0x80
+>  ? page_fault_oops+0x154/0x570
+>  ? hrtimer_start_range_ns+0x142/0x4e0
+>  ? timerqueue_del+0x31/0x50
+>  ? do_user_addr_fault+0x4ac/0x880
+>  ? exc_page_fault+0x82/0x1d0
+>  ? asm_exc_page_fault+0x27/0x30
+>  ? regulator_enable+0x17/0x70
+>  ? __schedule+0x491/0x16b0
+>  dmic_aif_event+0x82/0xa0 [snd_soc_dmic]
+> ```
 > 
 > [...]
 
@@ -72,16 +90,8 @@ Applied to
 
 Thanks!
 
-[1/5] of: Add of_property_read_u16_index
-      commit: fd9582998b9a82ef53a34756de8a1fb86abac972
-[2/5] ASoC: wm8904: Don't touch GPIO configs set to 0xFFFF
-      commit: 2aa853248b6b6c76b9dd82353e45a4283f9c53ec
-[3/5] ASoC: dt-bindings: wm8904: Add DMIC, GPIO, MIC and EQ support
-      commit: bd552e937fc80faa70007f7a4cbbf7edd5a6629a
-[4/5] ASoC: wm8904: get platform data from DT
-      commit: afe66ef965317381fd2894c2eba144b38b791910
-[5/5] ASoC: wm8904: add DMIC support
-      commit: b6612c8fc3a2c279196050ecc13c77a7863d83eb
+[1/1] ASoC: dmic: Fix NULL pointer dereference
+      commit: 6271b746e40ebaf24dc54be5f4248f5a61618871
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
