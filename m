@@ -1,117 +1,178 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A586EC5
-	for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 12:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2B01C5D7E
+	for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 13:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742474980; cv=none; b=PwaJY9GUCNAIa+mf0twY7FCZBm3EoU83Fl1jcgJfBQBb4GbfropvSFe8WrV0GuUOAKQoa+8MRyMxNguW94aHWyxrKbHcBuoWzIhJY25DH3vfaSDxCFROIbrfytlAXH1JjhRWNKG+YtnN5ibtj2Nv1RNvVrqIURyvhrjVz992QPs=
+	t=1742479113; cv=none; b=A7qnV9cGRFj44uE1rEwk02k/jRJFWeC9BUxQXR8Kyys9JpnL0AZ/qKI78ue9LBuBdH3VyVbzRT4q7Xug1xsBkxsZuUkN6etv76qpTDbUAMHz+jtGs/807LKM97cNVTSeUqtov+LbgCGKZHiE07l6rEocqB4xgYywdmw2GZrn9vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742474980; c=relaxed/simple;
-	bh=MRJbpzMReFBOxOrW2BCv7any1qqOc/3lriNrQn7Saow=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rtd8tKoWExsYErhnnHlWDqL8JGqCj4WLq4xsAPvjrzEoMIt0+Wz3zp2VXc9lcxG5hLBcPAPMw99rlBsz1Zb0ZvKS4cvMA2c/cJ2XDDzrKbpplPqZTxFPkrzIsxAplWeFo1pb3naZjvIIgaF8QdBM0IKFrPL7UzvklW8LmXKd2Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=RH2DO/XV; arc=none smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1742479113; c=relaxed/simple;
+	bh=YgvuKEZ82WueEbmg4lKF2pJEcbOVzlhiTsYtcY4I7O8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AqW0q0Uuhvfka/LI5HV+hIa0dhAmBpjYz321YVrGqJ0nkBvK4veQQ7vxSV9Tg5QJflkyCf+8lHgzdOOm6N8cPKEW8KVOsLxQlgBGAqRyRiVPk51SFqgC6md4hXM4bRJRzbYuHhUoOYfqYtbdpNXsqJtwN28FLGVB0feMin9ImU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TWrYHxr4; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="RH2DO/XV"
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 877E13F59F
-	for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 12:49:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1742474975;
-	bh=v8Q/8heYF64qru5snKMgVSU4IL0ROPu0H5zemtfSsX0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version;
-	b=RH2DO/XVO1A84RE35+EgFl7vQyCUZHseUSE3R+E7jyhiIh6q4/8DUzNXJtxyIoqwR
-	 s2307BvvZ1AoBivrozNfIOmyH9+qzPjYcRLnUZ/1joJboiEuM+EFEPtUoIuolEkY6i
-	 13LZeg6LpoGU/QX/bNSP7eAdUmh4ajo+iPk/h1g1D5WhO6pbk6R93jW32D1GxsOBgH
-	 bjwOwQq9RjEYLURxfpdhcWSWvRGYFbhDcesJJ2iTvXxuSaj+hO7bET/xA2osJZXcmZ
-	 HoCbjemLcROsB0o4uuJP6RGDlbPGLT2V2mufAvTkovQkJ7xwdJgh9DZ2B3a+ymQ5mA
-	 axNqtBXPMiAyw==
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2264c423e37so14473835ad.3
-        for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 05:49:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TWrYHxr4"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52K6Z6Nq010931
+	for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 13:58:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=3u0JwHzpVv7+HNs86i6YT71w
+	f8BI/GSn5CzgGwf5drQ=; b=TWrYHxr4JSlCLJ/oA0EuN0/yRfBCrAmbOaJqjvmq
+	wBqvdDDqKgOABS/Bg1XkXLHHVh390PS8WRhnUry3Z2JavRgLzAwwmYMtjpvevhj7
+	VZ8adkh//jIIsap0z7F7UHGreVmqFlOq3WYYX1/qryIvmEUINKTaiHrqUfbC89xM
+	4VRVeQStwIDFBSOMk5ObfwzzhvuGsa76yb3VubmzdqRbJbWFsQdIc49PXgCnmUpE
+	GLCPClD46pDdQxm51CuX4n1dK6jgIOHrM5PSscg6jsLuB6NXPQN44CLe15aYu7G7
+	oo4DnvzhfJ1C3EDVNO7RBunWaYxd013lZNQdxOmSaezU+w==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45fd1dpjwe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 13:58:29 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c544d2c34fso132153585a.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Mar 2025 06:58:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742474973; x=1743079773;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v8Q/8heYF64qru5snKMgVSU4IL0ROPu0H5zemtfSsX0=;
-        b=lVVig5ZWdx7Sj2Z15L5qwIiMRJeJ8gK52Lotcy+cyKD/QyuzkgdbYBQFOF+FtdQV5D
-         l54gZQNy43iG9gw+9WTpsd1z9xFPFCy0wZs1sJkOZF8T9c+zER86O3xsbOUq9n8jAQCb
-         jEDn/bKUVW4TrJL3ulvB1w+BEg7DbesSvyk2MgJ45OBaPBjrdTh/sEABqi6ApTlS3D66
-         ae8GLVCu1320qmRMisL1u8QcnseGl7PTI3XALSa0T7xz2OQuM1Vww2wjegdPa01N2akS
-         am745MJ0ecyoPsq9gKuMpNvrK5Pzvh7euO//qMEI/t/00UqUK396a3DPNVLJr0EgNSud
-         94mw==
-X-Forwarded-Encrypted: i=1; AJvYcCWgXKpgll3YyL2tnkJSLrGFITSKh4IDLKd6KSaKT/RuuQOsxbkXluErkrJs9qUrFT/qVTOCsZG0wCnp/A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZH9ZZ62b/FfXiu+o3a66nwiV/uOu4yJw0AyNUyYTgGWfx461Q
-	JK1YFUtOi+YMI/Qnb4IycV3btMJzESF0GMreoabH1J6vT7k0sHDa25WvcO5HUUjFSA54xAQcaJC
-	k7ZB2xwyIgIUXfZp2ApjuY1/Onfu8T3yGeMpCc9yp+m+RFoPvtz/bgHM6BI3vBvfiO1bDb3s3Di
-	HxbSezuNIr
-X-Gm-Gg: ASbGncsZLwckj3d+WuiHhEAtaRtO57MlS7ZCSY7GkXQ6nEp262SweVfQYyAbS+jWgTn
-	YVfODLLTPHlEAzDKjNPdmgl8MbdMwX+NUlyPvdgKTtbOPi/+VilurSM1pivGwgPOPNcBbhfIWwD
-	gU2tlS/isU7EPvQMfYCyNF0nV7Tu/XpVbqTSJ7giMICD3ldKhnPEx2dWJMNLY2QvpVH5BhSRbxS
-	Fr1GNmNYAFGNCncrV1PoF0vAhlbROsBYSHdzmtuajmx8y1UmxPdh2W8o6rDQKqPEF3W4rb+79A+
-	NsYvdgGDNilEx4BQTkSqLiw/8MlPD2507E9Y+aOCrOyYG473L2FkUxX7eS/MMQ==
-X-Received: by 2002:a17:903:2291:b0:21f:6c81:f63 with SMTP id d9443c01a7336-22649927ca8mr97177945ad.16.1742474972957;
-        Thu, 20 Mar 2025 05:49:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFoyeYgcr58fvSndjMn85y79K0CVlqga5tgoq3Ufnsa4hK9r118Dtma+rlPl7qfamNL9i575g==
-X-Received: by 2002:a17:903:2291:b0:21f:6c81:f63 with SMTP id d9443c01a7336-22649927ca8mr97177665ad.16.1742474972646;
-        Thu, 20 Mar 2025 05:49:32 -0700 (PDT)
-Received: from u-XPS-9320.. (114-36-229-113.dynamic-ip.hinet.net. [114.36.229.113])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6d2csm134194055ad.125.2025.03.20.05.49.31
+        d=1e100.net; s=20230601; t=1742479109; x=1743083909;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3u0JwHzpVv7+HNs86i6YT71wf8BI/GSn5CzgGwf5drQ=;
+        b=l7c0hbHiiLKYC0t4UBBrGuVK+yw7+nu6zUhfxADQrVX0ZZoMmj/4XzwwvRWvBoB/a/
+         wDS53p/wAEwYqHSRL11XCRA3fQWCC1kkhyPNw7u+mOZndunHFXoJfZ03cmHhq1MqaOcg
+         vjX0t0/IgavS/Iwe9NOad7HJo+s8hpq60w9BpeF6WBYkrAoe+rC270vm4HCm2A67JPeF
+         h0hsmA5hHFfpQgAFaMRUL2KgInKYxr8uymUycoJqexG+gOQUhTfmDlUYQHzz/f344tWS
+         4Re+VA/r0i1gEyxUjHDWrCjp5qgMXY1J+xseNH54HhXIo+kn7Dn6G1yaGuntfbfNUzND
+         95Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCWR7L99DtDy2zamhQOQBbd2utf2nyPTj5ypQjpVPtEZrHS1kah/x3nYEEVJt7zOvIOddmQw8jlkh6KEKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxHjIsDCjEjIA/oI5HLYQYIp0R0R9XpGMSiBoEKMsJ1p0GsCk/
+	gTx4BlBk4MdjboF10w2c3MvhH403Pz8AZ777Msvm5ZNhzUgLmsDPaQOgTnHg94w8YyS7p8fWjQ5
+	25X13v9ca4Wy9I9hrI+MVXBw9ZO8zLepHfrPPTpLtAV4tyCrknh2tvAxU1fcqbDnL/9KGAA==
+X-Gm-Gg: ASbGncvLEXXsF9Q1bWIz8wJkNNnXcZ2td2ek1dOsuLdaCXHba7aRMMNC4xP/onU/iyz
+	wkyN2iPE4Sg7WhgXywINtofbw0Cs3xIWYbkhs6to05yRBCAEW9kFQtCCYxN2dWoIjgVfi9kSHe+
+	Er8MWEkxy7eJtl2h18cGS1kwEQH/jM90SweshGTvlooQ9o7JeihM7CQ7zulP68GQ0HclD0heUJ9
+	pyKyp9xB8zD7iy+e6M13DeRe6CqXeZj0ZyKeOtB5qba1BE+RI6WjApLGSccrFZtQNVizME70GVR
+	VqTxx89RPvqkGrRW2Ylk1BE3wFDPDdVgjS83peE7/A8+fYHt+NYCQR2m7igV7wUwlZDb0ORQeuj
+	eadY=
+X-Received: by 2002:a05:620a:4593:b0:7c5:5d4b:e63c with SMTP id af79cd13be357-7c5a84ae82cmr1128473985a.47.1742479108707;
+        Thu, 20 Mar 2025 06:58:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFM55sLU2KpWX4UC4SBggnkyK9JKrQtXsw+ffsbau+k0mYKvbmbCvprVsdEvzrdFUOzIhfKlA==
+X-Received: by 2002:a05:620a:4593:b0:7c5:5d4b:e63c with SMTP id af79cd13be357-7c5a84ae82cmr1128470685a.47.1742479108318;
+        Thu, 20 Mar 2025 06:58:28 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba7a830dsm2272394e87.37.2025.03.20.06.58.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Mar 2025 05:49:32 -0700 (PDT)
-From: Chris Chiu <chris.chiu@canonical.com>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: simont@opensource.cirrus.com,
-	sbinding@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chris Chiu <chris.chiu@canonical.com>
-Subject: [PATCH 2/2] ALSA: hda/realtek: fix micmute LEDs on HP Laptops with ALC3247
-Date: Thu, 20 Mar 2025 20:49:08 +0800
-Message-Id: <20250320124908.529842-2-chris.chiu@canonical.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250320124908.529842-1-chris.chiu@canonical.com>
-References: <20250320124908.529842-1-chris.chiu@canonical.com>
+        Thu, 20 Mar 2025 06:58:27 -0700 (PDT)
+Date: Thu, 20 Mar 2025 15:58:24 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: srinivas.kandagatla@linaro.org
+Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
+        krzk+dt@kernel.org, ivprusov@salutedevices.com,
+        luca.ceresoli@bootlin.com, zhoubinbin@loongson.cn,
+        paulha@opensource.cirrus.com, lgirdwood@gmail.com, robh@kernel.org,
+        conor+dt@kernel.org, konradybcio@kernel.org, perex@perex.cz,
+        tiwai@suse.com, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, johan+linaro@kernel.org
+Subject: Re: [PATCH v2 5/5] arm64: dts: qcom: x1e78100-t14s: Enable audio
+ headset support
+Message-ID: <z34vbkdvocuxjtnqwce7rbiwerrp4gmgfamxreo5swts4pvt54@h5u7tfmjdz5j>
+References: <20250320115633.4248-1-srinivas.kandagatla@linaro.org>
+ <20250320115633.4248-6-srinivas.kandagatla@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250320115633.4248-6-srinivas.kandagatla@linaro.org>
+X-Proofpoint-ORIG-GUID: 4q8sPiZtUxR4C8uj6t2VfeRQa23qDhhi
+X-Proofpoint-GUID: 4q8sPiZtUxR4C8uj6t2VfeRQa23qDhhi
+X-Authority-Analysis: v=2.4 cv=T52MT+KQ c=1 sm=1 tr=0 ts=67dc1f05 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=hJRnET2hOHO_yKWgjAYA:9 a=CjuIK1q_8ugA:10 a=kfF742M2HRgapxr-WXtP:22
+ a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-20_03,2025-03-20_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 bulkscore=0 mlxscore=0 clxscore=1015
+ mlxlogscore=920 lowpriorityscore=0 phishscore=0 spamscore=0 malwarescore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503200087
 
-More HP EliteBook with Realtek HDA codec ALC3247 with combined CS35L56
-Amplifiers need quirk ALC236_FIXUP_HP_GPIO_LED to fix the micmute LED.
+On Thu, Mar 20, 2025 at 11:56:33AM +0000, srinivas.kandagatla@linaro.org wrote:
+> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> 
+> On Lenovo ThinkPad T14s, the headset is connected via a HiFi mux to
+> support CTIA and OMTP headsets. This switch is used to minimise pop and
+> click during headset type switching.
+> 
+> Enable the mux controls required to power this switch along with wiring up
+> gpio that control the headset switching.
+> 
+> Without this, headset audio will be very noisy and might see headset
+> detection errors.
+> 
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> ---
+>  .../qcom/x1e78100-lenovo-thinkpad-t14s.dts    | 25 +++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dts b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dts
+> index b2c2347f54fa..b40775c20493 100644
+> --- a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dts
+> +++ b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dts
+> @@ -19,6 +19,16 @@ / {
+>  	compatible = "lenovo,thinkpad-t14s", "qcom,x1e78100", "qcom,x1e80100";
+>  	chassis-type = "laptop";
+>  
+> +	/* two muxes together support CTIA and OMTP switching */
+> +	us_euro_mux_ctrl: mux-controller {
 
-Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
----
- sound/pci/hda/patch_realtek.c | 5 +++++
- 1 file changed, 5 insertions(+)
+This node should find its place so that the nodes are sorted
+alphabetically.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 30d4cd93dae1..eda406a4b52a 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10734,6 +10734,11 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8d92, "HP ZBook Firefly 16 G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8de8, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
- 	SND_PCI_QUIRK(0x103c, 0x8de9, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
-+	SND_PCI_QUIRK(0x103c, 0x8dec, "HP EliteBook 640 G12", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8dee, "HP EliteBook 660 G12", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8df0, "HP EliteBook 630 G12", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8dfe, "HP EliteBook 665 G12", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8dfc, "HP EliteBook 645 G12", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8e14, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8e15, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8e16, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
+> +		compatible = "gpio-mux";
+> +		pinctrl-0 = <&us_euro_hs_sel>;
+> +		pinctrl-names = "default";
+> +		mux-supply = <&vreg_l16b_2p5>;
+> +		#mux-control-cells = <0>;
+> +		mux-gpios = <&tlmm 68 GPIO_ACTIVE_HIGH>;
+> +	};
+> +
+>  	wcd938x: audio-codec {
+>  		compatible = "qcom,wcd9385-codec";
+>  
+
+[...]
+
+> @@ -942,6 +960,13 @@ int-n-pins {
+>  		};
+>  	};
+>  
+> +	us_euro_hs_sel: us-euro-hs-sel-state {
+
+This one also should be moved to keep them sorted.
+
+LGTM otherwise.
+
+> +		pins = "gpio68";
+> +		function = "gpio";
+> +		bias-pull-down;
+> +		drive-strength = <2>;
+> +	};
+> +
+>  	kybd_default: kybd-default-state {
+>  		pins = "gpio67";
+>  		function = "gpio";
+> -- 
+> 2.39.5
+> 
+
 -- 
-2.34.1
-
+With best wishes
+Dmitry
