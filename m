@@ -1,94 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FA915574E;
-	Thu, 20 Mar 2025 22:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157346A009;
+	Fri, 21 Mar 2025 02:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742511291; cv=none; b=IcyB7CsKLMdy8/7YcGZnMm1f5GbYjVM5zNk6r/RZu+Ifw1uM8BeYM1XEOvtZ1EOCViMMCWsapr4Ry+ClYJ+5kXrNtO6KpAfEdqFLQD0yTbMygAiHW8fAF6wlHbwn2TucWCz+4wvFQvpq+Y/UHcSpOrukyl9sXg2xe0tFmknWFY8=
+	t=1742524245; cv=none; b=rFhV+JkjHTxxCI5WCiOtVaQ5/dK34eKauPk+malKl7NGtZbapTASh9qLMuhOi4OR5Qxtxn/ZTqlFTB6upIN1PpJ7pK2DueyTM+2xpPRk369JfhEoY6oX57YG/eSbiCaD/+Ord5MNmxWZYgCI4V7XCg4zpurCS0PoxYJMlK8C4qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742511291; c=relaxed/simple;
-	bh=nZPLQ3D+uW+IN0lKkOGwBecX1CKPNktsCOLGMTU1uys=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kBjNxI0DIUoVfUb+QW1JB8J2vDQqVrtOZaMLlMeGhnqffnlukSd/pqovyb4BH/KS+G8krImLgn/TUaXwgyRISf5n5eSgpK2tfnYCOqtC4N7qsgGPf1kI+20xxXJuKp2gCIiYSN0Eg47EBni5iim3w01KGn0yKCirXeP/mPH9GRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=moz9M5eq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742524245; c=relaxed/simple;
+	bh=Bdl3LjsTA4541sxA9ALb4rJZsub2w3PPESpVa+kPZuo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ou1y44IliPU0qgiUi9oUpRqjN0p7bDkuI+07pU6mhUnusga4QdU9UsGZNrT9ZwkXReqj4V3HlMV/bXulVhX/DNsPlX+94KQZ4EU/tnh9rH+HOEcUlMvxjKXC9exUeQ24Zmi/dnlA8RL/XNofptKP0oa7oHm7L9gnA1hPGmgtjkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OF3V/3cK; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="moz9M5eq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD6FAC4CEEC;
-	Thu, 20 Mar 2025 22:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742511290;
-	bh=nZPLQ3D+uW+IN0lKkOGwBecX1CKPNktsCOLGMTU1uys=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=moz9M5eqGvtHwYSNUow+2yVsDJyG/hiOjsC9y3M4VqmHk4NAhe6dQSuejPIUYSAvY
-	 xSaFVmqHjgKt8XylZ1OKLexMGAHguQqo4UaVYIgrGqQRzqQp+lU185cGmDAjBG04r5
-	 DNPM9canzRvHmeTPl20Io6QZcq6Ds47b0YCp5oXa2Jt1WEtayA/2BdboKrh1bRYsuz
-	 KwrHBun9AgpnoFG3YQXc0AqaeC6vQU1rNspK1r7V91uKfhzrZIe0dcoIFU5hLf5T7p
-	 TLbfp+K1BvAo7W26TuFXrwaVWFFBz8V5g39wahTyBgMQ3Qz/k3k/BWoRGzJbG+124Q
-	 65T5X7xuOQcJg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, daniel.baluta@nxp.com, 
- kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, 
- perex@perex.cz, tiwai@suse.com, matthias.bgg@gmail.com, 
- christophe.jaillet@wanadoo.fr, gregkh@linuxfoundation.org, 
- peterz@infradead.org, krzk@kernel.org, lee.lockhey@gmail.com, 
- u.kleine-koenig@baylibre.com, cujomalainey@chromium.org, jakiela@google.com, 
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, kernel@collabora.com
-In-Reply-To: <20250320115300.137410-1-angelogioacchino.delregno@collabora.com>
-References: <20250320115300.137410-1-angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] ASoC: SOF: mediatek: Commonize duplicated functions
-Message-Id: <174251128562.367646.10336285275014385543.b4-ty@kernel.org>
-Date: Thu, 20 Mar 2025 22:54:45 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OF3V/3cK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742524244; x=1774060244;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Bdl3LjsTA4541sxA9ALb4rJZsub2w3PPESpVa+kPZuo=;
+  b=OF3V/3cKoEJTc7NO1Gx1KkEXVi+OyKFVmgk6Qf4aLSdsUTHjM+Ngi25j
+   MpJEhtkJc7LolerlSjgRI22eg6VbpdX9iKDwoX1f21M26qz+fztALxY0k
+   r+KHvkeHNjPAvRp3HGp/sC3Pu3jP4kBH2+d00TCJDWWwKS2yvDQw4VF5C
+   hBTPLbiDJ47eObvzFuXF0jWGsefBaf20LOI/hTNmhIssvQ8lrzBt6vANZ
+   jNxZs6BebPlPZZ9fHeK9dy2JtAj0o5ZtYqtToArxxIHLCzdAaGti2u+EH
+   7Jf6lmkNhL4THxj7P2vKr3PHgW1YJM2Yp0LjpFupJ0BVP7c4hL/RGllNE
+   g==;
+X-CSE-ConnectionGUID: A0n+ebEoTY6XoJxPGQUULQ==
+X-CSE-MsgGUID: 39KBnDTSR9SncjvMV2J1ww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="47557523"
+X-IronPort-AV: E=Sophos;i="6.14,263,1736841600"; 
+   d="scan'208";a="47557523"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 19:30:43 -0700
+X-CSE-ConnectionGUID: NbUJDfzSTsCyineqJ/DSUw==
+X-CSE-MsgGUID: RQHAAdD4QbKfA9F+WiVguw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,263,1736841600"; 
+   d="scan'208";a="123446135"
+Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.252])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 19:30:40 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org,
+	broonie@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH 0/1] SoundWire/ASoC: SOF: Intel: Let SND_SOF_SOF_HDA_SDW_BPT select SND_HDA_EXT_CORE
+Date: Fri, 21 Mar 2025 10:30:31 +0800
+Message-ID: <20250321023032.7420-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 20 Mar 2025 12:53:00 +0100, AngeloGioacchino Del Regno wrote:
-> In order to reduce duplication, move the ADSP mailbox callbacks
-> handle_reply(), handle_request(), and other common SOF callbacks
-> send_msg(), get_bar_index(), pcm_hw_params() and pcm_pointer()
-> to the mtk-adsp-common.c file.
-> 
-> This cleanup brings no functional differences.
-> 
-> [...]
+CONFIG_SND_HDA_EXT_CORE is required for CONFIG_SND_SOF_SOF_HDA_SDW_BPT.
 
-Applied to
+Vinod/Mark,
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+The patch doesn't apply to the ASoC tree as the SoundWire BRA series has
+not been apply to the ASoC tree yet. Could you help to apply this patch
+to the SoundWire tree if it looks good to you?
+Adding "SoundWire" tag to the subjuct to make sure it will not be filtered
+out by Vinod's email filter.
 
-Thanks!
+Bard Liao (1):
+  ASoC: SOF: Intel: Let SND_SOF_SOF_HDA_SDW_BPT select SND_HDA_EXT_CORE
 
-[1/1] ASoC: SOF: mediatek: Commonize duplicated functions
-      commit: 24489150c5d9afea54c6909ba05c4dbdd8846dc0
+ sound/soc/sof/intel/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.43.0
 
