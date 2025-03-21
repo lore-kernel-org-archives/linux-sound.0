@@ -1,158 +1,75 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D311C5D76
-	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 14:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C80A1A256B
+	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 14:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742567732; cv=none; b=BV6/kdq5xkBl9AUyXheYHP6a34wtTmxE36NJPfz06hAiWVa/GNndo1x+jjCKouVHVh1vZEet9Ivcs+483C3PWfs011wndOWTalaw5zIsvbnQ0iVVq+8j1w4LfY4u+yZJ4jiF9XG8qDsfyIr8bW2+x5E84iRi8r/JbXn3Yw8PADs=
+	t=1742567928; cv=none; b=CrN8laJW6GWuvEVluYLldfO1uBZfz408WzLX2QEociEMccJhjmHB0PsAZaOu6gk3Iwu2A9t9f704PXiarrA8Xjxhk8jsi8sUCY0Ulyv+bVHf09uAbDVBL48PE/qtm4zb2FgkPZp1SEZeJP9pXLhYkE7Zj/193ZqQXNFEWYLyExE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742567732; c=relaxed/simple;
-	bh=Isvn7ydRNc9Mk0jmBqV2imH7i9rYp5Er5f4uLrHFcZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kvmN4aI0KaZQ6DKcenbybscgp3j6QtabfLlGf/jx6+g9hsEgUX2lD5FAEuradEesa+zHha+glB2ruMjJhddo3wsNWY9MMrrS2QiuSvlC1pzIHsGIGVU3WYEMuAm0zJWWb0z2VHW8teBjwLnxPuuzMZiELLcjmXMojofH13/Q5cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FEVOUwqP; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1742567928; c=relaxed/simple;
+	bh=hSqtL0RwN1bx8d5gieXRycRtrnD9GRk3EOBATz5fZ4Y=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=um/+g3gWiFyc7Yhf1Xr0t6X3K+mHz4+khQMaILrXRYArtLlncINbx+pSnpC/zhkOeioIBStyt6qtlYcH0SdWDHv2jNuQR7Z9WYrJNhuBRRgbrrAotru6PDyuow1Ifksmb8m3rYtBwTjtA4btPBaPfWzec8+UwvOwcXV7/qAmLx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+4dbu4Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FEVOUwqP"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3913d129c1aso1506930f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 07:35:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742567728; x=1743172528; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FpObnI5CWZY4zn2RHNz53FQ4gJRPrxvKsQP+9BpYcsQ=;
-        b=FEVOUwqPcx5H5bPXY5GK3e53txtdgZJDHDfqNfZsb6pit+Q6K4VZw4bv0JjnorW+f3
-         a6TN9f3SBPDvREJTXvsrLBlwofrdXBu0LiIxKpUB/XQ1POXM8JfanwK1XQGcoisiWAC2
-         bkEIBLXL7aReP2iTJZzkSXN370uZC/cMOB0m/W0tzPNTanvJplm38o+8il261qHQTJJJ
-         dG5029aDf/xdUFRfDTf7OcSFJH8t4vDkqJYKB5rOyFU/MJE+G1dtHNa0p8Hp0AdEzlaP
-         SXT/Qm6oT0SOtfF8AGKnArF4Zwx6Gry2/q9TTh+nUue5eujBHfWEMo5P3bJON3/YMPGR
-         BObg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742567728; x=1743172528;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FpObnI5CWZY4zn2RHNz53FQ4gJRPrxvKsQP+9BpYcsQ=;
-        b=pe/t4UKIh0+R+uipd9ZxlgqTS6SVCS1kIkoRguG95vZdM8kIWZ4Wa7ZEsQ/P27iiRR
-         wRMVZmCLQhhOT5U0OP+rkcp80ghL26azfAJw77HSAFWaYBE4uRC4lNE2faEtGoecEBLd
-         dLIGM4ZrLseF4Ow+zcXdMP4Xjkzty9yjC3udxm6X6WEZ4W5NNjQrZ4UzvB4XY3HADp76
-         piyqo1T/w74x4EFy/fHl6xRW1aUNDpfrug4U+VV8MgDkJv61zGcD2fTzAVWK4/fkB42j
-         rFYRuUivKBJRIhblLqUDIv78Gr7nIUp0bbOEMGzrcZ6T7N6nGM3aR6sGdG6LloNT2bfL
-         RvDA==
-X-Forwarded-Encrypted: i=1; AJvYcCVN7Ydm7QGlKY86FT0gWCRmLTM+kqGsjeHbY3rPuqiwxYErdQoF8Wkzv5QKL309frPFKJlLA5pt4M3p8w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywkk8MOsGWRho2TI16vfU7GVHciulHorlTT8re3NIZD3ZdBAk6U
-	zFpbfE+IU3rxq1RAOg8OCO7H0Ka63bTYWkayU1mRqrib6hapxe4hRGjrPgzMXF/WLokr0RhigXY
-	r
-X-Gm-Gg: ASbGnctntnrgXi9JHEyy2e2ZHDTGihrgoJnATOFq3kQymtJuvC46RX5g33dcxuz1q7b
-	nP0j5wGSx5p3hqftlO2t6mXTgsEmQBB/m5+PkrwABLaH+Q6AzeOQxmuA1nRO/LGLnVIYf1YGPR8
-	PNk3QGntoGvBCkI/ky2OXx8tvLwPmDUtgTj7CmqfBYQmK4DbMSws2zVfGlnw90KTh0FoBxR90pB
-	wj6jRuGhjjOlFuc6iCS97ftEkUiRG5n0niWyC8sgZyKb9ri0N/hQqjWxeOI5XHBWnmw/WbOTEW1
-	vNkhYgwO6Le4BlbkZonNVtyaR8a2NTQDxO3OT9oT4r7t259AIwWcqm7sDwho
-X-Google-Smtp-Source: AGHT+IGFDNIHBWCzsRoL4N2P5NIU7s1oc9Lf7MrF47BI5GNVMNU0v7aRuRhv89k5EDIHXs8yNuMIBg==
-X-Received: by 2002:a05:6000:1548:b0:390:e9e0:5cc6 with SMTP id ffacd0b85a97d-39979556803mr7439315f8f.1.1742567727661;
-        Fri, 21 Mar 2025 07:35:27 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d3ae040f9sm83159355e9.0.2025.03.21.07.35.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 07:35:27 -0700 (PDT)
-Date: Fri, 21 Mar 2025 17:35:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Chenyuan Yang <chenyuan0y@gmail.com>
-Cc: Kiseok Jo <kiseok.jo@irondevice.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH next] ASoC: sma1307: Fix error handling in
- sma1307_setting_loaded()
-Message-ID: <8d32dd96-1404-4373-9b6c-c612a9c18c4c@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+4dbu4Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C06AC4CEE3;
+	Fri, 21 Mar 2025 14:38:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742567927;
+	bh=hSqtL0RwN1bx8d5gieXRycRtrnD9GRk3EOBATz5fZ4Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=L+4dbu4Q9oFRwJS/HCPYMxghZnmdJFOXTOuBhnDt7dCSkKyaxUbMS5FZJrMQN9Jed
+	 tgcUb+lnw5vkBio5UN1qS4QD8uWKqBBQeA2qKJbQhS9qWG6rMA4e71ETZ0OJWNSN0q
+	 yCCvsAV7/QfD3fF66COMk4nY7Lq630Sl4VrPRh40+qZYFhrzrIiwhlNnn7uNbV+H59
+	 KaXBqZOdAOl1yp2I9A8iOwb2HICDzRDLR4GLBzBlePforg9QEi6eWa+yolvYt+2kY9
+	 61imeNCdTYOen+EBELRqMwatfKL/bCH25Hftct3IYjGUIEYYf9LX40uIqsAqt573Tg
+	 3Z33bdM0jVzZg==
+Message-ID: <2e7905783f8f3541e854a13742ff1c22.broonie@kernel.org>
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.14-rc7
+Date: Fri, 21 Mar 2025 14:38:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
 
-There are a couple bugs in this code:
+The following changes since commit 658fb7fe8e7f4014ea17a4da0e0c1d9bc319fa35:
 
-1) The cleanup code calls kfree(sma1307->set.header) and
-   kfree(sma1307->set.def) but those functions were allocated using
-   devm_kzalloc().  It results in a double free.  Delete all these
-   kfree() calls.
+  ASoC: cs42l43: convert to SYSTEM_SLEEP_PM_OPS (2025-03-12 16:12:24 +0000)
 
-2) A missing call to kfree(data) if the checksum was wrong on this error
-   path:
-	if ((sma1307->set.checksum >> 8) != SMA1307_SETTING_CHECKSUM) {
-   Since the "data" pointer is supposed to be freed on every return, I
-   changed that to use the __free(kfree) cleanup attribute.
+are available in the Git repository at:
 
-Fixes: 0ec6bd16705f ("ASoC: sma1307: Add NULL check in sma1307_setting_loaded()")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- sound/soc/codecs/sma1307.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.14-rc7
 
-diff --git a/sound/soc/codecs/sma1307.c b/sound/soc/codecs/sma1307.c
-index f5c303d4bb62..498189ab691c 100644
---- a/sound/soc/codecs/sma1307.c
-+++ b/sound/soc/codecs/sma1307.c
-@@ -1705,7 +1705,7 @@ static void sma1307_check_fault_worker(struct work_struct *work)
- static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *file)
- {
- 	const struct firmware *fw;
--	int *data, size, offset, num_mode;
-+	int size, offset, num_mode;
- 	int ret;
- 
- 	ret = request_firmware(&fw, file, sma1307->dev);
-@@ -1722,7 +1722,7 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 		return;
- 	}
- 
--	data = kzalloc(fw->size, GFP_KERNEL);
-+	int *data __free(kfree) = kzalloc(fw->size, GFP_KERNEL);
- 	if (!data) {
- 		release_firmware(fw);
- 		sma1307->set.status = false;
-@@ -1742,7 +1742,6 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 					   sma1307->set.header_size,
- 					   GFP_KERNEL);
- 	if (!sma1307->set.header) {
--		kfree(data);
- 		sma1307->set.status = false;
- 		return;
- 	}
-@@ -1763,8 +1762,6 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 	    = devm_kzalloc(sma1307->dev,
- 			   sma1307->set.def_size * sizeof(int), GFP_KERNEL);
- 	if (!sma1307->set.def) {
--		kfree(data);
--		kfree(sma1307->set.header);
- 		sma1307->set.status = false;
- 		return;
- 	}
-@@ -1782,9 +1779,6 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 				   sma1307->set.mode_size * 2 * sizeof(int),
- 				   GFP_KERNEL);
- 		if (!sma1307->set.mode_set[i]) {
--			kfree(data);
--			kfree(sma1307->set.header);
--			kfree(sma1307->set.def);
- 			for (int j = 0; j < i; j++)
- 				kfree(sma1307->set.mode_set[j]);
- 			sma1307->set.status = false;
-@@ -1799,7 +1793,6 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 		}
- 	}
- 
--	kfree(data);
- 	sma1307->set.status = true;
- 
- }
--- 
-2.47.2
+for you to fetch changes up to 45ff65e30deb919604e68faed156ad96ce7474d9:
 
+  ASoC: ti: j721e-evm: Fix clock configuration for ti,j7200-cpb-audio compatible (2025-03-18 12:27:34 +0000)
+
+----------------------------------------------------------------
+ASoC: Fixes for v6.14
+
+A couple of small fixes, plus some new device IDs - nothing super urgent
+here.
+
+----------------------------------------------------------------
+Frank Li (1):
+      ASoC: dt-bindings: fsl,sai: Add i.MX94 support
+
+Jayesh Choudhary (1):
+      ASoC: ti: j721e-evm: Fix clock configuration for ti,j7200-cpb-audio compatible
+
+Kuninori Morimoto (1):
+      ASoC: simple-card-utils: Don't use __free(device_node) at graph_util_parse_dai()
+
+keenplify (1):
+      ASoC: amd: Add DMI quirk for ACP6X mic support
+
+ Documentation/devicetree/bindings/sound/fsl,sai.yaml | 4 ++++
+ sound/soc/amd/yc/acp6x-mach.c                        | 7 +++++++
+ sound/soc/generic/simple-card-utils.c                | 7 +++++--
+ sound/soc/ti/j721e-evm.c                             | 2 ++
+ 4 files changed, 18 insertions(+), 2 deletions(-)
