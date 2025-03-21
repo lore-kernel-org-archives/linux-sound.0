@@ -1,199 +1,248 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2056.outbound.protection.outlook.com [40.107.243.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68661DE4C2;
-	Fri, 21 Mar 2025 15:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742570975; cv=fail; b=k1WLomo54GJ+xvzSu+PtkblpAisOOQWrwiREZJKQyM2Rb5P9I8F6cfIIiuLxOfswR5zBSsUaGWw6O7o6IE3QnE9j+uIGXOyucv4UAsh623IGCjjogItkLFJXsIcVqyrsThyInozH8sSkSwlgI1AzCiJ1cNuMgqjrUrBzyQBjRHc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742570975; c=relaxed/simple;
-	bh=hZl/H9V3SBbwf01u2ilOIhye2SRYRDeI/u1xrSvI/68=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dyDNY59XcXMOrnJfymycbGyrAGXrmw+O0RfLn7akvXbYiLdpK8deS+4x9PmOUdSVs01w4VhdMA6aRADdqa4NL2HZ18yMBpg3O+xvm/xqWhZsK4zB329KdIQF63pYysyNT3EzsZszkPZD36g6vDPEwz32FOGk8Ynw2bmELP8+xDk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=oE0kRbRe; arc=fail smtp.client-ip=40.107.243.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="oE0kRbRe"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gyNtbsf5u6p4GYsAME77rCeCbPOp1C8BaAOW1JVDo86FtblnAZ7hE2JmBywvDn9p0feO8SpTEE7gdQP6t8ChH69T1+R0jn2WDfz+RAX+PdOKeUpqn0G1U7OPoSCEaeemln0Tc8kGkQHYbfopycTP7Vh5/IHt6xc6fghZhIJPcNTuLygPihHatOGUXORE+PN/Ibc6lC3elTNk/pHMvx/N3rJqIh1PG2LMRcmaNywC2HIZvqyCuGtGW5CsIza3ewzEL7qw72RGDLjRnj2IRmoKukfSAyy0nLAl5chqAS0Dn2is3D/+CNEpog6q1e31Ls3+ZNQXmt0B/cNqFm8B9Tozfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kSNbESCbvXWObXTWFqukCxhuYgDb/6Avlac6mvNhXzM=;
- b=IjAmvrMh8SqESG5tF6Ej6aiKFPg9hkRRaxXvbzpeEyAAwVWV9favCd+58QMfKHa6Knd4ckDMipKRkBvrSQTCfn6lYBZa3oMTUpA0xqJ7KmCR0R9KKnVpXFlpeEyKWTEAXCUAJH6yVEl2i3zJYl7QTPxHTcPRksKGTy1Lbg4M3sSuNBWFHc9yvsR/Wk7dyK+/llV89l7iJFBfpM88ny9FwsnnPUDOm9vDx3bubXtZLx80H0Z6yvjMvwKMuJqXbvC7OOKlb8X/Z9RF2FvkRPsc42ho8+1HXp0pVKm9ZdrMnnpa8j3HYOXCB73su6FEnZQJJdNayJ9ydHB215PoJIg6bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kSNbESCbvXWObXTWFqukCxhuYgDb/6Avlac6mvNhXzM=;
- b=oE0kRbReu5QFVZ52hv3BachiW5iK0DXOz+z2/UDyYumoZb4kGMUNWjWguZr/NkHqP9reBFUKJOsTw1a5D7mzobA/4dLbGPxFDgruaRMe+EQjav5WWdHf7cTPzYYmWM/WShPnb7wtnIDxBqKRv8TL+g0MMqDiqEmibTxJkYbIlIk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by DM3PR12MB9352.namprd12.prod.outlook.com (2603:10b6:0:4a::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.37; Fri, 21 Mar
- 2025 15:29:30 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.8534.036; Fri, 21 Mar 2025
- 15:29:30 +0000
-Message-ID: <459fa375-3c7e-4371-88ca-dd617972cb62@amd.com>
-Date: Fri, 21 Mar 2025 10:29:28 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: amd: yc: update quirk data for new Lenovo model
-To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org,
- alsa-devel@alsa-project.org
-Cc: Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com,
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, "end.to.start" <end.to.start@mail.ru>,
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- Reiner.Proels@gmail.com
-References: <20250321122507.190193-1-syed.sabakareem@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20250321122507.190193-1-syed.sabakareem@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR01CA0001.prod.exchangelabs.com (2603:10b6:805:b6::14)
- To MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A4E9461
+	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 15:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.80
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742571211; cv=none; b=dKBSpB4/iPYBL7EUsV+1wMUz1JAJT+desSShNH4Jved4fNbA/IJpoyWKc/gqQaqoOiGO2p3NOMRN0i1tOp4MsysHtd6g70N0AYJbCQXjkIY1CEFeGrEHIl0C8JBlQJBZ6SfgnVSUqVsCk9plUzY1yRXk433NUCVt9Ppxavm2oZQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742571211; c=relaxed/simple;
+	bh=ZqWZgfF19wn0F9D/bfZgvrICxRQvmxpuCjufT4+0OiY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JQNTLPVX6EjrLsuSRHaf61HDrN4be+OXiEuRQdCAAcRUTZLkt2sXzRCp39Vm1K9tXTDRsKetIGiQWqbA4LRQxPS7Eob5hT7D4DUj3mAmY5V4x/KOz3huGhduSpz97yamkYUmODlyuZx6Ue2IncJgsiMODXUigKHA97YSt5gkxqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f80.google.com with SMTP id ca18e2360f4ac-85e0c6b90e0so392291639f.0
+        for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 08:33:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742571209; x=1743176009;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Lw7ghwuumnNph7RdlZoulnuNS45H4wnBjy+efPtZXF0=;
+        b=djUVE7lYk0r8H5q125nb7H5NBAIhvgKh4qKwQB55x3iKoaoMmdaxB2AH8yhZ98WldV
+         ezb7Cg6wuiZ8Ug0z+8iHC4HpzL6jkjw3UrVlU43wKQ7QX+O83kRHKkHBoHUt/j4PvUCP
+         srBzY/XLXg+yJz7BNY/CVMFhXsKvVthFR5CKz4t+CXdsDOvDYcOLnaDu2rPWyil6HLDY
+         l5qi+ZdeFBjYOG/22p9WHtruL3wAMNby2E9a3vC54utyFWXZ822IGdcIvwTkWQy2dB9p
+         +ptFvcCw2YZE//vl33MXFtAi7poWdnejuluyDED4+hHm+tlC3wxFkEHumIXTQv+Clgkw
+         n2Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCVcj6Rwh5piw0UTKyXBtVA9bsZVcAXr6foZYYkcaRBqd5xqWwkZxOAFeEq3q06iq84RzHpyIQBoChicvQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDLfWszTksSMmtDwgYwYvdkoJZ0CDKCxJ/04xs73pNx5aVIa6Q
+	0VZ3zCJL40WnVmMZW1UsgmHBIkLhHI6zryo9Lx0sLWnoDR3FV9H0PsklfZ6P+CeF3MxHVOfXf2R
+	29wq0pQlX0+Rv/LTBl3FJb5BfM2LEgl8EIxZyyhnVqawsttboRy8imFI=
+X-Google-Smtp-Source: AGHT+IFNYF70C2xwEdEWnGCyzSRudUPaZiVmSQZkFZvC3rKaQ34Qxsqiqeb+dd5XUoSYQ4oKuqRctNEJi8f9vz85t6/Zsk4BOTR8
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DM3PR12MB9352:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39cd029d-584b-49e0-4ff6-08dd688d2c6c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TkdhZkxVWWJSZloxTS9HTFVkYitTMTcvR3AwQ2dOSzNxd2FFUWlpQWZMVThX?=
- =?utf-8?B?cWNMcWZvQ25zajB3cEJFblFURlI1ZHJPdGdtR1haMXFNa0k0cjBpRG1NTlBw?=
- =?utf-8?B?Um5FUDNjTitoZWd1S3lHZW1sdnliYnJ5cUhIdzZoeVViNmFqNGJwYms2VzZ6?=
- =?utf-8?B?T0dlSktBL1VpS1FwZG0xdlJDalh4UWZFb3J6MDZ1S3dTcy9PSHhvTHMxYThB?=
- =?utf-8?B?QnRGS3ZHRUZGN2F1Y2pkdU5aMnlISWhrUWpNQ0Nwcm1Ha1JKRnIwZVVLbHFO?=
- =?utf-8?B?OTN2QTlTdzVRTzVWWTMyVDRDVzUwRjFDb1NxYmtwZmcweDd0bGtudDAvL2xw?=
- =?utf-8?B?WDM1QUJxbmxYeDIzemNOLzRlSllzbEx3TVJXYzZXWnVFbktFQ3Z0QXAvUlFy?=
- =?utf-8?B?RzM3UDZlRG5BQ3JnVjM5NFdFL0ZPcllsK1RhMTVHanplcUY0TnIvRlNTUitq?=
- =?utf-8?B?QldKbFlxRmxaNUIrZlVXTEY0Umc4YldHbmdKaGVOekVGVEVRSzZ3dGZtYWVW?=
- =?utf-8?B?TldjTEY1NnR3bG51MFlYZEdGNHhYL08xclFLa0NXbmR1Wm9uSHFLMkErSlho?=
- =?utf-8?B?UVNQMWZGMDk3SnlkMk9OZG16QTQ0RGJXdGUydnNkNzZnVEdvbzRKd3hNNTc0?=
- =?utf-8?B?emwraERzdURZN0MvZ0hJdHRraFhZbkhNbDNoTWRaTFdVcHZzd3JFaGJ2ZTBu?=
- =?utf-8?B?RysyMzhvSEJqT2VsZVREOVRyMVRad3RLamJWOENsVEorSGpFVGdNdEFsUSt4?=
- =?utf-8?B?WDRYS2Y2aWRqSTUyMlcwamhCVmEyM1FtNVlndUVDTGtnTU5DeFFma2Q3c1ds?=
- =?utf-8?B?ejN5ZjA4SW5BOUtrL00xTlhkSHpVNUphQXNnSkZ1MEhxc2llRkRwMlczSUlk?=
- =?utf-8?B?dTVyb2Q3SGwrK0htZThXdm5WSzhKYUpJU0x5bFpxc2FTeEZXWEhTcUtrUCt6?=
- =?utf-8?B?V3FqOVY3MEZnY2JLRWczUHg4blE0d2tUaGZqdGV0RlZPV1pVTGpLelVTZWpT?=
- =?utf-8?B?MnBNMmFDUTZiMjhqOTNpU1hMM2x6S2hqeDVLRTNLQ05IVFdyQlBSNy9wNFg4?=
- =?utf-8?B?UHpqVXREdFRzQjVEYWFPdnovU0Y0SHNRRThxUVd1d3A4aGZXSEtRYUQ2aEF6?=
- =?utf-8?B?a3Jsb2ZVcTZ0RXpXYjQvaGJXSHQ2b0RtSkFxMHVkT3laRUVhdDV5NFhKTW8v?=
- =?utf-8?B?S2Q3dkN4T3hwOHJkWGdOYzRqdDRkbTZOUVlRUHNES2pzdjN3S0h0anEyUnFv?=
- =?utf-8?B?WDVTUFliNVFFRmc5aVhyenB6NW5qTDB2UEFaakp1K1B4OHNFZTg2TzM3MUlW?=
- =?utf-8?B?aDR6enhNR1JlTnRQbmoydnBTMS91bjF5WTdoVTRDL1hCVlhaM2JBb0NSeVU3?=
- =?utf-8?B?b2I0NUNPVjJSZGd2QURUZkhhZXBMYWsyK3g5UktYQXBES3VhY0JjSnJvUTFR?=
- =?utf-8?B?Q25rZGt0SXVwbzJnby9UbVZLbGJhcXpRMytCN2p6UWtNQlJuOC9zNWdlZU03?=
- =?utf-8?B?dE1NOE1LTWNsSUNNMmZoc0tEWk16MURxTVowOC81OVRaeWlvNC9rWGptc3hx?=
- =?utf-8?B?amdaYXI4eEptUzJoMjNTUE8rN1BITzEzSnc5QTJpMU81NlFPdXhnNXBZY3la?=
- =?utf-8?B?cWMyUkFJQThLc2YvOURQSVhYaU5EZWZxcFVrZmlMUnMxQ3R6Ty9FNW5VNTJY?=
- =?utf-8?B?ai96bEo3QzBNTW5veGR1NWQxT3l3ZVJWUkVJRUhyNEpnWHphdUY4aWNycjNN?=
- =?utf-8?B?NWpKaGtVNjkwR1lmVWIvVzgrZm45RGkycHVmQ2VBRXVrOFdiNE9iWEM3aklD?=
- =?utf-8?B?SGxqSWFWLzY5QlAzdndBK0xKNUVVMld2YlF4S3hiVDd2V0QyUE55b2wwQmhT?=
- =?utf-8?Q?TOXqcibfslFCw?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TEZhdU9mMnpKbGM2SVFRVFBRLzJmQ0xwd0pkRnJrdmVJNWFrZlR6QnVvWko1?=
- =?utf-8?B?eU5mVWZ5TjYrQkRxaEtDVk5qUWFvWTBHUFpUUHZhU0htdUFlWmZiTkdzdks5?=
- =?utf-8?B?aCtRVi9NMW1yclJmd0VXZk1nTU0yMERETTNLVzdzdXZaeVpTaUdncTR6ampa?=
- =?utf-8?B?cUFxRDJNTy8raDJPZFZUUi9ZTnpWMTZpTVdoTkRhd295a1o4SC9oSk5iRnFl?=
- =?utf-8?B?UFBGYkJzajBKcTBibC8ySjJNTHJaQnFUNFpZWjduZysvclJYSmZFeHdOUEQz?=
- =?utf-8?B?YlZ2SnRhaWk1R0N3ZE5QaUZsZXhsY3JERFZ0Qk5JY2JYVzlEeEFaNGxpT21F?=
- =?utf-8?B?eFNZZTI3cHk3alQ5VENwRExnSGdUR3NtRnd6cXdSNkN2VEY0RFlyTXZWZitJ?=
- =?utf-8?B?endyNlVaNnRBQXF0aUxMUWdWR1pZKzd0WWdBdmVLekRNMmJIT242OGUzMTR5?=
- =?utf-8?B?VjRIaWU0QmExOS8wYk9GQTgyenFEUk84eWlTZmdUZ0RLMlpBc0V2NzFncFNm?=
- =?utf-8?B?QlFBcDAvQ2ViV2pDVG5RcGFJMU5KT3E5Q3VBNjJyODJETGdOQWJCMG5jWG1I?=
- =?utf-8?B?SEFuKzE5REtjblkrdFZKeEtvUVhITHNiUHQyUkJ4MDVCa01MVkxSNHloL2VJ?=
- =?utf-8?B?eTdManhNS1hJdld2NVVtRWNPNSs2dG1nVldrcE5Mb2xrZmw4dS9KaEliYWdI?=
- =?utf-8?B?ZzFtKzFhZnlrSUNwWXNXQVhaSWQrdmNCUG9SQmJsdk85RmdmTzB5RFRCUUI1?=
- =?utf-8?B?WVp2K3g3TUlOVW80Mm42TXBuWjYrZWFVbHpQdXRmaHZPc3krcXd5MDJDMzZu?=
- =?utf-8?B?S1dCODZsRTZZSkVxa2VERFVKekRZU0dNS2tncC9aY1JKQmJ2dTkzQ2hEd0Ju?=
- =?utf-8?B?c3cvejNvZkxPbEZtdGtDak9NV0g0dnYrVXUyNGRzc2tkYnZJMlRoMUNIWnMz?=
- =?utf-8?B?Zjk1Q1NqUWdkUG9wQXVCUGZCRUhRSHN1L2tNTGJLU20rRVp2bVlBWC8zdytz?=
- =?utf-8?B?d0hITmdDUkVRTnc3NWNTdTZXM3R1ZFlHaWdMMGU3Qk1RWjB6TUhhNzVNMUVq?=
- =?utf-8?B?VmtzTzRiak5xc0I3VFo2OXl3WGx1NVhBU3dHeUZIbmpEMEVaMVprc1ZrS0JK?=
- =?utf-8?B?enFhbXJGVkk4dDZZL3ZENFpMbnVadlhFUGNMY1NMV1htamVZR1M3d0FNNEhJ?=
- =?utf-8?B?WVZBT1VydzdlQ2d3UlUzYktpMFRNcGI3WWYwWUwvRnBUV1FHU1B5aVNJaXd0?=
- =?utf-8?B?aURpdkhqQkpOeW5nSEZYUkZJTlAzMml0RGJoUGtLSHc0dXZEVXM0Y1JBN2Nj?=
- =?utf-8?B?MUhFeDlqSU9NMm5zdHNUTHFzYlRvWjlacTVxY0c2ZUYySlhXZVNlQWl5T2Zo?=
- =?utf-8?B?Ym10VEs1cnZDM3puK1hLRDFROUtSUitpcmFrZHBMNzJhMm5uY01WOGpVbldj?=
- =?utf-8?B?WjNrbmZMMUhtZ3ByNUxDb3p6SFlQRlRFSnprZk1tQ3duRWhGRGpWWVg3V3VJ?=
- =?utf-8?B?eG5tQmc0UEFqVXRwK2dZb0ZZa0Y2cFk3YlJxZHh5NGo0ZXVCZkQvb3FjbjdY?=
- =?utf-8?B?NC9jTnpwYURKQ1FQRW5Yb0hNRXAxRjdxWTFjVDdKVGxROVNKSmEvR3pMY3Fu?=
- =?utf-8?B?alVScndFeTRvVFQ1SVdjQUx1QUNMYlpBVDRIdTRUbjJZNm5xeGs2MlNCcUZT?=
- =?utf-8?B?OFlDMGUvMk9uazdMTVlZdDNYZldwMWdqeDZaN1JBeUNCdjVJeFlCbU91bXBo?=
- =?utf-8?B?SEZJYTVkMEJZMmMzbC9IcXFXZ0U3SWRFMzhMR0hHSWRteFZmSzBNdjM5TS9w?=
- =?utf-8?B?WjJQSGNTZWVNN1llOXhIV0dJaExjcnVucXpsMC9rSnRtYmpvUXluL2RHaWxQ?=
- =?utf-8?B?ZU1xdjlVd2V4WDR2eWhQZE50Rkg3RXZ1SG00SkNNeGFyOVgvbHNpWEV3d3Fs?=
- =?utf-8?B?dFRqeE9zWjJteEtxN2pOTzlOVGxlUHNzQXJPTlgzMXB5UmpUUGlxZnEvRzFp?=
- =?utf-8?B?aml0dHEzMWFKbkdqTDdwSFJidjZWeUFqaGlrckIwa2xETkNCRlZTRE1aU0dR?=
- =?utf-8?B?WTZoRGVkZ3NrbkxVQUp0cWJ0WEhVNVFqd2hhSWxaSDlSS1B4anRFT3A4NE9G?=
- =?utf-8?Q?8RebrfDCDP/hU/hfUOGyU3Xdp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39cd029d-584b-49e0-4ff6-08dd688d2c6c
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 15:29:30.3445
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6wgQveHTsDQWmVSCYkekzOXNigmY7gSe+LmsMnS/1YgLQMPI0xFkZXv7vWGxbb4Pq7LSwvcnU0ZGgsOsLr3Bwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9352
+X-Received: by 2002:a05:6e02:1a2e:b0:3cf:fe21:af8 with SMTP id
+ e9e14a558f8ab-3d59612bcd5mr39148115ab.4.1742571208805; Fri, 21 Mar 2025
+ 08:33:28 -0700 (PDT)
+Date: Fri, 21 Mar 2025 08:33:28 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67dd86c8.050a0220.25ae54.0059.GAE@google.com>
+Subject: [syzbot] [sound?] possible deadlock in __snd_timer_user_ioctl
+From: syzbot <syzbot+2b96f44164236dda0f3b@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 3/21/2025 07:25, Syed Saba Kareem wrote:
-> From: Syed Saba kareem <syed.sabakareem@amd.com>
-> 
-> Update Quirk data for new Lenovo model 83J2 for YC platform.
-> 
-> Signed-off-by: Syed Saba kareem <syed.sabakareem@amd.com>
+Hello,
 
-Here's a few tags for this.
+syzbot found the following issue on:
 
-Cc: stable@vger.kernel.org
-Reported-by: Reiner <Reiner.Proels@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219887
-Tested-by: Reiner <Reiner.Proels@gmail.com>
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+HEAD commit:    4701f33a1070 Linux 6.14-rc7
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14ed844c580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7f1ab0f4f8e33050
+dashboard link: https://syzkaller.appspot.com/bug?extid=2b96f44164236dda0f3b
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
 
-> ---
->   sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-> index bd3808f98ec9..e632f16c9102 100644
-> --- a/sound/soc/amd/yc/acp6x-mach.c
-> +++ b/sound/soc/amd/yc/acp6x-mach.c
-> @@ -339,6 +339,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
->   			DMI_MATCH(DMI_PRODUCT_NAME, "83Q3"),
->   		}
->   	},
-> +	{
-> +		.driver_data = &acp6x_card,
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "83J2"),
-> +		}
-> +	},
->   	{
->   		.driver_data = &acp6x_card,
->   		.matches = {
+Unfortunately, I don't have any reproducer for this issue yet.
 
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/2dc8c7f3ede3/disk-4701f33a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/b19e548eea76/vmlinux-4701f33a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/0316f25ab8ca/bzImage-4701f33a.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+2b96f44164236dda0f3b@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+6.14.0-rc7-syzkaller #0 Not tainted
+------------------------------------------------------
+syz.0.488/8394 is trying to acquire lock:
+ffff888028e09fe0 (&mm->mmap_lock){++++}-{4:4}, at: __might_fault mm/memory.c:6839 [inline]
+ffff888028e09fe0 (&mm->mmap_lock){++++}-{4:4}, at: __might_fault+0xe3/0x190 mm/memory.c:6832
+
+but task is already holding lock:
+ffffffff8fdaf688 (register_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:201 [inline]
+ffffffff8fdaf688 (register_mutex){+.+.}-{4:4}, at: snd_timer_user_next_device sound/core/timer.c:1526 [inline]
+ffffffff8fdaf688 (register_mutex){+.+.}-{4:4}, at: __snd_timer_user_ioctl.isra.0+0xa0c/0x2640 sound/core/timer.c:2247
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #2 (register_mutex){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:585 [inline]
+       __mutex_lock+0x19b/0xb10 kernel/locking/mutex.c:730
+       snd_timer_open+0x90/0x1020 sound/core/timer.c:307
+       loopback_snd_timer_open+0xaca/0x1020 sound/drivers/aloop.c:1202
+       loopback_open+0x2bf/0x13a0 sound/drivers/aloop.c:1268
+       snd_pcm_open_substream+0xa50/0x17c0 sound/core/pcm_native.c:2753
+       snd_pcm_oss_open_file sound/core/oss/pcm_oss.c:2439 [inline]
+       snd_pcm_oss_open+0x754/0x1400 sound/core/oss/pcm_oss.c:2520
+       soundcore_open+0x409/0x580 sound/sound_core.c:594
+       chrdev_open+0x237/0x6a0 fs/char_dev.c:414
+       do_dentry_open+0x735/0x1c40 fs/open.c:956
+       vfs_open+0x82/0x3f0 fs/open.c:1086
+       do_open fs/namei.c:3830 [inline]
+       path_openat+0x1e88/0x2d80 fs/namei.c:3989
+       do_filp_open+0x20c/0x470 fs/namei.c:4016
+       do_sys_openat2+0x17a/0x1e0 fs/open.c:1428
+       do_sys_open fs/open.c:1443 [inline]
+       __do_sys_openat fs/open.c:1459 [inline]
+       __se_sys_openat fs/open.c:1454 [inline]
+       __x64_sys_openat+0x175/0x210 fs/open.c:1454
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&loopback->cable_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:585 [inline]
+       __mutex_lock+0x19b/0xb10 kernel/locking/mutex.c:730
+       rule_format+0x111/0x3b0 sound/drivers/aloop.c:982
+       constrain_params_by_rules+0x547/0xca0 sound/core/pcm_native.c:436
+       snd_pcm_hw_refine sound/core/pcm_native.c:567 [inline]
+       snd_pcm_hw_refine+0x7e8/0xad0 sound/core/pcm_native.c:545
+       snd_pcm_hw_param_mask sound/core/oss/pcm_oss.c:190 [inline]
+       snd_pcm_oss_change_params_locked+0x645/0x3a60 sound/core/oss/pcm_oss.c:886
+       snd_pcm_oss_change_params sound/core/oss/pcm_oss.c:1105 [inline]
+       snd_pcm_oss_mmap+0x603/0x7c0 sound/core/oss/pcm_oss.c:2914
+       call_mmap include/linux/fs.h:2245 [inline]
+       mmap_file mm/internal.h:124 [inline]
+       __mmap_new_file_vma mm/vma.c:2296 [inline]
+       __mmap_new_vma mm/vma.c:2360 [inline]
+       __mmap_region+0x181f/0x2760 mm/vma.c:2461
+       mmap_region+0x1ab/0x3f0 mm/vma.c:2539
+       do_mmap+0xd8d/0x11b0 mm/mmap.c:561
+       vm_mmap_pgoff+0x279/0x440 mm/util.c:578
+       ksys_mmap_pgoff+0x32c/0x5c0 mm/mmap.c:607
+       __do_sys_mmap arch/x86/kernel/sys_x86_64.c:89 [inline]
+       __se_sys_mmap arch/x86/kernel/sys_x86_64.c:82 [inline]
+       __x64_sys_mmap+0x125/0x190 arch/x86/kernel/sys_x86_64.c:82
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&mm->mmap_lock){++++}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3163 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3282 [inline]
+       validate_chain kernel/locking/lockdep.c:3906 [inline]
+       __lock_acquire+0x249e/0x3c40 kernel/locking/lockdep.c:5228
+       lock_acquire.part.0+0x11b/0x380 kernel/locking/lockdep.c:5851
+       __might_fault mm/memory.c:6839 [inline]
+       __might_fault+0x11b/0x190 mm/memory.c:6832
+       _inline_copy_to_user include/linux/uaccess.h:192 [inline]
+       _copy_to_user+0x2d/0xd0 lib/usercopy.c:26
+       copy_to_user include/linux/uaccess.h:225 [inline]
+       snd_timer_user_gstatus sound/core/timer.c:1699 [inline]
+       __snd_timer_user_ioctl.isra.0+0xd47/0x2640 sound/core/timer.c:2256
+       snd_timer_user_ioctl+0x72/0xb0 sound/core/timer.c:2291
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:906 [inline]
+       __se_sys_ioctl fs/ioctl.c:892 [inline]
+       __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  &mm->mmap_lock --> &loopback->cable_lock --> register_mutex
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(register_mutex);
+                               lock(&loopback->cable_lock);
+                               lock(register_mutex);
+  rlock(&mm->mmap_lock);
+
+ *** DEADLOCK ***
+
+2 locks held by syz.0.488/8394:
+ #0: ffff8880332c2568 (&tu->ioctl_lock){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:201 [inline]
+ #0: ffff8880332c2568 (&tu->ioctl_lock){+.+.}-{4:4}, at: snd_timer_user_ioctl+0x4a/0xb0 sound/core/timer.c:2290
+ #1: ffffffff8fdaf688 (register_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:201 [inline]
+ #1: ffffffff8fdaf688 (register_mutex){+.+.}-{4:4}, at: snd_timer_user_next_device sound/core/timer.c:1526 [inline]
+ #1: ffffffff8fdaf688 (register_mutex){+.+.}-{4:4}, at: __snd_timer_user_ioctl.isra.0+0xa0c/0x2640 sound/core/timer.c:2247
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 8394 Comm: syz.0.488 Not tainted 6.14.0-rc7-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ print_circular_bug+0x490/0x760 kernel/locking/lockdep.c:2076
+ check_noncircular+0x31a/0x400 kernel/locking/lockdep.c:2208
+ check_prev_add kernel/locking/lockdep.c:3163 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3282 [inline]
+ validate_chain kernel/locking/lockdep.c:3906 [inline]
+ __lock_acquire+0x249e/0x3c40 kernel/locking/lockdep.c:5228
+ lock_acquire.part.0+0x11b/0x380 kernel/locking/lockdep.c:5851
+ __might_fault mm/memory.c:6839 [inline]
+ __might_fault+0x11b/0x190 mm/memory.c:6832
+ _inline_copy_to_user include/linux/uaccess.h:192 [inline]
+ _copy_to_user+0x2d/0xd0 lib/usercopy.c:26
+ copy_to_user include/linux/uaccess.h:225 [inline]
+ snd_timer_user_gstatus sound/core/timer.c:1699 [inline]
+ __snd_timer_user_ioctl.isra.0+0xd47/0x2640 sound/core/timer.c:2256
+ snd_timer_user_ioctl+0x72/0xb0 sound/core/timer.c:2291
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:906 [inline]
+ __se_sys_ioctl fs/ioctl.c:892 [inline]
+ __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fdbb2f8d169
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fdbb3d93038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fdbb31a6080 RCX: 00007fdbb2f8d169
+RDX: 0000400000000140 RSI: 00000000c0145401 RDI: 0000000000000003
+RBP: 00007fdbb300e2a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 00007fdbb31a6080 R15: 00007ffee7e06528
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
