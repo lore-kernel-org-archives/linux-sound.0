@@ -1,174 +1,186 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF66778F32;
-	Fri, 21 Mar 2025 13:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742565235; cv=fail; b=inafkadaW8Wp2QYYfT22QOsLySgSJg/5Jyt/nNxV+n0FnX6aI4aqxORISm7BDQj25PvnOUbpgA9zYxAAiMmbeQVtG3GNjvFn+sNwSyfozoay3JWjvtugjRl47ENlUu0p+GJ7WZMT6nzE0VTKsNJY3xvKwIrKtNU7P/XdPkihRM0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742565235; c=relaxed/simple;
-	bh=r3OTvGsGBHnqbgr4dnH/+zfWG7B4CfAd1AFrJkHEGBk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Cy15b0MCk8Jj6O7lFANf+HoDfydNp/EMPFv7xFaqK2PEige3EgOwohVkYydQMIW8/MfVjIFcvHfu52x3Lc8iqA8ZTKZHiDbYjCRJkMawc0ZKYqPFGCnPDURviITwNKpMPRJZfUswJ1tYXHLeEPTpKALT4lD6KgYoZqluG/7GASM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=BhFDFmz6; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=EfJcY/8X; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1761B139CE3
+	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 14:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742566476; cv=none; b=cagT2K14bDNVkcA2ATFW97+TLYvS+ZNDwlEdGxDMBZy+7zXR2BKNDZU/Fm4dGQkRpRK9hWeZMv19J8/Qqag3iFImJXdkmxiytZJQ36Eq21oVPj9/RoqxEm3oGUgl2GZWxmkpm/pZrJvTw+oyvAF5X3Kz3l0J4C1fY48W8WHry3M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742566476; c=relaxed/simple;
+	bh=ZZhBC4ZUh/6PRkPvmx69qNRirNMiGADybEAm/mIRUqs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YB65l8uqo3jq4JJNXRau6TIaVZGKk7Ea0pDCUxh2AeQReZu0WQ7qSQG4tl8uvtlo8ZVjMnurUPoh2k/zlu8Qs2PysRpMzgkVuf0J4C93nENbeKNWH58INhxMkGqgGUQZlwhfDuaIK8s608NOacTz0qMRcwl4njllJfsFafWBa/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uRJ+mYwV; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BhFDFmz6";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="EfJcY/8X"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52L7m8O0023619;
-	Fri, 21 Mar 2025 08:53:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=jh3ac17y4vIkB+ti
-	h12OywwC5ENbzZ+qhh3ETULvIPg=; b=BhFDFmz6i0ZjQd3bBIZvIx2Q8S8E81Ey
-	ZzwLx4+T3TH/8boys1jbu63xjPwH2g3QXH1S1R5MvNUv8yws6YrPfNT4boxWTvYQ
-	3Ig9cEuzR00AT1Ox2xRd8rp6WgiVCztknVL1GvhCOeBQ+xNOgf76xbJ6dUjvAcZk
-	qkfy2f2Su9/LzYoLhQlWnmxdQarUKP5hl7yFosEpJaYU6OH0kSmEbenasE1AQHvP
-	dEPZLsXoJsRQRQ50TeT2kQ1DxFPeHbniuz8vB2Wy50mrc4HPEzE5hCcVJl6eIB2P
-	NLyEOsIPDYaTwBRR6v/kOA9xh/mfwE6c5VKnuP6nhk36HhrY3dNOMA==
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2049.outbound.protection.outlook.com [104.47.58.49])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 45h40m0nkj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Mar 2025 08:53:34 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qzngeblD+xUgnSig8HrQcHvRrZ2KhUwG4TzTmiHtlc/NrHk64lzuIV83m9iN3oj63Lppa3AHCs/CdFtDXcb+xg9PgZP2TvO5SjodlQMyeM21Qa1g3gHVDXUxSW/FpXS/La4Ized00hVgKpSwo8SGtCVyJjFAlO2U65BVfqrdXWmDtmJdHZk22EiE3UhTu2g1fKMuiBaL9+DWQRq2T2lB/fQYER1crMwfKfoqNfEEBTLQcXa37GllvmCxQf1YIA7FXfXFFlP7CiZ11LiG7kKS4zHvKHRo5cE30ZFXg9MXEAVlRZ0kLqypSo9RS03CdKnV3seAfuQYKF3NGWZUa/VVew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jh3ac17y4vIkB+tih12OywwC5ENbzZ+qhh3ETULvIPg=;
- b=lpK64FkQDSLXHuW01ojK+LE+OwROy17fxYVyjhlGJkQoQd5RdYZRpe6s77VUWh4guyvIjIOQfJ2qBt15mYt/ZlDYyzqO/UwVaa1Pca3Qh03KO2H2OCKn0c20KEfpnj+ChRGkduBzrpkxTO9CdnexazuAN+9Uoa+utsV4GWpVehtM17+kjsOJzsuGWTCrOIEjXE98B7KXNdosN1HvGiyWLpzsQ6cNM+C3MAPF6B3P1/pxE+gEVfYA3Ts+tSoxCB/eTGsvhBcpN7K+nQ4By1RwZ8s3IJjXSXfeSTd36cxu7l7yi0TUGMAumoyGnDTrTDSwAJ9kUhQQ4t6AyeZsidXN3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com smtp.mailfrom=cirrus.com;
- dmarc=fail (p=reject sp=reject pct=100) action=oreject
- header.from=opensource.cirrus.com; dkim=none (message not signed); arc=none
- (0)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uRJ+mYwV"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-39143200ddaso1255881f8f.1
+        for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 07:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jh3ac17y4vIkB+tih12OywwC5ENbzZ+qhh3ETULvIPg=;
- b=EfJcY/8XdRy3/3TJftjmTZgskC0dBGhDB5VzT6snnMnwCpekXqA8zTBB6jMAy9MsPkdoEhinkmteiNDwCs006GFjvnGdlmK+gWKDd4/rxcri0RFS1x6K1sQCOFfH1IipmoQQ8h18DT/jymEhdgRKOpPhYycxEY6WgInXQAamtgE=
-Received: from SN7PR04CA0025.namprd04.prod.outlook.com (2603:10b6:806:f2::30)
- by DS7PR19MB6095.namprd19.prod.outlook.com (2603:10b6:8:82::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8534.33; Fri, 21 Mar 2025 13:53:27 +0000
-Received: from SA2PEPF000015CC.namprd03.prod.outlook.com
- (2603:10b6:806:f2:cafe::ed) by SN7PR04CA0025.outlook.office365.com
- (2603:10b6:806:f2::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.36 via Frontend Transport; Fri,
- 21 Mar 2025 13:53:27 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of cirrus.com does not
- designate 84.19.233.75 as permitted sender) receiver=protection.outlook.com;
- client-ip=84.19.233.75; helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SA2PEPF000015CC.mail.protection.outlook.com (10.167.241.202) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.20
- via Frontend Transport; Fri, 21 Mar 2025 13:53:25 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 37E3B406540;
-	Fri, 21 Mar 2025 13:53:24 +0000 (UTC)
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 11BB8820244;
-	Fri, 21 Mar 2025 13:53:24 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev,
-        yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH] ASoC: SDCA: Correct handling of selected mode DisCo property
-Date: Fri, 21 Mar 2025 13:53:24 +0000
-Message-Id: <20250321135324.380237-1-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
+        d=linaro.org; s=google; t=1742566472; x=1743171272; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dxphMk5gHuL/ibLKGMHwC3/28Tm/GP6rXuS1fj8+YA8=;
+        b=uRJ+mYwVfGZWja7qSQlzlUl22gMyKzmNlCO7k+vYcL/uFuhOLty8vFqRkaalzlf7Mn
+         Rw1+ZgmLN2Zm3On5K76OA687wHKBh8s7tZ6LUZyP94wWiPHl1YEHCBpWg0u4271KJoXW
+         xHhTdArdKZN1Mpm3NobfTQE2pHk4LXX/OJKlIVe/FDF15nSV8DfiNWcxgjgjDIvY8UB1
+         fgATGhGZjaSQ4xur8Br2plWfM4KGxiOteoxkCieX0ylcwlLvNPeLfu20mvsqDCabRB+4
+         AqxpjCR/5dwcOO/MFqV2KKpX/yZN4gYXz134D+wqMIOd5v6ANQss0YsZXIna3BcF16cJ
+         sWIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742566472; x=1743171272;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dxphMk5gHuL/ibLKGMHwC3/28Tm/GP6rXuS1fj8+YA8=;
+        b=GOpbOBVTBQIRyJ/01ghIJ9hwlFYzh0Y4lMR+1suC5BO3A1KawCreGamNmHAYWBI6Sk
+         jV03mu/xwzdZFv1vH5+I2e8uT8gnI7fsX/X/Rl/8PLywF5UrwqUiXTJuu9i/8rVy5RGr
+         Jd7sxo3yWVTAgeevGGl7hZlhfA1smylHAhPafuc8DFVJmUgCtauhY4XHAQD0xIWs+Se6
+         Otwn3ETz/yBOJ2BfLtOyOQRb+qa5IweCCNEKvB7ch3UbjUHQlq1CDIKmGJoJ2ov8Myu3
+         9sau1wmh2bQvLvm+K6KsrZqHYPKuxGqzmpbcIYOdvrg0KkH6MVQPjTuSgkAHlxCyNF/h
+         +zqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXhTK9IaQ/3rfvPdpYXhJHpTm+ktoo0GMfCO6yeI3kcZzWyC2Qb0Wp9j72HeQhYoDNdq9gIf0QLCm5krg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxln4cmZ/XGJ8nZaAn62ie6GohVQcxydiZgF4Kluw8ixmphi4qh
+	f8YQTQYkZe+XkuvjEFFDPiwwWWKV5Uqfk8BD8cmiUwT+nJkrZtFHtWvyeXRLCTY=
+X-Gm-Gg: ASbGncs48iBb3FOJl2VpZvvXHLlHCnsoijPTR6ea3JCEuTeaf1xVL+vfF6Kz6otKtys
+	Gqrdf//8J3pozKwt+SUBa/Hgzc1deD1Ch+EBsBYUc8g+4NGT11h7Ul6b3UTiNAYCkIdvRO76hiz
+	7A8+ZjpriSPjy4QrD/HOi/sqOr3JXNuwa2mldVIRuKZTyZesOqzdfle5YShK7oOZiURVffSDzYQ
+	r8BkYkBoU1FcWtFTXqGbUNjoo4pAKXHdDCyd5NcA4CStpG6qCZTUg9JgNTBq9imz5mAizSK/QHJ
+	Q+KJAw4Qbemp1p7FxSWrCh5JITSSzJN0DJNPhGH6TCa70HfaPLuBteqkBQm+ovE=
+X-Google-Smtp-Source: AGHT+IENBehotMhwohtyGw9XcCRtOfJcARUzAAQZMbCLVLVjodl3cnOOUdTsf5h+Agrt7LuxVVy5wg==
+X-Received: by 2002:a05:6000:2d86:b0:390:fbba:e65e with SMTP id ffacd0b85a97d-3997f90edf9mr2640161f8f.32.1742566472274;
+        Fri, 21 Mar 2025 07:14:32 -0700 (PDT)
+Received: from [192.168.68.117] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3997f9b5b8dsm2517680f8f.59.2025.03.21.07.14.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Mar 2025 07:14:31 -0700 (PDT)
+Message-ID: <adfecf33-6ab2-4c3e-b7d9-3d6481ebd3f8@linaro.org>
+Date: Fri, 21 Mar 2025 14:14:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015CC:EE_|DS7PR19MB6095:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 8115fffc-b47a-4230-66b1-08dd687fc0ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|61400799027|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?JVKfF1ng5UNh/IxSx0LO1DXc2zHLebpqBhKDIShbkwG6KhYKU6TNfhs/xxaI?=
- =?us-ascii?Q?qS9V6ehFb42xmb6ZqQVQ8DQsDmj7fvn2cC8fNlfUOyv7nGROt91UnC3D4E3g?=
- =?us-ascii?Q?6ISoxtuyQAzSZG7fDN3gDXuRQOz1oBjkhc/uzxXx3mZxA8xwZfRFvU6taLSy?=
- =?us-ascii?Q?xymiyZZ/UXqF8YQUNbOYNFWfERX2bJB6EXsYOBzQqoZ05aNZ9fyqQuqbGU8P?=
- =?us-ascii?Q?RC/t56UETnJj2OGsu8UC484utGyGxADXOsH5KUYeLfB4fNlIpx9577k1BB/W?=
- =?us-ascii?Q?8/vJQJwtLZHdxT0k9cyipFL8uVOoWOdYAuxZ3l2l9oWkqKp44MLqNhdayiDC?=
- =?us-ascii?Q?riDB8xs89BdvQoH1XaX6BYyR6+3syV9QpV1rdwlnQYakUIaQuAuIe7t4rv69?=
- =?us-ascii?Q?C2j39pblUihk9dJPQCXxOMCfRhhiJx2Pa3pz7BqnPFy+GPQ3K/nIL1qsqDEb?=
- =?us-ascii?Q?Boxv6dnPunCniy2/GYmWR2wNKQnWenOLPrw86j9qpAZCyy1/sK3gsSt1TizJ?=
- =?us-ascii?Q?wS8RoGage5VUiZZoer3W2TKGpmyBdIhdK7zmaIruCWgpjQwCzc337BbrKksA?=
- =?us-ascii?Q?j4vEtG5eewMec7SQbST1a8y4r5cmBMEJ7r72lycpkTe0yymRucBCBHbDoX3g?=
- =?us-ascii?Q?XwjYRni6pLN0dVUbjSPWxZ3XeBD0yc6LhfAB6tuFNgJWU4p4WWEhZFLOf/Tt?=
- =?us-ascii?Q?bSgyli8p12rbhkSJMuP1y7R+1l4xfEPfaBx0gHCa8sAAr/Jui5dsvtfFd3CY?=
- =?us-ascii?Q?fpD3hV1o7rJ+os1H1x4KE/EXS0BmdDFIZ35dfSPu+iKHfvmU0J4+BCfXlF9d?=
- =?us-ascii?Q?9DCQpWe4cTmoyw7lxL8DmOxteOahCB/Yi6RC2O7iJeXVmFk9+LrRKnqwEYID?=
- =?us-ascii?Q?8y/k1Cl/7nrxQcqkRPFFQZaEWNVnH9MmHPJvnLutfW7HzGwVkRCDzhwt2d47?=
- =?us-ascii?Q?XVUklcTvhLpXFPnTNIewSpqYXhiLh2FL/Msr+G5Ydirv3LwMWHBsbOYMtl8E?=
- =?us-ascii?Q?mSLQG2FDbELh8bYajm2GO6skLoZK5DAb+IlY2K16FfDRXNeaFUiskeN3sqvA?=
- =?us-ascii?Q?EEHCuEpmYCZ8ztz493+jONqkL+OyCPblvzem9IGMQTVuc4dngj+1JOpnHwq5?=
- =?us-ascii?Q?FFNSKMTAP+nP7aX6yMYfQ+8m2RCoXvASasGFLI9wagAxsNCYVnyqGkSSoRvf?=
- =?us-ascii?Q?EwB/Ap+iYnNcvkcAiz6Fl2t/65MK66nQe6T1cGo8JIz4jQVgDz1MV/OHdyBk?=
- =?us-ascii?Q?hcXZY5zx9KIn6/TBJjKphE6lvSgl6ikz9JSoeRW9ZprdbghuVCSydFyRLsC4?=
- =?us-ascii?Q?P71iggt4M+Qzt+P0XxaWSavGLhvUexvydXrdOsKLfrhv80fThbFvXupBh9m6?=
- =?us-ascii?Q?gJcEw4Yi3IHTgZfB+mYV9hBR4/GkvTi9Y/M1S/QSy1NRrtyKq0q2bEWSdkzQ?=
- =?us-ascii?Q?1xxEv0YwnnAYPFueHZZVFpYEQ3KyQFi0BmvF3/tSd/NtDdIeMVuMbZpwIBLA?=
- =?us-ascii?Q?bxY3Vri1QJGSP9Y=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(376014)(36860700013);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 13:53:25.6390
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8115fffc-b47a-4230-66b1-08dd687fc0ad
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF000015CC.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR19MB6095
-X-Proofpoint-GUID: AI5xvY5BYkCLldCU91Crlf6xONtTmoM8
-X-Authority-Analysis: v=2.4 cv=DdkXqutW c=1 sm=1 tr=0 ts=67dd6f5e cx=c_pps a=SX8rmsjRxG1z7ITso5uGAQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=Vs1iUdzkB0EA:10 a=s63m1ICgrNkA:10
- a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=aFORnpe9vv2NHjhfobcA:9 a=BGLuxUZjE2igh1l4FkT-:22
-X-Proofpoint-ORIG-GUID: AI5xvY5BYkCLldCU91Crlf6xONtTmoM8
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] ASoC: codecs: wcd938x: add mux control support for
+ hp audio mux
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
+ krzk+dt@kernel.org, ivprusov@salutedevices.com, luca.ceresoli@bootlin.com,
+ zhoubinbin@loongson.cn, paulha@opensource.cirrus.com, lgirdwood@gmail.com,
+ robh@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
+ perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, johan+linaro@kernel.org
+References: <20250320115633.4248-1-srinivas.kandagatla@linaro.org>
+ <20250320115633.4248-5-srinivas.kandagatla@linaro.org>
+ <rdvsnxuc6by6sci56sh7thzpxo5cqi7q24fnmc7hi5yrfszwrg@kqjpiilko3xo>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <rdvsnxuc6by6sci56sh7thzpxo5cqi7q24fnmc7hi5yrfszwrg@kqjpiilko3xo>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-mipi-sdca-ge-selectedmode-controls-affected is actually required by the
-specification so the code should return an error if it is missing.
 
-Reported-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Fixes: d1cd13f80dc6 ("ASoC: SDCA: Add support for GE Entity properties")
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- sound/soc/sdca/sdca_functions.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index c8efdc5301b53..493f390f087ad 100644
---- a/sound/soc/sdca/sdca_functions.c
-+++ b/sound/soc/sdca/sdca_functions.c
-@@ -1159,7 +1159,7 @@ static int find_sdca_entity_ge(struct device *dev,
- 
- 	num_affected = fwnode_property_count_u8(entity_node,
- 						"mipi-sdca-ge-selectedmode-controls-affected");
--	if (!num_affected || num_affected == -EINVAL) {
-+	if (!num_affected) {
- 		return 0;
- 	} else if (num_affected < 0) {
- 		dev_err(dev, "%s: failed to read affected controls: %d\n",
--- 
-2.39.5
+On 20/03/2025 14:03, Dmitry Baryshkov wrote:
+> On Thu, Mar 20, 2025 at 11:56:32AM +0000, srinivas.kandagatla@linaro.org wrote:
+>> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>>
+>> On some platforms to minimise pop and click during switching between
+>> CTIA and OMTP headset an additional HiFi mux is used. Most common
+>> case is that this switch is switched on by default, but on some
+>> platforms this needs a regulator enable.
+>>
+>> move to using mux control to enable both regulator and handle gpios,
+>> deprecate the usage of gpio.
+>>
+>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>> ---
+>>   sound/soc/codecs/Kconfig   |  2 ++
+>>   sound/soc/codecs/wcd938x.c | 38 ++++++++++++++++++++++++++++++--------
+>>   2 files changed, 32 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+>> index ee35f3aa5521..b04076282c8b 100644
+>> --- a/sound/soc/codecs/Kconfig
+>> +++ b/sound/soc/codecs/Kconfig
+>> @@ -2226,6 +2226,8 @@ config SND_SOC_WCD938X
+>>   	tristate
+>>   	depends on SOUNDWIRE || !SOUNDWIRE
+>>   	select SND_SOC_WCD_CLASSH
+>> +	select MULTIPLEXER
+>> +	imply MUX_GPIO
+> 
+> Why? This is true for a particular platform, isn't it?
+> 
+>>   
+>>   config SND_SOC_WCD938X_SDW
+>>   	tristate "WCD9380/WCD9385 Codec - SDW"
+>> diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
+>> index f2a4f3262bdb..b7a235eef6ba 100644
+>> --- a/sound/soc/codecs/wcd938x.c
+>> +++ b/sound/soc/codecs/wcd938x.c
+>> @@ -19,6 +19,7 @@
+>>   #include <linux/regmap.h>
+>>   #include <sound/soc.h>
+>>   #include <sound/soc-dapm.h>
+>> +#include <linux/mux/consumer.h>
+>>   #include <linux/regulator/consumer.h>
+>>   
+>>   #include "wcd-clsh-v2.h"
+>> @@ -178,6 +179,8 @@ struct wcd938x_priv {
+>>   	int variant;
+>>   	int reset_gpio;
+>>   	struct gpio_desc *us_euro_gpio;
+>> +	struct mux_control *us_euro_mux;
+>> +	u32 mux_state;
+>>   	u32 micb1_mv;
+>>   	u32 micb2_mv;
+>>   	u32 micb3_mv;
+>> @@ -3243,9 +3246,16 @@ static bool wcd938x_swap_gnd_mic(struct snd_soc_component *component, bool activ
+>>   
+>>   	wcd938x = snd_soc_component_get_drvdata(component);
+>>   
+>> -	value = gpiod_get_value(wcd938x->us_euro_gpio);
+>> +	if (!wcd938x->us_euro_mux) {
+>> +		value = gpiod_get_value(wcd938x->us_euro_gpio);
+>>   
+>> -	gpiod_set_value(wcd938x->us_euro_gpio, !value);
+>> +		gpiod_set_value(wcd938x->us_euro_gpio, !value);
+> 
+> This looks like a separate topic, but why is 'active' being ignored?
+> 
+>> +	} else {
+>> +		mux_control_deselect(wcd938x->us_euro_mux);
+>> +		wcd938x->mux_state = !wcd938x->mux_state;
+>> +		if (mux_control_select(wcd938x->us_euro_mux, wcd938x->mux_state))
+> 
+> Can't it just be 'mux_control_select(wcd938x->us_euro_mux, active)' ?
+> 
 
+No, the way this is supposed to work is that if the codec detects cross 
+connection, It will try to switch the mux to other option.
+
+So using active will just work if we try to pulg one type of headset all 
+the time. But if we change the headset type the mux will still be 
+configured to use the old headset type and not work.
+
+fyi, active is always set to true
+
+I agree the argument to api is poorly labeled. It should be labeled as 
+flip or something on those lines?
+
+
+thanks,
+Srini
+>> +			dev_err(component->dev, "Unable to select us/euro mux state\n");
+>> +	}
+>>   
+>>   	return true;
+>>   }
+> 
