@@ -1,84 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9D522F17C;
-	Fri, 21 Mar 2025 17:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9E81DEFF3
+	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 19:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742579698; cv=none; b=nVgR/YjU8apOMdzOstNxedj+ISRAXjAIkcEVc7igNRwVWBNoQRniIldlO2AvCeU9UbjR1Nqx0yHgJcKNqxbo9VV6MHZp+CZvg8r4OtEVKIQ2l5U2Aj/wZ/xqMA5oMmc72qh6S5K+ZozH+0dxNmo7MEGeEyNRTRtB+0CERla8Js4=
+	t=1742584107; cv=none; b=WyckVN90MDUsQP/tMs2koSoZ1t+I0meARE6gBdIxL8xtfcfdgufzcVe0E8VRM+xmKMjSsJ6NwzrGeyNECUm2zg4o/L5+KUBhDoD8JsbgQFDNrrM8wO98vuuX1CeEsv5ncB64pY2gKJ2l0+x5euK6uxkq+txjnZie010urSbTe60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742579698; c=relaxed/simple;
-	bh=NXaFuX3ptVobTfhJBeyU3sSoVf15FcX64TEdbnDiA1I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gWy2rHezdq9hZOX1qjkUNm7nyge6zVZWdxfGqCayFJuKvR28N+wndg7OlzNqkwHgtbLhAa0FzFnYjxpav5iSRZYoWX1K9zI3W5ZufKzBlF9YGQrq6FHlivE673Mu21V+ygFu4/9IpUoiUr9mGy1BDdSGKxKQvhJ1rku2gXmPkHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MsLyLp9e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742584107; c=relaxed/simple;
+	bh=3ob7dWnddRt7NjhXz3FcRpTbvHcFlALDzT4Ho7pFvIA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rqTALxXTZKhftuTajg2+O4d+JvtaMCX+tz6JovYpuOQIfiTTh7vPJAWX/LRs4Up6LvggPQkNen+QckuE+/AamikSCFpKBmZvVTEDAszuz3QOTXgNgXDC/uO19GWLNKQQmbqJoJxTvORPJCoTU+EF6C+z4PUQjyl9Z7oiDf4H7To=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TNNh7tpo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sczX0TCN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TNNh7tpo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sczX0TCN; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MsLyLp9e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8684CC4CEE8;
-	Fri, 21 Mar 2025 17:54:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742579698;
-	bh=NXaFuX3ptVobTfhJBeyU3sSoVf15FcX64TEdbnDiA1I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MsLyLp9eiMPrcGMYSsD1DwjU5jz6Xy4jFSxzlBvgC0+JH8OlKlSZGorLAXkJVaN+q
-	 dDtkjdjwv5JkNTyNegyye+JKe7jc/DCJJHP0t8etX96Uxn3GhvuA5U0t49km2wDPiQ
-	 cdL2g0+M+CtKyhZ4IPViVIpXmYx2JNCp3SXE98IwN+I3aoZk3agpLIvxkedSfZkC2l
-	 DU2u1DW6shkzb06bF4VWn8+Z3UpbcujTXBFxkJqe1LgakXVJdcQd/Bs6M+d8JRtBo6
-	 4RNwbDl+zJD3TwOvc9+LfmKsq96x0SCV9vgWElpNtWgnbNFqiZEJmBEduKDWrHbOx1
-	 FtN77Hx/YIS8Q==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev, 
- yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20250321135324.380237-1-ckeepax@opensource.cirrus.com>
-References: <20250321135324.380237-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: SDCA: Correct handling of selected mode DisCo
- property
-Message-Id: <174257969630.2379177.11985602739030119975.b4-ty@kernel.org>
-Date: Fri, 21 Mar 2025 17:54:56 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TNNh7tpo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sczX0TCN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TNNh7tpo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sczX0TCN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 955071FCF5;
+	Fri, 21 Mar 2025 19:08:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742584103; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TxfzUjstrgUZ2nQluVCGRlxri+auozNaRVyG3dPT8Tk=;
+	b=TNNh7tpom1OngPUO8IN1B4FuDteGntQaPHhnyyEOjVVlklo+9jO0lGBFQ8vKGgbPfGioja
+	0EDYBDmXKQIKdN0AMicb4E1hHQZB4dT9DGMAhmzG4Xfe9Ddg4g4S8EFCil91DtMDzlZboX
+	JKAdSnN7AEHJuVCi6i7fUF6Y431WhAs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742584103;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TxfzUjstrgUZ2nQluVCGRlxri+auozNaRVyG3dPT8Tk=;
+	b=sczX0TCNSbAsOVQOSD/w+Fo6KX6C4nFYB5/meRGO8o5YjlomEB/MDKlqUDksWOuMb0zstN
+	gfxYlUtyDDf7TKDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TNNh7tpo;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sczX0TCN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742584103; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TxfzUjstrgUZ2nQluVCGRlxri+auozNaRVyG3dPT8Tk=;
+	b=TNNh7tpom1OngPUO8IN1B4FuDteGntQaPHhnyyEOjVVlklo+9jO0lGBFQ8vKGgbPfGioja
+	0EDYBDmXKQIKdN0AMicb4E1hHQZB4dT9DGMAhmzG4Xfe9Ddg4g4S8EFCil91DtMDzlZboX
+	JKAdSnN7AEHJuVCi6i7fUF6Y431WhAs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742584103;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TxfzUjstrgUZ2nQluVCGRlxri+auozNaRVyG3dPT8Tk=;
+	b=sczX0TCNSbAsOVQOSD/w+Fo6KX6C4nFYB5/meRGO8o5YjlomEB/MDKlqUDksWOuMb0zstN
+	gfxYlUtyDDf7TKDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62A6B139AA;
+	Fri, 21 Mar 2025 19:08:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 80xxFie53WeSUQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 21 Mar 2025 19:08:23 +0000
+Date: Fri, 21 Mar 2025 20:08:22 +0100
+Message-ID: <87frj6td5l.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH v1] ALSA: hda/realtek: Add support for various HP Laptops using CS35L41 HDA
+In-Reply-To: <20250321175040.800963-1-sbinding@opensource.cirrus.com>
+References: <20250321175040.800963-1-sbinding@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-42535
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 955071FCF5
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-On Fri, 21 Mar 2025 13:53:24 +0000, Charles Keepax wrote:
-> mipi-sdca-ge-selectedmode-controls-affected is actually required by the
-> specification so the code should return an error if it is missing.
+On Fri, 21 Mar 2025 18:50:06 +0100,
+Stefan Binding wrote:
 > 
+> Add support for HP Cadet, Clipper OmniBook, Turbine OmniBook, Trekker,
+> Enstrom Onmibook, Piston Omnibook
 > 
+> Laptops use 2 CS35L41 Amps with HDA, using Internal boost, with I2C
+> 
+> Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
 
-Applied to
+This seems conflicting with the recent changes.
+Could you try to rebase to for-linus branch and resubmit?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
+thanks,
 
-[1/1] ASoC: SDCA: Correct handling of selected mode DisCo property
-      commit: 9ef52d529bb75071e03cf85078f724d69c4abe89
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
