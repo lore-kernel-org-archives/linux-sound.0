@@ -1,127 +1,179 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7137F227EB6
-	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 12:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8D022AE59
+	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 13:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742561562; cv=none; b=fI90Gs4r0IG56xpWTEnDOaakgMfkj5oYfmTUuLq8kAldyLkhXvSqX9Ggiv3NE+UNzRHpIIkElfOGYvhkgBxU1ElTIFparz1d1r5HN8sFtd0o+JIQqbGvIhXJK8Ztat5uViLZUvqr8nQAoC9FN1kbH0Km1Utb0/ucUs9q7aoI2Nk=
+	t=1742562796; cv=none; b=NuxEnvAfnLyPD2q3aM/4j5WYS+LJt01qJEX+wqd2F0/upAe9ZshsohhBiQ8OZ9NBM4qfssN+zRd+bcsGWCj4U+hrpsnhoLyrTw5s7hHrFwOqAFVxOWA/SeogvnYf9/iAcqpaSPsXpy7fgkLEjjRhTX+/6XIr3msvge7WMPQHELw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742561562; c=relaxed/simple;
-	bh=WVzQIKqX8X1cs2XAcB40Uwq29UZyXlRh+asPDogFY5A=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nnfa61HsmglRTjtGuo6aesRNxjkTX7C4jgcTCitlEaSnm1C1NpgopxqIHThIxeofEUxwRNEG13M2S8et5rSP4RH67kbunp1KEmedg8C6ykytCmpat9HWlcUT5wag8dssFXoKlbt1SzFU246K/8sjFn7DVXeQ/6/kUeaaSdrGue8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ytu8ix9G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wO0tFybf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ytu8ix9G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wO0tFybf; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1742562796; c=relaxed/simple;
+	bh=gBMuiDhCemk5cSPTk5dmy01AjipaPQhh1hQfbQoK9+w=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=sZy4CF8i8/C4RxypGBfkErSQFwX2z683Jlv3JEyILqa9tBqv+MtJZPFAQQP0j/OyUsXGuJ4VhyJkhK2TS0DP7jQbkWajUmHRSG8VfCjyxwRVMIG7GOCi6Uc12ajALLnXsZsQVtZc+wWNUyKmHNQOXXAKij9o45zL7TGw25IjH/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=AVr7YmAw; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ytu8ix9G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wO0tFybf";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ytu8ix9G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wO0tFybf"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8641021AC3;
-	Fri, 21 Mar 2025 12:52:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742561558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+oV33GCYWF6pAm3qJ5WorbLS/zCYWLbh1VJaPrL7yHQ=;
-	b=ytu8ix9GZshus5zAaJMtEUP8kBZgdDQgWH7AhiE98bJkL5YzahDpD2Nz75x4NuEkqBh6yB
-	UPycV4yw/p8sSMNpXcvNuZXw5MOc2ykdtO+ZOKH6uXLPu3E7fJNJAbIhiHOH2bWq80eXE2
-	yTJw7tCR5a2bRjF0qIGuvIapNysx+L0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742561558;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+oV33GCYWF6pAm3qJ5WorbLS/zCYWLbh1VJaPrL7yHQ=;
-	b=wO0tFybf1b+14q4uXWe4lgSrDyEJUng4F09pQtJSwBsEftOkLnTBkX1XIhvA2CTR8NR3b2
-	/e3hnfonN2nhg2Ag==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742561558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+oV33GCYWF6pAm3qJ5WorbLS/zCYWLbh1VJaPrL7yHQ=;
-	b=ytu8ix9GZshus5zAaJMtEUP8kBZgdDQgWH7AhiE98bJkL5YzahDpD2Nz75x4NuEkqBh6yB
-	UPycV4yw/p8sSMNpXcvNuZXw5MOc2ykdtO+ZOKH6uXLPu3E7fJNJAbIhiHOH2bWq80eXE2
-	yTJw7tCR5a2bRjF0qIGuvIapNysx+L0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742561558;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+oV33GCYWF6pAm3qJ5WorbLS/zCYWLbh1VJaPrL7yHQ=;
-	b=wO0tFybf1b+14q4uXWe4lgSrDyEJUng4F09pQtJSwBsEftOkLnTBkX1XIhvA2CTR8NR3b2
-	/e3hnfonN2nhg2Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 46CCF13A2C;
-	Fri, 21 Mar 2025 12:52:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZK6PDxZh3WeWXwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 21 Mar 2025 12:52:38 +0000
-Date: Fri, 21 Mar 2025 13:52:37 +0100
-Message-ID: <878qoyv94a.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Chris Chiu <chris.chiu@canonical.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	simont@opensource.cirrus.com,
-	sbinding@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] ALSA: hda/realtek: fix micmute LEDs on HP Laptops with ALC3315
-In-Reply-To: <20250321104914.544233-1-chris.chiu@canonical.com>
-References: <20250321104914.544233-1-chris.chiu@canonical.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="AVr7YmAw"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e5dce099f4so2682719a12.1
+        for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 06:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1742562792; x=1743167592; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=azxH+KYm8tJkLH7rFHwCJLBDMbyPBsLOxN72/qPc1Xk=;
+        b=AVr7YmAw/ej31E45hIjLMKkNTCngcDZ6dcaInOv0CrseUD1VZgNWJVAolqi9newOIH
+         XUC7+F2hIyFEgnYhBDCEJKAjs4RQrq6E6Ah5z1ZsD9c3DZJah/SFTAaooMvz2hfXoqXu
+         buwDyX6Pi3CEZYJLhwDF8K7buus17ZaxoNvyQBsmnhjZb60B3p/epXkH97O31VT1eSp/
+         qr3R+PLDvTp5Sg7aereNlDPltuYKN6Bux0ilzQbS7qmG9ssT7jM0pPP4Ac5S6Kp0NJPd
+         GvsG1ylRS9oaDng2iGg+cWzIxErGtQ2Vb5jKrJ/E3vprpS3psmJQhwKC/JFdtKgsf2p8
+         yBKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742562792; x=1743167592;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=azxH+KYm8tJkLH7rFHwCJLBDMbyPBsLOxN72/qPc1Xk=;
+        b=ApB39IeO9UPM8mEYZszLm+hn00NnOfCmhi3u4tGpd81JE0oHIJ6MlgxLuvKWYVsA1R
+         VIh2pGCoTymiy/6DGZsgyQZW5BAGSazPeVBkfNSoCZx5DqlcIIfp6iC0+bAYME/YRSuP
+         /aB8HZO8n1GEhjxXliHwmc1ydFilJndzMNKdAqCTUnbI3Y5rBiLilNHlGrHdGVVbqR4/
+         E+Tx3gTjB6a85szcEA3KqjopxnkTDcP5OiaRTa1kAfPQgbmJNp6SnXDThBQsr/54MXWc
+         z4Y7yowiraFJqvuNp4RvQP6if69YaF37t+WvDiyrO2/fDWeRHrtZF0cj5Ml/H0kyOkiv
+         chRg==
+X-Forwarded-Encrypted: i=1; AJvYcCV6xI68Zrtki30f7SiO2nJ2sO7WBtJE8qZqCngf/zuvwlujh/V+rnKKJ3sckIwbcg7+zXwATvc9zYFwvw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjkFY29TZPuEGITFEhDaymecAGTawDleBxkujhKobL86N2PHbP
+	RP39ChILHeN6tfjwU+eyD8/bLltwqQWDrlwuoyMs9dZiTo+G2TD8gUBrpUli4Bg=
+X-Gm-Gg: ASbGnctizVX/U8JgLr+hsVEG6mX7zTOyQTy9lFR3jJYS3kzm/YQyXIxxL77ihOyTDWn
+	TP9BJnj3LDhgkP1EnfQnDckkxi4ua3zMFb4MVv1os6o4HlaNHUNqIB4i/zEP5lyYHGKInBRxVW3
+	erg4obs8ocjuYh/MQdn/cmryBmQuypHBEgwmcL5rK6R4r4o/w2UCNE8BroYQCsluQvAi8OWRwIm
+	d0XRE9R7NhXrcFvtl6HyVO6G50dDj4RRwAV/ncr6mNlD+XieLfAO8z8mm8/139eCPXecwy5CBUA
+	OW3k6K6uF16Us3cnw7Ga3FvxeWeYNou+uPvYHcv+ot22QzuiEhiBU9III80kWCzFsb2nHGovdVv
+	039C3VzV4aPt5pg==
+X-Google-Smtp-Source: AGHT+IE8PhCgUGBY/JkCA/TsunqWtiCtyLdiJOJyXQ4SyEMmQjgGArax5BsxRlrz/Py8KVlD3G8r/g==
+X-Received: by 2002:a05:6402:1d4a:b0:5e8:bf8b:4396 with SMTP id 4fb4d7f45d1cf-5ebcd42dd1fmr3003367a12.13.1742562791878;
+        Fri, 21 Mar 2025 06:13:11 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ebcd0c7157sm1344509a12.60.2025.03.21.06.13.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Mar 2025 06:13:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,canonical.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 21 Mar 2025 14:13:10 +0100
+Message-Id: <D8LYYEQJ2W4L.1H7FPF4140BVS@fairphone.com>
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Wesley Cheng" <quic_wcheng@quicinc.com>,
+ <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+ <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+ <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+ <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+ <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+ <gregkh@linuxfoundation.org>
+Cc: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v36 00/31] Introduce QC USB SND audio offloading support
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
+In-Reply-To: <20250319005141.312805-1-quic_wcheng@quicinc.com>
 
-On Fri, 21 Mar 2025 11:49:13 +0100,
-Chris Chiu wrote:
-> 
-> More HP laptops with Realtek HDA codec ALC3315 with combined CS35L56
-> Amplifiers need quirk ALC285_FIXUP_HP_GPIO_LED to fix the micmute LED.
-> 
-> Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
+Hi Wesley,
 
-Thanks, applied both patches now.
+On Wed Mar 19, 2025 at 1:51 AM CET, Wesley Cheng wrote:
+> Requesting to see if we can get some Acked-By tags, and merge on usb-next=
+.
+>
+> Several Qualcomm based chipsets can support USB audio offloading to a
+> dedicated audio DSP, which can take over issuing transfers to the USB
+> host controller.  The intention is to reduce the load on the main
+> processors in the SoC, and allow them to be placed into lower power modes=
+.
+> There are several parts to this design:
+>   1. Adding ASoC binding layer
+>   2. Create a USB backend for Q6DSP
+>   3. Introduce XHCI interrupter support
+>   4. Create vendor ops for the USB SND driver
+>
+
+I was able to test this series (v35) on SM6350/SM7225 Fairphone 4
+smartphone and it appears to work as expected!
+
+Based on the sm8350 branch you shared[0] I added similar dts bits for my
+device, I've pushed that branch here[1] for reference.
+
+[0] https://git.codelinaro.org/clo/linux-kernel/kernel-qcom/-/commits/usb_a=
+udio_offload/
+[1] https://github.com/sm6350-mainline/linux/commits/sm6350-6.14-wip-usb-sn=
+d-offload/
+
+And I've used these commands to test:
+
+fairphone-4:~$ amixer -c0 cset name=3D'USB Mixer MultiMedia2' On
+
+fairphone-4:~$ aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: F4 [Fairphone 4], device 0: MultiMedia1 (*) []
+Subdevices: 1/1
+Subdevice #0: subdevice #0
+card 0: F4 [Fairphone 4], device 1: MultiMedia2 (*) []
+Subdevices: 1/1
+Subdevice #0: subdevice #0
+card 1: Audio [Hi-Res Audio], device 0: USB Audio [USB Audio]
+Subdevices: 1/1
+Subdevice #0: subdevice #0
+
+fairphone-4:~$ ffmpeg -i test.m4a -acodec pcm_s16le test.wav
+
+fairphone-4:~$ aplay --device=3Dplughw:0,1 Music/test.wav
+Playing WAVE 'Music/test.wav' : Signed 16 bit Little Endian, Rate 44100 Hz,=
+ Stereo
+
+And then music was coming out of these headphones connected via a USB-C
+to 3.5mm dongle.
+
+Every time I'm starting playback this error appears in dmesg, do you
+also see this on your test setup?
+
+[ 1336.081525] q6afe-dai 3000000.remoteproc:glink-edge:apr:service@4:dais: =
+AFE Port already open
 
 
-Takashi
+And if I'm not mistaken it's possible to check that actually the offload
+path is getting used by checking the interrupt counts of the xhci-hcd
+interrupt.
+
+With regular USB audio card playback there's many interrupts per second
+happening:
+
+fairphone-4:~$ aplay --device=3Dplughw:1,0 Music/test.wav # regular USB
+fairphone-4:~$ cat /proc/interrupts | grep -i usb
+188:     137524          0          0          0          0          0     =
+     0          0    GICv3 165 Level     xhci-hcd:usb1
+fairphone-4:~$ cat /proc/interrupts | grep -i usb
+188:     137591          0          0          0          0          0     =
+     0          0    GICv3 165 Level     xhci-hcd:usb1
+
+And with the offload card during playback there's no interrupts
+happening (just a few when initially starting playback):
+
+fairphone-4:~$ aplay --device=3Dplughw:0,1 Music/test.wav # offload
+fairphone-4:~$ cat /proc/interrupts | grep -i usb
+188:     141947          0          0          0          0          0     =
+     0          0    GICv3 165 Level     xhci-hcd:usb1
+fairphone-4:~$ cat /proc/interrupts | grep -i usb
+188:     141947          0          0          0          0          0     =
+     0          0    GICv3 165 Level     xhci-hcd:usb1
+
+
+Let me know what you think about the message in dmesg I mentioned above.
+
+Regards
+Luca
