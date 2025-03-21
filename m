@@ -1,179 +1,151 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8D022AE59
-	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 13:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78171F4181
+	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 13:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742562796; cv=none; b=NuxEnvAfnLyPD2q3aM/4j5WYS+LJt01qJEX+wqd2F0/upAe9ZshsohhBiQ8OZ9NBM4qfssN+zRd+bcsGWCj4U+hrpsnhoLyrTw5s7hHrFwOqAFVxOWA/SeogvnYf9/iAcqpaSPsXpy7fgkLEjjRhTX+/6XIr3msvge7WMPQHELw=
+	t=1742563014; cv=none; b=WM1mI4x31AxGhsD5uGShOoUd8qQzm8T5AyUoUTtzk49jqVnQz+cXhZD994dtvV1kk/6yUeED+DgM4NBhjL0fn+7BXqH8JHvMpyQ67m5DfgxmsPB9YxbOvlUIaeA+xdytSf3+JBWEkEqpii/lf0QbE38ynpFO4LaMBqNe1ruFS4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742562796; c=relaxed/simple;
-	bh=gBMuiDhCemk5cSPTk5dmy01AjipaPQhh1hQfbQoK9+w=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=sZy4CF8i8/C4RxypGBfkErSQFwX2z683Jlv3JEyILqa9tBqv+MtJZPFAQQP0j/OyUsXGuJ4VhyJkhK2TS0DP7jQbkWajUmHRSG8VfCjyxwRVMIG7GOCi6Uc12ajALLnXsZsQVtZc+wWNUyKmHNQOXXAKij9o45zL7TGw25IjH/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=AVr7YmAw; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1742563014; c=relaxed/simple;
+	bh=5v0eCXSJKnOzt1bK7YTndfKX6eAKPgqOyM0NGeGssOE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NUnTXNBSewbaJgrAUoDUG3xekjf/lBwhKFx06Dce8EcvQheSN0qRx2zvB8Thwqrx8i2T5E6ooUXga5ROU1hXDBnohbWzzwSZJvCzu6dmxuKR7ryJ3V4RgXycwuIsl5a4pWzCIPL5z265jVFr+wUCfACAdEU4SaWAoVXwPj/9Ygc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CbU3lTRs; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="AVr7YmAw"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e5dce099f4so2682719a12.1
-        for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 06:13:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1742562792; x=1743167592; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=azxH+KYm8tJkLH7rFHwCJLBDMbyPBsLOxN72/qPc1Xk=;
-        b=AVr7YmAw/ej31E45hIjLMKkNTCngcDZ6dcaInOv0CrseUD1VZgNWJVAolqi9newOIH
-         XUC7+F2hIyFEgnYhBDCEJKAjs4RQrq6E6Ah5z1ZsD9c3DZJah/SFTAaooMvz2hfXoqXu
-         buwDyX6Pi3CEZYJLhwDF8K7buus17ZaxoNvyQBsmnhjZb60B3p/epXkH97O31VT1eSp/
-         qr3R+PLDvTp5Sg7aereNlDPltuYKN6Bux0ilzQbS7qmG9ssT7jM0pPP4Ac5S6Kp0NJPd
-         GvsG1ylRS9oaDng2iGg+cWzIxErGtQ2Vb5jKrJ/E3vprpS3psmJQhwKC/JFdtKgsf2p8
-         yBKA==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CbU3lTRs"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LAT9rT003011
+	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 13:16:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=rKDADviDBRmij4wqF3bNF8yg
+	rPd+aXcSkF8NWGkccV8=; b=CbU3lTRsUR+71/EMi+TdzS6oaA2BNI0uOMCfeHmb
+	3aionmkhue1FdweCXCzRZ2LNrmaPclCaL8r4OJszkaQTW6NDiGNfgkgUrTVybKNE
+	ZgCA4eDgmTeKfOBk7DDpw3JHBWc2auF5yU+/wMrGm9B4oI6nvq4jbGTojTKBu5Ny
+	lsjuLn44esjbrcBJnmrtgZmUIoPE6X5z2QL22JkN5U71qEG8HOyXjlCn2RvmuFdE
+	ErZ2BkF9gnHumRby7WS1Gkizi3LvifoW5xge1GDoZMmGLGmIY3hr48SsPm1Pm2Wz
+	7qd9YXuem7LacPPzJRz349PQ6s/6SitXU8KRnZoFgLTj1w==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45h4p10trw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 13:16:51 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3011c150130so3110431a91.2
+        for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 06:16:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742562792; x=1743167592;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=azxH+KYm8tJkLH7rFHwCJLBDMbyPBsLOxN72/qPc1Xk=;
-        b=ApB39IeO9UPM8mEYZszLm+hn00NnOfCmhi3u4tGpd81JE0oHIJ6MlgxLuvKWYVsA1R
-         VIh2pGCoTymiy/6DGZsgyQZW5BAGSazPeVBkfNSoCZx5DqlcIIfp6iC0+bAYME/YRSuP
-         /aB8HZO8n1GEhjxXliHwmc1ydFilJndzMNKdAqCTUnbI3Y5rBiLilNHlGrHdGVVbqR4/
-         E+Tx3gTjB6a85szcEA3KqjopxnkTDcP5OiaRTa1kAfPQgbmJNp6SnXDThBQsr/54MXWc
-         z4Y7yowiraFJqvuNp4RvQP6if69YaF37t+WvDiyrO2/fDWeRHrtZF0cj5Ml/H0kyOkiv
-         chRg==
-X-Forwarded-Encrypted: i=1; AJvYcCV6xI68Zrtki30f7SiO2nJ2sO7WBtJE8qZqCngf/zuvwlujh/V+rnKKJ3sckIwbcg7+zXwATvc9zYFwvw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjkFY29TZPuEGITFEhDaymecAGTawDleBxkujhKobL86N2PHbP
-	RP39ChILHeN6tfjwU+eyD8/bLltwqQWDrlwuoyMs9dZiTo+G2TD8gUBrpUli4Bg=
-X-Gm-Gg: ASbGnctizVX/U8JgLr+hsVEG6mX7zTOyQTy9lFR3jJYS3kzm/YQyXIxxL77ihOyTDWn
-	TP9BJnj3LDhgkP1EnfQnDckkxi4ua3zMFb4MVv1os6o4HlaNHUNqIB4i/zEP5lyYHGKInBRxVW3
-	erg4obs8ocjuYh/MQdn/cmryBmQuypHBEgwmcL5rK6R4r4o/w2UCNE8BroYQCsluQvAi8OWRwIm
-	d0XRE9R7NhXrcFvtl6HyVO6G50dDj4RRwAV/ncr6mNlD+XieLfAO8z8mm8/139eCPXecwy5CBUA
-	OW3k6K6uF16Us3cnw7Ga3FvxeWeYNou+uPvYHcv+ot22QzuiEhiBU9III80kWCzFsb2nHGovdVv
-	039C3VzV4aPt5pg==
-X-Google-Smtp-Source: AGHT+IE8PhCgUGBY/JkCA/TsunqWtiCtyLdiJOJyXQ4SyEMmQjgGArax5BsxRlrz/Py8KVlD3G8r/g==
-X-Received: by 2002:a05:6402:1d4a:b0:5e8:bf8b:4396 with SMTP id 4fb4d7f45d1cf-5ebcd42dd1fmr3003367a12.13.1742562791878;
-        Fri, 21 Mar 2025 06:13:11 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ebcd0c7157sm1344509a12.60.2025.03.21.06.13.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Mar 2025 06:13:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742563010; x=1743167810;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rKDADviDBRmij4wqF3bNF8ygrPd+aXcSkF8NWGkccV8=;
+        b=o5B7wkcjOgUkAxbU5q1plTxvX2R8qYZPJ2FnBwugq9Q9dhDoTS04UiNUzsXpZXP4+j
+         Dt6dfQl+sRndVgc7rR/CUgU7jKWbQZaiPb47D8PTizIVNyF3EcriRiV9igFBRMniYHNS
+         +ZeOUDoVlJZAqJ+7LySOZnwgKLsTl9n8a/VzrzvB28NlSe/3hoYhdDVyTnpqgcePJLIf
+         shLf2cW/QY+UEEMehs+61FyjPFRdl/PYkFYDba3qzM2jaWTLGZlfmHNkXdTflOTHRQrn
+         iTqkkKETqhXvV9EPKDYljUDl2WODiaYp7ThA1/f0vywKReNASPp14UP4wx5OiH6UiysU
+         tA7w==
+X-Forwarded-Encrypted: i=1; AJvYcCXNPzE3yLuCWeIe/l9npaPxo/nE2kwhnifJs1Mr0o6EWnd9NlXbW2WCmtaGDWRjynceJ/cUcy6f4MDpNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3a4T+cJ4XYp0lW9URDgBGCZnS9q3MTbaFfEHEJzIA9iFswW/3
+	43h4a4dicouAaF34W8H56hWy/JgcXOnDoImhHelZH3XB9qOrIroY/vwKvtZc7b55uLxTqWhSKMp
+	7YK6puc5q6jo2K+3NQlrBtVpktaXkELDf6pvf7YdXg7/zBR/xk8CakfT3uFSnklHMWvLDViMUVc
+	uq+6hQm3Cn45WXHZmCQQisFRS0yGfe6Dl4YHa5
+X-Gm-Gg: ASbGncuJjIq9R1BYxfi/3v3FZ1oUUmpvZe0H3uzvpnVak0nrMo3UUDxGeiSNTQ2pJFm
+	U8doW0UwpnFFxMG1+Z8OxMDOHxgdIhlSRElXz+wOnBORJTJH8XvtbNv049+Kl3+oVdoO6ZzHoyc
+	SYlPpKPAGreoaCE3PWNBnGYwOxrGLD
+X-Received: by 2002:a17:90b:2ed0:b0:2ff:5e4e:864 with SMTP id 98e67ed59e1d1-3030ff108a6mr5526829a91.25.1742563009895;
+        Fri, 21 Mar 2025 06:16:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGr2mutO+YUR5/PARS6/TKZO8Ev2O8vO6eT7KZPndPdr3Py5PTyw8qRv2gkQufsIZf3sd6sgOq3hu/uvvAaFgw=
+X-Received: by 2002:a17:90b:2ed0:b0:2ff:5e4e:864 with SMTP id
+ 98e67ed59e1d1-3030ff108a6mr5526785a91.25.1742563009246; Fri, 21 Mar 2025
+ 06:16:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 21 Mar 2025 14:13:10 +0100
-Message-Id: <D8LYYEQJ2W4L.1H7FPF4140BVS@fairphone.com>
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Wesley Cheng" <quic_wcheng@quicinc.com>,
- <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
- <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
- <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
- <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
- <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
- <gregkh@linuxfoundation.org>
-Cc: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v36 00/31] Introduce QC USB SND audio offloading support
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
-In-Reply-To: <20250319005141.312805-1-quic_wcheng@quicinc.com>
+MIME-Version: 1.0
+References: <20250320115633.4248-1-srinivas.kandagatla@linaro.org>
+ <20250320115633.4248-5-srinivas.kandagatla@linaro.org> <rdvsnxuc6by6sci56sh7thzpxo5cqi7q24fnmc7hi5yrfszwrg@kqjpiilko3xo>
+ <b1aed195-b2e6-4f48-ba10-3049d74085a9@linaro.org>
+In-Reply-To: <b1aed195-b2e6-4f48-ba10-3049d74085a9@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Fri, 21 Mar 2025 15:16:36 +0200
+X-Gm-Features: AQ5f1JpCRwMtkjJDn9oo-cBhrY2GuyMxCFMeKp_-hQaIAlV_kqtTNCxsu0Mojn4
+Message-ID: <CAO9ioeWLRfzUOwjnFsi_yztdJo2Q25bhvjddh6D3naV_K5eShA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] ASoC: codecs: wcd938x: add mux control support for
+ hp audio mux
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
+        krzk+dt@kernel.org, ivprusov@salutedevices.com,
+        luca.ceresoli@bootlin.com, zhoubinbin@loongson.cn,
+        paulha@opensource.cirrus.com, lgirdwood@gmail.com, robh@kernel.org,
+        conor+dt@kernel.org, konradybcio@kernel.org, perex@perex.cz,
+        tiwai@suse.com, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, johan+linaro@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-GUID: T5mEqpTrUBXU-NXaB0EOpj0RDcisakO_
+X-Proofpoint-ORIG-GUID: T5mEqpTrUBXU-NXaB0EOpj0RDcisakO_
+X-Authority-Analysis: v=2.4 cv=NZjm13D4 c=1 sm=1 tr=0 ts=67dd66c3 cx=c_pps a=RP+M6JBNLl+fLTcSJhASfg==:117 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=2awXsTXn6f5pcYlzz10A:9 a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-21_05,2025-03-20_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=821
+ priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503210098
 
-Hi Wesley,
-
-On Wed Mar 19, 2025 at 1:51 AM CET, Wesley Cheng wrote:
-> Requesting to see if we can get some Acked-By tags, and merge on usb-next=
-.
+On Fri, 21 Mar 2025 at 14:35, Srinivas Kandagatla
+<srinivas.kandagatla@linaro.org> wrote:
 >
-> Several Qualcomm based chipsets can support USB audio offloading to a
-> dedicated audio DSP, which can take over issuing transfers to the USB
-> host controller.  The intention is to reduce the load on the main
-> processors in the SoC, and allow them to be placed into lower power modes=
-.
-> There are several parts to this design:
->   1. Adding ASoC binding layer
->   2. Create a USB backend for Q6DSP
->   3. Introduce XHCI interrupter support
->   4. Create vendor ops for the USB SND driver
 >
+>
+> On 20/03/2025 14:03, Dmitry Baryshkov wrote:
+> > On Thu, Mar 20, 2025 at 11:56:32AM +0000, srinivas.kandagatla@linaro.org wrote:
+> >> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> >>
+> >> On some platforms to minimise pop and click during switching between
+> >> CTIA and OMTP headset an additional HiFi mux is used. Most common
+> >> case is that this switch is switched on by default, but on some
+> >> platforms this needs a regulator enable.
+> >>
+> >> move to using mux control to enable both regulator and handle gpios,
+> >> deprecate the usage of gpio.
+> >>
+> >> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> >> ---
+> >>   sound/soc/codecs/Kconfig   |  2 ++
+> >>   sound/soc/codecs/wcd938x.c | 38 ++++++++++++++++++++++++++++++--------
+> >>   2 files changed, 32 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+> >> index ee35f3aa5521..b04076282c8b 100644
+> >> --- a/sound/soc/codecs/Kconfig
+> >> +++ b/sound/soc/codecs/Kconfig
+> >> @@ -2226,6 +2226,8 @@ config SND_SOC_WCD938X
+> >>      tristate
+> >>      depends on SOUNDWIRE || !SOUNDWIRE
+> >>      select SND_SOC_WCD_CLASSH
+> >> +    select MULTIPLEXER
+> >> +    imply MUX_GPIO
+> >
+> > Why? This is true for a particular platform, isn't it?
+>
+> We want to move the codec to use gpio mux instead of using gpios directly
+>
+> So this become codec specific, rather than platform.
 
-I was able to test this series (v35) on SM6350/SM7225 Fairphone 4
-smartphone and it appears to work as expected!
+Not quite. "select MULTIPLEXER" is correct and is not questionable.
+I'm asking about the MUX_GPIO. The codec itself has nothing to do with
+the board using _GPIO_ to switch 4-pin modes. It is a board-level
+decision. A board can use an I2C-controlled MUX instead. I'd say, that
+at least you should describe rationale for this `imply` clause in the
+commit message.
 
-Based on the sm8350 branch you shared[0] I added similar dts bits for my
-device, I've pushed that branch here[1] for reference.
-
-[0] https://git.codelinaro.org/clo/linux-kernel/kernel-qcom/-/commits/usb_a=
-udio_offload/
-[1] https://github.com/sm6350-mainline/linux/commits/sm6350-6.14-wip-usb-sn=
-d-offload/
-
-And I've used these commands to test:
-
-fairphone-4:~$ amixer -c0 cset name=3D'USB Mixer MultiMedia2' On
-
-fairphone-4:~$ aplay -l
-**** List of PLAYBACK Hardware Devices ****
-card 0: F4 [Fairphone 4], device 0: MultiMedia1 (*) []
-Subdevices: 1/1
-Subdevice #0: subdevice #0
-card 0: F4 [Fairphone 4], device 1: MultiMedia2 (*) []
-Subdevices: 1/1
-Subdevice #0: subdevice #0
-card 1: Audio [Hi-Res Audio], device 0: USB Audio [USB Audio]
-Subdevices: 1/1
-Subdevice #0: subdevice #0
-
-fairphone-4:~$ ffmpeg -i test.m4a -acodec pcm_s16le test.wav
-
-fairphone-4:~$ aplay --device=3Dplughw:0,1 Music/test.wav
-Playing WAVE 'Music/test.wav' : Signed 16 bit Little Endian, Rate 44100 Hz,=
- Stereo
-
-And then music was coming out of these headphones connected via a USB-C
-to 3.5mm dongle.
-
-Every time I'm starting playback this error appears in dmesg, do you
-also see this on your test setup?
-
-[ 1336.081525] q6afe-dai 3000000.remoteproc:glink-edge:apr:service@4:dais: =
-AFE Port already open
-
-
-And if I'm not mistaken it's possible to check that actually the offload
-path is getting used by checking the interrupt counts of the xhci-hcd
-interrupt.
-
-With regular USB audio card playback there's many interrupts per second
-happening:
-
-fairphone-4:~$ aplay --device=3Dplughw:1,0 Music/test.wav # regular USB
-fairphone-4:~$ cat /proc/interrupts | grep -i usb
-188:     137524          0          0          0          0          0     =
-     0          0    GICv3 165 Level     xhci-hcd:usb1
-fairphone-4:~$ cat /proc/interrupts | grep -i usb
-188:     137591          0          0          0          0          0     =
-     0          0    GICv3 165 Level     xhci-hcd:usb1
-
-And with the offload card during playback there's no interrupts
-happening (just a few when initially starting playback):
-
-fairphone-4:~$ aplay --device=3Dplughw:0,1 Music/test.wav # offload
-fairphone-4:~$ cat /proc/interrupts | grep -i usb
-188:     141947          0          0          0          0          0     =
-     0          0    GICv3 165 Level     xhci-hcd:usb1
-fairphone-4:~$ cat /proc/interrupts | grep -i usb
-188:     141947          0          0          0          0          0     =
-     0          0    GICv3 165 Level     xhci-hcd:usb1
-
-
-Let me know what you think about the message in dmesg I mentioned above.
-
-Regards
-Luca
+-- 
+With best wishes
+Dmitry
