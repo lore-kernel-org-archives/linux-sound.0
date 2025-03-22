@@ -1,203 +1,254 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040961D54D8;
-	Fri, 21 Mar 2025 23:17:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742599061; cv=fail; b=uEChJQgoCeV8ejFUwejxJN9iA1aXYsHiuIPJ23C7rjNxg4pFSlscaaxi8slHyqqsFgQYvhDR1UT/siBNcmhsf+yF8LYgyRR2QnRqNxy1H+l5Tu0xglUbgV9rX68syeYwhCSFIC18NPByJz4xTXvqFXF27k9f9CwmUtj48lRqJtQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742599061; c=relaxed/simple;
-	bh=blgl9gW8MXeyETXe2ED+sDHIT5mTVJ6IkMJqNp12N4I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KGaWrKb+rFd/xswV5EyaMbeCjJFgVtSeliyVussPoTrQ0sgzw5TBT9/fISfnG6iKHcE7nbTFkNvHc2dEXbozbhVqjQZf32vzgQ956DZOHAdsL48Ti+dDVs3FwWNDXOR2CQH02z13PmPuEgNUvUjN7ER9yOiKffqzJ6k8GgOYs5g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=IAde/YHg; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=YkkBQkB6; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cirrus.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="IAde/YHg";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="YkkBQkB6"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52L4pugX019814;
-	Fri, 21 Mar 2025 18:17:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=Dac2Byf4wZOup+6w
-	omVZ3kvLZST5quJGC0mpGH4hDH0=; b=IAde/YHg9SV5aWoMGp+BI1/DjjIWtb5f
-	yVN6p4NE9yN6HwFiogAq+FvVpEjNUQckzZ5Gt+zWgMKFhtV1xnuzY/niHcJrei3s
-	EoLHTbf5UGEhAqTUrraeFaVqQYRht4pWJsxqJ9gI6UUhKT0oa9DWo4GI4JJPoVOE
-	9bvCKW77iKaNmakKV01miTqfGUhBvEqkPWNLNviz5usRgK9cBomIIqkN2oMfQ0xy
-	ijc4PU1sofs3qXgBxzfqX42BQHC+L7sCqs1ufkunL2vLNjRqVLlzn23IA3iqIUfE
-	OOFaa2/u7cTST4rQCdhm8S7j7lFi7sTDXIeE2SmNNyQYmqJrabGRIw==
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2049.outbound.protection.outlook.com [104.47.57.49])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 45g9p6vxnx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Mar 2025 18:17:28 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IEgbUYVWWuIHGRvuCGqguVtEIVr5mWIkVkDE87c2LIBXFcOHIxeY0elp9yYMAx0hRxxifM8u+0xyTCDkIo0odu2X/GZliMJ9WV1fX0UojogiF40gt53HQUfbH3DreBtV5bEiQDVQSSoLF0AbWpEa8oQqabF8Ja7tGb2FC0TS7G1/cMbfRQaz/2uUnUXSrFYLgGX1KQoyGqE0COadOZV9XPgBICqPA+nkFz2E4a0Eikg/Eyx1aTm6voNuPswUKe29QkiMgpim4+PNt7eIkddSOGCd7EzRah48+HwQ5sXwnjMrWDNWXDfBBkDLZutw8PICNGtYMtZCmGLSkF21wr0wSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dac2Byf4wZOup+6womVZ3kvLZST5quJGC0mpGH4hDH0=;
- b=WRR5treq4j1hcoYIyP2vPQKK5uP/y1xfnmi54DMnF6hO9QHv/CtckuaP4Y7HcF7eDz/ZDmjl74+XJwTAsnj4jQTH1xm07GVnjXLaaTqCdYTQ+/QfY4CPTO6gDttbUlsfH2oKtcHeUWaoMruNnFoEkL2AsOHv7o1b4ZUv5YImB3UZO9LhYadmAbsSOV1xSmRHilGTO3Ei6R0YBYba13oNhD71oE/O428rZ/usrnHIfS1T4nP6nkKqqgcHzIjsexWHchokXgOT2PrQcozNzMsF53cUgJikIdk8cKsF+EAIzkHU6SayJIo/7u7w/Jhob9yUfrHtdWMDq76iPUMJeOyq6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com smtp.mailfrom=cirrus.com;
- dmarc=fail (p=reject sp=reject pct=100) action=oreject
- header.from=opensource.cirrus.com; dkim=none (message not signed); arc=none
- (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dac2Byf4wZOup+6womVZ3kvLZST5quJGC0mpGH4hDH0=;
- b=YkkBQkB6HjfcIKfy8HGxhtJKbVJxAvNgdi+mU37OrttQ3ZC/CQERNkR+L92p1AD6BpFJSybAI5ob7x3ud7iUoJZcxyhNPvEqe0Du7vzosKyAo95QqU3Go+cX7q62Mefk1gisSO7hylNChdIEa0lfNgFd/D0WtnkCsrZi+1TYkwY=
-Received: from SJ0PR13CA0007.namprd13.prod.outlook.com (2603:10b6:a03:2c0::12)
- by SA1PR19MB5667.namprd19.prod.outlook.com (2603:10b6:806:23c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.36; Fri, 21 Mar
- 2025 23:17:23 +0000
-Received: from SJ1PEPF00002323.namprd03.prod.outlook.com
- (2603:10b6:a03:2c0:cafe::3) by SJ0PR13CA0007.outlook.office365.com
- (2603:10b6:a03:2c0::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.36 via Frontend Transport; Fri,
- 21 Mar 2025 23:17:23 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of cirrus.com does not
- designate 84.19.233.75 as permitted sender) receiver=protection.outlook.com;
- client-ip=84.19.233.75; helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SJ1PEPF00002323.mail.protection.outlook.com (10.167.242.85) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.20
- via Frontend Transport; Fri, 21 Mar 2025 23:17:22 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 72D7F406540;
-	Fri, 21 Mar 2025 23:17:20 +0000 (UTC)
-Received: from lonswws02.ad.cirrus.com (lonswws02.ad.cirrus.com [198.90.188.42])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 2E436820248;
-	Fri, 21 Mar 2025 23:17:20 +0000 (UTC)
-From: Stefan Binding <sbinding@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PATCH v2] ALSA: hda/realtek: Add support for various HP Laptops using CS35L41 HDA
-Date: Fri, 21 Mar 2025 23:16:36 +0000
-Message-ID: <20250321231717.1232792-1-sbinding@opensource.cirrus.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF5614F104
+	for <linux-sound@vger.kernel.org>; Sat, 22 Mar 2025 06:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742623884; cv=none; b=H3g7RNwRI0LwroaTZjH+Fq3/6QEwWmsa6W439TwVeL42bWBXaiWSBuV7ICYLgpFiGGojpmcreVXwGXZIFuoeHqxLsKLA1DzI5PksItQRb898ct7qkN9G99VGYn60zn1zNN4iQNIK75wHsBXfrI+LsnR2XCaR78DqWQYWu5sblek=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742623884; c=relaxed/simple;
+	bh=4tVmLcFk7GShZumIG1KBnFMY+kw8ZmGR7qR6LOWqmCE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=qr8qlB2CCB7uhMzAoRI0CrrasyWvmJc4PZ5OZfucQp/1+PXwLuu91VG0tiHKNWHMuDPZCyF9IAiwVCB50O6EOB8p0FspWek7zoHSzEUHCOQdt5YZTjzS5gNmff6pqAAsvwbCthsBv3DCYbiLbKKMKek+fr4gsJrqqI4lJyWz8Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3d44b221f0dso50549955ab.1
+        for <linux-sound@vger.kernel.org>; Fri, 21 Mar 2025 23:11:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742623882; x=1743228682;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P2gqwx/ub3iU4KkfW3e3HxgscIsVZSTibXySbq/gqw8=;
+        b=KJw1tqZa/3uw/RAuGgyieJE+PKLlMdth7EW204/MifGugXcsNMxFTT5q8+HYu7rhlW
+         0E7oFOj7rhJpdYVcpMRxcWbfsFUd0G5dt+hANpVpJtM2ZMRHmbJxq76k19QS/y1aEtdi
+         cv2xHZy4gyHTyJlz8dny+DORCmw07gft5F37RDzyqaltcwO2I+78QmPEKqPnbFhiYXPw
+         fhPxSsK06qkZHOwX9P6wzwncmKj4wsSFVHrwGWH5D9B9XhClOuWIxwnUOrXySSAlnq09
+         PY9ZuJj6PA7ljtVBYQoFGJ+eilrOJ4KReiHR6i+IYqZWzbbb6uypByHH1WDJTGhpS0n7
+         9VCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW+XGw6mNmx7woxXj5L2B3TwgYSUsWfSjkRcRMBp/LqOTsBaC8Nlzrtrit+A80jBbs4qfZ5kVsobyfnTg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCPEyYFkTqETez0LmCz6qnY8/7/Mwpu0Of4i87N8O3CTA311L2
+	ij7Ga9PwtJ9UmoCtTJiS+JEjEmAbOmJGKu1kXAjd1wKK8qJKLJuT4A3Detb8BNwM9kZMoM5NGaM
+	kvkKrVCm00t+WL2i1+cD4/r0B+7tdjrjaBbBRZMT4W+RQ7N26moAcncI=
+X-Google-Smtp-Source: AGHT+IG2uEsO+FrcOoej73ayXuS3JG/2eneXpnGSJf8AtqnEmBIevP/qKBc87ar0P0Dtd4j18QiNMgTfWayhyGyjtMKzrcgJYZRO
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002323:EE_|SA1PR19MB5667:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 7dfd6be5-a2fc-4f5b-7d77-08dd68ce88ea
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|61400799027|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?tMO43mKGD7hC6jsZt2Nb7Dhes7D2YaFM6lnMKK5u1V77ZPsISBzw7+/ETU/0?=
- =?us-ascii?Q?WqbUbPOIHwJikZlILBEyHYQJinHGtBLM+W5LZcFyJ95H0hsqdVDQuJ1kuR6f?=
- =?us-ascii?Q?wtt3DLhjHhUzYuYOV2loUuDdgYpHDI2WevpKbidN2rZYT14wbcKe+KAw8+t0?=
- =?us-ascii?Q?YQhAx3iAnSw4sJY8dG1cZ70QjeWB4NlgVQIUIh4HHTiIXIpssAB8kBJTxIJt?=
- =?us-ascii?Q?6VFf384skd9GnliRvtDGt7PFuNcs3a/J6vMlHWM8wH9xZTCqtVO9ZRQMdVKN?=
- =?us-ascii?Q?JqIh0USI5P+01lYFUypq+CmERpPAE+i7+4DDKeShPTpj7WnlbrvL54QEqbu3?=
- =?us-ascii?Q?kIV21MTWFZQ7s3vzZS4HncU3WNgbi3giF/S15xVp4BroQrfGO6p9btq4aCy4?=
- =?us-ascii?Q?bOsNnQcx5jI0McRHWRyj0t97eoL0LJGURunWmGS8FROm8ucZPoaL9w4StTE+?=
- =?us-ascii?Q?QFLKfla+rezGNBDZGIK/Xmjqb3nMHN/6uQktAZi7Z7jCLSC87htsSA4PYA07?=
- =?us-ascii?Q?nj6rUzosfpXAXQNSVqT8Jj8GSXxQxdyNdQjVEpoMi/8q1/g/LJNVzPeZf2UA?=
- =?us-ascii?Q?yb9TspbseSqEF4TPSUNzaIFM5Cf7cPGjGXODguUv29AsYwoM+JhYoUkvzKq3?=
- =?us-ascii?Q?T+qSNUKY1BTZ+7GuNyxtznXcTbZCDmP5PwwSSwuK5ylconjkm1rF7nMjtHv0?=
- =?us-ascii?Q?YTqV2qz+bPbEwqHKGJvhpcVtpPwyNpS5+rCj1QFdkYTwtkW5TeyJnBrox2+u?=
- =?us-ascii?Q?TXA/ZFiC2XPX+RPVuQ+G+LAGdBD0Vk82FCZNRsJ+P/6ijhbFFlazGiWOMUIV?=
- =?us-ascii?Q?otE3uGl06tLCLvnQCsRhh6sZBB9oVVdrGbQKwneHWGZS1w3Q9jy6kgq+jnqQ?=
- =?us-ascii?Q?qV3FiUAjBzaT1pcnNCRFs1/YQUp0KIBghdIrFvsHge1Tlbza8IF3Bc9pMfd+?=
- =?us-ascii?Q?ve1pZY6rBXg/00l85VxJWhIMH0TOraocGyOtgMB+FN/Xq9yq+9Kko1zRZ3BD?=
- =?us-ascii?Q?TasQrRoNkMkxkVDSVNgPWmGjKx1gCM6Fos5qwLlAoomtLw+bCkg6DUp87GS2?=
- =?us-ascii?Q?4zQjh6SphlUD1i/I7IcO+SV6Dxemh6oYH6na6oeAuJsD1CotTU+irhEPeEAB?=
- =?us-ascii?Q?qz27Kkq8FA+zvEBBJi+d+J+n6S9tGtPGFdK+4n4AC2ArcceNu5w4I5RLqTIK?=
- =?us-ascii?Q?j8iah9Bt6SaDwv6ezswb8q1wDHKXfPDZEE07QxeG8RQ+0xNoPXMMESCoTsGV?=
- =?us-ascii?Q?4heh1xze0p0/cfuHnQxtm5B2SGlVhb0K5Y4Eijmz6Jr9fFp1BEwcZfqNEdUp?=
- =?us-ascii?Q?7VDuJyMgLEDYXPV477E8Z90gbhxyes64JdX4iRJq1UQhxO2fJJcywCfR6KKM?=
- =?us-ascii?Q?n+alLJO2KUHvFCAVSYifNlSfo4DYXoXXe7Oy3S6eQpktRrxN05XAznMA9tk3?=
- =?us-ascii?Q?uf5MMQyMu0pQqDBBHtSqoi7vbdb19AadlggdWfRAVTpk0WHTNQ8TUjQt6kOD?=
- =?us-ascii?Q?5Eg+dBvDgeMhQqI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(61400799027)(36860700013);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 23:17:22.2661
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7dfd6be5-a2fc-4f5b-7d77-08dd68ce88ea
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002323.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB5667
-X-Authority-Analysis: v=2.4 cv=Vcz3PEp9 c=1 sm=1 tr=0 ts=67ddf388 cx=c_pps a=HKd0dofMVZNDIjQNdCpHRg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=Vs1iUdzkB0EA:10 a=s63m1ICgrNkA:10
- a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=HWLqE-iJ1nUeUiCOBTwA:9 a=BGLuxUZjE2igh1l4FkT-:22
-X-Proofpoint-GUID: aA263bPJVBm-Jn0x29pKnwIaNsgF8Tk6
-X-Proofpoint-ORIG-GUID: aA263bPJVBm-Jn0x29pKnwIaNsgF8Tk6
-X-Proofpoint-Spam-Reason: safe
+X-Received: by 2002:a05:6e02:1fe7:b0:3d3:dfc6:bc26 with SMTP id
+ e9e14a558f8ab-3d596188bdfmr68877355ab.22.1742623881893; Fri, 21 Mar 2025
+ 23:11:21 -0700 (PDT)
+Date: Fri, 21 Mar 2025 23:11:21 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67de5489.050a0220.31a16b.002a.GAE@google.com>
+Subject: [syzbot] [sound?] possible deadlock in snd_timer_open
+From: syzbot <syzbot+04dc474cd658421fd07c@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-Add support for HP Cadet, Clipper OmniBook, Turbine OmniBook, Trekker,
-Enstrom Onmibook, Piston Omnibook
+Hello,
 
-Laptops use 2 CS35L41 Amps with HDA, using Internal boost, with I2C
+syzbot found the following issue on:
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+HEAD commit:    fc444ada1310 Merge tag 'soc-fixes-6.14-2' of git://git.ker..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13dee068580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7f1ab0f4f8e33050
+dashboard link: https://syzkaller.appspot.com/bug?extid=04dc474cd658421fd07c
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d8091bec0ef8/disk-fc444ada.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0addc811ee52/vmlinux-fc444ada.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f3df78bd6e03/bzImage-fc444ada.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+04dc474cd658421fd07c@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+6.14.0-rc7-syzkaller-00050-gfc444ada1310 #0 Not tainted
+------------------------------------------------------
+syz.3.1481/11930 is trying to acquire lock:
+ffffffff8fdaf688 (register_mutex){+.+.}-{4:4}, at: snd_timer_open+0x90/0x1020 sound/core/timer.c:307
+
+but task is already holding lock:
+ffff888030624ac0 (&loopback->cable_lock){+.+.}-{4:4}, at: loopback_open+0x110/0x13a0 sound/drivers/aloop.c:1240
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #2 (&loopback->cable_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:585 [inline]
+       __mutex_lock+0x19b/0xb10 kernel/locking/mutex.c:730
+       rule_format+0x111/0x3b0 sound/drivers/aloop.c:982
+       constrain_params_by_rules+0x547/0xca0 sound/core/pcm_native.c:436
+       snd_pcm_hw_refine sound/core/pcm_native.c:567 [inline]
+       snd_pcm_hw_refine+0x7e8/0xad0 sound/core/pcm_native.c:545
+       snd_pcm_hw_param_mask sound/core/oss/pcm_oss.c:190 [inline]
+       snd_pcm_oss_change_params_locked+0x645/0x3a60 sound/core/oss/pcm_oss.c:886
+       snd_pcm_oss_change_params sound/core/oss/pcm_oss.c:1105 [inline]
+       snd_pcm_oss_mmap+0x603/0x7c0 sound/core/oss/pcm_oss.c:2914
+       call_mmap include/linux/fs.h:2245 [inline]
+       mmap_file mm/internal.h:124 [inline]
+       __mmap_new_file_vma mm/vma.c:2296 [inline]
+       __mmap_new_vma mm/vma.c:2360 [inline]
+       __mmap_region+0x181f/0x2760 mm/vma.c:2461
+       mmap_region+0x1ab/0x3f0 mm/vma.c:2539
+       do_mmap+0xd8d/0x11b0 mm/mmap.c:561
+       vm_mmap_pgoff+0x279/0x440 mm/util.c:578
+       ksys_mmap_pgoff+0x32c/0x5c0 mm/mmap.c:607
+       __do_sys_mmap arch/x86/kernel/sys_x86_64.c:89 [inline]
+       __se_sys_mmap arch/x86/kernel/sys_x86_64.c:82 [inline]
+       __x64_sys_mmap+0x125/0x190 arch/x86/kernel/sys_x86_64.c:82
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&mm->mmap_lock){++++}-{4:4}:
+       __might_fault mm/memory.c:6839 [inline]
+       __might_fault+0x11b/0x190 mm/memory.c:6832
+       _inline_copy_to_user include/linux/uaccess.h:192 [inline]
+       _copy_to_user+0x2d/0xd0 lib/usercopy.c:26
+       copy_to_user include/linux/uaccess.h:225 [inline]
+       snd_timer_user_gstatus sound/core/timer.c:1699 [inline]
+       __snd_timer_user_ioctl.isra.0+0xd47/0x2640 sound/core/timer.c:2256
+       snd_timer_user_ioctl+0x72/0xb0 sound/core/timer.c:2291
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:906 [inline]
+       __se_sys_ioctl fs/ioctl.c:892 [inline]
+       __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (register_mutex){+.+.}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3163 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3282 [inline]
+       validate_chain kernel/locking/lockdep.c:3906 [inline]
+       __lock_acquire+0x249e/0x3c40 kernel/locking/lockdep.c:5228
+       lock_acquire.part.0+0x11b/0x380 kernel/locking/lockdep.c:5851
+       __mutex_lock_common kernel/locking/mutex.c:585 [inline]
+       __mutex_lock+0x19b/0xb10 kernel/locking/mutex.c:730
+       snd_timer_open+0x90/0x1020 sound/core/timer.c:307
+       loopback_snd_timer_open+0xaca/0x1020 sound/drivers/aloop.c:1202
+       loopback_open+0x2bf/0x13a0 sound/drivers/aloop.c:1268
+       snd_pcm_open_substream+0xa50/0x17c0 sound/core/pcm_native.c:2753
+       snd_pcm_open_file sound/core/pcm_native.c:2789 [inline]
+       snd_pcm_open+0x29b/0x700 sound/core/pcm_native.c:2854
+       snd_pcm_playback_open sound/core/pcm_native.c:2814 [inline]
+       snd_pcm_playback_open+0x86/0xe0 sound/core/pcm_native.c:2806
+       snd_open+0x1fe/0x450 sound/core/sound.c:166
+       chrdev_open+0x237/0x6a0 fs/char_dev.c:414
+       do_dentry_open+0x735/0x1c40 fs/open.c:956
+       vfs_open+0x82/0x3f0 fs/open.c:1086
+       do_open fs/namei.c:3830 [inline]
+       path_openat+0x1e88/0x2d80 fs/namei.c:3989
+       do_filp_open+0x20c/0x470 fs/namei.c:4016
+       do_sys_openat2+0x17a/0x1e0 fs/open.c:1428
+       do_sys_open fs/open.c:1443 [inline]
+       __do_sys_openat fs/open.c:1459 [inline]
+       __se_sys_openat fs/open.c:1454 [inline]
+       __x64_sys_openat+0x175/0x210 fs/open.c:1454
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  register_mutex --> &mm->mmap_lock --> &loopback->cable_lock
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&loopback->cable_lock);
+                               lock(&mm->mmap_lock);
+                               lock(&loopback->cable_lock);
+  lock(register_mutex);
+
+ *** DEADLOCK ***
+
+2 locks held by syz.3.1481/11930:
+ #0: ffff88814d02fae0 (&pcm->open_mutex){+.+.}-{4:4}, at: snd_pcm_open+0x261/0x700 sound/core/pcm_native.c:2852
+ #1: ffff888030624ac0 (&loopback->cable_lock){+.+.}-{4:4}, at: loopback_open+0x110/0x13a0 sound/drivers/aloop.c:1240
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 11930 Comm: syz.3.1481 Not tainted 6.14.0-rc7-syzkaller-00050-gfc444ada1310 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ print_circular_bug+0x490/0x760 kernel/locking/lockdep.c:2076
+ check_noncircular+0x31a/0x400 kernel/locking/lockdep.c:2208
+ check_prev_add kernel/locking/lockdep.c:3163 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3282 [inline]
+ validate_chain kernel/locking/lockdep.c:3906 [inline]
+ __lock_acquire+0x249e/0x3c40 kernel/locking/lockdep.c:5228
+ lock_acquire.part.0+0x11b/0x380 kernel/locking/lockdep.c:5851
+ __mutex_lock_common kernel/locking/mutex.c:585 [inline]
+ __mutex_lock+0x19b/0xb10 kernel/locking/mutex.c:730
+ snd_timer_open+0x90/0x1020 sound/core/timer.c:307
+ loopback_snd_timer_open+0xaca/0x1020 sound/drivers/aloop.c:1202
+ loopback_open+0x2bf/0x13a0 sound/drivers/aloop.c:1268
+ snd_pcm_open_substream+0xa50/0x17c0 sound/core/pcm_native.c:2753
+ snd_pcm_open_file sound/core/pcm_native.c:2789 [inline]
+ snd_pcm_open+0x29b/0x700 sound/core/pcm_native.c:2854
+ snd_pcm_playback_open sound/core/pcm_native.c:2814 [inline]
+ snd_pcm_playback_open+0x86/0xe0 sound/core/pcm_native.c:2806
+ snd_open+0x1fe/0x450 sound/core/sound.c:166
+ chrdev_open+0x237/0x6a0 fs/char_dev.c:414
+ do_dentry_open+0x735/0x1c40 fs/open.c:956
+ vfs_open+0x82/0x3f0 fs/open.c:1086
+ do_open fs/namei.c:3830 [inline]
+ path_openat+0x1e88/0x2d80 fs/namei.c:3989
+ do_filp_open+0x20c/0x470 fs/namei.c:4016
+ do_sys_openat2+0x17a/0x1e0 fs/open.c:1428
+ do_sys_open fs/open.c:1443 [inline]
+ __do_sys_openat fs/open.c:1459 [inline]
+ __se_sys_openat fs/open.c:1454 [inline]
+ __x64_sys_openat+0x175/0x210 fs/open.c:1454
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f55a1f8d169
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f55a2e8e038 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f55a21a5fa0 RCX: 00007f55a1f8d169
+RDX: 0000000000080000 RSI: 0000400000000c40 RDI: ffffffffffffff9c
+RBP: 00007f55a200e2a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 00007f55a21a5fa0 R15: 00007ffcdede93a8
+ </TASK>
+
+
 ---
- sound/pci/hda/patch_realtek.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 50e1c947a77c..1acf0783c0f8 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10700,6 +10700,15 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8d90, "HP EliteBook 16 G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8d91, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8d92, "HP ZBook Firefly 16 G12", ALC285_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8d9b, "HP 17 Turbine OmniBook 7 UMA", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8d9c, "HP 17 Turbine OmniBook 7 DIS", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8d9d, "HP 17 Turbine OmniBook X UMA", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8d9e, "HP 17 Turbine OmniBook X DIS", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8d9f, "HP 14 Cadet (x360)", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8da0, "HP 16 Clipper OmniBook 7(X360)", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8da1, "HP 16 Clipper OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8da7, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8da8, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8de8, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
- 	SND_PCI_QUIRK(0x103c, 0x8de9, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
- 	SND_PCI_QUIRK(0x103c, 0x8dec, "HP EliteBook 640 G12", ALC236_FIXUP_HP_GPIO_LED),
-@@ -10707,6 +10716,9 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8df0, "HP EliteBook 630 G12", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8dfc, "HP EliteBook 645 G12", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8dfe, "HP EliteBook 665 G12", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8e11, "HP Trekker", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8e12, "HP Trekker", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8e13, "HP Trekker", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8e14, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8e15, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8e16, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
-@@ -10717,6 +10729,11 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8e1b, "HP EliteBook G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8e1c, "HP EliteBook G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8e2c, "HP EliteBook 16 G12", ALC285_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8e36, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8e37, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8e60, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8e61, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8e62, "HP Trekker ", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300", ALC282_FIXUP_ASUS_TX300),
- 	SND_PCI_QUIRK(0x1043, 0x1054, "ASUS G614FH/FM/FP", ALC287_FIXUP_CS35L41_I2C_2),
--- 
-2.43.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
