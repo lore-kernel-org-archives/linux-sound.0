@@ -1,77 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90FEB1A08A3;
-	Mon, 24 Mar 2025 20:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232521DE8A5
+	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 21:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742848458; cv=none; b=PpWf/RD6kRt+J+67RT8gnvlx9T9rcIWLwDjm8Nq0gT0m868i+73X/hYIUs5jVRDKyvvgoOji1k11XsiYBezW6c1fgxAHCxX2OYBPv69NX54pdgzrzy/QIpfjHuDQq4aquIUQkCe4LyCGz8Kj+knEyHObpf1mI0OshKzewu4x8ts=
+	t=1742851420; cv=none; b=ItVy48MQ/WluhtsYruhqwI7jwiufW+DtDcMcaZpRgVZI9iVUnyYaJhslxovHi8G0f/euyDGZjhB/NOjDpxb0PCd1X+jFx++59NGDkEpE1v6qdDkjsJfwjrR/8AYgKZvzjRzxTGJFDQXS4kZPzWxQQiP0yaIPtgSYuOWak78AgcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742848458; c=relaxed/simple;
-	bh=WQsgdrLzGf/rKF9Rxu+Myb56pbGqDyG8vHyfgjdOXGI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vBPOxm36Nwf6DUFfPZSdATyqPyaAwK08Oh8ajC5aPuDSOSY6ExVI24SrcbpxC6UVyq9xyvRQoPuNB9xboe7C9b/qJQe6RVSlVprVA9OzDsFDvVQ9+GEydPCypohizr8UIGw6ZU++ru/exLaQGmqYI5byG0Kpri//h/NSCsz1ato=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DWY+snBo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742851420; c=relaxed/simple;
+	bh=9q0ODkVQidS84KHZzHyv5sB0zr3Ltf0bT65GkznigYs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YX4pDj7pdY67xeKjdiYF7XqNO+mtlrjNgQuopYX1H4kjwwRjjey+yrMM/cdprABCWfMCaDSErtuetLAvI3jGlXoHyOQJldIB2Qas++uos1Qj7q70SrwlIh7X8bIKW6MSqc37xxv8WDLpHExNNoEuFV4nE78vAB7z8kVChd8lqrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wtzVG2so; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DWY+snBo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D591BC4CEDD;
-	Mon, 24 Mar 2025 20:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742848458;
-	bh=WQsgdrLzGf/rKF9Rxu+Myb56pbGqDyG8vHyfgjdOXGI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DWY+snBo1wR3tfpaXeEhwe+NKbipOVKkpTmiUiZR2C/w3Fa8r5TSIJD+NV8xyjIFT
-	 N+fPC0DanXPQgM4ll3UklXBdUxOaaHdp6tvramUR3CIjFrksuRlriGIOHucexniQjc
-	 AoObG2d3679GL69DDFxFFWWe8xfxGWWtmVhlw6sX+atDBdyvtOSN23D9fwqreWywKi
-	 zJqx/D08WhocPB3Wv4W8eSY8oPQnHcaMClZO//4V9dq562tI2+OwvO7aBGAvtOsPeI
-	 AZH3qv9kWTsouu7N0tkAZC045cfM2e3RRVREStfWQST7uvV7eJ32wkaCZaDinWuuwW
-	 pGD19TWfAG4qA==
-Date: Mon, 24 Mar 2025 15:34:17 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: srinivas.kandagatla@linaro.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	krzk+dt@kernel.org, johan+linaro@kernel.org, broonie@kernel.org,
-	conor+dt@kernel.org, konradybcio@kernel.org,
-	paulha@opensource.cirrus.com, luca.ceresoli@bootlin.com,
-	linux-arm-msm@vger.kernel.org, perex@perex.cz,
-	dmitry.baryshkov@oss.qualcomm.com, zhoubinbin@loongson.cn,
-	ivprusov@salutedevices.com, peda@axentia.se, andersson@kernel.org,
-	tiwai@suse.com, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	lgirdwood@gmail.com
-Subject: Re: [PATCH v4 1/6] dt-bindings: mux: add optional regulator binding
- to gpio mux
-Message-ID: <174284845664.822870.8151972984188794106.robh@kernel.org>
-References: <20250324130057.4855-1-srinivas.kandagatla@linaro.org>
- <20250324130057.4855-2-srinivas.kandagatla@linaro.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wtzVG2so"
+Message-ID: <2b899796-b9fc-49ef-a4a7-858baa90a36b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1742851416;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W3m1925IKks24wn+QOG/lyq6S2HBNE+NB9T3y5BDpzw=;
+	b=wtzVG2so1rR+/e/i009TM0XljXC88N1i9zynl2njzrQK0THnfeaZJpo1/wihqhaFulTmwZ
+	64bwfZ7qeosmxlxwQpJi4I5kkc8rcP6bNoc70YqvnjiYCRSiC5n2x83F69ogA4KjAkjLO5
+	Hgrz/QhTBNtarfNGjXmxQSqyRHAVE5U=
+Date: Mon, 24 Mar 2025 16:15:24 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250324130057.4855-2-srinivas.kandagatla@linaro.org>
+Subject: Re: [PATCH 1/3] ASoC: SDCA: Create DAPM widgets and routes from DisCo
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20250321163928.793301-1-ckeepax@opensource.cirrus.com>
+ <20250321163928.793301-2-ckeepax@opensource.cirrus.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20250321163928.793301-2-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
+Thanks for starting this Charles.
 
-On Mon, 24 Mar 2025 13:00:52 +0000, srinivas.kandagatla@linaro.org wrote:
-> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> 
-> On some platforms to minimise pop and click during switching between
-> CTIA and OMTP headset an additional HiFi Mux Switch is used. Most common
-> case is that this switch is switched on by default, but on some
-> platforms this needs a regulator enable. One such platform is Lenovo
-> T14s.
-> 
-> This patch adds required bindings in gpio-mux to add such optional regulator.
-> 
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  Documentation/devicetree/bindings/mux/gpio-mux.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+> Use the previously parsed DisCo information from ACPI to create DAPM
+> widgets and routes representing a SDCA Function. For the most part SDCA
+> maps well to the DAPM abstractions.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+except when it doesn't, eh?
+
+> The primary point of interest is the SDCA Power Domain Entities
+> (PDEs), which actually control the power status of the device. Whilst
+> these PDEs are the primary widgets the other parts of the SDCA graph
+> are added to maintain a consistency with the hardware abstract, and
+> allow routing to take effect.
+> 
+> Other minor points of slightly complexity include, the Group Entities
+> (GEs) these set the value of several other controls, typically
+> Selector Units (SUs) for enabling a cetain jack configuration. These
+> are easily modelled creating a single control and sharing it among
+> the controlled muxes.
+
+It wasn't able to follow the last sentence, what are 'these'?
+
+I am not sure we can expose and control any SUs since their configuration is set in hardware depending on the GE settings. IIRC the SU values should be considered as read-only.
+ 
+> SDCA also has a slight habit of having fully connected paths, relying
+> more on activating the PDEs to enable functionality. This doesn't map
+> quite so perfectly to DAPM which considers the path a reason to power
+> the PDE. Whilst in the current specification Mixer Units are defined as
+> fixed-function, in DAPM we create a virtual control for each input. This
+> allows paths to be connected/disconnected, providing a more ASoC style
+> approach to managing the power.
+
+Humm, maybe my analysis was too naive but the SDCA PDE seemed like a DAPM power supply to me.
+When a path becomes active, DAPM turns on the power for you, and power is turned off some time after the path becomes inactive.
+
+Why would we need to have a control to force the power to be turned on? 
+And there are quite a few topologies without any Mixer Units so can we depend on a solution that's not applicable across all topologies?
+And last PDEs are typically related to terminals, while Mixer Units are usually for host-generated streams.
+
+It would also help to define which power levels you wanted to control for PDEs. For me, only PS0 and PS3 can currently be modeled, I have no idea how PS1 with its degraded quality would be used, and PS2 depends on firmware.
+
 
