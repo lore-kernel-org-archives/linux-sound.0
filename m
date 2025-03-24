@@ -1,259 +1,158 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615E71CD1E4
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 15:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B57B26AFC
+	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 15:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742829501; cv=none; b=Nn/3s/hdtNMzN3iSCrvkxSJwqN7ySDV2budLIgbFkEqpcxj2NZFhaOoXN+8qByRiIciKm82d6+GyLv+RIcT2CKO33CXH3JLw9+1kEawHpKs3BeTbr9iF3Oze2Vt2Fj9wxto5q61TJmJnMHK/XnZHvXwcKGiPOl7mPwaaQxyks2k=
+	t=1742829941; cv=none; b=WpXj/cphe/G5D2HySSt8FdPNZRCRFS+3kXIzXwjqxCa9X6003lkbx1B1ziROSGGbVrXDrzyu1IFMubvup0tFGBHv4uARB9v5mqJMz+4Chgd6uZqD3+Jo2D60kTremoEQ27ddujvyKXQGgv5Non/IsFsEGa4tr0rhe6BSrzFnUKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742829501; c=relaxed/simple;
-	bh=XHQMUjEjbZLDgavTvCJiZqSwRVqVRVlMSHmpp7AADuQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qUh1hFy5xdsvTjbteR8i+Imy699kgBNAQ2sa+vzSmDt4j9jgi1sNfIr7gd/glLiwUobqV99NHtrtWkRqJKOHUrSYLckZ/wtHPpbl3LZOJruZS5AIwyOoA92vlaZVvaAUykkPm1VOREyAXyhJr2KUyezbkZjOcn9qJsE7/RkRdmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Doa9pHwZ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1742829941; c=relaxed/simple;
+	bh=VydK2Q1uS8KH/m/cMHz4kBGLdqllZnmC/XYOZbHre5I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p31r+vGMwIeoNM7jOp6HoMZtsMeosxOEs8IMnnW57pwwj137XXVT9+ZUQdRNoAmMlTEb8k1ABMZ7Gtz+OKTQ5oXKycNXFLH6mqBy51FRv7X61X/dK+M1HcKXccyoSPsVo0k+dJrXn1wc8/ifOLGQq83An1KPMfvG/nZj7Ke+1Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AiVRX3TC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wTsJqEgA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AiVRX3TC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wTsJqEgA; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Doa9pHwZ"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52O9PNep030650
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 15:18:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=RBj5wpEg+SrAwIscXXtQbPvh
-	Mb2gJI4cBrfY/nN2XHA=; b=Doa9pHwZCAMi1z2j69wrbna8FnDI9v5C8z4d9+p9
-	cm/JQ4HPT8OT6XSMPvtuKCXFWTdoOtg2pOVbdGa8QxBTX59O6bJswOrmvt3SReV7
-	pFWPjjxDeeecKGJDqR0F376hVI8gEDin5CiJ6x0hoT0p/6Y474NTQlz/BfbsalI/
-	n1Q/XoX1uJHDW2LwBAYefLBeyGq3FBx1Q/gXKAnWEOpvMlDycYZRKT2rv0W46X9Q
-	cxkamiZeX+IqBcnJ/RlJgSYwdKny3mAa79lIBOIankNCc703wqNCF+Kskd9lj+zI
-	N6c/dgd1Gp/Le5gnyAFN22G2iMtwUdWvaFWt17EtoLg2RQ==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45hpgbcqb6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 15:18:18 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5ac559cbaso834252985a.1
-        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 08:18:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742829496; x=1743434296;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RBj5wpEg+SrAwIscXXtQbPvhMb2gJI4cBrfY/nN2XHA=;
-        b=b39fxpxqpQhlbDUefTnxAtSMRSmdES59f2ZeRNoEmWsTG1s1rf/QsXpLOdzw/3jbj3
-         LRWctvxZfRS5hKKr0Vm2Es34bvvbthVNGIDah8xxYwxMeWtgFH4mmOLGX24jLOi1iCRm
-         EuOu1P1cIXuyFFKRWqf07ZbUczb8IONpfm4GyEAU3L6r0h3PTAWik+0UpvaMZ454rsZ/
-         mF0sYmxz6Jo7g1IeIKLAl3Vb/7yzOEH9hDl9RRMN/tHr9737P5JHyEQdRbxyKhFmYWty
-         HEwkaieEzAhf1ijyUGL7qGlp/V2pDcks2kDRUWKwAL99JlHGASvVAp1LgJuEb3SHnG4B
-         R5ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUXT16ZF+GJm0hFYybrC8XMlPu+w7mhqLdTdALcpMMmP3CS+XMauiOyHwh1jj7BDmUKayE3QDWH9UeyuA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKNqmmYyFH8OqJvxqCZDMCRl2dnabd+HBYqaVM2y04+SMa+8vb
-	CyUQVOnGey9BZFAPgAbRpd5TGpDZdy4I0+qlvY1DAlAnQBh30OBpTSwMnv3KZ1iaxcnF11l+LpJ
-	PfBqNL0Lx6aT5ldaskC8yvulT8eL1sKN7elHiekK3et2hGG2vzP7GMBDsqoVceQra5UiXYQ==
-X-Gm-Gg: ASbGncuB5YUmuT8CEJHvYZzt/G2ftCfIv75i4N5c/kRFbGxOtXHTX1Ry0HYZLkvs4FN
-	rnWdRbzU69TWpNdzQvs+6xphzHL+aR05VkKMPgGPUUgb0RNLJgwr7aPpNY4urVcw1SbHRmaBpww
-	qPRAhzeikUjiVljzlStwjP1K0S6DK7w2Syezr1KP16cF7GR0gkSPYJMEygzF6BrctnkZobIBzIM
-	XZacp7UAqrY5lsD8JrkznEs6U/dYwYDQKXVc9kyQeRA8NJvOZ2B8jVP0pjpidAv0/H/uHIjFy+C
-	qtS9lThiPTCtnBzDrwSclMmqT+/Xg57Anlc/qCo7VSyr+Xov2S9tTT+XmAVcv27FmGe+Uh8nCVD
-	E29Q=
-X-Received: by 2002:a05:620a:258e:b0:7c5:a2be:6e4c with SMTP id af79cd13be357-7c5ba247882mr2372633785a.55.1742829496037;
-        Mon, 24 Mar 2025 08:18:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFARjdRe711E7Dx0Shw9oLzlq33M5bIuw7jDsDdDa4jCC7zZ67lPaBlBULAAs8KAUp7bJnqSg==
-X-Received: by 2002:a05:620a:258e:b0:7c5:a2be:6e4c with SMTP id af79cd13be357-7c5ba247882mr2372627385a.55.1742829495443;
-        Mon, 24 Mar 2025 08:18:15 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30d7d7df853sm14218491fa.29.2025.03.24.08.18.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 08:18:14 -0700 (PDT)
-Date: Mon, 24 Mar 2025 17:18:12 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
-        krzk+dt@kernel.org, ivprusov@salutedevices.com,
-        luca.ceresoli@bootlin.com, zhoubinbin@loongson.cn,
-        paulha@opensource.cirrus.com, lgirdwood@gmail.com, robh@kernel.org,
-        conor+dt@kernel.org, konradybcio@kernel.org, perex@perex.cz,
-        tiwai@suse.com, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, johan+linaro@kernel.org,
-        Christopher Obbard <christopher.obbard@linaro.org>
-Subject: Re: [PATCH v4 5/6] ASoC: codecs: wcd938x: add mux control support
- for hp audio mux
-Message-ID: <ctcqkdbv6zh2rabkkr7tlhxlcfsn5nazjfbsnbbu4l4blyakft@pejdsvnazfh6>
-References: <20250324130057.4855-1-srinivas.kandagatla@linaro.org>
- <20250324130057.4855-6-srinivas.kandagatla@linaro.org>
- <CAO9ioeX9RTBAeL3+9STn+=oEYR0wtaF6yoa=esNddEvqLQyO9Q@mail.gmail.com>
- <e4e94fbf-172f-4cfd-becc-cb2836ac1fb1@linaro.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AiVRX3TC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wTsJqEgA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AiVRX3TC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wTsJqEgA"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 39DA421185;
+	Mon, 24 Mar 2025 15:25:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742829937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bu9deQwvevgL+HsZceruitkiTL/P+73NTxijj9E7evY=;
+	b=AiVRX3TCybP9zAcqq0UmOHb7Gr2LuFtj7EoGqEOzZhTx9L1hSDBeoUcugdQOQTMTcLo7wJ
+	IeUJcXviNbwn3NVq8mXjEn+geXlLfHe48vV/bo5RHzylYD1LJoHPURmCkARc/Na3xE/xUJ
+	czV7jbfQ3087cGYQkTt7Xaz1eS4O/V8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742829937;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bu9deQwvevgL+HsZceruitkiTL/P+73NTxijj9E7evY=;
+	b=wTsJqEgAhl3IDlHuU8YoOv3g5vy4C8x2Hh08rtsL4hgUi+Wl8/E0Zih27OGgAxSJitwFxs
+	u2v1MvS+ACsfFZAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742829937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bu9deQwvevgL+HsZceruitkiTL/P+73NTxijj9E7evY=;
+	b=AiVRX3TCybP9zAcqq0UmOHb7Gr2LuFtj7EoGqEOzZhTx9L1hSDBeoUcugdQOQTMTcLo7wJ
+	IeUJcXviNbwn3NVq8mXjEn+geXlLfHe48vV/bo5RHzylYD1LJoHPURmCkARc/Na3xE/xUJ
+	czV7jbfQ3087cGYQkTt7Xaz1eS4O/V8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742829937;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bu9deQwvevgL+HsZceruitkiTL/P+73NTxijj9E7evY=;
+	b=wTsJqEgAhl3IDlHuU8YoOv3g5vy4C8x2Hh08rtsL4hgUi+Wl8/E0Zih27OGgAxSJitwFxs
+	u2v1MvS+ACsfFZAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1434B137AC;
+	Mon, 24 Mar 2025 15:25:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id isBrA3F54WeyXgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 24 Mar 2025 15:25:37 +0000
+Date: Mon, 24 Mar 2025 16:25:36 +0100
+Message-ID: <87sen2qwlr.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC updates for v6.15
+In-Reply-To: <61f20e6e72e40f20422dca4b83d57787.broonie@kernel.org>
+References: <61f20e6e72e40f20422dca4b83d57787.broonie@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e4e94fbf-172f-4cfd-becc-cb2836ac1fb1@linaro.org>
-X-Authority-Analysis: v=2.4 cv=BoydwZX5 c=1 sm=1 tr=0 ts=67e177ba cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=lNgCk4es9Rhgkq0fFtoA:9 a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: ScbljQJOc6g8zz6BQVOxsVmrKIsFw-YE
-X-Proofpoint-ORIG-GUID: ScbljQJOc6g8zz6BQVOxsVmrKIsFw-YE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-24_04,2025-03-21_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
- spamscore=0 adultscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- impostorscore=0 priorityscore=1501 mlxlogscore=999 lowpriorityscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503240110
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Mon, Mar 24, 2025 at 01:58:06PM +0000, Srinivas Kandagatla wrote:
+On Mon, 24 Mar 2025 15:32:52 +0100,
+Mark Brown wrote:
 > 
+> The following changes since commit 4701f33a10702d5fc577c32434eb62adde0a1ae1:
 > 
-> On 24/03/2025 13:50, Dmitry Baryshkov wrote:
-> > On Mon, 24 Mar 2025 at 15:01, <srinivas.kandagatla@linaro.org> wrote:
-> > > 
-> > > From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> > > 
-> > > On some platforms to minimise pop and click during switching between
-> > > CTIA and OMTP headset an additional HiFi mux is used. Most common
-> > > case is that this switch is switched on by default, but on some
-> > > platforms this needs a regulator enable.
-> > > 
-> > > move to using mux control to enable both regulator and handle gpios,
-> > > deprecate the usage of gpio.
-> > > 
-> > > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> > > Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
-> > > ---
-> > >   sound/soc/codecs/Kconfig   |  1 +
-> > >   sound/soc/codecs/wcd938x.c | 50 +++++++++++++++++++++++++++++---------
-> > >   2 files changed, 40 insertions(+), 11 deletions(-)
-> > > 
-> > > diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-> > > index ee35f3aa5521..a2829d76e108 100644
-> > > --- a/sound/soc/codecs/Kconfig
-> > > +++ b/sound/soc/codecs/Kconfig
-> > > @@ -2226,6 +2226,7 @@ config SND_SOC_WCD938X
-> > >          tristate
-> > >          depends on SOUNDWIRE || !SOUNDWIRE
-> > >          select SND_SOC_WCD_CLASSH
-> > > +       select MULTIPLEXER
-> > > 
-> > >   config SND_SOC_WCD938X_SDW
-> > >          tristate "WCD9380/WCD9385 Codec - SDW"
-> > > diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-> > > index dfaa3de31164..88c758efe40d 100644
-> > > --- a/sound/soc/codecs/wcd938x.c
-> > > +++ b/sound/soc/codecs/wcd938x.c
-> > > @@ -19,6 +19,7 @@
-> > >   #include <linux/regmap.h>
-> > >   #include <sound/soc.h>
-> > >   #include <sound/soc-dapm.h>
-> > > +#include <linux/mux/consumer.h>
-> > >   #include <linux/regulator/consumer.h>
-> > > 
-> > >   #include "wcd-clsh-v2.h"
-> > > @@ -178,6 +179,8 @@ struct wcd938x_priv {
-> > >          int variant;
-> > >          int reset_gpio;
-> > >          struct gpio_desc *us_euro_gpio;
-> > > +       struct mux_control *us_euro_mux;
-> > > +       u32 mux_state;
-> > >          u32 micb1_mv;
-> > >          u32 micb2_mv;
-> > >          u32 micb3_mv;
-> > > @@ -3235,17 +3238,31 @@ static void wcd938x_dt_parse_micbias_info(struct device *dev, struct wcd938x_pri
-> > >                  dev_info(dev, "%s: Micbias4 DT property not found\n", __func__);
-> > >   }
-> > > 
-> > > -static bool wcd938x_swap_gnd_mic(struct snd_soc_component *component)
-> > > +static int wcd938x_select_mux_state(struct device *dev, struct wcd938x_priv *wcd938x, int state)
-> > >   {
-> > > -       int value;
-> > > +       int ret = mux_control_try_select(wcd938x->us_euro_mux, state);
-> > 
-> > Hmm. Does this really work? You have selected the mux in probe
-> > function, now you are trying to select it again. If I'm reading the
-> > code correctly, you will get -EBUSY here.
+>   Linux 6.14-rc7 (2025-03-16 12:55:17 -1000)
 > 
-> On successful selection of mux state, the mux will be kept available
-> (mux_control_deselect) for any new callers.
+> are available in the Git repository at:
 > 
-> So we will not get EBUSY for the second caller.
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-v6.15
+> 
+> for you to fetch changes up to 9ef52d529bb75071e03cf85078f724d69c4abe89:
+> 
+>   ASoC: SDCA: Correct handling of selected mode DisCo property (2025-03-21 15:45:25 +0000)
+> 
+> ----------------------------------------------------------------
+> ASoC: Updates for v6.15
+> 
+> This is a very big release due to a combination of some big new work,
+> mainly new drivers and generic SoundWire support, and some wide ranging
+> cleanup work that made small changes to a lot of drivers.
+> 
+>  - Morimoto-san has completed the conversion to use modern terminology
+>    for the clocking configuration, and several other cleanups with
+>    narrower impact.
+>  - All the power management operation configuration was updated to use
+>    current idioms by Takashi Iwai.
+>  - Clarification of the control operations from Charles Keepax.
+>  - Prepartory work for more generic SoundWire SCDA controls from Charles
+>    Keepax.
+>  - Support for AMD ACP 7.x, AWINC WM88166, Everest ES8388, Intel AVS
+>    PEAKVOL and GAIN DSP modules Mediatek MT8188 DMIC, NXP i.MX95, nVidia
+>    Tegra interconnects, Rockchip RK3588 S/PDIF, Texas Instruments
+>    SN012776 and TAS5770L, and Wolfson WM8904 DMICs,
+> 
+> Some changes from the tip tree adding APIs needed by the AMD code are
+> included, these were unfortunately rebased in the tip tree after being
+> pulled in.  There's also some regmap changes supporting the SCDA work
+> and some devres refactoring that was pulled in to support other changes.
 
-No. wcd938x_populate_dt_data() selects the state by calling
-wcd938x_select_mux_state(). Then you call mux_control_try_select() here.
-As far as I understand, it will return -EBUSY as the sempahore is
-already taken. Moreover, this is not how the MUX API is supposed to be
-used. The driver is supposed to hold a state while it is still in use.
+Pulled now.  Thanks.
 
-> 
-> --srini
-> > 
-> > > 
-> > > -       struct wcd938x_priv *wcd938x;
-> > > +       if (ret) {
-> > > +               dev_err(dev, "Error (%d) Unable to select us/euro mux state\n", ret);
-> > > +               return ret;
-> > > +       }
-> > > 
-> > > -       wcd938x = snd_soc_component_get_drvdata(component);
-> > > +       wcd938x->mux_state = state;
-> > > +       mux_control_deselect(wcd938x->us_euro_mux);
-> > > +
-> > > +       return 0;
-> > > +}
-> > > 
-> > > -       value = gpiod_get_value(wcd938x->us_euro_gpio);
-> > > +static bool wcd938x_swap_gnd_mic(struct snd_soc_component *component)
-> > > +{
-> > > +       struct wcd938x_priv *wcd938x = snd_soc_component_get_drvdata(component);
-> > > 
-> > > -       gpiod_set_value(wcd938x->us_euro_gpio, !value);
-> > > +       if (wcd938x->us_euro_mux) {
-> > > +               if (wcd938x_select_mux_state(component->dev, wcd938x, !wcd938x->mux_state))
-> > > +                       return false;
-> > > +       } else {
-> > > +               gpiod_set_value(wcd938x->us_euro_gpio, !wcd938x->mux_state);
-> > > +       }
-> > > 
-> > >          return true;
-> > >   }
-> > > @@ -3261,11 +3278,22 @@ static int wcd938x_populate_dt_data(struct wcd938x_priv *wcd938x, struct device
-> > >                  return dev_err_probe(dev, wcd938x->reset_gpio,
-> > >                                       "Failed to get reset gpio\n");
-> > > 
-> > > -       wcd938x->us_euro_gpio = devm_gpiod_get_optional(dev, "us-euro",
-> > > -                                               GPIOD_OUT_LOW);
-> > > -       if (IS_ERR(wcd938x->us_euro_gpio))
-> > > -               return dev_err_probe(dev, PTR_ERR(wcd938x->us_euro_gpio),
-> > > -                                    "us-euro swap Control GPIO not found\n");
-> > > +       wcd938x->us_euro_mux = devm_mux_control_get(dev, NULL);
-> > > +       if (IS_ERR(wcd938x->us_euro_mux)) {
-> > > +               if (PTR_ERR(wcd938x->us_euro_mux) == -EPROBE_DEFER)
-> > > +                       return -EPROBE_DEFER;
-> > > +
-> > > +               /* mux is optional and now fallback to using gpio */
-> > > +               wcd938x->us_euro_mux = NULL;
-> > > +               wcd938x->us_euro_gpio = devm_gpiod_get_optional(dev, "us-euro", GPIOD_OUT_LOW);
-> > > +               if (IS_ERR(wcd938x->us_euro_gpio))
-> > > +                       return dev_err_probe(dev, PTR_ERR(wcd938x->us_euro_gpio),
-> > > +                                            "us-euro swap Control GPIO not found\n");
-> > > +       } else {
-> > > +               ret = wcd938x_select_mux_state(dev, wcd938x, wcd938x->mux_state);
-> > > +               if (ret)
-> > > +                       return ret;
-> > > +       }
-> > > 
-> > >          cfg->swap_gnd_mic = wcd938x_swap_gnd_mic;
-> > > 
-> > > --
-> > > 2.39.5
-> > > 
-> > 
-> > 
 
--- 
-With best wishes
-Dmitry
+Takashi
