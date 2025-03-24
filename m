@@ -1,289 +1,219 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2127.outbound.protection.outlook.com [40.107.241.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63E52638B1
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 16:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742833128; cv=none; b=FyBQlQOfX3eRcsrQtz8dl8zpTqkPI8qLelwGQzIlKOY+B35pZDY3WtWzb7Qm64KxujpCc7JVQeJszx/xFqW4xmripFOifIsa0AOuZUljEY3ehaYDnFKjRPGv75F5tgv4lt8TnODmkHRUeLeCzZGJHT3qRMnKS60FRfMXNZe6hzY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742833128; c=relaxed/simple;
-	bh=FhoXOYAA1iz/4SuQApCmCCm7e20hHuDPIHWlBiVTuas=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GanH4vbrX4ErglHh0L0yvK42gIfIG7efvJUxExT1sPDxBkBeicP0m1nzYGD/CWyFbiAzUMEYQIUFCRiIt03BIQjIhIDWb7aa72nVAYLxxG6DCciaefPcLu6II/5DZd3TS31nkeTG+3V0akRjHA9WwVgWaZTeE/jJZiXG9HcGyUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FVuZKjCz; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F0E261577;
+	Mon, 24 Mar 2025 16:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.241.127
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742834049; cv=fail; b=T9D94wtbM0RXv3vB8sz9LUibx7AEQrPJopKNBBXOkc/ynX/tsZT1taEg9XmfiVQYqWKtlgGYG0nvhZX8Hho8XMpiWSO9b1dATgfYCXcXQOCIlNGmO3D5sxxRJwOhe4hv9pGl0yXzvwfCqSliwa/zpBrCu5z02WssM2b3VNyuUD0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742834049; c=relaxed/simple;
+	bh=wyGs2Aq6jUxLzbYwdxV7gTbauqzyeOPHdMGKtPkVC58=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=VP0Sms49Rg9j+bVLS9kHHHr1NDBz72duHfJNUhvlorGJx979yD3tv4lT7LcgrORU6ZYVd+QSfM3mKnICoI0v+8HOqH4TynXr9yCLR3HxW0TkWOLIS0g73YCReTsVKXdlSW6MnS5dgmJ/bdB5dZnOLlGjS3N1Mah8C0MS4xIH/jw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axentia.se; spf=pass smtp.mailfrom=axentia.se; dkim=pass (1024-bit key) header.d=axentia.se header.i=@axentia.se header.b=gM9s+B2c; arc=fail smtp.client-ip=40.107.241.127
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axentia.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axentia.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FVuZKjCz"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52O9PMQw004163
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 16:18:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=wlqnd0XrME7ieQy3eY1m4t2l
-	0GttO4vmYnyHol1MECg=; b=FVuZKjCzLD2+hAjZyrfggO4TbayQ+2FalZEUdx0h
-	TxNhn0mqqPMwv/+WI8f8OCCOsBq8CN9W7jCTp3MRhXxgrRQO91GtuigWM252ybrT
-	3WHONsjZ42N0ybxJlgejnEN/UTxO1pF5Bou3xarTS6X9cOwcExyL7xKia8pu1OuB
-	3aKGRRKEN3dhhF2IQDVsEu9qfuHayx1prrbJoqzv29xuWD7Ezhn821WNhFYGetRa
-	jG9aN5EA9nY4iONowS7XBt5xU+uIpQWB56APPDvSAvCvHtelWKHbwd0JwEjuO8Tt
-	ROChe4i4q14uhkbrRtHT8rX4rU8bGwASadF6FNN36gJwTw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45hnk8mxnr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 16:18:45 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5cd0f8961so256014685a.1
-        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 09:18:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742833125; x=1743437925;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wlqnd0XrME7ieQy3eY1m4t2l0GttO4vmYnyHol1MECg=;
-        b=sCii5IlbNc/NFSJ4Ao+duhxyDdEhf5+Ae00ibM8tYF6cNqyuoxXnhCGeZ0Njkak3WH
-         Rbx9cYl5bGReWnj0pSQEAlJRu4HyblAg9511wc0mr4eZSQINC7phK/zFfyEHzQNzgH70
-         PnFjRQm/h4LJGdOm4GO4eySO936FFgWxGcIG1eFXiHySj3jWz5GRwA/Np7qR3Q9yt3a9
-         pxVlhLYLu322ZsQYKvyt5cFWXtv/aCaoFtM4OQEQcfyPsDb9hKthquOC87TtjkvMWsLI
-         z+qf7WAX47U+lVJSRmwGgXG5C3T8zCmN5JcgJDZRFRebKWKGJ9YEozYUfE66ussyIMpA
-         Snlw==
-X-Forwarded-Encrypted: i=1; AJvYcCVZW/OVKZ1XqdoKM7VRI8JdOdQW/aFk5PVdfqNW2rKSL65F37T+cqd4V8i/gBzW5oSCxHJZbexGA2UT5w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YybdYeIxkg9Y5f7FcxeziZV/oBoyLdtp7bklc7FN90mF371qEaM
-	/N2o/EOI/5irt795yPR1wnt9c19r5XZ2JJNgi0zBNHioFEJws5DyGmcE6u8d/v7gLl+GLO+RCs1
-	b6v10L2QMuvXVEEAngv45PjORn8hfRK2gb4r4qEwcSRe4PWpm6F1SQsyx2gkpCw==
-X-Gm-Gg: ASbGncsD/yTxPpZBJ0iBJ3oJ/S1I9j4y6qbkdZEqLrkTTNb0CMiruG/hEUJUHjM1SpU
-	E8RGo69ZCwnKS/c47GVGFhue6sLpFRWCZFNwoE/VjvuWpcAU78Mm3tQKMNhbEWb1Yes0ohbXLQy
-	9+1B9WqmKVXY1A4B1+2Ar3hSQGozkAu4vDtRAVpPNEEqx90KIivM4Gl6tG1MrBvzbDGZKz0JTwl
-	HZhNXo02snMJwDFwW5smw0KGfdb3jlbKxe3bUoEm+984gHdO37DMU+a56k+vz/Qqkh+PFcYhoJX
-	VjUgiNDfCsKLKqPsBhsT2d4jSbEraOmjlOIvF28s/VYtpd0jVqehvB1KLDMy5LfEPgqjOkdfpMQ
-	KlYo=
-X-Received: by 2002:a05:620a:46a5:b0:7c5:4738:8a0f with SMTP id af79cd13be357-7c5ba1476f2mr1698183085a.15.1742833124470;
-        Mon, 24 Mar 2025 09:18:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF0TAppUS3Au1eXF33air+jgVxzflNCCe1SVJzl/UnSMYgb3QVULayRcEbJnNV1cMl1e1FQQg==
-X-Received: by 2002:a05:620a:46a5:b0:7c5:4738:8a0f with SMTP id af79cd13be357-7c5ba1476f2mr1698179385a.15.1742833123865;
-        Mon, 24 Mar 2025 09:18:43 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad647b635sm1188629e87.63.2025.03.24.09.18.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 09:18:42 -0700 (PDT)
-Date: Mon, 24 Mar 2025 18:18:39 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
-        krzk+dt@kernel.org, ivprusov@salutedevices.com,
-        luca.ceresoli@bootlin.com, zhoubinbin@loongson.cn,
-        paulha@opensource.cirrus.com, lgirdwood@gmail.com, robh@kernel.org,
-        conor+dt@kernel.org, konradybcio@kernel.org, perex@perex.cz,
-        tiwai@suse.com, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, johan+linaro@kernel.org,
-        Christopher Obbard <christopher.obbard@linaro.org>
-Subject: Re: [PATCH v4 5/6] ASoC: codecs: wcd938x: add mux control support
- for hp audio mux
-Message-ID: <fdshfu4g5bzrpva4skvydh5lizhtkqoskivoda7q2ai5byqd4j@rjza74mudtz5>
+	dkim=pass (1024-bit key) header.d=axentia.se header.i=@axentia.se header.b="gM9s+B2c"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SkIE3Rx037hPfUB6l08FIKZu4t0NGCjbnUCdP2QfxPmqnq6Z5nTBYP7qnoERMkhDVbt1E++5hvb3kewIio8/7b2oQwlh3wZlkXDYvE0F51TwE7wULbUUhLT2nC4UCJ1rXZfXIdvjGFx83UaDembUPnJVWu0jRdR7xFfT9+Lan9Ta+jAQ0DLTrOEN4L1/9JQQKq8IedytvItCc3HE440T2J8fcffBIwUtrM5mEcltsAiBhGSMFeWiaeewSvNGvEwzFaxxvsMbtEkBUrPgDfFp9u/LgFexP+2hQ5GJgx6jsz9DRSvOm+72JSOG6/q7DvLTqX4sbvOyF0M5qQoDmj8Beg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ysZq/INtBcerPCWd1DG1tWjGZmmvUhNOkdIHMbY8YE4=;
+ b=NF/21DqV8gpuTekkfZwva97BMFpEc56BXaoiet76xe+W7B16q3OuGQpYDcEBWYLCz4P2w62erFQQZ/jS+XuJ5XuMjWmz5MBqa+Pu6VMhmuicgZVONnpPWn2Sk5ZB4xBq9BUfIlq47axHmowh2nsijho/b+FW7g8PYU3197iOMWIM+cGPFBxFLx+tz8ShOQQX0kytjTxgiHDeKxmYxFgWUXcYvJOCBysRgtnSCJ+NyZ2amHQ//r1hYxmnpZrvr+TvFeCGBn3+uipYl8Ic2bI9bu9Zxfd86LkKyVg/ZJ2+G+l0khH8M9hlMjx46AHAQiJZnWGJJPdef1b4EdxELmHduA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
+ dkim=pass header.d=axentia.se; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ysZq/INtBcerPCWd1DG1tWjGZmmvUhNOkdIHMbY8YE4=;
+ b=gM9s+B2cLlxCWpQ39F79A0e3Xf7SmVG2j+dRqRbQttJFqW8zpVZnTQNsd+nL2ivZyq1gyausnORgHpNKHMre1KF1HLWUVyghcOuueISBh8mvjvo4Fh2uPgfAmVCn6VBCF9AYMce8afv74RQB7U2mTh8z/U4bdapqxrd7AxLFwM4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axentia.se;
+Received: from DU0PR02MB8500.eurprd02.prod.outlook.com (2603:10a6:10:3e3::8)
+ by AS2PR02MB10429.eurprd02.prod.outlook.com (2603:10a6:20b:5f4::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Mon, 24 Mar
+ 2025 16:34:02 +0000
+Received: from DU0PR02MB8500.eurprd02.prod.outlook.com
+ ([fe80::aff4:cbc7:ff18:b827]) by DU0PR02MB8500.eurprd02.prod.outlook.com
+ ([fe80::aff4:cbc7:ff18:b827%3]) with mapi id 15.20.8534.040; Mon, 24 Mar 2025
+ 16:34:02 +0000
+Message-ID: <8fbc8cd7-f8e7-e33b-74df-cdea389ac9a4@axentia.se>
+Date: Mon, 24 Mar 2025 17:33:59 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v4 5/6] ASoC: codecs: wcd938x: add mux control support for
+ hp audio mux
+Content-Language: sv-SE
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: broonie@kernel.org, andersson@kernel.org, krzk+dt@kernel.org,
+ ivprusov@salutedevices.com, luca.ceresoli@bootlin.com,
+ zhoubinbin@loongson.cn, paulha@opensource.cirrus.com, lgirdwood@gmail.com,
+ robh@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
+ perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, johan+linaro@kernel.org,
+ Christopher Obbard <christopher.obbard@linaro.org>
 References: <20250324130057.4855-1-srinivas.kandagatla@linaro.org>
  <20250324130057.4855-6-srinivas.kandagatla@linaro.org>
  <CAO9ioeX9RTBAeL3+9STn+=oEYR0wtaF6yoa=esNddEvqLQyO9Q@mail.gmail.com>
  <e4e94fbf-172f-4cfd-becc-cb2836ac1fb1@linaro.org>
  <ctcqkdbv6zh2rabkkr7tlhxlcfsn5nazjfbsnbbu4l4blyakft@pejdsvnazfh6>
  <324d5789-6309-4a64-bbfa-3afa0632e7ff@linaro.org>
+From: Peter Rosin <peda@axentia.se>
+In-Reply-To: <324d5789-6309-4a64-bbfa-3afa0632e7ff@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: GVZP280CA0093.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:275::7) To DU0PR02MB8500.eurprd02.prod.outlook.com
+ (2603:10a6:10:3e3::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <324d5789-6309-4a64-bbfa-3afa0632e7ff@linaro.org>
-X-Proofpoint-ORIG-GUID: kNbKUJ6GZy-verNbkVVtS1xNOkzHA3M2
-X-Authority-Analysis: v=2.4 cv=KMlaDEFo c=1 sm=1 tr=0 ts=67e185e5 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=9UW2u0tblTimzNtmCfUA:9 a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: kNbKUJ6GZy-verNbkVVtS1xNOkzHA3M2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-24_04,2025-03-21_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- bulkscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 priorityscore=1501
- adultscore=0 impostorscore=0 malwarescore=0 spamscore=0 suspectscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503240117
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR02MB8500:EE_|AS2PR02MB10429:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0018ad56-a400-41f5-3db5-08dd6af1af4e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?c09WNmgreGZRY1pPdWI4NlQwdHN3L1F3M2xveXFPZzd3YTBDdXpmVTBGWGNE?=
+ =?utf-8?B?VDN2Tkh0aVdWZVFFbDFyUDNBWFV5UjZtWmp2N3pqaWNYY3pxUWxmc3U4cmwv?=
+ =?utf-8?B?NThzMHJSQnNzb2VBSXJQYUhKbFhOVDJEZ2RVbWYvWXNHYUlBeVBYSjh6NWxo?=
+ =?utf-8?B?UGJSTThpdm14aElVdE9UbjJVeVRReUd1dDAvVmYrTy9tQWZMYnRlOWRIdUIr?=
+ =?utf-8?B?M3VZNHlONEVlcklLOEN1RFlIMmFMTW93bnVHbTBRWHdPUW53Y3pBR1Q4TlJR?=
+ =?utf-8?B?MnduWVZnL0U4eVArS0VNN0gvRENqcUpoTUlPbklyNDdsUjlwWDh3MkFHakpW?=
+ =?utf-8?B?R1lYTnRCeHhuQ29LOXdtckNVRzhhWW9IcUFYTnJjWmhkVFpqbE1yb1Avd0Rv?=
+ =?utf-8?B?U3dBMkhwb2grc2xEellaempORnQyN3MrT20rMG9NK09xb3B4SUxoanZWMlJv?=
+ =?utf-8?B?ZjhPUVdoTlA4MnpJcEhKL0swS1FqS1YxRS9ZZnRsS2hlVDkyTmtqMTMrRklt?=
+ =?utf-8?B?bWJRWkVPa1QreEsxUzZIVmtQNEU0ZGZObHdKV0g2OTNCSGlWbDUxcVpYZVZr?=
+ =?utf-8?B?U0taSkwxcEo4R3JxZzdvM3ZFbE1ZYUZvNUNZTnNHYStoMjdCVHhPRmVKbTJu?=
+ =?utf-8?B?TTRlbnB6VVZBOXNJajFDL1BMZGFrcU5kdTZrbXZLZk5pN3k5WHUyazJlQ2V6?=
+ =?utf-8?B?R0kyZmxuZ1RwTGU1bFdna1hOektCSWZNTEJOYnF2Vnh4dXRjQjdxcDJmTXVJ?=
+ =?utf-8?B?MFNOaElRKzN6V1lYS3pOcVczWUlEQTN1cjMxSU4rcEViNGRmRzRqTU1wbktL?=
+ =?utf-8?B?dVlQVkdWZmZFRk1aTEZaTWYrRG8rMEVzVlloQjdPZlNaUW5sTVVDeWVIdmQz?=
+ =?utf-8?B?NWxna1FJM2hJQ1BkSEVHeHJyMTRKZEdHUHZuRUlZOXA5dGxuRGErRWg4by9L?=
+ =?utf-8?B?K2J5bEcwQXovd1ZUdk9qelF5YkZQMXB1bEw2RUZMbmFLeXBDNkRXRmZ0Szhx?=
+ =?utf-8?B?bFZhaWpPSmVXekk5MmtOSlR4c2w3YkNiUzV3T01QaUdGZnRTMzZjenRGOE9C?=
+ =?utf-8?B?ODh2aytMcWQ2RUFGTHczcHdPRXZwUTlydC9NMkFpR2k0VGRTLy9LTHRCeVp0?=
+ =?utf-8?B?QTRtemRkdlNjVHVNRnhGWmxWN2xuSlQ1QVVjQTJZaGhkTVJpQzNpOVFwYTh6?=
+ =?utf-8?B?OXV5eXRwQlJSblN6a2gza1dKamdydzI2MS9wRHA2Sk1UVThOblE2VHprVjk4?=
+ =?utf-8?B?NERQNzJCS05VZVJoZWxSMGNJeENiUzhLT1J3NlNFVFhYbndNcnlRcEU4TFJr?=
+ =?utf-8?B?azIwNWFWbEU2WXoyYldjUC9xZHJjNXBTZC9JNVMyRXRtQzJSRFFmSkdhNElP?=
+ =?utf-8?B?OEthanM1THFMeFBWN25ONDN6SXI0Z0ZReUV1UXVsb25SRFRmWWUzWGwzQW1E?=
+ =?utf-8?B?VmxoMDBEWDg3NXRTeXFxcW10azNmOXM3TjBvUTdmMzZPS1hJRVVteTVtUUc1?=
+ =?utf-8?B?U0E1V3VGUXEzSnVhN2xxQUcxakpHVUJUZVZxUW40WlNOUnV1Y1pDb1hDaEdu?=
+ =?utf-8?B?S0VJNHRFcHJSR0trUkVVOXJaeC9tc09MMWlSZ002T3Vvd0VUbVliaU9KTUM5?=
+ =?utf-8?B?MDA2S2QvVjR6c0xJMWsyeXg1Y3U2b0FUODJPZnlPaGlFUnBaaUcxZlp4Z2ZV?=
+ =?utf-8?B?Mm1CM21WQnNzZWdrVGNyejRIR2RuNVk0WWd3N2ZqcE1sVUtjTVludXJ6U0cy?=
+ =?utf-8?B?SWdLVFJhTjdYRlFNWmU4U0NVRFJ0V1g3aS9jdlFzSXdmRzU0Y25KMWdzTVZh?=
+ =?utf-8?B?MzRBZ0F6MS9uOGZPYTQ4ajBPRmJkekx5RzF1THoxWitVZEpIemRXaDJiZTk4?=
+ =?utf-8?Q?0YOyBfdiWJNqA?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR02MB8500.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(7053199007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?a0ZzTW9CMGJUeW9aN0NqQ3lHREVCZ01OVkdzeGw4a0cvcmZreXFDNitHNFhr?=
+ =?utf-8?B?TEt5c3VML2VmbnhJWUVzZEFkSnZyamNSS1NsL0UzNGU5WHoyWWwvOTBxMzRh?=
+ =?utf-8?B?d3hBdWhMck5hYy81UFVNV3VFaDQ3eDRhV3lGL3A3Mi81bUJTZjZyUHJrUUVh?=
+ =?utf-8?B?Uk5ERzNWMTdRSGlSdm9qbG15MEE2WTFYUXVXZDVpQlB4T3loQTc2SmpWMWFq?=
+ =?utf-8?B?ZWZBTkUxd0ZPaTZvQ1RkdUlod0hUa1orSmRnNnhDbmFrM0QrYU54ay9kVzEw?=
+ =?utf-8?B?OUx0TE5YTHR4WjFUTEtPekYyUHVqMFdxZm5tZ0p0c05FNDJUSmRqdTVXdXZ3?=
+ =?utf-8?B?eU5mSndUaFI1RW1lV1FBYlJLRk5oMEdmcGFtbFFpZDNxTmsyejZNY29xZjEr?=
+ =?utf-8?B?NStieFZTTnRsMjMweERkTGRGSTBPUkN3WGY4dFA3V3h5ZkZ5T0VZVnpDQk5F?=
+ =?utf-8?B?ZGdXMStqNVhjdnRKNG13Sk5NdGJidkk1S1VhcyttUlVXNUpoYk5sYlZyYUFr?=
+ =?utf-8?B?Ni9XdWtWRjlWcXJSZ2ZCanNzRFhWcGQ1SHV3Z3BFU3NFU1JKOERQZzNKZW85?=
+ =?utf-8?B?YllIZlVTNk5CMHIrdk9QQjd0Yk5mQVJILzF3alMzRWlNYmpJcjhQaTJWc2I3?=
+ =?utf-8?B?aWxWWkhDb2FidFZmVmJpSThSWGRjY0FsTU4xOXlkRUhJMWpnanhxcWNYYkJl?=
+ =?utf-8?B?dFduM1B3S1NQbkJVZ2YzMUp1Z0EzZ2tZWk5reXQrSjYzUjIvdlIrMVFka2ha?=
+ =?utf-8?B?aGI2dmtSeWhRUHdjYktXMFVvQjlaWFdCZjlVZVhUdzBJN2hPRUIvR29QU3kr?=
+ =?utf-8?B?c2tVck10TVJqeUJadEtYWHVkUVh0U0c5Y0gwR2hJQ2w5aENEUElVYnR5WWEw?=
+ =?utf-8?B?QTNMWUNNMEpoQjQyYXFRM3VhU1dUdUdQWERockplb0UrMndFRmVFMzhlTjE0?=
+ =?utf-8?B?eG5QaVo2NFJWd1R0MGxxa0NMTFBlcXc1Wi9zUDNsUDFQWTQrZkpscGlnMVhr?=
+ =?utf-8?B?M3NacS9hZW1JdlZ0Zm12L0xoYll4K1dyMmJjcWhqYWJyRkYyMHEzWW9SMVVx?=
+ =?utf-8?B?N1ZDMGE3dUlTaWNtVHkrMHJFemFNeVViVnkrWEVIcnlpelJqakhXYUxrdTFO?=
+ =?utf-8?B?TG1XWkdmM0FBZFRrTU5zVnlRUXFWdWNTYmR0VWxOVkFBUU0zVWkxcXUzcllk?=
+ =?utf-8?B?cUU3ZkQyWEtXWEtabmFUWHNnUkdialVxbFRRdHo0bmJlZWpIc05uQlpLLzEy?=
+ =?utf-8?B?dGY3S2E2QXJpNTRkREx5bEVwNHJoayszVm5xb3NRTHVnQ1JscmsxN3ZEVVBQ?=
+ =?utf-8?B?b1BzanpIbDQyUndlT3BpemtPRWdsVVhBSGFLQ01lS2pCcXNNdTFLL3dXOHQ4?=
+ =?utf-8?B?bTU0QUw1K0Q0SHFsaXlSbFQrTzduTGFCcHFMcFJJZDRNY3JKR252anIzeUla?=
+ =?utf-8?B?Wml5YTdLL0ZkUVhya3VzZWJOd0xMMzJNdmZFU0t6eGpWbWJUVjMwWCsrR1R4?=
+ =?utf-8?B?TStjWVkwWG5nS1MwN0NLcUg2VUV0YlF0Y2NSN1hOdVJyL0pLWlp5NEwzS0h4?=
+ =?utf-8?B?YzRHVXZ0ZGZGR04yemtRTG5GTjBySmdRWEtPcXFhMzV6TlNkQUxqcVJhNEJ1?=
+ =?utf-8?B?b3dRendNMUMycVlVLzN5UDFjOVJScWJVTTIwc01iZXFyZ0ZUY056NFRTUkZs?=
+ =?utf-8?B?aE81MnNwYXJrYTJFdG5FUFM0ajhORzh3Umo4dUZQUDZxdE03aDdTdGhXOUEr?=
+ =?utf-8?B?UCsvdURUWUxqV0lFaHU4Nlg4bkVJMFVKRlEreDAyWGYxc2xzNS9TWlpGRTJD?=
+ =?utf-8?B?M21FZHR2ZjRsbFphdjg3R0UrV3hBZGhXMWhlQ3pkekVROEZobHJZTytkcnJH?=
+ =?utf-8?B?bk9kZEJGSnY5NmM1dmpwMlNLS2haVmxubEZpYllBMUJqek5JTVdXQW5iMkJF?=
+ =?utf-8?B?aGl5dHNYNXdCOVZxRW01Rk1zWGtQcS9iSmY2UVRGNmJyeG0vazhFT1JJQVBz?=
+ =?utf-8?B?M3F2bHRsdmF1aGlTVGVkVUFTaEhEUGtYVU56YnVDMFJzblRET3lnS1E3aDZn?=
+ =?utf-8?B?L0ZJd1lCZkFTQjlyWHc3UmtyOE1ncGlZNUllNGRML1JPa1pHekN6cDNXSVV2?=
+ =?utf-8?Q?TSAu9/uoCs1855orR5P1U/5y9?=
+X-OriginatorOrg: axentia.se
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0018ad56-a400-41f5-3db5-08dd6af1af4e
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR02MB8500.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2025 16:34:01.9867
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4ee68585-03e1-4785-942a-df9c1871a234
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vj1nW5LX4y8K6XIMLuU9mKVmip81UGAbb7x4KAxbf62j4i9PfkgWDmJS9h57ggfy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR02MB10429
 
-On Mon, Mar 24, 2025 at 03:58:32PM +0000, Srinivas Kandagatla wrote:
+Hi!
+
+2025-03-24 at 16:58, Srinivas Kandagatla wrote:
 > 
 > 
 > On 24/03/2025 15:18, Dmitry Baryshkov wrote:
-> > On Mon, Mar 24, 2025 at 01:58:06PM +0000, Srinivas Kandagatla wrote:
-> > > 
-> > > 
-> > > On 24/03/2025 13:50, Dmitry Baryshkov wrote:
-> > > > On Mon, 24 Mar 2025 at 15:01, <srinivas.kandagatla@linaro.org> wrote:
-> > > > > 
-> > > > > From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> > > > > 
-> > > > > On some platforms to minimise pop and click during switching between
-> > > > > CTIA and OMTP headset an additional HiFi mux is used. Most common
-> > > > > case is that this switch is switched on by default, but on some
-> > > > > platforms this needs a regulator enable.
-> > > > > 
-> > > > > move to using mux control to enable both regulator and handle gpios,
-> > > > > deprecate the usage of gpio.
-> > > > > 
-> > > > > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> > > > > Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
-> > > > > ---
-> > > > >    sound/soc/codecs/Kconfig   |  1 +
-> > > > >    sound/soc/codecs/wcd938x.c | 50 +++++++++++++++++++++++++++++---------
-> > > > >    2 files changed, 40 insertions(+), 11 deletions(-)
-> > > > > 
-> > > > > diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-> > > > > index ee35f3aa5521..a2829d76e108 100644
-> > > > > --- a/sound/soc/codecs/Kconfig
-> > > > > +++ b/sound/soc/codecs/Kconfig
-> > > > > @@ -2226,6 +2226,7 @@ config SND_SOC_WCD938X
-> > > > >           tristate
-> > > > >           depends on SOUNDWIRE || !SOUNDWIRE
-> > > > >           select SND_SOC_WCD_CLASSH
-> > > > > +       select MULTIPLEXER
-> > > > > 
-> > > > >    config SND_SOC_WCD938X_SDW
-> > > > >           tristate "WCD9380/WCD9385 Codec - SDW"
-> > > > > diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-> > > > > index dfaa3de31164..88c758efe40d 100644
-> > > > > --- a/sound/soc/codecs/wcd938x.c
-> > > > > +++ b/sound/soc/codecs/wcd938x.c
-> > > > > @@ -19,6 +19,7 @@
-> > > > >    #include <linux/regmap.h>
-> > > > >    #include <sound/soc.h>
-> > > > >    #include <sound/soc-dapm.h>
-> > > > > +#include <linux/mux/consumer.h>
-> > > > >    #include <linux/regulator/consumer.h>
-> > > > > 
-> > > > >    #include "wcd-clsh-v2.h"
-> > > > > @@ -178,6 +179,8 @@ struct wcd938x_priv {
-> > > > >           int variant;
-> > > > >           int reset_gpio;
-> > > > >           struct gpio_desc *us_euro_gpio;
-> > > > > +       struct mux_control *us_euro_mux;
-> > > > > +       u32 mux_state;
-> > > > >           u32 micb1_mv;
-> > > > >           u32 micb2_mv;
-> > > > >           u32 micb3_mv;
-> > > > > @@ -3235,17 +3238,31 @@ static void wcd938x_dt_parse_micbias_info(struct device *dev, struct wcd938x_pri
-> > > > >                   dev_info(dev, "%s: Micbias4 DT property not found\n", __func__);
-> > > > >    }
-> > > > > 
-> > > > > -static bool wcd938x_swap_gnd_mic(struct snd_soc_component *component)
-> > > > > +static int wcd938x_select_mux_state(struct device *dev, struct wcd938x_priv *wcd938x, int state)
-> > > > >    {
-> > > > > -       int value;
-> > > > > +       int ret = mux_control_try_select(wcd938x->us_euro_mux, state);
-> > > > 
-> > > > Hmm. Does this really work? You have selected the mux in probe
-> > > > function, now you are trying to select it again. If I'm reading the
-> > > > code correctly, you will get -EBUSY here.
-> > > 
-> > > On successful selection of mux state, the mux will be kept available
-> > > (mux_control_deselect) for any new callers.
-> > > 
-> > > So we will not get EBUSY for the second caller.
-> > 
-> > No. wcd938x_populate_dt_data() selects the state by calling
-> > wcd938x_select_mux_state().
+>> On Mon, Mar 24, 2025 at 01:58:06PM +0000, Srinivas Kandagatla wrote:
+>>>
+>>>
+>>> On 24/03/2025 13:50, Dmitry Baryshkov wrote:
+>>>> On Mon, 24 Mar 2025 at 15:01, <srinivas.kandagatla@linaro.org> wrote:
+>>>>>
+>>>>> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
+*snip*
+
+>>>>> +       int ret = mux_control_try_select(wcd938x->us_euro_mux, state);
+>>>>
+>>>> Hmm. Does this really work? You have selected the mux in probe
+>>>> function, now you are trying to select it again. If I'm reading the
+>>>> code correctly, you will get -EBUSY here.
+>>>
+>>> On successful selection of mux state, the mux will be kept available
+>>> (mux_control_deselect) for any new callers.
+>>>
+>>> So we will not get EBUSY for the second caller.
+>>
+>> No. wcd938x_populate_dt_data() selects the state by calling
+>> wcd938x_select_mux_state().
 > 
 > At this point we also released it (both in success and error case).
-
-By which code path? You call this function directly from
-wcd938x_swap_gnd_mic() and the control is already selected from the
-probe path.
-
-> This will hold on to the previous state unless we have defined a fallback
-> idle-state.
-
-As I wrote, this doesn't seem to be a proper use of MUX API. I think
-it's much easier to add a boolean which states that MUX has been
-selected and use it to deselect the state both in this function and in
-shutdown path.
-
-Another option is really to expand the MUX API to add 'switch state'
-call which will work if the state is already selected.
-
+> 
+> This will hold on to the previous state unless we have defined a fallback idle-state.
 > 
 > 
->  Then you call mux_control_try_select() here.
-> > As far as I understand, it will return -EBUSY as the sempahore is > already taken. Moreover, this is not how the MUX API is supposed to be
-> > used. The driver is supposed to hold a state while it is still in use.
-> > 
-> > > 
-> > > --srini
-> > > > 
-> > > > > 
-> > > > > -       struct wcd938x_priv *wcd938x;
-> > > > > +       if (ret) {
-> > > > > +               dev_err(dev, "Error (%d) Unable to select us/euro mux state\n", ret);
-> > > > > +               return ret;
-> > > > > +       }
-> > > > > 
-> > > > > -       wcd938x = snd_soc_component_get_drvdata(component);
-> > > > > +       wcd938x->mux_state = state;
-> > > > > +       mux_control_deselect(wcd938x->us_euro_mux);
-> > > > > +
-> > > > > +       return 0;
-> > > > > +}
-> > > > > 
-> > > > > -       value = gpiod_get_value(wcd938x->us_euro_gpio);
-> > > > > +static bool wcd938x_swap_gnd_mic(struct snd_soc_component *component)
-> > > > > +{
-> > > > > +       struct wcd938x_priv *wcd938x = snd_soc_component_get_drvdata(component);
-> > > > > 
-> > > > > -       gpiod_set_value(wcd938x->us_euro_gpio, !value);
-> > > > > +       if (wcd938x->us_euro_mux) {
-> > > > > +               if (wcd938x_select_mux_state(component->dev, wcd938x, !wcd938x->mux_state))
-> > > > > +                       return false;
-> > > > > +       } else {
-> > > > > +               gpiod_set_value(wcd938x->us_euro_gpio, !wcd938x->mux_state);
+>  Then you call mux_control_try_select() here.
+>> As far as I understand, it will return -EBUSY as the sempahore is > already taken. Moreover, this is not how the MUX API is supposed to be
+>> used. The driver is supposed to hold a state while it is still in use.
 
-Which codepath will update mux_state in case of the GPIO?
+Dmitry is correct. A mux consumer is supposed to keep the mux selected
+while it needs the mux to remain in a certain state. Relying on details
+such as idle as-is and that no other consumer butts in and clobbers the
+state is fragile. Mux access is not exclusive, at least not until a
+mux state is selected.
 
-> > > > > +       }
-> > > > > 
-> > > > >           return true;
-> > > > >    }
-> > > > > @@ -3261,11 +3278,22 @@ static int wcd938x_populate_dt_data(struct wcd938x_priv *wcd938x, struct device
-> > > > >                   return dev_err_probe(dev, wcd938x->reset_gpio,
-> > > > >                                        "Failed to get reset gpio\n");
-> > > > > 
-> > > > > -       wcd938x->us_euro_gpio = devm_gpiod_get_optional(dev, "us-euro",
-> > > > > -                                               GPIOD_OUT_LOW);
-> > > > > -       if (IS_ERR(wcd938x->us_euro_gpio))
-> > > > > -               return dev_err_probe(dev, PTR_ERR(wcd938x->us_euro_gpio),
-> > > > > -                                    "us-euro swap Control GPIO not found\n");
-> > > > > +       wcd938x->us_euro_mux = devm_mux_control_get(dev, NULL);
-> > > > > +       if (IS_ERR(wcd938x->us_euro_mux)) {
-> > > > > +               if (PTR_ERR(wcd938x->us_euro_mux) == -EPROBE_DEFER)
-> > > > > +                       return -EPROBE_DEFER;
-> > > > > +
-> > > > > +               /* mux is optional and now fallback to using gpio */
-> > > > > +               wcd938x->us_euro_mux = NULL;
-> > > > > +               wcd938x->us_euro_gpio = devm_gpiod_get_optional(dev, "us-euro", GPIOD_OUT_LOW);
-> > > > > +               if (IS_ERR(wcd938x->us_euro_gpio))
-> > > > > +                       return dev_err_probe(dev, PTR_ERR(wcd938x->us_euro_gpio),
-> > > > > +                                            "us-euro swap Control GPIO not found\n");
-> > > > > +       } else {
-> > > > > +               ret = wcd938x_select_mux_state(dev, wcd938x, wcd938x->mux_state);
-> > > > > +               if (ret)
-> > > > > +                       return ret;
-> > > > > +       }
-> > > > > 
-> > > > >           cfg->swap_gnd_mic = wcd938x_swap_gnd_mic;
-> > > > > 
-> > > > > --
-> > > > > 2.39.5
-> > > > > 
-> > > > 
-> > > > 
-> > 
-
--- 
-With best wishes
-Dmitry
+Cheers,
+Peter
