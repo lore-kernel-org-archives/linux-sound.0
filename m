@@ -1,73 +1,64 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E321DE2A5
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 11:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B473A25E466
+	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 11:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742815253; cv=none; b=Tb3emAnRbkDQSSX63MMPnwhyvrcsqN28YostTJxlPW/Da5xemyk6biU1GbBoffOqTjYEH4hVj8pmaozdkz59o0yuDg9nCkKuzKEeopTld4P3muSsmcxo6ZTbQKaOjUQkQhZSS7tWTBCxbYWYAJqcYLVGeydQ9zkQGUUhd3YDOR8=
+	t=1742816010; cv=none; b=Lv3YmRzDNb3OOODIW8816b7EvdGRmkeqrmV6MDciGuh4SuCNmd3JP9nfsUYILvdKmWeL2bTnatf8W1ozKCWpdKFRQZLwvJHrbe3S7CiFTmfZeuDbF3bCoIzHRMudkTO+BmymBuXa41gbVQ2KEHjt1m7SV7VXh3BQ2rEjQSb8hl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742815253; c=relaxed/simple;
-	bh=hyOqZJxorcLzIQqbVwfmpBHHqLRW4jToxdkY5UTNu34=;
+	s=arc-20240116; t=1742816010; c=relaxed/simple;
+	bh=0QhCQHHqNirjdYBN4QdEl9+nTA8hPopgI9hEFzjoWzs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KEuQ7Ck5Bj56UB7gFa5oWA5iZ//FeSN70EmYIf/YPT00UJc3Ot99xeiFExrU989RxbwqYENCXdxSaY+uRLd9hXyy26zAvQqyvkAf3T7Xvp3V2Gl7gwWcb1RdeQ5GkbJYXIH4CK9rgwrMRrqHG1HYmV2UYRVOXHjD4YT/J42mr6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=T8TzlJhp; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=bUx7RouTg/5QSdvTmjBXLlqIgF+T4dDaDrX8yAj2u2jjuOxtnOqglDdmk2ogCpUvxdb4DyMDFwm7kytmmlYKqML+RUGzppNpLHHItgzoqWYc9LFbc6IbuuF4X6CLDXNmH1XdWkTSSlUSvxVF/PrrnLXbeF9l2acRLOKMkty9SOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Rk+6Q2Yy; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="T8TzlJhp"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52O9PNCN030739
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 11:20:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	0Omyzt0+3s9T/Lcy+ZIwCMHKO6499mJSDlZjjA79KkE=; b=T8TzlJhpRfkH16Vz
-	wrPOxndYKlsRmNku4cy1s7bcBH/L97bxfiHOXDYt7Dl+13qRv885jOdAXnZjrJja
-	be4lomLSqKDbAz2klZTA7tFVfEydTcRTGGr8LjbNbeO00XiIiCOQlQ69+M31i67k
-	Iigoey1sRbXI5vF4d1KlpihHygFGcB+hNNn7kHslc6j4KUZmQw9nKPKUgT2sFQy1
-	GF93ThWCGGOWuSWMNgu8O2MByfILdcQeWK6qNrqom5zX3zOVJGQS8HyqI2Q22k1m
-	TL7an/kp35Fp9x4skL/BOljxl3/AL54eVONabffSisdvFSLpl28PmhTIxRW2rAaq
-	oXC6Dw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45hmt044p9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 11:20:50 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6e8a04e1f91so111267736d6.0
-        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 04:20:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Rk+6Q2Yy"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3965c995151so2091836f8f.1
+        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 04:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742816006; x=1743420806; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RZaqAclEJIkWjFVuVskTZM+5u6eA26Yq4IN8pnm0qc8=;
+        b=Rk+6Q2YyZ5mwJEAB4v6YJLWozKyNqVLumD0a1sxc+G6Cqz6C32Zzk//+/wp9wD87qj
+         hp1Xk4Ucd67hLMhFK8M+R8Agh9rMNGJTvTlsJ2yWRllyO0w+4zPbPgy4FJ2WoVQ0W1n5
+         Mg87q6iSV1oPEM0+fdGq05TPo9jQBiJh50z+Pgd4V2qq1VFc/VamwWwkMbXIy+DBZyyO
+         8W9/xL/9UR8rudXN7oJ+wGtZKdrH0VOY896sXrbN3pYDkJ+wNN9LIUUY2Rhw8jIzg0Jr
+         t1mUBVhn11HpaD5wAcHSVk4VAL0Ru3Nf3LR21NrJ/OVhfL8OB3DgDBvhOBBdKvjrG+zG
+         /AcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742815250; x=1743420050;
+        d=1e100.net; s=20230601; t=1742816006; x=1743420806;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0Omyzt0+3s9T/Lcy+ZIwCMHKO6499mJSDlZjjA79KkE=;
-        b=UEBYS+wBHMESZASEqntXhNEwcR+Bi8Fi48szVO5ZoMns3oBlL62o2BZfi7GH8VUG8d
-         8lSyd5HDwHi2bJkoY1m5XDl0A7qdZE6NJNH+NI4mTuAY0DcmLJiDWS4ystkFl2I6bwKc
-         oF18bOBh2DxmgdFgrV2+QcPPTFF6zVLLzaZEueJ6A/HlQ2uz7IEtzfhl0lOemCnY8vkq
-         ZOJVrJzu9UX99Va6sedg3pOLSVBJpxCThmRdoB6zYTs6QVtuWJQcZ+4odlWf4fmVsYsi
-         PITsMsNc9APKrleAY4aOPUOH61Ib1v5A0rgoB4BvdY9tR3r840r/EpA0WkfGhffaiQy5
-         4sIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVDk1t3JmpOb4vCj6NiK8L9Xy2FY3kPMlJqQ4cL4yBbwtnDYcBuv1OJNzfPkRgvec+r/UWD4tPw+0Gqvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNcnRqdl5sdotyCUq3rr+434LQAokWSWAsBu3LvqdaJSe39mK9
-	LggZf3Ak8Cs1YUv4eE85KRD/6bSg6jBWMJkbH5RChj6vtVdlq5RfffmWNwVz7Q7oJ5ZehTEOFFl
-	Rkl0xtj1KSCIcIoKVqPKXtzaJEBawOWaWvpKWP6hztT8nBMsL/A6oOpbnkQSsYA==
-X-Gm-Gg: ASbGncujKBqmM3pbh20F4dz62KWS8R1pu4l/qOyk3Dq7rCVjuU3R6RKlQpr1OrESYgL
-	w0fRhCiB/TA2klAoba/LZhcnUbMs9LREt4T2QIMUv/5vFY0+I44eeZk3RWrIuCmCpGeNcebSJQk
-	kK7XtwcghVrgiVQjvE/BMfgxvlwA5kbkdqd8gucnErxDZVfcEWwfBZKGCkOayrmMdYfgS8GkUmr
-	nk/NEpaiNl7vxHwIHoKab0ZaJLkqLZBuXu/1FZpWCKfggYu5j6lR4vSOa/FsmOXPUJyVNudp1SJ
-	UkA26igWl/Wsh3Y0F9qtxDL5yGWSelwFVFzweA9XJJQoZA/ttr5GD65j05CZ97ONHax31impifH
-	B48Au4sSMH3AzO529vQiZ0gk+48rhz67Tg/IBKwaTejaUEpGPAB+/2UYOCyieCp8dhgUT
-X-Received: by 2002:a05:6214:240a:b0:6e8:f470:2b0d with SMTP id 6a1803df08f44-6eb3f2ea042mr241595516d6.19.1742815249800;
-        Mon, 24 Mar 2025 04:20:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEYlu+ZxtD5PiAQVQVaDuGeEL8PIAH2N2h5B+UI11MbkEtNy7DmV9TNxhz1r4q9ByMX8PffOg==
-X-Received: by 2002:a05:6214:240a:b0:6e8:f470:2b0d with SMTP id 6a1803df08f44-6eb3f2ea042mr241594736d6.19.1742815249260;
-        Mon, 24 Mar 2025 04:20:49 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:11c:bb1f:bc99:5dd2:1e47:705? (2001-14bb-11c-bb1f-bc99-5dd2-1e47-705.rev.dnainternet.fi. [2001:14bb:11c:bb1f:bc99:5dd2:1e47:705])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad650b89bsm1101765e87.208.2025.03.24.04.20.45
+        bh=RZaqAclEJIkWjFVuVskTZM+5u6eA26Yq4IN8pnm0qc8=;
+        b=pSmWmkz60iKU57g7PnYfIza3dztVjd5e1p3Wr6DHIYVay9iYeClmyMzllxrDk+nsED
+         2XpjV38lzoHHhrtPDrzXoCJPi/iCoq79kgL6v3XLFf6jFvEiG/iONYO1o5Swkj4D2t6D
+         FWMwsPZWUwjoXUkfWigu1FF9PJpY/lQUHtFbaqot0JKh4gHmErmA5VFAVzPU2XVQFVtR
+         WkpnFAhD/feJT1jIlcljYR/Zj3a4zju2acqrg4/JoCeyZ+ifVYXEJ9fQGq6nUgLMGrbt
+         vKsjJowUBx7Yq1v7LXNR+tyCJ+uXDANV8w9YqFTSQvdQuqBqXFdiZpPQM9y2Nh7xh6T4
+         MVjw==
+X-Forwarded-Encrypted: i=1; AJvYcCUf7qW/IlFqOYbF30ph4v2rfo3N7vBkarJaS4E2focn1u6S8zoC/QD6Qk6BetLlb3ZuQs+AH2SvJ80Uow==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZCIDlIs5gK2jeMvk7ucl7FGz41wJP6i2SnI7CDffho+pGMPat
+	SnBgjOVWCj/Ky8G3UwoqhbaK7pa8NgWTtXie9cwpBs7+IhKhtkNb2e7+a/9fZbc=
+X-Gm-Gg: ASbGncu3NF4Nflva8aDVPXcfROJSxIO6R/p4g8OESR5br5eUAZfP+tMGSsKxhKnr+g/
+	g0N43f3PryJMSpAL4/jZ7hQcCQPG0cZn3UL7jArgBF+fy3B+t1vTHG0HLqjbAe6umvkoVvk0yv2
+	4HkjIO4MCgSWBdFPHF8H2zt19M3PiSIfoz+3oQJUTurq2ocjiekSCYT3L2Vf++mxeO4Hod61XR4
+	WHYe/hZzqVqWbZBocYi9oeMHP7nD8Ft4ZY8/PgoOEprqdO6l4wUzjptYspb0qGmOFNXndY9btzc
+	1pytdbFe2Dmcd0zGuS7HHdW5Izc/1YeGIAtYBgNfwr37CCbdAuL4VSrCKOXwFQ0=
+X-Google-Smtp-Source: AGHT+IFSfs1o8ReuKsDzD9hr5+CF5RuqGwYnwXccjml/f40pB4QQMqmLEg2EktW6960K8d3RhxZUkA==
+X-Received: by 2002:a05:6000:186b:b0:391:3768:f448 with SMTP id ffacd0b85a97d-3997f941b0fmr9625633f8f.49.1742816005906;
+        Mon, 24 Mar 2025 04:33:25 -0700 (PDT)
+Received: from [192.168.68.117] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3997f9b517csm10918673f8f.51.2025.03.24.04.33.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Mar 2025 04:20:47 -0700 (PDT)
-Message-ID: <7fc622e8-6f9d-4a14-bf5f-3122e6f81808@oss.qualcomm.com>
-Date: Mon, 24 Mar 2025 13:20:44 +0200
+        Mon, 24 Mar 2025 04:33:25 -0700 (PDT)
+Message-ID: <4256f8ab-d975-4f5d-8762-50d301ce4dcd@linaro.org>
+Date: Mon, 24 Mar 2025 11:33:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,121 +66,63 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/6] ASoC: codecs: wcd938x: add mux control support for
- hp audio mux
-To: srinivas.kandagatla@linaro.org, peda@axentia.se, broonie@kernel.org,
-        andersson@kernel.org, krzk+dt@kernel.org
+Subject: Re: [PATCH v3 4/6] ASoC: dt-bindings: wcd93xx: add bindings for audio
+ mux controlling hp
+To: Krzysztof Kozlowski <krzk@kernel.org>, peda@axentia.se,
+ broonie@kernel.org, andersson@kernel.org, krzk+dt@kernel.org
 Cc: ivprusov@salutedevices.com, luca.ceresoli@bootlin.com,
-        zhoubinbin@loongson.cn, paulha@opensource.cirrus.com,
-        lgirdwood@gmail.com, robh@kernel.org, conor+dt@kernel.org,
-        konradybcio@kernel.org, perex@perex.cz, tiwai@suse.com,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        johan+linaro@kernel.org,
-        Christopher Obbard <christopher.obbard@linaro.org>
+ zhoubinbin@loongson.cn, paulha@opensource.cirrus.com, lgirdwood@gmail.com,
+ robh@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
+ perex@perex.cz, tiwai@suse.com, dmitry.baryshkov@oss.qualcomm.com,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ johan+linaro@kernel.org, Christopher Obbard <christopher.obbard@linaro.org>
 References: <20250324110606.32001-1-srinivas.kandagatla@linaro.org>
- <20250324110606.32001-6-srinivas.kandagatla@linaro.org>
+ <20250324110606.32001-5-srinivas.kandagatla@linaro.org>
+ <201dc2a7-e031-47d7-9c17-c4275365b477@kernel.org>
 Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20250324110606.32001-6-srinivas.kandagatla@linaro.org>
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <201dc2a7-e031-47d7-9c17-c4275365b477@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 4qDglfzL3Hiw28naA0Wjf8q_KHqrof88
-X-Proofpoint-ORIG-GUID: 4qDglfzL3Hiw28naA0Wjf8q_KHqrof88
-X-Authority-Analysis: v=2.4 cv=aqGyCTZV c=1 sm=1 tr=0 ts=67e14012 cx=c_pps a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=O8kJzBLDCMT3sX5uReoA:9 a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-24_04,2025-03-21_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=999 bulkscore=0
- impostorscore=0 suspectscore=0 mlxscore=0 phishscore=0 adultscore=0
- spamscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503240082
 
-On 24/03/2025 13:06, srinivas.kandagatla@linaro.org wrote:
-> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
+
+On 24/03/2025 11:18, Krzysztof Kozlowski wrote:
+> On 24/03/2025 12:06, srinivas.kandagatla@linaro.org wrote:
+>> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>>
+>> On some platforms to minimise pop and click during switching between
+>> CTIA and OMTP headset an additional HiFi mux is used. Most common
+>> case is that this switch is switched on by default, but on some
+>> platforms this needs a regulator enable.
+>>
+>> Move to using mux-controls so that both the gpio and regulators can be
+>> driven correctly, rather than adding regulator handing in the codec.
+>>
+>> This patch adds required bindings to add such mux controls.
+>>
+>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>> Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
 > 
-> On some platforms to minimise pop and click during switching between
-> CTIA and OMTP headset an additional HiFi mux is used. Most common
-> case is that this switch is switched on by default, but on some
-> platforms this needs a regulator enable.
+> I claim you cannot test a binding in the way we understand Tested-by
+> tags. Testing a binding is part of the build process and we do not have
+> tested-by for builds...
+
+I see your point, Normally if the tested by is given to series Its 
+applied to all the patches in that series, I guess even b4 does that.
+
+Will make a note of this next time and not add tested by to bindings.
+
+
+
+Thanks,
+Srini
+
 > 
-> move to using mux control to enable both regulator and handle gpios,
-> deprecate the usage of gpio.
+> Anyway,
 > 
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
-> ---
->   sound/soc/codecs/Kconfig   |  1 +
->   sound/soc/codecs/wcd938x.c | 38 ++++++++++++++++++++++++++++++--------
->   2 files changed, 31 insertions(+), 8 deletions(-)
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-> index ee35f3aa5521..a2829d76e108 100644
-> --- a/sound/soc/codecs/Kconfig
-> +++ b/sound/soc/codecs/Kconfig
-> @@ -2226,6 +2226,7 @@ config SND_SOC_WCD938X
->   	tristate
->   	depends on SOUNDWIRE || !SOUNDWIRE
->   	select SND_SOC_WCD_CLASSH
-> +	select MULTIPLEXER
->   
->   config SND_SOC_WCD938X_SDW
->   	tristate "WCD9380/WCD9385 Codec - SDW"
-> diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-> index dfaa3de31164..948b5f6cc45a 100644
-> --- a/sound/soc/codecs/wcd938x.c
-> +++ b/sound/soc/codecs/wcd938x.c
-> @@ -19,6 +19,7 @@
->   #include <linux/regmap.h>
->   #include <sound/soc.h>
->   #include <sound/soc-dapm.h>
-> +#include <linux/mux/consumer.h>
->   #include <linux/regulator/consumer.h>
->   
->   #include "wcd-clsh-v2.h"
-> @@ -178,6 +179,8 @@ struct wcd938x_priv {
->   	int variant;
->   	int reset_gpio;
->   	struct gpio_desc *us_euro_gpio;
-> +	struct mux_control *us_euro_mux;
-> +	u32 mux_state;
->   	u32 micb1_mv;
->   	u32 micb2_mv;
->   	u32 micb3_mv;
-> @@ -3243,9 +3246,16 @@ static bool wcd938x_swap_gnd_mic(struct snd_soc_component *component)
->   
->   	wcd938x = snd_soc_component_get_drvdata(component);
->   
-> -	value = gpiod_get_value(wcd938x->us_euro_gpio);
-> +	if (!wcd938x->us_euro_mux) {
-> +		value = gpiod_get_value(wcd938x->us_euro_gpio);
->   
-> -	gpiod_set_value(wcd938x->us_euro_gpio, !value);
-> +		gpiod_set_value(wcd938x->us_euro_gpio, !value);
-
-Is it possible to use mux_state for both GPIO and MUX paths?
-
-> +	} else {
-> +		mux_control_deselect(wcd938x->us_euro_mux);
-> +		wcd938x->mux_state = !wcd938x->mux_state;
-> +		if (mux_control_select(wcd938x->us_euro_mux, wcd938x->mux_state))
-> +			dev_err(component->dev, "Unable to select us/euro mux state\n");
-
-This can lead to mux being deselected next time even if the 
-mux_control_select returned an error. I think mux_control API needs a 
-way to toggle the state without deselecting it first. Anyway, an error 
-from mux_control_select() must prevent you from calling 
-mux_control_deselect() next time.
-
-> +	}
->   
->   	return true;
->   }
-
-
--- 
-With best wishes
-Dmitry
+> Best regards,
+> Krzysztof
