@@ -1,62 +1,63 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E331C25E460
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 13:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D0925F7A2
+	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 13:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742821267; cv=none; b=tvEhufDZDB/ig+3qAfPMXzIKGvNmCuQCgOWpxFVA7ZMQ3naXZ6cn+hVwz4jggOaZO8vUpdBXanOAppgHGBkBYTjiZtqDcuGeYM8602qw3Mud64bgE9zrRH6yEpNeQ6FqZvVRZDyZacuqD4l374L4UwDG8RO+7gvoAIyQns7DChs=
+	t=1742821271; cv=none; b=YTkqUBKLHg9SaIfs6RkncrCMXssX1s6mzQYw/w0lQcLWnQIFS4sJRMqnyPjTHUjmpagKMaxfdoerg5J6LKMvwpenyNyHlInaAWtHAEDIDFVtvxsfXM5O6B3MhGj8mFMdSQKAaIudEJclNBgo2ObTVTrwvVziTD3DTuH10x5geH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742821267; c=relaxed/simple;
-	bh=hfdMYkI1wSY3YPTVRxCMq5RnZCB7Q8NWRrwf11y3dFk=;
+	s=arc-20240116; t=1742821271; c=relaxed/simple;
+	bh=5X1aPO2z0jUPOmAmxxbRnG88+AZ4I5yT718/OM1HQtE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YH81tsEs0I4sq28TE3SnfpvDPBej1VuEORK7v2TboC+pE7JY3y/SDuNO8GuR0E7UGIqxRaPkc3GMh/f7/+1MJTMQcnLWWV5jmIsegsufkbdDk3dWMnp8Jf3QiM9RD29R0pMSR7vIywCCPWggQsId4Co1KoaK7oDjA05Eoy6+0r0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o4//6K7p; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version; b=qy+VqvH9D75SZacE+dFFcTzkHEtj8soroy10uKNWUoXArCYqHZ7JG/FDsFPU95p03EjuyifuNVngGLMqGUjIu7Dbyalw6RQjVaKQXSu3ZwcThs0dovZxyj1W4dqZbO9b5d0OLMpsnYjA3JZgzOaxP2qnW8tCOl7ripklvt3xob0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RgcFYcYA; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o4//6K7p"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43948021a45so35952065e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 06:01:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RgcFYcYA"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3913d45a148so3525297f8f.3
+        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 06:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742821264; x=1743426064; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1742821268; x=1743426068; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dx8vnuvBu7CvSAoy4lTQTdohK7w44dk4P3RzF1FDAZw=;
-        b=o4//6K7pf7K6MI9VsRIUvoKHD2Zwh7PXdTDM7VgOJmrC8sApVEyh7ljoUpk6wyEeqh
-         Su0sr1ZCDk8zMaOJjHejMPPLmAQDQT/YLOMq0t1DDtbuQH0OC+1sKJ20KEKgPEqS7i0b
-         bE336d2CKA73r+au571v7e623LApknAA5BXwK7q54sdalH/7tjOfWmhbhQ8igd31bzuT
-         h8Ox48KbNF8gm4n95wo88HW5FI/hjKShvVdDM3ECjaB5btXJ97WSbwOEmRWa9rqf0qu2
-         ThyLa/M4mCcShfrF6674PfyLZxGUHkvzfArzPLxOWUd+w4XbP8/aQ0rZCsDs2UbKzbo2
-         HehA==
+        bh=QPfdok1uXbCV3fbB68Oh0kuMKD9EmCqvBmSN9d5b64A=;
+        b=RgcFYcYAqI/Rueu0Gg1gB9noHvAZ4YhyivVcGabUH88aDS3nwsElnyCFrfI0SWyuWz
+         I3sqzD5s2Ti3tgIXfXKijsEgW8dJd2KiOv4BPbwWgZ2QCclO7dbhdEA5cZFh8jhhaLxu
+         Ja2DrOWbHfb3d1+CP8TKH73CGCoExtZCV5QiaedEkZ0EamVOZ0pHiDGwtPVvoreJOLcb
+         xbsPhyvSbncXJScGe8ttIDnXOcnjFOfNhQnrdWTBSujV9AW19le12jMUscktZMzOVDBa
+         W0CTAFnQIOLltQWaSOlN5kL1uEoWG4v4nmN5S07G6TPxt4z02aTD1dszVtjCbxulo1bh
+         CAeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742821264; x=1743426064;
+        d=1e100.net; s=20230601; t=1742821268; x=1743426068;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dx8vnuvBu7CvSAoy4lTQTdohK7w44dk4P3RzF1FDAZw=;
-        b=j1yczgGwVZaWJmvQo+bsSfs//uuiZhUqEd2ocvd+lb/yaDifxLU9Cn5dDwsCQs0NGh
-         +BBuPu+xYAKki+5luoWYh0QDbiU5LOLta41uOwuXkoVqq7/PtjhFOUW/N0dFHCtBKYgC
-         OGfDFUw+PRxDAB0WdsvKugJaEOFBsuikuHUE5J9AKPjIsa7MTLTSty/Mkpg5oP5zivZ7
-         o1OIAVruN8E4ot8eIDaM66YDubEfbLuSup4mbwK46icKlBnLIq/gx6IAffPaonWiawRP
-         cuAfwTAFdSTLwA7C+kSvluvgPZBIkwnVxKYb05g16JLljyTIBdaO0IRYHOD+ooEUmpR2
-         A55w==
-X-Forwarded-Encrypted: i=1; AJvYcCVDZxydvf8N8JmJzi6PKp9PBi2UGw3K2hdD5hYp1EeXMcIaY2s8CnRCKslePwUYiQe+L832M8NCfCSb9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHpwQNmgd51dYE4x0Snj586bQmgFo336fXL6eywLUvJfzrxIiX
-	I5zBIT4di/nI3vuVKldNFqXkLBw/3sRWuPjdiEuMxU0QnwVkiiKZUTS1mEck3rE=
-X-Gm-Gg: ASbGncslkh61FMdbLOusT/9zu+A9aV4e74S4rpBon6CplLKLwLxydAUrJTq9f57sJP2
-	rYy5xEgwRyGXtySUm62aOcGfXxG9JrAf5I2Bkr2L72dBb31Y+ZURH1e7lYGBoEs1O7ZeBDh/BZC
-	WYFlec5lYUMRBiB1mH4oXdP3Ur+ZxGgJQrwYY7obon//E7QM/gp+OMU30h72TJd7tElXHvhUc/U
-	euXaCLCEBPNHgOPtqCc2srAIWsOspERtWMoZEMGKx3sGlkTx3OSPCVoqcmB1k3/2W5AgVUQHllq
-	aLHwBKzX5fDcFwZF8MvXQoOZYhgRa5e+72RqkeMcoCATqwY/ORxPQxn1vzx0GRxQIrPrVA==
-X-Google-Smtp-Source: AGHT+IGs1hed7eFfngKtDdIfLF7CUa5raY/UTLvoWGsHn1iu0AT2ObRpnyWdq4Tep0xWDphEI1SbUQ==
-X-Received: by 2002:a05:600c:1548:b0:43c:fb5b:84d8 with SMTP id 5b1f17b1804b1-43d509f2ebemr127044545e9.16.1742821263769;
-        Mon, 24 Mar 2025 06:01:03 -0700 (PDT)
+        bh=QPfdok1uXbCV3fbB68Oh0kuMKD9EmCqvBmSN9d5b64A=;
+        b=qtF3SB08ixshUQe88POtU/1WSzKIWj0RFBZ7QlHD8h8yclOM5sAXZuQqx2ECW5M1Fk
+         Yc+8YiNrPwJNne2Xcg8/YTani46h8CKtJI/lK1oRlpGBpiAcUd8OWNw8Hfa0VDVfa61n
+         WAMDsNLgvC9Umg3CrUxQxJ4FqHSrFesBJaxOnxTiVm9kFd7XN1gCFAsa5fR0e2/zEWVH
+         5Szv9natpe7xAf2OMIEoxKvLdRrB1t/iEG58FSSXnPF7DjNT0C/Rg5MOiNi14qP9Jhed
+         HjFPeZ1lcKp9mx/Bu6dgJsbRDwbzI1t6fmQhV6Z5Wet4XcOw96XUUBEBPmMfUVhU91vw
+         W3qg==
+X-Forwarded-Encrypted: i=1; AJvYcCUqOKQ+RwlJKFdozINRNHKr6Fho28LPyRbHzHi/xqrM+bwPIiaHnpHdXczWmvDWiJ01X/apTbe/Zyq30g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7cWTr8b7C9eMn37VC7wsA1tbuPRbkUbkr7l+Kmhx30SwZ50+q
+	9AlxFA0v0RorB9ejgnciW0vf+1OQAoA+33fZhpUp726LcBh9WelWm/Pmj57DQe0=
+X-Gm-Gg: ASbGncu0V3RyJmknrJvSSPfznjLmHFEVrvGhjY2U1hRTcg/3NNpKetxur2uGXEsEfnx
+	W25fn4wLu1Lao6kxVS4VUs91g16B6iqJiUpzs9Wdzark/hpjNONsFpUAP5hvgfAaNw8hIasAcHu
+	WKurLLLkEmZN/W0XH0MoM9NXi8NySYTvu/rHogSXzuzZOgap1YAcYGFdrklpL5RP2JREWCTY6OT
+	n+sFp72XRAb1rh9gorWVUXOqVO5Yw9AL4JQHHyfs2rqpuHyPLHkzLXVcWdaiavvqJcyhqiWGxxC
+	v5hb39kBvDjcrasPxTAtANMGRQyk2+oux9u2o3qKvaObtgKBnUhmXGvs71kvk794iTVE8912B65
+	+CCEW
+X-Google-Smtp-Source: AGHT+IH/LCQKWak9xUpo8rkhPabLxUJyhK8s6nWMq3T7RoU4G1wdnEPytthIr96D0+PMYfRTxPKOwQ==
+X-Received: by 2002:a05:6000:178c:b0:391:47f2:8d90 with SMTP id ffacd0b85a97d-3997f9017e3mr10499945f8f.20.1742821264799;
+        Mon, 24 Mar 2025 06:01:04 -0700 (PDT)
 Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fdbd1c7sm122275975e9.40.2025.03.24.06.01.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fdbd1c7sm122275975e9.40.2025.03.24.06.01.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 06:01:03 -0700 (PDT)
+        Mon, 24 Mar 2025 06:01:04 -0700 (PDT)
 From: srinivas.kandagatla@linaro.org
 To: peda@axentia.se,
 	broonie@kernel.org,
@@ -79,10 +80,10 @@ Cc: ivprusov@salutedevices.com,
 	linux-kernel@vger.kernel.org,
 	johan+linaro@kernel.org,
 	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v4 1/6] dt-bindings: mux: add optional regulator binding to gpio mux
-Date: Mon, 24 Mar 2025 13:00:52 +0000
-Message-Id: <20250324130057.4855-2-srinivas.kandagatla@linaro.org>
+	Christopher Obbard <christopher.obbard@linaro.org>
+Subject: [PATCH v4 2/6] mux: gpio: add optional regulator support
+Date: Mon, 24 Mar 2025 13:00:53 +0000
+Message-Id: <20250324130057.4855-3-srinivas.kandagatla@linaro.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250324130057.4855-1-srinivas.kandagatla@linaro.org>
 References: <20250324130057.4855-1-srinivas.kandagatla@linaro.org>
@@ -96,35 +97,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-On some platforms to minimise pop and click during switching between
-CTIA and OMTP headset an additional HiFi Mux Switch is used. Most common
-case is that this switch is switched on by default, but on some
-platforms this needs a regulator enable. One such platform is Lenovo
-T14s.
+Some of the external muxes needs powering up using a regulator.
+This is the case with Lenovo T14s laptop which has a external audio mux
+to handle US/EURO headsets.
 
-This patch adds required bindings in gpio-mux to add such optional regulator.
+Add support to the driver to handle this optional regulator.
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
 ---
- Documentation/devicetree/bindings/mux/gpio-mux.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/mux/gpio.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/mux/gpio-mux.yaml b/Documentation/devicetree/bindings/mux/gpio-mux.yaml
-index b597c1f2c577..ef7e33ec85d4 100644
---- a/Documentation/devicetree/bindings/mux/gpio-mux.yaml
-+++ b/Documentation/devicetree/bindings/mux/gpio-mux.yaml
-@@ -25,6 +25,10 @@ properties:
-     description:
-       List of gpios used to control the multiplexer, least significant bit first.
+diff --git a/drivers/mux/gpio.c b/drivers/mux/gpio.c
+index cc5f2c1861d4..d1607f287755 100644
+--- a/drivers/mux/gpio.c
++++ b/drivers/mux/gpio.c
+@@ -15,6 +15,7 @@
+ #include <linux/mux/driver.h>
+ #include <linux/platform_device.h>
+ #include <linux/property.h>
++#include <linux/regulator/consumer.h>
  
-+  mux-supply:
-+    description:
-+      Regulator to power on the multiplexer.
+ struct mux_gpio {
+ 	struct gpio_descs *gpios;
+@@ -82,6 +83,10 @@ static int mux_gpio_probe(struct platform_device *pdev)
+ 		mux_chip->mux->idle_state = idle_state;
+ 	}
+ 
++	ret = devm_regulator_get_enable_optional(dev, "mux");
++	if (ret && ret != -ENODEV)
++		return dev_err_probe(dev, ret, "Couldn't retrieve/enable gpio mux supply\n");
 +
-   '#mux-control-cells':
-     enum: [ 0, 1 ]
- 
+ 	ret = devm_mux_chip_register(dev, mux_chip);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.39.5
 
