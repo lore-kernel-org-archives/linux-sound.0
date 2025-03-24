@@ -1,171 +1,247 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908E4261394
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 15:39:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E538261570
+	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 15:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742830749; cv=none; b=pEwt2irjVw6BJwWH3MP9P3nzYVm8won9xhJFlxg+Ei5h0tAR4Wb2Rv6V/AeSvXmGN4+65BuVEFmUtewriFBUA2lZL9sGP1aCvTyNLTMqcebxyK0S6U/Pmx10rGgLs3I3uuTMyPnVJobxoDPUOxQEIeySaFVjsmTBehrmwVpCACo=
+	t=1742831917; cv=none; b=kgL5sfe+4A6QA36om6pAlsJ6d9me3dlZQD+4UKdUnZsrRrJlcJto7cs8kXQLsy6B5GfFJoT6ThCpxcGFn5BLuExcKOYvGywsc2jF8FAnub0ciN2LoqaMtMEp7b8JfZIZrVG9vNdDtouRBlOuUR9p7wrHmmB0K+cWtKhaE13Pl4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742830749; c=relaxed/simple;
-	bh=lW8q0MENHUug9UrAhpJH+j6S0fM0oUPQWPy/B+Q20ow=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AmNOAb0hm6CWx0q7CKDe2a5ziy+syZ+EqwKqqBfd+PePp7yTRXfnBFDOtzq8NWQN89SueSxVw/RX4EaULnpcMPUQeasC73o0q4+HRPyTKNWrjvLnmn7N6yCr/eukrUlwl4jVsT9/2z9eLb5kqZ9384F+7ov0p3xJmU8V+eiYKII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org; spf=pass smtp.mailfrom=kali.org; dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b=oWMYQB7E; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kali.org
+	s=arc-20240116; t=1742831917; c=relaxed/simple;
+	bh=os2xPMPw2FE5HLzg124AsrhFc041B4Ai4hkDtRkLW3A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PyIrElipsqjBYyCBI8dnV93C2O/2RKJO/tSK7dQYk/Khoo5V7dfed/dmvd9upWz//uisV9zVGnkLZkVvppYY+CWIta0xpLiXMQs6Qf8uXzuWQNwwVekV08Fpwes8SzjZIYBEtPLK5tQNjzc+7A5Wpr/y39W0OSJ5lvnN0+LV2GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WfaiU0Zy; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b="oWMYQB7E"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5e614da8615so8329556a12.1
-        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 08:39:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WfaiU0Zy"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso34619635e9.2
+        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 08:58:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kali.org; s=google; t=1742830745; x=1743435545; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=okATwyvKKlKUGnAkA78cBa2tOjkMCo1pGnnMETcH4DU=;
-        b=oWMYQB7EWSCH3sTurW2bsHzlm4+S6bqBC1X7K70ybpm8Cmw0fvEQdGJThTdn0rnliD
-         LQ9IDoLW2KAAXzyf5MxuIXt/eCuXhGEBRNsdBnbO54AHhkz1j7H0cEIz1hz5OjmRxQgS
-         8GQh6Dbisa7NzSdjQkFQ2SPabHmD4v4CBasiCcYgXlDGbdRjZMqe26A3PfLzbfRjLwn5
-         9meDEjXmRlA2tEB6suaeTVbGQpCiPwAjLrCnC0FZw4WtPE+Wvstaw5KUP8vBBe30ekV4
-         YLXI43MFbWChaWc9S/t+j3heogH8zKKUS0X18Jmf6hI/fMYAyucbVZfOKQkpvNYuclOS
-         dSOw==
+        d=linaro.org; s=google; t=1742831914; x=1743436714; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HNJsdCBCc9QJULVIcLI1aa/eLBqCGZX2m5E+zwF9jXo=;
+        b=WfaiU0ZyFUVImXqJ8WhFelmfrwH/2VvVjlqIduz5Awb2Y6EvvczLP/LetGUC7gj7an
+         7R4a/xY3Pt6gH8WajceZsoTSw+bgT/9yrp7o3LFLKdUc6h4vLj+UIQtrK0euzL3b3Ba0
+         Rbravy/vDlH2C/0qD8LPwKnpJ/cPBo21niom3o+2UNEcr21zN4bEArh5UU/4kSVc0zxr
+         fGe0j+QmW3FrNxlhUN6PuivRxXnBmHY7Wtkj95l7Pdfri/EEK5/b+jsEscYyolEonvbT
+         qyvtuCtpW9U2dlVXoYtiaiA/clM4ab5SU9WEeSZJCVs+w8BIZDBV949J5caI+d5pvk2v
+         et5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742830745; x=1743435545;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=okATwyvKKlKUGnAkA78cBa2tOjkMCo1pGnnMETcH4DU=;
-        b=E6fP9v3wv6sr6uSlVdqD45UZq6WH7FtUc8x8FahQ4JBg67nGehuQKKbiJY8Sha7V4j
-         Mdm0bvI2Lbnhkg9UrLjz1yP8uvoQfX7SLPBS49k3Bd5Op8wlYEbLBOXSsumr5IV7knFN
-         VvC2QQRetu2/x4iswaKQG/MplD8akBsS8qxhOrs+hq1jEZXtmbs/xOeKXO6cAsKA6sMZ
-         CrO8+XixHK6xlaJtDK6p9T8SDHl/YMP9p2ELMH6HNwIwOmkJ2KFuv6GjqzSnM7127vOb
-         LLdePoryLtVtusDVkJ2W3QIFt4ZJ39Z8q0+wlB7R+SJg0WdIzH/RhH7SSMxQMYUUBrlG
-         NugQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW9ZZZjExx6yZYwSX+InWH2EUwpatkfCRIslm9TID3bT1OqRBBFQsrMnz2fpO7G+HZyWjzGavvMjEIFtg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+CThVgmGwqfFwXQ+YKrY+iu+HE9V0FSk117RJ7Z4PjFWfprfj
-	K35mfRrQRbbQyL3t5H3u6paKuk3k9x4lt7/A2N5G051doT7H9cy3iw7TsvR6ejGnB3g/L0EANbM
-	DibYWJ9UKsO8BxdqvoDejbNFchfs5WNRJ+ZVkbQ==
-X-Gm-Gg: ASbGncsefrWyBzWouxRjydKLLoSvEW8M0SEMkDArEUVkSp16iCFWJ9AtRVAnXLRUYvn
-	Uubimzjr8/ttO+blu5rAYe2i3Pl/bgSz0oNZTmMapeeywv8CXeHKo+xlSIkA82T0FzMFfBd0kOR
-	Ra7GYJQFoOWLlaZhCir+kcG5Bz+WE=
-X-Google-Smtp-Source: AGHT+IF5kUm8YAwl4UJ6X1UrmVjPAu9Rc6SplysTW4SUfxt8w5mDzh/ofYQBCrdqW12xHDRFpOPk9M2fvNYvBePGH40=
-X-Received: by 2002:a05:6402:1ece:b0:5e5:4807:545f with SMTP id
- 4fb4d7f45d1cf-5ebccde28efmr12756943a12.12.1742830744616; Mon, 24 Mar 2025
- 08:39:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742831914; x=1743436714;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HNJsdCBCc9QJULVIcLI1aa/eLBqCGZX2m5E+zwF9jXo=;
+        b=AceMsvM7u1QcloTzR4FnR2qXDMxZa7hr1Z88aBR3OZpZ30BEIlzgtBCCG3CS9uKvUI
+         4VxYIiHqnsWj5V1Z03ncZ83QHYG3iNhFWCEM/pJVTUnuT7Krz4zMdyfsyyWynGzhMMBC
+         /2OAwmg4Wopyr3egFbELrF5xEZ8Zz61C38TEmo8WOZAWya0bkxHN9E+QQt32VzjpAmxR
+         NEZxMRWlwiV7uItg8wKOllgOqBZgmarylQLaTGkbm8kDWnqmC9tBD5GsJ52pxt0An5/M
+         8stlJ8/BiuewcOmKnmfwFSlTscipl7/E3CGP4NXlr+sZUAylFci9ZF28Oy4/2a6FuBBj
+         HfeA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFldmaK90k65XPo0t/Fht3pbrdxAlN6P9w03di/Kx3fJ1/dsd681xvajtQGQs2XFgFPABQZ8pCs3f2pQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNHrQmywHHI3SFGaxOekSmc6TUVN+zzwmZkUsHpieEsuUnI08M
+	g23q0/x78uwb9X7nplCDhTeqMEJ/eiWIiW7yk5Pao8S5SR/+UA0lw0JK4tZhnwc=
+X-Gm-Gg: ASbGnctyDsZVtf3CSMmonES539wX1ohAq8zdWGN4S+lYl7lAMETIl7cBz6j4AOhoje4
+	kuzIh1MoUby48ll+OiuWc3IpX2WhPS6FVIBqydzrP0IKEJeHorqFfrXJBl9I8dyqUS4Y1XJEjob
+	yCNBtN1bph0r2ojk8j5+I4a2BnXZkT+8OFXVPt2e8LmEqmA6y7FEMMDkkomerPer79M0N3X80Yl
+	6RbP3sEHvJAVMVZPo0MS1uSRjuQlqZRy2207nOdFx2ZMXRaJ1udC/k5cWuk8dH+pBmEfNkkaGg1
+	BISkOR3+HM3KyrH0dqtB/lOmpf18okIfQ69QHWNDxakXBQmFzryhu6hs+MaqxOI=
+X-Google-Smtp-Source: AGHT+IFT7R9bbT7QXeBpEm8UkutYKjMb0+xp+VX+EZxX9GZRAMNXL4kmMjzCG77aSP5SGON0VY88XQ==
+X-Received: by 2002:a5d:584b:0:b0:391:48d4:bcf2 with SMTP id ffacd0b85a97d-3997f8fe836mr12892855f8f.12.1742831913590;
+        Mon, 24 Mar 2025 08:58:33 -0700 (PDT)
+Received: from [192.168.68.117] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3997f9efc9bsm11117333f8f.87.2025.03.24.08.58.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Mar 2025 08:58:33 -0700 (PDT)
+Message-ID: <324d5789-6309-4a64-bbfa-3afa0632e7ff@linaro.org>
+Date: Mon, 24 Mar 2025 15:58:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250324-wcd-gpiod-v2-0-773f67ce3b56@nxp.com> <20250324-wcd-gpiod-v2-2-773f67ce3b56@nxp.com>
-In-Reply-To: <20250324-wcd-gpiod-v2-2-773f67ce3b56@nxp.com>
-From: Steev Klimaszewski <steev@kali.org>
-Date: Mon, 24 Mar 2025 10:38:53 -0500
-X-Gm-Features: AQ5f1JpkDFG5SyOkw6uUhO3oUv_QewWJKaHPmeTo9CbeqBhrMZL3HS1FVGfM5mA
-Message-ID: <CAKXuJqiwWzC9Zhnnujq+EugJw75EqYL=AmDUUMs8LHOnbBNsyw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] ASoC: codec: wcd938x: Convert to GPIO descriptors
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Johan Hovold <johan@kernel.org>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Peng Fan <peng.fan@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/6] ASoC: codecs: wcd938x: add mux control support for
+ hp audio mux
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
+ krzk+dt@kernel.org, ivprusov@salutedevices.com, luca.ceresoli@bootlin.com,
+ zhoubinbin@loongson.cn, paulha@opensource.cirrus.com, lgirdwood@gmail.com,
+ robh@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
+ perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, johan+linaro@kernel.org,
+ Christopher Obbard <christopher.obbard@linaro.org>
+References: <20250324130057.4855-1-srinivas.kandagatla@linaro.org>
+ <20250324130057.4855-6-srinivas.kandagatla@linaro.org>
+ <CAO9ioeX9RTBAeL3+9STn+=oEYR0wtaF6yoa=esNddEvqLQyO9Q@mail.gmail.com>
+ <e4e94fbf-172f-4cfd-becc-cb2836ac1fb1@linaro.org>
+ <ctcqkdbv6zh2rabkkr7tlhxlcfsn5nazjfbsnbbu4l4blyakft@pejdsvnazfh6>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <ctcqkdbv6zh2rabkkr7tlhxlcfsn5nazjfbsnbbu4l4blyakft@pejdsvnazfh6>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Peng,
 
-On Mon, Mar 24, 2025 at 6:52=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp.co=
-m> wrote:
->
-> From: Peng Fan <peng.fan@nxp.com>
->
-> of_gpio.h is deprecated, update the driver to use GPIO descriptors.
->  - Use dev_gpiod_get to get GPIO descriptor.
->  - Use gpiod_set_value to configure output value.
->
-> With legacy of_gpio API, the driver set gpio value 0 to assert reset,
-> and 1 to deassert reset. And the reset-gpios use GPIO_ACTIVE_LOW flag in
-> DTS, so set GPIOD_OUT_LOW when get GPIO descriptors, and set value 1 mean=
-s
-> output low, set value 0 means output high with gpiod API.
->
-> The in-tree DTS files have the right polarity set up already so we
-> can expect this to "just work".
->
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  sound/soc/codecs/wcd938x.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-> index 1ae498c323912ed799dcc033e7777936d90c9284..955a0d3a77d7cb45932faa0c7=
-a6f5060232d33b4 100644
-> --- a/sound/soc/codecs/wcd938x.c
-> +++ b/sound/soc/codecs/wcd938x.c
-> @@ -11,7 +11,6 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/component.h>
->  #include <sound/tlv.h>
-> -#include <linux/of_gpio.h>
->  #include <linux/of.h>
->  #include <sound/jack.h>
->  #include <sound/pcm.h>
-> @@ -171,7 +170,7 @@ struct wcd938x_priv {
->         int flyback_cur_det_disable;
->         int ear_rx_path;
->         int variant;
-> -       int reset_gpio;
-> +       struct gpio_desc *reset_gpio;
->         struct gpio_desc *us_euro_gpio;
->         u32 micb1_mv;
->         u32 micb2_mv;
-> @@ -3251,9 +3250,9 @@ static int wcd938x_populate_dt_data(struct wcd938x_=
-priv *wcd938x, struct device
->         struct wcd_mbhc_config *cfg =3D &wcd938x->mbhc_cfg;
->         int ret;
->
-> -       wcd938x->reset_gpio =3D of_get_named_gpio(dev->of_node, "reset-gp=
-ios", 0);
-> -       if (wcd938x->reset_gpio < 0)
-> -               return dev_err_probe(dev, wcd938x->reset_gpio,
-> +       wcd938x->reset_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_LO=
-W);
-> +       if (IS_ERR(wcd938x->reset_gpio))
-> +               return dev_err_probe(dev, PTR_ERR(wcd938x->reset_gpio),
->                                      "Failed to get reset gpio\n");
->
->         wcd938x->us_euro_gpio =3D devm_gpiod_get_optional(dev, "us-euro",
-> @@ -3297,10 +3296,10 @@ static int wcd938x_populate_dt_data(struct wcd938=
-x_priv *wcd938x, struct device
->
->  static int wcd938x_reset(struct wcd938x_priv *wcd938x)
->  {
-> -       gpio_direction_output(wcd938x->reset_gpio, 0);
-> +       gpiod_set_value(wcd938x->reset_gpio, 1);
->         /* 20us sleep required after pulling the reset gpio to LOW */
->         usleep_range(20, 30);
-> -       gpio_set_value(wcd938x->reset_gpio, 1);
-> +       gpiod_set_value(wcd938x->reset_gpio, 0);
->         /* 20us sleep required after pulling the reset gpio to HIGH */
->         usleep_range(20, 30);
->
->
-> --
-> 2.37.1
->
-I can verify that with v2 applied, I do still have working audio on
-the Thinkpad X13s.  Apologies for not replying earlier, it was
-unfortunately my night time.  For the record though, I do not use the
-firmware dtb files, but explicitly list the kernel that I am using
-and/or testing to be used on each boot.
 
-Tested-by: Steev Klimaszewski <steev@kali.org>
+On 24/03/2025 15:18, Dmitry Baryshkov wrote:
+> On Mon, Mar 24, 2025 at 01:58:06PM +0000, Srinivas Kandagatla wrote:
+>>
+>>
+>> On 24/03/2025 13:50, Dmitry Baryshkov wrote:
+>>> On Mon, 24 Mar 2025 at 15:01, <srinivas.kandagatla@linaro.org> wrote:
+>>>>
+>>>> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>>>>
+>>>> On some platforms to minimise pop and click during switching between
+>>>> CTIA and OMTP headset an additional HiFi mux is used. Most common
+>>>> case is that this switch is switched on by default, but on some
+>>>> platforms this needs a regulator enable.
+>>>>
+>>>> move to using mux control to enable both regulator and handle gpios,
+>>>> deprecate the usage of gpio.
+>>>>
+>>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>>>> Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
+>>>> ---
+>>>>    sound/soc/codecs/Kconfig   |  1 +
+>>>>    sound/soc/codecs/wcd938x.c | 50 +++++++++++++++++++++++++++++---------
+>>>>    2 files changed, 40 insertions(+), 11 deletions(-)
+>>>>
+>>>> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+>>>> index ee35f3aa5521..a2829d76e108 100644
+>>>> --- a/sound/soc/codecs/Kconfig
+>>>> +++ b/sound/soc/codecs/Kconfig
+>>>> @@ -2226,6 +2226,7 @@ config SND_SOC_WCD938X
+>>>>           tristate
+>>>>           depends on SOUNDWIRE || !SOUNDWIRE
+>>>>           select SND_SOC_WCD_CLASSH
+>>>> +       select MULTIPLEXER
+>>>>
+>>>>    config SND_SOC_WCD938X_SDW
+>>>>           tristate "WCD9380/WCD9385 Codec - SDW"
+>>>> diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
+>>>> index dfaa3de31164..88c758efe40d 100644
+>>>> --- a/sound/soc/codecs/wcd938x.c
+>>>> +++ b/sound/soc/codecs/wcd938x.c
+>>>> @@ -19,6 +19,7 @@
+>>>>    #include <linux/regmap.h>
+>>>>    #include <sound/soc.h>
+>>>>    #include <sound/soc-dapm.h>
+>>>> +#include <linux/mux/consumer.h>
+>>>>    #include <linux/regulator/consumer.h>
+>>>>
+>>>>    #include "wcd-clsh-v2.h"
+>>>> @@ -178,6 +179,8 @@ struct wcd938x_priv {
+>>>>           int variant;
+>>>>           int reset_gpio;
+>>>>           struct gpio_desc *us_euro_gpio;
+>>>> +       struct mux_control *us_euro_mux;
+>>>> +       u32 mux_state;
+>>>>           u32 micb1_mv;
+>>>>           u32 micb2_mv;
+>>>>           u32 micb3_mv;
+>>>> @@ -3235,17 +3238,31 @@ static void wcd938x_dt_parse_micbias_info(struct device *dev, struct wcd938x_pri
+>>>>                   dev_info(dev, "%s: Micbias4 DT property not found\n", __func__);
+>>>>    }
+>>>>
+>>>> -static bool wcd938x_swap_gnd_mic(struct snd_soc_component *component)
+>>>> +static int wcd938x_select_mux_state(struct device *dev, struct wcd938x_priv *wcd938x, int state)
+>>>>    {
+>>>> -       int value;
+>>>> +       int ret = mux_control_try_select(wcd938x->us_euro_mux, state);
+>>>
+>>> Hmm. Does this really work? You have selected the mux in probe
+>>> function, now you are trying to select it again. If I'm reading the
+>>> code correctly, you will get -EBUSY here.
+>>
+>> On successful selection of mux state, the mux will be kept available
+>> (mux_control_deselect) for any new callers.
+>>
+>> So we will not get EBUSY for the second caller.
+> 
+> No. wcd938x_populate_dt_data() selects the state by calling
+> wcd938x_select_mux_state().
 
-Thanks!
--- steev
+At this point we also released it (both in success and error case).
+
+This will hold on to the previous state unless we have defined a 
+fallback idle-state.
+
+
+  Then you call mux_control_try_select() here.
+> As far as I understand, it will return -EBUSY as the sempahore is > already taken. Moreover, this is not how the MUX API is supposed to be
+> used. The driver is supposed to hold a state while it is still in use.
+> 
+>>
+>> --srini
+>>>
+>>>>
+>>>> -       struct wcd938x_priv *wcd938x;
+>>>> +       if (ret) {
+>>>> +               dev_err(dev, "Error (%d) Unable to select us/euro mux state\n", ret);
+>>>> +               return ret;
+>>>> +       }
+>>>>
+>>>> -       wcd938x = snd_soc_component_get_drvdata(component);
+>>>> +       wcd938x->mux_state = state;
+>>>> +       mux_control_deselect(wcd938x->us_euro_mux);
+>>>> +
+>>>> +       return 0;
+>>>> +}
+>>>>
+>>>> -       value = gpiod_get_value(wcd938x->us_euro_gpio);
+>>>> +static bool wcd938x_swap_gnd_mic(struct snd_soc_component *component)
+>>>> +{
+>>>> +       struct wcd938x_priv *wcd938x = snd_soc_component_get_drvdata(component);
+>>>>
+>>>> -       gpiod_set_value(wcd938x->us_euro_gpio, !value);
+>>>> +       if (wcd938x->us_euro_mux) {
+>>>> +               if (wcd938x_select_mux_state(component->dev, wcd938x, !wcd938x->mux_state))
+>>>> +                       return false;
+>>>> +       } else {
+>>>> +               gpiod_set_value(wcd938x->us_euro_gpio, !wcd938x->mux_state);
+>>>> +       }
+>>>>
+>>>>           return true;
+>>>>    }
+>>>> @@ -3261,11 +3278,22 @@ static int wcd938x_populate_dt_data(struct wcd938x_priv *wcd938x, struct device
+>>>>                   return dev_err_probe(dev, wcd938x->reset_gpio,
+>>>>                                        "Failed to get reset gpio\n");
+>>>>
+>>>> -       wcd938x->us_euro_gpio = devm_gpiod_get_optional(dev, "us-euro",
+>>>> -                                               GPIOD_OUT_LOW);
+>>>> -       if (IS_ERR(wcd938x->us_euro_gpio))
+>>>> -               return dev_err_probe(dev, PTR_ERR(wcd938x->us_euro_gpio),
+>>>> -                                    "us-euro swap Control GPIO not found\n");
+>>>> +       wcd938x->us_euro_mux = devm_mux_control_get(dev, NULL);
+>>>> +       if (IS_ERR(wcd938x->us_euro_mux)) {
+>>>> +               if (PTR_ERR(wcd938x->us_euro_mux) == -EPROBE_DEFER)
+>>>> +                       return -EPROBE_DEFER;
+>>>> +
+>>>> +               /* mux is optional and now fallback to using gpio */
+>>>> +               wcd938x->us_euro_mux = NULL;
+>>>> +               wcd938x->us_euro_gpio = devm_gpiod_get_optional(dev, "us-euro", GPIOD_OUT_LOW);
+>>>> +               if (IS_ERR(wcd938x->us_euro_gpio))
+>>>> +                       return dev_err_probe(dev, PTR_ERR(wcd938x->us_euro_gpio),
+>>>> +                                            "us-euro swap Control GPIO not found\n");
+>>>> +       } else {
+>>>> +               ret = wcd938x_select_mux_state(dev, wcd938x, wcd938x->mux_state);
+>>>> +               if (ret)
+>>>> +                       return ret;
+>>>> +       }
+>>>>
+>>>>           cfg->swap_gnd_mic = wcd938x_swap_gnd_mic;
+>>>>
+>>>> --
+>>>> 2.39.5
+>>>>
+>>>
+>>>
+> 
