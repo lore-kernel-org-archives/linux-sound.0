@@ -1,86 +1,89 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7235C3F9D2
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 03:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5E9EEA8
+	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 07:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742787666; cv=none; b=ATGzuJxKIZFhVXYuBTPlL0Xct+knaetQx+4DbZSix3B4ZaAwof8eSTkQXeidVNzPvpGV2GtKmjmFLUqyIZ8xqkGnLuSs9RO2lAr9dYk+eMLpxXRgi/6UhZpLF8Za5oFM4DtGrkqOrkiVUlyEEqxU66keSi+ZO+cDFK86Y8U4C6w=
+	t=1742801425; cv=none; b=mQ8dVNOWrqPmUSvTD4C7WXasEH2zO4fIbiqMk+ryVtyIYeFnkwt0ezI0L6lmQDTJuN7jdtTzQ50D2li6yhmLBHMnveFCd1W2KKWY/muHbothfM25UQ548stX3QFF0mt1/pyQZPZTM49zmcJSTWn+bDThVAVSY4jBRIZN5mRxUTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742787666; c=relaxed/simple;
-	bh=YTOyujB6HV49uiuieNmfjMnZV25DYjCLt8LZ3xZbu44=;
+	s=arc-20240116; t=1742801425; c=relaxed/simple;
+	bh=lwS7fGyY3ghDEpokPLpMM0HJbUP8WS4SiI9P4rR2lGM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oeap+YoVaH1NGOkbni6TgZAaPryhhBbJeMexjMiQ+PlwdNtc1rkNaz3gR9YgEnsvwbfAGTS5aQ5fDsghTNKXNd9eVk8kPsYs9ATkHgvr4HVkkX6WunLozpNk/RSB7EJAXi2WnoY7c2jx41fjJeM9LWszaByC+1MlywfZ5hwuB/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org; spf=pass smtp.mailfrom=kali.org; dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b=RXVTcCwB; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kali.org
+	 To:Cc:Content-Type; b=NE/N13/nt3FSHXb7RgF6SDmfgMHKvHe0KfyCJUxvgt1nn5/IS24aUTYvSNHgPU7q38o1cD+OX5pe45hF3I+l64DbJja3mHxuk+arLr6RDp3UdCGtSwZ25nls8VEJRO/ZOCWRrV0cFgN+KAN+3JdJ1i9wvFwjlS3BBy6sNH9X5II=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XBC7nYxi; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b="RXVTcCwB"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5e5b6f3025dso5848885a12.1
-        for <linux-sound@vger.kernel.org>; Sun, 23 Mar 2025 20:41:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XBC7nYxi"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54954fa61c8so4259654e87.1
+        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 00:30:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kali.org; s=google; t=1742787663; x=1743392463; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1742801421; x=1743406221; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vqAdn5drDLdHVQt7mXUZCWV+B5j9LdmitoQylJry1D4=;
-        b=RXVTcCwBTGC7PGGBMPuP8GDVhCGVAqVuRgz5hpEqRVQZVIY7nxxcd6xjXjhqsKlUy/
-         BRFwW/KZqkDsHKszDi7QdXGXNGWRDqUUCMmvtGtT3ANAKjcp9nsva2mBo2j4CbSkjOZs
-         mR7bmwX+hkapREK2a8G+AUW8G47rxeJuHMEvSGrZqjdCHVY4eBUWNoyiPTBbrfX6Hnwk
-         NnflVn6e03a3BtrYU2cKFt+YRGsBIQDH13rpkPx5OwZGxyKd2EmGhNUVdkgL+Odz6Hag
-         Quon4Kwc0uBToN8H8STp0HKPM9lNnaLseQ91POCoqrx4wjtXHrr1Q4q0RUYYuBozMdyt
-         v/CQ==
+        bh=NU2FVsh97m7TP1y3tfx9WOUJoAfHylfE9LhCzm81iVg=;
+        b=XBC7nYxixEpGkdQEk1CarDA23eFeP3hhNPALtj/79IGhZfdG/WZqb/O+OcvDs8AWOT
+         JImPnpBeQxipOwB8UqIZmkW8GGgemZGiMjpdg/ftg3QLL9w44/C7BS9vYZS4RlMdPJj7
+         5EVmG9Io3vIk5h7RpP39kDVnAaHpckTCBAoQsKbLmCy9jj91kXYODrLMTIdjwX/8VmvU
+         Y5aPydeYBpvv7zIQYAewVkGuDtk7bqL9RSFlA55cEVehR3pK5JFvKP89yDw8IQVKS+lJ
+         FtlmSnv4fx8yjV7F5bKSUy2OZbYhJ7lZt6scHGutTXBtfl7GHaGLSDGXmZePLhvO8iuZ
+         cXVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742787663; x=1743392463;
+        d=1e100.net; s=20230601; t=1742801421; x=1743406221;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vqAdn5drDLdHVQt7mXUZCWV+B5j9LdmitoQylJry1D4=;
-        b=q5Vf9spiCuQn5xZE4E+hJwUWCe5bbRbB0MUXe/hKElzkGZqLxqsd1/YdP7in7A1HqC
-         a5eCzL6CL+b3+tT3bVqA+mIs/g+zx7yjROEVfCADhgzjurWxml02J0P3IcbPwStvkerD
-         mk0GY73e/fNmPPDvDUlx8ZUe7MxptoCIaVezYBmBme0kP/+NUXCPonuupiYTlxgdSHCm
-         qONg1wtwBNytkWv6VrCBgxdPH37OnUBr1t2SCB9DZ2AVPFqPVv/B67QpUPHFudzn/9gL
-         PK0NXi2qGOp48jd+GbnpJlFV47TrJU82aKTLTxn1LJklOLLfSJT44TblAhbhA1bTFOxA
-         I9OQ==
-X-Forwarded-Encrypted: i=1; AJvYcCURhvUyEMPzh5G/qzzFDDe9zy/rYmUGymKA+g4MlRITgGplu9XVCGKWOmBos1KALyVCYCA7C8pP75ME0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzakPWqhusKMQBVdERsyW5bYicD0XmcwtEPVYAZYRTqG+eVyhF+
-	qRvgNqWoJLP0ikj9wBldZokBO1pM/eWLJMghrbZGT7VKhOOcuT1QqGnITF8kqWuaUpQ7lUwG757
-	Gyzm8Sd/PVhLcgGBtFepi0fVjOkmLt8BDN7GPJQ==
-X-Gm-Gg: ASbGnctXshnnDVROjVXmItD8yf++ysfYXmgrYLHW5tuSKRKuIYp07GPVQ/ShPceJfcU
-	XuTAnxzD2Mu1uN/fUJKJ9hXgWCZb78sUi7meB1R/AZM619/0PmNzFqq+1YbrEniXWNe0ZT1/GmI
-	xafEFKiUV/JcTqxdu+5rhpHx2/kI0=
-X-Google-Smtp-Source: AGHT+IEf4WGbQ3qxvrIMk05GS8LR6ITHlULcjaOKtIwGgAmn7Z7RZxqOJXmb4UVfsxdcask06dK+SKmvNHb4sJYQXxw=
-X-Received: by 2002:a05:6402:90c:b0:5e7:9d01:109d with SMTP id
- 4fb4d7f45d1cf-5ebcd528857mr8535251a12.32.1742787662737; Sun, 23 Mar 2025
- 20:41:02 -0700 (PDT)
+        bh=NU2FVsh97m7TP1y3tfx9WOUJoAfHylfE9LhCzm81iVg=;
+        b=YRDZzwwe1oBQyrTtyKALtSgxVaUb8TakbFbXlasv4M6md8Rvl8zNkzjNt29+ME3lRb
+         Y2PCJzFeBao7rVQWKvAtQ7SjmVBEUp/XOUP/MakLh2MlRFvHX24V05Y0htHq5ADfc05H
+         v7WTIYcOswTBDTt2imt3XPbOQIr54gCkCro9jgnyVG1shyYLThu2xRVX9mhIweV7t5pL
+         uUtDmI/91E+ahQJXFiaQ7fqk5kDBqzMEDtfkwXTwhg9G75UMhRw5Yc9ksnrTkshPdQWa
+         VyWmd70BFpUaZ0ig1Ij5rJASOHpQDzfe6kZ2Qg9LqeWYlfFngY4F+qzh2rdv3xY9adNI
+         PeBw==
+X-Forwarded-Encrypted: i=1; AJvYcCWL5VFWW3AWyvgNf4vyycyyNjSSNwL6niRK2mqXjKq5NoO8PNHE5o8q0Lbdk4eH6qpOtiCosC6h366DeA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+hD/1mD3Z1AK/KHoPaeJWHzt97KJXKoiwKB/+OZUEEWnUxQB5
+	wOMiaGI8J8AoUZz0wlvhCHVRWf1ugJBFmQ1B/IvkHHT2zQDb25yzc16mNabvy86HCLmVeB+B68d
+	rtMzV3fioK2UTorAy9Cqx5qBRsznTLuv2k/RzFw==
+X-Gm-Gg: ASbGnctQia0/jUwnbPoPM8bzGBrNYLp5HWVUitMNxWEw84FDMv1efQHLDC4c+wmFfMG
+	huI6DbtWVStDDwZgicIeACIVAl8yGkgbK0jGAbskPzisMqOKJNTW7SFFuM7GF05KXox3vlbRrl7
+	UI4MUJBspWJOZpEOf0UXbtIT4=
+X-Google-Smtp-Source: AGHT+IE7ElI0Wie88BjvIx4/nAvhgrv4C9qAG+SVDsK5xNXRaCwIrYfp4uSH7h+9tbFwPhfRFVhl7PG+FIJIC44x9zQ=
+X-Received: by 2002:a05:6512:318c:b0:549:8f06:8225 with SMTP id
+ 2adb3069b0e04-54ad6512f29mr3163266e87.53.1742801421294; Mon, 24 Mar 2025
+ 00:30:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250324-wcd-gpiod-v1-0-27afa472e331@nxp.com> <20250324-wcd-gpiod-v1-2-27afa472e331@nxp.com>
-In-Reply-To: <20250324-wcd-gpiod-v1-2-27afa472e331@nxp.com>
-From: Steev Klimaszewski <steev@kali.org>
-Date: Sun, 23 Mar 2025 22:40:51 -0500
-X-Gm-Features: AQ5f1Jrs3YNxuyzEK2PKwShWt84XVzo4wlyPswgCV-soNnQk2eSI4Vg06XK4Sdo
-Message-ID: <CAKXuJqht5ZiFyt2uWXwPSEdszYQWKHm22+mAQCPQXn8b7AbL-w@mail.gmail.com>
-Subject: Re: [PATCH 2/3] ASoC: codec: wcd938x: Convert to GPIO descriptors
+References: <20250324-wcd-gpiod-v1-0-27afa472e331@nxp.com> <20250324-wcd-gpiod-v1-1-27afa472e331@nxp.com>
+In-Reply-To: <20250324-wcd-gpiod-v1-1-27afa472e331@nxp.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 24 Mar 2025 08:30:09 +0100
+X-Gm-Features: AQ5f1Jp89LHUfGV1BvkWIJcCi8kryB-sXnI19w6Nw7WZk7DWQ3yMLvoYji6l6JQ
+Message-ID: <CACRpkda=gb=u94CqYC8LuBtqg7x0eUVyJnuixLuyNonZ0=X3Kg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] ASoC: codec: wcd939x: Convert to GPIO descriptors
 To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
 	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, linux-sound@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
 	linux-arm-msm@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Peng Fan,
+Hi Peng,
 
-On Sun, Mar 23, 2025 at 9:28=E2=80=AFPM Peng Fan (OSS) <peng.fan@oss.nxp.co=
+thanks for your patch, and thanks a *LOT* for working on the gpio descripto=
+r
+task!!
+
+On Mon, Mar 24, 2025 at 3:28=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp.co=
 m> wrote:
->
+
 > From: Peng Fan <peng.fan@nxp.com>
 >
 > of_gpio.h is deprecated, update the driver to use GPIO descriptors.
@@ -93,74 +96,31 @@ m> wrote:
 > output low, set value 0 means output high with gpiod API.
 >
 > Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  sound/soc/codecs/wcd938x.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-> index 1ae498c323912ed799dcc033e7777936d90c9284..c70da29406f36883e4926eca4=
-0ab5ba5df02c383 100644
-> --- a/sound/soc/codecs/wcd938x.c
-> +++ b/sound/soc/codecs/wcd938x.c
-> @@ -11,7 +11,6 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/component.h>
->  #include <sound/tlv.h>
-> -#include <linux/of_gpio.h>
->  #include <linux/of.h>
->  #include <sound/jack.h>
->  #include <sound/pcm.h>
-> @@ -171,7 +170,7 @@ struct wcd938x_priv {
->         int flyback_cur_det_disable;
->         int ear_rx_path;
->         int variant;
-> -       int reset_gpio;
-> +       struct gpio_desc *reset_gpio;
->         struct gpio_desc *us_euro_gpio;
->         u32 micb1_mv;
->         u32 micb2_mv;
-> @@ -3251,9 +3250,9 @@ static int wcd938x_populate_dt_data(struct wcd938x_=
-priv *wcd938x, struct device
->         struct wcd_mbhc_config *cfg =3D &wcd938x->mbhc_cfg;
->         int ret;
->
-> -       wcd938x->reset_gpio =3D of_get_named_gpio(dev->of_node, "reset-gp=
-ios", 0);
-> -       if (wcd938x->reset_gpio < 0)
-> -               return dev_err_probe(dev, wcd938x->reset_gpio,
-> +       wcd938x->reset_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_ASIS);
-> +       if (IS_ERR(wcd938x->reset_gpio))
-> +               return dev_err_probe(dev, PTR_ERR(wcd938x->reset_gpio),
->                                      "Failed to get reset gpio\n");
->
->         wcd938x->us_euro_gpio =3D devm_gpiod_get_optional(dev, "us-euro",
-> @@ -3297,10 +3296,10 @@ static int wcd938x_populate_dt_data(struct wcd938=
-x_priv *wcd938x, struct device
->
->  static int wcd938x_reset(struct wcd938x_priv *wcd938x)
->  {
-> -       gpio_direction_output(wcd938x->reset_gpio, 0);
-> +       gpiod_set_value(wcd938x->reset_gpio, 1);
->         /* 20us sleep required after pulling the reset gpio to LOW */
->         usleep_range(20, 30);
-> -       gpio_set_value(wcd938x->reset_gpio, 1);
-> +       gpiod_set_value(wcd938x->reset_gpio, 0);
->         /* 20us sleep required after pulling the reset gpio to HIGH */
->         usleep_range(20, 30);
->
->
-> --
-> 2.37.1
->
->
 
-With this patchset applied, the wcd938x codec used in the Thinkpad
-X13s stops working:
+The patch as such is perfect:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-wcd938x_codec audio-codec: soundwire device init timeout
-wcd938x_codec audio-codec: ASoC: error at snd_soc_component_probe on
-audio-codec: -110
-snd-sc8280xp sound: ASoC: failed to instantiate card -110
-snd-sc8280xp sound: probe with driver snd-sc8280xp failed with error -110
+However we need to watch out for users:
+$ git grep qcom,wcd939
+arch/arm64/boot/dts/qcom/sm8650-hdk.dts:                compatible =3D
+"qcom,wcd9395-codec", "qcom,wcd9390-codec";
+arch/arm64/boot/dts/qcom/sm8650-hdk.dts:                compatible =3D
+"qcom,wcd9395-usbss", "qcom,wcd9390-usbss";
 
--- steev
+reset-gpios =3D <&tlmm 107 GPIO_ACTIVE_LOW>;
+
+arch/arm64/boot/dts/qcom/sm8650-qrd.dts:                compatible =3D
+"qcom,wcd9395-codec", "qcom,wcd9390-codec";
+arch/arm64/boot/dts/qcom/sm8650-qrd.dts:                compatible =3D
+"qcom,wcd9395-usbss", "qcom,wcd9390-usbss";
+
+reset-gpios =3D <&tlmm 107 GPIO_ACTIVE_LOW>;
+
+Mention in the commit message that the in-tree DTS files have the right
+polarity set up already so we can expect this to "just work".
+
+I would also mention that the current code in the driver is quite ugly:
+it doesn't even request the GPIO before starting to use it :/
+
+Yours,
+Linus Walleij
