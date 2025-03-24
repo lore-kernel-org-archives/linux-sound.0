@@ -1,167 +1,138 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4DB25D54D
-	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 09:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36F41E5B91
+	for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 11:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742810289; cv=none; b=c/RrGHXK7C3m/dhZt1gvahfKdOKUL9wTxBCk+cBlYT90ESc4UY6FCJiLQsLGii91+vdStrXzR2dkXW3XN8xaMUrqMp+pDTFYYKN6OUnMZ72yGks4F1CeYJWdDA0JXSpoQJuswp5J/OL74h13yISqMau55f33FF/HqHZ1qeWYz/w=
+	t=1742814381; cv=none; b=p3mkTlVM1qu+7O5lI0Gjxou9Av6HcfWZ/HrLNgAf3oAiFVq+p/Dh6+Str4X+RsznfzSgbo3Az5zPFul/7NPPJDMUSAtkqw2524wQPPgU7Bdn3TpVlJfS/8MaB5gXnyKYUrYiBZm2aXeiuQq3eLkwud5TXZcBfyJorsKWOboHyH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742810289; c=relaxed/simple;
-	bh=OHg1Gocf3MVAxryxLA/xQ+5RT7slspVi+KujcHZqyMU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l+G79IKvymw6vLqXJfmbvZj3KK4UxAIG7aZ9jaQetz78mKOIH20kmQwzgEuDvKHVx1GvmegNoGBmD0mkZzE7d4o6IrvQ1WD5BNJTSDW3ehM5pICWJ2nCSDrorzBL3chM7ScIE1lwOlkzpCCzkeyu+YiwmjS072t2HbsLIVo9y3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=spfymTR+; arc=none smtp.client-ip=209.85.167.41
+	s=arc-20240116; t=1742814381; c=relaxed/simple;
+	bh=Fajt6GQE8QH5YN/HGXfsUTV/hu9B35JpoBIyhgJYBZI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Dv/FWImD8uKW54ujd+r/QaagjWxM3p0HGEGVsjItLXcYp6qfV6VTEsUItdjPIcpHWaERNqzoZ7jokKA5dNzuf5aYdackz5qNY9a8h1Zig3zZDaru1+LDr3ooXcapocQdC2MjY6Z2ZTWpYmtqMqjh4IWDpKelj5gGvvEuCGnaVW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fYvT1/Ls; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="spfymTR+"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-549644ae382so5270363e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 02:58:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fYvT1/Ls"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-399737f4fa4so2357290f8f.0
+        for <linux-sound@vger.kernel.org>; Mon, 24 Mar 2025 04:06:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742810285; x=1743415085; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MPGPUbUSiYN5rbP1AyBJpFJROiY6lURz5npYEhG7kPM=;
-        b=spfymTR+q2YO9IXeQV8zJTlk/fIsFgVaMze6osPrwJPUQ0qDzci/WNcZtknTp12fJO
-         F3jFAwmvfmlkscYBJaySGc70Q75XTj00+5/ujXBHBYyd6y2g2mhUeMMYnnWvINbGpbdZ
-         PJbJsPQhzW3uRb+4YjmsQOTPXzhRGgk/GLfsuPa3wjUiNvYJU+bsWjsNpH6KF5zAuxea
-         FwOeEHRHY8/YeD0Uqdx5/CafvuYb0B7OCPaTvjLgrKIlHN8lLHCGadzkavwC9U79I68j
-         cfLuNgXM7FEMHolTvlHx3IWDG7nQ/2mklNASV1V7s5BGGrlIsMN360hcbElSD5/OZtTt
-         s69g==
+        d=linaro.org; s=google; t=1742814378; x=1743419178; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3WP0bnIzPp/bKVB6iCB93JUW+VRZsKoHPmvfeJJHBNw=;
+        b=fYvT1/LsLbI6OxTYIU6p7yL4L3OgGeAHqF011CqWDGii24eCK4/QBfrpT5W4bdOsmv
+         RODIMrgPASe4Tj2/7d7HPA4BO0jUhWMS/Izvf9Hlq9OawvC2NIbrs8JgvKdsq4xYZ4xR
+         gVx/3TAXsmNbTJbWVzLz9OHQVicrxa/u7HGgtrOec0i+Up+q+weYUfrHsvuPudrcZxQU
+         Afr9S8H/S0xDr9hzrBvXrKyf8U2g1uW65pjPcewGf52DYMk3s52zQaja5q+nvqYJJXNv
+         igWcCs5yu9yTexvAvf7LPJk7OzLZyeTdagnP+frY09aEsifH3KqOJt75nHiuwk79491a
+         4cbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742810285; x=1743415085;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MPGPUbUSiYN5rbP1AyBJpFJROiY6lURz5npYEhG7kPM=;
-        b=XoBfFom6R7ztGnTeV4VW92xXgnHUb4P2Mblpb1dvLRXMj/eDEwPeZFrIb7MiFWb6uQ
-         fm///XUYEOaTDRA/OWICn5V+Guw9PukudVzlJAfBshwrwjPUxEk/s6KqXNbeCJbPfhcZ
-         B3Pc/gytt3F326Kipc9OtizKPei8Q3pAwU214Ky0ERDD+9RPNNcNy1wwwhYvsiEHRVDM
-         4RST8DUdvQ44+2rUc53vxDWj3uXHlQhPMHLEnmG3g5J2bkeIescAuI5e4W+Hh1MSlL/N
-         CBeQR6B5bcuLhyVkrzUwwD0TeKfb4hA37uiCHwLM7eZ/NCrCTC1eS6RI3DksbqqEB6E8
-         Ojqw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWSNPVQOF0t4QvMizLxpZjarzApHFoow/wzwx+o9f1I4Bj6qWK22S5fUTgGCkpuuoiccwbUG9OkdcluQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkN1ZnFFgotTi8sUOSvjZX1xuHjwLXw1PG5c5plLHhr93OS66p
-	hx79CAdIGc1twkn1z+T3C+n3e1FL9z0q3TD3vILGQf9xTHAYCpbqe7U2GfVWUWJ/np5jUIsNtLP
-	roZ1z3ukWS8aoV73UnrnaViOk3VxUErQjHM7ykw==
-X-Gm-Gg: ASbGncuVcBO3AF7VWI9R/9GABNkEnKi1gMmTUVqEe1QPZK4ICNBjYpxLIqt/XYn/YGq
-	NSvjYQagA4beTCzZl8HdNJFTVJtdNZ3S2R1kd2pfjJSdq7BLZQyTeXHsYSSHYnlitpL/nGYdx6u
-	m0Ps+TdRNQHJbtXYjyQP9Bx5s=
-X-Google-Smtp-Source: AGHT+IGFsn3NoPz0najqV+IyhexXJLWBrCkDs/jIJqPrU8OWba6VOwjZMM5PPRVIKcz1oO7UGeYDUXXGPDpt9IuYXJ4=
-X-Received: by 2002:a05:6512:1589:b0:549:7590:ff24 with SMTP id
- 2adb3069b0e04-54ad648589amr4088805e87.22.1742810285409; Mon, 24 Mar 2025
- 02:58:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742814378; x=1743419178;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3WP0bnIzPp/bKVB6iCB93JUW+VRZsKoHPmvfeJJHBNw=;
+        b=frKzJ33pvVyJLW6dmPAh86mYqlWsIDR15Hm92bNz4bqLLMwYOnrPxIZ7Qkh2G6lAOg
+         J6Er+tSHQcy163A4gbBp7TavYU4it/1SuSeTUL22OCOtPp3M/4N9kFeqdBBA5ugaY6Ne
+         PDa9AK47q17GoQSKgAMYtfKKtZzXpT8BYM+w2m0+/alEbAgpxIVjDKA7pru6walIXDAr
+         FDWv3emH5RR2wMmfgsJfRl2/K6+FE/ZsF5RQbema1CP25AWOI5VvwM6RAoS8ywX9aCBA
+         7GuDFYSlllJsJTs6JEOvAcRgmYbhZI3BjyoywNPgNcYmb+tFHYx/K+hQJ20/tkTI9r0t
+         Up9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWMGDEjb/syIrsDYMfxaM02S+zLcaWnJC9svUJrzD4eKwhJfJ6oiS6ft9MqHE6D/VCbZYL2OrqUpLSbmA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwD3ong9w14zv1scphA0Qc2vQXHccSCnlcDrcwdplr4xehAWIqL
+	npvBRZ8zmlEjgDYuBcSzOoHt7wsJugJ1cD1sXD8WN6dTG64xLXC3GZwgIA5xma0=
+X-Gm-Gg: ASbGnctQNDkpMGSoNV2ycxSpz/0w8jG1vUoTH/zh9KdAvYAON5jl28rGAcNJxTMFYQS
+	lx2GwRYRFgioiwWhwTDgnE1SjPduQ6lXUDieXWP310eA3ko5QQQK2WerTHTomwD7V8+4KwjQG8d
+	3HOrrByWmc0OikqrE1hq9FOYvJgz8/NlIWEgou8npXsZ4FnBWQCtYalZCsV7kv9vv+eQPnhyBwT
+	Ubqf+c2SS29K2M1TH0a3AwAv8S+TZKU89ACyPdw9lYlfZsLew8Y2aBUPVnJ/ebR2FtJeULIoH0i
+	W4MFbEci14REa+0EwwxSojxPrQDNnTzhPfohIJfM77SEnN4p+l6F7M/ZRWGo6t1GNsTqRj8cQBp
+	dhTri
+X-Google-Smtp-Source: AGHT+IGW+HXesDe2Nb6k7C43YiVAVslLNYvXirFy+tXP9WmjZ+UJP/9gumiDNsak+/cyJra/6fapvg==
+X-Received: by 2002:a05:6000:1566:b0:391:3291:e416 with SMTP id ffacd0b85a97d-3997f903a53mr11643747f8f.19.1742814377893;
+        Mon, 24 Mar 2025 04:06:17 -0700 (PDT)
+Received: from localhost.localdomain ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fd28a46sm117236055e9.24.2025.03.24.04.06.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Mar 2025 04:06:17 -0700 (PDT)
+From: srinivas.kandagatla@linaro.org
+To: peda@axentia.se,
+	broonie@kernel.org,
+	andersson@kernel.org,
+	krzk+dt@kernel.org
+Cc: ivprusov@salutedevices.com,
+	luca.ceresoli@bootlin.com,
+	zhoubinbin@loongson.cn,
+	paulha@opensource.cirrus.com,
+	lgirdwood@gmail.com,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	konradybcio@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	dmitry.baryshkov@oss.qualcomm.com,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	johan+linaro@kernel.org,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: [PATCH v3 0/6] ASoC: wcd938x: enable t14s audio headset
+Date: Mon, 24 Mar 2025 11:06:00 +0000
+Message-Id: <20250324110606.32001-1-srinivas.kandagatla@linaro.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250324-wcd-gpiod-v1-0-27afa472e331@nxp.com> <20250324-wcd-gpiod-v1-2-27afa472e331@nxp.com>
- <CAKXuJqht5ZiFyt2uWXwPSEdszYQWKHm22+mAQCPQXn8b7AbL-w@mail.gmail.com>
- <PAXPR04MB8459D61091A8BF9ABD94DA7E88A42@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <CACRpkdZXG0JC7_-Mg6Dpq08Y=Kr3M+fRWQF_bPG8c-WH8pA9Mg@mail.gmail.com>
- <Z-ER6elHDYtIY0ap@hovoldconsulting.com> <PAXPR04MB8459B60880CC19480C5902B388A42@PAXPR04MB8459.eurprd04.prod.outlook.com>
- <CACRpkdagFrz=5fRUfVuaZJRsBao4UrObNa7VknS_hmOAsWFO+Q@mail.gmail.com> <PAXPR04MB8459F7BE5AD43E0685C74A6C88A42@PAXPR04MB8459.eurprd04.prod.outlook.com>
-In-Reply-To: <PAXPR04MB8459F7BE5AD43E0685C74A6C88A42@PAXPR04MB8459.eurprd04.prod.outlook.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 24 Mar 2025 10:57:53 +0100
-X-Gm-Features: AQ5f1Jq7SF51RGQ0IJIEpnbKXCAd1Gopipv6p1fkqvQKEyRcyxOHT8HxFUdiM2Q
-Message-ID: <CACRpkdZ_f2EHjTJtkOdAmdAOUsh2Xi0hsToCWuTGkoh1aCZwtA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] ASoC: codec: wcd938x: Convert to GPIO descriptors
-To: Peng Fan <peng.fan@nxp.com>
-Cc: Johan Hovold <johan@kernel.org>, Steev Klimaszewski <steev@kali.org>, 
-	"Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 24, 2025 at 9:34=E2=80=AFAM Peng Fan <peng.fan@nxp.com> wrote:
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-> > Subject: Re: [PATCH 2/3] ASoC: codec: wcd938x: Convert to GPIO
-> > descriptors
-> >
-> > On Mon, Mar 24, 2025 at 9:09=E2=80=AFAM Peng Fan <peng.fan@nxp.com>
-> > wrote:
-> >
-> > > ok, then the only suspecting point is
-> > > wcd938x->reset_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_ASIS);
-> > >
-> > > I may need to use GPIOD_OUT_LOW to configure it to output as set
-> > raw
-> > > set value as 1.
-> >
-> > I think there may be a bug in gpiod_configure_flags() in gpiolib.c:
-> >
-> >         /* Process flags */
-> >         if (dflags & GPIOD_FLAGS_BIT_DIR_OUT)
-> >                 ret =3D gpiod_direction_output_nonotify(desc,
-> >                                 !!(dflags & GPIOD_FLAGS_BIT_DIR_VAL));
-> >         else
-> >                 ret =3D gpiod_direction_input_nonotify(desc);
-> >
-> > Shouldn't this be:
-> >
-> >         if (dflags & GPIOD_FLAGS_BIT_DIR_OUT)
-> >                 ret =3D gpiod_direction_output_nonotify(desc,
-> >                                 !!(dflags & GPIOD_FLAGS_BIT_DIR_VAL));
-> >         else if (dflags & GPIOD_FLAGS_BIT_DIR_SET)
-> >                 ret =3D gpiod_direction_input_nonotify(desc);
->
-> Using GPIO_ASIS should not change direction.
-> This change makes sense.
+On Lenovo ThinkPad T14s, the headset is connected via a HiFi Switch to
+support CTIA and OMTP headsets. This switch is used to minimise pop and
+click during headset type switching.
 
-Actually when looking closer at it I was wrong.
+This patchset adds required bindings and changes to codec and dts to   
+tnable the regulator required to power this switch along with wiring up
+gpio that control the headset switching.
 
-From <linux/gpio/consumer.h>:
+Without this patchset, there will be lots of noise on headset and mic
+will not we functional.
+   
+Changes since v2:
+	- udpated bindings as suggested by Rob and Krzysztof
+	- cleaned up swap_gnd_mic callback
+	- updated mux gpio to use dev_err_probe.
+	- added Tested-by and reviewed-by tags 
 
-enum gpiod_flags {
-    GPIOD_ASIS    =3D 0,
-    GPIOD_IN    =3D GPIOD_FLAGS_BIT_DIR_SET,
-    GPIOD_OUT_LOW    =3D GPIOD_FLAGS_BIT_DIR_SET | GPIOD_FLAGS_BIT_DIR_OUT,
-    GPIOD_OUT_HIGH    =3D GPIOD_FLAGS_BIT_DIR_SET | GPIOD_FLAGS_BIT_DIR_OUT=
- |
-              GPIOD_FLAGS_BIT_DIR_VAL,
-    GPIOD_OUT_LOW_OPEN_DRAIN =3D GPIOD_OUT_LOW | GPIOD_FLAGS_BIT_OPEN_DRAIN=
-,
-    GPIOD_OUT_HIGH_OPEN_DRAIN =3D GPIOD_OUT_HIGH | GPIOD_FLAGS_BIT_OPEN_DRA=
-IN,
-};
+Changes since v1:
+	- moved to using mux-controls.
+	- fixed typo in regulator naming.
 
-So GPIOD_ASIS does not set GPIOD_FLAGS_BIT_DIR_SET.
+Srinivas Kandagatla (6):
+  dt-bindings: mux: add optional regulator binding to gpio mux
+  mux: gpio: add optional regulator support
+  ASoC: codecs: wcd-mbhc: cleanup swap_gnd_mic api
+  ASoC: dt-bindings: wcd93xx: add bindings for audio mux controlling hp
+  ASoC: codecs: wcd938x: add mux control support for hp audio mux
+  arm64: dts: qcom: x1e78100-t14s: Enable audio headset support
 
-Then gpiod_configure_flags() has:
+ .../devicetree/bindings/mux/gpio-mux.yaml     |  4 ++
+ .../bindings/sound/qcom,wcd938x.yaml          |  6 +++
+ .../qcom/x1e78100-lenovo-thinkpad-t14s.dtsi   | 25 ++++++++++++
+ drivers/mux/gpio.c                            |  5 +++
+ sound/soc/codecs/Kconfig                      |  1 +
+ sound/soc/codecs/wcd-mbhc-v2.c                |  2 +-
+ sound/soc/codecs/wcd-mbhc-v2.h                |  2 +-
+ sound/soc/codecs/wcd937x.c                    |  2 +-
+ sound/soc/codecs/wcd938x.c                    | 40 ++++++++++++++-----
+ sound/soc/codecs/wcd939x.c                    |  2 +-
+ 10 files changed, 76 insertions(+), 13 deletions(-)
 
-    /* No particular flag request, return here... */
-    if (!(dflags & GPIOD_FLAGS_BIT_DIR_SET)) {
-        gpiod_dbg(desc, "no flags found for GPIO %s\n", name);
-        return 0;
-    }
+-- 
+2.39.5
 
-    /* Process flags */
-    if (dflags & GPIOD_FLAGS_BIT_DIR_OUT)
-        ret =3D gpiod_direction_output_nonotify(desc,
-                !!(dflags & GPIOD_FLAGS_BIT_DIR_VAL));
-    else
-        ret =3D gpiod_direction_input_nonotify(desc);
-
-So the function bails out right above (you could check the debug
-print there if in doubt.)
-
-So the behaviour is correct.
-
-So now I have no idea what is going on again :/
-
-But I would suggest trying to set GPIOD_OUT_LOW when requesting
-the line and just check if that solves Steev:s problem
-(trial-and-error).
-
-Yours,
-Linus Walleij
