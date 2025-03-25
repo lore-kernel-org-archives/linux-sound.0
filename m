@@ -1,37 +1,35 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF051D63C3
-	for <linux-sound@vger.kernel.org>; Tue, 25 Mar 2025 21:35:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F75618BC2F
+	for <linux-sound@vger.kernel.org>; Tue, 25 Mar 2025 21:35:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742938505; cv=none; b=gtXjxRQ03MV8xKvWzNZJJHu0Rqiww1Nl+rigAT7YJAezmxbbFQ5D3m3mav87fkiQ7huCtY0+ppMlg+dvVIbEAUJP9FaCQF/OWjkSod6dZRlCLQ4AJU+2TN2gWWQMFZrdsuUKsikgwlnlH8ZZowkOap52Adc4ghYe12ULOrpW2Lg=
+	t=1742938505; cv=none; b=NohLSxEqJrtHG6D5O03FZZ72daPnqDQlc6ndKozcQVV/v3Sdm2S/RC2ZNW6rCjrcdYNt5YPYGsn3devWSNhwn1UHT+4nxlArYEFCfwAbi0UrjSWh1ibY6d5a1YfHh4APmNaoB3xDkazqn5wo3Oz6NNnUwoq6ln1OFbKd/oa5fFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1742938505; c=relaxed/simple;
-	bh=aJxthH/gs783p5sABlUHr+hOns0Po/519M66ZUux8oQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=O/rqzRJ3jxLb55dvOo2wxFdz2nfpvIodVc2RbE3udLY5P3gzsc5AHDWIvpqzFx0+gm9BkNnSZLwzKBkYj6tWzilGC5C98OXVcARO7aO1wtAOYaETTYjQ9EV/1HeYpWQmJ0FyyTP14j7eSuuEBggJ5tqz/VXZ+NngWphJTdezre0=
+	bh=X97KUKmbzUHAvQ9lppO/yqeLZu5oLRLKlmwZEKx55g4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mgvdcogkgOgFhxsLLOIhFeTgmpmUFn3yTgyI6sGPOSA4zd08seAUSVE6bQjHUH1oy4Ad6Dol9MzX8kBCP9igOT5fOKwwflrthk6nWt5Xc9C5GMUp17WpUsrc+IxW9aKWi1Vhnzb+f0RwZkAeGp3GqfmCa3S2zhbcb4z3j4ViXqM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.felsch@pengutronix.de>)
-	id 1txBvF-0001nz-PX; Tue, 25 Mar 2025 22:34:57 +0100
+	id 1txBvE-0001nz-QZ; Tue, 25 Mar 2025 22:34:56 +0100
 From: Marco Felsch <m.felsch@pengutronix.de>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
 	perex@perex.cz,
-	tiwai@suse.com
+	tiwai@suse.com,
+	robh@kernel.org
 Cc: kernel@pengutronix.de,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ASoC: soc-core: fix remaining of_property_read_bool usage
-Date: Tue, 25 Mar 2025 22:34:54 +0100
-Message-Id: <20250325213455.3952361-2-m.felsch@pengutronix.de>
+Subject: [PATCH 1/2] ASoC: soc-core: fix bitclock-master and frame-master present check
+Date: Tue, 25 Mar 2025 22:34:53 +0100
+Message-Id: <20250325213455.3952361-1-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250325213455.3952361-1-m.felsch@pengutronix.de>
-References: <20250325213455.3952361-1-m.felsch@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,46 +42,36 @@ X-SA-Exim-Mail-From: m.felsch@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-Replace the of_property_read_bool() by of_property_present() to avoid
-warnings which are triggered since commit c141ecc3cecd ("of: Warn when
-of_property_read_bool() is used on non-boolean properties").
+To check for a none boolean property of_property_present() should be
+used instead of of_property_read_bool(). The later returns a warning
+since commit c141ecc3cecd ("of: Warn when of_property_read_bool() is used
+on non-boolean properties").
 
+Fixes: 69dd15a8ef0a ("ASoC: Use of_property_read_bool()")
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- sound/soc/soc-core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/soc/soc-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 1e0cdd778a3b..34dc24e07336 100644
+index 3c6d8aef4130..1e0cdd778a3b 100644
 --- a/sound/soc/soc-core.c
 +++ b/sound/soc/soc-core.c
-@@ -3046,7 +3046,7 @@ int snd_soc_of_parse_pin_switches(struct snd_soc_card *card, const char *prop)
- 	unsigned int i, nb_controls;
- 	int ret;
+@@ -3403,12 +3403,12 @@ unsigned int snd_soc_daifmt_parse_clock_provider_raw(struct device_node *np,
+ 	 * check "[prefix]frame-master"
+ 	 */
+ 	snprintf(prop, sizeof(prop), "%sbitclock-master", prefix);
+-	bit = of_property_read_bool(np, prop);
++	bit = of_property_present(np, prop);
+ 	if (bit && bitclkmaster)
+ 		*bitclkmaster = of_parse_phandle(np, prop, 0);
  
--	if (!of_property_read_bool(dev->of_node, prop))
-+	if (!of_property_present(dev->of_node, prop))
- 		return 0;
+ 	snprintf(prop, sizeof(prop), "%sframe-master", prefix);
+-	frame = of_property_read_bool(np, prop);
++	frame = of_property_present(np, prop);
+ 	if (frame && framemaster)
+ 		*framemaster = of_parse_phandle(np, prop, 0);
  
- 	strings = devm_kcalloc(dev, nb_controls_max,
-@@ -3120,7 +3120,7 @@ int snd_soc_of_parse_tdm_slot(struct device_node *np,
- 	if (rx_mask)
- 		snd_soc_of_get_slot_mask(np, "dai-tdm-slot-rx-mask", rx_mask);
- 
--	if (of_property_read_bool(np, "dai-tdm-slot-num")) {
-+	if (of_property_present(np, "dai-tdm-slot-num")) {
- 		ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
- 		if (ret)
- 			return ret;
-@@ -3129,7 +3129,7 @@ int snd_soc_of_parse_tdm_slot(struct device_node *np,
- 			*slots = val;
- 	}
- 
--	if (of_property_read_bool(np, "dai-tdm-slot-width")) {
-+	if (of_property_present(np, "dai-tdm-slot-width")) {
- 		ret = of_property_read_u32(np, "dai-tdm-slot-width", &val);
- 		if (ret)
- 			return ret;
 -- 
 2.39.5
 
