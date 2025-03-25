@@ -1,88 +1,134 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBC327456;
-	Tue, 25 Mar 2025 14:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C781EB3E;
+	Tue, 25 Mar 2025 15:05:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742914393; cv=none; b=VfTRF3hn9wntqt223dvVKqGBQPqO9bnvamT9AvX83WxDTwSS/6ZKQ/lAsbee4zWnbGsaDXlu2S8JAxA0D19ho9UlYHkM18eOcAc1V1JxZACwJ+k+MwuhULj1Q2If4dmvsaVYG6vHso6mAzq2ay7SIhC1EdVd74yJqWSrTU1L3zQ=
+	t=1742915118; cv=none; b=JM5DaNxXLBuARWBy3JPFgyj+JtdQXzkT4ZSnRFHaQlQU/jhCGdisXN+eUinFKBcrkL6qcW4WDM7XQUM1+NrVPL66X2NC1kuLYZ76rULHfoUGSR4omp1woN8LNFfZNqE9byVIb+smGwr7gxxNvvzYTV76LA1xOHcc4U51CG/tk2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742914393; c=relaxed/simple;
-	bh=TOkLz6mRTGWS4FifolhJ5PIlrqTalQbrkuwn2eCQM8I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nXrrccaOs3WMFKNQAUiBf1oDggzfd7nfVvvGALzKPP/b/w9iR00acpsPes1O8K4PqhVjwM1NasU+/neWOmh9Be+5fQDBKj5D7h+U0iAszEGQat2rPax+raGMBQmegW4DTfI3JiOh3uHELiGDR7gEvmUNp10/8bV8tvvd/Zq0dts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZvuJa/dw; arc=none smtp.client-ip=209.85.218.49
+	s=arc-20240116; t=1742915118; c=relaxed/simple;
+	bh=xm5YteKI5jO3OTAAhxdRHYin5uAOhZ+7H+TKvjsGoOE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BZ3/GqILcYJ08mLmoSgKyvQ3M5+8gn7ZdSeDzH1gpL3i97wglL4cnkh1QEmguVDncfqAPmPbYzDYurgIaNZqtc+8ovKAiNOfrBCHosAKp3AcQmjvMPWWZuN0cfTfOQ4vlL5ra1E3eUt1Iya+VHhBt3KIpc8UIeOtphwaKjNj1j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X5Xv1Thi; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZvuJa/dw"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ac3fcf5ab0dso613801966b.3;
-        Tue, 25 Mar 2025 07:53:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5Xv1Thi"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-227aaa82fafso59856395ad.2;
+        Tue, 25 Mar 2025 08:05:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742914390; x=1743519190; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TOkLz6mRTGWS4FifolhJ5PIlrqTalQbrkuwn2eCQM8I=;
-        b=ZvuJa/dwgiV96uXbTA+VBHTaPuwwfyobxcHLQgZ39gPnEbNrOTcyxZAvjCrVaNuWJl
-         Ck3oaXr0xRaXvpT8YrIAfRX5Q9RIQ47/1QnTmE2KWcdwzLHD2wI4EWghhPlufH5zQuAo
-         G2gjRZ0Fa+Bs2nCMVM8178XhGkaBQye87QiSBXjcvYqTA1Vln5aLo7D1VUs8T7ZA59QT
-         sw/GQMjnykMxU1PaN20tjhRo6p7R2DpCEUL90oAaumLZOf4zISPMXQlUtvsB4zSm6Y+A
-         745JSfgo7kqxfVjpOzVQIgciwSPf7dzvHHO1lsCRxReG/tVtQL+9H8hWoS6FjC4Y/CuQ
-         ZgSg==
+        d=gmail.com; s=20230601; t=1742915115; x=1743519915; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jWxFqrH9YL7/eofO5H8remEpyysGR/mTITCg0OMFQQA=;
+        b=X5Xv1ThivUKh8Hj3wBPTAitwS4f0s9VCiDMIZEhg3D8ivrwxiaO/M0s1PLk4SWBd7N
+         TwHoZE8TpK/jgRBoUUzdof5p53UvsS6sSxPiIHlCx3ypXzq1iN+Deoku3kYZGlmwY/Aa
+         AXgqUFqmq6f3V92wfQjSFwB18VzWSo9SCtoacA8zSMLNwZhaEGnK/ic42nr6Oo8Cv6t4
+         vcYQoaqIMdZR7FQDrWEvHMlt44UOQg11/xb1DkShs6n/8AoSmeCSxXbk13otXE0BWfAj
+         3nahJ0ZSm60MLS4pVRoF8qbDybc8Lm4+R3daluhOxhd4WiBjwezhR7X7XHLy94TdV8AE
+         zxXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742914390; x=1743519190;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TOkLz6mRTGWS4FifolhJ5PIlrqTalQbrkuwn2eCQM8I=;
-        b=vBhcgnFMzX4IW9ETa+avTTr6Ofo44KLHVDJVZcFXoVlTWW5koIcGNDDrfG4c2k/Mdi
-         +8KNtpxn5w2W9R/CgtrQMC54QpWyMbqqFqGJHd53r+8ZSw0+Xsr23MIKQcvtWsbOQKjR
-         V++WXXiTvkjAH09lU5cVCrAYeaZ1xWhfhHCa0zJalltIas9fyruheyZIeFvKpRfLh9Ts
-         o2W3zX+WvX3rbyo8QpPCQ0KlktYoHpOFmZB3GTcUhlz+URKr2pG9D+BRW5wGvAKq7MET
-         +x7CQHt2TSc4/YUEzrrlZkKkHnLqgPa9va0NQZstGs5n6P2qDRqJNIl9SCcFnLY5MO+M
-         0GBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZjUzo1Tc+tuMBCTjhB57Q8sv+EOIX3GyCBnBk2Qyy6JPImpvoRRf5ZTYqmE+adnjACRRKzfxko0lvKLU=@vger.kernel.org, AJvYcCW3UblWkpv4X3wB/m5ePjZfJJVkAWZJWjaoTKNyUBs09rnaowvRMdJxjwlhXn3IokZd0b+FUYHFflJ7+cA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbEoVKfU1fKnlt5/ZV2qeUAmwLMYTBBR/LxmN8+s4AsuDqu83M
-	1AjdftE9aei81gY1FewRwzK5vCPG+a18Er5KZ6yl0NFWcyP4jFQcvW9sdcZZFYm7b1gPUbgMBau
-	jpOfaX/qAvcOz4h+7G2Jt732LIPk=
-X-Gm-Gg: ASbGncvzzhFpRDQQ3BhXzq/ZkgUZru5plws6/+XPNToLURGhHb5Xn+pPSmUVY5yx85O
-	5objaFw83RMEuNVjLois3Jt6zpo8XOQ1PqBSGae4PJeS0FnHlk4MfHRqXacsXLFaaxXV9pkW62C
-	udyDF5Y84wQyCKZgJ5Aog1vvUjvGHBAetvLyNPjz0=
-X-Google-Smtp-Source: AGHT+IH7lN5CfLZLavK97BN7iwMt/ktAkv6chOHZ+24E39mR8J6eI1+P/F0cmxCLQz4nXHsw+IQ++Em1RnDC5kIBM6c=
-X-Received: by 2002:a17:907:940e:b0:ac2:9683:ad25 with SMTP id
- a640c23a62f3a-ac3f23e5d2fmr1952450466b.34.1742914389822; Tue, 25 Mar 2025
- 07:53:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742915115; x=1743519915;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jWxFqrH9YL7/eofO5H8remEpyysGR/mTITCg0OMFQQA=;
+        b=ro8m14SRgsApB7gdhIdMPApIwRHP2it2ZluE74+foYj1uK5dk4eP3vpPvo+Szc+WRb
+         QmRhlb3BGw1iCpdTbRP463AkCJWkUv8h9G6qQcqRit8TFDo11pozJGqDRwvvAhmtySfj
+         wCIwG1lMhCfxgDq0EKHdXPJfAyqEPVtM59zl5danTtbmoHJQ9gRosjqfe4SmkhZ0fxSR
+         JbzE09roNy5fG1+Sp6N/9YaCaaaASzjr7f+ldcayUnuXHaf/3moNcNyAS0pP1HKvLoB3
+         7pEQxMuWZKClUv8AMz6FxLDxba9t0tY21ZlBV9RzDN3U53yRFKQxHxpSC/Eh7oF58NBW
+         l6Qw==
+X-Forwarded-Encrypted: i=1; AJvYcCUc/4msoTaAo9NgEFk6ttGPVd4qrju9a+AHZ56xDb45tlOcZr2Gxfecz04hR4RxwlECjxZfk18Ewir7RmE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyv/XmxVabk/D3KvefEVLabe6TVihZTlzrsg6kK5UiYx5w8mTmS
+	OiRwo0xyInzIr5PZLR7IIDbwH2Zq4fVrvJEgTJuU9C28sFIWyLVP
+X-Gm-Gg: ASbGncu6WGs+mOEigYJK2Ee4sFDd4EUuFOkX0lyXSAiQfskpD11m2q5dDUSD4K8G0ro
+	PTJWmFFjtIE/TiWY4qjV2cglPVBkyJ8M0Pruj/w9tHW5OqiX2TK2j4F5cwpy5a/Yf+hLWmCrlA4
+	b8/XFFFRbOyA+VvaZs287j3srDo1Xbt7/uuHkNTMEljcL0pLYS2LPhUHHmpbkYRz0fJaS1EeEmz
+	6c6zf4ed+/qHqcCBlZxtA9P3TvXVV1tx+Q+oLyw5oNKZsJfZNheUwxiDfZ3e1D9kBi8V4kCHBm5
+	qbmBqUHsjQtAJnZYgjSZMCXgNk8OsDgA1nD0XwZQRYcuxsoSsw==
+X-Google-Smtp-Source: AGHT+IEbgo3Hy66xsrTg9MyfAa0va92/DyNS2eEJDABFCbZ4iS9Zyj4XDtelwQfOL8CYWqpdLvIuvg==
+X-Received: by 2002:a17:902:e549:b0:224:194c:694c with SMTP id d9443c01a7336-22780d9bd43mr314595225ad.28.1742915114714;
+        Tue, 25 Mar 2025 08:05:14 -0700 (PDT)
+Received: from localhost ([2401:4900:1cc8:c20:fcca:cfc0:f5e:747e])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-22780f45e1asm91021775ad.80.2025.03.25.08.05.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Mar 2025 08:05:14 -0700 (PDT)
+From: Sharwesh05 <sharweshraajan@gmail.com>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sharwesh05 <sharweshraajan@gmail.com>
+Subject: [PATCH] 	modified:   sound/pci/hda/patch_realtek.c
+Date: Tue, 25 Mar 2025 20:35:10 +0530
+Message-ID: <20250325150510.31452-1-sharweshraajan@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250325032226.603963-1-nichen@iscas.ac.cn>
-In-Reply-To: <20250325032226.603963-1-nichen@iscas.ac.cn>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 25 Mar 2025 16:52:33 +0200
-X-Gm-Features: AQ5f1JqB3_n7wRPOyndANI8VeuPDptNV_crShDtQnUHsVNMYKd4aVNeBOodvySo
-Message-ID: <CAHp75VdPFsg9z+SVQHgCWqg4eA5nmXCvMhi7=-xmsSUCJq-=rw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: sta32x: Remove unnecessary NULL check before clk_disable_unprepare()
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	u.kleine-koenig@pengutronix.de, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 25, 2025 at 5:23=E2=80=AFAM Chen Ni <nichen@iscas.ac.cn> wrote:
->
-> clk_disable_unprepare() already checks NULL by using IS_ERR_OR_NULL.
+---
+ sound/pci/hda/patch_realtek.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-IS_ERR_OR_NULL()
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index a84857a3c2bf..8c2375476952 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -4739,6 +4739,21 @@ static void alc245_fixup_hp_mute_led_coefbit(struct hda_codec *codec,
+ 		snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
+ 	}
+ }
++static void alc245_fixup_hp_mute_led_v1_coefbit(struct hda_codec *codec,
++					    const struct hda_fixup *fix,
++						int action)
++{
++	struct alc_spec *spec = codec->spec;
++
++	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
++		spec->mute_led_polarity = 0;
++		spec->mute_led_coef.idx = 0x0b;
++		spec->mute_led_coef.mask = 3 << 2;
++		spec->mute_led_coef.on = 1 << 3;
++		spec->mute_led_coef.off = 0;
++		snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
++	}
++}
+ 
+ /* turn on/off mic-mute LED per capture hook by coef bit */
+ static int coef_micmute_led_set(struct led_classdev *led_cdev,
+@@ -7883,6 +7898,7 @@ enum {
+ 	ALC245_FIXUP_TAS2781_SPI_2,
+ 	ALC287_FIXUP_YOGA7_14ARB7_I2C,
+ 	ALC245_FIXUP_HP_MUTE_LED_COEFBIT,
++	ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT,
+ 	ALC245_FIXUP_HP_X360_MUTE_LEDS,
+ 	ALC287_FIXUP_THINKPAD_I2S_SPK,
+ 	ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD,
+@@ -10126,6 +10142,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC285_FIXUP_THINKPAD_HEADSET_JACK,
+ 	},
++	[ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc245_fixup_hp_mute_led_v1_coefbit,
++	},
+ 	[ALC245_FIXUP_HP_MUTE_LED_COEFBIT] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc245_fixup_hp_mute_led_coefbit,
+@@ -10569,6 +10589,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
++	SND_PCI_QUIRK(0x103c, 0x8bcd, "HP Omen 16-xd0xxx (MB 8BCD)", ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8a28, "HP Envy 13", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8a29, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8a2a, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
+-- 
+2.48.1
 
-> Remove unneeded NULL check for clk here.
-
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-
---=20
-With Best Regards,
-Andy Shevchenko
