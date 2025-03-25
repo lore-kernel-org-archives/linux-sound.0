@@ -1,238 +1,107 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C1815FA7B
-	for <linux-sound@vger.kernel.org>; Tue, 25 Mar 2025 09:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851A178F24;
+	Tue, 25 Mar 2025 10:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742896038; cv=none; b=OMwc7QdduGLDO+vYI6gI5KlUQRgPFILbaFuEctSzDWwbgq4ghe9vsZgHJlS9U6+SFWNuBPbgB1TWz82lkXW4o5BiUt99PfoPAnTjKUVNXiLSuy0DQWu/v4Zc0JFQz7hynEqfE2R2AJ46MGy0rxb3outo+81Pi+ZlZcgm8a/qnWg=
+	t=1742898356; cv=none; b=UUb1jYm8oQpxjNjjFp4zSu6KkY4oky6xaj0Pkm0Ye4nlM1JGEZQ8elofYgegi1ASghI3O6P0lrdB2K7nHB8U3xdamZ/5NCzUu7gEnUuzqKumgK3WDZRElLbTvW7443mlmszOovnqxrmtb4Jrc5uLWUyniHRFIY3bNmgBgGqiWdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742896038; c=relaxed/simple;
-	bh=SNDPAvCzyENxbPBoezdd21XOz3T+pKTYqMc05BuJ9vc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TCnUWLrQmAXzBO87aoRisgiHInSkmvMDrrWe1NyUlFvokGWrKn+dT9V7Wk9eHmjGdUM1KituQS+DEzNrjFuNyo83H7jQtTZDpWIB9VhZy6spelQtQRdHLnoGRY9z/4Ubw3CD0jHteaJqqEiTpiEySUwyo3Ord7/dCz3YDQTRO+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kFTeD1wo; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1742898356; c=relaxed/simple;
+	bh=pPYr2AHRKW9t53TYJf/9ZrFy4ScNeMvk2ssp+Q9q49A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pVfCTwifUaj6zGD2oNOzmxYPQxr86JLZ7NAGGKBaeeiPJNdjV0RY+gvf88Rfpqiw6rXPvHh1cT1jJueKyMwJKyer51qMvEjpEzEfhsHjfVGknCAw8ikR8TOnO+kCMATYpt29aoQcyvR0YXBmHM2p2hGgNxFX8rCPWkaAl5YHyJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=db4/JWG0; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kFTeD1wo"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43d0618746bso36246125e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 25 Mar 2025 02:47:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="db4/JWG0"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2255003f4c6so102439645ad.0;
+        Tue, 25 Mar 2025 03:25:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742896034; x=1743500834; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1rqrVjDy71pJJydCBHqV9OfKr55/ixkBk/o+Dd196ng=;
-        b=kFTeD1wo+gPftVrCwYS+Xh/8h6xXX0V4enieL1ek+zTwUMhMpzvc7LwnJ75s/NDTF4
-         y2/8JNd9i0+troATyRQEMbF/vjMl90Ncj2LjJmYJUyi4UtZlVNXdE1CeHmMj0xihjJ/i
-         zvbWDarPBhYGfyruMjW4nfR22QbaMX+4koJuhvXY/YIFWiun/udpRzvTKgwHWupQlqR1
-         CpnjScY0oowg34EYstUkY7AnqPfOAmkRt6QGEQrhD4SC5idW+qGQ+X4V93QUiLsgPZhh
-         EN/S1rjaHSiNDYKjMBkEBnL54Wc8kf4iX9MRQvImE8OpZw0hQ8cvr1Sc5FTHg+0fZzvp
-         dUwA==
+        d=gmail.com; s=20230601; t=1742898354; x=1743503154; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5TQZ1mJnI/mAePfWZskq+M/BEdwOR8KjNOwJYBWNuFU=;
+        b=db4/JWG0fFhcN36DUdT5AIaQgHQ2PKB0gVC8B+ZLzg686y2z6rhmZvhOlLjt6J8ZHI
+         6kX7l2IKWzKSxhkytUViNTqdI/gSXhBDSAX6H8UmLI+oJbM3xlDHSQnvG7wM9rQbr31R
+         yiJ4h80NV/fGAyG4xNcvxURJ/JU9BEX7Bw0IaJIeBbbGXIZmS5RgKY/QYKKcUYWGxjHX
+         okVtpr+dGE6aE9ADwVY+bJSf+B/jbGWmzO9YNKVHPzpqahgW/6SLUbsr4jVNUPYQKKVf
+         D9YfB70oayDiAMpC1hQ1/iqPV3dLzPtuofb6H/A/NZZYmojY1KkAeELjzjHIsWFGRlld
+         dFeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742896034; x=1743500834;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1rqrVjDy71pJJydCBHqV9OfKr55/ixkBk/o+Dd196ng=;
-        b=BOaHL4PzUMaN4o7GjsbK5HThthj6EOkTakhLQHUOJWBeqDe0DuOECYt+jCTBp7hWaT
-         1/OMGG4+BLtpuAjqGW+RibAhgTj2efsL1sddZsnAqiKIc2vo9Ne45/8J+Uv+IKp9ilEX
-         /kvkm50QK7l4gW2p+I05MqWvBxLQNhsq3MTbEg9JWue7uELyYwnBRUhtvFygGNv3zrt8
-         26j0dGvxlte4SC83ZvkcA1nXMEV3tu60TcuaQ3dZqV+m+BjfUGmR5pZpC9XaEWfzb6nW
-         k7AOcOqaY3WvByrS8H+r98NX4yOwoCax1dRELQL/FA6tC5CCtZKWJal569/jyL9E8af5
-         R2OQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+fzJG2mhFIuhJYG1ofw4Ju5ZbQEcVTqtf6MM2PahKUeTzPVAs1G+NQ6XEAC7LpsZcARCfNf5HVoHL3A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3xtO0M7Tol335yTTjt5YJ/kzC25pzbg7pw+UMDzvXeP3JRnZH
-	QefZPGHjS2cutdfjPqDD6obiH2vWlTJwqh4vBExaii3NiNVFVzGkPHBk5zzOwK0=
-X-Gm-Gg: ASbGncuBGDoHvzFDFwhP2lst3B2SHgPKSFBzPqoA3okeY2lr6saaQf40oI9pbLI02FF
-	DezirebRLvBamtSPTZno3Xgjt2FyTu4CCxa0Bc+rGfnpq/00k0JYqJRbt6lxvXB5Ex8i/VnlHc0
-	RfVays+lpmom9o6eenfhGB7ehI68rFtQDsCec1Am8boh/5riwCavlMEKKb+KgXNMV8ZOGONIhH6
-	sSCB8bXYpQU7N+1R1aWJ1XmM69QpRJovKXerPAzJR+WkmH9XlwdQ+AOqdiMTnW+PY9k+5wvFOC1
-	5AV75+lteRBXUCvSEVDoO7/F0vetmbM/vQCjSZaREGw9fbH2Bwm5y8s=
-X-Google-Smtp-Source: AGHT+IEo8PzsmSUnbZnC42KObh8p2MImAXpa1n47kc+VRaNDGFKnj63udLOSJsJipS5XFi95tgzn+g==
-X-Received: by 2002:a05:600c:1e18:b0:43c:eea9:f45d with SMTP id 5b1f17b1804b1-43d509f64b8mr171291605e9.18.1742896033632;
-        Tue, 25 Mar 2025 02:47:13 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:f88a:e8d5:82b:cbb5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d53678dfcsm134713535e9.18.2025.03.25.02.47.12
+        d=1e100.net; s=20230601; t=1742898354; x=1743503154;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5TQZ1mJnI/mAePfWZskq+M/BEdwOR8KjNOwJYBWNuFU=;
+        b=eBNxQvvsLVjDZlpCdFsgkDlfEhHTNAjjY233CqXX7AONT1uFUOviZLELhG7VqDRpFp
+         dSYZjuM76Nr8/NdpUz0zMMvncgVYR0GrfzzkvLpzQWtEFw7dE+5wivXlgbUoyMb7DRJj
+         ssOV+IVX6oiUainbH29wYwoZuVDnJThZf58XU1UjzfgHoiUI4M6ZyLwY6b3ZIYVfMcyH
+         6mfaGcKzhn0dXRqMkdxUiSegC7lXGAMwJh5qC3O1KjZqNo0TA0sW/mUnr9pGIbx6K1ff
+         0YTj0yTllvMv1XbXm6MlV6vn9aN2pZfY3REMkWEYCVoM1yT9TXZUNq0fV840XZpgQWU+
+         gJqw==
+X-Forwarded-Encrypted: i=1; AJvYcCVUcC2rnxhNsKglVTe8HEMFtFXl6IBrApfHoYpwX/MHZbFKH6M4lcD79MD5IEKKP+8OCARJpFXPGQKaXEo=@vger.kernel.org, AJvYcCVgGZnvgAUzaIXq32mYV2JG6PC5gQevRRhDblr1x9VhD+t74glGUopU9bd4fM/85Hv35ly0beSmt9fri64=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRaNUbNMbEu8VB6cuIEqniTftl9INvKB8xArzqsG/dCYOJwwpa
+	LcznND36/JA7ZH/ysRmuSEN+NqjYmsVIdGy5YXUcdcgLmmTF3Mn/
+X-Gm-Gg: ASbGncvYUJtL1NEpQe9Zn4zWu7OxWiZLfscFycm2N4anrBWUGoOS6+RCOcc/R3UcahC
+	KS/9DcHA5npzeKCtaAhstkey3g8bn1KFCl71YRtu2D3iv1V8dnRlIYlH/97DfOxBjX1qy/nFVOw
+	RSidbIz5eZm6vxUFxJe7zBiTfyhXsfpq1wKPISoDklJecHUSVCxcKPrcn0knkPJmODlxldHdfQ0
+	GRFZImJs007KHEqMjpiurKQYNKMDv0D4E1nmIsFR/qhunt3Nd06ErbK1+FEyK3xlvox6LDRxAvi
+	9d2hqZD61iirih+emK78q345BZB4byzoxWd3yTVersTDk433zQkumoM/zlFbaei/0/xMAKx6DlQ
+	B
+X-Google-Smtp-Source: AGHT+IFp4W9MioP21Q0bUey2FAzrWuQgB0D3Elg/a81AxrqjWatuuSruZPC8YfCpE4FUaELr+gttBA==
+X-Received: by 2002:a05:6a20:43a7:b0:1f3:36f7:c0d2 with SMTP id adf61e73a8af0-1fe43319764mr28856857637.41.1742898353564;
+        Tue, 25 Mar 2025 03:25:53 -0700 (PDT)
+Received: from r.www.tendawifi.com ([203.95.197.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7390611d1dasm10063253b3a.106.2025.03.25.03.25.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Mar 2025 02:47:13 -0700 (PDT)
-Date: Tue, 25 Mar 2025 10:47:11 +0100
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: [PATCH v36 28/31] ALSA: usb-audio: qcom: Introduce QC USB SND
- offloading support
-Message-ID: <Z-J7n8qLMPVxpwuV@linaro.org>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-29-quic_wcheng@quicinc.com>
+        Tue, 25 Mar 2025 03:25:53 -0700 (PDT)
+From: Andres Traumann <andres.traumann.01@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Kailang Yang <kailang@realtek.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andres Traumann <andres.traumann.01@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Bass speaker fixup for ASUS UM5606KA
+Date: Tue, 25 Mar 2025 17:25:35 +0700
+Message-ID: <20250325102535.8172-1-andres.traumann.01@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250319005141.312805-29-quic_wcheng@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 18, 2025 at 05:51:38PM -0700, Wesley Cheng wrote:
-> Several Qualcomm SoCs have a dedicated audio DSP, which has the ability to
-> support USB sound devices.  This vendor driver will implement the required
-> handshaking with the DSP, in order to pass along required resources that
-> will be utilized by the DSP's USB SW.  The communication channel used for
-> this handshaking will be using the QMI protocol.  Required resources
-> include:
-> - Allocated secondary event ring address
-> - EP transfer ring address
-> - Interrupter number
-> 
-> The above information will allow for the audio DSP to execute USB transfers
-> over the USB bus.  It will also be able to support devices that have an
-> implicit feedback and sync endpoint as well.  Offloading these data
-> transfers will allow the main/applications processor to enter lower CPU
-> power modes, and sustain a longer duration in those modes.
-> 
-> Audio offloading is initiated with the following sequence:
-> 1. Userspace configures to route audio playback to USB backend and starts
-> playback on the platform soundcard.
-> 2. The Q6DSP AFE will communicate to the audio DSP to start the USB AFE
-> port.
-> 3. This results in a QMI packet with a STREAM enable command.
-> 4. The QC audio offload driver will fetch the required resources, and pass
-> this information as part of the QMI response to the STREAM enable command.
-> 5. Once the QMI response is received the audio DSP will start queuing data
-> on the USB bus.
-> 
-> As part of step#2, the audio DSP is aware of the USB SND card and pcm
-> device index that is being selected, and is communicated as part of the QMI
-> request received by QC audio offload.  These indices will be used to handle
-> the stream enable QMI request.
-> 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->  sound/usb/Kconfig                 |   14 +
->  sound/usb/Makefile                |    2 +-
->  sound/usb/qcom/Makefile           |    2 +
->  sound/usb/qcom/qc_audio_offload.c | 1988 +++++++++++++++++++++++++++++
->  4 files changed, 2005 insertions(+), 1 deletion(-)
->  create mode 100644 sound/usb/qcom/Makefile
->  create mode 100644 sound/usb/qcom/qc_audio_offload.c
-> 
-> diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
-> index 4a9569a3a39a..6daa551738da 100644
-> --- a/sound/usb/Kconfig
-> +++ b/sound/usb/Kconfig
-> @@ -176,6 +176,20 @@ config SND_BCD2000
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called snd-bcd2000.
->  
-> +config SND_USB_AUDIO_QMI
-> +	tristate "Qualcomm Audio Offload driver"
-> +	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND && SND_SOC_USB
-> +	help
-> +	  Say Y here to enable the Qualcomm USB audio offloading feature.
-> +
-> +	  This module sets up the required QMI stream enable/disable
-> +	  responses to requests generated by the audio DSP.  It passes the
-> +	  USB transfer resource references, so that the audio DSP can issue
-> +	  USB transfers to the host controller.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called snd-usb-audio-qmi.
-> [...]
-> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-> new file mode 100644
-> index 000000000000..3319363a0fd0
-> --- /dev/null
-> +++ b/sound/usb/qcom/qc_audio_offload.c
-> @@ -0,0 +1,1988 @@
-> [...]
-> +static int __init qc_usb_audio_offload_init(void)
-> +{
-> +	struct uaudio_qmi_svc *svc;
-> +	int ret;
-> +
-> +	svc = kzalloc(sizeof(*svc), GFP_KERNEL);
-> +	if (!svc)
-> +		return -ENOMEM;
-> +
-> +	svc->uaudio_svc_hdl = kzalloc(sizeof(*svc->uaudio_svc_hdl), GFP_KERNEL);
-> +	if (!svc->uaudio_svc_hdl) {
-> +		ret = -ENOMEM;
-> +		goto free_svc;
-> +	}
-> +
-> +	ret = qmi_handle_init(svc->uaudio_svc_hdl,
-> +			      QMI_UAUDIO_STREAM_REQ_MSG_V01_MAX_MSG_LEN,
-> +			      &uaudio_svc_ops_options,
-> +			      &uaudio_stream_req_handlers);
-> +	ret = qmi_add_server(svc->uaudio_svc_hdl, UAUDIO_STREAM_SERVICE_ID_V01,
-> +			     UAUDIO_STREAM_SERVICE_VERS_V01, 0);
-> +
-> +	uaudio_svc = svc;
-> +
-> +	ret = snd_usb_register_platform_ops(&offload_ops);
-> +	if (ret < 0)
-> +		goto release_qmi;
-> +
-> +	return 0;
-> +
-> +release_qmi:
-> +	qmi_handle_release(svc->uaudio_svc_hdl);
-> +free_svc:
-> +	kfree(svc);
-> +
-> +	return ret;
-> +}
-> +
-> +static void __exit qc_usb_audio_offload_exit(void)
-> +{
-> +	struct uaudio_qmi_svc *svc = uaudio_svc;
-> +	int idx;
-> +
-> +	/*
-> +	 * Remove all connected devices after unregistering ops, to ensure
-> +	 * that no further connect events will occur.  The disconnect routine
-> +	 * will issue the QMI disconnect indication, which results in the
-> +	 * external DSP to stop issuing transfers.
-> +	 */
-> +	snd_usb_unregister_platform_ops();
-> +	for (idx = 0; idx < SNDRV_CARDS; idx++)
-> +		qc_usb_audio_offload_disconnect(uadev[idx].chip);
-> +
-> +	qmi_handle_release(svc->uaudio_svc_hdl);
-> +	kfree(svc);
-> +	uaudio_svc = NULL;
-> +}
-> +
-> +module_init(qc_usb_audio_offload_init);
-> +module_exit(qc_usb_audio_offload_exit);
-> +
-> +MODULE_DESCRIPTION("QC USB Audio Offloading");
-> +MODULE_LICENSE("GPL");
+This patch applies the ALC294 bass speaker fixup (ALC294_FIXUP_BASS_SPEAKER_15),
+previously introduced in commit a7df7f909cec ("ALSA: hda: improve bass
+speaker support for ASUS Zenbook UM5606WA"), to the ASUS Zenbook UM5606KA.
+This hardware configuration matches ASUS Zenbook UM5606WA, where DAC NID
+0x06 was removed from the bass speaker (NID 0x15), routing both speaker
+pins to DAC NID 0x03.
 
-What will trigger loading this if this code is built as module?
+This resolves the bass speaker routing issue, ensuring correct audio
+output on ASUS UM5606KA.
 
-Testing suggests nothing does at the moment: If this is built as module,
-playback via USB_RX will fail until you manually modprobe
-snd-usb-audio-qmi.
+Signed-off-by: Andres Traumann <andres.traumann.01@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I think the easiest way to solve this would be to drop the
-module_init()/module_exit() and instead call into these init/exit
-functions from one of the other audio modules. This would also ensure
-that the QMI server is only registered if we actually need it (if the
-board sound card actually has a USB DAI link).
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index a84857a3c2bf..286ff8c57079 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10783,6 +10783,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420", ALC256_FIXUP_ASUS_HPE),
+ 	SND_PCI_QUIRK(0x1043, 0x1da2, "ASUS UP6502ZA/ZD", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1df3, "ASUS UM5606WA", ALC294_FIXUP_BASS_SPEAKER_15),
++	SND_PCI_QUIRK(0x1043, 0x1264, "ASUS UM5606KA", ALC294_FIXUP_BASS_SPEAKER_15),
+ 	SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA502),
+ 	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
+-- 
+2.49.0
 
-drivers/soc/qcom/qcom_pd_mapper.c is a similar driver that registers a
-QMI server. You can also look at that for inspiration.
-
-Thanks,
-Stephan
