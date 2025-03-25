@@ -1,33 +1,33 @@
 Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911D1481B6;
-	Tue, 25 Mar 2025 08:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709BC19539F;
+	Tue, 25 Mar 2025 08:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742892443; cv=none; b=Q3ux+Y/6moKQX51gBCrCGWhdOgdLapTy9o2GWmg/dMcXT469OCC+5M4z2C0JGOE53T/J81jt0IIaZUzBlw2GQ/KgezcVptx/A3dxp7/vqtO//i3jsUpVqPHU4eu/devv15fSGZu2MT7y+yWXl9Qp8i0EWOI3Ff1FCpL6ONOoAFQ=
+	t=1742892603; cv=none; b=lWZS125hIpGzqICtAfiWE6cwxRRuHJJLXHwBtSSy1HCTFjptkG857of8IxmhFjelFx0BKirLGzBS14rswqW5CenNCA6OHP1WikwuElvIagBQrKeM59+sN+d75MUpTN/tgVW5eEAL9xW5/3w/sggsX+n1b97lZmT65L6mq9AliZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742892443; c=relaxed/simple;
-	bh=9fXQ7OLrIwmyKrFG9EsUSvhJbHHhomXNiCW6EUBSm0Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SOKqId7vZl+2mlxEBFreO6B4PG9gs+/Up11mPTuWqgfZHZy0dH+R9rE74fjQrhmWdXmVlHlDGjYb9nexcZsz7y7weTVLwERnI5XC5ugQK39nGFrJ4MWyyxQILIkEdi94GDqvoLW5d/+Grm/Li8B/Y/I7Hi22ICvTy1GF/8Y3HzA=
+	s=arc-20240116; t=1742892603; c=relaxed/simple;
+	bh=FfUABFV3Rho9t3XDs2Bwqr8KWC+RMXbPAWjmd5zovqY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SNE83Qfk1PGZ15H83ExEpP/Ov61pSbTAgy7N1hXyGer1J86/FI44vvrI8Is6mJpLN7ae0WOURFQw6LqIUkbjoCLV8IjxOPP2yP3cnDKpos1mAXvuZQNsQIPOjn0p2Ey706lYrtCZ18A7q9qTz4LRLd+qYd29IeuNwttvvf3Ub/w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowAA3cAiMbeJnwA1JAQ--.35438S2;
-	Tue, 25 Mar 2025 16:47:08 +0800 (CST)
+	by APP-05 (Coremail) with SMTP id zQCowABHhg4wbuJnzkdJAQ--.5332S2;
+	Tue, 25 Mar 2025 16:49:53 +0800 (CST)
 From: Chen Ni <nichen@iscas.ac.cn>
-To: david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
+To: shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
 	perex@perex.cz,
 	tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org,
 	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ALSA: hda: cs35l56: Remove unnecessary NULL check before release_firmware()
-Date: Tue, 25 Mar 2025 16:46:39 +0800
-Message-Id: <20250325084639.801054-1-nichen@iscas.ac.cn>
+Subject: [PATCH] ALSA: hda: tas2781-i2c: Remove unnecessary NULL check before release_firmware()
+Date: Tue, 25 Mar 2025 16:49:39 +0800
+Message-Id: <20250325084939.801117-1-nichen@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -36,23 +36,23 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAA3cAiMbeJnwA1JAQ--.35438S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw18ZF4ktr4xXry8JFy8Grg_yoWfArX_u3
-	4vkr1UGFy8t3yDXw17Zr13ZryrG398WryfGrnFyayUXF97Gw4Sqr1Uua90va48W3yxKFyf
-	AF18A3yDC3s8XjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbsAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+X-CM-TRANSID:zQCowABHhg4wbuJnzkdJAQ--.5332S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw18ZF4ktr4xXry8Cry7Awb_yoW3CFc_CF
+	s5Gr1kWF18X39rZa13AF1Y9ryfXasrZ34xXr1fKFWUJa97ta1Fg34UCF1DuFW5urW8ArnI
+	9r1DAFyDAryqgjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbV8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
 	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	Jw0_GFylc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
-	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-	67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
-	x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
-	z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
-	UI43ZEXa7VUbo7K3UUUUU==
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r1q6r43MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+	W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+	1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+	IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
+	x4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
+	DU0xZFpf9x0JUgAwsUUUUU=
 X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
 release_firmware() checks for NULL pointers internally.
@@ -60,28 +60,23 @@ Remove unneeded NULL check for fmw here.
 
 Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
- sound/pci/hda/cs35l56_hda.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ sound/pci/hda/tas2781_hda_i2c.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
-index 4ef7878e8fd4..235d22049aa9 100644
---- a/sound/pci/hda/cs35l56_hda.c
-+++ b/sound/pci/hda/cs35l56_hda.c
-@@ -546,12 +546,10 @@ static void cs35l56_hda_release_firmware_files(const struct firmware *wmfw_firmw
- 					       const struct firmware *coeff_firmware,
- 					       char *coeff_filename)
- {
--	if (wmfw_firmware)
--		release_firmware(wmfw_firmware);
-+	release_firmware(wmfw_firmware);
- 	kfree(wmfw_filename);
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index 50c5e5f26589..9ed49b0dbe6b 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -753,8 +753,7 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
  
--	if (coeff_firmware)
--		release_firmware(coeff_firmware);
-+	release_firmware(coeff_firmware);
- 	kfree(coeff_filename);
+ out:
+ 	mutex_unlock(&tas_hda->priv->codec_lock);
+-	if (fmw)
+-		release_firmware(fmw);
++	release_firmware(fmw);
+ 	pm_runtime_mark_last_busy(tas_hda->dev);
+ 	pm_runtime_put_autosuspend(tas_hda->dev);
  }
- 
 -- 
 2.25.1
 
