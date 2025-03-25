@@ -1,107 +1,148 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851A178F24;
-	Tue, 25 Mar 2025 10:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C9D1E8336
+	for <linux-sound@vger.kernel.org>; Tue, 25 Mar 2025 10:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742898356; cv=none; b=UUb1jYm8oQpxjNjjFp4zSu6KkY4oky6xaj0Pkm0Ye4nlM1JGEZQ8elofYgegi1ASghI3O6P0lrdB2K7nHB8U3xdamZ/5NCzUu7gEnUuzqKumgK3WDZRElLbTvW7443mlmszOovnqxrmtb4Jrc5uLWUyniHRFIY3bNmgBgGqiWdc=
+	t=1742899519; cv=none; b=adbeD90YY2f9fEsOhJ2MRd5i/DXBEwdaGRwCPz0JbKw8uGKVrKtWFU3QIjk5ZKTe70sqXrNKrGNJcWtewNfTMNjvtc7/s7Dchrnn2RJBAmKHiANMP/iOOaYkQfFQx7EvFEwKnZXKE/8ecEdG+WZ7gK+XjhkWnTkYDsDmJ8ghb4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742898356; c=relaxed/simple;
-	bh=pPYr2AHRKW9t53TYJf/9ZrFy4ScNeMvk2ssp+Q9q49A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pVfCTwifUaj6zGD2oNOzmxYPQxr86JLZ7NAGGKBaeeiPJNdjV0RY+gvf88Rfpqiw6rXPvHh1cT1jJueKyMwJKyer51qMvEjpEzEfhsHjfVGknCAw8ikR8TOnO+kCMATYpt29aoQcyvR0YXBmHM2p2hGgNxFX8rCPWkaAl5YHyJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=db4/JWG0; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742899519; c=relaxed/simple;
+	bh=JhPeedg859hO5Xn9kfQvOnjhlS8q0xjhsgC6OTFP0c4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dCFQajzJXNOvQCMT1u3fXAQg1W//roxU3/DINBWd/AuCpwpjKja+dc+I5wngSygaGwZUnzXK6MzUDHntkqANxN+lGplyL19WRi8RWj/VuhoM+e1TKQU/WlXVOdfyZee6j9Oct7tCWQu2pOtsuRkpGsKEevdhidcbiTjwqFkjFrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FA5DuLQa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4Ps4+2Fu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FA5DuLQa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4Ps4+2Fu; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="db4/JWG0"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2255003f4c6so102439645ad.0;
-        Tue, 25 Mar 2025 03:25:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742898354; x=1743503154; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5TQZ1mJnI/mAePfWZskq+M/BEdwOR8KjNOwJYBWNuFU=;
-        b=db4/JWG0fFhcN36DUdT5AIaQgHQ2PKB0gVC8B+ZLzg686y2z6rhmZvhOlLjt6J8ZHI
-         6kX7l2IKWzKSxhkytUViNTqdI/gSXhBDSAX6H8UmLI+oJbM3xlDHSQnvG7wM9rQbr31R
-         yiJ4h80NV/fGAyG4xNcvxURJ/JU9BEX7Bw0IaJIeBbbGXIZmS5RgKY/QYKKcUYWGxjHX
-         okVtpr+dGE6aE9ADwVY+bJSf+B/jbGWmzO9YNKVHPzpqahgW/6SLUbsr4jVNUPYQKKVf
-         D9YfB70oayDiAMpC1hQ1/iqPV3dLzPtuofb6H/A/NZZYmojY1KkAeELjzjHIsWFGRlld
-         dFeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742898354; x=1743503154;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5TQZ1mJnI/mAePfWZskq+M/BEdwOR8KjNOwJYBWNuFU=;
-        b=eBNxQvvsLVjDZlpCdFsgkDlfEhHTNAjjY233CqXX7AONT1uFUOviZLELhG7VqDRpFp
-         dSYZjuM76Nr8/NdpUz0zMMvncgVYR0GrfzzkvLpzQWtEFw7dE+5wivXlgbUoyMb7DRJj
-         ssOV+IVX6oiUainbH29wYwoZuVDnJThZf58XU1UjzfgHoiUI4M6ZyLwY6b3ZIYVfMcyH
-         6mfaGcKzhn0dXRqMkdxUiSegC7lXGAMwJh5qC3O1KjZqNo0TA0sW/mUnr9pGIbx6K1ff
-         0YTj0yTllvMv1XbXm6MlV6vn9aN2pZfY3REMkWEYCVoM1yT9TXZUNq0fV840XZpgQWU+
-         gJqw==
-X-Forwarded-Encrypted: i=1; AJvYcCVUcC2rnxhNsKglVTe8HEMFtFXl6IBrApfHoYpwX/MHZbFKH6M4lcD79MD5IEKKP+8OCARJpFXPGQKaXEo=@vger.kernel.org, AJvYcCVgGZnvgAUzaIXq32mYV2JG6PC5gQevRRhDblr1x9VhD+t74glGUopU9bd4fM/85Hv35ly0beSmt9fri64=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRaNUbNMbEu8VB6cuIEqniTftl9INvKB8xArzqsG/dCYOJwwpa
-	LcznND36/JA7ZH/ysRmuSEN+NqjYmsVIdGy5YXUcdcgLmmTF3Mn/
-X-Gm-Gg: ASbGncvYUJtL1NEpQe9Zn4zWu7OxWiZLfscFycm2N4anrBWUGoOS6+RCOcc/R3UcahC
-	KS/9DcHA5npzeKCtaAhstkey3g8bn1KFCl71YRtu2D3iv1V8dnRlIYlH/97DfOxBjX1qy/nFVOw
-	RSidbIz5eZm6vxUFxJe7zBiTfyhXsfpq1wKPISoDklJecHUSVCxcKPrcn0knkPJmODlxldHdfQ0
-	GRFZImJs007KHEqMjpiurKQYNKMDv0D4E1nmIsFR/qhunt3Nd06ErbK1+FEyK3xlvox6LDRxAvi
-	9d2hqZD61iirih+emK78q345BZB4byzoxWd3yTVersTDk433zQkumoM/zlFbaei/0/xMAKx6DlQ
-	B
-X-Google-Smtp-Source: AGHT+IFp4W9MioP21Q0bUey2FAzrWuQgB0D3Elg/a81AxrqjWatuuSruZPC8YfCpE4FUaELr+gttBA==
-X-Received: by 2002:a05:6a20:43a7:b0:1f3:36f7:c0d2 with SMTP id adf61e73a8af0-1fe43319764mr28856857637.41.1742898353564;
-        Tue, 25 Mar 2025 03:25:53 -0700 (PDT)
-Received: from r.www.tendawifi.com ([203.95.197.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7390611d1dasm10063253b3a.106.2025.03.25.03.25.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Mar 2025 03:25:53 -0700 (PDT)
-From: Andres Traumann <andres.traumann.01@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Kailang Yang <kailang@realtek.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FA5DuLQa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4Ps4+2Fu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FA5DuLQa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4Ps4+2Fu"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A4FA121168;
+	Tue, 25 Mar 2025 10:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742899515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e9zLWqX6yoEEWcpjzy7q0ZG4a3JyA4ZR+yXAZIVuauk=;
+	b=FA5DuLQaGkddETl9sEiVyoQ6/AmERzXpc5hq80J0P6ak2O5A5QkoaFFXaam5+zrpH2HLfE
+	pGajCgAufeIC6swijECTuEZ+lANhKVg4PrkWSyFttjwJ5geYGenMWzmjvtJ9lUcHcrFZ78
+	Dz2KmoMWSPIyO0hFinkbi0sQZ2vVdPQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742899515;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e9zLWqX6yoEEWcpjzy7q0ZG4a3JyA4ZR+yXAZIVuauk=;
+	b=4Ps4+2FuQjfNjha/HcGwfNIetLS3X4FYNIaOj8fnX3XM/OEHR1MgBzBxNwYG5dLdmrBwvb
+	26pR6PgkbDpqv9Bg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FA5DuLQa;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4Ps4+2Fu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1742899515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e9zLWqX6yoEEWcpjzy7q0ZG4a3JyA4ZR+yXAZIVuauk=;
+	b=FA5DuLQaGkddETl9sEiVyoQ6/AmERzXpc5hq80J0P6ak2O5A5QkoaFFXaam5+zrpH2HLfE
+	pGajCgAufeIC6swijECTuEZ+lANhKVg4PrkWSyFttjwJ5geYGenMWzmjvtJ9lUcHcrFZ78
+	Dz2KmoMWSPIyO0hFinkbi0sQZ2vVdPQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1742899515;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e9zLWqX6yoEEWcpjzy7q0ZG4a3JyA4ZR+yXAZIVuauk=;
+	b=4Ps4+2FuQjfNjha/HcGwfNIetLS3X4FYNIaOj8fnX3XM/OEHR1MgBzBxNwYG5dLdmrBwvb
+	26pR6PgkbDpqv9Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 69DD2137AC;
+	Tue, 25 Mar 2025 10:45:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id uwegGDuJ4mcITwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 25 Mar 2025 10:45:15 +0000
+Date: Tue, 25 Mar 2025 11:45:15 +0100
+Message-ID: <87o6xpcrt0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Andres Traumann <andres.traumann.01@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andres Traumann <andres.traumann.01@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Bass speaker fixup for ASUS UM5606KA
-Date: Tue, 25 Mar 2025 17:25:35 +0700
-Message-ID: <20250325102535.8172-1-andres.traumann.01@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Bass speaker fixup for ASUS UM5606KA
+In-Reply-To: <20250325102535.8172-1-andres.traumann.01@gmail.com>
+References: <20250325102535.8172-1-andres.traumann.01@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: A4FA121168
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
+X-Spam-Flag: NO
 
-This patch applies the ALC294 bass speaker fixup (ALC294_FIXUP_BASS_SPEAKER_15),
-previously introduced in commit a7df7f909cec ("ALSA: hda: improve bass
-speaker support for ASUS Zenbook UM5606WA"), to the ASUS Zenbook UM5606KA.
-This hardware configuration matches ASUS Zenbook UM5606WA, where DAC NID
-0x06 was removed from the bass speaker (NID 0x15), routing both speaker
-pins to DAC NID 0x03.
+On Tue, 25 Mar 2025 11:25:35 +0100,
+Andres Traumann wrote:
+> 
+> This patch applies the ALC294 bass speaker fixup (ALC294_FIXUP_BASS_SPEAKER_15),
+> previously introduced in commit a7df7f909cec ("ALSA: hda: improve bass
+> speaker support for ASUS Zenbook UM5606WA"), to the ASUS Zenbook UM5606KA.
+> This hardware configuration matches ASUS Zenbook UM5606WA, where DAC NID
+> 0x06 was removed from the bass speaker (NID 0x15), routing both speaker
+> pins to DAC NID 0x03.
+> 
+> This resolves the bass speaker routing issue, ensuring correct audio
+> output on ASUS UM5606KA.
+> 
+> Signed-off-by: Andres Traumann <andres.traumann.01@gmail.com>
 
-This resolves the bass speaker routing issue, ensuring correct audio
-output on ASUS UM5606KA.
+Thanks, applied now.
 
-Signed-off-by: Andres Traumann <andres.traumann.01@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index a84857a3c2bf..286ff8c57079 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10783,6 +10783,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420", ALC256_FIXUP_ASUS_HPE),
- 	SND_PCI_QUIRK(0x1043, 0x1da2, "ASUS UP6502ZA/ZD", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1df3, "ASUS UM5606WA", ALC294_FIXUP_BASS_SPEAKER_15),
-+	SND_PCI_QUIRK(0x1043, 0x1264, "ASUS UM5606KA", ALC294_FIXUP_BASS_SPEAKER_15),
- 	SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA502),
- 	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
--- 
-2.49.0
-
+Takashi
