@@ -1,186 +1,162 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5878413D531;
-	Tue, 25 Mar 2025 21:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C24263F32
+	for <linux-sound@vger.kernel.org>; Tue, 25 Mar 2025 21:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742936563; cv=none; b=WLVNI5NGqzZfsdqNEykCYE6GdoPwCeu4b3gRGBcYyGa1Au2w67Zo4Gg0zGsdEfuCYfHsxH3nGk5frIJXL8c5D/JyIqmNhMmZziLXQe3XQe0NSMpzcpWSmIM9EcbFDxOD5N6uYKfpL3xoUZXPGGSmP1L73Iy+U6KERBEgsk/TD2c=
+	t=1742937048; cv=none; b=TWW2kyq853t3dY/UJ4JW/C9//Bu0I+1jrQuI5pEnaf0PseG5JUp4NjaksjKOI4kxWTowqA4qcXDeCbFtS5sa0K5pvRHqae1Tc0FH8JL6ZpDa/yn6JqSYwV08yrus5wqfC5U0EG+68nl1fJ4U2zvY+vJWA3pM6/LOMZI2npYR7/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742936563; c=relaxed/simple;
-	bh=Fgr1wy7naKHZZ8CbRUiRNWUNfhs4P9coPflLQ33fEJI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IlM45Y6Ha81l9O2H7USNlO+u0gyxW3WRgoaoB+2b2bdHCFQPOxdr/GpSwEfIhHfHeG1/seN7oli115e08kPcCLSPIj57yxrAE/KJycQ/6Efoj2tR1iNGWHEcJ/W7BV4gKzISWTXpzSpKrRymAblN2pu4bjnpcnmPPFYTCkwnE7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=K49ym7Ia; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1742937048; c=relaxed/simple;
+	bh=DLMj54MhQAZr/E5TGLGxSK0Svq/hCmtaGSmZiDtC0ho=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RE4m7D2IJ6qdAS197xHZnf61pK8lTIaxv7beIjDMKKw5hN8u+Q7iFqhM7SorCb1n2H4ZAzbkBOWs0YIUI7IiSclBQPuBRpvkB3jd+ADhQWhcJeWHXqlLDwNd4N8nzWyAjThYs4Hp+afzejWAUdS3rmTBxGS2xMpk+DxkgJtihFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ze/T5Mo5; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="K49ym7Ia"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Juys6g7S7/Vmvszi1JHSXEku5SuN5AmPrSu1+judTM0=; b=K49ym7IaAHGF+H1cqHKkQ+MySI
-	xH8hBxW8heALD1/fCrLu8DBLvoLu/v2N4OKGeX1UGG6+/3AhUypxlO+G0SAQbpt0YWBYz1pwyLfOh
-	GabLHEpY1VmfmuB9POMevRe7GdQjc+Gchpm74u6PovoZ5R7QR1kinTpHZzV1hSUuUZfkGDx6EW/eg
-	XhURA5I0Mru/lBqjzv63U43BpVc35LvX2OheZ2YhgOxpuwxfGqwZBlbfb/Lv3oPAyN+0SlahQDDwq
-	vsx2U5h+OBrlH3a8uvuyflgN/b3VUJ4yuIuha+7ezlGtWLYcxZQFeUhpDwYPG5nRnzO0SOOlTJoUd
-	AhimLlBg==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <carnil@debian.org>)
-	id 1txBPv-0044SN-Uk; Tue, 25 Mar 2025 21:02:37 +0000
-Received: by eldamar.lan (Postfix, from userid 1000)
-	id 12F5FBE2EE7; Tue, 25 Mar 2025 22:02:35 +0100 (CET)
-Date: Tue, 25 Mar 2025 22:02:35 +0100
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: 1100928@bugs.debian.org,
-	"C.D. MacEachern" <craig.daniel.maceachern@gmail.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: Bug#1100928: [regression 6.1.y] microphone no longer records (on
- VivoBook_ASUSLaptop TP401MARB_J401MA)
-Message-ID: <Z-MZ6yu6oPDw9lkL@eldamar.lan>
-References: <174248253267.1718.4037292692790831697.reportbug@x>
- <174248253267.1718.4037292692790831697.reportbug@x>
- <Z95s5T6OXFPjRnKf@eldamar.lan>
- <174248253267.1718.4037292692790831697.reportbug@x>
- <Z-MMsp3XJyNHOlma@eldamar.lan>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ze/T5Mo5"
+Message-ID: <a5aa25de-919f-462c-8aab-996fbc381de9@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1742937043;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OtrI6FVeto5Rar/zwFnFYFILAD8TFRYuMC6F4t2WcYk=;
+	b=Ze/T5Mo5UOKr3AMZ0t5aV/XB3iu4E8YXgMIszXhx2fu1E/gN6QbhsCSocD4bio37oAtZNY
+	lVWfl6zVgzl9Yh1gIlHKcArzR9i3xj+iItZKIS2zLF1zuNU+BGI6adMQpanCI0UVtqkaWq
+	ljJd7Y/6uBV15GChJJgzDa3J2uQwi3U=
+Date: Tue, 25 Mar 2025 16:10:21 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="tHN/tPwNKfLebtX9"
-Content-Disposition: inline
-In-Reply-To: <Z-MMsp3XJyNHOlma@eldamar.lan>
-X-Debian-User: carnil
+Subject: Re: [PATCH 1/3] ASoC: SDCA: Create DAPM widgets and routes from DisCo
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20250321163928.793301-1-ckeepax@opensource.cirrus.com>
+ <20250321163928.793301-2-ckeepax@opensource.cirrus.com>
+ <2b899796-b9fc-49ef-a4a7-858baa90a36b@linux.dev>
+ <Z+KROae2x3nB6Ov8@opensource.cirrus.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <Z+KROae2x3nB6Ov8@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-
---tHN/tPwNKfLebtX9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi,
-
-On Tue, Mar 25, 2025 at 09:06:10PM +0100, Salvatore Bonaccorso wrote:
-> Hi Craig, all
+On 3/25/25 06:19, Charles Keepax wrote:
+> On Mon, Mar 24, 2025 at 04:15:24PM -0500, Pierre-Louis Bossart wrote:
+>>> The primary point of interest is the SDCA Power Domain Entities
+>>> (PDEs), which actually control the power status of the device. Whilst
+>>> these PDEs are the primary widgets the other parts of the SDCA graph
+>>> are added to maintain a consistency with the hardware abstract, and
+>>> allow routing to take effect.
+>>>
+>>> Other minor points of slightly complexity include, the Group Entities
+>>> (GEs) these set the value of several other controls, typically
+>>> Selector Units (SUs) for enabling a cetain jack configuration. These
+>>> are easily modelled creating a single control and sharing it among
+>>> the controlled muxes.
+>>
+>> It wasn't able to follow the last sentence, what are 'these'?
 > 
-> On Sat, Mar 22, 2025 at 08:55:17AM +0100, Salvatore Bonaccorso wrote:
-> > Control: tags -1 + moreinfo upstream
-> > 
-> > Hi
-> > 
-> > On Thu, Mar 20, 2025 at 10:55:32AM -0400, C.D. MacEachern wrote:
-> > > Package: src:linux
-> > > Version: 6.1.129-1
-> > > Severity: important
-> > > X-Debbugs-Cc: craig.daniel.maceachern@gmail.com
-> > > 
-> > > Dear Maintainer,
-> > > 
-> > > After update to kernel image 6.1.0-32 on Debian bookworm my builtin microphone
-> > > would no longer record
-> > > anything - no levels detected and I checked for muted channels with tools like
-> > > pavucontrol and alsamixer.
-> > > 
-> > > I found that my microphone was using the `snd_hda_intel` driver in the kernel,
-> > > so tried rebooting and choosing
-> > > the 6.1.0-31 kernel instead to rule out hardware issue. Previous kernel works
-> > > as expected, mic records and playback
-> > > is fine, so some update related to this driver, or the driver itself was
-> > > updated and no longer works correctly with
-> > > the builtin microphone.
-> > 
-> > Thanks for reproting the issue (leaving boot log context, hw used,
-> > below for context).
-> > 
-> > I think this might be introduced with 3b4309546b48 ("ALSA: hda: Fix
-> > headset detection failure due to unstable sort") wich landed as well
-> > in 6.1.129.
-> > 
-> > If you revert that commit on top of 6.1.129, does that fixes your
-> > issue? Would you be able to test this?
-> > 
-> > #regzbot introduced: v6.1.128..v6.1.129
-> > #regzbot link: https://bugs.debian.org/1100928
-> > 
-> > The solution might be similar to c6557ccf8094 ("ALSA: hda/realtek: Fix
-> > microphone regression on ASUS N705UD") from 6.14-rc5 (which got
-> > backported to 6.13.6, 6.12.18, 6.6.81 but not yet 6.1.y).
+> I will attempt to rephrase this paragraph a little, but 'these'
+> are situations where you have a bunch of SUs controlled by a GE.
+
+In most cases the purpose of a GE is to control multiple SU states. However the SDCA spec took liberties with this concept and added new properties for the NDAI topologies, where a GE is present even if there is a single endpoint. It'd be worth double-checking that the way the GE is exposed in this patchset is forward-compatible with the 1.1 topologies.
+
+>> I am not sure we can expose and control any SUs since their
+>> configuration is set in hardware depending on the GE settings. IIRC
+>> the SU values should be considered as read-only.
 > 
-> In case you need help in trying a kernel build with the revet applied,
-> I'm attaching the revert patch. With that you can follow
-> https://kernel-team.pages.debian.net/kernel-handbook/ch-common-tasks.html#id-1.6.6.4
-> to build a kernel using the `test-patches` helper script to test with.
+> The SUs are modelled as DAPM widgets but the control linked
+> to all of the SUs is the GE control. So yes the SU registers
+> are never accessed only the GE register.
+
+How would the state of those DAPM SU widgets be updated though? I think we need to 'translate' the GE settings to tell DAPM which paths can become active, but the SUs state is set by hardware so I could see a possible racy disconnect if we make a path activable but hardware hasn't done so yet.
+
+>>> SDCA also has a slight habit of having fully connected paths, relying
+>>> more on activating the PDEs to enable functionality. This doesn't map
+>>> quite so perfectly to DAPM which considers the path a reason to power
+>>> the PDE. Whilst in the current specification Mixer Units are defined as
+>>> fixed-function, in DAPM we create a virtual control for each input. This
+>>> allows paths to be connected/disconnected, providing a more ASoC style
+>>> approach to managing the power.
+>>
+>> Humm, maybe my analysis was too naive but the SDCA PDE seemed
+>> like a DAPM power supply to me. When a path becomes active,
+>> DAPM turns on the power for you, and power is turned off some time
+>> after the path becomes inactive.
 > 
-> Is that enough help so we can confirm the breaking commit?
+> Correct, the PDEs are modeled as supply widgets and those are
+> powered up when the path is active as normal. The problem
+> alluded to in this paragraph is there a couple times where
+> SDCA topologies just have a permanently connected path so
+> things would always power up.
 
-And now really with the patch attached.
+Ah yes those loops would indeed be problematic, but no more than in existing non-SDCA topologies where we used pin switches to disable such loops. All existing TDM-based solutions used pin switches, I was assuming we'd use them as well for SDCA.
 
-Regards,
-Salvatore
+>> Why would we need to have a control to force the power to be turned on?
+> 
+> We are not having a control to force the power on, that is me
+> describing the SDCA view of the world, not the Linux ASoC view
+> of the world.
+> 
+>> And there are quite a few topologies without any Mixer Units so can
+>> we depend on a solution that's not applicable across all topologies?
+> 
+> Most of the time things are fine because most topologies
+> generally go between a dataport terminal and a physical
+> terminal, so the dataport can trigger power up. There are
+> only two cases I am currently aware of where this happens
+> at the moment, one is the side-tone path in the UAJ topology,
+> which is primarily the one I was concerned about for now. The
+> other is the sense path in the SmartAmp topology, which I am
+> slightly less concerned about for now.
+> 
+> The sense path case can't be solved with the mixer switches.
+> So eventually I think we will also need to add pin switches
+> on the non-dataport terminals as well, but this is thinking I
+> was hoping to delay for later.
+> 
+> However, we should really consider the wider mechanisms defined
+> by the specification rather than just the given topologies.
+> User-defined topologies are allowed and people will likely make
+> small uncompliant diversions from the standard topologies as well.
+> 
+> My opinion is that even if we end up adding the pin switches as
+> well it still makes sense to allow connecting and disconnecting
+> the inputs of a Mixer Unit.  These are typically where two
+> audio streams come together and having the ability from the
+> host side to say if you want that connection or not seems very
+> valuable to me. As in SDCA land you basically make that choice by
+> directly flipping the PDE.
 
---tHN/tPwNKfLebtX9
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-Revert-ALSA-hda-Fix-headset-detection-failure-due-to.patch"
+I have no objection if there are both pin switches and MU switches. 
 
-From 99eeccf9207811eb07986f441020b61beffa759b Mon Sep 17 00:00:00 2001
-From: Salvatore Bonaccorso <carnil@debian.org>
-Date: Tue, 25 Mar 2025 21:02:57 +0100
-Subject: [PATCH] Revert "ALSA: hda: Fix headset detection failure due to
- unstable sort"
+I view pin switches as a more generic mechanism that userpace has to set to use a specific endpoint. 
 
-This reverts commit 3b4309546b48fc167aa615a2d881a09c0a97971f.
----
- sound/pci/hda/hda_auto_parser.c | 8 +-------
- sound/pci/hda/hda_auto_parser.h | 1 -
- 2 files changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/sound/pci/hda/hda_auto_parser.c b/sound/pci/hda/hda_auto_parser.c
-index 58b2e25c448e..7c6b1fe8dfcc 100644
---- a/sound/pci/hda/hda_auto_parser.c
-+++ b/sound/pci/hda/hda_auto_parser.c
-@@ -80,11 +80,7 @@ static int compare_input_type(const void *ap, const void *bp)
+The MU switches seem like debug capabilities to isolate which path has a problem. My experience fixing Baytrail issues is that you want a default mixer switch to be on, otherwise you'll get warnings on unconnected items or 'there is no sound' bug reports. In other words, the MU switches are a nice-to-have mechanism to disable default paths, so even if userspace doesn't touch those controls sound can be heard on endpoints.
  
- 	/* In case one has boost and the other one has not,
- 	   pick the one with boost first. */
--	if (a->has_boost_on_pin != b->has_boost_on_pin)
--		return (int)(b->has_boost_on_pin - a->has_boost_on_pin);
--
--	/* Keep the original order */
--	return a->order - b->order;
-+	return (int)(b->has_boost_on_pin - a->has_boost_on_pin);
- }
- 
- /* Reorder the surround channels
-@@ -404,8 +400,6 @@ int snd_hda_parse_pin_defcfg(struct hda_codec *codec,
- 	reorder_outputs(cfg->speaker_outs, cfg->speaker_pins);
- 
- 	/* sort inputs in the order of AUTO_PIN_* type */
--	for (i = 0; i < cfg->num_inputs; i++)
--		cfg->inputs[i].order = i;
- 	sort(cfg->inputs, cfg->num_inputs, sizeof(cfg->inputs[0]),
- 	     compare_input_type, NULL);
- 
-diff --git a/sound/pci/hda/hda_auto_parser.h b/sound/pci/hda/hda_auto_parser.h
-index 8bb8202cf284..df63d66af1ab 100644
---- a/sound/pci/hda/hda_auto_parser.h
-+++ b/sound/pci/hda/hda_auto_parser.h
-@@ -35,7 +35,6 @@ struct auto_pin_cfg_item {
- 	unsigned int is_headset_mic:1;
- 	unsigned int is_headphone_mic:1; /* Mic-only in headphone jack */
- 	unsigned int has_boost_on_pin:1;
--	int order;
- };
- 
- struct auto_pin_cfg;
--- 
-2.49.0
+>> And last PDEs are typically related to terminals, while Mixer
+>> Units are usually for host-generated streams.
+> 
+> From the view of DAPM I don't think we need to be too careful
+> about that distinction. Its all just connections between widgets.
+> 
+>> It would also help to define which power levels you wanted to
+>> control for PDEs. For me, only PS0 and PS3 can currently be modeled,
+>> I have no idea how PS1 with its degraded quality would be used,
+>> and PS2 depends on firmware.
+> 
+> Indeed, currently the code only deals with PS0 and PS3. I will
+> update the commit message to call that out as well.
 
-
---tHN/tPwNKfLebtX9--
+Sounds good.
