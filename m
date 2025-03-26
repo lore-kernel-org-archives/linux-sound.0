@@ -1,63 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A744219E99;
-	Wed, 26 Mar 2025 17:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2C824111D;
+	Wed, 26 Mar 2025 18:00:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743010182; cv=none; b=fMdil52SzqGz78GLHISJcT9dz4AWZJVLZJZpSY5KAqUpvN18wN/4/tgSz/39lON61kcSpf1RDXPlIyeMBum9/MzpEymPjLuJcWHUIS0yUcYftIg/yYIY6taKmhJR34iCNmOe6hn30TESX0EjItLuZwP7PK3SN0e1UJBTos9DhfI=
+	t=1743012030; cv=none; b=C5psZr32A+UWX2hKO36daHWOwk5MxyT/AnoFaQ3xthMpo2Gyw3/txnCe0gjdvej+JoDUA+HmyKv2fVu9CeFja9VckWwQXI9g+4ecam+Ls92SoWc/ob14KHrMGNE2UySnW2bWL2guz2vBPfF/3jXd04mVrSfcNYAj75G4zmSICHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743010182; c=relaxed/simple;
-	bh=V7dYo+6vZXIcNp+Mp1Q27je6E0Gyymud0gPiSIIMoEk=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=MTSghJLlcBLzieQkdlKZluXe41RqP1h8wZpful1Mqo289DXo0G8yZ85OzPqauDWowqdo/No4lYBJTeFDQKTiF4vNl4WhAhLgcstVbu0mAvluxF7aHGXAkKzw+93dhoBYPb9T04WPam6BJiKtNdwuBc4TxTx7A3vqgDyv40mFJjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=csOO/j9V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743012030; c=relaxed/simple;
+	bh=+9mdqXTserWpJh+sMmzr1OcLYPE8C10aqKYmDg6mrWg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=IcQri7AGiG/f5b7UZ5VAmYgG0sfnqtcEty/4R6VnyQIRodNWWEjAsFcc7sQfHgXHYLbCg7GCnHSyVwteQ/vVNNwW0wWL+GjJJuk0HZkKzQD3IU1/9qMTzKhmDcFeOUqpAfufP671H+J4nGJ09/ZR9xJu/ijvntcrtlXifPC9+Ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rjp16ML4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="csOO/j9V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25B4CC4CEE8;
-	Wed, 26 Mar 2025 17:29:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rjp16ML4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 673FBC4CEE2;
+	Wed, 26 Mar 2025 18:00:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743010182;
-	bh=V7dYo+6vZXIcNp+Mp1Q27je6E0Gyymud0gPiSIIMoEk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=csOO/j9VVBQlA4LrqRKgLFMui5et9jbjL2TDnzPRJ07NPUA/RjArAyJNiLfUTFUQ4
-	 ezWfJkGMfRpQddcfXgVgnlw1LALcv1ucxtYeHmYjXSM7k+0pnji/g0he7q4F6aKd/R
-	 nJbkudB5W24SGPuPRjn/hsno4C+3hrZEUwzcqfJnvOGgOhtD60RGSOS+qmXPRpLPNc
-	 opHeH8qanUBGzP0FGhZA7/U0VE6evcWUEO/cMkz1smLZZBIAFfTJrWBjOXZCrgGITt
-	 aBx3aHJGdgvnESHTZ/0AuRJOmoo7wJZWREO8OotodJw2MmlK5Q25eicxFVK2WWdMqd
-	 4IQnnTTP+XOjQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 9FEE13810903;
-	Wed, 26 Mar 2025 17:30:19 +0000 (UTC)
-Subject: Re: [GIT PULL] sound updates for 6.15-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87zfh89mz4.wl-tiwai@suse.de>
-References: <87zfh89mz4.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87zfh89mz4.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.15-rc1
-X-PR-Tracked-Commit-Id: 3a949fc08103c0ce3a1d0ef30459c7b3acc6a214
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: e50da555ca4d42b1b98d0f26789db64f26a0919a
-Message-Id: <174301021849.1396023.8656507449888304683.pr-tracker-bot@kernel.org>
-Date: Wed, 26 Mar 2025 17:30:18 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20201202; t=1743012029;
+	bh=+9mdqXTserWpJh+sMmzr1OcLYPE8C10aqKYmDg6mrWg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Rjp16ML46Sst6EvTVgU/5p6wmfqFqZ7k0dJ0MTmKF5xlvPtAPDevWium1Z1R+1X0T
+	 JV+D5BJJcnIYt7oKRR8xAVLa5aEjfY7ClNelOugV7FYRw9d1PzMOh/71K6q6ODVLET
+	 bYrIhqBF8fQMIR9ja7CWSSXwMQTNw6adWME5JvMOOu9h5mf4Ho7ia8ngHIQ3YxeWOy
+	 W8zjZE8GcMdktp/MKUDoFB1X1JVKuEmv7I8+6yI3tp0DLC6/z8nL1HxrYvu/826mJo
+	 yOHo3i+lw5gKoUm5+wCnIrH8vlj5OftDImMkqFaiq1AovizHz/iytRocce3K8ZzKcd
+	 Pa5oO/8ItVLpA==
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250312-asoc-wsa88xx-visense-v1-0-9ca705881122@linaro.org>
+References: <20250312-asoc-wsa88xx-visense-v1-0-9ca705881122@linaro.org>
+Subject: Re: [PATCH 0/2] ASoC: codecs: wsa88xx: Correct VI sense channel
+ mask
+Message-Id: <174301202814.134636.3486543506033559539.b4-ty@kernel.org>
+Date: Wed, 26 Mar 2025 18:00:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-The pull request you sent on Wed, 26 Mar 2025 10:10:07 +0100:
+On Wed, 12 Mar 2025 20:24:58 +0100, Krzysztof Kozlowski wrote:
+> VI sense port on WSA883x and WSA884x speaker takes only one channel, so
+> correct the mask.  At least this works during my tests on different
+> devices with both speakers.  With original mask (0x3) I get
+> noise/garbage.
+> 
+> Best regards,
+> Krzysztof
+> 
+> [...]
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.15-rc1
+Applied to
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/e50da555ca4d42b1b98d0f26789db64f26a0919a
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thank you!
+Thanks!
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+[1/2] ASoC: codecs: wsa883x: Correct VI sense channel mask
+      commit: ed3b274abc4008efffebf1997968a3f2720a86d3
+[2/2] ASoC: codecs: wsa884x: Correct VI sense channel mask
+      commit: 060fac202eb8e5c83961f0e0bf6dad8ab6e46643
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
