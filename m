@@ -1,80 +1,94 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3CE1B21B4
-	for <linux-sound@vger.kernel.org>; Wed, 26 Mar 2025 10:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742983760; cv=none; b=P39qW+sGwG0v6hq7KDPQCARXX9fMuUI5d3Bf89ApCBKzEuOTLD3jnb7Z9eKXDnLG/iBO8Wpk7tQHRbfixSx2Z7WaVvxCQkaOh3LxxB54tlkvV1dRJXs8ic7uQ+KnZQVb3IwS2J4m0pkMt+l5rEy1N6Tx9as1COELmSSRApa+n1w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742983760; c=relaxed/simple;
-	bh=P2ErozGc1YzloiYKFY8XVll++8O7M+IJCl8ipftI2Iw=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB701A5B9C;
+	Wed, 26 Mar 2025 10:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742984115; cv=fail; b=AwxH5kw4NInJMF0aRylCH++Xncg94rLyI9EULkuJ2YKxsJmShVJ7cn7zQ49GeXTt5s2uP+HoyPfwD05PRgLARfpikVJUR5K9ZRUrlK/4BVuOb/34IHgmTUAX5LNqYQUYBKQ8TO4JecDM+Q1pymExCYM868U71wACwOFBdJUxN7Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742984115; c=relaxed/simple;
+	bh=d+vPmXGwUBGs4T1cKvC94aN/XDa5D0IFLy0E+FpzKVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DDD9AEGu5M453JrhCpoaTpJpHj3tKcX8XPotOJa9kX4hOfeh7eFDrVcHt8rdosrmT6sCCSwmsVYYOO3/X6E9GRyZmcbjOIJdRLxfJ1jQZBl1wIMO9PfBd9onUaXDxpbvZ6l/nw8d3UKumBApXlfESaoSn8L2QtoFaVvI8cQiqJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q0aKifaQ; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=nHoQKEweHUVcTDRJpGcsstZOZ2cJgnTul4cnifywkwKuS2O07YSOBqusfSCG9QEf7SuyOGZzyGJeVF3owZ6DHpl1Tyy6sKebrGNFmRp7Jfx+FzPfmM9u3dk/2jRRbac0UEqwMMOxDvviNSB4K78nYv00THao3sjfIXlcNOrYCNE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=njBJLP8b; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=UUHnv3sX; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q0aKifaQ"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-abec8b750ebso1198933966b.0
-        for <linux-sound@vger.kernel.org>; Wed, 26 Mar 2025 03:09:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="njBJLP8b";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="UUHnv3sX"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52Q8goOo029427;
+	Wed, 26 Mar 2025 05:14:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=heZhTZnUHqqMVfhi1Q
+	ShpP9qxczksckzkDxd69d8a14=; b=njBJLP8bimKQWo697Mp5ncbCqz1X0FSAPn
+	jIhLTU4BFmzbWZTWGKwggY+Df0zWx2YVYiosplj4/ENwTNPVJSra3HOvPa6h5dqn
+	0uU4V6nqOjdUqxUzml04VI5H2BbxU+RxOT/31qXi0uMzDz1ZoSmFu9JIr2HfdaIv
+	XSM0hzge2cURYK3NveuuxaNxFcqFuMt3EuGd9I5PVwpeI7jY/7IWX/N74SwUEN0W
+	gvrjNJtR2Y3Lp2NOGRwM3kEXX6b+BCacbmCz51J2PDZxlCNIxJyXL2A1wXXPfXC0
+	y0+5i9Z6MEn3jxIV9RGFCPWd3BRJFn98WYRRArBHpZUifKmFr75Q==
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2049.outbound.protection.outlook.com [104.47.70.49])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 45kmrgtj67-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 26 Mar 2025 05:14:55 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E1HsRgt5Cs/Vsa5oq2IGCboe4wou0W24ItvUqYSp7XgthdvM+I4XiuSdRVotsYP8iksNfYPJxNpizpq9IdUl1HL7OrjuurMoGuT4/ji4yyiEtxwRdEXwC96+U01bh7LN8T6UmrzXsKKPRezWy0ruOGkutuidmYiHW5wjIod1Qg5JXSCxWihIVoIk1UHXMB+gjxCGgtjn0WVA87uFh/ChgXzWUmSGkUZWX8rF93n6dle5EQDOH97LvH+6p/UaE36uGTfJDy0dVzaYGkvRUQMe6SuYhF8qHvNjyglv01RlVikPy/8hywQmLmvKZ7y+Y9AFTdsz+ogHCEbrrRWUuCoVkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=heZhTZnUHqqMVfhi1QShpP9qxczksckzkDxd69d8a14=;
+ b=t26ZKXtD2kCSeKKhVeIMxJqkmGTVpaepK6rRko7iJ6zDk2kVtKCfKiFeNsHSQPYvzckYO6TNWfwySr1fyGLQvUo7QqePA0KCMHNrxDQJGFOF3uK2Fga/vXIVzYq7DfZuGUZrH7+xbGAG/T9QSyU+UuBQ+8K28VL70gCA06n5ee5LNh3dLviD4Fj+9pyy4Lb2w0RFU1YOXRj0NRE2FL0lPMyOEfEVgfSpUvvcYoOupU8hQnecAGBs7gz38BQvr8LBkvt7fGbu6AzOqmSkmjMXsnl9ih5Cv0NiGbY1nYDe7xUTeOXUAoKXgu385yxbiZZkvaln03HCTDi6AS+YzVy+zQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com smtp.mailfrom=cirrus.com;
+ dmarc=fail (p=reject sp=reject pct=100) action=oreject
+ header.from=opensource.cirrus.com; dkim=none (message not signed); arc=none
+ (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742983756; x=1743588556; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mxE8mSuQFba5USugxIRzMPXLK6rZ2IlU479/J4S7RRQ=;
-        b=q0aKifaQ2qy5v288k5NA63z5aNi0UvdiSrsQXvU1PzWFATC5wn/+uaFX05IL5Gi6Xl
-         T6wSSwD0/qtdTxQtx83rT/9A+LcCPNWK7UO7v8wZjF2Wet5rLDWIoUKvKMrttpByUuUq
-         QQegCzmu73TDiurY1QJNV1ry+9zjEpxFbViPQoQ8s0bjCvOdcQgtV6+OY2Mt2qQMUXqK
-         2ag+iKc1VemK1wWwGLGjoEU5pLGcN8oSQwn1E3tshfHMEcgGdPDVG7sf/HFXs8+pDVVs
-         QtsTg4UEBke3wDZs9YJBrJxPemcBwfulTiZETMnMC8Rimp/YWcHdnrOaPXipVIgkqTJN
-         Ggbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742983756; x=1743588556;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mxE8mSuQFba5USugxIRzMPXLK6rZ2IlU479/J4S7RRQ=;
-        b=WrXmJNHop5P4y79RE1mgPSsVP5eePXnne4HPCXpcuRZ2G+JHoSTT3feJjGEY5epgCB
-         Xe0GNgOWLZIfgyLyf4ZA+sCouNvdxyyplTN6JA9rHHPizuu9KSPETcf3yK214qFIVoFd
-         TIPtLD8aBrGi2lDI9iG2MI7hFkLVE1rHTBKyOcYMbW/SzDHPsKa1UXw5mkCrw9TeydhY
-         u9g4Ki0Ufoi2dkWbuHztOH1deKSxIH3S1hjd1Ss2kL4Fj9G2JGayo8ErrH4Ms1z9jRoK
-         ChzuoOf7fJkVnjXHtPhzO9sva3sVwHtTeGtPouTK87Mu9xJFPH/2L6NyGB/ooSAUTwmv
-         Rptw==
-X-Forwarded-Encrypted: i=1; AJvYcCWNK01NBnbtSTTLrgp+WDbSAcUTksJVsb70OvRuRG4x/fPioWVorqT+BOpHxNv5GWFbZEcReL2/lTcasA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyrs1Zttt4i6G/p0z3HVGvpRnMrODqNt5GQ1I8naMBNMfpB++ME
-	LIsv5xOTVUi3K9meKK9cjY4gRAICFdLMNbtSq5xmhhfBTBquaqZcaSLmUSd+6NI=
-X-Gm-Gg: ASbGnctMukyODSEpNBpKvu+T710xIO/o/bhsWP2ntJE2P9dSngtz0KlvXmo9eZFWWjs
-	skOZa1LmKHs/VCLN4Ed5EmJKsF723gl/F7ijYjfQ4U66x46alWbWcyFDNrP3N2bxmQg5Vy+TmjQ
-	5H0gJcWNa9ZntM9WOLCc/IEeyLwHFsi9/vEQdFCpIrM7z+0g7v+Qf2eHqUTgJjksMIsNZodIvls
-	GMdlcWIycw+vPQ3mnJRU2cOA90MTQTRLqcL0Vg+6l8YIPGl3wjZDIgkKfH/ypQxGZyANuyaJMRg
-	2qpV/10QvY5rCdAml+4UJBwS2sjAIdPjwKk4Hve7hCVox6BgDLYAGG8=
-X-Google-Smtp-Source: AGHT+IGuB/epcJCgNqpypGqs/8PJnFxUfea7pF2X+I+R3S5XuLqn/BDqdYJIFIeL24XP+sXSUduRlw==
-X-Received: by 2002:a17:907:7292:b0:ac3:8895:8e99 with SMTP id a640c23a62f3a-ac3f20ba753mr2011787766b.3.1742983755500;
-        Wed, 26 Mar 2025 03:09:15 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:b2cf:5182:7604:e8d])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3ef869eefsm993244766b.30.2025.03.26.03.09.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 03:09:15 -0700 (PDT)
-Date: Wed, 26 Mar 2025 11:09:13 +0100
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: [PATCH v36 28/31] ALSA: usb-audio: qcom: Introduce QC USB SND
- offloading support
-Message-ID: <Z-PSSXt8WY3yVFM4@linaro.org>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-29-quic_wcheng@quicinc.com>
- <Z-J7n8qLMPVxpwuV@linaro.org>
- <5a7442c9-493d-4c23-a179-128f02a29f73@quicinc.com>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=heZhTZnUHqqMVfhi1QShpP9qxczksckzkDxd69d8a14=;
+ b=UUHnv3sXZs/JvmCwY436lqKOi5ZieJ+sZbz6/ATkFDpX0WrpsOCxOBZ6CYDMUNba+dVJ44Ew77XtxjS7//cgVkEbJ8EKbt9pi+16mGT3JGPv6E/ADxL6PmaJh7xIgXIgpN9QlZzNWN/MnthUxqygtXZZJQe887uW/62hU2oUbnQ=
+Received: from MW4PR04CA0195.namprd04.prod.outlook.com (2603:10b6:303:86::20)
+ by MN0PR19MB6287.namprd19.prod.outlook.com (2603:10b6:208:3c4::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Wed, 26 Mar
+ 2025 10:14:51 +0000
+Received: from CO1PEPF000044F4.namprd05.prod.outlook.com
+ (2603:10b6:303:86:cafe::e7) by MW4PR04CA0195.outlook.office365.com
+ (2603:10b6:303:86::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.43 via Frontend Transport; Wed,
+ 26 Mar 2025 10:14:51 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of cirrus.com does not
+ designate 84.19.233.75 as permitted sender) receiver=protection.outlook.com;
+ client-ip=84.19.233.75; helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CO1PEPF000044F4.mail.protection.outlook.com (10.167.241.74) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.20
+ via Frontend Transport; Wed, 26 Mar 2025 10:14:50 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 17F90406540;
+	Wed, 26 Mar 2025 10:14:49 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id DAA85820248;
+	Wed, 26 Mar 2025 10:14:48 +0000 (UTC)
+Date: Wed, 26 Mar 2025 10:14:47 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+        peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 1/3] ASoC: SDCA: Create DAPM widgets and routes from DisCo
+Message-ID: <Z+PTl4fg5tRoXmEE@opensource.cirrus.com>
+References: <20250321163928.793301-1-ckeepax@opensource.cirrus.com>
+ <20250321163928.793301-2-ckeepax@opensource.cirrus.com>
+ <2b899796-b9fc-49ef-a4a7-858baa90a36b@linux.dev>
+ <Z+KROae2x3nB6Ov8@opensource.cirrus.com>
+ <a5aa25de-919f-462c-8aab-996fbc381de9@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,180 +97,159 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5a7442c9-493d-4c23-a179-128f02a29f73@quicinc.com>
+In-Reply-To: <a5aa25de-919f-462c-8aab-996fbc381de9@linux.dev>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F4:EE_|MN0PR19MB6287:EE_
+X-MS-Office365-Filtering-Correlation-Id: db00dda0-1998-4153-e329-08dd6c4f0baa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|61400799027|376014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?a01uxkcOv3qAvM1pV9hzq0tUyrLGelbkSevWg96WEJPl+iuevMtQkxukI+oL?=
+ =?us-ascii?Q?a/26D/EcyZvhnJ4d1Ljg/pbNRDTKuZCXVo8+MBrIbA1YWWSxa7Pm31eJGcaF?=
+ =?us-ascii?Q?gbYKd41ybkXh2r+nS9pDMbfgHlHMKz3ZfFxyGyAJWNXRKKpE2j6h46W6QzXs?=
+ =?us-ascii?Q?UuGei8FyFFctBLvrC0Bt2vDtB/W0oLI6wMTAbaInjy7zm5WRI42vgF0XEvah?=
+ =?us-ascii?Q?uCoeXUP+yk1PEHS+fMAoaOGht+yE/m8GEaZQ8zf0GytrqDnMS6grLm6s0R+g?=
+ =?us-ascii?Q?Yf5Nj8GRgp7LVX1xT9uI/d6T+Jr6PL1iXRsxwjCY2I5UuJk7zb++U3gLEtIQ?=
+ =?us-ascii?Q?S0M/lRG60O+M4sCrNCsFD4kCdmsmrTJjSyGgQu+aH+cQ7jTDE4AjXf24HK35?=
+ =?us-ascii?Q?h9gry3K/PJSdgcRmW07sUX8eQxQaS/IKkVfxd8mN/CCORkW8Ua5CgPZ69WG7?=
+ =?us-ascii?Q?CLi4hbysmrcxHUY++y59b9E7HNgamOP3R7vZS07YvdcQbHespOSYUQpdHKBk?=
+ =?us-ascii?Q?ekSksrs4YL84zifMmt+lUZXQ9/K75YBwNbDeFbwu8ri6lB+Tyyp5tlle9ZJe?=
+ =?us-ascii?Q?xlVybMUegzhJEkZu3OA5gzA51S8eER/oKmSBOPGPk7YJG7MUSTQ8O731pL90?=
+ =?us-ascii?Q?YoIGzK8VYCVMx66EWfJQUtLVXN8mETOzsuPaEW1xFSKyvmLWmJm0l8PLKgMC?=
+ =?us-ascii?Q?d/X6hwdAdbEjL+v7ekxzLrC/uov+idf0RFHXrl0Lvp93YPsFydCAh7b1EPCh?=
+ =?us-ascii?Q?6tn/SiGHjf42vg0rbMem6S53/yeyD9Tn7KGY2xJNDcsGp0AwSTGzpBQpWKcc?=
+ =?us-ascii?Q?NE2XODuT8j7LLNyMqgW9yX74xbHPtrwVOM7Hc8L/mdmm4sZlVVuGkX27Ddpu?=
+ =?us-ascii?Q?HT/QGAtDH2a2eu1fPvscluoep2lpotQAVnZBBc2wR7PevEGiOtoSvqF3jyNn?=
+ =?us-ascii?Q?4GaJxQyoGAC2ibLP3cW4JCuoAEpbEVObuYXw4wYEscuJC4CPchqbUJ/7iH1S?=
+ =?us-ascii?Q?stZMDGPjkuZgUfz4kUlkqNdBEJ5H/5KCaiDYN/WQZozjKjtIhHuL0EAp4SwV?=
+ =?us-ascii?Q?IAM8UxD9VP4lKp2OqSfiZ09Es3hmqV2/VpZe3DG1YzTfJr08qQk0AkIgijjT?=
+ =?us-ascii?Q?FszL4OxJgvsdTt5R8RWbvbNqo7Tnp1hddL+mgLcWY0IailPyoaSlaK2tEuX2?=
+ =?us-ascii?Q?Hko2JV0NLSCGKyNcINO1+4ctSy9iT3zlw5fDA/D6N8/pz7IpPd2+tnBfUu4L?=
+ =?us-ascii?Q?s5VbcOHjZzN441UMIS3HrY2G/3Eq4D82+JvdG/I7Juv39Gi0CE0E1Ein39jZ?=
+ =?us-ascii?Q?r54JbYXdZ/eC8lY09DTe+QgBrCP9djCMnMQXlLw+XCsqZK9s8uPN+eyIpj93?=
+ =?us-ascii?Q?NHpwGv4ZfWodBwdLFI98Lcu97UUoWayt66DI5xW7qizuOCfI6aVI3Jx6/39v?=
+ =?us-ascii?Q?Nh9tGOMgpWo7j+svhHFOKs88ezEKf33a5gWeI7qGwoZW88MPPV0VsjotjfGj?=
+ =?us-ascii?Q?h+VAP/hAsKdHIko=3D?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(376014)(36860700013);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2025 10:14:50.7162
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: db00dda0-1998-4153-e329-08dd6c4f0baa
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000044F4.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR19MB6287
+X-Authority-Analysis: v=2.4 cv=GrdC+l1C c=1 sm=1 tr=0 ts=67e3d3a0 cx=c_pps a=YkRwJB1Lcas13D3J5+BQ6w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10
+ a=RWc_ulEos4gA:10 a=KZXpsyWr3WEUDrRS1P4A:9 a=CjuIK1q_8ugA:10 a=BGLuxUZjE2igh1l4FkT-:22
+X-Proofpoint-GUID: sKL6lk32cN-DsD97Vrm2tio2CKAqMvUn
+X-Proofpoint-ORIG-GUID: sKL6lk32cN-DsD97Vrm2tio2CKAqMvUn
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, Mar 25, 2025 at 06:32:14PM -0700, Wesley Cheng wrote:
-> On 3/25/2025 2:47 AM, Stephan Gerhold wrote:
-> > On Tue, Mar 18, 2025 at 05:51:38PM -0700, Wesley Cheng wrote:
-> >> Several Qualcomm SoCs have a dedicated audio DSP, which has the ability to
-> >> support USB sound devices.  This vendor driver will implement the required
-> >> handshaking with the DSP, in order to pass along required resources that
-> >> will be utilized by the DSP's USB SW.  The communication channel used for
-> >> this handshaking will be using the QMI protocol.  Required resources
-> >> include:
-> >> - Allocated secondary event ring address
-> >> - EP transfer ring address
-> >> - Interrupter number
-> >>
-> >> The above information will allow for the audio DSP to execute USB transfers
-> >> over the USB bus.  It will also be able to support devices that have an
-> >> implicit feedback and sync endpoint as well.  Offloading these data
-> >> transfers will allow the main/applications processor to enter lower CPU
-> >> power modes, and sustain a longer duration in those modes.
-> >>
-> >> Audio offloading is initiated with the following sequence:
-> >> 1. Userspace configures to route audio playback to USB backend and starts
-> >> playback on the platform soundcard.
-> >> 2. The Q6DSP AFE will communicate to the audio DSP to start the USB AFE
-> >> port.
-> >> 3. This results in a QMI packet with a STREAM enable command.
-> >> 4. The QC audio offload driver will fetch the required resources, and pass
-> >> this information as part of the QMI response to the STREAM enable command.
-> >> 5. Once the QMI response is received the audio DSP will start queuing data
-> >> on the USB bus.
-> >>
-> >> As part of step#2, the audio DSP is aware of the USB SND card and pcm
-> >> device index that is being selected, and is communicated as part of the QMI
-> >> request received by QC audio offload.  These indices will be used to handle
-> >> the stream enable QMI request.
-> >>
-> >> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> >> ---
-> >>  sound/usb/Kconfig                 |   14 +
-> >>  sound/usb/Makefile                |    2 +-
-> >>  sound/usb/qcom/Makefile           |    2 +
-> >>  sound/usb/qcom/qc_audio_offload.c | 1988 +++++++++++++++++++++++++++++
-> >>  4 files changed, 2005 insertions(+), 1 deletion(-)
-> >>  create mode 100644 sound/usb/qcom/Makefile
-> >>  create mode 100644 sound/usb/qcom/qc_audio_offload.c
-> >>
-> >> diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
-> >> index 4a9569a3a39a..6daa551738da 100644
-> >> --- a/sound/usb/Kconfig
-> >> +++ b/sound/usb/Kconfig
-> >> @@ -176,6 +176,20 @@ config SND_BCD2000
-> >>  	  To compile this driver as a module, choose M here: the module
-> >>  	  will be called snd-bcd2000.
-> >>  
-> >> +config SND_USB_AUDIO_QMI
-> >> +	tristate "Qualcomm Audio Offload driver"
-> >> +	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND && SND_SOC_USB
-> >> +	help
-> >> +	  Say Y here to enable the Qualcomm USB audio offloading feature.
-> >> +
-> >> +	  This module sets up the required QMI stream enable/disable
-> >> +	  responses to requests generated by the audio DSP.  It passes the
-> >> +	  USB transfer resource references, so that the audio DSP can issue
-> >> +	  USB transfers to the host controller.
-> >> +
-> >> +	  To compile this driver as a module, choose M here: the module
-> >> +	  will be called snd-usb-audio-qmi.
-> >> [...]
-> >> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-> >> new file mode 100644
-> >> index 000000000000..3319363a0fd0
-> >> --- /dev/null
-> >> +++ b/sound/usb/qcom/qc_audio_offload.c
-> >> @@ -0,0 +1,1988 @@
-> >> [...]
-> >> +static int __init qc_usb_audio_offload_init(void)
-> >> +{
-> >> +	struct uaudio_qmi_svc *svc;
-> >> +	int ret;
-> >> +
-> >> +	svc = kzalloc(sizeof(*svc), GFP_KERNEL);
-> >> +	if (!svc)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	svc->uaudio_svc_hdl = kzalloc(sizeof(*svc->uaudio_svc_hdl), GFP_KERNEL);
-> >> +	if (!svc->uaudio_svc_hdl) {
-> >> +		ret = -ENOMEM;
-> >> +		goto free_svc;
-> >> +	}
-> >> +
-> >> +	ret = qmi_handle_init(svc->uaudio_svc_hdl,
-> >> +			      QMI_UAUDIO_STREAM_REQ_MSG_V01_MAX_MSG_LEN,
-> >> +			      &uaudio_svc_ops_options,
-> >> +			      &uaudio_stream_req_handlers);
-> >> +	ret = qmi_add_server(svc->uaudio_svc_hdl, UAUDIO_STREAM_SERVICE_ID_V01,
-> >> +			     UAUDIO_STREAM_SERVICE_VERS_V01, 0);
-> >> +
-> >> +	uaudio_svc = svc;
-> >> +
-> >> +	ret = snd_usb_register_platform_ops(&offload_ops);
-> >> +	if (ret < 0)
-> >> +		goto release_qmi;
-> >> +
-> >> +	return 0;
-> >> +
-> >> +release_qmi:
-> >> +	qmi_handle_release(svc->uaudio_svc_hdl);
-> >> +free_svc:
-> >> +	kfree(svc);
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +
-> >> +static void __exit qc_usb_audio_offload_exit(void)
-> >> +{
-> >> +	struct uaudio_qmi_svc *svc = uaudio_svc;
-> >> +	int idx;
-> >> +
-> >> +	/*
-> >> +	 * Remove all connected devices after unregistering ops, to ensure
-> >> +	 * that no further connect events will occur.  The disconnect routine
-> >> +	 * will issue the QMI disconnect indication, which results in the
-> >> +	 * external DSP to stop issuing transfers.
-> >> +	 */
-> >> +	snd_usb_unregister_platform_ops();
-> >> +	for (idx = 0; idx < SNDRV_CARDS; idx++)
-> >> +		qc_usb_audio_offload_disconnect(uadev[idx].chip);
-> >> +
-> >> +	qmi_handle_release(svc->uaudio_svc_hdl);
-> >> +	kfree(svc);
-> >> +	uaudio_svc = NULL;
-> >> +}
-> >> +
-> >> +module_init(qc_usb_audio_offload_init);
-> >> +module_exit(qc_usb_audio_offload_exit);
-> >> +
-> >> +MODULE_DESCRIPTION("QC USB Audio Offloading");
-> >> +MODULE_LICENSE("GPL");
-> > 
-> > What will trigger loading this if this code is built as module?
-> > 
-> > Testing suggests nothing does at the moment: If this is built as module,
-> > playback via USB_RX will fail until you manually modprobe
-> > snd-usb-audio-qmi.
-> > 
-> 
-> Yes, it would only get triggered on a modprobe.  I think the more important
-> part is when snd_usb_register_platform_ops() is called.  This is what would
-> register the vendor USB offload driver callbacks for USB connect/disconnect
-> events.
-> 
-> > I think the easiest way to solve this would be to drop the
-> > module_init()/module_exit() and instead call into these init/exit
-> > functions from one of the other audio modules. This would also ensure
-> > that the QMI server is only registered if we actually need it (if the
-> > board sound card actually has a USB DAI link).
-> > 
-> 
-> It would be difficult from the perspective of USB SND, because if we got
-> rid of the vendor ops, it would be messy, since the USB offload vendor
-> driver will be specific for every SoC.
-> 
+On Tue, Mar 25, 2025 at 04:10:21PM -0500, Pierre-Louis Bossart wrote:
+> On 3/25/25 06:19, Charles Keepax wrote:
+> > On Mon, Mar 24, 2025 at 04:15:24PM -0500, Pierre-Louis Bossart wrote:
+> In most cases the purpose of a GE is to control multiple SU
+> states. However the SDCA spec took liberties with this concept and
+> added new properties for the NDAI topologies, where a GE is present
+> even if there is a single endpoint. It'd be worth double-checking
+> that the way the GE is exposed in this patchset is forward-compatible
+> with the 1.1 topologies.
 
-What I meant is calling qc_usb_audio_offload_init() from any of the
-other drivers that are involved, e.g. q6usb. Or register an auxilliary
-device like in qcom_pd_mapper, so the modules don't need to link
-together directly. That shouldn't get too messy.
+I will go and double check but I can't see any reason why a GE
+controlling only a single entity would be a problem here.
 
-There are several reasonable options here, any of them is fine as long
-as this module will get automatically loaded for users that need it.
-Anything else would defeat the purpose of the generic USB sound
-offloading userspace interface, because you would need to load the
-QC-specific snd-usb-audio-qmi module manually. :-)
+> How would the state of those DAPM SU widgets be updated
+> though? I think we need to 'translate' the GE settings to tell
+> DAPM which paths can become active, but the SUs state is set
+> by hardware so I could see a possible racy disconnect if we
+> make a path activable but hardware hasn't done so yet.
+
+All the SU DAPM widgets are linked to the single GE control,
+the same ALSA control is shared across all the widgets. So
+all the paths are updated in a single DAPM sync, and on the
+hardware side with a single write to the GE control.
+
+> >>> SDCA also has a slight habit of having fully connected paths, relying
+> >>> more on activating the PDEs to enable functionality. This doesn't map
+> >>> quite so perfectly to DAPM which considers the path a reason to power
+> >>> the PDE. Whilst in the current specification Mixer Units are defined as
+> >>> fixed-function, in DAPM we create a virtual control for each input. This
+> >>> allows paths to be connected/disconnected, providing a more ASoC style
+> >>> approach to managing the power.
+> >>
+> >> Humm, maybe my analysis was too naive but the SDCA PDE seemed
+> >> like a DAPM power supply to me. When a path becomes active,
+> >> DAPM turns on the power for you, and power is turned off some time
+> >> after the path becomes inactive.
+> > 
+> > Correct, the PDEs are modeled as supply widgets and those are
+> > powered up when the path is active as normal. The problem
+> > alluded to in this paragraph is there a couple times where
+> > SDCA topologies just have a permanently connected path so
+> > things would always power up.
+> 
+> Ah yes those loops would indeed be problematic, but no more
+> than in existing non-SDCA topologies where we used pin switches
+> to disable such loops. All existing TDM-based solutions used
+> pin switches, I was assuming we'd use them as well for SDCA.
+
+I wanted to do a little more thinking on it. The general
+concern I have is that typically the pin switches are added
+along with the "fabric" widgets in the machine driver. As this
+code here is effectively creating a single codec (function in
+SDCA land), it feels like it is probably inappropriate to hook
+up pin switchs at this level.
+
+To put that as a more concrete example this code will create
+input widgets for IT 31, 32, 33 (the UAJ mics), however it
+would be unusual to hook a pin switch to those. Something
+should be creating an actual microphone widget, attaching
+that to the input widgets and attaching a pin switch to that.
+Typically those actions are handled in the machine driver,
+there is possibly an argument for handling them in the codec
+driver for SDCA but I felt it would make more sense to progress
+things a little further until resolving that one.
+
+> > My opinion is that even if we end up adding the pin switches as
+> > well it still makes sense to allow connecting and disconnecting
+> > the inputs of a Mixer Unit.  These are typically where two
+> > audio streams come together and having the ability from the
+> > host side to say if you want that connection or not seems very
+> > valuable to me. As in SDCA land you basically make that choice by
+> > directly flipping the PDE.
+> 
+> I have no objection if there are both pin switches and MU switches.
+> 
+> I view pin switches as a more generic mechanism that userpace
+> has to set to use a specific endpoint.
+> 
+> The MU switches seem like debug capabilities to isolate which
+> path has a problem. My experience fixing Baytrail issues is
+> that you want a default mixer switch to be on, otherwise you'll
+> get warnings on unconnected items or 'there is no sound' bug
+> reports. In other words, the MU switches are a nice-to-have
+> mechanism to disable default paths, so even if userspace
+> doesn't touch those controls sound can be heard on endpoints.
+
+The mixer switches do default to connected.
+
+What I like about having mixer switches is it allows a
+clearer specification of intent. For example one can power
+the capture path and one can power the playback path, but the
+mixer switch makes it clear user-space has an intention to
+use the sidetone rather than just those two paths being
+powered coincidentally.
+
+I could drop them for now and just have the mixers permanently
+connected, until we deal with pin switching, but I am inclined
+to leave it as is and we can revisit later if necessary.
 
 Thanks,
-Stephan
+Charles
