@@ -1,164 +1,70 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95D115B54A
-	for <linux-sound@vger.kernel.org>; Wed, 26 Mar 2025 07:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE171282EE;
+	Wed, 26 Mar 2025 08:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742974025; cv=none; b=f2P9MB/Wh1/sC2nc+6ZVgrmVkR3HKPE5j4J2fB5CUlxjaZPRn+IcP5/+whpDUCd/3LXzNnq5PwNv0h2yQtVwUccHyd39mrtuB3Pmlsxh8Vl/JYl/Y8qyTYPvSSwNlY/PVabYM4JKwUj4uGNWwMWej1lpdc5Wjv5NWnPgeIsfh3A=
+	t=1742976987; cv=none; b=kASXtsmfHWYNiDxCzyeyrNk5F/wDHugvi6ft84/tUGTIF8VAj94fzMxruyVRxzt8V9VTSQfWscuAiS1DBqwc3bDboP/WrRj4uAxDlwJN0ZmwB6AFJFe2v2X9aYIrXcK9usu/4/PVRFMYi+OukusfXZ196OrBq66p6rvtstX4cTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742974025; c=relaxed/simple;
-	bh=1kz1EtJpGc7SEihOU8uWwIy6si6Se9ElCW89nQAJWfM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dHwJoontp2DBo/HXG1tNmATjMK9e/4avkUd52gAuqAoKoijkWlhrzZ2t5o/CupUCWMp/IyD+zlJa7slvR7UflOln3CQeGWxS7rr9dX5EDkoo4GoMZTuCkn95efAKSWPWkhggSQnRCK2LTui3P3jFUsmQoS5mkotOWC0KjH7+/yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OP8ksSPc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Z/7SdtK+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=I5UYyivD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F0W7tIKP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1742976987; c=relaxed/simple;
+	bh=T/xRUZGs7ItgYgVXiQ+hB5Q/0Hnxt8WtQdvXjVtJt70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=udVr/zZrjd/Zux59fEOTtWqt9Z7VUcIw/I+z/yJzfXgdljV0/KeYsG5dPyXeLhZUkiZD0VC9K15AiBhR0b0Dbeoy3Ny2w9l5PFSokyHxHB55vZyVqdBIVtsx2+NRbC+s6ua1IvS0KpDiL+XQ70ZvpWSwypX8TlQrbw+ZE7+o81Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qq901tP2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OP8ksSPc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Z/7SdtK+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="I5UYyivD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F0W7tIKP"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CEC6821185;
-	Wed, 26 Mar 2025 07:26:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742974016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XTB+eZH7dmSWObSm8wqs7dacimcYNTWpAIiwPmgIVW0=;
-	b=OP8ksSPcN+Jg63gLHgW7t4PCPu9tngAfhM8a27wUQ778KV2JjkDqC2+H3v24hYsPmcxWxH
-	rLp+Y9n6TL0AWgp1W9YoVg4SaTAXXDJkmtdYsq0Cw5EvcEwGHstiVB9EQIjGC37uvZGe5p
-	tjEAt35bdKSCb8l42A/vyFVgcBQ4jNU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742974016;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XTB+eZH7dmSWObSm8wqs7dacimcYNTWpAIiwPmgIVW0=;
-	b=Z/7SdtK+q4ukmxmOhyQdmGInxbK3kOkKAa178RuWKxV+EbAVVrp1G2HWRVNMiFEPupZZPv
-	wPwp793DYWsyGSBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=I5UYyivD;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=F0W7tIKP
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742974015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XTB+eZH7dmSWObSm8wqs7dacimcYNTWpAIiwPmgIVW0=;
-	b=I5UYyivDaTh+CfknXnztySHEDWA5umUEafOw7kid2n6eXzwfeRwBaBMnx3ZemJGf/nJIsJ
-	KjiICPFseOc9Nm4SiosGoclFgR8m1MMiUjBhR769Roys2w0s6nQPdeguDY0e1TQjtrDe8d
-	swe9uQqqBqo6GbN+XOyaKxBRSI7y7sw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742974015;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XTB+eZH7dmSWObSm8wqs7dacimcYNTWpAIiwPmgIVW0=;
-	b=F0W7tIKPOV3eP2yksC8CDFNlT1ahgprbI0n/nH00HQ9U1crlxTZa7EE7YlWnuBvW98ReG0
-	IO+AWeomHl7GRxAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A171B1374A;
-	Wed, 26 Mar 2025 07:26:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id a22yJT+s42dcPgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 26 Mar 2025 07:26:55 +0000
-Date: Wed, 26 Mar 2025 08:26:55 +0100
-Message-ID: <87cye4b6bk.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sharwesh05 <sharweshraajan@gmail.com>
-Cc: tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] 	modified:   sound/pci/hda/patch_realtek.c
-In-Reply-To: <20250325150510.31452-1-sharweshraajan@gmail.com>
-References: <20250325150510.31452-1-sharweshraajan@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qq901tP2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 878F0C4CEE2;
+	Wed, 26 Mar 2025 08:16:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742976987;
+	bh=T/xRUZGs7ItgYgVXiQ+hB5Q/0Hnxt8WtQdvXjVtJt70=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qq901tP2RyP4BqnwzJQEbZEuuLP2h4kqqWQhL3YoxuvFuRFQozy/cNyBlrckHCjwQ
+	 omqE6jk2NCeE67u/poGn5zZ69v69AiHgQ0TnYqjoq51QNjkNFMpTS+kineMnV+tDXS
+	 pEhRrkGEiBRne6RS1Bw4y70rJaxUY4v+EUuJdsOoAm+NIyVjY+bFOWu2F4zVYn021M
+	 GPgHPkm//kWoT2CIBpHpj9HSXw9N0PBKX2+5LR5FlfeU0Z/zv3WuP/juUxk/z0ryt9
+	 tnVZo/bemgWPDIOiL4VaDT8NJt5w8xVBeAa3P5d+nABv+B31ugaFKll84KjxR63nhs
+	 cyPsIRBgl9lPA==
+Date: Wed, 26 Mar 2025 09:16:23 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: fsl,mqs: Reference common DAI
+ properties
+Message-ID: <20250326-aloof-famous-lizard-3ada69@krzk-bin>
+References: <20250325062751.3296913-1-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: CEC6821185
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250325062751.3296913-1-shengjiu.wang@nxp.com>
 
-On Tue, 25 Mar 2025 16:05:10 +0100,
-Sharwesh05 wrote:
+On Tue, Mar 25, 2025 at 02:27:51PM +0800, Shengjiu Wang wrote:
+> Reference the dai-common.yaml schema to allow '#sound-dai-cells' and
+> "sound-name-prefix' to be used.
 > 
-
-Thanks for the patch.
-
-But, please make the patch in a proper format, namely, have the
-appropriate Subject line starting with the prefix "ALSA: hda/realtek:"
-and containing the concise description about the patch.  Then put more
-information about the changes (why it's needed and what it fixes /
-changes) in the patch description, followed by a blank line, and most
-importantly, your Signed-off-by tag with your real name and address;
-it's a legal requirement.
-
-Please check Documentation/admin/submitting-patches.rst for details.
-
-About the code change:
-
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 > ---
->  sound/pci/hda/patch_realtek.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+>  Documentation/devicetree/bindings/sound/fsl,mqs.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index a84857a3c2bf..8c2375476952 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -4739,6 +4739,21 @@ static void alc245_fixup_hp_mute_led_coefbit(struct hda_codec *codec,
->  		snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
->  	}
->  }
-> +static void alc245_fixup_hp_mute_led_v1_coefbit(struct hda_codec *codec,
-> +					    const struct hda_fixup *fix,
-> +						int action)
+> diff --git a/Documentation/devicetree/bindings/sound/fsl,mqs.yaml b/Documentation/devicetree/bindings/sound/fsl,mqs.yaml
+> index 8c22e8348b14..99e7372abd0c 100644
+> --- a/Documentation/devicetree/bindings/sound/fsl,mqs.yaml
+> +++ b/Documentation/devicetree/bindings/sound/fsl,mqs.yaml
+> @@ -55,6 +55,7 @@ required:
+>    - clock-names
+>  
 
-Put a blank line before the function.
+You need to constrain dai-cells to 0 (const: 0).
 
-Could you correct the above and resubmit?
+Best regards,
+Krzysztof
 
-
-thanks,
-
-Takashi
