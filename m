@@ -1,196 +1,118 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E61320DD5C
-	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 10:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CEE20F066
+	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 10:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743070190; cv=none; b=KkjD7r2YvDE3rdghHZ5Ber9OcIfontx0gz18sLu22E3eHNvZ7F7xRmlcvYisQXSQXGDvgun0VOIyFmoOQAd91XonvW1jox0BNOR/rmpie5qAm1L92h05RkgL0vvamV7uiotLrX9lrdgnyQFeP2qULPOb4m764IO5zhRxC+DWki0=
+	t=1743070488; cv=none; b=ToYv61mHN1aqUcuF7Tafqx8kpWLmJ4LftsNQ4EhSosyOO62j59ToEoZVPIWUofw6uGYNTa6yIePpV/oYqccq0K0VQ00TENfjfufTwxAckSNe6J9KHTmvleMasiTqdvof/775PKLyQOPgNBU6WHIEapoiknDGaVUFnCn0SWYrx7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743070190; c=relaxed/simple;
-	bh=bXzzb0Avu4HcmZF1e9Vm0rDE6sTRUkV82fEsxmMvhyI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CUMGNzDYmM4casSah3aeR+Hsdia7msKDBciCpz9sXMVFAEdH5psCzTLz/JhXzRyHOzxMAngGdXQEJcljZHa4IU9DFsJmOuXm0lS8eXEwyKl0VLWefOY+7p4B1TPzoA7+EFfvQXFckv7i7EqoIzqUh+6aCYxCf7S0bhZaN9YNgtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T6wHJtTJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uOjj+ayq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T6wHJtTJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uOjj+ayq; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1743070488; c=relaxed/simple;
+	bh=C6Yhmj5NSDmuki5prkNWWgqAqbPvRZU5lqPe4zAvakg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FNcc47IYZh/Yf1hV6BcDPULx6WD1fxaxlBsl7TAFglLdXcMs40oetQrzy4kDYy268e+c6zCSvqT5bzex77AUPXZp5m7XzAxYRnZM4CMNRW5mFS0BtcJ1/uK1GxzWk5d2rnMTPgP4FRnnw0MjH2PPwPBM4ECOGcdia3TnvW6Jsuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PH3/UzjT; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T6wHJtTJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uOjj+ayq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T6wHJtTJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uOjj+ayq"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4644C1F451;
-	Thu, 27 Mar 2025 10:09:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743070186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=35YETAU0Mo+uDyLoadZw5UOuffpmd9hXuDvw03DJNvc=;
-	b=T6wHJtTJ0Ez5BK3UpFvYjVd1vX+ZtuA0hcmuL7+UGYJQg1Rh068lAsl7UXyJl/TRsA4Pyk
-	PdADuIEmxFLynHriho/FZc4J7ji470ebV4/h1b6xTb7QSq0K1SDyRY+yuA/8WeVt/4lbzH
-	smzTcKvG6c0serf0ch6bwZPNNkBg+Bo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743070186;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=35YETAU0Mo+uDyLoadZw5UOuffpmd9hXuDvw03DJNvc=;
-	b=uOjj+ayqNT1BGk9nLURyQ2GyLrp0ttKGq3o1D5PmS3qvmAU8LRZVJ1T9LsSBxk5WilITUe
-	cZcA4CeNyGxNSxBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743070186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=35YETAU0Mo+uDyLoadZw5UOuffpmd9hXuDvw03DJNvc=;
-	b=T6wHJtTJ0Ez5BK3UpFvYjVd1vX+ZtuA0hcmuL7+UGYJQg1Rh068lAsl7UXyJl/TRsA4Pyk
-	PdADuIEmxFLynHriho/FZc4J7ji470ebV4/h1b6xTb7QSq0K1SDyRY+yuA/8WeVt/4lbzH
-	smzTcKvG6c0serf0ch6bwZPNNkBg+Bo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743070186;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=35YETAU0Mo+uDyLoadZw5UOuffpmd9hXuDvw03DJNvc=;
-	b=uOjj+ayqNT1BGk9nLURyQ2GyLrp0ttKGq3o1D5PmS3qvmAU8LRZVJ1T9LsSBxk5WilITUe
-	cZcA4CeNyGxNSxBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A8D5139D4;
-	Thu, 27 Mar 2025 10:09:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /oBaAeoj5Wd5DwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 27 Mar 2025 10:09:46 +0000
-Date: Thu, 27 Mar 2025 11:09:45 +0100
-Message-ID: <87a5969446.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Benjamin Berg <benjamin@sipsolutions.net>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi
- Iwai	 <tiwai@suse.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable speakers on further Samsung Galaxy Book2 Pro
-In-Reply-To: <3766ead24f99ba9ac7490a2066d99f0ba968df27.camel@sipsolutions.net>
-References: <20250326201953.131948-1-benjamin@sipsolutions.net>
-	<87jz8a9731.wl-tiwai@suse.de>
-	<3766ead24f99ba9ac7490a2066d99f0ba968df27.camel@sipsolutions.net>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PH3/UzjT"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ff615a114bso2955041a91.0
+        for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 03:14:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1743070486; x=1743675286; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NXU1FLrii1vst2IhDKt8s9STfEquca1Y5iYBAMgYvYg=;
+        b=PH3/UzjTb/1krpG8Qhb+auQ/CnsfSOHHdB5Q+A0CQ6doDY651lqKw/HkA7VjN8r5tU
+         CrY0UQtBs3JEewTrzqDftEEb9Zb4gVZoJ9ZT4oM5VT1B0UXMzRfMBeO9G8dNVh5Cyq+4
+         VYZvKWVsJQ/OwT7buSyKLOanCGFys1x1pAC8KdMiTHANjyFOHsDfMLp0FsGZx/VsjlRV
+         YI8zgtsxAa80/58k6PTyoEEbR4MsUUR+671M9ABK5abRbO8EZtGaoNT870aDpujfno5l
+         jGR45gPctibq+09rgy/uirYVpVDif3QdRwQf0cuL8YJlBvdrPEmpVrPBKUkmP/gSMuyW
+         svcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743070486; x=1743675286;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NXU1FLrii1vst2IhDKt8s9STfEquca1Y5iYBAMgYvYg=;
+        b=G3MViZ1Lssw1j6RFGojBPmPzR+Ztx2JpV52ibbjghmStFgAJ0l7nQMqD+8vM8S8YjC
+         bW1lBAjMc61hoYYHI/TquA5MlGzVuAJLM1wuoRwSY0xat6GQrpwaiXLWlI9nx/gcSulR
+         sh40n5S281TEjDG6WJZWi7kmXiA1QEjdl7GzvlRWiT2mFX50U6FguALbPMbNKtsHEjIx
+         lH3tI6TtbdP2BvuTNQEAL2ilW/gJ1/is6ESD5FkX1xEBLQyXE8L93VSX87xpX6ZezUjH
+         XG6QN9jdNKMdNBc942qfiOSH0ko3p07iMNfJvICho/c7F6N3CslIGgf0M3/QAteM/uJB
+         03Zg==
+X-Forwarded-Encrypted: i=1; AJvYcCXcfAEMAMM78FFv0IUiPmpR4ZbHLb2H5MeUjeElSw7AmvJqsb2kGrytz/Ar3RSazJw5FfDgVmpnbEOJjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3zgxFFly00KZ67R6faeogwcX05/KvbOluE+hrB2PRbtXDE/wP
+	jvEupuPQf4p86BuGMOoVBrnVNMCKke90iFX0BOFM3AWYc2eFWP1ZD9f3RLLGfdhGX3uh7WG69y0
+	hgcefiJhfFfBZtp84Izrmxk4JdgVLvY9j0lh6
+X-Gm-Gg: ASbGncsP+vRCC8/6pN1N0S76kJEYUL4CVeLu5HQTeDWuEZRIYMQ1X9nvr22jTAgzv0G
+	+LYqm0U5EaqCkRhP1yWMnU7YqsZFkRtH19td75bKk9EBmchZ+Ms5PfJzgD9SXpARCBQ9f+uvK5O
+	Ozdm2snX9ykOJrNRLvlmOfUmiiQWXMiDxVvx8112Skp/vYadZ/7yXyT7Sp
+X-Google-Smtp-Source: AGHT+IE1AefcJXIAWpDxPG3bUQ0bh6A+2grtsHhf+KAx7LnCFJqdzcBF4kLKgl+IZnDTHnXwKb1Ss9FhuZTqsrkbkRw=
+X-Received: by 2002:a17:90b:2cc3:b0:2fa:4926:d18d with SMTP id
+ 98e67ed59e1d1-303789576damr11844174a91.13.1743070485612; Thu, 27 Mar 2025
+ 03:14:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
+ <20250319005141.312805-2-quic_wcheng@quicinc.com> <CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
+ <2025032734-reward-fantasize-dc16@gregkh>
+In-Reply-To: <2025032734-reward-fantasize-dc16@gregkh>
+From: Puma Hsu <pumahsu@google.com>
+Date: Thu, 27 Mar 2025 18:14:00 +0800
+X-Gm-Features: AQ5f1JpamchKB-mbo8HzMPc07dJP4L7AYc2gJudLypuurcRTBQseSpaQIpAXpM8
+Message-ID: <CAGCq0LamxvvE8b45VAshw9aWJNC2so_vK9t+pzXd3C7Y7tfYAg@mail.gmail.com>
+Subject: Re: [PATCH v36 01/31] xhci: sideband: add initial api to register a
+ secondary interrupter entity
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org, 
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org, 
+	dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org, 
+	lgirdwood@gmail.com, krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com, 
+	Thinh.Nguyen@synopsys.com, tiwai@suse.com, robh@kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Mathias Nyman <mathias.nyman@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 27 Mar 2025 10:55:04 +0100,
-Benjamin Berg wrote:
-> 
-> On Thu, 2025-03-27 at 10:05 +0100, Takashi Iwai wrote:
-> > On Wed, 26 Mar 2025 21:19:53 +0100,
-> > Benjamin Berg wrote:
-> > > Note that I didn't really manage to test this directly. Trying to
-> > > do a
-> > > reconfigure resulted in a hang and I didn't figure out how to use
-> > > the
-> > > patch= option with a firmware file.
-> > > However, the machine does work fine when configuring the two
-> > > speakers
-> > > from userspace, so I am confident that this patch is correct.
-> > 
-> > FYI, the equivalent can be achieved with model option, too.
-> > e.g. passing model=144d:c870 will apply the same existing quirk as
-> > SSID 144d:c870.  If your target is the secondary codec, pass like
-> > "model=,144d:c870" instead.
-> 
-> Hmm, it is probably really straight forward, but I didn't grasp the
-> documentation in Documentation/sound/hd-audio/notes.rst on a quick
-> read.
+On Thu, Mar 27, 2025 at 3:02=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Thu, Mar 27, 2025 at 02:27:00PM +0800, Puma Hsu wrote:
+> > Hi,
+> >
+> > We have implemented and verified the USB audio offloading feature with
+> > the xhci sideband driver on our Google Pixel products. We would
+> > appreciate it if this solution can be accepted. Thank you all for the
+> > work!
+> >
+>
+> Great, can you properly send a "Tested-by:" line for this against the
+> 00/XX email so that it will be properly saved?
+>
 
-It's mentioned in "Model Option" subsection of that document.
-```
-A new style for the model option that was introduced since 5.15 kernel
-is to pass the PCI or codec SSID in the form of ``model=XXXX:YYYY``
-where XXXX and YYYY are the sub-vendor and sub-device IDs in hex
-numbers, respectively.  This is a kind of aliasing to another device;
-when this form is given, the driver will refer to that SSID as a
-reference to the quirk table.  It'd be useful especially when the
-target quirk isn't listed in the model table.  For example, passing
-model=103c:8862 will apply the quirk for HP ProBook 445 G8 (which
-isn't found in the model table as of writing) as long as the device is
-handled equivalently by the same driver.
-```
+We(Google Pixel) only use the xhci sideband related changes and two
+changes in the sound card driver. For the details, what we actually
+tested are patch [01], [02], [03], [04], [05], [06], [08], and [12].
+Do I still send the "Tested-by:" line to 00/31 email? Or should I just
+send the "Tested-by:" line to the 8 changes above? (I added
+"Tested-by" line for this [01/31] first.)
 
-> I am not sure anymore what I did (and I don't have access to the
-> machine anymore). It might be I tried putting the model= line into a
-> firmware file instead of just passing it on the kernel command line.
+> Also, I think a new version of the series is coming, can you test that
+> to verify it works properly?  We have to wait until after -rc1 is out
+> anyway.
+>
 
-> How do I even know whether it is the first or second codec? Is that
-> what the D0 in hwC0D0 is?
+I think this v36 is the last version of the series as I discussed with
+QCOM Wesley. And for sure I will test it if they do have a new
+version.
 
-I meant the device probe order, so card#0 device#0 must be the very
-first one :)
-
-
-> > > ---
-> > >  sound/pci/hda/patch_realtek.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> > > index c735f630ecb5..e4ea5ea5bb27 100644
-> > > --- a/sound/pci/hda/patch_realtek.c
-> > > +++ b/sound/pci/hda/patch_realtek.c
-> > > @@ -10758,6 +10758,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
-> > >  	SND_PCI_QUIRK(0x144d, 0xca06, "Samsung Galaxy Book3 360 (NP730QFG)", ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
-> > >  	SND_PCI_QUIRK(0x144d, 0xc868, "Samsung Galaxy Book2 Pro (NP930XED)", ALC298_FIXUP_SAMSUNG_AMP),
-> > >  	SND_PCI_QUIRK(0x144d, 0xc870, "Samsung Galaxy Book2 Pro (NP950XED)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
-> > > +	SND_PCI_QUIRK(0x144d, 0xc01d, "Samsung Galaxy Book2 Pro (NP950QED)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
-> > >  	SND_PCI_QUIRK(0x144d, 0xc872, "Samsung Galaxy Book2 Pro (NP950XEE)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
-> > >  	SND_PCI_QUIRK(0x144d, 0xc886, "Samsung Galaxy Book3 Pro (NP964XFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
-> > >  	SND_PCI_QUIRK(0x144d, 0xc1ca, "Samsung Galaxy Book3 Pro 360 (NP960QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
-> > 
-> > The table is sorted in PCI SSID order.  Could you try to put at the
-> > right position?
-> 
-> Sorry, will fix and resend.
-
-Thanks!
-
-
-Takashi
+Thanks
+Puma
