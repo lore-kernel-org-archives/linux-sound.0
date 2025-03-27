@@ -1,81 +1,86 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79EF1A08BC
-	for <linux-sound@vger.kernel.org>; Wed, 26 Mar 2025 20:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A387F1ACEB7
+	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 06:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743020436; cv=none; b=t7+BxH72cJJV9Um0XBTWXx9aIZkBq6TsU8GD1D6a9yT6eUWOCZbAp0U6Hp+196bfQxLXwjm5p0ko4+0Lag9ZmQrPb4L3QluqML1sbzD/5d9kfRX/Nr4++twBIHcNt9APv4WAtCpoQDh5PCRuGKi2SRPkJYQc82msZeB4IsN2GTI=
+	t=1743056861; cv=none; b=OvENv8PvWuCwiYkid2xNiWSYdIyugBJm0/vBAGNYFup2nzfwllwg/qMtMbcdC57jkpB0P/rNQKAiihogUmhFFvMEC/KawZbPBYRXopBq3xuME8Kd6KCv8hQvHsPNsb4riKzaeLL2XEFySUhOsEz8uus4QXsqrxZkwe0ZiguLOz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743020436; c=relaxed/simple;
-	bh=pVrFwhxu3XGkoNdOV87Fm/ssA6Z7GFTUklINiUCtRes=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E62W1ql5a9Toqf4XuCuUTirx13C7/K7abZgcY4hpu/1ZHFJtfny6lycpvTYdemBq4MG7W/ESbclNT20nciB1+9XlW0QqzpPkw2504es/iTMMscQj0sOo3+os5j6x63XuQMJ10wF5w7tLta9g7oSTz8yayO7hbBDfBUITU5FycUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=xhavpwYe; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
+	s=arc-20240116; t=1743056861; c=relaxed/simple;
+	bh=vNB55LLHsIzewlg4O3Bpq6Hpru+HJpGh5yavNpxEX24=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V2+5kSGg3IumoQ36mXX3wCaQa3YJKZ+pv02Bd9tA9Xq6+09LXpoS1YX0NwkqOH3Hhy7AR+p/b8d0O5wDp9H2MH0aayh25jXqw9KkeJaMsd//lwZZe9xtnoHxXglhHpYxnW8WvpHrQgveuWTC6M+bDgw3YFGTYcvNl3gcgkyOHZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Slx1x+X7; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="xhavpwYe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:Content-Type:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-To:Resent-Cc:
-	Resent-Message-ID:In-Reply-To:References;
-	bh=V5pkytyT+DEhYADKt/xvin0SePU+eW7l+xfacZv2jTw=; t=1743020434; x=1744230034; 
-	b=xhavpwYe9zlAxHOKYQsOL2Vj7N+KkSBdJmloMaKpBhWukQhUQS5G2991EziarzECsqa87JBmsm9
-	OiZtIHW9vY5A7Ix/Brdy8x6H0QF57MtgWVmKn7TBXfhSv+8IwVVej6f7VfMFlvfK00RTfFyZ9xTIJ
-	YPHYYFA2xeLTw6TwflQRUrkPDbEeB5ywTwwFDeY49tyavAhlJdeEm4Algd+U8K3G5snwc1sFO31uK
-	zIPkwR7OOfqcPYzVOjeu7MGc+L0IPirVLnDWECUaaRdzDnT18/RCHjpNxp2gKJ1kVcgcF8yfw4Le9
-	aPF17Fvbo+hz91FJmfKW72bpWj1gaw2uSjoQ==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98)
-	(envelope-from <benjamin@sipsolutions.net>)
-	id 1txXEl-00000006P46-0WvD;
-	Wed, 26 Mar 2025 21:20:31 +0100
-From: Benjamin Berg <benjamin@sipsolutions.net>
-To: linux-sound@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Benjamin Berg <benjamin@sipsolutions.net>
-Subject: [PATCH] ALSA: hda/realtek: Enable speakers on further Samsung Galaxy Book2 Pro
-Date: Wed, 26 Mar 2025 21:19:53 +0100
-Message-ID: <20250326201953.131948-1-benjamin@sipsolutions.net>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Slx1x+X7"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-30332dfc821so827245a91.3
+        for <linux-sound@vger.kernel.org>; Wed, 26 Mar 2025 23:27:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1743056859; x=1743661659; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vNB55LLHsIzewlg4O3Bpq6Hpru+HJpGh5yavNpxEX24=;
+        b=Slx1x+X77vv+lBm/QSo/JzDCg5zL3cE+6cCBpC5Bc8vE4vLaS8UZxH/mGc5tkh7PHD
+         u8OaFfYX9eRqGiffN9GCxXgfXv3AUdb6YhuceWvYWMWAfUt6nKLoOAiAHzF5ZlxT845B
+         qwnwdrqf8oL+k+bliBKFqj3oxl2rynksEqTdl6Px2APq5Et5xjnLFHHFO4XU1QnJRXQ2
+         Y5GJie3APj8wN8RVlAeO4TRALaqhGjrUS1LA8UknXJ9RnOlTexp+YPIuOHpXEiqCyJlV
+         7yubMZZX1d24EaVRZlQ+ZKl+7EVD3maOJobMB+YDq7kRunvauKf8rfQxALyKVJul8zsf
+         z2vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743056859; x=1743661659;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vNB55LLHsIzewlg4O3Bpq6Hpru+HJpGh5yavNpxEX24=;
+        b=LaXw38QNg3qwVfuJsKb6MBmlMI0ytctfMPel7F9eZgTQxznp2816CyfTN6Q6pN9UOj
+         G1fiHMMlEzBci+XENY8poq1iafDdHyARQ3+VVEG1jT17g2RSvbLrA52TMh8zbmZxtL18
+         ZMQ+gSEvqHayu9GCGzGs+G98qotwotZrZhV9KrTIjm/bSaopPd8A0LXR0kcgxDyTLvV5
+         5QOcZFwG/j6G+4yV1bI99gxQaG8HcZErgM07ZKAPoMm/uflW0d0wQ25v67sPKtl9SHB9
+         3a096Je0bJMxpsRV1PB6jAHhfU/5DvZZQiiP9yTE0LgVCS91K2LEt1NMtLoq/fPCIcSZ
+         Dt9g==
+X-Forwarded-Encrypted: i=1; AJvYcCW3kWEekZSqDzwrAujowKKNrjVvVPy/aBlVH619yLGSEQup+2CPwLx2RYbe3Zi+LKXp//WDtPNcKRBRGA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnHSPcrmzIAacbeyFl+Tcn8pKGHXjYKYJR4gGl/Z73FxE6s3hc
+	jWLWjsx0/ORGcmPEV3Gr0Gl3S/FAERZTPAFoucbr7gK2AbSPDARTsHx/n1fHxndfXseZJnYomt5
+	o8frGS0DOnmqnYbM+nZuRPnwkSrXAqPVswAfv
+X-Gm-Gg: ASbGncta+MyAhKNouAHiAz+mSPS798W204tYuTNwRg7Eoa3RAlsYSD16pKF70yFNy81
+	slgy5vPSPzLuc2iTgHL5j7Glpeb7OznhPRgAgCDM5Otd7iBuI24PaItt5qX5juL+DAwOubiuTNY
+	4q9G4jt6az33ti8Iv5a5C3swFr3g2NMkYIDibBSGN2UT3bswN7bretUnxX
+X-Google-Smtp-Source: AGHT+IFt7Uet3UwCNOAH8meYB2W9ViJLDi7wcmCNPw9mSbfJ0sSbyamjROCSnSFkmO0FUw183zFiWc7Rnl9Qc4okr5s=
+X-Received: by 2002:a17:90b:354e:b0:304:ec28:4437 with SMTP id
+ 98e67ed59e1d1-304ec284935mr218399a91.22.1743056858259; Wed, 26 Mar 2025
+ 23:27:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com> <20250319005141.312805-2-quic_wcheng@quicinc.com>
+In-Reply-To: <20250319005141.312805-2-quic_wcheng@quicinc.com>
+From: Puma Hsu <pumahsu@google.com>
+Date: Thu, 27 Mar 2025 14:27:00 +0800
+X-Gm-Features: AQ5f1JoUEAB76GccOuQU5OR51PoZ29U3C8QHFwNl_oTL2dvwjiuuxHuLDi3FutQ
+Message-ID: <CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
+Subject: Re: [PATCH v36 01/31] xhci: sideband: add initial api to register a
+ secondary interrupter entity
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz, 
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net, 
+	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org, 
+	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com, 
+	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Mathias Nyman <mathias.nyman@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-There is a further NP950QED variant of the Samsung Galaxy Book2 Pro
-which has two speakers. Use the appropriate two speaker quirk for it.
+Hi,
 
-Signed-off-by: Benjamin Berg <benjamin@sipsolutions.net>
-
----
-
-Note that I didn't really manage to test this directly. Trying to do a
-reconfigure resulted in a hang and I didn't figure out how to use the
-patch= option with a firmware file.
-However, the machine does work fine when configuring the two speakers
-from userspace, so I am confident that this patch is correct.
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index c735f630ecb5..e4ea5ea5bb27 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10758,6 +10758,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x144d, 0xca06, "Samsung Galaxy Book3 360 (NP730QFG)", ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
- 	SND_PCI_QUIRK(0x144d, 0xc868, "Samsung Galaxy Book2 Pro (NP930XED)", ALC298_FIXUP_SAMSUNG_AMP),
- 	SND_PCI_QUIRK(0x144d, 0xc870, "Samsung Galaxy Book2 Pro (NP950XED)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
-+	SND_PCI_QUIRK(0x144d, 0xc01d, "Samsung Galaxy Book2 Pro (NP950QED)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
- 	SND_PCI_QUIRK(0x144d, 0xc872, "Samsung Galaxy Book2 Pro (NP950XEE)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
- 	SND_PCI_QUIRK(0x144d, 0xc886, "Samsung Galaxy Book3 Pro (NP964XFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x144d, 0xc1ca, "Samsung Galaxy Book3 Pro 360 (NP960QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
--- 
-2.49.0
-
+We have implemented and verified the USB audio offloading feature with
+the xhci sideband driver on our Google Pixel products. We would
+appreciate it if this solution can be accepted. Thank you all for the
+work!
