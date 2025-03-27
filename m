@@ -1,86 +1,72 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail78-60.sinamail.sina.com.cn (mail78-60.sinamail.sina.com.cn [219.142.78.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A387F1ACEB7
-	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 06:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840671E505
+	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 06:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.142.78.60
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743056861; cv=none; b=OvENv8PvWuCwiYkid2xNiWSYdIyugBJm0/vBAGNYFup2nzfwllwg/qMtMbcdC57jkpB0P/rNQKAiihogUmhFFvMEC/KawZbPBYRXopBq3xuME8Kd6KCv8hQvHsPNsb4riKzaeLL2XEFySUhOsEz8uus4QXsqrxZkwe0ZiguLOz4=
+	t=1743057377; cv=none; b=GRbUn0X2fApoV1eDKIxhjb03VdNP7DHaoD7GgdiFUVRQyGTlCylqgSo4B1orYVYtl47FxVJi1sjEpOQnPdSZo6mSaZxzP5fY5+1YmKTDqlbSwQmKm7uSyNzJVAG9+6kbgf1bRvcsj6/wSKeImdLENHi0HU2K7ncM9KJe2VD+XQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743056861; c=relaxed/simple;
-	bh=vNB55LLHsIzewlg4O3Bpq6Hpru+HJpGh5yavNpxEX24=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V2+5kSGg3IumoQ36mXX3wCaQa3YJKZ+pv02Bd9tA9Xq6+09LXpoS1YX0NwkqOH3Hhy7AR+p/b8d0O5wDp9H2MH0aayh25jXqw9KkeJaMsd//lwZZe9xtnoHxXglhHpYxnW8WvpHrQgveuWTC6M+bDgw3YFGTYcvNl3gcgkyOHZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Slx1x+X7; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Slx1x+X7"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-30332dfc821so827245a91.3
-        for <linux-sound@vger.kernel.org>; Wed, 26 Mar 2025 23:27:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1743056859; x=1743661659; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vNB55LLHsIzewlg4O3Bpq6Hpru+HJpGh5yavNpxEX24=;
-        b=Slx1x+X77vv+lBm/QSo/JzDCg5zL3cE+6cCBpC5Bc8vE4vLaS8UZxH/mGc5tkh7PHD
-         u8OaFfYX9eRqGiffN9GCxXgfXv3AUdb6YhuceWvYWMWAfUt6nKLoOAiAHzF5ZlxT845B
-         qwnwdrqf8oL+k+bliBKFqj3oxl2rynksEqTdl6Px2APq5Et5xjnLFHHFO4XU1QnJRXQ2
-         Y5GJie3APj8wN8RVlAeO4TRALaqhGjrUS1LA8UknXJ9RnOlTexp+YPIuOHpXEiqCyJlV
-         7yubMZZX1d24EaVRZlQ+ZKl+7EVD3maOJobMB+YDq7kRunvauKf8rfQxALyKVJul8zsf
-         z2vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743056859; x=1743661659;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vNB55LLHsIzewlg4O3Bpq6Hpru+HJpGh5yavNpxEX24=;
-        b=LaXw38QNg3qwVfuJsKb6MBmlMI0ytctfMPel7F9eZgTQxznp2816CyfTN6Q6pN9UOj
-         G1fiHMMlEzBci+XENY8poq1iafDdHyARQ3+VVEG1jT17g2RSvbLrA52TMh8zbmZxtL18
-         ZMQ+gSEvqHayu9GCGzGs+G98qotwotZrZhV9KrTIjm/bSaopPd8A0LXR0kcgxDyTLvV5
-         5QOcZFwG/j6G+4yV1bI99gxQaG8HcZErgM07ZKAPoMm/uflW0d0wQ25v67sPKtl9SHB9
-         3a096Je0bJMxpsRV1PB6jAHhfU/5DvZZQiiP9yTE0LgVCS91K2LEt1NMtLoq/fPCIcSZ
-         Dt9g==
-X-Forwarded-Encrypted: i=1; AJvYcCW3kWEekZSqDzwrAujowKKNrjVvVPy/aBlVH619yLGSEQup+2CPwLx2RYbe3Zi+LKXp//WDtPNcKRBRGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnHSPcrmzIAacbeyFl+Tcn8pKGHXjYKYJR4gGl/Z73FxE6s3hc
-	jWLWjsx0/ORGcmPEV3Gr0Gl3S/FAERZTPAFoucbr7gK2AbSPDARTsHx/n1fHxndfXseZJnYomt5
-	o8frGS0DOnmqnYbM+nZuRPnwkSrXAqPVswAfv
-X-Gm-Gg: ASbGncta+MyAhKNouAHiAz+mSPS798W204tYuTNwRg7Eoa3RAlsYSD16pKF70yFNy81
-	slgy5vPSPzLuc2iTgHL5j7Glpeb7OznhPRgAgCDM5Otd7iBuI24PaItt5qX5juL+DAwOubiuTNY
-	4q9G4jt6az33ti8Iv5a5C3swFr3g2NMkYIDibBSGN2UT3bswN7bretUnxX
-X-Google-Smtp-Source: AGHT+IFt7Uet3UwCNOAH8meYB2W9ViJLDi7wcmCNPw9mSbfJ0sSbyamjROCSnSFkmO0FUw183zFiWc7Rnl9Qc4okr5s=
-X-Received: by 2002:a17:90b:354e:b0:304:ec28:4437 with SMTP id
- 98e67ed59e1d1-304ec284935mr218399a91.22.1743056858259; Wed, 26 Mar 2025
- 23:27:38 -0700 (PDT)
+	s=arc-20240116; t=1743057377; c=relaxed/simple;
+	bh=tgDgvK8zxlfADTgKXtWW6nHjzte5rxlQFMQvWzouIlw=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=l0n1V+7g1zUcmV8UjdSXrjAiZn+59n2DUnEaZjhhZ80HFYVz6LmsPCeMzq4AOAVzCFaY95zFD0jtZCarGlolOLKzJdCRtlG0/Dowd2c2Ne8RjPUM06XmTfvpfKtOni7953DPtLEinPe/QjSZGnfWL3w7ydARBp7OB9CJe6SDZ+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=219.142.78.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([180.159.108.242])
+	by sina.net (10.185.250.30) with ESMTP
+	id 67E4F1B3000042DA; Thu, 27 Mar 2025 14:35:32 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: E80A13B330964B8798E3ABEC530006F6
+X-SMAIL-UIID: E80A13B330964B8798E3ABEC530006F6-20250327-143532
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org,
+	robh@kernel.org,
+	tiwai@suse.com,
+	devicetree@vger.kernel.org,
+	conor+dt@kernel.org,
+	lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	krzk+dt@kernel.org
+Cc: amadeuszx.slawinski@linux.intel.com,
+	krzk@kernel.org,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [RESEND v5 0/2] ASoC: codecs: add support for ES8389
+Date: Thu, 27 Mar 2025 14:35:29 +0800
+Message-Id: <20250327063531.47005-1-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com> <20250319005141.312805-2-quic_wcheng@quicinc.com>
-In-Reply-To: <20250319005141.312805-2-quic_wcheng@quicinc.com>
-From: Puma Hsu <pumahsu@google.com>
-Date: Thu, 27 Mar 2025 14:27:00 +0800
-X-Gm-Features: AQ5f1JoUEAB76GccOuQU5OR51PoZ29U3C8QHFwNl_oTL2dvwjiuuxHuLDi3FutQ
-Message-ID: <CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
-Subject: Re: [PATCH v36 01/31] xhci: sideband: add initial api to register a
- secondary interrupter entity
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz, 
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net, 
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org, 
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com, 
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Mathias Nyman <mathias.nyman@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+The driver is for codec ES8389 of everest-semi.
 
-We have implemented and verified the USB audio offloading feature with
-the xhci sideband driver on our Google Pixel products. We would
-appreciate it if this solution can be accepted. Thank you all for the
-work!
+Differing from v4, I added es8389_set_tdm_slot.
+At the same time I removed some unnecessary properties in the dts
+
+Zhang Yi (2):
+  ASoC: codecs: add support for ES8389
+  ASoC: dt-bindings: Add Everest ES8389 audio CODEC
+
+ .../bindings/sound/everest,es8389.yaml        |  50 +
+ sound/soc/codecs/Kconfig                      |   7 +-
+ sound/soc/codecs/Makefile                     |   2 +
+ sound/soc/codecs/es8389.c                     | 966 ++++++++++++++++++
+ sound/soc/codecs/es8389.h                     | 140 +++
+ 5 files changed, 1164 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/everest,es8389.yaml
+ create mode 100644 sound/soc/codecs/es8389.c
+ create mode 100644 sound/soc/codecs/es8389.h
+
+-- 
+2.17.1
+
