@@ -1,270 +1,129 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8102621ADB0;
-	Thu, 27 Mar 2025 16:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3507114AD3F;
+	Thu, 27 Mar 2025 21:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743094657; cv=none; b=J5tBMM98wX0QBy6UrM7jNXsiwFnsIbQvwDVsFRfAwyrupbF5YK4iih48WLFeJ+i/tafQCr0ETs0VL7RcJz2VglYBApyqCs8M1lLFRrfIPpGIaYWHm4ifLF2cnU+0XMrBqRBxogpBtLOdK8D37Qk6QlJYaNg4u8qmYHYpRepugog=
+	t=1743109237; cv=none; b=UNfo6P6kmRgBehcb0GAxfPiScO0y9RIXmGL4/WYrOgusWCkU6MfxyAzXXkDAvXvupW1dk5G9QaALKvwIUudyY44lpbEf5f8Ce63uoA8vstZSiubatfhK/Ekrsdl/zIOZ9JDCQqn2Pzb9sHP9y7lsxAYJiAdCmds0ym9SgY98vvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743094657; c=relaxed/simple;
-	bh=AZX1Or+x8+6v/YDLWOvRsG1FF7eKETUU83uAxoDtF/g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=CTwVcYwOuymKy3z6ddGRuUtk3BbeIXg394vM+wHIAObKMjnNqyH7NQj7DjAb+sixevGNY/mhBZb84r7tKvAQD8Uoj1mQawMNe0gSpdMoLjvhQNqL9RmUMMXipbjIfpjMWF2YfpQ3jur2hw9k/GZDVLRTY24poWv9q1sftJ8VMAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bwdWCnbY; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1743109237; c=relaxed/simple;
+	bh=KBqRzFxZjlPZ7HMM65WlAH03VtW2sdQPYcQI9WbF0KM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RX4AOYn/19VJfoDF3kirAYZQ2m+SqoeaCPs/c5zdm2uCx1djIWiPiD1xOMtZ/Whxj3OsAsep/bAYZTavBzwOnG1AIXHPOtJ20txcymdLLdlpI5FKKSSN/fNwAn9E1IaHDAHpx/9xnE+KzBze0Obnkwty/6sg0Q6GRMkzWgdU5tE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=CtAB0Mul; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bwdWCnbY"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52REpk82022921;
-	Thu, 27 Mar 2025 16:57:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	92sK7cCp7zVhCpZpBhfo5LH7uiy75I2qjhTgVHZv/B4=; b=bwdWCnbY4dO42pt3
-	p7AknPI+nx2dFGZ0EyopLFqfnSR5AnPVb2U1QTn1DsF3WwVTmlsjxdyUV62XZmVw
-	DLkP4Az9ZwDfxeuY4+lBv5kBANpDqDNFrKC2zxKV8HfOrhUBUvNCopoK43Pz1QKt
-	mBESLoL0Oq2UfxB8F171pgCJNAwu9R9+g4DD4wpGDkbp6o29VlNdExaux8W0h2HE
-	iw680lNApF2mxOAmUus3/TnJrzWi9Ul9fBMqTGQafsYnnxn0AhVHqNazB76SIPX7
-	LNR9KRVHA/jdUyUkxD+cGzKXrQibDicouvaBZyY2KCJ5lX6GaDOfs9hoGQ6zCfcP
-	cZ71pQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45mb9mwgj0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 27 Mar 2025 16:57:16 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52RGvFW3006021
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 27 Mar 2025 16:57:15 GMT
-Received: from [10.71.114.104] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 27 Mar
- 2025 09:57:15 -0700
-Message-ID: <4a243fd0-ce1c-42b8-948d-93a8ce5b0c09@quicinc.com>
-Date: Thu, 27 Mar 2025 09:57:14 -0700
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="CtAB0Mul"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id 1938F667609C; Fri, 28 Mar 2025 07:22:06 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 1938F667609C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1743108726; bh=G1DceDLDtsDr6cUmc77dUlePG6aXGKxgdm7OsGqqrNo=;
+	h=Date:From:To:Cc:Subject:From;
+	b=CtAB0MulHxcjDFjF0gHMXbQcwPtCDgmQ1WUTWR4Jg8eYtrAvFTAypW3xvOqNVpd+N
+	 v5plyA1pD3jmjkrf6cPAO88/9lfAOmzuGeGwXAqWQQH+WQsZY045q/0/QRitOo5UGp
+	 MOY6r0GeIrp4VG7X1tJCiU18cWRdfd5nlWMzjZ8m4Lxw5e+JSeKbpSzYMsC9gRg1Gk
+	 6sby0lrynsYT93WHSPLeerQuFwLpFj+aBCt5GaMs1IDuCR88nT5pM6deyraDEDEFst
+	 9w+4tegUbsBtyuFF5vuMVz16SCQvWhq4EgGUi2S6gxjcFqpBmc+YyaDFZme6l21H/J
+	 Cp4CaDh26x5Gg==
+Date: Fri, 28 Mar 2025 07:22:06 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Hao Qin <hao.qin@mediatek.com>
+Cc: linux-bluetooth@vger.kernel.org, Sean Wang <sean.wang@mediatek.com>,
+	Chris Lu <chris.lu@mediatek.com>, linux-sound@vger.kernel.org,
+	Benedikt Ziemons <ben@rs485.network>, pmenzel@molgen.mpg.de,
+	tiwai@suse.de, geraldogabriel@gmail.com,
+	regressions@lists.linux.dev, gregkh@linuxfoundation.org
+Subject: [PATCH v2] Revert "Bluetooth: btusb: mediatek: reset the controller
+ before downloading the fw"
+Message-ID: <Z+W6dmZFfC7SBhza@m.b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v36 28/31] ALSA: usb-audio: qcom: Introduce QC USB SND
- offloading support
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Luca Weiss
-	<luca.weiss@fairphone.com>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-29-quic_wcheng@quicinc.com>
- <Z-J7n8qLMPVxpwuV@linaro.org>
- <5a7442c9-493d-4c23-a179-128f02a29f73@quicinc.com>
- <Z-PSSXt8WY3yVFM4@linaro.org>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <Z-PSSXt8WY3yVFM4@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=cs+bk04i c=1 sm=1 tr=0 ts=67e5836d cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=G7wdeb9s_eWl5evOme8A:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: n3ivPuyTnuDhHgEAM8GNVFIK9vf8WT5f
-X-Proofpoint-ORIG-GUID: n3ivPuyTnuDhHgEAM8GNVFIK9vf8WT5f
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-27_02,2025-03-26_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- bulkscore=0 mlxlogscore=999 malwarescore=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503270116
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Stephan,
+This reverts commit ccfc8948d7e4d93cab341a99774b24586717d89a.
 
-On 3/26/2025 3:09 AM, Stephan Gerhold wrote:
-> On Tue, Mar 25, 2025 at 06:32:14PM -0700, Wesley Cheng wrote:
->> On 3/25/2025 2:47 AM, Stephan Gerhold wrote:
->>> On Tue, Mar 18, 2025 at 05:51:38PM -0700, Wesley Cheng wrote:
->>>> Several Qualcomm SoCs have a dedicated audio DSP, which has the ability to
->>>> support USB sound devices.  This vendor driver will implement the required
->>>> handshaking with the DSP, in order to pass along required resources that
->>>> will be utilized by the DSP's USB SW.  The communication channel used for
->>>> this handshaking will be using the QMI protocol.  Required resources
->>>> include:
->>>> - Allocated secondary event ring address
->>>> - EP transfer ring address
->>>> - Interrupter number
->>>>
->>>> The above information will allow for the audio DSP to execute USB transfers
->>>> over the USB bus.  It will also be able to support devices that have an
->>>> implicit feedback and sync endpoint as well.  Offloading these data
->>>> transfers will allow the main/applications processor to enter lower CPU
->>>> power modes, and sustain a longer duration in those modes.
->>>>
->>>> Audio offloading is initiated with the following sequence:
->>>> 1. Userspace configures to route audio playback to USB backend and starts
->>>> playback on the platform soundcard.
->>>> 2. The Q6DSP AFE will communicate to the audio DSP to start the USB AFE
->>>> port.
->>>> 3. This results in a QMI packet with a STREAM enable command.
->>>> 4. The QC audio offload driver will fetch the required resources, and pass
->>>> this information as part of the QMI response to the STREAM enable command.
->>>> 5. Once the QMI response is received the audio DSP will start queuing data
->>>> on the USB bus.
->>>>
->>>> As part of step#2, the audio DSP is aware of the USB SND card and pcm
->>>> device index that is being selected, and is communicated as part of the QMI
->>>> request received by QC audio offload.  These indices will be used to handle
->>>> the stream enable QMI request.
->>>>
->>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>> ---
->>>>  sound/usb/Kconfig                 |   14 +
->>>>  sound/usb/Makefile                |    2 +-
->>>>  sound/usb/qcom/Makefile           |    2 +
->>>>  sound/usb/qcom/qc_audio_offload.c | 1988 +++++++++++++++++++++++++++++
->>>>  4 files changed, 2005 insertions(+), 1 deletion(-)
->>>>  create mode 100644 sound/usb/qcom/Makefile
->>>>  create mode 100644 sound/usb/qcom/qc_audio_offload.c
->>>>
->>>> diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
->>>> index 4a9569a3a39a..6daa551738da 100644
->>>> --- a/sound/usb/Kconfig
->>>> +++ b/sound/usb/Kconfig
->>>> @@ -176,6 +176,20 @@ config SND_BCD2000
->>>>  	  To compile this driver as a module, choose M here: the module
->>>>  	  will be called snd-bcd2000.
->>>>  
->>>> +config SND_USB_AUDIO_QMI
->>>> +	tristate "Qualcomm Audio Offload driver"
->>>> +	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND && SND_SOC_USB
->>>> +	help
->>>> +	  Say Y here to enable the Qualcomm USB audio offloading feature.
->>>> +
->>>> +	  This module sets up the required QMI stream enable/disable
->>>> +	  responses to requests generated by the audio DSP.  It passes the
->>>> +	  USB transfer resource references, so that the audio DSP can issue
->>>> +	  USB transfers to the host controller.
->>>> +
->>>> +	  To compile this driver as a module, choose M here: the module
->>>> +	  will be called snd-usb-audio-qmi.
->>>> [...]
->>>> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
->>>> new file mode 100644
->>>> index 000000000000..3319363a0fd0
->>>> --- /dev/null
->>>> +++ b/sound/usb/qcom/qc_audio_offload.c
->>>> @@ -0,0 +1,1988 @@
->>>> [...]
->>>> +static int __init qc_usb_audio_offload_init(void)
->>>> +{
->>>> +	struct uaudio_qmi_svc *svc;
->>>> +	int ret;
->>>> +
->>>> +	svc = kzalloc(sizeof(*svc), GFP_KERNEL);
->>>> +	if (!svc)
->>>> +		return -ENOMEM;
->>>> +
->>>> +	svc->uaudio_svc_hdl = kzalloc(sizeof(*svc->uaudio_svc_hdl), GFP_KERNEL);
->>>> +	if (!svc->uaudio_svc_hdl) {
->>>> +		ret = -ENOMEM;
->>>> +		goto free_svc;
->>>> +	}
->>>> +
->>>> +	ret = qmi_handle_init(svc->uaudio_svc_hdl,
->>>> +			      QMI_UAUDIO_STREAM_REQ_MSG_V01_MAX_MSG_LEN,
->>>> +			      &uaudio_svc_ops_options,
->>>> +			      &uaudio_stream_req_handlers);
->>>> +	ret = qmi_add_server(svc->uaudio_svc_hdl, UAUDIO_STREAM_SERVICE_ID_V01,
->>>> +			     UAUDIO_STREAM_SERVICE_VERS_V01, 0);
->>>> +
->>>> +	uaudio_svc = svc;
->>>> +
->>>> +	ret = snd_usb_register_platform_ops(&offload_ops);
->>>> +	if (ret < 0)
->>>> +		goto release_qmi;
->>>> +
->>>> +	return 0;
->>>> +
->>>> +release_qmi:
->>>> +	qmi_handle_release(svc->uaudio_svc_hdl);
->>>> +free_svc:
->>>> +	kfree(svc);
->>>> +
->>>> +	return ret;
->>>> +}
->>>> +
->>>> +static void __exit qc_usb_audio_offload_exit(void)
->>>> +{
->>>> +	struct uaudio_qmi_svc *svc = uaudio_svc;
->>>> +	int idx;
->>>> +
->>>> +	/*
->>>> +	 * Remove all connected devices after unregistering ops, to ensure
->>>> +	 * that no further connect events will occur.  The disconnect routine
->>>> +	 * will issue the QMI disconnect indication, which results in the
->>>> +	 * external DSP to stop issuing transfers.
->>>> +	 */
->>>> +	snd_usb_unregister_platform_ops();
->>>> +	for (idx = 0; idx < SNDRV_CARDS; idx++)
->>>> +		qc_usb_audio_offload_disconnect(uadev[idx].chip);
->>>> +
->>>> +	qmi_handle_release(svc->uaudio_svc_hdl);
->>>> +	kfree(svc);
->>>> +	uaudio_svc = NULL;
->>>> +}
->>>> +
->>>> +module_init(qc_usb_audio_offload_init);
->>>> +module_exit(qc_usb_audio_offload_exit);
->>>> +
->>>> +MODULE_DESCRIPTION("QC USB Audio Offloading");
->>>> +MODULE_LICENSE("GPL");
->>>
->>> What will trigger loading this if this code is built as module?
->>>
->>> Testing suggests nothing does at the moment: If this is built as module,
->>> playback via USB_RX will fail until you manually modprobe
->>> snd-usb-audio-qmi.
->>>
->>
->> Yes, it would only get triggered on a modprobe.  I think the more important
->> part is when snd_usb_register_platform_ops() is called.  This is what would
->> register the vendor USB offload driver callbacks for USB connect/disconnect
->> events.
->>
->>> I think the easiest way to solve this would be to drop the
->>> module_init()/module_exit() and instead call into these init/exit
->>> functions from one of the other audio modules. This would also ensure
->>> that the QMI server is only registered if we actually need it (if the
->>> board sound card actually has a USB DAI link).
->>>
->>
->> It would be difficult from the perspective of USB SND, because if we got
->> rid of the vendor ops, it would be messy, since the USB offload vendor
->> driver will be specific for every SoC.
->>
-> 
-> What I meant is calling qc_usb_audio_offload_init() from any of the
-> other drivers that are involved, e.g. q6usb. Or register an auxilliary
-> device like in qcom_pd_mapper, so the modules don't need to link
-> together directly. That shouldn't get too messy.
-> 
+The MediaTek Bluetooth controller reset that was added increases the
+Bluetooth device setup time from ~200ms to ~20s and interferes with
+other devices on the bus.
 
-Thanks for clarifying.  I took a look and implemented the auxiliary path,
-and it works pretty well :).  Wasn't aware of the aux bus...very useful.
+Three users (with Focusrite Scarlett 2nd Gen 6i6 and 3rd Gen Solo and
+4i4 audio interfaces) reported that since 6.11 (which added this
+commit) their audio interface fails to initialise if connected during
+boot. Two of the users confirmed they have an MT7922.
 
-Thanks
-Wesley Cheng
+Errors like this are observed in dmesg for the audio interface:
+
+  usb 3-4: parse_audio_format_rates_v2v3(): unable to find clock source (clock -110)
+  usb 3-4: uac_clock_source_is_valid(): cannot get clock validity for id 41
+  usb 3-4: clock source 41 is not valid, cannot use
+
+The problem only occurs when both devices and kernel modules are
+present and loaded during system boot, so it can be worked around by
+connecting the audio interface after booting.
+
+Fixes: ccfc8948d7e4 ("Bluetooth: btusb: mediatek: reset the controller before downloading the fw")
+Closes: https://github.com/geoffreybennett/linux-fcp/issues/24
+Bisected-by: Benedikt Ziemons <ben@rs485.network>
+Tested-by: Benedikt Ziemons <ben@rs485.network>
+Cc: stable@vger.kernel.org
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+---
+Changelog:
+
+v1 -> v2:
+
+- Updated commit message with additional information.
+- No change to this patch's diff.
+- Dropped alternate patch that only reverted for 0x7922.
+- Chris, Sean, Hao agreed to reverting the change:
+  https://lore.kernel.org/linux-bluetooth/2025031352-octopus-quadrant-f7ca@gregkh/T/#m0b31a9a8e87b9499e1ec3370c08f03e43bfb54bf
+
+ drivers/bluetooth/btmtk.c | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/drivers/bluetooth/btmtk.c b/drivers/bluetooth/btmtk.c
+index 68846c5bd4f7..4390fd571dbd 100644
+--- a/drivers/bluetooth/btmtk.c
++++ b/drivers/bluetooth/btmtk.c
+@@ -1330,13 +1330,6 @@ int btmtk_usb_setup(struct hci_dev *hdev)
+ 		break;
+ 	case 0x7922:
+ 	case 0x7925:
+-		/* Reset the device to ensure it's in the initial state before
+-		 * downloading the firmware to ensure.
+-		 */
+-
+-		if (!test_bit(BTMTK_FIRMWARE_LOADED, &btmtk_data->flags))
+-			btmtk_usb_subsys_reset(hdev, dev_id);
+-		fallthrough;
+ 	case 0x7961:
+ 		btmtk_fw_get_filename(fw_bin_name, sizeof(fw_bin_name), dev_id,
+ 				      fw_version, fw_flavor);
+@@ -1345,12 +1338,9 @@ int btmtk_usb_setup(struct hci_dev *hdev)
+ 						btmtk_usb_hci_wmt_sync);
+ 		if (err < 0) {
+ 			bt_dev_err(hdev, "Failed to set up firmware (%d)", err);
+-			clear_bit(BTMTK_FIRMWARE_LOADED, &btmtk_data->flags);
+ 			return err;
+ 		}
+
+-		set_bit(BTMTK_FIRMWARE_LOADED, &btmtk_data->flags);
+-
+ 		/* It's Device EndPoint Reset Option Register */
+ 		err = btmtk_usb_uhw_reg_write(hdev, MTK_EP_RST_OPT,
+ 					      MTK_EP_RST_IN_OUT_OPT);
+--
+2.45.0
+
+
