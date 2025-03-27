@@ -1,120 +1,73 @@
-Received: from smtp134-86.sina.com.cn (smtp134-86.sina.com.cn [180.149.134.86])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3F818C01D
-	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 06:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.149.134.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9071624DC;
+	Thu, 27 Mar 2025 07:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743057379; cv=none; b=WcYTUFZkAG2AJJGlzvQC08wfDJ03JPYVfRHf/2hOW9wajVZunn5TkJJ0pBnfBgU4uibn5d6Q5F5l9QWpMqtVT9KnNJIAEWdcagNAYnPhl8q6rSWcuisjl20OgS7deLYK8eqI0InHRigneVnvTFfCietkB5yFdRf1Tx0Yw3KRuZY=
+	t=1743058944; cv=none; b=DBOhU967NakWluC3Z6/m5AZ1TOBJbjUoAPMogbYBbnCeD0YRVFJFEhJFZCcUFN+9hLt+2Vehk+QWC0JqOSGwPQBFReQ7PNxv12DEAADsNykn9jUmcsWs/SyyhuG3XZ5gWrs3Jg2cWyuuyBOZSW+pVesk5zpubjCKE/T8ymd62io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743057379; c=relaxed/simple;
-	bh=EaqZroNrajfsDoZLAmk+2BuuAgDA4cJ8IjLDOVAYics=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=XvIhRgAHr5AejJZN4onAChzY+UjYOtqRcrE7fLlJu2kk2oLiLJOCbCgnZJ/kmohN1cL8P5ka2xgrJBAmQR0fusLPvrjeKTMBqwHrH1XBcvtYBB/uIOfdRoiiwyAKDok0rbiKotQ1SWMmE7sphwALmiIanLrIVmkNs8mMnhGdA9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=180.149.134.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([180.159.108.242])
-	by sina.net (10.185.250.30) with ESMTP
-	id 67E4F1B3000042DA; Thu, 27 Mar 2025 14:35:35 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 0BE0B00AA8F340EF8CC11D2EFEE4DCE6
-X-SMAIL-UIID: 0BE0B00AA8F340EF8CC11D2EFEE4DCE6-20250327-143535
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: broonie@kernel.org,
-	robh@kernel.org,
-	tiwai@suse.com,
-	devicetree@vger.kernel.org,
-	conor+dt@kernel.org,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	krzk+dt@kernel.org
-Cc: amadeuszx.slawinski@linux.intel.com,
-	krzk@kernel.org,
-	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [RESEND v5 2/2] ASoC: dt-bindings: Add Everest ES8389 audio CODEC
-Date: Thu, 27 Mar 2025 14:35:31 +0800
-Message-Id: <20250327063531.47005-3-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20250327063531.47005-1-zhangyi@everest-semi.com>
-References: <20250327063531.47005-1-zhangyi@everest-semi.com>
+	s=arc-20240116; t=1743058944; c=relaxed/simple;
+	bh=rahj8n/g/fCJxulj8uYGukhsVfUSTm5Q8ORfoy2mA+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VrJpxp6GJPkORSy6ahM0/uVkP8wNh83GWmSz1eQYJEZLW4rSWUG7ZEma4ugLtjtfsQ0LHgizRddSxC7OpLeBjB6EdeobtMocFZH7jai1hc+WaiJGndLqyQwibNhD0KBj5aHky+CWUzsu0Gs/Ydg5NwJLCGrdvZq3sGjTRF/L8t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ha2EyVm8; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ha2EyVm8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CB81C4CEDD;
+	Thu, 27 Mar 2025 07:02:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1743058943;
+	bh=rahj8n/g/fCJxulj8uYGukhsVfUSTm5Q8ORfoy2mA+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ha2EyVm8lrapGVoOIpR3L1EYlHgRAXpQX/S1tpm7U42Gi2cQ+/aaXUCOZihg/9B8B
+	 2Q4AVHx2qseM2T01sYSwwKfic9Kv5sb9Wn1bxUSJI/Qfyu0aaabeqdg/RV04OMsv01
+	 M/ReF8VYnXR036ZrM29U20J9wogHRlWFFTqq6Dt8=
+Date: Thu, 27 Mar 2025 08:02:20 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Puma Hsu <pumahsu@google.com>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+	lgirdwood@gmail.com, krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+	tiwai@suse.com, robh@kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v36 01/31] xhci: sideband: add initial api to register a
+ secondary interrupter entity
+Message-ID: <2025032734-reward-fantasize-dc16@gregkh>
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
+ <20250319005141.312805-2-quic_wcheng@quicinc.com>
+ <CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
 
-Add device tree binding documentation for Everest ES8389 which
-is different from ES8388
+On Thu, Mar 27, 2025 at 02:27:00PM +0800, Puma Hsu wrote:
+> Hi,
+> 
+> We have implemented and verified the USB audio offloading feature with
+> the xhci sideband driver on our Google Pixel products. We would
+> appreciate it if this solution can be accepted. Thank you all for the
+> work!
+> 
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
----
- .../bindings/sound/everest,es8389.yaml        | 50 +++++++++++++++++++
- 1 file changed, 50 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/everest,es8389.yaml
+Great, can you properly send a "Tested-by:" line for this against the
+00/XX email so that it will be properly saved?
 
-diff --git a/Documentation/devicetree/bindings/sound/everest,es8389.yaml b/Documentation/devicetree/bindings/sound/everest,es8389.yaml
-new file mode 100644
-index 000000000000..a673df485ab3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/everest,es8389.yaml
-@@ -0,0 +1,50 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/everest,es8389.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Everest ES8389 audio CODEC
-+
-+maintainers:
-+  - Michael Zhang <zhangyi@everest-semi.com>
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: everest,es8389
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: clock for master clock (MCLK)
-+
-+  clock-names:
-+    items:
-+      - const: mclk
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#sound-dai-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      es8389: codec@10 {
-+        compatible = "everest,es8389";
-+        reg = <0x10>;
-+        #sound-dai-cells = <0>;
-+      };
-+    };
--- 
-2.17.1
+Also, I think a new version of the series is coming, can you test that
+to verify it works properly?  We have to wait until after -rc1 is out
+anyway.
 
+thanks,
+
+greg k-h
