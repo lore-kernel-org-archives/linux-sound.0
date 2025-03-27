@@ -1,71 +1,71 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44531FF7BE
-	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 08:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949FF20B1FE
+	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 08:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743065419; cv=none; b=Ru5ZLxC4rHUgAitKC6qPfjHC5+wtby7NjDwd4eHZRjrvA23R8815diOrB8OSKo/ZSrGY2mCgmGI2A7Bwc4vfx+AQlhpnpALfdUjMkwqvNPYCUbR/QTY3eMWHfTYR+X7SsxozbkQISpF6llVsWYWvBfB6FlK78plaPXPg5d7wjOE=
+	t=1743065445; cv=none; b=VcvlJfX9mfutSe9upLMTzUgyUjAwbaa8d2fTGvWD3S5BC0ZJaF7qd9fCznw3WGHIZYoIW4jB35U4Usk+8S3qmiSz75p13H2gJe4bEPmdRC0PpGIoDoXD8CjiqL5MTTKdAshgESapq6gAc+DMUcHH59YrDfbl9yv+n8VEOqwHBjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743065419; c=relaxed/simple;
+	s=arc-20240116; t=1743065445; c=relaxed/simple;
 	bh=SSuwDDlCfqr5CMC3oPcQO21KrxISnnKr5CAAJcA5Nlc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d46zHuscC0X+aMaUryN3xt2/5BkiiEO0Ya1IA6B1oBh722vRfDeRUsvB6TACN7R/JPGr5SIPYDRvVbHBu0RHpsup4SdzLBFuir0afn8CDi6oVSoy4JhoDwGvTRfvVhoSxVkmC/uI5dmwX4hl2Em1oG2iYi2fLyhRIyYiLmOk2l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=gCE0beeY; arc=none smtp.client-ip=209.85.167.47
+	 To:Cc:Content-Type; b=RVNzpZJihGstKCOoEbGZoa9X9iBJJm0bz2Admd5vKu5xSsYaoDiTPrWosPwim6OB7KFPvEGizCBaIXX+6efZQW1W6wg20cVhFNUi3PbXRrscGPLubKVMiC6y0sJ5MMqmPqTQcTlBYvwvM6aVlpmOEUPPjXuR8oioWKenh9wVebY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=cJcfeXhf; arc=none smtp.client-ip=209.85.208.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="gCE0beeY"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54addb5a139so859094e87.0
-        for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 01:50:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="cJcfeXhf"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-30db1bd3bebso7192761fa.2
+        for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 01:50:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1743065416; x=1743670216; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1743065442; x=1743670242; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
         bh=MrCm7V9nLgr1fSaq78mJmNgFm9htZIYRYnkNXr3wiks=;
-        b=gCE0beeYan7j99jrbxYWYywpfcDagM7QrXFdCPNDVVFDDp0TWz1Fo1yrK1Nx1Q1Y8y
-         LHykq7V8JDZgAKLvlA3vs257p2KQZHntFiFoJvXpTfrUxgG7iTn7PJWaqCPvXztS1ZO8
-         6RpR0nZuZDASfYTfQI71jdnBKpbPVeqbKg+uqJnZJUXlXeXtknd99KGV7CH05fCoP5nL
-         zkrw1zBtn0AqA+qCxDARl8KuSgoV4hWU/3cLDZZxMTRwO4bnK1Y/NKHsseKR9kr5RgN3
-         FZCcF6i6KALR0aIYqcn59jPMXwzB7M+bL3xh6d0SENf2p0mQyoJ+wfstzQcqEyCygIdl
-         jL3g==
+        b=cJcfeXhfn0oAM5iO1RFH0NqwYN6PKK0dEBx9wf0jHwjBuHk/CpksYvnfirNW3fgMUh
+         dMuDPXuE4ZDSMGLOZBv7CO73pKUI34VC6SoZNX+nkZS6Bi8IEGnGdmMURJkEbBF54deI
+         VR0fzs9pZ8OfuGlvPTicWKxeRvoI1TslOmGEXpZmxdv1wl/KsaeENQ3lf9hL9Vdbqyp7
+         K6F6WavIIxoofDravsJBe2la6npdnqXk/10FOeGR3rwmyXmgkr5nM1BwmFFUocbAtsuJ
+         3HJkDqwC4sI+/DDDXEdUlS+QdtI2fcEt4eDZUiCPRXgo2HsnfsKe+nvLRHsOAAbibtTN
+         69Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743065416; x=1743670216;
+        d=1e100.net; s=20230601; t=1743065442; x=1743670242;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=MrCm7V9nLgr1fSaq78mJmNgFm9htZIYRYnkNXr3wiks=;
-        b=Fv/bpXkMLGhQhG35VhZNHpTJQcFFMThqDcbFRPOqdg2W4girdeBpowzxOGlIAXAHe2
-         4QJ7BDsdDHkyRVkPuav3Xe9U85/9NqdyACuLvGrNP/Mj+A6Bjo2EevrSc0aoSy6VcHH8
-         FVVGiQHqXjL4yqK9t7/AdOFLmANajeKTiArI1VMNHSREUqwWI4EYzlKi50G0ZXBywckG
-         23fduRqxawoj0KzNSoJbAS7wmSDnA1eCGhCz1SC4HhmjzgURoJ8NrTJOHks8Ms/NNAKV
-         eci2Y5gLKqAaG2slAss856FqOY34wpdGN8RkLNUsP9t07Hf+KgS8jQIPq9zbIQHamuFH
-         pmPg==
-X-Forwarded-Encrypted: i=1; AJvYcCX7uE3tKCcnbUZnRrCtM8emcw3ip9PhXVDfqDszqR/9T3iMhw00KnIq7u6k8muJXd3yg3NfpUoKH++z3Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx04Ha0WYwmB7cN+EL1Hw+MlSVPcWU1zo4bXrIwfROIVITQzwC/
-	ZdyOBOV05iOEZIRFkVx4fVLlJswdtZPISRCfcAdgcNX+BlopoeeR8v7eKRHDhen98K8BR04z8y8
-	uaPi7x0cm3GV8GYtklt/5ZxpUePnfr7UU0ZIk+g==
-X-Gm-Gg: ASbGncsw/tAWh1JnF52X4Tspy4hNSToIb/wBt+CTR8V9Zo4NkcxBoHdPSe6cHeAYiFt
-	/oGq6KcoHUhtwR30P0HAoVVDjSJEc7xj0QEG2HpkADrLrFvnpCK8ic56QT6xXwuXHHZECb6BXdE
-	MzNJ0WjA2N5AoAafnkC+nViykX7oGji+HVcYRte0MKJ5aPWDlxK49Usp+lVZnBNmgtUI1G
-X-Google-Smtp-Source: AGHT+IGOYfstGW/NDSGsi4ZgI8QCbYNVa5kmxR5Ajx1gX2tlX3LLZSUdnx/a3w3PeoNZ581TU/AX8bmJi9F6jl67QDo=
-X-Received: by 2002:a05:6512:3dac:b0:549:8537:79d6 with SMTP id
- 2adb3069b0e04-54b01264c8cmr1007068e87.48.1743065415550; Thu, 27 Mar 2025
- 01:50:15 -0700 (PDT)
+        b=aMrqnyIaOgntQEM9s3nkepoXqPYxWCQHcaXgvKH2OyGfrr6VLaZLWCWfHNCzmyQbXK
+         lnXZDKW5w2hEmPzxsQfsctHRcBDUME1IteU9c12+nMJ/h8ktT2MS0Yx8Bls6X0NRdhd4
+         FtPYt/FdHGOBASNgzoMlCj/SsEvL1hHZC2LFUtaVsu7g47TNJ/CmJMS0HOLISJqzg5N6
+         2PxSjZTIrJmE4ISSkS1kOED7jf1Fv6ZMoYPSdR/pw2IXG/aiXqdmPM+gF+lYQFVrZ2/V
+         H3whGIUNENgHjB/oFmxMtiMJuqHodBq/kA64DRo444OwcYIDFJq7FfvB+3zngR8Du4qp
+         sC5g==
+X-Forwarded-Encrypted: i=1; AJvYcCV6UFtZt6QYR8DpzsYXa73WTEGejnLOK8vn5/QY0CyQc2/QHSji6wBasbjq4V55u413Je5b+BQtq37G+w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywtx09w4P4bc9cctXjUam31a8oLCIwIbtKLRqtmuqz/PoZM72A6
+	38vnG4iJJQB4yHx88/vEpDGXKFazTe3EBd9WIvFqdMXbGHdOg7iHW8maanXsacojyiXDUJC/v11
+	sG9V5VTGDXiKn/o7Vfpk4r7uL6X9E5oAdb7BNOQ==
+X-Gm-Gg: ASbGnct3qTRDGq0HZC6rnUUa068vjvgBCfRWuLn4/wuCb4HxbhPwEqSxk8a5xOV4SQ1
+	R1ppkbTDMt+0dogQxYuW/5RyhQmvr76yscGQQKwxyrIDVYPcjbDppDjcoKfvm0rirEfJSfdzocy
+	d0u/KsYM8K2ypJ2auErmbIattUOErwpupdgOQhQ9g6FCFKEf7CXTdMHPDwfA==
+X-Google-Smtp-Source: AGHT+IGxgIMt5kbHn2L71WGjDAcLR0NypxnTQNv9HahK/pVgRmQpyy7Nbd63iN4iNHaoEbc5XYTKgBpyYWSQHq3EHrw=
+X-Received: by 2002:a05:651c:198a:b0:30b:b9e4:13b0 with SMTP id
+ 38308e7fff4ca-30dc5e52989mr11888081fa.12.1743065441577; Thu, 27 Mar 2025
+ 01:50:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250324-wcd-gpiod-v2-0-773f67ce3b56@nxp.com> <20250324-wcd-gpiod-v2-1-773f67ce3b56@nxp.com>
-In-Reply-To: <20250324-wcd-gpiod-v2-1-773f67ce3b56@nxp.com>
+References: <20250324-wcd-gpiod-v2-0-773f67ce3b56@nxp.com> <20250324-wcd-gpiod-v2-2-773f67ce3b56@nxp.com>
+In-Reply-To: <20250324-wcd-gpiod-v2-2-773f67ce3b56@nxp.com>
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 27 Mar 2025 09:50:04 +0100
-X-Gm-Features: AQ5f1JoV2m1sXwLX_76TUmXQLxYpDeYT63Rh9NbFCRvaHsBsAUNM5VZizldP4y8
-Message-ID: <CAMRc=Mf9SXJFGmZXtL5kngU6O12oNMi2ovE_ZGRW4nwnHTZVYg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] ASoC: codec: wcd939x: Convert to GPIO descriptors
+Date: Thu, 27 Mar 2025 09:50:30 +0100
+X-Gm-Features: AQ5f1JrsE-JcUTWn7tcgiR5us3IYvBsJJdLl84KolEecUKrVowGr9GOKOQX6-6k
+Message-ID: <CAMRc=MdXvwyXTjUj2cNQm8_c_fCoY4+kLA0C2D6k6MmNGkTEdw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] ASoC: codec: wcd938x: Convert to GPIO descriptors
 To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
