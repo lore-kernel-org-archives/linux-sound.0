@@ -1,206 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703A11BC41;
-	Thu, 27 Mar 2025 13:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5CB199949
+	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 15:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743081816; cv=none; b=T6BJIMfr8oEMTuINLurkrGhUhtRy/HYaknaY/3EuscTc6c+HaVX6DTURf0xOqeyV0rZj1LvQZjcpQdA9ZXOFwkD+j1wOjcXsoQbYzAxnzrYf7iwY+vghNRZ3upRb92Wa2E9Wjny7zvcwLyHauRNwlqEgDOlgaehACM8cNGMDsfU=
+	t=1743090415; cv=none; b=cD4iGxkEs+cQGDSjJqh8Sq+qWZqdH9F+ird72FJnsU5YDWbXMFxDxlabjzHYCPQznoJ4fO2lW5SCFIiGpzSFq086SJu+U5ML6n4GHY3Q/WO2VE09qSxvqS+on0RFgqHH15hhAutVjk4i+TUuA5NphFvcQfcpfsGC0y5WyYYMCos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743081816; c=relaxed/simple;
-	bh=oT68pbFwtwzKN7fGk22TjufR6gyAhSIrzFAn1zKFd8c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FFPYWzQxGte846rwZ6lYtd7IKPcPP/bFsC9nEJmdbventc9vnNWtN4oEGttMQjPs7V3sUyX3By4kb2nq+KPDvYCcPsA/zF+9qmK18jjWeq4VKbgkbDEOMHFt64eq6tpwqHoNbo43FXTz7/GlWnU+0Do2YFcLzt0b6xtdGSg5G5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lsxbGgyF; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1743090415; c=relaxed/simple;
+	bh=LPH7fmB2piYJTlMhDGZnc6I3l1pOMgZFoEBi543qq+s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gYthnSCGgIORQ5V+OklWMQJ2OxOvkTc/ylgJlOD0JBb0wSwipur4z8X3Ynzc28A/cUP8yUO0/HWDu7R+8TE0WASVKmnmKVxa4yrDcP/dkMsadH5sPJFIuYjtB7K6J7K42hS2b03lfLtZKG05OFULr3xd1+CHEI+WeKCQIFfZHv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XO6E1K9K; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lsxbGgyF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743081815; x=1774617815;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=oT68pbFwtwzKN7fGk22TjufR6gyAhSIrzFAn1zKFd8c=;
-  b=lsxbGgyFIgvpXLiQiDkW5sLfabJ5dZK30kmdT8DSw5seV3X/XOL3pJoq
-   11Fkr24G8oj8AOFs8QUm0qw/FyDWZ5rRdJDnzl1foVa/GO2Sw5mkAeGVV
-   MCBGedZsIDwjYAX9NffYu3gH5/5TEutQu7FaSQ13W61bj1Adv9zeZeb47
-   4dXMQ8tAPrTxgXzJckH+7JNhxOvQClJMyq28kQCOtiBOVRNINWdUFumMp
-   FwAmC6EMz37i97wrV1v/u8JAyaFJ4ItIghd/VqSouBR0Rxii38fLILoRD
-   EhbqVtvZHz3whf7QGdOxA6A98pfJdC0E841t9j5OWWb9WQuy5nqO/dwTN
-   A==;
-X-CSE-ConnectionGUID: wRQ14pj3REmId4I2uW1Ypg==
-X-CSE-MsgGUID: uP2vtZK5TJGLN3o9Vn6CHw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44329877"
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
-   d="scan'208";a="44329877"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 06:23:33 -0700
-X-CSE-ConnectionGUID: tCjTDlEZRfiKruLwqj1QFg==
-X-CSE-MsgGUID: vpXDOotEQDOQh8iiTpNjyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
-   d="scan'208";a="156071402"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 06:23:31 -0700
-Message-ID: <d38cc4f0-2018-46ee-93ff-d5dd76ad142b@linux.intel.com>
-Date: Thu, 27 Mar 2025 14:23:28 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XO6E1K9K"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43cf58eea0fso6174545e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 08:46:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743090411; x=1743695211; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tA2zJWv1o+75nzP8/krgasVJF7/Bs9xLeh0TRybxqLI=;
+        b=XO6E1K9KBKFAlkpvoa6b0HjQWU6bAXd8PE2o4jWs5h21l+Ayfus4yWTQYC0Tf23w/3
+         oZdXcrQBVP2Gznv5foI/iIsk0dvsWLRJk7k4ouCuVy7/MxLuOvjnEtcpUHx8t47JJgSE
+         iKdMXxQKJuXD/wul5EuiFJxBiqb0/KvDF0xN5wU1v3S0MKxjLlOz5gHcUDQYP5YqX6Ic
+         Q3O6ZsFT3e9lEI/KbdfDEEhDT+lE3ui27Q+VGwr+epSUva1m87kWp8QGqrH0tx3wpL8w
+         hTep97GrN9dw79lU/XvF0mlw4ffv/TBS9UTYAPKOFbXQrJ8GmXYHWfT7bPLyOZ3vJgLB
+         uquQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743090411; x=1743695211;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tA2zJWv1o+75nzP8/krgasVJF7/Bs9xLeh0TRybxqLI=;
+        b=bTC/nbMpb1fYfKaQTevgCr9P7tdgeTP8DazXfkh14hFKayocJ+cSPV+8yVIl3iIUlf
+         IABOAajlupxAC37FwadNmH46o/PfdfrzE2BxvbjUWm1VDZ+ZzOmKz3WRGkZcAuE8mpXm
+         0Zsi4LbASK7s16qFMTKLJWugxVhi9e2yFhvNC7o1RymlUH/aud+7SyccCBx3jiEtcD8s
+         /L1a4sg1tRmtuXEo8Yd45ezGSWhz3RwkZ8Px3Vt/Pjk3LTFd5uLzFvTBHOTyJGQHuxVM
+         22FDRGr8MlpjyldQyqAs0d3X9Ao029b3fdBRt6QsOp18SdHt2msVMZIGm5jG4QoKCKSg
+         JxFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRiwFzbvU5GYD6gNfNjL0qrSEDVqQyxZNljahf3rEjSkUz1638sbnGpFwCDDMDEBskS2dC2OYqu6RYYQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YylKqaUWNyQQy7dipHZ9HVDUCbnJBqPoTbeAwphnB/wzIHZJWh2
+	oIl889SoK8qUPjsQ7J+Q8cj25BDB6dnnV4+A6Op6symTNZEEwDPDIWzCYOWVQzw=
+X-Gm-Gg: ASbGncuwuxeWDn5uqC7Q1drtKphP2LDtdiVLrAbv/7kka7AEv1twH1k8dOwG6MGTsBm
+	SVAXmpkojugI3YSK5qKsJti/1qxJ/DkFxYr6fEfloqRcFd01pR2m8ALf1yJyZ86gRN2rbO0SUJr
+	jtyf2YWcqC82ndbYL9H26qh1tQgY1FlGWp0rUG1G5FGKGFnvjWhlMtxnJRq8kunV2HEoV4Wl2H2
+	SC9Qsb19X3OxWk7QRHGvvDZilKN/sBYEVHQw7g73PAjBs2NSEOGME2o+jfgjLA42c6+KkeOfIdw
+	IHNoyvHE02LBlu40IRDOYhArxK/swTqS8e+mC7TKftN+NB/7eBJDGaRk337san3gG7U=
+X-Google-Smtp-Source: AGHT+IEQdOD49ykeAMjyB/w/AZwjJja6wbJrFyDzakLR4KdkXKrN6xLOpUaq5nSdkDLMVtpBUCPPHg==
+X-Received: by 2002:a05:600c:458e:b0:43c:e9d0:9ee5 with SMTP id 5b1f17b1804b1-43d84fc181emr43722905e9.18.1743090411433;
+        Thu, 27 Mar 2025 08:46:51 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:c7c:7213:c700:e992:6869:474c:a63f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d82dedde6sm41768545e9.5.2025.03.27.08.46.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Mar 2025 08:46:51 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+To: broonie@kernel.org,
+	srinivas.kandagatla@linaro.org,
+	linux-sound@vger.kernel.org
+Cc: lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	krzysztof.kozlowski@linaro.org,
+	pierre-louis.bossart@linux.dev,
+	vkoul@kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	dmitry.baryshkov@oss.qualcomm.com
+Subject: [PATCH] ASoC: qdsp6: q6asm-dai: fix q6asm_dai_compr_set_params error path
+Date: Thu, 27 Mar 2025 15:46:50 +0000
+Message-ID: <20250327154650.337404-1-alexey.klimov@linaro.org>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] ASoC: SDCA: Create DAPM widgets and routes from
- DisCo
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev,
- yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20250327130012.3378732-1-ckeepax@opensource.cirrus.com>
- <20250327130012.3378732-2-ckeepax@opensource.cirrus.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20250327130012.3378732-2-ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/27/2025 2:00 PM, Charles Keepax wrote:
-> Use the previously parsed DisCo information from ACPI to create DAPM
-> widgets and routes representing a SDCA Function. For the most part SDCA
-> maps well to the DAPM abstractions.
-> 
-> The primary point of interest is the SDCA Power Domain Entities
-> (PDEs), which actually control the power status of the device. Whilst
-> these PDEs are the primary widgets the other parts of the SDCA graph
-> are added to maintain a consistency with the hardware abstract,
-> and allow routing to take effect. As for the PDEs themselves the
-> code currently only handle PS0 and PS3 (basically on and off),
-> the two intermediate power states are not commonly used and don't
-> map well to ASoC/DAPM.
-> 
-> Other minor points of slightly complexity include, the Group Entities
-> (GEs) these set the value of several other controls, typically
-> Selector Units (SUs) for enabling a cetain jack configuration. Multiple
-> SUs being controlled by a GE are easily modelled creating a single
-> control and sharing it among the controlled muxes.
-> 
-> SDCA also has a slight habit of having fully connected paths, relying
-> more on activating the PDEs to enable functionality. This doesn't
-> map quite so perfectly to DAPM which considers the path a reason to
-> power the PDE. Whilst in the current specification Mixer Units are
-> defined as fixed-function, in DAPM we create a virtual control for
-> each input (which defaults to connected). This allows paths to be
-> connected/disconnected, providing a more ASoC style approach to
-> managing the power. In the future PIN_SWITCHs might be added as
-> well to give more flexibility, but that is left as future work.
-> 
-> A top level helper sdca_asoc_populate_component() is exported that
-> counts and allocates everything, however, the intermediate counting and
-> population functions are also exported. This will allow end drivers to
-> do allocation and add custom handling, which is probably fairly likely
-> for the early SDCA devices.
-> 
-> Clock muxes are currently not fully supported, so some future work will
-> also be required there.
-> 
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> ---
+In case of attempts to compress playback something, for instance,
+when audio routing is not set up correctly, the audio DSP is left in
+inconsistent state because we are not doing the correct things in
+the error path of q6asm_dai_compr_set_params().
 
-...
+So, when routing is not set up and compress playback is attempted
+the following errors are present (simplified log):
 
-> +
-> +static int entity_early_parse_ge(struct device *dev,
-> +				 struct sdca_function_data *function,
-> +				 struct sdca_entity *entity)
-> +{
-> +	struct sdca_control_range *range;
-> +	struct sdca_control *control;
-> +	struct snd_kcontrol_new *kctl;
-> +	struct soc_enum *soc_enum;
-> +	const char *control_name;
-> +	unsigned int *values;
-> +	const char **texts;
-> +	int i;
-> +
-> +	control = selector_find_control(entity, SDCA_CTL_GE_SELECTED_MODE);
-> +	if (!control) {
-> +		dev_err(dev, "%s: no selected mode control\n", entity->label);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (control->layers != SDCA_ACCESS_LAYER_CLASS)
-> +		dev_warn(dev, "%s: unexpected access layer: %x\n",
-> +			 entity->label, control->layers);
-> +
-> +	range = control_find_range(dev, entity, control, SDCA_SELECTED_MODE_NCOLS, 0);
-> +	if (!range)
-> +		return -EINVAL;
-> +
-> +	control_name = devm_kasprintf(dev, GFP_KERNEL, "%s %s",
-> +				      entity->label, control->label);
-> +	if (!control_name)
-> +		return -ENOMEM;
-> +
-> +	kctl = devm_kmalloc(dev, sizeof(*kctl), GFP_KERNEL);
-> +	if (!kctl)
-> +		return -ENOMEM;
-> +
-> +	soc_enum = devm_kmalloc(dev, sizeof(*soc_enum), GFP_KERNEL);
-> +	if (!soc_enum)
-> +		return -ENOMEM;
-> +
-> +	texts = devm_kcalloc(dev, range->rows + 3, sizeof(*texts), GFP_KERNEL);
-> +	if (!texts)
-> +		return -ENOMEM;
-> +
-> +	values = devm_kcalloc(dev, range->rows + 3, sizeof(*values), GFP_KERNEL);
-> +	if (!values)
-> +		return -ENOMEM;
-> +
-> +	texts[0] = "No Jack";
-> +	texts[1] = "Jack Unknown";
-> +	texts[2] = "Detection in Progress";
-> +	values[0] = 0;
-> +	values[1] = 1;
-> +	values[2] = 2;
-> +	for (i = 0; i < range->rows; i++) {
-> +		enum sdca_terminal_type type;
-> +
-> +		type = sdca_range(range, SDCA_SELECTED_MODE_TERM_TYPE, i);
-> +
-> +		values[i + 3] = sdca_range(range, SDCA_SELECTED_MODE_INDEX, i);
-> +		texts[i + 3] = get_terminal_name(type);
-> +		if (!texts[i + 3]) {
-> +			dev_err(dev, "%s: Unrecognised terminal type: %#x\n",
-> +				entity->label, type);
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	soc_enum->reg = SDW_SDCA_CTL(function->desc->adr, entity->id, control->sel, 0);
-> +	soc_enum->items = range->rows + 3;
-> +	soc_enum->mask = roundup_pow_of_two(soc_enum->items) - 1;
-> +	soc_enum->texts = texts;
+q6routing routing: Routing not setup for MultiMedia-1 Session
+q6asm-dai dais: Stream reg failed ret:-22
+q6asm-dai dais: ASoC error (-22): at snd_soc_component_compr_set_params()
+on 17300000.remoteproc:glink-edge:apr:service@7:dais
 
-soc_enum->values = values; seems to be missing?
+After setting the correct routing the compress playback will always fail:
 
-> +
-> +	kctl->iface = SNDRV_CTL_ELEM_IFACE_MIXER;
-> +	kctl->name = control_name;
-> +	kctl->info = snd_soc_info_enum_double;
-> +	kctl->get = snd_soc_dapm_get_enum_double;
-> +	kctl->put = snd_soc_dapm_put_enum_double;
-> +	kctl->private_value = (unsigned long)soc_enum;
-> +
-> +	entity->ge.kctl = kctl;
-> +
-> +	return 0;
-> +}
-> +
+q6asm-dai dais: cmd = 0x10db3 returned error = 0x9
+q6asm-dai dais: DSP returned error[9]
+q6asm-dai dais: q6asm_open_write failed
+q6asm-dai dais: ASoC error (-22): at snd_soc_component_compr_set_params()
+on 17300000.remoteproc:glink-edge:apr:service@7:dais
 
-...
+0x9 here means "Operation is already processed". The CMD_OPEN here was
+sent the second time hence DSP responds that it was already done.
+
+Turns out the CMD_CLOSE should be sent after the q6asm_open_write()
+succeeded but something failed after that, for instance, routing
+setup.
+
+Fix this by slightly reworking the error path in
+q6asm_dai_compr_set_params().
+
+Tested on QRB5165 RB5 and SDM845 RB3 boards.
+
+Cc: stable@vger.kernel.org
+Fixes: 5b39363e54cc ("ASoC: q6asm-dai: prepare set params to accept profile change")
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+---
+ sound/soc/qcom/qdsp6/q6asm-dai.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
+
+diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
+index 045100c94352..a400c9a31fea 100644
+--- a/sound/soc/qcom/qdsp6/q6asm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
+@@ -892,9 +892,7 @@ static int q6asm_dai_compr_set_params(struct snd_soc_component *component,
+ 
+ 		if (ret < 0) {
+ 			dev_err(dev, "q6asm_open_write failed\n");
+-			q6asm_audio_client_free(prtd->audio_client);
+-			prtd->audio_client = NULL;
+-			return ret;
++			goto open_err;
+ 		}
+ 	}
+ 
+@@ -903,7 +901,7 @@ static int q6asm_dai_compr_set_params(struct snd_soc_component *component,
+ 			      prtd->session_id, dir);
+ 	if (ret) {
+ 		dev_err(dev, "Stream reg failed ret:%d\n", ret);
+-		return ret;
++		goto q6_err;
+ 	}
+ 
+ 	ret = __q6asm_dai_compr_set_codec_params(component, stream,
+@@ -911,7 +909,7 @@ static int q6asm_dai_compr_set_params(struct snd_soc_component *component,
+ 						 prtd->stream_id);
+ 	if (ret) {
+ 		dev_err(dev, "codec param setup failed ret:%d\n", ret);
+-		return ret;
++		goto q6_err;
+ 	}
+ 
+ 	ret = q6asm_map_memory_regions(dir, prtd->audio_client, prtd->phys,
+@@ -920,12 +918,21 @@ static int q6asm_dai_compr_set_params(struct snd_soc_component *component,
+ 
+ 	if (ret < 0) {
+ 		dev_err(dev, "Buffer Mapping failed ret:%d\n", ret);
+-		return -ENOMEM;
++		ret = -ENOMEM;
++		goto q6_err;
+ 	}
+ 
+ 	prtd->state = Q6ASM_STREAM_RUNNING;
+ 
+ 	return 0;
++
++q6_err:
++	q6asm_cmd(prtd->audio_client, prtd->stream_id, CMD_CLOSE);
++
++open_err:
++	q6asm_audio_client_free(prtd->audio_client);
++	prtd->audio_client = NULL;
++	return ret;
+ }
+ 
+ static int q6asm_dai_compr_set_metadata(struct snd_soc_component *component,
+-- 
+2.47.2
 
