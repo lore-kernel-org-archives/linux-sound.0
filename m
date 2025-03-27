@@ -1,129 +1,91 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3507114AD3F;
-	Thu, 27 Mar 2025 21:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6C21624C2;
+	Thu, 27 Mar 2025 21:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743109237; cv=none; b=UNfo6P6kmRgBehcb0GAxfPiScO0y9RIXmGL4/WYrOgusWCkU6MfxyAzXXkDAvXvupW1dk5G9QaALKvwIUudyY44lpbEf5f8Ce63uoA8vstZSiubatfhK/Ekrsdl/zIOZ9JDCQqn2Pzb9sHP9y7lsxAYJiAdCmds0ym9SgY98vvg=
+	t=1743109910; cv=none; b=rQ+mH7mqrsCrrl/CZ0uiMyr6t998+d30BznXRK4kEzrNPL2ubZ0b4nL+gihez9VT7IO80o5qZEc9aFzWjlpZUYp+kdyOC8iZ/q1BgE8cixOPZ2KvdcqwbjUZSmYRFaaFrA8FjcF5QDetOQK73qGFPu+ORiBDQa41Jd5/6zaR9dQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743109237; c=relaxed/simple;
-	bh=KBqRzFxZjlPZ7HMM65WlAH03VtW2sdQPYcQI9WbF0KM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RX4AOYn/19VJfoDF3kirAYZQ2m+SqoeaCPs/c5zdm2uCx1djIWiPiD1xOMtZ/Whxj3OsAsep/bAYZTavBzwOnG1AIXHPOtJ20txcymdLLdlpI5FKKSSN/fNwAn9E1IaHDAHpx/9xnE+KzBze0Obnkwty/6sg0Q6GRMkzWgdU5tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=CtAB0Mul; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1743109910; c=relaxed/simple;
+	bh=2FnkE7kyKzooN89ZP+W7jaZvCQm8AS6VHiuvwyP/8fc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=lCOwv4kcwknTcV92US5XwIxpu75tEEs3keyjqSyhIuDxYGfHzsU3zviT5Qt2dGcdTXvSqafXj5Es7OflVX8W1SZS44SS7m5fSKYAjLJ4rYfS83vlKHdAHTkbuubSz0bdiI5KLyC1+8tXA5bUqSFZJSfVsRTAYHoxIB2N2CO5u18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jxuJcS0G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="CtAB0Mul"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 1938F667609C; Fri, 28 Mar 2025 07:22:06 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 1938F667609C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1743108726; bh=G1DceDLDtsDr6cUmc77dUlePG6aXGKxgdm7OsGqqrNo=;
-	h=Date:From:To:Cc:Subject:From;
-	b=CtAB0MulHxcjDFjF0gHMXbQcwPtCDgmQ1WUTWR4Jg8eYtrAvFTAypW3xvOqNVpd+N
-	 v5plyA1pD3jmjkrf6cPAO88/9lfAOmzuGeGwXAqWQQH+WQsZY045q/0/QRitOo5UGp
-	 MOY6r0GeIrp4VG7X1tJCiU18cWRdfd5nlWMzjZ8m4Lxw5e+JSeKbpSzYMsC9gRg1Gk
-	 6sby0lrynsYT93WHSPLeerQuFwLpFj+aBCt5GaMs1IDuCR88nT5pM6deyraDEDEFst
-	 9w+4tegUbsBtyuFF5vuMVz16SCQvWhq4EgGUi2S6gxjcFqpBmc+YyaDFZme6l21H/J
-	 Cp4CaDh26x5Gg==
-Date: Fri, 28 Mar 2025 07:22:06 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Hao Qin <hao.qin@mediatek.com>
-Cc: linux-bluetooth@vger.kernel.org, Sean Wang <sean.wang@mediatek.com>,
-	Chris Lu <chris.lu@mediatek.com>, linux-sound@vger.kernel.org,
-	Benedikt Ziemons <ben@rs485.network>, pmenzel@molgen.mpg.de,
-	tiwai@suse.de, geraldogabriel@gmail.com,
-	regressions@lists.linux.dev, gregkh@linuxfoundation.org
-Subject: [PATCH v2] Revert "Bluetooth: btusb: mediatek: reset the controller
- before downloading the fw"
-Message-ID: <Z+W6dmZFfC7SBhza@m.b4.vu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jxuJcS0G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81F3EC4CEDD;
+	Thu, 27 Mar 2025 21:11:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743109910;
+	bh=2FnkE7kyKzooN89ZP+W7jaZvCQm8AS6VHiuvwyP/8fc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jxuJcS0GRKgyRFFHIST9QTQYkeJ0r4qSncJfMoEdcVbTppLxbPR6yftvVN44ZM8tJ
+	 KFZ30Ja8lFJ0ePfwPSadNLEvAsUyG8nIoZlc+0OUvxJaUcNta0Y/mOH0uE70ggGII1
+	 Qh1TiY3+bestzVKrgxflKUEhNP6YoYby7781bKFajVSRUjlvmxQn71iVkJjd7T4Pa+
+	 LriVtcv/6hNO2+jip2P6NdVRJ+U+3xPb/+clwXYg3/zeNaMAtSpFAU4mBEXPubgtd8
+	 BOBxe6kLrf7eQdnShxen5sBpDrliOxe2HV5N15ivuCUK0KUNPt7UT+H6+riPXqT2Os
+	 hhn0fn8clQNHQ==
+From: Mark Brown <broonie@kernel.org>
+To: srinivas.kandagatla@linaro.org, linux-sound@vger.kernel.org, 
+ Alexey Klimov <alexey.klimov@linaro.org>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ krzysztof.kozlowski@linaro.org, pierre-louis.bossart@linux.dev, 
+ vkoul@kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ dmitry.baryshkov@oss.qualcomm.com
+In-Reply-To: <20250327154650.337404-1-alexey.klimov@linaro.org>
+References: <20250327154650.337404-1-alexey.klimov@linaro.org>
+Subject: Re: [PATCH] ASoC: qdsp6: q6asm-dai: fix q6asm_dai_compr_set_params
+ error path
+Message-Id: <174310990724.446560.8160330650752927571.b4-ty@kernel.org>
+Date: Thu, 27 Mar 2025 21:11:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-This reverts commit ccfc8948d7e4d93cab341a99774b24586717d89a.
+On Thu, 27 Mar 2025 15:46:50 +0000, Alexey Klimov wrote:
+> In case of attempts to compress playback something, for instance,
+> when audio routing is not set up correctly, the audio DSP is left in
+> inconsistent state because we are not doing the correct things in
+> the error path of q6asm_dai_compr_set_params().
+> 
+> So, when routing is not set up and compress playback is attempted
+> the following errors are present (simplified log):
+> 
+> [...]
 
-The MediaTek Bluetooth controller reset that was added increases the
-Bluetooth device setup time from ~200ms to ~20s and interferes with
-other devices on the bus.
+Applied to
 
-Three users (with Focusrite Scarlett 2nd Gen 6i6 and 3rd Gen Solo and
-4i4 audio interfaces) reported that since 6.11 (which added this
-commit) their audio interface fails to initialise if connected during
-boot. Two of the users confirmed they have an MT7922.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Errors like this are observed in dmesg for the audio interface:
+Thanks!
 
-  usb 3-4: parse_audio_format_rates_v2v3(): unable to find clock source (clock -110)
-  usb 3-4: uac_clock_source_is_valid(): cannot get clock validity for id 41
-  usb 3-4: clock source 41 is not valid, cannot use
+[1/1] ASoC: qdsp6: q6asm-dai: fix q6asm_dai_compr_set_params error path
+      commit: 7eccc86e90f04a0d758d16c08627a620ac59604d
 
-The problem only occurs when both devices and kernel modules are
-present and loaded during system boot, so it can be worked around by
-connecting the audio interface after booting.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Fixes: ccfc8948d7e4 ("Bluetooth: btusb: mediatek: reset the controller before downloading the fw")
-Closes: https://github.com/geoffreybennett/linux-fcp/issues/24
-Bisected-by: Benedikt Ziemons <ben@rs485.network>
-Tested-by: Benedikt Ziemons <ben@rs485.network>
-Cc: stable@vger.kernel.org
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
----
-Changelog:
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-v1 -> v2:
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-- Updated commit message with additional information.
-- No change to this patch's diff.
-- Dropped alternate patch that only reverted for 0x7922.
-- Chris, Sean, Hao agreed to reverting the change:
-  https://lore.kernel.org/linux-bluetooth/2025031352-octopus-quadrant-f7ca@gregkh/T/#m0b31a9a8e87b9499e1ec3370c08f03e43bfb54bf
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
- drivers/bluetooth/btmtk.c | 10 ----------
- 1 file changed, 10 deletions(-)
-
-diff --git a/drivers/bluetooth/btmtk.c b/drivers/bluetooth/btmtk.c
-index 68846c5bd4f7..4390fd571dbd 100644
---- a/drivers/bluetooth/btmtk.c
-+++ b/drivers/bluetooth/btmtk.c
-@@ -1330,13 +1330,6 @@ int btmtk_usb_setup(struct hci_dev *hdev)
- 		break;
- 	case 0x7922:
- 	case 0x7925:
--		/* Reset the device to ensure it's in the initial state before
--		 * downloading the firmware to ensure.
--		 */
--
--		if (!test_bit(BTMTK_FIRMWARE_LOADED, &btmtk_data->flags))
--			btmtk_usb_subsys_reset(hdev, dev_id);
--		fallthrough;
- 	case 0x7961:
- 		btmtk_fw_get_filename(fw_bin_name, sizeof(fw_bin_name), dev_id,
- 				      fw_version, fw_flavor);
-@@ -1345,12 +1338,9 @@ int btmtk_usb_setup(struct hci_dev *hdev)
- 						btmtk_usb_hci_wmt_sync);
- 		if (err < 0) {
- 			bt_dev_err(hdev, "Failed to set up firmware (%d)", err);
--			clear_bit(BTMTK_FIRMWARE_LOADED, &btmtk_data->flags);
- 			return err;
- 		}
-
--		set_bit(BTMTK_FIRMWARE_LOADED, &btmtk_data->flags);
--
- 		/* It's Device EndPoint Reset Option Register */
- 		err = btmtk_usb_uhw_reg_write(hdev, MTK_EP_RST_OPT,
- 					      MTK_EP_RST_IN_OUT_OPT);
---
-2.45.0
-
+Thanks,
+Mark
 
