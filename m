@@ -1,86 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878032153D5;
-	Thu, 27 Mar 2025 13:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703A11BC41;
+	Thu, 27 Mar 2025 13:23:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743080486; cv=none; b=GUTUooAjIByJMoUuWKwo3wlJDASnFst5U3h4JAJ/U9XuPDHbw34+sc26E58Mcjlv4sLOMyou0tBqct5ZBPwtFRoZkPqy6WxSGaKRqa29Kpv6EEW2RDtJOzMZLKGe5tuWAzo+/HUj8ZxRX85Fl/ui/XEpHRNIYLdd02VlWLfFvQA=
+	t=1743081816; cv=none; b=T6BJIMfr8oEMTuINLurkrGhUhtRy/HYaknaY/3EuscTc6c+HaVX6DTURf0xOqeyV0rZj1LvQZjcpQdA9ZXOFwkD+j1wOjcXsoQbYzAxnzrYf7iwY+vghNRZ3upRb92Wa2E9Wjny7zvcwLyHauRNwlqEgDOlgaehACM8cNGMDsfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743080486; c=relaxed/simple;
-	bh=1O1yKZ63fknWxD1PLDOG6cVDUidy0ndhXm1ekOteIFU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f5qX5fGj54S8In3lFrGlNnLHiOnRV55CmfNS2marGTDBK1FWB94CdhVWub4ggTZ+nm0fuRIdiueiPSDek8OB3xOxC0b/1OQuICfVd0YyrgGeqt2CnDbJzfYVlpM5n0XS6rPycagsZP0wRhBSCyZVi+TdYDo+J2YdMEFbv/fALGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PVzi7zPf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743081816; c=relaxed/simple;
+	bh=oT68pbFwtwzKN7fGk22TjufR6gyAhSIrzFAn1zKFd8c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FFPYWzQxGte846rwZ6lYtd7IKPcPP/bFsC9nEJmdbventc9vnNWtN4oEGttMQjPs7V3sUyX3By4kb2nq+KPDvYCcPsA/zF+9qmK18jjWeq4VKbgkbDEOMHFt64eq6tpwqHoNbo43FXTz7/GlWnU+0Do2YFcLzt0b6xtdGSg5G5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lsxbGgyF; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PVzi7zPf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93658C4CEDD;
-	Thu, 27 Mar 2025 13:01:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743080486;
-	bh=1O1yKZ63fknWxD1PLDOG6cVDUidy0ndhXm1ekOteIFU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PVzi7zPfGb4IYBTX0InZ0ctLOD5ULU0JNLLru5ShWJldOMZQlMa/EIsCy2PWzoYh/
-	 TwDwO146dT6M/FkZM1z4+JCEWlEyWOgOzTBOP8i6H9ePyQ2zGcVJgJaOS21/5kGktk
-	 gdySz4PGevNX7OKO4XFd1ykFNwLA418h7AFJ8SnSJlMVZqSxkO9mIR4lGjTwq2XQX8
-	 W7XdykR1XADzOznvm+JXMiwS1VIuVPGA0gfM77JTmtiRvAqzZ4THFMp3YJbo84fntK
-	 llIIW2P5e4prf3EbyIwLc/KapoFGF72FTdurzB1lC8jLaiPim/e0jvogKUTukNNglB
-	 wL+Vx0cJyVF3A==
-Date: Thu, 27 Mar 2025 13:01:20 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: srinivas.kandagatla@linaro.org, lgirdwood@gmail.com,
-	krzysztof.kozlowski@linaro.org, perex@perex.cz, tiwai@suse.com,
-	jdelvare@suse.com, linux@roeck-us.net, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH] ASoC: codecs: wsa883x: Implement temperature reading and
- hwmon
-Message-ID: <51da9bbe-559a-43bb-9f1a-3cb9784cd7bd@sirena.org.uk>
-References: <20250107114506.554589-1-alexey.klimov@linaro.org>
- <3e08b501-f8d0-4e68-874e-b578e7c82c47@sirena.org.uk>
- <D8R21NO1IN43.1E4FD7KG9Z4KI@linaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lsxbGgyF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743081815; x=1774617815;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=oT68pbFwtwzKN7fGk22TjufR6gyAhSIrzFAn1zKFd8c=;
+  b=lsxbGgyFIgvpXLiQiDkW5sLfabJ5dZK30kmdT8DSw5seV3X/XOL3pJoq
+   11Fkr24G8oj8AOFs8QUm0qw/FyDWZ5rRdJDnzl1foVa/GO2Sw5mkAeGVV
+   MCBGedZsIDwjYAX9NffYu3gH5/5TEutQu7FaSQ13W61bj1Adv9zeZeb47
+   4dXMQ8tAPrTxgXzJckH+7JNhxOvQClJMyq28kQCOtiBOVRNINWdUFumMp
+   FwAmC6EMz37i97wrV1v/u8JAyaFJ4ItIghd/VqSouBR0Rxii38fLILoRD
+   EhbqVtvZHz3whf7QGdOxA6A98pfJdC0E841t9j5OWWb9WQuy5nqO/dwTN
+   A==;
+X-CSE-ConnectionGUID: wRQ14pj3REmId4I2uW1Ypg==
+X-CSE-MsgGUID: uP2vtZK5TJGLN3o9Vn6CHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44329877"
+X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
+   d="scan'208";a="44329877"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 06:23:33 -0700
+X-CSE-ConnectionGUID: tCjTDlEZRfiKruLwqj1QFg==
+X-CSE-MsgGUID: vpXDOotEQDOQh8iiTpNjyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
+   d="scan'208";a="156071402"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 06:23:31 -0700
+Message-ID: <d38cc4f0-2018-46ee-93ff-d5dd76ad142b@linux.intel.com>
+Date: Thu, 27 Mar 2025 14:23:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VstiSd6HitBx/O/R"
-Content-Disposition: inline
-In-Reply-To: <D8R21NO1IN43.1E4FD7KG9Z4KI@linaro.org>
-X-Cookie: Multics is security spelled sideways.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] ASoC: SDCA: Create DAPM widgets and routes from
+ DisCo
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev,
+ yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20250327130012.3378732-1-ckeepax@opensource.cirrus.com>
+ <20250327130012.3378732-2-ckeepax@opensource.cirrus.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20250327130012.3378732-2-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 3/27/2025 2:00 PM, Charles Keepax wrote:
+> Use the previously parsed DisCo information from ACPI to create DAPM
+> widgets and routes representing a SDCA Function. For the most part SDCA
+> maps well to the DAPM abstractions.
+> 
+> The primary point of interest is the SDCA Power Domain Entities
+> (PDEs), which actually control the power status of the device. Whilst
+> these PDEs are the primary widgets the other parts of the SDCA graph
+> are added to maintain a consistency with the hardware abstract,
+> and allow routing to take effect. As for the PDEs themselves the
+> code currently only handle PS0 and PS3 (basically on and off),
+> the two intermediate power states are not commonly used and don't
+> map well to ASoC/DAPM.
+> 
+> Other minor points of slightly complexity include, the Group Entities
+> (GEs) these set the value of several other controls, typically
+> Selector Units (SUs) for enabling a cetain jack configuration. Multiple
+> SUs being controlled by a GE are easily modelled creating a single
+> control and sharing it among the controlled muxes.
+> 
+> SDCA also has a slight habit of having fully connected paths, relying
+> more on activating the PDEs to enable functionality. This doesn't
+> map quite so perfectly to DAPM which considers the path a reason to
+> power the PDE. Whilst in the current specification Mixer Units are
+> defined as fixed-function, in DAPM we create a virtual control for
+> each input (which defaults to connected). This allows paths to be
+> connected/disconnected, providing a more ASoC style approach to
+> managing the power. In the future PIN_SWITCHs might be added as
+> well to give more flexibility, but that is left as future work.
+> 
+> A top level helper sdca_asoc_populate_component() is exported that
+> counts and allocates everything, however, the intermediate counting and
+> population functions are also exported. This will allow end drivers to
+> do allocation and add custom handling, which is probably fairly likely
+> for the early SDCA devices.
+> 
+> Clock muxes are currently not fully supported, so some future work will
+> also be required there.
+> 
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> ---
 
---VstiSd6HitBx/O/R
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+...
 
-On Thu, Mar 27, 2025 at 12:41:48PM +0000, Alexey Klimov wrote:
-> On Sun Mar 16, 2025 at 11:33 PM GMT, Mark Brown wrote:
+> +
+> +static int entity_early_parse_ge(struct device *dev,
+> +				 struct sdca_function_data *function,
+> +				 struct sdca_entity *entity)
+> +{
+> +	struct sdca_control_range *range;
+> +	struct sdca_control *control;
+> +	struct snd_kcontrol_new *kctl;
+> +	struct soc_enum *soc_enum;
+> +	const char *control_name;
+> +	unsigned int *values;
+> +	const char **texts;
+> +	int i;
+> +
+> +	control = selector_find_control(entity, SDCA_CTL_GE_SELECTED_MODE);
+> +	if (!control) {
+> +		dev_err(dev, "%s: no selected mode control\n", entity->label);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (control->layers != SDCA_ACCESS_LAYER_CLASS)
+> +		dev_warn(dev, "%s: unexpected access layer: %x\n",
+> +			 entity->label, control->layers);
+> +
+> +	range = control_find_range(dev, entity, control, SDCA_SELECTED_MODE_NCOLS, 0);
+> +	if (!range)
+> +		return -EINVAL;
+> +
+> +	control_name = devm_kasprintf(dev, GFP_KERNEL, "%s %s",
+> +				      entity->label, control->label);
+> +	if (!control_name)
+> +		return -ENOMEM;
+> +
+> +	kctl = devm_kmalloc(dev, sizeof(*kctl), GFP_KERNEL);
+> +	if (!kctl)
+> +		return -ENOMEM;
+> +
+> +	soc_enum = devm_kmalloc(dev, sizeof(*soc_enum), GFP_KERNEL);
+> +	if (!soc_enum)
+> +		return -ENOMEM;
+> +
+> +	texts = devm_kcalloc(dev, range->rows + 3, sizeof(*texts), GFP_KERNEL);
+> +	if (!texts)
+> +		return -ENOMEM;
+> +
+> +	values = devm_kcalloc(dev, range->rows + 3, sizeof(*values), GFP_KERNEL);
+> +	if (!values)
+> +		return -ENOMEM;
+> +
+> +	texts[0] = "No Jack";
+> +	texts[1] = "Jack Unknown";
+> +	texts[2] = "Detection in Progress";
+> +	values[0] = 0;
+> +	values[1] = 1;
+> +	values[2] = 2;
+> +	for (i = 0; i < range->rows; i++) {
+> +		enum sdca_terminal_type type;
+> +
+> +		type = sdca_range(range, SDCA_SELECTED_MODE_TERM_TYPE, i);
+> +
+> +		values[i + 3] = sdca_range(range, SDCA_SELECTED_MODE_INDEX, i);
+> +		texts[i + 3] = get_terminal_name(type);
+> +		if (!texts[i + 3]) {
+> +			dev_err(dev, "%s: Unrecognised terminal type: %#x\n",
+> +				entity->label, type);
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +	soc_enum->reg = SDW_SDCA_CTL(function->desc->adr, entity->id, control->sel, 0);
+> +	soc_enum->items = range->rows + 3;
+> +	soc_enum->mask = roundup_pow_of_two(soc_enum->items) - 1;
+> +	soc_enum->texts = texts;
 
-> > This doesn't apply against current code, please check and resend.
+soc_enum->values = values; seems to be missing?
 
-> Just for reference and for future, what should be the base for patches?
-> linux-next or specific repo/branch in audio asoc?
+> +
+> +	kctl->iface = SNDRV_CTL_ELEM_IFACE_MIXER;
+> +	kctl->name = control_name;
+> +	kctl->info = snd_soc_info_enum_double;
+> +	kctl->get = snd_soc_dapm_get_enum_double;
+> +	kctl->put = snd_soc_dapm_put_enum_double;
+> +	kctl->private_value = (unsigned long)soc_enum;
+> +
+> +	entity->ge.kctl = kctl;
+> +
+> +	return 0;
+> +}
+> +
 
-For new code it's for-next in my tree, for fixes for-linus (or the
-versioned branch for the targeted kernel version).
+...
 
---VstiSd6HitBx/O/R
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmflTB8ACgkQJNaLcl1U
-h9BZFwf8DoSn9ZmzfQqDx+X0aYlXuocHr550N4aIGmMJ98fpi6OR9mW/2d1SZMGy
-cohA95gwYdKjv+u1RoxnAUe6lHd9nRLATTwM2nLX5Hx/dtm1f/HSHMaNte15lUhO
-+3VtezHR++ZGHvBa+Y2uAEbER0f1cVMcmWmSz8/Di0yBhglImhSR5Ob14BNnJEHh
-nPj0J/OHa+KmmWhnCm8oDoowB2ZcJELEsnHVZtEF3eD8PQiLt9zb1DQXoP2BcJCt
-vZ0y7Qa1KdZcRzZSJlLVvlg8c/l6GdzD97mXG/Fa6rxKkGXepoq8MlIKQ0VFpzzu
-inCab64R79XxeVmBbepdVWC99GoXPg==
-=DkBO
------END PGP SIGNATURE-----
-
---VstiSd6HitBx/O/R--
