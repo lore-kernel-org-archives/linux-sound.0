@@ -1,131 +1,102 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685822139BF
-	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 12:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D796214235
+	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 12:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743077604; cv=none; b=IBVUyNT9TK060tt2hr/wCubbzLDMw4dwG6JeLfwlG4awuR5714bTpgRuoYtWvpcOIJNBv1F76g+s2ShMVSKygn5bG4xI7LI8wpGMtiuQp2VVlIXRhhKoj0qIM9esIXD6Rfn5q3PJl9P8uIHL9D/AHZ8MVirjA7WOCIVJ/LxWGZ8=
+	t=1743079313; cv=none; b=CQVs58Wn39Q5VsGV1bRfEbzNfm4tapWW9129wBnrB1EC9V00HU1vz2uFO3U4mFl0A+STcCuIR+aA0GGGh/Nf0wfEXa6iSkZVg84Goc1FQLqfm2A/qBkKvyqKdvnfUNBhNuxEIncOpWiJYU/Huy6scLMsu66JFZ3+y0y1JX3FQbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743077604; c=relaxed/simple;
-	bh=LAglGtaGdv1Da+AjfgQ5kbIFyqZGUTUVbYDRQIrV9ug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qySN07y9ab2oElp34coKf9E/cMkwn2jE/FmpCx/IGkke4xImk4ZQQRzrvdmOwt5Ygv7C66CjoooNp+GdJMG75nC+cMXId2vTcOQd0qqJSlexqE5AT+qZRopndZ1qLL40VXcqpy9JkAbaYFQKHUAbcsBPPpT792e9McoW/jkFlnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kXM6KHRr; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1743079313; c=relaxed/simple;
+	bh=rTUk5WsXR6uaQmtmVpjNHsbtIr+WlFlJncQhJeTUUpU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=knoTWEDB4mz6q1xhALuDu+c2h2u5qKH1JOT9QGZv26F4BLM30UFjQOZs6mP42Az3o/F274JSh8Dqu6Kh0SEVDwsC2w/FK0fTKh+opsQDuwkKEPgmAiDL9NcmsJM8ef5naXTfCuXwflgSnYJ6brjtBuVjuc6qS/keLQjRCn8ZkiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NGP58XlI; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kXM6KHRr"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5jEcE005949
-	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 12:13:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=7q1Wh9lhgxTjHAlCh3PBu5Ah
-	qwhELU5OX4K4QSMh7WQ=; b=kXM6KHRrF1GvNnSPyWktWuZHlwYgklIbzUEKQUKo
-	cIX+ahOikMmx/LzaM0jggMHXne2hzRCjmt1sK8tmKE0xdHIEN7LYRJPuVViVPK6s
-	IO4aKK8otjhmf5DlpVm8TlaEqiS+iw+BJIK8BaDiSh9TacA1fyPR0DJoB9hxUUi3
-	ikkk3YFTVTQplHTJ7n6NbBp3Q+C9clor4aftJ9vGdH8bgq8YGxRUuyI/JgtZUWBL
-	RL/BmLdPj2iO9tX2vLKKlikX6+3hb1aVp+T/MlIyx1onmSnReu+x/LqVKETtsNb/
-	7uAUrSZ0t6i3SoJfkjY1AskphZCreaj6oLkiM1uDhnQmSA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45m7nf57jd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 12:13:22 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5f3b8b1a1so45130385a.3
-        for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 05:13:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743077601; x=1743682401;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NGP58XlI"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43d0618746bso6410685e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 05:41:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743079309; x=1743684109; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7q1Wh9lhgxTjHAlCh3PBu5AhqwhELU5OX4K4QSMh7WQ=;
-        b=F3DRcji9wxStPbm69zl+wGiChfl03PgcU6emzI5tBx+VG9cH/DtLXBAI2HKO+yjgcf
-         DyQTOvjKUpP27Hx2sFrR0wsdRDn5mysrSpUwIekY/WfTIPriMl5fW5ytxmpGlTofLhZa
-         z+mOeZ9XxPvXFpGP5VPpesJgCAi3PNHE7QwT9loHlf1u9rgUP2EyhvOITesLHdrgWdMS
-         9RTy9cdgYnivNYAsseOxSklne5AlDQj0/i3SjpJLOlFJCfP+lXyZoe/VSnCMiw34CqsE
-         m5oeCvol9jLxEbyqcs7aLVVl8wh3s3yikO7N10UWCPvCql3vJt9vKNJGz+6rK2VKVhKX
-         JlWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZg+zjAlNSjXZc2b1zPxlb9GonKmqEvoTy/Dt99+bERAupn/5zaHXNWMWggy52s4hrmg4IqfGn8A9bMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2wbYayUu6zd9QB97OIGhBYC+02KvxLip1eEH7h2Oa6J5opqFW
-	Z17zvLCMAMwAU6CjCAokjObrXxYIXWLYD3+8bU9RxnkFe/TDB8pf/YlAYQDHcD0NlRFhPevNf7a
-	pkhriqIzzLow0G0npN1Iu+w/0x/+0OG1UUjlKMmJEg+G/XEf2PwBGCd3P6YJSdg==
-X-Gm-Gg: ASbGncsrqAqdWkDFnS2kKi7vzd5DQx09t0yIUrMayq3Aubx3IVqe+tj51Qpre7ZBMmz
-	ndxOmmhawqbDBS8Y4UA5NBnlXC15Hn8HvPtkEiQcWV6idJK/NpV5F+3MP7Yv0DMILaZkmcgQT5X
-	qvzK5yENzxJARxm2hNJx7hlqgiSu9MnoIo//4uCHm83Z1TVY60kq9Hr8ZnGIeTbYARA93hVnOFI
-	8JnsNaVgs35AZ8gA8cge/q42jOWI+lHNX9OeOdAKO/n3N+B6u7rq00By8Btg6+FjFSa2HMTQBYG
-	3Gnx5awEwJFyK09DHXa0H2D12DkUGXmricbj4IO1aC+mQFe9ilj6cDZVdvFEhzM9xNvPRsCfrKU
-	yoEk=
-X-Received: by 2002:a05:620a:2453:b0:7c5:49b7:237a with SMTP id af79cd13be357-7c5ed9f545cmr411693385a.19.1743077600834;
-        Thu, 27 Mar 2025 05:13:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG2G1otVcxZQgzWqoHR02ogEilR46Q9aHG0UlLtUkpR09V1VQnKzivVt0fvho1i2HW6arEnMA==
-X-Received: by 2002:a05:620a:2453:b0:7c5:49b7:237a with SMTP id af79cd13be357-7c5ed9f545cmr411690085a.19.1743077600384;
-        Thu, 27 Mar 2025 05:13:20 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad6480ed6sm2060839e87.103.2025.03.27.05.13.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 05:13:19 -0700 (PDT)
-Date: Thu, 27 Mar 2025 14:13:17 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: srinivas.kandagatla@linaro.org
-Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
-        krzk+dt@kernel.org, ivprusov@salutedevices.com,
-        luca.ceresoli@bootlin.com, zhoubinbin@loongson.cn,
-        paulha@opensource.cirrus.com, lgirdwood@gmail.com, robh@kernel.org,
-        conor+dt@kernel.org, konradybcio@kernel.org, perex@perex.cz,
-        tiwai@suse.com, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, johan+linaro@kernel.org,
-        Christopher Obbard <christopher.obbard@linaro.org>
-Subject: Re: [PATCH v6 5/6] ASoC: codecs: wcd938x: add mux control support
- for hp audio mux
-Message-ID: <f7tgzuapeb7pwg6ygp4kpxoziuwb5jjcix5o33aoehd3dixcog@4nzt3tgcfca2>
-References: <20250327100633.11530-1-srinivas.kandagatla@linaro.org>
- <20250327100633.11530-6-srinivas.kandagatla@linaro.org>
+        bh=rTUk5WsXR6uaQmtmVpjNHsbtIr+WlFlJncQhJeTUUpU=;
+        b=NGP58XlITYgewmnUz3C5CEsnJ90a7XtwoWFh2GZRC4H3o+r8nni8xsVysctoNM0pDx
+         eKLdB7bYq09MnHMo+018Ng6T6Bd+sYQMLEsYCNkGqxcwqWXLG32UscFqrWZnOocQMM1r
+         zIbBGUoWg/axjCUrNJqRKR86xNI/Er/23e1YAp5XgaPBlbtjpaFPorQdreacKWPf4wi9
+         4cfv+wBWSjPDXz9noy5kN/v6ujGHrxGqxvHAY9SNTkHwrtGeu4zLIRbEia+3sFN/Bwd5
+         Ar29oFRc/nqfYVT7ljk8skQU2EA2ovUAXXnZioCL50q85XYALdu7pXFpusK+B8Ywj87S
+         jRTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743079309; x=1743684109;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rTUk5WsXR6uaQmtmVpjNHsbtIr+WlFlJncQhJeTUUpU=;
+        b=bzra5meDj+eFvYslpGcwjA/7a1lUtAISWUjW3WQcLFwnpGY2Xs7C91FjNrPLcbsaKd
+         cunpo2pMIf0legVYvR7O8qDRk/dBQwuwddlvOOLQmefPPwoyDX+i8x5eU+veovd70FkK
+         MYRNKm0aj/lXRS7AG9nX9cZ+vnS2jrj5LMUAw0EFuuES2aZWQ9ovcx8zAMKoljv617vz
+         orGoVg4XM4uVxtIRtig6AURwk0XrC8G5aFoatGyYis8ZQyQRbR8t3Kno0aRA+0u9g4vn
+         LTWhoCU/1doTPC2fZil3+QQg28Jr3A7h8JNjyp8EAkFB3O/IvcfXmnIt/X4LF3XJ4elP
+         NvJw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2o32YXWbgSYeSft076zEOYCpg8ErXfZfyKkXXKzVN0ielpkqgtpG4TK8gHWF33lQjb7vITd2py6gv9g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAZffIgQBuYEy0ZP5xEfsQKeHIfUaHP8LvZOX0200g1TPVpySR
+	6CAykxOJdfynJRmM63/i9neTAjt0HxlBDFfPh6iLPVWiGoupKL5+c5KLbx24boM=
+X-Gm-Gg: ASbGncuuc8B2ZZW2E44u2/dMgmT7XFxaExlbxCn/z6Z/ycyijd+a0EKh2iJwp+2pJsA
+	maOVtl7s0zQbCrB4r905FkhsNCRy2j+4jh0enQV3t2xnWpI+OBu8ZMJDnITIUFsp+M+aPcdS4qG
+	TsOZFsUMyf1xKXA6qyiTDnFufbwvMXgymXVp6s44y2fZR+wtBNHj013zXDIwIs9ullfR8fpK74W
+	D0gtGdvDTDH5Vk+RUBZZr5xx9+poAQnT9j/NAUMAhxut4ztdklirVJoF8PWB5uuxAeBNzIIsgo6
+	AeglYuzMRZ86oEnrtgnSu0+ZVl22+BMb69lSphpRQ7NqJWaBHg==
+X-Google-Smtp-Source: AGHT+IGWrkmnwwYBa5Bvx8VGNmhRtptYZl223u01AmKMJ5pNwx5tLvmrcvvV5SU1hmSMut9pH5TgMA==
+X-Received: by 2002:a05:600c:4f94:b0:43c:eea9:f45d with SMTP id 5b1f17b1804b1-43d850fd6aemr35034475e9.18.1743079309513;
+        Thu, 27 Mar 2025 05:41:49 -0700 (PDT)
+Received: from localhost ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d82dedea3sm39373785e9.3.2025.03.27.05.41.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Mar 2025 05:41:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250327100633.11530-6-srinivas.kandagatla@linaro.org>
-X-Proofpoint-ORIG-GUID: L3pSo20bBYUo_VTMlP6UxVScyxl0LXmf
-X-Proofpoint-GUID: L3pSo20bBYUo_VTMlP6UxVScyxl0LXmf
-X-Authority-Analysis: v=2.4 cv=IMMCChvG c=1 sm=1 tr=0 ts=67e540e2 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=HLzW6X_U63wjtiIj7HQA:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-27_01,2025-03-26_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 malwarescore=0 mlxscore=0 clxscore=1015 phishscore=0
- priorityscore=1501 mlxlogscore=693 adultscore=0 lowpriorityscore=0
- bulkscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503270084
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 27 Mar 2025 12:41:48 +0000
+Message-Id: <D8R21NO1IN43.1E4FD7KG9Z4KI@linaro.org>
+Cc: <srinivas.kandagatla@linaro.org>, <lgirdwood@gmail.com>,
+ <krzysztof.kozlowski@linaro.org>, <perex@perex.cz>, <tiwai@suse.com>,
+ <jdelvare@suse.com>, <linux@roeck-us.net>, <linux-sound@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-hwmon@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: codecs: wsa883x: Implement temperature reading
+ and hwmon
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Mark Brown" <broonie@kernel.org>
+X-Mailer: aerc 0.20.0
+References: <20250107114506.554589-1-alexey.klimov@linaro.org>
+ <3e08b501-f8d0-4e68-874e-b578e7c82c47@sirena.org.uk>
+In-Reply-To: <3e08b501-f8d0-4e68-874e-b578e7c82c47@sirena.org.uk>
 
-On Thu, Mar 27, 2025 at 10:06:32AM +0000, srinivas.kandagatla@linaro.org wrote:
-> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> 
-> On some platforms to minimise pop and click during switching between
-> CTIA and OMTP headset an additional HiFi mux is used. Most common
-> case is that this switch is switched on by default, but on some
-> platforms this needs a regulator enable.
-> 
-> move to using mux control to enable both regulator and handle gpios,
-> deprecate the usage of gpio.
-> 
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
-> ---
->  sound/soc/codecs/Kconfig   |  1 +
->  sound/soc/codecs/wcd938x.c | 55 ++++++++++++++++++++++++++++++--------
->  2 files changed, 45 insertions(+), 11 deletions(-)
-> 
+Hi Mark,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+On Sun Mar 16, 2025 at 11:33 PM GMT, Mark Brown wrote:
+> On Tue, Jan 07, 2025 at 11:45:06AM +0000, Alexey Klimov wrote:
+>> Read temperature of the amplifier and expose it via hwmon interface, whi=
+ch
+>> will be later used during calibration of speaker protection algorithms.
+>> The method is the same as for wsa884x and therefore this is based on
+>> Krzysztof Kozlowski's approach implemented in commit 6b99dc62d940 ("ASoC=
+:
+>> codecs: wsa884x: Implement temperature reading and hwmon").
+>
+> This doesn't apply against current code, please check and resend.
 
--- 
-With best wishes
-Dmitry
+Just for reference and for future, what should be the base for patches?
+linux-next or specific repo/branch in audio asoc?
+
+Thanks,
+Alexey
