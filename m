@@ -1,198 +1,192 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355A019F115
-	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 15:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DB21E868
+	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 15:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743090806; cv=none; b=Tvj3kIEmKyG8vPWvhB/LS9/7h25WIcpnp4AD88ZB+L4meJ1CHCF5g17wz2mZqwzBYWSt6ZFtUPwUH8qAQekSArpuKe1kTmMyl/6IDMY72Axf4Gmr/k59rKjh+fleKyPfwclM/zY6DA3K/LpMvWVkBXLDPseXEXvEplpI82+C8sA=
+	t=1743091095; cv=none; b=V6zGhPU684Kp9GxqqC07+ROhxlE5+7lwoqm7NxS3PWXadK4m0wclrBHAa5pq0cHcGXawFJnILzkza8kvFXcQBuM9QjaaVPNbZZMQEnxseaEVjo/hI6HQ9r0+XcRGJJsr9wJOaIrmT2qNKmmzzHnqkhnXOeGzFtXzmywaz6hCbpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743090806; c=relaxed/simple;
-	bh=aZI0D9GByNS5niy1zG4DskkgaZ8o9N1YGuTSEvk42eE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rFRHlD1oC+DO1uTxMfRNYUA1JZZUYAJcRH04IO6HwZgL6BIhbT1p44tBjrg5KwTUA1L3CS0huGwc+FooWI05Do258JRfaiWnRkQ9pPx64bfdd1e8FSpj6c3CE+RIvV5o2+Uqfznj+WpvJFGliX9unkzRrOV+jLWKRGtc2lkh3fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zS8Gooq0; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743091095; c=relaxed/simple;
+	bh=ctDG+Ubym0P/UGoEunElt5X0BirM4fMA0ADWOyJOvNY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RipTsvQJOD1KRABaSWpL5egNv405nLQDdSFTVoiHxFpyBM5Pzr/s4EUGDLHAAEluevNB9s9tamzJLbs3MvcDo7qz1W7oLYLalJZQRZpF39mlz0pn7JRnGRN0l8yWfmsi3O067R5BcpOWGsfmrW/qMG47PSSKwTRkbLxdcX1E0l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U/vibkv5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1iBVea+3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U/vibkv5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1iBVea+3; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zS8Gooq0"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cf628cb14so16068775e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 08:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743090801; x=1743695601; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tPWPL7yKTAtHpN1GHn1lwbAF2Bxssj4X5B+0T4l0yZA=;
-        b=zS8Gooq08D4tUgk+wHsCFwNDiCiLYi6fvV33yAcYX5MLip6vsYcqiXWXHu5USx7Tyv
-         xT2o08RNyfDKI8Wc3INXuaHBx113BNTJ1jnY+beZFianwEXdH/Byxv8h/3x0mf/ABZjw
-         H2EXTikR3PwkvheNahDYIanMq4ZggPx2wASppHVm98jGO1S5SgcV4DupkcSFNqsf2Fvt
-         h/5jiBbPrcX7sdvCWOjT0R9mq0s3QsEbunibAiZwNRvazAZm1MF3mjjsRZZp9MpnpBkk
-         ZMzc0bWPFMIp1BGaFIdymvc3LEFMzwRcj3LlMbZvjw4msm78JfaQxNIosHD9sE1vAvZP
-         BbAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743090801; x=1743695601;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tPWPL7yKTAtHpN1GHn1lwbAF2Bxssj4X5B+0T4l0yZA=;
-        b=hXIAUwLe+cV1AvZ5V3xGH/IKmNg6gZy6/syvwQJJhT49sjN8AGXrg0/WiUoIDjVVLs
-         qMbnEhGLNgY+BAhN6HeGyriylklMmGYWr3OnVX3KZEPBjh2AxVo3zIeo+JwIYL+AGcbi
-         bcKSe9R75nidqehujHLBnSKj3wW/kWHVPU1wpe3VmtTPDCKA4gRkXU+pum5jnixiJ+32
-         QaP0/rnaWqFHX+DYniGpE9g3v4Lb86dKs4PH8/Vro+BPct/XpruslL0dUb5rz/ZF6yn2
-         URu4fDMaRlBTDsheR9iXVaUIisBq8xYqzgdDCqEaAl84HiorigXdSbtNm4/JD9Rjj3GX
-         U3OQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUgE6Slk8qWqEGDB6xATjaNSt2t5QBXiRGFfS8VKbCU/qHixXxo2LHO7UB5njJczzx0x/5gzlEKC0kzmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwltIYGS9vf2ZwW139el+cUVbvV0Rd3RQbhMltcWPp7TMJ65Y1g
-	dMwtmOVqgCmblLRT5fJ4GwoJVeSZRyFBb6D9Dal9TBy0Ekz4cpwrB4hjuPVHkFCkr4FEhkdLXmi
-	zdcg=
-X-Gm-Gg: ASbGncu9Tw+pvbjQXfn4OV+KLw/wqEk2FwRb67oWSGNQoCw79TyMYgRx6tbgUna27G3
-	jChVchtpa4eaQG2CgAW1Ba3QhGUSGwyF+gVnaJYFkXe+sSm+KavR7kDTTLR58qMdm5WnqDCPTIG
-	cUUJ3vquEfxKbSmjljaTifDpRtT+Kuchm/FhWLQinGDWJKujVNVs38zRgI+PTwC/AeJF7MarWTO
-	Qr/f9nyxJpPZc9uBtLBT+B7TURRUtiRSQHf4d7NDACVFjup8ObmXMDT62omv5oE1m6wOYxVFeRM
-	44+wowoH87b4kI2NZ99i5kGYGBX9e0u+pDgBYsgmJ7vf8agcXBTFHG8p/dEmjXCJ7fAD90vBUw=
-	=
-X-Google-Smtp-Source: AGHT+IF0rsorn2DDVURJzAnXZcks95g4PPd1N+aY2Afsm9tUg7aUDyfar1m2VXFCygEcTyP952h82g==
-X-Received: by 2002:a05:600c:1e16:b0:43c:f680:5c2e with SMTP id 5b1f17b1804b1-43d8e6c0616mr7183295e9.13.1743090801523;
-        Thu, 27 Mar 2025 08:53:21 -0700 (PDT)
-Received: from [192.168.68.117] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-39acf3a9105sm5001550f8f.101.2025.03.27.08.53.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Mar 2025 08:53:19 -0700 (PDT)
-Message-ID: <e7c3ea4a-1103-46ff-aa9a-bc0da3bdf1b2@linaro.org>
-Date: Thu, 27 Mar 2025 15:53:18 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U/vibkv5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1iBVea+3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U/vibkv5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1iBVea+3"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 447531F388;
+	Thu, 27 Mar 2025 15:58:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743091086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3VVMCsrJuyX7T+WIl0cZG3xqfr826GMPSB+aEfZrnJY=;
+	b=U/vibkv56T4E9mgmCLpyq8MI3ctThlmNT4NUwXN73R/RY7MUbu8fNL9jcS2wvlSga+eCnw
+	ye/gHhkND2hcLcuS5NB8nR2Npvabs5Z/f4KsUcYnbozvSgZ8SDAmtBiA8qfKm3uD/jj97s
+	BziqP/gN10LPDXmqc7lTWb88K7VZ0LQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743091086;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3VVMCsrJuyX7T+WIl0cZG3xqfr826GMPSB+aEfZrnJY=;
+	b=1iBVea+3kgMnRjsAA6QFU++Mk4eOh9of0eK3s+qvOX3NlLsWirJhnzoIATejv8aoesaV3M
+	/aeyz9vmhdWBPOCA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743091086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3VVMCsrJuyX7T+WIl0cZG3xqfr826GMPSB+aEfZrnJY=;
+	b=U/vibkv56T4E9mgmCLpyq8MI3ctThlmNT4NUwXN73R/RY7MUbu8fNL9jcS2wvlSga+eCnw
+	ye/gHhkND2hcLcuS5NB8nR2Npvabs5Z/f4KsUcYnbozvSgZ8SDAmtBiA8qfKm3uD/jj97s
+	BziqP/gN10LPDXmqc7lTWb88K7VZ0LQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743091086;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3VVMCsrJuyX7T+WIl0cZG3xqfr826GMPSB+aEfZrnJY=;
+	b=1iBVea+3kgMnRjsAA6QFU++Mk4eOh9of0eK3s+qvOX3NlLsWirJhnzoIATejv8aoesaV3M
+	/aeyz9vmhdWBPOCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18CE0139D4;
+	Thu, 27 Mar 2025 15:58:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kRnTBI515WeqfgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 27 Mar 2025 15:58:06 +0000
+Date: Thu, 27 Mar 2025 16:58:05 +0100
+Message-ID: <878qoqfotu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Benjamin Berg <benjamin@sipsolutions.net>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi
+ Iwai	 <tiwai@suse.com>
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable speakers on further Samsung Galaxy Book2 Pro
+In-Reply-To: <a2de7b802e7b544a741ecf56af5c1a546509246e.camel@sipsolutions.net>
+References: <20250326201953.131948-1-benjamin@sipsolutions.net>
+	<87jz8a9731.wl-tiwai@suse.de>
+	<3766ead24f99ba9ac7490a2066d99f0ba968df27.camel@sipsolutions.net>
+	<87a5969446.wl-tiwai@suse.de>
+	<a2de7b802e7b544a741ecf56af5c1a546509246e.camel@sipsolutions.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qdsp6: q6asm-dai: fix q6asm_dai_compr_set_params
- error path
-To: Alexey Klimov <alexey.klimov@linaro.org>, broonie@kernel.org,
- linux-sound@vger.kernel.org
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
- krzysztof.kozlowski@linaro.org, pierre-louis.bossart@linux.dev,
- vkoul@kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- dmitry.baryshkov@oss.qualcomm.com
-References: <20250327154650.337404-1-alexey.klimov@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20250327154650.337404-1-alexey.klimov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+
+On Thu, 27 Mar 2025 11:26:20 +0100,
+Benjamin Berg wrote:
+> 
+> On Thu, 2025-03-27 at 11:09 +0100, Takashi Iwai wrote:
+> > On Thu, 27 Mar 2025 10:55:04 +0100,
+> > Benjamin Berg wrote:
+> > > 
+> > > On Thu, 2025-03-27 at 10:05 +0100, Takashi Iwai wrote:
+> > > > On Wed, 26 Mar 2025 21:19:53 +0100,
+> > > > Benjamin Berg wrote:
+> > > > > Note that I didn't really manage to test this directly. Trying to
+> > > > > do a
+> > > > > reconfigure resulted in a hang and I didn't figure out how to use
+> > > > > the
+> > > > > patch= option with a firmware file.
+> > > > > However, the machine does work fine when configuring the two
+> > > > > speakers
+> > > > > from userspace, so I am confident that this patch is correct.
+> > > > 
+> > > > FYI, the equivalent can be achieved with model option, too.
+> > > > e.g. passing model=144d:c870 will apply the same existing quirk as
+> > > > SSID 144d:c870.  If your target is the secondary codec, pass like
+> > > > "model=,144d:c870" instead.
+> > > 
+> > > Hmm, it is probably really straight forward, but I didn't grasp the
+> > > documentation in Documentation/sound/hd-audio/notes.rst on a quick
+> > > read.
+> > 
+> > It's mentioned in "Model Option" subsection of that document.
+> > ```
+> > A new style for the model option that was introduced since 5.15 kernel
+> > is to pass the PCI or codec SSID in the form of ``model=XXXX:YYYY``
+> > where XXXX and YYYY are the sub-vendor and sub-device IDs in hex
+> > numbers, respectively.  This is a kind of aliasing to another device;
+> > when this form is given, the driver will refer to that SSID as a
+> > reference to the quirk table.  It'd be useful especially when the
+> > target quirk isn't listed in the model table.  For example, passing
+> > model=103c:8862 will apply the quirk for HP ProBook 445 G8 (which
+> > isn't found in the model table as of writing) as long as the device is
+> > handled equivalently by the same driver.
+> > ```
+> > 
+> > > I am not sure anymore what I did (and I don't have access to the
+> > > machine anymore). It might be I tried putting the model= line into a
+> > > firmware file instead of just passing it on the kernel command line.
+> > 
+> > > How do I even know whether it is the first or second codec? Is that
+> > > what the D0 in hwC0D0 is?
+> > 
+> > I meant the device probe order, so card#0 device#0 must be the very
+> > first one :)
+> 
+> Right, that make sense, but wasn't obvious to me then.
+> 
+> Unfortunately, it seems that I messed something up and I cannot fully
+> put it back together now.
+> 
+> I have one photo of the sysfs entries, and the subsystem_id is
+> 0x144dc1ac there. So now I am not entirely certain that this is the
+> correct ID, because I might have successfully overridden it to an
+> incorrect value.
+> Lkely, it is correct, but I do not know where I got the 0xc01d from.
+
+144d:c01d can be PCI SSID while 144d:c1ac is the codec SSID.
+Both are matched by the driver (PCI SSID is matched primarily).
+In many cases the vendor sets different ID numbers.
 
 
-
-On 27/03/2025 15:46, Alexey Klimov wrote:
-> In case of attempts to compress playback something, for instance,
-> when audio routing is not set up correctly, the audio DSP is left in
-> inconsistent state because we are not doing the correct things in
-> the error path of q6asm_dai_compr_set_params().
-> 
-> So, when routing is not set up and compress playback is attempted
-> the following errors are present (simplified log):
-> 
-> q6routing routing: Routing not setup for MultiMedia-1 Session
-> q6asm-dai dais: Stream reg failed ret:-22
-> q6asm-dai dais: ASoC error (-22): at snd_soc_component_compr_set_params()
-> on 17300000.remoteproc:glink-edge:apr:service@7:dais
-> 
-> After setting the correct routing the compress playback will always fail:
-> 
-> q6asm-dai dais: cmd = 0x10db3 returned error = 0x9
-> q6asm-dai dais: DSP returned error[9]
-> q6asm-dai dais: q6asm_open_write failed
-> q6asm-dai dais: ASoC error (-22): at snd_soc_component_compr_set_params()
-> on 17300000.remoteproc:glink-edge:apr:service@7:dais
-> 
-> 0x9 here means "Operation is already processed". The CMD_OPEN here was
-> sent the second time hence DSP responds that it was already done.
-> 
-> Turns out the CMD_CLOSE should be sent after the q6asm_open_write()
-> succeeded but something failed after that, for instance, routing
-> setup.
-> 
-> Fix this by slightly reworking the error path in
-> q6asm_dai_compr_set_params().
-> 
-> Tested on QRB5165 RB5 and SDM845 RB3 boards.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 5b39363e54cc ("ASoC: q6asm-dai: prepare set params to accept profile change")
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
-
-thanks for the patch,
-
-This is now pretty much inline with what we have in non-compressed patch.
-
-LGTM.
-
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
---srini
->   sound/soc/qcom/qdsp6/q6asm-dai.c | 19 +++++++++++++------
->   1 file changed, 13 insertions(+), 6 deletions(-)
-> 
-> diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
-> index 045100c94352..a400c9a31fea 100644
-> --- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-> @@ -892,9 +892,7 @@ static int q6asm_dai_compr_set_params(struct snd_soc_component *component,
->   
->   		if (ret < 0) {
->   			dev_err(dev, "q6asm_open_write failed\n");
-> -			q6asm_audio_client_free(prtd->audio_client);
-> -			prtd->audio_client = NULL;
-> -			return ret;
-> +			goto open_err;
->   		}
->   	}
->   
-> @@ -903,7 +901,7 @@ static int q6asm_dai_compr_set_params(struct snd_soc_component *component,
->   			      prtd->session_id, dir);
->   	if (ret) {
->   		dev_err(dev, "Stream reg failed ret:%d\n", ret);
-> -		return ret;
-> +		goto q6_err;
->   	}
->   
->   	ret = __q6asm_dai_compr_set_codec_params(component, stream,
-> @@ -911,7 +909,7 @@ static int q6asm_dai_compr_set_params(struct snd_soc_component *component,
->   						 prtd->stream_id);
->   	if (ret) {
->   		dev_err(dev, "codec param setup failed ret:%d\n", ret);
-> -		return ret;
-> +		goto q6_err;
->   	}
->   
->   	ret = q6asm_map_memory_regions(dir, prtd->audio_client, prtd->phys,
-> @@ -920,12 +918,21 @@ static int q6asm_dai_compr_set_params(struct snd_soc_component *component,
->   
->   	if (ret < 0) {
->   		dev_err(dev, "Buffer Mapping failed ret:%d\n", ret);
-> -		return -ENOMEM;
-> +		ret = -ENOMEM;
-> +		goto q6_err;
->   	}
->   
->   	prtd->state = Q6ASM_STREAM_RUNNING;
->   
->   	return 0;
-> +
-> +q6_err:
-> +	q6asm_cmd(prtd->audio_client, prtd->stream_id, CMD_CLOSE);
-> +
-> +open_err:
-> +	q6asm_audio_client_free(prtd->audio_client);
-> +	prtd->audio_client = NULL;
-> +	return ret;
->   }
->   
->   static int q6asm_dai_compr_set_metadata(struct snd_soc_component *component,
+Takashi
