@@ -1,160 +1,102 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F1C20E6F1
-	for <linux-sound@vger.kernel.org>; Thu, 27 Mar 2025 10:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0153B12CDA5;
+	Thu, 27 Mar 2025 10:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743071186; cv=none; b=cfglfirPS42QSOq8XDdfnwV754qgBuTFsiERyDa4ydu0REuXi/GjSC5/f8Ve/wo/6FA9HSUj/K2vToqmVDrtYS+9zKcfYnn0ENANsrxcgwlsdF+IwThmju5fvOgGJ+NVtuY3BU3lX/luvAl+HVyv0ldMvlRf2yzWEZAclz0phkg=
+	t=1743072495; cv=none; b=TVTfKvwT0hZf4x8OmyMorLe8g72vy8sShVPFOFh4yGgoMvfQSNANhuTwfSRIS3lrKea/ynz6QE+sNnq7RfmKfNW0k4tvSvaQ0OFAy3jIeZ3x5xghY/SzCUmcFs07Ld11gdl0TIypmyPnolI7IcQCOuJt5ag7wdW3nfC8qFLmJ00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743071186; c=relaxed/simple;
-	bh=XVGLZ7dtL4WhblO9Y6F0OBp/vYu4mZBB3wtPDSc/qAw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GriBpBjXT7Wjx+maC5enKBFrQGuLPCPYV9jM3Q1xFfszXV4PzGOUznf9l6l4SWpDm+FfAmW1nHqjydl4cvBbxLQ083NNe079AZG9z9Q+WlIIwuTpPprEIc80KBhi5QhGz2gaDejFqmKEwDc3CNoMC47S0e25jOU2TvE0s7URXUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=a9f2D42H; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
+	s=arc-20240116; t=1743072495; c=relaxed/simple;
+	bh=cc+rihPL886jm67zgwnhpdSaWFW4sArwqBrkbQ93OEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N84Dmo7jI3DahFFqJnM715m5/IyBghvU3F4kJ9AMtkSTHAnOzZYzGUc4hrJ5DkHpGk9YRtwmvMuHQ0EqSBbGwcXpPyMRYouWwa0ZWTQZBL6/MgKwwaEVeWBI4tYLpojH++wt9EqD6EOkkV1LoVUEZ/krzdcaGIhrwsnNfWE3Isg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jIpW6AQ8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="a9f2D42H"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=ZnCjTY6pAHumeXSx1p/MdhJSq33ozrP2FCLQ3pwFDmU=;
-	t=1743071184; x=1744280784; b=a9f2D42HrQcHMX7Nh3J9ztZLL1zOOrJe92gbO2eBH2DoFGC
-	RWnDB79glTd0Rn7OZFhyBTUJ6UmMrbUTOXa42QY71NYKrfYuLNFMDrApOoGvouz9E//Vwin2QDhgA
-	I4ZehxXJPDbVfPYYeyMMtnhU9fNlNS7QmzAdKMLcOGoaxczH+f0NIv60t36uorzJBD5IQDqQAWTLg
-	YpzB70d+GVHZqPw0ADHOZ/yKxeF2+UILQ1Y13iTqsee2WAoH5sLp4L7dnHZ1P70yCIgY/yNgmIWrR
-	B7fUJ6O40iamFonI5jKjsTjYJbr7iIH4SZI43jDACsiq5Y/kQbgUYrzjeWVIKohA==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98)
-	(envelope-from <benjamin@sipsolutions.net>)
-	id 1txkRJ-000000078iz-0AGe;
-	Thu, 27 Mar 2025 11:26:21 +0100
-Message-ID: <a2de7b802e7b544a741ecf56af5c1a546509246e.camel@sipsolutions.net>
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable speakers on further Samsung
- Galaxy Book2 Pro
-From: Benjamin Berg <benjamin@sipsolutions.net>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai	 <tiwai@suse.com>
-Date: Thu, 27 Mar 2025 11:26:20 +0100
-In-Reply-To: <87a5969446.wl-tiwai@suse.de>
-References: <20250326201953.131948-1-benjamin@sipsolutions.net>
-		<87jz8a9731.wl-tiwai@suse.de>
-		<3766ead24f99ba9ac7490a2066d99f0ba968df27.camel@sipsolutions.net>
-	 <87a5969446.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jIpW6AQ8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB5FCC4CEE8;
+	Thu, 27 Mar 2025 10:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1743072494;
+	bh=cc+rihPL886jm67zgwnhpdSaWFW4sArwqBrkbQ93OEU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jIpW6AQ8T5RYpWHEGnZ9YQNZSgS2s8IYLWSN7kYrB/izjUOcJHkgtE4n9udupx3ea
+	 dIcro9GGdFLCLwNlHc+mCFMNOslXRLd698jpM7b2u0frFPFiBHFEP89bxH4CEBiPeN
+	 j+GGTkWrFDc5xledDW6VSIOqcxtP8dSDxEU8bQZY=
+Date: Thu, 27 Mar 2025 11:48:11 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Puma Hsu <pumahsu@google.com>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+	lgirdwood@gmail.com, krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+	tiwai@suse.com, robh@kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v36 01/31] xhci: sideband: add initial api to register a
+ secondary interrupter entity
+Message-ID: <2025032756-aliens-ibuprofen-79e5@gregkh>
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
+ <20250319005141.312805-2-quic_wcheng@quicinc.com>
+ <CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
+ <2025032734-reward-fantasize-dc16@gregkh>
+ <CAGCq0LamxvvE8b45VAshw9aWJNC2so_vK9t+pzXd3C7Y7tfYAg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGCq0LamxvvE8b45VAshw9aWJNC2so_vK9t+pzXd3C7Y7tfYAg@mail.gmail.com>
 
-On Thu, 2025-03-27 at 11:09 +0100, Takashi Iwai wrote:
-> On Thu, 27 Mar 2025 10:55:04 +0100,
-> Benjamin Berg wrote:
-> >=20
-> > On Thu, 2025-03-27 at 10:05 +0100, Takashi Iwai wrote:
-> > > On Wed, 26 Mar 2025 21:19:53 +0100,
-> > > Benjamin Berg wrote:
-> > > > Note that I didn't really manage to test this directly. Trying to
-> > > > do a
-> > > > reconfigure resulted in a hang and I didn't figure out how to use
-> > > > the
-> > > > patch=3D option with a firmware file.
-> > > > However, the machine does work fine when configuring the two
-> > > > speakers
-> > > > from userspace, so I am confident that this patch is correct.
-> > >=20
-> > > FYI, the equivalent can be achieved with model option, too.
-> > > e.g. passing model=3D144d:c870 will apply the same existing quirk as
-> > > SSID 144d:c870.=C2=A0 If your target is the secondary codec, pass lik=
-e
-> > > "model=3D,144d:c870" instead.
-> >=20
-> > Hmm, it is probably really straight forward, but I didn't grasp the
-> > documentation in Documentation/sound/hd-audio/notes.rst on a quick
-> > read.
->=20
-> It's mentioned in "Model Option" subsection of that document.
-> ```
-> A new style for the model option that was introduced since 5.15 kernel
-> is to pass the PCI or codec SSID in the form of ``model=3DXXXX:YYYY``
-> where XXXX and YYYY are the sub-vendor and sub-device IDs in hex
-> numbers, respectively.=C2=A0 This is a kind of aliasing to another device=
-;
-> when this form is given, the driver will refer to that SSID as a
-> reference to the quirk table.=C2=A0 It'd be useful especially when the
-> target quirk isn't listed in the model table.=C2=A0 For example, passing
-> model=3D103c:8862 will apply the quirk for HP ProBook 445 G8 (which
-> isn't found in the model table as of writing) as long as the device is
-> handled equivalently by the same driver.
-> ```
->=20
-> > I am not sure anymore what I did (and I don't have access to the
-> > machine anymore). It might be I tried putting the model=3D line into a
-> > firmware file instead of just passing it on the kernel command line.
->=20
-> > How do I even know whether it is the first or second codec? Is that
-> > what the D0 in hwC0D0 is?
->=20
-> I meant the device probe order, so card#0 device#0 must be the very
-> first one :)
+On Thu, Mar 27, 2025 at 06:14:00PM +0800, Puma Hsu wrote:
+> On Thu, Mar 27, 2025 at 3:02 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Mar 27, 2025 at 02:27:00PM +0800, Puma Hsu wrote:
+> > > Hi,
+> > >
+> > > We have implemented and verified the USB audio offloading feature with
+> > > the xhci sideband driver on our Google Pixel products. We would
+> > > appreciate it if this solution can be accepted. Thank you all for the
+> > > work!
+> > >
+> >
+> > Great, can you properly send a "Tested-by:" line for this against the
+> > 00/XX email so that it will be properly saved?
+> >
+> 
+> We(Google Pixel) only use the xhci sideband related changes and two
+> changes in the sound card driver. For the details, what we actually
+> tested are patch [01], [02], [03], [04], [05], [06], [08], and [12].
+> Do I still send the "Tested-by:" line to 00/31 email? Or should I just
+> send the "Tested-by:" line to the 8 changes above? (I added
+> "Tested-by" line for this [01/31] first.)
 
-Right, that make sense, but wasn't obvious to me then.
+Send it to the commits that you used if you only used portions.
 
-Unfortunately, it seems that I messed something up and I cannot fully
-put it back together now.
+But that feels odd, why are you only using portions here?  Why not the
+whole thing?  Are you going to have to revert portions of this series in
+order for your device to work properly?
 
-I have one photo of the sysfs entries, and the subsystem_id is
-0x144dc1ac there. So now I am not entirely certain that this is the
-correct ID, because I might have successfully overridden it to an
-incorrect value.
-Lkely, it is correct, but I do not know where I got the 0xc01d from.
+> > Also, I think a new version of the series is coming, can you test that
+> > to verify it works properly?  We have to wait until after -rc1 is out
+> > anyway.
+> >
+> 
+> I think this v36 is the last version of the series as I discussed with
+> QCOM Wesley. And for sure I will test it if they do have a new
+> version.
 
-Sorry,
-Benjamin
+See:
+	https://lore.kernel.org/r/ee95520b-cdcc-4e10-a70e-683993cafe36@quicinc.com
+for where the need for a new version is discussed.
 
-> > > > ---
-> > > > =C2=A0sound/pci/hda/patch_realtek.c | 1 +
-> > > > =C2=A01 file changed, 1 insertion(+)
-> > > >=20
-> > > > diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_re=
-altek.c
-> > > > index c735f630ecb5..e4ea5ea5bb27 100644
-> > > > --- a/sound/pci/hda/patch_realtek.c
-> > > > +++ b/sound/pci/hda/patch_realtek.c
-> > > > @@ -10758,6 +10758,7 @@ static const struct hda_quirk alc269_fixup_=
-tbl[] =3D {
-> > > > =C2=A0	SND_PCI_QUIRK(0x144d, 0xca06, "Samsung Galaxy Book3 360 (NP7=
-30QFG)", ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
-> > > > =C2=A0	SND_PCI_QUIRK(0x144d, 0xc868, "Samsung Galaxy Book2 Pro (NP9=
-30XED)", ALC298_FIXUP_SAMSUNG_AMP),
-> > > > =C2=A0	SND_PCI_QUIRK(0x144d, 0xc870, "Samsung Galaxy Book2 Pro (NP9=
-50XED)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
-> > > > +	SND_PCI_QUIRK(0x144d, 0xc01d, "Samsung Galaxy Book2 Pro (NP950QED=
-)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
-> > > > =C2=A0	SND_PCI_QUIRK(0x144d, 0xc872, "Samsung Galaxy Book2 Pro (NP9=
-50XEE)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
-> > > > =C2=A0	SND_PCI_QUIRK(0x144d, 0xc886, "Samsung Galaxy Book3 Pro (NP9=
-64XFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
-> > > > =C2=A0	SND_PCI_QUIRK(0x144d, 0xc1ca, "Samsung Galaxy Book3 Pro 360 =
-(NP960QFG)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
-> > >=20
-> > > The table is sorted in PCI SSID order.=C2=A0 Could you try to put at =
-the
-> > > right position?
-> >=20
-> > Sorry, will fix and resend.
->=20
-> Thanks!
->=20
->=20
-> Takashi
->=20
+thanks,
 
+greg k-h
