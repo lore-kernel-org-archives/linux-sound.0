@@ -1,164 +1,147 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8252AE7C
-	for <linux-sound@vger.kernel.org>; Sat, 29 Mar 2025 12:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310641FC8;
+	Sat, 29 Mar 2025 15:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743249982; cv=none; b=lOtvIRmaEsEOk1TW1CmwzBbzTfoFa3FEOm8N19WaJAWhKqXXX0fqEfcD1IWz8s3436E83a++zxiPqFpvCYecbSbFYbObhBL3bwWsej2fMGv4nTs7mh+2X1z06vQWx3NPOU3LBLNreGPgHd8H7zyht0lCawq2XXILAW1M5Ku+Wyk=
+	t=1743262918; cv=none; b=Y2FaPDZTkfvqBXa26Onhujn1M0n5lAT0BbJMwnPxVtLp13JgPYg3hWcppILi2pwDVBdozm7TKiUgZfRz0vhCJ9lkBXEX7zupQ6ypDlC3+Ep69e5ADKYZHXbgBCsFR6z5yzAqhwc1pXQLzXGrRlbXmSBrQtegNJEFON2MhZQKJRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743249982; c=relaxed/simple;
-	bh=0x8AujERAitT4iw+rpey9OJMS3R+SPsEHN9CfPxRSpo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=axp7dcCYaCp41oZbLKRh24DZmRrnBCT7oSdeeZupCjVm3rYSe7XuNgcG/rPTn3B3jzzH+zvMXQJ/OzkMDgeuzBSAArqcrV7QHnd1Ik/lGOydxzYMHRZTBHHorZR0WOIXqPTyrrmX95+ZMgAPRg+dkYE65Mr/aP7wvWg6YlVtIsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bI9z5a5A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HmRB2hZm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bI9z5a5A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HmRB2hZm; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1743262918; c=relaxed/simple;
+	bh=gPYJGBTsZ8hzQcxbbv67LaDnzDhW9kZgfemZ6do7AvA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VXBpJAwod4IlhdJPLlrhhD3s/PZKfHatmbfZW+7LVj+kWTFmiaY80+/N5yiKU8kZbahgs1zk3HLANKv98Jhukj1IRODNt8SmnvqzOnKwDdt8jSbSWJ/IAm6J5b8XLY1IJSI/+w4k1T3qc+mfkNGpiItcbpVKn+R+vLdfOkiEbRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y2E4RrpH; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bI9z5a5A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HmRB2hZm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bI9z5a5A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HmRB2hZm"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6C61C1F38E;
-	Sat, 29 Mar 2025 12:06:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743249978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VfgVxxUCnjZW9dqCqO28s5X+RY7K9TOo5QVGQoi2ixM=;
-	b=bI9z5a5AFDO50EGF6rTqatH+1MDeu/gm56F4FgZdRleF9sdXbuhhs7YJ6ggDrw672/8Oj0
-	RqJ41Tol0lFPSqiNYujj/pQNYNmje5dbnmchuYJGNhffny45Mif+W0l3gAU1V/3o2mfX+c
-	091/+/6w0knrwWvywLBPXkZVVbYPK6k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743249978;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VfgVxxUCnjZW9dqCqO28s5X+RY7K9TOo5QVGQoi2ixM=;
-	b=HmRB2hZmSJd/tgW3l+COT1yH1d8LZhYvfRDm4yu2mjiIkwrH5g9e6EbeKilMdEn1im5335
-	6dXdBp/RYmVUUeAA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bI9z5a5A;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HmRB2hZm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743249978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VfgVxxUCnjZW9dqCqO28s5X+RY7K9TOo5QVGQoi2ixM=;
-	b=bI9z5a5AFDO50EGF6rTqatH+1MDeu/gm56F4FgZdRleF9sdXbuhhs7YJ6ggDrw672/8Oj0
-	RqJ41Tol0lFPSqiNYujj/pQNYNmje5dbnmchuYJGNhffny45Mif+W0l3gAU1V/3o2mfX+c
-	091/+/6w0knrwWvywLBPXkZVVbYPK6k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743249978;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VfgVxxUCnjZW9dqCqO28s5X+RY7K9TOo5QVGQoi2ixM=;
-	b=HmRB2hZmSJd/tgW3l+COT1yH1d8LZhYvfRDm4yu2mjiIkwrH5g9e6EbeKilMdEn1im5335
-	6dXdBp/RYmVUUeAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 34B7113A4B;
-	Sat, 29 Mar 2025 12:06:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X3etCzri52ccOAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 29 Mar 2025 12:06:18 +0000
-Date: Sat, 29 Mar 2025 13:06:17 +0100
-Message-ID: <87zfh43uti.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Salvatore Bonaccorso <carnil@debian.org>
-Cc: "C.D. MacEachern" <craig.daniel.maceachern@gmail.com>,
-	1100928@bugs.debian.org,
-	Takashi Iwai <tiwai@suse.de>,
-	Kuan-Wei Chiu <visitorckw@gmail.com>,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y2E4RrpH"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-224341bbc1dso59343805ad.3;
+        Sat, 29 Mar 2025 08:41:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743262916; x=1743867716; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h+NXkcm5v0VhO4YaDPRL881X5YJZWS4L/7DXYPEaZKs=;
+        b=Y2E4RrpHWq4Xt1FytBwKenTJmjS0iVOIbPHR9nfpG0+LFzZHNKAmvR/bg1DKdc27UP
+         k4x0mSwgBfeYpkjeJ7xD+84/qlRHPQWmU5Tn03DAlRkl8J5LZTcAl5FxknvWuASreahU
+         pPV/ynnU5j0Yo5JAtrFykuSJKQKSgU5nNwOT4Xi9kzFsLiSUg0hopZ5dcmnGlGmK9cUP
+         bwnfcnbNNOFbrGLipAiGKadOwubHKPdfQcnr6mgvEQateYqLbk+UBmrMziPVLDkBDUBW
+         Hqlh/v1ZQ6eWrbQ5iuaW0z7EGe9nxRZ5TH5hPsQd8hDb5PggwUjV9v3YdLtv3lJ/M6AW
+         H5RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743262916; x=1743867716;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=h+NXkcm5v0VhO4YaDPRL881X5YJZWS4L/7DXYPEaZKs=;
+        b=qtODq0/ktNpj31eK6Jz2IdACOmWMa3yEux8lxJT2vGuHmEGIn230Yc17D/yIdF1nTk
+         M2wmidsHIcY4XsLpietFcA5rSFPqu5znj/9ZidVNgU7RycZhQfe3T4oGKMb+zeNt3MrB
+         Fw5djTh9ra6gJrnUWbGtJnCNkUOSa8xz8fF6OFOYnCLKkJ+wfmAv54+GJN+yDFw+R1ql
+         0rFaWgCmqVHISQxo+r2y4p7vOY5Dpc6dFLu5296zwimZgPyJTbcc6bqRw3RAsCiDaSnk
+         hQffHTRfrcx26wI+8rVry5cv3mLFqIbNjGvzA8ATAdNdXNMSb7Ux/M/Gy398BKKveDr1
+         QX5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUEOy+UrqpA0VfVm0ao/fOLrMpEqMDbqctWPJdfnTrxjd2Wv0XeRiPG2tpry/gSRAwB8xb2nopfQpdryGM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJzfQKtbx5Zmr8pwL1VMSSvfHYCeV8UkqB72TpaaNSad8YQ8iz
+	Wt8mppHZw5WP9mEZvLE4CjZHCOKJhc3F/vM037t1L1/0+q1/UyDmcxBLZ4TToCg=
+X-Gm-Gg: ASbGncsZ8AbdI2ZpZnff4IoRKLjkpMU2acCP+zaHuU5K4fHYPxil4c9Rlzd390o7+nB
+	6CtBzhwi49BFvgXUqSg/Vsaj+h7lH2phDY43cg0BFFgGP0+cot3HCep0VhGP9hzEVpWG+zdZHxD
+	hUMx/QkCBANFSNu8hViSPNOmEPW+mIleypUhIdpwpRKG8P5BqFe4mWwLuEUugfK6ujFpnZV6gCE
+	f+L3qpSMAw+OURnIZD9aLqq+J0CtRarv9S0ECK13O59ZkSm76Ba+pB99k3m5OlQpzGL4vFnng7Y
+	9yWYb30fn+NtEK+mJy3IVx3Hx2LDMt+oid7KxT2y6DppYRGMCf8969CayNXFe34=
+X-Google-Smtp-Source: AGHT+IHOk2IaBH5lvGuem+FzrpOh6fjer1lV7g88tDP/AMHHhnF9LRgFezHviuwkwRu3H6iO7WDkbQ==
+X-Received: by 2002:a05:6a00:a27:b0:736:476b:fcd3 with SMTP id d2e1a72fcca58-7398047c382mr5348789b3a.24.1743262916227;
+        Sat, 29 Mar 2025 08:41:56 -0700 (PDT)
+Received: from localhost ([2401:4900:1cc8:2ed6:ee25:625f:27e2:17d9])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-739710b8001sm3707717b3a.156.2025.03.29.08.41.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Mar 2025 08:41:55 -0700 (PDT)
+From: Sharan Kumar M <sharweshraajan@gmail.com>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: Bug#1100928: [regression 6.1.y] microphone no longer records (on VivoBook_ASUSLaptop TP401MARB_J401MA)
-In-Reply-To: <Z-ct2D6uIN1f6UbL@eldamar.lan>
-References: <174248253267.1718.4037292692790831697.reportbug@x>
-	<Z95s5T6OXFPjRnKf@eldamar.lan>
-	<Z-MMsp3XJyNHOlma@eldamar.lan>
-	<87iknwb80x.wl-tiwai@suse.de>
-	<CAJ8x=4jNhsjw_s-p5FXBk9WScPHEdUMZ0tXnhCiya8fCf_PH7w@mail.gmail.com>
-	<Z-ct2D6uIN1f6UbL@eldamar.lan>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	Sharan Kumar M <sharweshraajan@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP OMEN 16 Laptop xd000xx
+Date: Sat, 29 Mar 2025 21:11:06 +0530
+Message-ID: <20250329154105.7618-2-sharweshraajan@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 6C61C1F38E
-X-Spam-Score: -2.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,bugs.debian.org,suse.de,vger.kernel.org,lists.linux.dev];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, 29 Mar 2025 00:16:40 +0100,
-Salvatore Bonaccorso wrote:
-> 
-> Hi,
-> 
-> On Thu, Mar 27, 2025 at 04:39:56PM -0400, C.D. MacEachern wrote:
-> > Sorry I gave up trying to get kernel build to work and troubleshooting this
-> > issue. I'll stick to working kernel version. Thanks for trying to help!
-> 
-> Okay sad to hear that, because we need your help to track and pinpoint
-> the regression.
-> 
-> There was a question from Takashi to provide information from
-> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1100928#29 and
-> provide the alsa-info.sh from working and nonworking kernels.
-> 
-> I think that would be the next step.
-> 
-> Get the script: https://git.alsa-project.org/?p=alsa-utils.git;a=blob;f=alsa-info/alsa-info.sh
-> 
-> And if Takashi finds it usefull to test a kernel with a reverted patch
-> I might be able to provide you prebuild kernel images for amd64.
+This patch adds the HP OMEN 16 Laptop xd000xx to enable mute led.
+it uses ALC245_FIXUP_HP_MUTE_LED_COEFBIT with a slight modification setting mute_led_coef.off to 0(it was set to 4 i guess 
+in that function) which i referred to your previous patch disscusion https://bugzilla.kernel.org/show_bug.cgi?id=214735 .
+i am not sure whether i can modify the current working function so i added another version calling
+ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT. and both works for me.
 
-The fix patch would be a trivial oneliner, and even you can work
-around without patching via a module option, but I cannot say exactly
-unless I get the requested logs.
+Tested on 6.13.4-arch1-1 to 6.14.0-arch1-1
 
 
-Takashi
+Signed-off-by: Sharan Kumar M <sharweshraajan@gmail.com>
+
+
+---
+ sound/pci/hda/patch_realtek.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index b4fe681ec3cb..98abec3833a0 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -4743,6 +4743,22 @@ static void alc245_fixup_hp_mute_led_coefbit(struct hda_codec *codec,
+ 	}
+ }
+ 
++static void alc245_fixup_hp_mute_led_v1_coefbit(struct hda_codec *codec,
++					  const struct hda_fixup *fix,
++					  int action)
++{
++	struct alc_spec *spec = codec->spec;
++
++	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
++		spec->mute_led_polarity = 0;
++		spec->mute_led_coef.idx = 0x0b;
++		spec->mute_led_coef.mask = 1 << 3;
++		spec->mute_led_coef.on = 1 << 3;
++		spec->mute_led_coef.off = 0;
++		snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
++	}
++}
++
+ /* turn on/off mic-mute LED per capture hook by coef bit */
+ static int coef_micmute_led_set(struct led_classdev *led_cdev,
+ 				enum led_brightness brightness)
+@@ -7911,6 +7927,7 @@ enum {
+ 	ALC245_FIXUP_TAS2781_SPI_2,
+ 	ALC287_FIXUP_YOGA7_14ARB7_I2C,
+ 	ALC245_FIXUP_HP_MUTE_LED_COEFBIT,
++	ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT,
+ 	ALC245_FIXUP_HP_X360_MUTE_LEDS,
+ 	ALC287_FIXUP_THINKPAD_I2S_SPK,
+ 	ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD,
+@@ -10164,6 +10181,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc245_fixup_hp_mute_led_coefbit,
+ 	},
++	[ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc245_fixup_hp_mute_led_v1_coefbit,
++	},
+ 	[ALC245_FIXUP_HP_X360_MUTE_LEDS] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc245_fixup_hp_mute_led_coefbit,
+@@ -10658,6 +10679,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8b97, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x8bb3, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8bb4, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8bcd, "HP Omen 16-xd0xxx", ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8bdd, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8bde, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8bdf, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
+-- 
+2.49.0
+
