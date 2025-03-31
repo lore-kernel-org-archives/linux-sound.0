@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938A0152E02;
-	Mon, 31 Mar 2025 17:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F491E8337;
+	Mon, 31 Mar 2025 18:23:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743443358; cv=none; b=aRiI26xL3JQBgB1PlzwmfN5ooZSo1nFlPUoBu8aRLbSJIikanlqp40XDMwjaH2PTWhw9cUS1t71OwasgYy1VgnQ6S2CXqEix+x1t8emYBiB/UmgYugKPV+BCg+22a82vC7v4fUMga3XUQI9T0pdRR2KdhZDtPhOukwA+RTTFb9o=
+	t=1743445411; cv=none; b=ZeK/RbNXeYgFSk7zSGny+yeiSBd4qSkwosIDGXO7X126jN9AX/HTP6V4jCJRSMZVsLY79MJaFT5A2kS7Qq5XRABrz5PEMHlD/eEFov5zxhLgaKtXDFEDYvtnp2bppXZXUkAaInuPZmEaICnTjmJ71TkeGw1pYGmFfinQNuqgnTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743443358; c=relaxed/simple;
-	bh=r9T6LdVle4KC8nugrBNKg8wutcTzmSRH332+mnl/2Tw=;
+	s=arc-20240116; t=1743445411; c=relaxed/simple;
+	bh=L1e3qp2TrMMmW2/yyUo2BhZEpkokq1ICKclytliROm0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=g7ue93HP74lZBOKv4ImagsnF97yD2UJmIkZ/prNKQIqI/AC7NI0sbZnpNQJKBS52Cf5YxP90U8Wv1+nTcJuOK4iQIny6p1OJ24Zz8c0iB2h1v9mRTtj0o3W3K3Ok+ZLMWp6TjPvvHqvs2QHfIznShCZ9RwYAcQ73iCnfG0Ja6KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hlGt2+lS; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=JPVgAJAuQla3t5a+KjSPPxW6J2prjPMVm0EZiAaEKBjp+T+bQdFP3Vf5SklelpT+2kEsbq/JzqCUJU6Zbz+pfNnzyUlJzK2R9CnJwZMg1rpyGT66RRH2CW+KDebgVcx8aWHS3rlEFR4Mc9nKFVornFofxu2+fKKsIAaB5Ul35UY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WayCWVAx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hlGt2+lS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51168C4CEE3;
-	Mon, 31 Mar 2025 17:49:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WayCWVAx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27DD8C4CEE3;
+	Mon, 31 Mar 2025 18:23:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743443358;
-	bh=r9T6LdVle4KC8nugrBNKg8wutcTzmSRH332+mnl/2Tw=;
+	s=k20201202; t=1743445410;
+	bh=L1e3qp2TrMMmW2/yyUo2BhZEpkokq1ICKclytliROm0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hlGt2+lS0Rt8N+SRV44QqzCei0+jALgVdFbtzodpDk7/lBe6lHUKKp45sZD0OvnnV
-	 hrWuISJnEgrmU51G04fOPKKKnsW5oytOaJg5OQ/qzVhGr4cNBaW9RMtI2Hu7O5+JzP
-	 UWrhI3eIqQqElpBipsu5fGZGJt8B2Q3fsNgNSDcmwq+qkAMSxPb3w5hyZWNPywGuhD
-	 /2seZLdyav0Bd7FLnEaMkF5R+wFzEJXSvsVvJXjxKnAer18jRbeQGILv0Reoo3oPzC
-	 B1Hhv/yFnBj6I9a+SxXbE6hN+ERGoXyE1VdhCFeAMI9OBAMW18nBw2ODDMfz6yrcp8
-	 y+xSvvv9CAviQ==
+	b=WayCWVAxNR6Bo/rxK9ykqVvuk4zGixPqTW6fCBwE9B3qpxjauRWYeMu31MB3yxdGd
+	 gAOZwfvqFFZVYzsoAx4ZK2VtMQ4o1bxJympLsZFvi9msbxjz3Tnq20xL02142vAqKu
+	 0MzYiuynyvlLWQdZBBhgJDee/nT9hOFzXCNe+sKudbfq/UWdSkMngrzaWsG24h12uv
+	 LfjvxO+6Wc5+lhw8i6+BHgaiJOd15t29T97pEL6v9KftADaJI5dUPqAQNZSMSQjAo0
+	 6LC0v6xcPitOqtMNzjRNVchW6poq9HWj6kbA7vhHEObNEh1eCDfti3nVUVBsFjWJ4r
+	 hQxZKsELhahzg==
 From: Mark Brown <broonie@kernel.org>
-To: Oder Chiou <oder_chiou@realtek.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Bard Liao <bardliao@realtek.com>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <e3c2aa1b2fdfa646752d94f4af968630c0d58248.1742629525.git.christophe.jaillet@wanadoo.fr>
-References: <e3c2aa1b2fdfa646752d94f4af968630c0d58248.1742629525.git.christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] ASoC: codecs: rt5665: Fix some error handling paths in
- rt5665_probe()
-Message-Id: <174344335604.156807.17437043302594599763.b4-ty@kernel.org>
-Date: Mon, 31 Mar 2025 18:49:16 +0100
+To: srinivas.kandagatla@linaro.org
+Cc: perex@perex.cz, tiwai@suse.com, krzysztof.kozlowski@linaro.org, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, 
+ johan+linaro@kernel.org
+In-Reply-To: <20250314174800.10142-1-srinivas.kandagatla@linaro.org>
+References: <20250314174800.10142-1-srinivas.kandagatla@linaro.org>
+Subject: Re: [PATCH v5 0/5] ASoC: q6apm: fix under runs and fragment sizes
+Message-Id: <174344540887.168242.14373975206597931512.b4-ty@kernel.org>
+Date: Mon, 31 Mar 2025 19:23:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,14 +47,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Sat, 22 Mar 2025 08:45:49 +0100, Christophe JAILLET wrote:
-> Should an error occur after a successful regulator_bulk_enable() call,
-> regulator_bulk_disable() should be called, as already done in the remove
-> function.
+On Fri, 14 Mar 2025 17:47:55 +0000, srinivas.kandagatla@linaro.org wrote:
+> On Qualcomm Audioreach setup, some of the audio artifacts are seen in
+> both recording and playback. These patches fix issues by
+> 1. Adjusting the fragment size that dsp can service.
+> 2. schedule available playback buffers in time for dsp to not hit under runs
+> 3. remove some of the manual calculations done to get hardware pointer.
 > 
-> Instead of adding an error handling path in the probe, switch from
-> devm_regulator_bulk_get() to devm_regulator_bulk_get_enable() and
-> simplify the remove function and some other places accordingly.
+> With these patches, am able to see significant Audio quality improvements.
+> I have few more patches to optimize the dsp drivers, but for now am
+> keeping this series simple to address the underruns and overruns issues
+> noticed in pipewire setup.
 > 
 > [...]
 
@@ -66,8 +67,16 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: rt5665: Fix some error handling paths in rt5665_probe()
-      commit: 1ebd4944266e86a7ce274f197847f5a6399651e8
+[1/5] ASoC: q6apm-dai: schedule all available frames to avoid dsp under-runs
+      commit: 3d4a4411aa8bbc3653ff22a1ff0432eb93d22ae0
+[2/5] ASoC: q6apm: add q6apm_get_hw_pointer helper
+      commit: 0badb5432fd525a00db5630c459b635e9d47f445
+[3/5] ASoC: q6apm-dai: make use of q6apm_get_hw_pointer
+      commit: a93dad6f4e6a04a5943f6ee5686585f24abf7063
+[4/5] ASoC: qdsp6: q6apm-dai: set 10 ms period and buffer alignment.
+      commit: 3107019501842c27334554ba9d6583b1f200f61f
+[5/5] ASoC: qdsp6: q6apm-dai: fix capture pipeline overruns.
+      commit: 5d01ed9b9939b4c726be74db291a982bc984c584
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
