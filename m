@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0896E24BD1A;
-	Mon, 31 Mar 2025 14:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2212124C09F;
+	Mon, 31 Mar 2025 14:57:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743433017; cv=none; b=Uywlr81nOtXYxKMnKVFUExMvJvD7eyFYWR7Phoh/hjxpkD3svcAY6PRCCkDyAtco9MaH9m9eIlQQ444FJ4+uPwmqToMiiAUtN7bWPr/369TPLEhk0dMvRIgXi9eQgaVfBQBtPLUaB8WmGFHbLZYMDvtNVOn4nhJTSVUyBbcRaSE=
+	t=1743433020; cv=none; b=X8ZAv+d3L+mJ7mALQn+6gjdc58knwz7uWVMHJzWl4O6L0BK7bdLJiFFY4PoC9MUotMLwn3I6ZdW5RHOVr36VGkj3gnuESpf9CJEjovPANx4EAmCJlKfsjlKDLEZcCaMGagg3nMJEIH+/VTB1KojqY2kE2b/PHGK4moHiTTqjKmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743433017; c=relaxed/simple;
-	bh=Cm1Em4GVh5UN3KC7kQilCOySbGi3rdIYc+i4/iSCYXo=;
+	s=arc-20240116; t=1743433020; c=relaxed/simple;
+	bh=J53lMmCS9M9zunuOt87Jkbwco64lwGwvOm8UCyCgyfA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fSrYaTfS2UicKdY4Xc+HDLb01R0zSdOVy3mBnEmzgBvJ6lF8KJY9kJYD5rYz89xcIYzqSMDnXziLbeks7mBKH7vy6Y4knEmoo7v6dSUTdSpCYP35Fx0fopuqqDsd0MpzUzpEEjqKvJv0tL1IQII4rgJc7aS+T+9pasou1uPIPcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1ZFcJ5S; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=GIDKHq46Vk3/4RTjIz6R8Rqo3IVSSPUOb1yQjwm24DTt+iLzl8qViw/HTa/YYVXya3s96NHnjLZMSloHeBwERG9GFLvabMAejugA8XG1xZEXfgGxp25891K/+Nv4nEb8kIbIvf1LsOnX/yzUZwUEGRAZB23XaJqVgks/yVGHhXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6jZ71Yf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1ZFcJ5S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D434C4CEE9;
-	Mon, 31 Mar 2025 14:56:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6jZ71Yf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8288C4CEE4;
+	Mon, 31 Mar 2025 14:56:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743433016;
-	bh=Cm1Em4GVh5UN3KC7kQilCOySbGi3rdIYc+i4/iSCYXo=;
+	s=k20201202; t=1743433020;
+	bh=J53lMmCS9M9zunuOt87Jkbwco64lwGwvOm8UCyCgyfA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=S1ZFcJ5SD66wA5lwxt/Mke2xihUTvVhzi5lTxYGwCj/Yq0lHiu1TkCE7uvLSyhRJ+
-	 EefeokeNPLqwMTDFUkSiRNhqLk9zSfjR5kK5QM6DMboc1zNzJWiGzEjx7qh+4TJkvv
-	 Pu6O9XQrjnP1kDjRFnMUuDrFYdzMY4BRGRbc2e2SmRDVXLqgfBCDKuybm1nExzgRZa
-	 VeToPEj8sISu1C0OvL8llQzcuQiLKu91dB/Gc73I51NQsHGgV6ykKYPYpfByQC4b4k
-	 wAu6XNrU2l5Q4Bu2SL/4xtZ98PpyuskrhR5CVMisjQU2G6TrbuHdjvFUUH3bC+7tr/
-	 SyLjDvs5aEy4g==
+	b=J6jZ71Yf4Q/NCLj5tUrdbF5lVkJZAtYQoqrCzXfFf9rmCrwvIUpWMtBPXnoHcXVy9
+	 6NsrcWLZ4LLyrtwRtqcnKOLIOspLLWseqBjWhifB7CFELahdxNHds03VIc9A29GJHk
+	 F56KhS1gxymylBYqp/mC8hIaCvejb6a9n7lOpitoWuhQQMK6P7mr+p1dnbqOz1QDXv
+	 X7gzSLXDYbw69Ir7j/5Mam8/YFn9CMQTiv8uA6m19V+gT5VD3II2fD17g6YhK+YGr3
+	 PuffqA6QVu4lMZxuw8yk5bBN0NZLXQBeC1CAN6XaApOqHHmthUSBBNHHY/dcCi4xsI
+	 cvPjzE8RKMZMA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Ricard Wanderlof <ricard2013@butoba.net>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	lgirdwood@gmail.com,
+	clemens@ladisch.de,
 	perex@perex.cz,
 	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH AUTOSEL 6.1 6/9] ASoC: fsl_audmix: register card device depends on 'dais' property
-Date: Mon, 31 Mar 2025 10:56:39 -0400
-Message-Id: <20250331145642.1706037-6-sashal@kernel.org>
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 8/9] ALSA: usb-audio: Fix CME quirk for UF series keyboards
+Date: Mon, 31 Mar 2025 10:56:41 -0400
+Message-Id: <20250331145642.1706037-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250331145642.1706037-1-sashal@kernel.org>
 References: <20250331145642.1706037-1-sashal@kernel.org>
@@ -56,51 +53,121 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.132
 Content-Transfer-Encoding: 8bit
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
+From: Ricard Wanderlof <ricard2013@butoba.net>
 
-[ Upstream commit 294a60e5e9830045c161181286d44ce669f88833 ]
+[ Upstream commit c2820405ba55a38932aa2177f026b70064296663 ]
 
-In order to make the audmix device linked by audio graph card, make
-'dais' property to be optional.
+Fix quirk for CME master keyboards so it not only handles
+sysex but also song position pointer, MIDI timing clock, start
+and stop messages, and active sensing. All of these can be
+output by the CME UF series master keyboards.
 
-If 'dais' property exists, then register the imx-audmix card driver.
-otherwise, it should be linked by audio graph card.
+Tested with a CME UF6 in a desktop Linux environment as
+well as on the Zynthian Raspberry Pi based platform.
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Link: https://patch.msgid.link/20250226100508.2352568-5-shengjiu.wang@nxp.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Ricard Wanderlof <ricard2013@butoba.net>
+Link: https://patch.msgid.link/20250313-cme-fix-v1-1-d404889e4de8@butoba.net
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/fsl/fsl_audmix.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ sound/usb/midi.c | 80 ++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 74 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_audmix.c b/sound/soc/fsl/fsl_audmix.c
-index 672148dd4b234..acb499a5043c8 100644
---- a/sound/soc/fsl/fsl_audmix.c
-+++ b/sound/soc/fsl/fsl_audmix.c
-@@ -492,11 +492,17 @@ static int fsl_audmix_probe(struct platform_device *pdev)
- 		goto err_disable_pm;
- 	}
+diff --git a/sound/usb/midi.c b/sound/usb/midi.c
+index eed71369c7af2..d300cd1f922b6 100644
+--- a/sound/usb/midi.c
++++ b/sound/usb/midi.c
+@@ -489,16 +489,84 @@ static void ch345_broken_sysex_input(struct snd_usb_midi_in_endpoint *ep,
  
--	priv->pdev = platform_device_register_data(dev, "imx-audmix", 0, NULL, 0);
--	if (IS_ERR(priv->pdev)) {
--		ret = PTR_ERR(priv->pdev);
--		dev_err(dev, "failed to register platform: %d\n", ret);
--		goto err_disable_pm;
+ /*
+  * CME protocol: like the standard protocol, but SysEx commands are sent as a
+- * single USB packet preceded by a 0x0F byte.
++ * single USB packet preceded by a 0x0F byte, as are system realtime
++ * messages and MIDI Active Sensing.
++ * Also, multiple messages can be sent in the same packet.
+  */
+ static void snd_usbmidi_cme_input(struct snd_usb_midi_in_endpoint *ep,
+ 				  uint8_t *buffer, int buffer_length)
+ {
+-	if (buffer_length < 2 || (buffer[0] & 0x0f) != 0x0f)
+-		snd_usbmidi_standard_input(ep, buffer, buffer_length);
+-	else
+-		snd_usbmidi_input_data(ep, buffer[0] >> 4,
+-				       &buffer[1], buffer_length - 1);
++	int remaining = buffer_length;
++
 +	/*
-+	 * If dais property exist, then register the imx-audmix card driver.
-+	 * otherwise, it should be linked by audio graph card.
++	 * CME send sysex, song position pointer, system realtime
++	 * and active sensing using CIN 0x0f, which in the standard
++	 * is only intended for single byte unparsed data.
++	 * So we need to interpret these here before sending them on.
++	 * By default, we assume single byte data, which is true
++	 * for system realtime (midi clock, start, stop and continue)
++	 * and active sensing, and handle the other (known) cases
++	 * separately.
++	 * In contrast to the standard, CME does not split sysex
++	 * into multiple 4-byte packets, but lumps everything together
++	 * into one. In addition, CME can string multiple messages
++	 * together in the same packet; pressing the Record button
++	 * on an UF6 sends a sysex message directly followed
++	 * by a song position pointer in the same packet.
++	 * For it to have any reasonable meaning, a sysex message
++	 * needs to be at least 3 bytes in length (0xf0, id, 0xf7),
++	 * corresponding to a packet size of 4 bytes, and the ones sent
++	 * by CME devices are 6 or 7 bytes, making the packet fragments
++	 * 7 or 8 bytes long (six or seven bytes plus preceding CN+CIN byte).
++	 * For the other types, the packet size is always 4 bytes,
++	 * as per the standard, with the data size being 3 for SPP
++	 * and 1 for the others.
++	 * Thus all packet fragments are at least 4 bytes long, so we can
++	 * skip anything that is shorter; this also conveniantly skips
++	 * packets with size 0, which CME devices continuously send when
++	 * they have nothing better to do.
++	 * Another quirk is that sometimes multiple messages are sent
++	 * in the same packet. This has been observed for midi clock
++	 * and active sensing i.e. 0x0f 0xf8 0x00 0x00 0x0f 0xfe 0x00 0x00,
++	 * but also multiple note ons/offs, and control change together
++	 * with MIDI clock. Similarly, some sysex messages are followed by
++	 * the song position pointer in the same packet, and occasionally
++	 * additionally by a midi clock or active sensing.
++	 * We handle this by looping over all data and parsing it along the way.
 +	 */
-+	if (of_find_property(pdev->dev.of_node, "dais", NULL)) {
-+		priv->pdev = platform_device_register_data(dev, "imx-audmix", 0, NULL, 0);
-+		if (IS_ERR(priv->pdev)) {
-+			ret = PTR_ERR(priv->pdev);
-+			dev_err(dev, "failed to register platform: %d\n", ret);
-+			goto err_disable_pm;
++	while (remaining >= 4) {
++		int source_length = 4; /* default */
++
++		if ((buffer[0] & 0x0f) == 0x0f) {
++			int data_length = 1; /* default */
++
++			if (buffer[1] == 0xf0) {
++				/* Sysex: Find EOX and send on whole message. */
++				/* To kick off the search, skip the first
++				 * two bytes (CN+CIN and SYSEX (0xf0).
++				 */
++				uint8_t *tmp_buf = buffer + 2;
++				int tmp_length = remaining - 2;
++
++				while (tmp_length > 1 && *tmp_buf != 0xf7) {
++					tmp_buf++;
++					tmp_length--;
++				}
++				data_length = tmp_buf - buffer;
++				source_length = data_length + 1;
++			} else if (buffer[1] == 0xf2) {
++				/* Three byte song position pointer */
++				data_length = 3;
++			}
++			snd_usbmidi_input_data(ep, buffer[0] >> 4,
++					       &buffer[1], data_length);
++		} else {
++			/* normal channel events */
++			snd_usbmidi_standard_input(ep, buffer, source_length);
 +		}
- 	}
++		buffer += source_length;
++		remaining -= source_length;
++	}
+ }
  
- 	return 0;
+ /*
 -- 
 2.39.5
 
