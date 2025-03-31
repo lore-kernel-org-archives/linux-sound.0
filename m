@@ -1,181 +1,167 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A93621ABDD
-	for <linux-sound@vger.kernel.org>; Mon, 31 Mar 2025 15:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C222B9A8
+	for <linux-sound@vger.kernel.org>; Mon, 31 Mar 2025 16:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743435372; cv=none; b=lr3O3ak3XK7Fs4PCJjOdMembsJWIvpKmoxfX+CyWPNjHL1SpsL/4cEbpxA9G9zhV60Ghs6kA0zQorgVYvtEd/WaXhtWDpB8KJ1xRVYpIj5KrplvHVckG3e/YmfoiytgzivPdc1E95Mv9OnUlpfUAT7vJRDJzTHnU0nPXyDlapOI=
+	t=1743438853; cv=none; b=qpKWx2O7JKrIpJauonOI6PQJOuoa/Z+gAatzpDgvQxONB73d4Yjs2F84ajGmvvO1wCMl1Zp3I4u6Lay4UM/WiJNTNKA301aY3o0jivjMJCoSXhPyek/Sgg6DSyX+AC/QTjjnBlSVZPpjbl+R1zikFmLmRbGZ7UlJVIGiMeCP1D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743435372; c=relaxed/simple;
-	bh=gr2i7ElkViQia/0pNOSKmak0K4CKCzxZlnH5gwwO/GU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LtmwFYRzbSXzbHE3VjHRMuVLUSC+NELkFM3VEdotEfGsdLhIkqB5bza6PnQdh2CdK7G7ZDjQCIoin+a2G5cioRKZOCMkEdonDgon8qwLaoBl3ZP1LHzCus1gbg6oORbGqemNjnrSo5owzf7+vo3Q/ERr+S6zrDYhbcGjtd2WHbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PX1oQUDP; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743438853; c=relaxed/simple;
+	bh=LyymiZcnvyCARp+PZ9YDJ/WjZzd+um0odXUXVVG8jWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jCpElYhnwt0YB9B04CNF9O95OvT00hYrS/teSsPhYQ2ugloeyrfwDQzw7L7r56UDL2vDuqcRKTU1UoCblV7C0C8GM/Eq2suX/WSoxQEhvC6DhrbPZLwqR/OtrDR97bl5ByoTC8T+k+l4tnokEaTMRts1WoBX5Zu7i7RTYDP/1iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UF4MBujQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PX1oQUDP"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso47576705e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 31 Mar 2025 08:36:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743435369; x=1744040169; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5ywrICBipCo3D98Pb8idqM4gJmh0ImUQe88U+5Mvgaw=;
-        b=PX1oQUDPjYNPIx1lUJRY5RR3HGQDlhE/6x/X3g/V4uRSkwkKlzFmB+fk/g/cvXGH/O
-         UqUKDVawcc6BDJD5AP0Ns6MCsHo+qs49ds7VgIXEPJfmtPVAhnND1iEf38xmI5CvIgE2
-         YbzHkif3PkRXVLkSXma4slVPqRzthAj/A2mY0kb/NevHDXuS7CszJkGGiAFl4gP41Ehs
-         He7dAYnUT6HUiG/w5D0CvyLj1r0nCCuu6KTShJm/cXI8/sOHR9+JqBYkfobaIwn0HTv0
-         DmSM8p6pF4Tjs5oL4DS+Lhn/E9DxkGwD2FEhkuvBGxR8UPS5C554UctqyEN8qSugjJxQ
-         cfaw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UF4MBujQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1743438851;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=buRU4hcgPy2p/+OGQ7gQUBzV/bybYL5hkzFKdPTt7bo=;
+	b=UF4MBujQ8sYrKPxc2J3IpGdlRIFP2AACCveL1IlsBvhYMcB+u05jWbewIBW8THsrMz1QXr
+	R7mnTUYfZ57DFTHIzOV+SOFu8kH4VBjTBsOv2xYzq8jhEjzBOQNqc5WyZbZSynRzfASiN1
+	VJS967WZi5sZtc4Y45RZo6AwTmh5d/A=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-452-aoK2RIWKN9SB2tgKc2sz0A-1; Mon, 31 Mar 2025 12:34:09 -0400
+X-MC-Unique: aoK2RIWKN9SB2tgKc2sz0A-1
+X-Mimecast-MFC-AGG-ID: aoK2RIWKN9SB2tgKc2sz0A_1743438849
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-43d01024089so42197675e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 31 Mar 2025 09:34:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743435369; x=1744040169;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5ywrICBipCo3D98Pb8idqM4gJmh0ImUQe88U+5Mvgaw=;
-        b=eCuNnDlr8BlYEQMCgFFgLLgHOct8bkE+1cKZS1gApB/AaF4GhqVZ9q6vR5RNX5fDNM
-         UxKjQ9MMF29Wqcf+1BRb8IQXlyrWp3M3f2w0UiPAkXo3kZyjbJdzdvMA3ofqu48hRkZ4
-         4Q9AFGGxdzC38X2LwEXviXrvpUwlMI490+7Th8MHebBODEDC3+j8mxqkaAxnCUGTyk/q
-         YIUyv/g+RV6p00J1bo9gG3Ogao1RtK42s3vwaaEy3pLq6zO7T56/241X7O6ZBF3mipXU
-         mgjQ8CoKRgyn7WRwoeAQDbvVXqlMVCbFylKeTrnhj3PdafRNEiJwRjCnaK7WBD3rl5AE
-         qABQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUunk/fBzVzT6FUfrATy/T1kII5DtpfK0sMoihGuxAHG81nUUvDbWWlAo7zX93Yf2gTUld9SyhOLOAitw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEaCN3qDIkYZd3SEi3CqRYEo7isFpLCAL5w98zRuWzkx7PEU7b
-	uuXWOx3KIQFHpTBoDeZ7Zc515H5PoWf1+5+rgi0zbv0y6zDQwCs7Z9v2MPBS1SMVlRFSo+79nNf
-	rNLhoFpkW7lYozBzvGo7RwJtcbeBvBcP/0/1rBA==
-X-Gm-Gg: ASbGncvMq79MT0q83xOBmbD0ntlKaL5XgELBSfNofr1vjgpcdjBJENgQHYptpSTlxK5
-	A4bjtTOeOdphmDHi2Ee9jQkWTIbnJvLbzHezqgIjCUrZ4ep2vDxJnHf5ZlPcJYX8TrQtxg6+smG
-	so5olXvnmg85SLxOmDQXAQ8iB3Lken
-X-Google-Smtp-Source: AGHT+IFh6+GM0IlcpIWBwIQonGGQpesbhVlKLCa6o8H68xAK6yvnnZx2ARkalCWY/48oTB3ma91dmfr1kqQk/SHjFFE=
-X-Received: by 2002:a05:600c:4fc8:b0:43d:9f2:6274 with SMTP id
- 5b1f17b1804b1-43db6248ff6mr92802865e9.14.1743435368685; Mon, 31 Mar 2025
- 08:36:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743438848; x=1744043648;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=buRU4hcgPy2p/+OGQ7gQUBzV/bybYL5hkzFKdPTt7bo=;
+        b=MDX0HBu8EGOwWcWiFNcAXildUL9O+DY48nkVUwe3hA7WQcAhtLgCCxQjDc+92yCZP8
+         py27p3H1Zj/EvV3jLCVU/sakqs0EDpTdt5Ay7pMPxjvJer7cYpFeYomKqCk+L7QwzhzF
+         DHBrTmOV/Sz7v1iscQDR+fgW6ppPijz3RGGyeWhjOUg52Xna56Q+Ey2JOraF/c7mipZG
+         m1xvXk+smK770avyq9S5u9Wp+njpFXd6g9fmnqIW05JpBvu41+1/d/ghvrfYjkL71BYe
+         lis198qVkaxFAbb3ilbyuoiG2fFoAA4mNiY6atYGDBfKdPdlhr4gRRhaLJ/4hEhTWbfM
+         8a7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXcEWVgflPIvVSVULcn8l/073tIvbVt6u5Nq/Grpu+KEsycZ4NBDJgXZiSVAsDP80HMH+JZsZAWQZG1jQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzA8yV3X6mtth3GMfcrnftUfquT+GkYUcVOJySYZ7dMFSVQiYJ2
+	iIfpNGrkZZd9pFQMy7HGmY2Q6Au0KodMNN4DFhlx1Md/iQs1Fn5vmFxceYgC8mjc/Amd4hc5dMK
+	0W4tfhpiQr1uyoq03rTe7IIpsOIwH0ZgJARFM1HSKQVbNMkjG2KecIJkystuk
+X-Gm-Gg: ASbGncvVEkWLsWAYQowEIcmZy0HwSdD9texxNkGIB3GUd+eU5To4haCqfvAqnNK2rg0
+	4VrqpT9DoO0l4lcHXdX6w6AhSZi3w+wReTkpfrOWC16jbcD+0IV5Y+VvsVdn68r2IgzB8NiKP0/
+	sskrl/mw6fgDybMHuESuKBRiERjggbLZ3jJiQlX5HvW91rK75FiANSIredpT2rSiYEHYdr5cS7G
+	06i+XBdLArz2wji5Pw0i9iTdklIXTIMUNa/M44laFTBlW0cOm0T7SFR0vaCrmGO5W1gp5lbrG5l
+	iJb77v6p7g==
+X-Received: by 2002:a05:600c:8117:b0:43c:efed:732d with SMTP id 5b1f17b1804b1-43e8e3cf858mr88891405e9.16.1743438848570;
+        Mon, 31 Mar 2025 09:34:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGRJoF9PNksiJNrRvv1RABMA+H1wRnu+cFNlckFr23sh4bFVTCISuxXvKws13VYTTCpsWyCEA==
+X-Received: by 2002:a05:600c:8117:b0:43c:efed:732d with SMTP id 5b1f17b1804b1-43e8e3cf858mr88891065e9.16.1743438848107;
+        Mon, 31 Mar 2025 09:34:08 -0700 (PDT)
+Received: from redhat.com ([2a0d:6fc0:1517:1000:ea83:8e5f:3302:3575])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d82efeb11sm171403855e9.22.2025.03.31.09.34.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Mar 2025 09:34:07 -0700 (PDT)
+Date: Mon, 31 Mar 2025 12:34:04 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	anton.yakovlev@opensynergy.com, bettyzhou@google.com,
+	cong.meng@oracle.com, dtatulea@nvidia.com, eauger@redhat.com,
+	eperezma@redhat.com, eric.auger@redhat.com,
+	hongyu.ning@linux.intel.com, jasowang@redhat.com,
+	jstultz@google.com, kernel-team@android.com, kshk@linux.ibm.com,
+	linux-sound@vger.kernel.org, michael.christie@oracle.com,
+	mst@redhat.com, perex@perex.cz, sgarzare@redhat.com,
+	si-wei.liu@oracle.com, stable@vger.kernel.org, stefanha@redhat.com,
+	tiwai@suse.com, virtualization@lists.linux.dev,
+	wangyufeng@kylinos.cn, wh1sper@zju.edu.cn
+Subject: [GIT PULL] virtio: features, fixes, cleanups
+Message-ID: <20250331123404-mutt-send-email-mst@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250314174800.10142-1-srinivas.kandagatla@linaro.org> <20250314174800.10142-4-srinivas.kandagatla@linaro.org>
-In-Reply-To: <20250314174800.10142-4-srinivas.kandagatla@linaro.org>
-From: Christopher Obbard <christopher.obbard@linaro.org>
-Date: Mon, 31 Mar 2025 17:35:57 +0200
-X-Gm-Features: AQ5f1Jr5r8kzu92uTPWXhQdvRpNmkEoxDzeY_UvzmL6qGDeAb3ny2uTxjO8tcRE
-Message-ID: <CACr-zFBgQsiO=EVD-sCyvQHonbRLS+7J=q+Y8WNbwSPkF_5kug@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] ASoC: q6apm-dai: make use of q6apm_get_hw_pointer
-To: srinivas.kandagatla@linaro.org
-Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-Mutt-Fcc: =sent
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: oLju8LR1AmoNaNymciLj6uvdU_oWDcLZcbgt0HYJIOQ_1743438849
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Srini,
+The following changes since commit d082ecbc71e9e0bf49883ee4afd435a77a5101b6:
 
-On Fri, 14 Mar 2025 at 18:49, <srinivas.kandagatla@linaro.org> wrote:
->
-> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->
-> With the existing code, the buffer position is only reset in pointer
-> callback, which leaves the possiblity of it going over the size of
-> buffer size and reporting incorrect position to userspace.
->
-> Without this patch, its possible to see errors like:
-> snd-x1e80100 sound: invalid position: pcmC0D0p:0, pos = 12288, buffer size = 12288, period size = 1536
-> snd-x1e80100 sound: invalid position: pcmC0D0p:0, pos = 12288, buffer size = 12288, period size = 1536
->
-> Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Tested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Tested-by: Johan Hovold <johan+linaro@kernel.org>
+  Linux 6.14-rc4 (2025-02-23 12:32:57 -0800)
 
-Seems like I missed adding my T-b to this patch. If it's not too late,
-please add:
+are available in the Git repository at:
 
-Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
+  https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git tags/for_linus
 
-> ---
->  sound/soc/qcom/qdsp6/q6apm-dai.c | 23 ++++-------------------
->  1 file changed, 4 insertions(+), 19 deletions(-)
->
-> diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-> index 9d8e8e37c6de..90cb24947f31 100644
-> --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-> @@ -64,7 +64,6 @@ struct q6apm_dai_rtd {
->         phys_addr_t phys;
->         unsigned int pcm_size;
->         unsigned int pcm_count;
-> -       unsigned int pos;       /* Buffer position */
->         unsigned int periods;
->         unsigned int bytes_sent;
->         unsigned int bytes_received;
-> @@ -124,23 +123,16 @@ static void event_handler(uint32_t opcode, uint32_t token, void *payload, void *
->  {
->         struct q6apm_dai_rtd *prtd = priv;
->         struct snd_pcm_substream *substream = prtd->substream;
-> -       unsigned long flags;
->
->         switch (opcode) {
->         case APM_CLIENT_EVENT_CMD_EOS_DONE:
->                 prtd->state = Q6APM_STREAM_STOPPED;
->                 break;
->         case APM_CLIENT_EVENT_DATA_WRITE_DONE:
-> -               spin_lock_irqsave(&prtd->lock, flags);
-> -               prtd->pos += prtd->pcm_count;
-> -               spin_unlock_irqrestore(&prtd->lock, flags);
->                 snd_pcm_period_elapsed(substream);
->
->                 break;
->         case APM_CLIENT_EVENT_DATA_READ_DONE:
-> -               spin_lock_irqsave(&prtd->lock, flags);
-> -               prtd->pos += prtd->pcm_count;
-> -               spin_unlock_irqrestore(&prtd->lock, flags);
->                 snd_pcm_period_elapsed(substream);
->                 if (prtd->state == Q6APM_STREAM_RUNNING)
->                         q6apm_read(prtd->graph);
-> @@ -247,7 +239,6 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
->         }
->
->         prtd->pcm_count = snd_pcm_lib_period_bytes(substream);
-> -       prtd->pos = 0;
->         /* rate and channels are sent to audio driver */
->         ret = q6apm_graph_media_format_shmem(prtd->graph, &cfg);
->         if (ret < 0) {
-> @@ -445,16 +436,12 @@ static snd_pcm_uframes_t q6apm_dai_pointer(struct snd_soc_component *component,
->         struct snd_pcm_runtime *runtime = substream->runtime;
->         struct q6apm_dai_rtd *prtd = runtime->private_data;
->         snd_pcm_uframes_t ptr;
-> -       unsigned long flags;
->
-> -       spin_lock_irqsave(&prtd->lock, flags);
-> -       if (prtd->pos == prtd->pcm_size)
-> -               prtd->pos = 0;
-> -
-> -       ptr =  bytes_to_frames(runtime, prtd->pos);
-> -       spin_unlock_irqrestore(&prtd->lock, flags);
-> +       ptr = q6apm_get_hw_pointer(prtd->graph, substream->stream) * runtime->period_size;
-> +       if (ptr)
-> +               return ptr - 1;
->
-> -       return ptr;
-> +       return 0;
->  }
->
->  static int q6apm_dai_hw_params(struct snd_soc_component *component,
-> @@ -669,8 +656,6 @@ static int q6apm_dai_compr_set_params(struct snd_soc_component *component,
->         prtd->pcm_size = runtime->fragments * runtime->fragment_size;
->         prtd->bits_per_sample = 16;
->
-> -       prtd->pos = 0;
-> -
->         if (prtd->next_track != true) {
->                 memcpy(&prtd->codec, codec, sizeof(*codec));
->
-> --
-> 2.39.5
->
->
+for you to fetch changes up to 9d8960672d63db4b3b04542f5622748b345c637a:
+
+  vhost-scsi: Reduce response iov mem use (2025-02-25 07:10:46 -0500)
+
+----------------------------------------------------------------
+virtio: features, fixes, cleanups
+
+A small number of improvements all over the place:
+
+shutdown has been reworked to reset devices.
+virtio fs is now allowed in vduse.
+vhost-scsi memory use has been reduced.
+
+cleanups, fixes all over the place.
+
+A couple more fixes are being tested and will be merged after rc1.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Eugenio Pérez (1):
+      vduse: add virtio_fs to allowed dev id
+
+John Stultz (1):
+      sound/virtio: Fix cancel_sync warnings on uninitialized work_structs
+
+Konstantin Shkolnyy (1):
+      vdpa/mlx5: Fix mlx5_vdpa_get_config() endianness on big-endian machines
+
+Michael S. Tsirkin (1):
+      virtio: break and reset virtio devices on device_shutdown()
+
+Mike Christie (9):
+      vhost-scsi: Fix handling of multiple calls to vhost_scsi_set_endpoint
+      vhost-scsi: Reduce mem use by moving upages to per queue
+      vhost-scsi: Allocate T10 PI structs only when enabled
+      vhost-scsi: Add better resource allocation failure handling
+      vhost-scsi: Return queue full for page alloc failures during copy
+      vhost-scsi: Dynamically allocate scatterlists
+      vhost-scsi: Stop duplicating se_cmd fields
+      vhost-scsi: Allocate iov_iter used for unaligned copies when needed
+      vhost-scsi: Reduce response iov mem use
+
+Si-Wei Liu (1):
+      vdpa/mlx5: Fix oversized null mkey longer than 32bit
+
+Yufeng Wang (3):
+      tools/virtio: Add DMA_MAPPING_ERROR and sg_dma_len api define for virtio test
+      tools: virtio/linux/compiler.h: Add data_race() define.
+      tools: virtio/linux/module.h add MODULE_DESCRIPTION() define.
+
+ drivers/vdpa/mlx5/core/mr.c        |   7 +-
+ drivers/vdpa/mlx5/net/mlx5_vnet.c  |   3 +
+ drivers/vdpa/vdpa_user/vduse_dev.c |   1 +
+ drivers/vhost/Kconfig              |   1 +
+ drivers/vhost/scsi.c               | 549 +++++++++++++++++++++++--------------
+ drivers/virtio/virtio.c            |  29 ++
+ sound/virtio/virtio_pcm.c          |  21 +-
+ tools/virtio/linux/compiler.h      |  25 ++
+ tools/virtio/linux/dma-mapping.h   |  13 +
+ tools/virtio/linux/module.h        |   7 +
+ 10 files changed, 439 insertions(+), 217 deletions(-)
+
