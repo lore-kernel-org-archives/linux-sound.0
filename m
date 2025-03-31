@@ -1,51 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018EA23C8A2;
-	Mon, 31 Mar 2025 14:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D59D221710;
+	Mon, 31 Mar 2025 14:56:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743432959; cv=none; b=k/uHjgEab0wLIA1DKLRw+xfvcwoPq08hKzKComV51zvKhoLyvE9nJ/+k1aqi62JSzsAX2Q0YwFOWtCf4km7k5r5GjACVaHzS/Ud262mCwoS5TmQOoKejSB/OzBn3VRN3uxHlxql1ElI/iW8H8VgEQle7sQuqjvshdZPwgTbKaIM=
+	t=1743432964; cv=none; b=izi5DkBJU+SQw42Waj9yCN7tzKMK39QMR+CeUpL+egV/B/P7kZqqs583CUGe2DeJ5DfV/AJQBbJR6eTTr+Yl4xRye+TC75BmbFtjIk90UI9GDFw1hqrq3Y3MSpeJRK7o6D3uwgFOPI8te625dHAcHJH99pJVa3cOMWbschOxnAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743432959; c=relaxed/simple;
-	bh=JHvzP+hUYBoJ9QnlX7YdWhMeQVeyfXu1CQrpDc0tVaU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jELeOYqNp/+QqXMU5t3Aca9r8xoL3Fg1NIzHA2W2nXoYdb7jrj2xDEzVabx4D/xdW33Iu2LBqgJEhZOkWHEPIE7SZAAZ4E6xc1+FePzBilCPXRLwCWJESGWxwGgN5FcAlnOWKKbU0GURNVuI8aQ7h+sTiz7C5zmN7H1KP1Hx9dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XI8m3ncP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743432964; c=relaxed/simple;
+	bh=/kyYR+odfJKo8/HBjohag0R+zlA8lDnjJL8Wz/SYofg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P5Cmw1L9UTO5aAp50949q3f9RsaGPw9DilltwlXU3BhmWKNtM5dcfL9J6PdL3XoUjDDWhlEKMrIDYx8sGYzpg4LewdkzSGa0SJ6oWmlfoSD6ZeBgyDi2gjUKkmSQ6U9p0gVCW8yFiYpora9wh7WGBA28LSEh7EBlqI7/N27zICE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TMsTTYAM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XI8m3ncP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 741E2C4CEE3;
-	Mon, 31 Mar 2025 14:55:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMsTTYAM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EBA8C4CEEB;
+	Mon, 31 Mar 2025 14:56:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743432958;
-	bh=JHvzP+hUYBoJ9QnlX7YdWhMeQVeyfXu1CQrpDc0tVaU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XI8m3ncPT1MVOsAWYA4q5Y+qn8ykuv5Fx4ik56/YjfJA54rzj0GYXGD9VRvJymRuP
-	 i8prfoxWukk1iZj9HCuZHWkzXuSo2b3hJM1OoukLMD7TiRk0vQt+5VAIsQoH3pZfmv
-	 ftgoc3gmsO1bLUp3In7AFvlPhdRH34oRynwLK5t2w+qfrGU1pbVVZ3U35kADvluaKP
-	 7lmcI5CAmkrY7ghnNZm4ODIEbL2Y7xhzBecejwcNsB+XayFXlawH2gxft/vX4tQJXQ
-	 G2aPSBKFwNg8y74RbeQJby0TPok47hBX3eAptO3ZY4C3SH+91r2FBWAsfsnZP8gFKW
-	 FyMyONW/LQIkA==
+	s=k20201202; t=1743432963;
+	bh=/kyYR+odfJKo8/HBjohag0R+zlA8lDnjJL8Wz/SYofg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TMsTTYAMet3l159Hoo1rnIaOOpszVi8gdiOMbeXzohvsZGjMz56OUm+6b8PZUtLuU
+	 SawkkZOSHFh7P9kIinQf4oV76+MTSuPnH8es9nEGDhaD0+yfzS1lssGifrfGPeyS1A
+	 vP2Zxh4888NY2ksOta/x2vdT2X57NP1cZaH8X3GolU19xgL/Lrm3eFfCnlpxm3U6Xp
+	 dV0lu73m0KqBiwgt40INhZPU3HsTC3MWT2XKzBNDTfUdm5TrW9NjVz6Y5UOQlBHziO
+	 wkJw0Srwtfn9Py7TamAWtnx+ASVpAVpFmQ1+S5qEYklHNcDG9i9silp1KU7VYIY3F7
+	 3wWtY54RCJIfw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Syed Saba kareem <syed.sabakareem@amd.com>,
-	Reiner <Reiner.Proels@gmail.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
+Cc: Zhang Heng <zhangheng@kylinos.cn>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	venkataprasad.potturu@amd.com,
-	end.to.start@mail.ru,
+	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 22/23] ASoC: amd: yc: update quirk data for new Lenovo model
-Date: Mon, 31 Mar 2025 10:55:08 -0400
-Message-Id: <20250331145510.1705478-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 01/19] ASoC: SOF: topology: Use krealloc_array() to replace krealloc()
+Date: Mon, 31 Mar 2025 10:55:42 -0400
+Message-Id: <20250331145601.1705784-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250331145510.1705478-1-sashal@kernel.org>
-References: <20250331145510.1705478-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,45 +52,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.21
+X-stable-base: Linux 6.6.85
 Content-Transfer-Encoding: 8bit
 
-From: Syed Saba kareem <syed.sabakareem@amd.com>
+From: Zhang Heng <zhangheng@kylinos.cn>
 
-[ Upstream commit 5a4dd520ef8a94ecf81ac77b90d6a03e91c100a9 ]
+[ Upstream commit a05143a8f713d9ae6abc41141dac52c66fca8b06 ]
 
-Update Quirk data for new Lenovo model 83J2 for YC platform.
+Use krealloc_array() to replace krealloc() with multiplication.
+krealloc_array() has multiply overflow check, which will be safer.
 
-Signed-off-by: Syed Saba kareem <syed.sabakareem@amd.com>
-Link: https://patch.msgid.link/20250321122507.190193-1-syed.sabakareem@amd.com
-Reported-by: Reiner <Reiner.Proels@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219887
-Tested-by: Reiner <Reiner.Proels@gmail.com>
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Link: https://patch.msgid.link/20250117014343.451503-1-zhangheng@kylinos.cn
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/soc/sof/topology.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index bd3808f98ec9e..e632f16c91025 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -339,6 +339,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "83Q3"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83J2"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index cf1e63daad86b..7afded323150c 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -1267,8 +1267,8 @@ static int sof_widget_parse_tokens(struct snd_soc_component *scomp, struct snd_s
+ 			struct snd_sof_tuple *new_tuples;
+ 
+ 			num_tuples += token_list[object_token_list[i]].count * (num_sets - 1);
+-			new_tuples = krealloc(swidget->tuples,
+-					      sizeof(*new_tuples) * num_tuples, GFP_KERNEL);
++			new_tuples = krealloc_array(swidget->tuples,
++						    num_tuples, sizeof(*new_tuples), GFP_KERNEL);
+ 			if (!new_tuples) {
+ 				ret = -ENOMEM;
+ 				goto err;
 -- 
 2.39.5
 
