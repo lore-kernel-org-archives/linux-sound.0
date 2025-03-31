@@ -1,95 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315A586250;
-	Mon, 31 Mar 2025 07:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C8EF9CB;
+	Mon, 31 Mar 2025 07:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743404989; cv=none; b=Qlqes17NwdsYvZKJ79kF3fDvnrTeSQygNer5rxEPwqes3MeSC1fVueiJI4KY5oTL1eKDp6LADv7d9wMMjXDxD/Hd1dPYxpPgLWuQptF1STCO+zj+AUsCpaRyajZFP9/Cc/YoMKWyK/FGnvz4lyldTTHgZYLmoxi7CuUqTMtlSA0=
+	t=1743405561; cv=none; b=V+eHDpSzzlxSNXvohKTSHjE3RXjpIm78T5JuzkYSMFS/VJIiKpws3VzNpB9WblsXpTdEXBVo1xdmCIkp93T6Yv5Tbr2Fys0lWVoisLfUOUuqJ71BkH5nvEu+4Vt/ATLXSFWE5it+xVNFSwDXA/m/GqQ82bJxfqoFZAnczRaHfTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743404989; c=relaxed/simple;
-	bh=V/xr9JnXhnEFQaW81bqb/CrB//it7T9MT6dVOFsc1ww=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hlqd15zYDuojN++/eL20jFl+/YOwLw7rKv6VAQv9eO9E7R840YBDU7pVeUWceEG9xBPo4znjz+OWoOwsVnd//IfundH/usafNc9Alsv8JV8eyZ9MEAv9lGC4mjwvBoxa+IoFeFIUwGTyz7ngN/+hHG9owFR+PNKrZIiG4ibzmi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QBhJxyMf; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1743405561; c=relaxed/simple;
+	bh=7YYwu/iFhApVfDi4f6XpUCJpwOl04lSljLQoy/EIDTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TJ5/vW/VvCR4uURP1srMmJue0wQfK+tNhJJMLEHXiK4WGgR+UN0e+qEBjItjN98oHFRW63sblg79BaQTCScmp8Gc2l5urghsKVAjAfVRpLG1kBSgi2awmM1Ajp6bDA74cq8Ej3Db4ObpFbnDLrwa7LfArNlEU2Qbu4JqOGZDsyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WP0yXhFk; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QBhJxyMf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WP0yXhFk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743404988; x=1774940988;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=V/xr9JnXhnEFQaW81bqb/CrB//it7T9MT6dVOFsc1ww=;
-  b=QBhJxyMfJ/vMD93pLm5xKiqCOmdTziNSTMNOIZgY7XIMgQAKsZFUUN0C
-   yhivZmWRQ76XfBRE0l1pR4xObCWqbe/q02VxGKON00yy22F87bqyA7w+q
-   Z8jF6MyWPP9FjkWggeDhSJPmxX9kBrRtgdvDHebPzYtFCJAIp9HfOC6vN
-   kxXOi3QgApthXMLI91KRpf9+LnWtyonZvEa5lz6s37NFVV1s5FAaUk/CB
-   T0tAgvKqVoDRdoJ5YHsya5SPYGpOw6LwpFQmnXBHwXzZClsumxweB9Mwj
-   3yMS25IAsKg4JU0dPsIDIvT29zX1KawRE7mdUoc3/D7Q0HcplYp7UvAX5
-   A==;
-X-CSE-ConnectionGUID: ubYWtdWKR0KaKV9D9FXlWQ==
-X-CSE-MsgGUID: WhRwVaWVTbeasX4fLmM+uA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="44811992"
+  t=1743405560; x=1774941560;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7YYwu/iFhApVfDi4f6XpUCJpwOl04lSljLQoy/EIDTo=;
+  b=WP0yXhFk0y4aqpTfvhCcCIBd+9V/WjF/alAYoMKCn4j/GyWin9dCwzEY
+   7PczHQRHrlILPjMb7HdIL2Q9z8kZk9ARhwNEIhPzwvOefYxnQS5jaSINs
+   w/GtWNcK9D2ac65p7cw4VMvTAshy/8HjBpwu3n5H2u4U0du4NvSsMMHYd
+   45Hmwm81hlLxB9qjqpP2WqPqs4CEu6ohB3qxCDW3CWykISIJRKMyEAOOw
+   xy9Krx406IOT3+HjjQdvdM5zb1wxdrq07eIgUMefqOv9HcP4eNK6w+jJf
+   1i6PbkfGFTYDl7lbGbc1x3MAAKsUq9bG9tH3mDUqJA78+WzLh4qiPMm9e
+   w==;
+X-CSE-ConnectionGUID: 5P2kEb2uRZO4dgvsXESbBg==
+X-CSE-MsgGUID: ihuIwl0LQ/ubDZY8ymEZLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="48346603"
 X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
-   d="scan'208";a="44811992"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 00:09:48 -0700
-X-CSE-ConnectionGUID: IcMJpa+pRJmSAkVfp2syuQ==
-X-CSE-MsgGUID: C1mUow/+SgSroeE4PZYzPw==
+   d="scan'208";a="48346603"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 00:19:19 -0700
+X-CSE-ConnectionGUID: kbhe+3ouRbCNDBXrEHtUPg==
+X-CSE-MsgGUID: Sluib5vgQoOK6cErw6CTUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
-   d="scan'208";a="125996388"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa006.jf.intel.com with ESMTP; 31 Mar 2025 00:09:46 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 6D7171B4; Mon, 31 Mar 2025 10:09:44 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] ASoC: amd: acp: Remove (explicitly) unused header
-Date: Mon, 31 Mar 2025 10:09:43 +0300
-Message-ID: <20250331070943.3986387-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
+   d="scan'208";a="156939952"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 00:19:16 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1tz9QO-00000007aa1-3RJs;
+	Mon, 31 Mar 2025 10:19:12 +0300
+Date: Mon, 31 Mar 2025 10:19:12 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Peng Fan <peng.fan@nxp.com>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:GPIO SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)" <linux-gpio@vger.kernel.org>,
+	krzk@kernel.org
+Subject: Re: [PATCH]  ASoC: codec: ak5386: Convert to GPIO descriptors
+Message-ID: <Z-pB8IQTWKXze6jd@smile.fi.intel.com>
+References: <20250328113918.1981069-1-peng.fan@oss.nxp.com>
+ <Z-alF-gK5TpGliCj@smile.fi.intel.com>
+ <20250331060359.GA6762@nxa18884-linux>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250331060359.GA6762@nxa18884-linux>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-The fwnode.h is not supposed to be used by the drivers as it
-has the definitions for the core parts for different device
-property provider implementations. Drop it.
+On Mon, Mar 31, 2025 at 02:03:59PM +0800, Peng Fan wrote:
+> On Fri, Mar 28, 2025 at 03:33:11PM +0200, Andy Shevchenko wrote:
+> >On Fri, Mar 28, 2025 at 07:39:17PM +0800, Peng Fan (OSS) wrote:
 
-Note, that fwnode API for drivers is provided in property.h
-which is included here.
+...
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- sound/soc/amd/acp/amd-sdw-acpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> >>  The Documentation/devicetree/bindings/sound/ak5386.txt not specify
+> >>  polarity(this seems bug), so per code and datasheet, I think it
+> >>  should be active-high. I could add a quirk in gpiolib-of to force
+> >>  active-high or acitive-low if you think needed.
+> >
+> >I don't think we need a quirk as long as the default is the same,
+> >I mean if the DTS is written without setting polarity, would it be
+> >active-high or active-low?
+> 
+> Per current gpio driver, of_gpio_n_cells should at least be 2,
+> Not find any driver using 1 in current linux tree.
 
-diff --git a/sound/soc/amd/acp/amd-sdw-acpi.c b/sound/soc/amd/acp/amd-sdw-acpi.c
-index 238b584887ee..0160b0df26a0 100644
---- a/sound/soc/amd/acp/amd-sdw-acpi.c
-+++ b/sound/soc/amd/acp/amd-sdw-acpi.c
-@@ -17,8 +17,8 @@
- #include <linux/device.h>
- #include <linux/errno.h>
- #include <linux/export.h>
--#include <linux/fwnode.h>
- #include <linux/module.h>
-+#include <linux/property.h>
- #include <linux/soundwire/sdw_amd.h>
- #include <linux/string.h>
- 
+Yes...
+
+> Without polarity, I think of_xlate will not work as expected.
+
+...and yes, but how is it related to my comment? The default should be sane
+to make it work, since there is no in-kernel user with wrong polarity there
+is nothing to fix.
+
 -- 
-2.47.2
+With Best Regards,
+Andy Shevchenko
+
 
