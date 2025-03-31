@@ -1,90 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306D34A35;
-	Mon, 31 Mar 2025 14:00:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEC7218AA3;
+	Mon, 31 Mar 2025 14:52:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743429659; cv=none; b=RlKcXPZeMkczPzCHLcCMMTl7LlOqJn77gPweGn8i6yS87KVmmAdaPhK7Nwqc1q8wiVjKVHfWypXMYiD9ao9ZQkOoBmf7IHTfStL7tvxAgLAcuA/66CDUr48nO56iZ6B2IOIOwie0uuJ1N0+n5XhdeQf5YqWVXMNb3m5Z2sF/PJY=
+	t=1743432770; cv=none; b=fvqnDHc9rH0U0J/StZvFC6vkxguByNyoVxvluEAGdqfi7aTEFrEMUdvz9e4mSoVHxwtQiEgj+5BydYbfpuD9hLhuvwSHBgvG4Xz2yQCd18IUN9sq8OFLsJl6wdVe4LfMCVsABm7GFg1hjCo+trAK6dqE6sKFqHfpQZ2WgIEiWxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743429659; c=relaxed/simple;
-	bh=qx7OAI2GDeAQiCeEnYoKh5egoJWKfbqbwDFIFemysCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RwnqlXcrzR87088cgCVzaYNUnxqmWA6xRIrtup++Mh93f9c7vAaohKOv9JMUEjGENhV/ywHNyW1v/PKol7sXyeJcOT6PryJynke9yZ2sX0rhxI0q9BhkOUqxnNBXTNF5N+HD6jUCcc7zt2KeKI7iAXfd7DEGyGBMjXt/LBDL7PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l7QfCNsy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743432770; c=relaxed/simple;
+	bh=yuUMbbdYjnlLnW7qcBa4ymooKDLZ8qgAPimz0TsDkn0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BoS83L6ZnfoBnfHWvDyyCo/4Jd6BUNBN849Wtvu2wYoNTxZ8eRGpzpPv+PUUNYPxwzoS01xjYOcdxRB9fOCKcsCiSgF5S4DTbfa5QSD/x6Nzv+Pr+el7X59EV9nmMOuDY4+oxlAHiKA6dRbXeHUOqpD6F0fn1Dg+KyMO/f60REU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUK1U7cD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l7QfCNsy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87872C4CEE3;
-	Mon, 31 Mar 2025 14:00:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUK1U7cD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 217D2C4CEEB;
+	Mon, 31 Mar 2025 14:52:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743429657;
-	bh=qx7OAI2GDeAQiCeEnYoKh5egoJWKfbqbwDFIFemysCU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l7QfCNsyPSw46Yzt3ILIAsnJy/+D/Ntx2rchwd/Ao9AXqmMITXb42v65oVlJ1IexH
-	 81Mr37M2bV5gzj/sBT5CC6Ve63CXhO8B6pdfzaoenI/iNkBqh4A/1ouAJrOB/pn4sj
-	 C9NZisBfS2Rh0PQiCNCvNzeMk9icndFHLLmnZVawYJzHye1jaMun2H9ez+lO5ogeRQ
-	 hb+oSgmPSBBMTFV0dnQygJm3EK5Zm6VAg91XX3au1X/78Vi1eFdJydKFC9pD+25/aF
-	 J5G2SEzluyoaPkK/pP4RP/eOGUnqEI8m7N0jzVdZHtcbfXMBJhDBtarh5uPQZwnQDa
-	 QFMhW7SNDkDxw==
-Date: Mon, 31 Mar 2025 15:00:52 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: srinivas.kandagatla@linaro.org, perex@perex.cz, tiwai@suse.com,
-	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org,
+	s=k20201202; t=1743432769;
+	bh=yuUMbbdYjnlLnW7qcBa4ymooKDLZ8qgAPimz0TsDkn0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mUK1U7cDQDq5E2yCg97TZHyTZuAPwwXONRdqYt8UqiUlXwfGGsHot5qhoBAYAXNp4
+	 +Q/WqVzcOj5VEjRPE6KjAppAHnjmH3774yG789RdupA3wneNjUomcfM37JFIu9dq9X
+	 UiywenajLN+/p53BlIwY/Au9cSP0Mla7aiRZpjSTDCs1wCsBVEkBMKDSNaRnDEVBHg
+	 W8Jm4sMLnQGQilXbVyprydGBlWwuiX9l20cR4w906IxHkrRkYOaJPwatSooJYVVxJH
+	 vvGOirKH3ZxsfVYoOWTWl2DDq0ZYSWI5N6E7PNYe0CRSPba2zgrj8p5bvuO/cNUdUi
+	 e2y7Vi5x3WWKg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH v5 3/5] ASoC: q6apm-dai: make use of q6apm_get_hw_pointer
-Message-ID: <78e8c1c8-8539-4b91-88ad-c802cceb8579@sirena.org.uk>
-References: <20250314174800.10142-1-srinivas.kandagatla@linaro.org>
- <20250314174800.10142-4-srinivas.kandagatla@linaro.org>
- <74214537-ad4c-428f-8323-b79502788a66@sirena.org.uk>
- <Z-qXBfrZOEkOpMHK@hovoldconsulting.com>
+Cc: Zhang Heng <zhangheng@kylinos.cn>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 02/27] ASoC: SOF: topology: Use krealloc_array() to replace krealloc()
+Date: Mon, 31 Mar 2025 10:52:20 -0400
+Message-Id: <20250331145245.1704714-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250331145245.1704714-1-sashal@kernel.org>
+References: <20250331145245.1704714-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="j0KmjnF/an9ogldR"
-Content-Disposition: inline
-In-Reply-To: <Z-qXBfrZOEkOpMHK@hovoldconsulting.com>
-X-Cookie: The Ranger isn't gonna like it, Yogi.
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14
+Content-Transfer-Encoding: 8bit
 
+From: Zhang Heng <zhangheng@kylinos.cn>
 
---j0KmjnF/an9ogldR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+[ Upstream commit a05143a8f713d9ae6abc41141dac52c66fca8b06 ]
 
-On Mon, Mar 31, 2025 at 03:22:13PM +0200, Johan Hovold wrote:
-> On Mon, Mar 31, 2025 at 01:32:36PM +0100, Mark Brown wrote:
-> > On Fri, Mar 14, 2025 at 05:47:58PM +0000, srinivas.kandagatla@linaro.org wrote:
+Use krealloc_array() to replace krealloc() with multiplication.
+krealloc_array() has multiply overflow check, which will be safer.
 
-> > > Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Link: https://patch.msgid.link/20250117014343.451503-1-zhangheng@kylinos.cn
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/sof/topology.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> > This commit doesn't appear to exist.
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index 688cc7ac17148..dc9cb83240678 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -1273,8 +1273,8 @@ static int sof_widget_parse_tokens(struct snd_soc_component *scomp, struct snd_s
+ 			struct snd_sof_tuple *new_tuples;
+ 
+ 			num_tuples += token_list[object_token_list[i]].count * (num_sets - 1);
+-			new_tuples = krealloc(swidget->tuples,
+-					      sizeof(*new_tuples) * num_tuples, GFP_KERNEL);
++			new_tuples = krealloc_array(swidget->tuples,
++						    num_tuples, sizeof(*new_tuples), GFP_KERNEL);
+ 			if (!new_tuples) {
+ 				ret = -ENOMEM;
+ 				goto err;
+-- 
+2.39.5
 
-> I think some tool (e.g. b4) incorrectly indicated that that may be the
-> case here, but the commit does exist:
-
-Oh, actually it's a parse error with the way the tag is written - not
-quite sure why but for some reason adding the next digit to the hash
-massages things enough.
-
---j0KmjnF/an9ogldR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfqoBQACgkQJNaLcl1U
-h9Bjiwf/VUSr9Yd9KkaDlTgIuPlbwQt58f3t6htOYFLumOB6nikv3gbF46KVEFk5
-4Jch+k1zO1ZdKpmXtXUEKEIYd70ywHFwMOj37NDKBMrFi4ytsdkAqDf46Mcs1hG7
-T/Tbv9wwDOx8kjB73Rf+fh5yCFZa7k7S6M4ALJFFX6TKvW7ghhzCSVT1A6CI4Q7R
-n4Q/jNymrMxhQhhODlRDYN5xLdlmL4+B+TZgWgaX9bpBt9OkDmzmXSsgRJ690Lu6
-Z1iHemZT+1kdmbtscCPxvnZoLRlMeAzPkFK68W/8Y5yJs/FPXuAE7/4Sc6U5gnCB
-Lvz1JEBUItNQLAPUzEX5wU/ChfT9gg==
-=jJyr
------END PGP SIGNATURE-----
-
---j0KmjnF/an9ogldR--
