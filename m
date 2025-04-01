@@ -1,184 +1,151 @@
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2072.outbound.protection.outlook.com [40.107.241.72])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF39B2054FE;
-	Tue,  1 Apr 2025 14:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.241.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743519160; cv=fail; b=rdXsSUmeZWYPdxrFXXEvzJkBryP2LmasLDAg1XKV5X5uTgAuaDBbLz/9mZacgAXTG/pNh2oAMmg4sccQKS+PST6/pnwCWOPUMwPJE0oAd1wjaPmzcu+Ooib+XsuemFMR1IR93EdiXp/URcR9qOU6o+0vEApMVYhYu98YccLtqzk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743519160; c=relaxed/simple;
-	bh=k03Mg9NvjR1ncpoA0fvrvPqNl1lv8iioDL2ZA3JdD50=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=O5GJFg9xCYiR1Q+feixED13JmqH5yUOvXqPwlBtvhKlyLEv3nrCM7fF1Y7XJK/4lRMPZ2pf58FACAeO8KhrWW6wJa0bcxSB5xCVJLlDyNLaNVmwBQVDH3x19i3Fcd548dayASBVKIo5niW55AhWIAZk4wVqzBuZx36xCpW9TT2A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=nzBDmEUF; arc=fail smtp.client-ip=40.107.241.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6F4215793
+	for <linux-sound@vger.kernel.org>; Tue,  1 Apr 2025 17:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743527261; cv=none; b=jkNmPQ7/tsDzgJi3MLBDW0cxMW0f98hFlRzJa9vA6h/X6W5WaxZHds2l3D6Awi4EK3B8qWlIq7zwnk+uTNhpyXDoRKBIccq4aP/69QRpZ2Dko+7sVdOpcJGVjSLGha304EtS+z5spdQyJNIXL9YTzXi5P6PycBlD6R1Nrx6/Pt8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743527261; c=relaxed/simple;
+	bh=4zONKQ40AvgXGrLBNmhLPDDI8/JgVX+iWCglOQXLG/I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mvfQFNeZbVNWCVwoWZHcGfIomnIzRPGNiKmUOR+4/Vn2/rqSYW2vhGaWsddSi/FkmBjZYyHWvMIWsNb7ND/4QxyPfTG80mzKcTAQ2dxYeeVHfhQkF8g7g58faTXAOfvnbCyELiR3yYSNouez28K7n5bWz4CBevvpDd0Pim6EHvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=C/P4lNqd; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="nzBDmEUF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AtrwQaBLQZ2eUKUeTyb+3rVV4rAkW+UABB63UMo9FreKavV3prq9PbA4x1Y5umu6/Q/trWnv+AUlPafkFbyIwx5T/1pithsUlRURV3C6kzZ02QKPuvY5o/cqBnJ3NyWWhi7AiVcoIX795BHN7fcqQxjTlZqhOG7I4zq/9hu7/7u+/FjDiKsI2+/r/xPWgB/8ny9rb1CtvSs0TGtzMWig/CPY5qbtTieprcJJl1lfJip939KxTELN9s1vNPhIiywrcHpQufqNsVcrxOBMMbfKbvDFkVxhy0/FSs3p8RMoBdwwDoRcefv5cyqd+3ISfUdX0bDrFEzsCwU3JAhsPE6dJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jahQ3DtBaPXca5egBHCWthHkQzQJDZIvDycBzFCHbrE=;
- b=Sbuk9k+yzCwzlsDsGwpGVrbOsOIojNI6S4M5Z1lcuyG6pv7aUrQQTPBgHKxbZzgAb7FzSCX9a2nIeTru1vqbn9YluEAMatnedb/dEJPYAtKqg6ncjdnmI5mxYpsbvdOi9N95NmA598R3WrcLK04Lfs5fdFhdXWIGDnmFWXYlPM1sHnryU8FOKUwn4SUFPIh2CJgBuFQeJYDYRo2+y/t0xw1usmkofA+wCNo95V7w4lJT6XELYd1nQ+u4pKucXeAAYEex85NBk6jouqTdkoVaWJn3jtItvzazk79bu1LR3hwfrT7l2M9JtPke5loDzA+xroZ/auVZPmHXY16Ask9ONQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jahQ3DtBaPXca5egBHCWthHkQzQJDZIvDycBzFCHbrE=;
- b=nzBDmEUFNaYRK178nrBqFsrQ2vPvy2oOmvawBeTh/0ImfFceVhBMzM8by5At9/PoPZ3HWtURsUjF4/da0rqwfQ63/cMIM5P7IyagFUYOgYlhX7fD8FRDDmeYBOJJM+CgBXmImqj/NohvL8W2i3yW2w8v7+wMNMlib1RIu9y59/28xCfCZe6T6cKKR2AlgTxx2zOjaXxhg8PL+BBuO7vlt2n5l2qI5dQlwOfj3Xxr30aBfIJ53Yf+nrpZlQ7uOB5bfTmYsoPrbIraV3SDnJxUq7mIZQnG3zri/OwLtMh7yAMgEAFxEMyYBBGEOIwaylegG8cyzeMxKGH4tZDP/UnLtA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by DU2PR04MB9524.eurprd04.prod.outlook.com (2603:10a6:10:2f7::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.50; Tue, 1 Apr
- 2025 14:52:35 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.8534.048; Tue, 1 Apr 2025
- 14:52:35 +0000
-Date: Tue, 1 Apr 2025 10:52:25 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Henry Martin <bsdhenrymartin@gmail.com>
-Cc: shengjiu.wang@gmail.com, xiubo.lee@gmail.com, festevam@gmail.com,
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	perex@perex.cz, tiwai@suse.com, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de,
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] ASoC: imx-card: Add NULL check in imx_card_probe()
-Message-ID: <Z+v9qbFjSNpDcHW1@lizhi-Precision-Tower-5810>
-References: <20250401142510.29900-1-bsdhenrymartin@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250401142510.29900-1-bsdhenrymartin@gmail.com>
-X-ClientProxiedBy: BYAPR01CA0034.prod.exchangelabs.com (2603:10b6:a02:80::47)
- To PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="C/P4lNqd"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id C4BA24B3B;
+	Tue,  1 Apr 2025 18:58:51 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz C4BA24B3B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1743526731; bh=e6YGknu33WT7c35hpjY/ynpqe/W6efL7WBUbEzRiMnc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=C/P4lNqdD+nSflSe1FxwddGFPQnW4yCoGVj6lbYx+hF8nNNzqu8wtK9TTVZm5ijE+
+	 4kSPOntk6MGrfupcNOVmBbw+FjAKUYhpD8EBM3bA26zUYrJKgpn8fmsrSDIn0x488g
+	 1WN2ZWzFY8gvlB1BNOcgGjcgrjo5Wn4kUARBzzDU=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue,  1 Apr 2025 18:58:40 +0200 (CEST)
+Message-ID: <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
+Date: Tue, 1 Apr 2025 18:58:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DU2PR04MB9524:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd336ecf-a78e-4043-a02d-08dd712cd68f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|366016|376014|7416014|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xrapDI0y1R/W9V7Ww6BEh24WxOTQWKy3CsjrnZBKkksprmE9qTyJCVSqopNw?=
- =?us-ascii?Q?bz9AqI2nInt7WSp0J9My1Diz12Ll4tizocFvl3CQhVHKZlJIO1WQ/F9Skfaa?=
- =?us-ascii?Q?z0gVkAeczT4fSibMsxhTKBZh+K2GjqJPedxz3seFgmHNjNjFNMOVzfFuanGO?=
- =?us-ascii?Q?E/oZjL/6LVDm6exM/bB2KlvI+fB/5fOBoYABWOBDIvvohsb2nYeAdtrAzqDC?=
- =?us-ascii?Q?YPZTul4s/B5h6bDJc5Fas4dcJ6KTSSY90cV4HDzJmINGoSCsFs4++KLxQrq+?=
- =?us-ascii?Q?2Sh6obMG1CZ3kwLtgHhslH2dh15gtpojKiMYHP8pYySbzyV88CMY2DMnV1LM?=
- =?us-ascii?Q?WjSyODP9J8qOrMlqb1oV4DwhnJDA3XoeYVD5PhK22b9yqHbw9k3S1JLdG6Mc?=
- =?us-ascii?Q?j13C6EHsfEx/zeEpenNouaMPOeW4Sh0WobtczT8WNwB6JOhLMeK110URmfX2?=
- =?us-ascii?Q?I2gVNZEMGMJHIFDcio/n/pXaHTTPtMmYw3LKnvzhWK+w4KRCF3tp5gWI0sUT?=
- =?us-ascii?Q?U0Tbfbtkvd/HxxGUBmTLdNfGcASkErjH+qobXsD7vm6VWBbjfb4rPrGU9jY+?=
- =?us-ascii?Q?3IAGGpFnC+DDd6vQC5/D95JCnnGkSRPFDdSWgdJiH1UgkTHDX8XRWDOYZGdi?=
- =?us-ascii?Q?BGrOYoJedzj30W/FDsrUUHWrompZlUoz1v7qbNe/tmnysk8Xts8YceVhXqN/?=
- =?us-ascii?Q?45uZSL1A4ytyXQBc8n9IQscas4FCWgdMLVh9w2oAGhr9FlOs74fcU0duxaKa?=
- =?us-ascii?Q?m3iO5pymJlhjqi3YYDZawTJCH+ASG3MPl0rk/HfdDeMY+RliTWlmVbw3l9TX?=
- =?us-ascii?Q?+CAI9uh0gio0CxvLodmt5hh8SpuVfM7rYLrSiHfD0uUuj6+kwUvWA4S1DYNz?=
- =?us-ascii?Q?kVkFduXXlcChP6N6asQ1z2AtuPCyzAoq0dWVuEOV/MtMDbg68dBiMdvi/q1B?=
- =?us-ascii?Q?nN5xiW/ZY7qCqK0X8w8Lvee+Rw7uC8DrEjebHhJKUvRfaotQ+J1zfEJxAkoA?=
- =?us-ascii?Q?dwNaRVBF8OQ6iZ+f7it3pg/rU87GRGHZr3ly59bz7nB1dAD+eCCPpmg2ik6s?=
- =?us-ascii?Q?vpyqQtlZ5lbscO6rScFVabVq+q3iFc7ESSUACvj/N7B6ToTg/auRiVJB3xfN?=
- =?us-ascii?Q?SQrfL4aEMwnIDeRvmLh/EIdeORt8+g6PZ2dSW56h8zvwFpJUwvIu/dCBdv7c?=
- =?us-ascii?Q?Exp61YIoFXfiVkTcRcoXHaCkDxD/XxSPexyYMfq/VPCoutRvKJZVooAVQ0sY?=
- =?us-ascii?Q?tLJGgc9tB4P2BftdBnHznhK6O3AGeCbYvOjy5tmTXLqa7AbM7bB99/y1exjv?=
- =?us-ascii?Q?CynJiUKe8OcgpFXfMkzQbQ9tvMgv99A0AP2UdCMXdSnG7txVX0m23wjX+lP/?=
- =?us-ascii?Q?hcRkmaPhrRPM+bji4F9BZ7GNSNF8Iq6mQwCh/B0dz9fm6U1OTE9m1lvpBZ1C?=
- =?us-ascii?Q?dtyKUYQTPIieM0mgn8GcKinCc7xHM6oE?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(366016)(376014)(7416014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?n3E9PQhYtxnn9vbJYQoprs4T9QSBY1+cxJJZ99vslP/0JNx1fvCqeUFYTyJR?=
- =?us-ascii?Q?fZcb71474eSc2p2Fa99b8ajRQsYlRxA6yxWc5I9KDSW4JyVL6VsyM7CEdz4C?=
- =?us-ascii?Q?OIAzgzJ9g29TImur/NeYAv6yNAQX1v9Ef8mYQ465dcQH4YTIARw3OnqkOmH2?=
- =?us-ascii?Q?mKYXJMeCdRPYfjvJN9X/7Q7Fj/sLjGKNGcD+K0IE605DQ7cFUGXU6FfKy+mq?=
- =?us-ascii?Q?Dl4mh+K4QjqmjuBW2SAzHEFPMV/9/NioTWzMdjZnmoEztyaHKR+Xyefko5kn?=
- =?us-ascii?Q?5oMSRzgHWVlFduVk+t11RvtaU0d1lTvnXwMcnRJzrjZgsGSAnDnD1BEwboha?=
- =?us-ascii?Q?zJUhd+kTlsdF+yIxRBtsO8j7+R3gh6IEDzMYLdN+EvdkaOU7OIF6PDMKKxg6?=
- =?us-ascii?Q?xSSRhT7YJR1GkGa6UNQH2f5vUJZhytfqtJ5qqd7hUrn+VrtPkXBiALOPNYCm?=
- =?us-ascii?Q?LFd/vIL3SGNBD4VYEmYPELG3J023XKk5zGsW8LMqoGAE47AQtDsPCk1uTiKK?=
- =?us-ascii?Q?03y80m4wu4EhvFce9ssuSWGf/LrDgP05N4mQIo9zvtRdf9sKmgdKP+ITB2PC?=
- =?us-ascii?Q?KcBnmaBhm3BUjVMSKgmrMl5t7MrrVaPmXiJcsJqVgXG+wkoLWceVPY/5yr+p?=
- =?us-ascii?Q?URIhktNQuWQUhmHuKjE4TG8McB27OF/EmYfCqqAH8KzLQcNixd4JJYDg/Lok?=
- =?us-ascii?Q?2MNUWFdOn04us1HZDK7lZ9exePMZm7qqPf+qUKVHExpoKcu76dgpp41ubORs?=
- =?us-ascii?Q?ZQAEUHZ+tPIlTPZqPnOQ4nhqQcWT6ITZYAaYcK/5uLgreJnDl2GASzaBvi6X?=
- =?us-ascii?Q?Gdl7UuI8xFnIgRV9ZL5uq61VXIVOGdxSLMhjRxsZH+lAoOgzdpGB8xIFGJHd?=
- =?us-ascii?Q?WryC856BjHJmtlY+3s5ahxrjVcel4UR2QV8eg2MZuWF2pXCJSBkN7zQkb7BU?=
- =?us-ascii?Q?yRKMsm9gX43M00J7DN+jz11FSpEaxL+73nmgk72qPz6PVCEKcMklJQUSNWnF?=
- =?us-ascii?Q?aHkHt8wg1fAuJRkY8KKfnFJNkvDqnUfddByJ6fm+m3w0DYeAInQeiWNqioIE?=
- =?us-ascii?Q?PgHbj9zI4QE2hnwMUQdNeadRV2fAatP2WzpcUiAoDNCCFQWosXw08AHlKWaK?=
- =?us-ascii?Q?w2Y3yQQjUo+tLAk2jBDNO+825RA4Yl9CrCOZZ0xuzHJscyke2wp/Jt6vU1Gj?=
- =?us-ascii?Q?Yx+CzUz3hedPgLiwKbW8X5fZe0xjnXklurV7gCz9A/lxuMPuAP1qnNU0mIhv?=
- =?us-ascii?Q?J2qGUbRRbRsB8LtgjSNBgSDhHBgnkwTjffcN6nxJdYVfZdxQmeaU8LPuW1r3?=
- =?us-ascii?Q?/x4c01w32t5Z6PsVy5Vpryoq7Sh1+8b5c3Uq9hNg0pa2956r87fOLMm4UUAq?=
- =?us-ascii?Q?LVefdnKraR5nfgiDiHG3EfjllfWjX2EFnUbVBDjSKopCNLtMcuHjHVLE0XZZ?=
- =?us-ascii?Q?P4sNgMf6dOLlmMJXseRyGFPd2XZ7tCmd6BrwFcmCJIEwfb0AWod0VMH0wVJC?=
- =?us-ascii?Q?th9DBEDTSGuU3z5R3lUUxyEMnBYl3kMAIXOV72mOnBHmFRiQ6ikNcgjSTNTz?=
- =?us-ascii?Q?xXGlfJF9gPbjqfszp2Kz5ksnVDGRV7yUevyW7UMy?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd336ecf-a78e-4043-a02d-08dd712cd68f
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2025 14:52:35.1586
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sId6UeOeDyl4OiF5Qf00N+W1FqOJWoHg9GjbgkzjWfoQLA0irJQSBkteqP9MdIl+1AVMjMFncE/tqXFQlaGY5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB9524
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
+ resume is not supported
+To: Takashi Iwai <tiwai@suse.de>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.com,
+ linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
+References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
+ <87r02cym1c.wl-tiwai@suse.de>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
+ ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
+ E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
+ HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
+ LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
+ aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
+ srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
+ GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
+ 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
+ njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
+ eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
+ BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
+ lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
+ VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
+ 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
+ cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
+ nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
+ LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
+ Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
+ ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
+ +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
+ aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
+ FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
+ 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
+ V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
+ t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
+ +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
+ 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
+ f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
+ z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
+ zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
+ Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
+ MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
+ y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
+ uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
+ ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
+ dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
+ qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
+ 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
+ k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
+ m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
+ WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
+In-Reply-To: <87r02cym1c.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 01, 2025 at 10:25:10PM +0800, Henry Martin wrote:
-> devm_kasprintf() returns NULL when memory allocation fails. Currently,
-> imx_card_probe() does not check for this case, which results in a NULL
-> pointer dereference.
->
-> Add NULL check after devm_kasprintf() to prevent this issue.
->
-> Fixes: aa736700f42f ("ASoC: imx-card: Add imx-card machine driver")
-> Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
-> ---
+On 01. 04. 25 16:49, Takashi Iwai wrote:
+> On Tue, 01 Apr 2025 15:36:52 +0200,
+> Peter Ujfalusi wrote:
+>>
+>> Streams moved to SUSPENDED state from PAUSED without trigger. If a stream
+>> does not support RESUME then on system resume the RESUME trigger is not
+>> sent, the stream's state and suspended_state remains untouched.
+>> When the user space releases the pause then the core will reject this
+>> because the state of the stream is _not_ PAUSED, it is still SUSPENDED.
+>>
+>>  From this point user space will do the normal (hw_params) prepare and
+>> START, PAUSE_RELEASE trigger will not be sent by the core after the
+>> system has resumed.
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Why you expect to see PAUSE_RELEASE trigger before SUSPEND trigger when resume 
+is not supported ? I think that the driver has complete information:
 
->  sound/soc/fsl/imx-card.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
-> index 905294682996..3686d468506b 100644
-> --- a/sound/soc/fsl/imx-card.c
-> +++ b/sound/soc/fsl/imx-card.c
-> @@ -772,6 +772,8 @@ static int imx_card_probe(struct platform_device *pdev)
->  				data->dapm_routes[i].sink =
->  					devm_kasprintf(&pdev->dev, GFP_KERNEL, "%d %s",
->  						       i + 1, "Playback");
-> +				if (!data->dapm_routes[i].sink)
-> +					return -ENOMEM;
->  				data->dapm_routes[i].source = "CPU-Playback";
->  			}
->  		}
-> @@ -789,6 +791,8 @@ static int imx_card_probe(struct platform_device *pdev)
->  				data->dapm_routes[i].source =
->  					devm_kasprintf(&pdev->dev, GFP_KERNEL, "%d %s",
->  						       i + 1, "Capture");
-> +				if (!data->dapm_routes[i].source)
-> +					return -ENOMEM;
->  				data->dapm_routes[i].sink = "CPU-Capture";
->  			}
->  		}
-> --
-> 2.34.1
->
+PAUSE -> SUSPEND [-> no RESUME]
+
+The driver should stay in the suspend state until a new stream 
+re-initialization is invoked.
+
+It looks like that other logic should be moved to the end driver (if some 
+parts must be reinitialized in the suspend phase when the resume is not 
+supported). I don't think that this is job for PCM core nor SoC PCM core routines.
+
+The SUSPEND trigger is always invoked, isn't?
+
+>> To fix this issue, release the paused stream before handling the suspend
+>> if the resume is not supported.
+>> This will ensure that the stream is properly suspended for suspend entry.
+>> On resume no attempt will be taken to resume the suspended stream as the
+>> resume is not supported, userspace will eventually going restart the audio.
+>>
+>> Link: https://github.com/thesofproject/linux/issues/5035
+>> Link: https://github.com/thesofproject/linux/issues/5341
+>> Suggested-by: Takashi Iwai <tiwai@suse.de>
+>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> 
+> Applied now.  Thanks.
+
+I would consider revert if my objection is appropriate.
+
+				Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
