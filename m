@@ -1,62 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBE01F930
-	for <linux-sound@vger.kernel.org>; Tue,  1 Apr 2025 13:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD33420371D;
+	Tue,  1 Apr 2025 14:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743514615; cv=none; b=PKwikRXdXXzN4ly6WOO++P9AaGvq3KT5hWudc3uUqn9jWhUk8SS1PqmbmAJTA+8abbBD14CUiaTQaNPgeGVriP6drAiYsUVuDilODPmpdiSTfwiKcrYtbzduuz+PwdOGTPZY2TZpbyWrav4MVDmbRe3TYgWoBzSeN4MZh5O+dus=
+	t=1743517530; cv=none; b=VGaNBRBeetgn+JNHZ9LpcFvCM+uc3EqN6tBSeAgDSlYzie6EkoL+znKS6XfGQTKJ13/V9AQKrZISWivsy8k2Otb8ETofFP09JOnIEP6YjIEPDEeqAi48sxh4a/PuzKiNEVavBuKxptFQLGEPNBPOIJo3RAdI5WhsQiQdWTiTUaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743514615; c=relaxed/simple;
-	bh=llFm4IBrza9kdY7Ae6qOwGSmHVXIffKU9+YO5FtwwAg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hVC2aeMfbisIMD+puEUBzgihCMsOqQYxvdmLDMECKqzo2leJ695Dr+Ui3JW9TDh4LK8gGG4fAXyJu/A3N5V2rQj3ydfk+0NLJDzrGyAawqbZ26dElY1GYTbbFB+bxo0S5KzkeCDL9OtS2IBzfFQ2rMYqjSDBlPTsnGPk3zDLnNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mtpGXGls; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1743517530; c=relaxed/simple;
+	bh=Arp819bxRknwDeD70osYn6dTlFAlcGvt8KrCRnff2s0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lb6A+Je7mc5XcT1vqqDlPI/1mOw29lIlNrveQ4lPftJMEhYPBfDH+dTQKQOWE6X6fS5ajMZ7hwKJmT+XGCWzWTRCU+UYuUa5ra6o5uC+Hr7dceWuSpxzeFRwsKnGbcJc7LMMoaLKodd1i0QhOoGA44bKp8EUq7JY2WdSqrCN+r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KJoXH+i9; arc=none smtp.client-ip=209.85.214.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mtpGXGls"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743514613; x=1775050613;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=llFm4IBrza9kdY7Ae6qOwGSmHVXIffKU9+YO5FtwwAg=;
-  b=mtpGXGlsXZUyRI6zGaUH9Mz4021cuq4+xuUWArYWDaboAh4/rEtZdhQr
-   ZvSz0ypA4da7oek8ZcYIIAGzB0mbCCwAvCEFo03J8FQLlTOGaNS8lO0Wk
-   LgSh4y6k6A8tK5AmLVW0+m3eSfzN2DJNixmz+Wq7FLDvDkZgLwyg1ovPG
-   Z8Dr2Ifw5B1m4OsPIRYnKZSfNgs8PEiotRMvcOLIHFCLhlPotey8vbt+d
-   Ih1gg6HNOeEzYkKHMhmZ5e3MDHL1uwELaxLMAnPM+QiQVPADNyat/HJRd
-   h78Wh9LB3zHl2kDd+c0xI/v8qGtGtzf2QmzepfB7+6+z5LTkRUyS4cw9T
-   A==;
-X-CSE-ConnectionGUID: Urm0z/JGS5qDTASKd7VfMw==
-X-CSE-MsgGUID: C8n+MxlZTK+qSFDiyBdTuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44549130"
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="44549130"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 06:36:52 -0700
-X-CSE-ConnectionGUID: PYIAITcARvy41LWKKbGn/w==
-X-CSE-MsgGUID: 9b5TEa9hTTKLXhrN3LgF0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="126217635"
-Received: from mpelleg-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.251.179])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 06:36:01 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KJoXH+i9"
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-2243803b776so37555005ad.0;
+        Tue, 01 Apr 2025 07:25:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743517528; x=1744122328; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1phRyZ5KcBrEb/h+2IGgPuNtDNLntogG8i/AIBPIi5g=;
+        b=KJoXH+i99tWwcgYnL7RUus3LYouTAOAMfpm2g61WyVKwP3/AW6c/OFRHa5/cJ66xMk
+         QiKgc1gMAFVVmiJrA84pZnGf08o88otqZQlUCx9QAF4qDiKp559Z4NfsPqQ/0C7h/gdm
+         e5rCNocgTjhjTNUR3Gf2nkMELtqssmSpNvXTzHxO1/7fCdhb1qE8cunOaet+OFCwrJaV
+         NzMjGkK0hWPT3wUcf8o7pxffxw4/smiOFf7I8QKk1TiONqpEFzJHhP6rQ47avCW1uBEX
+         e3SObHC0oq3jNt5M7nvggISNRxtYhk4p0oB6GmsRPTLgYko2QxpPjke/ATJVgjYk7pRe
+         MD9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743517528; x=1744122328;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1phRyZ5KcBrEb/h+2IGgPuNtDNLntogG8i/AIBPIi5g=;
+        b=MTCCtzvp0wWZYr4gs2PgYGrXKz9VEF0QadlwlJVaH3qcRKkTBrnlwhUci0xGSfxfsV
+         Z301i0zWtsoGxO6/PCHRBp0nZux5KwPeNwLd8ihqvuqRJtL/JBYxkgrIAe9V+0xbfDbH
+         fL9/DpUERlqk/lV19b+ebLAotckvObqZekZeVQkxpIX3Nlx3dHos9oKFS10bLUHkEVf0
+         YTO+Rrmx18I5bQ+8avz4PdYnoaObdmc+y0jCQ4wHQuaI5JEP8h8D4vA4YvyrON0X2KiU
+         B6r6Jp/t0sY/4OFPnoQpsWLzoZMSdU84R+GGPdhge3ukznzn4xZzJeNPBoyteStt5cen
+         iNeA==
+X-Forwarded-Encrypted: i=1; AJvYcCUHk7iEnXY05QmBzM8K027dUHhMugNN6F7fzT2oE4mTbYoa9UUeYlBAWdZpsayfcX4ydWH40T7QcaxQadg=@vger.kernel.org, AJvYcCUXJWVK6ViodiZJKsS8Rs8zzUnPZdYu5D40MkXPVgYE3N4kN4dShETG87YCupKpgb+D7lxpKdXv9e58AYc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycASRPyasIWU6PqUT4/ulAcpTNgdKlDOgp5nR42rxCLyJJyuV7
+	vMFnQTv5WRtO2YQSZFXy3pDGSHnPn2/8swLqSKGrU93qNIaQWbfp
+X-Gm-Gg: ASbGncscADYpkE6+AGpQyw/XtAcl1pSz4Ph7joBsgR/yOZrcLArPSU8LND+Hfih4K5i
+	xxhadYCZmXKY3N2juKPSPtB8pnqvwOYcU2nb8Y/9Fslr+YIZBKlKehUAIR5rHKcy7xT6B/zkqon
+	ziwXY+1NkP0sWO3KMCvDIX6o/ocIGYxC8lD9Me2zxwTiiNgYWboRAUwkB8swkipaYmgB9JMbLSA
+	fr+bewzxDRDTDN7RRph2NvDcjzIOai5jnfhuxtye3SScaw6SwmoTD68VGOcnIdllEGPhAcYlR1M
+	skvKUVPxJa/nU3CI5zrcFh7+vCdT9KQ9UPAOnCkQVtKUEI5/YozgdQsROCSO15gcBeCGIOs=
+X-Google-Smtp-Source: AGHT+IFV9dBzNcxDUHEuxWuZhPi/1saRFkCoRQug1IzAs4LF+0tMPIs9Zk7YIgX5WGynxkjRbFRZFw==
+X-Received: by 2002:a17:902:c408:b0:224:1609:a747 with SMTP id d9443c01a7336-2292f97ba73mr186070825ad.31.1743517527938;
+        Tue, 01 Apr 2025 07:25:27 -0700 (PDT)
+Received: from henry.localdomain ([111.202.148.167])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee22a2sm88704425ad.81.2025.04.01.07.25.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 07:25:27 -0700 (PDT)
+From: Henry Martin <bsdhenrymartin@gmail.com>
+To: shengjiu.wang@gmail.com,
+	xiubo.lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
 	broonie@kernel.org,
+	perex@perex.cz,
 	tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	liam.r.girdwood@intel.com
-Subject: [PATCH] ALSA: pcm: Release paused streams before suspend if resume is not supported
-Date: Tue,  1 Apr 2025 16:36:52 +0300
-Message-ID: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.49.0
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de
+Cc: kernel@pengutronix.de,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Henry Martin <bsdhenrymartin@gmail.com>
+Subject: [PATCH v1] ASoC: imx-card: Add NULL check in imx_card_probe()
+Date: Tue,  1 Apr 2025 22:25:10 +0800
+Message-Id: <20250401142510.29900-1-bsdhenrymartin@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,55 +85,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Streams moved to SUSPENDED state from PAUSED without trigger. If a stream
-does not support RESUME then on system resume the RESUME trigger is not
-sent, the stream's state and suspended_state remains untouched.
-When the user space releases the pause then the core will reject this
-because the state of the stream is _not_ PAUSED, it is still SUSPENDED.
+devm_kasprintf() returns NULL when memory allocation fails. Currently,
+imx_card_probe() does not check for this case, which results in a NULL
+pointer dereference.
 
-From this point user space will do the normal (hw_params) prepare and
-START, PAUSE_RELEASE trigger will not be sent by the core after the
-system has resumed.
+Add NULL check after devm_kasprintf() to prevent this issue.
 
-To fix this issue, release the paused stream before handling the suspend
-if the resume is not supported.
-This will ensure that the stream is properly suspended for suspend entry.
-On resume no attempt will be taken to resume the suspended stream as the
-resume is not supported, userspace will eventually going restart the audio.
-
-Link: https://github.com/thesofproject/linux/issues/5035
-Link: https://github.com/thesofproject/linux/issues/5341
-Suggested-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Fixes: aa736700f42f ("ASoC: imx-card: Add imx-card machine driver")
+Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
 ---
- sound/core/pcm_native.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ sound/soc/fsl/imx-card.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 6c2b6a62d9d2..a16d15ee98fa 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -1730,7 +1730,20 @@ static const struct action_ops snd_pcm_action_suspend = {
-  */
- static int snd_pcm_suspend(struct snd_pcm_substream *substream)
- {
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+
- 	guard(pcm_stream_lock_irqsave)(substream);
-+	/*
-+	 * Release the paused stream before suspending if resume is not
-+	 * supported, because:
-+	 * PAUSED streams will not receive the suspend trigger and since the
-+	 * driver does not support resuming streams, it is not going to be able
-+	 * to handle them properly when the system resumes.
-+	 */
-+	if (runtime->state == SNDRV_PCM_STATE_PAUSED &&
-+	    !(runtime->info & SNDRV_PCM_INFO_RESUME))
-+		snd_pcm_pause(substream, false);
-+
- 	return snd_pcm_action(&snd_pcm_action_suspend, substream,
- 			      ACTION_ARG_IGNORE);
- }
+diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
+index 905294682996..3686d468506b 100644
+--- a/sound/soc/fsl/imx-card.c
++++ b/sound/soc/fsl/imx-card.c
+@@ -772,6 +772,8 @@ static int imx_card_probe(struct platform_device *pdev)
+ 				data->dapm_routes[i].sink =
+ 					devm_kasprintf(&pdev->dev, GFP_KERNEL, "%d %s",
+ 						       i + 1, "Playback");
++				if (!data->dapm_routes[i].sink)
++					return -ENOMEM;
+ 				data->dapm_routes[i].source = "CPU-Playback";
+ 			}
+ 		}
+@@ -789,6 +791,8 @@ static int imx_card_probe(struct platform_device *pdev)
+ 				data->dapm_routes[i].source =
+ 					devm_kasprintf(&pdev->dev, GFP_KERNEL, "%d %s",
+ 						       i + 1, "Capture");
++				if (!data->dapm_routes[i].source)
++					return -ENOMEM;
+ 				data->dapm_routes[i].sink = "CPU-Capture";
+ 			}
+ 		}
 -- 
-2.49.0
+2.34.1
 
