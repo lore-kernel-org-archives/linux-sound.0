@@ -1,230 +1,169 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3CA1E835B
-	for <linux-sound@vger.kernel.org>; Tue,  1 Apr 2025 08:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389AC1D7E52
+	for <linux-sound@vger.kernel.org>; Tue,  1 Apr 2025 08:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743495399; cv=none; b=YZG3n7Z84F5lNIyIpO8Y0Cz+1sMqeoKTLogE68XeOB7AIuWCX6ofB699jGsCT86bEeb1uz02Yo7oPr6U0yUkoyM/w7SBSTG85mPzlOFPuFg6rqfhwLJno6VqFUC0UTMx+IwPDKdxVfHCrp4kJU0RHauPWyHUeGn62G0soitRSS4=
+	t=1743497826; cv=none; b=rP8EtQk9/XElo3lXjwL7LmLIbEuTHK0LnepyXoCaVuhoAL63hMI1ZyWPNTOw8TLMIzq0pQ4yMaaCd81WQwaiZCwwqeauBjKJ8/AdKAyCe4myGU8AjsqvXzM3xKpNI1eMERHscSSSlmpd6NgaO6U/i+ATpl6+2HWQDs282f3awQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743495399; c=relaxed/simple;
-	bh=eofPP7zphowVZVkOlN5trgp55mfN8GY1zjDnh4fRLYw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=evUCKY9BS90ZzGpnwnbsO12FVO1T8XmWKblXen+C2MSqPIKmwfzx8fZxNrHesDg6KY19NAkCGeFHsOqREp7seJKX6/OXiPvkwvaX/IPKfzRCedi5MQBNQ2FuXLcYAZvo2gZSTkXHqlxh7Krqnk52nXd9fgsJ49VQ/QaamQGz770=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RhP/zcmu; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743497826; c=relaxed/simple;
+	bh=dUCkBFacp8UJ8QjqcofhauhM4wz+Tj2ggrizreMINHs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PQsqE6tCuM1Wy5B+SKMyVBGD9+5CCgeAW8yA1XUr2oJD3cglLyayIS52x1JohBvDwahUPcHmQ5JINkqtD8jJBfaVKRFWclmUCMgdKN6oViVRlK83S5RkKhMa0J8M4zYT0EtMaawOKMhKPYc9M3LwH9ffKNB14+yHYCMhWnanw0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Efwc8y+1; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RhP/zcmu"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ac25d2b2354so848871566b.1
-        for <linux-sound@vger.kernel.org>; Tue, 01 Apr 2025 01:16:36 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Efwc8y+1"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3018e2d042bso6259784a91.2
+        for <linux-sound@vger.kernel.org>; Tue, 01 Apr 2025 01:57:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743495395; x=1744100195; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PrVIKvgnOU4qD+Zbvm9Ig4ON8IklOf3INDhWzvDe65U=;
-        b=RhP/zcmuF2oktGZ9djneLZZIv8DrdOmYMf3/9v/fTfCH7S+uZWj9EnvhdKBsULP/Qm
-         nUILXTDPXbMbzevmseryy7BN24KkpEI/fRqoJTmd52+43QC3E9Q8aP70xcC+xnCt+OJA
-         FzRImPdI7RSFfhrz0i1ugscsLgMtOl/7zZWCCaK+ZAgEOUEvbvUZERnrqc34RuP0sZeG
-         cJ2dP1O4+a2xVv7tG0UIdZyPJRKuDJHXNr72Oelmf+x9quujf4dOLk9ZcudasdNmE6mn
-         M52YIkQFosR+6ZiaA5KYqpeJ+c63U9/EsXcdSRKRj5+8XZpsUsZZnB1EjYXDaI6exbna
-         Aj8w==
+        d=chromium.org; s=google; t=1743497824; x=1744102624; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qxufKce8+6rFq47Dsd+IWCpPIS7gkHkiCqEgue9+foQ=;
+        b=Efwc8y+1JMdzusfuG7ekaJYY6uWeA+ybvbsj3CN9/KwoZWOQS4wKjlyo8Lx5SJYMe5
+         vonfHMM2xmSuBn9VYcz9pFYS2N9Hzeg7vlCpWOiTMg2ktUk5tLkrOja7Y6z4Bq+1kgrH
+         EbExn24ntbJE1vr7DGKR6tVvH3833VIhXtPqk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743495395; x=1744100195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PrVIKvgnOU4qD+Zbvm9Ig4ON8IklOf3INDhWzvDe65U=;
-        b=Ad8nbDzS6HRD/tPf5411TAstX0HooDK/G//laGXFobtDmWPt/justWXzLH5bdeCMDF
-         LoZ5qSbfSpSRe6Zy/rVw8z9chT88AcuAC091Jy7lE6PqNGezJLNcnRCeFhg4CuHzzxvl
-         ipulTDWHSlS2dHhLOKwsjGrygRLjoeV8O/aE6XCJFrY2REpQqoi6NV7kz5IYucNFO8TJ
-         fkqkf+egOLPl+gQJLcJ11knSobkKfe4VzZlpoQ+o+6b5rV4g6qXj7lkxgH7+fYYVC8cB
-         IXytiL9+uYwetyJ3GV7rf8u0/Ub2f2fccEs9yRJftYmx1dotx6Wdvo89vVzop7CQFifH
-         U5Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCUS8lhks1s5MhYMigCtr5R/HFCGlCIczWEF4es8Ar3xEkTob5/0dvJGrcq/heOt3mEjDsA8Ex1o7ptXDw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOuy1LVP+meuBc8lxUPKfprDcAWpizg7KzrHTrxm9DCVNSZZkV
-	1G9zPc6zexZKKkgv0urYaBdfsz/Y5sbdPFhJ+4ncU3vpapgagKrVeBnpu8gPBx8=
-X-Gm-Gg: ASbGncsioOoP0xm95ZqM0XtKrctaoQCOAKQkDyXPK9nNATs/Yb0aZ4euneV2g2vdwbp
-	6b24LdYHsE8plXsnYfkig17Mgku5pmE9uGbvyJ0byQ6tfHJUzDoDq2/jz8n02KSqREHK93+gf87
-	ttNMXMizvRq28ynDyc1AHmiDccauYydZJfLq6V4/lua7uxooZdY9K4wZq4TgxeXmTWh8pgc3/l6
-	i7d2uUQzymYc/W1DQbBrbBV5q7RPtdmMTaWSMjR7mLfZSO15JxQF8lLD4sI67sW+LRfcFrenago
-	UWcxgIIjZSMV1TyhGO/k0mq1+DKuZQDHmh1yC0CB7CzjR1oLdXUAq1U=
-X-Google-Smtp-Source: AGHT+IH1NMpRelTCtWxZmplIIh8jUgx3dBuQ+5KnEzikK+mjlKQVyUDxOdR2qGWxJmqwwa8QNnWrYA==
-X-Received: by 2002:a17:907:868e:b0:ac3:5d68:c519 with SMTP id a640c23a62f3a-ac738c13dcbmr1172846266b.53.1743495395257;
-        Tue, 01 Apr 2025 01:16:35 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:ce6:8cc5:6e98:d576])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7196f55f9sm738659266b.177.2025.04.01.01.16.34
+        d=1e100.net; s=20230601; t=1743497824; x=1744102624;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qxufKce8+6rFq47Dsd+IWCpPIS7gkHkiCqEgue9+foQ=;
+        b=WmAEVhWufmstA6wF7taPDmdEPVUGnzfp/KORKjfjOI1GmR1CVWRJonx9BzCuxw1rfX
+         L94GzT0S558VAsKHnBzvbItKDQnHqblGJDWIKVnDL7DKi6xBveymNrduCdRdlECtWhrk
+         2ZAhU0+Q38dbqeIEqxe9bNnu5xM5ngIipxOAz8JDrCqD8JvGqmwailwUElgFSTXxsUE8
+         XkbblmiS8f+6wGvgHDcjQ+W6QaAxSZTHCzJCN6avnabiMyW+e5gDhBVnjdJu8iEmemCH
+         RcbJP04dZlwjqDT1ysnHd552vc1qnAEngbcOe0uuw03yp8AF6UdjDp95rj/rg3qKmvad
+         44fw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmq0JhSqufZ0afgYKrH14sVQIDMcFsJv4hvOok1VjHDKg/29SxgIXpWXDRlPHecrtdtIFDBXlP1WqLUA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNvM9eY4eXd7oIa9PznbjSxdXisWqxK8vMAOIku/m8rnsLr/VB
+	FxL9VpIUrdV2oQuJbrUHR8ZeSygcjBuIe2CgahK30AWFjIdiqo/7/dwWNIdUUg==
+X-Gm-Gg: ASbGncvFd4twRGnGc3tTkYpBDIRe848MKYEGnaCmdKF+4NbYWNREnmUQC1TLrw2P3P3
+	sT1J66knxl/TjbA0HULQgcLjjzQkI6Ypw4TChGY1wM+vrADdVjZL4sQJtTVgj1L+JU1jvdiZ2jI
+	/jRBaQp1JRbEQtBOL1YqklaP+f2xuFp2xZTRHDhA1F0p7VcNsy4+JLQdIwjskBp3QikYsGAidXY
+	3lq2DbmFD6WKYUo86wP9RkNNmfyVG0Sso8LFoob8KyD9rW51u20e/+QEXOUyFZ7eoKZ9NWLXrEI
+	CvQRVh6E2YT+ffbsAEBRhNSqIvDGv6pCaikQXw0NiLyDoPgrxkr/Ij5IF54KR9E2BjKYj1QF/w=
+	=
+X-Google-Smtp-Source: AGHT+IEGnyXdQQaEtEc12iqZVx24nt1bNnc7msMFARFnIYDLX4DR4C5RKsaUHtsIKRjop94QRdf+PA==
+X-Received: by 2002:a17:90b:5690:b0:2fe:9e6c:add9 with SMTP id 98e67ed59e1d1-305608ab182mr4183384a91.18.1743497824504;
+        Tue, 01 Apr 2025 01:57:04 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:ad70:9e5d:51fd:567e])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-305166caa77sm8756803a91.0.2025.04.01.01.57.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 01:16:34 -0700 (PDT)
-Date: Tue, 1 Apr 2025 10:16:29 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: [PATCH v36 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-Message-ID: <Z-ug3YFwff8hWIRl@linaro.org>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-23-quic_wcheng@quicinc.com>
- <Z-J2WnrZHP6iMIhT@linaro.org>
- <871827f0-94ba-4565-865f-775cab9501eb@quicinc.com>
- <Z-PPlRD7gcUcNvNv@linaro.org>
- <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
+        Tue, 01 Apr 2025 01:57:04 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	linux-sound@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	treapking@chromium.org,
+	yuanhsinte@chromium.org
+Subject: [PATCH] ASoC: mediatek: re-enable buffer pre-allocation on some platforms
+Date: Tue,  1 Apr 2025 16:56:57 +0800
+Message-ID: <20250401085659.1222008-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.49.0.472.ge94155a9ec-goog
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Wesley,
+In commit 32c9c06adb5b ("ASoC: mediatek: disable buffer pre-allocation")
+buffer pre-allocation was disabled to accommodate newer platforms that
+have a limited reserved memory region for the audio frontend.
 
-On Mon, Mar 31, 2025 at 12:52:19PM -0700, Wesley Cheng wrote:
-> On 3/26/2025 2:57 AM, Stephan Gerhold wrote:
-> > On Tue, Mar 25, 2025 at 04:18:03PM -0700, Wesley Cheng wrote:
-> > > On 3/25/2025 2:24 AM, Stephan Gerhold wrote:
-> > > > On Tue, Mar 18, 2025 at 05:51:32PM -0700, Wesley Cheng wrote:
-> > > > > The QC ADSP is able to support USB playback endpoints, so that the main
-> > > > > application processor can be placed into lower CPU power modes.  This adds
-> > > > > the required AFE port configurations and port start command to start an
-> > > > > audio session.
-> > > > > 
-> > > > > Specifically, the QC ADSP can support all potential endpoints that are
-> > > > > exposed by the audio data interface.  This includes isochronous data
-> > > > > endpoints, in either synchronous mode or asynchronous mode. In the latter
-> > > > > case both implicit or explicit feedback endpoints are supported.  The size
-> > > > > of audio samples sent per USB frame (microframe) will be adjusted based on
-> > > > > information received on the feedback endpoint.
-> > > > > 
-> > > > > Some pre-requisites are needed before issuing the AFE port start command,
-> > > > > such as setting the USB AFE dev_token.  This carries information about the
-> > > > > available USB SND cards and PCM devices that have been discovered on the
-> > > > > USB bus.  The dev_token field is used by the audio DSP to notify the USB
-> > > > > offload driver of which card and PCM index to enable playback on.
-> > > > > 
-> > > > > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> > > > > ---
-> > > > >  sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
-> > > > >  sound/soc/qcom/qdsp6/q6afe.c             | 192 ++++++++++++++++++++++-
-> > > > >  sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
-> > > > >  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
-> > > > >  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
-> > > > >  sound/soc/qcom/qdsp6/q6routing.c         |  32 +++-
-> > > > >  6 files changed, 341 insertions(+), 3 deletions(-)
-> > > > > 
-> > > [...]
-> > > > > diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > index 90228699ba7d..b7439420b425 100644
-> > > > > --- a/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > +++ b/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > @@ -435,6 +435,26 @@ static struct session_data *get_session_from_id(struct msm_routing_data *data,
-> > > > >  	return NULL;
-> > > > >  }
-> > > > > +
-> > > > > +static bool is_usb_routing_enabled(struct msm_routing_data *data)
-> > > > > +{
-> > > > > +	int i;
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Loop through current sessions to see if there are active routes
-> > > > > +	 * to the USB_RX backend DAI.  The USB offload routing is designed
-> > > > > +	 * similarly to the non offload path.  If there are multiple PCM
-> > > > > +	 * devices associated with the ASoC platform card, only one active
-> > > > > +	 * path can be routed to the USB offloaded endpoint.
-> > > > > +	 */
-> > > > > +	for (i = 0; i < MAX_SESSIONS; i++) {
-> > > > > +		if (data->sessions[i].port_id == USB_RX)
-> > > > > +			return true;
-> > > > > +	}
-> > > > > +
-> > > > > +	return false;
-> > > > > +}
-> > > > 
-> > > > What is different about USB_RX compared to other output ports we have in
-> > > > Q6AFE? Obviously, we can only play one stream on an output port. But
-> > > > doesn't the ADSP mix streams together when you have multiple routes?
-> > > > 
-> > > 
-> > > This patch will limit the USB_RX from being able to be mixed to multiple
-> > > q6adm paths.
-> > > 
-> > > > Also, this doesn't actually check for *active* routes only. It just
-> > > > looks if any other MultiMedia DAI is configured to output to USB_RX.
-> > > > That doesn't mean they will ever be active at the same time.
-> > > > 
-> > > 
-> > > Yes, the main reason being that that is the mechanism we use to populate
-> > > the active offload path within the USB SND card mixer.
-> > > 
-> > > > I might for example want to have MultiMedia1 and MultiMedia2 both
-> > > > configured to output to USB_RX. Let's assume MultiMedia1 is a normal PCM
-> > > > DAI, MultiMedia2 is a compress offload DAI. When I want to playback
-> > > > normal audio, I go through MultiMedia1, when I want to play compressed
-> > > > audio, I go through MultiMedia2. Only one of them active at a time.
-> > > > Why can't I set this up statically in the mixers?
-> > > > 
-> > > > If you confirm that it is really impossible to have multiple streams
-> > > > mixed together to the USB_RX output in the ADSP, then this should be a
-> > > > runtime check instead when starting the stream IMO.
-> > > > 
-> > > 
-> > > We can have multiple streams being mixed together, but it will get
-> > > confusing because it changes the definition that we had discussed about in
-> > > the past about the overall design for the interaction w/ userspace.
-> > > Although we (QC) only support a single USB audio device for offloading,
-> > > there could be other situations where the audio DSP can support multiple
-> > > devices.  The assumption is that each MM path is assigned to a USB device.
-> > > 
-> > 
-> > Are you referring to the "USB Offload Playback Route PCM#*" mixers here?
-> > They could just refer to first of the configured MM paths, if someone
-> > decides to route multiple paths to the USB backend. Looking at
-> > q6usb_update_offload_route(), I think the implementation does that
-> > already.
-> > 
-> > I think it's fine that the userspace API for automatically "probing" the
-> > PCM device supports only a single path to the USB backend. But if
-> > someone wants to bypass the automatic probing and configure a more
-> > advanced setup, do we need to forbid that?
-> > 
-> > Asked differently: what would happen if we remove this check here and
-> > handle USB_RX like any other Q6AFE output port? Would anything break for
-> > the userspace interface?
-> > 
-> 
-> So I took a look at seeing how the Q6ADM/ASM interactions would work for
-> the situation where if user tried to start both MM1/2 streams at the same
-> time over the USB offload path.  In this scenario, we see that the Q6USB BE
-> DAI operations, ie startup, hw_params, etc... gets called one time for the
-> initial stream.  For example, if I start playback on MM1, then that
-> triggers the USB BE DAI to be brought up.
-> 
-> When I start playback on MM2, since MM1 already called
-> dpcm_be_dai_startup(), then be->dpcm[stream].users will be greater than
-> zero.  This would cause the __soc_pcm_open() to be skipped for the USB BE
-> DAI, so I wouldn't be able to check the runtime status at the Q6USB backend
-> DAI.  However, we do track current streaming sessions done over Q6 ADM and
-> it does save the AFE port associated to each COPP allocation, so I think its
-> reasonable to see if there is already a COPP entry for the USB AFE port, to
-> fail the open() call associated to the FE DAI.
-> 
+Turns out disabling pre-allocation across the board impacts platforms
+that don't have this reserved memory region. Buffer allocation failures
+have been observed on MT8173 and MT8183 based Chromebooks under low
+memory conditions, which results in no audio playback for the user.
 
-This sounds like a reasonable approach *if* we have to prevent multiple
-MM DAIs from streaming to the USB AFE port at the same time.
+Reinstate the original policy of pre-allocating audio buffers at probe
+time on MT8173, MT8183, and MT8186 platforms. These platforms do not
+have reserved memory for the audio frontend.
 
-It's still unclear to me why we have to introduce this limitation in the
-first place. I think the questions from my previous email are still
-open. Can you check them again?
+Fixes: 32c9c06adb5b ("ASoC: mediatek: disable buffer pre-allocation")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+ sound/soc/mediatek/common/mtk-afe-platform-driver.c | 4 +++-
+ sound/soc/mediatek/common/mtk-base-afe.h            | 1 +
+ sound/soc/mediatek/mt8173/mt8173-afe-pcm.c          | 1 +
+ sound/soc/mediatek/mt8183/mt8183-afe-pcm.c          | 1 +
+ sound/soc/mediatek/mt8186/mt8186-afe-pcm.c          | 1 +
+ 5 files changed, 7 insertions(+), 1 deletion(-)
 
-Thanks,
-Stephan
+diff --git a/sound/soc/mediatek/common/mtk-afe-platform-driver.c b/sound/soc/mediatek/common/mtk-afe-platform-driver.c
+index 6b6330583941..70fd05d5ff48 100644
+--- a/sound/soc/mediatek/common/mtk-afe-platform-driver.c
++++ b/sound/soc/mediatek/common/mtk-afe-platform-driver.c
+@@ -120,7 +120,9 @@ int mtk_afe_pcm_new(struct snd_soc_component *component,
+ 	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
+ 
+ 	size = afe->mtk_afe_hardware->buffer_bytes_max;
+-	snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_DEV, afe->dev, 0, size);
++	snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_DEV, afe->dev,
++				       afe->preallocate_buffers ? size : 0,
++				       size);
+ 
+ 	return 0;
+ }
+diff --git a/sound/soc/mediatek/common/mtk-base-afe.h b/sound/soc/mediatek/common/mtk-base-afe.h
+index f51578b6c50a..a406f2e3e7a8 100644
+--- a/sound/soc/mediatek/common/mtk-base-afe.h
++++ b/sound/soc/mediatek/common/mtk-base-afe.h
+@@ -117,6 +117,7 @@ struct mtk_base_afe {
+ 	struct mtk_base_afe_irq *irqs;
+ 	int irqs_size;
+ 	int memif_32bit_supported;
++	bool preallocate_buffers;
+ 
+ 	struct list_head sub_dais;
+ 	struct snd_soc_dai_driver *dai_drivers;
+diff --git a/sound/soc/mediatek/mt8173/mt8173-afe-pcm.c b/sound/soc/mediatek/mt8173/mt8173-afe-pcm.c
+index 04ed0cfec174..37b20ec80829 100644
+--- a/sound/soc/mediatek/mt8173/mt8173-afe-pcm.c
++++ b/sound/soc/mediatek/mt8173/mt8173-afe-pcm.c
+@@ -1114,6 +1114,7 @@ static int mt8173_afe_pcm_dev_probe(struct platform_device *pdev)
+ 	afe->mtk_afe_hardware = &mt8173_afe_hardware;
+ 	afe->memif_fs = mt8173_memif_fs;
+ 	afe->irq_fs = mt8173_irq_fs;
++	afe->preallocate_buffers = true;
+ 
+ 	platform_set_drvdata(pdev, afe);
+ 
+diff --git a/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c b/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
+index d083b4bf0f95..0ef07fb2898d 100644
+--- a/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
++++ b/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
+@@ -1214,6 +1214,7 @@ static int mt8183_afe_pcm_dev_probe(struct platform_device *pdev)
+ 	afe->mtk_afe_hardware = &mt8183_afe_hardware;
+ 	afe->memif_fs = mt8183_memif_fs;
+ 	afe->irq_fs = mt8183_irq_fs;
++	afe->preallocate_buffers = true;
+ 
+ 	afe->runtime_resume = mt8183_afe_runtime_resume;
+ 	afe->runtime_suspend = mt8183_afe_runtime_suspend;
+diff --git a/sound/soc/mediatek/mt8186/mt8186-afe-pcm.c b/sound/soc/mediatek/mt8186/mt8186-afe-pcm.c
+index db7c93401bee..c588a68d672d 100644
+--- a/sound/soc/mediatek/mt8186/mt8186-afe-pcm.c
++++ b/sound/soc/mediatek/mt8186/mt8186-afe-pcm.c
+@@ -2935,6 +2935,7 @@ static int mt8186_afe_pcm_dev_probe(struct platform_device *pdev)
+ 	afe->irq_fs = mt8186_irq_fs;
+ 	afe->get_dai_fs = mt8186_get_dai_fs;
+ 	afe->get_memif_pbuf_size = mt8186_get_memif_pbuf_size;
++	afe->preallocate_buffers = true;
+ 
+ 	afe->runtime_resume = mt8186_afe_runtime_resume;
+ 	afe->runtime_suspend = mt8186_afe_runtime_suspend;
+-- 
+2.49.0.472.ge94155a9ec-goog
+
