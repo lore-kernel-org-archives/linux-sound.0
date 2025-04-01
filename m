@@ -1,116 +1,157 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F36C2C6;
-	Tue,  1 Apr 2025 14:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5808B1E47B3
+	for <linux-sound@vger.kernel.org>; Tue,  1 Apr 2025 14:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743517955; cv=none; b=GNSMXRCnpo6qsphAA+oW+TT/5KnrUrHtIFDkoFBXwDc/StY+6mZGHDrdw7kJ9UQ2zEHgPrkvgwYjQ5enHnhx47xKTNgVMXHn5hHn3G+3BbBeRJfIYo7LdeOwFarUy/WcjK+hZhzixiGiCpdwd5WXshdlR51uXG5nyp7TV1uyKzo=
+	t=1743518967; cv=none; b=UlUTUx3nAX4reizpa+oB7nBtmz6KR7b1rB7C1p6hCELLZMnWj0iHtr+y8kaH4nBI4OauXdVTIezkgC4tiwALtlK5rjz+U5gtgY/hqIgcQYZnLeQqPdiFsT5VnOttHUWAocQpoNK0q+3zPy3ky/KU6vadh5dpw0R7rBAAo5VnuBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743517955; c=relaxed/simple;
-	bh=hbq+gfrSP68NJ1N5XX18is7enUJgqkm8sza4WWJKW8c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=N3MAdEt6IJDrVmlMxFDe+BmmzZbfOvd2TxE9A/PO3g4ZnyTR9radfb0HvbZpMlxQBY7PRoA6DKyWzbxKEPmZwctVqHSbNPrVOgJ2Faz1UTUO64HO5Ivt6jlwbYgvpNMA3NURq9OwLTkcovT9lqzSh3OzQVhrpRayvQe7VBqLywU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iQxxJr9u; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743518967; c=relaxed/simple;
+	bh=kw37yhsRpviVEM0rKhRWe3rMz/IjbFzqXRpqheOpduE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AChLraUkrQjIRpSlQNjGhSwn5wqGdIo228ogY0cMD+9zJW/ndqdCnFnyTo9T7U5vAWydsySWkuxc6WGyZfP0tph0hIyLi6fR30hZlAwzuCiMq2O7+cKLyhkG6j0ebwz5JCXLWWVIhCP9lTIViKvHxCgUXEOI1E6UCiAzoJHkRaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Acm4RsPg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SEo3DkNd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Acm4RsPg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SEo3DkNd; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iQxxJr9u"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-224171d6826so84001715ad.3;
-        Tue, 01 Apr 2025 07:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743517953; x=1744122753; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lQz6HN4WVo2BZhg1nM2qkj9xljoy6K5gdXERS2m6T2M=;
-        b=iQxxJr9uoD6VdgpDzIdlGQrdJw/PO9Fb50k8MvKT622kv001IgLIMn9Q8eIL/0yBCD
-         9aipCAR1CiAjmntfjeqR+90ZLR64W+TrKvIMzA80w6fO/apFg3ZxL3jxBTv8bOCBTkY8
-         CLYxHMnmrm4Os1Vn2W8PHQ3q8QB1uu64r0LsvuxLlTuLlZ0y21hELgC4+5Yc0pVX6hZ6
-         GS7N6CU7MRJJD9rx6FoRuTg3FIN8kCKHf1zTUpT2HAy9rEigiKG7bEcGjr90VzxiIbNw
-         biNjNqrgBwsxjViL3WyjZaXduPponGR9W2MX8fV5kAhndh07X8HHWCO+E64GNuit32Fv
-         Tijw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743517953; x=1744122753;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lQz6HN4WVo2BZhg1nM2qkj9xljoy6K5gdXERS2m6T2M=;
-        b=c787KWVV4WYVMLKTy/LfIQVcBK1zzPNfs4XCSjZsEbKdz7SSOzORH1mtL5wpi86Bd7
-         NVPN941XGAlzZwofq9CyqBkMM1KqPZofD2vB232Sh0jjg599P0r3h3Z2o+3xLSRttJ1f
-         t5Nu74OuzWelwB7Trzzvz9KrdERY073XVg1zzR9aPP42aarPsyLbNLUkSJXx8MXdQxjt
-         csJHVXJ3yklLhpY0IioqMg2UZ1fVtC+8XM4IhANtNKVcrnK1nuOORndTya2pfdP0b7xx
-         6pQQ2ouc0agoHhGcJV0vIaYWjTSzS/SSsQxB/jWth48DC67mK0uSrNuluVIOlcAAjJQw
-         BggQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU74a49YPHB0Ok23J66dmV+jhvnAE/2P/FU94+ASCjBlglvH8GojCUPEYBQ5ZLEE3LtZvPlftlPOHFnS2k=@vger.kernel.org, AJvYcCVY3jPJI9YRU0XtmrPcCACvVacyTP33x53+Jv5NS6mCU6mYViFhq/d2oioefi3Wats0wvpIrGajgeYkuIM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0Q9kzGE4H8mZ2lmJh3p3uiJ81pTqr1H05SL6HYSLXghDVLIld
-	eAyILD7Yd23+GKIMJ5sCeitFFL+G5nuSY9Bor4MbHG8lkBr5QhMquzpd0ii43X3iow==
-X-Gm-Gg: ASbGnctyGDBI86XTkcMOgH70cWH/CwrjfFRJXlg9pjEGotuMMJiELiXJ2XFuK847T7o
-	7hlyM7YZ8JttEwrRDrni9Iq7KMX+SnxEZA+Z0OZEvC3VdWmEiq0AT9luScWoEqOcpYPNhO7iKIY
-	bXyLqiTJuQOQB0+hLMkvWZSmVmL5cJuWtMSEBCHTIxtzXxRfbwMgUG3/61T0rHL8VCyQjSqv2oc
-	wA/isIM+Sb6IivEeLY641iF48VaefpeSxZXfn6VmMy0wVnpZqi4QOACJQxTEn0gtT3Cxo4iVvCn
-	M1hu0npuPbzXoJLezF4P0Zcc3td5e/orOzGYJXqEmocIADk4/Y/mo6+VvgPCMgy1+vMwt3c=
-X-Google-Smtp-Source: AGHT+IHQlATV4czNANr3zOAV9cgx/Gc3dz18Sz7QLKNg40G8czZ9t2zuvL/IEt7vhKlS0crxjdo15w==
-X-Received: by 2002:a17:902:f550:b0:220:bd61:a337 with SMTP id d9443c01a7336-2292f972edemr215748525ad.23.1743517952898;
-        Tue, 01 Apr 2025 07:32:32 -0700 (PDT)
-Received: from henry.localdomain ([111.202.148.167])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eedf925sm88877755ad.69.2025.04.01.07.32.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 07:32:32 -0700 (PDT)
-From: Henry Martin <bsdhenrymartin@gmail.com>
-To: cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Acm4RsPg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SEo3DkNd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Acm4RsPg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SEo3DkNd"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6798F211EC;
+	Tue,  1 Apr 2025 14:49:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743518964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UKY/AQmdOJjsaQqialKpDUVJ9m1R9sgMSYbQgcbT2hg=;
+	b=Acm4RsPgZOvVbSHmPcWe7tc8U6sHm73ku5ZP+0RADzwJnYgshJGgT8VQ1Ce7eKvZTxZmWX
+	FJ7Y30Zzd79GMCYHSAv3AGyb2bvkxTBKJsv/xIpaV5HYB547nyab8DIPWnIp3zTseJ8nCL
+	7ysBbj0xStQZ5wNaybCLqLJYuarvips=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743518964;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UKY/AQmdOJjsaQqialKpDUVJ9m1R9sgMSYbQgcbT2hg=;
+	b=SEo3DkNdNaJ74bEjVgQJzVPLJ5+5b/hHnGTgxr1bf7Xeyt49P1qzfklEbWdDZZ6aIDGNK7
+	mOXOSZWtIivNrrDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Acm4RsPg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SEo3DkNd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743518964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UKY/AQmdOJjsaQqialKpDUVJ9m1R9sgMSYbQgcbT2hg=;
+	b=Acm4RsPgZOvVbSHmPcWe7tc8U6sHm73ku5ZP+0RADzwJnYgshJGgT8VQ1Ce7eKvZTxZmWX
+	FJ7Y30Zzd79GMCYHSAv3AGyb2bvkxTBKJsv/xIpaV5HYB547nyab8DIPWnIp3zTseJ8nCL
+	7ysBbj0xStQZ5wNaybCLqLJYuarvips=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743518964;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UKY/AQmdOJjsaQqialKpDUVJ9m1R9sgMSYbQgcbT2hg=;
+	b=SEo3DkNdNaJ74bEjVgQJzVPLJ5+5b/hHnGTgxr1bf7Xeyt49P1qzfklEbWdDZZ6aIDGNK7
+	mOXOSZWtIivNrrDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4176013691;
+	Tue,  1 Apr 2025 14:49:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id aD5eD/T862etbAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 01 Apr 2025 14:49:24 +0000
+Date: Tue, 01 Apr 2025 16:49:19 +0200
+Message-ID: <87r02cym1c.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com,
 	broonie@kernel.org,
+	tiwai@suse.com,
 	perex@perex.cz,
-	tiwai@suse.com
-Cc: amadeuszx.slawinski@linux.intel.com,
-	ethan@ethancedwards.com,
-	jbrunet@baylibre.com,
-	krzysztof.kozlowski@linaro.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Henry Martin <bsdhenrymartin@gmail.com>
-Subject: [PATCH v1] ASoC: Intel: avs: Add NULL check in avs_component_probe()
-Date: Tue,  1 Apr 2025 22:32:22 +0800
-Message-Id: <20250401143222.30344-1-bsdhenrymartin@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	liam.r.girdwood@intel.com
+Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if resume is not supported
+In-Reply-To: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
+References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 6798F211EC
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,suse.com,perex.cz,vger.kernel.org,linux.intel.com,linux.dev,intel.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-devm_kasprintf() returns NULL when memory allocation fails. Currently,
-avs_component_probe() does not check for this case, which results in a
-NULL pointer dereference.
+On Tue, 01 Apr 2025 15:36:52 +0200,
+Peter Ujfalusi wrote:
+> 
+> Streams moved to SUSPENDED state from PAUSED without trigger. If a stream
+> does not support RESUME then on system resume the RESUME trigger is not
+> sent, the stream's state and suspended_state remains untouched.
+> When the user space releases the pause then the core will reject this
+> because the state of the stream is _not_ PAUSED, it is still SUSPENDED.
+> 
+> From this point user space will do the normal (hw_params) prepare and
+> START, PAUSE_RELEASE trigger will not be sent by the core after the
+> system has resumed.
+> 
+> To fix this issue, release the paused stream before handling the suspend
+> if the resume is not supported.
+> This will ensure that the stream is properly suspended for suspend entry.
+> On resume no attempt will be taken to resume the suspended stream as the
+> resume is not supported, userspace will eventually going restart the audio.
+> 
+> Link: https://github.com/thesofproject/linux/issues/5035
+> Link: https://github.com/thesofproject/linux/issues/5341
+> Suggested-by: Takashi Iwai <tiwai@suse.de>
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-Add NULL check after devm_kasprintf() to prevent this issue.
+Applied now.  Thanks.
 
-Fixes: 739c031110da ("ASoC: Intel: avs: Provide support for fallback topology")
-Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
----
- sound/soc/intel/avs/pcm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index dac463390da1..7072bcf4e56f 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -927,7 +927,8 @@ static int avs_component_probe(struct snd_soc_component *component)
- 		else
- 			mach->tplg_filename = devm_kasprintf(adev->dev, GFP_KERNEL,
- 							     "hda-generic-tplg.bin");
--
-+		if (!mach->tplg_filename)
-+			return -ENOMEM;
- 		filename = kasprintf(GFP_KERNEL, "%s/%s", component->driver->topology_name_prefix,
- 				     mach->tplg_filename);
- 		if (!filename)
--- 
-2.34.1
-
+Takashi
