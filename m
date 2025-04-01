@@ -1,228 +1,205 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E23C218E91;
-	Mon, 31 Mar 2025 19:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71979B673
+	for <linux-sound@vger.kernel.org>; Tue,  1 Apr 2025 02:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743450775; cv=none; b=S+VO9IiXaVa4/ElaFPHGYKZNCGnPikt6topDQyHGPHwN74WWeHNWZZTM4NfYxHHk8tmU4vKkhh8SiP8TojffjCGQl8VR9ojxHcWnx4///L9x9pjhEZr1FxSxd0yMSqNle0lEQS/JmruwpAZK3zDP/D0TlvMn6m3C/CToJqrjQz8=
+	t=1743473673; cv=none; b=UdD5BqP1DxRmCKO+R4lWnMOYg4RnpT1T2YxoA9x/cCiG6ddzwJu8+FH2XPf4FwzCwQuD5qnWyYCwsN8nc+AX1faMIFxm5501c/irNlAmnLQu+/a85EDTVN2vD7U3Vqa/I9MKyE5Qi26JtEXESvfL/j+6vwS4VReGXQw3unjJNIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743450775; c=relaxed/simple;
-	bh=iAx6AiZOdcoVCQPaqkhovcXsqqfrJ9yKx5C+5ve//lE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=XjGP91H8WVfQD6MsnOrBDFcnW+yxb+6yNEYkjgPWkgYTz+RaObHpah7HijqZbtzezZfRJ3k2ThtL5N5CrrktDdbdmNKYJhmWwge3uUHuhiXlXOxThiMRALWcaRvVAgSVTHZ/xQf6ywR5YokAtN7xCqcQatx1XXSpvfbbCgEBNSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dwSKtzUz; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1743473673; c=relaxed/simple;
+	bh=btsx7G9oLe745AyCwE8EiMzW96Mm8fFPN0r5Nj09QU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
+	 Content-Type:References; b=M1LacD3iRF1XL9ZebOA8pONhT/gclf97nqhW36HxgBgQfZc9hfFNG4tJLwc0gWpkzPfcP1F6+AOr8f7q9+2FWQB/PrExhm7qiyIj7Zexz7jpkUiMV6fftj7WwlvDp/X2c7j2fnY67ZHhhTG8ynPeJmYd+9YxcS3aPgQ+XrZ0+vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=TOuFEw4o; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dwSKtzUz"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VFD05h007728;
-	Mon, 31 Mar 2025 19:52:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4o/ga2++oE8EAz0HX/ke0EQAZIONMTuD1M7ohYe75Ak=; b=dwSKtzUzTLPRu4m5
-	SrGojQ/5eMLmmw+GvPHg64bkT5u+XS2hZESjvgsj3LtATk+lsmRN1zWhIBpPd++F
-	J/N0KnOLUxaQuB1gpPXmLZM/mbGG4Dj8LV0x/KEp5kPvlITZFV7/QNJ32S58CrrP
-	4w9wEPcPy5SBLquuaW1QlNszZBsaQcMfZbMfrtGWCISsDbO22YwewFaWw8PamI6e
-	R467QS8F5aF8+juNjDjI3V0uoh5qcitSI9J5b6X9a+0VxcbKQAvB/8t4zJNXbXLU
-	IzWHASjGF3AhWJdU4l9rhJa26L3aW9yLNpoXC0i+2fEgohJpJZvJeq3FkX3naGSk
-	8Y4xDA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45pa1nwcwb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Mar 2025 19:52:26 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52VJqQWl015383
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 31 Mar 2025 19:52:26 GMT
-Received: from [10.110.31.20] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 31 Mar
- 2025 12:52:24 -0700
-Message-ID: <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
-Date: Mon, 31 Mar 2025 12:52:19 -0700
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="TOuFEw4o"
+Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20250401021429epoutp019989a3c5a34ad11f12f3598f57313cc6~yEBCwfLWk0658506585epoutp01B
+	for <linux-sound@vger.kernel.org>; Tue,  1 Apr 2025 02:14:29 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20250401021429epoutp019989a3c5a34ad11f12f3598f57313cc6~yEBCwfLWk0658506585epoutp01B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1743473669;
+	bh=7bcFPViTtsO+p+t1ZImtFXAyntpk+EDHZqlNKA6Gh6M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TOuFEw4olTPDU1ScHlbbM0LQWlYP2ZauWyXqgYfusBsztcO4uwO6Dbd94KZiUG3lY
+	 BoPzCCmNDuoJDw9+6ahHmScTn9JUDw+HByHeJq+GSysEe8cPpBHKo9M5PjRJQqVpO7
+	 YhRWUUXEvDlNBsPt8cb6Bzlijvi0kzAAxLmqJgj0=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
+	20250401021429epcas2p2402906ff9dabc07ca417a98c05fd3182~yEBCN5tQm1409014090epcas2p2Y;
+	Tue,  1 Apr 2025 02:14:29 +0000 (GMT)
+Received: from epsmgec2p1-new.samsung.com (unknown [182.195.36.89]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4ZRWlm2pMzz2SSL3; Tue,  1 Apr
+	2025 02:14:28 +0000 (GMT)
+Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
+	epsmgec2p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	CE.27.37303.40C4BE76; Tue,  1 Apr 2025 11:14:28 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
+	20250401021427epcas2p40616133da2f95585af5f83e355e0cab8~yEBBErT0m0916509165epcas2p4d;
+	Tue,  1 Apr 2025 02:14:27 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20250401021427epsmtrp28c03f61d7cb3ee24287566a1dd591f6b~yEBBDlwmU1626516265epsmtrp2C;
+	Tue,  1 Apr 2025 02:14:27 +0000 (GMT)
+X-AuditID: b6c32a4d-541ff700000091b7-49-67eb4c041e75
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	B1.C6.19478.30C4BE76; Tue,  1 Apr 2025 11:14:27 +0900 (KST)
+Received: from ubuntu (unknown [10.229.95.128]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20250401021427epsmtip160f3d75d1ab0c4c53dd0924e5eafe711~yEBAxHCur0673006730epsmtip1q;
+	Tue,  1 Apr 2025 02:14:27 +0000 (GMT)
+Date: Tue, 1 Apr 2025 11:23:36 +0900
+From: Jung Daehwan <dh10.jung@samsung.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: Puma Hsu <pumahsu@google.com>, Greg KH <gregkh@linuxfoundation.org>,
+	srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
+	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+	tiwai@suse.com, robh@kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, Mathias Nyman
+	<mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v36 01/31] xhci: sideband: add initial api to register a
+ secondary interrupter entity
+Message-ID: <20250401022336.GA98772@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: Re: [PATCH v36 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Luca Weiss
-	<luca.weiss@fairphone.com>
+In-Reply-To: <87746e66-84c1-4ff3-8b69-fbee1664eff6@quicinc.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUxTVxjGPb29t+Wjeim6HXGZTZnZYANa5OOwiS7RuEuGCWNLmPtj2MCl
+	MEpb2jKQkcGgfAZRBHHUMhg4QCZ28iGCRb4cDLaRZYqMDzFsUKWdToEVJgJruWr473ee932e
+	c95zcrgYv5Ljxo2Ta2iVXCITEo7sK30e/l7sUItUNJrtis5MzxDoYucwC8105wJUeWMYR33V
+	9wHKqjEQaE43RSDrrTwWKu76lYO+zTnPRmPzVhzd7NATqMJUiqHq2mwMZTWV4sjyKJON8jtO
+	4ujJuomFyhvdUdO1IhytG69yUE5/P44aqro56IelRvAupNp1dzhUVVMSVWOcY1FNDfkENXnb
+	SFDfDH5AdVVc5FA1RSU4df1BLUEVG7+kDC0jbKqlawFQC02vhvE+id8XS0uiaZWAlkcpouPk
+	0mDh+x9GHoz0DxCJvcRBKFAokEsS6GDhodAwr8NxMtv8QsHnElmSTQqTqNVCn/37VIokDS2I
+	Vag1wUJaGS1TBiq91ZIEdZJc6i2nNW+LRSJff1vjsfjYR+tWoLzumjKWmQcyQOO2AuDAhaQf
+	HGmYwO3MJ40Ariy5FABHG88D+Fh7nnixKKkoAc8d/ywvsZhCO4BT2macWcwAWDiazbZ3scnX
+	4N8npjeYID3h1PJPmJ2323hSfxfYDRj5HxtaTT0ce8GVjIc/VutYduaRb8KnX7dxGHaBg+Uz
+	G0EO5AF4qbLZ1sPl7rBtYO5Jt+dAss0BXiitwe06JA/B/Aw2c1JXaB5o4TDsBhcedhIMq+H4
+	PRPGeLUA1pu1GFPYC3Wm3I0xMTIWTq79jjGZ7vDGOJuRt8K8vlUOI/NgXg6fcbrDszdP4Qzv
+	hD2W4WeJFCw7eRsw99OCwQHTCfwU2K3bNJlu0246WyxGekBDhw8j74ZZreeeybtg3Rp3U0cV
+	IBqAG61UJ0jpKF+l2EtOJ794+yhFQhPY+CmeR64Ci2HVuxewuKAXQC4m3M77+N85KZ8XLTme
+	SqsUkaokGa3uBf62ZyvG3HZEKWxfTa6JFPsFifwCAsSBvv6iQOHLvN7Hs1I+KZVo6HiaVtKq
+	5z4W18Etg7U3fCVl3OKZdjlt8cFXT6e35sYM/VEWMRq362C4gZf1urN1LCER29p2obLklRjV
+	e7Mdvn7Oi/FbZO4Tp2vqe1dDvPsy/qrMuLKtfa7d5KTsc9Sp2W3JdUebs985nBmy80mbvmg0
+	2xLTHyW4I0inP9InDk2cqfs06OhsRNB36cWFVZedQ/lcY/6tcKehPa1arf6h44FUklw5VrYH
+	obP9RsfUxft/RnW+9LM5aEt9npewI9n6Fj+nOM3iPuUjMITXR1ocrzmL5fPEQEF6ueDeYq3R
+	xWO/Uyge8sXx3yRry0cSIwYv6TPNdz9L7U6pPbeWseyWNaLQFUabW3+RvfF9GTYiDxey1bES
+	sSemUkv+B4ufmJ6yBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNIsWRmVeSWpSXmKPExsWy7bCSnC6zz+t0g22N6hZTHz5hs1iz9xyT
+	xZMD7YwW84+cY7U4vOgFo0Xz4vVsFi9n3WOz+Halg8li4v6z7BYL25awWNz89I3V4vKuOWwW
+	c59NYbZYtKyV2aJ50xRWi9cfmlgsOnf1s1r8+v+MyWLmWmWLTbv7WC3+79nBbtF27BirxaoF
+	B9gtNnxfy+gg4bFz1l12jwWbSj0W73nJ5LFpVSebx51re9g85p0M9Ng/dw27x+K+yawe+94u
+	Y/OYuKfOY/2WqyweW/Z/ZvT4vEkugDeKyyYlNSezLLVI3y6BK+Pe8qOMBQ8EKqYeeMDWwPia
+	p4uRk0NCwETi/Y/vTF2MXBxCAtsZJRoutbJCJCQlls69wQ5hC0vcbznCClH0iFFiz6lPzCAJ
+	FgEViTe9D1lAbDYBLYl7P06AxUWA7Dtz7jOCNDAL/GaRuL38DliRsEC2xNFFs5hAbF4BbYk/
+	M7azQ0zdwiyxb813VoiEoMTJmU/AGpgF1CX+zLsENJUDyJaWWP6PAyIsL9G8dTbYMk4Be4l1
+	8zczgZSIAh306mD9BEahWUgGzUIyaBbCoFlIBi1gZFnFKJpaUJybnptcYKhXnJhbXJqXrpec
+	n7uJEZwetIJ2MC5b/1fvECMTB+MhRgkOZiUR3oivL9OFeFMSK6tSi/Lji0pzUosPMUpzsCiJ
+	8yrndKYICaQnlqRmp6YWpBbBZJk4OKUamNx5nF6ozFZ4Gmqs7/737UExTW+Gs+6rr3/Sv/TT
+	4f30oOPsV+f4HVmbyfpoMZup1r2FT36dctf4qjvhepfNx+zpvxlmusU/2Fbeyqeb8tS8us1f
+	Z/K5qO6+iqeVZVtL4kproyYKvT8bnLcyXyRiVuX+H8IpWvrslfkshQ/eK35IC8ycbvL3Sdee
+	lIVr9NScNRSvvmldL7V7+nJbMWbWWXur9jl7ymty/f9aKFpUeuF9y6HOI4Ida6OiOwsagqqz
+	GYv5FT6J68lIdWXVWV8vUlXYlTB1Tnt7/u++fecqTyfkHGmdJNVxIvvXj8usL/lPvOl/8L3Y
+	hGu/1nHugFsmmUauT8TKT7PWxvz/L/lSiaU4I9FQi7moOBEADSCNCn4DAAA=
+X-CMS-MailID: 20250401021427epcas2p40616133da2f95585af5f83e355e0cab8
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250327161254epcas2p35ea7c80bdcefaefc645c061531dd6833
 References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-23-quic_wcheng@quicinc.com>
- <Z-J2WnrZHP6iMIhT@linaro.org>
- <871827f0-94ba-4565-865f-775cab9501eb@quicinc.com>
- <Z-PPlRD7gcUcNvNv@linaro.org>
-Content-Language: en-US
-In-Reply-To: <Z-PPlRD7gcUcNvNv@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: GIw7Ik5soCn9yIsf1uJKEB1NenGOyaae
-X-Proofpoint-GUID: GIw7Ik5soCn9yIsf1uJKEB1NenGOyaae
-X-Authority-Analysis: v=2.4 cv=MPlgmNZl c=1 sm=1 tr=0 ts=67eaf27a cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=6AAXJ8fxLwfOIhd8QYgA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-31_09,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 suspectscore=0 phishscore=0 spamscore=0 clxscore=1015
- bulkscore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 adultscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503310138
+	<20250319005141.312805-2-quic_wcheng@quicinc.com>
+	<CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
+	<2025032734-reward-fantasize-dc16@gregkh>
+	<CAGCq0LamxvvE8b45VAshw9aWJNC2so_vK9t+pzXd3C7Y7tfYAg@mail.gmail.com>
+	<CGME20250327161254epcas2p35ea7c80bdcefaefc645c061531dd6833@epcas2p3.samsung.com>
+	<87746e66-84c1-4ff3-8b69-fbee1664eff6@quicinc.com>
 
-Hi Stephan,
+------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
 
-On 3/26/2025 2:57 AM, Stephan Gerhold wrote:
-> On Tue, Mar 25, 2025 at 04:18:03PM -0700, Wesley Cheng wrote:
->> On 3/25/2025 2:24 AM, Stephan Gerhold wrote:
->>> On Tue, Mar 18, 2025 at 05:51:32PM -0700, Wesley Cheng wrote:
->>>> The QC ADSP is able to support USB playback endpoints, so that the main
->>>> application processor can be placed into lower CPU power modes.  This adds
->>>> the required AFE port configurations and port start command to start an
->>>> audio session.
->>>>
->>>> Specifically, the QC ADSP can support all potential endpoints that are
->>>> exposed by the audio data interface.  This includes isochronous data
->>>> endpoints, in either synchronous mode or asynchronous mode. In the latter
->>>> case both implicit or explicit feedback endpoints are supported.  The size
->>>> of audio samples sent per USB frame (microframe) will be adjusted based on
->>>> information received on the feedback endpoint.
->>>>
->>>> Some pre-requisites are needed before issuing the AFE port start command,
->>>> such as setting the USB AFE dev_token.  This carries information about the
->>>> available USB SND cards and PCM devices that have been discovered on the
->>>> USB bus.  The dev_token field is used by the audio DSP to notify the USB
->>>> offload driver of which card and PCM index to enable playback on.
->>>>
->>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>> ---
->>>>  sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
->>>>  sound/soc/qcom/qdsp6/q6afe.c             | 192 ++++++++++++++++++++++-
->>>>  sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
->>>>  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
->>>>  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
->>>>  sound/soc/qcom/qdsp6/q6routing.c         |  32 +++-
->>>>  6 files changed, 341 insertions(+), 3 deletions(-)
->>>>
->> [...]
->>>> diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
->>>> index 90228699ba7d..b7439420b425 100644
->>>> --- a/sound/soc/qcom/qdsp6/q6routing.c
->>>> +++ b/sound/soc/qcom/qdsp6/q6routing.c
->>>> @@ -435,6 +435,26 @@ static struct session_data *get_session_from_id(struct msm_routing_data *data,
->>>>  
->>>>  	return NULL;
->>>>  }
->>>> +
->>>> +static bool is_usb_routing_enabled(struct msm_routing_data *data)
->>>> +{
->>>> +	int i;
->>>> +
->>>> +	/*
->>>> +	 * Loop through current sessions to see if there are active routes
->>>> +	 * to the USB_RX backend DAI.  The USB offload routing is designed
->>>> +	 * similarly to the non offload path.  If there are multiple PCM
->>>> +	 * devices associated with the ASoC platform card, only one active
->>>> +	 * path can be routed to the USB offloaded endpoint.
->>>> +	 */
->>>> +	for (i = 0; i < MAX_SESSIONS; i++) {
->>>> +		if (data->sessions[i].port_id == USB_RX)
->>>> +			return true;
->>>> +	}
->>>> +
->>>> +	return false;
->>>> +}
->>>
->>> What is different about USB_RX compared to other output ports we have in
->>> Q6AFE? Obviously, we can only play one stream on an output port. But
->>> doesn't the ADSP mix streams together when you have multiple routes?
->>>
->>
->> This patch will limit the USB_RX from being able to be mixed to multiple
->> q6adm paths.
->>
->>> Also, this doesn't actually check for *active* routes only. It just
->>> looks if any other MultiMedia DAI is configured to output to USB_RX.
->>> That doesn't mean they will ever be active at the same time.
->>>
->>
->> Yes, the main reason being that that is the mechanism we use to populate
->> the active offload path within the USB SND card mixer.
->>
->>> I might for example want to have MultiMedia1 and MultiMedia2 both
->>> configured to output to USB_RX. Let's assume MultiMedia1 is a normal PCM
->>> DAI, MultiMedia2 is a compress offload DAI. When I want to playback
->>> normal audio, I go through MultiMedia1, when I want to play compressed
->>> audio, I go through MultiMedia2. Only one of them active at a time.
->>> Why can't I set this up statically in the mixers?
->>>
->>> If you confirm that it is really impossible to have multiple streams
->>> mixed together to the USB_RX output in the ADSP, then this should be a
->>> runtime check instead when starting the stream IMO.
->>>
->>
->> We can have multiple streams being mixed together, but it will get
->> confusing because it changes the definition that we had discussed about in
->> the past about the overall design for the interaction w/ userspace.
->> Although we (QC) only support a single USB audio device for offloading,
->> there could be other situations where the audio DSP can support multiple
->> devices.  The assumption is that each MM path is assigned to a USB device.
->>
+On Thu, Mar 27, 2025 at 09:12:12AM -0700, Wesley Cheng wrote:
 > 
-> Are you referring to the "USB Offload Playback Route PCM#*" mixers here?
-> They could just refer to first of the configured MM paths, if someone
-> decides to route multiple paths to the USB backend. Looking at
-> q6usb_update_offload_route(), I think the implementation does that
-> already.
 > 
-> I think it's fine that the userspace API for automatically "probing" the
-> PCM device supports only a single path to the USB backend. But if
-> someone wants to bypass the automatic probing and configure a more
-> advanced setup, do we need to forbid that?
+> On 3/27/2025 3:14 AM, Puma Hsu wrote:
+> > On Thu, Mar 27, 2025 at 3:02 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >>
+> >> On Thu, Mar 27, 2025 at 02:27:00PM +0800, Puma Hsu wrote:
+> >>> Hi,
+> >>>
+> >>> We have implemented and verified the USB audio offloading feature with
+> >>> the xhci sideband driver on our Google Pixel products. We would
+> >>> appreciate it if this solution can be accepted. Thank you all for the
+> >>> work!
+> >>>
+> >>
+> >> Great, can you properly send a "Tested-by:" line for this against the
+> >> 00/XX email so that it will be properly saved?
+> >>
+> > 
+> > We(Google Pixel) only use the xhci sideband related changes and two
+> > changes in the sound card driver. For the details, what we actually
+> > tested are patch [01], [02], [03], [04], [05], [06], [08], and [12].
+> > Do I still send the "Tested-by:" line to 00/31 email? Or should I just
+> > send the "Tested-by:" line to the 8 changes above? (I added
+> > "Tested-by" line for this [01/31] first.)
+> > 
+> >> Also, I think a new version of the series is coming, can you test that
+> >> to verify it works properly?  We have to wait until after -rc1 is out
+> >> anyway.
+> >>
+> > 
+> > I think this v36 is the last version of the series as I discussed with
+> > QCOM Wesley. And for sure I will test it if they do have a new
+> > version.
+> > 
 > 
-> Asked differently: what would happen if we remove this check here and
-> handle USB_RX like any other Q6AFE output port? Would anything break for
-> the userspace interface?
+> Hi Puma,
+> 
+> I'm discussing with Stephan on the QC specific stuff, so the common changes
+> won't change on v37.  Please provide your tested-by tags for each commit,
+> so I can carry them accordingly on the next submission.  If I do end up
+> making changes to any of the common patches, I will remove your tested by
+> tag, which means you might have to test it again.
+> 
+> Thanks
+> Wesley Cheng
+> 
+> 
 > 
 
-So I took a look at seeing how the Q6ADM/ASM interactions would work for
-the situation where if user tried to start both MM1/2 streams at the same
-time over the USB offload path.  In this scenario, we see that the Q6USB BE
-DAI operations, ie startup, hw_params, etc... gets called one time for the
-initial stream.  For example, if I start playback on MM1, then that
-triggers the USB BE DAI to be brought up.
+Hi Wesley,
 
-When I start playback on MM2, since MM1 already called
-dpcm_be_dai_startup(), then be->dpcm[stream].users will be greater than
-zero.  This would cause the __soc_pcm_open() to be skipped for the USB BE
-DAI, so I wouldn't be able to check the runtime status at the Q6USB 
-backend DAI.  However, we do track current streaming sessions done over 
-Q6 ADM and it does save the AFE port associated to each COPP allocation, 
-so I think its reasonable to see if there is already a COPP entry for 
-the USB AFE port, to fail the open() call associated to the FE DAI.
+Thanks for your effort to upstream usb audio offload.
+I've also used your patchset like Puma.
+([01], [02], [03], [04], [05], [06], [08], and [12])
 
-Thanks
-Wesley Cheng
+It works well on Exynos. Please let me know if you need also
+"Tested-by:" on our side.
+
+Best Regards,
+Jung Daehwan
+
+------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_
+Content-Type: text/plain; charset="utf-8"
+
+
+------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_--
