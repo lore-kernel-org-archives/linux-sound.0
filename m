@@ -1,185 +1,243 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A4C23A989
-	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 12:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CB023959B
+	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 13:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743598561; cv=none; b=DLeJKU4UhoJIS5WVi6oTAgLbOrvSDJfXOh6Vx/ga8r9Sp3JC6Mka6XzVZtd7Inrf9J82Duz9n2EKdnhFGAWqABDYgu+8hLO8oaBybo7LZ4rYFtomZf+0DD+0UrYsuK1dsQVjovIfMGPmcGOkgD6r5M9nY4paNKN1df1Wpcw4xKs=
+	t=1743600202; cv=none; b=A8lDGW/D/5DMwVcY6nJYFMtzemS1TyMBzIQzCli6z3NzNQ+6YMF/RjY/A0XgZXxOeeeIhujhG2BXQ3LZHjUMOUnz2g8ZxCz08U1JKkQ+DF9T3hz0KGn7Rl0QwUFQvicfXo0k1xAYYKrHFGwikjY0j5qkYWoJod7CZjSdRfvwt2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743598561; c=relaxed/simple;
-	bh=C/PVZ5LfrZxqQmrp4knapGoAzqYeYuT/rNRo7KMYH7s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kGHfE3WDLAEE76dAqaAflBdSYO1pKjp4QQO05TJkR15myrCQ8r2eXJcY7GOvNTb0Z4xaokbdJPi94Ouxit63C/2DfUXsDhzC3qEabrYZjD899aL4i1Ndk3zYi/gMccFHU0hFSylN9nOTqOYDhy77SEWYnQgbU4wUuM7s5aaUQ+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=t6Qw+ICG; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1743600202; c=relaxed/simple;
+	bh=qJI3g7NUIwmTbLq+6TtxyHlCiFTx4q+/hn99COy8BUk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D/x5h0H3wLESW67cd49wkioKE/PbOsIw/6r/scf7LF6IAUrWJWoCU188jCAF4SiGXyphi8s1snWjHjxxfAIM/OvVEIpOaClKiSphvLv0Wp8oHM6htc7HdIM4oMbz1qGtJjev6j4vs4rlK4eSmF08vMVe02e7KCfSNOzaiG8Mq5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0tH/Hnw6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TQQdkmQ+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0tH/Hnw6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TQQdkmQ+; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="t6Qw+ICG"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 8BD403ECCB;
-	Wed,  2 Apr 2025 14:55:53 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 8BD403ECCB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1743598553; bh=32OxWn+xHatQDhR3Xd4D1VK0CUsglbc7cLq/ktjFEo8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t6Qw+ICGIoLXFBsp19xw8vYbTHWPDKrJT95lbCCtMNoYZUe7qutbC3NAW1WXJ2S/g
-	 3h3Z5Q/M+Q42VaOkYwW+CX8j++L5jjwnB2YEolZAC8Fo9ufU2AGq0FfYXG9HsdFYY9
-	 lb1AjBmqhjjtY7NhyOQsYBv6yZRT7uVp4V7OUgRI=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0tH/Hnw6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TQQdkmQ+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0tH/Hnw6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TQQdkmQ+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed,  2 Apr 2025 14:55:42 +0200 (CEST)
-Message-ID: <69ac49d4-70b2-4814-bb03-cdd43e34f74b@perex.cz>
-Date: Wed, 2 Apr 2025 14:55:41 +0200
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 693B52119E;
+	Wed,  2 Apr 2025 13:23:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743600198; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E1IwxWRY+h5AJsPLjKTif2737GN6BUSqbbJzvi7+mpA=;
+	b=0tH/Hnw6PUp2hcm7wVKBPZqoNZsPsjRoiGC5mdgLkPM6Lr2YqAydMvH6HWoVEqGFQdUf0c
+	8xkDBAuzS5qPCKrtgRr4nWEwLEZjTtcp975bIlxxiafRuAqJlHR6ua1nNA3YjlQ46VpONq
+	jS7grk33V1e5DT/vIPLWIvDCji6MfUQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743600198;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E1IwxWRY+h5AJsPLjKTif2737GN6BUSqbbJzvi7+mpA=;
+	b=TQQdkmQ+uqbschs0qKaKxXoNzW4OYINTo0mQEOjK3afUpeFJKrbRIov6r3DrAerxoKouCX
+	JnbQ1TebeoS33MBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="0tH/Hnw6";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=TQQdkmQ+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743600198; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E1IwxWRY+h5AJsPLjKTif2737GN6BUSqbbJzvi7+mpA=;
+	b=0tH/Hnw6PUp2hcm7wVKBPZqoNZsPsjRoiGC5mdgLkPM6Lr2YqAydMvH6HWoVEqGFQdUf0c
+	8xkDBAuzS5qPCKrtgRr4nWEwLEZjTtcp975bIlxxiafRuAqJlHR6ua1nNA3YjlQ46VpONq
+	jS7grk33V1e5DT/vIPLWIvDCji6MfUQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743600198;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E1IwxWRY+h5AJsPLjKTif2737GN6BUSqbbJzvi7+mpA=;
+	b=TQQdkmQ+uqbschs0qKaKxXoNzW4OYINTo0mQEOjK3afUpeFJKrbRIov6r3DrAerxoKouCX
+	JnbQ1TebeoS33MBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1AA5A137D4;
+	Wed,  2 Apr 2025 13:23:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wiZYBUY67WeOFAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 02 Apr 2025 13:23:18 +0000
+Date: Wed, 02 Apr 2025 15:23:17 +0200
+Message-ID: <87o6xe7l4q.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	liam.r.girdwood@intel.com
+Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if resume is not supported
+In-Reply-To: <8878feb6-362a-4541-91fb-318aea1c0870@linux.intel.com>
+References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
+	<87r02cym1c.wl-tiwai@suse.de>
+	<9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
+	<87jz83ztn7.wl-tiwai@suse.de>
+	<206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
+	<87h637znpp.wl-tiwai@suse.de>
+	<35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
+	<8734eryn21.wl-tiwai@suse.de>
+	<ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
+	<87v7rmylc5.wl-tiwai@suse.de>
+	<d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
+	<87o6xeyfkk.wl-tiwai@suse.de>
+	<69c52779-ef90-45c5-a024-77f0030bf5cd@linux.intel.com>
+	<87jz82ye7b.wl-tiwai@suse.de>
+	<8878feb6-362a-4541-91fb-318aea1c0870@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
- resume is not supported
-To: Takashi Iwai <tiwai@suse.de>,
- =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.com,
- linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
-References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
- <87r02cym1c.wl-tiwai@suse.de> <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
- <87jz83ztn7.wl-tiwai@suse.de> <206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
- <87h637znpp.wl-tiwai@suse.de> <35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
- <8734eryn21.wl-tiwai@suse.de> <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
- <87v7rmylc5.wl-tiwai@suse.de> <d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
- <87o6xeyfkk.wl-tiwai@suse.de>
- <69c52779-ef90-45c5-a024-77f0030bf5cd@linux.intel.com>
- <87jz82ye7b.wl-tiwai@suse.de>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <87jz82ye7b.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 693B52119E
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,perex.cz,gmail.com,kernel.org,suse.com,vger.kernel.org,linux.intel.com,linux.dev,intel.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On 02. 04. 25 13:50, Takashi Iwai wrote:
-> On Wed, 02 Apr 2025 13:43:57 +0200,
-> PÃ©ter Ujfalusi wrote:
->>
->>
->>
->> On 02/04/2025 14:21, Takashi Iwai wrote:
->>>>> On the second thought, yet another variant would be to introduce only
->>>>> one new trigger, SNDRV_PCM_TRIGGER_PAUSE_RESET, for resetting the
->>>>> PAUSED state as a step before stopping the stream.  This can be
->>>>> applied to all cases for snd_pcm_drop() and snd_pcm_suspend(), too.
->>>>> If the driver doesn't support this mode, the PCM core may fall back to
->>>>> SNDRV_PCM_TRIGGER_PAUSE_RELEASE.
->>>>
->>>> This looks identical to my proposed
->>>> SNDRV_PCM_TRIGGER_PAUSE_RELEASE_AND_STOP which is more
->>>> explanatory. It's not clear what PAUSE_RESET should do (probably the
->>>> stream should be kept inactive).
->>>
->>> There is a slight difference.  My proposal, *_TRIGGER_PAUSE_RESET,
->>> doesn't have to stop the stream by itself, but it's only a preparation
->>> for stopping.  That is, a proper TRIGGER_STOP always follows after
->>> TRIGGER_PAUSE_RESET.
->>
->> But what state that we move after we reset the PAUSE? is it RUNNING
->> (iow, equals to PAUSE_RELEASE) or something else?
+On Wed, 02 Apr 2025 14:52:48 +0200,
+Péter Ujfalusi wrote:
 > 
-> It'll be temporarily set to RUNNING.
-
-I don't think that there's requirement to change state at this point. It would 
-be better to keep PAUSED state and add this state to the running state checks. 
-Something like:
-
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index ac8f3aef9205..166ef0376293 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -708,6 +708,12 @@ static inline int snd_pcm_running(struct 
-snd_pcm_substream *substream)
-                  substream->stream == SNDRV_PCM_STREAM_PLAYBACK));
-  }
-
-+static inline int snd_pcm_active(struct snd_pcm_substream *substream)
-+{
-+       return snd_pcm_running(substream) ||
-+               substream->runtime->state == SNDRV_PCM_STATE_PAUSED;
-+}
-+
-  /**
-   * __snd_pcm_set_state - Change the current PCM state
-   * @runtime: PCM runtime to set
-
-But...
-
->> In case of suspend while the state is paused we will:
->> TRIGGER_PAUSE_RESET followed by STOP or SUSPEND?
 > 
-> For suspend, PAUSE_RESET, then SUSPEND.
-> For dropping, PAUSE_RESET, then STOP.
+> 
+> On 02/04/2025 14:50, Takashi Iwai wrote:
+> > On Wed, 02 Apr 2025 13:43:57 +0200,
+> > Péter Ujfalusi wrote:
+> >>
+> >>
+> >>
+> >> On 02/04/2025 14:21, Takashi Iwai wrote:
+> >>>>> On the second thought, yet another variant would be to introduce only
+> >>>>> one new trigger, SNDRV_PCM_TRIGGER_PAUSE_RESET, for resetting the
+> >>>>> PAUSED state as a step before stopping the stream.  This can be
+> >>>>> applied to all cases for snd_pcm_drop() and snd_pcm_suspend(), too.
+> >>>>> If the driver doesn't support this mode, the PCM core may fall back to
+> >>>>> SNDRV_PCM_TRIGGER_PAUSE_RELEASE.
+> >>>>
+> >>>> This looks identical to my proposed
+> >>>> SNDRV_PCM_TRIGGER_PAUSE_RELEASE_AND_STOP which is more
+> >>>> explanatory. It's not clear what PAUSE_RESET should do (probably the
+> >>>> stream should be kept inactive).
+> >>>
+> >>> There is a slight difference.  My proposal, *_TRIGGER_PAUSE_RESET,
+> >>> doesn't have to stop the stream by itself, but it's only a preparation
+> >>> for stopping.  That is, a proper TRIGGER_STOP always follows after
+> >>> TRIGGER_PAUSE_RESET.
+> >>
+> >> But what state that we move after we reset the PAUSE? is it RUNNING
+> >> (iow, equals to PAUSE_RELEASE) or something else?
+> > 
+> > It'll be temporarily set to RUNNING.
+> > 
+> >> In case of suspend while the state is paused we will:
+> >> TRIGGER_PAUSE_RESET followed by STOP or SUSPEND?
+> > 
+> > For suspend, PAUSE_RESET, then SUSPEND.
+> > For dropping, PAUSE_RESET, then STOP.
+> 
+> OK, but this is still the same as PAUSE_RELEASE+SUSPEND when it comes to
+> suspended_state, no?
+> I mean you need to move to RUNNING to be suspend, or stop to skip the
+> suspend.
 
-I'm not convinced if the functionality/information split is a good idea in 
-this case. The preparation (code) for suspend and stop may be different. With 
-separate triggers, drivers know exactly about the requested behavior (and we 
-know it at trigger call time already).
+Yes, and this needs to be addressed.  e.g. save the suspended_state
+beforehand.
 
-Perhaps, more universal triggers like SNDRV_PCM_TRIGGER_STOP_PREPARE and
-SNDRV_PCM_TRIGGER_SUSPEND_PREPARE may be invoked (always) before STOP/PREPARE 
-triggers  Drivers should handle also the pause state there on it's own to keep 
-the DMA transfers in idle for those cases.
+> >> Most drivers are doing the same thing for STOP and SUSPEND trigger,
+> >> however it is possible to do extra steps for SUSPEND to make sure that
+> >> the whole system is in a lowest power state.
+> > 
+> > Yes, that's the reason I proposed PAUSE_RESET.  Then the driver can
+> > handle the following stop or suspend operation differently.
+> > 
+> > That said, PAUSE_RESET is just another variant of PAUSE_RELEASE.
+> > But this shouldn't actually enable the audio output again, but prepare
+> > for the next SUSPEND or STOP trigger.
+> 
+> I'm not sure how this would be seen in ASoC level. Surely we need to
+> have flag per components that it is handling PAUSE_RESET as codecs would
+> like don't want to do it or they migh, hm.
+> But ASoC maintains another set of state for the dpcm:
+> SND_SOC_DPCM_STATE_* and it has this as well among other state-machine
+> things:
+> case SNDRV_PCM_TRIGGER_SUSPEND:
+> 	if (be->dpcm[stream].state != SND_SOC_DPCM_STATE_START)
+> 		goto next;
+> 
+> So, this is dpcm level, but one component can support PAUSE_RESET while
+> the other does not and the transitions are not too clear to me.
 
-						Jaroslav
+It's a good question.  ASoC may have the own intermediate state
+(SND_SOC_DPCM_STATE_PAUSED_RESET) or just use
+SND_SOC_DPCM_STATE_START but leave all to BE trigger (by passing
+SNDRV_PCM_TRIGGER_PAUSE_RESET).
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+> But the idea of resurrecting a paused stream with mute held is not bad.
+>
+> I'm still uncertain how this actually works now on systems where RESUME
+> is supported and we suspend while a PCM is in paused...
+
+Is it a general question about suspend+resume during pause, or the
+behavior change after PAUSE_RESET?  PAUSE_RESET won't be applied to
+the drivers that support RESUME.
+
+BTW, I'm not pushing to sell PAUSE_RESET so much for now at all.
+Currently rather in a brain storming phase.  Let's try to pick up the
+more appropriate one.
+
+
+thanks,
+
+Takashi
