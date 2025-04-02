@@ -1,114 +1,301 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBA723535B;
-	Wed,  2 Apr 2025 09:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9B714AD20
+	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 09:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743585121; cv=none; b=qhroQwFJ3gvCq+Qwy2Boza6EbnruKs4y8ZbjLE6ZiKP0NVeINIfROYoad8WmW+d4ZvEwXCoVB0EFpXhSg4ldJHUYyUTi10lo4i0g+FIzeJWZjDUmgr08GED1tScUr3rnCYXxo7fAK7kEPsHdkJCgOEhGf4FkXw3JJ8xMkfJp0H4=
+	t=1743585407; cv=none; b=MYAzjbyk5//ysXvjIhpCG0NI6O/G1OIg51snZ8Lptp39erYZyp6E9hcG2oUS6I9f4PNNXGjpX7AyQQliCSZsAT10qPd3x6GSQ/pGU4MnW/jDvbpWHy/OIGR9o1SeoECP+vvuOHX4SXHkvI18Zua0hxmOMvlTCeHxjYzxe+pCd7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743585121; c=relaxed/simple;
-	bh=X1/GrPb0w/5K/OAdw1/zmUXP2G79m5jGuXLRS/2mVZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S85XNEIsiG05ZBPeUUg5GU2POgN1uLRcPxgCa7paFpIj1thfenUtxFdc8BLrgGjaTeNxdfUcrnS5dacOu6l5XkVL8/3mZp1lPyy0Np6V14pA6DwjUk4SLuwmjFc0UriDzymycBq95jHg/CgkuWGPYp+nG6CHrcHPIj9ME5XsYZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ug640ljF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743585407; c=relaxed/simple;
+	bh=2oHCph2zfINTOckhI3ltsQwSrrzfCmIyfYnzm3w2u/M=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VXtll1sgtY7Rvj/81aUXrlHMRfCvRB8DNxgIR9P6jSXxuYYC7gQB9LvJWUbTOlf1MLe/Hq0pcf8on+Je/agwWMEMPid389KbP4nZBzuOptN7qKwOKiWHbf0HOmJxzIsdaakZuoNaRhgCXD9JViPbIr+DHa2b2Utmb9T6BPHuHiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MQTCLH3E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I+nItchW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MQTCLH3E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I+nItchW; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ug640ljF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EDB5C4CEDD;
-	Wed,  2 Apr 2025 09:12:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743585120;
-	bh=X1/GrPb0w/5K/OAdw1/zmUXP2G79m5jGuXLRS/2mVZQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ug640ljF2RY0Qn4mv0WrbuMKiPF2CsxT3IzMbkZ4iENg0NBgzhcXRq65rMBYbgQG7
-	 VV3kP7boCiYBZFqUm4WlsX/ptUvjNyFQWpEWm0x+2Lz5qgTnKurUFvN0Z31fIJUIyb
-	 AgMFlkqefELZZXHvTJ7E9bQNRa3SINWtMkQujQoreHcLZ0rd4yjyJ0breDjrF9KExF
-	 nbUva+ijr/UJ2UluOFdT8g/6egskWCY5jNi/GGA04fufeljOMS95Nxacln1eH5NUuZ
-	 Tuzqd2rZbK/f1wU1KJXBguUpwSIE3M75KX9paVj5nJd0AP1gRR54Q/OOZHBsMCMmA4
-	 6VQyHIulicGFQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1tzu8i-000000005aY-3zAU;
-	Wed, 02 Apr 2025 11:12:05 +0200
-Date: Wed, 2 Apr 2025 11:12:04 +0200
-From: Johan Hovold <johan@kernel.org>
-To: srinivas.kandagatla@linaro.org
-Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
-	krzk+dt@kernel.org, ivprusov@salutedevices.com,
-	luca.ceresoli@bootlin.com, zhoubinbin@loongson.cn,
-	paulha@opensource.cirrus.com, lgirdwood@gmail.com, robh@kernel.org,
-	conor+dt@kernel.org, konradybcio@kernel.org, perex@perex.cz,
-	tiwai@suse.com, dmitry.baryshkov@oss.qualcomm.com,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	johan+linaro@kernel.org,
-	Christopher Obbard <christopher.obbard@linaro.org>
-Subject: Re: [PATCH v6 5/6] ASoC: codecs: wcd938x: add mux control support
- for hp audio mux
-Message-ID: <Z-z_ZAyVBK5ui50k@hovoldconsulting.com>
-References: <20250327100633.11530-1-srinivas.kandagatla@linaro.org>
- <20250327100633.11530-6-srinivas.kandagatla@linaro.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MQTCLH3E";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I+nItchW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MQTCLH3E";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I+nItchW"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0E3B41F38E;
+	Wed,  2 Apr 2025 09:16:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743585403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ONpfhmukzhd8USg07TT2iMvGMdqSEfwdh/S2LIevliw=;
+	b=MQTCLH3EJwLj+CSWJZ4Dh8Qtzvw1RrtN7v/mImIYoFcO9UyzLd8CC4eo6rnU1qN69nghwr
+	2gYEt/Wf6sVIC6KikqhwZAKyhMzTeMVhWQvGUvalhqQEPQHeyyqeSkcO3YgjA3w+N1VMEz
+	FjBLb+9q3yoLUIo0Fx/PrN2Me3u04e4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743585403;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ONpfhmukzhd8USg07TT2iMvGMdqSEfwdh/S2LIevliw=;
+	b=I+nItchWVmY5sA9NgPhR4jHZf8mncHv2FtgmiOSlEAGnyOUayOv8LN4hMc2H/GyMgSa++y
+	vdXF+exM9WpcVdCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743585403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ONpfhmukzhd8USg07TT2iMvGMdqSEfwdh/S2LIevliw=;
+	b=MQTCLH3EJwLj+CSWJZ4Dh8Qtzvw1RrtN7v/mImIYoFcO9UyzLd8CC4eo6rnU1qN69nghwr
+	2gYEt/Wf6sVIC6KikqhwZAKyhMzTeMVhWQvGUvalhqQEPQHeyyqeSkcO3YgjA3w+N1VMEz
+	FjBLb+9q3yoLUIo0Fx/PrN2Me3u04e4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743585403;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ONpfhmukzhd8USg07TT2iMvGMdqSEfwdh/S2LIevliw=;
+	b=I+nItchWVmY5sA9NgPhR4jHZf8mncHv2FtgmiOSlEAGnyOUayOv8LN4hMc2H/GyMgSa++y
+	vdXF+exM9WpcVdCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF97513A4B;
+	Wed,  2 Apr 2025 09:16:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id keG4KXoA7WfYQAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 02 Apr 2025 09:16:42 +0000
+Date: Wed, 02 Apr 2025 11:16:42 +0200
+Message-ID: <87v7rmylc5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	liam.r.girdwood@intel.com
+Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if resume is not supported
+In-Reply-To: <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
+References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
+	<87r02cym1c.wl-tiwai@suse.de>
+	<9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
+	<87jz83ztn7.wl-tiwai@suse.de>
+	<206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
+	<87h637znpp.wl-tiwai@suse.de>
+	<35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
+	<8734eryn21.wl-tiwai@suse.de>
+	<ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250327100633.11530-6-srinivas.kandagatla@linaro.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,linux.intel.com,gmail.com,kernel.org,suse.com,vger.kernel.org,linux.dev,intel.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Thu, Mar 27, 2025 at 10:06:32AM +0000, Srinivas Kandagatla wrote:
-> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+On Wed, 02 Apr 2025 10:52:16 +0200,
+Jaroslav Kysela wrote:
 > 
-> On some platforms to minimise pop and click during switching between
-> CTIA and OMTP headset an additional HiFi mux is used. Most common
-> case is that this switch is switched on by default, but on some
-> platforms this needs a regulator enable.
+> On 02. 04. 25 10:39, Takashi Iwai wrote:
+> > On Wed, 02 Apr 2025 10:09:36 +0200,
+> > Jaroslav Kysela wrote:
+> >> 
+> >> On 01. 04. 25 21:27, Takashi Iwai wrote:
+> >>> On Tue, 01 Apr 2025 20:46:15 +0200,
+> >>> Jaroslav Kysela wrote:
+> >>>> 
+> >>>> On 01. 04. 25 19:19, Takashi Iwai wrote:
+> >>>>> On Tue, 01 Apr 2025 18:58:40 +0200,
+> >>>>> Jaroslav Kysela wrote:
+> >>>>>> 
+> >>>>>> On 01. 04. 25 16:49, Takashi Iwai wrote:
+> >>>>>>> On Tue, 01 Apr 2025 15:36:52 +0200,
+> >>>>>>> Peter Ujfalusi wrote:
+> >>>>>>>> 
+> >>>>>>>> Streams moved to SUSPENDED state from PAUSED without trigger. If a stream
+> >>>>>>>> does not support RESUME then on system resume the RESUME trigger is not
+> >>>>>>>> sent, the stream's state and suspended_state remains untouched.
+> >>>>>>>> When the user space releases the pause then the core will reject this
+> >>>>>>>> because the state of the stream is _not_ PAUSED, it is still SUSPENDED.
+> >>>>>>>> 
+> >>>>>>>>     From this point user space will do the normal (hw_params) prepare and
+> >>>>>>>> START, PAUSE_RELEASE trigger will not be sent by the core after the
+> >>>>>>>> system has resumed.
+> >>>>>> 
+> >>>>>> Why you expect to see PAUSE_RELEASE trigger before SUSPEND trigger
+> >>>>>> when resume is not supported ? I think that the driver has complete
+> >>>>>> information:
+> >>>>>> 
+> >>>>>> PAUSE -> SUSPEND [-> no RESUME]
+> >>>>>> 
+> >>>>>> The driver should stay in the suspend state until a new stream
+> >>>>>> re-initialization is invoked.
+> >>>>>> 
+> >>>>>> It looks like that other logic should be moved to the end driver (if
+> >>>>>> some parts must be reinitialized in the suspend phase when the resume
+> >>>>>> is not supported). I don't think that this is job for PCM core nor SoC
+> >>>>>> PCM core routines.
+> >>>>>> 
+> >>>>>> The SUSPEND trigger is always invoked, isn't?
+> >>>>> 
+> >>>>> No, that's a part of the problems.  The ops->suspend is called only
+> >>>>> for the running state, while at snd_pcm_post_suspend(), the state is
+> >>>>> changed to SUSPENDED.  The original state is saved as
+> >>>>> suspended_state, and this can be restored via snd_pcm_resume(), but
+> >>>>> only if the driver supports the full resume.
+> >>>>> 
+> >>>>> We may allow calling ops->suspend also for PAUSED state, too.  But
+> >>>>> then each driver would need to have to handle this state change, too.
+> >>>>> Currently, when snd_pcm_prepare(), *_drop() or *_drain() is called at
+> >>>>> PAUSED state, the core automatically releases the pause beforehand.
+> >>>> 
+> >>>> Thanks for those hints. I don't think that the pause release is sufficient
+> >>>> for this case - the stream must be stopped, too. Actually, all mentioned
+> >>>> prepare/drop/drain routines immediately changes state when the pause is
+> >>>> released.
+> >>> 
+> >>> Actually, this patch follows the same pattern, too.  It calls
+> >>> snd_pcm_pause(false) to set the state to RUNNING again, then proceed
+> >>> to the suspend action immediately that sets to SUSPENDED.
+> >> 
+> >> The previous state (suspended_state) will be confusing from the
+> >> application with the proposed patch, because there will be RUNNING
+> >> state instead PAUSED. This previous state is exported via API.
+> > 
+> > No, it won't happen.  The condition of the new behavior is only when
+> > SNDRV_PCM_INFO_RESUME isn't set -- that is, no resume is possible,
+> > hence no state recovery happens after resume.  From the application
+> > POV, it won't change.
 > 
-> move to using mux control to enable both regulator and handle gpios,
-> deprecate the usage of gpio.
+> The suspended_state can be obtained in snd_pcm_status64(). With
+> Peter's patch, there will be RUNNING instead PAUSED, don't?
+
+I see, that should be better fixed.
+
+> >> The pause release / stop patterns provide a short time window to
+> >> process some samples which may cause unwanted pops (especially for
+> >> playback). So perhaps,
+> >> we can address this in core (new triggers like PAUSE_RELEASE_AND_STOP), too.
+> > 
+> > That's true.  To be noted, the very same thing is applied to other
+> > operations like snd_pcm_drop() or snd_pcm_prepare(), so it's not only
+> > about the case of suspend.
 > 
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
+> Yes, I meant all places.
+> 
+> >>>> Maybe a new trigger may be added to notify drivers like:
+> >>>> 
+> >>>> --- a/sound/core/pcm_native.c
+> >>>> +++ b/sound/core/pcm_native.c
+> >>>> @@ -1694,8 +1694,10 @@ static int snd_pcm_do_suspend(struct snd_pcm_substream *substream,
+> >>>>           struct snd_pcm_runtime *runtime = substream->runtime;
+> >>>>           if (runtime->trigger_master != substream)
+> >>>>                   return 0;
+> >>>> -       if (! snd_pcm_running(substream))
+> >>>> +       if (! snd_pcm_running(substream)) {
+> >>>> +               substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_SUSPEND_WHEN_IDLE);
+> >>>>                   return 0;
+> >>>> +       }
+> >>>>           substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_SUSPEND);
+> >>>>           runtime->stop_operating = true;
+> >>>>           return 0; /* suspend unconditionally */
+> >>>> 
+> >>>> With this, the states won't be changed - the driver without resume support
+> >>>> can shut down all necessary things.
+> >>> 
+> >>> That's another possibility, yes.  Though, IMO, it makes the
+> >>> pause-handling a bit more cumbersome.  With Peter's proposal, the
+> >>> pause state change is always paired, so the driver doesn't consider
+> >>> about that too much; that's the biggest merit.
+> >> 
+> >> It depends, if we agree that releasing pause is a extra thing to do
+> >> when we know that this step is just to minimize state changes for
+> >> drivers.
+> >> 
+> >> For my view, the drivers may also receive those triggers:
+> >> 
+> >> SNDRV_PCM_TRIGGER_PAUSE_RELEASE_AND_STOP
+> >> SNDRV_PCM_TRIGGER_SUSPEND_IN_PAUSE
+> >> SNDRV_PCM_TRIGGER_RELEASE_IN_PAUSE
+> >> 
+> >> This will allow to handle all states properly without any side effects
+> >> (like short unwanted DMA transfers).
+> >> 
+> >> The drivers should probably activate those triggers conditionally to
+> >> not break current state sequences.
+> > 
+> > Hmm, that looks too complex, IMO.
+> > 
+> > Another slightly more straightforward fix would be just to allow the
+> > direct state transition from PAUSED to any state.  Then the remaining
+> > piece is all about driver implementations.  And, this can be
+> > conditionally operated, e.g. only when some extra flag is set.  When
+> > no flag is set, we keep applying PAUSE_RELEASE before the transition
+> > like now, including Peter's patch, that can work generically (but not
+> > always ideally).
+> 
+> It looks also feasible. My proposal just allows the straight state
+> identification from the trigger value in the drivers.
 
-> @@ -3261,11 +3276,26 @@ static int wcd938x_populate_dt_data(struct wcd938x_priv *wcd938x, struct device
->  		return dev_err_probe(dev, wcd938x->reset_gpio,
->  				     "Failed to get reset gpio\n");
->  
-> -	wcd938x->us_euro_gpio = devm_gpiod_get_optional(dev, "us-euro",
-> -						GPIOD_OUT_LOW);
-> -	if (IS_ERR(wcd938x->us_euro_gpio))
-> -		return dev_err_probe(dev, PTR_ERR(wcd938x->us_euro_gpio),
-> -				     "us-euro swap Control GPIO not found\n");
-> +	wcd938x->us_euro_mux = devm_mux_control_get(dev, NULL);
+On the second thought, yet another variant would be to introduce only
+one new trigger, SNDRV_PCM_TRIGGER_PAUSE_RESET, for resetting the
+PAUSED state as a step before stopping the stream.  This can be
+applied to all cases for snd_pcm_drop() and snd_pcm_suspend(), too.
+If the driver doesn't support this mode, the PCM core may fall back to
+SNDRV_PCM_TRIGGER_PAUSE_RELEASE.
 
-Running with this patch on the CRD I noticed that this now prints an
-error as there is no optional mux (or gpio) defined:
+> >>> (BTW, I thought the state change PAUSED -> XRUN were possible, but
+> >>> actually it's not; this is another corner case to be addressed, I
+> >>> guess.)
+> >> 
+> >> Which code (lines) do you mean?
+> > 
+> > snd_pcm_xrun() and snd_pcm_stop_xrun().  As far as I read the code,
+> > the state transition won't happen when it's in PAUSED state.
+> 
+> Yes, paused state should be handled there, too. But the pause release
+> operation looks really suspicious for xrun.
 
-	wcd938x_codec audio-codec: /audio-codec: failed to get mux-control (0)
+Yeah, I noticed it after sending out my previous post, too.
+The engine is stopped, so practically the XRUN must not happen.
+I believe we can forget about that.
 
-You need to suppress that error in mux_get() to allow for optional muxes
-to be looked up like this.
 
-> +	if (IS_ERR(wcd938x->us_euro_mux)) {
-> +		if (PTR_ERR(wcd938x->us_euro_mux) == -EPROBE_DEFER)
-> +			return -EPROBE_DEFER;
-> +
-> +		/* mux is optional and now fallback to using gpio */
-> +		wcd938x->us_euro_mux = NULL;
-> +		wcd938x->us_euro_gpio = devm_gpiod_get_optional(dev, "us-euro", GPIOD_OUT_LOW);
-> +		if (IS_ERR(wcd938x->us_euro_gpio))
-> +			return dev_err_probe(dev, PTR_ERR(wcd938x->us_euro_gpio),
-> +					     "us-euro swap Control GPIO not found\n");
-> +	} else {
-> +		ret = mux_control_try_select(wcd938x->us_euro_mux, wcd938x->mux_state);
-> +		if (ret) {
-> +			dev_err(dev, "Error (%d) Unable to select us/euro mux state\n", ret);
-> +			wcd938x->mux_setup_done = false;
-> +			return ret;
-> +		}
-> +		wcd938x->mux_setup_done = true;
-> +	}
+thanks,
 
-Johan
+Takashi
