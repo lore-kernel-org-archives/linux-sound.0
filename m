@@ -1,63 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E7813212A;
-	Wed,  2 Apr 2025 03:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FAE2E337B
+	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 03:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743562801; cv=none; b=t5sDUVhCqky3WD+oQwjG8+dQvuu0yVQMuPlbnbaRM4ic7k1TBAIXyrBAo8FrWn+ma3Wid+6OmhSFI6Ol/CiWK95XBOjtiaGqlk/OxhuMdxp7idrDzf6N8D6eXfHHNmmeFZ7kWirQAkWefsalOwkOAVJ6CTYpk9VdxsAo3IXZTEw=
+	t=1743562836; cv=none; b=abPYJkZg4fM5DNjg0jCbQ3mhCmXv0y++i4NBpU11QZqlocmPZzYuMo7BGcxKg+BLZRrQtXH5Rzy8N1Xme4/KHQVuqHO3qQ6S1rJlaY03nXJ1eSCRLf5bD0XmEWmGaogKRFsFhQ8yjx6IXS/ev6HA3EKSYHqqV5dGRudZndAyqh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743562801; c=relaxed/simple;
-	bh=cBegnqxyaf7YFhV8gdshiCgSRHNCbqwZpHwMsgzPVU8=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=tRG0gW5s5zqKSoIU66hIJmqCYBT0YPmGQ3qOySDhMX34N3pE0UpLYBO6L8zEv1QZ0jfqyDrjdfaSZ1qkxlX/m8CdHbUi9mn+Eo2WwI3eGynxpyDkuk16Pd3LzGyjnCQhRkXsK48KPHAXiRvedoxZWuPl9Vh7twDBY70gvzcpZHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WnfYF05p; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743562836; c=relaxed/simple;
+	bh=4oVGhsSdEBBS8qqcg/UuXZ8JXhPW6g3SAPM12DRhJ2k=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=eF6SpTuz5Gz5oHPm1SVpDeH71vpj12oJ6Rst0/WA0a+sHVxn8rwylbgpQmmh8zb04IlWvzyZAmkPwAyEi4SHhZg7wBikHDnxeCDK76Z3EXWA9WQGZcYddp/cOgFYxPMVjGzNNUDlgw+xZBLQEOxWajLF8Qp/OLen85XEY8EDFsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=M236gK/P; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WnfYF05p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 155D9C4CEE4;
-	Wed,  2 Apr 2025 03:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743562801;
-	bh=cBegnqxyaf7YFhV8gdshiCgSRHNCbqwZpHwMsgzPVU8=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=WnfYF05peA4S0kOdhskH/oX0d4S7GtV1w47wb0BVdpkUHw8vdEIFsJaT9WnEdLZVm
-	 +i6UISHWhX13Bm0I7dfFe5yWLPOQkdL+6Dx3neGi5637PigkSYObOJfQgcRW6A/UqZ
-	 fFHot6nRlgVc+n1es2MPp881gqHjNJnBDPzazn98rfq9/18MUEc+9I/lHt9cgFGe2t
-	 hfBIiEUfoLnPD3k0tCatpbsc/ad2jQsXUeLMkYv3n9hNhiLR0E2OxXAQj+SIpCylAE
-	 vghABnO3fKyef2GvJtECxLrCp9Z1axoVbanc5F72Op7FkTlkfpLI1ZL6/+7QOEJRKd
-	 0kTjRy79jpfQA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F292C380AAFD;
-	Wed,  2 Apr 2025 03:00:38 +0000 (UTC)
-Subject: Re: [GIT PULL] virtio: features, fixes, cleanups
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20250331123404-mutt-send-email-mst@kernel.org>
-References: <20250331123404-mutt-send-email-mst@kernel.org>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20250331123404-mutt-send-email-mst@kernel.org>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git tags/for_linus
-X-PR-Tracked-Commit-Id: 9d8960672d63db4b3b04542f5622748b345c637a
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4b98d5dcd145aab10219b9f259b70110cd34f01a
-Message-Id: <174356283768.1007346.2332728582930191029.pr-tracker-bot@kernel.org>
-Date: Wed, 02 Apr 2025 03:00:37 +0000
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, kvm@vger.kernel.org, virtualization@lists.linux-foundation.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, anton.yakovlev@opensynergy.com, bettyzhou@google.com, cong.meng@oracle.com, dtatulea@nvidia.com, eauger@redhat.com, eperezma@redhat.com, eric.auger@redhat.com, hongyu.ning@linux.intel.com, jasowang@redhat.com, jstultz@google.com, kernel-team@android.com, kshk@linux.ibm.com, linux-sound@vger.kernel.org, michael.christie@oracle.com, mst@redhat.com, perex@perex.cz, sgarzare@redhat.com, si-wei.liu@oracle.com, stable@vger.kernel.org, stefanha@redhat.com, tiwai@suse.com, virtualization@lists.linux.dev, wangyufeng@kylinos.cn, wh1sper@zju.edu.cn
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="M236gK/P"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 53230AfcC3452509, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1743562810; bh=4oVGhsSdEBBS8qqcg/UuXZ8JXhPW6g3SAPM12DRhJ2k=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	b=M236gK/Pj9r3iGfiLpBO2R3s4h9OXSxk+yFK1fdbsYzUo5YKU+olzYkRzrMojmJ7q
+	 1tguNSNxqbrH/2D4fphNy+RhflY/hLvvxKovFD5sA1TKgX0X0Kxt+eHyuGx0sh6f6s
+	 675pxC5nUA5WoLSrRJKtjaUVoUMK4OkShC1Mr8KVcsEGA666oBz9iKPYlRoZ4Kxkqg
+	 GmKbamFBMlGE5LHa1eGFwlyWFF10QoQTaGB+cVXB97sRV5QS8DN/BP1Dc3HDHqoHcr
+	 bgRUk2GA0n3VBOnXIojsDKDJtEufJQNMRHnRazNwoXONest2Z9rAL8fUCeMXbEPOEp
+	 iZOnpH8bY70kw==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 53230AfcC3452509
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 2 Apr 2025 11:00:10 +0800
+Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 2 Apr 2025 11:00:10 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 2 Apr 2025 11:00:10 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
+ RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
+ 15.01.2507.035; Wed, 2 Apr 2025 11:00:10 +0800
+From: Kailang <kailang@realtek.com>
+To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
+CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Support mute led function for HP platform
+Thread-Topic: Support mute led function for HP platform
+Thread-Index: AdujewFkDy1lacckSDm50D4dZeEuaw==
+Date: Wed, 2 Apr 2025 03:00:10 +0000
+Message-ID: <2c960ab58b4d4090ad4ee075f8cfdffd@realtek.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+Content-Type: multipart/mixed;
+	boundary="_002_2c960ab58b4d4090ad4ee075f8cfdffdrealtekcom_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
 
-The pull request you sent on Mon, 31 Mar 2025 12:34:04 -0400:
+--_002_2c960ab58b4d4090ad4ee075f8cfdffdrealtekcom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git tags/for_linus
+Hi Takashi,
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4b98d5dcd145aab10219b9f259b70110cd34f01a
+Attach was fixed mute led no function with HP platform.
+Many Thanks.
 
-Thank you!
+BR,
+Kailang
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+--_002_2c960ab58b4d4090ad4ee075f8cfdffdrealtekcom_
+Content-Type: application/octet-stream;
+	name="0000-alc245-hp-zbook-firefly-g12a-mute-led-01.patch"
+Content-Description: 0000-alc245-hp-zbook-firefly-g12a-mute-led-01.patch
+Content-Disposition: attachment;
+	filename="0000-alc245-hp-zbook-firefly-g12a-mute-led-01.patch"; size=4147;
+	creation-date="Tue, 01 Apr 2025 08:53:05 GMT";
+	modification-date="Wed, 02 Apr 2025 02:47:58 GMT"
+Content-Transfer-Encoding: base64
+
+RnJvbSBkM2FiZmQ5Mzk0ZTMwYmQ4OWI2ZDJmODI5NTIzYzExYTRmOWFkYjNhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
+dGU6IFR1ZSwgMSBBcHIgMjAyNSAxNjo1MDowOCArMDgwMApTdWJqZWN0OiBbUEFUQ0hdIEFMU0E6
+IGhkYS9yZWFsdGVrIC0gU3VwcG9ydCBtdXRlIGxlZCBmdW5jdGlvbiBmb3IgSFAgcGxhdGZvcm0K
+ClRoaXMgcGF0Y2ggd2FzIGludGVncmF0ZWQgQ1MgQW1wIGFuZCBzdXBwb3J0IG11dGUgbGVkIGZ1
+bmN0aW9uIGZvciBIUCBwbGF0Zm9ybS4KClByaW9yaXR5OiBQMQpTaWduZWQtb2ZmLWJ5OiBLYWls
+YW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CmRpZmYgLS1naXQgYS9zb3VuZC9wY2kvaGRh
+L3BhdGNoX3JlYWx0ZWsuYyBiL3NvdW5kL3BjaS9oZGEvcGF0Y2hfcmVhbHRlay5jCmluZGV4IGI2
+OWI2NTlhZTY1OS4uZWVjM2VhMWE3ZTA4IDEwMDY0NAotLS0gYS9zb3VuZC9wY2kvaGRhL3BhdGNo
+X3JlYWx0ZWsuYworKysgYi9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYwpAQCAtNzU5MCw2
+ICs3NTkwLDI0IEBAIHN0YXRpYyB2b2lkIGFsYzI0NV9maXh1cF9ocF9zcGVjdHJlX3gzNjBfMTZf
+YWEweHh4KHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjLAogCWFsYzI0NV9maXh1cF9ocF9ncGlvX2xl
+ZChjb2RlYywgZml4LCBhY3Rpb24pOwogfQogCitzdGF0aWMgdm9pZCBhbGMyNDVfZml4dXBfaHBf
+emJvb2tfZmlyZWZseV9nMTJhKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjLAorCQkJCQkgIGNvbnN0
+IHN0cnVjdCBoZGFfZml4dXAgKmZpeCwgaW50IGFjdGlvbikKK3sKKwlzdHJ1Y3QgYWxjX3NwZWMg
+KnNwZWMgPSBjb2RlYy0+c3BlYzsKKwlzdGF0aWMgY29uc3QgaGRhX25pZF90IGNvbm5bXSA9IHsg
+MHgwMiB9OworCisJc3dpdGNoIChhY3Rpb24pIHsKKwljYXNlIEhEQV9GSVhVUF9BQ1RfUFJFX1BS
+T0JFOgorCQlzcGVjLT5nZW4uYXV0b19tdXRlX3ZpYV9hbXAgPSAxOworCQlzbmRfaGRhX292ZXJy
+aWRlX2Nvbm5fbGlzdChjb2RlYywgMHgxNywgQVJSQVlfU0laRShjb25uKSwgY29ubik7CisJCWJy
+ZWFrOworCX0KKworCWNzMzVsNDFfZml4dXBfaTJjX3R3byhjb2RlYywgZml4LCBhY3Rpb24pOwor
+CWFsYzI0NV9maXh1cF9ocF9tdXRlX2xlZF9jb2VmYml0KGNvZGVjLCBmaXgsIGFjdGlvbik7CisJ
+YWxjMjg1X2ZpeHVwX2hwX2NvZWZfbWljbXV0ZV9sZWQoY29kZWMsIGZpeCwgYWN0aW9uKTsKK30K
+KwogLyoKICAqIEFMQzI4NyBQQ00gaG9va3MKICAqLwpAQCAtNzkzOCw2ICs3OTU2LDcgQEAgZW51
+bSB7CiAJQUxDMjU2X0ZJWFVQX0hFQURQSE9ORV9BTVBfVk9MLAogCUFMQzI0NV9GSVhVUF9IUF9T
+UEVDVFJFX1gzNjBfRVUwWFhYLAogCUFMQzI0NV9GSVhVUF9IUF9TUEVDVFJFX1gzNjBfMTZfQUEw
+WFhYLAorCUFMQzI0NV9GSVhVUF9IUF9aQk9PS19GSVJFRkxZX0cxMkEsCiAJQUxDMjg1X0ZJWFVQ
+X0FTVVNfR0E0MDNVLAogCUFMQzI4NV9GSVhVUF9BU1VTX0dBNDAzVV9IRUFEU0VUX01JQywKIAlB
+TEMyODVfRklYVVBfQVNVU19HQTQwM1VfSTJDX1NQRUFLRVIyX1RPX0RBQzEsCkBAIC0xMDIzMyw2
+ICsxMDI1MiwxMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGhkYV9maXh1cCBhbGMyNjlfZml4dXBz
+W10gPSB7CiAJCS50eXBlID0gSERBX0ZJWFVQX0ZVTkMsCiAJCS52LmZ1bmMgPSBhbGMyNDVfZml4
+dXBfaHBfc3BlY3RyZV94MzYwXzE2X2FhMHh4eCwKIAl9LAorCVtBTEMyNDVfRklYVVBfSFBfWkJP
+T0tfRklSRUZMWV9HMTJBXSA9IHsKKwkJLnR5cGUgPSBIREFfRklYVVBfRlVOQywKKwkJLnYuZnVu
+YyA9IGFsYzI0NV9maXh1cF9ocF96Ym9va19maXJlZmx5X2cxMmEsCisJfSwKIAlbQUxDMjg1X0ZJ
+WFVQX0FTVVNfR0E0MDNVXSA9IHsKIAkJLnR5cGUgPSBIREFfRklYVVBfRlVOQywKIAkJLnYuZnVu
+YyA9IGFsYzI4NV9maXh1cF9hc3VzX2dhNDAzdSwKQEAgLTEwNzczLDE1ICsxMDc5NiwxNSBAQCBz
+dGF0aWMgY29uc3Qgc3RydWN0IGhkYV9xdWlyayBhbGMyNjlfZml4dXBfdGJsW10gPSB7CiAJU05E
+X1BDSV9RVUlSSygweDEwM2MsIDB4OGUxMSwgIkhQIFRyZWtrZXIiLCBBTEMyODdfRklYVVBfQ1Mz
+NUw0MV9JMkNfMiksCiAJU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGUxMiwgIkhQIFRyZWtrZXIi
+LCBBTEMyODdfRklYVVBfQ1MzNUw0MV9JMkNfMiksCiAJU05EX1BDSV9RVUlSSygweDEwM2MsIDB4
+OGUxMywgIkhQIFRyZWtrZXIiLCBBTEMyODdfRklYVVBfQ1MzNUw0MV9JMkNfMiksCi0JU05EX1BD
+SV9RVUlSSygweDEwM2MsIDB4OGUxNCwgIkhQIFpCb29rIEZpcmVmbHkgMTQgRzEyIiwgQUxDMjg1
+X0ZJWFVQX0hQX0dQSU9fTEVEKSwKLQlTTkRfUENJX1FVSVJLKDB4MTAzYywgMHg4ZTE1LCAiSFAg
+WkJvb2sgRmlyZWZseSAxNCBHMTIiLCBBTEMyODVfRklYVVBfSFBfR1BJT19MRUQpLAotCVNORF9Q
+Q0lfUVVJUksoMHgxMDNjLCAweDhlMTYsICJIUCBaQm9vayBGaXJlZmx5IDE0IEcxMiIsIEFMQzI4
+NV9GSVhVUF9IUF9HUElPX0xFRCksCi0JU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGUxNywgIkhQ
+IFpCb29rIEZpcmVmbHkgMTQgRzEyIiwgQUxDMjg1X0ZJWFVQX0hQX0dQSU9fTEVEKSwKLQlTTkRf
+UENJX1FVSVJLKDB4MTAzYywgMHg4ZTE4LCAiSFAgWkJvb2sgRmlyZWZseSAxNCBHMTJBIiwgQUxD
+Mjg1X0ZJWFVQX0hQX0dQSU9fTEVEKSwKLQlTTkRfUENJX1FVSVJLKDB4MTAzYywgMHg4ZTE5LCAi
+SFAgWkJvb2sgRmlyZWZseSAxNCBHMTJBIiwgQUxDMjg1X0ZJWFVQX0hQX0dQSU9fTEVEKSwKLQlT
+TkRfUENJX1FVSVJLKDB4MTAzYywgMHg4ZTFhLCAiSFAgWkJvb2sgRmlyZWZseSAxNCBHMTJBIiwg
+QUxDMjg1X0ZJWFVQX0hQX0dQSU9fTEVEKSwKLQlTTkRfUENJX1FVSVJLKDB4MTAzYywgMHg4ZTFi
+LCAiSFAgRWxpdGVCb29rIEcxMiIsIEFMQzI4NV9GSVhVUF9IUF9HUElPX0xFRCksCi0JU05EX1BD
+SV9RVUlSSygweDEwM2MsIDB4OGUxYywgIkhQIEVsaXRlQm9vayBHMTIiLCBBTEMyODVfRklYVVBf
+SFBfR1BJT19MRUQpLAorCVNORF9QQ0lfUVVJUksoMHgxMDNjLCAweDhlMTQsICJIUCBaQm9vayBG
+aXJlZmx5IDE0IEcxMiIsIEFMQzI0NV9GSVhVUF9IUF9aQk9PS19GSVJFRkxZX0cxMkEpLAorCVNO
+RF9QQ0lfUVVJUksoMHgxMDNjLCAweDhlMTUsICJIUCBaQm9vayBGaXJlZmx5IDE0IEcxMiIsIEFM
+QzI0NV9GSVhVUF9IUF9aQk9PS19GSVJFRkxZX0cxMkEpLAorCVNORF9QQ0lfUVVJUksoMHgxMDNj
+LCAweDhlMTYsICJIUCBaQm9vayBGaXJlZmx5IDE0IEcxMiIsIEFMQzI0NV9GSVhVUF9IUF9aQk9P
+S19GSVJFRkxZX0cxMkEpLAorCVNORF9QQ0lfUVVJUksoMHgxMDNjLCAweDhlMTcsICJIUCBaQm9v
+ayBGaXJlZmx5IDE0IEcxMiIsIEFMQzI0NV9GSVhVUF9IUF9aQk9PS19GSVJFRkxZX0cxMkEpLAor
+CVNORF9QQ0lfUVVJUksoMHgxMDNjLCAweDhlMTgsICJIUCBaQm9vayBGaXJlZmx5IDE0IEcxMkEi
+LCBBTEMyNDVfRklYVVBfSFBfWkJPT0tfRklSRUZMWV9HMTJBKSwKKwlTTkRfUENJX1FVSVJLKDB4
+MTAzYywgMHg4ZTE5LCAiSFAgWkJvb2sgRmlyZWZseSAxNCBHMTJBIiwgQUxDMjQ1X0ZJWFVQX0hQ
+X1pCT09LX0ZJUkVGTFlfRzEyQSksCisJU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGUxYSwgIkhQ
+IFpCb29rIEZpcmVmbHkgMTQgRzEyQSIsIEFMQzI0NV9GSVhVUF9IUF9aQk9PS19GSVJFRkxZX0cx
+MkEpLAorCVNORF9QQ0lfUVVJUksoMHgxMDNjLCAweDhlMWIsICJIUCBFbGl0ZUJvb2sgRzEyIiwg
+QUxDMjQ1X0ZJWFVQX0hQX1pCT09LX0ZJUkVGTFlfRzEyQSksCisJU05EX1BDSV9RVUlSSygweDEw
+M2MsIDB4OGUxYywgIkhQIEVsaXRlQm9vayBHMTIiLCBBTEMyNDVfRklYVVBfSFBfWkJPT0tfRklS
+RUZMWV9HMTJBKSwKIAlTTkRfUENJX1FVSVJLKDB4MTAzYywgMHg4ZTJjLCAiSFAgRWxpdGVCb29r
+IDE2IEcxMiIsIEFMQzI4NV9GSVhVUF9IUF9HUElPX0xFRCksCiAJU05EX1BDSV9RVUlSSygweDEw
+M2MsIDB4OGUzNiwgIkhQIDE0IEVuc3Ryb20gT21uaUJvb2sgWCIsIEFMQzI4N19GSVhVUF9DUzM1
+TDQxX0kyQ18yKSwKIAlTTkRfUENJX1FVSVJLKDB4MTAzYywgMHg4ZTM3LCAiSFAgMTYgUGlzdG9u
+IE9tbmlCb29rIFgiLCBBTEMyODdfRklYVVBfQ1MzNUw0MV9JMkNfMiksCg==
+
+--_002_2c960ab58b4d4090ad4ee075f8cfdffdrealtekcom_--
