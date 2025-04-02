@@ -1,301 +1,163 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9B714AD20
-	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 09:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4B91E8837
+	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 09:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743585407; cv=none; b=MYAzjbyk5//ysXvjIhpCG0NI6O/G1OIg51snZ8Lptp39erYZyp6E9hcG2oUS6I9f4PNNXGjpX7AyQQliCSZsAT10qPd3x6GSQ/pGU4MnW/jDvbpWHy/OIGR9o1SeoECP+vvuOHX4SXHkvI18Zua0hxmOMvlTCeHxjYzxe+pCd7c=
+	t=1743586100; cv=none; b=S0J8JKT3i9AsbSLT9IUCbbpsKnT6CuKk26qxQp8OxDC08c+2WawarJR3hPnrYoBUl+l59HAMqAMU6DPl0HFHW7AKl+22so2T6shJmWO8pwD+NN9TXXnNTpk02iFDDw/2M6UU3vT4QugcJ/csdXs8UIztmOM9bYfsrsgAIxr6tV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743585407; c=relaxed/simple;
-	bh=2oHCph2zfINTOckhI3ltsQwSrrzfCmIyfYnzm3w2u/M=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VXtll1sgtY7Rvj/81aUXrlHMRfCvRB8DNxgIR9P6jSXxuYYC7gQB9LvJWUbTOlf1MLe/Hq0pcf8on+Je/agwWMEMPid389KbP4nZBzuOptN7qKwOKiWHbf0HOmJxzIsdaakZuoNaRhgCXD9JViPbIr+DHa2b2Utmb9T6BPHuHiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MQTCLH3E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I+nItchW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MQTCLH3E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I+nItchW; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1743586100; c=relaxed/simple;
+	bh=eWxnDkEPjkA89WSO1xw2RmmMXgjn30nZ6VzcUf0AjPE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j3WbT2kBH0r/2P2ExGOhtwK1T3HvOErD18G3nfgb6obJDPYOEn1UC6frKanuisHMgm2f3hkB33ZZKE1ikdUGGtneVbFCEYeeCLXivtXWMXciLl4EO9Ny7c9oq6B/QcfhU3iUq4HcUioP0OitZxd7nWDyw1FkEn2XiG4CHCexwpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dv9mDyEv; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MQTCLH3E";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I+nItchW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MQTCLH3E";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I+nItchW"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0E3B41F38E;
-	Wed,  2 Apr 2025 09:16:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743585403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ONpfhmukzhd8USg07TT2iMvGMdqSEfwdh/S2LIevliw=;
-	b=MQTCLH3EJwLj+CSWJZ4Dh8Qtzvw1RrtN7v/mImIYoFcO9UyzLd8CC4eo6rnU1qN69nghwr
-	2gYEt/Wf6sVIC6KikqhwZAKyhMzTeMVhWQvGUvalhqQEPQHeyyqeSkcO3YgjA3w+N1VMEz
-	FjBLb+9q3yoLUIo0Fx/PrN2Me3u04e4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743585403;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ONpfhmukzhd8USg07TT2iMvGMdqSEfwdh/S2LIevliw=;
-	b=I+nItchWVmY5sA9NgPhR4jHZf8mncHv2FtgmiOSlEAGnyOUayOv8LN4hMc2H/GyMgSa++y
-	vdXF+exM9WpcVdCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743585403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ONpfhmukzhd8USg07TT2iMvGMdqSEfwdh/S2LIevliw=;
-	b=MQTCLH3EJwLj+CSWJZ4Dh8Qtzvw1RrtN7v/mImIYoFcO9UyzLd8CC4eo6rnU1qN69nghwr
-	2gYEt/Wf6sVIC6KikqhwZAKyhMzTeMVhWQvGUvalhqQEPQHeyyqeSkcO3YgjA3w+N1VMEz
-	FjBLb+9q3yoLUIo0Fx/PrN2Me3u04e4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743585403;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ONpfhmukzhd8USg07TT2iMvGMdqSEfwdh/S2LIevliw=;
-	b=I+nItchWVmY5sA9NgPhR4jHZf8mncHv2FtgmiOSlEAGnyOUayOv8LN4hMc2H/GyMgSa++y
-	vdXF+exM9WpcVdCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF97513A4B;
-	Wed,  2 Apr 2025 09:16:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id keG4KXoA7WfYQAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 02 Apr 2025 09:16:42 +0000
-Date: Wed, 02 Apr 2025 11:16:42 +0200
-Message-ID: <87v7rmylc5.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	liam.r.girdwood@intel.com
-Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if resume is not supported
-In-Reply-To: <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
-References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
-	<87r02cym1c.wl-tiwai@suse.de>
-	<9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
-	<87jz83ztn7.wl-tiwai@suse.de>
-	<206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
-	<87h637znpp.wl-tiwai@suse.de>
-	<35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
-	<8734eryn21.wl-tiwai@suse.de>
-	<ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dv9mDyEv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743586099; x=1775122099;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=eWxnDkEPjkA89WSO1xw2RmmMXgjn30nZ6VzcUf0AjPE=;
+  b=dv9mDyEvdTfYwBiXpMFfzGjgxn3seMeSHst7CsAg63qZTv5l8BWhK1k8
+   Xv+J6PgF9RoCbsc1xk7rTT/5mdQffvYDrO/ly+5YQEp158z2Bd9Q3agdP
+   YEbHy00+37l7CbzMXzO7XgGCsDbZ5UrUdDjQXAmG0/vDV5Gt64mLMVZsO
+   IUtwigAKihlzIXAfTp7E8SDjuYHVZ1KBbOU8+9t9yKPvDN/z1nbXKU2Jo
+   KpMd9yLx2VhSFeuKOmySPK/tyVMwCNEzRX+EsycNKDeiz+z/Gc8oJ9kz2
+   SxZWzKVGbajf4+yVJj4yv67g7AEY00S1LIdvxu29g+MGOZ+MK40y4Rdk0
+   A==;
+X-CSE-ConnectionGUID: MyhELphIQEuJeuRPLibN1g==
+X-CSE-MsgGUID: hg0id8/tSxuiVdXk2ZAPoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44834543"
+X-IronPort-AV: E=Sophos;i="6.14,181,1736841600"; 
+   d="scan'208";a="44834543"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 02:28:08 -0700
+X-CSE-ConnectionGUID: U1keyRC1QmaHGC/IBYyv/g==
+X-CSE-MsgGUID: OrpCF9WYToCU+RUsVJdqbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,181,1736841600"; 
+   d="scan'208";a="126603274"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.251.214]) ([10.245.251.214])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 02:28:04 -0700
+Message-ID: <1417b256-b9e8-4256-b14f-fdee86e202c1@linux.intel.com>
+Date: Wed, 2 Apr 2025 12:28:55 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,linux.intel.com,gmail.com,kernel.org,suse.com,vger.kernel.org,linux.dev,intel.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
+ resume is not supported
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.com,
+ linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
+References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
+ <87r02cym1c.wl-tiwai@suse.de> <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
+ <87jz83ztn7.wl-tiwai@suse.de> <206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
+ <87h637znpp.wl-tiwai@suse.de> <35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
+ <8734eryn21.wl-tiwai@suse.de> <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 02 Apr 2025 10:52:16 +0200,
-Jaroslav Kysela wrote:
-> 
-> On 02. 04. 25 10:39, Takashi Iwai wrote:
-> > On Wed, 02 Apr 2025 10:09:36 +0200,
-> > Jaroslav Kysela wrote:
-> >> 
-> >> On 01. 04. 25 21:27, Takashi Iwai wrote:
-> >>> On Tue, 01 Apr 2025 20:46:15 +0200,
-> >>> Jaroslav Kysela wrote:
-> >>>> 
-> >>>> On 01. 04. 25 19:19, Takashi Iwai wrote:
-> >>>>> On Tue, 01 Apr 2025 18:58:40 +0200,
-> >>>>> Jaroslav Kysela wrote:
-> >>>>>> 
-> >>>>>> On 01. 04. 25 16:49, Takashi Iwai wrote:
-> >>>>>>> On Tue, 01 Apr 2025 15:36:52 +0200,
-> >>>>>>> Peter Ujfalusi wrote:
-> >>>>>>>> 
-> >>>>>>>> Streams moved to SUSPENDED state from PAUSED without trigger. If a stream
-> >>>>>>>> does not support RESUME then on system resume the RESUME trigger is not
-> >>>>>>>> sent, the stream's state and suspended_state remains untouched.
-> >>>>>>>> When the user space releases the pause then the core will reject this
-> >>>>>>>> because the state of the stream is _not_ PAUSED, it is still SUSPENDED.
-> >>>>>>>> 
-> >>>>>>>>     From this point user space will do the normal (hw_params) prepare and
-> >>>>>>>> START, PAUSE_RELEASE trigger will not be sent by the core after the
-> >>>>>>>> system has resumed.
-> >>>>>> 
-> >>>>>> Why you expect to see PAUSE_RELEASE trigger before SUSPEND trigger
-> >>>>>> when resume is not supported ? I think that the driver has complete
-> >>>>>> information:
-> >>>>>> 
-> >>>>>> PAUSE -> SUSPEND [-> no RESUME]
-> >>>>>> 
-> >>>>>> The driver should stay in the suspend state until a new stream
-> >>>>>> re-initialization is invoked.
-> >>>>>> 
-> >>>>>> It looks like that other logic should be moved to the end driver (if
-> >>>>>> some parts must be reinitialized in the suspend phase when the resume
-> >>>>>> is not supported). I don't think that this is job for PCM core nor SoC
-> >>>>>> PCM core routines.
-> >>>>>> 
-> >>>>>> The SUSPEND trigger is always invoked, isn't?
-> >>>>> 
-> >>>>> No, that's a part of the problems.  The ops->suspend is called only
-> >>>>> for the running state, while at snd_pcm_post_suspend(), the state is
-> >>>>> changed to SUSPENDED.  The original state is saved as
-> >>>>> suspended_state, and this can be restored via snd_pcm_resume(), but
-> >>>>> only if the driver supports the full resume.
-> >>>>> 
-> >>>>> We may allow calling ops->suspend also for PAUSED state, too.  But
-> >>>>> then each driver would need to have to handle this state change, too.
-> >>>>> Currently, when snd_pcm_prepare(), *_drop() or *_drain() is called at
-> >>>>> PAUSED state, the core automatically releases the pause beforehand.
-> >>>> 
-> >>>> Thanks for those hints. I don't think that the pause release is sufficient
-> >>>> for this case - the stream must be stopped, too. Actually, all mentioned
-> >>>> prepare/drop/drain routines immediately changes state when the pause is
-> >>>> released.
-> >>> 
-> >>> Actually, this patch follows the same pattern, too.  It calls
-> >>> snd_pcm_pause(false) to set the state to RUNNING again, then proceed
-> >>> to the suspend action immediately that sets to SUSPENDED.
-> >> 
-> >> The previous state (suspended_state) will be confusing from the
-> >> application with the proposed patch, because there will be RUNNING
-> >> state instead PAUSED. This previous state is exported via API.
-> > 
-> > No, it won't happen.  The condition of the new behavior is only when
-> > SNDRV_PCM_INFO_RESUME isn't set -- that is, no resume is possible,
-> > hence no state recovery happens after resume.  From the application
-> > POV, it won't change.
-> 
-> The suspended_state can be obtained in snd_pcm_status64(). With
-> Peter's patch, there will be RUNNING instead PAUSED, don't?
 
-I see, that should be better fixed.
+On 02/04/2025 11:52, Jaroslav Kysela wrote:
+>>>> Actually, this patch follows the same pattern, too.  It calls
+>>>> snd_pcm_pause(false) to set the state to RUNNING again, then proceed
+>>>> to the suspend action immediately that sets to SUSPENDED.
+>>>
+>>> The previous state (suspended_state) will be confusing from the
+>>> application with the proposed patch, because there will be RUNNING
+>>> state instead PAUSED. This previous state is exported via API.
+>>
+>> No, it won't happen.  The condition of the new behavior is only when
+>> SNDRV_PCM_INFO_RESUME isn't set -- that is, no resume is possible,
+>> hence no state recovery happens after resume.  From the application
+>> POV, it won't change.
+> 
+> The suspended_state can be obtained in snd_pcm_status64(). With Peter's
+> patch, there will be RUNNING instead PAUSED, don't?
 
-> >> The pause release / stop patterns provide a short time window to
-> >> process some samples which may cause unwanted pops (especially for
-> >> playback). So perhaps,
-> >> we can address this in core (new triggers like PAUSE_RELEASE_AND_STOP), too.
-> > 
-> > That's true.  To be noted, the very same thing is applied to other
-> > operations like snd_pcm_drop() or snd_pcm_prepare(), so it's not only
-> > about the case of suspend.
-> 
-> Yes, I meant all places.
-> 
-> >>>> Maybe a new trigger may be added to notify drivers like:
-> >>>> 
-> >>>> --- a/sound/core/pcm_native.c
-> >>>> +++ b/sound/core/pcm_native.c
-> >>>> @@ -1694,8 +1694,10 @@ static int snd_pcm_do_suspend(struct snd_pcm_substream *substream,
-> >>>>           struct snd_pcm_runtime *runtime = substream->runtime;
-> >>>>           if (runtime->trigger_master != substream)
-> >>>>                   return 0;
-> >>>> -       if (! snd_pcm_running(substream))
-> >>>> +       if (! snd_pcm_running(substream)) {
-> >>>> +               substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_SUSPEND_WHEN_IDLE);
-> >>>>                   return 0;
-> >>>> +       }
-> >>>>           substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_SUSPEND);
-> >>>>           runtime->stop_operating = true;
-> >>>>           return 0; /* suspend unconditionally */
-> >>>> 
-> >>>> With this, the states won't be changed - the driver without resume support
-> >>>> can shut down all necessary things.
-> >>> 
-> >>> That's another possibility, yes.  Though, IMO, it makes the
-> >>> pause-handling a bit more cumbersome.  With Peter's proposal, the
-> >>> pause state change is always paired, so the driver doesn't consider
-> >>> about that too much; that's the biggest merit.
-> >> 
-> >> It depends, if we agree that releasing pause is a extra thing to do
-> >> when we know that this step is just to minimize state changes for
-> >> drivers.
-> >> 
-> >> For my view, the drivers may also receive those triggers:
-> >> 
-> >> SNDRV_PCM_TRIGGER_PAUSE_RELEASE_AND_STOP
-> >> SNDRV_PCM_TRIGGER_SUSPEND_IN_PAUSE
-> >> SNDRV_PCM_TRIGGER_RELEASE_IN_PAUSE
-> >> 
-> >> This will allow to handle all states properly without any side effects
-> >> (like short unwanted DMA transfers).
-> >> 
-> >> The drivers should probably activate those triggers conditionally to
-> >> not break current state sequences.
-> > 
-> > Hmm, that looks too complex, IMO.
-> > 
-> > Another slightly more straightforward fix would be just to allow the
-> > direct state transition from PAUSED to any state.  Then the remaining
-> > piece is all about driver implementations.  And, this can be
-> > conditionally operated, e.g. only when some extra flag is set.  When
-> > no flag is set, we keep applying PAUSE_RELEASE before the transition
-> > like now, including Peter's patch, that can work generically (but not
-> > always ideally).
+Yes, that is true, but it does not matter.
+if the SNDRV_PCM_INFO_RESUME is not set, on resume nothing is going to
+be done, the state remains SUSPENDED and the suspended_substate also
+retained, so:
+
+The stream was in RUNNING, after suspend:
+state = SUSPENDED, suspended_state = RUNNING
+After resume:
+state = SUSPENDED, suspended_state = RUNNING
+The the stream goes to xrun and got restarted.
+
+The stream was in RUNNING, after suspend:
+Without my patch / with my patch:
+state = SUSPENDED, suspended_state = PAUSED / RUNNING
+After resume:
+state = SUSPENDED, suspended_state = RUNNING / RUNNING
+
+The stream remains "not running" as resume is not supported and
+application knows that it had left the stream paused.
+
+When it tries to PAUSE_RELEASE the stream, in both case the core will
+look at the state, which is SUSPENDED and thus the pause release fails
+(it is not in paused state), so in both cases we go under a restart
+(suspended_state is reset, ignored).
+
+>>>> That's another possibility, yes.  Though, IMO, it makes the
+>>>> pause-handling a bit more cumbersome.  With Peter's proposal, the
+>>>> pause state change is always paired, so the driver doesn't consider
+>>>> about that too much; that's the biggest merit.
+>>>
+>>> It depends, if we agree that releasing pause is a extra thing to do
+>>> when we know that this step is just to minimize state changes for
+>>> drivers.
+>>>
+>>> For my view, the drivers may also receive those triggers:
+>>>
+>>> SNDRV_PCM_TRIGGER_PAUSE_RELEASE_AND_STOP
+>>> SNDRV_PCM_TRIGGER_SUSPEND_IN_PAUSE
+>>> SNDRV_PCM_TRIGGER_RELEASE_IN_PAUSE
+>>>
+>>> This will allow to handle all states properly without any side effects
+>>> (like short unwanted DMA transfers).
+>>>
+>>> The drivers should probably activate those triggers conditionally to
+>>> not break current state sequences.
+>>
+>> Hmm, that looks too complex, IMO.
+>>
+>> Another slightly more straightforward fix would be just to allow the
+>> direct state transition from PAUSED to any state.  Then the remaining
+>> piece is all about driver implementations.  And, this can be
+>> conditionally operated, e.g. only when some extra flag is set.  When
+>> no flag is set, we keep applying PAUSE_RELEASE before the transition
+>> like now, including Peter's patch, that can work generically (but not
+>> always ideally).
 > 
 > It looks also feasible. My proposal just allows the straight state
 > identification from the trigger value in the drivers.
 
-On the second thought, yet another variant would be to introduce only
-one new trigger, SNDRV_PCM_TRIGGER_PAUSE_RESET, for resetting the
-PAUSED state as a step before stopping the stream.  This can be
-applied to all cases for snd_pcm_drop() and snd_pcm_suspend(), too.
-If the driver doesn't support this mode, the PCM core may fall back to
-SNDRV_PCM_TRIGGER_PAUSE_RELEASE.
+We could also add a flag that the driver can say that 'I know what I'm
+doing' and in that case send just simple SUSPEND and trust the driver
+that it really knows what it is doing.
+However if the driver does not support RESUME, then things get a bit
+complicated. I'm not entirely sure what drivers do when they support
+RESUME and they went to suspend with paused state...
 
-> >>> (BTW, I thought the state change PAUSED -> XRUN were possible, but
-> >>> actually it's not; this is another corner case to be addressed, I
-> >>> guess.)
-> >> 
-> >> Which code (lines) do you mean?
-> > 
-> > snd_pcm_xrun() and snd_pcm_stop_xrun().  As far as I read the code,
-> > the state transition won't happen when it's in PAUSED state.
-> 
-> Yes, paused state should be handled there, too. But the pause release
-> operation looks really suspicious for xrun.
+But, this is not that simple in ASoC, as there we can have at least four
+drivers involved (machine, platform, cpu dai, codec), all of them has to
+support this new fine graded state dependent trigger, right?
 
-Yeah, I noticed it after sending out my previous post, too.
-The engine is stopped, so practically the XRUN must not happen.
-I believe we can forget about that.
+-- 
+Péter
 
-
-thanks,
-
-Takashi
