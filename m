@@ -1,50 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4B91E8837
-	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 09:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AAB53BE
+	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 10:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743586100; cv=none; b=S0J8JKT3i9AsbSLT9IUCbbpsKnT6CuKk26qxQp8OxDC08c+2WawarJR3hPnrYoBUl+l59HAMqAMU6DPl0HFHW7AKl+22so2T6shJmWO8pwD+NN9TXXnNTpk02iFDDw/2M6UU3vT4QugcJ/csdXs8UIztmOM9bYfsrsgAIxr6tV4=
+	t=1743590756; cv=none; b=lAjA3Blt+bgzDqr3gcBtxLL6kARq2KPUpTZQaP8Y+DetPTamS6fF14zf0H+/bnSWKt0PLfWiZHT0+tOxrCragFlDBOn6S5fUIh6JPMPaOWAKikhnOVLmBRwsfXgZH2iqgSdJbpIiyQzwUWnpQ4YpNNtJ4IGFal4l1v8LtCiKEdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743586100; c=relaxed/simple;
-	bh=eWxnDkEPjkA89WSO1xw2RmmMXgjn30nZ6VzcUf0AjPE=;
+	s=arc-20240116; t=1743590756; c=relaxed/simple;
+	bh=qLk1LcJaYc+SvZRcHVBM8+cTA3439qh2sUttZ4YdvyM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j3WbT2kBH0r/2P2ExGOhtwK1T3HvOErD18G3nfgb6obJDPYOEn1UC6frKanuisHMgm2f3hkB33ZZKE1ikdUGGtneVbFCEYeeCLXivtXWMXciLl4EO9Ny7c9oq6B/QcfhU3iUq4HcUioP0OitZxd7nWDyw1FkEn2XiG4CHCexwpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dv9mDyEv; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=Mfe7VAKoShjIEjGRHDvmVD++ybuc6DEJWlXND3V1BQUCwCH6+5EYgD64MxOeUvFckEmDZrafKd1uAYeVmI3A7GJOWzumlwDns/BOVktcTahwuWeXZx14a4PTDdrlBHwsdaI3+nU6EhBX3jeEMqq5Lp2QO2R07eOz/KefuEaqnF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=vS6GKH2k; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dv9mDyEv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743586099; x=1775122099;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=eWxnDkEPjkA89WSO1xw2RmmMXgjn30nZ6VzcUf0AjPE=;
-  b=dv9mDyEvdTfYwBiXpMFfzGjgxn3seMeSHst7CsAg63qZTv5l8BWhK1k8
-   Xv+J6PgF9RoCbsc1xk7rTT/5mdQffvYDrO/ly+5YQEp158z2Bd9Q3agdP
-   YEbHy00+37l7CbzMXzO7XgGCsDbZ5UrUdDjQXAmG0/vDV5Gt64mLMVZsO
-   IUtwigAKihlzIXAfTp7E8SDjuYHVZ1KBbOU8+9t9yKPvDN/z1nbXKU2Jo
-   KpMd9yLx2VhSFeuKOmySPK/tyVMwCNEzRX+EsycNKDeiz+z/Gc8oJ9kz2
-   SxZWzKVGbajf4+yVJj4yv67g7AEY00S1LIdvxu29g+MGOZ+MK40y4Rdk0
-   A==;
-X-CSE-ConnectionGUID: MyhELphIQEuJeuRPLibN1g==
-X-CSE-MsgGUID: hg0id8/tSxuiVdXk2ZAPoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="44834543"
-X-IronPort-AV: E=Sophos;i="6.14,181,1736841600"; 
-   d="scan'208";a="44834543"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 02:28:08 -0700
-X-CSE-ConnectionGUID: U1keyRC1QmaHGC/IBYyv/g==
-X-CSE-MsgGUID: OrpCF9WYToCU+RUsVJdqbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,181,1736841600"; 
-   d="scan'208";a="126603274"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.251.214]) ([10.245.251.214])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 02:28:04 -0700
-Message-ID: <1417b256-b9e8-4256-b14f-fdee86e202c1@linux.intel.com>
-Date: Wed, 2 Apr 2025 12:28:55 +0300
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="vS6GKH2k"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id CBD984B37;
+	Wed,  2 Apr 2025 12:45:48 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz CBD984B37
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1743590748; bh=opSW13Cp5KnaS897kwfhSvg3wNzwp6BLrrNHAzgmTZ4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vS6GKH2kaKk6lWNlJyai5zB7hdD9B9b8dhxUBICwS6QgBOJWWp4V523JdsqGfqHMz
+	 sXUsyVJsIk0eF4G8qUogIf2RlDpL3j47Vc7pTmEWWO17VzQdifO0hnyT1JiGdWzEtG
+	 kIJY7R0lSk4Kzc9jheVESwMfCHRSjT0N7q05b5CY=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Wed,  2 Apr 2025 12:45:37 +0200 (CEST)
+Message-ID: <d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
+Date: Wed, 2 Apr 2025 12:45:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,110 +44,107 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
  resume is not supported
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.com,
- linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, tiwai@suse.com, linux-sound@vger.kernel.org,
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+ liam.r.girdwood@intel.com
 References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
  <87r02cym1c.wl-tiwai@suse.de> <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
  <87jz83ztn7.wl-tiwai@suse.de> <206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
  <87h637znpp.wl-tiwai@suse.de> <35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
  <8734eryn21.wl-tiwai@suse.de> <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
+ <87v7rmylc5.wl-tiwai@suse.de>
+From: Jaroslav Kysela <perex@perex.cz>
 Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <87v7rmylc5.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 02. 04. 25 11:16, Takashi Iwai wrote:
 
-On 02/04/2025 11:52, Jaroslav Kysela wrote:
->>>> Actually, this patch follows the same pattern, too.  It calls
->>>> snd_pcm_pause(false) to set the state to RUNNING again, then proceed
->>>> to the suspend action immediately that sets to SUSPENDED.
+>>>> For my view, the drivers may also receive those triggers:
+>>>>
+>>>> SNDRV_PCM_TRIGGER_PAUSE_RELEASE_AND_STOP
+>>>> SNDRV_PCM_TRIGGER_SUSPEND_IN_PAUSE
+>>>> SNDRV_PCM_TRIGGER_RELEASE_IN_PAUSE
+>>>>
+>>>> This will allow to handle all states properly without any side effects
+>>>> (like short unwanted DMA transfers).
+>>>>
+>>>> The drivers should probably activate those triggers conditionally to
+>>>> not break current state sequences.
 >>>
->>> The previous state (suspended_state) will be confusing from the
->>> application with the proposed patch, because there will be RUNNING
->>> state instead PAUSED. This previous state is exported via API.
+>>> Hmm, that looks too complex, IMO.
+>>>
+>>> Another slightly more straightforward fix would be just to allow the
+>>> direct state transition from PAUSED to any state.  Then the remaining
+>>> piece is all about driver implementations.  And, this can be
+>>> conditionally operated, e.g. only when some extra flag is set.  When
+>>> no flag is set, we keep applying PAUSE_RELEASE before the transition
+>>> like now, including Peter's patch, that can work generically (but not
+>>> always ideally).
 >>
->> No, it won't happen.  The condition of the new behavior is only when
->> SNDRV_PCM_INFO_RESUME isn't set -- that is, no resume is possible,
->> hence no state recovery happens after resume.  From the application
->> POV, it won't change.
+>> It looks also feasible. My proposal just allows the straight state
+>> identification from the trigger value in the drivers.
 > 
-> The suspended_state can be obtained in snd_pcm_status64(). With Peter's
-> patch, there will be RUNNING instead PAUSED, don't?
+> On the second thought, yet another variant would be to introduce only
+> one new trigger, SNDRV_PCM_TRIGGER_PAUSE_RESET, for resetting the
+> PAUSED state as a step before stopping the stream.  This can be
+> applied to all cases for snd_pcm_drop() and snd_pcm_suspend(), too.
+> If the driver doesn't support this mode, the PCM core may fall back to
+> SNDRV_PCM_TRIGGER_PAUSE_RELEASE.
 
-Yes, that is true, but it does not matter.
-if the SNDRV_PCM_INFO_RESUME is not set, on resume nothing is going to
-be done, the state remains SUSPENDED and the suspended_substate also
-retained, so:
+This looks identical to my proposed SNDRV_PCM_TRIGGER_PAUSE_RELEASE_AND_STOP 
+which is more explanatory. It's not clear what PAUSE_RESET should do (probably 
+the stream should be kept inactive).
 
-The stream was in RUNNING, after suspend:
-state = SUSPENDED, suspended_state = RUNNING
-After resume:
-state = SUSPENDED, suspended_state = RUNNING
-The the stream goes to xrun and got restarted.
-
-The stream was in RUNNING, after suspend:
-Without my patch / with my patch:
-state = SUSPENDED, suspended_state = PAUSED / RUNNING
-After resume:
-state = SUSPENDED, suspended_state = RUNNING / RUNNING
-
-The stream remains "not running" as resume is not supported and
-application knows that it had left the stream paused.
-
-When it tries to PAUSE_RELEASE the stream, in both case the core will
-look at the state, which is SUSPENDED and thus the pause release fails
-(it is not in paused state), so in both cases we go under a restart
-(suspended_state is reset, ignored).
-
->>>> That's another possibility, yes.  Though, IMO, it makes the
->>>> pause-handling a bit more cumbersome.  With Peter's proposal, the
->>>> pause state change is always paired, so the driver doesn't consider
->>>> about that too much; that's the biggest merit.
->>>
->>> It depends, if we agree that releasing pause is a extra thing to do
->>> when we know that this step is just to minimize state changes for
->>> drivers.
->>>
->>> For my view, the drivers may also receive those triggers:
->>>
->>> SNDRV_PCM_TRIGGER_PAUSE_RELEASE_AND_STOP
->>> SNDRV_PCM_TRIGGER_SUSPEND_IN_PAUSE
->>> SNDRV_PCM_TRIGGER_RELEASE_IN_PAUSE
->>>
->>> This will allow to handle all states properly without any side effects
->>> (like short unwanted DMA transfers).
->>>
->>> The drivers should probably activate those triggers conditionally to
->>> not break current state sequences.
->>
->> Hmm, that looks too complex, IMO.
->>
->> Another slightly more straightforward fix would be just to allow the
->> direct state transition from PAUSED to any state.  Then the remaining
->> piece is all about driver implementations.  And, this can be
->> conditionally operated, e.g. only when some extra flag is set.  When
->> no flag is set, we keep applying PAUSE_RELEASE before the transition
->> like now, including Peter's patch, that can work generically (but not
->> always ideally).
-> 
-> It looks also feasible. My proposal just allows the straight state
-> identification from the trigger value in the drivers.
-
-We could also add a flag that the driver can say that 'I know what I'm
-doing' and in that case send just simple SUSPEND and trust the driver
-that it really knows what it is doing.
-However if the driver does not support RESUME, then things get a bit
-complicated. I'm not entirely sure what drivers do when they support
-RESUME and they went to suspend with paused state...
-
-But, this is not that simple in ASoC, as there we can have at least four
-drivers involved (machine, platform, cpu dai, codec), all of them has to
-support this new fine graded state dependent trigger, right?
+					Jaroslav
 
 -- 
-Péter
-
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
