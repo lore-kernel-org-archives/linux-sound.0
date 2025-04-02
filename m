@@ -1,64 +1,40 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76131A5BB0
-	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 08:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9091DB54C
+	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 08:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743581495; cv=none; b=aqtqhMeaMmikyzTI7fH+jef3i4OtKczxYcm/5B5UHuCsoPRjixCpl0XE7CkHLTdRi7UySWaDUWcXx0NUKP+v/AvaB+swI93cjb16+x8gQSGrQPiOwxeTX5H6X/o0zvr0ySB4XgmFVwHcvX66X1nY1VB0FfirblC59vWN7X1+qIY=
+	t=1743581711; cv=none; b=EghQE+dFA2Xc0PwFe4le2pHVtA2V799d8iwiCFo9dHTDLQWaAVxC0gk84IfCI35bYZincgpiJLj+7QYZ/+W5TbH48oH2sj/zjDi7sHpVXwyMohB6nE220qcWprcIX7JXUrl3+1yVyZwK93lzgaeuTQ8is/E0SGEmXKHBogcC9Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743581495; c=relaxed/simple;
-	bh=0cjdRtAyc7Px1cY6aHSxrqx02qbVdI+k/2UMUqPwMk0=;
+	s=arc-20240116; t=1743581711; c=relaxed/simple;
+	bh=abrMoDrwlgonPzKkhrl8Dzz6HDqmfiqG8rxsjis/EXw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sm71n+OOiYSgzheWF6WLW5HjZPHAJkknStaEoy3kVeo4a0b0awRzP1etyKDKqu6YLv5/hPrApnAT40iI907brf5Tl4v0EPW9ROxtefeVSidVllwqUG81SAMB2CzgOgq8pJf5fXJvZnqO641EvMgGow74x/sfVeV8wRHZlIzjfc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CQGgFccE; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:Content-Type; b=ISkgUCY5dwi03MTSZ9NUBhQ6Njh8a06qZlgEzfQ6+v8QQFvd/GVcF6ayUaf341oJQx8DPoaPuH2dyjqDs6ROF6vPOqOCjiS9jIh1kPRe2OffD1toiYH8EzbgB2IepqUH6GLEn5GNprUX44C+GUrcKN/zpu0X0B9qsGQz9inq+KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=jLLajf8c; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CQGgFccE"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so63938735e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 02 Apr 2025 01:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743581492; x=1744186292; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dWB4iyOPjGa3JvhHFf0OgRFJSrqP/oOM2ls8icvbkUg=;
-        b=CQGgFccEALP9ATYuS6WWClLU+UeHbfI0FthAwXU8cbcQBFktL1D0xJ0XHkOmy2rSaK
-         gt8he5G87QlBoyTp/r+FL9A2m+bAihWL2heWRrygtkl9Ce4aEpHKaxLgGronwissRVGN
-         9QqZSmScWW0YtQZOeqw0wlKsBZLltx1vqTQiva4VG7x/8WQgJrlbS6tHRcv0bhIxqf8U
-         aByF/Yw9TXVU269LzVTeDFn23YMcH7VdBbR0HTXbmlBvLkOD5cXQdYcwVd0zVmwN8F53
-         WcbH5+RUvH++fZhfU/luv7KRhfg2Dqof3T43OwCBZ5COjSq7nlGrhi12Bpc7gFA5ij+/
-         Kc7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743581492; x=1744186292;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dWB4iyOPjGa3JvhHFf0OgRFJSrqP/oOM2ls8icvbkUg=;
-        b=rNhqhe+MCbSt5S6kgDupZJhddGcRjP/tsl6cV3CzmUCdAGTJT6v7cB7H8+YihvSIO9
-         vHZq5gNizYplaSs96CRIVTGzdO8ThzXsye1/EtrAJHe2C+cYoiuaIpVr8g0wT1Gjqy5M
-         ak7dsyuf3mgZOlczeiSghi42RLIe8yGy6fR3+UunGr8/1K/RlqqJ3E4kX8p6eTXyNxEA
-         6SRRcvw9lC/YMjn843k0RN9ohZxUWBIW9bPmi+dP5Ux1BBVOmr6477qcuuLJKnociQ3o
-         CBig54GT/Aoxq0k4ZmCd4RXYqAjw95zKUVxK6yNKBvfmK0V4Wq31TGBjB2IWVx/8ExDt
-         FMYA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6SpA3FXvPrgISSx7XqpPTSh0LuVkkxeKTXg+a5au1nXZXv3ngmAOOIxaBslVOkCznUcKojggyK5YAmg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxED5CU0IyFyybGqzPS4sjEEmWVNiVcMmboSr3DwtzDZXW43yzy
-	3avuWRaMDTSC9Hss9XYd4u0AyMch+6Z1GKm28MS4bT5ixyja5kLoyDNts2rrfZk=
-X-Gm-Gg: ASbGnctGthZWob0sYIYbdhOuuhCWnmXL5BQ5wdHPh1ieXOMtkueV55sjlHnbAAKXSlU
-	eC1XlxLajizIhJJpvwa4BOBUltBvAaB/gl0C9hs+LLJJriDn3QxrzatxZLB47oZXsJLCvqJpu/Z
-	YmiIo4ZWqk5BWhAQKka5DR/wxJu0PySQuClZ2D3Y0OFTCtiuMHMi593I5hJuZpmuk7OBtixd+PS
-	GG/8I5nYXAk/w2Pe93UUHEHtoBThFKnLcsLwzo4Wjla9bKGELiOZ0gHN73ILM5X3eB+DELUGxFy
-	OACFXghGx19yYHAkHL0LfF+K0wa3Vg/kjPxrQfz2TJTGfxHEtOnig7P/vb9D6TM=
-X-Google-Smtp-Source: AGHT+IGBlatt9XRxf1VEZzEp39rZq64LmfgcstZnSIvck/QvLxH5SbIITWq2cnYOJybXJkyGikBbpw==
-X-Received: by 2002:a05:600c:8411:b0:43c:fcbc:968c with SMTP id 5b1f17b1804b1-43eb3af4581mr16487215e9.7.1743581491995;
-        Wed, 02 Apr 2025 01:11:31 -0700 (PDT)
-Received: from [192.168.68.117] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-39c0b79e0afsm16439234f8f.65.2025.04.02.01.11.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Apr 2025 01:11:31 -0700 (PDT)
-Message-ID: <e1ce7e09-0398-41e5-ace8-50b9547622d1@linaro.org>
-Date: Wed, 2 Apr 2025 09:11:29 +0100
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="jLLajf8c"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id C937F4B37;
+	Wed,  2 Apr 2025 10:15:06 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz C937F4B37
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1743581706; bh=sJQNzRcdjVuNZpXR1ZfMGSNz/DhKaHBBHwtAUFkz1Ls=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jLLajf8cVuYh+/Kj14pLkeOFVLGC3lAchEPlQwdhHOsCkayUdgMfOJMXRyujUo7OB
+	 fwFjtePd19Ffn922sZUou88N8yIIA8DqnHf0s1M7wzfM/GeoWm5NV1b7tU+vUMrxWF
+	 6XzKffiEz8V9ABY2IfNw3JgOYJXjHt7myOv1nCRI=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Wed,  2 Apr 2025 10:14:55 +0200 (CEST)
+Message-ID: <f55f1a67-d339-4d08-831e-5cb19cb300fe@perex.cz>
+Date: Wed, 2 Apr 2025 10:14:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,38 +42,90 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/6] mux: gpio: add optional regulator support
-To: Mark Brown <broonie@kernel.org>
-Cc: peda@axentia.se, andersson@kernel.org, krzk+dt@kernel.org,
- ivprusov@salutedevices.com, luca.ceresoli@bootlin.com,
- zhoubinbin@loongson.cn, paulha@opensource.cirrus.com, lgirdwood@gmail.com,
- robh@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
- perex@perex.cz, tiwai@suse.com, dmitry.baryshkov@oss.qualcomm.com,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- johan+linaro@kernel.org, Christopher Obbard <christopher.obbard@linaro.org>
-References: <20250327100633.11530-1-srinivas.kandagatla@linaro.org>
- <20250327100633.11530-3-srinivas.kandagatla@linaro.org>
- <e8bf5dca-16b1-4bcf-b3ab-3367f29264db@sirena.org.uk>
+Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
+ resume is not supported
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ Takashi Iwai <tiwai@suse.de>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.com,
+ linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
+References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
+ <87r02cym1c.wl-tiwai@suse.de> <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
+ <87jz83ztn7.wl-tiwai@suse.de> <206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
+ <87h637znpp.wl-tiwai@suse.de>
+ <9c8c96a5-f6ba-4a62-956c-ccfc8af996eb@linux.intel.com>
+From: Jaroslav Kysela <perex@perex.cz>
 Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <e8bf5dca-16b1-4bcf-b3ab-3367f29264db@sirena.org.uk>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <9c8c96a5-f6ba-4a62-956c-ccfc8af996eb@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+On 02. 04. 25 8:41, Péter Ujfalusi wrote:
 
+> I'm not sure if sending the SUSPEND trigger to a paused stream is a
+> solution either as that will surely need different handling as it is not
+> expected currently (and again SOF have a delicate dance around triggers
+> starting in ASoC level, but might work).
 
-On 01/04/2025 11:16, Mark Brown wrote:
-> On Thu, Mar 27, 2025 at 10:06:29AM +0000, srinivas.kandagatla@linaro.org wrote:
->> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->>
->> Some of the external muxes needs powering up using a regulator.
->> This is the case with Lenovo T14s laptop which has a external audio mux
->> to handle US/EURO headsets.
-> 
-> The ASoC bits of this series look fine, what's the plan with the mux
-> bits?  It looks like the two parts can just get merged independently.
-ASoC bits and codec bindings can go independently, there is no compile 
-time dependency.
+It's unfortunate, but things should be resolved in the appropriate code levels 
+IMHO. The core code should allow all mechanisms.
 
---srini
+> Note on the pause in general: for few years now pause is in reality a
+> niche feature and most drivers will never see it used. PA. PW, Chrome,
+> Android don't use it much or at all, so hitting a suspend while the
+> stream is paused is a CI thing mostly. mplayer/mpv (kodi might as well)
+> do pause directly when using ALSA and the PCM supports it, but they work
+> w/o SNDRV_PCM_INFO_PAUSE just fine.
+
+We are providing API, so we should not judge, if things are widely used. I 
+believe that some users use the perfect pause instead full stream restart.
+
+					Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
