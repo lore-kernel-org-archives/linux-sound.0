@@ -1,148 +1,112 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80623230BD0
-	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 07:39:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF19205502
+	for <linux-sound@vger.kernel.org>; Wed,  2 Apr 2025 07:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743579574; cv=none; b=bWVhiKPCDHhlzlpczTL+dqD7wdG/pMI1xbVZNaeL/YzWj/qLzaX9EOWBNpahg42qnbLFpO1WXx8E2VkF3OP68Yn9wYMY4C3LbmOg08UxjVAHOMriSbe8DY5y0xGP+YaykHVaj8SQ/H95haf9Z54qdiB1id/mPQA7G3Jnn/hX2lQ=
+	t=1743579733; cv=none; b=B7UNLZBdNKP8AVunpWJu+n6Rzit3IraubkhBpZu+mwmOliBAVpc8CwNEHkcBojbfw1de6LOBigxJq7OV5SQtGf1LOLRM7GQDZt1z5zBmYsNYLiwP3pHWd8eCwcheHmfPc/TRCZ9LYbI9NotoON7Nug/AM2ryk/ZmbWocYMfeI1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743579574; c=relaxed/simple;
-	bh=CPmuAubAKAqNFmAUSCePXbfiA8X6WhDF/f8+BrdG5hM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GzexboTcflZqlsnuTQ4kTv5iGrx5zPzWdZoAvfRr230XKtEVAaTB6pv40eQG3w7sgc2DigS+fe5tKDsH8wAQXcTIR+zAAUnEAmrml4BPwxB4KAiN6CqH9uri3ULJc7a1VGqG55t2hayQdTwigQnvlh9mKV0TzMiW4lil+HFFcmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wGNrQos6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FkWdlKrg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wGNrQos6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FkWdlKrg; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1743579733; c=relaxed/simple;
+	bh=oS1xJOL+WG89XUgwqOc+1qHN5QWM/LOu2D+eUUoHZgc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=E7norCctAmSBUACTZRtNgF5hxUXS5d4N9CNXxSHPAJHpR3ilUsGA2rx418KMmj2YK0iyDre/7eHa3EvnzZ0jmYipfFFNC6GYkqPMz9JSTkSigujfi/A5XS3FFIBcL0bR/IHnEavEbfFWynqUNN1mWKNvF0NqF6MneVSX4JY7AO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mI2t6KKA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jxjd5MGV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mI2t6KKA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jxjd5MGV; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wGNrQos6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FkWdlKrg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wGNrQos6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FkWdlKrg"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mI2t6KKA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jxjd5MGV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mI2t6KKA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jxjd5MGV"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9FDAF211A5;
-	Wed,  2 Apr 2025 07:39:30 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 884E7211AD;
+	Wed,  2 Apr 2025 07:42:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743579570; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hFcncWnUnVxmCYjsLpZJBme4w2fDFnyZsu/k4sDc8RY=;
-	b=wGNrQos6VKI2nGEFqICQn5MorSzGlQck57BTnHkT87ARMLdcncNywHXfbZ9hVhirB/Ygec
-	4BCcoORUuUCln7PMHqOjLWlXZULTHXT1ld93I2v1F0Tpeh6/p7dlOw6chAAbsGj+iXB1Me
-	o5BJCKdiKxZ2I2+lDm7Ef8s41Zbk9h8=
+	t=1743579730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=z/i0zkM0HFYOiiHx5cKUg/J121KBMkRZGTqboddHxD8=;
+	b=mI2t6KKAXhqiYkpBHNZ2DoNDGjByMJGC9/PlVpyqGaLaRLt0dCA63y7prm7MhLnnXci3sG
+	YxrRbDKBQK2AW0GhkK3Qs3h3OIy6ZHAj1a36DCVo1SgoCCxFiSUcsv1gP9XqKBhjm8Yof/
+	B98JEKaxu+A2I6V4E1Kd+fY1JgultMM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743579570;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hFcncWnUnVxmCYjsLpZJBme4w2fDFnyZsu/k4sDc8RY=;
-	b=FkWdlKrgmTzd7gOmc2K4L5PfkEat+FyO1drpo3n4eJQahnqcf+bNnHcm7JVOcO1oGR2Dfa
-	EH996nydPu394vAg==
+	s=susede2_ed25519; t=1743579730;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=z/i0zkM0HFYOiiHx5cKUg/J121KBMkRZGTqboddHxD8=;
+	b=jxjd5MGVRbInGnay9INIDCS3iyLiSlJNXoqNNlGvqsqYJnGOcnckOMznM7Bf2wAeUkF82a
+	3X/pJRDLjy5fqQDw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mI2t6KKA;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jxjd5MGV
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743579570; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hFcncWnUnVxmCYjsLpZJBme4w2fDFnyZsu/k4sDc8RY=;
-	b=wGNrQos6VKI2nGEFqICQn5MorSzGlQck57BTnHkT87ARMLdcncNywHXfbZ9hVhirB/Ygec
-	4BCcoORUuUCln7PMHqOjLWlXZULTHXT1ld93I2v1F0Tpeh6/p7dlOw6chAAbsGj+iXB1Me
-	o5BJCKdiKxZ2I2+lDm7Ef8s41Zbk9h8=
+	t=1743579730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=z/i0zkM0HFYOiiHx5cKUg/J121KBMkRZGTqboddHxD8=;
+	b=mI2t6KKAXhqiYkpBHNZ2DoNDGjByMJGC9/PlVpyqGaLaRLt0dCA63y7prm7MhLnnXci3sG
+	YxrRbDKBQK2AW0GhkK3Qs3h3OIy6ZHAj1a36DCVo1SgoCCxFiSUcsv1gP9XqKBhjm8Yof/
+	B98JEKaxu+A2I6V4E1Kd+fY1JgultMM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743579570;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hFcncWnUnVxmCYjsLpZJBme4w2fDFnyZsu/k4sDc8RY=;
-	b=FkWdlKrgmTzd7gOmc2K4L5PfkEat+FyO1drpo3n4eJQahnqcf+bNnHcm7JVOcO1oGR2Dfa
-	EH996nydPu394vAg==
+	s=susede2_ed25519; t=1743579730;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=z/i0zkM0HFYOiiHx5cKUg/J121KBMkRZGTqboddHxD8=;
+	b=jxjd5MGVRbInGnay9INIDCS3iyLiSlJNXoqNNlGvqsqYJnGOcnckOMznM7Bf2wAeUkF82a
+	3X/pJRDLjy5fqQDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 631B013A4B;
-	Wed,  2 Apr 2025 07:39:30 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CC2A13A4B;
+	Wed,  2 Apr 2025 07:42:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0s24FrLp7GcrIAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 02 Apr 2025 07:39:30 +0000
-Date: Wed, 02 Apr 2025 09:39:29 +0200
-Message-ID: <878qojypu6.wl-tiwai@suse.de>
+	id jTz1GFLq7Gf9IAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 02 Apr 2025 07:42:10 +0000
 From: Takashi Iwai <tiwai@suse.de>
-To: "C.D. MacEachern" <craig.daniel.maceachern@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Salvatore Bonaccorso <carnil@debian.org>,
-	1100928@bugs.debian.org,
-	Kuan-Wei Chiu <visitorckw@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: Bug#1100928: [regression 6.1.y] microphone no longer records (on VivoBook_ASUSLaptop TP401MARB_J401MA)
-In-Reply-To: <CAJ8x=4ibzvVxxv7FzswtwTcYT73XaDOUr7gHWMcdxB+j8+zyyw@mail.gmail.com>
-References: <174248253267.1718.4037292692790831697.reportbug@x>
-	<Z95s5T6OXFPjRnKf@eldamar.lan>
-	<Z-MMsp3XJyNHOlma@eldamar.lan>
-	<87iknwb80x.wl-tiwai@suse.de>
-	<CAJ8x=4jNhsjw_s-p5FXBk9WScPHEdUMZ0tXnhCiya8fCf_PH7w@mail.gmail.com>
-	<Z-ct2D6uIN1f6UbL@eldamar.lan>
-	<87zfh43uti.wl-tiwai@suse.de>
-	<CAJ8x=4ibzvVxxv7FzswtwTcYT73XaDOUr7gHWMcdxB+j8+zyyw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Fix built-in mic on another ASUS VivoBook model
+Date: Wed,  2 Apr 2025 09:42:07 +0200
+Message-ID: <20250402074208.7347-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 884E7211AD
 X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
 	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,debian.org,bugs.debian.org,gmail.com,vger.kernel.org,lists.linux.dev];
-	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Spam-Score: -1.80
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_ONE(0.00)[1];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-Spam-Flag: NO
-
-On Tue, 01 Apr 2025 20:21:49 +0200,
-C.D. MacEachern wrote:
-> 
-> 
-> Logs attached.
-
-Thanks.  Below is the fix patch.
-You can get the same effect by passing model=1043:1271 to
-snd-hda-intel module, too, e.g. boot with
-  snd_hda_intel.model=1043:1271
-boot option.
-
-
-Takashi
-
--- 8< --
-From: Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH] ALSA: hda/realtek: Fix built-in mic on another ASUS VivoBook model
 
 There is another VivoBook model which built-in mic got broken recently
 by the fix of the pin sort.  Apply the correct quirk
