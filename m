@@ -1,393 +1,302 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF2742A87
-	for <linux-sound@vger.kernel.org>; Thu,  3 Apr 2025 13:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3475E13AA2D
+	for <linux-sound@vger.kernel.org>; Thu,  3 Apr 2025 14:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743687944; cv=none; b=Omnm9K9tuqoFa5zj6iWyRvHi9ZWLBgNstXawAUIkHORNg4AgjwBWbatQ3I7geRLUfit3/kXKNiW/KXJR/t2wpG50KEb7dN+KQvJdreZJqHgj9atm/amnWMf+DW6/ROH5zBJBTL5dQsy/CG6ehCUZ0MYfcBxrQuqhioNwKd9yITQ=
+	t=1743688909; cv=none; b=eXWhYMZp3LJNVxdZMARITB0OgLFfStEqxfU2iVMdN7BwfSLaVBhGePIZ+meRqb57/hpcQ51FdDtY3IJU7xHsrkSng71vz8OQ+Kzj+qdVGNl8Pb7/ve5XI7ys68r+oVe2gx7lBNGHyvu11mDfYnSCe4RcAlv7sBHeLV89wwtlAVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743687944; c=relaxed/simple;
-	bh=8uZOaB3XL4Rca7seSQn+Gm+0/WTG+eyEdSlzWfM6Wg0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QM5mh5hi3YBckN8b6HKjNLEDxU/Hivv0P4qN7xIBWhVNU9q8hjjXD/21k2Pb/fpd1erRVRdtddHrA3NklPnf4eJtuDkWF9kVMFJzxA2PYZnjx3boSahwCrSja+MP/UEXFaJNwjhEZEBUwk27kG5Bz3h39Q+sSa+NZx+kPLSnSLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fHEFyBHy; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743688909; c=relaxed/simple;
+	bh=ZBuIGqieBWOj7DjQHjbQgzCXotdLMKW0MlfrpoifT9Q=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TCtXK5PoPveebw9JUU8+G3jZQb2Rtgn8EHWmU++UL1Vlc4J89F+apda8KCaH1iYf8rFCE3OUB3mMgtFcUXBrskpe6mqGzSzQ3BJnOqTslI35yjNrz7yuFu4L/yzTL8+dYFV7YMaKIKv9m64oROwkNeHRwxPtUCOPkDD3xm2r8G0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QRs5DWfa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RsgrITrA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QRs5DWfa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RsgrITrA; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fHEFyBHy"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ac25d2b2354so155753666b.1
-        for <linux-sound@vger.kernel.org>; Thu, 03 Apr 2025 06:45:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743687939; x=1744292739; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cr793r41iLU7dfgEv3QP/6LDnLnqUyvj30c5my6SOB4=;
-        b=fHEFyBHy+T2mYnEFDR2YM2AvQUaXpO6fqUhkn3lsv0fiQb2pvqCdSVwAnaqIzw99eV
-         f4gD5X/yNJ9LUgTkK3V2MhCQTHDS/B2uCkN9b0sl5/xqHa3o96Xnjc+ALt5B3C4nLoYd
-         PfVJjEfXBNCJ5VTAkV9sB6RVkiK07+seSutjk75AjzIUqEIPIxR2W1AkGZ7R7vCE/Lvd
-         c5B4Wb5C8jM5rxrwtxmkRfBjD3YQRf/iGJJgCYNVwVlB5KMNMjWPBR05TB9NYB54HxQl
-         5o/xPUKvH5BxoV6c4Xf+l7qYSyvZ3kaJ3XPG5yZLSnMZ1nqYNtZmgnGTqJkNcNai6UNW
-         Zrzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743687939; x=1744292739;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cr793r41iLU7dfgEv3QP/6LDnLnqUyvj30c5my6SOB4=;
-        b=UtJZhFaEKvwOcrpddTO/lzx78LQygZewCPSPHOA6LbO1GZ8G7sAJBMIKGbbO+4E5uM
-         OEHlkQJpKvGEfb5ojJ97T7FpDsuqMlwWqWLmqrJnFWreEH7JPSgt8Jjysh8fn9XkWxs0
-         uHmZl3bvuDtRDrlQVYExzAjAqXE4imlbHQgRoi7aIciHlPrvhTv4P8Ulw7UFRJ0phUX0
-         Eq3VxL3RL5k1MSO1mAG5xSpq0hpL1kKDuH8kRfwtvUIk/w7KE/5R8n9HW6iRPhCMxSX7
-         pyjP254xHGxZ2zIXwcMj2FY4jtRXPKH1sOFzaWgDtKK3yx+8KQcZR3J55kSSksX8ewWL
-         7gNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWeb9ZIilPxk0vW3O7no9mHpSFclb+4z+94fCjEqJ+oNH4l0iS3M0D88BASkTtnYKOh7j8r6he9LHGCRg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YytJNksH04qq6egbS9uHkEZncmVzRBq1ari5mlpZJ/WmBPm3DJ7
-	r4r6z4tscCrwC7FBT4Ea5/MoODRI1VdAhhu+1LeMcJAX2shQDlgWeCKLzpIpHGY=
-X-Gm-Gg: ASbGncsMVj2V+5VjSkGR6r94QCoAeTOpIbtEvsUPOZ9s4UdGaz30nq8ujfW7ZbihGKn
-	7uLmnFRhEkDHYhpBkbZvE1Rh1vMLGHW0FlqFgdBk3xXQQq8Hkd+BVFCd/MXmgdfZlA44wl3TT3k
-	y4wmffzjM79dkD5ONFLkT0rImHuAb4XcHgqMTAeeII38a16rM0YXDTUt1RfTJnmMxd4onB3WUF1
-	uw4XOf/u8JchjxxGdRvTpA+WSzmeCgKeg1dNHO8QIBtWNBwFiVb1u4xGZTm6b8meALAk51kh1+2
-	SfHsPUzzXKFIh77VUZBu6oVbxRhLZ+lPV7PBFC4WF9/Uo6O6JJJd/w==
-X-Google-Smtp-Source: AGHT+IF//3IBO5z0G/LcU7f4aIfiWkLgmO+c0MqrXdW2Xp2UeJO5AUxdPIs/ZFKUItaMKSYPNkwxow==
-X-Received: by 2002:a17:906:c10f:b0:ac1:ea29:4e63 with SMTP id a640c23a62f3a-ac738a42854mr1611031366b.26.1743687939323;
-        Thu, 03 Apr 2025 06:45:39 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:ad69:6cf:36b:ebdd])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7c01857fbsm96782066b.149.2025.04.03.06.45.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 06:45:38 -0700 (PDT)
-Date: Thu, 3 Apr 2025 15:45:34 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: [PATCH v36 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-Message-ID: <Z-6Q_gaWsWyZcpLz@linaro.org>
-References: <20250319005141.312805-23-quic_wcheng@quicinc.com>
- <Z-J2WnrZHP6iMIhT@linaro.org>
- <871827f0-94ba-4565-865f-775cab9501eb@quicinc.com>
- <Z-PPlRD7gcUcNvNv@linaro.org>
- <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
- <Z-ug3YFwff8hWIRl@linaro.org>
- <378af3f1-b5b0-4f7a-ab62-f5c891feb7b5@quicinc.com>
- <Z-1MtJjfVbUQFron@linaro.org>
- <7d5fd3bf-c33e-4274-938b-2fb93c4b39d8@quicinc.com>
- <a9e281d6-59c0-3615-9851-c33752b0620f@quicinc.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QRs5DWfa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RsgrITrA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QRs5DWfa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RsgrITrA"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 601E5211B8;
+	Thu,  3 Apr 2025 14:01:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743688905; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7F5F5alWVll8UGs6ADznKZ02iyhpnp/4KiE1FHsaa2A=;
+	b=QRs5DWfaVIE9rcFKDFxsAg1i96dfS6tg7dFNI6zwSHbqm4N5ew2Aa9xINN9LlWNWlIbnTR
+	aXqDkxo2CGshHqd05XdcggHQsyG3XuOOHhmUFzKWwI0Gz9ghF4/paytgN5a4Og77/uUdgY
+	xQYyEfb1RvaVK8SZrKY6asiEA/BrZF4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743688905;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7F5F5alWVll8UGs6ADznKZ02iyhpnp/4KiE1FHsaa2A=;
+	b=RsgrITrArOtdLTTRmhNnJLl6qnd2wiwRvVeiJjIgjQNCNvR2N/0eWir/Mmo1v04tk+GyOQ
+	beT6igCOfdLWUNBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743688905; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7F5F5alWVll8UGs6ADznKZ02iyhpnp/4KiE1FHsaa2A=;
+	b=QRs5DWfaVIE9rcFKDFxsAg1i96dfS6tg7dFNI6zwSHbqm4N5ew2Aa9xINN9LlWNWlIbnTR
+	aXqDkxo2CGshHqd05XdcggHQsyG3XuOOHhmUFzKWwI0Gz9ghF4/paytgN5a4Og77/uUdgY
+	xQYyEfb1RvaVK8SZrKY6asiEA/BrZF4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743688905;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7F5F5alWVll8UGs6ADznKZ02iyhpnp/4KiE1FHsaa2A=;
+	b=RsgrITrArOtdLTTRmhNnJLl6qnd2wiwRvVeiJjIgjQNCNvR2N/0eWir/Mmo1v04tk+GyOQ
+	beT6igCOfdLWUNBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F88C13A2C;
+	Thu,  3 Apr 2025 14:01:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LnCDAsmU7meBTQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 03 Apr 2025 14:01:45 +0000
+Date: Thu, 03 Apr 2025 16:01:44 +0200
+Message-ID: <871pu95oon.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	liam.r.girdwood@intel.com
+Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if resume is not supported
+In-Reply-To: <51bf9695-1f70-4749-b70a-2ed4af8c4be7@linux.intel.com>
+References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
+	<87r02cym1c.wl-tiwai@suse.de>
+	<9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
+	<87jz83ztn7.wl-tiwai@suse.de>
+	<206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
+	<87h637znpp.wl-tiwai@suse.de>
+	<35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
+	<8734eryn21.wl-tiwai@suse.de>
+	<ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
+	<87v7rmylc5.wl-tiwai@suse.de>
+	<d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
+	<87o6xeyfkk.wl-tiwai@suse.de>
+	<69c52779-ef90-45c5-a024-77f0030bf5cd@linux.intel.com>
+	<87jz82ye7b.wl-tiwai@suse.de>
+	<8878feb6-362a-4541-91fb-318aea1c0870@linux.intel.com>
+	<87o6xe7l4q.wl-tiwai@suse.de>
+	<51bf9695-1f70-4749-b70a-2ed4af8c4be7@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a9e281d6-59c0-3615-9851-c33752b0620f@quicinc.com>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.de,perex.cz,gmail.com,kernel.org,suse.com,vger.kernel.org,linux.intel.com,linux.dev,intel.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Wed, Apr 02, 2025 at 05:54:45PM -0700, Wesley Cheng wrote:
-> On 4/2/2025 5:23 PM, Wesley Cheng wrote:
-> > On 4/2/2025 7:41 AM, Stephan Gerhold wrote:
-> > > On Tue, Apr 01, 2025 at 04:47:41PM -0700, Wesley Cheng wrote:
-> > > > On 4/1/2025 1:16 AM, Stephan Gerhold wrote:
-> > > > > On Mon, Mar 31, 2025 at 12:52:19PM -0700, Wesley Cheng wrote:
-> > > > > > On 3/26/2025 2:57 AM, Stephan Gerhold wrote:
-> > > > > > > On Tue, Mar 25, 2025 at 04:18:03PM -0700, Wesley Cheng wrote:
-> > > > > > > > On 3/25/2025 2:24 AM, Stephan Gerhold wrote:
-> > > > > > > > > On Tue, Mar 18, 2025 at 05:51:32PM -0700, Wesley Cheng wrote:
-> > > > > > > > > > The QC ADSP is able to support USB
-> > > > > > > > > > playback endpoints, so that the main
-> > > > > > > > > > application processor can be placed into
-> > > > > > > > > > lower CPU power modes.  This adds
-> > > > > > > > > > the required AFE port configurations and
-> > > > > > > > > > port start command to start an
-> > > > > > > > > > audio session.
-> > > > > > > > > > 
-> > > > > > > > > > Specifically, the QC ADSP can support
-> > > > > > > > > > all potential endpoints that are
-> > > > > > > > > > exposed by the audio data interface. 
-> > > > > > > > > > This includes isochronous data
-> > > > > > > > > > endpoints, in either synchronous mode or
-> > > > > > > > > > asynchronous mode. In the latter
-> > > > > > > > > > case both implicit or explicit feedback
-> > > > > > > > > > endpoints are supported.  The size
-> > > > > > > > > > of audio samples sent per USB frame
-> > > > > > > > > > (microframe) will be adjusted based on
-> > > > > > > > > > information received on the feedback endpoint.
-> > > > > > > > > > 
-> > > > > > > > > > Some pre-requisites are needed before
-> > > > > > > > > > issuing the AFE port start command,
-> > > > > > > > > > such as setting the USB AFE dev_token. 
-> > > > > > > > > > This carries information about the
-> > > > > > > > > > available USB SND cards and PCM devices
-> > > > > > > > > > that have been discovered on the
-> > > > > > > > > > USB bus.  The dev_token field is used by
-> > > > > > > > > > the audio DSP to notify the USB
-> > > > > > > > > > offload driver of which card and PCM index to enable playback on.
-> > > > > > > > > > 
-> > > > > > > > > > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> > > > > > > > > > ---
-> > > > > > > > > >   sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
-> > > > > > > > > >  
-> > > > > > > > > > sound/soc/qcom/qdsp6/q6afe.c            
-> > > > > > > > > > | 192 ++++++++++++++++++++++-
-> > > > > > > > > >   sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
-> > > > > > > > > >   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
-> > > > > > > > > >   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
-> > > > > > > > > >   sound/soc/qcom/qdsp6/q6routing.c         |  32 +++-
-> > > > > > > > > >   6 files changed, 341 insertions(+), 3 deletions(-)
-> > > > > > > > > > 
-> > > > > > > > [...]
-> > > > > > > > > > diff --git
-> > > > > > > > > > a/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > > > > > > b/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > > > > > > index 90228699ba7d..b7439420b425 100644
-> > > > > > > > > > --- a/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > > > > > > +++ b/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > > > > > > @@ -435,6 +435,26 @@ static struct
-> > > > > > > > > > session_data *get_session_from_id(struct
-> > > > > > > > > > msm_routing_data *data,
-> > > > > > > > > >       return NULL;
-> > > > > > > > > >   }
-> > > > > > > > > > +
-> > > > > > > > > > +static bool is_usb_routing_enabled(struct msm_routing_data *data)
-> > > > > > > > > > +{
-> > > > > > > > > > +    int i;
-> > > > > > > > > > +
-> > > > > > > > > > +    /*
-> > > > > > > > > > +     * Loop through current sessions to
-> > > > > > > > > > see if there are active routes
-> > > > > > > > > > +     * to the USB_RX backend DAI.  The
-> > > > > > > > > > USB offload routing is designed
-> > > > > > > > > > +     * similarly to the non offload
-> > > > > > > > > > path.  If there are multiple PCM
-> > > > > > > > > > +     * devices associated with the ASoC
-> > > > > > > > > > platform card, only one active
-> > > > > > > > > > +     * path can be routed to the USB offloaded endpoint.
-> > > > > > > > > > +     */
-> > > > > > > > > > +    for (i = 0; i < MAX_SESSIONS; i++) {
-> > > > > > > > > > +        if (data->sessions[i].port_id == USB_RX)
-> > > > > > > > > > +            return true;
-> > > > > > > > > > +    }
-> > > > > > > > > > +
-> > > > > > > > > > +    return false;
-> > > > > > > > > > +}
-> > > > > > > > > 
-> > > > > > > > > What is different about USB_RX compared to
-> > > > > > > > > other output ports we have in
-> > > > > > > > > Q6AFE? Obviously, we can only play one
-> > > > > > > > > stream on an output port. But
-> > > > > > > > > doesn't the ADSP mix streams together when
-> > > > > > > > > you have multiple routes?
-> > > > > > > > > 
-> > > > > > > > 
-> > > > > > > > This patch will limit the USB_RX from being able
-> > > > > > > > to be mixed to multiple
-> > > > > > > > q6adm paths.
-> > > > > > > > 
-> > > > > > > > > Also, this doesn't actually check for *active* routes only. It just
-> > > > > > > > > looks if any other MultiMedia DAI is
-> > > > > > > > > configured to output to USB_RX.
-> > > > > > > > > That doesn't mean they will ever be active at the same time.
-> > > > > > > > > 
-> > > > > > > > 
-> > > > > > > > Yes, the main reason being that that is the
-> > > > > > > > mechanism we use to populate
-> > > > > > > > the active offload path within the USB SND card mixer.
-> > > > > > > > 
-> > > > > > > > > I might for example want to have MultiMedia1 and MultiMedia2 both
-> > > > > > > > > configured to output to USB_RX. Let's assume
-> > > > > > > > > MultiMedia1 is a normal PCM
-> > > > > > > > > DAI, MultiMedia2 is a compress offload DAI. When I want to playback
-> > > > > > > > > normal audio, I go through MultiMedia1, when
-> > > > > > > > > I want to play compressed
-> > > > > > > > > audio, I go through MultiMedia2. Only one of them active at a time.
-> > > > > > > > > Why can't I set this up statically in the mixers?
-> > > > > > > > > 
-> > > > > > > > > If you confirm that it is really impossible
-> > > > > > > > > to have multiple streams
-> > > > > > > > > mixed together to the USB_RX output in the
-> > > > > > > > > ADSP, then this should be a
-> > > > > > > > > runtime check instead when starting the stream IMO.
-> > > > > > > > > 
-> > > > > > > > 
-> > > > > > > > We can have multiple streams being mixed together, but it will get
-> > > > > > > > confusing because it changes the definition that
-> > > > > > > > we had discussed about in
-> > > > > > > > the past about the overall design for the interaction w/ userspace.
-> > > > > > > > Although we (QC) only support a single USB audio
-> > > > > > > > device for offloading,
-> > > > > > > > there could be other situations where the audio
-> > > > > > > > DSP can support multiple
-> > > > > > > > devices.  The assumption is that each MM path is
-> > > > > > > > assigned to a USB device.
-> > > > > > > > 
-> > > > > > > 
-> > > > > > > Are you referring to the "USB Offload Playback Route
-> > > > > > > PCM#*" mixers here?
-> > > > > > > They could just refer to first of the configured MM paths, if someone
-> > > > > > > decides to route multiple paths to the USB backend. Looking at
-> > > > > > > q6usb_update_offload_route(), I think the implementation does that
-> > > > > > > already.
-> > > > > > > 
-> > > > > > > I think it's fine that the userspace API for
-> > > > > > > automatically "probing" the
-> > > > > > > PCM device supports only a single path to the USB backend. But if
-> > > > > > > someone wants to bypass the automatic probing and configure a more
-> > > > > > > advanced setup, do we need to forbid that?
-> > > > > > > 
-> > > > > > > Asked differently: what would happen if we remove this check here and
-> > > > > > > handle USB_RX like any other Q6AFE output port?
-> > > > > > > Would anything break for
-> > > > > > > the userspace interface?
-> > > > > > > 
-> > > > > > 
-> > > > > > So I took a look at seeing how the Q6ADM/ASM
-> > > > > > interactions would work for
-> > > > > > the situation where if user tried to start both MM1/2
-> > > > > > streams at the same
-> > > > > > time over the USB offload path.  In this scenario, we
-> > > > > > see that the Q6USB BE
-> > > > > > DAI operations, ie startup, hw_params, etc... gets
-> > > > > > called one time for the
-> > > > > > initial stream.  For example, if I start playback on MM1, then that
-> > > > > > triggers the USB BE DAI to be brought up.
-> > > > > > 
-> > > > > > When I start playback on MM2, since MM1 already called
-> > > > > > dpcm_be_dai_startup(), then be->dpcm[stream].users will
-> > > > > > be greater than
-> > > > > > zero.  This would cause the __soc_pcm_open() to be
-> > > > > > skipped for the USB BE
-> > > > > > DAI, so I wouldn't be able to check the runtime status
-> > > > > > at the Q6USB backend
-> > > > > > DAI.  However, we do track current streaming sessions
-> > > > > > done over Q6 ADM and
-> > > > > > it does save the AFE port associated to each COPP
-> > > > > > allocation, so I think its
-> > > > > > reasonable to see if there is already a COPP entry for
-> > > > > > the USB AFE port, to
-> > > > > > fail the open() call associated to the FE DAI.
-> > > > > > 
-> > > > > 
-> > > > > This sounds like a reasonable approach *if* we have to prevent multiple
-> > > > > MM DAIs from streaming to the USB AFE port at the same time.
-> > > > > 
-> > > > > It's still unclear to me why we have to introduce this
-> > > > > limitation in the
-> > > > > first place. I think the questions from my previous email are still
-> > > > > open. Can you check them again?
-> > > > > 
-> > > > 
-> > > > So I checked with our audio DSP folks, and they mentioned there isn't
-> > > > technically a limitation from mixing multiple ADM streams from
-> > > > their end.
-> > > > My observations are as follows:
-> > > > - Using tinyplay to open and play on different FE PCM devices
-> > > > (ie MM1 and
-> > > > MM2), both streams are audible on the USB headset (intermixed).
-> > > > - If starting playback on MM1 first, before MM2, then once playback is
-> > > > complete on MM1, the ADM close is also affecting the MM2 stream.
-> > > > Basically, MM2 stops when the MM1 audio file is completed.
-> > > > - Due to the abrupt/incomplete closing of the MM2 ADM stream, looks like
-> > > > the audio DSP is not handling that case well, so subsequent
-> > > > playbacks fail.
-> > > > 
-> > > 
-> > > Thanks a lot for testing this!
-> > > 
-> > > > I did find a possible reason for this, and it seems to be due to
-> > > > some code
-> > > > unrelated to the USB offload path directly.  It looks like the Q6ADM is
-> > > > currently built in a way that you can only route streams to a single
-> > > > endpoint, even though we do have reference counting for each
-> > > > COPP profile.
-> > > > So even after the first MM1 ADM stream completes and the PCM device is
-> > > > closed, the MM1 ADM close callback will issue a q6adm_device_close() for
-> > > > the USB AFE port.
-> > > 
-> > > Yeah, this sounds like a bug to me...
-> > > 
-> > > > 
-> > > > I made some test changes to account for the refcount before issuing the
-> > > > q6adm_device_close(), and that seemed to work.  Once the MM1
-> > > > stream closes,
-> > > > it allows for the MM2 stream to close/finish before issuing the command,
-> > > > and that allows for proper cleanup of the audio data.
-> > > > 
-> > > > IMO, I would like to keep the initial behavior (ie, blocking the
-> > > > additional
-> > > > stream open from the kernel) until I can get some more testing done, and
-> > > > figure out if this is the correct approach.  If it is, I can submit a
-> > > > follow up series to address it.
-> > > > 
-> > > 
-> > > I'm fine with this approach. My only two concerns/comments are:
-> > > 
-> > >   1. Let's make sure we don't waste too much time finding the ideal
-> > >      approach to implement the additional blocking, if this will likely
-> > >      end up getting removed again anyway.
-> > > 
-> > >   2. How can we justify making this change only for USB? Your analysis
-> > >      sounds like the issue applies to all types of output ports. This was
-> > >      exactly my main concern with the check you added in this patch:
-> > >      I would expect QDSP6 treats all ports exactly the same. This means
-> > >      we should add this additional check for all the output ports...
-> > > 
-> > 
-> > Fair points...I will extend this check across all ports until I get back
-> > with seeing how we can address the mixing situation.
-> > 
+On Thu, 03 Apr 2025 12:13:39 +0200,
+Péter Ujfalusi wrote:
 > 
-> Sorry for replying again.  I think I'll at least limit this to the playback
-> path only for now.  I'm not sure how the behavior yet is for the record
-> path, since I don't really have that use case to test with yet :).  I will
-> see how it looks like when the record USB offload is done.
 > 
+> 
+> On 02/04/2025 16:23, Takashi Iwai wrote:
+> > On Wed, 02 Apr 2025 14:52:48 +0200,
+> > Péter Ujfalusi wrote:
+> >>
+> >>
+> >>
+> >> On 02/04/2025 14:50, Takashi Iwai wrote:
+> >>> On Wed, 02 Apr 2025 13:43:57 +0200,
+> >>> Péter Ujfalusi wrote:
+> >>>>
+> >>>>
+> >>>>
+> >>>> On 02/04/2025 14:21, Takashi Iwai wrote:
+> >>>>>>> On the second thought, yet another variant would be to introduce only
+> >>>>>>> one new trigger, SNDRV_PCM_TRIGGER_PAUSE_RESET, for resetting the
+> >>>>>>> PAUSED state as a step before stopping the stream.  This can be
+> >>>>>>> applied to all cases for snd_pcm_drop() and snd_pcm_suspend(), too.
+> >>>>>>> If the driver doesn't support this mode, the PCM core may fall back to
+> >>>>>>> SNDRV_PCM_TRIGGER_PAUSE_RELEASE.
+> >>>>>>
+> >>>>>> This looks identical to my proposed
+> >>>>>> SNDRV_PCM_TRIGGER_PAUSE_RELEASE_AND_STOP which is more
+> >>>>>> explanatory. It's not clear what PAUSE_RESET should do (probably the
+> >>>>>> stream should be kept inactive).
+> >>>>>
+> >>>>> There is a slight difference.  My proposal, *_TRIGGER_PAUSE_RESET,
+> >>>>> doesn't have to stop the stream by itself, but it's only a preparation
+> >>>>> for stopping.  That is, a proper TRIGGER_STOP always follows after
+> >>>>> TRIGGER_PAUSE_RESET.
+> >>>>
+> >>>> But what state that we move after we reset the PAUSE? is it RUNNING
+> >>>> (iow, equals to PAUSE_RELEASE) or something else?
+> >>>
+> >>> It'll be temporarily set to RUNNING.
+> >>>
+> >>>> In case of suspend while the state is paused we will:
+> >>>> TRIGGER_PAUSE_RESET followed by STOP or SUSPEND?
+> >>>
+> >>> For suspend, PAUSE_RESET, then SUSPEND.
+> >>> For dropping, PAUSE_RESET, then STOP.
+> >>
+> >> OK, but this is still the same as PAUSE_RELEASE+SUSPEND when it comes to
+> >> suspended_state, no?
+> >> I mean you need to move to RUNNING to be suspend, or stop to skip the
+> >> suspend.
+> > 
+> > Yes, and this needs to be addressed.  e.g. save the suspended_state
+> > beforehand.
+> > 
+> >>>> Most drivers are doing the same thing for STOP and SUSPEND trigger,
+> >>>> however it is possible to do extra steps for SUSPEND to make sure that
+> >>>> the whole system is in a lowest power state.
+> >>>
+> >>> Yes, that's the reason I proposed PAUSE_RESET.  Then the driver can
+> >>> handle the following stop or suspend operation differently.
+> >>>
+> >>> That said, PAUSE_RESET is just another variant of PAUSE_RELEASE.
+> >>> But this shouldn't actually enable the audio output again, but prepare
+> >>> for the next SUSPEND or STOP trigger.
+> >>
+> >> I'm not sure how this would be seen in ASoC level. Surely we need to
+> >> have flag per components that it is handling PAUSE_RESET as codecs would
+> >> like don't want to do it or they migh, hm.
+> >> But ASoC maintains another set of state for the dpcm:
+> >> SND_SOC_DPCM_STATE_* and it has this as well among other state-machine
+> >> things:
+> >> case SNDRV_PCM_TRIGGER_SUSPEND:
+> >> 	if (be->dpcm[stream].state != SND_SOC_DPCM_STATE_START)
+> >> 		goto next;
+> >>
+> >> So, this is dpcm level, but one component can support PAUSE_RESET while
+> >> the other does not and the transitions are not too clear to me.
+> > 
+> > It's a good question.  ASoC may have the own intermediate state
+> > (SND_SOC_DPCM_STATE_PAUSED_RESET) or just use
+> > SND_SOC_DPCM_STATE_START but leave all to BE trigger (by passing
+> > SNDRV_PCM_TRIGGER_PAUSE_RESET).
+> > 
+> >> But the idea of resurrecting a paused stream with mute held is not bad.
+> >>
+> >> I'm still uncertain how this actually works now on systems where RESUME
+> >> is supported and we suspend while a PCM is in paused...
+> > 
+> > Is it a general question about suspend+resume during pause, or the
+> > behavior change after PAUSE_RESET?  PAUSE_RESET won't be applied to
+> > the drivers that support RESUME.
+> > 
+> > BTW, I'm not pushing to sell PAUSE_RESET so much for now at all.
+> > Currently rather in a brain storming phase.  Let's try to pick up the
+> > more appropriate one.
+> 
+> While I think the patch is a good start to handle the current situation
+> with a minimal change (and a possibility of dropping it when the more
+> elaborate and likely laborious one is available), this is how it was
+> before the patch in regards to suspend while paused:
+> 
+> RESUME is suported:
+> - Stream is PAUSED
+> - No SUSPEND trigger is sent (stream is not running), state changes to
+> SUSPENDED, suspended_state is PAUSED
+> - On resume, no RESUME trigger is sent (suspended state is not RUNNING
+> or DRAIN), but the state is changed to PAUSED.
+> - On PAUSE_RELEASE the trigger is sent (how it is handled in driver is
+> another question as we had suspended the system in between).
+> 
+> RESUME is not suported:
+> - Stream is PAUSED
+> - No SUSPEND trigger is sent (stream is not running), state changes to
+> SUSPENDED, suspended_state is PAUSED
+> - On resume, no RESUME trigger is sent (resume is not supported), the
+> state remains to SUSPENDED, suspended_state is PAUSED
+> On PAUSE_RELEASE the core will raturn error as the state is not PAUSED,
+> it is SUSPENDED and we go to xrun recovery
+> - driver received PAUSE_PUSH but never receives PAUSE_RELEASE
+> 
+> I think that the SUSPEND trigger (or a new similar trigger) should be
+> sent to a PAUSED stream regardless of RESUME support. Imho it is not a
+> correct assumption that a PAUSED stream is ready for system suspend, it
+> might not be, it might needs to be prepared for that.
+> If we use the same SUSPEND trigger than the drivers need to track their
+> paused state as well to know what to do - we rely on the enforced state
+> changes in core to do this implicitly atm.
+> 
+> If there is no RESUME support, then it is a bit more complicated as
+> after the system suspend the audio hardware's state does not matter,
+> whenever it was RUNNMING or PAUSED we need to go to xrun recovery to
+> restart, resume is not supported.
+> 
+> But if RESUME is not supported we do need to send the PAUSE_RELEASE to
+> balance the PUSH.
+> Should we set XRUN as suspended_state in case of RESUME is not
+> supported? Or some other state which indicates that whatever we had
+> before, we are not going to be able to pick up where we were?
+> 
+> The fact that we discuss this shows how much this corner case have been
+> excercised (we eneded upm disabling this in CI testing for now in SOF).
 
-FWIW, I tested this on MSM8916:
+I agree that your patch can be a good start, at least, it addresses
+the existing issue with the minimal change.  There are still rough
+edges and we'll need to address, but I believe the patch (or modified
+/ fixed one) can be applied to 6.15 kernel, while keeping the
+development for 6.16.
 
- - MultiMedia1 -> PRI_MI2S_RX
- - MultiMedia3 -> PRI_MI2S_RX
- - TERT_MI2S_TX -> MultiMedia2
- - TERT_MI2S_TX -> MultiMedia5
+I did some quick work on it, and now implemented
+SNDRV_PCM_PAUSE_RELEASE_STOP trigger.  I guess it's more or less
+aligned with what Jaroslav suggested.
 
-2x speaker-test to MultiMedia1 and MultiMedia3 (pink noise + sine wave):
- -> Audio playback correctly mixed together
- -> Playback aborts for both when stopping one of the processes
-      Write error: -5,I/O error
-      xrun_recovery failed: -5,I/O error
-      Transfer failed: I/O error
- -> Kernel log:
-    [  585.679421] q6routing 4080000.remoteproc:smd-edge:apr:service@8:routing: Found Matching Copp 0x0
-    [  587.917135] qcom-q6adm aprsvc:service:4:8: cmd = 0x10327 return error = 0x2
-    [  587.917378] qcom-q6adm aprsvc:service:4:8: DSP returned error[2]
-    [  587.917409] qcom-q6adm aprsvc:service:4:8: Failed to close copp -22
+The patches are pushed out to topic/pcm-pause-rework branch of my
+sound.git tree.  Please take a look.
 
-2x arecord from MultiMedia2 and MultiMedia5:
- -> Both processes record audio as expected
- -> Recording aborts for both when stopping one of the processes
-      arecord: pcm_read:2272: read error: I/O error
- -> Kernel log:
-    [  646.125612] q6routing 4080000.remoteproc:smd-edge:apr:service@8:routing: Found Matching Copp 0x0
-    [  654.247867] q6asm-dai 4080000.remoteproc:smd-edge:apr:service@7:dais: command[0x10bdb] not expecting rsp
-    [  654.815474] q6asm-dai 4080000.remoteproc:smd-edge:apr:service@7:dais: command[0x10bdb] not expecting rsp
-    [  654.825568] qcom-q6adm aprsvc:service:4:8: cmd = 0x10327 return error = 0x2
-    [  654.825955] qcom-q6adm aprsvc:service:4:8: DSP returned error[2]
-    [  654.826013] qcom-q6adm aprsvc:service:4:8: Failed to close copp -22
 
-=> Both playback and recording are affected. As you suspected it's
-   unrelated to USB.
+thanks,
 
-This feels like a bug to me rather than an intentional limitation. If
-you can share the fix you made I can test it here.
-
-Thanks,
-Stephan
+Takashi
