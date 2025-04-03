@@ -1,82 +1,50 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCA21E3DFD
-	for <linux-sound@vger.kernel.org>; Thu,  3 Apr 2025 12:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1026C288DA;
+	Thu,  3 Apr 2025 13:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743684185; cv=none; b=rcGhlO1LKsu7sQk7q/KWlDFqHSKmqN3ibU4tFlTEtObI5y++1JfXU7b7/2/WaRQMmftxRV7u9mZF1xEM3WvHOZTUb3wNoyPC+c5gpLpd4HT6if+FxN3EIQmr+12qJdMegDcgfEtPiDi2xDtRVTDJOpaOQOBN4G/R+47EWPmAO78=
+	t=1743685382; cv=none; b=c3qppMZcPGli1T6swKlh3urVFKugZv26F3YoS4TfOdf1Ijni+Q8bk8UWl5+/g8mH7yIPcZGljucSYTqtmNHdVhxHcG0zNCgVqRlGSwzZ73/XhqChEGLLABZcFULIwYh5trdiMfnDvrr5AcGAGThWEeaVyZJrBGCa70hvKFPHJ3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743684185; c=relaxed/simple;
-	bh=sb2QRnB7188NOtda5DPHBASrexKmkSX9VEuesDDtB+M=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hYwFOobuSvptW8Iq1D9v2z7qm5NQAQiwQq9RUgHcD6w4UItY3VRTudD9mGsSxR4dH/F4Ss6oRxiaiCCqJ1Fpds0xHRUrh07E6SHFA9lmMe3fVmk9JIjWVE0EhjNxi3x/u2HBo05HFVh0913t8AiUPu714OiVobbumZUJXF/Ah3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uuUdfwDM; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743685382; c=relaxed/simple;
+	bh=UYFibFRYxKeXkK6qk5jWiYYiIva2k/ozd9NglR3yXEg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CG/ivdMXE0XgSZHOsaDPe2g5JqxrsS9mqXx8vs59/1UUUqKrflIc5wZu4uIpLX0Oi3RhmgRnegfvizDXfpGZsuPisoazLxnz7h67f3mXTTCcgDHNdJ70uQjtrFNxsz63sufPgow8zz0V7aC0kpgqmShr/hhJ/6ilJILnaZLLGqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=favBmOZj; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uuUdfwDM"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39c1efbefc6so551132f8f.1
-        for <linux-sound@vger.kernel.org>; Thu, 03 Apr 2025 05:43:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743684180; x=1744288980; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X2gzGEzgiKIa4EMF6KQg0t5+kh4IPdUUyGlnfc/EwEw=;
-        b=uuUdfwDMWKADYPr6aBZDzW3ukiuKhdz/AoR2O2HkWY0WBxV2FWYAaQQJdsR0ZwvuDG
-         tKBKbuBsHjIbYAaKlSq1hx4nxfpVQemL3ZCAzUiPw92zwqI5vPnWtm3N+2qkmqJH7wbA
-         D0bFQBbBbcbMJlatV8xv4r1CzRnDY2oOP054TDP3tYkfG2bMb9lZ0rDe+w5S+QbDDI1v
-         xZntQCEHIcHKkcnZIVUZCoxZzK/KymKE+UESvZV52oF/ZtwzkWn/HbWfQINUvg3Z3D1q
-         mCCqku6yhH0aA7P7q0q9RrU1maCoWdpIrK+LC3sfJYQQhMP8n9ACWdqmz69GOx062YQe
-         5kww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743684180; x=1744288980;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=X2gzGEzgiKIa4EMF6KQg0t5+kh4IPdUUyGlnfc/EwEw=;
-        b=AGx/fam6xtcSf/qHvvXCA0GjKVsCeNhHI41Xm3r6CxkND48oUQFpGMUEb9F4F1YY3U
-         3AKy8bayr47FYN5m0GHtNUsAQZKq1J6ngup88/7V/ElwN9yT4dLrNqv4ZMpwHQWpp0LB
-         XYBaBN4mutb+7l2T0gizahf8rGQTea/olc/0uff0VV5pKcmrf/OCnNUvVZZypIz4HHzV
-         oVtLX229JvQ3xmOLq7vbwKGesI5y6siS6e73QXeRH/8DSLh/eCPuMDje3RmcMgxFI5k8
-         owuO7VWzE8CBKllFTCHOBF7RMhm/H2dN/E3pmAjnQOmliyCAEOrM+CpKsbeyh4bk4sxk
-         n6eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGV1t2EksLuDeKxppRaW0vPQJZqFeTg2JCra/1mvbjEz8RAkD8ijdS/xVjqsoHoyWFmpSuhHI9DLGqjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YywZTA3tBuqdlpsN9kPQrqNfnV/IucrNES59GGvL66pRyNSza7P
-	1d1ka1opge0PS7HSRlrZSMXC9/DuqfMsnVjltsR/YU8MFcLTY2PuWoSkm4FVE+c=
-X-Gm-Gg: ASbGnctuqnyxKzdTbYZJHTFONGAXZMUe9rM8+ZD/FQQ0IpMSGWg9P5CvE1TQ6tBDSuA
-	ngqY+pvCHHItrKIs5PkOcKIAQ6LO/lNix9DF3HvQzd3L+oKDcnbbagmq1QJ6nufKSALoMXxH5bT
-	epfPWH9vtbpCf7ehzLih/AN5RxbsD3d0maeOpOef0Lh7SOo7oqf2PMP3yv/IpYSHmQzFfUGOUMz
-	rkiCvsUzLPCbsm/SNwgncCrd7K7A/U5qm6bXIzQ6dTVqPXyI2FzlF3zs8jXB0UB3fbr9qRDlZPA
-	8bWoIPgJ9WJf40ukAt4ojhk7ODAj01/Y3WFz7+OJYsxybm86XcdqOh0dPe8KQ5VBWWBnG9tVC7m
-	5DOqx
-X-Google-Smtp-Source: AGHT+IEbPg8+OB+t29rOtNL2QkkFRiJ5r3Z4JpZaekYA6Sh1gaBggQto/hs6PTOfMoriK53k96kgHg==
-X-Received: by 2002:a05:6000:4023:b0:39c:119f:27c4 with SMTP id ffacd0b85a97d-39c29767c83mr5503332f8f.30.1743684180601;
-        Thu, 03 Apr 2025 05:43:00 -0700 (PDT)
-Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec34a7615sm17312505e9.9.2025.04.03.05.42.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 05:42:59 -0700 (PDT)
-From: srinivas.kandagatla@linaro.org
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	pierre-louis.bossart@linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmitry.baryshkov@oss.qualcomm.com,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	stable@vger.kernel.org,
-	Manikantan R <quic_manrav@quicinc.com>
-Subject: [PATCH v3 2/2] ASoC: codecs:lpass-wsa-macro: Fix logic of enabling vi channels
-Date: Thu,  3 Apr 2025 13:42:47 +0100
-Message-Id: <20250403124247.7313-3-srinivas.kandagatla@linaro.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250403124247.7313-1-srinivas.kandagatla@linaro.org>
-References: <20250403124247.7313-1-srinivas.kandagatla@linaro.org>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="favBmOZj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=Ursf88wNTOlmX3oAtm14m6ADoChpf6AmAUtfT2VrvPI=; b=favBmOZj/bNEAuN1Q7/JYLmq/I
+	iz5m3uxCJZev4m8QY4WguqLvzwW4rl0rrb7R9KZ5+jT807YHJ1xyYZQmYK9UrZJ+Lx0RMMpAVYOGt
+	nN/9mpn/3PBYb6f+Hv0SgrpC3p5WQB0yrPw1wdSdTKvbNR9/1pZ4ggA/4p0odn93+Ais0fyWhYDe+
+	Wfj0LvqMqOEfGGcmdEvHy1EBYuFN0loFtzdmUHxOtnfBZOQrbLM7B7rjFd1KPTyTDT+cAjHVZWdJo
+	VZipIuax3wXCme37Rr5TbxF55FtHeC2I7rsu5S6s9JY/BvY9rk5HHV6h+5F0XWZ4+OvCBWZ6197i1
+	noIh7y2A==;
+Received: from [177.134.103.112] (helo=ginger..)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1u0KDZ-00ApVU-Ku; Thu, 03 Apr 2025 15:02:50 +0200
+From: Helen Koike <koike@igalia.com>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	cezary.rojewski@intel.com,
+	andriy.shevchenko@linux.intel.com,
+	broonie@kernel.org,
+	yung-chuan.liao@linux.intel.com,
+	brent.lu@intel.com,
+	pierre-louis.bossart@linux.intel.com,
+	kernel-dev@igalia.com
+Subject: [PATCH] ASoC: Intel: Remove unused SND_SOC_INTEL_DA7219_MAX98357A_GENERIC
+Date: Thu,  3 Apr 2025 10:02:42 -0300
+Message-ID: <20250403130242.1227770-1-koike@igalia.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -85,172 +53,35 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+This config was used by bxt_da7219_max98357a and kbl_da7219_max98357a,
+both were removed.
 
-Existing code only configures one of WSA_MACRO_TX0 or WSA_MACRO_TX1
-paths eventhough we enable both of them. Fix this bug by adding proper
-checks and rearranging some of the common code to able to allow setting
-both TX0 and TX1 paths
+Now it is not used anymore, so remove it.
 
-Without this patch only one channel gets enabled in VI path instead of 2
-channels. End result would be 1 channel recording instead of 2.
-
-Fixes: 2c4066e5d428 ("ASoC: codecs: lpass-wsa-macro: add dapm widgets and route")
-Cc: stable@vger.kernel.org
-Co-developed-by: Manikantan R <quic_manrav@quicinc.com>
-Signed-off-by: Manikantan R <quic_manrav@quicinc.com>
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Signed-off-by: Helen Koike <koike@igalia.com>
 ---
- sound/soc/codecs/lpass-wsa-macro.c | 112 +++++++++++++++++------------
- 1 file changed, 68 insertions(+), 44 deletions(-)
+ sound/soc/intel/boards/Kconfig | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-index ac119847bc22..c9e7f185f2bc 100644
---- a/sound/soc/codecs/lpass-wsa-macro.c
-+++ b/sound/soc/codecs/lpass-wsa-macro.c
-@@ -1469,46 +1469,11 @@ static int wsa_macro_mclk_event(struct snd_soc_dapm_widget *w,
- 	return 0;
- }
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index 9b80b19bb8d0..2df7afa2f469 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -252,14 +252,6 @@ config SND_SOC_INTEL_BYT_CHT_NOCODEC_MACH
  
--static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
--					struct snd_kcontrol *kcontrol,
--					int event)
--{
--	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
--	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
--	u32 tx_reg0, tx_reg1;
--	u32 rate_val;
+ endif ## SND_SST_ATOM_HIFI2_PLATFORM
  
--	switch (wsa->pcm_rate_vi) {
--	case 8000:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
--		break;
--	case 16000:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_16K;
--		break;
--	case 24000:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_24K;
--		break;
--	case 32000:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_32K;
--		break;
--	case 48000:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_48K;
--		break;
--	default:
--		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
--		break;
--	}
+-config SND_SOC_INTEL_DA7219_MAX98357A_GENERIC
+-	tristate
+-	select SND_SOC_DA7219
+-	select SND_SOC_MAX98357A
+-	select SND_SOC_DMIC
+-	select SND_SOC_HDAC_HDMI
+-	select SND_SOC_INTEL_HDA_DSP_COMMON
 -
--	if (test_bit(WSA_MACRO_TX0, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
--		tx_reg0 = CDC_WSA_TX0_SPKR_PROT_PATH_CTL;
--		tx_reg1 = CDC_WSA_TX1_SPKR_PROT_PATH_CTL;
--	} else if (test_bit(WSA_MACRO_TX1, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
--		tx_reg0 = CDC_WSA_TX2_SPKR_PROT_PATH_CTL;
--		tx_reg1 = CDC_WSA_TX3_SPKR_PROT_PATH_CTL;
--	}
--
--	switch (event) {
--	case SND_SOC_DAPM_POST_PMU:
-+static void wsa_macro_enable_disable_vi_sense(struct snd_soc_component *component, bool enable,
-+						u32 tx_reg0, u32 tx_reg1, u32 val)
-+{
-+	if (enable) {
- 		/* Enable V&I sensing */
- 		snd_soc_component_update_bits(component, tx_reg0,
- 					      CDC_WSA_TX_SPKR_PROT_RESET_MASK,
-@@ -1518,10 +1483,10 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
- 					      CDC_WSA_TX_SPKR_PROT_RESET);
- 		snd_soc_component_update_bits(component, tx_reg0,
- 					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_MASK,
--					      rate_val);
-+					      val);
- 		snd_soc_component_update_bits(component, tx_reg1,
- 					      CDC_WSA_TX_SPKR_PROT_PCM_RATE_MASK,
--					      rate_val);
-+					      val);
- 		snd_soc_component_update_bits(component, tx_reg0,
- 					      CDC_WSA_TX_SPKR_PROT_CLK_EN_MASK,
- 					      CDC_WSA_TX_SPKR_PROT_CLK_ENABLE);
-@@ -1534,9 +1499,7 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
- 		snd_soc_component_update_bits(component, tx_reg1,
- 					      CDC_WSA_TX_SPKR_PROT_RESET_MASK,
- 					      CDC_WSA_TX_SPKR_PROT_NO_RESET);
--		break;
--	case SND_SOC_DAPM_POST_PMD:
--		/* Disable V&I sensing */
-+	} else {
- 		snd_soc_component_update_bits(component, tx_reg0,
- 					      CDC_WSA_TX_SPKR_PROT_RESET_MASK,
- 					      CDC_WSA_TX_SPKR_PROT_RESET);
-@@ -1549,6 +1512,67 @@ static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
- 		snd_soc_component_update_bits(component, tx_reg1,
- 					      CDC_WSA_TX_SPKR_PROT_CLK_EN_MASK,
- 					      CDC_WSA_TX_SPKR_PROT_CLK_DISABLE);
-+	}
-+}
-+
-+static void wsa_macro_enable_disable_vi_feedback(struct snd_soc_component *component,
-+						 bool enable, u32 rate)
-+{
-+	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
-+	u32 tx_reg0, tx_reg1;
-+
-+	if (test_bit(WSA_MACRO_TX0, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
-+		tx_reg0 = CDC_WSA_TX0_SPKR_PROT_PATH_CTL;
-+		tx_reg1 = CDC_WSA_TX1_SPKR_PROT_PATH_CTL;
-+		wsa_macro_enable_disable_vi_sense(component, enable, tx_reg0, tx_reg1, rate);
-+	}
-+
-+	if (test_bit(WSA_MACRO_TX1, &wsa->active_ch_mask[WSA_MACRO_AIF_VI])) {
-+		tx_reg0 = CDC_WSA_TX2_SPKR_PROT_PATH_CTL;
-+		tx_reg1 = CDC_WSA_TX3_SPKR_PROT_PATH_CTL;
-+		wsa_macro_enable_disable_vi_sense(component, enable, tx_reg0, tx_reg1, rate);
-+
-+	}
-+
-+}
-+
-+static int wsa_macro_enable_vi_feedback(struct snd_soc_dapm_widget *w,
-+					struct snd_kcontrol *kcontrol,
-+					int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
-+	u32 rate_val;
-+
-+	switch (wsa->pcm_rate_vi) {
-+	case 8000:
-+		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
-+		break;
-+	case 16000:
-+		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_16K;
-+		break;
-+	case 24000:
-+		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_24K;
-+		break;
-+	case 32000:
-+		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_32K;
-+		break;
-+	case 48000:
-+		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_48K;
-+		break;
-+	default:
-+		rate_val = CDC_WSA_TX_SPKR_PROT_PCM_RATE_8K;
-+		break;
-+	}
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		/* Enable V&I sensing */
-+		wsa_macro_enable_disable_vi_feedback(component, true, rate_val);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		/* Disable V&I sensing */
-+		wsa_macro_enable_disable_vi_feedback(component, false, rate_val);
- 		break;
- 	}
+ if SND_SOC_SOF_APOLLOLAKE
  
+ config SND_SOC_INTEL_SOF_WM8804_MACH
 -- 
-2.39.5
+2.45.2
 
