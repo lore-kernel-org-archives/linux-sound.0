@@ -1,256 +1,127 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E976E24EF66
-	for <linux-sound@vger.kernel.org>; Thu,  3 Apr 2025 16:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A672512D4
+	for <linux-sound@vger.kernel.org>; Thu,  3 Apr 2025 16:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743696558; cv=none; b=NpXphnSRoyP6HZ9IqsE0NHKrTU7kWo6yvwnuT+Ik04oj0L/8wBaF2oceVMc/a7P84Y5DFbLuacMA6d+AqqcgAx0lR2clLcvOJgT3w8abeMQCaaO4Wki/uNcc+TVtmgs2mIyuAFceuzBgal+GHU9IpcdmTv92Ks4ktrIsXOpAFis=
+	t=1743697342; cv=none; b=mq+mg+F0l32dEa8LkeTz1XcXCX9UGyLPrMA0ddNmbUQEqPv72n2YEQfzhG7sM8Y67nVez94VF3PzZrkXtv27NMap4O4da5SKAuulQ6S+JhbxbJdv44CFFJrzO70ZfPBL7HWP/FtJiMvGCnsFTZTa/kKUCwVAm9Ho3giYFqF3ZN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743696558; c=relaxed/simple;
-	bh=XQYv1Eii0XFfymdhnZZNRO2WhUTQfofEEWKcPFuxoWE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uqu8IfX16ANGG+d3AN4D1bWrdzTBbZLdML6itsKYtBq4P+sqxQz/KH3O/3Td2Eq41qOT6+QevaAGBNklPytNXfDXeyHnfBRYeRan62tZ97dVaxy688t6dYd4lNncYhzKaaqirqSC1cYZpLl7l+EQrPja6gPvsoevPD3IhRiDg3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vt2DQbsi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=93bPBBp/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vt2DQbsi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=93bPBBp/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1743697342; c=relaxed/simple;
+	bh=Idn2TfVzRRLn92uPIS/0vao33NCByC0CnVRf/UX/0js=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DkutpqSMnqkADQ0cxbgF6xksAI+JrdfTbp9EBBXY+dhTZEx5yjKw6Oqm8N4eFcazwGXab0WdiiJpPjFNx3Twu9MFkAJgy+B6LJylzo3w3UJLIwTOEebB4notCYbhDu6tZIxZCM73ZZTDij4aQgmqzxF/WrL38jB75fs5lhBGZY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kbiyfj7F; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vt2DQbsi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="93bPBBp/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vt2DQbsi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="93bPBBp/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8A2721F38A;
-	Thu,  3 Apr 2025 16:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743696554; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jR03OKPoN5xQEppV61mXdo1vYLwZBBmMtcZ2LC1jcAo=;
-	b=Vt2DQbsiQ1w4ehhw0G8GmNSk5MRFpk2Kj87GM6MzQjcbW8he23OHY2RFGQM2CVneakITGe
-	DXJBac2wKXSEsCC+2QDGT70ud/sm3GdRsP97xZhd7I30XJ8LY02q+VMLtOMVNleK4l+vFf
-	jXH9G+hJ8bi1l/HNeJNmSO+xXPpccsw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743696554;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jR03OKPoN5xQEppV61mXdo1vYLwZBBmMtcZ2LC1jcAo=;
-	b=93bPBBp/SOZIfU8dLTCksqCZvoUPUPqAD9aPtCZSqvoZE+oxsjCzwXB59hXOeF8r59K1cq
-	mAkdDYWjOkSJSFAA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Vt2DQbsi;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="93bPBBp/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743696554; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jR03OKPoN5xQEppV61mXdo1vYLwZBBmMtcZ2LC1jcAo=;
-	b=Vt2DQbsiQ1w4ehhw0G8GmNSk5MRFpk2Kj87GM6MzQjcbW8he23OHY2RFGQM2CVneakITGe
-	DXJBac2wKXSEsCC+2QDGT70ud/sm3GdRsP97xZhd7I30XJ8LY02q+VMLtOMVNleK4l+vFf
-	jXH9G+hJ8bi1l/HNeJNmSO+xXPpccsw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743696554;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jR03OKPoN5xQEppV61mXdo1vYLwZBBmMtcZ2LC1jcAo=;
-	b=93bPBBp/SOZIfU8dLTCksqCZvoUPUPqAD9aPtCZSqvoZE+oxsjCzwXB59hXOeF8r59K1cq
-	mAkdDYWjOkSJSFAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 331531392A;
-	Thu,  3 Apr 2025 16:09:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6xg1Cqqy7meMdgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 03 Apr 2025 16:09:14 +0000
-Date: Thu, 03 Apr 2025 18:09:13 +0200
-Message-ID: <87plht447q.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.de>,	=?ISO-8859-1?Q?P=E9ter?= Ujfalusi
- <peter.ujfalusi@linux.intel.com>,	lgirdwood@gmail.com,	broonie@kernel.org,
-	tiwai@suse.com,	linux-sound@vger.kernel.org,	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,	liam.r.girdwood@intel.com
-Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if resume is not supported
-In-Reply-To: <2bc811f1-7fbd-45f1-924e-e6241dcef537@perex.cz>
-References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
-	<87r02cym1c.wl-tiwai@suse.de>
-	<9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
-	<87jz83ztn7.wl-tiwai@suse.de>
-	<206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
-	<87h637znpp.wl-tiwai@suse.de>
-	<35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
-	<8734eryn21.wl-tiwai@suse.de>
-	<ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
-	<87v7rmylc5.wl-tiwai@suse.de>
-	<d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
-	<87o6xeyfkk.wl-tiwai@suse.de>
-	<69c52779-ef90-45c5-a024-77f0030bf5cd@linux.intel.com>
-	<87jz82ye7b.wl-tiwai@suse.de>
-	<8878feb6-362a-4541-91fb-318aea1c0870@linux.intel.com>
-	<87o6xe7l4q.wl-tiwai@suse.de>
-	<51bf9695-1f70-4749-b70a-2ed4af8c4be7@linux.intel.com>
-	<871pu95oon.wl-tiwai@suse.de>
-	<2bc811f1-7fbd-45f1-924e-e6241dcef537@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kbiyfj7F"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 533FV7Gf029904
+	for <linux-sound@vger.kernel.org>; Thu, 3 Apr 2025 16:22:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=a4ZiUBpEMErH6vhZC0bvf+Nx
+	MJ405qBza7xtHCdCF6A=; b=kbiyfj7FxcvZVRDu1TkF4gr23XPokr0wJ7bZDwRo
+	65aaP7zPnU1u3Rkz+5UIaO9Z6SZ6ykx57aLPUsVLnCwsHhvrv5KXrzIrU3OnPOQM
+	0mYC+EU8QdzRzzIz1A1J7oeW095AOoZMwAIlXSy9GoYjpVwHD0IKy/QIAwdvw9CD
+	7NBNKOhWAXaAmn4RkYUkCDraDMYgVO/11KTXwTahZpg6PZmCqhUuss3nbaaf/4tf
+	R9z/tBPZlNAldAX66qHMicJqGQ8jEdMKmc8oAmLqwvOL/wsrIpMmC/9Q8YTpYhHl
+	I5tix2QCTG4xdw1se3t4xfgPI8THLTDEOJRldVd7YbMppw==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45s36a48nf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 03 Apr 2025 16:22:19 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c54767e507so174593785a.1
+        for <linux-sound@vger.kernel.org>; Thu, 03 Apr 2025 09:22:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743697338; x=1744302138;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a4ZiUBpEMErH6vhZC0bvf+NxMJ405qBza7xtHCdCF6A=;
+        b=FJxtBdkY9VkPm7+aK6QA4ZPNoiTJQThEYYo2EPEiOCV8afK98nra4xt3qDylqxUPfy
+         RDDkNRrGgn0yzEAVZl2/wReopv7BJowJXo/yZgO2PtcZRrP6gmYvZDhMQzyNxi5wfPEY
+         dtihf/AnZG9ddlVubhLdJ0htvZTl80EiiThJ4fbyBAcOE+Rb++hDN+O9VaqwgtMmNfGQ
+         4ILIrDkI4c4vXbNU6H2ZSlMRK9HM8M39FFVRru36kUt50a9k3hNu3g5WHClv86SLhdeH
+         9KZYV8RIxSL2C1tlKCoyT/YzIG7dAaVjXhFDD5X+MZLwrZwD3Rn+NRDv03JpQuMlQHI4
+         jpBw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPfIhHiV8uVJUPvvxEkL0mXkH/hYn8UVCUHZHqhndou41q2FQ4nThV2QqX2+8dHpZw8KgnnJtBbg+u5A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsGv9mXeuO6+bITZ0oO7U9GqCHF0C8A08YnfSy84V/KLTimhLN
+	r77+uWnIIVO7rBvZTshotzrZNhJJsBa8eHoIQi8gVGtxkOvDYmc03kIklkgAYxPmSoGqqA8czot
+	ElK/WxctNDeTjV7OGQ8ohrTCNLTsgnKsraZ/hChnj+Y+K4HwPfgV2hKFt5jYwit5ngWWrlQ==
+X-Gm-Gg: ASbGnculw4WTfVb6TjKAXibhHQPPNBgvi3UjBveN0S6WXx/IRvbH2jti+lvv9VxLYGB
+	MJ3mzcS2YOepyAgw9b1yVLMBDrRErKITf6Z2lTJOkkplEYfRE60RvSk7qZV5ta2mjr/RtOo6k3p
+	41MPqzcTTnqD7rEXJpYRHJ6EDMHrjyCMfOBNRKwLSLWXiIpMinpxo3/f9QnT/9NQ/SPUrRTd2lu
+	ApPdylc7ju4dJ2pTBmM3w7TcIdcEJxKKUe2Eg7Q+D+1Shd5rqdexewAoKIBcx+N39++q/Vc7DpW
+	qzZ1oNy2pSFigwflNggUg7x9RNpg87iK2oq5BO2/15hd+rIRqpsr0HUibJAZ/wvDyrlthVDJC0H
+	37Ms=
+X-Received: by 2002:a05:620a:2801:b0:7c5:5003:81b0 with SMTP id af79cd13be357-7c6865ea99fmr3047300885a.23.1743697338566;
+        Thu, 03 Apr 2025 09:22:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkLhLG71dtjwxNTqmaM0NknH0c5V9tBLqCnHK8weksJGXsW38VvS3W8gt0C9UKJrHhUHuRrQ==
+X-Received: by 2002:a05:620a:2801:b0:7c5:5003:81b0 with SMTP id af79cd13be357-7c6865ea99fmr3047297085a.23.1743697338145;
+        Thu, 03 Apr 2025 09:22:18 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f031bcd9asm2659021fa.71.2025.04.03.09.22.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Apr 2025 09:22:17 -0700 (PDT)
+Date: Thu, 3 Apr 2025 19:22:15 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: srinivas.kandagatla@linaro.org
+Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, Manikantan R <quic_manrav@quicinc.com>
+Subject: Re: [PATCH v4 2/2] ASoC: codecs:lpass-wsa-macro: Fix logic of
+ enabling vi channels
+Message-ID: <ypt3vurwlmyxkmba7lrmgcmpeszx2afbqp5hwrdwcliwcf23ik@jvg45kffehxx>
+References: <20250403160209.21613-1-srinivas.kandagatla@linaro.org>
+ <20250403160209.21613-3-srinivas.kandagatla@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 8A2721F38A
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,linux.intel.com,gmail.com,kernel.org,suse.com,vger.kernel.org,linux.dev,intel.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250403160209.21613-3-srinivas.kandagatla@linaro.org>
+X-Authority-Analysis: v=2.4 cv=W6M4VQWk c=1 sm=1 tr=0 ts=67eeb5bb cx=c_pps a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=uZvtCs0-YMtpQNQJbqIA:9
+ a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: n3Bg9OdNGo6kpsgeHtVhIk7VFKNAl1Qg
+X-Proofpoint-GUID: n3Bg9OdNGo6kpsgeHtVhIk7VFKNAl1Qg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-03_07,2025-04-03_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ adultscore=0 mlxlogscore=555 mlxscore=0 bulkscore=0 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 phishscore=0
+ malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504030081
 
-On Thu, 03 Apr 2025 17:24:44 +0200,
-Jaroslav Kysela wrote:
+On Thu, Apr 03, 2025 at 05:02:09PM +0100, srinivas.kandagatla@linaro.org wrote:
+> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 > 
-> On 03. 04. 25 16:01, Takashi Iwai wrote:
+> Existing code only configures one of WSA_MACRO_TX0 or WSA_MACRO_TX1
+> paths eventhough we enable both of them. Fix this bug by adding proper
+> checks and rearranging some of the common code to able to allow setting
+> both TX0 and TX1 paths
 > 
-> > I agree that your patch can be a good start, at least, it addresses
-> > the existing issue with the minimal change.  There are still rough
-> > edges and we'll need to address, but I believe the patch (or modified
-> > / fixed one) can be applied to 6.15 kernel, while keeping the
-> > development for 6.16.
+> Without this patch only one channel gets enabled in VI path instead of 2
+> channels. End result would be 1 channel recording instead of 2.
 > 
-> I did a quick research how is RESUME/SUSPEND implemented in current
-> drivers and I found that it may be considered to enable SUSPEND
-> trigger also in the paused state:
+> Fixes: 2c4066e5d428 ("ASoC: codecs: lpass-wsa-macro: add dapm widgets and route")
+> Cc: stable@vger.kernel.org
+> Co-developed-by: Manikantan R <quic_manrav@quicinc.com>
+> Signed-off-by: Manikantan R <quic_manrav@quicinc.com>
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> ---
+>  sound/soc/codecs/lpass-wsa-macro.c | 108 +++++++++++++++++------------
+>  1 file changed, 63 insertions(+), 45 deletions(-)
 > 
-> find sound/ -name "*.[ch]" -exec grep -A 2 -B 2 -H -E \
->     "SNDRV_PCM_TRIGGER_(RESUME|SUSPEND)" {} \;
-> 
-> My comments - seems almost all drivers handles SUSPEND as STOP:
-> 
-> sound/pci/ymfpci/ymfpci_main.c
->  - STOP/SUSPEND different, should not be a problem
-> sound/pci/nm256/nm256.c
-> sound/pci/intel8x0.c
->  - only saves suspend flag additionaly to STOP
-> sound/soc
->  - some drivers ignores suspend/resume (ignore_suspend flag)
-> sound/soc/pxa/pxa-ssp.c
->  - should not be a problem (enable/disable hw parts)
-> sound/soc/sti/uniperif_player.c
->  - only resume trigger is supported ? but no resume info is set
-> sound/soc/sof/intel/hda-dai.c
->  - only suspend support, but resume is not supported
-> sound/xen/xen_snd_front_alsa.c
->  - it's just rpc
-> sound/virtio/virtio_pcm_ops.c
->  - only suspend support, no resume
-> 
-> It would be probably nice if more eyes verifies this, but the only
-> suspicious place is the xen front end. And some drivers may be broken
-> already (no changes for them).
 
-The xen driver provides SNDRV_PCM_INFO_PAUSE, but it doesn't handle
-SNDRV_PCM_TRIGGER_PAUSE_* at all -- so the pause handling is broken
-there, as it seems.
-
-> I believe that this patch should be enough to resolve the issue
-> instead the non-elegant pause release and may be applied also to 6.15:
-> 
-> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> index 4057f9f10aee..63a1b37cc098 100644
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -1694,8 +1694,17 @@ static int snd_pcm_do_suspend(struct
-> snd_pcm_substream *substream,
->         struct snd_pcm_runtime *runtime = substream->runtime;
->         if (runtime->trigger_master != substream)
->                 return 0;
-> -       if (! snd_pcm_running(substream))
-> -               return 0;
-> +       if (! snd_pcm_running(substream)) {
-> +               if (runtime->info & SNDRV_PCM_INFO_RESUME)
-> +                       return 0;
-> +               if (runtime->state != SNDRV_PCM_STATE_PAUSED)
-> +                       return 0;
-> +               /*
-> +                * When resume is not supported, SUSPEND should STOP stream.
-> +                * For futher operation, the stream must be fully restarted
-> +                * to leave the permanent SUSPEND state.
-> +                */
-> +       }
->         substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_SUSPEND);
->         runtime->stop_operating = true;
->         return 0; /* suspend unconditionally */
-
-I'm afraid that it's not that straightforward, unfortunately.
-There are some stuff that require the pause release.
-
-For example, pcm_dmaengine.c uses dmaengine_pause() as the suspend,
-and if we apply this change, it'll end up with dmaengine_pause() calls
-twice.  As far as I see, a similar pattern is seen in ASoC Intel catpt
-driver (and maybe some others), too.
-
-And, in drivers/soundwire/intel.c, there is already a workaround for
-suspend-at-pause, and this might conflict.  We need to verify it.
-
-Last but not least, the ASoC PCM core has its own DPCM state, and the
-trigger-SUSPEND skips the operation unless the stream has been
-running.  I believe that's the very starting point of the problem
-Peter's patch tries to address.
-
-
-> > I did some quick work on it, and now implemented
-> > SNDRV_PCM_PAUSE_RELEASE_STOP trigger.  I guess it's more or less
-> > aligned with what Jaroslav suggested.
-> 
-> Nice cleanups. The "ALSA: pcm: Save the proper suspended_state for
-> non-resumable case, too" should be recoded. The state should be
-> handled in action callbacks for all streams separetely.
-
-OK, I'll rewrite it.  I wrote in the current way, as it'll be a bit
-too complex otherwise, but let me try another shot.
-
-> Also, I would consider to call suspend/resume triggers (depending on a
-> flag like can_pause_release_stop) when the stream is paused, too. Some
-> drivers may want this scheme.
-
-Do you mean drivers that do share the same operation for
-suspend/resume and pause?
-
-
-thanks,
-
-Takashi
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+-- 
+With best wishes
+Dmitry
