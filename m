@@ -1,113 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2B6101F2;
-	Fri,  4 Apr 2025 06:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B92518C91F
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 06:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743747188; cv=none; b=Xm4r9fU2KpmsGU5MGDwSscuJ1TmtTc+wN3nnF5j1dgkxHhJFQKiiAqgOIUsjEzdJ4fleW2J0B4GN7ea8T74QcHUEfbOl3vzMxNgd7pXQogIb1c3CkxRvsRGhOLwSOpS3j8PmCLua8nWXpFL/LAP721wFKU51hJ/ltnSP/yI+8Ng=
+	t=1743749671; cv=none; b=mewJTFZiXjWkTCw4z+DnJwG2xEW4TztvpvQqoLCkYjFJZ7I0VGpF4seW6kDhfJJAodXA/8Rt6EOtOfOzsDRq2F120o+tURzOdjSSu9k9tyDE7uMjqvUdfB16keLjiiVicON/ea4Rr2/YR/a//KBJLU+6HnOrqGXSynMEH21IS8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743747188; c=relaxed/simple;
-	bh=nZHzpVI3J8SGHs+5EI0MI3PuiDodDZqU3FJVvBRM2r4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MM2/nBjyRbU4RMDiw1OPcRC/tx/VUw7utAhsJNd0dxcjUlBKdSS1LdEdvej//s4UNYTdqbpdveHrTbYGqVTIXUZwPTdekkANdiAuvVW/knuVC3wMp3YJtS+v5TDM1Kq3Kz+e7YhVQbMOnmWUY87Vs2MvXFVScN1S2+YxqT0iVw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VPkebXSR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743749671; c=relaxed/simple;
+	bh=xMVbyCHwFmTSFiUsRdRz+WZwDQtMV90raRl5K2ATkn4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Elq6iSclyZjW6kS4Llwb0EBIT4EeO09Kgnrxi9sQr3jNij6P7aud/40ikMugde1DHMUKjWN8VYZVMgJkYz6eqm5f/q57zgMkTNxpWUAiu8nAH6B/S+SRG8rRHGMOgfaaDCJkdxsYF1l9GOvrhFeWrFb2sS0DIrmBFOTy/AfqY+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R+sVOgX2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iiPflYXO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R+sVOgX2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iiPflYXO; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VPkebXSR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 538BDC4CEDD;
-	Fri,  4 Apr 2025 06:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743747188;
-	bh=nZHzpVI3J8SGHs+5EI0MI3PuiDodDZqU3FJVvBRM2r4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VPkebXSRFOhFIcAFdDtU3srZ27hd/R4EIXd42uyBWOGaKKCoeurgy1s3+i5Og3yBJ
-	 QxwS+JksvgmYAe+cydA338daUJ6QRs4zsAcF23lFVax0V1L422i1DHiCEU7EM0GKNZ
-	 H5n779s2eyyePAplcHd+UtWKvuIp1FZwo1nomBaEEl5N4J9+dwCZOJyDjMVZM+n0Bq
-	 YpQvnNlDg7qXujPxMXPddJTbd73gCwQ76snkpzl2Vj4epY7XYiteQ7Qiic1LlLP45u
-	 DcIx2r7/Hqqkk8DGtmme0SiE8gEUboQ2pYBKOGzGgHY6SptgWndpV/nJZrz5uphKQA
-	 lcrgtcBbm+S0A==
-Message-ID: <8ae5b493-6906-4adc-8983-d343c7803f06@kernel.org>
-Date: Fri, 4 Apr 2025 08:12:59 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R+sVOgX2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iiPflYXO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R+sVOgX2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iiPflYXO"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 776F21F385;
+	Fri,  4 Apr 2025 06:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743749667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9lmjj6zNiTdDv40dHv3q1k8YAjJkIDE5uiiP95uhUC4=;
+	b=R+sVOgX2wSShUY9LXz9aWI/Wqne/3ONx7rtOFNwMb9ZMRmrew4uRqcQ/Ac/MloEfFipKQa
+	D3m43CJRtLSIRH7EU41IhOkklzhZ/phJw0IB004GfYSwIbPstij5nHqNk5IGgV/4QHuEeU
+	EpnUEHXuSyorxROqyMMzB1s3xfHDXYE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743749667;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9lmjj6zNiTdDv40dHv3q1k8YAjJkIDE5uiiP95uhUC4=;
+	b=iiPflYXOMs2KGEo3RF+MDH+yN8IDqmuCetnVonOqLpwW/5ma0nS8sLCwkN6Q9UbPFRtwFX
+	dGeCYquBnLY4VUDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743749667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9lmjj6zNiTdDv40dHv3q1k8YAjJkIDE5uiiP95uhUC4=;
+	b=R+sVOgX2wSShUY9LXz9aWI/Wqne/3ONx7rtOFNwMb9ZMRmrew4uRqcQ/Ac/MloEfFipKQa
+	D3m43CJRtLSIRH7EU41IhOkklzhZ/phJw0IB004GfYSwIbPstij5nHqNk5IGgV/4QHuEeU
+	EpnUEHXuSyorxROqyMMzB1s3xfHDXYE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743749667;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9lmjj6zNiTdDv40dHv3q1k8YAjJkIDE5uiiP95uhUC4=;
+	b=iiPflYXOMs2KGEo3RF+MDH+yN8IDqmuCetnVonOqLpwW/5ma0nS8sLCwkN6Q9UbPFRtwFX
+	dGeCYquBnLY4VUDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C2F113691;
+	Fri,  4 Apr 2025 06:54:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id uC0ADSOC72f2WgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 04 Apr 2025 06:54:27 +0000
+Date: Fri, 04 Apr 2025 08:54:26 +0200
+Message-ID: <87mscw4dst.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "C.D. MacEachern" <craig.daniel.maceachern@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Salvatore Bonaccorso <carnil@debian.org>,
+	1100928@bugs.debian.org,
+	Kuan-Wei Chiu <visitorckw@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: Bug#1100928: [regression 6.1.y] microphone no longer records (on VivoBook_ASUSLaptop TP401MARB_J401MA)
+In-Reply-To: <CAJ8x=4gN1fH6chp4C3jX1OXq2-JhbP5yUzLbqvWrAJ-u=+VNhw@mail.gmail.com>
+References: <174248253267.1718.4037292692790831697.reportbug@x>
+	<Z95s5T6OXFPjRnKf@eldamar.lan>
+	<Z-MMsp3XJyNHOlma@eldamar.lan>
+	<87iknwb80x.wl-tiwai@suse.de>
+	<CAJ8x=4jNhsjw_s-p5FXBk9WScPHEdUMZ0tXnhCiya8fCf_PH7w@mail.gmail.com>
+	<Z-ct2D6uIN1f6UbL@eldamar.lan>
+	<87zfh43uti.wl-tiwai@suse.de>
+	<CAJ8x=4ibzvVxxv7FzswtwTcYT73XaDOUr7gHWMcdxB+j8+zyyw@mail.gmail.com>
+	<878qojypu6.wl-tiwai@suse.de>
+	<CAJ8x=4gN1fH6chp4C3jX1OXq2-JhbP5yUzLbqvWrAJ-u=+VNhw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sound: soc: stm: stm32_sai: Use dev_err_probe()
-To: shao.mingyin@zte.com.cn, olivier.moysan@foss.st.com
-Cc: arnaud.pouliquen@foss.st.com, lgirdwood@gmail.com, broonie@kernel.org,
- perex@perex.cz, tiwai@suse.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, linux-sound@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- yang.yang29@zte.com.cn, xu.xin16@zte.com.cn, ye.xingchen@zte.com.cn,
- zhang.enpei@zte.com.cn
-References: <20250403154142936Po-soX8Bifyvw_eWSbddT@zte.com.cn>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250403154142936Po-soX8Bifyvw_eWSbddT@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,debian.org,bugs.debian.org,gmail.com,vger.kernel.org,lists.linux.dev];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -1.80
+X-Spam-Flag: NO
 
-On 03/04/2025 09:41, shao.mingyin@zte.com.cn wrote:
-> From: Zhang Enpei <zhang.enpei@zte.com.cn>
+On Thu, 03 Apr 2025 21:05:09 +0200,
+C.D. MacEachern wrote:
 > 
-> Replace the open-code with dev_err_probe() to simplify the code.
 > 
-> Signed-off-by: Zhang Enpei <zhang.enpei@zte.com.cn>
-> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-> ---
-The code was correct before 2cfe1ff22555 ("ASoC: stm32: sai: add
-stm32mp25 support") and that commit broke it. Some explanation would be
-useful instead of blindly generating patches.
+> I've added 'snd_hda_intel.model=1043:1271' to the end of
+> GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub then ran 'sudo update-grub'
+> and rebooted, choose the non-working kernel, and the audio input still did not
+> work. Any other ideas?
 
-Was it done on purpose like that in that commit? Or ST just sent
-downstream commit to mainline without changing it?
+Please try the patch.  If it still doesn't work, please give
+alsa-info.sh output again.
 
-Best regards,
-Krzysztof
+
+Takashi
