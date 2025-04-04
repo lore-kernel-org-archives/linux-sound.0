@@ -1,107 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835D619CCF5;
-	Fri,  4 Apr 2025 17:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67EB1F8EEC;
+	Fri,  4 Apr 2025 19:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743788623; cv=none; b=ZIjGgTCCVJJ4yO9uZwoboJKySKATo+ZHdYyilMUxjB0WNa8c6PdlhDrh1prlfIdo+np1fhZFiK509HFHeIpUGlYWbfN1b86nZUQtDpO3diVOkzN1rolVy3nYlmdalwpXaoDq1Ic6buPootePHPqt2i74xOQHTUmspCbIFzEN/h4=
+	t=1743794621; cv=none; b=LWiBMSy2G6ovjl5o24pegktOeJJjzA8Tb3q7TMwvfDEawNNbOQX0mpY/P+JjlEmM74Hg4ECekNDohhKlX0d08PG5mM/WnDSl7modxmlGYQHuRHsllj+ml4X4qjWkQ3/+iErSo+UiH3t5ikknBNKWFAYhUcsSfJ8d4I2JpJ50N2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743788623; c=relaxed/simple;
-	bh=WJeqcUtnD+JvPCp95BzhzODUCYYMvFFmmq3rDIUcqSs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tcy7qLBtxFanZuQO/YCGtlDU6pFXFAlFAQaN7fi1jDecrzrYbjsVxDNdgyN7ElQJVXNW6GCm7Lkx+xphD+eNGe5S0Z0TpImreVVLbJcLTV7Nr7+C3OC4KT/cq3NBn6R639rFiJpwzFAXl/sp3qbXQmTp1VKVlVeYbY/PaA+cxls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4KPLgyY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743794621; c=relaxed/simple;
+	bh=mQqeUH8frYpOMUK5K8i4cOVS/eV7D23K4q3inrc1nWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JHF7jIXuSAsVvkTjYWu9zAIEB+KKtkeLrfxbZWVLoq6aTW8u+Hei5/8tgqIOXlS39l8Hh6tfKABix8WPy0mZQ3SiQAkivhX2XPAsFqkRoqoiTaLmVBQcAaMjHPUxVroGyF5xlJESQ4IJFqVVGsLdcxSlHkFbuuugACYW18R/rCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=N8dEyzEO; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4KPLgyY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C47B2C4CEDD;
-	Fri,  4 Apr 2025 17:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743788622;
-	bh=WJeqcUtnD+JvPCp95BzhzODUCYYMvFFmmq3rDIUcqSs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=J4KPLgyY3xGfSNoxx05BGJCDtfOgYphVQM1ZoldOdeeso2SYhM1km51rPHKPwB/pQ
-	 GJ06NvvjBNhsMQzJIvUMvXMETtTXsO0LWkcjP7CtqBfxJSSCZoye7qjPeoiOx1kiDt
-	 ZWKMHiBmHZU27kWXOQI7fbYGkDq4pvMtkkRYR1VoVIR6ij5Gkg20gJVinnvxc+4Hln
-	 0pLMb4KNxVCrO46a7TfFtjc086KPWG07DJC5spzimeJtmGzO94ULDmiHBAOlWDVvJp
-	 ZHbUkDK/UYEW9K0mv7yvUZ5RZIpRiMCeq9pji34ELH1v5T9ZN5jyVg1V4+LWXJ2tCM
-	 WVxxdgswoKZSw==
-From: SeongJae Park <sj@kernel.org>
-To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= <nfraprado@collabora.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Vinod Koul <vkoul@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	kernel@collabora.com,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	netdev@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-um@lists.infradead.org
-Subject: Re: [PATCH] docs: Remove literal markup from Documentation/ paths
-Date: Fri,  4 Apr 2025 10:43:39 -0700
-Message-Id: <20250404174339.59650-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
-References: 
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="N8dEyzEO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=AqVmIrE/jE+IpnnXvanZ162p0k9wJQEbyVriEI1fWbU=; b=N8dEyzEOtEMUgWIYbaJkq5zrhS
+	W+vuan8+xXjv06MMNsTBnGIHbalrkgIcwvEQYPB9ztyTtN9XTBEkHQAC9DKn42vsns7+HA0EEW6Rj
+	2YzHDhLYPFEy2GnfHk2ZveOd/4tKZmDBvVXkq2wiY7VO0Ag3b3PnRSTBmGlc6zZLjx2H2Kp/qk8Kw
+	zPh/BlKsTuQXnQ3L+Mv56k+gIxY/A/IyaXMzomC3QuDk/iTrO/lhYH5LlBW/1usW9N/Iye+PM7Tcd
+	8JmXpFOGxQUY7yzujZuB/KBIZXUANlklKDFZQPOnr+gJsRleJFOeXToiDCAju4KS3ZFPiOf/nWI8d
+	vHU9Uinw==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <carnil@debian.org>)
+	id 1u0mdX-00CTnW-9X; Fri, 04 Apr 2025 19:23:31 +0000
+Received: by eldamar.lan (Postfix, from userid 1000)
+	id 767E6BE2DE0; Fri, 04 Apr 2025 21:23:30 +0200 (CEST)
+Date: Fri, 4 Apr 2025 21:23:30 +0200
+From: Salvatore Bonaccorso <carnil@debian.org>
+To: Takashi Iwai <tiwai@suse.de>, 1100928@bugs.debian.org,
+	"C.D. MacEachern" <craig.daniel.maceachern@gmail.com>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: Bug#1100928: [regression 6.1.y] microphone no longer records (on
+ VivoBook_ASUSLaptop TP401MARB_J401MA)
+Message-ID: <Z_AxsuGoaVK9P3L4@eldamar.lan>
+References: <Z-MMsp3XJyNHOlma@eldamar.lan>
+ <87iknwb80x.wl-tiwai@suse.de>
+ <CAJ8x=4jNhsjw_s-p5FXBk9WScPHEdUMZ0tXnhCiya8fCf_PH7w@mail.gmail.com>
+ <Z-ct2D6uIN1f6UbL@eldamar.lan>
+ <87zfh43uti.wl-tiwai@suse.de>
+ <CAJ8x=4ibzvVxxv7FzswtwTcYT73XaDOUr7gHWMcdxB+j8+zyyw@mail.gmail.com>
+ <878qojypu6.wl-tiwai@suse.de>
+ <CAJ8x=4gN1fH6chp4C3jX1OXq2-JhbP5yUzLbqvWrAJ-u=+VNhw@mail.gmail.com>
+ <174248253267.1718.4037292692790831697.reportbug@x>
+ <87mscw4dst.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87mscw4dst.wl-tiwai@suse.de>
+X-Debian-User: carnil
 
-On Fri, 04 Apr 2025 11:37:28 -0400 Nícolas F. R. A. Prado <nfraprado@collabora.com> wrote:
+Hi Craig,
 
-> Given that the automarkup Sphinx plugin cross-references
-> "Documentation/*.rst" strings in the text to the corresponding
-> documents, surrounding those strings with the literal markup (``) not
-> only adds unnecessary markup in the source files, but actually prevents
-> the automatic cross-referencing to happen (as it doesn't happen in
-> literal blocks).
+On Fri, Apr 04, 2025 at 08:54:26AM +0200, Takashi Iwai wrote:
+> On Thu, 03 Apr 2025 21:05:09 +0200,
+> C.D. MacEachern wrote:
+> > 
+> > 
+> > I've added 'snd_hda_intel.model=1043:1271' to the end of
+> > GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub then ran 'sudo update-grub'
+> > and rebooted, choose the non-working kernel, and the audio input still did not
+> > work. Any other ideas?
 > 
-> Remove all the occurrences of the literal markup in
-> "Documentation/*.rst" paths, except when the actual source file is being
-> referred. Also change the surrounding text when needed so it reads well
-> both in the source and the web page (eg. 'see file Doc...' -> 'see
-> Doc...').
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> Please try the patch.  If it still doesn't work, please give
+> alsa-info.sh output again.
 
-Acked-by: SeongJae Park <sj@kernel.org>
+if you still have issues to build your own kernel, I have made test
+packages with the patc from Takashi available at:
+https://people.debian.org/~carnil/tmp/linux/1100928/
 
+(with the offset/fuzz changes needed for making the mapply on 6.1.129
+based kernel).
 
-Thanks,
-SJ
+Would be great if you can report back.
 
-[...]
+Regards,
+Salvatore
