@@ -1,187 +1,356 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 216771A7044
-	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 09:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33E6E55B
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 09:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743760458; cv=none; b=sOgbqshPS/rE6jwUDQN+/88Nw/yNV9W3EVPrRJmSNFACkE4wWzIzT0IXFWGXRGhQN+4hRJ2OM9tiqRxglv6VH2bj1SYCWxht6/MHk/vt8NUxe7q7FY8xmyGRxjJd7q4Iyn8FBv2ES2khBXBGBXAcUROBVBocpTTJnAck5rzFqDQ=
+	t=1743760764; cv=none; b=q16sn7SOZmmLbiW4QKn40MARo+OT8M3kfotjDk8xHtWmwG9y5qYGDM6qnvdO+k7VZlCvPUl9TealVrIWf88gAJxRMujvT9DC92mCmKxDC3feaGh0YpOmSBQEfk4l9AB1msxj5z5K4qv4y1DP2+1NCXA+2nuznC36C2+dn6WSe3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743760458; c=relaxed/simple;
-	bh=hNeF7z0PXm+fZ7v87K6B50kIrzIayzQQzo6kuSxs2hY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nhK8cp18NG4XNN6KlQH4YNnYinJ+KQhzkLN2DGmbKX5hm0IXIgWoTXvKZH7V+3R8egZbbHxowFR67/hKacTg6G4HZyQrtTgzSYXQtMMq8xnizRu5H3qC4Sj9YM6QYdQPGFP+nAtfMsIX37SLV7TmPXFZRRfYsua3/2D+m6nvE+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PSUiO4NR; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743760764; c=relaxed/simple;
+	bh=Zbmct3Mf1PnWoWLJH4tOGqRLoKDzawDRylbKSGCN/o8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=s/MkTBw4W4eU5wYZkSXfbVuAeZSkjpAX0WFGS0UDqkWFtpZasLdNvY6WmTxAjmyQnx5jcK1NP98F1121IBSUS3WsM2m02QeYGcnoTZLh0C1eHN+NhTGsyjf8l6NsX2dBtkI0T8mr1wjHAY9npehx09e8cmJ0xCGLWg6Lt+ihBc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V9hi95aj; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PSUiO4NR"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ac2963dc379so299251366b.2
-        for <linux-sound@vger.kernel.org>; Fri, 04 Apr 2025 02:54:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743760453; x=1744365253; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kYAlHXEplBZR8C+Nf50IvIJmhOSpOhaYvMLYZLbAtKw=;
-        b=PSUiO4NRJ7BCL0mL0p8SghQIM+pQNmuV+iah/Hy03TDHKCYzo1v81v6VsIbkNXjQ0W
-         OiX+DzmB7vSvZV8M3a5btnnym/02igUBTmAdq7J3ghGuqgzSazAMCAkNtJrRu67xuIhO
-         cldE6KnKKsw0ubqsqG12NiTY/OBIpQ7bx8HB1BQor/8LjeZzfltGmF8Hxsnw47h7vqJg
-         OvBaf5OtAweU98FE8h41o4PjR/kni+OWNwbY4aIkHqK4m3yNdmtqvM3q8kv15SKh9Fuy
-         DLdM/Uhq0pcH50AWd3DrlXuJs345e85iXp2EUnq4qkqN1lDf9k4TlyHfMULoWP2MF2sY
-         QZ2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743760453; x=1744365253;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kYAlHXEplBZR8C+Nf50IvIJmhOSpOhaYvMLYZLbAtKw=;
-        b=HOYa3k+uMEMxOAMwGq64mxP5hbDHd8r5eBmIq9ej+eL/wQQIJKH8lFJ/EWgVUHhWCY
-         x6kQ7276YXQ9enfQ3DSJTUErDSWENsl4+TDsOLlVZpO9NXj6iJyim8kwj9aL+a3MXMxc
-         VQ34+G8OlQlL6LJV3nGZYwD0O1qqaV5UcJntDiy3ebJd9h1tARPuhz2LMGnNpGa60mt6
-         928y7JZdor+rjUIGpmM/cki8oCJyLsUC0K69fXkZcjvOgtb3aqv3Q9mZdj0NF4FKeK2z
-         dBrvjWykYLsq6UOuiIbiMl3XVYVHG3GOmkXKz6jxtn2YdLyakHrwbon1hJToIPoJ/kk4
-         AFqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXU3xCEd03TXUcWIEjRV2Suk8eJph0Ud2nnZcUzyI7pplbZ7v2Q1Y5Tk4xBZkQbI3eiETjx0rY424BS8Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7NumPIAsq/kRN+5aob2c0424ysJzcQPyB0/T7IEwYUBExupYK
-	wcrusXlcNEDAHXSRRPNnh6Jn4+hn8DM9u6LOjjA8bwru+hp4hN8kzY58C7dSu+I=
-X-Gm-Gg: ASbGncuGQtIHl8eBjZQ/dM6gKkeH4fzqejyKYeHEznimLUMYwWj61ph9zaILwA+eUsM
-	ZLqNFOp91QLPUJVMFip0CvH5jfbKxY6AbvVLkvxczI7dO+TgXkPF1tx4vIXnd8hnidEjQcFMANT
-	93CvbRDiQ1puIVwCm6X9AA0KC5N9MaqXCNh2lBll+WWEdaZKj0iAclGoB6tGCi/zNqFgtvORUZb
-	zuDCSkCYa4TVSathbnrIwW3NHj0nhTn8TJrkfB2bv3FeqY7V6NEPpfTkDNidFh45p5oBwAXDF2K
-	s16ZaFx1xOqEt5FxjFBucAW1p9fQLQm7ZBqKxwooO2ELlr6L0UTdhe00
-X-Google-Smtp-Source: AGHT+IHVK1xPFjgUlctqGoP+C/6wMdr/sOeO1yGK5ebaeEn+PcqQk/KtPy0g6bA4aI5FsjIRW2rTCA==
-X-Received: by 2002:a17:907:6d29:b0:ac1:f19a:c0a0 with SMTP id a640c23a62f3a-ac7d177475emr226973866b.20.1743760453343;
-        Fri, 04 Apr 2025 02:54:13 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:e124:1321:48a4:8c63])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7c013f651sm224335566b.123.2025.04.04.02.54.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 02:54:12 -0700 (PDT)
-Date: Fri, 4 Apr 2025 11:54:10 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v37 24/31] ASoC: qcom: qdsp6: Add USB backend ASoC driver
- for Q6
-Message-ID: <Z--sQj-fXwXkk5iS@linaro.org>
-References: <20250404002728.3590501-1-quic_wcheng@quicinc.com>
- <20250404002728.3590501-25-quic_wcheng@quicinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V9hi95aj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743760762; x=1775296762;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Zbmct3Mf1PnWoWLJH4tOGqRLoKDzawDRylbKSGCN/o8=;
+  b=V9hi95aj8RVv6b0PLVu65qXVyv3YiAhyeHlL111EOtrt8jPAdu60kKdm
+   Miw7Fwfjvf+PeZ3Cd2gfwyjj+66EDafCDb2jX2sq8jbXTel3cYFQQwQdm
+   6nGVx17LS/wq/5UkwhzPR41zHng/qLNxW4C52LYRrQfVl3ExsuKr8ChHz
+   XP2uKZmrhUoCrn+tOPytan+qOiGMwPKiqGQKHkqlSolTqk5AbRSiu4bW/
+   AuEROV3MEQWPWjQFgOnB7LadBqIlcYWBjnhbSI/MWdlGvgGvExsjkfz2s
+   oahD6vNZWR0gYkkGOD1Ig/yhSFiW9yY5AZ3xeb1Pkr8lup4stquaX6RvH
+   g==;
+X-CSE-ConnectionGUID: WUPWff70RUq4qOeEnWdl5w==
+X-CSE-MsgGUID: MZ8HrPw4RtmZsAeR0hy67w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="47909193"
+X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
+   d="scan'208";a="47909193"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 02:59:20 -0700
+X-CSE-ConnectionGUID: xn3qSenTQTe51ZZoRyhRuA==
+X-CSE-MsgGUID: BSnaSaJXRDeXt3Z4QVl3jQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
+   d="scan'208";a="127163667"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa010.jf.intel.com with ESMTP; 04 Apr 2025 02:59:18 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	linux-sound@vger.kernel.org,
+	hdegoede@redhat.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 1/2] ASoC: core: Complete support for card rebinding
+Date: Fri,  4 Apr 2025 12:16:21 +0200
+Message-Id: <20250404101622.3673850-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250404002728.3590501-25-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 03, 2025 at 05:27:21PM -0700, Wesley Cheng wrote:
-> Create a USB BE component that will register a new USB port to the ASoC USB
-> framework.  This will handle determination on if the requested audio
-> profile is supported by the USB device currently selected.
-> 
-> Check for if the PCM format is supported during the hw_params callback.  If
-> the profile is not supported then the userspace ALSA entity will receive an
-> error, and can take further action.
-> 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->  include/sound/q6usboffload.h  |  20 +++
->  sound/soc/qcom/Kconfig        |  12 ++
->  sound/soc/qcom/qdsp6/Makefile |   1 +
->  sound/soc/qcom/qdsp6/q6usb.c  | 278 ++++++++++++++++++++++++++++++++++
->  4 files changed, 311 insertions(+)
->  create mode 100644 include/sound/q6usboffload.h
->  create mode 100644 sound/soc/qcom/qdsp6/q6usb.c
-> 
-> diff --git a/include/sound/q6usboffload.h b/include/sound/q6usboffload.h
-> new file mode 100644
-> index 000000000000..35ae26ba6509
-> --- /dev/null
-> +++ b/include/sound/q6usboffload.h
-> @@ -0,0 +1,20 @@
-> +/* SPDX-License-Identifier: GPL-2.0
-> + *
-> + * sound/q6usboffload.h -- QDSP6 USB offload
-> + *
-> + * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +/**
-> + * struct q6usb_offload - USB backend DAI link offload parameters
-> + * @dev: dev handle to usb be
-> + * @domain: allocated iommu domain
-> + * @sid: streamID for iommu
-> + * @intr_num: usb interrupter number
-> + **/
-> +struct q6usb_offload {
-> +	struct device *dev;
-> +	struct iommu_domain *domain;
-> +	long long sid;
+Since commit e894efef9ac7 ("ASoC: core: add support to card rebind")
+there is a support for card rebind. The support is only partial though.
+Let's consider the following scenarios both of which aim to enumerate a
+sound card:
 
-"long long" feels like overkill for sid, given that it's essentially
-either an u8 or -1. I see you just copied this from q6asm-dai.c, but
-unlike q6asm-dai, you don't seem to check for sid < 0 in PATCH 28/31
-(qc_audio_offload.c).
+1)
+    snd_soc_add_component(comp1);
+    (...)
+    snd_soc_register_card(card1);
 
-Looking at the logic in q6asm-dai.c, it feels like this could really
-just be an "u8", since the -1 for "no iommus specified" is effectively
-just handled like sid = 0.
+2)
+    snd_soc_register_card(card1);
+    (...)
+    snd_soc_add_component(comp1);
 
-> +	u16 intr_num;
-> +};
-> [...]
-> diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-> new file mode 100644
-> index 000000000000..cb8c4a62a816
-> --- /dev/null
-> +++ b/sound/soc/qcom/qdsp6/q6usb.c
-> [...]
-> +static int q6usb_dai_dev_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *node = pdev->dev.of_node;
-> +	struct q6usb_port_data *data;
-> +	struct device *dev = &pdev->dev;
-> +	struct of_phandle_args args;
-> +	int ret;
-> +
-> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	ret = of_property_read_u16(node, "qcom,usb-audio-intr-idx",
-> +				   &data->priv.intr_num);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "failed to read intr idx.\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
-> +	if (ret < 0)
-> +		data->priv.sid = -1;
-> +	else
+For the sake of simplicity, let comp1 be the last dependency needed for
+the card1 to enumerate.
+Case 1) will end up succeeding whereas 2) is a certain fail -
+snd_soc_bind_card() does not honor unbind_card_list so even a non-fatal
+return code of EPROBE_DEFER will cause the card to collapse. Given the
+typical usecase of platform_device serving as a card->dev and its
+probe() ending with:
 
-Could just do if (ret == 0) here and drop the if branch above, if you
-make sid an u8 like I suggested above.
+int carddev_probe(struct platform_device *pdev)
+{
+	(...)
+	return devm_snd_soc_register_card(dev, card);
+}
 
-> +		data->priv.sid = args.args[0] & Q6_USB_SID_MASK;
-> +
-> +	data->priv.domain = iommu_get_domain_for_dev(&pdev->dev);
-> +
-> +	data->priv.dev = dev;
-> +	INIT_LIST_HEAD(&data->devices);
+failure to register card triggers device_unbind_cleanup() -
+really_probe() in dd.c.
 
-I think you also need devm_mutex_init(&data->lock) or separate
-mutex_init()/mutex_destroy() here, if someone enables
-CONFIG_DEBUG_MUTEXES.
+To allow for card registration to be deferred while being friendly
+towards existing users of devm_snd_soc_register_card(), add new
+card->devres_dev field, and devm_xxx() variants for card registration:
 
-Thanks,
-Stephan
+	devm_snd_soc_register_deferrable_card() (external)
+	devm_snd_soc_bind_card() (internal)
+
+In essence, if requested, devm_snd_soc_bind_card() replaces
+snd_soc_bind_card(). The rebind procedure takes care of destroying
+old devres before attempting the new bind. This makes sure nothing is
+left hanging if binding fails and card becomes unbound but is still
+registered to the ASoC framework.
+
+To allow snd_soc_bind_card() to be reused by the deferrable friends,
+move 'client_mutex' locking to the function's callers and select between
+devm_xxx and non-devm_xxx variants of snd_soc_bind_card() based on
+card->devres_dev.
+
+On top of the feature, the refactoring brings two benefits:
+a) single lock/unlock of 'client_mutex' in snd_soc_add_component()
+   instead of ambiguous unlock and immediate lock in
+   snd_soc_try_rebind_card()
+b) all unbind_card_list manipulations done under 'client_mutex'
+
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
+ include/sound/soc.h    |   2 +
+ sound/soc/soc-core.c   | 100 ++++++++++++++++++++++++++++++-----------
+ sound/soc/soc-devres.c |   7 +++
+ 3 files changed, 82 insertions(+), 27 deletions(-)
+
+diff --git a/include/sound/soc.h b/include/sound/soc.h
+index 952ed77b8c87..484d8b3a34f3 100644
+--- a/include/sound/soc.h
++++ b/include/sound/soc.h
+@@ -423,6 +423,7 @@ enum snd_soc_pcm_subclass {
+ int snd_soc_register_card(struct snd_soc_card *card);
+ void snd_soc_unregister_card(struct snd_soc_card *card);
+ int devm_snd_soc_register_card(struct device *dev, struct snd_soc_card *card);
++int devm_snd_soc_register_deferrable_card(struct device *dev, struct snd_soc_card *card);
+ #ifdef CONFIG_PM_SLEEP
+ int snd_soc_suspend(struct device *dev);
+ int snd_soc_resume(struct device *dev);
+@@ -1087,6 +1088,7 @@ struct snd_soc_card {
+ 	unsigned int fully_routed:1;
+ 	unsigned int probed:1;
+ 	unsigned int component_chaining:1;
++	struct device *devres_dev;
+ 
+ 	void *drvdata;
+ };
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 3f97d1f132c6..ab615ec113d2 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -2134,18 +2134,13 @@ static void soc_cleanup_card_resources(struct snd_soc_card *card)
+ 	}
+ }
+ 
+-static void snd_soc_unbind_card(struct snd_soc_card *card, bool unregister)
++static void snd_soc_unbind_card(struct snd_soc_card *card)
+ {
+ 	if (snd_soc_card_is_instantiated(card)) {
+ 		card->instantiated = false;
+ 		snd_soc_flush_all_delayed_work(card);
+ 
+ 		soc_cleanup_card_resources(card);
+-		if (!unregister)
+-			list_add(&card->list, &unbind_card_list);
+-	} else {
+-		if (unregister)
+-			list_del(&card->list);
+ 	}
+ }
+ 
+@@ -2155,9 +2150,7 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
+ 	struct snd_soc_component *component;
+ 	int ret;
+ 
+-	mutex_lock(&client_mutex);
+ 	snd_soc_card_mutex_lock_root(card);
+-
+ 	snd_soc_fill_dummy_dai(card);
+ 
+ 	snd_soc_dapm_init(&card->dapm, card, NULL);
+@@ -2304,9 +2297,49 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
+ probe_end:
+ 	if (ret < 0)
+ 		soc_cleanup_card_resources(card);
+-
+ 	snd_soc_card_mutex_unlock(card);
+-	mutex_unlock(&client_mutex);
++
++	return ret;
++}
++
++static void devm_card_bind_release(struct device *dev, void *res)
++{
++	snd_soc_unregister_card(*(struct snd_soc_card **)res);
++}
++
++static int devm_snd_soc_bind_card(struct device *dev, struct snd_soc_card *card)
++{
++	struct snd_soc_card **ptr;
++	int ret;
++
++	ptr = devres_alloc(devm_card_bind_release, sizeof(*ptr), GFP_KERNEL);
++	if (!ptr)
++		return -ENOMEM;
++
++	ret = snd_soc_bind_card(card);
++	if (ret == 0 || ret == -EPROBE_DEFER) {
++		*ptr = card;
++		devres_add(dev, ptr);
++	} else {
++		devres_free(ptr);
++	}
++
++	return ret;
++}
++
++static int snd_soc_rebind_card(struct snd_soc_card *card)
++{
++	int ret;
++
++	if (card->devres_dev) {
++		devres_destroy(card->devres_dev, devm_card_bind_release, NULL, NULL);
++		ret = devm_snd_soc_bind_card(card->devres_dev, card);
++	} else {
++		ret = snd_soc_bind_card(card);
++	}
++
++	if (ret != -EPROBE_DEFER)
++		list_del_init(&card->list);
+ 
+ 	return ret;
+ }
+@@ -2506,6 +2539,8 @@ EXPORT_SYMBOL_GPL(snd_soc_add_dai_controls);
+  */
+ int snd_soc_register_card(struct snd_soc_card *card)
+ {
++	int ret;
++
+ 	if (!card->name || !card->dev)
+ 		return -EINVAL;
+ 
+@@ -2526,7 +2561,21 @@ int snd_soc_register_card(struct snd_soc_card *card)
+ 	mutex_init(&card->dapm_mutex);
+ 	mutex_init(&card->pcm_mutex);
+ 
+-	return snd_soc_bind_card(card);
++	mutex_lock(&client_mutex);
++
++	if (card->devres_dev) {
++		ret = devm_snd_soc_bind_card(card->devres_dev, card);
++		if (ret == -EPROBE_DEFER) {
++			list_add(&card->list, &unbind_card_list);
++			ret = 0;
++		}
++	} else {
++		ret = snd_soc_bind_card(card);
++	}
++
++	mutex_unlock(&client_mutex);
++
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_register_card);
+ 
+@@ -2539,7 +2588,8 @@ EXPORT_SYMBOL_GPL(snd_soc_register_card);
+ void snd_soc_unregister_card(struct snd_soc_card *card)
+ {
+ 	mutex_lock(&client_mutex);
+-	snd_soc_unbind_card(card, true);
++	snd_soc_unbind_card(card);
++	list_del(&card->list);
+ 	mutex_unlock(&client_mutex);
+ 	dev_dbg(card->dev, "ASoC: Unregistered card '%s'\n", card->name);
+ }
+@@ -2753,23 +2803,19 @@ static void convert_endianness_formats(struct snd_soc_pcm_stream *stream)
+ 			stream->formats |= endianness_format_map[i];
+ }
+ 
+-static void snd_soc_try_rebind_card(void)
+-{
+-	struct snd_soc_card *card, *c;
+-
+-	list_for_each_entry_safe(card, c, &unbind_card_list, list)
+-		if (!snd_soc_bind_card(card))
+-			list_del(&card->list);
+-}
+-
+ static void snd_soc_del_component_unlocked(struct snd_soc_component *component)
+ {
+ 	struct snd_soc_card *card = component->card;
++	bool instantiated;
+ 
+ 	snd_soc_unregister_dais(component);
+ 
+-	if (card)
+-		snd_soc_unbind_card(card, false);
++	if (card) {
++		instantiated = card->instantiated;
++		snd_soc_unbind_card(card);
++		if (instantiated)
++			list_add(&card->list, &unbind_card_list);
++	}
+ 
+ 	list_del(&component->list);
+ }
+@@ -2808,6 +2854,7 @@ int snd_soc_add_component(struct snd_soc_component *component,
+ 			  struct snd_soc_dai_driver *dai_drv,
+ 			  int num_dai)
+ {
++	struct snd_soc_card *card, *c;
+ 	int ret;
+ 	int i;
+ 
+@@ -2838,15 +2885,14 @@ int snd_soc_add_component(struct snd_soc_component *component,
+ 	/* see for_each_component */
+ 	list_add(&component->list, &component_list);
+ 
++	list_for_each_entry_safe(card, c, &unbind_card_list, list)
++		snd_soc_rebind_card(card);
++
+ err_cleanup:
+ 	if (ret < 0)
+ 		snd_soc_del_component_unlocked(component);
+ 
+ 	mutex_unlock(&client_mutex);
+-
+-	if (ret == 0)
+-		snd_soc_try_rebind_card();
+-
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_add_component);
+diff --git a/sound/soc/soc-devres.c b/sound/soc/soc-devres.c
+index c6364caabc0e..d33f83ec24f2 100644
+--- a/sound/soc/soc-devres.c
++++ b/sound/soc/soc-devres.c
+@@ -83,6 +83,13 @@ int devm_snd_soc_register_card(struct device *dev, struct snd_soc_card *card)
+ }
+ EXPORT_SYMBOL_GPL(devm_snd_soc_register_card);
+ 
++int devm_snd_soc_register_deferrable_card(struct device *dev, struct snd_soc_card *card)
++{
++	card->devres_dev = dev;
++	return snd_soc_register_card(card);
++}
++EXPORT_SYMBOL_GPL(devm_snd_soc_register_deferrable_card);
++
+ #ifdef CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM
+ 
+ static void devm_dmaengine_pcm_release(struct device *dev, void *res)
+-- 
+2.25.1
+
