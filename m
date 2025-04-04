@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4A01A38E3
-	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 09:32:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B89E1AA1E8
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 09:32:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743759178; cv=none; b=dJJ34VHW6B4TZSaQ2dwsmUZgGgkbrp9AM0w2YixNIdY4w21tasP4Qv8YZJa+E2UGmfWIknMC9s3N47yQ2DW/AlS9yIKyX01tTLzneiabw1jY2Ql7sWDrZmovmgPhngagq3mV60xkhaJ9RuRBxPgZ6/rfVx7jGjBaxrryLV88+yY=
+	t=1743759180; cv=none; b=JUUJZoI3jgFh4vV6gwwxBl9Ql1DeljTpBv7V+g3yrROCxZfAgWqKhQtrYFeh0mYyEKQ3zatj4ANMNo5hrr13ZJ8C4zzcdIA44p2MXM8tZQNrMkXd6UD6b9IbFs3nZDJ2QvnqhzsBS9O4GNcgMW7CpegMjMB1QmwTaAHtwZykOYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743759178; c=relaxed/simple;
-	bh=zp90fr05BKZhOlSRt5H1lwlZFBxYrA/hBYZ0UcYQcKg=;
+	s=arc-20240116; t=1743759180; c=relaxed/simple;
+	bh=j2vVmnMTsJNFOU/rlU9QDVdYgMqtxygBkRfjY+rbmWI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jCigCHOf0eHqm0onildymcB76fJAuTjn52BGBodvIoj67Sb+MTVOv9BNdNBA995bm5EkdQI/8Boqh2vOqlDwhgYFRzKzDV88Oj+pGsqVGvMUY2rtE/mmbKgJmHwSyox6o5BbLlHWCl+qu3LsTGXZyoRJzTRIx8Ks2cfML5qMj30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fLxy71EN; arc=none smtp.client-ip=192.198.163.7
+	 MIME-Version:Content-Type; b=AOgNhX3a4RNGYLzXbKASvb0QydE7gymY39GdqcYDp3/gFbA9lx26exNofKc5dThCMU674fz/D0tDmR+o9sx70rPsKLwPmGE8YuKHJM3/i01g103Wssyq8W9J9IqMIXQwHDHHbBMXkhtggSkp0QP+l4RxkmOFo2WLLK6T+WrFLf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/zNcwnW; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fLxy71EN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/zNcwnW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743759177; x=1775295177;
+  t=1743759179; x=1775295179;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=zp90fr05BKZhOlSRt5H1lwlZFBxYrA/hBYZ0UcYQcKg=;
-  b=fLxy71ENpzvpcF73KkrjW8mQu4KefFCLr5VVkcZA+KGhzTPFX5KB5e+2
-   8ucqDtiYpxG3yaHVX2XsJ9EyQkNQEZAwRoMquIqCKyFNnE9sBHdQDJhV/
-   Ocu9WqtcTvsoRkFcv+bBi5ruDOArTRRMOMhGXpJJCPFyqvbft7x5+DvfV
-   04cfRhCihfXFsqrjJl5+bGP9Z47yGVIMrXXGQaMkYKPazf9kxaMKte5I5
-   HA5LpSrCU2pKfd22bzHsTOc1B7PjdCwjsjt65sMdW3HJhs7zgA1lxjJuC
-   COWf9PCPH9pfHSZZ2/Bybn2qRpXCgyGotf+PnZSghLhFqpZkNiW/eJLMt
-   Q==;
-X-CSE-ConnectionGUID: 9EwGMq3eRFqX/xXpWXJMeA==
-X-CSE-MsgGUID: 6U30jenkQ660+TfAAYW9Kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="70566328"
+  bh=j2vVmnMTsJNFOU/rlU9QDVdYgMqtxygBkRfjY+rbmWI=;
+  b=b/zNcwnW1dBMaDmBOMLICpGPFsD9XqKLE02HcmK6XJzTPjucL1F3a5sj
+   oTVOsgALpEMOHUZ5XiHJ3MFdbvYE+0DoZHp/+C0SnmJ42ZBC70vQ5z0Si
+   CR0KzZRyNYSChmT1EDFTDpTKfDeq/d+hQ/8UPv/FUfUPKFb/tCdN4Mjb5
+   o/AWvNrdn4zINTUoPl3Ue3Bei7+CgTgfGDbpC3lVXR9pWPM47GkKL7izr
+   CNKMFUU5OXjSJ7reQr42OR9VtPyymn4IwKp38HHkiPNQ16DYwDoodMwrj
+   FttOhivsQuoQJx9etYO+LfzY7Bniq56D7DhP8GF3hiRJlCET+hS3AIyFd
+   w==;
+X-CSE-ConnectionGUID: uSmxsdRHSfWGlh5lQgWDpQ==
+X-CSE-MsgGUID: DndzGpPtS3OftqEyTZ5Zpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="70566333"
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="70566328"
+   d="scan'208";a="70566333"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 02:32:57 -0700
-X-CSE-ConnectionGUID: 0w8zYLgoTriXLFdnMffTlg==
-X-CSE-MsgGUID: dbdCnnSJQCWLpMwXKf8sOw==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 02:32:59 -0700
+X-CSE-ConnectionGUID: ajxjJn8cTfuTcoUBiBKZiw==
+X-CSE-MsgGUID: XQTjjSCJRUudCkIUFccgEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="158248594"
+   d="scan'208";a="158248604"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Apr 2025 02:32:55 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 04 Apr 2025 02:32:57 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -51,9 +51,9 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	hdegoede@redhat.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 03/12] ASoC: Intel: avs: Read HW capabilities when possible
-Date: Fri,  4 Apr 2025 11:49:44 +0200
-Message-Id: <20250404094953.3657679-4-cezary.rojewski@intel.com>
+Subject: [PATCH 04/12] ASoC: Intel: avs: Relocate DSP status registers
+Date: Fri,  4 Apr 2025 11:49:45 +0200
+Message-Id: <20250404094953.3657679-5-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250404094953.3657679-1-cezary.rojewski@intel.com>
 References: <20250404094953.3657679-1-cezary.rojewski@intel.com>
@@ -66,83 +66,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Starting with LunarLake (LNL) and onward, some hardware capabilities are
-visible to the sound driver directly. At the same time, these may no
-longer be visible to the AudioDSP firmware. Update resource allocation
-function to rely on the registers when possible.
+The firmware status and error registers are not part of SRAM on ACE
+platforms. As these registers take part in IPC on ACE and cAVS platforms
+both, relocate the field denoting their offset to Host-IPC descriptor.
+
+In consequence, code remains cohesive with the ACE specs while still
+maintaining high readability for the cAVS platforms.
 
 Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- include/sound/hdaudio_ext.h         | 1 +
- sound/hda/ext/hdac_ext_controller.c | 1 +
- sound/soc/intel/avs/avs.h           | 1 +
- sound/soc/intel/avs/loader.c        | 9 +++++++++
- 4 files changed, 12 insertions(+)
+ sound/soc/intel/avs/avs.h       |  2 +-
+ sound/soc/intel/avs/core.c      | 18 +++++++++++++++---
+ sound/soc/intel/avs/loader.c    |  2 +-
+ sound/soc/intel/avs/registers.h |  2 +-
+ 4 files changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/include/sound/hdaudio_ext.h b/include/sound/hdaudio_ext.h
-index 60ec12e3b72f..7de390022ac2 100644
---- a/include/sound/hdaudio_ext.h
-+++ b/include/sound/hdaudio_ext.h
-@@ -99,6 +99,7 @@ struct hdac_ext_link {
- 	u32 lcaps;   /* link capablities */
- 	u16 lsdiid;  /* link sdi identifier */
- 	u32 id;
-+	u8 slcount;
- 
- 	int ref_count;
- 
-diff --git a/sound/hda/ext/hdac_ext_controller.c b/sound/hda/ext/hdac_ext_controller.c
-index 2ec1531d1c1b..c84754434d16 100644
---- a/sound/hda/ext/hdac_ext_controller.c
-+++ b/sound/hda/ext/hdac_ext_controller.c
-@@ -98,6 +98,7 @@ int snd_hdac_ext_bus_get_ml_capabilities(struct hdac_bus *bus)
- 					(AZX_ML_INTERVAL * idx);
- 		hlink->lcaps  = readl(hlink->ml_addr + AZX_REG_ML_LCAP);
- 		hlink->lsdiid = readw(hlink->ml_addr + AZX_REG_ML_LSDIID);
-+		hlink->slcount = FIELD_GET(AZX_ML_HDA_LCAP_SLCOUNT, hlink->lcaps) + 1;
- 
- 		if (hdac_ext_link_alt(hlink)) {
- 			leptr = readl(hlink->ml_addr + AZX_REG_ML_LEPTR);
 diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
-index 91872d1df97a..201897c5bdc0 100644
+index 201897c5bdc0..ec5502f9d5cb 100644
 --- a/sound/soc/intel/avs/avs.h
 +++ b/sound/soc/intel/avs/avs.h
-@@ -73,6 +73,7 @@ extern const struct avs_dsp_ops avs_tgl_dsp_ops;
- #define AVS_PLATATTR_CLDMA		BIT_ULL(0)
- #define AVS_PLATATTR_IMR		BIT_ULL(1)
- #define AVS_PLATATTR_ACE		BIT_ULL(2)
-+#define AVS_PLATATTR_ALTHDA		BIT_ULL(3)
+@@ -81,7 +81,6 @@ extern const struct avs_dsp_ops avs_tgl_dsp_ops;
+ struct avs_sram_spec {
+ 	const u32 base_offset;
+ 	const u32 window_size;
+-	const u32 rom_status_offset;
+ };
  
- #define avs_platattr_test(adev, attr) \
- 	((adev)->spec->attributes & AVS_PLATATTR_##attr)
+ struct avs_hipc_spec {
+@@ -93,6 +92,7 @@ struct avs_hipc_spec {
+ 	const u32 rsp_offset;
+ 	const u32 rsp_busy_mask;
+ 	const u32 ctl_offset;
++	const u32 sts_offset;
+ };
+ 
+ /* Platform specific descriptor */
+diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
+index 72a14dca1a1e..1495e163d47e 100644
+--- a/sound/soc/intel/avs/core.c
++++ b/sound/soc/intel/avs/core.c
+@@ -755,13 +755,11 @@ static const struct dev_pm_ops avs_dev_pm = {
+ static const struct avs_sram_spec skl_sram_spec = {
+ 	.base_offset = SKL_ADSP_SRAM_BASE_OFFSET,
+ 	.window_size = SKL_ADSP_SRAM_WINDOW_SIZE,
+-	.rom_status_offset = SKL_ADSP_SRAM_BASE_OFFSET,
+ };
+ 
+ static const struct avs_sram_spec apl_sram_spec = {
+ 	.base_offset = APL_ADSP_SRAM_BASE_OFFSET,
+ 	.window_size = APL_ADSP_SRAM_WINDOW_SIZE,
+-	.rom_status_offset = APL_ADSP_SRAM_BASE_OFFSET,
+ };
+ 
+ static const struct avs_hipc_spec skl_hipc_spec = {
+@@ -773,6 +771,19 @@ static const struct avs_hipc_spec skl_hipc_spec = {
+ 	.rsp_offset = SKL_ADSP_REG_HIPCT,
+ 	.rsp_busy_mask = SKL_ADSP_HIPCT_BUSY,
+ 	.ctl_offset = SKL_ADSP_REG_HIPCCTL,
++	.sts_offset = SKL_ADSP_SRAM_BASE_OFFSET,
++};
++
++static const struct avs_hipc_spec apl_hipc_spec = {
++	.req_offset = SKL_ADSP_REG_HIPCI,
++	.req_ext_offset = SKL_ADSP_REG_HIPCIE,
++	.req_busy_mask = SKL_ADSP_HIPCI_BUSY,
++	.ack_offset = SKL_ADSP_REG_HIPCIE,
++	.ack_done_mask = SKL_ADSP_HIPCIE_DONE,
++	.rsp_offset = SKL_ADSP_REG_HIPCT,
++	.rsp_busy_mask = SKL_ADSP_HIPCT_BUSY,
++	.ctl_offset = SKL_ADSP_REG_HIPCCTL,
++	.sts_offset = APL_ADSP_SRAM_BASE_OFFSET,
+ };
+ 
+ static const struct avs_hipc_spec cnl_hipc_spec = {
+@@ -784,6 +795,7 @@ static const struct avs_hipc_spec cnl_hipc_spec = {
+ 	.rsp_offset = CNL_ADSP_REG_HIPCTDR,
+ 	.rsp_busy_mask = CNL_ADSP_HIPCTDR_BUSY,
+ 	.ctl_offset = CNL_ADSP_REG_HIPCCTL,
++	.sts_offset = APL_ADSP_SRAM_BASE_OFFSET,
+ };
+ 
+ static const struct avs_spec skl_desc = {
+@@ -803,7 +815,7 @@ static const struct avs_spec apl_desc = {
+ 	.core_init_mask = 3,
+ 	.attributes = AVS_PLATATTR_IMR,
+ 	.sram = &apl_sram_spec,
+-	.hipc = &skl_hipc_spec,
++	.hipc = &apl_hipc_spec,
+ };
+ 
+ static const struct avs_spec cnl_desc = {
 diff --git a/sound/soc/intel/avs/loader.c b/sound/soc/intel/avs/loader.c
-index 0b29941feb0e..ecf050c2c0c7 100644
+index ecf050c2c0c7..138e4e9de5e3 100644
 --- a/sound/soc/intel/avs/loader.c
 +++ b/sound/soc/intel/avs/loader.c
-@@ -683,6 +683,7 @@ int avs_dsp_boot_firmware(struct avs_dev *adev, bool purge)
+@@ -310,7 +310,7 @@ avs_hda_init_rom(struct avs_dev *adev, unsigned int dma_id, bool purge)
+ 	}
  
- static int avs_dsp_alloc_resources(struct avs_dev *adev)
- {
-+	struct hdac_ext_link *link;
- 	int ret, i;
+ 	/* await ROM init */
+-	ret = snd_hdac_adsp_readl_poll(adev, spec->sram->rom_status_offset, reg,
++	ret = snd_hdac_adsp_readl_poll(adev, spec->hipc->sts_offset, reg,
+ 				       (reg & 0xF) == AVS_ROM_INIT_DONE ||
+ 				       (reg & 0xF) == APL_ROM_FW_ENTERED,
+ 				       AVS_ROM_INIT_POLLING_US, APL_ROM_INIT_TIMEOUT_US);
+diff --git a/sound/soc/intel/avs/registers.h b/sound/soc/intel/avs/registers.h
+index 368ede05f2cd..4db0cdf68ffc 100644
+--- a/sound/soc/intel/avs/registers.h
++++ b/sound/soc/intel/avs/registers.h
+@@ -74,7 +74,7 @@
+ #define APL_ADSP_SRAM_WINDOW_SIZE	0x20000
  
- 	ret = avs_ipc_get_hw_config(adev, &adev->hw_cfg);
-@@ -693,6 +694,14 @@ static int avs_dsp_alloc_resources(struct avs_dev *adev)
- 	if (ret)
- 		return AVS_IPC_RET(ret);
+ /* Constants used when accessing SRAM, space shared with firmware */
+-#define AVS_FW_REG_BASE(adev)		((adev)->spec->sram->base_offset)
++#define AVS_FW_REG_BASE(adev)		((adev)->spec->hipc->sts_offset)
+ #define AVS_FW_REG_STATUS(adev)		(AVS_FW_REG_BASE(adev) + 0x0)
+ #define AVS_FW_REG_ERROR(adev)		(AVS_FW_REG_BASE(adev) + 0x4)
  
-+	/* If hw allows, read capabilities directly from it. */
-+	if (avs_platattr_test(adev, ALTHDA)) {
-+		link = snd_hdac_ext_bus_get_hlink_by_id(&adev->base.core,
-+							AZX_REG_ML_LEPTR_ID_INTEL_SSP);
-+		if (link)
-+			adev->hw_cfg.i2s_caps.ctrl_count = link->slcount;
-+	}
-+
- 	adev->core_refs = devm_kcalloc(adev->dev, adev->hw_cfg.dsp_cores,
- 				       sizeof(*adev->core_refs), GFP_KERNEL);
- 	adev->lib_names = devm_kcalloc(adev->dev, adev->fw_cfg.max_libs_count,
 -- 
 2.25.1
 
