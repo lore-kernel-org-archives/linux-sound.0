@@ -1,213 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1AE18EFD4
-	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 11:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743765924; cv=fail; b=VQyslVBpJShqTL4sPnsfhcUw+q6gnZc9DniYOZ/vdY5fbPF4K5lm7ikJbHu0b2b9QxKoeK+GNF8rUE/nWehL436gtFJ/aGrJ0cXEOHt1ElrGnWxKCIORzEgsaXq7inRcnyJdgMHuw8AKS1Mg3A4MzQ34UtZw5yYPCJWyOLSfMHo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743765924; c=relaxed/simple;
-	bh=wblNbfUu0fDEFfOTQ7phQsaBbsLRtGRjkjn+Hyyoyzs=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kTbLHgpSghgs0u+NC+2Fs10WDxZ3YdPz4yeEpH3kIVRE3p9ffk/Iymem+WEQlcZzcW4IYq/kmHy+2FF7HUzCzQNu6QrbpDTzTJNHDMpv4RdWdY2JMj2z34fzvnWs+1FLORkwgRxKNUF20UuFPfNdXXnLOiUBKzdiudTWhzxB42k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ionH6/au; arc=fail smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC8C74059
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 11:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743766410; cv=none; b=l/nA9rIdybY9ThUo9vFwEAONPr4R+WrWxpZkTUPj5iPD4QVCjgHx/KO5eL2HRX4j9TfxLDTR2cHkuhbf428fulJfxjkj/yKtOvHujSfPiHHzRhdAezwgFKxLDnSwOobEfpoNQrShHk/SiTr70jnNvxj1lWGU7lLoth0IGiRi2dg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743766410; c=relaxed/simple;
+	bh=LpypSDZ8bo+afCTv1ENZgExTfqM7GnpYNsm6Ooo/98c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YN2J6HqYf1dqjpJPRDKiZzTnT+t+/j9CDPILOXA/9/q7i25qzHOE8rGZYybJkKKTkvYn8GCeBhkPCyF1pWw/4jdyMlwAVsMDN/JNy1+u74qSsHZnwGgQY20ufOiI5VdTffVPYGsiJoWhOcT0lmnFyf0c8rAeWzBAFRdPVKYyI4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=PIkrESFn; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ionH6/au"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743765922; x=1775301922;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=wblNbfUu0fDEFfOTQ7phQsaBbsLRtGRjkjn+Hyyoyzs=;
-  b=ionH6/audpVK/d1IeIpfxSZ54S7aqD84vfmQs4okRZmWxNZ7zxctaFxS
-   9serVysvvoRb8GrpUis4M+r7paSzmJEYXi64+T/wtZQ3bBPHuwcwjfODb
-   kzF2l6+6rbBv4gXs5fVKFwvEOGt2dtQri8AVZJ73wTsygqYj2O6LQ9caI
-   XA0+Vr+ipg6kzpiPVZVZ/X0i2cn0XPdHUW5+b7oyxwXa+HuESoXJmA0H9
-   8J0SK/8J46WpdYtzN8kd3LXLkLsee/WvP6iXnQSK0pqwBHzzzGR142jDB
-   cectmLXaeiI5fs16IrHb+aI+F6XyPgPAY0/ydVCsHjKWQwTx4kIm1N03w
-   Q==;
-X-CSE-ConnectionGUID: HCrF7RP1QFG8mIzyzZRffw==
-X-CSE-MsgGUID: BbCq1s6eTOikQndQ1HA2+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="45220034"
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="45220034"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 04:25:21 -0700
-X-CSE-ConnectionGUID: JP3sK7HqQdCQ8B4EZ3y7sA==
-X-CSE-MsgGUID: oMh0hk1SQ2O3Es+lg5jA+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="127813280"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Apr 2025 04:25:21 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Fri, 4 Apr 2025 04:25:20 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Fri, 4 Apr 2025 04:25:20 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.171)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Fri, 4 Apr 2025 04:25:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PnyULQscefGaz4yt+H8ZEHmfBr/t+T6Vzcbj7zf77xYg/am9QpaxhwdOLIe/73mhF6R6fdf0DhDIlwTSBK9SoU5Lb2qYafosWswbzZ36td/Qhp2/+kD4r97eFxkzuc975zUogwC7Q/l2Lcz+FUu/JZIC3Fk4p89B2WLc0NosZjSmEmJNqkkESPeP3O3pMvC5cwacv2fHAkr5H27IQQJG6hfS9dh0f5WHjF8n5fc7S2EnWeXo9/2UKYrCe295DrxIo1Q2XsAftgCPiDbarmA52J9kMdQDP8zz0Fp0rUaVlsD9na9eUGuXTh/GWlu1RPDCtRP1s/m+/lPB5Exphg0IRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/RwzgDEV9IfheS6GzcWFJefwCnCmv10gNvhk0TzLnew=;
- b=J7RlArz8JCXlZjjvJxBovcd9JjsymFaTYSybibTmmLwbVNa+2tdkXO/ID7ouCjFP37WIbdymJkPHgqFs8mNcdiLgmUsBAaF0J6Fk+Qd8NuE10nOM75U7hzca23z0WlebcQT9eAJbd4SmbTHa29yxhOr89h5TeXf7dmQi3C7P7MDGrFWHczwNtxqmJyfxKfUlcuopXSrkll2vWNn0G5yPhLSfAJsN+3Zv+LLEVEYWOmNwt4U9MaHVVIb/j7Dq/mjWXVpt3pm17OzDUmYDIFiHagJrB4Uy6f6LvWB6IGajVESZQ3ePKExXfQ3ZRpu+ou6xTAjPS5hPwAayGIP7fXt4yQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com (2603:10b6:8:c9::21) by
- PH7PR11MB7499.namprd11.prod.outlook.com (2603:10b6:510:278::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Fri, 4 Apr
- 2025 11:25:18 +0000
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::cd01:59f6:b0f8:c832]) by DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::cd01:59f6:b0f8:c832%4]) with mapi id 15.20.8583.041; Fri, 4 Apr 2025
- 11:25:18 +0000
-Message-ID: <3d40845f-e0cf-4a4e-b759-9f6b0fc7e3f8@intel.com>
-Date: Fri, 4 Apr 2025 13:25:14 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] lib/string_helpers: Introduce parse_int_array()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: <broonie@kernel.org>, <tiwai@suse.com>, <perex@perex.cz>,
-	<amadeuszx.slawinski@linux.intel.com>, <linux-sound@vger.kernel.org>,
-	<hdegoede@redhat.com>
-References: <20250404090337.3564117-1-cezary.rojewski@intel.com>
- <20250404090337.3564117-2-cezary.rojewski@intel.com>
- <Z--9IwA15IymHTiI@smile.fi.intel.com> <Z--9S6NtDEjvjlyZ@smile.fi.intel.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <Z--9S6NtDEjvjlyZ@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1P195CA0044.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:802:5a::33) To DS0PR11MB6375.namprd11.prod.outlook.com
- (2603:10b6:8:c9::21)
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="PIkrESFn"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id AD70F3ECD1;
+	Fri,  4 Apr 2025 13:33:21 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz AD70F3ECD1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1743766401; bh=j14qqEB20IXXuGlIMKBejKdaaJYww5bJHvuT3i/zlTk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PIkrESFnd5FEsm0NlfZW/j3BHpM7no6RwWqOjhKw1rGJ/Sy8rlfplo7r+Gze7WVHa
+	 LYOWhveWArVNLGE6lV4D9xph7QKbTB+ktztZo6zwZKx6fLkkU3JPM8MXcWVSoMzx/a
+	 XBJjLdT2Z3MdaNvVOy6UMRmsC5cs0BWwydCrYKRw=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Fri,  4 Apr 2025 13:33:10 +0200 (CEST)
+Message-ID: <a70bf80b-d8e3-40f7-9bf5-e59bca57da15@perex.cz>
+Date: Fri, 4 Apr 2025 13:33:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|PH7PR11MB7499:EE_
-X-MS-Office365-Filtering-Correlation-Id: 58312d2d-dad0-40e7-6512-08dd736b6131
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZUZQbUZRSkU2R1RhVi9hR2RCV0x4WFVlN2JVNXBYM1B4VWZmR1IvYUZrdVF6?=
- =?utf-8?B?eVNGSm1ESWgrc3UxUVQveHI4V051aUkxK0tGU1k0eFp2VVBuMzFlTTFpVFpa?=
- =?utf-8?B?WVprQXI0c09UYm9FNUdUZkRtbjhUbjU0dzhpRHV6dmdQbGZpK1JYd1VEdXVk?=
- =?utf-8?B?YjlHeXlRN0pJTDBYekZISGx0bHgzdkxKbDZ5Q3pFMVVyRm5mTzViSlVUNzRB?=
- =?utf-8?B?a0NldFFDSXU4ZTVYTnd1ck5EbkxkdVk5ZE9DWUJTK2JRU3RBUWtYMTFYZ2ZK?=
- =?utf-8?B?djhyT3NGQ2Nuajc5MDkxU0xtWFd4V2t2R2FxTExVM1FsNU1CakQxQyt4cW9l?=
- =?utf-8?B?ZE80SXUyM2FkTjNGSnlucXJsbVdISVFibk8vWGxFWFRoUTdSUC9kNFVGQ1Y2?=
- =?utf-8?B?SGFvRVBHaDZDdFFaeVd3dS9ZNWVMdjcyMERoN2lNdUt6a0VKWWpTVWxyVWNV?=
- =?utf-8?B?S2FRWUZQWGdHdEpGU2MySDJvMEVlZTNYVXVrckhNU2FxYzEyekVhV0tYbjQ3?=
- =?utf-8?B?Mk1IV0Nyd2xzbXczUTRvZ3c0SE9sNzhBSi9SM3RpNlBwaDIzdWcwaDJmeHJ4?=
- =?utf-8?B?QThudTROWFU5eURrZ0hLRHVMUGU1ZXlqL0FueDdSaTBObnN2TUUyVkVOOHhM?=
- =?utf-8?B?UWN0eWdHWENWVTQ2QUYrSWY0NGdaR2dVaHVmelBscHFISHFGMXB5dDNaUjY3?=
- =?utf-8?B?dGczaU1RWndzR3pqc3dUTjVyRi9paUkxaXlsZmRhQnRITGI0QlRGY3hFWkVm?=
- =?utf-8?B?azl1MVdHQzNOVW5xTzNvY0FQa3lyVkE2QVNoOU1VdG5oUmpJNmgycU03ejBa?=
- =?utf-8?B?a1BoZW80b3FkMWlZSXBjM2tobkhRRFFFQ2NrL1lwWEZNb1R6S0YxaUNBSFNC?=
- =?utf-8?B?NjVaL0JDQW54cTlGK1lpUkpPLzdrdk5kS0JJbHZ1SW0wRSsyQno5Yk9FT0g1?=
- =?utf-8?B?NnB5YmNrY0R4TEpOV1dvTFFUVkxpMEVaUC8waDZMYlI0U0kvVlVlQlRhS1hj?=
- =?utf-8?B?MVVTVFlBNnprR3N2V0pNcllGRmwya0pCSXlFOXYzZU44STdISGxjeUZLdkov?=
- =?utf-8?B?bHpuZUNqajNIWmhIcXFNZ3d6OHoxemZIK2NjbXJrbnM5R25IMHQ5SnZ4ZmN3?=
- =?utf-8?B?aVVJV21HR2MwQ05VMUY1VWJHVWpndkltMWI3ekd6R2FYZmk3RGU1VUdGMDkz?=
- =?utf-8?B?bEFkQzc2WWlMOUdQMHc2T29samRseVVRYk1ENGdIYjdCQXVpcVNQb1FsUjFz?=
- =?utf-8?B?clFxL09ZdnJlZy83cWg2TkxFR1BsaElyQkIxOWNOVTE5d3J4bE9JSW1rby9C?=
- =?utf-8?B?bGU1VzlLdXJTai8xVU1DczY5b0tvRVVmRzNWSzR5ckEzK2VkZVorV1h6TEkv?=
- =?utf-8?B?T3JLWENWdzQ0aGI2VHFXa3F4N2JnRjZpSGQzdjBxREdoK2gyczYvMnJ6Rm81?=
- =?utf-8?B?L1p4VFJFVm5GQ2wrVk5nOGxkZkpvbisyeU9sZXdsM28xbk9qd1VoWTg3VVlO?=
- =?utf-8?B?MEQxVHFudGF0dDYyQUJ2MkxMSk9rZDBQVWhCT1BwSzE0bG5SdjRZaHIvZmlD?=
- =?utf-8?B?Z3A5M3o3RG0xb0VXY0gxdXJHQ2Q5ZDdGY1RCUGVGVG1aQWNRWlB0dFN3MHJO?=
- =?utf-8?B?REJuN1Z1OWRJOG13R2xWRTRnZUtsT0gzaGxWbnZzV0FaUk9ycEN1QzFEYzZ5?=
- =?utf-8?B?UmpEOEsvRWJJVVlocnpOSVhPYjljWUVmaldOOENZUnZjeHNFdkFuekdUa2dH?=
- =?utf-8?B?TlJpR2NUa1BwVzVuUEhtc1d6dWtGc2htY2VoTDJOQkxtYXE4ZHg4SUJVNjdH?=
- =?utf-8?B?STl1dGwwTXlpQTgvTTUvM0FuNzFBNU0rV01DaEZhRG5GdmEyMEdZMzQwOUg5?=
- =?utf-8?Q?RS2KWUOEAr0YL?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TXg2dGxmMzJJQzN0dmExNGlrZ0RVbXorRjFYb3hqaktUWjJTNWdCY0gvWHBw?=
- =?utf-8?B?Q3RDNlF2d1FQTG5FYVo1TnJnKzdGRnNGNHB4U0NsaFhUVnR1a0Y3b2dZMERo?=
- =?utf-8?B?MGRVNWxjaW5OMjNvc0g0cnJQZjRyK2tyNW8wc2V3aFhsb084RUl6VVMvdUhS?=
- =?utf-8?B?T2RIcndIbExLUldndzlneGUwdDdBTnZITnJ2NzVKWEhrUGZ6bGhVYUpOUDMw?=
- =?utf-8?B?bVc0YUFWVkMySG1mVUwrTjR3N2cvUm5ZMmZBbm5tTDRJRVh5dlhMUkJ0bWxM?=
- =?utf-8?B?QnFXOVdXNHo5STVib3lpeU9FV25tYlFKQ09COEEvd1JDclowSHFyOHBqY3c1?=
- =?utf-8?B?OENaRWorL3ZYU1BuU04zdGdFcHVNdWF1NnZtODNkVzVQMnJmbkJOR1ZBQkRx?=
- =?utf-8?B?cWR0RnRWekV0YS9BR2dFL1JSUTljMHZUSWVJMmhqSURRcG45aWE3UVZVaU00?=
- =?utf-8?B?RVdOWVc5K0YrUkdzYkVRZ2VhYUxZa0kzclRkeGZkZHo2bEROTW1FVFZyYUVS?=
- =?utf-8?B?WWM4NFlEYVV6WWgvYXJ0Tm9xMzZLcjRDd1o4T0R2Wjh5TytVMWNVOGdjVUdR?=
- =?utf-8?B?ZnY1VXRoMU9SRFdiTXVZRGcxaU9sMWhTcnhkelArZXdQa1VtcWZtWllYRFhU?=
- =?utf-8?B?MGhsZ1czV0lHVkVPeFIyWEVQZXgweTk0Lzc0ZnBsZkNUS0ZReitWV1h4RTBp?=
- =?utf-8?B?TmNsQXgrb1QvVVpYa0JYblAvTHkyMnQrYzFSWnZ5Z2NUMlFzOGFjYWlzOFpp?=
- =?utf-8?B?NW9wN0FJSXFidXExNldTTWVsVnJudXV6aWR2TmRrRTdxSXNob25MTHFnU0pu?=
- =?utf-8?B?emFJM3Y4OEM5bTFQQnZaSUlpQmVPNi9seDJPWnVJUjRmU2hzY2J4Y2lvR0Rq?=
- =?utf-8?B?M3h0YzBWL3p6b1V4NXhheFlJaGt0U0lLcHhMU1hKMXZGK1lmeVNWZnBVbmRB?=
- =?utf-8?B?VmdCa24zeGRtVnBpQThhenEySEVqNk53alViK2dQVlVYZHBLbXdYWnB1clYx?=
- =?utf-8?B?SDRLMmtXNXUyd2FnbUdjdWc2R1pZSkc1UTQ5cjlwNUg3WTZhZFlCOWQrZjNW?=
- =?utf-8?B?NW9rMVgvdjdyd1Q2YjdJTkRWenc5R3RmMUQ1R3RQaWZmcy9POEJCRlI0dkM0?=
- =?utf-8?B?V29ybzl5T0VRWHo4b3Y2bloyVFZzTWJSZ2xWcWJZKzhlLzZXKzhCNDN4Ync0?=
- =?utf-8?B?ZU4xWVV1aElsV0tTbUV0Ky9nQWh4b29IOFR6RkNpMXp4MHArNitIa2VPdmEr?=
- =?utf-8?B?S2RnN3ZLWEkyVmFqZlVic1ZJNldwOWVBQmE4aXFWTjY3YUJmZUljMVBjcXN3?=
- =?utf-8?B?eVhyYlhKay9ERFdDMEYzQWxVOThBZDJaY1doQklaZ3R3YzVHK2o3MmIzekdh?=
- =?utf-8?B?c1BobU4wOEkzQUcvN2kwQXJ2RTdiSTEwaUljUGNuRmZGek92SGpadjJVdWtG?=
- =?utf-8?B?Yk8xeXREdU9pYTg0K2xDNkFQdDU0clp2ajBNVU9mc1YwVkhhYjIyWjd5b0px?=
- =?utf-8?B?UlYySG4wWHRmZFJZSnl0VmcyT1MzNy9haWtuQ2paZDBWMDRwdStxaUZKbjll?=
- =?utf-8?B?aEw3QkI3WkZ1V21zc2xaRVlmVFdod1QwMG1vRTFHUVNUWURvODE3cENtME5a?=
- =?utf-8?B?b1EzWFB0RzNHdDMxb1JVcFAwUVRHK3hqbVpKRUY4akIxY01OV29iN3dYV1Zv?=
- =?utf-8?B?ZEowTkl4UjQvNGNiZ2UvQmMySDdFVTQ1N1ZUTnJqUE01SUhwdEdjcEd1U0hG?=
- =?utf-8?B?WFpRaDlrakRZekEyd0QyZlpxc3Iza0pmUjMxRi9MMHd6c0w1UDU2SS9WYnVl?=
- =?utf-8?B?elRzSzlYMi82MTBKNGdzSVpQMm1rYTBRWFFQbHhjc1lFN21JMGJuYjEzKzE1?=
- =?utf-8?B?MjhPN2NkMnM4SHYydjVXMzloYUdva3dNWDY2OTdqbVNqOUZrb1B3eURSNThB?=
- =?utf-8?B?QndURTY3YTh4bjNiN1dLM3ZodWZidVJLUHAyU2FlSWJFbkNXWG0xWncyYmdk?=
- =?utf-8?B?VDdrMlhaNkE3YldkL2U3K2ZSRkZ1ZUl6THhXV2dIOWJoczBEcmIyZUhuSDZ0?=
- =?utf-8?B?WXZZMjloZjdrbE9jZHRhdmFaQ0M1cDlhc1p3VVdLeDlsNzhMVmc2dmgrNk5B?=
- =?utf-8?B?WWF2eHdmY3o2aDRoa0xLWWozekhFcHpBSTkrY01PTnZrR1hJNjBPeDRmMkNy?=
- =?utf-8?B?V3c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58312d2d-dad0-40e7-6512-08dd736b6131
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6375.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2025 11:25:18.8076
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9Fg10Y0QzH9jSVc61yoDOpBSfCF4Xe2oM9xIuFP5GeMHbH78zvO6zyQih6Ar4BY3Lx9XbMXUTCPvsbl5eed34baoUDpjPCLBYIjXllZFubE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7499
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
+ resume is not supported
+To: Takashi Iwai <tiwai@suse.de>
+Cc: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.com,
+ linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
+References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
+ <87r02cym1c.wl-tiwai@suse.de> <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
+ <87jz83ztn7.wl-tiwai@suse.de> <206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
+ <87h637znpp.wl-tiwai@suse.de> <35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
+ <8734eryn21.wl-tiwai@suse.de> <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
+ <87v7rmylc5.wl-tiwai@suse.de> <d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
+ <87o6xeyfkk.wl-tiwai@suse.de>
+ <69c52779-ef90-45c5-a024-77f0030bf5cd@linux.intel.com>
+ <87jz82ye7b.wl-tiwai@suse.de>
+ <8878feb6-362a-4541-91fb-318aea1c0870@linux.intel.com>
+ <87o6xe7l4q.wl-tiwai@suse.de>
+ <51bf9695-1f70-4749-b70a-2ed4af8c4be7@linux.intel.com>
+ <871pu95oon.wl-tiwai@suse.de> <2bc811f1-7fbd-45f1-924e-e6241dcef537@perex.cz>
+ <87plht447q.wl-tiwai@suse.de> <b9d457b9-4645-4876-b6a1-82bb658a3b8f@perex.cz>
+ <87zfgw2ol1.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <87zfgw2ol1.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2025-04-04 1:06 PM, Andy Shevchenko wrote:
-> On Fri, Apr 04, 2025 at 02:06:11PM +0300, Andy Shevchenko wrote:
->> On Fri, Apr 04, 2025 at 11:03:30AM +0200, Cezary Rojewski wrote:
->>> Existing parse_inte_array_user() works with __user buffers only.
->>> Separate array parsing from __user bits so the functionality can be
->>> utilized with kernel buffers too.
+On 04. 04. 25 12:44, Takashi Iwai wrote:
+> On Thu, 03 Apr 2025 21:05:51 +0200,
+> Jaroslav Kysela wrote:
 >>
->> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> On 03. 04. 25 18:09, Takashi Iwai wrote:
 >>
->> But do we have a user for this? I believe we don't accept code without a user.
+>>> Last but not least, the ASoC PCM core has its own DPCM state, and the
+>>> trigger-SUSPEND skips the operation unless the stream has been
+>>> running.  I believe that's the very starting point of the problem
+>>> Peter's patch tries to address.
+>>
+>> Unfortunately, after all discussions, I'm not convinced about Peter's patch. It smells like an workaround rather than a fix for forever. The problem is there for years so we should not concentrate on a quick fix.
+>>
+>>>> Also, I would consider to call suspend/resume triggers (depending on a
+>>>> flag like can_pause_release_stop) when the stream is paused, too. Some
+>>>> drivers may want this scheme.
+>>>
+>>> Do you mean drivers that do share the same operation for
+>>> suspend/resume and pause?
+>>
+>> Many drivers supporting pause may use it when we allow PAUSE -> SUSPEND and SUSPEND -> PAUSE transitions.
+>>
+>> Something like:
+>>
+>> diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+>> index ac8f3aef9205..6d6882973883 100644
+>> --- a/include/sound/pcm.h
+>> +++ b/include/sound/pcm.h
+>> @@ -541,6 +541,8 @@ struct snd_pcm {
+>>          bool internal; /* pcm is for internal use only */
+>>          bool nonatomic; /* whole PCM operations are in non-atomic context */
+>>          bool no_device_suspend; /* don't invoke device PM suspend */
+>> +       bool do_suspend_and_resume_in_pause; /* allow direct PAUSED -> SUSPENDED and
+>> +                                               SUSPENDED -> PAUSED transitions */
+>>   #if IS_ENABLED(CONFIG_SND_PCM_OSS)
+>>          struct snd_pcm_oss oss;
+>>   #endif
+>> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+>> index 4057f9f10aee..3ec4ef7809ea 100644
+>> --- a/sound/core/pcm_native.c
+>> +++ b/sound/core/pcm_native.c
+>> @@ -1694,8 +1694,11 @@ static int snd_pcm_do_suspend(struct snd_pcm_substream *substream,
+>>          struct snd_pcm_runtime *runtime = substream->runtime;
+>>          if (runtime->trigger_master != substream)
+>>                  return 0;
+>> -       if (! snd_pcm_running(substream))
+>> -               return 0;
+>> +       if (! snd_pcm_running(substream)) {
+>> +               if (!runtime->do_suspend_and_resume_in_pause ||
+>> +                   runtime->state != SNDRV_PCM_STATE_PAUSED)
+>> +                       return 0;
+>> +       }
+>>          substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_SUSPEND);
+>>          runtime->stop_operating = true;
+>>          return 0; /* suspend unconditionally */
+>> @@ -1798,8 +1801,11 @@ static int snd_pcm_do_resume(struct snd_pcm_substream *substream,
+>>          /* DMA not running previously? */
+>>          if (runtime->suspended_state != SNDRV_PCM_STATE_RUNNING &&
+>>              (runtime->suspended_state != SNDRV_PCM_STATE_DRAINING ||
+>> -            substream->stream != SNDRV_PCM_STREAM_PLAYBACK))
+>> -               return 0;
+>> +            substream->stream != SNDRV_PCM_STREAM_PLAYBACK)) {
+>> +               if (!runtime->do_suspend_and_resume_in_pause ||
+>> +                   runtime->suspend_state != SNDRV_PCM_STATE_PAUSED)
+>> +                       return 0;
+>> +       }
+>>          return substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_RESUME);
+>>   }
+>>
+>> This will allow to address this problem correctly without any pause release just to put all parts to the running state and immediately stop the stream. Ideally, all drivers should be migrated to this state scheme and the condition may be removed at the end.
 > 
-> Okay, this patch 1 out of 8... Next time Cc people at least to the cover letter
-> where it will be visible.
+> OK, this should work, too.
+> If we deal with another corner case such as PAUSED -> STOP, a new flag
+> can be added, too. (Or make one flag indicating both meanings.)
 > 
+> Or, there can be a driver that wants to receive trigger SUSPEND even
+> for the non-running substreams, too.  We need to check the details
+> before moving forward...
+> 
+> And, if there can be multiple flags, I'd rather introduce a new field
+> to snd_pcm_hardware, e.g. extra_flags field to keep the internal bit
+> flags that aren't exposed to user-space.  Otherwise the setup can be
+> cumbersome for each driver.
 
-My apologies.
+I think that one flag for new suspend/pause/resume trigger behavior should be 
+enough. We may reuse SNDRV_PCM_INFO_DRAIN_TRIGGER flag  which is no longer 
+used. It was probably implemented only in removed Intel SST drivers.
 
-The idea was to add the Cc: tag so you are always pinged when something 
-happens to the string_helper change while simultaneously adding 
---cc=Andy when doing git send-email for the entire series. I did forget 
-about the latter :(
+					Jaroslav
+
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
