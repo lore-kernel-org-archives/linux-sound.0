@@ -1,108 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA371EF0B4;
-	Fri,  4 Apr 2025 13:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5414D1E51EC
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 13:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743773486; cv=none; b=Png4Dxewpegi6fxm2P6E2recPWYMWmxNTLyKI5g2vY/gwdfBmpMrjQNzId9W2ENa8l3iORDMP/8C80Gsk3NV04dsZC3BRwDKC06EkZeQyW3Ah3UtV6v0dcMc2z/fRfkABzKWJZ080Ooj/8cEqeEw6gCrBPMlchOlm6gcZ51oWr4=
+	t=1743774434; cv=none; b=f/NHcY4c7axAG+j+7jl5xYyqr9P3gfDdbWtG2VK+5/gdHfeuVGqr56EwOEyNMBG7A7IKefKNYJEhgL+lMwjLZcOVQ4MfBJxjiMIjXy9kUAzC2uKaqdULJzOIje8NGX/AeuE6VKGdoL885FfvzA/Jid3PbaWN3XAsHE6Rdje1JBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743773486; c=relaxed/simple;
-	bh=XXQZ09bPH3uX50yBfzvfiKn0d77qpTduFA7PDJNahUc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hp9sgSwquHNN9K5NiC3NFl0i0LrvSEYfrQBwynu7shkh0shx0fRTxMp4Sr4Fw6MWqth5DFUvcWNszMT4J2cVYorWB1u4WrJMcoJfKP02oWOV7OKDEgWbtvEaB0HWStq8EIKek2YSK7gehGvGaeYYivi9/vuFnxMHQFXcO4hCYUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fRw0/5lr; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1743774434; c=relaxed/simple;
+	bh=CZpvuo4PohJM4PSPuECEJnxRgWNQAAoHyWNbJ0KE9Lg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=B7BDXFxSr8GKhWyrCS25QkXArI13v2PBSfflORmUHJV3EbN011N8Hjzyv4yGS+j2rXXM9XhY8CNvKQlxpw6G9aRmax/mhtxl1g+m51Biad8MiOPSyii1bw2ULdvBC/rAvoTNF/u4JMYCcwuloRXaZTPFDcIfErQrN7O9upDjtm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XcOTpl7L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=i1OMEcEa; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XcOTpl7L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=i1OMEcEa; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fRw0/5lr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743773484; x=1775309484;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=XXQZ09bPH3uX50yBfzvfiKn0d77qpTduFA7PDJNahUc=;
-  b=fRw0/5lrimOORqZOJ2Ecu/hc1uFzbW5YNbgltdrhD/Ua48Ui48659s/D
-   EwhBOhTjZs0gdVFqweczg1nxo3HKX2/cGl+gl3DlfJqfA1dFi3WeDMdJd
-   kzqZqItcXKeVU4dzEe6Xcu3iNMpJ59lOPQXPp0sB3oT5XyZ2s0Wvituki
-   MnirP/XU/wOUQM9j6xqReRvCmZIV5rMgqkO8UCQiNLL7tKgfq7q1o+RGr
-   yvR/vHhoWlYrptLOmtxKq+BLciP6AaxCsWfZwTCEsRPUiZHCz6pblbqYv
-   4QUsYb1/uaxomydCSAR1/0wJqJ4e079ZXafZ51+ZjmLXgXZ0EYCuJGRV+
-   w==;
-X-CSE-ConnectionGUID: woo/S7n+SkO1nELk/o0cSA==
-X-CSE-MsgGUID: 2YLuP7FKRQuFQ3QhD2aflw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="67685232"
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="67685232"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:31:24 -0700
-X-CSE-ConnectionGUID: rMnguxCbTMORS/p4egsM8Q==
-X-CSE-MsgGUID: J681zUOZRambgbHyvuOVGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="164522584"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.248.2])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:31:20 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	liam.r.girdwood@intel.com,
-	stable@vger.kernel.org,
-	simont@opensource.cirrus.com
-Subject: [PATCH for v6.15] ASoC: Intel: sof_sdw: Add quirk for Asus Zenbook S16
-Date: Fri,  4 Apr 2025 16:32:13 +0300
-Message-ID: <20250404133213.4658-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XcOTpl7L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i1OMEcEa";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XcOTpl7L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i1OMEcEa"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 922C221160;
+	Fri,  4 Apr 2025 13:47:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743774431; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ZpWpZchNBNZf7LZzUsmpGD1YvwOssy8MnclmriBsus=;
+	b=XcOTpl7L7N2bZ5cRDCB39AT+rOICpZbxHTjE54GD0yReiMYHS3WSWj0ORUT5HzjXDa8r1D
+	4UiVoZd7d8kmE618McRRZyWHtPl71eclT0KTnBvqYg08WXt4P9jutp5vkiYutln9uSiUZP
+	W5lLLJfEnUdqFvAfNxR1o81bKhhmUwE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743774431;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ZpWpZchNBNZf7LZzUsmpGD1YvwOssy8MnclmriBsus=;
+	b=i1OMEcEadeRvCAfdcNYjX8Oc7bKNORzUpQRhWMwadamwJGFONcmrTVygtz0YN6haAou188
+	bBfjZR2QDj/3uSAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743774431; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ZpWpZchNBNZf7LZzUsmpGD1YvwOssy8MnclmriBsus=;
+	b=XcOTpl7L7N2bZ5cRDCB39AT+rOICpZbxHTjE54GD0yReiMYHS3WSWj0ORUT5HzjXDa8r1D
+	4UiVoZd7d8kmE618McRRZyWHtPl71eclT0KTnBvqYg08WXt4P9jutp5vkiYutln9uSiUZP
+	W5lLLJfEnUdqFvAfNxR1o81bKhhmUwE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743774431;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ZpWpZchNBNZf7LZzUsmpGD1YvwOssy8MnclmriBsus=;
+	b=i1OMEcEadeRvCAfdcNYjX8Oc7bKNORzUpQRhWMwadamwJGFONcmrTVygtz0YN6haAou188
+	bBfjZR2QDj/3uSAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1FA811364F;
+	Fri,  4 Apr 2025 13:47:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id H9pzBt/i72dzYgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 04 Apr 2025 13:47:11 +0000
+Date: Fri, 04 Apr 2025 15:47:10 +0200
+Message-ID: <87plhs2g4h.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Maxim Mikityanskiy <maxtram95@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	He Lugang <helugang@uniontech.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Tang Bin <tangbin@cmss.chinamobile.com>,
+	linux-parisc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] sound: Replace deprecated PCI functions
+In-Reply-To: <20250404121911.85277-2-phasta@kernel.org>
+References: <20250404121911.85277-2-phasta@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,ladisch.de,gmail.com,kernel.org,linux.dev,linux.intel.com,renesas.com,uniontech.com,baylibre.com,loongson.cn,cmss.chinamobile.com,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-Asus laptops with sound PCI subsystem ID 1043:1f43 have the DMICs
-connected to the host instead of the CS42L43 so need the
-SOC_SDW_CODEC_MIC quirk.
+On Fri, 04 Apr 2025 14:19:01 +0200,
+Philipp Stanner wrote:
+> 
+> pcim_iomap_table() and pcim_iomap_regions() have been deprecated by the
+> PCI subsystem. In sound/, they can easily be replaced with
+> pcim_iomap_region().
+> 
+> This series was around some time in late summer last year as a single
+> patch. I lost track of it for a while, but Takashi Iwai (AFAIR)
+> requested that I split it by component.
+> 
+> So that's being done here. Feel free to squash the patches as you like.
 
-Link: https://github.com/thesofproject/sof/issues/9930
-Fixes: 084344970808 ("ASoC: Intel: sof_sdw: Add quirk for Asus Zenbook S14")
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: stable@vger.kernel.org
----
-Hi,
+Thanks for the patches.  I suppose those are no urgent fixes, and can
+be postponed for 6.16?  If so, I'll pick them up after 6.15-rc1 merge
+window is closed.
 
-The S16 variant of the Zenbook has 4 PCH connected DMICs and the new
-topology needed for it is released alongside with the -2ch variant for
-the S14.
 
-Add a Fixes tag so this is backported to 6.14 since we have at least one
-user with this laptop without audio support.
-
-Regards,
-Peter
-
- sound/soc/intel/boards/sof_sdw.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 90dafa810b2e..095d08b3fc82 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -764,6 +764,7 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 
- static const struct snd_pci_quirk sof_sdw_ssid_quirk_table[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1e13, "ASUS Zenbook S14", SOC_SDW_CODEC_MIC),
-+	SND_PCI_QUIRK(0x1043, 0x1f43, "ASUS Zenbook S16", SOC_SDW_CODEC_MIC),
- 	{}
- };
- 
--- 
-2.49.0
-
+Takashi
