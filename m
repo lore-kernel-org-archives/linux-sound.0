@@ -1,231 +1,132 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7981A5BA1
-	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 09:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A497A17A300
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 09:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743758672; cv=none; b=p5iN6+3ddO0VgXchmkstStXZC684T8GaeHVq8zPldkXHNt7HnS/lkRDNh9UHDPj1rOmA5NVEUxLB9sYt6V4V4WMNIhVjdIZHaFLehn2RiIbSzMh2jv/plu7cmRvcXBbOeaCbbBlMtytNFBF/OqE1G3ooLfw3ZDYnILbaM3ccjjE=
+	t=1743759173; cv=none; b=poiR0oKfkl3KXJO3WtGYc8/reTDZ2WrdMydMgqTOnkhUNm79MlLVmN3SoVpSY1eBkE52S23/njLkxGpYm6agzKvqfKmn7FNliseRum9LI8vTZfgdxep33PrgA5qbFkB498M8fbKx95+AL10dkWhRNZkJb9sNynZpXUM0m/K901w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743758672; c=relaxed/simple;
-	bh=mhsAKtrtx8q6Kuhdx1gCRLTnQk8BFVldD1RjWRzGuFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ijuHijjPXSTqfB++O0EwbJUYHK2Xsh9rxS1qFCT5acRrkIGon30gZZCJHc0XHCRNtGMlteZcxdKuGjJe8kv4/R5xsjarMqTHlajbU0f6wo+eEAV9yHo6Zg9w9ZYbg05dfbj+qXMAeh/0bUmyVufWRRsm53isi09gkdXm6HiF7sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WYIupbwQ; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743759173; c=relaxed/simple;
+	bh=YeZofOye++IVEl/GXunXNF5gqbzHlWMXHdANteYqY3Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=aEHm/Kp2/o45iyeos8SFF7uXlxohcuu9DaDXrGzFT38KZeOeWfohoZ7VI9+hHEilcJL22VtKZOw4tnsJULxcm4w+J6qZxqGU8jKJ2ICb/oNVXmpxqkrmV+6E5PxuT34SB8hzgqaCAuXBRtOoSIN9nBAUqaHrSPNSW4Ird6ZATsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DnMcPk6m; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WYIupbwQ"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ac29fd22163so309862066b.3
-        for <linux-sound@vger.kernel.org>; Fri, 04 Apr 2025 02:24:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743758667; x=1744363467; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qHqjNgPYjFVoUL5p28toluYm5U5RftH3Zux4QyIsXJM=;
-        b=WYIupbwQAl2Bo8bZMP4jLovbTIPyj554nVfS0y+R5j5rTnqWMGrdBzDIJI9hCqUfRT
-         Xkv+eYEIlGvv/Gqg4VTDiKcME+FhB6zco5zG6iuVfjXn81CozvJtG840c4snwFmoviPs
-         bFRgqY7yVaapMODG9sqTKfF7NYMcpS1tHxYAI96E9PuKT8S03MZKS6S+INl8T3DGpiqO
-         YmTgdKJdMDtc4HMRYBOg0Ohv5ySPB5N+YXb6EvqMf2GwmF/HAcELsXSOJlMiPLHa4Spx
-         LNQjq//IhGDjth6no/1VTVH5u3ELjHl2pRyltj1Ur1OzFB/j4pEMCCGKZhfeX2ww0M9F
-         7+NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743758667; x=1744363467;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qHqjNgPYjFVoUL5p28toluYm5U5RftH3Zux4QyIsXJM=;
-        b=dNR3sWtWCwJzfkAHRM4JbPEiaaNpMFsHL/RieVfEuqL/Idupq0kBdkTLxlbXtxBSWA
-         2BqJ8eRw6p+RqdA7f2xA1gE0ISFVYTqKZNO41HM4TO/7/DPAMWHLgVXIlULkqjD3MRmC
-         /Ho1vlvhGFf9nTGu3P954XEoeMLiP6v5ykNOM7yaNsg2ivyn5Z7a7NJD+HLwVrG8Qnzu
-         0KF/AH5X3fAij9auSfYeVyFZO3yd4frhADioHUI4pDJhE0HGzZNmuPteHXdeLC936HnS
-         XawhotUoF5ve1SyyHlPOc+JAwKMG1m2sVQTgFb8tDq245yIIs+iM6Y2U1Dg1k/WWOdtK
-         u06Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV+qmJK8cEUSKMjRbzmANJdkHnvfjvaQb+egQdCRs+e9AfAFJ47qFt9PGXrI+OqbV8cehGjuac3pYlUGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2mZNchRs9xkVDTuhz4Bl6z33No//4oWesLRcCht6oiE4Bi5qK
-	19JTSv3yvv8+58u2ezqLXfH6T+gifIagdb4A6MqFIKWq3Kfo0j/UqPL4g1ZF0nA=
-X-Gm-Gg: ASbGncs+LGCBjvnGzUt//fywdxE9HEF/8QNPs76P1Es1AttM5O1Z3WXFbfLTNtbdSnS
-	ag9eKI8EKYccunAs8NsJA/+hbNuznkiF7jqS9u8VIAc5gwA/P9S5CIOSaDRhZ/6VCLCAVDxd6Db
-	nRzhhS2ykbGwqNXUcUS0rR/jezxMkfn9WVHk/Ewtf64HVzZhf345Jks6wTx32q8S2nEsXF6aitw
-	NS0MaI2DegAgqZghpWccY1lzD2jLawBv57T2L4kDMCPY4FPYT2NM0D748OzEH0X9GwKY6qegjll
-	5B6170yLjJmn4Ag8mL42BL1W4EOlJ7vcAhx0XaDB+U4tUPehgFd60MBG
-X-Google-Smtp-Source: AGHT+IEaYodn/Q89C7K0adlmfoOMuodOzseFeUPVohsEX4n8FnBRqPy5wPCCe0ARrP3xquBqgynpHQ==
-X-Received: by 2002:a17:907:86a8:b0:ac2:a50a:51ad with SMTP id a640c23a62f3a-ac7d6d22c0fmr167315566b.14.1743758666891;
-        Fri, 04 Apr 2025 02:24:26 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:e124:1321:48a4:8c63])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7c01bf898sm221290366b.164.2025.04.04.02.24.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 02:24:26 -0700 (PDT)
-Date: Fri, 4 Apr 2025 11:24:20 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v37 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-Message-ID: <Z--lRII_5_rp9tDf@linaro.org>
-References: <20250404002728.3590501-1-quic_wcheng@quicinc.com>
- <20250404002728.3590501-23-quic_wcheng@quicinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DnMcPk6m"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743759172; x=1775295172;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YeZofOye++IVEl/GXunXNF5gqbzHlWMXHdANteYqY3Q=;
+  b=DnMcPk6mdZZb3U4hpjl1QbZbV6PT3tTeD6K9Nh+lnvK7594dxTd7ce6N
+   OQ5vYMEZxnqabC06YDItn7Ky56cU0iWzEKXVDLAKflOK6TygRXoo5QNuw
+   2G0I+sUG/PTuSKX/dgpeJ9ZyROkGhEWL2b2BOzJoBNUPYAWMbyTbM6r0H
+   7eSW5/KcGKlD1O1GWdN7uZgYZaHHpWk99TL60RpStCIM1ncMKQwV6YMoS
+   RnoIt/6QRQ9M80xO7o5GFtMvxokmGqH3vWDBp10ukn+sKIvW9qxZQ6/QR
+   ogVGo9yWUYjCAx+suqNK7+xRPalAM99DalgDuWBy3kTZCJhwwToywSYH7
+   g==;
+X-CSE-ConnectionGUID: XOjEq4plRjqpvqW3bwKKPw==
+X-CSE-MsgGUID: qmIBcUeWQ5iJmsfI8XGwhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="70566311"
+X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
+   d="scan'208";a="70566311"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 02:32:51 -0700
+X-CSE-ConnectionGUID: /642/KVCRXGmcBbm7CVTbw==
+X-CSE-MsgGUID: CBbf4eHBQCiJANFlh/Sxhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
+   d="scan'208";a="158248568"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Apr 2025 02:32:49 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	linux-sound@vger.kernel.org,
+	hdegoede@redhat.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 00/12] ASoC: Intel: avs: Add support for MTL-FCL platforms
+Date: Fri,  4 Apr 2025 11:49:41 +0200
+Message-Id: <20250404094953.3657679-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250404002728.3590501-23-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 03, 2025 at 05:27:19PM -0700, Wesley Cheng wrote:
-> The QC ADSP is able to support USB playback endpoints, so that the main
-> application processor can be placed into lower CPU power modes.  This adds
-> the required AFE port configurations and port start command to start an
-> audio session.
-> 
-> Specifically, the QC ADSP can support all potential endpoints that are
-> exposed by the audio data interface.  This includes isochronous data
-> endpoints, in either synchronous mode or asynchronous mode. In the latter
-> case both implicit or explicit feedback endpoints are supported.  The size
-> of audio samples sent per USB frame (microframe) will be adjusted based on
-> information received on the feedback endpoint.
-> 
-> Some pre-requisites are needed before issuing the AFE port start command,
-> such as setting the USB AFE dev_token.  This carries information about the
-> available USB SND cards and PCM devices that have been discovered on the
-> USB bus.  The dev_token field is used by the audio DSP to notify the USB
-> offload driver of which card and PCM index to enable playback on.
-> 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->  sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
->  sound/soc/qcom/qdsp6/q6afe.c             | 192 ++++++++++++++++++++++-
->  sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
->  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
->  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
->  sound/soc/qcom/qdsp6/q6routing.c         |  10 +-
->  6 files changed, 319 insertions(+), 3 deletions(-)
-> 
-> diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
-> index 7d9628cda875..0f47aadaabe1 100644
-> --- a/sound/soc/qcom/qdsp6/q6afe-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
-> [...]
-> +static int afe_port_send_usb_params(struct q6afe_port *port, struct q6afe_usb_cfg *cfg)
-> +{
-> +	union afe_port_config *pcfg = &port->port_cfg;
-> +	struct afe_param_id_usb_audio_dev_lpcm_fmt lpcm_fmt;
-> +	struct afe_param_id_usb_audio_svc_interval svc_int;
-> +	int ret;
-> +
-> +	if (!pcfg) {
-> +		dev_err(port->afe->dev, "%s: Error, no configuration data\n", __func__);
-> +		ret = -EINVAL;
-> +		goto exit;
+The patchset is fairly straightforward - add support for range of
+platforms starting from MeteorLake (MTL) up to upcoming FriscoLake
+(FCL).  The cAVS architecture which all Intel AudioDSP followed for
+years ends with RaptorLake familty.  Like all the major updates, this
+one received new name too - Audio Context Engine (ACE).
 
-Nitpick: drop the goto here, just do "return -EINVAL;"
+While the range of improvements and changes on the firmware/hardware
+side is large, software survives this evolution without need of any
+major refactoring.  Additional hardware changes brought with LunarLake
+(LNL, ACE 2.0) call for update in PCM-area.  The GPDMAs previously
+utilized for non-HDAudio transfer types are no longer there, everything
+is running through HDAudio LINK on the Back-End side now.
 
-> +	}
-> +
-> +	memset(&lpcm_fmt, 0, sizeof(lpcm_fmt));
-> +	memset(&svc_int, 0, sizeof(svc_int));
-> +
-> +	lpcm_fmt.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
-> +	lpcm_fmt.endian = pcfg->usb_cfg.endian;
-> +	ret = q6afe_port_set_param_v2(port, &lpcm_fmt,
-> +				      AFE_PARAM_ID_USB_AUDIO_DEV_LPCM_FMT,
-> +				      AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(lpcm_fmt));
-> +	if (ret) {
-> +		dev_err(port->afe->dev, "%s: AFE device param cmd LPCM_FMT failed %d\n",
-> +			__func__, ret);
-> +		goto exit;
+In terms of code, the MTL-support hosts largest number of new handlers -
+new IRQ and INT control and DSP-cores management.  LNL-based and
+PTL-based platforms e.g.: FCL inherit majority of the operations from
+it. The inheritance in summary:
 
-return ret;
+	mtl.c <- lnl.c <- ptl.c
 
-> +	}
-> +
-> +	svc_int.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
-> +	svc_int.svc_interval = pcfg->usb_cfg.service_interval;
-> +	ret = q6afe_port_set_param_v2(port, &svc_int,
-> +				      AFE_PARAM_ID_USB_AUDIO_SVC_INTERVAL,
-> +				      AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(svc_int));
-> +	if (ret)
-> +		dev_err(port->afe->dev, "%s: AFE device param cmd svc_interval failed %d\n",
-> +			__func__, ret);
-> +
-> +exit:
-
-drop
-
-> +	return ret;
-> +}
-> +
-> [...]
-> diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
-> index 90228699ba7d..0def036ed3c9 100644
-> --- a/sound/soc/qcom/qdsp6/q6routing.c
-> +++ b/sound/soc/qcom/qdsp6/q6routing.c
-> @@ -435,6 +435,7 @@ static struct session_data *get_session_from_id(struct msm_routing_data *data,
->  
->  	return NULL;
->  }
-> +
->  /**
->   * q6routing_stream_close() - Deregister a stream
->   *
-> @@ -515,6 +516,9 @@ static int msm_routing_put_audio_mixer(struct snd_kcontrol *kcontrol,
->  	return 1;
->  }
->  
-> +static const struct snd_kcontrol_new usb_rx_mixer_controls[] = {
-> +	Q6ROUTING_RX_MIXERS(USB_RX) };
-> +
->  static const struct snd_kcontrol_new hdmi_mixer_controls[] = {
->  	Q6ROUTING_RX_MIXERS(HDMI_RX) };
->  
-> @@ -933,6 +937,9 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
->  	SND_SOC_DAPM_MIXER("RX_CODEC_DMA_RX_7 Audio Mixer", SND_SOC_NOPM, 0, 0,
->  		rx_codec_dma_rx_7_mixer_controls,
->  		ARRAY_SIZE(rx_codec_dma_rx_7_mixer_controls)),
-> +	SND_SOC_DAPM_MIXER("USB Mixer", SND_SOC_NOPM, 0, 0,
-
-As I wrote on v36:
-
-I think it would be more clear if you call this "USB_RX Audio Mixer"
-instead for consistency with the other playback mixers. This would also
-avoid confusion later when USB_TX is added in addition to USB_RX.
-
-The "Audio" part in the name is redundant, but looks like all the other
-playback mixers have it as well ...
+The functional update to HDAudio library is there to help avs-driver
+read certain capabilities directly from the hardware.  Once the pointer
+to LINK is obtained, there is no need to call AudioDSP firmware to get
+the caps.
 
 
-> +			   usb_rx_mixer_controls,
-> +			   ARRAY_SIZE(usb_rx_mixer_controls)),
->  	SND_SOC_DAPM_MIXER("MultiMedia1 Mixer", SND_SOC_NOPM, 0, 0,
->  		mmul1_mixer_controls, ARRAY_SIZE(mmul1_mixer_controls)),
->  	SND_SOC_DAPM_MIXER("MultiMedia2 Mixer", SND_SOC_NOPM, 0, 0,
-> @@ -949,7 +956,6 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
->  		mmul7_mixer_controls, ARRAY_SIZE(mmul7_mixer_controls)),
->  	SND_SOC_DAPM_MIXER("MultiMedia8 Mixer", SND_SOC_NOPM, 0, 0,
->  		mmul8_mixer_controls, ARRAY_SIZE(mmul8_mixer_controls)),
-> -
->  };
->  
->  static const struct snd_soc_dapm_route intercon[] = {
-> @@ -1043,6 +1049,8 @@ static const struct snd_soc_dapm_route intercon[] = {
->  	{"MM_UL6", NULL, "MultiMedia6 Mixer"},
->  	{"MM_UL7", NULL, "MultiMedia7 Mixer"},
->  	{"MM_UL8", NULL, "MultiMedia8 Mixer"},
-> +
-> +	Q6ROUTING_RX_DAPM_ROUTE("USB Mixer", "USB_RX"),
+Amadeusz Sławiński (1):
+  ASoC: Intel: avs: Add boards definitions for ACE platforms
 
-Put this below "Q6ROUTING_RX_DAPM_ROUTE("RX_CODEC_DMA_RX_7 Audio Mixer".
+Cezary Rojewski (11):
+  ALSA: hda: Allow to fetch hlink by ID
+  ASoC: Intel: avs: Ignore Vendor-space manipulation for ACE
+  ASoC: Intel: avs: Read HW capabilities when possible
+  ASoC: Intel: avs: Relocate DSP status registers
+  ASoC: Intel: avs: MTL-based platforms support
+  ASoC: Intel: avs: LNL-based platforms support
+  ASoC: Intel: avs: PTL-based platforms support
+  ASoC: Intel: avs: PCM operations for LNL-based platforms
+  ASoC: Intel: avs: Dynamically assign ops for non-HDAudio DAIs
+  ASoC: Intel: avs: Conditionally add DMA config when creating Copier
+  ALSA: hda: Select avs-driver by default on FCL
 
-Thanks,
-Stephan
+ include/linux/pci_ids.h               |   1 +
+ include/sound/hdaudio_ext.h           |   6 +
+ sound/hda/ext/hdac_ext_controller.c   |  19 +++
+ sound/hda/intel-dsp-config.c          |   4 +
+ sound/soc/intel/avs/Makefile          |   6 +-
+ sound/soc/intel/avs/avs.h             |  13 +-
+ sound/soc/intel/avs/board_selection.c |   7 +-
+ sound/soc/intel/avs/core.c            | 109 ++++++++++++-
+ sound/soc/intel/avs/dsp.c             |   2 -
+ sound/soc/intel/avs/lnl.c             |  44 ++++++
+ sound/soc/intel/avs/loader.c          |  11 +-
+ sound/soc/intel/avs/messages.h        |  29 ++++
+ sound/soc/intel/avs/mtl.c             | 217 ++++++++++++++++++++++++++
+ sound/soc/intel/avs/path.c            |  51 +++++-
+ sound/soc/intel/avs/pcm.c             | 133 ++++++++++++----
+ sound/soc/intel/avs/ptl.c             |  98 ++++++++++++
+ sound/soc/intel/avs/registers.h       |  40 ++++-
+ 17 files changed, 737 insertions(+), 53 deletions(-)
+ create mode 100644 sound/soc/intel/avs/lnl.c
+ create mode 100644 sound/soc/intel/avs/mtl.c
+ create mode 100644 sound/soc/intel/avs/ptl.c
+
+-- 
+2.25.1
+
