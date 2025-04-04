@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A888A1A4E98
-	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 08:46:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC2A1A4F2F
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 08:46:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743756408; cv=none; b=JI0zvDrDFYwwWmeUv06bB5YRg66iJuBLsZPuwk5jm/bjaqq0UjUBPbmaCzouI/HaUAkIZh79cFkUobdT77JccAeUyj7pReXbdIYxrR2xOKk498yspxUhk0gkcqy5onyN7qkX7xVDZf36aSfThf2mkGzSVomCPSyc/uMKdfbKgVo=
+	t=1743756410; cv=none; b=Oqad9TkOztJJXYoU/TVTL8Y/anSLRK+cqFnOlsHoR+oh3kwDP9oWcd2rFRRlIcrc8lI9ML7cvEkGyRNYPT3C5246d6x4+fLVwEifl2prcZlL0zpuC6e4VciCw3idRL+fT9qO0TWH1eigzKjSiZGUM9m+nEAcrJrcyDLssxVhRTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743756408; c=relaxed/simple;
-	bh=vGEV4mrCWXuJ62c77HprbFfAMOEYKnNGtBF7Z3hJLMw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=emk/MAzxUyoOahptRJcSN0lwCw2RmHYLKc0seA4YdX7lWolysASLiZOIbjWIP5GYZx79F0s9PD24jUDhprg0t3ayrxAjL96kkif3gmm3esz0cDGPDmDNGpE4FBJU/QED1mDbHbxXsse/6HG4VGt8zuSm0iHRxR3e+vbrkuLiXFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lM1mZfVd; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1743756410; c=relaxed/simple;
+	bh=yoc0w8a4H3KJkNdv8mUj4MYqIus1JnhQoeSdG3HGMjc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FWHUiUjDw9Idc1CBLuhU7H4ExtfpoDAcrw79BeYTMUgxX1GB/0Cp/qcWBtPdIFz6m3AB0hpv32bOd0JqxGlv0tR38FqGSPIl/Xy4JcAoipeXr96Cr37Pfu4fMtOOEpl+h3i5Jk7qV+Xi4pH32GgJXg9V3MaSWBpx0KR4QQTGYxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qgma6YVD; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lM1mZfVd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qgma6YVD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743756406; x=1775292406;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vGEV4mrCWXuJ62c77HprbFfAMOEYKnNGtBF7Z3hJLMw=;
-  b=lM1mZfVdbmWITDO2ZJfPeNQEISFxE2oIvnH5t+C/Eu+pCm1jCE3ntsgx
-   nOKBnARvxMhvnp5Si2fRzAjxktPplXHCNnDUtP/3WUj12Jn2ZGk1HfMfK
-   +VuR1Qy8toK1H7ulwMNCR4V/O6bKOqG4RpJl4ygJJFVtLdHqNyoPuDbhr
-   BTJp6+tVI6BfuWN9noCffVQdZ9O6a8fNATE3I3GzQ3GvCDDvSjmH77cno
-   6wf6xir+T/T4lEXVauuoB2c5KpHMIG2kyIULvX5LlNqcyKBYAYOQ0qrjP
-   lpvuYtHJuPuL4tav5zkVGlEVjyI4xHitZIst4OtsUpDeEZTM4eUKBH3sh
-   w==;
-X-CSE-ConnectionGUID: 9uS1h2+tQq++qWJJaSUwfQ==
-X-CSE-MsgGUID: ELIjFEu2QVue3lipRHuXgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="55854557"
+  t=1743756408; x=1775292408;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=yoc0w8a4H3KJkNdv8mUj4MYqIus1JnhQoeSdG3HGMjc=;
+  b=Qgma6YVDnhHldss4JaGQTVpOWcpI1CMwh5PmiP56byuxV0671qshPIPB
+   ttsC7723L/hZJacnxIRu92YNpKfB190RHY+25dPYkYhTVlhVNP8CNQ6p7
+   F6oKcnptfddbvuSDks0zE9Mpx1FLHcCfx2zPIbPqE8cF7+FTK3ZvnGqVu
+   xhIBxMi4uQQNX77CNIS3z02EJrFLbBHYfiJoJFbymcfS/BA9XbVHhnpmS
+   FgUdoXTSY00FT4FjL4RFWYumPZKSitWb7gY/HZ76JBUnnPq7f5XgW/fCA
+   gzG7QDCyU1hVn+NAaQ152vWC9D04mpQRUAIo5gWETDfM+sXN1p1bJAlQv
+   g==;
+X-CSE-ConnectionGUID: shF+1md2TFy/GKM8YlCA7A==
+X-CSE-MsgGUID: fkX+xFmqSxePRZRGFhaCug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="55854563"
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="55854557"
+   d="scan'208";a="55854563"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 01:46:45 -0700
-X-CSE-ConnectionGUID: xiUQJI5MSiGN8vgtAs+ALw==
-X-CSE-MsgGUID: dwX6hK7ERvuRn2aDpaL4nQ==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 01:46:47 -0700
+X-CSE-ConnectionGUID: bMmaoKVWTIiZ7BFx8y81Ww==
+X-CSE-MsgGUID: AtNz2MBQQKSAAokUm90bzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="164464210"
+   d="scan'208";a="164464217"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa001.jf.intel.com with ESMTP; 04 Apr 2025 01:46:43 -0700
+  by orviesa001.jf.intel.com with ESMTP; 04 Apr 2025 01:46:45 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -49,11 +50,14 @@ Cc: tiwai@suse.com,
 	amadeuszx.slawinski@linux.intel.com,
 	linux-sound@vger.kernel.org,
 	hdegoede@redhat.com,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 0/8] ASoC: Intel: avs: 16 channels support
-Date: Fri,  4 Apr 2025 11:03:29 +0200
-Message-Id: <20250404090337.3564117-1-cezary.rojewski@intel.com>
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH 1/8] lib/string_helpers: Introduce parse_int_array()
+Date: Fri,  4 Apr 2025 11:03:30 +0200
+Message-Id: <20250404090337.3564117-2-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250404090337.3564117-1-cezary.rojewski@intel.com>
+References: <20250404090337.3564117-1-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,50 +67,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Relatively small delta-wise patchset which raises max channels supported
-from 8 to 16.  The existing limitation is software-based, not hardware
-based.  The hardware, as per HDAudio specification, section 1.2.2,
-(relevant register at SDnFMT, section 3.3.41) supports the
-configurations for years.  The avs-driver becomes the first consumer of
-that configuration on the Linux kernel side.
+Existing parse_inte_array_user() works with __user buffers only.
+Separate array parsing from __user bits so the functionality can be
+utilized with kernel buffers too.
 
-Set starts off with update to string_helpers so that functionality added
-with parse_int_array_user() can be utilized in kernel-kernel
-interactions.
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
+ include/linux/string_helpers.h |  1 +
+ lib/string_helpers.c           | 39 ++++++++++++++++++----------------
+ 2 files changed, 22 insertions(+), 18 deletions(-)
 
-Follow up is rasing the cap on HDAudio-library side.  The format
-selection procedure found in the library is good-to-go as is.
-
-Everything that follows these two patches is avs-driver specific:
-- raise channels_max for every DAI-driver template
-- provide i2s_test module parameter for testing purposes.  When combined
-  with I2S loopback card, allows to test 16ch on most Intel hardware post
-  Broadwell era
-- adjust TDM masks to reflect the 8 -> 16 channels change
-
-Amadeusz Sławiński (5):
-  ASoC: Intel: avs: Rename AVS_CHANNELS_MAX define
-  ASoC: Intel: avs: Allow to specify custom configurations with i2s_test
-  ASoC: Intel: avs: Assign unique ID to platform devices
-  ASoC: Intel: avs: Iterate over correct number of TDMs
-  ASoC: Intel: avs: Support 16 TDMs in dynamic assignment
-
-Cezary Rojewski (3):
-  lib/string_helpers: Introduce parse_int_array()
-  ALSA: hda: Allow for 16 channels configuration
-  ASoC: Intel: avs: Allow for 16 channels configuration
-
- include/linux/string_helpers.h        |   1 +
- lib/string_helpers.c                  |  39 +++----
- sound/hda/hdac_device.c               |   2 +-
- sound/soc/intel/avs/board_selection.c | 144 ++++++++++++++------------
- sound/soc/intel/avs/messages.h        |   5 +-
- sound/soc/intel/avs/path.c            |   2 +-
- sound/soc/intel/avs/pcm.c             |  10 +-
- sound/soc/intel/avs/topology.c        |   4 +-
- sound/soc/intel/avs/topology.h        |   2 +-
- 9 files changed, 110 insertions(+), 99 deletions(-)
-
+diff --git a/include/linux/string_helpers.h b/include/linux/string_helpers.h
+index e93fbb5b0c01..3fb88a1e9898 100644
+--- a/include/linux/string_helpers.h
++++ b/include/linux/string_helpers.h
+@@ -31,6 +31,7 @@ enum string_size_units {
+ int string_get_size(u64 size, u64 blk_size, const enum string_size_units units,
+ 		    char *buf, int len);
+ 
++int parse_int_array(const char *buf, size_t count, int **array);
+ int parse_int_array_user(const char __user *from, size_t count, int **array);
+ 
+ #define UNESCAPE_SPACE		BIT(0)
+diff --git a/lib/string_helpers.c b/lib/string_helpers.c
+index 91fa37b5c510..ffb8ead6d4cd 100644
+--- a/lib/string_helpers.c
++++ b/lib/string_helpers.c
+@@ -138,6 +138,25 @@ int string_get_size(u64 size, u64 blk_size, const enum string_size_units units,
+ }
+ EXPORT_SYMBOL(string_get_size);
+ 
++int parse_int_array(const char *buf, size_t count, int **array)
++{
++	int *ints, nints;
++
++	get_options(buf, 0, &nints);
++	if (!nints)
++		return -ENOENT;
++
++	ints = kcalloc(nints + 1, sizeof(*ints), GFP_KERNEL);
++	if (!ints)
++		return -ENOMEM;
++
++	get_options(buf, nints + 1, ints);
++	*array = ints;
++
++	return 0;
++}
++EXPORT_SYMBOL(parse_int_array);
++
+ /**
+  * parse_int_array_user - Split string into a sequence of integers
+  * @from:	The user space buffer to read from
+@@ -153,30 +172,14 @@ EXPORT_SYMBOL(string_get_size);
+  */
+ int parse_int_array_user(const char __user *from, size_t count, int **array)
+ {
+-	int *ints, nints;
+ 	char *buf;
+-	int ret = 0;
++	int ret;
+ 
+ 	buf = memdup_user_nul(from, count);
+ 	if (IS_ERR(buf))
+ 		return PTR_ERR(buf);
+ 
+-	get_options(buf, 0, &nints);
+-	if (!nints) {
+-		ret = -ENOENT;
+-		goto free_buf;
+-	}
+-
+-	ints = kcalloc(nints + 1, sizeof(*ints), GFP_KERNEL);
+-	if (!ints) {
+-		ret = -ENOMEM;
+-		goto free_buf;
+-	}
+-
+-	get_options(buf, nints + 1, ints);
+-	*array = ints;
+-
+-free_buf:
++	ret = parse_int_array(buf, count, array);
+ 	kfree(buf);
+ 	return ret;
+ }
 -- 
 2.25.1
 
