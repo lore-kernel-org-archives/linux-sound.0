@@ -1,177 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B7C19D081
-	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 08:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278B016132F
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 09:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743757051; cv=none; b=bI16XSXiq675wXSaK6mG/Ycs8W2z/rnlbWXy1pS/02guejUqyBHrPLojfZ+Z4UQ0KaOyMKFZ5nwBENX1+QDdsllE6Ena+wA3WYbSBzEm3sPzdtv0Kjqnystcq/ZCEa3HABjn8PO4KSsWTRD9Jk284G98th0k7+xvHlM6RwGFrEE=
+	t=1743757510; cv=none; b=UniDE/0eeqJjUtrSKjeTHY5QcU+9868HXUfFlUf6emXPC74pcTSERZMljvkCyABoqvy8IkkfgN7M7zHH76tQ3E7iobBD4h5Q/K6rqmw+dcWYKGoZeARvXCF8fjejXo6QzUSdF1+eMsOmgn6UdX0IjKZvx+kdRc5kHvbRGaGUPKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743757051; c=relaxed/simple;
-	bh=Ym8WorKnqKjAn7sNVpurnd8X2NtXbUIiln8xFj+XaGs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ND60Ntq+5VFCP+LGZ7vb8C8lWYXQVThlPKbB4YRExa5lbZM6d+mzeomoMDj7DjulH/l4iw7k+8hmGwqUoonm0j/ZnY8bcwHb/PsHjDQWhM8mKqfmvaHPsKHkoflZ8FmVB7WxLrZTlBT2NZ6sR9HQnC5t0Z+71jAzSbM663POjUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RHRQIp/Y; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1743757510; c=relaxed/simple;
+	bh=Y/RYwNXCuCoIrlw9yXXP5rHNdcyDzseZYW1Z5cq/B34=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=ZuMAF30hais6pH9W6w+KcCppbzmsTLQwCd5MG1CrSx1wmAeQClFl9epfXrBYN6qgI8H6MBqMmP+ncCKa7rQJeIOepR5bdiVgWpdb/nSe/tn8exfQbvj/fSBbkGyHPidFPcBj5P+3sxm3OVKjc58UT8jtrfa6dcFAMFbelopJpm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VyJL6fva; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QODWa4OP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VyJL6fva; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QODWa4OP; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RHRQIp/Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743757049; x=1775293049;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Ym8WorKnqKjAn7sNVpurnd8X2NtXbUIiln8xFj+XaGs=;
-  b=RHRQIp/YigcuxHtZlXJYxfVzLTHr++5E0hXr/AC3lA3Y56FoCldC/gSU
-   u467SPpnaUXi/sa1i1Sf12/wABxPtu7g25ZbvaDCKL/j/uCgN5LFc3kXZ
-   ZvXWYDCT2teqGJPjM+DP45wD1miwUY0LSlLhtvJ3LlGTUhsw3t98ZMkv3
-   cz5T+KMuviaxZD+aWNVP9GWtfjaSyR1IRQCLx+w+b+1POQYNnJkrVOfuw
-   OTit1q8N+zr1J6u6igbcCzUYRap36IAx37jItzG6JQp7QD4n4T/LsrfTh
-   GFYdM3u3DzS0wFB+3uZpQJCz6j1XP60LISkl45LsFgRkoN+VyRQOhTK0q
-   Q==;
-X-CSE-ConnectionGUID: 0l3aPNxzTyi3yEWke0LoZw==
-X-CSE-MsgGUID: HW0Po3NGTTmGjbM8cy+wLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="70563885"
-X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="70563885"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 01:57:29 -0700
-X-CSE-ConnectionGUID: E0h2UXWXTOqJGZnZhsRpOg==
-X-CSE-MsgGUID: djxpK5r9SM+EtPlQBw31vQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="127198753"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.248.2]) ([10.245.248.2])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 01:57:25 -0700
-Message-ID: <517d9020-379f-42e5-89c6-9d81e4666af6@linux.intel.com>
-Date: Fri, 4 Apr 2025 11:58:18 +0300
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VyJL6fva";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QODWa4OP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VyJL6fva";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QODWa4OP"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4D8841F38F;
+	Fri,  4 Apr 2025 09:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743757506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Ldo3walCcpJosguuB90QWxcqh/TrTam+ym0Vhx7MOGQ=;
+	b=VyJL6fvaTTZoYpUT3/q9V3L9q52grS+DzYRb9bNU6V0Sxdq6bML+0ZiORkR/0EP7iaYaRC
+	5kanRSV3aUsIDmkntHv7tX9HjCc8OAiELQnuu5GxK/V5w/i2Rta9zvU6iai2lulUYCUfoe
+	QJwCH2O+rMHqpbH7bG0Hd0S4YJQ88qA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743757506;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Ldo3walCcpJosguuB90QWxcqh/TrTam+ym0Vhx7MOGQ=;
+	b=QODWa4OPv/kKNlEPDZQch/rATuuXI2i1TZpcZwAd0x/34GHY2eDRvl1UkxHxIKiT5JcZoM
+	j8BsrDFfKwjSM+Dg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743757506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Ldo3walCcpJosguuB90QWxcqh/TrTam+ym0Vhx7MOGQ=;
+	b=VyJL6fvaTTZoYpUT3/q9V3L9q52grS+DzYRb9bNU6V0Sxdq6bML+0ZiORkR/0EP7iaYaRC
+	5kanRSV3aUsIDmkntHv7tX9HjCc8OAiELQnuu5GxK/V5w/i2Rta9zvU6iai2lulUYCUfoe
+	QJwCH2O+rMHqpbH7bG0Hd0S4YJQ88qA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743757506;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Ldo3walCcpJosguuB90QWxcqh/TrTam+ym0Vhx7MOGQ=;
+	b=QODWa4OPv/kKNlEPDZQch/rATuuXI2i1TZpcZwAd0x/34GHY2eDRvl1UkxHxIKiT5JcZoM
+	j8BsrDFfKwjSM+Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1FCAF13691;
+	Fri,  4 Apr 2025 09:05:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +Op7BsKg72d1BgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 04 Apr 2025 09:05:06 +0000
+Date: Fri, 04 Apr 2025 11:05:05 +0200
+Message-ID: <874iz447r2.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.15-rc1
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
- resume is not supported
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.com,
- linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
-References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
- <87r02cym1c.wl-tiwai@suse.de> <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
- <87jz83ztn7.wl-tiwai@suse.de> <206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
- <87h637znpp.wl-tiwai@suse.de> <35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
- <8734eryn21.wl-tiwai@suse.de> <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
- <87v7rmylc5.wl-tiwai@suse.de> <d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
- <87o6xeyfkk.wl-tiwai@suse.de>
- <69c52779-ef90-45c5-a024-77f0030bf5cd@linux.intel.com>
- <87jz82ye7b.wl-tiwai@suse.de>
- <8878feb6-362a-4541-91fb-318aea1c0870@linux.intel.com>
- <87o6xe7l4q.wl-tiwai@suse.de>
- <51bf9695-1f70-4749-b70a-2ed4af8c4be7@linux.intel.com>
- <871pu95oon.wl-tiwai@suse.de> <2bc811f1-7fbd-45f1-924e-e6241dcef537@perex.cz>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <2bc811f1-7fbd-45f1-924e-e6241dcef537@perex.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
+Linus,
 
+please pull sound fixes for v6.15-rc1 from:
 
-On 03/04/2025 18:24, Jaroslav Kysela wrote:
-> On 03. 04. 25 16:01, Takashi Iwai wrote:
-> 
->> I agree that your patch can be a good start, at least, it addresses
->> the existing issue with the minimal change.  There are still rough
->> edges and we'll need to address, but I believe the patch (or modified
->> / fixed one) can be applied to 6.15 kernel, while keeping the
->> development for 6.16.
-> 
-> I did a quick research how is RESUME/SUSPEND implemented in current
-> drivers and I found that it may be considered to enable SUSPEND trigger
-> also in the paused state:
-> 
-> find sound/ -name "*.[ch]" -exec grep -A 2 -B 2 -H -E \
->     "SNDRV_PCM_TRIGGER_(RESUME|SUSPEND)" {} \;
-> 
-> My comments - seems almost all drivers handles SUSPEND as STOP:
-> 
-> sound/pci/ymfpci/ymfpci_main.c
->  - STOP/SUSPEND different, should not be a problem
-> sound/pci/nm256/nm256.c
-> sound/pci/intel8x0.c
->  - only saves suspend flag additionaly to STOP
-> sound/soc
->  - some drivers ignores suspend/resume (ignore_suspend flag)
-> sound/soc/pxa/pxa-ssp.c
->  - should not be a problem (enable/disable hw parts)
-> sound/soc/sti/uniperif_player.c
->  - only resume trigger is supported ? but no resume info is set
-> sound/soc/sof/intel/hda-dai.c
->  - only suspend support, but resume is not supported
-> sound/xen/xen_snd_front_alsa.c
->  - it's just rpc
-> sound/virtio/virtio_pcm_ops.c
->  - only suspend support, no resume
-> 
-> It would be probably nice if more eyes verifies this, but the only
-> suspicious place is the xen front end. And some drivers may be broken
-> already (no changes for them).
-> 
-> I believe that this patch should be enough to resolve the issue instead
-> the non-elegant pause release and may be applied also to 6.15:
-> 
-> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> index 4057f9f10aee..63a1b37cc098 100644
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -1694,8 +1694,17 @@ static int snd_pcm_do_suspend(struct
-> snd_pcm_substream *substream,
->         struct snd_pcm_runtime *runtime = substream->runtime;
->         if (runtime->trigger_master != substream)
->                 return 0;
-> -       if (! snd_pcm_running(substream))
-> -               return 0;
-> +       if (! snd_pcm_running(substream)) {
-> +               if (runtime->info & SNDRV_PCM_INFO_RESUME)
-> +                       return 0;
-> +               if (runtime->state != SNDRV_PCM_STATE_PAUSED)
-> +                       return 0;
-> +               /*
-> +                * When resume is not supported, SUSPEND should STOP
-> stream.
-> +                * For futher operation, the stream must be fully restarted
-> +                * to leave the permanent SUSPEND state.
-> +                */
-> +       }
->         substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_SUSPEND);
->         runtime->stop_operating = true;
->         return 0; /* suspend unconditionally */
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.15-rc1
 
-I have tried similar thing and the original problem remains that we are
-missing the PAUSE_RELEASE trigger for the PUSH and ASoC core stops the
-SUSPEND trigger to reach the drivers.
+The topmost commit is 02dc9b9617e4d2b93676f0ea1de797e1da8e7c37
 
-> 
->                 Jaroslav
-> 
->> I did some quick work on it, and now implemented
->> SNDRV_PCM_PAUSE_RELEASE_STOP trigger.  I guess it's more or less
->> aligned with what Jaroslav suggested.
-> 
-> Nice cleanups. The "ALSA: pcm: Save the proper suspended_state for non-
-> resumable case, too" should be recoded. The state should be handled in
-> action callbacks for all streams separetely.
-> 
-> Also, I would consider to call suspend/resume triggers (depending on a
-> flag like can_pause_release_stop) when the stream is paused, too. Some
-> drivers may want this scheme.
-> 
->                     Jaroslav
-> 
+----------------------------------------------------------------
 
--- 
-Péter
+sound fixes for 6.15-rc1
+
+A collection of device-specific fixes that have been gathered since
+the previous PR.
+
+- A few more HD-audio quirks and fixups
+- A series of Qualcomm AudioReach fixes
+- Various small fixes for ASoC rt5665, WSA, SOF and Cirrus.
+
+----------------------------------------------------------------
+
+Alexey Klimov (1):
+      ASoC: qdsp6: q6asm-dai: fix q6asm_dai_compr_set_params error path
+
+Andy Shevchenko (1):
+      ALSA/hda: intel-sdw-acpi: Remove (explicitly) unused header
+
+Christophe JAILLET (1):
+      ASoC: codecs: rt5665: Fix some error handling paths in rt5665_probe()
+
+Dan Carpenter (1):
+      ASoC: sma1307: Fix error handling in sma1307_setting_loaded()
+
+Henry Martin (1):
+      ASoC: imx-card: Add NULL check in imx_card_probe()
+
+Kailang Yang (1):
+      ALSA: hda/realtek - Support mute led function for HP platform
+
+Krzysztof Kozlowski (2):
+      ASoC: codecs: wsa883x: Correct VI sense channel mask
+      ASoC: codecs: wsa884x: Correct VI sense channel mask
+
+Peter Ujfalusi (1):
+      ASoC: SOF: hda/ptl: Move mic privacy change notification sending to a work
+
+Richard Fitzgerald (1):
+      firmware: cs_dsp: Ensure cs_dsp_load[_coeff]() returns 0 on success
+
+Sharan Kumar M (1):
+      ALSA: hda/realtek: Enable Mute LED on HP OMEN 16 Laptop xd000xx
+
+Shenghao Ding (1):
+      ALSA: hda/tas2781: Upgrade calibratd-data writing code to support Alpha and Beta dsp firmware
+
+Srinivas Kandagatla (5):
+      ASoC: q6apm-dai: schedule all available frames to avoid dsp under-runs
+      ASoC: q6apm: add q6apm_get_hw_pointer helper
+      ASoC: qdsp6: q6apm-dai: set 10 ms period and buffer alignment.
+      ASoC: qdsp6: q6apm-dai: fix capture pipeline overruns.
+      ASoC: q6apm-dai: make use of q6apm_get_hw_pointer
+
+Takashi Iwai (2):
+      ALSA: hda/realtek: Fix built-in mic breakage on ASUS VivoBook X515JA
+      ALSA: hda/realtek: Fix built-in mic on another ASUS VivoBook model
+
+---
+ drivers/firmware/cirrus/cs_dsp.c |  2 ++
+ sound/hda/intel-sdw-acpi.c       |  2 +-
+ sound/pci/hda/patch_realtek.c    | 65 ++++++++++++++++++++++++++++++++++------
+ sound/pci/hda/tas2781_hda_i2c.c  | 30 ++++++++++++-------
+ sound/soc/codecs/rt5665.c        | 24 +++------------
+ sound/soc/codecs/sma1307.c       | 11 ++-----
+ sound/soc/codecs/wsa883x.c       |  2 +-
+ sound/soc/codecs/wsa884x.c       |  2 +-
+ sound/soc/fsl/imx-card.c         |  4 +++
+ sound/soc/qcom/qdsp6/q6apm-dai.c | 60 ++++++++++++++++++++-----------------
+ sound/soc/qcom/qdsp6/q6apm.c     | 18 ++++++++++-
+ sound/soc/qcom/qdsp6/q6apm.h     |  3 ++
+ sound/soc/qcom/qdsp6/q6asm-dai.c | 19 ++++++++----
+ sound/soc/sof/intel/hda-dsp.c    |  8 +++++
+ sound/soc/sof/intel/hda.c        |  4 +++
+ sound/soc/sof/intel/hda.h        |  8 +++++
+ sound/soc/sof/intel/ptl.c        | 33 +++++++++++++++++---
+ 17 files changed, 205 insertions(+), 90 deletions(-)
 
