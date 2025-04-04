@@ -1,144 +1,112 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B92518C91F
-	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 06:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A888A1A4E98
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 08:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743749671; cv=none; b=mewJTFZiXjWkTCw4z+DnJwG2xEW4TztvpvQqoLCkYjFJZ7I0VGpF4seW6kDhfJJAodXA/8Rt6EOtOfOzsDRq2F120o+tURzOdjSSu9k9tyDE7uMjqvUdfB16keLjiiVicON/ea4Rr2/YR/a//KBJLU+6HnOrqGXSynMEH21IS8k=
+	t=1743756408; cv=none; b=JI0zvDrDFYwwWmeUv06bB5YRg66iJuBLsZPuwk5jm/bjaqq0UjUBPbmaCzouI/HaUAkIZh79cFkUobdT77JccAeUyj7pReXbdIYxrR2xOKk498yspxUhk0gkcqy5onyN7qkX7xVDZf36aSfThf2mkGzSVomCPSyc/uMKdfbKgVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743749671; c=relaxed/simple;
-	bh=xMVbyCHwFmTSFiUsRdRz+WZwDQtMV90raRl5K2ATkn4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Elq6iSclyZjW6kS4Llwb0EBIT4EeO09Kgnrxi9sQr3jNij6P7aud/40ikMugde1DHMUKjWN8VYZVMgJkYz6eqm5f/q57zgMkTNxpWUAiu8nAH6B/S+SRG8rRHGMOgfaaDCJkdxsYF1l9GOvrhFeWrFb2sS0DIrmBFOTy/AfqY+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R+sVOgX2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iiPflYXO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R+sVOgX2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iiPflYXO; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1743756408; c=relaxed/simple;
+	bh=vGEV4mrCWXuJ62c77HprbFfAMOEYKnNGtBF7Z3hJLMw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=emk/MAzxUyoOahptRJcSN0lwCw2RmHYLKc0seA4YdX7lWolysASLiZOIbjWIP5GYZx79F0s9PD24jUDhprg0t3ayrxAjL96kkif3gmm3esz0cDGPDmDNGpE4FBJU/QED1mDbHbxXsse/6HG4VGt8zuSm0iHRxR3e+vbrkuLiXFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lM1mZfVd; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R+sVOgX2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iiPflYXO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R+sVOgX2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iiPflYXO"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 776F21F385;
-	Fri,  4 Apr 2025 06:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743749667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9lmjj6zNiTdDv40dHv3q1k8YAjJkIDE5uiiP95uhUC4=;
-	b=R+sVOgX2wSShUY9LXz9aWI/Wqne/3ONx7rtOFNwMb9ZMRmrew4uRqcQ/Ac/MloEfFipKQa
-	D3m43CJRtLSIRH7EU41IhOkklzhZ/phJw0IB004GfYSwIbPstij5nHqNk5IGgV/4QHuEeU
-	EpnUEHXuSyorxROqyMMzB1s3xfHDXYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743749667;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9lmjj6zNiTdDv40dHv3q1k8YAjJkIDE5uiiP95uhUC4=;
-	b=iiPflYXOMs2KGEo3RF+MDH+yN8IDqmuCetnVonOqLpwW/5ma0nS8sLCwkN6Q9UbPFRtwFX
-	dGeCYquBnLY4VUDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743749667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9lmjj6zNiTdDv40dHv3q1k8YAjJkIDE5uiiP95uhUC4=;
-	b=R+sVOgX2wSShUY9LXz9aWI/Wqne/3ONx7rtOFNwMb9ZMRmrew4uRqcQ/Ac/MloEfFipKQa
-	D3m43CJRtLSIRH7EU41IhOkklzhZ/phJw0IB004GfYSwIbPstij5nHqNk5IGgV/4QHuEeU
-	EpnUEHXuSyorxROqyMMzB1s3xfHDXYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743749667;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9lmjj6zNiTdDv40dHv3q1k8YAjJkIDE5uiiP95uhUC4=;
-	b=iiPflYXOMs2KGEo3RF+MDH+yN8IDqmuCetnVonOqLpwW/5ma0nS8sLCwkN6Q9UbPFRtwFX
-	dGeCYquBnLY4VUDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C2F113691;
-	Fri,  4 Apr 2025 06:54:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uC0ADSOC72f2WgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 04 Apr 2025 06:54:27 +0000
-Date: Fri, 04 Apr 2025 08:54:26 +0200
-Message-ID: <87mscw4dst.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "C.D. MacEachern" <craig.daniel.maceachern@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Salvatore Bonaccorso <carnil@debian.org>,
-	1100928@bugs.debian.org,
-	Kuan-Wei Chiu <visitorckw@gmail.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lM1mZfVd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743756406; x=1775292406;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vGEV4mrCWXuJ62c77HprbFfAMOEYKnNGtBF7Z3hJLMw=;
+  b=lM1mZfVdbmWITDO2ZJfPeNQEISFxE2oIvnH5t+C/Eu+pCm1jCE3ntsgx
+   nOKBnARvxMhvnp5Si2fRzAjxktPplXHCNnDUtP/3WUj12Jn2ZGk1HfMfK
+   +VuR1Qy8toK1H7ulwMNCR4V/O6bKOqG4RpJl4ygJJFVtLdHqNyoPuDbhr
+   BTJp6+tVI6BfuWN9noCffVQdZ9O6a8fNATE3I3GzQ3GvCDDvSjmH77cno
+   6wf6xir+T/T4lEXVauuoB2c5KpHMIG2kyIULvX5LlNqcyKBYAYOQ0qrjP
+   lpvuYtHJuPuL4tav5zkVGlEVjyI4xHitZIst4OtsUpDeEZTM4eUKBH3sh
+   w==;
+X-CSE-ConnectionGUID: 9uS1h2+tQq++qWJJaSUwfQ==
+X-CSE-MsgGUID: ELIjFEu2QVue3lipRHuXgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="55854557"
+X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
+   d="scan'208";a="55854557"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 01:46:45 -0700
+X-CSE-ConnectionGUID: xiUQJI5MSiGN8vgtAs+ALw==
+X-CSE-MsgGUID: dwX6hK7ERvuRn2aDpaL4nQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
+   d="scan'208";a="164464210"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa001.jf.intel.com with ESMTP; 04 Apr 2025 01:46:43 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: Bug#1100928: [regression 6.1.y] microphone no longer records (on VivoBook_ASUSLaptop TP401MARB_J401MA)
-In-Reply-To: <CAJ8x=4gN1fH6chp4C3jX1OXq2-JhbP5yUzLbqvWrAJ-u=+VNhw@mail.gmail.com>
-References: <174248253267.1718.4037292692790831697.reportbug@x>
-	<Z95s5T6OXFPjRnKf@eldamar.lan>
-	<Z-MMsp3XJyNHOlma@eldamar.lan>
-	<87iknwb80x.wl-tiwai@suse.de>
-	<CAJ8x=4jNhsjw_s-p5FXBk9WScPHEdUMZ0tXnhCiya8fCf_PH7w@mail.gmail.com>
-	<Z-ct2D6uIN1f6UbL@eldamar.lan>
-	<87zfh43uti.wl-tiwai@suse.de>
-	<CAJ8x=4ibzvVxxv7FzswtwTcYT73XaDOUr7gHWMcdxB+j8+zyyw@mail.gmail.com>
-	<878qojypu6.wl-tiwai@suse.de>
-	<CAJ8x=4gN1fH6chp4C3jX1OXq2-JhbP5yUzLbqvWrAJ-u=+VNhw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	hdegoede@redhat.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 0/8] ASoC: Intel: avs: 16 channels support
+Date: Fri,  4 Apr 2025 11:03:29 +0200
+Message-Id: <20250404090337.3564117-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,debian.org,bugs.debian.org,gmail.com,vger.kernel.org,lists.linux.dev];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -1.80
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 03 Apr 2025 21:05:09 +0200,
-C.D. MacEachern wrote:
-> 
-> 
-> I've added 'snd_hda_intel.model=1043:1271' to the end of
-> GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub then ran 'sudo update-grub'
-> and rebooted, choose the non-working kernel, and the audio input still did not
-> work. Any other ideas?
+Relatively small delta-wise patchset which raises max channels supported
+from 8 to 16.  The existing limitation is software-based, not hardware
+based.  The hardware, as per HDAudio specification, section 1.2.2,
+(relevant register at SDnFMT, section 3.3.41) supports the
+configurations for years.  The avs-driver becomes the first consumer of
+that configuration on the Linux kernel side.
 
-Please try the patch.  If it still doesn't work, please give
-alsa-info.sh output again.
+Set starts off with update to string_helpers so that functionality added
+with parse_int_array_user() can be utilized in kernel-kernel
+interactions.
 
+Follow up is rasing the cap on HDAudio-library side.  The format
+selection procedure found in the library is good-to-go as is.
 
-Takashi
+Everything that follows these two patches is avs-driver specific:
+- raise channels_max for every DAI-driver template
+- provide i2s_test module parameter for testing purposes.  When combined
+  with I2S loopback card, allows to test 16ch on most Intel hardware post
+  Broadwell era
+- adjust TDM masks to reflect the 8 -> 16 channels change
+
+Amadeusz Sławiński (5):
+  ASoC: Intel: avs: Rename AVS_CHANNELS_MAX define
+  ASoC: Intel: avs: Allow to specify custom configurations with i2s_test
+  ASoC: Intel: avs: Assign unique ID to platform devices
+  ASoC: Intel: avs: Iterate over correct number of TDMs
+  ASoC: Intel: avs: Support 16 TDMs in dynamic assignment
+
+Cezary Rojewski (3):
+  lib/string_helpers: Introduce parse_int_array()
+  ALSA: hda: Allow for 16 channels configuration
+  ASoC: Intel: avs: Allow for 16 channels configuration
+
+ include/linux/string_helpers.h        |   1 +
+ lib/string_helpers.c                  |  39 +++----
+ sound/hda/hdac_device.c               |   2 +-
+ sound/soc/intel/avs/board_selection.c | 144 ++++++++++++++------------
+ sound/soc/intel/avs/messages.h        |   5 +-
+ sound/soc/intel/avs/path.c            |   2 +-
+ sound/soc/intel/avs/pcm.c             |  10 +-
+ sound/soc/intel/avs/topology.c        |   4 +-
+ sound/soc/intel/avs/topology.h        |   2 +-
+ 9 files changed, 110 insertions(+), 99 deletions(-)
+
+-- 
+2.25.1
+
