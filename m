@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D8B1D47AD
-	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 08:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BFF1D63C6
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 08:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743756418; cv=none; b=Ioh8PmaJc/NHgXswXAmufhZRmgyHyxw6hXeGNTFgfNyk0m2KxzhCLOujFiYwXzpCrd9ye9dO4EcnEXbJdRjI9hOBWCP8QhUzZ56a2TzemxhhZVRKWUYvEwt3/45BidrXSJnT4O1ilVNScITQF56jAY40oIaXLWUL4/Pmm++upCg=
+	t=1743756419; cv=none; b=MNhwAOnBp+cxZnbRQ0UiZrvLLUzYn40uOngGN25U0ShQ7ZbiZMBjcYCGlP7bdKbdzuyNYK9+x9OJLg9qvp6dxcnKDHyN59Q3mj9deTd9hH9s9tMG+QMNaVyTMZ/nZ0yLKJ+cJqNuBy0f3ft1iDJtR6zcGnjZlT66pfBD/V16ggk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743756418; c=relaxed/simple;
-	bh=LoAaiWwW6ncYtSYrnNbitXF+PS1/owY0LVFLaaBhkHs=;
+	s=arc-20240116; t=1743756419; c=relaxed/simple;
+	bh=s6AyaU5EBLASfM9cSYfDutyg0zd30BNi3R50hPDOjEc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qgt5s2IyVGkXXqAK2dViLMcuhouJYepSurZWBvubRf37NZSkQe+b3zd6jCISveeYr3rTJrdz3uRrKWBLLEmBYvJPi+2Z/OaPEtVhct+1uHi0qp+o15I5kuIP9CQD5WzqDn8BnqVGsFIM5jG+1bxxFsf3ylrnFjEwmwvSWsKBgbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jiNc/PU0; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version:Content-Type; b=JAt6hvumMH8x8dcS/eHsnaTENDjtjnAzTtPkoHQJjuWSYYTxUYIqYMFPOW6UghOqto98an0SenNBK44HoWi3wbRLlJytAf2WbrDy5RnJ5lAm37QjlW4UJjGeK7eeqN49j+WfMhNmUiy7B8846ldh1UEHQcUQnBzdqK01aTHtYb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=feORCarG; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jiNc/PU0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="feORCarG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743756416; x=1775292416;
+  t=1743756417; x=1775292417;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=LoAaiWwW6ncYtSYrnNbitXF+PS1/owY0LVFLaaBhkHs=;
-  b=jiNc/PU09f7K7nupzfC36z3vLdIFAlfVhsku59bp0G39Qypc9UYNZzuf
-   VSJkcmP5+TEohVU3fvt+usL1M1RT60AWmGHQaq8GLpdpC/+yEpZgBhPtj
-   hl8y0COlKPVoXh4pHIk0rBBKfU7XbrHrTwAMwaTu+Hx6jeaHna4RyEdWd
-   LZT+On4yankG3CXkHULUV/0dX9Mw8lGtxUIJZADRis5wNmdFWQIDm9VMg
-   edG1rKn1npTKD6ClkTh+5EB3tdodjIEHlF0JwnfY2SW4Ha1C2X4LjiuUL
-   iV7MJ38sluAwAEJwxY1IKFLfNuyUKrGIuk6/r0pIGmXaOcW20MJ/oFN6Z
-   w==;
-X-CSE-ConnectionGUID: Vbp+izQ+RO2vYwQqXicUeg==
-X-CSE-MsgGUID: /gh7PHzUTYWG5Nt1Iu2ieg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="55854594"
+  bh=s6AyaU5EBLASfM9cSYfDutyg0zd30BNi3R50hPDOjEc=;
+  b=feORCarGVKvEQn1shvUfTysJdm0y4538ALXt9v5XSap0tBx4yu6h47/B
+   nLpiigzUjZPqlXpmeixaNGRo7MofAsqNV7+NRe1C9R0QpSqNvTWemioh/
+   UYYX7aZbXvFJFizXCQ2b2bhapcvgzzM1OJiVm2Cq7266OYNruqz79HRGx
+   ho7DsdER8MZFfMVBStkIxtYQ3ZNIVd6uNj0X4NbNHLA+MFgyrxpdl2cgA
+   4KLr5hEuszCtp0qF/tPIq/WM/mS/KCSzvQMZTAoTxnKvRGd0BfNeqX5r0
+   6d97Y5u+dDgYN3HYrFDdTohMigdgdRWyGxqAUgsvoMVqBsKI2AKTABHLV
+   g==;
+X-CSE-ConnectionGUID: a9FCuzHQT7qGnkqROifwyA==
+X-CSE-MsgGUID: SK1ud3XeRh+9yhWRDx8Kqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11393"; a="55854600"
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="55854594"
+   d="scan'208";a="55854600"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 01:46:55 -0700
-X-CSE-ConnectionGUID: 2pbDLjKWTX+hOB5/04ORrA==
-X-CSE-MsgGUID: Jj/2wqcSQbKC81VImVQIwQ==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 01:46:57 -0700
+X-CSE-ConnectionGUID: wAJKmppJTR2WuWMv7ubnCg==
+X-CSE-MsgGUID: PkJy3CiPSZytx3txN32Hyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,187,1739865600"; 
-   d="scan'208";a="164464251"
+   d="scan'208";a="164464259"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa001.jf.intel.com with ESMTP; 04 Apr 2025 01:46:53 -0700
+  by orviesa001.jf.intel.com with ESMTP; 04 Apr 2025 01:46:55 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -51,9 +51,9 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	hdegoede@redhat.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 5/8] ASoC: Intel: avs: Allow to specify custom configurations with i2s_test
-Date: Fri,  4 Apr 2025 11:03:34 +0200
-Message-Id: <20250404090337.3564117-6-cezary.rojewski@intel.com>
+Subject: [PATCH 6/8] ASoC: Intel: avs: Assign unique ID to platform devices
+Date: Fri,  4 Apr 2025 11:03:35 +0200
+Message-Id: <20250404090337.3564117-7-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250404090337.3564117-1-cezary.rojewski@intel.com>
 References: <20250404090337.3564117-1-cezary.rojewski@intel.com>
@@ -68,183 +68,54 @@ Content-Transfer-Encoding: 8bit
 
 From: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 
-Change 'i2s_test' module option from enable-flag to string allowing to
-specify which SSP port and in what TDM configuration should be enabled.
+When creating machine boards there are two types, per endpoint or
+compound board. For compound board we can just use I2S mask as its ID,
+however, per endpoint can also be separated per TDM, which causes
+problem because two boards would have same I2S mask. Shift it and add
+the value of TDM to generate a unique ID.
 
 Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/board_selection.c | 134 +++++++++++++-------------
- 1 file changed, 68 insertions(+), 66 deletions(-)
+ sound/soc/intel/avs/board_selection.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/sound/soc/intel/avs/board_selection.c b/sound/soc/intel/avs/board_selection.c
-index 2d706edcbf92..30444b67dd91 100644
+index 30444b67dd91..286d94df5f46 100644
 --- a/sound/soc/intel/avs/board_selection.c
 +++ b/sound/soc/intel/avs/board_selection.c
-@@ -17,10 +17,11 @@
- #include <sound/soc-acpi.h>
- #include <sound/soc-component.h>
- #include "avs.h"
-+#include "utils.h"
+@@ -448,6 +448,7 @@ static int avs_register_i2s_board(struct avs_dev *adev, struct snd_soc_acpi_mach
+ 	int num_ssps;
+ 	char *name;
+ 	int ret;
++	int uid;
  
--static bool i2s_test;
--module_param(i2s_test, bool, 0444);
--MODULE_PARM_DESC(i2s_test, "Probe I2S test-board and skip all other I2S boards");
-+static char *i2s_test;
-+module_param(i2s_test, charp, 0444);
-+MODULE_PARM_DESC(i2s_test, "Use I2S test-board instead of ACPI, i2s_test=ssp0tdm,ssp1tdm,... 0 to ignore port");
- 
- static const struct dmi_system_id kbl_dmi_table[] = {
- 	{
-@@ -324,52 +325,6 @@ static struct snd_soc_acpi_mach avs_mbl_i2s_machines[] = {
- 	{}
- };
- 
--static struct snd_soc_acpi_mach avs_test_i2s_machines[] = {
--	{
--		.drv_name = "avs_i2s_test",
--		.mach_params = {
--			.i2s_link_mask = AVS_SSP(0),
--		},
--		.tplg_filename = "i2s-test-tplg.bin",
--	},
--	{
--		.drv_name = "avs_i2s_test",
--		.mach_params = {
--			.i2s_link_mask = AVS_SSP(1),
--		},
--		.tplg_filename = "i2s-test-tplg.bin",
--	},
--	{
--		.drv_name = "avs_i2s_test",
--		.mach_params = {
--			.i2s_link_mask = AVS_SSP(2),
--		},
--		.tplg_filename = "i2s-test-tplg.bin",
--	},
--	{
--		.drv_name = "avs_i2s_test",
--		.mach_params = {
--			.i2s_link_mask = AVS_SSP(3),
--		},
--		.tplg_filename = "i2s-test-tplg.bin",
--	},
--	{
--		.drv_name = "avs_i2s_test",
--		.mach_params = {
--			.i2s_link_mask = AVS_SSP(4),
--		},
--		.tplg_filename = "i2s-test-tplg.bin",
--	},
--	{
--		.drv_name = "avs_i2s_test",
--		.mach_params = {
--			.i2s_link_mask = AVS_SSP(5),
--		},
--		.tplg_filename = "i2s-test-tplg.bin",
--	},
--	/* no NULL terminator, as we depend on ARRAY SIZE due to .id == NULL */
--};
--
- struct avs_acpi_boards {
- 	int id;
- 	struct snd_soc_acpi_mach *machs;
-@@ -529,6 +484,68 @@ static int avs_register_i2s_board(struct avs_dev *adev, struct snd_soc_acpi_mach
- 	return 0;
- }
- 
-+static int avs_register_i2s_test_board(struct avs_dev *adev, int ssp_port, int tdm_slot)
-+{
-+	struct snd_soc_acpi_mach *mach;
-+	int tdm_mask = BIT(tdm_slot);
-+	unsigned long *tdm_cfg;
-+	char *tplg_name;
-+	int ret;
-+
-+	mach = devm_kzalloc(adev->dev, sizeof(*mach), GFP_KERNEL);
-+	tdm_cfg = devm_kcalloc(adev->dev, ssp_port + 1, sizeof(unsigned long), GFP_KERNEL);
-+	tplg_name = devm_kasprintf(adev->dev, GFP_KERNEL, AVS_STRING_FMT("i2s", "-test-tplg.bin",
-+				   ssp_port, tdm_slot));
-+	if (!mach || !tdm_cfg || !tplg_name)
-+		return -ENOMEM;
-+
-+	mach->drv_name = "avs_i2s_test";
-+	mach->mach_params.i2s_link_mask = AVS_SSP(ssp_port);
-+	tdm_cfg[ssp_port] = tdm_mask;
-+	mach->pdata = tdm_cfg;
-+	mach->tplg_filename = tplg_name;
-+
-+	ret = avs_register_i2s_board(adev, mach);
-+	if (ret < 0) {
-+		dev_warn(adev->dev, "register i2s %s failed: %d\n", mach->drv_name, ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int avs_register_i2s_test_boards(struct avs_dev *adev)
-+{
-+	int max_ssps = adev->hw_cfg.i2s_caps.ctrl_count;
-+	int ssp_port, tdm_slot, ret;
-+	unsigned long tdm_slots;
-+	u32 *array, num_elems;
-+
-+	ret = parse_int_array(i2s_test, strlen(i2s_test), (int **)&array);
-+	if (ret < 0) {
-+		dev_err(adev->dev, "failed to parse i2s_test parameter\n");
-+		return ret;
-+	}
-+
-+	num_elems = *array;
-+	if (num_elems > max_ssps) {
-+		dev_err(adev->dev, "board supports only %d SSP, %d specified\n",
-+			max_ssps, num_elems);
-+		return -EINVAL;
-+	}
-+
-+	for (ssp_port = 0; ssp_port < num_elems; ssp_port++) {
-+		tdm_slots = array[1 + ssp_port];
-+		for_each_set_bit(tdm_slot, &tdm_slots, 16) {
-+			ret = avs_register_i2s_test_board(adev, ssp_port, tdm_slot);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int avs_register_i2s_boards(struct avs_dev *adev)
- {
- 	const struct avs_acpi_boards *boards;
-@@ -540,23 +557,8 @@ static int avs_register_i2s_boards(struct avs_dev *adev)
- 		return 0;
+ 	num_ssps = adev->hw_cfg.i2s_caps.ctrl_count;
+ 	if (fls(mach->mach_params.i2s_link_mask) > num_ssps) {
+@@ -457,8 +458,11 @@ static int avs_register_i2s_board(struct avs_dev *adev, struct snd_soc_acpi_mach
+ 		return -ENODEV;
  	}
  
--	if (i2s_test) {
--		int i, num_ssps;
--
--		num_ssps = adev->hw_cfg.i2s_caps.ctrl_count;
--		/* constrain just in case FW says there can be more SSPs than possible */
--		num_ssps = min_t(int, ARRAY_SIZE(avs_test_i2s_machines), num_ssps);
--
--		mach = avs_test_i2s_machines;
--
--		for (i = 0; i < num_ssps; i++) {
--			ret = avs_register_i2s_board(adev, &mach[i]);
--			if (ret < 0)
--				dev_warn(adev->dev, "register i2s %s failed: %d\n", mach->drv_name,
--					 ret);
--		}
--		return 0;
--	}
-+	if (i2s_test)
-+		return avs_register_i2s_test_boards(adev);
+-	name = devm_kasprintf(adev->dev, GFP_KERNEL, "%s.%d-platform", mach->drv_name,
+-			      mach->mach_params.i2s_link_mask);
++	uid = mach->mach_params.i2s_link_mask;
++	if (avs_mach_singular_ssp(mach))
++		uid = (uid << AVS_CHANNELS_MAX) + avs_mach_ssp_tdm(mach, avs_mach_ssp_port(mach));
++
++	name = devm_kasprintf(adev->dev, GFP_KERNEL, "%s.%d-platform", mach->drv_name, uid);
+ 	if (!name)
+ 		return -ENOMEM;
  
- 	boards = avs_get_i2s_boards(adev);
- 	if (!boards) {
+@@ -468,7 +472,7 @@ static int avs_register_i2s_board(struct avs_dev *adev, struct snd_soc_acpi_mach
+ 
+ 	mach->mach_params.platform = name;
+ 
+-	board = platform_device_register_data(NULL, mach->drv_name, mach->mach_params.i2s_link_mask,
++	board = platform_device_register_data(NULL, mach->drv_name, uid,
+ 					      (const void *)mach, sizeof(*mach));
+ 	if (IS_ERR(board)) {
+ 		dev_err(adev->dev, "ssp board register failed\n");
 -- 
 2.25.1
 
