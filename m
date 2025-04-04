@@ -1,99 +1,101 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064D31B423D;
-	Fri,  4 Apr 2025 13:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D9A81A238C;
+	Fri,  4 Apr 2025 14:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743774588; cv=none; b=Et/xD3S/B6v2sYLKjd104vcnoxta7dPDTK1nFsXQnMTPUIKopAXfRnzaORbvfiGI+SaZ4aFk85o6n3jV3Fzyo7xsAxvBBJvhDxVTEo1eMc0touxhWz+iRZfic6xWSCBvEIeiCnBOdr3vwSAl+m/qpezL044ErKBhhe3jOj9XFgs=
+	t=1743776826; cv=none; b=ZokEVLISfET2pA8UthtH1+WC5c1UFcJU9nLff2y6ijVzRDN3SsKy8EGDK3fe9hUiD9OLUFWc6TofsKGJ04j/Y7z0VgkzCD2O4iyhxmmBMPS6VDTRy9z43t5H9MSkbBh+iEG8IVAFQkhhgtgalt/dHaEPXY0ijfb4y9gevkePrf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743774588; c=relaxed/simple;
-	bh=/dptjStSDMMJMudHNbgUWzi4jLWy8qr/uVmDB7rU88A=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kta4QUuGVHNi9upHGLkyZ5x9RYkapOrqrCEogLOxpXQsWo1ZZz311UGPulzYXIDzwKy6aLKsVf2gDoVRIn9L112cGqyeiZ7zJtgIpaQmNx6sJCeTVqNamT/caXdqR1FLSfLXb7Gaa0xPpLeLgod+5Kg0gzblkr7l6Nz+fW8jD3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=RhF4dXXX; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1743776826; c=relaxed/simple;
+	bh=BinFXEu5xJ5P6GQ2tSNl4s/I+Bg9wAd2jeLycIJNcGE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hAP9laUln9+JgZR1o4OmD0RA3w4V+bUDRDgx+mhe7wZiq0nkfL1qcVL+GFXyu3EWr7Hbi3jbAAzosPTwl4DI3MB3KmCIshCC1VAcuyi4e8jUJIRr0YLBB54VLRfccwU6uzh5FPp5FEjHjJFXrQQUZ2gmjzv8SBtiXx/Q65bYJ24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=rfO4hfjY; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=TF7X/YOc; arc=none smtp.client-ip=220.130.44.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="RhF4dXXX"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4ZTg2Z0N5lz9t2j;
-	Fri,  4 Apr 2025 15:49:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1743774582; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/dptjStSDMMJMudHNbgUWzi4jLWy8qr/uVmDB7rU88A=;
-	b=RhF4dXXXAixla5UfN0PU+Crs4lP64BchwhmSeF00bXDPDh/L0RA5l+ybI9YZxuOc9pGe+t
-	rV8zVnTFz9cxa5DwsvLrMfcmM5tblaiLoEiguv+fGCD72outaDF/MgJZKxT/pucxRt0EUS
-	hZe7DawkDCVKZqZgDoMudfrjInBJQvOdM2KKt7UvPscuQk5WLfNgYsPTkpwLGMTcWNSlfX
-	nAkD3ePdNmdClkMleflvtYvHc3CywVhwCxY89Uv/0oLsBg7CUfpIQp6hzmfdZC5MdlfdAT
-	i4Vn+TpDjWAc0M5QXYWCdfSezvP/yL9ozY28dJEfF10WTyRRAGGkWN6MqXKPZA==
-Message-ID: <01627e70902d331f7a9e8c08bd5c78dc6991ea74.camel@mailbox.org>
-Subject: Re: [PATCH 00/11] sound: Replace deprecated PCI functions
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Takashi Iwai <tiwai@suse.de>, Philipp Stanner <phasta@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Clemens
- Ladisch <clemens@ladisch.de>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>,  Thorsten Blum <thorsten.blum@linux.dev>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Bard Liao
- <yung-chuan.liao@linux.intel.com>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Maxim Mikityanskiy <maxtram95@gmail.com>, Kuninori Morimoto
- <kuninori.morimoto.gx@renesas.com>,  He Lugang <helugang@uniontech.com>,
- Jerome Brunet <jbrunet@baylibre.com>, Binbin Zhou <zhoubinbin@loongson.cn>,
- Tang Bin <tangbin@cmss.chinamobile.com>,  linux-parisc@vger.kernel.org,
- linux-sound@vger.kernel.org,  linux-kernel@vger.kernel.org
-Date: Fri, 04 Apr 2025 15:49:36 +0200
-In-Reply-To: <87plhs2g4h.wl-tiwai@suse.de>
-References: <20250404121911.85277-2-phasta@kernel.org>
-	 <87plhs2g4h.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="rfO4hfjY";
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="TF7X/YOc"
+X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1743776821;
+	bh=lKHyVuep4L/EA1oyYLoYQ61TnGK9fi+8Aheuj8YJrdY=; l=1004;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=rfO4hfjYwgQw1JFYd6QWp/MDWJEL+aPGD5iz8pT3rc8TxnjIZEXDDcGSgLNANT4UB
+	 H7nU21AsXU7AX/0CXn8lZqD6JDxlVii0h2bGR/+lB2Y+GTdCeD+INPydl7xKEDF1EE
+	 ib1ERPxlq5wZRnfxVadec86MPlOMuJooQOAYmRcLy5zSGNiHXJkyIcrVKWOFxxWll+
+	 JPe9TGRt0GuG+BG5ijkOMRXHBcNl2mN+FacCTog82qvKkNhGeWyuaDORH375vc1hI8
+	 FdK8JM0hycyLzlSuA21nYhS99XWPEo5kjH8LvQFlTut8yzCHCck7TgqnPw0TvVhSoe
+	 w/BVOFFnfAwJA==
+Received: from 192.168.8.21
+	by mg.richtek.com with MailGates ESMTP Server V3.0(1128086:0:AUTH_RELAY)
+	(envelope-from <prvs=11846F16CF=cy_huang@richtek.com>); Fri, 04 Apr 2025 22:26:58 +0800 (CST)
+X-MailGates: (compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1743776818;
+	bh=lKHyVuep4L/EA1oyYLoYQ61TnGK9fi+8Aheuj8YJrdY=; l=1004;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=TF7X/YOchb44Ls5Vgdrd7PnEPXBldCfrecLaiopuMxpkuyr0++bnv4z0lNqFd0rkl
+	 nL2ijOjM32OmAMomO4EhbowKIFXiCJv8TuUzbPihJwoTqUYUCaHbacjIAcHnJa2SlR
+	 xxH9faEzalCZYovHLgk69NadlE5m/9HCc1Rl+SCniMKArJ7KNdiKLsa1tM/oQfHXJf
+	 5QQCNjGnFvoEIU14BkDlpuiIvqH3sSuxmaWi+0w5lbt+ngx0rYi9YcvznboXB46QCp
+	 TbsDXYFhQq07sa5zLTIaOml9sgf5fu9VeSmlJJEfLEeIPUQ4A6sRqmQDZsfZBFCtTv
+	 GrSkVhZJX1Y3w==
+Received: from 192.168.10.46
+	by mg.richtek.com with MailGates ESMTPS Server V6.0(1629328:0:AUTH_RELAY)
+	(envelope-from <cy_huang@richtek.com>)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Fri, 04 Apr 2025 22:21:09 +0800 (CST)
+Received: from ex4.rt.l (192.168.10.47) by ex3.rt.l (192.168.10.46) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 4 Apr
+ 2025 22:21:08 +0800
+Received: from git-send.richtek.com (192.168.10.154) by ex4.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
+ Transport; Fri, 4 Apr 2025 22:21:08 +0800
+From: <cy_huang@richtek.com>
+To: Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+CC: Rob Herring <robh@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, ChiYuan
+ Huang <cy_huang@richtek.com>, Otto lin <otto_lin@richtek.com>, Allen Lin
+	<allen_lin@richtek.com>, <devicetree@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/4] ASoC: Add Richtek rt9123 and rt9123p support
+Date: Fri, 4 Apr 2025 22:22:10 +0800
+Message-ID: <cover.1743774849.git.cy_huang@richtek.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: aymtz56nufw1qgqjcbqq8zxezp1rjtxk
-X-MBO-RS-ID: 820365da6c78a0c542e
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Fri, 2025-04-04 at 15:47 +0200, Takashi Iwai wrote:
-> On Fri, 04 Apr 2025 14:19:01 +0200,
-> Philipp Stanner wrote:
-> >=20
-> > pcim_iomap_table() and pcim_iomap_regions() have been deprecated by
-> > the
-> > PCI subsystem. In sound/, they can easily be replaced with
-> > pcim_iomap_region().
-> >=20
-> > This series was around some time in late summer last year as a
-> > single
-> > patch. I lost track of it for a while, but Takashi Iwai (AFAIR)
-> > requested that I split it by component.
-> >=20
-> > So that's being done here. Feel free to squash the patches as you
-> > like.
->=20
-> Thanks for the patches.=C2=A0 I suppose those are no urgent fixes, and ca=
-n
-> be postponed for 6.16?=C2=A0 If so, I'll pick them up after 6.15-rc1 merg=
-e
-> window is closed.
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-Sure, those are just improvements that aren't urgent.
+This patch series adds Richtek rt9123 and rt9123p support.
+It's a 3.2W mono Class-D audio amplifier.
 
-Thx,
-P.
+ChiYuan Huang (4):
+  ASoC: dt-bindings: Add bindings for Richtek rt9123
+  ASoC: codecs: Add support for Richtek rt9123
+  ASoC: dt-bindings: Add bindings for Richtek rt9123p
+  ASoC: codecs: Add support for Richtek rt9123p
 
->=20
->=20
-> Takashi
+ .../bindings/sound/richtek,rt9123.yaml        |  56 ++
+ .../bindings/sound/richtek,rt9123p.yaml       |  50 ++
+ sound/soc/codecs/Kconfig                      |  15 +
+ sound/soc/codecs/Makefile                     |   4 +
+ sound/soc/codecs/rt9123.c                     | 484 ++++++++++++++++++
+ sound/soc/codecs/rt9123p.c                    | 171 +++++++
+ 6 files changed, 780 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/richtek,rt9123.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/richtek,rt9123p.yaml
+ create mode 100644 sound/soc/codecs/rt9123.c
+ create mode 100644 sound/soc/codecs/rt9123p.c
+
+
+base-commit: a2cc6ff5ec8f91bc463fd3b0c26b61166a07eb11
+-- 
+2.34.1
 
