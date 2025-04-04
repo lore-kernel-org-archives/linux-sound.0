@@ -1,57 +1,46 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67EB1F8EEC;
-	Fri,  4 Apr 2025 19:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DFF18B494;
+	Fri,  4 Apr 2025 20:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743794621; cv=none; b=LWiBMSy2G6ovjl5o24pegktOeJJjzA8Tb3q7TMwvfDEawNNbOQX0mpY/P+JjlEmM74Hg4ECekNDohhKlX0d08PG5mM/WnDSl7modxmlGYQHuRHsllj+ml4X4qjWkQ3/+iErSo+UiH3t5ikknBNKWFAYhUcsSfJ8d4I2JpJ50N2c=
+	t=1743797121; cv=none; b=BpLekwJo/F/CENbaNoiQjuviK7BYTx4SrjBQyf4Jz2KsaSTPp8gZVhwRzK9bcqGnV09Bzjv3rmRMXmJHg+zsQFHiRNFZOmuoZfkLao2GGeUZc3ZnCiUNR5nx62lE+wheSeMQFPNhb69o0lJDlNyAfiNftG6juHLt68ZISFQ874U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743794621; c=relaxed/simple;
-	bh=mQqeUH8frYpOMUK5K8i4cOVS/eV7D23K4q3inrc1nWo=;
+	s=arc-20240116; t=1743797121; c=relaxed/simple;
+	bh=GMCfGIgOJjz961NHnxEEdClQb5C3/47hhGB/CNUCJTo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JHF7jIXuSAsVvkTjYWu9zAIEB+KKtkeLrfxbZWVLoq6aTW8u+Hei5/8tgqIOXlS39l8Hh6tfKABix8WPy0mZQ3SiQAkivhX2XPAsFqkRoqoiTaLmVBQcAaMjHPUxVroGyF5xlJESQ4IJFqVVGsLdcxSlHkFbuuugACYW18R/rCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=N8dEyzEO; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=WbfTCdYa+tnlKT3v1E+ffLbPVLCjL8yFhbJUxkLLzSCkNWgeA7Men+bppRnpaf6Q05/Mx1rWVZtsilQsA43qLHILDc7NZ0YA1pGiP+dCWxaXouQ7G/klbjSFfkNgeYK7Vkap5PBtJNYdke8KHs4TP1OanOesUlkXEfOF3/MifIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZsxJU/i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="N8dEyzEO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=AqVmIrE/jE+IpnnXvanZ162p0k9wJQEbyVriEI1fWbU=; b=N8dEyzEOtEMUgWIYbaJkq5zrhS
-	W+vuan8+xXjv06MMNsTBnGIHbalrkgIcwvEQYPB9ztyTtN9XTBEkHQAC9DKn42vsns7+HA0EEW6Rj
-	2YzHDhLYPFEy2GnfHk2ZveOd/4tKZmDBvVXkq2wiY7VO0Ag3b3PnRSTBmGlc6zZLjx2H2Kp/qk8Kw
-	zPh/BlKsTuQXnQ3L+Mv56k+gIxY/A/IyaXMzomC3QuDk/iTrO/lhYH5LlBW/1usW9N/Iye+PM7Tcd
-	8JmXpFOGxQUY7yzujZuB/KBIZXUANlklKDFZQPOnr+gJsRleJFOeXToiDCAju4KS3ZFPiOf/nWI8d
-	vHU9Uinw==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <carnil@debian.org>)
-	id 1u0mdX-00CTnW-9X; Fri, 04 Apr 2025 19:23:31 +0000
-Received: by eldamar.lan (Postfix, from userid 1000)
-	id 767E6BE2DE0; Fri, 04 Apr 2025 21:23:30 +0200 (CEST)
-Date: Fri, 4 Apr 2025 21:23:30 +0200
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: Takashi Iwai <tiwai@suse.de>, 1100928@bugs.debian.org,
-	"C.D. MacEachern" <craig.daniel.maceachern@gmail.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: Bug#1100928: [regression 6.1.y] microphone no longer records (on
- VivoBook_ASUSLaptop TP401MARB_J401MA)
-Message-ID: <Z_AxsuGoaVK9P3L4@eldamar.lan>
-References: <Z-MMsp3XJyNHOlma@eldamar.lan>
- <87iknwb80x.wl-tiwai@suse.de>
- <CAJ8x=4jNhsjw_s-p5FXBk9WScPHEdUMZ0tXnhCiya8fCf_PH7w@mail.gmail.com>
- <Z-ct2D6uIN1f6UbL@eldamar.lan>
- <87zfh43uti.wl-tiwai@suse.de>
- <CAJ8x=4ibzvVxxv7FzswtwTcYT73XaDOUr7gHWMcdxB+j8+zyyw@mail.gmail.com>
- <878qojypu6.wl-tiwai@suse.de>
- <CAJ8x=4gN1fH6chp4C3jX1OXq2-JhbP5yUzLbqvWrAJ-u=+VNhw@mail.gmail.com>
- <174248253267.1718.4037292692790831697.reportbug@x>
- <87mscw4dst.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZsxJU/i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DD0DC4CEDD;
+	Fri,  4 Apr 2025 20:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743797120;
+	bh=GMCfGIgOJjz961NHnxEEdClQb5C3/47hhGB/CNUCJTo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hZsxJU/ibkUpFtrAwJ3jYKNR1R6qfnuuyI2rfGYCVlL4kq7SCowZvHnlpga98ja8W
+	 mPbTGk22CHvTtppR4GuF34C5AH58V6r/NjtvEV3b0J4HoC9cpipRhEM7/XxmQDnw2A
+	 p035DU8YqscCUvo2oVYWXPFsPOMRnACVlc+NR1jsnq5YD8vEYu19HXPpuSc1w+Djkb
+	 Ym0WU2XVD4aJhij2vNplXJhXq7C698CcTGZF7dfXjpjdXHkWJp40uyau5UYKKBiyw5
+	 dGXMN/JRBUPG7GrC/BC/KOKh4AnwMSD5LEuPxZ9uDPgMle2bH/iy9kDGh3Qzfm+OHO
+	 oJ/5uxNypPf0w==
+Date: Fri, 4 Apr 2025 15:05:19 -0500
+From: Rob Herring <robh@kernel.org>
+To: cy_huang@richtek.com
+Cc: Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Otto lin <otto_lin@richtek.com>, Allen Lin <allen_lin@richtek.com>,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] ASoC: codecs: Add support for Richtek rt9123p
+Message-ID: <20250404200519.GA198531-robh@kernel.org>
+References: <cover.1743774849.git.cy_huang@richtek.com>
+ <27583d8f9bb07351e5c9ea78ed286ca6daa74a8d.1743774849.git.cy_huang@richtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,32 +49,199 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87mscw4dst.wl-tiwai@suse.de>
-X-Debian-User: carnil
+In-Reply-To: <27583d8f9bb07351e5c9ea78ed286ca6daa74a8d.1743774849.git.cy_huang@richtek.com>
 
-Hi Craig,
-
-On Fri, Apr 04, 2025 at 08:54:26AM +0200, Takashi Iwai wrote:
-> On Thu, 03 Apr 2025 21:05:09 +0200,
-> C.D. MacEachern wrote:
-> > 
-> > 
-> > I've added 'snd_hda_intel.model=1043:1271' to the end of
-> > GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub then ran 'sudo update-grub'
-> > and rebooted, choose the non-working kernel, and the audio input still did not
-> > work. Any other ideas?
+On Fri, Apr 04, 2025 at 10:22:14PM +0800, cy_huang@richtek.com wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
 > 
-> Please try the patch.  If it still doesn't work, please give
-> alsa-info.sh output again.
+> Add codec driver for Richtek rt9123p.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+>  sound/soc/codecs/Kconfig   |   6 ++
+>  sound/soc/codecs/Makefile  |   2 +
+>  sound/soc/codecs/rt9123p.c | 171 +++++++++++++++++++++++++++++++++++++
+>  3 files changed, 179 insertions(+)
+>  create mode 100644 sound/soc/codecs/rt9123p.c
+> 
+> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+> index c61b2d3cf284..b0fa935846c0 100644
+> --- a/sound/soc/codecs/Kconfig
+> +++ b/sound/soc/codecs/Kconfig
+> @@ -1832,6 +1832,12 @@ config SND_SOC_RT9123
+>  	  Enable support for the I2C control mode of Richtek RT9123 3.2W mono
+>  	  Class-D audio amplifier.
+>  
+> +config SND_SOC_RT9123P
+> +	tristate "Richtek RT9123P Mono Class-D Amplifier"
+> +	help
+> +	  Enable support for the HW control mode of Richtek RT9123P 3.2W mono
+> +	  Class-D audio amplifier.
+> +
+>  config SND_SOC_RTQ9128
+>  	tristate "Richtek RTQ9128 45W Digital Input Amplifier"
+>  	depends on I2C
+> diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+> index d8d0bc367af8..fba699701804 100644
+> --- a/sound/soc/codecs/Makefile
+> +++ b/sound/soc/codecs/Makefile
+> @@ -271,6 +271,7 @@ snd-soc-rt721-sdca-y := rt721-sdca.o rt721-sdca-sdw.o
+>  snd-soc-rt722-sdca-y := rt722-sdca.o rt722-sdca-sdw.o
+>  snd-soc-rt9120-y := rt9120.o
+>  snd-soc-rt9123-y := rt9123.o
+> +snd-soc-rt9123p-y := rt9123p.o
+>  snd-soc-rtq9128-y := rtq9128.o
+>  snd-soc-sdw-mockup-y := sdw-mockup.o
+>  snd-soc-sgtl5000-y := sgtl5000.o
+> @@ -686,6 +687,7 @@ obj-$(CONFIG_SND_SOC_RT721_SDCA_SDW)     += snd-soc-rt721-sdca.o
+>  obj-$(CONFIG_SND_SOC_RT722_SDCA_SDW)     += snd-soc-rt722-sdca.o
+>  obj-$(CONFIG_SND_SOC_RT9120)	+= snd-soc-rt9120.o
+>  obj-$(CONFIG_SND_SOC_RT9123)	+= snd-soc-rt9123.o
+> +obj-$(CONFIG_SND_SOC_RT9123P)	+= snd-soc-rt9123p.o
+>  obj-$(CONFIG_SND_SOC_RTQ9128)	+= snd-soc-rtq9128.o
+>  obj-$(CONFIG_SND_SOC_SDW_MOCKUP)     += snd-soc-sdw-mockup.o
+>  obj-$(CONFIG_SND_SOC_SGTL5000)  += snd-soc-sgtl5000.o
+> diff --git a/sound/soc/codecs/rt9123p.c b/sound/soc/codecs/rt9123p.c
+> new file mode 100644
+> index 000000000000..b0ff5f856e4c
+> --- /dev/null
+> +++ b/sound/soc/codecs/rt9123p.c
+> @@ -0,0 +1,171 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +//
+> +// rt9123p.c -- RT9123 (HW Mode) ALSA SoC Codec driver
+> +//
+> +// Author: ChiYuan Huang <cy_huang@richtek.com>
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/delay.h>
+> +#include <linux/err.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <sound/pcm.h>
+> +#include <sound/soc.h>
+> +#include <sound/soc-dai.h>
+> +#include <sound/soc-dapm.h>
+> +
+> +struct rt9123p_priv {
+> +	struct gpio_desc *enable;
+> +	unsigned int enable_delay;
+> +	int enable_switch;
+> +};
+> +
+> +static int rt9123p_daiops_trigger(struct snd_pcm_substream *substream, int cmd,
+> +				  struct snd_soc_dai *dai)
+> +{
+> +	struct snd_soc_component *comp = dai->component;
+> +	struct rt9123p_priv *rt9123p = snd_soc_component_get_drvdata(comp);
+> +
+> +	if (!rt9123p->enable)
+> +		return 0;
+> +
+> +	switch (cmd) {
+> +	case SNDRV_PCM_TRIGGER_START:
+> +	case SNDRV_PCM_TRIGGER_RESUME:
+> +	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+> +		mdelay(rt9123p->enable_delay);
+> +		if (rt9123p->enable_switch) {
+> +			gpiod_set_value(rt9123p->enable, 1);
+> +			dev_dbg(comp->dev, "set enable to 1");
+> +		}
+> +		break;
+> +	case SNDRV_PCM_TRIGGER_STOP:
+> +	case SNDRV_PCM_TRIGGER_SUSPEND:
+> +	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+> +		gpiod_set_value(rt9123p->enable, 0);
+> +		dev_dbg(comp->dev, "set enable to 0");
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rt9123p_enable_event(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol,
+> +				int event)
+> +{
+> +	struct snd_soc_component *comp = snd_soc_dapm_to_component(w->dapm);
+> +	struct rt9123p_priv *rt9123p = snd_soc_component_get_drvdata(comp);
+> +
+> +	if (event & SND_SOC_DAPM_POST_PMU)
+> +		rt9123p->enable_switch = 1;
+> +	else if (event & SND_SOC_DAPM_POST_PMD)
+> +		rt9123p->enable_switch = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct snd_soc_dapm_widget rt9123p_dapm_widgets[] = {
+> +	SND_SOC_DAPM_OUTPUT("SPK"),
+> +	SND_SOC_DAPM_OUT_DRV_E("Amp Drv", SND_SOC_NOPM, 0, 0, NULL, 0, rt9123p_enable_event,
+> +			       SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD),
+> +};
+> +
+> +static const struct snd_soc_dapm_route rt9123p_dapm_routes[] = {
+> +	{"Amp Drv", NULL, "HiFi Playback"},
+> +	{"SPK", NULL, "Amp Drv"},
+> +};
+> +
+> +static const struct snd_soc_component_driver rt9123p_comp_driver = {
+> +	.dapm_widgets		= rt9123p_dapm_widgets,
+> +	.num_dapm_widgets	= ARRAY_SIZE(rt9123p_dapm_widgets),
+> +	.dapm_routes		= rt9123p_dapm_routes,
+> +	.num_dapm_routes	= ARRAY_SIZE(rt9123p_dapm_routes),
+> +	.idle_bias_on		= 1,
+> +	.use_pmdown_time	= 1,
+> +	.endianness		= 1,
+> +};
+> +
+> +static const struct snd_soc_dai_ops rt9123p_dai_ops = {
+> +	.trigger        = rt9123p_daiops_trigger,
+> +};
+> +
+> +static struct snd_soc_dai_driver rt9123p_dai_driver = {
+> +	.name = "HiFi",
+> +	.playback = {
+> +		.stream_name	= "HiFi Playback",
+> +		.formats	= SNDRV_PCM_FMTBIT_S16 | SNDRV_PCM_FMTBIT_S24 |
+> +				  SNDRV_PCM_FMTBIT_S32,
+> +		.rates		= SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
+> +				  SNDRV_PCM_RATE_22050 | SNDRV_PCM_RATE_24000 |
+> +				  SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
+> +				  SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_88200 |
+> +				  SNDRV_PCM_RATE_96000,
+> +		.rate_min	= 8000,
+> +		.rate_max	= 96000,
+> +		.channels_min	= 1,
+> +		.channels_max	= 2,
+> +	},
+> +	.ops    = &rt9123p_dai_ops,
+> +};
+> +
+> +static int rt9123p_platform_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct rt9123p_priv *rt9123p;
+> +	int ret;
+> +
+> +	rt9123p = devm_kzalloc(dev, sizeof(*rt9123p), GFP_KERNEL);
+> +	if (!rt9123p)
+> +		return -ENOMEM;
+> +
+> +	rt9123p->enable = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_LOW);
+> +	if (IS_ERR(rt9123p->enable))
+> +		return PTR_ERR(rt9123p->enable);
+> +
+> +	ret = device_property_read_u32(dev, "enable-delay", &rt9123p->enable_delay);
 
-if you still have issues to build your own kernel, I have made test
-packages with the patc from Takashi available at:
-https://people.debian.org/~carnil/tmp/linux/1100928/
+Not documented. You have a single GPIO for any sort of control. What is 
+this delay relative to? Why does it need to be tuned per board? 
+Properties with units have unit suffix.
 
-(with the offset/fuzz changes needed for making the mapply on 6.1.129
-based kernel).
-
-Would be great if you can report back.
-
-Regards,
-Salvatore
+Rob
