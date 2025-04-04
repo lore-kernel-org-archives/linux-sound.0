@@ -1,199 +1,231 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707611C68F
-	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 09:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7981A5BA1
+	for <linux-sound@vger.kernel.org>; Fri,  4 Apr 2025 09:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743757749; cv=none; b=Qlozuo1zV4bXy2S6C8765OQOeFVXkHz5sLwam0zePBBW8kCjow64QAJSm+88b7GOaQvspgkcvnSpc3+uAh4cSmxsZDFZ50IGvzS2PRztQyv03n7fVxp5j0k96uD4cYGRGS7NlZi0XhF2wCdgGPNIJs2/zsNVhVTY4criLeo00CQ=
+	t=1743758672; cv=none; b=p5iN6+3ddO0VgXchmkstStXZC684T8GaeHVq8zPldkXHNt7HnS/lkRDNh9UHDPj1rOmA5NVEUxLB9sYt6V4V4WMNIhVjdIZHaFLehn2RiIbSzMh2jv/plu7cmRvcXBbOeaCbbBlMtytNFBF/OqE1G3ooLfw3ZDYnILbaM3ccjjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743757749; c=relaxed/simple;
-	bh=kVBvRwwS78xlHsZBaf8S2CVG2EecHhHaRqBX+HWVn5Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DLHf0BRL8z22F9o0VEPBpX11ixzVKWxlqXrv1hivVIIqJjvqw4gT7SOyhpt4iuIX3/R++393z6asc3J98ju55giHI6t7eprGHcJs8f7FovFW2TpLodXSsS4xbSUV4uVLIbOvBcqI6Ux0250xyvKoyW43lXecG3zlcqdO2tLKJow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=X2aucAck; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1743758672; c=relaxed/simple;
+	bh=mhsAKtrtx8q6Kuhdx1gCRLTnQk8BFVldD1RjWRzGuFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ijuHijjPXSTqfB++O0EwbJUYHK2Xsh9rxS1qFCT5acRrkIGon30gZZCJHc0XHCRNtGMlteZcxdKuGjJe8kv4/R5xsjarMqTHlajbU0f6wo+eEAV9yHo6Zg9w9ZYbg05dfbj+qXMAeh/0bUmyVufWRRsm53isi09gkdXm6HiF7sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WYIupbwQ; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="X2aucAck"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id E117D3ECD2;
-	Fri,  4 Apr 2025 11:09:00 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz E117D3ECD2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1743757740; bh=6J8vq/DfNlCSY7lP9jNlyi0UgusYS1ITTKW+oKbTn7g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=X2aucAckLeKJH5fry8x/RQw74a361aojboTV9N4zPh3G5KCXhqub/jERKrLasWHvY
-	 pWLkzMrY5MzXOYNPsT/7W5zf/9RXWRpD/QKi51NVvQDbkEHMG24ImTsrgoXjH1hmMS
-	 OczPvb8hSinN7rABzdVhkMSVYyLkebEKWjgO6IFU=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Fri,  4 Apr 2025 11:08:49 +0200 (CEST)
-Message-ID: <3fa64cdc-c5a3-4b88-a974-1463c1f281b9@perex.cz>
-Date: Fri, 4 Apr 2025 11:08:49 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WYIupbwQ"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ac29fd22163so309862066b.3
+        for <linux-sound@vger.kernel.org>; Fri, 04 Apr 2025 02:24:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743758667; x=1744363467; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qHqjNgPYjFVoUL5p28toluYm5U5RftH3Zux4QyIsXJM=;
+        b=WYIupbwQAl2Bo8bZMP4jLovbTIPyj554nVfS0y+R5j5rTnqWMGrdBzDIJI9hCqUfRT
+         Xkv+eYEIlGvv/Gqg4VTDiKcME+FhB6zco5zG6iuVfjXn81CozvJtG840c4snwFmoviPs
+         bFRgqY7yVaapMODG9sqTKfF7NYMcpS1tHxYAI96E9PuKT8S03MZKS6S+INl8T3DGpiqO
+         YmTgdKJdMDtc4HMRYBOg0Ohv5ySPB5N+YXb6EvqMf2GwmF/HAcELsXSOJlMiPLHa4Spx
+         LNQjq//IhGDjth6no/1VTVH5u3ELjHl2pRyltj1Ur1OzFB/j4pEMCCGKZhfeX2ww0M9F
+         7+NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743758667; x=1744363467;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qHqjNgPYjFVoUL5p28toluYm5U5RftH3Zux4QyIsXJM=;
+        b=dNR3sWtWCwJzfkAHRM4JbPEiaaNpMFsHL/RieVfEuqL/Idupq0kBdkTLxlbXtxBSWA
+         2BqJ8eRw6p+RqdA7f2xA1gE0ISFVYTqKZNO41HM4TO/7/DPAMWHLgVXIlULkqjD3MRmC
+         /Ho1vlvhGFf9nTGu3P954XEoeMLiP6v5ykNOM7yaNsg2ivyn5Z7a7NJD+HLwVrG8Qnzu
+         0KF/AH5X3fAij9auSfYeVyFZO3yd4frhADioHUI4pDJhE0HGzZNmuPteHXdeLC936HnS
+         XawhotUoF5ve1SyyHlPOc+JAwKMG1m2sVQTgFb8tDq245yIIs+iM6Y2U1Dg1k/WWOdtK
+         u06Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV+qmJK8cEUSKMjRbzmANJdkHnvfjvaQb+egQdCRs+e9AfAFJ47qFt9PGXrI+OqbV8cehGjuac3pYlUGA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2mZNchRs9xkVDTuhz4Bl6z33No//4oWesLRcCht6oiE4Bi5qK
+	19JTSv3yvv8+58u2ezqLXfH6T+gifIagdb4A6MqFIKWq3Kfo0j/UqPL4g1ZF0nA=
+X-Gm-Gg: ASbGncs+LGCBjvnGzUt//fywdxE9HEF/8QNPs76P1Es1AttM5O1Z3WXFbfLTNtbdSnS
+	ag9eKI8EKYccunAs8NsJA/+hbNuznkiF7jqS9u8VIAc5gwA/P9S5CIOSaDRhZ/6VCLCAVDxd6Db
+	nRzhhS2ykbGwqNXUcUS0rR/jezxMkfn9WVHk/Ewtf64HVzZhf345Jks6wTx32q8S2nEsXF6aitw
+	NS0MaI2DegAgqZghpWccY1lzD2jLawBv57T2L4kDMCPY4FPYT2NM0D748OzEH0X9GwKY6qegjll
+	5B6170yLjJmn4Ag8mL42BL1W4EOlJ7vcAhx0XaDB+U4tUPehgFd60MBG
+X-Google-Smtp-Source: AGHT+IEaYodn/Q89C7K0adlmfoOMuodOzseFeUPVohsEX4n8FnBRqPy5wPCCe0ARrP3xquBqgynpHQ==
+X-Received: by 2002:a17:907:86a8:b0:ac2:a50a:51ad with SMTP id a640c23a62f3a-ac7d6d22c0fmr167315566b.14.1743758666891;
+        Fri, 04 Apr 2025 02:24:26 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff21:ef30:e124:1321:48a4:8c63])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7c01bf898sm221290366b.164.2025.04.04.02.24.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 02:24:26 -0700 (PDT)
+Date: Fri, 4 Apr 2025 11:24:20 +0200
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
+	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v37 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
+ q6dsp
+Message-ID: <Z--lRII_5_rp9tDf@linaro.org>
+References: <20250404002728.3590501-1-quic_wcheng@quicinc.com>
+ <20250404002728.3590501-23-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
- resume is not supported
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
- Takashi Iwai <tiwai@suse.de>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.com,
- linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
-References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
- <87r02cym1c.wl-tiwai@suse.de> <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
- <87jz83ztn7.wl-tiwai@suse.de> <206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
- <87h637znpp.wl-tiwai@suse.de> <35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
- <8734eryn21.wl-tiwai@suse.de> <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
- <87v7rmylc5.wl-tiwai@suse.de> <d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
- <87o6xeyfkk.wl-tiwai@suse.de>
- <69c52779-ef90-45c5-a024-77f0030bf5cd@linux.intel.com>
- <87jz82ye7b.wl-tiwai@suse.de>
- <8878feb6-362a-4541-91fb-318aea1c0870@linux.intel.com>
- <87o6xe7l4q.wl-tiwai@suse.de>
- <51bf9695-1f70-4749-b70a-2ed4af8c4be7@linux.intel.com>
- <871pu95oon.wl-tiwai@suse.de> <2bc811f1-7fbd-45f1-924e-e6241dcef537@perex.cz>
- <517d9020-379f-42e5-89c6-9d81e4666af6@linux.intel.com>
-Content-Language: en-US
-From: Jaroslav Kysela <perex@perex.cz>
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <517d9020-379f-42e5-89c6-9d81e4666af6@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250404002728.3590501-23-quic_wcheng@quicinc.com>
 
-On 04. 04. 25 10:58, Péter Ujfalusi wrote:
+On Thu, Apr 03, 2025 at 05:27:19PM -0700, Wesley Cheng wrote:
+> The QC ADSP is able to support USB playback endpoints, so that the main
+> application processor can be placed into lower CPU power modes.  This adds
+> the required AFE port configurations and port start command to start an
+> audio session.
 > 
+> Specifically, the QC ADSP can support all potential endpoints that are
+> exposed by the audio data interface.  This includes isochronous data
+> endpoints, in either synchronous mode or asynchronous mode. In the latter
+> case both implicit or explicit feedback endpoints are supported.  The size
+> of audio samples sent per USB frame (microframe) will be adjusted based on
+> information received on the feedback endpoint.
 > 
-> On 03/04/2025 18:24, Jaroslav Kysela wrote:
->> On 03. 04. 25 16:01, Takashi Iwai wrote:
->>
->>> I agree that your patch can be a good start, at least, it addresses
->>> the existing issue with the minimal change.  There are still rough
->>> edges and we'll need to address, but I believe the patch (or modified
->>> / fixed one) can be applied to 6.15 kernel, while keeping the
->>> development for 6.16.
->>
->> I did a quick research how is RESUME/SUSPEND implemented in current
->> drivers and I found that it may be considered to enable SUSPEND trigger
->> also in the paused state:
->>
->> find sound/ -name "*.[ch]" -exec grep -A 2 -B 2 -H -E \
->>      "SNDRV_PCM_TRIGGER_(RESUME|SUSPEND)" {} \;
->>
->> My comments - seems almost all drivers handles SUSPEND as STOP:
->>
->> sound/pci/ymfpci/ymfpci_main.c
->>   - STOP/SUSPEND different, should not be a problem
->> sound/pci/nm256/nm256.c
->> sound/pci/intel8x0.c
->>   - only saves suspend flag additionaly to STOP
->> sound/soc
->>   - some drivers ignores suspend/resume (ignore_suspend flag)
->> sound/soc/pxa/pxa-ssp.c
->>   - should not be a problem (enable/disable hw parts)
->> sound/soc/sti/uniperif_player.c
->>   - only resume trigger is supported ? but no resume info is set
->> sound/soc/sof/intel/hda-dai.c
->>   - only suspend support, but resume is not supported
->> sound/xen/xen_snd_front_alsa.c
->>   - it's just rpc
->> sound/virtio/virtio_pcm_ops.c
->>   - only suspend support, no resume
->>
->> It would be probably nice if more eyes verifies this, but the only
->> suspicious place is the xen front end. And some drivers may be broken
->> already (no changes for them).
->>
->> I believe that this patch should be enough to resolve the issue instead
->> the non-elegant pause release and may be applied also to 6.15:
->>
->> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
->> index 4057f9f10aee..63a1b37cc098 100644
->> --- a/sound/core/pcm_native.c
->> +++ b/sound/core/pcm_native.c
->> @@ -1694,8 +1694,17 @@ static int snd_pcm_do_suspend(struct
->> snd_pcm_substream *substream,
->>          struct snd_pcm_runtime *runtime = substream->runtime;
->>          if (runtime->trigger_master != substream)
->>                  return 0;
->> -       if (! snd_pcm_running(substream))
->> -               return 0;
->> +       if (! snd_pcm_running(substream)) {
->> +               if (runtime->info & SNDRV_PCM_INFO_RESUME)
->> +                       return 0;
->> +               if (runtime->state != SNDRV_PCM_STATE_PAUSED)
->> +                       return 0;
->> +               /*
->> +                * When resume is not supported, SUSPEND should STOP
->> stream.
->> +                * For futher operation, the stream must be fully restarted
->> +                * to leave the permanent SUSPEND state.
->> +                */
->> +       }
->>          substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_SUSPEND);
->>          runtime->stop_operating = true;
->>          return 0; /* suspend unconditionally */
+> Some pre-requisites are needed before issuing the AFE port start command,
+> such as setting the USB AFE dev_token.  This carries information about the
+> available USB SND cards and PCM devices that have been discovered on the
+> USB bus.  The dev_token field is used by the audio DSP to notify the USB
+> offload driver of which card and PCM index to enable playback on.
 > 
-> I have tried similar thing and the original problem remains that we are
-> missing the PAUSE_RELEASE trigger for the PUSH and ASoC core stops the
-> SUSPEND trigger to reach the drivers.
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>  sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
+>  sound/soc/qcom/qdsp6/q6afe.c             | 192 ++++++++++++++++++++++-
+>  sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
+>  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
+>  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
+>  sound/soc/qcom/qdsp6/q6routing.c         |  10 +-
+>  6 files changed, 319 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
+> index 7d9628cda875..0f47aadaabe1 100644
+> --- a/sound/soc/qcom/qdsp6/q6afe-dai.c
+> +++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
+> [...]
+> +static int afe_port_send_usb_params(struct q6afe_port *port, struct q6afe_usb_cfg *cfg)
+> +{
+> +	union afe_port_config *pcfg = &port->port_cfg;
+> +	struct afe_param_id_usb_audio_dev_lpcm_fmt lpcm_fmt;
+> +	struct afe_param_id_usb_audio_svc_interval svc_int;
+> +	int ret;
+> +
+> +	if (!pcfg) {
+> +		dev_err(port->afe->dev, "%s: Error, no configuration data\n", __func__);
+> +		ret = -EINVAL;
+> +		goto exit;
 
-All drivers must be adopted for this scheme including ASoC core, of course.
+Nitpick: drop the goto here, just do "return -EINVAL;"
 
-					Jaroslav
+> +	}
+> +
+> +	memset(&lpcm_fmt, 0, sizeof(lpcm_fmt));
+> +	memset(&svc_int, 0, sizeof(svc_int));
+> +
+> +	lpcm_fmt.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
+> +	lpcm_fmt.endian = pcfg->usb_cfg.endian;
+> +	ret = q6afe_port_set_param_v2(port, &lpcm_fmt,
+> +				      AFE_PARAM_ID_USB_AUDIO_DEV_LPCM_FMT,
+> +				      AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(lpcm_fmt));
+> +	if (ret) {
+> +		dev_err(port->afe->dev, "%s: AFE device param cmd LPCM_FMT failed %d\n",
+> +			__func__, ret);
+> +		goto exit;
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+return ret;
+
+> +	}
+> +
+> +	svc_int.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
+> +	svc_int.svc_interval = pcfg->usb_cfg.service_interval;
+> +	ret = q6afe_port_set_param_v2(port, &svc_int,
+> +				      AFE_PARAM_ID_USB_AUDIO_SVC_INTERVAL,
+> +				      AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(svc_int));
+> +	if (ret)
+> +		dev_err(port->afe->dev, "%s: AFE device param cmd svc_interval failed %d\n",
+> +			__func__, ret);
+> +
+> +exit:
+
+drop
+
+> +	return ret;
+> +}
+> +
+> [...]
+> diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
+> index 90228699ba7d..0def036ed3c9 100644
+> --- a/sound/soc/qcom/qdsp6/q6routing.c
+> +++ b/sound/soc/qcom/qdsp6/q6routing.c
+> @@ -435,6 +435,7 @@ static struct session_data *get_session_from_id(struct msm_routing_data *data,
+>  
+>  	return NULL;
+>  }
+> +
+>  /**
+>   * q6routing_stream_close() - Deregister a stream
+>   *
+> @@ -515,6 +516,9 @@ static int msm_routing_put_audio_mixer(struct snd_kcontrol *kcontrol,
+>  	return 1;
+>  }
+>  
+> +static const struct snd_kcontrol_new usb_rx_mixer_controls[] = {
+> +	Q6ROUTING_RX_MIXERS(USB_RX) };
+> +
+>  static const struct snd_kcontrol_new hdmi_mixer_controls[] = {
+>  	Q6ROUTING_RX_MIXERS(HDMI_RX) };
+>  
+> @@ -933,6 +937,9 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
+>  	SND_SOC_DAPM_MIXER("RX_CODEC_DMA_RX_7 Audio Mixer", SND_SOC_NOPM, 0, 0,
+>  		rx_codec_dma_rx_7_mixer_controls,
+>  		ARRAY_SIZE(rx_codec_dma_rx_7_mixer_controls)),
+> +	SND_SOC_DAPM_MIXER("USB Mixer", SND_SOC_NOPM, 0, 0,
+
+As I wrote on v36:
+
+I think it would be more clear if you call this "USB_RX Audio Mixer"
+instead for consistency with the other playback mixers. This would also
+avoid confusion later when USB_TX is added in addition to USB_RX.
+
+The "Audio" part in the name is redundant, but looks like all the other
+playback mixers have it as well ...
+
+
+> +			   usb_rx_mixer_controls,
+> +			   ARRAY_SIZE(usb_rx_mixer_controls)),
+>  	SND_SOC_DAPM_MIXER("MultiMedia1 Mixer", SND_SOC_NOPM, 0, 0,
+>  		mmul1_mixer_controls, ARRAY_SIZE(mmul1_mixer_controls)),
+>  	SND_SOC_DAPM_MIXER("MultiMedia2 Mixer", SND_SOC_NOPM, 0, 0,
+> @@ -949,7 +956,6 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
+>  		mmul7_mixer_controls, ARRAY_SIZE(mmul7_mixer_controls)),
+>  	SND_SOC_DAPM_MIXER("MultiMedia8 Mixer", SND_SOC_NOPM, 0, 0,
+>  		mmul8_mixer_controls, ARRAY_SIZE(mmul8_mixer_controls)),
+> -
+>  };
+>  
+>  static const struct snd_soc_dapm_route intercon[] = {
+> @@ -1043,6 +1049,8 @@ static const struct snd_soc_dapm_route intercon[] = {
+>  	{"MM_UL6", NULL, "MultiMedia6 Mixer"},
+>  	{"MM_UL7", NULL, "MultiMedia7 Mixer"},
+>  	{"MM_UL8", NULL, "MultiMedia8 Mixer"},
+> +
+> +	Q6ROUTING_RX_DAPM_ROUTE("USB Mixer", "USB_RX"),
+
+Put this below "Q6ROUTING_RX_DAPM_ROUTE("RX_CODEC_DMA_RX_7 Audio Mixer".
+
+Thanks,
+Stephan
