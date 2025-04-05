@@ -1,127 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E4C20F081;
-	Fri,  4 Apr 2025 20:07:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E51628EB;
+	Sat,  5 Apr 2025 00:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743797280; cv=none; b=Sub+L5JYm9t1hIK7X+V8pcaabf719KSl1qHwo4iwSmynp735hyO8PgU4Axnl2BdeUOCqNwg9GzAsuKphWHxqL5w/711YJilZIRl5rIIh0luRjXVaOrg+CykxA9GBCJ7Q0serzZt8/6T8/9UTPuXltZ2DMMe80WmT/mPGhylir1U=
+	t=1743811985; cv=none; b=AC/Gu3Y7UA+K/37OpEGsG/P2teb28xxQPlLMYdXuLY7VTNcCGvaQ8EVOm8sd2j2P7fV7jZ1uq+nfePSwsp8PizYOJVUNXdhoEPAdY6LURhjA2rTpKF9/4BSRE/JTgd3QhbOQJJBBe1MnY/pyTYqxOEYmptCJUCx6YhhRbylfbNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743797280; c=relaxed/simple;
-	bh=MQkJVPYMef7wiIUxarAmWlfaTGvrEmpftIzp6I+KRKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YkJZ2N1JqU0A7JpWJogNSxukwic29bzQ4U6KcJz1bH8Yzxda90wCLxk96OZu2y9mg35iVUY899HsFTt8rS+RC9gX9StOV3YCuA3GNt1Zc3xRlcMGa4vPoezga/NSSIWyr4a/1pF9YGLjf6IlZUoMLZp59zvsV7pPMme3EayvwhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BtI7iiGR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743811985; c=relaxed/simple;
+	bh=KjmspBpiu6mD534nIbOHzgRUTwHmzEQbjmM6iuUZ4SY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=djcR54nWOyzzxLet+muTHyoprJlscpLCOGzLmm9fZe54eT0SmlfFJqRoeVL/49XVWXdWyH8W+RqIj+Jf4/XCMWOXdKeug4/ASATgKFF2RqzfziJ8t0buZfYzplBtba/HZdus9em59IoYJ1jKEaLDlkagBWY7XcriiX8CG4el2bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l9NhBhMj; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BtI7iiGR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2381CC4CEDD;
-	Fri,  4 Apr 2025 20:07:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743797279;
-	bh=MQkJVPYMef7wiIUxarAmWlfaTGvrEmpftIzp6I+KRKg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BtI7iiGRDfogz2kjM4bzX5qVfy2seFRTTSGQWGgvA8XoqUJH3HexYKUACAZTSWMTF
-	 rsqwpuIyFrHz+e0ZLYE9/zVBv3hFFaLfUY+3LAuVVzdWLana1Gsyshk4cpXEotV7UN
-	 F7aOPdRk2t4FX+Yji3psAf+Yw9LbDe7moGxPW+J9F5dNipGA7Ud+x20ZDBB8F4JfH2
-	 H0W1rStWvTtcMusKpuEjKS9xRMrTtvrskNbUhuXYgPkhFpAsr3N0YIXblHcRe8yN6S
-	 IVVdma36w+V3R5Hl27ItViqQ44Z5/CSzudq/E65uDTO19GfH/+UYfph+2du7NeYy1H
-	 RBLAfEs+H2izA==
-Date: Fri, 4 Apr 2025 15:07:58 -0500
-From: Rob Herring <robh@kernel.org>
-To: cy_huang@richtek.com
-Cc: Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Otto lin <otto_lin@richtek.com>, Allen Lin <allen_lin@richtek.com>,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] ASoC: dt-bindings: Add bindings for Richtek rt9123p
-Message-ID: <20250404200758.GA218697-robh@kernel.org>
-References: <cover.1743774849.git.cy_huang@richtek.com>
- <61a77673fabc4f9109b05c19fad4ef1087eccfa5.1743774849.git.cy_huang@richtek.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l9NhBhMj"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-301918a4e3bso2402984a91.3;
+        Fri, 04 Apr 2025 17:13:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743811982; x=1744416782; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lVB5BztCQcbNtQipgi9Dw0n6uAY2frFJeooMsuQ6oIc=;
+        b=l9NhBhMjlivIW2xPkP7yWrN6hq9LmKJsHcPV83KR+kF/USCJS+HpuZUVPhjPIjOzxm
+         Hh8+U/BQEZsND+J8kHDXbmo6kj7LOmuMKt6glnHt1CuX745ii9TyXyVdRqT8ZquJgHt/
+         eZLuBcn66PACOyo0v8sQ7UhsQIgXdSyq+Mk/bUdOBe1svqIa2TmuamCqjPusHk5+s0z/
+         u42zC+l/3t6t5lNmzJTwE8eDBVdQsWe9um6wbTKhZl37GtiXUjZZnaYBlkfbHFRbfXMh
+         1qloVnxXPpsHojwP8rRK64jh8Gj+iWu6aqrqPJL0969FY03IW8hl/G7hUCNqIE+Zz7QE
+         ZTSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743811982; x=1744416782;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lVB5BztCQcbNtQipgi9Dw0n6uAY2frFJeooMsuQ6oIc=;
+        b=jGRW1tKfu8CwuigWdtvVgMlutVQaeUFVdKEDyUWNgMnUbelQ/r0/FfWAyevOQzA0xi
+         Ncg4+q5WzjZ6AXlpPmIGFGIJGvKOqLN0Hovz7lRgTYx97CuAnVHTEDUowWN992x0bACk
+         cbCx6sjf2gTBLyubjqBpMTWFQDdKgGP8a7GCvFUaTUGJVemsoeqpY3FPDpRgDIEtbgJW
+         htganTpeMj6wWqSUXesaIgzibsTJ6hJvOuMcfgGsPv24xR5yhAF/UslaMtugYurBJ/wg
+         Nw7LKr6Q/VaWUmEODaW/K8Wh+TVAyqOEw55doaqPD5xDUnjJ3u022LJWfKSaULOW+5ZJ
+         v/kg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhx5+VJEM/QwbXO22czO0Nh928TWxhF1pCSxWE/6I7+XkdfkUuxLofCWsjNXvIPB1aKemZUf6ETEW49Os=@vger.kernel.org, AJvYcCUjCW5L9qpESXhpENEBLiE7G3KYxxUF8PmQt42iV7O/hjw6R4IKmsMRH4OfDiklTaPyJnqyxmrxvz9SMdBX@vger.kernel.org, AJvYcCWENM5iz7g1yoXxJAQXqb6CLqotSWbt5x798dF6SF4RQaKZK0kb9qLpIGTdpit9lP3EJcJjohCrr2s4MAM=@vger.kernel.org, AJvYcCWreYvLMYayKK2qQJsAQ7xIGejfrx+8MddK76DvOEx52wRurk/U9v2fw+z6iE+LDl9J5agdqz9UEEVw@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMhx1b/4YNNoZMQrixFFiM10dASbitH1ERg1UtMTRzk61QtY58
+	oaZ2pUrQ8yHHaY9NpxRmcu08QjCLYeMvpyvijKp3IUf9R+iUFAnZxTKqtgDk
+X-Gm-Gg: ASbGncs6XntY+1V+CSjo+gqA9HQRYzuHwCNAgimafBVvnBdNjiBYpUstPgURLgVHRX4
+	IVLpH+bZ9o/kj/6B7kNvBvE5R/59rmpRdeUHPDkDc3vBxz6yHyMkcrx6II9vZwnxKYLao5ZF34+
+	7NTM2Is2XhzbGdb99VVqfAaWuTuOdhT5J8MHwxV1II4rb0e6gPbc8bhfULwxzTQiLfZ69Xa6eP5
+	IFvElxkM5IFMZd0wdElctWNalekehS8CYL2CP9OVhkb9RqX3/QJb4ci+zXJCSoAmYugT3aPO9y2
+	L5eu1hUJ7ozJyLCWv9BJFuHqAwKg2spEBJHW/+ai/eJvEbSXGKlDAYcSxnqDJBRzZo1GmWMLj8H
+	08aMW9qzjayHPtd3sq2MmB4ymWpvBilaX3tNVq0Fcy2nz17bd1Q==
+X-Google-Smtp-Source: AGHT+IGrwu27oF8ex/7piw96e+w8tE/abSdux4k8o9zBQQLxkK/kmB/PCrq8JJx1uFaSmXIk45Yzfg==
+X-Received: by 2002:a17:90b:56cf:b0:2ee:45fd:34f2 with SMTP id 98e67ed59e1d1-306a61208demr5871471a91.6.1743811982462;
+        Fri, 04 Apr 2025 17:13:02 -0700 (PDT)
+Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3057cb5d665sm4327855a91.30.2025.04.04.17.12.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 17:13:02 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH v4 00/10] ASoC: tas27{64,70}: improve support for Apple
+ codec variants
+Date: Sat, 05 Apr 2025 10:12:37 +1000
+Message-Id: <20250405-apple-codec-changes-v4-0-d007e46ce4a2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <61a77673fabc4f9109b05c19fad4ef1087eccfa5.1743774849.git.cy_huang@richtek.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAHV18GcC/23NwQqDMAyA4VeRntfRpradO+09xg61jVpQK3bIh
+ vjuq46BDI9/SL7MJOLoMZJrNpMRJx996FPkp4zYxvQ1Uu9SE2AgGfCcmmFokdrg0NLvRqQKlVT
+ OcoTckXQ5jFj516beH6kbH59hfG9PJr5Of5489CZOGdUgpCpK4CUvbnVnfHu2oSOrN8HeuBwbk
+ IxCgFaschqZ/jfEzgB9bIhk2LLkgjHBjK32xrIsH4MQNUM+AQAA
+X-Change-ID: 20250214-apple-codec-changes-6e656dc1e24d
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+ Neal Gompa <neal@gompa.dev>, James Calligeros <jcalligeros99@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3691;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=KjmspBpiu6mD534nIbOHzgRUTwHmzEQbjmM6iuUZ4SY=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfSlulp10oyHoUveehUZ7i6UXywj4iKxbKHt/y9/DrT
+ XV+qV3WHaUsDGJcDLJiiiwbmoQ8Zhux3ewXqdwLM4eVCWQIAxenAExkkSIjw7NvpVMMrk1giMuq
+ muSxvknT+L3JsZcOjeXvfHbea6uVW8zIcGDJ0vfOh+a96A2o3hj4kuncWsvgl0uEErepC1yp35K
+ +gBcA
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-On Fri, Apr 04, 2025 at 10:22:13PM +0800, cy_huang@richtek.com wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Document the ASoC Richtek rt9123p.
-> 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
->  .../bindings/sound/richtek,rt9123p.yaml       | 50 +++++++++++++++++++
->  1 file changed, 50 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/richtek,rt9123p.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/richtek,rt9123p.yaml b/Documentation/devicetree/bindings/sound/richtek,rt9123p.yaml
-> new file mode 100644
-> index 000000000000..836cd369a68c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/richtek,rt9123p.yaml
-> @@ -0,0 +1,50 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/richtek,rt9123p.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Richtek RT9123P Audio Amplifier
-> +
-> +maintainers:
-> +  - ChiYuan Huang <cy_huang@richtek.com>
-> +
-> +description:
-> +  RT9123P is a RT9123 variant which does not support I2C control.
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - richtek,rt9123p
-> +
-> +  '#sound-dai-cells':
-> +    const: 0
-> +
-> +  enable-gpios:
-> +    maxItems: 1
-> +
-> +  enable-delay:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Delay time for 'ENABLE' pin changes intended to make I2S clocks ready to
-> +      prevent speaker pop noise. The unit is in millisecond.
-> +    default: 0
+Hi all,
 
-Ah, it is documented. But my questions need to be addressed (in the 
-patch).
+This series introduces a number of changes to the drivers for
+the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
+introduce (and improve in the case of TAS2770) support for the
+variants of these amps found in Apple Silicon Macs.
 
-> +
-> +required:
-> +  - compatible
-> +  - '#sound-dai-cells'
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    amplifier {
-> +        compatible = "richtek,rt9123p";
-> +        enable-gpios = <&gpio 26 GPIO_ACTIVE_HIGH>;
-> +        #sound-dai-cells = <0>;
-> +    };
-> -- 
-> 2.34.1
-> 
+Apple's variant of TAS2764 is known as SN012776, and as always with
+Apple is a subtly incompatible variant with a number of quirks. It
+is not publicly available. The TAS2770 variant is known as TAS5770L,
+and does not require incompatible handling.
+
+Much as with the Cirrus codec patches, I do not
+expect that we will get any official acknowledgement that these parts
+exist from TI, however I would be delighted to be proven wrong.
+
+This series has been living in the downstream Asahi kernel tree[1]
+for over two years, and has been tested by many thousands of users
+by this point[2].
+
+v4 drops the TDM idle TX slot behaviour patches. I experimented with
+the API discussed in v3, however this did not work on any of the machines
+I tested it with. More tweaking is probably needed.
+
+[1] https://github.com/AsahiLinux/linux/tree/asahi-wip
+[2] https://stats.asahilinux.org/
+
+---
+Changes in v4:
+- Moved remaining changes to the top of the set
+- Dropped already merged commits
+- hwmon now reads temp from regmap
+- Bumped regmap max reg patch above Apple quirks patch
+- Dropped TDM idle slot TX behaviour patches
+- Link to v3: https://lore.kernel.org/r/20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com
+
+Changes in v3:
+- Add Rob's Acked-by to Devicetree compatible additions
+- Dropped cherry-picked patches
+- Droped abuse of regulator API
+- Droped bespoke sysfs interface
+- Rationalised temperature reading for hwmon interface
+- Set SN012776 device ID with OF match data
+- Changed probe ops reliant on device ID to case/switch statement
+- Added documentation for new Devicetree properties
+- Improved a number of poor quality commit messages
+- Documented behaviour of die temperature ADC
+- Link to v2: https://lore.kernel.org/r/20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com
+
+Changes in v2:
+- Changed author field of patch to match Martin's Signed-off-by
+- Added Neal's Reviewed-by to reviewed patches
+- Moved fixes to existing code to the top of the series
+- Removed tas2764's explicit dependency on OF
+- Removed complicated single-use tas2764 quirks macro and replaced with
+  if block
+- Added hwmon interface for codec die temp
+- Fixed a malformed commit message
+- Link to v1: https://lore.kernel.org/r/20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com
+
+---
+Hector Martin (4):
+      ASoC: tas2770: Power cycle amp on ISENSE/VSENSE change
+      ASoC: tas2770: Support setting the PDM TX slot
+      ASoC: tas2770: Set the SDOUT polarity correctly
+      ASoC: tas2764: Enable main IRQs
+
+James Calligeros (2):
+      ASoC: tas2770: expose die temp to hwmon
+      ASoC: tas2764: expose die temp to hwmon
+
+Martin Povišer (4):
+      ASoC: tas2764: Reinit cache on part reset
+      ASoC: tas2764: Crop SDOUT zero-out mask based on BCLK ratio
+      ASoC: tas2764: Raise regmap range maximum
+      ASoC: tas2764: Apply Apple quirks
+
+ sound/soc/codecs/tas2764-quirks.h | 180 +++++++++++++++++++++++++
+ sound/soc/codecs/tas2764.c        | 176 +++++++++++++++++++++++-
+ sound/soc/codecs/tas2764.h        |   3 +
+ sound/soc/codecs/tas2770.c        | 160 +++++++++++++++++++++-
+ sound/soc/codecs/tas2770.h        |   6 +
+ 5 files changed, 519 insertions(+), 6 deletions(-)
+---
+base-commit: 3a0f0a4355df0240485ed62b6bd6afa5b3e689c5
+change-id: 20250214-apple-codec-changes-6e656dc1e24d
+
+Best regards,
+-- 
+James Calligeros <jcalligeros99@gmail.com>
+
