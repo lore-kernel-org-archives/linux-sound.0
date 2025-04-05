@@ -1,79 +1,80 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AEDD1392;
-	Sat,  5 Apr 2025 06:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C481E50E
+	for <linux-sound@vger.kernel.org>; Sat,  5 Apr 2025 12:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743834487; cv=none; b=ikuNDWYciatbSYrtuUU9XLmUoVZfaMK4Z+XPwoH5tv+PeRrDHCKJo/1DF/P4UyS3eGZ3yJimNFCqWY3biEDcG/I2HXFrudks8hWRnmG7utgJqS2jfXHPJk/4sq6r42221+OTpILULPLwyB8rREwtbWT+SZ9N3Sk4RGcObUJu/6o=
+	t=1743857949; cv=none; b=a9NioAQmDtewdQ3ZW9tOgncfaO/t6mEkdL9SeKAJoFbEBYp7OdxLijVcFbUd2t/nn0ZKAhxx7JNURP7u/7/2juEM+tzymt4KJPUYn7Fdbk+Z8vxgvOWs1A9ziQSNmc+AlGB3EuXMnbMY/SL2IkqjXd+qbKpx3ReDNvno5U0+tk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743834487; c=relaxed/simple;
-	bh=omm0Ls/6vklF36yaMha6lrBPyckd6jHpcmMD0zuB/J0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YazrOg6qAsD7xOrLRjE++XU+EVxW1PVpgvcZBHRy9tg3aP8YaiAHVUKx8SnGeCwn7lOHNlPRsvV9Rr6JsW24RP02mSRRJ+gWKm7gJgB8CSaCl3np/TaKm0UqFi8LzIO9pKqgJXaXbJlJXCw064aRF4LORlsMttvZjV8i0ExZmg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=m2kCyu4r; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1743857949; c=relaxed/simple;
+	bh=GUViWYYdKTZHr0Gn9ORHbM4/ix+UCbYRAIxNA0YkJXw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KekkPW/N6+VLvvh4/oFzHSyGUpU7j58mYhG8WEmGXfbpYibkSxeW61B6bPLFMkuxYKjWcQdN7DTIT11WyRaWmSWR23z6prLV4B2cN4RbZ1XSRIbb4+pyBsAdC6037Kr6AOsm6+mWrIAq5FUaSjgkiNsYVqSPE7+/AvAJ0dNL3mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KYIA5Is2; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="m2kCyu4r"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=omm0Ls/6vklF36yaMha6lrBPyckd6jHpcmMD0zuB/J0=; b=m2kCyu4rPZbg3lR6pU9jM4LtDd
-	VH1u0h3OFczpRKmmGtEwAB8z9X3xeLUgWUsTf6m90TMXX8oWbEOUTIeLg7DDTSvN0w6p3UXAR3FXP
-	LrHRITLwZ1ljVtgxOYeNOtQcq0bp5TDry4vU+UvgKtTRm2OAy/4JYQmUOLntrQD2efjJnfYMk7Sue
-	ui7ORZmnnqOyfRXDYB/ByOf2w9XohxFxijwbp9o5NAvtRFCPCPOp3cd6KUtt14TzcVDS8hGfZwxcg
-	wLw7h8P4cNR0pN2uebZshElyrTOc7yF+b2e6x2YP3dZcx6uvoVcmgS+tH4kSM4w0DmBpQo7W45+sd
-	XV1Wrdmg==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <carnil@debian.org>)
-	id 1u0x0b-00Crg4-P9; Sat, 05 Apr 2025 06:28:01 +0000
-Received: by eldamar.lan (Postfix, from userid 1000)
-	id D21E9BE2DE0; Sat, 05 Apr 2025 08:28:00 +0200 (CEST)
-Date: Sat, 5 Apr 2025 08:28:00 +0200
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: "C.D. MacEachern" <craig.daniel.maceachern@gmail.com>,
-	1100928@bugs.debian.org
-Cc: Takashi Iwai <tiwai@suse.de>, Kuan-Wei Chiu <visitorckw@gmail.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: Bug#1100928: [regression 6.1.y] microphone no longer records (on
- VivoBook_ASUSLaptop TP401MARB_J401MA)
-Message-ID: <Z_DNcG7wp4iPh5NH@eldamar.lan>
-References: <Z-ct2D6uIN1f6UbL@eldamar.lan>
- <87zfh43uti.wl-tiwai@suse.de>
- <CAJ8x=4ibzvVxxv7FzswtwTcYT73XaDOUr7gHWMcdxB+j8+zyyw@mail.gmail.com>
- <878qojypu6.wl-tiwai@suse.de>
- <CAJ8x=4gN1fH6chp4C3jX1OXq2-JhbP5yUzLbqvWrAJ-u=+VNhw@mail.gmail.com>
- <174248253267.1718.4037292692790831697.reportbug@x>
- <87mscw4dst.wl-tiwai@suse.de>
- <Z_AxsuGoaVK9P3L4@eldamar.lan>
- <174248253267.1718.4037292692790831697.reportbug@x>
- <CAJ8x=4gQQeh+yuUrBDT3P_ZkWRT+7pPujq-ZF6Fcao0V7kohFw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KYIA5Is2"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1743857933;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1NJBKM+fN9fIhE7HQ2RfwJhpXBWQXz//Hsz9SXGiE5M=;
+	b=KYIA5Is2ARMW/BW6beF4GM+njF6xOKnIEV/zbciJncZVSn35/FaR9QwCf0t03ZtCOT/qwS
+	RJPl/ObE/nAKFUfJVtayW0YeHD7s6lInmrrDtX3FnWGb3z7E/jc7+INpuuHFqSWd/GBt9v
+	p+qYsFzqr+O9QmxUBzxDPs0u+jk7zwY=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: rt5677: Use secs_to_jiffies() instead of msecs_to_jiffies()
+Date: Sat,  5 Apr 2025 14:58:08 +0200
+Message-ID: <20250405125808.302259-1-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJ8x=4gQQeh+yuUrBDT3P_ZkWRT+7pPujq-ZF6Fcao0V7kohFw@mail.gmail.com>
-X-Debian-User: carnil
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Graig,
+Use secs_to_jiffies() instead of msecs_to_jiffies() and avoid scaling
+'delay' to milliseconds.
 
-On Fri, Apr 04, 2025 at 08:19:52PM -0400, C.D. MacEachern wrote:
-> Which of the files from there am I downloading and trying to install?
+Since 'delay' isn't a compile-time constant, secs_to_jiffies() expands
+to much simpler code compared to msecs_to_jiffies(), reducing the size
+of 'snd-soc-rt5677-spi.ko' by 472 bytes.
 
-it is the
-linux-image-6.1.0-0.a.test-amd64-unsigned_6.1.129-1a~test_amd64.deb
-package for just the patched kernel image package.
+No functional changes intended.
 
-Thanks for trying it out.
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/soc/codecs/rt5677-spi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards,
-Salvatore
+diff --git a/sound/soc/codecs/rt5677-spi.c b/sound/soc/codecs/rt5677-spi.c
+index abe0a5a95770..885edcf0a3a5 100644
+--- a/sound/soc/codecs/rt5677-spi.c
++++ b/sound/soc/codecs/rt5677-spi.c
+@@ -365,8 +365,8 @@ static void rt5677_spi_copy_work(struct work_struct *work)
+ 		new_bytes -= copy_bytes;
+ 	}
+ 
+-	delay = bytes_to_frames(runtime, period_bytes) / (runtime->rate / 1000);
+-	schedule_delayed_work(&rt5677_dsp->copy_work, msecs_to_jiffies(delay));
++	delay = bytes_to_frames(runtime, period_bytes) / runtime->rate;
++	schedule_delayed_work(&rt5677_dsp->copy_work, secs_to_jiffies(delay));
+ done:
+ 	mutex_unlock(&rt5677_dsp->dma_lock);
+ }
+-- 
+2.49.0
+
