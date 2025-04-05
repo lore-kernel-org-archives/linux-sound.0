@@ -1,251 +1,161 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0CC2576;
-	Sat,  5 Apr 2025 00:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1155F2E62C1;
+	Sat,  5 Apr 2025 01:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743812061; cv=none; b=jy17qeMppjXO7kHRT+lvyqE5ubJfx+Y8+BMH6I5E/7VwKB+ReqM6x4GXjO4Cwahloy4dTR4MFOs5m9ya/MsZAsKWcPklfKennnVLdtfCnAtDFbUkKcVbvG38ztokggio8GkKccSZ2ZiCMaHDJRXfd/3oaH4YAttu0Nkt7H/kLas=
+	t=1743815848; cv=none; b=Sc8gzpWqGIh2GS44P+bmhBD5J/psYQwr1jz92yZbcmmnpAzHY4TIA2mTTH0+slwtKLeVykYubqD4PJUwmjbmKcxxdkgkNKA9Z3okfAVKGfApwo82BOLVjxXzuQep/xMofsjOckYNx8FdO/VJuafemIGBlJ/v7VPxTxt5tNkqJqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743812061; c=relaxed/simple;
-	bh=ImA9e8Vws4XKPSu4pYoGIMJVwD0Z9+nohE4Whtn2W5c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uwxKodHniJV6k/2as2QWIXEMQSYq0JYCbx4qFvvgJZ0win5IcCRLNXwWKXUDy8Da+m4L7KrzQE5HrVINimEeFtXOn50QXcS3I4mXjbIX6jkuksyuN5fNgTUyrsU6T1em2A1S8lEOTR6PiwSUfkKKJXFYPKYAuEe7IxhyV0isuMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QLt9g99S; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1743815848; c=relaxed/simple;
+	bh=f3i7y9qJZMSTYCRTNPf2EJF6SHSdbXnOdImAqF1W99g=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=KwPRGuLq/r+uRRcMvlsTrxmbpue912LVugJGBSjOPteHARpxK9tWjQv5yEweZEvtSe8MIHzH7gzFDjanseh9fQjpegP717+rSbRtzZOBNFSI31ZgZNlDPIIndWyY+wRdeBt0BR32l7XrDg101n5CzI8Fu7VyRomrYH8+S8UsRRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRnurKuH; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QLt9g99S"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3011737dda0so1896077a91.1;
-        Fri, 04 Apr 2025 17:14:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRnurKuH"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2243803b776so37806955ad.0;
+        Fri, 04 Apr 2025 18:17:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743812059; x=1744416859; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KRCE2dnF02x0/kEyW0hycp8x5K9VlVZ2SMA4g24GomA=;
-        b=QLt9g99SgVMMtDHRq6v7rJJMt/30XOJ5B1SKXp3y2/Ece5GauwLKasfqwgwn10e+eJ
-         KPOecLT5kWruVWXVRdqTa52qkOUwXv48fFHV9ga2TQSzfAPD6Y3FMEfZM47N90MshMKc
-         67TFZBQU2bX0sU64rtECsQ12aFrd1ZdVGK+FlZjIJ3nMd3BDfN51iWLN41Nsq8LKsiSz
-         WOfxcqVKVaztTqy6V6VIJ8deZMXAkGrrOFcHmhnPpaQOg9LT7r2o50EQnysMDh9qXTZE
-         1M5nOTojXKVLvntOPahjO0La/txfv2Q14uGqyZWaiNsVf8qFS/3yjf31n+gig2mba74u
-         +B+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743812059; x=1744416859;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20230601; t=1743815846; x=1744420646; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KRCE2dnF02x0/kEyW0hycp8x5K9VlVZ2SMA4g24GomA=;
-        b=LIPeJbcHtBOWH/bJNqpHdpW4Qtq1/A4JSADJLcTC7niKwCsdtFoMPugoL8kr5MzUSg
-         5eZftifLD4cY+GjKwutrkbHOEdoiD7baoYTV8y5jgWa7U6mv6S6+CQC3zScAZ5Q9kUFV
-         Zx/LW+TBsRwzJiQQqJY89ZUk6oBSG0oUFFqFgDLWALmM1kBg79csKKhBONMi1OLPu3gL
-         wE7TNu/hRqwdzxtF7xd0EWM7jURZP/5xrcswXOY4FqYpaRttzXtjJqhZqJyvyn4y6Q3D
-         I8psd/LhkEUO7frm9UuEL0LvXGECibh3CU8ejtpe/9JodbAW7vLjZOF/VrAMO/0M1UGh
-         Ny4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUnr/c/kydYrcx9eJQPmrWSnw/JaK5UBrBZaAqljpRDo941TrginYqvY2qASDb4JplHMXJTEojApPCnsQsS@vger.kernel.org, AJvYcCW+aDOGSPmxfvZODBSQT2ME6Q+7ViryBp6ywqr5/aA/y5RXy3lNvV68m5VPu+TrVdZL0URBZzX3whzlIKE=@vger.kernel.org, AJvYcCW0DDFJP6uNbSPFxujKCkOvHZMrQs8XFBb9zCaz6PJyV/xbybfbHeYXROTW2I0YtazyjHjWo+OeClgA@vger.kernel.org, AJvYcCXcYV5LlYRKgYU+P/2fqyn6g7hj9TV9CrHOx6VDHgyu2rEVvZAVKO157H8vL/btHPPU0yEBsZs5fWobXoY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZ9TI4Z2O7mUoid5MdGMfM6+fhZDZ7qcoNg82aPO+g3ow2ORMv
-	aLbK8s92s82X4bxPMdwMaj3UMcaGJaAy10PF+yokZnUedj8eYKB+axA5xAaP
-X-Gm-Gg: ASbGncv4JXDq8JGOzPt5YBrdVpCw1/MR+ew80Kh3Qx9R34TlIo3O7y5zRwMLwsbTujS
-	nG8vIU5+pKi/fpkBb2pF52zFWJTnclk+kqR92JJpDYjcTEnlv6BaEYcvut6aV+MVZitAExIdtnB
-	2/yVof32fW4s2ADAc5yaMVzTjeiMSBJEc/Sls+BY6wptVeOqz90q3fKelclVgiQjJZtXoJscM+T
-	c9YbD84hHDf0bX6QpbldQ5sqN0Vq6at9lVTEUiNnm32n5lvv1O9vOr6TXkbusLW9V/X8pe+bkZd
-	TIDLyo92AGHbhJ1HzHXgB6Sp1Gj3NkaTXrh+wccncCyhLM1ASxFen7DU7SD087OmjhJe1hnGG1I
-	+5CjV0r+3GSTpnduisvr+kBenenLsN4UeVwFiLdU=
-X-Google-Smtp-Source: AGHT+IGH5ZAq8VYyxXEWxigH8Q9NiVVkr4yfN0slCdqRIn+Rvtn+MXHj4ndcYsTaq2kbqgblUW3FdA==
-X-Received: by 2002:a17:90b:534f:b0:2fa:1a23:c01d with SMTP id 98e67ed59e1d1-306a4899cb8mr7165481a91.21.1743812058739;
-        Fri, 04 Apr 2025 17:14:18 -0700 (PDT)
-Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3057cb5d665sm4327855a91.30.2025.04.04.17.14.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 17:14:18 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sat, 05 Apr 2025 10:12:47 +1000
-Subject: [PATCH v4 10/10] ASoC: tas2764: expose die temp to hwmon
+        bh=NRiuL4Sy1s+c/lXgB3vFyCUJTB29r4cpXB4vQmrcmqI=;
+        b=YRnurKuH0qf8QZ1KCUwm5y0Za2vb8zsJBV5R9jIeOPcHdOS2Y1x2cC9u18+sOLLm3V
+         Vgao4vJjL7NF1PUiRYzGDDwSvbsJr4iEgNRAvvUwKQQFPg4FDRGXPwf9vwatDsYut9RP
+         r2RgB7tx8Pm3ecjNlusVzcWtgXYg2tisennGcVuDQt64BV4jGjFT8ebw3CJ6k7/fTscF
+         5p0rHmXQd3P0JUGdGGtvjjYZeeALHHVJoHFSa8Xdpy+8IULCU2KrSfJp6fPSLbhmaYRd
+         Pr9jo7SrBt3qoQ24Bf4Oi48YcL6Lu5sXehSxcZmBDNkR7kRLSt2c+dow5tDaUrr/TFNg
+         bZLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743815846; x=1744420646;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NRiuL4Sy1s+c/lXgB3vFyCUJTB29r4cpXB4vQmrcmqI=;
+        b=JHLrp3NVp/SMPJ1GTJaDcfNB78Xr9OvSse6kWADJGEKlTf+RjJA4Fkah4epIGQigGH
+         juqh0LlakK+D162kGm6hXKSfssMM2WiN7E9f85+2WcGqghwhZOlmBUGpE5FkozdTA16G
+         qALNOwgIk0ImH9vVPCXQ75LvqAhnBwwOpnC+Ob8J7+VIA/r0KXSB7EzwBczecF9l5wSi
+         0vmu/KbwAK/u78Vi8gm84GIsrn6ACreBXE/a9J/YeA5fTkEJj9mGawIz+yvzy62ZqP3t
+         /82nn5WLqy+h2roZoTvsAlzFq/TLSW1RrwrwRJJAyF6e1OFAM8RMNvRwlP2lOg9JOo8r
+         6OwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUWlDFizJ72L4JaLpGMGIXwPVkkry0CxprxOxHRciM+kbDmneQ/BvwS/4Z9t6b6hHswwZsZIhEUcr66SQ9s@vger.kernel.org, AJvYcCV5YymNw437k3DF6kKFAwfK3U2exxJWUISpUaX+DQIMatGKsTnW7b51mOoli9iXf8Jm6BVqH9MY483MU/YGLg==@vger.kernel.org, AJvYcCV73uF6MlopNrW2+1X8virrsE1CN1EbJ82LQ3FfZSkFJ+ek2Ms0nesputnSByKTAhpkx+yT0XK/@vger.kernel.org, AJvYcCVMi0tnSlpsyUu9NCHb33HIHlEWwl25WXGtTP0H5l19Gh81q5ug1vd/CfdjApdJoCuSvRjAiSm7Zw4tAssV6DBY@vger.kernel.org, AJvYcCVNCQVqTlSFPXisH9bZc4eTOctWFTgsksSkc3GHeu/NuKsr3Qzkgwi2Te2fYJKcQ5BaPZ+1wgdVWCLw@vger.kernel.org, AJvYcCWhZFY9l4lNdSkHoLCWyE3EuOFxfqkiLQah38cNgKePAtSELcneThA51vDR3UHagmV8RSQZaQfCGSc=@vger.kernel.org, AJvYcCWlrI/JSZ/JuzS25BJBuyhHkRldgpr04/5qaY/YnqEBG1YHrboHaYDpqGjpmTgrNJP3ChrkytKYAEs=@vger.kernel.org, AJvYcCX6Ssa8979EneFfYhtaAKodjajDjHOfsHL5SXVQjWL+Wpt/AirlpUm/5S9S3MkohbdN32hAInPZsS3k@vger.kernel.org, AJvYcCXGOZOkI9lE0ylnkW0ktt7aPVyh/RRvJqqZibl8nWD0+nU5bBc4/Jn50bSdtN32AQibAfnZmQxuLyTG/XU=@vger.kernel.org, AJvYcCXMMuu1sTDouy7+bUG/G9YWJANtU5x7ZyVtgwZpr347i2TCa6jfm7ldLE32U0FxTgjN+pO4rSUPcf7Iew0=@vger.kernel.org, AJvYcCXRKSALrXbi3YbfbNZTUz7Ps+pdGKDPFa5OCJciAmpTHN3Su5BptmzAObQG6GDmH08H2h7+Q9Vhm0vp@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxr3CPhGm8W4iDr6QTqTstL9azX+Uw+8RfXnyLamw8fGI/bUBtC
+	YUmaEC7MECJEamEdzBjCIxA++D9v2aQD7VB7huqGNe63OUgohkpK
+X-Gm-Gg: ASbGnct0KFiIGSMKavchuzIRbJohlzYkeVSZP914WZK+mCplAHw3Yoy/mlyvKfJsgye
+	Cf2C4Bs4B2WNfX6Cnqvwo6zR1/QValY51yjC3Sg3KrsJ58GwlOJzW/5y8SJriFsdgnVnqMhZTL3
+	PTfsq25FUzSCX9ZzIUin0Z/QwIKZ3lenAGyKYxGF/KBrKjNd3IE6uZ5ynP5BeCriY4Rg7VxjH83
+	Hrf1ArhW4TpfLkSJ8AO9YujF7wAVjYscCfZCHxq0g+OX/Tb+mTI6RlVEfoyj7fLQyv+dVJwn5K5
+	wI9ck+8z03mRtxCCet1nvTA97oh58E89BEywJeZaMHosMno2zLF53pJHEiS2coOqaWJ1h5ZeqXQ
+	4LekjcPW+js7527c=
+X-Google-Smtp-Source: AGHT+IGrKFiapGLIEGHnSEZIAujUvj6ZJLSj064m/nFeE0wcOjOeNVFt0u8EmZ8qnV5tFeQau4dR7A==
+X-Received: by 2002:a17:903:3c6b:b0:224:24d3:6103 with SMTP id d9443c01a7336-22a955734f5mr25800795ad.35.1743815846125;
+        Fri, 04 Apr 2025 18:17:26 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785b352esm39374225ad.18.2025.04.04.18.17.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Apr 2025 18:17:25 -0700 (PDT)
+Message-ID: <811c4103-08b1-4288-9a15-bd9795bc59f4@gmail.com>
+Date: Sat, 5 Apr 2025 10:17:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+To: nfraprado@collabora.com
+Cc: James.Bottomley@HansenPartnership.com, akpm@linux-foundation.org,
+ anton.ivanov@cambridgegreys.com, corbet@lwn.net, davem@davemloft.net,
+ dmaengine@vger.kernel.org, ebiggers@kernel.org, edumazet@google.com,
+ horms@kernel.org, jaegeuk@kernel.org, jarkko@kernel.org, jic23@kernel.org,
+ johannes@sipsolutions.net, kernel@collabora.com, keyrings@vger.kernel.org,
+ kuba@kernel.org, lars@metafoo.de, linux-doc@vger.kernel.org,
+ linux-fscrypt@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mm@kvack.org,
+ linux-sound@vger.kernel.org, linux-um@lists.infradead.org,
+ maxime.chevallier@bootlin.com, mchehab@kernel.org, netdev@vger.kernel.org,
+ pabeni@redhat.com, perex@perex.cz, richard@nod.at, tiwai@suse.com,
+ tytso@mit.edu, vkoul@kernel.org, workflows@vger.kernel.org,
+ zohar@linux.ibm.com, Akira Yokosawa <akiyks@gmail.com>
+References: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
+Subject: Re: [PATCH] docs: Remove literal markup from Documentation/ paths
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250405-apple-codec-changes-v4-10-d007e46ce4a2@gmail.com>
-References: <20250405-apple-codec-changes-v4-0-d007e46ce4a2@gmail.com>
-In-Reply-To: <20250405-apple-codec-changes-v4-0-d007e46ce4a2@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4733;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=ImA9e8Vws4XKPSu4pYoGIMJVwD0Z9+nohE4Whtn2W5c=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfStvUfPuPsT7xyzbbcGlSVa/X9cT/mu9SDGZv+vTCx
- k+5wlK9o5SFQYyLQVZMkWVDk5DHbCO2m/0ilXth5rAygQxh4OIUgIkY6zMyTJ2ovn/2N5YMjzeJ
- M71dhQ4szTlZbqUplbB+bcT3zQ1TTjH8lbqw3fPEtV0HvhldrVnjq/w8K9yQcdlH79I/DJwcy/s
- uMAEA
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-TAS2764 contains an ADC that reports the chip's die temperature.
-The temperature in degrees Celsius is yielded by subtracting 93
-from the raw value reported by the ADC.
+Hi,
 
-Expose the codec die temperature to the hwmon interface.
+Nícolas F. R. A. Prado wrote:
+> Given that the automarkup Sphinx plugin cross-references
+> "Documentation/*.rst" strings in the text to the corresponding
+> documents, surrounding those strings with the literal markup (``) not
+> only adds unnecessary markup in the source files, but actually prevents
+> the automatic cross-referencing to happen (as it doesn't happen in
+> literal blocks).
+> 
+> Remove all the occurrences of the literal markup in
+> "Documentation/*.rst" paths, except when the actual source file is being
+> referred. Also change the surrounding text when needed so it reads well
+> both in the source and the web page (eg. 'see file Doc...' -> 'see
+> Doc...').
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+[...]
 
-The chip will initialise the temperature register to 2.6 *C
-to avoid triggering over temp protection. As the ADC is powered
-down during software shutdown, this value will persist until the
-chip is fully powered up (e.g. when the PCM it's attached to is
-opened). When the chip is powered back down, the last value sampled
-will persist in the register.
+>  Documentation/process/submit-checklist.rst                | 7 ++++---
 
-Co-developed-by: Martin Povišer <povik+lin@cutebit.org>
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- sound/soc/codecs/tas2764.c | 89 +++++++++++++++++++++++++
- sound/soc/codecs/tas2764.h |  3 +
- 2 files changed, 92 insertions(+)
+I have updated ja_JP translation of this recently.
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index e45b34fe4ffd4ffb902e33783e9655e858ce5bb1..45c692db7da5a79f725c3b25c3b523aa5f4e4f44 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -8,6 +8,7 @@
- #include <linux/err.h>
- #include <linux/init.h>
- #include <linux/delay.h>
-+#include <linux/hwmon.h>
- #include <linux/pm.h>
- #include <linux/i2c.h>
- #include <linux/gpio/consumer.h>
-@@ -616,6 +617,80 @@ static int tas2764_apply_init_quirks(struct tas2764_priv *tas2764)
- 	return 0;
- }
- 
-+static int tas2764_read_die_temp(struct tas2764_priv *tas2764, long *result)
-+{
-+	int ret, reg;
-+
-+	ret = regmap_read(tas2764->regmap, TAS2764_TEMP, &reg);
-+	if (ret)
-+		return ret;
-+	/*
-+	 * As per datasheet, subtract 93 from raw value to get degrees
-+	 * Celsius. hwmon wants millidegrees.
-+	 *
-+	 * NOTE: The chip will initialise the TAS2764_TEMP register to
-+	 * 2.6 *C to avoid triggering temperature protection. Since the
-+	 * ADC is powered down during software shutdown, this value will
-+	 * persist until the chip is fully powered up (e.g. the PCM it's
-+	 * attached to is opened). The ADC will power down again when
-+	 * the chip is put back into software shutdown, with the last
-+	 * value sampled persisting in the ADC's register.
-+	 */
-+	*result = (reg - 93) * 1000;
-+	return 0;
-+}
-+
-+static umode_t tas2764_hwmon_is_visible(const void *data,
-+					enum hwmon_sensor_types type, u32 attr,
-+					int channel)
-+{
-+	if (type != hwmon_temp)
-+		return 0;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		return 0444;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int tas2764_hwmon_read(struct device *dev,
-+			      enum hwmon_sensor_types type,
-+			      u32 attr, int channel, long *val)
-+{
-+	struct tas2764_priv *tas2764 = dev_get_drvdata(dev);
-+	int ret;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		ret = tas2764_read_die_temp(tas2764, val);
-+		break;
-+	default:
-+		ret = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct hwmon_channel_info *const tas2764_hwmon_info[] = {
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-+	NULL
-+};
-+
-+static const struct hwmon_ops tas2764_hwmon_ops = {
-+	.is_visible	= tas2764_hwmon_is_visible,
-+	.read		= tas2764_hwmon_read,
-+};
-+
-+static const struct hwmon_chip_info tas2764_hwmon_chip_info = {
-+	.ops	= &tas2764_hwmon_ops,
-+	.info	= tas2764_hwmon_info,
-+};
-+
- static int tas2764_codec_probe(struct snd_soc_component *component)
- {
- 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
-@@ -864,6 +939,20 @@ static int tas2764_i2c_probe(struct i2c_client *client)
- 		}
- 	}
- 
-+	if (IS_REACHABLE(CONFIG_HWMON)) {
-+		struct device *hwmon;
-+
-+		hwmon = devm_hwmon_device_register_with_info(&client->dev, "tas2764",
-+							tas2764,
-+							&tas2764_hwmon_chip_info,
-+							NULL);
-+		if (IS_ERR(hwmon)) {
-+			return dev_err_probe(&client->dev, PTR_ERR(hwmon),
-+					     "Failed to register temp sensor\n");
-+		}
-+	}
-+
-+
- 	return devm_snd_soc_register_component(tas2764->dev,
- 					       &soc_component_driver_tas2764,
- 					       tas2764_dai_driver,
-diff --git a/sound/soc/codecs/tas2764.h b/sound/soc/codecs/tas2764.h
-index 3251dc0106e07862dd69efd69fa0e40c3858ecb7..538290ed3d92acea3322240a3bd09edd63694e50 100644
---- a/sound/soc/codecs/tas2764.h
-+++ b/sound/soc/codecs/tas2764.h
-@@ -117,6 +117,9 @@
- #define TAS2764_INT_LTCH3               TAS2764_REG(0x0, 0x50)
- #define TAS2764_INT_LTCH4               TAS2764_REG(0x0, 0x51)
- 
-+/* Readout Registers */
-+#define TAS2764_TEMP                    TAS2764_REG(0x0, 0x56)
-+
- /* Clock/IRQ Settings */
- #define TAS2764_INT_CLK_CFG             TAS2764_REG(0x0, 0x5c)
- #define TAS2764_INT_CLK_CFG_IRQZ_CLR    BIT(2)
+> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
+> index beb7f94279fdb6a1d9b4aa86b2bea031f140732b..3ae31c5af2cb5c374658c1fb7125e70bf36e911c 100644
+> --- a/Documentation/process/submit-checklist.rst
+> +++ b/Documentation/process/submit-checklist.rst
+> @@ -30,7 +30,8 @@ Review Kconfig changes
+>  
+>  1) Any new or modified ``CONFIG`` options do not muck up the config menu and
+>     default to off unless they meet the exception criteria documented in
+> -   ``Documentation/kbuild/kconfig-language.rst`` Menu attributes: default value.
+> +   Documentation/kbuild/kconfig-language.rst, under "Menu attributes", "default
+> +   value".
 
--- 
-2.49.0
+I have made the same change in the translation, but failed to submit a patch...
+
+>  
+>  2) All new ``Kconfig`` options have help text.
+>  
+> @@ -47,7 +48,7 @@ Provide documentation
+>  2) All new ``/proc`` entries are documented under ``Documentation/``
+>  
+>  3) All new kernel boot parameters are documented in
+> -   ``Documentation/admin-guide/kernel-parameters.rst``.
+> +   Documentation/admin-guide/kernel-parameters.rst.
+
+Hmm, this item is asking "Have you documented the new params in that
+particular file?", so I don't think this change should be made.
+
+>  
+>  4) All new module parameters are documented with ``MODULE_PARM_DESC()``
+>  
+> @@ -58,7 +59,7 @@ Provide documentation
+>     linux-api@vger.kernel.org.
+>  
+>  6) If any ioctl's are added by the patch, then also update
+> -   ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
+> +   Documentation/userspace-api/ioctl/ioctl-number.rst.
+
+Ditto.
+
+        Thanks, Akira
+
+>  
+>  Check your code with tools
+>  ==========================
 
