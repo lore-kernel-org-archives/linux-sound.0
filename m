@@ -1,251 +1,268 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2081.outbound.protection.outlook.com [40.107.249.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C651F462E;
-	Sat,  5 Apr 2025 23:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743894994; cv=none; b=LbdEzmCRTqNJkvMMEcc6e+MTrtf8oNDHf/ufsi4NeK8FG4eptGAAEfUUyFAeQW2O0AJa60FwezlZ1qd8Z1ttYI9ZmPHdMGtgTYdGNk8tG+9mhPalRV0zz+g9ZDC0WQuzLDBGOrwcdqh6an5Xb9Euc0F+XSDlMJ0+AGApabNVUME=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743894994; c=relaxed/simple;
-	bh=5Z9X682HZUgLJ1v6uu51TGEAsXE/8Sre+u8dfgEfwT0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bHfOjLiJWrkTGFF/QLUhgUe1GEN+gXxAiAnL5zmJvc+dNwoVvSNN5CCaJFSS0DsqVI5g1pDdrQvWmMmOlhTNgMDTuPz253wKMxnD6bwmpn98U+bLclofzX1oDLsAn2gk0JIcnd7JlI4kSeUbC1pj67VQU8/nGKWEFqqsLLp0s4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PUVPpccP; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458828488;
+	Sun,  6 Apr 2025 01:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.81
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743901618; cv=fail; b=Je32EShnCL1FWBv/weuBVNduwf1ufGiUuam2FGbzB3vPmOJu87UgnN/tUhEUjP4oqp2ID2JU7P7O77iJfHs/YtqYLFxoIzu7tYngXaFPD/zM4I0u0R/vsH9v9mJ+k1jtGoIScBBwkClNUVSJTGfkr0HExtoleLVqNSOmVutabFA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743901618; c=relaxed/simple;
+	bh=qjVnW19Xv19U5hZO/8A+nZipFLcMQKK7trbXhrx0d8k=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=S4Y6E6X0/+H+JPSlsiw+9ShIGWPdU9gG2S4dIvggz39MZMHbxwOSxED8kfGbTqdC4J9AJ1QANVKChMf8YEVSGo0KkGBJmyFYjjToHb/POWorom8AoTcH2yBY6MGPhjJThB830OBAmtoQjuAcmejUf05JNA29El4xy0wwj3oXIDw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=vh62ynkM; arc=fail smtp.client-ip=40.107.249.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PUVPpccP"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7fd35b301bdso3147358a12.2;
-        Sat, 05 Apr 2025 16:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743894992; x=1744499792; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rBN7lJc+bnC3l4ET99fupuYYeHLn5bLfe23gswQ1Cp8=;
-        b=PUVPpccPdcUfMWXtkcChmJujd2QjVX6+6wewDqNW9s16kO2mhwGY/kcJIeqFJ9ubOI
-         8n5y3luorl+gUHVed38JcMuYQPgZ19arW4e5Nqcaw/peFfsb7MWWWade9KNHDBcxj0hL
-         XP1uWlpswbpcvNIzF8cQBlB/W570SsBdszToxjbk1ukq2SOHyct1RkMizcWAnA5ZLZCd
-         Fsmx9UdClqVtfJlKtiOVUUQqsywYieK/AW77Q507akm4FvTUxEncMm9N7tGAeXHxGkoX
-         EpfbH5rkLjCVIECipYapFpHh5KpK3nOLgPl4hlb8e5fjXaUaSwnAaE9ADWy/7qOtcseL
-         aicQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743894992; x=1744499792;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rBN7lJc+bnC3l4ET99fupuYYeHLn5bLfe23gswQ1Cp8=;
-        b=dDG3nF25MI8eXl2107HlQ5ouLxG3whsgAPmSzJkttgoH6GJbEB+W1RqSfsOjOqUF3P
-         UtdAr/JI4JrSyPoG25Lu1oqlnhCLxmhOIsW18+BeDAKLZv5dDuRkBIdze1KaayUu2X4Y
-         3FGyxi0qQ2+MLFYQCqPmrdogGEdoJtKJHmJ8zxyUsoJt8luhF6O6xt0wZDFDArWnDYn9
-         wm6zpJNva7zn74+riGJ6NXPSQZxqTsVyM8Z3nPdReyVDYY7EjWWLQMJy96QqRYAEeHIe
-         wcFsgZ/4IZQYWZiNs3Z0OtKaw83l1sAn/uDipr1IbfkPi/BEcMPqzYHldg4wBJGyu2Q0
-         5OZA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6Q+hZkHTvrCKTr+N1rdengp7XgSKtzzc3jjkpqmGcWGY26EuuslVCuoABwuHzvsG4FufvuQgvYSc6ybg=@vger.kernel.org, AJvYcCWJLco+Tv0qs+k0INOzqQfFhCQ8AxEKv8KYFblBF2tZuI4y9TM1LiZlM0eqw/Kl681wqPsA7NHOHa0ZxYc=@vger.kernel.org, AJvYcCWKy+bS2Js0Ms3x0MvU4yKlxHHvr2e67rAVQ740b5Pgyneux1geBHmFU7XeWjVrauGsj3mbevpnn9r2@vger.kernel.org, AJvYcCXk4dAUPcvzGOuYZMobQ3OJOlGVpkk2rWoRuAgTtM6BXXOSpeZPURaChuuROrA5+mP+KoM43dcw0/gewHwN@vger.kernel.org
-X-Gm-Message-State: AOJu0YygF94viy3XM1qrn/VVGO3nc72A6vKQvuoUJpSsbp9kmqMRbI0S
-	ZF1uP6pXGw+twiw3/EYcr/dr/XFrFIGWqmviBmek4EVO93bVTND1fvIqDOTe
-X-Gm-Gg: ASbGncv1SJfZkEnjW93pESEgsASKn/fvpfpgJ1oD7nQREHDFMIKRmQ2TgfD3uKL3XYI
-	e1hn/FMWl7W1CDA5pGEG35LuFtaz1cXjvfKuakJAEYKsbV4nJOvecl0KLb5UNrVGzjlGPYYyJ0p
-	yOnEuLfR7Grl8xnh+wPsrqpfp7V9VmpUMI/fHdRZAgLCFRG7lwVFuIRdQaPt3I6zIf5pORfCDRZ
-	22vqYJ0UkRmeA9ryArBMRyON/QS6qt9ANVNLzqA72xR+wPhaZy1elS1JzD81O5tAEULfqDsXNlz
-	qLF06jqNxTOWWJQADVF7iHvRJCyQgNp96OzFuouySHe74PxLs8BNN9T46CCjlMBUltTg+ee2kCt
-	tjOghcw3cN35k6TcDpRu5VtPY/j/uGk/Vd54PFRV16ikFiXEsRA==
-X-Google-Smtp-Source: AGHT+IGboQXup/sgtzEmkEwk8oMDufzhXkatqPuP1Cmf7+D+uVwma1W1OUqGKi2mrfi+tqTDKqnBBw==
-X-Received: by 2002:a17:90b:2e41:b0:2ee:b8ac:73b0 with SMTP id 98e67ed59e1d1-306a47c2d6amr11531890a91.2.1743894992161;
-        Sat, 05 Apr 2025 16:16:32 -0700 (PDT)
-Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785c994esm55048345ad.102.2025.04.05.16.16.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 16:16:31 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 06 Apr 2025 09:15:12 +1000
-Subject: [PATCH v5 8/8] ASoC: tas2764: expose die temp to hwmon
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="vh62ynkM"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wtTsfTV+nQtzeSCsbok0KxNZMu3jMxVrzl7otjKoRlO7GAQlKYifiUbbB6rGDkLJT9ClNPr8G9+teoJ36C/CwqKLo3RgxiyjKQCY5TPkSoe3iVuYGX0sHcW8ZLiheDwrMCjWNJksIUJ8+vSj52TUnMgPrBhhDzByHHoWpdLeZt4cwsNlkuh1NlvNrOFJleMT18Z7TarQKZZS8fQOWCwiHPSN6x1SLIOJ8iBAWq5HR3H44SIMJeF0LPm8CLz3djw9XdYo8uj06kGO3hBkhXU8hDgfPTdvDywtguJxH/PJRJAl2Nd+UZK0Yu0DFJapE8bw+LufA3zZd7K9KXj+Z8fYeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KSva5J88JBaDEQXsHcReZoxm0FS+XsAMvEJHmYYJI9o=;
+ b=BsWF53kJixL2Rl0UZwjZXi7Ad3xT8YPgn3xlIEFzLj5Vbj1ByxupVNa4XunYNoZzHxxtHflDYE0/GLGQ4kmnKKA+I83hciyxsFGLmb9dmQNkWvrNw82yBOrhX4lXswI+Dj0nyvRMWTeDVR0LkfLGASOgm/jzGSYqmb7eJHiODLkepIGjoYF2vc5cuFyEC5yUUaq6lmxvUtY55TsBphn68kyuGQYUzdgrtQHAGpnk8uiMY+kJRRj53uctpluNYqRKITP/uRdCUpMfMF7fP5s5sZoqRagX7euK83qE+JQanZFbDtTUYonVhgUfviRPejUuub4CFvTAQowYKW4ew910Ng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KSva5J88JBaDEQXsHcReZoxm0FS+XsAMvEJHmYYJI9o=;
+ b=vh62ynkMmTq9cUk7vXL4Znlddf7SLNanFMflMv9WQaOgDF31i4QMAIauXSf1V+85y0zf6kbnlp0FEoFHB63jgH/I2ZJGsxQ5V9jBEPbT4YPfw0KPGyEfPUhUmULQC5smUhQMRZ7aLp0CHp03PX9fz9Z4M6QAXbPHMvePH5NgeVay/uBdLuRVpi9kpB6doevUnh2qa2YJukTj3b3011OnjlkiV3kUKFn81viKZ4UKPn4SNiGnZ+vHb3bmAlWnBZyez91ZboPvX65CiY83ie8pu7EgjikHDvE9NOkSnb/Cp3pBdn6ZRGrsHnYD45vAD7raYfTobp7PMtsL9uaPUlk+dg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by GV1PR04MB10276.eurprd04.prod.outlook.com (2603:10a6:150:1af::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.47; Sun, 6 Apr
+ 2025 01:06:51 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%6]) with mapi id 15.20.8606.027; Sun, 6 Apr 2025
+ 01:06:51 +0000
+From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Peng Fan <peng.fan@nxp.com>,
+	linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...),
+	linux-kernel@vger.kernel.org (open list),
+	linux-gpio@vger.kernel.org (open list:GPIO SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set))
+Cc: andriy.shevchenko@intel.com
+Subject: [PATCH V2] ASoC: codec: ak5386: Convert to GPIO descriptors
+Date: Sun,  6 Apr 2025 09:05:23 +0800
+Message-Id: <20250406010532.1212894-1-peng.fan@oss.nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG2PR02CA0048.apcprd02.prod.outlook.com
+ (2603:1096:3:18::36) To PAXPR04MB8459.eurprd04.prod.outlook.com
+ (2603:10a6:102:1da::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250406-apple-codec-changes-v5-8-50a00ec850a3@gmail.com>
-References: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
-In-Reply-To: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4733;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=5Z9X682HZUgLJ1v6uu51TGEAsXE/8Sre+u8dfgEfwT0=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfd3Ydffj9fdjhS7FJN4MP3lQONy7btTkkfquglGhlp
- KdAlsaRjlIWBjEuBlkxRZYNTUIes43YbvaLVO6FmcPKBDKEgYtTACZys4HhF1OSiWzl0nUxlpJ9
- wea9roGCa6+2byjY0Rrm5LN27fLiDYwMW6dJu2v3uVa/3yfL+Lp0Y9H9iL1lj54qVVZt2/SYhYW
- NAwA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|GV1PR04MB10276:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a72729f-64e0-4e08-342c-08dd74a74f0b
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|52116014|7416014|366016|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?WVlKMkFzRkdCQlpKdHVuUkUzcXgrQW11YWQvMGMwcHF5VUFlazMxK1hyZGV5?=
+ =?utf-8?B?M0FPNEUyZHJ3bnBERWVGbWVnLy9iNWZUTTBrcTdEZWdiTzJYemFSTFJxQ2ZX?=
+ =?utf-8?B?cE5QUmlCWGMvaXJkTWI0ZGQweUU3ZFFNdTQxNjVwOHlQSmd0L0c3c0oxRkdK?=
+ =?utf-8?B?bENDa1Bmek9GZ0lSdGQ0VXhrNkMzYkIxVDJZWjRCNUI3OUg5MThURnF4VWtU?=
+ =?utf-8?B?ZDI4R1lhMEJUcFZBMXhOT3lFSFdIc0JBTDIwOTN3NlNMdENtT1NVcVJIcDRi?=
+ =?utf-8?B?d2tnWUhuZHRyOG8vNlVCR2lsTktrUGk2UmpXRm9yQnpDOXhIbEp1Y3J1czZC?=
+ =?utf-8?B?dnpNdVg0YytOL2VFMld6WmNJenl4bkNpd2crcjM5aU5aQ05NdUVjc0JPSnhX?=
+ =?utf-8?B?ZU9FVDU0NlJaUmo4MFhCTmxNNEVUbjRJWk84OUNSRE5aVWxweVZobXhGT29I?=
+ =?utf-8?B?SUNTd1QyUEhndnZMRFgwMFBZbVhlTWFBMlhQZGFENEVQQjFQb2hOYUZ6M1d5?=
+ =?utf-8?B?bHBPc3RiTW1qa0kvMzc5cVJRK3N3VE9mQTN4WWx0VlY1SldCMFdGS2Jod2Vi?=
+ =?utf-8?B?cU9YbUlsT0FYUWxxMklTUjVaUW51VGh6R2FuUTNrVXY1aWEwNm5VRmthY09F?=
+ =?utf-8?B?ZXhZblVlb0NWdnY5TTNtQkFxeFMvYzRyV3liVERFQjJZZ0ZzQmMwSnp2TXZz?=
+ =?utf-8?B?OEFlZS8wMEJwS1cwdkZJaTZNcHQzNTJESGpZNmEwbCtreDQ0VUtXd3NtamVH?=
+ =?utf-8?B?K002d3pmaDlPNDRDSWd5VGw5aUxBQ3lsenlvaTROSk8raE1JUGFkbUtKZG91?=
+ =?utf-8?B?QXlJTU9YNGF3ek9IbDZzZ3lscTB6LzEzRHEybjJaQ21wU0RGUkVJSURHM25Q?=
+ =?utf-8?B?N09nakxzVlZNbEsrWTBDemtYS3ZMNkZzS3lLOEYwR3NNZjhWT2RaNjhncTFV?=
+ =?utf-8?B?NklUTmxaT2t2dEd1THFCSUVGWk03U2ZjRjdXeVI1OWNNY2RJc3ptRUtVY21n?=
+ =?utf-8?B?YkRSdG9XUHZidlhKT3FEa2NsRTBhSU5MRmpqWXh2VUJOYnZQcVRaaWhJUXBh?=
+ =?utf-8?B?YzdxbjR6SkFaNmxCaDBpdE9HdW1RQkEweWtOdG0rQUxxbmRYL05MMCtJRW9R?=
+ =?utf-8?B?YlY1QTFMY0xpcVZoOG9rVlFiZytta0hTVlVSWlNZVXpmOVZLdnBMRnlBaXZR?=
+ =?utf-8?B?eWV3KzE2S21vbVNqRW9naEx5YU5NT21Bd1Q2NUZDZ0tXZFd6ODFMY1V5RGw5?=
+ =?utf-8?B?NTBReE11U1I4NU13cFBmK2tMa01rczQrT2pCdHVqMHpnUzJCdmswN3VsZ1l1?=
+ =?utf-8?B?cVVwMXBxclJUZkhpcmYyNVBZRExDam1xME95NWV1Tml6Sk9aLzB5dkcvNG9C?=
+ =?utf-8?B?RU5HMzYrTGdtU2R2WnNqbnJnODBnSHRGeG02aDZwUGQrR1J2R1ZLN2FUb0Uz?=
+ =?utf-8?B?VU9ORXJlN2VXUUp6RHNyaTBmMG5hdGZyemZSMkhaZ3d3OS94eXV1dEFrazQ5?=
+ =?utf-8?B?MlhQUzR6dW5kNWJ0VFBhN1dEeXo5ZXFlVDh5WlhhaTJhSWNlU3B0TnR4eFgx?=
+ =?utf-8?B?Rk16SmhMY1UrWnhaTDBqZDFIc1lLU2U5ZFRzRkNTTkZ1eDR2NFl0NjhHVW84?=
+ =?utf-8?B?cHhnTjBYQ0tiMHB1NzV6bjNGTmVzZWlEVkRyRmdpbUhFZXVqMWl0M0hQOGU5?=
+ =?utf-8?B?SExORUxvc0hNWitPUnorL3dGQjRwT1I5UEpYZ051SWJyaVhvL1UzazZ6TGp5?=
+ =?utf-8?B?K2FZcEd2ZXhCZE16TFBNVXBHRXpLV3hxL2dZclYrT2ZvcmdXQTZjWDBkanhL?=
+ =?utf-8?B?VklyNUl5aHpLak9OSGptNGFqb0ZvR1lveFAyL29pK0dkQ2UwSCtramU0OHhs?=
+ =?utf-8?B?QWJjbGQ3RjJUNFNZemlIb2hBWnkrMnFPSFJBVW1WOVE2TVdoa0U1OU5YbGtq?=
+ =?utf-8?Q?hK5O0MjZdEHCn1R+mp5fo8EKTYFHG/sE?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(7416014)(366016)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bEp0ZDc3eXpvb05LVGpXWDN6UjdTU0Vob1NOcnp4MjJET0VUZGZ6SmR2cWJp?=
+ =?utf-8?B?dE13Q0Nna0JKTDM2cWV4cTlJRGoydGdQUVo4ZmN5Y3BtYkZJTXFqbEx1OEFZ?=
+ =?utf-8?B?cFlMVGJYeCt1enMyTGZjT1c5REdYdFo5YkNhTmxsY3lBeWZ3UW8xeFo5RjZp?=
+ =?utf-8?B?SS81NDk0YXFFTFlxSEFYSlZabk1rbnhHYXBsdkdQV2NTa1dJTjB1dHR2aHRr?=
+ =?utf-8?B?dTFYVnZodTNock5lQmRGVmFHd1pvTjRCc2FuckswaWxoSTZUaUExdDZDYVhD?=
+ =?utf-8?B?YjNxT1dBWnA2MGNjNXlsZzdIWDRVTEJvU3J5NTFOaG9MSlFWWkgwMDNQRTVR?=
+ =?utf-8?B?MkZ0M1J6YzFrNEl0ZWloNVhXeG5sNVN3WnVhQWVQcENUZm9lcW1UUjNaYnNU?=
+ =?utf-8?B?Z2FCMjh3cC9DMWNKOUFrWHZHUDRYU3RDV3U2VWJXSDlJQ3UyMzEwdU44QVBm?=
+ =?utf-8?B?eitaVHdSWTIrS0FZTUM2OTQ2enRYQ1RSS3RzNUJiYm5pKy9ocGVkSGRHclp4?=
+ =?utf-8?B?a3NlcVlGVU9IQ24xLzl1L0x0VkdpdGx4bUpaSEx1SUp1dlVsOEJ0S0xxTVRH?=
+ =?utf-8?B?MDhySFJJTzBtOEgrTE9yNmxkcWdUT3NvRE1rZmtQV05qaTUzWkM4dTdoSjYv?=
+ =?utf-8?B?bHVIVnRSNE9XVEY4M0tvTGtnQ3oxbjNaZStjZXRmSVBRdDRaSXNzeVhRbzZF?=
+ =?utf-8?B?YlFjRytNZm96TWcyZllJK2xtSGFXeEI1OFh1UHpFUFQvaWljZkZ1Qkh5SjJ3?=
+ =?utf-8?B?K2RWWlFzbW5Rbkh3MmhvcmVLR1B4dWFJdG44M2tXNVdnamhPdzBGWjRZU1hW?=
+ =?utf-8?B?bWRuUGpZRFpSTEQ4R1NpMUc5K0NJam0yUGFncDgrVS9VZ3o4eXlUdnZLL1p4?=
+ =?utf-8?B?K21ZTmNTM2k2N1BRN0U5MUpFSGlEQk9QK245NXZuZ3ZGemt4TlJ1bFhWejZW?=
+ =?utf-8?B?TG1OdC9hSy9XbjRXUXpUcHhKK2xRQnQ5OFdqVkQvRmxCTjhTVzUxL0lTb0Zi?=
+ =?utf-8?B?dzZkcmNFZzdaTnRmOFlpMmhQeUxUTzVoeVp5NEExbzF5dVRHa0I0N1hjOVNH?=
+ =?utf-8?B?OE0yZzVRQXRmR1RIWVdwZmxlVlBYMVhacFJyQ3NhTTJKcFhOWDU4VzFzMzFM?=
+ =?utf-8?B?Z2RNNXVEbU0vMHVKQU1ORXBWVXZZS1U5N1JlOEZUN0J3Z3kvSG9qQU9HNXQ2?=
+ =?utf-8?B?aFZ0WE9UVnhMM2VVM2R1bWh1VmplclUzZFNkcXh4dHFpV3FoNEU2UXFGdTNa?=
+ =?utf-8?B?c0t5cHEzTlFZSzV6UGh3aUNxaTdYZDhOWTMxUGxtUGlWMDVZQ1FoSWdGMnVV?=
+ =?utf-8?B?Vi81ODliUDA1RW5IbFJ1Yyt5ZW93c1U4Q2pxcjRBK0JWSmpCRTBQb1ZYM3lh?=
+ =?utf-8?B?UlAwQ1JSRjNkY2FBTFRmTWlGSjhCVzJNU0Qxay91aXl1ZVJZRnI1WDJFelV0?=
+ =?utf-8?B?azdtVTNSTHZDdUpNUElvNHpvTjh2bmF1VC8rQjBCcDJhV3kxMit1ZERrWlk5?=
+ =?utf-8?B?YlYzaWRLeDh4cDRBSFlUUzZlS05YMTE0eCtJbFFNbTFGbkFiLzJVNzBxKzJH?=
+ =?utf-8?B?Y2l1WFJWbGhxSDd2YUZid2p5NmVpV3pFU2lKNTJja1dLcVIvbzJ2RU5vNDVk?=
+ =?utf-8?B?RW82d0JnVDBCcTI0cXFLNGpuWExKTENhWVVPWEk5SXFnQ3NpYTY2T2k0Wm53?=
+ =?utf-8?B?SHIxQUFHL0d5ZmhPdEo4bTEvODlDV1VxNjMvU0xNdWl1OUxwS0ZmMjVBYWhC?=
+ =?utf-8?B?VndxdFdySTEvQXkxdHAxUmNKVzJ5bFdIdFRhLzBJa0NYVGRTQmRxYTBWdmlW?=
+ =?utf-8?B?U3d1VkVnMFVQcVZKaStIdDZHQVZwZkF3WFU5b2dHeEt0SkQ1N204dWNDdy84?=
+ =?utf-8?B?eXBkT1ZnNWtidi9oZ3ROZjRtakczL016Z25JUjNpTm9lQUhrYy9tTXkrS2pS?=
+ =?utf-8?B?di8raWk5RU5zTUJvdzZoV2dwWGZBOGM1TnFzeWczYUFlRU5ha3NSSlFVd3BQ?=
+ =?utf-8?B?WktJbFh5RHdKR00wdE1mdWRsRE5IQUtuSWxOVmx4SS9wa1pCM0R6Q0dnSHR4?=
+ =?utf-8?B?blRDb3Z6eDJlMWJ4dSthdHR4VXpPR0VNMUJxcVEyNG1UZFV6QUJTbU9aeDhZ?=
+ =?utf-8?Q?SmI2iWZzjVxqLzdIIXXiktGpy?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a72729f-64e0-4e08-342c-08dd74a74f0b
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2025 01:06:51.4597
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 30Ve0kjvlrYafpTeL5RgUjS8UP3Vk7qs+6VxPlLGHYZeYRhYzR9vJrJDVTIihoV0a1sinjJUdJ3IrnQdkxuTPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10276
 
-TAS2764 contains an ADC that reports the chip's die temperature.
-The temperature in degrees Celsius is yielded by subtracting 93
-from the raw value reported by the ADC.
+From: Peng Fan <peng.fan@nxp.com>
 
-Expose the codec die temperature to the hwmon interface.
+ of_gpio.h is deprecated, update the driver to use GPIO descriptors.
+ - Use devm_gpiod_get_optional to get GPIO descriptor.
+ - Use gpiod_set_value to configure output value.
 
-The chip will initialise the temperature register to 2.6 *C
-to avoid triggering over temp protection. As the ADC is powered
-down during software shutdown, this value will persist until the
-chip is fully powered up (e.g. when the PCM it's attached to is
-opened). When the chip is powered back down, the last value sampled
-will persist in the register.
+With legacy of_gpio API, the driver set GPIO value 1 to power up
+AK5386, and set value 0 to power down.
+Per datasheet for PDN(reset_gpio in the driver):
+ Power Down & Reset Mode Pin
+ “H”: Power up, “L”: Power down & Reset
+ The AK5386 must be reset once upon power-up.
 
-Co-developed-by: Martin Povišer <povik+lin@cutebit.org>
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+There is no in-tree DTS using this codec, and the bindings does not
+specify polarity. Per driver and datasheet, the GPIO polarity should be
+active-high which is to power up the codec. So using GPIOD_OUT_LOW
+when get the GPIO descriptor matches GPIOF_OUT_INIT_LOW when using
+of_gpio API.
+
+Signed-off-by: Peng Fan <peng.fan@nxp.com>
 ---
- sound/soc/codecs/tas2764.c | 89 +++++++++++++++++++++++++
- sound/soc/codecs/tas2764.h |  3 +
- 2 files changed, 92 insertions(+)
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index 21c38b2394b71ef7d05b4c2e781fdf73926fec5b..97968ee3af42e8400b8cbcc23fe2184afc8c715c 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -8,6 +8,7 @@
- #include <linux/err.h>
- #include <linux/init.h>
- #include <linux/delay.h>
-+#include <linux/hwmon.h>
- #include <linux/pm.h>
- #include <linux/i2c.h>
- #include <linux/gpio/consumer.h>
-@@ -577,6 +578,80 @@ static int tas2764_apply_init_quirks(struct tas2764_priv *tas2764)
+V2:
+ Typo fixes in commit log
+ Drop uneeded gpio check before gpiod_set_value
+ Include more headers
+
+ sound/soc/codecs/ak5386.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
+
+diff --git a/sound/soc/codecs/ak5386.c b/sound/soc/codecs/ak5386.c
+index 21a44476f48d..6525d50b7ab2 100644
+--- a/sound/soc/codecs/ak5386.c
++++ b/sound/soc/codecs/ak5386.c
+@@ -6,11 +6,13 @@
+  * (c) 2013 Daniel Mack <zonque@gmail.com>
+  */
+ 
++#include <linux/device.h>
++#include <linux/dev_printk.h>
++#include <linux/err.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+-#include <linux/slab.h>
+-#include <linux/of.h>
+-#include <linux/of_gpio.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/slab.h>
+ #include <sound/soc.h>
+ #include <sound/pcm.h>
+ #include <sound/initval.h>
+@@ -20,7 +22,7 @@ static const char * const supply_names[] = {
+ };
+ 
+ struct ak5386_priv {
+-	int reset_gpio;
++	struct gpio_desc *reset_gpio;
+ 	struct regulator_bulk_data supplies[ARRAY_SIZE(supply_names)];
+ };
+ 
+@@ -110,8 +112,7 @@ static int ak5386_hw_params(struct snd_pcm_substream *substream,
+ 	 * the AK5386 in power-down mode (PDN pin = “L”).
+ 	 */
+ 
+-	if (gpio_is_valid(priv->reset_gpio))
+-		gpio_set_value(priv->reset_gpio, 1);
++	gpiod_set_value(priv->reset_gpio, 1);
+ 
  	return 0;
  }
+@@ -122,8 +123,7 @@ static int ak5386_hw_free(struct snd_pcm_substream *substream,
+ 	struct snd_soc_component *component = dai->component;
+ 	struct ak5386_priv *priv = snd_soc_component_get_drvdata(component);
  
-+static int tas2764_read_die_temp(struct tas2764_priv *tas2764, long *result)
-+{
-+	int ret, reg;
-+
-+	ret = regmap_read(tas2764->regmap, TAS2764_TEMP, &reg);
-+	if (ret)
-+		return ret;
-+	/*
-+	 * As per datasheet, subtract 93 from raw value to get degrees
-+	 * Celsius. hwmon wants millidegrees.
-+	 *
-+	 * NOTE: The chip will initialise the TAS2764_TEMP register to
-+	 * 2.6 *C to avoid triggering temperature protection. Since the
-+	 * ADC is powered down during software shutdown, this value will
-+	 * persist until the chip is fully powered up (e.g. the PCM it's
-+	 * attached to is opened). The ADC will power down again when
-+	 * the chip is put back into software shutdown, with the last
-+	 * value sampled persisting in the ADC's register.
-+	 */
-+	*result = (reg - 93) * 1000;
-+	return 0;
-+}
-+
-+static umode_t tas2764_hwmon_is_visible(const void *data,
-+					enum hwmon_sensor_types type, u32 attr,
-+					int channel)
-+{
-+	if (type != hwmon_temp)
-+		return 0;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		return 0444;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int tas2764_hwmon_read(struct device *dev,
-+			      enum hwmon_sensor_types type,
-+			      u32 attr, int channel, long *val)
-+{
-+	struct tas2764_priv *tas2764 = dev_get_drvdata(dev);
-+	int ret;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		ret = tas2764_read_die_temp(tas2764, val);
-+		break;
-+	default:
-+		ret = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct hwmon_channel_info *const tas2764_hwmon_info[] = {
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-+	NULL
-+};
-+
-+static const struct hwmon_ops tas2764_hwmon_ops = {
-+	.is_visible	= tas2764_hwmon_is_visible,
-+	.read		= tas2764_hwmon_read,
-+};
-+
-+static const struct hwmon_chip_info tas2764_hwmon_chip_info = {
-+	.ops	= &tas2764_hwmon_ops,
-+	.info	= tas2764_hwmon_info,
-+};
-+
- static int tas2764_codec_probe(struct snd_soc_component *component)
- {
- 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
-@@ -825,6 +900,20 @@ static int tas2764_i2c_probe(struct i2c_client *client)
- 		}
- 	}
+-	if (gpio_is_valid(priv->reset_gpio))
+-		gpio_set_value(priv->reset_gpio, 0);
++	gpiod_set_value(priv->reset_gpio, 0);
  
-+	if (IS_REACHABLE(CONFIG_HWMON)) {
-+		struct device *hwmon;
-+
-+		hwmon = devm_hwmon_device_register_with_info(&client->dev, "tas2764",
-+							tas2764,
-+							&tas2764_hwmon_chip_info,
-+							NULL);
-+		if (IS_ERR(hwmon)) {
-+			return dev_err_probe(&client->dev, PTR_ERR(hwmon),
-+					     "Failed to register temp sensor\n");
-+		}
-+	}
-+
-+
- 	return devm_snd_soc_register_component(tas2764->dev,
- 					       &soc_component_driver_tas2764,
- 					       tas2764_dai_driver,
-diff --git a/sound/soc/codecs/tas2764.h b/sound/soc/codecs/tas2764.h
-index 3251dc0106e07862dd69efd69fa0e40c3858ecb7..538290ed3d92acea3322240a3bd09edd63694e50 100644
---- a/sound/soc/codecs/tas2764.h
-+++ b/sound/soc/codecs/tas2764.h
-@@ -117,6 +117,9 @@
- #define TAS2764_INT_LTCH3               TAS2764_REG(0x0, 0x50)
- #define TAS2764_INT_LTCH4               TAS2764_REG(0x0, 0x51)
+ 	return 0;
+ }
+@@ -177,14 +177,12 @@ static int ak5386_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		return ret;
  
-+/* Readout Registers */
-+#define TAS2764_TEMP                    TAS2764_REG(0x0, 0x56)
-+
- /* Clock/IRQ Settings */
- #define TAS2764_INT_CLK_CFG             TAS2764_REG(0x0, 0x5c)
- #define TAS2764_INT_CLK_CFG_IRQZ_CLR    BIT(2)
-
+-	priv->reset_gpio = of_get_named_gpio(dev->of_node,
+-					     "reset-gpio", 0);
++	priv->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(priv->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio),
++				     "Failed to get AK5386 reset GPIO\n");
+ 
+-	if (gpio_is_valid(priv->reset_gpio))
+-		if (devm_gpio_request_one(dev, priv->reset_gpio,
+-					  GPIOF_OUT_INIT_LOW,
+-					  "AK5386 Reset"))
+-			priv->reset_gpio = -EINVAL;
++	gpiod_set_consumer_name(priv->reset_gpio, "AK5386 Reset");
+ 
+ 	return devm_snd_soc_register_component(dev, &soc_component_ak5386,
+ 				      &ak5386_dai, 1);
 -- 
-2.49.0
+2.37.1
 
