@@ -1,88 +1,162 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E86618C31;
-	Mon,  7 Apr 2025 18:02:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75314255245;
+	Mon,  7 Apr 2025 18:11:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744048957; cv=none; b=Jvh5FYs23QhqInU3N8VsTiaV9hjB9GhhX4ag+ITqWM5EX6J94t3pSwEbkZjliQY/QeptA5uJr6ypF4Gi/Mp2mgP+KOL4zSEldR50D1TZEM7HHCb+gktDhbmkuKrjeFULAjUUYt/zge9ExCiB7yIkxnU05KQ8LygWTyny9U/LQjI=
+	t=1744049488; cv=none; b=LYXw5uRyltlbin3yIcJ8uuEa0ZGMwKFWewZrMU/2SfqiVnQsdWluKW1bkojiwUuJbnBjTkpa3zJuL5aS28GEKzplq7CItl8Ls1FMSUlV7XO899jLiV3TO66dzZbT0+f7hBqW05eG7ZAPOIdPOSVkudTr2QsK433BlF/8XGyBZs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744048957; c=relaxed/simple;
-	bh=gBFo43IEIITJ7hSSZuHxPa0NjVpoB6m9INwgzq49MyU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ayH/gLtXdvo3az4FXsTLGXyrcgKedW1kebXP/KCr9uli5tNI0g4FZwu7BJkBeOkHJSjqqQ2/IFEZs3OLGmALas/qt7n3gxxsI61ouUYvuXDyp/mWXTHqfyAzTlg2pZVGOllGp1B1Kx8oIyAdj6+CXXaWAwrxjyg/yW3s8ueUSb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=guqzBuCA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744049488; c=relaxed/simple;
+	bh=5P89sXxtBIlT0wEuM1sFJ4xm2Bx1KLp8Xd6qLhzwK7c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Oxu9kZEH2HVarzficVr3zcgMWLdJk3vIDxLCKNgtydfcFv3RnYo6LUXcvh/H7u6OZZLk6xXcFA+0MBQTC4Pv+JtsljwoIiuEvNrl7wSmcKLRF5ABXut+bHi0NVggwqTKuG5lx8XBB5/HYJYBBERjDKhrIMur97+rf8mGvyk1ouQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZFBBMlmd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="guqzBuCA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 993A4C4CEDD;
-	Mon,  7 Apr 2025 18:02:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZFBBMlmd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF21C4CEE9;
+	Mon,  7 Apr 2025 18:11:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744048956;
-	bh=gBFo43IEIITJ7hSSZuHxPa0NjVpoB6m9INwgzq49MyU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=guqzBuCAHWfcRCFQJnU1BVUN192QF3ubQknho8VH38F6uw+sRlfYYTrRI85PSxzlG
-	 dPOd4+vQGF9hthCp6gv5ybNFgtdcRqCo+r2bsncRRjd/Zl0egkhMTabCCUprtEzxVv
-	 03kPPLtkAShXOD0CSJymVPnCCFsc+MzJLiQHe+qVHc2084vzmU6f6SDVQTYM0A3djK
-	 XLgoMxE62zrVUhlAfBgu8eh0Q/62yNKRkV1rWQLL42WbST7TIB+hpqqNMecQnhvcAT
-	 CrEX6gE1K04kxASM5uBqU4IL9R6tMKp1F+XHELFwjMNudGaIwN6QQQG62NTuLF9877
-	 HBq/FdBcFX0Ww==
-Date: Mon, 7 Apr 2025 11:02:33 -0700
-From: Kees Cook <kees@kernel.org>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Mark Brown <broonie@kernel.org>,
-	Ethan Carter Edwards <ethan@ethancedwards.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Bard Liao <yung-chuan.liao@linux.intel.com>, shumingf@realtek.com
-Subject: Re: [PATCH] ASoC: Intel: sof_sdw: initialize ret in
- asoc_sdw_rt_amp_spk_rtd_init()
-Message-ID: <202504071101.02539FE673@keescook>
-References: <20250210-soc_sdw_rt_amp-v1-1-1ee1afcd8941@ethancedwards.com>
- <ad5eb513-d3ef-42b8-b4a7-88a6ecf08804@sirena.org.uk>
- <a97bf84a-21e8-41ce-8679-332630136ec5@linux.dev>
+	s=k20201202; t=1744049487;
+	bh=5P89sXxtBIlT0wEuM1sFJ4xm2Bx1KLp8Xd6qLhzwK7c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZFBBMlmdUjYgmPVbNhYtnBWWTIthTUo/fSew+YeR0t+3yLUByERfEy2Duyk45zXjM
+	 TQeP2H4dCH71btZUrVE/XRSi1nw02lruJqUXk1xal3IgJrQKiq5C4wtJO/hCjmozxF
+	 0YaBfoIJzzuPQXJ5h2EKqY5Pu28Qe60t05txEFSa9rs5+Ze3bmGDN9VsX6gnj+TWOj
+	 v96LlYwAt4IErtt1A7hcGwYYhCyYCxsVlIuBXeyKijujCeCla9aAmOtq/pmTXjIP/W
+	 Px6tjI5e6svi6oerQX7KsYHDyiHTCCkHipidb/aOByPVIhV5vqWbQ0oE4o31PRJSWq
+	 j72Ye0kb9cU0g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: John Stultz <jstultz@google.com>,
+	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	virtualization@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	kernel-team@android.com,
+	Betty Zhou <bettyzhou@google.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 11/31] sound/virtio: Fix cancel_sync warnings on uninitialized work_structs
+Date: Mon,  7 Apr 2025 14:10:27 -0400
+Message-Id: <20250407181054.3177479-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250407181054.3177479-1-sashal@kernel.org>
+References: <20250407181054.3177479-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a97bf84a-21e8-41ce-8679-332630136ec5@linux.dev>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14.1
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 11, 2025 at 12:54:52PM -0600, Pierre-Louis Bossart wrote:
-> On 2/11/25 07:13, Mark Brown wrote:
-> > On Mon, Feb 10, 2025 at 11:08:27PM -0500, Ethan Carter Edwards wrote:
-> >> There is a possibility for an uninitialized *ret* variable to be
-> >> returned in some code paths.
-> >>
-> >> Setting to 0 prevents a random value from being returned.
-> > 
-> > That'll shut up the warning but is the warning trying to tell us that
-> > there's a logic bug somewhere in the function and we're for example
-> > forgetting to look at a return value in some path in the function?
-> 
-> The problematic code is this:
-> 
-> for_each_rtd_codec_dais(rtd, i, codec_dai) {
-> 	if (strstr(codec_dai->component->name_prefix, "-1"))
-> 		ret = snd_soc_dapm_add_routes(&card->dapm, rt_amp_map, 2);
-> 	else if (strstr(codec_dai->component->name_prefix, "-2"))
-> 		ret = snd_soc_dapm_add_routes(&card->dapm, rt_amp_map + 2, 2);
-> }
-> 
-> return ret;
-> 
-> I am not sure if it's possible that either the for_each does nothing or that the two branches are skipped, but certainly initializing the 'ret' value makes sense to me.
-> 
-> Bard, Shuming, what do you think?
+From: John Stultz <jstultz@google.com>
 
-I'm just skimming through patchwork and this patch doesn't seem to have
-made any progress. What're next steps?
+[ Upstream commit 3c7df2e27346eb40a0e86230db1ccab195c97cfe ]
 
--Kees
+Betty reported hitting the following warning:
 
+[    8.709131][  T221] WARNING: CPU: 2 PID: 221 at kernel/workqueue.c:4182
+...
+[    8.713282][  T221] Call trace:
+[    8.713365][  T221]  __flush_work+0x8d0/0x914
+[    8.713468][  T221]  __cancel_work_sync+0xac/0xfc
+[    8.713570][  T221]  cancel_work_sync+0x24/0x34
+[    8.713667][  T221]  virtsnd_remove+0xa8/0xf8 [virtio_snd ab15f34d0dd772f6d11327e08a81d46dc9c36276]
+[    8.713868][  T221]  virtsnd_probe+0x48c/0x664 [virtio_snd ab15f34d0dd772f6d11327e08a81d46dc9c36276]
+[    8.714035][  T221]  virtio_dev_probe+0x28c/0x390
+[    8.714139][  T221]  really_probe+0x1bc/0x4c8
+...
+
+It seems we're hitting the error path in virtsnd_probe(), which
+triggers a virtsnd_remove() which iterates over the substreams
+calling cancel_work_sync() on the elapsed_period work_struct.
+
+Looking at the code, from earlier in:
+virtsnd_probe()->virtsnd_build_devs()->virtsnd_pcm_parse_cfg()
+
+We set snd->nsubstreams, allocate the snd->substreams, and if
+we then hit an error on the info allocation or something in
+virtsnd_ctl_query_info() fails, we will exit without having
+initialized the elapsed_period work_struct.
+
+When that error path unwinds we then call virtsnd_remove()
+which as long as the substreams array is allocated, will iterate
+through calling cancel_work_sync() on the uninitialized work
+struct hitting this warning.
+
+Takashi Iwai suggested this fix, which initializes the substreams
+structure right after allocation, so that if we hit the error
+paths we avoid trying to cleanup uninitialized data.
+
+Note: I have not yet managed to reproduce the issue myself, so
+this patch has had limited testing.
+
+Feedback or thoughts would be appreciated!
+
+Cc: Anton Yakovlev <anton.yakovlev@opensynergy.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: virtualization@lists.linux.dev
+Cc: linux-sound@vger.kernel.org
+Cc: kernel-team@android.com
+Reported-by: Betty Zhou <bettyzhou@google.com>
+Suggested-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: John Stultz <jstultz@google.com>
+Message-Id: <20250116194114.3375616-1-jstultz@google.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/virtio/virtio_pcm.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/sound/virtio/virtio_pcm.c b/sound/virtio/virtio_pcm.c
+index 967e4c45be9bb..2f7c5e709f075 100644
+--- a/sound/virtio/virtio_pcm.c
++++ b/sound/virtio/virtio_pcm.c
+@@ -339,6 +339,21 @@ int virtsnd_pcm_parse_cfg(struct virtio_snd *snd)
+ 	if (!snd->substreams)
+ 		return -ENOMEM;
+ 
++	/*
++	 * Initialize critical substream fields early in case we hit an
++	 * error path and end up trying to clean up uninitialized structures
++	 * elsewhere.
++	 */
++	for (i = 0; i < snd->nsubstreams; ++i) {
++		struct virtio_pcm_substream *vss = &snd->substreams[i];
++
++		vss->snd = snd;
++		vss->sid = i;
++		INIT_WORK(&vss->elapsed_period, virtsnd_pcm_period_elapsed);
++		init_waitqueue_head(&vss->msg_empty);
++		spin_lock_init(&vss->lock);
++	}
++
+ 	info = kcalloc(snd->nsubstreams, sizeof(*info), GFP_KERNEL);
+ 	if (!info)
+ 		return -ENOMEM;
+@@ -352,12 +367,6 @@ int virtsnd_pcm_parse_cfg(struct virtio_snd *snd)
+ 		struct virtio_pcm_substream *vss = &snd->substreams[i];
+ 		struct virtio_pcm *vpcm;
+ 
+-		vss->snd = snd;
+-		vss->sid = i;
+-		INIT_WORK(&vss->elapsed_period, virtsnd_pcm_period_elapsed);
+-		init_waitqueue_head(&vss->msg_empty);
+-		spin_lock_init(&vss->lock);
+-
+ 		rc = virtsnd_pcm_build_hw(vss, &info[i]);
+ 		if (rc)
+ 			goto on_exit;
 -- 
-Kees Cook
+2.39.5
+
