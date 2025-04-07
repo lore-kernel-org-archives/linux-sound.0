@@ -1,48 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB17221D96;
-	Mon,  7 Apr 2025 18:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2401F25E817;
+	Mon,  7 Apr 2025 18:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744049564; cv=none; b=a1N+Jyez+hVrTd7XCqrMFLMXt8goxdzTvhHGBQm9QoBm2W6QYO3y4u7UmACcaKYTKAvMZ+3tBVhXqHBjNYWqHQac9AVQiAJ1T1FjgUqp0zLO52ovrdK91p9xyxMmGEVuHb7x7E4PMHkDyLfR8ItfNGOXRYVLeQ1kyI4x4Ch95tE=
+	t=1744049609; cv=none; b=BjadJF7uOLkOPOSJ1oOSpP76k8D/gIKbRCoKZsK/XfB+6GZeJixj4gMMGorfOEqnIM/S4lr6XlW8Xb9+9OwLiDUrgoVeHRH4oG9a1SEi4I9GZVqTwcgYQQZcTdZ7U0rn0ZrCUAooEwOS8abBFGDCZylSE/w0E7BKZJogUDsaaoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744049564; c=relaxed/simple;
-	bh=5P89sXxtBIlT0wEuM1sFJ4xm2Bx1KLp8Xd6qLhzwK7c=;
+	s=arc-20240116; t=1744049609; c=relaxed/simple;
+	bh=o66Zs7GApMNs4fUuUIl+NpS0WXNlG3jWsczt+JCtzj4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YOOMuF8YJdr4QS6/MdTKMQffUcpDyF0pIfdTO7bCFZVHVlXreBDS7RRO4s2Vxmir3fc93FeI/+iCqKKqssaSh9Vfal3hao/dtLA/PjHgAkgh2oNCYI8K7+ZwdDf91aA91mYCcOI92Q3hCNHcXsSpWrjvl4bbO4nPdy2uGgQl4AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gHHIMXo2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=DKoa35Jjz9iq7kyZ/zpaPH6k44BtZcuNMPb769V7wjtrWUOiPn/Bv9ddnC20OL5Nc4NWr33GOdOKzntwHWyJdyBG5uEirsKnU5U3Ps+z4mde/LsNFbWKZwZoYhqioS3u70x9YH/Mzysy68d945ZvsunhL5mNC7Oyxk3b1Y7ZLRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VGbks3J8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gHHIMXo2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 611D3C4CEE7;
-	Mon,  7 Apr 2025 18:12:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VGbks3J8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECBAAC4CEDD;
+	Mon,  7 Apr 2025 18:13:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744049564;
-	bh=5P89sXxtBIlT0wEuM1sFJ4xm2Bx1KLp8Xd6qLhzwK7c=;
+	s=k20201202; t=1744049608;
+	bh=o66Zs7GApMNs4fUuUIl+NpS0WXNlG3jWsczt+JCtzj4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gHHIMXo2vNIXnJfbmKdDIEOUpSLJekCnLy4q0IJ5EjU2S9GeBJmSHAFkPJfB/EwBj
-	 f0CuFMSCsGNZcHQgflU8azWnKdaHc0IO/puO8XGo718MxGtjf3w8Ck83xl9wf/0ojI
-	 GfUuIhmmcUBcBn9g5m1CEep87333C4RqSOBkKSrynVjPM7suxKRPe7Lz4GaWHmwgn0
-	 wEvsBxPak52FWylj805qFetGEV+1G4namiZGqfeFBsTK4G++dp/gOC3bSh/nVD8J7r
-	 LLE9megxoIBlLKXSybBXiYd16b5enYnKMfIu3H92RWQhvF9eYoo+qxZ6Wp2okQb3JU
-	 SnHp04Ex1Qgdw==
+	b=VGbks3J88Fd1sikC3KRpvovq8IIMaiwxMJea5XGxRduAoA96FPr1Bm4ACXACuF8zr
+	 1w/Jn3T+1hn0thB2iXuU0m+5nJfem1k5LWRhn0epcSywb69Da1njbGF7GgAJWbo0Id
+	 1tGsENnSAmOZsvbSNrrAgf/6KcRcsSN5rdQhdB5R/qqir3ppBu/94MZWGy2acObZrl
+	 bx3gLmaXeC5R5lNauXsa4lwkKSkfn37Y3oEFs8bKdhXyfWGsebVFY0ZbtiTxMgyU1l
+	 8Yzn7h1pLGwJVEkyrOjY/YB3DGDnZpMdehbgh0mPJ8lfiJjYC4a0+AaVk3gdPzRip0
+	 vGzhRo81XC2Wg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: John Stultz <jstultz@google.com>,
-	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
+	kernel test robot <lkp@intel.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	virtualization@lists.linux.dev,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	nathan@kernel.org,
 	linux-sound@vger.kernel.org,
-	kernel-team@android.com,
-	Betty Zhou <bettyzhou@google.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 6.13 09/28] sound/virtio: Fix cancel_sync warnings on uninitialized work_structs
-Date: Mon,  7 Apr 2025 14:11:59 -0400
-Message-Id: <20250407181224.3180941-9-sashal@kernel.org>
+	linux-arm-msm@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.13 26/28] objtool, ASoC: codecs: wcd934x: Remove potential undefined behavior in wcd934x_slim_irq_handler()
+Date: Mon,  7 Apr 2025 14:12:16 -0400
+Message-Id: <20250407181224.3180941-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250407181224.3180941-1-sashal@kernel.org>
 References: <20250407181224.3180941-1-sashal@kernel.org>
@@ -57,106 +60,55 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.13.10
 Content-Transfer-Encoding: 8bit
 
-From: John Stultz <jstultz@google.com>
+From: Josh Poimboeuf <jpoimboe@kernel.org>
 
-[ Upstream commit 3c7df2e27346eb40a0e86230db1ccab195c97cfe ]
+[ Upstream commit 060aed9c0093b341480770457093449771cf1496 ]
 
-Betty reported hitting the following warning:
+If 'port_id' is negative, the shift counts in wcd934x_slim_irq_handler()
+also become negative, resulting in undefined behavior due to shift out
+of bounds.
 
-[    8.709131][  T221] WARNING: CPU: 2 PID: 221 at kernel/workqueue.c:4182
-...
-[    8.713282][  T221] Call trace:
-[    8.713365][  T221]  __flush_work+0x8d0/0x914
-[    8.713468][  T221]  __cancel_work_sync+0xac/0xfc
-[    8.713570][  T221]  cancel_work_sync+0x24/0x34
-[    8.713667][  T221]  virtsnd_remove+0xa8/0xf8 [virtio_snd ab15f34d0dd772f6d11327e08a81d46dc9c36276]
-[    8.713868][  T221]  virtsnd_probe+0x48c/0x664 [virtio_snd ab15f34d0dd772f6d11327e08a81d46dc9c36276]
-[    8.714035][  T221]  virtio_dev_probe+0x28c/0x390
-[    8.714139][  T221]  really_probe+0x1bc/0x4c8
-...
+If I'm reading the code correctly, that appears to be not possible, but
+with KCOV enabled, Clang's range analysis isn't always able to determine
+that and generates undefined behavior.
 
-It seems we're hitting the error path in virtsnd_probe(), which
-triggers a virtsnd_remove() which iterates over the substreams
-calling cancel_work_sync() on the elapsed_period work_struct.
+As a result the code generation isn't optimal, and undefined behavior
+should be avoided regardless.  Improve code generation and remove the
+undefined behavior by converting the signed variables to unsigned.
 
-Looking at the code, from earlier in:
-virtsnd_probe()->virtsnd_build_devs()->virtsnd_pcm_parse_cfg()
+Fixes the following warning with UBSAN:
 
-We set snd->nsubstreams, allocate the snd->substreams, and if
-we then hit an error on the info allocation or something in
-virtsnd_ctl_query_info() fails, we will exit without having
-initialized the elapsed_period work_struct.
+  sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section
 
-When that error path unwinds we then call virtsnd_remove()
-which as long as the substreams array is allocated, will iterate
-through calling cancel_work_sync() on the uninitialized work
-struct hitting this warning.
-
-Takashi Iwai suggested this fix, which initializes the substreams
-structure right after allocation, so that if we hit the error
-paths we avoid trying to cleanup uninitialized data.
-
-Note: I have not yet managed to reproduce the issue myself, so
-this patch has had limited testing.
-
-Feedback or thoughts would be appreciated!
-
-Cc: Anton Yakovlev <anton.yakovlev@opensynergy.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Acked-by: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
 Cc: Jaroslav Kysela <perex@perex.cz>
 Cc: Takashi Iwai <tiwai@suse.com>
-Cc: virtualization@lists.linux.dev
-Cc: linux-sound@vger.kernel.org
-Cc: kernel-team@android.com
-Reported-by: Betty Zhou <bettyzhou@google.com>
-Suggested-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: John Stultz <jstultz@google.com>
-Message-Id: <20250116194114.3375616-1-jstultz@google.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Link: https://lore.kernel.org/r/7e863839ec7301bf9c0f429a03873d44e484c31c.1742852847.git.jpoimboe@kernel.org
+Closes: https://lore.kernel.org/oe-kbuild-all/202503180044.oH9gyPeg-lkp@intel.com/
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/virtio/virtio_pcm.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ sound/soc/codecs/wcd934x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/virtio/virtio_pcm.c b/sound/virtio/virtio_pcm.c
-index 967e4c45be9bb..2f7c5e709f075 100644
---- a/sound/virtio/virtio_pcm.c
-+++ b/sound/virtio/virtio_pcm.c
-@@ -339,6 +339,21 @@ int virtsnd_pcm_parse_cfg(struct virtio_snd *snd)
- 	if (!snd->substreams)
- 		return -ENOMEM;
- 
-+	/*
-+	 * Initialize critical substream fields early in case we hit an
-+	 * error path and end up trying to clean up uninitialized structures
-+	 * elsewhere.
-+	 */
-+	for (i = 0; i < snd->nsubstreams; ++i) {
-+		struct virtio_pcm_substream *vss = &snd->substreams[i];
-+
-+		vss->snd = snd;
-+		vss->sid = i;
-+		INIT_WORK(&vss->elapsed_period, virtsnd_pcm_period_elapsed);
-+		init_waitqueue_head(&vss->msg_empty);
-+		spin_lock_init(&vss->lock);
-+	}
-+
- 	info = kcalloc(snd->nsubstreams, sizeof(*info), GFP_KERNEL);
- 	if (!info)
- 		return -ENOMEM;
-@@ -352,12 +367,6 @@ int virtsnd_pcm_parse_cfg(struct virtio_snd *snd)
- 		struct virtio_pcm_substream *vss = &snd->substreams[i];
- 		struct virtio_pcm *vpcm;
- 
--		vss->snd = snd;
--		vss->sid = i;
--		INIT_WORK(&vss->elapsed_period, virtsnd_pcm_period_elapsed);
--		init_waitqueue_head(&vss->msg_empty);
--		spin_lock_init(&vss->lock);
--
- 		rc = virtsnd_pcm_build_hw(vss, &info[i]);
- 		if (rc)
- 			goto on_exit;
+diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
+index 910852eb9698c..c7f1b28f3b230 100644
+--- a/sound/soc/codecs/wcd934x.c
++++ b/sound/soc/codecs/wcd934x.c
+@@ -2273,7 +2273,7 @@ static irqreturn_t wcd934x_slim_irq_handler(int irq, void *data)
+ {
+ 	struct wcd934x_codec *wcd = data;
+ 	unsigned long status = 0;
+-	int i, j, port_id;
++	unsigned int i, j, port_id;
+ 	unsigned int val, int_val = 0;
+ 	irqreturn_t ret = IRQ_NONE;
+ 	bool tx;
 -- 
 2.39.5
 
