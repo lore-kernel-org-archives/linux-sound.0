@@ -1,41 +1,58 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2914922F154
-	for <linux-sound@vger.kernel.org>; Mon,  7 Apr 2025 09:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB4222A4DA
+	for <linux-sound@vger.kernel.org>; Mon,  7 Apr 2025 09:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744016943; cv=none; b=FKk5cD/AOqvQ2b1usFHsu71LLvYdCnXD2jtL24pv6PfblnqUfTRhJ3p8kXN30jeDg/KX3pmSg2LcIyH8yd2WbSK0Q8Gu6ymPAaV8M9YtIIJCtaU/NLDE0TCyQfmtbaoIw8AcBNTeE3LmXf13QwMAMxFGRqbftAUCLAB1wAweeAg=
+	t=1744018094; cv=none; b=M2/Db/PhDBMdq0tQBbdt62FxNU+AsPyXRycjcB3f1bDGR+nem5l/r58El5+v1fmSh//p4Rf7jOrk6UVat3N9EtNwQvFhFzcaOW4EjdrTT2RWTV9QQN1vwhcbWTGyU5LOGxN9Oqd9vfjSbfHq8ShozTmvizhBM1LShfYs+irR4lY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744016943; c=relaxed/simple;
-	bh=otjyu1yK+Nmm0V/n4TFbCOpBPDznw9MHSZTLk3O0/70=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ulzRTsMCZMM0/ZHvAuKgPz19J/abTYL648xFojiMfP6lvuJq9hH6iWrr4Br8rFkvCGkpOtm7+1ZSYQW0kTrRGgqA5mB86pygjPgmnUHEJujzAFdHek2VRly1Qe96ndLNjeA9qq+MItIFs+VHO6bgC5t/2WmN/bZxtD4yJ6XLiiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MbvvmloL; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1744018094; c=relaxed/simple;
+	bh=kaEK2PfkJbH0B+KZCkqdDSumCBqbOs/IteqoNys7ZM0=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=bzOCg8LQSABkXGae9sMAAHYa5D7a9rX3fm8zCfmvTZ+CwIhPZR9ONIcsgqf4fYe7vHn6629X6RWSjO8hM3LQ0aD9/qJSxh8hN+ad5phcB61YDFKjwqUsTpLFOMRDIPgTSGrGXLz+wmxmelVn9r5UpeeLytJZmBlsKUxTYEFkEec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=dw+OU3GF; arc=none smtp.client-ip=162.62.58.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MbvvmloL"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744016929;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=PI2yBm7HedcIW7BHq6L6NdzgVKH2U6R6R99lyNbMjAI=;
-	b=MbvvmloLqmACtwOASZdPBiiKhNS7Tlhx4oACe/gaRkdPZI2hpQlHnxYJ69k1YNPBbprgn+
-	OnhuWeTjD6uv58h2y1q3E8rQkrhiVqQrCWRIN3Oew/L2smy1XWH5ksN1/c/r/UGqrKQgxD
-	ZfiBcv9j0QkxIXd5CWOU2wxBIoqPcsY=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	linux-hardening@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: azt2320: Replace deprecated strcpy() with strscpy()
-Date: Mon,  7 Apr 2025 11:08:29 +0200
-Message-ID: <20250407090832.743255-1-thorsten.blum@linux.dev>
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="dw+OU3GF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1744018080;
+	bh=Uj/VO4Z99wN3rNm1Zwgl1xJ9VHwahCSp8Jm5LB0fOSI=;
+	h=From:To:Cc:Subject:Date;
+	b=dw+OU3GFOEQ6u2za92/0q6IyX017B7Km+Po9VOMff5BHKynsvRfwB4+NZeoOE5eii
+	 UbjPL3wQdeJec0T/e7rF/HvU4lq7pnHtH9RJLK/QvGt+0mINIcI7a8PzpcjDEmJbsL
+	 Lba/Xj0jT6bBwpIM6FgfC3/Rk3AvibPIkrwUS4wY=
+Received: from localhost.localdomain ([116.128.244.169])
+	by newxmesmtplogicsvrszc16-0.qq.com (NewEsmtp) with SMTP
+	id 5651BE10; Mon, 07 Apr 2025 17:21:37 +0800
+X-QQ-mid: xmsmtpt1744017697t67422pqj
+Message-ID: <tencent_7F01F2D14BF724692ECBF5346283DB9BCA05@qq.com>
+X-QQ-XMAILINFO: M8Cd2byC8kc4n0ruyA3LUxB+lHndpIPpI4HAoANfqGt9VWy5eIxl0oao61ZY4Z
+	 GuNkAbi82S5AMMXQH8fWGJanw0UCjx4tiGGa8r0Q3/YoJ70j6RVgkXcKWqojWPLnCtrbS7ddw4hu
+	 O5nxUMtYGOno8YJSjK58Tzsldbs3weKjfZTyYiUwVYEH1nWh0pUtWg4Xkv/Qmv9HnZHewjmBvwn2
+	 OKTsojn5z99vYges6cN6pLEByI8DD0mIdczCV77DbYLsQtS1f+aYKu+3+hSxqYf34IPvq5avhRoN
+	 vI6arGf0lQf2J7A1HnX6BHVqBgbekNcvJela2+oTpJzTELoZQzC2yPRMLgG9/JmA5p32w+psebkY
+	 h2oAOJ0pGMdZUYn4c3y1p57CHkBzUtnEE+8hCZ/xcTb0wWsWXEjHm8YBNgqQgzTED8Huv32tJ9N8
+	 WJQNCPadU7E0F1/v/AsxJaI3/NGDEVug34hMuhFBfXv5sJ/pCR0eIdAD2wU4YNu5KP98SVHwjjFU
+	 y8N2CWb+ooUmLXPVyKlAdQtJI8JsQgFkwf7SdZcmxVQ8yOEB96Hh1WxC5BeZIQMPGn6DL33nrGdq
+	 uqJVdy/QLcm8aYA3RLzmaZywrCTWw51y33i2A78u1JFDwqs8At9mnjQYUERy+73hjkTod9nzqk3s
+	 W5JtEznoSVE7I8OuBepnUTpze6B52Aytyk6xW3sdfBrmgPhBBaoeEHCma9h83Xl2PUupT8gdnYov
+	 iEB/3cf3TfEegIZ09EpGLOIJd0+4tRD9vo1MNd2STwmIaOvbYEiTi5G4nHFM/Xq8mkVERu7t8Osm
+	 ILP/AsSGk47oOfHBA3Pm2qgtP0CaFtpUpRxu7zSuevkWodx6rKHuyxBZUGeqYrr74W/a9Cg/m4w0
+	 P+I01qrWfBUizg6ucuSZnHWQr93rYHybHZ3s0YhiWyYQKn0rQqHj7cz3a79ZOUJBq5QdzfgydhZ5
+	 93h0vTytS/E90Ldlmy7tqpp8NakuScnY2OCbMAJTI5oEziSlpCgU+9PZxmiCK8
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+From: xiaopeitux@foxmail.com
+To: ivan.orlov0322@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Cc: Pei Xiao <xiaopei01@kylinos.cn>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] ALSA: kunit: fix build warning in test_card_set_id
+Date: Mon,  7 Apr 2025 17:21:36 +0800
+X-OQ-MSGID: <d7f5438affb54e295cf7ee13cb69235a29cc6a6b.1744017611.git.xiaopei01@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,32 +60,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-strcpy() is deprecated, use strscpy() instead.
+From: Pei Xiao <xiaopei01@kylinos.cn>
 
-Link: https://github.com/KSPP/linux/issues/88
-Cc: linux-hardening@vger.kernel.org
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+build W=1 warning:
+sound/core/sound_kunit.c: In function 'test_card_set_id':
+   include/linux/printk.h:455:44: warning: '%s' directive argument is null [-Wformat-overflow=]
+
+Fix -Wformat-overflow warning when card->id could be NULL.
+The kunit_info() call with "%s" format specifier may receive a NULL
+pointer from card->id. Add a ternary conditional to safely handle
+potential NULL values by substituting "(null)" when card->id is NULL.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202504050922.ZzbkiojG-lkp@intel.com/
+Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
 ---
- sound/isa/azt2320.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/core/sound_kunit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/isa/azt2320.c b/sound/isa/azt2320.c
-index b937c9138d12..588b9f0831d3 100644
---- a/sound/isa/azt2320.c
-+++ b/sound/isa/azt2320.c
-@@ -189,8 +189,8 @@ static int snd_card_azt2320_probe(int dev,
- 	if (error < 0)
- 		return error;
+diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
+index 84e337ecbddd..56c463f43592 100644
+--- a/sound/core/sound_kunit.c
++++ b/sound/core/sound_kunit.c
+@@ -268,7 +268,7 @@ static void test_card_set_id(struct kunit *test)
  
--	strcpy(card->driver, "AZT2320");
--	strcpy(card->shortname, "Aztech AZT2320");
-+	strscpy(card->driver, "AZT2320");
-+	strscpy(card->shortname, "Aztech AZT2320");
- 	sprintf(card->longname, "%s, WSS at 0x%lx, irq %i, dma %i&%i",
- 		card->shortname, chip->port, irq[dev], dma1[dev], dma2[dev]);
+ 	card->id[0] = '\0';
+ 	snd_card_set_id(card, NAME_W_SPACE);
+-	kunit_info(test, "%s", card->id);
++	kunit_info(test, "%s", card->id ? card->id : "(null)");
+ 	KUNIT_EXPECT_STREQ(test, card->id, NAME_W_SPACE_REMOVED);
+ }
  
 -- 
-2.49.0
+2.25.1
 
