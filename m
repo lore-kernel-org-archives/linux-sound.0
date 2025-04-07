@@ -1,85 +1,92 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87ED779CF;
-	Mon,  7 Apr 2025 04:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71250DDD3;
+	Mon,  7 Apr 2025 06:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744001500; cv=none; b=iwSWMlYhiPE180E+j/Wg49E7opktvT51LIAgLjRpLgx/LhZQGvb35iya4oWO0mtdGqBQ91/18n1ZmnIOLuFpT7Q2kGKDBV3mf03DQgBpk3VVhZJ/J8xLMxr36jn+AUbdo/EiLvdMwVvQp7Mwcg4+LgyqHbnTEVI0Cwb4E5W8k0w=
+	t=1744006419; cv=none; b=oGWIyaExL/CAwiUnieQovxhEpKIVHyg7whZvhKOpWfOKoHN85XKeWqd1ZLIpcLBEju6A9rh4TEKfDQ4xON2ZA9edtIFgqMD+IxB1yyXtfEtnN+fDmvy8jaayj8H7mi/v7kQF8PqhKIGPhCUnPcJqb39LAYba5u2q42xpyJNfCr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744001500; c=relaxed/simple;
-	bh=bDu17t7QA6exZYoRurdfltwiK2f3AboG3S2VqLAUx8o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hX2+4FdhcICAKIZ/AaxFc8qi8QXxnIA6uzbrjjmwZJSEK+gwMlY4x+xN9sSVOOZFzhA+VE1fYd29k9K/tibx0gjFyl5yz4xmh++NTf8RwFn2/N6YHOpT8BLdWV+186/SraJM27HSJA0iKmKbXQVKIPsKFu3l39SH9OoAKIVvqc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
+	s=arc-20240116; t=1744006419; c=relaxed/simple;
+	bh=T2v+HZQuJLh/777PXcKKgEGYoNgNb7hmw6Iuw2Sp1Fo=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=icWx4Wu7s97H/CShnZYMyIEbYOLvx4DswI3Xe/Gol6+treHrPddlWLDScTGV92w0xlS1t8hM0+q3gEtQPFQE02jZYAM1WJsPQ7cjirgCPHzALocbTlt3Aez/Uop/sxDr2gWG/NYfu1chhHu2UNYZOkJHFl0SMZnaPhROj7uynMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JVmHmVxY; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30bf1d48843so34545021fa.2;
-        Sun, 06 Apr 2025 21:51:38 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JVmHmVxY"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e6df32ad351so3216635276.2;
+        Sun, 06 Apr 2025 23:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744006417; x=1744611217; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=miWHpKwFORCOXIiKnOE19+cDOpUJGN0sm5yUlnThvyU=;
+        b=JVmHmVxY9n4CDsGXVzftNiLqmm/8tHy8tarw8JISw+EFiXbGeIe0Utjvd63SoOdGYF
+         q26rK9pQ0G7h7un4Hu3CGexIc+3UnOcAwa6tzjiD4QE5SzRUsXU+7T9fc92o3ugYdqZV
+         ULh48Jo6MzwDadXGHO5bnlmQc3/YOypAqj/GM+XH5RLcTRqI/WNSP+mKXM5acRX7tm/n
+         OJ43hH2gP8YuqI3+LgZ8L+UtPvzWacQCH3Kvo3mli/sHFJ7w5pve8UECBEP3fMkzXdtC
+         A80nj+boZ+zwSeKO7StXzAeOJfWUe5arpRiiERrxcKgZYAT0cxjfVoock9giI6QbcPOh
+         BXCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744001495; x=1744606295;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+        d=1e100.net; s=20230601; t=1744006417; x=1744611217;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=bDu17t7QA6exZYoRurdfltwiK2f3AboG3S2VqLAUx8o=;
-        b=exmfPzGFSqaWXqamIb4ee7zwzsTBp+XauH3nIhYU7laI81xPGMa/wUr/zCFB5bgB5r
-         3gObu66XD3wiJNlZUA+o9v4E3MitzdTqe2VLlo/qWF56pGJwfa6yTN2/8EZ9Gv47r23v
-         aZ0Goe1O5rPDeqnVsMOqrh1YtexBLOdVrNVKWxO4d1eQBjdq0UdFVDeEh4Amv8UJOBhT
-         /YCfLD8OmS5NdvwjvJrbvKMutgQsS9mFtNNKZAUnfJ4lWXBtBbFqlOK3w/YOXJz0pWLK
-         xDCIEohd+Miq5K7CxQLBdSw8iN8iHphKgDQqoLZcMgXEtLmWskhqb6NYQkQLPkpn9DUX
-         UQRg==
-X-Forwarded-Encrypted: i=1; AJvYcCWUdmI2+58IiXHyeXqP4sILrDxP6Uo7LqijtrN/UsZqaX784iVRQ/wY4V7VLmBrM7TZ3XeUuxL6voEKgj8=@vger.kernel.org, AJvYcCWyVjq+AGqhYlw14R60sFH0cO7WleOJfsvRrK3//Hh9pbsneZ0olnP7YaSwwKQY2YMA2U34heAS09Y87fs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5oekuk3CGOQzIMR0gGb4kIDKv2rBo1xTmwkh5AXCjZu5Bh0U7
-	5beewp4QF5coYy1kpSDMCt7Ccw3yX0DqdxfKf/oc+AZllU4CJ6t6ItTAr504y1g=
-X-Gm-Gg: ASbGncv4NILyI8LlKx6Xm4Wv6miK98TphutqRUvXIClwBmuuaePzyNldxIXlgPcODQ/
-	VA4qNnXzstqYS7DzgPaUS0KT7KCgMoNHN3IOZm1O8ynnSDttzijc5wUtH+m4qD+jVbaeCZD7FDp
-	Z6D9o4IoLJ4rEusbSdf5bRHvZmpYCwvHZk/jh1OHhivvQ4OET/PmHF7klzdtkfIN07uyIiZpAEg
-	LmDydd0H1R/8jeNqDHHaz1oIjFmpHl+r7jpZFWskKTzEz+VNgaKYQe+cKmstOv+4zvWmLU54Vkt
-	uHwEzBVjztRn0RZ4Oa+/FCbiJw9fxrtBpicVdX0/P2g80fcGasJyKIyvCbkRk/iRpZWhiCARbG8
-	tusfdMu94
-X-Google-Smtp-Source: AGHT+IGWlwv4QnXDpdeswMA4rHCcQHzD32wORTcYOaN6F1muqB3ZGZdW7nWVxZgwHOwQiDlgq/eJag==
-X-Received: by 2002:a05:651c:511:b0:30b:acad:d5ce with SMTP id 38308e7fff4ca-30f0bf4df48mr34309001fa.21.1744001495374;
-        Sun, 06 Apr 2025 21:51:35 -0700 (PDT)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f0312458fsm15129961fa.21.2025.04.06.21.51.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Apr 2025 21:51:34 -0700 (PDT)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5499e3ec54dso4751529e87.0;
-        Sun, 06 Apr 2025 21:51:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUZSA5ERjKOt7PKJ0QIpKOf6/jkpaW+S+53sSRiixXloiyc5hQIhunbevqAdqwAEFXoREe5cI3XpqbcfzA=@vger.kernel.org, AJvYcCUo6l0sntQo8y49er70Z4rtoInlpiWBNTecHCRdmPC/MRggB/U58cLfEXTVBYkVPOkzy+/6Z7m8HcmETb4=@vger.kernel.org
-X-Received: by 2002:a05:6512:23a9:b0:545:2a7f:8f79 with SMTP id
- 2adb3069b0e04-54c232de7c0mr3438632e87.16.1744001494072; Sun, 06 Apr 2025
- 21:51:34 -0700 (PDT)
+        bh=miWHpKwFORCOXIiKnOE19+cDOpUJGN0sm5yUlnThvyU=;
+        b=mybGUJFYv9CphzdMioruQzjkHxfKXDpJN4C+x4UE3cTWutWR0MENHNpJ436JpOxsnC
+         Mab682j1ZG/VSWJp9kNXskODMGbSJzhFQKTcDiL96jYlanKmg5RS4fL3jv/JxtO4Zb+q
+         4SdWLmIs9aLpTmpduoE3axSPPB8GA602LgrEFe3xm8z7NAcXhQu/zo0WDZByZANE/zwr
+         BeUs7avEr2K5cnhM4fiG+1aeqQgnIL1Agc3zXE2zucdtu5Vrzum4P31A/bBI/CMn9vLw
+         tQsL/XlRr14snJf68TFlMgi5GEw3r3CTGiI0paNaIl32WuQ/1oOSlPspw6xYTnZzhPYx
+         /vHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUOAn8paOIaFk6aXPpU7z9KxyD9wuUAWrYFzzWKdRYCHkAoxYNvh4HVtjQ8zTrIkKGCwiH42yWVjyf8/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmpHy2wQgw7eLHrBxQNGTx8/BA8G83OZGmkNMq5bwwegpAKzUL
+	r8tW+mYHxNKlZOOYFMrGqCsMsGolDBuBBVzEue/zoH0nAPfwbm/t8C5QgnzlXla3NnODrUvfTXP
+	EVloVqtqO7Y8ojZgKMHxEKm1YwJKwZ4OY3qU=
+X-Gm-Gg: ASbGncudrkcHVB8KLcN46SZPl4WUdy+2F+dKKOSAZFgagCdQZmlEgU7VpK/8rxfDcT+
+	gc/RAgTPpWaAOeYrTjN9nWdZLmtkVkV0k6ubrML3zz70lj/7w2bWoj2rWh7hAVjDbHDP1C+87Ob
+	EsarrbtTLK/3N4sEM7GeLIyaqj8lqLE6Bhdg==
+X-Google-Smtp-Source: AGHT+IG/dCP0xNX8HtHQdw+PkBt/YAGlxywxj83Bja2T8R+LgXwnvkCQ0ufuwzz+uYOrd+z23g2Xj4bkMQ/63BMzjI0=
+X-Received: by 2002:a05:6902:e02:b0:e6d:f47e:6a40 with SMTP id
+ 3f1490d57ef6-e6e1c2a5e39mr19672401276.6.1744006417128; Sun, 06 Apr 2025
+ 23:13:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250325092640.996802-1-nichen@iscas.ac.cn>
-In-Reply-To: <20250325092640.996802-1-nichen@iscas.ac.cn>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 7 Apr 2025 12:51:21 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66jSyedrAAn+7X0TG4PGvK0M8m3WSF5Rt2483x02R0r2w@mail.gmail.com>
-X-Gm-Features: ATxdqUEZG7Odd0SifC_ricgYeL5KuO6wOUwtgabtbNsFOdLz6S_zfFbrTXMlBZE
-Message-ID: <CAGb2v66jSyedrAAn+7X0TG4PGvK0M8m3WSF5Rt2483x02R0r2w@mail.gmail.com>
-Subject: Re: [PATCH v2] ASoC: sun8i-codec: Remove unnecessary NULL check
- before clk_prepare_enable/clk_disable_unprepare
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, ckeepax@opensource.cirrus.com, 
-	u.kleine-koenig@baylibre.com, megi@xff.cz, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+From: =?UTF-8?B?0JjQs9C+0YDRjA==?= <chernokalsky89@gmail.com>
+Date: Mon, 7 Apr 2025 09:13:25 +0300
+X-Gm-Features: ATxdqUFCCsfIA-dLYST-SqDr1tsQUMIikpWGD78BA2ee9yAlxBMUDtC6Vy-j0Z0
+Message-ID: <CANSeWoEpusQqjOOHLjNKfv9c9boSV9rx9rwwvGNvDnbX=p9gUQ@mail.gmail.com>
+Subject: [PATCH] ASoC: amd: acp: Add a missing Huawei Matebook variant
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 25, 2025 at 5:28=E2=80=AFPM Chen Ni <nichen@iscas.ac.cn> wrote:
->
-> clk_prepare_enable() and clk_disable_unprepare() already checked
-> NULL clock parameter.Remove unneeded NULL check for clk here.
->
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+I guess, somewhere around the time where driver was first implemented,
+and the time it updated, some variants were either not discovered yet,
+or forgotten, as seen in commit
+5513c5d0fb3d509cdd0a11afc18441c57eb7c94c.
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Signed-off-by: Igor Chernokalsky <chernokalsky89@gmail.com>
+
+--- sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c       2025-04-06
+01:46:50.000000000 +0300
++++ sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c       2025-04-07
+07:43:20.891378079 +0300
+@@ -371,6 +371,14 @@ static const struct dmi_system_id acp3x_
+                },
+                .driver_data = (void *)(ES83XX_ENABLE_DMIC),
+        },
++        {
++                .matches = {
++                        DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "HUAWEI"),
++                        DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "HVY-WXX9"),
++                        DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "M1030"),
++                },
++                .driver_data = (void *)(ES83XX_ENABLE_DMIC),
++        },
+        {
+                .matches = {
+                        DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "HUAWEI"),
