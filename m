@@ -1,114 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6339826B2A7;
-	Mon,  7 Apr 2025 18:15:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB900259493;
+	Mon,  7 Apr 2025 19:16:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744049748; cv=none; b=rMjtrf14mk0kLOWCqrw5MyLTamWTzWvpNrwhjTCs+qML86CW6H52SB02KZ0wgWwVgLLL5Cofa1QzYHLGKzhB6r6Idx/36KnQcPKOQC4Knw6g5K8bpmL6TqIFP+m6Tr/RYebdwCUWwC5/hpOjFqg6tKIUDwbsN8YyRWft6zTgEd0=
+	t=1744053418; cv=none; b=BkEQFFu0z3vgvCOu2eFX2bTZ7NAVd5ZxzO2Yo9kVoKHeYqgeZpaQ42+F+tKKvtz5cN02Yympf0SZWzqugkDYSPGOMOUVrrpA6luR+49lL6wvMYe+KMIqdBjGazXijs7VBUyVa+NlNCRJdRxkG4RRNtr93erkBT3/fORKiaD7uhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744049748; c=relaxed/simple;
-	bh=KvsblyEdz/xv8NtFgoINqBC7vkrPSEfGskC7X0xnG48=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ytwrr55rydl8D+w6JSRGv+O0f1+V+7F9ojRyLEGf8Hnk/CY58JFWcPN1yd1azIuMHqzEuT/jzHizrz05XahwDQ+fYP7FrJxy59vWH/XC4vLI2KCkHZMVB0pXhIZBuvBE7zt+V09PxZDSPMZfTvYJJCcFmsYy93S7uV/t/VG6rpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3p+gBZl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744053418; c=relaxed/simple;
+	bh=rv8X1gPdQ7lb4jaTlaQ6KlnCBc5UlfICmuEX229Y5i8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sDdJ38zgcDchXrBs0FS0OcCS3nCS3djKxXf7osxMoMay347ydyrqoUcG+NSSl1/CJd8+qW9SpxUaOJd8UUFzTLTnUgnMQKTqoiVx2AbFQsEnzNSalkFEw/0cKrxO13+cynwLuF3RbY09AR0TltYE/3nq/sz59nDcKcccs2dnXNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=adTSAr1K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3p+gBZl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32DCFC4CEE9;
-	Mon,  7 Apr 2025 18:15:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="adTSAr1K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62526C4CEEA;
+	Mon,  7 Apr 2025 19:16:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744049747;
-	bh=KvsblyEdz/xv8NtFgoINqBC7vkrPSEfGskC7X0xnG48=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=h3p+gBZlcxl/OIXSo1+Vn3TDZ7X8mtXP3fAzBINmWCGvHj07Zt8Tnv8iyFU8m1pLM
-	 pL8QHF7jA5Qc2R4GZJ9IsBkiz3rtD9PST5q3Yk/87akOhPEUKa2spNMvobPRg1aHCx
-	 zhUwL7ORxUu1gqJNS3lKwT/7wXQJzK0jAbCrGGborQvwSMACwnLdu/VayeD2lIQXzz
-	 PlvE1S5qgPt509Z3bV90Ik3lXxdT4aB2WoT3trlKCxDBSPCCoDq/oqK+2+ecpRgj1w
-	 hcZoFSJAXXrpoDLWrgqkvTTufhVALZxB9DRJIFuvClZPKcasNAi8foCsQ3rJadjoww
-	 GtRJesPubtV9Q==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
-	kernel test robot <lkp@intel.com>,
-	Ingo Molnar <mingo@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	nathan@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 4/4] objtool, ASoC: codecs: wcd934x: Remove potential undefined behavior in wcd934x_slim_irq_handler()
-Date: Mon,  7 Apr 2025 14:15:34 -0400
-Message-Id: <20250407181536.3183979-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250407181536.3183979-1-sashal@kernel.org>
-References: <20250407181536.3183979-1-sashal@kernel.org>
+	s=k20201202; t=1744053417;
+	bh=rv8X1gPdQ7lb4jaTlaQ6KlnCBc5UlfICmuEX229Y5i8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=adTSAr1K466nZFvUIStAzyFT5sqnHHF2F1HIbqU8H+gTCF07fBAVsoHSpnTPTwja9
+	 Mm2yjaMXBZqB8msyHIDkxz4MHt9Vg2IaBoNP92RzBT/Rubg2j245YtRp2D1fh7Smcz
+	 JZ4jYV9q9Iy1JSgDJDIbKJqFBA7+XWnjpEJ29lOGf/ij0PztqcEfCKxepqJnxL5JSN
+	 LD7LjVFFRJnf7Lx0feDIzpRW/fq4UO0+8wa6KPwX32cWXr2lu/GEfYZG1f0An3siRu
+	 CY76bJkhGr0+KtgksiCV5fpMvZ8M89o19NK+BDMjSACBwZY7aR5w1zA5SW5MKND6nj
+	 HYChVs++xrMrA==
+Date: Mon, 7 Apr 2025 20:16:53 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH v1 2/5] ASoC: cs35l56: Add struct to index firmware
+ registers
+Message-ID: <c1043fc8-40e3-4ff9-bade-bedfe7a19a18@sirena.org.uk>
+References: <20250407151842.143393-1-sbinding@opensource.cirrus.com>
+ <20250407151842.143393-3-sbinding@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.235
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6EcKy2r+XS9cdx6n"
+Content-Disposition: inline
+In-Reply-To: <20250407151842.143393-3-sbinding@opensource.cirrus.com>
+X-Cookie: Meester, do you vant to buy a duck?
 
-From: Josh Poimboeuf <jpoimboe@kernel.org>
 
-[ Upstream commit 060aed9c0093b341480770457093449771cf1496 ]
+--6EcKy2r+XS9cdx6n
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-If 'port_id' is negative, the shift counts in wcd934x_slim_irq_handler()
-also become negative, resulting in undefined behavior due to shift out
-of bounds.
+On Mon, Apr 07, 2025 at 04:16:41PM +0100, Stefan Binding wrote:
 
-If I'm reading the code correctly, that appears to be not possible, but
-with KCOV enabled, Clang's range analysis isn't always able to determine
-that and generates undefined behavior.
+> Firmware based registers may be different addresses across different
+> device ids and revision ids. Create a structure to store and access
+> these addresses.
 
-As a result the code generation isn't optimal, and undefined behavior
-should be avoided regardless.  Improve code generation and remove the
-undefined behavior by converting the signed variables to unsigned.
+This is fine but note that this is the use case that the regmap_field_
+APIs were created for, that also helps deal with things if anyone is
+clever and resizes fields or shifts within registers.  It's purely a
+question of taste if you want to use that.
 
-Fixes the following warning with UBSAN:
+--6EcKy2r+XS9cdx6n
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section
+-----BEGIN PGP SIGNATURE-----
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Acked-by: Mark Brown <broonie@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Link: https://lore.kernel.org/r/7e863839ec7301bf9c0f429a03873d44e484c31c.1742852847.git.jpoimboe@kernel.org
-Closes: https://lore.kernel.org/oe-kbuild-all/202503180044.oH9gyPeg-lkp@intel.com/
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/soc/codecs/wcd934x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmf0JKQACgkQJNaLcl1U
+h9Bg0wf9Hxf/3VkQ1uTaaZWit74C665nE4apcyA7DDizkmAJQZYFyf0tLAO70XH4
+zaeGQDSEeUY4ce4eQO3/dHKMHedj/phGZhyo/5lzMBDm1P6F6Bl999lawqaZe3uC
+nlyYF9xilvY0EeIva0Qg6kAomiNvrJm5x6/8Q5h0UuqqIsxG+/x/8BeGIdzf9Ybn
+wXz1Mvh8X/m7ac2BB8PyovDmWRBKCesUtyP1mvWaWGxSpqMxiP0SGemuobk0ibsd
+hwMiwWKm3DKR5KTAzA7bXPWKzVHiIJ+Ul7iDniiaAHldoaEY6QYOuO/Gr/YFSfpx
+EA4EbV0it8npooaZMs9Vv2yRW19xmw==
+=i7+G
+-----END PGP SIGNATURE-----
 
-diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-index 104751ac6cd14..8580f5e95ccf6 100644
---- a/sound/soc/codecs/wcd934x.c
-+++ b/sound/soc/codecs/wcd934x.c
-@@ -2188,7 +2188,7 @@ static irqreturn_t wcd934x_slim_irq_handler(int irq, void *data)
- {
- 	struct wcd934x_codec *wcd = data;
- 	unsigned long status = 0;
--	int i, j, port_id;
-+	unsigned int i, j, port_id;
- 	unsigned int val, int_val = 0;
- 	irqreturn_t ret = IRQ_NONE;
- 	bool tx;
--- 
-2.39.5
-
+--6EcKy2r+XS9cdx6n--
