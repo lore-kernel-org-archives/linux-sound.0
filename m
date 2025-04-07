@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABE724EA8F
-	for <linux-sound@vger.kernel.org>; Mon,  7 Apr 2025 12:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9BCC24CEEA
+	for <linux-sound@vger.kernel.org>; Mon,  7 Apr 2025 12:40:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744029645; cv=none; b=A/czWVkmeDN0JDyLMyB7M6sl3q/kkgGkV5qvmgp2iIRsVG3XybZEudjm+7Tpr+0RdxDaNPC3zkT5z/vBnDBFltSnbKDvnflEbBh2Dx3+MD1eFoETO0omsZBO3NC/sRLP7a40/aRfKRIp4iJMH8Xzb2hP9HjMTYaDBQWbJE1JA+E=
+	t=1744029645; cv=none; b=WmhTJYmT71/Vk7D+UR1T6xMOaUBvX3rZoZLa2b1T7ACk8ydr3GgjgmF/qshw1jukWmQwkMP9s7C/EFow7Dubs8C8iLlOalwivXR/1vQtMLqrWwo/oltID6zbzZXdSAa6U4LMpSWfvFBzZ7zSm3DiR3ieCWy7GdoYICSyyQag0R8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744029645; c=relaxed/simple;
-	bh=ijnvRzCCqrcxk/NeSqHI86mZkMUkwPfDxk/NDaRU9Zs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=UDXibf+oQUeJskkerASbhNgXNRUNtt6dS/8siKtwt6Wxba27C8DCFkDrsnxasyKQ3oYo71L7POGHTsZ12PBb/He89tCgLZftd9k5JEmXBrh00Uow7o/BZ9yAta7Z+uwcSKMcmFymIfT+1wYHOOYFfqzWVpSRh+uDPB6TswTthUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IlS4FWbQ; arc=none smtp.client-ip=198.175.65.12
+	bh=WmimfHXe7d659dH469zboqlHgIrj7BnACGd8fTZSfTg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=E+HKPY2+5vf4zpax3BrYBOhoPPwXhHhXAjgwIyw4AcuSFfhVAxqYzNN3EEttIfFlio3LOtKoaCu0Emz2jb0mIiDZ0ezbxZrXdVUQhj/pB1MCwLiy7WQGmYROjB5iWfZnKuaH8yjl0Y6ZnWk6QZ5QCNOtA865Kmb0cPExmHAXmIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDW3FRva; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IlS4FWbQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDW3FRva"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1744029644; x=1775565644;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ijnvRzCCqrcxk/NeSqHI86mZkMUkwPfDxk/NDaRU9Zs=;
-  b=IlS4FWbQOvz+mmKqH95lmqpRhgS2x5c0/LqiZRTrN7V66NyzYP+78mc5
-   orB3w0fkUoajZJTpl1zrZJRjDcZhQ6Cc3CyDsguqgHFzEWUxtV9MYE5T/
-   p1Fn2bwVo6/c54p4QU+sQaY/1tX3//X/WPAnODqFhRM6kic6YegQIdtMy
-   rTdLT6GwAtjdtlyfvf1PDuIFLjEpEUYGksylNSyrvI5cQ+Dt8oACArlNA
-   16HM+4nUqat/iUydF9Lbtu1DePBufqX/4zmvfjtk7COShvN+FWgF+3/Ji
-   dYnCQ6aJur3pV1+920IAZJyuQXcruw1vd0UgM18P9JFmeZ+8Jkki0he0i
-   Q==;
-X-CSE-ConnectionGUID: /rf4URpWQDGHgBt6U+fbFw==
-X-CSE-MsgGUID: 3JaCH38qQDKde7i41SIpYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56778958"
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=WmimfHXe7d659dH469zboqlHgIrj7BnACGd8fTZSfTg=;
+  b=PDW3FRvaXTpt7PXrJl5kclIpg+h8gjoRHN/v4fU4biUubIa+nlZmjBGm
+   +x0vtFgxYI52+x5T966rqYCNhCsSZEcK1UokQhb8P2A3V8DgE4hMJA/Rh
+   CoFQwIpDnZ3dCDzr83m4+WSBCqjC8KGWQNip4FUdsL5pX5IkmM1boAOPU
+   zcBw8rQgUqUk9q/rFfwQbWUR3NKuWbmnIIHqYEwDxBOqRYgN8SSBRGX+k
+   SjjuCHwr24R+56xERMa2QncVpsMeNXyvGgDSRYa4gUwgsdoYQ6wczWuyp
+   lIoPd0i2e8yxt6oT8EybKLO+UtWibJJ41ePnG7dv4aZGLvvg1b7npS4O6
+   A==;
+X-CSE-ConnectionGUID: cAJA9k26RSSDrMOW9YPCCg==
+X-CSE-MsgGUID: rEIyTVqjRK+qIVer3kKHeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56778962"
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="56778958"
+   d="scan'208";a="56778962"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 05:40:42 -0700
-X-CSE-ConnectionGUID: KDpteurOS9S2ztIO/i+N0w==
-X-CSE-MsgGUID: Yok05iSRRWuESIRn+zSUdQ==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 05:40:44 -0700
+X-CSE-ConnectionGUID: +MJoAehSQw+wsYKAIebirw==
+X-CSE-MsgGUID: wS52Kd2qRHGiE/T7d50IyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="151134001"
+   d="scan'208";a="151134013"
 Received: from dev2.igk.intel.com ([10.237.148.94])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Apr 2025 05:40:39 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 07 Apr 2025 05:40:41 -0700
 From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -49,10 +50,12 @@ To: Jaroslav Kysela <perex@perex.cz>,
 Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
 	linux-sound@vger.kernel.org,
 	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH 00/20] ASoC: Intel: avs: Update machine board card names
-Date: Mon,  7 Apr 2025 14:41:34 +0200
-Message-Id: <20250407124154.1713039-1-amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH 01/20] ASoC: Intel: avs: boards: Add Kconfig option for obsolete card names
+Date: Mon,  7 Apr 2025 14:41:35 +0200
+Message-Id: <20250407124154.1713039-2-amadeuszx.slawinski@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250407124154.1713039-1-amadeuszx.slawinski@linux.intel.com>
+References: <20250407124154.1713039-1-amadeuszx.slawinski@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,85 +65,217 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-As discussed in user bug report [1] & [2], it was identified that HDA
-card provides wrong FE device numbers to be used with UCM, at the same
-time it was requested that we change card names to better names.
+Add backward compatibility Kconfig option to allow for enabling obsolete
+card names.
 
-This patchset does that, by adding option for going back to old
-behaviour in first patch. Using existing way of enumerating FEs from
-topology in second patch. Then setting new names in all cards while
-providing fallback to old name. Only exception is probe card, which is
-used for debug purposes only, where we just directly rename card.
+Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+---
+ sound/soc/intel/avs/board_selection.c | 37 ++++++++++++++++++++++++---
+ sound/soc/intel/avs/boards/Kconfig    |  8 ++++++
+ sound/soc/intel/avs/pcm.c             |  5 +++-
+ sound/soc/intel/avs/utils.h           | 14 ++++++++--
+ 4 files changed, 57 insertions(+), 7 deletions(-)
 
-Do note that patch 2, will require updated topologies if topology
-exposes more than 1 FE on card. Old topologies didn't assign id field
-and it defaulted to 0, however when we use this field by setting
-snd_soc_component_driver::use_dai_pcm_id field, we need topologies with
-distinct values in FEs. Necessary changes are provided in avsdk and
-avs-topology-xml repositories ([4] & [5]). linux-firmware update will
-follow as soon as this changeset is merged.
-
-
-[1]
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=219654
-[2]
-Link: https://github.com/alsa-project/alsa-ucm-conf/pull/499
-[3]
-Link: https://lore.kernel.org/linux-sound/20250127144445.2739017-1-amadeuszx.slawinski@linux.intel.com/
-[4]
-https://github.com/thesofproject/avsdk/commit/a879c8ae4ba7be53b8ed528da1361a8c62475b6e
-[5]
-https://github.com/thesofproject/avs-topology-xml/commit/9b94d52cbc5c1e07c8d9503c86329cd62ea4c9e7
-https://github.com/thesofproject/avs-topology-xml/commit/bdbc8d6ba9ea6db67daed9cbbaed3c23ff112ecb
-
-Amadeusz Sławiński (20):
-  ASoC: Intel: avs: boards: Add Kconfig option for obsolete card names
-  ASoC: Intel: avs: Use topology information for endpoint numbers
-  ASoC: Intel: avs: boards: Change da7219 card name
-  ASoC: Intel: avs: boards: Change DMIC card name
-  ASoC: Intel: avs: boards: Change es8336 card name
-  ASoC: Intel: avs: boards: Change hdaudio card name
-  ASoC: Intel: avs: boards: Change sspX-loopback card name
-  ASoC: Intel: avs: boards: Change max98357a card name
-  ASoC: Intel: avs: boards: Change max98373 card name
-  ASoC: Intel: avs: boards: Change max98927 card name
-  ASoC: Intel: avs: boards: Change nau8825 card name
-  ASoC: Intel: avs: boards: Change pcm3168a card name
-  ASoC: Intel: avs: boards: Change probe card name
-  ASoC: Intel: avs: boards: Change rt274 card name
-  ASoC: Intel: avs: boards: Change rt286 card name
-  ASoC: Intel: avs: boards: Change rt298 card name
-  ASoC: Intel: avs: boards: Change rt5514 card name
-  ASoC: Intel: avs: boards: Change rt5663 card name
-  ASoC: Intel: avs: boards: Change rt5682 card name
-  ASoC: Intel: avs: boards: Change ssm4567 card name
-
- sound/soc/intel/avs/avs.h              |  2 +-
- sound/soc/intel/avs/board_selection.c  | 37 +++++++++++++++++++++++---
- sound/soc/intel/avs/boards/Kconfig     |  8 ++++++
- sound/soc/intel/avs/boards/da7219.c    |  9 ++++++-
- sound/soc/intel/avs/boards/dmic.c      | 10 ++++++-
- sound/soc/intel/avs/boards/es8336.c    |  9 ++++++-
- sound/soc/intel/avs/boards/hdaudio.c   | 23 +++++++++++++---
- sound/soc/intel/avs/boards/i2s_test.c  | 13 +++++++--
- sound/soc/intel/avs/boards/max98357a.c |  9 ++++++-
- sound/soc/intel/avs/boards/max98373.c  |  9 ++++++-
- sound/soc/intel/avs/boards/max98927.c  |  9 ++++++-
- sound/soc/intel/avs/boards/nau8825.c   |  9 ++++++-
- sound/soc/intel/avs/boards/pcm3168a.c  | 14 +++++++++-
- sound/soc/intel/avs/boards/probe.c     |  3 ++-
- sound/soc/intel/avs/boards/rt274.c     |  9 ++++++-
- sound/soc/intel/avs/boards/rt286.c     |  9 ++++++-
- sound/soc/intel/avs/boards/rt298.c     |  9 ++++++-
- sound/soc/intel/avs/boards/rt5514.c    |  9 ++++++-
- sound/soc/intel/avs/boards/rt5663.c    |  9 ++++++-
- sound/soc/intel/avs/boards/rt5682.c    |  9 ++++++-
- sound/soc/intel/avs/boards/ssm4567.c   |  9 ++++++-
- sound/soc/intel/avs/pcm.c              | 13 ++++++---
- sound/soc/intel/avs/probes.c           |  2 +-
- sound/soc/intel/avs/utils.h            | 16 +++++++++--
- 24 files changed, 224 insertions(+), 34 deletions(-)
-
+diff --git a/sound/soc/intel/avs/board_selection.c b/sound/soc/intel/avs/board_selection.c
+index 2d706edcbf924..d00addb24d40a 100644
+--- a/sound/soc/intel/avs/board_selection.c
++++ b/sound/soc/intel/avs/board_selection.c
+@@ -17,11 +17,16 @@
+ #include <sound/soc-acpi.h>
+ #include <sound/soc-component.h>
+ #include "avs.h"
++#include "utils.h"
+ 
+ static bool i2s_test;
+ module_param(i2s_test, bool, 0444);
+ MODULE_PARM_DESC(i2s_test, "Probe I2S test-board and skip all other I2S boards");
+ 
++static bool obsolete_card_names = IS_ENABLED(CONFIG_SND_SOC_INTEL_AVS_CARDNAME_OBSOLETE);
++module_param_named(obsolete_card_names, obsolete_card_names, bool, 0444);
++MODULE_PARM_DESC(obsolete_card_names, "Use obsolete card names 0=no, 1=yes");
++
+ static const struct dmi_system_id kbl_dmi_table[] = {
+ 	{
+ 		.matches = {
+@@ -141,7 +146,7 @@ static struct snd_soc_acpi_mach avs_kbl_i2s_machines[] = {
+ 		.mach_params = {
+ 			.i2s_link_mask = AVS_SSP(0),
+ 		},
+-		.pdata = (unsigned long[]){ 0x2, 0, 0, 0, 0, 0 }, /* SSP0 TDMs */
++		.pdata = (struct avs_mach_pdata[]){ { .tdms = (unsigned long[]){ 0x2 } } },
+ 		.tplg_filename = "rt5514-tplg.bin",
+ 	},
+ 	{
+@@ -202,7 +207,9 @@ static struct snd_soc_acpi_mach avs_apl_i2s_machines[] = {
+ 		.mach_params = {
+ 			.i2s_link_mask = AVS_SSP_RANGE(0, 5),
+ 		},
+-		.pdata = (unsigned long[]){ 0x1, 0x1, 0x14, 0x1, 0x1, 0x1 }, /* SSP2 TDMs */
++		.pdata = (struct avs_mach_pdata[]){ {
++			.tdms = (unsigned long[]){ 0x1, 0x1, 0x14, 0x1, 0x1, 0x1 }
++		} },
+ 		.tplg_filename = "tdf8532-tplg.bin",
+ 	},
+ 	{
+@@ -445,6 +452,7 @@ static int avs_register_dmic_board(struct avs_dev *adev)
+ {
+ 	struct platform_device *codec, *board;
+ 	struct snd_soc_acpi_mach mach = {{0}};
++	struct avs_mach_pdata *pdata;
+ 	int ret;
+ 
+ 	if (!acpi_nhlt_find_endpoint(ACPI_NHLT_LINKTYPE_PDM, -1, -1, -1)) {
+@@ -468,6 +476,11 @@ static int avs_register_dmic_board(struct avs_dev *adev)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	pdata = devm_kzalloc(adev->dev, sizeof(*pdata), GFP_KERNEL);
++	if (!pdata)
++		return -ENOMEM;
++	pdata->obsolete_card_names = obsolete_card_names;
++	mach.pdata = pdata;
+ 	mach.tplg_filename = "dmic-tplg.bin";
+ 	mach.mach_params.platform = "dmic-platform";
+ 
+@@ -490,6 +503,7 @@ static int avs_register_dmic_board(struct avs_dev *adev)
+ static int avs_register_i2s_board(struct avs_dev *adev, struct snd_soc_acpi_mach *mach)
+ {
+ 	struct platform_device *board;
++	struct avs_mach_pdata *pdata;
+ 	int num_ssps;
+ 	char *name;
+ 	int ret;
+@@ -507,7 +521,15 @@ static int avs_register_i2s_board(struct avs_dev *adev, struct snd_soc_acpi_mach
+ 	if (!name)
+ 		return -ENOMEM;
+ 
+-	ret = avs_i2s_platform_register(adev, name, mach->mach_params.i2s_link_mask, mach->pdata);
++	pdata = mach->pdata;
++	if (!pdata)
++		pdata = devm_kzalloc(adev->dev, sizeof(*pdata), GFP_KERNEL);
++	if (!pdata)
++		return -ENOMEM;
++	pdata->obsolete_card_names = obsolete_card_names;
++	mach->pdata = pdata;
++
++	ret = avs_i2s_platform_register(adev, name, mach->mach_params.i2s_link_mask, pdata->tdms);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -584,6 +606,7 @@ static int avs_register_hda_board(struct avs_dev *adev, struct hda_codec *codec)
+ {
+ 	struct snd_soc_acpi_mach mach = {{0}};
+ 	struct platform_device *board;
++	struct avs_mach_pdata *pdata;
+ 	struct hdac_device *hdev = &codec->core;
+ 	char *pname;
+ 	int ret, id;
+@@ -592,11 +615,17 @@ static int avs_register_hda_board(struct avs_dev *adev, struct hda_codec *codec)
+ 	if (!pname)
+ 		return -ENOMEM;
+ 
++	pdata = devm_kzalloc(adev->dev, sizeof(*pdata), GFP_KERNEL);
++	if (!pdata)
++		return -ENOMEM;
++	pdata->obsolete_card_names = obsolete_card_names;
++	pdata->codec = codec;
++
+ 	ret = avs_hda_platform_register(adev, pname);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	mach.pdata = codec;
++	mach.pdata = pdata;
+ 	mach.mach_params.platform = pname;
+ 	mach.tplg_filename = devm_kasprintf(adev->dev, GFP_KERNEL, "hda-%08x-tplg.bin",
+ 					    hdev->vendor_id);
+diff --git a/sound/soc/intel/avs/boards/Kconfig b/sound/soc/intel/avs/boards/Kconfig
+index ba4bee42124cc..8b654181004e7 100644
+--- a/sound/soc/intel/avs/boards/Kconfig
++++ b/sound/soc/intel/avs/boards/Kconfig
+@@ -4,6 +4,14 @@ menu "Intel AVS Machine drivers"
+ 
+ comment "Available DSP configurations"
+ 
++config SND_SOC_INTEL_AVS_CARDNAME_OBSOLETE
++	bool "Use obsolete card names"
++	default n
++	help
++	  Use obsolete names for some of avs cards. This option should be
++	  used if your system depends on old card names, for example having
++	  not up to date UCM files.
++
+ config SND_SOC_INTEL_AVS_MACH_DA7219
+ 	tristate "da7219 I2S board"
+ 	depends on I2C
+diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
+index dac463390da13..7e077c97123bb 100644
+--- a/sound/soc/intel/avs/pcm.c
++++ b/sound/soc/intel/avs/pcm.c
+@@ -18,6 +18,7 @@
+ #include "path.h"
+ #include "pcm.h"
+ #include "topology.h"
++#include "utils.h"
+ #include "../../codecs/hda.h"
+ 
+ struct avs_dma_data {
+@@ -1480,6 +1481,7 @@ static int avs_component_hda_probe(struct snd_soc_component *component)
+ 	struct snd_soc_dapm_context *dapm;
+ 	struct snd_soc_dai_driver *dais;
+ 	struct snd_soc_acpi_mach *mach;
++	struct avs_mach_pdata *pdata;
+ 	struct hda_codec *codec;
+ 	struct hda_pcm *pcm;
+ 	const char *cname;
+@@ -1489,7 +1491,8 @@ static int avs_component_hda_probe(struct snd_soc_component *component)
+ 	if (!mach)
+ 		return -EINVAL;
+ 
+-	codec = mach->pdata;
++	pdata = mach->pdata;
++	codec = pdata->codec;
+ 	if (list_empty(&codec->pcm_list_head))
+ 		return -EINVAL;
+ 	list_for_each_entry(pcm, &codec->pcm_list_head, list)
+diff --git a/sound/soc/intel/avs/utils.h b/sound/soc/intel/avs/utils.h
+index 5ee569c39380a..a7aa13a48cf3d 100644
+--- a/sound/soc/intel/avs/utils.h
++++ b/sound/soc/intel/avs/utils.h
+@@ -11,6 +11,14 @@
+ 
+ #include <sound/soc-acpi.h>
+ 
++struct avs_mach_pdata {
++	struct hda_codec *codec;
++	unsigned long *tdms;
++	char *codec_name; /* DMIC only */
++
++	bool obsolete_card_names;
++};
++
+ static inline bool avs_mach_singular_ssp(struct snd_soc_acpi_mach *mach)
+ {
+ 	return hweight_long(mach->mach_params.i2s_link_mask) == 1;
+@@ -23,14 +31,16 @@ static inline u32 avs_mach_ssp_port(struct snd_soc_acpi_mach *mach)
+ 
+ static inline bool avs_mach_singular_tdm(struct snd_soc_acpi_mach *mach, u32 port)
+ {
+-	unsigned long *tdms = mach->pdata;
++	struct avs_mach_pdata *pdata = mach->pdata;
++	unsigned long *tdms = pdata->tdms;
+ 
+ 	return !tdms || (hweight_long(tdms[port]) == 1);
+ }
+ 
+ static inline u32 avs_mach_ssp_tdm(struct snd_soc_acpi_mach *mach, u32 port)
+ {
+-	unsigned long *tdms = mach->pdata;
++	struct avs_mach_pdata *pdata = mach->pdata;
++	unsigned long *tdms = pdata->tdms;
+ 
+ 	return tdms ? __ffs(tdms[port]) : 0;
+ }
 
 base-commit: 3a0f0a4355df0240485ed62b6bd6afa5b3e689c5
 -- 
