@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6943622DFB2;
-	Mon,  7 Apr 2025 23:35:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4965222B8C7;
+	Mon,  7 Apr 2025 23:48:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744068960; cv=none; b=bkSszsd0oyVg0Bj89WNpMgMhK4qLG1Zg2aowgWfTUHA2Or6wLrC0rHOanTmefTYrsVG7lepPZUAhrkAj9SL+F2xZrz4HVmwJGykICj3zVjVWcw7vIIXoIyrt5vX1cRu4p03bYWp7TXLuHF4jWi4SySrYbiNREsoPhurd8pmAAR8=
+	t=1744069734; cv=none; b=gOHMQ2zsgJDxs/6bIVeQf4hLIippMKiF+ZKBvagDoaHiSSd8EkT7GuJspudOw+1qmUlbfgRgCaq9rcjelUHBI/HP7IgHTW9N1fjtxdTL4gYN+m0g+NntMHyyaWkUNq5v/wYXLWezlHA9L2Ixamm5vDVr1YtB3CtoejZw4yg1hX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744068960; c=relaxed/simple;
-	bh=KTkq0uc9IoFczHum25qEcd7t6ypEzG4uxvrPNhRaJys=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=k5HWjBJxTQUJiwUt9ZMrmsDAV4nzf6UFC9mAmZAB2PQHpiXlzpJKIBc6Zl1m0xc/biqLqHjKEKTiTj1QoGE936ZLYXuT6KazW0DhD7uRolVloOaxUa+bQfQaCoHVExr0NHrTXRvCqIvFD6D5msyplie3R+roEP4w5VMwlAIlyfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ncJ/Iujc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744069734; c=relaxed/simple;
+	bh=jMMELnblMemF3AYQvGgHeCfvJKpdkDZIw7VpKQqJUUo=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=RWi8DWjxhKwntZU8hO5PSSngH3/lDDyVjClmnZgu30se41Fvkdi+NfqPH4G3mSB0jnBl14/utc3zLDAnw2DtKLRnaOtZN4vv9sX1PfPiZ8UgOhGCYh+9aMxbP0QwQLTOod6bSarvHPgVLPWaKGOvgTTByHuHTK4Iu0rG/zcvfdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KE5oLfVu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ncJ/Iujc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5C3C4CEEC;
-	Mon,  7 Apr 2025 23:35:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KE5oLfVu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA287C4CEDD;
+	Mon,  7 Apr 2025 23:48:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744068959;
-	bh=KTkq0uc9IoFczHum25qEcd7t6ypEzG4uxvrPNhRaJys=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ncJ/Iujc95Byyj4VPsC5KTRqQ3fiaULNUMQK/Okz+6J5OPl46oEqOOgke1TcPHJuf
-	 bJQU8si5JZWQPJ7toFZe2RJ2jYcUL2goSCKfoH/fVA8/R6r9Jh9VXXG4k2sajERKpt
-	 JDvgpcreeFj9TYCAQ6kYzh60Uv3RF5Un2bhw2Ym+KcLxCwqw9qLUwJtEALFgZMXO9B
-	 6kHt9G80rOu+tAQOGyt3/38DCHpgop6GSYkAlXSpbAy9wGFG5NVsg5OOOoECpH5Hhp
-	 0a3879DaiHeXkaBBSlDpKlAfFH3pt2w7lonPOFo54pf8BY2o2OTeka6rS7ThCpQevz
-	 sOFecCubttc9w==
+	s=k20201202; t=1744069733;
+	bh=jMMELnblMemF3AYQvGgHeCfvJKpdkDZIw7VpKQqJUUo=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=KE5oLfVuQ6RdNYzVpQHcwdXdgM4r69W2Wm4Vt9oxwQAevIHsvxLmhJrlV+DcgmSdn
+	 ofUuZJtfxVK3Jjr2zTyoat2roKHA0s/oTdkXUcbwhVOb4QrDv49ZVCFiPQGmrVxfEJ
+	 PNC3VNAjIFSIbYTZFLEJm3tlZZl0FpyX31IVvgnO4lEUFktNQotsUt6ANEEC39gO/D
+	 9S4KdGPdH3MwWRSmX4O/+QvHmyVRLpRniJYdmnaw6jut0MDulwwniwzN+Dl7dWuaa7
+	 hzq/IJv6yY3MslMrNzcFFRwd4M/RMN2gnI6nFfXdXZsVv274VJYxL3rxtFPtXSGtUS
+	 5Ag1uLZmkNvGg==
 From: Mark Brown <broonie@kernel.org>
-To: Oder Chiou <oder_chiou@realtek.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Thorsten Blum <thorsten.blum@linux.dev>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250405125808.302259-1-thorsten.blum@linux.dev>
-References: <20250405125808.302259-1-thorsten.blum@linux.dev>
-Subject: Re: [PATCH] ASoC: codecs: rt5677: Use secs_to_jiffies() instead of
- msecs_to_jiffies()
-Message-Id: <174406895824.1337819.13371783286316955668.b4-ty@kernel.org>
-Date: Tue, 08 Apr 2025 00:35:58 +0100
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20250319033504.2898605-1-shengjiu.wang@nxp.com>
+References: <20250319033504.2898605-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH] ASoC: fsl_asrc_dma: get codec or cpu dai from backend
+Message-Id: <174406973149.1344763.148124979192544931.b4-ty@kernel.org>
+Date: Tue, 08 Apr 2025 00:48:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,13 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Sat, 05 Apr 2025 14:58:08 +0200, Thorsten Blum wrote:
-> Use secs_to_jiffies() instead of msecs_to_jiffies() and avoid scaling
-> 'delay' to milliseconds.
+On Wed, 19 Mar 2025 11:35:04 +0800, Shengjiu Wang wrote:
+> With audio graph card, original cpu dai is changed to codec device in
+> backend, so if cpu dai is dummy device in backend, get the codec dai
+> device, which is the real hardware device connected.
 > 
-> Since 'delay' isn't a compile-time constant, secs_to_jiffies() expands
-> to much simpler code compared to msecs_to_jiffies(), reducing the size
-> of 'snd-soc-rt5677-spi.ko' by 472 bytes.
+> The specific case is ASRC->SAI->AMIX->CODEC.
+> 
 > 
 > [...]
 
@@ -63,8 +62,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: rt5677: Use secs_to_jiffies() instead of msecs_to_jiffies()
-      commit: 7afa96026f0a1d81b7e9cc8f1811cae4b80d4d94
+[1/1] ASoC: fsl_asrc_dma: get codec or cpu dai from backend
+      commit: ef5c23ae9ab380fa756f257411024a9b4518d1b9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
