@@ -1,91 +1,82 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB492253E9;
-	Mon,  7 Apr 2025 06:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10547322B;
+	Mon,  7 Apr 2025 06:50:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744007726; cv=none; b=DHOXWedE9YIZFaqh2PJvGYNf7ZtJSUcpcL3CXpFhxKKx4ISgbTw6IDOq8OQm/g2tNuXdCCYejtELfTehjhBtPCVWulT22ErUEaxAC9Yzx0XkfGRwARYWYVKZR+s7qBhZYm9vRAyGn46Z4QA0zQjWBBA4OUKpwYdYbjqZ9YJHhOk=
+	t=1744008603; cv=none; b=IGiB7LuOlVwStXKRrX4y8YhV8TeLu1vZp9Qi55lVT0W81bgtp/udiMd1U0NhkE6YnJmEqmV6tcJ6axnV3KjmQJH54PvCz7AUps9//ZFIzo/Y71CrTG1tIBq/67C/7zhEkNZZSi6e/0CT3ApdqYk+gYVovP3TdkZh5gIDXEakd8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744007726; c=relaxed/simple;
-	bh=/1Tn3fdh1YmHdKYpDHBh99LOXaHvuuJ86z8clOnHlIU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kX4rB9DZrIBBjkJlpd2SWWQfONoqrOAt2Vdk9jex4j1sSLZK+rxcgL8Yrxabx5VI/9PMb6I08bEbsdh0JA486qTzd96gQr53WWsQLxQHTeBRQUEi4N2/whY7vG3CSL5GCt7GXE+Ipg3Uv6Qv1FZM+86h9n2px00wpkT9U1LP90Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowAC37gYdcvNnHnHQBg--.10866S2;
-	Mon, 07 Apr 2025 14:35:10 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	ckeepax@opensource.cirrus.com,
-	rf@opensource.cirrus.com,
-	simont@opensource.cirrus.com,
-	peterz@infradead.org
-Cc: patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ASoC: wm_adsp: Remove unnecessary NULL check before release_firmware()
-Date: Mon,  7 Apr 2025 14:34:03 +0800
-Message-Id: <20250407063403.2772040-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1744008603; c=relaxed/simple;
+	bh=vImhmLDXzhhro9H5oYdIA7H6KMQDeNwFAMg4t/FZqJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fj3+RjPouXdsipynvWD30UuIx2tzrjS6DrT70nHsVaiJNjsi/OKSsAJMhTnC2zWZguDZyOIFyZ/CdGW/VlhWqXTb7zinx894NUkL7Z6CIkb8fBOEpTZFifYhOOeLGmRrZR2pu08z4fMLjiigoTT/4kUZ7D7msQ/O7IpmpEfg46s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePGCw0+j; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePGCw0+j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744008602; x=1775544602;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vImhmLDXzhhro9H5oYdIA7H6KMQDeNwFAMg4t/FZqJA=;
+  b=ePGCw0+jDkcC+AmzCKZrxN16UUYwRSemdL2xjYNl+h5BQWggJhXhXCKh
+   ZxqFqb845uj8VQfQmVdrYlydgnIhihgW9hFqEXusT2H37DkRrwg+IxBUJ
+   JptzYTYVgZlkqz8pDrooNfeKRmO+oGAQqU+rZS3giihh1Ck2TFFZwgSeC
+   mpAesX7HD1wiunAaA/FoIzvi0zSSqro7AFLYtBd6t1PL7UzG2tX7JTcng
+   sYOPs2KNXiNZrWGxinTyp6VtJ3FkIeSwHCYeX5gx6dMwI+byfAxUItsfR
+   8K11YCfvrg18Yd+OE3IkJrI8RuMPr1gmWjR+Zb07/8nT14ZMm84EJ7oKB
+   g==;
+X-CSE-ConnectionGUID: ET9OV+C4QxmshXeYG1mYCA==
+X-CSE-MsgGUID: f2NCMX3pRdqMYheilqLibA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="45496957"
+X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
+   d="scan'208";a="45496957"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 23:50:01 -0700
+X-CSE-ConnectionGUID: gpSUIEjATwGcv3cm791E7g==
+X-CSE-MsgGUID: Zwym3cJHTW6qXsApxMnhPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
+   d="scan'208";a="128185449"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 23:49:58 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1u1gIu-00000009ylW-0B0M;
+	Mon, 07 Apr 2025 09:49:56 +0300
+Date: Mon, 7 Apr 2025 09:49:55 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chen Ni <nichen@iscas.ac.cn>
+Cc: perex@perex.cz, tiwai@suse.com, dan.carpenter@linaro.org,
+	baojun.xu@ti.com, broonie@kernel.org, ckeepax@opensource.cirrus.com,
+	nathan@kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/tas2781: Remove unnecessary NULL check before
+ release_firmware()
+Message-ID: <Z_N1kyRiCVNg8QNK@smile.fi.intel.com>
+References: <20250407061939.2771803-1-nichen@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAC37gYdcvNnHnHQBg--.10866S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw18ZF4ktr4xXry8JrW5KFg_yoWfXrg_Aa
-	ykCw18GryxtrW3X347ur1avrW3uay5ur1rJrnFyayUJryDJw4Sqw1UWan5ua18X3yIka4f
-	ZF1DZrWDC398JjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbfxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-	6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
-	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-	8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxkIecxEwVAFwVW8AwCF04k20xvY0x0EwI
-	xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
-	Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
-	IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k2
-	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUcjjkUUUUU=
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250407061939.2771803-1-nichen@iscas.ac.cn>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-release_firmware() checks for NULL pointers internally.
-Remove unneeded NULL check for fmw here.
+On Mon, Apr 07, 2025 at 02:19:39PM +0800, Chen Ni wrote:
+> release_firmware() checks for NULL pointers internally.
+> Remove unneeded NULL check for fmw here.
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- sound/soc/codecs/wm_adsp.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-diff --git a/sound/soc/codecs/wm_adsp.c b/sound/soc/codecs/wm_adsp.c
-index 91c8697c29c3..ffd826f30e15 100644
---- a/sound/soc/codecs/wm_adsp.c
-+++ b/sound/soc/codecs/wm_adsp.c
-@@ -718,12 +718,10 @@ static void wm_adsp_release_firmware_files(struct wm_adsp *dsp,
- 					   const struct firmware *coeff_firmware,
- 					   char *coeff_filename)
- {
--	if (wmfw_firmware)
--		release_firmware(wmfw_firmware);
-+	release_firmware(wmfw_firmware);
- 	kfree(wmfw_filename);
- 
--	if (coeff_firmware)
--		release_firmware(coeff_firmware);
-+	release_firmware(coeff_firmware);
- 	kfree(coeff_filename);
- }
- 
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
