@@ -1,265 +1,621 @@
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A940617543;
-	Mon,  7 Apr 2025 00:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE3D192D8E;
+	Mon,  7 Apr 2025 03:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743987134; cv=none; b=XZvKVGSIK3H3yvSCtrM/0aHwrnI1MW7akdzVVIxYmZ9Ts0rfUax0bBSVxx1ZAzMyiW20W4Xhukek+x7jAwzSl10JFSvAa3MBZP81IbDOla3pfBJLJri8g3wltBLS+QM9TVwgbKl5HIpg5B44xO8BSfMLzQjovpGZgvcSAmRxnFM=
+	t=1743995331; cv=none; b=X7kWPq5bqtsjIYSVDt01Bnb3v4qRaCFgzzYFj2RAexj8snHFEX9De7QVjW/fQ1hjwxe2m1ogbhLI8vupm4GCYSqzqp/JNVKFjzulcCLrFKnkX1/N6E+n5HNS7STKMhIBBrn5flvmcEzCL6rzbuAaDw29WO4dsRr4prlmbuo2DUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743987134; c=relaxed/simple;
-	bh=IMqjqpSUl1pNYSc2k0d1t4XbaICptNCDnOsQmWCkPRE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P9g+JQAwOf7sM3KkPbqfXOjD3gNPl05MGriUE+zD31uk+SsfGWDqvbmftKGI77ypZmXWDMEwxsJd17vRKzFoagvrr/2Uls4iNBRihFfxWBbO8GnwAb65tttf2NFPplHG1TG5EyjI9+taDTnrGGZdJ78N4aKjPNmLNsScjn24VLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=KnpZ2LN+; arc=none smtp.client-ip=220.130.44.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
+	s=arc-20240116; t=1743995331; c=relaxed/simple;
+	bh=bTc1KqQ/qml9IyNeZIircEE9ArDM0SBO7cWrEeQDOg4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FOEgK3NVWsnFbYBzkEsa0S6ioaHN4COG+GwMmV45SWig02NtTDkLzyNfhZdtPtqoFViIrngtW52M/OqCGkfYNud6wDHbXvAQRBHGSmK9hZ9MTmJdgfEzl6+TigQqId8Uy2vBEg0YpByG9/p56YOVOX7Ru1FeAZQnRHzWWV5qBUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ib7GUncR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="KnpZ2LN+"
-X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
-	s=richtek; t=1743987122;
-	bh=Tc18yq6zlAWT3FI+uAHFdbnkINwen4pTIJ0f/oZK0jw=; l=7251;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=KnpZ2LN+EbYIAmW6COE7Eiq7ikOIhXpukbx5CyPy32RsKfiWozlE/nOhMK5HW9Kon
-	 dC6iWUbGbdgwUe7emx2oCP+QVUGTsESKbE3TL8xLqD4aRXIpeyxUObkhHmV6eAGz65
-	 oclyVPa2txSo79R46jvlh0/SYDgoPkvD3qQ+Q/yg46RexhM0KQv2go5YY7fxpN8/iU
-	 +8j+MLtvfNDaQW1ZxOKfSwaabiaA3ZtkXN0xWmcxLfSme5yR2/8RBV+S5gM2DbgLY4
-	 JwaD8DCvk9fuAKL7bnWfRewjF12MX+0qs/IcwKZVAzaHudxqwwrYNgMZWN/7/cTH/B
-	 45NJI+eyxA9VA==
-Received: from 192.168.10.47
-	by mg.richtek.com with MailGates ESMTPS Server V6.0(1629330:0:AUTH_RELAY)
-	(envelope-from <cy_huang@richtek.com>)
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Mon, 07 Apr 2025 08:51:43 +0800 (CST)
-Received: from ex3.rt.l (192.168.10.46) by ex4.rt.l (192.168.10.47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 7 Apr
- 2025 08:51:43 +0800
-Received: from git-send.richtek.com (192.168.10.154) by ex3.rt.l
- (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
- Transport; Mon, 7 Apr 2025 08:51:43 +0800
-Date: Mon, 7 Apr 2025 08:53:04 +0800
-From: ChiYuan Huang <cy_huang@richtek.com>
-To: Rob Herring <robh@kernel.org>
-CC: Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Otto lin
-	<otto_lin@richtek.com>, Allen Lin <allen_lin@richtek.com>,
-	<devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 4/4] ASoC: codecs: Add support for Richtek rt9123p
-Message-ID: <Z/Mh8JEHqYohvcfL@git-send.richtek.com>
-References: <cover.1743774849.git.cy_huang@richtek.com>
- <27583d8f9bb07351e5c9ea78ed286ca6daa74a8d.1743774849.git.cy_huang@richtek.com>
- <20250404200519.GA198531-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ib7GUncR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 933EFC4CEE7;
+	Mon,  7 Apr 2025 03:08:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743995330;
+	bh=bTc1KqQ/qml9IyNeZIircEE9ArDM0SBO7cWrEeQDOg4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Ib7GUncRswcuuLZwHO8rBBRGPZXUywrBwZtqdQMBlHvNkkm4YD/Zy6qfZXIjDn4CN
+	 bNeXW+cj8YCh6E53ftemXApE62LoHgp6OrlzEypzHykrFcJ824GEFuxWmKV49FXwRa
+	 wGxmJOtpeBLT/gW13/Mz2UeYg3A+EPAgMvlbLtNaYqk7avLFBz4thV9YVOSXHdJTnn
+	 EXWgt1dkqfqM3xerlxfvxQ8cGP135WZiAMetRb0p7InHHKQKr9/70fmvehqzNSCPGx
+	 7+s283lB913j1oUB/E/m3nXEek2G5Zwh9Q6q5fk41MO3qOmogj644TaYLwOGSAMxxe
+	 jF55hKnZwD8gA==
+Date: Mon, 7 Apr 2025 11:08:30 +0800
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@collabora.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Vinod Koul <vkoul@kernel.org>, Eric Biggers
+ <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim
+ <jaegeuk@kernel.org>, Jonathan Cameron <jic23@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, James Bottomley
+ <James.Bottomley@HansenPartnership.com>, Jarkko Sakkinen
+ <jarkko@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Richard Weinberger <richard@nod.at>, Anton Ivanov
+ <anton.ivanov@cambridgegreys.com>, Johannes Berg
+ <johannes@sipsolutions.net>, kernel@collabora.com, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-iio@vger.kernel.org, netdev@vger.kernel.org,
+ workflows@vger.kernel.org, linux-integrity@vger.kernel.org,
+ keyrings@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-um@lists.infradead.org
+Subject: Re: [PATCH] docs: Remove literal markup from Documentation/ paths
+Message-ID: <20250407110830.736cd160@sal.lan>
+In-Reply-To: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
+References: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250404200519.GA198531-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 04, 2025 at 03:05:19PM -0500, Rob Herring wrote:
-> On Fri, Apr 04, 2025 at 10:22:14PM +0800, cy_huang@richtek.com wrote:
-> > From: ChiYuan Huang <cy_huang@richtek.com>
-> > 
-> > Add codec driver for Richtek rt9123p.
-> > 
-> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > ---
-> >  sound/soc/codecs/Kconfig   |   6 ++
-> >  sound/soc/codecs/Makefile  |   2 +
-> >  sound/soc/codecs/rt9123p.c | 171 +++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 179 insertions(+)
-> >  create mode 100644 sound/soc/codecs/rt9123p.c
-> > 
-> > diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-> > index c61b2d3cf284..b0fa935846c0 100644
-> > --- a/sound/soc/codecs/Kconfig
-> > +++ b/sound/soc/codecs/Kconfig
-> > @@ -1832,6 +1832,12 @@ config SND_SOC_RT9123
-> >  	  Enable support for the I2C control mode of Richtek RT9123 3.2W mono
-> >  	  Class-D audio amplifier.
-> >  
-> > +config SND_SOC_RT9123P
-> > +	tristate "Richtek RT9123P Mono Class-D Amplifier"
-> > +	help
-> > +	  Enable support for the HW control mode of Richtek RT9123P 3.2W mono
-> > +	  Class-D audio amplifier.
-> > +
-> >  config SND_SOC_RTQ9128
-> >  	tristate "Richtek RTQ9128 45W Digital Input Amplifier"
-> >  	depends on I2C
-> > diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-> > index d8d0bc367af8..fba699701804 100644
-> > --- a/sound/soc/codecs/Makefile
-> > +++ b/sound/soc/codecs/Makefile
-> > @@ -271,6 +271,7 @@ snd-soc-rt721-sdca-y := rt721-sdca.o rt721-sdca-sdw.o
-> >  snd-soc-rt722-sdca-y := rt722-sdca.o rt722-sdca-sdw.o
-> >  snd-soc-rt9120-y := rt9120.o
-> >  snd-soc-rt9123-y := rt9123.o
-> > +snd-soc-rt9123p-y := rt9123p.o
-> >  snd-soc-rtq9128-y := rtq9128.o
-> >  snd-soc-sdw-mockup-y := sdw-mockup.o
-> >  snd-soc-sgtl5000-y := sgtl5000.o
-> > @@ -686,6 +687,7 @@ obj-$(CONFIG_SND_SOC_RT721_SDCA_SDW)     += snd-soc-rt721-sdca.o
-> >  obj-$(CONFIG_SND_SOC_RT722_SDCA_SDW)     += snd-soc-rt722-sdca.o
-> >  obj-$(CONFIG_SND_SOC_RT9120)	+= snd-soc-rt9120.o
-> >  obj-$(CONFIG_SND_SOC_RT9123)	+= snd-soc-rt9123.o
-> > +obj-$(CONFIG_SND_SOC_RT9123P)	+= snd-soc-rt9123p.o
-> >  obj-$(CONFIG_SND_SOC_RTQ9128)	+= snd-soc-rtq9128.o
-> >  obj-$(CONFIG_SND_SOC_SDW_MOCKUP)     += snd-soc-sdw-mockup.o
-> >  obj-$(CONFIG_SND_SOC_SGTL5000)  += snd-soc-sgtl5000.o
-> > diff --git a/sound/soc/codecs/rt9123p.c b/sound/soc/codecs/rt9123p.c
-> > new file mode 100644
-> > index 000000000000..b0ff5f856e4c
-> > --- /dev/null
-> > +++ b/sound/soc/codecs/rt9123p.c
-> > @@ -0,0 +1,171 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +//
-> > +// rt9123p.c -- RT9123 (HW Mode) ALSA SoC Codec driver
-> > +//
-> > +// Author: ChiYuan Huang <cy_huang@richtek.com>
-> > +
-> > +#include <linux/acpi.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/err.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/mod_devicetable.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/property.h>
-> > +#include <sound/pcm.h>
-> > +#include <sound/soc.h>
-> > +#include <sound/soc-dai.h>
-> > +#include <sound/soc-dapm.h>
-> > +
-> > +struct rt9123p_priv {
-> > +	struct gpio_desc *enable;
-> > +	unsigned int enable_delay;
-> > +	int enable_switch;
-> > +};
-> > +
-> > +static int rt9123p_daiops_trigger(struct snd_pcm_substream *substream, int cmd,
-> > +				  struct snd_soc_dai *dai)
-> > +{
-> > +	struct snd_soc_component *comp = dai->component;
-> > +	struct rt9123p_priv *rt9123p = snd_soc_component_get_drvdata(comp);
-> > +
-> > +	if (!rt9123p->enable)
-> > +		return 0;
-> > +
-> > +	switch (cmd) {
-> > +	case SNDRV_PCM_TRIGGER_START:
-> > +	case SNDRV_PCM_TRIGGER_RESUME:
-> > +	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-> > +		mdelay(rt9123p->enable_delay);
-> > +		if (rt9123p->enable_switch) {
-> > +			gpiod_set_value(rt9123p->enable, 1);
-> > +			dev_dbg(comp->dev, "set enable to 1");
-> > +		}
-> > +		break;
-> > +	case SNDRV_PCM_TRIGGER_STOP:
-> > +	case SNDRV_PCM_TRIGGER_SUSPEND:
-> > +	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-> > +		gpiod_set_value(rt9123p->enable, 0);
-> > +		dev_dbg(comp->dev, "set enable to 0");
-> > +		break;
-> > +	default:
-> > +		break;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int rt9123p_enable_event(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol,
-> > +				int event)
-> > +{
-> > +	struct snd_soc_component *comp = snd_soc_dapm_to_component(w->dapm);
-> > +	struct rt9123p_priv *rt9123p = snd_soc_component_get_drvdata(comp);
-> > +
-> > +	if (event & SND_SOC_DAPM_POST_PMU)
-> > +		rt9123p->enable_switch = 1;
-> > +	else if (event & SND_SOC_DAPM_POST_PMD)
-> > +		rt9123p->enable_switch = 0;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct snd_soc_dapm_widget rt9123p_dapm_widgets[] = {
-> > +	SND_SOC_DAPM_OUTPUT("SPK"),
-> > +	SND_SOC_DAPM_OUT_DRV_E("Amp Drv", SND_SOC_NOPM, 0, 0, NULL, 0, rt9123p_enable_event,
-> > +			       SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD),
-> > +};
-> > +
-> > +static const struct snd_soc_dapm_route rt9123p_dapm_routes[] = {
-> > +	{"Amp Drv", NULL, "HiFi Playback"},
-> > +	{"SPK", NULL, "Amp Drv"},
-> > +};
-> > +
-> > +static const struct snd_soc_component_driver rt9123p_comp_driver = {
-> > +	.dapm_widgets		= rt9123p_dapm_widgets,
-> > +	.num_dapm_widgets	= ARRAY_SIZE(rt9123p_dapm_widgets),
-> > +	.dapm_routes		= rt9123p_dapm_routes,
-> > +	.num_dapm_routes	= ARRAY_SIZE(rt9123p_dapm_routes),
-> > +	.idle_bias_on		= 1,
-> > +	.use_pmdown_time	= 1,
-> > +	.endianness		= 1,
-> > +};
-> > +
-> > +static const struct snd_soc_dai_ops rt9123p_dai_ops = {
-> > +	.trigger        = rt9123p_daiops_trigger,
-> > +};
-> > +
-> > +static struct snd_soc_dai_driver rt9123p_dai_driver = {
-> > +	.name = "HiFi",
-> > +	.playback = {
-> > +		.stream_name	= "HiFi Playback",
-> > +		.formats	= SNDRV_PCM_FMTBIT_S16 | SNDRV_PCM_FMTBIT_S24 |
-> > +				  SNDRV_PCM_FMTBIT_S32,
-> > +		.rates		= SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-> > +				  SNDRV_PCM_RATE_22050 | SNDRV_PCM_RATE_24000 |
-> > +				  SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
-> > +				  SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_88200 |
-> > +				  SNDRV_PCM_RATE_96000,
-> > +		.rate_min	= 8000,
-> > +		.rate_max	= 96000,
-> > +		.channels_min	= 1,
-> > +		.channels_max	= 2,
-> > +	},
-> > +	.ops    = &rt9123p_dai_ops,
-> > +};
-> > +
-> > +static int rt9123p_platform_probe(struct platform_device *pdev)
-> > +{
-> > +	struct device *dev = &pdev->dev;
-> > +	struct rt9123p_priv *rt9123p;
-> > +	int ret;
-> > +
-> > +	rt9123p = devm_kzalloc(dev, sizeof(*rt9123p), GFP_KERNEL);
-> > +	if (!rt9123p)
-> > +		return -ENOMEM;
-> > +
-> > +	rt9123p->enable = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_LOW);
-> > +	if (IS_ERR(rt9123p->enable))
-> > +		return PTR_ERR(rt9123p->enable);
-> > +
-> > +	ret = device_property_read_u32(dev, "enable-delay", &rt9123p->enable_delay);
-> 
-> Not documented. You have a single GPIO for any sort of control. What is 
-> this delay relative to? Why does it need to be tuned per board? 
-> Properties with units have unit suffix.
-> 
-Like as the property desciption in the document, to wait clock or data
-to be ready. Sometimes, there's unknown jitter signal while clock or
-data starts. It'll be better to have a delay for this. That's why it's
-optional.
+Em Fri, 04 Apr 2025 11:37:28 -0400
+N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com> escreveu:
 
-Thanks.
-> Rob
+> Given that the automarkup Sphinx plugin cross-references
+> "Documentation/*.rst" strings in the text to the corresponding
+> documents, surrounding those strings with the literal markup (``) not
+> only adds unnecessary markup in the source files, but actually prevents
+> the automatic cross-referencing to happen (as it doesn't happen in
+> literal blocks).
+>=20
+> Remove all the occurrences of the literal markup in
+> "Documentation/*.rst" paths, except when the actual source file is being
+> referred. Also change the surrounding text when needed so it reads well
+> both in the source and the web page (eg. 'see file Doc...' -> 'see
+> Doc...').
+
+Better to apply it after my kernel-doc.py patch series, as it also
+touches some things like this. So, we might have a conflict with
+this series.
+
+>=20
+> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+>  Documentation/admin-guide/mm/numa_memory_policy.rst       | 2 +-
+>  Documentation/admin-guide/serial-console.rst              | 2 +-
+>  Documentation/driver-api/dmaengine/client.rst             | 2 +-
+>  Documentation/driver-api/nvdimm/security.rst              | 2 +-
+>  Documentation/filesystems/fscrypt.rst                     | 4 ++--
+>  Documentation/iio/adis16475.rst                           | 4 ++--
+>  Documentation/iio/adis16480.rst                           | 4 ++--
+>  Documentation/iio/adis16550.rst                           | 4 ++--
+>  Documentation/iio/adxl380.rst                             | 4 ++--
+>  Documentation/kernel-hacking/hacking.rst                  | 6 +++---
+>  Documentation/kernel-hacking/locking.rst                  | 2 +-
+>  Documentation/networking/dsa/b53.rst                      | 2 +-
+>  Documentation/networking/dsa/bcm_sf2.rst                  | 2 +-
+>  Documentation/networking/dsa/dsa.rst                      | 2 +-
+>  Documentation/networking/dsa/lan9303.rst                  | 2 +-
+>  Documentation/networking/phy-link-topology.rst            | 2 +-
+>  Documentation/process/adding-syscalls.rst                 | 2 +-
+>  Documentation/process/submit-checklist.rst                | 7 ++++---
+>  Documentation/security/keys/trusted-encrypted.rst         | 4 ++--
+>  Documentation/sound/kernel-api/writing-an-alsa-driver.rst | 2 +-
+>  Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst  | 2 +-
+>  Documentation/userspace-api/media/v4l/diff-v4l.rst        | 2 +-
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
+>  Documentation/virt/uml/user_mode_linux_howto_v2.rst       | 2 +-
+>  24 files changed, 36 insertions(+), 35 deletions(-)
+>=20
+> diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Docume=
+ntation/admin-guide/mm/numa_memory_policy.rst
+> index a70f20ce1ffb4ffd0cdcb8e575dce5547c76e73a..e431a93c82a6ac0be1ea2504c=
+727565293f3be77 100644
+> --- a/Documentation/admin-guide/mm/numa_memory_policy.rst
+> +++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
+> @@ -13,7 +13,7 @@ document attempts to describe the concepts and APIs of =
+the 2.6 memory policy
+>  support.
+> =20
+>  Memory policies should not be confused with cpusets
+> -(``Documentation/admin-guide/cgroup-v1/cpusets.rst``)
+> +(Documentation/admin-guide/cgroup-v1/cpusets.rst)
+>  which is an administrative mechanism for restricting the nodes from which
+>  memory may be allocated by a set of processes. Memory policies are a
+>  programming interface that a NUMA-aware application can take advantage o=
+f.  When
+> diff --git a/Documentation/admin-guide/serial-console.rst b/Documentation=
+/admin-guide/serial-console.rst
+> index 1609e7479249f0721fd0b4fbbd70eda13ffc09e4..70c067aad724e08fc11457b9a=
+792da965809f116 100644
+> --- a/Documentation/admin-guide/serial-console.rst
+> +++ b/Documentation/admin-guide/serial-console.rst
+> @@ -86,7 +86,7 @@ You will need to create a new device to use ``/dev/cons=
+ole``. The official
+>  ``/dev/console`` is now character device 5,1.
+> =20
+>  (You can also use a network device as a console.  See
+> -``Documentation/networking/netconsole.rst`` for information on that.)
+> +Documentation/networking/netconsole.rst for information on that.)
+> =20
+>  Here's an example that will use ``/dev/ttyS1`` (COM2) as the console.
+>  Replace the sample values as needed.
+> diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentatio=
+n/driver-api/dmaengine/client.rst
+> index d491e385d61a98b8a804cd823caf254a2dc62cf4..884b96bdf90081ad17a315b15=
+132a7e5ada07e37 100644
+> --- a/Documentation/driver-api/dmaengine/client.rst
+> +++ b/Documentation/driver-api/dmaengine/client.rst
+> @@ -5,7 +5,7 @@ DMA Engine API Guide
+>  Vinod Koul <vinod dot koul at intel.com>
+> =20
+>  .. note:: For DMA Engine usage in async_tx please see:
+> -          ``Documentation/crypto/async-tx-api.rst``
+> +          Documentation/crypto/async-tx-api.rst
+> =20
+> =20
+>  Below is a guide to device driver writers on how to use the Slave-DMA AP=
+I of the
+> diff --git a/Documentation/driver-api/nvdimm/security.rst b/Documentation=
+/driver-api/nvdimm/security.rst
+> index eb3d35e6a95c9faf683fd9591d0ea10a1264ec49..6bb732d08fc698b1c3d37263e=
+78ad194081d46f2 100644
+> --- a/Documentation/driver-api/nvdimm/security.rst
+> +++ b/Documentation/driver-api/nvdimm/security.rst
+> @@ -51,7 +51,7 @@ all the keys are in the kernel user keyring for unlock.
+>  A nvdimm encrypted-key of format enc32 has the description format of:
+>  nvdimm:<bus-provider-specific-unique-id>
+> =20
+> -See file ``Documentation/security/keys/trusted-encrypted.rst`` for creat=
+ing
+> +See Documentation/security/keys/trusted-encrypted.rst for creating
+>  encrypted-keys of enc32 format. TPM usage with a master trusted key is
+>  preferred for sealing the encrypted-keys.
+> =20
+> diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesy=
+stems/fscrypt.rst
+> index e803299085492217f946fafd79f2bbaf85a7f974..7aae828ae9040586bbd0bde00=
+9386855c11e1645 100644
+> --- a/Documentation/filesystems/fscrypt.rst
+> +++ b/Documentation/filesystems/fscrypt.rst
+> @@ -873,7 +873,7 @@ as follows:
+>    hash of the key.  To add this type of key, the calling process does
+>    not need any privileges.  However, the number of keys that can be
+>    added is limited by the user's quota for the keyrings service (see
+> -  ``Documentation/security/keys/core.rst``).
+> +  Documentation/security/keys/core.rst).
+> =20
+>  - ``raw_size`` must be the size of the ``raw`` key provided, in bytes.
+>    Alternatively, if ``key_id`` is nonzero, this field must be 0, since
+> @@ -955,7 +955,7 @@ access encrypted files.
+> =20
+>  Nevertheless, to add a key to one of the process-subscribed keyrings,
+>  the add_key() system call can be used (see:
+> -``Documentation/security/keys/core.rst``).  The key type must be
+> +Documentation/security/keys/core.rst).  The key type must be
+>  "logon"; keys of this type are kept in kernel memory and cannot be
+>  read back by userspace.  The key description must be "fscrypt:"
+>  followed by the 16-character lower case hex representation of the
+> diff --git a/Documentation/iio/adis16475.rst b/Documentation/iio/adis1647=
+5.rst
+> index 4bf0998be36efced97ecb93372df84790351e36b..89a388490ab735f6f4bc1c4dd=
+a10a87881ae82aa 100644
+> --- a/Documentation/iio/adis16475.rst
+> +++ b/Documentation/iio/adis16475.rst
+> @@ -374,11 +374,11 @@ Obtain buffered data:
+>          00001740  01 1a 00 00 ff ff fe 31  00 00 46 aa 00 03 37 f7  |...=
+....1..F...7.|
+>          ...
+> =20
+> -See ``Documentation/iio/iio_devbuf.rst`` for more information about how =
+buffered
+> +See Documentation/iio/iio_devbuf.rst for more information about how buff=
+ered
+>  data is structured.
+> =20
+>  4. IIO Interfacing Tools
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> -See ``Documentation/iio/iio_tools.rst`` for the description of the avail=
+able IIO
+> +See Documentation/iio/iio_tools.rst for the description of the available=
+ IIO
+>  interfacing tools.
+> diff --git a/Documentation/iio/adis16480.rst b/Documentation/iio/adis1648=
+0.rst
+> index 4a2d40e0daa7989dd9dc7c1991de24ac6184fb0c..cce5f3e0174158cf20f12e96b=
+ff5c79bced84aab 100644
+> --- a/Documentation/iio/adis16480.rst
+> +++ b/Documentation/iio/adis16480.rst
+> @@ -436,11 +436,11 @@ Obtain buffered data::
+>    00006b60  09 63 00 00 00 00 1b 13  00 00 22 2f 00 03 23 91  |.c.......=
+."/..#.|
+>    ...
+> =20
+> -See ``Documentation/iio/iio_devbuf.rst`` for more information about how =
+buffered
+> +See Documentation/iio/iio_devbuf.rst for more information about how buff=
+ered
+>  data is structured.
+> =20
+>  4. IIO Interfacing Tools
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> -See ``Documentation/iio/iio_tools.rst`` for the description of the avail=
+able IIO
+> +See Documentation/iio/iio_tools.rst for the description of the available=
+ IIO
+>  interfacing tools.
+> diff --git a/Documentation/iio/adis16550.rst b/Documentation/iio/adis1655=
+0.rst
+> index 25db7b8060c42153f9acbc1b5dd689c79f8da70b..c9bbc0a857b03bc1894e3fbba=
+792bba705966636 100644
+> --- a/Documentation/iio/adis16550.rst
+> +++ b/Documentation/iio/adis16550.rst
+> @@ -366,11 +366,11 @@ Obtain buffered data:
+>          0000ceb0  00 00 0d 2f 00 00 05 25  00 00 07 8d 00 00 a2 ce  |...=
+/...%........|
+>          ...
+> =20
+> -See ``Documentation/iio/iio_devbuf.rst`` for more information about how =
+buffered
+> +See Documentation/iio/iio_devbuf.rst for more information about how buff=
+ered
+>  data is structured.
+> =20
+>  4. IIO Interfacing Tools
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> -See ``Documentation/iio/iio_tools.rst`` for the description of the avail=
+able IIO
+> +See Documentation/iio/iio_tools.rst for the description of the available=
+ IIO
+>  interfacing tools.
+> diff --git a/Documentation/iio/adxl380.rst b/Documentation/iio/adxl380.rst
+> index 66c8a4d4f767e5a6faa20b1c0fad57b954624a95..61cafa2f98bf36e4c1b035fc4=
+ffd73fab6b2058d 100644
+> --- a/Documentation/iio/adxl380.rst
+> +++ b/Documentation/iio/adxl380.rst
+> @@ -223,11 +223,11 @@ Obtain buffered data:
+>          002bc3c0  f7 fd 00 cb fb 94 24 80  f7 e3 00 f2 fb b8 24 80  |...=
+...$.......$.|
+>          ...
+> =20
+> -See ``Documentation/iio/iio_devbuf.rst`` for more information about how =
+buffered
+> +See Documentation/iio/iio_devbuf.rst for more information about how buff=
+ered
+>  data is structured.
+> =20
+>  4. IIO Interfacing Tools
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> -See ``Documentation/iio/iio_tools.rst`` for the description of the avail=
+able IIO
+> +See Documentation/iio/iio_tools.rst for the description of the available=
+ IIO
+>  interfacing tools.
+> diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/ker=
+nel-hacking/hacking.rst
+> index 0042776a9e17cfc5d09b5de043cd4131b54192a9..53cf502ccf3706b15b7c1da17=
+7cc28d6decee2b3 100644
+> --- a/Documentation/kernel-hacking/hacking.rst
+> +++ b/Documentation/kernel-hacking/hacking.rst
+> @@ -736,7 +736,7 @@ make a neat patch, there's administrative work to be =
+done:
+>  -  Usually you want a configuration option for your kernel hack. Edit
+>     ``Kconfig`` in the appropriate directory. The Config language is
+>     simple to use by cut and paste, and there's complete documentation in
+> -   ``Documentation/kbuild/kconfig-language.rst``.
+> +   Documentation/kbuild/kconfig-language.rst.
+> =20
+>     In your description of the option, make sure you address both the
+>     expert user and the user who knows nothing about your feature.
+> @@ -746,7 +746,7 @@ make a neat patch, there's administrative work to be =
+done:
+> =20
+>  -  Edit the ``Makefile``: the CONFIG variables are exported here so you
+>     can usually just add a "obj-$(CONFIG_xxx) +=3D xxx.o" line. The syntax
+> -   is documented in ``Documentation/kbuild/makefiles.rst``.
+> +   is documented in Documentation/kbuild/makefiles.rst.
+> =20
+>  -  Put yourself in ``CREDITS`` if you consider what you've done
+>     noteworthy, usually beyond a single file (your name should be at the
+> @@ -755,7 +755,7 @@ make a neat patch, there's administrative work to be =
+done:
+>     it implies a more-than-passing commitment to some part of the code.
+> =20
+>  -  Finally, don't forget to read
+> -   ``Documentation/process/submitting-patches.rst``
+> +   Documentation/process/submitting-patches.rst
+> =20
+>  Kernel Cantrips
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/ker=
+nel-hacking/locking.rst
+> index dff0646a717bff27f6b82d3a8090876e99d23cec..d479c2459895cd8cd5df5b2c9=
+180aafb19f8b7fb 100644
+> --- a/Documentation/kernel-hacking/locking.rst
+> +++ b/Documentation/kernel-hacking/locking.rst
+> @@ -1370,7 +1370,7 @@ Futex API reference
+>  Further reading
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> --  ``Documentation/locking/spinlocks.rst``: Linus Torvalds' spinlocking
+> +-  Documentation/locking/spinlocks.rst: Linus Torvalds' spinlocking
+>     tutorial in the kernel sources.
+> =20
+>  -  Unix Systems for Modern Architectures: Symmetric Multiprocessing and
+> diff --git a/Documentation/networking/dsa/b53.rst b/Documentation/network=
+ing/dsa/b53.rst
+> index 1cb3ff648f8890ea1063789672f19a1fea9f01e5..51fd39ca52019c84ab5583321=
+38e94f34aa3c293 100644
+> --- a/Documentation/networking/dsa/b53.rst
+> +++ b/Documentation/networking/dsa/b53.rst
+> @@ -14,7 +14,7 @@ Implementation details
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+>  The driver is located in ``drivers/net/dsa/b53/`` and is implemented as a
+> -DSA driver; see ``Documentation/networking/dsa/dsa.rst`` for details on =
+the
+> +DSA driver; see Documentation/networking/dsa/dsa.rst for details on the
+>  subsystem and what it provides.
+> =20
+>  The switch is, if possible, configured to enable a Broadcom specific 4-b=
+ytes
+> diff --git a/Documentation/networking/dsa/bcm_sf2.rst b/Documentation/net=
+working/dsa/bcm_sf2.rst
+> index d2571435696f6b777fa682660b9e5310bad765c1..ba7371aad142408a9d95644c4=
+7813cba968affc2 100644
+> --- a/Documentation/networking/dsa/bcm_sf2.rst
+> +++ b/Documentation/networking/dsa/bcm_sf2.rst
+> @@ -39,7 +39,7 @@ Implementation details
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+>  The driver is located in ``drivers/net/dsa/bcm_sf2.c`` and is implemente=
+d as a DSA
+> -driver; see ``Documentation/networking/dsa/dsa.rst`` for details on the =
+subsystem
+> +driver; see Documentation/networking/dsa/dsa.rst for details on the subs=
+ystem
+>  and what it provides.
+> =20
+>  The SF2 switch is configured to enable a Broadcom specific 4-bytes switc=
+h tag
+> diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/network=
+ing/dsa/dsa.rst
+> index 7b2e69cd7ef0b92f1da4666581c03d07928e6e1b..6e185a08396b91ea8bbfeec31=
+302527555df0cfd 100644
+> --- a/Documentation/networking/dsa/dsa.rst
+> +++ b/Documentation/networking/dsa/dsa.rst
+> @@ -1110,7 +1110,7 @@ interface with a physical switch port does not prod=
+uce the expected result).
+> =20
+>  A driver which is able of offloading certain functions of a DANP or DANH=
+ should
+>  declare the corresponding netdev features as indicated by the documentat=
+ion at
+> -``Documentation/networking/netdev-features.rst``. Additionally, the foll=
+owing
+> +Documentation/networking/netdev-features.rst. Additionally, the following
+>  methods must be implemented:
+> =20
+>  - ``port_hsr_join``: function invoked when a given switch port is added =
+to a
+> diff --git a/Documentation/networking/dsa/lan9303.rst b/Documentation/net=
+working/dsa/lan9303.rst
+> index ab81b4e0139e340e7025c7b1e1fb0ddd65b232ff..97456316a8d9ec42ef7eb3477=
+36d6a9e0de08869 100644
+> --- a/Documentation/networking/dsa/lan9303.rst
+> +++ b/Documentation/networking/dsa/lan9303.rst
+> @@ -10,7 +10,7 @@ host conduit network interface (e.g. fixed link).
+>  Driver details
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> -The driver is implemented as a DSA driver, see ``Documentation/networkin=
+g/dsa/dsa.rst``.
+> +The driver is implemented as a DSA driver, see Documentation/networking/=
+dsa/dsa.rst.
+> =20
+>  See ``Documentation/devicetree/bindings/net/dsa/lan9303.txt`` for device=
+ tree
+>  binding.
+> diff --git a/Documentation/networking/phy-link-topology.rst b/Documentati=
+on/networking/phy-link-topology.rst
+> index 4dec5d7d6513d9946ccdabd6733228aa61ff1ea1..ff01d70ef61b42909ec4b3ab6=
+730a08c4b271505 100644
+> --- a/Documentation/networking/phy-link-topology.rst
+> +++ b/Documentation/networking/phy-link-topology.rst
+> @@ -98,7 +98,7 @@ UAPI
+>  =3D=3D=3D=3D
+> =20
+>  There exist a set of netlink commands to query the link topology from us=
+erspace,
+> -see ``Documentation/networking/ethtool-netlink.rst``.
+> +see Documentation/networking/ethtool-netlink.rst.
+> =20
+>  The whole point of having a topology representation is to assign the phy=
+index
+>  field in :c:type:`struct phy_device <phy_device>`. This index is reporte=
+d to
+> diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/pr=
+ocess/adding-syscalls.rst
+> index 906c47f1a9e5086a1c5f451b1d8bebe19b0c6ff0..5e6d26ef31eb937f43e74e919=
+3dbecb8bfa5ae14 100644
+> --- a/Documentation/process/adding-syscalls.rst
+> +++ b/Documentation/process/adding-syscalls.rst
+> @@ -33,7 +33,7 @@ interface.
+>         to a somewhat opaque API.
+> =20
+>   - If you're just exposing runtime system information, a new node in sys=
+fs
+> -   (see ``Documentation/filesystems/sysfs.rst``) or the ``/proc`` filesy=
+stem may
+> +   (see Documentation/filesystems/sysfs.rst) or the ``/proc`` filesystem=
+ may
+>     be more appropriate.  However, access to these mechanisms requires th=
+at the
+>     relevant filesystem is mounted, which might not always be the case (e=
+.g.
+>     in a namespaced/sandboxed/chrooted environment).  Avoid adding any AP=
+I to
+> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/p=
+rocess/submit-checklist.rst
+> index beb7f94279fdb6a1d9b4aa86b2bea031f140732b..3ae31c5af2cb5c374658c1fb7=
+125e70bf36e911c 100644
+> --- a/Documentation/process/submit-checklist.rst
+> +++ b/Documentation/process/submit-checklist.rst
+> @@ -30,7 +30,8 @@ Review Kconfig changes
+> =20
+>  1) Any new or modified ``CONFIG`` options do not muck up the config menu=
+ and
+>     default to off unless they meet the exception criteria documented in
+> -   ``Documentation/kbuild/kconfig-language.rst`` Menu attributes: defaul=
+t value.
+> +   Documentation/kbuild/kconfig-language.rst, under "Menu attributes", "=
+default
+> +   value".
+> =20
+>  2) All new ``Kconfig`` options have help text.
+> =20
+> @@ -47,7 +48,7 @@ Provide documentation
+>  2) All new ``/proc`` entries are documented under ``Documentation/``
+> =20
+>  3) All new kernel boot parameters are documented in
+> -   ``Documentation/admin-guide/kernel-parameters.rst``.
+> +   Documentation/admin-guide/kernel-parameters.rst.
+> =20
+>  4) All new module parameters are documented with ``MODULE_PARM_DESC()``
+> =20
+> @@ -58,7 +59,7 @@ Provide documentation
+>     linux-api@vger.kernel.org.
+> =20
+>  6) If any ioctl's are added by the patch, then also update
+> -   ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
+> +   Documentation/userspace-api/ioctl/ioctl-number.rst.
+> =20
+>  Check your code with tools
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Document=
+ation/security/keys/trusted-encrypted.rst
+> index f4d7e162d5e475bf01baafcd4dbbd9dfda9f5e6f..7eef16778ae4f43f6ee538ae4=
+317f0c3d48c3c7f 100644
+> --- a/Documentation/security/keys/trusted-encrypted.rst
+> +++ b/Documentation/security/keys/trusted-encrypted.rst
+> @@ -107,7 +107,7 @@ safe.
+>       (2) TEE
+> =20
+>           TEEs have well-documented, standardized client interface and AP=
+Is. For
+> -         more details refer to ``Documentation/driver-api/tee.rst``.
+> +         more details refer to Documentation/driver-api/tee.rst.
+> =20
+>       (3) CAAM
+> =20
+> @@ -407,7 +407,7 @@ Other uses for trusted and encrypted keys, such as fo=
+r disk and file encryption
+>  are anticipated.  In particular the new format 'ecryptfs' has been defin=
+ed
+>  in order to use encrypted keys to mount an eCryptfs filesystem.  More de=
+tails
+>  about the usage can be found in the file
+> -``Documentation/security/keys/ecryptfs.rst``.
+> +Documentation/security/keys/ecryptfs.rst.
+> =20
+>  Another new format 'enc32' has been defined in order to support encrypte=
+d keys
+>  with payload size of 32 bytes. This will initially be used for nvdimm se=
+curity
+> diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/=
+Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+> index 895752cbcedd6b1202ff481cbae6f5001dd3d903..975e9dfb29009f481e7bae243=
+285d2a93a82f5dc 100644
+> --- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+> +++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+> @@ -2466,7 +2466,7 @@ Mic boost
+>  Mic-boost switch is set as =E2=80=9CMic Boost=E2=80=9D or =E2=80=9CMic B=
+oost (6dB)=E2=80=9D.
+> =20
+>  More precise information can be found in
+> -``Documentation/sound/designs/control-names.rst``.
+> +Documentation/sound/designs/control-names.rst.
+> =20
+>  Access Flags
+>  ------------
+> diff --git a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst b/D=
+ocumentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+> index 42cdb0a9f786066a2d4b8ebc2c72a9318dabebf5..d7524b65a2fccc5ce16abcac7=
+aae3ae0f9f461c7 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
+> @@ -430,7 +430,7 @@ MPEG stream.
+>  *Historical context*: This format specification originates from a
+>  custom, embedded, sliced VBI data format used by the ``ivtv`` driver.
+>  This format has already been informally specified in the kernel sources
+> -in the file ``Documentation/userspace-api/media/drivers/cx2341x-uapi.rst=
+`` . The
+> +in Documentation/userspace-api/media/drivers/cx2341x-uapi.rst. The
+>  maximum size of the payload and other aspects of this format are driven
+>  by the CX23415 MPEG decoder's capabilities and limitations with respect
+>  to extracting, decoding, and displaying sliced VBI data embedded within
+> diff --git a/Documentation/userspace-api/media/v4l/diff-v4l.rst b/Documen=
+tation/userspace-api/media/v4l/diff-v4l.rst
+> index 33243ecb50336abe845aa44232917134b21280f7..b087835a147fc0a2285992b8d=
+2bc9a56e83b1cb7 100644
+> --- a/Documentation/userspace-api/media/v4l/diff-v4l.rst
+> +++ b/Documentation/userspace-api/media/v4l/diff-v4l.rst
+> @@ -634,7 +634,7 @@ devices is documented in :ref:`extended-controls`.
+>     compatible with V4L or V4L2.
+> =20
+>  .. [#f2]
+> -   According to ``Documentation/admin-guide/devices.rst`` a symbolic lin=
+k to
+> +   According to Documentation/admin-guide/devices.rst a symbolic link to
+>     ``/dev/radio0``.
+> =20
+>  .. [#f3]
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 4a379bd9e3fbdb78dfda8e7bc4b25de079d61208..7b463d1ffc906a6b519cc7c2f=
+2d6526c3e53eae5 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -108,8 +108,8 @@ enum v4l2_mpeg_stream_vbi_fmt -
+>        - No VBI in the MPEG stream
+>      * - ``V4L2_MPEG_STREAM_VBI_FMT_IVTV``
+>        - VBI in private packets, IVTV format (documented in the kernel
+> -	sources in the file
+> -	``Documentation/userspace-api/media/drivers/cx2341x-uapi.rst``)
+> +	sources in
+> +	Documentation/userspace-api/media/drivers/cx2341x-uapi.rst)
+> =20
+> =20
+> =20
+> diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Docume=
+ntation/virt/uml/user_mode_linux_howto_v2.rst
+> index 584000b743f381747f7bced26d60f0d92b6c1fbe..71d1258a5002acb4716221351=
+b60579892862cca 100644
+> --- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> +++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+> @@ -1118,7 +1118,7 @@ new feature, please send it to ``linux-um@lists.inf=
+radead.org``.
+> =20
+>  Please follow all standard Linux patch guidelines such as cc-ing
+>  relevant maintainers and run ``./scripts/checkpatch.pl`` on your patch.
+> -For more details see ``Documentation/process/submitting-patches.rst``
+> +For more details see Documentation/process/submitting-patches.rst
+> =20
+>  Note - the list does not accept HTML or attachments, all emails must
+>  be formatted as plain text.
+>=20
+> ---
+> base-commit: 405e2241def89c88f008dcb899eb5b6d4be8b43c
+> change-id: 20250404-doc-paths-unliteral-b9d2bd13a4bd
+>=20
+> Best regards,
