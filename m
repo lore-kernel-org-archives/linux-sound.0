@@ -1,226 +1,206 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010050.outbound.protection.outlook.com [52.101.228.50])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC464209F45
-	for <linux-sound@vger.kernel.org>; Mon,  7 Apr 2025 22:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744065589; cv=fail; b=gE2k+V0Bd2+RoORtL3TdCtTX0prqbvIIknI8bcrAZ0EKrtqnlXS0DbFCS+a4FHXTjcSLFNYEj7buI7KehTuyqObZBT24SlrBo7SuP/Wr9nNWV7bTnOfiMJ8zj6/+Gu3+4eQVeFf0ZuVDRCOpUlpC/Rg7f/nqrEnO0hSsOP/9TWg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744065589; c=relaxed/simple;
-	bh=yVvtl1NQElUldODUMrIILIhrjgNICtpGrcFXsfyN1zk=;
-	h=Message-ID:From:To:Cc:Subject:Content-Type:Date:MIME-Version; b=u7+u0RGDvu1R5jc7qkS4iENHVXmvsDJsXDrmSnWdCT9oT78OCbsWWjRixIKR6yfsRi4L3pSF9ckBczNu0je3Vlxmca5vhzMPJEg4+yHWlv4wtNVc7THtO6NBkIDQHcEsWscflvIGpG3mBLdq7/XLPwUBDdPZD3nDogQMTWbVCyk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=BQbf7l4g; arc=fail smtp.client-ip=52.101.228.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD49F15687D;
+	Mon,  7 Apr 2025 23:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744066831; cv=none; b=rd1ySJY68iDKcEVtDOvyM+syz+7YMQIFBuRGVCeqs/pzC0q46VjVc4Yf7zIVzi3HSymclRl+dayKT0sZNjoK5FXg6xmERwpNtV0qi/elP25f7JvPcWE1kXCsaaWTG3z5O4ip+oHaCAlh58klLiO8Ut/T1Ml0utJHH6myR8jnCOA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744066831; c=relaxed/simple;
+	bh=hRS+kMizGkPqXYHgEHzhS2iEQ3yYETNDaisS1kSjthM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SBYA98ZZN69xtm1VmohCKESBP6XJD1HVrxvfqER3/TFbiINNSbnTMLwQ3eoUFi2S6BzdUNUDbc4p0wdunUzvNjGzwq3o+lWBiArhB2PUDOijqLaJddVOoqnSQR75WyObFMIsXzZrVF5YTWBJPWdVWQxYy14NpMm/oeOFy/+fcxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=K3hJ/iwi; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="BQbf7l4g"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nko/cbUlkKXJ++oB9vyjQYJ/QmNqrvlSmrZlaM6IcG2wvMcnJgWd6/AwAMj9ucFxzcmxHqeELpNyngnHVRiMx23/h4OpPufCm0jae+7YO7GUFNuk/ZkFnWalkSuc8Das0bLacu4WSB4TnG4D9TtRiJKj0PeXEuWNo3VoVp55E344IWIV2Nkbe0kRn2ZJHL25LPvTs00Gz80hqA3r16ZR0B0Inc3tG4+m0FLxU+hvZUo6GYoFtbiL+LTHCOir93erVK8yzLERmGaR3RI4bezAfdUiy2Hn/IerpovmwvAIhUf3OW7QZLTBzfoWZUnrsULgp56s+hmoXQPz/1Wkvisqng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y6wrLjh/S1gub2uu0C3EzCmGSTPAp0A4wxHBxgzYuqo=;
- b=TOXqvYBoPWKM09zwiCIZdu2i9vvHg+h6z5sYPoJ6Sdsals65u7zWn9PfeMAoFaziTCF+XAeDIbf+3gbLrBtAvFzoyXRvb9aKyFA+/OLvzLqjX3Si/PwnMh9tgAshK4GEWPkZ27WUnRbusFWpgfNECZg+zrm84QjNB1shAWvjS5vPVCBYlj8jRnwizAtWhtYV+jXVLvklWQapSZX05cVDbN1vz47YL2CyFKQhrAZ0L4nndPziw+x8CorNtVKRaTpYh39WQVlOxv9Xniw/8x7/0+n74OOR3iOXVnGzuRVapGnlDBOlVPsG9l0MNMkvqFtOGgiRFSo8VUSBcuKenmrvnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y6wrLjh/S1gub2uu0C3EzCmGSTPAp0A4wxHBxgzYuqo=;
- b=BQbf7l4gexHt/7DPl6ZmBFBDl77mJubh1J15z5KHGkyexzUiBc1WrPa8f3vTuUMcy5F8VAqY2z0eEJytPhZ5fXZ4ejUHhuLmuUyPuVszpp6y/RnoLJuSuC5UxAEob1rP6zwrpgukYr3zfgzStnuQYnn2Lg4m5JewSZC/eBgsZlg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS9PR01MB15246.jpnprd01.prod.outlook.com
- (2603:1096:604:3bb::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.29; Mon, 7 Apr
- 2025 22:39:39 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8606.033; Mon, 7 Apr 2025
- 22:39:39 +0000
-Message-ID: <87a58roatw.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-sound@vger.kernel.org, Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
-Subject: [PATCH v2] ASoC: hdmi-codec: use RTD ID instead of DAI ID for ELD entry
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 7 Apr 2025 22:39:39 +0000
-X-ClientProxiedBy: TY2PR02CA0053.apcprd02.prod.outlook.com
- (2603:1096:404:e2::17) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="K3hJ/iwi"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 537MVGQJ027956;
+	Mon, 7 Apr 2025 23:00:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Vh1NuIKsWZxQa9OlhJMGU2vga5oCE2rkTE1ygS51NT8=; b=K3hJ/iwiDlsc0rLZ
+	fSlCdLuT5RsiMXguOGGr8LuvfjXnydvf9Ilgs2kNBYgG01Y49TrM/KkznDMdpuZ4
+	lY0cQc5zSgfNbRf0tOxZHKVk2ivQlbsdeQR70NnbDwNMAbU3lyflgR5i43cxeFxk
+	lqI1ClXOKUBlBaVdoAoQD4C1K0M8uW/svJHx3GhEhhV4JrUP3U3eEc5/1ws1au7x
+	iKfabWEz9A75P1PddiegSbj1B5gJ9vaEOfsfdneIiJkFoC4s1bb7l4bzSRo1wb0E
+	DYgJPcw/GgRpy79kPjFWLMVvHpe322u2y5j3I0whMdy8Vc7sV0HXKF4Un4297X02
+	cgAmgQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twcywtrh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 07 Apr 2025 23:00:04 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 537N03qv026043
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 7 Apr 2025 23:00:03 GMT
+Received: from [10.110.75.38] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 7 Apr 2025
+ 16:00:02 -0700
+Message-ID: <0b8a77f4-2751-3982-3883-dec2ac5804e8@quicinc.com>
+Date: Mon, 7 Apr 2025 15:59:56 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS9PR01MB15246:EE_
-X-MS-Office365-Filtering-Correlation-Id: cde610db-9698-44a7-3e43-08dd76251508
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?I24dUpxro5SR2I3MH8QYQ09jBzDYa3mM9/Ar2JL+wmPYhLR8Gc0ZE9pcJCVb?=
- =?us-ascii?Q?4Q8KLHfWN5kYU0X91XR/WUGZ1eojBODAIV1WtwU3TaRPJl8x8lBj3zLRMhq2?=
- =?us-ascii?Q?ODo4JUmV9QhRu8Tz/c0Q+inL0y+PzkdRdn2t0wHCQH1LRsiEyknO81n7Egq0?=
- =?us-ascii?Q?pIdlTSC8IzNcvZ9IfNblXupouIxJvBO9UDaBfi3kUmZSFsKHPmWr72mvnk6B?=
- =?us-ascii?Q?pv2Py39E3iqG+3l986vFM+w7GdV9FQ31ejlWqi2uqyqWGcIYXBzf5eW5L2/Z?=
- =?us-ascii?Q?LlWCriXpRoXdX7BBstIS6jnKa0D9/NeLhiYvEWfxq3yAtn7SbJYhOvUpMSL/?=
- =?us-ascii?Q?UdGfGMpF1t3PvcTNQYvOci3HQfjwM73Eofbzwrbmzas2UWTFC6LymTHJXArq?=
- =?us-ascii?Q?6q5FPdJtij1fJ5H6hUiodNJFfF78mBnuNjagzXIL8z1KZ5nkVHH79fDIfcLP?=
- =?us-ascii?Q?Kn5docR+43z375pIGP9krPxIQUY7zUBp4h3Fx4ZMkCXH440t6w2BPM7Amm7F?=
- =?us-ascii?Q?90derE0eEby+TYkLbgvin97WdkwuYpGSoWvpVUULtw4zfSbpIRlb68TZO0IH?=
- =?us-ascii?Q?bVUnjN/DulHQLVsAUpvqPSykSFzmqHpByhmj1yTDphHO0Maxejk4zHYTtW72?=
- =?us-ascii?Q?VIvCc74iBAHK056afS/Kj3iNooes64WxWJtA8EWna2fBJIfoFKQsMKRYur0i?=
- =?us-ascii?Q?ouxCaWc+JNnniUXuNofiv7DyGbIlJmzSoL+k8RT61rV+Z++3jJjqBTPrs9oB?=
- =?us-ascii?Q?3LrdTTYr/b9hk7+MxkTcfNMEKJUEIKjJKi/f+A5GGQGksbe68FAGA/T1TbBb?=
- =?us-ascii?Q?gcLV9dIj1hUXBNy29QzcSVDGLwAV1Bg1OdmpEgAhOOtsVDRHr1V7BO1C45X5?=
- =?us-ascii?Q?8A6CTON7/AaLzOHS5n8fWSzxcL55PpwQ8wtWh99Nxs2znkea2mE4CLO81Hre?=
- =?us-ascii?Q?j5trvllsZQfFsdomumYsxrs3wckG4XfR9xl7C7Cfx45ZmTNIU65EbAKxC0CZ?=
- =?us-ascii?Q?og3pqvDjUj5BFLkK1AYsgjnvzAFPf4D7mxbRLlVN4KtE6QZmNPpj4siBZmCd?=
- =?us-ascii?Q?jR4pxg2C+pBaxVukow4kmQV2uAdkaJaMhRgix1th2I+vYGizTJUBhTcJLy8m?=
- =?us-ascii?Q?HF16veUuOCqNtVTWXdIlfIo9Qlpq4SOt09H2tD+ilY7kPQzqyEG0BJsdXzfJ?=
- =?us-ascii?Q?0b+7gyIZZcNSlTuai7eo79u1GkLUTvnt7sMO/NVBFqFjbNoNBsOAtNcCdDGR?=
- =?us-ascii?Q?HqR9L5kBqPh7if2TGTccakxzDLpenRrbXLhSFCT4kh3oPWbe33XuaSCJKG6G?=
- =?us-ascii?Q?lvgigW82gT29h3ZNbqui9mhDWEZCCXB+P1A7jrIuPDZDf9sDKZqsDteXcDas?=
- =?us-ascii?Q?OlMdLoVZ16FBlJOBzwV2MNo8pWTDCK+S7KVRfnBd2JqioFCDZ+ObNZS8RRwn?=
- =?us-ascii?Q?HCg42UYSjgd5gBnT0l8AN6MoCoxGajBX/qRhUvuwzZax+asFCl4SXA=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?5cBQvGIqsRABIiRH/XHHXB+8/JtC2wkT01MqyCZWQJ9H8J5fx5Aioekk14XF?=
- =?us-ascii?Q?T3l2H271RhzJc7Q3V9nZyVP6ZJlAiIQGn4NYGqpQcfAhN4HhE+GYhDdG6+px?=
- =?us-ascii?Q?9wy3sRPmeH+ICQjQKGmSX7wbAPOc+DDpZ8BBBa4Ie38Vr73XxPkiQvX4lKCW?=
- =?us-ascii?Q?onB1/OJpLsK4nnPoKib9ihABTfs7s/dNdR+7+ljKZuie6ogaz+Ol9EyapuH0?=
- =?us-ascii?Q?o8VL1p7zuZQJvMYwSrk+b+I1fpHkZ37o8hCJysEBg74K7TwKs5QZlQvqIvZy?=
- =?us-ascii?Q?GJcfcoofJZ/VVOZfwLya/TolQpUy/ORflooI+8+cW7COOZEc8if7Z/cxHUAJ?=
- =?us-ascii?Q?eu93xBOVh9IE90+De/p9BGMpPoVchZ3l98B4Ns3U83O7Bk2Hxd8UyP7gcIhO?=
- =?us-ascii?Q?TQyJCAxxp0DMBPdU7Dz5WWf4yW/rz4x+g4/dusIH9fzFYKjpNXwoV4+5UwMU?=
- =?us-ascii?Q?Eql+ptPnS6e1O6TeMRA9Tkg/22xT7S27wcuETO+xsJt/j+CYK0jB9kmTYYqS?=
- =?us-ascii?Q?/NzZlHQZq6Okh3n0zZkXmrxzZlbwdUnu97EXytBtavIhTGGdufuKTNCNlmU8?=
- =?us-ascii?Q?3jIuYr8WlLVSyrDM9XApJSNOXaoPXJ04fvAK/Ud0jt40UPMtMVX3fj1gwvWQ?=
- =?us-ascii?Q?MvtORrHKkSAzItdT9/TpqJrukFwx4UXqe8xZi1TRvOWwYPhPf6ehBbNrYHGN?=
- =?us-ascii?Q?4pxs7b4ELi9oplsxj5pNr3UaLmE/5fJW05zOpTqHS5LsHlnKwPKF3BhTgkmF?=
- =?us-ascii?Q?8gEEBUdIw2PxwmQ3yQJ/UfICfWRu+oNXSde0OHFQDBEAI1LmxKCwWT4Rc15W?=
- =?us-ascii?Q?LntTNh4eib8U3uNLIj1OnsjapIsLcw7I+uh0yPyo239sO1zFWT0hmMIpzVgA?=
- =?us-ascii?Q?kz/Ko2WVjhBmZJfRyTILbe00NYvePUpa9+8L6wkfD2f9D1NPrA93nl7SOIon?=
- =?us-ascii?Q?z+ZhMAk52BzDrinUma3XnPvEmv3q+Ks+F7qSFPIoJNlql8Omh9CO5niAx7aL?=
- =?us-ascii?Q?fLUjM9AaXUpQbUBwrXT7xLi4vYH2VVBuOKf+FN6EEhNUwldHgsPlwm/Ru0Vf?=
- =?us-ascii?Q?nqQJoG1b+S7imxvt23hj9Wnd4LS2X45aFgfa0ng6L3pwoS8SAklHJPRrgSVC?=
- =?us-ascii?Q?Pa35iQsTOYmztB6gmVA/YS0uPvVeA20zD28hEz+XFYeIz1t2NaEUws3llkvw?=
- =?us-ascii?Q?GwxLMM8NZTphp2YQmsEXfW4p1B/GuEzw5PHThMd4dSkkPaZ1+XBKBtn4aIUF?=
- =?us-ascii?Q?xRahmcj50mgDYW8ol3VKGVT8XBwt03bhPNx50Mz95r67tBLzvhHmhx/hVxpi?=
- =?us-ascii?Q?oHkpQ9/OzV0mfr1gV7JDJfffhwPoU3+DfQXF4vSM8h/OaJ3eQXO/Y32/r92G?=
- =?us-ascii?Q?qOC0zeoHydj+3Gmnutzisp+r1vmqN5Sz1n6wmgyxr4feQiB0rWGVb5MSCs9R?=
- =?us-ascii?Q?tMiRRNS48SMby+3yRrPW0+WoPrhe5+5rDmDo0N6DtvueBPxMP1geyRBnYe1b?=
- =?us-ascii?Q?/K+SUeXIKy6sy/+yHMUXjParXsq3UQWXMc5PClygUhadnLS6g1AVK0Q2hlnD?=
- =?us-ascii?Q?k9X1IfxSBQlSEFG+5E/b+8TPJZfHO6sKgD1shaWVb6nYLScak+Z4x7+xW6hk?=
- =?us-ascii?Q?fgc1Ib7NEC2rPf0UQPeDqHY=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cde610db-9698-44a7-3e43-08dd76251508
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2025 22:39:39.5980
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xmqTRfoliXp61lx7GhN3XH0ch2sT5FGXiCVK7iq4Sqw/ot2kPlpV/AJDEg7krUdWQFEBh/CI7gXB0LmK6c1m48xDqDMFTunLL2ckbdAtIHBcYKx+b5SYQ0+8yx+Ig3LV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB15246
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v37 24/31] ASoC: qcom: qdsp6: Add USB backend ASoC driver
+ for Q6
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20250404002728.3590501-1-quic_wcheng@quicinc.com>
+ <20250404002728.3590501-25-quic_wcheng@quicinc.com>
+ <Z--sQj-fXwXkk5iS@linaro.org>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <Z--sQj-fXwXkk5iS@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 1nl-DQhG9dzg8yTLK0FVSV7GtgsZ5IF9
+X-Authority-Analysis: v=2.4 cv=Q4vS452a c=1 sm=1 tr=0 ts=67f458f4 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=GBvyv-u1fKLaKHI2v8gA:9 a=QEXdDO2ut3YA:10
+ a=RVmHIydaz68A:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 1nl-DQhG9dzg8yTLK0FVSV7GtgsZ5IF9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-07_07,2025-04-07_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504070161
 
-commit 0ecd24a6d8b2 ("ASoC: hdmi-codec: dump ELD through procfs") adds
-"eld#%d" entry for sound proc. It is using DAI ID. But it is possible to
-have duplicate DAI ID on same Sound Card. In such case, we will get below
-error. To avoid duplicate entry name, use RTD ID instead of DAI ID.
+Hi Stephan,
 
-	proc_dir_entry 'card0/eld#0' already registered
-	WARNING: CPU: 3 PID: 74 at fs/proc/generic.c:377 proc_register+0x11c/0x1a4
-	Modules linked in:
-	CPU: 3 UID: 0 PID: 74 Comm: kworker/u33:5 Not tainted 6.14.0-rc1-next-20250206-arm64-renesas #174
-	Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
-	Workqueue: events_unbound deferred_probe_work_func
-	pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-	pc : proc_register+0x11c/0x1a4
-	ata1: SATA link down (SStatus 0 SControl 300)
-	lr : proc_register+0x11c/0x1a4
-	sp : ffff8000847db880
-	x29: ffff8000847db880 x28: 0000000000000000 x27: ffff0004c3403c98
-	x26: 0000000000000005 x25: ffff0004c14b03e4 x24: 0000000000000005
-	x23: ffff0004c361adb8 x22: ffff800082f24860 x21: ffff0004c361ad00
-	x20: ffff0004c14b0300 x19: ffff0004c14b02c0 x18: 00000000ffffffff
-	x17: 0000000000000000 x16: 00400034b5503510 x15: ffff8001047db447
-	x14: 0000000000000000 x13: 6465726574736967 x12: ffff800082e66d30
-	x11: 000000000000028e x10: ffff800082e66d30 x9 : 00000000ffffefff
-	x8 : ffff800082ebed30 x7 : 0000000000017fe8 x6 : 0000000000000000
-	x5 : 80000000fffff000 x4 : 0000000000000000 x3 : 0000000000000000
-	x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0004c15b3600
-	Call trace:
-	 proc_register+0x11c/0x1a4 (P)
-	 proc_create_data+0x3c/0x60
-	 snd_info_register+0xd0/0x130
-	 snd_info_register+0x30/0x130
-	 snd_info_card_register+0x1c/0xbc
-	 snd_card_register+0x194/0x1ec
-	 snd_soc_bind_card+0x7f8/0xad0
-	 snd_soc_register_card+0xe8/0xfc
-	 devm_snd_soc_register_card+0x48/0x98
-	 audio_graph_parse_of+0x1c4/0x1f8
-	 graph_probe+0x6c/0x80
-	...
+On 4/4/2025 2:54 AM, Stephan Gerhold wrote:
+> On Thu, Apr 03, 2025 at 05:27:21PM -0700, Wesley Cheng wrote:
+>> Create a USB BE component that will register a new USB port to the ASoC USB
+>> framework.  This will handle determination on if the requested audio
+>> profile is supported by the USB device currently selected.
+>>
+>> Check for if the PCM format is supported during the hw_params callback.  If
+>> the profile is not supported then the userspace ALSA entity will receive an
+>> error, and can take further action.
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>   include/sound/q6usboffload.h  |  20 +++
+>>   sound/soc/qcom/Kconfig        |  12 ++
+>>   sound/soc/qcom/qdsp6/Makefile |   1 +
+>>   sound/soc/qcom/qdsp6/q6usb.c  | 278 ++++++++++++++++++++++++++++++++++
+>>   4 files changed, 311 insertions(+)
+>>   create mode 100644 include/sound/q6usboffload.h
+>>   create mode 100644 sound/soc/qcom/qdsp6/q6usb.c
+>>
+>> diff --git a/include/sound/q6usboffload.h b/include/sound/q6usboffload.h
+>> new file mode 100644
+>> index 000000000000..35ae26ba6509
+>> --- /dev/null
+>> +++ b/include/sound/q6usboffload.h
+>> @@ -0,0 +1,20 @@
+>> +/* SPDX-License-Identifier: GPL-2.0
+>> + *
+>> + * sound/q6usboffload.h -- QDSP6 USB offload
+>> + *
+>> + * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +/**
+>> + * struct q6usb_offload - USB backend DAI link offload parameters
+>> + * @dev: dev handle to usb be
+>> + * @domain: allocated iommu domain
+>> + * @sid: streamID for iommu
+>> + * @intr_num: usb interrupter number
+>> + **/
+>> +struct q6usb_offload {
+>> +	struct device *dev;
+>> +	struct iommu_domain *domain;
+>> +	long long sid;
+> 
+> "long long" feels like overkill for sid, given that it's essentially
+> either an u8 or -1. I see you just copied this from q6asm-dai.c, but
+> unlike q6asm-dai, you don't seem to check for sid < 0 in PATCH 28/31
+> (qc_audio_offload.c).
+> 
+> Looking at the logic in q6asm-dai.c, it feels like this could really
+> just be an "u8", since the -1 for "no iommus specified" is effectively
+> just handled like sid = 0.
+> 
 
-Fixes: 0ecd24a6d8b2 ("ASoC: hdmi-codec: dump ELD through procfs")
-Reported-by: Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Tested-by: Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
-Acked-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/codecs/hdmi-codec.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+Thanks for the detailed feedback and review.  Will change it accordingly 
+as you suggested.
 
-diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index 17019b1d680b7..bc01ff65bd6f4 100644
---- a/sound/soc/codecs/hdmi-codec.c
-+++ b/sound/soc/codecs/hdmi-codec.c
-@@ -842,12 +842,28 @@ static void print_eld_info(struct snd_info_entry *entry,
- static int hdmi_dai_proc_new(struct hdmi_codec_priv *hcp,
- 			     struct snd_soc_dai *dai)
- {
-+	struct snd_soc_component *component = dai->component;
-+	struct snd_soc_card *card = component->card;
-+	struct snd_soc_dai *d;
-+	struct snd_soc_pcm_runtime *rtd;
- 	struct snd_info_entry *entry;
- 	char name[32];
--	int err;
-+	int err, i, id = 0;
- 
--	snprintf(name, sizeof(name), "eld#%d", dai->id);
--	err = snd_card_proc_new(dai->component->card->snd_card, name, &entry);
-+	/*
-+	 * To avoid duplicate proc entry, find its rtd and use rtd->id
-+	 * instead of dai->id
-+	 */
-+	for_each_card_rtds(card, rtd) {
-+		for_each_rtd_dais(rtd, i, d)
-+			if (d == dai) {
-+				id = rtd->id;
-+				goto found;
-+			}
-+	}
-+found:
-+	snprintf(name, sizeof(name), "eld#%d", id);
-+	err = snd_card_proc_new(card->snd_card, name, &entry);
- 	if (err < 0)
- 		return err;
- 
--- 
-2.43.0
+>> +	u16 intr_num;
+>> +};
+>> [...]
+>> diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
+>> new file mode 100644
+>> index 000000000000..cb8c4a62a816
+>> --- /dev/null
+>> +++ b/sound/soc/qcom/qdsp6/q6usb.c
+>> [...]
+>> +static int q6usb_dai_dev_probe(struct platform_device *pdev)
+>> +{
+>> +	struct device_node *node = pdev->dev.of_node;
+>> +	struct q6usb_port_data *data;
+>> +	struct device *dev = &pdev->dev;
+>> +	struct of_phandle_args args;
+>> +	int ret;
+>> +
+>> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+>> +	if (!data)
+>> +		return -ENOMEM;
+>> +
+>> +	ret = of_property_read_u16(node, "qcom,usb-audio-intr-idx",
+>> +				   &data->priv.intr_num);
+>> +	if (ret) {
+>> +		dev_err(&pdev->dev, "failed to read intr idx.\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	ret = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
+>> +	if (ret < 0)
+>> +		data->priv.sid = -1;
+>> +	else
+> 
+> Could just do if (ret == 0) here and drop the if branch above, if you
+> make sid an u8 like I suggested above.
+> 
 
+Will do.
+
+>> +		data->priv.sid = args.args[0] & Q6_USB_SID_MASK;
+>> +
+>> +	data->priv.domain = iommu_get_domain_for_dev(&pdev->dev);
+>> +
+>> +	data->priv.dev = dev;
+>> +	INIT_LIST_HEAD(&data->devices);
+> 
+> I think you also need devm_mutex_init(&data->lock) or separate
+> mutex_init()/mutex_destroy() here, if someone enables
+> CONFIG_DEBUG_MUTEXES.
+> 
+
+Ah, yes, will explicitly initialize the mutex here.
+
+Thanks
+Wesley Cheng
