@@ -1,184 +1,109 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560A4182B4
-	for <linux-sound@vger.kernel.org>; Tue,  8 Apr 2025 05:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36DAC35979
+	for <linux-sound@vger.kernel.org>; Tue,  8 Apr 2025 06:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744089785; cv=none; b=F+Ev8y4lN+RGoORHAGynBN5EtmhHea6uJSb4ANHeGTknWYBJ8rF+jQ45Sz/VL6W5l21O5qibEnlqmKmgK/4WqxGYZzl5MTG7i0yUM/qu/2l355hPh8UO83UloqUs8+BbHhrIiCp795wDxFjVG31on71Mdd6zAkbwYzhGnR3kbMg=
+	t=1744094073; cv=none; b=P1gJF3DzCbzLlDw9K28G/bCitYzpARmcvfrcLEjwfKjik7lYicUGWbtj+XTliIWl7jdK0wBGzCH/d2lfpDGgDBWHQNxVC4Pj8lO/nsDQ/J+CDKytJTxhuiUoF1nIkBlk+INVtDaOUr5meFcKepel+FwQnPr0l3RnuRRVkS9QNT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744089785; c=relaxed/simple;
-	bh=kuaUaBppjC3pVohX/ZirHPmZTmFoBhG+ay7OGmaCfK4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ccfm8f5Xub8b4+cjvE1qagSwIYU0tIiIzs2KhJUsz7sn4vSEwz3tRm/jIjR0OrRQOs8oC42QYqHCNiZllYdICVuGK1+2wVtEH2xnQiHYiu8QE1mjx7DnCc0Zr9iERowpRWuHwYoMAORRz9drOvLclO3telMmmPyoJTSnoAYdlMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kN/mGuLB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TreGu643; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kN/mGuLB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TreGu643; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1744094073; c=relaxed/simple;
+	bh=22Gs+qguXy5eF28mCFqtTKO+HTIgfIcsBP7r2bd7Z3s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kVfzilhktT+01uDm8bxdlqnAnIHXbGiFdnwxdWku4wyDt10MPArgkSYP6cM5J9Y/PLc0048lX5SXEa2AmO6VTeDyYLxxAelMqXKKmC3quXfowIeDg5AFmmOG7ODHiO+B0+lK92tr6KCfIu1prB3gNA37NKFwqP89kjfTqNkwnKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DmhfzTax; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kN/mGuLB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TreGu643";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kN/mGuLB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TreGu643"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 927A92117F;
-	Tue,  8 Apr 2025 05:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744089775; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MaL9R8uqMyLYrAkKk+9UKfW5eq2Lkk+0ZVyqZSvS72Q=;
-	b=kN/mGuLB52nPNRsKhhmBHd5RxhLR5oOmAYILDYFTKYzvXqDH8ImCsIvg9I6cmZmmdPjdRb
-	H2nAQwtK3KauvvCeU/HrjMHhL45/zUOwppwzUy4N28w+B1PpZaTjGF7PjOEk3MhOUFwfba
-	FE8bVRpqGZDvhOaaZyYBFo6XETwYPYw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744089775;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MaL9R8uqMyLYrAkKk+9UKfW5eq2Lkk+0ZVyqZSvS72Q=;
-	b=TreGu64377ixgPhqf+aCfCDtrTyXRmccmZzNVWiTbeDuU79vhhlkWr1Z1vntgWAzc5RAHR
-	gR4uLre76R0YmGCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="kN/mGuLB";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=TreGu643
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744089775; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MaL9R8uqMyLYrAkKk+9UKfW5eq2Lkk+0ZVyqZSvS72Q=;
-	b=kN/mGuLB52nPNRsKhhmBHd5RxhLR5oOmAYILDYFTKYzvXqDH8ImCsIvg9I6cmZmmdPjdRb
-	H2nAQwtK3KauvvCeU/HrjMHhL45/zUOwppwzUy4N28w+B1PpZaTjGF7PjOEk3MhOUFwfba
-	FE8bVRpqGZDvhOaaZyYBFo6XETwYPYw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744089775;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MaL9R8uqMyLYrAkKk+9UKfW5eq2Lkk+0ZVyqZSvS72Q=;
-	b=TreGu64377ixgPhqf+aCfCDtrTyXRmccmZzNVWiTbeDuU79vhhlkWr1Z1vntgWAzc5RAHR
-	gR4uLre76R0YmGCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 092DB1371A;
-	Tue,  8 Apr 2025 05:22:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id m2duAK+y9Gd+GQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 08 Apr 2025 05:22:55 +0000
-Date: Tue, 08 Apr 2025 07:22:54 +0200
-Message-ID: <87tt6zb51t.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Maxim Mikityanskiy <maxtram95@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	He Lugang <helugang@uniontech.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Tang Bin <tangbin@cmss.chinamobile.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	linux-parisc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH 00/11] sound: Replace deprecated PCI functions
-In-Reply-To: <174406895437.1337819.1919250165088744285.b4-ty@kernel.org>
-References: <20250404121911.85277-2-phasta@kernel.org>
-	<174406895437.1337819.1919250165088744285.b4-ty@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DmhfzTax"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744094072; x=1775630072;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=22Gs+qguXy5eF28mCFqtTKO+HTIgfIcsBP7r2bd7Z3s=;
+  b=DmhfzTax6pZFqHNp1xPhrQ0SRp3Q77e3WAMr5dvAu/MqaurJy7JrGwPd
+   HtewGNYqua3J/RyGUXgcm+OjGzs2LsUum/kRhGDiQzDBl1XWUIolwzNol
+   +VSEmeoul1si6B5QjCflwzhUp5W0HZzo/D0OF15Oo5P8SfI6vfDwvyuyA
+   50ZTZabb7ckqJLfiHUF3PmGhcPsMpcOwyIOIhYvxFjxIvt458kxb/p8tC
+   VSblEhZMzonlTbbMi49YUHk/zAas5lrCcyBHYq7t/DSlIvYztUn/EnkoJ
+   TJWGn1Fscctw4C1AMlRCtjaaPYv1wKkIpPtCMc9smFD7FHYxYdDGIJEAB
+   Q==;
+X-CSE-ConnectionGUID: 2hLy4DH6Qqq9AsRoMOHKtA==
+X-CSE-MsgGUID: T/Kl+ly3RZ6CBHkwcd4QHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49356277"
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
+   d="scan'208";a="49356277"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 23:34:30 -0700
+X-CSE-ConnectionGUID: euEFIizqTfGGI4hmqlYEVA==
+X-CSE-MsgGUID: 1OrpKCPnSoCe73GFehG8TA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
+   d="scan'208";a="128692934"
+Received: from unknown (HELO [10.245.248.64]) ([10.245.248.64])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 23:34:26 -0700
+Message-ID: <bbc124b8-993f-42f1-aedd-fac7ec915717@linux.intel.com>
+Date: Tue, 8 Apr 2025 09:35:23 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 927A92117F
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,ladisch.de,gmail.com,linux.dev,linux.intel.com,renesas.com,uniontech.com,baylibre.com,loongson.cn,cmss.chinamobile.com,kernel.org,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
-
-On Tue, 08 Apr 2025 01:35:54 +0200,
-Mark Brown wrote:
-> 
-> On Fri, 04 Apr 2025 14:19:01 +0200, Philipp Stanner wrote:
-> > pcim_iomap_table() and pcim_iomap_regions() have been deprecated by the
-> > PCI subsystem. In sound/, they can easily be replaced with
-> > pcim_iomap_region().
-> > 
-> > This series was around some time in late summer last year as a single
-> > patch. I lost track of it for a while, but Takashi Iwai (AFAIR)
-> > requested that I split it by component.
-> > 
-> > [...]
-> 
-> Applied to
-> 
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-> 
-> Thanks!
-> 
-> [11/11] ASoC: loongson: Replace deprecated PCI functions
->         commit: 7288aa73e5cfb3f37ae93b55d7b7d63eca5140a8
-> 
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
-> 
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
-> 
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
-> 
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
-
-Oh, I already applied this one blindly as a part of series to my
-tree.  But it's a trivial fix and shouldn't be a big problem to apply
-twice...
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
+ resume is not supported
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, lgirdwood@gmail.com,
+ broonie@kernel.org, tiwai@suse.com, linux-sound@vger.kernel.org,
+ kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+ liam.r.girdwood@intel.com
+References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
+ <87r02cym1c.wl-tiwai@suse.de> <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
+ <87jz83ztn7.wl-tiwai@suse.de> <206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
+ <87h637znpp.wl-tiwai@suse.de> <35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
+ <8734eryn21.wl-tiwai@suse.de> <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
+ <87v7rmylc5.wl-tiwai@suse.de> <d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
+ <87o6xeyfkk.wl-tiwai@suse.de>
+ <69c52779-ef90-45c5-a024-77f0030bf5cd@linux.intel.com>
+ <87jz82ye7b.wl-tiwai@suse.de>
+ <8878feb6-362a-4541-91fb-318aea1c0870@linux.intel.com>
+ <87o6xe7l4q.wl-tiwai@suse.de>
+ <51bf9695-1f70-4749-b70a-2ed4af8c4be7@linux.intel.com>
+ <871pu95oon.wl-tiwai@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <871pu95oon.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-Takashi
+On 03/04/2025 17:01, Takashi Iwai wrote:
+>> The fact that we discuss this shows how much this corner case have been
+>> excercised (we eneded upm disabling this in CI testing for now in SOF).
+> 
+> I agree that your patch can be a good start, at least, it addresses
+> the existing issue with the minimal change.  There are still rough
+> edges and we'll need to address, but I believe the patch (or modified
+> / fixed one) can be applied to 6.15 kernel, while keeping the
+> development for 6.16.
+> 
+> I did some quick work on it, and now implemented
+> SNDRV_PCM_PAUSE_RELEASE_STOP trigger.  I guess it's more or less
+> aligned with what Jaroslav suggested.
+> 
+> The patches are pushed out to topic/pcm-pause-rework branch of my
+> sound.git tree.  Please take a look.
+
+Sorry for the delay, I just got to test the patches from the
+pcm-pause-rework and they seams to work OK.
+There is only one difference: before suspend the drivers will receive
+STOP instead of SUSPEND if the can_pause_release_stop flag is not set,
+but thinking about this a bit more, it sounds the correct thing as the
+stream is really stopped.
+
+-- 
+Péter
+
