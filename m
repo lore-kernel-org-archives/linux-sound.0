@@ -1,125 +1,180 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E07826A08E
-	for <linux-sound@vger.kernel.org>; Tue,  8 Apr 2025 12:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A89270EA8
+	for <linux-sound@vger.kernel.org>; Tue,  8 Apr 2025 12:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744115736; cv=none; b=Ses368xZUa8WAd9xwX/nPWiY7fTUEur5v0NlOyfLSWjyogKJVa8jl+9ZxVCtxoNzcucqKAD4Xkx9nWs5jpGBvTxWs7Pl7Afew4rnWBMGa1SbcdNpy83PDnzp8ZtX6oyCrGt/wwm0w6SndDs0MjUXiw0VP2YnwJdttegrLylHWEs=
+	t=1744115936; cv=none; b=DobUVjAgqvQBO7LPgD/U72YIEbmS3at1p1XsNRa2Wqn+T7BuGgUfnZ/qao+yd51PVBDGWni4ifJl5nMvSzj1sMmxrIfmYxrnkYbSP0VvbQYi/RTDFV0yHcKv44qnA6cFaJ6kpX0bguQkydy23btZEtiU9zjaPcLq903ZA07F0Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744115736; c=relaxed/simple;
-	bh=fo/D7Vy/bHCJLwja2xD/bb/2rXotbdfX/H7Zo3+wDT8=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=gxxbxFqhPA2pFwX5ivjYLu2307izUgsdGUcL0/NgzzE2daetJtO1jnPjG6seS9HBEhtsrbtMrmZlHSbY+jJQP0wv702OWc13nJbWe33L30pEiPdUukqbTE5qdiZJyAhKEP4/RfE1PT5ofCgMMyNcbQ07wDa//5tFNpHDcvA7g5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JX7dY48t; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744115936; c=relaxed/simple;
+	bh=tWLj6hCTsUsy6skIxsCU1gYwVX8zNsVwBhJlCYL3OzY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=b3/6MRFRkhdyECDj+mUM0czvCDDroWqDbOC8HkWFuAUkSoOqVs8VFgBfP/Irnz6LwBbClBuI7tYehE4Q1isefOo246kt/+pea1IW2bKKDg5y+jbUqsqzBdEmjTxkOi1Uh50mm+UoHTkxHcX9fnFLZWKRzBrnQUvkRDkPPvTvOUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i38pXdN3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kKLLycsG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i38pXdN3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kKLLycsG; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JX7dY48t"
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-873a2ba6f7cso1355020241.3
-        for <linux-sound@vger.kernel.org>; Tue, 08 Apr 2025 05:35:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744115733; x=1744720533; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/U112c3eNoEpdOFrvh7CcjezylBSmoKAUzWeh1M4C48=;
-        b=JX7dY48tnLpMwTtIlkRe0oS63IKpK/V2zF9onH/8kroqnJq5CBPtaS74ph5bEzzCgg
-         WfZX2lkRNrnCkJXpquNqhziFUq4Cyz4FGb4xDfzYU4NGrEcxzIApADO2POgAYysfTYXK
-         iteYRbZBWzTK9owuukt0puJEMRTniJ5g1cgP5A/R1+Sb2VgQJOanHB7WSeTPfiqSp9l6
-         0LZFUPdvsGwmGXQ9iBkjINorRtpKnw8cOQXdV2E/aG1gaV+ba5Hv4l4Q4NS5DdF0aXs2
-         KVQQX5nt7DcTUrnNkZ93k/vIyn/Wz8XpALeqXMNCK/b/jys7Vc1oi7oLoSGfbgERq8Wz
-         FRDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744115733; x=1744720533;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/U112c3eNoEpdOFrvh7CcjezylBSmoKAUzWeh1M4C48=;
-        b=ZGw2edhIcEokRBtMBXgr/sQAt8bgkQCz3ZrFFlwZVNIdLIF11Gnz9a68YWu4JfOq32
-         PlcW7zX5cjg2m+gd0FKf7lt4LwLNZvM8pnZDjyCnphj1aNkhXaVu6b02qh18gWKjQez3
-         wy4Dyl7gzBROjDa6hwpsa+252LtwxYbqhzUA/AjVo+yCVn7LiPnqvX9GnUOJ+oy5Bk8r
-         PkO5f1jVHFRiJHhm+RJaqwV8FqEhnpdAJ1QLA67M4T74sl7JKHS7Qu2LOSuIS/gz+CGi
-         MNhIJIFuJq/Va7P/dfhKjkPNJtfaxVs65Uxfi11qNZ97hI31U5xBEinYt4sKwYn/snPJ
-         Ir/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVO6uMGmp4lrWNYYwcUoCcnVrsyDJuA1Forvx+7fUlAacIbbcZcfaw5A/idX8BU2y6aiAjg3mWiq7vryg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHvSO2atHeGvNbQMaE2BOkBsiwJ967ml4mWmvLQRC+yf+fGFpn
-	8l6xG2t8NzRcrasQsZaUQkXzODmVY4ICF9komvNPCT+4666+SB5PTkrNOvvbTYVErItqBok6WAH
-	IuJ8n175YWsax0KDJ71Ywm2yr7Jj6ap/Gcy2vT+M+rbTK/gfs6HY=
-X-Gm-Gg: ASbGncvdQYrlooB7kmWUBIQNiWKe14cdVqtifEJxbD7bF//G57RrR7oZ3DtQArmrL2y
-	yL9zmlrwyJcO/IriujnCnDf5A5nuDD5G/Sa1oNZCvJN9SEgX6Ylf2YZXSiZogCcb/3lz1lzZmdt
-	ZeVJaZZeCM9wGLUrOV2A/sdwdU0K/xLXN2c8/ultRmRHuxp4Ky5hkVx+I0/ql4Bl10//Q=
-X-Google-Smtp-Source: AGHT+IFfrUZA9P0FlfVvDGw+QCkUVYYIjMI5wcSJPSzAp7n+zPY08mgfTxQqvgd8poJltS31C52pfXlDC6xYxKM2j78=
-X-Received: by 2002:a05:6102:504b:b0:4c1:9738:820d with SMTP id
- ada2fe7eead31-4c8568c0b92mr10407478137.6.1744115733375; Tue, 08 Apr 2025
- 05:35:33 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i38pXdN3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kKLLycsG";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i38pXdN3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kKLLycsG"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0023F21180;
+	Tue,  8 Apr 2025 12:38:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744115933; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8voFhDCx4f+vOltHZnCvK7t+rzaa2lYXmMfMaNjmzDo=;
+	b=i38pXdN3uxy6/fiJwvPf3f2kVzSnCVr91xkJorD68qkbF70+Nr6jto02WuC6YwX1gFQgZK
+	vvJv+fGbmS3V3ZB1MWrbQU3bKNWUyvpnqgBB1jl9veaqQFy16jUyfSEtCKFMAlrwdZKSvw
+	pQz9bsY7F8daKNkaufeCJvoV7RtMfe0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744115933;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8voFhDCx4f+vOltHZnCvK7t+rzaa2lYXmMfMaNjmzDo=;
+	b=kKLLycsG5O6YoetIWEaS+haiDd5Z3u+cabWxbBODL7ujKZTz/G/hiezsBVOkw7o82oGCj3
+	LIv6HP8Qww/OEoAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744115933; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8voFhDCx4f+vOltHZnCvK7t+rzaa2lYXmMfMaNjmzDo=;
+	b=i38pXdN3uxy6/fiJwvPf3f2kVzSnCVr91xkJorD68qkbF70+Nr6jto02WuC6YwX1gFQgZK
+	vvJv+fGbmS3V3ZB1MWrbQU3bKNWUyvpnqgBB1jl9veaqQFy16jUyfSEtCKFMAlrwdZKSvw
+	pQz9bsY7F8daKNkaufeCJvoV7RtMfe0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744115933;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8voFhDCx4f+vOltHZnCvK7t+rzaa2lYXmMfMaNjmzDo=;
+	b=kKLLycsG5O6YoetIWEaS+haiDd5Z3u+cabWxbBODL7ujKZTz/G/hiezsBVOkw7o82oGCj3
+	LIv6HP8Qww/OEoAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C976A13691;
+	Tue,  8 Apr 2025 12:38:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ejmYMNwY9WcXIwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 08 Apr 2025 12:38:52 +0000
+Date: Tue, 08 Apr 2025 14:38:52 +0200
+Message-ID: <87mscqhlpf.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc: open list <linux-kernel@vger.kernel.org>,
+	lkft-triage@lists.linaro.org,
+	Linux Regressions <regressions@lists.linux.dev>,
+	linux-sound@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	clang-built-linux <llvm@lists.linux.dev>,
+	Pei Xiao <xiaopei01@kylinos.cn>,
+	Takashi Iwai <tiwai@suse.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Anders Roxell <anders.roxell@linaro.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: Re: sound_kunit.c: error: address of array 'card->id' will always evaluate to 'true' [-Werror,-Wpointer-bool-conversion]
+In-Reply-To: <CA+G9fYsNUbN0PsDQBqVAoUSjSXa5igOjntBFh_TF6m8A4FNDsw@mail.gmail.com>
+References: <CA+G9fYsNUbN0PsDQBqVAoUSjSXa5igOjntBFh_TF6m8A4FNDsw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Tue, 8 Apr 2025 18:05:21 +0530
-X-Gm-Features: ATxdqUEWaftFPwcDydUZjRrXkKZePynV0fvjVXPcjzvBxMxN2KkMbyUQeWe8Fe4
-Message-ID: <CA+G9fYsNUbN0PsDQBqVAoUSjSXa5igOjntBFh_TF6m8A4FNDsw@mail.gmail.com>
-Subject: sound_kunit.c: error: address of array 'card->id' will always
- evaluate to 'true' [-Werror,-Wpointer-bool-conversion]
-To: open list <linux-kernel@vger.kernel.org>, lkft-triage@lists.linaro.org, 
-	Linux Regressions <regressions@lists.linux.dev>, linux-sound@vger.kernel.org, 
-	kunit-dev@googlegroups.com, clang-built-linux <llvm@lists.linux.dev>
-Cc: Pei Xiao <xiaopei01@kylinos.cn>, Takashi Iwai <tiwai@suse.de>, 
-	Nathan Chancellor <nathan@kernel.org>, Anders Roxell <anders.roxell@linaro.org>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,linaro.org:email,linaro.org:url]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-Regressions on x86_64 build allyesconfig with clang-20 failed on the
-Linux next-20250408 tag.
+On Tue, 08 Apr 2025 14:35:21 +0200,
+Naresh Kamboju wrote:
+> 
+> Regressions on x86_64 build allyesconfig with clang-20 failed on the
+> Linux next-20250408 tag.
+> 
+> First seen on the next-20250408.
+> Bad: next-20250408
+> Good: next-20250407
+> 
+> * x86, build
+>  - build/clang-20-allyesconfig
+> 
+> Regression Analysis:
+> - New regression? Yes
+> - Reproducibility? Yes
+> 
+> Boot regression: x86_64 allyesconfig address of array 'card->id' will
+> always evaluate to 'true'
+> 
+> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> 
+> ## Boot log
+> sound/core/sound_kunit.c:271:31: error: address of array 'card->id'
+> will always evaluate to 'true' [-Werror,-Wpointer-bool-conversion]
+>   271 |         kunit_info(test, "%s", card->id ? card->id : "(null)");
+>       |                                ~~~~~~^~ ~
+> 
+> 
+> ## Source
+> * Kernel version: 6.15.0-rc1
+> * Git tree: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> * Git sha: 7702d0130dc002bab2c3571ddb6ff68f82d99aea
+> * Git describe: next-20250408
+> * Project details:
+> https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20250408/
+> 
+> ## Test
+> * Test log: https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20250408/testrun/27937063/suite/build/test/clang-20-allyesconfig/log
+> * Test details:
+> https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20250408/testrun/27937063/suite/build/test/clang-20-allyesconfig/details/
+> * Test history:
+> https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20250408/testrun/27937063/suite/build/test/clang-20-allyesconfig/history/
+> * Build link: https://storage.tuxsuite.com/public/linaro/lkft/builds/2vQpM7f8SQvntzGG0Tdgxj2amGb/
+> * Kernel config:
+> https://storage.tuxsuite.com/public/linaro/lkft/builds/2vQpM7f8SQvntzGG0Tdgxj2amGb/config
+> * compiler: clang Debian clang version 20.1.2
+> (++20250330123306+5ba194972878-1~exp1~20250330003423.94)
+> 
+> ## Steps to reproduce
+>  - tuxmake --runtime podman --target-arch x86_64 --toolchain clang-20
+> --kconfig allyesconfig LLVM=1 LLVM_IAS=1
 
-First seen on the next-20250408.
-Bad: next-20250408
-Good: next-20250407
-
-* x86, build
- - build/clang-20-allyesconfig
-
-Regression Analysis:
-- New regression? Yes
-- Reproducibility? Yes
-
-Boot regression: x86_64 allyesconfig address of array 'card->id' will
-always evaluate to 'true'
-
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-
-## Boot log
-sound/core/sound_kunit.c:271:31: error: address of array 'card->id'
-will always evaluate to 'true' [-Werror,-Wpointer-bool-conversion]
-  271 |         kunit_info(test, "%s", card->id ? card->id : "(null)");
-      |                                ~~~~~~^~ ~
+The relevant patch was already dropped.
 
 
-## Source
-* Kernel version: 6.15.0-rc1
-* Git tree: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-* Git sha: 7702d0130dc002bab2c3571ddb6ff68f82d99aea
-* Git describe: next-20250408
-* Project details:
-https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20250408/
+thanks,
 
-## Test
-* Test log: https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20250408/testrun/27937063/suite/build/test/clang-20-allyesconfig/log
-* Test details:
-https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20250408/testrun/27937063/suite/build/test/clang-20-allyesconfig/details/
-* Test history:
-https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20250408/testrun/27937063/suite/build/test/clang-20-allyesconfig/history/
-* Build link: https://storage.tuxsuite.com/public/linaro/lkft/builds/2vQpM7f8SQvntzGG0Tdgxj2amGb/
-* Kernel config:
-https://storage.tuxsuite.com/public/linaro/lkft/builds/2vQpM7f8SQvntzGG0Tdgxj2amGb/config
-* compiler: clang Debian clang version 20.1.2
-(++20250330123306+5ba194972878-1~exp1~20250330003423.94)
-
-## Steps to reproduce
- - tuxmake --runtime podman --target-arch x86_64 --toolchain clang-20
---kconfig allyesconfig LLVM=1 LLVM_IAS=1
-
---
-Linaro LKFT
-https://lkft.linaro.org
+Takashi
