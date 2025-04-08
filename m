@@ -1,90 +1,184 @@
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8011C6B4;
-	Tue,  8 Apr 2025 03:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560A4182B4
+	for <linux-sound@vger.kernel.org>; Tue,  8 Apr 2025 05:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744084374; cv=none; b=p+Isr7kyYn0SzWRPsMdKqS+M2e1uroluPvaTPU87IoxGgUYlIR7OTBxYjoig1f3/nsd4llbnGiaNMlA+rDKJbUseEHUFZeJQYWzacWVm3U9XGZFsucSf/cVKMxXhP1AXH2QJv4liwzSHdam6tzr+Q+cbfQPFrjhrW2igi6JY0Po=
+	t=1744089785; cv=none; b=F+Ev8y4lN+RGoORHAGynBN5EtmhHea6uJSb4ANHeGTknWYBJ8rF+jQ45Sz/VL6W5l21O5qibEnlqmKmgK/4WqxGYZzl5MTG7i0yUM/qu/2l355hPh8UO83UloqUs8+BbHhrIiCp795wDxFjVG31on71Mdd6zAkbwYzhGnR3kbMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744084374; c=relaxed/simple;
-	bh=8IfM+I8emg8N3PNTp4ggTZrlRW4Na7phGokNQ6MLBq8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=utCFOluqT+8QDDaSUV29+lYLXwTKLWpxr0hmi2siTsITDe58MXRCSgR37PMaX2rOAE7lVNg8VzA0tFUqxUodw5SWb/gOWQgEOvBJ86+zkue35eRmZXMd4O487r6YIBNQ0CEBw7bqtwgpB8fJDeCkU5lD3O4EoZzJlAWs2f34H+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=emvRTtUv; arc=none smtp.client-ip=220.130.44.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
+	s=arc-20240116; t=1744089785; c=relaxed/simple;
+	bh=kuaUaBppjC3pVohX/ZirHPmZTmFoBhG+ay7OGmaCfK4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ccfm8f5Xub8b4+cjvE1qagSwIYU0tIiIzs2KhJUsz7sn4vSEwz3tRm/jIjR0OrRQOs8oC42QYqHCNiZllYdICVuGK1+2wVtEH2xnQiHYiu8QE1mjx7DnCc0Zr9iERowpRWuHwYoMAORRz9drOvLclO3telMmmPyoJTSnoAYdlMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kN/mGuLB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TreGu643; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kN/mGuLB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TreGu643; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="emvRTtUv"
-X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
-	s=richtek; t=1744084363;
-	bh=wKOj8pk/+CdFokUBmpTIMsQBLj3hnpGnGC53w55JnGo=; l=1262;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=emvRTtUvjKeJ3lf9/PLnKaVGPE0VfNidpJT96dRHPjbpG1GGjQdaLhF2G3qS6Cohb
-	 6qghS4grWh/NI5YvvDtcG44JSzKLVOO0KTGkd0WGivp5MD/eUCSx2WMp6Koq27fQbJ
-	 5aswcy1l08rdIpR6/owFJvNIEBeKzGViHiQI3zH053ZRki2jfc0RqdEJRfx86WCbtz
-	 aDpV0ORkdIXRzK4DH+mTFLViZRjcdETdobgUONRS+1c/rnM6VupIxxCTp5MM4nZEzX
-	 KhHGFd4RmJnVyOO9xLVoLBZT7TiuB6kBQPc6Gm/wQK0u7fMAlEBhiuYj2K9Fkw0EWb
-	 4Wd7EQtQn/2fg==
-Received: from 192.168.10.47
-	by mg.richtek.com with MailGates ESMTPS Server V6.0(2132232:0:AUTH_RELAY)
-	(envelope-from <cy_huang@richtek.com>)
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Tue, 08 Apr 2025 11:52:13 +0800 (CST)
-Received: from ex3.rt.l (192.168.10.46) by ex4.rt.l (192.168.10.47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 8 Apr
- 2025 11:52:13 +0800
-Received: from git-send.richtek.com (192.168.10.154) by ex3.rt.l
- (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
- Transport; Tue, 8 Apr 2025 11:52:13 +0800
-Date: Tue, 8 Apr 2025 11:53:34 +0800
-From: ChiYuan Huang <cy_huang@richtek.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kN/mGuLB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TreGu643";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kN/mGuLB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TreGu643"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 927A92117F;
+	Tue,  8 Apr 2025 05:22:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744089775; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MaL9R8uqMyLYrAkKk+9UKfW5eq2Lkk+0ZVyqZSvS72Q=;
+	b=kN/mGuLB52nPNRsKhhmBHd5RxhLR5oOmAYILDYFTKYzvXqDH8ImCsIvg9I6cmZmmdPjdRb
+	H2nAQwtK3KauvvCeU/HrjMHhL45/zUOwppwzUy4N28w+B1PpZaTjGF7PjOEk3MhOUFwfba
+	FE8bVRpqGZDvhOaaZyYBFo6XETwYPYw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744089775;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MaL9R8uqMyLYrAkKk+9UKfW5eq2Lkk+0ZVyqZSvS72Q=;
+	b=TreGu64377ixgPhqf+aCfCDtrTyXRmccmZzNVWiTbeDuU79vhhlkWr1Z1vntgWAzc5RAHR
+	gR4uLre76R0YmGCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="kN/mGuLB";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=TreGu643
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744089775; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MaL9R8uqMyLYrAkKk+9UKfW5eq2Lkk+0ZVyqZSvS72Q=;
+	b=kN/mGuLB52nPNRsKhhmBHd5RxhLR5oOmAYILDYFTKYzvXqDH8ImCsIvg9I6cmZmmdPjdRb
+	H2nAQwtK3KauvvCeU/HrjMHhL45/zUOwppwzUy4N28w+B1PpZaTjGF7PjOEk3MhOUFwfba
+	FE8bVRpqGZDvhOaaZyYBFo6XETwYPYw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744089775;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MaL9R8uqMyLYrAkKk+9UKfW5eq2Lkk+0ZVyqZSvS72Q=;
+	b=TreGu64377ixgPhqf+aCfCDtrTyXRmccmZzNVWiTbeDuU79vhhlkWr1Z1vntgWAzc5RAHR
+	gR4uLre76R0YmGCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 092DB1371A;
+	Tue,  8 Apr 2025 05:22:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id m2duAK+y9Gd+GQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 08 Apr 2025 05:22:55 +0000
+Date: Tue, 08 Apr 2025 07:22:54 +0200
+Message-ID: <87tt6zb51t.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
-CC: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Rob Herring <robh@kernel.org>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Otto lin <otto_lin@richtek.com>, Allen Lin
-	<allen_lin@richtek.com>, <devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/4] ASoC: codecs: Add support for Richtek rt9123
-Message-ID: <Z/SdvomJQKwqte97@git-send.richtek.com>
-References: <cover.1743774849.git.cy_huang@richtek.com>
- <cff65757c4665a81397ef5f559b277f96d4236c3.1743774849.git.cy_huang@richtek.com>
- <4e966f68-527e-4e2c-9043-0795ff094031@sirena.org.uk>
- <Z/Mf1VQ1Ay/Fw3kh@git-send.richtek.com>
- <17e8e4a6-135f-46b4-89d8-3ea0d3bf6e76@sirena.org.uk>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Maxim Mikityanskiy <maxtram95@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	He Lugang <helugang@uniontech.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Tang Bin <tangbin@cmss.chinamobile.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	linux-parisc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 00/11] sound: Replace deprecated PCI functions
+In-Reply-To: <174406895437.1337819.1919250165088744285.b4-ty@kernel.org>
+References: <20250404121911.85277-2-phasta@kernel.org>
+	<174406895437.1337819.1919250165088744285.b4-ty@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <17e8e4a6-135f-46b4-89d8-3ea0d3bf6e76@sirena.org.uk>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 927A92117F
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,ladisch.de,gmail.com,linux.dev,linux.intel.com,renesas.com,uniontech.com,baylibre.com,loongson.cn,cmss.chinamobile.com,kernel.org,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-On Mon, Apr 07, 2025 at 01:34:29PM +0100, Mark Brown wrote:
-> On Mon, Apr 07, 2025 at 08:44:05AM +0800, ChiYuan Huang wrote:
-> > On Fri, Apr 04, 2025 at 04:03:57PM +0100, Mark Brown wrote:
+On Tue, 08 Apr 2025 01:35:54 +0200,
+Mark Brown wrote:
 > 
-> > > What's going on with the runtime PM stuff here?  Especially for the DAPM
-> > > widget usually the ASoC core will be able to keep devices runtime PM
-> > > enabled so long as they are in use so I'd expect this not to have any
-> > > impact.  Why not just use a normal DAPM widget?
+> On Fri, 04 Apr 2025 14:19:01 +0200, Philipp Stanner wrote:
+> > pcim_iomap_table() and pcim_iomap_regions() have been deprecated by the
+> > PCI subsystem. In sound/, they can easily be replaced with
+> > pcim_iomap_region().
+> > 
+> > This series was around some time in late summer last year as a single
+> > patch. I lost track of it for a while, but Takashi Iwai (AFAIR)
+> > requested that I split it by component.
+> > 
+> > [...]
 > 
-> > That's because The RG 0x01 'RT9123_REG_AMPCTRL' is mixed with other volatile
-> > status bitfield like as 'SW_RST', 'SYS_STATE'. That's why I use pm_runtime to
-> > make sure the RG can really be accessed at that time. Actually, the
-> > mixed RG bitfield  for 'RW' and 'RO' is a bad design.
+> Applied to
 > 
-> You need some comments explaining what's going on here.  If the volatile
-> fields are read only shouldn't you be OK, so long as the register is not
-> cached you should be able to do a read modify write fine?  Unless the
-> status bits are clear on read.
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> 
+> Thanks!
+> 
+> [11/11] ASoC: loongson: Replace deprecated PCI functions
+>         commit: 7288aa73e5cfb3f37ae93b55d7b7d63eca5140a8
+> 
+> All being well this means that it will be integrated into the linux-next
+> tree (usually sometime in the next 24 hours) and sent to Linus during
+> the next merge window (or sooner if it is a bug fix), however if
+> problems are discovered then the patch may be dropped or reverted.
+> 
+> You may get further e-mails resulting from automated or manual testing
+> and review of the tree, please engage with people reporting problems and
+> send followup patches addressing any issues that are reported if needed.
+> 
+> If any updates are required or you are submitting further changes they
+> should be sent as incremental updates against current git, existing
+> patches will not be replaced.
+> 
+> Please add any relevant lists and maintainers to the CCs when replying
+> to this mail.
 
-Okay, I'll left some comments to make it more clear for why special handling.
-And yes, Since this register cannot be cached, to use pm_runtime can guarantee
-the read modify write fine.
+Oh, I already applied this one blindly as a part of series to my
+tree.  But it's a trivial fix and shouldn't be a big problem to apply
+twice...
 
-Is my understanding correct?
+
+Takashi
