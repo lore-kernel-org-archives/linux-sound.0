@@ -1,192 +1,200 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2061.outbound.protection.outlook.com [40.107.243.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3797B264F82
-	for <linux-sound@vger.kernel.org>; Tue,  8 Apr 2025 08:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744102303; cv=none; b=E79E+so91ZuVQBE9uQ8/7q/uUKuOWX1nBeKEw132lk/zmmv2vRmrtHfQK1aYWntYGc3Dq1zgz4kJGr3v1qHhLg8laRVRrPJMWP6YUezoHldnuCbHOO14NtIYWu8QH1lB8+LGwFZ3yxh5UM9F886ZT4OTw185ukmPVGC/Y8ojCWI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744102303; c=relaxed/simple;
-	bh=3waQhjQm3/808lAxb3I8nqA/+D9ajQv5pWihXYIMiaU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lmQ/qQElMBxM31Loe3Vq/i7XhNjA5Q2QZceNDIYgnoFBzZZObQ64EvqlyU0rbbkGWPQuJnJab7Mzh7kB/eUNhsXxwoU/oxVyjx0P8GjFylbgIxo7pPhj7krRNJ2vNrK9/ddZ1WGukWmV1fM494JQwV5HtWeg9G9Bh0QGU77yITE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=PyFxjosX; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56ABC22332A;
+	Tue,  8 Apr 2025 09:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744103093; cv=fail; b=nmX7R4uwxQ/BGN6eFVfhnBXdXrwXi33QC5wDzO/RJW09QffoMIcSNGZ1d8ZE2sSD2VL1vR6PEYJKMmmZQCGpP68IDKifJNjSsWUK1diBEhRigu6L7mzSGWIyajsb2zGQeamabWKTHLGL+uCZDlODiCOCAA7udtm6qZSjGaU7/Yk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744103093; c=relaxed/simple;
+	bh=4q+1/WxX8+135DiowNUZGeTD0R7z0xdO3mTSIJGIoSA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DfqTGoZjLC+EM7AQUljw+mlHznSd3fWH1LipneQ72wO6CMJNZ+LP5jLqRXUWVZkK4mv2jYefPZnSTcgWFQdvJq8WR9FMT7mX08f7jqndKiMEmP9cYVRURui7TLiBCC60t9RiN/IUuwYeZDXMtCpFNd4+ANHiZlCS4FoyvjASlto=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Gf1uXAuc; arc=fail smtp.client-ip=40.107.243.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="PyFxjosX"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 1D1A24C4B;
-	Tue,  8 Apr 2025 10:51:35 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 1D1A24C4B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1744102295; bh=vyyUR3lpCCmPoglxugmplX/4DyI7pVgjkqakWAdBeZA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PyFxjosXobMcp2/4DgrFpq8ZIh/oT53xoj0l7B0bawbAB4fdoMasLMIJZhZ3fZS6U
-	 A9mdri328VgCcS3i4g/kTK0V70OEB/l1dG5s/GjMxs+5A3iW9hfCI5WA7r/dj+3d7A
-	 TTk+vXEFpGNzeE0ihsY38HmGKoL0NHqCAvtKZLM0=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Tue,  8 Apr 2025 10:51:23 +0200 (CEST)
-Message-ID: <0cada872-b247-49f4-9684-b168a7425956@perex.cz>
-Date: Tue, 8 Apr 2025 10:51:23 +0200
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Gf1uXAuc"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SqyqAxUErD4fl3+RxoMk1td5PE7qO0H7HUD8wl6uNrjJ6J/PCCASMu4zSci4lpCA1y58bbAQWeYclqBzNicoMf3dR9RCwqKJE8eHKkKxu/9IYVDJNjyttXFCRkRo1U1sIWxRAdGmCxFB1TyJHZ+MA5oNCDyewVX7Ws2BmigQL7pF9C7930dwUd+aPfFaTfeyWwfxXIzCfD6EEoI9rjx5rIgEYFCMnu/DCRLDFc+aTg5SJ2ncqV9An/LPQrfChqK4WkhBACv0oP06XnFVK/HfwVMQFEMbW2OPT7AK9luMb8t0ntrUX0cEgKj/Omes8jF6xxGfZKqIc7YgDapAlb3QZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=i2cKgJnm+diEhSRYoRpRwRpfxGilwN/jMzWIYdmMEnI=;
+ b=ltxbLHxiT2o8zgpJMTNguPpUklFeTFryFBTxV1Jnd1boCFZQtpnKO0kZ06vvZJiCymq1Tia+atFUXgUM3tesZEzXs5vCbj9mhQdWWkaenHLlzTb7FInZS7OhFH8Ea4ZJo+iYbJ7iYRmYzFkTWRxrFPwOuFdfASzxOnD1DvZuL4g54DypJrDjsxllWitzhI8bH0gNyQQftEm9rRzTPqAWMPDIcaOM+Gt2MuRE+12Woj7LvMFrGLZbSvEgXMNdOL6KqCrHtOLDEpVI+CsQ/SzpTSMCHPDrSa2A0R3fkXdylVke9LMbH1F3PKHWmPnr9DRZQuiD2zoDWydGMsIAFwHigQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i2cKgJnm+diEhSRYoRpRwRpfxGilwN/jMzWIYdmMEnI=;
+ b=Gf1uXAucMcl5NWrX02ljGEZcx6NBNQjUu63QrwdVBd6EpkxYgDUqRvAjP3FG4qqi27WcIJu0ovipjkQi2Huo+kHV7Dav/cTLSo+xQEZASzrhAxAfLEJGtks8lghhK/0fYBnIMiCdHZhOYRntJz/Yna3W39VDyssK3KLhfucziMO9BRBXUwfaz0nL+VnLI1Ct3SYWjeWs0yuBJpKIb+Cl1ilo0KDoZ3wR4M4v2zF0HvWBRUwpHxKH1DD8D/kv3KwnbQ0vRfIdQlaQ+N5dNeJBtGzQnMKKk22IGohz+b3THYOQr521bQRz4D2cRIJ571/AUWH7Ujs/jvfYgaL/q7Vk6Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL3PR12MB6473.namprd12.prod.outlook.com (2603:10b6:208:3b9::16)
+ by SA1PR12MB5640.namprd12.prod.outlook.com (2603:10b6:806:23e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.29; Tue, 8 Apr
+ 2025 09:04:48 +0000
+Received: from BL3PR12MB6473.namprd12.prod.outlook.com
+ ([fe80::25e1:5ee7:117:8923]) by BL3PR12MB6473.namprd12.prod.outlook.com
+ ([fe80::25e1:5ee7:117:8923%2]) with mapi id 15.20.8583.043; Tue, 8 Apr 2025
+ 09:04:48 +0000
+Message-ID: <281111d0-2aa5-4ffd-b023-aa4f854a500d@nvidia.com>
+Date: Tue, 8 Apr 2025 14:34:40 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2] ASoC: soc-pcm: Optimize hw_params() BE DAI call
+To: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ jonathanh@nvidia.com, thierry.reding@gmail.com, mkumard@nvidia.com,
+ spujar@nvidia.com
+References: <20250408083022.3671283-1-sheetal@nvidia.com>
+Content-Language: en-US
+From: "Sheetal ." <sheetal@nvidia.com>
+In-Reply-To: <20250408083022.3671283-1-sheetal@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA1PR01CA0165.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:71::35) To BL3PR12MB6473.namprd12.prod.outlook.com
+ (2603:10b6:208:3b9::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
- resume is not supported
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
- Takashi Iwai <tiwai@suse.de>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.com,
- linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
-References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
- <87r02cym1c.wl-tiwai@suse.de> <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
- <87jz83ztn7.wl-tiwai@suse.de> <206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
- <87h637znpp.wl-tiwai@suse.de> <35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
- <8734eryn21.wl-tiwai@suse.de> <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
- <87v7rmylc5.wl-tiwai@suse.de> <d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
- <87o6xeyfkk.wl-tiwai@suse.de>
- <69c52779-ef90-45c5-a024-77f0030bf5cd@linux.intel.com>
- <87jz82ye7b.wl-tiwai@suse.de>
- <8878feb6-362a-4541-91fb-318aea1c0870@linux.intel.com>
- <87o6xe7l4q.wl-tiwai@suse.de>
- <51bf9695-1f70-4749-b70a-2ed4af8c4be7@linux.intel.com>
- <871pu95oon.wl-tiwai@suse.de> <2bc811f1-7fbd-45f1-924e-e6241dcef537@perex.cz>
- <87plht447q.wl-tiwai@suse.de> <b9d457b9-4645-4876-b6a1-82bb658a3b8f@perex.cz>
- <d084dff6-6a25-4f84-879c-15c108c9c141@linux.intel.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <d084dff6-6a25-4f84-879c-15c108c9c141@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR12MB6473:EE_|SA1PR12MB5640:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb430ea7-79cb-4a0e-45f7-08dd767c69ef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QllFV04vckxoVFgwYXFmNjFSZzVSdUE0M2lpUGVCM1JEUk42UUJScTRLRitZ?=
+ =?utf-8?B?aTFKSUI5OGRvOS9sUjhlcFpZQU1JOFpJcUN1WFBrSGprcTlMdFdUR09pSGx6?=
+ =?utf-8?B?OHdmcW1MbEZKK0pJT3BGK1lCamxMTFJrL2U1YW8vOFpjR2YvdmJzQ2FxMG5u?=
+ =?utf-8?B?ejJNY3BDU1hIbDNYczhkKzFJUlcwd1hGeWhOY3VLL0hxaWcxd28rNnRWNUUr?=
+ =?utf-8?B?OEkyalJBTFdKb21NVzJUc2kvNXhEdnE3YTVLTmFJd1YrVlBGRUo5T2ZvUitL?=
+ =?utf-8?B?MlFDWFZmRXFEMERQaTczVXd4SlN2V2VFb0c3dXh0dUluQmtGZXZRZlpNSlFG?=
+ =?utf-8?B?UllLbGYrUHUrSmkvaVY5K1pSWUE0d00zcjUyU0NrNmxBcU1LZnZ3a3VBMC9M?=
+ =?utf-8?B?VStZa1lUTk1IYXdTV2VMVWZOOS9CL0lORXhzV3l5R3dwTkFqSHBoenRqV0Fi?=
+ =?utf-8?B?ZWdkZ1Jsb0laZE8vVjYrenBMd0ZtK3dhZHFhTWdvRWFlcllKOG0yTDl1OGhl?=
+ =?utf-8?B?Y3c2Q0kwVTc2amhCNjZ3clEyUHNNVkx6N3QyaEY2SUp1bXNHL0E5ci9CTlRQ?=
+ =?utf-8?B?c2piUkx1RzZKMytXREpSeG9mNVFLTEozdDVoaitFTUIzUE84Mm1BYmNnYUcw?=
+ =?utf-8?B?dUZtSWZXQW9PWlhSbjFWeWZKU3Y3MTM0cmVoTEhJaUk3dlYrZVpacFdCajdJ?=
+ =?utf-8?B?MEkwbWhWUWcyQ0JYUjA1QzRRNVFsRi9rZVVreWJ2KzlHNUc4UVdXVG9tRnJu?=
+ =?utf-8?B?ejg5cUdNVUdRM3BiWFVCaTc1RlplR3A5MkRFSnE3bVY2RFJIV2JFekhTUzls?=
+ =?utf-8?B?ZVJwc3V1cmxrTUZxRDNDZE0zL3J4cEVKalYzWHVPeS9BMEdDMnFqZGk0ZjNU?=
+ =?utf-8?B?c1dJdE5teEJBNE1UQ0p6cXYvOFFNTGNtTHluUWZRWWFla3VYQnlJUE1KMllw?=
+ =?utf-8?B?RHI1VFFnM25TMlFnUFE5elpqQkN1M3puZE5wRTRvRFRpdS9ZOGJuVEVVVS9Z?=
+ =?utf-8?B?dU00RVFFWkFVNk5jemlOaFlibHFYT2kzakE4ZWFsVDd0RDJ2TW8vMmFwdURX?=
+ =?utf-8?B?T2JXcHpyaG83MmR6cnU5OUlRZkk3c2NEUC9jTTR1bWE5ZVJkOW5ETDRuai9O?=
+ =?utf-8?B?MDZRMHFNajFpbmlHUCtNb05Sa0syVGhCNzFlVjZZTXNCdWZNNG8wcXVaSUVN?=
+ =?utf-8?B?bGo4T2tqQUtlZ0tRODZVdGpoZEQzQUY5V3NreWhNZmxHNURLTmVGSmVpTDNI?=
+ =?utf-8?B?UWh4c0tNOE45Wlowd2RFS3hyNVdtU2ZkN0VzS0FseE9wR2R2TklEdG1HRk8x?=
+ =?utf-8?B?WlJ1K0Rna0ZIczRUdDhIbGhFcjAzSVVkUThPb25vSVc3Qm5JZ09xSFQremtX?=
+ =?utf-8?B?VmpBMU9OZFpOZGtJMldIRnBQbGhHM2IwTVcrSVdPc1FCR0wxVExEekVwZkRX?=
+ =?utf-8?B?aVcvcE5wdnZPRXdIVHRYaVAxbEVwQlB5TkljTTdUaEtkaWp0S0QyR2lJWC8r?=
+ =?utf-8?B?RjBHdDZRanplWW9XeVhodHlQUEZFdzFPOHoyZzR0eGEzQytBS3Z4bWc2MnJh?=
+ =?utf-8?B?M2xUQUsrZmllVlpLbjN1VGFpS0RFa0RqM1dhaTBUSTBZS3JGbkIzSXhheTNy?=
+ =?utf-8?B?YnBMMHJTV1JFUjhEM2ZEQ1VTUUl1cnU0TkdXSE9md0ZoeHlUS0oycTc1UFQ4?=
+ =?utf-8?B?SDB5Ky9OVWRDVGg5NVpIaVRxaGVzUmJvM0QxVGlaZTFBK2UyZW5EL2k1K3RZ?=
+ =?utf-8?B?bnhjZThudmlJVGhORSt1U1RKS1V5bEpCWnBvcjlVNVY1K0hEWm5sTUk5U2RK?=
+ =?utf-8?B?SDRsNnViV0xlQnRKWkxMdTZwV2p0V2ZoRytLZVVjU29TVERwY08xR0FBTlZW?=
+ =?utf-8?B?Tnd1T1dsd3BFcE9nQjhHSHEwS2ppZEZYVXI1blM2NjJubm9NaDh0QzROckJM?=
+ =?utf-8?Q?NtX3r13a6Qw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL3PR12MB6473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VUtxZXVWY1MydzJjRkh0TGM2dmJsdmNLQXRaRG11SU1sNy8rRWVmTXFGSjRR?=
+ =?utf-8?B?ODk5RE91bm85bzFudjh1MGxYbmtwRUtTTmxLdFZxaXhQREY3bnZpQWcvR3Bk?=
+ =?utf-8?B?ZDBZMzhVcU9yMzhuWDRtUXZUU0Y3NUs3dUN6NDlIOHFvL2w5Y2xKVmhtSFpx?=
+ =?utf-8?B?ODdlSzN0a0JBc0VBVjhSdkRRTlhWMGVNakFYVjRSVCtHM21zcVRFZXE0ZSt6?=
+ =?utf-8?B?Y1RVWEFnMDh5TjhVSkk5K2Z6cmQ5MmZEcHhra2JhYVNhOHdQUGVjYWtKYTlZ?=
+ =?utf-8?B?d0tlc3dOMHdBWW9oZnNYTnRxNGNJa0ordERGUHhEUTFuMkhwTmdvdWFsR0lv?=
+ =?utf-8?B?UTJTenFTdlo2d2huWml4UmZDckRoTXpMSkFZQnRqVDMrbTRZWEdaa0RvVmJE?=
+ =?utf-8?B?Q0dHK3VYYzN5eFgrcGgweDR5MytwQmZOZlpIZStralQxOVF6alN4ZG13M1ll?=
+ =?utf-8?B?ZVJ5c1VCNWhnUHV5Y1NZZDZUY1RBUkxGSWtsaVhzYnYvc1VVZDRZY0h5NUVH?=
+ =?utf-8?B?emY1V3N0MlNWZ2Mvekp5VlIvaFE5WTBidzc3ZWhEb3hIQWdzTVRvYS9ydUlJ?=
+ =?utf-8?B?SHk2SDhrVGVFL2F1b290QUlUem1MNWpMYk8zcHZhMzVnaEdLK1hNNU16Tito?=
+ =?utf-8?B?am5aR2FPZUZEUXphajdKd0I3QjVyNGlkZmM4dDlldXN2RDNTMUppZHk3UkUv?=
+ =?utf-8?B?SjFockp4ZUtyUFM2TCtvQkVnSUlydnpRQ3RCZ2h1R0w1dXZEUTg5Zk9UWVZn?=
+ =?utf-8?B?bTlVMCtqMGZ5ZEJsSWNpUDhEdEZmUDI4U0tJRGkxL2k0WlpzSFlMQVJZN3lJ?=
+ =?utf-8?B?T3YzREU4QmM3V1RCL1FHYi9DODF5NXRFMUljQTFaSjBEQ0ZwdnBpZkJRckVz?=
+ =?utf-8?B?WVJLcjVmRmlVWGhXcFQvMjQ1bTdoS2xzUWFRN040ek5XODZPSEFVbmtLUUth?=
+ =?utf-8?B?U3hMZlhPTitObVh1L0hnWlZoNDZocGVMVmJ4Sld4UERCeVBrUGhrQVlHSktE?=
+ =?utf-8?B?dDArQ1lzSXZLWVgrT0h3U3JlMmZ0RGVVSUdHS00vMVlFNUNkcTlHanVadTRr?=
+ =?utf-8?B?TjFFc2pRR0xYZ0g1SHhNRjlLaG9JejVhV3h5S3NRNWtCVE41dUNXajFuQ3k5?=
+ =?utf-8?B?NFFWZmtqWXV2a3licGxpR0Q0UStuTmtFdHBmc0xobEtOMmZ6UW5VMXkzZUk2?=
+ =?utf-8?B?c0V2ditkNWdyM3ljYWxpalNsQ08wT3hqOS8vZjJUbTg2VWZpUnRYalZpeS8r?=
+ =?utf-8?B?cjJ5ajF3NGZFV0RxY2VCTDlvOHFEdHIvKytSTFdGeUVHS2hqY2l2aXl3K3Iw?=
+ =?utf-8?B?OHFjMUdVUGZMK1JRSUlVeFZpRDRYQmRBNHFGVVdibHBxbDY4R1RRanR2WEhq?=
+ =?utf-8?B?YXc4NWY1YXc5Qm1kdU45SDVyOHRoWXpldGtSZGJmcndoSDBlM0s5OXJFR3pB?=
+ =?utf-8?B?d1RabnJZZk11NE1EbGZUT2UrWC9MUDRUYlNadWZycEd5d0NTbkM5NUYyOEx0?=
+ =?utf-8?B?cGNIazRuMGd0S1lGUFloTUxsbjF5K1JBNjVTbGFqWFdMN1FlcUxOYXZPNUZB?=
+ =?utf-8?B?NElRSi9RcUZnUjR1ZEo4Y2dHTTV0NW8zR1lrbGlLZ3l0NEZPbGZjbHhybjdr?=
+ =?utf-8?B?Q3JYcTRGdnJiTmQxVm5TakJudFBFcTErVjZaYVBKMW0wTzgzMExRV1I4cTBL?=
+ =?utf-8?B?Tkw5Mmx3RWVseStDODhNR2FxZGVBcDZBV0hXdWlTeHd4K3R1My9MZUcwV2JX?=
+ =?utf-8?B?TVA2RDFIeG9ZZWRTR2IrK09jQ2RudjdVYVpDSUIyUnJySGUyTEI2ZUExZlRi?=
+ =?utf-8?B?SlRhYm1QdXM3OWR4cU9qMnAxbFQvenltZjY5dSsxMXkyVXhrRXJRNXpzVFVV?=
+ =?utf-8?B?K0hrMGZSU0E2YkZHSmxUS0JhYWt1NmZreEtoY3U1bG9maWpsaUxEWnVLeEJT?=
+ =?utf-8?B?ZVRkZGMrTG1qVFN6Tk9WcUFVRExyOGIyb0NwZ04yRFMwOG85aUlKU2NTcEg5?=
+ =?utf-8?B?QndyeTBFaW1FcWlIc0lnU0FXeVZsMCtYU08rRUNJTXZLSGFGSzdFYmpaWEc5?=
+ =?utf-8?B?K0g3Vmo2aWJGelJZbXZZYXNUc3J5dUVUR1lsQ2ttd2VVRkFCMjV0Zy82Z0s0?=
+ =?utf-8?Q?FaJgdoVK3dKqpAL8l5QxMhQB1?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb430ea7-79cb-4a0e-45f7-08dd767c69ef
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR12MB6473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 09:04:48.6281
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MuRhNOtve5EadV3eYbWGDIf6XWcswBkPjDXuamD0bWExqWH4yX4uqJwONA4hwj/BHqnE4T5/5MUrnlxpl+RVdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5640
 
-On 08. 04. 25 9:03, Péter Ujfalusi wrote:
-> 
-> 
-> On 03/04/2025 22:05, Jaroslav Kysela wrote:
->> On 03. 04. 25 18:09, Takashi Iwai wrote:
->>
->>> Last but not least, the ASoC PCM core has its own DPCM state, and the
->>> trigger-SUSPEND skips the operation unless the stream has been
->>> running.  I believe that's the very starting point of the problem
->>> Peter's patch tries to address.
->>
->> Unfortunately, after all discussions, I'm not convinced about Peter's
->> patch. It smells like an workaround rather than a fix for forever. The
->> problem is there for years so we should not concentrate on a quick fix.
->>
->>>> Also, I would consider to call suspend/resume triggers (depending on a
->>>> flag like can_pause_release_stop) when the stream is paused, too. Some
->>>> drivers may want this scheme.
->>>
->>> Do you mean drivers that do share the same operation for
->>> suspend/resume and pause?
->>
->> Many drivers supporting pause may use it when we allow PAUSE -> SUSPEND
->> and SUSPEND -> PAUSE transitions.
->>
->> Something like:
->>
->> diff --git a/include/sound/pcm.h b/include/sound/pcm.h
->> index ac8f3aef9205..6d6882973883 100644
->> --- a/include/sound/pcm.h
->> +++ b/include/sound/pcm.h
->> @@ -541,6 +541,8 @@ struct snd_pcm {
->>          bool internal; /* pcm is for internal use only */
->>          bool nonatomic; /* whole PCM operations are in non-atomic
->> context */
->>          bool no_device_suspend; /* don't invoke device PM suspend */
->> +       bool do_suspend_and_resume_in_pause; /* allow direct PAUSED ->
->> SUSPENDED and
->> +                                               SUSPENDED -> PAUSED
->> transitions */
-> 
-> I think the issue is bit different than this.
-> What needs to be flagged is that the driver is not treating the PAUSE
-> trigger in the same way as it treats the STOP or SUSPEND, in other
-> worlds, the PAUSED state is not equal to STOPPED/SUSPENDED.
-> 
-> If the PAUSED state is equal to SUSPENDED state, then the trigger could
-> be skipped (as it is ignored before my patch unconditionally), but if
-> the two states are not equal then the SUSPEND must be sent, but the
-> patches from me and Takashi-san stil can be used as fallback in case the
-> RESUME is not supported as in that case the driver will certainly not
-> going to be able to resume to PAUSE_RESUME, so stopping a stream in that
- > case is appropriate.
+Hi,
 
-The question is if the fallback is required when we had this issue for years. 
-Using only a new trigger - to not release pause but directly do stop from the 
-pause state - is acceptable for me. It should be easy to fix affected drivers. 
-But on other side, the allowing state transitions (and even multiple triggers 
-for finer driver notifications) may have also benefits for drivers.
+This patch should be a V1 and the "changes in v2" were based upon an 
+initial internal review.
 
-> Side note: I think we might also have broken case when we stop a PAUSED
-> stream if the driver's PAUSED state is not equal to STOPPED/SUSPENDED.
-> It is just that applications never do this, at least I ave never seen a
-> missing STOP trigger. aplay is doing a pause release before stop at least.
+Please let me know if the change should be re-sent as V1.
 
-Aplay implementation is just about simplicity. The pause is handled in one 
-routine which releases pause at the end. When the file descriptor is closed,
-snd_pcm_drop() is called and the pause is released there, too. Logically, it's 
-not 100% correct thing. We know that we want to stop stream before the pause 
-release is called.
 
-					Jaroslav
-
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+On 08-04-2025 14:00, Sheetal . wrote:
+> From: Sheetal <sheetal@nvidia.com>
+>
+> The hw_params() function for BE DAI was being called multiple times due
+> to an unnecessary SND_SOC_DPCM_STATE_HW_PARAMS state check.
+>
+> Remove the redundant state check to ensure hw_params() is called only once
+> per BE DAI configuration.
+>
+> Signed-off-by: Sheetal <sheetal@nvidia.com>
+> ---
+> Changes in v2:
+> - Update commit message as its not a fix.
+> - Marked as RFC patch as it requires feedback from other users
+>    perspective as well.
+> - The patch is being sent separately as other patch is not RFC.
+>
+>   sound/soc/soc-pcm.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+> index d7f6d3a6d312..c73be27c4ecb 100644
+> --- a/sound/soc/soc-pcm.c
+> +++ b/sound/soc/soc-pcm.c
+> @@ -2123,7 +2123,6 @@ int dpcm_be_dai_hw_params(struct snd_soc_pcm_runtime *fe, int stream)
+>   			continue;
+>   
+>   		if ((be->dpcm[stream].state != SND_SOC_DPCM_STATE_OPEN) &&
+> -		    (be->dpcm[stream].state != SND_SOC_DPCM_STATE_HW_PARAMS) &&
+>   		    (be->dpcm[stream].state != SND_SOC_DPCM_STATE_HW_FREE))
+>   			continue;
+>   
