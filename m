@@ -1,150 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8F4264A88
-	for <linux-sound@vger.kernel.org>; Tue,  8 Apr 2025 09:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C092721CC47
+	for <linux-sound@vger.kernel.org>; Tue,  8 Apr 2025 09:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744105449; cv=none; b=OvyonozQYGSszybinKRvuTX3kqCqZ9OFjwifddf67WF0m6eajJTKMHjxVngZmFGGfUTw0/VPeQaf41sDyYud9s5jib5nSTDcdAzcIXaotIspz54eWszzwn8xB8L+uBCxciTvJmxt1MhyNgu7NTkMCJ4vEH9TLI4dU9l6EXs7Ny4=
+	t=1744105711; cv=none; b=k8duOAdo/uwkAy3t7DPM05gvd1/UcZenb7RS1TSOxdlREk4VZP4kCo4Lw3VqPvAsMaLPTPuuK/TVDazJ76oNzlWuhxmOT46qe2PNr3EDr200R9/tFzKIL3UZk67eR9NumCWfF9Qnc7Zyuy5lauQtykQRl9fqYFzxYOJIGAOipsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744105449; c=relaxed/simple;
-	bh=n6G7AjsoQcR++01gNulEmXLHUtsHDKIY44kSn2/eNbE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q090PRVqOYFxDsuKOU7ZSDSjWB5ZDn3fQYmv+9tlnDYAncpa8NHIgU5+wnsmkG3HygzsNg+mEI5jykyEJf1AA8KF5JwBv+2pp4QqOghYxaOcO/DXnqO2fl+r0oL8hauwLluRGDYNa+n+bRRxz9rAmsv4ypDUQ+eu9cZk5hgXeHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEmY6dom; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1744105711; c=relaxed/simple;
+	bh=1tcn5YM3V1EN0dH3NP+h6meAAgLlohiWeDuKnz5ae78=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K4v3u65f7lOu8UaUy2kw7FIz2+8nQ90Rp4WlrgUlmsgvytNqrq26tyxMmN+8QzHeYPw53ThXDgsPaX0lxB2HEJo/w8q+s0zvAfksFSf89LbCG70y2CSBA5b5Tx7vO0Od8xCJdlo2L+AFuey47N4VJ7thxBNkl7pEFhRQ/9ReF2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VXeuypuj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PltLtXaC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VXeuypuj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PltLtXaC; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEmY6dom"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744105448; x=1775641448;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=n6G7AjsoQcR++01gNulEmXLHUtsHDKIY44kSn2/eNbE=;
-  b=hEmY6domlR0GosOsj6aNJckymBUd9bQ2l8ESGEQtU1ibS1+30J9UU8+K
-   vFEacVRbg/p0YTtwjj3Sru0+cLUbtmGRelTqIHIpLt75KlmgSspfWTWGI
-   nkN2WAoWSSww2FdIhplDR2/T5b1a9yV6suq2G2GEEJdxCkdPHMeGwNYXY
-   KioHPEEMi58snpXV1tYOetdUPZ4Fx7nohFB/eK4hVXiyUlXd/R0iETvjx
-   QT0YNV+OV4mhSwsRzzvtBUu58OXNQszoLoQ+x+xBFQYSnEe136irF3jBb
-   iGwcx1N8yiBk1yrySao26S+Yl/p0QlGB3pbjLbvWkmmE0zRcnDlnFpJn2
-   Q==;
-X-CSE-ConnectionGUID: mBOftEnfSHm1E3wwyaqriw==
-X-CSE-MsgGUID: bylEdpuhS6SVhNDecq/BBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44668879"
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="44668879"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 02:44:07 -0700
-X-CSE-ConnectionGUID: BbJg7EjDT8O9UEhHLSrXCw==
-X-CSE-MsgGUID: prdIu1/nQWWbiQ07Scp9vQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="151402757"
-Received: from unknown (HELO [10.245.248.64]) ([10.245.248.64])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 02:44:04 -0700
-Message-ID: <2f456ffa-72f0-4efd-be26-f96249d2d1ee@linux.intel.com>
-Date: Tue, 8 Apr 2025 12:45:00 +0300
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VXeuypuj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PltLtXaC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VXeuypuj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PltLtXaC"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BD7F321179;
+	Tue,  8 Apr 2025 09:48:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744105696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zHVmlIsJMw3pRtlkeC0rl7d/IrCkO2vExM9C4gD0NRY=;
+	b=VXeuypujefj9yRC08jaBs3LHccB4Rfsjz1soIgI81uj7mwNGYjJV8wFACGFyIbd1qtaeyX
+	jf5ipOfLsy41yNRcPeWP7OO2+eSsK6bRpNzKoFo7zOpYFC/L4X/y0fYEMvEufqXwiL/ZQM
+	sM8m55EuXyc7qUcVU8Uu1eGlFPQAZJI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744105696;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zHVmlIsJMw3pRtlkeC0rl7d/IrCkO2vExM9C4gD0NRY=;
+	b=PltLtXaCbO9/0LddHxUn/qkGJhsyRNeHx3aa0mQi7qyiVhRhW4toTkW5SS+cWWCYIrWp0K
+	5coEKLe1YoCYUfDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744105696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zHVmlIsJMw3pRtlkeC0rl7d/IrCkO2vExM9C4gD0NRY=;
+	b=VXeuypujefj9yRC08jaBs3LHccB4Rfsjz1soIgI81uj7mwNGYjJV8wFACGFyIbd1qtaeyX
+	jf5ipOfLsy41yNRcPeWP7OO2+eSsK6bRpNzKoFo7zOpYFC/L4X/y0fYEMvEufqXwiL/ZQM
+	sM8m55EuXyc7qUcVU8Uu1eGlFPQAZJI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744105696;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zHVmlIsJMw3pRtlkeC0rl7d/IrCkO2vExM9C4gD0NRY=;
+	b=PltLtXaCbO9/0LddHxUn/qkGJhsyRNeHx3aa0mQi7qyiVhRhW4toTkW5SS+cWWCYIrWp0K
+	5coEKLe1YoCYUfDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A3BE313A1E;
+	Tue,  8 Apr 2025 09:48:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PV92J+Dw9GfEagAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 08 Apr 2025 09:48:16 +0000
+Date: Tue, 08 Apr 2025 11:48:12 +0200
+Message-ID: <87bjt7asrn.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: xiaopeitux@foxmail.com
+Cc: ivan.orlov0322@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	Pei Xiao <xiaopei01@kylinos.cn>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] ALSA: kunit: fix build warning in test_card_set_id
+In-Reply-To: <871pu4c74t.wl-tiwai@suse.de>
+References: <tencent_7F01F2D14BF724692ECBF5346283DB9BCA05@qq.com>
+	<871pu4c74t.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: pcm: Release paused streams before suspend if
- resume is not supported
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, tiwai@suse.com,
- linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
-References: <20250401133652.11617-1-peter.ujfalusi@linux.intel.com>
- <87r02cym1c.wl-tiwai@suse.de> <9e7d5b08-c983-49aa-8076-062d02848da2@perex.cz>
- <87jz83ztn7.wl-tiwai@suse.de> <206300d0-839a-40e9-975e-e58ac689315c@perex.cz>
- <87h637znpp.wl-tiwai@suse.de> <35d35586-4ffb-4d97-963e-a57323f634d3@perex.cz>
- <8734eryn21.wl-tiwai@suse.de> <ad064c22-320f-401a-b173-36a5df6df0ed@perex.cz>
- <87v7rmylc5.wl-tiwai@suse.de> <d4169edb-1dcc-4eef-9f3e-9b8c93cdc648@perex.cz>
- <87o6xeyfkk.wl-tiwai@suse.de>
- <69c52779-ef90-45c5-a024-77f0030bf5cd@linux.intel.com>
- <87jz82ye7b.wl-tiwai@suse.de>
- <8878feb6-362a-4541-91fb-318aea1c0870@linux.intel.com>
- <87o6xe7l4q.wl-tiwai@suse.de>
- <51bf9695-1f70-4749-b70a-2ed4af8c4be7@linux.intel.com>
- <871pu95oon.wl-tiwai@suse.de> <2bc811f1-7fbd-45f1-924e-e6241dcef537@perex.cz>
- <87plht447q.wl-tiwai@suse.de> <b9d457b9-4645-4876-b6a1-82bb658a3b8f@perex.cz>
- <d084dff6-6a25-4f84-879c-15c108c9c141@linux.intel.com>
- <0cada872-b247-49f4-9684-b168a7425956@perex.cz>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <0cada872-b247-49f4-9684-b168a7425956@perex.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[foxmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[foxmail.com,gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,vger.kernel.org,kylinos.cn,intel.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-
-
-On 08/04/2025 11:51, Jaroslav Kysela wrote:
->>>          bool no_device_suspend; /* don't invoke device PM suspend */
->>> +       bool do_suspend_and_resume_in_pause; /* allow direct PAUSED ->
->>> SUSPENDED and
->>> +                                               SUSPENDED -> PAUSED
->>> transitions */
->>
->> I think the issue is bit different than this.
->> What needs to be flagged is that the driver is not treating the PAUSE
->> trigger in the same way as it treats the STOP or SUSPEND, in other
->> worlds, the PAUSED state is not equal to STOPPED/SUSPENDED.
->>
->> If the PAUSED state is equal to SUSPENDED state, then the trigger could
->> be skipped (as it is ignored before my patch unconditionally), but if
->> the two states are not equal then the SUSPEND must be sent, but the
->> patches from me and Takashi-san stil can be used as fallback in case the
->> RESUME is not supported as in that case the driver will certainly not
->> going to be able to resume to PAUSE_RESUME, so stopping a stream in that
->> case is appropriate.
+On Mon, 07 Apr 2025 17:40:18 +0200,
+Takashi Iwai wrote:
 > 
-> The question is if the fallback is required when we had this issue for
-> years.
-
-This discussion is a proof that we might want.
-We ended up disabling testing the suspend while paused case entirely for
-quite some time and I could only get it working with my RFC attempt
-before Takashi-san suggestion to do this in core level.
-
-I agree that this is a rare corner case, more academic than not, users
-will likely not going to face with as none of the audio servers use
-pause so the chances that the system goes suspend while audio is paused
-is close to zero.
-
-> Using only a new trigger - to not release pause but directly do
-> stop from the pause state - is acceptable for me. It should be easy to
-> fix affected drivers. But on other side, the allowing state transitions
-> (and even multiple triggers for finer driver notifications) may have
-> also benefits for drivers.
+> On Mon, 07 Apr 2025 11:21:36 +0200,
+> xiaopeitux@foxmail.com wrote:
+> > 
+> > From: Pei Xiao <xiaopei01@kylinos.cn>
+> > 
+> > build W=1 warning:
+> > sound/core/sound_kunit.c: In function 'test_card_set_id':
+> >    include/linux/printk.h:455:44: warning: '%s' directive argument is null [-Wformat-overflow=]
+> > 
+> > Fix -Wformat-overflow warning when card->id could be NULL.
+> > The kunit_info() call with "%s" format specifier may receive a NULL
+> > pointer from card->id. Add a ternary conditional to safely handle
+> > potential NULL values by substituting "(null)" when card->id is NULL.
+> > 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202504050922.ZzbkiojG-lkp@intel.com/
+> > Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
 > 
->> Side note: I think we might also have broken case when we stop a PAUSED
->> stream if the driver's PAUSED state is not equal to STOPPED/SUSPENDED.
->> It is just that applications never do this, at least I ave never seen a
->> missing STOP trigger. aplay is doing a pause release before stop at
->> least.
+> Thanks, applied now.  I added Fixes tag manually
+> (Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test"))
 > 
-> Aplay implementation is just about simplicity. The pause is handled in
-> one routine which releases pause at the end. When the file descriptor is
-> closed,
-> snd_pcm_drop() is called and the pause is released there, too.
-> Logically, it's not 100% correct thing. We know that we want to stop
-> stream before the pause release is called.
+> But at the next time, please try to put the proper Fixes tag.
 
-The assumption is that PAUSED == STOPPED == SUSPENDED is not correct
-either. This is not true for some drivers or devices.
-I would go as far as to say that most drivers are mishandling the PAUSE
-as stop, they likely cannot resume from the exact place where the pause
-taken - they stop and if they have FIFO, they drop that as well...
+... and as 0day bot spotted out, this fix is bogus.
+snd_card.id is an embedded array, and can be never NULL.
 
-> 
->                     Jaroslav
-> 
+I drop the patch now.
 
--- 
-Péter
 
+Takashi
