@@ -1,135 +1,144 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6884220A5CA
-	for <linux-sound@vger.kernel.org>; Tue,  8 Apr 2025 08:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E58216605
+	for <linux-sound@vger.kernel.org>; Tue,  8 Apr 2025 08:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744099630; cv=none; b=hwdftWHfSNxt/G1td2SzIP69JwRIl7COj/Lf9RjQH36jNNQQVAcC0qUP2SN4YfxnfRG/aYqQYdB0tr+SrtpayE8XyVHhPTYX0CWTljsp847Zil62CI7ElJvlbYfDSh2yPIcHd9Tr6+mXSJA6f3rWg/Uj2LZQjiE3BUNdfLto6U8=
+	t=1744099651; cv=none; b=YxM8cwu9eFnCbC67ID4YOcM2iV18E17FA3vDoDuqftLMHJNxEgI2ATwewSosyYJBlYzdqkePGc9mbcEBAyVrfHydCJyo+L5xE+hp3goyxLiQXWVFYIcNaI5mXgXbfDczvLfqWoVS+uzlY4dlhew5MC1UdejCrb3Niqq9D0WHJPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744099630; c=relaxed/simple;
-	bh=81DIvzHm272W+Uvegob1uaM/nwjpUzZ4zHxrneVBgXo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VUP/k1U4JiSbjBdONxm26u1CNWGD1ufWxA5OiCG+pE9F4KHNwqygAN5usR4ROgbAOZUg80GYJrykOpiOmo7YzqDWFEGJzpLg/MrA3U2ysXtCFwua9VevpS7R4UXGOna+Pu4O+v8C516NweEl9c92FzTREmcGmTue7v+o4VqPJps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-527a2b89a11so27837e0c.2
-        for <linux-sound@vger.kernel.org>; Tue, 08 Apr 2025 01:07:08 -0700 (PDT)
+	s=arc-20240116; t=1744099651; c=relaxed/simple;
+	bh=k9CSGfDZYhat9A7hNdYkbf5OXkvSJrxO9ZA3cNbzaCo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DU8nQoUD3eJxTJX0xagINARgjvQbJcLupR6xVkMvCOKACtZMyVmfwamtg9ooWyb5dZBV2ue1dPqTi6eARBm4+ldq3iTfKYuXwTAYHUa1jZ82qFYn4OI47P11kh+krmrmPZFWdhIYquujRAOLAdOqMXDn3MB5Zp2SJdCpFUzCrx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EBPT1YTL; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EBPT1YTL"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cf034d4abso56403065e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 08 Apr 2025 01:07:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744099648; x=1744704448; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WSDEwc7QWvNnjNYSgC4m4TCyiYUs1psSSUJ0e9qdFNY=;
+        b=EBPT1YTLzyh+CU+bPbQyUw6ybXSipZWvoqLNVEp9WhoDErABX4womSpXpQkSjMBSDC
+         KJkYPRyYCnyEguKQfDV6MFjcjYPv8/LSiC8uhf2oI7Fss7IG6/j12MKg4iyvcNrSst01
+         C4PEc6pL3eVb0YAGosqyRFNsDq9uHcWmrWkuC0JSdlES7yqtok/4N38qPp3oGf/hEtFi
+         aMDVvNYDmiMdII/Wz7mEwTeHuFu25p3xl063Ojlf6HRmu/d3LrRd2gbgl9BDGgVgZ3tH
+         EP88bG15UpPiFLI3xAnVStSN3XEuEITkUBrKWyQIM/hf9m/nTH/HA8lDlRj4Eda6EHB1
+         trXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744099626; x=1744704426;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0VhWGqh6Ms5UGTXz5eQwEut0Hx1Hvu86Ut80B8NWsco=;
-        b=OgD900l6mCcNTjdEP9BSUNUxPTLfCkcFqMqHKYKQ0YH3RWVfcEkV7080r6JU/BRiXg
-         +Z6jLeWU+ItVchGpGXHZFCW5O539Yf09MNNDt5sM39ERC5z/FMkxEIjzzas9b6Gm3wvx
-         MZKL9txpsvxvWOeqC8I+nLub7bVrprf8szwRrtrKEHqikn+l/cVsNadXqzxhyQSxg5Q9
-         VjIdOv+buOhlzJUtkayLuBtzhOway4hIMLrI4hsP47xmNgLkyJKjxF6z2bA9f/dW3eSS
-         b01cbS7ewM48MfE/mRDXGNTSodI4grU+6kFl9ZEjIwAo0oPNLJ7cDIFZTAh9gqqmWPMs
-         bYfA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1cbazNRtSjTtwne20foYXFaPcWVXXAox1vqhkBaa99izjLjaihPU9VBXdWO0Hxx2BWxyW2VFud4o+pw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAkgCnbx8g4XvTLDYd8XUh4BcugKj2JggOD0T+j5ziAcxxskqN
-	mXTPCjnUXHIPTnCrcohqhcM039x8KVZj6OUacGsfwiVJfvFvNsXyTbmFoBTc
-X-Gm-Gg: ASbGncsCHxShLoevcwLlRlzLqC0Imr2Xi5w3LmP8NPD8fWfxvgyay1iJz6WY6t8OQBk
-	pqe5USNi6+6sbzcqpRfwf5+87ZhMtBSoDiHJo5kBp3YdbSSAREWkkKGSqgtU0kdYIMptdj8XZj1
-	V2Un8XDwwDTUkR5rJ2p0XboUhUCt0ju4+KO9e/ayp0w9W2qXYVCGul4GYdxtp4iSbYJBplLLzl9
-	F7PEGJmfSmFwav4Nrpt4yZ5JDi/S7CSQugG3THRV4FlPwQpWkJhEJ4rJNirjzpiWnmasfjmLtlC
-	glrGf+jwVWb19WGGTdFn2mX08du9tAl3WlUnnqC8zc2O4itfsVH8z8T3MBIv6TR3g0NDZ/Q/5ul
-	rAk0A5tieu/U=
-X-Google-Smtp-Source: AGHT+IFxa6MuCqQtheFp7W4x68Eiwns3HVnk1CDG9qCayaqEd/E6RlQUo+Pve7AVJa+yMQUMX1r3DQ==
-X-Received: by 2002:a05:6122:8d2:b0:523:e175:4af1 with SMTP id 71dfb90a1353d-5277308100emr7610372e0c.6.1744099626594;
-        Tue, 08 Apr 2025 01:07:06 -0700 (PDT)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-873caac68f5sm229982241.32.2025.04.08.01.07.06
-        for <linux-sound@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1744099648; x=1744704448;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WSDEwc7QWvNnjNYSgC4m4TCyiYUs1psSSUJ0e9qdFNY=;
+        b=vY3QKnxdpw5zpKQnvYr1zRWS0Mf6LSnAzKRVlNe51oU/9iXzunyzlqhEFwmvEw117h
+         voejzf+mtXY5lmbufQEeqLg0o2nF4hve1mXlqVtWc8oeNXAB0dfJ/HivVzPM5ZbIoqwG
+         AE0euwFNwGEhGeL1BdTkb5nKDnpaAU+XmU8mLguRPhO01Pe1NyWZ5z8h9wwvHvIuFS+g
+         iFHRc1QHr0T20YwBeux5C6JJ6Ov9Frh9j31NPZASu1LAjtRovHrCPBJpb1eZgEpE0VjF
+         lG1qdp+IR0rmm/fuEssNBwLSM+UeYwZBbWuJeki6R61H9ywK5SlbWzXFaz7DZien6I+7
+         oSig==
+X-Forwarded-Encrypted: i=1; AJvYcCUwCZbrP1/l7ReqhIVCnNfAq8BUlQhlrfdc17biQ+wgwakQKMic7NMkpZjWpD/NW3a1LGDqFZLIW10CBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUpthY9QZzEhDBC7PhZcIwd+mBINBXGDV54/Dj6QPb4OO+GJK+
+	OGiNmrNO2PkYM/efZA4DMkac9z4O1EsIzY9HLCuhJsEeBcXUqYi1sqou0jyX16k=
+X-Gm-Gg: ASbGncsqkvJrMVna3OVy04ibO2szAhLgVrmjguYH1ukKs4CIsYrSSvaJA+iYqUTRD6f
+	WrOrl+OaNdmceaRxEiiKRQUQu2tf0OhhsT0OH993xU2PiljhtW/msM8ePx81MlEMC8xWiGT7mCZ
+	Zbjngznhgutdw4tdZolEBKADXkdVs5SQaRwFX9ao6lNCH9Wnp0AxpzaUE8m9ArhOULYxFDtpcR9
+	74tFlKzfYS7pkAQ1PSIhOsv31WjWXMHjIZHSp0YHsAXRbmML+CiZhOgTn/v9gg9XW6RbUBeNDsh
+	QbzVFWmWapOTpPqKYC1Amx0F5zuGm54MJ9N92fXz73tV0c2Hl16gK4iuICGzyVnejDt7Qmn0uA=
+	=
+X-Google-Smtp-Source: AGHT+IFDiZ0cnV2ayvj8DA4Rl4xGe57ExDt/t21NR6kpjVQ87p06SQ/qaCpf+bTExejAD5z/3aBKUw==
+X-Received: by 2002:a05:600c:9a5:b0:43c:f78d:82eb with SMTP id 5b1f17b1804b1-43f115eb698mr9593075e9.15.1744099648109;
+        Tue, 08 Apr 2025 01:07:28 -0700 (PDT)
+Received: from [192.168.68.117] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-43ec17b0dbesm156568955e9.33.2025.04.08.01.07.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Apr 2025 01:07:06 -0700 (PDT)
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5259327a937so2203694e0c.0
-        for <linux-sound@vger.kernel.org>; Tue, 08 Apr 2025 01:07:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVLbD7J9uwWMnKe2C1mMzwxLiprsB/IOl/IVwrqFU/9RCenHaTcep/W72CT1mom9vH7QStIyELKXunu+A==@vger.kernel.org
-X-Received: by 2002:a05:6122:1819:b0:520:42d3:91b7 with SMTP id
- 71dfb90a1353d-52772ee52demr6722525e0c.1.1744099626123; Tue, 08 Apr 2025
- 01:07:06 -0700 (PDT)
+        Tue, 08 Apr 2025 01:07:27 -0700 (PDT)
+Message-ID: <7222bbbd-51f7-43b6-9755-29808833cf5f@linaro.org>
+Date: Tue, 8 Apr 2025 09:07:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87a58roatw.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87a58roatw.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 8 Apr 2025 10:06:53 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUstYeHPP10BC0fORWfWSH+qzCqQNzaoumj2w91tCyB4Q@mail.gmail.com>
-X-Gm-Features: ATxdqUHAJy-ddHQj52GRYtr_h9TUKt3xyjh4v-xxMUAC6sYvkm-b4U3duGRzF0A
-Message-ID: <CAMuHMdUstYeHPP10BC0fORWfWSH+qzCqQNzaoumj2w91tCyB4Q@mail.gmail.com>
-Subject: Re: [PATCH v2] ASoC: hdmi-codec: use RTD ID instead of DAI ID for ELD entry
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, 
-	Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/5] ASoC: q6apm: add q6apm_get_hw_pointer helper
+To: Johan Hovold <johan@kernel.org>
+Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, johan+linaro@kernel.org, stable@vger.kernel.org
+References: <20250314174800.10142-1-srinivas.kandagatla@linaro.org>
+ <20250314174800.10142-3-srinivas.kandagatla@linaro.org>
+ <Z_O2RhwYp6iy02cM@hovoldconsulting.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <Z_O2RhwYp6iy02cM@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Morimoto-san,
+Thanks Johan,
 
-On Tue, 8 Apr 2025 at 00:39, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> commit 0ecd24a6d8b2 ("ASoC: hdmi-codec: dump ELD through procfs") adds
-> "eld#%d" entry for sound proc. It is using DAI ID. But it is possible to
-> have duplicate DAI ID on same Sound Card. In such case, we will get below
-> error. To avoid duplicate entry name, use RTD ID instead of DAI ID.
->
->         proc_dir_entry 'card0/eld#0' already registered
->         WARNING: CPU: 3 PID: 74 at fs/proc/generic.c:377 proc_register+0x11c/0x1a4
->         Modules linked in:
->         CPU: 3 UID: 0 PID: 74 Comm: kworker/u33:5 Not tainted 6.14.0-rc1-next-20250206-arm64-renesas #174
->         Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
->         Workqueue: events_unbound deferred_probe_work_func
->         pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->         pc : proc_register+0x11c/0x1a4
->         ata1: SATA link down (SStatus 0 SControl 300)
->         lr : proc_register+0x11c/0x1a4
->         sp : ffff8000847db880
->         x29: ffff8000847db880 x28: 0000000000000000 x27: ffff0004c3403c98
->         x26: 0000000000000005 x25: ffff0004c14b03e4 x24: 0000000000000005
->         x23: ffff0004c361adb8 x22: ffff800082f24860 x21: ffff0004c361ad00
->         x20: ffff0004c14b0300 x19: ffff0004c14b02c0 x18: 00000000ffffffff
->         x17: 0000000000000000 x16: 00400034b5503510 x15: ffff8001047db447
->         x14: 0000000000000000 x13: 6465726574736967 x12: ffff800082e66d30
->         x11: 000000000000028e x10: ffff800082e66d30 x9 : 00000000ffffefff
->         x8 : ffff800082ebed30 x7 : 0000000000017fe8 x6 : 0000000000000000
->         x5 : 80000000fffff000 x4 : 0000000000000000 x3 : 0000000000000000
->         x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0004c15b3600
->         Call trace:
->          proc_register+0x11c/0x1a4 (P)
->          proc_create_data+0x3c/0x60
->          snd_info_register+0xd0/0x130
->          snd_info_register+0x30/0x130
->          snd_info_card_register+0x1c/0xbc
->          snd_card_register+0x194/0x1ec
->          snd_soc_bind_card+0x7f8/0xad0
->          snd_soc_register_card+0xe8/0xfc
->          devm_snd_soc_register_card+0x48/0x98
->          audio_graph_parse_of+0x1c4/0x1f8
->          graph_probe+0x6c/0x80
->         ...
->
-> Fixes: 0ecd24a6d8b2 ("ASoC: hdmi-codec: dump ELD through procfs")
-> Reported-by: Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Tested-by: Thuan Nguyen <thuan.nguyen-hong@banvien.com.vn>
-> Acked-by: Mark Brown <broonie@kernel.org>
+On 07/04/2025 12:25, Johan Hovold wrote:
+> Hi Srini,
+> 
+> On Fri, Mar 14, 2025 at 05:47:57PM +0000, Srinivas Kandagatla wrote:
+>> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>>
+>> Implement an helper function in q6apm to be able to read the current
+>> hardware pointer for both read and write buffers.
+>>
+>> This should help q6apm-dai to get the hardware pointer consistently
+>> without it doing manual calculation, which could go wrong in some race
+>> conditions.
+>   
+>> +int q6apm_get_hw_pointer(struct q6apm_graph *graph, int dir)
+>> +{
+>> +	struct audioreach_graph_data *data;
+>> +
+>> +	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
+>> +		data = &graph->rx_data;
+>> +	else
+>> +		data = &graph->tx_data;
+>> +
+>> +	return (int)atomic_read(&data->hw_ptr);
+>> +}
+>> +EXPORT_SYMBOL_GPL(q6apm_get_hw_pointer);
+> 
+>> @@ -553,6 +567,8 @@ static int graph_callback(struct gpr_resp_pkt *data, void *priv, int op)
+>>   		rd_done = data->payload;
+>>   		phys = graph->tx_data.buf[hdr->token].phys;
+>>   		mutex_unlock(&graph->lock);
+>> +		/* token numbering starts at 0 */
+>> +		atomic_set(&graph->tx_data.hw_ptr, hdr->token + 1);
+>>   
+>>   		if (upper_32_bits(phys) == rd_done->buf_addr_msw &&
+>>   		    lower_32_bits(phys) == rd_done->buf_addr_lsw) {
+> 
+> 			graph->result.opcode = hdr->opcode;
+>                          graph->result.status = rd_done->status;
+>                          if (graph->cb)
+>                                  graph->cb(client_event, hdr->token, data->payload, graph->priv);
+>                  } else {
+>                          dev_err(dev, "RD BUFF Unexpected addr %08x-%08x\n", rd_done->buf_addr_lsw,
+>                                  rd_done->buf_addr_msw);
+>                  }
+> 
+> I just hit the following error on the T14s with 6.15-rc1 that I've never
+> seen before and which looks like it could be related to this series:
+Its unlikely, but the timings have changed here.
+I have not seen it either, but I will try to reproduce this with 6.15-rc1.
+> 
+> 	q6apm-dai 6800000.remoteproc:glink-edge:gpr:service@1:dais: RD BUFF Unexpected addr ffe0d200-00000001
+> 
+> Any ideas about what may be causing this?
+How easy is this to reproduce?
 
-Thanks, this fixes the issue!
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--srini
+> 
+> Johan
