@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A3425DAE3
-	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 10:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E08F25DAEF
+	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 10:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744195886; cv=none; b=NRTjNjECoDtjapg1s0/2ONAbPSmivAaBy9uYqgP/ziMDRAJPhGFZJzMN2Thz4a/ajRFECPo8aZ6Rz4t/jG0fbsQwb1/skfuynwcDV4JEF0+aLdo644+DAgZ9EHgRWdi8cIx7ZOU4uxKGM519pyRanHAKulUjGmV1nhi7GyIBfCo=
+	t=1744195888; cv=none; b=m+3Bcb5WSUuNmPqRCFwuKhejO+wwnKL3OkQnKWvL58ZQP1DPMXioKimoqMDjfoZE5gJy0RjKxzMXC8jSxuh23usAOkPr0aGn6cx1KAY7XVPx30rlvnJ8jnmT/HxFL9xjT5x9B7OKcpU7ran40KsGO12Ot5KT6J9FLb4YuEi5q90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744195886; c=relaxed/simple;
-	bh=zCc1I/rsU18c5TSxaIaapvgK+iNm2ZW99PbX2aByn6k=;
+	s=arc-20240116; t=1744195888; c=relaxed/simple;
+	bh=05EWgN9JvZt5KZ6BNyQfi9CE29UQOn5kp7B83WEMT4w=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XimIsyJl3UpLZeAsp/K9RBg0JhdL9AEiY+wLUZd0v0X8BcGf7JghHZEutocQXppLUZKdNaLRrDUvXfigXQFl9KWAmOJC95BuW98apkRHSDLw07gByqwmlXAK/xcmLgbXYJzFvEE4xJpLASWv+qZNv+1PfGJZmGW/brz9QAIn7q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UStQwVx/; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=nyX5W5h5K4Vd5AAEceYvxSMboInLXD//+gNnxeUfn7zyY6KCrJWLDQcxokvUFuI/baImn7dED3HekGzJ46XHZHk3aJl6JCY/oR1dg6z5y5gUqhG885cLHFcqkjoyDNsE0gw6K9MkrkntwYblSHT8hUeSxD3g5bTDHsfZxYkXzoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hp6VF3JP; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UStQwVx/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hp6VF3JP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744195884; x=1775731884;
+  t=1744195887; x=1775731887;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=zCc1I/rsU18c5TSxaIaapvgK+iNm2ZW99PbX2aByn6k=;
-  b=UStQwVx/d7YkM8I9TxQ03YkcfprYGdJU4EUwZXFmmSeXdy9EA1BR8Ret
-   ToS0jIvR/FSbyb+/HcUVT3g7TuWi2/zkol6sQhtIzQBywq20B+XmEjHdj
-   N2cehPeQYXrPwX7KJLMcjSb0kHFX3Z2mYmPH/VGuXDRc033TjNpTMgLya
-   EPyYD4A9gcNdPlKQNs6h106uWx/EIk2Q6Qe8G/YpOcsP+32u+K/NJnF6V
-   ZRBxZLKHZ6Mf8pdt/9Tr38TrtpOwv8VQcOa+mu7ZyWx3lkpBY7yp6PVjm
-   2I+gMj+Fjt1A8U0B5dIwNzxOROHxtoocdmqYDr9qAs/ziedQodN2YzQ/8
+  bh=05EWgN9JvZt5KZ6BNyQfi9CE29UQOn5kp7B83WEMT4w=;
+  b=hp6VF3JPjZnh+FiekgXKh6vWC8YJYCmYISROorwNwmeSB+lVFxgkINen
+   KMxoDDX1p+f/BDvLvSc9sm/ICWPKR4wBdQnVgTSc785h6bB+e9PQPkXs+
+   r0PyopLbKr4YoPFVDdpdYr4BQkphqIuPlcHEnwoGcm8u76AIeBnmm3tHh
+   o9g57m81SB+Vi/nL4xkzdAFJ/TPZeQCVxt7fKojhJLjhnoH4Soum1BCyb
+   yZLadKtiXiYJBnQUNuvKYG3BQWXKyZFgYw38sF6HJ2QO2Uuf57SFYv8NG
+   KfKMiZMfxwF1LakLEKCZjylE5eRa3j8bnH8f0cBGjo0MBbvWVZAPNLJbb
    A==;
-X-CSE-ConnectionGUID: d/iEP9zWTaCLrDRWokBfkA==
-X-CSE-MsgGUID: 3PkzllXVR4WKRsgoTGaB2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45380107"
+X-CSE-ConnectionGUID: WoNgVsBqSXWwHFsp76gI+A==
+X-CSE-MsgGUID: RlEyAJVUQgqsxZIU6qoSig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45380115"
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="45380107"
+   d="scan'208";a="45380115"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:51:24 -0700
-X-CSE-ConnectionGUID: YG/ZEH1CRLWeu1920aSLkQ==
-X-CSE-MsgGUID: HIt+Fuv0QGG+SdipEavfPg==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:51:27 -0700
+X-CSE-ConnectionGUID: jsppskMcRXSjTrYYzGFDBQ==
+X-CSE-MsgGUID: qUHT+kJ9RFa4Qonu0aoG9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="133426248"
+   d="scan'208";a="133426252"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa003.jf.intel.com with ESMTP; 09 Apr 2025 03:51:22 -0700
+  by orviesa003.jf.intel.com with ESMTP; 09 Apr 2025 03:51:25 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.com,
@@ -53,9 +53,9 @@ Cc: amadeuszx.slawinski@linux.intel.com,
 	quic_wcheng@quicinc.com,
 	mathias.nyman@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [RFC 11/15] ALSA: usb: Export usb_interface driver operations
-Date: Wed,  9 Apr 2025 13:07:26 +0200
-Message-Id: <20250409110731.3752332-12-cezary.rojewski@intel.com>
+Subject: [RFC 12/15] ALSA: usb: Export card-naming procedure
+Date: Wed,  9 Apr 2025 13:07:27 +0200
+Message-Id: <20250409110731.3752332-13-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250409110731.3752332-1-cezary.rojewski@intel.com>
 References: <20250409110731.3752332-1-cezary.rojewski@intel.com>
@@ -67,214 +67,183 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Existing usb_driver operations can be reused by component-drivers on the
-ASoC side.
-
-ASoC embraces modular approach and it is entirely acceptable for
-component to be unbound while the USB device is still plugged in. In
-such case, PCM list built when scanning USB interfaces can be kept
-intact to avoid scanning the device a second time when the component is
-probed again. Add snd_usb_release_resources() to cover that scenario.
+USB sound card features customized naming procedure. For ALSA and ASoC
+drivers to share UseCaseManagement (UCM) configuration files, it is best
+if the naming is aligned between the two.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- include/sound/usb.h |  8 +++++
- sound/usb/card.c    | 88 +++++++++++++++++++++++++++++++++++++++------
- 2 files changed, 85 insertions(+), 11 deletions(-)
+ include/sound/usb.h |  1 +
+ sound/usb/card.c    | 78 ++++++++++++++++++++++-----------------------
+ 2 files changed, 39 insertions(+), 40 deletions(-)
 
 diff --git a/include/sound/usb.h b/include/sound/usb.h
-index daba868fb6e0..fbcfa2b985f7 100644
+index fbcfa2b985f7..b20badfda6a6 100644
 --- a/include/sound/usb.h
 +++ b/include/sound/usb.h
-@@ -90,11 +90,19 @@ struct snd_usb_audio {
- 	struct snd_intf_to_ctrl intf_to_ctrl[MAX_CARD_INTERFACES];
+@@ -91,6 +91,7 @@ struct snd_usb_audio {
  };
  
-+void snd_usb_release_resources(struct snd_usb_audio *chip);
+ void snd_usb_release_resources(struct snd_usb_audio *chip);
++void snd_usb_make_card_names(struct snd_usb_audio *chip, char *shortname, char *longname);
  int snd_usb_bind_card(struct snd_usb_audio *chip, struct snd_card *card,
  		      struct usb_driver *driver);
  int snd_usb_bind_pcm(struct list_head *stream_entry, struct snd_pcm *pcm);
- void snd_usb_pcm_hw_init(struct list_head *stream_entry, int dir, struct snd_pcm_hardware *hw);
- 
-+/* USB interface operations, see struct usb_driver. */
-+int snd_usb_probe(struct usb_interface *iface, const struct usb_device_id *usb_id,
-+		  struct usb_driver *driver);
-+void snd_usb_disconnect(struct usb_interface *iface);
-+int snd_usb_suspend(struct usb_interface *intf, pm_message_t message);
-+int snd_usb_resume(struct usb_interface *intf);
-+
- /* PCM operations, see struct snd_pcm_ops. */
- int snd_usb_pcm_open(struct snd_pcm_substream *substream);
- int snd_usb_pcm_close(struct snd_pcm_substream *substream);
 diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 354bf76988ab..a4bd8ba6a26c 100644
+index a4bd8ba6a26c..20a77e63a7eb 100644
 --- a/sound/usb/card.c
 +++ b/sound/usb/card.c
-@@ -773,7 +773,8 @@ static void snd_usb_chip_free(struct snd_usb_audio *chip)
+@@ -525,103 +525,102 @@ lookup_device_name(u32 id)
+ 	return NULL;
  }
  
- /* Must be called under register_mutex due to usb_chip[] manipulation. */
--static void snd_usb_chip_release(struct snd_usb_audio *chip, struct usb_interface *iface)
-+static void snd_usb_chip_release(struct snd_usb_audio *chip, struct usb_interface *iface,
-+				 bool free_card)
+-static void usb_audio_make_shortname(struct usb_device *dev,
+-				     struct snd_usb_audio *chip,
+-				     const struct snd_usb_audio_quirk *quirk)
++static void snd_usb_make_card_shortname(struct snd_usb_audio *chip, char *shortname)
  {
- 	chip->num_interfaces--;
- 	chip->intf[chip->num_interfaces] = NULL;
-@@ -781,7 +782,7 @@ static void snd_usb_chip_release(struct snd_usb_audio *chip, struct usb_interfac
+-	struct snd_card *card = chip->card;
+ 	const struct usb_audio_device_name *preset;
++	struct usb_device *udev = chip->dev;
+ 	const char *s = NULL;
  
- 	if (!chip->num_interfaces) {
- 		usb_chip[chip->index] = NULL;
--		if (chip->card)
-+		if (free_card && chip->card)
- 			snd_card_free(chip->card);
- 		snd_usb_chip_free(chip);
+ 	preset = lookup_device_name(chip->usb_id);
+ 	if (preset && preset->product_name)
+ 		s = preset->product_name;
+-	else if (quirk && quirk->product_name)
+-		s = quirk->product_name;
++	else if (chip->quirk && chip->quirk->product_name)
++		s = chip->quirk->product_name;
+ 	if (s && *s) {
+-		strscpy(card->shortname, s, sizeof(card->shortname));
++		strscpy(shortname, s, sizeof_field(struct snd_card, shortname));
+ 		return;
  	}
-@@ -1018,10 +1019,18 @@ static int snd_usb_probe_unlocked(struct usb_interface *iface, const struct usb_
- 		goto err;
- 	return 0;
- err:
--	snd_usb_chip_release(chip, iface);
-+	snd_usb_chip_release(chip, iface, false);
- 	return ret;
+ 
+ 	/* retrieve the device string as shortname */
+-	if (!dev->descriptor.iProduct ||
+-	    usb_string(dev, dev->descriptor.iProduct,
+-		       card->shortname, sizeof(card->shortname)) <= 0) {
++	if (!udev->descriptor.iProduct ||
++	    usb_string(udev, udev->descriptor.iProduct,
++		       shortname, sizeof_field(struct snd_card, shortname)) <= 0) {
+ 		/* no name available from anywhere, so use ID */
+-		sprintf(card->shortname, "USB Device %#04x:%#04x",
++		sprintf(shortname, "USB Device %#04x:%#04x",
+ 			USB_ID_VENDOR(chip->usb_id),
+ 			USB_ID_PRODUCT(chip->usb_id));
+ 	}
+ 
+-	strim(card->shortname);
++	strim(shortname);
  }
  
-+int snd_usb_probe(struct usb_interface *iface, const struct usb_device_id *usb_id,
-+		  struct usb_driver *driver)
-+{
-+	guard(mutex)(&register_mutex);
-+	return snd_usb_probe_unlocked(iface, usb_id, driver);
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_probe);
-+
- int snd_usb_bind_card(struct snd_usb_audio *chip, struct snd_card *card,
- 		      struct usb_driver *driver)
+-static void usb_audio_make_longname(struct usb_device *dev,
+-				    struct snd_usb_audio *chip,
+-				    const struct snd_usb_audio_quirk *quirk)
++void snd_usb_make_card_names(struct snd_usb_audio *chip, char *shortname, char *longname)
  {
-@@ -1140,15 +1149,59 @@ static int usb_audio_probe(struct usb_interface *iface, const struct usb_device_
+-	struct snd_card *card = chip->card;
+ 	const struct usb_audio_device_name *preset;
++	struct usb_device *udev = chip->dev;
+ 	const char *s = NULL;
+ 	int len;
  
- err_no_register:
- 	atomic_dec(&chip->active);
--	snd_usb_chip_release(chip, iface);
-+	snd_usb_chip_release(chip, iface, true);
- 	return ret;
++	snd_usb_make_card_shortname(chip, shortname);
++
+ 	preset = lookup_device_name(chip->usb_id);
+ 
+ 	/* shortcut - if any pre-defined string is given, use it */
+ 	if (preset && preset->profile_name)
+ 		s = preset->profile_name;
+ 	if (s && *s) {
+-		strscpy(card->longname, s, sizeof(card->longname));
++		strscpy(longname, s, sizeof_field(struct snd_card, longname));
+ 		return;
+ 	}
+ 
+ 	if (preset && preset->vendor_name)
+ 		s = preset->vendor_name;
+-	else if (quirk && quirk->vendor_name)
+-		s = quirk->vendor_name;
+-	*card->longname = 0;
++	else if (chip->quirk && chip->quirk->vendor_name)
++		s = chip->quirk->vendor_name;
++	*longname = 0;
+ 	if (s && *s) {
+-		strscpy(card->longname, s, sizeof(card->longname));
++		strscpy(longname, s, sizeof_field(struct snd_card, longname));
+ 	} else {
+ 		/* retrieve the vendor and device strings as longname */
+-		if (dev->descriptor.iManufacturer)
+-			usb_string(dev, dev->descriptor.iManufacturer,
+-				   card->longname, sizeof(card->longname));
++		if (udev->descriptor.iManufacturer)
++			usb_string(udev, udev->descriptor.iManufacturer,
++				   longname, sizeof_field(struct snd_card, longname));
+ 		/* we don't really care if there isn't any vendor string */
+ 	}
+-	if (*card->longname) {
+-		strim(card->longname);
+-		if (*card->longname)
+-			strlcat(card->longname, " ", sizeof(card->longname));
++	if (*longname) {
++		strim(longname);
++		if (*longname)
++			strlcat(longname, " ", sizeof_field(struct snd_card, longname));
+ 	}
+ 
+-	strlcat(card->longname, card->shortname, sizeof(card->longname));
++	strlcat(longname, shortname, sizeof_field(struct snd_card, longname));
+ 
+-	len = strlcat(card->longname, " at ", sizeof(card->longname));
++	len = strlcat(longname, " at ", sizeof_field(struct snd_card, longname));
+ 
+-	if (len < sizeof(card->longname))
+-		usb_make_path(dev, card->longname + len, sizeof(card->longname) - len);
++	if (len < sizeof_field(struct snd_card, longname))
++		usb_make_path(udev, longname + len, sizeof_field(struct snd_card, longname) - len);
+ 
+-	switch (snd_usb_get_speed(dev)) {
++	switch (snd_usb_get_speed(udev)) {
+ 	case USB_SPEED_LOW:
+-		strlcat(card->longname, ", low speed", sizeof(card->longname));
++		strlcat(longname, ", low speed", sizeof_field(struct snd_card, longname));
+ 		break;
+ 	case USB_SPEED_FULL:
+-		strlcat(card->longname, ", full speed", sizeof(card->longname));
++		strlcat(longname, ", full speed", sizeof_field(struct snd_card, longname));
+ 		break;
+ 	case USB_SPEED_HIGH:
+-		strlcat(card->longname, ", high speed", sizeof(card->longname));
++		strlcat(longname, ", high speed", sizeof_field(struct snd_card, longname));
+ 		break;
+ 	case USB_SPEED_SUPER:
+-		strlcat(card->longname, ", super speed", sizeof(card->longname));
++		strlcat(longname, ", super speed", sizeof_field(struct snd_card, longname));
+ 		break;
+ 	case USB_SPEED_SUPER_PLUS:
+-		strlcat(card->longname, ", super speed plus", sizeof(card->longname));
++		strlcat(longname, ", super speed plus", sizeof_field(struct snd_card, longname));
+ 		break;
+ 	default:
+ 		break;
+ 	}
  }
++EXPORT_SYMBOL_GPL(snd_usb_make_card_names);
  
-+/**
-+ * snd_usb_release_resources - Release resources occupied by USB AC device
-+ *
-+ * @chip: Driver context for the USB AC device
-+ *
-+ * Note: PCMs and endpoints created when scanning USB interface descriptors
-+ * are not freed here.  That information is static and can be used to re-create
-+ * PCMs without the need to scan the interfaces again.
-+ *
-+ * Compared to usb_disconnect(), this does free midi2.0 resources.
-+ */
-+void snd_usb_release_resources(struct snd_usb_audio *chip)
-+{
-+	struct usb_mixer_interface *mixer;
-+	struct list_head *midi_entry;
-+	struct snd_usb_endpoint *ep;
-+	struct snd_usb_stream *as;
-+
-+	/* release the pcm resources */
-+	list_for_each_entry(as, &chip->pcm_list, list)
-+		snd_usb_stream_disconnect(as);
-+
-+	/* release the endpoint resources */
-+	list_for_each_entry(ep, &chip->ep_list, list)
-+		snd_usb_endpoint_release(ep);
-+
-+	/* release the midi resources */
-+	list_for_each(midi_entry, &chip->midi_list)
-+		snd_usbmidi_disconnect(midi_entry);
-+
-+	snd_usb_midi_v2_disconnect_all(chip);
-+	snd_usb_midi_v2_free_all(chip);
-+	/*
-+	 * snd_media_device_delete() accesses mixer_list, do it
-+	 * before releasing mixers.
-+	 */
-+	snd_media_device_delete(chip);
-+
-+	/* release mixer resources */
-+	list_for_each_entry(mixer, &chip->mixer_list, list)
-+		snd_usb_mixer_disconnect(mixer);
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_release_resources);
-+
- /*
-  * we need to take care of counter, since disconnection can be called also
-  * many times as well as usb_audio_probe().
-  */
--static void usb_audio_disconnect(struct usb_interface *intf)
-+static void usb_disconnect(struct usb_interface *intf, bool free_card)
- {
- 	struct snd_usb_audio *chip = usb_get_intfdata(intf);
- 	struct snd_card *card;
-@@ -1196,10 +1249,21 @@ static void usb_audio_disconnect(struct usb_interface *intf)
- 	if (chip->quirk_flags & QUIRK_FLAG_DISABLE_AUTOSUSPEND)
- 		usb_enable_autosuspend(interface_to_usbdev(intf));
+ /* look for a matching quirk alias id */
+ static bool get_alias_id(struct usb_device *dev, unsigned int *id)
+@@ -1058,8 +1057,7 @@ static int snd_usb_create_card(struct snd_usb_audio *chip, struct usb_interface
  
--	snd_usb_chip_release(chip, intf);
-+	snd_usb_chip_release(chip, intf, free_card);
- 	mutex_unlock(&register_mutex);
- }
- 
-+static void usb_audio_disconnect(struct usb_interface *iface)
-+{
-+	usb_disconnect(iface, true);
-+}
-+
-+void snd_usb_disconnect(struct usb_interface *iface)
-+{
-+	usb_disconnect(iface, false);
-+}
-+EXPORT_SYMBOL_GPL(snd_usb_disconnect);
-+
- /* lock the shutdown (disconnect) task and autoresume */
- int snd_usb_lock_shutdown(struct snd_usb_audio *chip)
- {
-@@ -1264,7 +1328,7 @@ void snd_usb_autosuspend(struct snd_usb_audio *chip)
- 		usb_autopm_put_interface(chip->intf[i]);
- }
- 
--static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
-+int snd_usb_suspend(struct usb_interface *intf, pm_message_t message)
- {
- 	struct snd_usb_audio *chip = usb_get_intfdata(intf);
- 	struct snd_usb_stream *as;
-@@ -1294,8 +1358,9 @@ static int usb_audio_suspend(struct usb_interface *intf, pm_message_t message)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(snd_usb_suspend);
- 
--static int usb_audio_resume(struct usb_interface *intf)
-+int snd_usb_resume(struct usb_interface *intf)
- {
- 	struct snd_usb_audio *chip = usb_get_intfdata(intf);
- 	struct snd_usb_stream *as;
-@@ -1343,6 +1408,7 @@ static int usb_audio_resume(struct usb_interface *intf)
- 	atomic_dec(&chip->active); /* allow autopm after this point */
- 	return err;
- }
-+EXPORT_SYMBOL_GPL(snd_usb_resume);
- 
- static const struct usb_device_id usb_audio_ids [] = {
- #include "quirks-table.h"
-@@ -1361,9 +1427,9 @@ static struct usb_driver usb_audio_driver = {
- 	.name =		"snd-usb-audio",
- 	.probe =	usb_audio_probe,
- 	.disconnect =	usb_audio_disconnect,
--	.suspend =	usb_audio_suspend,
--	.resume =	usb_audio_resume,
--	.reset_resume =	usb_audio_resume,
-+	.suspend =	snd_usb_suspend,
-+	.resume =	snd_usb_resume,
-+	.reset_resume =	snd_usb_resume,
- 	.id_table =	usb_audio_ids,
- 	.supports_autosuspend = 1,
- };
+ 	chip->card = card;
+ 	strscpy(card->driver, "USB-Audio", sizeof(card->driver));
+-	usb_audio_make_shortname(udev, chip, chip->quirk);
+-	usb_audio_make_longname(udev, chip, chip->quirk);
++	snd_usb_make_card_names(chip, card->shortname, card->longname);
+ 	sprintf(component, "USB%04x:%04x", usb_device_vid(udev), usb_device_pid(udev));
+ 	snd_component_add(card, component);
+ 	snd_usb_audio_create_proc(chip);
 -- 
 2.25.1
 
