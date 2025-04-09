@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA9C25D8F6
-	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 10:51:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E98E25E441
+	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 10:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744195865; cv=none; b=m2FdysfG6IcHCvs+8Vr882XbhaQom2IVukOYeA0kkPC/epi1wPuTqN2m3lhwi/mtpXQ2+hgtHuQGEX+0dhV/FShnZHTPR5cjGZq0JfXoxvPGqQ7HttYcGOB8cs+ACE2q5n0yIr4Xzac4WzS1kCJcP4VjvXwJ+VzeN90i4AFj5z0=
+	t=1744195868; cv=none; b=lox1WtGm92DkG78pElPHALMTADzvrEPwQA7ovzKk0lUhFuLN8RylsHHYI++yDXoIwGGbvNK3wFB5eDjyBqtBQi6gHYGxVz6YIod7FWZ2KQBEwcAf3ThpPAGOtg3CxLVGyBizfW8mnJwjdSQSerC79hzOmNs1QWp1FMMDpNIlHKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744195865; c=relaxed/simple;
-	bh=y3D+xY5AicFp52/KRIcFbt0Ng3QFmhpvHu4leKLRReQ=;
+	s=arc-20240116; t=1744195868; c=relaxed/simple;
+	bh=m5qAflhwIe44jRryTmRvCNbU5P54YAc94YTF92NjS+c=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MUqVYwEgKidVrbTCUQifQI44B/pIxOyDQe7kmMRaBBHt0qBai08gj8GFUgKIxT+E8y1E/er7B9ntgy3l4J8MsA+QZ0cmVmHPPJq7PfUScc6egN4qeeZ3ZlDImjuruFC2zbCV8DY5cOOIMpMZ6artq8qTrRo6l3PUYY4WMR88ebE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=icyxISyC; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=ZBBJ4miKcJP1hOznj2mEfgZ5E/rjESMMretvu4Shp35S/lBk3giZUImPROBuZTFcJxz6XAxTVHkuXzN375qv852DDB2DPyZLT8vHBG61IeRBvsRJHyeFLwY5zXBWfo27xxMAV5NS8mSCnO94htMqrm+wNr4Vm3Wx82nnK/g8Kbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxHwcWRn; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="icyxISyC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxHwcWRn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744195863; x=1775731863;
+  t=1744195866; x=1775731866;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=y3D+xY5AicFp52/KRIcFbt0Ng3QFmhpvHu4leKLRReQ=;
-  b=icyxISyCPT2OJT2RJfn6ZgPX55OSeWWRMWjMP4KxkG049J7Opy6lcH6j
-   U5RPamyXLCdNUYIzAF39UJ+jOVr2R+raB0Kei4WtUDGY2XuTbJB03mrUN
-   jXAGxQVmB5g4O17twRmg7WiIxx6Hzu34BIpxlxoybPC1+NLmhriYv2OgW
-   JtoPr3o7/mcJfyq7EApnlRFweGezGXEwTjNoLjHy+2jP4PbrARsBtOw6x
-   F2HmpTCKg+D4etireIZzGj+9G43sGStCHqEwzQMfdrelUclxu8xJidhes
-   6Bt7QiYciptLn9LeUghv7QPAXt0VRGf/Q+zElNJ2t5jyq1XH6LETdhHC/
-   w==;
-X-CSE-ConnectionGUID: awU5u3uQQh612DXP8EPJcQ==
-X-CSE-MsgGUID: e5IlSC9DQLufxKZm6UR04A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45380040"
+  bh=m5qAflhwIe44jRryTmRvCNbU5P54YAc94YTF92NjS+c=;
+  b=DxHwcWRn2GUQ0b8vG3q5FiZ21M8S/QWfiPUFAOdmMVNFg4eK+n59TTz2
+   nHUgH5Pgj3LWWXrTyHEl3VWoydF16rtY9VDtzKfvEIvMgOs5vlrvqyNoT
+   HKPEfSGdSUKkzN03iurORZKvojgpNcQgUZsVW04Ziq2iQOgqAGEj35nAQ
+   fLAjmvXNE1qBKUXlJ2eMo5mjkzIY/fZnsX6ZZYF23007jZFcaria9So2I
+   Oq6GDm83G9wQxYRE0nBsU4EsdxbvtFBcjyPOEmxmFS0WWJ1U7Ds82lrEt
+   dwm0gFqeAt/g7MAkpCsXvcm1SOu4Ksf0fKkEermMdXMFXUIIWdQpr/RLR
+   A==;
+X-CSE-ConnectionGUID: O8A5ynJQT2+r20Ur6bPI9w==
+X-CSE-MsgGUID: YhHGcqxJSkG7AtuGnPpOVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45380049"
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="45380040"
+   d="scan'208";a="45380049"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:51:03 -0700
-X-CSE-ConnectionGUID: /mEr5S69T1KgdMbrvnFwfQ==
-X-CSE-MsgGUID: TJsWCBu+TLenmatsyb0gIQ==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:51:06 -0700
+X-CSE-ConnectionGUID: 2/fZRr4VQLasS2ca0EqEVw==
+X-CSE-MsgGUID: +yP3sNT9T0+Pud7CqfpCWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="133426193"
+   d="scan'208";a="133426202"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa003.jf.intel.com with ESMTP; 09 Apr 2025 03:51:01 -0700
+  by orviesa003.jf.intel.com with ESMTP; 09 Apr 2025 03:51:03 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.com,
@@ -53,9 +53,9 @@ Cc: amadeuszx.slawinski@linux.intel.com,
 	quic_wcheng@quicinc.com,
 	mathias.nyman@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [RFC 03/15] ALSA: usb: Relocate the usbaudio header file
-Date: Wed,  9 Apr 2025 13:07:18 +0200
-Message-Id: <20250409110731.3752332-4-cezary.rojewski@intel.com>
+Subject: [RFC 04/15] ALSA: usb: Implement two-stage quirk applying mechanism
+Date: Wed,  9 Apr 2025 13:07:19 +0200
+Message-Id: <20250409110731.3752332-5-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250409110731.3752332-1-cezary.rojewski@intel.com>
 References: <20250409110731.3752332-1-cezary.rojewski@intel.com>
@@ -67,512 +67,325 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For ALSA and ASoC to share the symbols, common header shall be defined.
-Existing usbaudio.h holds most of important stuff, with few adjustments
-it can be simply relocated to include/ to satisfy needs of both
-frameworks. The adjstments are:
+The USB Audio-Class (AC) device driver on ASoC side needs to know the
+number of available PCM streams when creating list of DAI and DAI Links
+before these objects are actually probed. To achieve that split existing
+USB stream enumeration procedure from one-stage to two-stage process:
 
-- rename quirk_type enumeration to snd_usb_quirk_type to avoid naming
-  conflits
-- add quirk pointer so that quirks applied for a USB device can later be
-  referred to
+1) parse the descriptors and obtain information about PCMs but do not
+   create them yet
+2) create all PCMs based on the previously obtained information and
+   follow that up with MIDIs, mixers and Media resources
+
+On quirks side this translates to splitting all handlers that do combine
+pcm/midi/mixer together into 'pcm-only' and 'others'. A top level
+handler snd_usb_parse_pcms_quirk() is provided to invoke all the
+necessary parse-pcm quirks depending on the quirk type. It mimics
+behavior of snd_usb_create_quirk() but limits itself to just parsing the
+PCMs.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/usb/usbaudio.h => include/sound/usb.h | 24 +++++++++++----------
- sound/usb/caiaq/device.h                    |  2 +-
- sound/usb/card.c                            |  2 +-
- sound/usb/clock.c                           |  2 +-
- sound/usb/endpoint.c                        |  2 +-
- sound/usb/format.c                          |  2 +-
- sound/usb/helper.c                          |  2 +-
- sound/usb/implicit.c                        |  2 +-
- sound/usb/media.c                           |  2 +-
- sound/usb/midi.c                            |  2 +-
- sound/usb/midi.h                            |  2 ++
- sound/usb/midi2.c                           |  2 +-
- sound/usb/midi2.h                           |  1 +
- sound/usb/misc/ua101.c                      |  2 +-
- sound/usb/mixer.c                           |  2 +-
- sound/usb/mixer_quirks.c                    |  2 +-
- sound/usb/mixer_s1810c.c                    |  2 +-
- sound/usb/mixer_scarlett.c                  |  2 +-
- sound/usb/mixer_scarlett2.c                 |  2 +-
- sound/usb/mixer_us16x08.c                   |  2 +-
- sound/usb/pcm.c                             |  2 +-
- sound/usb/power.c                           |  2 +-
- sound/usb/proc.c                            |  2 +-
- sound/usb/quirks.c                          |  2 +-
- sound/usb/quirks.h                          |  2 ++
- sound/usb/stream.c                          |  2 +-
- sound/usb/usx2y/us122l.c                    |  2 +-
- sound/usb/usx2y/usX2Yhwdep.c                |  1 +
- sound/usb/usx2y/usbusx2y.h                  |  2 +-
- sound/usb/validate.c                        |  2 +-
- 30 files changed, 44 insertions(+), 36 deletions(-)
- rename sound/usb/usbaudio.h => include/sound/usb.h (98%)
+ sound/usb/quirks.c | 217 ++++++++++++++++++++++++++++++++++++---------
+ sound/usb/quirks.h |   4 +
+ 2 files changed, 179 insertions(+), 42 deletions(-)
 
-diff --git a/sound/usb/usbaudio.h b/include/sound/usb.h
-similarity index 98%
-rename from sound/usb/usbaudio.h
-rename to include/sound/usb.h
-index 158ec053dc44..7e7a86b5c9c4 100644
---- a/sound/usb/usbaudio.h
-+++ b/include/sound/usb.h
-@@ -1,6 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0-or-later */
--#ifndef __USBAUDIO_H
--#define __USBAUDIO_H
-+#ifndef __SOUND_USB_H
-+#define __SOUND_USB_H
-+
- /*
-  *   (Tentative) USB Audio Driver for ALSA
-  *
-@@ -21,6 +22,14 @@ struct media_intf_devnode;
- 
- #define MAX_CARD_INTERFACES	16
- 
-+struct snd_usb_audio_quirk {
-+	const char *vendor_name;
-+	const char *product_name;
-+	int16_t ifnum;
-+	uint16_t type;
-+	const void *data;
-+};
-+
- /*
-  * Structure holding assosiation between Audio Control Interface
-  * and given Streaming or Midi Interface.
-@@ -37,6 +46,7 @@ struct snd_usb_audio {
- 	struct usb_interface *intf[MAX_CARD_INTERFACES];
- 	u32 usb_id;
- 	uint16_t quirk_type;
-+	const struct snd_usb_audio_quirk *quirk;
- 	struct mutex mutex;
- 	unsigned int system_suspend;
- 	atomic_t active;
-@@ -99,7 +109,7 @@ struct snd_usb_audio {
- #define QUIRK_NO_INTERFACE		-2
- #define QUIRK_ANY_INTERFACE		-1
- 
--enum quirk_type {
-+enum snd_usb_quirk_type {
- 	QUIRK_IGNORE_INTERFACE,
- 	QUIRK_COMPOSITE,
- 	QUIRK_AUTODETECT,
-@@ -124,14 +134,6 @@ enum quirk_type {
- 	QUIRK_TYPE_COUNT
- };
- 
--struct snd_usb_audio_quirk {
--	const char *vendor_name;
--	const char *product_name;
--	int16_t ifnum;
--	uint16_t type;
--	const void *data;
--};
--
- #define combine_word(s)    ((*(s)) | ((unsigned int)(s)[1] << 8))
- #define combine_triple(s)  (combine_word(s) | ((unsigned int)(s)[2] << 16))
- #define combine_quad(s)    (combine_triple(s) | ((unsigned int)(s)[3] << 24))
-diff --git a/sound/usb/caiaq/device.h b/sound/usb/caiaq/device.h
-index 743eb0387b5f..2346dc8209c9 100644
---- a/sound/usb/caiaq/device.h
-+++ b/sound/usb/caiaq/device.h
-@@ -2,7 +2,7 @@
- #ifndef CAIAQ_DEVICE_H
- #define CAIAQ_DEVICE_H
- 
--#include "../usbaudio.h"
-+#include <sound/usb.h>
- 
- #define USB_VID_NATIVEINSTRUMENTS 0x17cc
- 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 65de8e7854b6..d8794adb7a88 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -40,8 +40,8 @@
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
- #include <sound/initval.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "card.h"
- #include "midi.h"
- #include "midi2.h"
-diff --git a/sound/usb/clock.c b/sound/usb/clock.c
-index 842ba5b801ea..fa5bc7b8c79c 100644
---- a/sound/usb/clock.c
-+++ b/sound/usb/clock.c
-@@ -14,8 +14,8 @@
- #include <sound/core.h>
- #include <sound/info.h>
- #include <sound/pcm.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "card.h"
- #include "helper.h"
- #include "clock.h"
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index a29f28eb7d0c..bdd2b75ebfed 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -12,8 +12,8 @@
- #include <sound/core.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "helper.h"
- #include "card.h"
- #include "endpoint.h"
-diff --git a/sound/usb/format.c b/sound/usb/format.c
-index 6049d957694c..1fa1711980ad 100644
---- a/sound/usb/format.c
-+++ b/sound/usb/format.c
-@@ -11,8 +11,8 @@
- 
- #include <sound/core.h>
- #include <sound/pcm.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "card.h"
- #include "quirks.h"
- #include "helper.h"
-diff --git a/sound/usb/helper.c b/sound/usb/helper.c
-index 72b671fb2c84..2e4da52f8d8e 100644
---- a/sound/usb/helper.c
-+++ b/sound/usb/helper.c
-@@ -5,8 +5,8 @@
- #include <linux/init.h>
- #include <linux/slab.h>
- #include <linux/usb.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "helper.h"
- #include "quirks.h"
- 
-diff --git a/sound/usb/implicit.c b/sound/usb/implicit.c
-index 4727043fd745..fd0b23e7d92e 100644
---- a/sound/usb/implicit.c
-+++ b/sound/usb/implicit.c
-@@ -11,8 +11,8 @@
- #include <sound/core.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "card.h"
- #include "helper.h"
- #include "pcm.h"
-diff --git a/sound/usb/media.c b/sound/usb/media.c
-index b175fa820345..7060410fd1c6 100644
---- a/sound/usb/media.c
-+++ b/sound/usb/media.c
-@@ -24,8 +24,8 @@
- 
- #include <sound/pcm.h>
- #include <sound/core.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "card.h"
- #include "mixer.h"
- #include "media.h"
-diff --git a/sound/usb/midi.c b/sound/usb/midi.c
-index 767f1948cc5a..53d327ee8014 100644
---- a/sound/usb/midi.c
-+++ b/sound/usb/midi.c
-@@ -54,7 +54,7 @@
- #include <sound/control.h>
- #include <sound/rawmidi.h>
- #include <sound/asequencer.h>
--#include "usbaudio.h"
-+#include <sound/usb.h>
- #include "midi.h"
- #include "power.h"
- #include "helper.h"
-diff --git a/sound/usb/midi.h b/sound/usb/midi.h
-index 2100f1486b03..bf3561652ba8 100644
---- a/sound/usb/midi.h
-+++ b/sound/usb/midi.h
-@@ -2,6 +2,8 @@
- #ifndef __USBMIDI_H
- #define __USBMIDI_H
- 
-+#include <sound/usb.h>
-+
- /* maximum number of endpoints per interface */
- #define MIDI_MAX_ENDPOINTS 2
- 
-diff --git a/sound/usb/midi2.c b/sound/usb/midi2.c
-index 692dfc3c182f..f1d925b74692 100644
---- a/sound/usb/midi2.c
-+++ b/sound/usb/midi2.c
-@@ -18,7 +18,7 @@
- #include <sound/core.h>
- #include <sound/control.h>
- #include <sound/ump.h>
--#include "usbaudio.h"
-+#include <sound/usb.h>
- #include "midi.h"
- #include "midi2.h"
- #include "helper.h"
-diff --git a/sound/usb/midi2.h b/sound/usb/midi2.h
-index 94a65fcbd58b..3e66531d5e80 100644
---- a/sound/usb/midi2.h
-+++ b/sound/usb/midi2.h
-@@ -2,6 +2,7 @@
- #ifndef __USB_AUDIO_MIDI2_H
- #define __USB_AUDIO_MIDI2_H
- 
-+#include <sound/usb.h>
- #include "midi.h"
- 
- #if IS_ENABLED(CONFIG_SND_USB_AUDIO_MIDI_V2)
-diff --git a/sound/usb/misc/ua101.c b/sound/usb/misc/ua101.c
-index 4f6b20ed29dd..454587cdcad7 100644
---- a/sound/usb/misc/ua101.c
-+++ b/sound/usb/misc/ua101.c
-@@ -13,7 +13,7 @@
- #include <sound/initval.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
--#include "../usbaudio.h"
-+#include <sound/usb.h>
- #include "../midi.h"
- 
- MODULE_DESCRIPTION("Edirol UA-101/1000 driver");
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index e2e0ddf1957d..f95da9368921 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -43,8 +43,8 @@
- #include <sound/hwdep.h>
- #include <sound/info.h>
- #include <sound/tlv.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "mixer.h"
- #include "helper.h"
- #include "mixer_quirks.h"
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 23fcd680167d..54d16e0f8ac4 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -29,8 +29,8 @@
- #include <sound/hwdep.h>
- #include <sound/info.h>
- #include <sound/tlv.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "mixer.h"
- #include "mixer_quirks.h"
- #include "mixer_scarlett.h"
-diff --git a/sound/usb/mixer_s1810c.c b/sound/usb/mixer_s1810c.c
-index fac4bbc6b275..d95edb1dc4d0 100644
---- a/sound/usb/mixer_s1810c.c
-+++ b/sound/usb/mixer_s1810c.c
-@@ -18,8 +18,8 @@
- #include <linux/slab.h>
- #include <sound/core.h>
- #include <sound/control.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "mixer.h"
- #include "mixer_quirks.h"
- #include "helper.h"
-diff --git a/sound/usb/mixer_scarlett.c b/sound/usb/mixer_scarlett.c
-index ff548041679b..f31718caa679 100644
---- a/sound/usb/mixer_scarlett.c
-+++ b/sound/usb/mixer_scarlett.c
-@@ -124,8 +124,8 @@
- #include <sound/core.h>
- #include <sound/control.h>
- #include <sound/tlv.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "mixer.h"
- #include "helper.h"
- #include "power.h"
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 7f595c1752a5..a3866e9dd1ac 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -158,10 +158,10 @@
- #include <sound/control.h>
- #include <sound/tlv.h>
- #include <sound/hwdep.h>
-+#include <sound/usb.h>
- 
- #include <uapi/sound/scarlett2.h>
- 
--#include "usbaudio.h"
- #include "mixer.h"
- #include "helper.h"
- 
-diff --git a/sound/usb/mixer_us16x08.c b/sound/usb/mixer_us16x08.c
-index 20ac32635f1f..bdceb3b38689 100644
---- a/sound/usb/mixer_us16x08.c
-+++ b/sound/usb/mixer_us16x08.c
-@@ -11,8 +11,8 @@
- 
- #include <sound/core.h>
- #include <sound/control.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "mixer.h"
- #include "helper.h"
- 
-diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
-index 08bf535ed163..ea698f061af9 100644
---- a/sound/usb/pcm.c
-+++ b/sound/usb/pcm.c
-@@ -13,8 +13,8 @@
- #include <sound/core.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "card.h"
- #include "quirks.h"
- #include "endpoint.h"
-diff --git a/sound/usb/power.c b/sound/usb/power.c
-index 66bd4daa68fd..ad847aadb4fb 100644
---- a/sound/usb/power.c
-+++ b/sound/usb/power.c
-@@ -8,8 +8,8 @@
- #include <linux/usb/audio.h>
- #include <linux/usb/audio-v2.h>
- #include <linux/usb/audio-v3.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "helper.h"
- #include "power.h"
- 
-diff --git a/sound/usb/proc.c b/sound/usb/proc.c
-index e9bbaea7b2fa..b7e898722ff4 100644
---- a/sound/usb/proc.c
-+++ b/sound/usb/proc.c
-@@ -8,8 +8,8 @@
- #include <sound/core.h>
- #include <sound/info.h>
- #include <sound/pcm.h>
-+#include <sound/usb.h>
- 
--#include "usbaudio.h"
- #include "helper.h"
- #include "card.h"
- #include "endpoint.h"
 diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 8ba0aff8be2e..2a9470ef8b5f 100644
+index 2a9470ef8b5f..4e402c6406a9 100644
 --- a/sound/usb/quirks.c
 +++ b/sound/usb/quirks.c
-@@ -13,8 +13,8 @@
- #include <sound/core.h>
- #include <sound/info.h>
- #include <sound/pcm.h>
-+#include <sound/usb.h>
+@@ -28,7 +28,36 @@
+ #include "stream.h"
  
--#include "usbaudio.h"
- #include "card.h"
- #include "mixer.h"
- #include "mixer_quirks.h"
+ /*
+- * handle the quirks for the contained interfaces
++ * First run of composite quirk. Parses all PCM interfaces.
++ * These can be later created with snd_usb_add_pcms().
++ */
++static int create_composite_pcm_quirk(struct snd_usb_audio *chip,
++				      struct usb_interface *iface,
++				      struct usb_driver *driver,
++				      const struct snd_usb_audio_quirk *quirk_comp)
++{
++	int probed_ifnum = get_iface_desc(iface->altsetting)->bInterfaceNumber;
++	const struct snd_usb_audio_quirk *quirk;
++	int err;
++
++	for (quirk = quirk_comp->data; quirk->ifnum >= 0; ++quirk) {
++		iface = usb_ifnum_to_if(chip->dev, quirk->ifnum);
++		if (!iface)
++			continue;
++		if (quirk->ifnum != probed_ifnum &&
++		    usb_interface_claimed(iface))
++			continue;
++		err = snd_usb_parse_pcms_quirk(chip, iface, driver, quirk);
++		if (err < 0)
++			return err;
++	}
++
++	return 0;
++}
++
++/*
++ * Second run of composite quirk. Creates all non-PCM interfaces and
++ * claims the usb_interface @iface.
+  */
+ static int create_composite_quirk(struct snd_usb_audio *chip,
+ 				  struct usb_interface *iface,
+@@ -375,6 +404,25 @@ static int create_auto_midi_quirk(struct snd_usb_audio *chip,
+ 	return create_std_midi_quirk(chip, iface, driver, alts);
+ }
+ 
++static int create_autodetect_pcm_quirk(struct snd_usb_audio *chip,
++				       struct usb_interface *iface,
++				       struct usb_driver *driver,
++				       const struct snd_usb_audio_quirk *quirk)
++{
++	return create_auto_pcm_quirk(chip, iface, driver);
++}
++
++__maybe_unused
++static int create_autodetect_midi_quirk(struct snd_usb_audio *chip,
++					struct usb_interface *iface,
++					struct usb_driver *driver,
++					const struct snd_usb_audio_quirk *quirk)
++{
++	if (list_empty(&chip->pcm_list))
++		return create_auto_midi_quirk(chip, iface, driver);
++	return 1;
++}
++
+ static int create_autodetect_quirk(struct snd_usb_audio *chip,
+ 				   struct usb_interface *iface,
+ 				   struct usb_driver *driver,
+@@ -388,14 +436,10 @@ static int create_autodetect_quirk(struct snd_usb_audio *chip,
+ 	return err;
+ }
+ 
+-/*
+- * Create a stream for an Edirol UA-700/UA-25/UA-4FX interface.  
+- * The only way to detect the sample rate is by looking at wMaxPacketSize.
+- */
+-static int create_uaxx_quirk(struct snd_usb_audio *chip,
+-			     struct usb_interface *iface,
+-			     struct usb_driver *driver,
+-			     const struct snd_usb_audio_quirk *quirk)
++static int create_uaxx_pcm_quirk(struct snd_usb_audio *chip,
++				 struct usb_interface *iface,
++				 struct usb_driver *driver,
++				 const struct snd_usb_audio_quirk *quirk)
+ {
+ 	static const struct audioformat ua_format = {
+ 		.formats = SNDRV_PCM_FMTBIT_S24_3LE,
+@@ -405,8 +449,8 @@ static int create_uaxx_quirk(struct snd_usb_audio *chip,
+ 		.altset_idx = 1,
+ 		.rates = SNDRV_PCM_RATE_CONTINUOUS,
+ 	};
+-	struct usb_host_interface *alts;
+ 	struct usb_interface_descriptor *altsd;
++	struct usb_host_interface *alts;
+ 	struct audioformat *fp;
+ 	int err;
+ 
+@@ -416,35 +460,15 @@ static int create_uaxx_quirk(struct snd_usb_audio *chip,
+ 	alts = &iface->altsetting[1];
+ 	altsd = get_iface_desc(alts);
+ 
+-	if (altsd->bNumEndpoints == 2) {
+-		static const struct snd_usb_midi_endpoint_info ua700_ep = {
+-			.out_cables = 0x0003,
+-			.in_cables  = 0x0003
+-		};
+-		static const struct snd_usb_audio_quirk ua700_quirk = {
+-			.type = QUIRK_MIDI_FIXED_ENDPOINT,
+-			.data = &ua700_ep
+-		};
+-		static const struct snd_usb_midi_endpoint_info uaxx_ep = {
+-			.out_cables = 0x0001,
+-			.in_cables  = 0x0001
+-		};
+-		static const struct snd_usb_audio_quirk uaxx_quirk = {
+-			.type = QUIRK_MIDI_FIXED_ENDPOINT,
+-			.data = &uaxx_ep
+-		};
+-		const struct snd_usb_audio_quirk *quirk =
+-			chip->usb_id == USB_ID(0x0582, 0x002b)
+-			? &ua700_quirk : &uaxx_quirk;
+-		return __snd_usbmidi_create(chip->card, iface,
+-					    &chip->midi_list, quirk,
+-					    chip->usb_id,
+-					    &chip->num_rawmidis);
++	switch (altsd->bNumEndpoints) {
++	case 2:
++		return 2; /* Leave this to midi. */
++	case 1:
++		break;
++	default:
++		return -ENXIO;
+ 	}
+ 
+-	if (altsd->bNumEndpoints != 1)
+-		return -ENXIO;
+-
+ 	fp = kmemdup(&ua_format, sizeof(*fp), GFP_KERNEL);
+ 	if (!fp)
+ 		return -ENOMEM;
+@@ -484,6 +508,78 @@ static int create_uaxx_quirk(struct snd_usb_audio *chip,
+ 	return 0;
+ }
+ 
++/*
++ * Create a stream for an Edirol UA-700/UA-25/UA-4FX interface.
++ * The only way to detect the sample rate is by looking at wMaxPacketSize.
++ */
++static int create_uaxx_midi_quirk(struct snd_usb_audio *chip,
++				  struct usb_interface *iface,
++				  struct usb_driver *driver,
++				  const struct snd_usb_audio_quirk *quirk)
++{
++	static const struct snd_usb_midi_endpoint_info ua700_ep = {
++		.out_cables = 0x0003,
++		.in_cables  = 0x0003
++	};
++	static const struct snd_usb_audio_quirk ua700_quirk = {
++		.type = QUIRK_MIDI_FIXED_ENDPOINT,
++		.data = &ua700_ep
++	};
++	static const struct snd_usb_midi_endpoint_info uaxx_ep = {
++		.out_cables = 0x0001,
++		.in_cables  = 0x0001
++	};
++	static const struct snd_usb_audio_quirk uaxx_quirk = {
++		.type = QUIRK_MIDI_FIXED_ENDPOINT,
++		.data = &uaxx_ep
++	};
++	const struct snd_usb_audio_quirk *spec;
++	struct usb_host_interface *alt;
++
++	spec = chip->usb_id == USB_ID(0x0582, 0x002b) ? &ua700_quirk : &uaxx_quirk;
++
++	/* both PCM and MIDI interfaces have 2 or more altsettings */
++	if (iface->num_altsetting < 2)
++		return -ENXIO;
++	alt = &iface->altsetting[1];
++
++	switch (alt->desc.bNumEndpoints) {
++	case 2:
++		break;
++	case 1:
++		return 1; /* Leave this to pcm. */
++	default:
++		return -ENXIO;
++	}
++
++	return __snd_usbmidi_create(chip->card, iface, &chip->midi_list, spec, chip->usb_id,
++				    &chip->num_rawmidis);
++}
++
++static int create_uaxx_quirk(struct snd_usb_audio *chip,
++			     struct usb_interface *iface,
++			     struct usb_driver *driver,
++			     const struct snd_usb_audio_quirk *quirk)
++{
++	struct usb_interface_descriptor *altsd;
++	struct usb_host_interface *alts;
++
++	/* both PCM and MIDI interfaces have 2 or more altsettings */
++	if (iface->num_altsetting < 2)
++		return -ENXIO;
++	alts = &iface->altsetting[1];
++	altsd = get_iface_desc(alts);
++
++	switch (altsd->bNumEndpoints) {
++	case 2:
++		return create_uaxx_midi_quirk(chip, iface, driver, quirk);
++	case 1:
++		return create_uaxx_pcm_quirk(chip, iface, driver, quirk);
++	default:
++		return -ENXIO;
++	}
++}
++
+ /*
+  * Create a standard mixer for the specified interface.
+  */
+@@ -498,6 +594,44 @@ static int create_standard_mixer_quirk(struct snd_usb_audio *chip,
+ 	return snd_usb_create_mixer(chip, quirk->ifnum);
+ }
+ 
++int snd_usb_parse_pcms_quirk(struct snd_usb_audio *chip,
++			     struct usb_interface *iface,
++			     struct usb_driver *driver,
++			     const struct snd_usb_audio_quirk *quirk)
++{
++	typedef int (*quirk_func_t)(struct snd_usb_audio *,
++				    struct usb_interface *,
++				    struct usb_driver *,
++				    const struct snd_usb_audio_quirk *);
++	static const quirk_func_t quirk_funcs[] = {
++		[QUIRK_IGNORE_INTERFACE] = ignore_interface_quirk,
++		[QUIRK_COMPOSITE] = create_composite_pcm_quirk,
++		[QUIRK_AUTODETECT] = create_autodetect_pcm_quirk,
++		[QUIRK_MIDI_STANDARD_INTERFACE] = ignore_interface_quirk,
++		[QUIRK_MIDI_FIXED_ENDPOINT] = ignore_interface_quirk,
++		[QUIRK_MIDI_YAMAHA] = ignore_interface_quirk,
++		[QUIRK_MIDI_ROLAND] = ignore_interface_quirk,
++		[QUIRK_MIDI_MIDIMAN] = ignore_interface_quirk,
++		[QUIRK_MIDI_NOVATION] = ignore_interface_quirk,
++		[QUIRK_MIDI_RAW_BYTES] = ignore_interface_quirk,
++		[QUIRK_MIDI_EMAGIC] = ignore_interface_quirk,
++		[QUIRK_MIDI_CME] = ignore_interface_quirk,
++		[QUIRK_MIDI_AKAI] = ignore_interface_quirk,
++		[QUIRK_MIDI_FTDI] = ignore_interface_quirk,
++		[QUIRK_MIDI_CH345] = ignore_interface_quirk,
++		[QUIRK_AUDIO_STANDARD_INTERFACE] = create_standard_audio_quirk,
++		[QUIRK_AUDIO_FIXED_ENDPOINT] = create_fixed_stream_quirk,
++		[QUIRK_AUDIO_EDIROL_UAXX] = create_uaxx_pcm_quirk,
++		[QUIRK_AUDIO_STANDARD_MIXER] = ignore_interface_quirk,
++	};
++
++	if (quirk->type < QUIRK_TYPE_COUNT)
++		return quirk_funcs[quirk->type](chip, iface, driver, quirk);
++
++	usb_audio_err(chip, "invalid quirk type %d\n", quirk->type);
++	return -ENXIO;
++}
++
+ /*
+  * audio-interface quirks
+  *
+@@ -537,12 +671,11 @@ int snd_usb_create_quirk(struct snd_usb_audio *chip,
+ 		[QUIRK_AUDIO_STANDARD_MIXER] = create_standard_mixer_quirk,
+ 	};
+ 
+-	if (quirk->type < QUIRK_TYPE_COUNT) {
++	if (quirk->type < QUIRK_TYPE_COUNT)
+ 		return quirk_funcs[quirk->type](chip, iface, driver, quirk);
+-	} else {
+-		usb_audio_err(chip, "invalid quirk type %d\n", quirk->type);
+-		return -ENXIO;
+-	}
++
++	usb_audio_err(chip, "invalid quirk type %d\n", quirk->type);
++	return -ENXIO;
+ }
+ 
+ /*
 diff --git a/sound/usb/quirks.h b/sound/usb/quirks.h
-index f9bfd5ac7bab..0ea079688261 100644
+index 0ea079688261..1344e4e635d8 100644
 --- a/sound/usb/quirks.h
 +++ b/sound/usb/quirks.h
-@@ -2,6 +2,8 @@
- #ifndef __USBAUDIO_QUIRKS_H
- #define __USBAUDIO_QUIRKS_H
- 
-+#include <sound/usb.h>
-+
- struct audioformat;
+@@ -8,6 +8,10 @@ struct audioformat;
  struct snd_usb_endpoint;
  struct snd_usb_substream;
-diff --git a/sound/usb/stream.c b/sound/usb/stream.c
-index 4d83c95bd9a8..6beeff03d711 100644
---- a/sound/usb/stream.c
-+++ b/sound/usb/stream.c
-@@ -14,8 +14,8 @@
- #include <sound/pcm.h>
- #include <sound/control.h>
- #include <sound/tlv.h>
-+#include <sound/usb.h>
  
--#include "usbaudio.h"
- #include "card.h"
- #include "proc.h"
- #include "quirks.h"
-diff --git a/sound/usb/usx2y/us122l.c b/sound/usb/usx2y/us122l.c
-index 6bcf8b859ebb..3d00541a602c 100644
---- a/sound/usb/usx2y/us122l.c
-+++ b/sound/usb/usx2y/us122l.c
-@@ -11,9 +11,9 @@
- #include <sound/hwdep.h>
- #include <sound/pcm.h>
- #include <sound/initval.h>
-+#include <sound/usb.h>
- #define MODNAME "US122L"
- #include "usb_stream.c"
--#include "../usbaudio.h"
- #include "../midi.h"
- #include "us122l.h"
- 
-diff --git a/sound/usb/usx2y/usX2Yhwdep.c b/sound/usb/usx2y/usX2Yhwdep.c
-index 9fd6a86cc08e..2d6a9c80e5bf 100644
---- a/sound/usb/usx2y/usX2Yhwdep.c
-+++ b/sound/usb/usx2y/usX2Yhwdep.c
-@@ -14,6 +14,7 @@
- #include <sound/memalloc.h>
- #include <sound/pcm.h>
- #include <sound/hwdep.h>
-+#include <sound/usb.h>
- #include "usx2y.h"
- #include "usbusx2y.h"
- #include "usX2Yhwdep.h"
-diff --git a/sound/usb/usx2y/usbusx2y.h b/sound/usb/usx2y/usbusx2y.h
-index 391fd7b4ed5e..689b565fb225 100644
---- a/sound/usb/usx2y/usbusx2y.h
-+++ b/sound/usb/usx2y/usbusx2y.h
-@@ -1,7 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- #ifndef USBUSX2Y_H
- #define USBUSX2Y_H
--#include "../usbaudio.h"
-+#include <sound/usb.h>
- #include "../midi.h"
- #include "usbus428ctldefs.h"
- 
-diff --git a/sound/usb/validate.c b/sound/usb/validate.c
-index 6fe206f6e911..8a7e8fc8197e 100644
---- a/sound/usb/validate.c
-+++ b/sound/usb/validate.c
-@@ -9,7 +9,7 @@
- #include <linux/usb/audio-v2.h>
- #include <linux/usb/audio-v3.h>
- #include <linux/usb/midi.h>
--#include "usbaudio.h"
-+#include <sound/usb.h>
- #include "helper.h"
- 
- struct usb_desc_validator {
++int snd_usb_parse_pcms_quirk(struct snd_usb_audio *chip,
++			     struct usb_interface *iface,
++			     struct usb_driver *driver,
++			     const struct snd_usb_audio_quirk *quirk);
+ int snd_usb_create_quirk(struct snd_usb_audio *chip,
+ 			 struct usb_interface *iface,
+ 			 struct usb_driver *driver,
 -- 
 2.25.1
 
