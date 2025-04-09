@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E08F25DAEF
-	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 10:51:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5386F25D911
+	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 10:51:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744195888; cv=none; b=m+3Bcb5WSUuNmPqRCFwuKhejO+wwnKL3OkQnKWvL58ZQP1DPMXioKimoqMDjfoZE5gJy0RjKxzMXC8jSxuh23usAOkPr0aGn6cx1KAY7XVPx30rlvnJ8jnmT/HxFL9xjT5x9B7OKcpU7ran40KsGO12Ot5KT6J9FLb4YuEi5q90=
+	t=1744195895; cv=none; b=dDXB8zOK46xEgzg/t7Yj4cPInkaazxWm83ZLOrzYyLixs8FOEUV2SISp4AEDJ8dwsFV3P/JZlSEvjqPHvGe59Jr2KPa39sPRVi0fOvLu9aoxJ0G65V2O+JBlzXHqnY4AXWb3GQcBeji0ZhUIU5KMz5wyu3J8LaU/UmxzNJRKR/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744195888; c=relaxed/simple;
-	bh=05EWgN9JvZt5KZ6BNyQfi9CE29UQOn5kp7B83WEMT4w=;
+	s=arc-20240116; t=1744195895; c=relaxed/simple;
+	bh=UIm2xgMMzbCgGrUeyg/CFqfru4d+TTJow4fKf4Fflyw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nyX5W5h5K4Vd5AAEceYvxSMboInLXD//+gNnxeUfn7zyY6KCrJWLDQcxokvUFuI/baImn7dED3HekGzJ46XHZHk3aJl6JCY/oR1dg6z5y5gUqhG885cLHFcqkjoyDNsE0gw6K9MkrkntwYblSHT8hUeSxD3g5bTDHsfZxYkXzoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hp6VF3JP; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=iL+mj44Cvmb2JHXzm1Urr//UgPfJycK3EjIus17KfAt0LHfiHoQjJFOHmTwmBwIw6ehQZ5gW4zj3bm398NnfgWAQ7N1P7AQrrdz8b8YZw8GCEj499epqMlhofJHZD43CyoTj0anF3e0LtHjuzV5MiOhPg6qpqBzF67CB65J1mOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JxiYMT2E; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hp6VF3JP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JxiYMT2E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744195887; x=1775731887;
+  t=1744195893; x=1775731893;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=05EWgN9JvZt5KZ6BNyQfi9CE29UQOn5kp7B83WEMT4w=;
-  b=hp6VF3JPjZnh+FiekgXKh6vWC8YJYCmYISROorwNwmeSB+lVFxgkINen
-   KMxoDDX1p+f/BDvLvSc9sm/ICWPKR4wBdQnVgTSc785h6bB+e9PQPkXs+
-   r0PyopLbKr4YoPFVDdpdYr4BQkphqIuPlcHEnwoGcm8u76AIeBnmm3tHh
-   o9g57m81SB+Vi/nL4xkzdAFJ/TPZeQCVxt7fKojhJLjhnoH4Soum1BCyb
-   yZLadKtiXiYJBnQUNuvKYG3BQWXKyZFgYw38sF6HJ2QO2Uuf57SFYv8NG
-   KfKMiZMfxwF1LakLEKCZjylE5eRa3j8bnH8f0cBGjo0MBbvWVZAPNLJbb
-   A==;
-X-CSE-ConnectionGUID: WoNgVsBqSXWwHFsp76gI+A==
-X-CSE-MsgGUID: RlEyAJVUQgqsxZIU6qoSig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45380115"
+  bh=UIm2xgMMzbCgGrUeyg/CFqfru4d+TTJow4fKf4Fflyw=;
+  b=JxiYMT2Ew1blE0uNsvfi2YiWJZQR5gjzdgLwmEx7j/+5X7FgCLuNTt2X
+   q350498vVHVU2hz2KSUsglHzPVUdTp1ADn8s+42BFqjEP+S/ZSjHDOsH+
+   yBawlVcjX0+K/YsA+DCpWowPr7M4PNcydTtOr3Yu9IU/a9AYxUjiZFrre
+   2QiswsEsO14W5hgSQjoCppBg806tw0aKzGrJxlH0Uh6GRmksf+5Oik7QS
+   xytiIGDOCsQTiEvRpNgZ+nxrhFwQU5GuQ3C5Cba/3ymcFFiC7Zha+d30n
+   s5Kakghgf8zbaXQKwlbigdMo8GzrE4j2R8MvtZoeZ1ebsXKMb3zPGyis7
+   Q==;
+X-CSE-ConnectionGUID: U4d2cz/zRRq/Lt1M5HMhdA==
+X-CSE-MsgGUID: OhMXMKRgRKqrmFwWN7CuDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45380133"
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="45380115"
+   d="scan'208";a="45380133"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:51:27 -0700
-X-CSE-ConnectionGUID: jsppskMcRXSjTrYYzGFDBQ==
-X-CSE-MsgGUID: qUHT+kJ9RFa4Qonu0aoG9w==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:51:32 -0700
+X-CSE-ConnectionGUID: jVRXJcwdSl+WwHTwJYeGMg==
+X-CSE-MsgGUID: mAlclXiXSDakM2FmUqbRWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="133426252"
+   d="scan'208";a="133426257"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa003.jf.intel.com with ESMTP; 09 Apr 2025 03:51:25 -0700
+  by orviesa003.jf.intel.com with ESMTP; 09 Apr 2025 03:51:27 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.com,
@@ -53,9 +53,9 @@ Cc: amadeuszx.slawinski@linux.intel.com,
 	quic_wcheng@quicinc.com,
 	mathias.nyman@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [RFC 12/15] ALSA: usb: Export card-naming procedure
-Date: Wed,  9 Apr 2025 13:07:27 +0200
-Message-Id: <20250409110731.3752332-13-cezary.rojewski@intel.com>
+Subject: [RFC 13/15] ALSA: usb: Add getters to obtain endpoint information
+Date: Wed,  9 Apr 2025 13:07:28 +0200
+Message-Id: <20250409110731.3752332-14-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250409110731.3752332-1-cezary.rojewski@intel.com>
 References: <20250409110731.3752332-1-cezary.rojewski@intel.com>
@@ -67,183 +67,110 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-USB sound card features customized naming procedure. For ALSA and ASoC
-drivers to share UseCaseManagement (UCM) configuration files, it is best
-if the naming is aligned between the two.
+Intel's Audio Link Hub (ALH) requires information about the data and
+feedback endpoints to manage the offloaded PCM stream properly.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- include/sound/usb.h |  1 +
- sound/usb/card.c    | 78 ++++++++++++++++++++++-----------------------
- 2 files changed, 39 insertions(+), 40 deletions(-)
+ include/sound/usb.h |  4 ++++
+ sound/usb/card.h    |  4 ++--
+ sound/usb/stream.c  | 51 +++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 57 insertions(+), 2 deletions(-)
 
 diff --git a/include/sound/usb.h b/include/sound/usb.h
-index fbcfa2b985f7..b20badfda6a6 100644
+index b20badfda6a6..8f6e26d4de48 100644
 --- a/include/sound/usb.h
 +++ b/include/sound/usb.h
-@@ -91,6 +91,7 @@ struct snd_usb_audio {
- };
- 
- void snd_usb_release_resources(struct snd_usb_audio *chip);
-+void snd_usb_make_card_names(struct snd_usb_audio *chip, char *shortname, char *longname);
- int snd_usb_bind_card(struct snd_usb_audio *chip, struct snd_card *card,
+@@ -96,6 +96,10 @@ int snd_usb_bind_card(struct snd_usb_audio *chip, struct snd_card *card,
  		      struct usb_driver *driver);
  int snd_usb_bind_pcm(struct list_head *stream_entry, struct snd_pcm *pcm);
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index a4bd8ba6a26c..20a77e63a7eb 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -525,103 +525,102 @@ lookup_device_name(u32 id)
- 	return NULL;
+ void snd_usb_pcm_hw_init(struct list_head *stream_entry, int dir, struct snd_pcm_hardware *hw);
++void snd_usb_pcm_get_epaddr(struct list_head *stream_entry, int dir, u8 *data_epaddr,
++			    u8 *fb_epaddr);
++void snd_usb_pcm_get_epinfo(struct list_head *stream_entry, int dir, u16 *data_maxp, u16 *fb_maxp,
++			    u8 *fb_syncinterval);
+ 
+ /* USB interface operations, see struct usb_driver. */
+ int snd_usb_probe(struct usb_interface *iface, const struct usb_device_id *usb_id,
+diff --git a/sound/usb/card.h b/sound/usb/card.h
+index 6ec95b2edf86..00c6e9046296 100644
+--- a/sound/usb/card.h
++++ b/sound/usb/card.h
+@@ -21,10 +21,10 @@ struct audioformat {
+ 	unsigned char ep_idx;		/* endpoint array index */
+ 	unsigned char altset_idx;	/* array index of alternate setting */
+ 	unsigned char attributes;	/* corresponding attributes of cs endpoint */
+-	unsigned char endpoint;		/* endpoint */
++	unsigned char endpoint;		/* bEndpointAddress of data endpoint */
+ 	unsigned char ep_attr;		/* endpoint attributes */
+ 	bool implicit_fb;		/* implicit feedback endpoint */
+-	unsigned char sync_ep;		/* sync endpoint number */
++	unsigned char sync_ep;		/* bEndpointAddress of feedback endpoint */
+ 	unsigned char sync_iface;	/* sync EP interface */
+ 	unsigned char sync_altsetting;	/* sync EP alternate setting */
+ 	unsigned char sync_ep_idx;	/* sync EP array index */
+diff --git a/sound/usb/stream.c b/sound/usb/stream.c
+index 601dc9ed020a..8f8a049f5b43 100644
+--- a/sound/usb/stream.c
++++ b/sound/usb/stream.c
+@@ -623,6 +623,57 @@ static int snd_usb_add_audio_stream_v3(struct snd_usb_audio *chip,
+ 	return snd_usb_parse_pcm(chip, stream, fp, pd);
  }
  
--static void usb_audio_make_shortname(struct usb_device *dev,
--				     struct snd_usb_audio *chip,
--				     const struct snd_usb_audio_quirk *quirk)
-+static void snd_usb_make_card_shortname(struct snd_usb_audio *chip, char *shortname)
- {
--	struct snd_card *card = chip->card;
- 	const struct usb_audio_device_name *preset;
-+	struct usb_device *udev = chip->dev;
- 	const char *s = NULL;
- 
- 	preset = lookup_device_name(chip->usb_id);
- 	if (preset && preset->product_name)
- 		s = preset->product_name;
--	else if (quirk && quirk->product_name)
--		s = quirk->product_name;
-+	else if (chip->quirk && chip->quirk->product_name)
-+		s = chip->quirk->product_name;
- 	if (s && *s) {
--		strscpy(card->shortname, s, sizeof(card->shortname));
-+		strscpy(shortname, s, sizeof_field(struct snd_card, shortname));
- 		return;
- 	}
- 
- 	/* retrieve the device string as shortname */
--	if (!dev->descriptor.iProduct ||
--	    usb_string(dev, dev->descriptor.iProduct,
--		       card->shortname, sizeof(card->shortname)) <= 0) {
-+	if (!udev->descriptor.iProduct ||
-+	    usb_string(udev, udev->descriptor.iProduct,
-+		       shortname, sizeof_field(struct snd_card, shortname)) <= 0) {
- 		/* no name available from anywhere, so use ID */
--		sprintf(card->shortname, "USB Device %#04x:%#04x",
-+		sprintf(shortname, "USB Device %#04x:%#04x",
- 			USB_ID_VENDOR(chip->usb_id),
- 			USB_ID_PRODUCT(chip->usb_id));
- 	}
- 
--	strim(card->shortname);
-+	strim(shortname);
- }
- 
--static void usb_audio_make_longname(struct usb_device *dev,
--				    struct snd_usb_audio *chip,
--				    const struct snd_usb_audio_quirk *quirk)
-+void snd_usb_make_card_names(struct snd_usb_audio *chip, char *shortname, char *longname)
- {
--	struct snd_card *card = chip->card;
- 	const struct usb_audio_device_name *preset;
-+	struct usb_device *udev = chip->dev;
- 	const char *s = NULL;
- 	int len;
- 
-+	snd_usb_make_card_shortname(chip, shortname);
++/**
++ * snd_usb_pcm_get_epaddr - Obtain addresses of the stream endpoints.
++ *
++ * @stream_entry: The USB stream
++ * @dir: Substream's direction
++ * @data_epaddr: returned bEndpointAddress of the data endpoint
++ * @fb_epaddr: returned bEndpointAddress of the feedback endpoint
++ */
++void snd_usb_pcm_get_epaddr(struct list_head *stream_entry, int dir, u8 *data_epaddr,
++			    u8 *fb_epaddr)
++{
++	struct snd_usb_substream *subs;
++	struct snd_usb_stream *as;
++	struct audioformat *fp;
 +
- 	preset = lookup_device_name(chip->usb_id);
- 
- 	/* shortcut - if any pre-defined string is given, use it */
- 	if (preset && preset->profile_name)
- 		s = preset->profile_name;
- 	if (s && *s) {
--		strscpy(card->longname, s, sizeof(card->longname));
-+		strscpy(longname, s, sizeof_field(struct snd_card, longname));
- 		return;
- 	}
- 
- 	if (preset && preset->vendor_name)
- 		s = preset->vendor_name;
--	else if (quirk && quirk->vendor_name)
--		s = quirk->vendor_name;
--	*card->longname = 0;
-+	else if (chip->quirk && chip->quirk->vendor_name)
-+		s = chip->quirk->vendor_name;
-+	*longname = 0;
- 	if (s && *s) {
--		strscpy(card->longname, s, sizeof(card->longname));
-+		strscpy(longname, s, sizeof_field(struct snd_card, longname));
- 	} else {
- 		/* retrieve the vendor and device strings as longname */
--		if (dev->descriptor.iManufacturer)
--			usb_string(dev, dev->descriptor.iManufacturer,
--				   card->longname, sizeof(card->longname));
-+		if (udev->descriptor.iManufacturer)
-+			usb_string(udev, udev->descriptor.iManufacturer,
-+				   longname, sizeof_field(struct snd_card, longname));
- 		/* we don't really care if there isn't any vendor string */
- 	}
--	if (*card->longname) {
--		strim(card->longname);
--		if (*card->longname)
--			strlcat(card->longname, " ", sizeof(card->longname));
-+	if (*longname) {
-+		strim(longname);
-+		if (*longname)
-+			strlcat(longname, " ", sizeof_field(struct snd_card, longname));
- 	}
- 
--	strlcat(card->longname, card->shortname, sizeof(card->longname));
-+	strlcat(longname, shortname, sizeof_field(struct snd_card, longname));
- 
--	len = strlcat(card->longname, " at ", sizeof(card->longname));
-+	len = strlcat(longname, " at ", sizeof_field(struct snd_card, longname));
- 
--	if (len < sizeof(card->longname))
--		usb_make_path(dev, card->longname + len, sizeof(card->longname) - len);
-+	if (len < sizeof_field(struct snd_card, longname))
-+		usb_make_path(udev, longname + len, sizeof_field(struct snd_card, longname) - len);
- 
--	switch (snd_usb_get_speed(dev)) {
-+	switch (snd_usb_get_speed(udev)) {
- 	case USB_SPEED_LOW:
--		strlcat(card->longname, ", low speed", sizeof(card->longname));
-+		strlcat(longname, ", low speed", sizeof_field(struct snd_card, longname));
- 		break;
- 	case USB_SPEED_FULL:
--		strlcat(card->longname, ", full speed", sizeof(card->longname));
-+		strlcat(longname, ", full speed", sizeof_field(struct snd_card, longname));
- 		break;
- 	case USB_SPEED_HIGH:
--		strlcat(card->longname, ", high speed", sizeof(card->longname));
-+		strlcat(longname, ", high speed", sizeof_field(struct snd_card, longname));
- 		break;
- 	case USB_SPEED_SUPER:
--		strlcat(card->longname, ", super speed", sizeof(card->longname));
-+		strlcat(longname, ", super speed", sizeof_field(struct snd_card, longname));
- 		break;
- 	case USB_SPEED_SUPER_PLUS:
--		strlcat(card->longname, ", super speed plus", sizeof(card->longname));
-+		strlcat(longname, ", super speed plus", sizeof_field(struct snd_card, longname));
- 		break;
- 	default:
- 		break;
- 	}
- }
-+EXPORT_SYMBOL_GPL(snd_usb_make_card_names);
- 
- /* look for a matching quirk alias id */
- static bool get_alias_id(struct usb_device *dev, unsigned int *id)
-@@ -1058,8 +1057,7 @@ static int snd_usb_create_card(struct snd_usb_audio *chip, struct usb_interface
- 
- 	chip->card = card;
- 	strscpy(card->driver, "USB-Audio", sizeof(card->driver));
--	usb_audio_make_shortname(udev, chip, chip->quirk);
--	usb_audio_make_longname(udev, chip, chip->quirk);
-+	snd_usb_make_card_names(chip, card->shortname, card->longname);
- 	sprintf(component, "USB%04x:%04x", usb_device_vid(udev), usb_device_pid(udev));
- 	snd_component_add(card, component);
- 	snd_usb_audio_create_proc(chip);
++	as = list_entry(stream_entry, struct snd_usb_stream, list);
++	subs = &as->substream[dir];
++	fp = list_first_entry(&subs->fmt_list, struct audioformat, list);
++
++	*data_epaddr = fp->endpoint;
++	*fb_epaddr = fp->sync_ep;
++}
++EXPORT_SYMBOL_GPL(snd_usb_pcm_get_epaddr);
++
++/**
++ * snd_usb_pcm_get_epinfo - Obtain runtime information of the stream endpoints.
++ *
++ * @stream_entry: The USB stream
++ * @dir: Substream's direction
++ * @data_maxp: returned wMaxPacketSize of the data endpoint
++ * @fb_maxp: returned wMaxPacketSize of the feedback endpoint
++ * @fb_syncinterval: returned synchronization interval of the feedback endpoint
++ */
++void snd_usb_pcm_get_epinfo(struct list_head *stream_entry, int dir, u16 *data_maxp, u16 *fb_maxp,
++			    u8 *fb_syncinterval)
++{
++	struct snd_usb_substream *subs;
++	struct snd_usb_stream *as;
++
++	as = list_entry(stream_entry, struct snd_usb_stream, list);
++	subs = &as->substream[dir];
++
++	if (subs->data_endpoint)
++		*data_maxp = subs->data_endpoint->maxpacksize;
++	if (subs->sync_endpoint) {
++		*fb_maxp = subs->sync_endpoint->maxpacksize;
++		*fb_syncinterval = subs->sync_endpoint->syncinterval;
++	}
++}
++EXPORT_SYMBOL_GPL(snd_usb_pcm_get_epinfo);
++
+ static int parse_uac_endpoint_attributes(struct snd_usb_audio *chip,
+ 					 struct usb_host_interface *alts,
+ 					 int protocol, int iface_no)
 -- 
 2.25.1
 
