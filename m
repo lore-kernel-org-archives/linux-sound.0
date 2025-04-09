@@ -1,42 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252EA25D52D;
-	Wed,  9 Apr 2025 14:37:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F3A143C5D
+	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 15:02:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744209470; cv=none; b=q23fAgqtVNfxIye5hosh2b5OcGQxF3ODgTQIbUpx+56jtAr3c3TyACSMtiW8Q45/O/I+HOm1s7gLDDdPTmGi/BfYcmsKbalLteS6jz00h645bNFKF27Au4ye0vOGGZ8FJW9N3tSM9+6bQMi2gLzfUnOLK/YgSPnO0ttQlFTDFXQ=
+	t=1744210923; cv=none; b=BrVAF+Eib5kYymC23iKLoZHYXorKqyL5V2Xzzm7MjVejF89Jxle/oFvefzEhOFJ8iG1dA+twn8IZUqu/RbPLJIeV72Se9KoEWNRUdLrdy07vou1CJVPDvMOzOra6pT+XnQkYJsWeyTEstBgCI1GQ+lLS9jAkPdqRTtoMcBEF8dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744209470; c=relaxed/simple;
-	bh=1Nnt71nyAGfZU1DSl3LMzHdL2W8BDPs3/42qienzcBo=;
+	s=arc-20240116; t=1744210923; c=relaxed/simple;
+	bh=BEpQiC1wwRd8i3tTh8L5CtmwrE6fEs57JCbyTSMB5QQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HZN/I4rN1S6R1Zt6UhgXOeazpfEfXG5vbLanq4MBpJFttlrZ/622/75rRioCeX7YtoXVXYwn3DqgZ/jBplxkqdv5BfQ0IZ2oAUE9M+vwOlstKmlNcQwANnHlRPxWqpVM9cNmtJ4PBfCBiZLcKF5LDAeaCzlvw8KgAAzfULMnOvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nm/UjriE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cBZ6QBXxw6JS8lzVU5c19vLM11NraBIajGVtpaf1DlO25vhb7fdjQQ/uZhn5YiOfxaTqbf8VOEKc+RWJbZPGnq40Pnfum6NiZUsj3jwblIpSoFzAd+ywe300MggcSkNFVWrXVOjKtuRYDcSGZPwLuV0apDGbxCbQxyvRmTSZdDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i1RL2b1C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nm/UjriE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20EB8C4CEE7;
-	Wed,  9 Apr 2025 14:37:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i1RL2b1C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88E3EC4CEE2;
+	Wed,  9 Apr 2025 15:02:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744209469;
-	bh=1Nnt71nyAGfZU1DSl3LMzHdL2W8BDPs3/42qienzcBo=;
+	s=k20201202; t=1744210922;
+	bh=BEpQiC1wwRd8i3tTh8L5CtmwrE6fEs57JCbyTSMB5QQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nm/UjriEQ41a9dIZ6xHY+y3hyC6MnTaOXqlSMDSDLCaDUOCfh3mg+lx25ZaJt8O90
-	 2VE7ysFbTceVolCa+/Ns/l/Nix/9waBQQja4+Ew6/muE98rmtgX+4/H0nQEhNbV4DL
-	 RvQBGm2b+A1tVW9Gd/tAhJdV2GgwzKgwcXSgvcoDNU1mJUnx1SlRxEeYZnM5eO12uT
-	 sMvQnwhR4BV12ZzokXSDzQ2kJI+x1Hf7V1PMQD6FJIk03D3PGuwz+Jls9Rhl4XscXz
-	 Qy3ULf47PTzuVn7j5h8EDtJLd2depQ+KRR5v+8UfNm62LwVPn5DdkZGF82RopOOHrN
-	 HrjKr7CoS5diA==
-Date: Wed, 9 Apr 2025 15:37:45 +0100
+	b=i1RL2b1CnR8rkPvKDcE9UsTUxjes5MmkmfPPwYN8fpBmYKnl09ZQYxYO/xTSc7vuZ
+	 fY2uMYSoBBp7Vj3uEYqA+4O8og2oX/dvhvLaMO5ntZE574TNnsiEAreHa9P8K7TvUN
+	 5HyK08GheacdSTcCxHfMjN9FZ9SkorrGu4M1ZmkDK7lZLIPBrty/C6AeP9VJSd5piY
+	 DgkCkT/gQQX2qQYcgar6ahcCkYUJMlNsEIU+1qkV8PhLh+AqbHWMEtdCRsWr+BHuoY
+	 iQxbxJCTqZXxvyY4UvX7U55pUMbQ+VDBCZ8KgEAruZ72CGCI97ad1Co9E71UFP/Hwb
+	 B/aL/zy1NNJ7A==
+Date: Wed, 9 Apr 2025 16:01:58 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com, kunit-dev@googlegroups.com,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH] ASoC: cs-amp-lib-test: Don't select SND_SOC_CS_AMP_LIB
-Message-ID: <6e94dd2e-e242-4bff-be85-d3029fb08693@sirena.org.uk>
-References: <20250409104544.878475-1-rf@opensource.cirrus.com>
- <a47c2074-2e28-43e6-a7a1-c3ac662723cf@sirena.org.uk>
- <5feaca10-f3bc-49bb-8e5b-9d9efa918e16@opensource.cirrus.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: Debugging CPU-side DAI hardware with a dummy codec
+Message-ID: <e649be07-108a-4f7c-9471-74b74a4f73ad@sirena.org.uk>
+References: <4927043.LvFx2qVVIh@workhorse>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,44 +40,60 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0uIvSnhXV3OF6Eij"
+	protocol="application/pgp-signature"; boundary="AAFB2p4gc6P7K3yd"
 Content-Disposition: inline
-In-Reply-To: <5feaca10-f3bc-49bb-8e5b-9d9efa918e16@opensource.cirrus.com>
+In-Reply-To: <4927043.LvFx2qVVIh@workhorse>
 X-Cookie: Words must be weighed, not counted.
 
 
---0uIvSnhXV3OF6Eij
+--AAFB2p4gc6P7K3yd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 09, 2025 at 03:34:27PM +0100, Richard Fitzgerald wrote:
-> On 09/04/2025 3:24 pm, Mark Brown wrote:
+On Tue, Apr 08, 2025 at 09:58:07PM +0200, Nicolas Frattaroli wrote:
 
-> > This by itself results in the Cirrus tests being removed from a kunit
-> > --alltests run which is a regression in coverage.  I'd expect to see
-> > some corresponding updates in the KUnit all_tests.config to keep them
-> > enabled.
+> So I set a driver override on my dummy-codec node:
 
-> That's the defined behaviour of KUNIT_ALL_TESTS. It shouldn't have been
-> running as part of an alltests if nothing had selected it. That seems to
-> make people angry. Probably the same people who would complain if there
-> was a bug in the code that they didn't want to test.
+>   # echo "snd-soc-dummy" > /sys/bus/platform/devices/dummy-codec/driver_o=
+verride
+>=20
+> And hope to now be able to bind the snd-soc-dummy driver on the faux bus =
+to it:
 
-Hence the updates to all_tests.config...
+>   # echo "dummy-codec" > /sys/bus/faux/drivers/faux_driver/snd-soc-dummy/=
+driver/bind
+>   -bash: echo: write error: No such device
 
---0uIvSnhXV3OF6Eij
+> Clearly, that doesn't work.
+
+I don't know what specifically you've tripped up over there but there is
+a little bit of special casing for the dummy CODEC since it's intended
+to fill gaps with partially configured DPCM stream, not actually be
+used.  If you just care about the signals then it would be easier to
+pick some simple CODEC with no registers, as a bonus you won't have to
+futz around at runtime overriding bindings.
+
+> I hope someone can shed some light on this, as it seems like something au=
+dio
+> controller developers would be doing all the time.
+
+I suspect most people test with an actual system.  A bunch of things get
+easier if you can actually play and record sound.
+
+--AAFB2p4gc6P7K3yd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmf2hjgACgkQJNaLcl1U
-h9BVjQf/fdLWBj7HT/DQHtQwaIbKOwxGF4Q0TvYZATrbpHLVXW0PHfb4T9roq4ko
-zHE4Yj4QuZdksWN7K9loTUlMWwmEEpFWwJZcOCa2h2oNdTnc4DIUQwsPsYYwDnLK
-/sGfJw+QE1JNuvUD8AhFQj6ktrhnB1zlA2O0m0TYYpPzCq8PWkIqBc3oPUHx5oXu
-xmTCjDYboD9qbg+V/NCxzdm8kxbL9Xxn5r5818sbhUV5weR9FRBXUIM7jBJI7tjW
-L2ubgWyQQgPOxITux/RRimFFxM/ERgQnVxxgEtJ+BulhHs9GQ585opY+Jmyh4So1
-sSrxHRY3Qx3B53VOu0+DwzIbpCS0pA==
-=RazQ
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmf2i+YACgkQJNaLcl1U
+h9DHjgf9EVtZ2b3R0vfIKVmg2E55iRk6e8EGIQDMqUDgeIEESTaz3Y9nWz9QPVZi
+M6NnoQ3Bu5PieUVqv+YOsZK0V6d5CWvmgiKZu1eMIbMPf/2t7YbPZMCCcbEV/5+W
+YhT6H8eGgXVx1R2X9Jt6KSasB18ccoQ+gRCdCJgrLFW1pFVU3N649tpnLGsDelYX
+TY+RMrypyFc3PVCMm12D2W74HDDFfeJg2dO2CnfX4KK4q6JiV/89wqIpCOcrutXa
+cjsWn9arP/HwnOU4DTh3q4jv0fX+ReZgDjZwOsjqK2Eu5F+o/nUhfOzVGR1WVOj2
+EieceSgsLuouuPlzn/eAw8A+UDjdlQ==
+=JX3a
 -----END PGP SIGNATURE-----
 
---0uIvSnhXV3OF6Eij--
+--AAFB2p4gc6P7K3yd--
