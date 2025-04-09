@@ -1,187 +1,196 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010039.outbound.protection.outlook.com [52.101.228.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E48B1E25E8;
-	Wed,  9 Apr 2025 21:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744232942; cv=none; b=gMOdKjSsopJsKrP/lfXjuERzVBztWJrTDlgO/KLT8W8DDI8JOtS/bNdkR8IVrgv5VCZeo5Dydbd4t6B+vfgIYFuHTWNtQkGKBXRmNBVLrPSLU8o71laDs7hmsilqSpbRJDIl3Q0VEAnufnVpfNzerpz2mxAgvjTLF0/n+M5Vit4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744232942; c=relaxed/simple;
-	bh=9FwTOr+ksva7BcWKrWAypW1bPBx+E92LgMFk7X5OZQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LoHyy5pR6zuiAhKMODBx0v2pvgc/hX037m2d+cc8cbz3nBDsurdW3o4OJ0LSdZJhY3k38PzfUJrdwmHRE5lC8p3p5QOnw13wmtmd2lV88mSiQkBoiVzcJAzYS47a6gXW6MIsxZwSyEzRc1LBEQKDnjTfdNUNiH8810ee4Ed5ySo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=baw1qUL+; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD84626ACD;
+	Wed,  9 Apr 2025 23:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744240786; cv=fail; b=FoYiDaHBTJBTSVaiTccpmGaaKUeWaFniYJwKd3zp7weO3oCXOGH+2ckG4JtJBA2ngjafh3Q+b5yHl81tasrYqJBiP2f5vYtgqeJN0SUYhrT5hPaNA0DFS02JP1YsNOvC3rIWgJ6lg78vBwkLRETUnfnRxNBGjAGsgrj21LOy+pw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744240786; c=relaxed/simple;
+	bh=AZ+r28UUWgV8AzyXqy8KjZ1zajqhVoUkLXioGyCvdjE=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=kV8NbIwaRaE8W/6DfylfuA4F5ymDghA3b6MlbLjq/0K5t2hGKmrLDOCjL/NgbwvdzDKmMDNpJPgEvfxkBLlAeviCCWQhXf3lybM/pObJpk1infXr067VhoGuMSOsFER6LyFtR2jUNssL2OWz8f6S3Ii0QrH8pFaGyA6qMMMXpMI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=e8BW8lNe; arc=fail smtp.client-ip=52.101.228.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="baw1qUL+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744232941; x=1775768941;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9FwTOr+ksva7BcWKrWAypW1bPBx+E92LgMFk7X5OZQw=;
-  b=baw1qUL+iKw3QVkMa3yHvG9nBCX17LWKrW7MjjL4SDtfiEdvPcbXHZ6N
-   pkhY+KHVbbWx0yuumbXZZS9dUdtTbJ/sVyYp99y6c0dnMiOhO28Tc9Gns
-   C0R9iWlwZUPa47WaIaNTomWcZDQtOCyPoUO+ttpZKYyq1Ntu7pAdV6XlW
-   dlb5+UN1ZMq4xaRBpY7qf+a15iosxOCP+yJ2Upm1X4rzr+/WrjkshuMau
-   l2fmhjaUh5C9ydDd8GpR09krh8onoeeOMLugYjB+Fqs+DVz2UiNcKB8Tx
-   U0Py6Q9KWFhT7ixJWjW/xeAyQnz6gvn0b10XPj/GjEumWb5hl5bZ6y+rw
-   g==;
-X-CSE-ConnectionGUID: GwgRp4y/RQeB/a8o2r/MEA==
-X-CSE-MsgGUID: JmPlGaUcRsWSRQMnVqP+6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="45820533"
-X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="45820533"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 14:09:00 -0700
-X-CSE-ConnectionGUID: dRISYAzsS+uR+D60TYeNVA==
-X-CSE-MsgGUID: PYadYmTTQIqQqMRejQ+j1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="133816955"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Apr 2025 14:08:57 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u2cfG-0009KJ-14;
-	Wed, 09 Apr 2025 21:08:54 +0000
-Date: Thu, 10 Apr 2025 05:08:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Stuart Henderson <stuarth@opensource.cirrus.com>,
-	Qi Zhou <qi.zhou@cirrus.com>,
-	Piotr Stankiewicz <piotrs@opensource.cirrus.com>
-Subject: Re: [PATCH 2/2] ASoC: cs48l32: Add driver for Cirrus Logic CS48L32
- audio DSP
-Message-ID: <202504100405.7znimLX7-lkp@intel.com>
-References: <20250408162310.670041-3-rf@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="e8BW8lNe"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JGHyKgQ7rZymwrye95yLZayQmP4LCz8kwhXVnKut6SqYFKaGYWjSNJjpg64kPShkXzfIBJZk5OWRQ+OgpzA96+FR1/gZLhSxdEm0gCpOmx5TN0ArKMRczosfzyYZhfdbYvPl5K/2bwXtjglWHnX3VqNz31cDHm7kS3mcy/caE+syGTzkb7CnYpw0uGZfhx49UX+GpsFZJRKGVSxcg9EQY92ZcwBqVYrbcd9uCq/h2LX5AV1IrVZbDjdx9PgEEgayLvyctJ8K6wlHrMdT6hykruq+iwEhinMOF8toyiecyS13RO7myrmCT7XcKddYklsKU8dzL120OL8K7JkMGSH20g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yz/DDE03wsXwGq2FjnoGszBXzel445B01bbXSWxZWiw=;
+ b=UQjRHcVY6mbnerGvF39uJyilh2/HzSCVWihwWjnX2JwURPlD5XPSG9NKzjMjrtfl1KXkyOHnUH9HKwPLUpZ1LhYoGt89RMdu5n3UHQYnzmUBSwLZizFj9ZoNPRRh6xobzyIR4VnM3DuW6CFN5f32gvo5j8PBSf61gNHz2Tg0j505CjrmDdcMKZptKZPNDfo+JnBhKKsAMW+drMkj2xX80dfui9fst8L005579dIQw8yeBubI3ccdb6jNZWHpVYa19bQZi0ZSFVpRo/fciWdDDtsGBS0evqiye4eB3NHJoKMasqJmGNV5IGbPMgLeJ7YhB+I1v5Un6gXcm693JFQibQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yz/DDE03wsXwGq2FjnoGszBXzel445B01bbXSWxZWiw=;
+ b=e8BW8lNeoaX5vsUZNWtOKnu50ozS1ipNF3ySpPY5YrPXHR+RQ4ANjjQvJxsYik4Pm04pEiL/OuokQuKujRw3kUhZ9aOENIt9Xjy9RMN9SST48Xp+yF7Hv2LSlP6MJX6axruffNct3Skakp0v9OkCDh6k0iQpQMFTvhQ6eQCeoHM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYWPR01MB10631.jpnprd01.prod.outlook.com
+ (2603:1096:400:2a3::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.32; Wed, 9 Apr
+ 2025 23:19:36 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8606.033; Wed, 9 Apr 2025
+ 23:19:35 +0000
+Message-ID: <877c3sncs9.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org
+Subject: Re: [PATCH 1/7] spi: renesas,sh-msiof: Living separately from MSIOF I2S Sound
+In-Reply-To: <66808fa5-2b81-4145-b2c6-9b0d76d2a6dc@kernel.org>
+References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
+	<874iyyb0w2.wl-kuninori.morimoto.gx@renesas.com>
+	<66808fa5-2b81-4145-b2c6-9b0d76d2a6dc@kernel.org>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 9 Apr 2025 23:19:34 +0000
+X-ClientProxiedBy: TYAPR04CA0012.apcprd04.prod.outlook.com
+ (2603:1096:404:15::24) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250408162310.670041-3-rf@opensource.cirrus.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB10631:EE_
+X-MS-Office365-Filtering-Correlation-Id: e5ecf46b-1cab-4848-07bf-08dd77bcfd98
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|7416014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Aa0jcMSBzQV0O9sKMKIKjJ3HQA5WBI3uXbsxOiQruxqzhSc/BmdvyppNuK7X?=
+ =?us-ascii?Q?abL2dkvkc830Ki+aVnU6nsN/YfwXUDuYY9jKb/kjyVQzgXhBCsNylbpp9U1H?=
+ =?us-ascii?Q?RwwR7sWGVqOqZws6C6i74VxxQNPz+AVLzZELBAuFFQme39qcSPKZ3hRmMN8T?=
+ =?us-ascii?Q?XsJNyWLc1bHn/q0r6zc45C6VrUG0AX9DeHeojHnUXeHLphz/QD9Of4vbdKV7?=
+ =?us-ascii?Q?UAni0gKTMXqyQNucRVdSGdFo6p0EOMNmjxMVMfiHPcHjP4Helv/ma9ar0TEX?=
+ =?us-ascii?Q?nd6t3rHhy2skXeeyVxHcrnVC6RSE4WKZvBJe6l6PZmbGF5GQL2PNcaH057z1?=
+ =?us-ascii?Q?7IwZIwvrB8a7rkwajGJaM/ryoqKPyAX8GPz0fWhpW5NOirbsUyhpeseLiIUu?=
+ =?us-ascii?Q?cbisO/mMskPbNRsotxgX1x5rOt2A6Q0eXoPuXH0WeuiW2QK58RCtZfQv8uqn?=
+ =?us-ascii?Q?NS7qxH5LxDB9SurbIzvG1U8bYXG+GiloeyKoRUIU4l9Hgf3PnZJgqtmXfvjV?=
+ =?us-ascii?Q?KUo0hs+fPuJ56v+M9EcAqaimkrEO06lxLXPZ3OKz6imwh/itrbCz/FltIzUk?=
+ =?us-ascii?Q?96YyS+EpcOVGcl3ShKGi83gFrPkG2L3JbsBPnfIOdRBkR85ytuo3B20vjpQr?=
+ =?us-ascii?Q?A75UEeWh+uzZ3M1rNJYRQVR6bRKibSekhuWFFYIVXEolklRxsPPXej5N2MHX?=
+ =?us-ascii?Q?3R4Szme5zdpvdLzqhZygCmES4B5j4wWNBoQALErKj3JMv1Ei4jaKA691xuo8?=
+ =?us-ascii?Q?cpP/Pu8O7OWmLgLifxLOjgwuYk2HECXWmdJvZdDySIvpgjNuNi8SKHNHh3C1?=
+ =?us-ascii?Q?HziPurNyt6C6j4lilteito8QNLYUZkTYFQyg8MI0xNgiKVIGX+DvHRHvlSSJ?=
+ =?us-ascii?Q?PpOyjLLqIpFsivkD83vPecJsFd3bUD1ixzswy1j+5BOfRKOzNOeAEk2xF0hy?=
+ =?us-ascii?Q?BFsljsiEHj4xBMWYiMAMu/kTZuiJf23lMZbthCsFkCxddqZjeRYpSabz1rUJ?=
+ =?us-ascii?Q?kN62H6S4J7qNhJFc102Pg4I1dHYurbRG5hCuy4y3396weg/DnMLMm9nowYX5?=
+ =?us-ascii?Q?aqQGcY4CtDLqq/4Xk119rtxtoKNrQHgG8kbz718ttwCMdaq7ZsbjQVnCODsH?=
+ =?us-ascii?Q?asssPLSP6dd28qTZKzCtRWmypJ5dC355WkQ5tOybnECSAEGpwEt6Dy1coDkq?=
+ =?us-ascii?Q?xNGQjXR+zAHAzUYbdq7o9wWGtG57c1Yk8CpXJRsnSt7Us6kXwKNUnLiczGC1?=
+ =?us-ascii?Q?BAPRvPFI21/oF1tep8XEGz95bBKrpmfEcbjbPADnvKtUB9uT8e1rQqe3Td1J?=
+ =?us-ascii?Q?sbHZ2GYDkZA0SMK77Wk1x/ykFlfLI9ab7Jx2Slf89qyG54p73rI+W5VGZmHw?=
+ =?us-ascii?Q?mPRGnv+aNcyUZFS1fW7p3luGVf64kE9a4e7mRODelyF9MIHvlkT5Tw4PDy5d?=
+ =?us-ascii?Q?ZY3Te2vY9pr5q86Kl43G+OcQWgO/Fju/npnbWQWypHWkeAvL5mfF6g=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?eoKM/d3CFkyHrUr2u9c2nbJpH2Tv68VOgPelckFLSAuOwWyYjDhCtnOQild9?=
+ =?us-ascii?Q?c3SX/s++uSZTDy0ouaiIcD6LdbOc9X8m0mn0omQRSjklWr41EjOh5rWyrCoD?=
+ =?us-ascii?Q?hDUCjx9VgT9/kOZ7uPpxf5zd8OCOYddWOSACj8S2+GijEb1gqawwv9issKhd?=
+ =?us-ascii?Q?3doFz74cw/xPtP/N2LJPb0Tgwc83kLltaYQPqHD9DCgNVIHJr/ve1nCo+E5b?=
+ =?us-ascii?Q?Gv6axD8+8kTr+KKQzMImSMarFg6YEI7GAOLObVw8Nl3XMmOXWs63w/55d9w+?=
+ =?us-ascii?Q?J+vYCWdCenBPge/9GxJQpjPnMcw7eTsk0zSuKf1AUSTGLuNqcfy0ebG9SPGn?=
+ =?us-ascii?Q?lCwtvz+azcSlW5Anrgm8S/J/qlF1bMLWnuVPNwJZyw9QS4UhbX+r3faNuUHt?=
+ =?us-ascii?Q?KukHYRY7COewr10rjqgybVPHQUAzeN9Gt/00J2I0UrBF/JXhFd4Xy4Uvvg2i?=
+ =?us-ascii?Q?b15W+I1PUXWLSmISd61/i3Rkjek09Sjn5RGfsy4eyLKXSy0ixX9de9XEOlQp?=
+ =?us-ascii?Q?dqNUcMpz3qE8t+Quu+/i59xta3VrAM2r14o5QQKjK4hI2lLCR6smtuuKApNo?=
+ =?us-ascii?Q?xGlkNXVQHCBCTLA20DjOsrt8xNriSjd/6MKjIQaFmJgxsL8n8QTDeNyAURtZ?=
+ =?us-ascii?Q?CTQZSEwF8A5sHNsAinXoxMkeQSwX3kTG4nc4d+5eq0RfxtX+7OrffMNbsu+X?=
+ =?us-ascii?Q?fXbLJysHPyAreevH8fzFMq7sTT1GIAhyjNcmPATgAjPBbS8GRtULq/z/NztN?=
+ =?us-ascii?Q?Ksd5vwJlEFoWoYvQscf/+AcncSqz8Wxc7Fu3RnbNqlP8kaqDH04uhw2iSHeH?=
+ =?us-ascii?Q?ZqrK3SYWUR/vG5i09z9fYvoTooHmeeO+Jy08jdtBeQrk7Mk/bAvbOpCsmgCZ?=
+ =?us-ascii?Q?ARg4wE/4mQxm0eQTNLcCKRaoKMgI6YWcaZ4iZA0yTnEPgbsSGhZMHwGd+ziC?=
+ =?us-ascii?Q?faQzvJtq/v4uyr80i0/MBoZTVBnAx5zMRkuk68OYJ+wUt6MxKUNqVo+8AUlv?=
+ =?us-ascii?Q?TVGeheX5JbRjg9KOvhAO0JaQki2wVJ6Co2uMmezXim6WOFiNOYrtL+/FHpoh?=
+ =?us-ascii?Q?+++AsKbhSHQ55lPb0kvWLj1YqXx7QVwGPlKPgRiI1swiXbvJGfbvPu+Ii7/6?=
+ =?us-ascii?Q?8mSrosUIBFXlTjz4cV1OvAL5tUU32JTCJfbUcjvIA3tQRFUjaIKgzh/mcb/l?=
+ =?us-ascii?Q?XHtqc6vn6vnSxwXdUIEkqnjpVbttxJdanBRjWApJ8xVLoIz8Fsy+cXVLIPFp?=
+ =?us-ascii?Q?kVuNGy7yzCEta8UMFmp/wCTGrksF3Dv2sLhK3oX/AgAlu+NooGbdhaLsRGgo?=
+ =?us-ascii?Q?NsvNhMnkfBH9xAzlR/ESXXARMT6csyH34lXOu01V5TrwLd/8GhN9aGC+mVRV?=
+ =?us-ascii?Q?v0J4IqlBt3qT5OdaMx25EKEo95H2XeYyPPfci8UZzA+g9DiDttYXHQ3fAKax?=
+ =?us-ascii?Q?G/lpMk/uk5V11OiilpiKe8alnTbhbTh0YWY/xSw8hQ5S29TrPumKsz+TM/tx?=
+ =?us-ascii?Q?Vot7gEfYknuBhGnV94he6skZLxJ1Q4OOjPqkQSZU6RSeNZY4eEYNWm+NOZ8K?=
+ =?us-ascii?Q?KAbDFXdpfQnKtLmdlfyVNzIrBLZL2hJikbxSKknJfqqadgwb2DZPJTV/zqgg?=
+ =?us-ascii?Q?6ANAlEECOzjl8z2mRkoOi3U=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5ecf46b-1cab-4848-07bf-08dd77bcfd98
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 23:19:34.9970
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Zdq4Xq1qEP54auPJt+ETufWX0s+AnXeyPFHMsuQwggteC3L6N51uVsznIgumA84czVVmS+Wn96FORWa2+CmdiIBvk6mW6Yp5WxW8/7piIkv1cyM0bjZGZcqXhwecYLo
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10631
 
-Hi Richard,
 
-kernel test robot noticed the following build warnings:
+Hi
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus robh/for-next linus/master v6.15-rc1 next-20250409]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > Renesas MSIOF (Clock-Synchronized Serial Interface with FIFO) can work as
+> > both SPI and I2S. MSIOF-I2S will use Audio Graph Card/Card2 driver which
+> > uses Of-Graph in DT.
+> > 
+> > MSIOF-SPI/I2S are using same DT compatible properties.
+> > MSIOF-I2S         uses Of-Graph for Audio-Graph-Card/Card2,
+> > MSIOF-SPI doesn't use  Of-Graph.
+> > 
+> > Ignore MSIOF-I2S case (= Of-Graph) in MSIOF-SPI Doc.
+> 
+> Please use subject prefixes matching the subsystem. You can get them for
+> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+> your patch is touching.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Fitzgerald/ASoC-dt-bindings-Add-Cirrus-Logic-CS48L32-audio-DSP/20250409-002905
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250408162310.670041-3-rf%40opensource.cirrus.com
-patch subject: [PATCH 2/2] ASoC: cs48l32: Add driver for Cirrus Logic CS48L32 audio DSP
-config: powerpc64-randconfig-003-20250410 (https://download.01.org/0day-ci/archive/20250410/202504100405.7znimLX7-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250410/202504100405.7znimLX7-lkp@intel.com/reproduce)
+Yeah, I did :)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504100405.7znimLX7-lkp@intel.com/
+git log --oneline --no-merges Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml 
 
-All warnings (new ones prefixed by >>):
+1f48cbd6f00f spi: renesas,sh-msiof: Add r8a779h0 support
+a0dcd1ff9629 spi: renesas,sh-msiof: Miscellaneous improvements
+aa69dc65e3b3 spi: renesas,sh-msiof: Add r8a779g0 support
+f4d381038700 spi: renesas,sh-msiof: Fix 'unevaluatedProperties' warnings
+b076fdd02133 spi: renesas,sh-msiof: R-Car V3U is R-Car Gen4
+e1e62f05d5d9 spi: renesas,sh-msiof: Add generic Gen4 and r8a779f0 support
+5a674d9dc9a0 dt-bindings: Fix array constraints on scalar properties
+6be69293196c spi: renesas,sh-msiof: Add r8a779a0 support
+6fdc6e23a7d1 dt-bindings: Add missing 'unevaluatedProperties'
+aef161f4f1b8 spi: renesas,sh-msiof: Add r8a77961 support
+b4f7f5f54705 spi: renesas,sh-msiof: Add r8a774e1 support
+6383b118efaf spi: renesas,sh-msiof: Add r8a7742 support
+fba5618451d2 dt-bindings: Fix incorrect 'reg' property sizes
+3d21a4609335 dt-bindings: Remove cases of 'allOf' containing a '$ref'
+97f41c68b83e dt-bindings: spi: sh-msiof: Add r8a774b1 support
+9c3c41761f45 dt-bindings: spi: sh-msiof: Convert bindings to json-schema
 
->> sound/soc/codecs/cs48l32.c:3435:3: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
-    3435 |                 i + 1, ana_mode_l, ana_mode_r);
-         |                 ^
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                              ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
-     274 |                            dev, fmt, ##__VA_ARGS__)
-         |                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   sound/soc/codecs/cs48l32.c:3408:7: note: initialize the variable 'i' to silence this warning
-    3408 |         int i;
-         |              ^
-         |               = 0
-   1 warning generated.
+Thank you for your help !!
 
-
-vim +/i +3435 sound/soc/codecs/cs48l32.c
-
-  3402	
-  3403	static int cs48l32_init_inputs(struct snd_soc_component *component)
-  3404	{
-  3405		struct cs48l32_codec *cs48l32_codec = snd_soc_component_get_drvdata(component);
-  3406		struct regmap *regmap = cs48l32_codec->core.regmap;
-  3407		unsigned int ana_mode_l, ana_mode_r, dig_mode;
-  3408		int i;
-  3409	
-  3410		/*
-  3411		 * Initialize input modes from the A settings. For muxed inputs the
-  3412		 * B settings will be applied if the mux is changed
-  3413		 */
-  3414		switch (cs48l32_codec->in_type[0][0]) {
-  3415		default:
-  3416		case CS48L32_IN_TYPE_DIFF:
-  3417			ana_mode_l = 0;
-  3418			break;
-  3419		case CS48L32_IN_TYPE_SE:
-  3420			ana_mode_l = 1 << CS48L32_INx_SRC_SHIFT;
-  3421			break;
-  3422		}
-  3423	
-  3424		switch (cs48l32_codec->in_type[1][0]) {
-  3425		default:
-  3426		case CS48L32_IN_TYPE_DIFF:
-  3427			ana_mode_r = 0;
-  3428			break;
-  3429		case CS48L32_IN_TYPE_SE:
-  3430			ana_mode_r = 1 << CS48L32_INx_SRC_SHIFT;
-  3431			break;
-  3432		}
-  3433	
-  3434		dev_dbg(cs48l32_codec->core.dev, "IN%d_1 Analogue mode=#%x,#%x\n",
-> 3435			i + 1, ana_mode_l, ana_mode_r);
-  3436	
-  3437		regmap_update_bits(regmap,
-  3438				   CS48L32_IN1L_CONTROL1,
-  3439				   CS48L32_INx_SRC_MASK,
-  3440				   ana_mode_l);
-  3441	
-  3442		regmap_update_bits(regmap,
-  3443				   CS48L32_IN1R_CONTROL1,
-  3444				   CS48L32_INx_SRC_MASK,
-  3445				   ana_mode_r);
-  3446	
-  3447		for (i = 0; i < ARRAY_SIZE(cs48l32_codec->pdm_sup); i++) {
-  3448			dig_mode = cs48l32_codec->pdm_sup[i] << CS48L32_IN1_PDM_SUP_SHIFT;
-  3449	
-  3450			dev_dbg(cs48l32_codec->core.dev, "IN%d PDM_SUP=#%x\n", i + 1, dig_mode);
-  3451	
-  3452			regmap_update_bits(regmap,
-  3453					   CS48L32_INPUT1_CONTROL1 + (i * 0x40),
-  3454					   CS48L32_IN1_PDM_SUP_MASK, dig_mode);
-  3455		}
-  3456	
-  3457		return 0;
-  3458	}
-  3459	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards
+---
+Kuninori Morimoto
