@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D538C25DAFB
-	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 10:51:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C2225DAF8
+	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 10:51:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744195870; cv=none; b=DmWhEz0vca/aKSfgzX3I/lYHDQHmc8xq6rnOJZ7oa7ZyrMlnYfULzR3P/ilsg914van9WfAXjlRqp5U0Ha1anxE0DQT2V0wKx6P8QCrZFF1BmDd/A2cjvyr4b9SziQGYnG1byjD21jbhSRUhFGzn7gAZcZB21DyuG+aETR4Ret4=
+	t=1744195873; cv=none; b=mE3TC1bTwezwhUHL4UPHIrt2atpVg+xJDQ1CNfPUEY7nML8nqnktxdHBTWRw7lxMzJkHf2IQJkr/ODC2kvYCgJ4IFU0BN3aFFCNX/fa8P0AbNhNlVB8STPlzlxAgKjqUfKn0ZouBG1nBW20aevDjp+B11qGC4LnLRjK4RZuf88k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744195870; c=relaxed/simple;
-	bh=Aar8iCZEtXLBuKdUvVNF4NhEj8Ra64yf6DSThIwfkHw=;
+	s=arc-20240116; t=1744195873; c=relaxed/simple;
+	bh=2h+mbAr2po2eTpLJlihR/AbRMGHhU+8myptAZ6qwy5U=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BfQ2OokMBx/hVr5u7IjRspYwa9ZWGmH4D3szBN0iW4nK3bonnOl7OgiKWxd0wwja0O9/+lZMGDWt/ePwsOVZBOxLgeYGCOd6dPci4tMssB41Y4X3owD8HOGswBFtL34l1gGwNczpFXtsP9ABDjpf0atuJFy2Z6t4UaTPQbFWI4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MB8s0Ae7; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=GmWwQKh814jdZOxYtHwE2kL5jy9/8jbPlKUL6n27A4+GWFHNRsEF+P8QRDPERdBy8lXvgItWW8ltGKuvro+KBFBSgQqY5CSLxMB2OND+WCZ41MtTZ1UyMwV+kXnph/RCYKmVhqScppEUzDETVQbmIgviIu1Go0tsxDIQJ9gguNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bfK8MCtL; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MB8s0Ae7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bfK8MCtL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744195869; x=1775731869;
+  t=1744195871; x=1775731871;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Aar8iCZEtXLBuKdUvVNF4NhEj8Ra64yf6DSThIwfkHw=;
-  b=MB8s0Ae7r5t8axkrmaixMp1fuNi/z2NsVEDLgtcP9OhO0Rx1F1CoAW8/
-   xCyHJkOKPrza/azSTdNlcgnujTQMQIdJI+ztWGFE5U9ao+KRJychWTYjX
-   DcrF/8q/4pX9tXPmw4BsKKGAK9qpTlq58i2f3dAtvq5rWwvhv0DGLBbDS
-   +8GI5Yghcg3hTPAvAhIkj3/Zmq7DBY+T7iM3ks7loWIpo9lPJefZ+wAE2
-   7/M9RtjrUcLE6DujS/ghbBXTglXs+D/NFajaaTY16iydu/E9rrz0DTTNC
-   GrfPDeICmsZwEBo7s5RaDF/RK9CBumg4eL6PAj0EUl8B7/HMvV/H46luz
-   A==;
-X-CSE-ConnectionGUID: 6MIPeCk8RCqAWD1oasaV8A==
-X-CSE-MsgGUID: NJ659pSgRJCXOimD1GzWCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45380058"
+  bh=2h+mbAr2po2eTpLJlihR/AbRMGHhU+8myptAZ6qwy5U=;
+  b=bfK8MCtLcNjtmaG0/UDUxeiexAZ7lJY2GLswDfLCNuMGMLPyMYLzpegQ
+   XV3JaGIQ74fm7bgI/ix3+U8FtTuyyYe3LY/z5x1X6YB5UD2mlHuBK0iaA
+   lVPNc8MSEAsKZxmjCwIbpRxvyTqd86iao9pxuY4KzHd51KyErcwTH+a0J
+   sEdGE0KeMNoTPWXN0/qdiquJOKUETx9Nl5O8as7E3ac+R1uhNqiUUugW8
+   gEwth37C5XiYnz6QD5QXcgLsBMVwjfsuiCHdt6PcC3NyhhkLwLYYjlk+5
+   eRLV/mJyoTBtTPXeIBv9Kd77oU278SssBnECU4QIbRn+vU+u9qNohPCeK
+   w==;
+X-CSE-ConnectionGUID: msP7T8XGQPCwXsjMMmPnRA==
+X-CSE-MsgGUID: 5lpcc4PETNqMAZKjIx8r/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45380065"
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="45380058"
+   d="scan'208";a="45380065"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:51:08 -0700
-X-CSE-ConnectionGUID: ZS4pZXDnTNaJ0mI163ivhA==
-X-CSE-MsgGUID: MqM3yASwQ9qY3iwFlffsXg==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:51:11 -0700
+X-CSE-ConnectionGUID: I8S1BIFFS6eUjLMz7NDUlQ==
+X-CSE-MsgGUID: tvNkM+odTq6+4mNnc1SCQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="133426210"
+   d="scan'208";a="133426216"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa003.jf.intel.com with ESMTP; 09 Apr 2025 03:51:06 -0700
+  by orviesa003.jf.intel.com with ESMTP; 09 Apr 2025 03:51:09 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.com,
@@ -53,9 +53,9 @@ Cc: amadeuszx.slawinski@linux.intel.com,
 	quic_wcheng@quicinc.com,
 	mathias.nyman@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [RFC 05/15] ALSA: usb: Implement two-stage stream creation mechanism
-Date: Wed,  9 Apr 2025 13:07:20 +0200
-Message-Id: <20250409110731.3752332-6-cezary.rojewski@intel.com>
+Subject: [RFC 06/15] ALSA: usb: Implement two-stage chip probing mechanism
+Date: Wed,  9 Apr 2025 13:07:21 +0200
+Message-Id: <20250409110731.3752332-7-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250409110731.3752332-1-cezary.rojewski@intel.com>
 References: <20250409110731.3752332-1-cezary.rojewski@intel.com>
@@ -77,424 +77,400 @@ USB stream enumeration procedure from one-stage to two-stage process:
 2) create all PCMs based on the previously obtained information and
    follow that up with MIDIs, mixers and Media resources
 
-On the streaming side, this translates to replacing existing functions
-that do:
-	create_all()
-with new ones that:
-	parse_pcms()
-	create_nonpcms()
-
 As number of changes is large, the process is not part of a single
 patch. The switch is done in follow ups.
 
-The implementation does try to align with existing equivalent as closely
-as possible - no quirks and magic if-statements are skipped. Any kind of
-cleanup in that area is outside of the scope of this change.
+Existing usb_audio_probe() is a non-atomic function that performs a
+large number of operations. These can be represented with:
 
-Existing snd_usb_create_stream() is represented by:
-	snd_usb_streaming_iface()
-	snd_usb_create_claim_pcm()
-	snd_usb_create_claim_midi()
+	snd_usb_request_chip()
+		snd_usb_find_chip()
+		snd_usb_alloc_slot()
+		snd_usb_new_chip()
+		snd_usb_chip_init()
+	snd_usb_chip_release()
+	snd_usb_sanity_check()
+	snd_usb_create_card()
 
-Part of existing usb_audio_probe(), responsible for stream creation is
-represented by:
-	snd_usb_parse_pcms()
-	snd_usb_create_nonpcms()
-
-Existing __snd_usb_add_audio_stream() is represented by:
-	snd_usb_parse_pcms()
-	snd_usb_pcm_add()
-	snd_usb_add_pcms()
-
-As ASoC is responsible for calling snd_pcm_new(), the component driver
-has to bind the PCMs to USB streams manually. Helper snd_usb_bind_pcm()
-addresses that need.
+All the steps done before stream creation are performed in first-stage
+probing function - snd_usb_probe_unlocked(). As ASoC is responsible for
+calling snd_card_new(), the component driver has to bind the card to USB
+device manually. Helper snd_usb_bind_card() addresses that need.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- include/sound/usb.h |   5 ++
- sound/usb/card.c    | 168 ++++++++++++++++++++++++++++++++++++++++++++
- sound/usb/stream.c  | 145 ++++++++++++++++++++++++++++++++++++++
- sound/usb/stream.h  |   1 +
- 4 files changed, 319 insertions(+)
+ include/linux/usb.h     |  15 +++
+ include/linux/usb/ch9.h |  11 ++
+ include/sound/usb.h     |   2 +
+ sound/usb/card.c        | 289 +++++++++++++++++++++++++++++++++++++++-
+ 4 files changed, 316 insertions(+), 1 deletion(-)
 
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index cfa8005e24f9..8e2f9eb93823 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -749,6 +749,21 @@ static inline const struct usb_device *__intf_to_usbdev_const(const struct usb_i
+ 		 const struct usb_interface *: __intf_to_usbdev_const,	\
+ 		 struct usb_interface *: __intf_to_usbdev)(intf)
+ 
++static inline u16 usb_device_vid(struct usb_device *udev)
++{
++	return le16_to_cpu(udev->descriptor.idVendor);
++}
++
++static inline u16 usb_device_pid(struct usb_device *udev)
++{
++	return le16_to_cpu(udev->descriptor.idProduct);
++}
++
++static inline u32 usb_device_vpid(struct usb_device *udev)
++{
++	return ((u32)usb_device_vid(udev) << 16) | usb_device_pid(udev);
++}
++
+ extern struct usb_device *usb_get_dev(struct usb_device *dev);
+ extern void usb_put_dev(struct usb_device *dev);
+ extern struct usb_device *usb_hub_find_child(struct usb_device *hdev,
+diff --git a/include/linux/usb/ch9.h b/include/linux/usb/ch9.h
+index c93b410b314a..e0f4d9bbc8fa 100644
+--- a/include/linux/usb/ch9.h
++++ b/include/linux/usb/ch9.h
+@@ -57,4 +57,15 @@ extern const char *usb_decode_ctrl(char *str, size_t size, __u8 bRequestType,
+ 				   __u16 wLength);
+ #endif
+ 
++/**
++ * usb_epaddr_num - extract endpoint's number from its address
++ * @epaddr: bEndpointAddress of the USB endpoint
++ *
++ * Returns endpoint number: 0 to 15.
++ */
++static inline int usb_epaddr_num(unsigned char epaddr)
++{
++	return epaddr & USB_ENDPOINT_NUMBER_MASK;
++}
++
+ #endif /* __LINUX_USB_CH9_H */
 diff --git a/include/sound/usb.h b/include/sound/usb.h
-index 7e7a86b5c9c4..c50fc61f357c 100644
+index c50fc61f357c..f30a8a96c49e 100644
 --- a/include/sound/usb.h
 +++ b/include/sound/usb.h
-@@ -8,6 +8,9 @@
-  *   Copyright (c) 2002 by Takashi Iwai <tiwai@suse.de>
-  */
- 
-+#include <linux/list.h>
-+#include <sound/pcm.h>
-+
- /* handling of USB vendor/product ID pairs as 32-bit numbers */
- #define USB_ID(vendor, product) (((unsigned int)(vendor) << 16) | (product))
- #define USB_ID_VENDOR(id) ((id) >> 16)
-@@ -87,6 +90,8 @@ struct snd_usb_audio {
+@@ -90,6 +90,8 @@ struct snd_usb_audio {
  	struct snd_intf_to_ctrl intf_to_ctrl[MAX_CARD_INTERFACES];
  };
  
-+int snd_usb_bind_pcm(struct list_head *stream_entry, struct snd_pcm *pcm);
-+
- #define USB_AUDIO_IFACE_UNUSED	((void *)-1L)
++int snd_usb_bind_card(struct snd_usb_audio *chip, struct snd_card *card,
++		      struct usb_driver *driver);
+ int snd_usb_bind_pcm(struct list_head *stream_entry, struct snd_pcm *pcm);
  
- #define usb_audio_err(chip, fmt, args...) \
+ #define USB_AUDIO_IFACE_UNUSED	((void *)-1L)
 diff --git a/sound/usb/card.c b/sound/usb/card.c
-index d8794adb7a88..4121ad03acd1 100644
+index 4121ad03acd1..a9e37fe0d29e 100644
 --- a/sound/usb/card.c
 +++ b/sound/usb/card.c
-@@ -217,6 +217,110 @@ static int snd_usb_create_stream(struct snd_usb_audio *chip, int ctrlif, int int
- 	return 0;
- }
- 
-+__maybe_unused
-+static struct usb_interface *snd_usb_streaming_iface(struct snd_usb_audio *chip, int ctrlif,
-+						     int interface, u8 subclass)
-+{
-+	struct usb_interface_descriptor *altsd;
-+	struct usb_device *udev = chip->dev;
-+	struct usb_host_interface *alts;
-+	struct usb_interface *iface;
-+
-+	iface = usb_ifnum_to_if(udev, interface);
-+	if (!iface) {
-+		dev_err(&udev->dev, "%u:%d : does not exist\n", ctrlif, interface);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	alts = &iface->altsetting[0];
-+	altsd = get_iface_desc(alts);
-+
-+	/*
-+	 * Android with both accessory and audio interfaces enabled gets the
-+	 * interface numbers wrong.
-+	 */
-+	if ((chip->usb_id == USB_ID(0x18d1, 0x2d04) ||
-+	     chip->usb_id == USB_ID(0x18d1, 0x2d05)) &&
-+	    interface == 0 &&
-+	    altsd->bInterfaceClass == USB_CLASS_VENDOR_SPEC &&
-+	    altsd->bInterfaceSubClass == USB_SUBCLASS_VENDOR_SPEC) {
-+		interface = 2;
-+		iface = usb_ifnum_to_if(udev, interface);
-+		if (!iface)
-+			return ERR_PTR(-EINVAL);
-+
-+		alts = &iface->altsetting[0];
-+		altsd = get_iface_desc(alts);
-+	}
-+
-+	if (usb_interface_claimed(iface)) {
-+		dev_dbg(&udev->dev, "%d:%d: skipping, already claimed\n", ctrlif, interface);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	if ((altsd->bInterfaceClass != USB_CLASS_AUDIO &&
-+	     altsd->bInterfaceClass != USB_CLASS_VENDOR_SPEC) ||
-+	    (altsd->bInterfaceSubClass != USB_SUBCLASS_AUDIOSTREAMING &&
-+	     altsd->bInterfaceSubClass != USB_SUBCLASS_MIDISTREAMING)) {
-+		dev_dbg(&udev->dev, "%u:%d: skipping non-supported interface %d\n",
-+			ctrlif, interface, altsd->bInterfaceClass);
-+		/* skip non-supported classes */
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	if (altsd->bInterfaceSubClass == subclass)
-+		return iface;
-+	return NULL;
-+}
-+
-+__maybe_unused
-+static int snd_usb_parse_claim_pcm(struct snd_usb_audio *chip, int ctrlif,
-+				   struct usb_interface *iface,
-+				   struct usb_driver *iface_driver)
-+{
-+	struct usb_device *udev = chip->dev;
-+	struct usb_host_interface *alt;
-+	int ifnum;
-+
-+	alt = &iface->altsetting[0];
-+	ifnum = alt->desc.bInterfaceNumber;
-+
-+	if (snd_usb_get_speed(udev) == USB_SPEED_LOW) {
-+		dev_err(&udev->dev, "low speed audio streaming not supported\n");
-+		return -EINVAL;
-+	}
-+
-+	snd_usb_add_ctrl_interface_link(chip, ifnum, ctrlif);
-+
-+	if (!snd_usb_parse_audio_interface(chip, ifnum)) {
-+		usb_set_interface(udev, ifnum, 0); /* reset the current interface */
-+		return usb_driver_claim_interface(iface_driver, iface, USB_AUDIO_IFACE_UNUSED);
-+	}
-+
-+	return 0;
-+}
-+
-+__maybe_unused
-+static int snd_usb_create_claim_midi(struct snd_usb_audio *chip, int ctrlif,
-+				     struct usb_interface *iface,
-+				     struct usb_driver *iface_driver)
-+{
-+	struct usb_device *udev = chip->dev;
-+	struct usb_host_interface *alt;
-+	int ifnum, ret;
-+
-+	alt = &iface->altsetting[0];
-+	ifnum = alt->desc.bInterfaceNumber;
-+
-+	ret = snd_usb_midi_v2_create(chip, iface, NULL, chip->usb_id);
-+	if (ret < 0) {
-+		dev_err(&udev->dev, "%u:%d: cannot create sequencer device\n", ctrlif, ifnum);
-+		return -EINVAL;
-+	}
-+
-+	return usb_driver_claim_interface(iface_driver, iface, USB_AUDIO_IFACE_UNUSED);
-+}
-+
- /*
-  * parse audio control descriptor and create pcm/midi streams
-  */
-@@ -737,6 +841,70 @@ get_alias_quirk(struct usb_device *dev, unsigned int id)
+@@ -841,7 +841,6 @@ get_alias_quirk(struct usb_device *dev, unsigned int id)
  	return NULL;
  }
  
-+__maybe_unused
-+static int snd_usb_parse_pcms(struct snd_usb_audio *chip, struct usb_interface *iface,
-+			      struct usb_driver *driver)
-+{
-+	const struct snd_usb_audio_quirk *quirk = chip->quirk;
-+	struct usb_host_interface *alt;
-+	int ifnum, ret;
-+
-+	alt = &iface->altsetting[0];
-+	ifnum = alt->desc.bInterfaceNumber;
-+
-+	/* Check for custom parsing behavior, favor it over the generic one. */
-+	if (quirk && quirk->ifnum != QUIRK_NO_INTERFACE) {
-+		ret = snd_usb_parse_pcms_quirk(chip, iface, driver, quirk);
-+
-+		/* Were custom pcm interfaces parsed? */
-+		if (ret == 1)
-+			return 0;
-+		if (ret)
-+			return ret;
-+	}
-+
-+	/* Parse pcm interfaces in generic fashion. */
-+	ret = snd_usb_create_streams(chip, ifnum);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+__maybe_unused
-+static int snd_usb_create_nonpcms(struct snd_usb_audio *chip, struct usb_interface *iface,
-+				  struct usb_driver *driver)
-+{
-+	const struct snd_usb_audio_quirk *quirk = chip->quirk;
-+	struct usb_host_interface *alt;
-+	int ifnum, ret;
-+
-+	alt = &iface->altsetting[0];
-+	ifnum = alt->desc.bInterfaceNumber;
-+
-+	/* Check for custom create behavior, favor it over the generic one. */
-+	if (quirk && quirk->ifnum != QUIRK_NO_INTERFACE) {
-+		ret = snd_usb_create_quirk(chip, iface, driver, quirk);
-+
-+		/* Were custom midi/mixer interfaces created? */
-+		if (ret == 1)
-+			return 0;
-+		if (ret)
-+			return ret;
-+	}
-+
-+	/* Create midi/mixer interfaces in generic fashion. */
-+	ret = snd_usb_create_streams(chip, ifnum);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = snd_usb_create_mixer(chip, ifnum);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
- static void snd_usb_chip_free(struct snd_usb_audio *chip)
+-__maybe_unused
+ static int snd_usb_parse_pcms(struct snd_usb_audio *chip, struct usb_interface *iface,
+ 			      struct usb_driver *driver)
  {
- 	snd_usb_free_pcms(chip);
-diff --git a/sound/usb/stream.c b/sound/usb/stream.c
-index 6beeff03d711..1cf59e6d8ce6 100644
---- a/sound/usb/stream.c
-+++ b/sound/usb/stream.c
-@@ -556,6 +556,151 @@ static int __snd_usb_add_audio_stream(struct snd_usb_audio *chip,
- 	return add_chmap(pcm, stream, &as->substream[stream]);
+@@ -918,6 +917,294 @@ static void snd_usb_chip_free(struct snd_usb_audio *chip)
+ 	kfree(chip);
  }
  
-+/* Parse and build ->pcm_list but do not create PCMs yet. */
-+__maybe_unused
-+static int snd_usb_parse_pcm(struct snd_usb_audio *chip, int stream, struct audioformat *fp,
-+			     struct snd_usb_power_domain *pd)
++/* Must be called under register_mutex due to usb_chip[] manipulation. */
++static void snd_usb_chip_release(struct snd_usb_audio *chip, struct usb_interface *iface)
 +{
-+	struct snd_usb_substream *subs;
-+	struct snd_usb_stream *as;
++	chip->num_interfaces--;
++	chip->intf[chip->num_interfaces] = NULL;
++	usb_set_intfdata(iface, NULL);
 +
-+	/* Is there anything to do? */
-+	list_for_each_entry(as, &chip->pcm_list, list) {
-+		if (as->fmt_type != fp->fmt_type)
++	if (!chip->num_interfaces) {
++		usb_chip[chip->index] = NULL;
++		if (chip->card)
++			snd_card_free(chip->card);
++		snd_usb_chip_free(chip);
++	}
++}
++
++/*
++ * Search usb_chip[] for a chip instance matching the specified @udev.
++ * If found, increase chip->active before returning to block autosuspend.
++ */
++static struct snd_usb_audio *snd_usb_find_chip(struct usb_device *udev)
++{
++	struct snd_usb_audio *chip;
++	int i;
++
++	for (i = 0; i < SNDRV_CARDS; i++) {
++		chip = usb_chip[i];
++
++		if (!chip || chip->dev != udev)
 +			continue;
-+		subs = &as->substream[stream];
-+		if (subs->ep_num == fp->endpoint) {
-+			list_add_tail(&fp->list, &subs->fmt_list);
-+			subs->num_formats++;
-+			subs->formats |= fp->formats;
-+			return 0;
++		if (atomic_read(&chip->shutdown)) {
++			dev_err(&udev->dev, "USB device is in the shutdown state, cannot create a card instance\n");
++			return ERR_PTR(-EIO);
++		}
++
++		/* Avoid autosuspend during probe. */
++		atomic_inc(&chip->active);
++		return chip;
++	}
++
++	return NULL;
++}
++
++static int snd_usb_alloc_slot(struct usb_device *udev)
++{
++	u16 product = usb_device_pid(udev);
++	u16 vendor = usb_device_vid(udev);
++	int i;
++
++	for (i = 0; i < SNDRV_CARDS; i++) {
++		if (usb_chip[i])
++			continue;
++		if ((vid[i] == -1 || vid[i] == vendor) &&
++		    (pid[i] == -1 || pid[i] == product)) {
++			if (enable[i])
++				return i;
++			if (vid[i] == vendor || pid[i] == product) {
++				dev_info(&udev->dev, "device (%04x:%04x) is disabled\n",
++					 vendor, product);
++				return -ENOENT;
++			}
 +		}
 +	}
 +
-+	if (chip->card && chip->card->registered)
-+		chip->need_delayed_register = true;
++	return -EBUSY;
++}
 +
-+	/*
-+	 * Check for empty substreams (holes in the list) to minimize
-+	 * the number of new snd_pcms created.
-+	 */
-+	list_for_each_entry(as, &chip->pcm_list, list) {
-+		if (as->fmt_type != fp->fmt_type)
-+			continue;
-+		subs = &as->substream[stream];
-+		if (!subs->num_formats) {
-+			snd_usb_init_substream(as, stream, fp, pd);
-+			return 0;
-+		}
-+	}
++static void snd_usb_chip_init(struct snd_usb_audio *chip, struct usb_interface *iface, int idx,
++			      const struct snd_usb_audio_quirk *quirk, u32 id)
++{
++	struct usb_device *udev = interface_to_usbdev(iface);
 +
-+	/* Otherwise create a new stream. */
-+	as = kzalloc(sizeof(*as), GFP_KERNEL);
-+	if (!as)
-+		return -ENOMEM;
++	chip->index = idx;
++	chip->dev = udev;
++	chip->setup = device_setup[idx];
++	chip->generic_implicit_fb = implicit_fb[idx];
++	chip->autoclock = autoclock;
++	chip->lowlatency = lowlatency;
++	chip->usb_id = id;
++	mutex_init(&chip->mutex);
++	init_waitqueue_head(&chip->shutdown_wait);
 +
-+	as->pcm_index = chip->pcm_devs;
-+	as->chip = chip;
-+	as->fmt_type = fp->fmt_type;
-+	chip->pcm_devs++;
-+	snd_usb_init_substream(as, stream, fp, pd);
++	/* Avoid autosuspend during probe. */
++	atomic_set(&chip->active, 1);
++	atomic_set(&chip->usage_count, 0);
++	atomic_set(&chip->shutdown, 0);
++	INIT_LIST_HEAD(&chip->pcm_list);
++	INIT_LIST_HEAD(&chip->ep_list);
++	INIT_LIST_HEAD(&chip->iface_ref_list);
++	INIT_LIST_HEAD(&chip->clock_ref_list);
++	INIT_LIST_HEAD(&chip->midi_list);
++	INIT_LIST_HEAD(&chip->midi_v2_list);
++	INIT_LIST_HEAD(&chip->mixer_list);
 +
-+	/*
-+	 * Keep using head insertion for M-Audio Audiophile USB (tm) which has a
-+	 * fix to swap capture stream order in conf/cards/USB-audio.conf
-+	 */
-+	if (chip->usb_id == USB_ID(0x0763, 0x2003))
-+		list_add(&as->list, &chip->pcm_list);
++	/* Assign quirk-related information. */
++	chip->quirk = quirk;
++	if (quirk)
++		chip->quirk_type = quirk->type;
++	if (quirk_flags[idx])
++		chip->quirk_flags = quirk_flags[idx];
 +	else
-+		list_add_tail(&as->list, &chip->pcm_list);
++		snd_usb_init_quirk_flags(chip);
++	if (ignore_ctl_error)
++		chip->quirk_flags |= QUIRK_FLAG_IGNORE_CTL_ERROR;
++
++	find_last_interface(chip);
++}
++
++/* Leaves chip->active at 1. */
++static struct snd_usb_audio *snd_usb_new_chip(struct usb_interface *iface, int idx,
++					      const struct snd_usb_audio_quirk *quirk, u32 id)
++{
++	struct snd_usb_audio *chip;
++
++	chip = kzalloc(sizeof(*chip), GFP_KERNEL);
++	if (!chip)
++		return NULL;
++
++	snd_usb_chip_init(chip, iface, idx, quirk, id);
++	return chip;
++}
++
++/*
++ * Must be called under register_mutex due to usb_chip[] manipulation.
++ *
++ * Regardless if existing chip is found or new one is created, chip->active
++ * is updated to avoid autosuspend.
++ */
++static struct snd_usb_audio *snd_usb_request_chip(struct usb_interface *iface,
++						  const struct snd_usb_audio_quirk *quirk, u32 id)
++{
++	struct usb_device *udev = interface_to_usbdev(iface);
++	struct snd_usb_audio *chip;
++	int slot, ret;
++
++	chip = snd_usb_find_chip(udev);
++	if (IS_ERR(chip))
++		return chip;
++
++	/* If not registered yet, create new chip. */
++	if (!chip) {
++		ret = snd_usb_apply_boot_quirk_once(udev, iface, quirk, id);
++		if (ret < 0)
++			return ERR_PTR(ret);
++
++		slot = snd_usb_alloc_slot(udev);
++		if (slot < 0) {
++			dev_err(&udev->dev, "no available usb audio device\n");
++			return ERR_PTR(slot);
++		}
++
++		chip = snd_usb_new_chip(iface, slot, quirk, id);
++		if (!chip)
++			return ERR_PTR(-ENOMEM);
++
++		usb_chip[slot] = chip;
++		dev_set_drvdata(&udev->dev, chip);
++	} else if (chip->num_interfaces >= MAX_CARD_INTERFACES) {
++		dev_info(&udev->dev, "Too many interfaces assigned to the single USB-audio card\n");
++
++		atomic_dec(&chip->active);
++		return ERR_PTR(-EINVAL);
++	}
++
++	chip->intf[chip->num_interfaces] = iface;
++	chip->num_interfaces++;
++	usb_set_intfdata(iface, chip);
++
++	return chip;
++}
++
++static int snd_usb_sanity_check(struct usb_interface *iface,
++				const struct snd_usb_audio_quirk *quirk)
++{
++	struct usb_host_interface *alts;
++	struct usb_device *udev;
++	int ifnum;
++
++	udev = interface_to_usbdev(iface);
++	alts = &iface->altsetting[0];
++	ifnum = get_iface_desc(alts)->bInterfaceNumber;
++
++	if (quirk && quirk->ifnum >= 0 && ifnum != quirk->ifnum)
++		return -ENXIO;
++	if (quirk && quirk->ifnum == QUIRK_NODEV_INTERFACE)
++		return -ENODEV;
++
++	switch (snd_usb_get_speed(udev)) {
++	case USB_SPEED_LOW:
++	case USB_SPEED_FULL:
++	case USB_SPEED_HIGH:
++	case USB_SPEED_SUPER:
++	case USB_SPEED_SUPER_PLUS:
++		break;
++	default:
++		dev_err(&udev->dev, "unknown device speed %d\n", snd_usb_get_speed(udev));
++		return -ENXIO;
++	}
++
 +	return 0;
 +}
 +
-+static int snd_usb_pcm_add(struct snd_usb_audio *chip, struct snd_usb_stream *as)
++__maybe_unused
++static int snd_usb_probe_unlocked(struct usb_interface *iface, const struct usb_device_id *usb_id,
++				  struct usb_driver *driver)
 +{
-+	struct snd_pcm *pcm;
-+	unsigned int stream;
++	const struct snd_usb_audio_quirk *quirk;
++	struct usb_host_interface *alts;
++	struct snd_usb_audio *chip;
++	struct usb_device *udev;
 +	int ret;
++	u32 id;
 +
-+	ret = snd_pcm_new(chip->card, "USB Audio", as->pcm_index,
-+			  as->substream[SNDRV_PCM_STREAM_PLAYBACK].ep_num ? 1 : 0,
-+			  as->substream[SNDRV_PCM_STREAM_CAPTURE].ep_num ? 1 : 0,
-+			  &pcm);
++	quirk = (const struct snd_usb_audio_quirk *)usb_id->driver_info;
++	alts = &iface->altsetting[0];
++	udev = interface_to_usbdev(iface);
++	id = usb_device_vpid(udev);
++	if (get_alias_id(udev, &id))
++		quirk = get_alias_quirk(udev, id);
++
++	ret = snd_usb_sanity_check(iface, quirk);
++	if (ret)
++		return ret;
++
++	ret = snd_usb_apply_boot_quirk(udev, iface, quirk, id);
 +	if (ret < 0)
 +		return ret;
 +
-+	as->pcm = pcm;
-+	/* ->private_data taken for 'rtd' on ASoC side. */
-+	pcm->private_data = as;
-+	pcm->info_flags = 0;
++	chip = snd_usb_request_chip(iface, quirk, id);
++	if (IS_ERR(chip))
++		return PTR_ERR(chip);
 +
-+	if (as->pcm_index)
-+		sprintf(pcm->name, "USB Audio #%d", as->pcm_index);
-+	else
-+		strscpy(pcm->name, "USB Audio", sizeof(pcm->name));
++	if (chip->quirk_flags & QUIRK_FLAG_DISABLE_AUTOSUSPEND)
++		usb_disable_autosuspend(interface_to_usbdev(iface));
 +
-+	snd_usb_proc_pcm_format_add(as);
++	/*
++	 * For devices with more than one control interface, we assume the
++	 * first contains the audio controls. We might need a more specific
++	 * check here in the future.
++	 */
++	if (!chip->ctrl_intf)
++		chip->ctrl_intf = alts;
 +
-+	for_each_pcm_streams(stream) {
-+		if (as->substream[stream].num_formats) {
-+			snd_usb_set_pcm_ops(pcm, stream);
-+			snd_usb_preallocate_buffer(&as->substream[stream]);
-+
-+			ret = add_chmap(pcm, stream, &as->substream[stream]);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
++	ret = snd_usb_parse_pcms(chip, iface, driver);
++	if (ret)
++		goto err;
 +	return 0;
++err:
++	snd_usb_chip_release(chip, iface);
++	return ret;
 +}
 +
-+/**
-+ * snd_usb_bind_pcm - Bind USB stream with a PCM object.
-+ *
-+ * @stream_entry: USB stream, one of chip->pcm_list.
-+ * @pcm: the PCM given USB stream shall be attached to.
-+ *
-+ * Note: Designed for ASoC users where snd_pcm_new() and pcm->private_data
-+ * is owned by the framework.
-+ */
-+int snd_usb_bind_pcm(struct list_head *stream_entry, struct snd_pcm *pcm)
++int snd_usb_bind_card(struct snd_usb_audio *chip, struct snd_card *card,
++		      struct usb_driver *driver)
 +{
-+	struct snd_usb_stream *as;
-+	unsigned int dir;
++	chip->card = card;
++	snd_usb_audio_create_proc(chip);
++
++	atomic_sub(chip->num_interfaces, &chip->active);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(snd_usb_bind_card);
++
++__maybe_unused
++static int snd_usb_create_card(struct snd_usb_audio *chip, struct usb_interface *iface)
++{
++	struct usb_device *udev = chip->dev;
++	struct snd_card *card;
++	int idx = chip->index;
++	char component[14];
 +	int ret;
 +
-+	as = list_entry(stream_entry, struct snd_usb_stream, list);
-+	as->pcm = pcm;
-+
-+	snd_usb_proc_pcm_format_add(as);
-+
-+	for_each_pcm_streams(dir) {
-+		if (as->substream[dir].num_formats) {
-+			/* Buffer preallocation and PCM ops controlled by ASoC component. */
-+			ret = add_chmap(pcm, dir, &as->substream[dir]);
-+			if (ret)
-+				return ret;
-+		}
++	ret = snd_card_new(&iface->dev, index[idx], id[idx], THIS_MODULE, 0, &card);
++	if (ret) {
++		dev_err(&udev->dev, "cannot create card instance %d\n", idx);
++		return ret;
 +	}
++
++	chip->card = card;
++	strscpy(card->driver, "USB-Audio", sizeof(card->driver));
++	usb_audio_make_shortname(udev, chip, chip->quirk);
++	usb_audio_make_longname(udev, chip, chip->quirk);
++	sprintf(component, "USB%04x:%04x", usb_device_vid(udev), usb_device_pid(udev));
++	snd_component_add(card, component);
++	snd_usb_audio_create_proc(chip);
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(snd_usb_bind_pcm);
 +
-+int snd_usb_add_pcms(struct snd_usb_audio *chip)
-+{
-+	struct snd_usb_stream *as;
-+	int ret;
-+
-+	list_for_each_entry(as, &chip->pcm_list, list) {
-+		ret = snd_usb_pcm_add(chip, as);
-+		if (ret)
-+			return ret;
-+	}
-+	return 0;
-+}
-+
- int snd_usb_add_audio_stream(struct snd_usb_audio *chip,
- 			     int stream,
- 			     struct audioformat *fp)
-diff --git a/sound/usb/stream.h b/sound/usb/stream.h
-index f70693502281..98cff9922cf1 100644
---- a/sound/usb/stream.h
-+++ b/sound/usb/stream.h
-@@ -9,6 +9,7 @@ int snd_usb_add_audio_stream(struct snd_usb_audio *chip,
- 			     int stream,
- 			     struct audioformat *fp);
- void snd_usb_free_pcms(struct snd_usb_audio *chip);
-+int snd_usb_add_pcms(struct snd_usb_audio *chip);
- 
- #endif /* __USBAUDIO_STREAM_H */
- 
+ /* register card if we reach to the last interface or to the specified
+  * one given via option
+  */
 -- 
 2.25.1
 
