@@ -1,274 +1,168 @@
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011033.outbound.protection.outlook.com [52.101.125.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F58B29A2;
-	Wed,  9 Apr 2025 01:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744160762; cv=none; b=lNidV3PpXiaUQgKMROn8uMCA6+Q4yLdl6vNG0bq2Vo5JcnaHs3pz6gXEObMvjx/m5En6cKGPce2wARRDKaws98okA660ZN1aUZpkDjB/ai+GfShd8LbvAVdvCqAvHMl9fxGpCrbU8oOoOPp4/9yCQTS+lbq4jxYvCJq81qPf5Ds=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744160762; c=relaxed/simple;
-	bh=6Drd4TB17uLprwCcpm3PqHESp01tKrojy6WHIWwNFJA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ht6CvJumCLDQentUymVyuqwwEUw2YkVFc2XlN+JeB9QYV/4GaZRGCu8e5r2N5PjWebrK8lYjtxQTTZhG0Rdwj0NmnkluUUHZDg/ZhkRm9nDCvRNBAwG7jfwRYkv3GkDPDSqDoMcIQ3F5Wgh58dP40MenNJUz9IGHWi+O4EdSP1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=eP5ie3Ho; arc=none smtp.client-ip=220.130.44.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96718C1E
+	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 02:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744167404; cv=fail; b=TCrguYvZonMqGBKUewEDAp8m07b1pu459BlFJMv/bSC6JzJboFU9louT0StDJ/fo6+CbjX3N4tt/D/rHLwc4Dyt1qzuGLU5U47SzapyiamnrJqIyD25iP5EuXONjOoa9OeZiEZ9ZdNWTh/yPPVUn4BEwedWA7gWtBgR8eHuHxkE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744167404; c=relaxed/simple;
+	bh=RWs+a+NPgQnQJMMjVkTo1S2zwTE1j+mxn+BR4zBNobY=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=d/a187rZM4x+zBy9eIXeAOvORkhvI+7qxJ7RMMUXiDxBkeXc2ki2+g+XmY2bsqJqZ42DdJEA41BMm1prbHsqouC3mI/iJ6wAYO6ofxDprsN+1zIw+aZNQkD8cO3HCGCFGolUIcpksL889tHFDEaGSPyYhuAWYxxt+aFhtoHzZWs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=eRvQ34eU; arc=fail smtp.client-ip=52.101.125.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="eP5ie3Ho"
-X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
-	s=richtek; t=1744160755;
-	bh=JrRgcz0jk0p5CxI5j739Foq1vk1QG0/X59VRPjZ61vI=; l=7949;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=eP5ie3HoYd4gkd47BN5pHdICZ+rg0VakBGzkrvjRVvXJeGIZ7FO1fzqbOjIM0NW9u
-	 alykx3zn8mdQq3ts8B9Eg+IXgH/rGSvJKpAziFpi3NHOfl15IWx8h/q7P6UTD/Teer
-	 d3PCTvhQRZ30ZS9Qvee590li62N1oRUpcFF2HTl6fYoKLt3YG3dAQwZYLe6H6LgLn8
-	 xxtMK9LgCAzUE7OPWHnWf3wJHVzQdAodcMQOkpHQgzOjD9GVpSJN29FY/m+wxOd9QY
-	 nS1kIuprzFKtB4kG+twCrj2MOoVqunglPj/fro8bigALZCNOH3HLpkJNofXch3arln
-	 m1cVish2QhMnw==
-Received: from 192.168.10.46
-	by mg.richtek.com with MailGates ESMTPS Server V6.0(2132241:0:AUTH_RELAY)
-	(envelope-from <cy_huang@richtek.com>)
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Wed, 09 Apr 2025 09:05:30 +0800 (CST)
-Received: from ex3.rt.l (192.168.10.46) by ex3.rt.l (192.168.10.46) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 9 Apr
- 2025 09:05:30 +0800
-Received: from git-send.richtek.com (192.168.10.154) by ex3.rt.l
- (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
- Transport; Wed, 9 Apr 2025 09:05:30 +0800
-Date: Wed, 9 Apr 2025 09:06:52 +0800
-From: ChiYuan Huang <cy_huang@richtek.com>
-To: Rob Herring <robh@kernel.org>
-CC: Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Otto lin
-	<otto_lin@richtek.com>, Allen Lin <allen_lin@richtek.com>,
-	<devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 4/4] ASoC: codecs: Add support for Richtek rt9123p
-Message-ID: <Z/XILJ8YRt905whu@git-send.richtek.com>
-References: <cover.1743774849.git.cy_huang@richtek.com>
- <27583d8f9bb07351e5c9ea78ed286ca6daa74a8d.1743774849.git.cy_huang@richtek.com>
- <20250404200519.GA198531-robh@kernel.org>
- <Z/Mh8JEHqYohvcfL@git-send.richtek.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="eRvQ34eU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XGa9Pnt/J4QqnrteXZuzPE/AKDRsG9l6NLcO5+ziG3fkBoD0GhMlNGxkM1By8qk//SqtAqLZmqLXSf6dXMXCE++q7OQx6T02IZSUAl6oLIh0F75cnVKOmhBwu0S9LzcHWed4wq+mPAQcCWXOau2+sz/Sh91qFw/OOLXJAQoePpOlNPjB11fWprFHjj8SfWgTNlr5tMBH0BLwhFHLmnVfzujsFWUhHhG7p/UkoG+g8MU4x08olUdeNBsNFU2PviPA5FuTTZXgFs52n9Q+TyG2Hy5SU2fvkoNZRSaLgXmmAHhP2fJuRI5yRUK/vktUR+cGtW2NT0J2XkS2bUuwFphJFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r7q/QnuldLiVdwGl6oBdEMZ6nLst5qhFfRDoD54rKNs=;
+ b=Fxlo31F0P5HFNseUX6K/XJzlJk/LqGzlBYtrVtxgLNMZz27fgCQm9anPcgfmpLPOqBIkdQo4FtPLBJLM+CXPME+cjohe+PQkC41TYb/s9eIAWZ4JU5NN5uL7f5i8whY/D5joftCsCbGJYlIHnVucY/pKgLA890/Wu6Y5arEfGbnAKgV6Iw7abIqKVwsO8hdXHWG3Dxq4s1T0dWoe1lSTLAdXRzCpJjCB/8/n+SSTNCiuaAgFoAgbER3sMCBFuAdpmtQ1QEln+wIRkfPuzbw+cU9JKEbLLqCDjjTiftyX980rzG/KXDHxUSpqltvoo2DkK0oq/hvYDh8deIV5dyUuNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r7q/QnuldLiVdwGl6oBdEMZ6nLst5qhFfRDoD54rKNs=;
+ b=eRvQ34eUelSyX7Dcqj/ksbMRsoCBtT1SAvyz50biA6f8AFM+rYnCUy8Bc2kFUZcX5QNJpDBMyTej1IyeVfbJimRdlB0yE8kba6w8BblX+fdInHc5Z9nNyVUY0jMGWl8Tc9d3SZJxwB5AIBS83RUzwdc20jyqt4oO/z2cVR9l5DE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TY1PR01MB10785.jpnprd01.prod.outlook.com
+ (2603:1096:400:324::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.35; Wed, 9 Apr
+ 2025 02:56:34 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8606.033; Wed, 9 Apr 2025
+ 02:56:34 +0000
+Message-ID: <87plhm9h5q.wl-kuninori.morimoto.gx@renesas.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>, Jaroslav Kysela <perex@perex.cz>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, Kiseok Jo <kiseok.jo@irondevice.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Takashi Iwai <tiwai@suse.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Benjamin Bara <benjamin.bara@skidata.com>, linux-sound@vger.kernel.org
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 0/7] ASoC: use snd_soc_dapm_to_component()
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 9 Apr 2025 02:56:34 +0000
+X-ClientProxiedBy: TYAPR01CA0193.jpnprd01.prod.outlook.com
+ (2603:1096:404:29::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Z/Mh8JEHqYohvcfL@git-send.richtek.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY1PR01MB10785:EE_
+X-MS-Office365-Filtering-Correlation-Id: d74174cd-fec8-44d9-d8b3-08dd77122354
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|52116014|376014|366016|1800799024|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?eN2IA2doVzTYQyug//Rm1zCiiEsOi2ZPo2k7JDeE9HGqFimZ1cXvYGYh+PTI?=
+ =?us-ascii?Q?O5sIG00h4iX1qymaZEDXYActD5PwkXswMdUDiAs/gsPnGt+c0o7/wTAsu1mF?=
+ =?us-ascii?Q?0l8GOX18P/Wub7IxKsZqdGCnlfKrmAhYa52yRP1AUU6Yd6lfrws/aD4ozv6H?=
+ =?us-ascii?Q?+uGvdT9zMBy6+Kl6CleTCSYzKq+VdLY+ORbLbwX+H+Ngu9pPZwhFFjFy1qgc?=
+ =?us-ascii?Q?XwA54tdgc8gPL5sxKv2hJUa0bDFX94wI0fXMCMG5i5w7HBLaJ7IkfTE6lDwe?=
+ =?us-ascii?Q?oZBL0/SR6wruG5b8ehnVGGod1mEXtSpulz7dUg8i27z9+JJtk32isk/eUun4?=
+ =?us-ascii?Q?j1lSSdRKDj+nKae/AxpSCWF8HCx6PzCt/Ojt2NPke68W9dS4UKSdZC8EaGlF?=
+ =?us-ascii?Q?6zbtjbgzbsIeGJfFSAFEDOS+uMzQqCvM1Hujips1vCyRxA+XFXFWpMj6JT+8?=
+ =?us-ascii?Q?J/jH0H6a33Qhj/vV2VJO+hBLk7VQQrod1/RTvctpjIZS+5ro4YLByrTPCQMO?=
+ =?us-ascii?Q?F0aSnqCRaDvVPmpeoYrGuSbJkU7tieSvGQNxoKabqLSHwID6k7nCdXpaqX2k?=
+ =?us-ascii?Q?feoyXhwpr4C6s9TDCLfDoVrWlB5tGPR0faMc8zoL9KriJSm4vwwiyOy8U1l2?=
+ =?us-ascii?Q?/HDKIwKliCnS5ZcD9r/v/J+sVbGd8exTxtHUu175ZmzsvzDdc8i0JqVvFFp5?=
+ =?us-ascii?Q?n9nA1evjQmnu2qXTBoB+dioQNeSJprKMzbP7P0hFP4699ZytAR9fzYtBd/KL?=
+ =?us-ascii?Q?9tFJoSpQ596efFbLT1vzXMVCZTo/oVAJirUZpyZ/4YJS3SbRpe06wQmSkmrQ?=
+ =?us-ascii?Q?6NtY9On5U0DBZ5rCj/G20ZveWiHjY0LLJhvd8kXJSMuXrIPMQKOW3dPdHwTW?=
+ =?us-ascii?Q?XNHJ/l3VBQ2LrxPznGV8pGqanQ18LL+Xn++lE/6QF4Q+/SmPIyEUCOjGFh0Q?=
+ =?us-ascii?Q?KZ3CMTszNDXxStVG8k5t0Jl8LpRqHNvw0f6biqH5jG6YAR4yNgPLp7qeSzpj?=
+ =?us-ascii?Q?fvRWHT4H9D/D7co14tXbWgoq4pNxWZwoHER+0aZvR+k557Y+a9d4G8FRrtmB?=
+ =?us-ascii?Q?zvM5XHFkgy0vG7UOPOkHH3wVbHIN01h0h9rBM7hXUD+/xoOdD+9El7fap/1L?=
+ =?us-ascii?Q?6Bu1bENWR99XaEp8dIFg3p1uM8v633KZoGAsQFowGCi09eCvYbRBgJN+WznB?=
+ =?us-ascii?Q?KC1BfKEmBlfSh6ZIYynZTLA6b6WwrSE534DijDomgy1O+wu5X4MmsLfrTP2y?=
+ =?us-ascii?Q?jz1MPh3IVaUk0ieUoZPjuoP4YulS/UHSG/OvdBO55NViinTCNsG+IzxiI/Gi?=
+ =?us-ascii?Q?rrFoPB99Xn79rOFvl2uy7eWEnzh15ompEa0oEX7DbBq+vgBXFJdPRusJ3xge?=
+ =?us-ascii?Q?x6kThF4AjUd4131DA1GT5lNJvDsaN2fmD0vpH05HyzMigg3AvrO/5MeD43P5?=
+ =?us-ascii?Q?srfpIIZmCIrv4/e99iYX1egVtq4V3Zf+I0s/863RBnaj9JULg2ERvw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(376014)(366016)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NOX/izuXtPDRaNynBN9w/97DLV+Wu/9ekJV4gBQFPh98sz16ymEncje3LSM8?=
+ =?us-ascii?Q?C+VAI+tBWO6lYz+A97mbgdyM6vJFVwWkC9s2vpr9NU5jKvRc4hMKjwDp/6dw?=
+ =?us-ascii?Q?4owj6SCFzWzyAKfYuHxMaVRoRPFSVcjiCxkFISQtTvXymnQVNMgws9a3c7GK?=
+ =?us-ascii?Q?KrTTOHvH7+KcrhvNPq+0O48eSF/arRXPDquvhA4QNjZdhWeCs/ZzVW7xqpnz?=
+ =?us-ascii?Q?k2e+/RhY/Gu0HOtYs7Ynazkgs1ulakCmHstA2q2+xvV4eossAdZONypCY6hX?=
+ =?us-ascii?Q?slK2Q2iSULc75Ok0x+q1trE919adXQZAaJ4FnarObOZAIMhCp4o3mBgVqO1N?=
+ =?us-ascii?Q?oq6cLXVNGnPJQPI8DWOrXxU3kqlKM6LtROaAega7ml3nvjaiCapj5iS7jVyP?=
+ =?us-ascii?Q?cj6MDa78MO/sx/K72ISTRsyfiLUHr60GnI8wPIu6tjkGtlsoewBfyfi42CNw?=
+ =?us-ascii?Q?ZCG69SKXTVddqbNze08yefUY9/nV8nTeV4voJ+OGKNUACDvrUv76w2G9OEkp?=
+ =?us-ascii?Q?iutT7yQgUuh4bMMMBbCDNCSykD9/0mA6gE1z1Wx4ZWVd0A8mZRZP+QMjiB20?=
+ =?us-ascii?Q?YuoizDAGNJy7j9H+8yB9Bhnxv7YDE1lbRUkgImWE/9TutFnPIEnUwWglsMTP?=
+ =?us-ascii?Q?dEenvoIrjpdSqR6KIpnOfCpw3tPrzglxj5nmglIlLtn5cUVdAQRaWdxrVsYa?=
+ =?us-ascii?Q?g3sDjYYdxKsf4iVAQOO9usdusibxCnjgV/MwY3t7hl5SINU6U35ebNz2tuOr?=
+ =?us-ascii?Q?kBHEiQp5V6/YBgSZti5FX+0eT5XYTKKsNfJvtLLATGq3QU2pb6K6Dseul017?=
+ =?us-ascii?Q?8y2xbPGgTyzDVuAE+kjHU/URmg7sGRhdSu3GmSkOutfTtFyFdQ2vO/1CSjwj?=
+ =?us-ascii?Q?u2xdfGMKBhFRPbkdfDNlY2/AD3BBQpbnO3VzYQ/4BTaD98KUQVqorjqjyblC?=
+ =?us-ascii?Q?iTO/TY0eNtViFxvVGU408ZKznJMQcn+RXBGrojyucIgCP8O/7fBg+XHN5QPA?=
+ =?us-ascii?Q?O5RsPKm3SSDQptZa1Ft6KBGjo8XYlfGT4zbzA8iPp7utaU9DTDftcm0I36zM?=
+ =?us-ascii?Q?rKdOSZ9ZJvrCxUdsZrCk79kB6yPtVYDoiKie//0CWOF9PXktmMBoB5vngD2M?=
+ =?us-ascii?Q?1nNsWkUkNf67bgf/+I7phfRMaPFTF2rTfCtMACOllpDpvTKp7KDR2mzSmGeT?=
+ =?us-ascii?Q?uGHEQmDgE9fEXGLDJbpG9ZbGpAtVCbQHiVRe1kRsX5a7AmNu80DkcTbxxFH1?=
+ =?us-ascii?Q?0IRfFWkOwFMQaUKkQXl8NY7nMAkHwUf6FK4d4blzrEM8x1hpX0WaAwqRx2WJ?=
+ =?us-ascii?Q?5OTemWHPKNZML3bhdkO/RIMx6HxQMEfa2yNzKR6UIJKShwNxYtrYEqjQbhjg?=
+ =?us-ascii?Q?uR9eVQi2qKyOpN+2Vf9uxygERNFimg8ej2UDJVG9SDrNMntZA72BZe2mXVOb?=
+ =?us-ascii?Q?aSQrDE/Pmhmerf4qSBQ7Uqag2jqm0lGtskxW8uAGJnlRMFA8K/Vt9S1dYxlU?=
+ =?us-ascii?Q?ZwHVK80ZHON+zn4c/O+ll0kZ0/IGMV0v7YIS+V5xTMcNapFG5cmBCrDmEPWT?=
+ =?us-ascii?Q?em7Pspq/zUXTCITizG5RD7DNnRY6F0yxhMPNhOhzXYbneul1MXQLybFh/7e/?=
+ =?us-ascii?Q?EbuKjQPSwfyokGPSqMEHDyA=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d74174cd-fec8-44d9-d8b3-08dd77122354
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 02:56:34.4255
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: a6Cw+OWJoNkFjn81GwOrL/suhGszcvrUMqgl+jpvX2qPxoaNl6fOu5kXNMHPfmo1ptqdNd+LNeBrf5EQRtPSN9uGGomXPaTDYWMEd+2DWboq0VNI6mY+qDvDOaaKDRzE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10785
 
-On Mon, Apr 07, 2025 at 08:53:04AM +0800, ChiYuan Huang wrote:
-> On Fri, Apr 04, 2025 at 03:05:19PM -0500, Rob Herring wrote:
-> > On Fri, Apr 04, 2025 at 10:22:14PM +0800, cy_huang@richtek.com wrote:
-> > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > > 
-> > > Add codec driver for Richtek rt9123p.
-> > > 
-> > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > > ---
-> > >  sound/soc/codecs/Kconfig   |   6 ++
-> > >  sound/soc/codecs/Makefile  |   2 +
-> > >  sound/soc/codecs/rt9123p.c | 171 +++++++++++++++++++++++++++++++++++++
-> > >  3 files changed, 179 insertions(+)
-> > >  create mode 100644 sound/soc/codecs/rt9123p.c
-> > > 
-> > > diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-> > > index c61b2d3cf284..b0fa935846c0 100644
-> > > --- a/sound/soc/codecs/Kconfig
-> > > +++ b/sound/soc/codecs/Kconfig
-> > > @@ -1832,6 +1832,12 @@ config SND_SOC_RT9123
-> > >  	  Enable support for the I2C control mode of Richtek RT9123 3.2W mono
-> > >  	  Class-D audio amplifier.
-> > >  
-> > > +config SND_SOC_RT9123P
-> > > +	tristate "Richtek RT9123P Mono Class-D Amplifier"
-> > > +	help
-> > > +	  Enable support for the HW control mode of Richtek RT9123P 3.2W mono
-> > > +	  Class-D audio amplifier.
-> > > +
-> > >  config SND_SOC_RTQ9128
-> > >  	tristate "Richtek RTQ9128 45W Digital Input Amplifier"
-> > >  	depends on I2C
-> > > diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-> > > index d8d0bc367af8..fba699701804 100644
-> > > --- a/sound/soc/codecs/Makefile
-> > > +++ b/sound/soc/codecs/Makefile
-> > > @@ -271,6 +271,7 @@ snd-soc-rt721-sdca-y := rt721-sdca.o rt721-sdca-sdw.o
-> > >  snd-soc-rt722-sdca-y := rt722-sdca.o rt722-sdca-sdw.o
-> > >  snd-soc-rt9120-y := rt9120.o
-> > >  snd-soc-rt9123-y := rt9123.o
-> > > +snd-soc-rt9123p-y := rt9123p.o
-> > >  snd-soc-rtq9128-y := rtq9128.o
-> > >  snd-soc-sdw-mockup-y := sdw-mockup.o
-> > >  snd-soc-sgtl5000-y := sgtl5000.o
-> > > @@ -686,6 +687,7 @@ obj-$(CONFIG_SND_SOC_RT721_SDCA_SDW)     += snd-soc-rt721-sdca.o
-> > >  obj-$(CONFIG_SND_SOC_RT722_SDCA_SDW)     += snd-soc-rt722-sdca.o
-> > >  obj-$(CONFIG_SND_SOC_RT9120)	+= snd-soc-rt9120.o
-> > >  obj-$(CONFIG_SND_SOC_RT9123)	+= snd-soc-rt9123.o
-> > > +obj-$(CONFIG_SND_SOC_RT9123P)	+= snd-soc-rt9123p.o
-> > >  obj-$(CONFIG_SND_SOC_RTQ9128)	+= snd-soc-rtq9128.o
-> > >  obj-$(CONFIG_SND_SOC_SDW_MOCKUP)     += snd-soc-sdw-mockup.o
-> > >  obj-$(CONFIG_SND_SOC_SGTL5000)  += snd-soc-sgtl5000.o
-> > > diff --git a/sound/soc/codecs/rt9123p.c b/sound/soc/codecs/rt9123p.c
-> > > new file mode 100644
-> > > index 000000000000..b0ff5f856e4c
-> > > --- /dev/null
-> > > +++ b/sound/soc/codecs/rt9123p.c
-> > > @@ -0,0 +1,171 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +//
-> > > +// rt9123p.c -- RT9123 (HW Mode) ALSA SoC Codec driver
-> > > +//
-> > > +// Author: ChiYuan Huang <cy_huang@richtek.com>
-> > > +
-> > > +#include <linux/acpi.h>
-> > > +#include <linux/delay.h>
-> > > +#include <linux/err.h>
-> > > +#include <linux/gpio/consumer.h>
-> > > +#include <linux/kernel.h>
-> > > +#include <linux/mod_devicetable.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/platform_device.h>
-> > > +#include <linux/property.h>
-> > > +#include <sound/pcm.h>
-> > > +#include <sound/soc.h>
-> > > +#include <sound/soc-dai.h>
-> > > +#include <sound/soc-dapm.h>
-> > > +
-> > > +struct rt9123p_priv {
-> > > +	struct gpio_desc *enable;
-> > > +	unsigned int enable_delay;
-> > > +	int enable_switch;
-> > > +};
-> > > +
-> > > +static int rt9123p_daiops_trigger(struct snd_pcm_substream *substream, int cmd,
-> > > +				  struct snd_soc_dai *dai)
-> > > +{
-> > > +	struct snd_soc_component *comp = dai->component;
-> > > +	struct rt9123p_priv *rt9123p = snd_soc_component_get_drvdata(comp);
-> > > +
-> > > +	if (!rt9123p->enable)
-> > > +		return 0;
-> > > +
-> > > +	switch (cmd) {
-> > > +	case SNDRV_PCM_TRIGGER_START:
-> > > +	case SNDRV_PCM_TRIGGER_RESUME:
-> > > +	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-> > > +		mdelay(rt9123p->enable_delay);
-> > > +		if (rt9123p->enable_switch) {
-> > > +			gpiod_set_value(rt9123p->enable, 1);
-> > > +			dev_dbg(comp->dev, "set enable to 1");
-> > > +		}
-> > > +		break;
-> > > +	case SNDRV_PCM_TRIGGER_STOP:
-> > > +	case SNDRV_PCM_TRIGGER_SUSPEND:
-> > > +	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-> > > +		gpiod_set_value(rt9123p->enable, 0);
-> > > +		dev_dbg(comp->dev, "set enable to 0");
-> > > +		break;
-> > > +	default:
-> > > +		break;
-> > > +	}
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int rt9123p_enable_event(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol,
-> > > +				int event)
-> > > +{
-> > > +	struct snd_soc_component *comp = snd_soc_dapm_to_component(w->dapm);
-> > > +	struct rt9123p_priv *rt9123p = snd_soc_component_get_drvdata(comp);
-> > > +
-> > > +	if (event & SND_SOC_DAPM_POST_PMU)
-> > > +		rt9123p->enable_switch = 1;
-> > > +	else if (event & SND_SOC_DAPM_POST_PMD)
-> > > +		rt9123p->enable_switch = 0;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static const struct snd_soc_dapm_widget rt9123p_dapm_widgets[] = {
-> > > +	SND_SOC_DAPM_OUTPUT("SPK"),
-> > > +	SND_SOC_DAPM_OUT_DRV_E("Amp Drv", SND_SOC_NOPM, 0, 0, NULL, 0, rt9123p_enable_event,
-> > > +			       SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD),
-> > > +};
-> > > +
-> > > +static const struct snd_soc_dapm_route rt9123p_dapm_routes[] = {
-> > > +	{"Amp Drv", NULL, "HiFi Playback"},
-> > > +	{"SPK", NULL, "Amp Drv"},
-> > > +};
-> > > +
-> > > +static const struct snd_soc_component_driver rt9123p_comp_driver = {
-> > > +	.dapm_widgets		= rt9123p_dapm_widgets,
-> > > +	.num_dapm_widgets	= ARRAY_SIZE(rt9123p_dapm_widgets),
-> > > +	.dapm_routes		= rt9123p_dapm_routes,
-> > > +	.num_dapm_routes	= ARRAY_SIZE(rt9123p_dapm_routes),
-> > > +	.idle_bias_on		= 1,
-> > > +	.use_pmdown_time	= 1,
-> > > +	.endianness		= 1,
-> > > +};
-> > > +
-> > > +static const struct snd_soc_dai_ops rt9123p_dai_ops = {
-> > > +	.trigger        = rt9123p_daiops_trigger,
-> > > +};
-> > > +
-> > > +static struct snd_soc_dai_driver rt9123p_dai_driver = {
-> > > +	.name = "HiFi",
-> > > +	.playback = {
-> > > +		.stream_name	= "HiFi Playback",
-> > > +		.formats	= SNDRV_PCM_FMTBIT_S16 | SNDRV_PCM_FMTBIT_S24 |
-> > > +				  SNDRV_PCM_FMTBIT_S32,
-> > > +		.rates		= SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-> > > +				  SNDRV_PCM_RATE_22050 | SNDRV_PCM_RATE_24000 |
-> > > +				  SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
-> > > +				  SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_88200 |
-> > > +				  SNDRV_PCM_RATE_96000,
-> > > +		.rate_min	= 8000,
-> > > +		.rate_max	= 96000,
-> > > +		.channels_min	= 1,
-> > > +		.channels_max	= 2,
-> > > +	},
-> > > +	.ops    = &rt9123p_dai_ops,
-> > > +};
-> > > +
-> > > +static int rt9123p_platform_probe(struct platform_device *pdev)
-> > > +{
-> > > +	struct device *dev = &pdev->dev;
-> > > +	struct rt9123p_priv *rt9123p;
-> > > +	int ret;
-> > > +
-> > > +	rt9123p = devm_kzalloc(dev, sizeof(*rt9123p), GFP_KERNEL);
-> > > +	if (!rt9123p)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	rt9123p->enable = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_LOW);
-> > > +	if (IS_ERR(rt9123p->enable))
-> > > +		return PTR_ERR(rt9123p->enable);
-> > > +
-> > > +	ret = device_property_read_u32(dev, "enable-delay", &rt9123p->enable_delay);
-> > 
-> > Not documented. You have a single GPIO for any sort of control. What is 
-> > this delay relative to? Why does it need to be tuned per board? 
-> > Properties with units have unit suffix.
-> > 
-> Like as the property desciption in the document, to wait clock or data
-> to be ready. Sometimes, there's unknown jitter signal while clock or
-> data starts. It'll be better to have a delay for this. That's why it's
-> optional.
-> 
-Hi, Rob:
-  I'm sorting out all the changes needed for v2.
 
-In last mail, I have already described what the delay for.
+Hi Mark
 
-Another question is for this property name 'enable-delay'. Should I add a
-suffix like as 'enable-delay-ms'?
-> Thanks.
-> > Rob
+Current snd_soc_dapm_to_component() is using container_of(),
+thus, caution is required to use it not to get strange pointer.
+
+But, dapm has component pointer (= dapm->component), and we can simply use
+it. If we use dapm->component instead of container_of(), above caution
+is no longer needed.
+
+Let's use dapm->component in snd_soc_dapm_to_component(), and use it.
+
+Kuninori Morimoto (7):
+  ASoC: soc-component: use dapm->component instead of container_of()
+  ASoC: amd: use snd_soc_dapm_to_component()
+  ASoC: sma1307: use snd_soc_dapm_to_component()
+  ASoC: intel: use snd_soc_dapm_to_component()
+  ASoC: mediatek: use snd_soc_dapm_to_component()
+  ASoC: soc-dapm: use snd_soc_dapm_to_component()
+  ASoC: soc-topology: use snd_soc_dapm_to_component()
+
+ include/sound/soc-component.h             |  6 +--
+ sound/soc/amd/acp/acp-mach-common.c       |  2 +-
+ sound/soc/codecs/sma1307.c                | 32 ++++++-------
+ sound/soc/intel/avs/control.c             |  2 +-
+ sound/soc/mediatek/mt8195/mt8195-mt6359.c |  2 +-
+ sound/soc/soc-dapm.c                      | 58 +++++++++++++++--------
+ sound/soc/soc-topology.c                  |  3 +-
+ 7 files changed, 60 insertions(+), 45 deletions(-)
+
+-- 
+2.43.0
+
