@@ -1,86 +1,61 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADE61F94A;
-	Wed,  9 Apr 2025 10:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744195556; cv=fail; b=MrXZuPVcCnqfy0/IGhvC20MJnunev0srByyW5QiFZymfnBuYTEQNzMw/MPZj8w/5oc+vALBS+BYY/D1M/QaK4CVwvF4AWhClUbe2vYjWlzWXK9Ez+zb7FxoRJl8HECHtp1x7p3O10O0v0E+vsKOHWIAtySVdRaSlpl/yxesxlvA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744195556; c=relaxed/simple;
-	bh=tUn5nEs9ZmeCrE2TU5aYvECO4V3zClrQHa4/W6NwyII=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=X9eFZl55+cUbE4kgBApucoaLra1ByIEJFAsKAtmh7yiCxPasOcoEwra3TlIj53NFfqcBM4bDJh1lVQB4FnMHM9AE49tXmLQiTs5k1ZEBhZzaTR/peqr0GciGZPU3Cy5l2DxJX5FmJt5969JMuTE3jaiZWcWEnt5gqJWb+9gbx8U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=oIARV3Ig; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=KqYV4ifd; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F160725D8FC
+	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 10:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744195858; cv=none; b=XffCu10MgtGth4YEY9edODPq2w3gUB/jsLjgcHvKa/jlYL4zLxQ23o3t/Scp1akyFMFfx3WE+BM4faPpZpd6yTOTyTHceE6EAq9mvAoIE7QDc509w3Jk7LN02X+B80ObWuDgJx7gUOA5yZIqSn2naFAvmVR6iYOIXQKSJbN3Q88=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744195858; c=relaxed/simple;
+	bh=IH3hN3Hos8ePmfJOgpdVA8i+2s87+dTXhaKo8M19T9Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dkmZ/U4wJehfR5l+6/iK3NcK5Xi9OLh2r3S8MbXczIZ+XVYVXAm8rkuVC6ATYE79cUv9V7SnMb+y7GUdoqODgmLMN0AH55tgIVe7FhSGPxhtU+V0btrYqYQIcOZohrsXj8pEc3X7F0uV4oXD0E3mL2p+RL9Wt01GKTZPhu5dJ/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nGyCHHq1; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="oIARV3Ig";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="KqYV4ifd"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5396PsVx006541;
-	Wed, 9 Apr 2025 05:45:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=98kG0HoXsQR7C8ZS
-	udSvWpytd7jX9Y1AiIMYSRU8Jhs=; b=oIARV3IgXNJdeShbi4EYIXzMiPH4j1YG
-	gVsl4woZIoQ5mY179EmlIdXDevDOM2MRBWg0OmCi71Pav9NkIKgUu3quD+poGX01
-	QR/+CfpbBYLOWUvYMRJcKJgVJyiIKL9+IsPbPfy8uJdeJePcdTUeA54EIq2ek+Oz
-	33fwauc54pq4fWUsmA+VhDlBsuVsHrB20mLWVqvQtPHZTbV8xXY+3lMbMjHs2H4M
-	2E7QXhxj3MYw2NX6QsOtFUPSjEJbm48Li7PMWrPFn0x6Ptl2UuxGJgCazhMsphBQ
-	gaTbMhu5BMe9rrpQAmg+9EyDRjNpnpHUCuKyqXN99FVwvUmTvzU1OA==
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2176.outbound.protection.outlook.com [104.47.57.176])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 45vemwkya7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Apr 2025 05:45:51 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ejr2Ir0ph/A3HHgl2sawlqaADFEcsD9augY+AeI0srk+IGMGyXwOsGnZhXuL1nMiRValH5Jampv6SqsgzEMPltK8ShKAOtR1s0GUYGUaTg4KH6EpuSrO9HMczl+QABNbeYItT6A5Dr5JlwZSQVunhYQlnHpsx+KJtfhrbLzVrQWUhGJl3Pekj2AabrtMaDd+72keaVUvfOWcBvdcgawsLxfflR4Da0KzHpChelVIcVHxEF1+J6Ub5Z8tKdmelMTV5OIaZFkkq9d0H7BLDtT/j3gGdXK8s4ZsZArFndEgnuMfVG9oHocXIJiP+dDqfrV+9se9rrFA1JhR7d1muYMrRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=98kG0HoXsQR7C8ZSudSvWpytd7jX9Y1AiIMYSRU8Jhs=;
- b=WkGJ1hsEQDhCeYkIQWipFZVz+g53PYtj7kcvOaxmA1MkZRSo3/owkszQq2DYjB3OhdsieCa+tQ2Cy6AjKbQCyIXsA8Pc8rsJzmQSJ1JvXBB7Kg8DTgtfB0Yh/oQJpcvDateB1bevMtLMsslL5npiLf1B4Jpx5jpKfYBHJorV+LBvduWrzZfEhNaBhwBEPuz2reejUS3Sc3/lJUyujbnFVy36mZZfjHjS6iNffMyemfkzMFNz8h7NdCQrUsu8bR65aND+OeZbY366OPIevpWQ7yB840IIP43ocdrJb56wegTWNbftFjqDftM5Ki09CwBGqimXWGPMYo3xdu+GJfmoFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com smtp.mailfrom=cirrus.com;
- dmarc=temperror action=none header.from=opensource.cirrus.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=98kG0HoXsQR7C8ZSudSvWpytd7jX9Y1AiIMYSRU8Jhs=;
- b=KqYV4ifd9UsH1v6YLyYKdoxXf4NWFWOvwrF3oMmBLrnW9kioHpko2pHtMoI2gU2TVsuUhGkhcp4O+LLLMy7G2jCrx8FbJjsYi3aZNPM/HrO/fU1oYYt4gCo1q2/U+b5P3+fxWpmPEcFP8NCIPGLSIsAg94/I/qm87fRZkCdhIP4=
-Received: from BYAPR07CA0034.namprd07.prod.outlook.com (2603:10b6:a02:bc::47)
- by SA3PR19MB7588.namprd19.prod.outlook.com (2603:10b6:806:31f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.33; Wed, 9 Apr
- 2025 10:45:47 +0000
-Received: from SN1PEPF000252A3.namprd05.prod.outlook.com
- (2603:10b6:a02:bc:cafe::b0) by BYAPR07CA0034.outlook.office365.com
- (2603:10b6:a02:bc::47) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8606.35 via Frontend Transport; Wed,
- 9 Apr 2025 10:45:47 +0000
-X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
- 84.19.233.75) smtp.mailfrom=cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=temperror action=none header.from=opensource.cirrus.com;
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of cirrus.com: DNS Timeout)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SN1PEPF000252A3.mail.protection.outlook.com (10.167.242.10) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8632.13
- via Frontend Transport; Wed, 9 Apr 2025 10:45:46 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id B11D9406544;
-	Wed,  9 Apr 2025 10:45:44 +0000 (UTC)
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.23])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 94380820259;
-	Wed,  9 Apr 2025 10:45:44 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH] ASoC: cs-amp-lib-test: Don't select SND_SOC_CS_AMP_LIB
-Date: Wed,  9 Apr 2025 11:45:44 +0100
-Message-Id: <20250409104544.878475-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nGyCHHq1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744195856; x=1775731856;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IH3hN3Hos8ePmfJOgpdVA8i+2s87+dTXhaKo8M19T9Y=;
+  b=nGyCHHq1F4anMqR5n5Q71xLJ1PkyjF8vsy0FELu9jkcTa843GyJ9yV79
+   1gR70RSe6nRRD8a93AcQMYOhmdlHmjwk7lG5LTVogzF5B1EVVV4SdoT0a
+   V3LtVtaeow4fkNIS1N3mlLu2BvJou4tcOx2IJnZcWVV3905pgZm6hOZ8j
+   VgK3/OIiuIEr5UNcjhHlz5XVAM+vG7HqBVopr0zJe1C0S+RHaT1ljKjgw
+   rk7MoU04jdNu458stFvQ3Wp/A7iUA4P+8P/hmGbQGW/vuHvYvqKCJEO+n
+   uimGM0IqwlVsvIuDjlEeE9E/DcZMVWmQz36BY7o5ZIcIDgbU2xQWvTB0F
+   A==;
+X-CSE-ConnectionGUID: blIVtGFtROGAGGwJP03aIA==
+X-CSE-MsgGUID: 8DtHerkLRA6pYam7NRq8ig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45380003"
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="45380003"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:50:55 -0700
+X-CSE-ConnectionGUID: WdX/xNEXTX+GODItR+jCPA==
+X-CSE-MsgGUID: it36l8BlSxO6r0z9O5Y5GA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="133426172"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa003.jf.intel.com with ESMTP; 09 Apr 2025 03:50:53 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz
+Cc: amadeuszx.slawinski@linux.intel.com,
+	linux-sound@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	quic_wcheng@quicinc.com,
+	mathias.nyman@linux.intel.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [RFC 00/15] ALSA/ASoC: USB Audio Offload
+Date: Wed,  9 Apr 2025 13:07:15 +0200
+Message-Id: <20250409110731.3752332-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,89 +63,187 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000252A3:EE_|SA3PR19MB7588:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: d78dcf34-32b9-47e7-c0bb-08dd7753af4e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|61400799027|36860700013|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?zgaPaV3GHS3mC6tiaB3rPpbB6Q9DVwdf8lMAaXBTiEQFHLUio7KN/HfmBrAI?=
- =?us-ascii?Q?kOxz054hBDhWnquq4W4h1fI2DrXBuYRcJTVFX3HkMW/o8HlDxkhUNX+omytb?=
- =?us-ascii?Q?8BF/jn/FzIYsiDOPNDBi9TdMojeEWaeFnmaJNBSZTvqjYTufPLLANeaKQiZo?=
- =?us-ascii?Q?4VpuC1rHcdSWnsCesTSte20cLexekHf7703IhDg9vxorKFir0OS0D+uG6Y1H?=
- =?us-ascii?Q?dWirkpJ6my5hxmMSB+z3FSYGJ1XqYc0I2ONWPyWbrhiN8bhDOuWRRqaERZxn?=
- =?us-ascii?Q?MWOgldjuUT0urWNxJ4PF7CNzDgcdMVJmRIRYPHJlK4MQdoZIwZtTvYaQCecZ?=
- =?us-ascii?Q?SXV56CRGVoTUmtpUpR0NSMzJw0yj9JojyQ+/L3DvsZVV0kHPy2kx9T7xWaqo?=
- =?us-ascii?Q?mSgiDxvnfa96nHubPJMxX8PwKNI9J5IaxvkMmk0ZFjm56ya5McOEBp11eSXk?=
- =?us-ascii?Q?LmlPQn7JO2DJW3a5JmnYZCJQ2m9iEoncIJwDJ6igMkytRfXEveaiAn0xErHA?=
- =?us-ascii?Q?oa1WkAwafGuD8S5tlKi3tuLGAYJLUM2Brpj1RTjrBJGyFO5u0bwxSVE80I3t?=
- =?us-ascii?Q?jVu1FSceYIvkwOvYloilDWQaK5QTW0zM4NvR+DRWMZMKApKXk++KS/yCQ/kV?=
- =?us-ascii?Q?xI5/zzUVdMfH8BvzjXIypxw3tz0tOmNOsCnW2MwCF+yHGA7C54GNPebaNpxY?=
- =?us-ascii?Q?dDnYz5TTpG3nCgeb5nspZlcWETtenuaJFYd8PDk3kP71hIKnClaBxQY/TQl7?=
- =?us-ascii?Q?QsfXjqPdp0HlUYdMKTabOvazr21d9Yf7Od+wCliB/0pSNDT69+MBAdOyHqTb?=
- =?us-ascii?Q?Ie5Hn6Hf/W/jYWiF/Jk4LmE4apgCPpR5BL6pkoKpcCR8v3/TPv4ZQ4mBsj4k?=
- =?us-ascii?Q?6zqCqKydIHaGcpGunH7hlFNFmKOboV1iVUknXB/cZMgiSrTT6IoNPq8QoupZ?=
- =?us-ascii?Q?IxobJ7sPFtjqKCoNnOSYPDxf1qx48NvkUyyqyh/OK0Zn3sogOs73Y7+92WpH?=
- =?us-ascii?Q?UmxC9bhQYKizi95GIy36R9wuA7NHdD7IyAVot1W7cnwhI0fZEo3bUpQTOrmw?=
- =?us-ascii?Q?jodOfhSdhrzNSYwXDLMS6z4h93AXlC81U6WYbzwajtXXTXown24IA1rMqwNN?=
- =?us-ascii?Q?sUxVYpPSxm7CbdrCFJQCX7UGl38JrrthJiUo9c71hhmNXgWFTN7YRZ6/bVpJ?=
- =?us-ascii?Q?VNYrMthPOwi1mc+NLz9/FY61B6Ae9eoDZ98Y8GivQTSWUZURqeDospfWtHIr?=
- =?us-ascii?Q?qHzumvkKfHAhG19nl91Og93T+PlsCqTgqy0xaNsNFgeGDrJou5Wcrcezkps1?=
- =?us-ascii?Q?3Lm5bL4qyBd2IinFHBfd+aaewDSAPFa+GoJQpibSlzF9+QhGTP/dsOAAD2fH?=
- =?us-ascii?Q?I+5fQ7ZxYL0oOLaz2xRpT7lMKuiWSTwRruY6C3zJ5ybCHw62zUYekcRxcmoB?=
- =?us-ascii?Q?027HkbwHB3dKDm5JcxZNHFmK9TyC6xLzg841gPFsBQQ9EocJbYGEzA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(36860700013)(376014);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 10:45:46.0987
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d78dcf34-32b9-47e7-c0bb-08dd7753af4e
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF000252A3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR19MB7588
-X-Proofpoint-GUID: tTjtRbP6GGHV-yKSXN_PW1VsFtXGkBwA
-X-Proofpoint-ORIG-GUID: tTjtRbP6GGHV-yKSXN_PW1VsFtXGkBwA
-X-Authority-Analysis: v=2.4 cv=bYprUPPB c=1 sm=1 tr=0 ts=67f64fdf cx=c_pps a=Bc47kgIQ+uE7vzpOcRUeGA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=XR8D0OoHHMoA:10 a=s63m1ICgrNkA:10
- a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=23dBHJebA2L0dVjFQOcA:9 a=BGLuxUZjE2igh1l4FkT-:22
-X-Proofpoint-Spam-Reason: safe
 
-Depend on SND_SOC_CS_AMP_LIB instead of selecting it.
+Note: this series is based on Mark's broonie/for-next. The xHCI
+dependency is missing so it won't compile.  Goal of this RFC is
+discussing the direction of sound/usb changes.
 
-KUNIT_ALL_TESTS should only build tests for components that are
-already being built, it should not cause other stuff to be added
-to the build.
+Note #2: Why exclude xHCI?  Current form of xhci-sideband.c [1] does not
+fare well with Intel's hardware design for USB Audio Offload feature.
+The production shape for usb/xHCI subjects is being discussed with
+Mathias.  Once we're ready, I'll share the rest.
 
-Fixes: 177862317a98 ("ASoC: cs-amp-lib: Add KUnit test for calibration helpers")
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- sound/soc/codecs/Kconfig | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Note #3: this series does _NOT_ aim to block QCOM's equivalent series
+[2].  The team does acknowledge that we came the "table" late.  At the
+same time, we're prepared to help QCOM switch to the presented sound/usb
+approach if that would benefit the framework and its users as a whole.
+Make it part of this very series if need be.
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 083e8db05b9f..3eb9af28b53a 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -779,10 +779,9 @@ config SND_SOC_CS_AMP_LIB
- 	tristate
- 
- config SND_SOC_CS_AMP_LIB_TEST
--	tristate "KUnit test for Cirrus Logic cs-amp-lib"
--	depends on KUNIT
-+	tristate "KUnit test for Cirrus Logic cs-amp-lib" if !KUNIT_ALL_TESTS
-+	depends on SND_SOC_CS_AMP_LIB && KUNIT
- 	default KUNIT_ALL_TESTS
--	select SND_SOC_CS_AMP_LIB
- 	help
- 	  This builds KUnit tests for the Cirrus Logic common
- 	  amplifier library.
+
+
+Apart from changes to sound/usb, the patchset contains exemplary
+ASoC-based, offload-aware USB driver and a small sound card on the
+avs-driver side to show how card/dai_link initialization looks like.
+
+In short, USB Audio Offload functionality lowers CPU usage when
+streaming PCM over a USB Audio-Class device.  It has been first
+introduced in xHCI 1.2 release and is described in section 7.9 [3].
+Once hardware is prepared with hw_params(), all the USB endpoints
+operations e.g.: start, stop, submitting URBs, are performed
+internally, by the hardware and AudioDSP firmware.  Software driver
+shall not intervene.
+
+Startup flow from:
+
+	usb_pcm_open()
+	usb_pcm_hw_params()
+		snd_usb_endpoint_open()
+	usb_pcm_prepare()
+		usb_set_interface()
+		snd_usb_endpoint_start()
+	usb_pcm_trigger(cmd: START/STOP etc.)
+
+reduced to:
+
+	usb_pcm_open()
+	usb_pcm_hw_params()
+		snd_usb_endpoint_open()
+	usb_pcm_prepare()
+		usb_set_interface()
+
+Handlers such as ack(), sync_stop(), pointer(), delay() are not used
+here too.  The AudioDSP driver will handle pointer(), rest is
+firmware/hardware responsibility.
+
+
+There's a hefty number of limitations, most importantly:
+
+1) typically 2 USB devices tops, rest go the classic (non-offload) path
+2) AUDIOSTREAMING interfaces only, MIDI not.  While not an interface
+   type, Media (sound/usb/media) unsupported either
+3) simple PCM, UAC_FORMAT_TYPE_I_PCM only
+
+Current patchset shows this in form of 'udev->audsb_capable' field.
+True if xHCI sideband reasource has been assigned to the device.  The
+filtering is code is not part of the patchset.
+
+Important to highlight, 1) means both, offload-aware and offload-unaware
+drivers could be utilized simultaneously on the system in runtime.
+Opportunistically few devices would be controlled by the offload-aware
+driver, whereas everything else by the offload-unaware one.  This
+differs from existing HDAudio Controller driver situation where either
+classic, snd_hda_intel driver takes complete control -or- the
+offload-aware snd_soc_avs driver.
+In short, once all Audio Sideband resources are depleted, classic
+sound/usb/card.c driver manages whatever comes next:
+
+	snd_usb_audio (offload un-aware, sound/usb/card.c)
+	snd_soc_usb_codec (offload aware, sound/soc/codecs/usb.c)
+
+
+The design goals:
+	- make ASoC first class citizen of sound/usb
+	- re-use code found in sound/usb, mimic HDAudio integration in ASoC:
+	  small sound/soc/codecs/hda.c driver leveraging power of entire
+	  sound/pci/hda/
+	- no shared control over a USB device, either snd_usb_audio or
+	  its ASoC equivalent takes control of the device
+
+To do that, major tasks are identified:
+
+a) On ASoC side 'struct snd_card' is part of 'struct snd_soc_card' and
+is managed by the framework.  Similar situation with 'struct snd_pcm'
+and rtd->pcm.  To keep the teardown path sane, drop card->private_free()
+and pcm->private_free() usage.
+
+b) To initialize ASoC components/DAI properly, PCM capabilities should be
+known up-front.  To do that, existing USB card probe() has to be split.
+From one-stage to two-stage process:
+
+	- look ahead and parse usb_interface descriptors for PCM endpoints
+	  but do not create any PCMs (sound devices) yet
+	- create all PCMs based on obtained ->pcm_list and follow with
+	  MIDI/mixers/media
+
+Such approach allows to feed DAIs proper data even when a valid
+sound-card pointer is not yet present - the initialization occurs before
+snd_soc_bind_card() is called.
+
+Point a) is scaled for all three "domains" of sound/usb: chip, stream
+and quirks.  That's why there total of 6 commits doing that job.  First
+implement, then switch.  Everything that follows is, in my opinion,
+self-explanatory.  No need to repeat commit messages.
+
+
+[1]: https://lore.kernel.org/all/20250319005141.312805-2-quic_wcheng@quicinc.com/
+[2]: https://lore.kernel.org/all/20250319005141.312805-1-quic_wcheng@quicinc.com/
+[3]: https://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/extensible-host-controler-interface-usb-xhci.pdf
+
+
+Cezary Rojewski (15):
+  ALSA: usb: Move media-filters to the media code
+  ALSA: usb: Drop private_free() usage for card and pcms
+  ALSA: usb: Relocate the usbaudio header file
+  ALSA: usb: Implement two-stage quirk applying mechanism
+  ALSA: usb: Implement two-stage stream creation mechanism
+  ALSA: usb: Implement two-stage chip probing mechanism
+  ALSA: usb: Switch to the two-stage chip probing
+  ALSA: usb: Switch to the two-stage stream creation
+  ALSA: usb: Switch to the two-stage quirk applying
+  ALSA: usb: Export PCM operations
+  ALSA: usb: Export usb_interface driver operations
+  ALSA: usb: Export card-naming procedure
+  ALSA: usb: Add getters to obtain endpoint information
+  ASoC: codecs: Add USB-Audio driver
+  ASoC: Intel: avs: Add USB machine board
+
+ include/linux/usb.h                         |  15 +
+ include/linux/usb/ch9.h                     |  11 +
+ sound/usb/usbaudio.h => include/sound/usb.h |  53 +-
+ include/sound/usb_offload.h                 |  46 +
+ sound/soc/codecs/Kconfig                    |   6 +
+ sound/soc/codecs/Makefile                   |   2 +
+ sound/soc/codecs/usb.c                      | 441 +++++++++
+ sound/soc/intel/avs/boards/Kconfig          |   8 +
+ sound/soc/intel/avs/boards/Makefile         |   2 +
+ sound/soc/intel/avs/boards/usb.c            | 115 +++
+ sound/usb/caiaq/device.h                    |   2 +-
+ sound/usb/card.c                            | 946 +++++++++++++-------
+ sound/usb/card.h                            |   4 +-
+ sound/usb/clock.c                           |   2 +-
+ sound/usb/endpoint.c                        |   2 +-
+ sound/usb/format.c                          |   2 +-
+ sound/usb/helper.c                          |   2 +-
+ sound/usb/implicit.c                        |   2 +-
+ sound/usb/media.c                           |   8 +-
+ sound/usb/midi.c                            |   2 +-
+ sound/usb/midi.h                            |   2 +
+ sound/usb/midi2.c                           |   2 +-
+ sound/usb/midi2.h                           |   1 +
+ sound/usb/misc/ua101.c                      |   2 +-
+ sound/usb/mixer.c                           |   2 +-
+ sound/usb/mixer_quirks.c                    |   2 +-
+ sound/usb/mixer_s1810c.c                    |   2 +-
+ sound/usb/mixer_scarlett.c                  |   2 +-
+ sound/usb/mixer_scarlett2.c                 |   2 +-
+ sound/usb/mixer_us16x08.c                   |   2 +-
+ sound/usb/pcm.c                             | 161 +++-
+ sound/usb/power.c                           |   2 +-
+ sound/usb/proc.c                            |   2 +-
+ sound/usb/quirks.c                          | 203 +++--
+ sound/usb/quirks.h                          |   6 +
+ sound/usb/stream.c                          | 217 +++--
+ sound/usb/stream.h                          |   2 +
+ sound/usb/usx2y/us122l.c                    |   2 +-
+ sound/usb/usx2y/usX2Yhwdep.c                |   1 +
+ sound/usb/usx2y/usbusx2y.h                  |   2 +-
+ sound/usb/validate.c                        |   2 +-
+ 41 files changed, 1749 insertions(+), 541 deletions(-)
+ rename sound/usb/usbaudio.h => include/sound/usb.h (82%)
+ create mode 100644 include/sound/usb_offload.h
+ create mode 100644 sound/soc/codecs/usb.c
+ create mode 100644 sound/soc/intel/avs/boards/usb.c
+
 -- 
-2.39.5
+2.25.1
 
