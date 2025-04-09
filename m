@@ -1,70 +1,155 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B702725C717
-	for <linux-sound@vger.kernel.org>; Wed,  9 Apr 2025 08:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3434125D902;
+	Wed,  9 Apr 2025 10:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744188138; cv=none; b=bLFynjVqO1jphbSo8SYjLGb7ADKi5EqAfYJ5aomOgBDNqsidwpHOVKRb33wPWxVBhaCbAoEcDop95PyvvKW9jyotn1Fa9g+G3WW0uJSd0hSP9XETRcQQ8MhpwAfJcGEZUAsuL0xlHuJPzu0cluGJ1jKpusgLU8cv7sdDYg0iMYY=
+	t=1744194600; cv=none; b=NH+kX8XajhyKz5vGSq5oiwZ8+Kh/QxYMCo7qg8RnxCITtXMdQRBP8PoO6f2zsr2rC3avKObLI5kzfo8hEkRoZN1Qa9XUCJiaL6TnCLjwM7NeNKbZHjSITrOqowXIcHtJWJcF1XEIvGoBM3HiWcqcTqlOhP1XH+hcUFX32RAOPWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744188138; c=relaxed/simple;
-	bh=wjw41zvgUIfYI/mRsk7N+N+xsW9FgyoIykppZtT305c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XtlLRbNBt0cZIZVS4IUBp5YJJl6UdAThXHBA+h9WRUbTG8/qZpzORvRQVbBBq1RqOtK854gWm5i7Nv2dd++7GcebRzBGSedPSiB1vN5nfnw5oaoVonnN+X9QUCsgwe3vqRWBvXnW/wUMzhk6Fkovc6hnJ00L78DYhuUxwtKx2No=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1u2R0Y-0006q1-Od; Wed, 09 Apr 2025 10:42:06 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1u2R0Y-0044fu-0m;
-	Wed, 09 Apr 2025 10:42:06 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1u2R0Y-008OSL-0O;
-	Wed, 09 Apr 2025 10:42:06 +0200
-Date: Wed, 9 Apr 2025 10:42:06 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, robh@kernel.org,
-	kernel@pengutronix.de, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] ASoC: soc-core: fix bitclock-master and frame-master
- present check
-Message-ID: <20250409084206.4bfvsoeyz46j66e3@pengutronix.de>
-References: <20250325213455.3952361-1-m.felsch@pengutronix.de>
- <7d202e65-0d02-4600-b832-595a759577c8@sirena.org.uk>
+	s=arc-20240116; t=1744194600; c=relaxed/simple;
+	bh=/0CqusxdTosY+7jmlkvRfHoOXqcAy++TyFyAO2t0MA0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=BBN6yjdo2AC6NLMwsPvByITwcNEAGGsI+utoLLZAH3UK1caoirIMjlTkawq8TXxqYG++45/uNUT9SsrnvPBlX74c0m+8e0ioo5gEq1WqokNrkr6DyN65xije5zNjGzQ1JF9jnjrSSHPFwWyH7jpMqH8LKnOx29K9Sz/cEQmcxUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ALQ21rtC; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ALQ21rtC"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BB250C4CEEB;
+	Wed,  9 Apr 2025 10:29:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744194599;
+	bh=/0CqusxdTosY+7jmlkvRfHoOXqcAy++TyFyAO2t0MA0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=ALQ21rtCqvoiGi2Lln17KIZxUFg0R1PJzyqgHQsrpnfKpdf3UHNz1klHgfW3PyILu
+	 3CTPVrIHV7/HOsTa78pwK1WG2PJctlTz+2CFQgHk0TNqTo/Wglx2novPHkoFxaKGMH
+	 yUnrwY8/IY+/SyqGD+J26+RQ0qNaFYLa5+oX0+DR02xq1D5gOm2jxKqUTSTsFDxPQv
+	 LAi510Iedygc9Chw/c98jvKRBi6ySHAXFhWdVZKWiHkhJazaTRv8J6Y4//DhgbYAsl
+	 HQfeL2Pkh7OUmeCV/5Mw8gMEQoFKfb7vI+DcxgBFIXWKz0vUDWmGyQ2KzBMrhAhopk
+	 Of87DrNxaQx4g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5C7FC369A2;
+	Wed,  9 Apr 2025 10:29:59 +0000 (UTC)
+From: Keguang Zhang via B4 Relay <devnull+keguang.zhang.gmail.com@kernel.org>
+Date: Wed, 09 Apr 2025 18:29:31 +0800
+Subject: [PATCH v2 1/4] ASoC: dt-bindings: Add Loongson-1 AC97 Controller
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d202e65-0d02-4600-b832-595a759577c8@sirena.org.uk>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250409-loongson1-ac97-v2-1-65d5db96a046@gmail.com>
+References: <20250409-loongson1-ac97-v2-0-65d5db96a046@gmail.com>
+In-Reply-To: <20250409-loongson1-ac97-v2-0-65d5db96a046@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-mips@vger.kernel.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Keguang Zhang <keguang.zhang@gmail.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1744194597; l=2137;
+ i=keguang.zhang@gmail.com; s=20231129; h=from:subject:message-id;
+ bh=P1S4AuhzoXKqy79wJB2DjJNFjHpZ3nLQ0TPqe3hAemY=;
+ b=nk5jaD70Ua88bs3L6xEm+55oKBloApPqbJfXiqfyyoxgswnxaU80LvjzS4RVZaVGRB3uxzG3Q
+ NCGiEaFRqkIDJ2BbCqWGaG+TBFO1npkc57NGR35Gy6/F3iCPDQFXFFy
+X-Developer-Key: i=keguang.zhang@gmail.com; a=ed25519;
+ pk=FMKGj/JgKll/MgClpNZ3frIIogsh5e5r8CeW2mr+WLs=
+X-Endpoint-Received: by B4 Relay for keguang.zhang@gmail.com/20231129 with
+ auth_id=102
+X-Original-From: Keguang Zhang <keguang.zhang@gmail.com>
+Reply-To: keguang.zhang@gmail.com
 
-On 25-03-26, Mark Brown wrote:
-> On Tue, Mar 25, 2025 at 10:34:53PM +0100, Marco Felsch wrote:
-> > To check for a none boolean property of_property_present() should be
-> > used instead of of_property_read_bool(). The later returns a warning
-> > since commit c141ecc3cecd ("of: Warn when of_property_read_bool() is used
-> > on non-boolean properties").
-> 
-> This doesn't apply against current code, please check and resend.
+From: Keguang Zhang <keguang.zhang@gmail.com>
 
-I've seen that Geert already posted a patch which was applied. Therefore
-no need to resend, thanks.
+Add devicetree binding document for Loongson-1 AC97 controller.
 
-Regards,
-  Marco
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Signed-off-by: Keguang Zhang <keguang.zhang@gmail.com>
+---
+ .../bindings/sound/loongson,ls1b-ac97.yaml         | 68 ++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/sound/loongson,ls1b-ac97.yaml b/Documentation/devicetree/bindings/sound/loongson,ls1b-ac97.yaml
+new file mode 100644
+index 000000000000..1c6a2771f942
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/loongson,ls1b-ac97.yaml
+@@ -0,0 +1,68 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/loongson,ls1b-ac97.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Loongson-1 AC97 Controller
++
++maintainers:
++  - Keguang Zhang <keguang.zhang@gmail.com>
++
++description:
++  The Loongson-1 AC97 controller supports 2-channel stereo output and input.
++  It is paired with the DMA engine to handle playback and capture functions.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    oneOf:
++      - const: loongson,ls1b-ac97
++      - items:
++          - enum:
++              - loongson,ls1a-ac97
++              - loongson,ls1c-ac97
++          - const: loongson,ls1b-ac97
++
++  reg:
++    maxItems: 3
++
++  reg-names:
++    items:
++      - const: ac97
++      - const: audio-tx
++      - const: audio-rx
++
++  dmas:
++    maxItems: 2
++
++  dma-names:
++    items:
++      - const: tx
++      - const: rx
++
++  '#sound-dai-cells':
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - dmas
++  - dma-names
++  - '#sound-dai-cells'
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    audio-controller@1fe74000 {
++        compatible = "loongson,ls1b-ac97";
++        reg = <0x1fe74000 0x60>, <0x1fe72420 0x4>, <0x1fe74c4c 0x4>;
++        reg-names = "ac97", "audio-tx", "audio-rx";
++        dmas = <&dma 1>, <&dma 2>;
++        dma-names = "tx", "rx";
++        #sound-dai-cells = <0>;
++    };
+
+-- 
+2.43.0
+
+
