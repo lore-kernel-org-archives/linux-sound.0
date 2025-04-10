@@ -1,79 +1,135 @@
-Received: from out28-73.mail.aliyun.com (out28-73.mail.aliyun.com [115.124.28.73])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2772415E97;
-	Thu, 10 Apr 2025 02:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DC41F1311;
+	Thu, 10 Apr 2025 05:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744253413; cv=none; b=DMvs7pF0EW6E0MtYyHPOGW0WTt5EAA85kkDa+CiXB6RgfaBI0oApuAlVSNJH9NFbu+5WfK+Q7/+d9cW/UfEeW0qktB7GiEjYYHgKRWEVoK0bOn31p5To2Wp7o23Vbe+1rv2Vzzv7W3n5njJRytLGyU0jEksjin/niPxwMv1jLLQ=
+	t=1744263908; cv=none; b=oPbOXFWWtHMeQuyZ+VsQLL0msQtCIqmiM9CPpNrd/7Uh4GoNFSiohk42RSzdQh/ztu9oTt/euZwu/GXGn75fgXUJLZjhjEMqANDKzQwpYvA+Q/j7D/ukWQH1QIon/zhr9dyIM1/sGTK8xvIXQqPobyYoWKkHZIpQEfQMAYHdUNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744253413; c=relaxed/simple;
-	bh=iq21jYsJeA2Z6RjzDdU7XczZ/ym3oARr48MSedSPnBY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jiaRDiPEjprFzWADwwx1vdp7aRfQxsb8Y0A8CYpjsS18zPerOx5YPpwImNQTn2DpTMtxjRDPD+3/6uqmmIpwdR+NKVSeVVvfimmKCRnDqVIxHqCczHyXG3TvRQWSHEz9hKvG/4mLzsrsdSCqRgYjsCAhLOa719sr2FpNSoavohc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=115.124.28.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.cIcBc.J_1744253396 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Thu, 10 Apr 2025 10:49:59 +0800
-From: wangweidong.a@awinic.com
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	wangweidong.a@awinic.com,
-	yesanishhere@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: yijiangtao@awinic.com
-Subject: [PATCH V1] ASoC: codecs: Add of_match_table for aw888081 driver
-Date: Thu, 10 Apr 2025 10:49:53 +0800
-Message-ID: <20250410024953.26565-1-wangweidong.a@awinic.com>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1744263908; c=relaxed/simple;
+	bh=RboU6uhGGPWDL+bQLFLur5ymIfVePBC11accQGUOSxc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JOPup2awggTqWjnqngs+NIFUmX51xiJ8oqP3Dnv0ARuRqj7arTxiNsHSR6paqfmVCqJKavzenEEtDUUUdiU8/r5OgpBQF+C/wIceQQZ3WYlLB5nfAejv39K1BDqiXGCAlcyRgtkBxhAr2g9XmvzNcDSZ2eE0IusuBRVIpKive0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JMxfyg1V; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JMxfyg1V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA1C5C4CEDD;
+	Thu, 10 Apr 2025 05:45:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744263906;
+	bh=RboU6uhGGPWDL+bQLFLur5ymIfVePBC11accQGUOSxc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JMxfyg1VOdUwaS5aO6twDY+9L2CJtijjxz9M8f5JzChS9Nk7jAW7s+kQdNk67k07O
+	 s+hB8uaCPUG4F2cphGyNHpDAYfhALwUofBGhdqCPZbmgPLQ30Dvw9gd6LI83NsT3hs
+	 0iTknXOfPXHD89w438G5niKbHoiGOXu19OEeIUsK5AkhhF9qtDoIqAE+9TJ6tEOxHl
+	 /ILm8uWuKHuh5ZwyzuwZh7QEUvyP2zFwTwHB8X7NvgjlyeQCHq/kNYQgxFdbOJ5Set
+	 0VlSO2ZYCExAiVZuQqpYfaQKDPfgMXEPG3Xf/DnkM2j3HtnRotdMhyQIbnv+apQGQR
+	 0l+nSMELCl/oA==
+Message-ID: <81e496d4-7643-445e-a274-e28add84da3e@kernel.org>
+Date: Thu, 10 Apr 2025 07:45:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] ASoC: renesas: add MSIOF sound support
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
+References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
+ <87wmbu9may.wl-kuninori.morimoto.gx@renesas.com>
+ <24d1c5d9-0eeb-4f59-86bd-cd3690145981@kernel.org>
+ <875xjcnci6.wl-kuninori.morimoto.gx@renesas.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <875xjcnci6.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Weidong Wang <wangweidong.a@awinic.com>
+On 10/04/2025 01:25, Kuninori Morimoto wrote:
+> 
+> Hi Krzysztof, Mark, Iwai-san
+> 
+>>> +	dev_info(dev, "probed\n");
+>>
+>> Drop. Driver should be silent on success and simple success messages are
+>> useless. Core already gives you information that probe succeeded.
+> 
+> What does "Core" mean here ??
 
-Add of_match_table for aw88081 driver to make matching
-between dts and driver more flexible
+Core of Linux.
 
-Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
----
- sound/soc/codecs/aw88081.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> 
+>>> +MODULE_ALIAS("platform:msiof-pcm-audio");
+>>
+>> You should not need MODULE_ALIAS() in normal cases. If you need it,
+>> usually it means your device ID table is wrong (e.g. misses either
+>> entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
+>> for incomplete ID table.
+> 
+> Iwai-san, Mark, do you have any comment about this ?
+> Almost all ALSA drivers are using it
+> 
+> 	> git grep MODULE_ALIAS sound | wc -l
+> 	249
 
-diff --git a/sound/soc/codecs/aw88081.c b/sound/soc/codecs/aw88081.c
-index ad16ab6812cd..3dd8428f08cc 100644
---- a/sound/soc/codecs/aw88081.c
-+++ b/sound/soc/codecs/aw88081.c
-@@ -1295,9 +1295,19 @@ static int aw88081_i2c_probe(struct i2c_client *i2c)
- 			aw88081_dai, ARRAY_SIZE(aw88081_dai));
- }
- 
-+#if defined(CONFIG_OF)
-+static const struct of_device_id aw88081_of_match[] = {
-+	{ .compatible = "awinic,aw88081" },
-+	{ .compatible = "awinic,aw88083" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, aw88081_of_match);
-+#endif
-+
- static struct i2c_driver aw88081_i2c_driver = {
- 	.driver = {
- 		.name = AW88081_I2C_NAME,
-+		.of_match_table = of_match_ptr(aw88081_of_match),
- 	},
- 	.probe = aw88081_i2c_probe,
- 	.id_table = aw88081_i2c_id,
 
-base-commit: 3b07108ada81a8ebcebf1fe61367b4e436c895bd
--- 
-2.47.0
+What do you need it for? You already have ID table.
 
+Just because drivers need it, is not a justification that you need. If
+other drivers have poor code, it's okay to do the same?
+
+
+Best regards,
+Krzysztof
