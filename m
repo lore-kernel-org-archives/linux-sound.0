@@ -1,104 +1,62 @@
-Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75E4E2857E1;
-	Thu, 10 Apr 2025 12:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2C32857CA;
+	Thu, 10 Apr 2025 12:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744289436; cv=none; b=IogDotDpCkZRvqqUEXtuqCoKiUAGRiOIiTN0IssNqs1rmWV5HGaDnk18pBEg7sZlWGd3guBRAsCdERWU4dh9klSO6HB1rQLKEuBAFHTqVgoPHvOJoEtoqCykEaOBTQnePe91yf6Fd8mvBKEIQTU8+GvOaTHKVBrOfvePau5ZUJw=
+	t=1744289514; cv=none; b=g2CaBu/edOTbItR6pbcJ6ztdrHa3u27dKLTWgVD1JMD9q/VzzteEnbhmWKpiObW+2HmTGpecWGVWO5/LIGQq7up6qBAm448/GeynHFgzzlVaFDhBeXs86ublNqSPSx9wUhlrHwK+5avzwGcr8Gb5/NQp6TjtllMOReD3Kp35iGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744289436; c=relaxed/simple;
-	bh=JZTtl48+x7XX/RdiGVmTjwgBC0HZ67XGcxpWFr/A1pU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dipjSH5Lu/ewkb+dqGvHi9FoS0gyP6W67V6+sUxwi4r0jTw2gdtnCRfBtp8f/jeJAS8Zrz4ojHBfWj0UUWdnVH59np/eFEippdMQJUeTXOxZpgyfGUOXhHII//oKjwURz6y2Effa7A+oJ4qdnJUDZqCrcCHPaY/Se0jbVr32q20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-	by localhost (Postfix) with ESMTP id 4ZYJsP6tlKz9vL4;
-	Thu, 10 Apr 2025 14:24:25 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id W6XqfgGmjU73; Thu, 10 Apr 2025 14:24:25 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4ZYJsP68B3z9s2l;
-	Thu, 10 Apr 2025 14:24:25 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id CD0BE8B764;
-	Thu, 10 Apr 2025 14:24:25 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id q8ya75z2-d-G; Thu, 10 Apr 2025 14:24:25 +0200 (CEST)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 382C08B763;
-	Thu, 10 Apr 2025 14:24:25 +0200 (CEST)
-Message-ID: <66bccfab-66f0-4e67-8c81-24de09b85a81@csgroup.eu>
-Date: Thu, 10 Apr 2025 14:24:24 +0200
+	s=arc-20240116; t=1744289514; c=relaxed/simple;
+	bh=05NYAlNIedm9FJiR3ZeIZpkch/oKPxYrgRDk6fDtGsk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kdxxclcuA+tp4LW0t57IzXRF+BlZKAPAp1WnRz7aKamTTEzN+ZFlvWoKtAenzrD8vE1o9TkUX4rOXafyxxg7Nsvi0kbmDVcrH3eQ58q44KoHbfUn3/b+gFmJgC5QI/C+2emIrT6SjnxdY226xnkgJY5L8VWLP6VlA4WOU0iTJCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GjgHR0Td; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GjgHR0Td"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53A92C4CEDD;
+	Thu, 10 Apr 2025 12:51:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1744289512;
+	bh=05NYAlNIedm9FJiR3ZeIZpkch/oKPxYrgRDk6fDtGsk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GjgHR0TdZZbgJjXVq8J3ozlkxXxnSKU44NsqEJFedhesyT7Rumjgnb5BcUN1yu5tO
+	 24rabZW4LsZJwknedAO0skcv/72oX1F3d0gCXfp2CiqyK/MG0aHgvvmTGFT47MN/oL
+	 1f0ks9K8OIVN+Q1MLgHsDkjk8xAlNXRTfuDjB0Jk=
+Date: Thu, 10 Apr 2025 14:50:17 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: stable@vger.kernel.org, Bard Liao <yung-chuan.liao@linux.intel.com>,
+	linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	"Vehmanen, Kai" <kai.vehmanen@intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: [6.12 LTS / 6.14 stable] Lenovo X1 Fold 16 Gen 1 audio support
+Message-ID: <2025041008-verbally-grimy-ed0c@gregkh>
+References: <1e160cc3-8fc5-4fc7-992e-b24980c55c47@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: fsl: fsl_qmc_audio: Reset audio data pointers on
- TRIGGER_START event
-To: Herve Codina <herve.codina@bootlin.com>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org
-References: <20250410091643.535627-1-herve.codina@bootlin.com>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <20250410091643.535627-1-herve.codina@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1e160cc3-8fc5-4fc7-992e-b24980c55c47@linux.intel.com>
 
-
-
-Le 10/04/2025 à 11:16, Herve Codina a écrit :
-> On SNDRV_PCM_TRIGGER_START event, audio data pointers are not reset.
+On Thu, Apr 10, 2025 at 03:40:01PM +0300, P�ter Ujfalusi wrote:
+> Hi,
 > 
-> This leads to wrong data buffer usage when multiple TRIGGER_START are
-> received and ends to incorrect buffer usage between the user-space and
-> the driver. Indeed, the driver can read data that are not already set by
-> the user-space or the user-space and the driver are writing and reading
-> the same area.
+> I would like to request a backport of
+> 8b36447c9ae1 ("ASoC: Intel: adl: add 2xrt1316 audio configuration")
 > 
-> Fix that resetting data pointers on each SNDRV_PCM_TRIGGER_START events.
+> to 6.12 LTS and 6.14 stable kernel as we have at least one affected user:
+> https://github.com/thesofproject/linux/issues/5274
 > 
-> Fixes: 075c7125b11c ("ASoC: fsl: Add support for QMC audio")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> The topology file has been already released.
+
+Now applied, thanks.
 
 
-Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-
-
-Tested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-
-
-
-> ---
->   sound/soc/fsl/fsl_qmc_audio.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/sound/soc/fsl/fsl_qmc_audio.c b/sound/soc/fsl/fsl_qmc_audio.c
-> index b2979290c973..5614a8b909ed 100644
-> --- a/sound/soc/fsl/fsl_qmc_audio.c
-> +++ b/sound/soc/fsl/fsl_qmc_audio.c
-> @@ -250,6 +250,9 @@ static int qmc_audio_pcm_trigger(struct snd_soc_component *component,
->   	switch (cmd) {
->   	case SNDRV_PCM_TRIGGER_START:
->   		bitmap_zero(prtd->chans_pending, 64);
-> +		prtd->buffer_ended = 0;
-> +		prtd->ch_dma_addr_current = prtd->ch_dma_addr_start;
-> +
->   		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
->   			for (i = 0; i < prtd->channels; i++)
->   				prtd->qmc_dai->chans[i].prtd_tx = prtd;
-
+greg k-h
