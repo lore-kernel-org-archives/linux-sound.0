@@ -1,139 +1,77 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE58A2836B0
-	for <linux-sound@vger.kernel.org>; Thu, 10 Apr 2025 12:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744286588; cv=pass; b=CNRjZdfZqyevCw71DndSInG/nEvBe3I/QKLnfN6xuHhIUoft1r3tiLsKm3jDYBwFDuIaOmPJA3/gxdRmHpiMoxC+jla0hQqI4+Jv0sJVVElkp2D96w8YZxXlcFwESQzUVGLj/S3D3awtR6+0io4E2YwMwWu/vco4f/OYGhIHZlA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744286588; c=relaxed/simple;
-	bh=d5EyymkQalX7L+YXSzFeSPUpxlp4njQhV6kqbcQj7e8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tu7yiMQkNT3KCT/7ycEZeQklpXk8OYTSe8AVnx9pV0kDrnU2EszsFm7tWABCLCB5qvM/TjEabOA2G4XDEaE9z9VArawfikLctPIlfhyJmgELyrbg4OL3NZJXMyu+RkL51yqGnOxZ5rR2uphxBt1sRMxNeap7wjfwL4GeL+5YYlw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=SdnhHkFx; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB203284B53;
+	Thu, 10 Apr 2025 12:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744288749; cv=none; b=leSZl57ZzKkOro1NDdnkTuu8hnviNrHC5myOWokCIGWF5SFwms83dROdkJJu3u4WjHqQq30jny2AxLtisAH7iUk3nn87ojeL/ly/WXdVgnD0Yt1khr7FDm+zL8jJJQfSh6HaSWpCAoaUe8iK9kcodPxPjAIlg7ZB3ipTRzZzZXY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744288749; c=relaxed/simple;
+	bh=D5YjB2GVpRrw1ZnkCsESEUxsq+inna4uxA4zu0NDiZ8=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=R+J792FLvROPwjEQqt5Fd8pxG62l0jJYkbcBVTbm5jZcQqgN1yQFHrWgYLheB8Id59RwCYTp+ojvvw0ezC7w4eip2ILa3XvbktNfJNEraGXrU/JbCXpjMGSKyZb64W+6alFyV8AlbtaeDv+rIINz28jm0f/uvQKJ7IQQHCBMauE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxpuVsAG; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="SdnhHkFx"
-ARC-Seal: i=1; a=rsa-sha256; t=1744286579; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=MQ07zcQPPBRllaSkwReZSwA/0LbgRWYxOoPrVmZZy/XBzuqCvzwkgSBoSYYfeWOFtkxcusJt4D+DE7FBX9EPwaUeU5jXK9u6cizATI0dnAhVr1tQQQIn3guNM/+Das7Vhpq9P5hmgO57F30KQOvjOy02xprB28Eo3+dmJtYCPLQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1744286579; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ubwIQRHQ0nSkTDomZO0p8iQHfiBz7QsAlvvYhBr59zs=; 
-	b=G1tbkt8G4IzvQ9H1izfc0lsbdClVw00/qVH4zpP6BqcMily4HnpbMVPMtZId/G6cZfXA7nl0+AABUmUJt4XFELDYWfChWkJ3v0BvYm7AH+ADtia35RGIqnXnGOODWDzqJk6O+SYOxZRKKRa7FZ9z2DLUmQecD5q7AEURyIwQMcE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744286579;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=ubwIQRHQ0nSkTDomZO0p8iQHfiBz7QsAlvvYhBr59zs=;
-	b=SdnhHkFxPApI/hM9MBgepiLcy1WOXfDOkw2qDvRuXVGDLrS4Rf7X+sEUc7I75E+c
-	gzGT8ttG6JM4/nOMOLe7XcDBnp+I3FD1kzMOEYgImAEeGW+v7dhhCqj0hr8g5TebMsM
-	Qj6Ev/rkycsxN+IpJtjG6FK8eCuZdl8KXQlXuhUM=
-Received: by mx.zohomail.com with SMTPS id 1744286578637871.8983135923082;
-	Thu, 10 Apr 2025 05:02:58 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Daniel Baluta <daniel.baluta@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>
-Subject: Re: Debugging CPU-side DAI hardware with a dummy codec
-Date: Thu, 10 Apr 2025 14:02:54 +0200
-Message-ID: <2703798.PYKUYFuaPT@workhorse>
-In-Reply-To: <5347100.LvFx2qVVIh@workhorse>
-References:
- <4927043.LvFx2qVVIh@workhorse>
- <CAEnQRZD4xw5wRR6exsXo9xjTmmQ1TQAn0jNVeXij66-veEESMw@mail.gmail.com>
- <5347100.LvFx2qVVIh@workhorse>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxpuVsAG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744288748; x=1775824748;
+  h=message-id:date:mime-version:to:from:subject:cc:
+   content-transfer-encoding;
+  bh=D5YjB2GVpRrw1ZnkCsESEUxsq+inna4uxA4zu0NDiZ8=;
+  b=cxpuVsAGLRmCeldyNdMCPqe3zXgey7LMwSO6KDi0RB5/ugFUeYVWgaHH
+   9efizGLlfZpSlMpjn4RJGTE7Nv3CJJx1q4aX6ypHjBPiTh4axQi4Wnx8i
+   +i52Mnzl/AqoyhaTBo+fho7ABMyUHeXklHpxEyNqJpeASqWp2k9akTzaX
+   v8HT7of8Cg8rZ0GG2KTpxZsN53lj9Ajnt9Q4t5VfvF7AGOvyPvDw8l+ef
+   0lNp7Pthqzc3C6s4Z+mibAO71TLTn7PlQjO/allPMXlNdAmLnnDTwQwaH
+   3JLMt7S8H2kXpWn4EBKsgjkI+rvJbzLnajv4yQyjGbWCRDZkOZXp7kbOw
+   w==;
+X-CSE-ConnectionGUID: LA+5tp3WR12TD0RHj2eSMw==
+X-CSE-MsgGUID: IIKSn8lAS26jdS8BZtHlPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="56472873"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
+   d="scan'208";a="56472873"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 05:39:06 -0700
+X-CSE-ConnectionGUID: Aw12CSFOQyuKX6n0SyxQWw==
+X-CSE-MsgGUID: wf8Wls4YT1qblH5QYpjKsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
+   d="scan'208";a="129836093"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.248.114]) ([10.245.248.114])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 05:39:03 -0700
+Message-ID: <1e160cc3-8fc5-4fc7-992e-b24980c55c47@linux.intel.com>
+Date: Thu, 10 Apr 2025 15:40:01 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: stable@vger.kernel.org
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Subject: [6.12 LTS / 6.14 stable] Lenovo X1 Fold 16 Gen 1 audio support
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, "Vehmanen, Kai" <kai.vehmanen@intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thursday, 10 April 2025 13:23:21 Central European Summer Time Nicolas Frattaroli wrote:
-> On Thursday, 10 April 2025 12:54:16 Central European Summer Time Daniel Baluta wrote:
-> > > > I hope someone can shed some light on this, as it seems like something audio
-> > > > controller developers would be doing all the time.
-> > >
-> > > I suspect most people test with an actual system.  A bunch of things get
-> > > easier if you can actually play and record sound.
-> > 
-> > Mark, that's true in most of the cases. But for silicon IP
-> > pre-validation using emulation
-> > environments most of the SoC creators use a synthetic codec so things like being
-> > able to probe a dummy-codec does make some sense.
-> > 
-> > Nicolas,
-> > 
-> > Can you please paste your patches (dts and the rest)?
-> > 
-> > thanks,
-> > Daniel.
-> > 
-> 
-> Hi Daniel,
-> 
-> I'll send the test-component changes in a proper patch submission later.
-> 
-> The DTS in my case looks like this though. `sai0` here is the SoC-side
-> audio interface. Don't worry about the pinctrl/dma overriding, that's
-> me disabling capture.
-> 
-> ---
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dts b/arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dts
-> index de63b053a06c..6e78713b1a99 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dts
-> @@ -84,6 +84,25 @@ simple-audio-card,codec {
->  		};
->  	};
->  
-> +	dummy_codec: dummy-codec {
-> +		compatible = "test-codec-verbose";
-> +		dai-tdm-slot-num = <8>;
-> +		dai-tdm-slot-width = <16>;
-> +		#sound-dai-cells = <0>;
-> +
-> +		port {
-> +			codec_endpoint: endpoint {
-> +				remote-endpoint = <&sai0_endpoint>;
-> +			};
-> +		};
-> +	};
+Hi,
 
-Gah, major blunder from my side, the dai-tdm-slot-* properties should be
-inside the endpoint node of the codec here like this:
+I would like to request a backport of
+8b36447c9ae1 ("ASoC: Intel: adl: add 2xrt1316 audio configuration")
 
-	dummy_codec: dummy-codec {
-		compatible = "test-codec-verbose";
-		#sound-dai-cells = <0>;
+to 6.12 LTS and 6.14 stable kernel as we have at least one affected user:
+https://github.com/thesofproject/linux/issues/5274
 
-		port {
-			codec_endpoint: endpoint {
-				dai-tdm-slot-num = <8>;
-				dai-tdm-slot-width = <16>;
-				remote-endpoint = <&sai0_endpoint>;
-			};
-		};
-	};
+The topology file has been already released.
 
-Sorry about the confusion.
-
-Cheers,
-Nicolas Frattaroli
-
-> [...]
-> 
-> Cheers,
-> Nicolas Frattaroli
-
-
-
+Thanks,
+Péter
 
