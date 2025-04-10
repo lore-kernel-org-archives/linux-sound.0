@@ -1,124 +1,96 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C7028A402
-	for <linux-sound@vger.kernel.org>; Thu, 10 Apr 2025 14:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E0B19E96D;
+	Thu, 10 Apr 2025 19:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744294544; cv=none; b=m8fBAFf4F5TqRid8HLk8zNP5RtN4rs+AfjtYFA4SrUmGKFHx7E8k/3Yh/yujXd+kZHOObeysUDlhYuuz3GVPuFuO4dy5BA8fdk7qiRZqnesU6/SyuoCalEax/37pxudUJjX6aGqlllADUYMwb0izt0XmL9f+/lIs79yV13TIgA4=
+	t=1744312594; cv=none; b=nzel3z/IXuRLyQhPLSaecJOPbyImsYcyiLBXDYCKvMMpn4AK/GrTuV74H0LdkOMExL0ncYQNvXYFnA3KwmBTjvl7eQkBjoEbgyKXbOqUVboCiW2MnlPTNvP4BA4GFONtKOY5GqxkES+s/v8hik/7Cc6trkMFeQb13gsGVtt7c3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744294544; c=relaxed/simple;
-	bh=WGrTOkWpO0sHWUslK1P+MDusc9W68dggbixV9wP52ZY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mU2kM3t3yNVL30A9SuLqs8y1vGJW0CFoLGigFAWzCgkbj60VNnDq3d8pwdkB9umL9T1upKSPtbfSJ3m/eAwu/DMWC0junDdC0xRuchszt6AdQKlvskA/5xv6r2JfZb+q/sDGZqNCSv+wAOG4D4v9AWNTiO1EGQhlS4Ds6OiCTTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=MnUstkal; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1744312594; c=relaxed/simple;
+	bh=23ClUrzhbCi4gYhBVTmCi/jHYyZPt0hjBpo3q9JPJVg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mExLQy0XJ60YlnipoAgBVPHMmRwnKkZtEhpKNKTqpAptwv+E9QdCZ5T55XHe2pgOVGkgTSeGfGpV2SNNHM8EMkLTQIMuRW3ki7ImHBKJQtd9APlfSWA4GGJilVzLXXTnO4zmBWWz7UAX7KJpDQVd4Fqeug0M6brkvASzFRvqZXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DoPA6CJL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="MnUstkal"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cfe574976so6741125e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 10 Apr 2025 07:15:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1744294540; x=1744899340; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5Q4flrwFmi1xae9xLSDs3kNrmcK2M75jTbQEeJS0lPw=;
-        b=MnUstkalufEjVIF4cmtkVy3QVs10e7j6bT8Cpb+fjkfSDiaGRUG37y9ZlATmewOt3F
-         R5jOiGf/EQfGgVAKy00/UcXMrc2tIzcX7VAzAK06aHEYtbDtbfJznHgxLlEytyJLmANR
-         yWoqDwiUTsdWzDl6UmjKfx34SlfNzH3q/QY7qqdPDb8TOc5jheu9RxbCFLTOGWXX7jQ+
-         vwJjx3C7TU04Yg4l9qDQvthS84MvN8/fMdmgEXAQ3N8n5zGgahMK3o9dvuLRsaAkDvGr
-         DGce6rV5mHeBo0sKAqSNcq8dg59R5AqGzvkKjzhNiidE0hDtPqRozl4rgv0O5RE4WAMR
-         W7EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744294540; x=1744899340;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5Q4flrwFmi1xae9xLSDs3kNrmcK2M75jTbQEeJS0lPw=;
-        b=Jflxq6kftxoHchXaMDW3HK7iH5ASCqfH2Cn8LVuZxOSSvr0oVJIcijLh5WHaG1GoRs
-         q5Wu0pCRD3XLEh4MYe561lg/tT9cMVR6wNcvaV+melkXk670JZT6ujPOW43k27p2MxUa
-         PFoR/hjI5OZjD/10c8VDVHW5mx8YDuoc24jZMb6F/W4LOHQaFpr+mrYb/hFbduJjjN/3
-         kBDVmrmFDRrbYkXf+wNB4NkP1a7Qg8hzM70YJ0oqXPCxikCyBE+MpCdCU9J7JxdKOOj2
-         9jbjmlII+xVZKeZf8rbzmrIDxaXAncGTHuK6u11nUSPOKH4su6uvl543Gzp9ZkbZ0j66
-         /j3A==
-X-Forwarded-Encrypted: i=1; AJvYcCV1RP5HECPGioapHrzPC2yArElglQXPnl1/gwQAkigdCHQpOjl1Hrh7/XMXOmUMTmDxONV39+Sgxq8q1w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyr2I1PUbkay3Lm9sxr6yINOkcHD+Ct0K9NjGf0awaOWoeIMvc+
-	QBmjo9MByUpDw3GGux4n6jNAK8Jicnypr8lXeWvdmX2N0q1Awj4DCsEYc8ItV78=
-X-Gm-Gg: ASbGncuOx49rA/c0RguDYH9imXl+Ai3oZ1jk72eJ/hvF8uhDuozQ+5H58+dPWMjmkRv
-	qdn0lNOiY/BSzS2pd8JzQEX4Ka8MWaxWItQ6XtqDsVOoclH9/Exn7d94ghZNbYtWDHL38MV3eaN
-	41coslkCEP4Mm2BEFsbmp91CW2QyCNTdYHDwoWa8+T2wCZscZRftJ95JFoDrXJJms6A0h+VYFGe
-	TQ7LfLl7dhqI3PFM4BVso75ugSmeGpQ0aJlhGknlJHTKXniQb6guYprYtGHp7gUbSMc/za4Z3R3
-	MitMNQDnpRJmV06nYQKAzCiqPDX2lEfxz8KKAjUgGY0UVos9bQq+7yZX16aa7RlxL81iXg==
-X-Google-Smtp-Source: AGHT+IGOJrWtQiR/+aif2Q/6zHmp/n0I43XYjAwcFJCsTWbMwppiDvii7C8NCnUY+CCFFVo3ns+03Q==
-X-Received: by 2002:a05:6000:4022:b0:390:d796:b946 with SMTP id ffacd0b85a97d-39d8f4dcebfmr2487414f8f.44.1744294539831;
-        Thu, 10 Apr 2025 07:15:39 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.57])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f235a5b08sm54864275e9.33.2025.04.10.07.15.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Apr 2025 07:15:39 -0700 (PDT)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: biju.das.jz@bp.renesas.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: claudiu.beznea@tuxon.dev,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: renesas: rz-ssi: Use NOIRQ_SYSTEM_SLEEP_PM_OPS()
-Date: Thu, 10 Apr 2025 17:15:25 +0300
-Message-ID: <20250410141525.4126502-1-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DoPA6CJL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2174C4CEDD;
+	Thu, 10 Apr 2025 19:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744312593;
+	bh=23ClUrzhbCi4gYhBVTmCi/jHYyZPt0hjBpo3q9JPJVg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=DoPA6CJLe24LjnQ4VO1y5gtxmff7qldVKgUX9XBs0dZfK/MQf55yoZggcznsFxHKN
+	 R6SBEISillGf2teWkqZJKoX3pHNZezTx+PiFUV5ZSJc2CMIUiC9KKcwU1mqAzqNJCE
+	 aS7NZmUPcnLVmCoPDUT5w066dpY3GWpQWCyQ4fPS0OQ772EIh3WJjcVIX7Lg1x5hm+
+	 Rggr4nLlod7aDfwr8jguSjfebrwqwYhjd7VFEgqhoKXv1YRlUU1sDE0GB2qPEo4ScK
+	 34LqwU3ZMmATvayI+mVlKfSpcdzqMGbqX4+O9kaLDEj5buQZkBR97685mhzvxwcYo4
+	 ZWnPZTFg47Tyg==
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com, kunit-dev@googlegroups.com, 
+ linux-kselftest@vger.kernel.org
+In-Reply-To: <20250410132129.1312541-1-rf@opensource.cirrus.com>
+References: <20250410132129.1312541-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] firmware: cs_dsp: test_bin_error: Fix uninitialized
+ data used as fw version
+Message-Id: <174431259161.501489.5379480875112527733.b4-ty@kernel.org>
+Date: Thu, 10 Apr 2025 20:16:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Thu, 10 Apr 2025 14:21:29 +0100, Richard Fitzgerald wrote:
+> Call cs_dsp_mock_xm_header_get_fw_version() to get the firmware version
+> from the dummy XM header data in cs_dsp_bin_err_test_common_init().
+> 
+> Make the same change to cs_dsp_bin_test_common_init() and remove the
+> cs_dsp_mock_xm_header_get_fw_version_from_regmap() function.
+> 
+> The code in cs_dsp_test_bin.c was correctly calling
+> cs_dsp_mock_xm_header_get_fw_version_from_regmap() to fetch the fw version
+> from a dummy header it wrote to XM registers. However in
+> cs_dsp_test_bin_error.c the test doesn't stuff a dummy header into XM, it
+> populates it the normal way using a wmfw file. It should have called
+> cs_dsp_mock_xm_header_get_fw_version() to get the data from its blob
+> buffer, but was calling cs_dsp_mock_xm_header_get_fw_version_from_regmap().
+> As nothing had been written to the registers this returned the value of
+> uninitialized data.
+> 
+> [...]
 
-In the latest kernel versions system crashes were noticed occasionally
-during suspend/resume. This occurs because the RZ SSI suspend trigger
-(called from snd_soc_suspend()) is executed after rz_ssi_pm_ops->suspend()
-and it accesses IP registers. After the rz_ssi_pm_ops->suspend() is
-executed the IP clocks are disabled and its reset line is asserted.
+Applied to
 
-Since snd_soc_suspend() is invoked through snd_soc_pm_ops->suspend(),
-snd_soc_pm_ops is associated with soc_driver (defined in
-sound/soc/soc-core.c), and there is no parent-child relationship between
-soc_driver and rz_ssi_driver the power management subsystem does not
-enforce a specific suspend/resume order between the RZ SSI platform driver
-and soc_driver.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-To ensure that the suspend/resume function of rz-ssi is executed after
-snd_soc_suspend(), use NOIRQ_SYSTEM_SLEEP_PM_OPS().
+Thanks!
 
-Fixes: 1fc778f7c833 ("ASoC: renesas: rz-ssi: Add suspend to RAM support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- sound/soc/renesas/rz-ssi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1/1] firmware: cs_dsp: test_bin_error: Fix uninitialized data used as fw version
+      commit: 285b2c74cf9982e873ef82a2cb1328d9e9406f65
 
-diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-index 3a0af4ca7ab6..0f7458a43901 100644
---- a/sound/soc/renesas/rz-ssi.c
-+++ b/sound/soc/renesas/rz-ssi.c
-@@ -1244,7 +1244,7 @@ static int rz_ssi_runtime_resume(struct device *dev)
- 
- static const struct dev_pm_ops rz_ssi_pm_ops = {
- 	RUNTIME_PM_OPS(rz_ssi_runtime_suspend, rz_ssi_runtime_resume, NULL)
--	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-+	NOIRQ_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- static struct platform_driver rz_ssi_driver = {
--- 
-2.43.0
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
