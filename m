@@ -1,648 +1,175 @@
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010068.outbound.protection.outlook.com [52.101.228.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4D884D02;
-	Thu, 10 Apr 2025 00:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744246668; cv=none; b=XdrmqciliwRRPMb0B3ye/p/RAk4svYLTmNrbMkal2FjgKQqOViI2dA2LnqunimdyDRXOewT/qvYz0fL/g3wfnuLVDifI2vLsPgWBXIVgXxrFL+9INhKPYQp127f05EY/glfKhMSiJcMchMUU4M08YywS5bCpa0QIpm4Z3NKiAg0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744246668; c=relaxed/simple;
-	bh=HBKh9LD/EC5SsEvQBYbBhoBm0hFIDpwjp89tb2yRlgA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NmRyBRtoXR9bh2rwc0J7KzEfeZA9QYvy/Kau/kX3KDTJ2fZSG2+8Q5DkrIbB+0Yo0vRbABpiHHNEMSog4mvXXeioLn5/ETQ393YrgmbxwNCWajsz7gK7m4jzy1jFV3r0LHpr8PUu0HYAZpnnmlVJF3Xxg+fXKPMsIgN6BqzoXGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=0YEyRuQ/; arc=none smtp.client-ip=220.130.44.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAB91E1A18;
+	Thu, 10 Apr 2025 02:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744252662; cv=fail; b=bIzcl7CHALfjgOYaCvnebWaXlN6Tq2l0Dy+Yc75AJhSrifUOP9REpBFukuWiTEjesGm3NJAX2zVQsAfRr55yiqFjuMiQjnqlOXVhjmhDngGu1/kKbkcftE43Z3cJgIUO4Fm7zhPH0mtB+Mc+F8gLkuUBJcYhowUHxEDIUEkrzME=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744252662; c=relaxed/simple;
+	bh=aiHRI822eZgfHxER0rY0NNbODvdW6VeNd0z0rgO2P5E=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=OQjaphpI9xEPRXG/3DoZ9KOwscs4OJIvY1muVmf/gdfAGP4FHUxdTK3J49eum+gQJVmvwbUr/5HJ4ZHUdK8oioT0YcCbxEFBSfOrzHMh+2GY2KPuqc0lW8y6EJ/5fesWcj73Ec3aHK/trCUP3FgOu8ryuuNWD2lUMV4+Bgfdt+c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=YFqwplF9; arc=fail smtp.client-ip=52.101.228.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="0YEyRuQ/"
-X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
-	s=richtek; t=1744246650;
-	bh=FlQ5a2nkrUWBkKP45fATstwWTK+WYdI0RNdYUTWULFs=; l=17788;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=0YEyRuQ/YlLBGU1X9XNBPoWFc08kuvbwc8Dt3o8WjnP3ZLYEJNSCNc96s5DM6iKjS
-	 0AxaPNf/0mWNVKAV+FT5GjLXC6GB3W/lSZOBQtnnwUPOuruSemFP56TinULPQLWAUb
-	 u13ejPX9FgtjmW9GtC/SHAbjWOG4+gXASoh0DLxxosQifpLkhzdkc4BUaaGvqPgD4m
-	 P4R/mbkhVFMxoFFfxQPj4j1FeI+OEf2EYVgz/fW5XmV3PAJIYIwAxlANNNDK+BL4x4
-	 PCB1lOeaHGm0uxVVwYdyQu6/keYSs1ut/jGhZMvO97OqwF5uICDpBOu4FMCLC4cte0
-	 wI2J3ipSreECg==
-Received: from 192.168.10.46
-	by mg.richtek.com with MailGates ESMTPS Server V6.0(2132240:0:AUTH_RELAY)
-	(envelope-from <cy_huang@richtek.com>)
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Thu, 10 Apr 2025 08:56:57 +0800 (CST)
-Received: from ex3.rt.l (192.168.10.46) by ex3.rt.l (192.168.10.46) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 10 Apr
- 2025 08:56:56 +0800
-Received: from git-send.richtek.com (192.168.10.154) by ex3.rt.l
- (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
- Transport; Thu, 10 Apr 2025 08:56:56 +0800
-From: <cy_huang@richtek.com>
-To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, ChiYuan Huang <cy_huang@richtek.com>, Otto lin
-	<otto_lin@richtek.com>, Allen Lin <allen_lin@richtek.com>,
-	<devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 2/4] ASoC: codecs: Add support for Richtek rt9123
-Date: Thu, 10 Apr 2025 08:58:11 +0800
-Message-ID: <f467200d7c116f5f34a3c31fafeebd9a410ab8bd.1744245663.git.cy_huang@richtek.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <cover.1744245663.git.cy_huang@richtek.com>
-References: <cover.1744245663.git.cy_huang@richtek.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="YFqwplF9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uVPsAqftW0vhtKA58ZDlqFmO1bWJwWK9skTTWgRlEpv6n4qx0ZYGjhlXvWoUamwups49Og1XWMLRxqtzoXzvio9NkvowCMQAE4I/vnii87QU+/3K+JPvCD5ThL2dTnTVMH7d8PM1ycR4aQ9w8Y/+bXWJY5DB1+rZokWfk3RByR0Eg/r1QEvemQSAB7UyLrqlRexczRf/hHGMGN6Oo6Qz2QNCsvy32q4/DoB3wvPV+8/rbt+pjmfUkl9JM1kfF0CdKfy2nP3mST0NhqHowd9F9hpQAvHFknre1Jfkf7X2DEnYlgcgmSHpw0RBoqkVQ+RyuG39ki0l3wSVkY6gH+6oYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xQXGV66aJeZoS2m8p9M99CKvCL/7cD5OM8LFloyyv8A=;
+ b=gj6vSiiCc2n4LlJSJjhHruqc7MX4Gd9HtOPjNfJqDeKOkg4h3FlypnMYsEopdaeaqnqBMKEYPq/8uVuaeXlGtUguFG/a+BDoRXd3voIytbTt1v+4JCs62RZunqG31JW3TxsSPiF0lC3yeLYnwBU+gesWsJ0JdfKXi548rxZjjc0Rx3wyGcdawZ42BUeD6YNQZdABog9WF8tUDJMnlw7gEDlpRLmDSwgrxxSv/zTVhGa1vJyglEBsbUIT3vu14bRu5fiVQN3JYfuXLal9vzyttfqcFVsOlxYl9gsa7WNn4aALqqVnfFe/a2VRWGDLwEfZiO+ElrhLBagM3aAKYW9T5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xQXGV66aJeZoS2m8p9M99CKvCL/7cD5OM8LFloyyv8A=;
+ b=YFqwplF9G29EMCX0du94hsChARTgt0blpGVuHf9wk15vZSG3a40ylmmzGXkH3xP7DA9Y9MDCBCM9FNHZShErPYA0hTWsFZevl1UXuzdHQgwYIDUppSYbG66I33xudiodmdNzYTXM3P/x/tA6J4lRFhhgkKXbIohpXY6UhkiNkbI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OS7PR01MB11837.jpnprd01.prod.outlook.com
+ (2603:1096:604:23a::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.32; Thu, 10 Apr
+ 2025 02:37:31 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8606.033; Thu, 10 Apr 2025
+ 02:37:31 +0000
+Message-ID: <87iknclp1w.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org
+Subject: Re: [PATCH 6/7] ASoC: renesas: add MSIOF sound support
+In-Reply-To: <8734egnbl0.wl-kuninori.morimoto.gx@renesas.com>
+References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
+	<87wmbu9may.wl-kuninori.morimoto.gx@renesas.com>
+	<CAMuHMdWL_C-Vg3d+fAK_nXvzeZNNPDkkzPjB1oHRKHh16rZUHw@mail.gmail.com>
+	<8734egnbl0.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 10 Apr 2025 02:37:31 +0000
+X-ClientProxiedBy: TYAPR01CA0055.jpnprd01.prod.outlook.com
+ (2603:1096:404:2b::19) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS7PR01MB11837:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2330097d-d9e3-4e0b-e0b3-08dd77d8a49e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|1800799024|376014|7416014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?5So7/NrisTns4olJMz2aJ5Z9P1nttcevAmgCEucLWMsf8+rCuq9CcLXmfTkE?=
+ =?us-ascii?Q?xDYy1BZ7kmyxN/lMtt0kvx6RdG+0j1ucV5L66CKtitU8FKkF7JynBRz+U5Ld?=
+ =?us-ascii?Q?v3gitYC+3YEJ2cFh4uf87AuZPWWA0NPKnmp266sqDU9lvdI68rfyYO8BwEtV?=
+ =?us-ascii?Q?/uxhagMOse488LTDHZab1tffBpI668GmYW322mATmBF20TU+Idd5FnNZU7yi?=
+ =?us-ascii?Q?xBY+lxm9ILacCrNUFJCWHdOeKdoqECJDCpljPmdm9WG24UKTro3qZ1K24v4u?=
+ =?us-ascii?Q?/k1t3K4ucO/fYe4TTMciBJVp0rqAYEgNJpHQNA276Dx9R5Fz1hKxcefmAKfS?=
+ =?us-ascii?Q?YfUt/HQy6fpFJZGAg/O/z6MlgJgNY8yWUqpQgwZQ8zSpIn+/BBKXEjkZsb9A?=
+ =?us-ascii?Q?3KoWjM7WQbH6wEVXIwjiNFkfEz7tNdaNrpMHeDjI5JJtpuQoUPntqBqiD+N2?=
+ =?us-ascii?Q?bHuPLisjJNx9T/VpukSCJnNy1ltVIO3RJe5/NNc47BRNrBD2SfqLbeXjdmIw?=
+ =?us-ascii?Q?vG2z40aWaPXoCezR7oHEiGgLLBlE15IeVVj7B4U83RwzKwfjCPBmktkpR6Xf?=
+ =?us-ascii?Q?+7mh9FcBijmcCJAibuhUE/GZL2sivgPCDqhoTFSxMXzt03j+B+3DPWQ3sGPf?=
+ =?us-ascii?Q?/8G5B1wzcW4X5+u0zWCaAbzZFFm8IHfH1KtqPDP8rydyGjQ2M5cJGPj/Iii4?=
+ =?us-ascii?Q?37oCtmGvQT0Ql5FlNiXyF118pD91iJ6ldijM0OxT34eDmZaaopAp+nuQwGLi?=
+ =?us-ascii?Q?kiBZPcUgOEnb+gHnSKrMyTLE6CVK5bMZIalupKu9T5KBRqwOOeXgdywycLHk?=
+ =?us-ascii?Q?2L504QiSnh86FDg9pLe/wnhhyK/b0Taz1ClovD17Zs/Wj6SK9XmrbGibLTS3?=
+ =?us-ascii?Q?RlKwhTCwiDjcFhWBaAQ6aL0jg51KYio1KObKft1n46PLpkpZFIgedzZr8jiJ?=
+ =?us-ascii?Q?D9n0vaxyp28oRH2PnWci26YBKxLkxNZxd32fjOBu54sbwjPRp8M/5L3UEMCm?=
+ =?us-ascii?Q?e9/GX7pewUSRQqa5dtxesLQOASdKZjvqLsU2irW7kX0N2HtDyYnFa+ip89vR?=
+ =?us-ascii?Q?kHHu463nlL6sdIfHOlKvp5/InicWJH93gsv8k+QbCEtKSLtzgbW1Z6tw1YSw?=
+ =?us-ascii?Q?jRGDMHVmLu072fBXse+OuuJeS0SQJCGAZdYkZkrJYwnW2PL4+G+QH3QcrwVC?=
+ =?us-ascii?Q?it6KdKPgkyWiLEl/SLdicDqxE0sBPfIFtYwmUfsSR1QNp3Xx1KCCZkTwVD7b?=
+ =?us-ascii?Q?czIXP0Nl7uAPFmVUEXKGjH8azrGasiOCQLDuLM8WjBrEYMsWfI+sIVImxkqr?=
+ =?us-ascii?Q?NsN5YCmrVzHICD1Z0A15rLEO/UigfPZj6+aBQzH6TupeFa3gWtzMhslyJCNo?=
+ =?us-ascii?Q?t+wgGPalvt1c5ZmoVPLqIHF6gA++d5HuxNxqbIxOwoUoefUL7/luPfPXUH9w?=
+ =?us-ascii?Q?LBQNcaGxQvV1yWLHseaCKVnofEuSxyhZ?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(376014)(7416014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?loJOnh9G2EP6JKCf8cc0NQhA5W7IzW+cP8W+geshPX1rOTAYflO87K3vs8oK?=
+ =?us-ascii?Q?H6Y7UKDR4KvIHL4BDQNlIFlbhRDDkmBYbvCZ0Kkn4/o8Ai9fFfGCs9cjTtAc?=
+ =?us-ascii?Q?c36SvNmPWYodHX8lnKTswLuixu3FCCE/8IxYXY0+t75ON7w3em1kUk7j20Q8?=
+ =?us-ascii?Q?6zt5ooz0mAnN7cBHIm4XG+YYEdy5KIbvpoy8C1GMx5PFXJjKGe2GZtFtKMtl?=
+ =?us-ascii?Q?dMUIpglqROtuII6PrbQZ3QD5ln33f3CJColwtFgpJpz27KiRbvP+h27+oDur?=
+ =?us-ascii?Q?h7DYfzIthYqHJfjPVhzd8/oacTxhlYfOQ/JNNx5H5dzNd1M30xgAPQaNzwDX?=
+ =?us-ascii?Q?K/P06U2R0GVEpNLi3oH7aw3jzctbdO93VOXO6ij3uzXTjmFISpaoZuPa6ilJ?=
+ =?us-ascii?Q?2nM3NpNxhBssJUbg96oODh0XBGTJCFxpokbjiccgQ1gEVydUfKGwtwYoJe9A?=
+ =?us-ascii?Q?COxxScvNC0g6kDisBHOltOxQlSFpkpkOlKYE/lKnBOCH+NZP+y3m0WCJGXaV?=
+ =?us-ascii?Q?c3rQdw3vTtqHVH4Gp4bbig+45LSFs9IkLsZyT+pKWgVpfiArgooMuhrgcAFv?=
+ =?us-ascii?Q?Eupl51pPEqvhPYA5STA7R5kYPK1uJzn21ByzdUNMvyxQP+7AgY9AmEEQVk50?=
+ =?us-ascii?Q?IWkquv1D2j3X4G95iKUXLAHklSKPXaFMaIvYvRMfaMMrXmrsDtYwx6alywhx?=
+ =?us-ascii?Q?f3cGWFbBRqNutNw70H1440ZCffFzs+mLMilrajg0g0vNX1HF3Jfmgd/WWMWK?=
+ =?us-ascii?Q?YNmMfAZvHX2OLpVgFLkgE4M5u8rQe6DKHIrnojTvuXjpZlF1+kakF+rf2YzU?=
+ =?us-ascii?Q?gLzN62+DQ+h4a6r7jYO1zd7e8TFNQSTyPjcQdznlDMeR0ucZfITYVppdhAf7?=
+ =?us-ascii?Q?qiIqBZ4hTFboHolOsmkeu6opAoFfDvjUauZgy6oa/vQP2bi0SBjo2p94XHcX?=
+ =?us-ascii?Q?6BIAErm3JQTRZ/D5ju3qUsohW67rKOOn46PlkbJBoCaCmaevEAorJGMOIR0o?=
+ =?us-ascii?Q?eZzoUsdQ+LzV9satSmp0CIIGuNTPCtpdxidJFRnjyxz56aK2FN+mlXFP5asM?=
+ =?us-ascii?Q?Bv60N6D+yvUC5NQVEg6pY3/+sNHebaOPV7QU9y2oT3P3hsln6eSbqjtelXwP?=
+ =?us-ascii?Q?BMw16vsiAA2Umu+xOhMopKVEuDKKtQscbMz/zecvOiC7Mypq4oHowhWGJ5yT?=
+ =?us-ascii?Q?hG1XldW4uGO6085dQ6RjGuYeNcfc5+XJHdQAxO2dKuAHgWRXL/iVkxnzcmXI?=
+ =?us-ascii?Q?+li/1rfi3cB5GZdho1z8lwmKFmQ+qUVT/r3Rai5MJdrMin3Mfs9LxeAIbDL4?=
+ =?us-ascii?Q?DSt7UV5PYyhqqfS2l2uNedXvH3MUR7fN4id4JYkkp3Fr2gbriHwBu0iWsroV?=
+ =?us-ascii?Q?+wKona2bdpkiN9r7+ciBta6ayMg30GGQt/8WkEpB2EE9Fj5RwFo8fMKG9P/f?=
+ =?us-ascii?Q?leM0xSc+mPn3Vlj/fxtFATe11eQJ55Uj3/+Ou1l9qDoo1On1Wl1veko8F6Ua?=
+ =?us-ascii?Q?czbOGGKl84JRL+2tQMzoUqZmzDOy6eQSNb4N2MBlbI7ZQsXgGKj+s1vNVzPH?=
+ =?us-ascii?Q?hlxoPL5YlWORNlhbTtwD2RVo8s3IEco0jVQctWe5u7RfT+tbTxvZrW8WvmwF?=
+ =?us-ascii?Q?W4bbr/uZWMv5s2OJUI+Qvqo=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2330097d-d9e3-4e0b-e0b3-08dd77d8a49e
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 02:37:31.6025
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gVPIJjyV5AhzNK97u3/QpSXYVtzPeVQZPUSXHyVkU6fd3SmjUAeq1qINFeZYjMZQmJI0VjRVBmXrdImr8z1w4aN4QrsB0IPi+JNm9V4D0YwjB5vkrdRy5CVm9GXAox3p
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11837
 
-From: ChiYuan Huang <cy_huang@richtek.com>
 
-Add codec driver for Richtek rt9123.
+Hi Geert, again
 
-Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > > +config SND_SOC_MSIOF
+> > > +       tristate "R-Car series MSIOF support"
+> > > +       depends on OF
+> > 
+> > depends on ARCH_RENESAS || COMPILE_TEST
+> 
+> Ah, yes indeed. Will add in v2
+
+Renesas category Sound drivers are under below menu.
+So, it is not needed on each drivers.
+
+menu "SoC Audio support for Renesas SoCs"
+	depends on SUPERH || ARCH_RENESAS || COMPILE_TEST
+
+Thank you for your help !!
+
+Best regards
 ---
-v2
-- include bitfield header file to fix kernel test robot issue
-  https://lore.kernel.org/oe-kbuild-all/202504052206.HFqFRXUk-lkp@intel.com/
-- Use #ifdef CONFIG_PM to only inlucde 'runtime_resume' and
-  'runtime_suspend', this will fix kernel test robot issue
-  https://lore.kernel.org/oe-kbuild-all/202504052244.bgS5yxev-lkp@intel.com/
-- Check vendor-id before triggering SW_RST
-- Fix 'SW_RST' write date non swap issue and add the wait delay for sw_reset
-- Rename control name from 'SPK Gain Volume' to 'Speaker Volume'
-- Change regmap cache type to _MAPLE
-- Since ID check run once, to speed up regmap cache init, modify
-  num_reg_defaults_raw from 0xf2 'COMBOID' to 0x36 'ANAFLAG'
-- Add comments to describe why use pm runtime for RG special handling
----
- sound/soc/codecs/Kconfig  |   9 +
- sound/soc/codecs/Makefile |   2 +
- sound/soc/codecs/rt9123.c | 503 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 514 insertions(+)
- create mode 100644 sound/soc/codecs/rt9123.c
-
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 40bb7a1d44bc..c61b2d3cf284 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -234,6 +234,7 @@ config SND_SOC_ALL_CODECS
- 	imply SND_SOC_RT1318_SDW
- 	imply SND_SOC_RT1320_SDW
- 	imply SND_SOC_RT9120
-+	imply SND_SOC_RT9123
- 	imply SND_SOC_RTQ9128
- 	imply SND_SOC_SDW_MOCKUP
- 	imply SND_SOC_SGTL5000
-@@ -1823,6 +1824,14 @@ config SND_SOC_RT9120
- 	  Enable support for Richtek RT9120 20W, stereo, inductor-less,
- 	  high-efficiency Class-D audio amplifier.
- 
-+config SND_SOC_RT9123
-+	tristate "Richtek RT9123 Mono Class-D Amplifier"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  Enable support for the I2C control mode of Richtek RT9123 3.2W mono
-+	  Class-D audio amplifier.
-+
- config SND_SOC_RTQ9128
- 	tristate "Richtek RTQ9128 45W Digital Input Amplifier"
- 	depends on I2C
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index 10f726066b6c..d8d0bc367af8 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -270,6 +270,7 @@ snd-soc-rt715-sdca-y := rt715-sdca.o rt715-sdca-sdw.o
- snd-soc-rt721-sdca-y := rt721-sdca.o rt721-sdca-sdw.o
- snd-soc-rt722-sdca-y := rt722-sdca.o rt722-sdca-sdw.o
- snd-soc-rt9120-y := rt9120.o
-+snd-soc-rt9123-y := rt9123.o
- snd-soc-rtq9128-y := rtq9128.o
- snd-soc-sdw-mockup-y := sdw-mockup.o
- snd-soc-sgtl5000-y := sgtl5000.o
-@@ -684,6 +685,7 @@ obj-$(CONFIG_SND_SOC_RT715_SDCA_SDW)     += snd-soc-rt715-sdca.o
- obj-$(CONFIG_SND_SOC_RT721_SDCA_SDW)     += snd-soc-rt721-sdca.o
- obj-$(CONFIG_SND_SOC_RT722_SDCA_SDW)     += snd-soc-rt722-sdca.o
- obj-$(CONFIG_SND_SOC_RT9120)	+= snd-soc-rt9120.o
-+obj-$(CONFIG_SND_SOC_RT9123)	+= snd-soc-rt9123.o
- obj-$(CONFIG_SND_SOC_RTQ9128)	+= snd-soc-rtq9128.o
- obj-$(CONFIG_SND_SOC_SDW_MOCKUP)     += snd-soc-sdw-mockup.o
- obj-$(CONFIG_SND_SOC_SGTL5000)  += snd-soc-sgtl5000.o
-diff --git a/sound/soc/codecs/rt9123.c b/sound/soc/codecs/rt9123.c
-new file mode 100644
-index 000000000000..d9a22fda3d26
---- /dev/null
-+++ b/sound/soc/codecs/rt9123.c
-@@ -0,0 +1,503 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// rt9123.c -- RT9123 (SW I2C Mode) ALSA SoC Codec driver
-+//
-+// Author: ChiYuan Huang <cy_huang@richtek.com>
-+
-+#include <linux/acpi.h>
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/byteorder/generic.h>
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/kernel.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/property.h>
-+#include <linux/regmap.h>
-+#include <sound/pcm.h>
-+#include <sound/pcm_params.h>
-+#include <sound/soc.h>
-+#include <sound/soc-dai.h>
-+#include <sound/soc-dapm.h>
-+#include <sound/tlv.h>
-+
-+#define RT9123_REG_AMPCTRL	0x01
-+#define RT9123_REG_I2SOPT	0x02
-+#define RT9123_REG_TDMRX	0x03
-+#define RT9123_REG_SILVOLEN	0x04
-+#define RT9123_REG_VOLGAIN	0x12
-+#define RT9123_REG_ANAFLAG	0x36
-+#define RT9123_REG_COMBOID	0xF7
-+
-+#define RT9123_MASK_SWRST	BIT(15)
-+#define RT9123_MASK_SWMUTE	BIT(14)
-+#define RT9123_MASK_AMPON	BIT(12)
-+#define RT9123_MASK_AUDBIT	GENMASK(14, 12)
-+#define RT9123_MASK_AUDFMT	GENMASK(11, 8)
-+#define RT9123_MASK_TDMRXLOC	GENMASK(4, 0)
-+#define RT9123_MASK_VENID	GENMASK(15, 4)
-+
-+#define RT9123_FIXED_VENID	0x340
-+
-+struct rt9123_priv {
-+	struct gpio_desc *enable;
-+	unsigned int dai_fmt;
-+	int tdm_slots;
-+	int tdm_slot_width;
-+};
-+
-+static int rt9123_enable_event(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol,
-+			       int event)
-+{
-+	struct snd_soc_component *comp = snd_soc_dapm_to_component(w->dapm);
-+	struct device *dev = comp->dev;
-+	unsigned int enable;
-+	int ret;
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		enable = 1;
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		enable = 0;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
-+		return ret;
-+
-+	/* AMPON bit is located in volatile RG, use pm_runtime to guarantee the RG access */
-+	snd_soc_component_write_field(comp, RT9123_REG_AMPCTRL, RT9123_MASK_AMPON, enable);
-+
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
-+	return 0;
-+}
-+
-+static const struct snd_soc_dapm_widget rt9123_dapm_widgets[] = {
-+	SND_SOC_DAPM_OUTPUT("SPK"),
-+	SND_SOC_DAPM_OUT_DRV_E("Amp Drv", SND_SOC_NOPM, 0, 0, NULL, 0, rt9123_enable_event,
-+			       SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD),
-+};
-+
-+static const struct snd_soc_dapm_route rt9123_dapm_routes[] = {
-+	{ "Amp Drv", NULL, "HiFi Playback" },
-+	{ "SPK", NULL, "Amp Drv" },
-+};
-+
-+static const DECLARE_TLV_DB_SCALE(dig_tlv, -10375, 25, 0);
-+static const DECLARE_TLV_DB_RANGE(ana_tlv,
-+				  0, 0, TLV_DB_SCALE_ITEM(-1200, 0, 0),
-+				  1, 9, TLV_DB_SCALE_ITEM(0, 150, 0),
-+				  10, 10, TLV_DB_SCALE_ITEM(1400, 0, 0));
-+static const char * const pwmfreq_text[] = { "300KHz", "325KHz", "350KHz", "375KHz" };
-+static const struct soc_enum rt9123_pwm_freq_enum =
-+	SOC_ENUM_SINGLE(RT9123_REG_AMPCTRL, 4, ARRAY_SIZE(pwmfreq_text), pwmfreq_text);
-+static const char * const i2sch_text[] = { "(L+R)/2", "LCH", "RCH", "(L+R)/2" };
-+static const struct soc_enum rt9123_i2sch_select_enum =
-+	SOC_ENUM_SINGLE(RT9123_REG_I2SOPT, 4, ARRAY_SIZE(i2sch_text), i2sch_text);
-+
-+static int rt9123_kcontrol_name_comp(struct snd_kcontrol *kcontrol, const char *s)
-+{
-+	struct snd_soc_component *comp = snd_soc_kcontrol_component(kcontrol);
-+	const char *kctlname = kcontrol->id.name;
-+
-+	if (comp && comp->name_prefix)
-+		kctlname += strlen(comp->name_prefix) + 1;
-+
-+	return strcmp(kctlname, s);
-+}
-+
-+static int rt9123_xhandler_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *comp = snd_soc_kcontrol_component(kcontrol);
-+	struct device *dev = comp->dev;
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Since the RG bitfield for 'Speaker Volume' and 'PWM Frequency Select' are located in
-+	 * volatile RG address, special handling here with pm runtime API to guarantee RG read
-+	 * operation.
-+	 */
-+	if (rt9123_kcontrol_name_comp(kcontrol, "Speaker Volume") == 0)
-+		ret = snd_soc_get_volsw(kcontrol, ucontrol);
-+	else
-+		ret = snd_soc_get_enum_double(kcontrol, ucontrol);
-+
-+	if (ret < 0)
-+		dev_err(dev, "Failed to get control (%d)\n", ret);
-+
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+	return ret;
-+}
-+
-+static int rt9123_xhandler_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *comp = snd_soc_kcontrol_component(kcontrol);
-+	struct device *dev = comp->dev;
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Since the RG bitfield for 'Speaker Volume' and 'PWM Frequency Select' are located in
-+	 * volatile RG address, special handling here with pm runtime API to guarantee RG write
-+	 * operation.
-+	 */
-+	if (rt9123_kcontrol_name_comp(kcontrol, "Speaker Volume") == 0)
-+		ret = snd_soc_put_volsw(kcontrol, ucontrol);
-+	else
-+		ret = snd_soc_put_enum_double(kcontrol, ucontrol);
-+
-+	if (ret < 0)
-+		dev_err(dev, "Failed to put control (%d)\n", ret);
-+
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+	return ret;
-+}
-+
-+static const struct snd_kcontrol_new rt9123_controls[] = {
-+	SOC_SINGLE_TLV("Master Volume", RT9123_REG_VOLGAIN, 2, 511, 1, dig_tlv),
-+	SOC_SINGLE_EXT_TLV("Speaker Volume", RT9123_REG_AMPCTRL, 0, 10, 0, rt9123_xhandler_get,
-+			   rt9123_xhandler_put, ana_tlv),
-+	SOC_ENUM_EXT("PWM Frequency Select", rt9123_pwm_freq_enum, rt9123_xhandler_get,
-+		     rt9123_xhandler_put),
-+	SOC_ENUM("I2S CH Select", rt9123_i2sch_select_enum),
-+	SOC_SINGLE("Silence Detect Switch", RT9123_REG_SILVOLEN, 14, 1, 0),
-+};
-+
-+static const struct snd_soc_component_driver rt9123_comp_driver = {
-+	.controls		= rt9123_controls,
-+	.num_controls		= ARRAY_SIZE(rt9123_controls),
-+	.dapm_widgets		= rt9123_dapm_widgets,
-+	.num_dapm_widgets	= ARRAY_SIZE(rt9123_dapm_widgets),
-+	.dapm_routes		= rt9123_dapm_routes,
-+	.num_dapm_routes	= ARRAY_SIZE(rt9123_dapm_routes),
-+	.use_pmdown_time	= 1,
-+	.endianness		= 1,
-+};
-+
-+static int rt9123_dai_set_format(struct snd_soc_dai *dai, unsigned int fmt)
-+{
-+	struct rt9123_priv *rt9123 = snd_soc_dai_get_drvdata(dai);
-+
-+	rt9123->dai_fmt = fmt;
-+	return 0;
-+}
-+
-+static int rt9123_dai_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx_mask,
-+				   unsigned int rx_mask, int slots, int slot_width)
-+{
-+	struct rt9123_priv *rt9123 = snd_soc_dai_get_drvdata(dai);
-+	struct snd_soc_component *comp = dai->component;
-+	struct device *dev = dai->dev;
-+	unsigned int rx_loc;
-+
-+	dev_dbg(dev, "(slots, slot_width) = (%d, %d), (txmask, rxmask) = 0x%x, 0x%x\n", slots,
-+		slot_width, tx_mask, rx_mask);
-+
-+	if (slots <= 0 || slot_width <= 0 || slots % 2 || slot_width % 8 ||
-+			slots * slot_width > 256) {
-+		dev_err(dev, "Invalid slot parameter (%d, %d)\n", slots, slot_width);
-+		return -EINVAL;
-+	}
-+
-+	if (!rx_mask || hweight_long(rx_mask) > 1 || ffs(rx_mask) > slots) {
-+		dev_err(dev, "Invalid rx_mask 0x%08x, slots = %d\n", rx_mask, slots);
-+		return -EINVAL;
-+	}
-+
-+	/* Configure rx channel data location */
-+	rx_loc = (ffs(rx_mask) - 1) * slot_width / 8;
-+	snd_soc_component_write_field(comp, RT9123_REG_TDMRX, RT9123_MASK_TDMRXLOC, rx_loc);
-+
-+	rt9123->tdm_slots = slots;
-+	rt9123->tdm_slot_width = slot_width;
-+
-+	return 0;
-+}
-+
-+static int rt9123_dai_hw_params(struct snd_pcm_substream *substream,
-+				struct snd_pcm_hw_params *param, struct snd_soc_dai *dai)
-+{
-+	struct rt9123_priv *rt9123 = snd_soc_dai_get_drvdata(dai);
-+	struct snd_soc_component *comp = dai->component;
-+	unsigned int fmtval, width, slot_width;
-+	struct device *dev = dai->dev;
-+	unsigned int audfmt, audbit;
-+
-+	fmtval = FIELD_GET(SND_SOC_DAIFMT_FORMAT_MASK, rt9123->dai_fmt);
-+	if (rt9123->tdm_slots && fmtval != SND_SOC_DAIFMT_DSP_A && fmtval != SND_SOC_DAIFMT_DSP_B) {
-+		dev_err(dev, "TDM only can support DSP_A or DSP_B format\n");
-+		return -EINVAL;
-+	}
-+
-+	switch (fmtval) {
-+	case SND_SOC_DAIFMT_I2S:
-+		audfmt = 0;
-+		break;
-+	case SND_SOC_DAIFMT_LEFT_J:
-+		audfmt = 1;
-+		break;
-+	case SND_SOC_DAIFMT_RIGHT_J:
-+		audfmt = 2;
-+		break;
-+	case SND_SOC_DAIFMT_DSP_B:
-+		audfmt = rt9123->tdm_slots ? 4 : 3;
-+		break;
-+	case SND_SOC_DAIFMT_DSP_A:
-+		audfmt = rt9123->tdm_slots ? 12 : 11;
-+		break;
-+	default:
-+		dev_err(dev, "Unsupported format %d\n", fmtval);
-+		return -EINVAL;
-+	}
-+
-+	switch (width = params_width(param)) {
-+	case 16:
-+		audbit = 0;
-+		break;
-+	case 20:
-+		audbit = 1;
-+		break;
-+	case 24:
-+		audbit = 2;
-+		break;
-+	case 32:
-+		audbit = 3;
-+		break;
-+	case 8:
-+		audbit = 4;
-+		break;
-+	default:
-+		dev_err(dev, "Unsupported width %d\n", width);
-+		return -EINVAL;
-+	}
-+
-+	slot_width = params_physical_width(param);
-+	if (rt9123->tdm_slots && slot_width > rt9123->tdm_slot_width) {
-+		dev_err(dev, "Slot width is larger than TDM slot width\n");
-+		return -EINVAL;
-+	}
-+
-+	snd_soc_component_write_field(comp, RT9123_REG_I2SOPT, RT9123_MASK_AUDFMT, audfmt);
-+	snd_soc_component_write_field(comp, RT9123_REG_I2SOPT, RT9123_MASK_AUDBIT, audbit);
-+
-+	return 0;
-+}
-+
-+static const struct snd_soc_dai_ops rt9123_dai_ops = {
-+	.set_fmt	= rt9123_dai_set_format,
-+	.set_tdm_slot	= rt9123_dai_set_tdm_slot,
-+	.hw_params	= rt9123_dai_hw_params,
-+};
-+
-+static struct snd_soc_dai_driver rt9123_dai_driver = {
-+	.name = "HiFi",
-+	.playback = {
-+		.stream_name	= "HiFi Playback",
-+		.formats	= SNDRV_PCM_FMTBIT_S16 | SNDRV_PCM_FMTBIT_S24 |
-+				  SNDRV_PCM_FMTBIT_S32,
-+		.rates		= SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |
-+				  SNDRV_PCM_RATE_22050 | SNDRV_PCM_RATE_24000 |
-+				  SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
-+				  SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_88200 |
-+				  SNDRV_PCM_RATE_96000,
-+		.rate_min	= 8000,
-+		.rate_max	= 96000,
-+		.channels_min	= 1,
-+		.channels_max	= 2,
-+	},
-+	.ops    = &rt9123_dai_ops,
-+};
-+
-+static bool rt9123_readable_reg(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case 0x00 ... 0x05:
-+	case 0x12 ... 0x13:
-+	case 0x20 ... 0x21:
-+	case 0x36:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static bool rt9123_writeable_reg(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case 0x01 ... 0x05:
-+	case 0x12 ... 0x13:
-+	case 0x20 ... 0x21:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static bool rt9123_volatile_reg(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case 0x01:
-+	case 0x20:
-+	case 0x36:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const struct regmap_config rt9123_regmap_config = {
-+	.name			= "rt9123",
-+	.reg_bits		= 8,
-+	.val_bits		= 16,
-+	.val_format_endian	= REGMAP_ENDIAN_BIG,
-+	.readable_reg		= rt9123_readable_reg,
-+	.writeable_reg		= rt9123_writeable_reg,
-+	.volatile_reg		= rt9123_volatile_reg,
-+	.cache_type		= REGCACHE_MAPLE,
-+	.num_reg_defaults_raw	= RT9123_REG_ANAFLAG + 1,
-+};
-+
-+static int rt9123_i2c_probe(struct i2c_client *i2c)
-+{
-+	struct device *dev = &i2c->dev;
-+	struct rt9123_priv *rt9123;
-+	struct regmap *regmap;
-+	__be16 value;
-+	u16 venid;
-+	int ret;
-+
-+	rt9123 = devm_kzalloc(dev, sizeof(*rt9123), GFP_KERNEL);
-+	if (!rt9123)
-+		return -ENOMEM;
-+
-+	rt9123->enable = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
-+	if (IS_ERR(rt9123->enable))
-+		return PTR_ERR(rt9123->enable);
-+	else if (rt9123->enable)
-+		usleep_range(250, 350);
-+	else
-+		dev_dbg(dev, "No 'enable' GPIO specified, treat it as default on\n");
-+
-+	/* Check vendor id information */
-+	ret = i2c_smbus_read_word_data(i2c, RT9123_REG_COMBOID);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to read vendor-id\n");
-+
-+	venid = be16_to_cpu(ret);
-+	if ((venid & RT9123_MASK_VENID) != RT9123_FIXED_VENID)
-+		return dev_err_probe(dev, -ENODEV, "Incorrect vendor-id 0x%04x\n", venid);
-+
-+	/* Trigger RG reset before regmap init cache */
-+	value = cpu_to_be16(RT9123_MASK_SWRST);
-+	ret = i2c_smbus_write_word_data(i2c, RT9123_REG_AMPCTRL, value);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to trigger RG reset\n");
-+
-+	/* Need to wait 10ms for the reset to complete */
-+	usleep_range(10000, 11000);
-+
-+	regmap = devm_regmap_init_i2c(i2c, &rt9123_regmap_config);
-+	if (IS_ERR(regmap))
-+		return dev_err_probe(dev, PTR_ERR(regmap), "Failed to init regmap\n");
-+
-+	i2c_set_clientdata(i2c, rt9123);
-+
-+	pm_runtime_set_autosuspend_delay(dev, 500);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_set_active(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to enable pm runtime\n");
-+
-+	return devm_snd_soc_register_component(dev, &rt9123_comp_driver, &rt9123_dai_driver, 1);
-+}
-+
-+#ifdef CONFIG_PM
-+static int rt9123_runtime_suspend(struct device *dev)
-+{
-+	struct rt9123_priv *rt9123 = dev_get_drvdata(dev);
-+	struct regmap *regmap = dev_get_regmap(dev, NULL);
-+
-+	if (rt9123->enable) {
-+		regcache_cache_only(regmap, true);
-+		regcache_mark_dirty(regmap);
-+		gpiod_set_value(rt9123->enable, 0);
-+	}
-+
-+	return 0;
-+}
-+
-+static int rt9123_runtime_resume(struct device *dev)
-+{
-+	struct rt9123_priv *rt9123 = dev_get_drvdata(dev);
-+	struct regmap *regmap = dev_get_regmap(dev, NULL);
-+	int ret;
-+
-+	if (rt9123->enable) {
-+		gpiod_set_value(rt9123->enable, 1);
-+		usleep_range(250, 350);
-+
-+		regcache_cache_only(regmap, false);
-+		ret = regcache_sync(regmap);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+#endif
-+
-+static const struct dev_pm_ops rt9123_dev_pm_ops = {
-+	SET_RUNTIME_PM_OPS(rt9123_runtime_suspend, rt9123_runtime_resume, NULL)
-+};
-+
-+#ifdef CONFIG_OF
-+static const struct of_device_id rt9123_device_id[] = {
-+	{ .compatible = "richtek,rt9123" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, rt9123_device_id);
-+#endif
-+
-+#ifdef CONFIG_ACPI
-+static const struct acpi_device_id rt9123_acpi_match[] = {
-+	{ "RT9123", 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(acpi, rt9123_acpi_match);
-+#endif
-+
-+static struct i2c_driver rt9123_i2c_driver = {
-+	.driver = {
-+		.name = "rt9123",
-+		.of_match_table = of_match_ptr(rt9123_device_id),
-+		.acpi_match_table = ACPI_PTR(rt9123_acpi_match),
-+		.pm = pm_ptr(&rt9123_dev_pm_ops),
-+	},
-+	.probe	= rt9123_i2c_probe,
-+};
-+module_i2c_driver(rt9123_i2c_driver);
-+
-+MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
-+MODULE_DESCRIPTION("ASoC rt9123 Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.34.1
-
+Kuninori Morimoto
