@@ -1,43 +1,44 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C94204840;
-	Thu, 10 Apr 2025 19:26:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE04228EA7C;
+	Thu, 10 Apr 2025 19:40:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744313162; cv=pass; b=jvQoQJNdRdALW3aUansWvu9CVDddD0I2iYBQDf5JCl+RREl9U02F8nUa4rgzS0KXuK/lz6GWc25heCt2f4EF0ZniRCy1Yz7EDSojdtLFpjEDFWde1W2ZaAohhnjWKZHZ4nIs6JP7TJSvDuC81q+yqaFe2O8qe4D3Cyr3XCQdyTc=
+	t=1744314059; cv=pass; b=LzZhYJ8e5vePbkz5ihpicfDPI8XWW8euJTem1JS4R8bCWo8hmAF8Lhgxbsa0U6EpBwOXmVsZ76Z7HhzGysqcH+Sa0ne4HtUJB13fPm1jfLl3TbOr9Ob89uhgRtLjfw9brmXkhvwksrg2aJWhKLmYA25x5V2JHEFIHCL5QyxzuaQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744313162; c=relaxed/simple;
-	bh=Rz8eNvj4dTzcpDaeCQBvlJV85ksaEcJQ+TTs3rtoaMM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rufwH61H7C0WK8TdiICpxGhGLJu+keEYUsiNMS8NU3bPkXcvbJUEOCD6gvBJHc5lXKygVmtUUgy7tRle1hprCophKWBZXVUVBgHELTLDyP43y9k2lz39w4iHmh6hTEHTizNJTtCgDwSAIME6Rels8IRuFSWOi97WqCN1gPB9RUc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=HKZb5632; arc=pass smtp.client-ip=136.143.188.112
+	s=arc-20240116; t=1744314059; c=relaxed/simple;
+	bh=ioMRugEWublB3+wH+i+bFKX5LLNZRZGfDIlj+9/jrZ4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=kc7rzJwpQPNT43HvLH+hm1ZFe2iZyl/PGZRCs32VGV71dJXpItUg8jQIhaJuFZ9CrAMKWSL+X+KdhRgK5P/Ppj896mwVEBeUN64yRoteq4w6IHvMg0yiPEzMtl7UUc6xBf2iLi7QHRwL1G8KVBKLvbGWuxpNtHWWcDVGRzXxONY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=L7leXApD; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="HKZb5632"
-ARC-Seal: i=1; a=rsa-sha256; t=1744313143; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="L7leXApD"
+ARC-Seal: i=1; a=rsa-sha256; t=1744314019; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=NRkMhMaG0GaHcQRVxjUOf0Vyb3VdgkRmDmIw6JAkm1bgWFC2PN10sbMmDmtdrNCfZHdGvos6DburExu47TktUSMzosO9CqvMKjG0PTzQiUXoU0KfMkEWfAyWdk+t2J28+g0CR0/TSsFVegc/xfw8XSBi58EGqae3tiAorwIuEgQ=
+	b=OkgUZthNmo+Egj+G4jV+vRnTkJVpQrzM7EQuTN1iJevpz4U9m01yCyR3J5BXRPu+8ctAHbFIOp+zmYTL4KYlm3B1Xun2b38dfbzVy8GFoRnW23dSD0F+zBPlRcLtGFtZtmQ89nK1Cp6vST1dfFbMeJBYz7OQS7xEDGQDXelTE2Y=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1744313143; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=XQmTpBmWGhhASqTYxUhuA64rZTqnNcKbjzNnRjkhCQ8=; 
-	b=RJM8fGVyrIDpyJfuke3gdL+AMQ2cC2mP8hPZylDM1WxsA2armJc9O7+gxKhVwbRORElAYkRoCEbee3rdOwMqTzO8TMU7pa0WP17C9YGUxsFlPDvBgIGhR8CRfyknFhBd2usUAPJVxy4QUwdWshLwY1YeMVDs9yB4QSQQZ/EBjLc=
+	t=1744314019; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=vLcyEazL4MwkJMa6AXHbeFliu5XVPS/TvBzOMo6zWY4=; 
+	b=ETYj1Ye60BkzNxmjgTFouDZUcqBw/xHDAiXeplw9owDAWp9vnQfIRPVwMuqJWOkE+lTgb3DhhZA7WLffaDIOaBY5vQpk1PFQ3ZLmc2SNMm9CvbxTV2sbiBuqNYtcfgsP34s7ylZ4FtQUv36gdW3Vxh+wEswElwHg/UGIQ2JokIQ=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
 	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744313142;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744314019;
 	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Cc:Cc:Reply-To;
-	bh=XQmTpBmWGhhASqTYxUhuA64rZTqnNcKbjzNnRjkhCQ8=;
-	b=HKZb5632IMXzMDPHQFQacWdkiZmxa9JUufHmqbLNCajbbuAhBuD1tm7iXu9IJ0/a
-	RkiFfacMfpXR8xqYmQm4CKNG5YEwGPWCuyJCX7/kOL9ecxMqKt5G6/o1L0+feyszkdl
-	dqXUU/ZdEJhria9tQfl+NkNx4+K3h5fWYwG2epUs=
-Received: by mx.zohomail.com with SMTPS id 1744313141034419.0536528588136;
-	Thu, 10 Apr 2025 12:25:41 -0700 (PDT)
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+	bh=vLcyEazL4MwkJMa6AXHbeFliu5XVPS/TvBzOMo6zWY4=;
+	b=L7leXApDPBM54bdU1QBrM6mExrCnOG4mLjLvfIx1D6OS2nRdCT+xv5Zg8JqCAdVf
+	c0D3xOg8nLnuSGDjjxUHOOfws1EM096tx+ky/if3dL9DpW2c+ZJZ0DIxBo/0wRyrk7J
+	vC4IVJH6V+39ZeR/NoK9yqKUFluOiHTI2vsKeQ3A=
+Received: by mx.zohomail.com with SMTPS id 1744314017941145.1745690911024;
+	Thu, 10 Apr 2025 12:40:17 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Thu, 10 Apr 2025 21:25:32 +0200
-Subject: [PATCH] ASoC: test-component: add set_tdm_slot stub implementation
+Date: Thu, 10 Apr 2025 21:39:53 +0200
+Subject: [PATCH v2 01/11] dt-bindings: clock: rk3576: add IOC gated clocks
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,92 +47,62 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250410-test-component-tdm-slot-v1-1-9c3a7162fa7a@collabora.com>
-X-B4-Tracking: v=1; b=H4sIACsb+GcC/yWNQQ7CIBBFr0Jm7RggoLFXMV0UGJVEoMLYmDS9u
- 2iX7yX//RUa1UgNBrFCpSW2WHIHdRDgH1O+E8bQGbTUVholkakx+pLmkikzckjYnoXRGWPPyvl
- L0Br6eq50i59/+TruXOn17ge8S3BTo18pRR7Ecjoqi9UrGLftC8INUO+WAAAA
-X-Change-ID: 20250410-test-component-tdm-slot-b44571bc9d22
-To: Mark Brown <broonie@kernel.org>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: Daniel Baluta <daniel.baluta@gmail.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel@collabora.com, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Message-Id: <20250410-rk3576-sai-v2-1-c64608346be3@collabora.com>
+References: <20250410-rk3576-sai-v2-0-c64608346be3@collabora.com>
+In-Reply-To: <20250410-rk3576-sai-v2-0-c64608346be3@collabora.com>
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Sugar Zhang <sugar.zhang@rock-chips.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, kernel@collabora.com, 
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
 
-The test-component driver implements various stub callbacks. One
-of the ones it doesn't implement is set_tdm_slot. This has no
-functional impact on whether ASoC core believes test-component to
-do TDM or not, it just means that any TDM configuration can't
-readily be dumped for debugging purposes like it can with the other
-callbacks.
+Certain clocks on the RK3576 are additionally essentially "gated" behind
+some bit toggles in the IOC GRF range. Downstream ungates these by
+adding a separate clock driver that maps over the GRF range and leaks
+their implementation of this into the DT.
 
-Add a stub implementation to allow for this. The output uses dev_info
-rather than dev_dbg, to be in line with the set_fmt stub implementation
-above.
+Instead, define some new clock IDs for these, so that consumers of these
+types of clocks can properly articulate which clock they're using, so
+that we can then add them to the clock driver for SoCs that need them.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
-Quite unlike how I initially thought the code worked, this stub
-implementation of the DAI op isn't actually needed to make ASoC core see
-it as a TDM-capable DAI. There's no checking of that sort, it seems. I
-mistook a different debug print I added for the test-component output
-when I was testing this, which lead me down a stray path about 20 shaved
-yaks deep.
+ include/dt-bindings/clock/rockchip,rk3576-cru.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Still, the stub implementation is useful to make sure DT properties are
-set correctly in e.g. an audio-graph-card, meaning the dai properties
-are in the endpoint nodes, which wasn't the case for me. In particular,
-I can just swap the compatible of a codec out for a test component with
-no changes to the rest of the node and immediately get to see whether
-ASoC core sees my devicetree the same way I do.
----
- sound/soc/generic/test-component.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
-index 5430d25deaef18700bbefc3f297246fe93945472..89b995987e2d46f58e0cbeb81816d233320edaec 100644
---- a/sound/soc/generic/test-component.c
-+++ b/sound/soc/generic/test-component.c
-@@ -140,6 +140,15 @@ static int test_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 	return 0;
- }
+diff --git a/include/dt-bindings/clock/rockchip,rk3576-cru.h b/include/dt-bindings/clock/rockchip,rk3576-cru.h
+index f576e61bec7041455e10ac18c92f3b33ec0760e3..ded5ce42e62a7f4bc8058fd71b5e9e1d4580f49c 100644
+--- a/include/dt-bindings/clock/rockchip,rk3576-cru.h
++++ b/include/dt-bindings/clock/rockchip,rk3576-cru.h
+@@ -594,4 +594,14 @@
+ #define SCMI_ARMCLK_B			11
+ #define SCMI_CLK_GPU			456
  
-+static int test_dai_set_tdm_slot(struct snd_soc_dai *dai,
-+				 unsigned int tx_mask, unsigned int rx_mask,
-+				 int slots, int slot_width)
-+{
-+	dev_info(dai->dev, "set tdm slot: tx_mask=0x%08X, rx_mask=0x%08X, slots=%d, slot_width=%d\n",
-+		 tx_mask, rx_mask, slots, slot_width);
-+	return 0;
-+}
++/* IOC-controlled output clocks */
++#define CLK_SAI0_MCLKOUT_TO_IO		571
++#define CLK_SAI1_MCLKOUT_TO_IO		572
++#define CLK_SAI2_MCLKOUT_TO_IO		573
++#define CLK_SAI3_MCLKOUT_TO_IO		574
++#define CLK_SAI4_MCLKOUT_TO_IO		575
++#define CLK_SAI4_MCLKOUT_TO_IO		575
++#define CLK_FSPI0_TO_IO			576
++#define CLK_FSPI1_TO_IO			577
 +
- static int test_dai_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
- {
- 	mile_stone(dai);
-@@ -203,6 +212,7 @@ static const u64 test_dai_formats =
- 
- static const struct snd_soc_dai_ops test_ops = {
- 	.set_fmt		= test_dai_set_fmt,
-+	.set_tdm_slot		= test_dai_set_tdm_slot,
- 	.startup		= test_dai_startup,
- 	.shutdown		= test_dai_shutdown,
- 	.auto_selectable_formats	= &test_dai_formats,
-@@ -214,6 +224,7 @@ static const struct snd_soc_dai_ops test_verbose_ops = {
- 	.set_pll		= test_dai_set_pll,
- 	.set_clkdiv		= test_dai_set_clkdiv,
- 	.set_fmt		= test_dai_set_fmt,
-+	.set_tdm_slot		= test_dai_set_tdm_slot,
- 	.mute_stream		= test_dai_mute_stream,
- 	.startup		= test_dai_startup,
- 	.shutdown		= test_dai_shutdown,
+ #endif
 
----
-base-commit: 64e9fdfc89a76fed38d8ddeed72d42ec71957ed9
-change-id: 20250410-test-component-tdm-slot-b44571bc9d22
-
-Best regards,
 -- 
-Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+2.49.0
 
