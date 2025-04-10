@@ -1,324 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A451B26B0BC
-	for <linux-sound@vger.kernel.org>; Thu, 10 Apr 2025 10:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AD026A1D0
+	for <linux-sound@vger.kernel.org>; Thu, 10 Apr 2025 10:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744280694; cv=none; b=sSqlvprxhSkv43/mzJTp4lfhJxBkZccCZJ6PdXKe7nhyT8QzXfHJNfONtk9CMwSzUnTeYbYw3ge9XKHzTzBPzwhTSmaZzKecG9wnkrR38FhN22n2bmx6pxDpPlC3jhq3Y20BjRm2Yx3QglmG0O9jJe6QPcKfHaGF5yag+4ArotU=
+	t=1744282354; cv=none; b=CJbraoVrP/w+SIAeersiQ4TjybQboFFPCRNeqGIJ2/U7WuBZQHixtmc9BlcIlxUev0m/VbrzRXpprzxbiTFiXLmfv3u4WejylfMzz8dUgkNUh/butYnZ6ERLADhf/tj2y0wl1yslhkIjggK3Nq/YF7/uE1dU0kRUeKGXNQjuiA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744280694; c=relaxed/simple;
-	bh=sTMdgAnOw7EpR3NLOn+WjWuMVEXRa1lwsyFqd1vP6lc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VzRHqw84gYaVep73e//YcrXNXTvl2prxMmZcI1YjLMNqdplaX+3yYX1WCGn+m7+6uc0xYQ56InP403uOPzErGgjlBtDfJH2zz6bxrkEnoGxhsJgc/EJ6YEnDc4/rb1R1gNza7WkfEsLYiCSbm0V+JSne6ESnqEFKZHsRupBpo7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T6fgBuUP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+zVA46fd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T6fgBuUP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+zVA46fd; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1744282354; c=relaxed/simple;
+	bh=BrziYG+reRrITgoe+nv5bA2Bshgb7AQbs7Lu9SlqTfM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FIbbouhgY2FGsQGD2cOT2FW9v9LMNu5sHXaHyqHqwLCXtbx9T+4EMIfCmRYzimocNW9FySxM6JZU8Vn7ocpWwYAwFwsDgUXN9Q3JwSZkZaDETqqwAeUaB2Ak94XjbPq2E9HBIarjWbbSyzPV5Vt20SUO11hGt4RG9E68KCUbPtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J+YHeY0R; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T6fgBuUP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+zVA46fd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T6fgBuUP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+zVA46fd"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A6D7E211A8;
-	Thu, 10 Apr 2025 10:24:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744280689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vp2z38OKemGzQ5icuR3OelWOaEemKX5Qf+4C0Gq98qA=;
-	b=T6fgBuUPvk2d7Ujyz/qseQHtzofuJ+FfMWjqQa9x1OWlRczIxmRe4rVzjTPVbgReg1x+Lr
-	uAIvPxNhvbjghc7lhyI9tORmDD/YMGF6dAfR9q0ok6lUZ5NBdPXZZrnbA8ADhCut1Ql8SK
-	h1FGwG/pOsPLI+vjMGaLkk/g07iT/hI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744280689;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vp2z38OKemGzQ5icuR3OelWOaEemKX5Qf+4C0Gq98qA=;
-	b=+zVA46fd5CfOe9R4SWsPYACyDs96/aqx1OqwOFPWX5kPhGvDWjPNGPmkdEGWh47rrBy3FC
-	d9jE7ENC64By2tBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744280689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vp2z38OKemGzQ5icuR3OelWOaEemKX5Qf+4C0Gq98qA=;
-	b=T6fgBuUPvk2d7Ujyz/qseQHtzofuJ+FfMWjqQa9x1OWlRczIxmRe4rVzjTPVbgReg1x+Lr
-	uAIvPxNhvbjghc7lhyI9tORmDD/YMGF6dAfR9q0ok6lUZ5NBdPXZZrnbA8ADhCut1Ql8SK
-	h1FGwG/pOsPLI+vjMGaLkk/g07iT/hI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744280689;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vp2z38OKemGzQ5icuR3OelWOaEemKX5Qf+4C0Gq98qA=;
-	b=+zVA46fd5CfOe9R4SWsPYACyDs96/aqx1OqwOFPWX5kPhGvDWjPNGPmkdEGWh47rrBy3FC
-	d9jE7ENC64By2tBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5663813886;
-	Thu, 10 Apr 2025 10:24:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZV8SE3Gc92fSLQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 10 Apr 2025 10:24:49 +0000
-Date: Thu, 10 Apr 2025 12:24:48 +0200
-Message-ID: <87v7rcwbyn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: broonie@kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz,
-	amadeuszx.slawinski@linux.intel.com,
-	linux-sound@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	quic_wcheng@quicinc.com,
-	mathias.nyman@linux.intel.com
-Subject: Re: [RFC 00/15] ALSA/ASoC: USB Audio Offload
-In-Reply-To: <20250409110731.3752332-1-cezary.rojewski@intel.com>
-References: <20250409110731.3752332-1-cezary.rojewski@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J+YHeY0R"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-ad5236e6fd6so678115a12.0
+        for <linux-sound@vger.kernel.org>; Thu, 10 Apr 2025 03:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744282352; x=1744887152; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lWos8QSMVgpKuVsu/horRZ74UfYwXFw6T7UturF6mnA=;
+        b=J+YHeY0RMPH4VkBgeFbffG6tH1FVNcVYniX0P4vSGv2IhIqatsycGkqwqV4IT0wzMZ
+         x5kkedXR0FaD4w1hip6KHDEOSApEnz8LMSQ6WEK3tV8AW0fYJTlANzuOOpXKG2h1UNYe
+         mzGwgzNyt5JkahlEvtzqYYnhOv73DBF8TsuNKU5zErq61qsl0TM6kruZmPZhLdT9WJOu
+         QBeDQdpcVgjAd4axcH4MD80uXqN6M5f9qES8n4491G3LGq+/Ps/GLlGQfyoPXR5ezqIR
+         ixrzI467cYXfZCnuHqwC9DAMdefbbVl0z4e1eyl65Q+WYfUdpx/fya0mLBu+PfwhMYmn
+         3yEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744282352; x=1744887152;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lWos8QSMVgpKuVsu/horRZ74UfYwXFw6T7UturF6mnA=;
+        b=DvbBaigtLeaSCAcoEzfZ2TDUWZ3Dad1Xf6+oUzn+AsGCI8uZZhwNJQJir8ACaje2d9
+         gLyDdEn0LD9OOJCLBFPCdL61aDNIo1zQ969BguuvwGggrO6uwB1d0oJMeYbgV1T862uA
+         nfB2Y5vzbj5V0ToL89p4OdV2EW3aWwEL4y+gUHjEqBB2Rf4yOnMx2+PlqSTVIwzZzw5o
+         /QvcSRd90TBSUgDu0R1D65KFzXeKjBWK4yasFT5jkYigSPc9hlq0KUKvM+Tx5/zfAGPu
+         IPlQO9RtCxpIPJnPAbQquCwGu8pqZJJkzPB7dcYERBdE3H5rlqrKXrFocDpoAcvzUvaf
+         KZCw==
+X-Forwarded-Encrypted: i=1; AJvYcCWHlMSjZCiYu5jHnFRC8ZkeP3WzN4NUh45CJig5J0s8/OiKU7W1U1LscGPwJgOHGWfJJxM7jBUNE7sogg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YweLRkRgLpVSj7yzSUWOHeIiv5X5zlvCEaL+gEQ8fQSxy6FMaVE
+	MD+WJdf85uzZqaJdT2dpO6ukcRHvhxAjkpi65k/v0gFjT47PhPiLz91nnzXAouao4AzKVoa34ZK
+	I3szdH9pWAVeidiNq8LxUGLqQx2k=
+X-Gm-Gg: ASbGncsA9wgLcvHBPomCwkJQpp8mAGmNwZyQ03xlHVqSbVSWfzBPJZZ2T7NdobSgmFp
+	QdaervxzyfoJj7bjPPzf8VKPdt4DZVGR+0+6sm+GJ+N52pI3WYYU/TteqOdI8t+zFYyxgxIu3yk
+	+rGz31ayKty6qgsDgt3ag=
+X-Google-Smtp-Source: AGHT+IG9OzuRZJ1vwnvF+rmQLTB70kFNnEYWHNA2ASYmSXyawIJM3SEc0061vhU+6wEaNlvaoSbt3rr+45o4AOy799k=
+X-Received: by 2002:a17:90b:2b8b:b0:2ff:53a4:74f0 with SMTP id
+ 98e67ed59e1d1-3072ba1da4amr3485981a91.29.1744282351618; Thu, 10 Apr 2025
+ 03:52:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,intel.com:url]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <4927043.LvFx2qVVIh@workhorse> <e649be07-108a-4f7c-9471-74b74a4f73ad@sirena.org.uk>
+In-Reply-To: <e649be07-108a-4f7c-9471-74b74a4f73ad@sirena.org.uk>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Thu, 10 Apr 2025 13:54:16 +0300
+X-Gm-Features: ATxdqUFebgLwZPWGupggeI8x5G8mnYRG_qVSUvrfbkLgIyHXw_LlRHjq-axSRjs
+Message-ID: <CAEnQRZD4xw5wRR6exsXo9xjTmmQ1TQAn0jNVeXij66-veEESMw@mail.gmail.com>
+Subject: Re: Debugging CPU-side DAI hardware with a dummy codec
+To: Mark Brown <broonie@kernel.org>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, linux-sound@vger.kernel.org, 
+	Liam Girdwood <lgirdwood@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 09 Apr 2025 13:07:15 +0200,
-Cezary Rojewski wrote:
-> 
-> Note: this series is based on Mark's broonie/for-next. The xHCI
-> dependency is missing so it won't compile.  Goal of this RFC is
-> discussing the direction of sound/usb changes.
-> 
-> Note #2: Why exclude xHCI?  Current form of xhci-sideband.c [1] does not
-> fare well with Intel's hardware design for USB Audio Offload feature.
-> The production shape for usb/xHCI subjects is being discussed with
-> Mathias.  Once we're ready, I'll share the rest.
-> 
-> Note #3: this series does _NOT_ aim to block QCOM's equivalent series
-> [2].  The team does acknowledge that we came the "table" late.  At the
-> same time, we're prepared to help QCOM switch to the presented sound/usb
-> approach if that would benefit the framework and its users as a whole.
-> Make it part of this very series if need be.
-> 
-> 
-> 
-> Apart from changes to sound/usb, the patchset contains exemplary
-> ASoC-based, offload-aware USB driver and a small sound card on the
-> avs-driver side to show how card/dai_link initialization looks like.
-> 
-> In short, USB Audio Offload functionality lowers CPU usage when
-> streaming PCM over a USB Audio-Class device.  It has been first
-> introduced in xHCI 1.2 release and is described in section 7.9 [3].
-> Once hardware is prepared with hw_params(), all the USB endpoints
-> operations e.g.: start, stop, submitting URBs, are performed
-> internally, by the hardware and AudioDSP firmware.  Software driver
-> shall not intervene.
-> 
-> Startup flow from:
-> 
-> 	usb_pcm_open()
-> 	usb_pcm_hw_params()
-> 		snd_usb_endpoint_open()
-> 	usb_pcm_prepare()
-> 		usb_set_interface()
-> 		snd_usb_endpoint_start()
-> 	usb_pcm_trigger(cmd: START/STOP etc.)
-> 
-> reduced to:
-> 
-> 	usb_pcm_open()
-> 	usb_pcm_hw_params()
-> 		snd_usb_endpoint_open()
-> 	usb_pcm_prepare()
-> 		usb_set_interface()
+> > I hope someone can shed some light on this, as it seems like something audio
+> > controller developers would be doing all the time.
+>
+> I suspect most people test with an actual system.  A bunch of things get
+> easier if you can actually play and record sound.
 
-Hmm, how can it be?  The start of EP at prepare stage is done only
-conditionally for non-lowlatency or implicit-feedback mode, for
-example.
+Mark, that's true in most of the cases. But for silicon IP
+pre-validation using emulation
+environments most of the SoC creators use a synthetic codec so things like being
+able to probe a dummy-codec does make some sense.
 
-> Handlers such as ack(), sync_stop(), pointer(), delay() are not used
-> here too.  The AudioDSP driver will handle pointer(), rest is
-> firmware/hardware responsibility.
-> 
-> 
-> There's a hefty number of limitations, most importantly:
-> 
-> 1) typically 2 USB devices tops, rest go the classic (non-offload) path
-> 2) AUDIOSTREAMING interfaces only, MIDI not.  While not an interface
->    type, Media (sound/usb/media) unsupported either
-> 3) simple PCM, UAC_FORMAT_TYPE_I_PCM only
-> 
-> Current patchset shows this in form of 'udev->audsb_capable' field.
-> True if xHCI sideband reasource has been assigned to the device.  The
-> filtering is code is not part of the patchset.
-> 
-> Important to highlight, 1) means both, offload-aware and offload-unaware
-> drivers could be utilized simultaneously on the system in runtime.
-> Opportunistically few devices would be controlled by the offload-aware
-> driver, whereas everything else by the offload-unaware one.  This
-> differs from existing HDAudio Controller driver situation where either
-> classic, snd_hda_intel driver takes complete control -or- the
-> offload-aware snd_soc_avs driver.
-> In short, once all Audio Sideband resources are depleted, classic
-> sound/usb/card.c driver manages whatever comes next:
-> 
-> 	snd_usb_audio (offload un-aware, sound/usb/card.c)
-> 	snd_soc_usb_codec (offload aware, sound/soc/codecs/usb.c)
-> 
-> 
-> The design goals:
-> 	- make ASoC first class citizen of sound/usb
-> 	- re-use code found in sound/usb, mimic HDAudio integration in ASoC:
-> 	  small sound/soc/codecs/hda.c driver leveraging power of entire
-> 	  sound/pci/hda/
-> 	- no shared control over a USB device, either snd_usb_audio or
-> 	  its ASoC equivalent takes control of the device
-> 
-> To do that, major tasks are identified:
-> 
-> a) On ASoC side 'struct snd_card' is part of 'struct snd_soc_card' and
-> is managed by the framework.  Similar situation with 'struct snd_pcm'
-> and rtd->pcm.  To keep the teardown path sane, drop card->private_free()
-> and pcm->private_free() usage.
+Nicolas,
 
-Well, this is a generic problem of ASoC framework.
-I believe this should be better handled in ASoC core side at first.
-e.g. the card object could be created at the very first step of the
-snd_soc_card creation, too (but without the actual slot assignment or
-device creation).
-
-> b) To initialize ASoC components/DAI properly, PCM capabilities should be
-> known up-front.  To do that, existing USB card probe() has to be split.
-> From one-stage to two-stage process:
-> 
-> 	- look ahead and parse usb_interface descriptors for PCM endpoints
-> 	  but do not create any PCMs (sound devices) yet
-> 	- create all PCMs based on obtained ->pcm_list and follow with
-> 	  MIDI/mixers/media
-> 
-> Such approach allows to feed DAIs proper data even when a valid
-> sound-card pointer is not yet present - the initialization occurs before
-> snd_soc_bind_card() is called.
- 
-This one is another thing that is needed to adjust for ASoC
-framework.  But when snd_card object is available, this can be
-resolved automatically, too?  e.g. snd_pcm object or such can be
-created at that point.  The actual device registration is done anyway
-later via snd_device_register() call.
-
+Can you please paste your patches (dts and the rest)?
 
 thanks,
-
-Takashi
-
-> Point a) is scaled for all three "domains" of sound/usb: chip, stream
-> and quirks.  That's why there total of 6 commits doing that job.  First
-> implement, then switch.  Everything that follows is, in my opinion,
-> self-explanatory.  No need to repeat commit messages.
-> 
-> 
-> [1]: https://lore.kernel.org/all/20250319005141.312805-2-quic_wcheng@quicinc.com/
-> [2]: https://lore.kernel.org/all/20250319005141.312805-1-quic_wcheng@quicinc.com/
-> [3]: https://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/extensible-host-controler-interface-usb-xhci.pdf
-> 
-> 
-> Cezary Rojewski (15):
->   ALSA: usb: Move media-filters to the media code
->   ALSA: usb: Drop private_free() usage for card and pcms
->   ALSA: usb: Relocate the usbaudio header file
->   ALSA: usb: Implement two-stage quirk applying mechanism
->   ALSA: usb: Implement two-stage stream creation mechanism
->   ALSA: usb: Implement two-stage chip probing mechanism
->   ALSA: usb: Switch to the two-stage chip probing
->   ALSA: usb: Switch to the two-stage stream creation
->   ALSA: usb: Switch to the two-stage quirk applying
->   ALSA: usb: Export PCM operations
->   ALSA: usb: Export usb_interface driver operations
->   ALSA: usb: Export card-naming procedure
->   ALSA: usb: Add getters to obtain endpoint information
->   ASoC: codecs: Add USB-Audio driver
->   ASoC: Intel: avs: Add USB machine board
-> 
->  include/linux/usb.h                         |  15 +
->  include/linux/usb/ch9.h                     |  11 +
->  sound/usb/usbaudio.h => include/sound/usb.h |  53 +-
->  include/sound/usb_offload.h                 |  46 +
->  sound/soc/codecs/Kconfig                    |   6 +
->  sound/soc/codecs/Makefile                   |   2 +
->  sound/soc/codecs/usb.c                      | 441 +++++++++
->  sound/soc/intel/avs/boards/Kconfig          |   8 +
->  sound/soc/intel/avs/boards/Makefile         |   2 +
->  sound/soc/intel/avs/boards/usb.c            | 115 +++
->  sound/usb/caiaq/device.h                    |   2 +-
->  sound/usb/card.c                            | 946 +++++++++++++-------
->  sound/usb/card.h                            |   4 +-
->  sound/usb/clock.c                           |   2 +-
->  sound/usb/endpoint.c                        |   2 +-
->  sound/usb/format.c                          |   2 +-
->  sound/usb/helper.c                          |   2 +-
->  sound/usb/implicit.c                        |   2 +-
->  sound/usb/media.c                           |   8 +-
->  sound/usb/midi.c                            |   2 +-
->  sound/usb/midi.h                            |   2 +
->  sound/usb/midi2.c                           |   2 +-
->  sound/usb/midi2.h                           |   1 +
->  sound/usb/misc/ua101.c                      |   2 +-
->  sound/usb/mixer.c                           |   2 +-
->  sound/usb/mixer_quirks.c                    |   2 +-
->  sound/usb/mixer_s1810c.c                    |   2 +-
->  sound/usb/mixer_scarlett.c                  |   2 +-
->  sound/usb/mixer_scarlett2.c                 |   2 +-
->  sound/usb/mixer_us16x08.c                   |   2 +-
->  sound/usb/pcm.c                             | 161 +++-
->  sound/usb/power.c                           |   2 +-
->  sound/usb/proc.c                            |   2 +-
->  sound/usb/quirks.c                          | 203 +++--
->  sound/usb/quirks.h                          |   6 +
->  sound/usb/stream.c                          | 217 +++--
->  sound/usb/stream.h                          |   2 +
->  sound/usb/usx2y/us122l.c                    |   2 +-
->  sound/usb/usx2y/usX2Yhwdep.c                |   1 +
->  sound/usb/usx2y/usbusx2y.h                  |   2 +-
->  sound/usb/validate.c                        |   2 +-
->  41 files changed, 1749 insertions(+), 541 deletions(-)
->  rename sound/usb/usbaudio.h => include/sound/usb.h (82%)
->  create mode 100644 include/sound/usb_offload.h
->  create mode 100644 sound/soc/codecs/usb.c
->  create mode 100644 sound/soc/intel/avs/boards/usb.c
-> 
-> -- 
-> 2.25.1
-> 
+Daniel.
