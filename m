@@ -1,107 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA7A204C3C;
-	Thu, 10 Apr 2025 07:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79B91B81DC;
+	Thu, 10 Apr 2025 07:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744269415; cv=none; b=bRESvLya771BwN8UNHvukohxdhTqgxhITtRPYqC8A7CxEOEWJS6cgZPR56yB8guyy2Dy7BnHwoxWm0XfNDKnndHBW/NFpIg2XyMLjjmZpdgoHZH+xr3BdnlVuEF3rSm+lWlAUMIBZHoP5IOGSS2/sBFjkW4DrwuN2H70ghM2miA=
+	t=1744270787; cv=none; b=hA/SxEOCAo4Ug/r09sYtvjBajQguZT5ZFZNS7cxAQMcjJBtjRYjAfF6B0pwBzMTb1tCb7YG1SntaDKy/5JFeEtsFtRWAmDL8JT0EtJ5XTddpQZoPD1orxgM109SlaoaVXM2esU9KFbdrwOjWcfK9qNKxpYXUQ+Ty9iCRpg0yQU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744269415; c=relaxed/simple;
-	bh=zAbhoNegydtMza1MTmjhtIxxlGmk108gu/bUj1yPPio=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W6aZa4I9kaZByBP0Q57ZRoOt6gQQPCLupoJWBdBvSlwHNt8CZSo2y9it1rzefId8kqziNFpXLYYSOvZXA7+lZcSqFiAehX1p4k0tpa+KTuJqQQoL6Z1DqWIEvfuV7CU9mTUxHw+itbQY1Aou3tfrV6GcLTfgiHYlcixJJcostRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q64sysY0; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q64sysY0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFD61C4CEDD;
-	Thu, 10 Apr 2025 07:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744269413;
-	bh=zAbhoNegydtMza1MTmjhtIxxlGmk108gu/bUj1yPPio=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q64sysY0jJCV8AJ30ycX/Fct5MUGX4cE5zzOnqgO9ZAvRE83rON1bkPpme1Yvrl+j
-	 dYoAppyJEasLAu7ypfN5Gf+pFAROF+E6HSKR/M+EDdo2/g7xAAjf7Ezu3V0auqGYdl
-	 yr0r0CvIfJoc6303l233YJewTdjECN7swxrapB/1CtfFk/c+RTGWa5bq7R/Mm5ggrq
-	 tIF7pE3mhGuhWexWSRHsMIHvm2NMBU+uCcP7/NeD92rzYQ0/+oAM8U1a9eMZF6qq4l
-	 LXUQ5OJTMrBMgqBaiw0KMhb3vNx8rM5MME6/IMkupKzYPtnhTwA1vJOP95YxnoAg1T
-	 4TK/2AcaTJjZw==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1u2m9g-000000003T3-1Bqx;
-	Thu, 10 Apr 2025 09:16:57 +0200
-Date: Thu, 10 Apr 2025 09:16:56 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmitry.baryshkov@linaro.org, johan+linaro@kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v5 2/5] ASoC: q6apm: add q6apm_get_hw_pointer helper
-Message-ID: <Z_dwaEMoavqsGOEw@hovoldconsulting.com>
-References: <20250314174800.10142-1-srinivas.kandagatla@linaro.org>
- <20250314174800.10142-3-srinivas.kandagatla@linaro.org>
- <Z_O2RhwYp6iy02cM@hovoldconsulting.com>
- <7222bbbd-51f7-43b6-9755-29808833cf5f@linaro.org>
+	s=arc-20240116; t=1744270787; c=relaxed/simple;
+	bh=L1sXf+9FqINNB+qS1AHvdqZAgpqLVBCQX8MZALCtQgw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E+YFpR3jwHL4XgFEMLWjK0nvoH7XGxu+FKWwNQ7gqjw0IePM2xWzk5FpFy6CXLneYWxvySWMStSEADq32yXiVrMDGqOp1euR4oglKa39Qwu4rsqj2NSJFDLvO6A4Sa8lIMEMdenkbmxvj0BmD+dsVE1smIXXGrk8d9BH40hmWXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-52413efd0d3so251099e0c.2;
+        Thu, 10 Apr 2025 00:39:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744270784; x=1744875584;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QdhhHhNL4jcHghdMHoTj4SWhcku+gXEaGiUBtSR+CRE=;
+        b=vjdnqTMvqWNS4lsIxxkaD6zQE3lahA5rXyQhniwRrIea3ISpQxpnFJSMpJ+lJeDzxH
+         bkiLmWB4TsTbJBWdKv4mfGFKB/xC73ftzTBUvxbDut10TMEc3LAMqpEmV3ktsBpao1BT
+         Dy9s7oeXFpf/uRxC+rOxWZk+pgd3FBWHNgMZlMne31ZzWx8kny4d0tNWE6zT0Y46HcZq
+         o0QA5lMfHRJS8lJpMKIdnZ2KUuGH+qkErN5OOshu5FLoj1W02odETrzQLsWSOU9Yuvj6
+         oIZx1OZxeSZi+d+MHojb08ApfKqCu/OdcVH566jY24OxC99T5jxIvwY0LiLyiJ3pBjjh
+         tuyA==
+X-Forwarded-Encrypted: i=1; AJvYcCVh+nyhY+6pZfjBiXBm8S7MhuNu4VxoCVl0jMz0PE6MPpJ7/2cwldG+lXGkeJw9RJ+02Cd1PwBgnLPF@vger.kernel.org, AJvYcCX/zPaBifESNxr8JrL0MUApeojAXaAtholdGnBmMB68sy06cQEEp+M/qjWBbEZoZ5HyY7r9pI2Fmzln@vger.kernel.org, AJvYcCXcGJD2LkNuiUGB7tPFM9N8lbJ8W8Yf9PL5SY7LKgnb5Y9OzyqB6HoJbSHKLgB8zJHPEMbG9GWhNLL0iBA=@vger.kernel.org, AJvYcCXoEzL0M+ezC6h07k6ZJu84mi4EEmtrlw50D4pvDIiSS404+DxN+K4QGVyk3q9W3anO/4zBadylAZT8ZuucL87zdkw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJN4M9TLzjD0hCHEPqkzqSAa0Z7r46P5kjhiYs+ujWHZwt6BXh
+	LIjF8wmSwypgs9tDVamXxBVqli+RbvSbwVKf4c/0bTXmyDEHNN9LmsNJtiVkijc=
+X-Gm-Gg: ASbGncvdnHHEhT4+FfYPGx4nhTSrkdinQNSGYxxInR1k1PWOgW4IZqtcrUiMWrsX1iw
+	dbogEHbfT4jIEg97MV0F0faSiM72P9s9cTSqhrHGg3ZhsSnV76wo2uwq9D2IIXHDrN+7s7CLIIs
+	g9XyDk2cVNPxw7S9HhWas/frBAUTwptoS+61OEeGJEql8go917kQDrhHnK0/RBvgqAGQ1iE09vw
+	yivj5EUSfGiJsB+KhflIQBrmd7xkI7XiEPH5Z6I/rP4MZrtNFvKsI2Bkw4j0AUbA77mL0WJG9rC
+	Ci8Vq3Cpsmo9r7ZeU4WbGkVKx6VPKP7MQEhOx45RVK+StoGhTNS7Q6+/sk1Hp1fVrOxpyzarHjK
+	valk=
+X-Google-Smtp-Source: AGHT+IFNUEigN4Q8OdWD5uHh1HcaRF0zgQhg092oSOiRrItqQWX8wj0NHnS/0WN4hRWDsvBUyfXH0A==
+X-Received: by 2002:a05:6102:c4e:b0:4b6:20a5:8a11 with SMTP id ada2fe7eead31-4c9d34801dfmr1290034137.1.1744270783970;
+        Thu, 10 Apr 2025 00:39:43 -0700 (PDT)
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-875560e4a9asm545013241.6.2025.04.10.00.39.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Apr 2025 00:39:43 -0700 (PDT)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-86b9d1f729eso215830241.3;
+        Thu, 10 Apr 2025 00:39:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUY04djTYtfpwv/W3C8nQL1f7l83x3WSf8aeHPR7kL1Pr6GMqnjE0Zruz8SwvGIq9ig1SGH4NpDLNYez2k=@vger.kernel.org, AJvYcCVIfSy+hXA8jZSZn2iuSSl5Y6P0s0ZotsNp55r3OTGx8hx4nnPLq2NOdKNPqJM/zKDE2wi6RuDDl6Kfev3Pn86JpO4=@vger.kernel.org, AJvYcCWNpoZyvxJFDz+BUMTEZvk++xTHdlifIKsqpDEhZxXvR8pVBiOZSPMZLX1raJ/69rAwEVPMt3IHwOzd@vger.kernel.org, AJvYcCXDE6pYy+/MUI/VLKu+AYnionbgV1DGB3cGT0JhEBVccvxBFvW6SdrcURmSnZo5zED1Q4zCXbGCflBZ@vger.kernel.org
+X-Received: by 2002:a05:6102:3f0c:b0:4c1:c10d:cf65 with SMTP id
+ ada2fe7eead31-4c9d361f9a5mr1118125137.25.1744270783521; Thu, 10 Apr 2025
+ 00:39:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7222bbbd-51f7-43b6-9755-29808833cf5f@linaro.org>
+References: <875xjeb0wu.wl-kuninori.morimoto.gx@renesas.com>
+ <87wmbu9may.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdWL_C-Vg3d+fAK_nXvzeZNNPDkkzPjB1oHRKHh16rZUHw@mail.gmail.com>
+ <8734egnbl0.wl-kuninori.morimoto.gx@renesas.com> <87iknclp1w.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87iknclp1w.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 10 Apr 2025 09:39:31 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXYYYAabmsuVmM6mAqNM6XHyzKsScwAr0TruSe_LMo1kQ@mail.gmail.com>
+X-Gm-Features: ATxdqUFE85rUT8Av9gY4HgZmbdXhKV7A7wBHH1G6a_BtzkDiwH5i1TwKTn-l6uQ
+Message-ID: <CAMuHMdXYYYAabmsuVmM6mAqNM6XHyzKsScwAr0TruSe_LMo1kQ@mail.gmail.com>
+Subject: Re: [PATCH 6/7] ASoC: renesas: add MSIOF sound support
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Apr 08, 2025 at 09:07:27AM +0100, Srinivas Kandagatla wrote:
-> On 07/04/2025 12:25, Johan Hovold wrote:
-> > On Fri, Mar 14, 2025 at 05:47:57PM +0000, Srinivas Kandagatla wrote:
-> >> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> >>
-> >> Implement an helper function in q6apm to be able to read the current
-> >> hardware pointer for both read and write buffers.
-> >>
-> >> This should help q6apm-dai to get the hardware pointer consistently
-> >> without it doing manual calculation, which could go wrong in some race
-> >> conditions.
+Hi Morimoto-san,
 
-> >> @@ -553,6 +567,8 @@ static int graph_callback(struct gpr_resp_pkt *data, void *priv, int op)
-> >>   		rd_done = data->payload;
-> >>   		phys = graph->tx_data.buf[hdr->token].phys;
-> >>   		mutex_unlock(&graph->lock);
-> >> +		/* token numbering starts at 0 */
-> >> +		atomic_set(&graph->tx_data.hw_ptr, hdr->token + 1);
-> >>   
-> >>   		if (upper_32_bits(phys) == rd_done->buf_addr_msw &&
-> >>   		    lower_32_bits(phys) == rd_done->buf_addr_lsw) {
-> > 
-> > 			graph->result.opcode = hdr->opcode;
-> >                          graph->result.status = rd_done->status;
-> >                          if (graph->cb)
-> >                                  graph->cb(client_event, hdr->token, data->payload, graph->priv);
-> >                  } else {
-> >                          dev_err(dev, "RD BUFF Unexpected addr %08x-%08x\n", rd_done->buf_addr_lsw,
-> >                                  rd_done->buf_addr_msw);
-> >                  }
-> > 
-> > I just hit the following error on the T14s with 6.15-rc1 that I've never
-> > seen before and which looks like it could be related to this series:
+On Thu, 10 Apr 2025 at 04:37, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> > > > +config SND_SOC_MSIOF
+> > > > +       tristate "R-Car series MSIOF support"
+> > > > +       depends on OF
+> > >
+> > > depends on ARCH_RENESAS || COMPILE_TEST
+> >
+> > Ah, yes indeed. Will add in v2
+>
+> Renesas category Sound drivers are under below menu.
+> So, it is not needed on each drivers.
+>
+> menu "SoC Audio support for Renesas SoCs"
+>         depends on SUPERH || ARCH_RENESAS || COMPILE_TEST
 
-> Its unlikely, but the timings have changed here.
-> I have not seen it either, but I will try to reproduce this with 6.15-rc1.
-> > 
-> > 	q6apm-dai 6800000.remoteproc:glink-edge:gpr:service@1:dais: RD BUFF Unexpected addr ffe0d200-00000001
-> > 
-> > Any ideas about what may be causing this?
+Thanks, I should have checked that...
 
-> How easy is this to reproduce?
+Gr{oetje,eeting}s,
 
-I've only noticed this error once on the first boot of 6.15-rc1, and it
-does not seem to show up again now.
+                        Geert
 
-I did a fair bit of testing with this series on 6.14-rcs, but did not
-check the logs while doing so (and there's nothing in the logs I still
-have).
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Johan
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
