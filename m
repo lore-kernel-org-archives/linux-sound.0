@@ -1,139 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEBC2144AC;
-	Fri, 11 Apr 2025 17:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DDB23644F;
+	Fri, 11 Apr 2025 19:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744391646; cv=none; b=PwVcnHdj97Trl52i8WpTsCoMpKCTbI31dIlYYq7dNQmGJyyreFA0CHrN0HasmfpIErvsHtXDnEbb9Nh9udULfeHxjOOY0QOK5VzobvrugefIGBdzIF0BhrkIt+ckVREBGVXhJ/5lLnJb5IJ/dpsgqnk1bnfDSg0MvQ1+8NnSzm0=
+	t=1744399635; cv=none; b=JMybOcblk6IhLs4sdtm74xjO1PajQSBj6PbZFES3iD8JRtsjuweu921Q3Fwxbv+6m4IAUBe9rBJ22vf//81lS1osAdTgC6KhGhW9MHsmRJUN/vwvRKOKkHdhlo6jS8mwI10xzc1yeFM759r3KbwVkT0XRtr8ycsPgi//iSpICeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744391646; c=relaxed/simple;
-	bh=TwKuXdMXLl/pcvwBG5W5wTvzlmepWvCzKcCB3n05zX8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H9ElMgqVWhiLivbHYDP+1RJc8C/io2hNxszyN0RC6bqc0+gEmxZNkiQbS6HdzO+g78Bls7MwYJFH+gpfF7HgFkz2ggzORNbFRueZB21+BeaPSvEfsGjur3fUkfunclkc0E8MtJ19OZJOQRXMJzp9Uiz0Fwxysp3FSUoPaTtWQIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fGYqkKGC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744399635; c=relaxed/simple;
+	bh=MepIWk6ofG3nYNGY7eZVos2ZAVyVTTvsd7iTYpLxPXg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a2am9sJjzSYpIMjFjCsF6MzwlVt0+mtmC6Ai+lQVGRSmcU0Q6qVVZhbTocSWsdJvGi0//0LLWR2QnPIOuG4l/NXcp9X4KY1VhefMVxVcm96TJWI5Fy9DDU+DON0zwzScI8JxsmDZ5nuff/BTFd1ydbu/SgYpoQ8n7pRCCTsvU/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dHvaENiJ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fGYqkKGC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EC68C4CEE2;
-	Fri, 11 Apr 2025 17:14:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744391645;
-	bh=TwKuXdMXLl/pcvwBG5W5wTvzlmepWvCzKcCB3n05zX8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fGYqkKGCbJ9ohQnk8mkJHJNxkFVNkied7WhI0SRTv4hBg7+qSPVcAAlWHyNMgrV87
-	 VmL34ctKmXMnZTYufwWTExCZIAE7qbpKKdU6zvPmtHwN5t84rJWp1F2JsjBzaOgVuH
-	 2aaY+DWS3DjA87uNlreDrMUf3jyFuC7givpuU/YC4L5ty8bU/b4c734plwyNf3gw/6
-	 r+Exwenlo/5SEjWXAsuHZmWuMmPqIcIssY+HOZrMUvE+MVXo/quSKyh3J4Pepkhxc7
-	 gWNcpRBvr0ngTT2o7cbdMxInl1dZj6XrrsXbKqaidTw1T5tRfNacrly0Ue6o2iJF5M
-	 uzTDw4bAIAGAg==
-Date: Fri, 11 Apr 2025 12:14:04 -0500
-From: Rob Herring <robh@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: broonie@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: Add Cirrus Logic CS48L32 audio
- DSP
-Message-ID: <20250411171404.GA3431723-robh@kernel.org>
-References: <20250410094212.1155529-1-rf@opensource.cirrus.com>
- <20250410094212.1155529-2-rf@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dHvaENiJ"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53BFngDq032515;
+	Fri, 11 Apr 2025 19:27:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=XLS2N66xJ478/ko2inJpu3
+	zEZ4SSmmXsjnciAiA9GIQ=; b=dHvaENiJyIT1bmJFuyr4r0Ow0nun4sl9fOKINL
+	s7PKgmz77dlkQ3mIrHrq0YhY1hi5MkUXoslrIPgyp66lZcFBtuD6vUsnoI5KoV20
+	Lp+6ml8Vxev5yH3pjQLUYzRNbq4Tnx/DaRuj6o6GO/pe0Bu747hg2DOXVdXmrl/f
+	0+Brnb2bxiJvcPjbzVh9XGMFTEk1BR4SAX2I8hbYsgP8cxtt1NZ1FMbLb0nsf1CX
+	+DpczFeB5fLvp9mEfaLyOdAYpzLdf1Z2vSgj1xwW+brNhzWQw+7jHdcQn8s1xJap
+	a85mxUEdtpKQ8U2ADQI0ok+hJEVrvsZGqTXk9evRaqE8c9Xw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twfku8js-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Apr 2025 19:27:04 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53BJR3Wp012536
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Apr 2025 19:27:03 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 11 Apr 2025 12:27:03 -0700
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>, <perex@perex.cz>,
+        <lgirdwood@gmail.com>, <broonie@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <stephan.gerhold@linaro.org>, <linux-sound@vger.kernel.org>,
+        Wesley Cheng
+	<quic_wcheng@quicinc.com>
+Subject: [PATCH v1] ASoC: qcom: qdsp6: Fix references to lookup USB_RX mixer status
+Date: Fri, 11 Apr 2025 12:26:53 -0700
+Message-ID: <20250411192653.1443521-1-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250410094212.1155529-2-rf@opensource.cirrus.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: NkH3rHxI6Eu-r0aHhb4Fzr2XU95_n_x4
+X-Proofpoint-ORIG-GUID: NkH3rHxI6Eu-r0aHhb4Fzr2XU95_n_x4
+X-Authority-Analysis: v=2.4 cv=b7Oy4sGx c=1 sm=1 tr=0 ts=67f96d08 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=xrw6vyGmMzug2jD20VgA:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-11_07,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 mlxscore=0 impostorscore=0 phishscore=0
+ clxscore=1015 spamscore=0 mlxlogscore=649 bulkscore=0 lowpriorityscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504110123
 
-On Thu, Apr 10, 2025 at 10:42:11AM +0100, Richard Fitzgerald wrote:
-> The CS48L32 is an Audio DSP with microphone inputs and SPI
-> control interface. It has a programmable DSP and a variety of
-> power-efficient fixed-function audio processors, with configurable
-> digital mixing and routing.
-> 
-> Most properties are core properties: supply regulators, gpios, clocks,
-> interrupt parent and SPI interface. The custom properties define
-> the configuration of the microphone inputs to match what is physically
-> attached to them.
-> 
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> ---
-> No changes since V1.
-> ---
->  .../bindings/sound/cirrus,cs48l32.yaml        | 196 ++++++++++++++++++
->  MAINTAINERS                                   |   3 +
->  include/dt-bindings/sound/cs48l32.h           |  20 ++
->  3 files changed, 219 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/cirrus,cs48l32.yaml
->  create mode 100644 include/dt-bindings/sound/cs48l32.h
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs48l32.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs48l32.yaml
-> new file mode 100644
-> index 000000000000..1d58d12291d2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs48l32.yaml
-> @@ -0,0 +1,196 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/cirrus,cs48l32.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cirrus Logic CS48L32 audio DSP.
-> +
-> +maintainers:
-> +  - patches@opensource.cirrus.com
-> +
-> +description: |
-> +  The CS48L32 is a high-performance low-power audio DSP for smartphones and
-> +  other portable audio devices. The CS48L32 combines a programmable Halo Core
-> +  DSP with a variety of power-efficient fixed-function audio processors.
-> +
-> +  See also the binding headers:
-> +
-> +    include/dt-bindings/sound/cs48l32.yaml
-> +
-> +allOf:
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cirrus,cs48l32
-> +
-> +  reg:
-> +    description: SPI chip-select number.
-> +    maxItems: 1
-> +
-> +  spi-max-frequency:
-> +    maximum: 25000000
-> +
-> +  vdd-a-supply:
-> +    description: Regulator supplying VDD_A
-> +
-> +  vdd-d-supply:
-> +    description: Regulator supplying VDD_D
-> +
-> +  vdd-io-supply:
-> +    description: Regulator supplying VDD_IO
-> +
-> +  vdd-cp-supply:
-> +    description: Regulator supplying VDD_CP
-> +
-> +  reset-gpios:
-> +    description:
-> +      One entry specifying the GPIO controlling /RESET.  As defined in
-> +      bindings/gpio.txt.  Although optional, it is strongly recommended
-> +      to use a hardware reset.
+This addresses a change in the USB RX mixer naming that was updated in the
+following commit:
 
-Drop 'As defined in bindings/gpio.txt'. We don't need more references to 
-old docs.
+commit 450d63471d1c ("ASoC: qcom: qdsp6: Introduce USB AFE port to q6dsp")
 
-Otherwise,
+In order for the USB SND offload mixer to reference the correct PCM device
+index, the q6usb_usb_mixer_enabled() is used to match the mixer associated
+to the FE multimedia DAI, so the naming has to match.  Update the string
+lookup and comments with the proper "USB_RX Audio Mixer" tag.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Fixes: e0dd9240f13a ("ASoC: qcom: qdsp6: Fetch USB offload mapped card and PCM device")
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ sound/soc/qcom/qdsp6/q6usb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Rob
+diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
+index 274c251e84dd..abc0d62950b3 100644
+--- a/sound/soc/qcom/qdsp6/q6usb.c
++++ b/sound/soc/qcom/qdsp6/q6usb.c
+@@ -158,7 +158,7 @@ static int q6usb_usb_mixer_enabled(struct snd_soc_dapm_widget *w)
+ 
+ 	/* Checks to ensure USB path is enabled/connected */
+ 	snd_soc_dapm_widget_for_each_sink_path(w, p)
+-		if (!strcmp(p->sink->name, "USB Mixer") && p->connect)
++		if (!strcmp(p->sink->name, "USB_RX Audio Mixer") && p->connect)
+ 			return 1;
+ 
+ 	return 0;
+@@ -173,7 +173,7 @@ static int q6usb_get_pcm_id(struct snd_soc_component *component)
+ 	/*
+ 	 * Traverse widgets to find corresponding FE widget.  The DAI links are
+ 	 * built like the following:
+-	 *    MultiMedia* <-> MM_DL* <-> USB Mixer*
++	 *    MultiMedia* <-> MM_DL* <-> USB_RX Audio Mixer*
+ 	 */
+ 	for_each_card_widgets(component->card, w) {
+ 		if (!strncmp(w->name, "MultiMedia", 10)) {
