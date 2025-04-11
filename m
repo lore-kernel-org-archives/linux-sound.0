@@ -1,108 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FA028FFF4
-	for <linux-sound@vger.kernel.org>; Fri, 11 Apr 2025 09:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6931E9B3A
+	for <linux-sound@vger.kernel.org>; Fri, 11 Apr 2025 09:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744362441; cv=fail; b=UZuEkFQXF8jBkGKkHmfxpF4GxcTc7LJTodB01ra+i+p4yEeSLlKMKnNNwQcxo8vz4lPLnZoOHYP+3dPzY7WoXFINjaSoVOOPfPzZ4N4MOa4eiqDEgR+7wzTbYWHuqfb5HZbKPKMAxsh+CKUQKrYa/azB3TQaSnKc8rZ4nnBUirg=
+	t=1744364404; cv=fail; b=aqytN0zKI15saCjcyXtmMFxomwUVlz2cvv4OCT8583FKhVmlT0vUlj8XZww4QeLFjBDLLWiWebGzSHUEOKUxdrQVTn2y+R1uwqioDjLiLVsQwX38ZK4Y1d2KhkkUgFXlpwwRNTBdyeZ8UPTbCJOI8zZ/WvupRX+3EjapGnid8Sg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744362441; c=relaxed/simple;
-	bh=mlN+lg0I/X2EuiXe5qlBIHq27j24ThiFb/LJt2HS6TU=;
+	s=arc-20240116; t=1744364404; c=relaxed/simple;
+	bh=J1HLs2GseDqmB5OHLsLoefjXD9byA/dt+MQucYBX3S8=;
 	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=isbJRTI/rJkkk6BP0k4oGEQ/ju3M+vn+hJKqzuBsbuJboASJZ0KRXeSNHtHgzNkUVvoHZc6KisWOA+FPGb1gNoUzDkE30uZK1vWtcFlNrysBjTNcFGQlAxxGxzj/idYp2+/P0QYsBSlLSezeI6F/T3lv+xa94U2StHQs0Shup9s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dgmTau8v; arc=fail smtp.client-ip=198.175.65.17
+	 Content-Type:MIME-Version; b=XvxJDwbT33PO0OZPxXjb4PtA7KFhNK4088UwswQLxBpP8xtklKiRsW1ywlFo5mCy4W3HYkXm7xVPE5PtcoKDVRoexgZEpOGpj5vvYGW03HccEtm5PLd+Mmbf9bHlg5y8XfCVMhUulvqS6FqkI5AUrrVvFlF6E2RcfIb2Q/nBGZE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2LEBwaE; arc=fail smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dgmTau8v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2LEBwaE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744362439; x=1775898439;
+  t=1744364403; x=1775900403;
   h=message-id:date:subject:to:cc:references:from:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=mlN+lg0I/X2EuiXe5qlBIHq27j24ThiFb/LJt2HS6TU=;
-  b=dgmTau8vET1U6WL5JzhvAFhmKnMcZxRM01gSpLBzuJWxtf3Xr68al0VN
-   Ap/rw/ZBiKnZhDBQJ7euT5HAyAQk4AULWmb8FPvAwCi36LA6RIifeuAFq
-   SeDnKkBhtb2TaIxMlUTap9VOPzYbCoPDb1sq+XpeUGTVqdcZfSBEsZwj5
-   9EH3GkzDnT+Y+IZfrxBXKXIElRqiNMfKqJgSbbau7d+ze8Yo9Xn3yFNCG
-   kF2HuzSuK+LzKmluBWkmr6eqZpcLB09ldIchG/bTT9S+aVwBbybi41Rt1
-   GZhAy7UysaCHQ/vbq8up38P4ttdrRhpaTHui+x/234GfdXSm1dUnjWqO/
-   w==;
-X-CSE-ConnectionGUID: 9huZhBhzRXmrmtNQXMms4g==
-X-CSE-MsgGUID: lwHAxoTOSPuPH5KR/Hfqeg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45922416"
+  bh=J1HLs2GseDqmB5OHLsLoefjXD9byA/dt+MQucYBX3S8=;
+  b=R2LEBwaEYmps+lCBDNM9HIz5kxboVxpC6d9Kdx9eWAL5+a6fkIEZL7t7
+   H2zcx2kaQ/Fvz1tqpRbnZLC0MXoo82nvEHdY5/ZzeEUTeXyU8pX+OZhUC
+   YZ1lD+BpP+EjUZjMYMX9x20Q5sm1ZH04MeN65WpDW56yxU7y1forq25Vk
+   wjbm0lHFI9v+92VWEflWPoUZUfWSjDvuf2AjEj50XXT0LpHYAEvFeufhK
+   7WzKt+yC9LCP8eV1gNGxM5tgbf/jajhIrrj8mXUO0+lD6KtVFn2sQsHTZ
+   S24FSQKL3b27qErVOIPoAhcWAfP+EfUaVRIbZZfPxxTEzLwkbujL+AXRV
+   g==;
+X-CSE-ConnectionGUID: 6bSmpT0SRau5CF8IPH7h/g==
+X-CSE-MsgGUID: 6VLRn9wHSGSykh7u23mtrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="45815416"
 X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="45922416"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 02:07:16 -0700
-X-CSE-ConnectionGUID: S0DHFF9/S+6zYgkQZGxUMQ==
-X-CSE-MsgGUID: WCi2SVwgTRCWUuyATTTAiA==
+   d="scan'208";a="45815416"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 02:40:02 -0700
+X-CSE-ConnectionGUID: NU4hOL26Tfanh5G+raaXzg==
+X-CSE-MsgGUID: 8S1t1/u+Qx2J0hgCnuV1dA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,203,1739865600"; 
-   d="scan'208";a="129704802"
+   d="scan'208";a="134312274"
 Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 02:07:16 -0700
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2025 02:40:03 -0700
 Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
  ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Fri, 11 Apr 2025 02:07:15 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ 15.2.1544.14; Fri, 11 Apr 2025 02:40:01 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Fri, 11 Apr 2025 02:07:15 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.43) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.2.1544.14 via Frontend Transport; Fri, 11 Apr 2025 02:40:01 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Fri, 11 Apr 2025 02:07:15 -0700
+ 15.1.2507.44; Fri, 11 Apr 2025 02:40:01 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t2vZMWEoX805gu0jBAyBWtrby2XxJNfLWLL+EgXUWmWV8zpyrXlRCMGVSQBxM4VG2b2+6x5cdN0wDtNXZFHNnj8pk1HvEwUYcwFQ4LWvPXjQ6I5cyQWBQEcbMkJZ85Wg3oSFXGw42U0v9sEqr18RXxgbJJO28ywmNUjPhhMGbe4uBmMLt5HG3MwhCkJAcedh6rrCJ6V5u3Bdq3bes7TJvGCAJR5TRppZmRKcwP8nzME7h0RuT3xCR0cVj1NJQjKVRwkyrkwifSznk8d3yxqR/pcZJlGVk8/w+gnXpNEMknZ3PbeAWyUKkVeTPNcBf/3szZxfz2K+i2c1yXnJJQ8R4g==
+ b=jX8TAXKWCbOkakczTglYcb+gAQHWneXZeNEDS9ck/Jjrd7eEMYhYYsqouysW7BIutGmgDUs6/GN5mHhi740NylBj1gKE4h1B+odJirOejACVhZp/pYGZmJUWWr1nrOVEn+Xz9c1haZXbDpas1yQnBuWO5qkm0S0OS6/a9Pb6MaINEuFz2yaMTsGVvQQpxN3Gb35ZWrKn5RStRuSTZoJuwNSU4z7yi2S/GIrLBmWTdOKqAQcUygkqA8qdR4iH5bR8t7cS5KofCLOXZ++nhtZARp6kzx6wkVNiIKB3nf/SasFSaeJaXFKLhJnwRKtxeRl2YJWegLb9Gb7R/T6km/JW8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GDKewnVbdYUXe6EwCnavUm2+dCE1pynvZZPig0RvCF8=;
- b=MtEfdhsd2JSS2fFcfriRgwjXhw3PIVJU4CXPKQH2wXkcC1Yng2lSOR7ZU90e36RWW++Qzyv9pi89yT/3IIqn8GbFVa7uN3i+ASPm54VkLMKpccoPDVEMc+ToZ9XW7f7vEP5pU2Rs6TPFTCLRds7AlRwHDDlWOh27Y/CrR5CDmcQW+Xv7XzEWh09dS/KgnLmZ8fXZ0AA7trFVDcZE5L3/ms3HX/ALey2qnCp89PbIYJBPfrO3o9YB868RyPgDVeKuYb0m57LkaV/+m54zEMEFbAi3DRcVntTmyTHC8Ta2gecYgTG0osiisMY2XYTsYq9emBD63LPZq7Nrzc1PwD4Psw==
+ bh=1cyQg49QjTgL6xxRVhPLqgz+ktA+IJKAdii55hRIFAE=;
+ b=AC1nqs38VOVUnMWUjgCbZeVS0T9UVRFP4IfJIBNx3+IDMzREkM1FC5GgR4eM964VC4P8IXigkWa8otO5qwguwFzdyoeQ9UXlsPnHto7DC5sJWPg0AZPIeMNYsoqedT/kL+B/tFrj1i87Obd5i4lMsJnM4TijFvjM356oIjkaMaVwSI7UgfZETL05uxe+zSj1MC8RlKVeqE/W4YtliacRaGL+lSr+qEGyMrwiPAnX43gCxIzk7Gy7Egv//GtPck/c0EjTnnk7G5lV40ULJdFL4HjmV4VEVFAsNad53OTDbZnuNj06gNqgWtnDLg2topaKoQap7GIBjOUB6Wh99Fm1Ow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DS0PR11MB6375.namprd11.prod.outlook.com (2603:10b6:8:c9::21) by
- PH0PR11MB4806.namprd11.prod.outlook.com (2603:10b6:510:31::21) with Microsoft
+ DS0PR11MB6400.namprd11.prod.outlook.com (2603:10b6:8:c7::6) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8632.27; Fri, 11 Apr 2025 09:07:12 +0000
+ 15.20.8606.34; Fri, 11 Apr 2025 09:39:59 +0000
 Received: from DS0PR11MB6375.namprd11.prod.outlook.com
  ([fe80::cd01:59f6:b0f8:c832]) by DS0PR11MB6375.namprd11.prod.outlook.com
  ([fe80::cd01:59f6:b0f8:c832%6]) with mapi id 15.20.8606.035; Fri, 11 Apr 2025
- 09:07:11 +0000
-Message-ID: <fefd793a-3625-41a1-9fa1-ddd6cbbf3612@intel.com>
-Date: Fri, 11 Apr 2025 11:07:06 +0200
+ 09:39:59 +0000
+Message-ID: <8e3fd738-c2c3-4ea0-963e-477c2fb253b6@intel.com>
+Date: Fri, 11 Apr 2025 11:39:55 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] ASoC: soc-component: use dapm->component instead of
- container_of()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"Bard Liao" <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
-	<perex@perex.cz>, "Kai Vehmanen" <kai.vehmanen@linux.intel.com>, Kiseok Jo
-	<kiseok.jo@irondevice.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, "Peter
- Ujfalusi" <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>, Takashi Iwai <tiwai@suse.com>, "Vijendar
- Mukunda" <Vijendar.Mukunda@amd.com>, Benjamin Bara
-	<benjamin.bara@skidata.com>, <linux-sound@vger.kernel.org>
-References: <87plhm9h5q.wl-kuninori.morimoto.gx@renesas.com>
- <87o6x69h4y.wl-kuninori.morimoto.gx@renesas.com>
- <921a38aa-8a75-4561-b505-14961d9e20b5@intel.com>
- <871pu0na09.wl-kuninori.morimoto.gx@renesas.com>
- <8734efh2s8.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [RFC 00/15] ALSA/ASoC: USB Audio Offload
+To: Takashi Iwai <tiwai@suse.de>
+CC: <broonie@kernel.org>, <tiwai@suse.com>, <perex@perex.cz>,
+	<amadeuszx.slawinski@linux.intel.com>, <linux-sound@vger.kernel.org>,
+	<gregkh@linuxfoundation.org>, <quic_wcheng@quicinc.com>,
+	<mathias.nyman@linux.intel.com>
+References: <20250409110731.3752332-1-cezary.rojewski@intel.com>
+ <87v7rcwbyn.wl-tiwai@suse.de>
 Content-Language: en-US
 From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <8734efh2s8.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87v7rcwbyn.wl-tiwai@suse.de>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA2P291CA0005.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1e::11) To DS0PR11MB6375.namprd11.prod.outlook.com
+X-ClientProxiedBy: WA2P291CA0019.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1e::26) To DS0PR11MB6375.namprd11.prod.outlook.com
  (2603:10b6:8:c9::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -111,136 +101,250 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|PH0PR11MB4806:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1fa57141-0c1b-4b5f-2935-08dd78d83ea9
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|DS0PR11MB6400:EE_
+X-MS-Office365-Filtering-Correlation-Id: b56de013-dfe3-49b8-d0f8-08dd78dcd345
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cEgwYzFKZGxJQllKRGhrVEZMU2VyOE85RnBxMG9CemFLT1haTjZ1NTlDYTNj?=
- =?utf-8?B?ZkhPRzgyVjlQOTVUOU4xeTAzMXlZS1QxTVMyRlFLem1MRlJpbzdpeG85MHMw?=
- =?utf-8?B?MjZCa3hmVFlJdlBXTS9yVjYvZDhJQ2xjei82MFhWY1I4c25ZSDNtMzFqWEFZ?=
- =?utf-8?B?SzVTbEdhdTJPN05IRmlobWMrUFlsUmdvTHZZQWN3MHoyOTNhMGNLZS9taUFI?=
- =?utf-8?B?WDVwNExoYW9McE5ZUmRBem9UTWZVSFUvTHBsVzUweWdWb1p5d2JOT1RkZkQw?=
- =?utf-8?B?RkVpdVhWc202NksrZXZlRnhxc1p4UFVVaWFUdnNURkxxWVVkQ3dBSjMyeUU3?=
- =?utf-8?B?TGhZSW1oYzRZUTFQWk93bUVXdzY4a0Evb05nQTZOZHBQVXkvZTJRa3RwN2N3?=
- =?utf-8?B?NU8rSk96cFZ0Q1BHK1c3dDJSekNFRmdFMlVsajh2dU1mcUJpazJ2UDF5eGhs?=
- =?utf-8?B?Y0pWTXVheVVjL3M1aEtUS3BuMWpmT2JEaVFQR2h4TFZuNnBoTEtPT2JKY1BD?=
- =?utf-8?B?TGEwamdCbXZTN1VTRitqeFhtZEtBT1pONlhoZ25jVEZvczJXb1h2blE4TERi?=
- =?utf-8?B?bGZIaEloWnEvVjBrTC84eCt6VUZEYStXQzh1UVFYS0lVZUR0YjBCT09TT2pD?=
- =?utf-8?B?MTBTeEhLL1RPeXFpMWlCWWZXRVZ1SWV4VjBwVHVPUE45bkJFNmViWjJTOEpR?=
- =?utf-8?B?NFJpRWxjcC9iSVhrRFBjbVRnY1NNOXA5Uk1SajFaa3d3NFVycnRUTTlGYlo1?=
- =?utf-8?B?bVhVdXdJdnRQSkJ0K2kxSEplWDBRQStLcFNHYjlNQkJWQlpFdWViU0VtYnhk?=
- =?utf-8?B?ekg1N09ISHlLMmRMUHFQQ29WZ3FaS1ZUNE5aSVVCWDdFYk1PM1dUUUNmZ1ho?=
- =?utf-8?B?K01vSnRNZ1BPbFFHOThONUNDTDhCd2d0dGRzek9iMDArRksyNEJkVnFQUGZ4?=
- =?utf-8?B?S1hiQkZxSlYvL2pSU2VWMmhUK2JKc09VVm9kZXZ0aDJTelZtdUxPQ0E4WktL?=
- =?utf-8?B?bmFvckM4Q2hpSzh6OWphd2NTdVFvRHI1aHJPVnZDTDM3QmxMbENock03QzYz?=
- =?utf-8?B?dWxOOVM3ZmI2NzRlbmdNVmFNamUxcmVIWndKTWhLeWY2ditLTHVYcGhneTlJ?=
- =?utf-8?B?VVMwMXhLQU1jZ25MUksxdlRNVk9LQzR0bmx4UnVublRTaDZJK0NGUmxOaGxW?=
- =?utf-8?B?bW0vZWJVRFE1aVVOV2ZwTGhxR2RVdnJ3Z0VheTdIRzdUcUJwZ2pTRUJlVXZ1?=
- =?utf-8?B?ajZBZkNSY0FyRGUvQVo2ekp1ME9KSTg2eUFCb0ZvWlM0YzluZ3NjUG5wZjhs?=
- =?utf-8?B?L2xDWEdpajh6YmFCWVoyWm9JNFZvL0Ftd0lZSDR4Vnd4Uk1JOGlpRVM3dmlv?=
- =?utf-8?B?M294ZzRzbU13Vk9ReGZVcUN5dkpLQnVuMFFsbU9HaklUbHRjZGd3WXJneVFG?=
- =?utf-8?B?dFU1L0V3VFN0OXNnZnJvSkcyU1ZoVFRPekNBcTBUS3ZIN21sWTV0cDJNSHg5?=
- =?utf-8?B?TUdqYUVxQjlWbGJzRTBxdURrZDY2Wkpwd0hyTFR4a2tFenZIQjRqOW05S0lL?=
- =?utf-8?B?d3JGaXdhMGVDRkxCMEFBUkZEbzJjb1JWQTRWdkJ0TXJaT3MxWGVlWU42bnNj?=
- =?utf-8?B?d0ZESGhwMU1QMW9JcEpXb2d3MEhDZTlrSFM0eFJqT3V5UTJMY0NVK3NrS1p6?=
- =?utf-8?B?c3VVSlFsdDZZamUzS1VFazNIYmptSUlaVmJDWmxOUEVESmVRc1BJRGhEbDc5?=
- =?utf-8?B?aWlWcS83dVhQUUx3RWZ1NjNkNVd2cHV4eGVGbWZsMU12SGlrd0MrcExIbk1m?=
- =?utf-8?B?TUxURU5KK0JhdWNEaTUvVGIvTWJBakVVOEwxSzBiZEx4SFRhUTJVaEwvVXBH?=
- =?utf-8?B?NmYvK2NWaE9YM2cyMDNJMUNtZERVeEhyVldGaDE5d1RTTlE9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZUVFTkM4eHBqUTViL281NTB2R2R4Y1ZoSisrME5USVFZdUEyUDlIN0dtRXUx?=
+ =?utf-8?B?b21NRHJMRmlPN1FFSDJ4c0VZUnlzMlg0M01mczNOSWxSd0NmUlV0VHNJSUhM?=
+ =?utf-8?B?N2VacEU2eGN3S1hhdW0xRlo0QTNIK1N6WWc1eVRDTlVQVDdld3RDK3ZnU3N3?=
+ =?utf-8?B?eWg3aDVuaExLeU1PbW00cnZURTk2YjF5bFplRmFZUjJsMWVEN28xRkpBWjRO?=
+ =?utf-8?B?QUVTY0p1bHhmazRsUWVKWmZoRnhaTUFBZUJKUjM2MnN6aXVITzJxWWVIZVI1?=
+ =?utf-8?B?UmpKZDdFOVNqYWl2Yk1jSVA4a2RUTlN0VmtoTnVnS3hYMkdjZG9lR2EvdEZN?=
+ =?utf-8?B?WEFjS3IxenRYRlRDWEJINTZIM0ZCMWxRNTcwd1JZczR5aml6aVl3Z1M3MG9R?=
+ =?utf-8?B?dzc1WFVFRlIxMUNBdjkxRG0vNWV4QTJPUXdjS1dXTG85RkRZOVc3S3g5NFhH?=
+ =?utf-8?B?cTFXdkFHN2k5QTZBNTJqcXVlVzcyRUNBaUp5bWpoTUNKeWtRbGlzM2l4R21C?=
+ =?utf-8?B?WGFWdzVpY1o2T2xKRGJ4dk1UNnlyaWIxS1p4cjdQVFVYcEh2WHk4TkMxUzQy?=
+ =?utf-8?B?bGRuNVdzMGFyVnBPd1Bma1VjRGRJUUZCY2Z3UEhUcS9Cd3J2SFV6SmpuRVk4?=
+ =?utf-8?B?VFlwTXF1YmJLaVFZQ2xraFVuNVBGYlVhK2xLQkhidlp1TXJIazNZZnkyRFEv?=
+ =?utf-8?B?N3daSUh2TUZJUkZqYUEwTnNIbHdvMHAzUkNuSnM1UmVPTkxiRWhkbE96SjBI?=
+ =?utf-8?B?Z0hVZ09QeHNuWkdRV2hvUm1URTIxcTZHbXk5ZDVRNE83TlV4VDZ0eVBMVEU2?=
+ =?utf-8?B?b0h2anQyNWlwalJVMElvbCtXL2JmcHRvbi9uL1N1OWZPY0tuZ2lzTWI0WEw0?=
+ =?utf-8?B?eDJjb1BVbWV6Z0J5WXp3YW5UTUJySXQrM0RpekQvMnQxZFdqNlhiWTNYYUJR?=
+ =?utf-8?B?bUpEaDVPSE1WSGhTS2ppeU8ySGN4Z2NJZ21FcmpZb3RFV0VLWVNiNWwxTXBy?=
+ =?utf-8?B?UFBFZ1Z5bW0yN3EwZWFSaDB1aEdLd1pFUWtaUEFHa2JBT1VkbFpyWk5nbkxT?=
+ =?utf-8?B?aEpjR3V4bklRaXVKdFFUejZQeUZwYkxPaHNyQnE0OVNoVDNnQzIxbUd5YS9C?=
+ =?utf-8?B?eHRId3JtQndzQmZiSXY2TEtrRmZJTSsxS0sxZjg5aVlSVGlhckdsVjFEd0Ew?=
+ =?utf-8?B?YXJEME4vbUk1d255czVITkJPdlJOb21DeHM0SHVUb2lGY1RNWE15d2w0Y3Ro?=
+ =?utf-8?B?dmx6U005b25ZcnZWZ2FyVGNCRXRNREllbjB5dWpRaHVYOFUybGhOdDlJekFB?=
+ =?utf-8?B?NS9aRkVXMlA5WnhSMWpjcElEbWdZMzlFM0VHdzVMOXk1SHB5eDhweFlybmo3?=
+ =?utf-8?B?SjdES1B4dzNVcjlJZGVvSTJka1dnREtoM0daUGtUbFJqWHp5T2VlVGFaOHhB?=
+ =?utf-8?B?OUxCWXFwWERMQU5tZzZUWklwQ09oMEVmbC9uc1gzZmQxMzlNSHJmblNHdzJB?=
+ =?utf-8?B?czIxWnZwdHFucENDazlVMnJtc3BhcTZKdndrWXQvZDdXbmpBa29CcEVncmVL?=
+ =?utf-8?B?NjRkTGRSK1Q0ZGg2dG1RRmVpM0NJMEFhOURHcmtmRllWbnlsS3liRVpxM3Zh?=
+ =?utf-8?B?UzF5ODRhdFViWEtNVUtJM210dkxhNVlYcXVJRjZiNVBrMWE1OEpCZDR5VkEr?=
+ =?utf-8?B?SDM1eVdrakZzMjlMb2Rkb1dlaGk4K2pzcXlSaWlLT0dZNDE0d3AwY2FFcHFT?=
+ =?utf-8?B?K2VYSlQ4VzVxdnFxcnhlc0NWdG9DeXlERDFSY2lBNW1uV1NlWmlBbzhrV0NI?=
+ =?utf-8?B?KzJQUGJCSS83VmRLOWxwbXlzT2ZWcUxzR1lnSDlqVmhyYlRmV0RSc21xR0JY?=
+ =?utf-8?B?ZERiTmZQeDZiNHdDN1d5ZmxmNTF0di9rYUVuRC8yMGhZS042RWs2UDlFc2Nw?=
+ =?utf-8?Q?uCK3QBwcKc4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QnpRVWxEOG1zem5mUmg4c1RUaW9SMVBPMWxHMmhrWHdEVUNKakExREhlNVBH?=
- =?utf-8?B?U25mRDh6RyszY2Z3TmtxdEsyU21rUFgxUk4zZFdvNWdYTEJWT0ZWVXBaaWMr?=
- =?utf-8?B?djdUZWZqa2dQUkNMSytoMXphcDZPa0dYc1V5cGI0bW5Mcm50Y24zalBnaWxR?=
- =?utf-8?B?Sm8xalJTaGNPZGFDNFZmVnJwY3NwSlRadlkzcXF3dDJDRWtjT081T0J1Yi9x?=
- =?utf-8?B?c2RTSXk2a3gvT0JQOTBqaWN1bW84VitIWTVkYWNLSHpnMlp4bWhzSUFVS3dZ?=
- =?utf-8?B?TXBPWld5cS92VlpabHk3OE5PTWwrNEFNWmdWaG15R09Zd1BpWnF1bGx4QkN4?=
- =?utf-8?B?eElxUE5nVy9QM0NoWlZSUVNBTDJUbHdHeTA3aTJjWDJScmh4aVUyMGhRZXlS?=
- =?utf-8?B?dk9aV0JqRDZXQXhKaGQ0UHMzdytXUFNzNFJmRGttS1FzN1pHcHVxU2hITVJU?=
- =?utf-8?B?U3lZTnl1M3lLcEJ6aS9ld0xYR0JMTzl2bjFhZVo3Rk40YWtkcDBMZWFhaWwv?=
- =?utf-8?B?UUZBdmppbEs0VEZtT1lkWC9EOERHVHRZbnBhUXl6dEZYMFl5TWEyS0w0TDJj?=
- =?utf-8?B?M1BsWk15ZFd2WTRmWGxwaWtPUS9YZmtBNzI1OUJPNnNVOTRFcm55R0w3N3lp?=
- =?utf-8?B?SElIZTdPTytESWN2SGVUaUF0bW5MMHpmeENTYTN6MllFQXRTVXlucEZTeElT?=
- =?utf-8?B?RXJXc3U4c01iT2I4aXRJa2h0YkgzZGMwWDFQdklHSXAvVmIxdHNUVWZRN1RU?=
- =?utf-8?B?cGp1UUlxQS80REpyc1lBMFlTOEJEOG1wNFljU2gyNk1YUUJsZHJpbHRhQURE?=
- =?utf-8?B?YzVIRFhzQ1YweUczaEpoZk9CandXUUFJZG1TMkw4ZDgxb1Q4bFRtdGlOTU1r?=
- =?utf-8?B?d2QyeEh3Wkpqa1dUdGVlbm5YWWZub1IycUdMUmsrNCs2b0NlbnA4N2h2RFZz?=
- =?utf-8?B?aVcyNXFrUFFEdW1YaGtSQWFUeERqWTd0SmZuUW4xZ3gyR1M3cGw5dHZQcmtI?=
- =?utf-8?B?ZlNIYnkrTzBRUVc1enlTdS94WFowVVQrNG83ZDNmcHFMMkxQNjAraGN5WmNv?=
- =?utf-8?B?QkhTT3NuaU5ZaWc5dkRFV3ZZUVJiNFRyL0FJbFY5bjhEVVpyZll3aFlzYkRC?=
- =?utf-8?B?Tzc0aGFuUmJMejFQMnN2cmE0TzkxSVkvZ0pXNlpRQldQSDFXNXoxMm9ZeW5O?=
- =?utf-8?B?dURBS0RwRkJvRmcvN2Y2bFhjWmk4VkZPMUc4MUNFMmNtM09oNUp4ZmZuZ1FO?=
- =?utf-8?B?SXJnM0g4UUQ4WXRHMEwvalRnMFJMNzdXUkg4RzRtbUtWVUJsKzVPMlNRd0J0?=
- =?utf-8?B?UFdsTzFGNE5KY0NDcDdjWDZ3WFhvbVFpTkNHcWRTalF2azUxVkoxbFZGWGFj?=
- =?utf-8?B?cUQ4Rk1NY2RLMUFselNUcDM2M21jRVBwM1R1YmQzL2xoQTRJU3FYYTNwK3ZD?=
- =?utf-8?B?V2xKcXZ3Zkdvd3BpL1FTL0FnNmVZQ0RFbW5ZV1Yrci9YYWYyMmorWGh1di9E?=
- =?utf-8?B?Mm1ydzJXNUNwMDVIT1ZtY1FoU2xMWmNIUm02TGJOMXNQRzNlYit0eEJhWFJt?=
- =?utf-8?B?SnpHOUhDNGVPclc4N2pwZ2dYaUV0bDFUNzJtWmY1S0k1Zmg2VFcyN25sd1Ix?=
- =?utf-8?B?cENZNHBoNVQyVWQ5cmdtc2s3QVZxRTFJWnlOYytJQSt2cXkyN2hTWGUxdEU5?=
- =?utf-8?B?ZmltL3lLaTQyYnpRNFFQZG00WDR1a3MwNUVsVTFNRGhVdDJOMWhIZGc1cmts?=
- =?utf-8?B?SmR2NStScWUzNG81a3JZbEx6RGhrUllDN082aWRsNlFubjNEeklON1hpak1K?=
- =?utf-8?B?MzBobGcrK2ZFRE9wamlXNW4rOUVrWWJEeUVjamZlbHl6VDdDWFgxVjV6RFNJ?=
- =?utf-8?B?NWNLd1RERXBtUFdjdHkxVkRyVzlaWnp3NTdoYkRJeHh4RG15aFBEWXhHZ0E2?=
- =?utf-8?B?cUNPczdxOXpYazg0WUdxVmY2SjRERFlMV3Y5bzR6ZWNqZmJCWGg0T2Q5OE1J?=
- =?utf-8?B?UElRWEsySnd4ZWg3NU5OWXBiVkU3WlZaMk5VRGxxSlRQMGpGZ0hUcmpRNENz?=
- =?utf-8?B?b2Nyb2RiVm1MSlJtRkR6VjVua2ljRDBDMjhIcFY1cHF4a08wMHJneFJkejRH?=
- =?utf-8?B?dFJYN0NSS2xGTVVTQUJadzJSUERMRnI5UE4yc2ZOS2x3aEYzRHdodUpOL3Ft?=
- =?utf-8?B?NWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fa57141-0c1b-4b5f-2935-08dd78d83ea9
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGtqNyt3MjNhVW1ab1lCZis2aUExdXRnWm9ZSDdJcktjQnZCZjA1VlIyWUhq?=
+ =?utf-8?B?VGJoZVBLU0h4YUw1NFpocGFsd1hKTEZ4VGRJS1J1YmNXUzEraWFtK3JnZUov?=
+ =?utf-8?B?MHJPTjB1VDFSSjlNckczME9wQWNvejRFbVA5R3Z6QlcrTXMvTm9FZmdEdWVh?=
+ =?utf-8?B?dTVMMEt3KzVucEhLbnZUV29KT3gyZVZXaFFMdUxYTUxDRzRaYVRBR1lVT0tn?=
+ =?utf-8?B?elhLY1lIcDUxemk2YWN2OU8xOHVFeWE3Y2MyWGw1Mkw4d1Rxb1VOWUg4NFNl?=
+ =?utf-8?B?YnFNRmhqRFRYYzdmeU11cVB6ZmYxb05VdFFWcEtSUHhnL3RWVTZDcDNVWEFG?=
+ =?utf-8?B?VDNpbnRCbE8yd0xZUmZpMFd3MjYrai84SFhQN29KVW1ZTkVnOE1PSHM3V00y?=
+ =?utf-8?B?eDZ1dFVxUFJXSW5uR1F6SlpHRCtVQkg4ZjFhKzVPWmdINkoxK0VoeGVkZURw?=
+ =?utf-8?B?dlpVVjJuUGFTaGQzUk9zOW8xd2hLWFc0cGUwVHFoc0d5YmwwdDg5L1lGR2ZO?=
+ =?utf-8?B?SE45dFYvYTAxa1RsajBMSTk5cjl6L0VxbXBvYWtiR0lUZXZwWkdocHJldXhR?=
+ =?utf-8?B?RisrNW5GSVplTkFlUVRtbjJldnBEOWxFdzdmVXcvRDQ0cEtoTGZRUk5DSmdS?=
+ =?utf-8?B?VThuQzBvOE5NVHJsb3IybzBQS0FiZFNLRkU0cTYzU3E3S1JOQ3ZBa1VqS3Zn?=
+ =?utf-8?B?czd5M3c2YjB5UWpGWVZqN3hncEtpQlcwam1taE5IaFRYNzM1TmlFZEJ5MHN1?=
+ =?utf-8?B?bjZoNEcyTDBtZ29SUUZKb05YZStPcUVIMFdJQ3FwNEdtektiZUx1TXJBWThx?=
+ =?utf-8?B?RXpKWkhaSk5qQzdJTk1HMWFvdFNDaUpycHNFOElxampWWFNlZzMrbXZ2NXFl?=
+ =?utf-8?B?ZlhSaWxEKzh4Ymd4VXN6QnFGQjhxZWZ3eGtNTXBBbnpLTW1BdzZTMUJjby9W?=
+ =?utf-8?B?WnU1NERUV3RsS1NxNEJZS3U4bTVOVmpiNkNUd25JTG5UV1hFWnRnNHV2QUFT?=
+ =?utf-8?B?T3Zwb2tKRHY1S3ZHWnVqY2E1dVVUSzN1Vnl4ZFVuU1EyYndkL2U0aHpEQlI5?=
+ =?utf-8?B?bnJiUWVtRFR5NWhCYTZJdzJEWTBLczk2NURzK0p2VDljSUJxQnJveXJhUUQ1?=
+ =?utf-8?B?dHVQMW1JelBacFlmRWFWbFlVTzFlckFudkdXdlg1V0U2RWQ0amdRQkJwTm40?=
+ =?utf-8?B?SlYrMlFTQXNCTFRUWmhud3NxblFHOUo1WnZOM1NhaGxBMWlSY0g1VEVvL2tG?=
+ =?utf-8?B?cmRIY2VUN0xVL3ZOVHZyNW1BTk9CUkZJRWU2NHh5TXNERDJLNm9EUGxUR3FR?=
+ =?utf-8?B?OWVCTURNdjFvaHA1eVBVQkMxVnpoZEFadDdOVklCODltSzB6bzhmdVdqa1Rx?=
+ =?utf-8?B?M1E4T25SSC9OWFVkY1BzNTNjVjV6eXEvNjFNanBzbkc0MnJyZ2tuWGgxMDUy?=
+ =?utf-8?B?Vk45NitVUUt1dkJudlVSOGVuN0d6eFlnWkJMU3hZdWJoK0x0ekl2dHlRdHpE?=
+ =?utf-8?B?dXM2cC9LTUNCYm13ZWwrWG5jb1JxM2tJbDBCVUl0dTVjTFFNMmh0UlVEVGd5?=
+ =?utf-8?B?bkMrMnhzQmJ1Uml4S0h1eVNaUVJwSm9MRXhpT1E0V2VuVlVWNlpaSm5JOEZw?=
+ =?utf-8?B?bGMvK3dyclVVMTJHWEFMcENmNWErNEczazVGSzQ5NUthY1hCSFM0WnZkalNs?=
+ =?utf-8?B?RWdkT2owVk4xSUdwZ0NLb0VBdXdDakM0cFhDanc0a0NJOWh2Z3JNenFDUHNx?=
+ =?utf-8?B?Y3RpZXQ3Um9XYzhGeS9aQlBsbkZMMm92UFRCUUs5dWRVUmM2OXBucjc3dmhI?=
+ =?utf-8?B?NG8zQ1RFTU5UUGt6Tmt3dk1Oc01EcHpGbmcxUzNleG0zSFhaSHNyUENyRlJ1?=
+ =?utf-8?B?Wmt5MWp4Mklmb1BGeXJZR0F3eTFERFBDYnJVMFI1bVFUMjlYa3VMTlZkTWRC?=
+ =?utf-8?B?eWVoQWhDU0s5K2FRd3RIN2kvNGIwbkR4V0RsMnF5dHB4OFI3RnNMbm5tM2RM?=
+ =?utf-8?B?a0lraW1hdFYzdkxJMGdGYWJXTTgwWHZBVzFpei9zdThuejJTTVAra2xOUUlG?=
+ =?utf-8?B?TWFUanFSYkFSL3hwaHpHamRWWFlQNGJGSG1GRE5WaUVMTU9SdFMrUWhka05u?=
+ =?utf-8?B?VGtJUEltam5mandGUUJ2ZTFjek0vMTlFdEhOSWFkQmVmb3N6ZEdDeHdYVzI1?=
+ =?utf-8?B?Snc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b56de013-dfe3-49b8-d0f8-08dd78dcd345
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6375.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2025 09:07:11.8335
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2025 09:39:59.0764
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ar5pyqhBxWkqDZcFvGdxo9P2YN8qS5DzmmbWhvbbVd+vyDE2FKlkyOzZ51vGt3/92c3XmfY2RqVHGD/C9I8O9I7QODCO+RCbV/PmHYq4YgQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4806
+X-MS-Exchange-CrossTenant-UserPrincipalName: uiEMNbWNfjGvovn+XhLVG8mJ6CYBgdiBaQFnB86+3hseeu9sRf5ldoH1zouRoenTFeEAocc144aojNYfpM0VIiPv+DO17jbS/uKFUH11qI8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6400
 X-OriginatorOrg: intel.com
 
-On 2025-04-11 4:04 AM, Kuninori Morimoto wrote:
+On 2025-04-10 12:24 PM, Takashi Iwai wrote:
+> On Wed, 09 Apr 2025 13:07:15 +0200,
+> Cezary Rojewski wrote:
+>>
+>> Note: this series is based on Mark's broonie/for-next. The xHCI
+>> dependency is missing so it won't compile.  Goal of this RFC is
+>> discussing the direction of sound/usb changes.
+>>
+>> Note #2: Why exclude xHCI?  Current form of xhci-sideband.c [1] does not
+>> fare well with Intel's hardware design for USB Audio Offload feature.
+>> The production shape for usb/xHCI subjects is being discussed with
+>> Mathias.  Once we're ready, I'll share the rest.
+>>
+>> Note #3: this series does _NOT_ aim to block QCOM's equivalent series
+>> [2].  The team does acknowledge that we came the "table" late.  At the
+>> same time, we're prepared to help QCOM switch to the presented sound/usb
+>> approach if that would benefit the framework and its users as a whole.
+>> Make it part of this very series if need be.
+>>
+>>
+>>
+>> Apart from changes to sound/usb, the patchset contains exemplary
+>> ASoC-based, offload-aware USB driver and a small sound card on the
+>> avs-driver side to show how card/dai_link initialization looks like.
+>>
+>> In short, USB Audio Offload functionality lowers CPU usage when
+>> streaming PCM over a USB Audio-Class device.  It has been first
+>> introduced in xHCI 1.2 release and is described in section 7.9 [3].
+>> Once hardware is prepared with hw_params(), all the USB endpoints
+>> operations e.g.: start, stop, submitting URBs, are performed
+>> internally, by the hardware and AudioDSP firmware.  Software driver
+>> shall not intervene.
+>>
+>> Startup flow from:
+>>
+>> 	usb_pcm_open()
+>> 	usb_pcm_hw_params()
+>> 		snd_usb_endpoint_open()
+>> 	usb_pcm_prepare()
+>> 		usb_set_interface()
+>> 		snd_usb_endpoint_start()
+>> 	usb_pcm_trigger(cmd: START/STOP etc.)
+>>
+>> reduced to:
+>>
+>> 	usb_pcm_open()
+>> 	usb_pcm_hw_params()
+>> 		snd_usb_endpoint_open()
+>> 	usb_pcm_prepare()
+>> 		usb_set_interface()
 > 
-> Hi Cezary, again
-> 
->>> I'd rather focus on 'struct snd_soc_dapm_context' exclusively. A valid
->>> pointer to this type is required for many functions found in
->>> include/sound/ yet the struct is more of framework-internal entity.
->>> Strict separation between dapm-context "for the framework" from
->>> dapm-context "for the user" would grant better readability benefits.
-> 
-> I have checked each drivers which is using struct snd_soc_dapm_context.
-> It seems not only framework but many user drivers need to use/access to it.
-> 
-> So separation seems impossible, and dropping wrapper is maybe not good idea.
-> But I can understand that it will be very longer code :)
-> 
-> 	x = dapm->component;
-> 	x = snd_soc_dapm_to_component(dapm);
-> 
-> For me personally, wrapper function/macro is not so bad idea.
-> It is much safer to use function/macro rather than touching them directly.
-> 
-> Anyway, I will try to keep current patch-set style.
-> But any comment is very welcome.
-> Thank you for your help !!
+> Hmm, how can it be?  The start of EP at prepare stage is done only
+> conditionally for non-lowlatency or implicit-feedback mode, for
+> example.
 
 
-I see two replies, hope it's fine if I just reply to this one. I love 
-the enthusiasm though :D
+On Intel architecture the AudioDSP utilizes internal channel to 
+communicate with xHCI and perform all the transfer operations.  In 
+essence, once SET_INTERFACE TRB is done, the usb-driver is not supposed 
+to do anything.  The avs-driver (sound driver) would be the trigger here 
+- sends the start/stop/etc. requests to the AudioDSP firmware, DSP does 
+the rest.
 
-What I meant is that even the name of the type - 'dapm_context' - speaks 
-of framework-internal stuff. The fields that define that struct also are 
-not for the users (drivers) really. Perhaps there is a way to get rid of 
-the dapm_context pointer entirely in the argument lists of public 
-functions found in include/sound/. The pointer could be obtained e.g.: 
-via container_of() by the framework's internal handler when needed.
+By trigger I mean SET_PIPELINE_STATE IPC and avs_path_xxx() which are 
+utilized for any transfer-type (sound/soc/intel/avs/pcm.c).
 
-Otherwise, I do not see real benefit of using 'x = 
-snd_soc_dapm_to_component()' over 'x = dapm->component'. In my opinion 
-there's no need to provide wrapper for every field we have. No hard 
-blocks though.
+>> Handlers such as ack(), sync_stop(), pointer(), delay() are not used
+>> here too.  The AudioDSP driver will handle pointer(), rest is
+>> firmware/hardware responsibility.
+>>
+>>
+>> There's a hefty number of limitations, most importantly:
+>>
+>> 1) typically 2 USB devices tops, rest go the classic (non-offload) path
+>> 2) AUDIOSTREAMING interfaces only, MIDI not.  While not an interface
+>>     type, Media (sound/usb/media) unsupported either
+>> 3) simple PCM, UAC_FORMAT_TYPE_I_PCM only
+>>
+>> Current patchset shows this in form of 'udev->audsb_capable' field.
+>> True if xHCI sideband reasource has been assigned to the device.  The
+>> filtering is code is not part of the patchset.
+>>
+>> Important to highlight, 1) means both, offload-aware and offload-unaware
+>> drivers could be utilized simultaneously on the system in runtime.
+>> Opportunistically few devices would be controlled by the offload-aware
+>> driver, whereas everything else by the offload-unaware one.  This
+>> differs from existing HDAudio Controller driver situation where either
+>> classic, snd_hda_intel driver takes complete control -or- the
+>> offload-aware snd_soc_avs driver.
+>> In short, once all Audio Sideband resources are depleted, classic
+>> sound/usb/card.c driver manages whatever comes next:
+>>
+>> 	snd_usb_audio (offload un-aware, sound/usb/card.c)
+>> 	snd_soc_usb_codec (offload aware, sound/soc/codecs/usb.c)
+>>
+>>
+>> The design goals:
+>> 	- make ASoC first class citizen of sound/usb
+>> 	- re-use code found in sound/usb, mimic HDAudio integration in ASoC:
+>> 	  small sound/soc/codecs/hda.c driver leveraging power of entire
+>> 	  sound/pci/hda/
+>> 	- no shared control over a USB device, either snd_usb_audio or
+>> 	  its ASoC equivalent takes control of the device
+>>
+>> To do that, major tasks are identified:
+>>
+>> a) On ASoC side 'struct snd_card' is part of 'struct snd_soc_card' and
+>> is managed by the framework.  Similar situation with 'struct snd_pcm'
+>> and rtd->pcm.  To keep the teardown path sane, drop card->private_free()
+>> and pcm->private_free() usage.
+> 
+> Well, this is a generic problem of ASoC framework.
+> I believe this should be better handled in ASoC core side at first.
+> e.g. the card object could be created at the very first step of the
+> snd_soc_card creation, too (but without the actual slot assignment or
+> device creation).
 
 
-Kind regards,
-Czarek
+Well, in my opinion the card's tailing private context (extra size), 
+private_free() and all that comes with them in sound/core brings 
+unnecessary complexity to the ALSA framework.  devm_xxx() is enough. 
+Polluting snd_card and sound/core/init.c with driver-specifics causes 
+the teardown procedures on the ALSA framework side harder to read/maintain.
+
+>> b) To initialize ASoC components/DAI properly, PCM capabilities should be
+>> known up-front.  To do that, existing USB card probe() has to be split.
+>>  From one-stage to two-stage process:
+>>
+>> 	- look ahead and parse usb_interface descriptors for PCM endpoints
+>> 	  but do not create any PCMs (sound devices) yet
+>> 	- create all PCMs based on obtained ->pcm_list and follow with
+>> 	  MIDI/mixers/media
+>>
+>> Such approach allows to feed DAIs proper data even when a valid
+>> sound-card pointer is not yet present - the initialization occurs before
+>> snd_soc_bind_card() is called.
+>   
+> This one is another thing that is needed to adjust for ASoC
+> framework.  But when snd_card object is available, this can be
+> resolved automatically, too?  e.g. snd_pcm object or such can be
+> created at that point.  The actual device registration is done anyway
+> later via snd_device_register() call.
+
+
+While I'm up for upgrading either framework in any area necessary to 
+have proper UAO support in ASoC, not sure whether it's a good idea to 
+make it a requirement for the feature.  This will enlarge the series - 
+well, guess it will be separate series (dependency) entirely.
+
+>> Point a) is scaled for all three "domains" of sound/usb: chip, stream
+>> and quirks.  That's why there total of 6 commits doing that job.  First
+>> implement, then switch.  Everything that follows is, in my opinion,
+>> self-explanatory.  No need to repeat commit messages.
+>>
+>>
+>> [1]: https://lore.kernel.org/all/20250319005141.312805-2-quic_wcheng@quicinc.com/
+>> [2]: https://lore.kernel.org/all/20250319005141.312805-1-quic_wcheng@quicinc.com/
+>> [3]: https://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/extensible-host-controler-interface-usb-xhci.pdf
