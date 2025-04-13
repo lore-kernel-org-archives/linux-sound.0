@@ -1,121 +1,64 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4913A16CD33;
-	Sun, 13 Apr 2025 09:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3DE78F4C;
+	Sun, 13 Apr 2025 15:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744535026; cv=none; b=F9vJJdW7QqJGauE8digx9TAYK3ZdUnFyw4Wb1c2kEqaqeZy5Yv769F2IvKf2JN/joVLUUFiSERHre3HxBwM8ULxebNCEoCQYyucMHCrFAKYsHgvcktqmF3thqWG5kwehHFFCFZKndSpPjFBTDWOGBIZ+dUyq6ulTHeI6uqjSFwU=
+	t=1744557471; cv=none; b=fV6MBOxAItipCMIaLS3cJwn9MFeQiZUKo5q6Mv3AnGn8mUd2cGJ4F+9MYtk/KpLenovV0oASF/rme7lAT5sqforGRa1omG9uMuB2MFEeUbQ85Zb0I4n418mRgnP6sLi50gY/aKftvr/tAkN6bfo5myL2CouglHLFwfBNB50wuv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744535026; c=relaxed/simple;
-	bh=u4O0zrvtwd/x3r42Bw/EXFSAj3M0NwFIEeiBXDQFw+k=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=JMbiXtYjcyhWyaqu9J9tflle4KD3kYNNt7cRSlQosJH6vEmcjOue1AbGKqVuTo/DWh1Y1O5WilkjoqK4fJtiP83slvAdvA6Sf8OXynUFMItr/zBH8yoS+vPDDb+Thn0WN45x0u+6CpgFZEQNH+yBdCYXfRS/l4hdPi6Pcci/8ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=0gSfNSwQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p1A1JDB4; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="0gSfNSwQ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p1A1JDB4"
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id DC85F254024B;
-	Sun, 13 Apr 2025 05:03:41 -0400 (EDT)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-06.internal (MEProxy); Sun, 13 Apr 2025 05:03:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1744535021; x=1744621421; bh=u4O0zrvtwd/x3r42Bw/EXFSAj3M0NwFI
-	EeiBXDQFw+k=; b=0gSfNSwQ4PuK/lwE+6TlHRgtEvjx9P3CN9lPollOBcbq+3m6
-	C4xNMtCPfIyTh+oKsKjmy/HgvWJ4AnOnII61FcGCjOFtf9oiv41tPlNgcNz/bYDL
-	MfQSnGR1hk9WkT/cAnce+ElnlgbHK8KkuLz724Rgbagrt021xKAZsgHU3I0noa3n
-	jRWhhmK9s4vhbdhw1d9fx7jATfPucQfGr1KFG+ycBaaDUvhzhn2adeHU/ml9NuN4
-	VQ8Viu8ZPze91H9vH9jQglWvRs2qJ+EryAAAYp3csXBN4tRP9R5Ow4xUfBTBZ/7z
-	sP22RWhzIZG0ZoCRO0VRScAfFOVXKbY6a+nn4g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744535021; x=
-	1744621421; bh=u4O0zrvtwd/x3r42Bw/EXFSAj3M0NwFIEeiBXDQFw+k=; b=p
-	1A1JDB4jwAW4aIfbVFSHjacgRv08fkoUHNzjq3CUBcj/vGuJyVS3CA1ke6MRYhnv
-	BC1YE5IcCIc/4G0NlwkpRzUaeOBVeQGMlvASnKDQItplV8qK5PfYi006V8TwaQJW
-	wVpL5OTFh+uFVPi/Hk4zD/ulvoRoX8w4Tm71F/HUxmq04E1JvqmZw4gUZ6Y3dV0s
-	4wM6wVTuubovppEVcsgXsvjGjunvUhPG9PLibOADs/74vXYRYE7hV3OR6FfMfxds
-	Om63u3zcUTOFqJ4nrPEKiqd6Ojz4sXS4512NGq2J6/MFTVAgk+NUa6bBgW5Vy5wn
-	ICvyQIWph05I/bAdsxUiA==
-X-ME-Sender: <xms:7H37ZwHcvNHThsBihjyDR2PSh_Rv6vJBh8PvyTrqD5lAzj91WI0HGg>
-    <xme:7H37Z5Wu9PFjvf_I6BIg5PfjqHZOpAwnr-VB9INfa3B1yU_JXVp6wItPF_QKuN2TW
-    tFZfdJtw5L8-WfQEg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvudejvdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftfihrghnucghrghlkhhlihhnfdcuoehrhigrnhesthgvshhtth
-    horghsthdrtghomheqnecuggftrfgrthhtvghrnhepgeekuddvvdeggfejuddtjeegjeff
-    tdevudffudegudethfekjeelgeeitdelgedunecuffhomhgrihhnpehkvghrnhgvlhdroh
-    hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehr
-    higrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghpthhtohepudegpdhmohguvg
-    epshhmthhpohhuthdprhgtphhtthhopeifvghnshestghsihgvrdhorhhgpdhrtghpthht
-    ohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplh
-    hgihhrugifohhougesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnshdrphhh
-    ihhlihhpphgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrtghrohhmohhrghgrnh
-    eshhhothhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
-    hinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqshhunhigiheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:7H37Z6KLxPhFZNVRGL_UmKOr3KWsc5MXiASIPmWmw6l7Pz0uJy_PMg>
-    <xmx:7H37ZyFsXvt4Sqg3zm5wPsd-4m_FNXAYglxhb2EenIB52-ACujp_Ag>
-    <xmx:7H37Z2V0CWW5idddSXcTaPraaW6FaJVSpFmCVZJGXS6Ug5nsSeGYZA>
-    <xmx:7H37Z1Ppm-en6G5ygiwPB-AGVUmP-XIhB9k-b9dKtV2uyd8evI6kyg>
-    <xmx:7X37Z-7hUsJdyKqR0skR9rWrs588Knh9WTpIYuI59_vF2Ss2rOaLbcNR>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 25653BA0070; Sun, 13 Apr 2025 05:03:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1744557471; c=relaxed/simple;
+	bh=Cv0w0H6kJ9nxtclidW3FK/DftZmrxBW+wuvDWOY6/g4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=C4nzUPdyXaw6YL0vic74mcoweKf+U7rPjkEoGaZ8uqulC+tHBM8DEYYQaRPHav7ZU//hEb9ismLGSjUn/1tMm0TuoSkGjO9jy9eWicOGQszxQOM6fSQ/MqBRKfhXt3KOgCOABBz3Sb29MXElFrwb9zYqu9H7YAWT68ttbGDgG3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 232A3C4CEDD;
+	Sun, 13 Apr 2025 15:17:51 +0000 (UTC)
+Received: from wens.tw (localhost [127.0.0.1])
+	by wens.tw (Postfix) with ESMTP id 0DCE75F939;
+	Sun, 13 Apr 2025 23:17:48 +0800 (CST)
+From: Chen-Yu Tsai <wens@csie.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+ Chris Morgan <macromorgan@hotmail.com>, Rob Herring <robh@kernel.org>, 
+ Philippe Simons <simons.philippe@gmail.com>
+In-Reply-To: <20250214220247.10810-1-ryan@testtoast.com>
+References: <20250214220247.10810-1-ryan@testtoast.com>
+Subject: Re: (subset) [PATCH v3 0/5] ASoC: sun4i-codec: add headphone
+ dectection for Anbernic RG35XX devices
+Message-Id: <174455746802.3439512.6704778087672497474.b4-ty@csie.org>
+Date: Sun, 13 Apr 2025 23:17:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Tde5ab3e282bf40d5
-Date: Sun, 13 Apr 2025 21:03:18 +1200
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Chen-Yu Tsai" <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- "Chris Morgan" <macromorgan@hotmail.com>, "Rob Herring" <robh@kernel.org>,
- "Philippe Simons" <simons.philippe@gmail.com>
-Message-Id: <3234bd5d-c2c9-41f6-abda-b1aaad42f31e@app.fastmail.com>
-In-Reply-To: <20250214220247.10810-5-ryan@testtoast.com>
-References: <20250214220247.10810-1-ryan@testtoast.com>
- <20250214220247.10810-5-ryan@testtoast.com>
-Subject: Re: [PATCH v3 4/5] arm64: dts: allwinner: h700: Add hp-det-gpios for Anbernic
- RG35XX
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Sat, 15 Feb 2025, at 11:02 AM, Ryan Walklin wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
->
-> Add support for headphone insertion detection via GPIO for the
-> RG35XX series, and add the corresponding routing to the codec node.
->
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> Tested-by: Philippe Simons <simons.philippe@gmail.com>
->
+On Sat, 15 Feb 2025 11:02:22 +1300, Ryan Walklin wrote:
+> V3 of this patch adding headphone jack detection support to the Anbernic RGnnXX series of handhelds. V3 corrects my misunderstanding of derivation of ALSA UCM file paths, and adds recieved Reviewed-by and Tested-by tags. Thanks to those that have reviewed and fed back on previous versions.
+> 
+> Original message below:
+> 
+> This series adds the required device tree bindings to describe GPIOs for jack detection in the sun4i-codec driver, adds support for jack detection to the codec machine driver, and describes the hardware configuration in the RG35XX DTS. The existing speaker amplifier GPIO pin can then be used in concert with jack detection to enable userspace sound servers (via an ALSA UCM configuration) to disable the speaker route when headphones are connected.
+> 
+> Thanks to Chris Morgan for his assistance putting this series together.
+> 
+> [...]
 
-Hi all, this DT patch did not get picked up for 6.15, however the rest of this set have been merged as part of the 6.15 sound tree [1]. Would appreciate if this could be picked up.
+Applied to dt-for-6.16 in git@github.com:linux-sunxi/linux-sunxi.git, thanks!
 
-Regards,
+[4/5] arm64: dts: allwinner: h700: Add hp-det-gpios for Anbernic RG35XX
+      commit: 69714722df19a7d9e81b7e8f208ca8f325af4502
 
-Ryan
+Best regards,
+-- 
+Chen-Yu Tsai <wens@csie.org>
 
-1. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e50da555ca4d42b1b98d0f26789db64f26a0919a
