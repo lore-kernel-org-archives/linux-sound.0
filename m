@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B43619FA92
-	for <linux-sound@vger.kernel.org>; Mon, 14 Apr 2025 06:33:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31B619FA92
+	for <linux-sound@vger.kernel.org>; Mon, 14 Apr 2025 06:33:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744612409; cv=none; b=WCxtXTWk3629tFPsX4eukBRdt5FzqJp+aCJxlmOs4TRaIltaLBQLzBXa/YCyxwrJxYeQgr/yJd3eflekLERlvXuSQgeLEzolcnukxm3rmtm1BpHvvx5xEL0rmKabfD9avRIrTZeeUk43qSnYVTD9xi1CjxLY+ASMq3cq892DMYM=
+	t=1744612411; cv=none; b=da5sZwNo0PujGyAEZtAHakqFvAcftN5lbDVvPm5+kMmANFK8njm+hPp0uYA85nRrDz7WpC9BN+01GxXD4ArNAICbTH+MlI961qnsV58/IMrNvENF/tPSzvXzXXCgAZiksLqf619vKS+N9fFdBAIkhnh3QIWiyStOmorkbyHmkmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744612409; c=relaxed/simple;
-	bh=/mZ/xct1ow4dvcqLq3ti+aSQS0YhxRKMzCb1BS8yvqk=;
+	s=arc-20240116; t=1744612411; c=relaxed/simple;
+	bh=u6N/SpTVLhp3URmn/ZVL8fulX+PHhuD5LUKKCz/iDrk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ewiFbPsieGsmnL30m3tkSm9XSEy2OK3X8yRygqjQBh7xux2INVm9oqIJFtbqP1j/AeEsGLTccsYw8S/VP2RMIpPJD22AEooBh8k7VwgTiMZki99TA4jABurOD4ZcMgV+UJVRmtlyJyD/jG7RbpaFyYs0telq2Pnoxcrz2HleuJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dTae6zJF; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version:Content-Type; b=bsXlURYcMj3PATYmj5vIzlu4iSQ/3qC/0Te5iF4SyHT+gHNPfvFuoq7VKl/1OcmtEvBijsHez4Yxfej0E4e9vUxOpkiVYVtMp6gfe6QB0RM8IoVd+7xwsysguZSlydMCwy6D/zg4Pgt+tamXk1qw/PGeB7+23gMqqbwNLAO8LnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLsY9A2g; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dTae6zJF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLsY9A2g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744612407; x=1776148407;
+  t=1744612410; x=1776148410;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/mZ/xct1ow4dvcqLq3ti+aSQS0YhxRKMzCb1BS8yvqk=;
-  b=dTae6zJFCgMrGsqhGyYwvtmeZ7wqRkHpDNNQKDf5wHz6AHyd1eB3gktR
-   BeEnejK1oK+Xurwnc5vAsbZP+urCmCK7q9aEhPS+rypOQTjq1bmKXjB5C
-   ZwjtwG7bR+5y8KdDa6MIN6Bv/edKEaO4o/w6dMOyjUqovbIwYW6K0Qlzs
-   6CWzGiNhY1n5nq/or9OFGg7EU+wXabkqdvxaQppsSgWZKKC5uwaxohAib
-   6zYLJCL0+klhK46+beUA8PBS7Tbe1zURF+bCsMv1X43Vn3tJVgREYmrvF
-   vuaQmcnFtAYpVwkH6vDV/pkir+Il6lHwbJiq/x0k7MgXxIOtWZGcdaXzX
-   Q==;
-X-CSE-ConnectionGUID: CNyKS0vLR8OeaC2BHh3GRQ==
-X-CSE-MsgGUID: AOw5S+vTSzy5By84wQLvtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49872629"
+  bh=u6N/SpTVLhp3URmn/ZVL8fulX+PHhuD5LUKKCz/iDrk=;
+  b=XLsY9A2g/Jq3nKm4aIN5CrF5vmpFkiCi7u4vrjwl3GheYPUjgTTK43sR
+   2GsON/t/dHXuJhrg+DVhe3DCWCsEnQwUjf/9LpodNVi0Ere6TF0pPVVvo
+   F5uqZl+UxCeUK+IG6MRPDEwxcl5WHPaoyqIwhNpf2/31M61gcg8MsMp8/
+   t6Xt2IkQfTT3d+GHaqHeFNEK3evofm/7QZHWEG0lT8faP82v/RkMCrbAj
+   ePcGpaqcJ/zmsp25bDa/RfAq2ZlNYT5Tketa+JWpdSW/UDVULcJGd3cTT
+   Sa0T2OxJ3s7cOZoRgUCgu7ec7jzU4g5T+B7hcN7gAA358T7vWmOwztxrb
+   A==;
+X-CSE-ConnectionGUID: Zz5F69YLRZ6yvAh3UlCufQ==
+X-CSE-MsgGUID: R2XeSjgGQTuX+qJ5CmX1gQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49872635"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="49872629"
+   d="scan'208";a="49872635"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:27 -0700
-X-CSE-ConnectionGUID: ZQNiitT6ReKqM2aTh1S4kw==
-X-CSE-MsgGUID: P1TJdpqQQxeCB8RKEYzFbQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:30 -0700
+X-CSE-ConnectionGUID: +ggUzl8XRmml9ReKkynnRA==
+X-CSE-MsgGUID: /n6HSjMNQEKt3+12F4OHxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="130275291"
+   d="scan'208";a="130275296"
 Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.73])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:26 -0700
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:29 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 05/11] ASoC: Intel: add sof_sdw_get_tplg_files ops
-Date: Mon, 14 Apr 2025 14:32:33 +0800
-Message-ID: <20250414063239.85200-6-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 06/11] ASoC: Intel: soc-acpi-intel-lnl-match: set get_function_tplg_files ops
+Date: Mon, 14 Apr 2025 14:32:34 +0800
+Message-ID: <20250414063239.85200-7-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250414063239.85200-1-yung-chuan.liao@linux.intel.com>
 References: <20250414063239.85200-1-yung-chuan.liao@linux.intel.com>
@@ -64,196 +64,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add sof_sdw_get_tplg_files ops to get sub-topology file names for the
-sof_sdw card.
+The audio configs with multi-function SDCA codecs can use the
+sof_sdw_get_tplg_files ops to get function topologies dynamically.
 
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/common/Makefile               |   2 +-
- .../intel/common/sof-function-topology-lib.c  | 135 ++++++++++++++++++
- .../intel/common/sof-function-topology-lib.h  |  15 ++
- 3 files changed, 151 insertions(+), 1 deletion(-)
- create mode 100644 sound/soc/intel/common/sof-function-topology-lib.c
- create mode 100644 sound/soc/intel/common/sof-function-topology-lib.h
+ sound/soc/intel/common/soc-acpi-intel-lnl-match.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/intel/common/Makefile b/sound/soc/intel/common/Makefile
-index 0afd114be9e5..7822bcae6c69 100644
---- a/sound/soc/intel/common/Makefile
-+++ b/sound/soc/intel/common/Makefile
-@@ -12,7 +12,7 @@ snd-soc-acpi-intel-match-y := soc-acpi-intel-byt-match.o soc-acpi-intel-cht-matc
- 	soc-acpi-intel-lnl-match.o \
- 	soc-acpi-intel-ptl-match.o \
- 	soc-acpi-intel-hda-match.o \
--	soc-acpi-intel-sdw-mockup-match.o
-+	soc-acpi-intel-sdw-mockup-match.o sof-function-topology-lib.o
+diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+index e04f6de746eb..a2bee667facb 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+@@ -8,6 +8,7 @@
  
- snd-soc-acpi-intel-match-y += soc-acpi-intel-ssp-common.o
- 
-diff --git a/sound/soc/intel/common/sof-function-topology-lib.c b/sound/soc/intel/common/sof-function-topology-lib.c
-new file mode 100644
-index 000000000000..90fe7aa3df1c
---- /dev/null
-+++ b/sound/soc/intel/common/sof-function-topology-lib.c
-@@ -0,0 +1,135 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
-+//
-+// This file is provided under a dual BSD/GPLv2 license.  When using or
-+// redistributing this file, you may do so under either license.
-+//
-+// Copyright(c) 2025 Intel Corporation.
-+//
-+
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <linux/firmware.h>
-+#include <sound/soc.h>
-+#include <sound/soc-acpi.h>
+ #include <sound/soc-acpi.h>
+ #include <sound/soc-acpi-intel-match.h>
 +#include "sof-function-topology-lib.h"
-+
-+enum tplg_device_id {
-+	TPLG_DEVICE_SDCA_JACK,
-+	TPLG_DEVICE_SDCA_AMP,
-+	TPLG_DEVICE_SDCA_MIC,
-+	TPLG_DEVICE_INTEL_PCH_DMIC,
-+	TPLG_DEVICE_HDMI,
-+	TPLG_DEVICE_MAX
-+};
-+
-+#define SDCA_DEVICE_MASK (BIT(TPLG_DEVICE_SDCA_JACK) | BIT(TPLG_DEVICE_SDCA_AMP) | \
-+			  BIT(TPLG_DEVICE_SDCA_MIC))
-+
-+#define SOF_INTEL_PLATFORM_NAME_MAX 4
-+
-+int sof_sdw_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_mach *mach,
-+			   const char *prefix, const char ***tplg_files)
-+{
-+	struct snd_soc_acpi_mach_params mach_params = mach->mach_params;
-+	struct snd_soc_dai_link *dai_link;
-+	const struct firmware *fw;
-+	char platform[SOF_INTEL_PLATFORM_NAME_MAX];
-+	unsigned long tplg_mask = 0;
-+	int tplg_num = 0;
-+	int tplg_dev;
-+	int ret;
-+	int i;
-+
-+	ret = sscanf(mach->sof_tplg_filename, "sof-%3s-*.tplg", platform);
-+	if (ret != 1) {
-+		dev_err(card->dev, "Invalid platform name %s of tplg %s\n",
-+			platform, mach->sof_tplg_filename);
-+		return -EINVAL;
-+	}
-+
-+	for_each_card_prelinks(card, i, dai_link) {
-+		char *tplg_dev_name;
-+
-+		dev_dbg(card->dev, "dai_link %s id %d\n", dai_link->name, dai_link->id);
-+		if (strstr(dai_link->name, "SimpleJack")) {
-+			tplg_dev = TPLG_DEVICE_SDCA_JACK;
-+			tplg_dev_name = "sdca-jack";
-+		} else if (strstr(dai_link->name, "SmartAmp")) {
-+			tplg_dev = TPLG_DEVICE_SDCA_AMP;
-+			tplg_dev_name = devm_kasprintf(card->dev, GFP_KERNEL,
-+						       "sdca-%damp", dai_link->num_cpus);
-+			if (!tplg_dev_name)
-+				return -ENOMEM;
-+		} else if (strstr(dai_link->name, "SmartMic")) {
-+			tplg_dev = TPLG_DEVICE_SDCA_MIC;
-+			tplg_dev_name = "sdca-mic";
-+		} else if (strstr(dai_link->name, "dmic")) {
-+			switch (mach_params.dmic_num) {
-+			case 2:
-+				tplg_dev_name = "dmic-2ch";
-+				break;
-+			case 4:
-+				tplg_dev_name = "dmic-4ch";
-+				break;
-+			default:
-+				dev_warn(card->dev,
-+					 "only -2ch and -4ch are supported for dmic\n");
-+				continue;
-+			}
-+			tplg_dev = TPLG_DEVICE_INTEL_PCH_DMIC;
-+		} else if (strstr(dai_link->name, "iDisp")) {
-+			tplg_dev = TPLG_DEVICE_HDMI;
-+			tplg_dev_name = "hdmi-pcm5";
-+
-+		} else {
-+			/* The dai link is not supported by separated tplg yet */
-+			dev_dbg(card->dev,
-+				"dai_link %s is not supported by separated tplg yet\n",
-+				dai_link->name);
-+			return 0;
-+		}
-+		if (tplg_mask & BIT(tplg_dev))
-+			continue;
-+
-+		tplg_mask |= BIT(tplg_dev);
-+
-+		/*
-+		 * The tplg file naming rule is sof-<platform>-<function>-id<BE id number>.tplg
-+		 * where <platform> is only required for the DMIC function as the nhlt blob
-+		 * is platform dependent.
-+		 */
-+		switch (tplg_dev) {
-+		case TPLG_DEVICE_INTEL_PCH_DMIC:
-+			(*tplg_files)[tplg_num] = devm_kasprintf(card->dev, GFP_KERNEL,
-+								 "%s/sof-%s-%s-id%d.tplg",
-+								 prefix, platform,
-+								 tplg_dev_name, dai_link->id);
-+			break;
-+		default:
-+			(*tplg_files)[tplg_num] = devm_kasprintf(card->dev, GFP_KERNEL,
-+								 "%s/sof-%s-id%d.tplg",
-+								 prefix, tplg_dev_name,
-+								 dai_link->id);
-+			break;
-+		}
-+		if (!(*tplg_files)[tplg_num])
-+			return -ENOMEM;
-+		tplg_num++;
-+	}
-+
-+	dev_dbg(card->dev, "tplg_mask %#lx tplg_num %d\n", tplg_mask, tplg_num);
-+
-+	/* Check presence of sub-topologies */
-+	for (i = 0; i < tplg_num; i++) {
-+		ret = firmware_request_nowarn(&fw, (*tplg_files)[i], card->dev);
-+		if (!ret) {
-+			release_firmware(fw);
-+		} else {
-+			dev_dbg(card->dev, "Failed to open topology file: %s\n", (*tplg_files)[i]);
-+			return 0;
-+		}
-+	}
-+
-+	return tplg_num;
-+}
-+
-diff --git a/sound/soc/intel/common/sof-function-topology-lib.h b/sound/soc/intel/common/sof-function-topology-lib.h
-new file mode 100644
-index 000000000000..e7d0c39d0788
---- /dev/null
-+++ b/sound/soc/intel/common/sof-function-topology-lib.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * soc-acpi-intel-get-tplg.h - get-tplg-files ops
-+ *
-+ * Copyright (c) 2025, Intel Corporation.
-+ *
-+ */
-+
-+#ifndef _SND_SOC_ACPI_INTEL_GET_TPLG_H
-+#define _SND_SOC_ACPI_INTEL_GET_TPLG_H
-+
-+int sof_sdw_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_mach *mach,
-+			   const char *prefix, const char ***tplg_files);
-+
-+#endif
+ #include "soc-acpi-intel-sdca-quirks.h"
+ #include "soc-acpi-intel-sdw-mockup-match.h"
+ 
+@@ -712,6 +713,7 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
+ 		.links = lnl_cs42l43_l0,
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-lnl-cs42l43-l0.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(0),
+@@ -730,6 +732,7 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
+ 		.links = lnl_rt722_only,
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-lnl-rt722-l0.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = GENMASK(2, 0),
+@@ -748,14 +751,16 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
+ 		.links = lnl_sdw_rt712_vb_l2_rt1320_l1,
+ 		.drv_name = "sof_sdw",
+ 		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
+-		.sof_tplg_filename = "sof-lnl-rt712-l2-rt1320-l1.tplg"
++		.sof_tplg_filename = "sof-lnl-rt712-l2-rt1320-l1.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(1) | BIT(2) | BIT(3),
+ 		.links = lnl_sdw_rt713_vb_l2_rt1320_l13,
+ 		.drv_name = "sof_sdw",
+ 		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
+-		.sof_tplg_filename = "sof-lnl-rt713-l2-rt1320-l13.tplg"
++		.sof_tplg_filename = "sof-lnl-rt713-l2-rt1320-l13.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{},
+ };
 -- 
 2.43.0
 
