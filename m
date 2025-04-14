@@ -1,113 +1,99 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BD43B7A8;
-	Mon, 14 Apr 2025 04:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B007F9
+	for <linux-sound@vger.kernel.org>; Mon, 14 Apr 2025 06:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744605014; cv=none; b=kY8wW3OzACTNoB156aircIDB0261iNW3pfakVteT0Q4zSplqsmL3aLynomtM5kG/YwBl3V5o8eAHpNsaTqgECwIDlo5uiQ/prc1orGDda0M+7NnfYIcxd7LSH3Mex6ALo9pcWE3miY1U00+Iqclk4+M2lNyMv3FIz6HWWX+2MT4=
+	t=1744612401; cv=none; b=m+A5m0nZnfCDDGQ1XirjnxvGz2r3gFCmxY760/JjzdidI/P8BxcUvOlrgpuy/IvOjb5mjotqWurYMHcs7lY6W98Z/xZ23arSZiOi8H94zO7HDPdqEf01phQuBm3cFTNBO1dSWcN/76DmXZTar85UnY4sKaqdV4J1T02ljI5mDfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744605014; c=relaxed/simple;
-	bh=IXM0hbeDE0VbYeOx251mcveXuoYLdmETuYNSJpgcemw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qCiVSFne/jphOBmhV6uwbT4+VIkDhmFXxOz4JiFim8Y2OelZFfInNrel1x0Eg2Gb4dr+b7U1sY4fdAwT82qaqf4dG9JTeE1vxODAbNLFsSff5ZGwAVnCz1fBfQ/HBhCpUJVRNxU6UZKiJrKyTqNOJioB4+PXPQI7+ziNTOvwbLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Z9aZfWJe; arc=none smtp.client-ip=54.206.34.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1744612401; c=relaxed/simple;
+	bh=/3vtK4g0kQthNODKHIDSqLzZvJ9r+nePevlgeSRmG5g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AoLLGZByDFOKnTnWB4Q3eVRHS4uxYL/VHCLKtJxHPwkNuNugjnQE+H2CVgDfbJ1Cyjl31bi9TiecLl43zH67ONxWOsUMOf3QE8BFoUR0yyyIFULcS2CgqKZEdoNI/0OC+dYaQCmw9z6P+zBHTjDhVWKsUyqlDwh0fPL6F2Hx5FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fW/hHzSQ; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Z9aZfWJe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1744604876;
-	bh=QG5Xe8E2V3D5JGUHv9q6I5lu2PLz++QnpKlzGLtExec=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=Z9aZfWJeFaOFwkDvSaN34cnY6x3iJBEzlli3XEdTvqegRMwEyJ4GaGv1I2dhQln1P
-	 AUwq6qoyL463B2q5UDwhJ9OcJuEc66NlPRMFLayhraDas3rvt6+Iq1nZN1epWikX0u
-	 2ZWDKVDS/1WonY+MJbbjper05dYEGx2CLEt8Sl7k=
-X-QQ-mid: bizesmtpip4t1744604829t1351c7
-X-QQ-Originating-IP: 4t0aX8oZyQexKQh1e6cG/Umo00EI/lgEO43f9YF0kDI=
-Received: from localhost.localdomain ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 14 Apr 2025 12:27:06 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 14304016338742517787
-EX-QQ-RecipientCnt: 13
-From: WangYuli <wangyuli@uniontech.com>
-To: wangyuli@uniontech.com
-Cc: akpm@linux-foundation.org,
-	guanwentao@uniontech.com,
-	linux-kernel@vger.kernel.org,
-	mingo@kernel.org,
-	niecheng1@uniontech.com,
-	tglx@linutronix.de,
-	zhanjun@uniontech.com,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Philipp Stanner <pstanner@redhat.com>,
-	SOUND <linux-sound@vger.kernel.org>
-Subject: [PATCH v2 5/5] ALSA: korg1212: snd_korg1212_prepare: Rename del_timer in comment
-Date: Mon, 14 Apr 2025 12:26:29 +0800
-Message-ID: <590769506CF46967+20250414042629.63019-5-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <37A1CE32D2AEA134+20250414042251.61846-1-wangyuli@uniontech.com>
-References: <37A1CE32D2AEA134+20250414042251.61846-1-wangyuli@uniontech.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fW/hHzSQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744612399; x=1776148399;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/3vtK4g0kQthNODKHIDSqLzZvJ9r+nePevlgeSRmG5g=;
+  b=fW/hHzSQs1rCpXR0RUnerFF06SLuXlOdcD4jZBAhjuBDN1somKMABW9D
+   LgbkxBDBz+BioJXBb+DDQtAfnkporAubwFVPwfJscWlFTCTl/CPoG+05w
+   R2WEKiaN190mLTAXHR0aYh2jSavVeFJ7dVhmYTC6Xlm3lyheCTslvAfaD
+   lC1cLeLiXK1I/ZqAARxhbLt2bpOd3ASZ7FBoOR7cx0Asu1dQu53/1Jy3t
+   ETq/Nquk1UH5aIqjEqz3slFbGy4rt8R5yd5hQ9xCIJ3sYHIUck6qJgtPd
+   o2TUr/PJDXHbz10dLEpfszMbTiFiLb9tjTZkfhq5lsgZfEj53gWtbQPGk
+   g==;
+X-CSE-ConnectionGUID: czlRdds0SCKAc+9tB5aq3g==
+X-CSE-MsgGUID: 5oYxjNVWQtuSEJBmfTj5QA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49872587"
+X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
+   d="scan'208";a="49872587"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:16 -0700
+X-CSE-ConnectionGUID: o4oLd+vFTauRKTwbIWUxBg==
+X-CSE-MsgGUID: QogpczO0Qt+VuHGB4NHl3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
+   d="scan'208";a="130275256"
+Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.73])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:15 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH 00/11] ASoC: skip the endpoint that doesn't present and
+Date: Mon, 14 Apr 2025 14:32:28 +0800
+Message-ID: <20250414063239.85200-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: M2ChSj43MDGkt0xM6jnMEL+xucOmmsaCSbZNUTPTCRzwHkApNyYsWpcg
-	SXbk469XbAUrUDpm5OZPjWN/6VyWUrTmNhv8Pfl5wZE6jhqnv7wTwe9yfegcv2blV/X+/0q
-	lGrgcQyx8t9rt7IHu1Z8Ns22NYQnWQEofxqp/0yPSeUk72msHmjyR4PvyNMUTCZH42986JT
-	W+p/OAMX8LBr1/H+PVi+YPWHPUCuAywtf4YjoIykrrTWbzalAvlYiilR7cA1Xbp5j2mFVU0
-	jaz5Pmk4pVBlW9OlNfHNp7QaJuF9x8T0vOwxVHZRscrRU16ZrW/NWiOJOrP3Ut8PwO/LmDI
-	IKfmuSsQ9KpPkLoP3DSknPRCcaNehvrLL9MObSSY20PnRXym+vUQ9ISWhJ0GHcdC846ZYeB
-	R69uoBe8+yNWEXB13yAjnveDUSWuDLvvFMZ8cZkozwcbbF0CW3hvc/TBgrH8QPSHJPPX8bj
-	MqdhwxJYtX8qnWV1D2etVLRR7sOCi5VojIh5c55TrL9spxoZ3Uu/OATrrneb1iitil00XPY
-	mp9WsDwQUt4z/WbEWZjUdapLVRzjKCH/idnj2mFpZghxLoPmQM8I7h5H3aiPI9twztjYAOh
-	5uOSPZrk+IoIKVgxCEsEDu79VgIszKWDlnrBmSuJpVG0/pPqDS6xqxCg1jyAOj5MPFShk3k
-	PTtgWZKVmFypBTJ5c7WwMKB5w6+o8ysPuzy4T4YnV5WAGjvVchUDByuf16HbTYsMXy6yksY
-	CNIIZAdyD0iLxljchrgUM+c/z9oE7C1wJCNxadiLheFfhoo1smJjZLLF78NskPlPeaHNvcR
-	0ukz0BRk+2p3R6OwehlOHPK6PEi9Zq+z6RFLxsQmvYpB3txS+I8XD+evTm2n09ip9o32Y+8
-	2fiWoo+cL0CkbjVhhvX+N05KDJemdA8N8rr72gl2XEHmoS3zTZBxu3U13+jlwYwIvqoqAed
-	d7PPaScqHMFiJ5dsGfNz+wgdxb1c0691ZrqkiGTQ7ck5r1l2I+jLHNVD6pW8Yc5eU+SmHWE
-	wfWIitme+XlK8Tp8qxpdn0k2tvewziY6p4FSaf0ut2q08Y/wDT6zSF2pRPEWc=
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-X-QQ-RECHKSPAM: 0
 
-Commit 8fa7292fee5c ("treewide: Switch/rename to timer_delete[_sync]()")
-switched del_timer to timer_delete, but did not modify the comment for
-snd_korg1212_prepare(). Now fix it.
+A codec endpoint may not be used. We could check the present SDCA
+functions to know if the endpoint is used or not. Skip the endpoint
+which is not used. And load the topology dynamically for each endpoint.
+With this feature, we don't need to use the quirk to determine the
+existence of the optional codec DAIs.
 
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Philipp Stanner <pstanner@redhat.com>
-Cc: SOUND <linux-sound@vger.kernel.org>
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
----
- sound/pci/korg1212/korg1212.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Bard Liao (11):
+  ASoC: SOF: topology: allocate string for tuples
+  ASoC: SOF: topology: don't convert error code
+  ASoC: soc-acpi: add get_function_tplg_files ops
+  ASoC: SOF: topology: load multiple topologies
+  ASoC: Intel: add sof_sdw_get_tplg_files ops
+  ASoC: Intel: soc-acpi-intel-lnl-match: set get_function_tplg_files ops
+  ASoC: Intel: soc-acpi-intel-arl-match: set get_function_tplg_files ops
+  ASoC: Intel: soc-acpi-intel-ptl-match: add get_function_tplg_files ops
+  ASoC: Intel: soc-acpi-intel-mtl-match: add get_function_tplg_files ops
+  ASoC: sdw_utils: split asoc_sdw_get_codec_name
+  ASoC: soc_sdw_utils: skip the endpoint that doesn't present
 
-diff --git a/sound/pci/korg1212/korg1212.c b/sound/pci/korg1212/korg1212.c
-index 49b71082c485..5e69bb25d420 100644
---- a/sound/pci/korg1212/korg1212.c
-+++ b/sound/pci/korg1212/korg1212.c
-@@ -1553,7 +1553,7 @@ static int snd_korg1212_prepare(struct snd_pcm_substream *substream)
- 		return -EAGAIN;
- 		/*
- 		korg1212->sharedBufferPtr->cardCommand = 0;
--		del_timer(&korg1212->timer);
-+		timer_delete(&korg1212->timer);
- 		korg1212->stop_pending_cnt = 0;
- 		*/
- 	}
+ include/sound/soc-acpi.h                      |  13 ++
+ sound/soc/intel/common/Makefile               |   2 +-
+ .../intel/common/soc-acpi-intel-arl-match.c   |   9 +
+ .../intel/common/soc-acpi-intel-lnl-match.c   |   9 +-
+ .../intel/common/soc-acpi-intel-mtl-match.c   |  11 +-
+ .../intel/common/soc-acpi-intel-ptl-match.c   |  17 +-
+ .../intel/common/sof-function-topology-lib.c  | 135 ++++++++++++++
+ .../intel/common/sof-function-topology-lib.h  |  15 ++
+ sound/soc/sdw_utils/soc_sdw_utils.c           | 168 ++++++++++++++++--
+ sound/soc/sof/topology.c                      |  92 +++++++---
+ 10 files changed, 428 insertions(+), 43 deletions(-)
+ create mode 100644 sound/soc/intel/common/sof-function-topology-lib.c
+ create mode 100644 sound/soc/intel/common/sof-function-topology-lib.h
+
 -- 
-2.49.0
+2.43.0
 
