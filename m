@@ -1,52 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF33729B79E;
-	Mon, 14 Apr 2025 13:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442A42522B4
+	for <linux-sound@vger.kernel.org>; Mon, 14 Apr 2025 15:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744639014; cv=none; b=OsN9fi421Uv1Y02XX3s1+hv/K/4xIuLzGr3O/44MW6gFIFjFBIEfVLCovMWbtVTD/IPOJ2sZpAXq15sXGkJLppH82cIMf7bvF+DfzVrx3A5HCm7ggWwhmkGQyQ5rcVDq5r3e5RFW2lXDePn+OWzf7tk4Vdu1krulvrF1akx+cFQ=
+	t=1744643273; cv=none; b=uHMv9VWC6bvzKecOX0qJCeE0N2jLllQgEdst7B8KYVFL7QgJYw1T3xAWUk0X62vQH1UqR9h3G/Bq9538Taz01AZv1zDRshB6tWNZdyk2gZ5tDEV+PBEDFYiZ+l7koo7ypcq4qN+wiFaylJUVj5LcmsM2eTPF+YsBZ+eKJwxaE8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744639014; c=relaxed/simple;
-	bh=ESCuQapauQmjDSGxrvdMiWpiZpAHRAJUwS3o5TN6AVY=;
+	s=arc-20240116; t=1744643273; c=relaxed/simple;
+	bh=X/ID6J4zrZO63TqG4wegAx8WmD9Pdhzbqzr9xH5pM28=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RRbMtvYUDxaBDq/iZOPb8G6YVXZNTKHNZ7iOUwjc73smenBOEG95rl/HVCwBnyFl94aBRT0ikF36Yee3Yi21+PyM6NjFaGcZLMBkkSvSlpK3PfTLNNk1zhwy7iiZu4Xtvq0VPwSsKtPbKWgR4gTRhL0qH+TLgP3e4MPC28SlCz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jf11uyuw; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ZNRKgT7dWwI/TVDX2Cj0u6bGvvSDwZMcFBnpQag6ejo3o+49knGsVcDg5DnnoIoDsgBo6E6mMStZIckE+FlvelRHIDqlhGJOcSTPTuH5SGorlAhooBgkx4Hs24frL/QhX/o8TQLc6wGYhiahmCQxop/B6xPDCSsC4x5AjVaSk3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CDJ4S4Qg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jf11uyuw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB01C4CEE2;
-	Mon, 14 Apr 2025 13:56:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CDJ4S4Qg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78BB7C4CEE2;
+	Mon, 14 Apr 2025 15:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744639012;
-	bh=ESCuQapauQmjDSGxrvdMiWpiZpAHRAJUwS3o5TN6AVY=;
+	s=k20201202; t=1744643271;
+	bh=X/ID6J4zrZO63TqG4wegAx8WmD9Pdhzbqzr9xH5pM28=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jf11uyuwRiOn7OWxfW/FwmJbtmCrgx/l83Yo46x674XqBJTyKdt1//0T7iACWhMwC
-	 3gUe3I9cqTTiar1eVQttJp+r+Hx/18y06jqra+n1jqNyD67c72xH8EyJnqTAWmi8J/
-	 fGosgy0I2+4jIpBlWrpf/EIKgcjm5Lr1O3tE6mDYlcZStLxC+Gf7Wa5yoFxb0ffTE+
-	 ulW3T9ZcLpHxEBBlzX3h9R3Qh0syXzAyB3vlMZKnm0WF9/cFAoQV3hIORxiH+8FMQ5
-	 LzeFDWRqY4cJKKjm2iM6X8N11TidFRh+C5OklUx15JL2r2wjOkCPEk+nQPQ851zjQy
-	 WEJK3LnzMYwlQ==
+	b=CDJ4S4QguYIglWxUPuA1Nw8droV+2ZPSwVLsB2xUKXo7Oxsagti+/2FebkzcbQyYj
+	 lEvCDo+AW/j+STZc5oPr7CnwL+l035GpQa1v5HyGTVCfIDnVUKW2KZ3SBXH5lqkble
+	 qbFzXTsYQa0W1VEN48yWs5eOo5RcMd5QsAZ51FuQ9TaR/XjZk5dkuyvBOjTzRi7WS+
+	 puvr0wo2t953RYpRoSzBL1y1UtYI1YiMZTqcSiz8FpoKDF+EdNm3jelgATzrfsbUH6
+	 oklLQmUtEnRFzj7AgjC2wIcn86TL2SrD+IX4nkQfbaXl8Digx/HSmg+e3i1dwfyCSz
+	 XKMuZxD6lUF7Q==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
- Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
- Neal Gompa <neal@gompa.dev>
-In-Reply-To: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
-References: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
-Subject: Re: [PATCH v5 0/8] ASoC: tas27{64,70}: improve support for Apple
- codec variants
-Message-Id: <174463900790.86688.4041479471029106682.b4-ty@kernel.org>
-Date: Mon, 14 Apr 2025 14:56:47 +0100
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87bjszr1xp.wl-kuninori.morimoto.gx@renesas.com>
+References: <87bjszr1xp.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: rsnd: use snd_pcm_direction_name()
+Message-Id: <174464327122.115540.11341981007835602346.b4-ty@kernel.org>
+Date: Mon, 14 Apr 2025 16:07:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,18 +44,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Sun, 06 Apr 2025 09:15:04 +1000, James Calligeros wrote:
-> This series introduces a number of changes to the drivers for
-> the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
-> introduce (and improve in the case of TAS2770) support for the
-> variants of these amps found in Apple Silicon Macs.
+On Mon, 14 Apr 2025 01:01:38 +0000, Kuninori Morimoto wrote:
+> We already have snd_pcm_direction_name(). Let's use it.
 > 
-> Apple's variant of TAS2764 is known as SN012776, and as always with
-> Apple is a subtly incompatible variant with a number of quirks. It
-> is not publicly available. The TAS2770 variant is known as TAS5770L,
-> and does not require incompatible handling.
 > 
-> [...]
 
 Applied to
 
@@ -76,22 +55,8 @@ Applied to
 
 Thanks!
 
-[1/8] ASoC: tas2770: Power cycle amp on ISENSE/VSENSE change
-      commit: f529c91be8a34ac12e7599bf87c65b6f4a2c9f5c
-[2/8] ASoC: tas2770: Support setting the PDM TX slot
-      commit: 7699892ad3cf3a9afc8c63886344f6e2b73166e2
-[3/8] ASoC: tas2764: Reinit cache on part reset
-      commit: 592ab3936b096da5deb64d4c906edbeb989174d6
-[4/8] ASoC: tas2764: Enable main IRQs
-      commit: dd50f0e38563f15819059c923bf142200453e003
-[5/8] ASoC: tas2764: Raise regmap range maximum
-      commit: f0aff451f399d09aaf2a23c4e2ef2077b9857ca5
-[6/8] ASoC: tas2764: Apply Apple quirks
-      commit: f33b01e0947d81c514bc8ff31ad28cae7ff6d91f
-[7/8] ASoC: tas2770: expose die temp to hwmon
-      commit: ff73e2780169a43617cc339686f5bd3d74fa8652
-[8/8] ASoC: tas2764: expose die temp to hwmon
-      commit: 186dfc85f9a824e3f8383322747ca75e988486e9
+[1/1] ASoC: rsnd: use snd_pcm_direction_name()
+      commit: 2c6b6a3e8b9338e7ddbbd699f3cb085fbc78413a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
