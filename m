@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260EC2CCC1
-	for <linux-sound@vger.kernel.org>; Mon, 14 Apr 2025 06:33:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B43619FA92
+	for <linux-sound@vger.kernel.org>; Mon, 14 Apr 2025 06:33:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744612406; cv=none; b=Ef51Qtg5WXQ35Hl53W50BW4SMA4rYksUs1KdlAIDuSLVGeMzj2GXOaupZoxlu9bZh+Ch0lsBTZp5t1zZBfcY0eZ7fgkXG+XWlV3miJJVFApeeuPXwB/wFNldrE7kKPFju/JBZn3OSZTqTSvWiJ0yzM+tiKdo7vnqiQqmNfde+zo=
+	t=1744612409; cv=none; b=WCxtXTWk3629tFPsX4eukBRdt5FzqJp+aCJxlmOs4TRaIltaLBQLzBXa/YCyxwrJxYeQgr/yJd3eflekLERlvXuSQgeLEzolcnukxm3rmtm1BpHvvx5xEL0rmKabfD9avRIrTZeeUk43qSnYVTD9xi1CjxLY+ASMq3cq892DMYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744612406; c=relaxed/simple;
-	bh=jgYhblBIAv42DeHHVoOcJkpLQ3MyQPZeuy8BMTkgCv0=;
+	s=arc-20240116; t=1744612409; c=relaxed/simple;
+	bh=/mZ/xct1ow4dvcqLq3ti+aSQS0YhxRKMzCb1BS8yvqk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FcAUDEHKerY/p/4mzlTu/qtARR32yEpNVOPW3bGB1gM9848zDF4vruD1u3wzFo77rb0voa6BV/tkrDN2RCE1/KyYNuimsPJhuJqyPhgQDszm7FUqH18FCjZISBFf4M5zl9yd/GrQEvVJA6BrTs1vviK/b5bW99qoz9T9Ud4ocy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AEzxOsc9; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version:Content-Type; b=ewiFbPsieGsmnL30m3tkSm9XSEy2OK3X8yRygqjQBh7xux2INVm9oqIJFtbqP1j/AeEsGLTccsYw8S/VP2RMIpPJD22AEooBh8k7VwgTiMZki99TA4jABurOD4ZcMgV+UJVRmtlyJyD/jG7RbpaFyYs0telq2Pnoxcrz2HleuJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dTae6zJF; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AEzxOsc9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dTae6zJF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744612405; x=1776148405;
+  t=1744612407; x=1776148407;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=jgYhblBIAv42DeHHVoOcJkpLQ3MyQPZeuy8BMTkgCv0=;
-  b=AEzxOsc97g9zpSowGybBjs3RXLZLccjnM1aOe2yQhsoS7P2kHHdKrSVL
-   x6qfIvGwNwJzEymu8TOGvqIrG+C5tz7kM066xDr2gyyaDAgThKgfOA4MY
-   SjQpa9GR1q37rB3y0euLPqPE5njUSsp/1tXID9dwhYpH7BqPhu1lBAiVy
-   XxOX33FF49aj9b8xHzH10AtDsyNAQim94uzzsrBvIIZrpChmxHQeqJZ2y
-   8qyir/pB8Pzgy3gmIB3B3OLmqjwvV0sHc3jwUsWs3K/V1OO1D7ddRnNMa
-   mw6r9tX2edeKQmxxvkljnA+gzKunK0lseIpmf0+Kgr+YiFLbqUWRbs28c
-   g==;
-X-CSE-ConnectionGUID: B0Jy0cU5S56eyOnYpMmqVw==
-X-CSE-MsgGUID: HKd7uJDpSO6aFP3AuyOOow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49872621"
+  bh=/mZ/xct1ow4dvcqLq3ti+aSQS0YhxRKMzCb1BS8yvqk=;
+  b=dTae6zJFCgMrGsqhGyYwvtmeZ7wqRkHpDNNQKDf5wHz6AHyd1eB3gktR
+   BeEnejK1oK+Xurwnc5vAsbZP+urCmCK7q9aEhPS+rypOQTjq1bmKXjB5C
+   ZwjtwG7bR+5y8KdDa6MIN6Bv/edKEaO4o/w6dMOyjUqovbIwYW6K0Qlzs
+   6CWzGiNhY1n5nq/or9OFGg7EU+wXabkqdvxaQppsSgWZKKC5uwaxohAib
+   6zYLJCL0+klhK46+beUA8PBS7Tbe1zURF+bCsMv1X43Vn3tJVgREYmrvF
+   vuaQmcnFtAYpVwkH6vDV/pkir+Il6lHwbJiq/x0k7MgXxIOtWZGcdaXzX
+   Q==;
+X-CSE-ConnectionGUID: CNyKS0vLR8OeaC2BHh3GRQ==
+X-CSE-MsgGUID: AOw5S+vTSzy5By84wQLvtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49872629"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="49872621"
+   d="scan'208";a="49872629"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:25 -0700
-X-CSE-ConnectionGUID: xyjvc4V3T16dI/l8ygORaw==
-X-CSE-MsgGUID: /KNK8YO2TX2MlqLCE0GWBQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:27 -0700
+X-CSE-ConnectionGUID: ZQNiitT6ReKqM2aTh1S4kw==
+X-CSE-MsgGUID: P1TJdpqQQxeCB8RKEYzFbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="130275287"
+   d="scan'208";a="130275291"
 Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.73])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:24 -0700
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:26 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 04/11] ASoC: SOF: topology: load multiple topologies
-Date: Mon, 14 Apr 2025 14:32:32 +0800
-Message-ID: <20250414063239.85200-5-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 05/11] ASoC: Intel: add sof_sdw_get_tplg_files ops
+Date: Mon, 14 Apr 2025 14:32:33 +0800
+Message-ID: <20250414063239.85200-6-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250414063239.85200-1-yung-chuan.liao@linux.intel.com>
 References: <20250414063239.85200-1-yung-chuan.liao@linux.intel.com>
@@ -64,134 +64,196 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Currently, we always use single topology file to describe the widgets.
-However, with SDCA, we want to be able to load sub-topologies based on
-the supported device functions.
+Add sof_sdw_get_tplg_files ops to get sub-topology file names for the
+sof_sdw card.
 
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/sof/topology.c | 86 +++++++++++++++++++++++++++++++---------
- 1 file changed, 68 insertions(+), 18 deletions(-)
+ sound/soc/intel/common/Makefile               |   2 +-
+ .../intel/common/sof-function-topology-lib.c  | 135 ++++++++++++++++++
+ .../intel/common/sof-function-topology-lib.h  |  15 ++
+ 3 files changed, 151 insertions(+), 1 deletion(-)
+ create mode 100644 sound/soc/intel/common/sof-function-topology-lib.c
+ create mode 100644 sound/soc/intel/common/sof-function-topology-lib.h
 
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index fc4a9cddd162..e19ba94f2c80 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -2310,8 +2310,10 @@ static const struct snd_soc_tplg_ops sof_tplg_ops = {
- 	.link_load	= sof_link_load,
- 	.link_unload	= sof_link_unload,
+diff --git a/sound/soc/intel/common/Makefile b/sound/soc/intel/common/Makefile
+index 0afd114be9e5..7822bcae6c69 100644
+--- a/sound/soc/intel/common/Makefile
++++ b/sound/soc/intel/common/Makefile
+@@ -12,7 +12,7 @@ snd-soc-acpi-intel-match-y := soc-acpi-intel-byt-match.o soc-acpi-intel-cht-matc
+ 	soc-acpi-intel-lnl-match.o \
+ 	soc-acpi-intel-ptl-match.o \
+ 	soc-acpi-intel-hda-match.o \
+-	soc-acpi-intel-sdw-mockup-match.o
++	soc-acpi-intel-sdw-mockup-match.o sof-function-topology-lib.o
  
--	/* completion - called at completion of firmware loading */
--	.complete	= sof_complete,
-+	/*
-+	 * No need to set the complete callback. sof_complete will be called explicitly after
-+	 * topology loading is complete.
-+	 */
+ snd-soc-acpi-intel-match-y += soc-acpi-intel-ssp-common.o
  
- 	/* manifest - optional to inform component of manifest */
- 	.manifest	= sof_manifest,
-@@ -2467,34 +2469,82 @@ static const struct snd_soc_tplg_ops sof_dspless_tplg_ops = {
- int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- {
- 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
-+	struct snd_sof_pdata *sof_pdata = sdev->pdata;
-+	const char *tplg_filename_prefix = sof_pdata->tplg_filename_prefix;
- 	const struct firmware *fw;
-+	const char **tplg_files;
-+	int tplg_cnt = 0;
- 	int ret;
+diff --git a/sound/soc/intel/common/sof-function-topology-lib.c b/sound/soc/intel/common/sof-function-topology-lib.c
+new file mode 100644
+index 000000000000..90fe7aa3df1c
+--- /dev/null
++++ b/sound/soc/intel/common/sof-function-topology-lib.c
+@@ -0,0 +1,135 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
++//
++// This file is provided under a dual BSD/GPLv2 license.  When using or
++// redistributing this file, you may do so under either license.
++//
++// Copyright(c) 2025 Intel Corporation.
++//
++
++#include <linux/device.h>
++#include <linux/errno.h>
++#include <linux/firmware.h>
++#include <sound/soc.h>
++#include <sound/soc-acpi.h>
++#include "sof-function-topology-lib.h"
++
++enum tplg_device_id {
++	TPLG_DEVICE_SDCA_JACK,
++	TPLG_DEVICE_SDCA_AMP,
++	TPLG_DEVICE_SDCA_MIC,
++	TPLG_DEVICE_INTEL_PCH_DMIC,
++	TPLG_DEVICE_HDMI,
++	TPLG_DEVICE_MAX
++};
++
++#define SDCA_DEVICE_MASK (BIT(TPLG_DEVICE_SDCA_JACK) | BIT(TPLG_DEVICE_SDCA_AMP) | \
++			  BIT(TPLG_DEVICE_SDCA_MIC))
++
++#define SOF_INTEL_PLATFORM_NAME_MAX 4
++
++int sof_sdw_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_mach *mach,
++			   const char *prefix, const char ***tplg_files)
++{
++	struct snd_soc_acpi_mach_params mach_params = mach->mach_params;
++	struct snd_soc_dai_link *dai_link;
++	const struct firmware *fw;
++	char platform[SOF_INTEL_PLATFORM_NAME_MAX];
++	unsigned long tplg_mask = 0;
++	int tplg_num = 0;
++	int tplg_dev;
++	int ret;
 +	int i;
- 
--	dev_dbg(scomp->dev, "loading topology:%s\n", file);
-+	tplg_files = kcalloc(scomp->card->num_links, sizeof(char *), GFP_KERNEL);
-+	if (!tplg_files)
-+		return -ENOMEM;
- 
--	ret = request_firmware(&fw, file, scomp->dev);
--	if (ret < 0) {
--		dev_err(scomp->dev, "error: tplg request firmware %s failed err: %d\n",
--			file, ret);
--		dev_err(scomp->dev,
--			"you may need to download the firmware from https://github.com/thesofproject/sof-bin/\n");
--		return ret;
-+	if (sof_pdata->machine->get_function_tplg_files) {
-+		tplg_cnt = sof_pdata->machine->get_function_tplg_files(scomp->card,
-+								       sof_pdata->machine,
-+								       tplg_filename_prefix,
-+								       &tplg_files);
-+		if (tplg_cnt < 0) {
-+			kfree(tplg_files);
-+			return tplg_cnt;
-+		}
- 	}
- 
--	if (sdev->dspless_mode_selected)
--		ret = snd_soc_tplg_component_load(scomp, &sof_dspless_tplg_ops, fw);
--	else
--		ret = snd_soc_tplg_component_load(scomp, &sof_tplg_ops, fw);
-+	/*
-+	 * The monolithic topology will be used if there is no get_function_tplg_files
-+	 * callback or the callback returns 0.
-+	 */
-+	if (!tplg_cnt) {
-+		tplg_files[0] = file;
-+		tplg_cnt = 1;
-+		dev_dbg(scomp->dev, "loading topology: %s\n", file);
-+	} else {
-+		dev_info(scomp->dev, "Using function topologies instead %s\n", file);
++
++	ret = sscanf(mach->sof_tplg_filename, "sof-%3s-*.tplg", platform);
++	if (ret != 1) {
++		dev_err(card->dev, "Invalid platform name %s of tplg %s\n",
++			platform, mach->sof_tplg_filename);
++		return -EINVAL;
 +	}
 +
-+	for (i = 0; i < tplg_cnt; i++) {
-+		/* Only print the file names if the function topologies are used */
-+		if (tplg_files[0] != file)
-+			dev_info(scomp->dev, "loading topology %d: %s\n", i, tplg_files[i]);
++	for_each_card_prelinks(card, i, dai_link) {
++		char *tplg_dev_name;
 +
-+		ret = request_firmware(&fw, tplg_files[i], scomp->dev);
-+		if (ret < 0) {
-+			/*
-+			 * snd_soc_tplg_component_remove(scomp) will be called
-+			 * if snd_soc_tplg_component_load(scomp) failed and all
-+			 * objects in the scomp will be removed. No need to call
-+			 * snd_soc_tplg_component_remove(scomp) here.
-+			 */
-+			dev_err(scomp->dev, "tplg request firmware %s failed err: %d\n",
-+				tplg_files[i], ret);
-+			goto out;
++		dev_dbg(card->dev, "dai_link %s id %d\n", dai_link->name, dai_link->id);
++		if (strstr(dai_link->name, "SimpleJack")) {
++			tplg_dev = TPLG_DEVICE_SDCA_JACK;
++			tplg_dev_name = "sdca-jack";
++		} else if (strstr(dai_link->name, "SmartAmp")) {
++			tplg_dev = TPLG_DEVICE_SDCA_AMP;
++			tplg_dev_name = devm_kasprintf(card->dev, GFP_KERNEL,
++						       "sdca-%damp", dai_link->num_cpus);
++			if (!tplg_dev_name)
++				return -ENOMEM;
++		} else if (strstr(dai_link->name, "SmartMic")) {
++			tplg_dev = TPLG_DEVICE_SDCA_MIC;
++			tplg_dev_name = "sdca-mic";
++		} else if (strstr(dai_link->name, "dmic")) {
++			switch (mach_params.dmic_num) {
++			case 2:
++				tplg_dev_name = "dmic-2ch";
++				break;
++			case 4:
++				tplg_dev_name = "dmic-4ch";
++				break;
++			default:
++				dev_warn(card->dev,
++					 "only -2ch and -4ch are supported for dmic\n");
++				continue;
++			}
++			tplg_dev = TPLG_DEVICE_INTEL_PCH_DMIC;
++		} else if (strstr(dai_link->name, "iDisp")) {
++			tplg_dev = TPLG_DEVICE_HDMI;
++			tplg_dev_name = "hdmi-pcm5";
++
++		} else {
++			/* The dai link is not supported by separated tplg yet */
++			dev_dbg(card->dev,
++				"dai_link %s is not supported by separated tplg yet\n",
++				dai_link->name);
++			return 0;
 +		}
- 
--	if (ret < 0)
--		dev_err(scomp->dev, "error: tplg component load failed %d\n",
--			ret);
-+		if (sdev->dspless_mode_selected)
-+			ret = snd_soc_tplg_component_load(scomp, &sof_dspless_tplg_ops, fw);
-+		else
-+			ret = snd_soc_tplg_component_load(scomp, &sof_tplg_ops, fw);
++		if (tplg_mask & BIT(tplg_dev))
++			continue;
 +
-+		release_firmware(fw);
++		tplg_mask |= BIT(tplg_dev);
 +
-+		if (ret < 0) {
-+			dev_err(scomp->dev, "tplg %s component load failed %d\n",
-+				tplg_files[i], ret);
-+			goto out;
++		/*
++		 * The tplg file naming rule is sof-<platform>-<function>-id<BE id number>.tplg
++		 * where <platform> is only required for the DMIC function as the nhlt blob
++		 * is platform dependent.
++		 */
++		switch (tplg_dev) {
++		case TPLG_DEVICE_INTEL_PCH_DMIC:
++			(*tplg_files)[tplg_num] = devm_kasprintf(card->dev, GFP_KERNEL,
++								 "%s/sof-%s-%s-id%d.tplg",
++								 prefix, platform,
++								 tplg_dev_name, dai_link->id);
++			break;
++		default:
++			(*tplg_files)[tplg_num] = devm_kasprintf(card->dev, GFP_KERNEL,
++								 "%s/sof-%s-id%d.tplg",
++								 prefix, tplg_dev_name,
++								 dai_link->id);
++			break;
++		}
++		if (!(*tplg_files)[tplg_num])
++			return -ENOMEM;
++		tplg_num++;
++	}
++
++	dev_dbg(card->dev, "tplg_mask %#lx tplg_num %d\n", tplg_mask, tplg_num);
++
++	/* Check presence of sub-topologies */
++	for (i = 0; i < tplg_num; i++) {
++		ret = firmware_request_nowarn(&fw, (*tplg_files)[i], card->dev);
++		if (!ret) {
++			release_firmware(fw);
++		} else {
++			dev_dbg(card->dev, "Failed to open topology file: %s\n", (*tplg_files)[i]);
++			return 0;
 +		}
 +	}
- 
--	release_firmware(fw);
-+	/* call sof_complete when topologies are loaded successfully */
-+	ret = sof_complete(scomp);
- 
-+out:
- 	if (ret >= 0 && sdev->led_present)
- 		ret = snd_ctl_led_request();
- 
-+	kfree(tplg_files);
 +
- 	return ret;
- }
- EXPORT_SYMBOL(snd_sof_load_topology);
++	return tplg_num;
++}
++
+diff --git a/sound/soc/intel/common/sof-function-topology-lib.h b/sound/soc/intel/common/sof-function-topology-lib.h
+new file mode 100644
+index 000000000000..e7d0c39d0788
+--- /dev/null
++++ b/sound/soc/intel/common/sof-function-topology-lib.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * soc-acpi-intel-get-tplg.h - get-tplg-files ops
++ *
++ * Copyright (c) 2025, Intel Corporation.
++ *
++ */
++
++#ifndef _SND_SOC_ACPI_INTEL_GET_TPLG_H
++#define _SND_SOC_ACPI_INTEL_GET_TPLG_H
++
++int sof_sdw_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_mach *mach,
++			   const char *prefix, const char ***tplg_files);
++
++#endif
 -- 
 2.43.0
 
