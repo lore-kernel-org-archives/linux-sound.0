@@ -1,148 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2912BD598;
-	Mon, 14 Apr 2025 12:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1C52750E7;
+	Mon, 14 Apr 2025 13:56:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744632217; cv=none; b=t8Pr1jhay5YziFlHzVf5fQ839WDDfJ7vR7oULk47how7cqclQ8z+190BeY69kVFUa5D3kC8ymyp9gNNjYBkYMrzkHpF0+6dE23rrSZxTGZc3WMYefCMefnkh7pOhdcL13lDlybyPDfYDYwcXM9gd6gio+2Y/UKSGS7mCHPr1Xdw=
+	t=1744638987; cv=none; b=QDQbWS2x6EUUJG+KL9+NkWCktMVWvLJvLCBMnTFWu3ILoPtw3/Q8A+7Mgr6hC2znQbmQxx+OWg8bG8bLhF+GZCEXHVvxD4Wct9nZwepnMi3+ztatKBu32IQNIMn5YrVeuQ4fcJqZlZlpTAtH6IHaGMdT1k2DrhrovfhcPy3LppU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744632217; c=relaxed/simple;
-	bh=/bxomSJIGHyvt+5hFy0R5oVEwYMlY3ZvIOs419TYitg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L5zlhrFdSgMFjBV5+ggbtvViJikO9huUdSt70660vceR9MHLGaFY4sTRNcNPCQLk97iQygKhJ3jO4xbJT0nGKrcEFUGucVuKAEhXP+WD0C4ZPkzBOzVdMLFIp4djfutThN8V85GDA9641+mDC0KPAt73ZhvlTqFYLRsxt6ZFgqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L440nwe+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744638987; c=relaxed/simple;
+	bh=NFLGYLwfMv4O8oauiY7vmwB/nw7imAlHzVax0tuTb+E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=i6Ja071a5w47RglaC/5BFii8HOES/zAxm4s49HG+SgOEsOLx26FAszeGtcmp4PqO/VipZMZ53xt1qxO3wJF4Z6WqbMcwqwNXoa/6bganc4Avjs9dwWzIB4067d9/OoUijTm7RuevxUP/pMDN5GK3Qr/2YLLpSgdvauoRxU7OrzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f/0pocpD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L440nwe+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C732EC4CEEC;
-	Mon, 14 Apr 2025 12:03:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f/0pocpD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C4BC4CEE2;
+	Mon, 14 Apr 2025 13:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744632216;
-	bh=/bxomSJIGHyvt+5hFy0R5oVEwYMlY3ZvIOs419TYitg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=L440nwe+sacWG4uCza+Iytyk2p5qHKHSdHROmIU1GcbXyBeQxTN2hAKUY3MzlTQPY
-	 W6uE5taQxcqTkIt9mTWCwfBSD13ZvyAzC7x7Li5GrGDDQisMA2nw07zSZpPgeGfAZj
-	 hR6XU1XCD1Y0C/jE/0NCX5tbCym7skZTxQyAXEqly+bxOLnvCi0vnqKh7+MSKBvdb4
-	 +lNrQd9vtxPQO9rXfTi0yhA7dOo7c3Smz3MLwuLjlJYg5PbqBMZaA+R6EZ9AGgCDeS
-	 RoccKY24x8jV03i3FGD22harPZ9J4LV9E6onlOdlqjCaMsONOX3e7M6b2GPYTTcwUO
-	 cOkZAZTdI60xA==
-Message-ID: <bb24afca-61c9-4c37-b98d-b2316ed79f98@kernel.org>
-Date: Mon, 14 Apr 2025 14:03:29 +0200
+	s=k20201202; t=1744638986;
+	bh=NFLGYLwfMv4O8oauiY7vmwB/nw7imAlHzVax0tuTb+E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=f/0pocpDSbkaNH9t2nd0UfGeZ2kaghu7xBWHR8+RAV/ZT/esgLAF5DrxIVl7ml2Sr
+	 vzP30Qc8TpuvpR/0hyX2N/+1EGKYtsKhy9I0dF/FXx1QNBwPUjNKeceQFehm+RZ+tj
+	 n/MCvgJrKHDuQfmpOfoq28JeTkcCxqGGIEnMwDqMPoUTLk2RnvACi77o40eV0GEGek
+	 WaGgqDcr8ZCsbvA7fCPhLtGHyEJ6CSJd+si0BmTDAK0uIOtxmIfbjIX4Xx/4olHACc
+	 UkgJiOiV8WZTzb+poBd4KmPe9cjh5cfcVA01v7fQGNs7vDSkkkBe5fAqlz5ioY093k
+	 hs/OwjkW6ARlA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ James Calligeros <jcalligeros99@gmail.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+ Neal Gompa <neal@gompa.dev>
+In-Reply-To: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+Subject: Re: (subset) [PATCH v3 00/20] ASoC: tas27{64,70}: improve support
+ for Apple codec variants
+Message-Id: <174463898202.86688.2390703716966922295.b4-ty@kernel.org>
+Date: Mon, 14 Apr 2025 14:56:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/11] ASoC: dt-bindings: mediatek,mt8196-mt6681: add
- mt8196-mt6681 document
-To: =?UTF-8?B?RGFycmVuIFllICjlj7bpo54p?= <Darren.Ye@mediatek.com>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "broonie@kernel.org" <broonie@kernel.org>, "brgl@bgdev.pl" <brgl@bgdev.pl>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, "tiwai@suse.com"
- <tiwai@suse.com>, "robh@kernel.org" <robh@kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "perex@perex.cz"
- <perex@perex.cz>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-References: <20250407120708.26495-1-darren.ye@mediatek.com>
- <20250407120708.26495-12-darren.ye@mediatek.com>
- <6a9bd37e-ffec-4365-891a-64259c0cc115@kernel.org>
- <b67a231529c2f8cf0053d8180df95da94ef6d6d2.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <b67a231529c2f8cf0053d8180df95da94ef6d6d2.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-On 14/04/2025 09:08, Darren Ye (叶飞) wrote:
-> On Mon, 2025-04-07 at 15:12 +0200, Krzysztof Kozlowski wrote:
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>
->>
->> On 07/04/2025 14:06, Darren.Ye wrote:
->>> +
->>> +allOf:
->>> +  - $ref: sound-card-common.yaml#
->>> +
->>> +properties:
->>> +  compatible:
->>> +    oneOf:
->>
->> Drop
+On Thu, 27 Feb 2025 22:07:27 +1000, James Calligeros wrote:
+> This series introduces a number of changes to the drivers for
+> the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
+> introduce (and improve in the case of TAS2770) support for the
+> variants of these amps found in Apple Silicon Macs.
 > 
-> Drop oneOf ?
+> Apple's variant of TAS2764 is known as SN012776, and as always with
+> Apple is a subtly incompatible variant with a number of quirks. It
+> is not publicly available. The TAS2770 variant is known as TAS5770L,
+> and does not require incompatible handling.
+> 
+> [...]
 
-Yes
+Applied to
 
->>> +
->>> +examples:
->>> +  - |
->>> +    sound {
->>> +        compatible = "mediatek,mt8196-mt6681-sound";
->>> +        model = "mt8196-mt6681";
->>> +        mediatek,platform = <&afe>;
->>
->> Make the example complete.
-> mt8196 pinctrl in mt8196-afe, does it have to be set in the machine
-> driver?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-I don't understand what do you ask me. Machine driver is not relevant to
-this and I did not mention it. You have in the binding few properties
-which are not present in DTS example. Why?
+Thanks!
 
-Best regards,
-Krzysztof
+[07/20] ASoC: tas2764: Reinit cache on part reset
+        commit: 592ab3936b096da5deb64d4c906edbeb989174d6
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
