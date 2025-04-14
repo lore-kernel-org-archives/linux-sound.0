@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26342CCC1
-	for <linux-sound@vger.kernel.org>; Mon, 14 Apr 2025 06:33:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F0F1925BC
+	for <linux-sound@vger.kernel.org>; Mon, 14 Apr 2025 06:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744612401; cv=none; b=DhskUY3hVFuvuVp/URw8Gq6LsGvqVCcNkmvam19VIWBqTkgmJMGvgYgCFGWKBCQM1ygppXFJmDR5GRN7jWuU6MoZWlIuTFpQtSPC3F9NpRhsz5Zw6o7LwhPDnN1iXkHAogCE+lGQRDIGNKacWm+PRgaLvj1zpDnjyMMWDr9xf2A=
+	t=1744612402; cv=none; b=CaYc7jkzcNMGdXOQLaG4xEaHdiStWtUeG0rDKAzOG9WchULTj8qoZPDw++vZ7ljXYDDSJBFRDaICeeT9B2CdUaRGr0Y+WmnQXWpEL1QeOJvj0C1qwqeY5pds02DkVaoNvBFJ7YBhD4ncd0vFMdZUCeNNEvGD9bzC+mIHy96J/NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744612401; c=relaxed/simple;
-	bh=k8gK2FxGQKc19Ma2nGWNxgUlwVND8rrfJ1YCkjSZr4M=;
+	s=arc-20240116; t=1744612402; c=relaxed/simple;
+	bh=gZMwZgvvlxmR4PeHegjiDrodipamfKr7vWFuH+eHbRE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NZUtvreQEcJoiMzAf56pXwkZEyAu3Zpvh97VV8pA49fVo03F6XaYr75Bvhnog3eBo1+4Mk5r9+jPHVmB+nbAObJQy6Lb3HJ8glk/ws45cM0XfYqwiHMIgJqSKCsPVrnSVbBPioIZQU/myYNYnvX1OwYDGJWfrtsZ1HOflfGUs+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lJebgIuA; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version:Content-Type; b=DsY9EG+oUyjNwtI1b7rJK23PDGZVn9c1TRFlKkdf/DWzmqB5S2CrhbyKhqrSJUC4mC9maiy4c4kCgYhHHCVReBSkSDNxMqZkXZsZA5BfeaW87+wY1wMHYR+Pd3U1gButUEU4XNH8D21NiKwLXlfyOOxqyMI8ZcXSu59BHa1gpZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZh4N/wG; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJebgIuA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZh4N/wG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744612400; x=1776148400;
+  t=1744612401; x=1776148401;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=k8gK2FxGQKc19Ma2nGWNxgUlwVND8rrfJ1YCkjSZr4M=;
-  b=lJebgIuASeojSdqOO35WjZvvbQPufIcjb1atzk6vF2TlKEODZ9+Fi6UX
-   NRFlCFtknI3mBJQEzh4xQtx/uz5nlmLxHC+uRP9RU1w0PG08Bvsgz/eiV
-   klWmzBKysqXjiu1RMOzf9rWbQWEzWQX43XOad0di3IsLx7SHtl+tWdxiQ
-   8fiF6UMzgr5NhdEhJ9GLntgLa1RBvbG1MFRBb+qlYEfG/f529Cmrqh7nu
-   H2sZnwIJX/JZNQDdrqSt80zRA4Pl7pgXH9romAJTlqZDxlivyQoCAe6wW
-   7WL7ITCPkS7wZtxhcG9zWWxhDgfpaa3F4FLu1zifCivhF6h6WiqbFNDCs
-   A==;
-X-CSE-ConnectionGUID: YH/wi89lQeiyu+V5Rp/bsg==
-X-CSE-MsgGUID: ByxGrrIdTpqqONRk8RxNCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49872596"
+  bh=gZMwZgvvlxmR4PeHegjiDrodipamfKr7vWFuH+eHbRE=;
+  b=YZh4N/wGAcRjRUWZ/qBzrVgR24JCGYK4PZ29/aSBEGEuUF4Z05PWmseI
+   dI1gMvrjTZ1SfbuCQd7bzFz8XfsJeZmIRG3iImjrUTjz5qxsvWWDvdf2u
+   EM2drIVMYbcN6R+H7acXNNioAb5GUZR3uDTsiPXHLlVYt9bjyFWWlH8M8
+   LGhR94qhjEwWG2sCim2V6wcKVDm2AsZPsVcA8VizC5oti73/Af9MU92zD
+   JZaGcYqYtb6huyRhZBu+4qH2Y64rQ+AgriX0Ef0tflY0z7jGUw3cnuCmc
+   CqkPMByBiZAUSt1i9wfReMZvCXm8vXEwe5SI5ycUBi3JTg/Cf1YvAeD8c
+   g==;
+X-CSE-ConnectionGUID: j1P5FxfcRQiQPql8iSIS4A==
+X-CSE-MsgGUID: SyIzWBVZQx+aKNDSuqenCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49872609"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="49872596"
+   d="scan'208";a="49872609"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:18 -0700
-X-CSE-ConnectionGUID: I6+GrWseRAuIqSkekJ5ihQ==
-X-CSE-MsgGUID: lh7NsZsUQfucnxIaepKx6w==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:20 -0700
+X-CSE-ConnectionGUID: 7vvNnLW4Tj+YaITy5KpkjA==
+X-CSE-MsgGUID: xUJIdWZmTWikwOpY2PN2tQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="130275262"
+   d="scan'208";a="130275267"
 Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.73])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:17 -0700
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:19 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 01/11] ASoC: SOF: topology: allocate string for tuples
-Date: Mon, 14 Apr 2025 14:32:29 +0800
-Message-ID: <20250414063239.85200-2-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 02/11] ASoC: SOF: topology: don't convert error code
+Date: Mon, 14 Apr 2025 14:32:30 +0800
+Message-ID: <20250414063239.85200-3-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250414063239.85200-1-yung-chuan.liao@linux.intel.com>
 References: <20250414063239.85200-1-yung-chuan.liao@linux.intel.com>
@@ -64,33 +64,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-In preparation to handle tuples from multiple topologies, duplicate the
-tuple string value by allocating memory for it.
+No need to convert the return value of snd_soc_tplg_component_load().
 
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/sof/topology.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ sound/soc/sof/topology.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index dc9cb8324067..15e8ca62ab14 100644
+index 15e8ca62ab14..fc4a9cddd162 100644
 --- a/sound/soc/sof/topology.c
 +++ b/sound/soc/sof/topology.c
-@@ -571,7 +571,11 @@ static int sof_copy_tuples(struct snd_sof_dev *sdev, struct snd_soc_tplg_vendor_
- 						continue;
+@@ -2486,11 +2486,9 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 	else
+ 		ret = snd_soc_tplg_component_load(scomp, &sof_tplg_ops, fw);
  
- 					tuples[*num_copied_tuples].token = tokens[j].token;
--					tuples[*num_copied_tuples].value.s = elem->string;
-+					tuples[*num_copied_tuples].value.s =
-+						devm_kasprintf(sdev->dev, GFP_KERNEL,
-+							       "%s", elem->string);
-+					if (!tuples[*num_copied_tuples].value.s)
-+						return -ENOMEM;
- 				} else {
- 					struct snd_soc_tplg_vendor_value_elem *elem;
+-	if (ret < 0) {
++	if (ret < 0)
+ 		dev_err(scomp->dev, "error: tplg component load failed %d\n",
+ 			ret);
+-		ret = -EINVAL;
+-	}
+ 
+ 	release_firmware(fw);
  
 -- 
 2.43.0
