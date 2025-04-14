@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552D119FA92
-	for <linux-sound@vger.kernel.org>; Mon, 14 Apr 2025 06:33:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84AD19D07A
+	for <linux-sound@vger.kernel.org>; Mon, 14 Apr 2025 06:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744612413; cv=none; b=ifBZyZFGvGI/mjRXEmCOa7w1iorZlPNWTZ22m498mLIfVFdeIStatlKCI+/xN2ArgJxpanZY1Th42aYHGVP44ZEbR7NEfetvLGazgZMdPgM+NIIC2h2BkT+Q7TD4EF6KDuRWPuZUfBuXmiuZLVrzcVUTNVbBKwxLWEhhSQk7FVw=
+	t=1744612416; cv=none; b=erjA/LgmSDahLKL0ShGtDK5YRHhhRT3SoxzN04px8exmwdBjPxVFWiu+Rp3vnezNAOOX6P88fWHBW/GJkRuS/GVKxO6eYkHikmY0YUVATKwKJuuoDMehMfSIxEC3+I+IXTdaEf/+rhbDPSv9Ei1EBFSey2/OVDNLa/2HuHPMDko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744612413; c=relaxed/simple;
-	bh=YC1lLXjtQoYoTT2C+5WBVbRujJ4LcLZ15w/Kv/O6nKw=;
+	s=arc-20240116; t=1744612416; c=relaxed/simple;
+	bh=h1PhqnWpiBBlfAfNTdhq4rCb1CSU99PMrDmvB0KD9Yc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q8uZ4y8neEFOKu2wF1o2YjOXcdakkyQvt1cEBoN5oGAt3Ry0YOs87U3yErlBW5BB0RvN+VAe3vh1ixiiL/VnlKfnXsOI1vpxNX9B3o5CtG5RRmEqJL8wt683RljnYcLdislW71q/k2y9Rz7X1jCWX5aY3++Uz4HGV77lDe/LdWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CxYBnOfo; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version:Content-Type; b=sL/CjAGY4thmU89fMM41Pxv6fZMO/4++gs+1njDT/8/JgBwokdoWZYT1hL7LqcdLcCutF/WOXaxBzmhZD1MYdSEe23ZYdSrFuNYIqBqZgwAxrzh42v/yJX9F/NZb4CePjMk8wzqX33kfZ9sVpg7uH9II+s4cydMt8MBQ6ddeWPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OvTAqs3y; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CxYBnOfo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OvTAqs3y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744612412; x=1776148412;
+  t=1744612415; x=1776148415;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=YC1lLXjtQoYoTT2C+5WBVbRujJ4LcLZ15w/Kv/O6nKw=;
-  b=CxYBnOfoUdDmGmTva2xEYhgS99LvEpeU7ERTWsn5l8FmIivRbinZaWWR
-   k4spklgOX5dcNnvKyN3uXT8Y2AI8UGDEjn23ok/Qrch67CdMS4sIKPlaq
-   2dwn2/IvacU36XLcjlxqqn8rGzPe1h4OnNzBQVbCz3dFPCzq3hUiveg5a
-   rzkIx6rpT3xZC3sF6msE/gSFcII8sHlyU6Tmw1DhbPeyk+2foQwe9H6QN
-   eucQsQAyVnNSYDW101luMDli25DDWK1E6HhY6oDzs2UYp9ytzhHFJDO0K
-   B9RobjfZxGgMrpGtAsYPTSrt+B0nTkBb0Uz/WlWJ+wUU3idEoxiA8YHgs
-   w==;
-X-CSE-ConnectionGUID: yfCGW8jKR62oHqH36/zl9g==
-X-CSE-MsgGUID: yCRGLDnTS/GZOoS/b7UkqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49872641"
+  bh=h1PhqnWpiBBlfAfNTdhq4rCb1CSU99PMrDmvB0KD9Yc=;
+  b=OvTAqs3y2OQ+dwhuYESU/oLmyKZVBVhfe75NSBaHR4KrdkQCdXImVjJb
+   Lb04X66RBdhC9ikfgaB4hGOKnzMuBaU48R4NdO7mQ3twRxnyqDXCzJ1Kf
+   vbuk8qSgX+3nUQisRiDhmy1zg50Om/dgXI/3cNL+XmMrjq7orVFJVXwVs
+   eSiKGmxknohpMrSVW+Z+tCWRQbOJCezgc0SwgdNghtWRamxiKAt2XI5Oo
+   Vv0pJ2Hy/coYSBGBRNLqvIEuYzXOoS9MfOfdJvYEyM93QiNoGIrJwO1mE
+   oCilOdjIXdcTJBdeFC3MdoYSyV6TAUpruy9Rg+HT5+WSpwUqQCuCNXC5S
+   g==;
+X-CSE-ConnectionGUID: xor24tmdQ2eSBRkFt9UHGg==
+X-CSE-MsgGUID: JagHm5D+QDKekiE+cD/X4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49872647"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="49872641"
+   d="scan'208";a="49872647"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:32 -0700
-X-CSE-ConnectionGUID: oLZv2L53SAuLdhondxA3XA==
-X-CSE-MsgGUID: 1lWaURzBR4ShodPGnaHMXQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:34 -0700
+X-CSE-ConnectionGUID: EhD4i3QzRqSxedEW5gYy4g==
+X-CSE-MsgGUID: B+4eWpXETo2tG4CKbL1N7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="130275302"
+   d="scan'208";a="130275310"
 Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.73])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:31 -0700
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2025 23:33:34 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 07/11] ASoC: Intel: soc-acpi-intel-arl-match: set get_function_tplg_files ops
-Date: Mon, 14 Apr 2025 14:32:35 +0800
-Message-ID: <20250414063239.85200-8-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 08/11] ASoC: Intel: soc-acpi-intel-ptl-match: add get_function_tplg_files ops
+Date: Mon, 14 Apr 2025 14:32:36 +0800
+Message-ID: <20250414063239.85200-9-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250414063239.85200-1-yung-chuan.liao@linux.intel.com>
 References: <20250414063239.85200-1-yung-chuan.liao@linux.intel.com>
@@ -72,75 +72,82 @@ Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/common/soc-acpi-intel-arl-match.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../soc/intel/common/soc-acpi-intel-ptl-match.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index 32147dc9d2d6..73e581e93755 100644
---- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+index 6603d8de501c..992729582562 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
 @@ -8,6 +8,7 @@
+ 
  #include <sound/soc-acpi.h>
  #include <sound/soc-acpi-intel-match.h>
- #include <sound/soc-acpi-intel-ssp-common.h>
 +#include "sof-function-topology-lib.h"
- 
- static const struct snd_soc_acpi_endpoint single_endpoint = {
- 	.num = 0,
-@@ -436,42 +437,49 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
- 		.links = arl_cs42l43_l0_cs35l56_l23,
+ #include "soc-acpi-intel-sdca-quirks.h"
+ #include "soc-acpi-intel-sdw-mockup-match.h"
+ #include <sound/soc-acpi-intel-ssp-common.h>
+@@ -586,52 +587,60 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.links = ptl_rt721_l3,
  		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-arl-cs42l43-l0-cs35l56-l23.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0) | BIT(2) | BIT(3),
- 		.links = arl_cs42l43_l0_cs35l56_2_l23,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-arl-cs42l43-l0-cs35l56-l23.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0) | BIT(2) | BIT(3),
- 		.links = arl_cs42l43_l0_cs35l56_3_l23,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-arl-cs42l43-l0-cs35l56-l23.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0) | BIT(2),
- 		.links = arl_cs42l43_l0_cs35l56_l2,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-arl-cs42l43-l0-cs35l56-l2.tplg",
+ 		.sof_tplg_filename = "sof-ptl-rt721.tplg",
 +		.get_function_tplg_files = sof_sdw_get_tplg_files,
  	},
  	{
  		.link_mask = BIT(0),
- 		.links = arl_cs42l43_l0,
+ 		.links = ptl_rt722_only,
  		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-arl-cs42l43-l0.tplg",
+ 		.sof_tplg_filename = "sof-ptl-rt722.tplg",
 +		.get_function_tplg_files = sof_sdw_get_tplg_files,
  	},
  	{
- 		.link_mask = BIT(2),
- 		.links = arl_cs42l43_l2,
+ 		.link_mask = BIT(1),
+ 		.links = ptl_rt722_l1,
  		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-arl-cs42l43-l2.tplg",
+ 		.sof_tplg_filename = "sof-ptl-rt722.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(3),
+ 		.links = ptl_rt722_l3,
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-ptl-rt722.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(1) | BIT(2),
+ 		.links = ptl_sdw_rt712_vb_l2_rt1320_l1,
+ 		.drv_name = "sof_sdw",
+ 		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
+-		.sof_tplg_filename = "sof-ptl-rt712-l2-rt1320-l1.tplg"
++		.sof_tplg_filename = "sof-ptl-rt712-l2-rt1320-l1.tplg",
 +		.get_function_tplg_files = sof_sdw_get_tplg_files,
  	},
  	{
  		.link_mask = BIT(2) | BIT(3),
- 		.links = arl_cs42l43_l2_cs35l56_l3,
+ 		.links = ptl_sdw_rt712_vb_l3_rt1320_l2,
  		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-arl-cs42l43-l2-cs35l56-l3.tplg",
+ 		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
+-		.sof_tplg_filename = "sof-ptl-rt712-l3-rt1320-l2.tplg"
++		.sof_tplg_filename = "sof-ptl-rt712-l3-rt1320-l2.tplg",
 +		.get_function_tplg_files = sof_sdw_get_tplg_files,
  	},
  	{
- 		.link_mask = 0x1, /* link0 required */
-@@ -490,6 +498,7 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
- 		.links = arl_rt722_l0_rt1320_l2,
+ 		.link_mask = BIT(1) | BIT(2) | BIT(3),
+ 		.links = ptl_sdw_rt713_vb_l2_rt1320_l13,
  		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-arl-rt722-l0_rt1320-l2.tplg",
+ 		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
+-		.sof_tplg_filename = "sof-ptl-rt713-l2-rt1320-l13.tplg"
++		.sof_tplg_filename = "sof-ptl-rt713-l2-rt1320-l13.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(1) | BIT(2) | BIT(3),
+ 		.links = ptl_sdw_rt713_vb_l3_rt1320_l12,
+ 		.drv_name = "sof_sdw",
+ 		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
+-		.sof_tplg_filename = "sof-ptl-rt713-l3-rt1320-l12.tplg"
++		.sof_tplg_filename = "sof-ptl-rt713-l3-rt1320-l12.tplg",
 +		.get_function_tplg_files = sof_sdw_get_tplg_files,
  	},
  	{},
