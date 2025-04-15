@@ -1,243 +1,121 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7752949EB;
-	Tue, 15 Apr 2025 13:53:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687211B6D11;
+	Tue, 15 Apr 2025 13:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744725215; cv=none; b=KzUISBfgIAQvoZmTZjCxtky8T4qFdzap4dmWd7Kpss6COfLYBvyIoGwG0boLfZExRmeit/B/WhDncoCzO7cbQJiOn5XNpBhV7sO7u1Sya55rswkhC7P51DR9Jnrg4f6EwR1MmOYwk9wvkuV482N5G75j9BJ2JjAmvMi8IX3Gr50=
+	t=1744725439; cv=none; b=KEqyoA/4pUAgMTtUC1NQYLh2kVBamMlgFfkDbKKAcBYiYYxCmboJhtJy4WTIpFa1d2KcV9r34ajaRROLHXHe5PmcTUxo9wzRabs+JC/zv3DMwtfv75Cv2PyMhWkhMPoTvoiCwtAlz2N6d20wGoF0NxzWJNmD8DM+hJqpKlul6DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744725215; c=relaxed/simple;
-	bh=FdK4ILJscL/ugJeymIxGyEgAGIjMkW6pQkXNlqQM9hY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XJ9caUCGoIFYC2vCRdI/4hpa5kbTuITjIUU/pOp1q5Ca5FX+I3/M4mGkPqAM0JfBCt5jZuYmXmHbiSbkhLmTY7UQT5esrjlZXlWtp+IL24ri1ZyfZeAb3IHc2yIFoMZ5n4gt1kfUQwjIxnKIdZxVqloSLCqK50siDG/guLQ5dew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=OKDM2ed4; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=JFgGQ4+E reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1744725439; c=relaxed/simple;
+	bh=jA34SFoEW+uxho+56Zd6kJfzpz7HWULQY+Aq6jEiNU4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CGJj/vVPtAlxdqp5HGEvypJp9x1AJ7z32Vnji0ZKlku1rD1eirrjY3bNfo/tgvo3X+Bj1x+ivD6+BsFxjdVydpPyJT/d65u7cf4Fv+VcCIBGIKYoFzILatAaZeixHxs+DZo5RZRRnRGj1YBWAnIUKjBap50f05UHOLQaQsfw//k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Nm69fBJJ; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="OKDM2ed4";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="JFgGQ4+E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1744725211; x=1776261211;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2/n4PAOWUxiy6GTI0VO9pOTS66Ah8rFoVk3FItB8CDM=;
-  b=OKDM2ed4EArd9dj8st8agNXmYBazRxE/5dai0omE+/oDTUwLoQ/bexFs
-   DK7u8pkSptNeHbMoNdZLcwbyTx+rWWVlox+tsRmP5guTCcV1y6JXiBa/Z
-   0ZQXqSgY7I6X2pqXPZ/+dc3VDvHWC3oMbPZY8Ju3ldyCpJgi7ZQZrO1XX
-   X57z/PMOJ3nXmKqIES59ytVieJHP0QmRc7ljzws0xdNiHmuq4JZov+dTX
-   hG7K1uIXy2M8/bdgHIYCwXqt0FmXYAaXacFR651Ui1n6S3q19+KHfnfte
-   N4vUhcvRxMljgZJHoV7clNIi1b6kFJKbGcTDwXdh5cecbdSKG1kLqsghX
-   g==;
-X-CSE-ConnectionGUID: NJa57L0GRe28Q9o+XdiQbg==
-X-CSE-MsgGUID: F2H3oj2GRRuoXPj6T5uBZw==
-X-IronPort-AV: E=Sophos;i="6.15,213,1739833200"; 
-   d="scan'208";a="43544637"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 15 Apr 2025 15:53:28 +0200
-X-CheckPoint: {67FE64D8-7-F35B2447-E1635CDE}
-X-MAIL-CPID: DB57507F5E6F33E9D6B02DFD89F6A31B_1
-X-Control-Analysis: str=0001.0A006398.67FE64DD.003A,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 662DC16352A;
-	Tue, 15 Apr 2025 15:53:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1744725203;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2/n4PAOWUxiy6GTI0VO9pOTS66Ah8rFoVk3FItB8CDM=;
-	b=JFgGQ4+EACo5aPEMIDN03VmkZDwzyb6DpLBatoj0gILdTJCMTCyHoeQKnYM/LdcFUL2n0M
-	Ye1e9LXrU1sWtz9o1gOAlJDceaz9BJvcC4W1UGae79XlxxVZHIftuTSnfBigvNfnj0r2EG
-	zAY7gBuHxkczYURmzRKPBhTp6y77xS14IPWOxi/WIAZr73btkWzdwTLwbML8Es7wI8OpKs
-	oHn6RKUU10P24M63ZQh6nN05jeB3PvWhZdISEX7yO/7wrlW/6eRwOx33iyQQAQ0kLpCGO7
-	QRvWZzk+dW38hge+YbO2v8vi42mclHYXceiMm37Weqp0wOX7XdCtxRl1e0LuJA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, patches@opensource.cirrus.com,
- Peng Fan <peng.fan@nxp.com>, Markus Niebel <Markus.Niebel@ew.tq-group.com>
-Subject:
- Re: [PATCH 2/7] ASoC: codec: tlv320aic32x4: Convert to GPIO descriptors
-Date: Tue, 15 Apr 2025 15:53:19 +0200
-Message-ID: <5004055.31r3eYUQgx@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20250408-asoc-gpio-v1-2-c0db9d3fd6e9@nxp.com>
-References:
- <20250408-asoc-gpio-v1-0-c0db9d3fd6e9@nxp.com>
- <20250408-asoc-gpio-v1-2-c0db9d3fd6e9@nxp.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Nm69fBJJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1744725424; x=1745330224; i=markus.elfring@web.de;
+	bh=jA34SFoEW+uxho+56Zd6kJfzpz7HWULQY+Aq6jEiNU4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=Nm69fBJJ4AthgYbYaM3Kz6aKIsujOnAucZlg7uu5qjgRx1Lw6mNqXrvGwst5+8hJ
+	 WR+Fh2cGHdKDiR6QSGD81DiG8SwVCIToyL9Orkev30AeLgxBskcGRXLquacnrAwaS
+	 8+E99UER1Fq+IbstPYDhK9jpOD4XIbLSorB+QUCj4w8Qm1UNCQXi3Ki5neX0VX4fm
+	 Gf+SZCeM6AM8FLTcJIgKmmxzyMWUuMHzftDdqaxVHbF202XjXHyshUzPPCLP0AqwT
+	 QoDVYkVtB99mxrpWn4BkXBjSzakTosIRKikkMOJcbvO3irO5ZIsn0krWiVP4nvQrN
+	 tk7u7YQIknYyqlQSEg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.24]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MpCmZ-1tEqI30kT1-00gQLF; Tue, 15
+ Apr 2025 15:57:04 +0200
+Message-ID: <5af56acb-7758-4641-8acc-b81e7c8de709@web.de>
+Date: Tue, 15 Apr 2025 15:57:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [1/2] ASoC: codecs: wcd938x: fix mux error handling
+To: Johan Hovold <johan@kernel.org>, linux-sound@vger.kernel.org
+Cc: Johan Hovold <johan+linaro@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Rosin <peda@axentia.se>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20250415074145.7202-2-johan+linaro@kernel.org>
+ <18278ed3-fef0-400d-8cba-72f4c573d7ee@web.de>
+ <Z_5i6YUSGivzaOCb@hovoldconsulting.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <Z_5i6YUSGivzaOCb@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+X-Provags-ID: V03:K1:6Dl7wloY9i+9oKBZqeYjNRY8LjOR2Ttzlb8LrqTq8N21DRlK3mC
+ ayUBoB75f+F4zcB2C5doY1WunsIrKrtO2yshFhCjfNjX3kSCDENJwYcYp/CTkDRn7yAHfsD
+ NH9jwkoD5fx8XTsvqX/UNtlqE7eiXgBCiBwlClecXjCoOsxyLPgCMGOcO8SRB7iFDrN3V0a
+ mKDjFkIji1MQZAuBGa4dQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:sbG/KegFbB0=;rp/3TEgUpSXp+MryT/Y41oQD3sB
+ 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
+ g==
 
-Hi,
-
-Am Dienstag, 8. April 2025, 03:39:58 CEST schrieb Peng Fan (OSS):
-> From: Peng Fan <peng.fan@nxp.com>
+>> May the error code assignment statement be omitted here together with e=
+xtra curly brackets
+>> (as such a case is demonstrated in a subsequent if branch)?
 >=20
-> of_gpio.h is deprecated, update the driver to use GPIO descriptors.
->  - Use devm_gpiod_get_optional to get GPIO descriptor, and set consumer
->    name.
->  - Use gpiod_set_value to configure output value.
->=20
-> reset pin is active low, so when request the gpio, set GPIOD_OUT_HIGH to
-> assert reset and later deassert reset with value set to 0.
+> I considered that, but I prefer using a temporary variable as it is more=
+ readable.
+Would your coding style preferences be inconsistent here?
 
-IMHO it shouldn't matter if that pin is active-low or not. You want to
-activate that reset, so GPIOD_OUT_HIGH is correct. If the GPIO is active-low
-then nice, everything will be taken careof.
-
-> While at here, reorder the included headers.
->=20
-> Checking the DTS that use the device, all are using GPIOD_ACTIVE_LOW
-> polarity for reset-gpios, so all should work as expected with this patch.
->=20
-> Cc: Markus Niebel <Markus.Niebel@ew.tq-group.com>
-> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  sound/soc/codecs/tlv320aic32x4.c | 44 ++++++++++++++++++++--------------=
-=2D-----
->  1 file changed, 22 insertions(+), 22 deletions(-)
->=20
-> diff --git a/sound/soc/codecs/tlv320aic32x4.c b/sound/soc/codecs/tlv320ai=
-c32x4.c
-> index 7dbcf7f7130b04a27f58f20beb83eb3676c79c3d..1423186f5a6c181a20dd2dd55=
-2679d33174edaee 100644
-> --- a/sound/soc/codecs/tlv320aic32x4.c
-> +++ b/sound/soc/codecs/tlv320aic32x4.c
-> @@ -9,27 +9,26 @@
->   * Based on sound/soc/codecs/wm8974 and TI driver for kernel 2.6.27.
->   */
-> =20
-> -#include <linux/module.h>
-> -#include <linux/moduleparam.h>
-> -#include <linux/init.h>
-> -#include <linux/delay.h>
-> -#include <linux/pm.h>
-> -#include <linux/gpio.h>
-> -#include <linux/of_gpio.h>
->  #include <linux/cdev.h>
-> -#include <linux/slab.h>
->  #include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/init.h>
-> +#include <linux/module.h>
-> +#include <linux/moduleparam.h>
->  #include <linux/of_clk.h>
-> +#include <linux/pm.h>
->  #include <linux/regulator/consumer.h>
-> +#include <linux/slab.h>
-> =20
-> -#include <sound/tlv320aic32x4.h>
->  #include <sound/core.h>
-> +#include <sound/initval.h>
->  #include <sound/pcm.h>
->  #include <sound/pcm_params.h>
->  #include <sound/soc.h>
->  #include <sound/soc-dapm.h>
-> -#include <sound/initval.h>
->  #include <sound/tlv.h>
-> +#include <sound/tlv320aic32x4.h>
-> =20
->  #include "tlv320aic32x4.h"
-> =20
-> @@ -38,7 +37,7 @@ struct aic32x4_priv {
->  	u32 power_cfg;
->  	u32 micpga_routing;
->  	bool swapdacs;
-> -	int rstn_gpio;
-> +	struct gpio_desc *rstn_gpio;
->  	const char *mclk_name;
-> =20
->  	struct regulator *supply_ldo;
-> @@ -1236,7 +1235,14 @@ static int aic32x4_parse_dt(struct aic32x4_priv *a=
-ic32x4,
-> =20
->  	aic32x4->swapdacs =3D false;
->  	aic32x4->micpga_routing =3D 0;
-> -	aic32x4->rstn_gpio =3D of_get_named_gpio(np, "reset-gpios", 0);
-> +	/* Assert reset using GPIOD_OUT_HIGH, because reset is GPIO_ACTIVE_LOW =
-*/
-
-As stated above this comment shouldn't be necessary, it might be even
-confusing if there is some external inverter to the GPIO.
-
-> +	aic32x4->rstn_gpio =3D devm_gpiod_get_optional(aic32x4->dev, "reset", G=
-PIOD_OUT_HIGH);
-> +	if (IS_ERR(aic32x4->rstn_gpio)) {
-> +		return dev_err_probe(aic32x4->dev, PTR_ERR(aic32x4->rstn_gpio),
-> +				     "Failed to get reset gpio\n");
-> +	} else {
-> +		gpiod_set_consumer_name(aic32x4->rstn_gpio, "tlv320aic32x4_rstn");
-
-Any reason to not set the consumer name to "tlv320aic32x4_reset"? I assume
-the 'n' implies active-low. But this is something for the devicetree, not t=
-he driver.
-
-Best regards,
-Alexander
-
-> +	}
-> =20
->  	if (of_property_read_u32_array(np, "aic32x4-gpio-func",
->  				aic32x4_setup->gpio_func, 5) >=3D 0)
-> @@ -1372,26 +1378,20 @@ int aic32x4_probe(struct device *dev, struct regm=
-ap *regmap,
->  		aic32x4->power_cfg =3D 0;
->  		aic32x4->swapdacs =3D false;
->  		aic32x4->micpga_routing =3D 0;
-> -		aic32x4->rstn_gpio =3D -1;
-> +		aic32x4->rstn_gpio =3D ERR_PTR(-ENOENT);
->  		aic32x4->mclk_name =3D "mclk";
->  	}
-> =20
-> -	if (gpio_is_valid(aic32x4->rstn_gpio)) {
-> -		ret =3D devm_gpio_request_one(dev, aic32x4->rstn_gpio,
-> -				GPIOF_OUT_INIT_LOW, "tlv320aic32x4 rstn");
-> -		if (ret !=3D 0)
-> -			return ret;
-> -	}
-> -
->  	ret =3D aic32x4_setup_regulators(dev, aic32x4);
->  	if (ret) {
->  		dev_err(dev, "Failed to setup regulators\n");
->  		return ret;
->  	}
-> =20
-> -	if (gpio_is_valid(aic32x4->rstn_gpio)) {
-> +	if (!IS_ERR(aic32x4->rstn_gpio)) {
->  		ndelay(10);
-> -		gpio_set_value_cansleep(aic32x4->rstn_gpio, 1);
-> +		/* deassert reset */
-> +		gpiod_set_value_cansleep(aic32x4->rstn_gpio, 0);
->  		mdelay(1);
->  	}
-> =20
->=20
->=20
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+Regards,
+Markus
