@@ -1,86 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFC22309B6;
-	Tue, 15 Apr 2025 11:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E933024EA92;
+	Tue, 15 Apr 2025 11:36:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744716899; cv=none; b=LkQMJQU+7f6Z/52PEnrIsPmoZpHQ4Hjki2s7KuTrD1XtXpd9iAl+pfdrscBmPNGCewBVxENtAfHuCUuDvtfaMFjH+tNBlkVBWSvRSMrgY+EvW+KAvf/hluZXcnCOrYQmXr96eYpJ5WQQrkg4KY99vp5EtBlXryLev8dI6w3J6ow=
+	t=1744716994; cv=none; b=pHUpTlOhsme4VY745g0sx+McIUAEzjakexSPzk/jsP0Zz6vTgtIjOUmyLKwjoP1eiv9MkB7X3Yowr7sKjYvti/6X8yr6lTCAP6sDpiAYBOUV4jcTAHvYcyrYMSlDJmlAaM/OZRK0lxdI8EZM4/A2UVznK5/dgejwlfh71BGoYb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744716899; c=relaxed/simple;
-	bh=VvbYNPXEIAjf/KeE1NBkd5nqIQJfNLJU5dIe4vPAdpA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oOPJCkI+yGIKBrKHto+yQC4S4d2QUG2fNasGISBPkEYNv6HCL3E28WaAkQbCA4MBGDeqg6XHn4ljJ+I+N76WVV8hrWDiBxG1EiDlIo6LpkJlMy6Lp+2sDQnccz7VAP8I8FVzdhcALNsfvj/wWjGAJv81nF+90q3JIv2GLGFOQeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gdzr+ERL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744716994; c=relaxed/simple;
+	bh=zYw/vdaimYA3Upb8KBVp137mIE1oGE0jaozGlgSCVhA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E4IulDGE1HcPSKufmZGK3xgsSBICjtO3QRQ8c0dkqZKNzgyy5qiu8lNrjuxQ15uVh8c+s+p4ijQheF3f5oUU9+JAmdcyUoHEt+q2sM64j9AwQ7PmM6pFMfJ4srNE/YbCo03GcFfuZdaBJQpex0cvMbwVb0Dio/pw4WoZvXkZLDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E/tvx7Sa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gdzr+ERL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EB14C4CEDD;
-	Tue, 15 Apr 2025 11:34:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E/tvx7Sa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392A5C4CEDD;
+	Tue, 15 Apr 2025 11:36:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744716899;
-	bh=VvbYNPXEIAjf/KeE1NBkd5nqIQJfNLJU5dIe4vPAdpA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gdzr+ERLwT6QEhOUvS3fsZ7QWkUZzv085l4z2ghp1KkrJ0B709wwuviidG+L9ulPm
-	 vqBCzNNsgAqIjbQIco4HMhYyn3tDinVenaqsXHQRmcmrGhg5pdOW5GdU/GLz20AADW
-	 nxOYIk+fnSQ4HGUlIkkUfFaJwIhgFSxVi098XPTRcvTxRJ8tky2WOHvnNhJqmWxbcB
-	 Abm0TbxIksXPqJMwiPU9jiTmnjX84Da/xWR4m6reihLifEIzyUW+gFTgSYCEKm37I0
-	 e0aVHR7eAwJUmdb80ZzBDMpePIvFL1gN542U1fpivpW3g9qzUd3xy/oKhskK4Vchjx
-	 tO6cNEtD1htdw==
+	s=k20201202; t=1744716993;
+	bh=zYw/vdaimYA3Upb8KBVp137mIE1oGE0jaozGlgSCVhA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E/tvx7Saipwh/ViZ0+Uk1eu4Rwsjf+uyzf29ONH8NM7k0rsVEfEL+c1HRH+VQ0UGN
+	 vj6PT3VGxnmDFZ5xArv5HAchUrn2VH1v0Jf7a3hEYZk/kdQrk8hP0nCzaAbltw+n40
+	 5wCyjpDQGBCNrnV4ttsHbkrOzt4LuclzMX1H6xrsVreWRgJ/huXeXiSj8TV5rtLSc7
+	 2gKDsQhPc8VYFhshqdL5FdvVF9OB2Cdb04WkkUZnr0VQ4oVaWUXa+U23GHAtJ/UC4y
+	 /vgY++g7AnXdDczUf5cBzR5mbxffO41Uljh4rudIDmI8qNz8h5zlScIdfDu3PfXLKn
+	 Q2ZNF8vFDNvKg==
+Date: Tue, 15 Apr 2025 12:36:28 +0100
 From: Mark Brown <broonie@kernel.org>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Thorsten Blum <thorsten.blum@linux.dev>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250414114528.355204-2-thorsten.blum@linux.dev>
-References: <20250414114528.355204-2-thorsten.blum@linux.dev>
-Subject: Re: [PATCH v2] ASoC: cs-amp-lib: Replace offsetof() with
- struct_size()
-Message-Id: <174471689730.19628.17211699174764357615.b4-ty@kernel.org>
-Date: Tue, 15 Apr 2025 12:34:57 +0100
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH next] ASoC: qcom: qdsp6: Set error code in
+ q6usb_hw_params()
+Message-ID: <78caae4a-03d1-4992-9a06-1e2a9aef81ce@sirena.org.uk>
+References: <Z_442PWaMVoZcbbU@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EtkMv+Yd9poVtEEu"
+Content-Disposition: inline
+In-Reply-To: <Z_442PWaMVoZcbbU@stanley.mountain>
+X-Cookie: 10.0 times 0.1 is hardly ever 1.0.
 
-On Mon, 14 Apr 2025 13:45:28 +0200, Thorsten Blum wrote:
-> Use struct_size() to calculate the number of bytes to allocate and used
-> by 'cirrus_amp_efi_data'. Compared to offsetof(), struct_size() provides
-> additional compile-time checks (e.g., __must_be_array()).
-> 
-> 
 
-Applied to
+--EtkMv+Yd9poVtEEu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Tue, Apr 15, 2025 at 01:45:44PM +0300, Dan Carpenter wrote:
+> Propagate the error code if q6afe_port_get_from_id() fails.  Don't
+> return success.
 
-Thanks!
+Acked-by: Mark Brown <broonie@kernel.org>
 
-[1/1] ASoC: cs-amp-lib: Replace offsetof() with struct_size()
-      commit: 46e7ea05bf5d9fe4d05e173c824ae173c956cb5f
+--EtkMv+Yd9poVtEEu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmf+RLsACgkQJNaLcl1U
+h9AXdgf+IwDP2ZCdt/nG4LuHCXIKTYeSCPzb7phKoetBsQzxgY060qKGTzb+hP2m
+B4b2qLp/anvUI4vm4PJItrJTZ0TI6jMcRR1KeLp+GAZajhpdvPgDChKSeR+OxPAT
+ksup73zUE8UcU/qCuBTod0S8ltsdFGuR92j2Vs+pU9j9wGkggpzUDMb4frP4TdzA
+st/81o2uODDR60IcxRXPEcnX042EG7ZYvi1d33HUL2qZ48BbFJ8iVaq4uhu4xTaK
+KLjhfojUmIjfQgZ9FGvHkvrH3sXYXAKfxNyCapNB6gMe7Lh+QrXNYg5SOicp0FFw
+AW28j3oUVgszTzdoOopsnO54fKDNew==
+=A9o9
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--EtkMv+Yd9poVtEEu--
