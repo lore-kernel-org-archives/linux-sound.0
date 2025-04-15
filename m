@@ -1,31 +1,31 @@
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7F623BCF1
-	for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 19:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095D723BCF1
+	for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 19:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744744061; cv=none; b=gjPDjFWVusmh+7oMSag4xBfLtbfpZgABnfUjX6YH7BfAmEDSnwMmuSldCNWZSKW9yXuH08UoQ+ihjsCTivf6/V5sPNLZwL6uB1vdSTWM9xo4Uz21ScASFlYGnGTDLvGzpMEbLjDYZCtTmYcgr+6/ywawxe2l+8PK6GIQZv9BXWc=
+	t=1744744063; cv=none; b=MrMfNtTVAh0V25JAkn0NQ/KV4FLwa3E7NS77eybX9+LV5jhCCZMNWWmNo1PZb1FO0f/HmSC62NoSlWAblaLTGzOkyoshcBYYErRjvgqEsYlh8MsTdh5J2n2VCg6KCglO0yD6n71a0km8X6luio3zrP9YBUfM6f5vcnkF29YSddI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744744061; c=relaxed/simple;
-	bh=iaZX8ODRv/z6PUCXTXhN+gJFs5BWTJcemLyfei+p8rk=;
+	s=arc-20240116; t=1744744063; c=relaxed/simple;
+	bh=SC4+hdyqf8TcMILGMNJKMrDbMlSMFBz3Q2qCbFha+2Y=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P2/GuUfOK2MGNYDrSIm3AdJz6H46XcGyekL7n9N46qkS3qyhNXvNuiCUsOaN/8/ijl8ZVQPr4RkNvBraWklrR9PGYvC+sSmZSKPTdr+YfCjF401D8EuxeoLhV63IbqVTr5iY1kstkKBAZeki5W2v2hVJcavP+0On5ktXQNkqXbU=
+	 MIME-Version:Content-Type; b=TVVXaVEmEwIfVWf41ByKr3/GLbJD+AaJOSChJCia8NQYo6pnyOFiNLBE+VX/Dw509ZbwJHWNmFS+Daj1kwNiIRyU2kwrD16KnRwuzZHeA9VFmU8WlRtaaRVaQmS4JFim4RRKsOuK369mhocP1UyqHNmQN1KYHmjlkqKL46DVeRE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from localhost.localdomain (213.87.148.135) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 15 Apr
- 2025 22:07:28 +0300
+ 2025 22:07:34 +0300
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	<linux-sound@vger.kernel.org>
 CC: Sergey Shtylyov <s.shtylyov@omp.ru>, <lvc-project@linuxtesting.org>
-Subject: [PATCH 2/3] ASoC: dapm: make dapm_update_dai_unlocked() *void*
-Date: Tue, 15 Apr 2025 22:06:44 +0300
-Message-ID: <20250415190647.17603-3-s.shtylyov@omp.ru>
+Subject: [PATCH 3/3] ASoC: dapm: make snd_soc_dapm_update_dai() *void*
+Date: Tue, 15 Apr 2025 22:06:45 +0300
+Message-ID: <20250415190647.17603-4-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250415190647.17603-1-s.shtylyov@omp.ru>
 References: <20250415190647.17603-1-s.shtylyov@omp.ru>
@@ -78,63 +78,52 @@ X-KSE-Attachment-Filter-Triggered-Rules: Clean
 X-KSE-Attachment-Filter-Triggered-Filters: Clean
 X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-dapm_update_dai_unlocked() always returns 0, so we don't have to propagate
-its result from snd_soc_dapm_update_dai(). Just return 0 from that function
-and make dapm_update_dai_unlocked() *void* instead of *int*.
+snd_soc_dapm_update_dai() always returns 0 and its callers ignore its
+result anyway. Make snd_soc_dapm_update_dai() *void* instead of *int*.
 
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- sound/soc/soc-dapm.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ include/sound/soc-dapm.h | 4 ++--
+ sound/soc/soc-dapm.c     | 8 +++-----
+ 2 files changed, 5 insertions(+), 7 deletions(-)
 
+diff --git a/include/sound/soc-dapm.h b/include/sound/soc-dapm.h
+index af802ef536e7..db81fd633a7b 100644
+--- a/include/sound/soc-dapm.h
++++ b/include/sound/soc-dapm.h
+@@ -456,8 +456,8 @@ void snd_soc_dapm_free_widget(struct snd_soc_dapm_widget *w);
+ int snd_soc_dapm_link_dai_widgets(struct snd_soc_card *card);
+ void snd_soc_dapm_connect_dai_link_widgets(struct snd_soc_card *card);
+ 
+-int snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
+-			    struct snd_pcm_hw_params *params, struct snd_soc_dai *dai);
++void snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
++			     struct snd_pcm_hw_params *params, struct snd_soc_dai *dai);
+ int snd_soc_dapm_widget_name_cmp(struct snd_soc_dapm_widget *widget, const char *s);
+ 
+ /* dapm path setup */
 diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index 2df199f6af74..fe5d484d3a43 100644
+index fe5d484d3a43..6a7dde6d284b 100644
 --- a/sound/soc/soc-dapm.c
 +++ b/sound/soc/soc-dapm.c
-@@ -2734,9 +2734,9 @@ static void dapm_update_dai_chan(struct snd_soc_dapm_path *p,
- 		soc_dapm_connect_path(p, false, "dai update");
- }
- 
--static int dapm_update_dai_unlocked(struct snd_pcm_substream *substream,
--				    struct snd_pcm_hw_params *params,
--				    struct snd_soc_dai *dai)
-+static void dapm_update_dai_unlocked(struct snd_pcm_substream *substream,
-+				     struct snd_pcm_hw_params *params,
-+				     struct snd_soc_dai *dai)
- {
- 	int dir = substream->stream;
- 	int channels = params_channels(params);
-@@ -2746,7 +2746,7 @@ static int dapm_update_dai_unlocked(struct snd_pcm_substream *substream,
- 	w = snd_soc_dai_get_widget(dai, dir);
- 
- 	if (!w)
--		return 0;
-+		return;
- 
- 	dev_dbg(dai->dev, "Update DAI routes for %s %s\n", dai->name, snd_pcm_direction_name(dir));
- 
-@@ -2755,8 +2755,6 @@ static int dapm_update_dai_unlocked(struct snd_pcm_substream *substream,
- 
- 	snd_soc_dapm_widget_for_each_source_path(w, p)
+@@ -2757,17 +2757,15 @@ static void dapm_update_dai_unlocked(struct snd_pcm_substream *substream,
  		dapm_update_dai_chan(p, p->source, channels);
--
--	return 0;
  }
  
- int snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
-@@ -2764,13 +2762,12 @@ int snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
- 			    struct snd_soc_dai *dai)
+-int snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
+-			    struct snd_pcm_hw_params *params,
+-			    struct snd_soc_dai *dai)
++void snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
++			     struct snd_pcm_hw_params *params,
++			     struct snd_soc_dai *dai)
  {
  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
--	int ret;
  
  	snd_soc_dapm_mutex_lock(rtd->card);
--	ret = dapm_update_dai_unlocked(substream, params, dai);
-+	dapm_update_dai_unlocked(substream, params, dai);
+ 	dapm_update_dai_unlocked(substream, params, dai);
  	snd_soc_dapm_mutex_unlock(rtd->card);
- 
--	return ret;
-+	return 0;
+-
+-	return 0;
  }
  
  int snd_soc_dapm_widget_name_cmp(struct snd_soc_dapm_widget *widget, const char *s)
