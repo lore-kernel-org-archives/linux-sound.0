@@ -1,34 +1,78 @@
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095D723BCF1
-	for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 19:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14102206B2;
+	Tue, 15 Apr 2025 19:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744744063; cv=none; b=MrMfNtTVAh0V25JAkn0NQ/KV4FLwa3E7NS77eybX9+LV5jhCCZMNWWmNo1PZb1FO0f/HmSC62NoSlWAblaLTGzOkyoshcBYYErRjvgqEsYlh8MsTdh5J2n2VCg6KCglO0yD6n71a0km8X6luio3zrP9YBUfM6f5vcnkF29YSddI=
+	t=1744746099; cv=none; b=U9q5uNwprEKUzhcr1W9+6PJy6FwoblaqLkc24ZS6QVNH47F70JBkUyRk6BLyo5hdozAeACW2R2wHm6/YDfprBrUIKIykEnddbwGa9ZyQxhGuYOD72CpAgoXCpIp3QDwX//UjihzEV0CY1GkpiJy3bBmgX03wvyr4mo7X1mcGTuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744744063; c=relaxed/simple;
-	bh=SC4+hdyqf8TcMILGMNJKMrDbMlSMFBz3Q2qCbFha+2Y=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TVVXaVEmEwIfVWf41ByKr3/GLbJD+AaJOSChJCia8NQYo6pnyOFiNLBE+VX/Dw509ZbwJHWNmFS+Daj1kwNiIRyU2kwrD16KnRwuzZHeA9VFmU8WlRtaaRVaQmS4JFim4RRKsOuK369mhocP1UyqHNmQN1KYHmjlkqKL46DVeRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from localhost.localdomain (213.87.148.135) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 15 Apr
- 2025 22:07:34 +0300
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>
-CC: Sergey Shtylyov <s.shtylyov@omp.ru>, <lvc-project@linuxtesting.org>
-Subject: [PATCH 3/3] ASoC: dapm: make snd_soc_dapm_update_dai() *void*
-Date: Tue, 15 Apr 2025 22:06:45 +0300
-Message-ID: <20250415190647.17603-4-s.shtylyov@omp.ru>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250415190647.17603-1-s.shtylyov@omp.ru>
-References: <20250415190647.17603-1-s.shtylyov@omp.ru>
+	s=arc-20240116; t=1744746099; c=relaxed/simple;
+	bh=Tvdph049PXmUEqSf4JsikSR/EB0vrzfZdObuVKzmQbg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pc3WEiFV0IrGkhcHdrVRI2Hjt0dsYh53pcifNc/ZO3UY+cBg4c/rWI4x4SgQRxKjgSU+66ZHZRJqMYXIsH+Cy/E47ZXiDee8lW20V7uKXZd9Az0U68pxLuVY4/f5K1ebnqbf3l53hlndq9QpqqxsUQsTEtNsGVOM2m+rBnS/vPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BsvWVxGD; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BsvWVxGD"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6f0eb824f51so1502686d6.0;
+        Tue, 15 Apr 2025 12:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744746096; x=1745350896; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3++o+6t2Gl2qtiC6cKBxwikZk/Ec4je9Cjpik4ZhnYs=;
+        b=BsvWVxGD+uE+4lEMU8YR49HUMNTwPpe0YDIypYVyGhjJIFzRkhXSuKz3eUeONpWFre
+         r5cXQYMcf2psoUb0iGWjfdSpZ4ITJEJfu6e4jwUyAIk4z9b/ol6zs6qNqwz6mP8MO7A+
+         vojG+U+jFwdyI1Zov688n8B4V98PTvDPHgi2VMDfAzVzLddpR2wLSNPAv3gHt+k99M85
+         lTJOiCtaVmEylM8r/SYxVfBo8GeHAZOK+wRW/f6ojFc59CXU5bBdMlpgBVW6FRDpucFX
+         X5NGBZgpMgy8ySROBpjHNdr0Ska4KfsEY2lJ4w2Hfcn2K2DEjLQGieew0qD0XtcR07aZ
+         JSdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744746096; x=1745350896;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3++o+6t2Gl2qtiC6cKBxwikZk/Ec4je9Cjpik4ZhnYs=;
+        b=Xmbu2AbB/uabQq/NhJLqRNSL03/cGO/1F1O1CpEI+ugFdroWyL929bgZRXH0fFBeSr
+         2LtXwnJPdNxH6ZV3fUVYn4QECiSGcxHOQEUbYKjD9Fw2uHte54awidhmUutT2RU5Bjjl
+         RKTCUDkkI8H6Xg9OUpmOQXWmHVsJ47Sm+gf3B/De6sJYakzVyNMdX4rcurgL4f/V9vET
+         ecloogSGRB30IEizmpWC7U2rAd930UE7QY1PEApjYlxVbNRuleEQ5i+xe5+oaRsT7Hih
+         FTkyelXVZPSFwPsNuP2cWSB+dICVsQmO0rx78m81MV+6fDFPzAgmDFhPBXGcXPrcKBkI
+         LODg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEtrRkYltRE1EHThPf54AqZvTDtZdQ4wwlCnxn73jwOWq9vLL7of5fWHTmr5eb/hDozuFDVoeKa5MBU7Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz//CfhFpY20BTKkPRSjT6QzNuRepvw/nOf3eh/y/MSj9ninnh+
+	K13btJKJnARXLfDX5wBW/vekviPf3AxBfI8wcqS4Dj/I7yceRJPWo5e4
+X-Gm-Gg: ASbGncupmTTCY6A4c2MO0EC7cjKAl3/tBMa5wRyoPSP9IoU8RIioq38JeM5e1qT7aJ5
+	2l7vyc7hP+KGAwJ7JhSrfTZNrUA1XTCWf5SzPdqEHkRVJoe9Xl3XyUivrbcO18tciyR7DrxM7s8
+	Sz7A7yKau+4PL4kduvLIxj46nR3/zULMfockwTOVbrYXN6sOUGSTiMDWn37Z4Vo5Z8HWSSHJtKv
+	QckTR3ZArCXBAvjc4Q3bB84ZnHTGbmaL9YmjOIos4jXzrUVJ1WpjUKz65lVKEBOitW+GW0fQ16t
+	tuWckKW2CQ5KgBpt612R0z1PvJZynayiv3ujOA==
+X-Google-Smtp-Source: AGHT+IF/I3+kIbzpeSJOenRWZ5IZHp1/fzcz3w/Klw37QjNipRJLvLrWcKYuzvQdmYEQ+tgGZ9fI8A==
+X-Received: by 2002:ad4:5747:0:b0:6e8:9351:77f8 with SMTP id 6a1803df08f44-6f2adcf52a1mr3569696d6.7.1744746096517;
+        Tue, 15 Apr 2025 12:41:36 -0700 (PDT)
+Received: from ise-alpha.. ([2620:0:e00:550a:642:1aff:fee8:511b])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f0dea10659sm105066286d6.111.2025.04.15.12.41.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 12:41:36 -0700 (PDT)
+From: Chenyuan Yang <chenyuan0y@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	Vijendar.Mukunda@amd.com,
+	peter.ujfalusi@linux.intel.com,
+	peterz@infradead.org,
+	chao.song@linux.intel.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chenyuan Yang <chenyuan0y@gmail.com>
+Subject: [PATCH] ASoC: Intel: sof_sdw: Add NULL check in asoc_sdw_rt_dmic_rtd_init()
+Date: Tue, 15 Apr 2025 14:41:34 -0500
+Message-Id: <20250415194134.292830-1-chenyuan0y@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -36,97 +80,29 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 04/15/2025 18:54:56
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 19
-X-KSE-AntiSpam-Info: Lua profiles 192656 [Apr 15 2025]
-X-KSE-AntiSpam-Info: Version: 6.1.1.11
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 54 0.3.54
- 464169e973265e881193cca5ab7aa5055e5b7016
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.148.135 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.148.135 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: {Tracking_ip_hunter}
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.148.135
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 19
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 04/15/2025 18:56:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 4/15/2025 4:10:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-snd_soc_dapm_update_dai() always returns 0 and its callers ignore its
-result anyway. Make snd_soc_dapm_update_dai() *void* instead of *int*.
+mic_name returned by devm_kasprintf() could be NULL.
+Add a check for it.
 
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+Fixes: bee2fe44679f ("ASoC: Intel: sof_sdw: use generic rtd_init function for Realtek SDW DMICs")
 ---
- include/sound/soc-dapm.h | 4 ++--
- sound/soc/soc-dapm.c     | 8 +++-----
- 2 files changed, 5 insertions(+), 7 deletions(-)
+ sound/soc/sdw_utils/soc_sdw_rt_dmic.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/sound/soc-dapm.h b/include/sound/soc-dapm.h
-index af802ef536e7..db81fd633a7b 100644
---- a/include/sound/soc-dapm.h
-+++ b/include/sound/soc-dapm.h
-@@ -456,8 +456,8 @@ void snd_soc_dapm_free_widget(struct snd_soc_dapm_widget *w);
- int snd_soc_dapm_link_dai_widgets(struct snd_soc_card *card);
- void snd_soc_dapm_connect_dai_link_widgets(struct snd_soc_card *card);
+diff --git a/sound/soc/sdw_utils/soc_sdw_rt_dmic.c b/sound/soc/sdw_utils/soc_sdw_rt_dmic.c
+index 46d917a99c51..97be110a59b6 100644
+--- a/sound/soc/sdw_utils/soc_sdw_rt_dmic.c
++++ b/sound/soc/sdw_utils/soc_sdw_rt_dmic.c
+@@ -29,6 +29,8 @@ int asoc_sdw_rt_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_da
+ 		mic_name = devm_kasprintf(card->dev, GFP_KERNEL, "rt715-sdca");
+ 	else
+ 		mic_name = devm_kasprintf(card->dev, GFP_KERNEL, "%s", component->name_prefix);
++	if (!mic_name)
++		return -ENOMEM;
  
--int snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
--			    struct snd_pcm_hw_params *params, struct snd_soc_dai *dai);
-+void snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
-+			     struct snd_pcm_hw_params *params, struct snd_soc_dai *dai);
- int snd_soc_dapm_widget_name_cmp(struct snd_soc_dapm_widget *widget, const char *s);
- 
- /* dapm path setup */
-diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index fe5d484d3a43..6a7dde6d284b 100644
---- a/sound/soc/soc-dapm.c
-+++ b/sound/soc/soc-dapm.c
-@@ -2757,17 +2757,15 @@ static void dapm_update_dai_unlocked(struct snd_pcm_substream *substream,
- 		dapm_update_dai_chan(p, p->source, channels);
- }
- 
--int snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
--			    struct snd_pcm_hw_params *params,
--			    struct snd_soc_dai *dai)
-+void snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
-+			     struct snd_pcm_hw_params *params,
-+			     struct snd_soc_dai *dai)
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 
- 	snd_soc_dapm_mutex_lock(rtd->card);
- 	dapm_update_dai_unlocked(substream, params, dai);
- 	snd_soc_dapm_mutex_unlock(rtd->card);
--
--	return 0;
- }
- 
- int snd_soc_dapm_widget_name_cmp(struct snd_soc_dapm_widget *widget, const char *s)
+ 	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+ 					  "%s mic:%s", card->components,
 -- 
-2.49.0
+2.34.1
 
