@@ -1,120 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACCD27A13F;
-	Tue, 15 Apr 2025 07:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77378634;
+	Tue, 15 Apr 2025 08:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744702926; cv=none; b=mCvBh2A1vp/N/L77KF90LjK/iS9xROcJhSCt6tqKZ/ryTLBJm8iCUcwrGxf91YoTJLBRSRLp/jVgoV9wSkGrn9TcTL/jNviKZHZ0axIKfzaqNtEPL9JSxH5vx2DShACGwjU9JBJRPpnbtK0UIFITgBRyHwqp9uGeNm1TQgDxOsw=
+	t=1744704415; cv=none; b=ZF+1++cKIHfjr41rUITofCYzwk2rOTUWiaL6t9FylafC+aszwGgPuEpqedNsVMJuusp8DISSufKBkUlqYEqNw/pdADT+4k/LbbTNkcSUYN1f2abh5SkRiJ1jJYVhfeCiQhhKj0YK59hyNGHOVYxDamWkXm3pE2pXHDrGYAS5CaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744702926; c=relaxed/simple;
-	bh=NnA1MjE1iS6qh1kJ4h8uRlhFyDx9zS+qVFI5xM9AivY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O3UZmoTQzF52GV+AhLAq3YVYSOsKh2myLA6iTjNn8gZmZ+1EJQUGtX8nR+E1BV3aUzM2irn59CDz45Pjy98fMk5OuxGpzyTbnlCTbH4tPNsnt8ttC9fsWQJtDMUcGKLQz3Ib0acuGexBadp1dInscs8BPb9UuvNLk8UJF0ktOc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UzytD6AH; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UzytD6AH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B02B1C4CEED;
-	Tue, 15 Apr 2025 07:42:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744702925;
-	bh=NnA1MjE1iS6qh1kJ4h8uRlhFyDx9zS+qVFI5xM9AivY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UzytD6AHr9B5rgzeHRkdAHcgxDZaa0zv+755PTpNfXnXowsH2z9m7xl69U8Ujr+AJ
-	 MOOISO8HVYn6yucLa0CIQiZ5IHuHnHRDRutdsPFgPp825udbuzO8CgYhJhpQwlr2Qz
-	 W3ey1yeVckD9+LKRBp0S3mCVsLtzeY2aCJQ7NX3n4/Q7UXGufKblmGgTbBIcGb8ONs
-	 i5wRPRMwq5WuUp+141/FfdwDrFaHU7wy/Y8E5t6EUk0a9N3xiLgqHA0KuZ7ZCKep4S
-	 n8P8fRjlRGS3FYIfvkVL04RseJ2yVwdCMzr6ZhFWPeLWQaeJG7epKA05JTZBzRboma
-	 7m+Wzfj0z+pWQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan+linaro@kernel.org>)
-	id 1u4avi-000000001se-0Fwd;
-	Tue, 15 Apr 2025 09:42:02 +0200
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Peter Rosin <peda@axentia.se>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 1/2] ASoC: codecs: wcd938x: fix mux error handling
-Date: Tue, 15 Apr 2025 09:41:44 +0200
-Message-ID: <20250415074145.7202-2-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250415074145.7202-1-johan+linaro@kernel.org>
-References: <20250415074145.7202-1-johan+linaro@kernel.org>
+	s=arc-20240116; t=1744704415; c=relaxed/simple;
+	bh=awYdlis9cPibtfloHg93X0xSUHByIq02xs3+kKcj3B0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WgolaQHQVc7AXgGUZCX3D0pw6/IT5kDxeqcKK0msJ5CyS7ck3rhWUzroiitM9RLF0dVxQDTS6QfXIxxO81NPx7iysXtHeybiRao4A15z2XDgzAC4Nhk1/V+v6WikovOCmZcQtc1rXYtwQoca4IyhAm1s4+6nMuqIvD29VOqu/bE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-523ffbe0dbcso5319211e0c.0;
+        Tue, 15 Apr 2025 01:06:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744704412; x=1745309212;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xoE7Sk3NEK10ejGR4MyJLM/QRd7ud4cKRNAMK4SJy3M=;
+        b=vjZ71TShD/60d2TF4bk8PC9zwbYZTKOdudCOkcidI7eltBp0jPQgXkYEqxqTteAIwO
+         7jpcmHkT/kB7TOwooKefnYGWMl7q3Ki31cdUu35DzucKozfRBt+q04N+Peh91MUiWW3e
+         9GU7sZ/Oqv1Wop9dqfA0sgHgaJbuFCik6hij2ukrTScZN8jDiYKz84B7CeFQEd540IVE
+         g9kNpt8/5EnbBCsXbmKm77jcMCNbm6wODbWV3xuTO6iz17C+pFz5tlF7LecFK8uPu/sH
+         YdqxIJNgibs+QK0trBsHF9YuvO8VYQ2FotWgBAdAGG2mEIJKZfxzx1QJHN5gA4maYAfN
+         IRBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTXZ8Qz3ZVW5g7LVh7dQVpzmYf4ShVnLf/HVSwLvV5PqY2/nFH+agm0YgZhFS6Xjhh3nyONRsY28Yw@vger.kernel.org, AJvYcCWYnszFm/dQAYrjbJdQi6h9uR+0ffo/8sW8ncJ8YqRiV99gB8U2TdVrOxl+P/vxWvNaNz50zn2VCk9k@vger.kernel.org, AJvYcCXL7/PH65V73oYgg6OKT1nzIHSVHLwJU4ah8PTlUiLBf/57afQWNH1DNr2rM9Kpo8Tih9c2cSG9Sxox1F0Y3rGvZnA=@vger.kernel.org, AJvYcCXk9+jDep9qAt8q9HSobNZ6q6zaa3yY47SqNhEwhyF5W0o7rVITs9v8I68L74DX82klCiOf3u82vH6aoYk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxqz1XC6+J1j6qC86+G9/0oPMdBXZKUPBGZfiMBRPtMd8JsWap6
+	ksxRr9ilXGK2o5s1HvfQny0aIzWNHRsOquDhJaDxYJpwb1Lj/9ZyeqcTbKR+
+X-Gm-Gg: ASbGncv8gebf9o7/zuKdKpDJkm1MPHUgkiPAzrPIqY+4q5b7ixgdUdXAioKOsBlZr7P
+	6TvNGgPWs8WLPAeV3+mRHZ9tYhtxuVOn1H0X9ZodMKgwxJ+sJYTtodBFinm8v2JB9PC/79R2Rpb
+	enOZUV9BM5tZVuBGyqd/J0Myxm4LL+77oFqWiie59w8BPSb430KPSKpnz0ZeQNV22w73FqM7QHy
+	m3t9B6cKivd7/JtSQoNL2PXyGdUT9vxkIBNp33Vhj0AJ5cQDaGaVBHLcXmsLUwL8ez/iLhvppQe
+	BGnd1XFliH5hnx3qHg0WWFa6CuMHKfivFOZwPMu1BGA27qm+3TgFAs4zhNhI7kFOwBB4lAqML0m
+	qxXc=
+X-Google-Smtp-Source: AGHT+IHkVgit3zGoO4zwXJVvkQr2Y1PlvE1YgURPwmmKl+7re032t461pzPyiYRkWB6UTtz3lV2NjA==
+X-Received: by 2002:a05:6122:d95:b0:520:61ee:c7f9 with SMTP id 71dfb90a1353d-527c35b020amr9138502e0c.7.1744704411649;
+        Tue, 15 Apr 2025 01:06:51 -0700 (PDT)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-527abd9b999sm2577221e0c.26.2025.04.15.01.06.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Apr 2025 01:06:51 -0700 (PDT)
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4c6cf5e4cd5so163202137.2;
+        Tue, 15 Apr 2025 01:06:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV9gQ/+mHAmN7eVliyf0u0mbZO4/slJ+hasj8Q1XMKo2q4bt6Hx/ooX9jd93az2KKKl6MrF8pFZsUpK@vger.kernel.org, AJvYcCWBxYVKou3zOPYNwuftGRutgHNArfgEkfSYTovtAgOXCw6JH0djd5utFIj3L+ZCnOlF+d6KcsbgPAAX@vger.kernel.org, AJvYcCWgt6C046I9p7JU/WTzS+EDtlQDuI/NKtcx7pub+BF1jCJpk2oGSl+ZYZk6TZZjBwpj9dbca9dVhkZDdwU323ueFuM=@vger.kernel.org, AJvYcCXTsBSR3pmaWrWGp3TQ6UYWkdkd9zK895wR9KzVP+QwgeXRyIF2w2EOeCEot6Byzs58EUqBtXUkELr3GY4=@vger.kernel.org
+X-Received: by 2002:a05:6102:3e92:b0:4c5:1bb6:8165 with SMTP id
+ ada2fe7eead31-4c9e4f12ee4mr11188743137.12.1744704410919; Tue, 15 Apr 2025
+ 01:06:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <87zfgi1a5a.wl-kuninori.morimoto.gx@renesas.com> <87wmbm1a4b.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87wmbm1a4b.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 15 Apr 2025 10:06:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU3ieWELcj8Z2zQRJ4gsjz25nK+CZi1qDJByUUS9f1teg@mail.gmail.com>
+X-Gm-Features: ATxdqUECV1MuAkt2dYlWZdeAGp9tizsog1IG4v0PoorYJ-_KQ05iwfNaUiWR2-U
+Message-ID: <CAMuHMdU3ieWELcj8Z2zQRJ4gsjz25nK+CZi1qDJByUUS9f1teg@mail.gmail.com>
+Subject: Re: [PATCH v3 02/10] spi: sh-msiof: use dev in sh_msiof_spi_probe()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-A recent change added support for looking up an optional mux control
-before falling back to gpio control for us-euro plug selection.
+Hi Morimoto-san,
 
-The mux framework does however not yet support optional muxes and an
-error message is now incorrectly logged on machines like the Lenovo
-ThinkPad X13s which do not have one:
+Thanks for your patch!
 
-    wcd938x_codec audio-codec: /audio-codec: failed to get mux-control (0)
+On Tue, 15 Apr 2025 at 03:34, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> sh_msiof_spi_probe() is using priv->dev everywhare,
 
-Suppress the bogus error and add the missing mux error handling by
-making sure that the 'mux-controls' DT property is present before
-looking up the mux control.
+everywhere
 
-Fixes: eec611d26f84 ("ASoC: codecs: wcd938x: add mux control support for hp audio mux")
-Link: https://lore.kernel.org/lkml/Z-z_ZAyVBK5ui50k@hovoldconsulting.com/
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- sound/soc/codecs/wcd938x.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+> but makes code long. Create struct device *dev and use it.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-index 585a92772c2a..55031c16e4e1 100644
---- a/sound/soc/codecs/wcd938x.c
-+++ b/sound/soc/codecs/wcd938x.c
-@@ -3271,18 +3271,13 @@ static int wcd938x_populate_dt_data(struct wcd938x_priv *wcd938x, struct device
- 		return dev_err_probe(dev, wcd938x->reset_gpio,
- 				     "Failed to get reset gpio\n");
- 
--	wcd938x->us_euro_mux = devm_mux_control_get(dev, NULL);
--	if (IS_ERR(wcd938x->us_euro_mux)) {
--		if (PTR_ERR(wcd938x->us_euro_mux) == -EPROBE_DEFER)
--			return -EPROBE_DEFER;
-+	if (of_property_present(dev->of_node, "mux-controls")) {
-+		wcd938x->us_euro_mux = devm_mux_control_get(dev, NULL);
-+		if (IS_ERR(wcd938x->us_euro_mux)) {
-+			ret = PTR_ERR(wcd938x->us_euro_mux);
-+			return dev_err_probe(dev, ret, "failed to get mux control\n");
-+		}
- 
--		/* mux is optional and now fallback to using gpio */
--		wcd938x->us_euro_mux = NULL;
--		wcd938x->us_euro_gpio = devm_gpiod_get_optional(dev, "us-euro", GPIOD_OUT_LOW);
--		if (IS_ERR(wcd938x->us_euro_gpio))
--			return dev_err_probe(dev, PTR_ERR(wcd938x->us_euro_gpio),
--					     "us-euro swap Control GPIO not found\n");
--	} else {
- 		ret = mux_control_try_select(wcd938x->us_euro_mux, wcd938x->mux_state);
- 		if (ret) {
- 			dev_err(dev, "Error (%d) Unable to select us/euro mux state\n", ret);
-@@ -3290,6 +3285,11 @@ static int wcd938x_populate_dt_data(struct wcd938x_priv *wcd938x, struct device
- 			return ret;
- 		}
- 		wcd938x->mux_setup_done = true;
-+	} else {
-+		wcd938x->us_euro_gpio = devm_gpiod_get_optional(dev, "us-euro", GPIOD_OUT_LOW);
-+		if (IS_ERR(wcd938x->us_euro_gpio))
-+			return dev_err_probe(dev, PTR_ERR(wcd938x->us_euro_gpio),
-+					     "us-euro swap Control GPIO not found\n");
- 	}
- 
- 	cfg->swap_gnd_mic = wcd938x_swap_gnd_mic;
+> --- a/drivers/spi/spi-sh-msiof.c
+> +++ b/drivers/spi/spi-sh-msiof.c
+
+> @@ -1334,15 +1333,14 @@ static int sh_msiof_spi_probe(struct platform_device *pdev)
+>                 goto err1;
+>         }
+>
+> -       ret = devm_request_irq(&pdev->dev, i, sh_msiof_spi_irq, 0,
+> -                              dev_name(&pdev->dev), p);
+> +       ret = devm_request_irq(dev, i, sh_msiof_spi_irq, 0, dev_name(&pdev->dev), p);
+
+Looks like you missed one instance ;-)
+
+>         if (ret) {
+> -               dev_err(&pdev->dev, "unable to request irq\n");
+> +               dev_err(dev, "unable to request irq\n");
+>                 goto err1;
+>         }
+>
+>         p->pdev = pdev;
+> -       pm_runtime_enable(&pdev->dev);
+> +       pm_runtime_enable(dev);
+>
+>         /* Platform data may override FIFO sizes */
+>         p->tx_fifo_size = chipdata->tx_fifo_size;
+
+With the above fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.49.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
