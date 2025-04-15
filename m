@@ -1,66 +1,66 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42843296D25
-	for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 10:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6AD2973C8
+	for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 10:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744714020; cv=none; b=SAFNMQhJ2OUXGwBblcUXCUE+3c6Mdr3InwrKoq1Cw2PxWxliD2e7x7NJp9cPoRNeHqxk9Npz2pu80l95VyZQd1cmL50gAqvjtWCSmnApgf2UBakg+JF+ytWCUiumudbyfHTw7M5DRDeCcftWMdN26pp5BU9NF2p9mnjGKomSVBI=
+	t=1744714030; cv=none; b=UsMF97O4007kGTcl2b0pwdtcKYtMEjQvdWBExgANJ88CoFTMIQdNrD/cnIktgXQUMYsSorplwLPRBEvJIyTBeLsVEyc0zhVGj01QMZgEoSwRxSZMqF7Jpy476wAPYj0OhGgii6j0pXmn2Coq+GRQV4T6IUQddhYtvFxeSispMtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744714020; c=relaxed/simple;
-	bh=lM6J1u2tRVAC9uilYLU1E0j5zgP+FCRKzIR82z69UGU=;
+	s=arc-20240116; t=1744714030; c=relaxed/simple;
+	bh=QlssfZojBJkscgItEPe6oYtMDEqUb2U2RJAOssoe+UE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=flSGuyj6+EbCp+m5U4oikc2LYHmN+N7SSfBqdAshINHmwA0br87te7yu8CX7bZOUq1TO5YYuUDTmvXwRE9gR3AfN1oaoLofOOzzhyhxmT7xHdKl5j/solpKt/M6Goxh83wuFTitlNK8HsziV6Ve82Vwms+v0K1XTBGdnbTBE7xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XzF6597g; arc=none smtp.client-ip=209.85.128.42
+	 Content-Disposition; b=bHpGC87VGJSzZiZgCMgYRbL6ZkiuqWPw8YdYAQZO39ch+YolGeyuhpU1vRf2LlbKxj1ZX6pLLK2xoTZi96f0h7kOoie/8HnxDo3a6/qtMYfT/17tdO8Rid0n5vVrxYv0Dg0AK777NcMnnhb+FS34Yy2Nx+X0gprxSSHhD0kfc/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QTCSueS5; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XzF6597g"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso56609645e9.0
-        for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 03:46:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QTCSueS5"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43edb40f357so44915505e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 03:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744714016; x=1745318816; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1744714027; x=1745318827; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HfPskfdk6P+7hmW9CqDhSwkUxt3ZRzFNJ/6Y+a2CHS8=;
-        b=XzF6597gttWAGx52TQY9RAazFtQ9ky8O5pumNhj962cwRMPoSDW26uCE1Wq+v+rG70
-         Pxz4qiNw9i/ZSKIJ9yIgChixwtLAepyI1NN65MMOAKf9fqE0qeQ1x0nFQDYP6C+DWJ6z
-         v3qJkgk7tZl+SuLBQbEVwwYjSHO0ck2M8chN9QTdfdHzXD4NaeDGg7A8evRUX70uE52C
-         iq+KHdhcUdYljU8hIIQeCVhXlmtoM46VA5CWPKXeB91+UyyFlGo5S+byqZluBqWCtild
-         DxQiIw0jnc6AG9zAGHN3gvgOkT6Bk+tkrBxk+QdFTiV+2Yt19/6m74c2RGZ+hucnzxYZ
-         +9dg==
+        bh=2vbiQxXPXZoIjdcXP9wPiLLUJ/jfx9FujGe4wL4vIgI=;
+        b=QTCSueS5Vf86w7iY20wxzSdXQ50fqydRbQ61fRBo8epj0YPphkEDrL0wOPVFkgikZD
+         GIN15P09Bk8W0iiXYooQu/HYmdEV5RmwdoW/aVkI6p1hGJIX2kMtaRAZ3IS4xFNEItnc
+         W/cWle038QxqJgV/+BUUBjvDHWuA4xakwcKIeZbGAUKeLSq8kCb3cz/gbycMZJNhWlBs
+         Hxu6PNkgE/PaUmhwIYPCFiBjYhIMd88VUmRe3wCS+OsqeUxa2CDSd4DRfnugorl8IGaV
+         Jfnwv9X2Ly2n/aYZFANytb5sIp2bRWk51B7zpiJkcMgpy9MWDRVTJ0iwEhhWKYC6LKx/
+         X0ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744714016; x=1745318816;
+        d=1e100.net; s=20230601; t=1744714027; x=1745318827;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HfPskfdk6P+7hmW9CqDhSwkUxt3ZRzFNJ/6Y+a2CHS8=;
-        b=Gke0SB4x5k+mSfrHonAz5BfH38PbHkAYU5xiNkD7VJdOXyWbLFsgXWWg/IYu39MwFp
-         638SW6zWwopctzMRhT5F6068BwJFif1XC1oui4vGjnbfKDIlrTpaAePwMVroKnOm2i00
-         ALQuhcLTaQOAfA9Jp6dmUk+Q8FXbWhmhxJLhpuVNKAUdgwSWtsbhyjq0CU8LgZzFv+GD
-         xaFDK2vLMeN4ZEiUCnAzq5dcCrsJUgYv+MVL8jY+PFwRjiPrqk3ZWDCMmUrp06OIkeV4
-         aesAMaRfcKI/NWKA9bpN5qogIdhWP8Dleup/dv7Gz1DulCUhgGJHKd3RD9202x547OBJ
-         s+Tw==
-X-Gm-Message-State: AOJu0YwlFHX6JSN5yRLCWYTuPNqdvLmZyb52uXnmyosajylocKjYp+w+
-	4pzUhOqAiDjGkAqaKsfYXH4Lhm7onWy6gZcB1MjOIFS3hoKVo4PBFOkzU0rFOPo=
-X-Gm-Gg: ASbGncsyHQ9SbsS6D/wUVYs3NFQ/3fZ1AgJ4pHC8QvK8HMVh9z8eH0qSZ5MSlsR+YO5
-	57vj7A7h7IYYR/UMYXF1WGKdA+5aOMhFcyq/5t62ODAYck3opMsR3KWj+aSqt+7mNW4xYBSCg6N
-	+0kpVS/+8SufGlXz+yBPYV2eApRgDq6Jg4fsdYCJR1qeaORubbdSbkaAkKAe+jxLVGSE04r1+Bj
-	7cOqbAx+PC3dZdmH2WV8z3emmq9FffyUhjisR/Ix6hX1GR7YUNCYODlIy/Chj9ycooreyU0OtKU
-	ajQIafeON08RvEFPDcRXtaX5SeQAZK6fhkh3umfAwai2IQ==
-X-Google-Smtp-Source: AGHT+IG9GlkvZe/4zRAi8H0JVH9ACzZygu/ktddu4tlRTcovlswzzU2At42Q0PcqOpPfgvB0n410qw==
-X-Received: by 2002:a05:600c:1c8e:b0:43c:fe15:41cb with SMTP id 5b1f17b1804b1-43f3a95dc30mr135390355e9.15.1744714016485;
-        Tue, 15 Apr 2025 03:46:56 -0700 (PDT)
+        bh=2vbiQxXPXZoIjdcXP9wPiLLUJ/jfx9FujGe4wL4vIgI=;
+        b=i1DFR4L6RFGEmP40+/Y1/uZGOXgx2xO8s2vg24BMLlZOxE1yysEybcjL8/0kcDoXyh
+         grEZZ6OIO3J2Eb8iVW2HW/WnzvwSnHtHa3O29iHbPl44gc/OzAWvTeVTc7w9q/BIxfo3
+         RgJHZPrNxUWz/+alQtjo2telcK1qAQrsEDEOBj3/gCWUowsIf9jZihPlOeNbgLyExLtH
+         V7HGVbTgefIZrpPW49xqqKrWhvUtUSbYj9VcVokwXvqvu613yb3VK1nfc6YyILd9is/Z
+         rSbZBspOkXM5DzG3hf03Zgt64HHbNev6vDrIaF1O2oMkW8UrRX/yeILy0m+0ievWv+QC
+         vuBA==
+X-Gm-Message-State: AOJu0YxJ9WVYbWKlPiwumkimcBRBwK7MyToJjjGHM3QMku34qIiNpEvM
+	QYiaIYKhqAhZ4AeESmFvso2U9C54X6X5/bu1eiaWjaiFr9hcI2jYuZV986947j8=
+X-Gm-Gg: ASbGncu+yA/jk1AmmLWpoaoqRmsp59gG46L8WelufntmyqhNEW9gSrZbZ4ie/PIb2dF
+	iNuD8gyKv7TVUddzKcLzZfYF2WcTvAGSed4YyQqUY7NdYViW8aJ5pum+0Xnc+7nREq6XGLMQgiK
+	oVGRCbvK2JzidTwQC1cUvxSNeVfqmt5DqoKQ46ZQ5OhLkzh7pY2SJMH97MKpjr3cO6jc+cC3vVd
+	1niVrkeTdq/uT8/XoN5Qz8vXA8onJQuCjaiasjmcslcQbyaWPXmxCGbXC5t9QIfiDWGvvhD83NM
+	2IYkSknt1EXLbg3jlGL0/kha3CO36d8/LToEXqatY6BnSg==
+X-Google-Smtp-Source: AGHT+IEoJydkAHRaSYA6WXwU2ip4fUvoX1JPjhd0W1zXOEHAsZoHf6ssl5rOoGbNVzDnuNuXajUg6A==
+X-Received: by 2002:a5d:5f87:0:b0:38d:d701:419c with SMTP id ffacd0b85a97d-39eaaebc768mr12798742f8f.41.1744714027155;
+        Tue, 15 Apr 2025 03:47:07 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39eae964073sm13741229f8f.9.2025.04.15.03.46.55
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43f233a2c46sm204290665e9.13.2025.04.15.03.47.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 03:46:56 -0700 (PDT)
-Date: Tue, 15 Apr 2025 13:46:53 +0300
+        Tue, 15 Apr 2025 03:47:06 -0700 (PDT)
+Date: Tue, 15 Apr 2025 13:47:03 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Wesley Cheng <quic_wcheng@quicinc.com>
 Cc: linux-sound@vger.kernel.org
 Subject: [bug report] ALSA: usb-audio: qcom: Introduce QC USB SND offloading
  support
-Message-ID: <Z_45HSk7z296xzMt@stanley.mountain>
+Message-ID: <Z_45JyNuBhlwApX_@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,8 +76,8 @@ Commit 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND
 offloading support") from Apr 9, 2025 (linux-next), leads to the
 following Smatch static checker warning:
 
-	sound/usb/qcom/qc_audio_offload.c:773 qmi_stop_session()
-	error: uninitialized symbol 'ep'.
+	sound/usb/qcom/qc_audio_offload.c:785 qmi_stop_session()
+	error: we previously assumed 'chip' could be null (see line 761)
 
 sound/usb/qcom/qc_audio_offload.c
     737 static void qmi_stop_session(void)
@@ -97,6 +97,9 @@ sound/usb/qcom/qc_audio_offload.c
     751                         continue;
     752 
     753                 chip = uadev[idx].chip;
+
+We should check if chip is NULL here
+
     754                 for (if_idx = 0; if_idx < uadev[idx].num_intf; if_idx++) {
     755                         if (!uadev[idx].info || !uadev[idx].info[if_idx].in_use)
     756                                 continue;
@@ -105,6 +108,9 @@ sound/usb/qcom/qc_audio_offload.c
     759                         subs = find_substream(pcm_card_num, info->pcm_dev_num,
     760                                               info->direction);
     761                         if (!subs || !chip || atomic_read(&chip->shutdown)) {
+                                              ^^^^
+Instead of here.
+
     762                                 dev_err(&subs->dev->dev,
     763                                         "no sub for c#%u dev#%u dir%u\n",
     764                                         info->pcm_card_num,
@@ -116,28 +122,22 @@ sound/usb/qcom/qc_audio_offload.c
     770                         if (info->data_ep_pipe)
     771                                 ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
     772                                                        info->data_ep_pipe);
-                                        ^^
-ep not set on else path.
-
---> 773                         xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb, ep);
-                                                                                      ^^
-uninitialized.
-
+    773                         xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb, ep);
     774 
     775                         if (info->sync_ep_pipe)
     776                                 ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
     777                                                        info->sync_ep_pipe);
     778                         xhci_sideband_remove_endpoint(uadev[pcm_card_num].sb, ep);
-
-same
-
     779 
     780                         disable_audio_stream(subs);
     781                 }
     782                 atomic_set(&uadev[idx].in_use, 0);
     783                 mutex_lock(&chip->mutex);
+                                    ^^^^^
+If it is NULL this will crash.
+
     784                 uaudio_dev_cleanup(&uadev[idx]);
-    785                 mutex_unlock(&chip->mutex);
+--> 785                 mutex_unlock(&chip->mutex);
     786         }
     787         mutex_unlock(&qdev_mutex);
     788 }
