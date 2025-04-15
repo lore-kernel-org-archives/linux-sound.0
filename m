@@ -1,119 +1,129 @@
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AC8275108;
-	Tue, 15 Apr 2025 08:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEA2EEC3
+	for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 08:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744705656; cv=none; b=N7aQen95imfh0v8wheOJQDMWU/jfWDWeY6dCVp7tyQPyQTO2xet0Fw7nDe6aUvNrlDy5AGqZw8qLSF5vrHdCWsHRo6vMK/8FxQ/L/QflrxdqFJ0ZxQ6FYKscOCzMjB7BbpjS0LP3yktIU7Sa6QoWb+I4SM7YoSqAuwFd6nTKdhg=
+	t=1744705910; cv=none; b=V6Adcr2LNfBu+M+YADc0a7DCHPxPBkYc3svq1wnI3QnlIPXINcIXZW1eP4LCfytm8l0lYdI+9MwghJWF+R6xJz9xfwLEdz5aGFOkIID+rilBxuJtUkKR2UsH5zl49e00HSMiGkv0IDY2VpwULuJZVcTFSN7RFqt1NPlawryFLS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744705656; c=relaxed/simple;
-	bh=O047sYGEO2FirIMFno5oKvIviUxzQ/1Tzd4nTsphlx0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fFg5SWw/qJmcvCG8y3mhuzyaJDmcUN0JOdBtWKUXldah1G8N0yRfHf/54T3l0dDWgSSEJb6xVFH5u9FzX5LT2HdFFg9hihLLXDfKqj0GcEmA34JJDhTVVHFAXrAGKZkd/hpJ/XwLfGXNleIJOWV1vuzX8UwY+KisagR6HArPNek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5259327a937so2162934e0c.0;
-        Tue, 15 Apr 2025 01:27:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744705653; x=1745310453;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nGO+Xd6zIarjSEl7i+vxsyo+MvDN3vL+Ovlv+BhPKuI=;
-        b=oqGezmJSPJ1zttrFEMKizRLe1YWf/aXyjWwnxaK808ToyKIfe/3tSdHuqltiOGnmVA
-         rsoJmNETBqIKh9oHM/S5gCzPNoCFNl8he571uFsEMSw9tm09raYfhxBArJ3lozsgVb9Z
-         LAqDmlaYCHO+9mh9HFYOMApL0ywfcPmehJMd3EJaQ0aocUJ9jvzOrV1XPDdQzckWAECe
-         WzV/DAjbDYerm3JxTSVzPs4d33Je6+VN9Yf6BmWldpB7m0Y6dzBL6gtKify4/lJKZn1l
-         HmgprNzP0/VBh6WrRhkQQCrdeeDYfpnpc9x/VbsAOa+DPFhMXXPcRCCcKFyohW76SDl9
-         jwyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVy8BZYK80aVbijx+t02NyoH+doZ6x84jLsjLjNiGkQYVGm9hVF7WCo1hycBIWWKmEWFZCF+i1iHQ4+@vger.kernel.org, AJvYcCWZYzUgJbakYOkwHO+Danbt68NPmwpPjJ/dZHQTVOJjSYZ0iajM+LBjKfuEtgUgVQKhNbUi/yUjhv+h@vger.kernel.org, AJvYcCX+seipiCOzrMURx8Y4Lz1/rGMWr8glpLQ7I1rKCM52yK1sYccKv1I9e031B662hmU4MLQtXdR2c2wfWOGJVKdpQtI=@vger.kernel.org, AJvYcCXwyxzgvd6uD9B0xz+m5pXZ5WzwzgeUSxqwxisd/GEQOHVSi0CPZB/jcm9lBopDW8WQ1bmenS62XsOKUvo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8BlPb4fqwv/GZ1DhL7cZfsXk57AWt+j1sfIJ7AMGf3HKIkxBM
-	CBNQdMqyGXq7k/dI8yXLzgKL+PiYCXPUGAruExdiUv9J7oHEVGmIcvz4ijR/
-X-Gm-Gg: ASbGnctJ1txoncqtw4kPYuGIMw+mBuxCZiePpbeuvLpKVJPARCGywPrzE4bsHtCq+y6
-	0SSuuhMQVNbiGEjyQXprLc+QIolvlmDSaHm3x72xCEM8ARTERlSiXTCEdPSmkzrzJ5rG9Vt0I8f
-	iix8t6ONTxUKFUXqTgaAprjAt4FyCgYK0UtoX7lqvTln5NzPe7tBS+hyNyDSMkmxuDqQ4L6HcIa
-	7J9C0Tbg5ySsAY1RoFgHFlfVKe6681qvnfwNQfiWl036Iq/PuP8RQLaPH4VFLtc6dObpbNMZNkx
-	ax/z6jiY29Wverw9cltXqS7YSvog70TFoXKHo8zb0jM8oV57JuVdmSEiKCduLwFk6E7C8/R5ArC
-	Lv5Q=
-X-Google-Smtp-Source: AGHT+IGI+2o4aOh25eWfRZJbdubs1qXRO7GFBB/L8qTwHtlnsUL5mrO8zNGcR7dxPPg223Kyu1gTsg==
-X-Received: by 2002:a05:6102:290d:b0:4c1:8f9b:19f1 with SMTP id ada2fe7eead31-4c9e4f12ed9mr10973893137.11.1744705652692;
-        Tue, 15 Apr 2025 01:27:32 -0700 (PDT)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c9c976969fsm2528514137.12.2025.04.15.01.27.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Apr 2025 01:27:32 -0700 (PDT)
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-4c32d6ddd50so81709137.0;
-        Tue, 15 Apr 2025 01:27:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVZ6oC4lsj4E+O4/ozhbF5EH0khqoGxBn2gu6QVKJRT+qs6zKH/xvQr2rlYREkxvlgVy1l5h3wGk0dZdyRhcyT0MF4=@vger.kernel.org, AJvYcCWdXjvjsZQTDyOatguskUO9tvbR2QyBgOwZk5b8Y/B6bmI8sj5y7ByAGBk3frxarkHK5bLsH4WhdQH9@vger.kernel.org, AJvYcCWvuBZolil8VUNgVNYgTTpnkFw2c3CvqrFc08vp9od7GcBDSdsBCJyJU2yoKSrOY9TXDoqywx0L/oYLl/Q=@vger.kernel.org, AJvYcCXhFYAU1U4vCOeLAn5REA56NS66wJgA5CPWP61jKMkXrRBtNSeF8y9dbQabfAiCbTsBDw6+VH+ZIMzl@vger.kernel.org
-X-Received: by 2002:a05:6102:c4a:b0:4b6:d108:cac1 with SMTP id
- ada2fe7eead31-4c9e4eec888mr11050940137.9.1744705651860; Tue, 15 Apr 2025
- 01:27:31 -0700 (PDT)
+	s=arc-20240116; t=1744705910; c=relaxed/simple;
+	bh=wp3UI+KjPHgzZG9/QPgAssSpFiJrnJwvM0Yi6KyMUyc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dAG9hsKw+yEqbkDEn5p/pXcpYGijZVkWW8mesWVLX5wkYAFI/8LCEps+St2uDIBFfP5/2op+tPZDrrIjANgNODJoR9Rk+348osCCFA7rohdVtc90TFn9cdeOgxo+JkSrZmBQUNSh/+h8/BVL3sdwQUOPPyRE3PgJpFL3GT9jels=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Il+u0lL3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CPSsaWyy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Il+u0lL3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CPSsaWyy; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Il+u0lL3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CPSsaWyy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Il+u0lL3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CPSsaWyy"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B801C1F387;
+	Tue, 15 Apr 2025 08:31:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744705906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=1LcmnPtN0Ns0JBWg4wp+jgmfVcVwY7dAjWbZ/7fXm2k=;
+	b=Il+u0lL39lHgc+nX7NzHJYzoa3ARqS25wAWWNjXmm4rprjOluSmC9Fq1MY2VG7wS/YwB9Q
+	adt5xTWfoNEsRSjeZIjn2iM7hRjQbJWu4TAv36QqVhdx9aDR9NMzxbu7nxNag6dli9hYsM
+	c+1c4ynMUGyI6V2q3Hm6iB0DCUlYvb4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744705906;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=1LcmnPtN0Ns0JBWg4wp+jgmfVcVwY7dAjWbZ/7fXm2k=;
+	b=CPSsaWyyoqyZm4NRTapGQWaSeuXGHJrrW/NveO5hBj+L/ZxHSprPTyuqNghAHkiO55secE
+	n/ntIoOqs1MFmMDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744705906; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=1LcmnPtN0Ns0JBWg4wp+jgmfVcVwY7dAjWbZ/7fXm2k=;
+	b=Il+u0lL39lHgc+nX7NzHJYzoa3ARqS25wAWWNjXmm4rprjOluSmC9Fq1MY2VG7wS/YwB9Q
+	adt5xTWfoNEsRSjeZIjn2iM7hRjQbJWu4TAv36QqVhdx9aDR9NMzxbu7nxNag6dli9hYsM
+	c+1c4ynMUGyI6V2q3Hm6iB0DCUlYvb4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744705906;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=1LcmnPtN0Ns0JBWg4wp+jgmfVcVwY7dAjWbZ/7fXm2k=;
+	b=CPSsaWyyoqyZm4NRTapGQWaSeuXGHJrrW/NveO5hBj+L/ZxHSprPTyuqNghAHkiO55secE
+	n/ntIoOqs1MFmMDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 897A6137A5;
+	Tue, 15 Apr 2025 08:31:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9h1jIHIZ/mfjRQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 15 Apr 2025 08:31:46 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 0/4] ASoC: Intel: byt*: Avoid OOB array read from the map name
+Date: Tue, 15 Apr 2025 10:31:36 +0200
+Message-ID: <20250415083144.6588-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87zfgi1a5a.wl-kuninori.morimoto.gx@renesas.com> <87o6wy1a3a.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87o6wy1a3a.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 15 Apr 2025 10:27:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXX-An5=Q9Eunyy5pLwaJ8A3k333-OUQ9B=+xyKP1m0mg@mail.gmail.com>
-X-Gm-Features: ATxdqUEIJsRkcyk194C5WDQ-k8_ecv3OZ-eRHLxN4ZrL9IbC3X6gIAUyq2lPs10
-Message-ID: <CAMuHMdXX-An5=Q9Eunyy5pLwaJ8A3k333-OUQ9B=+xyKP1m0mg@mail.gmail.com>
-Subject: Re: [PATCH v3 08/10] arm64: dts: renesas: r8a779g0: tidyup MSIOF node name
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
-	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-Hi Morimoto-san,
+While reading bug reports, I casually stubmled on a UBSAN warning
+about the array OOB access, and this looks like a real bug in ASoC
+Intel driver code.  So here is a series of quick fixes for them.
 
-On Tue, 15 Apr 2025 at 03:34, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> MSIOF will be used as both SPI or I2S. The node name is not "spi".
-> Rename it to "serial-engine".
->
-> Suggested-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Thanks for your patch!
+Takashi
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-> @@ -1250,7 +1250,7 @@ tpu: pwm@e6e80000 {
->                         status = "disabled";
->                 };
->
-> -               msiof0: spi@e6e90000 {
-> +               msiof0: serial-engine@e6e90000 {
+====
 
-Unfortunately this means that this instance can no longer be used in
-SPI mode without changing the node name back.  E.g. with [1]:
+Takashi Iwai (4):
+  ASoC: Intel: bytcht_es8316: Avoid OOB array read from the map name
+  ASoC: Intel: bytcr_rt5640: Avoid OOB array read from the map name
+  ASoC: Intel: bytcr_rt5651: Avoid OOB array read from the map name
+  ASoC: Intel: bytcr_wm5102: Avoid OOB array read from the map name
 
-    serial-engine@e6ea0000: Unevaluated properties are not allowed
-('#address-cells', '#size-cells', 'cn5@0' were unexpected)
-
->                         compatible = "renesas,msiof-r8a779g0",
->                                      "renesas,rcar-gen4-msiof";
->                         reg = <0 0xe6e90000 0 0x0064>;
-
-[1] "arm64: dts: renesas: white-hawk: cn5: Add overlay for MSIOF1"
-    https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?h=topic/renesas-overlays&id=0b4f1af2c454b49b9f266900dcb578dc311b1475
-
-Gr{oetje,eeting}s,
-
-                        Geert
+ sound/soc/intel/boards/bytcht_es8316.c | 11 ++++++++---
+ sound/soc/intel/boards/bytcr_rt5640.c  | 11 ++++++++---
+ sound/soc/intel/boards/bytcr_rt5651.c  | 11 ++++++++---
+ sound/soc/intel/boards/bytcr_wm5102.c  | 27 ++++++++++++++++++++------
+ 4 files changed, 45 insertions(+), 15 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.49.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
