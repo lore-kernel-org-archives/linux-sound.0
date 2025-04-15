@@ -1,71 +1,71 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F9D29A3FD
-	for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 13:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DED33E4
+	for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 13:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744723709; cv=none; b=pIKOFN1QmqgUfswgybqZMNrDw6XHBz27CDIo4tillLeCa/BnmqDcqZu4nk+pQ2saD+1MRDNw+r83jqyL1CsjubX6fRYklj620+63TyS/T9pBMUpBi/geQbj0f7G8roygGa9U8S+J0zbSaSGN/T/21B9IzTHPAvkx/xhNCBLVjM8=
+	t=1744723881; cv=none; b=esUVVfNUBsXSNn+E3iQXw5hDaBfWQ5o9qQkidoGcBJHMJxXW5urqtH8ZCChrmEQy6vRjfNXGy0x4PQ3KRUpXXRgfl1dVUjEOYqCPYaRO+pdQjgTo+ex28yZw0aqKpqBPojVAPhCmDYpcHxQiX8Igb1fttQtiWUWv6x1E0JUnCfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744723709; c=relaxed/simple;
-	bh=9Lbh+7hzgAiAiJ/8SkSVwB2DuQWmaK9EPtpUj2ZKxuQ=;
+	s=arc-20240116; t=1744723881; c=relaxed/simple;
+	bh=GvfmE/eBZ2/aRfUOlGi5PJS1SLxONEyNYd1JH900fW8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GuWLaka0+dOE2QGMkMAm5N2tzd1jPdOv7b+S2zjI/aXjNHEJ3Vw904YFyjdZ5x04v1haMSttq07PkP3LxN/pX6Q0ar56evhubO1bXuV56+eXWGqdtvBw203ayim70AuEsPEPFkUnziIUmooAn76F/IPKwXCDaEHLot0Uyjo8sM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q7S220q6; arc=none smtp.client-ip=209.85.167.53
+	 To:Cc:Content-Type; b=iqbhd7iDcOkX6LAxLeuMF7DdySwsZQ/55fNmgbNljZ8dIjEgEXLaPolSgb92UkCSANWMOVfdzqY/ASJK5ljh8QxFbeOQXeI9YEaWzHD+zZZimAXr9aAQeIT8iuWFWZPwSaYHKFGXaDzfBibvZ31lI9yh4u+on9xw/3qOH8B/UAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PLHX54V0; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q7S220q6"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54af20849bbso6922480e87.0
-        for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 06:28:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PLHX54V0"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30c461a45f8so48993861fa.1
+        for <linux-sound@vger.kernel.org>; Tue, 15 Apr 2025 06:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744723705; x=1745328505; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1744723876; x=1745328676; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=a2G8Vl/X8cwgzlmMTGpt4sUnpxcefqO0e/GD3wsd/Rw=;
-        b=q7S220q6m67XnNdaaCr1O9ZY7n7yAsNdpy9SKXvC/FwgNa8oB7SnzWtDllvMlDRann
-         jyzC1YQzEB5wvZgqlA48XbSa1/s7ETAMQj3XUqQZUofCNEA4Rgd/P/WElFQXJYTcPfMq
-         2k5c6acMArW7NS8VHT/lPaA6zojuW/Y28fSA4KH05pSWhKqF2u407/or+ECD0L0aEJL5
-         To5WNgIqnwE1vlr0p623AC4N1qabS7BeKjEC5TtxTBtaysV8LC1PMVZoV1NHRAwcJGW5
-         kk5hVwEjfA1m81SzdqsLWPNRKylsGALF1DiYTPLpM2DQfxvsJxCqn2D6vfHQfqfmqbrv
-         lhWg==
+        bh=eug+7WZO7KWDYOJu0WrkQfNoikV10bCs+DYBAICnEU0=;
+        b=PLHX54V0BgMryQWa6LnZlLdqOPV9s9QnsVc//C6Zo7jr5LSW3bHz9sLsX0qIVdQ8ln
+         3gUKXpwOBjT6MWfu3h0CGpR/bS8il2DiTe24rbkg8MYh79N+3JeWGagEmfkN+gzS8guy
+         g+oqvlArnoL7NlAd+oftiy8zFQ71ALT+gmgdaGCZXHIZN3vc9JOedtnK4s4VkeAc3H+G
+         4bPZcuvuQ+kKwZbBFN+mZ9/7FKGIa1ikll38j/oYKQ0VXBl6T3oKXB5SMdxRyyFAGPLh
+         TtIpxExGgmZpoKyIM38vVsL0nw4bhKbS01siHxDb1ZmT/rE5ijkGLqusjDIlNcFSnq4X
+         BiQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744723705; x=1745328505;
+        d=1e100.net; s=20230601; t=1744723876; x=1745328676;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a2G8Vl/X8cwgzlmMTGpt4sUnpxcefqO0e/GD3wsd/Rw=;
-        b=HoozuUthUxxHw5cf0TY6POIhCalZVyV/chYxY4NdGpfYZkguLv6L1fAy9xyz9UqBcg
-         jcGy/QUc/UHIbihkzJlbMF57phdiLNqZZxljEVkOpqoGnouWurldowh1fcV2nFQg9EeQ
-         PHHQV9ES6oDQHnZ139R8uKfNNHaoZTbdMPA3mLLvJdakmNVNkRG+T5wTJzodYbkYpDhc
-         /FA93OEoWA8OpGP7FY/ggbGeRsXrR9fod4d89wJxRKy9/ptJDJwTxFBtaA7UJ9aRDyPa
-         PqClRuY720n1YhCCiwsrboI2sbzEq1S/q/3LwQFLZ9nfAOmN/r09GQHbau5S/bW2Gyx7
-         fwmg==
-X-Forwarded-Encrypted: i=1; AJvYcCWZe4UTS/AOJavQIf8nJtvNC99pw+gAh0IO3sD4vd/pmBzwdfOqQ2mxXI0L9zpnfAvxWv9aZhWC+1NvMA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzK7CdLtKjWx2Fvf5a+lw0TnFp+oX1EuGsthGIZSt7oe0Hd+tlu
-	qpTTWxZRAOgZeTF+NeSvIsbUaWp7YZfFf3LFXVZSnbSbv+S+T9sthC8qXQQS0g8kOWMQ/nqL2ml
-	FJY7RoVCIyKvu13r6+kPQHeuZmBGBHKrbIxS4Xw==
-X-Gm-Gg: ASbGnctJC+Gb7EvEXgd1b2uo+0Y4zVzMxqWv9nYxS/ZEqp6krXhTBSDbiuMAgoHdDhq
-	GQtY/0c0GuOzOaJkcjXm+79d77M9rRnkFhUswntWG3jkuECB9nmzt7enVriuzoghbaRzCKk+MvU
-	Pa3W3mOjiStswOjbX++mohtQ==
-X-Google-Smtp-Source: AGHT+IHmMXF3I6f2qsaz3mct+UMDjiXPBMrGobd2YBejGWLNmLWUOe8eFZ98Uz9qIivZ8WHIIdQPC53i97kmYyMrqXc=
-X-Received: by 2002:a05:6512:ac1:b0:545:5a5:b69f with SMTP id
- 2adb3069b0e04-54d4528bc63mr5049718e87.9.1744723705280; Tue, 15 Apr 2025
- 06:28:25 -0700 (PDT)
+        bh=eug+7WZO7KWDYOJu0WrkQfNoikV10bCs+DYBAICnEU0=;
+        b=KhZsaQ/f03yvb3lQ/Puu3jckYztYFMvHpqdtL/x6IoLqusJ6ck8qISYluRXPvPMsid
+         Yc8hmgR3KpAAp+7Ij0v6yG8nIUn6I4iI3Zyg1p00YIND8jSML/Xoy+ZDorQcNHhI5npG
+         actuMTB+Owfyo3u2ip2PsiIqUIHn1NXeA3QKig/+pzUaacpSKW3BrbM8O9sZ0KeQGP/g
+         uf6AkNfp4HzWphutNZXlL9mZFhaG5cYE224iEyuP2j1VN4cnn/WtCYOWDJllM5OYPZKH
+         2fp1SfSiqJtgcsW2H9g1vORtiupTeOC/XsiP7hKeTOOdvJ3hcCOWQcMuniSwjgJ75Haj
+         Hzmg==
+X-Forwarded-Encrypted: i=1; AJvYcCUTftkOoSUFbqQeG32Q/Dq37ZY/UEqlXCrrqSaErUD186Aj5bXeYpm+zwVtW7Kss9LBbsN4NdF2/R9f3w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKbKwS1svZw3kOdmM6eJochz4YyfOldVxSXiOy0swZrzgutgQ6
+	6eMTHMVKziKzBrBO7A0wNLF8Qtv1U2QvOC879A9hg2/0RzbWmswkpILr77zGpmxhy+NukW+BpaJ
+	jRa6MiQyC9UiyzdDEIvl+B9PyZNWAG05T6WV/zQ==
+X-Gm-Gg: ASbGnctdVuhmnjvcTP752fZ9+0tf6oiw/ychNSBXSK1TqXhL/0aL86AQS1kdxVCuwzF
+	ZDaTzV/Uk7+zFstvpLrRoExVY0kdHsNyWVlOrRk2pYk9ne12jTit3sNOIveodgZhuTg9+ZuZBX0
+	sXtnmieLMCGFBkiOF0kiHnCA==
+X-Google-Smtp-Source: AGHT+IFZev9RFyJCNmmQraspcvfhrbsLl68EnSdbuJYcS/l62aD0avrIYML3YObdQCZ3x2MmS3i5RX8xRk8V7dFCwXM=
+X-Received: by 2002:a2e:bcc1:0:b0:30c:523a:a84 with SMTP id
+ 38308e7fff4ca-31049a7e538mr59706231fa.32.1744723876267; Tue, 15 Apr 2025
+ 06:31:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250408-asoc-gpio-v1-0-c0db9d3fd6e9@nxp.com> <20250408-asoc-gpio-v1-3-c0db9d3fd6e9@nxp.com>
-In-Reply-To: <20250408-asoc-gpio-v1-3-c0db9d3fd6e9@nxp.com>
+References: <20250408-asoc-gpio-v1-0-c0db9d3fd6e9@nxp.com> <20250408-asoc-gpio-v1-7-c0db9d3fd6e9@nxp.com>
+In-Reply-To: <20250408-asoc-gpio-v1-7-c0db9d3fd6e9@nxp.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 15 Apr 2025 15:28:14 +0200
-X-Gm-Features: ATxdqUGReCdFD3en2lnWCizJiHE9r1iSq8BAJ8EIcKsEdsmuhiE73Y3SOpYj5h4
-Message-ID: <CACRpkdaeUs3Yfa8b8=Rhy+Qw4GMcNuEWXmKsK60qOpYB4oHG6g@mail.gmail.com>
-Subject: Re: [PATCH 3/7] ASoC: codec: twl4030: Convert to GPIO descriptors
+Date: Tue, 15 Apr 2025 15:31:03 +0200
+X-Gm-Features: ATxdqUEQNMpQWYYn2o7kRD2SxefyzEZHkzT9pv-wDTuqunbvAd_GIf-5Wu2lh9g
+Message-ID: <CACRpkdZA_bOWt0yqm0mmou6Rp_TA7+L=K9XeU4KXoL=A69e0JA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] ASoC: codec: tpa6130a2: Convert to GPIO descriptors
 To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
 Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
@@ -74,7 +74,7 @@ Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu 
 	Richard Fitzgerald <rf@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
 	patches@opensource.cirrus.com, Peng Fan <peng.fan@nxp.com>, 
-	Tony Lindgren <tony@atomide.com>
+	Lucas Stach <l.stach@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -84,25 +84,38 @@ On Tue, Apr 8, 2025 at 3:41=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp.com=
 > From: Peng Fan <peng.fan@nxp.com>
 >
 > of_gpio.h is deprecated, update the driver to use GPIO descriptors.
->  - Use of_property_present to check "ti,hs_extmute_gpio" to set hs_extmut=
-e
->  - if returned value is true.
->  - Use devm_gpiod_get_optional to get GPIO descriptor, set consumer name.
+>  - Use devm_gpiod_get_optional to get GPIO descriptor with default
+>    polarity GPIOD_OUT_LOW, set consumer name.
 >  - Use gpiod_set_value to configure output value.
 >
 > While at here
 >  - reorder the included headers.
->  - drop remove hook after switching to use devm_gpiod_get_optional
->  - Add return value for twl4030_init_chip to propagate value to parent
->    in case defer probe happens
+>  - Drop sound/tpa6130a2-plat.h because no user is creating the device usi=
+ng
+>    platform data
 >
-> Checking the only user logicpd-som-lv.dtsi that uses polarity
-> GPIO_ACTIVE_HIGH, so all should work as expected.
+> Checking the DTS polarity, all users are using GPIOD_ACTIVE_HIGH.
+> so all should work as expected with this patch.
 >
-> Cc: Tony Lindgren <tony@atomide.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
 > Signed-off-by: Peng Fan <peng.fan@nxp.com>
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+(...)
+> -static const struct i2c_device_id tpa6130a2_id[] =3D {
+> -       { "tpa6130a2", TPA6130A2 },
+> -       { "tpa6140a2", TPA6140A2 },
+> -       { }
+> -};
+> -MODULE_DEVICE_TABLE(i2c, tpa6130a2_id);
+(...)
+>         },
+>         .probe =3D tpa6130a2_probe,
+> -       .id_table =3D tpa6130a2_id,
+
+IIRC the DT-only I2C drivers still require this ID table,
+unintuitive, but I think that's how it is.
+
+(Others may correct me!)
 
 Yours,
 Linus Walleij
