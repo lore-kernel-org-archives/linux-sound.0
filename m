@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4047F189902;
-	Wed, 16 Apr 2025 15:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10065207DE5;
+	Wed, 16 Apr 2025 15:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744817687; cv=none; b=c2qaB3TZI/fwe4Iam+87gJlPkjSu4A/MM1QQO/6fR6q9IDyFj/ax9UGv0MmGHUJ2ETVFKlnDvt4ZWk+3280d+k/aZZ6dgvjlRqMENUuNuitgHF7AM0nmuWtwUkL9SKkBfynkW1Hm6UTY6J9xC2wDqYz4FMo5Odb0PrR8RJ5Wf/E=
+	t=1744817800; cv=none; b=X6fvHIzUJNoqpwOFLat8FG+pp8mFZ+8ai5RNU2wZ28A6G23cE/IW4VLCH4DUsbqRtrIqyDdTBe6FwvCUz674JtzBMMLcZNFFTiPcbmkWx49W5F/6niAx3fSbtjuPXZnT5/apsWWZlt98vSEZ5Rjn6UQZF4qkdNMXQCyiC8h31yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744817687; c=relaxed/simple;
-	bh=zaxzbwyWlfatE3+ds3WIVorARk4YttMEnVcT+1WJOyE=;
+	s=arc-20240116; t=1744817800; c=relaxed/simple;
+	bh=SWUTgPO6IBMtCN7W8Plfj7HHO5crI93/Lqd3PIJuN8s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SUVf5zKqTXVBcuscHCcgMM86iW5xRetOaqwSsmyztZicwx2li7fTX9js+gJqrXPl3RdjyykVWnDd/DLlmiCwh+tFNjZktXndDpGJ/CD1w5vi9IsfmI68WRNeK00/l/G3CRdPGisGncJS+IpD8YpzzYDLdkpUUlp3TOlSJbvJRwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gBQ2hyXH; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=B1rVFzZqAlmyZS4i76Md3yuhwwHGF/xO+RsBxfWnoL408vm+FZw0WhLQr3MICmFS9aO88gTs7S4cNvo0x0kSBPjUuK4din145riqbF1WQY3Es6C/mWauJolMozRzNjOXPoBFw59l4E/YTrRRrnerCZ+qiJd9l9+OBl5Vy6mHpSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S8zIOHLA; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gBQ2hyXH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S8zIOHLA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744817687; x=1776353687;
+  t=1744817799; x=1776353799;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zaxzbwyWlfatE3+ds3WIVorARk4YttMEnVcT+1WJOyE=;
-  b=gBQ2hyXHNUrmjUHI9VRANjX23M0DP7iQ8KdhHIfqAXfsUNdleYsXvPNI
-   ScupKZGCGBUX02Za0C2wLVpLQ1d3weVTOGsECMA0SRDmAqdvr4maMxCcT
-   qadetQbbQ+9UkXy5GRQoLRqUG6d1VqsANbJcA7206CyQB5NC4BwxTtyGE
-   WHfFldzKDwHVLsCIy+mr9xFk/XPg75NX1ls9qwRBvGiUHW9xWDBG0a0o9
-   FEHvplYBx/C7f/WkTGJM/yz6Td8SkIjbDwQNdO+58MkSmtr45vy0AFw2T
-   ODSt3jkADmGdJ+V0mFrHBdhV2/tdq2xUPzO1z4sxJ23aBaY3gY5Nm+VrT
+  bh=SWUTgPO6IBMtCN7W8Plfj7HHO5crI93/Lqd3PIJuN8s=;
+  b=S8zIOHLA4w3PhYxp5WjFLRGC7ZXVtJLZZlDJT6H1FsHMOKCnTpxTHjRS
+   G2Zal6YQCuopZzstH5deRdIiw2kURnmgO7k9iEiVsr2YgaNW2+EyioSrR
+   vtCgKuiqZzHdAgc6NMzATyTVqxsxXdY5zuSs/8GFCdPIrbpRSM8OPpM3w
+   Vvvgv6FktH6cV0nkKbkwVi8bY0sGcQ+Thu61+e8XsfuM7hMt+1yWFrpqT
+   MhTjMPycuyeAUNRpnLOsjqNaohcuKOyv1Fh2D8sgNRjPZM/ORQT7X7S3P
+   h4QfawtTAuzM5lc5imPfVuBvbZMxCzi2beAwCoTCiD60CtOntAavExloL
    A==;
-X-CSE-ConnectionGUID: Sf0gqoTaQ66XTKAUaRg6ZQ==
-X-CSE-MsgGUID: HGnF49keQPSjmpK120nkTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46500544"
+X-CSE-ConnectionGUID: uF02SWFZTPqxOikCVDfvkg==
+X-CSE-MsgGUID: 7EIsCdynTOyMiwnESaSXCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="57012300"
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="46500544"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:34:46 -0700
-X-CSE-ConnectionGUID: DP2yLZsJQEGCNjUl65uggQ==
-X-CSE-MsgGUID: NfM7S+4qRD6jNOXjquFnzg==
+   d="scan'208";a="57012300"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:36:38 -0700
+X-CSE-ConnectionGUID: O+9qB8NzQMCueDaUY3VkyQ==
+X-CSE-MsgGUID: s6DkyLxGTSmgzrvvKDglVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="167688528"
+   d="scan'208";a="130478032"
 Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:34:39 -0700
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:36:32 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1u54mZ-0000000Ctqa-1NKX;
-	Wed, 16 Apr 2025 18:34:35 +0300
-Date: Wed, 16 Apr 2025 18:34:35 +0300
+	id 1u54oO-0000000Ctrg-1OXT;
+	Wed, 16 Apr 2025 18:36:28 +0300
+Date: Wed, 16 Apr 2025 18:36:28 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Philipp Stanner <phasta@kernel.org>
 Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -75,9 +75,10 @@ Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 00/31] sound: Phase out hybrid PCI devres API
-Message-ID: <Z__OC5NDkQYIHNmL@smile.fi.intel.com>
+Subject: Re: [PATCH 01/31] ASoC: sof: Use pure devres PCI
+Message-ID: <Z__OfGRaD0iu1hgJ@smile.fi.intel.com>
 References: <20250416131241.107903-1-phasta@kernel.org>
+ <20250416131241.107903-2-phasta@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -86,27 +87,33 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250416131241.107903-1-phasta@kernel.org>
+In-Reply-To: <20250416131241.107903-2-phasta@kernel.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Apr 16, 2025 at 03:12:10PM +0200, Philipp Stanner wrote:
-> Hi,
+On Wed, Apr 16, 2025 at 03:12:11PM +0200, Philipp Stanner wrote:
+> pci_request_regions() is a hybrid function which becomes managed if
+> pcim_enable_device() was called before. This hybrid nature is deprecated
+> and should not be used anymore.
 > 
-> a year ago we spent quite some work trying to get PCI into better shape.
-> Some pci_ functions can be sometimes managed with devres, which is
-> obviously bad. We want to provide an obvious API, where pci_ functions
-> are never, and pcim_ functions are always managed.
+> Replace pci_request_regions() with the always-managed function
+> pcim_request_all_regions().
 > 
-> Thus, everyone enabling his device with pcim_enable_device() must be
-> ported to pcim_ functions. Porting all users will later enable us to
-> significantly simplify parts of the PCI subsystem. See here [1] for
-> details.
-> 
-> This patch series does that for sound.
+> Remove surplus calls to PCI release functions, since pcim_ functions do
+> cleanup automatically.
 
-AFAIK the ASoC and ALSA maintained by different people and perhaps you would
-need to split, but I'm not the guy in charge, so wait for them to tell you
-their preferences.
+...
+
+>  	ret = snd_sof_device_probe(dev, sof_pdata);
+>  
+> -out:
+> -	if (ret)
+> -		pci_release_regions(pci);
+> -
+>  	return ret;
+
+Obviously you can go further
+
+	return snd_sof_...(...);
 
 -- 
 With Best Regards,
