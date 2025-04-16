@@ -1,82 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF822253B7
-	for <linux-sound@vger.kernel.org>; Wed, 16 Apr 2025 18:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2798929A5
+	for <linux-sound@vger.kernel.org>; Wed, 16 Apr 2025 18:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744829687; cv=none; b=gnNPrPUBI3GItplONAtC17XormChiksCSnEoHQybF14Fdo+pGvilbv6RQ7yfsU7DIzdhXlZEYMff8BQkyQgU9x/h1cnIj3MgpxyVtJeVwqc744HIA3UDgotSCwqllvuib6RgYn9f5Qu7cbhYBl9Q7d+oH97UdcHoDK7HIkNT9k0=
+	t=1744829819; cv=none; b=JR6gGUoaIRH4BVJiqB/kVTJbIYQ4XbckW1KcPE1/AVj0+9iW439aL119gY7wmWRTMoWIrbz0DbWvcKQpdeDNAmwpprjIMluJbH7PMqTaSFu4npUAxvvJYt4tLhm7OOnAi9C2eIYRFg3Ms4Gx0uQ6RTdAq5q+z6kTsROf60Nqmh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744829687; c=relaxed/simple;
-	bh=KnbHooalaXSrP3RpK6HIISXjibis2g0smxwboJMQ+Xc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=h9hHJtzLHLr6LzScae3ASejb5ougQEMX84sEtDMtS/v4btG0eD+G0l34g3WITzxn2nUp2cLQLIlmUAV0lq1R21SvffUGFv2nRI5KNEY1dqrJag8bMvzbpNhD6H0oWBWt+6a5m7UvuUPXJQWO/QMISJrmgdvswHZuUTPUrwC4uUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RZmRcuFb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744829819; c=relaxed/simple;
+	bh=1GJ7VPzWWC5OoIpci5SsClRYGUtMhZBL/m6AZChq8AA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bq1WUAJz0SwZ6VWmmDMRoCUFjoAqbYvwlDEdEgMbVS7pjm/xG9C/kGxY3wzvHLUA6mjBWb2RnPZFLnskUKolbIDoX95bqh6Vaf7XX8nllqYGgEAahkyJ+Gez+OTZoZN5VzPpQuIE8odecQ+rvNc1KMsNdVENLmpUnj4Kiw2VCBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=Nc1CGLm8; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RZmRcuFb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 232E8C4CEE9;
-	Wed, 16 Apr 2025 18:54:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744829686;
-	bh=KnbHooalaXSrP3RpK6HIISXjibis2g0smxwboJMQ+Xc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RZmRcuFbskDN5tCaUCVhQNB8Q9sxChR7oOkpyLi9V06lpspOF+s1iTAcu832cxZxE
-	 AKWQ1rfbqTTvuEgCGtamP1DzQ1/JyZp/wU31ohkiAkfEwNDTomc51l/fSJOWnTQtPZ
-	 +O2RfAZ1CiSwKFAFOzUUwhZ3cRcVkFht6EvMi8w2hvCOUW7Dwh/VQtOsFr8FwXuLO1
-	 5nUOWj9Wg2ElhZ52rYYm8p9+pIPogHDmIVL8SzsalBrAUaJOYzJ0kQ2MSkkTJW7wAE
-	 tPrWGSrbqMaVdaaL2tyxNAaWkA7HpepRczuqBzkLwcI2yXhQS6ZFg8NLzYU0of2mMU
-	 ddiQrvSB3t+CQ==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-In-Reply-To: <20250416092528.737845-1-shumingf@realtek.com>
-References: <20250416092528.737845-1-shumingf@realtek.com>
-Subject: Re: [RESEND PATCH 1/2] ASoC: rt722: fix pop noise at the beginning
- of headphone playback
-Message-Id: <174482968489.823707.9066756869948799604.b4-ty@kernel.org>
-Date: Wed, 16 Apr 2025 19:54:44 +0100
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="Nc1CGLm8"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id 2BD1A66877CF; Thu, 17 Apr 2025 04:19:23 +0930 (ACST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 2BD1A66877CF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1744829363; bh=404IXrDYGxF02cZNldV+uv1lix5VJ/4UU7o7eWyL5z8=;
+	h=Date:From:To:Cc:Subject:From;
+	b=Nc1CGLm8GakdjCwJdEA1sRsn7lIfJN4qwUOBQb/WJohwwn/wIWMWVZnGqHIW8kQOW
+	 T/wPVHq43wNIKwrgLZ9zDV9+5ESCRlTsJXfysTuHsAhDn9Ta6mG4mDsnsC7pvlS75j
+	 16KiNfVapw/loM9TuuL1LsJqEGoMOJzOpIedwKbuwexejCJM5ZALq1EQMTdWIKsRvF
+	 Eizzc2CNX84yXH5XO7ecepTYQfbr9pWLD+6IRY34j0nSvJUntZzjG+RWihpdeGrFj5
+	 2KywIMYGULeUCLOBZaUOLeSq8L/N2MfrHuK5+JnNkzpbQp2oY4x67TGxaFHn3+O5Tk
+	 j2LGHL1a8iRGA==
+Date: Thu, 17 Apr 2025 04:19:23 +0930
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Add retry on -EPROTO from
+ usb_set_interface()
+Message-ID: <Z//7s9dKsmVxHzY2@m.b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 16 Apr 2025 17:25:28 +0800, shumingf@realtek.com wrote:
-> This patch added the function_status check to avoid the calibration again.
-> The codec driver reinitializes when the 'FUNCTION_NEEDS_INITIALIZATION' flag raises.
-> 
-> 
+During initialisation of Focusrite USB audio interfaces, -EPROTO is
+sometimes returned from usb_set_interface(), which sometimes prevents
+the device from working: subsequent usb_set_interface() and
+uac_clock_source_is_valid() calls fail.
 
-Applied to
+This patch adds up to 5 retries in endpoint_set_interface(), with a
+delay starting at 5ms and doubling each time. 5 retries was chosen to
+allow for longer than expected waits for the interface to start
+responding correctly; in testing, a single 5ms delay was sufficient to
+fix the issue.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Closes: https://github.com/geoffreybennett/fcp-support/issues/2
+Cc: stable@vger.kernel.org
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+---
+ sound/usb/endpoint.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Thanks!
-
-[1/2] ASoC: rt722: fix pop noise at the beginning of headphone playback
-      commit: 91f4ca732495ea5dad39e1b041ef0c2a6e1fe02f
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+index a29f28eb7d0c..f36ec98da460 100644
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -926,6 +926,8 @@ static int endpoint_set_interface(struct snd_usb_audio *chip,
+ {
+ 	int altset = set ? ep->altsetting : 0;
+ 	int err;
++	int retries = 0;
++	const int max_retries = 5;
+ 
+ 	if (ep->iface_ref->altset == altset)
+ 		return 0;
+@@ -935,8 +937,13 @@ static int endpoint_set_interface(struct snd_usb_audio *chip,
+ 
+ 	usb_audio_dbg(chip, "Setting usb interface %d:%d for EP 0x%x\n",
+ 		      ep->iface, altset, ep->ep_num);
++retry:
+ 	err = usb_set_interface(chip->dev, ep->iface, altset);
+ 	if (err < 0) {
++		if (err == -EPROTO && ++retries <= max_retries) {
++			msleep(5 * (1 << (retries - 1)));
++			goto retry;
++		}
+ 		usb_audio_err_ratelimited(
+ 			chip, "%d:%d: usb_set_interface failed (%d)\n",
+ 			ep->iface, altset, err);
+-- 
+2.45.0
 
