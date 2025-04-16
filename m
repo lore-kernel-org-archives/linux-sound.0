@@ -1,98 +1,103 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37582205ADB
-	for <linux-sound@vger.kernel.org>; Wed, 16 Apr 2025 07:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FDC347B4;
+	Wed, 16 Apr 2025 08:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744789772; cv=none; b=IX1xi/4ZVqrrZzbK/ugTlF8LwrwybldiKWYh9fiDkOMTkAB8bI7SmPjB+WaU2c018FGS/sClGkwu4V8cIh005gso3hW1P/vRkmPqOuql9dN6W7iy3Y78I1cf0dMmdPmQpyZEiuMIzK4hY+msOmIHBIFGBTSmZjxQdCvfFkEodow=
+	t=1744791133; cv=none; b=gNxdaVoCaRq2dB3HZwW/P7OdKUhEl/Q7xL9W6PrbxNnh4MZkaA9o/+No/k9l1EMQa8zdGKhWqmjl6fVCB9J9dmwaQ/7jyxYttmT8ybqgcsZaF1oYVNM2o8G6dw9WOuI1bIsEpFpHEzfgYguAdXyQEQUozyhM67A2PTaF6pz/dps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744789772; c=relaxed/simple;
-	bh=y6V3AOLdTv8dlanS3n9ETQGh16vUI1tGl4CKTRTctpA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JMIfZHj3z1WunzxTavMxLuYCm6wdiaQRUVBE7dl334eEPDBk7oqKb/L3xBAmTSwRl0iIdKhkXJDz9VS1u2OLol5ejSznu89G8CM1ElXVqGDh6O2zXkyahrv9LKHTR20UTsDKAJhFDyqxNczIPuY9Zd9lDj12xpKZgq9yw+d1QUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FrJA4UIx; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744791133; c=relaxed/simple;
+	bh=Jc22Eo0VO10sOvqqMAho7ArsbLj2o1xB+/q3mFoXE5I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RE/umGDhuH+Zo2O58fM7drpGN02Wa6IjNzP/UsHPslZMlmOn+owKf5I/HBaL7XL/C4AVHhO6Ikg6VeBzoHKkcqmf2Oon9CGlOeItNF6wZoB5k9b/gxIv1jTD7lYja6kC2as3BDt3UFh9pDAlrwvlJTRqcIxBoRnoIuxwXGUfeCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wlg43VpF; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FrJA4UIx"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30effbfaf61so5221611fa.0
-        for <linux-sound@vger.kernel.org>; Wed, 16 Apr 2025 00:49:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wlg43VpF"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-391342fc0b5so4823426f8f.3;
+        Wed, 16 Apr 2025 01:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744789768; x=1745394568; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Li318XyTiN/uJIOI6yN8FSyh+RWJRrMKNpH3kjEmCJ0=;
-        b=FrJA4UIxJShXW+zB22cMC4pK+GXJmBQi31ykbYysCNcLWXL+zWROXIhN7W4leUKYMc
-         R5XMd/pqToRTvyLSuQvsEDQCjpkKErTXz0fstIt8Nt9js2+626slK5T1xHfG2AD1e79J
-         M3CZ1nSw56EeyDEYwfNfsdlbYQ4U0xjSCzR4xz6fg51BIIWWclzKy2VW/sArWZSah9Pt
-         dLYgtlZrtTjoTDzM8w50USy+gQzI7Tv0ilSEMcS2AumvmMoFj50oX0dsg+dAhIPCtTR8
-         hvm3VZF6WiszwyWuzGWZKaipdFD1pvyDaISP5KhCAAIl2CrR46QjuvRpxdKbhk+G9S1s
-         x/XA==
+        d=gmail.com; s=20230601; t=1744791130; x=1745395930; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7xbSwOnHJcl5ihilpvmWsdE0abLroLqOUSXNDhR1Fz0=;
+        b=Wlg43VpFcWtKxVjoww5c9JPAhYyrCNo13TO2iXQ5jznCXz7W/gJ59fIfM1kzCb8sgs
+         SpE4pm/rwaLlj89/BRWVRW5RAOv3cwQYdGp7p8IgWj4qSjtObwq4XlAxkOGpy6dHbbq+
+         zGb+Sufd9JNOzrEwJu1+u68CNQHQmRvJf7Okt2fuP9AtRlQUNOAhaj7XFudil52D+PZC
+         O6Nf7OOX0PsZt5mJX/EmjV6IYS4lHrp5kp2hyBArJ8Wittl36kP8C7Qiwg6Py/huj3ZT
+         +cc+oqLGqFZhLWZPz7OOIPAwx9pKIzVnYMHP/TPRd4wbCXBpiCwrEF8+w2DpKmABG/ii
+         8UOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744789768; x=1745394568;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Li318XyTiN/uJIOI6yN8FSyh+RWJRrMKNpH3kjEmCJ0=;
-        b=MrJFU3SY2idm/+LuSFd5Tc8TO1y+Q4LblLbGvrzmGwqtUeDZg/9iCShSbAhS+YqTJG
-         wqHp+sD7CDSntFkOBY+lBmTfRQSwN/H9iaSg8PnzkMhcFebuNuYWApGsHiVcOPFWvP3A
-         yjo+IqjqsXOpLD3wYjbebSqqDLF8+pmKfADePFClMeQrNcITgeD0c8cmxAOucJ8ASAUi
-         pfMSporoBUXxs2w7MII79tNu3EW17+Q8lScw1m81EBIUkMGHG3eCX9wYNedn7UB91k/v
-         KeYT5Vj1hPTr1gDA6D2FyHdwLXNxHC1kML0AgcdhJLodIN1gopN5byhOa2p4LXGSXr5s
-         my4w==
-X-Forwarded-Encrypted: i=1; AJvYcCV5WMokmpAODy9jOjmp8lbtXqg/9cJEGijZ3n7y5HsG/6rqhssVlV8SmtI5UBgNCuUvhY7NQpFzbcmjrQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIdIDAm4fTFttuX7jaiXe1YCBfyRf2TK3QJ8UBDzbO6YXXmHEL
-	THaC4c5E1jfqiXzGfN5ON/RWuGeQjSQWnEPy0fyDYfSb2m6ZkRFdedGnv09yTn3z5nCGaRF7VZC
-	C0f7R1th6dXfJNJLyqVuNvK8n53DEmqO6O+lcbg==
-X-Gm-Gg: ASbGncuIu969mdU5ZOc/7tlfSTjxyJlbHrlY/e2LQturO0KP8sg8iWCa0Adg2vxmx++
-	I+ZYHxH21wKsnFLLh+4wEdLZ4+dPQ+C11hIMEsHBzG1djugKQXmDXgB8ILjzuecdCGL4oW4qpfR
-	WfGxcKs/BofcQZWlJ5HN95pg==
-X-Google-Smtp-Source: AGHT+IEPREySuoOfp15YyWzzTmAt01Tqbj/2VqmaXRIkeCym/y8X/7ABrRBdra+DcM3mt8+IdmE3iK2e3PADEhQvaGc=
-X-Received: by 2002:a2e:a801:0:b0:30d:e10c:cae0 with SMTP id
- 38308e7fff4ca-3107f74da68mr3089381fa.20.1744789768244; Wed, 16 Apr 2025
- 00:49:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744791130; x=1745395930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7xbSwOnHJcl5ihilpvmWsdE0abLroLqOUSXNDhR1Fz0=;
+        b=Q78+Ccjj4MempSxk/KZMbKbhjmqB9r0jsDTr9Gmsdky0POnEKTnOp2hpgO7HrPQr7J
+         Vvym/GeZeT3SBAKHQIwUgP+caIH82XYR8/LxmNCehyPame9CGz3qvwXDChkyC/m8ktkv
+         EN5NR6iR4TbPoq3S7OepWe+cg66kk2bMsgliDUn0t9QfGXOhJbwLikQqgN2axs1dP2V9
+         jCONgRGy5VRRuzUBfmSfxqILJAIVLaOkny97Yfsk4EX08V8g9O/RPYJ0gLtRMO2kdgyc
+         kGBwA+PqW+fiUvreD+4IPe+b3xUCOwe9SxHLKz3EBov02CUFL8o4xc47gJblW5BZiOeT
+         WhVA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDlNBTI0hgjTgBVOYpzMBZ8L7nlHMB6rsXyJHGVpq2w5untT6NZt4depe4ER5ZyRlIXh2hsdO/jtXUTCc=@vger.kernel.org, AJvYcCUVfiNZWmlt/w2Jfn156INONIB9wx+2surWlLD2jUlew3io+UIxeh/1E0YhnLAqXMjS5cPdRWC0zpSAciE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzyu2lQLtFnxKp+n+O4y547PRHRAvI77yZBsEn+U6AqYOGOTHl4
+	HFJfs+7Mh6jRL8aH+H1NcDIPi8WT5BCWr1eHhjgMfDcuOvBXY1K8
+X-Gm-Gg: ASbGncuHVf92QT4+8uk0lzxObuqyLCFBLqmrNLqfM3OPg8olrVmUq3M7RXw1c+lJ0Da
+	4JpN63IDbA71ardQq3MNMj1E4XHOnYrvxvvxd3DvGXD0zYVVjRY0LiCNQEUS+dpy0bKX0oYUzKn
+	qZ6RLYoOpK+WrquavcpyDgJbTbt8dgbb1/naF0PH2wI63KipwhQD7aB81zJtSouYC7cvmXSftIe
+	nSnyO18KKVMIMdeVqe7MPZkp7kM4RNjr0eDyLw9XLDMLXYutNLg1pNKnp6N98Z6uEIDDDQJUs6g
+	1dbqyzAUE7vcHZ1JbrebjbAo8brIp4xZXRUNHbx6+YdaDueCfWCP
+X-Google-Smtp-Source: AGHT+IEDl5aW4j2p/KlZbpeZlOW6+VxaFPlwv9s2ZrvxmOyoPDUS0nugUIKBDD6JvePtOuISefvMqg==
+X-Received: by 2002:a05:6000:2911:b0:399:6dc0:f134 with SMTP id ffacd0b85a97d-39ee5bad76emr774209f8f.51.1744791130000;
+        Wed, 16 Apr 2025 01:12:10 -0700 (PDT)
+Received: from localhost ([194.120.133.58])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39eae9640a9sm16555399f8f.10.2025.04.16.01.12.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Apr 2025 01:12:09 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] ASoC: cs48l32: Fix spelling mistake "exceeeds" -> "exceeds"
+Date: Wed, 16 Apr 2025 09:12:04 +0100
+Message-ID: <20250416081204.36851-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250414-asoc-tpa6130a2-v1-0-5f4052e656a0@nxp.com> <20250414-asoc-tpa6130a2-v1-3-5f4052e656a0@nxp.com>
-In-Reply-To: <20250414-asoc-tpa6130a2-v1-3-5f4052e656a0@nxp.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 16 Apr 2025 09:49:16 +0200
-X-Gm-Features: ATxdqUF6aMsd-1N8yiBF4iVw_pbJpleioZMe0w-CQnoYIzWZdrI1NmDNikEtseg
-Message-ID: <CACRpkdZz8vpQp5utC_oT54LrZB3kOdMO7VTQ5K_tViwB4WXXUg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ASoC: codec: tpa6130a2: Convert to GPIO descriptors
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, Peng Fan <peng.fan@nxp.com>, 
-	Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 14, 2025 at 10:35=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp.c=
-om> wrote:
+There is a spelling mistake in a cs48l32_fll_err message. Fix it.
 
-> From: Peng Fan <peng.fan@nxp.com>
->
-> of_gpio.h is deprecated, update the driver to use GPIO descriptors.
-> - Use devm_gpiod_get_optional to get GPIO descriptor with default
->   polarity GPIOD_OUT_LOW, set consumer name.
-> - Use gpiod_set_value to configure output value.
->
-> Checking the DTS polarity, all users are using GPIOD_ACTIVE_HIGH.
-> so all should work as expected with this patch.
->
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ sound/soc/codecs/cs48l32.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+diff --git a/sound/soc/codecs/cs48l32.c b/sound/soc/codecs/cs48l32.c
+index 4e2bc09773cb..8fd0df671730 100644
+--- a/sound/soc/codecs/cs48l32.c
++++ b/sound/soc/codecs/cs48l32.c
+@@ -1802,7 +1802,7 @@ static int cs48l32_fllhj_validate(struct cs48l32_fll *fll,
+ 	}
+ 
+ 	if (fout > CS48L32_FLL_MAX_FOUT) {
+-		cs48l32_fll_err(fll, "Fout=%dMHz exceeeds maximum %dMHz\n",
++		cs48l32_fll_err(fll, "Fout=%dMHz exceeds maximum %dMHz\n",
+ 				fout, CS48L32_FLL_MAX_FOUT);
+ 		return -EINVAL;
+ 	}
+-- 
+2.49.0
 
-Yours,
-Linus Walleij
