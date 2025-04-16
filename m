@@ -1,387 +1,188 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4F51D8E10
-	for <linux-sound@vger.kernel.org>; Wed, 16 Apr 2025 08:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744792468; cv=none; b=I5HCLe0QqAUPpwORa9cViiHicVRKI1insiHBdZvgUEHSf16v/qRJJ/Q1cLsscR0L3DZubXVE+yTXNpxpqMz9YQGFFh10gSIS1Ha0GZ5WUB/12Xe2IxMOXtmFoIEhZZUtWPeDieffu6cIWONc27DozB9VTJTV0ncOGAV/WZebSj4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744792468; c=relaxed/simple;
-	bh=gpvqHVUgHGeryWO04DyLJakTN+KZfOzCrqXMUwAiuH0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=St4QbVsxpqzNIt/+e5Sp5QWIqyYPGgDGByjWnlfHTzOU8heVA3OZnWKsiLpWhqIl0M4M28jGhlQIuWjV7JE8WfVXH4NZKiYzTbx/x+gTBhn9P1H6ksuXiUj7XFUSxWye37GBMVlfZHRvqQsJnPXNTKeoTnYbT8sMbbzxWKj/SF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VEq3UY+6; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FD5205E00;
+	Wed, 16 Apr 2025 08:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744793908; cv=fail; b=lTtF4P7GGmeu6Pt05AU6r10+mJ3AvsN4dzqIcBBjwYDkSqsLpiOLzDpcYVWxbG4O2wXc879wdymC2KU65KRVlBp46V/KiyhwNVRbqHy5sv+/2NYuGQlP5S91g2uja0Ro4Il9yXG01vUEDuseh9SEa1m2h9GOpaR990h1u/vozVE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744793908; c=relaxed/simple;
+	bh=Z5iiucz4iRMY/CAXWG8QlZvFXzgUQu2OoQNcNBBNdnw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZsBf9JUGXDrRhgCiSjXYaGR/R1ib4L9YplKj2SYgnEyCSoP3xmAJH+L8iwRi6iQv8R9SjuEDMuodXNsP0k+LU/5gyRgECflk35i2TtSP5IbyF9LiZTKtzSwIG4cQ9vDi0qFTepLrZwv+ZJIbEkmojIUB27pQCCXVAJ/VALmzSR8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=W/8V+GPa; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=PorRVHtf; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VEq3UY+6"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54b1095625dso6998666e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 16 Apr 2025 01:34:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="W/8V+GPa";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="PorRVHtf"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G5wZnH007151;
+	Wed, 16 Apr 2025 03:58:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=I441p5U3eB74h6+wQnpMU53ywGVpRCKPsXzsXpu0/FE=; b=
+	W/8V+GPaoI52N2xy/KQrr3knFPI+eugFfYQYmr1mdh3wiHlAoV+Ic+Ut7QBwl4dL
+	zP2j+lprJ3nWdlwoIc+ac90GrAglrgoGqKlHvX/7VmCcJe6BRsdcXCms3XxJF3J0
+	yeTjk6V4soHhsbvQmmesMDad+e3cUodIBviRdIxJunSydzCXxEKKPRzEAY7VH1jt
+	9lAvyCOZYvvt3MTxOJCSAk49DcYMJDKXP5s2zS2N5xbXNdy9Phb3XT3TKUSxKJrs
+	J9JoqWLinwePHbMda/cFYJaig6xTFE5GejFmXid6+SUU853R4StxlgIfo3NX3EGz
+	0cCplBhvuesCQeRPuh6w0Q==
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2046.outbound.protection.outlook.com [104.47.70.46])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4615wt2cka-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 16 Apr 2025 03:58:14 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Jqv//GuAMIrZH3i68Capm8ej0MflR2LMC9JZfr845VyOZQQ141bgFcWR9/dfi/GiLH9z4qvO0IpHqL7cQISq+wSL/97lHHO+yIq1uUn5nfTQfLYueLuu84FssiLPLmZtMoIQQ0FMdkmF2ADUH97KdxrRmRla7H65yn9v+Dp35L3SpTe+IV+vsxOn+LkRzVZBO8y2AWFU5cDTKF3vXJi0QXrta4u8zdQ//DX/TSSEiXenVayAQK90pVUJHg8jq5qYhUU5RB8PLkjEHYclzqM09YIUoiQo3mf8XdMn2ZKjVChmQsNKUkLekahVDphD202I5jRpYbx/i5PSI3MUMjd4ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I441p5U3eB74h6+wQnpMU53ywGVpRCKPsXzsXpu0/FE=;
+ b=zPxu3z8HvJaDNT+1Vt08YIAQVHnSz2snhE1vqMVDCeb8RwEwrZtybw1kEvtsuYs9P86dihvFItFvUFbgtzrBYgxG4OOcwbL4r5EvKsPDQWZvUiOaMaR2otgftCaDyRiId9dRBZH+e0sXb8SVQeR7aGZHtD3MmRV40eFkXhewgpd+ShoTI4Vj7JGxzxc3FlUMgg3DJ8Pd2EJAJMOr9YYS8R0BqfjmdZEFMxTBSChX94AHKaPltNjOTTkXdKi1enJ+SHjrmDxRyydAK8TXTcDkXSW5O3a3mgo4mw3f+gSAnOBi3en6GLfSjT+q0FsK9yCsr9BQc7OqOJ8DM3mumP1N/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1744792463; x=1745397263; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y6QE2T0ZuBXB4WndsfLOAzxWrh7klQ+oX5dwA6vGb1g=;
-        b=VEq3UY+62ndh/mok8tHmSLsEwlisPL7NBqgNB0ClRaSfYvMGlB/wmviHBQAjLxmlbK
-         KQbz9DQHL9vFvL5etY0aqSbfg/N/28jFQ5aAI3w7Hq+04RXQfdTgHDYC93FJHfzJb48i
-         6Pm2YVuGh4DAgZNSFsG2RsAD4Jd7sjP1MrDzk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744792463; x=1745397263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y6QE2T0ZuBXB4WndsfLOAzxWrh7klQ+oX5dwA6vGb1g=;
-        b=mNHt1YbrbB80YfJ1h1Jv0PHdXcpylc1ZtDnA25xoR/agy/aXP9inS4Ob8Aehh3Meqw
-         0kvt7Tf9FSb7RP8Fu1X+YVivknyep6AKUoSKLrsTKFVHg/q/BAKElzVYmXPXopCDaCWU
-         3zhmDbkemCThw1TkCowvWDFNZ1m5OcpcCZSuWROY6BzZLc+vjPflzBEMOyM2ZcgBWkRX
-         zcocKZd2o7SzLjULkByqLWxYYrw+b0h53EQ9fvVRhITMvMXqyp2T5nPQ/ckptWKcaK7k
-         B1S32Vu/agjVVSTYqU5Z/kORvhEikDdHNcNSBSepoks7kbH9WIL5hLLFiWbuyzbpw9ZN
-         6xKw==
-X-Forwarded-Encrypted: i=1; AJvYcCXilbhXJ4nmliWuCBABUVE1Snr+c6OxR/v830bcU/tZ7YHOUSNs9JKaM6cUrXrPRIdjgNqcwzUnSKkWEA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh5yrBuZj/MNodkzaZtIgL57/HFiH3dXZK/mB6Q1sDlgeGzlK9
-	95uZhAjrF8ax+9llY5gmxP3ijY9QcfUZPAD9aMhulVLG8jDOEvXsIugcGV74LaheMJuYN2apS8c
-	Nf4b9FOdy/B5AVyqYJkmRn/rij8AMVQ8WqaqgFS4sxZrkE/A4OA==
-X-Gm-Gg: ASbGncsgd+NRTtgd5FpXJCZ1vMW3g+B3419F0FyR4mQGJ7vl3nHxc8/F3e4WaPS3LAm
-	sAt6LmZDxwaJHA24Kl8JnY3vU8bLZKXssIQ15lZDQv/ByhoSVcGxlJZtdvaai+gNiruxbjyS/DB
-	7S0lgFC166ie/NCEczbVieYRWcqVxoBKSWs3toS5ti82M+9+Kr5Q==
-X-Google-Smtp-Source: AGHT+IGywv405x+hdQLo/98ClZzF7JmGK2W6nH8CVYn8/jZboSM3mheObcfLUo7gqxuVyOBok2c1x8Ehz9kkQzuTqRQ=
-X-Received: by 2002:a05:6512:1094:b0:54d:6400:4bd0 with SMTP id
- 2adb3069b0e04-54d64ae8212mr274900e87.37.1744792462920; Wed, 16 Apr 2025
- 01:34:22 -0700 (PDT)
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I441p5U3eB74h6+wQnpMU53ywGVpRCKPsXzsXpu0/FE=;
+ b=PorRVHtfMdNu6no4tWtUzEpN4hnyZJHSXbtW5Hi5fbyc8/Uls15Zm4GJQ4axJWSXXzgijrHQIqhnlqu03mqJAZgS1UUZoYr/GMfp92qejZ5cZymvPA90o6PWXeNbKcgesSyLNzYuXXEGZNWrBcToT8AQaH3pktQMeiGETAiyH0Q=
+Received: from BY5PR13CA0002.namprd13.prod.outlook.com (2603:10b6:a03:180::15)
+ by BN5PR19MB8991.namprd19.prod.outlook.com (2603:10b6:408:2ac::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Wed, 16 Apr
+ 2025 08:58:08 +0000
+Received: from CO1PEPF000044F4.namprd05.prod.outlook.com
+ (2603:10b6:a03:180:cafe::ae) by BY5PR13CA0002.outlook.office365.com
+ (2603:10b6:a03:180::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.12 via Frontend Transport; Wed,
+ 16 Apr 2025 08:58:08 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CO1PEPF000044F4.mail.protection.outlook.com (10.167.241.74) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.12
+ via Frontend Transport; Wed, 16 Apr 2025 08:58:05 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 191F6406544;
+	Wed, 16 Apr 2025 08:58:04 +0000 (UTC)
+Received: from [198.90.208.23] (ediswws06.ad.cirrus.com [198.90.208.23])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 01FD3820244;
+	Wed, 16 Apr 2025 08:58:04 +0000 (UTC)
+Message-ID: <b36eff33-9eac-485f-8b3f-105425a65bfd@opensource.cirrus.com>
+Date: Wed, 16 Apr 2025 09:58:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250407120708.26495-1-darren.ye@mediatek.com> <20250407120708.26495-10-darren.ye@mediatek.com>
-In-Reply-To: <20250407120708.26495-10-darren.ye@mediatek.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 16 Apr 2025 16:34:11 +0800
-X-Gm-Features: ATxdqUFmHiMrf2rAgHSOIbvBvct2V2zm34cTt1IQ6bUMVwKlX1lwi3om1Cu8IgA
-Message-ID: <CAGXv+5F0Ys63hcO8u7p3zSnnOT4gYc2Z0BhQW=dOXAvBc_nmvg@mail.gmail.com>
-Subject: Re: [PATCH v2 09/11] ASoC: dt-bindings: mediatek,mt8196-afe: add
- audio AFE document
-To: "Darren.Ye" <darren.ye@mediatek.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] ASoC: cs48l32: Fix spelling mistake "exceeeds" ->
+ "exceeds"
+To: Colin Ian King <colin.i.king@gmail.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250416081204.36851-1-colin.i.king@gmail.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20250416081204.36851-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F4:EE_|BN5PR19MB8991:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a38d399-1c4b-44ed-652c-08dd7cc4cd99
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|376014|61400799027|82310400026|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aXQ4RituR29KZmJuVlpBLzFVeWozNUVoaG1ud0NNellqd0d6dGpYZ1Qycmwx?=
+ =?utf-8?B?MlB4d0xwSms5K28yV3gySWdjOEM3UFB2azFaSFV2U1prNWxuQkJ5NW15aldZ?=
+ =?utf-8?B?TVRIeGNndmFzVFM1ZHhrRFRaZHBXa3JjYmhmbTl6emJYRGdNRmNRVS9ySThr?=
+ =?utf-8?B?OG1xektNaFlrcjlOQjVnUktGNkhyQXRsWTUvUnhkbCtyeEVvV2JGdnRkMHVa?=
+ =?utf-8?B?MmZjenZxbUNQSzZmaGR4NHN5VStrK3VJUzNFVTZwNkUwbDFCV0ttVE8wVWRL?=
+ =?utf-8?B?Q3dVNkJLem05WVg1K3VyclJPb3lwN0xISTZhSnIvK01ZTDROdlNxTjJrbk0r?=
+ =?utf-8?B?VHZrNVBnYUhGMkNqS1M0L3BNa1JsK05UclliMzBObFNETmV3QXdIQUtybGpw?=
+ =?utf-8?B?QWV4YlVmY3R1TnNuS2gyaE04NXZISGdmM0hkSUxkMmtFNGlaUGo1dTBWa3lC?=
+ =?utf-8?B?WUtrQkEwMFBMK1JGeFZLTUtnUXNJRzlDcE42UmtHSFJUMElCNXFJUWw2MU96?=
+ =?utf-8?B?c0JNbFpFcEVqTks0S2oxOFNhdUE5M1lkUm5aU253SEdtd2JGYnN0c2JKNGNQ?=
+ =?utf-8?B?Qk5WV2FDOHlwV0lJZzJXKzdFSldmQVM1WU1mWTQvSGovTkR1THlmSzVMSjlO?=
+ =?utf-8?B?K2ZKWW9KQWRwbXovbHY5KzlsTVFXS0ZhWDRWUDQ4ZHA5SXUwQ25FamlZZGpN?=
+ =?utf-8?B?eTVMR3d4YVF1QmdaWTdCS0Z5bzhKVjdUdml6SkRKOHQzTmhPVytUQ0RGWGNq?=
+ =?utf-8?B?V2w5SngzRUVsZ2tPV1ZLT2licTRmNGUzY1BkeFVGMzIvRmdxK09KajhEMXI2?=
+ =?utf-8?B?QUx0OElPZlBoNnJ3QlhoK2VGSW8reEtGUkZjM2gzWjY3MUd0Vm9na1BuZE0v?=
+ =?utf-8?B?bWdhelBEaDhwRWhWa3VRVUhSUEhwaWJITEk2V0NaRExKdFZsWlhNckc2elNk?=
+ =?utf-8?B?YnVjWWZnSVNkd3ZFeWhaMmp3cVlZTW9TdXRlczNnMWNCVkFhbEdsdnNGVDlx?=
+ =?utf-8?B?Q2NmL0MzOEljdndZMG5NbnVZdWl1cnVuVmlkZThTT2hjTUV3eC9pSVZtYkR3?=
+ =?utf-8?B?aU1zdi9WcS9PZHFtOHVUeUl0ZGtCSmlMNlJJQitJeE9DQ3R4YW9hTTdzWkdz?=
+ =?utf-8?B?eDdZU0F4NkltbFNTSmoxZTE3VkZIdUw5UmtYZDUzUW9nSTV2Y2VyYUg2VEdF?=
+ =?utf-8?B?RVVQZCtlNm9iRkN0bksrclBkbGk3SGRrYW4xcGNYYkFRVDZpTDB4N1JER3A4?=
+ =?utf-8?B?RW1Ib3lSbkJBcmlKWC9kK21PM3lqNXZlLysrdnFhRmJ5QjZDUVZnRmh2RXc4?=
+ =?utf-8?B?SkF5WXJRRk54YmMvNEVUWHZxWG5DVjh2TnN4dGxETlUyWXY0bjJtcEtTZHZV?=
+ =?utf-8?B?YlVoR1N1WW4vaTh2Wjg0OUhCUXB1MUtkSFVEZVl3TTE5a01xS2RFYXhtbmc1?=
+ =?utf-8?B?M3grbnRUVFBIQlFiNGwzcG1aUlpEYzExdjhBaGpuWlVlTlZmc0VIZXo1SFBX?=
+ =?utf-8?B?S0IvcmxxeG1UT3hZczdPRHlJd0pkbm5kMHMzeHJNTmlGWk5rR2c5OXJMQzE3?=
+ =?utf-8?B?Ujlta0dJbEZMNlhKS3NDU21Kay9YamJUYno4cXZ2RUdrQTRSeXRndDZVcTd1?=
+ =?utf-8?B?NVhzRlc1YSt4T0pVVUZtNmRJVTE1R2c4UWFmWDFCZ3VLYUF1UVBxOHNpMzFC?=
+ =?utf-8?B?SGlMRHNMeElpekVZaCs3QlQ1NWRVTXBCTWMydGgzQUpHRGVYMGJ4aUI0OS9K?=
+ =?utf-8?B?OWxOckdzYi9XdThYRjBOcTdsNm5QT0p0eldkMjFIcWlsVjJDR1VsRC9YK3Ay?=
+ =?utf-8?B?RnVNYVcvaXJ1R0JtTGRacjZINlhFemtmcG4rWVl3WUZUeVUvZ2VzQ29YdlRG?=
+ =?utf-8?B?WHBOTnRvalAyOVVwUC9QVGVha0l6aGlXM3Z4WjVFMkdUeG40NmRGbUdNZVBM?=
+ =?utf-8?B?OHl6OS9LcGNiaTgzbTU3S0lFQ1R3Wm1IbVhIUEZ3RnFjRXc2NUM4b3AvVWZt?=
+ =?utf-8?B?Ykp2ZUF3TnVaTWNGUnoydmxyRTZXTWNLcXgvYXpScU5hTzJXbi83OSsrdXFX?=
+ =?utf-8?Q?2Cz8Sr?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(61400799027)(82310400026)(7053199007);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2025 08:58:05.7857
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a38d399-1c4b-44ed-652c-08dd7cc4cd99
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000044F4.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR19MB8991
+X-Proofpoint-GUID: osxhjFHpSiKg815rj9QBtuEwo0ilvfOk
+X-Proofpoint-ORIG-GUID: osxhjFHpSiKg815rj9QBtuEwo0ilvfOk
+X-Authority-Analysis: v=2.4 cv=OeuYDgTY c=1 sm=1 tr=0 ts=67ff7126 cx=c_pps a=IwUfk5KXFkOzJxXNjnChew==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10
+ a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=pGLkceISAAAA:8 a=w1d2syhTAAAA:8 a=2VonJlKf7bECpTrnxgUA:9 a=QEXdDO2ut3YA:10 a=BGLuxUZjE2igh1l4FkT-:22
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, Apr 7, 2025 at 8:39=E2=80=AFPM Darren.Ye <darren.ye@mediatek.com> w=
-rote:
->
-> From: Darren Ye <darren.ye@mediatek.com>
->
-> Add mt8196 audio AFE document.
->
-> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
+On 16/04/2025 9:12 am, Colin Ian King wrote:
+> There is a spelling mistake in a cs48l32_fll_err message. Fix it.
+> 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 > ---
->  .../bindings/sound/mediatek,mt8196-afe.yaml   | 233 ++++++++++++++++++
->  1 file changed, 233 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt81=
-96-afe.yaml
->
-> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.=
-yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
-> new file mode 100644
-> index 000000000000..44f8847b13a8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
-> @@ -0,0 +1,233 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/mediatek,mt8196-afe.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek Audio Front End PCM controller for MT8196
-> +
-> +maintainers:
-> +  - Darren Ye <darren.ye@mediatek.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt8196-afe-pcm
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +  memory-region:
-> +    maxItems: 1
-> +    description: |
-> +      Shared memory region for AFE memif.  A "shared-dma-pool".
-> +      See dtschema reserved-memory/shared-dma-pool.yaml for details.
-> +  mediatek,cksys:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: The phandle of the mediatek clk systemd controller
-> +
-> +  mediatek,vlpcksys:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: The phandle of the mediatek vlpcksys controller
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: audio hopping clock gate
-> +      - description: audio f26m clock gate
-> +      - description: audio apll1 clock gate
-> +      - description: audio apll2 clock gate
-> +      - description: audio apll1 tuner gate
-> +      - description: audio apll2 tuner gate
-> +      - description: mux for audio vlp int
-> +      - description: mux for audio vlp engen1
-> +      - description: mux for audio vlp engen2
-> +      - description: mux for audio h
-> +      - description: vlp clock 26m
-> +      - description: audio mainpll divide 4
-> +      - description: mux for audio apll1
-> +      - description: audio apll1
-> +      - description: mux for audio apll2
-> +      - description: audio apll2
-> +      - description: audio apll1 divide 4
-> +      - description: audio apll2 divide 4
-> +      - description: mux for i2sin0 mck
-> +      - description: mux for i2sin1 mck
-> +      - description: mux for fmi2s mck
-> +      - description: mux for tdmout mck
-> +      - description: auido apll12 divide for i2sin0
-> +      - description: auido apll12 divide for i2sin1
-> +      - description: auido apll12 divide for fmi2s
-> +      - description: auido apll12 divide for tdmout mck
-> +      - description: auido apll12 divide for tdmout bck
-
-There's a bunch of typos for "audio".
-
-> +      - description: audio adsp clk
-> +      - description: 26m clock
-
-Can we look into trimming down the list of clocks? Ideally this should
-only list the actual clock inputs of the hardware, which are normally
-the leaf clocks from the clock controller. You should not have to list
-all the intermediate dividers and muxes.
-
-On the Linux implementation side, it should be a matter of calling
-clk_set_rate() on the clock input corresponding to the interface in
-use. If the clock is not resolving the correct clock rate / parenting,
-the clock driver should be fixed.
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aud_hopping_clk
-> +      - const: aud_f26m_clk
-> +      - const: aud_apll1_clk
-> +      - const: aud_apll2_clk
-> +      - const: aud_apll_tuner1_clk
-> +      - const: aud_apll_tuner2_clk
-> +      - const: vlp_mux_audio_int
-> +      - const: vlp_mux_aud_eng1
-> +      - const: vlp_mux_aud_eng2
-> +      - const: vlp_mux_audio_h
-> +      - const: vlp_clk26m_clk
-> +      - const: ck_mainpll_d4_d4
-> +      - const: ck_mux_aud_1
-> +      - const: ck_apll1_ck
-> +      - const: ck_mux_aud_2
-> +      - const: ck_apll2_ck
-> +      - const: ck_apll1_d4
-> +      - const: ck_apll2_d4
-> +      - const: ck_i2sin0_m_sel
-> +      - const: ck_i2sin1_m_sel
-> +      - const: ck_fmi2s_m_sel
-> +      - const: ck_tdmout_m_sel
-> +      - const: ck_apll12_div_i2sin0
-> +      - const: ck_apll12_div_i2sin1
-> +      - const: ck_apll12_div_fmi2s
-> +      - const: ck_apll12_div_tdmout_m
-> +      - const: ck_apll12_div_tdmout_b
-> +      - const: ck_adsp_sel
-> +      - const: ck_clk26m_clk
-> +
-> +  mediatek,etdm4-out-ch:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Number of ETDM4 output channels.
-> +    minimum: 1
-> +    maximum: 8
-> +
-> +  mediatek,etdm4-in-ch:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Number of ETDM4 input channels.
-> +    minimum: 1
-> +    maximum: 8
-> +
-> +  mediatek,etdm4-out-sync:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      ETDM4 output and input enable synchronization.
-> +    enum:
-> +      - 0 # Enable controlled by itself
-> +      - 1 # Enable synchronization with ETDM4 input.
-> +
-> +  mediatek,etdm4-in-sync:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      ETDM4 input and outpuot enable synchronization.
-> +    enum:
-> +      - 0 # Enable controlled by itself
-> +      - 1 # Enable synchronization with ETDM4 output.
-> +
-> +
-> +
-> +  mediatek,etdm4-ip-mode:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: ETDM IP mode.
-> +    enum:
-> +      - 0 # One ip multi-ch mode
-> +      - 1 # Multi-ip 2ch mode
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - mediatek,cksys
-> +  - mediatek,vlpcksys
-> +  - power-domains
-> +  - memory-region
-> +  - clocks
-> +  - clock-names
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    soc {
-> +        #address-cells =3D <2>;
-> +        #size-cells =3D <2>;
-> +
-> +        afe: mt8196-afe-pcm@1a110000 {
-> +            compatible =3D "mediatek,mt8196-afe-pcm";
-> +            reg =3D <0 0x1a110000 0 0x9000>;
-> +            interrupts =3D <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH 0>;
-> +            memory-region =3D <&afe_dma_mem_reserved>;
-> +            mediatek,cksys =3D <&cksys_clk>;
-> +            mediatek,vlpcksys =3D <&vlp_cksys_clk>;
-> +            power-domains =3D <&scpsys 14>; //MT8196_POWER_DOMAIN_AUDIO
-> +            mediatek,etdm4-out-ch =3D <2>;
-> +            mediatek,etdm4-in-ch =3D <2>;
-> +            mediatek,etdm4-out-sync =3D <0>;
-> +            mediatek,etdm4-in-sync =3D <1>;
-> +            mediatek,etdm4-ip-mode =3D <0>;
-> +            clocks =3D <&afe_clk 109>, //CLK_AFE_AUDIO_HOPPING_AFE
-> +                     <&afe_clk 111>, //CLK_AFE_AUDIO_F26M_AFE
-> +                     <&afe_clk 113>, //CLK_AFE_APLL1_AFE
-> +                     <&afe_clk 115>, //CLK_AFE_APLL2_AFE
-> +                     <&afe_clk 121>, //CLK_AFE_APLL_TUNER1_AFE
-> +                     <&afe_clk 119>, //CLK_AFE_APLL_TUNER2_AFE
-
-<&afe_clk> has the same register range as <&afe>, i.e they are the
-same hardware block. Please find a way to internalize them in the
-driver implementation and drop them from the bindings / DT.
-
-> +                     <&vlp_cksys_clk 40>, //CLK_VLP_CK_AUD_INTBUS_SEL
-> +                     <&vlp_cksys_clk 38>, //CLK_VLP_CK_AUD_ENGEN1_SEL
-> +                     <&vlp_cksys_clk 39>, //CLK_VLP_CK_AUD_ENGEN2_SEL
-> +                     <&vlp_cksys_clk 37>, //CLK_VLP_CK_AUDIO_H_SEL
-> +                     <&vlp_cksys_clk 45>, //CLK_VLP_CK_CLKSQ
-> +                     <&cksys_clk 98>, //CLK_CK_MAINPLL_D4_D4
-
-This is not actually used in the implementation.
-
-> +                     <&cksys_clk 43>, //CLK_CK_AUD_1_SEL
-
-Intermediate clock feeding into the I2S / TDM clocks. Does this
-really feed into the audio block?
-
-> +                     <&cksys_clk 129>, //CLK_CK_APLL1
-
-PLL source clock.
-
-> +                     <&cksys_clk 44>, //CLK_CK_AUD_2_SEL
-
-Intermediate clock feeding into the I2S / TDM clocks. Does this
-really feed into the audio block?
-
-> +                     <&cksys_clk 132>, //CLK_CK_APLL2
-
-PLL source clock.
-
-> +                     <&cksys_clk 130>, //CLK_CK_APLL1_D4
-
-Divider after PLL.
-
-> +                     <&cksys_clk 133>, //CLK_CK_APLL2_D4
-
-Divider after PLL.
-
-> +                     <&cksys_clk 66>, //CLK_CK_APLL_I2SIN0_MCK_SEL
-> +                     <&cksys_clk 67>, //CLK_CK_APLL_I2SIN1_MCK_SEL
-> +                     <&cksys_clk 78>, //CLK_CK_APLL_FMI2S_MCK_SEL
-> +                     <&cksys_clk 79>, //CLK_CK_APLL_TDMOUT_MCK_SEL
-
-These four feed into the next four.
-
-Please take a good look at the hardware and determine which ones are
-actually directly used by the hardware.
-
-
-ChenYu
-
-> +                     <&cksys_clk 80>, //CLK_CK_APLL12_CK_DIV_I2SIN0
-> +                     <&cksys_clk 81>, //CLK_CK_APLL12_CK_DIV_I2SIN1
-> +                     <&cksys_clk 92>, //CLK_CK_APLL12_CK_DIV_FMI2S
-> +                     <&cksys_clk 93>, //CLK_CK_APLL12_CK_DIV_TDMOUT_M
-> +                     <&cksys_clk 94>, //CLK_CK_APLL12_CK_DIV_TDMOUT_B
-> +                     <&cksys_clk 45>, //CLK_CK_ADSP_SEL
-> +                     <&cksys_clk 140>; //CLK_CK_TCK_26M_MX9
-> +            clock-names =3D "aud_hopping_clk",
-> +                          "aud_f26m_clk",
-> +                          "aud_apll1_clk",
-> +                          "aud_apll2_clk",
-> +                          "aud_apll_tuner1_clk",
-> +                          "aud_apll_tuner2_clk",
-> +                          "vlp_mux_audio_int",
-> +                          "vlp_mux_aud_eng1",
-> +                          "vlp_mux_aud_eng2",
-> +                          "vlp_mux_audio_h",
-> +                          "vlp_clk26m_clk",
-> +                          "ck_mainpll_d4_d4",
-> +                          "ck_mux_aud_1",
-> +                          "ck_apll1_ck",
-> +                          "ck_mux_aud_2",
-> +                          "ck_apll2_ck",
-> +                          "ck_apll1_d4",
-> +                          "ck_apll2_d4",
-> +                          "ck_i2sin0_m_sel",
-> +                          "ck_i2sin1_m_sel",
-> +                          "ck_fmi2s_m_sel",
-> +                          "ck_tdmout_m_sel",
-> +                          "ck_apll12_div_i2sin0",
-> +                          "ck_apll12_div_i2sin1",
-> +                          "ck_apll12_div_fmi2s",
-> +                          "ck_apll12_div_tdmout_m",
-> +                          "ck_apll12_div_tdmout_b",
-> +                          "ck_adsp_sel",
-> +                          "ck_clk26m_clk";
-> +        };
-> +    };
-> --
-> 2.45.2
->
->
+>   sound/soc/codecs/cs48l32.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/codecs/cs48l32.c b/sound/soc/codecs/cs48l32.c
+> index 4e2bc09773cb..8fd0df671730 100644
+> --- a/sound/soc/codecs/cs48l32.c
+> +++ b/sound/soc/codecs/cs48l32.c
+> @@ -1802,7 +1802,7 @@ static int cs48l32_fllhj_validate(struct cs48l32_fll *fll,
+>   	}
+>   
+>   	if (fout > CS48L32_FLL_MAX_FOUT) {
+> -		cs48l32_fll_err(fll, "Fout=%dMHz exceeeds maximum %dMHz\n",
+> +		cs48l32_fll_err(fll, "Fout=%dMHz exceeds maximum %dMHz\n",
+>   				fout, CS48L32_FLL_MAX_FOUT);
+>   		return -EINVAL;
+>   	}
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
