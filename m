@@ -1,94 +1,82 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2798929A5
-	for <linux-sound@vger.kernel.org>; Wed, 16 Apr 2025 18:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7897F1E9B04
+	for <linux-sound@vger.kernel.org>; Wed, 16 Apr 2025 20:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744829819; cv=none; b=JR6gGUoaIRH4BVJiqB/kVTJbIYQ4XbckW1KcPE1/AVj0+9iW439aL119gY7wmWRTMoWIrbz0DbWvcKQpdeDNAmwpprjIMluJbH7PMqTaSFu4npUAxvvJYt4tLhm7OOnAi9C2eIYRFg3Ms4Gx0uQ6RTdAq5q+z6kTsROf60Nqmh0=
+	t=1744834649; cv=none; b=Xh4tvgGQt8/QRoZyMEMRwJZ7G8ofhaqxhSUsEeadBYnW96ZP+gY3fLtO7UcEdBoApaphpSYE5MKYN0RHZASMs4hWyNVx0ePx/b6MYGUJzo9d3R8eMO2rFRQItpdYn1nLNNit6LWLcyIR4t3PAlH1Rr5SPdx/npKixVtZ+jb1ptk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744829819; c=relaxed/simple;
-	bh=1GJ7VPzWWC5OoIpci5SsClRYGUtMhZBL/m6AZChq8AA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bq1WUAJz0SwZ6VWmmDMRoCUFjoAqbYvwlDEdEgMbVS7pjm/xG9C/kGxY3wzvHLUA6mjBWb2RnPZFLnskUKolbIDoX95bqh6Vaf7XX8nllqYGgEAahkyJ+Gez+OTZoZN5VzPpQuIE8odecQ+rvNc1KMsNdVENLmpUnj4Kiw2VCBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=Nc1CGLm8; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1744834649; c=relaxed/simple;
+	bh=qZaqogELR0D6D7BSbonLT5AI9TYHOlFsdej40n91lFA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hEd24jVowdff3q6vg9/v3EPzXC/GyvnrCtj7K32+rFoZ3D5gAKFJtYz3NeL0ADGZRmQ8uKxJJ4MOrFzrl3AcZJmBY008Aj80wGQvn0leh+nImnxbgify+m/gV0zQWHryoLNyL37jj9/ggY04GVJoG8ydVQPbvzEm2PzvQzOkNZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ty4vL/7f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="Nc1CGLm8"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 2BD1A66877CF; Thu, 17 Apr 2025 04:19:23 +0930 (ACST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 2BD1A66877CF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1744829363; bh=404IXrDYGxF02cZNldV+uv1lix5VJ/4UU7o7eWyL5z8=;
-	h=Date:From:To:Cc:Subject:From;
-	b=Nc1CGLm8GakdjCwJdEA1sRsn7lIfJN4qwUOBQb/WJohwwn/wIWMWVZnGqHIW8kQOW
-	 T/wPVHq43wNIKwrgLZ9zDV9+5ESCRlTsJXfysTuHsAhDn9Ta6mG4mDsnsC7pvlS75j
-	 16KiNfVapw/loM9TuuL1LsJqEGoMOJzOpIedwKbuwexejCJM5ZALq1EQMTdWIKsRvF
-	 Eizzc2CNX84yXH5XO7ecepTYQfbr9pWLD+6IRY34j0nSvJUntZzjG+RWihpdeGrFj5
-	 2KywIMYGULeUCLOBZaUOLeSq8L/N2MfrHuK5+JnNkzpbQp2oY4x67TGxaFHn3+O5Tk
-	 j2LGHL1a8iRGA==
-Date: Thu, 17 Apr 2025 04:19:23 +0930
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Add retry on -EPROTO from
- usb_set_interface()
-Message-ID: <Z//7s9dKsmVxHzY2@m.b4.vu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ty4vL/7f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EF88C4CEE2;
+	Wed, 16 Apr 2025 20:17:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744834649;
+	bh=qZaqogELR0D6D7BSbonLT5AI9TYHOlFsdej40n91lFA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ty4vL/7fUYTlIdRBnd8cvCNwGzqsmSuD/fjn4GZOekkeQ3E7N+mL+4BWTjveYsE1z
+	 Cslyrdlao02ctu+G1FoHlGfkE0g/jiXYYotf3nMxxmAVGwJ+jSXg81ZMNyiejF9yx/
+	 k7MRmndw9eHj0qwpU3R8c379Q98P2dkel/jqz1AtrT9eQC3i2n4CKxOxq+5Qk+ZjO2
+	 UdAhKt9R8tBtwoseGWB5iRSy7XVGNO0wwX17LY7RZYnezYXra/FyDPnVtTwtOfOmDY
+	 3/u5mMwyJGT4Vgdkt1iiWcqHVbqu/EGnTgOj8IFaGLNIJxE4bHQ2/Kq98hpuRzBZT0
+	 fZ6Aqjbms1CLg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
+In-Reply-To: <20250416092547.737879-1-shumingf@realtek.com>
+References: <20250416092547.737879-1-shumingf@realtek.com>
+Subject: Re: [PATCH 2/2] ASoC: rt722: fix pop noise at the beginning of
+ DMIC recording
+Message-Id: <174483464726.868862.4560022686175490403.b4-ty@kernel.org>
+Date: Wed, 16 Apr 2025 21:17:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-During initialisation of Focusrite USB audio interfaces, -EPROTO is
-sometimes returned from usb_set_interface(), which sometimes prevents
-the device from working: subsequent usb_set_interface() and
-uac_clock_source_is_valid() calls fail.
+On Wed, 16 Apr 2025 17:25:47 +0800, shumingf@realtek.com wrote:
+> This patch added the PDE status check which makes sure the PDE transition is done.
+> It will decrease the pop noise at the beginning of DMIC recording.
+> 
+> 
 
-This patch adds up to 5 retries in endpoint_set_interface(), with a
-delay starting at 5ms and doubling each time. 5 retries was chosen to
-allow for longer than expected waits for the interface to start
-responding correctly; in testing, a single 5ms delay was sufficient to
-fix the issue.
+Applied to
 
-Closes: https://github.com/geoffreybennett/fcp-support/issues/2
-Cc: stable@vger.kernel.org
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
----
- sound/usb/endpoint.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index a29f28eb7d0c..f36ec98da460 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -926,6 +926,8 @@ static int endpoint_set_interface(struct snd_usb_audio *chip,
- {
- 	int altset = set ? ep->altsetting : 0;
- 	int err;
-+	int retries = 0;
-+	const int max_retries = 5;
- 
- 	if (ep->iface_ref->altset == altset)
- 		return 0;
-@@ -935,8 +937,13 @@ static int endpoint_set_interface(struct snd_usb_audio *chip,
- 
- 	usb_audio_dbg(chip, "Setting usb interface %d:%d for EP 0x%x\n",
- 		      ep->iface, altset, ep->ep_num);
-+retry:
- 	err = usb_set_interface(chip->dev, ep->iface, altset);
- 	if (err < 0) {
-+		if (err == -EPROTO && ++retries <= max_retries) {
-+			msleep(5 * (1 << (retries - 1)));
-+			goto retry;
-+		}
- 		usb_audio_err_ratelimited(
- 			chip, "%d:%d: usb_set_interface failed (%d)\n",
- 			ep->iface, altset, err);
--- 
-2.45.0
+Thanks!
+
+[2/2] ASoC: rt722: fix pop noise at the beginning of DMIC recording
+      commit: 9b62b7a6574ea25e1da15b883de74284fb45197c
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
