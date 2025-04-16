@@ -1,136 +1,83 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EDA2557A;
-	Wed, 16 Apr 2025 07:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328CE2DFA4E;
+	Wed, 16 Apr 2025 07:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744788006; cv=none; b=Ht+1BLto3+Fsgl8AwPd1RZHKcPe5L4C1fATbxo8ejLwOJSwQAGec7LPJiMgqUwaPGxuvfOXdgs2GjK0kwbpF7go1KPo3dsspI7pQKbAh4fW0c9j5ycy8QZNOfO53bPx1tBQdWxJOcCCJ+3YHPl36xwXo+CgtAAfBjc5OelgB02U=
+	t=1744788516; cv=none; b=hrQX71fehU8UrNxIXJaoIsUpqiv0lQBVvbFjsvvrg83WSdNYgyj+GDd1Qgjc7jPLWl+BF7PUUs/+8fmOZxOKYkojMmxVUUCtSo/vcvrapfYXiNjXgpEFB9xDuCWt3kDi9XYdyy6gtI335c2p81WflVcD86rkpBEI642LcnLTYOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744788006; c=relaxed/simple;
-	bh=N9Nd+GFvguMrgBicYAWRNtu9jn5oYNS4Uo+vZ1eBTDM=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=MoDRiv1WRt3gEd0g7jUN8fRrqnpiYheznhHyktSF26a92YacyczgynAWMbuihkxGqCc6RHd66xYUGvo6MSP1Mh9bHyrlarinkwzPBIEhklej5SQcVRyUjU3m5oeFOMV6bKxv35oPtAaGHKuF9+VCmX7bwA8QK3s5bnHM85KzgUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=uQgcndVZ; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1744788516; c=relaxed/simple;
+	bh=qvlLa3VA9efC7avAUZkCgRlCB4WN+H9bYNViBn32pLg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N44dh45z01RARGj9OvlCRc+Tav6XRkQLLzqoqw0xpZMEpXaDjzaBt214QOBkUC/216wYYPSpnOP9gOyZN9Z+wYhlnBLdslK+ps8ygGRUc8o0usYO95zH0SirlcLwd6ePV5jjpvwFOGyL0LnFnDIIXAmgaBcN3R5UJavEsIS418Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BGk9j0m6; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="uQgcndVZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1744787964; x=1745392764; i=markus.elfring@web.de;
-	bh=G7abM6WGvM4BCa0hkaj/Cdaz0xJIEIaob2oMh7L6/CU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=uQgcndVZEkAxNr/H9sxVaaxAYIHKqdIinwN8Rti6t9ceMy4xtaWO1B6Q734XwUfS
-	 93XYaojmAlF8GpiBmpjzHHRk/bqfp+9WKyxKfzSN2l6oAffqrw1MLqxc2BseWOYzM
-	 +rlV2teXHlcyNf3AKpys7mkmEKscjnYNDsn0l0BPDclacc0/JEGjbtknYtFHxPjO7
-	 3NwcOFk7cygO9jHZ0GR44K2e+rrtPhRlc38tK8pBszvQd8X6Y5zmX1iOhSeUQQWkS
-	 LhMGpsjN8IkMCZVHbZ6wyurvcvCWFG+FhiaKdUdHQInLgyDFWC9evp/Q/J8Xmnjrn
-	 VMmwwZKZxpNw2vaofQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.13]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N9cHJ-1szfXF0Stp-00vCN1; Wed, 16
- Apr 2025 09:19:24 +0200
-Message-ID: <e1890bbe-183c-43ee-b866-936f9a7e4801@web.de>
-Date: Wed, 16 Apr 2025 09:19:12 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BGk9j0m6"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-301302a328bso6347438a91.2;
+        Wed, 16 Apr 2025 00:28:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744788514; x=1745393314; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qvlLa3VA9efC7avAUZkCgRlCB4WN+H9bYNViBn32pLg=;
+        b=BGk9j0m6EdxamlnlmFeiadhCgDJQrwkXz3AXyoyDd1aSGtdiMeWgM5CjTiZrg2Gv8Y
+         NdR0dPXXDpJfJUzqpDqrsBo6ZDCyGEHsidsEE6MveiX2QEwld1REmXisOt7ewSxGMOrq
+         H/W/mVoFWF873UEBzl8BVDbvzxFlLFe8eDnBTlZblQzcMIGh6u5zV/lbNLSw6zgU5RAZ
+         Met/Xm9tTeCOIn+6m9DrHk4IVZsHhF1rbeno4zoSVVBt/IrraPhKBsX75hejy7RU+5KL
+         h168Jnps1T8cy0egZ4v1YV6FwBAdzi0MBy7Y4EJFmHApW0hkhrxLgeufqGa6kXs3HLqO
+         S48A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744788514; x=1745393314;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qvlLa3VA9efC7avAUZkCgRlCB4WN+H9bYNViBn32pLg=;
+        b=fMTkrhvCna4zHenj+yoQbjsT1w4CoZyw8JZP1N3p7viiGOqYt5V3WkiCJMuKy5LLcm
+         RrqxLJNRvTC9CMEaiYk51brcBYk2wBeM3cMiWbcqkNtWXMVjtmw9MDUea3sH1tjS6v6C
+         iwDZ1P6VtbDh7AaSXFO4W4diwzvhm/Nkkirv7ugN1854lVuOOukOje/MV4WULecwjSEZ
+         9esmq4p00CSfDBbz3+gBqVGg5Gpdw8LPOo+lNOnow882CdYccmrHGVVpyY2bRVs16XL4
+         ABssVN2j73tg49yJYM4ZkkkFsdZU43FSAxpePWmHAYQPC56BHARjXNa8XlZqInJ/KVFI
+         34Iw==
+X-Forwarded-Encrypted: i=1; AJvYcCUKER31F5l0UrRVTuR/B8IE8oFGaVAZoI+RFuOzetvD+KPsc8h9PU21wTqJce29MKE+vwWyjh1PpX7dwTs=@vger.kernel.org, AJvYcCXvkee/ULCLw2ojgT2B7ANpswfdVU+Z5k3Xa00jSwtf+VxpA50A6NjO0c5nHyj59EfmTj+CzOGn65LHF7E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyeqpeFQTpRtxGq/tSy+gUU2ktIKx1bpa1K8+YvfoR3gkFD5R3
+	gdyrB91MLkjz/uuT08nsJI1CWjI33tnfnlxK9tHftgmlyTVAr5T7KsSor1q/Q43lCndyj7Ifrnl
+	CMZvMBq3KfT6ylXh6MD/sKltrNxM=
+X-Gm-Gg: ASbGnctb/HoI7oTfNO6unl361mHdfZaBUEfJgGc46D0h57cs9YVbxRW9OLcO13o4M4v
+	snunoT9aZhcpsVB2MtH4XXvbZw6BAOHVUJxIyreYJq3KZUOAbnycHwVBrwE8h3oz3pj5oxgcJ5c
+	EQ4MIvAp4OZVoEgXAlxg==
+X-Google-Smtp-Source: AGHT+IGW5zcCmv3b7BVm4A40QK0n9oi/g9NFeFg+vQtedK+zMuIzEBKZNFZcJGBHY+4JsYxPwA1hTYFwiZZ7HXKb0a8=
+X-Received: by 2002:a17:90b:574c:b0:2ee:edae:75e with SMTP id
+ 98e67ed59e1d1-30863f1c831mr1185370a91.13.1744788514329; Wed, 16 Apr 2025
+ 00:28:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Chenyuan Yang <chenyuan0y@gmail.com>, linux-sound@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Chao Song <chao.song@linux.intel.com>, Jaroslav Kysela <perex@perex.cz>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Takashi Iwai <tiwai@suse.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-References: <20250415194134.292830-1-chenyuan0y@gmail.com>
-Subject: Re: [PATCH] ASoC: Intel: sof_sdw: Add NULL check in
- asoc_sdw_rt_dmic_rtd_init()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250415194134.292830-1-chenyuan0y@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+References: <20250416041431.546370-1-nichen@iscas.ac.cn>
+In-Reply-To: <20250416041431.546370-1-nichen@iscas.ac.cn>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Wed, 16 Apr 2025 10:30:19 +0300
+X-Gm-Features: ATxdqUEL8u77ss7dHQffyWPdVCGHmFsnGmhGr0uT_PfqkPxcRAmmZB4Ahi-EWlY
+Message-ID: <CAEnQRZBb=E75DPn=siqvhAqFas6Lt-++0Ka9W6gY0fbQgHBcrg@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: fsl_rpmsg: Remove useless return variable
+To: Chen Ni <nichen@iscas.ac.cn>
+Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:gxVTFOrhrX3qc2WWImINgsAFQFASupj8BvEZ2rDqYVSsNehzAaF
- OPu0rhXR7o9txOylKvgCTD+HAlMpt7qa57bnO2ikfaxv9RAca091jwm4EmVoPR/ZYCr7GJG
- y3wIHWX/VYUi+bhTN89Y5H4wCB61w1WHp4Zs4CvM5MFJDtInNx6m1Ij87+4fPlACPV5Il2B
- TlVFIeWVlErt03vmLOv0g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:XnOhZVtlwcU=;afTtJYoc5cHF7mestVa2reZBD8X
- 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
 
-> mic_name returned by devm_kasprintf() could be NULL.
-> Add a check for it.
+On Wed, Apr 16, 2025 at 7:15=E2=80=AFAM Chen Ni <nichen@iscas.ac.cn> wrote:
+>
+> Remove unnecessary return variable and compress the return logic.
+>
+> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 
-Was this patch also supported by the source code analysis tool =E2=80=9CKN=
-ighter=E2=80=9D?
-
-
-=E2=80=A6
-> +++ b/sound/soc/sdw_utils/soc_sdw_rt_dmic.c
-> @@ -29,6 +29,8 @@ int asoc_sdw_rt_dmic_rtd_init(struct snd_soc_pcm_runti=
-me *rtd, struct snd_soc_da
->  		mic_name =3D devm_kasprintf(card->dev, GFP_KERNEL, "rt715-sdca");
->  	else
->  		mic_name =3D devm_kasprintf(card->dev, GFP_KERNEL, "%s", component->n=
-ame_prefix);
-=E2=80=A6
-
-How do you think about to use the function =E2=80=9Cdevm_kstrdup=E2=80=9D =
-in one if branch instead
-(by another update step)?
-https://elixir.bootlin.com/linux/v6.14-rc6/source/drivers/base/devres.c#L9=
-58-L965
-
-Regards,
-Markus
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
