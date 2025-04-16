@@ -1,85 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02552156F20;
-	Wed, 16 Apr 2025 14:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4047F189902;
+	Wed, 16 Apr 2025 15:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744813425; cv=none; b=evycWGFPjb20kUi+sogGa/6iZm9SKAhRWryd3xwYTPXMb4IIN167BkG2zgs+ZLuy6fyankxpsJk1x+lUhnuQmUkmnHSLyN7q4SVkP26Q8JmXoxaQPnLvGtON/tmOXH9pqY/Tzp/fotYKun/HaYm9iFa4cwxoTDRqr7vCZcVXQQE=
+	t=1744817687; cv=none; b=c2qaB3TZI/fwe4Iam+87gJlPkjSu4A/MM1QQO/6fR6q9IDyFj/ax9UGv0MmGHUJ2ETVFKlnDvt4ZWk+3280d+k/aZZ6dgvjlRqMENUuNuitgHF7AM0nmuWtwUkL9SKkBfynkW1Hm6UTY6J9xC2wDqYz4FMo5Odb0PrR8RJ5Wf/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744813425; c=relaxed/simple;
-	bh=lPfRXaDBjyOUAdWEOvH4n8J6zU16376uJs4mOfS7qTQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TLBKDjwJ8AHdovEM4Es5rjkWq233DOEV7C7QFQBGd/mjTrv06K0BZBuA7xemsowyuOFxh82EEFFJ2SbKPcl7pQ72uLR7spISBLwo72sJgpDSpm4icwhRRbdOHFsHH1OZUg9Kia1LeinI2t3jbA6XRQl5+eI8fpq/OMfAfa4zEG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FeiU5dpp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744817687; c=relaxed/simple;
+	bh=zaxzbwyWlfatE3+ds3WIVorARk4YttMEnVcT+1WJOyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SUVf5zKqTXVBcuscHCcgMM86iW5xRetOaqwSsmyztZicwx2li7fTX9js+gJqrXPl3RdjyykVWnDd/DLlmiCwh+tFNjZktXndDpGJ/CD1w5vi9IsfmI68WRNeK00/l/G3CRdPGisGncJS+IpD8YpzzYDLdkpUUlp3TOlSJbvJRwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gBQ2hyXH; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FeiU5dpp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32269C4CEE2;
-	Wed, 16 Apr 2025 14:23:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744813422;
-	bh=lPfRXaDBjyOUAdWEOvH4n8J6zU16376uJs4mOfS7qTQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=FeiU5dppb3Ae1aIjW6ti9iDLnh4FdcviLcUFbhP1OPhFKdczAWxJ2ZBDiPOhXUH6B
-	 fA2Bw5JD41g7xpRivVi6suVeDxgy/AjNcB7nrP3fMqz01bzMQeFLrENy8+d99XkKea
-	 LC/BuEDJ5EXa5/DrtaLWVvvpXQakLzTrbMe1iSta2zG0E4cmsGDvUWwV7Up5r8xKCd
-	 Kss27aAZ6F3DfBIxuJ5A2LNGYWBHaP6gYPbYzsF+Twz0O70zJz9nlxgv6OSIdqTm1Q
-	 HjPkxNYwtyVoTS+xR2Nnj/u/jRHFvXGku/4ozHc1o3CXtIM09jHMQbBjUzTNw/Ak+o
-	 l+hTYUkXbRGPw==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
- Vijendar.Mukunda@amd.com, peter.ujfalusi@linux.intel.com, 
- peterz@infradead.org, chao.song@linux.intel.com, 
- Chenyuan Yang <chenyuan0y@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250415194134.292830-1-chenyuan0y@gmail.com>
-References: <20250415194134.292830-1-chenyuan0y@gmail.com>
-Subject: Re: [PATCH] ASoC: Intel: sof_sdw: Add NULL check in
- asoc_sdw_rt_dmic_rtd_init()
-Message-Id: <174481341991.257514.3784884460701270028.b4-ty@kernel.org>
-Date: Wed, 16 Apr 2025 15:23:39 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gBQ2hyXH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744817687; x=1776353687;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zaxzbwyWlfatE3+ds3WIVorARk4YttMEnVcT+1WJOyE=;
+  b=gBQ2hyXHNUrmjUHI9VRANjX23M0DP7iQ8KdhHIfqAXfsUNdleYsXvPNI
+   ScupKZGCGBUX02Za0C2wLVpLQ1d3weVTOGsECMA0SRDmAqdvr4maMxCcT
+   qadetQbbQ+9UkXy5GRQoLRqUG6d1VqsANbJcA7206CyQB5NC4BwxTtyGE
+   WHfFldzKDwHVLsCIy+mr9xFk/XPg75NX1ls9qwRBvGiUHW9xWDBG0a0o9
+   FEHvplYBx/C7f/WkTGJM/yz6Td8SkIjbDwQNdO+58MkSmtr45vy0AFw2T
+   ODSt3jkADmGdJ+V0mFrHBdhV2/tdq2xUPzO1z4sxJ23aBaY3gY5Nm+VrT
+   A==;
+X-CSE-ConnectionGUID: Sf0gqoTaQ66XTKAUaRg6ZQ==
+X-CSE-MsgGUID: HGnF49keQPSjmpK120nkTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46500544"
+X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
+   d="scan'208";a="46500544"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:34:46 -0700
+X-CSE-ConnectionGUID: DP2yLZsJQEGCNjUl65uggQ==
+X-CSE-MsgGUID: NfM7S+4qRD6jNOXjquFnzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
+   d="scan'208";a="167688528"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:34:39 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1u54mZ-0000000Ctqa-1NKX;
+	Wed, 16 Apr 2025 18:34:35 +0300
+Date: Wed, 16 Apr 2025 18:34:35 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Jaya Kumar <jayakumar.alsa@gmail.com>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Colin Ian King <colin.i.king@gmail.com>,
+	David Rhodes <drhodes@opensource.cirrus.com>,
+	liujing <liujing@cmss.chinamobile.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Andres Urian Florez <andres.emb.sys@gmail.com>,
+	Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH 00/31] sound: Phase out hybrid PCI devres API
+Message-ID: <Z__OC5NDkQYIHNmL@smile.fi.intel.com>
+References: <20250416131241.107903-1-phasta@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250416131241.107903-1-phasta@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, 15 Apr 2025 14:41:34 -0500, Chenyuan Yang wrote:
-> mic_name returned by devm_kasprintf() could be NULL.
-> Add a check for it.
+On Wed, Apr 16, 2025 at 03:12:10PM +0200, Philipp Stanner wrote:
+> Hi,
 > 
+> a year ago we spent quite some work trying to get PCI into better shape.
+> Some pci_ functions can be sometimes managed with devres, which is
+> obviously bad. We want to provide an obvious API, where pci_ functions
+> are never, and pcim_ functions are always managed.
 > 
+> Thus, everyone enabling his device with pcim_enable_device() must be
+> ported to pcim_ functions. Porting all users will later enable us to
+> significantly simplify parts of the PCI subsystem. See here [1] for
+> details.
+> 
+> This patch series does that for sound.
 
-Applied to
+AFAIK the ASoC and ALSA maintained by different people and perhaps you would
+need to split, but I'm not the guy in charge, so wait for them to tell you
+their preferences.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks!
-
-[1/1] ASoC: Intel: sof_sdw: Add NULL check in asoc_sdw_rt_dmic_rtd_init()
-      commit: 68715cb5c0e00284d93f976c6368809f64131b0b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
