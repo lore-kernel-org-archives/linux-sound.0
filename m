@@ -1,124 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1909B156F20;
-	Wed, 16 Apr 2025 15:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27241F418B;
+	Wed, 16 Apr 2025 16:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744818219; cv=none; b=eYoRWJj04gcCFbA/NlJyug+0/xbnCkbL7gJUHDCbVnE4+L95Y/7P2VJKXJn6vIgsuyOZBHerZeWmgFE8XIScxQP8sWDcNCp3hw/sRjW0jbQR9YCWO1chkmBGvJNbKxVpjIso28IkMM2o1fCnHu4T1AH7VSR3IkssRPK/MNgn4R4=
+	t=1744820772; cv=none; b=pI5vtRsie3KU5/V3sq7qnsw8JHQW1kKwxRu/2KfYF1OHrfnbC64p9MuhyctZVvp3Tk+aUIsfPcypXxxWWu+QAOA/5IFgL4y7aQWTbmyjxSP5cpvp9iMHDPwRGFH7XTrXX/l5Ha7HlC7PG7xPhpNw1ahOfwgQ+nsBSn5Leon5luA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744818219; c=relaxed/simple;
-	bh=OBcUm5mNN0B1SRivgz1mRLVUwpAL3jSBjzXAD8nZhng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l9aJovQsw3PogSLrX7wIZP3f7iq4ap9LBi1u5YZyfwLLrE8E4ZAsqe8MlFy900caxRY4oDpPfxcgFHu9pYwhQIg28h4gnSespln6G33dP9q2eRpoXftlcX0ef66HZqPIjD6lQVIKmLTZcn5xZVTa32zAH71Wc/i7I/3e6TuYDbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OcIRED3Q; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1744820772; c=relaxed/simple;
+	bh=oIk5RB2Z7VODW71DCnyv/1I2G8sqUu3r8RnvySXZ2Qo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gep0ewI/5BFb9GWjJwI/JxTp34wxF/pryBPeO+C6veHMMVZ3YuWM+UMNl7TU7wuR6YbEwNLpYeGS33GRrYxkYGrIZxWHkfB2IUZphHJ26kpMEBJ4eybEZH1JridqIg3x0fszaCHZjen0OsQRLGDC12cbXo5EQtcw9JDUEa3Gx8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uVkYkYng; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OcIRED3Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744818219; x=1776354219;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OBcUm5mNN0B1SRivgz1mRLVUwpAL3jSBjzXAD8nZhng=;
-  b=OcIRED3Q3Q+DOalFcsp5+cpWaYgzFZ9LIoB0LaOPEqfb4SGfEnhEzIRf
-   IIn39CGx1BhXM14cyETebvZ5U/NAQzwbAHOEwtx9D+t1mAsXuwI/1dd4A
-   pJ5u899Rkgk46SxUw/3MKWJ6f5kMdF5Z1GofTVir+HwNyNcYxX4KStOrd
-   Mb/E5OvwVuSO3bbNWEPptsByOwJAxdUZbaEZ8YUsT4duNpXY85QvXcE//
-   4vcnxhVmRl6mESwScnRaRU77KExv/ULpLQPwJtgPTrcSH6Upo/9xs/9X7
-   KJmrwVQomDALZPGPBQ05ans21rTxnecxzq2raLrjjCgxg/FQ/atAu7Znl
-   A==;
-X-CSE-ConnectionGUID: eheQvJT5S62rxaebcU0N/g==
-X-CSE-MsgGUID: qllN6/SvSpen1IcjMmeY5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46387577"
-X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="46387577"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:43:38 -0700
-X-CSE-ConnectionGUID: O5DwOgn1Sr6qC2ZH0OWrsg==
-X-CSE-MsgGUID: m/g36ZQZTJGI1z1d2eSJ2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="131421708"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:43:31 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1u54v9-0000000Ctxs-1s8y;
-	Wed, 16 Apr 2025 18:43:27 +0300
-Date: Wed, 16 Apr 2025 18:43:27 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Philipp Stanner <phasta@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Jaya Kumar <jayakumar.alsa@gmail.com>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	David Rhodes <drhodes@opensource.cirrus.com>,
-	liujing <liujing@cmss.chinamobile.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Andres Urian Florez <andres.emb.sys@gmail.com>,
-	Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 00/31] sound: Phase out hybrid PCI devres API
-Message-ID: <Z__QH4pfOYKhmpvm@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uVkYkYng"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4Zd5xN6PCQz9skp;
+	Wed, 16 Apr 2025 18:26:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1744820760; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Daumu/GKB63UxCCk17/VedpOd+PiGaKu/v1uLufAehk=;
+	b=uVkYkYngJx/tXivKPfhecZqFy1cisWZu6g9GQRE3/sKk5/23S4MynAGdPf4XpoqsVqYjsv
+	+MriMlPQMeqND32HHTdMrLPDkiyE/9luMTXCqwpYQ/L1P6fbFD+TR73lFijlFAnIHjpqRV
+	VeWYZy4OzXkf77YQ/kDQllC09nnfYPKqo5rD9BEBEzpH5ZNZ84blduMYP2G0XNe/b5ZT2s
+	cQ3Kzhdmf/F20xBnQKGw6YjWrcQ4fGJ0A+cZ1U+fwIw2xF0ShqHDY1iKQ8d9wWMwPDDh4B
+	cAPO4xJgqu3V2oPnGzD58GBI34e7wk02qwU2UknxYeKn0m1NnB9XEdv3yVCgBA==
+Message-ID: <d035a74a2c6d53721df8d68fd75f439feb8da4a7.camel@mailbox.org>
+Subject: Re: [PATCH 02/31] ASoC: intel/avs: Use pure devres PCI
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Philipp Stanner
+	 <phasta@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>, Krzysztof
+ =?UTF-8?Q?Wilczy=C5=84ski?=
+	 <kwilczynski@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Jaya
+ Kumar <jayakumar.alsa@gmail.com>, Clemens Ladisch <clemens@ladisch.de>,
+ Cezary Rojewski <cezary.rojewski@intel.com>, Liam Girdwood
+ <liam.r.girdwood@linux.intel.com>, Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Bard Liao
+ <yung-chuan.liao@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,  Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, Daniel
+ Baluta <daniel.baluta@nxp.com>,  Colin Ian King <colin.i.king@gmail.com>,
+ David Rhodes <drhodes@opensource.cirrus.com>, liujing
+ <liujing@cmss.chinamobile.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Andres Urian Florez <andres.emb.sys@gmail.com>, Oswald Buddenhagen
+ <oswald.buddenhagen@gmx.de>, Thorsten Blum <thorsten.blum@linux.dev>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
+ Amadeusz =?UTF-8?Q?S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org
+Date: Wed, 16 Apr 2025 18:25:52 +0200
+In-Reply-To: <Z__PINxPVW5QrpgH@smile.fi.intel.com>
 References: <20250416131241.107903-1-phasta@kernel.org>
- <Z__OC5NDkQYIHNmL@smile.fi.intel.com>
+	 <20250416131241.107903-3-phasta@kernel.org>
+	 <Z__PINxPVW5QrpgH@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z__OC5NDkQYIHNmL@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-MBO-RS-ID: 576a6f1260635a5ab7d
+X-MBO-RS-META: a9oh6gij3kdzcsuoa8utnddcwngjne4d
 
-On Wed, Apr 16, 2025 at 06:34:35PM +0300, Andy Shevchenko wrote:
-> On Wed, Apr 16, 2025 at 03:12:10PM +0200, Philipp Stanner wrote:
++Cc Bjorn, Krzysztof
 
-> > a year ago we spent quite some work trying to get PCI into better shape.
-> > Some pci_ functions can be sometimes managed with devres, which is
-> > obviously bad. We want to provide an obvious API, where pci_ functions
-> > are never, and pcim_ functions are always managed.
-> > 
-> > Thus, everyone enabling his device with pcim_enable_device() must be
-> > ported to pcim_ functions. Porting all users will later enable us to
-> > significantly simplify parts of the PCI subsystem. See here [1] for
-> > details.
-> > 
-> > This patch series does that for sound.
-> 
-> AFAIK the ASoC and ALSA maintained by different people and perhaps you would
-> need to split, but I'm not the guy in charge, so wait for them to tell you
-> their preferences.
+On Wed, 2025-04-16 at 18:39 +0300, Andy Shevchenko wrote:
+> On Wed, Apr 16, 2025 at 03:12:12PM +0200, Philipp Stanner wrote:
+> > pci_request_regions() is a hybrid function which becomes managed if
+> > pcim_enable_device() was called before. This hybrid nature is
+> > deprecated
+> > and should not be used anymore.
+> >=20
+> > Replace pci_request_regions() with the always-managed function
+> > pcim_request_all_regions().
+> >=20
+> > Remove the goto jump to pci_release_regions(), since pcim_
+> > functions
+> > clean up automatically.
+>=20
+> ...
+>=20
+> > =C2=A0	bus->remap_addr =3D pci_ioremap_bar(pci, 0);
+> > =C2=A0	if (!bus->remap_addr) {
+> > =C2=A0		dev_err(bus->dev, "ioremap error\n");
+> > -		ret =3D -ENXIO;
+> > -		goto err_remap_bar0;
+> > +		return -ENXIO;
+>=20
+> Here and everywhere else these can now be converted to
+> dev_err_probe().
+> Are you planning to do so?
 
-Seems split is a good to have as I just looked to all of them and ALSA are
-pretty straightforward, while for every patch in ASoC I have a comment.
+I want to do what's necessary to get PCI in better shape, since that's
+what the GPUs and accelerators we / I care about use :)
 
-So, here is a formal tag for all ALSA patches. Feel free to send a v2
-with them and the tag.
+IOW, I want pci_request_regions() removed from here.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>=20
+> ...
+>=20
+> > =C2=A0err_remap_bar4:
+> > =C2=A0	iounmap(bus->remap_addr);
+>=20
+> This looks weird if the driver already is using pcim_enable_device().
+> Doesn't this look to you as an existing bug?
 
--- 
-With Best Regards,
-Andy Shevchenko
+I looked briefly at it and it doesn't appear like an obvious bug to me
+because the drivers uses the (very old? deprecated?) pci_ioremap_bar().
 
+In any case the driver doesn't set up any devres callback, so has to
+iounmap() manually.
+
+@Bjorn:
+Any comments on pci_ioremap_bar()? Should we mark that as deprecated?
+
+P.
+
+>=20
+> > -err_remap_bar0:
+> > -	pci_release_regions(pci);
+> > =C2=A0	return ret;
+>=20
 
