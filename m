@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19971519B4;
-	Wed, 16 Apr 2025 15:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1909B156F20;
+	Wed, 16 Apr 2025 15:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744818095; cv=none; b=eM3xp2AWZyNkpmL1eY76F4CMdZgdpz4sSGRYmDzbnA/SKhJ3WporhKjd2+Bh4YM3GO2e2yQHMRUo8IMdWDTtFfQRPp0/TX22oxoRVdNKYVwZ4TXbHSH6Y7bL4GqCikLLQBHi9JHZA/jHPFT+yqVXueMm4exUexVfDmDJcOvo8jk=
+	t=1744818219; cv=none; b=eYoRWJj04gcCFbA/NlJyug+0/xbnCkbL7gJUHDCbVnE4+L95Y/7P2VJKXJn6vIgsuyOZBHerZeWmgFE8XIScxQP8sWDcNCp3hw/sRjW0jbQR9YCWO1chkmBGvJNbKxVpjIso28IkMM2o1fCnHu4T1AH7VSR3IkssRPK/MNgn4R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744818095; c=relaxed/simple;
-	bh=6pcFGma3OP3BVIcuVwDM2/nqwbP9hE4r53h6ihIemH8=;
+	s=arc-20240116; t=1744818219; c=relaxed/simple;
+	bh=OBcUm5mNN0B1SRivgz1mRLVUwpAL3jSBjzXAD8nZhng=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qk3zU6Olv85ID2X9TDp7+XD039+qUhVAQLsirJDsYlmK6h5lo1N0XU9rqgJATDJzfx43Z8tZWi9J284tW93EBgUMZghs0jovF0R3REVlSkQYYyUJE0jyq45ZsLKtQj/mnIAlZ6VDB50QVSmQK207xVz+hO374GWRt6v78kEFFMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c5NUJ5Z5; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=l9aJovQsw3PogSLrX7wIZP3f7iq4ap9LBi1u5YZyfwLLrE8E4ZAsqe8MlFy900caxRY4oDpPfxcgFHu9pYwhQIg28h4gnSespln6G33dP9q2eRpoXftlcX0ef66HZqPIjD6lQVIKmLTZcn5xZVTa32zAH71Wc/i7I/3e6TuYDbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OcIRED3Q; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c5NUJ5Z5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OcIRED3Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744818094; x=1776354094;
+  t=1744818219; x=1776354219;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6pcFGma3OP3BVIcuVwDM2/nqwbP9hE4r53h6ihIemH8=;
-  b=c5NUJ5Z59g6Gst4QvlWhAytz7tqAnD6c9M8cttuZWfI/v2hULP6XtDmK
-   jHIM0Vh70lGgP9YOZ066qNpxTP/6tuEwRjI4MgOgdHowuwxYM5VztG+HW
-   sdhGrtFksL4cGi66VbF2oEcczBB7FrRV1xHkj2mo3KFJIIMzo5wOi2fSW
-   MXM+ZxUlMWoVyDrNcdgozB54abMuU2iI4SZe1p5gN71uZxzqxit9pKml9
-   1e/cawculRARjfVpOkNjYhGd57Vbpr2sExmG/JMY+eUgXdv4Mpy8MHY01
-   TznacRTC39BtN293T69WQoh1Vs2FNcK07wUPed2XYqJJxE0WZX22mg8GT
-   w==;
-X-CSE-ConnectionGUID: DWYEj3a0TBStKrpfDRp3Ww==
-X-CSE-MsgGUID: 2gwAUUkAQCOQrSC0m1TKyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="63784001"
+  bh=OBcUm5mNN0B1SRivgz1mRLVUwpAL3jSBjzXAD8nZhng=;
+  b=OcIRED3Q3Q+DOalFcsp5+cpWaYgzFZ9LIoB0LaOPEqfb4SGfEnhEzIRf
+   IIn39CGx1BhXM14cyETebvZ5U/NAQzwbAHOEwtx9D+t1mAsXuwI/1dd4A
+   pJ5u899Rkgk46SxUw/3MKWJ6f5kMdF5Z1GofTVir+HwNyNcYxX4KStOrd
+   Mb/E5OvwVuSO3bbNWEPptsByOwJAxdUZbaEZ8YUsT4duNpXY85QvXcE//
+   4vcnxhVmRl6mESwScnRaRU77KExv/ULpLQPwJtgPTrcSH6Upo/9xs/9X7
+   KJmrwVQomDALZPGPBQ05ans21rTxnecxzq2raLrjjCgxg/FQ/atAu7Znl
+   A==;
+X-CSE-ConnectionGUID: eheQvJT5S62rxaebcU0N/g==
+X-CSE-MsgGUID: qllN6/SvSpen1IcjMmeY5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46387577"
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="63784001"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:41:34 -0700
-X-CSE-ConnectionGUID: PZ1+ZLKzQJu0qlrZHf9/aQ==
-X-CSE-MsgGUID: U5e/Sp5cQf+c8YXnUZEawA==
+   d="scan'208";a="46387577"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:43:38 -0700
+X-CSE-ConnectionGUID: O5DwOgn1Sr6qC2ZH0OWrsg==
+X-CSE-MsgGUID: m/g36ZQZTJGI1z1d2eSJ2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="130361211"
+   d="scan'208";a="131421708"
 Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:41:27 -0700
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:43:31 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1u54tA-0000000Ctvr-0Ihz;
-	Wed, 16 Apr 2025 18:41:24 +0300
-Date: Wed, 16 Apr 2025 18:41:23 +0300
+	id 1u54v9-0000000Ctxs-1s8y;
+	Wed, 16 Apr 2025 18:43:27 +0300
+Date: Wed, 16 Apr 2025 18:43:27 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Philipp Stanner <phasta@kernel.org>
 Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -75,10 +75,10 @@ Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 03/31] AsoC: intel/atom: Use pure devres PCI
-Message-ID: <Z__PozpN0dOH0JWh@smile.fi.intel.com>
+Subject: Re: [PATCH 00/31] sound: Phase out hybrid PCI devres API
+Message-ID: <Z__QH4pfOYKhmpvm@smile.fi.intel.com>
 References: <20250416131241.107903-1-phasta@kernel.org>
- <20250416131241.107903-4-phasta@kernel.org>
+ <Z__OC5NDkQYIHNmL@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -87,52 +87,35 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250416131241.107903-4-phasta@kernel.org>
+In-Reply-To: <Z__OC5NDkQYIHNmL@smile.fi.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Apr 16, 2025 at 03:12:13PM +0200, Philipp Stanner wrote:
-> pci_request_regions() is a hybrid function which becomes managed if
-> pcim_enable_device() was called before. This hybrid nature is deprecated
-> and should not be used anymore.
+On Wed, Apr 16, 2025 at 06:34:35PM +0300, Andy Shevchenko wrote:
+> On Wed, Apr 16, 2025 at 03:12:10PM +0200, Philipp Stanner wrote:
+
+> > a year ago we spent quite some work trying to get PCI into better shape.
+> > Some pci_ functions can be sometimes managed with devres, which is
+> > obviously bad. We want to provide an obvious API, where pci_ functions
+> > are never, and pcim_ functions are always managed.
+> > 
+> > Thus, everyone enabling his device with pcim_enable_device() must be
+> > ported to pcim_ functions. Porting all users will later enable us to
+> > significantly simplify parts of the PCI subsystem. See here [1] for
+> > details.
+> > 
+> > This patch series does that for sound.
 > 
-> Replace pci_request_regions() with the always-managed function
-> pcim_request_all_regions().
-> 
-> Remove the call to pci_release_regions(), since pcim_ functions do
-> cleanup automatically.
-> 
-> Pass 0 as length parameter to pcim_iomap(), which is the standard way
-> for ioremapping an entire BAR.
+> AFAIK the ASoC and ALSA maintained by different people and perhaps you would
+> need to split, but I'm not the guy in charge, so wait for them to tell you
+> their preferences.
 
-...
+Seems split is a good to have as I just looked to all of them and ALSA are
+pretty straightforward, while for every patch in ASoC I have a comment.
 
->  sound/soc/intel/atom/sst/sst_pci.c | 56 ++++++++++++------------------
->  1 file changed, 23 insertions(+), 33 deletions(-)
+So, here is a formal tag for all ALSA patches. Feel free to send a v2
+with them and the tag.
 
-Cool cleanup!
-
-...
-
->  	/* DRAM */
->  	ctx->dram_end = pci_resource_end(pci, 4);
->  	ctx->dram_base = pci_resource_start(pci, 4);
-> +	ctx->dram = pcim_iomap(pci, 4, 0);
-> +	if (!ctx->dram)
-> +		return -EINVAL;
-
-Why EINVAL and not ENOMEM? mapping is about memory, no?
-
-> +
->  	dev_dbg(ctx->dev, "DRAM Ptr %p\n", ctx->dram);
-> -do_release_regions:
-> -	pci_release_regions(pci);
->  	return ret;
-
-Now it seems
-
-	return 0;
-
-should suffice here.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 -- 
 With Best Regards,
