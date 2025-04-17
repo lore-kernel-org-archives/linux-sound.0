@@ -1,170 +1,132 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CBB1E1DEB;
-	Thu, 17 Apr 2025 07:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E840821ABC4
+	for <linux-sound@vger.kernel.org>; Thu, 17 Apr 2025 08:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744875825; cv=none; b=SwjoKngO9IbqO+Zb6beGg+9j4WGoYRz389zm+b9jGELq0KlNSCpOrQvyW+RwCfHCZm8BtCIiEP4IjqDPcLjB8AcrnxVYW4MdPVxDjPkW6nBA9DgXgFOkhRA8hnFbNsgCLq8HA6vDfHfRbIswfOcM2rLnXbAKGTCCw3n8ad5y9YU=
+	t=1744877355; cv=none; b=L+Me6ex1IfvohUKuYmfOwc+NANx48xHOXT2ZnjfO4C3yy6YPtN/aULa4hQJ6fakZE9nf4YU6vYOFZaMt3fM1X8y8mkHmCO702VQ+8X2cOumzsMIfeyvcbdSUCtCzcDgzz3QWHbGLQpw/6/EJSDoIzfzY6Y8xOINPpMnXLwb4cEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744875825; c=relaxed/simple;
-	bh=Bgzo4iWGFalQmXgeWcFdRlUJPi80Z+hTZ60GVUaVKoM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MG4i2XccYOkfHxBkCrH1SNYdlYuTs6feFhIXN67ZCBzj6Y7P7w2rkQReb8etcGDRt6gFPYs+T6ee4twDIhWoMbwi0uxgsgrWag9mFNU7Hnt6GDXSGVDQ/KP6zMNF1BNNgcPvzcFZm9cB7nzF8m3M5O7JwkMw7I8RXQPp5QE/4O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-524038ba657so583127e0c.0;
-        Thu, 17 Apr 2025 00:43:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744875821; x=1745480621;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uANl5Q11SWDJeQns1Rq9+5b2CgEJ0DOnZDyZ8/s4n7I=;
-        b=lqaW+wMTXNqGRz8lLti1X7bGmNiaHdq+elMwPZ+jPwJqDjsi8RPoDIzYxXMVL59yXs
-         8jOO77PJauxtKlr7K3YzKrf/EgSXt3XONixfT0ivVmaFSM9AOCUW6pKoAE7ANB9gwNJw
-         lkiQCEHKb2RMzzYVxeOb/cKYvOdreo761wwZyPIAaBs9eNNX+yr6lmhgOcxor17h4+x8
-         2ep+QFmJ6VuruW7mXOo7AZ+HsyDw3kPVbxbZJQ8AgKB5FIIPCQUphhiRc41tX4ZSpSG7
-         Q+RueyL4U753ebKE/wS/aJSKLm0TmRWjbWfwcrQrte3B/V5PR4ScaDLduK2WjqXrHUuj
-         0kZw==
-X-Forwarded-Encrypted: i=1; AJvYcCUb8a585IYEBKYLuLAZXmZU7fnzY3K1aSOC4Oiay4vG3XVW0B+M16OH8GwC0OqkYHNd3L82cRvnSQLZd5smfDXn4SU=@vger.kernel.org, AJvYcCV7uQyBzM4msNeQKUow3HcD+n7c0TKafG028Z75NF4MNz7wLIfFwRpP6Htwd6o6v4SKw2JAQQOx6I+5@vger.kernel.org, AJvYcCWVIlAOMqRNTnKCTXR0PD1UOLIyBey2qFmyX0y5Pb6ympDc6serK9OS4S0UUF/iwEHP4pkOSVR6uPKZxa8=@vger.kernel.org, AJvYcCXUknV0qtCy3zgvow+BvCpfrruNW1XGbxcjA9jzOhUtdN3TrowmFeyhty5KB3uN3RGufnrK5mXZflZV@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTo9OIEFjfBNwZSLyKSgygfdT88gcbhnPUCwpKRcwdPGT7O9b6
-	7mx4cqZtcaHqAlg0kWp0z5UwFNmovI3322f8/TMmp8/HqqBxCn/HCwkJGaGQ
-X-Gm-Gg: ASbGncuNsC3b5fq+I1gR4OCM54gj16e1eRHblmNMT9P1LHb6GiqBOOxvOBdLIG5a5vD
-	SdbBQ2sRPaeiEf9/FBPbvBtBF6S80UPwHTK9QRUb5JcpndnMJZsiX/VMRS9BuOExK7+BQ0fECP2
-	ibA6/OmfEwLcvaNsAOWwWbxFMLoTMrd1Us6Gjxv3IVFv9BIT6VZJJhp1l/usYyRDUbFGzzQS9DQ
-	0oRX9Dwr2j0s7X3w6lkHXbBqS+s2dOEJpb1k5GZuZAbTw0crSVq+ALN5lSYbJR+y1+prmwI/dFZ
-	icLdmhK71SiBdxYmxsvoyPtZHdK4zg6Mm20iRuqsl57mednfuTlgwY0O6aY3bYRwrzOTLhj4HKY
-	trnE=
-X-Google-Smtp-Source: AGHT+IGcljcGH8kYKp2UyBRjUwL3ZGZ18rs7ubHaAyllCJmhHKAOiw6ZyMDeQXey3Geq7xDQ3ZmmEQ==
-X-Received: by 2002:a05:6122:8c7:b0:527:67d9:100d with SMTP id 71dfb90a1353d-5291806c720mr734277e0c.4.1744875821531;
-        Thu, 17 Apr 2025 00:43:41 -0700 (PDT)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-527abd7b25csm3495828e0c.16.2025.04.17.00.43.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Apr 2025 00:43:41 -0700 (PDT)
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-875b8807011so544211241.0;
-        Thu, 17 Apr 2025 00:43:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVY7bxjSObQwdL3Xqg+SBImBVTxd+GHUDF6LWpYo9HAUIaYGGBJUyKu2cIinDgRz1oKxFGmzfjjNnOdKFE3F0EdOWI=@vger.kernel.org, AJvYcCW8ATnt8R0pBbR9AF5x+479l5zeoOI4CBrBDuZJliaGH4jqrRA6Z9fP/kWnjxmhhWRbAJksT/coEvmH@vger.kernel.org, AJvYcCWJIVdZ1tgN4FA00w8nmpbfMvPzdAVjs7Rgvke/adLOWzEWYidRQ/RZKLIP1rdafSE6VgURxr3nSsi/@vger.kernel.org, AJvYcCX8njToacmITDUsSGK4F9zmEttvV3I4yATtUIXIEavrE2q3RsJG3cVP7tA7bdVymbevQyKIeUGhg+cqDu8=@vger.kernel.org
-X-Received: by 2002:a05:6102:3912:b0:4c4:ebb1:4f6d with SMTP id
- ada2fe7eead31-4cb64d4d131mr1210538137.11.1744875820807; Thu, 17 Apr 2025
- 00:43:40 -0700 (PDT)
+	s=arc-20240116; t=1744877355; c=relaxed/simple;
+	bh=nUhvFbCWk95zgGrfVu2tiiWLRqKBPNxWZQ7uEou5f18=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Ft8rsIbLRvAXT40s2taMC7K4ric4CWP5ub1yuLxOCdnaizE3oYTMp8ZDZNPfJW437qav2zWos/WkJgSA378Ip82KXDZC45GftM6N0jeQcRhi/qkiqMDXjVhtKUHHcf5RBzY1WKbOL+zhjwa8UnlSFT7asOnHogSUld29ALDBMyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=PUTnTe1+; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="PUTnTe1+"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 53H88okY6555697, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1744877330; bh=nUhvFbCWk95zgGrfVu2tiiWLRqKBPNxWZQ7uEou5f18=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	b=PUTnTe1+zbg7NccaN68XbUUEVkVolsg5TFpaaN6QT5n6+clFXCojR9vsDs5DoL3Fu
+	 qKr6th0mILOJnHKiCcwi8rkXov6VQcyg/e9J/gXtjEieaMTgxMvZPgMRKGg5cp8RLi
+	 rInpRKgXEzUzrCcFhlqL64ABsShA8ItaCv2+t6B/Y87p2T1OCWvcTa+ggkPzHvd1yM
+	 OULOwXl5x81msbYxnW4qIbIWOYDR0cZrglHr1EfoE6FsyVxl4oWuypH4JjkU+uRsoZ
+	 /La8r+ZlGZDMyBMYUbuv1V3o7/iRqK0DnsWTKouobmZl3+ueCxOp6GU7E7Qo40YdK2
+	 bwdckc1ri/kQA==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 53H88okY6555697
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 17 Apr 2025 16:08:50 +0800
+Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 17 Apr 2025 16:08:50 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 17 Apr 2025 16:08:48 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
+ RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
+ 15.01.2507.035; Thu, 17 Apr 2025 16:08:48 +0800
+From: Kailang <kailang@realtek.com>
+To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
+CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Speaker can't mute when headphone was plugged
+Thread-Topic: Speaker can't mute when headphone was plugged
+Thread-Index: Aduvb5FlJ2sjDv+mQRWEyeJdhFvEsA==
+Date: Thu, 17 Apr 2025 08:08:48 +0000
+Message-ID: <eb4c14a4d85740069c909e756bbacb0e@realtek.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+x-kse-serverinfo: RTEXMBS02.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: multipart/mixed;
+	boundary="_002_eb4c14a4d85740069c909e756bbacb0erealtekcom_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87zfgi1a5a.wl-kuninori.morimoto.gx@renesas.com>
- <87y0w21a4h.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdXwJGj-xTqEgtsNNX2UR4kPnJ5m2H+KbULdjX7dmUoW8A@mail.gmail.com>
- <87msch81yh.wl-kuninori.morimoto.gx@renesas.com> <87plhb4qbb.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87plhb4qbb.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 17 Apr 2025 09:43:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUKBdTyA0fnfpQT6iad3S7+z3dJkh4UnS14miqgFcUhuA@mail.gmail.com>
-X-Gm-Features: ATxdqUF2bZHe-ozMJQDNYeXQsVz3rsBcK0YuvI5xGINR3hvEjJy_EjuKdnkB1zE
-Message-ID: <CAMuHMdUKBdTyA0fnfpQT6iad3S7+z3dJkh4UnS14miqgFcUhuA@mail.gmail.com>
-Subject: Re: [PATCH v3 01/10] dt-bindings: renesas,sh-msiof: Add MSIOF I2S
- Sound support
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
-	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-Hi Morimoto-san,
+--_002_eb4c14a4d85740069c909e756bbacb0erealtekcom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 17 Apr 2025 at 01:52, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > > > +  # "MSIOF-SPI" specific
-> > > > +  - if:
-> > > > +      properties:
-> > > > +        $nodename:
-> > > > +          pattern: '^spi@'
-> > >
-> > > This condition does not match what you wrote in the cover letter:
-> > > the controller is used in I2S mode when a port(s) subnode is present,
-> > > and in SPI mode when no port(s) subnode is present.
-> > >
-> > > > +    then:
-> > > > +      allOf:
-> > > > +        - $ref: spi-controller.yaml#
-> > >
-> > > Documentation/devicetree/bindings/spi/spi-controller.yaml indeed
-> > > requires that the node-name matches "^spi(@.*|-([0-9]|[1-9][0-9]+))?$".
-> > > The controller's node is located in the SoC-specific .dtsi, where its
-> > > intended use case is not yet known, and its node name cannot easily be
-> > > overridden in the board .dts that specifies the use case.  Hence the
-> > > node name must always be "spi" (and cannot be e.g. "serial-engine").
-> > > Let's hope there is no other use case for MSIOF that requires using
-> > > a different node name...
->
-> Hmm...
->
-> Now, MSIOF node has "spi@xxxx".
-> SoC file indicates MSIOF-SPI as default, so it has below lines
->
->         --- SoC file ----
->         msiof1: spi@xxxx {
->                 ...
->                 #address-cells = <1>;
->                 #size-cells = <0>;
->                 ...
->         };
->
-> These are not needed for MSIOF-I2S, so removes these
->
->         --- Board file ----
->         &msiof1 {
->                 ...
->                 /delete-property/#address-cells;
->                 /delete-property/#size-cells;
->                 ...
->         };
->
-> Now, my dt-bindings doesn't load spi-controller.yaml (as sample), but I got
->
->         [SoC file]: Warning (spi_bus_bridge): /soc/spi@xxxx: incorrect #address-cells for SPI bus
->           also defined at [Board file]
->         [SoC file]: Warning (spi_bus_bridge): /soc/spi@xxxx: incorrect #size-cells for SPI bus
->           also defined at [Board file]
->
-> MSIOF dt-bindings doesn't load spi-controller.yaml, but why I got "spi_bus_bridge"
-> warning ?? I wonder dt compiler (?) automatically check "spi" node ?
-> I have tryed some code, my expectation seems correct (In case of node name was "spi@xxx",
-> I got many SPI related warnings even though I didn't load spi-controller).
+Hi Takashi,
 
-These come from dtc, which makes its own assumptions:
+Speaker can't mute when headphone was plugged for HP platform.
+Add attach patch will solve issue.
 
-    $ git grep spi_bus_bridge
-    scripts/dtc/checks.c:static void check_spi_bus_bridge(struct check
-*c, struct dt_info *dti, struct node *node)
-    scripts/dtc/checks.c:WARNING(spi_bus_bridge, check_spi_bus_bridge,
-NULL, &addr_size_cells);
-    scripts/dtc/checks.c:WARNING(spi_bus_reg, check_spi_bus_reg, NULL,
-&reg_format, &spi_bus_bridge);
-    scripts/dtc/checks.c:   &spi_bus_bridge,
+BR,
+Kailang
 
-Perhaps we do need to extend the use of role-specifying properties
-like "interrupt-controller" (in Device Tree Specification v0.4 and in
-dt-schema) and the few others in Documentation/devicetree/bindings:
+--_002_eb4c14a4d85740069c909e756bbacb0erealtekcom_
+Content-Type: application/octet-stream;
+	name="0000-alc245-hp-OmniBook-Ultra-Flip-Laptop.patch"
+Content-Description: 0000-alc245-hp-OmniBook-Ultra-Flip-Laptop.patch
+Content-Disposition: attachment;
+	filename="0000-alc245-hp-OmniBook-Ultra-Flip-Laptop.patch"; size=2334;
+	creation-date="Tue, 01 Apr 2025 07:05:37 GMT";
+	modification-date="Thu, 17 Apr 2025 08:04:43 GMT"
+Content-Transfer-Encoding: base64
 
-    gpio-controller
-    mctp-controller
-    msi-controller
-    system-power-controller
+RnJvbSA0YWI2NjhkOWI5MDJiZDM5NzFlZDE5MjdiZjRlZTRiOTU4ZGE4ZjQ4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
+dGU6IFR1ZSwgMSBBcHIgMjAyNSAxNTowNDowMiArMDgwMApTdWJqZWN0OiBbUEFUQ0hdIEFMU0E6
+IGhkYS9yZWFsdGVrIC0gRW5hYmxlIHNwZWFrZXIgZm9yIEhQIHBsYXRmb3JtCgpUaGUgc3BlYWtl
+ciBkb2Vzbid0IG11dGUgd2hlbiBwbHVnZ2VkIGhlYWRwaG9uZS4KVGhpcyBwbGF0Zm9ybSBzdXBw
+b3J0IDRjaCBzcGVha2Vycy4gClRoZSBzcGVha2VyIHBpbiAweDE0IHdhc24ndCBmaWxsIHZlcmIg
+dGFibGUuCkFmdGVyIGFzc2lnbmVkIG1vZGVsIEFMQzI0NV9GSVhVUF9IUF9TUEVDVFJFX1gzNjBf
+RVUwWFhYLgpUaGUgc3BlYWtlciBjYW4gbXV0ZSB3aGVuIGhlYWRwaG9uZSB3YXMgcGx1Z2dlZC4K
+ClByaW9yaXR5OiBQMQpTaWduZWQtb2ZmLWJ5OiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRl
+ay5jb20+CgpkaWZmIC0tZ2l0IGEvc291bmQvcGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMgYi9zb3Vu
+ZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYwppbmRleCBiNjliNjU5YWU2NTkuLmI5MTk3MjJiMDcz
+NyAxMDA2NDQKLS0tIGEvc291bmQvcGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMKKysrIGIvc291bmQv
+cGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMKQEAgLTQ0MSw2ICs0NDEsMTAgQEAgc3RhdGljIHZvaWQg
+YWxjX2ZpbGxfZWFwZF9jb2VmKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogCQlhbGNfdXBkYXRl
+X2NvZWZfaWR4KGNvZGVjLCAweDY3LCAweGYwMDAsIDB4MzAwMCk7CiAJCWZhbGx0aHJvdWdoOwog
+CWNhc2UgMHgxMGVjMDIxNToKKwljYXNlIDB4MTBlYzAyMzY6CisJY2FzZSAweDEwZWMwMjQ1Ogor
+CWNhc2UgMHgxMGVjMDI1NjoKKwljYXNlIDB4MTBlYzAyNTc6CiAJY2FzZSAweDEwZWMwMjg1Ogog
+CWNhc2UgMHgxMGVjMDI4OToKIAkJYWxjX3VwZGF0ZV9jb2VmX2lkeChjb2RlYywgMHgzNiwgMTw8
+MTMsIDApOwpAQCAtNDQ4LDEyICs0NTIsOCBAQCBzdGF0aWMgdm9pZCBhbGNfZmlsbF9lYXBkX2Nv
+ZWYoc3RydWN0IGhkYV9jb2RlYyAqY29kZWMpCiAJY2FzZSAweDEwZWMwMjMwOgogCWNhc2UgMHgx
+MGVjMDIzMzoKIAljYXNlIDB4MTBlYzAyMzU6Ci0JY2FzZSAweDEwZWMwMjM2OgotCWNhc2UgMHgx
+MGVjMDI0NToKIAljYXNlIDB4MTBlYzAyNTU6Ci0JY2FzZSAweDEwZWMwMjU2OgogCWNhc2UgMHgx
+OWU1ODMyNjoKLQljYXNlIDB4MTBlYzAyNTc6CiAJY2FzZSAweDEwZWMwMjgyOgogCWNhc2UgMHgx
+MGVjMDI4MzoKIAljYXNlIDB4MTBlYzAyODY6CkBAIC0xMDczOCw4ICsxMDczOCw4IEBAIHN0YXRp
+YyBjb25zdCBzdHJ1Y3QgaGRhX3F1aXJrIGFsYzI2OV9maXh1cF90YmxbXSA9IHsKIAlTTkRfUENJ
+X1FVSVJLKDB4MTAzYywgMHg4Y2E3LCAiSFAgWkJvb2sgRnVyeSIsIEFMQzI0NV9GSVhVUF9DUzM1
+TDQxX1NQSV8yX0hQX0dQSU9fTEVEKSwKIAlTTkRfUENJX1FVSVJLKDB4MTAzYywgMHg4Y2FmLCAi
+SFAgRWxpdGUgbXQ2NDUgRzggTW9iaWxlIFRoaW4gQ2xpZW50IiwgQUxDMjM2X0ZJWFVQX0hQX01V
+VEVfTEVEX01JQ01VVEVfVlJFRiksCiAJU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGNiZCwgIkhQ
+IFBhdmlsaW9uIEFlcm8gTGFwdG9wIDEzLWJnMHh4eCIsIEFMQzI0NV9GSVhVUF9IUF9YMzYwX01V
+VEVfTEVEUyksCi0JU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGNkZCwgIkhQIFNwZWN0cmUiLCBB
+TEMyODdfRklYVVBfQ1MzNUw0MV9JMkNfMiksCi0JU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGNk
+ZSwgIkhQIFNwZWN0cmUiLCBBTEMyODdfRklYVVBfQ1MzNUw0MV9JMkNfMiksCisJU05EX1BDSV9R
+VUlSSygweDEwM2MsIDB4OGNkZCwgIkhQIFNwZWN0cmUiLCBBTEMyNDVfRklYVVBfSFBfU1BFQ1RS
+RV9YMzYwX0VVMFhYWCksCisJU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGNkZSwgIkhQIE9tbmlC
+b29rIFVsdHJhIEZsaXAgTGFwdG9wIDE0dCIsIEFMQzI0NV9GSVhVUF9IUF9TUEVDVFJFX1gzNjBf
+RVUwWFhYKSwKIAlTTkRfUENJX1FVSVJLKDB4MTAzYywgMHg4Y2RmLCAiSFAgU25vd1doaXRlIiwg
+QUxDMjg3X0ZJWFVQX0NTMzVMNDFfSTJDXzJfSFBfR1BJT19MRUQpLAogCVNORF9QQ0lfUVVJUkso
+MHgxMDNjLCAweDhjZTAsICJIUCBTbm93V2hpdGUiLCBBTEMyODdfRklYVVBfQ1MzNUw0MV9JMkNf
+Ml9IUF9HUElPX0xFRCksCiAJU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGNmNSwgIkhQIFpCb29r
+IFN0dWRpbyAxNiIsIEFMQzI0NV9GSVhVUF9DUzM1TDQxX1NQSV80X0hQX0dQSU9fTEVEKSwK
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--_002_eb4c14a4d85740069c909e756bbacb0erealtekcom_--
