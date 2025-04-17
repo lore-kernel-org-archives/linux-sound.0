@@ -1,132 +1,92 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E840821ABC4
-	for <linux-sound@vger.kernel.org>; Thu, 17 Apr 2025 08:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4F3210180;
+	Thu, 17 Apr 2025 08:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744877355; cv=none; b=L+Me6ex1IfvohUKuYmfOwc+NANx48xHOXT2ZnjfO4C3yy6YPtN/aULa4hQJ6fakZE9nf4YU6vYOFZaMt3fM1X8y8mkHmCO702VQ+8X2cOumzsMIfeyvcbdSUCtCzcDgzz3QWHbGLQpw/6/EJSDoIzfzY6Y8xOINPpMnXLwb4cEk=
+	t=1744879479; cv=none; b=I5yKZ0e8hYqK0KO2VHGK7gHnb2uDjiTpAYj4MEP1rZLoD4L+sTgREX9wZDGyh0VfIP5apl/cL4EgcbBYU6kl3Y7I7zvBBngzBImD8Odk69zKkBP4hSgk3GS+yzYAzCk0O/Vi1ePzM6Tbq45GjL5J6eL4RHxVUwlqcveROTl2W0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744877355; c=relaxed/simple;
-	bh=nUhvFbCWk95zgGrfVu2tiiWLRqKBPNxWZQ7uEou5f18=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Ft8rsIbLRvAXT40s2taMC7K4ric4CWP5ub1yuLxOCdnaizE3oYTMp8ZDZNPfJW437qav2zWos/WkJgSA378Ip82KXDZC45GftM6N0jeQcRhi/qkiqMDXjVhtKUHHcf5RBzY1WKbOL+zhjwa8UnlSFT7asOnHogSUld29ALDBMyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=PUTnTe1+; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1744879479; c=relaxed/simple;
+	bh=oaWT++y0OSwcpZmlTIyBCOuZGKUE0+SBgo9PMt1ddV8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ENr+jy5LC9dR3/Qft3xh38LZchERWn312y12GT9M+sR7x4leNzlEMFx/sG1yk7vM/M3yv8UpXLwbvaw4WMMrzSVmT7GQ3XIzFz3KN3nyTqa8ICXWBraC0Z8q4jqFvN3ebuejYZBmRqyhbQDa0HVQNQ2BBdFn7tOMzZHbXJDSbSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=b9+tPYR8; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="PUTnTe1+"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 53H88okY6555697, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1744877330; bh=nUhvFbCWk95zgGrfVu2tiiWLRqKBPNxWZQ7uEou5f18=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	b=PUTnTe1+zbg7NccaN68XbUUEVkVolsg5TFpaaN6QT5n6+clFXCojR9vsDs5DoL3Fu
-	 qKr6th0mILOJnHKiCcwi8rkXov6VQcyg/e9J/gXtjEieaMTgxMvZPgMRKGg5cp8RLi
-	 rInpRKgXEzUzrCcFhlqL64ABsShA8ItaCv2+t6B/Y87p2T1OCWvcTa+ggkPzHvd1yM
-	 OULOwXl5x81msbYxnW4qIbIWOYDR0cZrglHr1EfoE6FsyVxl4oWuypH4JjkU+uRsoZ
-	 /La8r+ZlGZDMyBMYUbuv1V3o7/iRqK0DnsWTKouobmZl3+ueCxOp6GU7E7Qo40YdK2
-	 bwdckc1ri/kQA==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 53H88okY6555697
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 17 Apr 2025 16:08:50 +0800
-Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 17 Apr 2025 16:08:50 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 17 Apr 2025 16:08:48 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
- RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
- 15.01.2507.035; Thu, 17 Apr 2025 16:08:48 +0800
-From: Kailang <kailang@realtek.com>
-To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
-CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Speaker can't mute when headphone was plugged
-Thread-Topic: Speaker can't mute when headphone was plugged
-Thread-Index: Aduvb5FlJ2sjDv+mQRWEyeJdhFvEsA==
-Date: Thu, 17 Apr 2025 08:08:48 +0000
-Message-ID: <eb4c14a4d85740069c909e756bbacb0e@realtek.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: yes
-x-kse-serverinfo: RTEXMBS02.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: multipart/mixed;
-	boundary="_002_eb4c14a4d85740069c909e756bbacb0erealtekcom_"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="b9+tPYR8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744879475;
+	bh=oaWT++y0OSwcpZmlTIyBCOuZGKUE0+SBgo9PMt1ddV8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=b9+tPYR8aGgbxYUPn0moeEHifiE7zSORuK2Yf9fXzymoNjorIS2ecYwnPGyQ93b4f
+	 +PwYbftaWJIX+e+UTbRXdp+e377R8x94BbilGEvdgxtsCIvvb/jOtX8cn5eO/Oekwt
+	 FnBDcvRNq5k5gQV95VKiDh/aohIOz16yewFotG7do+JxXmO0xtX9Fq4tXdI9yWKq1/
+	 xMEDRmlThS5IGYRbobFC49XGx1/n9afyA6ftJLxObZLwEisMGHts69IZMJFR+cHkO/
+	 E/Vbkamu0AwKyPxfklhMyHQPpF8acheWSxP9eh3vj3L0m5XBsfZ/YCje9+fn53UurL
+	 73R2cCXueTAkA==
+Received: from apertis-1.home (2a01cb0892F2d600c8f85Cf092d4af51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id ACE6317E0FA7;
+	Thu, 17 Apr 2025 10:44:34 +0200 (CEST)
+From: Julien Massot <julien.massot@collabora.com>
+Subject: [PATCH 0/6] ASoC: mt8195: Add support for MT8395 Radxa NIO 12L
+ with MT6359 codec
+Date: Thu, 17 Apr 2025 10:44:31 +0200
+Message-Id: <20250417-mt8395-audio-sof-v1-0-30587426e5dd@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG+/AGgC/x3MTQqAIBBA4avErBsw7f8q0cJyrFmUoRWBdPek5
+ bd4L0IgzxSgzyJ4ujmw2xOKPIN51ftCyCYZpJCVKIsGt7NVXYX6MuwwOIuT1nKuZSuUsZCyw5P
+ l518O4/t+lwsrSGIAAAA=
+X-Change-ID: 20250417-mt8395-audio-sof-baa2c62803df
+To: kernel@collabora.com, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Trevor Wu <trevor.wu@mediatek.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ devicetree@vger.kernel.org, Julien Massot <julien.massot@collabora.com>
+X-Mailer: b4 0.14.2
 
---_002_eb4c14a4d85740069c909e756bbacb0erealtekcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+This patch series adds support for audio playback on the MT8395-based Radxa NIO 12L platform, which uses the integrated MT6359 codec via internal DAI links.
 
-Hi Takashi,
+Key additions:
+- Support for a new `mediatek,mt8195_mt6359` card configuration that does not rely on external codecs like rt5682.
+- Proper memory region declarations and pinctrl setup for the audio front-end (AFE) and audio DSP (ADSP).
+- A device tree sound node for headphone audio routing using `DL_SRC_BE` and `AIF1`.
+- Enhancements to the DT bindings to document the new compatible string, missing link-name, and additional audio routes (Headphone L/R).
 
-Speaker can't mute when headphone was plugged for HP platform.
-Add attach patch will solve issue.
+Signed-off-by: Julien Massot <julien.massot@collabora.com>
+---
+Julien Massot (6):
+      ASoC: mediatek: mt8195: Move rt5682 specific dapm routes
+      ASoC: mediatek: mt8195: Set ETDM1/2 IN/OUT to COMP_DUMMY()
+      ASoC: mediatek: mt8195: Add mt8195-mt6359 card
+      ASoC: dt-bindings: mt8195: add compatible mt8195_mt6359
+      ASoC: dt-bindings: mt8195: add missing audio routing and link-name
+      mt8395-radxa-nio-12l: Add sound node for headphone
 
-BR,
-Kailang
+ .../devicetree/bindings/sound/mt8195-mt6359.yaml   |  4 ++
+ .../boot/dts/mediatek/mt8395-radxa-nio-12l.dts     | 58 +++++++++++++++++++++-
+ sound/soc/mediatek/mt8195/mt8195-mt6359.c          | 39 ++++++++++++---
+ 3 files changed, 92 insertions(+), 9 deletions(-)
+---
+base-commit: f660850bc246fef15ba78c81f686860324396628
+change-id: 20250417-mt8395-audio-sof-baa2c62803df
 
---_002_eb4c14a4d85740069c909e756bbacb0erealtekcom_
-Content-Type: application/octet-stream;
-	name="0000-alc245-hp-OmniBook-Ultra-Flip-Laptop.patch"
-Content-Description: 0000-alc245-hp-OmniBook-Ultra-Flip-Laptop.patch
-Content-Disposition: attachment;
-	filename="0000-alc245-hp-OmniBook-Ultra-Flip-Laptop.patch"; size=2334;
-	creation-date="Tue, 01 Apr 2025 07:05:37 GMT";
-	modification-date="Thu, 17 Apr 2025 08:04:43 GMT"
-Content-Transfer-Encoding: base64
+Best regards,
+-- 
+Julien Massot <julien.massot@collabora.com>
 
-RnJvbSA0YWI2NjhkOWI5MDJiZDM5NzFlZDE5MjdiZjRlZTRiOTU4ZGE4ZjQ4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
-dGU6IFR1ZSwgMSBBcHIgMjAyNSAxNTowNDowMiArMDgwMApTdWJqZWN0OiBbUEFUQ0hdIEFMU0E6
-IGhkYS9yZWFsdGVrIC0gRW5hYmxlIHNwZWFrZXIgZm9yIEhQIHBsYXRmb3JtCgpUaGUgc3BlYWtl
-ciBkb2Vzbid0IG11dGUgd2hlbiBwbHVnZ2VkIGhlYWRwaG9uZS4KVGhpcyBwbGF0Zm9ybSBzdXBw
-b3J0IDRjaCBzcGVha2Vycy4gClRoZSBzcGVha2VyIHBpbiAweDE0IHdhc24ndCBmaWxsIHZlcmIg
-dGFibGUuCkFmdGVyIGFzc2lnbmVkIG1vZGVsIEFMQzI0NV9GSVhVUF9IUF9TUEVDVFJFX1gzNjBf
-RVUwWFhYLgpUaGUgc3BlYWtlciBjYW4gbXV0ZSB3aGVuIGhlYWRwaG9uZSB3YXMgcGx1Z2dlZC4K
-ClByaW9yaXR5OiBQMQpTaWduZWQtb2ZmLWJ5OiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRl
-ay5jb20+CgpkaWZmIC0tZ2l0IGEvc291bmQvcGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMgYi9zb3Vu
-ZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYwppbmRleCBiNjliNjU5YWU2NTkuLmI5MTk3MjJiMDcz
-NyAxMDA2NDQKLS0tIGEvc291bmQvcGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMKKysrIGIvc291bmQv
-cGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMKQEAgLTQ0MSw2ICs0NDEsMTAgQEAgc3RhdGljIHZvaWQg
-YWxjX2ZpbGxfZWFwZF9jb2VmKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogCQlhbGNfdXBkYXRl
-X2NvZWZfaWR4KGNvZGVjLCAweDY3LCAweGYwMDAsIDB4MzAwMCk7CiAJCWZhbGx0aHJvdWdoOwog
-CWNhc2UgMHgxMGVjMDIxNToKKwljYXNlIDB4MTBlYzAyMzY6CisJY2FzZSAweDEwZWMwMjQ1Ogor
-CWNhc2UgMHgxMGVjMDI1NjoKKwljYXNlIDB4MTBlYzAyNTc6CiAJY2FzZSAweDEwZWMwMjg1Ogog
-CWNhc2UgMHgxMGVjMDI4OToKIAkJYWxjX3VwZGF0ZV9jb2VmX2lkeChjb2RlYywgMHgzNiwgMTw8
-MTMsIDApOwpAQCAtNDQ4LDEyICs0NTIsOCBAQCBzdGF0aWMgdm9pZCBhbGNfZmlsbF9lYXBkX2Nv
-ZWYoc3RydWN0IGhkYV9jb2RlYyAqY29kZWMpCiAJY2FzZSAweDEwZWMwMjMwOgogCWNhc2UgMHgx
-MGVjMDIzMzoKIAljYXNlIDB4MTBlYzAyMzU6Ci0JY2FzZSAweDEwZWMwMjM2OgotCWNhc2UgMHgx
-MGVjMDI0NToKIAljYXNlIDB4MTBlYzAyNTU6Ci0JY2FzZSAweDEwZWMwMjU2OgogCWNhc2UgMHgx
-OWU1ODMyNjoKLQljYXNlIDB4MTBlYzAyNTc6CiAJY2FzZSAweDEwZWMwMjgyOgogCWNhc2UgMHgx
-MGVjMDI4MzoKIAljYXNlIDB4MTBlYzAyODY6CkBAIC0xMDczOCw4ICsxMDczOCw4IEBAIHN0YXRp
-YyBjb25zdCBzdHJ1Y3QgaGRhX3F1aXJrIGFsYzI2OV9maXh1cF90YmxbXSA9IHsKIAlTTkRfUENJ
-X1FVSVJLKDB4MTAzYywgMHg4Y2E3LCAiSFAgWkJvb2sgRnVyeSIsIEFMQzI0NV9GSVhVUF9DUzM1
-TDQxX1NQSV8yX0hQX0dQSU9fTEVEKSwKIAlTTkRfUENJX1FVSVJLKDB4MTAzYywgMHg4Y2FmLCAi
-SFAgRWxpdGUgbXQ2NDUgRzggTW9iaWxlIFRoaW4gQ2xpZW50IiwgQUxDMjM2X0ZJWFVQX0hQX01V
-VEVfTEVEX01JQ01VVEVfVlJFRiksCiAJU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGNiZCwgIkhQ
-IFBhdmlsaW9uIEFlcm8gTGFwdG9wIDEzLWJnMHh4eCIsIEFMQzI0NV9GSVhVUF9IUF9YMzYwX01V
-VEVfTEVEUyksCi0JU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGNkZCwgIkhQIFNwZWN0cmUiLCBB
-TEMyODdfRklYVVBfQ1MzNUw0MV9JMkNfMiksCi0JU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGNk
-ZSwgIkhQIFNwZWN0cmUiLCBBTEMyODdfRklYVVBfQ1MzNUw0MV9JMkNfMiksCisJU05EX1BDSV9R
-VUlSSygweDEwM2MsIDB4OGNkZCwgIkhQIFNwZWN0cmUiLCBBTEMyNDVfRklYVVBfSFBfU1BFQ1RS
-RV9YMzYwX0VVMFhYWCksCisJU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGNkZSwgIkhQIE9tbmlC
-b29rIFVsdHJhIEZsaXAgTGFwdG9wIDE0dCIsIEFMQzI0NV9GSVhVUF9IUF9TUEVDVFJFX1gzNjBf
-RVUwWFhYKSwKIAlTTkRfUENJX1FVSVJLKDB4MTAzYywgMHg4Y2RmLCAiSFAgU25vd1doaXRlIiwg
-QUxDMjg3X0ZJWFVQX0NTMzVMNDFfSTJDXzJfSFBfR1BJT19MRUQpLAogCVNORF9QQ0lfUVVJUkso
-MHgxMDNjLCAweDhjZTAsICJIUCBTbm93V2hpdGUiLCBBTEMyODdfRklYVVBfQ1MzNUw0MV9JMkNf
-Ml9IUF9HUElPX0xFRCksCiAJU05EX1BDSV9RVUlSSygweDEwM2MsIDB4OGNmNSwgIkhQIFpCb29r
-IFN0dWRpbyAxNiIsIEFMQzI0NV9GSVhVUF9DUzM1TDQxX1NQSV80X0hQX0dQSU9fTEVEKSwK
-
---_002_eb4c14a4d85740069c909e756bbacb0erealtekcom_--
