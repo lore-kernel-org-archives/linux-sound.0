@@ -1,118 +1,96 @@
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE391DED51;
-	Fri, 18 Apr 2025 16:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.58.32.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768252A1C9;
+	Fri, 18 Apr 2025 20:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744995564; cv=none; b=HcOqOdqeEoYojaxckLwl0dh4CHkqBt+TwS6+JTR4qyg2aT0vbY7UoDqTYikP0YhygN/ImW4z8r/lnbhWtx5JiivXM19A1yZrY1C42uzMLuC+rKAqOKsUsKJ64lhTKcnK+LGMvYp9xc2Q80a+Z8s3P8YhfckU7Hsrn2sy8gaHjCY=
+	t=1745008122; cv=none; b=aJZLixeGeMaKiLYtQec5YHvI4s494gj+2s+dlNBjnB6p8mPBNELUvZOFq8O4zLEphFiAVwnolV1OGRDbZQFFYgynBHGD2Mo5oxXTAB4JI2XT/K05HuIJJaeC8OTc1UUJusP8sYmrs7fnhDbwP+tDV18dUTH+dXPR6KlvwE0NjS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744995564; c=relaxed/simple;
-	bh=RKNC8LuEadBrzXxwi5W2L+472XmL48vNI/jIDqdaCQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IhVRK6E5YNXXB+5TR5BBANtVQfkRGEpns/jGdQ06fL8rMfoTHSz/aXUsgzTiID5jOOcXI65QlMZD+E4IAkr+C0aZNt+6DGxNiJbKA4Tbm3WtmRKQC/KZh6EmjUWk06lF6S2Z/B647f1P05TZQs3c8mpsqc9BHTR85BSnnjfiYoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=P1RFJC1C; arc=none smtp.client-ip=89.58.32.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+	s=arc-20240116; t=1745008122; c=relaxed/simple;
+	bh=RuioFoYnoKWbVRePkkXFNsFVrOmVWmnElk3I3DxzO8Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tKsp3JdvRGE7mYLJdQy2i0AwMwqTk2fXzRM8BiqNhpdI+p8BK23a2xwvPKwaw92CdbRCLEj3xfG3mwpNpLrbyVnTr78p2CeGxkeUZeTecmddJR2PsBK8tiv0IrQE3uQv5sqBf3ErWCWllFp8HTu0p4kWAvAx2W79IlhUTym9Clw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oawa8Hfn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="P1RFJC1C"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EF6C2102E6336;
-	Fri, 18 Apr 2025 18:59:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
-	t=1744995560; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=aSYTOYrhvq3xoKuHguEK0iR48SX9BrWOGc8iTYg7DdE=;
-	b=P1RFJC1CKiZdbWyNLxS8wmpRGBCJfNwPaHTfS+UrXLAwjv7kF1KBCtu622uQPthc7zgDls
-	z5bZbf0j+s/sZVuPU42o8fULO+bCG4o+0HC6h9fFkZFL4qqgThZ8qN/jL8nOc5o/KMVKM7
-	IYfaMwIzwY6Kwl0f+5Z+Qb/cn8d/0FO9N2IEUEA6fQ7DRGLq3wILIFM/OaFh29cFsgeoWx
-	auwEz43jwimW9cYfZzWY/Hw7zr2CNIJ9mGc7sghjf1lks0XxUQWcrQwSCBzl0lo0KcU+e5
-	kmLBIqZtB8cIv9Uy4jVwpgXglL1In3PkNBUxhSr9ZWaf10IC8OvOIR+LQrNNvQ==
-Date: Fri, 18 Apr 2025 18:59:14 +0200
-From: Pavel Machek <pavel@denx.de>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Mark Brown <broonie@kernel.org>, shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH AUTOSEL 6.1 6/9] ASoC: fsl_audmix: register card device
- depends on 'dais' property
-Message-ID: <aAKE4kb6gImSpK5L@duo.ucw.cz>
-References: <20250331145642.1706037-1-sashal@kernel.org>
- <20250331145642.1706037-6-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oawa8Hfn"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 51D59C4CEE7;
+	Fri, 18 Apr 2025 20:28:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745008122;
+	bh=RuioFoYnoKWbVRePkkXFNsFVrOmVWmnElk3I3DxzO8Y=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=oawa8HfnYofsd2nLXgjSpZShip+TlWRE+b+RYt7dlSygCsxVlYuuoXzHBIG5Uj1+E
+	 sOHixzhjybWwLiklj9AHOfyU+mp9o8TP+YhxtL2Vu6ikf0TvuwdCIRWbV2IIIaEFW2
+	 4rrNs7uzAeLKReQEbz/u1ECXHsR+7sUPZhjUClGniWrFhwzA8wshc1988sRJrYRAxq
+	 5DUqvoOwjlswRYS4r4SB/zLr+1qjnWhxpiU+Be85Q9oQ5bNS1oo2vxxxLesdhFZGNa
+	 3xyMxjaLciqV30gVibj5GsD8ep2E861CS0iOghlwVpbWlAnnRuZiqQgyED79GWETmS
+	 EdnGeJe8lHQDA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A98CC369AB;
+	Fri, 18 Apr 2025 20:28:42 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Date: Fri, 18 Apr 2025 22:22:04 +0200
+Subject: [PATCH] ASoC: wm8998: Add Kconfig prompt
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/Tn6/BGpnTOBLo3b"
-Content-Disposition: inline
-In-Reply-To: <20250331145642.1706037-6-sashal@kernel.org>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250418-wm8998-v1-1-21c4bead9cd8@apitzsch.eu>
+X-B4-Tracking: v=1; b=H4sIAGu0AmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDE0ML3fJcC0tLC92U1LTEVHPjJGNjIwMloOKCotS0zAqwQdGxtbUA6EN
+ tIlgAAAA=
+X-Change-ID: 20250418-wm8998-defae73b3320
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745008121; l=825;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=XALZ1vwO3j84k8/8tKGcIPipHuf/haqg80zA+h6cAEU=;
+ b=m8KI2nZB1kokmZ/pFqGBnA6F17BLosVjzj+zt8/Fxvr5ikwtcS6hhTZ9VNWofL/DBsr+Z9pn9
+ AKqhs4dg9EUB/RRqdR4kFtSE1UMbEZ61MK8g3lgZcSkBX0Mu5cw9Dnh
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
+From: André Apitzsch <git@apitzsch.eu>
 
---/Tn6/BGpnTOBLo3b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add tristate prompt to allow codec selection.
 
-Hi!
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
+---
+ sound/soc/codecs/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> [ Upstream commit 294a60e5e9830045c161181286d44ce669f88833 ]
->=20
-> In order to make the audmix device linked by audio graph card, make
-> 'dais' property to be optional.
->=20
-> If 'dais' property exists, then register the imx-audmix card driver.
-> otherwise, it should be linked by audio graph card.
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 40bb7a1d44bcfa4c386f2eba0f475efeeedf1bdb..9ecc4bb7f75ff9fce87970d2e46ace72444e55b4 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -2479,7 +2479,7 @@ config SND_SOC_WM8997
+ 	depends on MFD_WM8997 && MFD_ARIZONA
+ 
+ config SND_SOC_WM8998
+-	tristate
++	tristate "Wolfson Microelectronics WM8998 codec driver"
+ 	depends on MFD_WM8998 && MFD_ARIZONA
+ 
+ config SND_SOC_WM9081
 
-This is part of series, AFAICT; should we have it in -stable?
+---
+base-commit: 7e74f756f5f643148ca5537bf2fee6767e4b0ed9
+change-id: 20250418-wm8998-defae73b3320
 
 Best regards,
-									Pavel
+-- 
+André Apitzsch <git@apitzsch.eu>
 
-> +++ b/sound/soc/fsl/fsl_audmix.c
-> @@ -492,11 +492,17 @@ static int fsl_audmix_probe(struct platform_device =
-*pdev)
->  		goto err_disable_pm;
->  	}
-> =20
-> -	priv->pdev =3D platform_device_register_data(dev, "imx-audmix", 0, NULL=
-, 0);
-> -	if (IS_ERR(priv->pdev)) {
-> -		ret =3D PTR_ERR(priv->pdev);
-> -		dev_err(dev, "failed to register platform: %d\n", ret);
-> -		goto err_disable_pm;
-> +	/*
-> +	 * If dais property exist, then register the imx-audmix card driver.
-> +	 * otherwise, it should be linked by audio graph card.
-> +	 */
-> +	if (of_find_property(pdev->dev.of_node, "dais", NULL)) {
-> +		priv->pdev =3D platform_device_register_data(dev, "imx-audmix", 0, NUL=
-L, 0);
-> +		if (IS_ERR(priv->pdev)) {
-> +			ret =3D PTR_ERR(priv->pdev);
-> +			dev_err(dev, "failed to register platform: %d\n", ret);
-> +			goto err_disable_pm;
-> +		}
->  	}
-> =20
->  	return 0;
 
---=20
-DENX Software Engineering GmbH,        Managing Director: Erika Unter
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-
---/Tn6/BGpnTOBLo3b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaAKE4gAKCRAw5/Bqldv6
-8hsNAJ9H7kuYWcCsw1LeV5TOvp6rZ2J1rACghLqa+XYVc6jaUuETLw1RElPql14=
-=wIoA
------END PGP SIGNATURE-----
-
---/Tn6/BGpnTOBLo3b--
