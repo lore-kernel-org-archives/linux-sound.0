@@ -1,36 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768252A1C9;
-	Fri, 18 Apr 2025 20:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C1615442A;
+	Fri, 18 Apr 2025 20:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745008122; cv=none; b=aJZLixeGeMaKiLYtQec5YHvI4s494gj+2s+dlNBjnB6p8mPBNELUvZOFq8O4zLEphFiAVwnolV1OGRDbZQFFYgynBHGD2Mo5oxXTAB4JI2XT/K05HuIJJaeC8OTc1UUJusP8sYmrs7fnhDbwP+tDV18dUTH+dXPR6KlvwE0NjS4=
+	t=1745008573; cv=none; b=V7ysEw8DXjYPWwH+24il34RoFgIkISG8/hVNYDRbqq8KkBcJBdGnGTsunWhtYdX42kuFWwO4opcLBaTIvpnVuS3ZRxmAX87zewbtMLOqBox0cvWmV0TQFWDfp4Vcf79At0UpqpzebvFMnqWmFeY3I4R57QX2r0l+mGB0vpYL/uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745008122; c=relaxed/simple;
-	bh=RuioFoYnoKWbVRePkkXFNsFVrOmVWmnElk3I3DxzO8Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tKsp3JdvRGE7mYLJdQy2i0AwMwqTk2fXzRM8BiqNhpdI+p8BK23a2xwvPKwaw92CdbRCLEj3xfG3mwpNpLrbyVnTr78p2CeGxkeUZeTecmddJR2PsBK8tiv0IrQE3uQv5sqBf3ErWCWllFp8HTu0p4kWAvAx2W79IlhUTym9Clw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oawa8Hfn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745008573; c=relaxed/simple;
+	bh=18pWZCw4Dd7J/FW0pBxiidBFm9WLO/okIf3gflkH/9M=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=XI+qx92u7EBECIz8wlFxJLr8bXHmJcKOaM7mUPBLGTB5bGbThdE/eGujrIOQ0tKmXyiEKJGvie3oQ52krbYkzOBd7VPVx9NsnEKcmDJP78SsLLhR7IjP0I+P2/UWvt9DMzkucYZkyYJ63w8zHLufAD6jUrYqTa7CDpcu0xvzUQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TacjyiO2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oawa8Hfn"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 51D59C4CEE7;
-	Fri, 18 Apr 2025 20:28:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TacjyiO2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8EDDC4CEE2;
+	Fri, 18 Apr 2025 20:36:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745008122;
-	bh=RuioFoYnoKWbVRePkkXFNsFVrOmVWmnElk3I3DxzO8Y=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=oawa8HfnYofsd2nLXgjSpZShip+TlWRE+b+RYt7dlSygCsxVlYuuoXzHBIG5Uj1+E
-	 sOHixzhjybWwLiklj9AHOfyU+mp9o8TP+YhxtL2Vu6ikf0TvuwdCIRWbV2IIIaEFW2
-	 4rrNs7uzAeLKReQEbz/u1ECXHsR+7sUPZhjUClGniWrFhwzA8wshc1988sRJrYRAxq
-	 5DUqvoOwjlswRYS4r4SB/zLr+1qjnWhxpiU+Be85Q9oQ5bNS1oo2vxxxLesdhFZGNa
-	 3xyMxjaLciqV30gVibj5GsD8ep2E861CS0iOghlwVpbWlAnnRuZiqQgyED79GWETmS
-	 EdnGeJe8lHQDA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A98CC369AB;
-	Fri, 18 Apr 2025 20:28:42 +0000 (UTC)
-From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Date: Fri, 18 Apr 2025 22:22:04 +0200
-Subject: [PATCH] ASoC: wm8998: Add Kconfig prompt
+	s=k20201202; t=1745008572;
+	bh=18pWZCw4Dd7J/FW0pBxiidBFm9WLO/okIf3gflkH/9M=;
+	h=From:Date:Subject:To:Cc:From;
+	b=TacjyiO2A9VHKdAICV+IK6O/Z7b2z9a0HZ9ZYq7ruHdoUKewTkjNK99Lk51JNLno5
+	 p2IM0WSSkV/Y87ORmfWDBIW3oha87Xl897RJs4M47CyQhjW5BBPNeY6fUlpsVEE9nC
+	 nQnysw2sctoSfAuTI6Pv8YLeHAVaGWgj3GCLFVbXkQ3rFNXc71lLjJH2XKxq/m/4xj
+	 2z6pqrcwbMBsz14NGIVAcEi6BcDw9cMAx8R4tcB+Bm2ZZ4Sph4TZWqrcCoQtL6HZRN
+	 pNTTTGDtSozCSHJ1nUibEjs8AnZkvKdzutD65cGQpl+JhaOJ5EKoGFg+/JEoFPkT1w
+	 9YO6ZrvhOK9tw==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Fri, 18 Apr 2025 16:36:01 -0400
+Subject: [PATCH] ASoC: cs48l32: Use modern PM_OPS
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,59 +35,82 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250418-wm8998-v1-1-21c4bead9cd8@apitzsch.eu>
-X-B4-Tracking: v=1; b=H4sIAGu0AmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDE0ML3fJcC0tLC92U1LTEVHPjJGNjIwMloOKCotS0zAqwQdGxtbUA6EN
- tIlgAAAA=
-X-Change-ID: 20250418-wm8998-defae73b3320
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745008121; l=825;
- i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=XALZ1vwO3j84k8/8tKGcIPipHuf/haqg80zA+h6cAEU=;
- b=m8KI2nZB1kokmZ/pFqGBnA6F17BLosVjzj+zt8/Fxvr5ikwtcS6hhTZ9VNWofL/DBsr+Z9pn9
- AKqhs4dg9EUB/RRqdR4kFtSE1UMbEZ61MK8g3lgZcSkBX0Mu5cw9Dnh
-X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
- pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
-X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
- auth_id=142
-X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-Reply-To: git@apitzsch.eu
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250418-cs48l32-modern-pm_ops-v1-1-640559407619@kernel.org>
+X-B4-Tracking: v=1; b=H4sIALC3AmgC/x3MzQqFIBBA4VeJWd8BUxPpVeIS/Uw1UCoORBC9e
+ 9LyW5xzg1BmEmirGzKdLBxDQf2rYNqGsBLyXAxa6UbZ2uMk1u9G4xFnygHT0cckaMiOjXeKjHN
+ Q2pRp4ev7dv/neQGiQM63ZwAAAA==
+X-Change-ID: 20250418-cs48l32-modern-pm_ops-3e4b5860e366
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: Stuart Henderson <stuarth@opensource.cirrus.com>, 
+ Qi Zhou <qi.zhou@cirrus.com>, 
+ Piotr Stankiewicz <piotrs@opensource.cirrus.com>, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2195; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=18pWZCw4Dd7J/FW0pBxiidBFm9WLO/okIf3gflkH/9M=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDBlM23cdDWdumqH77Oact2nH5376YjJz/iw3mdc2Xqf+y
+ 97OVSrn6yhlYRDjYpAVU2Spfqx63NBwzlnGG6cmwcxhZQIZwsDFKQATsTjByDDn8MTL9XdcZy81
+ +y3Np/5nzp1nvYw9hmuYDuY6Wy2K0HjM8FfoxQ+H7TN1jCc4t0cd7CrapXajucHPbG2fWM2E7NA
+ P63kB
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-From: André Apitzsch <git@apitzsch.eu>
+When building for a platform that does not support CONFIG_PM, such as
+s390, cs48l32_runtime_{suspend,resume}() are unused because
+SET_RUNTIME_PM_OPS does not reference its argument when CONFIG_PM is not
+set:
 
-Add tristate prompt to allow codec selection.
+  sound/soc/codecs/cs48l32.c:3822:12: error: 'cs48l32_runtime_suspend' defined but not used [-Werror=unused-function]
+   3822 | static int cs48l32_runtime_suspend(struct device *dev)
+        |            ^~~~~~~~~~~~~~~~~~~~~~~
+  sound/soc/codecs/cs48l32.c:3779:12: error: 'cs48l32_runtime_resume' defined but not used [-Werror=unused-function]
+   3779 | static int cs48l32_runtime_resume(struct device *dev)
+        |            ^~~~~~~~~~~~~~~~~~~~~~
+  cc1: all warnings being treated as errors
 
-Signed-off-by: André Apitzsch <git@apitzsch.eu>
+Use RUNTIME_PM_OPS and pm_ptr() to ensure these functions are seen as
+used by the compiler but be dropped in the final object file when
+CONFIG_PM is not set, matching the current behavior while clearing up
+the warnings.
+
+Fixes: e2bcbf99d045 ("ASoC: cs48l32: Add driver for Cirrus Logic CS48L32 audio DSP")
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- sound/soc/codecs/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/codecs/cs48l32.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 40bb7a1d44bcfa4c386f2eba0f475efeeedf1bdb..9ecc4bb7f75ff9fce87970d2e46ace72444e55b4 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -2479,7 +2479,7 @@ config SND_SOC_WM8997
- 	depends on MFD_WM8997 && MFD_ARIZONA
+diff --git a/sound/soc/codecs/cs48l32.c b/sound/soc/codecs/cs48l32.c
+index 8fd0df671730..90a795230d27 100644
+--- a/sound/soc/codecs/cs48l32.c
++++ b/sound/soc/codecs/cs48l32.c
+@@ -3834,7 +3834,7 @@ static int cs48l32_runtime_suspend(struct device *dev)
+ }
  
- config SND_SOC_WM8998
--	tristate
-+	tristate "Wolfson Microelectronics WM8998 codec driver"
- 	depends on MFD_WM8998 && MFD_ARIZONA
+ static const struct dev_pm_ops cs48l32_pm_ops = {
+-	SET_RUNTIME_PM_OPS(cs48l32_runtime_suspend, cs48l32_runtime_resume, NULL)
++	RUNTIME_PM_OPS(cs48l32_runtime_suspend, cs48l32_runtime_resume, NULL)
+ };
  
- config SND_SOC_WM9081
+ static int cs48l32_configure_clk32k(struct cs48l32 *cs48l32)
+@@ -4057,7 +4057,7 @@ MODULE_DEVICE_TABLE(spi, cs48l32_spi_ids);
+ static struct spi_driver cs48l32_spi_driver = {
+ 	.driver = {
+ 		.name		= "cs48l32",
+-		.pm		= &cs48l32_pm_ops,
++		.pm		= pm_ptr(&cs48l32_pm_ops),
+ 		.of_match_table	= cs48l32_of_match,
+ 	},
+ 	.probe		= &cs48l32_spi_probe,
 
 ---
-base-commit: 7e74f756f5f643148ca5537bf2fee6767e4b0ed9
-change-id: 20250418-wm8998-defae73b3320
+base-commit: 0b0a18f1bd72c64ae845a32d975f6d4c727b38e3
+change-id: 20250418-cs48l32-modern-pm_ops-3e4b5860e366
 
 Best regards,
 -- 
-André Apitzsch <git@apitzsch.eu>
-
+Nathan Chancellor <nathan@kernel.org>
 
