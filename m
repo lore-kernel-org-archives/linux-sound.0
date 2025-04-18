@@ -1,146 +1,118 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181352777E9
-	for <linux-sound@vger.kernel.org>; Fri, 18 Apr 2025 13:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE391DED51;
+	Fri, 18 Apr 2025 16:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.58.32.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744982417; cv=none; b=ciF3NziW6V2PD3/LtR1S2yWuA55KRVuYH5ROpfsh9db9gr2fCNl8o4UvkOnLy0SPAyvLjRm9XY9N6qm9uGlqzq3urrWs2zBP1iDHFidHv0h6nG+zK0Bi2Rse4x4WUxMyLxz0Cjc2n1iarmXc19hlRuSjPlLTKJqomjmpEgrCiNw=
+	t=1744995564; cv=none; b=HcOqOdqeEoYojaxckLwl0dh4CHkqBt+TwS6+JTR4qyg2aT0vbY7UoDqTYikP0YhygN/ImW4z8r/lnbhWtx5JiivXM19A1yZrY1C42uzMLuC+rKAqOKsUsKJ64lhTKcnK+LGMvYp9xc2Q80a+Z8s3P8YhfckU7Hsrn2sy8gaHjCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744982417; c=relaxed/simple;
-	bh=b5jeH9RfjTDXcfZcMSWZB1gj325j1QVlUQZ24/q2PO4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=gWwQi2Weq7TsudVewSYdD8v0lYb4jTD4GaYyNm3H9AY/0D/BhBFoXfOO0HGXVs8BePUM5BepBobRH8m4SxUrBeRECTQg0990+s1wmv3Z67TIKlzDfAYJO7CMSxJj6zXZIy7Ka4Lgh2BMCHiHPpDtPxEk0kI8JSFa0m6t/Bz0GHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M62bv4nK; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744995564; c=relaxed/simple;
+	bh=RKNC8LuEadBrzXxwi5W2L+472XmL48vNI/jIDqdaCQA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IhVRK6E5YNXXB+5TR5BBANtVQfkRGEpns/jGdQ06fL8rMfoTHSz/aXUsgzTiID5jOOcXI65QlMZD+E4IAkr+C0aZNt+6DGxNiJbKA4Tbm3WtmRKQC/KZh6EmjUWk06lF6S2Z/B647f1P05TZQs3c8mpsqc9BHTR85BSnnjfiYoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=P1RFJC1C; arc=none smtp.client-ip=89.58.32.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M62bv4nK"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cf848528aso14266195e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 18 Apr 2025 06:20:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744982413; x=1745587213; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IlCq1wzYbj7ZD9Rq/YTc1zUdp9qyRnppuYJZ74zXERg=;
-        b=M62bv4nKGBmNXcvXESSWzM3X1nHS3cnrfhodg9imzGBGzstZboEwUq9uQjcn7Rg6z3
-         TWSTuRh1+eexDYYSIZ5R6whlQWokO594ZXWEqkiPqHifoMXm0sHpQpqNoj+79b3Yc+8r
-         XNrJRqXGLNarDXhVxDACf6cfZ2cDh6XwdBeVclIK1wLL9bwa2zGx3QxyKbwmbhgyat2J
-         jQu8YMjlQnTGju8JSM4FSbX11YUAFviebNLpo540J0xo3TPRk65OCiDMEHCKtxqVK2lr
-         H488iSK5jvt+BAYEXQBnrK9mobs6KOOFKAPKh8QIJ/6hIPQycUO35uXR5f1tNbMAgMeN
-         4L+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744982413; x=1745587213;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=IlCq1wzYbj7ZD9Rq/YTc1zUdp9qyRnppuYJZ74zXERg=;
-        b=UnKaw4pW9nQqEhwi2OoxeTRNGroSHJpVHJ/lLDf6SaqWFmMRkQHLXS/+IohszmbCrs
-         9y+piYZqfD3v4N3ew86racIz/+9sZJJXAyjghlH/uCftYLNjuQE16zT3J2ugGxlcwO4Y
-         fFkLx5c0eEA/5VCk7OepRNKzg5zcInpmV4xptV8ZmXUoR+lmCThse82MqTO99vn8PI9n
-         +23mjH3q8WfOMzTaZLOv3PNSu5IVU6T1uiTp1NW5BvMQe3x9g0zUNiLwVf8OYUf1b51G
-         mt6EqPtUwmIeQJfGLpqWM18ECC+OFAckZzjY27V2AQWntj9Tj/HeW/XpWGFugZXTMoMM
-         xKEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWLjBIcWVOoAtWW5JCu9JD/iRfQFv9SkdIA5V6dlncPfIcG0aWC8gWi1HEzgw/aTAGkJC6F7HFztATFJg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEBqw1v3UIHgjG7kqVsr+pihmadVI6CMHEN3y7RUM7pN0yElXH
-	bphf1l5dKIXGtHqfD5ei2eHS1mtQkF4JhOHBAe8Sm7joTgMSIacGWx2pycMY9fo=
-X-Gm-Gg: ASbGncv+1jbva7jsA1cfs2I0s+qVc1WQomOVYiY9sQ20gO7/Rrvqxt8BLGVhSsDf2RN
-	OlnskiUivrIQXWN1ex4nywsDUnjxpM3Gq/YIfB6kblfEF9uPZFbwppDRW5UrM0ZBDOQlQgZWZ9o
-	FUDyJVmVPUpbzbS8DUy0gmonmwvXDqBRCTLKfhT8YO2pzt56iVcYany8c29etQ5iLVqNEOiNbR6
-	P4kwX7AeuWPQkXGRQKDuKJviSHJ3ln2JZoqb+vYKCnO+3MFs/QBAUHMzgW8QGFQ2R0l/wauwjXb
-	SeMiDW77dALddqHC4se5frUddiEwzyJonrCKumzDhGIBMQ/6mkt6UvgSwc9gGUGjovl/ILkTFir
-	+JajxvEREWQ6d44+IEoh+0XnRgIXu
-X-Google-Smtp-Source: AGHT+IGbBFeZOLZYbp2zUOGKIZnaoUgakmGI4693FYmJp7XCaEK+0cCe61fN3YDSelUXfVPQxuwn8Q==
-X-Received: by 2002:a05:6000:22c6:b0:39e:e682:e01f with SMTP id ffacd0b85a97d-39efbaf10e8mr2139190f8f.51.1744982413311;
-        Fri, 18 Apr 2025 06:20:13 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:f8ba:7c24:7066:d010? ([2a01:e0a:3d9:2080:f8ba:7c24:7066:d010])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa433104sm2764052f8f.29.2025.04.18.06.20.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Apr 2025 06:20:12 -0700 (PDT)
-Message-ID: <9084b75a-b4fa-4159-9246-824723df657f@linaro.org>
-Date: Fri, 18 Apr 2025 15:20:12 +0200
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="P1RFJC1C"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EF6C2102E6336;
+	Fri, 18 Apr 2025 18:59:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+	t=1744995560; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=aSYTOYrhvq3xoKuHguEK0iR48SX9BrWOGc8iTYg7DdE=;
+	b=P1RFJC1CKiZdbWyNLxS8wmpRGBCJfNwPaHTfS+UrXLAwjv7kF1KBCtu622uQPthc7zgDls
+	z5bZbf0j+s/sZVuPU42o8fULO+bCG4o+0HC6h9fFkZFL4qqgThZ8qN/jL8nOc5o/KMVKM7
+	IYfaMwIzwY6Kwl0f+5Z+Qb/cn8d/0FO9N2IEUEA6fQ7DRGLq3wILIFM/OaFh29cFsgeoWx
+	auwEz43jwimW9cYfZzWY/Hw7zr2CNIJ9mGc7sghjf1lks0XxUQWcrQwSCBzl0lo0KcU+e5
+	kmLBIqZtB8cIv9Uy4jVwpgXglL1In3PkNBUxhSr9ZWaf10IC8OvOIR+LQrNNvQ==
+Date: Fri, 18 Apr 2025 18:59:14 +0200
+From: Pavel Machek <pavel@denx.de>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Mark Brown <broonie@kernel.org>, shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH AUTOSEL 6.1 6/9] ASoC: fsl_audmix: register card device
+ depends on 'dais' property
+Message-ID: <aAKE4kb6gImSpK5L@duo.ucw.cz>
+References: <20250331145642.1706037-1-sashal@kernel.org>
+ <20250331145642.1706037-6-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 4/5] ASoC: qcom: sm8250: Add Fairphone 5 soundcard
- compatible
-To: Luca Weiss <luca.weiss@fairphone.com>,
- Srinivas Kandagatla <srini@kernel.org>,
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250418-fp5-dp-sound-v2-0-05d65f084b05@fairphone.com>
- <20250418-fp5-dp-sound-v2-4-05d65f084b05@fairphone.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250418-fp5-dp-sound-v2-4-05d65f084b05@fairphone.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="/Tn6/BGpnTOBLo3b"
+Content-Disposition: inline
+In-Reply-To: <20250331145642.1706037-6-sashal@kernel.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 18/04/2025 15:13, Luca Weiss wrote:
-> Add a compatible for the QCM6490-based Fairphone 5 which can use this
-> machine driver.
-> 
-> As a note, QCM6490 RB3 board is using audioreach architecture while
-> Fairphone 5 uses pre-audioreach.
-> 
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-> ---
->   sound/soc/qcom/sm8250.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-> index aa3b4bc3fcc7b8a8dccc75ef1309bb26a2a8105a..ec5372e18a9c9bc6a80412adcc5ec473e9730620 100644
-> --- a/sound/soc/qcom/sm8250.c
-> +++ b/sound/soc/qcom/sm8250.c
-> @@ -211,6 +211,7 @@ static int sm8250_platform_probe(struct platform_device *pdev)
->   }
->   
->   static const struct of_device_id snd_sm8250_dt_match[] = {
-> +	{ .compatible = "fairphone,fp5-sndcard", .data = "qcm6490" },
->   	{ .compatible = "qcom,qrb4210-rb2-sndcard", .data = "sm8250" },
->   	{ .compatible = "qcom,qrb5165-rb5-sndcard", .data = "sm8250" },
->   	{ .compatible = "qcom,sm8250-sndcard", .data = "sm8250" },
-> 
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+--/Tn6/BGpnTOBLo3b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+> [ Upstream commit 294a60e5e9830045c161181286d44ce669f88833 ]
+>=20
+> In order to make the audmix device linked by audio graph card, make
+> 'dais' property to be optional.
+>=20
+> If 'dais' property exists, then register the imx-audmix card driver.
+> otherwise, it should be linked by audio graph card.
+
+This is part of series, AFAICT; should we have it in -stable?
+
+Best regards,
+									Pavel
+
+> +++ b/sound/soc/fsl/fsl_audmix.c
+> @@ -492,11 +492,17 @@ static int fsl_audmix_probe(struct platform_device =
+*pdev)
+>  		goto err_disable_pm;
+>  	}
+> =20
+> -	priv->pdev =3D platform_device_register_data(dev, "imx-audmix", 0, NULL=
+, 0);
+> -	if (IS_ERR(priv->pdev)) {
+> -		ret =3D PTR_ERR(priv->pdev);
+> -		dev_err(dev, "failed to register platform: %d\n", ret);
+> -		goto err_disable_pm;
+> +	/*
+> +	 * If dais property exist, then register the imx-audmix card driver.
+> +	 * otherwise, it should be linked by audio graph card.
+> +	 */
+> +	if (of_find_property(pdev->dev.of_node, "dais", NULL)) {
+> +		priv->pdev =3D platform_device_register_data(dev, "imx-audmix", 0, NUL=
+L, 0);
+> +		if (IS_ERR(priv->pdev)) {
+> +			ret =3D PTR_ERR(priv->pdev);
+> +			dev_err(dev, "failed to register platform: %d\n", ret);
+> +			goto err_disable_pm;
+> +		}
+>  	}
+> =20
+>  	return 0;
+
+--=20
+DENX Software Engineering GmbH,        Managing Director: Erika Unter
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+
+--/Tn6/BGpnTOBLo3b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaAKE4gAKCRAw5/Bqldv6
+8hsNAJ9H7kuYWcCsw1LeV5TOvp6rZ2J1rACghLqa+XYVc6jaUuETLw1RElPql14=
+=wIoA
+-----END PGP SIGNATURE-----
+
+--/Tn6/BGpnTOBLo3b--
