@@ -1,67 +1,66 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C7727702B
-	for <linux-sound@vger.kernel.org>; Fri, 18 Apr 2025 13:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2319E277806
+	for <linux-sound@vger.kernel.org>; Fri, 18 Apr 2025 13:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744982044; cv=none; b=JNz03j3FeQ4mbymNBT+smVWC/+Swf7RLAhwrobqjUsJLAaV4zq4zsyE94Vg1pZqbU8gVi4yOKWmxuN/IBJOtDUyzRcMALA5FFES9gv/H4MakjEG53PBwSb/ohveNlApztGciBo5jx2lsTVoL7L8AWfOiztFzpv4XuH41m3d9VFE=
+	t=1744982045; cv=none; b=rY8QqOp34hnEg+Wp3/C6iLe8ZoK/NwVipzZNKFeuLV7dwXAJES1nkxaJvE9XqzpeMs/ejCTjVJ0jg3tWVVqWGkqodydyLuYbR32FzLZEtgSGge5w1xQ5BZs9YEdIEF1VXHb+JRHjqBQqsQWzpq48cquNabfWdd8PFfnhQJiIq9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744982044; c=relaxed/simple;
-	bh=YzHH+rPNmlCw7nAjTMSEOMMyWvfPWgugAOZbphqTg0U=;
+	s=arc-20240116; t=1744982045; c=relaxed/simple;
+	bh=6LWWCl+fw76HY+PZdOokf+xdGWSBmr74emQwtZNOoaw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gPqyBv8tEWK8NSDjK3mD+RwuQaKbcI2zZNbw3mnONAHnRzapecMh0e5IDcUIttng1wFn0KUortClHC9ILL2Me+SXSS2SxgcKMQaUate1cNEq7h5HIE631JiV4FkXrxJeiTpnntIjkzCyn/hhEFPjLQHbpCLF/IqvpwBp9LLwlg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=vXG3U9ER; arc=none smtp.client-ip=209.85.218.45
+	 In-Reply-To:To:Cc; b=i95MDyHVAGr8x5cL2u8/t6tPvMkLoSNCTZA+L5rW7Du1Fw0UwI8zUKCNh7xtk/iarRIfDHJ/CGxtQlNZniK4ibIWouAmOilIDLUm9/URelKVxdSUGYHELhNLjgK3/wC2fpDZLUGbpVzL/d9QFcQC9YmmzwE+Z9ZeRMtiucrUBvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=SyiuupG7; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="vXG3U9ER"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ac3eb3fdd2eso338689066b.0
-        for <linux-sound@vger.kernel.org>; Fri, 18 Apr 2025 06:14:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="SyiuupG7"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5efe8d9eb12so41757a12.1
+        for <linux-sound@vger.kernel.org>; Fri, 18 Apr 2025 06:14:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1744982040; x=1745586840; darn=vger.kernel.org;
+        d=fairphone.com; s=fair; t=1744982041; x=1745586841; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8+iXn1oW4dzOU1w6dTTVa2iMvBmWei5kk2HA1UjOPDk=;
-        b=vXG3U9ERiw+gC5ee8RwFhcBpnEsu9oKkfl9Bjrp/STu1WBM2yM4TNzZhwWvCYBkRgE
-         nrAocFoK9oqj1zSglBMf3P9OGIwlb9xVq/yVAcrPmcIuYowihDt0VqwXVo3H+jxF6duY
-         BUxP8+4EHZYLVsO8l7ylAJMJ2a+GxRMZcomqkz4mnCFPo9h/OBXm4DBbhUJ+6R60ZhtH
-         9s7pb+LKYvLoL3gonwJYKVKaAlJxF8fuDkhny83cFwLBNHQ9pwMM/NO2S8MJhnAMx4YE
-         H4Hd2uCCvfhGzrgGljqH7fBMfIAz8JnYTSVllcf6X2ZpqxG/83Qbvuu5+sILdFwMXB0N
-         LXZQ==
+        bh=Ih9KqGuWJ1rc0JvwhZbwATHF/82WoHzu4xe2IRdIO6A=;
+        b=SyiuupG7H306YWVn0b4dY0TBaDmRtwIL6sVFw4/ennSWl1NemCLouC80dO3bUVG9Um
+         5M/dfjs/DRX5qDbpVBdQpLP1xQsr8pxzAZFgxyTRCmaQVwQc67Rso8gQedp4lsJiBnpH
+         kMLuz0gB851OwXqYcAQw7KMa47CZrLt8c0e/WZwmkWTvYK4xGWTQtja1tBUSnf8bzHrY
+         H4VWnrlbLy7K4TQ4qxq/w1L+Qw4zGb2DVJzmL6SvpPm+13fTrsbvW+H/FBZ++BMqJa4a
+         TwuEzCX82+WpaikrPTmMnHehN5DtBl6feHHLoAF7v5WD7Ewk8p2KFaxAYRXpS7c28OQZ
+         apXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744982040; x=1745586840;
+        d=1e100.net; s=20230601; t=1744982041; x=1745586841;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8+iXn1oW4dzOU1w6dTTVa2iMvBmWei5kk2HA1UjOPDk=;
-        b=idggh7Tb6z41VIOeAwhVuAef8UlnTnb35/6549tXPw4YtdzwMIcxk2NBOgy8nkpr05
-         z0BRic0If2MM1H5YebgZ56GiG0/uiUCBucuI5mIGJFF4gy7OHYB7fe4jSwXhO/2+nCW9
-         j7ywBsSSj2abf+lrMo9rYFvwhl2k1bKiTt2dyoFqZMfA5G0e0q5mKOm9HRoSy14MZnKe
-         btwObzSppGNCZxv/0wJPex5S4uccp9Xf28Q6WeUaxyoR19QLjE4kVKb8fPcUzCJ1KBea
-         Pgfjfy7zRrzkBRiui3Q/lBCOP8lloivReJRaS3fu8dEZqgdZh8T3yODUeYn28ZGIn/Dv
-         T/tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+yNxNmaMChU8jelLDsh0IQWxOS25G45c/roo7ABcd4JGXZc8xAe/f3nF0WAZDO5akbNsCTwN6pkJ5EQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yybg1DYpbStpfsgB4Hf3tD5ERi2rrERwp/KSSpjkwRer6yV3MzT
-	pTvJllUARfRKNsJYGxS4xlBGfh1EZgglJ10TUHN3mBiPbAC1mOnoPxJ5WlMMnm8=
-X-Gm-Gg: ASbGnctjAGAICZ0b5mqc+83pL6/wGBafz6fVJxiyxT48e0oDy/bQBm+NeGBoCTaKLxf
-	CVe70ej0f8xBWc3ku8J3mZojM7StlF2m6/YwZ8bFoVcQlbvAemIJLB3mUFnWTOktGzKbkLmd8Yp
-	pGXoIG0fLd6p0kfI83raLd5LnGwDbi55xOcqgcohqyUGJtYJQXh7qjTB8wSS/GsImTAu9l00kIi
-	ToPEddC5+U5Pa/ePAO7XovgdCu8suFz8K5wf9TaqfBLyAdl5bhZ3nFX5vNXd4JzzN7IKQx8s1Fc
-	8GXD8Kr9G2SnzzCi6hd+83OAONP4fAZQVRrFwqlLKqyH2aRDFyfYkHIZE2q8b+hRcmMciXNmQCx
-	JNuEiCThh4tulEg==
-X-Google-Smtp-Source: AGHT+IEvyHMxyvjGL4iGOJh/qfXqtVq90WdGbNIlyJO0slfHahtv2sJybNJICOISqOrAqVq+TJLnEg==
-X-Received: by 2002:a17:907:6d19:b0:ac7:33d0:dbe with SMTP id a640c23a62f3a-acb74b8e568mr220791766b.33.1744982040350;
-        Fri, 18 Apr 2025 06:14:00 -0700 (PDT)
+        bh=Ih9KqGuWJ1rc0JvwhZbwATHF/82WoHzu4xe2IRdIO6A=;
+        b=hY6EoLEjGHGwDn96Z5pRlAtrLoHEVZYmtM/95AoQ1n07A/hjy3JIFvRN0RGSiSQolV
+         0yP7+649Ka/toB7wiW36QvnNfxbg/CBVeG4GkWIvftR4jOuOEWWt7aFz7iS8+OebzdoE
+         Zqb9Fix7Ag5P5zDUC2533zahqNKOqYNpl7itydibA+MDOF70VfMBDXueUDwayV7fqmIN
+         kgFe7TcKQK/3aHf4KsdRHJqfvK0ny3tpaS3MCiA1o074wFDWNZTdV7xMc3LtgydBwifl
+         HWozHtVZjSjQWcxm/j0JAIyPma0UBQ/FmG6LEhAysEYV/jSN760qa4LFQtyTPYU2K5/j
+         a34Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUstFvou1TpdvvlfLVxFYw96eAuDTtQ1zfetLsD0ni3KoOvCse3CzK5UiCe7gK5vJaJqcaoJ5GxchahSQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxovTm5Yc6Uz2AlsjSE5ibnLmzYSQo1vjMVZUtHrLydSmJsHr4v
+	crKQ13Yl1bj78dgtkDW6ZqlsJFCUnZ1f6OTHLU5FAlxnVVAzyJs274qzAg7RUgA=
+X-Gm-Gg: ASbGncu8Vr51Ei+l0ZCozZMo+dAQHRoSScE8npMjECGOzHHEQvCOCOv0yyWR2CHkVst
+	M2s3lJSdpK1JYyOprsW3f/cfAkeoCE3zbhUua18KOEKO1X3j0nQ2+IMXFCK0E6IvKDjsiJDYTh7
+	oMpmudpNi18zOlCS3J4hxRjuzL5zj/pO36k3zl3CsrE73mtuCH6QmPg1PWMpA8KqfxU5WVSNyQT
+	b/SGArGWxV7e8yh8/dHjJHyJ8eR1JN4SmCMTUJtEtTs5Fy4cfY6w3xHxUKhEVrVBpA99B+yEKi/
+	sNfhBtUDPyqArBBTut9fcxIzPhkHntULnYD8IsUda3UopoGggNDaorYNITJAWFoZQ6avYs28Fan
+	znzTXxq9FweZu6Q==
+X-Google-Smtp-Source: AGHT+IEQnUcQbXMaqk61okzrXh46x/KQ61UJQzrcCrJS6MAJvzXtug796hcDtEBAuUVns86R4gHd4w==
+X-Received: by 2002:a17:906:6a23:b0:ac7:391a:e158 with SMTP id a640c23a62f3a-acb74dda17dmr237991466b.59.1744982041377;
+        Fri, 18 Apr 2025 06:14:01 -0700 (PDT)
 Received: from [100.64.0.4] (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6ef41605sm115901966b.124.2025.04.18.06.13.58
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6ef41605sm115901966b.124.2025.04.18.06.14.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 06:13:59 -0700 (PDT)
+        Fri, 18 Apr 2025 06:14:00 -0700 (PDT)
 From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Fri, 18 Apr 2025 15:13:43 +0200
-Subject: [PATCH v2 2/5] ASoC: qcom: sm8250: set card driver name from match
- data
+Date: Fri, 18 Apr 2025 15:13:44 +0200
+Subject: [PATCH v2 3/5] ASoC: qcom: sm8250: add DisplayPort Jack support
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,7 +69,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250418-fp5-dp-sound-v2-2-05d65f084b05@fairphone.com>
+Message-Id: <20250418-fp5-dp-sound-v2-3-05d65f084b05@fairphone.com>
 References: <20250418-fp5-dp-sound-v2-0-05d65f084b05@fairphone.com>
 In-Reply-To: <20250418-fp5-dp-sound-v2-0-05d65f084b05@fairphone.com>
 To: Srinivas Kandagatla <srini@kernel.org>, 
@@ -86,53 +85,50 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  linux-kernel@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
 X-Mailer: b4 0.14.2
 
-Sound machine drivers for Qualcomm SoCs can be reused across multiple
-SoCs. But user space ALSA UCM files depend on the card driver name which
-should be set per board/SoC.
-
-Allow such customization by using driver match data as sound card driver
-name.
-
-Also while we're already touching these lines, sort the compatibles
-alphabetically.
+Add support for DisplayPort Jack events, so that user space can
+configure the audio routing correctly.
 
 Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 ---
- sound/soc/qcom/sm8250.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ sound/soc/qcom/sm8250.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index b70b2a5031dfbf69024666f8a1049c263efcde0a..e920b413b762c803cfcc4049f35deba828275478 100644
+index e920b413b762c803cfcc4049f35deba828275478..aa3b4bc3fcc7b8a8dccc75ef1309bb26a2a8105a 100644
 --- a/sound/soc/qcom/sm8250.c
 +++ b/sound/soc/qcom/sm8250.c
-@@ -16,7 +16,6 @@
- #include "usb_offload_utils.h"
- #include "sdw.h"
- 
--#define DRIVER_NAME		"sm8250"
- #define MI2S_BCLK_RATE		1536000
- 
- struct sm8250_snd_data {
-@@ -200,15 +199,15 @@ static int sm8250_platform_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	card->driver_name = DRIVER_NAME;
-+	card->driver_name = of_device_get_match_data(dev);
- 	sm8250_add_be_ops(card);
- 	return devm_snd_soc_register_card(dev, card);
- }
- 
- static const struct of_device_id snd_sm8250_dt_match[] = {
--	{.compatible = "qcom,sm8250-sndcard"},
--	{.compatible = "qcom,qrb4210-rb2-sndcard"},
--	{.compatible = "qcom,qrb5165-rb5-sndcard"},
-+	{ .compatible = "qcom,qrb4210-rb2-sndcard", .data = "sm8250" },
-+	{ .compatible = "qcom,qrb5165-rb5-sndcard", .data = "sm8250" },
-+	{ .compatible = "qcom,sm8250-sndcard", .data = "sm8250" },
- 	{}
+@@ -25,6 +25,7 @@ struct sm8250_snd_data {
+ 	struct snd_soc_jack jack;
+ 	struct snd_soc_jack usb_offload_jack;
+ 	bool usb_offload_jack_setup;
++	struct snd_soc_jack dp_jack;
+ 	bool jack_setup;
  };
  
+@@ -34,12 +35,17 @@ static int sm8250_snd_init(struct snd_soc_pcm_runtime *rtd)
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+ 	int ret;
+ 
+-	if (cpu_dai->id == USB_RX)
+-		ret = qcom_snd_usb_offload_jack_setup(rtd, &data->usb_offload_jack,
+-						      &data->usb_offload_jack_setup);
+-	else
+-		ret = qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
+-	return ret;
++	switch (cpu_dai->id) {
++	case DISPLAY_PORT_RX:
++		return qcom_snd_dp_jack_setup(rtd, &data->dp_jack, 0);
++	case USB_RX:
++		return qcom_snd_usb_offload_jack_setup(rtd, &data->usb_offload_jack,
++						       &data->usb_offload_jack_setup);
++	default:
++		break;
++	}
++
++	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
+ }
+ 
+ static void sm8250_snd_exit(struct snd_soc_pcm_runtime *rtd)
 
 -- 
 2.49.0
