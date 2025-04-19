@@ -1,134 +1,223 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E4F253F0D
-	for <linux-sound@vger.kernel.org>; Fri, 18 Apr 2025 23:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745019679; cv=none; b=hi63fRHWDbPAprnXhnen4E/uue2S9fVjzHaST0LaoVC0FaXBjdBk0OaEFIKxHhcw2SIYMcr1+D+R0ecERCQqejvLCuHQXATGdMJqP+9wXQbWJTYWm+f/xrYakQU0wwP7NZl38c0N55+TaTH9nYJcN0WJBFK3aawX1xh6uUQBdZM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745019679; c=relaxed/simple;
-	bh=6C0vozgC31EMiPaikNIk3gz1e5iKRvGvdRxBSvzVylA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OQFyajNzKsgHrmoOp5zuKMklaJDWzPCrkoZijXM4MdH4+Xfb6fNvsgyIGqAIw4YLswsJlAWU98oSEgwXtLhEkrQfW1hPY6wv5JPjMwqfqHgadARz0TB4mXLqRAVoeDG83oEtPg+DpqoUXhFGkTacBeJ1twqbYsQssB+WQ/z2vKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mE6nSEC5; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F253FBB3;
+	Sat, 19 Apr 2025 09:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745056762; cv=fail; b=hUA+Shn40RN/ob3VHsXIqtF16eb9w2yhDUsXwlvwCK3S+2SKYJgNeuCz68VpUBfRnuaC6jaMO/dBNCDTZuKUgDq5SfdP1GqXxIAa4LdkpcdLv09YgE4HXGJ4gwQvCLKldSVmPo9POX1TTvXi7w8S58poTIJ/NO8sVWTTQOWfTjI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745056762; c=relaxed/simple;
+	bh=30OJNAg/WCBE2UhKoyM4ri4stQsk+pp0WndIcEdBlpM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VTwXbw8Gd5VTwhoeoG9OftAl/Ls5MyrLsNBRX+Kg2J+4wswvyZSdczsbQd9aoMaMkTIJMfIY+GLI2ort/So/0puGFRTUdnGQI/wueY5zXryTE92A/WjkVx5daO179sApOmbB9HUm4GGSdJHdikMp33VfWdlcms/7BwGnI5BdGxo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=keTDbKiJ; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=gw6vcUX6; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mE6nSEC5"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53IFZnNe023336
-	for <linux-sound@vger.kernel.org>; Fri, 18 Apr 2025 23:41:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=QGWkrsI6bbJMRZrZKPu35wIq
-	Uji9PLOWunitcRgxc4M=; b=mE6nSEC5ujtcc8FOu5n1qH0jOhzQscWdH2jBNdcf
-	dBGmsntq4ab3ANwzCQMSw+sJcfj1/Eszp0KMV2XuhNgLtQfspSyTtmL8vnonxxRX
-	qcNQyq71t7PaiXw63ryZzQeCZZph6waGNHHBRacOsgXbxbZG4Vh+f4fA9f3ygl7Q
-	ipDdffRxIZuAaz+ANEG1ED4+lyRvNsZV0pBidyxT5oftz2SAnRjoL4ABb51op8lX
-	qG5GJUa0heBfNELFOdQy6zHIHlA/owE1KqQunjbcZYr7gwZG9mnyOqMBmJFoe58P
-	goKIHEHmMKzJr1J1QuRaNfo1oo9eZF0FNJKPQFqePKp4pg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yhbq2w4w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 18 Apr 2025 23:41:17 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7c5f876bfe0so361934085a.3
-        for <linux-sound@vger.kernel.org>; Fri, 18 Apr 2025 16:41:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745019676; x=1745624476;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QGWkrsI6bbJMRZrZKPu35wIqUji9PLOWunitcRgxc4M=;
-        b=mGH2DLa621PndkOirjeJLxauGDy8Ysvo8AJc58OrvpD3G932mIOUzp4493jsUd4Yfp
-         2ODjltwVeTzcyJlxMkrTxvLl8dPfPIl1Gvya2lq6SqS7JvuWxVYru2dlJpx9oiCBThBn
-         FMGnSI4f62Bx4um2U/cY4iwMWBiH1dge6vhzLyajWFBCRa4XM7rFhEqL63IP1jZFvRj/
-         cs4RU4XMzgA153lssVmC3/Q4zSJei1PwtljaFCjUtKl4MLYx8Kt4Fr+t/Zs2+maSFvig
-         +eDnQok6+N6yPiyZ12vMNFwBD7FEDvrf09+qd3qRHX9NbILWtKTFYLXG8rC7NhBbM3Iz
-         qPKw==
-X-Forwarded-Encrypted: i=1; AJvYcCU1GjHgz3zg8QQFJJt/fhwVLRrJWdZkZ13IlwqWeVe8pHwECJS8ColwZ/RmGz8lmM9IRI+BmiL4sBuqzw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeaJkxj7XcK8v2/pqnUS4gYP2X7ef4AoLxu7hFsM5UyQtee+97
-	Tm4kxnjpinYAwJqImQzH6iOZMrySBVHrwkKHK81XusP3JF+fnGM8aJQ/Sm18yAS1b6bZ2Uj9yFD
-	64fSVVHABzgGQUyS0tUzvEWDA127/ettR4v6huKRQgJtG+tsfl2G4Sad0d4Iqlw==
-X-Gm-Gg: ASbGncvlWE7+/SLn3oGXNuU9GCr8ue2gEO81WezSYYYPYAaPjt33dEOZfl5AeicvPKj
-	Km3Whl2QdGYgd0wrKOrjvyre/WCefvIqA1T/WcDhQgpOAf3SXusvnI/IWEoDv2C5wFLTEROPsjA
-	CD0pP2TqO8/RFvA4j5b4JOkrw1ISZFp8j8xmcVqzpKbd6ivfoaWbGhgf4rBTPmOk45DlI0zTtPa
-	jF3FGwxfP3kaMve8nx1zErtXwkhBSVIXSp72X2S9GByYOgORx93nL/xprmkCj7MMbqA1hPKyu0v
-	+Q0BDPCog4Z3IVQ8u4L9/oc9B6QCquwCCidr0lV4ttacUyQ0JSEhnC4Be8JaGSutI8gL0X5e1TM
-	=
-X-Received: by 2002:a05:620a:2887:b0:7c5:5d13:f188 with SMTP id af79cd13be357-7c927fb9062mr570340885a.26.1745019675893;
-        Fri, 18 Apr 2025 16:41:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGNEOqCTwH7E7vLdne7Oh6e7Mb+h93X+PhMq8Qo+whymIytCNczG+rD7jrHK6N9QiZxVSL+pA==
-X-Received: by 2002:a05:620a:2887:b0:7c5:5d13:f188 with SMTP id af79cd13be357-7c927fb9062mr570338685a.26.1745019675504;
-        Fri, 18 Apr 2025 16:41:15 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d6e5cf943sm305840e87.137.2025.04.18.16.41.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 16:41:14 -0700 (PDT)
-Date: Sat, 19 Apr 2025 02:41:12 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Banajit Goswami <bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
-        linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] arm64: dts: qcom: qcm6490-fairphone-fp5: Add
- DisplayPort sound support
-Message-ID: <q6eqlq4ltz6nnnqrja3obpv35qjbuqjqqj25ekcl5wgd4yubeq@gw3n6r44g32d>
-References: <20250418-fp5-dp-sound-v2-0-05d65f084b05@fairphone.com>
- <20250418-fp5-dp-sound-v2-5-05d65f084b05@fairphone.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="keTDbKiJ";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="gw6vcUX6"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53J9x5ZC028186;
+	Sat, 19 Apr 2025 04:59:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=bJJyUeEx+Soz03zaT9mNB2alwnCfKYx95FG7/FVliUQ=; b=
+	keTDbKiJEGW/Y2s30Y+WnIhvrn+eWsoYR87W9wmeaxBj8Lf4wsVLcR6dIgqwmD68
+	07hx5LK3dGkPHUIfJTlyLhuc7Q/5g9+72oV8Pn0AGNOiHoJrumIeX7QqKLymfnKv
+	YtEtCqZldvdgd9XP6DUD3ggba37dKKMMVGqcBMn6iAmAOKCmrx/klJPRw8Yp8JV/
+	GByEYI6Rucggy1EzstXvxoa9AafbCO43lVGFW0Hy6l+JWUOXYqeG/SPkU/QbsDbq
+	y074wJanKsINOLajSKWXWNlTSzQvqr3s86zxJyPO/QxYTpB6fGr75X7IznEgK3+c
+	E5OLNxKS0/3CtRNOhqGgUQ==
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2044.outbound.protection.outlook.com [104.47.55.44])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 46488hg1gb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 19 Apr 2025 04:59:04 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vmZ1aoTXmAqO2CovPqrq/OZ56RM8fEmUbelJeJX4vFDFKCWkoOY4ZToGu9q3OqGe4Mh2NCNxuQyjv7gXe8SC0WI8drsoFYi1w71vCOxZ5wPcIrYnKe8KP1nKEHetWMiZ739xzIYR1ybmrmiomboRu9mt3bDMFnESgKcWOlEVbDnrzQSYrnsV+4b7ChL8ip9ZDIuUEAEa35kGwWztxByriTnV9b5GDU+BY+jcUG4Y3QxDfaG/pmtLPfjrpEhZKfUQRgdxXMeQD/Zenioxw17VDgLWS0ggs8j+Ogpc4o86osYzAU9HdSG9JQLiH4zyx//FBohPeDY0Zo/3OKGX4+Wfvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bJJyUeEx+Soz03zaT9mNB2alwnCfKYx95FG7/FVliUQ=;
+ b=X/dd8AKtejDsIgoDMKQNqyOMLPXvz5hSvjYUa6JRoiONvBHWiB6itw/+nBIDKMCoIAgcPcAWdpzeN5M5LII0Df1kgbSA5cqaqGiP3FyvId9FaCo1MMt4CVlUNwLoWV3EU7rrgsOk8KfWoa6Eb9vz5qGU+2Bu5/CfVDO+iw7LL5Z4IkQu6k90eSE0fRpqxGdMUtBK19kI6hmVCT6zOxCwmtAODtQp0jDwLngn1p9Ba6Zts+veITdPKGsjQAW+tXaIWhXhcfOv5tG8ZL7vL1T/W+bfoUpv/UZEY1Fj+pXvYpMUy4vpOUDy33fBlbPRlK2ffcfbeV5xPsJg02ozB0pa6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bJJyUeEx+Soz03zaT9mNB2alwnCfKYx95FG7/FVliUQ=;
+ b=gw6vcUX618hQz/MkHUrQnQC3vaR94yz8adAK/Qvjc4QwuycOG1DpirCxERMKMEQ1ASZwd7lFCn2yxVfzo2hYSGdCNlZ+TG5HS8c9PN8NXOTSd2OH32rULugU+NqD/yAl8nq8BuZ5jzX5TG9qNVgr3hwJQkSKAKwj0ZfsuCD2Rc8=
+Received: from SJ0PR13CA0089.namprd13.prod.outlook.com (2603:10b6:a03:2c4::34)
+ by LV8PR19MB8352.namprd19.prod.outlook.com (2603:10b6:408:201::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.30; Sat, 19 Apr
+ 2025 09:58:58 +0000
+Received: from SJ1PEPF00002315.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c4:cafe::5c) by SJ0PR13CA0089.outlook.office365.com
+ (2603:10b6:a03:2c4::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.10 via Frontend Transport; Sat,
+ 19 Apr 2025 09:58:58 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SJ1PEPF00002315.mail.protection.outlook.com (10.167.242.169) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.12
+ via Frontend Transport; Sat, 19 Apr 2025 09:58:56 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 46111406541;
+	Sat, 19 Apr 2025 09:58:55 +0000 (UTC)
+Received: from [198.61.68.186] (EDIN4L06LR3.ad.cirrus.com [198.61.68.186])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1686A822562;
+	Sat, 19 Apr 2025 09:58:50 +0000 (UTC)
+Message-ID: <29fa2bff-1e07-4c07-8902-26193d506ca1@opensource.cirrus.com>
+Date: Sat, 19 Apr 2025 10:58:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250418-fp5-dp-sound-v2-5-05d65f084b05@fairphone.com>
-X-Proofpoint-ORIG-GUID: _NocuxjC9Utv-qrwDB_J2qdsUrkxBMK4
-X-Proofpoint-GUID: _NocuxjC9Utv-qrwDB_J2qdsUrkxBMK4
-X-Authority-Analysis: v=2.4 cv=I+plRMgg c=1 sm=1 tr=0 ts=6802e31d cx=c_pps a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=6H0WHjuAAAAA:8 a=EUspDBNiAAAA:8 a=CXSf308d6hWwThVqTUoA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=Soq9LBFxuPC4vsCAQt-j:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-18_09,2025-04-17_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
- phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
- bulkscore=0 mlxlogscore=989 clxscore=1015 impostorscore=0 malwarescore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504180181
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: cs48l32: Use modern PM_OPS
+To: Nathan Chancellor <nathan@kernel.org>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Mark Brown <broonie@kernel.org>
+Cc: Stuart Henderson <stuarth@opensource.cirrus.com>,
+        Qi Zhou <qi.zhou@cirrus.com>,
+        Piotr Stankiewicz <piotrs@opensource.cirrus.com>,
+        linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-kernel@vger.kernel.org
+References: <20250418-cs48l32-modern-pm_ops-v1-1-640559407619@kernel.org>
+Content-Language: en-US
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20250418-cs48l32-modern-pm_ops-v1-1-640559407619@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002315:EE_|LV8PR19MB8352:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0fabac30-e396-4064-6fe9-08dd7f28cd14
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700013|376014|30052699003|61400799027;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Yk8xNjhGdXVUOW1sWVR0d0RyMG9NTktWaTMyUnN4U2lmUmY3TWl5N2RweHlj?=
+ =?utf-8?B?ZklFTTRMdzMzd2xJblFKOEhkMVorUHBUOWp5TG5oSURCb2ZHVzNJbHgzOU9v?=
+ =?utf-8?B?RkpCL3pQTFBPT3J3NSs5OE1EYUlDUUdvbXVHT0RFVlRNTzNLbWkwN0VqbnVU?=
+ =?utf-8?B?eVRxazhFWmJuNjVGd2NiYmcra2M4V0hMUTY4QXBsTWEvWCtNTzk4SDFCMVJF?=
+ =?utf-8?B?cUlMYzI2aTBYeExRazV4L2RkRWxOVGkzdEV3WUpQWEpBRTVvV2I0K0hHZDVy?=
+ =?utf-8?B?ck5IVVFNZjNPWHM1dFljR2dSek5xdHZVSjhJbjhGa3RMMXlmWXFyWG5KUzhE?=
+ =?utf-8?B?aWNWbmZ5c1ZSdTRVNnU3dFZGS1dzakNDK3lhajRRckdMOGVsU0lCa2w0NkNM?=
+ =?utf-8?B?c3JTY1hVbGE1eUlkcnFqcHh5M0JqdG93ZXFuYXpKVldUc1FBTWNxUVBkcjg3?=
+ =?utf-8?B?UmZrNG5TQjUwajNYYkNaTHV6TmZ1K29BOUozaUU0cDhZS0s1bERWQXhqQmM2?=
+ =?utf-8?B?a1VpS3lyeCtlR3hxaW1FQk4vaFQwcUFwNEI3bVpDV2xSelBQT3licUJOZnZO?=
+ =?utf-8?B?VHhCTzVQV2RKTEx3RVRyWjF4eHpUUVN4U3F0VXJra3FsdVBYbHduU1Rmekoz?=
+ =?utf-8?B?UEZuRFpyVm5qeU55VkR6bEplYWs3UndrMU90bForcm5wV29mSEdlWWw4TGpr?=
+ =?utf-8?B?dU1yL1lYNHFjVUZ3SUhMbWtmaHF2THlGcHgyMUI0OEF4aGs2NlJUSlVVSUo2?=
+ =?utf-8?B?eXZhTjI1b0EwQUNWUXY5Vk15OFdrMWxBTEhRVTNNRkpqSEw4c2F6RmgvL1dP?=
+ =?utf-8?B?YVlEQnNOYklwM0dLMWlNY0wzYzhXUEpSTTgrWS9ubmlmSlBhVVJKS2Nzb0pm?=
+ =?utf-8?B?WUtlaFlJaFVxSGsxRVMzaHJ1c215dm9YUzV4YVF1ZEVzN2Y2ZjJVUXFhaTRQ?=
+ =?utf-8?B?eUNsQVpnQmRmUEI2ODkxU2JhV0ZlaFNmTmd2NlhhclpCTWVYMTB2NU1sellp?=
+ =?utf-8?B?YUp3eDRkcVZuVVh3QW44NTJpWEw0aXNlN1JzZDNSSnBybGtsWTdGMUFFQnlX?=
+ =?utf-8?B?K1hJL2VJZFUwMmxrOEN4VWMzYWt4NUhTUW52TlpGQ3NsZWFab1NuZ0xuMUNK?=
+ =?utf-8?B?MW5KUTB1MFJWVkdPajlCMlVFSjh1bmlaa0xFZ3gwK08wclkyOVhpTGRXdWJM?=
+ =?utf-8?B?OTVVektpaHJTYmNncGhYTEh3akd3VVdmaW9OTlZ5M01UVG4xbVVOT3QzbEl3?=
+ =?utf-8?B?SUtTbVgrR291eE5LemN4SDdxOElCcjE4bitQNzFRcXBTemlZUTRoTUR2aTlx?=
+ =?utf-8?B?N3Y5SUlOVjAwdThBcDViMnByTG1jSmY5Q0cyYXgrRjFuN21HbjhCdlZmbnNE?=
+ =?utf-8?B?bWR2a0NzL2FteGs0QmxDVGFlQ2F4akNQdTJSa3VUcmI4d1BFMmtmOTh5K0hR?=
+ =?utf-8?B?anB6Rm9UK2c0OXFtSktCNFYwelUzd21CNFQxRTdQbFRBRTVyOGhxcUgzRnZJ?=
+ =?utf-8?B?MnhGdjcvdzBZK2FIVmtJMGY0WVl4dFpNVzJ0Vm5YTml4VVZNWTdZZzFXUTVJ?=
+ =?utf-8?B?endlWDlTMU9rdGhzd21HTFhoNWNhamFTQkZIcUxEcmd5Wmp2NG9QLzRsOHVh?=
+ =?utf-8?B?UXFnTlJmZnFIUzZERkZMK1pFZHJ5WkVrZlRabUtjNThUM0dxTzE0elZGMGNL?=
+ =?utf-8?B?NDFRejFRZm82S0Jld0EvVFVCY0pYNSt2aDV4bnBlZVljWk45cktIYStTSXpJ?=
+ =?utf-8?B?UC8xdGdTK3BKekdFdTRaeGVaRWFScElvdDNKNEJOTlNiTlZnUWxuZ3Y3dnJM?=
+ =?utf-8?B?dzBqVWRRUFhHWDdDUGMrcjFSSllwRVdrWVorWWJOS2Z5M0hKQ0tvWWQ2SCtZ?=
+ =?utf-8?B?WHVsNDN1bDFucEhUVFpoNVM5ajZQMmt4STdOczZDUXNkSmVpeHNzSGVybytJ?=
+ =?utf-8?B?SjdRT3psYkJFSDVuL3dUcVMyOSttZitFOGY3RTFkdXRxdFpHTFo4QjNwU2NY?=
+ =?utf-8?B?aXVGRG9xQkVHOUhjYm95NnBRNTdkUm5KWjVNbmI1Q2hncmpYRmYxM3hPaitN?=
+ =?utf-8?Q?mqzY/i?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(30052699003)(61400799027);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2025 09:58:56.9285
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fabac30-e396-4064-6fe9-08dd7f28cd14
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00002315.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR19MB8352
+X-Proofpoint-ORIG-GUID: Pz0xPZm_WTeP5FEUToD8kbNgwzYdS8Rx
+X-Proofpoint-GUID: Pz0xPZm_WTeP5FEUToD8kbNgwzYdS8Rx
+X-Authority-Analysis: v=2.4 cv=K4siHzWI c=1 sm=1 tr=0 ts=680373e8 cx=c_pps a=t4e0UQJdoJrPmzgCWb9hsw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10
+ a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=VwQbUJbxAAAA:8 a=w1d2syhTAAAA:8 a=2Deaj2xd2OV0ttB7t7YA:9 a=QEXdDO2ut3YA:10 a=BGLuxUZjE2igh1l4FkT-:22
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, Apr 18, 2025 at 03:13:46PM +0200, Luca Weiss wrote:
-> Add the required nodes for sound playback via a connected external
-> display (DisplayPort over USB-C).
+On 18/4/25 21:36, Nathan Chancellor wrote:
+> When building for a platform that does not support CONFIG_PM, such as
+> s390, cs48l32_runtime_{suspend,resume}() are unused because
+> SET_RUNTIME_PM_OPS does not reference its argument when CONFIG_PM is not
+> set:
 > 
-> In user space just the following route needs to be set (e.g. using
-> ALSA UCM):
+>    sound/soc/codecs/cs48l32.c:3822:12: error: 'cs48l32_runtime_suspend' defined but not used [-Werror=unused-function]
+>     3822 | static int cs48l32_runtime_suspend(struct device *dev)
+>          |            ^~~~~~~~~~~~~~~~~~~~~~~
+>    sound/soc/codecs/cs48l32.c:3779:12: error: 'cs48l32_runtime_resume' defined but not used [-Werror=unused-function]
+>     3779 | static int cs48l32_runtime_resume(struct device *dev)
+>          |            ^~~~~~~~~~~~~~~~~~~~~~
+>    cc1: all warnings being treated as errors
 > 
->   amixer -c0 cset name='DISPLAY_PORT_RX Audio Mixer MultiMedia1' 1
+> Use RUNTIME_PM_OPS and pm_ptr() to ensure these functions are seen as
+> used by the compiler but be dropped in the final object file when
+> CONFIG_PM is not set, matching the current behavior while clearing up
+> the warnings.
 > 
-> Afterwards one can play audio on the MultiMedia1 sound device, e.g.:
-> 
->   aplay -D plughw:0,0 test.wav
-> 
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> Fixes: e2bcbf99d045 ("ASoC: cs48l32: Add driver for Cirrus Logic CS48L32 audio DSP")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 > ---
->  arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 31 ++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
+>   sound/soc/codecs/cs48l32.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
+> diff --git a/sound/soc/codecs/cs48l32.c b/sound/soc/codecs/cs48l32.c
+> index 8fd0df671730..90a795230d27 100644
+> --- a/sound/soc/codecs/cs48l32.c
+> +++ b/sound/soc/codecs/cs48l32.c
+> @@ -3834,7 +3834,7 @@ static int cs48l32_runtime_suspend(struct device *dev)
+>   }
+>   
+>   static const struct dev_pm_ops cs48l32_pm_ops = {
+> -	SET_RUNTIME_PM_OPS(cs48l32_runtime_suspend, cs48l32_runtime_resume, NULL)
+> +	RUNTIME_PM_OPS(cs48l32_runtime_suspend, cs48l32_runtime_resume, NULL)
+>   };
+>   
+>   static int cs48l32_configure_clk32k(struct cs48l32 *cs48l32)
+> @@ -4057,7 +4057,7 @@ MODULE_DEVICE_TABLE(spi, cs48l32_spi_ids);
+>   static struct spi_driver cs48l32_spi_driver = {
+>   	.driver = {
+>   		.name		= "cs48l32",
+> -		.pm		= &cs48l32_pm_ops,
+> +		.pm		= pm_ptr(&cs48l32_pm_ops),
+>   		.of_match_table	= cs48l32_of_match,
+>   	},
+>   	.probe		= &cs48l32_spi_probe,
+> 
+> ---
+> base-commit: 0b0a18f1bd72c64ae845a32d975f6d4c727b38e3
+> change-id: 20250418-cs48l32-modern-pm_ops-3e4b5860e366
+> 
+> Best regards,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
--- 
-With best wishes
-Dmitry
+Thanks.
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
