@@ -1,65 +1,80 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8388E2777F7
-	for <linux-sound@vger.kernel.org>; Tue, 22 Apr 2025 11:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E094A27C84B
+	for <linux-sound@vger.kernel.org>; Tue, 22 Apr 2025 11:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745322894; cv=none; b=kF/tKJncWBiP2Ksp75idIHjKZ1fMnrG64ulSz9o8vQjQzkr+pBPiOkEFm89AMzFZniEDMlcKtOhLLoPmcBm8m7z9d3XPKnBpN/zPsvQpoNUDu6c1jgjMqSoO0S7qgd8azoPPskfMXy+9sseVqNo+9Exd0PWd9XlnzU3cbUK76Ck=
+	t=1745322895; cv=none; b=W/XxoJONaC+Zz/X5v1RK4YtKitCfs9+TSf2O+ntHmCpwdpGQeFP0v5w3EU32CLf9hsADL05Ebg5n4P865k/xnEHZkUg62G/N4WmqI6zNma2OCy6fkP/EKX/RbMfsfM6W06RXSppecAV9z1Ozn2hjWRc1Rul6iVC/Htl1kVOpqXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745322894; c=relaxed/simple;
-	bh=OGWPYYpm06/Vuuw2dz5HhiOYfy9LMdq+m0xpWdPvevs=;
+	s=arc-20240116; t=1745322895; c=relaxed/simple;
+	bh=QtU2Ig7cGv1x0ko3lwFZZnUxK0bVZVM2/DS0YTIIr7Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sye6d8GgJkyobSsZVaec3p2SM4+eJbPhzHo/dL7Q9gWzoHYK4zo8YXXc4WKXVk/hl+qRx9OYNH8iHDB/HLrEzPK9LnTD3C1ZzbCddY5FaQ92VDKWO1dfLzT2KPMStjpoodYYs6etz3fJizO3osNxngWAPvJ6bCAqnNggI8Kzn2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LbXxO/e+; arc=none smtp.client-ip=95.215.58.170
+	 In-Reply-To:Content-Type; b=Y+oUtV4J/Cy29HtpdxUypSlJ1SxNnCrYp+tJM1rBwXzwfuFQCePSQbPmMuRoHxNXgiV/GPNKFsYdU/hP0Sw/jr7FbWkpGSr5hZF0XQEvyBAmo+tgcaxS3wQMnOasqLF2JIjlO+28zdR3QmPbInG075KOVIg0NsB2yzozagCHmD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=s0ma3+ha; arc=none smtp.client-ip=95.215.58.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LbXxO/e+"
-Message-ID: <a05a3419-8acc-47e4-bf06-8d87aca444cf@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="s0ma3+ha"
+Message-ID: <b286bbf3-0da9-4e84-8d21-7720970833c3@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1745322890;
+	t=1745322891;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OGWPYYpm06/Vuuw2dz5HhiOYfy9LMdq+m0xpWdPvevs=;
-	b=LbXxO/e+Ep7PYf8RyBFjY/FGTQ5z/S6BrkyOVdJS99H2bSpST1gsdwR8+9boQrU01lUvvP
-	159okSYI19pjsS8ai58lTvJC4DZx7B2UEVVZ97dG3IOklIuaxVngALSPwxQHH/qJ76HaNq
-	aYmBbcttqQ5uLDWvSmpURBkYLuSNzW8=
-Date: Tue, 22 Apr 2025 13:28:06 +0200
+	bh=560PmuLzdPLFRtzJQ00UO0YuM1ATzDDsC+io5ks5k4g=;
+	b=s0ma3+has+LVQeEEGmz3avw/ZU52ASl+KH3KlZFm+ItjQoCxvUteD4NPRXbs8BCAWK6TZS
+	s87fOnJ93+emLFgqljMqxOg0IpVXa4gpWQebcGTz0lYOiYqwjqOLBa54X39h+EGZf1zjrc
+	w+QUV/FZS9iRflQ9oBgiuLrSIeXj0sY=
+Date: Tue, 22 Apr 2025 13:50:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [RFC 00/15] ALSA/ASoC: USB Audio Offload
-To: Cezary Rojewski <cezary.rojewski@intel.com>, Takashi Iwai <tiwai@suse.de>
-Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz,
- amadeuszx.slawinski@linux.intel.com, linux-sound@vger.kernel.org,
- gregkh@linuxfoundation.org, quic_wcheng@quicinc.com,
- mathias.nyman@linux.intel.com
-References: <20250409110731.3752332-1-cezary.rojewski@intel.com>
- <87v7rcwbyn.wl-tiwai@suse.de>
- <8e3fd738-c2c3-4ea0-963e-477c2fb253b6@intel.com>
- <87sem9xuxs.wl-tiwai@suse.de>
- <5f3c62e3-6993-4595-80fc-eb77c0c11f1d@intel.com>
+Subject: Re: [PATCH 2/2] soundwire: bus: Add internal slave ID and use for
+ IRQs
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, vkoul@kernel.org
+Cc: yung-chuan.liao@linux.intel.com, sanyog.r.kale@intel.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20250422104245.958678-1-ckeepax@opensource.cirrus.com>
+ <20250422104245.958678-3-ckeepax@opensource.cirrus.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <5f3c62e3-6993-4595-80fc-eb77c0c11f1d@intel.com>
+In-Reply-To: <20250422104245.958678-3-ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
+On 4/22/25 12:42, Charles Keepax wrote:
+> Currently the SoundWire IRQ code uses the dev_num to create an IRQ
+> mapping for each slave. However, there is an issue there, the dev_num
+> is only allocated when the slave enumerates on the bus and enumeration
+> may happen before or after probe of the slave driver. In the case
+> enumeration happens after probe of the slave driver then the IRQ
+> mapping will use dev_num before it is set. This could cause multiple
+> slaves to use zero as their IRQ mapping.
+> 
+> It is very desirable to have the IRQ mapped before the slave probe
+> is called, so drivers can do resource allocation in probe as normal. To
+> solve these issues add an internal ID created for each slave when it is
+> probed and use that for mapping the IRQ. In the case that
+> get_device_num() is not implemented this ID can also be reused for the
+> dev_num.
 
-> In regard to the HDAudio point, I see clear benefits by having HDAudio and USB aligned in the approach on ASoC side. It's a path that's known, works and is well tested.
+Humm, I am missing something. Does this work in the case of spurious 'ghost' ACPI devices, which is quite common for Intel DSDT?
 
-The current direction for HDaudio is to have the DSP handle ALL streams with DSP-enabled drivers (or none with snd-hda-intel).
+In this case, each 'ghost' device would be assigned a dev_num during the driver probe, but that dev_num would never be used for enumeration, would it?
 
-But for USB we absolutely need the ability to bypass the DSP when the resources are exceeded (too many endpoints, too many channels, etc), or when low-latency is required (lowering CPU utilization comes at the expense of latency).
+Let's assume for the sake of the argument there are 16 ghost devices and only one real device that gets enumerated. How can we guarantee that the real device is enumerated with a dev_num <= 11 (the max number of devices supported on the bus)?
 
-In other words, the USB solution MUST expose two PCM paths, a legacy one and a DSP-one, and a sideband communication between DSP and legacy drivers to manage resources.
+I see the patch add a limit during probe, so now that means the number of ACPI devices MUST be lower than 11. That doesn't sound right to me and could cause some configurations to fail. It's perfectly ok to have ghost devices and no limits on how many our BIOS colleagues decide to list.
 
-HDAudio has none of those concepts, which makes it hard to see what the suggested alignment is?
+Using a dedicated IDA for IRQ mapping looks like a good idea to me, but I don't think you can really use the same IDA for dev_num
+
+
+
