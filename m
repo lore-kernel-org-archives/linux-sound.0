@@ -1,48 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54E819D881;
-	Tue, 22 Apr 2025 02:16:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6682825B66C;
+	Tue, 22 Apr 2025 02:17:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745288169; cv=none; b=JFQudDHmyU5IG9qwrF71+WtzPn3QsQkfJjCXMIQi63FPTxJXWL+pZz0jzKUqIgmbWAVlthfNrr2dFZsjY73vaKenb4RRwUGxAM07c003/nPQd+Wa/bToRk93hSzVXG/830aSEM6jBDOXUmuUKHtkVyJyrBaWod6tcuSYOyY7T88=
+	t=1745288236; cv=none; b=ONCtU7Yg/9Nvim+83Hx0ZLHVHVEa00cMooEAGu/KdczUeY6XcVUsG/8FNG2GXdVxP5A0HJL2ZNb0QS0Lu6L2PLqauwULrY7qY+s6wZkTnI7lDduh/iOUvZumSBASdHem2kMEHEl2lwoCt2A4N3pWCO/cXgMKRgeGHWXAsu4aIfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745288169; c=relaxed/simple;
-	bh=Bnz9KEBGvBhnzUyWYuUZ9LHfYHUReYjI9gmWKWGhC3I=;
+	s=arc-20240116; t=1745288236; c=relaxed/simple;
+	bh=NjNbpF18wPAYd3eJEswSOl8w+6PgqTaTcYBTzvy0/08=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fpqa0rF4b0gcroeO83MM4zQhP0tEEUFcRugz+D5EVkweQXGEBwiuPbm6kOK2mq/y7L2MaUBj2x6DT0i4a4/vu77zThK6uHQZUEmo44FC9lOj4gYdb3HS0vrxYTttAERJaKF8dE/iw9gMZT8RAZdnOufkF3bRQGt1lkSgSfwU1WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uRhzaWof; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=VjUmzlTLe5EzDRj0gnWjxvGJkq5EsWbwWffMGhLGQB6On/Rwwd/BhynsNEqcKVfiwJrz0vJzDj1YMPxaipowHqvlRTbmCNg9L4HzzSKIAEu8lSd2JBj84MHRK0xITGP+NV78q8j8OfKtWvZsBm9uG1Q+xXxjd025RVSLeettxk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=myhualnb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uRhzaWof"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BA3FC4CEE4;
-	Tue, 22 Apr 2025 02:16:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="myhualnb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77FD6C4CEEE;
+	Tue, 22 Apr 2025 02:17:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745288168;
-	bh=Bnz9KEBGvBhnzUyWYuUZ9LHfYHUReYjI9gmWKWGhC3I=;
+	s=k20201202; t=1745288235;
+	bh=NjNbpF18wPAYd3eJEswSOl8w+6PgqTaTcYBTzvy0/08=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uRhzaWofKl5PshxraIWYFi7wXGSJ9dWXEUiHaCxfVdd3cmwSqvrYeLTGS5AR7mghP
-	 lxdULUG0fxrAU1h0rvSCYUygXb2caWa8urR3pFWoAmX+uCFiBDNMNS1SRLIczUaw7o
-	 opx86Lm0BbLOYDDweMwQe5MEeWZU+iLDmG6e3C0My5N/x9X7zBkgIDLUhL4Wc6kxpD
-	 2PrWsSbI/mI3uWuUgeI2gzBx1hNVC37P3GBbXDnyxr7IJkUO5TqnXE0kjaoB3BnJt1
-	 CqsXMJhKVq9gnUY8xs7NCiBmOKWfalL/SbCSGuIjkDQibbrUG8szXZ35ekWr3dmStY
-	 0X31qunG1hsZA==
+	b=myhualnbDMfLHwDB1hoHPqRPJtTa+7waxg6JDU0hWW00KQSUwZfmyrBlsMpI5BtAh
+	 WX6TDBujrsi1h9CJNtD6MbWWWQ2nMmLq1zI7NcRGB88q2kA6MArJ8pOGoPexJqqrm5
+	 9RdACuCLAVsCCOjSEOUGZG9VoHa6xcXVqW7HMrW8IOEricD88vuJ+ulY1v1DfSN/W+
+	 g3uZvqnUUdQ+sj3NqQjLte5IEd7oDP2bcYFb8MO7Z2pftvDI1ouxXmskzHeAD7927W
+	 N/JUdIvT0qkxUI326jEqMd1F3dfj64NhU3k8Y8BXGE3wbb3bYXDdGrwCkPaspuW56A
+	 U9cV79TOeBTQw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Weidong Wang <wangweidong.a@awinic.com>,
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	yesanishhere@gmail.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 08/30] ASoC: codecs: Add of_match_table for aw888081 driver
-Date: Mon, 21 Apr 2025 22:15:28 -0400
-Message-Id: <20250422021550.1940809-8-sashal@kernel.org>
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH AUTOSEL 6.12 07/23] ASoC: fsl_asrc_dma: get codec or cpu dai from backend
+Date: Mon, 21 Apr 2025 22:16:47 -0400
+Message-Id: <20250422021703.1941244-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250422021550.1940809-1-sashal@kernel.org>
-References: <20250422021550.1940809-1-sashal@kernel.org>
+In-Reply-To: <20250422021703.1941244-1-sashal@kernel.org>
+References: <20250422021703.1941244-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,48 +53,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14.3
+X-stable-base: Linux 6.12.24
 Content-Transfer-Encoding: 8bit
 
-From: Weidong Wang <wangweidong.a@awinic.com>
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-[ Upstream commit 6bbb2b1286f437b45ccf4828a537429153cd1096 ]
+[ Upstream commit ef5c23ae9ab380fa756f257411024a9b4518d1b9 ]
 
-Add of_match_table for aw88081 driver to make matching
-between dts and driver more flexible
+With audio graph card, original cpu dai is changed to codec device in
+backend, so if cpu dai is dummy device in backend, get the codec dai
+device, which is the real hardware device connected.
 
-Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
-Link: https://patch.msgid.link/20250410024953.26565-1-wangweidong.a@awinic.com
+The specific case is ASRC->SAI->AMIX->CODEC.
+
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Link: https://patch.msgid.link/20250319033504.2898605-1-shengjiu.wang@nxp.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/aw88081.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ sound/soc/fsl/fsl_asrc_dma.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/aw88081.c b/sound/soc/codecs/aw88081.c
-index ad16ab6812cd3..3dd8428f08cce 100644
---- a/sound/soc/codecs/aw88081.c
-+++ b/sound/soc/codecs/aw88081.c
-@@ -1295,9 +1295,19 @@ static int aw88081_i2c_probe(struct i2c_client *i2c)
- 			aw88081_dai, ARRAY_SIZE(aw88081_dai));
- }
+diff --git a/sound/soc/fsl/fsl_asrc_dma.c b/sound/soc/fsl/fsl_asrc_dma.c
+index f501f47242fb0..1bba48318e2dd 100644
+--- a/sound/soc/fsl/fsl_asrc_dma.c
++++ b/sound/soc/fsl/fsl_asrc_dma.c
+@@ -156,11 +156,24 @@ static int fsl_asrc_dma_hw_params(struct snd_soc_component *component,
+ 	for_each_dpcm_be(rtd, stream, dpcm) {
+ 		struct snd_soc_pcm_runtime *be = dpcm->be;
+ 		struct snd_pcm_substream *substream_be;
+-		struct snd_soc_dai *dai = snd_soc_rtd_to_cpu(be, 0);
++		struct snd_soc_dai *dai_cpu = snd_soc_rtd_to_cpu(be, 0);
++		struct snd_soc_dai *dai_codec = snd_soc_rtd_to_codec(be, 0);
++		struct snd_soc_dai *dai;
  
-+#if defined(CONFIG_OF)
-+static const struct of_device_id aw88081_of_match[] = {
-+	{ .compatible = "awinic,aw88081" },
-+	{ .compatible = "awinic,aw88083" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, aw88081_of_match);
-+#endif
+ 		if (dpcm->fe != rtd)
+ 			continue;
+ 
++		/*
++		 * With audio graph card, original cpu dai is changed to codec
++		 * device in backend, so if cpu dai is dummy device in backend,
++		 * get the codec dai device, which is the real hardware device
++		 * connected.
++		 */
++		if (!snd_soc_dai_is_dummy(dai_cpu))
++			dai = dai_cpu;
++		else
++			dai = dai_codec;
 +
- static struct i2c_driver aw88081_i2c_driver = {
- 	.driver = {
- 		.name = AW88081_I2C_NAME,
-+		.of_match_table = of_match_ptr(aw88081_of_match),
- 	},
- 	.probe = aw88081_i2c_probe,
- 	.id_table = aw88081_i2c_id,
+ 		substream_be = snd_soc_dpcm_get_substream(be, stream);
+ 		dma_params_be = snd_soc_dai_get_dma_data(dai, substream_be);
+ 		dev_be = dai->dev;
 -- 
 2.39.5
 
