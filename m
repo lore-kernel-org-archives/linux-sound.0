@@ -1,191 +1,162 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF7D1B3925
-	for <linux-sound@vger.kernel.org>; Wed, 23 Apr 2025 06:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC3B3398B;
+	Wed, 23 Apr 2025 06:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745390755; cv=none; b=PqaM74Y6jD812kpmWG4yJ2KHY5+a+x+gr555ggao/dQ8dNC2GaDKWIXilwRMO02Dy4NprpRnOHgjhshwhv6v6CerfaGs87q8TkDrCNBDujuMH3yGBFBCKZS2OvbSC+zDA3o2iH2dlw4E7YAQ0srW8WObPc8hHdbPQNkoKqLclhw=
+	t=1745390933; cv=none; b=EnpmclyB/kmrH8YPAX+EcBsv7eof8XKirw6pxgu4sDxT09HxGRnuexSG1raU4Pte/+z93C5Wnq+nhRb2F1fYav4ViVFJoYE2qmsNKpHQAphCzkmGMw1kvJiFTV1YJpwlI9imKmJdCo1tl+IaM829TX1e0txnlK0eMrQu4shLtgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745390755; c=relaxed/simple;
-	bh=dqyEobQQnCPzbNNQ2e9mYWspoXIhzh2gI8dzjRl9G5E=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=csInUDQrc8+U1sD55s07g8gRuiOFokHgewRWvEwLnOH//6n1XblJRNHYtZEAEkKe07TOgt9DfHl0bPUQD6hHg5C+frUXqxyW20arI+m+ttboQG+gyy3022xiQVfSGEbP3CgVGCE+VMUSl2N5Na3HZb61jWwUqwY+XUs/CYPCts0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SdbbqcrS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RQijb8mb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SdbbqcrS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RQijb8mb; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SdbbqcrS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RQijb8mb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SdbbqcrS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RQijb8mb"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3AC371F38D;
-	Wed, 23 Apr 2025 06:45:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745390752; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qPUtpD/+SYVW/8/iKkKj2DDvXSt5L/b980tj36yB9sk=;
-	b=SdbbqcrSjcgpjVW/XkPeG7j5Szjk4jrmH+JNaRqIQjOElvjkBh9/bPEcdQ2lhmvx297i30
-	zSJqQxK8UZVV8tBTNO+k6EzlY28/zBrEJgasS/FtjwSnrduxa2RJSz/O5uG0a6EgQoiN2s
-	hoc1jhXfAdGnY/3RvqnePJ6hIZOT/CQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745390752;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qPUtpD/+SYVW/8/iKkKj2DDvXSt5L/b980tj36yB9sk=;
-	b=RQijb8mbSweV4owbQKeLVNVmsoWLyKzUDtJlcfQ6CBixm8KTAnieFqr4kVNCLut+LYxHV9
-	8cscTy6y6sLaGkCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745390752; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qPUtpD/+SYVW/8/iKkKj2DDvXSt5L/b980tj36yB9sk=;
-	b=SdbbqcrSjcgpjVW/XkPeG7j5Szjk4jrmH+JNaRqIQjOElvjkBh9/bPEcdQ2lhmvx297i30
-	zSJqQxK8UZVV8tBTNO+k6EzlY28/zBrEJgasS/FtjwSnrduxa2RJSz/O5uG0a6EgQoiN2s
-	hoc1jhXfAdGnY/3RvqnePJ6hIZOT/CQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745390752;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qPUtpD/+SYVW/8/iKkKj2DDvXSt5L/b980tj36yB9sk=;
-	b=RQijb8mbSweV4owbQKeLVNVmsoWLyKzUDtJlcfQ6CBixm8KTAnieFqr4kVNCLut+LYxHV9
-	8cscTy6y6sLaGkCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1DB9E13A3D;
-	Wed, 23 Apr 2025 06:45:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NBoWBqCMCGjHWAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 23 Apr 2025 06:45:52 +0000
-Date: Wed, 23 Apr 2025 08:45:51 +0200
-Message-ID: <871ptjl6jk.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Paul Davis <paul@linuxaudiosystems.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Subject: Re: ALSA USB MIDI port names are poorly constructed and truncate iJACK names
-In-Reply-To: <CAFa_cKm3ded=1+3-i5BYjTa8JTeqZcGkGhakgQWfqPy_H=NBBg@mail.gmail.com>
-References: <CAFa_cKmEDQWcJatbYWi6A58Zg4Ma9_6Nr3k5LhqwyxC-P_kXtw@mail.gmail.com>
-	<878qnss187.wl-tiwai@suse.de>
-	<CAFa_cKm3ded=1+3-i5BYjTa8JTeqZcGkGhakgQWfqPy_H=NBBg@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1745390933; c=relaxed/simple;
+	bh=rz3h6aO1iqe6HjpBhPgGdm/q1GWce7TmX00nfd6SlpA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=EIAH/yAbjjNhnIjyYx5OBfBOXRzJxs6A5kn9mcYt7V3gSv0ME2WcsL5quB0z2pZFK3Kj4iSwntZ9k9ukfbMy4NfbDGfltvjsx77tXDMGyNo1cbIntEN4vlIgSYBIx82g14hx2NyXpEKvk9H5Ob+gy9Scrj7Jtq0AXWC+JiqHGuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com; spf=pass smtp.mailfrom=radxa.com; arc=none smtp.client-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=radxa.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=radxa.com
+X-QQ-mid: zesmtpsz6t1745390836t9b6dfae2
+X-QQ-Originating-IP: d5OllYoDBWfSWoV0vu3d6MtEzomJiKDiaIT5EPH1lH4=
+Received: from [127.0.0.1] ( [117.144.82.47])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 23 Apr 2025 14:47:12 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 5299619483516575992
+Message-ID: <98F1324C86982D2B+13f97453-f1ec-4c08-977b-c1bd9a68d409@radxa.com>
+Date: Wed, 23 Apr 2025 14:47:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/4] Add static channel mapping between soundwire
+ master and slave
+From: Xilin Wu <sophon@radxa.com>
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Sanyog Kale <sanyog.r.kale@intel.com>, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, quic_pkumpatl@quicinc.com,
+ kernel@oss.qualcomm.com
+References: <20250206112225.3270400-1-quic_mohs@quicinc.com>
+ <22F78335AF3DCDCB+3c44f925-88fc-438d-9482-ab39a1d70df8@radxa.com>
+Content-Language: en-US
+In-Reply-To: <22F78335AF3DCDCB+3c44f925-88fc-438d-9482-ab39a1d70df8@radxa.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:radxa.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NfJJAz0ICuA6DrZEMsSV3vPXNizf8zo+0RCjvFzhNAyG8tonserKM+B5
+	tqNOPOrp+xfOrMpPE2elETKfkE1oONKDPWICDfeXpY+wmXSLlllzoN82Z0nII6yAj9GTyY/
+	P9lyYBKES/ZspLn6/EddqK88WXyb1oEDA0MgaaggUsJylHjcm1p3cqSFp0nUjNPFPhxX94V
+	AQDXxdT2ti+OjZyr74/bVTdaaFlNXUvrjpLKWOyk36X3a7UbmGsyIqD0TIKL+EaBXtxXyda
+	mj+PNBa4+OnmuEaJLE3y04g2ebqqREAEYB2l5O+bkbfjBtnzJCe1N3EQMlHFCdr68Wg2cHc
+	2+I3pg5a4rK7R6H5Boql3Ne+HmTRQvgyt+RqJ542dbMvANIgRpDYjfM3+/2Ym7bpPzs4o7t
+	2zbHf9QhLCft1BYTzmfGMVwU7RSbRFbfZW/ETjtQ9SyonwL+RSTXzYQCU2BSQlM/INIRTGX
+	S30jIwe3XF1nVcVF0jJBFMCnDdzNruCgD9nuDQIOkgVqW49+ukO5Bx+/tENnQj9+zfwPy06
+	osUDm/C/45WfbML1AFlC8PbfNpxLAe3ubC7gPnS/Nkts7JtCxVmwwJrNqXteZ6ZN+mmQSMx
+	mpjHubBcRXShsrom5PP1D6yeR7gfQv5r1KO2M9apCapWoGSjZUwNsjn001ZoxrWKPCsQjdp
+	BiiAnRfvNgW0TxfjzF6CVpht8xna8v3grx4hgvqQjmScRQuKJ4cyIoHJbkNNevfSq/6B0zP
+	DNBbjTmCck4CLESPIIMfVLTRk2hNclIOefA9/OPaQfJgukP6gj4ksUP8btYF8UbrVnI6qbQ
+	UBEfMjqnAh4ozKOIgbFBdmDrfzWgtP3g8nImcEszlWxZ+cY+uIJhZhdH6qArqomlwtNphea
+	yuNOwVnZnklENXvOshPQ9d3V19+qtoTsb9DduACWx1rR2Q2DzvUGdkhPYs8Tr4e4OWUW60f
+	XV0PvW9RXOuT31NGQsjITg2m7MUor3j52csA=
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-On Tue, 22 Apr 2025 19:31:59 +0200,
-Paul Davis wrote:
+On 2025/4/22 22:59:13, Xilin Wu wrote:
+> On 2025/2/6 19:22:21, Mohammad Rafi Shaik wrote:
+>> Add static channel map support between soundwire master and slave.
+>>
+>> Currently, the channel value for each soundwire port is hardcoded in the
+>> wcd937x-sdw driver and the same channel  value is configured in the
+>> soundwire master.
+>>
+>> The Qualcomm board like the QCM6490-IDP require static channel map
+>> settings for the soundwire master and slave ports.
+>>
+>> If another boards which are using enable wcd937x, the channel mapping
+>> index values between master and slave may be different depending on the
+>> board hw design and requirements. If the above properties are not used
+>> in a SoC specific device tree, the channel mapping index values are set
+>> to default.
+>>
+>> With the introduction of the following channel mapping properties, it is
+>> now possible to configure the master channel mapping directly from the
+>> device tree.
+>>
+>> Added qcom_swrm_set_channel_map api to set the master channel values
+>> which allows more flexible to configure channel values in runtime for
+>> specific active soundwire ports.
+>>
+>> Add get and set channel maps support from codec to cpu dais in common
+>> Qualcomm sdw driver.
+>>
+>> Changes since v5:
+>>   - Fixed build compile issue with v5-0003 patch, reported by Mark Brown.
+>>
+>> Changes since v4:
+>>   - Update the order of channel map index values in v4-0001 dt- 
+>> bindings patch as suggested by Krzysztof.
+>> Changes since v3:
+>>   - Change the order of channel map index values in v3-0002 dt- 
+>> bindings patch as suggested by Krzysztof.
+>>   - Dropped V3-0001 patch which is not required.
+>>
+>> Changes since v2:
+>>   - Rephrase commit description v2-0001 dt-bindings patch as suggested 
+>> by Krzysztof.
+>>
+>> Changes since v1:
+>>   - Modified the design and followed new approach to setting the 
+>> master channel mask.
+>>   - Used existing set_channel_map api as suggested by Pierre-Louis
+>>   - Fixed the typo mistake in v1-0001 dt-bindings patch.
+>>   - Rephrase the commit description for all v1 patches.
+>>
+>> Mohammad Rafi Shaik (4):
+>>    ASoC: dt-bindings: wcd937x-sdw: Add static channel mapping support
+>>    ASoC: codecs: wcd937x: Add static channel mapping support in
+>>      wcd937x-sdw
+>>    soundwire: qcom: Add set_channel_map api support
+>>    ASoC: qcom: sdw: Add get and set channel maps support from codec to
+>>      cpu dais
+>>
+>>   .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++
+>>   drivers/soundwire/qcom.c                      | 26 +++++++++
+>>   sound/soc/codecs/wcd937x-sdw.c                | 39 ++++++++++++--
+>>   sound/soc/codecs/wcd937x.c                    | 53 ++++++++++++++++++-
+>>   sound/soc/codecs/wcd937x.h                    |  7 ++-
+>>   sound/soc/qcom/sdw.c                          | 34 ++++++++++--
+>>   6 files changed, 185 insertions(+), 10 deletions(-)
 > 
-> This patch was developed using the Debian 6.12.12 kernel source, but I
-> believe it works without changes for current git.
+> Hi Mohammad,
 > 
-> The approach taken is to always look for the iProduct name
-> (umidi->card->shortname) in the iJACK name (jack_name). If not found,
-> the code path is unchanged. If found, a different string format is
-> used to create the port name, using only the jack name. Note that
-> since finding the product name in the jack name implies the jack name
-> is not default_jack_name, there is never any reason to use "number" in
-> constructing the port name.
+> I'm working on a QCS6490 board with the WCD9380 codec. I wonder if a 
+> similar patch is needed to enable headset audio? Currently, DisplayPort 
+> audio and headset plug-in detection work, but no audio is coming from 
+> the headset.
 > 
-> This generates the expected port names for several USB MIDI devices
-> here, some of which have "product name in jack name" and some which do
-> not:
+> Additionally, I noticed an unusual output in dmesg:
 > 
-> % aplaymidi -l
->  Port    Client name                      Port name
->  14:0    Midi Through                     Midi Through Port-0
->  16:0    Scarlett 18i20 USB               Scarlett 18i20 USB MIDI 1
->  36:0    Keystation 88                    Keystation 88 MIDI 1
->  40:0    Launchkey MK4 49                 Launchkey MK4 49 MIDI In
->  40:1    Launchkey MK4 49                 Launchkey MK4 49 DAW In
->  44:0    MidiSport 2x2                    MidiSport 2x2 MIDI 1
->  44:1    MidiSport 2x2                    MidiSport 2x2 MIDI 2
+> qcom-soundwire 3210000.soundwire: qcom_swrm_irq_handler: SWR Port 
+> collision detected
 > 
+> Could this be related to the issue? Let me know if you need further 
+> details.
 > 
-> Signed-off-by: Paul Davis <paul@linuxaudiosystems.com>
-> 
-> --- midi.c.orig    2025-04-22 11:20:30.192338737 -0600
-> +++ midi.c    2025-04-22 11:20:47.373155820 -0600
-> @@ -1817,10 +1817,18 @@ static void snd_usbmidi_init_substream(s
->      }
-> 
->      port_info = find_port_info(umidi, number);
-> -    name_format = port_info ? port_info->name :
-> -        (jack_name != default_jack_name  ? "%s %s" : "%s %s %d");
-> -    snprintf(substream->name, sizeof(substream->name),
-> -         name_format, umidi->card->shortname, jack_name, number + 1);
-> +
-> +    if (strncmp (umidi->card->shortname, jack_name, strlen
-> (umidi->card->shortname)) != 0) {
-> +        name_format = port_info ? port_info->name :
-> +            (jack_name != default_jack_name  ? "%s %s" : "%s %s %d");
-> +        snprintf(substream->name, sizeof(substream->name),
-> +                 name_format, umidi->card->shortname, jack_name, number + 1);
-> +    } else {
-> +        /* The manufacturer included the iProduct name in the jack
-> name, do not use both */
-> +        name_format = port_info ? port_info->name : "%s";
-> +        snprintf(substream->name, sizeof(substream->name),
-> name_format, jack_name);
-> +    }
 
-Thanks for the patch.
+Well, headset audio works now. It seems that the error message has 
+nothing to do with it :)
 
-However, dropping the number suffix will break the uniqueness.
-For example, in your case above, MidiSport 2x2 will have two identical
-port names, I suppose?
-
-IMO, we should keep adding the suffix number unless the uniqueness is
-guaranteed instead of blindly dropping.  Admittedly the current code
-isn't in the best form and this also needs more modification, too.
-
-Also, the pre-defined port names defined in snd_usb_midi_port_info[]
-have the format like "%s Synth", too, and those should be adjusted, as
-well.
-
-Last but not least, after we get a final form, could you try to submit
-a patch in the proper format as defined in
-  Documentation/process/submitting-patches.rst?
-
-
-thanks,
-
-Takashi
+-- 
+Best regards,
+Xilin Wu <sophon@radxa.com>
