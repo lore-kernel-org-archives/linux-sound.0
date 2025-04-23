@@ -1,56 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF3E9276024;
-	Wed, 23 Apr 2025 07:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3437C266581;
+	Wed, 23 Apr 2025 08:29:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745395000; cv=none; b=m3OnDtTkM7cSszIWVDfwEMiAfzNTs3N32qg3x5DLhCvCQBnbaqvWKzJJCGlpYRLM+rN6W1ZcMJwYJg+XRh5irw+hNA4RjFOZeXY8PziM6X6AoexH0Yi+6xJouq/6d2gYn5Dwutgis19N5Oqc9YbbkKhnbJNRI0NAot+sUwYgqwc=
+	t=1745396955; cv=none; b=ouCT7zlejux0eR5tmhJUDfBR+DRWF3hHVrAgGZdbbq/wgBdmePTOeB1PaqriwZbG2dJGI+ld4exBeBiqJDSSRqDXXGW+MBi2mvEWZQ8xaxtTZZyVNV57eV+aTia+elK5YEpTSmKwV5Vk+ssvUPFmozV8qYimahLemqUhnMNBviw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745395000; c=relaxed/simple;
-	bh=jns8DCaUvcDMxTBgEWlKIvW7BD9aUIHXZcrNon36aTk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EapGHdfuYQTZFpducTLh59vlgit78AW9uj0pwsTHQ5mbr5fIMQQUHdXjPr5Hf8yEHXdCut7Rq94UHx2GqV4b8MbRaR4opeADQF2zW8q49xAGYpnhjV3YNeapVcBLRJl483yoYFuuJ1mVr/KIAKBUe2YbOmsH9zHw8nRQ1qtB1Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ohpjFjc7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745396955; c=relaxed/simple;
+	bh=O/56kKLlY/pTxNgzDYpnZflKad4C8ez8hIW5zhubFlw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kSWGXzqPsF8mbZe8Tz3EVYnc3lKA44AFsV5ABMDzEbcWX6kOwjNw4JqAJAs+iEixaoP3HZEpe4JchYLWAmfwjz+JccTlcxs+SI1md6OywXVb6bUh/+73/WKwmN1qL83yc8Gx7hSamVvNQDZCI9NVoFj+Oq8ikcF2Li2laZxlu84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a+Myr4aH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ohpjFjc7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14691C4CEE2;
-	Wed, 23 Apr 2025 07:56:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a+Myr4aH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3777C4CEE2;
+	Wed, 23 Apr 2025 08:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745395000;
-	bh=jns8DCaUvcDMxTBgEWlKIvW7BD9aUIHXZcrNon36aTk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ohpjFjc7+ByLUDL4COQwP1gz+24CAqqv8dcF413+b4zBWgkp2sPhqCVwypPbaWqmw
-	 /hKK9kbBGY+zPngJ0iAmlU09dVAYHSuBeH38q753cj/a6M6w8R0dksW70f8w3cC00a
-	 sjpI9qIHLejaFgR4cFPeCEmJmrxnG9YLx/yeTrF0tldcTIxNNthe3lfHZu9QLihu33
-	 Yjy0qnTVgOYydHx2RsiltY7yQkZaCChvxiagty5AvWV1v1AaSBRXl20jJsQ1YBC2Vo
-	 WTYFkRVbgj3WWaAi7o02Nx/vQUCdgsdROwIeTUKQbVjOo8qeBtcCTj1e5OEwcgNqsW
-	 Wyx7TBk/PFEPw==
+	s=k20201202; t=1745396954;
+	bh=O/56kKLlY/pTxNgzDYpnZflKad4C8ez8hIW5zhubFlw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=a+Myr4aHs1zwy1PzvzyhbOqN0hzQ6QfR7PXcCYyyFz4e99Aa9UTEvgG8mpT2fs2D6
+	 W/uPt25QUMpHrVs3T5l+q2ay6kBQBk0OdScYDc50xyMViH75ysgJVivY5WKmmi0xsH
+	 YGyOQ9zCSdhszmAjcr7UrHRaroqS19EyWeyRRO/4KMeZbCfyZ44+Ri7wkQXtcaYfoR
+	 f1UXh4sH8osBt/1u9/VDV33HmebaGxXNw9CH99U7qglw+xbDnYWiO3NtMbTgqGcUZm
+	 hyuXX59SnP5VA13WaxWlUoie++fZhJYVkMIerX3Orgaw58BGrfE2vISxqB4PSIwbWk
+	 nz8JnmZ+aB7JQ==
 From: Philipp Stanner <phasta@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaya Kumar <jayakumar.alsa@gmail.com>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
 	Mark Brown <broonie@kernel.org>,
-	liujing <liujing@cmss.chinamobile.com>,
-	Andres Urian Florez <andres.emb.sys@gmail.com>,
-	Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	David Rhodes <drhodes@opensource.cirrus.com>,
-	Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Damien Le Moal <dlemoal@kernel.org>
 Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 28/28] ALSA: maestro3: Use pure devres PCI
-Date: Wed, 23 Apr 2025 09:53:46 +0200
-Message-ID: <20250423075346.45907-29-phasta@kernel.org>
+	linux-kernel@vger.kernel.org,
+	sound-open-firmware@alsa-project.org
+Subject: [PATCH v2 0/4] AsoC: Phase out hybrid PCI devres
+Date: Wed, 23 Apr 2025 10:28:55 +0200
+Message-ID: <20250423082858.49780-2-phasta@kernel.org>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250423075346.45907-1-phasta@kernel.org>
-References: <20250423075346.45907-1-phasta@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,32 +56,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pci_request_regions() is a hybrid function which becomes managed if
-pcim_enable_device() was called before. This hybrid nature is deprecated
-and should not be used anymore.
+Changes in v2:
+  - sof: simplify return. (Andy)
+  - intel/atom: simplify return. (Andy)
+  - Send a separate series for AsoC. (Andy)
+  - intel/atom: Add another patch that switches EINVAL to ENOMEM. (Andy)
 
-Replace pci_request_regions() with the always-managed function
-pcim_request_all_regions().
+Hi,
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- sound/pci/maestro3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+a year ago we spent quite some work trying to get PCI into better shape.
+Some pci_ functions can be sometimes managed with devres, which is
+obviously bad. We want to provide an obvious API, where pci_ functions
+are never, and pcim_ functions are always managed.
 
-diff --git a/sound/pci/maestro3.c b/sound/pci/maestro3.c
-index f4d211970d7e..e61e15774706 100644
---- a/sound/pci/maestro3.c
-+++ b/sound/pci/maestro3.c
-@@ -2552,7 +2552,7 @@ snd_m3_create(struct snd_card *card, struct pci_dev *pci,
- 	if (err < 0)
- 		return err;
- 
--	err = pci_request_regions(pci, card->driver);
-+	err = pcim_request_all_regions(pci, card->driver);
- 	if (err < 0)
- 		return err;
- 
+Thus, everyone enabling his device with pcim_enable_device() must be
+ported to pcim_ functions. Porting all users will later enable us to
+significantly simplify parts of the PCI subsystem. See here [1] for
+details.
+
+This patch series does that for sound.
+
+Feel free to squash the commits as you see fit.
+
+P.
+
+[1] https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/pci/devres.c#L18
+
+Philipp Stanner (4):
+  ASoC: sof: Use pure devres PCI
+  ASoC: intel/avs: Use pure devres PCI
+  AsoC: intel/atom: Use pure devres PCI
+  AsoC: intel/atom: Return -ENOMEM if pcim_iomap() fails
+
+ sound/soc/intel/atom/sst/sst_pci.c | 58 +++++++++++++-----------------
+ sound/soc/intel/avs/core.c         |  7 ++--
+ sound/soc/sof/sof-pci-dev.c        | 16 ++-------
+ 3 files changed, 29 insertions(+), 52 deletions(-)
+
 -- 
 2.48.1
 
