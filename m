@@ -1,97 +1,89 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4931F470E
-	for <linux-sound@vger.kernel.org>; Tue, 22 Apr 2025 18:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30BD2580CA
+	for <linux-sound@vger.kernel.org>; Wed, 23 Apr 2025 05:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745347736; cv=none; b=IkqX3gLXaYwHahdO5bT/IiyqZhaCHmPYcbLlKpjTiofYpBlxpHVC+4YxL7v95wEY3VxrYnPJuUqLmu7YL4TX01vXnbBvVjV24BVTQWrm6LZfYtgmdwGuEEfg48Q/jXyCX6sfvjZNe+BQoPixirjPbnN4EKABPfpduVZ6zz/6V+8=
+	t=1745387858; cv=none; b=c3wig8AteYzZ6f2qcelvpUJeqC57HIHL/+v9Ip2r10wRUMsvIjQtvWk/YZsPx/dWzTw9xipzEwTulIlPxmRCWlRx13CKBYzmm8mBMlIJBQ5mwJ9RKB0KdF/F8tFsh/KAyJhcb3vDS6ZiOases3cKnwUI/gXBpmnWOf59cwqR2SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745347736; c=relaxed/simple;
-	bh=fAgrU4fXRXK/RT/5xdI9ErP2D4G9DiMk6/mOL4Z79wg=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=a97VXOBoWxqKcrg1gtQWVDySgev03O/BqB5KrjeLSJerz0sD8c75l6vmYL2SPrmUiyEaP7hupBhjFPdQXDJG17mf5IfN6VDZX1SLpGQssCmr65X84MrxrdxSNOAlneBqwebUYTs6CKmXoON+6FGYxNpeqQ+xvmJtVQ+gmrcQFro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tavianator.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tavianator.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ac25d2b2354so792351466b.1
-        for <linux-sound@vger.kernel.org>; Tue, 22 Apr 2025 11:48:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745347732; x=1745952532;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ECuX4CqPzNB7zzm+S5u9lv015xZJRzBfmxQDNbBI910=;
-        b=G4ett4AAvT/1l8iIe+GwYcvJ7vl2NDGQjEqRpQ2wsKeMpaccHXcCQg6pD0aaa95pVg
-         ejyq31IeF7rFFU8arc5UkG4fl9btXLSZuK2otJbGmIE01hyxvcU96Q3jd5MdiKAA+34w
-         xGEfolHYDZKqd7XV2vCMeubD0UaBPwKh1p/gH6XpPUJOkNaN0mfkgs8FsdbCZXHzbx6Y
-         455k2IRSxiPTQ1kmjtFIgXBhspxhyO+9LGBnwpFwSqkMilO7PKuX15C05oJNKsonZJiQ
-         fhvDfqPcyTkTQJMSACfupjJ4JYwfWwdDDcogm9w5b1VkpgI6BJtycjKcTXVZzX4K/SCO
-         /Zcg==
-X-Gm-Message-State: AOJu0YyBtRU3OaqhLU05A+xNfD+ZT2oHCaryv+f2hCfBTf01e6EJEF/s
-	akWZdX+M9cQ5iQtdhHJytC2MnpqhgFNyISDCZvchM6apQ7yGRjDN1heKFX70
-X-Gm-Gg: ASbGncu4Y/aYsDOaVu9kLCGrS9xDfq/bQvNqVIPfv8AACXrIiBtt7i4CnvAhnjYqFLB
-	xR6yUeEE7fNNSS+4j3yjNBgtOFELouLg1d2PXW0cTIXHRzoI337Tm6YjDOhMjwvkHtHDUNTp6Ta
-	UuwTAWHisl5UM6BNSnrzoqAZNs8/sU14nWEqjr1pROQmYqw5J+YcOEYo76Z47P2qNoovQpN+IQ1
-	06ZLcXBvXJyG1U3f+x8DctLglAIv4H4GEUoF17J5m7PBdP/D/mYXXdnE+3nr8Wku08kkXjY7UTu
-	/l9sgGOcDljfGe0GaBi67DrYwn6TEBHmn5F5xrkny3eiGB1sG7yTjFaQ8zeIwETIafmqnQTULRm
-	EKKs0FQh67g==
-X-Google-Smtp-Source: AGHT+IGMVPQsadyQ+P5/DpumRe0s2EWDrIEzQJrwsPgYvNf12EZrPF2eZs5s65rxJaqqtJVh4vVnsg==
-X-Received: by 2002:a17:907:3da6:b0:abf:733f:5c42 with SMTP id a640c23a62f3a-acb74aaaea0mr1332175066b.8.1745347732043;
-        Tue, 22 Apr 2025 11:48:52 -0700 (PDT)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com. [209.85.208.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6eefd897sm691344066b.93.2025.04.22.11.48.51
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 11:48:51 -0700 (PDT)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5ed43460d6bso8321906a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 22 Apr 2025 11:48:51 -0700 (PDT)
-X-Received: by 2002:a05:6402:524b:b0:5ed:89f0:27fd with SMTP id
- 4fb4d7f45d1cf-5f62857931dmr13675401a12.19.1745347731619; Tue, 22 Apr 2025
- 11:48:51 -0700 (PDT)
+	s=arc-20240116; t=1745387858; c=relaxed/simple;
+	bh=so1kJQ8qLJg8V5eA8HjfkEilAjUNYLvdWwM2O9DjRGA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XKmbUZUSS5BgQXG1NdSpQz9aShFpOQwK5yd1yBeI81XRRWjrr+Xi5juvRGUKZMPMg/ZkwImkXdGsKSrwXQVSrqZw6O229cMLYqYvlVTa+4UM3bINUY1tpscYLo2GnfA+NBznfAdW3yG68nQ2q94UISGEEzVd0ZskZx0raPdwB3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KCTaNiXy; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KCTaNiXy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745387857; x=1776923857;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=so1kJQ8qLJg8V5eA8HjfkEilAjUNYLvdWwM2O9DjRGA=;
+  b=KCTaNiXyIbmCna7IQArjlci17+QbKMvOkQ8JrG2hZJRyU2ZPp5zAzVVa
+   mRGdfT2eG7N991/5etuK81yrnJHh8Nkv/iZ4E8cx4WUp5pUP+zMEaqAXY
+   9kbJxjpr5coC/3I2Ej4tEAS6c7oWqBSBsQ8CvieQUTmCtAD8nRpQOxaN0
+   TthdUnWAe3uBvsIDGXoRWQrav9fW25tTssBTD3yAFaygmTURso1uf2G2c
+   ClfzRlFUOPGNowK+FxnszW4rbKE7fBOzjGj7FbdhjW2iJrXRdxPFfXoR+
+   6j5tn5iWAGRb8KZ9oP6O7SrxaPJii5+9g2rnDiCaM+dQAoIjz1y5aIymu
+   A==;
+X-CSE-ConnectionGUID: FGmMPsPMRfGyE/Kflfk33w==
+X-CSE-MsgGUID: lBY5kcu1SROG6BWII9xgfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="47094278"
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="47094278"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 22:57:36 -0700
+X-CSE-ConnectionGUID: 5vWUTZ3STAOgpILT2q9zAg==
+X-CSE-MsgGUID: uauaJaPeTeCmQl3n98y99w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="132206375"
+Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.162])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 22:57:34 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	bard.liao@intel.com
+Subject: [PATCH] ASoC: soc-acpi-intel-ptl-match: add empty item to ptl_cs42l43_l3[]
+Date: Wed, 23 Apr 2025 13:57:22 +0800
+Message-ID: <20250423055722.6920-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Tavian Barnes <tavianator@tavianator.com>
-Date: Tue, 22 Apr 2025 14:48:40 -0400
-X-Gmail-Original-Message-ID: <CABg4E-nVdZa9oOi3a6FYQ60Wc93aq_8CpO2J4nZxVv94o98quw@mail.gmail.com>
-X-Gm-Features: ATxdqUFxck-m0jjvl5AqvurmSc5jAawlM7GbU7Mm7TCXi2p_AaZ308rGb410wwI
-Message-ID: <CABg4E-nVdZa9oOi3a6FYQ60Wc93aq_8CpO2J4nZxVv94o98quw@mail.gmail.com>
-Subject: Bad topology file paths when re-inserting snd_sof_pci_intel_tgl
-To: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-I'm trying to debug some audio issues on my ThinkPad X1 Carbon (Gen
-10), and I noticed something that's probably a bug: when I remove and
-re-insert the snd_sof_pci_intel_tgl module, it tries to load a
-different tplg file every time.  Example:
+An empty item is required to terminate the look up loop.
 
-# dmesg -t | grep tplg
-sof-audio-pci-intel-tgl 0000:00:1f.3:  Topology file:
-intel/sof-tplg/sof-hda-generic-idisp-4ch.tplg
-# modprobe -r snd_sof_pci_intel_tgl
-# modprobe snd_sof_pci_intel_tgl
-# dmesg | grep tplg
-sof-audio-pci-intel-tgl 0000:00:1f.3:  Topology file:
-intel/sof-tplg/sof-hda-generic-idisp-4ch.tplg
-sof-audio-pci-intel-tgl 0000:00:1f.3:  Topology file:
-intel/sof-tplg/sof-hda-generic-idisp-idisp-4ch.tplg
-# modprobe -r snd_sof_pci_intel_tgl
-# modprobe snd_sof_pci_intel_tgl
-# dmesg | grep tplg
-sof-audio-pci-intel-tgl 0000:00:1f.3:  Topology file:
-intel/sof-tplg/sof-hda-generic-idisp-4ch.tplg
-sof-audio-pci-intel-tgl 0000:00:1f.3:  Topology file:
-intel/sof-tplg/sof-hda-generic-idisp-idisp-4ch.tplg
-sof-audio-pci-intel-tgl 0000:00:1f.3:  Topology file:
-intel/sof-tplg/\xa0\x11\xaf\x0e\x8d\x8e\xff\xff\xb0\x11\xaf\x0e\x8d\x8e\xff\xff\xb0\x11\xaf\x0e\x8d\x8e\xff\xff-idisp-4ch.tplg
+Fixes: ac5b4a24f16f ("ASoC: Intel: soc-acpi-intel-ptl-match: Add cs42l43 support")
 
-The second time, it added an extra -idisp to the path
-(intel/sof-tplg/sof-hda-generic-idisp-idisp-4ch.tplg).  The third
-time, the path seems to have become totally corrupted.
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Naveen Manohar <naveen.m@intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+---
+ sound/soc/intel/common/soc-acpi-intel-ptl-match.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I'm seeing this on kernel version 6.14.3-arch1, which has no
-sound-related changes from the regular stable 6.14.3 kernel.  I can
-try current master but I don't see any relevant changes to the code
-that adds -idisp in sound/soc/sof/intel/hda.c.
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+index 992729582562..a62cb6d47e4c 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+@@ -432,7 +432,8 @@ static const struct snd_soc_acpi_link_adr ptl_cs42l43_l3[] = {
+ 		.mask = BIT(3),
+ 		.num_adr = ARRAY_SIZE(cs42l43_3_adr),
+ 		.adr_d = cs42l43_3_adr,
+-	}
++	},
++	{}
+ };
+ 
+ static const struct snd_soc_acpi_link_adr ptl_rt722_only[] = {
+-- 
+2.43.0
+
