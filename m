@@ -1,113 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D842322332D;
-	Thu, 24 Apr 2025 08:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAB21A316A
+	for <linux-sound@vger.kernel.org>; Thu, 24 Apr 2025 09:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745484675; cv=none; b=FP4oWZzQMjK1EmP3K2ReKq6NPEwjlSJjLErh2BNjm+Qj6xW4NZOePn7aXch7lLewaAcimsK3on60V4VZcYCv4VZ7kPCu7fz1XFA0TZi2LPEldrVjilLECPdHG+NDEHDDNl8dCddyIhrXXjOBeaQgq+eXyxYG1jyxka2vaCI4ueo=
+	t=1745487897; cv=none; b=rbRG9ZYVJoFemk8lt5Uig78WNLe/ZCKkJbeyxyrY1S3LgMYkQyLPnr0L0kWyjpW8Y+vW+r1j1ScSZ1nKxu8CvjoGlOjld2Arx6MDMQaM0NsGaUZlBThLTQ8YvdmasEbFrSny2y446sG0lua0X+n/LdF/RF+jbTw7DTd6jESGA+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745484675; c=relaxed/simple;
-	bh=i8sxy25Tt/JCsGjOPsAEnQWtVFk7TqgKi1nqUCJYo0c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QX9s9eYnz6XGOO49tCoQLJZNIqQKNKrXy3S2qOfa35ehpspZ9JJHqeCI17s47aWdACTxbc/urKuJ7YiINBpfwWlPF882JWaGYSrJ0ck8n2AyyAwcWcgOCe0a1rAPMM9AjSOgIfyCVBX3RxePz8R2ypbqW63SE/Tufo2BADHPNfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UiD/gIdY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745487897; c=relaxed/simple;
+	bh=7NYJhU4y9C5ky1stWiYJH+Q6lVk+1FhBJnXjHqhRmVg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Z9oBhCYcd/kfWP/GLgh1mnXGXGD9jMTffVHD2ppPjLuwZM3qpBFDEW/5j3JeddX5SQwucMnRoYyqww8dghNz1ORJmzE9dBPpy4L89VMIL/F04JucMnoN9iIlJwsylEdVXMcjXTobdK3HlaI4dgOBa2Jj12bD1hl0TkFZ+lH6bGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KIcoJoMf; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UiD/gIdY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E58BEC4CEEB;
-	Thu, 24 Apr 2025 08:51:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745484674;
-	bh=i8sxy25Tt/JCsGjOPsAEnQWtVFk7TqgKi1nqUCJYo0c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UiD/gIdYNgcXGNixyVYKFuLxrj86hQtPf1AsWEFkxTyTZ5K4I1W8vq6tq+WqDRo2J
-	 gaQBJjl1NiXcZb/TdVMKOEec/8+hzyQuhFwZH6gf1EQXLZWZX8uJmpMp+XXUJaPoO2
-	 6qIfpOLy/7fsltBsMqSWJ+YirYKkP6ob7nsSy0y/jtHwrHsc4w3cZY0JleXsj19/dU
-	 gmsIoz6GSc2u/HZFzduD0LxAmiFKY23REDs4nz+nk+tuNyVjp7vo4lrMUeMwaf9kjm
-	 6vD15hVdPEaTAdK40CVhHQPqKJ+Bvc81khsHWBofoal71t3b4KeErT21A2h9JCrbJM
-	 gvjInxef2IVng==
-Message-ID: <cddf9688-fbb9-4176-83d3-0aa693931457@kernel.org>
-Date: Thu, 24 Apr 2025 10:51:09 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KIcoJoMf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745487896; x=1777023896;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7NYJhU4y9C5ky1stWiYJH+Q6lVk+1FhBJnXjHqhRmVg=;
+  b=KIcoJoMfaYOJu+q3E1KmPQ1em0mAfxfPJLQQXLSBiXQ86s5/fLRTfwR5
+   /dZ/YD3s/IHo5NorqjgRCapUJHnLumVsjIVdlwWT0Nv9eSQJXOcBdB38s
+   X1VpWzCRSt7I/bdP/vTqZ1cBF2MAxPVgdg0wKXDBf+kQ45cV6ToAodv8r
+   HOM/0FpYdEjDW8sBiRh5lJgxmYKmBGt1ECt3rbfyQJLU7OsikRNbKKB5x
+   /V+D8N1gSIJ2swJW9AfkGsXosQi4S/oaMkt0x3ydmb1AlDafNoe13vyMt
+   jN+4ZrJBW00R+QOpBngj4HAGW06rsq2IdkrWOugmTKRqkg80PZ2gWs6KA
+   A==;
+X-CSE-ConnectionGUID: pwZjbeSXR+mYH+FwHIX1hA==
+X-CSE-MsgGUID: +AWTwsAWRRKtTBLI4XlDNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="47127163"
+X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
+   d="scan'208";a="47127163"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 02:44:50 -0700
+X-CSE-ConnectionGUID: Wtx/kY9URoeRwfhiq1Io5Q==
+X-CSE-MsgGUID: aSGueZSWSCS7CNrWqsyBKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
+   d="scan'208";a="133097131"
+Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
+  by orviesa007.jf.intel.com with ESMTP; 24 Apr 2025 02:44:44 -0700
+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	linux-sound@vger.kernel.org,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH] ASoC: Intel: avs: Fix NULL pointer dereference
+Date: Thu, 24 Apr 2025 11:46:00 +0200
+Message-Id: <20250424094600.1678051-1-amadeuszx.slawinski@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH 01/10] dt-bindings: ASoC: Document Tegra264 APE
- support
-To: "Sheetal ." <sheetal@nvidia.com>, broonie@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, linux-sound@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, lgirdwood@gmail.com, tiwai@suse.com,
- jonathanh@nvidia.com, thierry.reding@gmail.com, mkumard@nvidia.com,
- spujar@nvidia.com
-References: <20250422093815.506810-1-sheetal@nvidia.com>
- <20250422093815.506810-2-sheetal@nvidia.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250422093815.506810-2-sheetal@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/04/2025 11:38, Sheetal . wrote:
-> From: Sheetal <sheetal@nvidia.com>
-> 
-> Add Tegra264 compatible strings to APE subsystem device bindings:
-> - audio-graph-card: Due to different PLL clock rate.
-> - admaif: Due to 32 channels supported and register offset changes.
-> - i2s: Due to 32 channels supported and register offset changes.
-> - amx/adx: Due to 32 channels supported and register offset changes.
-> - asrc: Due to different ARAM address.
-> - ahub: Due to AHUB IPs number of instances updates.
-> - for future proofing the T264 compatibility is added for other device
->   nodes.
-> 
-Implement the feedback given in previous patchset submission.
+Due to unfortunate interaction between two recent patchsets, avs driver
+ends up dereferencing NULL pointer when registering i2s boards.
 
-Best regards,
-Krzysztof
+Commit [1] does a call to avs_mach_ssp_tdm() which requires mach->pdata,
+however due to another change in [2], mach->pdata is initialized after
+the call. Reshuffle code to initialise mach->pdata before calling
+avs_mach_ssp_tdm().
+
+[1]
+Link: https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit/sound/soc/intel/avs?id=79138dbff53ab0e9891ebdfce8d7b298c3783cd1
+[2]
+Link: https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit/sound/soc/intel/avs?id=7d859189de13f06fdc511761c745f3b302bed7b6
+Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+---
+ sound/soc/intel/avs/board_selection.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/sound/soc/intel/avs/board_selection.c b/sound/soc/intel/avs/board_selection.c
+index 6f6137c3a02c8..636315060eb47 100644
+--- a/sound/soc/intel/avs/board_selection.c
++++ b/sound/soc/intel/avs/board_selection.c
+@@ -472,14 +472,6 @@ static int avs_register_i2s_board(struct avs_dev *adev, struct snd_soc_acpi_mach
+ 		return -ENODEV;
+ 	}
+ 
+-	uid = mach->mach_params.i2s_link_mask;
+-	if (avs_mach_singular_ssp(mach))
+-		uid = (uid << AVS_CHANNELS_MAX) + avs_mach_ssp_tdm(mach, avs_mach_ssp_port(mach));
+-
+-	name = devm_kasprintf(adev->dev, GFP_KERNEL, "%s.%d-platform", mach->drv_name, uid);
+-	if (!name)
+-		return -ENOMEM;
+-
+ 	pdata = mach->pdata;
+ 	if (!pdata)
+ 		pdata = devm_kzalloc(adev->dev, sizeof(*pdata), GFP_KERNEL);
+@@ -488,6 +480,14 @@ static int avs_register_i2s_board(struct avs_dev *adev, struct snd_soc_acpi_mach
+ 	pdata->obsolete_card_names = obsolete_card_names;
+ 	mach->pdata = pdata;
+ 
++	uid = mach->mach_params.i2s_link_mask;
++	if (avs_mach_singular_ssp(mach))
++		uid = (uid << AVS_CHANNELS_MAX) + avs_mach_ssp_tdm(mach, avs_mach_ssp_port(mach));
++
++	name = devm_kasprintf(adev->dev, GFP_KERNEL, "%s.%d-platform", mach->drv_name, uid);
++	if (!name)
++		return -ENOMEM;
++
+ 	ret = avs_i2s_platform_register(adev, name, mach->mach_params.i2s_link_mask, pdata->tdms);
+ 	if (ret < 0)
+ 		return ret;
+-- 
+2.34.1
+
