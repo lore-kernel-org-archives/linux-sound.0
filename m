@@ -1,59 +1,59 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B64A242D60
-	for <linux-sound@vger.kernel.org>; Thu, 24 Apr 2025 10:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF02242D9C
+	for <linux-sound@vger.kernel.org>; Thu, 24 Apr 2025 10:26:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745490360; cv=none; b=OB4dI+MwNRnH8fwcLcFrKpeRtWyfE00mVEx+FPJolKGUIhq55SSh8MDPSCCY7IcoikercLAA/pFDOM6c/LU39EWbe/JAXAjy+CehV2J/QJsh+oV4PBnFO8kAfCUjbFaIyzKSjtAyPYxDzLnNJw45gbZqSzIGDpDHXc+i+eify5U=
+	t=1745490363; cv=none; b=H8SlSF2b0cWQyuIZwoZVWs0KC79fCzGKu/QAtstphcDJZA8axw0vIVXqzrZKJ5z3mK4XJdPW/XI2ueJfrSeJU7twjClzwVDlEo9FQtOmePyqWoX8JrALyGIhyGO/Q1wGIMtn8dsLGzj0AQwFg0wiu6ghKiBWRL7dR7pD/7T2Ngw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745490360; c=relaxed/simple;
-	bh=amw58+Xn4jL5+0UqqZ24GKZxtkpLJLo2j7rkb2+VAu4=;
+	s=arc-20240116; t=1745490363; c=relaxed/simple;
+	bh=1AP5rv5hz9Rs5QHv/2ZGUfum6cSdggllp0xp0DoZ+js=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s9Lh0k1WwlNEQ5XGw8b5Q5RekDz9PigyPbzc4iNaRIUzC0dJM0n/xH2xOs5v8F/R9wGBrD7pBDThkJvONcm2izcuE25k/IC36mBavlU453V6F5vzSNwcf8BCJmSxLNl7VdvChE0DltZ7qqa+b2O+4vxvk63K+TQRqwBVQ/jmtBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UQFlFv33; arc=none smtp.client-ip=209.85.214.175
+	 MIME-Version; b=A1DP+Jb8GX3UcD6l9VUfraeC6I9N+9HNymxhcBdfQn4q0ekK3QHma2FJyoSwvfiExv0hakOwI0V9u0onKMFyzZPuUOhY9xV5d4j5fKXP6mztHFqNL69NH/oY3/UsvrAwDFBD0O+R1lUddgEmqeICBr5rpiF8C/kmV0/hrzIwGFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XiKgYo4R; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UQFlFv33"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-227c7e57da2so6613735ad.0
-        for <linux-sound@vger.kernel.org>; Thu, 24 Apr 2025 03:25:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XiKgYo4R"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-223fb0f619dso8699755ad.1
+        for <linux-sound@vger.kernel.org>; Thu, 24 Apr 2025 03:26:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1745490358; x=1746095158; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1745490361; x=1746095161; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FmVpDCANpDWXjfc77hOC3nlqo3wLCB+cB+2xYUcVaDA=;
-        b=UQFlFv33CuuL+I0ybw8YKAeiP3RwTi/JzKw76wo/1ev/K1zz+haQ0bFx5+LSU+A9EN
-         9aFBNJyel41G1aBpq2GKCQbPPRJKFkNpkdZXQOryUskmr+ON+tpP7jQ0MkSRdby8MlXJ
-         Xzd/9gw9Bd9SlQK+s7mlI9ctLnjnqdEzhMzvc=
+        bh=a6nLuv544CgGW21n1DbIuZxhKW3jrit2HZOkiVGCAv4=;
+        b=XiKgYo4RIJW/vzXR9mTVYdsHCVzGLmGHmtdsiEeFK09XqqwJJNQC4gz+65ZxFsKMd4
+         mCRnEoL4x0hYJjsz7xyC/AHHGWBzkVMgr4rH2ziP9q89vY4pnf0/Is0PfVeYYAKcEmhE
+         FDCfgX9ZQeFijcBmlDXES9iYCj8gMYqzN4LYk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745490358; x=1746095158;
+        d=1e100.net; s=20230601; t=1745490361; x=1746095161;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FmVpDCANpDWXjfc77hOC3nlqo3wLCB+cB+2xYUcVaDA=;
-        b=K6lKBHcxuIPiAVD4XmN14TQCFHCrwaTSf3o/XpOLs/kpYtW1/JnDhrBrfw/sckphSs
-         nNklZ4CuzVlXbQLm40Ctl9Ht0qMjgAvTiqji3DXbsjO0qzAy2AdGyWPjKQ0bxxa6cMnA
-         XXohbTeqy0lI9H4K0ea7HwtvPbaC1w2ruL+jpyRLzQ899228kDjkpeK4z5jsQLeXgUfl
-         x4YAsSdj2EqiEvOqgsNBqYvhVMQsQTf48LaZv1/7j+p1JEybmOwKtaQEKRdfXYUnLp1B
-         SDsh6IffXo/wN29f1rIceia3yH3ux/Da27mMpAhRu/QeBQhDfvELHHuzHQr2LXdGOqLz
-         Tmxw==
-X-Forwarded-Encrypted: i=1; AJvYcCVz0/s1as2BXj40XOQbea8mXiqK50JmPvseBGW9sFn2MFnBEsH30wocCMjl3PfNJpVOhHHMCZb6N9byQQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkW3LbgGGts2hlZg214X/65xFSqs9sQWq0ZyPUD/12IHP8Da/I
-	WCnIJhNb4+zJeBlUCg9Htx1WP7Fi8Om01hSdYh0Hqu72tncEcvCStYilATNTGQ==
-X-Gm-Gg: ASbGncu+scbH2IKTTgjdcgxGPedONLp+zBITc/8FU+U1wmb8Z2ONeV2XBMUQaAqaRkF
-	GnfV95+l20gzjjMKGIGer6qocPwv7DR88+CDTA4c3qhHx12xdtvGyw11Qu1qga6OcvZUGNIaybf
-	e6X6YNilsbqb3dN0TdZ91Xt1lTYPuh3FzsoS5mgvRN6xoHhSlo1fwbd5IndfTaJ+Ef4Dhnn/aQZ
-	uYHM69BDA2j83MjtydPL7x9S4i+JdOSyD6mxyTSYRGehAVSYGzMn08LCJRlgkaN0EE5o7XLhYDp
-	HGpkmU1LVpFbzYpzQxlePfIFepKFY7uCrfJwZwZYSom7jGawXltoaTpUfQ==
-X-Google-Smtp-Source: AGHT+IFNUWW8GiZ4JqKUF9pP/L7lY/ZM2afy9ZsZUC4Qoy35aYMkl4OZHCBcklsXj7mBYosm+Ajr0Q==
-X-Received: by 2002:a17:903:3c48:b0:229:1717:882a with SMTP id d9443c01a7336-22db3bae48bmr32665265ad.4.1745490358416;
-        Thu, 24 Apr 2025 03:25:58 -0700 (PDT)
+        bh=a6nLuv544CgGW21n1DbIuZxhKW3jrit2HZOkiVGCAv4=;
+        b=Kxys5cUDNMLYRs3L7fGF5liiHf/7xn2wlEnnfPUqOjXm6YIDgl3bbKRUVMbCBDh/ax
+         q+waqSNIk9EpYeUM2BKWybS6ixJ1fnzDNpF0DJ43B9BvJQ+Ti6DaFWowU43CJRosfN3E
+         WQR57DmxH8h4JoU1UNW/BZsfQEvSplecybveGzeje+P+7x9j6R15Lx8btiQ9ZUMkZSZ3
+         FkvXlcZNAc3IpEYl7y85sFkzW/EGxUyxlFi+ivEWbXgG+e68KfLjzr1G0H8ZbdyQ6+Ii
+         f/29LttCuiXG23YyWcqiFTsZMxhDUY4gEUMGvDXYQx0HKA3vZT+CY+j4MOP5G7rXPn47
+         ND+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVpgG+1LYpqh/3t5Am6DLdkKSGMsv9nMZGFLo+KSIhhpGdlFyjeNVBmt4SkDPku4JjmPvel2ncs1+BqNA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEeX8CaV1kggJocxOyj5DoESpM/DDjoYqAJTPWRwrlz7V6KE+E
+	DYhyRoIvdSdJe3/+IdNr2EoouYoANDRRgJuu0YIeMEyIKPyTPe98HVEdQjwCPw==
+X-Gm-Gg: ASbGnctyQVHytLbXV66NjGlZkjfeUbIh35ldzEnMaV4PfBUZONMWYGjzoXLqX3OyQ0H
+	3fyFT9e6MNjwtTb0V4mAyNGpVB1hLG/j2t3ilOTUTZGCiIgDeQ4uoR8pbr8hN5clODhyiSsBeLk
+	NL3tXBlc65YbYUk3AFp4lj/gIpMwZuMwuxWma8f/T8NrmVIUtoeIytWNPY5szYfWHfXL2tyEgqy
+	hzuGAO4T+1qz55bMdVBLbh3bv3m76ohWPKLJ9uuFe3QPwpO2bQV3NIbS1EXVDQyKMobbB4HQn+q
+	GIIQhxEairZRYJKNKwxkiEzBCoODCrWzD/nvVDMLmywnRw5NWLRfZrdlxg==
+X-Google-Smtp-Source: AGHT+IEelhbgbGZri6Py80kdsIiPuav90J0vW3iMX5g3fAzfa3TjO84nP2ENhMsx6DVzKWavR3GEDw==
+X-Received: by 2002:a17:903:2311:b0:220:e9ac:e746 with SMTP id d9443c01a7336-22db3ded901mr33410315ad.53.1745490361492;
+        Thu, 24 Apr 2025 03:26:01 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:fa13:e633:684b:257])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4dda40fsm9680305ad.104.2025.04.24.03.25.55
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4dda40fsm9680305ad.104.2025.04.24.03.25.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 03:25:57 -0700 (PDT)
+        Thu, 24 Apr 2025 03:26:01 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -71,9 +71,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/13] arm64: dts: mediatek: mt8186-corsola: Reserve memory for audio frontend
-Date: Thu, 24 Apr 2025 18:25:06 +0800
-Message-ID: <20250424102509.1083185-13-wenst@chromium.org>
+Subject: [PATCH v2 13/13] arm64: dts: mediatek: mt8192-asurada: Reserve memory for audio frontend
+Date: Thu, 24 Apr 2025 18:25:07 +0800
+Message-ID: <20250424102509.1083185-14-wenst@chromium.org>
 X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
 In-Reply-To: <20250424102509.1083185-1-wenst@chromium.org>
 References: <20250424102509.1083185-1-wenst@chromium.org>
@@ -90,21 +90,19 @@ audio frontend. These platforms reserve it at a fixed address, though it
 is unclear if that is due to hardware access restrictions or simply
 compacting the reserved memory blocks together.
 
-Reserve the same size of memory on the MT8186 Corsola family as well, to
-align with the other MediaTek-based ChromeOS platforms. This also helps
-with memory starvation as these devices sometimes end up in low memory
-conditions.
+Reserve the same size of memory on the MT8192 Asurada family as well, to
+align with the other MediaTek-based ChromeOS platforms.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi b/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-index c864ed495702..b139588ae246 100644
---- a/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
-@@ -161,6 +161,13 @@ reserved_memory: reserved-memory {
+diff --git a/arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi b/arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi
+index 516fba9b3c6d..0574fe50468f 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8192-asurada.dtsi
+@@ -199,6 +199,13 @@ reserved_memory: reserved-memory {
  		#size-cells = <2>;
  		ranges;
  
@@ -115,17 +113,20 @@ index c864ed495702..b139588ae246 100644
 +			no-map;
 +		};
 +
- 		adsp_dma_mem: memory@61000000 {
+ 		scp_mem_reserved: scp@50000000 {
  			compatible = "shared-dma-pool";
- 			reg = <0 0x61000000 0 0x100000>;
-@@ -310,6 +317,7 @@ &adsp {
+ 			reg = <0 0x50000000 0 0x2900000>;
+@@ -277,6 +284,10 @@ sound: sound {
+ 	};
  };
  
- &afe {
++&afe {
 +	memory-region = <&afe_dma_mem>;
- 	status = "okay";
- };
- 
++};
++
+ &dpi0 {
+ 	pinctrl-names = "sleep", "default";
+ 	pinctrl-0 = <&dpi_pin_default>;
 -- 
 2.49.0.805.g082f7c87e0-goog
 
