@@ -1,53 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777A121ADC7;
-	Fri, 25 Apr 2025 11:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D276218EBA;
+	Fri, 25 Apr 2025 12:12:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745580621; cv=none; b=CA1k7z/sqEqUyCAAf3cgWlZ4Vvu7+UMZI5gRifApZTTt8E/HFyOQSTJOgUV1aiEwLhSkqgucYLoyOyBXSY004vxCyyGCmk12OcnXHY+5T7BIV0//k78WlVGAq3hIVqo08+e/9MhEfmLD7fO+T0XnEQrUOLVQzBFVCML+PkIdlj0=
+	t=1745583158; cv=none; b=kYlsDZPUHT7KRBCEi0muYW5kwUNj13cuy4EqtftP/Jvxj+IZ01KyNVZgMqwV0ETu4ChJrKNMTsyAQI3ue11YUzPQvgULL7MnA6BkpGJb6sRJv75TVUFj0HRkZBPnRINErJ/dJJIK7m0oMhbFuDzvZ9nOucPHZVV5+/onpX/yu6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745580621; c=relaxed/simple;
-	bh=bZ91MEiyxGJ+ih7aS840VX6sQU1UAjNRi3/bWS5vYXg=;
+	s=arc-20240116; t=1745583158; c=relaxed/simple;
+	bh=mf9pdvvsYkqmrnXi3WTmxVFAP8NlaZz95FYz18Bt7kc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mu8tpsRvp35zE8O8CKE28jvcWXN6rOHfYXH/D5p2Sd7Cib57siaDbnc2II0T86PXXw7oDfa1vbZX8JIOfe4kC+B/SeutEuDS+LawlWnL0qkcoTnRqz6LtiZ1Oa8lyNhOSQY13CxE1caSm8USoBQoB8ylWE1CAYpYYVLsLb8cUSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jv3m1US5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9Y6hSsXuYrMmFAsOqf3156L1a060j5ZtqNuihWOE8WBSI9d+PyV1M/OsotMtXjm+79408K5SaOmOLiOFoxBvv+ilRONeDBYOPSVDwYmuwKAOb3NkzrkFBZWscy0xMQ91THXLMeNc0YP/Y9eY5aMvYarr100VhWSBQtOyH6ikIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fV9/P5OQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jv3m1US5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AF02C4CEE4;
-	Fri, 25 Apr 2025 11:30:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fV9/P5OQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DA7FC4CEEE;
+	Fri, 25 Apr 2025 12:12:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745580621;
-	bh=bZ91MEiyxGJ+ih7aS840VX6sQU1UAjNRi3/bWS5vYXg=;
+	s=k20201202; t=1745583158;
+	bh=mf9pdvvsYkqmrnXi3WTmxVFAP8NlaZz95FYz18Bt7kc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jv3m1US5TqR475jRNTDb4Fw8/9MtU6dpe3tatdXTZtWeYYoM7jEZnh63UAYGimNOu
-	 fw2wD2rS4Cat0Xs5yC0RSzF497Hni3PsF+pNS6qa4Epbc2+A2hOF02PUKlblg+l9ID
-	 5o0mTnBkizn9DGOH1dLW6eyMXxUzmbLVCZ/Tnx5B94UJYP6LodIO0bbD10iZM3yp5w
-	 xoQnEPDPjJl9s3mcmwHtPw975GkY+ZuFZ9VAhHkzvK3tHirLzSBYFl2KWcrpqQIf2u
-	 wC2xcdASJ5MbESVe3BoeczY6myUjNCaLWYdVjb+unnHaX8vtKeH1qt2jBN/Q2YCXDV
-	 3xLGt/XDsA/vg==
-Date: Fri, 25 Apr 2025 12:30:13 +0100
+	b=fV9/P5OQ5UYXhhxPU1pbTlnjCQm2RsVHd7ZfD6t/RmDvmnXI1BZg/rBDFIbbhhjwU
+	 A7Wzo8kbm6YnUQF5grrCbbDK2iF7IEytof5IqO10DIGR2t9PiZS4s1bgtbaK4F2lxU
+	 7VhDl7lsTQGif7seHpMFMhIqa8SJddnXrilvjLzOdBJHxy7QEr60WHtLQjFWdwMTzP
+	 81sdv6VhGpTIe38hVj+ED6Q5klCiWO17qiqL5/duScPPfgecF0bU0lPEPvieefxTrg
+	 w8KlRQwKPin/tIZNd6q2EGIj5Wd172A1Z48XBS2e8WMURZWYHiOcTBBCKGEE+XqqQw
+	 YA35Lr0r3pzZA==
+Date: Fri, 25 Apr 2025 13:12:31 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Basavaraj Hiregoudar <Basavaraj.Hiregoudar@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
-	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH 1/3] ASoC: amd: acp: Fix NULL pointer deref on acp resume
- path
-Message-ID: <960fe8e8-3146-47f6-9ca5-8d203f887c57@sirena.org.uk>
-References: <20250425060144.1773265-1-venkataprasad.potturu@amd.com>
- <6f4ee1e8-aa28-4d20-96bc-b2a7343ddbcc@web.de>
+To: Luca Weiss <luca.weiss@fairphone.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 2/5] ASoC: qcom: sm8250: set card driver name from
+ match data
+Message-ID: <36904d64-68e1-43b2-baed-50b5fddc2bcb@sirena.org.uk>
+References: <20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com>
+ <20250425-fp5-dp-sound-v3-2-7cb45180091b@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,43 +55,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wKinTASeDFOSyzfb"
+	protocol="application/pgp-signature"; boundary="yOP02cQ5XL5fxXCU"
 Content-Disposition: inline
-In-Reply-To: <6f4ee1e8-aa28-4d20-96bc-b2a7343ddbcc@web.de>
-X-Cookie: Debug is human, de-fix divine.
+In-Reply-To: <20250425-fp5-dp-sound-v3-2-7cb45180091b@fairphone.com>
+X-Cookie: My vaseline is RUNNING...
 
 
---wKinTASeDFOSyzfb
-Content-Type: text/plain; charset=utf-8
+--yOP02cQ5XL5fxXCU
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 25, 2025 at 10:55:16AM +0200, Markus Elfring wrote:
-> > update chip data using dev_get_drvdata(dev->parent) instead of
-> > dev_get_platdata(dev).
+On Fri, Apr 25, 2025 at 10:07:26AM +0200, Luca Weiss wrote:
+> Sound machine drivers for Qualcomm SoCs can be reused across multiple
+> SoCs. But user space ALSA UCM files depend on the card driver name which
+> should be set per board/SoC.
 
-> * Would you get into the mood to replace the text =E2=80=9Cderef=E2=80=9D=
- in the summary phrase?
->=20
-> * Can a cover letter usually be helpful for such a patch series?
+This doesn't apply against current code, please check and resend.
 
-Feel free to ignore Markus, he has a long history of sending
-unhelpful review comments and continues to ignore repeated requests
-to stop.
-
---wKinTASeDFOSyzfb
+--yOP02cQ5XL5fxXCU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgLckUACgkQJNaLcl1U
-h9AeuAf/ZUzdF4n/GKCb9AEu6x5bSa7c/xMV4hdOZVd9T6FPyeGPM2ZtzBX+jbEm
-JL88i6eU8qcMTzYICJblC2L8DE9Fql4fqaSRPoDeq8WtEtQo93meuSVJ7JZ4q4Qy
-SOQ4QUnZ8TtC0jZyjjEKYnHJZOa/pFrHLXqmwbDOAv4NXZ0hMmFB+UAc7Ep9yyXz
-rSWqZUOqdP++UH9MQngeeCF7Ms/6Awupb0yC8llFp4t4kbFNBjBc5QU9+sGwYjSg
-aeuiS05HwFcYWZYG/+yDgpUTIJF0I2VGQD+Cwq1C/ydf/JW6OIqUc82b7ZWtlB9D
-AF0QRZgiIvvW7Be88siOcQgkz99P2w==
-=SNML
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgLfC4ACgkQJNaLcl1U
+h9CJJwf9FyfxB8FKyIfPm56zmMyOqrzsLC3SrHNmsQVsAZQB+rX//83ltMvZGR1k
+8FETiGPTrmuvNc/JKIFH2BSZbwxWKUs8EHi7aPe4o9q/7bj8Jg3HW5IMukfuVQXe
+PYLXMeR6Vf9k/FU27gDxCQgHGkZgGC+N5emST+Ph/3E2pbAUlCLuk1xhMbBstU5T
+ZB5cmkX51LUTCNTHbDTpkMK6n9i70zsXLON9zUG0O7ccLyMI5RsNY9YGJauCeJ1l
+aRSdfHZ/d3HcC3gNnEhKhNqQ4uK+xCbjKrI47irmoiVQEWCcJ54MbcxKbnioNqGG
+qIju1+e9vuu0vb8sDyt7swxLpI4Afw==
+=otAc
 -----END PGP SIGNATURE-----
 
---wKinTASeDFOSyzfb--
+--yOP02cQ5XL5fxXCU--
