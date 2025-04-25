@@ -1,118 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1447134CF;
-	Fri, 25 Apr 2025 18:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9634C215F72
+	for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 18:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745604807; cv=none; b=NYd3SFB+ZFgmV69+3ND45EQJioGwlK8WKNK9ueWqfmCnN9bjmLJM/HdfqfYtRjYkvPKIctc3HJX6I0Q/VXetzkazhx47ZCb7dQb/SThMUvVm3+xztiqEfa6w5yfhpMtNDc7zQp6nBNtxb2BlaQr5fJgu0xjjht/3+sTp7eEMrrg=
+	t=1745605196; cv=none; b=Als9/HtcD39MZnNCD9X0riuzcC7Uua7pl8G5Yr5odaGxL5qsGVewM122XNZmUVxG3EViYLNws1ctb4ZXZHQGMT+gCptmv5knZtN5+kyJtmFMRfR7sCJfxnUB9nC2Dpn/aCZvO2oS0i655NOTHYYVhi1PVw7aoTcKum5HdSaGRRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745604807; c=relaxed/simple;
-	bh=JkpxNkCzkYh0Du/1121be6BqpejJcBjTTxXTHMqZE60=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dD+6Vlx7m9bkiPJjJiUPcELwlTAaGdMB7C1LhXwmhZhFqGUSHSWnwP5fuSXWKt3sqEBo5HVkO0lHJb5aLjbgtDWx/lAKljBRN9fbqJPniLoQl3Q4jYClhsenG4QaHXDQWP3wJjFHs8Y9eozkD/hL7reX9a6tur6FT/OGMeOtM2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AyJmEsca; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1745605196; c=relaxed/simple;
+	bh=IpSFoh4pYOY/HGqg1pleHeuH9QFifSvgR7QoQN+jals=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=Mhk3SwsDWAUz00sOn9XuyouhDxBIU3n2fBZOT0kQtf7bwhE/Y2G413glIw3PRC3Z0ne31CX3rLlyYtshUNE5UJllLhLLE9ladMN6Ix3RMfqDoIOWRamC8sHcxRQhqUjCuS9K0j/SDkcXhop+ZK0T/PghO0MXsEcLpMkdzvM4Ja8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=L2zE90Bl; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyJmEsca"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745604806; x=1777140806;
-  h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=JkpxNkCzkYh0Du/1121be6BqpejJcBjTTxXTHMqZE60=;
-  b=AyJmEscaWN2JlX2usDZsDaueCuITQ4HvoOSXS/0j4teaO2u4OtA8nJzs
-   qsmMwwXC4Abz5o58qc6aliXDVoPIIovE6UaXSzCpbad47q4pBl+jUP+pd
-   XuXFSLRVnNqEjr528AH3kBEOxdRmNCJ4yOQqQSXTM1NxOVw5lLRa7o4WD
-   DgYwUVZyxdHKWoy3fzTEHqzIkmJvSYUIH+G9xosXre3vbLPHifB2l54AA
-   qmwhMUasKCjdPy4rQFZUYGGgzRGWkp19mmTgDgh+oX4vx1n105s1hAJtM
-   xkyA49A0X/GmdDx6D/jNxaxKDhVUnDto8jZoIzqpBhmbKGbrUhYjfoXs3
-   Q==;
-X-CSE-ConnectionGUID: 0jX8ZZhCTYCH9pI/ZDGhHA==
-X-CSE-MsgGUID: Z+oeGnsGQWuRNuOsN4AAyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="64804437"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="64804437"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 11:13:25 -0700
-X-CSE-ConnectionGUID: vMfdYYlFQwmGqd0SAGxs2A==
-X-CSE-MsgGUID: TCZ9agQpQ1GCtyMidk/+YQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="133903167"
-Received: from iherna2-mobl4.amr.corp.intel.com ([10.125.108.191])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 11:13:23 -0700
-Message-ID: <5546db361d2d474b97d80345473628d0e5a55093.camel@linux.intel.com>
-Subject: Re: [PATCH 4/7] pci: doe: Replace sysfs visibility macro
-From: "David E. Box" <david.e.box@linux.intel.com>
-Reply-To: david.e.box@linux.intel.com
-To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: corbet@lwn.net, bhelgaas@google.com, kuurtb@gmail.com, Hans de Goede
-	 <hdegoede@redhat.com>, vkoul@kernel.org, yung-chuan.liao@linux.intel.com, 
-	pierre-louis.bossart@linux.dev, sanyog.r.kale@intel.com, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	dakr@kernel.org, dan.j.williams@intel.com, Andy Shevchenko
-	 <andriy.shevchenko@linux.intel.com>, linux-doc@vger.kernel.org, LKML
-	 <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com, 
-	linux-sound@vger.kernel.org
-Date: Fri, 25 Apr 2025 11:13:22 -0700
-In-Reply-To: <8d261613-60d3-8825-e073-1b39daadc29a@linux.intel.com>
-References: <20250423175040.784680-1-david.e.box@linux.intel.com>
-	 <20250423175040.784680-5-david.e.box@linux.intel.com>
-	 <8d261613-60d3-8825-e073-1b39daadc29a@linux.intel.com>
-Organization: David E. Box
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="L2zE90Bl"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43edb40f357so18096965e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 11:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1745605193; x=1746209993; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IpSFoh4pYOY/HGqg1pleHeuH9QFifSvgR7QoQN+jals=;
+        b=L2zE90BlQkCwN8RxPhglh5+YQzR3YQ8NPSekKiGRb4u2Zs2dfJ/tItuWZaFHeDES1f
+         V5W+e3hYuUJdWUFXpzD7ozesoIyZ9euiDfsvy5aF6BGN67VAUFi9u1T/Xqlmtt+Fm/Bt
+         nHZXHjAjQo2Cs5df9yeqE4vu60ATz6pMTKTRV5vW0GNzbI7KPI0GHiCRj9gzGiIGCZCK
+         lPssUdlz3UXbcZ8ByT0YXjeDgGXVjsGq7iA5LoWzdHacW4tRqD74ODrKglFJLEoJ+wMB
+         FAut6WbA3gE5MJI45Oz4oTFNG/tBUup5rFhdDT9xhpxiWbqB1dmIF9CtoynWk1jJkd9X
+         Kpcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745605193; x=1746209993;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IpSFoh4pYOY/HGqg1pleHeuH9QFifSvgR7QoQN+jals=;
+        b=FGLx1grVShpPSahsb5kTU0wr+8CB/AwE0YgBKgQ7Q+N+xlGVM6WfbQ4/BxnWyKJMzw
+         /FeT1+bCqDtJUEikZgDDxkmyyn/7Lcmq08yDJFVnwsLoINn+/6gXD7jJ9OZSFeZOAO+E
+         ebhjyUkf0Xm05tWLE9MS+8QY94XWHyJWw/k7BE/N1Tqn4XRV18ZCU2FpPvUIQDo/CSeX
+         YbEHSbI6kBMWRPdbWXKaOxib+BFDQ0RQj54kzNtC00VYMHybA4PfFCdi41a34CIJDrkR
+         c2hAfpSVWSjXy2Jk0c/xvA/ROnieahE3atFchqjNHZlcjWOvEMagSj9Q0ZNU23z5NaG2
+         Zc6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXQXd3VuxD2zF8Y65S+KiUNEX3INkXu0A7/VKIjvhg3rKIsKmWU6jTv2IjbhsiylszJfAYYBrXu3nXD2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOgXG8tl7lw8iuUj16or92I26HocLsrvYTjzi4soRQPzJAV1Xw
+	4AUXHyLo/mMkazd5s0cqp3Rl66yuhg7r2TBCQ37ApzIg37vRqQkibhYTrAljgpc=
+X-Gm-Gg: ASbGncvjZamBcJhtDa2glhtV//iMurWgq2a14fG15b3HBxq+LgBHWC+Tt1dgLc/a77d
+	nTT9zcvZYjLhLh1sT0MOUsFQLeY9kX1aMGs37ER7p4hqN5HpMeVRDbqTV4o+sybmGEVR3fbdVCa
+	1CzW1SI4cWzD63IrDHT+0wF8XLMqU+dgCCkLU4JI4JsbuUP4O8kQlRIoyZpNPSoYgnRMQZttBkP
+	+qRZ+h4GtljK5ceJWQG/0Wa5nMJ3kPZrRYYEzEEFob1cb9uKZjX957Fp3MyXTzijkcHGA4hZRS7
+	QY9T1E/y04Dighf2Vil21uvNVexUWLSd4FFquJ8Aiww2G6GGmmymj0+AergEsmZiBAohL6nlI0u
+	/Osusa8sg7as8Bm7mCma1E/emaptVLDQgh3PxP6YVSsxx8nrpdKeV
+X-Google-Smtp-Source: AGHT+IFJByfdmWek2xSwsLT86f5MrKiJHwIbsxI4YxA+BfoGu8K395c02Fr79u8UPzgvjnNg9CP1eQ==
+X-Received: by 2002:a05:600c:1e03:b0:43d:24d:bbe2 with SMTP id 5b1f17b1804b1-440a66b7b14mr25609255e9.28.1745605192764;
+        Fri, 25 Apr 2025 11:19:52 -0700 (PDT)
+Received: from localhost (2a02-8388-6584-6400-d322-7350-96d2-429d.cable.dynamic.v6.surfer.at. [2a02:8388:6584:6400:d322:7350:96d2:429d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-440a536a02csm32734525e9.27.2025.04.25.11.19.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Apr 2025 11:19:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 25 Apr 2025 20:19:39 +0200
+Message-Id: <D9FXE4TJ23QB.1CS3D6PU2FGMR@fairphone.com>
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Mark Brown" <broonie@kernel.org>
+Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Banajit Goswami"
+ <bgoswami@quicinc.com>, "Liam Girdwood" <lgirdwood@gmail.com>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>, "Bjorn Andersson" <andersson@kernel.org>,
+ "Konrad Dybcio" <konradybcio@kernel.org>,
+ <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 2/5] ASoC: qcom: sm8250: set card driver name from
+ match data
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com>
+ <20250425-fp5-dp-sound-v3-2-7cb45180091b@fairphone.com>
+ <36904d64-68e1-43b2-baed-50b5fddc2bcb@sirena.org.uk>
+In-Reply-To: <36904d64-68e1-43b2-baed-50b5fddc2bcb@sirena.org.uk>
 
-On Fri, 2025-04-25 at 13:57 +0300, Ilpo J=C3=A4rvinen wrote:
-> On Wed, 23 Apr 2025, David E. Box wrote:
->=20
-> > Replace deprecated DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE() call with the ne=
-w
-> > DEFINE_SYSFS_GROUP_VISIBILITY() helper for the pci_doe_features_sysfs g=
-roup
-> > in drivers/pci/doe.c.
-> >=20
-> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> > ---
-> > =C2=A0drivers/pci/doe.c | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/pci/doe.c b/drivers/pci/doe.c
-> > index aae9a8a00406..18b355506dc1 100644
-> > --- a/drivers/pci/doe.c
-> > +++ b/drivers/pci/doe.c
-> > @@ -119,7 +119,7 @@ static bool pci_doe_features_sysfs_group_visible(st=
-ruct
-> > kobject *kobj)
-> > =C2=A0
-> > =C2=A0	return !xa_empty(&pdev->doe_mbs);
-> > =C2=A0}
-> > -DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE(pci_doe_features_sysfs)
-> > +DEFINE_SYSFS_GROUP_VISIBILITY(pci_doe_features_sysfs)
->=20
-> Hi David,
->=20
-> Is it intentional to not have semicolon at the end?
+Hi Mark,
 
-Hi Ilpo,
+On Fri Apr 25, 2025 at 2:12 PM CEST, Mark Brown wrote:
+> On Fri, Apr 25, 2025 at 10:07:26AM +0200, Luca Weiss wrote:
+>> Sound machine drivers for Qualcomm SoCs can be reused across multiple
+>> SoCs. But user space ALSA UCM files depend on the card driver name which
+>> should be set per board/SoC.
+>
+> This doesn't apply against current code, please check and resend.
 
-I was just doing a straight name swap and didn't not notice the lack of a
-semicolon. Of course, since DEFINE_SYSFS_GROUP_VISIBILITY() expands to a
-function definition, a trailing semicolon isn't necessary.
+I've based this series on next-20250417 tag, so this is probably due to
+the changes from the USB sound offloading series that Greg has picked
+up.
 
-I suspect the issue is with the other instances where it was added, which m=
-akes
-the usage inconsistent. What would you suggest?
+So either Greg also picks up these changes when they're ready, or we
+wait until 6.17?
 
-David
-
+Regards
+Luca
