@@ -1,160 +1,104 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6010F2356C1
-	for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 08:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F55B2356A2;
+	Fri, 25 Apr 2025 08:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745568462; cv=none; b=K9C1pVmrkxRj+i8BSzDaBOoV/E4P3WRdESy8a0afugj7h/dolJJAZEjF/hEorsoaODMu0GGcrL4CUul7/1dOGCZW1fAAkXJWYCLN7sLdX7XXJ9BlynYBtncLgtTeeQDg+cU7zHKxYrkz3wQguiktBxVdMS0Hp947cDZF1/bfhQs=
+	t=1745569073; cv=none; b=PvbrIjNrOcKTXFOMATH+3R0TAnFHU7IDUKhoGQzoI/TBkMzd+Ys4gQCLKs9VgRE3cIWyeIRLjX22S7D2j3MpB5MtkgmX5jlsQOc4ygthdVCgT412Zn+KVku3fTTGBez0h8FDqdo2Be4F8zR2Skrsi8NsuDzkfUe1AmuBgeww1oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745568462; c=relaxed/simple;
-	bh=9du/cqVmLABi3S4H7ZzYui0a7J0RxPnHiR8v0eg+GN0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=loLIm5U4UsEI45GS3FLoAe1j/hXxQfW6XJeMMFCEkZPy5mZxB4S9jwv8OE9R8DoSkjolvOSAVXJQv362LuN3BdnU5YFenH39GWWB4IUE66K5NhHWQ5Npc271ivNLw5s5GioVoWIJqnhB6uURPf6AqeysOzW7PT8blL5x9U3/OY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=06u9WB11; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1745569073; c=relaxed/simple;
+	bh=WpwWKRJr1JlzgpUrnmqNWxSCeyZ0M65DMFmMraoBV4g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e65Nf64Ow7RISNLCITnnH529rkp7Q6zabQBomBI8xq6ybJqvS5GrBF7xyWqrgVBX6vf1FwnyQW46WfosxtS0wtETx+Ycl0AIQGRq8B+gPGZTl/4g7qEzIFOs5+/OFCyc9UkxojvaEVSH5JuAmME/TKgxPJPY11NZWn7l7XvpYIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D/WmELJB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="06u9WB11"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cfa7e7f54so12679435e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 01:07:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1745568458; x=1746173258; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1WF9R1PkrWxK/cwLXU/35vaxB2tRI8rlJl2KnNgRvug=;
-        b=06u9WB11yeFjOEXvumQCtZa/Y7L34FubxjwlIs7sJ9qQA7jRuQGjcwFNqy3IWih0j6
-         NyFjgg7M6LhuhZyxB65WpfGFYwjFVg8iYv7lbyfImyn/NUjiob2KXrnRiceo7s5YOlDP
-         YuW38CSglFy/P5j0C8r71cmN+cquvJ/t/jDXWnnZC9QhxlyHkURT6knOhC6Zr43Z8MXk
-         i231yFBWlfikmtuWGbtPb6YknEdWO3rmTZZHjM88WHmc5RH+xOJwE5whZXvkkMjah27V
-         JQIdSN2NTI8oxLvOpNt2Jot1IdoPfNBbuSOhxfhD+zfNRUq/dRn1VbvPTLfmV4xYu1nh
-         qpDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745568458; x=1746173258;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1WF9R1PkrWxK/cwLXU/35vaxB2tRI8rlJl2KnNgRvug=;
-        b=YT64825dSi7JN6odxEoZonVQ5hhO2gL/orWcKhBhIYiy0zlFxHFR698xJZFJGRDb1b
-         k8HAm36F24aMz204PW9c7qZJrNmr7enT2iBWU8EI50lZG+PQex0Dp0WIUBeOKj1iDMGV
-         srvI0PkSg3BmQJo29lCMgX/pIWpVncWCdWGLXA03UMCZQOpA+w1uVE7bTpRqcfIN1q8s
-         h2jdcSNP4bT32A/uSv9I85vJYaareMbnRlD+C45OYy0yFzZA0DSguUR3EMUdePdOLVuU
-         KbJlMtq84LaSO+U03k4aJRDDv2JtLtqkWloHZrSXHDbZ0e/HtvjV+yHla0ktZQuQwWlL
-         mlFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXFEi+b/TXhgNDSsW+inOOLl8EpFXcrSS2Dhh+EAPucC524kZGjy0Df67t2k6oYDLAW1DakMawtWDC3bg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YygYKKW+DUqhP7JzlMTi26kprnMIleINXz+PLvQODrxfcgvpcM/
-	N5OT7bUVyfPmPhin48+rFeB+oU8RzvIh2+DScWOz9xMo05eEhCtuw9C97t2xoTI=
-X-Gm-Gg: ASbGncuGzfKzV0XtE6fsicIfBWSJUmWvp2zMrFm6XUb00HO+OcFhQJZsFhuoRM+PZZw
-	pcJyYSmLvodRsjP3q2fNtqyJ4C7drK/mll988+MMyRelmP9Eu6nwzqQijahc8VSpBZ/oJ9h8mo3
-	n47zDOV5KKOKWYUektl+PoUKtBTKeo6ScWgFeb8JsIxYcXpdqRWwYyW3kWeeESbd/kZRBzqjqph
-	B9WXPlx/GGJyaHgiyoTblDbEJCi++NSMZO/ra6L1Tc6QscppLdeGrENRjtMJLXK4rKt+YQkHWZo
-	kvHjAaWfh0/dzSKzva2PBBZPkzPZodq6f5PJ/hz6mh3UBD/Ft7fQW80FSwCK4ZI3/e2hl3smDVe
-	JjbyefO52N/AE7wGnGmgqxAxbVWtu0LgequMVzDm5e6IRhdXAmQV/+9gS
-X-Google-Smtp-Source: AGHT+IG/sz31Wny+TtyIaDzEEdUt0YMeO0mUdD924acJQ9OoByTsHsI0o1wsRu2TPR3UpEE0kePClQ==
-X-Received: by 2002:a05:600c:58d7:b0:43d:fa5f:7d04 with SMTP id 5b1f17b1804b1-4409c52a44dmr43791425e9.16.1745568457579;
-        Fri, 25 Apr 2025 01:07:37 -0700 (PDT)
-Received: from [100.64.0.4] (2a02-8388-6584-6400-d322-7350-96d2-429d.cable.dynamic.v6.surfer.at. [2a02:8388:6584:6400:d322:7350:96d2:429d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073e461casm1593513f8f.74.2025.04.25.01.07.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 01:07:37 -0700 (PDT)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Fri, 25 Apr 2025 10:07:29 +0200
-Subject: [PATCH v3 5/5] arm64: dts: qcom: qcm6490-fairphone-fp5: Add
- DisplayPort sound support
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D/WmELJB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85563C4CEEE;
+	Fri, 25 Apr 2025 08:17:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745569073;
+	bh=WpwWKRJr1JlzgpUrnmqNWxSCeyZ0M65DMFmMraoBV4g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=D/WmELJB9FL0rqxBlCWZhH9Rlr1FIoGe55MXWcpcE2fj53lLZFB8FQzygT/6MR1xj
+	 csoIHRbQJVFyjaO2sVjp1NoLTLQvu1SO+MGSWSQVrB7rEo5VZQwza10bOcgTn10NPB
+	 7/CqomeIv0A1ac7Bhwsj4h7/xWscLvhDvdB5eN/93e7PHnl7yTwlzDy+bieE21Fe5Y
+	 rv70Lu+cddGjtq7TmYqaLQdzO5qGcCPtHulXdhtpqEZW7tFDF2ANCohqqot786dP6g
+	 YRA2exi4TKf5fKMxKRDzvw8KhTYM0ep+apaO+KyuNXGn+WftuY8T2hSi+fouBgDtFh
+	 PJZ4gLS3pt4AQ==
+From: Philipp Stanner <phasta@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	sound-open-firmware@alsa-project.org
+Subject: [PATCH v3 0/4] AsoC: Phase out hybrid PCI devres
+Date: Fri, 25 Apr 2025 10:17:39 +0200
+Message-ID: <20250425081742.61623-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250425-fp5-dp-sound-v3-5-7cb45180091b@fairphone.com>
-References: <20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com>
-In-Reply-To: <20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
 
-Add the required nodes for sound playback via a connected external
-display (DisplayPort over USB-C).
+Changes in v3:
+  - Remove two forgotten calls to pci_release_regions(). (Amadeusz)
+  - Adjust commit titles to common format. (Amadeusz, Cezary)
+  - Apply RB by Czeray (not everywhere, two patches changed, see point
+    1 above)
 
-In user space just the following route needs to be set (e.g. using
-ALSA UCM):
+Changes in v2:
+  - sof: simplify return. (Andy)
+  - intel/atom: simplify return. (Andy)
+  - Send a separate series for AsoC. (Andy)
+  - intel/atom: Add another patch that switches EINVAL to ENOMEM. (Andy)
 
-  amixer -c0 cset name='DISPLAY_PORT_RX Audio Mixer MultiMedia1' 1
+Hi,
 
-Afterwards one can play audio on the MultiMedia1 sound device, e.g.:
+a year ago we spent quite some work trying to get PCI into better shape.
+Some pci_ functions can be sometimes managed with devres, which is
+obviously bad. We want to provide an obvious API, where pci_ functions
+are never, and pcim_ functions are always managed.
 
-  aplay -D plughw:0,0 test.wav
+Thus, everyone enabling his device with pcim_enable_device() must be
+ported to pcim_ functions. Porting all users will later enable us to
+significantly simplify parts of the PCI subsystem. See here [1] for
+details.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
----
- arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 31 ++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+This patch series does that for sound.
 
-diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-index 9e8f9fb57c4723a24704a8239a86c6081910916b..e115b6a52b299ef663ccfb614785f8f89091f39d 100644
---- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-+++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-@@ -14,6 +14,8 @@
- #include <dt-bindings/leds/common.h>
- #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
- #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
-+#include <dt-bindings/sound/qcom,q6asm.h>
-+#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
- #include "sc7280.dtsi"
- #include "pm7250b.dtsi"
- #include "pm7325.dtsi"
-@@ -1147,6 +1149,35 @@ &sdhc_2 {
- 	status = "okay";
- };
- 
-+&sound {
-+	compatible = "fairphone,fp5-sndcard";
-+	model = "Fairphone 5";
-+
-+	mm1-dai-link {
-+		link-name = "MultiMedia1";
-+
-+		cpu {
-+			sound-dai = <&q6asmdai MSM_FRONTEND_DAI_MULTIMEDIA1>;
-+		};
-+	};
-+
-+	displayport-rx-dai-link {
-+		link-name = "DisplayPort Playback";
-+
-+		codec {
-+			sound-dai = <&mdss_dp>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6afedai DISPLAY_PORT_RX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6routing>;
-+		};
-+	};
-+};
-+
- &spi13 {
- 	status = "okay";
- 
+Feel free to squash the commits as you see fit.
+
+P.
+
+[1] https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/pci/devres.c#L18
+
+Philipp Stanner (4):
+  ASoC: sof: Use pure devres PCI
+  ASoC: intel: avs: Use pure devres PCI
+  AsoC: intel: atom: Use pure devres PCI
+  AsoC: intel: atom: Return -ENOMEM if pcim_iomap() fails
+
+ sound/soc/intel/atom/sst/sst_pci.c | 59 ++++++++++++------------------
+ sound/soc/intel/avs/core.c         |  8 +---
+ sound/soc/sof/sof-pci-dev.c        | 16 ++------
+ 3 files changed, 29 insertions(+), 54 deletions(-)
 
 -- 
-2.49.0
+2.48.1
 
