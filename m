@@ -1,165 +1,140 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D959B219305
-	for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 10:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE09D23D2A0
+	for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 10:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745577395; cv=none; b=HV3650v9L8Ms74q4w3lItrYD2OfT/rU/Hit9uYgTv8U5H9Ohm9p49J9699M/5px5fYiTMpf6sDdP469avzUgitvXTrR4rcruSn3+yktGyR8FAQa+7Qr62nWeA0HO6rNq4kW5IiIzAeRkq38x6nkMMeQ9YSxR164Q1PsR5aBDtuk=
+	t=1745577984; cv=none; b=q18nvT5fUGwhawz16s7FBYXYZN29oFNc2drDltCSP1JuNxvPRQo7vVAMaNIxxOJMxdJC5yzepMTyYcJtzrY9SAYIHOV3Z6x3h419vjzvxi0ytI1LYVvkFHy3BK4oWi88tz+OthB9GtBNxkFPhlMtul385Zfo7E3bQpDPD3JTAPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745577395; c=relaxed/simple;
-	bh=GFhXoZBpVouVR/8foGkBqc6Kk0Ehn+CPGRijq2Srx0g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ccnz220tjdtZ2IT+m3LZ/LT0M1GTVJBoOHUtMBfX9i+3GZZMxLDVb4z9N2j2JTvTNsMQCDHJV2BUD4ZufSHIBOMDtLA/9tYBmv0cKxnBFBZNfbwh+f5edDyfBZ1DmuHquWrUlZtnSyG55fvszK6x1y0yOE61/Q7R/cjO3BD6SZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=t6m2hYfc; arc=none smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1745577984; c=relaxed/simple;
+	bh=iR2QT+Zg01hyvLuC1uGIBDhap77AcvqLegcbTN6o5ao=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ME0+S0NY7oxxzpgEpjzAuQchyt1ho/+qrN03gx20m4lgQ6o+FUik9fjVLhdS5pdjOu1GMyiWbnL8nER8E82RPLu7FfDa1pQuyFObY7nwqyADPj8L859ts66VsiISsOWB23VzKaef6iXTVEr1kzXnbbY5iQvSOq8vlN1OyWHiVgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=sbHpT1Ik; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="t6m2hYfc"
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 944E53F2C1
-	for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 10:36:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1745577384;
-	bh=UlV8FLqMpG4IuhIj2Il3KviEhF74QoQwUOeBKHe1Qjc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=t6m2hYfcO565eI+i1/atb+QXBU1jWEL2m3kA0lMjNcU2t0oJkSgEclTKW8RYtldCJ
-	 sblJ4LBqzT0Ip9Z+V03EDkRbKZdkrQCDXQYX+CGCi962rwlMQXrAAi0ysp+L+oMoNV
-	 JGQ2t92rvRCAhQyeksO09fJBS5XBiTgb2m2dyAJR9HG3wVLJBvDDy2V313tUeRXOy4
-	 l+72zXKlvW/tIGa/KARYjIg+5Wk/gnG4L3p7CgUXV1NHDAmSLbrbMCxCrML5TUMdEU
-	 dOcGOHqOOehQIcrCpGbVPrfOyFiS5CtOZbejhj2Ynesa20+mDkueCkvQN0HAstcLiZ
-	 y4zR9wa4DUyiA==
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2240a96112fso34220865ad.2
-        for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 03:36:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="sbHpT1Ik"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ac2902f7c2aso353579066b.1
+        for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 03:46:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1745577980; x=1746182780; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F5pdq7YWG26uzjKtEY1JA4Z5bXu9DJnS7vVzc1STMdQ=;
+        b=sbHpT1IkOzmeeSzCxZ9PoimUQvV+x7lwe/9PY2GvZXCaX6Y7zKRh/OYkf2Y13eAS0S
+         7JGSoNe6qdCp5d4I3Wnx8jBNN/AhVOEjnLG3Tl4KYJIfvQ0TTcWJYCEZBL/QWCEOsPn5
+         ATZft6tJ/78xTiaU6G3ChAUQQuAL9MK/YV1wOC5B3dUr8kt/mgz0dIHM/nOlfeWPylQX
+         aJQQt1BmbM1IlCcTIYuck0pdVxIi2POoy6uKwxHvBFKIkx84hkY3ePvIR+LBhI+ayKUZ
+         Qft7RaC+76ewe4Fpx5Ezh4f6MPf9WNVf1sVS98uPThh5NNcCVHLxJodBYgp6zsIWD0X1
+         hB9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745577383; x=1746182183;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1745577980; x=1746182780;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UlV8FLqMpG4IuhIj2Il3KviEhF74QoQwUOeBKHe1Qjc=;
-        b=dzUaperRwRHaa0USN58r3t7jkUiz4QiKL/keVAkUuf56CIpYHS+ADHxNFDsxsEllg6
-         FpphfOG0mKsqf41D6zunJHwvPVLFAb4+d7OeDxwsNyhQwNREe+h1tYDVoIo6gkRJtdlv
-         WyVQ2W9pNXUMOeKIZ1vM6iONSyxX/E7tID3pWGuN//FtCDDuZV+AcJmI7k0KREzJFlUx
-         bYTBJExCOybeZNnI9QUq40vcgpReKU4dTfrrvQGXXFEC2VIZB2rSIhQSI2cCogzsOKzs
-         /w4swuKSW8cVv7Hp366wOQLAT3oNI2GGMfwrpIaKXdB/umDj9tDuIMYJXSvoqEQAGxym
-         fx+g==
-X-Gm-Message-State: AOJu0YxMucTGKryC1ExiZfIc2gZKIEx9D4mc5KjIplQG4NkHbhvX96fj
-	d+dir0A2/elEDMXr0obd1QME85mRQmMCMLdfEq7czI2lsQDYph/meZ3u3ujsUI1cec7GlbXsXkK
-	8cwBovILfK0Gq6g9tbraqYfmerw+bD0h1pu4UEqQVwGW6zJkH+T6W5ZZy3x1fqKWG6RpU5ZqZ/+
-	15FppwwRTW
-X-Gm-Gg: ASbGncsyDTzrsrjGHK21bR6Jyask1FEgEjiZmamozg7ikcr1CkcuovoKNBFRtVGBqP1
-	Ugi61F9530kvYUftCGzVEcfOliHLEdfoEdd63L3911cK1I9i/RWNOmaSOgt9L6Zv9b5MbRx56rS
-	j9cLgvt4RuURFPatXXZ2gMEp+er9WF0Gq4CIE62XvqC0rDUF0sq+WF3inBfzUG0A422cusstMXd
-	oekDcl1GrUy6uakwraGcq35IuWkp8UES+gPfpbqBx+/yXziNTnShyYcuRZxMBwbMHER3bU33y1T
-	D4MG9v8bSmbkP7ygz9CCpO24tXC1NsV4iVpH2D2PV6GzUakPaw4QnWid6Q==
-X-Received: by 2002:a17:903:1b6e:b0:215:7421:262 with SMTP id d9443c01a7336-22dbf5ea7a3mr31007825ad.12.1745577383036;
-        Fri, 25 Apr 2025 03:36:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGysfY06WhzX2e46KAEm2EG2sF0J+rz7RgUURgZ6K6tYGTQSbdcY3CtC7pl57V728dtecelSg==
-X-Received: by 2002:a17:903:1b6e:b0:215:7421:262 with SMTP id d9443c01a7336-22dbf5ea7a3mr31007415ad.12.1745577382673;
-        Fri, 25 Apr 2025 03:36:22 -0700 (PDT)
-Received: from u-XPS-9320.. (114-36-218-122.dynamic-ip.hinet.net. [114.36.218.122])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309ef063c4csm3083821a91.20.2025.04.25.03.36.21
+        bh=F5pdq7YWG26uzjKtEY1JA4Z5bXu9DJnS7vVzc1STMdQ=;
+        b=Xl31ZvGxgk/e17h5eSC7GDrd1KhgODr4BFM7Y+jbhRcUxarJ+RjRziECH7YhsMnF/u
+         vdvfN9R6lxjehXuXliFt98m3mECytvx8oiME9yxaPanHWBnvmZ32nOgCi3UuO/selgPe
+         UTRGsw90VvQE2xrVUu5ZMDv6uVfiqL1CUhvghfWDVAiepAvic+7pxdv2B44H0gM0JKQO
+         rYr2OkTV3vkDFykg6RJieh0p9b5uaKhw6fVS55AfX4t8g0eKGDsNjM9i+MPe5f+4vjW1
+         mQuqNSI7ZKE2N9Dpoou/Y9n1SQVIwceUyWIf08ejyT1mMpL/seDIpbor/K9u6d00nhiD
+         gaLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWa+DdKlDrKHKcIZZAfbf5bIgwlekrADQsUNVBW99yz7CjHoKSp55aGbgvVAH/b7GHzvfYiisiWAotUIg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDiFL0ThVwk+wp7JyzbwHcV5zR0bJ2spraZWQrIoj4Epq6xWcS
+	KNu39xhht6cyF81rnporMYutt6V0uj6y7g9NNRwrjX/RLQP57cy+FirYAlcKGhA=
+X-Gm-Gg: ASbGncseeGla84cIo8K5DEk40YIMrOALPszHcPvFvPbQ9yrvu1JrnVrCmsr6oQfOvEh
+	zVUBHDUXItfobURbra2Qi6mhAvoEvpLgmuZWH5v4PlRgeEC6mLNVPRXqKG6gVabRQqNVLTfhNVr
+	Sbn4mlTQsScznDuSrcOzr0evZypfTLg2rUHdMxHvKcpkM3UqcEpNdMTfERMTLyWzxe5+2/rvZxy
+	M2EoK4x4Zz0mCQGSvXQWbi1z/lnenY0GJi8eN04SmsQPC+x9Onvb8m7Ffnm6U6eJjUZFWGSxHlL
+	DqDyXt02wMVVHpSIlBNpycqYK3szmqcbmi7AqBfJRVh1B+ozzWvyrRYQOpFhU2HD34Ko0eCf9HD
+	CEGIbANHfMa+tSHF+QJN2NsbHLMBGz8y0sj1rzi1ukaiMnMo3lVBjzbf8
+X-Google-Smtp-Source: AGHT+IHSxX/4jjLy6bJkSV6P+U4/wAbIHKbnuTnzx0/zGfV2LeBwe4KdUt0aEmPPO4N6P5r4/cis2A==
+X-Received: by 2002:a17:907:9349:b0:aca:d6bc:c6d4 with SMTP id a640c23a62f3a-ace7133c372mr148895266b.37.1745577980079;
+        Fri, 25 Apr 2025 03:46:20 -0700 (PDT)
+Received: from [100.64.0.4] (2a02-8388-6584-6400-d322-7350-96d2-429d.cable.dynamic.v6.surfer.at. [2a02:8388:6584:6400:d322:7350:96d2:429d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6e4e7b98sm118765066b.66.2025.04.25.03.46.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 03:36:22 -0700 (PDT)
-From: Chris Chiu <chris.chiu@canonical.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	kailang@realtek.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chris Chiu <chris.chiu@canonical.com>
-Subject: [PATCH] ALSA: hda: Apply volume control on speaker+lineout for HP EliteStudio AIO
-Date: Fri, 25 Apr 2025 18:36:18 +0800
-Message-Id: <20250425103618.534951-1-chris.chiu@canonical.com>
-X-Mailer: git-send-email 2.34.1
+        Fri, 25 Apr 2025 03:46:19 -0700 (PDT)
+From: Luca Weiss <luca.weiss@fairphone.com>
+Subject: [PATCH 0/6] Enable USB audio offloading on Fairphone 4 smartphone
+Date: Fri, 25 Apr 2025 12:44:50 +0200
+Message-Id: <20250425-fp4-usb-audio-offload-v1-0-f90f571636e4@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKJnC2gC/02Oy2rDMBBFf8Vo3QFJo4kfv1KykDSjVlBbrhWbQ
+ si/VziLZHkO3MO9qypblqqm7q42OXLNZWlgPjoVv/3yJZC5sbLaknaWIK0O9hrA75wLlJR+imc
+ Q4j4FIrYDqrZdN0n57+x+Xp+8ye/e8renfNWn7myjNVDnC5IGv25gKKH04oSinw6j3v+cC6cHP
+ bY3BLxCLfvCELC/DAm1GQNPx/kj+CoQyzzn29ThiKwjuegFDZqexftRO0TbbOLRkWsqRHV9PP4
+ B8hLCHBkBAAA=
+X-Change-ID: 20250425-fp4-usb-audio-offload-e5d7fb55d283
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>, 
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Wesley Cheng <quic_wcheng@quicinc.com>, 
+ Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Luca Weiss <luca.weiss@fairphone.com>
+X-Mailer: b4 0.14.2
 
-This hardware has ALC274 codec with speaker NID 0x17 and line out
-NID 0x16 for audio output. The line out is routed correctly but
-the speaker is not. Thus the volume can't be controlled.
+Since the series for the USB sound offloading driver was finally merged,
+we can add the sm6350 dts and enable it on Fairphone 4.
 
-This patch removes DAC NID 0x06 (without volume control) from the
-connection list for speaker NID 0x17. Routing both speaker and line
-out pins to DAC NID 0x02 which controls the output volume.
+A few devicetree binding bits have also been missing in that series, so
+there's some extra patches for the basics in this series.
 
-Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
+Depends on:
+- For qcom,sm8250.yaml & sm8250.c:
+  https://lore.kernel.org/linux-arm-msm/20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com/T/
+- For dts:
+  https://lore.kernel.org/linux-arm-msm/20250321-sm6350-apr-v1-1-7805ce7b4dcf@fairphone.com/
+
+Devicetree patches go through qcom
+
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 ---
- sound/pci/hda/patch_realtek.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Luca Weiss (6):
+      dt-bindings: usb: dwc3: Document usb-soc-be property
+      ASoC: dt-bindings: qcom,q6afe: Document q6usb subnode
+      ASoC: dt-bindings: qcom,sm8250: Add Fairphone 4 sound card
+      ASoC: qcom: sm8250: Add Fairphone 4 soundcard compatible
+      arm64: dts: qcom: sm6350: Add q6usbdai node
+      arm64: dts: qcom: sm7225-fairphone-fp4: Enable USB audio offload support
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 8ed613932c5b..38ed264c3a49 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6742,6 +6742,25 @@ static void alc274_fixup_bind_dacs(struct hda_codec *codec,
- 	codec->power_save_node = 0;
- }
- 
-+/* avoid DAC 0x06 for speaker switch 0x17; it has no volume control */
-+static void alc274_fixup_hp_aio_bind_dacs(struct hda_codec *codec,
-+				    const struct hda_fixup *fix, int action)
-+{
-+	static const hda_nid_t conn[] = { 0x02, 0x03 }; /* exclude 0x06 */
-+	/* The speaker is routed to the Node 0x06 by a mistake, thus the
-+	 * speaker's volume can't be adjusted since the node doesn't have
-+	 * Amp-out capability. Assure the speaker and lineout pin to be
-+	 * coupled with DAC NID 0x02.
-+	 */
-+	static const hda_nid_t preferred_pairs[] = {
-+		0x16, 0x02, 0x17, 0x02, 0x21, 0x03, 0
-+	};
-+	struct alc_spec *spec = codec->spec;
-+
-+	snd_hda_override_conn_list(codec, 0x17, ARRAY_SIZE(conn), conn);
-+	spec->gen.preferred_dacs = preferred_pairs;
-+}
-+
- /* avoid DAC 0x06 for bass speaker 0x17; it has no volume control */
- static void alc289_fixup_asus_ga401(struct hda_codec *codec,
- 				    const struct hda_fixup *fix, int action)
-@@ -7970,6 +7989,7 @@ enum {
- 	ALC294_FIXUP_BASS_SPEAKER_15,
- 	ALC283_FIXUP_DELL_HP_RESUME,
- 	ALC294_FIXUP_ASUS_CS35L41_SPI_2,
-+	ALC274_FIXUP_HP_AIO_BIND_DACS,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -10340,6 +10360,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC294_FIXUP_ASUS_HEADSET_MIC,
- 	},
-+	[ALC274_FIXUP_HP_AIO_BIND_DACS] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc274_fixup_hp_aio_bind_dacs,
-+	},
- };
- 
- static const struct hda_quirk alc269_fixup_tbl[] = {
-@@ -10774,6 +10798,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8ce0, "HP SnowWhite", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8d01, "HP ZBook Power 14 G12", ALC285_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8d18, "HP EliteStudio 8 AIO", ALC274_FIXUP_HP_AIO_BIND_DACS),
- 	SND_PCI_QUIRK(0x103c, 0x8d84, "HP EliteBook X G1i", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8d85, "HP EliteBook 14 G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8d86, "HP Elite X360 14 G12", ALC285_FIXUP_HP_GPIO_LED),
-@@ -10793,6 +10818,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8da1, "HP 16 Clipper OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8da7, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8da8, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8dd4, "HP EliteStudio 8 AIO", ALC274_FIXUP_HP_AIO_BIND_DACS),
- 	SND_PCI_QUIRK(0x103c, 0x8de8, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
- 	SND_PCI_QUIRK(0x103c, 0x8de9, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
- 	SND_PCI_QUIRK(0x103c, 0x8dec, "HP EliteBook 640 G12", ALC236_FIXUP_HP_GPIO_LED),
+ .../devicetree/bindings/sound/qcom,q6afe.yaml      | 13 ++++++++
+ .../devicetree/bindings/sound/qcom,sm8250.yaml     |  1 +
+ .../devicetree/bindings/usb/snps,dwc3-common.yaml  |  4 +++
+ arch/arm64/boot/dts/qcom/sm6350.dtsi               | 11 +++++++
+ arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts  | 37 ++++++++++++++++++++++
+ sound/soc/qcom/sm8250.c                            |  1 +
+ 6 files changed, 67 insertions(+)
+---
+base-commit: 393d0c54cae31317deaa9043320c5fd9454deabc
+change-id: 20250425-fp4-usb-audio-offload-e5d7fb55d283
+prerequisite-change-id: 20250321-sm6350-apr-15f3e7e4e5ca:v1
+prerequisite-patch-id: 69859554c94de52068406dab0d2869ca26072c78
+prerequisite-change-id: 20240809-fp5-dp-sound-b3768f3019bd:v3
+prerequisite-patch-id: 2d8997a2be02cfddf3a054c79e7eb308a6d06710
+prerequisite-patch-id: 1b7c8f00ab50ae71c0221868578b9c1dfe939e4d
+prerequisite-patch-id: 4fd0673c4d35c1fefce63ec5785ff5ea67cc3d3a
+prerequisite-patch-id: f5ec3a893de19900f62dc691d83986f1104914b0
+prerequisite-patch-id: fce7573c39e768f7a09c002064b6159b8e91161a
+
+Best regards,
 -- 
-2.34.1
+Luca Weiss <luca.weiss@fairphone.com>
 
