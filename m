@@ -1,102 +1,141 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7C128B51F;
-	Fri, 25 Apr 2025 17:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D505134CF;
+	Fri, 25 Apr 2025 18:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745602827; cv=none; b=PPIhq3PLIR5+LIyJ1OQZ1s/FAymS9mg+iqGl/muSIvZgYmntGL6r5YfnuSXa7Z76h9gNG3t/ZgcqkbQ/Go+ZVU9wFwWy7003keWpGJLt27qvZmKazbzF7jvggR2sox32SFuOfYKEmLWjtUpbZ9icqlINrItx2IwGueT5zdbqmaE=
+	t=1745604651; cv=none; b=SsClbqk7CkzO4e1eW3QqpVr3aNvzQZIfj9YtyoOdVNqIubWNwfQybiwi1sfk9u3/s2w+1ISqOZ+qcivNBMHSdWBiyXcorQC5W5Y6DR1+VLWRREArBLrdYpg/RU/BUgVja/K6bqYMYkf8Az0IB0nBbAve8HPWXhFolyy1+6S9NqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745602827; c=relaxed/simple;
-	bh=6ocjWhYSI8qotqytj7xpemjZ9TvHkYufmHU9wQ6o7PQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rD0orqJifCiJG1ZNHDWFeVkYUhuAjVyy9gJ1XDfZ9/haeOov0jSbc83t22R07WDcxjmqOkJaqU7bdGjoh9bt9T0GvUFtj2N/3N4mklxzK/uGNwHVr8Vist0N+Q5O+6M6i+vmP0w8T0YYgHaOxOnHT92TLV9wic/EwzOzE9pk/5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A4GTHISz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745604651; c=relaxed/simple;
+	bh=lQpZRp21ypT0sgeo7asX7MEr0T236GBxiJdY2FxeRWg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Fr0iXiDngf0dldDs2UyhcS3gRjyXnoeSL6olBm8B0TOyeU3L8rQmP5K9HLMduCy6kruXxe5h1sH1k1CN2uLgfZjEqh1OktM/Y3JHzAdvdDWIcrmippYEqrt5tFqBuxOBE7fj5+pPhzoIVh+jP4EStrqizUxpJ7qCPlF7pGQilmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h2TDTfs3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A4GTHISz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E6E7C4CEE9;
-	Fri, 25 Apr 2025 17:40:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h2TDTfs3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6665C4CEEC;
+	Fri, 25 Apr 2025 18:10:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745602827;
-	bh=6ocjWhYSI8qotqytj7xpemjZ9TvHkYufmHU9wQ6o7PQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=A4GTHISzejxDwVKOH6fbq91E3XqWLQyoA/9kHeuIDqP51fHYLTEErd2TWcN4ObL8z
-	 t7N++svDsnUYfhFJazaG6x6e2IXo5go8b+7ki9HoV98yxAm0aNFGZydeOPDJpY/hcd
-	 ewRXEsoPMtuv6hFAZyfGODi8tbB3eB4KBKcXTLqcDa90jVgwJSr9l9h176by+nKfxh
-	 +MT3mE9DVGMM2taTLIZEfv7pUFhzZOSicNttNykMXCN6YzdkF9tZcFbWCA6V19gAiJ
-	 QOTFJ5hUfA7E/zVHnfQkd3UVz4C1JfkeyrAhSD6Zvx96PXrtqDqqRSaIyxMniYoOCM
-	 rlseESokSw6Cw==
-From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com, 
- Sunil-kumar.Dommati@amd.com, syed.sabakareem@amd.com, 
- mario.limonciello@amd.com, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- Greg KH <gregkh@linuxfoundation.org>, Peter Zijlstra <peterz@infradead.org>, 
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>
-In-Reply-To: <20250425060144.1773265-1-venkataprasad.potturu@amd.com>
-References: <20250425060144.1773265-1-venkataprasad.potturu@amd.com>
-Subject: Re: [PATCH 1/3] ASoC: amd: acp: Fix NULL pointer deref on acp
- resume path
-Message-Id: <174560282390.225473.13689303737740038724.b4-ty@kernel.org>
-Date: Fri, 25 Apr 2025 18:40:23 +0100
+	s=k20201202; t=1745604650;
+	bh=lQpZRp21ypT0sgeo7asX7MEr0T236GBxiJdY2FxeRWg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=h2TDTfs3ZpnVI68v3FVjz/m3pd0exW3CFjBsys/F3ix1NnXQteaUUXawmoQR5LL5g
+	 zfDc3IjZoA5QUYhZKR/p1y1F0v3CESBsbbD39LkeI4IBCpxaHiMBBghRFlFrItiie6
+	 FZwSdslFnorAzBMxDFvC6DLmXku6bhrmDX8v03Tl6Dpb4BDMz1yb5xJFPIOfnWOu3N
+	 KqcLaOihvCUgQROr053x2m/IlthRJkLJf9EmWubJuYbDAJ7I6/8rPGfP+KN0OOQXLo
+	 Un9Yjfw1ml55c18W9IghF1Mu1xRn60Lh0pTBnWZtY3/uyZA+qOThlk24gNeyo1uOi0
+	 UmFO+bQYTwG9Q==
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3f6aa4b3a7fso883117b6e.3;
+        Fri, 25 Apr 2025 11:10:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUiKzwMWV2Fq2UvyCxcNR+e2f2qYGibAL+0wlmThgwtAfehJD2ybtELLlg7sW4FxDkwNocdi/SzmbNkeRQ=@vger.kernel.org, AJvYcCWdP+WUEjRlaOdB7Xzt6NnmUc6MqhSCxsC7IO3bc1/f3+HGTyO8nyuDR0OnIUX6CsiuRtdFxaSfrpKfTZs=@vger.kernel.org, AJvYcCXMAchKWXtDYF9Qb72oZwJ5sCptKNoDVHCxDE7c/BekXKATt6Maa/6y/j/xyvRFlH/mPAsWq0t6COY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6gNrNsRC4ASP0XT0ieU0vehNuHdItCLdJpbbeVeWhQh6KBTjV
+	OYEDmlGL/HUpLByFT+r7p64T1Cjt1MBwGb4d9onGMZn52ixrvrVciz8h6XjEsM3EtJSfmvksTOD
+	JU2qDg0FiPe46bFYSTSjgFyQQ/jE=
+X-Google-Smtp-Source: AGHT+IFvb6Vhv5Dxm/J63/6/22Y4/PRskp8lXdhtTLQ0lVWAwtUuRa4ZoH9fRoAbaYBBe1pbITHrvSXYlh1CL+rqRnE=
+X-Received: by 2002:a05:6808:6f97:b0:3fe:b1fd:527f with SMTP id
+ 5614622812f47-401f2876531mr2163990b6e.1.1745604650141; Fri, 25 Apr 2025
+ 11:10:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+References: <5891540.DvuYhMxLoT@rjwysocki.net> <30acf520-c137-4b49-8b69-08e35a7c5969@linux.dev>
+In-Reply-To: <30acf520-c137-4b49-8b69-08e35a7c5969@linux.dev>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 25 Apr 2025 20:10:38 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0iCsd8fdXRdicT7mqsRte39WC+SVjgfz2NHS9QpvSnDdw@mail.gmail.com>
+X-Gm-Features: ATxdqUEvMhI4wlWivn1ns9TDCRxes-DbS6sPiVIx2Ga83bbbjc8N-DTq_MZfwd4
+Message-ID: <CAJZ5v0iCsd8fdXRdicT7mqsRte39WC+SVjgfz2NHS9QpvSnDdw@mail.gmail.com>
+Subject: Re: [PATCH v1] soundwire: intel_auxdevice: Fix system suspend/resume handling
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>, Vinod Koul <vkoul@kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, Sanyog Kale <sanyog.r.kale@intel.com>, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 25 Apr 2025 11:31:39 +0530, Venkata Prasad Potturu wrote:
-> update chip data using dev_get_drvdata(dev->parent) instead of
-> dev_get_platdata(dev).
-> 
-> BUG: kernel NULL pointer dereference, address: 0000000000000010
-> Call Trace:
->  <TASK>
->  ? __pfx_platform_pm_resume+0x10/0x10
->  platform_pm_resume+0x28/0x60
->  dpm_run_callback+0x51/0x1a0
->  device_resume+0x1a6/0x2b0
->  dpm_resume+0x168/0x230
-> 
-> [...]
+On Fri, Apr 25, 2025 at 7:14=E2=80=AFPM Pierre-Louis Bossart
+<pierre-louis.bossart@linux.dev> wrote:
+>
+> On 4/24/25 20:13, Rafael J. Wysocki wrote:
+> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >
+> > The code in intel_suspend() and intel_resume() needs to be properly
+> > synchronized with runtime PM which is not the case currently, so fix
+> > it.
+> >
+> > First of all, prevent runtime PM from triggering after intel_suspend()
+> > has started because the changes made by it to the device might be
+> > undone by a runtime resume of the device.  For this purpose, add a
+> > pm_runtime_disable() call to intel_suspend().
+>
+> Allow me to push back on this, because we have to be very careful with a =
+hidden state transition that needs to happen.
+>
+> If a controller was suspended by pm_runtime, it will enter the clock stop=
+ mode.
+>
+> If the system needs to suspend, the controller has to be forced to exit t=
+he clock stop mode and the bus has to restart before we can suspend it, and=
+ that's why we had those pm_runtime_resume().
+>
+> Disabling pm_runtime when entering system suspend would be problematic fo=
+r Intel hardware, it's a known can of worms.
 
-Applied to
+No, it wouldn't AFAICS.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> It's quite possible that some of the code in intel_suspend() is no longer=
+ required because the .prepare will resume the bus properly, but I wanted t=
+o make sure this state transition out of clock-stop is known and taken into=
+ consideration.
+
+This patch doesn't change the functionality in intel_suspend(), it
+just prevents runtime resume running in parallel with it or after it
+from messing up with the hardware.
+
+I don't see why it would be unsafe to do and please feel free to prove me w=
+rong.
+
+What can happen after adding this pm_runtime_disable() that will make
+things not work?
+
+> Bard, is this a configuration you've tested?
+>
+> > Next, once runtime PM has been disabled, the runtime PM status of the
+> > device cannot change, so pm_runtime_status_suspended() can be used
+> > instead of pm_runtime_suspended() in intel_suspend().
+> >
+> > Moreover, checking the runtime PM status of the device in intel_resume(=
+)
+> > is pointless because the device is going to be resumed anyway and the
+> > code running in the case when the pm_runtime_suspended() check in
+> > intel_resume() returns 'true' is harmful.  Namely, calling
+> > pm_runtime_resume() right after pm_runtime_set_active() has no effect
+> > and calling pm_runtime_idle() on the device at that point is invalid
+> > because the device is technically still suspended (it has not been
+> > resumed yet).  Remove that code altogether along with the check leading
+> > to it.
+> >
+> > Finally, call pm_runtime_set_active() at the end intel_resume() to set
+> > the runtime PM status of the device to "active" because it has just bee=
+n
+> > resumed and re-enable runtime PM for it after that.
+>
+>
+>
+> > Additionally, drop the setting of DPM_FLAG_SMART_SUSPEND from the
+> > driver because it has never been necessary and should not have been
+> > done.
+>
+> IIRC it was your recommendation to add this flag many moons ago... No iss=
+ue to remove it, it's just not something any of the 'SoundWire' folks are k=
+nowledgeable with.
+
+But not in this driver.  It doesn't have any early-late or noirq
+callbacks anyway.
 
 Thanks!
-
-[1/3] ASoC: amd: acp: Fix NULL pointer deref on acp resume path
-      commit: ba85883d160515129b58873f74376a89faf21c7c
-[2/3] ASoC: amd: acp: Fix NULL pointer deref in acp_i2s_set_tdm_slot
-      commit: 6d9b64156d849e358cb49b6b899fb0b7d262bda8
-[3/3] ASoC: amd: acp: Fix devm_snd_soc_register_card(acp-pdm-mach) failure
-      commit: 138e6da0392ed067d0db7b5b5b4582c3668cfcf9
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
