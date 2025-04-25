@@ -1,78 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B269192D87;
-	Fri, 25 Apr 2025 18:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA4920E330;
+	Fri, 25 Apr 2025 18:57:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745606722; cv=none; b=f/OyMHsw/qYEBY6fJDWtanX8E+Hlv876qu2v+p0tgM9AxxOD+u4ihJbLTAOcVuLC5jHJwbEJ5dvbkazka9+4kMdFiBXnuCMjl5i4IQjrUtMf3LyMM9mFbFUIzMclnS/A+mtoEzgAJW68miSAYKTVgFcdkT7M2CkxfSplqPGoxOI=
+	t=1745607479; cv=none; b=V34/Iiroj0L6/dMgrM8eZw6Es8IC8kc2MdQz3rLtMudoYnq9leBWzE+Ve9NFNaWOHzD72u/UeH5XNLumIHcZQloSQf3BLfZN195odIV9I3qP0qAt9KqmmopBx/QAkFHp7nwuX69vhil0gI5W6mLt5fXNA+JEFbSxiFVyXH9+EL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745606722; c=relaxed/simple;
-	bh=9Np55gyRaNzYiMR1dClIa2knfogC4NSAlr88zKx5tzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MYy3sSZ3KiJP4W9hwZQoF+BkJpmVsane/EUtnv68lVFC57zVqPy3KYyfe1jprUc32KRF7DYciAX7IFgyn6uSP2EegkkJ2+ylqBBLQ5ejBYmAA1zOB+TIVhtZ3JCBl6WtoF1Llr89H2yi//S04EjBpXMhlZTz9DP/0oF4/CfpVMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XkdYx3Op; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745607479; c=relaxed/simple;
+	bh=QCUtHoRr+hw3FLvlp/XM1ezbeTT0KB5Vrc2W3OgyYPA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=k3iUlvrhcE7cXxJtl6ZqXE3WuRza/BE+hJedERAKSPmlbM0uRtt4RrNEggOF8+4+kASsU1BJUjgxdXZ9FnHM+MgiMWsbHztkbiUogPTXjb68fXFAoe1Y4aszgJVFPRUkhTjyEOPv2DyQJJuYA2i7XuCNFqPPj+uiFSrRJkjBloI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U4L45BK/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XkdYx3Op"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83B2EC4CEE9;
-	Fri, 25 Apr 2025 18:45:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U4L45BK/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B358EC4CEE9;
+	Fri, 25 Apr 2025 18:57:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745606721;
-	bh=9Np55gyRaNzYiMR1dClIa2knfogC4NSAlr88zKx5tzk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XkdYx3OpgizUSDTrAFbRe2/HBJ1opXhBLCZrlCKWZc1TAivTj2qsJUn0xIOjnPXNs
-	 m6JvPq5PvxvMPClt4acLlbtsFvXIU5SMVxZD3InBk1xom9pMY6DafG89+A0W333BOQ
-	 Dqg8Z3OHr91kEJdkjQMstVaHF70k3H6Nrafbfl0eX8w5eJSlROAwIyU6D2gcuZPWy4
-	 qLXCqQ2wBBBV+Eg5/tRz0glOQuaa6Sny2CiBPRm9ybvSXr3sBtQksYfUELZP/yzjfs
-	 wxBswDuC8QvYn30zQf1FSEzfDpOAQi6VtC+hDjYPaxxxs4hcjCaX9E0FAaEiwfNspn
-	 wFBBDgFOVOY4Q==
-Date: Fri, 25 Apr 2025 13:45:19 -0500
-From: Rob Herring <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org
-Subject: Re: [PATCH v4 1/9] dt-bindings: renesas,sh-msiof: Add MSIOF I2S
- Sound support
-Message-ID: <20250425184519.GA2678830-robh@kernel.org>
-References: <871ptq4blr.wl-kuninori.morimoto.gx@renesas.com>
- <87zfge2x0u.wl-kuninori.morimoto.gx@renesas.com>
+	s=k20201202; t=1745607479;
+	bh=QCUtHoRr+hw3FLvlp/XM1ezbeTT0KB5Vrc2W3OgyYPA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=U4L45BK/2bJW+Gdw1ur9V5St/7qZyQRVVOaOKhv1W76io/YF5MP01tW3vIqTJ8Zie
+	 otpEKYowkPYle8Hws6K7Yvsu1dy3rsUWnaebljntFjBlk/lida1FiHMA/YveeA8trh
+	 /4k8a8UPMJj4sAC8FRhXYU3XpGH6X5fEuBl5CPXkRmdZquAkoiMM1/AUUK0573/ppS
+	 yVOfEZpE3d+p+bl9o/hswrquOp6aUVSvsVy9oi2FtqPW+qX4gYOxa532/MfaaFoKTk
+	 /AjdnNZhFypbcxhRTkNFWzluQalZ1FCJ4MNLNwH/tOakU4gvc0byg2JfiW33fCl1ln
+	 sAIUHOrAJgJRg==
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, Peng Fan <peng.fan@nxp.com>, 
+ Lucas Stach <l.stach@pengutronix.de>
+In-Reply-To: <20250414-asoc-tpa6130a2-v1-0-5f4052e656a0@nxp.com>
+References: <20250414-asoc-tpa6130a2-v1-0-5f4052e656a0@nxp.com>
+Subject: Re: [PATCH 0/3] ASoC: codec: tpa6130a2: Convert to GPIO
+ descriptors
+Message-Id: <174560747646.245250.8799938945020912124.b4-ty@kernel.org>
+Date: Fri, 25 Apr 2025 19:57:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zfge2x0u.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-On Thu, Apr 17, 2025 at 11:22:58PM +0000, Kuninori Morimoto wrote:
-> Renesas MSIOF (Clock-Synchronized Serial Interface with FIFO) can work as
-> both SPI and I2S. MSIOF-I2S will use Audio Graph Card/Card2 driver which
-> uses Of-Graph in DT.
+On Mon, 14 Apr 2025 16:34:22 +0800, Peng Fan (OSS) wrote:
+> Per Mark's comments in [1], each driver in one patchset and not merge
+> the changes to one driver in one patch, so worked out three patches.
 > 
-> MSIOF-SPI/I2S are using same DT compatible properties.
-> MSIOF-I2S         uses Of-Graph for Audio-Graph-Card/Card2,
-> MSIOF-SPI doesn't use  Of-Graph.
-
-That's some odd spacing...
-
+> - Sort the included headers.
+> - Drop sound/tpa6130a2-plat.h because no user is creating the device using
+>    platform data
+> - Covert to GPIO descriptors
 > 
-> Adds schema for MSIOF-I2S (= Sound).
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  .../bindings/spi/renesas,sh-msiof.yaml        | 43 ++++++++++++-------
->  1 file changed, 27 insertions(+), 16 deletions(-)
+> [...]
 
-Otherwise,
+Applied to
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/3] ASoC: codec: tpa6130a2: Sort headers alphabetically
+      commit: b194e82b289cf3b382a9a69f0ef07dca887293bb
+[2/3] ASoC: codec: tpa6130a2: Remove tpa6130a2_platform_data
+      commit: 63a9362c7172c74f6df19195c3e7491d3ec123ca
+[3/3] ASoC: codec: tpa6130a2: Convert to GPIO descriptors
+      commit: c27c31302601b648eb0fd6fc3a69c9a0c10eb6a4
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
