@@ -1,292 +1,126 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917BA2356B0
-	for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 08:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C80521D5A6;
+	Fri, 25 Apr 2025 08:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745569566; cv=none; b=AD0RetsJcCuWDu2dHTFIL4X0inMWXJtvmxeT4Hr7zisjHvaoDVL7/45oEQ8nW4vW823yWvH6BK8UsERZqeSGBGvrZeG1rh+Vua47JZLWUCL8XXuVZM5KbC/x7ZlWEvSYe8lZVagcl0/kHOlbmnc4OXBAIKp6RU6JoBblq02l5A4=
+	t=1745571330; cv=none; b=PE1HHBduG3lWDTBsXYMJTCLjU+E2K4tkHwTj4xTUVfi5FAC0IkoDYWGgGbYyGr1GYoNYNgTM3iI4CGc27Z23GUSarh9I73StjBIo4Wn81wqDFezHwA+Tt5Pq74TtwB5jbWujzkWJAdBr/9SBHzsDIgOpYAurqfMeG4FIUdZ9das=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745569566; c=relaxed/simple;
-	bh=sd9Zy3RykMw81bElq6sMYsARq4HQCJuVXQCjD6fXNKE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DrTf4xvmfPIbx3OVrkH2V2fUacmgmDNtT1SJ9YsdtONx+J47fvFCqG5F1t8hBjoUkYosxrrPNfVQV5Zn6D7AJ+4b0aXRh/ZzinkuREQm+Za+Y7o4sOQ2t2J2whulWgs4MIhyxyxCaV/vrNQEaQV6+J6GjnicdPUo548ombGet3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LPALg9Zy; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1745571330; c=relaxed/simple;
+	bh=2rHqo5iAjG0b/hNzovE1R8cm9rsn9pApt5tCHJ1LOPA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=BY/pSNNg0IoeFUuvTtk5Pv56DY3+IGMV15PXg1ECKQiQpDoXUbUsoCjI4BYWeYmeZ4ppivhHqKDRojUpP9gIa5qa/3c28BT8PS9lJ6IYyR41qbQ4T7gb/otzIftvfNr3okUvarKerc/FLL6P9KwF/wNTIBuQ9Gb1rYl1+JuUbRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=iGMDy2bN; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LPALg9Zy"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-224341bbc1dso24574615ad.3
-        for <linux-sound@vger.kernel.org>; Fri, 25 Apr 2025 01:26:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1745569564; x=1746174364; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UIoPxPd/4SKxFzQ2sbT9yyaISz0ZfnDIApKeqMxKAVM=;
-        b=LPALg9ZyJfzZr0rOhmaGx91kJTExQbfQYKmej7aoK4YwQ+4p8gDbRqBqmrCJ+0KYdY
-         fEhauZdgUQecwXzOtVUb+Ikz8Tw+H48x1nTsiRwcamScPKufEQaWw31b7XwuUf8u6Bq8
-         rnCJWtaGJ2DzxyKC0sa5lQyRtWOSA7qh+xesE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745569564; x=1746174364;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UIoPxPd/4SKxFzQ2sbT9yyaISz0ZfnDIApKeqMxKAVM=;
-        b=aShGCjO77hjFuT8OaHFguQRAbrSATUbiPlRbjA8OtYDdQezOS9EL6vi9hAEkMxnEM5
-         rHRaNyZpbpitrm7KzQRFJsEe0lOIUAjv/JLwKCJD3i35piNrxhWguLio0QqLz8M+wK7l
-         1dtD9Z/HYhn0Expysdbc83lfHOTE7a5GoX/FuzLN5tUIk/EjiICTdAiyVonIfaMuk/Ii
-         n8GokkYr2u0wwnp2P3MO98r9VSWKTjSLYMIuV3n0NRX8vpNFWJrocofZI35nmQTxuGD8
-         kkyQWVlFvBJ4HO6mTdo2VMhVBkIzQInjIpkYVGAhTY3jzlfILNWQ44+wRQZ6b3q7jm7h
-         HV0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVgP3d2/Efn3O0DoHlrWOXxI1+T8SDUPAoqGKO8hXshdndCkCTMiUBviiUF8kJr0kM9VCzKSipYCawQXg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznnLW2BLmh0ZQzdHQtEGKKE1Jps9LWLKMGmerGdUXhQSawNoxU
-	PL3HaU/tuqNFWrTJUpBxv7xugVr5vVsDEnVnb5I1qltJG8Lr7k74/xXu6B6YwQ==
-X-Gm-Gg: ASbGnct4li4d0VdMvRa8Ea0npznFW0Gnq3Mzr1uKbGk66U4YCN+E1GievMGdAUdlkyQ
-	LAtzk0EJXQnGVyLBUG0y/Z2iCGdz5Fu0X9i2CAEgOVYvy+aB8sE820tKjcFhVgF5kaH4rHFX353
-	/vsBpmu/Y7sHLG05QLfrVYNCz7BbF2+Ry9bZmTyzlxeHBooO9biidjBpIMRVxlEAs7A0uG24HFV
-	il/DY55K9VwaoIbYy3teJXfZmKNS//QHQPoSTErH6LQkXOcl2OCSHBLLpibj4UtGMxDM8V0+EKI
-	06p90TTOLKY7TpTrGHUQgqZZChM8KKZ/mHLDnv27JV/Ah4O8B++0MRMHi5HLNjg69qFr5w==
-X-Google-Smtp-Source: AGHT+IF7ci9aHN2WDhs7A1XDuuym2fXQ0c+JrRPPEzEqgV1pI/nJMNeBjSjR3voxcnyJVTXvDDG1FQ==
-X-Received: by 2002:a17:90b:35c5:b0:2ee:c6c8:d89f with SMTP id 98e67ed59e1d1-309f7df0012mr2983136a91.14.1745569563829;
-        Fri, 25 Apr 2025 01:26:03 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:4b10:d9aa:98d0:5bb5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309f77417d6sm1019179a91.4.2025.04.25.01.26.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 01:26:03 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jiaxin Yu <jiaxin.yu@mediatek.com>,
-	linux-sound@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Darren Ye <darren.ye@mediatek.com>
-Subject: [PATCH 3/3] ASoC: mediatek: mt8183-afe-pcm: shorten mt8183_is_volatile_reg()
-Date: Fri, 25 Apr 2025 16:25:50 +0800
-Message-ID: <20250425082551.1467042-4-wenst@chromium.org>
-X-Mailer: git-send-email 2.49.0.850.g28803427d3-goog
-In-Reply-To: <20250425082551.1467042-1-wenst@chromium.org>
-References: <20250425082551.1467042-1-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="iGMDy2bN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1745571317; x=1746176117; i=markus.elfring@web.de;
+	bh=2rHqo5iAjG0b/hNzovE1R8cm9rsn9pApt5tCHJ1LOPA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=iGMDy2bN2m3KL0jkWCUdZDelp6CzZdbPTWPRzyQAbCZA4HYGz3D+BQ+Uo1qdv+CX
+	 Mz7F0bp8QvcjDPS5L2L5285ZEXjL2tWMhNHf7IB9g+Y4VXuu5uVNmWiXp3Cqnf3XY
+	 D6nwml0A5iyPrLemqV3JmxEcR08my2UW24vD07zjaU4ny+ax8x6ljebgghvGRZZy1
+	 Ngq5+bY5Jsb2xMZHXnvWw/RnnNCrzn/w5U4/16PeTrYCKeyH6wJ2HEMlHRUKGAktp
+	 Iv8XUKMqa7LrEamUKJfgDjPTT7GBCHRQcOY3//Tfs16T81S3Q3Rbb9VtR+hYP4gJq
+	 MGYLoawV8ot3GYyW0g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.30]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MK52w-1uO6jT22xC-00Z2H8; Fri, 25
+ Apr 2025 10:55:17 +0200
+Message-ID: <6f4ee1e8-aa28-4d20-96bc-b2a7343ddbcc@web.de>
+Date: Fri, 25 Apr 2025 10:55:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Basavaraj Hiregoudar <Basavaraj.Hiregoudar@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Mark Brown <broonie@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>, Takashi Iwai <tiwai@suse.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+References: <20250425060144.1773265-1-venkataprasad.potturu@amd.com>
+Subject: Re: [PATCH 1/3] ASoC: amd: acp: Fix NULL pointer deref on acp resume
+ path
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250425060144.1773265-1-venkataprasad.potturu@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:eIdHnT89rCkS98IKHq2dzDYSrd2l7G7FiHWxoJLvaoiJJqUoU+V
+ SFLBbfRsBieyYQYcTZbwgsMZndheHKhEkzFY3AWzYEWsGwDAdi6nY01fAHzR0MRic0Kh4Av
+ M9UR8PhegAFlJzjAwRpQLWaQ479ze4HCWm9XH91gt5G7c9rf2s+cL6HpQ+wHYkHqCeRy/3A
+ AUd+22rDyk5rmoO00udlg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:bmmKuV/3kyA=;N1Dc1Br7anU8H4uR3L6l0IjYBbo
+ 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
+ 8V1trREApySn7803S2skJc=
 
-mt8183_is_volatile_reg() is a large switch-case block that lists out
-every register that is volatile. Since many pairs of registers have
-consecutive addresses, the cases can be compressed down with the
-ellipsis, i.e. GCC extension "case ranges" [1] to cover more addresses
-in one case, shortening the source code.
+> update chip data using dev_get_drvdata(dev->parent) instead of
+> dev_get_platdata(dev).
+=E2=80=A6
 
-This is not completely the same, since the addresses are 4-byte aligned,
-and using the case ranges feature adds all unaligned addresses in
-between. In practice this doesn't matter since the unaligned addresses
-are blocked by the regmap core. This also ends up compiling slightly
-smaller with a reduction of 128 bytes in the text section.
+* Would you get into the mood to replace the text =E2=80=9Cderef=E2=80=9D =
+in the summary phrase?
 
-[1] https://gcc.gnu.org/onlinedocs/gcc/Case-Ranges.html
+* Can a cover letter usually be helpful for such a patch series?
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- sound/soc/mediatek/mt8183/mt8183-afe-pcm.c | 152 ++++++---------------
- 1 file changed, 40 insertions(+), 112 deletions(-)
 
-diff --git a/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c b/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
-index 5e340e77b9d5..c88a6705bf7e 100644
---- a/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
-@@ -533,86 +533,46 @@ static bool mt8183_is_volatile_reg(struct device *dev, unsigned int reg)
- 	/* these auto-gen reg has read-only bit, so put it as volatile */
- 	/* volatile reg cannot be cached, so cannot be set when power off */
- 	switch (reg) {
--	case AUDIO_TOP_CON0:	/* reg bit controlled by CCF */
--	case AUDIO_TOP_CON1:	/* reg bit controlled by CCF */
-+	case AUDIO_TOP_CON0 ... AUDIO_TOP_CON1:	/* reg bit controlled by CCF */
- 	case AUDIO_TOP_CON3:
--	case AFE_DL1_CUR:
--	case AFE_DL1_END:
--	case AFE_DL2_CUR:
--	case AFE_DL2_END:
--	case AFE_AWB_END:
--	case AFE_AWB_CUR:
--	case AFE_VUL_END:
--	case AFE_VUL_CUR:
--	case AFE_MEMIF_MON0:
--	case AFE_MEMIF_MON1:
--	case AFE_MEMIF_MON2:
--	case AFE_MEMIF_MON3:
--	case AFE_MEMIF_MON4:
--	case AFE_MEMIF_MON5:
--	case AFE_MEMIF_MON6:
--	case AFE_MEMIF_MON7:
--	case AFE_MEMIF_MON8:
--	case AFE_MEMIF_MON9:
--	case AFE_ADDA_SRC_DEBUG_MON0:
--	case AFE_ADDA_SRC_DEBUG_MON1:
--	case AFE_ADDA_UL_SRC_MON0:
--	case AFE_ADDA_UL_SRC_MON1:
-+	case AFE_DL1_CUR ... AFE_DL1_END:
-+	case AFE_DL2_CUR ... AFE_DL2_END:
-+	case AFE_AWB_END ... AFE_AWB_CUR:
-+	case AFE_VUL_END ... AFE_VUL_CUR:
-+	case AFE_MEMIF_MON0 ... AFE_MEMIF_MON9:
-+	case AFE_ADDA_SRC_DEBUG_MON0 ... AFE_ADDA_SRC_DEBUG_MON1:
-+	case AFE_ADDA_UL_SRC_MON0 ... AFE_ADDA_UL_SRC_MON1:
- 	case AFE_SIDETONE_MON:
--	case AFE_SIDETONE_CON0:
--	case AFE_SIDETONE_COEFF:
-+	case AFE_SIDETONE_CON0 ... AFE_SIDETONE_COEFF:
- 	case AFE_BUS_MON0:
--	case AFE_MRGIF_MON0:
--	case AFE_MRGIF_MON1:
--	case AFE_MRGIF_MON2:
--	case AFE_I2S_MON:
-+	case AFE_MRGIF_MON0 ... AFE_I2S_MON:
- 	case AFE_DAC_MON:
--	case AFE_VUL2_END:
--	case AFE_VUL2_CUR:
--	case AFE_IRQ0_MCU_CNT_MON:
--	case AFE_IRQ6_MCU_CNT_MON:
--	case AFE_MOD_DAI_END:
--	case AFE_MOD_DAI_CUR:
--	case AFE_VUL_D2_END:
--	case AFE_VUL_D2_CUR:
--	case AFE_DL3_CUR:
--	case AFE_DL3_END:
-+	case AFE_VUL2_END ... AFE_VUL2_CUR:
-+	case AFE_IRQ0_MCU_CNT_MON ... AFE_IRQ6_MCU_CNT_MON:
-+	case AFE_MOD_DAI_END ... AFE_MOD_DAI_CUR:
-+	case AFE_VUL_D2_END ... AFE_VUL_D2_CUR:
-+	case AFE_DL3_CUR ... AFE_DL3_END:
- 	case AFE_HDMI_OUT_CON0:
--	case AFE_HDMI_OUT_CUR:
--	case AFE_HDMI_OUT_END:
--	case AFE_IRQ3_MCU_CNT_MON:
--	case AFE_IRQ4_MCU_CNT_MON:
--	case AFE_IRQ_MCU_STATUS:
--	case AFE_IRQ_MCU_CLR:
-+	case AFE_HDMI_OUT_CUR ... AFE_HDMI_OUT_END:
-+	case AFE_IRQ3_MCU_CNT_MON... AFE_IRQ4_MCU_CNT_MON:
-+	case AFE_IRQ_MCU_STATUS ... AFE_IRQ_MCU_CLR:
- 	case AFE_IRQ_MCU_MON2:
--	case AFE_IRQ1_MCU_CNT_MON:
--	case AFE_IRQ2_MCU_CNT_MON:
--	case AFE_IRQ1_MCU_EN_CNT_MON:
--	case AFE_IRQ5_MCU_CNT_MON:
-+	case AFE_IRQ1_MCU_CNT_MON ... AFE_IRQ5_MCU_CNT_MON:
- 	case AFE_IRQ7_MCU_CNT_MON:
- 	case AFE_GAIN1_CUR:
- 	case AFE_GAIN2_CUR:
- 	case AFE_SRAM_DELSEL_CON0:
--	case AFE_SRAM_DELSEL_CON2:
--	case AFE_SRAM_DELSEL_CON3:
--	case AFE_ASRC_2CH_CON12:
--	case AFE_ASRC_2CH_CON13:
-+	case AFE_SRAM_DELSEL_CON2 ... AFE_SRAM_DELSEL_CON3:
-+	case AFE_ASRC_2CH_CON12 ... AFE_ASRC_2CH_CON13:
- 	case PCM_INTF_CON2:
--	case FPGA_CFG0:
--	case FPGA_CFG1:
--	case FPGA_CFG2:
--	case FPGA_CFG3:
--	case AUDIO_TOP_DBG_MON0:
--	case AUDIO_TOP_DBG_MON1:
--	case AFE_IRQ8_MCU_CNT_MON:
--	case AFE_IRQ11_MCU_CNT_MON:
--	case AFE_IRQ12_MCU_CNT_MON:
-+	case FPGA_CFG0 ... FPGA_CFG1:
-+	case FPGA_CFG2 ... FPGA_CFG3:
-+	case AUDIO_TOP_DBG_MON0 ... AUDIO_TOP_DBG_MON1:
-+	case AFE_IRQ8_MCU_CNT_MON ... AFE_IRQ12_MCU_CNT_MON:
- 	case AFE_CBIP_MON0:
--	case AFE_CBIP_SLV_MUX_MON0:
--	case AFE_CBIP_SLV_DECODER_MON0:
-+	case AFE_CBIP_SLV_MUX_MON0 ... AFE_CBIP_SLV_DECODER_MON0:
- 	case AFE_ADDA6_SRC_DEBUG_MON0:
--	case AFE_ADD6A_UL_SRC_MON0:
--	case AFE_ADDA6_UL_SRC_MON1:
-+	case AFE_ADD6A_UL_SRC_MON0... AFE_ADDA6_UL_SRC_MON1:
- 	case AFE_DL1_CUR_MSB:
- 	case AFE_DL2_CUR_MSB:
- 	case AFE_AWB_CUR_MSB:
-@@ -622,55 +582,23 @@ static bool mt8183_is_volatile_reg(struct device *dev, unsigned int reg)
- 	case AFE_VUL_D2_CUR_MSB:
- 	case AFE_DL3_CUR_MSB:
- 	case AFE_HDMI_OUT_CUR_MSB:
--	case AFE_AWB2_END:
--	case AFE_AWB2_CUR:
-+	case AFE_AWB2_END ... AFE_AWB2_CUR:
- 	case AFE_AWB2_CUR_MSB:
--	case AFE_ADDA_DL_SDM_FIFO_MON:
--	case AFE_ADDA_DL_SRC_LCH_MON:
--	case AFE_ADDA_DL_SRC_RCH_MON:
--	case AFE_ADDA_DL_SDM_OUT_MON:
--	case AFE_CONNSYS_I2S_MON:
--	case AFE_ASRC_2CH_CON0:
--	case AFE_ASRC_2CH_CON2:
--	case AFE_ASRC_2CH_CON3:
--	case AFE_ASRC_2CH_CON4:
--	case AFE_ASRC_2CH_CON5:
--	case AFE_ASRC_2CH_CON7:
--	case AFE_ASRC_2CH_CON8:
--	case AFE_MEMIF_MON12:
--	case AFE_MEMIF_MON13:
--	case AFE_MEMIF_MON14:
--	case AFE_MEMIF_MON15:
--	case AFE_MEMIF_MON16:
--	case AFE_MEMIF_MON17:
--	case AFE_MEMIF_MON18:
--	case AFE_MEMIF_MON19:
--	case AFE_MEMIF_MON20:
--	case AFE_MEMIF_MON21:
--	case AFE_MEMIF_MON22:
--	case AFE_MEMIF_MON23:
--	case AFE_MEMIF_MON24:
--	case AFE_ADDA_MTKAIF_MON0:
--	case AFE_ADDA_MTKAIF_MON1:
-+	case AFE_ADDA_DL_SDM_FIFO_MON ... AFE_ADDA_DL_SDM_OUT_MON:
-+	case AFE_CONNSYS_I2S_MON ... AFE_ASRC_2CH_CON0:
-+	case AFE_ASRC_2CH_CON2 ... AFE_ASRC_2CH_CON5:
-+	case AFE_ASRC_2CH_CON7 ... AFE_ASRC_2CH_CON8:
-+	case AFE_MEMIF_MON12 ... AFE_MEMIF_MON24:
-+	case AFE_ADDA_MTKAIF_MON0 ... AFE_ADDA_MTKAIF_MON1:
- 	case AFE_AUD_PAD_TOP:
- 	case AFE_GENERAL1_ASRC_2CH_CON0:
--	case AFE_GENERAL1_ASRC_2CH_CON2:
--	case AFE_GENERAL1_ASRC_2CH_CON3:
--	case AFE_GENERAL1_ASRC_2CH_CON4:
--	case AFE_GENERAL1_ASRC_2CH_CON5:
--	case AFE_GENERAL1_ASRC_2CH_CON7:
--	case AFE_GENERAL1_ASRC_2CH_CON8:
--	case AFE_GENERAL1_ASRC_2CH_CON12:
--	case AFE_GENERAL1_ASRC_2CH_CON13:
-+	case AFE_GENERAL1_ASRC_2CH_CON2 ... AFE_GENERAL1_ASRC_2CH_CON5:
-+	case AFE_GENERAL1_ASRC_2CH_CON7 ... AFE_GENERAL1_ASRC_2CH_CON8:
-+	case AFE_GENERAL1_ASRC_2CH_CON12 ... AFE_GENERAL1_ASRC_2CH_CON13:
- 	case AFE_GENERAL2_ASRC_2CH_CON0:
--	case AFE_GENERAL2_ASRC_2CH_CON2:
--	case AFE_GENERAL2_ASRC_2CH_CON3:
--	case AFE_GENERAL2_ASRC_2CH_CON4:
--	case AFE_GENERAL2_ASRC_2CH_CON5:
--	case AFE_GENERAL2_ASRC_2CH_CON7:
--	case AFE_GENERAL2_ASRC_2CH_CON8:
--	case AFE_GENERAL2_ASRC_2CH_CON12:
--	case AFE_GENERAL2_ASRC_2CH_CON13:
-+	case AFE_GENERAL2_ASRC_2CH_CON2 ... AFE_GENERAL2_ASRC_2CH_CON5:
-+	case AFE_GENERAL2_ASRC_2CH_CON7 ... AFE_GENERAL2_ASRC_2CH_CON8:
-+	case AFE_GENERAL2_ASRC_2CH_CON12 ... AFE_GENERAL2_ASRC_2CH_CON13:
- 		return true;
- 	default:
- 		return false;
--- 
-2.49.0.850.g28803427d3-goog
-
+Regards,
+Markus
