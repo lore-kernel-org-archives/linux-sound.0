@@ -1,173 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE4B2F44;
-	Sat, 26 Apr 2025 13:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4801B18991E
+	for <linux-sound@vger.kernel.org>; Sat, 26 Apr 2025 14:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745674238; cv=none; b=jSuDHkTq8iSaYVKd3+2muy5FZjDuaijciLqHbPtQqfAvTaKVj3uLVHcctzJVP4CyuRr85uSCWwqIWnnLRJcA0Pih0Pj0SgrGwnDmG20PYuwz+XkeLpyLuTslGuxMztduuVEhQT2lxB6T2DnfLjPm9ty5NMYuL7ebja9D8ymGg94=
+	t=1745676931; cv=none; b=PPs8/28OeGBx1dr4XqHHxkx/mbU0YalB4EqMj/pGw478SB4cCAK1JgDzZjQB0o4XRkJ4B43YEJamls54EbsGNh41HzUnOH0efkg7ofXFsLk6wU5wsOjdjfZaJPI2AvAzQ9MbJJKvW/625vuwEG6NxRECHtCpN+KDdwMWG2XDg6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745674238; c=relaxed/simple;
-	bh=K827jkdV1zwBCcNUq2aRPRtdn0WqO1I3TTuj+q5Ts3U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qHme2Ny35YsR4e7HzikPPiMRoayIEadnJ2RF2Py9bPSiMK24hDwLhJA9HR8kHqP0risfCahikfVa2e4hiSaTuD82tUeEFIP3WgoRgTmm0l7sF7A4hQwfnpqZlLTYmanceaMR4bgsVuCEdaZl+TEtmKoNKESuamNFn5R8m5kG3HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JDdgGJaP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745676931; c=relaxed/simple;
+	bh=waxnxui2QviIgVgc1bJMLxZrKM8b8gL7fbw12cESlfA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EN48BlNtYZNNcER7VELsFV/+a0UDpe/NAfUq7gqh/lc7LFqD3f++I4dHtRfPZ3szAfPXMtE4SZle8OHKscJ8iY6cYORjYgYtdBg87PEP+GGdsBYmr7gGM7jrVFo3aPJM2OPnjGvWIM81KBQyzEGqOfY2puo94GLSTqt+9xh3yYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bzn62s7J; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JDdgGJaP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA132C4CEEC;
-	Sat, 26 Apr 2025 13:30:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745674237;
-	bh=K827jkdV1zwBCcNUq2aRPRtdn0WqO1I3TTuj+q5Ts3U=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JDdgGJaPsm0bFzVCnMaL0+YV/gpyxEpD1OxGJnBOZ3sQpaVPSgDHak4ewTtudpQzJ
-	 jFdDafDQHJ9Uvlt9ZNrb3+vCwM6RjQYy5yXPkWjICSqFRS4hgnhggPmyUjX/fCx4yp
-	 kM9jXl8mPaJEj+mNaQdKRGXAVlqyKBvwgXgNca4crgrW34P0rYZvr9Mf+2L3zKZfJL
-	 0eFKxzv5ZtReGR53E+aFBolQwYQ0qh78v7VBG9xCw2iv6tF7ntoqgd2Lr4yMZuCs/A
-	 sgBQ3p5R+Vx6aK1JVD32m0Q6USlqiox1FANS0PJ3jwkmyZPNQu8wjgNRpTzTcqPXde
-	 3WbDHrMHtR71g==
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2d09d495c6cso813468fac.3;
-        Sat, 26 Apr 2025 06:30:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUbjRbq4ASNH3SBemx0iL+ohjYBw5+eVT/aywQ3PdcIW9H4qz8W6eAHd0sEDgHfTYfqx2ZIHuCZNsEHjlI=@vger.kernel.org, AJvYcCUdImfB8TIHg8owaaLvsJGextXDQuR2jH+atgk2gbYa0i5EyOf4CC5sWrVrBJIVlhQkAeosSPA/fxJdA6Q=@vger.kernel.org, AJvYcCV5B9sDQluZJUCN2jJ2V1V5srBivzoUi7Ml36zd4eWLTXmNoqt4G/bZBSVk4JgLLsy4cpWHkZNLmWE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjpqjkITdJ9IicoI5OULWjFV3mjEzHWQNmWrqqi+g48u/2c3ln
-	ouED2SJhPvEhzxCiw9ue5nzT9rA6AvkVSnUturDMCPaxinHVVFq6EUrx84l/QeVdR3Y3BM1abDi
-	x8aDrKFuXQb2+9w/NJjkE/i/JsWM=
-X-Google-Smtp-Source: AGHT+IEiWI3yojtu+4lFaEnbyWAbSDzO/PB83FZ3LgAebeyovkUwky9ls5b5wQK6vkkZagbi/hGfeVKdmi3kVZ1O8AM=
-X-Received: by 2002:a05:6870:56a9:b0:2d8:957a:5176 with SMTP id
- 586e51a60fabf-2d9be4fdaffmr1923936fac.5.1745674237112; Sat, 26 Apr 2025
- 06:30:37 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bzn62s7J"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1745676926;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mUBNglOjxjHnOAYE8awUGQe+npyVpW3mA3ETw0TrBFM=;
+	b=bzn62s7JydhnsLQL69Auu0A6opRMbBOQUOOo/ciBxpsgYxEG+TYfYzlWa0GI3N+VHZ9R1c
+	g+8iCN4LeHP3Zv4TgWRFBv/lq6DhsErIcjI6IzKeOQjhV51ZUkUsKrivzu0zslPJQjL5/T
+	Qb2IFBUx563z5s1i4qJIcA6wm92DEsQ=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
+	Piotr Maziarz <piotrx.maziarz@linux.intel.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: Intel: avs: Fix kcalloc() sizes
+Date: Sat, 26 Apr 2025 16:13:41 +0200
+Message-ID: <20250426141342.94134-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5891540.DvuYhMxLoT@rjwysocki.net> <30acf520-c137-4b49-8b69-08e35a7c5969@linux.dev>
- <CAJZ5v0iCsd8fdXRdicT7mqsRte39WC+SVjgfz2NHS9QpvSnDdw@mail.gmail.com> <CAJZ5v0iFPf=WT3CjNqtioUoiX9jc5nmZLJnAkQOhBTmGq_ioAw@mail.gmail.com>
-In-Reply-To: <CAJZ5v0iFPf=WT3CjNqtioUoiX9jc5nmZLJnAkQOhBTmGq_ioAw@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Sat, 26 Apr 2025 15:30:25 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jG7crhwnK0Tr0aswGWDFMc3o5QSPEDfQ+WRo+VPbYJKQ@mail.gmail.com>
-X-Gm-Features: ATxdqUHAoMksK2L1eNkdJCS9oDNKxpI8yqtR-TIAHgcVAFMKAjFPBaEZ-e5ngvw
-Message-ID: <CAJZ5v0jG7crhwnK0Tr0aswGWDFMc3o5QSPEDfQ+WRo+VPbYJKQ@mail.gmail.com>
-Subject: Re: [PATCH v1] soundwire: intel_auxdevice: Fix system suspend/resume handling
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>, Vinod Koul <vkoul@kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Apr 25, 2025 at 8:43=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.or=
-g> wrote:
->
-> On Fri, Apr 25, 2025 at 8:10=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.=
-org> wrote:
-> >
-> > On Fri, Apr 25, 2025 at 7:14=E2=80=AFPM Pierre-Louis Bossart
-> > <pierre-louis.bossart@linux.dev> wrote:
-> > >
-> > > On 4/24/25 20:13, Rafael J. Wysocki wrote:
-> > > > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > >
-> > > > The code in intel_suspend() and intel_resume() needs to be properly
-> > > > synchronized with runtime PM which is not the case currently, so fi=
-x
-> > > > it.
-> > > >
-> > > > First of all, prevent runtime PM from triggering after intel_suspen=
-d()
-> > > > has started because the changes made by it to the device might be
-> > > > undone by a runtime resume of the device.  For this purpose, add a
-> > > > pm_runtime_disable() call to intel_suspend().
-> > >
-> > > Allow me to push back on this, because we have to be very careful wit=
-h a hidden state transition that needs to happen.
-> > >
-> > > If a controller was suspended by pm_runtime, it will enter the clock =
-stop mode.
-> > >
-> > > If the system needs to suspend, the controller has to be forced to ex=
-it the clock stop mode and the bus has to restart before we can suspend it,=
- and that's why we had those pm_runtime_resume().
-> > >
-> > > Disabling pm_runtime when entering system suspend would be problemati=
-c for Intel hardware, it's a known can of worms.
-> >
-> > No, it wouldn't AFAICS.
-> >
-> > > It's quite possible that some of the code in intel_suspend() is no lo=
-nger required because the .prepare will resume the bus properly, but I want=
-ed to make sure this state transition out of clock-stop is known and taken =
-into consideration.
-> >
-> > This patch doesn't change the functionality in intel_suspend(), it
-> > just prevents runtime resume running in parallel with it or after it
-> > from messing up with the hardware.
-> >
-> > I don't see why it would be unsafe to do and please feel free to prove =
-me wrong.
->
-> Or just tell me what I'm missing in the reasoning below.
->
-> This code:
->
-> -    if (pm_runtime_suspended(dev)) {
-> -        dev_dbg(dev, "pm_runtime status was suspended, forcing active\n"=
-);
-> -
-> -        /* follow required sequence from runtime_pm.rst */
-> -        pm_runtime_disable(dev);
-> -        pm_runtime_set_active(dev);
-> -        pm_runtime_mark_last_busy(dev);
-> -        pm_runtime_enable(dev);
-> -
-> -        pm_runtime_resume(bus->dev);
-> -
-> -        link_flags =3D md_flags >> (bus->link_id * 8);
-> -
-> -        if (!(link_flags & SDW_INTEL_MASTER_DISABLE_PM_RUNTIME_IDLE))
-> -            pm_runtime_idle(dev);
-> -    }
+rlist, clist, and slist are allocated using sizeof(pointer) instead of
+sizeof(*pointer). Fix the allocations by using sizeof(*pointer) and
+avoid overallocating memory on 64-bit systems.
 
-Well, I actually missed a couple of things.
+Fixes: f2f847461fb7 ("ASoC: Intel: avs: Constrain path based on BE capabilities")
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/soc/intel/avs/path.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-First off, the core increases the runtime PM reference counter for
-every device in the "prepare" phase of system suspend and it is still
-nonzero when the code above runs, so the pm_runtime_idle() call at the
-end of it has no effect (the bottom line is that devices don't
-runtime-suspend during system-wide suspend and resume transitions,
-they can only runtime-resume then).
+diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
+index cafb8c6198be..8f1bf8d0af8f 100644
+--- a/sound/soc/intel/avs/path.c
++++ b/sound/soc/intel/avs/path.c
+@@ -131,9 +131,9 @@ int avs_path_set_constraint(struct avs_dev *adev, struct avs_tplg_path_template
+ 	list_for_each_entry(path_template, &template->path_list, node)
+ 		i++;
+ 
+-	rlist = kcalloc(i, sizeof(rlist), GFP_KERNEL);
+-	clist = kcalloc(i, sizeof(clist), GFP_KERNEL);
+-	slist = kcalloc(i, sizeof(slist), GFP_KERNEL);
++	rlist = kcalloc(i, sizeof(*rlist), GFP_KERNEL);
++	clist = kcalloc(i, sizeof(*clist), GFP_KERNEL);
++	slist = kcalloc(i, sizeof(*slist), GFP_KERNEL);
+ 
+ 	i = 0;
+ 	list_for_each_entry(path_template, &template->path_list, node) {
+-- 
+2.49.0
 
-Second, the argument of the pm_runtime_resume() call in it is
-bus->dev, not dev.  I have to admit ignorance regarding the reason why
-this code attempts to resume a different device, but this is what
-breaks things AFAICS.
-
-The pm_runtime_mark_last_busy() call is kind of fine, but it is
-redundant because it is repeated at the end of intel_resume() and even
-if the autosuspend timer triggers between these two calls, it will not
-cause the device to suspend ("devices don't runtime-suspend during
-system-wide suspend and resume transitions").
-
-The pm_runtime_set_active() is questionable because it takes place
-before the device is technically activated, so if anything in the
-meantime actually depended on it being active, it would break.
-
-So I need to rewrite the changelog, but I still cannot find anything
-problematic in the patch itself.
-
-First, it removes some code that had not been run earlier and it
-started to break things after it had been allowed to run (and which is
-questionable for that matter).  Next, it adds protection against races
-that probably don't happen in practice, but if they happened, they
-would be problematic.  It also replaces two checks with simpler
-versions of them that can be used at this point, nothing wrong with
-that.  Finally, it makes intel_resume() call pm_runtime_set_active()
-when it is needed because the device actually becomes active at the
-end of that function and it removes the setting of a driver flag that
-has no effect on the given device any more.
-
-I'm going to resend it with a new changelog as a v2.
-
-Thanks!
