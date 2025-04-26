@@ -1,98 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53D6296D09;
-	Fri, 25 Apr 2025 23:00:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3EF1C84B1;
+	Sat, 26 Apr 2025 06:25:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745622011; cv=none; b=OYDk2v3A15uph1NrY/oKagmeUC10QDym6pt0j8szwteHKK1icaIDRMgAjT0XKwmIpYOsDo5t7Wblehwm7ctGn5l72uHhjHzPptPNhwdr5LB6PtYcb730sX+DvBXOsDKKpNclb/MT5gAX1cY+3wjZW8T/VMc3K79rBfPcEszL360=
+	t=1745648716; cv=none; b=hS7WWtQ/5Gi92Nq/jyFmoehBebWgzXhcVPa9g/RJzeDXy4a3VrJNKrXb8tM8C24Hg/prcz3SKG8eXoJabUHxulOnbpS0uVCYlnlWxjl6qbsdEtDA0aTN767GO5M8K0Fws8mTxnA47rT07U8DlpIvPMATmbU5oMqP+atOjxYRNok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745622011; c=relaxed/simple;
-	bh=oUEnrqD2+9dOuYjzTrjG5PiuI832wU+JdlseXm2eCmk=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jAvnf9YuuukwMdFkS0/LHzu4iK5RSepxSpwUtGBpATHZvnNLhkSwUA8JWIdIF6yCgIKTWSkfHGV7vtYER2mKW2eQnp783RvBRjZNxr6cWsqFuLJcEtD3MH2C0BwT2E0D0AqathfVR78fa/eQWghOO5SjIiRaxj/F4J+EQw8e6ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HdRV3vIP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745648716; c=relaxed/simple;
+	bh=nOvxE2xAszz5gyreKreyxMrZjWoFYII8OmNUfDX/+Pw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MsmFp9NVHSUVEXTR0YKGRo2V8zD8u+yOXq9lE56rNMPZQr0oZRTcXRr1DvmFMqxzvg5O7n8A1dDwAaEtdnoKjHgj0bd0yNxEgDFmMeJp1BjwhQvwbcLXVxo831huI1Dwi2b01Xsqf+lQN7JX+un3eEXj0mxtP6P+8ZTKpR1kwbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rv4wsgCT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HdRV3vIP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30FA6C4CEEC;
-	Fri, 25 Apr 2025 23:00:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rv4wsgCT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92736C4CEE2;
+	Sat, 26 Apr 2025 06:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745622010;
-	bh=oUEnrqD2+9dOuYjzTrjG5PiuI832wU+JdlseXm2eCmk=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=HdRV3vIPiIGKHO7TMpEv/mkPd1Q2fvLm3cUsN5pGlgirGN7BLHzWJuo8xHUa+woBh
-	 8A+cnep+OHlDgvqimEmfPdValVXOyE+oRdJOYqIqK1BoM76hxtPsY3aoesesNBabzI
-	 0QgOn2y78bWTW4saLgNexCUKCCkw0qfUY4v3US+pRoNgPu3D+FtCTvaH8wKzF/B3SR
-	 nulo4lLB6vrHmgihcf/5BeklBWQVoWVBZkfwqEg9uXiZROMBG6oHcykE4Sr3xq5b5m
-	 U1g/bwWb0fglYwN4LMus6kxBkatF+ZcYT8v+BAeEwIjBPaImcTErBnR3PU+BDasDZR
-	 OHCUW9Q7t0cNg==
-From: Mark Brown <broonie@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Takashi Iwai <tiwai@suse.com>, Will Deacon <will@kernel.org>, 
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <871ptq4blr.wl-kuninori.morimoto.gx@renesas.com>
-References: <871ptq4blr.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: (subset) [PATCH v4 0/9] ASoC: add Renesas MSIOF sound driver
-Message-Id: <174562200689.302167.2459698940161068697.b4-ty@kernel.org>
-Date: Sat, 26 Apr 2025 00:00:06 +0100
+	s=k20201202; t=1745648715;
+	bh=nOvxE2xAszz5gyreKreyxMrZjWoFYII8OmNUfDX/+Pw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rv4wsgCTjShjOBARaEV+cIDQN7GhrEJBOS2505g3tKRZOYfx9xgbkUA0IjBcPLgEb
+	 p455N8QLqiIc8KxuT/HVqAASeH9sewxn/i3R4mdsusV+Hj15dyGbt8o0KVKnAEKODw
+	 0HXxjmq4FKWnZkZX7liNgDGMkgjdflwFUVLvrkYYbce1v/7pdVU/M5D123+9SC14oz
+	 gZRq6/kW9tQVbiwgk0YKddCK0LACg84L5FZIIx9NfM1O6SWNnNyRnCFEl3qgc87wBE
+	 ZyKORh7olBRAi1Nws+qLq79qJdw5r6f/DDPkngW3vfv9jdL0ATbbWj+XX6JrLQqzTB
+	 yUNsaAPkOTS6A==
+From: Kees Cook <kees@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Kees Cook <kees@kernel.org>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: ipc4-pcm: Adjust pipeline_list->pipelines allocation type
+Date: Fri, 25 Apr 2025 23:25:12 -0700
+Message-Id: <20250426062511.work.859-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1856; i=kees@kernel.org; h=from:subject:message-id; bh=nOvxE2xAszz5gyreKreyxMrZjWoFYII8OmNUfDX/+Pw=; b=owGbwMvMwCVmps19z/KJym7G02pJDBk8Ne4PWRozb7i1bo1TaI7TrYiOneJ2/6bC6y3PJhXLR 0jdTtjRUcrCIMbFICumyBJk5x7n4vG2Pdx9riLMHFYmkCEMXJwCMJFPegz/TOQaHscvWpTNsk6w +pCCGnPjr/q6/pmCfNN8tAQ5S751MvxPDe07HWfDtX6v8lWTaZe0qpV/63wLWbtqt8bRmTsmBP/ kAQA=
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-On Thu, 17 Apr 2025 23:22:40 +0000, Kuninori Morimoto wrote:
-> Cc Geert
-> 
-> Renesas MSIOF can work as both SPI and I2S.
-> Current Linux supports MSIOF-SPI. This patch-set adds new MSIOF-I2S.
-> 
-> Because it is using same HW-IP, we want to share same compatible for both
-> MSIOF-SPI/I2S case. MSIOF-I2S (Sound) will use Audio-Graph-Card/Card2 which
-> uses Of-Graph, but  MSIOF-SPI is not use Of-Graph.
-> So, this patch-set assumes it was used as MSIOF-I2S if DT is using Of-Graph,
-> otherwise, it is MSIOF-SPI (This assumption will works if SPI *never*
-> use Of-Graph in the future).
-> 
-> [...]
+In preparation for making the kmalloc family of allocators type aware,
+we need to make sure that the returned type from the allocation matches
+the type of the variable being assigned. (Before, the allocator would
+always return "void *", which can be implicitly cast to any pointer type.)
 
-Applied to
+The assigned type is "struct snd_sof_pipeline **", but the returned type
+will be "struct snd_sof_widget **". These are the same size allocation
+(pointer size) but the types don't match. Adjust the allocation type to
+match the assignment.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: <sound-open-firmware@alsa-project.org>
+Cc: <linux-sound@vger.kernel.org>
+---
+ sound/soc/sof/ipc4-pcm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Thanks!
-
-[2/9] spi: sh-msiof: use dev in sh_msiof_spi_probe()
-      commit: c4887bd4b35b225f4fe26d2d459c76236e27a759
-[3/9] spi: sh-msiof: ignore driver probing if it was MSIOF Sound
-      commit: cf0668184d1d2f9ad3f98dd5bbe0ed4d9d090eaa
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
+index 1a2841899ff5..52903503cf3b 100644
+--- a/sound/soc/sof/ipc4-pcm.c
++++ b/sound/soc/sof/ipc4-pcm.c
+@@ -784,7 +784,8 @@ static int sof_ipc4_pcm_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm
+ 
+ 		/* allocate memory for max number of pipeline IDs */
+ 		pipeline_list->pipelines = kcalloc(ipc4_data->max_num_pipelines,
+-						   sizeof(struct snd_sof_widget *), GFP_KERNEL);
++						   sizeof(*pipeline_list->pipelines),
++						   GFP_KERNEL);
+ 		if (!pipeline_list->pipelines) {
+ 			sof_ipc4_pcm_free(sdev, spcm);
+ 			return -ENOMEM;
+-- 
+2.34.1
 
