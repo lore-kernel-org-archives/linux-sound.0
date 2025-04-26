@@ -1,136 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E774120B;
-	Sat, 26 Apr 2025 13:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE4B2F44;
+	Sat, 26 Apr 2025 13:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745672829; cv=none; b=uMgPkZCBvfZ+ZJ9xX48pqTB1W0LCg1pKjYsOm3TGObVXoHPS3IughHNr/CVyxPZqRI3m5crXp/NrgonUdXMdrvEEs0c2gvA/QXT2zqqBfYZ2v0ywVZ8NUtDk/oWbEiYHJSspcuLSWCHgFbfofBT/je4UtM8s3ZFPQ0RsoDMFETI=
+	t=1745674238; cv=none; b=jSuDHkTq8iSaYVKd3+2muy5FZjDuaijciLqHbPtQqfAvTaKVj3uLVHcctzJVP4CyuRr85uSCWwqIWnnLRJcA0Pih0Pj0SgrGwnDmG20PYuwz+XkeLpyLuTslGuxMztduuVEhQT2lxB6T2DnfLjPm9ty5NMYuL7ebja9D8ymGg94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745672829; c=relaxed/simple;
-	bh=tP+8zaOhxz1rLnbBTSygHoqJ133ZXSPGoXBXXm9NE0c=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=LUZVL6V/N59kFq+cpgT1PtrT3L2sooRrF1nLVKa9Bqf+z2oXn223tTEe90XyJlKvSgbhXVjZbWEg6R3zBWcBuiafT4qcs+mOYmrxcjY1yAZZYDPK4xY+TVZyNg6YRHaMIuFowgWBEDpWbYlPRQ7p3ZQMpsPD2ITe8cFiCanNJvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JEoTnsf6; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1745674238; c=relaxed/simple;
+	bh=K827jkdV1zwBCcNUq2aRPRtdn0WqO1I3TTuj+q5Ts3U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qHme2Ny35YsR4e7HzikPPiMRoayIEadnJ2RF2Py9bPSiMK24hDwLhJA9HR8kHqP0risfCahikfVa2e4hiSaTuD82tUeEFIP3WgoRgTmm0l7sF7A4hQwfnpqZlLTYmanceaMR4bgsVuCEdaZl+TEtmKoNKESuamNFn5R8m5kG3HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JDdgGJaP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JEoTnsf6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745672828; x=1777208828;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=tP+8zaOhxz1rLnbBTSygHoqJ133ZXSPGoXBXXm9NE0c=;
-  b=JEoTnsf6XV+YbYv2J+hzq3JhJorMtdp9WfH9xaMkMYno4lLFQKh0lg6g
-   sJbbG+fkNCcmLcmhDAXU4UBnd9GaFmL1v34sgro0YqrCD/E+7qewKQOd7
-   6SC+/pvS7PrI5hvw/FtNZiY157/hONZWBW2J17cWL+ImTMdTQwQBfVMDY
-   CL0OPsCihSY62Jnnfbxnu8P92qzWABwl5atxHt8XWwYXzGyN0us0//ilA
-   QFiUrMMtg+GgzhsAWgeiOmNbn1f48ZCkfWv9eIKC/SsWl0yD2Dr75kp/M
-   Hz2JX+KS1TXnl/t72rwVhNnCTUULBSxAtqZIIUhjHd7BURf8tU/QfBzcB
-   A==;
-X-CSE-ConnectionGUID: dB1Zm1HxSuqlWw+H07LW9A==
-X-CSE-MsgGUID: GwEpi+r4SSqh5nZ9NQ8LDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="57964027"
-X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="57964027"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 06:07:05 -0700
-X-CSE-ConnectionGUID: RGjYzt7ASDeYdX+vRbDOVw==
-X-CSE-MsgGUID: 6QrmOG/mR8aeRL3O0vgrHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
-   d="scan'208";a="134057442"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.235])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 06:07:00 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Sat, 26 Apr 2025 16:06:56 +0300 (EEST)
-To: "David E. Box" <david.e.box@linux.intel.com>
-cc: corbet@lwn.net, bhelgaas@google.com, kuurtb@gmail.com, 
-    Hans de Goede <hdegoede@redhat.com>, vkoul@kernel.org, 
-    yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
-    sanyog.r.kale@intel.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    "Rafael J. Wysocki" <rafael@kernel.org>, dakr@kernel.org, 
-    dan.j.williams@intel.com, 
-    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-    Dell.Client.Kernel@dell.com, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 4/7] pci: doe: Replace sysfs visibility macro
-In-Reply-To: <5546db361d2d474b97d80345473628d0e5a55093.camel@linux.intel.com>
-Message-ID: <a8581a58-e994-ff5e-6bdc-ca9efe319da1@linux.intel.com>
-References: <20250423175040.784680-1-david.e.box@linux.intel.com>  <20250423175040.784680-5-david.e.box@linux.intel.com>  <8d261613-60d3-8825-e073-1b39daadc29a@linux.intel.com> <5546db361d2d474b97d80345473628d0e5a55093.camel@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JDdgGJaP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA132C4CEEC;
+	Sat, 26 Apr 2025 13:30:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745674237;
+	bh=K827jkdV1zwBCcNUq2aRPRtdn0WqO1I3TTuj+q5Ts3U=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=JDdgGJaPsm0bFzVCnMaL0+YV/gpyxEpD1OxGJnBOZ3sQpaVPSgDHak4ewTtudpQzJ
+	 jFdDafDQHJ9Uvlt9ZNrb3+vCwM6RjQYy5yXPkWjICSqFRS4hgnhggPmyUjX/fCx4yp
+	 kM9jXl8mPaJEj+mNaQdKRGXAVlqyKBvwgXgNca4crgrW34P0rYZvr9Mf+2L3zKZfJL
+	 0eFKxzv5ZtReGR53E+aFBolQwYQ0qh78v7VBG9xCw2iv6tF7ntoqgd2Lr4yMZuCs/A
+	 sgBQ3p5R+Vx6aK1JVD32m0Q6USlqiox1FANS0PJ3jwkmyZPNQu8wjgNRpTzTcqPXde
+	 3WbDHrMHtR71g==
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2d09d495c6cso813468fac.3;
+        Sat, 26 Apr 2025 06:30:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUbjRbq4ASNH3SBemx0iL+ohjYBw5+eVT/aywQ3PdcIW9H4qz8W6eAHd0sEDgHfTYfqx2ZIHuCZNsEHjlI=@vger.kernel.org, AJvYcCUdImfB8TIHg8owaaLvsJGextXDQuR2jH+atgk2gbYa0i5EyOf4CC5sWrVrBJIVlhQkAeosSPA/fxJdA6Q=@vger.kernel.org, AJvYcCV5B9sDQluZJUCN2jJ2V1V5srBivzoUi7Ml36zd4eWLTXmNoqt4G/bZBSVk4JgLLsy4cpWHkZNLmWE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjpqjkITdJ9IicoI5OULWjFV3mjEzHWQNmWrqqi+g48u/2c3ln
+	ouED2SJhPvEhzxCiw9ue5nzT9rA6AvkVSnUturDMCPaxinHVVFq6EUrx84l/QeVdR3Y3BM1abDi
+	x8aDrKFuXQb2+9w/NJjkE/i/JsWM=
+X-Google-Smtp-Source: AGHT+IEiWI3yojtu+4lFaEnbyWAbSDzO/PB83FZ3LgAebeyovkUwky9ls5b5wQK6vkkZagbi/hGfeVKdmi3kVZ1O8AM=
+X-Received: by 2002:a05:6870:56a9:b0:2d8:957a:5176 with SMTP id
+ 586e51a60fabf-2d9be4fdaffmr1923936fac.5.1745674237112; Sat, 26 Apr 2025
+ 06:30:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1919316634-1745672816=:944"
+References: <5891540.DvuYhMxLoT@rjwysocki.net> <30acf520-c137-4b49-8b69-08e35a7c5969@linux.dev>
+ <CAJZ5v0iCsd8fdXRdicT7mqsRte39WC+SVjgfz2NHS9QpvSnDdw@mail.gmail.com> <CAJZ5v0iFPf=WT3CjNqtioUoiX9jc5nmZLJnAkQOhBTmGq_ioAw@mail.gmail.com>
+In-Reply-To: <CAJZ5v0iFPf=WT3CjNqtioUoiX9jc5nmZLJnAkQOhBTmGq_ioAw@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Sat, 26 Apr 2025 15:30:25 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jG7crhwnK0Tr0aswGWDFMc3o5QSPEDfQ+WRo+VPbYJKQ@mail.gmail.com>
+X-Gm-Features: ATxdqUHAoMksK2L1eNkdJCS9oDNKxpI8yqtR-TIAHgcVAFMKAjFPBaEZ-e5ngvw
+Message-ID: <CAJZ5v0jG7crhwnK0Tr0aswGWDFMc3o5QSPEDfQ+WRo+VPbYJKQ@mail.gmail.com>
+Subject: Re: [PATCH v1] soundwire: intel_auxdevice: Fix system suspend/resume handling
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>, Vinod Koul <vkoul@kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Fri, Apr 25, 2025 at 8:43=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.or=
+g> wrote:
+>
+> On Fri, Apr 25, 2025 at 8:10=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.=
+org> wrote:
+> >
+> > On Fri, Apr 25, 2025 at 7:14=E2=80=AFPM Pierre-Louis Bossart
+> > <pierre-louis.bossart@linux.dev> wrote:
+> > >
+> > > On 4/24/25 20:13, Rafael J. Wysocki wrote:
+> > > > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > > >
+> > > > The code in intel_suspend() and intel_resume() needs to be properly
+> > > > synchronized with runtime PM which is not the case currently, so fi=
+x
+> > > > it.
+> > > >
+> > > > First of all, prevent runtime PM from triggering after intel_suspen=
+d()
+> > > > has started because the changes made by it to the device might be
+> > > > undone by a runtime resume of the device.  For this purpose, add a
+> > > > pm_runtime_disable() call to intel_suspend().
+> > >
+> > > Allow me to push back on this, because we have to be very careful wit=
+h a hidden state transition that needs to happen.
+> > >
+> > > If a controller was suspended by pm_runtime, it will enter the clock =
+stop mode.
+> > >
+> > > If the system needs to suspend, the controller has to be forced to ex=
+it the clock stop mode and the bus has to restart before we can suspend it,=
+ and that's why we had those pm_runtime_resume().
+> > >
+> > > Disabling pm_runtime when entering system suspend would be problemati=
+c for Intel hardware, it's a known can of worms.
+> >
+> > No, it wouldn't AFAICS.
+> >
+> > > It's quite possible that some of the code in intel_suspend() is no lo=
+nger required because the .prepare will resume the bus properly, but I want=
+ed to make sure this state transition out of clock-stop is known and taken =
+into consideration.
+> >
+> > This patch doesn't change the functionality in intel_suspend(), it
+> > just prevents runtime resume running in parallel with it or after it
+> > from messing up with the hardware.
+> >
+> > I don't see why it would be unsafe to do and please feel free to prove =
+me wrong.
+>
+> Or just tell me what I'm missing in the reasoning below.
+>
+> This code:
+>
+> -    if (pm_runtime_suspended(dev)) {
+> -        dev_dbg(dev, "pm_runtime status was suspended, forcing active\n"=
+);
+> -
+> -        /* follow required sequence from runtime_pm.rst */
+> -        pm_runtime_disable(dev);
+> -        pm_runtime_set_active(dev);
+> -        pm_runtime_mark_last_busy(dev);
+> -        pm_runtime_enable(dev);
+> -
+> -        pm_runtime_resume(bus->dev);
+> -
+> -        link_flags =3D md_flags >> (bus->link_id * 8);
+> -
+> -        if (!(link_flags & SDW_INTEL_MASTER_DISABLE_PM_RUNTIME_IDLE))
+> -            pm_runtime_idle(dev);
+> -    }
 
---8323328-1919316634-1745672816=:944
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Well, I actually missed a couple of things.
 
-On Fri, 25 Apr 2025, David E. Box wrote:
+First off, the core increases the runtime PM reference counter for
+every device in the "prepare" phase of system suspend and it is still
+nonzero when the code above runs, so the pm_runtime_idle() call at the
+end of it has no effect (the bottom line is that devices don't
+runtime-suspend during system-wide suspend and resume transitions,
+they can only runtime-resume then).
 
-> On Fri, 2025-04-25 at 13:57 +0300, Ilpo J=C3=A4rvinen wrote:
-> > On Wed, 23 Apr 2025, David E. Box wrote:
-> >=20
-> > > Replace deprecated DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE() call with the =
-new
-> > > DEFINE_SYSFS_GROUP_VISIBILITY() helper for the pci_doe_features_sysfs=
- group
-> > > in drivers/pci/doe.c.
-> > >=20
-> > > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> > > ---
-> > > =C2=A0drivers/pci/doe.c | 2 +-
-> > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/pci/doe.c b/drivers/pci/doe.c
-> > > index aae9a8a00406..18b355506dc1 100644
-> > > --- a/drivers/pci/doe.c
-> > > +++ b/drivers/pci/doe.c
-> > > @@ -119,7 +119,7 @@ static bool pci_doe_features_sysfs_group_visible(=
-struct
-> > > kobject *kobj)
-> > > =C2=A0
-> > > =C2=A0=09return !xa_empty(&pdev->doe_mbs);
-> > > =C2=A0}
-> > > -DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE(pci_doe_features_sysfs)
-> > > +DEFINE_SYSFS_GROUP_VISIBILITY(pci_doe_features_sysfs)
-> >=20
-> > Hi David,
-> >=20
-> > Is it intentional to not have semicolon at the end?
->=20
-> Hi Ilpo,
->=20
-> I was just doing a straight name swap and didn't not notice the lack of a
-> semicolon. Of course, since DEFINE_SYSFS_GROUP_VISIBILITY() expands to a
-> function definition, a trailing semicolon isn't necessary.
->=20
-> I suspect the issue is with the other instances where it was added, which=
- makes
-> the usage inconsistent. What would you suggest?
+Second, the argument of the pm_runtime_resume() call in it is
+bus->dev, not dev.  I have to admit ignorance regarding the reason why
+this code attempts to resume a different device, but this is what
+breaks things AFAICS.
 
-Hi,
+The pm_runtime_mark_last_busy() call is kind of fine, but it is
+redundant because it is repeated at the end of intel_resume() and even
+if the autosuspend timer triggers between these two calls, it will not
+cause the device to suspend ("devices don't runtime-suspend during
+system-wide suspend and resume transitions").
 
-When I saw that lack of semicolon, my first assumption was there's=20
-something special here that _requires_ leaving the semicolon out, which=20
-turned out untrue after an unnecessary roundtrip to read the macro. So IMO=
-=20
-it would be better to have the semicolon there to tell the reader there's=
-=20
-nothing of special interest here.
+The pm_runtime_set_active() is questionable because it takes place
+before the device is technically activated, so if anything in the
+meantime actually depended on it being active, it would break.
 
-Also, you used semicolon in the example. :-)
+So I need to rewrite the changelog, but I still cannot find anything
+problematic in the patch itself.
 
---=20
- i.
+First, it removes some code that had not been run earlier and it
+started to break things after it had been allowed to run (and which is
+questionable for that matter).  Next, it adds protection against races
+that probably don't happen in practice, but if they happened, they
+would be problematic.  It also replaces two checks with simpler
+versions of them that can be used at this point, nothing wrong with
+that.  Finally, it makes intel_resume() call pm_runtime_set_active()
+when it is needed because the device actually becomes active at the
+end of that function and it removes the setting of a driver flag that
+has no effect on the given device any more.
 
---8323328-1919316634-1745672816=:944--
+I'm going to resend it with a new changelog as a v2.
+
+Thanks!
