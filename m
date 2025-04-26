@@ -1,102 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3EF1C84B1;
-	Sat, 26 Apr 2025 06:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E774120B;
+	Sat, 26 Apr 2025 13:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745648716; cv=none; b=hS7WWtQ/5Gi92Nq/jyFmoehBebWgzXhcVPa9g/RJzeDXy4a3VrJNKrXb8tM8C24Hg/prcz3SKG8eXoJabUHxulOnbpS0uVCYlnlWxjl6qbsdEtDA0aTN767GO5M8K0Fws8mTxnA47rT07U8DlpIvPMATmbU5oMqP+atOjxYRNok=
+	t=1745672829; cv=none; b=uMgPkZCBvfZ+ZJ9xX48pqTB1W0LCg1pKjYsOm3TGObVXoHPS3IughHNr/CVyxPZqRI3m5crXp/NrgonUdXMdrvEEs0c2gvA/QXT2zqqBfYZ2v0ywVZ8NUtDk/oWbEiYHJSspcuLSWCHgFbfofBT/je4UtM8s3ZFPQ0RsoDMFETI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745648716; c=relaxed/simple;
-	bh=nOvxE2xAszz5gyreKreyxMrZjWoFYII8OmNUfDX/+Pw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MsmFp9NVHSUVEXTR0YKGRo2V8zD8u+yOXq9lE56rNMPZQr0oZRTcXRr1DvmFMqxzvg5O7n8A1dDwAaEtdnoKjHgj0bd0yNxEgDFmMeJp1BjwhQvwbcLXVxo831huI1Dwi2b01Xsqf+lQN7JX+un3eEXj0mxtP6P+8ZTKpR1kwbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rv4wsgCT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745672829; c=relaxed/simple;
+	bh=tP+8zaOhxz1rLnbBTSygHoqJ133ZXSPGoXBXXm9NE0c=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=LUZVL6V/N59kFq+cpgT1PtrT3L2sooRrF1nLVKa9Bqf+z2oXn223tTEe90XyJlKvSgbhXVjZbWEg6R3zBWcBuiafT4qcs+mOYmrxcjY1yAZZYDPK4xY+TVZyNg6YRHaMIuFowgWBEDpWbYlPRQ7p3ZQMpsPD2ITe8cFiCanNJvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JEoTnsf6; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rv4wsgCT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92736C4CEE2;
-	Sat, 26 Apr 2025 06:25:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745648715;
-	bh=nOvxE2xAszz5gyreKreyxMrZjWoFYII8OmNUfDX/+Pw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=rv4wsgCTjShjOBARaEV+cIDQN7GhrEJBOS2505g3tKRZOYfx9xgbkUA0IjBcPLgEb
-	 p455N8QLqiIc8KxuT/HVqAASeH9sewxn/i3R4mdsusV+Hj15dyGbt8o0KVKnAEKODw
-	 0HXxjmq4FKWnZkZX7liNgDGMkgjdflwFUVLvrkYYbce1v/7pdVU/M5D123+9SC14oz
-	 gZRq6/kW9tQVbiwgk0YKddCK0LACg84L5FZIIx9NfM1O6SWNnNyRnCFEl3qgc87wBE
-	 ZyKORh7olBRAi1Nws+qLq79qJdw5r6f/DDPkngW3vfv9jdL0ATbbWj+XX6JrLQqzTB
-	 yUNsaAPkOTS6A==
-From: Kees Cook <kees@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Kees Cook <kees@kernel.org>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] ASoC: SOF: ipc4-pcm: Adjust pipeline_list->pipelines allocation type
-Date: Fri, 25 Apr 2025 23:25:12 -0700
-Message-Id: <20250426062511.work.859-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JEoTnsf6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745672828; x=1777208828;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=tP+8zaOhxz1rLnbBTSygHoqJ133ZXSPGoXBXXm9NE0c=;
+  b=JEoTnsf6XV+YbYv2J+hzq3JhJorMtdp9WfH9xaMkMYno4lLFQKh0lg6g
+   sJbbG+fkNCcmLcmhDAXU4UBnd9GaFmL1v34sgro0YqrCD/E+7qewKQOd7
+   6SC+/pvS7PrI5hvw/FtNZiY157/hONZWBW2J17cWL+ImTMdTQwQBfVMDY
+   CL0OPsCihSY62Jnnfbxnu8P92qzWABwl5atxHt8XWwYXzGyN0us0//ilA
+   QFiUrMMtg+GgzhsAWgeiOmNbn1f48ZCkfWv9eIKC/SsWl0yD2Dr75kp/M
+   Hz2JX+KS1TXnl/t72rwVhNnCTUULBSxAtqZIIUhjHd7BURf8tU/QfBzcB
+   A==;
+X-CSE-ConnectionGUID: dB1Zm1HxSuqlWw+H07LW9A==
+X-CSE-MsgGUID: GwEpi+r4SSqh5nZ9NQ8LDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="57964027"
+X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
+   d="scan'208";a="57964027"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 06:07:05 -0700
+X-CSE-ConnectionGUID: RGjYzt7ASDeYdX+vRbDOVw==
+X-CSE-MsgGUID: 6QrmOG/mR8aeRL3O0vgrHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
+   d="scan'208";a="134057442"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.235])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 06:07:00 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Sat, 26 Apr 2025 16:06:56 +0300 (EEST)
+To: "David E. Box" <david.e.box@linux.intel.com>
+cc: corbet@lwn.net, bhelgaas@google.com, kuurtb@gmail.com, 
+    Hans de Goede <hdegoede@redhat.com>, vkoul@kernel.org, 
+    yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
+    sanyog.r.kale@intel.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    "Rafael J. Wysocki" <rafael@kernel.org>, dakr@kernel.org, 
+    dan.j.williams@intel.com, 
+    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+    Dell.Client.Kernel@dell.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 4/7] pci: doe: Replace sysfs visibility macro
+In-Reply-To: <5546db361d2d474b97d80345473628d0e5a55093.camel@linux.intel.com>
+Message-ID: <a8581a58-e994-ff5e-6bdc-ca9efe319da1@linux.intel.com>
+References: <20250423175040.784680-1-david.e.box@linux.intel.com>  <20250423175040.784680-5-david.e.box@linux.intel.com>  <8d261613-60d3-8825-e073-1b39daadc29a@linux.intel.com> <5546db361d2d474b97d80345473628d0e5a55093.camel@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1856; i=kees@kernel.org; h=from:subject:message-id; bh=nOvxE2xAszz5gyreKreyxMrZjWoFYII8OmNUfDX/+Pw=; b=owGbwMvMwCVmps19z/KJym7G02pJDBk8Ne4PWRozb7i1bo1TaI7TrYiOneJ2/6bC6y3PJhXLR 0jdTtjRUcrCIMbFICumyBJk5x7n4vG2Pdx9riLMHFYmkCEMXJwCMJFPegz/TOQaHscvWpTNsk6w +pCCGnPjr/q6/pmCfNN8tAQ5S751MvxPDe07HWfDtX6v8lWTaZe0qpV/63wLWbtqt8bRmTsmBP/ kAQA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="8323328-1919316634-1745672816=:944"
 
-In preparation for making the kmalloc family of allocators type aware,
-we need to make sure that the returned type from the allocation matches
-the type of the variable being assigned. (Before, the allocator would
-always return "void *", which can be implicitly cast to any pointer type.)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-The assigned type is "struct snd_sof_pipeline **", but the returned type
-will be "struct snd_sof_widget **". These are the same size allocation
-(pointer size) but the types don't match. Adjust the allocation type to
-match the assignment.
+--8323328-1919316634-1745672816=:944
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
-Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: <sound-open-firmware@alsa-project.org>
-Cc: <linux-sound@vger.kernel.org>
----
- sound/soc/sof/ipc4-pcm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Fri, 25 Apr 2025, David E. Box wrote:
 
-diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-index 1a2841899ff5..52903503cf3b 100644
---- a/sound/soc/sof/ipc4-pcm.c
-+++ b/sound/soc/sof/ipc4-pcm.c
-@@ -784,7 +784,8 @@ static int sof_ipc4_pcm_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm
- 
- 		/* allocate memory for max number of pipeline IDs */
- 		pipeline_list->pipelines = kcalloc(ipc4_data->max_num_pipelines,
--						   sizeof(struct snd_sof_widget *), GFP_KERNEL);
-+						   sizeof(*pipeline_list->pipelines),
-+						   GFP_KERNEL);
- 		if (!pipeline_list->pipelines) {
- 			sof_ipc4_pcm_free(sdev, spcm);
- 			return -ENOMEM;
--- 
-2.34.1
+> On Fri, 2025-04-25 at 13:57 +0300, Ilpo J=C3=A4rvinen wrote:
+> > On Wed, 23 Apr 2025, David E. Box wrote:
+> >=20
+> > > Replace deprecated DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE() call with the =
+new
+> > > DEFINE_SYSFS_GROUP_VISIBILITY() helper for the pci_doe_features_sysfs=
+ group
+> > > in drivers/pci/doe.c.
+> > >=20
+> > > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+> > > ---
+> > > =C2=A0drivers/pci/doe.c | 2 +-
+> > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/pci/doe.c b/drivers/pci/doe.c
+> > > index aae9a8a00406..18b355506dc1 100644
+> > > --- a/drivers/pci/doe.c
+> > > +++ b/drivers/pci/doe.c
+> > > @@ -119,7 +119,7 @@ static bool pci_doe_features_sysfs_group_visible(=
+struct
+> > > kobject *kobj)
+> > > =C2=A0
+> > > =C2=A0=09return !xa_empty(&pdev->doe_mbs);
+> > > =C2=A0}
+> > > -DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE(pci_doe_features_sysfs)
+> > > +DEFINE_SYSFS_GROUP_VISIBILITY(pci_doe_features_sysfs)
+> >=20
+> > Hi David,
+> >=20
+> > Is it intentional to not have semicolon at the end?
+>=20
+> Hi Ilpo,
+>=20
+> I was just doing a straight name swap and didn't not notice the lack of a
+> semicolon. Of course, since DEFINE_SYSFS_GROUP_VISIBILITY() expands to a
+> function definition, a trailing semicolon isn't necessary.
+>=20
+> I suspect the issue is with the other instances where it was added, which=
+ makes
+> the usage inconsistent. What would you suggest?
 
+Hi,
+
+When I saw that lack of semicolon, my first assumption was there's=20
+something special here that _requires_ leaving the semicolon out, which=20
+turned out untrue after an unnecessary roundtrip to read the macro. So IMO=
+=20
+it would be better to have the semicolon there to tell the reader there's=
+=20
+nothing of special interest here.
+
+Also, you used semicolon in the example. :-)
+
+--=20
+ i.
+
+--8323328-1919316634-1745672816=:944--
