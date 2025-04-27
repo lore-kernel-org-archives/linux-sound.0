@@ -1,60 +1,62 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B258250BF2
-	for <linux-sound@vger.kernel.org>; Sun, 27 Apr 2025 10:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BA12512D9
+	for <linux-sound@vger.kernel.org>; Sun, 27 Apr 2025 10:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745751082; cv=none; b=BqaPQldZxGaCeTP/Di7yihcwwZqM7hoDBgMR/0pumMlSoqnQXXh5dxbkA4wbqdHpBo1IR7BUfHfCAVanPA+LdUpWEcSY6bqrRVWKmYM2vFROOabsouUSMzuDHtaNpzsq9Gho43KB3KHvO2WtVa08sZw+AGi61xTTAUTko4cFSfQ=
+	t=1745751084; cv=none; b=rH0qNrxHegj2DD8FZrC4rNZ7Dz0C/UKejLseSgSHlN9fk2gMxPWlKU5thiS/7wbaSMv5xWFDYV1KHbe3ruKEkowfb0PfjlHkUUUNDfzdzo2nxwhX2faKpnEgbAeQrFxKDK4K1Jgs3jr9MeJjxTQ0FaYUYeQKrMx+zZwUZSyVwe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745751082; c=relaxed/simple;
-	bh=VBNyX+A/EB/Cj4qU0XgLHNxhJ97XrYmyCZDdhGUIJhA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=peU5Gsek44jWrJWtmJDn6QS3NRX6wEdxvEGQQiYKDwrg+qR8LhvjY5qYLEwh4LP1NISv0b3ShlXRP514jAgtNTj7jtG/hqbU6qY5soFTj4qvvgkouMlVGTaT6NcqkEC9b6EfpgI6hmM29CUpBouY4xUEVeitXBu7J2xz8ji/ryE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mCLo/6n7; arc=none smtp.client-ip=209.85.218.51
+	s=arc-20240116; t=1745751084; c=relaxed/simple;
+	bh=Uk35tE2qO25Ol/DPpUFiuym8i93OvRDohaSn1NmlUNU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qzPu/oDNWzfNV+t64ckQKj8HJwIuj3drshVes5M6PNS5TU8ZpKMQqpqOsgxvdXSYFN/utN/iUrqX6hKb4s6vrhfafUYr9VWAuNim9psS9n/YpLyf/JECbf2F8v455piOnyALBvWUPOQXm9L+XaVJXWnd/DbGD9C9KdMvjpaGYS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l1NFKSuT; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mCLo/6n7"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-acb5cf13996so54746866b.1
-        for <linux-sound@vger.kernel.org>; Sun, 27 Apr 2025 03:51:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l1NFKSuT"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5e61a18c05aso608908a12.1
+        for <linux-sound@vger.kernel.org>; Sun, 27 Apr 2025 03:51:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745751079; x=1746355879; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yljTxf0X+Iy2a+Dq+Yedd2V84jdSSx02dCrGHjuEXak=;
-        b=mCLo/6n7YcacJpfy8sZkiCzpd5Yq/QVcgQOcktwXnQndQ4AN2/2WHDmER/KUXDMZB9
-         McBmeP9g/lDHD2Q2U3BiyKwMKlKyc+AG3UWexEytt0BQ1EHGQORYehIu9z+XV30CWgG0
-         3OrdfE3T7sKNqCPFoxJuKsAT+k3e+d4wCIycJiZcbj2+i0yTF66mI7sadcKHbUtqVIv1
-         TL9Oq+m4Bzob8bRUwAdif0lSN6Fpcp+t+ev668rxCIrOyTZ27ax+sNvPEnWEp44Rd7u7
-         Z4f2CQsvPmgO2RMfL83kbSFrNAxfKgvZoDzVxEbD+DwbiH2N844LYwjEY7Ukfk4AGHhW
-         vqRg==
+        d=linaro.org; s=google; t=1745751080; x=1746355880; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BrWWKZ5utl0kO8/6Sgtpal0J9i01h1Iy5zytxjONv8g=;
+        b=l1NFKSuTSk4ij0SE2W2LPU72+EQw1ILVnaoIizHa8cyYWo1HZfzWFho4mUX62qKpFB
+         HClr7nULiPTRVIN4LRe8Q8mpTwNV/5MPibFE2AM8z7u3PHj5MSey6IreruP9ly6P0NvP
+         YHGvmcpact7SlmCCAQ5Bbzp0n0Q2rXQAcmuQ3AVeUpv/lrTWFa4aEb+ZyNOOGBT54UIQ
+         x06iw2WGPGiiija0tivmcV0hQZfEvFOZALWOPXFCNGCuDkIIg9Um+XzWDFSAp3HDv0nB
+         Dqkl5RiB/nErljTR+kOlhJ2xF/93Dh+2a2Ru5NPYO+5iml4LDzhTuZf5CLZayrN341Od
+         dgfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745751079; x=1746355879;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yljTxf0X+Iy2a+Dq+Yedd2V84jdSSx02dCrGHjuEXak=;
-        b=jSRweyuPfp/WlpSA/auPdVew6SlYyP1M4I6VA5TGsl4nCPum2SWmk4XJtJhW8Ane5t
-         q4XVT+UGU5JAIgY5FFIuz/XcmpTLnzf98IycswIsMVbQq3KqFaHctsSITsEttuxIOeWp
-         XtQAQ5gTdwS/cH0JElGp1RhxlwqjmA333/k+Ms/2r2mK+aWW6c7b5j3/6qf5i/7oDoam
-         CMAwWIJlUGp3sYMmPc8BkJdPwe/oYyWSd5OjH4PPtsf6qI9SIkhA+zaP4celMSlHtcM3
-         Q8Ktzmj/lHlb1G/NIb3yyvq2u81dDOyJV23eHt67+d1Z5U478T8STvxWg8+EKvtVNW4g
-         wYKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWChODlSWHD36TlZ4MJ3K486WxTwRK2xFqCOjRMXP/H5wl1SUubF3S5IddPI1rdyVjLYpbtuJIjP4q75A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzjlm/HGA+a/9dD5QwrHe9Z69KPHue6MY97DcDNkowms99xGpCN
-	rC5eZE7qE13r01EeudLwNgmwC7xlx3zMh19T8ukdmMe/t/5mtymaWjX4Dhu1gNU=
-X-Gm-Gg: ASbGnctxv8NVT5OU0J3bG1xdFXYSDkeZ3kHspVL+7HyuRwfS6dYH47vpiY+z/cIl5DY
-	QzQBWYPFljpino6k3h8MXOAUBJ5ZTeYO+6J4Jo/gKRvRFwY1T15TekLHxfyQZ/+EYPmjUPkdYVd
-	5jwO8W7hJGVAgKOgD9Pcz+LTxD5CWOi8xDPjxzSSSynl6L7/RgA8vVSaQMAx+r/QSb1MRGxcocU
-	r4HwF6um6TEs8EX3I5YaIvsDI22xDPnTkJuz+w57BKMzIcZjUAzwUuXu0wEjhr+ocEhuSHtp2y+
-	7XwBqYo3jGWeIAJuvs8qEHtNXEgEQxktkfH57fTTZ6baZycITA==
-X-Google-Smtp-Source: AGHT+IGhMTLffqdEgqGOe3aQqJyYJ+B8VJatnZKsdwxT6z/hpa0miMBIbPX1H8NsL96ToaFl+7ia4A==
-X-Received: by 2002:a17:907:70d:b0:acb:7dde:d88f with SMTP id a640c23a62f3a-ace710952cfmr213755866b.5.1745751078562;
-        Sun, 27 Apr 2025 03:51:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745751080; x=1746355880;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BrWWKZ5utl0kO8/6Sgtpal0J9i01h1Iy5zytxjONv8g=;
+        b=QkMZfkW9m0WQS2cFj9rdHbJYFt060YRosLYvCfsD0tku6UZ6v13TN9z66SpFQfDb7F
+         OWFDt+h7xclAf6iYD1IYRruz7Lu4NJ22H4UUrWW1KlXM4EnMGZ4VSsxAiGK4Vc2P6vfx
+         GVco8Nv0+KHH/jyWZb4eIPwe3zQYeiPKDrM9a2pznFKOwC6EmhIsBFC8xT0Rb8YUkr/Y
+         +ZQAl4axpy+JD1DOOyhPlfHoqOhKKgqltpDXwvbRoVWxychOBjxl/zPwkg9snSOmOJh5
+         fOGV9imH5XerPNKRbMnciF8vvFUrBFEfK1Me4Wm41XnEsKdYyxyQr9/v/2bLRMrYxXgu
+         d6Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCVYxfg38/DmecAvFA5TA8KXvD8qm6bWqBUcmPEbe/46p6zCh4FJ7k00I0O2Pb0FbfY0DRZN25cleu87lA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxb49p20WO+y8m1pzrsCqUImRDNmgvydG1Nwo455QhBV1ASwyvo
+	PBmS2OIkHeeA3jKeyJqUWu+GuT8xA2X05XcMeEVKVMar4k9zr6OMhN1prcwjTUg=
+X-Gm-Gg: ASbGncustBQvlLo3oFfu8VZ8f3ccIgtQTK5P0Scmpo2ySErPQBn/6xEo7g+crLMfOHj
+	yEnODPuLoXtDL82GywnPN0nwBjVFBbwfQsar2p0t2Fy6cfMFJ2vTjAzZnCAAXjICXC0rbbjtTRx
+	NlyZWGdgmXb5GuLjEBQ3IqVTSHyoOu5xKCH1QIOUapaea35bcghbGpXWs/JSK+tbj++bny01K9g
+	WqGD8JhA8+wH6YAHkywT2lb09SwLCLFVtlZbrrSv1bN3c+0hWV/hgzni44AnFMpvUFEf7v6AYtz
+	Rlq6icDfVF0QaTv9W9G6hytuL/qwHBSo+FS+ZlTtR2bPcZpzMg==
+X-Google-Smtp-Source: AGHT+IGUXQAnom5Q0EWJSItpVLYLtZk6UF1nj50XD++JXpYgnBPgROhaxvz7NIhI7DF5oF4HYgfXrQ==
+X-Received: by 2002:a17:907:948a:b0:acb:6081:1507 with SMTP id a640c23a62f3a-ace713655c2mr240652566b.10.1745751080157;
+        Sun, 27 Apr 2025 03:51:20 -0700 (PDT)
 Received: from kuoka.. ([178.197.207.88])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6e5087e4sm425679266b.73.2025.04.27.03.51.16
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6e5087e4sm425679266b.73.2025.04.27.03.51.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Apr 2025 03:51:17 -0700 (PDT)
+        Sun, 27 Apr 2025 03:51:19 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Shenghao Ding <shenghao-ding@ti.com>,
 	Kevin Lu <kevin-lu@ti.com>,
@@ -72,92 +74,63 @@ To: Shenghao Ding <shenghao-ding@ti.com>,
 	linux-kernel@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	llvm@lists.linux.dev
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	kernel test robot <lkp@intel.com>,
-	Dmitry Baryshkov <lumag@kernel.org>
-Subject: [PATCH 1/2] ASoC: codecs: wsa88xx/wcd938x: Drop kerneldoc marker from inner comment
-Date: Sun, 27 Apr 2025 12:51:06 +0200
-Message-ID: <20250427105105.18164-3-krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/2] ASoC: codecs: tas2764: Fix Wvoid-pointer-to-enum-cast warning
+Date: Sun, 27 Apr 2025 12:51:07 +0200
+Message-ID: <20250427105105.18164-4-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250427105105.18164-3-krzysztof.kozlowski@linaro.org>
+References: <20250427105105.18164-3-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2016; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=VBNyX+A/EB/Cj4qU0XgLHNxhJ97XrYmyCZDdhGUIJhA=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoDgwZBz05ULqfGRWDmIA3VjNhzumOvxtTsbMlY
- dg+5GjAnS2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaA4MGQAKCRDBN2bmhouD
- 15QJD/90D9EKpDVCJB3Q1L4eB3Pe5TU6dT1kGsAhZA+Pqf8oYw+k73PHzJOhdzxDcYw7Jh9APL1
- l0oPIwaq4Ss64RIt/2aX/hGXvBLrHLd0Pr3GtCvJxKa3G/Byx41Tjnu5L8IvKapft0iG9SeN2RR
- ZuH5GgxAf0H2j2r72Gq7SmxRm4T0B+fo3Tk9jcjx+2TExtvNy2/m9g+h1d3kSHGJkdC8yZILyZp
- /61MQ0I9T0hbCINYxg2LHvjmdmaVu4kdCSqTiFrltzPpFCFOfuB7uBNtZUd7u2hnN0Mb/cCCIio
- i/PftL0i2+SM3Qd63HLxjKKZL+28ztNL+e4rStAeAiWl+pUQngfGXKphkywZHjnVivsHmpKgGLL
- 1R+N2W+dUj2TEAJnig7cEdtFqGF3EG+6brrpLNziAywA9oCF+V0dd0yka/51q4CKBWUBZ5hsQby
- 8SwhWV6YnMnHr7WxQocZmHQNBSXZnT7dgkb9avwz2jg7J6YwhTJ+ZdTSlxhW7HIK9Jb4Z9RzEwX
- YDnrub4G93/Z4Ic4nEf3txXJKLJOdYwt+4QMhE8My4n4S/EVAuG2hWXQLjLqYyYfYx1ivv9fxzj
- tG9wxyJ7FtfBwbBS0kOyhp8H+BVPMPuWphQ1XRpxi6llC85FdFRrffSYg3Hmz79FRGP6w2l7JnC dbEzfqOuSPOcfLA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1222; i=krzysztof.kozlowski@linaro.org;
+ h=from:subject; bh=Uk35tE2qO25Ol/DPpUFiuym8i93OvRDohaSn1NmlUNU=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoDgwchoqo8qZ7tpRlydSzbLL5LHIcT5imcAQdh
+ lmBJlaYMa+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaA4MHAAKCRDBN2bmhouD
+ 1zBvD/wMLwsj4jm0yAIY7dk4aMpXOmJG+Ltq3m/n8p9kRV5iNva1LvWrKSCPnUds8dCcXnYROgi
+ MdUdgEsBa3kdCGUeRv5EUhyEM41jnBvWxl0z/ipgl3va5F0xZVRhRrUuegXkpQAJ37X0Zt56WYA
+ 9C4SZ91I3zR0K1s0nOGPg2SHv0eBt+ApXW1GVR366AB57TvkfnhPqLIHZ0lDxhXh+cBzCxKfSp4
+ aGe1+NBUSQFDKg9MJWdP7yKsTRX0IHu5E4FKkRyiuti/uG/FfWg6kwDUt4J83lfm8RqB5Ne059A
+ CLTJbHpxZAXMiyDZXcVph717ix3+L80SFy7RhGmgMZM+2BGGZA9FoHx5f5XbM8aWDENRp6L1rmi
+ 2acaOSY0QMJMXNmzgFwYKYvqNynMyqvRbdK1L5h0RNNKbsGE9lWFAgw21fCgujLpMvLvMxOg0Yx
+ qG9unLzCUNU0Tqx+iMmypnYGVRVVI2wOj3/4mS+5AoElwxqiCDbX9KORuEEDXZwasur1m4/PzXg
+ /3EQj1gkjSppcgSoDL3SLJh4yBvHJqyCme+JL7S7uhLCJiTh4bkPY+HUTwGe3T1xFyygKh08oVI
+ 0hTawH5Kve+sJPrul3RpSqYjNRzrtBhBeZwf40omUAdndG/ohII/3jUgIwsdw681nAZHnZkJzu9 9eJJWWpVw+haFVA==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 Content-Transfer-Encoding: 8bit
 
-Drop the kerneldoc marker from a comment within a function:
+'devid' is an enum, thus cast of pointer on 64-bit compile test with
+clang and W=1 causes:
 
-  wsa883x.c:1402: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+  tas2764.c:879:19: error: cast to smaller integer type 'enum tas2764_devid' from 'const void *' [-Werror,-Wvoid-pointer-to-enum-cast]
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202504261851.TJGZIvtl-lkp@intel.com/
+One of the discussions in 2023 on LKML suggested warning is not suitable
+for kernel.  Nothing changed in this regard for more than a year, so
+assume the warning will stay and we want to have warnings-free builds.
+
+Link: https://lore.kernel.org/all/20230814160457.GA2836@dev-arch.thelio-3990X/
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
 ---
+ sound/soc/codecs/tas2764.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cc: Dmitry Baryshkov <lumag@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>
----
- sound/soc/codecs/wcd938x-sdw.c | 2 +-
- sound/soc/codecs/wsa883x.c     | 2 +-
- sound/soc/codecs/wsa884x.c     | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/sound/soc/codecs/wcd938x-sdw.c b/sound/soc/codecs/wcd938x-sdw.c
-index cabddadc90ef..e822cc145250 100644
---- a/sound/soc/codecs/wcd938x-sdw.c
-+++ b/sound/soc/codecs/wcd938x-sdw.c
-@@ -1225,7 +1225,7 @@ static int wcd9380_probe(struct sdw_slave *pdev,
- 	if (!wcd)
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index 97968ee3af42..36e25e48b354 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -876,7 +876,7 @@ static int tas2764_i2c_probe(struct i2c_client *client)
+ 	if (!tas2764)
  		return -ENOMEM;
  
--	/**
-+	/*
- 	 * Port map index starts with 0, however the data port for this codec
- 	 * are from index 1
- 	 */
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index 1c9df7c061bd..f04d99c66f33 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -1584,7 +1584,7 @@ static int wsa883x_probe(struct sdw_slave *pdev,
- 	wsa883x->sconfig.type = SDW_STREAM_PDM;
- 	mutex_init(&wsa883x->sp_lock);
+-	tas2764->devid = (enum tas2764_devid)of_device_get_match_data(&client->dev);
++	tas2764->devid = (kernel_ulong_t)of_device_get_match_data(&client->dev);
  
--	/**
-+	/*
- 	 * Port map index starts with 0, however the data port for this codec
- 	 * are from index 1
- 	 */
-diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-index daada1a2a34c..fd6ebc25fe89 100644
---- a/sound/soc/codecs/wsa884x.c
-+++ b/sound/soc/codecs/wsa884x.c
-@@ -2085,7 +2085,7 @@ static int wsa884x_probe(struct sdw_slave *pdev,
- 	wsa884x->sconfig.direction = SDW_DATA_DIR_RX;
- 	wsa884x->sconfig.type = SDW_STREAM_PDM;
- 
--	/**
-+	/*
- 	 * Port map index starts with 0, however the data port for this codec
- 	 * are from index 1
- 	 */
+ 	tas2764->dev = &client->dev;
+ 	tas2764->irq = client->irq;
 -- 
 2.45.2
 
