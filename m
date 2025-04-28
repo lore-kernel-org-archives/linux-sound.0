@@ -1,271 +1,125 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2051.outbound.protection.outlook.com [40.107.20.51])
+Received: from mout.web.de (mout.web.de [212.227.15.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136931CEEBE;
-	Mon, 28 Apr 2025 02:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745806269; cv=fail; b=ZRp7nF+Q6HHig7WGbENeqgH+UMZaEpaC/MA5iPj3F2HHinH0P1Gnfaf1XeZLrVaCeqG2R4s5TG+3pM/KMeggG0SNYCu6HyJBImWaZ2WgVr70ttOJaWMV0c9FvfrOWn0IC8YSDO0TinmtF5V9LRf00ahSyYdEnZNGXtE0Ud3lomI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745806269; c=relaxed/simple;
-	bh=5nyC0HpBCpJxerFRaGt2W8pQIN+4nUL6P3ojYdbc/2o=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=BigMyipxTAcV0VD/t5vhBwElDqJdlY8KvjAhURt+VwcwuY6OjYzIJUgIykB06YVWdyrjxSleWlN8GKsoDqv3yXXmxOxDSc5S6x9dZS1zNBAkeCLG9Gf56Op8KoiXgLLOMUhRQFYTnyBIHP55koeoATjx/kp0ky/lSHTDarA1tbc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=qlqPtyWz; arc=fail smtp.client-ip=40.107.20.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9B91917F4
+	for <linux-sound@vger.kernel.org>; Mon, 28 Apr 2025 05:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745818691; cv=none; b=nRDE6RnbpYmVNzdakBRUnb0RoZ/HSB+q5WXX+f5VO08jvx0RtbXX2eWtkmKQW8GGhkAGxJTaybywQ8yPi7X6UKJCJqVsdM3nRTzno+24ZbT/HHHRbPK6PN3PN+X1F7uIiaHpqR+gZRh8oB44+9UHUlFMdA9r9unmDHPLzpKX880=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745818691; c=relaxed/simple;
+	bh=xCWRbNuSxWiOFbAg++Llo7vK92KCt2k/NusBqYd+C58=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M/hbTpKZ0eQgnVdaqb5fgsMy3WJ4mHKJMAI00T1HSL4+GjK5aX6puiTeSmKVkfww1k9ERDpuV9nqbhv0JfbjE1bErtzSHpwMkat7tP6P51M3x7BVAgsqWOI2EAAG03f6EQw51DH7kIW3nZku6SDsJ7Wqk4+eB/tOSMzCSi3dH80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=joachim.priesner@web.de header.b=XvWO4Ibu; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="qlqPtyWz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D34jkC3sGFsFvG0i/8VIxcLic7STo0i0OKEnT+cTzdjCeX0o6sZ7UyNEljElGes/UcrX/W4DZDhtUWmltMaOy0tN6cSkcHNj7QoJVsxqbleag2btSSZrOl9VCgOx73cUKpsrU+bU7Q0hvsHZm+F/UYC1Hx8dzL4FTRJL1EnQeUNsz3XiqEab41tvOBYuDwKTShC0a3EokcksduhTJ0zZPWE/Q7U2aJxpnV7/f2sDdQ523WWK6/Lmllke8I+01Ab5iECQwEiBAzYkVZOIAvUuDOqaURx6mKpyL+H1EsFlln472660M5KA/FtQEk4taylniAgSo6ZHxi6vy8PeO2A5KA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CYdjuhwvsfxVUEvKeKODcrk1U2kmXEfmBE/qUmzTBBA=;
- b=o/A6jkvXCC491yW9ffSnSHhd0pNkvqmGJ/4UL+/jntX5CpLtD6MrgeeuWzE4QxQymh92UrI0v8IZHd3w8qGYRjnEyM39L/gqKGr61BU7/8/6c0MWi3Q4cd3v6P8BPIjpyuNPGBtSBvTqALoCJoeOF8Kb9XjE5eIDV09JDdPAvZt8cIyUeEYVNiB8yFSD6kt8rdLj+4cMVgtv2kYvzXIgxvz6w63Sbatkt9xQgsBzeCzuk12DcmMMXVoXcu5rjv0HOwYPM63cinN7f4EiDJtQVoF6LACTX7tfDu++656uMuYDyK3+ZBJQbVVwOSCaCHKccpWOgiVIuAp06RraDDMVGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CYdjuhwvsfxVUEvKeKODcrk1U2kmXEfmBE/qUmzTBBA=;
- b=qlqPtyWzQfqdDQX3IZ6Cjhif/6ey9JUMpYFX/bbTf89LlEscuaRFK59k0yi0VLPG3/Ke1O6tHkyFSoMnA+bx0z5xQnH90Ad2r3+lme8hZqrw0Xgshp7YraqDubdy97JM7rh1ydvqp+MmI+Rb/0FlZC8ad3a7d+gm7i15jDA/y3Koc0KyHocP8NqsdQwEn4IXvFgj2ngmpRhvMcNTI1nfHUdCnLA56dQwxIqpDPFUSsgrUsnd3pvzaN1gh1U+bCFBSjWFJ5H47fDm1sNWgibtjgqB8zXOCI2KZIKcrGGhlPSouiC0N9iixmdEnsCDgjLKWpIYA7vaGLp6f0DyrdTx6g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by GVXPR04MB9901.eurprd04.prod.outlook.com (2603:10a6:150:113::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.28; Mon, 28 Apr
- 2025 02:11:04 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630%5]) with mapi id 15.20.8678.028; Mon, 28 Apr 2025
- 02:11:04 +0000
-From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Date: Mon, 28 Apr 2025 10:09:10 +0800
-Subject: [PATCH v2 9/9] ASoC: codec: cs42l52: Convert to GPIO descriptors
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250428-csl42x-v2-9-e8056313968f@nxp.com>
-References: <20250428-csl42x-v2-0-e8056313968f@nxp.com>
-In-Reply-To: <20250428-csl42x-v2-0-e8056313968f@nxp.com>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
- Peng Fan <peng.fan@nxp.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745806152; l=3098;
- i=peng.fan@nxp.com; s=20230812; h=from:subject:message-id;
- bh=Meie2Ur8+olGUDMVKFIdjW59K4DPyviqRjxk8qxOcTQ=;
- b=47scwI1bM1W65FhPQ2o45D0pAVvVQqPLfO7mqYfUXeNxDEBiqMLfKz/nVpqdhqe5VN8glNq+m
- PvQhi324b64DIDtb9uWZVPXL/b81d+fkWknXkqIivs6L45RB1dA4YCq
-X-Developer-Key: i=peng.fan@nxp.com; a=ed25519;
- pk=I4sJg7atIT1g63H7bb5lDRGR2gJW14RKDD0wFL8TT1g=
-X-ClientProxiedBy: SI2PR01CA0027.apcprd01.prod.exchangelabs.com
- (2603:1096:4:192::7) To PAXPR04MB8459.eurprd04.prod.outlook.com
- (2603:10a6:102:1da::15)
+	dkim=pass (2048-bit key) header.d=web.de header.i=joachim.priesner@web.de header.b="XvWO4Ibu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1745818681; x=1746423481; i=joachim.priesner@web.de;
+	bh=Nca6U+xuy3JG+19E4HT21jmV/sPG6WjVGy0B1MENzco=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=XvWO4IbuFUroLRrxsRerGWUJBllCDyYj5ZwxhV8SzwEKzdiHGCrwobsVSwGvE02Z
+	 E2ieT4PIQfk6Yky4cmRE1jnhyu2+n76kinqUufk4aY+VdWiNY5pYH3iOxXFjwyZiN
+	 QkAeAL4yljbueuNr5huW4dDxFMy2I94qLR7OSuNFrj0i+6pJMae1hxoC6Q5COcJdI
+	 uaFe5aipsJJMz+ujsrcav+oeD0AXoR01LQWqsIk5uZ7agzj4Mib4/dAkFx4psXgUD
+	 fqkXpS+gobJCeKefMg/H2X0J0bCbGXYg9AuyMMk6yrfj0uCIinL2HYg0ygagV3J54
+	 EKJnsXBwJLgVFnFP5w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from gazelle.localdomain ([77.12.158.244]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M28SL-1u6oLY0z0L-00CN7B; Mon, 28
+ Apr 2025 07:38:01 +0200
+From: Joachim Priesner <joachim.priesner@web.de>
+To: linux-sound@vger.kernel.org
+Cc: Joachim Priesner <joachim.priesner@web.de>
+Subject: [PATCH] ALSA: usb-audio: Add second USB ID for Jabra Evolve 65 headset
+Date: Mon, 28 Apr 2025 07:36:06 +0200
+Message-ID: <20250428053606.9237-1-joachim.priesner@web.de>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|GVXPR04MB9901:EE_
-X-MS-Office365-Filtering-Correlation-Id: f740b855-1779-43b1-ed3d-08dd85f9eda8
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ME9wSlVvSlFZaHpxK1RSSWMrRElScDBhbUJaTDFLb1lhY3JGMXVEcUU3N0Mx?=
- =?utf-8?B?R0V3eHdQelc2TkpOdzBadjRhQmZaSnJSbmxzczdmb2NzWVFIWUhLZ1Z4NWVX?=
- =?utf-8?B?cFpwU0ZtZE1XRDJQbGsyb2s5bjFXZjUxSTFaY2dRMDZrdmY4dlZ4UHBkdUxv?=
- =?utf-8?B?Y2VBY21YS2FRNk9IczRFU1l5TmJkcVk1cjhzRDNLTjNLV2l2akdPdGQ3ZnB3?=
- =?utf-8?B?YUlRYjJtd1o4L0hONDJhbnhPRGw2K0dvWjdoUVczUXBaSGQyMU1mYkVXL0lt?=
- =?utf-8?B?TUpSRS9RUW01VW90RHNBUmVkd3liTE5XSUNLRFI3SThNQnpKNXQyU2JJTEw3?=
- =?utf-8?B?Y0lKSUpuV0FzMEx4MndHYW85bENlMEpsTk5DZmVBSDlRR2tybmpyNlU4UGla?=
- =?utf-8?B?VHRjTHdtTlBRb004djlSUVJZTTZMTkZibWFvS0JOY1BocHVWWTBiZjA1QURL?=
- =?utf-8?B?NTdsMFIzUUU4RU00Z3lTdmlOMUx5M3d0bVBHZkZuazhrZ3BOc0JHZWcvdmF6?=
- =?utf-8?B?dlVFY2d6R0s0YmdYR1ZKaURJZzc0bmhncXZISENhNmh6cEJZa0R1Y3dQNDNN?=
- =?utf-8?B?TzlacTFLU1dHQlJMMld6eVgxMVVnaFhKdEwvK3ZPaWtMRGRyQ3pKQUtROVJE?=
- =?utf-8?B?YnZmeHlGTlVwbTdBbFRRcllSRUxSMmNxOTFiZVBaK3hJNXh4YnExQVlQcFA2?=
- =?utf-8?B?SWZ2TUtKNmpZK2hpYTN2MzJZdXpYR3BLVlRDRjNDVEw5WWdnVkUzWE5tNTB0?=
- =?utf-8?B?aU9HR2orRjcwNm10clExK2lTRWF0QmVlNEFnQjFIM0dTM21VdVZ4bzRTM1hI?=
- =?utf-8?B?YTNWSDdwa2VuY0d1YlhnUFZnV29CVG1NKzR0Y1AzU0FLZForMnh6elNqcVQy?=
- =?utf-8?B?QnVJdU1GZjd0ZFBUdGhsWFBSTkFwOU11RmJlSGVxVk8yYjhvcUtUeTVIa3RM?=
- =?utf-8?B?TXBnY0IvNmlQV1ptVkNqM2tuekdReUpYb1NUYys2a2w1VzBsbGtSTlNtNndD?=
- =?utf-8?B?YmZrMGVnTmx2ZElvbjdOV3pnakN6NnFQc09ML2pKaGpmM3BaaVdPZWpkTUtr?=
- =?utf-8?B?WWhqcGpjS055WWRNbWxub0sxOTM3bEwzQTZSZENoVVhBT1ZsRGZ1eFluVjN3?=
- =?utf-8?B?WjVxVVI5UWd3dUxyaXlNbUVkTFlHZjAzL2JyN3lUWEJhdlV5VEZzWVZUZTVk?=
- =?utf-8?B?c2dkWkl5eVdCam45V3kwNVlpSGFzQlRuZkwzN1dQWnE4NHBYWmVEYzZESXYr?=
- =?utf-8?B?K1dPcXV6WE9vTGVaUWFvTVY2MlVsS0VkU1hBenU4WGhBdkZtNzJpOHdHcjlo?=
- =?utf-8?B?czJPdXd1SXZhSnluK3NzcUNMYS8rQzFaczFyVEZuUGxrREtxbWhwbnp6dGVC?=
- =?utf-8?B?UGRHeXNNeVdLZm5Vd3hQU0c1a0RoNjlhcTd5U2hHRW4zSDQ2ZWFZeWtsK3ZW?=
- =?utf-8?B?L2w1NFVra1U5RmZic21rM0Jlb3VYNHVndzgyV1hYd3pRRG43dENUNVFuNSsx?=
- =?utf-8?B?OVV1ZlhrdlQxLyt3UXFsUm9ZYzBkVjUzd1p3NW1CTDFaUnFSWDZIZ014eE9v?=
- =?utf-8?B?WEJhUEhyekIrRFZrV1NOZzZHaGpaMkgwOU5ja0EyRzdoLytLMmVzVVlCc0xw?=
- =?utf-8?B?NEVnN0d0QkNwOXhSVVNFYXRQc2lyY0lRQVNQNHRTeEwrYS9JczJvdlV5YThx?=
- =?utf-8?B?djNwV2cvV3o3cmc0YncvdFhoYmpKQ2toRnRNTkp4Y1RLNk9HejEzMnFSM1NU?=
- =?utf-8?B?aFpzaWkwcFVXUEJBeGpDcTlheWZldEJPdWhRR3JpY3VYR1pDa2RMeS9HR0k1?=
- =?utf-8?B?cERmQTYwNjlBM05vQlI3Vno0am5IL1dGZWozaW5aOVR3VWwyZlhScmo4QlJY?=
- =?utf-8?B?UzA4NU9ZaGoxdmswM0RXTmt4OHpwaHRuMnRsNVVkRlZyQUlyWHh5aUJGU3o4?=
- =?utf-8?B?YzR6RWRoMlk2Z21zSkc5TXIvV1o1M3VzVDZYSG50SFFER2ZlTWxBZWNmaHNm?=
- =?utf-8?B?bUV4TDUzYXJRPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R1A0a1RyaS9HWkxONVZvVEJLWGQ0YUhwMUc4MXl4U2lnYmVVOXZjMWJNUkdK?=
- =?utf-8?B?OG1zWW1JQTRpTVIrdVdZU2Y4OEx2dkMxa2g1ak8yQzAwdzZ2R0hwbkNuVDZC?=
- =?utf-8?B?T1RKZ05SemtucmdrTDhQZFJiT2dUd0hLQzU5SFI1OGpxVE1hSlNCeVRVK1VS?=
- =?utf-8?B?SkJaL2NtcDkzQk5iR2wwZXZkbC85alZLSlB1RkZHN1p2WUF4T1JxQkkzVXFF?=
- =?utf-8?B?azBwT0xuWWtvZzFYSjgxUDUrQTQ5THF3MzZEVlMxc2haOWoyVE1FK0w5YnNr?=
- =?utf-8?B?REUyRjkrQ0V2ZDVzRy9TYnRpVTlkMkVOaGM5TDVhSXR3QjcvbVQ1ZktEZC96?=
- =?utf-8?B?Yjh1dXlNZ3RldzNtOGVLWlVqaE5pU3JuL1lGWmZwVmdralN4a3diVVhKKzJ0?=
- =?utf-8?B?ZTRXZDV4R3JqelQxdG1EendjdDdlZXFYTm1CTXFCd2RIUWNBU1BGWU9uVnlh?=
- =?utf-8?B?cUU0NXd6cnpkVjg3ZEpEQzdoUzIwSEIzcUQ4UTZISUhROTg2THJOQUcvWjZv?=
- =?utf-8?B?R0RiY3E3SUR6UmZTTE1hQi8waXQ2MURXSER4TVkzeW1hS3JqZlpLTGZQWUdl?=
- =?utf-8?B?R01pWkw5eWdiVnJkY3UwVzc2NzVGa01uS2VyN2tjV3Q2ODFVaUpoVWJNbHZF?=
- =?utf-8?B?VVpVVzlnWVNpODlCUVVJdGR3cXBEZFdmeVpjc25vT1FneXNSOEhyc0x1QkZ2?=
- =?utf-8?B?V1RMTzBVUUh6TjZYaWhtZEpXaVJnbUhQY21FdDc3TTcxOTJ0emJBTStVSGpI?=
- =?utf-8?B?Y2FyMmF2VytzQWZjUmVMSlpGSGg5MzJ4ZmNadzl6YloyQVI5Sjg5YW5MVUdn?=
- =?utf-8?B?enZIaUVYdmFLUHkvUGUvT0VJMkd0bFliWlFwa1hmVU1CTXovcDlSNkg3SElK?=
- =?utf-8?B?VFB3MkhqYnlTL2NzS3hoSENYQTdvTkdNY1IyMy84ZzVKR29XWjNYdjNhekNj?=
- =?utf-8?B?TllObW5DSE9FeC81Q1dKdjdxUGtUazYzRHBzS0RSR2J3akx1VGFqSGpUSUlE?=
- =?utf-8?B?NlR3WlVDQUNWc3FndEhDbjRqcXFvSy8yUmRranYwNVRIZkRVMkRQMTNXTVo3?=
- =?utf-8?B?Nm9PM2ZmMDA1SU1rYll0STdXZStLMG1GVTJSWXdtTW5vbStoSjN6dWhDa3Zv?=
- =?utf-8?B?aGJHRFlVS3pVYTZPajFQNFpNVURveE1nZSs1QmxpY2hjaU5qbCsvODkrbWJT?=
- =?utf-8?B?aVU1RERHS2wvdmN4bDVyd29wMlA4U3VDbjBBRjl6TERERUhEYzlRaUw2RHoy?=
- =?utf-8?B?aTBkeVhIZWxIcEJvcW04YkZaTE9JUkdqek5MWitOa3hQMGJEbnJISWpSWkli?=
- =?utf-8?B?VXQ5eU9FNnZtOUJYY3NJQ0t4T0JYTG9iVnB3NTVrY0FhQlBtajRDVVNEcWtM?=
- =?utf-8?B?T1VadTY4am0rK1RaalFjcnFteXc1eVpPY0xqM3RHVmxHaXd1aWljSDhadlN5?=
- =?utf-8?B?c0tGMm1rd0FnQ3RVb2JGeTMzSXdpQkhkWnBaaStFcldaMTVqeUg5Mkp6b211?=
- =?utf-8?B?SFdBazUzV21jaUhFbzNHMnlNb253U25HM3RER2ZkZW5sMnVsYlNSZXdkeWcr?=
- =?utf-8?B?MGxBYjhJSlNKb2ZuRkV4Z2RSZnd6M29heEhKWEhYL3RmZEtjY1gwak5IdUd2?=
- =?utf-8?B?ZmlEek9xVVBSRS9SOG1ZZlRJbmUrOU5xNFcza3FDbnhoeTZrVFFiSEhzNUlX?=
- =?utf-8?B?QmJhdlJEVmU0N2JJY3dWMWdsMFRKVGhnd3ViYWNkRmNoQmNCTVN5UFdkdXZw?=
- =?utf-8?B?bWgrTFoyNkhxTGdqTFV2cWpmN1d4ck5jblRtcExWa1FKMGVzR2QvNmJUUDY5?=
- =?utf-8?B?NThCMzIvRWd3SldSYUFkcTM3U3FGclVZY1g4eU1MSW00KzZvc21VMzNvWUNE?=
- =?utf-8?B?SDljVXBQbFlHSzNabS9mSFYwbys4MEFnN1ZSbjg4eUNxY1QxdTR6NDdUN3Aw?=
- =?utf-8?B?ZTBCT0g0R2lKUzF6b1UyRHNBRlIyd2JpZUFaVytweHFPMUt0eTZwaUQ5ZFlk?=
- =?utf-8?B?T0JPTk9DMnJRVCtjSEdQeEl4VGdPbnRkM0Z6SlkvcHorNkxicWViNmFwZzl3?=
- =?utf-8?B?aDVYN1FNbTZmQU5VbGc5cDMvR2VYZ2N3cG1SZm9TTGFzQkVhU28wKzlOUVhY?=
- =?utf-8?Q?lvPXCGPqfzkpoO1X6nhIim3GU?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f740b855-1779-43b1-ed3d-08dd85f9eda8
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 02:11:03.9471
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CEqlIodu5VdfXCMZsmVvkL/F20Thi9Om/bQy5HFvYW8SV6X5n0S9JngSrvcJNmZMqcSSDDQvPiwhmHs8FXuEWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB9901
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:gaDyZ6f8RBTZluJm3hGaBGIKKKNbdHsowhgYNGNgZyqa7FkCiOZ
+ xzFeE3yYd6DQdjzEhiAF/g14HQSqPFpsPMjhm0y2G+CkgVqdW5wFrxqr0Jq87dALlbT7x45
+ fqEzYhqEksAiY49dF9qbpvLoEhVpBr8TGEg1x1P9Ld2Dfw980CLE3isP8V5/Mbsfk0Wl/eE
+ 5ZyVaugC/LMKTcc7MiT2A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:QnAOaoEP2U0=;ayMRheUO3pq4mHW1LH72LdrW8cV
+ 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
 
-From: Peng Fan <peng.fan@nxp.com>
+There seem to be multiple USB device IDs used for these;
+the one I have reports as 0b0e:030c when powered on.
+(When powered off, it reports as 0b0e:0311.)
 
-of_gpio.h is deprecated, update the driver to use GPIO descriptors.
- - Use devm_gpiod_get_optional to get GPIO descriptor with default
-   polarity GPIOD_OUT_LOW, set consumer name.
- - Use gpiod_set_value_cansleep to configure output value.
+Signed-off-by: Joachim Priesner <joachim.priesner@web.de>
+=2D--
+ sound/usb/format.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Checking the current driver using legacy GPIO API, the
-reset value is first output HIGH, then LOW, then HIGH.
-
-Checking the datasheet, the device remains in Power-down state until
-RESET pin is brought high.
-
-Since the driver has been here for quite long time and no complain on
-the reset flow, still follow original flow when using GPIOD
-descriptors.
-
-Per datasheet, the DTS polarity should be GPIOD_ACTIVE_LOW. The binding
-example use value 0(GPIOD_ACTIVE_HIGH) which seems wrong.
-And the binding use reset-gpio as example, not same as driver using
-"cirrus,reset-gpio", and there is no in-tree DTS has the device,
-so all should be fine with this patch.
-
-Signed-off-by: Peng Fan <peng.fan@nxp.com>
----
- sound/soc/codecs/cs42l52.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
-
-diff --git a/sound/soc/codecs/cs42l52.c b/sound/soc/codecs/cs42l52.c
-index aa8c001cce099e3c1dfc979678fe8000caed097f..a9ffba62aaf88c55a715d83609382d6fc5cfaa8d 100644
---- a/sound/soc/codecs/cs42l52.c
-+++ b/sound/soc/codecs/cs42l52.c
-@@ -9,13 +9,13 @@
-  */
- 
- #include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/init.h>
- #include <linux/input.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
--#include <linux/of_gpio.h>
- #include <linux/pm.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-@@ -50,7 +50,7 @@ struct cs42l52_platform_data {
- 	unsigned int chgfreq;
- 
- 	/* Reset GPIO */
--	unsigned int reset_gpio;
-+	struct gpio_desc *reset_gpio;
- };
- 
- struct  cs42l52_private {
-@@ -1146,25 +1146,21 @@ static int cs42l52_i2c_probe(struct i2c_client *i2c_client)
- 			"cirrus,chgfreq-divisor", &val32) >= 0)
- 			pdata->chgfreq = val32;
- 
--		pdata->reset_gpio =
--			of_get_named_gpio(i2c_client->dev.of_node,
--					"cirrus,reset-gpio", 0);
-+		pdata->reset_gpio = devm_gpiod_get_optional(&i2c_client->dev,
-+							    "cirrus,reset",
-+							    GPIOD_OUT_LOW);
-+
-+		if (IS_ERR(pdata->reset_gpio))
-+			return PTR_ERR(pdata->reset_gpio);
-+
-+		gpiod_set_consumer_name(pdata->reset_gpio, "CS42L52 /RST");
+diff --git a/sound/usb/format.c b/sound/usb/format.c
+index 9d32b21a5fbb..0ba4641a0eb1 100644
+=2D-- a/sound/usb/format.c
++++ b/sound/usb/format.c
+@@ -260,7 +260,8 @@ static int parse_audio_format_rates_v1(struct snd_usb_=
+audio *chip, struct audiof
  	}
- 
- 	cs42l52->pdata = *pdata;
- 
- 	if (cs42l52->pdata.reset_gpio) {
--		ret = devm_gpio_request_one(&i2c_client->dev,
--					    cs42l52->pdata.reset_gpio,
--					    GPIOF_OUT_INIT_HIGH,
--					    "CS42L52 /RST");
--		if (ret < 0) {
--			dev_err(&i2c_client->dev, "Failed to request /RST %d: %d\n",
--				cs42l52->pdata.reset_gpio, ret);
--			return ret;
--		}
--		gpio_set_value_cansleep(cs42l52->pdata.reset_gpio, 0);
--		gpio_set_value_cansleep(cs42l52->pdata.reset_gpio, 1);
-+		gpiod_set_value_cansleep(cs42l52->pdata.reset_gpio, 1);
-+		gpiod_set_value_cansleep(cs42l52->pdata.reset_gpio, 0);
- 	}
- 
- 	i2c_set_clientdata(i2c_client, cs42l52);
-
--- 
-2.37.1
+=20
+ 	/* Jabra Evolve 65 headset */
+-	if (chip->usb_id =3D=3D USB_ID(0x0b0e, 0x030b)) {
++	if (chip->usb_id =3D=3D USB_ID(0x0b0e, 0x030b) ||
++	    chip->usb_id =3D=3D USB_ID(0x0b0e, 0x030c)) {
+ 		/* only 48kHz for playback while keeping 16kHz for capture */
+ 		if (fp->nr_rates !=3D 1)
+ 			return set_fixed_rate(fp, 48000, SNDRV_PCM_RATE_48000);
+=2D-=20
+2.49.0
 
