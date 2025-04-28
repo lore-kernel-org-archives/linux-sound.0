@@ -1,46 +1,46 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5D22951C7;
-	Mon, 28 Apr 2025 17:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C1027CCD3;
+	Mon, 28 Apr 2025 17:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745861781; cv=fail; b=Ck+HqXs7aqV4AHDYyFcasRbBqC3r1h4D9k3WVIuYzCOifKfvHRdHShp5Zd1OjErlVWQB/rLAaDp+36l0N88StUWKzdNHvuAe7fcT5glQDe7D1Eq45Q35UfOwXKUsq9XSIkJlCq04hRU/X8quVENr4I4iBVG/HgTPq2ztfCv9KRU=
+	t=1745861940; cv=fail; b=OBxb8pfgVjWv+s5aUK2DkVoDFWJ9k3gk5GatEKNpjd3FtmxDVyYkxnidKwS5rw6sQCqefWmLWrlr6tTzA5OKTEw1Kb/4JQ9u/VJjvalN5W2fyE59JDV7jwfLVC5nHz6V9AiNn3vujIs4YJ/OpTkwCcNTTqRiWhcV40SnyweG36w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745861781; c=relaxed/simple;
-	bh=nYxpa7Q0Kg15dZabvsAR1mtxBwVGk7SCJCrorO2l/0k=;
+	s=arc-20240116; t=1745861940; c=relaxed/simple;
+	bh=COXOJ3xceGRDTliTgdl1akHwKm5IrwrxEERfiaG3l9k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mNQRczSAUPtLtzabK+UYFbIG8iVlJOeTOh9Gf2UAHaAS51ydRVuy2/X6aWOP2bGBv6YrFNPgZavWbfL5BBKKR/VEiFzaQBxqGichAO0DWLl6kdyXGPsMx2uu451fAG81CNfHDeZgaZVsiQcQK3IP8V2ywIROEq5llzD3EV1PHr0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=V6C4hurS; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Y35CFrdB; arc=fail smtp.client-ip=67.231.152.168
+	 In-Reply-To:Content-Type; b=pw0xvlZic/Jjkm1kTKWqeLe1ydajm/YFmYMksF0aqk2fglgzBr4VFtYZ9a/6kn3h/cg7XxzzR3GwY0WTou4BIZurqSH6WtHxDey0wWrY7xZGhWs2UwPp7JkjjD5DVXWm5rGfVNcAH9RbQaPV+4KbbhPZKjqdIrW0vBTr/qtMrrY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=p0PZm5A6; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=hsZEi3Gd; arc=fail smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="V6C4hurS";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Y35CFrdB"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53SHaCiK029951;
-	Mon, 28 Apr 2025 12:36:14 -0500
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="p0PZm5A6";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="hsZEi3Gd"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53S81SYt013255;
+	Mon, 28 Apr 2025 12:38:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=vDZejAPyqCfYwxeIxE+SL3lgzdk1y7/S85u5wKSiW4U=; b=
-	V6C4hurSR7TMLQTmYnDZJnRVaLzXhgjDxit9dJf0nQ/BuQQEuThxVIooPSb2tC9C
-	bZt5cMHPzoNVaAitcDJL6NtwZWu89GNaRsMGPGEt9iYPlfiT0TBdDoL0T7GTrqJI
-	IuCTE9UsNO5vC8WhctdY5QKHsaTwiUVGrswDg7pJTHz+HcbZ54fEGFV1TpzfgQSi
-	iIZ18GuXDXw6fuwiUdFWkZOmTVIyDsPe4ko0YDkeDmcLDxDcbLPCCOo7y3PxTYcY
-	QYTqDp8sSWziuiCWwe3mh/45qLoXyZC2xvZpdo4S+YelgNIHiVN6ysu5bu3Z3xhq
-	VfwFL954EtUkOoptlJK58Q==
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 46ae7cg00c-1
+	PODMain02222019; bh=clzNn3YuII1L3ICe0tS3iDVykcNPHIrRn/UqA6iEmjE=; b=
+	p0PZm5A6EkzzcqxxCeakRTEL7h5yQB7lpdzg5gu7pquVd/cSEFuZW3ITBjxdlMRE
+	rool4axKBKl9Nz7cWHs0VmJHI20c4U3mizz6XYq30Y+jHC20ZvZl2GptrWlRwN5V
+	3AIVUJs0ILXgJPOS5lzQT0Ghu5sCtVbErqjMKvtbs26dO6Qo8IPeKYc9UFu72dCI
+	o7lRc1XzgvSWuBztZ4VyenVBe90mNUmRksxKqthgIqrHkTuoHRQEysVtOB01Ihqv
+	rBbj/Qc8b9rFwKRPHXzi6UiCiK/kH5IFTfAzJAevtnK55SYrQ1Wr83uyQNsxobfA
+	PKsfWlokyhWt0Lal3sg3zg==
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2174.outbound.protection.outlook.com [104.47.73.174])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 468vw1ajck-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Apr 2025 12:36:13 -0500 (CDT)
+	Mon, 28 Apr 2025 12:38:53 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NQugvzPOtXBJpJRG/O+u6fAO3j5IJQPeaXS9/2a/zQbe9905WdpvMbToMPDIDslypakV7xcHFaoE3qBeFhT2kxNfZyjyIxo1oANV3leKbhPVrY7TVaMUK5TZjMw71F2Zvn3PL94H8u3TX6vpys0m6KPkXo/mtLz6WMmYGsClznt0eU7XI2gLUnD66TRU1T7rSt44TKPCCQTkEk9bXyDD+b1vtzW3mZ0ie3cbGCpNoRmPqHa07ZStUtf7dyk65/rsx0E5I958dyFcyvOgCF5E4CG74x6Nlxeq8Os7KgQFXLWsC8g2YZEgKahzMG7RpQFtzILsm9eQMjsQc8HgiWywSQ==
+ b=uiCJqrFCM2t9hc76hg+OOWAl+jcLc2LxATHEvsSlkmPXA2N4t2KEE9KeMUBxO1PbUMmIA0aRqb98LGDOtDdZUBHkOumu9jrOvycACfPLsYga7DRzkykgnT5iKYw7+Ui4vyCDILghX7gihBHj0iTkuzFTL50eTSjAWMSBZLHJ2638MgfeYhtsOjkMnVfozia6sVOwZAL990WzFM+/P8idVmozyV3muqxxfIjj9gILqWEzrNGZq2e/61SzeZfeLjA5WBjqQ4Kv0ymT84gtdV4VBrs+BKrZyYo1dibJ+pDN0h3jAKUv81GzJj/VNFDuNnJDy/TDo0r+esuZORphcmRuHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vDZejAPyqCfYwxeIxE+SL3lgzdk1y7/S85u5wKSiW4U=;
- b=d3JwHZuieaeNmpXb4e+vKZqXysuQqtLlH20FiH6/B3TavseB4hhh44bPSGpg4TuMk237OzW0kYYkiVRYdFCrHuUw+RFzYFQKchlq8YiGIwXq/981MZ0mFwJCAqmur07GEcMX/hf+QHa+YShpd7eHlAVZ9/N5IX8OBXXTsCpGTNW156hht2P25DqR/xwMPsMzjpraOetSGXSOExGcsi67HDxMwJME7WnTfKq2G8CyPyyi27ItB9IYusPLX8YXK0eBRwXm6eit+4M2EV/5Z0PO5bK8RSOQw89Uf2r6dT70IAZI7PbT+2JilEEKJqAF1P0DTELtId8zQIfyy+BrXUedDg==
+ bh=clzNn3YuII1L3ICe0tS3iDVykcNPHIrRn/UqA6iEmjE=;
+ b=Ujt8BmN4OdHQSqrz5MUu4lLgNDjr2p4KZKyLsO7UFVaFVe5uoD4LkmW12hlzaVIi+i9iOL/YylF9TH91yu+1Fn99B6W8gWXGO+ReS1PCH9KYMtTSR5eKIl2Gf+4XsR+EukbpaaEIkXh++Y+t/JjTEdG5POysUiyHh535vXqHQ2epIiLuoBy0M56h/M5Hf7oz/hgQde9Lc5fuT2tR4UN7G0nYrMcVqOLtqyzbjhYnyfqHc3w3jnNva7Ep2eFhbXMt5tSRhFkNE2Io6HN1eCSCtZOrSnw350c9mrqHvln1YxS7L1euhjSv/v0IjhFYTjC2njRBGCBJy7l/JilFqYW/UA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vDZejAPyqCfYwxeIxE+SL3lgzdk1y7/S85u5wKSiW4U=;
- b=Y35CFrdBnUSZ5g9YPPtHUtxn+94xIN1uPwkx/4D21Y7PK1dUnh6uuCpe4ZiHPgKvn2aG+kbx4cTH8jK/TKhBKlknd6EDi4vptquDqIOhuRoB/0zbAEvE4VdJpF1nBzQYUOy+stv9mxiIgr1YWadJSM/bM13Q8g91FJ7Py5BYjbE=
-Received: from BYAPR06CA0060.namprd06.prod.outlook.com (2603:10b6:a03:14b::37)
- by MN0PR19MB6384.namprd19.prod.outlook.com (2603:10b6:208:3c0::16) with
+ bh=clzNn3YuII1L3ICe0tS3iDVykcNPHIrRn/UqA6iEmjE=;
+ b=hsZEi3GdIN+Ypyj6IKVBW6FQ1Ie7pfdt8971OoNXrwf6QzplrR2EWcZxtkkbc15s82oEcYl11Jmhqv5TNoAWrhZRnpCV6Aoo9g0E13kU3NgIkGGFGo+9zbiKDZaSsce1a9EAy+CiiAnw8542cx/6u9m5s3QRmagQPsOebKWWBCQ=
+Received: from DS7PR05CA0025.namprd05.prod.outlook.com (2603:10b6:5:3b9::30)
+ by PH7PR19MB6532.namprd19.prod.outlook.com (2603:10b6:510:1f4::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Mon, 28 Apr
- 2025 17:36:06 +0000
-Received: from CO1PEPF000042AE.namprd03.prod.outlook.com
- (2603:10b6:a03:14b:cafe::58) by BYAPR06CA0060.outlook.office365.com
- (2603:10b6:a03:14b::37) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.35 via Frontend Transport; Mon,
- 28 Apr 2025 17:36:06 +0000
+ 2025 17:38:44 +0000
+Received: from DS1PEPF0001708E.namprd03.prod.outlook.com
+ (2603:10b6:5:3b9:cafe::b3) by DS7PR05CA0025.outlook.office365.com
+ (2603:10b6:5:3b9::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.33 via Frontend Transport; Mon,
+ 28 Apr 2025 17:38:44 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -69,17 +69,17 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CO1PEPF000042AE.mail.protection.outlook.com (10.167.243.43) with Microsoft
+ DS1PEPF0001708E.mail.protection.outlook.com (10.167.17.134) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8678.33
- via Frontend Transport; Mon, 28 Apr 2025 17:36:05 +0000
+ via Frontend Transport; Mon, 28 Apr 2025 17:38:42 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 4CEB1406543;
-	Mon, 28 Apr 2025 17:36:03 +0000 (UTC)
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 5B9B8406543;
+	Mon, 28 Apr 2025 17:38:41 +0000 (UTC)
 Received: from [198.61.68.186] (EDIN4L06LR3.ad.cirrus.com [198.61.68.186])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 9845A820259;
-	Mon, 28 Apr 2025 17:36:02 +0000 (UTC)
-Message-ID: <9f75b45d-2f41-481c-a62a-4edc6cb15570@opensource.cirrus.com>
-Date: Mon, 28 Apr 2025 18:36:02 +0100
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id C6D6D820259;
+	Mon, 28 Apr 2025 17:38:40 +0000 (UTC)
+Message-ID: <74422acd-258c-415e-8dad-751437e114bf@opensource.cirrus.com>
+Date: Mon, 28 Apr 2025 18:38:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -87,259 +87,523 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/5] ASoC: cs35l56: Add Mute, Volume and Posture
- registers to firmware register list
+Subject: Re: [PATCH v1 4/5] ASoC: cs35l56: Add initial support for CS35L63 for
+ I2C and SoundWire
 To: Stefan Binding <sbinding@opensource.cirrus.com>,
         Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         patches@opensource.cirrus.com
 References: <20250407151842.143393-1-sbinding@opensource.cirrus.com>
- <20250407151842.143393-4-sbinding@opensource.cirrus.com>
+ <20250407151842.143393-5-sbinding@opensource.cirrus.com>
 Content-Language: en-US
 From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <20250407151842.143393-4-sbinding@opensource.cirrus.com>
+In-Reply-To: <20250407151842.143393-5-sbinding@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042AE:EE_|MN0PR19MB6384:EE_
-X-MS-Office365-Filtering-Correlation-Id: 28b167f5-bc37-4fd0-ddaf-08dd867b274a
+X-MS-TrafficTypeDiagnostic: DS1PEPF0001708E:EE_|PH7PR19MB6532:EE_
+X-MS-Office365-Filtering-Correlation-Id: d42c6838-3163-4b7e-bb21-08dd867b8538
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|376014|61400799027;
+	BCL:0;ARA:13230040|82310400026|36860700013|376014|61400799027;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WkpNWm1DQzQ0TEZibWVrNnVUdzUyaU5UKy9HTXBwN3JaNkljTWJvQUVDNlY1?=
- =?utf-8?B?djBXdVJmRCtackpnbXVzUkJqelY0eUtOTEJyN0p0TURtQ3grV2VtdnNtbEJm?=
- =?utf-8?B?NDJOMWg4WWdvTUx0bW5sTWZqQldPVlh5Z0FmQkZVUk5FNlRBOEE3YTNaMm5s?=
- =?utf-8?B?czFlTG1ZSmE1SFV2SjY4MDcxT1ZPeFlwKzFvTHZSSFYrcUZNbW02U0JtUTUv?=
- =?utf-8?B?TEdvcTZiMlBjRm9uUk1ENkNxUm5kWVdQU2VDWDlFekVveEFiVitQV0YvUTg4?=
- =?utf-8?B?QXBQd1g5NDAvZEc4djZxUnpFdWp4VW5yRmRVQlYvQVdGVHgwRHY0QXFhRDlZ?=
- =?utf-8?B?eTJudjRkTUxST0hMaGZLSjJCaktXTGc3dmRNTGd3Y3Vmc3pLdXBiRWFrenF5?=
- =?utf-8?B?eTJTampzZ29VcnJOaUFqallOc3lQd2d3bmhmbTl1YTZBV1hucDUrOG82SlZ1?=
- =?utf-8?B?c2ZpbXM3Wk00bE9lSnVQei8velNRRVExL0RHdE9tTG9tQ3BHY25FVXBkbXlt?=
- =?utf-8?B?d05SNk9WZFZpcGMrckxiZ1VWb3N3eEFOc0NsaUJzUU44dnJUWWZtSE5jZ3Bi?=
- =?utf-8?B?QW5lbUlvMEVvZlRiTmltQ3lteFFGL2hDdzBWWkhvWkFHREdiMUZLTjR0QTJ4?=
- =?utf-8?B?UW1aOWZZZklkMURPZVhIaG1ta210eTk3SEJnbkJsS0lLR3JubUs3d2NLVFRk?=
- =?utf-8?B?TWhaRnBTcUY0ZGZLeXdNUU4veWsrLy94Yy9tWjVzTmV5TU9FZ1NNb2s0ZzI5?=
- =?utf-8?B?eTAvbkFwRWVYRXg3NkhsNE1ZU3BBN2dIaU0wb2dqV0hPYnh2d0pOc2ltTDli?=
- =?utf-8?B?cXduVE5GNjZmNDNUVTBIMS95Z01mdDlrcDQwaWhwZCtrbERDMUd5VksxdHB2?=
- =?utf-8?B?ZDlDSEJhVVk1VWpLUzFjTnJnd0g4M1dEaFRvVDNLSWNudXoxZE9lV0JNMGdx?=
- =?utf-8?B?blJlUjQyN2dHSEFuNlV2dHROTmlSRUZFRW9sLzdCcDBnQkg2OFhIdUJYYTZH?=
- =?utf-8?B?dm44Q1l6K0R1VHJheVVpeE1oSFdFczhSd05hbk1DRitNV3RwZVBYS1pLUlU4?=
- =?utf-8?B?d3RKSDllZmx5WndMbDBvSGN3WERqdVdRNFBoOU5STHVYcjlMWWhwZ3ZrbUFP?=
- =?utf-8?B?ZlRGbjhQOVkzbUwwems3aFh3UityTG1iWllnb3dMOEtrVTdydk9uOXJVeWJM?=
- =?utf-8?B?YlVMTzhZQmk2SkVFbEVpc25yRkk5MW4zRjBpdmNrQUhwYUVjbGZIdFZjV293?=
- =?utf-8?B?SzRwRmF4ZmNCS0NKeEo4SGRwYXdIQ0VYKzFPMml2Y1dJRU9EckRBWlpvaExJ?=
- =?utf-8?B?NUUvZSt0d3BqeDh0Rnk2MHhKMDNrVVAxR3U2TlQyTEtrUlo3YXJpZ1dlTFhs?=
- =?utf-8?B?ZjM1QWg3dC84Z3ArRnJsS0s5QitqeE41L2RUTXRodFJCT2ZrWHphdGltTUEw?=
- =?utf-8?B?cXRid1VqMXRhcEZUMHB5NkN2MHhEamRhUXRYZngxYkZ6MFBkc2JoU3QrR2Fj?=
- =?utf-8?B?d2xxZUNmTzFSS0tqOUJGU2Fhdms5QVdmcm4xbjFYc0RKcTZDQ3ZSWXhudlVY?=
- =?utf-8?B?d3pyMDE4aFl4VHRKNUEvVTErOVR1QVJGY0cxV2FQYXJESE04Mm1aUEwwaHY2?=
- =?utf-8?B?NjdsN29hWVpQQ2FLQmtlRldEeTRFKzdiRlVCVWZrTEIzZUlBbkNMTXloR1Iy?=
- =?utf-8?B?eUM4WW5YSU5aVzh0ZC9NcDA2bmxnWnQvQ3hGVFpCL3F6N2Z3ZzFTNVBDUlVi?=
- =?utf-8?B?RTBIUzFmVG9ycEZPUFE1RDV0L01WUGx6MHJPVFJ3dUFsbVJLRU9FRC9pKzBm?=
- =?utf-8?B?azVnVzBMRVUvNTd1MkZBUWV2QmtWTGdHdkM2d21yQTNPV2tSNWxJOFFDK3du?=
- =?utf-8?B?ZWFYUElUcGcwZnl0Yk9QUHlHdnBuQ1I2d0dPVThBRnF5cnkvdWVEcHlDZnlD?=
- =?utf-8?B?TDc5dTZsdGlTVDZpMVpTV3NpSndENm55THQvTWJsbFlZK1paKzJva2ZveWF3?=
- =?utf-8?B?QzQwNzhRV3U1czhla0xaVy9SZWhyZzhsYlBMeGJmMXBlQU9ZWklJU1ozemtX?=
- =?utf-8?Q?EekNc5?=
+	=?utf-8?B?VHBWZnI4L0hCTWZkMUVoRGF2OThTZytVSTRuT0lmOW9udEF3ZUJPUnEwQklR?=
+ =?utf-8?B?dnVHUUc4dnV1aGo4R1B4K3Nzc2syLzNweFN0Q2VlMUE2QlphVm85TzIvRnFl?=
+ =?utf-8?B?Y2YyTmNuL045ZnBXRmhLTkZscDd6S28wbDF0bldYL243MFFmenlQeDNGcmJC?=
+ =?utf-8?B?ZEhET2F5czc2YkdUL0dEZSt2ZE5BcXhYSWxMdU9YczhzWG5OQlo4RnFFOWVp?=
+ =?utf-8?B?RmlBaWFoQUJSaTJJSWJGWEhyRnV5QWkzdmg4aFN4T0V4YlZTbUIyc0w3dUdu?=
+ =?utf-8?B?YUNJT2hEenBqa2pHaEVOSTlBNm9HeXZVREViVWJxbFd5NVQ3M3owclk3RVQz?=
+ =?utf-8?B?a2cxU1d3c2N0U1JzNTNpSTBuSEFSdUEwS1lYYW9VWTNhWktQY3pVVnMxbXV5?=
+ =?utf-8?B?V0s1ekRSbXBuTmliWW44T2Fuay9vbituNmRmRDNKcjBLSkZ6YTJxWlZFcTlS?=
+ =?utf-8?B?Y0FWQVVCRFpGblc0U3FLdE5MSDJZblN4TGpxTDE3YWFjc0RvWlIvMjNyOE1E?=
+ =?utf-8?B?cVRLSTEyTFBYd1Q5d1pVZnBBSFpVbW9UQ1Z3eTlvdlBSb3RyaStab0lnL2Iv?=
+ =?utf-8?B?dXFiTVVmSlNCWXVvTG1zeERKN3FnanVCbkpsOWk4L05VU25sYlByWDRWcnl4?=
+ =?utf-8?B?UFRSYTF5cnJzbHRjZkJYRVk0Ny94UzFkMThjdTJiK0xVcjJid2JTVUZzVW9o?=
+ =?utf-8?B?QnlCa1dwKy9idjhtTGpsYmZEL3JjR0RqUjRIM0FpMnFrOHBPU3VZNWJWUzBm?=
+ =?utf-8?B?aVB1L3E4b09mSXIrckRQZVdOT2doSjlsWWo4cDEyNUJIb2duRkdya3FmV0Nk?=
+ =?utf-8?B?MFloOXRibVNFY3VobE1mUEc3SWQ0dGYyU05ad2NTTjVtanpDWEsxaDdQK0J0?=
+ =?utf-8?B?eDJQRGFRV01jaSs2YTNLNVltR2kwbEM5YTJHQW9GWUF0b2VnT0hqT082N2Fl?=
+ =?utf-8?B?WGtpNFRWallpYjV2ZkhVRTdrZ2ZudXNIQXZjeW1qYkVqaVc3ZThEZ3l4MUxN?=
+ =?utf-8?B?U21hN0dNVXFodUFEME9OM0p1VktCZzZsbE51U2RsY0tMemRqTXg0M0FHdjlY?=
+ =?utf-8?B?d1plWDdvamxCekJjS2tTMlpBRENvcm1HZndnNVF3UkIyUHBYZEhBbkNYR2g3?=
+ =?utf-8?B?NXRUNGhYOXVET0Jvc3NEWW5XV1AwTWcrbTVOdE8zY3Q1S216NFNaTXZmSDdB?=
+ =?utf-8?B?V2xjWk5KMk1LZnNkd3FEWWVUWVdNT0QvUEJsMGdycEJJTFdDbEVmdHcxNStw?=
+ =?utf-8?B?MGVTa3lBSlhzY2pxTEZrM1d2VlZiblJWOXBKQ0t6TDN4WU5HVDhXcVpmMVlW?=
+ =?utf-8?B?cTZkWGNaeHZwSVBoVDNlTXpRWGhib3YxZkhwSHN5TEZ2Mi8xb05qL3p3WDl2?=
+ =?utf-8?B?YXBIS0NHZWxzbUVoK0dsWnZhTmJUaGRKSGlBTkxzMzdRaEJDY1JxVnE4Nmpx?=
+ =?utf-8?B?STM4TURYZHNXWkxZTnU2VndWNXE3QXVqNWdJMW0raVlObldxQ0tWa0E5OVBZ?=
+ =?utf-8?B?ME1KZldzMCtocTU1emJNR2ZnczNvUjhuMmJZMFVQa3Jic3g3VUVrM1hsTEs3?=
+ =?utf-8?B?RXEydVBWU1hhWXlaYzRzYkpOazlxQWkvQUxjNjZPUmtaOE5CZjUrbVRYMVZt?=
+ =?utf-8?B?UmdUd2VrY1RnK3dJdWZuVlpOeTFBL24vcjVFR2pNYmJTNmtUNDc5eERDOFlt?=
+ =?utf-8?B?TG5HeWx6NlR5ak9nWFBEYmtHN25UKzhKL05adVdLM3VaekZmVFF0NGxDYk1i?=
+ =?utf-8?B?dnNIWFlqdlVPSzdRdE1lVWlwMGR5aTg4RjNycjZQVmZHaEFXbmlkVEk0QVJR?=
+ =?utf-8?B?VjhxMnlxQWQ1OU5rM0IzUUdBRDRsdWJobkV3a2pTN3ZjdW1KUnUvRWRNRTNt?=
+ =?utf-8?B?NlFvYnN0WjJyYW5NRFZXVUIxR0hlWFpsUlp5c0tHVjFNVUlqRGpwa2Y2bk5a?=
+ =?utf-8?B?TDNBSjRRQTZKZExPOHllbnh0NjFZOWFjdFdQNnd6ekZWUTY0MDFhVXJoRFBm?=
+ =?utf-8?B?cnNuK0loN2UzMkZZSnRKcW1GQ0F0cXNMUy9kMFR3SklabTRnd1F6TTVtTGJO?=
+ =?utf-8?Q?qhl8gF?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(61400799027);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(61400799027);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 17:36:05.1460
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 17:38:42.7885
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28b167f5-bc37-4fd0-ddaf-08dd867b274a
+X-MS-Exchange-CrossTenant-Network-Message-Id: d42c6838-3163-4b7e-bb21-08dd867b8538
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000042AE.namprd03.prod.outlook.com
+	DS1PEPF0001708E.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR19MB6384
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDE0MiBTYWx0ZWRfX4eOEXysVBB1v vWyFgWR3MmtW87PwutrgWx4Lss+r91jByIOHVLXmiHXT8jnYyzB8FidTr5ReWuNn2aHw9QCE5L8 Tepg1F5S7wI0gFzZK0UvJoUc03rqDZ4EhjoQ42u8jKU8ekbCtyXFEj+jZWesR47kNltZylBPMMV
- wn14U+2zQD89wd6ts7QaGIF/UPVXtTjoHynsCmHBv2G0mBhT7+8UobeFuyV9oGLvdJ19/JZAByf 31+BCShmSTvGZVx9EoBE4MSWbFThwvzpS+6ozn8SOnPNM2mrA4x73nsBWCzHRpZIqmLVTWiKyh8 url/xn/5tZJZEBMtpOztuW+HmBNEyw4JI8MojJQA9/XQSvhveGHtuDtMz34+uxH+pmPHgB1eEnA
- S+l6cc990IlLDpM+Muxo1t4MoJbigY9hc7T0G1BgNpnd+79o6gNAUAiTy8J5+hXDSwJCDOxJ
-X-Authority-Analysis: v=2.4 cv=DotW+H/+ c=1 sm=1 tr=0 ts=680fbc8d cx=c_pps a=98TgpmV4a5moxWevO5qy4g==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10
- a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=3BYqLjN5vghy3niwY2QA:9 a=QEXdDO2ut3YA:10 a=BGLuxUZjE2igh1l4FkT-:22
-X-Proofpoint-GUID: jyKw3QXvnQUtWsc_mjkbUJ5msMmpV1kp
-X-Proofpoint-ORIG-GUID: jyKw3QXvnQUtWsc_mjkbUJ5msMmpV1kp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB6532
+X-Proofpoint-GUID: vFfGgzevbokIzQii97RuuMiEPnRxEBK3
+X-Proofpoint-ORIG-GUID: vFfGgzevbokIzQii97RuuMiEPnRxEBK3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDE0MiBTYWx0ZWRfX8QN0GAe8tBtk 4+e9gllWObLSWpXW16qAvI9V2U7dI1dZDkuCxAauorQf1D0xQDIsiwGkjuIyt0jPa2s7wiUqoJB Gz5h5KIz3CD0u7xSqe5CEsNcfzpX/kfHvQKAzpa/aw1mXlEvIzGE3p3uDCdgKUFTTH4wU309FI8
+ nKb4I6p35r5mmI/2kgQnmrj8AiYR2/ra0SwIyG4450B14fJZox4KGM3/tZ8dnPZGMAFW8jj2bhJ zTXqJiNoitjeYNibC8L2EYQOOUCHX8Yj0Hp2bnOqlnEJ8tj5LCaT9gimsnDAo3ukS8nTgk2hUiV pBWVXTOUv7YdLzpJqKd99l6CIoo4Vrv8ifWnr3+jj1JyWO8sDZVcsxlyiquLrN4Z7vnp1o/6mAn
+ po6a6a0VAbBE2l2B6yOcAQGtU6kj06odi4E0ddN9O3Vc2uaeITkiFdUegUaLJFiu1aJNvLOY
+X-Authority-Analysis: v=2.4 cv=Dd4XqutW c=1 sm=1 tr=0 ts=680fbd2d cx=c_pps a=yneE0G6ieORTwLKR6pgPXw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10
+ a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=Z8BDXhKzdqwPZSzAG48A:9 a=QEXdDO2ut3YA:10 a=BGLuxUZjE2igh1l4FkT-:22
 X-Proofpoint-Spam-Reason: safe
 
 On 7/4/25 16:16, Stefan Binding wrote:
-> Registers to set Mute, Volume and Posture are inside firmware,
-> which means they should be added to the list of registers set inside
-> firmware, in case they vary across Device or Revision.
-> 
-> These three registers are also used for controls, so additional
-> handling is required to be able to obtain and set the register inside
-> ALSA controls.
+> CS35L63 uses a similar control interface to CS35L56 so support for
+> it can be added into the CS35L56 driver.
+> New regmap configs have been added to support CS35L63.
+> CS35L63 only has SoundWire and I2C control interfaces.
 > 
 > Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
 > ---
->   include/sound/cs35l56.h           |  3 +++
->   sound/pci/hda/cs35l56_hda.c       | 17 +++++++----------
->   sound/soc/codecs/cs35l56-shared.c | 25 ++++++++++++++++++++++++-
->   sound/soc/codecs/cs35l56.c        | 19 +++++++++++++++++--
->   4 files changed, 51 insertions(+), 13 deletions(-)
+>   include/sound/cs35l56.h           |  12 +++
+>   sound/soc/codecs/cs35l56-i2c.c    |   6 ++
+>   sound/soc/codecs/cs35l56-sdw.c    |  74 ++++++++++++++++++
+>   sound/soc/codecs/cs35l56-shared.c | 123 +++++++++++++++++++++++++++++-
+>   sound/soc/codecs/cs35l56.c        |  23 ++++++
+>   sound/soc/codecs/cs35l56.h        |   1 +
+>   6 files changed, 237 insertions(+), 2 deletions(-)
 > 
 > diff --git a/include/sound/cs35l56.h b/include/sound/cs35l56.h
-> index d712cb79652b..3abe4fbd2085 100644
+> index 3abe4fbd2085..e16e1a94c8a1 100644
 > --- a/include/sound/cs35l56.h
 > +++ b/include/sound/cs35l56.h
-> @@ -273,6 +273,9 @@ struct cs35l56_fw_reg {
->   	unsigned int pm_cur_stat;
->   	unsigned int prot_sts;
->   	unsigned int transducer_actual_ps;
-> +	unsigned int user_mute;
-> +	unsigned int user_volume;
-> +	unsigned int posture_number;
+> @@ -104,6 +104,15 @@
+>   #define CS35L56_DSP1_PMEM_0				0x3800000
+>   #define CS35L56_DSP1_PMEM_5114				0x3804FE8
+>   
+> +#define CS35L63_DSP1_FW_VER				CS35L56_DSP1_FW_VER
+> +#define CS35L63_DSP1_HALO_STATE				0x280396C
+> +#define CS35L63_DSP1_PM_CUR_STATE			0x28042C8
+> +#define CS35L63_PROTECTION_STATUS			0x340009C
+> +#define CS35L63_TRANSDUCER_ACTUAL_PS			0x34000F4
+> +#define CS35L63_MAIN_RENDER_USER_MUTE			0x3400020
+> +#define CS35L63_MAIN_RENDER_USER_VOLUME			0x3400028
+> +#define CS35L63_MAIN_POSTURE_NUMBER			0x3400068
+> +
+>   /* DEVID */
+>   #define CS35L56_DEVID_MASK				0x00FFFFFF
+>   
+> @@ -322,8 +331,11 @@ static inline bool cs35l56_is_spi(struct cs35l56_base *cs35l56)
+>   extern const struct regmap_config cs35l56_regmap_i2c;
+>   extern const struct regmap_config cs35l56_regmap_spi;
+>   extern const struct regmap_config cs35l56_regmap_sdw;
+> +extern const struct regmap_config cs35l63_regmap_i2c;
+> +extern const struct regmap_config cs35l63_regmap_sdw;
+>   
+>   extern const struct cs35l56_fw_reg cs35l56_fw_reg;
+> +extern const struct cs35l56_fw_reg cs35l63_fw_reg;
+>   
+>   extern const struct cirrus_amp_cal_controls cs35l56_calibration_controls;
+>   
+> diff --git a/sound/soc/codecs/cs35l56-i2c.c b/sound/soc/codecs/cs35l56-i2c.c
+> index 38c391d11c78..073f1796ae29 100644
+> --- a/sound/soc/codecs/cs35l56-i2c.c
+> +++ b/sound/soc/codecs/cs35l56-i2c.c
+> @@ -37,6 +37,10 @@ static int cs35l56_i2c_probe(struct i2c_client *client)
+>   		regmap_config = &cs35l56_regmap_i2c;
+>   		cs35l56->base.fw_reg = &cs35l56_fw_reg;
+>   		break;
+> +	case 0x3563:
+> +		regmap_config = &cs35l63_regmap_i2c;
+> +		cs35l56->base.fw_reg = &cs35l63_fw_reg;
+> +		break;
+>   	default:
+>   		return -ENODEV;
+>   	}
+> @@ -69,6 +73,7 @@ static void cs35l56_i2c_remove(struct i2c_client *client)
+>   
+>   static const struct i2c_device_id cs35l56_id_i2c[] = {
+>   	{ "cs35l56", 0x3556 },
+> +	{ "cs35l63", 0x3563 },
+>   	{}
 >   };
+>   MODULE_DEVICE_TABLE(i2c, cs35l56_id_i2c);
+> @@ -76,6 +81,7 @@ MODULE_DEVICE_TABLE(i2c, cs35l56_id_i2c);
+>   #ifdef CONFIG_ACPI
+>   static const struct acpi_device_id cs35l56_asoc_acpi_match[] = {
+>   	{ "CSC355C", 0x3556 },
+> +	{ "CSC356C", 0x3563 },
+>   	{},
+>   };
+>   MODULE_DEVICE_TABLE(acpi, cs35l56_asoc_acpi_match);
+> diff --git a/sound/soc/codecs/cs35l56-sdw.c b/sound/soc/codecs/cs35l56-sdw.c
+> index 2e0422b41385..13f602f51bf3 100644
+> --- a/sound/soc/codecs/cs35l56-sdw.c
+> +++ b/sound/soc/codecs/cs35l56-sdw.c
+> @@ -393,6 +393,74 @@ static int cs35l56_sdw_update_status(struct sdw_slave *peripheral,
+>   	return 0;
+>   }
 >   
->   struct cs35l56_base {
-> diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
-> index f6257fe45b9f..61aba1956338 100644
-> --- a/sound/pci/hda/cs35l56_hda.c
-> +++ b/sound/pci/hda/cs35l56_hda.c
-> @@ -237,7 +237,8 @@ static int cs35l56_hda_posture_get(struct snd_kcontrol *kcontrol,
->   
->   	cs35l56_hda_wait_dsp_ready(cs35l56);
->   
-> -	ret = regmap_read(cs35l56->base.regmap, CS35L56_MAIN_POSTURE_NUMBER, &pos);
-> +	ret = regmap_read(cs35l56->base.regmap,
-> +			  cs35l56->base.fw_reg->posture_number, &pos);
->   	if (ret)
->   		return ret;
->   
-> @@ -260,10 +261,8 @@ static int cs35l56_hda_posture_put(struct snd_kcontrol *kcontrol,
->   
->   	cs35l56_hda_wait_dsp_ready(cs35l56);
->   
-> -	ret = regmap_update_bits_check(cs35l56->base.regmap,
-> -				       CS35L56_MAIN_POSTURE_NUMBER,
-> -				       CS35L56_MAIN_POSTURE_MASK,
-> -				       pos, &changed);
-> +	ret = regmap_update_bits_check(cs35l56->base.regmap, cs35l56->base.fw_reg->posture_number,
-> +				       CS35L56_MAIN_POSTURE_MASK, pos, &changed);
->   	if (ret)
->   		return ret;
->   
-> @@ -305,7 +304,7 @@ static int cs35l56_hda_vol_get(struct snd_kcontrol *kcontrol,
->   
->   	cs35l56_hda_wait_dsp_ready(cs35l56);
->   
-> -	ret = regmap_read(cs35l56->base.regmap, CS35L56_MAIN_RENDER_USER_VOLUME, &raw_vol);
-> +	ret = regmap_read(cs35l56->base.regmap, cs35l56->base.fw_reg->user_volume, &raw_vol);
->   
->   	if (ret)
->   		return ret;
-> @@ -339,10 +338,8 @@ static int cs35l56_hda_vol_put(struct snd_kcontrol *kcontrol,
->   
->   	cs35l56_hda_wait_dsp_ready(cs35l56);
->   
-> -	ret = regmap_update_bits_check(cs35l56->base.regmap,
-> -				       CS35L56_MAIN_RENDER_USER_VOLUME,
-> -				       CS35L56_MAIN_RENDER_USER_VOLUME_MASK,
-> -				       raw_vol, &changed);
-> +	ret = regmap_update_bits_check(cs35l56->base.regmap, cs35l56->base.fw_reg->user_volume,
-> +				       CS35L56_MAIN_RENDER_USER_VOLUME_MASK, raw_vol, &changed);
->   	if (ret)
->   		return ret;
->   
-> diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
-> index bc8f9379bc74..da982774bb4d 100644
-> --- a/sound/soc/codecs/cs35l56-shared.c
-> +++ b/sound/soc/codecs/cs35l56-shared.c
-> @@ -38,7 +38,9 @@ static const struct reg_sequence cs35l56_patch[] = {
->   	{ CS35L56_SWIRE_DP3_CH3_INPUT,		0x00000029 },
->   	{ CS35L56_SWIRE_DP3_CH4_INPUT,		0x00000028 },
->   	{ CS35L56_IRQ1_MASK_18,			0x1f7df0ff },
-> +};
->   
-> +static const struct reg_sequence cs35l56_patch_fw[] = {
->   	/* These are not reset by a soft-reset, so patch to defaults. */
->   	{ CS35L56_MAIN_RENDER_USER_MUTE,	0x00000000 },
->   	{ CS35L56_MAIN_RENDER_USER_VOLUME,	0x00000000 },
-> @@ -47,8 +49,26 @@ static const struct reg_sequence cs35l56_patch[] = {
->   
->   int cs35l56_set_patch(struct cs35l56_base *cs35l56_base)
->   {
-> -	return regmap_register_patch(cs35l56_base->regmap, cs35l56_patch,
-> +	int ret;
+> +static int cs35l63_sdw_kick_divider(struct cs35l56_private *cs35l56,
+> +				    struct sdw_slave *peripheral)
+> +{
+> +	unsigned int curr_scale_reg, next_scale_reg;
+> +	int curr_scale, next_scale, ret;
 > +
-> +	ret = regmap_register_patch(cs35l56_base->regmap, cs35l56_patch,
->   				     ARRAY_SIZE(cs35l56_patch));
-> +	if (ret)
-> +		return ret;
+> +	if (!cs35l56->base.init_done)
+> +		return 0;
 > +
-> +
-> +	switch (cs35l56_base->type) {
-> +	case 0x54:
-> +	case 0x56:
-> +	case 0x57:
-> +		ret = regmap_register_patch(cs35l56_base->regmap, cs35l56_patch_fw,
-> +					    ARRAY_SIZE(cs35l56_patch_fw));
-> +		break;
-> +	default:
-> +		break;
+> +	if (peripheral->bus->params.curr_bank) {
+> +		curr_scale_reg = SDW_SCP_BUSCLOCK_SCALE_B1;
+> +		next_scale_reg = SDW_SCP_BUSCLOCK_SCALE_B0;
+> +	} else {
+> +		curr_scale_reg = SDW_SCP_BUSCLOCK_SCALE_B0;
+> +		next_scale_reg = SDW_SCP_BUSCLOCK_SCALE_B1;
 > +	}
 > +
-> +	return ret;
->   }
->   EXPORT_SYMBOL_NS_GPL(cs35l56_set_patch, "SND_SOC_CS35L56_SHARED");
+> +	/*
+> +	 * Current clock scale value must be different to new value.
+> +	 * Modify current to guarantee this. If next still has the dummy
+> +	 * value we wrote when it was current, the core code has not set
+> +	 * a new scale so restore its original good value
+> +	 */
+> +	curr_scale = sdw_read_no_pm(peripheral, curr_scale_reg);
+> +	if (curr_scale < 0) {
+> +		dev_err(cs35l56->base.dev, "Failed to read current clock scale: %d\n", curr_scale);
+> +		return curr_scale;
+> +	}
+> +
+> +	next_scale = sdw_read_no_pm(peripheral, next_scale_reg);
+> +	if (next_scale < 0) {
+> +		dev_err(cs35l56->base.dev, "Failed to read next clock scale: %d\n", next_scale);
+> +		return next_scale;
+> +	}
+> +
+> +	if (next_scale == CS35L56_SDW_INVALID_BUS_SCALE) {
+> +		next_scale = cs35l56->old_sdw_clock_scale;
+> +		ret = sdw_write_no_pm(peripheral, next_scale_reg, next_scale);
+> +		if (ret < 0) {
+> +			dev_err(cs35l56->base.dev, "Failed to modify current clock scale: %d\n",
+> +				ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	cs35l56->old_sdw_clock_scale = curr_scale;
+> +	ret = sdw_write_no_pm(peripheral, curr_scale_reg, CS35L56_SDW_INVALID_BUS_SCALE);
+> +	if (ret < 0) {
+> +		dev_err(cs35l56->base.dev, "Failed to modify current clock scale: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(cs35l56->base.dev, "Next bus scale: %#x\n", next_scale);
+> +
+> +	return 0;
+> +}
+> +
+> +static int cs35l56_sdw_bus_config(struct sdw_slave *peripheral,
+> +				  struct sdw_bus_params *params)
+> +{
+> +	struct cs35l56_private *cs35l56 = dev_get_drvdata(&peripheral->dev);
+> +
+> +	if ((cs35l56->base.type == 0x63) && (cs35l56->base.rev < 0xa1))
+> +		return cs35l63_sdw_kick_divider(cs35l56, peripheral);
+> +
+> +	return 0;
+> +}
+> +
+>   static int __maybe_unused cs35l56_sdw_clk_stop(struct sdw_slave *peripheral,
+>   					       enum sdw_clk_stop_mode mode,
+>   					       enum sdw_clk_stop_type type)
+> @@ -408,6 +476,7 @@ static const struct sdw_slave_ops cs35l56_sdw_ops = {
+>   	.read_prop = cs35l56_sdw_read_prop,
+>   	.interrupt_callback = cs35l56_sdw_interrupt,
+>   	.update_status = cs35l56_sdw_update_status,
+> +	.bus_config = cs35l56_sdw_bus_config,
+>   #ifdef DEBUG
+>   	.clk_stop = cs35l56_sdw_clk_stop,
+>   #endif
+> @@ -528,6 +597,10 @@ static int cs35l56_sdw_probe(struct sdw_slave *peripheral, const struct sdw_devi
+>   		regmap_config = &cs35l56_regmap_sdw;
+>   		cs35l56->base.fw_reg = &cs35l56_fw_reg;
+>   		break;
+> +	case 0x3563:
+> +		regmap_config = &cs35l63_regmap_sdw;
+> +		cs35l56->base.fw_reg = &cs35l63_fw_reg;
+> +		break;
+>   	default:
+>   		return -ENODEV;
+>   	}
+> @@ -575,6 +648,7 @@ static const struct dev_pm_ops cs35l56_sdw_pm = {
+>   static const struct sdw_device_id cs35l56_sdw_id[] = {
+>   	SDW_SLAVE_ENTRY(0x01FA, 0x3556, 0x3556),
+>   	SDW_SLAVE_ENTRY(0x01FA, 0x3557, 0x3557),
+> +	SDW_SLAVE_ENTRY(0x01FA, 0x3563, 0x3563),
+>   	{},
+>   };
+>   MODULE_DEVICE_TABLE(sdw, cs35l56_sdw_id);
+> diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
+> index da982774bb4d..76ddb1cf6889 100644
+> --- a/sound/soc/codecs/cs35l56-shared.c
+> +++ b/sound/soc/codecs/cs35l56-shared.c
+> @@ -47,6 +47,13 @@ static const struct reg_sequence cs35l56_patch_fw[] = {
+>   	{ CS35L56_MAIN_POSTURE_NUMBER,		0x00000000 },
+>   };
 >   
-> @@ -1066,6 +1086,9 @@ const struct cs35l56_fw_reg cs35l56_fw_reg = {
->   	.pm_cur_stat = CS35L56_DSP1_PM_CUR_STATE,
->   	.prot_sts = CS35L56_PROTECTION_STATUS,
->   	.transducer_actual_ps = CS35L56_TRANSDUCER_ACTUAL_PS,
-> +	.user_mute = CS35L56_MAIN_RENDER_USER_MUTE,
-> +	.user_volume = CS35L56_MAIN_RENDER_USER_VOLUME,
-> +	.posture_number = CS35L56_MAIN_POSTURE_NUMBER,
+> +static const struct reg_sequence cs35l63_patch_fw[] = {
+> +	/* These are not reset by a soft-reset, so patch to defaults. */
+> +	{ CS35L63_MAIN_RENDER_USER_MUTE,	0x00000000 },
+> +	{ CS35L63_MAIN_RENDER_USER_VOLUME,	0x00000000 },
+> +	{ CS35L63_MAIN_POSTURE_NUMBER,		0x00000000 },
+> +};
+> +
+>   int cs35l56_set_patch(struct cs35l56_base *cs35l56_base)
+>   {
+>   	int ret;
+> @@ -64,6 +71,10 @@ int cs35l56_set_patch(struct cs35l56_base *cs35l56_base)
+>   		ret = regmap_register_patch(cs35l56_base->regmap, cs35l56_patch_fw,
+>   					    ARRAY_SIZE(cs35l56_patch_fw));
+>   		break;
+> +	case 0x63:
+> +		ret = regmap_register_patch(cs35l56_base->regmap, cs35l63_patch_fw,
+> +					    ARRAY_SIZE(cs35l63_patch_fw));
+> +		break;
+>   	default:
+>   		break;
+>   	}
+> @@ -102,6 +113,36 @@ static const struct reg_default cs35l56_reg_defaults[] = {
+>   	{ CS35L56_MAIN_POSTURE_NUMBER,		0x00000000 },
+>   };
+>   
+> +static const struct reg_default cs35l63_reg_defaults[] = {
+> +	/* no defaults for OTP_MEM - first read populates cache */
+> +
+> +	{ CS35L56_ASP1_ENABLES1,		0x00000000 },
+> +	{ CS35L56_ASP1_CONTROL1,		0x00000028 },
+> +	{ CS35L56_ASP1_CONTROL2,		0x18180200 },
+> +	{ CS35L56_ASP1_CONTROL3,		0x00000002 },
+> +	{ CS35L56_ASP1_FRAME_CONTROL1,		0x03020100 },
+> +	{ CS35L56_ASP1_FRAME_CONTROL5,		0x00020100 },
+> +	{ CS35L56_ASP1_DATA_CONTROL1,		0x00000018 },
+> +	{ CS35L56_ASP1_DATA_CONTROL5,		0x00000018 },
+> +	{ CS35L56_ASP1TX1_INPUT,		0x00000000 },
+> +	{ CS35L56_ASP1TX2_INPUT,		0x00000000 },
+> +	{ CS35L56_ASP1TX3_INPUT,		0x00000000 },
+> +	{ CS35L56_ASP1TX4_INPUT,		0x00000000 },
+> +	{ CS35L56_SWIRE_DP3_CH1_INPUT,		0x00000018 },
+> +	{ CS35L56_SWIRE_DP3_CH2_INPUT,		0x00000019 },
+> +	{ CS35L56_SWIRE_DP3_CH3_INPUT,		0x00000029 },
+> +	{ CS35L56_SWIRE_DP3_CH4_INPUT,		0x00000028 },
+> +	{ CS35L56_IRQ1_MASK_1,			0x8003ffff },
+> +	{ CS35L56_IRQ1_MASK_2,			0xffff7fff },
+> +	{ CS35L56_IRQ1_MASK_4,			0xe0ffffff },
+> +	{ CS35L56_IRQ1_MASK_8,			0x8c000fff },
+> +	{ CS35L56_IRQ1_MASK_18,			0x0760f000 },
+> +	{ CS35L56_IRQ1_MASK_20,			0x15c00000 },
+> +	{ CS35L63_MAIN_RENDER_USER_MUTE,	0x00000000 },
+> +	{ CS35L63_MAIN_RENDER_USER_VOLUME,	0x00000000 },
+> +	{ CS35L63_MAIN_POSTURE_NUMBER,		0x00000000 },
+> +};
+> +
+>   static bool cs35l56_is_dsp_memory(unsigned int reg)
+>   {
+>   	switch (reg) {
+> @@ -199,7 +240,7 @@ static bool cs35l56_precious_reg(struct device *dev, unsigned int reg)
+>   	}
+>   }
+>   
+> -static bool cs35l56_volatile_reg(struct device *dev, unsigned int reg)
+> +static bool cs35l56_common_volatile_reg(unsigned int reg)
+>   {
+>   	switch (reg) {
+>   	case CS35L56_DEVID:
+> @@ -237,12 +278,32 @@ static bool cs35l56_volatile_reg(struct device *dev, unsigned int reg)
+>   	case CS35L56_DSP1_SCRATCH3:
+>   	case CS35L56_DSP1_SCRATCH4:
+>   		return true;
+> +	default:
+> +		return cs35l56_is_dsp_memory(reg);
+> +	}
+> +}
+> +
+> +static bool cs35l56_volatile_reg(struct device *dev, unsigned int reg)
+> +{
+> +	switch (reg) {
+>   	case CS35L56_MAIN_RENDER_USER_MUTE:
+>   	case CS35L56_MAIN_RENDER_USER_VOLUME:
+>   	case CS35L56_MAIN_POSTURE_NUMBER:
+>   		return false;
+>   	default:
+> -		return cs35l56_is_dsp_memory(reg);
+> +		return cs35l56_common_volatile_reg(reg);
+> +	}
+> +}
+> +
+> +static bool cs35l63_volatile_reg(struct device *dev, unsigned int reg)
+> +{
+> +	switch (reg) {
+> +	case CS35L63_MAIN_RENDER_USER_MUTE:
+> +	case CS35L63_MAIN_RENDER_USER_VOLUME:
+> +	case CS35L63_MAIN_POSTURE_NUMBER:
+> +		return false;
+> +	default:
+> +		return cs35l56_common_volatile_reg(reg);
+>   	}
+>   }
+>   
+> @@ -405,6 +466,11 @@ static const struct reg_sequence cs35l56_system_reset_seq[] = {
+>   	REG_SEQ0(CS35L56_DSP_VIRTUAL1_MBOX_1, CS35L56_MBOX_CMD_SYSTEM_RESET),
+>   };
+>   
+> +static const struct reg_sequence cs35l63_system_reset_seq[] = {
+> +	REG_SEQ0(CS35L63_DSP1_HALO_STATE, 0),
+> +	REG_SEQ0(CS35L56_DSP_VIRTUAL1_MBOX_1, CS35L56_MBOX_CMD_SYSTEM_RESET),
+> +};
+> +
+>   void cs35l56_system_reset(struct cs35l56_base *cs35l56_base, bool is_soundwire)
+>   {
+>   	/*
+> @@ -426,6 +492,11 @@ void cs35l56_system_reset(struct cs35l56_base *cs35l56_base, bool is_soundwire)
+>   						cs35l56_system_reset_seq,
+>   						ARRAY_SIZE(cs35l56_system_reset_seq));
+>   		break;
+> +	case 0x63:
+> +		regmap_multi_reg_write_bypassed(cs35l56_base->regmap,
+> +						cs35l63_system_reset_seq,
+> +						ARRAY_SIZE(cs35l63_system_reset_seq));
+> +		break;
+>   	default:
+>   		break;
+>   	}
+> @@ -844,6 +915,9 @@ int cs35l56_hw_init(struct cs35l56_base *cs35l56_base)
+>   	case 0x35A56:
+>   	case 0x35A57:
+>   		break;
+> +	case 0x35A630:
+> +		devid = devid >> 4;
+> +		break;
+>   	default:
+>   		dev_err(cs35l56_base->dev, "Unknown device %x\n", devid);
+>   		return ret;
+> @@ -1080,6 +1154,39 @@ const struct regmap_config cs35l56_regmap_sdw = {
+>   };
+>   EXPORT_SYMBOL_NS_GPL(cs35l56_regmap_sdw, "SND_SOC_CS35L56_SHARED");
+>   
+> +const struct regmap_config cs35l63_regmap_i2c = {
+> +	.reg_bits = 32,
+> +	.val_bits = 32,
+> +	.reg_stride = 4,
+> +	.reg_base = 0x8000,
+> +	.reg_format_endian = REGMAP_ENDIAN_BIG,
+> +	.val_format_endian = REGMAP_ENDIAN_BIG,
+> +	.max_register = CS35L56_DSP1_PMEM_5114,
+> +	.reg_defaults = cs35l63_reg_defaults,
+> +	.num_reg_defaults = ARRAY_SIZE(cs35l63_reg_defaults),
+> +	.volatile_reg = cs35l63_volatile_reg,
+> +	.readable_reg = cs35l56_readable_reg,
+> +	.precious_reg = cs35l56_precious_reg,
+> +	.cache_type = REGCACHE_MAPLE,
+> +};
+> +EXPORT_SYMBOL_NS_GPL(cs35l63_regmap_i2c, "SND_SOC_CS35L56_SHARED");
+> +
+> +const struct regmap_config cs35l63_regmap_sdw = {
+> +	.reg_bits = 32,
+> +	.val_bits = 32,
+> +	.reg_stride = 4,
+> +	.reg_format_endian = REGMAP_ENDIAN_LITTLE,
+> +	.val_format_endian = REGMAP_ENDIAN_BIG,
+> +	.max_register = CS35L56_DSP1_PMEM_5114,
+> +	.reg_defaults = cs35l63_reg_defaults,
+> +	.num_reg_defaults = ARRAY_SIZE(cs35l63_reg_defaults),
+> +	.volatile_reg = cs35l63_volatile_reg,
+> +	.readable_reg = cs35l56_readable_reg,
+> +	.precious_reg = cs35l56_precious_reg,
+> +	.cache_type = REGCACHE_MAPLE,
+> +};
+> +EXPORT_SYMBOL_NS_GPL(cs35l63_regmap_sdw, "SND_SOC_CS35L56_SHARED");
+> +
+>   const struct cs35l56_fw_reg cs35l56_fw_reg = {
+>   	.fw_ver = CS35L56_DSP1_FW_VER,
+>   	.halo_state = CS35L56_DSP1_HALO_STATE,
+> @@ -1092,6 +1199,18 @@ const struct cs35l56_fw_reg cs35l56_fw_reg = {
 >   };
 >   EXPORT_SYMBOL_NS_GPL(cs35l56_fw_reg, "SND_SOC_CS35L56_SHARED");
 >   
+> +const struct cs35l56_fw_reg cs35l63_fw_reg = {
+> +	.fw_ver = CS35L63_DSP1_FW_VER,
+> +	.halo_state = CS35L63_DSP1_HALO_STATE,
+> +	.pm_cur_stat = CS35L63_DSP1_PM_CUR_STATE,
+> +	.prot_sts = CS35L63_PROTECTION_STATUS,
+> +	.transducer_actual_ps = CS35L63_TRANSDUCER_ACTUAL_PS,
+> +	.user_mute = CS35L63_MAIN_RENDER_USER_MUTE,
+> +	.user_volume = CS35L63_MAIN_RENDER_USER_VOLUME,
+> +	.posture_number = CS35L63_MAIN_POSTURE_NUMBER,
+> +};
+> +EXPORT_SYMBOL_NS_GPL(cs35l63_fw_reg, "SND_SOC_CS35L56_SHARED");
+> +
+>   MODULE_DESCRIPTION("ASoC CS35L56 Shared");
+>   MODULE_AUTHOR("Richard Fitzgerald <rf@opensource.cirrus.com>");
+>   MODULE_AUTHOR("Simon Trimmer <simont@opensource.cirrus.com>");
 > diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
-> index c1d8bfb803b9..a4a1d09097fc 100644
+> index a4a1d09097fc..cdb283ed938c 100644
 > --- a/sound/soc/codecs/cs35l56.c
 > +++ b/sound/soc/codecs/cs35l56.c
-> @@ -838,6 +838,7 @@ static int cs35l56_component_probe(struct snd_soc_component *component)
->   	struct cs35l56_private *cs35l56 = snd_soc_component_get_drvdata(component);
->   	struct dentry *debugfs_root = component->debugfs_root;
->   	unsigned short vendor, device;
-> +	int ret;
+> @@ -84,6 +84,25 @@ static const struct snd_kcontrol_new cs35l56_controls[] = {
+>   		       cs35l56_dspwait_get_volsw, cs35l56_dspwait_put_volsw),
+>   };
 >   
->   	BUILD_BUG_ON(ARRAY_SIZE(cs35l56_tx_input_texts) != ARRAY_SIZE(cs35l56_tx_input_values));
->   
-> @@ -877,6 +878,22 @@ static int cs35l56_component_probe(struct snd_soc_component *component)
->   	debugfs_create_bool("can_hibernate", 0444, debugfs_root, &cs35l56->base.can_hibernate);
->   	debugfs_create_bool("fw_patched", 0444, debugfs_root, &cs35l56->base.fw_patched);
->   
+> +static const struct snd_kcontrol_new cs35l63_controls[] = {
+> +	SOC_SINGLE_EXT("Speaker Switch",
+> +		       CS35L63_MAIN_RENDER_USER_MUTE, 0, 1, 1,
+> +		       cs35l56_dspwait_get_volsw, cs35l56_dspwait_put_volsw),
+> +	SOC_SINGLE_S_EXT_TLV("Speaker Volume",
+> +			     CS35L63_MAIN_RENDER_USER_VOLUME,
+> +			     CS35L56_MAIN_RENDER_USER_VOLUME_SHIFT,
+> +			     CS35L56_MAIN_RENDER_USER_VOLUME_MIN,
+> +			     CS35L56_MAIN_RENDER_USER_VOLUME_MAX,
+> +			     CS35L56_MAIN_RENDER_USER_VOLUME_SIGNBIT,
+> +			     0,
+> +			     cs35l56_dspwait_get_volsw,
+> +			     cs35l56_dspwait_put_volsw,
+> +			     vol_tlv),
+> +	SOC_SINGLE_EXT("Posture Number", CS35L63_MAIN_POSTURE_NUMBER,
+> +		       0, 255, 0,
+> +		       cs35l56_dspwait_get_volsw, cs35l56_dspwait_put_volsw),
+> +};
 > +
-> +	switch (cs35l56->base.type) {
-> +	case 0x54:
-> +	case 0x56:
-> +	case 0x57:
-> +		ret = snd_soc_add_component_controls(component, cs35l56_controls,
-> +						     ARRAY_SIZE(cs35l56_controls));
+>   static SOC_VALUE_ENUM_SINGLE_DECL(cs35l56_asp1tx1_enum,
+>   				  CS35L56_ASP1TX1_INPUT,
+>   				  0, CS35L56_ASP_TXn_SRC_MASK,
+> @@ -886,6 +905,10 @@ static int cs35l56_component_probe(struct snd_soc_component *component)
+>   		ret = snd_soc_add_component_controls(component, cs35l56_controls,
+>   						     ARRAY_SIZE(cs35l56_controls));
+>   		break;
+> +	case 0x63:
+> +		ret = snd_soc_add_component_controls(component, cs35l63_controls,
+> +						     ARRAY_SIZE(cs35l63_controls));
 > +		break;
-> +	default:
-> +		ret = -ENODEV;
-> +		break;
-> +	}
-> +
-> +	if (ret)
-> +		return dev_err_probe(cs35l56->base.dev, ret, "unable to add controls\n");
-> +
->   	queue_work(cs35l56->dsp_wq, &cs35l56->dsp_work);
+>   	default:
+>   		ret = -ENODEV;
+>   		break;
+> diff --git a/sound/soc/codecs/cs35l56.h b/sound/soc/codecs/cs35l56.h
+> index 8a987ec01507..200f695efca3 100644
+> --- a/sound/soc/codecs/cs35l56.h
+> +++ b/sound/soc/codecs/cs35l56.h
+> @@ -51,6 +51,7 @@ struct cs35l56_private {
+>   	u8 asp_slot_count;
+>   	bool tdm_mode;
+>   	bool sysclk_set;
+> +	u8 old_sdw_clock_scale;
+>   };
 >   
->   	return 0;
-> @@ -932,8 +949,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs35l56 = {
->   	.num_dapm_widgets = ARRAY_SIZE(cs35l56_dapm_widgets),
->   	.dapm_routes = cs35l56_audio_map,
->   	.num_dapm_routes = ARRAY_SIZE(cs35l56_audio_map),
-> -	.controls = cs35l56_controls,
-> -	.num_controls = ARRAY_SIZE(cs35l56_controls),
->   
->   	.set_bias_level = cs35l56_set_bias_level,
->   
+>   extern const struct dev_pm_ops cs35l56_pm_ops_i2c_spi;
 Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
