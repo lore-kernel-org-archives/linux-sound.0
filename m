@@ -1,65 +1,65 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F2E1AA1E0;
-	Mon, 28 Apr 2025 19:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6A61AA1E0;
+	Mon, 28 Apr 2025 19:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745867520; cv=none; b=irZlX951Pt4VgZ6Ih7fdVqpGPPtRThOpcgWEIQc9QWQiSPHsLFgPGOx9E6PD+dRRoz9THFGuHysZK7gvJSoh6lwQp4QDZ3JbRbf3DK7PpsPX5lp3iUE4od0V8h9cM+714PMtj2MO+6BzqbiqC3u++7k2xDhPW65+JpgGzKBU8ro=
+	t=1745867667; cv=none; b=KZKdWx0uLMntdHhu+ydoiDt5AiU1LYJRl+TyGyS4wA/7lyK4WidDI3en2lpcPLVXXuswQPZWBrnZJTY68vy7Mvh8dYLmPhVGjZsnjplwIiwHCwFO+2qA5h2QIqwd0mTqV2zxvX9VTxarmbPHBE+ebxxnA1J4uGXDFAzvhNNou+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745867520; c=relaxed/simple;
-	bh=nMXxkvFNAIsIwlRr/9Lvu9VcZ/xn0c1Km4miXTgmK14=;
+	s=arc-20240116; t=1745867667; c=relaxed/simple;
+	bh=mT089aHYmLuAke710Cc4798GN0dGqQn4LKm7PFHGJK4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e2G04uhKsYiNiSWhibjzyFwl+0HIud3hiGqFRGp+Olo8I90+w6PKVKETjUlel4QooO4SShADjp/DEeQ+J6bgwiyNEBg+/2QpECiEdMTBctUI29gX6stuwWdlvDyuMZ5FgTiJ33Mxc0BPzb1TNV1Yf0j4OVnOHD7JHSYLjBLrs+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TIj7nsoi; arc=none smtp.client-ip=209.85.208.47
+	 In-Reply-To:Content-Type; b=CsyZrnvM1x3wFkVmvOCtXJCgGy/KBzcs6vdBkYmOS30UBo7ZpZxfGr23o88cSKhYTzJSrezkRL2WUQY4IDogPT9xkvSaiChvMJBnCB0cHOWNE6L8+8U2zRrHVcABl3g5bX/sYOWlLiZmBENozAaIXLWMaaNeybYj85SW0KSr3Qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKLT8VNI; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TIj7nsoi"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5e5e22e6ed2so8152406a12.3;
-        Mon, 28 Apr 2025 12:11:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKLT8VNI"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ac2aeada833so1003896466b.0;
+        Mon, 28 Apr 2025 12:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745867517; x=1746472317; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1745867664; x=1746472464; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=nMXxkvFNAIsIwlRr/9Lvu9VcZ/xn0c1Km4miXTgmK14=;
-        b=TIj7nsoiMn4PClh6zjfL78DT+B+b/HP0sXx7P+fOjEnBKF96HrTPIj4mwRt0UkRdwY
-         GtSN09fZn9CnSrdy71XYgUmYyqPoO4r3y+n2l3OU4spDE5v90o0JZqDY2t+fF5XifjW0
-         4dsXuaSUhMTZIeNWqrYot0pL1yFD/gfx5XIvb8KHwjIH9Opmk53UUJnx0n/jrfh0MDcw
-         HEehgrg59CZy63IA6jYFxJA83UEwuN5fAP7l5SS/3CxQ/3HnYk+m4/EPwXlnqirJ5INT
-         e/KyP7juhze6+zY/rW5fJaPnzcX2snT6AD8fnf0wyR9xu6sW0fgu6JNx+uESHdMk9lgC
-         ypeQ==
+        bh=w/XiREfyi5qc9JCo65dvQl61WK9aMPq6Nea/T/FePaU=;
+        b=dKLT8VNIEYaqtrE0KtpQLyX5ATgk8WzBQ8ShrHodwtTabMrVW7gP1PPpHoQKaoig9p
+         x+YOoW9z5g8VHtrycbWTJgTeC7E3dSNj+17sNcf0y9q5ppfZRqF+zdc3Olu8hExX+yb1
+         GLdf8fmvy7N4WXFkyYuPbzfp7By9q/wnJihhV9dsiAJzEB26DRZEuJ4I2nruwEd6sH94
+         XAiMnNCmqJw9agIJY7hNGf992Yc2zkXv1ztY4bTshAymC5+dQXD8Pgkj6+qxAUqzLrxk
+         TNM6JNPW3qc0pRO9P2sk3VBkXGOKW7FIk1aHRum5wBswpcL9ldNHJucQM2JKSDaIPlaw
+         B9Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745867517; x=1746472317;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1745867664; x=1746472464;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nMXxkvFNAIsIwlRr/9Lvu9VcZ/xn0c1Km4miXTgmK14=;
-        b=LE57AuLNz2s9HH5WqN/KsHdR4yZFjjmKeZjru/rErZvV97ziHjxX6zJ045hy1GeYRV
-         SrxQ8jQy3sS2q/S5r2pZzi9BJ4u91hHAuH8Vi6i7yV0qW/0EgfALfRl7plX2StwVL5Hc
-         wYhzMxd1GouJ61RR4aRyIh9uGiRWkoqkzVys0kPIJV1tBrBkohm/uFhET9LjfPWes8oc
-         EkqUfgynUR8xNWaO0zpbIOIQiItBmlzS1U8BcriB7/mvwbCIGCqhoUuBW7HObefU2gzb
-         qA2PRaBK5xDQJq7OwrTYsfe9iPAb68RyoarxfUSZGJxZ2SX591l1mrXBp3h70/UMDkTg
-         NeIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX4KgLjXjazafWbabpIj2jdcXZdn9Pogr4WvPxvSX4Jg4DRvMZcnK9Wyp1Wm0LOJqBQEuU1sKGGyi6Dd5I=@vger.kernel.org, AJvYcCXMlQwqkFw3GSdE2plJUQsrCJvCVxF5BTQN1p1Lm4FwulMJGg/kJpKlX7razpwAAFW/B6KpwIHFpVrEcNQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+si5mnNNvlolBiaOz2AAXa167Zj88NsysehOEe4wNLUld1pf/
-	jOCF4ESl5r8ESLwCFyFQRwsvL92+Ag16huuFB4jo+YP68FI2NxeyMjbYPw==
-X-Gm-Gg: ASbGncv+RhI7Ic1eHVu6w0uyADDX9cem1HQREqKtadcQo0gFC3wUAfxpxmq7wFyJA66
-	wIbhZox1S26aps1icW6Nt5byDiaFOpWA2CIzvEMBa4VpT6CjCt7EV/Ob6zPrMkLk0TlVNlKRASI
-	LsNgtmXUkQmNPwGXd1W83HP7HP8+wQaUwQdVgcvqV38neVz3M8Q8hcN8TT3fo095N/5IqwHsfNg
-	kWC2FXucOQcWF3agBKDLbxHV1o5d7OehYhYDaeCCvoTcfM/DWYkS4iEXJL9H6PBLfjUAHmfYdfB
-	8K5rOBaQRb/XcfyJcpJ/cNERoDHkeNv1lfWCWAvrxVxhTqBzXce4HUsTJtv3IlgEwVB/Y7otPsA
-	1lOi0
-X-Google-Smtp-Source: AGHT+IHLk4mxL9JGPRBG3kbuH+YogUlnwtb4OzLlNiOXbqk7ZsLxzJ+oGxU88KvYdFJO0kVf557qZQ==
-X-Received: by 2002:a17:907:7206:b0:aca:96a7:d373 with SMTP id a640c23a62f3a-acec4ed9e96mr100546066b.57.1745867517134;
-        Mon, 28 Apr 2025 12:11:57 -0700 (PDT)
+        bh=w/XiREfyi5qc9JCo65dvQl61WK9aMPq6Nea/T/FePaU=;
+        b=gRZ1lFoHqEuPKhHOLRZuAM7jsfI0CFZnC1cU6Lze3CARysg472/K7qWWo0zKxrRDhR
+         w8g8xmWaomCz7RUt/9rxn5ugXD55aW5DMIJ5ia16vO3Utws7J8q0clowISatrc/5z3pw
+         7esrZGEAfq6TZ+Oc2HbMJd9kOZIoCCZDWu7/CnkJCq+HrS2yxk6/knGqawWJ/fny0hw9
+         IL8aUqRkLClnWeIyz8hu0VEOURLxIbIuV8MBUnY2TXhTv06mlTvxi0de6/BIAb5t3KBm
+         p5ojEDx0Pvz7iuLXqClhzM7/OiklMLaU5HYEKZ4VgMoJQW1ugSozW3iiWpb5h73exogL
+         g3dA==
+X-Forwarded-Encrypted: i=1; AJvYcCXavPHKUlQ/3jNQximniU/qQs3Uqw9MoEmVz/J92zPUVigw+hSON5lHmagzbnDY4N58ptMl5C7WBVJYv1Y=@vger.kernel.org, AJvYcCXxs/o5LUrIYycZk2diFw8TvuqzCAKSgAP4VQ6r18molQ078Wt3D0AnfDCLXqUicC/RIwW5I97bdYTGXx8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUGqsYA4twaQNK/KY9xilXAd7z2ZgMUM/Uy7QvE0TlUnuXBTtL
+	3sQkVmBS35zn1ZNb4StBcCLVsNXcMtqWqb3Iq1dL7gHzZVqhIm4s
+X-Gm-Gg: ASbGncvkPK7G95o8+ITEln0RGTERil8IQexPtAugTrx8dnDPGvHaPONT1BPoWi1PTFE
+	jg+Ln4wpHgX1a0YYmXX1igyRb04ciQy87tVWKFWQNP4O3f8YbXCdU+lb9/wcaEdar2CRExKEEcJ
+	/CH8Nz/+t9FIKYHJazFwXmhVYsjI5RLmq0lOYXoPYXUEsp2iYxnqxoP/P07SchZ0eJIh8yzURPI
+	wg3fxYCIkPtFNc5gQpaAGlsS54fc4lyMnHBpM4dhOLho0/rLq76u0zsQK0jpkgfWZNlRxS0O0VY
+	rR1j8hxfli03+aXocE8B51oNMAr8ZlBs0kPby8jfSVicni/cxz/xRGKSTFAzL3ywJFRmbcUbg0e
+	yUwvc
+X-Google-Smtp-Source: AGHT+IEUoXqS2/nHfqxkAVo1FJB8JI3Woca1wrz/Df0wld3ytV0qV7YwibBGa/o994QW4GCqquvSsg==
+X-Received: by 2002:a17:907:2d1f:b0:aca:aeb4:938e with SMTP id a640c23a62f3a-acec6a2689fmr36719566b.8.1745867663655;
+        Mon, 28 Apr 2025 12:14:23 -0700 (PDT)
 Received: from [192.168.1.128] ([82.79.237.157])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6e4e70bbsm678197466b.63.2025.04.28.12.11.56
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6ed65410sm662857866b.126.2025.04.28.12.14.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Apr 2025 12:11:56 -0700 (PDT)
-Message-ID: <cbf7cef6-ea4e-4251-b661-eaeff142a0d7@gmail.com>
-Date: Mon, 28 Apr 2025 22:11:54 +0300
+        Mon, 28 Apr 2025 12:14:23 -0700 (PDT)
+Message-ID: <59e93077-9882-42e7-bc13-21d60168963f@gmail.com>
+Date: Mon, 28 Apr 2025 22:14:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,47 +67,60 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: topology: check if machine is NULL during tplg
- load
-To: Daniel Baluta <daniel.baluta@gmail.com>, julien.massot@collabora.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
+Subject: Re: [PATCH v2] ASoC: SOF: topology: Fix null pointer dereference
+Content-Language: en-US
+To: Julien Massot <julien.massot@collabora.com>, kernel@collabora.com,
+ Liam Girdwood <lgirdwood@gmail.com>,
  Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
  Bard Liao <yung-chuan.liao@linux.intel.com>,
  Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Mark Brown <broonie@kernel.org>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
  Kai Vehmanen <kai.vehmanen@linux.intel.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250428161236.126200-1-laurentiumihalcea111@gmail.com>
- <CAEnQRZByMFrDoPsQ+aoqfS7+1eDuiLGZYYywf+Cn=hGjRm-BzA@mail.gmail.com>
-Content-Language: en-US
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Liam Girdwood <liam.r.girdwood@intel.com>,
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250428-fixup-of-sof-topology-v2-1-7966515a81b7@collabora.com>
 From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-In-Reply-To: <CAEnQRZByMFrDoPsQ+aoqfS7+1eDuiLGZYYywf+Cn=hGjRm-BzA@mail.gmail.com>
+In-Reply-To: <20250428-fixup-of-sof-topology-v2-1-7966515a81b7@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 4/28/2025 7:50 PM, Daniel Baluta wrote:
-> On Mon, Apr 28, 2025 at 7:16 PM Laurentiu Mihalcea
-> <laurentiumihalcea111@gmail.com> wrote:
->> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
->>
->> Check if "sof_pdata->machine" is NULL before calling the machine-specific
->> "get_function_tplg_files()". Otherwise, for OF-based machines (which set
->> the "of_machine" instead of the "machine" field), the operation will
->> result in a NULL pointer dereference fault.
->>
->> Fixes: 6d5997c412cc ("ASoC: SOF: topology: load multiple topologies")
->> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+On 4/28/2025 4:32 PM, Julien Massot wrote:
+> Prevent null pointer dereference in snd_sof_load_topology()
 >
-> I think same patch was sent by Julien, but this one has better explanation.
+> Signed-off-by: Julien Massot <julien.massot@collabora.com>
+> Fixes: 6d5997c412cc ("ASoC: SOF: topology: load multiple topologies")
+> ---
+> Changes in v2:
+> - Better commit message as suggested
+> - Link to v1: https://lore.kernel.org/r/20250428-fixup-of-sof-topology-v1-1-dc14376da258@collabora.com
+> ---
+>  sound/soc/sof/topology.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Julien, I think you can add your S-o-B tag here.
+> diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+> index e19ba94f2c80a43731b90351bacfde2720db50ed..5d3ee3a86392c5a3fbfd05f83acc99b102c8cf61 100644
+> --- a/sound/soc/sof/topology.c
+> +++ b/sound/soc/sof/topology.c
+> @@ -2481,7 +2481,7 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+>  	if (!tplg_files)
+>  		return -ENOMEM;
+>  
+> -	if (sof_pdata->machine->get_function_tplg_files) {
+> +	if (sof_pdata->machine && sof_pdata->machine->get_function_tplg_files) {
+>  		tplg_cnt = sof_pdata->machine->get_function_tplg_files(scomp->card,
+>  								       sof_pdata->machine,
+>  								       tplg_filename_prefix,
 >
-> Thanks,
-> Daniel.
+> ---
+> base-commit: 80626102e730787e2cdcab0e36d267bedcd1a63e
+> change-id: 20250428-fixup-of-sof-topology-50886568a785
+>
+> Best regards,
 
-sorry for the noise, somehow I missed Julien's patch. Dropping this in favor of
-his.
+Reviewed-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
