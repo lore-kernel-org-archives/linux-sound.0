@@ -1,50 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mout.web.de (mout.web.de [217.72.192.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C367E268FFF;
-	Mon, 28 Apr 2025 12:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA8226A0DF;
+	Mon, 28 Apr 2025 13:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745843845; cv=none; b=KP+QNu7Y8qnkeC6JACnv1Wb5A/qOOG+a+cSK/6vvOqGwua2hWiYOUZlrkFGtlJcDqn8In5Tiqz++eknmFao+v9DyK/Cljk7fSuqjoAEapNqTKtBkW0ZB61uibzmt9dQJdCOJ1FxHKyGHg/vnu1H3L71jngntw64FNO5Vkldp2Ys=
+	t=1745845850; cv=none; b=VgxpMYf1dSooYY4ypIOTX2JBtzajGTnujzliqiMcEs+aKACp+gA7n6OlupSstW4/x3EJuDNgeEHUQYt+UkHeTHi5OsoBEHkMZgNNUQJguX+tcxwJUKo1wTXaq23vd2j3TUTEtKHQkZxqsByCKdLsRaebe1seJ+DB+5t/g2tulAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745843845; c=relaxed/simple;
-	bh=lemq0WlyiYPKOz4ZlJK1Z0Iz2kxrqAihbWSTOP9Bc/w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rt8/+X6SkzTBju8wZV7j5ET1OLKF6ms02DfHTptrRnpbqGdhBAGkPOpv5uU+ex2OHN0RKk4bNS9iddHJdKp1zMmP62SmQ+jJuKHB1bBz/ztok1TF1UEC1ntXNaYSVvb/HrNUc3qm/dALHVwfDLT43cLN8kGTdTZYXOwDBEn2ugE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KCyfF1SN; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1745845850; c=relaxed/simple;
+	bh=At5UKB7oyVRcNvD9iUloYPOfxZ3cZq2rneQ6eqRpVPQ=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=L4fHGLnbIqvtRUoxc/PVS+EuTSIDlJw5pqRRnIFZAPJG7XPspePuyyPh8BqxWonz5NttO/xXCgx06LJi4SKhO0jOJjXgo/vJqttHH/e+NiMHmfU8z2W5Kciv6kcjDJcUHgJibHpYBZTmY/wWMGyU85wJNfbu3SfwNyw+97Ja4Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=T8QmOa8J; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KCyfF1SN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745843844; x=1777379844;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=lemq0WlyiYPKOz4ZlJK1Z0Iz2kxrqAihbWSTOP9Bc/w=;
-  b=KCyfF1SNbR6sqyK1f4qJqD5z7YC6jJfcxgqZ9z+jNq9H3OAGHTnLroR3
-   EpSUeyyGF7UjgdhpEhQ5Sg86xzlUx4qUkvaRtFeNKapedcs4GSFXZcBKL
-   9fUS1By2t8f2lRbcsSE/Zey4PQyCGvKPw5yOMmKzKwdxHKnZRvRiBBWW4
-   bBp+Nw3CTHndOX/uqrL4TqA3LPIvSy0Q0E3Bhr87NDqM8Ao+z/VyWaHyp
-   SBzOmyG2uW8FgjNLTKfFNYBOz5UmjjLszemw2LZXHQxXs8Yek3OckoFk8
-   v8HK1wK9KpyCIoM3wDIO1o3PkYnBiT22vwNrzcZXBDryMU28+1PgnGBZC
-   w==;
-X-CSE-ConnectionGUID: u4ijRB9nTay3v0B14fJFVA==
-X-CSE-MsgGUID: 2FdgqztvSBeq5pcHV6zQQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="47520774"
-X-IronPort-AV: E=Sophos;i="6.15,246,1739865600"; 
-   d="scan'208";a="47520774"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 05:37:23 -0700
-X-CSE-ConnectionGUID: xxjgWQxfQBa2LbEbvdEngw==
-X-CSE-MsgGUID: N2DtIr1zTu2/5Z4md6qsKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,246,1739865600"; 
-   d="scan'208";a="133479337"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.249.122]) ([10.245.249.122])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 05:37:18 -0700
-Message-ID: <a154e7eb-2708-411d-a494-868abe7052b7@linux.intel.com>
-Date: Mon, 28 Apr 2025 15:38:30 +0300
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="T8QmOa8J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1745845846; x=1746450646; i=markus.elfring@web.de;
+	bh=At5UKB7oyVRcNvD9iUloYPOfxZ3cZq2rneQ6eqRpVPQ=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=T8QmOa8JdXJPG+mtey0Gt9AHrfFGS3/nZRENjeQzolsLocssCkneAOXfHkja4rqV
+	 2J27E1xaJOAll3nRJ2cxuKvZDYbU810tTQevTeOc/PrpuTlcyGGH8aLjOig8zX7l7
+	 2Om6d7e+UxQAbg8cFtZkqgaUH1g/Va1bb7VhOZf6/ajMCYdtZOLmlzp324uBLfnzf
+	 Svs1SvmGldmjcuhwf4D7EuU7mtnrgzeD2F4cjR+NNO7QDjwn4avTIP4bMTPOYo0Qi
+	 D3olXK3cLXvbVcuaoC3iq1N3Z96tT1JjN9moIIAdNzTCqgl9Y/DwwnGqrvPY5eCj+
+	 9N9KbZUR7OxwvB5LZQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.68]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MBjIE-1uEqJW0uom-00EvpI; Mon, 28
+ Apr 2025 15:10:46 +0200
+Message-ID: <2583415c-6338-47ba-9688-eae9d5ae6736@web.de>
+Date: Mon, 28 Apr 2025 15:10:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,79 +42,81 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: ipc4-pcm: Adjust pipeline_list->pipelines
- allocation type
-To: Kees Cook <kees@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
+To: Julien Massot <julien.massot@collabora.com>, linux-sound@vger.kernel.org,
+ sound-open-firmware@alsa-project.org
+Cc: kernel@collabora.com, LKML <linux-kernel@vger.kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>,
  Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Liam Girdwood <liam.r.girdwood@intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, sound-open-firmware@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20250426062511.work.859-kees@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20250426062511.work.859-kees@kernel.org>
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20250428-fixup-of-sof-topology-v1-1-dc14376da258@collabora.com>
+Subject: Re: [PATCH] ASoC: SOF: topology: Fix null pointer derefence
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250428-fixup-of-sof-topology-v1-1-dc14376da258@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:kSjMG39RiIHQdnRGPvLSRI0NpeiiVYj2v+HdIFYVjJfS4XWlqYo
+ yBmFHzMnwhK2Lu/vJoLM2JJniIES5QQPxm/KANsOpCvEl8V04ejXAArtIQvC0CUkVtc4uNW
+ udzJdAbPMvEXdVdNvb9yhQ/6RCPvdQrUQ4tHCyGFutpHWerf148awF9NbP12OxSM0khJwEp
+ 8OzaubDD8Qc/wmZAe5xYA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:p8cHZn6hnQE=;4SvAO5B+bsnKeGEdyjgVhhOaUYy
+ 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
 
+=E2=80=A6
+> check first for null machine.
 
+Would a summary phrase like =E2=80=9CPrevent null pointer dereference in s=
+nd_sof_load_topology()=E2=80=9D
+a bit nicer?
 
-On 26/04/2025 09:25, Kees Cook wrote:
-> In preparation for making the kmalloc family of allocators type aware,
-> we need to make sure that the returned type from the allocation matches
-> the type of the variable being assigned. (Before, the allocator would
-> always return "void *", which can be implicitly cast to any pointer type.)
-> 
-> The assigned type is "struct snd_sof_pipeline **", but the returned type
-> will be "struct snd_sof_widget **". These are the same size allocation
-> (pointer size) but the types don't match. Adjust the allocation type to
-> match the assignment.
-
-It looks like that this is indeed an oversight and a bug introduced by a
-mostly mechanical change (introduced in v6.3).
-
-Can you add:
-Fixes: 9c04363d222b ("ASoC: SOF: Introduce struct snd_sof_pipeline")
-
-and:
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Cc: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-> Cc: Daniel Baluta <daniel.baluta@nxp.com>
-> Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: <sound-open-firmware@alsa-project.org>
-> Cc: <linux-sound@vger.kernel.org>
-> ---
->  sound/soc/sof/ipc4-pcm.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-> index 1a2841899ff5..52903503cf3b 100644
-> --- a/sound/soc/sof/ipc4-pcm.c
-> +++ b/sound/soc/sof/ipc4-pcm.c
-> @@ -784,7 +784,8 @@ static int sof_ipc4_pcm_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm
->  
->  		/* allocate memory for max number of pipeline IDs */
->  		pipeline_list->pipelines = kcalloc(ipc4_data->max_num_pipelines,
-> -						   sizeof(struct snd_sof_widget *), GFP_KERNEL);
-> +						   sizeof(*pipeline_list->pipelines),
-> +						   GFP_KERNEL);
->  		if (!pipeline_list->pipelines) {
->  			sof_ipc4_pcm_free(sdev, spcm);
->  			return -ENOMEM;
-
--- 
-Péter
-
+Regards,
+Markus
