@@ -1,44 +1,46 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9D618FDAB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA3F270ED2
 	for <linux-sound@vger.kernel.org>; Tue, 29 Apr 2025 08:59:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745917160; cv=fail; b=RM761HbkUWhB8H6LBEElsSlsn4/HH7IBPRe9c8hucenfvoEcN+dCxqWcU2cc6Mel4wng3vHOE+2vzs0r2L6D2Y5bcV9tcJD/m0yz/c39+V0Tn0vS09p8azd9Fl/9K6wDM64tvCikUCtqXx9WrSfV4oc/kmxuYAZLBHjTrbM6V0g=
+	t=1745917160; cv=fail; b=ASirie0nuuTcqwBPATKTOkrqPyfAywEiF2cwR8LrRxnG4S88W866699cqWm+39g7ry0Ne/yO/ZTtnUXg4gbqInWeQ9eU8aHUM0CLPpqzlgYLkPji6szeylyUsKrvHVrZLB1+1D3UfgZ0Bv+chT3SBdItmuLyXsSv226rrEfU1Io=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745917160; c=relaxed/simple;
-	bh=X6UGOid7fe/e91NKsli35t7FLyBBLR7XAOVrcVmoksc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ANVrgF+4ieFNgmuuTcB3ZD0H91hq70zpi+ujm9cJ+XouIcaIj6/6es1X/FAry1+pobOuZ9PB18vaHszb5DQU6gkk+kPJ3uE0JoxCRgxGiEQ0vqZQ8P4v3toUpixhAQYsMzWXz23M3OAf9iAgAChcYJVLa4sLvmLpAlJ2PHtQBMA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=HXYvtN9I; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=o5TTI9CL; arc=fail smtp.client-ip=67.231.149.25
+	bh=xL7fRSZLGIsLRXQ8jbKf0gDXJb9AXpMnaH1ERPM8k1E=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hV+Go46PcoXGFfG7a3ova7KvF28Fx1p02AMhk8zvYv9mmpBTVZjivJMieXmDJbvst+ise+b357o31Xfbi2iw5aqV3mIwlWZ9Am4cALqrvZsYzPp3eXaX6nnar9d9UqOnAhVG+rQFjqJiWLXywikiOmQX4q+nAYgW9DH+FdW7kag=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=a78BwRJc; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=uKMdWDZn; arc=fail smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="HXYvtN9I";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="o5TTI9CL"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="a78BwRJc";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="uKMdWDZn"
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53T4wnJw002232;
-	Tue, 29 Apr 2025 03:59:00 -0500
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53T4QfCH022415;
+	Tue, 29 Apr 2025 03:59:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=RjGhQyCdeQKeHdrI
-	0NYisSn9ePLE2dCYR9zMOQgTD+w=; b=HXYvtN9IWC4wp2BXTNLQkAHeqaDfH+E4
-	7sfOnQjpwUrLvBBK+jvtKgJVTCfkbGcXCxbzH+fh+NkCTgTjR4Yy17mCYYtd7h7L
-	PMfVyK7Q6kik16wRS4Pv9ViIPVKxHB5J4/w9gRHV8Xu2S2XgCkeQmJBq3rneZCNC
-	4H5idIUU58M27QV6sYJPeTPP9605TEzqfSrYJ9NiEMpo5o3c5OHGN+iLaxOe2oO3
-	TX1rT4XRF8nkUDrRSL3HXi6pQFU3nIKFBAy7MsM9NymyfZm5tsKyXlz3jSjRp42o
-	L+3PYIPmntxdrvN2d2ripInMPMP0PQO7aaVDS5A6guPKoIBPzooQxA==
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2172.outbound.protection.outlook.com [104.47.59.172])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 468vw1bccj-1
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=9TocIhortBxmyvs+XbPL6qhCrm8XkTPFGyA9W4Gvdos=; b=
+	a78BwRJce3iEaXxn5fP3EHkw5BKOraq67fHPL88R0z/sz7mr+QKyxgbY466Kh4NU
+	YaEWPAtnFHrFY5+G0r3pHJRnu1Zc4ykWCn3OgbomKIa0EFVpaylI+0wgdtQj7Ybc
+	uLPKF2FEo89YLyYyCes6Q7FDlf1sLEPdTVnhNcLLGTja27M20bDJ7tw0LVeLU2bG
+	SqM//OghlNYDhww8vVjKY9GQtGPVRKo5UWnNAgIl6RhP9XzcGx2fyD84fnEBS7Kn
+	81XZ/ooJdMe+fXhj+NapgJPC4Qi3NeqF7dcizsD/FTrRbtC1nssSMICnBTx4vB4q
+	dslSPgk5X3Ieeih5rIS+Cg==
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 468vw1bccm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Tue, 29 Apr 2025 03:59:00 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JQnKE4/qTr2t3ODmwNMfWeU6icxdtube8V6UoYYhmK/MzwhdE1qbJthMEDGOVnKSB3u7Y1HbmeRgIkZlKlVR9IEbfe51o4KDJe39zt3Xe9OiBoJtI/Q04ablHj4De5NVMpYi4grLdf8XMUkmC+KuFBcT7Iq0Hpq9PiSxaLu7V1JljcmKiq129W10de3gLIbBWZfiMMWMQOtbgdfA8Z9Vdb+WyC5YlKD2gXBZzGosYZo1fHaZbM3jjppe7SurlaS4aGs76Ae0bX4fiXaMYIp0cUBATyyELinhSycmz4N+T7w/mXhrNsKKOCCWC9zcGOD2cFPqgiXHjzK3w4sgo+xi4A==
+ b=JSMMWdBz8/yYU2fSDMefgVIgE4jt4OTy4NUjMmRK1ix0bizVS7Asz9sILh+e0SuHeUJpzgn7KLp/rCjJw5jtyRRpvNDQowaD7yTWGsPKsc1eGLIqHLzqAPpvOTulVw3OLm1CJnxFL+B0ajBhQwmtE/JZMhq0FhZIarDWOd1BeAQHW2ORaOmE6lih5seDFEbHCVs9rBjfeSzy0dR3nvQp97OaBJipvjVpuDcgKtwkNkek8O7MpH+BuY3SuVvnulAiPt067OEy4vwm/8RXWcd8JdD359O7+iP3+3WUEBIHD6mnHF6slrwqSh06jcPyFNgtACvoBsOH+jeFRQvTrOuhCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RjGhQyCdeQKeHdrI0NYisSn9ePLE2dCYR9zMOQgTD+w=;
- b=cKaGH4RBdH05tyk6cn2oOo8ipqmNDIvF89qYGBBOoG57I972cvRihANtkVhhPDptybwVRTrlmtf8/7U//kc0exUmWzjokFXjTkn08wvnYF4OXuEhRAahdXQjGLC4VjPT0cxsqfiWNPlN7A4oAV4lSg4T6uCgOSp+v/dGUM+G445dqSbTFTM20tnMYUALJfo15wNJeG/zZBlyvkuMBLeGav4r6tz6Ee++gmHfKHDFm/a2AZSENEeS7splv/QdRh9InY+y70wNATNbhouoqrKJY1MKAW5BBVdUstHND2IRS0H2iZ8XeC/lUu5mhJS9EXjXKWs8bQyrvFQCi0giR6Mr5Q==
+ bh=9TocIhortBxmyvs+XbPL6qhCrm8XkTPFGyA9W4Gvdos=;
+ b=eDlEMp/dRhoe4UGIR3T0LKY1e7AKsCHCYs4zJGAE65eOTh60rM7MtGMXrPoWQaUlVMf4zLxQoy01SSkqY5LrnfUVTqi0B8P/zZTVBUxTHZkVOpYZb75l9SFJ+Aha0252Ez3RcUmPaP9bA/+Z414336RTBtR3IUntn+5RyXtgDD+NAF5io4cSUd5QDFFEeLV/1b3MK5zGgwNg1xXS6YqV2TjCmM81xyTqYX/KgemU7iR9XN/Hp3b4WoMxo+jN+jqVXWzg02E3nvfx25NLer9qfd2L5Sq9MiE2qyVkMtfOyiJRx0Z2IM8t0y8mYogED+9e5ARIcCakNJnUdYTWhvbFdg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -47,17 +49,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RjGhQyCdeQKeHdrI0NYisSn9ePLE2dCYR9zMOQgTD+w=;
- b=o5TTI9CLB/5T0/hNr2fy2WCjMnj0d+7q57MTn0a5roczTvM/mF9SJcMZYsA2N218X0fDvm8Aa9e4MtXERImYTsd88fgNZ5iKWjN4Zm2Hi8q/28VxkoLJ1r90ACSPJxmOAxyXr/k+8OtAZyyCnsh0pT8dv163M6gqH0KAYtRytYU=
-Received: from BL1PR13CA0075.namprd13.prod.outlook.com (2603:10b6:208:2b8::20)
- by CO1PR19MB5127.namprd19.prod.outlook.com (2603:10b6:303:fa::13) with
+ bh=9TocIhortBxmyvs+XbPL6qhCrm8XkTPFGyA9W4Gvdos=;
+ b=uKMdWDZn19UOrqTRSHrltpmE8UIyhssYHX4bDxGa8TbkhcnBd8kmPafmt3nqu9w65LEE/nBs5SS0WUDAaHk8R43Acg8PmApzBgdiuSQoi8PHz+dvi8WOulhnKdX8MtIxj2/hVy/jmUbM7sKhbG0lBqVFCVTxseYGUk19NfEHSOE=
+Received: from BL1PR13CA0080.namprd13.prod.outlook.com (2603:10b6:208:2b8::25)
+ by IA1PR19MB6396.namprd19.prod.outlook.com (2603:10b6:208:3e4::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Tue, 29 Apr
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Tue, 29 Apr
  2025 08:58:55 +0000
 Received: from BL6PEPF0001AB78.namprd02.prod.outlook.com
- (2603:10b6:208:2b8:cafe::b5) by BL1PR13CA0075.outlook.office365.com
- (2603:10b6:208:2b8::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.25 via Frontend Transport; Tue,
+ (2603:10b6:208:2b8:cafe::79) by BL1PR13CA0080.outlook.office365.com
+ (2603:10b6:208:2b8::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8678.26 via Frontend Transport; Tue,
  29 Apr 2025 08:58:55 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
@@ -71,20 +73,22 @@ Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8678.33
  via Frontend Transport; Tue, 29 Apr 2025 08:58:54 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 85DF3406543;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 9A7F240654A;
 	Tue, 29 Apr 2025 08:58:53 +0000 (UTC)
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 70ADB820244;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8464182026C;
 	Tue, 29 Apr 2025 08:58:53 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: broonie@kernel.org
 Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
         peter.ujfalusi@linux.intel.com, pierre-louis.bossart@linux.dev,
         linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-Subject: [PATCH v4 0/5] Add DAPM/ASoC helpers to create SDCA drivers
-Date: Tue, 29 Apr 2025 09:58:48 +0100
-Message-Id: <20250429085853.258038-1-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v4 2/5] ASoC: dapm: Add component level pin switches
+Date: Tue, 29 Apr 2025 09:58:50 +0100
+Message-Id: <20250429085853.258038-3-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250429085853.258038-1-ckeepax@opensource.cirrus.com>
+References: <20250429085853.258038-1-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -94,104 +98,218 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB78:EE_|CO1PR19MB5127:EE_
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB78:EE_|IA1PR19MB6396:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: b6303fa4-4257-4e20-e09a-08dd86fc1231
+X-MS-Office365-Filtering-Correlation-Id: c0f5756a-4199-4a2f-eae6-08dd86fc1231
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|376014|82310400026|36860700013;
+	BCL:0;ARA:13230040|61400799027|82310400026|36860700013|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xrOUmKlNDi0Bj/3sQ+NJG6AQymFd8j4UC9Mo180AJ4cTL62L+QygGA3CcAxP?=
- =?us-ascii?Q?TTIL7YVbWtW29FbN6BfV8+TR+Fj1v8DpAfw/3+Zoy9H4A+U+20wvb/7E3ym/?=
- =?us-ascii?Q?swiW5T51wC1Ix9MlDuDHRlFN/MgmRhyK7aWthR5VVGjlLU+wvj/c15/9ZQ7k?=
- =?us-ascii?Q?5OsNwUC8Ags4I7E9akmmmrvHJjUOh9/FfVeamRaSEIbuja3Ub58AEFImnB5w?=
- =?us-ascii?Q?Nh7fT9WCsVKJRmlBZzMEIWW8m9jkBEO1geTPgEFRrOuRCBlkD1Q0FIC+TANZ?=
- =?us-ascii?Q?8x13NaI2vjIm8zPs/EA+1ue5PhdVqA7veGe3TfU9nf6mjReS6GfF+tsb6BK7?=
- =?us-ascii?Q?FLqaCtJHIDldVBb8EnrEn6hwiazhVOEzrYv1TYEwl2GWu+Ia4t5VqUrt7ikd?=
- =?us-ascii?Q?DIYvJeWEqsTuokC0q9VmvnbMCPyxl3FCl7GO5dHkJYJqYdWkODT00abVyjKy?=
- =?us-ascii?Q?3zuoNZRdyKg/OA58Bpe0Pf1WoqZdlbKdya8XzcZkYFx6kOGqrGQvE8nTgPry?=
- =?us-ascii?Q?J3GuOF7hsXUEUaNSgbh8qpik5auAyLn3kPDgkk75hUc2EVIJCkVBTyKG/me2?=
- =?us-ascii?Q?dmeHA2bNSazuKyrKqP4/kreFxgZzUT3L+K7OMGRniEgGMMOPFH8mIdvF6Ot0?=
- =?us-ascii?Q?/wabFjT2adUAC2mXCvVRT02qmXpDhoBsNonprMpr07yjgNL6BqVrO0dfw/Aw?=
- =?us-ascii?Q?EGsfbx7qiWDG0t3Sa0wgbIpgcj1gfw8AkM1A4VXHs8htliJMExFGq+ShUZEh?=
- =?us-ascii?Q?xZNHZuuTUbulTPqMurihTNvEh1DvOe/70svWnI5hG+9bU7DzQR5+JHotsiAn?=
- =?us-ascii?Q?RTTesnNuvHackx6l8CX3/JoIBCNkuHG4pe48GVO+5rhBzPTlhjfyT4xoFzmy?=
- =?us-ascii?Q?3eRYkLXdlQMdGOhRVfZj4tvvs4C7q3450MwD4BBgvVvNopKRNTkPQpZhG3dg?=
- =?us-ascii?Q?EGyvd0V6EtE8ZdtCXvCMeKf3JKHPbfIB8etSnc3xYgCE5Rq/w+0Km3lgudpF?=
- =?us-ascii?Q?Akg32AZ92VS82qU5SIaKsn9KtrGvE5wtjAgRLrq32lqxP/0rEe+tboCe9yww?=
- =?us-ascii?Q?gR0iFptO1NJNKSdxwtkvwLkpRlAeM/00BdJvwwwcN17mqp9tbCac9VoqefJW?=
- =?us-ascii?Q?b4tr0j22NhOOSD5GZkF9GpkivWME4na3raAIFSSCwTAnrApN9JLsZJGHSdOv?=
- =?us-ascii?Q?YkteRKcIowpEHN6CHfTv8R0vimRGCFUogEiT2NxvpCgTTvFXVKPoUR0jBcpv?=
- =?us-ascii?Q?sutTr4wt9Q/1lUUZAq1zOSmTeKbh/xeIeMcXty9KugD3cFTVO6q09p6TxPQK?=
- =?us-ascii?Q?+knQZo/6bTFW4tXqCHU4tsntYqrsohVVzzASzJURCriZrKZVmsYPzKDdevqq?=
- =?us-ascii?Q?uid84K5mpA8WfrEKCq4qoghVwi8+3ZH+C9etXcZ63XqZUM48sLbI4P3NNm1H?=
- =?us-ascii?Q?AZTpPvNIZJTxKa4v/PSsRHBxENjezCbkoCH2aRpiqL7QZnSJAcCF37JbslM/?=
- =?us-ascii?Q?EckuBHGY/nT7jbnwPi2imLeVshlZToniahKy?=
+	=?us-ascii?Q?mLmNJu3BF3cEo3FuVlkhOvyDPHxKz/PniSFJ40PeEQjx/Zc9akvnuaD6E2KO?=
+ =?us-ascii?Q?TqG2qQtihWF5Zo7IFF6ghhaMexpDHO6b+L0zTqc4RymlcQvrNEIBj/vxB04d?=
+ =?us-ascii?Q?pLdu6eSTKTfkB8RP63Q3c3XG+dMmbbavoLn7I1SDgc0cm066flppMjrpXZNt?=
+ =?us-ascii?Q?jr9xMxNGw5kDJupxV4XRtkr7viR9OWt3wcKqU96Y49VXc/ACisuUiBlHbvZ7?=
+ =?us-ascii?Q?uWDNnWZ6xBAVeAbBS5yQtX3xhrKgozd+EQ8Ln6dVERJXUewVcibX6JZGGxgW?=
+ =?us-ascii?Q?cjwP7/94a9n21tUMpqpMlY5QzpVKSfHZ2uMSZuSUzGlYRw2O8sa45DhgtpnD?=
+ =?us-ascii?Q?xQWWHNY+aJNaQjFImhtYeUjdY9Y2Vv+ot9ok0hBoDypO6Tr/8ZMUTNjmL/7s?=
+ =?us-ascii?Q?QSKtplDzH+dQ5714ucrhlKh6th2yZSSVKfE+TC0VxdUWdc30lCPJeoq4tWjD?=
+ =?us-ascii?Q?CtlPmA3UI1AsKMk7lhRWuOisySO8ytvOjksG+j5H4EUiCWD6XAUUzGNAzw8h?=
+ =?us-ascii?Q?KLnD8oygFUt7bk6oiE2nDnt/9EmQkBrML3VdRnQ+Vun532Pw+SyKC2PJ3PEy?=
+ =?us-ascii?Q?XaSYc9/g3sMPw/9My70gEaTXWRVGY3iUy2GNk1Xs/DRriIwN+PjQoshuhwzM?=
+ =?us-ascii?Q?7RxdH2JFgY3GHrVNttb5snfGdVWXwKxIJUx9h8oAYplR6MVS2jfu9FmazNoH?=
+ =?us-ascii?Q?/tQo5bgyZBSaUFe3tACY6ebirXQcKz/LJYg8Bzxj2OySXz9mij3KHoCr0D3u?=
+ =?us-ascii?Q?MwkI5ZN4yFt/B4tiYiz31rh+DzkDL7sjSrG7dLdYi+3zizmi5FCnQB0y4IE3?=
+ =?us-ascii?Q?1zeqPTAOlmePmkAtj2siLFGfHpsvi+gl+vSqBbEyIvwtliVWq5l71YOQSLYk?=
+ =?us-ascii?Q?xZ/nYJFP0eh+GxTyftxpX6BybMkZIJg4toNuj+ubIc8fx2+OTv6Goo8EEi13?=
+ =?us-ascii?Q?RY5FHBKSfqmVms7/8anJS8y1igLJjGx2qnfN+VpaD2gCLa/T5HncaTSP4v3X?=
+ =?us-ascii?Q?wDdbTOMs1Si5AKl8KO08ftjdTz64DtNOvca3v9GXa0Xl1i103UC55ClL9URg?=
+ =?us-ascii?Q?sGLGgOJ0mJdrpuuKHLVNJVh+tjQpXQc3+JcQdkLZbBrzUDqGfCS7Ak1wonMy?=
+ =?us-ascii?Q?3DVGDsGbwIBQhETC9tqylRNpgaX9v8nZ4rHpwvnKYBpa/VYWs/MPBwNkG0fz?=
+ =?us-ascii?Q?ypGW2H62D4KVIx4cgD3bSs4wdGU2y0lU5HZdVkKjAf+n3vxq8SELccJFiCVB?=
+ =?us-ascii?Q?6IiXNpGssaeJw/lp+B1UflhGGiPrz3jYYijmObQUdoWvzGZcXzVcBN8MNgH7?=
+ =?us-ascii?Q?GHM6T+/srh9mDS8xPtg2hPolwR9CRk/QlI5+VFnws7LlqQCn7abdP1fuf4dM?=
+ =?us-ascii?Q?PAmDERVOUrLr+d+L4dreQ7OdpXQeTCjZIrNP5xkU73DwgVcWm/pxTQf+MZo+?=
+ =?us-ascii?Q?l+FxNREs4ewzoXgAgC6SdXZQ9a900yTYerCmeFWqzp2oR5DXer3Sq1ntg+rx?=
+ =?us-ascii?Q?RiSH6ESoCjGLjHyffS7f1FKwTKHYAEdnivi9?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(376014)(82310400026)(36860700013);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 08:58:54.9552
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 08:58:54.9550
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6303fa4-4257-4e20-e09a-08dd86fc1231
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0f5756a-4199-4a2f-eae6-08dd86fc1231
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	BL6PEPF0001AB78.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR19MB5127
-X-Proofpoint-GUID: lTZNL6Bncd82WHBdO-l76lKMxb2-68Up
-X-Proofpoint-ORIG-GUID: lTZNL6Bncd82WHBdO-l76lKMxb2-68Up
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDA2NiBTYWx0ZWRfX34IvtiD1xLf4 hg5H9JdIVHxgLYqOZTe5+y6bj5AWuWAiJsqN/RnDgMMidvI0NFQJ5lYj9Gs8jwFKyHUp8hTzPKQ Jur1JDsXxgfJrU+OsttRsSFAv8G3F8XleDVXs8OxXQ13lRrV6NubssXIoYm9+b62WmeL5IhIRtY
- DrySwcMWL3jI75diXn81rQ5E4+HKEhFV43drshpJJsAmys2/xQmRgpXMC4cIuQ7fgF4vYUC44OU 9r7V9S65XE2BKwMZgtxbU/UHk6H2fjt6NKgMOvmEOl60P8z2K5IpMD5VnYg4tltkY7oL++ugodK 1oPcYODdpMkmP3Oivgv9tMOlcI8gpnX4L+mOBm9nNLr1tNQEh5rB3X15pfW64DJd8O6q5ezy5+s
- 7Ah+jgnkNOju/OdnH5aL7U+9cf39pi3nISbQR3VcpA4rHE/QwxTcrDmWT2YYv+nkz6EtOq0d
-X-Authority-Analysis: v=2.4 cv=Dd4XqutW c=1 sm=1 tr=0 ts=681094d4 cx=c_pps a=GDxOUaUasxmcDRSC7gC2IA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=XR8D0OoHHMoA:10 a=s63m1ICgrNkA:10
- a=RWc_ulEos4gA:10 a=hulU0MfjRZACQXYr7gAA:9 a=BGLuxUZjE2igh1l4FkT-:22
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR19MB6396
+X-Proofpoint-GUID: IqP7lT63kfnN2ThpuDopmoz9Qef2zPr8
+X-Proofpoint-ORIG-GUID: IqP7lT63kfnN2ThpuDopmoz9Qef2zPr8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDA2NiBTYWx0ZWRfX1fuKpNDKfkbY qyODr+kave+JC+DRYEtk1NcSTkyFs+MtHIUrXdwq1Ry04o/eAJNZJpB/9WMw8uvFG8Dqi85kaeU n4marTZNVo6yHaKtQucYJEOumv8Y7KS/RZcuKkmLI1Beu0/gsWEQ/FyTrktu+jISoX628N23LIq
+ HbIldGh6KQbEqB+6tbI0D36aBwQMMJ4mJaitSAT/D3ksrCZ1YMvkE92sVfAB6ixhPdS1c+tZCCm 5Hmclyhek6mN+QdWyiTp9u5fL4Ou6K1xH9NNU46SMUBPZB/4rJpOoNna6NMfRfm8JaN9h5sZTwi K4wWIYuyf6lY62hSMylXYD8MgmlMjp5uQDz7QPe+SVMGIA1sfVZQSJpZeFX4Ihb9BcaVW9QsDBC
+ v0c+tbJNe0jgxR/TRIQg0QGCdBnv+38xJu0KeSNa6VyghXN4opaN+V/3NK9MGpwopLFx+Ycg
+X-Authority-Analysis: v=2.4 cv=Dd4XqutW c=1 sm=1 tr=0 ts=681094d4 cx=c_pps a=F7QtyTBSWJEVkVFduP+sHw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=XR8D0OoHHMoA:10 a=s63m1ICgrNkA:10
+ a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=SW88HgwpE6hd0ow_NxAA:9 a=BGLuxUZjE2igh1l4FkT-:22
 X-Proofpoint-Spam-Reason: safe
 
-Add helper functions to add DAPM widgets, routes, ALSA controls,
-and DAI drivers, these will be used to create SDCA function device
-drivers.
+The core currently supports pin switches for source/sink widgets, but
+only at the card level. SDCA components specify the fabric at the
+level of the individual components, to support this add helpers to
+allow component level pin switches.
 
-This series should provide most of the core functionality needed to
-get a device registered and have a working DAPM graph within the
-device. There are some features that still need additional work, these
-are marked with FIXMEs in the code. The two main things are SDCA
-Clock Muxes (not used in our devices and needs some ASoC core work),
-and better support for more complex SDCA volume control definitions
-(our parts have fairly simple volumes, and SDCA has a large amount of
-flexibility in how the volume control is specified).
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
 
-The next steps in the process are to add helpers for the DAI ops
-themselves, some IRQ handling, and firmware download. And finally we
-should be able to actually add the SDCA class driver itself.
+New since v3.
 
-Thanks,
-Charles
+ include/sound/soc-dapm.h |  4 ++
+ sound/soc/soc-dapm.c     | 84 +++++++++++++++++++++++++++++++++-------
+ 2 files changed, 74 insertions(+), 14 deletions(-)
 
-Changes since v3:
- - Add pin switches for non-dataport terminals
- - Add a minor cleanup to one of the SDCA parsing functions
-
-Charles Keepax (5):
-  ASoC: SDCA: Move allocation of PDE delays array
-  ASoC: dapm: Add component level pin switches
-  ASoC: SDCA: Create DAPM widgets and routes from DisCo
-  ASoC: SDCA: Create ALSA controls from DisCo
-  ASoC: SDCA: Create DAI drivers from DisCo
-
- include/sound/sdca_asoc.h       |   42 +
- include/sound/sdca_function.h   |   69 ++
- include/sound/soc-dapm.h        |    4 +
- sound/soc/sdca/Makefile         |    2 +-
- sound/soc/sdca/sdca_asoc.c      | 1301 +++++++++++++++++++++++++++++++
- sound/soc/sdca/sdca_functions.c |   10 +-
- sound/soc/soc-dapm.c            |   84 +-
- 7 files changed, 1491 insertions(+), 21 deletions(-)
- create mode 100644 include/sound/sdca_asoc.h
- create mode 100644 sound/soc/sdca/sdca_asoc.c
-
+diff --git a/include/sound/soc-dapm.h b/include/sound/soc-dapm.h
+index af802ef536e7..400584474bc8 100644
+--- a/include/sound/soc-dapm.h
++++ b/include/sound/soc-dapm.h
+@@ -445,6 +445,10 @@ int snd_soc_dapm_get_pin_switch(struct snd_kcontrol *kcontrol,
+ 	struct snd_ctl_elem_value *uncontrol);
+ int snd_soc_dapm_put_pin_switch(struct snd_kcontrol *kcontrol,
+ 	struct snd_ctl_elem_value *uncontrol);
++int snd_soc_dapm_get_component_pin_switch(struct snd_kcontrol *kcontrol,
++					  struct snd_ctl_elem_value *uncontrol);
++int snd_soc_dapm_put_component_pin_switch(struct snd_kcontrol *kcontrol,
++					  struct snd_ctl_elem_value *uncontrol);
+ int snd_soc_dapm_new_controls(struct snd_soc_dapm_context *dapm,
+ 	const struct snd_soc_dapm_widget *widget, unsigned int num);
+ struct snd_soc_dapm_widget *snd_soc_dapm_new_control(struct snd_soc_dapm_context *dapm,
+diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+index b7818388984e..f26f9e9d7ce7 100644
+--- a/sound/soc/soc-dapm.c
++++ b/sound/soc/soc-dapm.c
+@@ -3626,11 +3626,25 @@ int snd_soc_dapm_info_pin_switch(struct snd_kcontrol *kcontrol,
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_dapm_info_pin_switch);
+ 
++static int __snd_soc_dapm_get_pin_switch(struct snd_soc_dapm_context *dapm,
++					 const char *pin,
++					 struct snd_ctl_elem_value *ucontrol)
++{
++	snd_soc_dapm_mutex_lock(dapm);
++	ucontrol->value.integer.value[0] = snd_soc_dapm_get_pin_status(dapm, pin);
++	snd_soc_dapm_mutex_unlock(dapm);
++
++	return 0;
++}
++
+ /**
+  * snd_soc_dapm_get_pin_switch - Get information for a pin switch
+  *
+  * @kcontrol: mixer control
+  * @ucontrol: Value
++ *
++ * Callback to provide information for a pin switch added at the card
++ * level.
+  */
+ int snd_soc_dapm_get_pin_switch(struct snd_kcontrol *kcontrol,
+ 				struct snd_ctl_elem_value *ucontrol)
+@@ -3638,40 +3652,82 @@ int snd_soc_dapm_get_pin_switch(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
+ 	const char *pin = (const char *)kcontrol->private_value;
+ 
+-	snd_soc_dapm_mutex_lock(card);
++	return __snd_soc_dapm_get_pin_switch(&card->dapm, pin, ucontrol);
++}
++EXPORT_SYMBOL_GPL(snd_soc_dapm_get_pin_switch);
+ 
+-	ucontrol->value.integer.value[0] =
+-		snd_soc_dapm_get_pin_status(&card->dapm, pin);
++/**
++ * snd_soc_dapm_get_component_pin_switch - Get information for a pin switch
++ *
++ * @kcontrol: mixer control
++ * @ucontrol: Value
++ *
++ * Callback to provide information for a pin switch added at the component
++ * level.
++ */
++int snd_soc_dapm_get_component_pin_switch(struct snd_kcontrol *kcontrol,
++					  struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	const char *pin = (const char *)kcontrol->private_value;
+ 
+-	snd_soc_dapm_mutex_unlock(card);
++	return __snd_soc_dapm_get_pin_switch(&component->dapm, pin, ucontrol);
++}
++EXPORT_SYMBOL_GPL(snd_soc_dapm_get_component_pin_switch);
+ 
+-	return 0;
++static int __snd_soc_dapm_put_pin_switch(struct snd_soc_dapm_context *dapm,
++					 const char *pin,
++					 struct snd_ctl_elem_value *ucontrol)
++{
++	int ret;
++
++	snd_soc_dapm_mutex_lock(dapm);
++	ret = __snd_soc_dapm_set_pin(dapm, pin, !!ucontrol->value.integer.value[0]);
++	snd_soc_dapm_mutex_unlock(dapm);
++
++	snd_soc_dapm_sync(dapm);
++
++	return ret;
+ }
+-EXPORT_SYMBOL_GPL(snd_soc_dapm_get_pin_switch);
+ 
+ /**
+  * snd_soc_dapm_put_pin_switch - Set information for a pin switch
+  *
+  * @kcontrol: mixer control
+  * @ucontrol: Value
++ *
++ * Callback to provide information for a pin switch added at the card
++ * level.
+  */
+ int snd_soc_dapm_put_pin_switch(struct snd_kcontrol *kcontrol,
+ 				struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
+ 	const char *pin = (const char *)kcontrol->private_value;
+-	int ret;
+-
+-	snd_soc_dapm_mutex_lock(card);
+-	ret = __snd_soc_dapm_set_pin(&card->dapm, pin,
+-				     !!ucontrol->value.integer.value[0]);
+-	snd_soc_dapm_mutex_unlock(card);
+ 
+-	snd_soc_dapm_sync(&card->dapm);
+-	return ret;
++	return __snd_soc_dapm_put_pin_switch(&card->dapm, pin, ucontrol);
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_dapm_put_pin_switch);
+ 
++/**
++ * snd_soc_dapm_put_component_pin_switch - Set information for a pin switch
++ *
++ * @kcontrol: mixer control
++ * @ucontrol: Value
++ *
++ * Callback to provide information for a pin switch added at the component
++ * level.
++ */
++int snd_soc_dapm_put_component_pin_switch(struct snd_kcontrol *kcontrol,
++					  struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	const char *pin = (const char *)kcontrol->private_value;
++
++	return __snd_soc_dapm_put_pin_switch(&component->dapm, pin, ucontrol);
++}
++EXPORT_SYMBOL_GPL(snd_soc_dapm_put_component_pin_switch);
++
+ struct snd_soc_dapm_widget *
+ snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
+ 			 const struct snd_soc_dapm_widget *widget)
 -- 
 2.39.5
 
