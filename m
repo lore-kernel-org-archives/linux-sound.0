@@ -1,85 +1,115 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950888F77;
-	Tue, 29 Apr 2025 10:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8F72C2AC8;
+	Tue, 29 Apr 2025 12:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745922688; cv=none; b=W9Ft4iU4QJkBQx4nL4c58FPVgEc+E/kwDCzB04/t/YeCsvPqoF497Wd6tiN1msZoGU4Mkz73qiN427OkN7tvOX8h0l1EgiVg5tunlyOjyi+zZwFZ6R1/3HejXUFvvJiizwyOSXeMbyI2jhgU8Trrkh07cEyZUSCcoMiToEqBXXI=
+	t=1745929439; cv=none; b=CylKIHN1dfcV/O117XblUIJctGn8ICsRNVZFV/N4420kI9KWYa7iejrM5YHJGi0iWWlfn6b3yafuazJ0uweO/dXrxeXrbNrUUD7u4rD0fUJNWnZ22mbKKsG4rFWZQuof7HL30XA0D0vk/RhEWL+ERRvcnlMzcUwLmDhyA3KF0YI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745922688; c=relaxed/simple;
-	bh=pOq4jyyMAwCYUnNjX1y8cT8pMjVAwdTys24UfUdPvoQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZKTRoKqtFdSWuul0lv/P2seFDjztbFM/hLxSXP9eTSjVxUWHoUcCeYlpYg04B7mCYSvvos2haj7a5WrLjIYH8v+FrOUY4zSkvOxHEprJ2dRMIZLZY9Zqxly8LeRvPeA4OWFq18uqL+Hex/NRGDog4u4cCk54aJSEKWJWTdawhAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TVajMxxY; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1745929439; c=relaxed/simple;
+	bh=6D2eOiO8wtFS+Z7xOmqxliK7y2kRiVLMvyJz9Bj3anI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VIbqTpiXLFyXNYf88KD5RMtMCBLN9H//N18CZrg1g6fCX1WTfrjyN4087HdpY4WbAaipgjv+HRuiWzAMUdVq8xc/CHkMMsx93vaw8L1MdzdVy9f2s61fgNiGVexBipA0BJp1vROm7yEnctV28SGD5vGn8OTa4ihB0m4dm6VOZRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fogDslDn; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TVajMxxY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1745922684;
-	bh=pOq4jyyMAwCYUnNjX1y8cT8pMjVAwdTys24UfUdPvoQ=;
-	h=From:Date:Subject:To:Cc:From;
-	b=TVajMxxYZojIFavArpHPf0ZmBHdH9lYLgyb8HWdHJJ5lbPQlCgQWLyR5ydfwprSH8
-	 OiCI75Bk5kNdh4Fk6iwvHC9icKpgc5+WrioomTKi79h6weEdahgPaQKkV8BtzyDewv
-	 L8fsoEOVvwWM6rx+3REFmh97N+wFjwIA2uWybDHczoCVLQ9pOVRTWOnyMsf8uhBF6A
-	 MiKfk5Oytv/mCOo058Oa8EMJvLz3iinwz4GcdxFn40mhH8zrdV4VvAvnqMoADFqdZv
-	 k230KIf2G6Q613Ii+x4S96LM3jZTOgl0MACSx1l+oySpMpT/zJoGr3clDc3rpa1zt0
-	 HZcqxmvjbxn1w==
-Received: from localhost (unknown [84.232.140.122])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 73FDA17E09B5;
-	Tue, 29 Apr 2025 12:31:24 +0200 (CEST)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 29 Apr 2025 13:29:43 +0300
-Subject: [PATCH] ASoC: amd: acp: Drop superfluous assignment in
- acp_sof_probe()
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fogDslDn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745929437; x=1777465437;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6D2eOiO8wtFS+Z7xOmqxliK7y2kRiVLMvyJz9Bj3anI=;
+  b=fogDslDnCfbBolydhSOPnwZ29C8g0D4enN2VmksOnLqxyscjW+doPxtt
+   RbppXyDEg8XTAanlwDdE50G4GuZ9VX/WmD/vlzDNTLlrlgL1zTXc8LnKe
+   0EEtlfIRALwtQsuVLrRlu197Lq5VWe0Tsyva3o+Ld2OB/dmtVisEmeryp
+   EkRPw5cgKLWLV1ZahJry6rtzH5ERRADJCarhpHYe/YuipkwsG+bXLRMDi
+   Gne5DLpX11LpPfUiPqtPgozWaEA5sJ0t3Uf7KqcqRcGbq2ZXDnF2z1vWr
+   LdNwPQJmj3yxnwmIZrXOdFDql/RDW0FKgpMPZEvWyz6thd5fgWrVEE/Tj
+   Q==;
+X-CSE-ConnectionGUID: fHexwftlSj+Yv5Dyeef1ZQ==
+X-CSE-MsgGUID: MFp/IR1YSK6mLoHyzSTvzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51371504"
+X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
+   d="scan'208";a="51371504"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 05:23:56 -0700
+X-CSE-ConnectionGUID: AbYHISptQz20/4tHRh9tgA==
+X-CSE-MsgGUID: zSz8F3yFRDCNuSdLrVuC1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
+   d="scan'208";a="138609618"
+Received: from unknown (HELO yungchua-desk.intel.com) ([10.247.118.225])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 05:23:54 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH] soundwire: update Intel BPT message length limitation
+Date: Tue, 29 Apr 2025 20:23:37 +0800
+Message-ID: <20250429122337.142551-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250429-acp-sof-probe-assign-v1-1-9784f6eb7660@collabora.com>
-X-B4-Tracking: v=1; b=H4sIABaqEGgC/x3MTQqAIBBA4avIrBtQ6Ye6SrTQGms2Kg5EEN49a
- fkt3ntBqDAJLOqFQjcLp9hgOgX75eJJyEczWG0H3dsZ3Z5RUsBckid0InxG9GacxkBG6/mAluZ
- CgZ9/u261furyAWZmAAAA
-X-Change-ID: 20250429-acp-sof-probe-assign-b1676fe1009d
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The 'card' pointer is not required to be NULL initialized as it is never
-accessed before the related memory allocation takes place.
+The limitation of "must be multiples of 32 bytes" does not fit the
+requirement of current Intel platforms. Update it to meet the
+requirement.
 
-Drop the redundant assignment.
-
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/amd/acp/acp-sof-mach.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/driver-api/soundwire/bra.rst | 2 +-
+ drivers/soundwire/intel_ace2x.c            | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/amd/acp/acp-sof-mach.c b/sound/soc/amd/acp/acp-sof-mach.c
-index d7b54f12f4062481876f636e483c2922e2029a5f..6215e31eceddf8931ed55c29d8488629e23bcdd0 100644
---- a/sound/soc/amd/acp/acp-sof-mach.c
-+++ b/sound/soc/amd/acp/acp-sof-mach.c
-@@ -88,7 +88,7 @@ static struct acp_card_drvdata sof_nau8821_max98388_data = {
+diff --git a/Documentation/driver-api/soundwire/bra.rst b/Documentation/driver-api/soundwire/bra.rst
+index 8500253fa3e8..c08ab2591496 100644
+--- a/Documentation/driver-api/soundwire/bra.rst
++++ b/Documentation/driver-api/soundwire/bra.rst
+@@ -333,4 +333,4 @@ FIFO sizes to avoid xruns.
  
- static int acp_sof_probe(struct platform_device *pdev)
- {
--	struct snd_soc_card *card = NULL;
-+	struct snd_soc_card *card;
- 	struct device *dev = &pdev->dev;
- 	struct snd_soc_acpi_mach *mach = dev_get_platdata(&pdev->dev);
- 	const struct dmi_system_id *dmi_id;
-
----
-base-commit: 9d9096722447b77662d4237a09909bde7774f22e
-change-id: 20250429-acp-sof-probe-assign-b1676fe1009d
+ Alignment requirements are currently not enforced at the core level
+ but at the platform-level, e.g. for Intel the data sizes must be
+-multiples of 32 bytes.
++equal to or larger than 16 bytes.
+diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
+index 5b31e1f69591..f899c966cfaf 100644
+--- a/drivers/soundwire/intel_ace2x.c
++++ b/drivers/soundwire/intel_ace2x.c
+@@ -245,7 +245,7 @@ static void intel_ace2x_bpt_close_stream(struct sdw_intel *sdw, struct sdw_slave
+ 	cdns->bus.bpt_stream = NULL;
+ }
+ 
+-#define INTEL_BPT_MSG_BYTE_ALIGNMENT 32
++#define INTEL_BPT_MSG_BYTE_MIN 16
+ 
+ static int intel_ace2x_bpt_send_async(struct sdw_intel *sdw, struct sdw_slave *slave,
+ 				      struct sdw_bpt_msg *msg)
+@@ -253,9 +253,9 @@ static int intel_ace2x_bpt_send_async(struct sdw_intel *sdw, struct sdw_slave *s
+ 	struct sdw_cdns *cdns = &sdw->cdns;
+ 	int ret;
+ 
+-	if (msg->len % INTEL_BPT_MSG_BYTE_ALIGNMENT) {
+-		dev_err(cdns->dev, "BPT message length %d is not a multiple of %d bytes\n",
+-			msg->len, INTEL_BPT_MSG_BYTE_ALIGNMENT);
++	if (msg->len < INTEL_BPT_MSG_BYTE_MIN) {
++		dev_err(cdns->dev, "BPT message length %d is less than the minimum bytes %d\n",
++			msg->len, INTEL_BPT_MSG_BYTE_MIN);
+ 		return -EINVAL;
+ 	}
+ 
+-- 
+2.43.0
 
