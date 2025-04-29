@@ -1,46 +1,46 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA3F270ED2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4C4175D53
 	for <linux-sound@vger.kernel.org>; Tue, 29 Apr 2025 08:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745917160; cv=fail; b=ASirie0nuuTcqwBPATKTOkrqPyfAywEiF2cwR8LrRxnG4S88W866699cqWm+39g7ry0Ne/yO/ZTtnUXg4gbqInWeQ9eU8aHUM0CLPpqzlgYLkPji6szeylyUsKrvHVrZLB1+1D3UfgZ0Bv+chT3SBdItmuLyXsSv226rrEfU1Io=
+	t=1745917160; cv=fail; b=MxHIBL5ZMtNa8JOPNps5Ip8/yFC5tbxsVm92HSv5HQ3TX1SDdHnDBTNQnCpI5cf0ytXV76PUx1QCBVcUHlMt4zrngptIm3mBXIHDyS5DoL6q1/pGSIYZQi2D3uZkgohbJdEUujodlNo4ilITAmvHCpwM2loBWPDdBVFgdEzS2y8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745917160; c=relaxed/simple;
-	bh=xL7fRSZLGIsLRXQ8jbKf0gDXJb9AXpMnaH1ERPM8k1E=;
+	bh=CGUqs+Z5DC9P+LRlI9+tkYITBIeiGx2HcZVNNx2rP3Q=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hV+Go46PcoXGFfG7a3ova7KvF28Fx1p02AMhk8zvYv9mmpBTVZjivJMieXmDJbvst+ise+b357o31Xfbi2iw5aqV3mIwlWZ9Am4cALqrvZsYzPp3eXaX6nnar9d9UqOnAhVG+rQFjqJiWLXywikiOmQX4q+nAYgW9DH+FdW7kag=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=a78BwRJc; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=uKMdWDZn; arc=fail smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=TTYlRW0Lqk3xETQn0aZuiAGQ5exc/Nyv0MqAO8fC+voiwSPguafl1CEJ2fRx2ZS++kVaBJ1WObgJoPxrz+HCJ7Qvy78UoaqbSRJycfRm6WLItSnGuCCIjklKFETSyw2xR17ZGhjwa5OQHLsy5McUhWbtZSIj4RiOdj/UTnUWF+w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=XWcyBMPZ; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=UEEDDNWk; arc=fail smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="a78BwRJc";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="uKMdWDZn"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53T4QfCH022415;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="XWcyBMPZ";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="UEEDDNWk"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53T5mCZ7027191;
 	Tue, 29 Apr 2025 03:59:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=9TocIhortBxmyvs+XbPL6qhCrm8XkTPFGyA9W4Gvdos=; b=
-	a78BwRJce3iEaXxn5fP3EHkw5BKOraq67fHPL88R0z/sz7mr+QKyxgbY466Kh4NU
-	YaEWPAtnFHrFY5+G0r3pHJRnu1Zc4ykWCn3OgbomKIa0EFVpaylI+0wgdtQj7Ybc
-	uLPKF2FEo89YLyYyCes6Q7FDlf1sLEPdTVnhNcLLGTja27M20bDJ7tw0LVeLU2bG
-	SqM//OghlNYDhww8vVjKY9GQtGPVRKo5UWnNAgIl6RhP9XzcGx2fyD84fnEBS7Kn
-	81XZ/ooJdMe+fXhj+NapgJPC4Qi3NeqF7dcizsD/FTrRbtC1nssSMICnBTx4vB4q
-	dslSPgk5X3Ieeih5rIS+Cg==
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 468vw1bccm-1
+	PODMain02222019; bh=FWNDrEnIVmtgu1O3g9gBFuqZwMmRoUIev9Qqr832NP8=; b=
+	XWcyBMPZIP3r/LjrYcmiWfzGzbFdY4gg9n55+RuqvMFweWjSVs0FGfh9xKOVM38K
+	3/ujU7zRSwk4UXoFccVCNqJKjKAJaCQiqQW98j68+oAtrCVqukmo2Ah4hhfCE5G8
+	VYV927FW62tUi16Zb5lVW+Rf3z1LvvHHsrqKhvRejg6V1zTY8VxlGb6U/o9BT1xd
+	7qqHiIPqUZp7ZqY1lzjd80mAQKD/Af6Jx+mvOo2wFM/WJE6JIujRs3hEDBiAqISo
+	L9Rd/2biX5mzOMUcv0KtVjALxg8QmBtOi4TghGkvIHO/oPpHLzQrQNh+nZH5T+G9
+	FPV0FL6nTLRFH48ABCkm0g==
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2040.outbound.protection.outlook.com [104.47.56.40])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 46ae7cgtsv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Apr 2025 03:59:00 -0500 (CDT)
+	Tue, 29 Apr 2025 03:59:01 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JSMMWdBz8/yYU2fSDMefgVIgE4jt4OTy4NUjMmRK1ix0bizVS7Asz9sILh+e0SuHeUJpzgn7KLp/rCjJw5jtyRRpvNDQowaD7yTWGsPKsc1eGLIqHLzqAPpvOTulVw3OLm1CJnxFL+B0ajBhQwmtE/JZMhq0FhZIarDWOd1BeAQHW2ORaOmE6lih5seDFEbHCVs9rBjfeSzy0dR3nvQp97OaBJipvjVpuDcgKtwkNkek8O7MpH+BuY3SuVvnulAiPt067OEy4vwm/8RXWcd8JdD359O7+iP3+3WUEBIHD6mnHF6slrwqSh06jcPyFNgtACvoBsOH+jeFRQvTrOuhCQ==
+ b=shtEgN+U/od0gdhIk3iWO9DeQQjHhlceGghwEz0UpQeCDa/H8nmS0JrVFilxSDyPWfGrI4iGMMC0HhZgMClQZ9JCDPZolcPGV8ptdQ0bXBlrfiiffCzI97vYI7MPfxZ0BpAvGDoY39UCQVIMSfSSI91CM66PXRcBrNENhoiNzI+c7R2U5UJSUswbcrBV7OPmNT5y6HJig4Liuw82B9CRrbXfEh+5naXhorHazvhsdxquj4AMaQHWSDUQV891Sz+r25dWjaFUrTAbd5+AojiVXMCxegRVwlCixoaV2BjEvoYr2eH7GUn3msSlwGeNyHOOCZYn+tkjCpxClHRxwGat6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9TocIhortBxmyvs+XbPL6qhCrm8XkTPFGyA9W4Gvdos=;
- b=eDlEMp/dRhoe4UGIR3T0LKY1e7AKsCHCYs4zJGAE65eOTh60rM7MtGMXrPoWQaUlVMf4zLxQoy01SSkqY5LrnfUVTqi0B8P/zZTVBUxTHZkVOpYZb75l9SFJ+Aha0252Ez3RcUmPaP9bA/+Z414336RTBtR3IUntn+5RyXtgDD+NAF5io4cSUd5QDFFEeLV/1b3MK5zGgwNg1xXS6YqV2TjCmM81xyTqYX/KgemU7iR9XN/Hp3b4WoMxo+jN+jqVXWzg02E3nvfx25NLer9qfd2L5Sq9MiE2qyVkMtfOyiJRx0Z2IM8t0y8mYogED+9e5ARIcCakNJnUdYTWhvbFdg==
+ bh=FWNDrEnIVmtgu1O3g9gBFuqZwMmRoUIev9Qqr832NP8=;
+ b=jFH+tQcSPEdSaMdswd4Rmr3/nFmEgu4C6vAes6Ri5KMecIT/WEKANUOPmIN4dj2nTumJ7HMN3aSh1x8KRneRBldl+XIDDGvlwdcHiEqCwENMey5HQseM1Sc53GopqBo4/K+jWXg5jFbO0mdEjvW1QuDjc0ZzFxf1z2nS1pUlFn2GGFfkxceO4FF/cu0HuvW6oWV09gkC65FDZQQJB5dyjOYsSBEDIxr42gI6R0Lz4QVpy+YQqbkQ8zQtzrqwofHZQAYoGjp1jg5fuJegYYgo6GnTbFJWaePP+6zxseIHlXcdMYKIZKlf4ci3V74iKId/Br4p4yy6Xq369Eveyo+l0g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9TocIhortBxmyvs+XbPL6qhCrm8XkTPFGyA9W4Gvdos=;
- b=uKMdWDZn19UOrqTRSHrltpmE8UIyhssYHX4bDxGa8TbkhcnBd8kmPafmt3nqu9w65LEE/nBs5SS0WUDAaHk8R43Acg8PmApzBgdiuSQoi8PHz+dvi8WOulhnKdX8MtIxj2/hVy/jmUbM7sKhbG0lBqVFCVTxseYGUk19NfEHSOE=
-Received: from BL1PR13CA0080.namprd13.prod.outlook.com (2603:10b6:208:2b8::25)
- by IA1PR19MB6396.namprd19.prod.outlook.com (2603:10b6:208:3e4::18) with
+ bh=FWNDrEnIVmtgu1O3g9gBFuqZwMmRoUIev9Qqr832NP8=;
+ b=UEEDDNWkBnfUdoCo1rvSarkBWWd9PQ1MYVTDDSu5D1IkZXchU1MitB9fT4v55o9R9Nd8INRp4VTnMhLAGsZPjsYiLmZKMpkF6DCA8Szsj7xIXQv6dCInzP2WthrU2BP5wCrLQutALVHDhQlCsbC/eDLiMOyk7PhK70JL1JaL2jo=
+Received: from BL1PR13CA0109.namprd13.prod.outlook.com (2603:10b6:208:2b9::24)
+ by DS7PR19MB6279.namprd19.prod.outlook.com (2603:10b6:8:98::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Tue, 29 Apr
- 2025 08:58:55 +0000
-Received: from BL6PEPF0001AB78.namprd02.prod.outlook.com
- (2603:10b6:208:2b8:cafe::79) by BL1PR13CA0080.outlook.office365.com
- (2603:10b6:208:2b8::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8678.26 via Frontend Transport; Tue,
- 29 Apr 2025 08:58:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Tue, 29 Apr
+ 2025 08:58:56 +0000
+Received: from BL6PEPF0001AB74.namprd02.prod.outlook.com
+ (2603:10b6:208:2b9:cafe::e7) by BL1PR13CA0109.outlook.office365.com
+ (2603:10b6:208:2b9::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.12 via Frontend Transport; Tue,
+ 29 Apr 2025 08:58:56 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -69,23 +69,23 @@ Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
  receiver=protection.outlook.com; client-ip=84.19.233.75;
  helo=edirelay1.ad.cirrus.com;
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BL6PEPF0001AB78.mail.protection.outlook.com (10.167.242.171) with Microsoft
+ BL6PEPF0001AB74.mail.protection.outlook.com (10.167.242.167) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8678.33
- via Frontend Transport; Tue, 29 Apr 2025 08:58:54 +0000
+ via Frontend Transport; Tue, 29 Apr 2025 08:58:55 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 9A7F240654A;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id BAFD540654E;
 	Tue, 29 Apr 2025 08:58:53 +0000 (UTC)
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8464182026C;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id A351782026B;
 	Tue, 29 Apr 2025 08:58:53 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: broonie@kernel.org
 Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
         peter.ujfalusi@linux.intel.com, pierre-louis.bossart@linux.dev,
         linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-Subject: [PATCH v4 2/5] ASoC: dapm: Add component level pin switches
-Date: Tue, 29 Apr 2025 09:58:50 +0100
-Message-Id: <20250429085853.258038-3-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v4 4/5] ASoC: SDCA: Create ALSA controls from DisCo
+Date: Tue, 29 Apr 2025 09:58:52 +0100
+Message-Id: <20250429085853.258038-5-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250429085853.258038-1-ckeepax@opensource.cirrus.com>
 References: <20250429085853.258038-1-ckeepax@opensource.cirrus.com>
@@ -98,218 +98,459 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB78:EE_|IA1PR19MB6396:EE_
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB74:EE_|DS7PR19MB6279:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: c0f5756a-4199-4a2f-eae6-08dd86fc1231
+X-MS-Office365-Filtering-Correlation-Id: ceee06a1-0868-411e-d7ad-08dd86fc1245
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|82310400026|36860700013|376014;
+	BCL:0;ARA:13230040|61400799027|376014|82310400026|36860700013;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?mLmNJu3BF3cEo3FuVlkhOvyDPHxKz/PniSFJ40PeEQjx/Zc9akvnuaD6E2KO?=
- =?us-ascii?Q?TqG2qQtihWF5Zo7IFF6ghhaMexpDHO6b+L0zTqc4RymlcQvrNEIBj/vxB04d?=
- =?us-ascii?Q?pLdu6eSTKTfkB8RP63Q3c3XG+dMmbbavoLn7I1SDgc0cm066flppMjrpXZNt?=
- =?us-ascii?Q?jr9xMxNGw5kDJupxV4XRtkr7viR9OWt3wcKqU96Y49VXc/ACisuUiBlHbvZ7?=
- =?us-ascii?Q?uWDNnWZ6xBAVeAbBS5yQtX3xhrKgozd+EQ8Ln6dVERJXUewVcibX6JZGGxgW?=
- =?us-ascii?Q?cjwP7/94a9n21tUMpqpMlY5QzpVKSfHZ2uMSZuSUzGlYRw2O8sa45DhgtpnD?=
- =?us-ascii?Q?xQWWHNY+aJNaQjFImhtYeUjdY9Y2Vv+ot9ok0hBoDypO6Tr/8ZMUTNjmL/7s?=
- =?us-ascii?Q?QSKtplDzH+dQ5714ucrhlKh6th2yZSSVKfE+TC0VxdUWdc30lCPJeoq4tWjD?=
- =?us-ascii?Q?CtlPmA3UI1AsKMk7lhRWuOisySO8ytvOjksG+j5H4EUiCWD6XAUUzGNAzw8h?=
- =?us-ascii?Q?KLnD8oygFUt7bk6oiE2nDnt/9EmQkBrML3VdRnQ+Vun532Pw+SyKC2PJ3PEy?=
- =?us-ascii?Q?XaSYc9/g3sMPw/9My70gEaTXWRVGY3iUy2GNk1Xs/DRriIwN+PjQoshuhwzM?=
- =?us-ascii?Q?7RxdH2JFgY3GHrVNttb5snfGdVWXwKxIJUx9h8oAYplR6MVS2jfu9FmazNoH?=
- =?us-ascii?Q?/tQo5bgyZBSaUFe3tACY6ebirXQcKz/LJYg8Bzxj2OySXz9mij3KHoCr0D3u?=
- =?us-ascii?Q?MwkI5ZN4yFt/B4tiYiz31rh+DzkDL7sjSrG7dLdYi+3zizmi5FCnQB0y4IE3?=
- =?us-ascii?Q?1zeqPTAOlmePmkAtj2siLFGfHpsvi+gl+vSqBbEyIvwtliVWq5l71YOQSLYk?=
- =?us-ascii?Q?xZ/nYJFP0eh+GxTyftxpX6BybMkZIJg4toNuj+ubIc8fx2+OTv6Goo8EEi13?=
- =?us-ascii?Q?RY5FHBKSfqmVms7/8anJS8y1igLJjGx2qnfN+VpaD2gCLa/T5HncaTSP4v3X?=
- =?us-ascii?Q?wDdbTOMs1Si5AKl8KO08ftjdTz64DtNOvca3v9GXa0Xl1i103UC55ClL9URg?=
- =?us-ascii?Q?sGLGgOJ0mJdrpuuKHLVNJVh+tjQpXQc3+JcQdkLZbBrzUDqGfCS7Ak1wonMy?=
- =?us-ascii?Q?3DVGDsGbwIBQhETC9tqylRNpgaX9v8nZ4rHpwvnKYBpa/VYWs/MPBwNkG0fz?=
- =?us-ascii?Q?ypGW2H62D4KVIx4cgD3bSs4wdGU2y0lU5HZdVkKjAf+n3vxq8SELccJFiCVB?=
- =?us-ascii?Q?6IiXNpGssaeJw/lp+B1UflhGGiPrz3jYYijmObQUdoWvzGZcXzVcBN8MNgH7?=
- =?us-ascii?Q?GHM6T+/srh9mDS8xPtg2hPolwR9CRk/QlI5+VFnws7LlqQCn7abdP1fuf4dM?=
- =?us-ascii?Q?PAmDERVOUrLr+d+L4dreQ7OdpXQeTCjZIrNP5xkU73DwgVcWm/pxTQf+MZo+?=
- =?us-ascii?Q?l+FxNREs4ewzoXgAgC6SdXZQ9a900yTYerCmeFWqzp2oR5DXer3Sq1ntg+rx?=
- =?us-ascii?Q?RiSH6ESoCjGLjHyffS7f1FKwTKHYAEdnivi9?=
+	=?us-ascii?Q?ELv5QUYEArU35yo1EacESSiJ4pwP/gWjJcSAFn/awB6LixELaJcVmId6Oi44?=
+ =?us-ascii?Q?x65Zg0fJM+ZKfYhDd7hPfWRm/pgLnjEVaSFMzMRXniBnWHJZcuAhjUk/c3UC?=
+ =?us-ascii?Q?bRa3lT0xolTncMqspdJ41Jl2N5akj2Qn4zJoRc+kdO0QbCbASvxkLT2DxHAc?=
+ =?us-ascii?Q?DZBvSj74bMv6cTGvZJlUB7XXL1dBoMSou8fxANgZyhLYAQ3E/F6PflwzVmCg?=
+ =?us-ascii?Q?JzGFA5qnEIOF3QuuBbrAY5OWqWo3DFT3SkG/WC/pWm8jcXdHBtsshUeiS9pv?=
+ =?us-ascii?Q?dAKjiaFkALOVWid60tS9RB0kcAARZMsRLy5cs5AlveqgulsfCx5q0adVDdsS?=
+ =?us-ascii?Q?3N1/5VkYdF0zSJdyVkEFjYwMYLpQU2foxB9LLFRAKt2xUsSgLjMlep6+GKTk?=
+ =?us-ascii?Q?HWTh+vn8aUDol10FMGmMYktZ+VReTBNAKeQykeD8FyWqghwyjZduxg4wuVy4?=
+ =?us-ascii?Q?dpLZtqAhq1GsETmPEnb696TTQJFJ2tlkIQbvepza9VQpsJJpNSbsIzE2DiC7?=
+ =?us-ascii?Q?M0YoGi/Mi6vPFJZJe4kE2F+GbdGFfvvir2iU7buph+qR1jdZ89d/ecUCmE7f?=
+ =?us-ascii?Q?BgbzFRMwILgZMza0rBSbuAxzz8KoRUst9o+GcG5XP+D3NZ4rQVDMU+SXQ6Hb?=
+ =?us-ascii?Q?KIv6sQ5BYu+zIC1nl+sDM7+kMKZY7lrrj8wVWCVInUVM8hcx1/vOTpyzTGxu?=
+ =?us-ascii?Q?pMaC46nYcA5Wp/WcNNmSdGslexu9Yq+jbw4JJXJ/KLJ7jS/hewROYPE9KgSO?=
+ =?us-ascii?Q?VbEEWyhyCkAgkmXL2EJ6oIooGnYDJ4crVKEhTr+cNpAEdjv+JP5AMkPJEkpa?=
+ =?us-ascii?Q?2Up59zFnyhQAv/lYGylcLWuafxToUOiz7t+HUmtILuVUxQslv/g/RO6cPNsr?=
+ =?us-ascii?Q?+f3gl/0E8iZkMDgJksjlJTCE0H+mNt9HjmHD2nB1bafnjwnHTINFcCJyHkqs?=
+ =?us-ascii?Q?XuHsBZui95xkNQ6OVOCA5keLOkdim/5dOo9Yx5lgfXWn4WRHRpYRZi0QRmKk?=
+ =?us-ascii?Q?vG6ITTv0iPnDmw5En8HdEqlO5+XlztctAZp7V+Fsq98hlXuxE5gUVxipsNdx?=
+ =?us-ascii?Q?esBcg8KJsLMgvTYxFVWy+f53K215ja1E0+LbbjBnfj8GDjK1qnTkIUNOgzLU?=
+ =?us-ascii?Q?ZIuw1si2RG48iSe/yDDjCYf+qWZsk5CVpN4uNZvc6+zNKvV1j8Qxeh6i/Cia?=
+ =?us-ascii?Q?52woOKzg1/c8DEFbW/AtXjPlE08BHACMqJ0anIf/op2vMS6IHo/nmPdaU3VU?=
+ =?us-ascii?Q?DT/B2jI1YwThSljevBhIaJFtKIA6PhXQ74TDqf0rLveS5ybeDsir9IajM238?=
+ =?us-ascii?Q?lxbeA25bojj5GDTzWz0JiMRMux8Txkg8zDr6wpdG2kLMdollG+PwCjgvnyj4?=
+ =?us-ascii?Q?hsCHD/LEqJX0NRsvKogAX90DE73n6ZGHwVrmyEZmnWWfrTbhKSgH9AawwwEE?=
+ =?us-ascii?Q?CyTI+EArkKou68lP/mlbB+X7MREzh6/GJpkfLrifan7cIj1lcE72b4EGjfTp?=
+ =?us-ascii?Q?2zYWWhPyU+QMx+NMv5evP97H4l9g/7wrQUSs?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(376014)(82310400026)(36860700013);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 08:58:54.9550
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 08:58:55.0854
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0f5756a-4199-4a2f-eae6-08dd86fc1231
+X-MS-Exchange-CrossTenant-Network-Message-Id: ceee06a1-0868-411e-d7ad-08dd86fc1245
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB78.namprd02.prod.outlook.com
+	BL6PEPF0001AB74.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR19MB6396
-X-Proofpoint-GUID: IqP7lT63kfnN2ThpuDopmoz9Qef2zPr8
-X-Proofpoint-ORIG-GUID: IqP7lT63kfnN2ThpuDopmoz9Qef2zPr8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDA2NiBTYWx0ZWRfX1fuKpNDKfkbY qyODr+kave+JC+DRYEtk1NcSTkyFs+MtHIUrXdwq1Ry04o/eAJNZJpB/9WMw8uvFG8Dqi85kaeU n4marTZNVo6yHaKtQucYJEOumv8Y7KS/RZcuKkmLI1Beu0/gsWEQ/FyTrktu+jISoX628N23LIq
- HbIldGh6KQbEqB+6tbI0D36aBwQMMJ4mJaitSAT/D3ksrCZ1YMvkE92sVfAB6ixhPdS1c+tZCCm 5Hmclyhek6mN+QdWyiTp9u5fL4Ou6K1xH9NNU46SMUBPZB/4rJpOoNna6NMfRfm8JaN9h5sZTwi K4wWIYuyf6lY62hSMylXYD8MgmlMjp5uQDz7QPe+SVMGIA1sfVZQSJpZeFX4Ihb9BcaVW9QsDBC
- v0c+tbJNe0jgxR/TRIQg0QGCdBnv+38xJu0KeSNa6VyghXN4opaN+V/3NK9MGpwopLFx+Ycg
-X-Authority-Analysis: v=2.4 cv=Dd4XqutW c=1 sm=1 tr=0 ts=681094d4 cx=c_pps a=F7QtyTBSWJEVkVFduP+sHw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=XR8D0OoHHMoA:10 a=s63m1ICgrNkA:10
- a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=SW88HgwpE6hd0ow_NxAA:9 a=BGLuxUZjE2igh1l4FkT-:22
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR19MB6279
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDA2NiBTYWx0ZWRfXyNTh1eTBiMG3 jbJHyH/3xDCjKFVTgGFYU22mcNFoTSna/IuF3OCeQmC8LLDu4DRvnfC0dFNxNzHDHcCPEhANeRC dqmvQKmlFX3YmpAVqUXSaT0h6tNHmuXTXpXWEGEJnqGuwyGIiH/0ltHHV5UmRUeRInLZiU4RCHq
+ lNtFLj9AG6/GQ+4xWWWGOjkCwK2EPJGA1G57l8JYBfV0NK96n92RkasqrAHb6QrF8qrzi5gmiTx gv5aX7qeUoZC9M0RPBkhO3VQe9mE717C2UrxLVzIyIVC1uaoi2/PZHlYc8IHwzCkitNa9kZB03P WdnKzNcULoD9mw7bV0UAi0CKaj6t3to4++g9+7Laa+NqDqUv/d7wJk5AkC5ps9SXhtMCcWxe5pC
+ abfC9wVtV6qZsTPCdMv8d6ojeHBvevRFRCbR2FG5qYUezlWuhjvt5LB0qBdOdzl7eqxLv7Cx
+X-Authority-Analysis: v=2.4 cv=DotW+H/+ c=1 sm=1 tr=0 ts=681094d5 cx=c_pps a=TWVVkEr8Ytp/jGYVlMgQuQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=XR8D0OoHHMoA:10 a=s63m1ICgrNkA:10
+ a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=-luNUMnvTHZ5DhWRc50A:9 a=BGLuxUZjE2igh1l4FkT-:22
+X-Proofpoint-GUID: CB6zoUQ14pxgHigwcgtREQbeeBtU7l9z
+X-Proofpoint-ORIG-GUID: CB6zoUQ14pxgHigwcgtREQbeeBtU7l9z
 X-Proofpoint-Spam-Reason: safe
 
-The core currently supports pin switches for source/sink widgets, but
-only at the card level. SDCA components specify the fabric at the
-level of the individual components, to support this add helpers to
-allow component level pin switches.
+Use the previously parsed DisCo information from ACPI to create the
+ALSA controls required by an SDCA Function. This maps all User and
+Application level SDCA Controls to ALSA controls. Typically controls
+marked with those access levels are just volumes and mutes.
+
+SDCA defines volume controls as an integer in 1/256ths of a dB and
+then provides a mechanism to specify what values are valid (range
+templates). Currently only a simple case of a single linear volume
+range with a power of 2 step size is supported. This allows the code
+to expose the volume control using a simple shift. This will need
+expanded in the future, to support more complex ranges and probably
+also some additional control types but this should be sufficient to
+for a first pass.
+
+For non-dataport terminal widgets also add a pin switch to allow
+that endpoint to be turned on/off.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
 
-New since v3.
+Changes since v3:
+ - Add pin switch controls for non-dataport terminals
 
- include/sound/soc-dapm.h |  4 ++
- sound/soc/soc-dapm.c     | 84 +++++++++++++++++++++++++++++++++-------
- 2 files changed, 74 insertions(+), 14 deletions(-)
+ include/sound/sdca_asoc.h     |   6 +-
+ include/sound/sdca_function.h |  10 ++
+ sound/soc/sdca/sdca_asoc.c    | 241 +++++++++++++++++++++++++++++++++-
+ 3 files changed, 252 insertions(+), 5 deletions(-)
 
-diff --git a/include/sound/soc-dapm.h b/include/sound/soc-dapm.h
-index af802ef536e7..400584474bc8 100644
---- a/include/sound/soc-dapm.h
-+++ b/include/sound/soc-dapm.h
-@@ -445,6 +445,10 @@ int snd_soc_dapm_get_pin_switch(struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *uncontrol);
- int snd_soc_dapm_put_pin_switch(struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *uncontrol);
-+int snd_soc_dapm_get_component_pin_switch(struct snd_kcontrol *kcontrol,
-+					  struct snd_ctl_elem_value *uncontrol);
-+int snd_soc_dapm_put_component_pin_switch(struct snd_kcontrol *kcontrol,
-+					  struct snd_ctl_elem_value *uncontrol);
- int snd_soc_dapm_new_controls(struct snd_soc_dapm_context *dapm,
- 	const struct snd_soc_dapm_widget *widget, unsigned int num);
- struct snd_soc_dapm_widget *snd_soc_dapm_new_control(struct snd_soc_dapm_context *dapm,
-diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index b7818388984e..f26f9e9d7ce7 100644
---- a/sound/soc/soc-dapm.c
-+++ b/sound/soc/soc-dapm.c
-@@ -3626,11 +3626,25 @@ int snd_soc_dapm_info_pin_switch(struct snd_kcontrol *kcontrol,
- }
- EXPORT_SYMBOL_GPL(snd_soc_dapm_info_pin_switch);
+diff --git a/include/sound/sdca_asoc.h b/include/sound/sdca_asoc.h
+index 414d461b6fc4..d19e7e969283 100644
+--- a/include/sound/sdca_asoc.h
++++ b/include/sound/sdca_asoc.h
+@@ -12,16 +12,20 @@
  
-+static int __snd_soc_dapm_get_pin_switch(struct snd_soc_dapm_context *dapm,
-+					 const char *pin,
-+					 struct snd_ctl_elem_value *ucontrol)
+ struct device;
+ struct sdca_function_data;
++struct snd_kcontrol_new;
+ struct snd_soc_component_driver;
+ struct snd_soc_dapm_route;
+ struct snd_soc_dapm_widget;
+ 
+ int sdca_asoc_count_component(struct device *dev, struct sdca_function_data *function,
+-			      int *num_widgets, int *num_routes);
++			      int *num_widgets, int *num_routes, int *num_controls);
+ 
+ int sdca_asoc_populate_dapm(struct device *dev, struct sdca_function_data *function,
+ 			    struct snd_soc_dapm_widget *widgets,
+ 			    struct snd_soc_dapm_route *routes);
++int sdca_asoc_populate_controls(struct device *dev,
++				struct sdca_function_data *function,
++				struct snd_kcontrol_new *kctl);
+ 
+ int sdca_asoc_populate_component(struct device *dev,
+ 				 struct sdca_function_data *function,
+diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
+index 83fedc39cf71..77ffb1f4e1ca 100644
+--- a/include/sound/sdca_function.h
++++ b/include/sound/sdca_function.h
+@@ -206,6 +206,16 @@ enum sdca_fu_controls {
+ 	SDCA_CTL_FU_LATENCY				= 0x10,
+ };
+ 
++/**
++ * enum sdca_volume_range - Column definitions for Q7.8dB volumes/gains
++ */
++enum sdca_volume_range {
++	SDCA_VOLUME_LINEAR_MIN				= 0,
++	SDCA_VOLUME_LINEAR_MAX				= 1,
++	SDCA_VOLUME_LINEAR_STEP				= 2,
++	SDCA_VOLUME_LINEAR_NCOLS			= 3,
++};
++
+ /**
+  * enum sdca_xu_controls - SDCA Controls for Extension Unit
+  *
+diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
+index d8ba90e2ff20..9c7c0737a347 100644
+--- a/sound/soc/sdca/sdca_asoc.c
++++ b/sound/soc/sdca/sdca_asoc.c
+@@ -21,6 +21,7 @@
+ #include <sound/soc.h>
+ #include <sound/soc-component.h>
+ #include <sound/soc-dapm.h>
++#include <sound/tlv.h>
+ 
+ static struct sdca_control *selector_find_control(struct sdca_entity *entity,
+ 						  const int sel)
+@@ -69,6 +70,16 @@ static struct sdca_control_range *selector_find_range(struct device *dev,
+ 	return control_find_range(dev, entity, control, cols, rows);
+ }
+ 
++static bool exported_control(struct sdca_control *control)
 +{
-+	snd_soc_dapm_mutex_lock(dapm);
-+	ucontrol->value.integer.value[0] = snd_soc_dapm_get_pin_status(dapm, pin);
-+	snd_soc_dapm_mutex_unlock(dapm);
++	/* No need to export control for something that only has one value */
++	if (control->has_fixed)
++		return false;
++
++	return control->layers & (SDCA_ACCESS_LAYER_USER |
++				  SDCA_ACCESS_LAYER_APPLICATION);
++}
++
+ /**
+  * sdca_asoc_count_component - count the various component parts
+  * @function: Pointer to the Function information.
+@@ -76,6 +87,8 @@ static struct sdca_control_range *selector_find_range(struct device *dev,
+  * required number of DAPM widgets for the Function.
+  * @num_routes: Output integer pointer, will be filled with the
+  * required number of DAPM routes for the Function.
++ * @num_controls: Output integer pointer, will be filled with the
++ * required number of ALSA controls for the Function.
+  *
+  * This function counts various things within the SDCA Function such
+  * that the calling driver can allocate appropriate space before
+@@ -84,12 +97,13 @@ static struct sdca_control_range *selector_find_range(struct device *dev,
+  * Return: Returns zero on success, and a negative error code on failure.
+  */
+ int sdca_asoc_count_component(struct device *dev, struct sdca_function_data *function,
+-			      int *num_widgets, int *num_routes)
++			      int *num_widgets, int *num_routes, int *num_controls)
+ {
+-	int i;
++	int i, j;
+ 
+ 	*num_widgets = function->num_entities - 1;
+ 	*num_routes = 0;
++	*num_controls = 0;
+ 
+ 	for (i = 0; i < function->num_entities - 1; i++) {
+ 		struct sdca_entity *entity = &function->entities[i];
+@@ -99,6 +113,7 @@ int sdca_asoc_count_component(struct device *dev, struct sdca_function_data *fun
+ 		case SDCA_ENTITY_TYPE_OT:
+ 			*num_routes += !!entity->iot.clock;
+ 			*num_routes += !!entity->iot.is_dataport;
++			*num_controls += !entity->iot.is_dataport;
+ 			break;
+ 		case SDCA_ENTITY_TYPE_PDE:
+ 			*num_routes += entity->pde.num_managed;
+@@ -111,6 +126,11 @@ int sdca_asoc_count_component(struct device *dev, struct sdca_function_data *fun
+ 
+ 		if (entity->group)
+ 			(*num_routes)++;
++
++		for (j = 0; j < entity->num_controls; j++) {
++			if (exported_control(&entity->controls[j]))
++				(*num_controls)++;
++		}
+ 	}
+ 
+ 	return 0;
+@@ -800,6 +820,207 @@ int sdca_asoc_populate_dapm(struct device *dev, struct sdca_function_data *funct
+ }
+ EXPORT_SYMBOL_NS(sdca_asoc_populate_dapm, "SND_SOC_SDCA");
+ 
++static int control_limit_kctl(struct device *dev,
++			      struct sdca_entity *entity,
++			      struct sdca_control *control,
++			      struct snd_kcontrol_new *kctl)
++{
++	struct soc_mixer_control *mc = (struct soc_mixer_control *)kctl->private_value;
++	struct sdca_control_range *range;
++	int min, max, step;
++	unsigned int *tlv;
++	int shift;
++
++	if (control->type != SDCA_CTL_DATATYPE_Q7P8DB)
++		return 0;
++
++	/*
++	 * FIXME: For now only handle the simple case of a single linear range
++	 */
++	range = control_find_range(dev, entity, control, SDCA_VOLUME_LINEAR_NCOLS, 1);
++	if (!range)
++		return -EINVAL;
++
++	min = sdca_range(range, SDCA_VOLUME_LINEAR_MIN, 0);
++	max = sdca_range(range, SDCA_VOLUME_LINEAR_MAX, 0);
++	step = sdca_range(range, SDCA_VOLUME_LINEAR_STEP, 0);
++
++	min = sign_extend32(min, control->nbits - 1);
++	max = sign_extend32(max, control->nbits - 1);
++
++	/*
++	 * FIXME: Only support power of 2 step sizes as this can be supported
++	 * by a simple shift.
++	 */
++	if (hweight32(step) != 1) {
++		dev_err(dev, "%s: %s: currently unsupported step size\n",
++			entity->label, control->label);
++		return -EINVAL;
++	}
++
++	/*
++	 * The SDCA volumes are in steps of 1/256th of a dB, a step down of
++	 * 64 (shift of 6) gives 1/4dB. 1/4dB is the smallest unit that is also
++	 * representable in the ALSA TLVs which are in 1/100ths of a dB.
++	 */
++	shift = max(ffs(step) - 1, 6);
++
++	tlv = devm_kcalloc(dev, 4, sizeof(*tlv), GFP_KERNEL);
++	if (!tlv)
++		return -ENOMEM;
++
++	tlv[0] = SNDRV_CTL_TLVT_DB_SCALE;
++	tlv[1] = 2 * sizeof(*tlv);
++	tlv[2] = (min * 100) >> 8;
++	tlv[3] = ((1 << shift) * 100) >> 8;
++
++	mc->min = min >> shift;
++	mc->max = max >> shift;
++	mc->shift = shift;
++	mc->rshift = shift;
++	mc->sign_bit = 15 - shift;
++
++	kctl->access = SNDRV_CTL_ELEM_ACCESS_TLV_READ | SNDRV_CTL_ELEM_ACCESS_READWRITE;
++	kctl->tlv.p = tlv;
 +
 +	return 0;
 +}
 +
- /**
-  * snd_soc_dapm_get_pin_switch - Get information for a pin switch
-  *
-  * @kcontrol: mixer control
-  * @ucontrol: Value
-+ *
-+ * Callback to provide information for a pin switch added at the card
-+ * level.
-  */
- int snd_soc_dapm_get_pin_switch(struct snd_kcontrol *kcontrol,
- 				struct snd_ctl_elem_value *ucontrol)
-@@ -3638,40 +3652,82 @@ int snd_soc_dapm_get_pin_switch(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
- 	const char *pin = (const char *)kcontrol->private_value;
- 
--	snd_soc_dapm_mutex_lock(card);
-+	return __snd_soc_dapm_get_pin_switch(&card->dapm, pin, ucontrol);
++static int populate_control(struct device *dev,
++			    struct sdca_function_data *function,
++			    struct sdca_entity *entity,
++			    struct sdca_control *control,
++			    struct snd_kcontrol_new **kctl)
++{
++	const char *control_suffix = "";
++	const char *control_name;
++	struct soc_mixer_control *mc;
++	int index = 0;
++	int ret;
++	int cn;
++
++	if (!exported_control(control))
++		return 0;
++
++	if (control->type == SDCA_CTL_DATATYPE_ONEBIT)
++		control_suffix = " Switch";
++
++	control_name = devm_kasprintf(dev, GFP_KERNEL, "%s %s%s", entity->label,
++				      control->label, control_suffix);
++	if (!control_name)
++		return -ENOMEM;
++
++	mc = devm_kmalloc(dev, sizeof(*mc), GFP_KERNEL);
++	if (!mc)
++		return -ENOMEM;
++
++	for_each_set_bit(cn, (unsigned long *)&control->cn_list,
++			 BITS_PER_TYPE(control->cn_list)) {
++		switch (index++) {
++		case 0:
++			mc->reg = SDW_SDCA_CTL(function->desc->adr, entity->id,
++					       control->sel, cn);
++			mc->rreg = mc->reg;
++			break;
++		case 1:
++			mc->rreg = SDW_SDCA_CTL(function->desc->adr, entity->id,
++						control->sel, cn);
++			break;
++		default:
++			dev_err(dev, "%s: %s: only mono/stereo controls supported\n",
++				entity->label, control->label);
++			return -EINVAL;
++		}
++	}
++
++	mc->min = 0;
++	mc->max = (0x1ull << control->nbits) - 1;
++
++	(*kctl)->name = control_name;
++	(*kctl)->private_value = (unsigned long)mc;
++	(*kctl)->iface = SNDRV_CTL_ELEM_IFACE_MIXER;
++	(*kctl)->info = snd_soc_info_volsw;
++	(*kctl)->get = snd_soc_get_volsw;
++	(*kctl)->put = snd_soc_put_volsw;
++
++	ret = control_limit_kctl(dev, entity, control, *kctl);
++	if (ret)
++		return ret;
++
++	(*kctl)++;
++
++	return 0;
 +}
-+EXPORT_SYMBOL_GPL(snd_soc_dapm_get_pin_switch);
- 
--	ucontrol->value.integer.value[0] =
--		snd_soc_dapm_get_pin_status(&card->dapm, pin);
++
++static int populate_pin_switch(struct device *dev,
++			       struct sdca_entity *entity,
++			       struct snd_kcontrol_new **kctl)
++{
++	const char *control_name;
++
++	control_name = devm_kasprintf(dev, GFP_KERNEL, "%s Switch", entity->label);
++	if (!control_name)
++		return -ENOMEM;
++
++	(*kctl)->name = control_name;
++	(*kctl)->private_value = (unsigned long)entity->label;
++	(*kctl)->iface = SNDRV_CTL_ELEM_IFACE_MIXER;
++	(*kctl)->info = snd_soc_dapm_info_pin_switch;
++	(*kctl)->get = snd_soc_dapm_get_component_pin_switch;
++	(*kctl)->put = snd_soc_dapm_put_component_pin_switch;
++	(*kctl)++;
++
++	return 0;
++}
++
 +/**
-+ * snd_soc_dapm_get_component_pin_switch - Get information for a pin switch
++ * sdca_asoc_populate_controls - fill in an array of ALSA controls for a Function
++ * @dev: Pointer to the device against which allocations will be done.
++ * @function: Pointer to the Function information.
++ * @route: Array of ALSA controls to be populated.
 + *
-+ * @kcontrol: mixer control
-+ * @ucontrol: Value
++ * This function populates an array of ALSA controls from the DisCo
++ * information for a particular SDCA Function. Typically,
++ * snd_soc_asoc_count_component will be used to allocate an
++ * appropriately sized array before calling this function.
 + *
-+ * Callback to provide information for a pin switch added at the component
-+ * level.
++ * Return: Returns zero on success, and a negative error code on failure.
 + */
-+int snd_soc_dapm_get_component_pin_switch(struct snd_kcontrol *kcontrol,
-+					  struct snd_ctl_elem_value *ucontrol)
++int sdca_asoc_populate_controls(struct device *dev,
++				struct sdca_function_data *function,
++				struct snd_kcontrol_new *kctl)
 +{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	const char *pin = (const char *)kcontrol->private_value;
- 
--	snd_soc_dapm_mutex_unlock(card);
-+	return __snd_soc_dapm_get_pin_switch(&component->dapm, pin, ucontrol);
-+}
-+EXPORT_SYMBOL_GPL(snd_soc_dapm_get_component_pin_switch);
- 
--	return 0;
-+static int __snd_soc_dapm_put_pin_switch(struct snd_soc_dapm_context *dapm,
-+					 const char *pin,
-+					 struct snd_ctl_elem_value *ucontrol)
-+{
++	int i, j;
 +	int ret;
 +
-+	snd_soc_dapm_mutex_lock(dapm);
-+	ret = __snd_soc_dapm_set_pin(dapm, pin, !!ucontrol->value.integer.value[0]);
-+	snd_soc_dapm_mutex_unlock(dapm);
++	for (i = 0; i < function->num_entities; i++) {
++		struct sdca_entity *entity = &function->entities[i];
 +
-+	snd_soc_dapm_sync(dapm);
++		switch (entity->type) {
++		case SDCA_ENTITY_TYPE_IT:
++		case SDCA_ENTITY_TYPE_OT:
++			if (!entity->iot.is_dataport) {
++				ret = populate_pin_switch(dev, entity, &kctl);
++				if (ret)
++					return ret;
++			}
++			break;
++		default:
++			break;
++		}
 +
-+	return ret;
- }
--EXPORT_SYMBOL_GPL(snd_soc_dapm_get_pin_switch);
- 
- /**
-  * snd_soc_dapm_put_pin_switch - Set information for a pin switch
-  *
-  * @kcontrol: mixer control
-  * @ucontrol: Value
-+ *
-+ * Callback to provide information for a pin switch added at the card
-+ * level.
-  */
- int snd_soc_dapm_put_pin_switch(struct snd_kcontrol *kcontrol,
- 				struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
- 	const char *pin = (const char *)kcontrol->private_value;
--	int ret;
--
--	snd_soc_dapm_mutex_lock(card);
--	ret = __snd_soc_dapm_set_pin(&card->dapm, pin,
--				     !!ucontrol->value.integer.value[0]);
--	snd_soc_dapm_mutex_unlock(card);
- 
--	snd_soc_dapm_sync(&card->dapm);
--	return ret;
-+	return __snd_soc_dapm_put_pin_switch(&card->dapm, pin, ucontrol);
- }
- EXPORT_SYMBOL_GPL(snd_soc_dapm_put_pin_switch);
- 
-+/**
-+ * snd_soc_dapm_put_component_pin_switch - Set information for a pin switch
-+ *
-+ * @kcontrol: mixer control
-+ * @ucontrol: Value
-+ *
-+ * Callback to provide information for a pin switch added at the component
-+ * level.
-+ */
-+int snd_soc_dapm_put_component_pin_switch(struct snd_kcontrol *kcontrol,
-+					  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	const char *pin = (const char *)kcontrol->private_value;
++		for (j = 0; j < entity->num_controls; j++) {
++			ret = populate_control(dev, function, entity,
++					       &entity->controls[j], &kctl);
++			if (ret)
++				return ret;
++		}
++	}
 +
-+	return __snd_soc_dapm_put_pin_switch(&component->dapm, pin, ucontrol);
++	return 0;
 +}
-+EXPORT_SYMBOL_GPL(snd_soc_dapm_put_component_pin_switch);
++EXPORT_SYMBOL_NS(sdca_asoc_populate_controls, "SND_SOC_SDCA");
 +
- struct snd_soc_dapm_widget *
- snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
- 			 const struct snd_soc_dapm_widget *widget)
+ /**
+  * sdca_asoc_populate_component - fill in a component driver for a Function
+  * @dev: Pointer to the device against which allocations will be done.
+@@ -818,10 +1039,12 @@ int sdca_asoc_populate_component(struct device *dev,
+ {
+ 	struct snd_soc_dapm_widget *widgets;
+ 	struct snd_soc_dapm_route *routes;
+-	int num_widgets, num_routes;
++	struct snd_kcontrol_new *controls;
++	int num_widgets, num_routes, num_controls;
+ 	int ret;
+ 
+-	ret = sdca_asoc_count_component(dev, function, &num_widgets, &num_routes);
++	ret = sdca_asoc_count_component(dev, function, &num_widgets, &num_routes,
++					&num_controls);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -833,14 +1056,24 @@ int sdca_asoc_populate_component(struct device *dev,
+ 	if (!routes)
+ 		return -ENOMEM;
+ 
++	controls = devm_kcalloc(dev, num_controls, sizeof(*controls), GFP_KERNEL);
++	if (!controls)
++		return -ENOMEM;
++
+ 	ret = sdca_asoc_populate_dapm(dev, function, widgets, routes);
+ 	if (ret)
+ 		return ret;
+ 
++	ret = sdca_asoc_populate_controls(dev, function, controls);
++	if (ret)
++		return ret;
++
+ 	component_drv->dapm_widgets = widgets;
+ 	component_drv->num_dapm_widgets = num_widgets;
+ 	component_drv->dapm_routes = routes;
+ 	component_drv->num_dapm_routes = num_routes;
++	component_drv->controls = controls;
++	component_drv->num_controls = num_controls;
+ 
+ 	return 0;
+ }
 -- 
 2.39.5
 
