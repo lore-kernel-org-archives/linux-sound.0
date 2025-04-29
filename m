@@ -1,88 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92321F76A5;
-	Tue, 29 Apr 2025 07:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D80A3595D;
+	Tue, 29 Apr 2025 08:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745912151; cv=none; b=Hr2hltT5JUm04Pw+Egf03onR1mSD0I3qrKm/z0e+44a0ab2v1Bc+7NA2qvzP7A4omsAiyX3Ljx0ia2WQiwpbCEqAzHF/oY183FTfHwiWYJlYbZK9HwAXF0ug25FMiN/cxktXYimcub0jg4EQx5GVdnzBmSdpLUHEXLbEVnXLhhQ=
+	t=1745914539; cv=none; b=pac024GUgz0Efgzq56Tk5mp9jYfJqjAEG8xCgkRwWDFHhknD4UAemcKOrp1IXxsRj4CghEfmbovLIWONi1RXSuduR/cqjnc/IPxicQqpXWAwkAMhKFgNIDvfYtEX8xUEzGWD/526KmJ1/bWkX8mRcIOb9Sb3adonSWwBzrSTVXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745912151; c=relaxed/simple;
-	bh=9qJd3nnSIWnEZ8xA0Z8ykHdUGo4HyIr2IG/NC9lnz/A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CkhgNHymemABPYEXBRGqtVFGn1zk1wn4bAILEKMffDwF3O/3MNu3wSAqHe8eqnJ/G7ZROvKJbHBiihtd8UmpnJY8MA5dAucxFoX4dP0VraD+DNNHxipu3hWcUZ62GkB++/u3d7Pr5sdViOSLgUxrT65I9DZ0UgxTeLGtVs8QM/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pK+DLff4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745914539; c=relaxed/simple;
+	bh=J0wimz9jKKgoXtvpMIq+8sf+2SdUBW04fvJ8CiLaI2U=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NZCanuANZy+GMxA85KINzPRvTD/ekyMWBwjFyrBm8qvak2rvqNOdMCurcnIQ+SHmXEpAw2bDDyWxgtITTi5jhHsmwA1zuiAQXK+IzzfEmag7mrp9c0V1rMSDsSdp43HoalWHmBj9T9WesevEIej5CpJKlTwBrpXXxUDjrCdWa4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JJTAKQGo; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pK+DLff4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B09B9C4CEE3;
-	Tue, 29 Apr 2025 07:35:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745912150;
-	bh=9qJd3nnSIWnEZ8xA0Z8ykHdUGo4HyIr2IG/NC9lnz/A=;
-	h=From:To:Cc:Subject:Date:From;
-	b=pK+DLff4/1kRJgs+qzTPdunjYIVth/wLoG0vbVYY0J0l+KWhCtzuDuu2Vuxnz8h+u
-	 QCoAGrR06/xoJRne4Qi65DlmRX03EI4CSQx7iF9FXP5m/qNFWEbsHCd14gkxYHNknK
-	 EkuxxzWcm2EIyGt/k5p7FuDmBr1AuyS4984dx0WIu1dwrGqMVkxWxCC9tCAvMZ1qSO
-	 YPGexBZto3DGQEjwEbbQn5uCm5YENYgkMsZzBA9FGTRuY4NlS0ZnKTQWi317h7jbX1
-	 h0Tx1vvx28K3xmOsB5zyjf+vdwPnLkQwmHuZKRLbWwiS6ngRRBwMFx9weCLP5KaTyH
-	 01bkBYtlSAhog==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JJTAKQGo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1745914530;
+	bh=J0wimz9jKKgoXtvpMIq+8sf+2SdUBW04fvJ8CiLaI2U=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=JJTAKQGoN/7XdCMyYzYnMtJMyp9uUUgepOkgrQxt8pU+1K8HpDndJNSKWrrgn4hLi
+	 SW+y3IIHPg0iI/bX4Vq7Q08UY1ovhjZql/XpdzgMWy8B/dJ1mopOoP47O19GpqoQuT
+	 TbexB1HXDKN4NcWZ9uLTdM81D65teoZUd0AfAsDMdVK2PiyAZurwy9RCxnWbqbJQhb
+	 fJ9toNi6TW7N4kIfWa1lx+E3oNKzh4UfJgw3XCPj4BoYvUD7ui0xu13juqHtpuKKnD
+	 ZYCLLxfLgR1zUR2V9tEqVlzS+70Y7menlkI75nHKmcIO/umfpmQSuekNYtRvti9Yz5
+	 oKq+oTL6kXc/A==
+Received: from apertis-1.home (2a01cb0892F2d600C8F85Cf092d4aF51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 910FC17E049F;
+	Tue, 29 Apr 2025 10:15:29 +0200 (CEST)
+Message-ID: <885a04cb450c3ebbb9fb831d51eaa76fccbdc827.camel@collabora.com>
+Subject: Re: [PATCH v2] ASoC: SOF: topology: Fix null pointer dereference
+From: Julien Massot <julien.massot@collabora.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+	kernel@collabora.com, Liam Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi	
+ <peter.ujfalusi@linux.intel.com>, Bard Liao
+ <yung-chuan.liao@linux.intel.com>,  Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen	 <kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart	
+ <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, Jaroslav
+ Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Liam Girdwood <liam.r.girdwood@intel.com>, 
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: catpt: avoid type mismatch in dev_dbg() format
-Date: Tue, 29 Apr 2025 09:35:19 +0200
-Message-Id: <20250429073545.3558494-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+Date: Tue, 29 Apr 2025 10:15:28 +0200
+In-Reply-To: <f31be238-b281-456a-9069-554e7b5b7019@collabora.com>
+References: <20250428-fixup-of-sof-topology-v2-1-7966515a81b7@collabora.com>
+	 <f31be238-b281-456a-9069-554e7b5b7019@collabora.com>
+Organization: Collabora Ltd.
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Cristian,
+On Mon, 2025-04-28 at 23:37 +0300, Cristian Ciocaltea wrote:
+> On 4/28/25 4:32 PM, Julien Massot wrote:
+> > Prevent null pointer dereference in snd_sof_load_topology()
+>=20
+> It looks like the commit description is now incomplete.
 
-Depending on the architecture __ffs() returns either an 'unsigned long'
-or 'unsigned int' result. Compile-testing this driver on targets that
-use the latter produces a warning:
+Thanks for noticing, sent a V3.
+>=20
 
-sound/soc/intel/catpt/dsp.c: In function 'catpt_dsp_set_srampge':
-sound/soc/intel/catpt/dsp.c:181:44: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'u32' {aka 'unsigned int'} [-Werror=format=]
-  181 |                         dev_dbg(cdev->dev, "sanitize block %ld: off 0x%08x\n",
-      |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Change the type of the local variable to match the format string and
-avoid the warning on any architecture.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- sound/soc/intel/catpt/dsp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/intel/catpt/dsp.c b/sound/soc/intel/catpt/dsp.c
-index 5993819cc58a..008a20a2acbd 100644
---- a/sound/soc/intel/catpt/dsp.c
-+++ b/sound/soc/intel/catpt/dsp.c
-@@ -156,7 +156,7 @@ static void catpt_dsp_set_srampge(struct catpt_dev *cdev, struct resource *sram,
- {
- 	unsigned long old;
- 	u32 off = sram->start;
--	u32 b = __ffs(mask);
-+	unsigned long b = __ffs(mask);
- 
- 	old = catpt_readl_pci(cdev, VDRTCTL0) & mask;
- 	dev_dbg(cdev->dev, "SRAMPGE [0x%08lx] 0x%08lx -> 0x%08lx",
--- 
-2.39.5
-
+--=20
+Julien
