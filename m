@@ -1,109 +1,145 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2FE13A3F7;
-	Tue, 29 Apr 2025 07:08:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711158F49
+	for <linux-sound@vger.kernel.org>; Tue, 29 Apr 2025 07:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745910492; cv=none; b=Xpt8E/yuhor89iXNPGsBxDoJxG9eUtIRUFv/OiNY1TbjylXOW7MBIWlJ5Um3TNXIbHY2AaT4V5pjPytcJ66EAVcm2WxwolsSUbNQCqkoS5oNYzUWiGBCuk8pVLcbQhhSm6z9VuAPe88mAtJG52TNQ19gXhkParGhk9tgnbRre5Y=
+	t=1745910698; cv=none; b=ebcYgrNEACq2F9pYGUMyNV9f/B1mPCPMzTdS7Uq8fXaIr6UsbawTowoCJv+6dnOnioWTq1oonR1SgEY0H55kIiTGWBrLn8JMSh/FpdPi/22Oli0bmVIzw/tAaQUhk0BVC6CdqWtPwvUHzAEMoW5QPgiYHmgED3K4PVLyw3mlvgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745910492; c=relaxed/simple;
-	bh=aE6zz7cpHKR5xzBlcOsApev1m2bk4YRf052mzvXiOxo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qaTNcFhzlwRCE+7h0S2lZlv/Z4O5kVdWmQZXzwIftxTU6hOBk0hVgH+sm/5RrMGzV6QVAbpwTi8X02GGg5aBddUl7tKGnzNnS8pM2yqcKrOvsne/OtwZk4t/XOxYJ0T1+k2hXbKXmgg92zTIHYYKwzi48zR7cp1YullDQ1tEi0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jkYcv51A; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1745910698; c=relaxed/simple;
+	bh=1Yt/kKdWgyFjVcE3Cz5XZTPFxYqSvfdYHbrAMfAxYRw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mTeHaCGXxJKXQJy06dUXk2fnobZHm5ZPIMnn1l6PYq3M9Li3KDQ1e1zH2ukhkdQn/robzFQ4rU2ER2V3rGYSjg020FUNpG86vVM+25lLS77U9O/5hyr21tHWI8zCQjDbljQ9BEIr0pu32j8cwxzhFvUUsIO2HLtVFvX+CFdY28Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iu2IA8gR; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jkYcv51A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1745910488;
-	bh=aE6zz7cpHKR5xzBlcOsApev1m2bk4YRf052mzvXiOxo=;
-	h=From:Date:Subject:To:Cc:From;
-	b=jkYcv51A4BLdV3F9ygISV2NYOwx/GT1GccAv8dHVFwKHu1YqULln1vB+Wxuv9l4sF
-	 FaISlYdiT8PBjgjVf6Gx5iCEaK64uemTDQw4M2H6tOHNhIcoOkeLz3Ed/4QKbPfwbj
-	 rG+9XsPXowMIxTHFzEsWIYDrbJKu2Ml/BrQGWd5ZhQdc1JPUmVkBjqsY0w4exI+SHw
-	 /0z+4jK5KeD282fDqBgjXxnT35jQEzfiBKIyIpe49AyOVkj5z6TOJh8wFJ6LkWuq/j
-	 mTt/7DAPJTLvmTk2s+f29y9S1xfnbjN6/45skMfcIdflS+6STI9eUk30oa5kdzst3Z
-	 xQbFxnn/DrZuw==
-Received: from apertis-1.home (2a01cb0892F2d600c8F85cF092D4af51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7C4E317E049F;
-	Tue, 29 Apr 2025 09:08:07 +0200 (CEST)
-From: Julien Massot <julien.massot@collabora.com>
-Date: Tue, 29 Apr 2025 09:07:54 +0200
-Subject: [PATCH v3] ASoC: SOF: topology: Fix null pointer dereference
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iu2IA8gR"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1745910684;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=whzbueSM5IFp/0EHZ1SXALhjUlx+PeV3oY2K5xgmepc=;
+	b=iu2IA8gRyZygarg3IPBa8+REnPW9cIchMrXdhp2YOKlJKHVYx6B8azVloaBmrDFIH3b1gw
+	9WG1QWDNJz4MnKeu71hC1F5jG8bQ6UmE196q4B5NOzDcK3NzUw0kOuHFFyUsNsHbJDL3vp
+	B7yOWIgW7udFP2I7dalP4+IuYfPLx9Q=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Colin Ian King <colin.i.king@gmail.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Zhu Jun <zhujun2@cmss.chinamobile.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: Use min() to simplify aw_dev_dsp_update_container()
+Date: Tue, 29 Apr 2025 09:10:13 +0200
+Message-ID: <20250429071032.65391-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250429-fixup-of-sof-topology-v3-1-3a15b8db7696@collabora.com>
-X-B4-Tracking: v=1; b=H4sIAMl6EGgC/43NsQ6DIBAG4FcxzKUR9IB26ns0HRBRSaxHwJIa4
- 7sXHbu0ww3/5b/vVhJtcDaSa7GSYJOLDqccqlNBzKCn3lLX5kx4yaGsuaKde788xY7GPDN6HLF
- fKJRKCRBKSwUk3/pgc/Fw74+cBxdnDMvxJrF9+0tMjDLaGlZXUrSag7oZHEfdYNBng0+yq4n/J
- fEsyYsQwEAr1shvadu2D8nFupMIAQAA
-X-Change-ID: 20250428-fixup-of-sof-topology-50886568a785
-To: kernel@collabora.com, Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: Liam Girdwood <liam.r.girdwood@intel.com>, 
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>, 
- Julien Massot <julien.massot@collabora.com>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-The "get_function_tplg_files" function is only applicable to
-ACPI-based devices (sof_pdata->machine and sof_pdata->not of_machine).
-Skip this check for OF-based devices to avoid a NULL pointer
-dereference in snd_sof_load_topology().
+Use min() to simplify aw_dev_dsp_update_container() and improve its
+readability.
 
-Fixes: 6d5997c412cc ("ASoC: SOF: topology: load multiple topologies")
-Reviewed-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-Signed-off-by: Julien Massot <julien.massot@collabora.com>
+No functional changes intended.
+
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
-Changes in v3:
-- More detailled commit message
-- Link to v2: https://lore.kernel.org/r/20250428-fixup-of-sof-topology-v2-1-7966515a81b7@collabora.com
+ sound/soc/codecs/aw88166.c                | 7 ++-----
+ sound/soc/codecs/aw88395/aw88395_device.c | 7 ++-----
+ sound/soc/codecs/aw88399.c                | 7 ++-----
+ 3 files changed, 6 insertions(+), 15 deletions(-)
 
-Changes in v2:
-- Better commit message as suggested
-- Link to v1: https://lore.kernel.org/r/20250428-fixup-of-sof-topology-v1-1-dc14376da258@collabora.com
----
- sound/soc/sof/topology.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index e19ba94f2c80a43731b90351bacfde2720db50ed..5d3ee3a86392c5a3fbfd05f83acc99b102c8cf61 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -2481,7 +2481,7 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 	if (!tplg_files)
- 		return -ENOMEM;
+diff --git a/sound/soc/codecs/aw88166.c b/sound/soc/codecs/aw88166.c
+index 6c50c4a18b6a..4f76ebe11cc7 100644
+--- a/sound/soc/codecs/aw88166.c
++++ b/sound/soc/codecs/aw88166.c
+@@ -11,6 +11,7 @@
+ #include <linux/firmware.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
++#include <linux/minmax.h>
+ #include <linux/regmap.h>
+ #include <sound/soc.h>
+ #include "aw88166.h"
+@@ -909,11 +910,7 @@ static int aw_dev_dsp_update_container(struct aw_device *aw_dev,
+ 		goto error_operation;
  
--	if (sof_pdata->machine->get_function_tplg_files) {
-+	if (sof_pdata->machine && sof_pdata->machine->get_function_tplg_files) {
- 		tplg_cnt = sof_pdata->machine->get_function_tplg_files(scomp->card,
- 								       sof_pdata->machine,
- 								       tplg_filename_prefix,
-
----
-base-commit: 80626102e730787e2cdcab0e36d267bedcd1a63e
-change-id: 20250428-fixup-of-sof-topology-50886568a785
-
-Best regards,
+ 	for (i = 0; i < len; i += AW88166_MAX_RAM_WRITE_BYTE_SIZE) {
+-		if ((len - i) < AW88166_MAX_RAM_WRITE_BYTE_SIZE)
+-			tmp_len = len - i;
+-		else
+-			tmp_len = AW88166_MAX_RAM_WRITE_BYTE_SIZE;
+-
++		tmp_len = min(len - i, AW88166_MAX_RAM_WRITE_BYTE_SIZE);
+ 		ret = regmap_raw_write(aw_dev->regmap, AW88166_DSPMDAT_REG,
+ 					&data[i], tmp_len);
+ 		if (ret)
+diff --git a/sound/soc/codecs/aw88395/aw88395_device.c b/sound/soc/codecs/aw88395/aw88395_device.c
+index b7ea8be0d0cb..e1430940015d 100644
+--- a/sound/soc/codecs/aw88395/aw88395_device.c
++++ b/sound/soc/codecs/aw88395/aw88395_device.c
+@@ -10,6 +10,7 @@
+ 
+ #include <linux/crc32.h>
+ #include <linux/i2c.h>
++#include <linux/minmax.h>
+ #include <linux/regmap.h>
+ #include "aw88395_device.h"
+ #include "aw88395_reg.h"
+@@ -1114,11 +1115,7 @@ static int aw_dev_dsp_update_container(struct aw_device *aw_dev,
+ 		goto error_operation;
+ 
+ 	for (i = 0; i < len; i += AW88395_MAX_RAM_WRITE_BYTE_SIZE) {
+-		if ((len - i) < AW88395_MAX_RAM_WRITE_BYTE_SIZE)
+-			tmp_len = len - i;
+-		else
+-			tmp_len = AW88395_MAX_RAM_WRITE_BYTE_SIZE;
+-
++		tmp_len = min(len - i, AW88395_MAX_RAM_WRITE_BYTE_SIZE);
+ 		ret = regmap_raw_write(aw_dev->regmap, AW88395_DSPMDAT_REG,
+ 					&data[i], tmp_len);
+ 		if (ret)
+diff --git a/sound/soc/codecs/aw88399.c b/sound/soc/codecs/aw88399.c
+index ee3cc2a95f85..4b90133e5ab4 100644
+--- a/sound/soc/codecs/aw88399.c
++++ b/sound/soc/codecs/aw88399.c
+@@ -11,6 +11,7 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/firmware.h>
++#include <linux/minmax.h>
+ #include <linux/regmap.h>
+ #include <sound/soc.h>
+ #include "aw88399.h"
+@@ -872,11 +873,7 @@ static int aw_dev_dsp_update_container(struct aw_device *aw_dev,
+ 		goto error_operation;
+ 
+ 	for (i = 0; i < len; i += AW88399_MAX_RAM_WRITE_BYTE_SIZE) {
+-		if ((len - i) < AW88399_MAX_RAM_WRITE_BYTE_SIZE)
+-			tmp_len = len - i;
+-		else
+-			tmp_len = AW88399_MAX_RAM_WRITE_BYTE_SIZE;
+-
++		tmp_len = min(len - i, AW88399_MAX_RAM_WRITE_BYTE_SIZE);
+ 		ret = regmap_raw_write(aw_dev->regmap, AW88399_DSPMDAT_REG,
+ 					&data[i], tmp_len);
+ 		if (ret)
 -- 
-Julien Massot <julien.massot@collabora.com>
+2.49.0
 
