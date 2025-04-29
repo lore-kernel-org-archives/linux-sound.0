@@ -1,115 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8F72C2AC8;
-	Tue, 29 Apr 2025 12:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D922C2AB0
+	for <linux-sound@vger.kernel.org>; Tue, 29 Apr 2025 12:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745929439; cv=none; b=CylKIHN1dfcV/O117XblUIJctGn8ICsRNVZFV/N4420kI9KWYa7iejrM5YHJGi0iWWlfn6b3yafuazJ0uweO/dXrxeXrbNrUUD7u4rD0fUJNWnZ22mbKKsG4rFWZQuof7HL30XA0D0vk/RhEWL+ERRvcnlMzcUwLmDhyA3KF0YI=
+	t=1745930933; cv=none; b=KxkAVesYOKOJ1VYRPG5aIYBFoKllIo7qywEKI5sI/HjJgq43LxTAZnphzGb3Dgj+OWpg1TGu+fq8z7rE79QteRbDzLS3IeGCyOkIawCv2F+UguJb1u4mU9HXkTygtJW5+T5iisDmwdERv8qW6HgqHtaJ75bFlCohr1kpn1yxoVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745929439; c=relaxed/simple;
-	bh=6D2eOiO8wtFS+Z7xOmqxliK7y2kRiVLMvyJz9Bj3anI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VIbqTpiXLFyXNYf88KD5RMtMCBLN9H//N18CZrg1g6fCX1WTfrjyN4087HdpY4WbAaipgjv+HRuiWzAMUdVq8xc/CHkMMsx93vaw8L1MdzdVy9f2s61fgNiGVexBipA0BJp1vROm7yEnctV28SGD5vGn8OTa4ihB0m4dm6VOZRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fogDslDn; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1745930933; c=relaxed/simple;
+	bh=1dx7UQS4OGTC3B/qwRqogTi8lJnyML9S95U2wutGswM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H3jyBgNESOoJLplJl+SCmbxOocnTGABVesd7di8lrYQHeaOptqsuvCV02oMlVUu8IKqE1BuSEDlcLMtuILEJzzCFouZNZ3IO3M/PfIxnxCADIq+xeGzWyRRXTd9afRvT77Hg88/JSjfwW2j8eU4NYDqTU1H5y5Ej5I2dR5V/Apo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rVk5N8Wm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=P/qw9TH/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QYpfQjTZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eISD1b2K; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fogDslDn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745929437; x=1777465437;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6D2eOiO8wtFS+Z7xOmqxliK7y2kRiVLMvyJz9Bj3anI=;
-  b=fogDslDnCfbBolydhSOPnwZ29C8g0D4enN2VmksOnLqxyscjW+doPxtt
-   RbppXyDEg8XTAanlwDdE50G4GuZ9VX/WmD/vlzDNTLlrlgL1zTXc8LnKe
-   0EEtlfIRALwtQsuVLrRlu197Lq5VWe0Tsyva3o+Ld2OB/dmtVisEmeryp
-   EkRPw5cgKLWLV1ZahJry6rtzH5ERRADJCarhpHYe/YuipkwsG+bXLRMDi
-   Gne5DLpX11LpPfUiPqtPgozWaEA5sJ0t3Uf7KqcqRcGbq2ZXDnF2z1vWr
-   LdNwPQJmj3yxnwmIZrXOdFDql/RDW0FKgpMPZEvWyz6thd5fgWrVEE/Tj
-   Q==;
-X-CSE-ConnectionGUID: fHexwftlSj+Yv5Dyeef1ZQ==
-X-CSE-MsgGUID: MFp/IR1YSK6mLoHyzSTvzg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51371504"
-X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="51371504"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 05:23:56 -0700
-X-CSE-ConnectionGUID: AbYHISptQz20/4tHRh9tgA==
-X-CSE-MsgGUID: zSz8F3yFRDCNuSdLrVuC1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="138609618"
-Received: from unknown (HELO yungchua-desk.intel.com) ([10.247.118.225])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 05:23:54 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH] soundwire: update Intel BPT message length limitation
-Date: Tue, 29 Apr 2025 20:23:37 +0800
-Message-ID: <20250429122337.142551-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rVk5N8Wm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P/qw9TH/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QYpfQjTZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eISD1b2K"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 702441F391;
+	Tue, 29 Apr 2025 12:48:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745930928; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pQ1k4W/DLVUNMuF7Ga9UAQWu0fikIVQQAGbDYjHzVfw=;
+	b=rVk5N8WmkpFRybMsYUOPbpqMBcbEn/Ugcaz2U4x+pX4cUDjJZKYMHDYEkWZR8BdiEHZ6ep
+	PyfjDhu5Fm9Dcuz1yL+qQRdLlGICnOgZBp5z+9pxz7FoEDL9RRfaiCrjbxNfYyJWIhckUi
+	Q/6nNbFr6ybBu0JaV87BF7f3bDjkb4g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745930928;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pQ1k4W/DLVUNMuF7Ga9UAQWu0fikIVQQAGbDYjHzVfw=;
+	b=P/qw9TH/dEvd5BC5hGfEHC5NyQWm66WpUgevaa0T/k43u7HuyVaEZl6VV9WgSxUwm7hb/m
+	nbwas40PC6kKM1CA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745930927; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pQ1k4W/DLVUNMuF7Ga9UAQWu0fikIVQQAGbDYjHzVfw=;
+	b=QYpfQjTZwh8euB9wP4LoGG+w0g1N8gbNSMQM+l8TbFLhOMVUjQtHtKP/vvItwOVjoTqtNB
+	0WuVVaCly7+RNYRGHr2brkZS/4FN45AbLUNi95NqxPx5SZ1MzUDpeayyXccZLEA4MywMkT
+	vqqUGFE+macuIh3wro6AMQkWySqFJ68=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745930927;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=pQ1k4W/DLVUNMuF7Ga9UAQWu0fikIVQQAGbDYjHzVfw=;
+	b=eISD1b2K9LgHZ5Gf6r6BGta5EtKryPhypCN8Rk0rIUH6RENTg2u7uRFj2iQ/I0rUeXubYS
+	URXIRYEym7d0LRAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5DA4613931;
+	Tue, 29 Apr 2025 12:48:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id aBBJFq/KEGjfXAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 29 Apr 2025 12:48:47 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Argusee <vr@darknavy.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: ump: Fix buffer overflow at UMP SysEx message conversion
+Date: Tue, 29 Apr 2025 14:48:41 +0200
+Message-ID: <20250429124845.25128-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-The limitation of "must be multiples of 32 bytes" does not fit the
-requirement of current Intel platforms. Update it to meet the
-requirement.
+The conversion function from MIDI 1.0 to UMP packet contains an
+internal buffer to keep the incoming MIDI bytes, and its size is 4, as
+it was supposed to be the max size for a MIDI1 UMP packet data.
+However, the implementation overlooked that SysEx is handled in a
+different format, and it can be up to 6 bytes, as found in
+do_convert_to_ump().  It leads eventually to a buffer overflow, and
+may corrupt the memory when a longer SysEx message is received.
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+The fix is simply to extend the buffer size to 6 to fit with the SysEx
+UMP message.
+
+Fixes: 0b5288f5fe63 ("ALSA: ump: Add legacy raw MIDI support")
+Reported-by: Argusee <vr@darknavy.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- Documentation/driver-api/soundwire/bra.rst | 2 +-
- drivers/soundwire/intel_ace2x.c            | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ include/sound/ump_convert.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/soundwire/bra.rst b/Documentation/driver-api/soundwire/bra.rst
-index 8500253fa3e8..c08ab2591496 100644
---- a/Documentation/driver-api/soundwire/bra.rst
-+++ b/Documentation/driver-api/soundwire/bra.rst
-@@ -333,4 +333,4 @@ FIFO sizes to avoid xruns.
- 
- Alignment requirements are currently not enforced at the core level
- but at the platform-level, e.g. for Intel the data sizes must be
--multiples of 32 bytes.
-+equal to or larger than 16 bytes.
-diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
-index 5b31e1f69591..f899c966cfaf 100644
---- a/drivers/soundwire/intel_ace2x.c
-+++ b/drivers/soundwire/intel_ace2x.c
-@@ -245,7 +245,7 @@ static void intel_ace2x_bpt_close_stream(struct sdw_intel *sdw, struct sdw_slave
- 	cdns->bus.bpt_stream = NULL;
- }
- 
--#define INTEL_BPT_MSG_BYTE_ALIGNMENT 32
-+#define INTEL_BPT_MSG_BYTE_MIN 16
- 
- static int intel_ace2x_bpt_send_async(struct sdw_intel *sdw, struct sdw_slave *slave,
- 				      struct sdw_bpt_msg *msg)
-@@ -253,9 +253,9 @@ static int intel_ace2x_bpt_send_async(struct sdw_intel *sdw, struct sdw_slave *s
- 	struct sdw_cdns *cdns = &sdw->cdns;
- 	int ret;
- 
--	if (msg->len % INTEL_BPT_MSG_BYTE_ALIGNMENT) {
--		dev_err(cdns->dev, "BPT message length %d is not a multiple of %d bytes\n",
--			msg->len, INTEL_BPT_MSG_BYTE_ALIGNMENT);
-+	if (msg->len < INTEL_BPT_MSG_BYTE_MIN) {
-+		dev_err(cdns->dev, "BPT message length %d is less than the minimum bytes %d\n",
-+			msg->len, INTEL_BPT_MSG_BYTE_MIN);
- 		return -EINVAL;
- 	}
+diff --git a/include/sound/ump_convert.h b/include/sound/ump_convert.h
+index d099ae27f849..682499b871ea 100644
+--- a/include/sound/ump_convert.h
++++ b/include/sound/ump_convert.h
+@@ -19,7 +19,7 @@ struct ump_cvt_to_ump_bank {
+ /* context for converting from MIDI1 byte stream to UMP packet */
+ struct ump_cvt_to_ump {
+ 	/* MIDI1 intermediate buffer */
+-	unsigned char buf[4];
++	unsigned char buf[6]; /* up to 6 bytes for SysEx */
+ 	int len;
+ 	int cmd_bytes;
  
 -- 
-2.43.0
+2.49.0
 
