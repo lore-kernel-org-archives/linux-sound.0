@@ -1,49 +1,48 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711158F49
-	for <linux-sound@vger.kernel.org>; Tue, 29 Apr 2025 07:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92321F76A5;
+	Tue, 29 Apr 2025 07:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745910698; cv=none; b=ebcYgrNEACq2F9pYGUMyNV9f/B1mPCPMzTdS7Uq8fXaIr6UsbawTowoCJv+6dnOnioWTq1oonR1SgEY0H55kIiTGWBrLn8JMSh/FpdPi/22Oli0bmVIzw/tAaQUhk0BVC6CdqWtPwvUHzAEMoW5QPgiYHmgED3K4PVLyw3mlvgA=
+	t=1745912151; cv=none; b=Hr2hltT5JUm04Pw+Egf03onR1mSD0I3qrKm/z0e+44a0ab2v1Bc+7NA2qvzP7A4omsAiyX3Ljx0ia2WQiwpbCEqAzHF/oY183FTfHwiWYJlYbZK9HwAXF0ug25FMiN/cxktXYimcub0jg4EQx5GVdnzBmSdpLUHEXLbEVnXLhhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745910698; c=relaxed/simple;
-	bh=1Yt/kKdWgyFjVcE3Cz5XZTPFxYqSvfdYHbrAMfAxYRw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mTeHaCGXxJKXQJy06dUXk2fnobZHm5ZPIMnn1l6PYq3M9Li3KDQ1e1zH2ukhkdQn/robzFQ4rU2ER2V3rGYSjg020FUNpG86vVM+25lLS77U9O/5hyr21tHWI8zCQjDbljQ9BEIr0pu32j8cwxzhFvUUsIO2HLtVFvX+CFdY28Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iu2IA8gR; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1745912151; c=relaxed/simple;
+	bh=9qJd3nnSIWnEZ8xA0Z8ykHdUGo4HyIr2IG/NC9lnz/A=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CkhgNHymemABPYEXBRGqtVFGn1zk1wn4bAILEKMffDwF3O/3MNu3wSAqHe8eqnJ/G7ZROvKJbHBiihtd8UmpnJY8MA5dAucxFoX4dP0VraD+DNNHxipu3hWcUZ62GkB++/u3d7Pr5sdViOSLgUxrT65I9DZ0UgxTeLGtVs8QM/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pK+DLff4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iu2IA8gR"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1745910684;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=whzbueSM5IFp/0EHZ1SXALhjUlx+PeV3oY2K5xgmepc=;
-	b=iu2IA8gRyZygarg3IPBa8+REnPW9cIchMrXdhp2YOKlJKHVYx6B8azVloaBmrDFIH3b1gw
-	9WG1QWDNJz4MnKeu71hC1F5jG8bQ6UmE196q4B5NOzDcK3NzUw0kOuHFFyUsNsHbJDL3vp
-	B7yOWIgW7udFP2I7dalP4+IuYfPLx9Q=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pK+DLff4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B09B9C4CEE3;
+	Tue, 29 Apr 2025 07:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745912150;
+	bh=9qJd3nnSIWnEZ8xA0Z8ykHdUGo4HyIr2IG/NC9lnz/A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pK+DLff4/1kRJgs+qzTPdunjYIVth/wLoG0vbVYY0J0l+KWhCtzuDuu2Vuxnz8h+u
+	 QCoAGrR06/xoJRne4Qi65DlmRX03EI4CSQx7iF9FXP5m/qNFWEbsHCd14gkxYHNknK
+	 EkuxxzWcm2EIyGt/k5p7FuDmBr1AuyS4984dx0WIu1dwrGqMVkxWxCC9tCAvMZ1qSO
+	 YPGexBZto3DGQEjwEbbQn5uCm5YENYgkMsZzBA9FGTRuY4NlS0ZnKTQWi317h7jbX1
+	 h0Tx1vvx28K3xmOsB5zyjf+vdwPnLkQwmHuZKRLbWwiS6ngRRBwMFx9weCLP5KaTyH
+	 01bkBYtlSAhog==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Zhu Jun <zhujun2@cmss.chinamobile.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: Use min() to simplify aw_dev_dsp_update_container()
-Date: Tue, 29 Apr 2025 09:10:13 +0200
-Message-ID: <20250429071032.65391-2-thorsten.blum@linux.dev>
+Subject: [PATCH] ASoC: Intel: catpt: avoid type mismatch in dev_dbg() format
+Date: Tue, 29 Apr 2025 09:35:19 +0200
+Message-Id: <20250429073545.3558494-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,95 +50,39 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Use min() to simplify aw_dev_dsp_update_container() and improve its
-readability.
+From: Arnd Bergmann <arnd@arndb.de>
 
-No functional changes intended.
+Depending on the architecture __ffs() returns either an 'unsigned long'
+or 'unsigned int' result. Compile-testing this driver on targets that
+use the latter produces a warning:
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+sound/soc/intel/catpt/dsp.c: In function 'catpt_dsp_set_srampge':
+sound/soc/intel/catpt/dsp.c:181:44: error: format '%ld' expects argument of type 'long int', but argument 4 has type 'u32' {aka 'unsigned int'} [-Werror=format=]
+  181 |                         dev_dbg(cdev->dev, "sanitize block %ld: off 0x%08x\n",
+      |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Change the type of the local variable to match the format string and
+avoid the warning on any architecture.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- sound/soc/codecs/aw88166.c                | 7 ++-----
- sound/soc/codecs/aw88395/aw88395_device.c | 7 ++-----
- sound/soc/codecs/aw88399.c                | 7 ++-----
- 3 files changed, 6 insertions(+), 15 deletions(-)
+ sound/soc/intel/catpt/dsp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/aw88166.c b/sound/soc/codecs/aw88166.c
-index 6c50c4a18b6a..4f76ebe11cc7 100644
---- a/sound/soc/codecs/aw88166.c
-+++ b/sound/soc/codecs/aw88166.c
-@@ -11,6 +11,7 @@
- #include <linux/firmware.h>
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
-+#include <linux/minmax.h>
- #include <linux/regmap.h>
- #include <sound/soc.h>
- #include "aw88166.h"
-@@ -909,11 +910,7 @@ static int aw_dev_dsp_update_container(struct aw_device *aw_dev,
- 		goto error_operation;
+diff --git a/sound/soc/intel/catpt/dsp.c b/sound/soc/intel/catpt/dsp.c
+index 5993819cc58a..008a20a2acbd 100644
+--- a/sound/soc/intel/catpt/dsp.c
++++ b/sound/soc/intel/catpt/dsp.c
+@@ -156,7 +156,7 @@ static void catpt_dsp_set_srampge(struct catpt_dev *cdev, struct resource *sram,
+ {
+ 	unsigned long old;
+ 	u32 off = sram->start;
+-	u32 b = __ffs(mask);
++	unsigned long b = __ffs(mask);
  
- 	for (i = 0; i < len; i += AW88166_MAX_RAM_WRITE_BYTE_SIZE) {
--		if ((len - i) < AW88166_MAX_RAM_WRITE_BYTE_SIZE)
--			tmp_len = len - i;
--		else
--			tmp_len = AW88166_MAX_RAM_WRITE_BYTE_SIZE;
--
-+		tmp_len = min(len - i, AW88166_MAX_RAM_WRITE_BYTE_SIZE);
- 		ret = regmap_raw_write(aw_dev->regmap, AW88166_DSPMDAT_REG,
- 					&data[i], tmp_len);
- 		if (ret)
-diff --git a/sound/soc/codecs/aw88395/aw88395_device.c b/sound/soc/codecs/aw88395/aw88395_device.c
-index b7ea8be0d0cb..e1430940015d 100644
---- a/sound/soc/codecs/aw88395/aw88395_device.c
-+++ b/sound/soc/codecs/aw88395/aw88395_device.c
-@@ -10,6 +10,7 @@
- 
- #include <linux/crc32.h>
- #include <linux/i2c.h>
-+#include <linux/minmax.h>
- #include <linux/regmap.h>
- #include "aw88395_device.h"
- #include "aw88395_reg.h"
-@@ -1114,11 +1115,7 @@ static int aw_dev_dsp_update_container(struct aw_device *aw_dev,
- 		goto error_operation;
- 
- 	for (i = 0; i < len; i += AW88395_MAX_RAM_WRITE_BYTE_SIZE) {
--		if ((len - i) < AW88395_MAX_RAM_WRITE_BYTE_SIZE)
--			tmp_len = len - i;
--		else
--			tmp_len = AW88395_MAX_RAM_WRITE_BYTE_SIZE;
--
-+		tmp_len = min(len - i, AW88395_MAX_RAM_WRITE_BYTE_SIZE);
- 		ret = regmap_raw_write(aw_dev->regmap, AW88395_DSPMDAT_REG,
- 					&data[i], tmp_len);
- 		if (ret)
-diff --git a/sound/soc/codecs/aw88399.c b/sound/soc/codecs/aw88399.c
-index ee3cc2a95f85..4b90133e5ab4 100644
---- a/sound/soc/codecs/aw88399.c
-+++ b/sound/soc/codecs/aw88399.c
-@@ -11,6 +11,7 @@
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/firmware.h>
-+#include <linux/minmax.h>
- #include <linux/regmap.h>
- #include <sound/soc.h>
- #include "aw88399.h"
-@@ -872,11 +873,7 @@ static int aw_dev_dsp_update_container(struct aw_device *aw_dev,
- 		goto error_operation;
- 
- 	for (i = 0; i < len; i += AW88399_MAX_RAM_WRITE_BYTE_SIZE) {
--		if ((len - i) < AW88399_MAX_RAM_WRITE_BYTE_SIZE)
--			tmp_len = len - i;
--		else
--			tmp_len = AW88399_MAX_RAM_WRITE_BYTE_SIZE;
--
-+		tmp_len = min(len - i, AW88399_MAX_RAM_WRITE_BYTE_SIZE);
- 		ret = regmap_raw_write(aw_dev->regmap, AW88399_DSPMDAT_REG,
- 					&data[i], tmp_len);
- 		if (ret)
+ 	old = catpt_readl_pci(cdev, VDRTCTL0) & mask;
+ 	dev_dbg(cdev->dev, "SRAMPGE [0x%08lx] 0x%08lx -> 0x%08lx",
 -- 
-2.49.0
+2.39.5
 
