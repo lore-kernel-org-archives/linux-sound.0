@@ -1,179 +1,94 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FCF10F2
-	for <linux-sound@vger.kernel.org>; Tue, 29 Apr 2025 18:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9382D7462;
+	Wed, 30 Apr 2025 00:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745951792; cv=none; b=F8pQSAcPFfDNacwpg9C2PBKKBV+ojwDog9odMGGIdJQ233rGt0aCZpyVs8eOcZ5KQDA0DSWsvyyhwYxFRGKvessFfqQL2YkFj+EiTiNMolXemwoY9Uiw2YSkEv9rJ9bbj5ACr2t5CfEXCvJpH2/oFZS7v72YCVYpirvvWTbWHuQ=
+	t=1745972607; cv=none; b=tAuxFQ+VLDX+NJ8Hriudxdvs97rOWbfe2UyHjJogk5TNvqh5aAZ+yvWZCIKbkx/G3rMy7pg2APbxKh/Pucd+Uy2H/0zFhXLwkkr7Dvs4DImgpuKl1chXjA/ErVvvJtJAWAV+2ru2WQ+lBnLpIfAWu5tWN1mWjeZghptjCOoN+bM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745951792; c=relaxed/simple;
-	bh=FVytEU9MRuMzkH/g97rERd39kdFzztV5W5V0+4EZacQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KeGZBx2w2EhMmnYuvLeFryvQwfxn7rMAxbaDSabVJ6Ay97oqAMBZTHA4g3JXuwG0bAk/nPtoMSaA/tUe8x+I++gtTOnS2ewO9refjAPvRCMz9Iciru7/zCSyGGfEYGN1v9eLAijNiUvH1JmRqfZ8dl5EQB9CRtcdva89MoZMZg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FDIfJ6MQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZaGXN4uH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FDIfJ6MQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZaGXN4uH; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1745972607; c=relaxed/simple;
+	bh=LnbXxn6cfAZ1LTNdbY6B1qJi8/AVpoR91fSjqgmQQ4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qf+SunVcGO0uP2Rab4XtaRQR0I3X1JJpKBVbzFz8Ko/O4IeuFJy2YaNZNHZ/BQ9M+PtJyZ/sj0xqXcyL3HCTi74+/cHAs405S5e0rSm+GvLKtNkhT1IpkSPbB5zkkMr10V3fC2ULeizuGU/07CmsV0XKz9tZJo0ORaVsLQpPT6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MO7pbjeD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FDIfJ6MQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZaGXN4uH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FDIfJ6MQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZaGXN4uH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 86E231F391;
-	Tue, 29 Apr 2025 18:36:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745951788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=RoJhViwhrycSZs+p4izA20bApDBr+vDO0qUKgxPuNG8=;
-	b=FDIfJ6MQx1g+cBTy4AutpjS8REe/LeWtmQ/J81w2He9sQw5PdSnYfKuBvNMVeBeAGCZTLX
-	euWd6CYDtyC+/ILNeRm97TtVs5VH0KStAabvCyHc4hTw4DYr3cr4ANB/OOklLlRyqutcqp
-	h05eH4F0qp/JIb1s9iL0jKlU9RpZfWQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745951788;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=RoJhViwhrycSZs+p4izA20bApDBr+vDO0qUKgxPuNG8=;
-	b=ZaGXN4uHCr79BeUwnskcOYp634aJThsS7AMdD6viWiSpU8WuizwPlxRenDv/53YGEkQM8i
-	moLuo7v8TB9hNHBw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FDIfJ6MQ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZaGXN4uH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745951788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=RoJhViwhrycSZs+p4izA20bApDBr+vDO0qUKgxPuNG8=;
-	b=FDIfJ6MQx1g+cBTy4AutpjS8REe/LeWtmQ/J81w2He9sQw5PdSnYfKuBvNMVeBeAGCZTLX
-	euWd6CYDtyC+/ILNeRm97TtVs5VH0KStAabvCyHc4hTw4DYr3cr4ANB/OOklLlRyqutcqp
-	h05eH4F0qp/JIb1s9iL0jKlU9RpZfWQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745951788;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=RoJhViwhrycSZs+p4izA20bApDBr+vDO0qUKgxPuNG8=;
-	b=ZaGXN4uHCr79BeUwnskcOYp634aJThsS7AMdD6viWiSpU8WuizwPlxRenDv/53YGEkQM8i
-	moLuo7v8TB9hNHBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 677FA13931;
-	Tue, 29 Apr 2025 18:36:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id O1MXGCwcEWgHQQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 29 Apr 2025 18:36:28 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Paul Davis <paul@linuxaudiosystems.com>
-Subject: [PATCH] ALSA: usb-audio: Fix duplicated name in MIDI substream names
-Date: Tue, 29 Apr 2025 20:36:15 +0200
-Message-ID: <20250429183626.20773-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MO7pbjeD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EC9CC4CEE3;
+	Wed, 30 Apr 2025 00:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745972607;
+	bh=LnbXxn6cfAZ1LTNdbY6B1qJi8/AVpoR91fSjqgmQQ4M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MO7pbjeDbnVXE/n/z9HbdDKaUWn0AE0FB0fjHQyAYO1pQvqZCOc1DnAsTTIagOjGE
+	 IinOPJPJJWCyGDxl4eZVw+9ZisCnZuCGR0RDCICa5c0Qp27mO8eM6zXM+kai6kTqDr
+	 zru468uguQzT2sXdbOaS9G3o/zsTYAO29n5RYy48Y0Ymr2XTrJtK3cEQLGA24Qr8Nl
+	 8ndy/tLrUPN6sQRzWd/qODJ7a+y7u24BwmddSbWH4Lt78uFJ8irq4YF3rBsTFWndwL
+	 Ou75B4JZWtJxDo7X3FUAPNbwlHf1Dctk+kJqOQUkjTe5MtL8/MI7avQP0PiA9COqGR
+	 H4tJtPJbu+qAQ==
+Date: Wed, 30 Apr 2025 09:23:22 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ASoC: fsl: fsl_qmc_audio: Reset audio data pointers on
+ TRIGGER_START event
+Message-ID: <aBFtesqln2Xeab-d@finisterre.sirena.org.uk>
+References: <20250410091643.535627-1-herve.codina@bootlin.com>
+ <174429282080.80887.6648935549042489213.b4-ty@kernel.org>
+ <4b42c00a-0ef5-4121-9e40-9214bf9a1197@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 86E231F391
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="+n29DJNat32DEv6U"
+Content-Disposition: inline
+In-Reply-To: <4b42c00a-0ef5-4121-9e40-9214bf9a1197@csgroup.eu>
+X-Cookie: Well begun is half done.
 
-The MIDI substream name string is constructed from the combination of
-the card shortname (which is taken from USB iProduct) and the USB
-iJack.  The problem is that some devices put the product name to the
-iJack field, too.  For example, aplaymidi -l output on the Lanchkey MK
-49 are like:
 
-  % aplaymidi -l
-  Port    Client name            Port name
-  44:0    Launchkey MK4 49       Launchkey MK4 49 Launchkey MK4
-  44:1    Launchkey MK4 49       Launchkey MK4 49 Launchkey MK4
+--+n29DJNat32DEv6U
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-where the actual iJack name can't be seen because it's truncated due
-to the doubly words.
+On Mon, Apr 28, 2025 at 11:20:42AM +0200, Christophe Leroy wrote:
+> Le 10/04/2025 =E0 15:47, Mark Brown a =E9crit=A0:
 
-For resolving those situations, this patch compares the iJack string
-with the card shortname, and drops if both start with the same words.
-Then the result becomes like:
+> Would it be possible to get this patch into one of the v6.15 rc as it is a
+> bug fix ?
 
-  % aplaymidi -l
-  Port    Client name            Port name
-  40:0    Launchkey MK4 49       Launchkey MK4 49 MIDI In
-  40:1    Launchkey MK4 49       Launchkey MK4 49 DAW In
+It appears to be queued as a fix, could you be more specific please?
 
-A caveat is that there are some pre-defined names for certain
-devices in the driver code, and this workaround shouldn't be applied
-to them.  Similarly, when the iJack isn't specified, we should skip
-this check, too.  The patch added those checks in addition to the
-string comparison.
+Please delete unneeded context from mails when replying.  Doing this
+makes it much easier to find your reply in the message, helping ensure
+it won't be missed by people scrolling through the irrelevant quoted
+material.
 
-Suggested-by: Paul Davis <paul@linuxaudiosystems.com>
-Tested-by: Paul Davis <paul@linuxaudiosystems.com>
-Link: https://lore.kernel.org/CAFa_cKmEDQWcJatbYWi6A58Zg4Ma9_6Nr3k5LhqwyxC-P_kXtw@mail.gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/midi.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+--+n29DJNat32DEv6U
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/sound/usb/midi.c b/sound/usb/midi.c
-index dcdd7e9e1ae9..cfed000f243a 100644
---- a/sound/usb/midi.c
-+++ b/sound/usb/midi.c
-@@ -1885,10 +1885,18 @@ static void snd_usbmidi_init_substream(struct snd_usb_midi *umidi,
- 	}
- 
- 	port_info = find_port_info(umidi, number);
--	name_format = port_info ? port_info->name :
--		(jack_name != default_jack_name  ? "%s %s" : "%s %s %d");
--	snprintf(substream->name, sizeof(substream->name),
--		 name_format, umidi->card->shortname, jack_name, number + 1);
-+	if (port_info || jack_name == default_jack_name ||
-+	    strncmp(umidi->card->shortname, jack_name, strlen(umidi->card->shortname)) != 0) {
-+		name_format = port_info ? port_info->name :
-+			(jack_name != default_jack_name  ? "%s %s" : "%s %s %d");
-+		snprintf(substream->name, sizeof(substream->name),
-+			 name_format, umidi->card->shortname, jack_name, number + 1);
-+	} else {
-+		/* The manufacturer included the iProduct name in the jack
-+		 * name, do not use both
-+		 */
-+		strscpy(substream->name, jack_name);
-+	}
- 
- 	*rsubstream = substream;
- }
--- 
-2.49.0
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgRbXoACgkQJNaLcl1U
+h9D2igf+IcSLAyyqPyCkgkxObz6ejq16mYpRMVXdZgtsyHGwuf21NEktBbBgp3Wb
+sxMIFXayPEfzTqCLLcjojYObuIU3gK6zFBOIx73YRxysA6dtMV4EIm41985xKvNd
+aYY/rxmR5HrZI1zZyqz7zkxM1AxmzFeKpD/PzJTmq0c4uM/ZbrmiihxtH7fg5e0/
+hQ8OeyYviqP0IRVrxq5DvirNF207T1vwhXXlkB5WQqkxUqjAD9EsE4mkDc0TUDx9
+SxljcDisxCz3w0DC+Ej9awxAm1Px35jb4UJxmPYX5ALjc9p8VcOhsre+sPWhHoGZ
+6Ihvu7uJBQgr5wMQCcOJZifShXbGzA==
+=K3dG
+-----END PGP SIGNATURE-----
+
+--+n29DJNat32DEv6U--
