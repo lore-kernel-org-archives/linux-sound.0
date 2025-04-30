@@ -1,90 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECA423C384;
-	Wed, 30 Apr 2025 12:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50A1521CC59;
+	Wed, 30 Apr 2025 13:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746016674; cv=none; b=fkulgRzdECW3xpyUcegeIeQOrcJAQnpByX7sUYhpO4R5r9daEEwUttz6CFqnR98sj0viD7M3aDq210DHRTw4neK9V2rSTrebvyBnl6kU78643GOsM9U3yDUfZ+xB5Nldh4znrPkgGi0KyvtW4tIE8oWQhQjc9Uq1u8vw5uXzQdE=
+	t=1746019237; cv=none; b=bwRopQB5TAfAOUhvgL+3nFC3kU88Uejuk2uLUNwsATuKC8n7a8iFdoFk8h4Gq9+7nr9QTO4IBOHllmqFxI9RLLH8R5FINIdSVnTbKb0CiOBf9WzYMstLZj8N/yCPtYLMDAsQ2cYFx2CaopdBMS0WNapEfZq6M6H+tm8X/S8V3vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746016674; c=relaxed/simple;
-	bh=rmRQ5wp4uWHdfYSKbJ9Aw4PRmQnVzVOzB/ll2+935kg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RorjeP010vDLtUWJN0z1DE8B2ZAtxiYPK7yv4K/qWUVEBAvZdBufGO3VE7KqWc0g9qW8c27ukbowI+/nx6dhmg1l8uGhdNAbcWfNyiMlN5tRorXkGUrUAsyEw+JA/K3loCO3CsglFSNHCxzeHMvsGkvzYyvkMf3tOO0B0UtfHFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eqGDlESL; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eqGDlESL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746016673; x=1777552673;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rmRQ5wp4uWHdfYSKbJ9Aw4PRmQnVzVOzB/ll2+935kg=;
-  b=eqGDlESL5Decypu04638ZXZ7KqVcy1JacNbK5Y85TKGItjfJ/+W+VcT+
-   cSGWFlbpQeUgrhgGGJ02XMh2K/KoE/Ll0NWUEHKOpdBjGUCI4I6/wzJmX
-   ixjNNSphYqSLhgM6TMGkQH1b+szAiWHbXWl+Y1e2e0nFD05ztZ4gWkTsq
-   hh9elDu0WxZHDQrJFDVHQVwW/UDF4/oy+KeVLyqHW/RnW8UdIGoFfbXyC
-   J3Ax5HnnRkxd9My81dNTEDu87Vb/CVR76l+KXGjoPVThxv+9sAMsofVj1
-   6YWc8UIkti8C3+DZwXQJ2yRhoKf8VlqT8VeX9KxJ0/pUg7MtnPJD/EKiE
-   w==;
-X-CSE-ConnectionGUID: ZoGXnscFQYmmuCBtwDLfEg==
-X-CSE-MsgGUID: z2H349ucT26yyghLYROj8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="57871563"
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="57871563"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 05:37:51 -0700
-X-CSE-ConnectionGUID: wXPnGUn5TAiSCGg5KbQ4rA==
-X-CSE-MsgGUID: L3VajdjdRiSkd46fIlKQSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="134414365"
-Received: from smile.fi.intel.com ([10.237.72.55])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 05:37:47 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uA6h6-00000001cry-1QQ8;
-	Wed, 30 Apr 2025 15:37:44 +0300
-Date: Wed, 30 Apr 2025 15:37:44 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Zhu Jun <zhujun2@cmss.chinamobile.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: codecs: Use min() to simplify
- aw_dev_dsp_update_container()
-Message-ID: <aBIZmC6ax1BUuS_L@smile.fi.intel.com>
-References: <20250429071032.65391-2-thorsten.blum@linux.dev>
+	s=arc-20240116; t=1746019237; c=relaxed/simple;
+	bh=79XUsZ/BIwKk5GC3r6tDR3/gZAMPX9a2Nwp8/vj5tHs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j3q4Z1TXvO9t2rIVKomwX+DBh1gaoYH59L8jYWu3nbqHmuOJKsJqNIczSHFThVlQaHR2CmeXM3i856B+RrwdolxfSSccQNQx1u9imxAWV0JTZ/n10MMhoLJbz0H/sokAOD5ignM78+IBdb5o02cJvt89IzdBWTDk6Uq4zvVIM6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
+	by localhost (Postfix) with ESMTP id 4Zncb14Cgcz9sCk;
+	Wed, 30 Apr 2025 14:54:37 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Jv9ioGE5cEZR; Wed, 30 Apr 2025 14:54:37 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 4Zncb13TLtz9sB2;
+	Wed, 30 Apr 2025 14:54:37 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 6CB2C8B765;
+	Wed, 30 Apr 2025 14:54:37 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id x3PWoPD_y1-d; Wed, 30 Apr 2025 14:54:37 +0200 (CEST)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id C33508B763;
+	Wed, 30 Apr 2025 14:54:36 +0200 (CEST)
+Message-ID: <1ada639a-8dc0-4553-899f-265e6bc5e44f@csgroup.eu>
+Date: Wed, 30 Apr 2025 14:54:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250429071032.65391-2-thorsten.blum@linux.dev>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: fsl: fsl_qmc_audio: Reset audio data pointers on
+ TRIGGER_START event
+To: Mark Brown <broonie@kernel.org>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Herve Codina <herve.codina@bootlin.com>,
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org
+References: <20250410091643.535627-1-herve.codina@bootlin.com>
+ <174429282080.80887.6648935549042489213.b4-ty@kernel.org>
+ <4b42c00a-0ef5-4121-9e40-9214bf9a1197@csgroup.eu>
+ <aBFtesqln2Xeab-d@finisterre.sirena.org.uk>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <aBFtesqln2Xeab-d@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 29, 2025 at 09:10:13AM +0200, Thorsten Blum wrote:
-> Use min() to simplify aw_dev_dsp_update_container() and improve its
-> readability.
+
+
+Le 30/04/2025 à 02:23, Mark Brown a écrit :
+> On Mon, Apr 28, 2025 at 11:20:42AM +0200, Christophe Leroy wrote:
+>> Le 10/04/2025 à 15:47, Mark Brown a écrit :
 > 
-> No functional changes intended.
-
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
--- 
-With Best Regards,
-Andy Shevchenko
+>> Would it be possible to get this patch into one of the v6.15 rc as it is a
+>> bug fix ?
+> 
+> It appears to be queued as a fix, could you be more specific please?
+> 
 
 
+Maybe I misunderstood. You said applied to ... for-next, so I thought it 
+was for v6.16.
+If it goes into one of v6.15rc as a fix it is fine for me.
+
+Thanks
+Christophe
