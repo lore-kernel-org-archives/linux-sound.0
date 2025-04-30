@@ -1,73 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827352DC78E;
-	Wed, 30 Apr 2025 07:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36750184E;
+	Wed, 30 Apr 2025 07:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745998486; cv=none; b=uMKZOnl8brLoqvun4pQzS+joTemTN4LdT0vU3aef1TrH3LH6pBkmcVrczsV8rg55Ov0wTAk+01SZ9hksiUktIKoo790UewxZTNqWJLVPyS+EGGJ0G1b5gAJUIT+wDuenEdYwN7EAIUlYCpgkYE3K3OLL6l1jAZL94peX89RqeVE=
+	t=1745999250; cv=none; b=Hl4sqzwMFUauO3cbTVXX7s88S4O4hHmFM8SCUeH+HdLphETZHhqXNMrLMpLZHkstMXMlFd9eA+jxnsrkEi5Sq4Odpv2bslLY8rt0tNfVB21FtEHlLtWiAxxjOH4n0uj6CTCFAASDtxsPqgbq9v2eYSGbPrbTaWpm4y0KT44qPz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745998486; c=relaxed/simple;
-	bh=xuu2ccVFX5K1wKFwUc/YuoUfgvrmjbfO+/eyQt6lOqA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=glruE95o/DHH2ovE7+rApJ5/lxL45Vc+HncHObafGCPx9qsg+TEQlWU+624UDt3es/NW4L/dMi24FtYCmp93Bk748z2FU/FIDo9LfNHAmNpEdBLaP6oPqMSm/dzsN2ZZ25Y+7KynuyhWEckBogbNW++k7GnSKiNFJwk5N3SjS8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jRdAqIW7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745999250; c=relaxed/simple;
+	bh=m8QqWpP5vTekHDqvE3M+D2l43nKw9si3U2iUU2Tpz84=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B6paHzpjzpe/qSChvdxL5fMALU/PQ3So0iJ/JvEK6fmJ7uo8dNtadEBK3zuWilPu0UdKGO8gtBi5jwszusERyhW+pBrvUzJO8kmsAg6NZQAz1SHj/ltYDcHRmKKUWYIeooM1t0IiRTs9xv8SRoHja2BYG4KCcFUORIhVEGSDJxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jPwAOW7o; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jRdAqIW7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77F70C4CEEA;
-	Wed, 30 Apr 2025 07:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745998486;
-	bh=xuu2ccVFX5K1wKFwUc/YuoUfgvrmjbfO+/eyQt6lOqA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jRdAqIW750dK5t1iPLMKDpw5qw761V/SZDWMd7ChslMnaS0dLReHO0aOehYnY+VTi
-	 9KzAfc+9turL4JtyhW0w6K7Ua4Tcp7w8PZij7+I2QXlIhymYKs41CDTVUhUXTOSmzV
-	 EHOdybHQgYOMSyQl7o3Tlhv8BcNB3SiTGgmKCWtHZ8pOIZ//9hk3V/qb3dKVfmgvWV
-	 GM+Gh50u/0NLr62CfpPToKxteHvS2ZNtMLAiWT7sLt8RYJOaWV1xmfWiFQQwwxzrQn
-	 Kl09wxToFHdy4MiEiA0j/IKl3Em8orfcbqi4d5d8Zea455MU4AMcTMtcKKvSAhgxvk
-	 BrzFwK22e4YRQ==
-Date: Wed, 30 Apr 2025 09:34:43 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: "Sheetal ." <sheetal@nvidia.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, 
-	spujar@nvidia.com, mkumard@nvidia.com
-Subject: Re: [PATCH v2 02/11] dt-bindings: ASoC: Document Tegra264 APE support
-Message-ID: <20250430-ancient-radiant-sheep-0e4738@kuoka>
-References: <20250429055941.901511-1-sheetal@nvidia.com>
- <20250429055941.901511-3-sheetal@nvidia.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jPwAOW7o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745999249; x=1777535249;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=m8QqWpP5vTekHDqvE3M+D2l43nKw9si3U2iUU2Tpz84=;
+  b=jPwAOW7oKPnA/Jrto+5if7wmU54RCEKOY/QDSsmT06vey7K12rw8eezY
+   aegkilD0Mly3xBW3fqYRPVfhSkHWC7ufI6HWWzf8HgX7DOFeWCxyDUEpU
+   X7t2upMu9Z7oJIEsMmL7UZ8Zc60ESK/blR8Zr/VAJGyzIzoJpnQt1ck7S
+   zGFc9HY5+s6uJnunWfdWFEk28ToOzqVawQAviiWcJvuVkG+AxCIzKG11g
+   yaiZ49ardjHoZ++S7R0zRmNdbuZXSlNfsYXnlvC8jU1hKEG8OOOTrxQ5D
+   6AVD2XKU6jDrzBpKWELrb9jM0sfti6BhwqjmaOWTY/eJzVkPGScukVkVD
+   A==;
+X-CSE-ConnectionGUID: WkLxnzjTRvqcUgZsOe+Qpg==
+X-CSE-MsgGUID: XY0j4OkYThCsfZOS22lUyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="50304190"
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="50304190"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 00:47:27 -0700
+X-CSE-ConnectionGUID: bse2DIHaRA6Blj9S9TIvwA==
+X-CSE-MsgGUID: ycyAW+8iT5uMxP+r7tpZoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="133994204"
+Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.233])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 00:47:24 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com
+Subject: [PATCH 0/2] SoundWire/ASoC: Intel: Add suppoirt for printing ACE3+ PVCCS (mic privacy) register in register dump
+Date: Wed, 30 Apr 2025 15:47:12 +0800
+Message-ID: <20250430074714.94000-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250429055941.901511-3-sheetal@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 29, 2025 at 05:59:32AM GMT, Sheetal . wrote:
-> From: Sheetal <sheetal@nvidia.com>
-> 
-> Add Tegra264 compatible strings to APE subsystem device bindings:
-> - audio-graph-card: Due to different PLL clock rate.
-> - admaif: Due to 32 channels supported and register offset changes.
-> - i2s: Due to 32 channels supported and register offset changes.
-> - amx/adx: Due to 32 channels supported and register offset changes.
-> - asrc: Due to different ARAM address.
-> - ahub: Due to AHUB IPs number of instances updates.
-> - for future proofing the T264 compatibility is added for other device
->   nodes.
-> 
-> These bindings enable the enhanced audio features of Tegra264
-> while maintaining compatibility with existing platforms.
-> 
-> Signed-off-by: Sheetal <sheetal@nvidia.com>
+This series print the PVCCS register alongside with the other SHIM
+registers in soundwire link register dump when ACE3 or newer is in use.
+The change is mainly on the SoundWire tree. It would be better to go
+through the SoundWire tree with Mark's Acked-by tag.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Peter Ujfalusi (2):
+  soundwire: intel: Add awareness of ACE3+ microphone privacy
+  ASoC: SOF: Intel: hda: Set the mic_privacy flag for soundwire with
+    ACE3+
 
-Best regards,
-Krzysztof
+ drivers/soundwire/intel.h               | 2 ++
+ drivers/soundwire/intel_ace2x_debugfs.c | 6 ++++++
+ drivers/soundwire/intel_init.c          | 1 +
+ include/linux/soundwire/sdw_intel.h     | 5 +++++
+ sound/soc/sof/intel/hda.c               | 3 +++
+ 5 files changed, 17 insertions(+)
+
+-- 
+2.43.0
 
