@@ -1,131 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F895383;
-	Wed, 30 Apr 2025 00:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672AB2AF19
+	for <linux-sound@vger.kernel.org>; Wed, 30 Apr 2025 05:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745974791; cv=none; b=hY5ycvYgehizfL9DpkmKbp+9HDST4LZGwZDlfBPaWjO5y+H/sQqfwVxIgHDVB+rK581QNYgPFsRb9EWbaweQQL+Vi81WThbkfM2VjYdYeUn7vOg05sU5Sn0v/Hns/lSH7AgINm9wzWHINI1y+3jVCiknnhgb2+ccNHLd0tR6RAY=
+	t=1745991137; cv=none; b=tWXb0GWXnWTqdZtsvzue8J/CbGabWF0GopbeGeUSMva5DnR830/y61J2WT3b4V1xBObJIWL5kmlxetjKN54jky2mLl4wKPs3g8NmnfW8wtrfMrYartMpkeJeiR1+G8A3hoa7jhY3vLUw+q+Ji2Z9KTDLW6Mlk5khZJ4nRz6fJVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745974791; c=relaxed/simple;
-	bh=WhUB3VaFezDmHRqv2eDG+gPvY+Gb2z2eJ972ck0h/xY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BcQlU+aObHs2iwsAaGq4Bau3ynX68oTo01yRoUZHxL/bmuBrpTaBhjKhYvWL9BuFcxI9GoUXgS1O7/BrsVzg/oku+UbUHsFmSfawCk5FR0xDdDgIzb6xFoyATtxB6UNaQAiJOMKJ+NvZjmpip28rojX4JUNK+BoZao5X7azzuAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jQpsrssK; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1745991137; c=relaxed/simple;
+	bh=TU9jyx8PQWA8jN49oDnjb8+iPYNvxVh9sUVt6dfNx14=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=ljSTe8SoGGqB/g9a00YXQeLwMDEBVmrARYM038kh47DqhTebsLiKNJgsUm1PsIRY0vXH+IoOWrCeZfbuboWkHtRctb1YxPt81fYx9OSMNr9CNSgMAxgII6m4tn2QNxKI8R2mth513iiNtsVmv91czFYbO2y2E72JjWygXY5Kx20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CllTPqNp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tp2G+/T9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Phxyl89l; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L2K42Wrk; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jQpsrssK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745974790; x=1777510790;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=WhUB3VaFezDmHRqv2eDG+gPvY+Gb2z2eJ972ck0h/xY=;
-  b=jQpsrssKdCcQRbXmhLvpM5dDEll0LHp9WVwNbuK1aJNC+HGIY3hPOmOf
-   JohwZ+oVcyDoV0ZrEHWmd2WuK/P4keprqW5aPkvNTTcURgBv0B0dq72jM
-   Yz+O+2HqZOYINVRgdvH0FOk34wzWB+rjX3M1EfjfEGbdfQAmNqq0UdTNN
-   tumVrAe/mR530RsMZ+ZbErpxBl2SF0XB2W6LxRTJdqod8vqI5o3FB4ieP
-   wJzj2w9461whG7iIyKXJFLXzd2a0wYYUO2RRH6c73oOe0RWuLMv3Vk/CK
-   jFDTw6ENK6ZdJx9QTsNOIT8COD3cqnlqw20K8GOvieIMwFFAlNtgDB5Cm
-   w==;
-X-CSE-ConnectionGUID: yHk24WglSs21P4+7sBTa4g==
-X-CSE-MsgGUID: Ls9TDTMfRnCCzxN8c4M2GA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="50278527"
-X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="50278527"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 17:59:49 -0700
-X-CSE-ConnectionGUID: 7KPA1S2zSQWO0ACI85ZHlQ==
-X-CSE-MsgGUID: GOuRf77DS/CBJpncNm4nwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="133918074"
-Received: from yungchua-mobl2.ccr.corp.intel.com (HELO [10.246.104.98]) ([10.246.104.98])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 17:59:45 -0700
-Message-ID: <d4cafb3f-2045-40c1-a8fd-58dd46485232@linux.intel.com>
-Date: Wed, 30 Apr 2025 08:59:27 +0800
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CllTPqNp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tp2G+/T9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Phxyl89l";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L2K42Wrk"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6CBBE1FB40;
+	Wed, 30 Apr 2025 05:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745991133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=s6H3xVmAYaVTVmwJDX6RzufzPtayiDxDddMLnUCQ9+o=;
+	b=CllTPqNpfN1z6s5qsWmSA/35D90oCcx+MOuO+jTGuuXqqoGgWFKKBCKEpU+8ynIsZW9F0T
+	2kJjMyVcc49g6xzaswrNSJV/531+3WttmRWXnibLE/Mq/ZRVgrIxMPM4tq6gMueB5MTAVy
+	cfFVEGm4yK24qv2tLtA8fOhfaVNRzkU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745991133;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=s6H3xVmAYaVTVmwJDX6RzufzPtayiDxDddMLnUCQ9+o=;
+	b=Tp2G+/T9kA8J1DqT9eitWxnuRxHcVBpKwX/qCDk8G0HdNalMlR/pldXBVElDZwVPQTbrJH
+	WRBjuApAGWQygXAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1745991132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=s6H3xVmAYaVTVmwJDX6RzufzPtayiDxDddMLnUCQ9+o=;
+	b=Phxyl89lG3WCPeY51t8fGOg8dmEMQbeMr/Xp+apuYpwgZ1WW/M10ZiTbzEXuqs/M9VWjlM
+	fFSNWszD0HTWSlZUYtYN/BpO3Mqt9POMU9KDFhtmnCZUsTXDFhssYfDIVgPWly/hASVNFM
+	oGiJayZ8ooj0s57BrfSStkLrUDqq4Cw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1745991132;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=s6H3xVmAYaVTVmwJDX6RzufzPtayiDxDddMLnUCQ9+o=;
+	b=L2K42Wrk7NS1u2TBTN8VpdOnT9MuRxwgd3Gi1FhT1wNZLQFdTJD936kUcCsKVIz/2kJo3u
+	GntpXRej2HzZlcDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5295C13A25;
+	Wed, 30 Apr 2025 05:32:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id reDYEty1EWj4WgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 30 Apr 2025 05:32:12 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Fix built-mic regression on other ASUS models
+Date: Wed, 30 Apr 2025 07:31:41 +0200
+Message-ID: <20250430053210.31776-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] soundwire: intel_auxdevice: Fix system suspend/resume
- handling
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>, Vinod Koul <vkoul@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: LKML <linux-kernel@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
- Sanyog Kale <sanyog.r.kale@intel.com>, linux-sound@vger.kernel.org
-References: <12680420.O9o76ZdvQC@rjwysocki.net>
-Content-Language: en-US
-From: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
-In-Reply-To: <12680420.O9o76ZdvQC@rjwysocki.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.990];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
+A few ASUS models use the ALC256_FIXUP_ASUS_HEADSET_MODE although they
+have no built-in mic pin on NID 0x13, as found in the commit
+c1732ede5e80 ("ALSA: hda/realtek - Fix headset and mic on several Asus
+laptops with ALC256").  This was relatively harmless in the past as
+NID 0x13 was assigned as the secondary mic.  But since the fix for the
+pin sort order, this pin became the primary one, hence user started
+noticing the broken input, and we've fixed already for a few ASUS
+models to switch to ALC256_FIXUP_ASUS_MIC_NO_PRESENCE.
 
+This patch corrects the other ASUS models to use the right quirk entry
+for fixing the built-in mic regression.  Here we cover X541SA
+(1043:12e0), X541UV (1043:12f0), Z550SA (1043:13bf0) and X555UB
+(1043:1ccd).
 
-On 4/29/2025 3:50 AM, Rafael J. Wysocki wrote:
-> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> 
-> Before commit bca84a7b93fd ("PM: sleep: Use DPM_FLAG_SMART_SUSPEND
-> conditionally") the runtime PM status of the device in intel_resume()
-> had always been RPM_ACTIVE because setting DPM_FLAG_SMART_SUSPEND had
-> caused the core to call pm_runtime_set_active() for that device during
-> the "noirq" resume phase.  For this reason, the pm_runtime_suspended()
-> check in intel_resume() had never triggered and the code depending on
-> it had never run.  That had not caused any observable functional issues
-> to appear, so effectively the code in question had never been needed.
-> 
-> After commit bca84a7b93fd the core does not call pm_runtime_set_active()
-> for all devices with DPM_FLAG_SMART_SUSPEND set any more and the code
-> depending on the pm_runtime_suspended() check in intel_resume() runs if
-> the device is runtime-suspended prior to a system-wide suspend
-> transition.  Unfortunately, when it runs, it breaks things due to the
-> attempt to runtime-resume bus->dev which most likely is not ready for a
-> runtime resume at that point.
-> 
-> It also does other more-or-less questionable things.  Namely, it
-> calls pm_runtime_idle() for a device with a nonzero runtime PM usage
-> counter which has no effect (all devices have nonzero runtime PM
-> usage counters during system-wide suspend and resume).  It also calls
-> pm_runtime_mark_last_busy() for the device even though devices cannot
-> runtime-suspend during system-wide suspend and resume (because their
-> runtime PM usage counters are nonzero) and an analogous call is made
-> in the same function later.  Moreover, it sets the runtime PM status
-> of the device to RPM_ACTIVE before activating it.
-> 
-> For the reasons listed above, remove that code altogether.
-> 
-> On top of that, add a pm_runtime_disable() call to intel_suspend() to
-> prevent the device from being runtime-resumed at any point after
-> intel_suspend() has started to manipulate it because the changes
-> made by that function would be undone by a runtime-suspend of the
-> device.
-> 
-> Next, once runtime PM has been disabled, the runtime PM status of the
-> device cannot change, so pm_runtime_status_suspended() can be used
-> instead of pm_runtime_suspended() in intel_suspend().
-> 
-> Finally, make intel_resume() call pm_runtime_set_active() at the end to
-> set the runtime PM status of the device to "active" because it has just
-> been activated and re-enable runtime PM for it after that.
-> 
-> Additionally, drop the setting of DPM_FLAG_SMART_SUSPEND from the
-> driver because it has no effect on devices handled by it.
-> 
-> Fixes: bca84a7b93fd ("PM: sleep: Use DPM_FLAG_SMART_SUSPEND conditionally")
-> Reported-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Tested-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ---
-> 
-> v1 -> v2: New changelog
-> 
-> Since it fixes a recent regression in 6.15-rc, I can route it through the
-> PM tree unless that would be a major concern.
-> 
+Fixes: 3b4309546b48 ("ALSA: hda: Fix headset detection failure due to unstable sort")
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220058
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/pci/hda/patch_realtek.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- Acked-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 1799203af35a..7810d5f9b5aa 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10910,10 +10910,10 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x12a3, "Asus N7691ZM", ALC269_FIXUP_ASUS_N7601ZM),
+ 	SND_PCI_QUIRK(0x1043, 0x12af, "ASUS UX582ZS", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x12b4, "ASUS B3405CCA / P3405CCA", ALC294_FIXUP_ASUS_CS35L41_SPI_2),
+-	SND_PCI_QUIRK(0x1043, 0x12e0, "ASUS X541SA", ALC256_FIXUP_ASUS_MIC),
+-	SND_PCI_QUIRK(0x1043, 0x12f0, "ASUS X541UV", ALC256_FIXUP_ASUS_MIC),
++	SND_PCI_QUIRK(0x1043, 0x12e0, "ASUS X541SA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1043, 0x12f0, "ASUS X541UV", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1313, "Asus K42JZ", ALC269VB_FIXUP_ASUS_MIC_NO_PRESENCE),
+-	SND_PCI_QUIRK(0x1043, 0x13b0, "ASUS Z550SA", ALC256_FIXUP_ASUS_MIC),
++	SND_PCI_QUIRK(0x1043, 0x13b0, "ASUS Z550SA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1427, "Asus Zenbook UX31E", ALC269VB_FIXUP_ASUS_ZENBOOK),
+ 	SND_PCI_QUIRK(0x1043, 0x1433, "ASUS GX650PY/PZ/PV/PU/PYV/PZV/PIV/PVV", ALC285_FIXUP_ASUS_I2C_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1460, "Asus VivoBook 15", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+@@ -10967,7 +10967,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1c92, "ASUS ROG Strix G15", ALC285_FIXUP_ASUS_G533Z_PINS),
+ 	SND_PCI_QUIRK(0x1043, 0x1c9f, "ASUS G614JU/JV/JI", ALC285_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1caf, "ASUS G634JY/JZ/JI/JG", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
+-	SND_PCI_QUIRK(0x1043, 0x1ccd, "ASUS X555UB", ALC256_FIXUP_ASUS_MIC),
++	SND_PCI_QUIRK(0x1043, 0x1ccd, "ASUS X555UB", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1ccf, "ASUS G814JU/JV/JI", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1cdf, "ASUS G814JY/JZ/JG", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1cef, "ASUS G834JY/JZ/JI/JG", ALC285_FIXUP_ASUS_HEADSET_MIC),
+-- 
+2.49.0
+
