@@ -1,139 +1,72 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A580A1DE891
-	for <linux-sound@vger.kernel.org>; Wed, 30 Apr 2025 05:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D72B19F135;
+	Wed, 30 Apr 2025 07:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745991333; cv=none; b=lx3d3pvttsk3EXV7UzcLN6IBqQo13IpYYswupOBAmgc3X5edpn2qV9wD2D812mUV3Omnbauezc1gqWODx1KUKkSk97os2YANjoGjgxNYzymuiPJlYgXXU85HtL23XaobAAYimGKq+oCxgbUVjN7gsVNASLsVyw8pzbi6sf2iNTs=
+	t=1745998385; cv=none; b=pQhqng9E3bhcLGiLsKFyVSuyQMIlCeYS6B/Lj/rt+k0d4kxHpHO6g12NSabex/hfzvIQ9kBa0CVDdlPK0CpVUSF6BnhHHLUQfuFfDt1qE9NjGMqv3FFBwxLr8crjVF4yo3e6WDWGz42c6NKBGmF/Kz+hPQXScmfm/5ZCfp0CPVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745991333; c=relaxed/simple;
-	bh=Lbd0j3TltvcKQCfAXAFXm/aNfJ9/63SoeSM0oepWE5I=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hq+7ejzVbsMAYNrcSgwHwUarPSXVpkn1qdlpUA13VetNXdyJK4IKA406+K2OhtXLC18P/Ff1lO2bNv16PsUFJhaNUM35OxEQZQmEvmCakVzJ19AdfNDk7UkE1IaYWKIv8dtaHOa2YkdDlvC4UiF+5BWrR6j77yKNTXQhrSHuQx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZI9qBcOK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FnU6GWiy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZI9qBcOK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FnU6GWiy; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1745998385; c=relaxed/simple;
+	bh=BIxcCkBr/w9SpdPpQMAcTfRBKdWlR9GMj3+4jbM6mzc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O6DVsFiaBw3RC8lzbaXtYrkeieyKS40U+I26almfSV2yYPq4zBYL67tDFqkkeY6kMz/mV2KYgab/+usV4+sm71fSg0KZEuOA/fRZatdyNBT70w+Sy1ch3ugT27NS4YMN7gCuHAJUUCQu16nUUXKQwjWERa6mKNSK3AN/okIiN8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQE1pX6O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZI9qBcOK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FnU6GWiy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZI9qBcOK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FnU6GWiy"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A8ADF1FB52;
-	Wed, 30 Apr 2025 05:35:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745991329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uzoDgnO1GC6lq3IrLVACQBFiuCloD2Mcv8LM70ow68k=;
-	b=ZI9qBcOKkgQbzcz6zEIDYP7qRucekkg/yT9p7uu0jHdclGiSBhF4r/KLTZ9sVfNkEUlXW4
-	kFAmydYp+fXomDJBx26o9IKP122OvNPACFCi7iUr5bmbGmqoZm0dBQdcsmu80AWavLskpA
-	sb8FLty2kzeiAW1cUO8BsewwliQv1Nw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745991329;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uzoDgnO1GC6lq3IrLVACQBFiuCloD2Mcv8LM70ow68k=;
-	b=FnU6GWiyBRpC78YK60FDl+AbFvkjvJnwnhz8MNwREfIqaJcdperb0OYwHrpIkNvH80bfXL
-	gdCbRrA+iDr/wGAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZI9qBcOK;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FnU6GWiy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1745991329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uzoDgnO1GC6lq3IrLVACQBFiuCloD2Mcv8LM70ow68k=;
-	b=ZI9qBcOKkgQbzcz6zEIDYP7qRucekkg/yT9p7uu0jHdclGiSBhF4r/KLTZ9sVfNkEUlXW4
-	kFAmydYp+fXomDJBx26o9IKP122OvNPACFCi7iUr5bmbGmqoZm0dBQdcsmu80AWavLskpA
-	sb8FLty2kzeiAW1cUO8BsewwliQv1Nw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1745991329;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uzoDgnO1GC6lq3IrLVACQBFiuCloD2Mcv8LM70ow68k=;
-	b=FnU6GWiyBRpC78YK60FDl+AbFvkjvJnwnhz8MNwREfIqaJcdperb0OYwHrpIkNvH80bfXL
-	gdCbRrA+iDr/wGAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7F1731384C;
-	Wed, 30 Apr 2025 05:35:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7SHVHaG2EWjJWwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 30 Apr 2025 05:35:29 +0000
-Date: Wed, 30 Apr 2025 07:35:29 +0200
-Message-ID: <878qnidxem.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ALSA: hda/cs35l56: Remove dependency on COMPILE_TEST
-In-Reply-To: <20250428094126.125781-1-rf@opensource.cirrus.com>
-References: <20250428094126.125781-1-rf@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQE1pX6O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CCEEC4CEEA;
+	Wed, 30 Apr 2025 07:33:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745998384;
+	bh=BIxcCkBr/w9SpdPpQMAcTfRBKdWlR9GMj3+4jbM6mzc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dQE1pX6OMos8PlR797QTilHml6D3iEOcYyN8PKU7vxCOAxQ5Zp067rA4QSPmRhoqY
+	 YET3CgS+kB0Lu9GSAT5eEKdSp8xVp9u9rHYB/Xu1uMlixTo4YbC7fgpsvJwsELZr9U
+	 UAU5xoI0lC9YiS+fiXhpDIrXMPsuQ6lorWJvpdhkehbwvy2W/qneMViM7mjhDhgGOC
+	 bHRSTvU0oKTsPbyTRXME1aq7H9c67774TXq/wajb21e6VA/v6cFIxZprO9xeP0nMff
+	 NuAlP/OKAHkbgh8p1V7Ypb/etXRQUNQ/jYndeHqKck0j/LzzSDiPlapD8Eyi2+hQxr
+	 e7f2yKBXQFIUg==
+Date: Wed, 30 Apr 2025 09:33:01 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: "Sheetal ." <sheetal@nvidia.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, 
+	spujar@nvidia.com, mkumard@nvidia.com
+Subject: Re: [PATCH v2 01/11] dt-bindings: ASoC: admaif: Add missing
+ properties
+Message-ID: <20250430-little-dragon-of-drama-ce5dce@kuoka>
+References: <20250429055941.901511-1-sheetal@nvidia.com>
+ <20250429055941.901511-2-sheetal@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: A8ADF1FB52
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250429055941.901511-2-sheetal@nvidia.com>
 
-On Mon, 28 Apr 2025 11:41:26 +0200,
-Richard Fitzgerald wrote:
+On Tue, Apr 29, 2025 at 05:59:31AM GMT, Sheetal . wrote:
+> From: Sheetal <sheetal@nvidia.com>
 > 
-> Change the Kconfig dependency on ACPI || COMPILE_TEST to only depend on
-> ACPI.
+> Add interconnect and iommus properties in admaif yaml.
 > 
-> The alternate dependency on COMPILE_TEST was a fudge to enable building
-> KUnit tests for modules that are selected by the CS35L56 driver but don't
-> depend on ACPI. This was based on a misunderstanding that KUNIT_ALL_TESTS
-> meant "all tests". Actually KUNIT_ALL_TESTS only means "tests for modules
-> that have satisfied dependencies" so it shouldn't be overriding
-> dependencies.
-> 
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> This fixes dtbs_check error:
+>  'interconnect-names', 'interconnects', 'iommus' do not match
+>  any of the regexes: 'pinctrl-[0-9]+'
 
-Applied now.  Thanks.
+Don't wrap error message, unless it is very long.
 
+Would be nice to say whether these are valid for hardware or at least
+with boards/SoCs have them.
 
-Takashi
+Otherwise, considering that I cannot reproduce above issue (and the
+firsr random DTS I looked at does not have these properties), I have
+doubts this is a correct approach.
+
+Best regards,
+Krzysztof
+
