@@ -1,87 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8F02C1791;
-	Wed, 30 Apr 2025 20:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C9D22C356;
+	Wed, 30 Apr 2025 22:51:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746046707; cv=none; b=nA8LGFxJhoqDsW1h64BWDGI1rUMG8HzgGuzkx5NmNXviTzVxDrIxOoxLwTUUxgWFQHFJ2BGS/eSypot8KUy/UFJeEcGFTJGlKJA7t83WVssONZtMoUe3fAOVVq4IiWVVDq2x07sTTlAn2fSuPFZVRm98VWqhbnciNEP5AHONoOA=
+	t=1746053515; cv=none; b=uYLeyBNz+KHMAR2lCVb1zrMS/w0XoS3743u00uFR1oCawnm2fhRiSZ0d+fjnd7SqDRbpdkwHdS8IzkW4Q0ufjzb9W1BdYeycCWfhbjYkYcd1e8QZN7dw2QG12NUviyLf77Bx9G3y18nu/GVd5Z+ngUnj3iAfQymx1IOnobCM8aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746046707; c=relaxed/simple;
-	bh=+oZt3lo7Y2F6/fZVFJ0PrjPqbuylBLTW66xN7SmrGFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CNWe0aH+Lgd3tnk7b9fg3+1hwrHboppucVZAcM0YgIc1gmW7nAzG5qsf7pXENORvPTNN4Ex8GJNRJhdHIAqTCmJxCRh/xLdWFGmeuw7MruzklDHnfqQdJNeqM/cNp8y/Bk6rbpmH+gsOgOok8OhOyM6PXfV7z/z1ZdH0fhbpIgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ETOwS0i8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746053515; c=relaxed/simple;
+	bh=UM9tECXXlOEx4/fE0WtX2yt561V2boOHKx8HttqBlCc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=RIiFfhypfUM7nVBcnB7qzGca7JlAPI7pVkBI5VhDt5XS8f7HIu/be09wqYZ7ZOw4t/MgApG1uhAVNMIi38oqkkFV8LCgbigqb/u0cpDXMT0w29H7yuOErqKzpfnI8ryhGsRv3qMmxioLvu7k6wWpWzT92h8TzOTVhhyKYbuJ/lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNYZkTr0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ETOwS0i8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EE9FC4CEE7;
-	Wed, 30 Apr 2025 20:58:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNYZkTr0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADF2BC4CEE7;
+	Wed, 30 Apr 2025 22:51:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746046707;
-	bh=+oZt3lo7Y2F6/fZVFJ0PrjPqbuylBLTW66xN7SmrGFc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ETOwS0i8SnXHZeagSiIeajZxdgfgHcaeKLtlSL7pWSmnx8u8NyW9R9dZ8ChC0w/HD
-	 BxA4lbaTfykvkmik5fPkjLF/muXrVzjntK9WEZd2sD6DV3MsY7wOKB1/G/2m/PaHrW
-	 IyoaJ6AlAZMCjXxHNA4sLUd/2CJGrc5up0/EehtG2u75T1itL6Zwxnao8AZzZT+e1Z
-	 SRbVTsLdaarXOXyImDN/sDlg1DQO0ic9FaNW4eBv/E6KDio+tsq4ly13W0lxQu5YvU
-	 fXhv/r+2pET+xq3G9IT6q8FN8SdoOXtv01TmiXlSiY1oYfeF9g/UibP8GzD++GyehW
-	 wrmLRfL6+UMKg==
-Date: Wed, 30 Apr 2025 13:58:24 -0700
-From: Kees Cook <kees@kernel.org>
-To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
+	s=k20201202; t=1746053514;
+	bh=UM9tECXXlOEx4/fE0WtX2yt561V2boOHKx8HttqBlCc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=KNYZkTr0f91ihxdkqoegutPC90oJb6FeUpD/RdqJUDbm3ysW8viEhw/bfWsizcKcv
+	 /7GHmx7fpPEaMFhV86ASoBW2BL0ed+qkgbKd06N1gXP7ZZowsYcGy9ZH5TFGwxsyu/
+	 8bcTI7xff6WpkehU2+8rd0GIlzhFsvTB/Th1Lu8ckIHxAyvdCvqMiS2j1db3btHXmb
+	 NSJjGceiGLEa2BckBQB1XntoDcBLviz1O7oY0pltlLwMEEv7cXez/J6UQ+nZvAzl58
+	 Pan+lbQ5Uyd1bLFqoNFzQvJgmGYaBIMYJHiz97dRsBcV+t47dhPlmvUjzTby6q+GVe
+	 3kK+s80YrVWrA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Kees Cook <kees@kernel.org>
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+In-Reply-To: <20250426062511.work.859-kees@kernel.org>
+References: <20250426062511.work.859-kees@kernel.org>
 Subject: Re: [PATCH] ASoC: SOF: ipc4-pcm: Adjust pipeline_list->pipelines
  allocation type
-Message-ID: <202504301357.0B1DB9FD@keescook>
-References: <20250426062511.work.859-kees@kernel.org>
- <a154e7eb-2708-411d-a494-868abe7052b7@linux.intel.com>
+Message-Id: <174605351049.3987837.5254876941350949279.b4-ty@kernel.org>
+Date: Thu, 01 May 2025 07:51:50 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a154e7eb-2708-411d-a494-868abe7052b7@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-On Mon, Apr 28, 2025 at 03:38:30PM +0300, Péter Ujfalusi wrote:
+On Fri, 25 Apr 2025 23:25:12 -0700, Kees Cook wrote:
+> In preparation for making the kmalloc family of allocators type aware,
+> we need to make sure that the returned type from the allocation matches
+> the type of the variable being assigned. (Before, the allocator would
+> always return "void *", which can be implicitly cast to any pointer type.)
 > 
+> The assigned type is "struct snd_sof_pipeline **", but the returned type
+> will be "struct snd_sof_widget **". These are the same size allocation
+> (pointer size) but the types don't match. Adjust the allocation type to
+> match the assignment.
 > 
-> On 26/04/2025 09:25, Kees Cook wrote:
-> > In preparation for making the kmalloc family of allocators type aware,
-> > we need to make sure that the returned type from the allocation matches
-> > the type of the variable being assigned. (Before, the allocator would
-> > always return "void *", which can be implicitly cast to any pointer type.)
-> > 
-> > The assigned type is "struct snd_sof_pipeline **", but the returned type
-> > will be "struct snd_sof_widget **". These are the same size allocation
-> > (pointer size) but the types don't match. Adjust the allocation type to
-> > match the assignment.
-> 
-> It looks like that this is indeed an oversight and a bug introduced by a
-> mostly mechanical change (introduced in v6.3).
-> 
-> Can you add:
-> Fixes: 9c04363d222b ("ASoC: SOF: Introduce struct snd_sof_pipeline")
-> 
-> and:
-> Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> [...]
 
-Thanks! I can carry the patch if you'd like? I assumed this would go
-through regular maintainers.
+Applied to
 
--Kees
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
--- 
-Kees Cook
+Thanks!
+
+[1/1] ASoC: SOF: ipc4-pcm: Adjust pipeline_list->pipelines allocation type
+      commit: 00a371adbbfb46db561db85a9d7b53b2363880a1
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
