@@ -1,67 +1,72 @@
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2077.outbound.protection.outlook.com [40.107.92.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945FC248F5B;
-	Wed, 30 Apr 2025 16:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746032136; cv=none; b=MsPw6LHCZ15Szw9t+JVJGjZjtbFMw1ZsBi5rHIAs5QMvO70LizuEha0TAJwweg5NRRu87AJGYCURWHUaRx2REXCnGVpsFqosGNfEwcHjwgwCNEEprZ+6CulcxW9/UbNvl2am8lbT4q2FFts0pdqONoIyEKzxRgwuDwnCRMFS1Ug=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746032136; c=relaxed/simple;
-	bh=rsgOWhO2pu5zyjIx/PgkLniM/48Uoogtx/sgdnziwVE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DJTxI4LU75+HDMhT9flBljDrBStdl6j67GpXYoGECLvuh9oS7/Hqt3h9TPaxrcmta6kITMNfRaU6fGKzcKbmhmsxu+5TWcmQ52hniH28zXCM/WggEYNUt0HIPJY+zyKKqA4xNX6p+5LXm7yXuImotLd7wsEplLwMGz7XcOc1y0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=4zoqto9U; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958AB2797BA;
+	Wed, 30 Apr 2025 19:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.77
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746042950; cv=fail; b=CvoPc6W0QYr905ssbh6b+/VBjnakFxImIIeNmeDRde3Q/M273ZNh2tNfSMtcaDW5rrAoUzATaGi4OjW5IRQOd2LBVQSHuau+Z8VPaRCeqHB5m0YPfg9+zMjZO9iWEWm/mdjb6fu69Aq8JBg95UKts8ZhCdGEwjZtShQeYWNLOVM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746042950; c=relaxed/simple;
+	bh=MPw8SdR8S6AutihhOgWvUlWu/ls0ZQpOa+wvciy1yRY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nosZo37RAlYZR0E+7hlmSk2rQ7s83fgfSTBNh9lb0FEMduywoV5/LLrKkMPlyC3PREJ75TfBJET8gFQk7CBJNODbMhYs+xQos1ZTlDbaaiLT3BWHHKWC2N2XQRSpsv7oXvZj8Sh6WStzLswESJ393TMwTGbM6EGuuVqBnwh9zSE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ezpy2rH4; arc=fail smtp.client-ip=40.107.92.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="4zoqto9U"
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53UCgokD017061;
-	Wed, 30 Apr 2025 18:55:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	vpyb+c9mE+Q+2Mh2tz1ExittWKkMDszFfcq8RuscDGI=; b=4zoqto9UJncUOg75
-	9z2dpfdzXwjTwUtgbx5g+D/oHwmZR+OoCcV7CvNGUAtuM4Kz1ZxYf9fDE9r0klZv
-	qoz7orVwMJbwyPBBJWXePQiSOub9SY/8AILGNkN5cAZZaDgNKjQkn1MtMactH1PZ
-	lIUCjIpDukcjdZXzluY3Fgd6n6jNxywtz6UAFvDWZBCsxUXVKl4V6aiVpeM6pR4O
-	5t9WT1SMSWyCMadALu1xveazPI3v2BR7Njr7mtX3UQgt2G/Kr/U9WtUc1BI0P4p3
-	9bODKuCCMAQ3oZ6+I+owWWU/mihkysKCYePfSYGu82xD1H3jHgr0f/YmJZ4IHZxR
-	VpF54g==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46b6tnm8e7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Apr 2025 18:55:14 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A812A4004A;
-	Wed, 30 Apr 2025 18:54:09 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1992DA47AC0;
-	Wed, 30 Apr 2025 18:53:30 +0200 (CEST)
-Received: from localhost (10.252.20.195) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ezpy2rH4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Fv7DeOeuP3bxVUUr7k+8MX/hgQReOEeNCNtWx3UMzMPGFdwe1P5XRCsuOGDV/2oi+UdbkN1z2iTTxNOri3iJLoJsoaEP3zWnPaZ0xEL6VZ9DU8nvfoMeZhVU39iXsJbTq+XqKiNTij5DiLrhraoSw0zfOB5elBfAPLEsluPEZ9wiqfW4Y+Wk0xzzQ4jx/uS2zEyYTtcfytAJ19uNCpzLZ78q6HtfJC2rDF++aVtQljEuS9EuKbHMXIE7e6CgOdx46pAK1ZSDwdIpiACYlWdJMZDeWZo4LN5yVPcbkWy0JAU8otVGXwI0gfWDI8+R14vjVLJmV+5XJFV0wFLO7mEdNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zwV1G6bFEuOoq2wzJSRUwdpZSwYrR5Hg3k2a1LOfCY0=;
+ b=HzIrwL3GYBNEaXS9cyKeQ/S8hijK5VahAn9ezaSWHJwvR8B+U4S1Kg0/EAQySr0iKSVWs6aHb/WQ9ZF2PjebQCNfD+J7Aj6Y4LvX26JVARpadnT5PMbLaRjkwkbf6ZZYKmgbE2z5KUk2xc+eofBdwWJdsncFNd+rKJ82VUcJIzZ+fw8RAPbMbu7CXW0ZHwqK8ptcgacL+qdKlGj2hZ6AC8EzKgv5Qfq8zQOahX03z9yckFqKzD8TtNoMRVA4Jz7oDm42IY+yzrUJzcGcc8vUH/ze1+3X4DkaDl3U+MW2iaIHoPnz0zOw6d3dOgERlGW/lqr24JBmjj+ErceMzHHcXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zwV1G6bFEuOoq2wzJSRUwdpZSwYrR5Hg3k2a1LOfCY0=;
+ b=Ezpy2rH48zme3gPt7PDN4tMqELCi3X0qDP0ByAPmJAvHX7SekYCMYjWrlwDaWA737VWZeZ5yyeQMVVILZ3n7QP42MjfBzGSjJ1Fh70tFUBOKk78qcUcZWIRTtG3BzC5BUek7Dfh9bNfeV6dfp7mjwYDqTQ2nprjZTfrRbB1BQyo=
+Received: from BN0PR04CA0182.namprd04.prod.outlook.com (2603:10b6:408:e9::7)
+ by DM6PR12MB4369.namprd12.prod.outlook.com (2603:10b6:5:2a1::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Wed, 30 Apr
+ 2025 19:55:42 +0000
+Received: from BN2PEPF0000449F.namprd02.prod.outlook.com
+ (2603:10b6:408:e9:cafe::dd) by BN0PR04CA0182.outlook.office365.com
+ (2603:10b6:408:e9::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.37 via Frontend Transport; Wed,
+ 30 Apr 2025 19:55:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF0000449F.mail.protection.outlook.com (10.167.243.150) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8699.20 via Frontend Transport; Wed, 30 Apr 2025 19:55:42 +0000
+Received: from vijendar-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 30 Apr
- 2025 18:53:29 +0200
-From: Olivier Moysan <olivier.moysan@foss.st.com>
-To: Olivier Moysan <olivier.moysan@foss.st.com>,
-        Arnaud Pouliquen
-	<arnaud.pouliquen@foss.st.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre
- Torgue <alexandre.torgue@foss.st.com>
-CC: <linux-sound@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/2] ASoC: stm32: sai: skip useless iterations on kernel rate loop
-Date: Wed, 30 Apr 2025 18:52:08 +0200
-Message-ID: <20250430165210.321273-2-olivier.moysan@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250430165210.321273-1-olivier.moysan@foss.st.com>
-References: <20250430165210.321273-1-olivier.moysan@foss.st.com>
+ 2025 14:55:38 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <Sunil-kumar.Dommati@amd.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <venkataprasad.potturu@amd.com>,
+	<Mario.Limonciello@amd.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, "open list:SOUND - SOC LAYER / DYNAMIC AUDIO
+ POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] ASoC: amd: ps: fix for irq handler return status
+Date: Thu, 1 May 2025 01:24:43 +0530
+Message-ID: <20250430195517.3065308-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,69 +75,100 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-30_05,2025-04-24_02,2025-02-21_01
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF0000449F:EE_|DM6PR12MB4369:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a396ab0-3c2c-429b-99c5-08dd8820fd31
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|1800799024|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?GdCX7jnqrVeciRZugycF85TFziPtqsczJaSa3LZEdraCEN11/ou/n6nEbOmw?=
+ =?us-ascii?Q?0w4XsIXYOIE2N6ch9CDsbafXXMZ2VhjwKyBQPjL8mcebTbqux8zfkwT52H5I?=
+ =?us-ascii?Q?yetE5ejKQjj+2ziLtwRziMtT5s8WizhcMmjvPTEyGT1Pex8UWrVtRuGjvEZk?=
+ =?us-ascii?Q?znFGFj4CscGqjCj6j42YPvwiphIHKrXEstZ/YfLGGsVdeqtV696iGgrixn2r?=
+ =?us-ascii?Q?mUcQhdc8mMFDB8MsOoUIro65E0Jm9Fgar8eyqh80G2ceZhomA2ndCGQGZGQ7?=
+ =?us-ascii?Q?I030HPqB7i5vP2P62sKk2fXarjE1RkrdRXkwDgZLGDtJWpkGKWVsl5ahoWhW?=
+ =?us-ascii?Q?9UYwhgo4Er/MgvkVKVTlWvK5upRWMl/VrPZlK1n+P2kaqJO/4aQcqXVMFtt/?=
+ =?us-ascii?Q?lqiTNWRzag3P+fnxms8D9Q24svEOie2HfwofsNtAQ75B8BPM8er2iG3AK8Gc?=
+ =?us-ascii?Q?iXiSVcIlltBMgIGDuQIQI3kgStJAIfc4Azny+p2irzrzDlrFk4CTxW2gEi4r?=
+ =?us-ascii?Q?qYNgDP6l8nOpE9mgOzt3yosebAO65Do8BANPV7cvWyqNy3y1GkATygEUpBkk?=
+ =?us-ascii?Q?ryRIOJKD6ASFCHmwirIyCtNK9QVjl75b3kea0n9IhCwnKPMOm6dbH135AJ4d?=
+ =?us-ascii?Q?e4CWnmgDgwUf9puK0QZILQuPZT3lkTV2ZK2Vbz0FiKue6diu934Zkpvk1fiG?=
+ =?us-ascii?Q?fdsyE6r4oXh1wxEu5CluFZvX3wSOrzERPQF5e7deCMWf+UZEYmcqiuTZhX4D?=
+ =?us-ascii?Q?DCmoa/xbjtdwXfkW+gP+cmpSOlfWqUrbBTqEvWitzbBahYkhjYuA7xCLZ4kE?=
+ =?us-ascii?Q?ZFoBBY6t+gCWVOeUXnL6GnMZ1dc+5Au0/CPVGffu8jXfHg20S8XEJ8y7S8ZP?=
+ =?us-ascii?Q?BBGJfY5twPcCONfl616JVcMJNoVOwcg/zj6OX4W7xbwr0PHgM5cWf0lJRK7X?=
+ =?us-ascii?Q?qgu/FdEPldiutMDEXygtmsyIVunqU0osPCWCzBOcqJVHOgVhtpjIVXmp7Pg/?=
+ =?us-ascii?Q?UpfPBAWOkEyS+jDf0q1j56+nCSrv7SehnZjmwOk68Rre49w4qS86egswIFMv?=
+ =?us-ascii?Q?F9m14Vj4b2+oMWwiFxxtXv5alK2Bhxus5gk+VUxVg0mgPNmU3MrnBBxjUA3p?=
+ =?us-ascii?Q?/Xhvk1+im5ZCAOsMIlwWBPFg1TvDk7DxOoEyxuxhp/ihmLe4WSlWeMjptfpK?=
+ =?us-ascii?Q?LlyTft6BcMjVBn1AP1VsEZWzreHGmmIHI6nOxjwg4MIPl3OgxXE5nkG/jxW7?=
+ =?us-ascii?Q?gXE8O8Ih/Kw6/gFHZWpsR4ewtABW+XDq9aOyQRfvBvWZq3aacT57VOoiqkoV?=
+ =?us-ascii?Q?uWOTjUESN8olXVFxZHX3QcfY+d6UHgFrGQjBUAfJGofsP4qXHeH0bOVp31vn?=
+ =?us-ascii?Q?GCcafBObRR4QuHrh2y3vGttBWVac3h1Vm4jjxG4b3Zz4RgGBV6BxWOpnVTS4?=
+ =?us-ascii?Q?n0KhtbFSjZOpcMPNyMysR87yxgzgfmK/xYVgWrdYXznnNl+lKdY/402Ms2F8?=
+ =?us-ascii?Q?w6ndHs7uyqpWfRtHPPM+HsL/ydKjlcLLHwtH?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 19:55:42.4268
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a396ab0-3c2c-429b-99c5-08dd8820fd31
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF0000449F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4369
 
-the frequency of the kernel clock must be greater than or equal to the
-bitclock rate. When searching for a convenient kernel clock rate in
-stm32_sai_set_parent_rate() function, it is useless to continue the loop
-below bitclock rate, as it will result in a invalid kernel clock rate.
-Change the loop output condition.
+If any Soundwire manager interrupt is reported, and wake interrupt
+is not reported, in this scenario irq_flag will be set to zero,
+which results in interrupt handler return status as IRQ_NONE.
 
-Fixes: b1d2e4067dc6 ("ASoC: stm32: sai: add stm32mp25 support")
-Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+Add new irq flag 'wake_irq_flag' check for SoundWire wake interrupt
+handling to fix incorrect irq handling return status.
+
+Fixes: 3898b189079c8 ("ASoC: amd: ps: add soundwire wake interrupt handling")
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
- sound/soc/stm/stm32_sai_sub.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ sound/soc/amd/ps/pci-ps.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/stm/stm32_sai_sub.c b/sound/soc/stm/stm32_sai_sub.c
-index e8c1abf1ae0a..4d018b4bc3f0 100644
---- a/sound/soc/stm/stm32_sai_sub.c
-+++ b/sound/soc/stm/stm32_sai_sub.c
-@@ -409,11 +409,11 @@ static int stm32_sai_set_parent_rate(struct stm32_sai_sub_data *sai,
- 				     unsigned int rate)
- {
- 	struct platform_device *pdev = sai->pdev;
--	unsigned int sai_ck_rate, sai_ck_max_rate, sai_curr_rate, sai_new_rate;
-+	unsigned int sai_ck_rate, sai_ck_max_rate, sai_ck_min_rate, sai_curr_rate, sai_new_rate;
- 	int div, ret;
+diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
+index 8e57f31ef7f7..7936b3173632 100644
+--- a/sound/soc/amd/ps/pci-ps.c
++++ b/sound/soc/amd/ps/pci-ps.c
+@@ -193,6 +193,7 @@ static irqreturn_t acp63_irq_handler(int irq, void *dev_id)
+ 	struct amd_sdw_manager *amd_manager;
+ 	u32 ext_intr_stat, ext_intr_stat1;
+ 	u16 irq_flag = 0;
++	u16 wake_irq_flag = 0;
+ 	u16 sdw_dma_irq_flag = 0;
  
- 	/*
--	 * Set maximum expected kernel clock frequency
-+	 * Set minimum and maximum expected kernel clock frequency
- 	 * - mclk on or spdif:
- 	 *   f_sai_ck = MCKDIV * mclk-fs * fs
- 	 *   Here typical 256 ratio is assumed for mclk-fs
-@@ -423,13 +423,16 @@ static int stm32_sai_set_parent_rate(struct stm32_sai_sub_data *sai,
- 	 *   Set constraint MCKDIV * FRL <= 256, to ensure MCKDIV is in available range
- 	 *   f_sai_ck = sai_ck_max_rate * pow_of_two(FRL) / 256
- 	 */
-+	sai_ck_min_rate = rate * 256;
- 	if (!(rate % SAI_RATE_11K))
- 		sai_ck_max_rate = SAI_MAX_SAMPLE_RATE_11K * 256;
+ 	adata = dev_id;
+@@ -231,7 +232,7 @@ static irqreturn_t acp63_irq_handler(int irq, void *dev_id)
+ 	}
+ 
+ 	if (adata->acp_rev >= ACP70_PCI_REV)
+-		irq_flag = check_and_handle_acp70_sdw_wake_irq(adata);
++		wake_irq_flag = check_and_handle_acp70_sdw_wake_irq(adata);
+ 
+ 	if (ext_intr_stat & BIT(PDM_DMA_STAT)) {
+ 		ps_pdm_data = dev_get_drvdata(&adata->pdm_dev->dev);
+@@ -245,7 +246,7 @@ static irqreturn_t acp63_irq_handler(int irq, void *dev_id)
+ 	if (sdw_dma_irq_flag)
+ 		return IRQ_WAKE_THREAD;
+ 
+-	if (irq_flag)
++	if (irq_flag | wake_irq_flag)
+ 		return IRQ_HANDLED;
  	else
- 		sai_ck_max_rate = SAI_MAX_SAMPLE_RATE_8K * 256;
- 
--	if (!sai->sai_mclk && !STM_SAI_PROTOCOL_IS_SPDIF(sai))
-+	if (!sai->sai_mclk && !STM_SAI_PROTOCOL_IS_SPDIF(sai)) {
-+		sai_ck_min_rate = rate * sai->fs_length;
- 		sai_ck_max_rate /= DIV_ROUND_CLOSEST(256, roundup_pow_of_two(sai->fs_length));
-+	}
- 
- 	/*
- 	 * Request exclusivity, as the clock is shared by SAI sub-blocks and by
-@@ -472,7 +475,7 @@ static int stm32_sai_set_parent_rate(struct stm32_sai_sub_data *sai,
- 		/* Try a lower frequency */
- 		div++;
- 		sai_ck_rate = sai_ck_max_rate / div;
--	} while (sai_ck_rate > rate);
-+	} while (sai_ck_rate >= sai_ck_min_rate);
- 
- 	/* No accurate rate found */
- 	dev_err(&pdev->dev, "Failed to find an accurate rate");
+ 		return IRQ_NONE;
 -- 
-2.25.1
+2.45.2
 
