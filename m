@@ -1,82 +1,132 @@
-Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50A1521CC59;
-	Wed, 30 Apr 2025 13:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6D221ABC6;
+	Wed, 30 Apr 2025 14:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746019237; cv=none; b=bwRopQB5TAfAOUhvgL+3nFC3kU88Uejuk2uLUNwsATuKC8n7a8iFdoFk8h4Gq9+7nr9QTO4IBOHllmqFxI9RLLH8R5FINIdSVnTbKb0CiOBf9WzYMstLZj8N/yCPtYLMDAsQ2cYFx2CaopdBMS0WNapEfZq6M6H+tm8X/S8V3vE=
+	t=1746023063; cv=none; b=d/tdlI+UUdVJfocf0BLIUBgA2K7xgoCR08o87CN/EEwn6vDRWjXhXzKWZPXLFwRPeuetVHlF6VrGeaSStwXfnznoglHTRgOb2OXUV86CfQ2GG3IbnTcjpg/SqwDjSiAaPPKhbRjylBb1hz1EPJzpTk17n5fblzXtFCa6TDDQvx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746019237; c=relaxed/simple;
-	bh=79XUsZ/BIwKk5GC3r6tDR3/gZAMPX9a2Nwp8/vj5tHs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j3q4Z1TXvO9t2rIVKomwX+DBh1gaoYH59L8jYWu3nbqHmuOJKsJqNIczSHFThVlQaHR2CmeXM3i856B+RrwdolxfSSccQNQx1u9imxAWV0JTZ/n10MMhoLJbz0H/sokAOD5ignM78+IBdb5o02cJvt89IzdBWTDk6Uq4zvVIM6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-	by localhost (Postfix) with ESMTP id 4Zncb14Cgcz9sCk;
-	Wed, 30 Apr 2025 14:54:37 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Jv9ioGE5cEZR; Wed, 30 Apr 2025 14:54:37 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4Zncb13TLtz9sB2;
-	Wed, 30 Apr 2025 14:54:37 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 6CB2C8B765;
-	Wed, 30 Apr 2025 14:54:37 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id x3PWoPD_y1-d; Wed, 30 Apr 2025 14:54:37 +0200 (CEST)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id C33508B763;
-	Wed, 30 Apr 2025 14:54:36 +0200 (CEST)
-Message-ID: <1ada639a-8dc0-4553-899f-265e6bc5e44f@csgroup.eu>
-Date: Wed, 30 Apr 2025 14:54:36 +0200
+	s=arc-20240116; t=1746023063; c=relaxed/simple;
+	bh=DiilKaJG0/WO35VO8ryl3whyZcAVo/+1zf6kcyc7JZM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OolZoDbwewqfKiytdm1f3WgGtZk1huk9hsJipXcd8udBiNcf6QiDOyGP6l0zi1kchKsp2SqGcvoo+JAl49OnHUZJIB0nuBhCHy+aztkF/Rx4E+XyPW5Spl1RZ+vRGDEPOSUT6N90mSgqt2ldBthR/qhTVEQrOiHQ0kt9LeTP8mE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOjh4U6t; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oOjh4U6t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67EFEC4CEE9;
+	Wed, 30 Apr 2025 14:24:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746023062;
+	bh=DiilKaJG0/WO35VO8ryl3whyZcAVo/+1zf6kcyc7JZM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=oOjh4U6tWSyBrn74QNMejxT6f/5QGbKaTcekHDUUDRgdze7OsjPLO8rJd9rLfM9j2
+	 dWNs0m4q9+cEJwlrFqgxvVgcf53Gr/+49IxPk2xs7wv+7aChyVDKc/J+aSqomecaXU
+	 HttNVrIK/tBYmu2tr4reQ9BTuuOScwgtJRXXKq5QW5hRq+IpUcbsn4axXo6nf9RKHp
+	 kDWzI4aq2MwTqtHjT+AE1IH/G51ZwOpc/uWym2cK7w7KRzPsnLUUckcuibIlyuh9Rl
+	 +A1tSSy+8dfAvHWnLJZJPcJLb7wGTXStrCql+2+RgU+OjC9dxDxWTxdss60OTMu9tg
+	 psoGsl4itI3Uw==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2cc89c59cc0so678657fac.0;
+        Wed, 30 Apr 2025 07:24:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUWGBP4i4EHoWnF1cENkAZ/eJjNY0gskXug8B82T9sVW0iBpsJ/3Usf7Nd3v5MHnznNxZ+4DGioUYyilq0=@vger.kernel.org, AJvYcCVYZqVnexTBNGYFO28iPWB/HA2kKuniAiiJJPpJrDc5h7tRr85zZYHi9RsMYcjVQUQLIm2sHPuVXeY=@vger.kernel.org, AJvYcCXOosLdWCm2IGJB44ljhFSwxmWe57VOIQ3AHtzv9YVJb1gJn9IR7Pv5sVjSZCO7bVUhUyBQ6osDfyNHeLE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywpl+aVQrnwY6jb5la+wW3tqe27vY0Vryzwm9Rl/FYBax0gHif5
+	jyXyQS4AxJC30Q47c3WpEaA0uHepRSSt0gGrL/yVnBANbFoXsO/GhFUs8nsgPn5ssa5ym3hcD31
+	+DoUTRslU1hTeypqFIcXyLgl+Hlc=
+X-Google-Smtp-Source: AGHT+IHI21hvZo5h8zBeQ4iz7Vk+x6EUW3fSjt0GGJli/RFF4twaJgW3jOs5FPheFilXL7iC2g4xzqMaMWypSx8BqdU=
+X-Received: by 2002:a05:6871:8913:b0:2b8:5a6a:6f5f with SMTP id
+ 586e51a60fabf-2da6b5b1622mr1876941fac.19.1746023061756; Wed, 30 Apr 2025
+ 07:24:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: fsl: fsl_qmc_audio: Reset audio data pointers on
- TRIGGER_START event
-To: Mark Brown <broonie@kernel.org>
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Herve Codina <herve.codina@bootlin.com>,
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org
-References: <20250410091643.535627-1-herve.codina@bootlin.com>
- <174429282080.80887.6648935549042489213.b4-ty@kernel.org>
- <4b42c00a-0ef5-4121-9e40-9214bf9a1197@csgroup.eu>
- <aBFtesqln2Xeab-d@finisterre.sirena.org.uk>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <aBFtesqln2Xeab-d@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <12680420.O9o76ZdvQC@rjwysocki.net> <d4cafb3f-2045-40c1-a8fd-58dd46485232@linux.intel.com>
+In-Reply-To: <d4cafb3f-2045-40c1-a8fd-58dd46485232@linux.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 30 Apr 2025 16:24:10 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gam8XmtwJ+8yp75EXmCXPrd3twSC_d39aMWw23YdCxfA@mail.gmail.com>
+X-Gm-Features: ATxdqUHrtNP14h5bQQ1DruxfhiAAPaU6Kzuw40KNrqPp7z8XoIpCAe9R856-66U
+Message-ID: <CAJZ5v0gam8XmtwJ+8yp75EXmCXPrd3twSC_d39aMWw23YdCxfA@mail.gmail.com>
+Subject: Re: [PATCH v2] soundwire: intel_auxdevice: Fix system suspend/resume handling
+To: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>, Vinod Koul <vkoul@kernel.org>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, LKML <linux-kernel@vger.kernel.org>, 
+	Linux PM <linux-pm@vger.kernel.org>, Sanyog Kale <sanyog.r.kale@intel.com>, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Apr 30, 2025 at 2:59=E2=80=AFAM Liao, Bard
+<yung-chuan.liao@linux.intel.com> wrote:
+>
+>
+>
+> On 4/29/2025 3:50 AM, Rafael J. Wysocki wrote:
+> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >
+> > Before commit bca84a7b93fd ("PM: sleep: Use DPM_FLAG_SMART_SUSPEND
+> > conditionally") the runtime PM status of the device in intel_resume()
+> > had always been RPM_ACTIVE because setting DPM_FLAG_SMART_SUSPEND had
+> > caused the core to call pm_runtime_set_active() for that device during
+> > the "noirq" resume phase.  For this reason, the pm_runtime_suspended()
+> > check in intel_resume() had never triggered and the code depending on
+> > it had never run.  That had not caused any observable functional issues
+> > to appear, so effectively the code in question had never been needed.
+> >
+> > After commit bca84a7b93fd the core does not call pm_runtime_set_active(=
+)
+> > for all devices with DPM_FLAG_SMART_SUSPEND set any more and the code
+> > depending on the pm_runtime_suspended() check in intel_resume() runs if
+> > the device is runtime-suspended prior to a system-wide suspend
+> > transition.  Unfortunately, when it runs, it breaks things due to the
+> > attempt to runtime-resume bus->dev which most likely is not ready for a
+> > runtime resume at that point.
+> >
+> > It also does other more-or-less questionable things.  Namely, it
+> > calls pm_runtime_idle() for a device with a nonzero runtime PM usage
+> > counter which has no effect (all devices have nonzero runtime PM
+> > usage counters during system-wide suspend and resume).  It also calls
+> > pm_runtime_mark_last_busy() for the device even though devices cannot
+> > runtime-suspend during system-wide suspend and resume (because their
+> > runtime PM usage counters are nonzero) and an analogous call is made
+> > in the same function later.  Moreover, it sets the runtime PM status
+> > of the device to RPM_ACTIVE before activating it.
+> >
+> > For the reasons listed above, remove that code altogether.
+> >
+> > On top of that, add a pm_runtime_disable() call to intel_suspend() to
+> > prevent the device from being runtime-resumed at any point after
+> > intel_suspend() has started to manipulate it because the changes
+> > made by that function would be undone by a runtime-suspend of the
+> > device.
+> >
+> > Next, once runtime PM has been disabled, the runtime PM status of the
+> > device cannot change, so pm_runtime_status_suspended() can be used
+> > instead of pm_runtime_suspended() in intel_suspend().
+> >
+> > Finally, make intel_resume() call pm_runtime_set_active() at the end to
+> > set the runtime PM status of the device to "active" because it has just
+> > been activated and re-enable runtime PM for it after that.
+> >
+> > Additionally, drop the setting of DPM_FLAG_SMART_SUSPEND from the
+> > driver because it has no effect on devices handled by it.
+> >
+> > Fixes: bca84a7b93fd ("PM: sleep: Use DPM_FLAG_SMART_SUSPEND conditional=
+ly")
+> > Reported-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> > Tested-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > ---
+> >
+> > v1 -> v2: New changelog
+> >
+> > Since it fixes a recent regression in 6.15-rc, I can route it through t=
+he
+> > PM tree unless that would be a major concern.
+> >
+>
+>  Acked-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-
-Le 30/04/2025 à 02:23, Mark Brown a écrit :
-> On Mon, Apr 28, 2025 at 11:20:42AM +0200, Christophe Leroy wrote:
->> Le 10/04/2025 à 15:47, Mark Brown a écrit :
-> 
->> Would it be possible to get this patch into one of the v6.15 rc as it is a
->> bug fix ?
-> 
-> It appears to be queued as a fix, could you be more specific please?
-> 
-
-
-Maybe I misunderstood. You said applied to ... for-next, so I thought it 
-was for v6.16.
-If it goes into one of v6.15rc as a fix it is fine for me.
-
-Thanks
-Christophe
+Thanks, applied.
