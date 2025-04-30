@@ -1,94 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7581B2DC782;
-	Wed, 30 Apr 2025 00:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F895383;
+	Wed, 30 Apr 2025 00:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745972623; cv=none; b=djFc870b43sbCdysJ76B1NPYb3WV2UxsCRu4EgDda+nFYHanpMyJ2TSmNeundfBU17NjN0JhaByPbv6Zf0QVpTGUTTmdzAYnoznz9SeXIPh/p604DB+O74MajT27hk2Lv99p+ka2p7oPDU8LeplXFpm6Rq9Kd/pTrP87ObVhCgI=
+	t=1745974791; cv=none; b=hY5ycvYgehizfL9DpkmKbp+9HDST4LZGwZDlfBPaWjO5y+H/sQqfwVxIgHDVB+rK581QNYgPFsRb9EWbaweQQL+Vi81WThbkfM2VjYdYeUn7vOg05sU5Sn0v/Hns/lSH7AgINm9wzWHINI1y+3jVCiknnhgb2+ccNHLd0tR6RAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745972623; c=relaxed/simple;
-	bh=sg1NHwkHRmDhitLO88G1C58UvhrPJ9FIzp3DhLvKpFY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cl8rTML6+50lYdnvTpXlKTRIb/kooRtc/l3y3W8OC+r3/BrBmAJe/MkKF1dbwRLs969cTHY7PN5YRpaYOvL+2KBWFB0jz2lREC1jr04+jjf6ryMvQx3nYn+I4GnqrqFtcAUf38THGgqPfhAFzXshO5he7ORLzWiAGyY8Ip/Qqs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tD4kaK7z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745974791; c=relaxed/simple;
+	bh=WhUB3VaFezDmHRqv2eDG+gPvY+Gb2z2eJ972ck0h/xY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BcQlU+aObHs2iwsAaGq4Bau3ynX68oTo01yRoUZHxL/bmuBrpTaBhjKhYvWL9BuFcxI9GoUXgS1O7/BrsVzg/oku+UbUHsFmSfawCk5FR0xDdDgIzb6xFoyATtxB6UNaQAiJOMKJ+NvZjmpip28rojX4JUNK+BoZao5X7azzuAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jQpsrssK; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tD4kaK7z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87DC9C4CEE3;
-	Wed, 30 Apr 2025 00:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745972622;
-	bh=sg1NHwkHRmDhitLO88G1C58UvhrPJ9FIzp3DhLvKpFY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tD4kaK7z0uT+t2w3wsRY8wvovK7r/3CopHREMIZJMM3hC3vhHTkg56d8eiuePY2Qk
-	 5PgsXobyX0CftVJrFHPMvRC3nKulZ/77iDDlHCUJxT20mnneYLX4xvld9KSFwLBSEi
-	 cpUtheN08hUpDQPcn9eaCBEu7g2mpDuG2YdEeM3mWVJOn5l7emMzCfyTg9VEO+7tDf
-	 X1BSVcnxItxGi5MG7r8EZQpEUaMjC7/Ao2DHUhHOl3/Fj9C8iosSGcuVvXZmuAC9Re
-	 jix45Zl+bqiMJqmP3mYlJGjUMozDCwXgVWgVUnXPzc4rkRpN/d2wIOyIfJhADIsi6z
-	 qM7EiIYTGfZWw==
-Date: Wed, 30 Apr 2025 09:23:39 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Julien Massot <julien.massot@collabora.com>,
-	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org,
-	kernel@collabora.com, LKML <linux-kernel@vger.kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Liam Girdwood <liam.r.girdwood@intel.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	=?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] ASoC: SOF: topology: Fix null pointer derefence
-Message-ID: <aBFti1ny1cEQsnAQ@finisterre.sirena.org.uk>
-References: <20250428-fixup-of-sof-topology-v1-1-dc14376da258@collabora.com>
- <2583415c-6338-47ba-9688-eae9d5ae6736@web.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jQpsrssK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745974790; x=1777510790;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=WhUB3VaFezDmHRqv2eDG+gPvY+Gb2z2eJ972ck0h/xY=;
+  b=jQpsrssKdCcQRbXmhLvpM5dDEll0LHp9WVwNbuK1aJNC+HGIY3hPOmOf
+   JohwZ+oVcyDoV0ZrEHWmd2WuK/P4keprqW5aPkvNTTcURgBv0B0dq72jM
+   Yz+O+2HqZOYINVRgdvH0FOk34wzWB+rjX3M1EfjfEGbdfQAmNqq0UdTNN
+   tumVrAe/mR530RsMZ+ZbErpxBl2SF0XB2W6LxRTJdqod8vqI5o3FB4ieP
+   wJzj2w9461whG7iIyKXJFLXzd2a0wYYUO2RRH6c73oOe0RWuLMv3Vk/CK
+   jFDTw6ENK6ZdJx9QTsNOIT8COD3cqnlqw20K8GOvieIMwFFAlNtgDB5Cm
+   w==;
+X-CSE-ConnectionGUID: yHk24WglSs21P4+7sBTa4g==
+X-CSE-MsgGUID: Ls9TDTMfRnCCzxN8c4M2GA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="50278527"
+X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
+   d="scan'208";a="50278527"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 17:59:49 -0700
+X-CSE-ConnectionGUID: 7KPA1S2zSQWO0ACI85ZHlQ==
+X-CSE-MsgGUID: GOuRf77DS/CBJpncNm4nwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
+   d="scan'208";a="133918074"
+Received: from yungchua-mobl2.ccr.corp.intel.com (HELO [10.246.104.98]) ([10.246.104.98])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 17:59:45 -0700
+Message-ID: <d4cafb3f-2045-40c1-a8fd-58dd46485232@linux.intel.com>
+Date: Wed, 30 Apr 2025 08:59:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6hUvYqmnhf3q40IR"
-Content-Disposition: inline
-In-Reply-To: <2583415c-6338-47ba-9688-eae9d5ae6736@web.de>
-X-Cookie: Well begun is half done.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] soundwire: intel_auxdevice: Fix system suspend/resume
+ handling
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>, Vinod Koul <vkoul@kernel.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: LKML <linux-kernel@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ Sanyog Kale <sanyog.r.kale@intel.com>, linux-sound@vger.kernel.org
+References: <12680420.O9o76ZdvQC@rjwysocki.net>
+Content-Language: en-US
+From: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
+In-Reply-To: <12680420.O9o76ZdvQC@rjwysocki.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---6hUvYqmnhf3q40IR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 28, 2025 at 03:10:43PM +0200, Markus Elfring wrote:
-> =E2=80=A6
-> > check first for null machine.
->=20
-> Would a summary phrase like =E2=80=9CPrevent null pointer dereference in =
-snd_sof_load_topology()=E2=80=9D
-> a bit nicer?
+On 4/29/2025 3:50 AM, Rafael J. Wysocki wrote:
+> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> 
+> Before commit bca84a7b93fd ("PM: sleep: Use DPM_FLAG_SMART_SUSPEND
+> conditionally") the runtime PM status of the device in intel_resume()
+> had always been RPM_ACTIVE because setting DPM_FLAG_SMART_SUSPEND had
+> caused the core to call pm_runtime_set_active() for that device during
+> the "noirq" resume phase.  For this reason, the pm_runtime_suspended()
+> check in intel_resume() had never triggered and the code depending on
+> it had never run.  That had not caused any observable functional issues
+> to appear, so effectively the code in question had never been needed.
+> 
+> After commit bca84a7b93fd the core does not call pm_runtime_set_active()
+> for all devices with DPM_FLAG_SMART_SUSPEND set any more and the code
+> depending on the pm_runtime_suspended() check in intel_resume() runs if
+> the device is runtime-suspended prior to a system-wide suspend
+> transition.  Unfortunately, when it runs, it breaks things due to the
+> attempt to runtime-resume bus->dev which most likely is not ready for a
+> runtime resume at that point.
+> 
+> It also does other more-or-less questionable things.  Namely, it
+> calls pm_runtime_idle() for a device with a nonzero runtime PM usage
+> counter which has no effect (all devices have nonzero runtime PM
+> usage counters during system-wide suspend and resume).  It also calls
+> pm_runtime_mark_last_busy() for the device even though devices cannot
+> runtime-suspend during system-wide suspend and resume (because their
+> runtime PM usage counters are nonzero) and an analogous call is made
+> in the same function later.  Moreover, it sets the runtime PM status
+> of the device to RPM_ACTIVE before activating it.
+> 
+> For the reasons listed above, remove that code altogether.
+> 
+> On top of that, add a pm_runtime_disable() call to intel_suspend() to
+> prevent the device from being runtime-resumed at any point after
+> intel_suspend() has started to manipulate it because the changes
+> made by that function would be undone by a runtime-suspend of the
+> device.
+> 
+> Next, once runtime PM has been disabled, the runtime PM status of the
+> device cannot change, so pm_runtime_status_suspended() can be used
+> instead of pm_runtime_suspended() in intel_suspend().
+> 
+> Finally, make intel_resume() call pm_runtime_set_active() at the end to
+> set the runtime PM status of the device to "active" because it has just
+> been activated and re-enable runtime PM for it after that.
+> 
+> Additionally, drop the setting of DPM_FLAG_SMART_SUSPEND from the
+> driver because it has no effect on devices handled by it.
+> 
+> Fixes: bca84a7b93fd ("PM: sleep: Use DPM_FLAG_SMART_SUSPEND conditionally")
+> Reported-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Tested-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+> 
+> v1 -> v2: New changelog
+> 
+> Since it fixes a recent regression in 6.15-rc, I can route it through the
+> PM tree unless that would be a major concern.
+> 
 
-Feel free to ignore Markus, he has a long history of sending
-unhelpful review comments and continues to ignore repeated requests
-to stop.
-
---6hUvYqmnhf3q40IR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgRbYoACgkQJNaLcl1U
-h9BYhQf/ZBat4at7WqMry3udaSHwQNLZKVtD/bOhQ4lQIOatbLrRbN107AvZH0Rj
-prWZRfTSf9radlkGrbN3foVEe/oZk9w/qY5NEa+RCH+W9WcJ2vYY68jQc3UB0w42
-kzrwz6HlvJ8aEIbdi0hYAhAb1rku3Hqyw7NUsV4IQweyue+Nl2SAvEJBVDjf8Lkp
-W3Do806HpxBE4TCcsy5HE/BRwLX57nk5FtZkxjmRjp7D+/YvSqo9CSDdoAzncLRf
-h8ZdQA8Ih8+X26gG8URTYyY6W6HLyQU2MTW2/hp2FRmtEFh5+/K28skeGjosxt7t
-yAuRs0YvuLkyCExJK9OpdiI1SAwoEw==
-=QCIa
------END PGP SIGNATURE-----
-
---6hUvYqmnhf3q40IR--
+ Acked-by: Bard Liao <yung-chuan.liao@linux.intel.com>
