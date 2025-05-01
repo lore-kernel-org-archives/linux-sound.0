@@ -1,117 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C83A19A;
-	Thu,  1 May 2025 11:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46AC22257F;
+	Thu,  1 May 2025 12:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746099473; cv=none; b=ZxYB/B/7oz3uRFPaLTeGp7vf0zQpc9v0YzMig4OYtqCJnWxtOFMPScrJ0olY712E7UirxHrwnhRsRDs9cwsNFqZ0wyp6IqXqQ04EwQGn+AzUzpKpNkr0mbwrCsJzkP9S5aG8L2feivmg+fqpNcGW/ujiIomNrjNblredUznxEzk=
+	t=1746103119; cv=none; b=SNeXUMdgj/+Nqbf425JJl5p6fE4j8LX44yds5zMpKQ9FWeXwPdFtOxz/XlH82dnKJrWXHd6vm1AhVizhrKgCkfRK+o9ETxOsnJXK6q7hlT5p/Sc0YUqCTdgvYcz/T4MnqfERVjLzaQh8t3Pu/nTGi3z0geyNj/0CA/wkimB+Icw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746099473; c=relaxed/simple;
-	bh=Z0rZwDlBOJabeCJzT7S1mnNOxGO4aa2X5GAQxXZqSbY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OKFb6jXnk24fjNs2txF9EA7GTWCGKGvbhgSRLyHEokFSqHk5fWZcdp7AxzTg7drnhhWo9/kCv7178yUsYW24bwq0VQO2Fe+EOroWhvDL4nlAWPwVTEqBnKqKsMxQzLNkUhX0p2cHK+w+FscPpqZYtPeV1tiwlPSMquRpiK5nEqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hOgv58Vt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746103119; c=relaxed/simple;
+	bh=DEsKW/FV4oEiQf5g3YhqxqT0LRxti9vcUPcTum7hq1k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ik+ncQ//Q2nMeBBtbUweJR5rHKhBCIyzBDluugOty6+JxFpyj3+4/yTchIxC3WeOQ5FZDRbWkE1Xd0XIcO/ar1fAEACcVeBmVt7JT+GdsZAGOcfjrqB0gfps+rZoisw1mxd+74jmu+ZBeDTrDAhncLJEl+jDFf/mfZBy3FAt6t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=zt4dSXgr; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hOgv58Vt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2FFDC4CEE3;
-	Thu,  1 May 2025 11:37:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746099472;
-	bh=Z0rZwDlBOJabeCJzT7S1mnNOxGO4aa2X5GAQxXZqSbY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hOgv58Vt/VSQjDFB92Q/LRDpc4G1Yavt115Kq0ToiYwJy6WJ6xScbJ1EfxZFgSlZx
-	 KtB4W8rCTrJSfLsS1YoIPz1kbSx7vyxDQQBoT5U9NJB6gChwE1tVSeJQKwN8oxJceE
-	 JSMW7s9kX9MEdZOHPoENAEpL0HuzQo61OYswK5/HGtfIkMNQZ4jag5IxfIu/HwGh6F
-	 VwSNf6A2QYRi2DXpd7vfLvDSpENJqYVq/pICn4/Pf056VheKGkaJgl+EXAeUCe0OjF
-	 1iLIAeyOtuNHNqUAFV5npNmecMDbZomfN+fL5iEojACPmefmQQy2FGoHJgAXYG4zhe
-	 D4XsQmopVy3ug==
-Date: Thu, 1 May 2025 12:37:45 +0100
-From: Srinivas Kandagatla <srini@kernel.org>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Banajit Goswami <bgoswami@quicinc.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 2/5] ASoC: qcom: sm8250: set card driver name from
- match data
-Message-ID: <aBNdCRk_fP2q1vxQ@srini-hackbase>
-References: <20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com>
- <20250425-fp5-dp-sound-v3-2-7cb45180091b@fairphone.com>
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="zt4dSXgr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=TMGzIJ6a/SjyP3jq2ylC0v7lVpVlSTcN9VZFPohtskE=; b=zt4dSXgrVISFWJwXdPVT9vChf2
+	lz5BPnDLeDaKPUiNU8qeOeCi0QQVViW7CcQHmefHNLggfwmfIreADmL7bMHG9anLK5GnL6+yKufmr
+	XmSSHCMPeN5uiUjkXyAM48vyBoq4vhIc9VFYyGtcMMBkvz/aZ3BkkF2aCGciEz/wr6lD6YvFlKeuz
+	toQlnSSZ/oMWzmoM9ldc/v38QRd/zsCW0Ln9VAhapQPXI8Cz/v7P4G2k7az+LX1syCwFvEt0A+gfa
+	sR68RMdRcWlp7KTyUqCufKQ1WT0MHz8lEOK2a4kx81hJbkYZtwR8N6fIvFBDBcUU26T3I/A6PGRdF
+	ZT5qrTpA==;
+Received: from i53875bbc.versanet.de ([83.135.91.188] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1uATBL-0001C8-5z; Thu, 01 May 2025 14:38:27 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Sugar Zhang <sugar.zhang@rock-chips.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>, kernel@collabora.com,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: Re: [PATCH v2 02/11] clk: rockchip: introduce auxiliary GRFs
+Date: Thu, 01 May 2025 14:38:25 +0200
+Message-ID: <2240109.Mh6RI2rZIc@diego>
+In-Reply-To: <20250410-rk3576-sai-v2-2-c64608346be3@collabora.com>
+References:
+ <20250410-rk3576-sai-v2-0-c64608346be3@collabora.com>
+ <20250410-rk3576-sai-v2-2-c64608346be3@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250425-fp5-dp-sound-v3-2-7cb45180091b@fairphone.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, Apr 25, 2025 at 10:07:26AM +0200, Luca Weiss wrote:
-> Sound machine drivers for Qualcomm SoCs can be reused across multiple
-> SoCs. But user space ALSA UCM files depend on the card driver name which
-> should be set per board/SoC.
-> 
-> Allow such customization by using driver match data as sound card driver
-> name.
-> 
-> Also while we're already touching these lines, sort the compatibles
-> alphabetically.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Hi Nicolas,
+
+Am Donnerstag, 10. April 2025, 21:39:54 Mitteleurop=C3=A4ische Sommerzeit s=
+chrieb Nicolas Frattaroli:
+> The MUXGRF clock branch type depends on having access to some sort of
+> GRF as a regmap to be registered. So far, we could easily get away with
+> only ever having one GRF stowed away in the context.
+>=20
+> However, newer Rockchip SoCs, such as the RK3576, have several GRFs
+> which are relevant for clock purposes. It already depends on the pmu0
+> GRF for MUXGRF reasons, but could get away with not refactoring this
+> because it didn't need the sysgrf at all, so could overwrite the pointer
+> in the clock provider to the pmu0 grf regmap handle.
+>=20
+> In preparation for needing to finally access more than one GRF per SoC,
+> let's untangle this. Introduce an auxiliary GRF hashmap, and a GRF type
+> enum. The hasmap is keyed by the enum, and clock branches now have a
+> struct member to store the value of that enum, which defaults to the
+> system GRF.
+>=20
+> The SoC-specific _clk_init function can then insert pointers to GRF
+> regmaps into the hashmap based on the grf type.
+>=20
+> During clock branch registration, we then pick the right GRF for each
+> branch from the hashmap if something other than the sys GRF is
+> requested.
+>=20
+> The reason for doing it with this grf type indirection in the clock
+> branches is so that we don't need to define the MUXGRF branches in a
+> separate step, just to have a direct pointer to a regmap available
+> already.
+>=20
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+
+like the concept and also implementation :-) .
+
 > ---
->  sound/soc/qcom/sm8250.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-> index b70b2a5031dfbf69024666f8a1049c263efcde0a..e920b413b762c803cfcc4049f35deba828275478 100644
-> --- a/sound/soc/qcom/sm8250.c
-> +++ b/sound/soc/qcom/sm8250.c
-> @@ -16,7 +16,6 @@
->  #include "usb_offload_utils.h"
->  #include "sdw.h"
->  
-> -#define DRIVER_NAME		"sm8250"
->  #define MI2S_BCLK_RATE		1536000
->  
->  struct sm8250_snd_data {
-> @@ -200,15 +199,15 @@ static int sm8250_platform_probe(struct platform_device *pdev)
->  	if (ret)
->  		return ret;
->  
-> -	card->driver_name = DRIVER_NAME;
-> +	card->driver_name = of_device_get_match_data(dev);
->  	sm8250_add_be_ops(card);
->  	return devm_snd_soc_register_card(dev, card);
->  }
->  
->  static const struct of_device_id snd_sm8250_dt_match[] = {
-> -	{.compatible = "qcom,sm8250-sndcard"},
-> -	{.compatible = "qcom,qrb4210-rb2-sndcard"},
-> -	{.compatible = "qcom,qrb5165-rb5-sndcard"},
-> +	{ .compatible = "qcom,qrb4210-rb2-sndcard", .data = "sm8250" },
+>  drivers/clk/rockchip/clk-rk3328.c |  6 +++---
+>  drivers/clk/rockchip/clk-rk3568.c |  2 +-
+>  drivers/clk/rockchip/clk-rk3576.c | 32 ++++++++++++++++++++++----------
 
-sm4250 for rb2?
+the only "hair in the soup" are some missing socs ;-) .
 
-> +	{ .compatible = "qcom,qrb5165-rb5-sndcard", .data = "sm8250" },
-> +	{ .compatible = "qcom,sm8250-sndcard", .data = "sm8250" },
->  	{}
->  };
->  
-> 
-> -- 
-> 2.49.0
-> 
+As you're changing the MUXGRF type, you should adapt all socs using it
+please. Missing rk3288 and rv1126 it seems - ARM32, which may have helped
+these slipping through.
+
+
+Heiko
+
+
