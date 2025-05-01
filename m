@@ -1,91 +1,141 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1745826B2D1;
-	Thu,  1 May 2025 06:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE1126AA83
+	for <linux-sound@vger.kernel.org>; Thu,  1 May 2025 06:44:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746081489; cv=none; b=HtnCfPL5TtK6YDymI9bi189KluKIzWH+/DaPBOScHX9Ic0dF6+HTeMWOg8mmNaYKNZhULqdCVSN43EXXC39tMUC68BKNykGcm3gs1uiFAvB28SCjKYO1GXN2tRsrBPXjICjTFOwBrxufoN12YO6xluVQzNajTBunFzL0xAVMlnQ=
+	t=1746081887; cv=none; b=NriF5Qcp1TxiI6aWY42dj9g2WFfs3ZM7pImSuohSEMwXAO1gmUin3qxYawoPN8q7MV7t+9gmNJpY714zMI6bSXGAVnB6F8+B4961QFzPwa2KRAHIbNf5Ke6bmTR8BZc7h7CUzeDqpf/IjAAPTLf5z0GvVYd6PmbHdfOR/K8bzd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746081489; c=relaxed/simple;
-	bh=BxYHRgqo6sF5s2lWJReP5r3jXnxwGusOpZHnYswQvP0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=E5hIc9qtnDJSAnOw0oFL8eogV1OzYCkQwX54aGFqCkhr6UD2RZvQgRqddpxiH1zw50Ym/ubvrN6qkH1y2IlFAVaxvHrq6Oa2UZKI6t6S5fSmljSRXMnMyQoYpvXJBslqu+d1yvDwfjdxbGBloR0PgY8hKCeeoPOjk4SYXVcUqRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pmq/aucx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746081887; c=relaxed/simple;
+	bh=FwuuH2YL5+o+HLp5Qc8KkE+mG5RQFrP51QAElnK7X+Y=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=EJyLyr/dV8+ep8d1SKUQfaenawpWJOa6iKSQq/Bdy6c8saeEJ4eCdJdSt4AWSg1fvdWmpRVjr6ng/FyQ0w19v47hvHE0SBKHOU/hNQOqA4eKE1BfgkCiDhfLSVrrUvH5XiIeHggJFrNb0TR1A9BMJzyzwdlh75WKt5M+YvJGFVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pUbBH5TX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pmq/aucx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070A8C4CEEE;
-	Thu,  1 May 2025 06:38:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pUbBH5TX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE59C4CEE3;
+	Thu,  1 May 2025 06:44:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746081488;
-	bh=BxYHRgqo6sF5s2lWJReP5r3jXnxwGusOpZHnYswQvP0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Pmq/aucxBfWOa71NLT9xf9s0UQoi0AxefSMtUlbPbepiM67E5qV4bXSjM8+I3iLxr
-	 D8GpRhYPzplHt6NYi8EW/P6E4714ZPCE3WJz/uSZB9FXt1FUfxsO+5cgEnNJMtAPxD
-	 lt7uPIBEK6pRgQ1yxzSYcrcI9SwpzhnM68BC9BcfYJtdUDaDEq08qDtnr7/jZ9x7Ie
-	 6IaD+zio5D7N8/btVOuWykLZkaZGGEIs8wfrXrGK+p5hhe6ISpG8Xinxio2Xqmwsl3
-	 EdtdD5VBvfYojINjggKkVIM8ddn7Kr4TOUY7qUyUdjFAVG5axFLWddI1kYIbq5ZGPo
-	 KK8c8lrg/GKqA==
+	s=k20201202; t=1746081885;
+	bh=FwuuH2YL5+o+HLp5Qc8KkE+mG5RQFrP51QAElnK7X+Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pUbBH5TX7YK2c50axQwylCltW/TcPJ4EEcDFpimgBxqpjxU3CKnJsI4Dk9SJ3n7Xl
+	 GyfNt0b+XGRi5IKImzWtDwMoKxsHWbMUPBYl6tcw3x/JGjYF4v5NS5VfNbMWN8NeyE
+	 cVviNvakxcEKCPBMVh46EIfhKgU86tK8ZcQOLHv4Dwqj7ND3wIpUEC83FW6Gy/0n+P
+	 aJKQ0nh7TUhBu90+4gHFmAlkv8RE3aWZPPieTkkLH7oBTdND+WMmMqQSiOnAHCQl9S
+	 j5yG2cmLDRYwbXCaTH77+YR9BRK0Xl6BUDLbHYLzwlG85ltxNICDmfjG75sNQieo1O
+	 svnZxG8qVnhsw==
+Message-ID: <a6bd31a7255c121ca11bbdf066134f83.broonie@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
- Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20250430103134.24579-1-sbinding@opensource.cirrus.com>
-References: <20250430103134.24579-1-sbinding@opensource.cirrus.com>
-Subject: Re: [PATCH v1 0/2] ASoC: intel/sdw_utils: Add volume limits to
- CS35L56 and CS42L43 speakers
-Message-Id: <174608148648.4032397.4518824895651750245.b4-ty@kernel.org>
-Date: Thu, 01 May 2025 15:38:06 +0900
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.15-rc4
+Date: Thu, 01 May 2025 15:44:37 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
 
-On Wed, 30 Apr 2025 11:31:18 +0100, Stefan Binding wrote:
-> Both CS35L56 and CS42L43 have maximum volumes above 0dB.
-> However, for many use cases, this can cause distorted audio, depending
-> various factors, such as other signal-processing elements in the chain,
-> for example if the audio passes through a gain control before reaching
-> the amp or the signal path has been tuned for a particular maximum
-> gain in the amp.
-> 
-> [...]
+The following changes since commit b4432656b36e5cc1d50a1f2dc15357543add530e:
 
-Applied to
+  Linux 6.15-rc4 (2025-04-27 15:19:23 -0700)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+are available in the Git repository at:
 
-Thanks!
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.15-rc4
 
-[1/2] ASoC: intel/sdw_utils: Add volume limit to cs42l43 speakers
-      commit: 02b44a2b2bdcee03cbb92484d31e9ca1b91b2a38
-[2/2] ASoC: intel/sdw_utils: Add volume limit to cs35l56 speakers
-      commit: d5463e531c128ff1b141fdba2e13345cd50028a4
+for you to fetch changes up to 315c84567001aec7f7b74a0dbd4fce3e1c5cbd87:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+  ASoC: intel/sdw_utils: Add volume limits to CS35L56 (2025-05-01 14:43:52 +0900)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+----------------------------------------------------------------
+ASoC: Fixes for v6.15
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+A moderately large batch of fixes for v6.15, many driver specific
+including cleanups for the enabling of the Cirrus KUnit tests and a fix
+for a nasty crash on resume on AMD systems.  We also have one core fix,
+for an ordering issue between DAPM and DPCM which could leave things
+incorrectly unpowered.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+----------------------------------------------------------------
+Alexander Stein (1):
+      ASoC: simple-card-utils: Fix pointer check in graph_util_parse_link_direction
 
-Thanks,
-Mark
+Arnd Bergmann (1):
+      ASoC: Intel: catpt: avoid type mismatch in dev_dbg() format
 
+Bard Liao (1):
+      ASoC: soc-acpi-intel-ptl-match: add empty item to ptl_cs42l43_l3[]
+
+Charles Keepax (1):
+      ASoC: cs42l43: Disable headphone clamps during type detection
+
+Chenyuan Yang (2):
+      ASoC: imx-card: Adjust over allocation of memory in imx_card_parse_of()
+      ASoC: Intel: sof_sdw: Add NULL check in asoc_sdw_rt_dmic_rtd_init()
+
+Claudiu Beznea (1):
+      ASoC: renesas: rz-ssi: Use NOIRQ_SYSTEM_SLEEP_PM_OPS()
+
+Mark Brown (3):
+      Fix up building KUnit tests for Cirrus Logic modules
+      ASoC: stm32: sai: fix kernel rate configuration
+      ASoC: intel/sdw_utils: Add volume limits to CS35L56
+
+Nico Pache (1):
+      firmware: cs_dsp: tests: Depend on FW_CS_DSP rather then enabling it
+
+Olivier Moysan (2):
+      ASoC: stm32: sai: skip useless iterations on kernel rate loop
+      ASoC: stm32: sai: add a check on minimal kernel frequency
+
+Richard Fitzgerald (3):
+      kunit: configs: Add some Cirrus Logic modules to all_tests
+      ASoC: cs-amp-lib-test: Don't select SND_SOC_CS_AMP_LIB
+      ASoC: Add Cirrus and Wolfson headers to ASoC section of MAINTAINERS
+
+Sheetal (1):
+      ASoC: soc-pcm: Fix hw_params() and DAPM widget sequence
+
+Stefan Binding (2):
+      ASoC: intel/sdw_utils: Add volume limit to cs42l43 speakers
+      ASoC: intel/sdw_utils: Add volume limit to cs35l56 speakers
+
+Takashi Iwai (1):
+      ASoC: Intel: bytcr_rt5640: Add DMI quirk for Acer Aspire SW3-013
+
+Venkata Prasad Potturu (3):
+      ASoC: amd: acp: Fix NULL pointer deref on acp resume path
+      ASoC: amd: acp: Fix NULL pointer deref in acp_i2s_set_tdm_slot
+      ASoC: amd: acp: Fix devm_snd_soc_register_card(acp-pdm-mach) failure
+
+Vijendar Mukunda (1):
+      ASoC: amd: ps: fix for irq handler return status
+
+ MAINTAINERS                                       |  6 ++++++
+ drivers/firmware/cirrus/Kconfig                   |  5 +----
+ include/sound/soc_sdw_utils.h                     |  1 +
+ sound/soc/amd/acp/acp-i2s.c                       |  2 +-
+ sound/soc/amd/acp/acp-legacy-common.c             |  2 +-
+ sound/soc/amd/acp/acp-rembrandt.c                 |  2 +-
+ sound/soc/amd/acp/acp-renoir.c                    |  2 +-
+ sound/soc/amd/acp/acp63.c                         |  2 +-
+ sound/soc/amd/acp/acp70.c                         |  2 +-
+ sound/soc/amd/ps/pci-ps.c                         |  5 +++--
+ sound/soc/codecs/Kconfig                          |  5 ++---
+ sound/soc/codecs/cs42l43-jack.c                   |  7 +++++++
+ sound/soc/fsl/imx-card.c                          |  2 +-
+ sound/soc/generic/simple-card-utils.c             |  4 ++--
+ sound/soc/intel/boards/bytcr_rt5640.c             | 13 ++++++++++++
+ sound/soc/intel/catpt/dsp.c                       |  2 +-
+ sound/soc/intel/common/soc-acpi-intel-ptl-match.c |  3 ++-
+ sound/soc/renesas/rz-ssi.c                        |  2 +-
+ sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c      |  4 ++++
+ sound/soc/sdw_utils/soc_sdw_cs42l43.c             | 10 ++++++++++
+ sound/soc/sdw_utils/soc_sdw_cs_amp.c              | 24 +++++++++++++++++++++++
+ sound/soc/sdw_utils/soc_sdw_rt_dmic.c             |  2 ++
+ sound/soc/soc-pcm.c                               |  5 ++++-
+ sound/soc/stm/stm32_sai_sub.c                     | 16 ++++++++++-----
+ tools/testing/kunit/configs/all_tests.config      |  2 ++
+ 25 files changed, 103 insertions(+), 27 deletions(-)
