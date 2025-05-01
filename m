@@ -1,64 +1,66 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712451A08B8
-	for <linux-sound@vger.kernel.org>; Thu,  1 May 2025 15:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E438E1FE45B
+	for <linux-sound@vger.kernel.org>; Thu,  1 May 2025 15:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746111732; cv=none; b=MoOLfDmIYQufoeu3fb586tYyxtPW4XkQ0LH3hNkW6Szk/GtWSMtoFl0+66hJxgTMVZREZ0mV5ulZNdw4deL3SFrAXYI7IvA9PwhN9HEGhnY5B/MLA6GIOy91gkpPEIbMd+uaRt6wNrgsdFgRDivnTpgNtMB1YrKMGfnugEKR+EA=
+	t=1746111733; cv=none; b=P6qVFArMAyOCu8DGS55/keq12Wg0UZxNmpJKK4Oi6myoRwYn6QD3UMMYpFXDp5BLkh13ELX20zLSmt7wCAv5kiWCTWU4a7HzDik+7naToqhcAJFlVeII603T/5t7I/2LhG8D2TTOKySgfkgahkHhPdcaNinIGKNNN9nx/WbzJ+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746111732; c=relaxed/simple;
-	bh=1VWijjOveKM78Pbg6yVVTbPVhW2rlfQmcQFnP8XIqZ0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BIs7WTalLbnQwf3FQGT9MW2lekGaSnoCfiMYgnYH6946q5Haqru2lN9kz6VAdi2GqtYUQeAFtk5WJClT0G1UQCe/YlIUzCdFusb4zCExmYsRvcKixLyPbL3uaY7qBWMkJrYz+EYytkqD/xr0tp4xOIJKPaVYRg+ZPuwtDUCtaUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mStVbJ/2; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1746111733; c=relaxed/simple;
+	bh=4rkQ3Dw/vam/Vj+imyvV8Y9YuqnRhg19j57rXz0G09I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=snDjcfXSZrstxozOTpIJrthxuvfr0KhOfcRJcVn3H8TpFpEHyS2q5m+C1ht/kO257w26P2/uobNwrPGDJDNofOmshlOitYRZ6gJLIoIMplEzh+0x8jSq7xWCq1p0mX5jwtdy4rNVxrVHsfK6zlo/VcnUgudxUKwyvGYhyPqIJG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bhQuQnuS; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mStVbJ/2"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cee550af2so1639955e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 01 May 2025 08:02:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bhQuQnuS"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cf861f936so1949925e9.3
+        for <linux-sound@vger.kernel.org>; Thu, 01 May 2025 08:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746111728; x=1746716528; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ttrcVZYlqM0kZXU17grb522rcBK1Mj9yyOBAh163GPk=;
-        b=mStVbJ/2begK4HcerftuSeurs0ZKybz3qaKT6KR9c8YFyfxtBjjtJFUxBhQZN4FF2t
-         2ABBiw172fAVCRdM7klQ6LTM+0pNgpKuScRHhpcKgkDpJN48or7LKLTMC8c8jKafSZBT
-         6aOsIdzRrRI7x8N+iy4bZPpQcA0SKEa2TlUOYX2snLZ3iBh3eUCCfopq6HsRmAhaibbL
-         oZlgz9jnkseTa0l5FRa8eeCnW+q6ecAVYhxRPjCA8xn7Om27ZtM6DA/L9Iv/sW0gioX2
-         +zLCOkekQ2hNPupsWkeNhDJvX6otHl5MdrVklFfgBFd8xVMT707pVyx4uL0ux7MBJNRP
-         MVMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746111728; x=1746716528;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1746111729; x=1746716529; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ttrcVZYlqM0kZXU17grb522rcBK1Mj9yyOBAh163GPk=;
-        b=nd3VZFQEr5TcEA5OkqDZ+EEyw+N1w0daBtdJjOHjpm6ZIMBtus/Pw7RT0J6wRAbWBB
-         txmNTNARXrisJz8aBLs/sB8ICe8VqJNr1D2e/lOSIqMRRqTxscv6yl1I7uTXa7D3gQYg
-         2MXoPdKfTWjY0f5yUj8QM5EnoNxoG9K+YDYaDE4CfMaTqDXyRoaYPNk15fhjZTTIbrCR
-         zGQuZPdyIB/ZBbB78fVV+/Ads6bh6GYIaX7hdV84Vp/BtVh80EFWPTAyMk+zATv6uApf
-         hVDP2Fl+KkucqLjatM+cssMlZ3P2uHKgT0sVyO9NtJDqTgzvu5CpyBo1XDgwS3zTTjN6
-         WwFg==
-X-Forwarded-Encrypted: i=1; AJvYcCVP/B0jzstqdoitjehKbDNXu9i/CNoHhcetTTbmwxpj1fMQYdwatbRqrWqhnJJKkvtU08QsdTOp986BAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0in6enYpS2RzBdhj1RK844aEZ3NkOIH1tzJxHSShXv0IJMgXB
-	JllIil1SArM9MLCFJ+ItaFl1DO9wQ7zuspesQ3AVrGdG+Lylnt90Pea5oKfd5o4=
-X-Gm-Gg: ASbGnctF00MwodYKpbfSvnC5KOsCq8nUi1g9SDVXvc7N0lXHfFVjNa7GV3bJcGIF3Gc
-	87EgvoyzfaZVaHNWGfNU7pjQI0ZsrcWwFHdykV/YVfiDWs4vTaBws0O6t/oon99PLzQmtfbe6hK
-	6SDI8LhyE8rTtXH3vcXMFQtQCD0iVdC/mxBswyVn1n0N/iLze3lVPqcLwDxGmX0QwVwvIY5OcII
-	4PVjzbIqLBK2kkzVUnBMGjkdmug4ruZGnwt7tUbxkHzc7pe1n7DYn7yU06r+x8WtTacE6hh5ir+
-	vv3MPUp+su6xZtw7PLpyUb3XnFxoTHTMdkVRVuMLfbK90UXrL3+QOj7Kmnc=
-X-Google-Smtp-Source: AGHT+IGZ0ehud/ximXE2CMIJErpM4SI/FhJUBgX6fJOCUs66uW5nSEtDJMw+MUC0zHgypjkuk3SDZQ==
-X-Received: by 2002:a05:6000:1866:b0:3a0:86f3:451f with SMTP id ffacd0b85a97d-3a09007e244mr2089279f8f.12.1746111727129;
-        Thu, 01 May 2025 08:02:07 -0700 (PDT)
+        bh=+CQO3BwoDKAYLGKeUQMSLddVF7xiAI/qGk80JN0kw5s=;
+        b=bhQuQnuSqYFE2XUWxRak+3tLVQ7hEzFTAMuDMVYSPSBszvJOexq/WKAjt6G7FLmIf6
+         hEW4RT7fTobFodsH93x5uILIjraALQZnD4cdK9v6GVXBGZa3RmjnwJGHDDzc4sn5XKYA
+         xFPPx3SWRRXoOUWlVdSwD2ZlhNTRuTpYDUHz3FyU1iJQG5u7u3C2DPTqf92an0u1L2Z9
+         MSZ27hUosr3RdD7wYpJXJ5qmV7lq1Pqmcu52ZGleL0wU8Q4wLsQPx3Ihhtt5utf+yWLA
+         JnX+4JCWMIoHy80S1X6z3MPMtK1i2v9dBS/bUD3edA7Vl8tqOCL1pjKHF4ppTyRZAfgh
+         TNww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746111729; x=1746716529;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+CQO3BwoDKAYLGKeUQMSLddVF7xiAI/qGk80JN0kw5s=;
+        b=EV0N05dpSqlshQVpe+UKT7u1/qIXAKI+4wsHAU5Vsdwj2qcbL6N+Rv6hTWaNShSYZK
+         b9FSin+EW3ILgzf7EnH/LeGjEG+dzhzOIZVEgIGHnEu/6bbWvLa7j2WpgS6t4Gb5h77P
+         yaoMU8l7OKRdteYCujPiNHWjRyh+vheJt8ShcdkeD9iInPXZ3tMZi2J/CMRuwuelmlG5
+         nmAUNm5P8BayjGfIeZ0U4pVInnFvhirsP4HUOpEKpNIRKH7KfQ/yQuzoj/Y45itseJi0
+         MvycI4PDPUxE84GhmBancSnPJ9DsCJsMsJY5Z+WOSej3KTIXP0bdjv4K0MR/+okBd7B6
+         ouXw==
+X-Forwarded-Encrypted: i=1; AJvYcCUr8UFf8OwL1+TVLb64EM68oEP8pt5GJqK7+1NdXb627Thh15LDZs6CgEwnIJIy3Idk9DnhBkmuBFqOuQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGFpIclWpT0RmEKzm2PeG/m67MZczjR+dO22SsXSxh5fcJCM3n
+	qMKNHIx+1iT8kLLCohSNhHKdm0dAiiM2H71gok3M4P9QYw+GGvDqjPUzw9WoyHQ=
+X-Gm-Gg: ASbGncu7K4zXrOzcufYaVsmct1uPA+SpIK9TVSBuQzpdCH6iTyB6RlaYaAMGZ/1vPWF
+	xQFDoyK2LxftwDhkY6Ew4gu2DdMyjtyzngUpiY3V/I3AEtqgS2XNDofHfOAXMpX1gcKq4XkE0+Z
+	hDuynw6Sh3a5qIOvwABpf8RpOs4AfAs1ABqNT1yeZhxCtLFX62bXaYewaTNy1WSeRW72S/8lI7n
+	aIk225rTvXE5D2ZgULIU8SNKLdG4k+Wnv2FU+9zIeeN/GRYZw0llZNEnodvPBetmHhk579Hhpsd
+	/8jCOdrnZ582CE3+dHO+tGtMtquAXDX+dBeG+7p4UeY9iDp8ZfA8ynIuXk8=
+X-Google-Smtp-Source: AGHT+IE4vTsyhTKjuwrkxiEbVaqWLWprrAFI6LPkc5oJ6Tw5j0urpY7Zf4f4AAtn0dsslPS8UEL2JQ==
+X-Received: by 2002:a5d:59af:0:b0:391:3110:dff5 with SMTP id ffacd0b85a97d-3a09404c7a7mr791880f8f.5.1746111729092;
+        Thu, 01 May 2025 08:02:09 -0700 (PDT)
 Received: from [192.168.1.28] ([178.197.207.88])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a095a4702csm1033190f8f.40.2025.05.01.08.02.05
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a095a4702csm1033190f8f.40.2025.05.01.08.02.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 May 2025 08:02:06 -0700 (PDT)
+        Thu, 01 May 2025 08:02:08 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 0/3] spi: Minor smatch fixes
-Date: Thu, 01 May 2025 17:01:58 +0200
-Message-Id: <20250501-n-smatch-fixes-v2-0-d2ad9c1f2e67@linaro.org>
+Date: Thu, 01 May 2025 17:01:59 +0200
+Subject: [PATCH v2 1/3] spi: atmel-quadspi: Fix printed error code during
+ DMA setup
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,10 +69,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOaME2gC/x3LwQpAQBRG4VfRXbs1RoRXkcVk/uEuDM2VlLy7y
- fLrdB5SJIHSUDyUcInKHjNsWdC8uriAxWeTNbYxjak4sm7unFcOckPZokfru+Br1JSnI+EP+Rm
- n9/0AxdzydWAAAAA=
-X-Change-ID: 20250501-n-smatch-fixes-2e9e6d8fd3e3
+Message-Id: <20250501-n-smatch-fixes-v2-1-d2ad9c1f2e67@linaro.org>
+References: <20250501-n-smatch-fixes-v2-0-d2ad9c1f2e67@linaro.org>
+In-Reply-To: <20250501-n-smatch-fixes-v2-0-d2ad9c1f2e67@linaro.org>
 To: Mark Brown <broonie@kernel.org>, 
  Nicolas Ferre <nicolas.ferre@microchip.com>, 
  Alexandre Belloni <alexandre.belloni@bootlin.com>, 
@@ -82,50 +83,68 @@ Cc: linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  patches@opensource.cirrus.com, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=872;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1698;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=1VWijjOveKM78Pbg6yVVTbPVhW2rlfQmcQFnP8XIqZ0=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoE4zple8GyUEoL6IZq4zjpqAic8P29xT7tLZY/
- oehltltRHeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaBOM6QAKCRDBN2bmhouD
- 10owD/9FVZ+pJ3mQzWF33wBIVcZ98/gdePGTPJk3U6ZXnM4XdSM93A8EysytmRSKp7mhypSC09S
- FG1Wog7SPakZpceFVwWPPrGY2hKwztfjXSqNvvBc+8dZrFaSEWCfcDXQbj/U8stZYVvLnWn2n+M
- ePWBE9BgqY4tVnCYizR8Ly6Uz4vq8Hd/oonDUaOetnq0k31z+QKYnGXL5MYWNJmVaqadmvjOHie
- hYusnzCyascIXdMkQmABsoD7Iy9WYp3xqi2jEk2Z7FrsHT26YGL7QlJei96DEMbhQDn+D8g3oJD
- MI+V1U5WUI/iy+w+1Y/10hyKKJocJDHxkobU93xbfHaHcJkB8r9of/gU698FNKF+Lh/b7WY96NZ
- zI7PcXajVysujp5u87R79aAfMiB8YZGZ0+gHy7vU5Q+ySZO2e9jGenhmcyYk1+zg+iL9mjK5fe7
- J9UUK1JDjVstLr133cuD1nGE6Sw7v0IgMS4aNWFpqvRaVMcnNE5/cB/TilOQGRX+TLUJX9QzSpC
- OpyD2tAVGgC1kI3A6okSAkKk4B7c6ZtK7Nbvd8lpdDjN8GZzoSJV07M4Ym4+7PK8ZwK+KFXnA4X
- si/kVQaqYfcvNnfJTrn7Lb0S+Q9BAXayQixDMKbVa8YjDsHsPbI2vn87cfFbihe7Be5gkOtN1q0
- 4Oy9BANH0Pd/Djw==
+ bh=4rkQ3Dw/vam/Vj+imyvV8Y9YuqnRhg19j57rXz0G09I=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoE4zpE4sh6HCX0YHtu8ifWSZYIijtzq3yBuTF0
+ rzZi40A/NKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaBOM6QAKCRDBN2bmhouD
+ 17ByD/9kTC3n6CgO/RKnoXTfVLW/0Pek2pCNI0Uowbck7+kCs7+0VPQ42qPkHHI4T6iWorNe0Qu
+ GhENCHnyqd3A2bm6kqChnDRxzS4e7Ahct2c31seIg2nLHs5HmusHPNwSC8HTnzrT/N3kFvotDsj
+ V01lG8bCbJ8qh5PSHAqTJFHMUAVq5zdJ0mKvnMISjajAEMTVvNcNRcQAl0Q5wBllqaKNflYn47O
+ h6f37rS32zOxHljsIuMOo99la3c72iTkFCLSOc6a1N6fRYxAPH2ze13O24+vDphIwPEndOLRFyT
+ adnFoGHyzgqEFu8ULVxDCIPLR+ZHmPNZtvOaE0XsFluaUcGhTKqKtYhQcf586SsGBKqz5u2mRxg
+ vO40HXN1p6lX+XZTB5bO43/DN9UcC0eXoz+bp1nlTiJIqN9vLh1fQ6zhPvZi9axRBc5Qma/RVeQ
+ W5S0gjuVVVUiVB35Prck8VDSNAIn7RApJikZCESHlqVV2JIMgtrGPQLmq9MEcjdcOlOux3H5cQN
+ Xr7swRKIyavFwNYjvAQtV+KfJwU38RDFDSPSa9XMSsYxRMd0CcJG6Ai+EL7oFi4PX5oT0yxnMM+
+ Z3GldcMCrtpxCa9IsLBZfEjp1k/MXtXtVVIS5RaUZ5j6M/50awIM3PLEocmTM9lwoKQAuEy2RAR
+ EWKOBKuTGJOR/FQ==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Just few fixes.
+On dma_request_chan() failure driver NULL-ifies the 'rx_chan' and
+immediately uses it as PTR_ERR() so dev_err_probe() prints incorrect
+error code.  Rework the code so proper error code will be printed and
+NULL-ifying of 'rx_chan' will happen in common error handling block
+(failure of DMA setup is not fatal for the driver and further code
+depends on 'rx_chan' being non-NULL for DMA operations).
 
-Changes in v2:
-1. IS_ERR_OR_NULL->IS_ERR in cs42l43
-2. Drop patch which was already fixed in the meantime by other person
+Reported by Smatch:
+  drivers/spi/atmel-quadspi.c:1287 atmel_qspi_dma_init() warn: passing zero to 'PTR_ERR'
 
-v1: https://lore.kernel.org/all/20250104205437.184782-1-krzysztof.kozlowski@linaro.org/
-
-Best regards,
-Krzysztof
-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Krzysztof Kozlowski (3):
-      spi: atmel-quadspi: Fix printed error code during DMA setup
-      spi: cs42l43: Make handling missing spk-id GPIOs explicit
-      spi: cadence-quadspi: Assume device could match via platform
+ drivers/spi/atmel-quadspi.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
- drivers/spi/atmel-quadspi.c       | 9 +++++----
- drivers/spi/spi-cadence-quadspi.c | 2 +-
- drivers/spi/spi-cs42l43.c         | 4 +++-
- 3 files changed, 9 insertions(+), 6 deletions(-)
----
-base-commit: 6b7e080d43429e85b40355986026eb69ef775df9
-change-id: 20250501-n-smatch-fixes-2e9e6d8fd3e3
+diff --git a/drivers/spi/atmel-quadspi.c b/drivers/spi/atmel-quadspi.c
+index 244ac010686298c58427fadc0ebfff5e62d18880..fc36751763887cc14bc71e2f398a25e56e9c5e42 100644
+--- a/drivers/spi/atmel-quadspi.c
++++ b/drivers/spi/atmel-quadspi.c
+@@ -1287,9 +1287,9 @@ static int atmel_qspi_dma_init(struct spi_controller *ctrl)
+ 
+ 	aq->rx_chan = dma_request_chan(&aq->pdev->dev, "rx");
+ 	if (IS_ERR(aq->rx_chan)) {
+-		aq->rx_chan = NULL;
+-		return dev_err_probe(&aq->pdev->dev, PTR_ERR(aq->rx_chan),
+-				     "RX DMA channel is not available\n");
++		ret = dev_err_probe(&aq->pdev->dev, PTR_ERR(aq->rx_chan),
++				    "RX DMA channel is not available\n");
++		goto null_rx_chan;
+ 	}
+ 
+ 	aq->tx_chan = dma_request_chan(&aq->pdev->dev, "tx");
+@@ -1310,8 +1310,9 @@ static int atmel_qspi_dma_init(struct spi_controller *ctrl)
+ 
+ release_rx_chan:
+ 	dma_release_channel(aq->rx_chan);
+-	aq->rx_chan = NULL;
+ 	aq->tx_chan = NULL;
++null_rx_chan:
++	aq->rx_chan = NULL;
+ 	return ret;
+ }
+ 
 
-Best regards,
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.45.2
 
