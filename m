@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E7B26C391;
-	Thu,  1 May 2025 05:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1B825F7B9;
+	Thu,  1 May 2025 06:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746078209; cv=none; b=btVY+S4GMrMcQeV6g+b9H7780rDUPHE5ghLfN83fDaxQdAcHeJJy6tIXewcShEAdYZ2mxXP3Jr/Xmsnu41jwWZ3Pxb+5/rHeQeKNUrp+BfQOhYfufJVJwHviF3mY6Bzvl16bv4pNks2LHccgbYEFyrOzeV3RR7hr5se329G/3Ew=
+	t=1746081487; cv=none; b=A9Qsot4RCRsPS0SgQZGi68py1rK3Bk0n57VAKZ72UYseb+tBoiueTLn5k9ULTOZF1SswiRSQ+P152d3fN2zD8XawETDQmJ7SkVg42UsSYcwOq9MI37yW1GjBpEPcq0FOBrwlKcHyBpG/4/WI2X9EweY40lo2biLsuJQ0LSvhAYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746078209; c=relaxed/simple;
-	bh=hDgNGJSFqTL0rdyfyaSxZHiKr3ah+PFvn4eS9vcQAl8=;
+	s=arc-20240116; t=1746081487; c=relaxed/simple;
+	bh=UAP2AV+qSbFSO/2/N++l3ypruXuDaFFIRSPyTIofkqg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FAyGHAITvoQDjeggy9fj+z0Jix38FEFGRmegAVGMmbYmxMAvEH8n4tLX5D8yohrzE8AkK4lvXZXbZwwJPmOLSmkMb6RE3dWSLYkbPwIuICM9oPCUuNW3Rq2QAD1Kj6FKTj6ygNnfZBUnAWaN3Dc9uvXoHMK3DsJjGywae5JkHFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qxcsWm1J; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=S3XoL6EVnfpz23WpLSkiDvFaSski64YUbPVlEuNSmW8L7BG0B8N63/NZZ2T+OIg3/inj2DWtGpzvEyB6W/TYDVSP/lAebMOlWLiq5NyqrsTM+E6hwSF7aPNVeq4fd762T7cYnxYPNiufPFNUN3+NjUvUy1rgZxLb9pHBQobumDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nTK9N3wF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qxcsWm1J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3877C4CEED;
-	Thu,  1 May 2025 05:43:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nTK9N3wF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE5AC4CEE3;
+	Thu,  1 May 2025 06:38:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746078208;
-	bh=hDgNGJSFqTL0rdyfyaSxZHiKr3ah+PFvn4eS9vcQAl8=;
+	s=k20201202; t=1746081486;
+	bh=UAP2AV+qSbFSO/2/N++l3ypruXuDaFFIRSPyTIofkqg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qxcsWm1JqnwPidgyKW77HmOcKDiCv0Hv6ZhxJdFx3x3iUBvd0LMJ67TCgDEtpWKDf
-	 fVPZ54U0lfdp2tonFMyI22/umM59Lejv5UE0SdId9HgSt4pQojmWshrBNGXHDPUUkY
-	 d5pSu0tSK5nIdFpzW4V2RRtce11WhHrOqx/JfVN5a7vzmwhMyFf6vKiRznki9ECCDN
-	 rW1mjQLF2WLXGSBQJ0Rz8tXvKh2ut+M6OvvsBzkuxNluBWpgeGWs0TLbN/IUZNp0Bn
-	 +sjxRGvNd8s1BuwnF57bqFtEBABaUCUBFiXAzyT2rLG0EQLYGcomWnYX5EBaQ0G24v
-	 2BCTof3Q7FoMw==
+	b=nTK9N3wFBMkhJe08xeOfs0C9EN4ztFCTh7V3x7cbBbR0jT5Wd68xB2EcCgKupe7vj
+	 DMnGWRYowzYv7KdRIGvxdPra3V571FpD5SgH8wudI2jmNigkHtleguUE+3hymi62DU
+	 ZcE9DY186mYo9CyQGHEOOzs3DiVTx/VTfjCiBQzDjJVPbqICnlWzA+J37d/A9NYhHT
+	 lkBQwunLyYBoI+uT+Ge9aPReAx+9quY0zhLB/ZaJCj9Vy1rvPPrsnLU6ZHGuAYNfq0
+	 KVL3zmVq2VcijwmMSIIYIOnxBMZOUydXa6wZbr/pHZi9T5mp0RB25OswPcvHuiLF9k
+	 I5+ojStYAwv+g==
 From: Mark Brown <broonie@kernel.org>
-To: kiseok.jo@irondevice.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, linus.walleij@linaro.org, brgl@bgdev.pl, 
- "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Peng Fan <peng.fan@nxp.com>
-In-Reply-To: <20250427055020.176099-1-peng.fan@oss.nxp.com>
-References: <20250427055020.176099-1-peng.fan@oss.nxp.com>
-Subject: Re: [PATCH RESEND] ASoC: codec: sma1307: Remove including
- of_gpio.h
-Message-Id: <174607820670.4025361.5315574938270076787.b4-ty@kernel.org>
-Date: Thu, 01 May 2025 14:43:26 +0900
+To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Olivier Moysan <olivier.moysan@foss.st.com>
+Cc: linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250430165210.321273-1-olivier.moysan@foss.st.com>
+References: <20250430165210.321273-1-olivier.moysan@foss.st.com>
+Subject: Re: [PATCH 0/2] ASoC: stm32: sai: fix kernel rate configuration
+Message-Id: <174608148419.4032397.674149169345577452.b4-ty@kernel.org>
+Date: Thu, 01 May 2025 15:38:04 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,11 +49,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Sun, 27 Apr 2025 13:50:20 +0800, Peng Fan (OSS) wrote:
-> of_gpio.h is deprecated. And there is no user in this driver
-> using API in of_gpio.h, so remove it.
+On Wed, 30 Apr 2025 18:52:07 +0200, Olivier Moysan wrote:
+> This patchset adds some checks on kernel minimum rate requirements.
+> This avoids potential clock rate misconfiguration, when setting the
+> kernel frequency on STM32MP2 SoCs.
 > 
+> Olivier Moysan (2):
+>   ASoC: stm32: sai: skip useless iterations on kernel rate loop
+>   ASoC: stm32: sai: add a check on minimal kernel frequency
 > 
+> [...]
 
 Applied to
 
@@ -60,8 +66,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codec: sma1307: Remove including of_gpio.h
-      commit: a9ec9212f6d3b5fac6c2bcaaa9fcbcb469f045cb
+[1/2] ASoC: stm32: sai: skip useless iterations on kernel rate loop
+      commit: edea92770a3b6454dc796fc5436a3315bb402181
+[2/2] ASoC: stm32: sai: add a check on minimal kernel frequency
+      commit: cce34d113e2a592806abcdc02c7f8513775d8b20
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
