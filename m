@@ -1,140 +1,142 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37375267AEA
-	for <linux-sound@vger.kernel.org>; Thu,  1 May 2025 08:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8EC62DC770
+	for <linux-sound@vger.kernel.org>; Thu,  1 May 2025 08:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746087863; cv=none; b=oZ0bqxR6z3fsql7E8Vpp6DKuzoZ/EumvvfsreTta4iX1PNrWsFuF9hi2D2CFvxnWCB7fVC7YARqAuDujNXXH6P7OTbkx6ZCzdlGRwWtyNaMfIimdhmAuQuc8XE0bYAv1xGLcyJjmAW77Z3SUNeYApOJL+3hL8Ryj2XzrqZk/54I=
+	t=1746087913; cv=none; b=cCLtmtnOYU01hbCxWLkx7lP1hKd5tu4KRZR/1kxFsJqqu/HCgtKpK2SUR/JF++RaPnk4lOGEPrk6BN1RPr4D9VxPeXObDbwwkjr9it8kULG83luyWDJWkif+w2QeS2SwWE0/k8s1Benaweh6pNJ6pwep/6ZqD0c9KXP5X7KGzes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746087863; c=relaxed/simple;
-	bh=4SV0SWjjN6to74Ybm0U5EvYj7KZjdi/ydl2GGsa9zMs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kKhQNIpkt9gPNEUwpXAGhYhgWjCxSd1Q9lLRvPyJ2WHB2lWa7tjRpMEqGmDuq9Qv+bx+MC1CEq1oP5syN4RVGyEf+7R9QQzjaeJC26Cb2fFlXvKIEUI5SCKkgLG5TRplNgKffneEda9fsVA2pE+hbboBXDl3Ik94tEXFq17hOc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jY2qu8m1; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1746087913; c=relaxed/simple;
+	bh=sptQtAXLNggzFT/BRvEoh+959POyE8mfee9awE2DIVQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uy7M4hJVBhF7IdTjSm2MBWgLfcMjXltCJq4EXqq+Rvp7BYuKe0zyPf+BwV3SStKND/yRTc4rPyqpK8JydxY4IYNntHh9RDW/SIqcTWQMMpXn1eilzeJPEwrkG5ieTyK3DtDMbhStGEN1cMA5MN+Xqq1wH1xODhJjqqTQ3m8ONzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=goM0dbtp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=46DQ74ja; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=goM0dbtp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=46DQ74ja; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jY2qu8m1"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53UH1Bqe011940
-	for <linux-sound@vger.kernel.org>; Thu, 1 May 2025 08:24:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iJ53eFcOacyOAm+jXnQpdZtxz9kOeIhYOC7j2kMJ+SY=; b=jY2qu8m1X6hSNi17
-	CxNR0kONJEiMG3GE+/f20utQJaBfcdQ6dPTu4EIV5dGJb9dmyj0xR7TKJQ+cGoGH
-	CUCiJxrzBOZvsqAPxq1namQ4s5YkG2oNh6PVJJmyTxO9YSD7tkbHrVGt+ijSXUn7
-	NzXJfcTeHpmFG8IThOecK/i9YdXROO/8ke7hcNeQbBriutYHGldwnxgtQUHkXOrg
-	lL2FVdt4waPQoBUsB0LRlg/rOd1KUPQm3Qzl3vCW2EhwRHwcY9C5wRO03bzBas++
-	+teqycKSivS5McBZM/Lehbf0d6LM+QJAkYjti6YcPgs0c+pLyKmElQKlIN2bKmBt
-	XEN5bA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6uavr1p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 01 May 2025 08:24:20 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-476695e930bso1854341cf.2
-        for <linux-sound@vger.kernel.org>; Thu, 01 May 2025 01:24:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746087860; x=1746692660;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJ53eFcOacyOAm+jXnQpdZtxz9kOeIhYOC7j2kMJ+SY=;
-        b=AwPDPIevkpHXfEJLeby/zzKcArfDSr5xUh0KcII+x9RpqGykKPQZO7T3mx5IspfbbN
-         l5PJ6u1dYgrr3yGWdBhZ1b3DCFBv4AnrfG7g1+HEbN0CvolIhAfVGZ1nytaybl0MwQsn
-         vYZ8nJmhwEy09Pg2goYot2MCrJnDYXvfR5mzOxV5d+DEafl9wcErWDtFmlwY1PGFqTUg
-         BmC2odmxOYlNn3LQITe4doTDiQvi2p+9VMvfFHj80Bkd1Nl8iUzlMXEdwP/PKX5NESny
-         zDfaLy3KPnfwYNgSX0alquZlmerMBKWKOPuLePU6H8NC9oYG+4v+FIRR2V7cxigQswYT
-         q/0A==
-X-Forwarded-Encrypted: i=1; AJvYcCWZe0QSXfKTm3XOwXmocMIbS+2wg8HR6+oAEZzxWS6dR/nO7P0h7LEtjDsKdn4F1TjuXVMj5gn45Ri7fw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRESaOzH4nO3JR8QXErPN91Q+xY9E00N0Z9+oTJrwCvoelTV5h
-	3ZlqapmVYkhnAbOhYNJJhnfI0+gRGV3fNP5AWjCHjaOPx64OojSx0oHG+NKg8CK9/wbkaVxBSze
-	AiW0xXT599SzLAo48qc/jybckeeJTlUtkHItQwr/lkgNt9hYfUgL8d+9gbGiRtw==
-X-Gm-Gg: ASbGncv9+a+MGhapvMe8Duc61jOdM/DyLhXSS3fkk30FWRf42WFYkqGBL/bP87gOqds
-	wlbDuJLz1QwvXEI+jfyRBGE5lQlA03Sqmcg5US49nAURkqR3jpdS7lHX57e9imRlzo4EKp8N9g7
-	PJgeeXtVQlea06G0xlQI5OTZGnpsOE9qalaDPjet9bBP6tuDNk1JvVNFOq3PemuP27nbRP6Np5e
-	o4LKCp0rNitv81s4VPICLgFYJX15YWnW9JZIC723a6E5qd2PUCbdqOfsR89JOqRAlkYiekcWqk1
-	6PE92Vlx82WZ++IDvMi5Aq4B9MkVeOyOxMRk9ppmXyh7Dm1bOe7GdG1BFetiUXdHfLI=
-X-Received: by 2002:a05:622a:13:b0:472:4c8:64c6 with SMTP id d75a77b69052e-489e4e6d39fmr33056611cf.9.1746087860199;
-        Thu, 01 May 2025 01:24:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFJ46MXi0EjwqtJAjYukm21R5nakopvue7J6cRNX84FO6gEnUuzCCno+YAn+6cIgvTftra0vA==
-X-Received: by 2002:a05:622a:13:b0:472:4c8:64c6 with SMTP id d75a77b69052e-489e4e6d39fmr33056451cf.9.1746087859869;
-        Thu, 01 May 2025 01:24:19 -0700 (PDT)
-Received: from [192.168.65.219] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad0da55afa1sm7690566b.131.2025.05.01.01.24.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 May 2025 01:24:19 -0700 (PDT)
-Message-ID: <f65228d7-fe5d-46ea-9331-2491cab778e6@oss.qualcomm.com>
-Date: Thu, 1 May 2025 10:24:16 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="goM0dbtp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="46DQ74ja";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="goM0dbtp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="46DQ74ja"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D5D641F388;
+	Thu,  1 May 2025 08:25:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1746087909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fr87GwYKmv4fSxKSzNYdplpYxl6u5wFZPAToK9TBDgA=;
+	b=goM0dbtpEZH08Td5lTo2hSDDfFM8Q7TG9iKvqEykcLc3kgrVaFVzfZzgHzQAfZ5A4x/3No
+	wI6SsN8mKxSweRVnxjQfrM+xu09cFZcL1RjTNummz1rhJVTL8hZ7YmCpV6kCE9QAyQ3iX6
+	MfuhVBTITQGrZmVA3yF8a2m7w/pTlWQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1746087909;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fr87GwYKmv4fSxKSzNYdplpYxl6u5wFZPAToK9TBDgA=;
+	b=46DQ74jaNk954h6KXpWKdzKBi0EOIOl33dYJeNpbs8ZMQSYkZFDFKif0Ozadg5/uVcKwdj
+	Ne8T9Papkdpz4RDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1746087909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fr87GwYKmv4fSxKSzNYdplpYxl6u5wFZPAToK9TBDgA=;
+	b=goM0dbtpEZH08Td5lTo2hSDDfFM8Q7TG9iKvqEykcLc3kgrVaFVzfZzgHzQAfZ5A4x/3No
+	wI6SsN8mKxSweRVnxjQfrM+xu09cFZcL1RjTNummz1rhJVTL8hZ7YmCpV6kCE9QAyQ3iX6
+	MfuhVBTITQGrZmVA3yF8a2m7w/pTlWQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1746087909;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fr87GwYKmv4fSxKSzNYdplpYxl6u5wFZPAToK9TBDgA=;
+	b=46DQ74jaNk954h6KXpWKdzKBi0EOIOl33dYJeNpbs8ZMQSYkZFDFKif0Ozadg5/uVcKwdj
+	Ne8T9Papkdpz4RDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC41513931;
+	Thu,  1 May 2025 08:25:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id joWcKOUvE2i2CQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 01 May 2025 08:25:09 +0000
+Date: Thu, 01 May 2025 10:25:09 +0200
+Message-ID: <87o6wcbuvu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v6.15-rc4
+In-Reply-To: <a6bd31a7255c121ca11bbdf066134f83.broonie@kernel.org>
+References: <a6bd31a7255c121ca11bbdf066134f83.broonie@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] arm64: dts: qcom: sm7225-fairphone-fp4: Enable USB
- audio offload support
-To: Luca Weiss <luca.weiss@fairphone.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
- <20250501-fp4-usb-audio-offload-v2-5-30f4596281cd@fairphone.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250501-fp4-usb-audio-offload-v2-5-30f4596281cd@fairphone.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: TKMwQv5esxacPu7lXmTeaNVvz2s6dozE
-X-Authority-Analysis: v=2.4 cv=KtlN2XWN c=1 sm=1 tr=0 ts=68132fb4 cx=c_pps a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8 a=6H0WHjuAAAAA:8 a=HmAel4GXUpO_Sf_o3M4A:9 a=QEXdDO2ut3YA:10
- a=zgiPjhLxNE0A:10 a=kacYvNCVWA4VmyqE58fU:22 a=Soq9LBFxuPC4vsCAQt-j:22
-X-Proofpoint-ORIG-GUID: TKMwQv5esxacPu7lXmTeaNVvz2s6dozE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAxMDA2MiBTYWx0ZWRfX4wewwg9y6o11 ZomV/Tnixdwu+XSSTBKa5zfCh0CJao2ZtD7sjND/O61vAFEdXQnX/7g9nVCvfKF8HOtcWLZVZFU Bharx0tBGVhE8iHHWzHlWkfOVnc86k8hcJJ61QHguDkxGVtDnM6EsN53cex70ijgMa4QTIfuaKy
- YOFL62DQBxhDZpb7QobdeMCs4di63RqP0eFfG0MJSeiyyjY97F908mFFaBTwUwOgozhoOTvj8pe Qy678GWAo4gtLSnpIdKYEeQjRIvH5jPPHMB1G/4o46M67Z8OsgOKTD+g2e5QIAapj99qeJEtblH Xg5At+KAK8863uSyBjbFtTvih3vm4vd7u3Dhe38FNns91YUNiBGAKYaDEVJ7kaeRCu0S8IeV0io
- ibMF4I2fQYHLYRvFigm0FGGg2JH9UhDt5xA5MprtEfmlZOTTRKi7oXGxO+NZ+Sh8kEYpv4SJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-01_02,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=997 spamscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505010062
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On 5/1/25 8:48 AM, Luca Weiss wrote:
-> Enable USB audio offloading which allows to play audio via a USB-C
-> headset with lower power consumption and enabling some other features.
+On Thu, 01 May 2025 08:44:37 +0200,
+Mark Brown wrote:
 > 
-> This can be used like the following:
+> The following changes since commit b4432656b36e5cc1d50a1f2dc15357543add530e:
 > 
->   $ amixer -c0 cset name='USB_RX Audio Mixer MultiMedia1' On
->   $ aplay --device=plughw:0,0 test.wav
+>   Linux 6.15-rc4 (2025-04-27 15:19:23 -0700)
 > 
-> Compared to regular playback to the USB sound card no xhci-hcd
-> interrupts appear during playback, instead the ADSP will be handling the
-> USB transfers.
+> are available in the Git repository at:
 > 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-> ---
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.15-rc4
+> 
+> for you to fetch changes up to 315c84567001aec7f7b74a0dbd4fce3e1c5cbd87:
+> 
+>   ASoC: intel/sdw_utils: Add volume limits to CS35L56 (2025-05-01 14:43:52 +0900)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v6.15
+> 
+> A moderately large batch of fixes for v6.15, many driver specific
+> including cleanups for the enabling of the Cirrus KUnit tests and a fix
+> for a nasty crash on resume on AMD systems.  We also have one core fix,
+> for an ordering issue between DAPM and DPCM which could leave things
+> incorrectly unpowered.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Pulled now.  Thanks.
 
-Konrad
+
+Takashi
