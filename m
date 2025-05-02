@@ -1,30 +1,30 @@
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937BC23BD0C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8955B23A9A3
 	for <linux-sound@vger.kernel.org>; Fri,  2 May 2025 10:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746180856; cv=none; b=DqPWJV1D8VkTsHCWgK0RFxG5ot1O5O2MB2dn0oSOUV+KpKS0YPEZLGMBX9DGhbwXCIOn7exhdlC7vLZjmkB/hdJSxUEkB9P5DD+RsN9e2lbyR41ouG6sthV4N42rPntRqqXQYdcNWsqjC37eWlJ8QxcQflCEMAU4sSFxZGv+hgo=
+	t=1746180855; cv=none; b=BzESIor6c1xvigxs1sjJwyn3EUrFscjBq4Nyu/XrNWzCYDXvWG9DI09GErJdSsVpWp5A9fXX9FWiHxNRa0T+zo8eWi4ZPZ0ZxXre5v+DALWKUjbFolIlRObp1m8Sc8wFZnxB4qkxosJ9W/XNMVz0zKWtKxW0sL8bfS++JYCq1cY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746180856; c=relaxed/simple;
-	bh=SzXMf1ZgFlGplr5nm3abuFttP6lJHZ7f0w06FE44j2I=;
+	s=arc-20240116; t=1746180855; c=relaxed/simple;
+	bh=wrNVWQAIB26zJHbPSQt+V+aYvkM5qOnkaYzzPYTugGE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hI4U8GqHNZ2ABLk445wvmBoyj4m72QTZXc2yr0zbtkzkbmwpKfRH/rr0y946eRVsItb4vAZvkc8URivJTFOF1zTFdaTThEf3QULem4227sZcd7oNVq0NnSss/wqV7JyLJrgLP3OlxrrF+UvJ6TZ8WyugQm+4yFrBQ54ZID4WxWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+	 MIME-Version; b=V1k2AgBmvdrR1wm1CKdErXHUH6HvIKFsapRM1Q0VPb31+8DLOln4mFOLY5b5sx49joBeX4JgNj7Mrbame8doK9EGiTtbKhRlvVmq6mh7IX9xEpHoblNTuefFvgwRnLK5eNwQH5fk4gEUYCtvPJisthL5SeoU3DddrinN9Ncpn1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:df64:35e8:502:4ac0])
-	by andre.telenet-ops.be with cmsmtp
-	id kAE02E00j4sst1101AE0RL; Fri, 02 May 2025 12:14:00 +0200
+	by baptiste.telenet-ops.be with cmsmtp
+	id kAE02E00a4sst1101AE0qH; Fri, 02 May 2025 12:14:00 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP2-00000000WAC-0NpE;
+	id 1uAnP2-00000000WAL-0geh;
 	Fri, 02 May 2025 12:14:00 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP6-00000008oXJ-2MRW;
+	id 1uAnP6-00000008oXT-2Z1x;
 	Fri, 02 May 2025 12:14:00 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -37,9 +37,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 15/22] spi: sh-msiof: Correct RX FIFO size for R-Car Gen2
-Date: Fri,  2 May 2025 12:13:47 +0200
-Message-ID: <00b38f543d57efcda912e391fa358b42bd29f83b.1746180072.git.geert+renesas@glider.be>
+Subject: [PATCH 17/22] spi: sh-msiof: Increase TX FIFO size for R-Car V4H/V4M
+Date: Fri,  2 May 2025 12:13:49 +0200
+Message-ID: <145d7aa4e5a1ea6d07d290b83004e8dee44edafc.1746180072.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746180072.git.geert+renesas@glider.be>
 References: <cover.1746180072.git.geert+renesas@glider.be>
@@ -51,30 +51,64 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-According to Renesas Technical Updates TN-RCS-S068A/E, the MSIOF receive
-FIFOs on R-Car Gen2 SoCs have room for 128 words of 32 bits.
+The MSIOF transmit FIFOs on R-Car V4H and V4M have 256 stages.
+Add a new family-specific match entry to handle this.
+Add quirk match entries for older R-Car Gen4 Socs (R-Car V3U and S4-8)
+that have transmit FIFOs with only 64 stages, just like on R-Car Gen3.
 
-Note that this change has no actual impact on the behavior of the
-driver, as SPI_CONTROLLER_MUST_TX is set, and transfer size is currenty
-limited to the minimum of the transmit and receive FIFO sizes.
+Update the (unused) definition of SIFCTR_TFUA for consistency.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/spi/spi-sh-msiof.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alternatively, the family-specific match entry could keep referring to
+rcar_gen3_data, and R-Car V4H and V4M could refer to the new entry.
+
+Tested on White Hawk (R-Car V4H) and Gray Hawk Single (R-Car V4M) with
+spi-loopback-test and external loopback, DMA and PIO, and a logic
+analyzer.
+---
+ drivers/spi/spi-sh-msiof.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index ea9277ab87f66cd5..8d18a26128d600f6 100644
+index 8afb7c1f64cd4486..26e71fc8890fda6d 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -1099,7 +1099,7 @@ static const struct sh_msiof_chipdata rcar_gen2_data = {
+@@ -149,7 +149,7 @@ struct sh_msiof_spi_priv {
+ #define SIFCTR_TFWM_8		5U		/*  Transfer Request when 8 empty stages */
+ #define SIFCTR_TFWM_4		6U		/*  Transfer Request when 4 empty stages */
+ #define SIFCTR_TFWM_1		7U		/*  Transfer Request when 1 empty stage */
+-#define SIFCTR_TFUA		GENMASK(26, 20) /* Transmit FIFO Usable Area */
++#define SIFCTR_TFUA		GENMASK(28, 20) /* Transmit FIFO Usable Area */
+ #define SIFCTR_RFWM		GENMASK(15, 13)	/* Receive FIFO Watermark */
+ #define SIFCTR_RFWM_1		0U		/*  Transfer Request when 1 valid stages */
+ #define SIFCTR_RFWM_4		1U		/*  Transfer Request when 4 valid stages */
+@@ -1113,6 +1113,15 @@ static const struct sh_msiof_chipdata rcar_gen3_data = {
+ 	.min_div_pow = 1,
+ };
+ 
++static const struct sh_msiof_chipdata rcar_gen4_data = {
++	.bits_per_word_mask = SPI_BPW_MASK(8) | SPI_BPW_MASK(16) |
++			      SPI_BPW_MASK(24) | SPI_BPW_MASK(32),
++	.tx_fifo_size = 256,
++	.rx_fifo_size = 256,
++	.ctlr_flags = SPI_CONTROLLER_MUST_TX,
++	.min_div_pow = 1,
++};
++
+ static const struct sh_msiof_chipdata rcar_r8a7795_data = {
  	.bits_per_word_mask = SPI_BPW_MASK(8) | SPI_BPW_MASK(16) |
  			      SPI_BPW_MASK(24) | SPI_BPW_MASK(32),
- 	.tx_fifo_size = 64,
--	.rx_fifo_size = 64,
-+	.rx_fifo_size = 128,
- 	.ctlr_flags = SPI_CONTROLLER_MUST_TX,
- 	.min_div_pow = 0,
+@@ -1128,7 +1137,9 @@ static const struct of_device_id sh_msiof_match[] __maybe_unused = {
+ 	{ .compatible = "renesas,rcar-gen2-msiof", .data = &rcar_gen2_data },
+ 	{ .compatible = "renesas,msiof-r8a7795",   .data = &rcar_r8a7795_data },
+ 	{ .compatible = "renesas,rcar-gen3-msiof", .data = &rcar_gen3_data },
+-	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen3_data },
++	{ .compatible = "renesas,msiof-r8a779a0",  .data = &rcar_gen3_data },
++	{ .compatible = "renesas,msiof-r8a779f0",  .data = &rcar_gen3_data },
++	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen4_data },
+ 	{ .compatible = "renesas,sh-msiof",        .data = &sh_data }, /* Deprecated */
+ 	{ /* sentinel */ }
  };
 -- 
 2.43.0
