@@ -1,96 +1,93 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CF5192B8C;
-	Fri,  2 May 2025 17:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C921E32D5;
+	Fri,  2 May 2025 22:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746208788; cv=none; b=uswit2b/57G5sqdbK/ImrEFtwZsXbJ0ERHWTfP52sUIMhwcigPhVCXSpLb6fX6WDOPL3c9zUzHdU3JivW1kNPlAcw4sPwdtzZCnxMTgLYFfqwSXw3/K6YmG9Mfvbhm29Iq+Q1Vl5hBYT3MkiNo9fPhkytj93rjngZ0JRTGIZhNs=
+	t=1746224494; cv=none; b=ENsJvfuGfx47nrvkGzl1yMbq90Y18WSqQ73GHU+Zi3JGdzVf0j565JEYKI27a4l+7ia1mnKB7RMn/v4FF6rzHxlVkYLZUFqk31fOok8AZ5O6mPiC6zwZgSXyMwhGOry63IejXq7n2r6rQUQJaHlXfMNurp3G4A7ed2TsSMOzlR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746208788; c=relaxed/simple;
-	bh=b/OTnsE8RfLnan7+f0MIjo36FqZfl17OZEnEuYK+rSE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K/4iy+syycXYUpB5PCuISojSd8pMW8ATBbzk8/9rDaX8zKHTmY2PvUn/7qkIAJtb7AVtrpVyecNL0bECvX63VmmxDdy6tlM8rG1heYqam4BwE7BYyvvGk5qQqeWsxf+seewoms5yDaN417ekQLNV1W/trKBN5Iqzgj8dBdVQppw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5242f137a1eso663759e0c.1;
-        Fri, 02 May 2025 10:59:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746208784; x=1746813584;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sl9ef/BMY04aildX7iZvdIu1ZnNRZ1wIdTW2Qi13624=;
-        b=RxnXIaS/aAqwsZ9XdR5iOKXjn/nEyVPr6523kmTBstOm14710lkSZqPsXMVRkIFUxt
-         /5g/ecJHpF1+tsJFUnleyqUO+8s93nJVmAuehLOP8TCDpJ1d4hDx1V4V/HB85YJNiA7v
-         Ala5tAMFdJu+EX3PV/l7Y/PRjASauv2z3lOBAnWFdw8eFdOpQdUWHYQwIPyGYo4ckIzr
-         tcXWq1OIkEhSjNIszW9ufYadWbeLPmm+X9eVwyPuGaBfeCpgmTlcxwaEHDYBEYacivi2
-         judKKL5kB1Lzew/JGy6osOFYDK/3YYwF90QKYze6z1JoCwqJMInqzLAfCqQ2Ky4mxuh3
-         a+Qw==
-X-Forwarded-Encrypted: i=1; AJvYcCUm4qqb3hOjDfSywQdRngWNhRiOOqxFaEc53CCTCKkn6FqnIHaSgAJZs1VxlJxAPz8JWVzdMnboM0DD@vger.kernel.org, AJvYcCVDZ+MJuL4/CAUn+DA4B1W34orMs6nuZW0hMtVv8k4ywZ13CG/Udu9WoAqtNRA0cg3U6aEbcnCIObVTY5o=@vger.kernel.org, AJvYcCVmQLMbOmuG1ns9RBhgmGFFA3ngT3GyM0KNjecCYz0RepE9fpw0P5/xRT0LNn7yL1YE0/u+d7JcfOmg@vger.kernel.org, AJvYcCWr6OYz0Q57ERKfYaSeLSf2+o90nHRyqAijwrE/f3wdt80CMwDc+tEmavA2W5ZHmN6HI9bqu1t5wHYO21/ndG4QT1k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjGzcQNtpV7tS3TvusyIN7JsECIjxKfRUoKrXse+gUej2ytTql
-	dTj4ggOzLH9fuDuJmRVkstI5Iib1PTLSu5yipyUzMrfX5pv6qNg5bhkNKerX
-X-Gm-Gg: ASbGnctScVGnuk8W8frix6MCQclj8DdFbUZWEDkUpGnos+uGZzxzF4dHgF7fzE0naE1
-	qc3vS8agBCmqN/WzPFaLPTGnu9xdGH6UCU632SfyaiepzCA8EIvE/ieSCjeOMXYBxSDvuDKz3D7
-	Va1tAX0eKekztQeAj+Y2ID+PrsKoLTBpJr+nGLD20NNRrqJ+Qhp/i4UpWMzsIO7sv66DgS7XS2p
-	TClwecoO+mAEJcmUplxl1U5ZcvVtUI+F2S4vlvT34Iv6lq9gptHaI95ZXphuCb8qRAn1ZyBnmse
-	M+FcQB5ImNqmnL0pBlGRHK2eTlKW7WD7G9+w3M3Ey8eZL7olWsODSJtz/F/koYi7IztTchBeX7R
-	TWSs=
-X-Google-Smtp-Source: AGHT+IFiasdWsyrBCYwcGtZ+H7jIO8LOmVSdNnuqgPclLm2sjy6Iuv06YrwGdKD9uJmu3OzSzpr6Kw==
-X-Received: by 2002:a05:6102:534b:b0:4c3:b0:46fd with SMTP id ada2fe7eead31-4dafb6fab55mr3487064137.24.1746208784350;
-        Fri, 02 May 2025 10:59:44 -0700 (PDT)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8780af50ec4sm378240241.0.2025.05.02.10.59.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 May 2025 10:59:43 -0700 (PDT)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4c326617e6cso611392137.1;
-        Fri, 02 May 2025 10:59:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUYXFWSQpuS9PbiX9wzKvliPm4cb5STr3rSMDUzVqUDoHUl8/x6LclyNXRtgPs1lMJQIzOGHjquk2WDXd4=@vger.kernel.org, AJvYcCWtyf6DJZMSsV1ADLToZnOgYsLmZDtS50z1yFXkRfvCk61u8DQ7lOKMRljAWsIS3v0O3Z/hlvdE5L+f@vger.kernel.org, AJvYcCX8e3tUyCHNPYs6+uUGYSihPpN2wWzhqlksvqOcRfjFdTh73IUGZS7+SPlO/cAlm3IQ9g30VN4sIJ6g27AJN6gIoLY=@vger.kernel.org, AJvYcCXIDf6a4HaHkMJ+3zMrJsuv7IkhJXMRp3uJu1C+F62DRP2O/1jIeeX9SqL7VtFVRSKFChfTw9DJbe9W@vger.kernel.org
-X-Received: by 2002:a05:6102:534b:b0:4c3:b0:46fd with SMTP id
- ada2fe7eead31-4dafb6fab55mr3487048137.24.1746208783751; Fri, 02 May 2025
- 10:59:43 -0700 (PDT)
+	s=arc-20240116; t=1746224494; c=relaxed/simple;
+	bh=fG3d8Fg02oXt1YvEIlNOJZJDDmmHsyAC/nldx3bMtys=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Gkxj8GPVaqzbZoruzWbmtLZvssTOVYbrrdGo815gRS70UprpWVu6GuW5xUD0Clcv4RxW+oHzbhyR2OKepwPGGmW3j6CK3hc1pdZsxdQb1tY1Z5Uih/9dSWQncEyi/DFuQ3VzRr6j2PwnI7fZMrM3p5ELAa+0u7hjrX3yu2e093g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a+AE/QWq; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a+AE/QWq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB8EC4CEED;
+	Fri,  2 May 2025 22:21:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746224493;
+	bh=fG3d8Fg02oXt1YvEIlNOJZJDDmmHsyAC/nldx3bMtys=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=a+AE/QWqp48WrIEZhiOtaMhrcmSKcsN4ugRZFeXcq+pSqDawvHs5UjmckxRI+8JC0
+	 ONAOJ7u8NjwogtHjdHgwtye/gQgITGDJZTiszeXjoe6vrYDTmI/K0G599D9UfYDTDY
+	 GE0HpB601Z1xIpLd+izhLBxS6n30NYnjzs6M3mxBRUGqlKiR9PdyZD7+WOv9hOWEuy
+	 chlf3xA7zlLQuaU5EP5pQ7bCbSV5o0HPnfR8dqRlr4W3Wcxlsw9lFteFNRRFP1xapB
+	 OOR4w2BEXw+bMdiylcQih1v5Vbr2tbgNij6POYtkwmMyn6J73nuX3ogJZvb0SqJQ+u
+	 Nqmb+nNUFfEPw==
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: kernel test robot <lkp@intel.com>, Dmitry Baryshkov <lumag@kernel.org>
+In-Reply-To: <20250427105105.18164-3-krzysztof.kozlowski@linaro.org>
+References: <20250427105105.18164-3-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/2] ASoC: codecs: wsa88xx/wcd938x: Drop kerneldoc
+ marker from inner comment
+Message-Id: <174622448885.4079618.3910091697301287558.b4-ty@kernel.org>
+Date: Sat, 03 May 2025 07:21:28 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <871ptq4blr.wl-kuninori.morimoto.gx@renesas.com> <87o6wu2wzm.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87o6wu2wzm.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 2 May 2025 19:59:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUvtvS-R7cZe-uuUJ+HT5SofTYfh-LwZirY_cMNw379hA@mail.gmail.com>
-X-Gm-Features: ATxdqUHA2H0OlWRO7gTyxJQB6q0xcB37IEDN0q7ye2G3h7ZsBnu7gyQL1IWQjgQ
-Message-ID: <CAMuHMdUvtvS-R7cZe-uuUJ+HT5SofTYfh-LwZirY_cMNw379hA@mail.gmail.com>
-Subject: Re: [PATCH v4 9/9] arm64: defconfig: add Renesas MSIOF sound support
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-spi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-On Fri, 18 Apr 2025 at 01:23, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> Renesas V4H Sparrow Hawk board needs MSIOF Sound driver.
-> Support it.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Sun, 27 Apr 2025 12:51:06 +0200, Krzysztof Kozlowski wrote:
+> Drop the kerneldoc marker from a comment within a function:
+> 
+>   wsa883x.c:1402: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+> 
+> 
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.16.
+Applied to
 
-Gr{oetje,eeting}s,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-                        Geert
+Thanks!
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+[1/2] ASoC: codecs: wsa88xx/wcd938x: Drop kerneldoc marker from inner comment
+      commit: 9cd54a6bf119891711b281fb45789f66255c892d
+[2/2] ASoC: codecs: tas2764: Fix Wvoid-pointer-to-enum-cast warning
+      commit: c23c7c60711e34963c78f18fc3b9aaa313b6c8ce
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
