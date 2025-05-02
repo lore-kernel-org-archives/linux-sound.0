@@ -1,30 +1,30 @@
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDFF23AE83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937BC23BD0C
 	for <linux-sound@vger.kernel.org>; Fri,  2 May 2025 10:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746180855; cv=none; b=IIlAlhwOWjbUYDSS5N3yLMzkkI0BtrDtYlhxLV5/qGSWlb1ZvrwDKFdsNl7N7THVlxPIN5w5IXVjAdN7wxpInxbt/Q9WpSV+cE8F4FwKl/ONM8Qx3pRR5jELPV7514iMNsEVFDtelXOz+fgmYk2lhGsZN+/ox1Ffr8+yS71p9e0=
+	t=1746180856; cv=none; b=DqPWJV1D8VkTsHCWgK0RFxG5ot1O5O2MB2dn0oSOUV+KpKS0YPEZLGMBX9DGhbwXCIOn7exhdlC7vLZjmkB/hdJSxUEkB9P5DD+RsN9e2lbyR41ouG6sthV4N42rPntRqqXQYdcNWsqjC37eWlJ8QxcQflCEMAU4sSFxZGv+hgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746180855; c=relaxed/simple;
-	bh=Uochf4KKNuwQgGEjS89zcQx6YDh5QgNaP5jQSiROLbY=;
+	s=arc-20240116; t=1746180856; c=relaxed/simple;
+	bh=SzXMf1ZgFlGplr5nm3abuFttP6lJHZ7f0w06FE44j2I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IWOzx1jGq0DpIDEKkyA0RO9bu+1yvvIYJa2/6yFLce8ezRFpCJ6L9wUugWlQN2lOV67q+oj8YdpLNx4Gbrf88gU5Yfb6al2Of4D7O1J84i/mVWoMOvkff5lhkVAWCucBPEYL/+AlGm5xschvQwi7hGFfJRThry1x5pokTB/mA3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+	 MIME-Version; b=hI4U8GqHNZ2ABLk445wvmBoyj4m72QTZXc2yr0zbtkzkbmwpKfRH/rr0y946eRVsItb4vAZvkc8URivJTFOF1zTFdaTThEf3QULem4227sZcd7oNVq0NnSss/wqV7JyLJrgLP3OlxrrF+UvJ6TZ8WyugQm+4yFrBQ54ZID4WxWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:df64:35e8:502:4ac0])
-	by baptiste.telenet-ops.be with cmsmtp
-	id kAE02E00S4sst1101AE0qE; Fri, 02 May 2025 12:14:00 +0200
+	by andre.telenet-ops.be with cmsmtp
+	id kAE02E00j4sst1101AE0RL; Fri, 02 May 2025 12:14:00 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP1-00000000W9x-41FM;
+	id 1uAnP2-00000000WAC-0NpE;
 	Fri, 02 May 2025 12:14:00 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP6-00000008oWz-1hAe;
+	id 1uAnP6-00000008oXJ-2MRW;
 	Fri, 02 May 2025 12:14:00 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -37,9 +37,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 11/22] spi: sh-msiof: SICTR bitfield conversion
-Date: Fri,  2 May 2025 12:13:43 +0200
-Message-ID: <adca6403a4738f1b6bc217f34f01f5704c905691.1746180072.git.geert+renesas@glider.be>
+Subject: [PATCH 15/22] spi: sh-msiof: Correct RX FIFO size for R-Car Gen2
+Date: Fri,  2 May 2025 12:13:47 +0200
+Message-ID: <00b38f543d57efcda912e391fa358b42bd29f83b.1746180072.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746180072.git.geert+renesas@glider.be>
 References: <cover.1746180072.git.geert+renesas@glider.be>
@@ -51,70 +51,31 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert MSIOF Control Register field accesses to use the FIELD_PREP()
-bitfield access macro.
+According to Renesas Technical Updates TN-RCS-S068A/E, the MSIOF receive
+FIFOs on R-Car Gen2 SoCs have room for 128 words of 32 bits.
 
-This gets rid of explicit shifts.
+Note that this change has no actual impact on the behavior of the
+driver, as SPI_CONTROLLER_MUST_TX is set, and transfer size is currenty
+limited to the minimum of the transmit and receive FIFO sizes.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/spi/spi-sh-msiof.c | 31 ++++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 9bddf85dd9c7f2a1..4f582ecc524fe5fa 100644
+index ea9277ab87f66cd5..8d18a26128d600f6 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -115,18 +115,18 @@ struct sh_msiof_spi_priv {
- #define SISCR_BRDV_DIV_1	7U
- 
- /* SICTR */
--#define SICTR_TSCKIZ_MASK	GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
-+#define SICTR_TSCKIZ		GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
- #define SICTR_TSCKIZ_SCK	BIT(31)		/*   Disable SCK when TX disabled */
--#define SICTR_TSCKIZ_POL_SHIFT	30		/*   Transmit Clock Polarity */
--#define SICTR_RSCKIZ_MASK	GENMASK(29, 28) /* Receive Clock Polarity Select */
-+#define SICTR_TSCKIZ_POL	BIT(30)		/*   Transmit Clock Polarity */
-+#define SICTR_RSCKIZ		GENMASK(29, 28) /* Receive Clock Polarity Select */
- #define SICTR_RSCKIZ_SCK	BIT(29)		/*   Must match CTR_TSCKIZ_SCK */
--#define SICTR_RSCKIZ_POL_SHIFT	28		/*   Receive Clock Polarity */
--#define SICTR_TEDG_SHIFT	27		/* Transmit Timing (1 = falling edge) */
--#define SICTR_REDG_SHIFT	26		/* Receive Timing (1 = falling edge) */
--#define SICTR_TXDIZ_MASK	GENMASK(23, 22)	/* Pin Output When TX is Disabled */
--#define SICTR_TXDIZ_LOW		(0 << 22)	/*   0 */
--#define SICTR_TXDIZ_HIGH	(1 << 22)	/*   1 */
--#define SICTR_TXDIZ_HIZ		(2 << 22)	/*   High-impedance */
-+#define SICTR_RSCKIZ_POL	BIT(28)		/*   Receive Clock Polarity */
-+#define SICTR_TEDG		BIT(27)		/* Transmit Timing (1 = falling edge) */
-+#define SICTR_REDG		BIT(26)		/* Receive Timing (1 = falling edge) */
-+#define SICTR_TXDIZ		GENMASK(23, 22)	/* Pin Output When TX is Disabled */
-+#define SICTR_TXDIZ_LOW		0U		/*   0 */
-+#define SICTR_TXDIZ_HIGH	1U		/*   1 */
-+#define SICTR_TXDIZ_HIZ		2U		/*   High-impedance */
- #define SICTR_TSCKE		BIT(15)		/* Transmit Serial Clock Output Enable */
- #define SICTR_TFSE		BIT(14)		/* Transmit Frame Sync Signal Output Enable */
- #define SICTR_TXE		BIT(9)		/* Transmit Enable */
-@@ -382,14 +382,15 @@ static void sh_msiof_spi_set_pin_regs(struct sh_msiof_spi_priv *p, u32 ss,
- 	sh_msiof_write(p, SIRMDR1, tmp);
- 
- 	tmp = 0;
--	tmp |= SICTR_TSCKIZ_SCK | cpol << SICTR_TSCKIZ_POL_SHIFT;
--	tmp |= SICTR_RSCKIZ_SCK | cpol << SICTR_RSCKIZ_POL_SHIFT;
-+	tmp |= SICTR_TSCKIZ_SCK | FIELD_PREP(SICTR_TSCKIZ_POL, cpol);
-+	tmp |= SICTR_RSCKIZ_SCK | FIELD_PREP(SICTR_RSCKIZ_POL, cpol);
- 
- 	edge = cpol ^ !cpha;
- 
--	tmp |= edge << SICTR_TEDG_SHIFT;
--	tmp |= edge << SICTR_REDG_SHIFT;
--	tmp |= tx_hi_z ? SICTR_TXDIZ_HIZ : SICTR_TXDIZ_LOW;
-+	tmp |= FIELD_PREP(SICTR_TEDG, edge);
-+	tmp |= FIELD_PREP(SICTR_REDG, edge);
-+	tmp |= FIELD_PREP(SICTR_TXDIZ,
-+			  tx_hi_z ? SICTR_TXDIZ_HIZ : SICTR_TXDIZ_LOW);
- 	sh_msiof_write(p, SICTR, tmp);
- }
- 
+@@ -1099,7 +1099,7 @@ static const struct sh_msiof_chipdata rcar_gen2_data = {
+ 	.bits_per_word_mask = SPI_BPW_MASK(8) | SPI_BPW_MASK(16) |
+ 			      SPI_BPW_MASK(24) | SPI_BPW_MASK(32),
+ 	.tx_fifo_size = 64,
+-	.rx_fifo_size = 64,
++	.rx_fifo_size = 128,
+ 	.ctlr_flags = SPI_CONTROLLER_MUST_TX,
+ 	.min_div_pow = 0,
+ };
 -- 
 2.43.0
 
