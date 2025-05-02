@@ -1,30 +1,30 @@
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C94923C4E9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858AE23A563
 	for <linux-sound@vger.kernel.org>; Fri,  2 May 2025 10:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746180855; cv=none; b=j9fbTp+bVRipBEkT4hF2RDPd5mPv2gGg0iFWeCWf7+3XswbXkeHpwF6dThK1hTMZ1ThcBc6jM9k0Hg51BNe3j1TMVG00ekMZCQUZFcqs2ZlZrbv3rl5fd/y5LOKbHH2Yaq+8hoA23pxzpaal6FiE3h7pTbv8dqDbPpOmeKrgBNI=
+	t=1746180856; cv=none; b=OZ2BxX27zFkmC0U5FqGGMqDN68WtaqO0u5724lFW6FtQOYSePQyvcPvTmB15Nd9BTQ9aroJCroESzUsx6RlYHhjpXLNQvkZlyQ6PNuUJr4tghPCM6vKTa+TE83i4wqkNpNhTEXhIAVOMejWHC7Ia29ixfEpf8Ja03IGzMU6E0lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746180855; c=relaxed/simple;
-	bh=Gscx63sjgeDq3xT2xwpHzxrg440w82o5osnaGdQKv8M=;
+	s=arc-20240116; t=1746180856; c=relaxed/simple;
+	bh=H/5fPTsR+wpRmv7aL3hsy499OTFq+cjWtWFii1CbGgE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BFM9Z2FXkh6uv5LEzy/P8XxSfJ3So5/Ww279tMAWwOT6lZjHUHNu0RFsRtwP3KmL+jVUaK5lGiIJHf4lw78bis4rOASFQciMuoz+84oHDjPQ76lzY47ASb9H3wSquJYT/nPBGmNGjvQyuHTJwX6q9UfBNM2CD+0xmhyF1lvV/Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
+	 MIME-Version; b=BxXx79TwpadeHgPXCKXlUt/Za16HI3DhxiY/vr694Pc0VY1jbg6qkkpyp/h/IGZgqxL5lLm9VSyj6e0QMCYB67Lxp5LfMxGSZ08ch5EK3YwAiip+0x4cQW1d0mb4dn8bfJIFzOB/xR2x/8DBuRmlTm3ZFdpn2ZSG+ymWQuSt4l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:df64:35e8:502:4ac0])
-	by laurent.telenet-ops.be with cmsmtp
-	id kAE02E00k4sst1101AE0qL; Fri, 02 May 2025 12:14:01 +0200
+	by baptiste.telenet-ops.be with cmsmtp
+	id kAE02E00E4sst1101AE0qB; Fri, 02 May 2025 12:14:00 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP1-00000000W9s-3o6Z;
+	id 1uAnP1-00000000W9N-2vJw;
 	Fri, 02 May 2025 12:14:00 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP6-00000008oWu-1aur;
+	id 1uAnP6-00000008oWL-0jjN;
 	Fri, 02 May 2025 12:14:00 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -37,9 +37,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 10/22] spi: sh-msiof: SITSCR/SIRSCR bitfield conversion
-Date: Fri,  2 May 2025 12:13:42 +0200
-Message-ID: <c9b3192c046c226de3499ea3e52be6a69c0d4bf9.1746180072.git.geert+renesas@glider.be>
+Subject: [PATCH 03/22] spi: sh-msiof: Fix maximum DMA transfer size
+Date: Fri,  2 May 2025 12:13:35 +0200
+Message-ID: <2413114cac351ee9963bdd351da5ad122c1e257d.1746180072.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746180072.git.geert+renesas@glider.be>
 References: <cover.1746180072.git.geert+renesas@glider.be>
@@ -51,54 +51,62 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert MSIOF Transmit and Receive Clock Select Register field accesses
-to use the FIELD_PREP() bitfield access macro.
+The maximum amount of data to transfer in a single DMA request is
+calculated from the FIFO sizes (which is technically not 100% correct,
+but a simplification, as it is limited by the maximum word count values
+in the Transmit and Control Data Registers).  However, in case there is
+both data to transmit and to receive, the transmit limit is overwritten
+by the receive limit.
 
-This gets rid of explicit shifts and custom field preparation macros.
+Fix this by using the minimum applicable FIFO size instead.  Move the
+calculation outside the loop, so it is not repeated for each individual
+DMA transfer.
 
+As currently tx_fifo_size is always equal to rx_fifo_size, this bug had
+no real impact.
+
+Fixes: fe78d0b7691c0274 ("spi: sh-msiof: Fix FIFO size to 64 word from 256 word")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/spi/spi-sh-msiof.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 51a9e89364756af0..9bddf85dd9c7f2a1 100644
+index 15e42af35f7e4230..cf93c2ca821f84fa 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -105,15 +105,14 @@ struct sh_msiof_spi_priv {
- #define SIMDR2_GRPMASK1		BIT(0)		/* Group Output Mask 1 (SH, A1) */
+@@ -919,6 +919,7 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
+ 	void *rx_buf = t->rx_buf;
+ 	unsigned int len = t->len;
+ 	unsigned int bits = t->bits_per_word;
++	unsigned int max_wdlen = 256;
+ 	unsigned int bytes_per_word;
+ 	unsigned int words;
+ 	int n;
+@@ -932,17 +933,17 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
+ 	if (!spi_controller_is_target(p->ctlr))
+ 		sh_msiof_spi_set_clk_regs(p, t);
  
- /* SITSCR and SIRSCR */
--#define SISCR_BRPS_MASK		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
--#define SISCR_BRPS(i)		(((i) - 1) << 8)
--#define SISCR_BRDV_MASK		GENMASK(2, 0)	/* Baud Rate Generator's Division Ratio */
--#define SISCR_BRDV_DIV_2	0
--#define SISCR_BRDV_DIV_4	1
--#define SISCR_BRDV_DIV_8	2
--#define SISCR_BRDV_DIV_16	3
--#define SISCR_BRDV_DIV_32	4
--#define SISCR_BRDV_DIV_1	7
-+#define SISCR_BRPS		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
-+#define SISCR_BRDV		GENMASK(2, 0)	/* Baud Rate Generator's Division Ratio */
-+#define SISCR_BRDV_DIV_2	0U
-+#define SISCR_BRDV_DIV_4	1U
-+#define SISCR_BRDV_DIV_8	2U
-+#define SISCR_BRDV_DIV_16	3U
-+#define SISCR_BRDV_DIV_32	4U
-+#define SISCR_BRDV_DIV_1	7U
++	if (tx_buf)
++		max_wdlen = min(max_wdlen, p->tx_fifo_size);
++	if (rx_buf)
++		max_wdlen = min(max_wdlen, p->rx_fifo_size);
++
+ 	while (ctlr->dma_tx && len > 15) {
+ 		/*
+ 		 *  DMA supports 32-bit words only, hence pack 8-bit and 16-bit
+ 		 *  words, with byte resp. word swapping.
+ 		 */
+-		unsigned int l = 0;
+-
+-		if (tx_buf)
+-			l = min(round_down(len, 4), p->tx_fifo_size * 4);
+-		if (rx_buf)
+-			l = min(round_down(len, 4), p->rx_fifo_size * 4);
++		unsigned int l = min(round_down(len, 4), max_wdlen * 4);
  
- /* SICTR */
- #define SICTR_TSCKIZ_MASK	GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
-@@ -299,7 +298,8 @@ static void sh_msiof_spi_set_clk_regs(struct sh_msiof_spi_priv *p,
- 
- 	t->effective_speed_hz = parent_rate / (brps << div_pow);
- 
--	scr = sh_msiof_spi_div_array[div_pow] | SISCR_BRPS(brps);
-+	scr = FIELD_PREP(SISCR_BRDV, sh_msiof_spi_div_array[div_pow]) |
-+	      FIELD_PREP(SISCR_BRPS, brps - 1);
- 	sh_msiof_write(p, SITSCR, scr);
- 	if (!(p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
- 		sh_msiof_write(p, SIRSCR, scr);
+ 		if (bits <= 8) {
+ 			copy32 = copy_bswap32;
 -- 
 2.43.0
 
