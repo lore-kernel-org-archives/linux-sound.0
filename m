@@ -1,30 +1,30 @@
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAD723C4F8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975E723C4E6
 	for <linux-sound@vger.kernel.org>; Fri,  2 May 2025 10:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746180857; cv=none; b=LY1YIzpyCTZKSmPx5TRGtXHM8jpr/RL48fQhaiREUYjienMEiVCQXAzdoZNh21r+9QtP1qIk+5iXZg3X5ilV6kzmTf4tC4neW+F+OnEKyK4m6keLibG5ejtfw8DnXTUWAXngfNYDnN7e/c1GKLSf7c6KDCRh8zk60kM66iARyaY=
+	t=1746180857; cv=none; b=XSBLqclixMwTaCxMZ9APAs/lECy4Mp22CeJXN+ZYXt6WKFkG64DuQthGcluVEZVsH8005uXkZCxBqEJRRXmzZHIijDiFlbpJwq+1SKHVEVvEy70cSUrNSegrwYeSHDXKH7RoWYTOOn/dXmtOfkTIwtOBiINMNr2/UpITrCr4b+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1746180857; c=relaxed/simple;
-	bh=2eqVnUZBwrfjmIS21M7Y79WYMnohfN8iZlDyk5bQvX4=;
+	bh=ttVVLouJtAheS+D2jwhw8ROsDwf3R9qtA828pzkOU4U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XZP+a6vZSjx1I1RIlRGMlVoNtj5FDtCC4BVj5y7lsd31uCqh4avGCtb59VTV9TlocDvwctnFyzOfnCi1XlhZI8YJE7gKNhlupWhyeRjl38QLd/g4wUfkuLm5npsT5Jmb/hGPoNeaFHrZq78ijyXQbFo568zUQXcLfHO4W9oqCfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+	 MIME-Version; b=odsArClLIkWdGHioGhYaWGn4G2zn68MPSR1gkJVLwcqc0BAHw5QPXNfb+sNZzAFEzxfmFohLHegy9vZqIMltaGtE6r7hRCaMt0SZuEaniB07XIH3k3jz4zPnus/jfuCJUDiloy/WNiNcUkEb5lUpytqV89eMaB8Y2/NraZPNSfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:df64:35e8:502:4ac0])
-	by michel.telenet-ops.be with cmsmtp
-	id kAE02E0104sst1106AE0oh; Fri, 02 May 2025 12:14:01 +0200
+	by andre.telenet-ops.be with cmsmtp
+	id kAE02E00g4sst1101AE0RK; Fri, 02 May 2025 12:14:00 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP2-00000000WAX-19a4;
+	id 1uAnP2-00000000WA6-0Cld;
 	Fri, 02 May 2025 12:14:00 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP6-00000008oXi-2yfq;
+	id 1uAnP6-00000008oXA-20C4;
 	Fri, 02 May 2025 12:14:00 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -37,9 +37,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 20/22] spi: sh-msiof: Document frame start sync pulse mode
-Date: Fri,  2 May 2025 12:13:52 +0200
-Message-ID: <e50f4dd4fdc23c1e3f2abece458fe178b76ada1f.1746180072.git.geert+renesas@glider.be>
+Subject: [PATCH 13/22] spi: sh-msiof: Correct SIMDR2_GRPMASK
+Date: Fri,  2 May 2025 12:13:45 +0200
+Message-ID: <d304d6ea5d6e9250f2741a50d651d312b048de0a.1746180072.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746180072.git.geert+renesas@glider.be>
 References: <cover.1746180072.git.geert+renesas@glider.be>
@@ -51,25 +51,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Unused, but nice to have it documented.
+The Group Output Mask is not a single bit, but a bit field, containing
+one bit for each of the four possible groups.  Correct the definition.
+
+Note that this change has no direct impact, as the driver only uses
+the first group.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/spi/spi-sh-msiof.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/spi/spi-sh-msiof.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 4d9a44118e1c9d6c..5d9d551dbd220389 100644
+index 812e64ea5f79ce5e..57f27040b0fc78d7 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -86,6 +86,7 @@ struct sh_msiof_spi_priv {
- /* SITMDR1 and SIRMDR1 */
- #define SIMDR1_TRMD		BIT(31)		/* Transfer Mode (1 = Master mode) */
- #define SIMDR1_SYNCMD		GENMASK(29, 28)	/* SYNC Mode */
-+#define SIMDR1_SYNCMD_PULSE	0U		/*   Frame start sync pulse */
- #define SIMDR1_SYNCMD_SPI	2U		/*   Level mode/SPI */
- #define SIMDR1_SYNCMD_LR	3U		/*   L/R mode */
- #define SIMDR1_SYNCAC		BIT(25)		/* Sync Polarity (1 = Active-low) */
+@@ -102,7 +102,7 @@ struct sh_msiof_spi_priv {
+ /* SITMDR2 and SIRMDR2 */
+ #define SIMDR2_BITLEN1		GENMASK(28, 24)	/* Data Size (8-32 bits) */
+ #define SIMDR2_WDLEN1		GENMASK(23, 16)	/* Word Count (1-64/256 (SH, A1))) */
+-#define SIMDR2_GRPMASK1		BIT(0)		/* Group Output Mask 1 (SH, A1) */
++#define SIMDR2_GRPMASK		GENMASK(3, 0)	/* Group Output Mask 1-4 (SH, A1) */
+ 
+ /* SITSCR and SIRSCR */
+ #define SISCR_BRPS		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
+@@ -400,7 +400,7 @@ static void sh_msiof_spi_set_mode_regs(struct sh_msiof_spi_priv *p,
+ 	if (tx_buf || (p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
+ 		sh_msiof_write(p, SITMDR2, dr2);
+ 	else
+-		sh_msiof_write(p, SITMDR2, dr2 | SIMDR2_GRPMASK1);
++		sh_msiof_write(p, SITMDR2, dr2 | SIMDR2_GRPMASK);
+ 
+ 	if (rx_buf)
+ 		sh_msiof_write(p, SIRMDR2, dr2);
 -- 
 2.43.0
 
