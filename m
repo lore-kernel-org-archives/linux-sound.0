@@ -1,194 +1,160 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2075.outbound.protection.outlook.com [40.107.220.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F114123E330
-	for <linux-sound@vger.kernel.org>; Fri,  2 May 2025 11:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746184013; cv=none; b=txuwgWxRKS1zW0ZxaKMqWbyOj1W0pa1ajBQg6Gi02dKfNPG3HYuY17Me19Axf5eh3U8swczowrvwFb0pmhbFBMOhz8Q6Cg5gTi3E1iKGuTTNcUeftpne8WYYshSCTDKvwVXBE7lmTWwW+NpUolBya+eD2whXxNUphKTKzyssgQA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746184013; c=relaxed/simple;
-	bh=/47+sMA0JkyFBnR95B9nb3p/4mhJHYfJBzwuNp3cdaU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vATgI+WDPcPIXHrWTlPAdavRu3iFp4cTmrx3h94BeHR+UpmIGPw/y89JdJ5voFQA06Pmsj9PCaY6Zu5JDtjN9/DV4968pwvpktGCNguLwpQpjUaPKffw8XaJkalwjCZRGOMrgwuyuHVUXb12AXpTWQwxqnvuIGOzaSIidBqg8ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lk/jsNsU; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA96D258CEC;
+	Fri,  2 May 2025 15:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.75
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746200712; cv=fail; b=gxoH8YnOtR+taIa+3dCJcXUjdqCqiQ2Ya2DGW022fcla3adCr124oxWiJVqcbq3uirkCGEnwkDxA0eFwNe+HYT6Nc/oadhh//pVPVlwGmeQtUCyPGr61cJMmL7nUMsWUYA7H79f2lepvZk7JnJKl6bZ29NWoMHQt6AzsViZJQZg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746200712; c=relaxed/simple;
+	bh=cwvLbR+Dqb67AaMCoOKPYVDMhLkkO5Wy/lWzfAglKg0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kbVVRt7fJFo3DOadgHKzfu8x06kKrWaozQQMcFLeGcQTTTctdWKGIi2TQfJLGUSWzWiiS3yUpssp8uZXh6+fZyTdYcS8THJWGpBsPdQ2ZGkyl0TM59pWBYVShpCoPLsbMxiLPWIptyRhkr21nDPW58orlkFQEhLsVMak+GKwwG0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=D8XbzZci; arc=fail smtp.client-ip=40.107.220.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lk/jsNsU"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5421N303009494
-	for <linux-sound@vger.kernel.org>; Fri, 2 May 2025 11:06:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	n1zoogZ0mW4AaQa7oJlvbkJUvuNkb6MBNOT54+2ShgI=; b=lk/jsNsUuvJn+oUC
-	GUrJtP8ak2oQDXtsr3fqw3ytUMcaQATxpYZZQuaLM7TtfKTa4GQjwjIkkO4UXJWK
-	XW8qMwUyc8y/PnUCV/YYfmXxe/k/EEsjJeayFdapxHnYk+sG5pqh5VPrAiMxckrd
-	Z4tHWhFXS5vE4pl08Y0+1z/Pgg3Eq48idLLLP0jtfTcfbO7fVIpF+s697usd5eA0
-	QNlhh4Ys+9pzC1eMIgenRcRnX50RQ40r97JqnI5rJvyV5pAkOXB6i25al8MbnsSE
-	XeZ/H/P9wsdJqLh0dXGiu2fssuq8LexUWUiy0BQaRW7JUl12H/EhWUeH0/DPT7UL
-	ug8a6Q==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6ubr48s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 02 May 2025 11:06:49 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5b9333642so228492685a.3
-        for <linux-sound@vger.kernel.org>; Fri, 02 May 2025 04:06:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746184009; x=1746788809;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n1zoogZ0mW4AaQa7oJlvbkJUvuNkb6MBNOT54+2ShgI=;
-        b=FDoANUkre/As3cKkoAeYIuGns65+xs4tggI8CfQai1WMomokZM6kk0Gs0BnUdF2+IY
-         8coMLjQfR/tEwjjNmFwhT6xtCwf9xZe1Sj/HKWYjZCf7qXyqj9ZdSkpgkMMU8c+ihgdr
-         G/fHyXas7Yepz84AW66jmwtbB0vk6fb8028OADhSErK04bk/90Bl0WE/Ss3tngKiVkrd
-         gokzlPvfOzU/8RdHUY+MY6ZnBS0EhyDQ1906XcPSRUUTMeLXPJWHs+yO1QlwZI8rlKuX
-         bv85K8S+q0VY7LpGH1+py1Q8z6rEV6kJC1mgUIx/TEbQ5fimMPbEN2VqB2F7+o7Lh+CB
-         +GPA==
-X-Forwarded-Encrypted: i=1; AJvYcCX5rPJ7DN5ku+tCnR5y7+XynnOERSx4XOzqbpWysKcFhpHQvF4We7WiEn8eCBmtlBqB0yo9rKHAPxqyHw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YykTBfFxf/4KISmLchIw1b9+OSYR2tPeZm6DaJz1xnpUJh0GALg
-	IeOdgd67bTGajuFi+sQzNO6Sg8zBd9aYswtjR8VNjSWXK2mJzvlGe146mopi6j2AwVlI2uEC85S
-	WDFaLiNbo8MeTPthpNctOdMvi52/j5UOxo3/SkUOnpMM2SbYBqoLWRPc93IpGew==
-X-Gm-Gg: ASbGnctxhvC1laNKX94LMS+aQ1C+YVXCWVmXrI1Q/R8BM7HMsW72ewkoy4gjW9JLVG9
-	oZC5SGHspCkAj1S4GRtf+0LZdcZ43+Ga8ykqjlofv75WLz6VarOzXNmnNyDGOMbRudJ4eRogs2w
-	21duEBB+81OiWueLrYoNvvLk2qmYtzNn1T7o3H5SJFFuK2JkMttuOR3RBIVe5zVHThMPWljYQFZ
-	LYMDbBgAPY3VVBfy7I9OJDr9dCEMrj3qtpsnh2py3mPFyaY+mUWRO0D9H9y0y3VR4vfnddqCA/t
-	59xg7zFUSmG76VjJfvTlYwh5+6El478LxLMVRw==
-X-Received: by 2002:a05:620a:440c:b0:7ca:ca21:23d9 with SMTP id af79cd13be357-7cad5b1e908mr390997485a.7.1746184008909;
-        Fri, 02 May 2025 04:06:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFxEfw/oGZXNbT+wq9xh4TIiYE0dP+RWQJIzPOf851X459NKI0wxZw1jeI309e25HlZlax9AQ==
-X-Received: by 2002:a05:620a:440c:b0:7ca:ca21:23d9 with SMTP id af79cd13be357-7cad5b1e908mr390992385a.7.1746184008501;
-        Fri, 02 May 2025 04:06:48 -0700 (PDT)
-Received: from [192.168.68.119] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a099ae7afesm1820418f8f.47.2025.05.02.04.06.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 May 2025 04:06:48 -0700 (PDT)
-Message-ID: <0d094cec-0a2e-4e21-845f-977f3a77993d@oss.qualcomm.com>
-Date: Fri, 2 May 2025 12:06:47 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="D8XbzZci"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PPUFgKib5j4+804/edamt3ObeJWYZfxLHGLMxHS4kbS1J7P3xOjFBsi8PLEdrXmhCmyq/DDCwrvCHzhr0xpUw6HVZvwaZoFPGXxAc4fNRvjxlPTnyMFsSV9zj4bBtmbMUMtNbrGbwFmWeN/YREm2EBt3bFcFR8Eve5RCRiArlzQCNnBFZaBCyxuY5emdEFhuc48U3TpYcbUeDOv9Dhg6ZIku8Hy/VWpB2dYsRyEqqCp0e5dCI9uctL6DC2fvjv5+WR1s7v4HfnLgL8zsN8gsT0ToRb7BiW5zPFkTS0PoHZx0lcYR8Yxs/d9GWArxBDfX2fQPV/EccmIOoUDz15GFtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UTJauIwlc/6/4OlZbsV3/1KsTa3In7csFTBrx95DS7s=;
+ b=SAIpJa0lBoOtRieoMj/r0chvLXqpNC4IyzIPLcc4E/Jwp8tZvF12jrAdh21x3JARw6VdXQvCyA6fMLLr0rGXuNRYNHMC4jnORigbdoaeWPh6YlWdw41uFnDCi+btmn5E/M3tXLV5OrMqaYrLK2jC4ZiMUAWHFe7eIf/ykoF3maLqFmSDF2s0F5T5/XaIN/vkkYkdCwyYGaMDaWyjjp0BvcogIrNmp8PHcs+CeBbG3v7vkPbkFaSZ7OEVhlTPclKUq8b36gzd6E79Jt5I02noYdKe5R4luAVMt5WlcGBwbabEmSsvJwtg/No30csa35QUyLrigJISXKq1Zk6Q7YulhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UTJauIwlc/6/4OlZbsV3/1KsTa3In7csFTBrx95DS7s=;
+ b=D8XbzZciOjVW/16IlLsTryhMchvJ8zz6cYTDxuFcs4zDgo0/sLMDH9oStNl/Gh8d4QN2FCWsXQmufAVJgPCjJ4ITB3fgkLJOs513qBV0O8C14bssna9UdJAa/oNLjwNyebNoznBtnnVx5eDkJ/eZbJH6xnlEo3Bdun1ksQql8jY=
+Received: from PH8PR05CA0001.namprd05.prod.outlook.com (2603:10b6:510:2cc::22)
+ by DM6PR12MB4201.namprd12.prod.outlook.com (2603:10b6:5:216::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.23; Fri, 2 May
+ 2025 15:45:05 +0000
+Received: from CY4PEPF0000EDD2.namprd03.prod.outlook.com
+ (2603:10b6:510:2cc:cafe::c1) by PH8PR05CA0001.outlook.office365.com
+ (2603:10b6:510:2cc::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.18 via Frontend Transport; Fri,
+ 2 May 2025 15:45:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000EDD2.mail.protection.outlook.com (10.167.241.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8699.20 via Frontend Transport; Fri, 2 May 2025 15:45:04 +0000
+Received: from vijendar-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 2 May
+ 2025 10:44:57 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: <Mario.Limonciello@amd.com>, <venkataprasad.potturu@amd.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+	<sound-open-firmware@alsa-project.org>, Vijendar Mukunda
+	<Vijendar.Mukunda@amd.com>, Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 0/9] ASoC: SOF: amd: add soundwire IO support for ACP7.0 & ACP7.1 platforms
+Date: Fri, 2 May 2025 21:12:39 +0530
+Message-ID: <20250502154445.3008598-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/5] ASoC: qcom: sm8250: set card driver name from
- match data
-To: Luca Weiss <luca@lucaweiss.eu>, ~postmarketos/upstreaming@lists.sr.ht,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Luca Weiss <luca.weiss@fairphone.com>
-Cc: Banajit Goswami <bgoswami@quicinc.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, phone-devel@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
-        linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>
-References: <20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com>
- <20250425-fp5-dp-sound-v3-2-7cb45180091b@fairphone.com>
- <aBNdCRk_fP2q1vxQ@srini-hackbase>
- <91110CA9-6E83-4811-AA04-C0312B99B95E@lucaweiss.eu>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <91110CA9-6E83-4811-AA04-C0312B99B95E@lucaweiss.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: y4dP_5qRZwIubrz1m0HWRMrrILG1V8OT
-X-Authority-Analysis: v=2.4 cv=bsxMBFai c=1 sm=1 tr=0 ts=6814a749 cx=c_pps a=HLyN3IcIa5EE8TELMZ618Q==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=6H0WHjuAAAAA:8
- a=-0JhTq91CruwOFu3ng0A:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22 a=Soq9LBFxuPC4vsCAQt-j:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAyMDA4NyBTYWx0ZWRfX8czYCWrtTc4r szIw26EwCsbAr7kwypnGVCo5O0BimWGFt06fYR2gsk9VgA9wHjY1BO1hOnMV5+U7Nve98/lU698 M2ek7lGvrH4h2gO1C0GM4r8uowUjdNhKc/dHdKz/RCzueGQ1VHOSpFp83N9MCNsKGp9qxpmL96A
- X8mfbtPasu7PZ2fTYkT7JS2yPruyy+tn+XQ5h1xVc46UWLXV//15885z+xPQCaHBrmoA2v2tLge 9OAPeeqZCMvhhl+p10uGCunGlXxQ63nj2vKPjy8R158cDLkIECj/tQA72FCZYVzATP02WiZg2vq Jln1nhlgD9XcSj7rqeNS3hGYibrwN/TbbXyZhTjXS6HwBlqT4RsnyEoWWeHVB7OcFQNVrsCsX/j
- R5SD7SPXxM+qD1uk2l1T9byQX+VhMSAo+5F/m/ZubSXWlsRZXTxOsGMQ+cBmkcwHjMoPZ7vm
-X-Proofpoint-ORIG-GUID: y4dP_5qRZwIubrz1m0HWRMrrILG1V8OT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-02_01,2025-04-30_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- clxscore=1011 mlxscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0
- adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0 mlxlogscore=999
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505020087
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD2:EE_|DM6PR12MB4201:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62470b90-ce63-4ef5-9601-08dd89904ecc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?0XTw/xXWH7FR8a0tZoIlpUfKqhFDn/oyqddOU5uFvTPLCMKkQjoyuwvuFzvh?=
+ =?us-ascii?Q?vkH5aZk37j/JjHXV4/SIvwQj1J0YR2sd4oKrOcNhOF6qI9vCj8DvRdX60dt/?=
+ =?us-ascii?Q?JAo4NrWjbwleH1HY8wkA8bJn2boRtVTmZzqbi40KC5/mDxxnXhHaQBhHhB0L?=
+ =?us-ascii?Q?0aCdw5bpjezL9+xduZ6h67lZtCcoHzAfHFdPngkqdzRUnEMaHXvBUd9DQsNC?=
+ =?us-ascii?Q?+iNHRe1Dp6mU1aTyD0i8kjKHWwBFPKoS3jfhIQOEBt32vpiiXQBYdEgJYnH5?=
+ =?us-ascii?Q?k0Ajw7X+9qxc9fU+g/Ooy5XTpGl7RbrOQbAXEv8c6d8ln3kaqKken+7Fshvr?=
+ =?us-ascii?Q?dkrBOn4XzRVBb2Fh5skVDpnJ16AoB02kV1R0s8D2RhZES9S/gF2IsGA1UmWm?=
+ =?us-ascii?Q?iQ8w+sgMLEUWCo39XJhi/n9fWmbrst3U8ZP7FBMpgLMfptrLuIj9fxj8uo4+?=
+ =?us-ascii?Q?7TkUNw+TRVmfo3bARiU9/asKeSfsZS6Gu5s43nCGOyGrdDYbeUZc0xKdt8nZ?=
+ =?us-ascii?Q?alPdiA20yTwHlYAYaiBdFkQhPAoLPHnacMkJm6qUF8x+m+z/bNz/yZOKc3eC?=
+ =?us-ascii?Q?egWdAEzYW8Vb3Hf+n0m2Mn5J0t5SjxVX3kj1qlU6ctj4u794UzzHeNtMtZQT?=
+ =?us-ascii?Q?KNMaKAhJ7gpQmb0yB34DB6HjIstY69U3GSMtD7fgJWxWewGh/5H3eRZuTyY5?=
+ =?us-ascii?Q?UVrIJO23X8iBldNEQmpPRz6H4l3kd7qtFt9aBscupAzfqtU1VnLbs9nuYAZC?=
+ =?us-ascii?Q?1Wz6BdQns8ew5VtL55i35lY9a+xI+CdKScgw4C24IaPxGmPE5JaFpoVtUzed?=
+ =?us-ascii?Q?upJFe+xO1z86HoPqd6sJlsER/Fvb06S9Fg6KUrVf53FtZFDC7GZHc0O8APzq?=
+ =?us-ascii?Q?wV/55LexOWW9VrJy2GNMkdTBkABjpcwFsd1p+Xva9H93lbG28XAL2ouMKPDW?=
+ =?us-ascii?Q?k+RvcUDC74Te0DVjqtf5/6r2aowLCLRK8Aw7CwlKw8nNaYHQvyLXG1FQvrKG?=
+ =?us-ascii?Q?+0siN2ftqIFFI8GgipBywmU06YVbhh7HFZLDteo6TFH5N+ShzZsTu2UYHpnX?=
+ =?us-ascii?Q?NpJf4rIhvVv0H99ZuJJLSGHimsjLUMaGfaCETZkyaOgy3SMoH8vTRqhhhPlJ?=
+ =?us-ascii?Q?w2Y3YPHcD8lidwM0lbn0h1BtWvLgXzuzVg5fgVYYtl6Ed25Dk0G9Mj/awGwD?=
+ =?us-ascii?Q?Z/rlvS7u/9+yIjnrF+5uGVgABvpw9ng4M6JK9sM2TdyTDbkaPOzH/nCRgjWJ?=
+ =?us-ascii?Q?rf9DG1zFK1hgNoQp6dP4G8M/j8mLVlQowBlU5T62tU9XDr6ISDK9eV3+SOsn?=
+ =?us-ascii?Q?j7RacMe1iTrBfFD4b9TPTtQfjbgSxCM+ue2NWMvM8b9Ujbi4uYYAJBn2Awv/?=
+ =?us-ascii?Q?ZDV52SOEnmKS6wgJbUx3m0zdvLYJMjA5L2XO2t6f99XIFReqFTXd7yHE1fWZ?=
+ =?us-ascii?Q?4XqOe4U+i0UpVnvSQf3jzkiZbQ1fPZO/D4G6GthcxfLsLZXGbnIg1p3UOneE?=
+ =?us-ascii?Q?OwiI53aV/P9/ZNp8hjSJBSvaLSeO3KLBZBEPpa21gPpT8k4GsgkO1eL+fQ?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2025 15:45:04.5253
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62470b90-ce63-4ef5-9601-08dd89904ecc
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EDD2.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4201
 
-On 5/1/25 15:13, Luca Weiss wrote:
-> Hi Srini,
-> 
-> Srinivas Kandagatla <srini@kernel.org> schreef op 1 mei 2025 13:37:45 CEST:
->> On Fri, Apr 25, 2025 at 10:07:26AM +0200, Luca Weiss wrote:
->>> Sound machine drivers for Qualcomm SoCs can be reused across multiple
->>> SoCs. But user space ALSA UCM files depend on the card driver name which
->>> should be set per board/SoC.
->>>
->>> Allow such customization by using driver match data as sound card driver
->>> name.
->>>
->>> Also while we're already touching these lines, sort the compatibles
->>> alphabetically.
->>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
->>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->>> ---
->>>  sound/soc/qcom/sm8250.c | 9 ++++-----
->>>  1 file changed, 4 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
->>> index b70b2a5031dfbf69024666f8a1049c263efcde0a..e920b413b762c803cfcc4049f35deba828275478 100644
->>> --- a/sound/soc/qcom/sm8250.c
->>> +++ b/sound/soc/qcom/sm8250.c
->>> @@ -16,7 +16,6 @@
->>>  #include "usb_offload_utils.h"
->>>  #include "sdw.h"
->>>  
->>> -#define DRIVER_NAME		"sm8250"
->>>  #define MI2S_BCLK_RATE		1536000
->>>  
->>>  struct sm8250_snd_data {
->>> @@ -200,15 +199,15 @@ static int sm8250_platform_probe(struct platform_device *pdev)
->>>  	if (ret)
->>>  		return ret;
->>>  
->>> -	card->driver_name = DRIVER_NAME;
->>> +	card->driver_name = of_device_get_match_data(dev);
->>>  	sm8250_add_be_ops(card);
->>>  	return devm_snd_soc_register_card(dev, card);
->>>  }
->>>  
->>>  static const struct of_device_id snd_sm8250_dt_match[] = {
->>> -	{.compatible = "qcom,sm8250-sndcard"},
->>> -	{.compatible = "qcom,qrb4210-rb2-sndcard"},
->>> -	{.compatible = "qcom,qrb5165-rb5-sndcard"},
->>> +	{ .compatible = "qcom,qrb4210-rb2-sndcard", .data = "sm8250" },
->>
->> sm4250 for rb2?
-> 
-> Since this name is visible to user space and used for picking the UCM config, I don't think it's a good idea to change it.
-> 
-It is not correct to pretend that rb2 is sm8250 for ucm cases, I agree previous code was
-already doing this, Good thing is that we do not have a ucm written yet for RB2.
+This patch series contains
+- ACP sof stack improvements
+- Add support for ACP7.1 platform.
+- Soundwire IO support for ACP7.0 & ACP7.1 platforms
 
-Lets fix this as you are already doing this for other compatibles.
+Link: https://github.com/thesofproject/linux/pull/5392
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 
---srini
+Vijendar Mukunda (9):
+  ASoC: SOF: amd: remove else condition in resume sequence
+  ASoC: SOF: amd: add missing acp descriptor field
+  ASoC: SOF: amd: add ACP7.1 platform support
+  ASoC: SOF: amd: update soundwire specific acp descriptor fields
+  ASoC: SOF: amd: enable ACP_PME_EN register for ACP7.0 & ACP7.1
+    platforms
+  ASoC: SOF: amd: refactor acp reset sequence
+  ASoC: SOF: amd: enable soundwire host wake irq mask
+  ASoC: SOF: amd: add soundwire wake irq handling
+  ASoC: SOF: amd: add build support for soundwire
 
-> Regards
-> Luca
-> 
->>
->>> +	{ .compatible = "qcom,qrb5165-rb5-sndcard", .data = "sm8250" },
->>> +	{ .compatible = "qcom,sm8250-sndcard", .data = "sm8250" },
->>>  	{}
->>>  };
->>>  
->>>
->>> -- 
->>> 2.49.0
->>>
+ sound/soc/sof/amd/Kconfig          |   7 +-
+ sound/soc/sof/amd/acp-dsp-offset.h |  10 +++
+ sound/soc/sof/amd/acp.c            | 133 +++++++++++++++++++++++++----
+ sound/soc/sof/amd/acp.h            |   7 ++
+ sound/soc/sof/amd/pci-acp70.c      |  10 ++-
+ 5 files changed, 148 insertions(+), 19 deletions(-)
+
+-- 
+2.45.2
 
