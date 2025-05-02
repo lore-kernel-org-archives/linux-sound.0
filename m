@@ -1,30 +1,30 @@
 Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858AE23A563
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDFF23AE83
 	for <linux-sound@vger.kernel.org>; Fri,  2 May 2025 10:14:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746180856; cv=none; b=OZ2BxX27zFkmC0U5FqGGMqDN68WtaqO0u5724lFW6FtQOYSePQyvcPvTmB15Nd9BTQ9aroJCroESzUsx6RlYHhjpXLNQvkZlyQ6PNuUJr4tghPCM6vKTa+TE83i4wqkNpNhTEXhIAVOMejWHC7Ia29ixfEpf8Ja03IGzMU6E0lE=
+	t=1746180855; cv=none; b=IIlAlhwOWjbUYDSS5N3yLMzkkI0BtrDtYlhxLV5/qGSWlb1ZvrwDKFdsNl7N7THVlxPIN5w5IXVjAdN7wxpInxbt/Q9WpSV+cE8F4FwKl/ONM8Qx3pRR5jELPV7514iMNsEVFDtelXOz+fgmYk2lhGsZN+/ox1Ffr8+yS71p9e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746180856; c=relaxed/simple;
-	bh=H/5fPTsR+wpRmv7aL3hsy499OTFq+cjWtWFii1CbGgE=;
+	s=arc-20240116; t=1746180855; c=relaxed/simple;
+	bh=Uochf4KKNuwQgGEjS89zcQx6YDh5QgNaP5jQSiROLbY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BxXx79TwpadeHgPXCKXlUt/Za16HI3DhxiY/vr694Pc0VY1jbg6qkkpyp/h/IGZgqxL5lLm9VSyj6e0QMCYB67Lxp5LfMxGSZ08ch5EK3YwAiip+0x4cQW1d0mb4dn8bfJIFzOB/xR2x/8DBuRmlTm3ZFdpn2ZSG+ymWQuSt4l4=
+	 MIME-Version; b=IWOzx1jGq0DpIDEKkyA0RO9bu+1yvvIYJa2/6yFLce8ezRFpCJ6L9wUugWlQN2lOV67q+oj8YdpLNx4Gbrf88gU5Yfb6al2Of4D7O1J84i/mVWoMOvkff5lhkVAWCucBPEYL/+AlGm5xschvQwi7hGFfJRThry1x5pokTB/mA3Y=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:df64:35e8:502:4ac0])
 	by baptiste.telenet-ops.be with cmsmtp
-	id kAE02E00E4sst1101AE0qB; Fri, 02 May 2025 12:14:00 +0200
+	id kAE02E00S4sst1101AE0qE; Fri, 02 May 2025 12:14:00 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP1-00000000W9N-2vJw;
+	id 1uAnP1-00000000W9x-41FM;
 	Fri, 02 May 2025 12:14:00 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uAnP6-00000008oWL-0jjN;
+	id 1uAnP6-00000008oWz-1hAe;
 	Fri, 02 May 2025 12:14:00 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -37,9 +37,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 03/22] spi: sh-msiof: Fix maximum DMA transfer size
-Date: Fri,  2 May 2025 12:13:35 +0200
-Message-ID: <2413114cac351ee9963bdd351da5ad122c1e257d.1746180072.git.geert+renesas@glider.be>
+Subject: [PATCH 11/22] spi: sh-msiof: SICTR bitfield conversion
+Date: Fri,  2 May 2025 12:13:43 +0200
+Message-ID: <adca6403a4738f1b6bc217f34f01f5704c905691.1746180072.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1746180072.git.geert+renesas@glider.be>
 References: <cover.1746180072.git.geert+renesas@glider.be>
@@ -51,62 +51,70 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The maximum amount of data to transfer in a single DMA request is
-calculated from the FIFO sizes (which is technically not 100% correct,
-but a simplification, as it is limited by the maximum word count values
-in the Transmit and Control Data Registers).  However, in case there is
-both data to transmit and to receive, the transmit limit is overwritten
-by the receive limit.
+Convert MSIOF Control Register field accesses to use the FIELD_PREP()
+bitfield access macro.
 
-Fix this by using the minimum applicable FIFO size instead.  Move the
-calculation outside the loop, so it is not repeated for each individual
-DMA transfer.
+This gets rid of explicit shifts.
 
-As currently tx_fifo_size is always equal to rx_fifo_size, this bug had
-no real impact.
-
-Fixes: fe78d0b7691c0274 ("spi: sh-msiof: Fix FIFO size to 64 word from 256 word")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/spi/spi-sh-msiof.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 15e42af35f7e4230..cf93c2ca821f84fa 100644
+index 9bddf85dd9c7f2a1..4f582ecc524fe5fa 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -919,6 +919,7 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
- 	void *rx_buf = t->rx_buf;
- 	unsigned int len = t->len;
- 	unsigned int bits = t->bits_per_word;
-+	unsigned int max_wdlen = 256;
- 	unsigned int bytes_per_word;
- 	unsigned int words;
- 	int n;
-@@ -932,17 +933,17 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
- 	if (!spi_controller_is_target(p->ctlr))
- 		sh_msiof_spi_set_clk_regs(p, t);
+@@ -115,18 +115,18 @@ struct sh_msiof_spi_priv {
+ #define SISCR_BRDV_DIV_1	7U
  
-+	if (tx_buf)
-+		max_wdlen = min(max_wdlen, p->tx_fifo_size);
-+	if (rx_buf)
-+		max_wdlen = min(max_wdlen, p->rx_fifo_size);
-+
- 	while (ctlr->dma_tx && len > 15) {
- 		/*
- 		 *  DMA supports 32-bit words only, hence pack 8-bit and 16-bit
- 		 *  words, with byte resp. word swapping.
- 		 */
--		unsigned int l = 0;
--
--		if (tx_buf)
--			l = min(round_down(len, 4), p->tx_fifo_size * 4);
--		if (rx_buf)
--			l = min(round_down(len, 4), p->rx_fifo_size * 4);
-+		unsigned int l = min(round_down(len, 4), max_wdlen * 4);
+ /* SICTR */
+-#define SICTR_TSCKIZ_MASK	GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
++#define SICTR_TSCKIZ		GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
+ #define SICTR_TSCKIZ_SCK	BIT(31)		/*   Disable SCK when TX disabled */
+-#define SICTR_TSCKIZ_POL_SHIFT	30		/*   Transmit Clock Polarity */
+-#define SICTR_RSCKIZ_MASK	GENMASK(29, 28) /* Receive Clock Polarity Select */
++#define SICTR_TSCKIZ_POL	BIT(30)		/*   Transmit Clock Polarity */
++#define SICTR_RSCKIZ		GENMASK(29, 28) /* Receive Clock Polarity Select */
+ #define SICTR_RSCKIZ_SCK	BIT(29)		/*   Must match CTR_TSCKIZ_SCK */
+-#define SICTR_RSCKIZ_POL_SHIFT	28		/*   Receive Clock Polarity */
+-#define SICTR_TEDG_SHIFT	27		/* Transmit Timing (1 = falling edge) */
+-#define SICTR_REDG_SHIFT	26		/* Receive Timing (1 = falling edge) */
+-#define SICTR_TXDIZ_MASK	GENMASK(23, 22)	/* Pin Output When TX is Disabled */
+-#define SICTR_TXDIZ_LOW		(0 << 22)	/*   0 */
+-#define SICTR_TXDIZ_HIGH	(1 << 22)	/*   1 */
+-#define SICTR_TXDIZ_HIZ		(2 << 22)	/*   High-impedance */
++#define SICTR_RSCKIZ_POL	BIT(28)		/*   Receive Clock Polarity */
++#define SICTR_TEDG		BIT(27)		/* Transmit Timing (1 = falling edge) */
++#define SICTR_REDG		BIT(26)		/* Receive Timing (1 = falling edge) */
++#define SICTR_TXDIZ		GENMASK(23, 22)	/* Pin Output When TX is Disabled */
++#define SICTR_TXDIZ_LOW		0U		/*   0 */
++#define SICTR_TXDIZ_HIGH	1U		/*   1 */
++#define SICTR_TXDIZ_HIZ		2U		/*   High-impedance */
+ #define SICTR_TSCKE		BIT(15)		/* Transmit Serial Clock Output Enable */
+ #define SICTR_TFSE		BIT(14)		/* Transmit Frame Sync Signal Output Enable */
+ #define SICTR_TXE		BIT(9)		/* Transmit Enable */
+@@ -382,14 +382,15 @@ static void sh_msiof_spi_set_pin_regs(struct sh_msiof_spi_priv *p, u32 ss,
+ 	sh_msiof_write(p, SIRMDR1, tmp);
  
- 		if (bits <= 8) {
- 			copy32 = copy_bswap32;
+ 	tmp = 0;
+-	tmp |= SICTR_TSCKIZ_SCK | cpol << SICTR_TSCKIZ_POL_SHIFT;
+-	tmp |= SICTR_RSCKIZ_SCK | cpol << SICTR_RSCKIZ_POL_SHIFT;
++	tmp |= SICTR_TSCKIZ_SCK | FIELD_PREP(SICTR_TSCKIZ_POL, cpol);
++	tmp |= SICTR_RSCKIZ_SCK | FIELD_PREP(SICTR_RSCKIZ_POL, cpol);
+ 
+ 	edge = cpol ^ !cpha;
+ 
+-	tmp |= edge << SICTR_TEDG_SHIFT;
+-	tmp |= edge << SICTR_REDG_SHIFT;
+-	tmp |= tx_hi_z ? SICTR_TXDIZ_HIZ : SICTR_TXDIZ_LOW;
++	tmp |= FIELD_PREP(SICTR_TEDG, edge);
++	tmp |= FIELD_PREP(SICTR_REDG, edge);
++	tmp |= FIELD_PREP(SICTR_TXDIZ,
++			  tx_hi_z ? SICTR_TXDIZ_HIZ : SICTR_TXDIZ_LOW);
+ 	sh_msiof_write(p, SICTR, tmp);
+ }
+ 
 -- 
 2.43.0
 
