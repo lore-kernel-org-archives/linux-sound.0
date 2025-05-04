@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F9AA29
-	for <linux-sound@vger.kernel.org>; Sun,  4 May 2025 00:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2005F18D
+	for <linux-sound@vger.kernel.org>; Sun,  4 May 2025 00:09:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746317289; cv=none; b=LVAlvql1laUPa2K/SWwpbol11yQmkSK+zseV6sCvU3PVkCXF9b9iAhzlLrDbly4BcCuq/l9d8IibvCUXAa5+DaRBGILxQvrqAoSdmat27pjgdj33iFSKD5vsiTza0HMdXpSupSEsIfi2Gsz0Ju7d+7lRccijDZOH5feqRgRVidM=
+	t=1746317356; cv=none; b=qq3QQiI9t6o+Ba58ckEKpjhOqaRuEQlTmrNpbqweYFl8sKyaqKStU9DLH/nua0hJTPBclNux0WqCWRe9cBpakyGlDI0Zn01j2PEvwByWJxTqcOSJYhPtrH8pGobfi/15rYtNkW36HYBmszCRCjVVMhp66GbIRjCm/2IgTDJqDFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746317289; c=relaxed/simple;
-	bh=QPwi7cD5qQzQmYNNbCaDvgZCKO0z0JgklHVPxH50RfM=;
+	s=arc-20240116; t=1746317356; c=relaxed/simple;
+	bh=c/dTQfZNDjF0Jx+hHNgXbO6ij3o7HMvb1phzNKAs7M0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JKmX/VoiJLcvtWR21hg4bu7SJAwqTp+l9/+zpXYeA9oBJ7hZuFkZOy/OmQXfBhTxX0MsCaN9SCwykNY7E2ZE9yjlaNlUQkru9dpdDZHbEtW353O7DBFlfp0xvtXuekVxRU0IaKAthTw+XuMEiWWRGBd55nUojL1Ok498XqkosUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k7g4e+ri; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=j4jebZwl5IcSRNZHqhg3bZgSQe4iBbs/39eLoIsesqf+ZGPJbLDZYrcyzhPS4x1TdmHgJLx8NNiCatjbove61AoLUcLGvrUTNggqjZgzm/dtZXsObFF1sPd6OhsFR+cE1wt9k9lAXd/ymt8Y0YXjRXl+3N0A8S2WCXXO/NARheg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S/e20Z5p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k7g4e+ri"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4FF1C4CEE3;
-	Sun,  4 May 2025 00:08:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S/e20Z5p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 324BFC4CEE3;
+	Sun,  4 May 2025 00:09:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746317289;
-	bh=QPwi7cD5qQzQmYNNbCaDvgZCKO0z0JgklHVPxH50RfM=;
+	s=k20201202; t=1746317355;
+	bh=c/dTQfZNDjF0Jx+hHNgXbO6ij3o7HMvb1phzNKAs7M0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k7g4e+ri650+FWiSNw/PfAji4lEnpOJS+6W1ajRDVPXM/cmcWx8iqPfOfz2fYyIze
-	 fHbpyKgZmYQM1LVCDqSyCBBclJ+DbTeOcWJtwtwxohek6QLPNhRlQ0n4NQIYX1spg3
-	 vfquFS57e8MWS2UPArQ2grdDzVe1moku3VtGPp3sjDfYXXXfWKSAbU3scMoTj+ouoX
-	 kPmuQop8l2WYglHR/w7uq4TQA14/bUSR6WD9td2IcaH5M3JAK3FQEQ7BCLvuBh3oXR
-	 NoMI5qn6SGZZXpJdevwGqzmq50ICAGQoK9xKn1FRz32LH/otOoGsGdwAGn96KBltGr
-	 YmU5GObSfppFQ==
-Date: Sun, 4 May 2025 09:08:05 +0900
+	b=S/e20Z5pyRuNGWOw0mrFLNg4wewlUVxz1Pcbz/KOe9zTo+DOVBJEMpsKggRAAapvi
+	 0EP+o8Gsbmm7jkLIPL4wfns/C5Edhem9wjs59otY3qgKileFoMeQFwOwy6AMyfdyRo
+	 +S5ukTZgJzxTAVG75SfxszD+xsGOe/AEOSqxcSF39WArk8msvcMQFfNGEEr1bCLPxF
+	 1SbEkSK0svReBQLDZLDgL6ubPfjo+OR0MQtjW9naDZZd3O710uki6t4JiYXP8zw9EO
+	 X/uanfbcoC9pIa2RG0RFXMLiSu75ES6Td04oVcMQHeadbowsPpKmTglzBVfJVhn/Xe
+	 8TNy9/Cff0r4A==
+Date: Sun, 4 May 2025 09:09:11 +0900
 From: Mark Brown <broonie@kernel.org>
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
@@ -34,10 +34,11 @@ Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
 	kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev,
 	Vijendar.Mukunda@amd.com, linux-sound@vger.kernel.org,
 	patches@opensource.cirrus.com
-Subject: Re: [PATCH 1/2] ASoC: sdw_utils: Remove num_platforms from simple
- DAI helper
-Message-ID: <aBav5YeU5-TNHoEQ@finisterre.sirena.org.uk>
+Subject: Re: [PATCH 2/2] ASoC: Intel: sof_sdw: Don't bother to set platform
+ string
+Message-ID: <aBawJxaiReagn596@finisterre.sirena.org.uk>
 References: <20250429093931.343725-1-ckeepax@opensource.cirrus.com>
+ <20250429093931.343725-2-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,40 +46,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eCqafhVhe/CbTvr9"
+	protocol="application/pgp-signature"; boundary="RhYHfH+vd+mQbLGA"
 Content-Disposition: inline
-In-Reply-To: <20250429093931.343725-1-ckeepax@opensource.cirrus.com>
+In-Reply-To: <20250429093931.343725-2-ckeepax@opensource.cirrus.com>
 X-Cookie: Well begun is half done.
 
 
---eCqafhVhe/CbTvr9
+--RhYHfH+vd+mQbLGA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 29, 2025 at 10:39:30AM +0100, Charles Keepax wrote:
-> There is no point in passing num_platforms into
-> asoc_sdw_init_simple_dai_link(). Firstly, as a single pointer for the
-> component name is passed in only a single string can be passed and
-> secondly if it is a complex DAI with multiple platforms it would make
-> more sense to use asoc_sdw_init_dai_link().
+On Tue, Apr 29, 2025 at 10:39:31AM +0100, Charles Keepax wrote:
+> The static platform_component name string is overwritten on card tear
+> down which will cause a NULL check on it to fail when the driver is
+> reprobed. However, it turns out that the ASoC core sets this string for
+> all topology systems anyway (after the aforementioned NULL check). So
+> there is no need for the machine driver to set the platform at all,
+> replace all the platform_component stuff with some simple place holders.
+>=20
+> Fixes: 52db12d193d4 ("ASoC: Intel: boards: add sof_sdw machine driver")
 
-> Fixes: 59f8b622d52e ("ASoC: intel/sdw_utils: refactor init_dai_link() and init_simple_dai_link()")
+Similarly here, this seems like more of a cleanup?
 
-The changelog doesn't seem to describe a bug here...
-
---eCqafhVhe/CbTvr9
+--RhYHfH+vd+mQbLGA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgWr+QACgkQJNaLcl1U
-h9CaSgf/c+RwKGKpHL54+fiV6V2UWWUd+4mfwJui4gtB0wnfV2Ub8CnnE/4aRa8T
-fALQhy3j1SRpfZRQdT0lgMiY02avoowW6gEPl2DC1VziplM3aSkKoTC6WMuelV/V
-hBRWYKUemOdxEAum9cgBfK1PlIEAY6LT/UcQmrfhHMZVf6J9FjoLJsoYkykN+QFK
-GM0owhnty+T0nJGZIhgr1SkRXOcIDOxEKy3m5WBpD5jk62JSAzWW3T3WJBy0rqjM
-zj1ZZF14y7xN6LpG+VHIlTuM3NC0qRSqVci6Jk8PYMWZHLXB/m21bHSavTEykrsi
-1jlze2jWOuE8jhh9ybM2LA1Vz/wSXQ==
-=yxYz
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgWsCYACgkQJNaLcl1U
+h9BU5wf+O5G7+tVktKKgaMA9qfi8def2T9w36Vz9QdRbIiC8GxTUszwVuHuuYGOn
+9jf8W9QwyX8dTDUFhl/2W0eqZkFJaX8jQbnoh+qY15/TTQ15ovehD8m6ys5iQGMh
+a/fLMlkeOnKOg6dRLAiDSG3i4CqKbpuFoqhFzNcU20+UJejFaZaqyaoRH0vYmh4V
+E1Wd5iYmxcsNynFYtJR9fifqQG0wXeB8NSJ0BeUoVK00B4x5TpQfMbAAk7kJStSs
+/hZaKTVN9YEAQxz8R3VyzpvFAHndqu6FWIakXC3Tt0F/5kPFCbfk+h3EMotqLz3A
+SBGaP1v0aOAh9jWF6BG42lEW9nHSlw==
+=MYgD
 -----END PGP SIGNATURE-----
 
---eCqafhVhe/CbTvr9--
+--RhYHfH+vd+mQbLGA--
