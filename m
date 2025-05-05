@@ -1,110 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624C13754E0;
-	Mon,  5 May 2025 23:06:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFAD280CEA;
+	Mon,  5 May 2025 23:08:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486374; cv=none; b=RFzwZaMyh8kheIY6GicsoWI4wMw+BgRCQUtoCYu9UpJT8OyzEj/MUuztPv5EyxlFdCrSq0XbgMTImt2OKByh9V4H/zzcE5Tk0niUAHwsasd+5HgHYnzHkobD9GhFsFC5RjAzNc9O7bEOmsGxjpyhNvaNm9yykw2r1psRpJnoVLo=
+	t=1746486485; cv=none; b=pBkaMTqIEa8Udh9IrkYHvC8bE4UVtSCFckzSulDv86SlgKzzvp/cTtv9LNrUCcSP4hx2XIJHzZNsk43f/jNSmP8boea/WUN1gqsfKUaocA13eGycz+bCWCuVIZ8MdUbm+b6E+ElFaFrDKK/yFlYn+VJowOsjb3x5UfwEc/d1Nik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486374; c=relaxed/simple;
-	bh=jxtLKYnH02viIBpG8ekxsfEbbnFs92hl0gasfFs9L74=;
+	s=arc-20240116; t=1746486485; c=relaxed/simple;
+	bh=QZJg/qnDtIKPDm96Agh/Xj3Gqhe9xZPuYljzuQiAzTY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=A7YPC+esH4RcXv8Oyyg+ZxV4vjRaTXvkwe8uQbrWsZJfKjiOTLYvGVNXcTywSRzbR8+E94GDt3Z/50DC11Eb5z8PN/cm4+XxPnnX11BzpLMA28dcISxH8nk+qtHke7n6zRrCOe+IcPKH3kM5vcWkN7VY2WNEqZU07IFgAaK4GtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=USPDACyU; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=n1nttc+hSTWfrYcE5YABY512/a7N5SaWQHkBccBAx+yTkVOIn5yaf9pjdZvouZynCE3v/QFQG6FtHuqzCVIV37YdzUpLFnLDlmPLtSg9K08TQgPjx5JWW1ohgtPLIJHjhNDG3+++FkhtDkWIqNZ+wdGXHTmWfBX+WEekaC5ckd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GrGMm+Gu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="USPDACyU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2E0DC4CEE4;
-	Mon,  5 May 2025 23:06:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GrGMm+Gu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57836C4CEE4;
+	Mon,  5 May 2025 23:08:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486374;
-	bh=jxtLKYnH02viIBpG8ekxsfEbbnFs92hl0gasfFs9L74=;
+	s=k20201202; t=1746486484;
+	bh=QZJg/qnDtIKPDm96Agh/Xj3Gqhe9xZPuYljzuQiAzTY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=USPDACyUjQscVbZqh8uOwR2bVhJKiF0fzOtg0vQqlPdZwxLifgUAvSxGqvg8xkuoF
-	 YbZ4cUOPqY477yq9hs3f1HKJqpZ6GwrOVS7vNbFdVjPS/DB7qg3WaZzLBZwezU86JY
-	 jENcYBvL8/rwYIYGz1p3J3oyQGLDB7K8iUTJut5SbfwItU/KhIOFgaDKFOlAr7bxUm
-	 HN3GFaqGC48fHmDRFFVYV8m5t4fVVNz0ZAcPBVc5+X6L5iEz7jQ0MWGKQRqdSYWiet
-	 +7IQq4sSBtDGORkm3Vil4JTvd5xNQhDW3EJgrENYi2uOkZCuR6Hp8/6+rAg6IK875K
-	 PFDqOYRp7m1Iw==
+	b=GrGMm+Gu7A//lbkE1XWiuJuAkKK6lxAa3Jxe2DkV7cPzZpAWvKv5CEaQ2Ugy3A6eR
+	 bBl3ssMSXY3MtM510LGq8C2qqn1LRtZ9KW0F9AJtokfUlmliP4wspv3Tlu/Xwz09Eu
+	 5Ebyks4rGxpGrOT13a5plsWdiFOwzgkKR8JCDsrC4q+h4I+5/tnnMIU6/E6wI0UBtu
+	 CLssR5JSXdnXRcipYik+TlmRwTOWJR8sLiNKQGsawqS3vOOt2hmP+qwzzdKiQ8QFyp
+	 t5RUGm9jAn47tjqql0wJM+oCjX2N4SFQu1G0bmtKZZY0k487Zt27nIEIiFYhSalaQQ
+	 1zczHSa0n9Y/w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Olivier Moysan <olivier.moysan@foss.st.com>,
+Cc: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	Mark Brown <broonie@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	lgirdwood@gmail.com,
-	lumag@kernel.org,
-	christianshewitt@gmail.com,
-	jonas@kwiboo.se,
-	krzysztof.kozlowski@linaro.org,
-	kuninori.morimoto.gx@renesas.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 290/294] ASoC: hdmi-codec: allow to refine formats actually supported
-Date: Mon,  5 May 2025 18:56:30 -0400
-Message-Id: <20250505225634.2688578-290-sashal@kernel.org>
+	matthias.bgg@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.1 054/212] ASoC: mediatek: mt6359: Add stub for mt6359_accdet_enable_jack_detect
+Date: Mon,  5 May 2025 19:03:46 -0400
+Message-Id: <20250505230624.2692522-54-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
-References: <20250505225634.2688578-1-sashal@kernel.org>
+In-Reply-To: <20250505230624.2692522-1-sashal@kernel.org>
+References: <20250505230624.2692522-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.89
+X-stable-base: Linux 6.1.136
 Content-Transfer-Encoding: 8bit
 
-From: Olivier Moysan <olivier.moysan@foss.st.com>
+From: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-[ Upstream commit 038f79638e0676359e44c5db458d52994f9b5ac1 ]
+[ Upstream commit 0116a7d84b32537a10d9bea1fd1bfc06577ef527 ]
 
-Currently the hdmi-codec driver registers all the formats that are
-allowed on the I2S bus. Add i2s_formats field to codec data, to allow
-the hdmi codec client to refine the list of the audio I2S formats
-actually supported.
+Add a stub for mt6359_accdet_enable_jack_detect() to prevent linker
+failures in the machine sound drivers calling it when
+CONFIG_SND_SOC_MT6359_ACCDET is not enabled.
 
-Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
-Acked-by: Mark Brown <broonie@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250108170356.413063-3-olivier.moysan@foss.st.com
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Link: https://patch.msgid.link/20250306-mt8188-accdet-v3-3-7828e835ff4b@collabora.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/sound/hdmi-codec.h    | 1 +
- sound/soc/codecs/hdmi-codec.c | 4 ++++
- 2 files changed, 5 insertions(+)
+ sound/soc/codecs/mt6359-accdet.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
-index 9b162ac1e08e0..498d21dfd8790 100644
---- a/include/sound/hdmi-codec.h
-+++ b/include/sound/hdmi-codec.h
-@@ -123,6 +123,7 @@ struct hdmi_codec_ops {
- /* HDMI codec initalization data */
- struct hdmi_codec_pdata {
- 	const struct hdmi_codec_ops *ops;
-+	u64 i2s_formats;
- 	uint i2s:1;
- 	uint no_i2s_playback:1;
- 	uint no_i2s_capture:1;
-diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index 03290d3ae59cc..915baa7016eab 100644
---- a/sound/soc/codecs/hdmi-codec.c
-+++ b/sound/soc/codecs/hdmi-codec.c
-@@ -1076,6 +1076,10 @@ static int hdmi_codec_probe(struct platform_device *pdev)
- 	if (hcd->i2s) {
- 		daidrv[i] = hdmi_i2s_dai;
- 		daidrv[i].playback.channels_max = hcd->max_i2s_channels;
-+		if (hcd->i2s_formats) {
-+			daidrv[i].playback.formats = hcd->i2s_formats;
-+			daidrv[i].capture.formats = hcd->i2s_formats;
-+		}
- 		if (hcd->no_i2s_playback)
- 			memset(&daidrv[i].playback, 0,
- 			       sizeof(daidrv[i].playback));
+diff --git a/sound/soc/codecs/mt6359-accdet.h b/sound/soc/codecs/mt6359-accdet.h
+index c234f2f4276a1..78ada3a5bfae5 100644
+--- a/sound/soc/codecs/mt6359-accdet.h
++++ b/sound/soc/codecs/mt6359-accdet.h
+@@ -123,6 +123,15 @@ struct mt6359_accdet {
+ 	struct workqueue_struct *jd_workqueue;
+ };
+ 
++#if IS_ENABLED(CONFIG_SND_SOC_MT6359_ACCDET)
+ int mt6359_accdet_enable_jack_detect(struct snd_soc_component *component,
+ 				     struct snd_soc_jack *jack);
++#else
++static inline int
++mt6359_accdet_enable_jack_detect(struct snd_soc_component *component,
++				 struct snd_soc_jack *jack)
++{
++	return -EOPNOTSUPP;
++}
++#endif
+ #endif
 -- 
 2.39.5
 
