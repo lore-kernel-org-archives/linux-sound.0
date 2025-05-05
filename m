@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50051EB5C9;
-	Mon,  5 May 2025 22:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367F22D7AEC;
+	Mon,  5 May 2025 22:55:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485519; cv=none; b=a7taW4sTZoPwr+6jlIfldbGIdMS6DFOANgKUNR7fGYfJz9pQDD3Y8ErhZ5HB3LUdqmkEVryGlnrHBbNYSVIY6cci1eGw31fA+CX/+5UqtDSLMr0ITEC1NpkY2XNqT4OOx8R514GoleIIlO1ZFf2M6s8mhum4D3zF2iA8bePrwbE=
+	t=1746485732; cv=none; b=NJ4uCGWkDaIOeHP9oWKwU0lvN3ill4/BxY7upXTYcBx/pd19/BMIULDcyxAy854/OGDCS/psTrZZtnATu6a1WgWnsFQVnj3hy6MBVaep5jH43MOFzfQb2ifHesqvrLr4lt6vvZpaGvAFpsr+Wb2RS2xjdmsC4IghQkoIBHKdhdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485519; c=relaxed/simple;
-	bh=fWvF3AkFFMwjVFkX9yjj0BGbiK9cnNKoLzPlGLrNKlQ=;
+	s=arc-20240116; t=1746485732; c=relaxed/simple;
+	bh=lOaXVfAMBDlGa62+0rELA0eR88qBti/i5Qonwh7IbjI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RU4voykRij+HqyXxZgWkVUzp532+5VJ/xzornLgF0sZZC6NQoUx+y6+v8VuyeJYgOJNwpZR5r8eGLYJ+l36BugtmGvKVfxpnWmSVg7NYbCmlyU+Zkcp3mOA12Og+7TKjxai6KQBxsR1ucasR0mIy3H3Bk+2HM1Kf3PjDy7gabok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZDbAxf5N; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ujh5K8SQTg3H6d1FYzc+K7q9fOJc2F8yC9XCI/GAau9LdDfWhf3mpQntzquaUPvp7+0VSnALkZxQoFIAXU62mZLsi1Mxqa0Hs2K+8e8oBhHBt65PH5DNcgu5RIAUy0KkEEgtrawFkYqYHkxoSH1HFHuNJJivfXD4/Qlkyp7pzuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5/yfYeD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZDbAxf5N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B290C4CEF1;
-	Mon,  5 May 2025 22:51:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5/yfYeD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2167CC4CEF1;
+	Mon,  5 May 2025 22:55:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485519;
-	bh=fWvF3AkFFMwjVFkX9yjj0BGbiK9cnNKoLzPlGLrNKlQ=;
+	s=k20201202; t=1746485731;
+	bh=lOaXVfAMBDlGa62+0rELA0eR88qBti/i5Qonwh7IbjI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZDbAxf5NPsuWQ94qDPnrWWGqRG9wqrX4bGAEmvQ4O1HSKfbVn05ufA3zfRslRNdP9
-	 zTPgVB39QO8heCHxt/RU2sznUhisU+HSR6khcMoAa7EwG6AXjTZiCtEy3LAeJmGf5v
-	 M0bWw2VGLnghePixOPVbLuqInUZjz+nlllcU9IEflEKriigzchruiOVefh7RAhlCah
-	 wfN6hm+kFTqTHoxMA+Ssz+fL/b0YJJ6m746r0LhrQQyb77zwRHlt0fJYyOlVcYg+wd
-	 eNphkv1wLBUzZf95MQDjCwrYN0XVpgHMRXlLKWG3VEg5+f+5X33i/4cJ07AXNKoTz8
-	 chxWs9DuRX79A==
+	b=P5/yfYeD0j3VuinLP2Pf2mhGbAuOKBXDcI+1H7377FqzInsmM+CGD6mbMmt8Yxh+b
+	 7cvgsHjQbEHx+ZDdClrj/WfQ8cVD7kWpF1y2iN8hXQlTyvcv3KcIFelF0B9oYX4y7p
+	 q6t49fTDCT8RRIZtMx9NRSDsVyPsVVO+v5P+cqbKCmoHQSn4rPO1o8R5PMTB9lTSPg
+	 RywJO3w7Axo+yunkA02Kx+o1HBtOuUhugJOH+/hfKRggdIsz8w0fcWg6pvnVVywqOF
+	 rk9QjpUPG3cZCfBl4BOm6Uc3tPV4YDxvMe3D3T5nu+g+zuIMPyg19TK902oqknglxe
+	 7uwWyL9x7EqNQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vinod Koul <vkoul@kernel.org>,
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 358/486] soundwire: cadence_master: set frame shape and divider based on actual clk freq
-Date: Mon,  5 May 2025 18:37:14 -0400
-Message-Id: <20250505223922.2682012-358-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 449/486] ASoC: soc-core: Stop using of_property_read_bool() for non-boolean properties
+Date: Mon,  5 May 2025 18:38:45 -0400
+Message-Id: <20250505223922.2682012-449-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -48,94 +48,102 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.26
 Content-Transfer-Encoding: 8bit
 
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[ Upstream commit e738d77f78b3ac085dfb51be414e93464abba7ec ]
+[ Upstream commit 6eab7034579917f207ca6d8e3f4e11e85e0ab7d5 ]
 
-Frame shape and curr_dr_freq could be updated by sdw_compute_bus_params().
-Peripherals will set curr_dr_freq as their frequency. Managers
-should do the same. Then update frame shape according to the actual
-bus frequency.
+On R-Car:
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Link: https://lore.kernel.org/r/20250205074232.87537-2-yung-chuan.liao@linux.intel.com
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
+    OF: /sound: Read of boolean property 'simple-audio-card,bitclock-master' with a value.
+    OF: /sound: Read of boolean property 'simple-audio-card,frame-master' with a value.
+
+or:
+
+    OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean property 'bitclock-master' with a value.
+    OF: /soc/sound@ec500000/ports/port@0/endpoint: Read of boolean property 'frame-master' with a value.
+
+The use of of_property_read_bool() for non-boolean properties is
+deprecated in favor of of_property_present() when testing for property
+presence.
+
+Replace testing for presence before calling of_property_read_u32() by
+testing for an -EINVAL return value from the latter, to simplify the
+code.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://patch.msgid.link/db10e96fbda121e7456d70e97a013cbfc9755f4d.1737533954.git.geert+renesas@glider.be
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/soundwire/cadence_master.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ sound/soc/soc-core.c | 32 +++++++++++++-------------------
+ 1 file changed, 13 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/soundwire/cadence_master.c b/drivers/soundwire/cadence_master.c
-index 05652e983539b..6f2b5ec5c87c6 100644
---- a/drivers/soundwire/cadence_master.c
-+++ b/drivers/soundwire/cadence_master.c
-@@ -1341,7 +1341,7 @@ static u32 cdns_set_initial_frame_shape(int n_rows, int n_cols)
- 	return val;
- }
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 20248a29d1674..e3c8d4f20b9c1 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -3057,7 +3057,7 @@ int snd_soc_of_parse_pin_switches(struct snd_soc_card *card, const char *prop)
+ 	unsigned int i, nb_controls;
+ 	int ret;
  
--static void cdns_init_clock_ctrl(struct sdw_cdns *cdns)
-+static int cdns_init_clock_ctrl(struct sdw_cdns *cdns)
- {
- 	struct sdw_bus *bus = &cdns->bus;
- 	struct sdw_master_prop *prop = &bus->prop;
-@@ -1355,14 +1355,25 @@ static void cdns_init_clock_ctrl(struct sdw_cdns *cdns)
- 		prop->default_row,
- 		prop->default_col);
+-	if (!of_property_read_bool(dev->of_node, prop))
++	if (!of_property_present(dev->of_node, prop))
+ 		return 0;
  
-+	if (!prop->default_frame_rate || !prop->default_row) {
-+		dev_err(cdns->dev, "Default frame_rate %d or row %d is invalid\n",
-+			prop->default_frame_rate, prop->default_row);
-+		return -EINVAL;
-+	}
-+
- 	/* Set clock divider */
--	divider	= (prop->mclk_freq / prop->max_clk_freq) - 1;
-+	divider	= (prop->mclk_freq * SDW_DOUBLE_RATE_FACTOR /
-+		bus->params.curr_dr_freq) - 1;
+ 	strings = devm_kcalloc(dev, nb_controls_max,
+@@ -3131,23 +3131,17 @@ int snd_soc_of_parse_tdm_slot(struct device_node *np,
+ 	if (rx_mask)
+ 		snd_soc_of_get_slot_mask(np, "dai-tdm-slot-rx-mask", rx_mask);
  
- 	cdns_updatel(cdns, CDNS_MCP_CLK_CTRL0,
- 		     CDNS_MCP_CLK_MCLKD_MASK, divider);
- 	cdns_updatel(cdns, CDNS_MCP_CLK_CTRL1,
- 		     CDNS_MCP_CLK_MCLKD_MASK, divider);
- 
-+	/* Set frame shape base on the actual bus frequency. */
-+	prop->default_col = bus->params.curr_dr_freq /
-+			    prop->default_frame_rate / prop->default_row;
-+
- 	/*
- 	 * Frame shape changes after initialization have to be done
- 	 * with the bank switch mechanism
-@@ -1375,6 +1386,8 @@ static void cdns_init_clock_ctrl(struct sdw_cdns *cdns)
- 	ssp_interval = prop->default_frame_rate / SDW_CADENCE_GSYNC_HZ;
- 	cdns_writel(cdns, CDNS_MCP_SSP_CTRL0, ssp_interval);
- 	cdns_writel(cdns, CDNS_MCP_SSP_CTRL1, ssp_interval);
-+
-+	return 0;
- }
- 
- /**
-@@ -1383,9 +1396,12 @@ static void cdns_init_clock_ctrl(struct sdw_cdns *cdns)
-  */
- int sdw_cdns_init(struct sdw_cdns *cdns)
- {
-+	int ret;
- 	u32 val;
- 
--	cdns_init_clock_ctrl(cdns);
-+	ret = cdns_init_clock_ctrl(cdns);
-+	if (ret)
+-	if (of_property_read_bool(np, "dai-tdm-slot-num")) {
+-		ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
+-		if (ret)
+-			return ret;
+-
+-		if (slots)
+-			*slots = val;
+-	}
+-
+-	if (of_property_read_bool(np, "dai-tdm-slot-width")) {
+-		ret = of_property_read_u32(np, "dai-tdm-slot-width", &val);
+-		if (ret)
+-			return ret;
++	ret = of_property_read_u32(np, "dai-tdm-slot-num", &val);
++	if (ret && ret != -EINVAL)
 +		return ret;
++	if (!ret && slots)
++		*slots = val;
  
- 	sdw_cdns_check_self_clearing_bits(cdns, __func__, false, 0);
+-		if (slot_width)
+-			*slot_width = val;
+-	}
++	ret = of_property_read_u32(np, "dai-tdm-slot-width", &val);
++	if (ret && ret != -EINVAL)
++		return ret;
++	if (!ret && slot_width)
++		*slot_width = val;
+ 
+ 	return 0;
+ }
+@@ -3411,12 +3405,12 @@ unsigned int snd_soc_daifmt_parse_clock_provider_raw(struct device_node *np,
+ 	 * check "[prefix]frame-master"
+ 	 */
+ 	snprintf(prop, sizeof(prop), "%sbitclock-master", prefix);
+-	bit = of_property_read_bool(np, prop);
++	bit = of_property_present(np, prop);
+ 	if (bit && bitclkmaster)
+ 		*bitclkmaster = of_parse_phandle(np, prop, 0);
+ 
+ 	snprintf(prop, sizeof(prop), "%sframe-master", prefix);
+-	frame = of_property_read_bool(np, prop);
++	frame = of_property_present(np, prop);
+ 	if (frame && framemaster)
+ 		*framemaster = of_parse_phandle(np, prop, 0);
  
 -- 
 2.39.5
