@@ -1,104 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4D9398291;
-	Mon,  5 May 2025 23:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC683BE7B8;
+	Mon,  5 May 2025 23:23:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746487262; cv=none; b=X6R6UH6JG/7/B5d9RQ2D5NdiKe0Abrs8UPshTVCG1Ii1dojF/ttsMi9TrPjX9KVzJMFbkoAACKKaQsBsZ9HPszo2kjxnOWm30FybTqlq+bRWn4wsiQ4hi1C63/FjADIxplce+T22T39uVYhIrE1M5WaZpiDOMNerdWi178E5ZOo=
+	t=1746487414; cv=none; b=ktNwe31+KBvcnxc1Ej6XIBvqzm+tQQcVJre1q/HMBhmujh+lqRnedt7/iQj7kdTNXzdDhZ7lI5NvDL6BgLa5kOOJlS0KG6bjrDXuf68ykH3ibrNRiv4cnv6oo/AQZ2B4julX9GuWXftpmQmtBo5l2EpymwHm+cBl4bbu9Po9XOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746487262; c=relaxed/simple;
-	bh=8VkDgy7h7NctUlOJ32G+sNnT5RE1+skhQBXvvbQiNlU=;
+	s=arc-20240116; t=1746487414; c=relaxed/simple;
+	bh=RL/fE0cafudihVx0Eh4J01BxfViMCvmEGMCBiHmzHEY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=S13b1n1B+4EnwR8j5GOr37kJDT9B20WZIxXkII1n1xVfhNVthcCMOLGDACsraLft+hX6WSiD3TAy10gDfhcxG3aSxWSU3LySFJ2j7N7oAPKXQs6lU970L4rMrp6Mgn6OM9S3DKU2M6KYQpAh01vOF0tNbkr4zByLTqmtzZl75nU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fCWaxXM/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ZYPO1lVPHKm4wVhWnOu7CpQaNmOVE8kZvjz7BmzrVQr3h274ipEItKmElWfSgnAf+65rKtck77b51WuwYe9jozuhHV2ku8oQQq4afIcUj47KEmU3LZq2rvby1WF402Ymol+aCZYCWBwuTovjeUSpuJaw0yrc5nHU8I1+KYrIEh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=muaEVO8G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fCWaxXM/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD9BCC4CEEE;
-	Mon,  5 May 2025 23:20:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="muaEVO8G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7295AC4CEF2;
+	Mon,  5 May 2025 23:23:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746487260;
-	bh=8VkDgy7h7NctUlOJ32G+sNnT5RE1+skhQBXvvbQiNlU=;
+	s=k20201202; t=1746487413;
+	bh=RL/fE0cafudihVx0Eh4J01BxfViMCvmEGMCBiHmzHEY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fCWaxXM/PzJln9diMNkJxdxCphkvWsRJma+IV/Oepdp6YJZhJSQox7nZCzfbWJ7WD
-	 kF1mAunVptfpm2k84lxYXMaGmXhPXUOmQo0NaLQtHNaHylyc8JnlBOyblcmulvjwAy
-	 tZA71/NLUn+GAKtYWMMbsk9SeinsR23VsnsZZduw/J1j9dkKFpeETxXiZFefhHhCaF
-	 4GEkMIE04dSUuGM7v86BCBwR4l/uiAY0f4Ll691BCfHlCDnEM3Fse0nyot6OdrL3Vr
-	 N7pUx9PyPi/BnHxuFlMknd4Uq9kSiR8HMqMoDOVJnJqGZ7EDj6oEC7RkBqRBKUvUiV
-	 4E34HNwyIVa+A==
+	b=muaEVO8GEhTHwqlIcp48n3VZWV3FNNsCwetkOpyi2uH3O5e44NV6eTGBtbA+GXXEB
+	 sBZeJRLuLaSphHrsXYUG21TE2Gu6W6p0ozeijBSBinOrsWCYnf0jem+VyrOJRq1FGa
+	 gksOYBVjzTYo7T7fkhCAVa7KHliKgq+Wzk5o4SIGPB5AyKYgzCA0l+E/RtygNdBLlO
+	 NgUfmIqLkylzRw/wf46qCpgwrwObbKG7GZB9P0du0TOAHGQglNFGXp+cD75YlyrKbY
+	 MTnSkLF7kuDsB8g8Q+XHjPIJg0NXvut1ttWxNkI4/zO6UUbh/S1vXXINlbxFcGHFdA
+	 fPjdXwuBVMzlA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 086/114] ASoC: soc-dai: check return value at snd_soc_dai_set_tdm_slot()
-Date: Mon,  5 May 2025 19:17:49 -0400
-Message-Id: <20250505231817.2697367-86-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 57/79] ASoC: ops: Enforce platform maximum on initial value
+Date: Mon,  5 May 2025 19:21:29 -0400
+Message-Id: <20250505232151.2698893-57-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505231817.2697367-1-sashal@kernel.org>
-References: <20250505231817.2697367-1-sashal@kernel.org>
+In-Reply-To: <20250505232151.2698893-1-sashal@kernel.org>
+References: <20250505232151.2698893-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.237
+X-stable-base: Linux 5.4.293
 Content-Transfer-Encoding: 8bit
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+From: Martin Povišer <povik+lin@cutebit.org>
 
-[ Upstream commit 7f1186a8d738661b941b298fd6d1d5725ed71428 ]
+[ Upstream commit 783db6851c1821d8b983ffb12b99c279ff64f2ee ]
 
-snd_soc_dai_set_tdm_slot() calls .xlate_tdm_slot_mask() or
-snd_soc_xlate_tdm_slot_mask(), but didn't check its return value.
-Let's check it.
+Lower the volume if it is violating the platform maximum at its initial
+value (i.e. at the time of the 'snd_soc_limit_volume' call).
 
-This patch might break existing driver. In such case, let's makes
-each func to void instead of int.
-
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://patch.msgid.link/87o6z7yk61.wl-kuninori.morimoto.gx@renesas.com
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+[Cherry picked from the Asahi kernel with fixups -- broonie]
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Link: https://patch.msgid.link/20250208-asoc-volume-limit-v1-1-b98fcf4cdbad@kernel.org
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/soc-dai.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ sound/soc/soc-ops.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
-index 4705c3da6280f..f9aba413e4952 100644
---- a/sound/soc/soc-dai.c
-+++ b/sound/soc/soc-dai.c
-@@ -208,10 +208,11 @@ int snd_soc_dai_set_tdm_slot(struct snd_soc_dai *dai,
- 
- 	if (dai->driver->ops &&
- 	    dai->driver->ops->xlate_tdm_slot_mask)
--		dai->driver->ops->xlate_tdm_slot_mask(slots,
--						      &tx_mask, &rx_mask);
-+		ret = dai->driver->ops->xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
- 	else
--		snd_soc_xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
-+		ret = snd_soc_xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
-+	if (ret)
-+		goto err;
- 
- 	dai->tx_mask = tx_mask;
- 	dai->rx_mask = rx_mask;
-@@ -220,6 +221,7 @@ int snd_soc_dai_set_tdm_slot(struct snd_soc_dai *dai,
- 	    dai->driver->ops->set_tdm_slot)
- 		ret = dai->driver->ops->set_tdm_slot(dai, tx_mask, rx_mask,
- 						      slots, slot_width);
-+err:
- 	return soc_dai_ret(dai, ret);
+diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
+index 08ed973b2d975..a3b1f1c064ddc 100644
+--- a/sound/soc/soc-ops.c
++++ b/sound/soc/soc-ops.c
+@@ -635,6 +635,33 @@ int snd_soc_get_volsw_range(struct snd_kcontrol *kcontrol,
  }
- EXPORT_SYMBOL_GPL(snd_soc_dai_set_tdm_slot);
+ EXPORT_SYMBOL_GPL(snd_soc_get_volsw_range);
+ 
++static int snd_soc_clip_to_platform_max(struct snd_kcontrol *kctl)
++{
++	struct soc_mixer_control *mc = (struct soc_mixer_control *)kctl->private_value;
++	struct snd_ctl_elem_value uctl;
++	int ret;
++
++	if (!mc->platform_max)
++		return 0;
++
++	ret = kctl->get(kctl, &uctl);
++	if (ret < 0)
++		return ret;
++
++	if (uctl.value.integer.value[0] > mc->platform_max)
++		uctl.value.integer.value[0] = mc->platform_max;
++
++	if (snd_soc_volsw_is_stereo(mc) &&
++	    uctl.value.integer.value[1] > mc->platform_max)
++		uctl.value.integer.value[1] = mc->platform_max;
++
++	ret = kctl->put(kctl, &uctl);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++
+ /**
+  * snd_soc_limit_volume - Set new limit to an existing volume control.
+  *
+@@ -667,7 +694,7 @@ int snd_soc_limit_volume(struct snd_soc_card *card,
+ 		mc = (struct soc_mixer_control *)kctl->private_value;
+ 		if (max <= mc->max) {
+ 			mc->platform_max = max;
+-			ret = 0;
++			ret = snd_soc_clip_to_platform_max(kctl);
+ 		}
+ 	}
+ 	return ret;
 -- 
 2.39.5
 
