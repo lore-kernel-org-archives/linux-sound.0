@@ -1,110 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA94D1F418C;
-	Mon,  5 May 2025 08:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF3A1F5402
+	for <linux-sound@vger.kernel.org>; Mon,  5 May 2025 10:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746433640; cv=none; b=V5oNFeW+DRsEor+LqjKdb6d5kTxjsNeUICT4EDaq5Q5RwAh9gmMOBnmA/MvyGiyu2L6EV+aqJMIAYb1KBjq7LK0f2dUvHEkMwKDuYt43IXOa+/hAC3Fn385AHYNbr2vTbUrpeGPQKB6/0cBALBeJ+opqHLO0aSY6NcNQTO+WDLk=
+	t=1746440206; cv=none; b=ZfGPn7ioGhM1MPQWeuWNlFtUHQsxULJpVquva5OsHc+iuUPaC0L0kkA2PnZCridHdKPLoSJD3SwgAsSGUr9t66i0vP1AdkxWaPkCxSdm1Bs+Tqc0M3NoZYhbZ1B9+nIntVZ67BA6QWdlGIZDp+uO1dWrrNhgdvIjAqJqdqTygkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746433640; c=relaxed/simple;
-	bh=i7JGcwvA4qScIZy83CQCFii3FHeN5UManpcgNMkmvA4=;
+	s=arc-20240116; t=1746440206; c=relaxed/simple;
+	bh=mevWuU4xNwiUirBkvdaNf+/+QiabGjfTbLpHvUrs9FQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W0CTMIos2IbsOA94sLCpaaSYcpT6aAZGtEF/cLchMTEiv6qKaycWx8uG8iv1EsMN4Xcp1LW/q7JDmdCOpAV/1BqIAHsvECl5jXaOgXQGATL4yc8H/3XkMrZ0fyuvorTfz/rGOq673KZV7Zz76IF9PLj7oMJHNWEsWzleDiUugpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NLnfphLL; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=bg/hgoyuiyUVpXfZ7SKUotwPWuXwtpEJHGMbVJjXWWSZZb4bOttui9+xzKTTiLP4NUSJv8kvyqnXJcS0X0z2cJuEdezX41jx9aemvC7F4zdf0HEQ+HgivXSrb4b9YezW5r93v/sdRCfmihREFiYpkrNBHTzLDhTqYaB1B4kMJYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wrdSdj5N; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NLnfphLL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746433638; x=1777969638;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=i7JGcwvA4qScIZy83CQCFii3FHeN5UManpcgNMkmvA4=;
-  b=NLnfphLLyV4WB7tM//lJMtX+4dR8VVSGdbQgGi4lt8NDtas57BNlyJNJ
-   vIchBajjcdVymFPC+Gt6cqBbs/2YZu5BRHwM241trUGMJnzrvBe+KBoVl
-   Q5BFkhUEyXp/j6xTCf0dfLeC2pkrRDnWwDmlMTSBvKMpSAl7Guvy2loHW
-   zIrxzm5sUSrRO4OHetaz3t5MjsU+Ng7ZQtoU31w7W91YS1Pc/FWGJer5U
-   84VEi/nk8DS844+FqYX1nsHvesWOnOx1fZTg76GBi7HZTRz9cZf2VG62j
-   JyWJfsWQtEqf1jgJyo3WoVxjrc+K2wL+SfNqfxeriLf+2kjQb/on8B/7n
-   w==;
-X-CSE-ConnectionGUID: wOyxIxtMRpi7WpM62PB6vQ==
-X-CSE-MsgGUID: LLoovh5GTxS7FS8LPen86A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="65565299"
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="65565299"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 01:27:17 -0700
-X-CSE-ConnectionGUID: 6ShCHkh0R1+CzMKMjk8+Yw==
-X-CSE-MsgGUID: 4EUcdzSLRoSoBYffwVRZeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="136129079"
-Received: from yungchua-mobl2.ccr.corp.intel.com (HELO [10.246.105.120]) ([10.246.105.120])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 01:27:15 -0700
-Message-ID: <2933e4c7-fc4c-4161-afee-cd6abcd79ef5@linux.intel.com>
-Date: Mon, 5 May 2025 16:27:04 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wrdSdj5N"
+Message-ID: <43d7374f-dc89-4137-bb7d-39b9b1a1dd63@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1746440200;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k9oeIjP/XK15ndT9uH90YP5m53JwmFwFM7/2OTSeJIY=;
+	b=wrdSdj5Nz0QcfudccPsOjQ8nWkhyqQ41MCdvQKMr4Mz0I7OyXzNlTsRiI/I8J3hZ4xY6CP
+	QZH/AqHwyWs51D48n/jcJHd1cjPMISGkQfstkxbL/7+V5kp3KezE04O/DBHq3KjuO2WGex
+	anxBLHoNZs8or2MqNWUwp8ywmgw4ngg=
+Date: Mon, 5 May 2025 12:16:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] ASoC: intel/sdw_utils: Assign initial value in
- asoc_sdw_rt_amp_spk_rtd_init()
-To: I Hsin Cheng <richard120310@gmail.com>, lgirdwood@gmail.com
-Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- pierre-louis.bossart@linux.dev, Vijendar.Mukunda@amd.com,
- peter.ujfalusi@linux.intel.com, peterz@infradead.org,
- christophe.jaillet@wanadoo.fr, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-References: <20250505074142.615408-1-richard120310@gmail.com>
+Subject: Re: [PATCH v1] soundwire: intel_auxdevice: Fix system suspend/resume
+ handling
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>, Vinod Koul <vkoul@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org
+References: <5891540.DvuYhMxLoT@rjwysocki.net>
+ <30acf520-c137-4b49-8b69-08e35a7c5969@linux.dev>
+ <CAJZ5v0iCsd8fdXRdicT7mqsRte39WC+SVjgfz2NHS9QpvSnDdw@mail.gmail.com>
+ <CAJZ5v0iFPf=WT3CjNqtioUoiX9jc5nmZLJnAkQOhBTmGq_ioAw@mail.gmail.com>
 Content-Language: en-US
-From: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
-In-Reply-To: <20250505074142.615408-1-richard120310@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <CAJZ5v0iFPf=WT3CjNqtioUoiX9jc5nmZLJnAkQOhBTmGq_ioAw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
 
-On 5/5/2025 3:41 PM, I Hsin Cheng wrote:
-> If strstr() for codec_dai->component->name_prefix doesn't find "-1" nor
-> "-2", the value of ret will remain uninitialized. Initialized it with
-> "-EINVAL" representing the component name prefix inside "rtd" is
-> invalid.
+On 4/25/25 13:43, Rafael J. Wysocki wrote:
+> On Fri, Apr 25, 2025 at 8:10 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+>>
+>> On Fri, Apr 25, 2025 at 7:14 PM Pierre-Louis Bossart
+>> <pierre-louis.bossart@linux.dev> wrote:
+>>>
+>>> On 4/24/25 20:13, Rafael J. Wysocki wrote:
+>>>> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+>>>>
+>>>> The code in intel_suspend() and intel_resume() needs to be properly
+>>>> synchronized with runtime PM which is not the case currently, so fix
+>>>> it.
+>>>>
+>>>> First of all, prevent runtime PM from triggering after intel_suspend()
+>>>> has started because the changes made by it to the device might be
+>>>> undone by a runtime resume of the device.  For this purpose, add a
+>>>> pm_runtime_disable() call to intel_suspend().
+>>>
+>>> Allow me to push back on this, because we have to be very careful with a hidden state transition that needs to happen.
+>>>
+>>> If a controller was suspended by pm_runtime, it will enter the clock stop mode.
+>>>
+>>> If the system needs to suspend, the controller has to be forced to exit the clock stop mode and the bus has to restart before we can suspend it, and that's why we had those pm_runtime_resume().
+>>>
+>>> Disabling pm_runtime when entering system suspend would be problematic for Intel hardware, it's a known can of worms.
+>>
+>> No, it wouldn't AFAICS.
 
-Indeed. Thanks for pointing it out.
+I was referring to the SoundWire controller. The states are different 
+between pm_runtime suspend (clock is stopped but external wakes are 
+supported) and system suspend (external wakes are not supported).
 
+If the system suspend is entered while the device is already in 
+pm_runtime suspend, then we have to perform a full resume before the 
+system suspend.
+
+I am not going to argue on how to perform this resume, just that it's 
+required. The direction transition from pm_runtime suspend to system 
+suspend is not supported.
+
+>>> It's quite possible that some of the code in intel_suspend() is no longer required because the .prepare will resume the bus properly, but I wanted to make sure this state transition out of clock-stop is known and taken into consideration.
+>>
+>> This patch doesn't change the functionality in intel_suspend(), it
+>> just prevents runtime resume running in parallel with it or after it
+>> from messing up with the hardware.
+>>
+>> I don't see why it would be unsafe to do and please feel free to prove me wrong.
 > 
-> If "->name_prefix" is guaranteed to have either "-1" or "-2", we can
-> remove the second strstr() because we know if "-1" is not in
-> "->name_prefix", then "-2" is in there. It'll be a waste to do one more
-> strstr() in that case.
-
-The existing name_prefix is with either "-1" or "-2". But we can't make
-the assumption in the asoc_sdw_rt_amp_spk_rtd_init() helper. We might
-have "-3", "-4" etc in the future.
-
+> Or just tell me what I'm missing in the reasoning below.
 > 
-> Link: https://scan5.scan.coverity.com/#/project-view/36179/10063?selectedIssue=1627120
-> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
-> ---
->  sound/soc/sdw_utils/soc_sdw_rt_amp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This code:
 > 
-> diff --git a/sound/soc/sdw_utils/soc_sdw_rt_amp.c b/sound/soc/sdw_utils/soc_sdw_rt_amp.c
-> index 0538c252ba69..83c2368170cb 100644
-> --- a/sound/soc/sdw_utils/soc_sdw_rt_amp.c
-> +++ b/sound/soc/sdw_utils/soc_sdw_rt_amp.c
-> @@ -190,7 +190,7 @@ int asoc_sdw_rt_amp_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc
->  	const struct snd_soc_dapm_route *rt_amp_map;
->  	char codec_name[CODEC_NAME_SIZE];
->  	struct snd_soc_dai *codec_dai;
-> -	int ret;
-> +	int ret = -EINVAL;
->  	int i;
->  
->  	rt_amp_map = get_codec_name_and_route(dai, codec_name);
+> -    if (pm_runtime_suspended(dev)) {
+> -        dev_dbg(dev, "pm_runtime status was suspended, forcing active\n");
+> -
+> -        /* follow required sequence from runtime_pm.rst */
+> -        pm_runtime_disable(dev);
+> -        pm_runtime_set_active(dev);
+> -        pm_runtime_mark_last_busy(dev);
+> -        pm_runtime_enable(dev);
+> -
+> -        pm_runtime_resume(bus->dev);
+> -
+> -        link_flags = md_flags >> (bus->link_id * 8);
+> -
+> -        if (!(link_flags & SDW_INTEL_MASTER_DISABLE_PM_RUNTIME_IDLE))
+> -            pm_runtime_idle(dev);
+> -    }
+> 
+> that is being removed by my patch (because it is invalid - more about
+> that later) had never run before commit bca84a7b93fd ("PM: sleep: Use
+> DPM_FLAG_SMART_SUSPEND conditionally") because setting
+> DPM_FLAG_SMART_SUSPEND had caused the core to call
+> pm_runtime_set_active() on the device in the noirq resume phase, so it
+> had never been seen as runtime-suspended in intel_resume().  After
+> commit bca84a7b93fd the core doesn't do that any more, so if the
+> device has been runtime-suspended before intel_suspend() runs,
+> intel_resume() will see that its status is RPM_SUSPENDED.  The code in
+> question will run and it will crash and burn if
+> SDW_INTEL_MASTER_DISABLE_PM_RUNTIME_IDLE is set in the link flags.
+> 
+> The reason why that code is invalid is because the
+> pm_runtime_set_active() call in it causes the status to change to
+> RPM_ACTIVE, but it doesn't actually change the state of the device
+> (that is still physically suspended).  The subsequent
+> pm_runtime_resume() sees that the status is RPM_ACTIVE and it doesn't
+> do anything.  At this point, the device is still physically suspended,
+> but its runtime PM status is RPM_ACTIVE, so if pm_runtime_idle() runs,
+> it will trigger an attempt to suspend and that will break because the
+> device is already suspended.
+> 
+> So this code had never run before and it demonstrably doesn't work, so
+> I don't see why removing it could be incorrect.
+
+I don't have enough knowledge to counter your arguments :-). I think we 
+misread the documentation in runtime_pm.pst, this sort of sequence is 
+mentioned but on system resume, and we applied it for system suspend as 
+well.
+
+
 
