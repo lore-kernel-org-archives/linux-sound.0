@@ -1,47 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE463710E9;
-	Mon,  5 May 2025 23:03:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1449C2E3397;
+	Mon,  5 May 2025 23:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486200; cv=none; b=qcP9106rPvM05AtFntAaEqJbW8ybdZAAb70VI6/zFC4IZ4/QilI7xTKZFQW4vHZA5aNGlg8xi0Y8K+L6Njo2gorv1MqQ309ZCVNf4b/rKHoQyz1GD/duCvThHWy7WA24/DrlI/nqJFUovkcWqmUXsOe5tYo/cHf2qtgf9BAXuR0=
+	t=1746486234; cv=none; b=rWZrnhYNPhc1J5R32XFSCso1OH6VpyxQiaoVIBYrGzY0kT1tcgkEzx66+F17e6Y0HqYxNHCZ20J1tzKSr1mCAtADFUUUlhUA7VYg62aPXIEqFlZBMDwCW8IYFHxnJVEcjfnEkpdIo2ttjuHz9pJ7wf0zvZkLW0drRi8ftexF7bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486200; c=relaxed/simple;
-	bh=acOIZdiqoPGUWIxc3VAPqMGZ8tAuc7e89W3t7MWMbns=;
+	s=arc-20240116; t=1746486234; c=relaxed/simple;
+	bh=I0C6suGkAqWWKOlyoHK9Oa6XU47EuCa70xa5hNDgPuQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WUVNdpLlk8GRHT69HX9VWZlrlSRqFcnqTnbByYWOVrCLVbz+V/+kyx/HzMEMnLk3WMWs9ZNK8WXnOF6dHkLro4WX/KtsHpvUZOUF5m2pEtvTJvBG+ItrluNJdA3Ac12Fwm6kFZlKolocVbFl1tk5eoIYMJPScfauwavAvnTagBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pxtgr4NV; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ryxmuE+d0ngGuiY3/00/20WQqF2ttNKBrh2yfq9PgxO+0t3AOXdDsaiIECrcnDIVCdnldfuq9pppHN7K5n8BM8855pBF5MxRhpDQsu/a6bBmmop1Xyn8hYQdXYZuRiK8Kcgaqappb4GgDtnLMDxt8KNjD863k1Iwhx3l6nvQMUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KH7hJ2fF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pxtgr4NV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C43BC4CEE4;
-	Mon,  5 May 2025 23:03:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KH7hJ2fF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2443EC4CEE4;
+	Mon,  5 May 2025 23:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486200;
-	bh=acOIZdiqoPGUWIxc3VAPqMGZ8tAuc7e89W3t7MWMbns=;
+	s=k20201202; t=1746486234;
+	bh=I0C6suGkAqWWKOlyoHK9Oa6XU47EuCa70xa5hNDgPuQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pxtgr4NVsh1Dqd1m4dOBAefCbbNFvvwwI7mPYtdsyvMGa/oL8jWroD6jeOwDRhr4p
-	 KVjsO2MG3Mc1UyfbbN1ZCva1hGUHStqNyaWz7Ap6kXOMJ00/3Iyz/QMImZR5O1T0hV
-	 UxZBQelMk+MoM59qVOv7cYLTsxEwqq0oXw/guU+EmGsG9M4Wn8Ju6MMlEkzE8iul9j
-	 LGtOvhY8KbjA5pNYp9aroT0F49o+NjQAz5ByyEgs92DPNnnsnXyHvt/OoN3TAHpE3l
-	 /FH3MCMju1pHmnaoK+F8jASbi/kOQsVfCi5f6vGqBrM3SleBIMmu8ktoxK1HYzIl4+
-	 B/a4ZKduYQ1dw==
+	b=KH7hJ2fFWmL9ITcHRM4CwjVVUQ2lr7tLTx1HxdjT0rcbywCb8yXy/H40S3uF5MDmb
+	 EKcQHbHvYX+6yeOAWbLOThXXd6+sbTXe0MyvTqtABeawyH7kD4SSAb18sDA/R0WAV3
+	 HWTM9rUbsxMf5zV9ywBVg5CYMwh3uv7e9T2GPO9ltRN7NYp3nHKhcUuDK0VvJ9YLN5
+	 z5ZDh13cOL/B+3RB2cJCkSFpUEWOPj2xcHnorDh3XZBHzzc9NJ+5iz6xVvJxl4S7WJ
+	 CT+l5p4OBiMsqdOutG8+kWZDUz8o1eqhVhJJrGPAvXsNJ9vh2hbzWpzglCugeNBbKL
+	 PJ9nbsQH8h7yw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hector Martin <marcan@marcan.st>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Vinod Koul <vkoul@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
+	yung-chuan.liao@linux.intel.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 201/294] ASoC: tas2764: Mark SW_RESET as volatile
-Date: Mon,  5 May 2025 18:55:01 -0400
-Message-Id: <20250505225634.2688578-201-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 221/294] soundwire: amd: change the soundwire wake enable/disable sequence
+Date: Mon,  5 May 2025 18:55:21 -0400
+Message-Id: <20250505225634.2688578-221-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
 References: <20250505225634.2688578-1-sashal@kernel.org>
@@ -56,33 +51,44 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
-From: Hector Martin <marcan@marcan.st>
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-[ Upstream commit f37f1748564ac51d32f7588bd7bfc99913ccab8e ]
+[ Upstream commit dcc48a73eae7f791b1a6856ea1bcc4079282c88d ]
 
-Since the bit is self-clearing.
+During runtime suspend scenario, SoundWire wake should be enabled and
+during system level suspend scenario SoundWire wake should be disabled.
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Link: https://patch.msgid.link/20250208-asoc-tas2764-v1-3-dbab892a69b5@kernel.org
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Implement the SoundWire wake enable/disable sequence as per design flow
+for SoundWire poweroff mode.
+
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Link: https://lore.kernel.org/r/20250207065841.4718-2-Vijendar.Mukunda@amd.com
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/tas2764.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/soundwire/amd_manager.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index 4e5381c07f504..3f622d629f77a 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -654,6 +654,7 @@ static const struct regmap_range_cfg tas2764_regmap_ranges[] = {
- static bool tas2764_volatile_register(struct device *dev, unsigned int reg)
- {
- 	switch (reg) {
-+	case TAS2764_SW_RST:
- 	case TAS2764_INT_LTCH0 ... TAS2764_INT_LTCH4:
- 	case TAS2764_INT_CLK_CFG:
- 		return true;
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index 79173ab540a6b..31b203ebbae0c 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -1138,6 +1138,7 @@ static int __maybe_unused amd_suspend(struct device *dev)
+ 		amd_sdw_wake_enable(amd_manager, false);
+ 		return amd_sdw_clock_stop(amd_manager);
+ 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
++		amd_sdw_wake_enable(amd_manager, false);
+ 		/*
+ 		 * As per hardware programming sequence on AMD platforms,
+ 		 * clock stop should be invoked first before powering-off
+@@ -1165,6 +1166,7 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
+ 		amd_sdw_wake_enable(amd_manager, true);
+ 		return amd_sdw_clock_stop(amd_manager);
+ 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
++		amd_sdw_wake_enable(amd_manager, true);
+ 		ret = amd_sdw_clock_stop(amd_manager);
+ 		if (ret)
+ 			return ret;
 -- 
 2.39.5
 
