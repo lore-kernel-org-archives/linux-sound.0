@@ -1,48 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348CF359E17;
-	Mon,  5 May 2025 22:43:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D8A299AAE;
+	Mon,  5 May 2025 22:43:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484985; cv=none; b=k9++apnk3IDJBTes9AZpF4/XByVBFPf/qvwSLfsByjfnwAl+R5QMuUlt6PHcTVbhgQbv/LYlNU4Mx/LYLftgTClnVSBvoYBEjdfbNgYYP4BiNcyzMiP3PA7oSrgk/qCty2RGQAwO5LwMchpuOu2I7Ay+qlTqLfZo5SyZMOy5t0U=
+	t=1746485016; cv=none; b=QkGCtw2syz9GQ4G+Xcosj4ir8lE7XmyV5bfpS4tCuxLrvDLrqnE8Ev/c7q0f+yvobOcYzFMIk760OFOGHJav6RAdGnhWkuqkXeuSTePRiWX8ob06C6Klp7sWK6s754xMvgOsbxy9UqvW5esRdeoJ+sq3ONacXTcLo85lpIvpIgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484985; c=relaxed/simple;
-	bh=QZJg/qnDtIKPDm96Agh/Xj3Gqhe9xZPuYljzuQiAzTY=;
+	s=arc-20240116; t=1746485016; c=relaxed/simple;
+	bh=9nylInJVXm9TVFSZYpUXKz42kDfLqGneBtEXJdGEI/Y=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HNb4XU263ihHYMUmDWFIHu5uZCEAlOnSB9/queT6IgGWzIJEkK/DtyTSrlVbx9o3xqoGty2lVRPThqD92qEknAysHV1HCp5cbyQhJsjf0C1FxT3CBqKKsAST1/VSFgNiHH3n/08ufZAtzi92nonR8ZNiG0KAoqr0FwkV4HTaOlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=naVr5Fxc; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=NU/H6eyQno2DsKjwUYNEILdM+sCs6SayLwV4d2R6zR6w80ZMrCNcweHTvFQQzVYElDZXgaJiSZlwl1XiA0NVkW1QormZLBHl8YoG9LhDtyWyCitawLXuYOrTg5M2MjFLJ6vWJTAvLdrOdIftTG6jB+Ib45GDe2dM4Uk7Asm0dUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pl1jHu0r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="naVr5Fxc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC50C4CEEF;
-	Mon,  5 May 2025 22:43:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pl1jHu0r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E11CCC4CEED;
+	Mon,  5 May 2025 22:43:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484984;
-	bh=QZJg/qnDtIKPDm96Agh/Xj3Gqhe9xZPuYljzuQiAzTY=;
+	s=k20201202; t=1746485015;
+	bh=9nylInJVXm9TVFSZYpUXKz42kDfLqGneBtEXJdGEI/Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=naVr5FxcGOKxG/VuaB0iGZGt5VTk116vlXTIR6QY24l+AVxhcgr7hcSqi88Psx/Sf
-	 O1sFzz1fGx1be74YOvFezPLq+hFmcJjdSXvBnS3XdeF8PLm+N7l0MeQoE3ocMeFGaM
-	 /Jf6bd0R86FNSX/lS19ybgVqOrxqCrFRMHF+qzGdDjFz/hpRrwoU/1NgQo6dkv+iIN
-	 6AjohRQ82XVbWRBsNKXm9EyqnQ8FG+5W0vcxlAC4B6KqwD9i7VtWVlZ66PhUiZuZre
-	 JN7mZzGr7jjCG+/a4SLm0050/7wU4OdGHsNO9UBpPi00sbCNUrnpKGQ8AiVh+KfwEr
-	 O6hyvep6ZbgTg==
+	b=Pl1jHu0r2B9W+SX+SZeUsga/zOxgciePk6V4Vz6G9eWz11WzBJp58bKyLshm1WG6p
+	 2F8KcbP2Kbo7cEgVTU4GperkW/FIUB+W4nODrmHWr0mUgxK7I9W3Jyr+ccBOyj6TF1
+	 prCYoh3G6eK/7pKy248OmgCNMJUsWrrMO9q9a7LpPJrC1Xb7LcIm4cl/Unzw8TxkVr
+	 WQHmSUWTIkwHHUtXVEk4EB6kmhbLkofvrY50dBSHIvxCZE6Jd9Hub7bdr/KSthaikC
+	 pPVdPLoKdZM4GDuzJ+pbOs9PKRCwtwg7OwTfhiY9Ah9g6k6MPE6BVgWFlf72YDAHU3
+	 bWtdv3nZZ0PhQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+Cc: Ryan Walklin <ryan@testtoast.com>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Philippe Simons <simons.philippe@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	matthias.bgg@gmail.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	csokas.bence@prolan.hu,
+	mesihkilinc@gmail.com,
+	andre.przywara@arm.com,
+	codekipper@gmail.com,
+	jbrunet@baylibre.com,
 	linux-sound@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 110/486] ASoC: mediatek: mt6359: Add stub for mt6359_accdet_enable_jack_detect
-Date: Mon,  5 May 2025 18:33:06 -0400
-Message-Id: <20250505223922.2682012-110-sashal@kernel.org>
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.12 123/486] ASoC: sun4i-codec: support hp-det-gpios property
+Date: Mon,  5 May 2025 18:33:19 -0400
+Message-Id: <20250505223922.2682012-123-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -52,49 +60,131 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.26
 Content-Transfer-Encoding: 8bit
 
-From: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+From: Ryan Walklin <ryan@testtoast.com>
 
-[ Upstream commit 0116a7d84b32537a10d9bea1fd1bfc06577ef527 ]
+[ Upstream commit a149377c033afe6557c50892ebbfc0e8b7e2e253 ]
 
-Add a stub for mt6359_accdet_enable_jack_detect() to prevent linker
-failures in the machine sound drivers calling it when
-CONFIG_SND_SOC_MT6359_ACCDET is not enabled.
+Add support for GPIO headphone detection with the hp-det-gpios
+property. In order for this to properly disable the path upon
+removal of headphones, the output must be labelled Headphone which
+is a common sink in the driver.
 
-Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Link: https://patch.msgid.link/20250306-mt8188-accdet-v3-3-7828e835ff4b@collabora.com
+Describe a headphone jack and detection GPIO in the driver, check for
+a corresponding device tree node, and enable jack detection in a new
+machine init function if described.
+
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+
+--
+Changelog v1..v2:
+- Separate DAPM changes into separate patch and add rationale.
+
+Tested-by: Philippe Simons <simons.philippe@gmail.com>
+Link: https://patch.msgid.link/20250214220247.10810-4-ryan@testtoast.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/mt6359-accdet.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ sound/soc/sunxi/sun4i-codec.c | 53 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/sound/soc/codecs/mt6359-accdet.h b/sound/soc/codecs/mt6359-accdet.h
-index c234f2f4276a1..78ada3a5bfae5 100644
---- a/sound/soc/codecs/mt6359-accdet.h
-+++ b/sound/soc/codecs/mt6359-accdet.h
-@@ -123,6 +123,15 @@ struct mt6359_accdet {
- 	struct workqueue_struct *jd_workqueue;
+diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+index 330bc0c09f56b..93dd88fb805dd 100644
+--- a/sound/soc/sunxi/sun4i-codec.c
++++ b/sound/soc/sunxi/sun4i-codec.c
+@@ -21,6 +21,7 @@
+ #include <linux/gpio/consumer.h>
+ 
+ #include <sound/core.h>
++#include <sound/jack.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+@@ -235,6 +236,7 @@ struct sun4i_codec {
+ 	struct clk	*clk_module;
+ 	struct reset_control *rst;
+ 	struct gpio_desc *gpio_pa;
++	struct gpio_desc *gpio_hp;
+ 
+ 	/* ADC_FIFOC register is at different offset on different SoCs */
+ 	struct regmap_field *reg_adc_fifoc;
+@@ -1263,6 +1265,49 @@ static struct snd_soc_dai_driver dummy_cpu_dai = {
+ 	.ops = &dummy_dai_ops,
  };
  
-+#if IS_ENABLED(CONFIG_SND_SOC_MT6359_ACCDET)
- int mt6359_accdet_enable_jack_detect(struct snd_soc_component *component,
- 				     struct snd_soc_jack *jack);
-+#else
-+static inline int
-+mt6359_accdet_enable_jack_detect(struct snd_soc_component *component,
-+				 struct snd_soc_jack *jack)
++static struct snd_soc_jack sun4i_headphone_jack;
++
++static struct snd_soc_jack_pin sun4i_headphone_jack_pins[] = {
++	{ .pin = "Headphone", .mask = SND_JACK_HEADPHONE },
++};
++
++static struct snd_soc_jack_gpio sun4i_headphone_jack_gpio = {
++	.name = "hp-det",
++	.report = SND_JACK_HEADPHONE,
++	.debounce_time = 150,
++};
++
++static int sun4i_codec_machine_init(struct snd_soc_pcm_runtime *rtd)
 +{
-+	return -EOPNOTSUPP;
++	struct snd_soc_card *card = rtd->card;
++	struct sun4i_codec *scodec = snd_soc_card_get_drvdata(card);
++	int ret;
++
++	if (scodec->gpio_hp) {
++		ret = snd_soc_card_jack_new_pins(card, "Headphone Jack",
++						 SND_JACK_HEADPHONE,
++						 &sun4i_headphone_jack,
++						 sun4i_headphone_jack_pins,
++						 ARRAY_SIZE(sun4i_headphone_jack_pins));
++		if (ret) {
++			dev_err(rtd->dev,
++				"Headphone jack creation failed: %d\n", ret);
++			return ret;
++		}
++
++		sun4i_headphone_jack_gpio.desc = scodec->gpio_hp;
++		ret = snd_soc_jack_add_gpios(&sun4i_headphone_jack, 1,
++					     &sun4i_headphone_jack_gpio);
++
++		if (ret) {
++			dev_err(rtd->dev, "Headphone GPIO not added: %d\n", ret);
++			return ret;
++		}
++	}
++
++	return 0;
 +}
-+#endif
- #endif
++
+ static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
+ 							int *num_links)
+ {
+@@ -1288,6 +1333,7 @@ static struct snd_soc_dai_link *sun4i_codec_create_link(struct device *dev,
+ 	link->codecs->name	= dev_name(dev);
+ 	link->platforms->name	= dev_name(dev);
+ 	link->dai_fmt		= SND_SOC_DAIFMT_I2S;
++	link->init		= sun4i_codec_machine_init;
+ 
+ 	*num_links = 1;
+ 
+@@ -1728,6 +1774,13 @@ static int sun4i_codec_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
++	scodec->gpio_hp = devm_gpiod_get_optional(&pdev->dev, "hp-det", GPIOD_IN);
++	if (IS_ERR(scodec->gpio_hp)) {
++		ret = PTR_ERR(scodec->gpio_hp);
++		dev_err_probe(&pdev->dev, ret, "Failed to get hp-det gpio\n");
++		return ret;
++	}
++
+ 	/* reg_field setup */
+ 	scodec->reg_adc_fifoc = devm_regmap_field_alloc(&pdev->dev,
+ 							scodec->regmap,
 -- 
 2.39.5
 
