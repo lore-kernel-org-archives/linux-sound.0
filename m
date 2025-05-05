@@ -1,56 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FD42D3229;
-	Mon,  5 May 2025 22:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA3F2E62B0;
+	Mon,  5 May 2025 22:22:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483641; cv=none; b=ZVmjdLdW5mW/F3acKTIHcBUoeYY2TwxnfiGYdApokWJ72OkmrzZG/WuhvZzNCrnbXwEG//GEWR2AKV81XMFsvLVBAUmmiTtlsY9GOCGj2I14D/WHH/9790T/F3FgRSMXNofXeTX9XJHkvfsmcXVtrO9isUQ0Tf/tMuJR8ofMy7s=
+	t=1746483756; cv=none; b=qEZ+U+ixSsAPU8Iv/yW4GarQW1BhzPZsZS1trxsytwFl6nLZm3FgPm2Zt+5srfU3UGTSs76NLSc4gr6BFim+KEHMHEhtv6ElPDQxaAYhuoAXOBy14Dx9GRAcRvK0W36lGSbjLdx+DZ265CqUwN+SynbnIJomKk8uceMDjDkHeAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483641; c=relaxed/simple;
-	bh=i8k4kAuOA12gAeUKPjXuKQ3wEZQVKFo+gD7Ede6jyUQ=;
+	s=arc-20240116; t=1746483756; c=relaxed/simple;
+	bh=OL6KSBqDQC6bdyHVg2GZ43UeOGMOEmczhtUq575JHOw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lxcyxrLzLFw4jK4Q36iBWG4uSs9L1FUYefj4M0cLwWuT+wFi1WBf9Xb/UdABBiKs775sN7OjDFrX3jv+pGLUnNBsMQOXMlIyNIMhmr4HLvC9ECBjl2piBaBYYqf988H8hlxih6qXx9Q+N2z+8cPe/V5/H4kEz+tpoo1K0Lu3RbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e7OXpQu/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=XufJEE6QTjKMSFu8likOg+YzUkiKeD68HnHBjJJPIH3g1DpENMb+8O6xGOoJfxVL0egkPDOaL7CvmOhHPaavY15vAEVshwJ0HpMSSZF8mtXq90lpipKitdH+FkFwa54TZw4x2OybdGyxIUcIPkJ7/BosqCM3gNrWNFFchJnbczM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZIyPXEOi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e7OXpQu/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B13E1C4CEF2;
-	Mon,  5 May 2025 22:20:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZIyPXEOi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD658C4CEEE;
+	Mon,  5 May 2025 22:22:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483640;
-	bh=i8k4kAuOA12gAeUKPjXuKQ3wEZQVKFo+gD7Ede6jyUQ=;
+	s=k20201202; t=1746483756;
+	bh=OL6KSBqDQC6bdyHVg2GZ43UeOGMOEmczhtUq575JHOw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e7OXpQu/mxri18axqEyS8ARu47K1cUkWysOY8d1oLUG/99Z4HGzplDHaBCSNVj12L
-	 ikEfQfDPobeI3ZqDOm3mopMTk4JofZwcSxlsrbzYMr7LAR1O2V64GBr3NqesOvAXiR
-	 0FsxyuxkN1AWUIpFnQBunmeaP0lLJ/GtrkRIKxbyogc7AUksXaOa3CsDg8h5CxH0+D
-	 3DrkCvhn33D4Ma2MA4tchk38tEWeea8/5PSpg/KONIXmncWOFIYgqyA8T/qbDowYNa
-	 tZHUg3nVOwgLQau6FrmAx5wfYPYfRnVWmE9iXmv/iTKYejcTCgrrdG41Glxnd/6dv4
-	 IDrNB1WiSJ67g==
+	b=ZIyPXEOi9oZ9mjYDv9C7LCxM+/p8kz/awK8yJpkXFAUOiZYmYVZ/JpYadJlRsWgIi
+	 vdjrvJqmRQPEWdqKFARAQpfZRU97eN1k4NvSbM2HJ8yQEHoIeke1oSXW8qCfld7GNl
+	 c70j6q9fn/gKGUFEx1jt5o0Q/MYXYjAuyAbRNKQqH9KyUbSvYWbwyHSmJtdqdjZTGW
+	 clAGUO2RbhSowfIUhC4rQja5kTjI1MIVUorb6W9dzAJeU9f+B4FmEHP7kwm4MWyeod
+	 oTLWwtDmTJ/iFW8pFSt583KWnJTDzOZHBMHtzkS9nCyhF6GNS3v838V2/NVA6j1+oE
+	 /bnDBDExlfLmA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ryan Walklin <ryan@testtoast.com>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
+Cc: Alexey Klimov <alexey.klimov@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	srini@kernel.org,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	csokas.bence@prolan.hu,
-	andre.przywara@arm.com,
-	mesihkilinc@gmail.com,
-	codekipper@gmail.com,
-	jbrunet@baylibre.com,
 	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.14 154/642] ASoC: sun4i-codec: correct dapm widgets and controls for h616
-Date: Mon,  5 May 2025 18:06:10 -0400
-Message-Id: <20250505221419.2672473-154-sashal@kernel.org>
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 201/642] ASoC: qcom: sm8250: explicitly set format in sm8250_be_hw_params_fixup()
+Date: Mon,  5 May 2025 18:06:57 -0400
+Message-Id: <20250505221419.2672473-201-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -65,53 +56,46 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Ryan Walklin <ryan@testtoast.com>
+From: Alexey Klimov <alexey.klimov@linaro.org>
 
-[ Upstream commit ae5f76d4044d1580849316c49290678605e0889d ]
+[ Upstream commit 89be3c15a58b2ccf31e969223c8ac93ca8932d81 ]
 
-The previous H616 support patch added a single LINEOUT DAPM pin switch
-to the card controls. As the codec in this SoC only has a single route,
-this seemed reasonable at the time, however is redundant given the
-existing DAPM codec widget definitions controlling the digital and
-analog sides of the codec.
+Setting format to s16le is required for compressed playback on compatible
+soundcards.
 
-It is also insufficient to describe the scenario where separate
-components (muxes, jack detection etc) are used to modify the audio
-route external to the SoC. For example the Anbernic RG(##)XX series of
-devices uses a headphone jack detection switch, GPIO-controlled speaker
-amplifier and a passive external mux chip to route audio.
-
-Remove the redundant LINEOUT card control, and add a Speaker pin switch
-control and Headphone DAPM widget to allow control of the above
-hardware.
-
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-Tested-by: Philippe Simons <simons.philippe@gmail.com>
-Link: https://patch.msgid.link/20250214220247.10810-3-ryan@testtoast.com
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+Link: https://patch.msgid.link/20250228161430.373961-1-alexey.klimov@linaro.org
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/sunxi/sun4i-codec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/soc/qcom/sm8250.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 06e85b34fdf68..3701f56c72756 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -1962,10 +1962,11 @@ static const struct snd_soc_component_driver sun50i_h616_codec_codec = {
- };
+diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
+index 45e0c33fc3f37..9039107972e2b 100644
+--- a/sound/soc/qcom/sm8250.c
++++ b/sound/soc/qcom/sm8250.c
+@@ -7,6 +7,7 @@
+ #include <sound/soc.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/pcm.h>
++#include <sound/pcm_params.h>
+ #include <linux/soundwire/sdw.h>
+ #include <sound/jack.h>
+ #include <linux/input-event-codes.h>
+@@ -39,9 +40,11 @@ static int sm8250_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 					SNDRV_PCM_HW_PARAM_RATE);
+ 	struct snd_interval *channels = hw_param_interval(params,
+ 					SNDRV_PCM_HW_PARAM_CHANNELS);
++	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
  
- static const struct snd_kcontrol_new sun50i_h616_card_controls[] = {
--	SOC_DAPM_PIN_SWITCH("LINEOUT"),
-+	SOC_DAPM_PIN_SWITCH("Speaker"),
- };
+ 	rate->min = rate->max = 48000;
+ 	channels->min = channels->max = 2;
++	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S16_LE);
  
- static const struct snd_soc_dapm_widget sun50i_h616_codec_card_dapm_widgets[] = {
-+	SND_SOC_DAPM_HP("Headphone", NULL),
- 	SND_SOC_DAPM_LINE("Line Out", NULL),
- 	SND_SOC_DAPM_SPK("Speaker", sun4i_codec_spk_event),
- };
+ 	return 0;
+ }
 -- 
 2.39.5
 
