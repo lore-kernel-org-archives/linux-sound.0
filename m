@@ -1,47 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76392283FD8;
-	Mon,  5 May 2025 22:15:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E272BFC75;
+	Mon,  5 May 2025 22:19:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483330; cv=none; b=X03222DyvRLw0PWhNC6SuabVCWCGEwg/2fIqyYz46cqBrIXFITGiBdozqrKo+7GI+dDG47sWp9P0F0/pr0H3Zbai7bFkSiWvraKxECxwUvCpRgGLNA1adGfQObZSV5OyoAD+PSyVyWhAMbYdCLqS+R084QH5PtA/LJ6sEB5/WbY=
+	t=1746483598; cv=none; b=TMUYwLYOBD1XfimaMG83L2WHPkxqfnSX8OOFAszDbyw5pZ5DIMBIbb+ZtyLd7fTQ6Gp80Ictgg3YKG/L1hecK0kp2cF8U08w86lm6dXNuaIUrkokxF8u0Nw939LDJCbd3C/vbg11wl1L71EmY1sqnOTsGFpBm5Ry+6SM/y55M6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483330; c=relaxed/simple;
-	bh=vV4zjyq9Dk1uzswhKnxyXq2mIXutnRHBqEUZbqX6iRE=;
+	s=arc-20240116; t=1746483598; c=relaxed/simple;
+	bh=yeGRSe4yeYnAkn6QCGTNyWrsb1g3xtn78uJVGtMC8Y4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=L1SdSz623knfHhTM1sQtFpIgkCBaRXITbyhpPadj3o9ls+e+VRdXB4jxrgZfSPuygrHrS0wcue31e30b0op4rr58z/I7upT1TC+7ksd+TWtvFAt/yU4Z3cdWNdGKLkUexm4DhQsU0HzKxQs0i85h/svNm7hOd39fzLSJEeUZTLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YRa1b4v2; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=BudIKS1CcN/18oL+WmcdXwbnlyi1iJfviqo8O8QxNYi1uhHbpd9L0Rt4v5Gct0RY3NINszVDJ0RfbZps9JI5rBdfJsOtjo7O741qrx8v73gp37i78x+gq/I9mgY7JYvOa4X7dPCPibeklTg3nMhpWgyDcPcWLhiX6Bwoh1ggkAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ItPrhyuO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YRa1b4v2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BCE1C4CEED;
-	Mon,  5 May 2025 22:15:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ItPrhyuO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA9FDC4CEED;
+	Mon,  5 May 2025 22:19:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483330;
-	bh=vV4zjyq9Dk1uzswhKnxyXq2mIXutnRHBqEUZbqX6iRE=;
+	s=k20201202; t=1746483597;
+	bh=yeGRSe4yeYnAkn6QCGTNyWrsb1g3xtn78uJVGtMC8Y4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YRa1b4v2vwMeYEBqYEINuqagjd1FqOnb3rkCpXhijjs+8zMNiiA5QXNyQevgrz3nh
-	 9PaSqDNadfwdH/hQH/HSfEniEo7iPEIAgp+tPNqEXuB+pzXfc1pwxs+OdTcLbH6scP
-	 8anFm93cRXuV7VfozIPmujrIDiy9m977RigFbk3lwS/FF8+8JgWaq/xjOWg3LWonsM
-	 q47dKFpZvadXw5uy5X4L2ivs8ytuapSuF7b7n9+KMLylXeZy7cWza+UHAc3T8eqDds
-	 fo5hPYBl2BEvw7RdU3HdhVc7gB5QfTr7VMMYaVOKxCB25BnAl5yWGZ5kriw9bNt9wu
-	 I/3lm7vfIfPTw==
+	b=ItPrhyuODKzMfcmKZYDtgeTrKHUx71BCBZ6ZH7SooV1H22ptN/xMDQg7TENtvMcut
+	 fkzM4+SA7cI1eFwLswkP+v5rb7y1xUFrMNHsZ/RZSir7u1H16XXyfnjvKjxlTrHrDr
+	 iZnIxst2SDc1hDQJxvXvC57GYJY5b84PG1yoOnXuk3G2L/62WgwV4wE12YoqyrKUoW
+	 NeGdratECwL6DeUYKD+g/4O9vKZKmgvuRzzsmlTkiw4EBm85BP2FPHfkTIi8srqj/0
+	 JXlN9l1JXLuIomS+e8Gey0ESrqDFqDGznFEWzzZ1ss14iGDrs0gXq4DCoZUbWu/3Kv
+	 sRKD0pNtHY27g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+Cc: Chenyuan Yang <chenyuan0y@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	srini@kernel.org,
+	kiseok.jo@irondevice.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 037/642] ASoC: codecs: wsa883x: Correct VI sense channel mask
-Date: Mon,  5 May 2025 18:04:13 -0400
-Message-Id: <20250505221419.2672473-37-sashal@kernel.org>
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 136/642] ASoC: sma1307: Add NULL check in sma1307_setting_loaded()
+Date: Mon,  5 May 2025 18:05:52 -0400
+Message-Id: <20250505221419.2672473-136-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -56,36 +54,83 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+From: Chenyuan Yang <chenyuan0y@gmail.com>
 
-[ Upstream commit ed3b274abc4008efffebf1997968a3f2720a86d3 ]
+[ Upstream commit 0ec6bd16705fe21d6429d6b8f7981eae2142bba8 ]
 
-VI sense port on WSA883x speaker takes only one channel, so use 0x1 as
-channel mask.  This fixes garbage being recorded by the speaker when
-testing the VI sense feedback path.
+All varibale allocated by kzalloc and devm_kzalloc could be NULL.
+Multiple pointer checks and their cleanup are added.
 
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Link: https://patch.msgid.link/20250312-asoc-wsa88xx-visense-v1-1-9ca705881122@linaro.org
+This issue is found by our static analysis tool
+
+Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+Link: https://patch.msgid.link/20250311015714.1333857-1-chenyuan0y@gmail.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/wsa883x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/codecs/sma1307.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index 47da5674d7c92..e31b7fb104e6c 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -529,7 +529,7 @@ static const struct sdw_port_config wsa883x_pconfig[WSA883X_MAX_SWR_PORTS] = {
- 	},
- 	[WSA883X_PORT_VISENSE] = {
- 		.num = WSA883X_PORT_VISENSE + 1,
--		.ch_mask = 0x3,
-+		.ch_mask = 0x1,
- 	},
- };
+diff --git a/sound/soc/codecs/sma1307.c b/sound/soc/codecs/sma1307.c
+index 480bcea48541e..b9d8136fe3dc1 100644
+--- a/sound/soc/codecs/sma1307.c
++++ b/sound/soc/codecs/sma1307.c
+@@ -1728,6 +1728,11 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
+ 	}
  
+ 	data = kzalloc(fw->size, GFP_KERNEL);
++	if (!data) {
++		release_firmware(fw);
++		sma1307->set.status = false;
++		return;
++	}
+ 	size = fw->size >> 2;
+ 	memcpy(data, fw->data, fw->size);
+ 
+@@ -1741,6 +1746,12 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
+ 	sma1307->set.header = devm_kzalloc(sma1307->dev,
+ 					   sma1307->set.header_size,
+ 					   GFP_KERNEL);
++	if (!sma1307->set.header) {
++		kfree(data);
++		sma1307->set.status = false;
++		return;
++	}
++
+ 	memcpy(sma1307->set.header, data,
+ 	       sma1307->set.header_size * sizeof(int));
+ 
+@@ -1756,6 +1767,13 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
+ 	sma1307->set.def
+ 	    = devm_kzalloc(sma1307->dev,
+ 			   sma1307->set.def_size * sizeof(int), GFP_KERNEL);
++	if (!sma1307->set.def) {
++		kfree(data);
++		kfree(sma1307->set.header);
++		sma1307->set.status = false;
++		return;
++	}
++
+ 	memcpy(sma1307->set.def,
+ 	       &data[sma1307->set.header_size],
+ 	       sma1307->set.def_size * sizeof(int));
+@@ -1768,6 +1786,16 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
+ 		    = devm_kzalloc(sma1307->dev,
+ 				   sma1307->set.mode_size * 2 * sizeof(int),
+ 				   GFP_KERNEL);
++		if (!sma1307->set.mode_set[i]) {
++			kfree(data);
++			kfree(sma1307->set.header);
++			kfree(sma1307->set.def);
++			for (int j = 0; j < i; j++)
++				kfree(sma1307->set.mode_set[j]);
++			sma1307->set.status = false;
++			return;
++		}
++
+ 		for (int j = 0; j < sma1307->set.mode_size; j++) {
+ 			sma1307->set.mode_set[i][2 * j]
+ 			    = data[offset + ((num_mode + 1) * j)];
 -- 
 2.39.5
 
