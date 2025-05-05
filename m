@@ -1,111 +1,118 @@
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F76136E37;
-	Mon,  5 May 2025 05:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3581C862D;
+	Mon,  5 May 2025 06:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746424796; cv=none; b=USx4imqBD43OAIatDtvAc6OK5p/e5NqENIoRSo6cW72Hr22XEP0kcwHP/4GxnlSnPcTCwUflCEIVrIL9OfLdLWwO4AcohYT0QhfEh0ZkGFew+0T1nsF6pNVED459opk1f8fbStzhEELq/ZGQGUgWpqyqbuSh/J0rFgQ95NuxGvk=
+	t=1746427899; cv=none; b=XXuP2cEUKMgE8Qqf5W/koTpQPfRMzbtpFC6blfdTUJokmq3TpjRtaIxOK5XRsq0iit61qvT84HrjCNYzRQh8nS5/Mt1vMGgu16b45gb5PpF6hMauJ7D9xG3Hkcak7CUdCOcLbuxApgeb4ycWDRGvkUN9/H2YSy8d9NmsOVCEkAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746424796; c=relaxed/simple;
-	bh=HsSaF8FoPftE2hsy02lVw9g+IldWgG4YIEdpeyBxU18=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=SxGx6VJqxfpUL/UDkKp4XzmvUK0xdwiWkV0TToglnuY3IusncI8bobF42M4Gfn7mg1EbNPUijVKCxI8TN+bQERXeORi/k/5ZKnrX40Zwe0+hM0GbSWWHm9o+Wo+xBwHsu350wetbPn59GesWGHmtFSqcyflwo+D0hZ+fiJph8Ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=HryXOYoe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ciWynx2j; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="HryXOYoe";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ciWynx2j"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id ED4511380119;
-	Mon,  5 May 2025 01:59:51 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-05.internal (MEProxy); Mon, 05 May 2025 01:59:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1746424791;
-	 x=1746511191; bh=eZU0NfmZW7ypFaE5xktchKZ0x7ZPLj9yEOipJzJ6BO4=; b=
-	HryXOYoeNkQzg4voUYMWirUOimGE9rTmdZQRp+Kcg5WBkCNeNmPnG+VJ7xqNLgKe
-	0XJ2nWJBXwTG9ymCdZwd7ylgupTvl/NLkCoujMRk7njo+bOg2iNel0wrWAInQjt6
-	tCfCu36pcAPJkhdqM7WiDHkb0bmZd40Qt8ZnBRkHwUL4ncT9lub7W2DfHWhmwvTC
-	ucVaTrWu9NhnS8WdJanSZqujdcFQisPd3sBDI0nzeABbzhLNsjMy+iXwY3PASfWK
-	zYccNPsVsAs3ZQdltSqP5VnmimpUD5SZGdxF6j2mI/9/YQS9ezHlxsHthNC3qyP8
-	xSpUHJalAL5lxFI62E5pBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746424791; x=
-	1746511191; bh=eZU0NfmZW7ypFaE5xktchKZ0x7ZPLj9yEOipJzJ6BO4=; b=c
-	iWynx2jhhoBvm7779HzkyfLWi6xYGQDbrO7WYl24mM14FuD8fhwvTToJoWHX+qch
-	1Q73MYi9p8+d+5CzBi7WeX+8m0cXIyJnpoOhVbthoO7attcYcFuXnMyns+o1PzLk
-	sIF0mTb0MZ3KIZRGDgZmfRxFYJrCC3vamA9JKXNXvnK21uwSwpxDlJz1o37Tuumn
-	2zN51xwaK9z45sy3y15LVQ9w26SianiBx/QyJTgaoZrh0SkIFEx9kzfbKUvmWE3l
-	DrzqPdQ0Rk3NahVeeXYWY48P+l9X3TDXAtVI3M5CUxzSvljFL4TokMSJL4IvFHcu
-	YjWHr93bx7aaXuyqwzB+g==
-X-ME-Sender: <xms:11MYaPuOyCvrCloaBh6EyCBOQbRHbrtWOjxLECIxvzOBRN2aXCfmkA>
-    <xme:11MYaAd_NJYa_Yxr1soFJWuKhCnWZEKTVwt9vZ5Tbp90CBfiIeuOWyOIc2CvG3vPr
-    z5FpIv5pqXR6s2Fl5k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkedtfeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
-    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
-    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
-    kedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhope
-    hpvghrvgigsehpvghrvgigrdgtiidprhgtphhtthhopehquhhitggpfigthhgvnhhgsehq
-    uhhitghinhgtrdgtohhmpdhrtghpthhtohepthhifigrihesshhushgvrdgtohhmpdhrtg
-    hpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:11MYaCy4TkIvIR6G1uuU8R_TZE_bQ4IaW27Y_T29vgPcQKS9YDEcsw>
-    <xmx:11MYaONebyrfoaSBD1t_wVEOLfI33F_15BM4Vpb-22GLNw7zv3oVwQ>
-    <xmx:11MYaP8cM7A04KtlHnX4g3Pmr1xrv114hAKRmyKHCjQnO2DO7nQeLg>
-    <xmx:11MYaOUOy0-5jqimVh-kOHqRO-_KKBVrkuof-IIsb-vJJYVXymo3pA>
-    <xmx:11MYaA-Vi81hlCpjMHDm5Lrj5cw0BRQbAA-ii5LY1A9HnNYuVMjP1v0X>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 645121C20067; Mon,  5 May 2025 01:59:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1746427899; c=relaxed/simple;
+	bh=0m4XV4D2MiQ1WprDwZkzO0FhSxw1ZRdOkQukffOUixE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mheqLO62IuIcBCxvTVuQTWry9Bfwyp4yZi2lObeHLE9daypKysPbyVq/VOe/yx1gUPpET/MlKjdtoXeGLWiLDM8T7LoGBf51qI/vhswWosWeLOAFUVgrxn2a54RZau5M0VzGhfOSBZVILzcvfrV3yUS2x4Fvq8dLQZYKPE4Fti0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-523ee30e0d4so1269000e0c.2;
+        Sun, 04 May 2025 23:51:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746427895; x=1747032695;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=maxzXA80KMmh9eCh+oE6VH4eam0KcRrBuBk8VvhsU3A=;
+        b=u42XjRlNSQnlZk/35eRMpTXb85i3kM+jvcSw4mU0pGjp92ZKf+zH4tEoj8KrqscJXv
+         /ZwKuZinDtFXWAWjTxUryJcKbSqRzDZ0qK3IhcobtPGfJzrNHbFuKtVUMguP6Lj0rhzd
+         IHU+09hpPNA31467WwQytSJBt1bq2H1SrLXIpAV/tyS/rge5ZFE/+bwwPt5IEI3gbj+O
+         5OAxQFYMRLrXMFNuSUa8Ziaj1NMXrdDKIn5VSyS0bUbHrUxSyBoYigCzg8IB2iLzh3cm
+         VeDC2RFm9MUzacJ13sy9dxy2ezAwoBMDcKegIYnvrn7+Tln1V7ER1Txxu31TRiJaCAr5
+         o47A==
+X-Forwarded-Encrypted: i=1; AJvYcCVAVyjtWZ73K8woB8s/A6IymvNwggjcyRxjnsRUJt1U0mMYYW5GjhxizWuh/HLmegqv7VWGl5noSkzXqzc=@vger.kernel.org, AJvYcCXlVm+FnuGq5Mkr4eO96iLl16P5YFP1ry7RaiuBNDkP3myRv3diPUTR/xtZ5MIiKQsJGdNMhD0wTWUHithfnNzkaA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwV64Jwt9yvJb5iGPU0FXOJZfyivotquYV9HgwzJeIr0S3lQAHz
+	hNGpeIwZoZtSnHbPUk9zcbNcw+4VVZdRCk4H/cJ5SAZZS5lm+KIYxt95mxlR
+X-Gm-Gg: ASbGncsuEQKX935N4aMn0wZ9TpqoJsFXn3fSKBjPV3d0yWAdpnDZolZ0FRw39uJNI0a
+	N+94xx5uwvCdbzmykMlRe1Y4VAgklY9wgiEs624hrn5fbEp2A0b7wAZ9oSHCd1RIouo/lOHjS5A
+	/QNjBKpoDCGkC2IKervyEJlc2mv9P2z4M3You5yMkiwufZ426JGU15yfyPpb0xBZN8vk0s0h/Zy
+	ybAJ3ga6eY+I3QZh/yg4DyZuzJi8M5ZC3gBTzqIRCSfSgLTs588EQTK/0l0b/6VSleOi6vCYP0x
+	aTKLN0MhdNLS96jrBpskfw48sXmp9PX/ocfyrkVAfiy5eXvXxeDD/avjuwULE1obmmkdDtZ0WDG
+	lbEw=
+X-Google-Smtp-Source: AGHT+IETNH460qhLJAS42ojxL0zZ1olNumJDait1LfOlzu/A7Z1U/vPYUJd21T4gRouDfSG09GJpdQ==
+X-Received: by 2002:a05:6102:2c02:b0:4c4:e018:326f with SMTP id ada2fe7eead31-4db147cc599mr2864076137.10.1746427895130;
+        Sun, 04 May 2025 23:51:35 -0700 (PDT)
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8780affddd7sm1249413241.8.2025.05.04.23.51.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 May 2025 23:51:34 -0700 (PDT)
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4c313374107so1122716137.0;
+        Sun, 04 May 2025 23:51:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWy1EQL/r7pRQXSiInahTv2qpBiAonxi9Tu0WLFJPhM53R7lccBpTtVWDhetyTLxuNCBF7P96bXihbZuW8=@vger.kernel.org, AJvYcCX49wD4DPkIaxmr3sGEJ577Dy+ZE8S7aaV6uJinXypMnJivPz2TiZaY6lQVndsf86fGpJw0keQRQSG2Eh6qCKxP2g==@vger.kernel.org
+X-Received: by 2002:a05:6102:1512:b0:4c4:dead:59a3 with SMTP id
+ ada2fe7eead31-4db1477d082mr2719964137.2.1746427894233; Sun, 04 May 2025
+ 23:51:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Te2f939405235d867
-Date: Mon, 05 May 2025 07:59:21 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Arnd Bergmann" <arnd@kernel.org>, "Mark Brown" <broonie@kernel.org>
-Cc: "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Wesley Cheng" <quic_wcheng@quicinc.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <a60b3290-a535-4666-9f0e-18a3621e70dd@app.fastmail.com>
-In-Reply-To: <20250505052032.1811576-1-arnd@kernel.org>
-References: <20250505052032.1811576-1-arnd@kernel.org>
-Subject: Re: [PATCH] ALSA: usb-audio: qcom: fix USB_XHCI dependency
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <cover.1746180072.git.geert+renesas@glider.be> <d8dfe7cdd8980e08b9fae51ff9fcddac20eca22b.1746180072.git.geert+renesas@glider.be>
+In-Reply-To: <d8dfe7cdd8980e08b9fae51ff9fcddac20eca22b.1746180072.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 5 May 2025 08:51:22 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXo=WCyHtH32+1Et-oX4scoMdvf-qhFBCiJU+MjgSfcfg@mail.gmail.com>
+X-Gm-Features: ATxdqUHMOPV2y0-Pfe7-TMijcOvzvpZPKz8vRYPNlfp2io_IHKxnp5X2iG1hJUI
+Message-ID: <CAMuHMdXo=WCyHtH32+1Et-oX4scoMdvf-qhFBCiJU+MjgSfcfg@mail.gmail.com>
+Subject: Re: [PATCH 22/22] ASoC: renesas: msiof: Convert to <linux/spi/sh_msiof.h>
+To: Mark Brown <broonie@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+Cc: linux-spi@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, May 5, 2025, at 07:20, Arnd Bergmann wrote:
->  config SND_USB_AUDIO_QMI
->  	tristate "Qualcomm Audio Offload driver"
-> -	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND && 
-> SND_SOC_USB
-> +	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && SND_SOC_USB
-> +	depends on USB_XHCI && USB_XHCI_SIDEBAND
+On Fri, 2 May 2025 at 12:14, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> Convert the MSIOF I2S driver to reuse the MSIOF register and register
+> bit definitions in the header file shared by the MSIOF SPI driver.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Compile-tested and asm-inspected only due to lack of local sound
+> hardware.
+> ---
+>  sound/soc/renesas/rcar/msiof.c | 94 ++++++++++------------------------
+>  1 file changed, 28 insertions(+), 66 deletions(-)
+>
+> diff --git a/sound/soc/renesas/rcar/msiof.c b/sound/soc/renesas/rcar/msiof.c
+> index 75c9e91bada10289..36d31ab8ac6a5f18 100644
+> --- a/sound/soc/renesas/rcar/msiof.c
+> +++ b/sound/soc/renesas/rcar/msiof.c
+> @@ -30,56 +30,15 @@
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/spi/sh_msiof.h>
+>  #include <sound/dmaengine_pcm.h>
+>  #include <sound/soc.h>
 
+This needs #include <linux/bitfield.h> on some platforms.
+Or better, adding
 
-Sorry, this should have been USB_XHCI_HCD, not USB_XHCI. I have some
-more patches for this driver that I'm still testing I'll include
-a fixed version when I send the rest, or you can fix it up yourself
-when applying this one.
+    #include <linux/bitfield.h>
+    #include <linux/bits.h>
 
-    Arnd
+to include/linux/spi/sh_msiof.h in "[PATCH 21/22 ] spi: sh-msiof:
+Move register definitions to <linux/spi/sh_msiof.h>", so the header
+file becomes fully self-contained.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
