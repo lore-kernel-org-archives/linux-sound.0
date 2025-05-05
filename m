@@ -1,121 +1,100 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399A086342;
-	Mon,  5 May 2025 18:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3081C1E52D;
+	Mon,  5 May 2025 20:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746471271; cv=none; b=pdWA+IonEi/+bAqschq7oA2bsONAjPVJf/W9JryGGHmfM97jR33L+2M3HaUCP3KDj0jJVzsXr67kUtpnypap6p9EnmyGtJe4hIgliKX1/UWLc9PbduNZC3xlnOwF6c5stbq0W4Iu9eJBjE5rWyl2BW3V8Ly5QtpfhikKBZBqPQs=
+	t=1746478304; cv=none; b=SLL562qE9+AWhFOeiqnF0yVwB6K5KVOEDvXyLm9H5+6kQWwoEDJirAWRHcNuVMKPM5MAapFN/5KJBV7gqD2bTmvJBzYnFFvLZiL9TQGtgqHJLjVThhx7bLekT+zknZX2oaffX0V3k3+ZJyTJHitggQ8qVpBn2QMndwvXqx/l0qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746471271; c=relaxed/simple;
-	bh=tfR+uUFsE2wf4T8oW/xtFftbY1RpMV6kMg3mIMSd7PM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hOgd24FBuv/6IaSL8GUf78OwEeBnBYvvV+6gWsc3bYiaKGjpEhGzTX5wJnpy04oAA4HFXBn3RGlL2sOcWejhRWK6RENnOc9C8+fl7cqYmkQZNOxlqiDUG4UMoq0oqb3lt+PutNWYsmEa0zd6io41h5DBFDiIOtR6cm13ZSV2pn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hBANbG1D; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746478304; c=relaxed/simple;
+	bh=IgTjNfi3VL3hIyePgRde0JnYRHqsl2LKqnBWsGSemao=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C+dH6OSiEJfVUVRteGdh5YJNpd946b8nRFtHZ9x4knNqZpjlaxsM6+17R+5RGjvGZaA12V+ltBGONs5U4XwgzwM4qPPrxDcvAJ4+jBYRTPWJRgShnfmLK6E7a/gQ8PdM0go8TCCjjG1ar5k1AgMJVVd6Eei1Co5wyfFmVmCX+aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=JnN3ESRP; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hBANbG1D"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-227b828de00so55073535ad.1;
-        Mon, 05 May 2025 11:54:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746471269; x=1747076069; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1k75FG/mf+jEboXe/jv1nQ3M+yVrWKwv3guJMm/HdhU=;
-        b=hBANbG1DP1pbqAxvaB5RSgkgw/m7edmPP+1IVgGInjajW0m2+zybwNSzV/+s6QMQVc
-         4QiBnxB9yCoRiXWrb2D2oF6HlbM9orZi5VeWDzIpjqRjQR4+TGR6gahGdvyvIsNa7Vkh
-         yl1lupSJhfx9ny4cVqGDYZg2zVnkzSQXATyOQvcDJayTnz2AW1oPkuA61+0R0XhyEQ24
-         0VNoRxGzsdaQCcZ4BLXc3PizpKYga0re1Rl8m93lrjK/G3Swc1CqxOUA0lbZmVs8KagC
-         U0keW7Jm/0+yv5EFlIhfcQXveGGSS9AghS8pV+21eSdm5JMCIOw/f96hf1LPTTy8NgRP
-         frmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746471269; x=1747076069;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1k75FG/mf+jEboXe/jv1nQ3M+yVrWKwv3guJMm/HdhU=;
-        b=Q9vPMvujMW8/mvYfmj0xq6weHEarusrYTfRHjxab8m/aOxVsjGaSUeXs1ox1ltvIb/
-         gFWIeaW6q6sAT4hq7ESECR0jk9sub/iJRuWSSrHoOTk8blvgwWm6neHCNOPUkCb1oi2D
-         ZTgWAKDyLH+n/YfcFAhzYkwpV7OBn9aXPhmrsiTlndRb1BJVWo8QdJiSJWrb/4Uczrni
-         07SDDGUdb+OpoAfHWO5Q12c5/qJZ4wjPUPb+FKHC+TnJtFxClsv6J1WgsydtwZZSZ+6r
-         ZjKzzGKsS21vqYEURgNgIl/TBMSuoNWe2QzU2bmCnduBBPqPSvfuZbW6IRR1Fxs00/7N
-         SAZg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9o90ci7sAtZw1T2ofM3gVaV6l5c9DYA6cMxyk/wrJZhSSyHoDfMwG/8mFwPCLO1f0WpaDGzGPU48dcEY=@vger.kernel.org, AJvYcCW79QUCb+zJBOufGex2ZctgHb4KYAO7FR7pS/autFi9U3FCzijOgFCVGg2ku5unbpdziidcuNznLaVZtj8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvlrUfV8wxflwRiDkVY+L3TEoKUkaKm0QeuYq+UtQ2u/9XxwLm
-	sPqVH2x2RHAHXP3V/NO10cyaM9e4HdfoZ1fGy6a9ylS4ftVGJKSHBoRzjG4K
-X-Gm-Gg: ASbGncs2y5O+sjaBeqXUGG/O8XYW4bLzKOaBEwidonCk8wZkUlqa6LSgFUcbQID4pZd
-	2rvSv3ovTTg2pSGiKOENPqPP0jIpAuKmTJqDwVza/bTGWYCdYtSdolK5LqshxQ6VRSzbGt+pMjO
-	KkU4tvR6MY11tYqubRZerShlYoyORRbjn9LKo03Jf9gLSJA439dC2wFmnV/KLUc3g7z7gAp/tvM
-	o9nJZvfwh/7bC8dYyqHRaVUiQQl/MnMkHdHolnW3i0yWuvqbjJpjHU0AJk+d16Wud/Of7ISJyGW
-	5r/kTePKDRpC8wfv+PWz31ulHlkXKeWZwtr6C0nIKCAFeN5kzHkZS1tEM849c25j0GChLJF+eO9
-	h85uE
-X-Google-Smtp-Source: AGHT+IFOVAHMGeb0gXrV15cSARZ2S4e6TPbXyz66V6fkEvqiD2AYMafpQCFoWEAWqDvHGX40agETPQ==
-X-Received: by 2002:a17:902:c412:b0:220:cd9f:a180 with SMTP id d9443c01a7336-22e365b89d7mr1752405ad.53.1746471269348;
-        Mon, 05 May 2025 11:54:29 -0700 (PDT)
-Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:afa:5db4:54e4:f59c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74058dee10bsm7181094b3a.76.2025.05.05.11.54.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 May 2025 11:54:28 -0700 (PDT)
-From: I Hsin Cheng <richard120310@gmail.com>
-To: lgirdwood@gmail.com
-Cc: broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	pierre-louis.bossart@linux.dev,
-	yung-chuan.liao@linux.intel.com,
-	Vijendar.Mukunda@amd.com,
-	peter.ujfalusi@linux.intel.com,
-	christophe.jaillet@wanadoo.fr,
-	peterz@infradead.org,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="JnN3ESRP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=FVu8CAAOjGOH1bx9/sKXfRmnx7Hckvr5z5ZblQxIGao=; b=JnN3ESRPJSKijjzcvIYnDU+U0G
+	fyhM3kIv5rXcDOEWBbvY4cGJy9nPTQJOoYlUx5XsU1bkdvh4KW12rO7du3DYglRPV7aofhjrGSw51
+	M2OG/LUtOPMc0L2Uxuhz4JK3wIux8igRe8EHKJaubX3dga+wcSmMjkjli1sZ06GtR5F1UwzuM/9A2
+	tP8ExaG/dI/JjAljgwqlWAdQAguBfD362qve2v5hZj8/OjmeRfA0wkY9kgTxa1xIdicoJWEJJx4I1
+	LMgJIeux3XU0ahbTyuk+BCgDqTvtWJvmUamG2LftvgcqJYwqp7vDMRsj3Wad/Ur+eQYCpg3gX9M1Q
+	Lt8GIWpA==;
+Received: from i53875a1d.versanet.de ([83.135.90.29] helo=localhost.localdomain)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1uC2mc-0007Lg-OC; Mon, 05 May 2025 22:51:26 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Sugar Zhang <sugar.zhang@rock-chips.com>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	kernel@collabora.com,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	I Hsin Cheng <richard120310@gmail.com>
-Subject: [PATCH v2] ASoC: intel/sdw_utils: Assign initial value in asoc_sdw_rt_amp_spk_rtd_init()
-Date: Tue,  6 May 2025 02:54:23 +0800
-Message-ID: <20250505185423.680608-1-richard120310@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-sound@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: (subset) [PATCH v3 00/10] Add RK3576 SAI Audio Controller Support
+Date: Mon,  5 May 2025 22:51:15 +0200
+Message-ID: <174647826637.1329543.9602946046704845460.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250502-rk3576-sai-v3-0-376cef19dd7c@collabora.com>
+References: <20250502-rk3576-sai-v3-0-376cef19dd7c@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Initialize "ret" with "-EINVAL" to handle cases where "strstr()" for
-"codec_dai->component->name_prefix" doesn't find "-1" nor "-2". In that
-case "name_prefix" is invalid because for current implementation it's
-expected to have either "-1" or "-2" in it. (Maybe "-3", "-4" and so on
-in the future.)
 
-Link: https://scan5.scan.coverity.com/#/project-view/36179/10063?selectedIssue=1627120
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
----
-Changelog:
+On Fri, 02 May 2025 13:03:06 +0200, Nicolas Frattaroli wrote:
+> This series adds support for Rockchip's Serial Audio Interface (SAI)
+> controller, found on SoCs such as the RK3576. The SAI is a flexible
+> controller IP that allows both transmitting and receiving digital audio
+> in the I2S, TDM and PCM formats. Instances of this controller are used
+> both for externally exposed audio interfaces, as well as for audio on
+> video interfaces such as HDMI.
+> 
+> [...]
 
-v1 -> v2:
-	- Refine commit message for address the problem clearly
+Applied, thanks!
+
+[01/10] dt-bindings: clock: rk3576: add IOC gated clocks
+        commit: 4210f21c004a18aad11c55bdaf552e649a4fd286
+[02/10] clk: rockchip: introduce auxiliary GRFs
+        commit: 70a114daf2077472e58b3cac23ba8998e35352f4
+[03/10] clk: rockchip: introduce GRF gates
+        commit: e277168cabe9fd99e647f5dad0bc846d5d6b0093
+[04/10] clk: rockchip: add GATE_GRFs for SAI MCLKOUT to rk3576
+        commit: 9199ec29f0977efee223791c9ee3eb402d23f8ba
 
 Best regards,
-I Hsin Cheng
----
- sound/soc/sdw_utils/soc_sdw_rt_amp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/sdw_utils/soc_sdw_rt_amp.c b/sound/soc/sdw_utils/soc_sdw_rt_amp.c
-index 0538c252ba69..83c2368170cb 100644
---- a/sound/soc/sdw_utils/soc_sdw_rt_amp.c
-+++ b/sound/soc/sdw_utils/soc_sdw_rt_amp.c
-@@ -190,7 +190,7 @@ int asoc_sdw_rt_amp_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc
- 	const struct snd_soc_dapm_route *rt_amp_map;
- 	char codec_name[CODEC_NAME_SIZE];
- 	struct snd_soc_dai *codec_dai;
--	int ret;
-+	int ret = -EINVAL;
- 	int i;
- 
- 	rt_amp_map = get_codec_name_and_route(dai, codec_name);
 -- 
-2.43.0
-
+Heiko Stuebner <heiko@sntech.de>
