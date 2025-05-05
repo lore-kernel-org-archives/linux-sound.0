@@ -1,45 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEB233DE0D;
-	Mon,  5 May 2025 22:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7FE33FD8F;
+	Mon,  5 May 2025 22:37:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484660; cv=none; b=OFyM3o/xi8btreefA+n/20pV8myB7y8S5NU9FzaqvTXFrA8oIewkLbAfwobiJT7PuVyRO5v82378IuQdVxhfnSAH+NF4jm20VlUUa9HIY/aJEtySXaaqGmWO/UUS3Wjt0Mcx05UMHbS07k4gZa+TeA/WI5UG2b0ggGVX/7Sy9Tc=
+	t=1746484677; cv=none; b=Mjly9cYBF0QX4kaDxY5LJ2+62T6mIQOX3aC+valFWkCHLIWdDmO1fYgYXDRdelc7dB7SCRzrUGZWQ3Jk2Tk94491kj5om3vWNKeUzC7Op1ydhhFVb1aEvPKxZRIlFiTb4wWldOmi47x4GcM95aGQzFfqmp/3THzjDmKE17GstLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484660; c=relaxed/simple;
-	bh=SaAZ5YJkRyvfrSgUrMmePOISIBScFqRsqLDvQq2gi5w=;
+	s=arc-20240116; t=1746484677; c=relaxed/simple;
+	bh=HjNB+8AM96Z+ZemBOMVtBTLcrRMw83gjifHftvtdS8E=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=D/LeR34RZopoNb/KNwjJYarGTeggFY6iuuM6kXxYa3UT6idq1DE7gOJ8dYh2AoPgoP5HMeOPv3VCPv+eld6BjKONRjOYTO5cEgYcIV0yuwPBfT53l1QpbSCbdOSkeYZ4zx6RDbr5qm1pviOAlI9idFusbUoWEtgY2HyK4l38fOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VJCuFm06; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=M4cckBiGe4AXOlNwKUoa6vXYsGYq67AAjt7Ptz41oTuHsBfCOPSscwMGqdt6GrG5tikPN+PJNKfH1GueKbEwZ73yNeb51825mIeIBYrVPmy+QtXb/X6H9AYeMg89+bPyS0f5uD76Zc4Rnanc1wE82J7qY5190eroCAo2pCtu5uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VanjSCLR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VJCuFm06"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AD6EC4CEEE;
-	Mon,  5 May 2025 22:37:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VanjSCLR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D308DC4CEE4;
+	Mon,  5 May 2025 22:37:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484660;
-	bh=SaAZ5YJkRyvfrSgUrMmePOISIBScFqRsqLDvQq2gi5w=;
+	s=k20201202; t=1746484676;
+	bh=HjNB+8AM96Z+ZemBOMVtBTLcrRMw83gjifHftvtdS8E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VJCuFm06qgEWn/IqTW5ZpIPvsAc/HOIYejMfXXhq9fcJ86Lh7vSlQ8axItNHR7eMf
-	 gF0zwVN/lnb1k0YJqzHSS/KYtyh3zqtQC4uTtt3McT7GISGjoS5DPYQS+iubw8brFl
-	 KNOmms0HXi2BR5w3LXqysSucfcHTBzi8RhixqGlH9JqMCCq1g+Z8i7dAAWPwIhZb1a
-	 l7Sxb5P8c9RgP4AiFuZrkFQNRnUGzHQIUGnufh46f+DCAeZ1j+VNaltjwE1UYSnhty
-	 oM7v3YG7bXq/4RKUjoFVcmz4PNLe+j8CNzkub2hosHksKDzkDqZy+H917cM/uNYwL8
-	 Qwpdne2vvH+ng==
+	b=VanjSCLR2vttdDMLXCYhWYCUoSciQwMnwUCQq04zHXVcrR0N6CleY2p+/7zyRkTcP
+	 x7hIME94DFOfFvIn8pGlMHbObL0ml3nJSjYIlJLbBmxyJgJIoquC5UjyX555dqkXTz
+	 P8pZhZFy3ta4pwNbm7leBR2MbE3RggVvVSq47LsKf/b8FKMWIq1kyhAf1XCpp5oIsG
+	 nvHX6RAU9BuYhwIov2qnftdXNQUQWTbEdOhoG2g8j7uuPC6TCsv/1nuFkLfVN1jpTN
+	 FpA/xNyOji4YybkwtwNOAoLkItZ/DCo7xwofBsqxcROgJXbV3B64UuccIlWXaMkpSH
+	 829/CgQulpHsQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+Cc: Olivier Moysan <olivier.moysan@foss.st.com>,
 	Mark Brown <broonie@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	javier.carrasco.cruz@gmail.com,
+	lgirdwood@gmail.com,
+	lumag@kernel.org,
+	christianshewitt@gmail.com,
+	kuninori.morimoto.gx@renesas.com,
+	herve.codina@bootlin.com,
+	jonas@kwiboo.se,
+	krzysztof.kozlowski@linaro.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 591/642] ASoC: cpcap: Implement .set_bias_level
-Date: Mon,  5 May 2025 18:13:27 -0400
-Message-Id: <20250505221419.2672473-591-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 601/642] ASoC: hdmi-codec: allow to refine formats actually supported
+Date: Mon,  5 May 2025 18:13:37 -0400
+Message-Id: <20250505221419.2672473-601-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -54,91 +60,52 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+From: Olivier Moysan <olivier.moysan@foss.st.com>
 
-[ Upstream commit 5b4288792ff246cf2bda0c81cebcc02d1f631ca3 ]
+[ Upstream commit 038f79638e0676359e44c5db458d52994f9b5ac1 ]
 
-With VAUDIO regulator being always on, we have to put it in low-power mode
-when codec is not in use to decrease power usage.
+Currently the hdmi-codec driver registers all the formats that are
+allowed on the I2S bus. Add i2s_formats field to codec data, to allow
+the hdmi codec client to refine the list of the audio I2S formats
+actually supported.
 
-Do so by implementing driver .set_bias_level callback.
-
-Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Link: https://patch.msgid.link/20250122164129.807247-3-ivo.g.dimitrov.75@gmail.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+Acked-by: Mark Brown <broonie@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250108170356.413063-3-olivier.moysan@foss.st.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/cpcap.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ include/sound/hdmi-codec.h    | 1 +
+ sound/soc/codecs/hdmi-codec.c | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/sound/soc/codecs/cpcap.c b/sound/soc/codecs/cpcap.c
-index 04304a7ad9153..53f549ede6a6f 100644
---- a/sound/soc/codecs/cpcap.c
-+++ b/sound/soc/codecs/cpcap.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/regmap.h>
- #include <linux/platform_device.h>
-+#include <linux/regulator/consumer.h>
- #include <linux/mfd/motorola-cpcap.h>
- #include <sound/core.h>
- #include <sound/soc.h>
-@@ -260,6 +261,7 @@ struct cpcap_audio {
- 	int codec_clk_id;
- 	int codec_freq;
- 	int codec_format;
-+	struct regulator *vaudio;
- };
- 
- static int cpcap_st_workaround(struct snd_soc_dapm_widget *w,
-@@ -1637,6 +1639,11 @@ static int cpcap_soc_probe(struct snd_soc_component *component)
- 	snd_soc_component_set_drvdata(component, cpcap);
- 	cpcap->component = component;
- 
-+	cpcap->vaudio = devm_regulator_get(component->dev, "VAUDIO");
-+	if (IS_ERR(cpcap->vaudio))
-+		return dev_err_probe(component->dev, PTR_ERR(cpcap->vaudio),
-+				     "Cannot get VAUDIO regulator\n");
-+
- 	cpcap->regmap = dev_get_regmap(component->dev->parent, NULL);
- 	if (!cpcap->regmap)
- 		return -ENODEV;
-@@ -1649,6 +1656,27 @@ static int cpcap_soc_probe(struct snd_soc_component *component)
- 	return cpcap_audio_reset(component, false);
- }
- 
-+static int cpcap_set_bias_level(struct snd_soc_component *component,
-+		enum snd_soc_bias_level level)
-+{
-+	struct cpcap_audio *cpcap = snd_soc_component_get_drvdata(component);
-+
-+	switch (level) {
-+	case SND_SOC_BIAS_OFF:
-+		break;
-+	case SND_SOC_BIAS_PREPARE:
-+		regulator_set_mode(cpcap->vaudio, REGULATOR_MODE_NORMAL);
-+		break;
-+	case SND_SOC_BIAS_STANDBY:
-+		regulator_set_mode(cpcap->vaudio, REGULATOR_MODE_STANDBY);
-+		break;
-+	case SND_SOC_BIAS_ON:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
- static const struct snd_soc_component_driver soc_codec_dev_cpcap = {
- 	.probe			= cpcap_soc_probe,
- 	.controls		= cpcap_snd_controls,
-@@ -1657,6 +1685,7 @@ static const struct snd_soc_component_driver soc_codec_dev_cpcap = {
- 	.num_dapm_widgets	= ARRAY_SIZE(cpcap_dapm_widgets),
- 	.dapm_routes		= intercon,
- 	.num_dapm_routes	= ARRAY_SIZE(intercon),
-+	.set_bias_level		= cpcap_set_bias_level,
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
+diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
+index b220072cfa1ba..273f4c36fad98 100644
+--- a/include/sound/hdmi-codec.h
++++ b/include/sound/hdmi-codec.h
+@@ -120,6 +120,7 @@ struct hdmi_codec_ops {
+ /* HDMI codec initalization data */
+ struct hdmi_codec_pdata {
+ 	const struct hdmi_codec_ops *ops;
++	u64 i2s_formats;
+ 	uint i2s:1;
+ 	uint no_i2s_playback:1;
+ 	uint no_i2s_capture:1;
+diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+index 69f98975e14ae..5c47aa0551c94 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -1077,6 +1077,10 @@ static int hdmi_codec_probe(struct platform_device *pdev)
+ 	if (hcd->i2s) {
+ 		daidrv[i] = hdmi_i2s_dai;
+ 		daidrv[i].playback.channels_max = hcd->max_i2s_channels;
++		if (hcd->i2s_formats) {
++			daidrv[i].playback.formats = hcd->i2s_formats;
++			daidrv[i].capture.formats = hcd->i2s_formats;
++		}
+ 		if (hcd->no_i2s_playback)
+ 			memset(&daidrv[i].playback, 0,
+ 			       sizeof(daidrv[i].playback));
 -- 
 2.39.5
 
