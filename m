@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE3037644A;
-	Mon,  5 May 2025 22:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C912DBB03;
+	Mon,  5 May 2025 23:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485988; cv=none; b=Xosf46ckpCvlLxYo1lNc9ZfQHWNmg/fBBx4r0RC39SdyscPj2Fy6jvM0JMk9U2vwjj/HrHFKrBGnunu74LkZumORCYwTwEsRLVu9ohEIdumzBd4TenZiZYqRxaVoaCFGwJ0Ny2JcHhOliER741K0POq/aiuLaIyxFFUGk3lFcfo=
+	t=1746486010; cv=none; b=UT3F44UTbLiWuTR0WSozrc09WPbQexoocJo904aPBSdpUlyBrSDYqzq0ngjXogO64Lf34yh1kCkqdrWWh+3kNJ5xJ5XrzIVJ1peQ8e0nhq+TEvvXIRkdBaBzh27ZVyLaPVl86Ql43QN9h2Gkdfw9NmahVXY6mJz9B1eWckGn3BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485988; c=relaxed/simple;
-	bh=wRlgtUevqMElDfA1JrkyqCdvrsKyxqffpyjyC2gQpGs=;
+	s=arc-20240116; t=1746486010; c=relaxed/simple;
+	bh=t0zjZdBFIP51RiNWky2D57ZxrQUtk0dHqwV6LRXsD7o=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jGtLp9W6XAmsSgk3z29IAXl+MFRVdUXjLHbb8qpdzyxCMxyo+e1AFTg5FX9TaNcoNdJQgO8cfOcMwKeX6zhSiBz9DMSv+JVoM7ByyIubQJ8NZAqMJSPwR5WzUrVWyls0N339F7VNloqFlICBENgjbIyCWcLH6vCOa4jiw4zRGZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pEl/eZdO; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=GXIYJDMV44PXCde8dPoCsCDPVV1+zpGtadpl7UmMgI/maCXuemZ2eNy2e9HN28NVhPX+6U4WrucQnBV4E0UHu66TdbLxjuYFHAX/aqwy4oE3nfEXVLjNBljJXZ520/zTspcYEXUoqQ/Q3ytNBP3kXOPC3ww+BP2QQmmaLp5b9xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O/EvOyeg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pEl/eZdO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71BE0C4CEED;
-	Mon,  5 May 2025 22:59:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/EvOyeg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30F64C4CEED;
+	Mon,  5 May 2025 23:00:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485987;
-	bh=wRlgtUevqMElDfA1JrkyqCdvrsKyxqffpyjyC2gQpGs=;
+	s=k20201202; t=1746486009;
+	bh=t0zjZdBFIP51RiNWky2D57ZxrQUtk0dHqwV6LRXsD7o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pEl/eZdOch2KiUWW7Y0JkoNkYdPBHhfBV0h61jCipol8G40XdcJXAJi3xL9m+GmQc
-	 sdxd732/zH+pyjQWIrmIDXQN3zBYmtvvRQZ29LOj0I83S90Uj0aa4VHYbOSFei8IKz
-	 bMuhGUbHb9S3AhWeOb/ypf11Pk78ZwBH2oxdNc1eYJOFM4DdCQVu07jzrpE0Cme/0U
-	 e3JR+Ffcn3+1K9GtOhOlz73+9eq3uVbz8tUv2v1mr/ZserFHbSSzhy3niGhSWEl/cs
-	 xZNz1s8GKk3bvtpgxX2TTqsmtQlsVDO7SSxk5NIyXGXk4aHxiboJdr9wLAFEORCaCl
-	 BSlaAec4CCRUw==
+	b=O/EvOyegtIW9H53F4lir1Fv6WsWGxA8CrWaJhTfIF8wOvat3lwQNRMjahGt1H1yyd
+	 lkunlht2qWTRhR3o45Nv1vDtGKYTYhSugSyWO/imN2iNVa3xPXzMGsrOX0jtnO/Y+i
+	 QqxyfHhUxeZT6f01+GE+rNoj31/Y+MrgaWbXj0sD8nSho04gtKbWWLlVHxgLITVLHE
+	 FAI7l/hjEUb8Q+4p5slKZSYhD66e2Rp93Bpt4TED9Gv4k9kNboxfG/LKXUkdGpNDNu
+	 jN9g1d7JCEqt8XUqPXBPLCuiD5H8oTrc71XgVWhjZOMNg7rZvklsAeTlrtnKdO9NJ6
+	 i9a1nnimmhktQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alexey Klimov <alexey.klimov@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Takashi Iwai <tiwai@suse.de>,
+	syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com,
 	Sasha Levin <sashal@kernel.org>,
-	srini@kernel.org,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 098/294] ASoC: qcom: sm8250: explicitly set format in sm8250_be_hw_params_fixup()
-Date: Mon,  5 May 2025 18:53:18 -0400
-Message-Id: <20250505225634.2688578-98-sashal@kernel.org>
+	viro@zeniv.linux.org.uk,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 107/294] ALSA: seq: Improve data consistency at polling
+Date: Mon,  5 May 2025 18:53:27 -0400
+Message-Id: <20250505225634.2688578-107-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
 References: <20250505225634.2688578-1-sashal@kernel.org>
@@ -56,46 +53,68 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
-From: Alexey Klimov <alexey.klimov@linaro.org>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit 89be3c15a58b2ccf31e969223c8ac93ca8932d81 ]
+[ Upstream commit e3cd33ab17c33bd8f1a9df66ec83a15dd8f7afbb ]
 
-Setting format to s16le is required for compressed playback on compatible
-soundcards.
+snd_seq_poll() calls snd_seq_write_pool_allocated() that reads out a
+field in client->pool object, while it can be updated concurrently via
+ioctls, as reported by syzbot.  The data race itself is harmless, as
+it's merely a poll() call, and the state is volatile.  OTOH, the read
+out of poll object info from the caller side is fragile, and we can
+leave it better in snd_seq_pool_poll_wait() alone.
 
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-Link: https://patch.msgid.link/20250228161430.373961-1-alexey.klimov@linaro.org
-Signed-off-by: Mark Brown <broonie@kernel.org>
+A similar pattern is seen in snd_seq_kernel_client_write_poll(), too,
+which is called from the OSS sequencer.
+
+This patch drops the pool checks from the caller side and add the
+pool->lock in snd_seq_pool_poll_wait() for better data consistency.
+
+Reported-by: syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/67c88903.050a0220.15b4b9.0028.GAE@google.com
+Link: https://patch.msgid.link/20250307084246.29271-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/qcom/sm8250.c | 3 +++
- 1 file changed, 3 insertions(+)
+ sound/core/seq/seq_clientmgr.c | 5 +----
+ sound/core/seq/seq_memory.c    | 1 +
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index 88a7169336d61..580eb20b0771a 100644
---- a/sound/soc/qcom/sm8250.c
-+++ b/sound/soc/qcom/sm8250.c
-@@ -7,6 +7,7 @@
- #include <sound/soc.h>
- #include <sound/soc-dapm.h>
- #include <sound/pcm.h>
-+#include <sound/pcm_params.h>
- #include <linux/soundwire/sdw.h>
- #include <sound/jack.h>
- #include <linux/input-event-codes.h>
-@@ -39,9 +40,11 @@ static int sm8250_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
- 					SNDRV_PCM_HW_PARAM_RATE);
- 	struct snd_interval *channels = hw_param_interval(params,
- 					SNDRV_PCM_HW_PARAM_CHANNELS);
-+	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
+index 6195fe9dda179..bc1338dc34851 100644
+--- a/sound/core/seq/seq_clientmgr.c
++++ b/sound/core/seq/seq_clientmgr.c
+@@ -1155,8 +1155,7 @@ static __poll_t snd_seq_poll(struct file *file, poll_table * wait)
+ 	if (snd_seq_file_flags(file) & SNDRV_SEQ_LFLG_OUTPUT) {
  
- 	rate->min = rate->max = 48000;
- 	channels->min = channels->max = 2;
-+	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S16_LE);
+ 		/* check if data is available in the pool */
+-		if (!snd_seq_write_pool_allocated(client) ||
+-		    snd_seq_pool_poll_wait(client->pool, file, wait))
++		if (snd_seq_pool_poll_wait(client->pool, file, wait))
+ 			mask |= EPOLLOUT | EPOLLWRNORM;
+ 	}
  
+@@ -2570,8 +2569,6 @@ int snd_seq_kernel_client_write_poll(int clientid, struct file *file, poll_table
+ 	if (client == NULL)
+ 		return -ENXIO;
+ 
+-	if (! snd_seq_write_pool_allocated(client))
+-		return 1;
+ 	if (snd_seq_pool_poll_wait(client->pool, file, wait))
+ 		return 1;
  	return 0;
+diff --git a/sound/core/seq/seq_memory.c b/sound/core/seq/seq_memory.c
+index b603bb93f8960..692860deec0c3 100644
+--- a/sound/core/seq/seq_memory.c
++++ b/sound/core/seq/seq_memory.c
+@@ -429,6 +429,7 @@ int snd_seq_pool_poll_wait(struct snd_seq_pool *pool, struct file *file,
+ 			   poll_table *wait)
+ {
+ 	poll_wait(file, &pool->output_sleep, wait);
++	guard(spinlock_irq)(&pool->lock);
+ 	return snd_seq_output_ok(pool);
  }
+ 
 -- 
 2.39.5
 
