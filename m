@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D9028D854;
-	Mon,  5 May 2025 22:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D228731E189;
+	Mon,  5 May 2025 22:32:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484260; cv=none; b=GUEnTD/rZHNPVo71jqcc3xQJRbwK3Jkpfcqlx35k3PSXeJu4Ud3hww+Rv7KkDho0T9k4GSmvyMbzvrknxQPo8yz5JT3CfAiZQsrq+ZRKsqwm+dextPFzRy/Jr+DSnsuaZAmw0atgfnZ4fARp39GMRwHdwrmt5x5JaxAV8fSXkaw=
+	t=1746484322; cv=none; b=HcKAeJsFzi0+wdWsM7LRyviW1gCimQ4v2kKFMGW5xygvQ9/DBAQZPdTxxdTg+ZEzTEyVL7wkWeNJ0ztKJzvP2rfz093Y2J4UspFiI/8T5BD62ayk51AlnSHOk3nhx7FMcTcrnRFqs47elcMBA86uSXhyR8HW87qwG5Kfzcvwojg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484260; c=relaxed/simple;
-	bh=nWkLOygKAu0A+2IVOPoN6DxR9J74CWcuU3LtYBWwiBk=;
+	s=arc-20240116; t=1746484322; c=relaxed/simple;
+	bh=OK5w95Nse59DVky2ulT2T5RXOsc+12UJ+6u/Roqj2Tc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=V8GAWtImONgA87vtIYHH/rXmjVZx3fXOUhys4Z4bfRhh4bOWIf/JmbBn7ynbRwXgbMrmL+RoOMddoCQCusMj8dk5laze+o7IEk1PFb9AmrVEs8XIdihQhgDaK0l2/NurpcDgYLwBFcsXEhJNnj72CmC1OESDu6fEsaOnFLV9nlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yhq7AfzZ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=WqKXLZRsjjSsKrV+jEZjG2Z0aHdYM8Y+pWC+9C18x5hV/Du+hZC5IM+clkNrfbMdArCadUxcgasr3dhL2qAVKGoL3wi1E2qloZfRLrwvrLjGFIwtzt7bhYUKJaNryuif39wSk5fU5TTqbT9RIsAxMVFCmmu3xYyBVK40zLQmEhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=joolm5cG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yhq7AfzZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F4CAC4CEF1;
-	Mon,  5 May 2025 22:30:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="joolm5cG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71CD2C4CEE4;
+	Mon,  5 May 2025 22:32:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484260;
-	bh=nWkLOygKAu0A+2IVOPoN6DxR9J74CWcuU3LtYBWwiBk=;
+	s=k20201202; t=1746484322;
+	bh=OK5w95Nse59DVky2ulT2T5RXOsc+12UJ+6u/Roqj2Tc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Yhq7AfzZRG/i2prJGNahZyDd+ESNMZFCNpU+D2ZKi3dd4qhKJ+8TYMKGvm9Tje7D9
-	 D0EFGegWtvwTW8mobQPgZPZY1zUxWpTIiwjdY44PBnCHFUu+CeT/OUrYJ7bCmVTMKA
-	 S8Wskn11RQmox9PuXoQg9TwUWGzWdLqDejCgQzCUnqwdm6U+WmJ4iC147aKLQ7D6xT
-	 HWw6DyRZscdQcv3/JRVXwsta2huSXnk/uMQS54q5jBcZdqG9P1vP4PSZCDaYzkep7f
-	 +/gjaZ9kCHAm9/c/bhAHwJ/UdKW031h2OtLNl9Lc+F/mxGtu+U78stvT9367AycPMV
-	 CvWg9oNlLcBWA==
+	b=joolm5cG/tOOrDAPkMCSXJGtyemQdUKdoCUVhziTNJuzWL1W6ytPS7y/4Z5m3e1Kk
+	 gUrLyuxU2334JstZltBfomkDkkKJOaCLtSnJDPXVxPm11Lf4PTiRbsCS9tayGHADCx
+	 Q2Ys8gut3OZtgbO+bSdQ/09J3jEn0WK8xGAoymRRBYqAFisHUTPrWQSa+8yQUzRXGc
+	 DzTxJFL+hDEWtBMQQq2rrBXurYkxBapnlMAb+YlzTs/UTI4NN6KJs9QmcBwMAYtqZv
+	 D4uPb4ceK8Jfx/lT9FyXzfZX915cWDUrdJtLbzTzPeRRKYyzDJC8t10Xh9G4i/gDyQ
+	 OB713VdL1LSsA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Vinod Koul <vkoul@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
+	yung-chuan.liao@linux.intel.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 418/642] ASoC: soc-dai: check return value at snd_soc_dai_set_tdm_slot()
-Date: Mon,  5 May 2025 18:10:34 -0400
-Message-Id: <20250505221419.2672473-418-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 453/642] soundwire: amd: change the soundwire wake enable/disable sequence
+Date: Mon,  5 May 2025 18:11:09 -0400
+Message-Id: <20250505221419.2672473-453-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -53,52 +51,44 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-[ Upstream commit 7f1186a8d738661b941b298fd6d1d5725ed71428 ]
+[ Upstream commit dcc48a73eae7f791b1a6856ea1bcc4079282c88d ]
 
-snd_soc_dai_set_tdm_slot() calls .xlate_tdm_slot_mask() or
-snd_soc_xlate_tdm_slot_mask(), but didn't check its return value.
-Let's check it.
+During runtime suspend scenario, SoundWire wake should be enabled and
+during system level suspend scenario SoundWire wake should be disabled.
 
-This patch might break existing driver. In such case, let's makes
-each func to void instead of int.
+Implement the SoundWire wake enable/disable sequence as per design flow
+for SoundWire poweroff mode.
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://patch.msgid.link/87o6z7yk61.wl-kuninori.morimoto.gx@renesas.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Link: https://lore.kernel.org/r/20250207065841.4718-2-Vijendar.Mukunda@amd.com
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/soc-dai.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/soundwire/amd_manager.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
-index ca0308f6d41c1..dc7283ee4dfb0 100644
---- a/sound/soc/soc-dai.c
-+++ b/sound/soc/soc-dai.c
-@@ -275,10 +275,11 @@ int snd_soc_dai_set_tdm_slot(struct snd_soc_dai *dai,
- 
- 	if (dai->driver->ops &&
- 	    dai->driver->ops->xlate_tdm_slot_mask)
--		dai->driver->ops->xlate_tdm_slot_mask(slots,
--						      &tx_mask, &rx_mask);
-+		ret = dai->driver->ops->xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
- 	else
--		snd_soc_xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
-+		ret = snd_soc_xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
-+	if (ret)
-+		goto err;
- 
- 	for_each_pcm_streams(stream)
- 		snd_soc_dai_tdm_mask_set(dai, stream, *tdm_mask[stream]);
-@@ -287,6 +288,7 @@ int snd_soc_dai_set_tdm_slot(struct snd_soc_dai *dai,
- 	    dai->driver->ops->set_tdm_slot)
- 		ret = dai->driver->ops->set_tdm_slot(dai, tx_mask, rx_mask,
- 						      slots, slot_width);
-+err:
- 	return soc_dai_ret(dai, ret);
- }
- EXPORT_SYMBOL_GPL(snd_soc_dai_set_tdm_slot);
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index 5a54b10daf77a..9d80623787247 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -1139,6 +1139,7 @@ static int __maybe_unused amd_suspend(struct device *dev)
+ 		amd_sdw_wake_enable(amd_manager, false);
+ 		return amd_sdw_clock_stop(amd_manager);
+ 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
++		amd_sdw_wake_enable(amd_manager, false);
+ 		/*
+ 		 * As per hardware programming sequence on AMD platforms,
+ 		 * clock stop should be invoked first before powering-off
+@@ -1166,6 +1167,7 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
+ 		amd_sdw_wake_enable(amd_manager, true);
+ 		return amd_sdw_clock_stop(amd_manager);
+ 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
++		amd_sdw_wake_enable(amd_manager, true);
+ 		ret = amd_sdw_clock_stop(amd_manager);
+ 		if (ret)
+ 			return ret;
 -- 
 2.39.5
 
