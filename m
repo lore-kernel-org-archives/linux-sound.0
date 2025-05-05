@@ -1,48 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410E02F37B6;
-	Mon,  5 May 2025 23:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F5E380967;
+	Mon,  5 May 2025 23:15:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486879; cv=none; b=VmzX2LapIEeWk7Sg7kRwQyQiYeS3YLRZbEXvX1i2TaGiu2t1o5rbf8lvN42K1DRhG6PYKFKSz4H9KWkDrtcze/eUny9kepkEgF8HxWk3A4+ssPUQPsmOF2rwqELX9VDP2JEYgYnXj1FBQIqgIyrLnQAQ2r6/U9wnZ+CXeFgoXcs=
+	t=1746486907; cv=none; b=LXICbEptgbhVsg28iE5LorENe+xuzGEzwdiIgl8H98fmf3jVFCbWYLUeQBdKPSY5S5Stg+WH3yqA8RY2B3soNdX0aB/B0Cq3PHDL226obJ+G4BZW+ruKF/8AVuTryzucSpEdoQ/Wdwta0pv8c9dbboZImFkYWflafMEAA1RWjEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486879; c=relaxed/simple;
-	bh=QZJg/qnDtIKPDm96Agh/Xj3Gqhe9xZPuYljzuQiAzTY=;
+	s=arc-20240116; t=1746486907; c=relaxed/simple;
+	bh=rvPRKy3rLzjg/YgOXJYy8BWkFpMnDeKRfn99mCLAJWw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NtbeluZ+d3lCCldjRsO9wc721UfENh5f+xE0WQAwbKk9xFgwHrpGsAmQOY8ucWZdTyHqYgJ3h46RWJJUVdjcYnE1C6VZPWolH176k6L/h9voVoaYPveFTflsWU9aozfZqc1fhcNDIWzLmNA1rI5YEHJLSBMlgr+9WkmjNWvW12g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XTjS61bK; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=UM/l8YSIA9+SDDaNKWXj3TK1e2zH83qHo7QPXYLPVQ6G/bKVbHp/D/SPG8mow51xtAaKrQbIO+BaCLbqyY5QVsAtsxbJaGYvDShqbnA/Stb1bMzFAfTunpbEdKOhYKhbL0v3OdcosBdXGAn9gbwRpCKWFiPNS4kOr1iMG2z3Isc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WV+WtDM9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XTjS61bK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A6AC4CEE4;
-	Mon,  5 May 2025 23:14:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WV+WtDM9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B34A3C4CEE4;
+	Mon,  5 May 2025 23:15:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486879;
-	bh=QZJg/qnDtIKPDm96Agh/Xj3Gqhe9xZPuYljzuQiAzTY=;
+	s=k20201202; t=1746486906;
+	bh=rvPRKy3rLzjg/YgOXJYy8BWkFpMnDeKRfn99mCLAJWw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XTjS61bKzOzOZc0qIsRfvQYbIxYEad2nraDRjtPSUY3v8IGjBfThUn5L1oLXgHskp
-	 mK1Gml7b4h4XdCWDwf0vSP5+PVQLVhwj6/H/rWjitqNMN/aFR2wKOStnOpbRiWv1XX
-	 4QgT+KwX6MrRybvFEltHo7NYyVfPB3srx57PvPJ/UHGLVgghD8Sp/wLMImCA8K2JDy
-	 4NUqtmd7rjwRgsN3uER9cKGpwmRlg+LKC3IxBvicjpaSTX5jnYbNOe4TbULj3fB4/K
-	 a/nSzvEa9Udd4SergIIpYNNrL1w7z5G48rTXXcNOT82c1xIOMpzqKXSMzeesDpW32v
-	 y0iojQu7hPW+g==
+	b=WV+WtDM9V6nYJh1LjKQGc48UCnvSeLwbrZSbRZO0VHZfAAkph0uYjzkaA5CErmAR7
+	 eCFu6MBDFxpMsRqEy7Buh35pQChEyvOpzTFBpJhLJRJ30SYOKAOqH5NBqyKc4ZPAkF
+	 O4FHfxEUCgDCrA8HiqEuNJPaaSRl0GbCbJ59xSM8WZemOzOge920VHEeoU/Z5tIUSl
+	 l4WWagR0YMT+uxC8kqRZb3a5a3F/NZ1DhiZFJZj/UDmh+qJICD0DzPNrkCywFxDHRu
+	 JRyQnfe+4HDPexKTnnulT7DnXmTehJFo4qnFGkOBap/TGCxNvbQ+xsKk7FO4QzkWr+
+	 2TGtvJOs8pt3g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+Cc: Alexey Klimov <alexey.klimov@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	srini@kernel.org,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	matthias.bgg@gmail.com,
 	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.15 039/153] ASoC: mediatek: mt6359: Add stub for mt6359_accdet_enable_jack_detect
-Date: Mon,  5 May 2025 19:11:26 -0400
-Message-Id: <20250505231320.2695319-39-sashal@kernel.org>
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 053/153] ASoC: qcom: sm8250: explicitly set format in sm8250_be_hw_params_fixup()
+Date: Mon,  5 May 2025 19:11:40 -0400
+Message-Id: <20250505231320.2695319-53-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505231320.2695319-1-sashal@kernel.org>
 References: <20250505231320.2695319-1-sashal@kernel.org>
@@ -52,49 +51,51 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.181
 Content-Transfer-Encoding: 8bit
 
-From: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+From: Alexey Klimov <alexey.klimov@linaro.org>
 
-[ Upstream commit 0116a7d84b32537a10d9bea1fd1bfc06577ef527 ]
+[ Upstream commit 89be3c15a58b2ccf31e969223c8ac93ca8932d81 ]
 
-Add a stub for mt6359_accdet_enable_jack_detect() to prevent linker
-failures in the machine sound drivers calling it when
-CONFIG_SND_SOC_MT6359_ACCDET is not enabled.
+Setting format to s16le is required for compressed playback on compatible
+soundcards.
 
-Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Link: https://patch.msgid.link/20250306-mt8188-accdet-v3-3-7828e835ff4b@collabora.com
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+Link: https://patch.msgid.link/20250228161430.373961-1-alexey.klimov@linaro.org
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/mt6359-accdet.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ sound/soc/qcom/sm8250.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/codecs/mt6359-accdet.h b/sound/soc/codecs/mt6359-accdet.h
-index c234f2f4276a1..78ada3a5bfae5 100644
---- a/sound/soc/codecs/mt6359-accdet.h
-+++ b/sound/soc/codecs/mt6359-accdet.h
-@@ -123,6 +123,15 @@ struct mt6359_accdet {
- 	struct workqueue_struct *jd_workqueue;
- };
+diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
+index a38a741ace379..34a6349754fb0 100644
+--- a/sound/soc/qcom/sm8250.c
++++ b/sound/soc/qcom/sm8250.c
+@@ -7,6 +7,7 @@
+ #include <sound/soc.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/pcm.h>
++#include <sound/pcm_params.h>
+ #include <linux/soundwire/sdw.h>
+ #include "qdsp6/q6afe.h"
+ #include "common.h"
+@@ -27,9 +28,11 @@ static int sm8250_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 					SNDRV_PCM_HW_PARAM_RATE);
+ 	struct snd_interval *channels = hw_param_interval(params,
+ 					SNDRV_PCM_HW_PARAM_CHANNELS);
++	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
  
-+#if IS_ENABLED(CONFIG_SND_SOC_MT6359_ACCDET)
- int mt6359_accdet_enable_jack_detect(struct snd_soc_component *component,
- 				     struct snd_soc_jack *jack);
-+#else
-+static inline int
-+mt6359_accdet_enable_jack_detect(struct snd_soc_component *component,
-+				 struct snd_soc_jack *jack)
-+{
-+	return -EOPNOTSUPP;
-+}
-+#endif
- #endif
+ 	rate->min = rate->max = 48000;
+ 	channels->min = channels->max = 2;
++	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S16_LE);
+ 
+ 	return 0;
+ }
 -- 
 2.39.5
 
