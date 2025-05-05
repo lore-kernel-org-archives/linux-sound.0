@@ -1,77 +1,117 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8713C171A1;
-	Mon,  5 May 2025 07:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732861C84B3;
+	Mon,  5 May 2025 07:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746430222; cv=none; b=KpJyvCjsPrBhLlA9oT1PVGF6MCd1h+6a9uJuqY5ZdamHSf2q/Kvy+wK1zMKYIpFn1aDyAECBaihH5gmUz80NKGobNrfJl64cxxi6HK1/aoe+Sa0tu8PbohFpTtVkfugLWHZ1grkbdQ0WogPXzYkj05EuGaxbT/y5U1ky6HhB98A=
+	t=1746430910; cv=none; b=clkPcK7IGPbnZrVd2WzSfE02lBQ09VutdprKEA/CaMrjDfvIVc3P6iA9yH+ewJnwl7HIgh3GvZyEywWzaZGUTIsnG9+pvVW1+RiFL7UW7i8/mdSfklbPcN1vJ5qVAdjg03fvSC1VoMDe9Y/oodKDRvbksMsLLb5T2tUxNZtQpjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746430222; c=relaxed/simple;
-	bh=9byBrgGiWivV4zXfCGyXLK7u6F5KMMq/Ap3brTL2r8E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U/WfMm6Bg2q/zwQ6BYUu+Sl71C2kNKbeglo07w2UeKCn+oUmLvXu9UbCSv2KqDy+oR1U+TCXVmKTzbtPyj/GWpsJRcZJtMkHZJadcukygvzYxz4X+tbWK3uXClc7fgCDsgwSxfvxDaId5chIy8+O8IelFZWKCnMKISvfAkNIUnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Xcz0r9Ny; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1746430910; c=relaxed/simple;
+	bh=JC/jgU3UR5/9534jhBIn+HQTy0KPk/toGTRlvD+/9tE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XCqaCc70eWQV0/FkGqx1wsypbfIMGl9k/vz/D3DBDhw62YY8DKbUltDV5znTCmGgAEGELIhgghAxEk2To8Epv82WPWYvn1vUywfMTjpFLQHW8Lqei+GeFuxbixo5wHzRcpMNgiV5jbbp4WmX3qwPnV6HRKCV6fP5h5PHjlLcaxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T8ctucPY; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Xcz0r9Ny"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1746429632;
-	bh=9byBrgGiWivV4zXfCGyXLK7u6F5KMMq/Ap3brTL2r8E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Xcz0r9Nyr/GBvTffACDxkAv0DCvVxl40GgqtQeif64zW1Jj1VKuW21++n/5L+CwcH
-	 WwsLeAUQhz/pAjv0CSWKcU7esBvAb/PnjPRwW3HWWT66sGH1y/lT3HHHNN18sxHAi5
-	 Q5rH3aDHLE22aoXPw49tTF1UfTC3AP57J/mAOvWopAdLWN9Kx3Qhcg5b2qd7tbFeuD
-	 T9YlnGDey09aUkqj+0axPC7knUJh2m+neJ4fKnOKV25W92xM7w9i9FU6aECdSl7/cX
-	 ZI8HLcMMcMhc+TuKfrn3QGt+7DIHhqTQDmYBvphkcby/PAdUsDQHOM1Z0oVHWckqlu
-	 gvJrP+TM/SUnw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6A81517E0F89;
-	Mon,  5 May 2025 09:20:31 +0200 (CEST)
-Message-ID: <97b93862-8572-45fb-ba02-96a0bb747700@collabora.com>
-Date: Mon, 5 May 2025 09:20:30 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T8ctucPY"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2260c91576aso35398105ad.3;
+        Mon, 05 May 2025 00:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746430909; x=1747035709; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oC+vJ+HSAMSlR0731A5m2XXqOUV43UDZ3yJDtyU2qCE=;
+        b=T8ctucPYDJS+DOGDrIsOOr9TSz+a1OxhttrxfVcyuudWz93DiSLgpACHK5fJXJ21Vu
+         CvGFuFhs3P7/LwQi1b+7PgmEzwyrs5zvp2XPgYec+DkDiC+M60qClYzkRICzy+nB9ofi
+         yj+r0eGG3mq+51jISQDHPWkrkVHICsroyi3BGYmyw3EQaCfycR1ErjRSXgxcYrocaCzc
+         wnz0Klq1ohButOkRgpJMea7r4W/4+ouwW4hKGXsDfcFDqvjjE1k2ZFQn22YonqV4HQ/q
+         uZGF9I89ANVdQpgGtSGyTVan8BDKSmdiYF+XSzE2BEXVfPpgeYMOyiWI+1NMjmEPNbtO
+         LqMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746430909; x=1747035709;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oC+vJ+HSAMSlR0731A5m2XXqOUV43UDZ3yJDtyU2qCE=;
+        b=BDdMjvTdAm7WK46F+FydTneZw3k6znqmv64WXi8VbdiGJXzlphTgopy0p/MrRaXH/e
+         EUDnT6jnZFeeaao/ym2kDOV8S+LpkL+aSNReGD1JQ06v6iZhgj9u3qc9SKjnHvFx22u5
+         89LXsHUCCbS0JAQbDBsNWBpfQtqfJIPI4atvwOWdGcIJGogxL4BlSWt3YG9AL/AmyMAb
+         rLeYXZbwmlPUYVz9XoUpFTgq9Iji7m8OiYn4bbspcePUcPJiZIOjx/M7IUB6hWTT7vdo
+         korETSH/OTkQS4foL+bo+ZMORfNXQxZDQspbgEsW57beqOb5cFs2EG7+FJ+FDCg32S21
+         cvPA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGX05OzW5DGe8AzT1V8AARdJ1hYRg3Dd8ocZv7wNizHXd0NQJxKmlZTC772r0xL8tTEl8xtSv084aZHD8=@vger.kernel.org, AJvYcCUiq55X4J/+oKY2hVqLI3zmF0H2dkXCH9C3XR3bFn6a7e/OXKCkuPgaJjD9FIE01qLEa83mnARF0z8fLOw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynRoL23ooZdr9JcIlWtV8svTf9VpINVCd2ZtmWPo4sRCSvVE/I
+	tTNa3g08TPAhhz+VPvI7Gi4G973DD3imka68YVDsDToKU+rFC+dT
+X-Gm-Gg: ASbGncsakJp2E8SFhBR2dUd/gLj2pO3cKRuFUu8CH5QjBle5lLw2aV0mY3HwQYt63zi
+	3DVraKl0ws7IWEnB/uWcWbJPC6QLdmFjY5tgw6YRkhIu7n1tbR/lXulcXawwV9oBFg2XOcbdUzt
+	nVTPYW9PUvhGv9jUj/5PIjFB7SnWVJePnwQ0eGGANqJW4LGJeuC/Jb7nENFgolb8nUtjXRFUQxj
+	SLYPZiq51+P5M6BVUcjADU9vypP0HpF3gYwOi9e5LhoZGz7+DtPElHjtndXXGU53Faf6kiujJHo
+	GcMwFCnWa8a9PCZlb3mC1jne8Fefi/FvyCSlMzw2qANWGWWKosZLBWbnxad+Rm58zLbi/8vpbrd
+	+lgmORg==
+X-Google-Smtp-Source: AGHT+IHSmGeVChQLM11qyGqhTzHbQsAmzuk7FMyhEFMHFQ76pdZoPfZwg0VbusiuWCKtBO5VmEngLQ==
+X-Received: by 2002:a17:902:db02:b0:223:60ce:2451 with SMTP id d9443c01a7336-22e1ea5aa04mr90724095ad.15.1746430908504;
+        Mon, 05 May 2025 00:41:48 -0700 (PDT)
+Received: from vaxr-ASUSPRO-D840MB-M840MB.. ([2001:288:7001:2703:9aa5:83db:32d2:9858])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e22c73e92sm24061725ad.15.2025.05.05.00.41.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 May 2025 00:41:47 -0700 (PDT)
+From: I Hsin Cheng <richard120310@gmail.com>
+To: lgirdwood@gmail.com
+Cc: broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	pierre-louis.bossart@linux.dev,
+	yung-chuan.liao@linux.intel.com,
+	Vijendar.Mukunda@amd.com,
+	peter.ujfalusi@linux.intel.com,
+	peterz@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	I Hsin Cheng <richard120310@gmail.com>
+Subject: [RFC PATCH] ASoC: intel/sdw_utils: Assign initial value in asoc_sdw_rt_amp_spk_rtd_init()
+Date: Mon,  5 May 2025 15:41:42 +0800
+Message-ID: <20250505074142.615408-1-richard120310@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: mediatek: mt8188-mt6359: select
- CONFIG_SND_SOC_MT6359_ACCDET
-To: Arnd Bergmann <arnd@kernel.org>, Mark Brown <broonie@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Alexandre Mergnat <amergnat@baylibre.com>,
- Zoran Zhan <zoran.zhan@mediatek.com>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20250505052106.1811802-1-arnd@kernel.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250505052106.1811802-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Il 05/05/25 07:20, Arnd Bergmann ha scritto:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The driver support was added without selecting the codec, which leads to
-> a link failure:
-> 
-> aarch64-linux-ld: sound/soc/mediatek/mt8188/mt8188-mt6359.o: in function `mt8188_mt6359_init':
-> mt8188-mt6359.c:(.text+0x19f0): undefined reference to `mt6359_accdet_enable_jack_detect'
-> 
-> Fixes: f35d834d67ad ("ASoC: mediatek: mt8188-mt6359: Add accdet headset jack detect support")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+If strstr() for codec_dai->component->name_prefix doesn't find "-1" nor
+"-2", the value of ret will remain uninitialized. Initialized it with
+"-EINVAL" representing the component name prefix inside "rtd" is
+invalid.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+If "->name_prefix" is guaranteed to have either "-1" or "-2", we can
+remove the second strstr() because we know if "-1" is not in
+"->name_prefix", then "-2" is in there. It'll be a waste to do one more
+strstr() in that case.
 
+Link: https://scan5.scan.coverity.com/#/project-view/36179/10063?selectedIssue=1627120
+Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+---
+ sound/soc/sdw_utils/soc_sdw_rt_amp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/sdw_utils/soc_sdw_rt_amp.c b/sound/soc/sdw_utils/soc_sdw_rt_amp.c
+index 0538c252ba69..83c2368170cb 100644
+--- a/sound/soc/sdw_utils/soc_sdw_rt_amp.c
++++ b/sound/soc/sdw_utils/soc_sdw_rt_amp.c
+@@ -190,7 +190,7 @@ int asoc_sdw_rt_amp_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc
+ 	const struct snd_soc_dapm_route *rt_amp_map;
+ 	char codec_name[CODEC_NAME_SIZE];
+ 	struct snd_soc_dai *codec_dai;
+-	int ret;
++	int ret = -EINVAL;
+ 	int i;
+ 
+ 	rt_amp_map = get_codec_name_and_route(dai, codec_name);
+-- 
+2.43.0
 
