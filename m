@@ -1,43 +1,43 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFC7219FC;
-	Mon,  5 May 2025 01:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1581AA7A6;
+	Mon,  5 May 2025 05:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746407443; cv=none; b=VONa50swpj+XufHLN0eR4JfaWXc4c/lGUibLCrSamo+WhmBIV4hXHB7E4H4kDcjhAKQARa/UoI7sySXKQ5C1AZ1XW7xPDFRJnDukYFZ8GmVMyPx+4kB3Thxdp7/l02r7UUZl7iqnJI683zIXea28JOAfKrKJ2/TeLK0Hi6geUL4=
+	t=1746422437; cv=none; b=FqnAQyKgrPOaXnZMGjE1Z6V0l8w61sxnRNzigKEBKsPMiPMrWFS23AwAgVe+cqj7XOElFe3C1u72Xc9jJkHs+1pCRGx+f6DCt1MzszQazoJgT7hH1cSgVEI04osS2cQ6SgH48NBJlRGbz5G8F2RY8R+/qYHfZvj5P435VzESH9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746407443; c=relaxed/simple;
-	bh=GnMtOEiaMJ5EqwqKBtUZ6Mb7DKA+HNZqpub2Wqmhksg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i8+9KVvTEQ3RbJOvLvI89rUhCHC3pBxmwt5CaUh638tL5SvUQ49SkEAaOWbqT+bN4PPiyz79Ek9sMhlEHVGen64jZBFbHwhtnmebjVtj0qAPtxgYwWAiMqiHF01ZmZr+3JGT6fmUr4NWJULBDLaBPEcb5ck1mPr/MtlNIvRjVLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=cGcS476r; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1746422437; c=relaxed/simple;
+	bh=Npt4xYeE5cAR7GRbHzsaDhd0uGoWV1B3qLG1zO+vHYQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=l6D4bUM40JhuirzxZIokotx33s3xbs6DmuR6NsfDDHC+lok8B0/Q4+GgpjDwHiMyU9wFn6JkPQrb2nvSRey4+z0HzbRjRhWNSCesgMZg0Ztzb4tPCRnmhXKJf/mz0A0uW5ZFfrPeFedjE6n7yv2Q6OHd2uUA0QSkF/RR5Eh9G8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WXvt8n4j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="cGcS476r"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=qklOgQT6Lj8YeWmTpffZOHmCvK1UNYqzUbalYIPxc1o=; b=cGcS476rt1jj6vwD
-	VmJgaU7rRWDNcF+nxgOjZnCed9btuR8IsyvVANza1+x0DW5ZDSVT1f56hnZdM0xMueElHLxxrZkUu
-	J/sorwRI4ikh9wL8fo55+UsBDfcDXLKlU+KC96kYJgHp1mpI2SpBk+lQ6J8rIsL9lkKzk9wzfqwfa
-	1eKSFv7GmYwbH1uq1HUguv61BBofro6lInGTDADa0kbTqTZgrjPnik8WwfU36Nbd5wnSKW94JjErv
-	gqRIYSDPJifm6Qsw/LQj5ubyjfd46nNYoBbCTL6ijXZpufyv3hxiVshMbeWUO/OvJfn3F90Oh5MvC
-	dOPqjJAlnxNnyr587A==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1uBkLu-001M3o-0b;
-	Mon, 05 May 2025 01:10:38 +0000
-From: linux@treblig.org
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] ALSA: hda: Remove unused snd_hdac_stream_get_spbmaxfifo
-Date: Mon,  5 May 2025 02:10:37 +0100
-Message-ID: <20250505011037.340592-1-linux@treblig.org>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WXvt8n4j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EDA4C4CEE4;
+	Mon,  5 May 2025 05:20:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746422436;
+	bh=Npt4xYeE5cAR7GRbHzsaDhd0uGoWV1B3qLG1zO+vHYQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WXvt8n4j1KEzztv3WUglTfs56WruCL0SLlXOPM2TiVvfLtdcoWZkaE2ahW4kGNTsG
+	 PL3TOPqTtLsJkcRAVspyjDWUabzf8huRNAFd80MN/y/auREq9vnbjBc4cR1XMAWpou
+	 SQ0HP8qLnt79tXKe78L+kyYgR6sokyXzVh1m/39Zh6U2EXkVR+HGLDisXC/2dbfQpQ
+	 9EtbDBKS/N5qCzgsTxj52HOUsOoigasF8HxMHXHBBuY8V95fBkjciGJskDXDnrSr7p
+	 f8YtuR5oB1lICWnEn81PFTjS1c7vnQMTI8y4OS77mUT9Cfws7pxRkwr/NY3U+24HVo
+	 cHR9fHNXbDeow==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: qcom: fix USB_XHCI dependency
+Date: Mon,  5 May 2025 07:20:21 +0200
+Message-Id: <20250505052032.1811576-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,68 +46,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+From: Arnd Bergmann <arnd@arndb.de>
 
-snd_hdac_stream_get_spbmaxfifo() was originally added in 2015
-in commit ee8bc4df1b5a ("ALSA: hdac: Add support to enable SPIB for hdac
-ext stream")
+SND_USB_AUDIO_QMI depends on USB_XHCI_SIDEBAND, but that is a bool symbol
+and allows it to be built-in even when XHCI itself is in a loadable module.
+That configuration causes a link failure:
 
-when it was originally called snd_hdac_ext_stream_set_spbmaxfifo,
-it was renamed snd_hdac_ext_stream_get_spbmaxfifo shortly after
-and was finally renamed to snd_hdac_stream_get_spbmaxfifo in 2022.
-But it was never used.
+arm-linux-gnueabi-ld: sound/usb/qcom/qc_audio_offload.o: in function `uaudio_event_ring_cleanup_free':
+qc_audio_offload.c:(.text+0x7dc): undefined reference to `xhci_sideband_remove_interrupter'
+arm-linux-gnueabi-ld: sound/usb/qcom/qc_audio_offload.o: in function `uaudio_endpoint_setup':
+qc_audio_offload.c:(.text+0xe88): undefined reference to `xhci_sideband_add_endpoint'
 
-Remove it.
+Add the extra dependency on USB_XHCI itself.
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- include/sound/hdaudio.h |  2 --
- sound/hda/hdac_stream.c | 19 -------------------
- 2 files changed, 21 deletions(-)
+ sound/usb/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-index b098ceadbe74..6257152fa0ce 100644
---- a/include/sound/hdaudio.h
-+++ b/include/sound/hdaudio.h
-@@ -598,8 +598,6 @@ void snd_hdac_stream_spbcap_enable(struct hdac_bus *chip,
- 				   bool enable, int index);
- int snd_hdac_stream_set_spib(struct hdac_bus *bus,
- 			     struct hdac_stream *azx_dev, u32 value);
--int snd_hdac_stream_get_spbmaxfifo(struct hdac_bus *bus,
--				   struct hdac_stream *azx_dev);
- void snd_hdac_stream_drsm_enable(struct hdac_bus *bus,
- 				 bool enable, int index);
- int snd_hdac_stream_wait_drsm(struct hdac_stream *azx_dev);
-diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
-index 4e85a838ad7e..e7f6208af5b0 100644
---- a/sound/hda/hdac_stream.c
-+++ b/sound/hda/hdac_stream.c
-@@ -825,25 +825,6 @@ int snd_hdac_stream_set_spib(struct hdac_bus *bus,
- }
- EXPORT_SYMBOL_GPL(snd_hdac_stream_set_spib);
+diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
+index 6daa551738da..15bc212cb211 100644
+--- a/sound/usb/Kconfig
++++ b/sound/usb/Kconfig
+@@ -178,7 +178,8 @@ config SND_BCD2000
  
--/**
-- * snd_hdac_stream_get_spbmaxfifo - gets the spib value of a stream
-- * @bus: HD-audio core bus
-- * @azx_dev: hdac_stream
-- *
-- * Return maxfifo for the stream
-- */
--int snd_hdac_stream_get_spbmaxfifo(struct hdac_bus *bus,
--				   struct hdac_stream *azx_dev)
--{
--	if (!bus->spbcap) {
--		dev_err(bus->dev, "Address of SPB capability is NULL\n");
--		return -EINVAL;
--	}
--
--	return readl(azx_dev->fifo_addr);
--}
--EXPORT_SYMBOL_GPL(snd_hdac_stream_get_spbmaxfifo);
--
- /**
-  * snd_hdac_stream_drsm_enable - enable DMA resume for a stream
-  * @bus: HD-audio core bus
+ config SND_USB_AUDIO_QMI
+ 	tristate "Qualcomm Audio Offload driver"
+-	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND && SND_SOC_USB
++	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && SND_SOC_USB
++	depends on USB_XHCI && USB_XHCI_SIDEBAND
+ 	help
+ 	  Say Y here to enable the Qualcomm USB audio offloading feature.
+ 
 -- 
-2.49.0
+2.39.5
 
