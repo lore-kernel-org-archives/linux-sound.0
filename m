@@ -1,120 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4427D3602EA;
-	Mon,  5 May 2025 22:45:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FBEA35A765;
+	Mon,  5 May 2025 22:46:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485140; cv=none; b=e6LV5V5X/IVp9stVM5+Ycf9uH9F89gCzDbUravgu2VppxgphyPliT5FKPO/UZjwwXUdY38VTHxJHjug+Bw1wAoOyg/OqqdlsvraiXIXQrtRCFsh7sc4UL5t9TsegkgNq7wu+IDhHUvHYH9OQTfam35DQjI9D4uzfKOAooejJE4M=
+	t=1746485170; cv=none; b=lml1zYoyr2+MfbEJMer/MEZ6g+7qBj2pHLqt+sm4EkEbsskRWLAgq7pChkh0YFgYYXiTDmGF9XMgiKMzX53OymFe3AOXY0Vfqh8tT/sOvW2rt6HLM+6/85h5N2dAknIM6ESVQzrCyyagN4g4Cq07+LSJZOW7skacrnvV9Sn28CU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485140; c=relaxed/simple;
-	bh=eYnGd+MTzDvMbzNFHVf56BTjUQYAvOdN/Fe7fP7U1Ng=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AOHSe7B5c+zJuMIFbz21N85LqYJQLTp5L1SVcB5dFLGHtkCwFTNUoZExXGNljQml5fIvTah7e26FImWu3GKvtvPwFR+sQ7KZxgf9jYgfeAYRhSFeUSiDAgt5T6wxV+OdBYq/XrlEHHXHsL9LaxyYCzK6aiP0z/hbKcXZX8sHBnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jTczwMtu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746485170; c=relaxed/simple;
+	bh=AS2TsFu8Kc7csbiJYii5SkgQrzo5hXNx2c6AtZWQVfg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u1HRuAQHQ3BbWFVu9eZi2ocs8hwsU+EpMTAvk44RdyeEy+FAaWdd4J/ETsPUvAmgrF2LG5c4DebNHm2Ulkm3w9InW49CmPUEucu2s1TVrkPkF6veczZtLJuNc0TJNPKPJp0DYunljWOALfjsDbFBBF90WibyjyN/j3lz4Q19sp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s3QBcI6/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jTczwMtu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3016BC4CEE4;
-	Mon,  5 May 2025 22:45:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s3QBcI6/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3EE4C4CEE4;
+	Mon,  5 May 2025 22:46:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485139;
-	bh=eYnGd+MTzDvMbzNFHVf56BTjUQYAvOdN/Fe7fP7U1Ng=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jTczwMtu4reIKvifyS6T6azBVyFJ/6FluxGW2jAZZMxCwLyMRL8mrecuLMjkewk2b
-	 SpQc6OaYgJmgfE3wDS2akbnkJR8985PmMCeyXXEDUlvyLjdf/Bo0An4KP7IGAWznZl
-	 uER3owoczs/6iSTeJuiJLzP22Y8D8WcxjE/hWT40FY1CVb89n7E0RAcMIiOzyBSnID
-	 HD6D9c/lSnA8wP2x2+QwAAhq1iljbZIbdZ3DrAHWdf8Q/od550bcY1bUkfXF03HwAT
-	 ICNUQdHG/td/B5K6HLVr68ipglzpjsHptUTSwxPs7oBkajJRoh8/QiqWO9k7mEWuk/
-	 uEl2TIVJ1BNRw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
-	syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	viro@zeniv.linux.org.uk,
+	s=k20201202; t=1746485169;
+	bh=AS2TsFu8Kc7csbiJYii5SkgQrzo5hXNx2c6AtZWQVfg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=s3QBcI6/oA0tA/PINZMYq4M38D3tbRwKAXJDV6Hr+ga8m/gVZZ95oar+vdrAk5Yhd
+	 SGd6VqgCRRpKTqJCkcn5HzEFAfu+R+eGBjc6WSDDlqQ6kg/MBANCXMVscaVBxH4iyF
+	 MCyVB6QIn1ExoO6/X+Ctpw/GnBfzOiewFztOcJl2T2lXkc75NLPHMSW5kSUNMBDglS
+	 0b9Qln+5S9vuIv0nBjPeMFc6zwX3tNo+FCOoCvt5VUz7hh8ljH270qq2IJeI0adTjc
+	 Lc3IO/Hsc0RuHl788v3v3ExF8rxDnbk/O50eDOfYe15liNSmz6xPgITNzLoAtip5kS
+	 URYXhj3D+7o2w==
+Date: Tue, 6 May 2025 07:46:04 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, lgirdwood@gmail.com,
+	perex@perex.cz, tiwai@suse.com, javier.carrasco.cruz@gmail.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 179/486] ALSA: seq: Improve data consistency at polling
-Date: Mon,  5 May 2025 18:34:15 -0400
-Message-Id: <20250505223922.2682012-179-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
-References: <20250505223922.2682012-1-sashal@kernel.org>
+Subject: Re: [PATCH AUTOSEL 6.14 591/642] ASoC: cpcap: Implement
+ .set_bias_level
+Message-ID: <aBk_rHbbzvR_vD64@finisterre.sirena.org.uk>
+References: <20250505221419.2672473-1-sashal@kernel.org>
+ <20250505221419.2672473-591-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.26
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BmqjSXNMkh0e0Yd9"
+Content-Disposition: inline
+In-Reply-To: <20250505221419.2672473-591-sashal@kernel.org>
+X-Cookie: Well begun is half done.
 
-From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit e3cd33ab17c33bd8f1a9df66ec83a15dd8f7afbb ]
+--BmqjSXNMkh0e0Yd9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-snd_seq_poll() calls snd_seq_write_pool_allocated() that reads out a
-field in client->pool object, while it can be updated concurrently via
-ioctls, as reported by syzbot.  The data race itself is harmless, as
-it's merely a poll() call, and the state is volatile.  OTOH, the read
-out of poll object info from the caller side is fragile, and we can
-leave it better in snd_seq_pool_poll_wait() alone.
+On Mon, May 05, 2025 at 06:13:27PM -0400, Sasha Levin wrote:
+> From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+>=20
+> [ Upstream commit 5b4288792ff246cf2bda0c81cebcc02d1f631ca3 ]
+>=20
+> With VAUDIO regulator being always on, we have to put it in low-power mode
+> when codec is not in use to decrease power usage.
+>=20
+> Do so by implementing driver .set_bias_level callback.
 
-A similar pattern is seen in snd_seq_kernel_client_write_poll(), too,
-which is called from the OSS sequencer.
+This is clearly a performance improvement not a bug fix.
 
-This patch drops the pool checks from the caller side and add the
-pool->lock in snd_seq_pool_poll_wait() for better data consistency.
+--BmqjSXNMkh0e0Yd9
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Reported-by: syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/67c88903.050a0220.15b4b9.0028.GAE@google.com
-Link: https://patch.msgid.link/20250307084246.29271-1-tiwai@suse.de
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/core/seq/seq_clientmgr.c | 5 +----
- sound/core/seq/seq_memory.c    | 1 +
- 2 files changed, 2 insertions(+), 4 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
-index b30faf731da72..067bf531e6b5f 100644
---- a/sound/core/seq/seq_clientmgr.c
-+++ b/sound/core/seq/seq_clientmgr.c
-@@ -1150,8 +1150,7 @@ static __poll_t snd_seq_poll(struct file *file, poll_table * wait)
- 	if (snd_seq_file_flags(file) & SNDRV_SEQ_LFLG_OUTPUT) {
- 
- 		/* check if data is available in the pool */
--		if (!snd_seq_write_pool_allocated(client) ||
--		    snd_seq_pool_poll_wait(client->pool, file, wait))
-+		if (snd_seq_pool_poll_wait(client->pool, file, wait))
- 			mask |= EPOLLOUT | EPOLLWRNORM;
- 	}
- 
-@@ -2569,8 +2568,6 @@ int snd_seq_kernel_client_write_poll(int clientid, struct file *file, poll_table
- 	if (client == NULL)
- 		return -ENXIO;
- 
--	if (! snd_seq_write_pool_allocated(client))
--		return 1;
- 	if (snd_seq_pool_poll_wait(client->pool, file, wait))
- 		return 1;
- 	return 0;
-diff --git a/sound/core/seq/seq_memory.c b/sound/core/seq/seq_memory.c
-index 20155e3e87c6a..ccde0ca3d2082 100644
---- a/sound/core/seq/seq_memory.c
-+++ b/sound/core/seq/seq_memory.c
-@@ -427,6 +427,7 @@ int snd_seq_pool_poll_wait(struct snd_seq_pool *pool, struct file *file,
- 			   poll_table *wait)
- {
- 	poll_wait(file, &pool->output_sleep, wait);
-+	guard(spinlock_irq)(&pool->lock);
- 	return snd_seq_output_ok(pool);
- }
- 
--- 
-2.39.5
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgZP6sACgkQJNaLcl1U
+h9AzuQf/TsuJY2vN7IY0edGyLFwWnvp3oaCEwl470g0akuayphANG/PQhswy/1aF
+mNXr7LOguHFmhEVZeH20D7ByqnzGffdB511QUKgJXIX4B6zyhpzn51hqJc8BYTXL
+tcOBAnJfTmjdyHW4WdbEd7zln7BcX2gmDbPs9jYzERHtbqvuTpPeIrXN/qrwlBrd
+z7S88euH09affGKk1ypNJ9+NCbi0vhljp6cOI4BB2AN+UnC8pi3EG4j5rPk9HN4a
+o134B+T8brNoSzEExEj1B8eB2yrxD/aQ70/rwu0XCMfGwuw8bIFF2uNR40JhhUSv
+sW/Qtbq6cvzmIyrlCJmIM73woreV5Q==
+=GcKz
+-----END PGP SIGNATURE-----
 
+--BmqjSXNMkh0e0Yd9--
