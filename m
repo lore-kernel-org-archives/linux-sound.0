@@ -1,44 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C912DBB03;
-	Mon,  5 May 2025 23:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33D138752D;
+	Mon,  5 May 2025 23:00:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486010; cv=none; b=UT3F44UTbLiWuTR0WSozrc09WPbQexoocJo904aPBSdpUlyBrSDYqzq0ngjXogO64Lf34yh1kCkqdrWWh+3kNJ5xJ5XrzIVJ1peQ8e0nhq+TEvvXIRkdBaBzh27ZVyLaPVl86Ql43QN9h2Gkdfw9NmahVXY6mJz9B1eWckGn3BU=
+	t=1746486047; cv=none; b=b9jldAopzlesqAsOdJzWwjyE5zMQP0POXlwxVnQRfFfdV8Uku1FMPrca8XXaXS5+SLjlupD/YIV5/QvRLZ4PnzkfX25/p1u7KorBZGuuVV3GyQ42gmLMynG08QSGCkSS8IX1OpcPMsEtD9sto9nHqpEsVAu63gh27hxYq7NyDa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486010; c=relaxed/simple;
-	bh=t0zjZdBFIP51RiNWky2D57ZxrQUtk0dHqwV6LRXsD7o=;
+	s=arc-20240116; t=1746486047; c=relaxed/simple;
+	bh=w0vBx3e2xWbegNY3+pocMmKhIGFKLZS6rIfZtZxg0Dk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GXIYJDMV44PXCde8dPoCsCDPVV1+zpGtadpl7UmMgI/maCXuemZ2eNy2e9HN28NVhPX+6U4WrucQnBV4E0UHu66TdbLxjuYFHAX/aqwy4oE3nfEXVLjNBljJXZ520/zTspcYEXUoqQ/Q3ytNBP3kXOPC3ww+BP2QQmmaLp5b9xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O/EvOyeg; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=No80lUG33yYHSi0FMeTYB+oMeru5gi7Xvivbaqde52TUjoTsSbuQ0nyGkdV6t4QsUM3G3Q6mfdyJ+qMaxGSbFpUFS25wpGbXc6wDl3soiyLhbjU+UXy30olhbSGN448LnGC9gdSwmoO0uZtdgAtDbi6B6a3+qEE3e6KprWnGCIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CiMsyCC0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/EvOyeg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30F64C4CEED;
-	Mon,  5 May 2025 23:00:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CiMsyCC0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54C7BC4CEE4;
+	Mon,  5 May 2025 23:00:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486009;
-	bh=t0zjZdBFIP51RiNWky2D57ZxrQUtk0dHqwV6LRXsD7o=;
+	s=k20201202; t=1746486046;
+	bh=w0vBx3e2xWbegNY3+pocMmKhIGFKLZS6rIfZtZxg0Dk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=O/EvOyegtIW9H53F4lir1Fv6WsWGxA8CrWaJhTfIF8wOvat3lwQNRMjahGt1H1yyd
-	 lkunlht2qWTRhR3o45Nv1vDtGKYTYhSugSyWO/imN2iNVa3xPXzMGsrOX0jtnO/Y+i
-	 QqxyfHhUxeZT6f01+GE+rNoj31/Y+MrgaWbXj0sD8nSho04gtKbWWLlVHxgLITVLHE
-	 FAI7l/hjEUb8Q+4p5slKZSYhD66e2Rp93Bpt4TED9Gv4k9kNboxfG/LKXUkdGpNDNu
-	 jN9g1d7JCEqt8XUqPXBPLCuiD5H8oTrc71XgVWhjZOMNg7rZvklsAeTlrtnKdO9NJ6
-	 i9a1nnimmhktQ==
+	b=CiMsyCC0pQ3wfDIot27oduDYk4giwpCLIWEcvSHIZOniJvm2eRFKlYMIYsDgKzzFd
+	 zuAvIpQcT6Bp/7XQ8/vwl9iaD8V2j+p/wlemY9Si8dd+zboTGuA513uCu3MWj3vjMi
+	 qNRg+WRfDvKkpUgpN+wcBIWNZE9JbTOb0jPIvjHAs9+MGK1HnyDMJvT3YDiw1b1dgr
+	 u3miC+VFbAI3Fw4bpv1IHHhi60PbKyiDIawEa65GDS1bIHj4XMDuIYJsU4ghJyudDf
+	 3X12Uu8+fRmhNse9/tQHXa/Pw58G6GpFO3YB8gXoA3iShquMCMhbAxELZ6cdFpZ5WM
+	 rn4zEjJwVFg1A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
-	syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com,
+Cc: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
+	kailang@realtek.com,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	viro@zeniv.linux.org.uk,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	josh@joshuagrisham.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 107/294] ALSA: seq: Improve data consistency at polling
-Date: Mon,  5 May 2025 18:53:27 -0400
-Message-Id: <20250505225634.2688578-107-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 125/294] ALSA: hda/realtek: Enable PC beep passthrough for HP EliteBook 855 G7
+Date: Mon,  5 May 2025 18:53:45 -0400
+Message-Id: <20250505225634.2688578-125-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
 References: <20250505225634.2688578-1-sashal@kernel.org>
@@ -53,68 +56,175 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
-From: Takashi Iwai <tiwai@suse.de>
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
 
-[ Upstream commit e3cd33ab17c33bd8f1a9df66ec83a15dd8f7afbb ]
+[ Upstream commit aa85822c611aef7cd4dc17d27121d43e21bb82f0 ]
 
-snd_seq_poll() calls snd_seq_write_pool_allocated() that reads out a
-field in client->pool object, while it can be updated concurrently via
-ioctls, as reported by syzbot.  The data race itself is harmless, as
-it's merely a poll() call, and the state is volatile.  OTOH, the read
-out of poll object info from the caller side is fragile, and we can
-leave it better in snd_seq_pool_poll_wait() alone.
+PC speaker works well on this platform in BIOS and in Linux until sound
+card drivers are loaded. Then it stops working.
 
-A similar pattern is seen in snd_seq_kernel_client_write_poll(), too,
-which is called from the OSS sequencer.
+There seems to be a beep generator node at 0x1a in this CODEC
+(ALC269_TYPE_ALC215) but it seems to be only connected to capture mixers
+at nodes 0x22 and 0x23.
+If I unmute the mixer input for 0x1a at node 0x23 and start recording
+from its "ALC285 Analog" capture device I can clearly hear beeps in that
+recording.
 
-This patch drops the pool checks from the caller side and add the
-pool->lock in snd_seq_pool_poll_wait() for better data consistency.
+So the beep generator is indeed working properly, however I wasn't able to
+figure out any way to connect it to speakers.
 
-Reported-by: syzbot+2d373c9936c00d7e120c@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/67c88903.050a0220.15b4b9.0028.GAE@google.com
-Link: https://patch.msgid.link/20250307084246.29271-1-tiwai@suse.de
+However, the bits in the "Passthrough Control" register (0x36) seems to
+work at least partially: by zeroing "B" and "h" and setting "S" I can at
+least make the PIT PC speaker output appear either in this laptop speakers
+or headphones (depending on whether they are connected or not).
+
+There are some caveats, however:
+* If the CODEC gets runtime-suspended the beeps stop so it needs HDA beep
+device for keeping it awake during beeping.
+
+* If the beep generator node is generating any beep the PC beep passthrough
+seems to be temporarily inhibited, so the HDA beep device has to be
+prevented from using the actual beep generator node - but the beep device
+is still necessary due to the previous point.
+
+* In contrast with other platforms here beep amplification has to be
+disabled otherwise the beeps output are WAY louder than they were on pure
+BIOS setup.
+
+Unless someone (from Realtek probably) knows how to make the beep generator
+node output appear in speakers / headphones using PC beep passthrough seems
+to be the only way to make PC speaker beeping actually work on this
+platform.
+
+Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
+Acked-by: kailang@realtek.com
+Link: https://patch.msgid.link/7461f695b4daed80f2fc4b1463ead47f04f9ad05.1739741254.git.mail@maciej.szmigiero.name
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/core/seq/seq_clientmgr.c | 5 +----
- sound/core/seq/seq_memory.c    | 1 +
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ include/sound/hda_codec.h     |  1 +
+ sound/pci/hda/hda_beep.c      | 15 +++++++++------
+ sound/pci/hda/patch_realtek.c | 34 +++++++++++++++++++++++++++++++++-
+ 3 files changed, 43 insertions(+), 7 deletions(-)
 
-diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
-index 6195fe9dda179..bc1338dc34851 100644
---- a/sound/core/seq/seq_clientmgr.c
-+++ b/sound/core/seq/seq_clientmgr.c
-@@ -1155,8 +1155,7 @@ static __poll_t snd_seq_poll(struct file *file, poll_table * wait)
- 	if (snd_seq_file_flags(file) & SNDRV_SEQ_LFLG_OUTPUT) {
+diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+index 5497dc9c396a5..b58dc869cf77e 100644
+--- a/include/sound/hda_codec.h
++++ b/include/sound/hda_codec.h
+@@ -196,6 +196,7 @@ struct hda_codec {
+ 	/* beep device */
+ 	struct hda_beep *beep;
+ 	unsigned int beep_mode;
++	bool beep_just_power_on;
  
- 		/* check if data is available in the pool */
--		if (!snd_seq_write_pool_allocated(client) ||
--		    snd_seq_pool_poll_wait(client->pool, file, wait))
-+		if (snd_seq_pool_poll_wait(client->pool, file, wait))
- 			mask |= EPOLLOUT | EPOLLWRNORM;
+ 	/* widget capabilities cache */
+ 	u32 *wcaps;
+diff --git a/sound/pci/hda/hda_beep.c b/sound/pci/hda/hda_beep.c
+index e63621bcb2142..1a684e47d4d18 100644
+--- a/sound/pci/hda/hda_beep.c
++++ b/sound/pci/hda/hda_beep.c
+@@ -31,8 +31,9 @@ static void generate_tone(struct hda_beep *beep, int tone)
+ 			beep->power_hook(beep, true);
+ 		beep->playing = 1;
  	}
+-	snd_hda_codec_write(codec, beep->nid, 0,
+-			    AC_VERB_SET_BEEP_CONTROL, tone);
++	if (!codec->beep_just_power_on)
++		snd_hda_codec_write(codec, beep->nid, 0,
++				    AC_VERB_SET_BEEP_CONTROL, tone);
+ 	if (!tone && beep->playing) {
+ 		beep->playing = 0;
+ 		if (beep->power_hook)
+@@ -212,10 +213,12 @@ int snd_hda_attach_beep_device(struct hda_codec *codec, int nid)
+ 	struct hda_beep *beep;
+ 	int err;
  
-@@ -2570,8 +2569,6 @@ int snd_seq_kernel_client_write_poll(int clientid, struct file *file, poll_table
- 	if (client == NULL)
- 		return -ENXIO;
+-	if (!snd_hda_get_bool_hint(codec, "beep"))
+-		return 0; /* disabled explicitly by hints */
+-	if (codec->beep_mode == HDA_BEEP_MODE_OFF)
+-		return 0; /* disabled by module option */
++	if (!codec->beep_just_power_on) {
++		if (!snd_hda_get_bool_hint(codec, "beep"))
++			return 0; /* disabled explicitly by hints */
++		if (codec->beep_mode == HDA_BEEP_MODE_OFF)
++			return 0; /* disabled by module option */
++	}
  
--	if (! snd_seq_write_pool_allocated(client))
--		return 1;
- 	if (snd_seq_pool_poll_wait(client->pool, file, wait))
- 		return 1;
- 	return 0;
-diff --git a/sound/core/seq/seq_memory.c b/sound/core/seq/seq_memory.c
-index b603bb93f8960..692860deec0c3 100644
---- a/sound/core/seq/seq_memory.c
-+++ b/sound/core/seq/seq_memory.c
-@@ -429,6 +429,7 @@ int snd_seq_pool_poll_wait(struct snd_seq_pool *pool, struct file *file,
- 			   poll_table *wait)
- {
- 	poll_wait(file, &pool->output_sleep, wait);
-+	guard(spinlock_irq)(&pool->lock);
- 	return snd_seq_output_ok(pool);
+ 	beep = kzalloc(sizeof(*beep), GFP_KERNEL);
+ 	if (beep == NULL)
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 2f3f295f2b0cb..a13795e405a4d 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -24,6 +24,7 @@
+ #include <sound/hda_codec.h>
+ #include "hda_local.h"
+ #include "hda_auto_parser.h"
++#include "hda_beep.h"
+ #include "hda_jack.h"
+ #include "hda_generic.h"
+ #include "hda_component.h"
+@@ -6861,6 +6862,30 @@ static void alc285_fixup_hp_envy_x360(struct hda_codec *codec,
+ 	}
  }
  
++static void alc285_fixup_hp_beep(struct hda_codec *codec,
++				 const struct hda_fixup *fix, int action)
++{
++	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
++		codec->beep_just_power_on = true;
++	} else  if (action == HDA_FIXUP_ACT_INIT) {
++#ifdef CONFIG_SND_HDA_INPUT_BEEP
++		/*
++		 * Just enable loopback to internal speaker and headphone jack.
++		 * Disable amplification to get about the same beep volume as
++		 * was on pure BIOS setup before loading the driver.
++		 */
++		alc_update_coef_idx(codec, 0x36, 0x7070, BIT(13));
++
++		snd_hda_enable_beep_device(codec, 1);
++
++#if !IS_ENABLED(CONFIG_INPUT_PCSPKR)
++		dev_warn_once(hda_codec_dev(codec),
++			      "enable CONFIG_INPUT_PCSPKR to get PC beeps\n");
++#endif
++#endif
++	}
++}
++
+ /* for hda_fixup_thinkpad_acpi() */
+ #include "thinkpad_helper.c"
+ 
+@@ -7477,6 +7502,7 @@ enum {
+ 	ALC285_FIXUP_HP_GPIO_LED,
+ 	ALC285_FIXUP_HP_MUTE_LED,
+ 	ALC285_FIXUP_HP_SPECTRE_X360_MUTE_LED,
++	ALC285_FIXUP_HP_BEEP_MICMUTE_LED,
+ 	ALC236_FIXUP_HP_MUTE_LED_COEFBIT2,
+ 	ALC236_FIXUP_HP_GPIO_LED,
+ 	ALC236_FIXUP_HP_MUTE_LED,
+@@ -9064,6 +9090,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc285_fixup_hp_spectre_x360_mute_led,
+ 	},
++	[ALC285_FIXUP_HP_BEEP_MICMUTE_LED] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc285_fixup_hp_beep,
++		.chained = true,
++		.chain_id = ALC285_FIXUP_HP_MUTE_LED,
++	},
+ 	[ALC236_FIXUP_HP_MUTE_LED_COEFBIT2] = {
+ 	    .type = HDA_FIXUP_FUNC,
+ 	    .v.func = alc236_fixup_hp_mute_led_coefbit2,
+@@ -10016,7 +10048,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8730, "HP ProBook 445 G7", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x8735, "HP ProBook 435 G7", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x8736, "HP", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+-	SND_PCI_QUIRK(0x103c, 0x8760, "HP", ALC285_FIXUP_HP_MUTE_LED),
++	SND_PCI_QUIRK(0x103c, 0x8760, "HP EliteBook 8{4,5}5 G7", ALC285_FIXUP_HP_BEEP_MICMUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x876e, "HP ENVY x360 Convertible 13-ay0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
+ 	SND_PCI_QUIRK(0x103c, 0x877a, "HP", ALC285_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x877d, "HP", ALC236_FIXUP_HP_MUTE_LED),
 -- 
 2.39.5
 
