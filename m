@@ -1,97 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944882D1105;
-	Mon,  5 May 2025 22:50:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5912D81AF;
+	Mon,  5 May 2025 22:56:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485455; cv=none; b=U4lU4Uxity5POl5vniFaxXQ/5TnBH2/3R4tMbjHRUUSsy/H5tXnA4d6b/TbZTjgdHlO2swE8nEKzzLLXaSCSI/Sznmx9UIjEIZnYK+m3CuJKoAMVfjVh5oo8mpbp0pVlr0k7Mgx4tbzk35uT4xoSlBCJHanVoN9GAXywOAD9CCk=
+	t=1746485767; cv=none; b=TndNzjItBsvdwws/Tpo3hFQsBcqDEKpwy+9BfisDU5I4SWZis0VSLAyO9ilupflV2nVxloJEVsMNzhIflQDcAcw14oDTYrtcv9l2qcNutrVX9qIiSnbgF6cpO8x6sRp8edEqsT5lVpLk86Qz+qb2u0UfyEndO+erZKX418MQfiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485455; c=relaxed/simple;
-	bh=h93WNiWTrCyQI3Nh7+7mDmYhlhKFljlivtTz1PbBYDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VhhFXNl5dOGHX5MPoWvM8FgVvOYIuP1JHErdbrj0SyAy1Wv8TZzXf6ULwrkfhOPjbGKC/4mshbhNC76Mxt5D9EuL6jDyyyQtDApe8A4GObxUR8qspFV/yQM++GeQZurVsOVysL1L4IgT/KUOaakEWlXJl+FcKgCKSEvQPFyUU7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Utq2YDpG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746485767; c=relaxed/simple;
+	bh=exINYAVBeI8oiIvNu7w93uO+6/hrDZFff9ESeVyYoT0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=o7NpRQ+KX0vEmMTuDR8ZQ5A5rgU/K2ppxUTQdMBLh2zoboLW8bykQtIpdK5FYi5M9ENE/6ue8VEXCSievxXIV4WjIveYHQIiYK/spXfDBOQpuplHYOnZSTFQY0qzIux9X8A4sT/gelTxAgOHkP1jH+oG7hnqQXPhpZuCcT/aKrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TRS/JuCf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Utq2YDpG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF8D7C4CEED;
-	Mon,  5 May 2025 22:50:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRS/JuCf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A67E0C4CEED;
+	Mon,  5 May 2025 22:56:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485455;
-	bh=h93WNiWTrCyQI3Nh7+7mDmYhlhKFljlivtTz1PbBYDA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Utq2YDpGylG1fsAlgziWYcuoLBLkJgK12hvOUP8xdcbhzKCLQPCyJ9I39YZ0bUtiu
-	 SluMlGiZLvb46N2Q4DG5PamA5XC+QgziPQKWy3txE91Uos+8Kg1tuEc40Uio6IzLCq
-	 at8qeKmDlXN9PpJnAbQt6rvI4gQIM0qDoB/t1Kbwcw1rLmw7Rzw++kaY2Ro15+7fCs
-	 JmRlrZ9/6bE+FjZjbijUZh+xKD/Mu7I6PLff8kwqsVrdNvmVDPB2je4bZdOkmAIs3b
-	 SXB+sR5TFafIb43E9kBAPPiGcMNOVr0FzbPZ7q6XwXkku4rBrcB2aYOfSAinQDz4ta
-	 EvBzXeQjV/7iQ==
-Date: Tue, 6 May 2025 07:50:50 +0900
-From: Mark Brown <broonie@kernel.org>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2 2/9] ASoC: codec: cs42l56: Drop cs42l56.h
-Message-ID: <aBlAys_SvQRHNTcp@finisterre.sirena.org.uk>
-References: <20250428-csl42x-v2-0-e8056313968f@nxp.com>
- <20250428-csl42x-v2-2-e8056313968f@nxp.com>
+	s=k20201202; t=1746485766;
+	bh=exINYAVBeI8oiIvNu7w93uO+6/hrDZFff9ESeVyYoT0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=TRS/JuCf0zYpT4Q0odol96KuxzQrnAZf/Jsh0rFcKUKKU9sxac8jVcHnG3iTqu+CU
+	 p7Z+oFFjYHQrXfCMiI4JPGqI8sWGsqzbcVsyr6ku6Luh+nKH2OVwXYb7YlFJrdAvTR
+	 B2jmbdmKJ9ypZvgU5PpCA6cOUSkTf9PVYQBxPCE+qmNoaX5i/uIBrFMd94XOk6rj5R
+	 y7SF89kxBDw7b8xz5LcIYdran9ftaVoj1qFq/KvM82z2CXexg6OC2JFMHj9JKnW+N6
+	 r15gMpZ+mTeByllNtdf/YzY2YT5huM+BqsekqNDmuL1h9K6Yf2t7tPjkIEgpHpcX6q
+	 wRr0YowTL/H1g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Olivier Moysan <olivier.moysan@foss.st.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	lgirdwood@gmail.com,
+	lumag@kernel.org,
+	jonas@kwiboo.se,
+	kuninori.morimoto.gx@renesas.com,
+	herve.codina@bootlin.com,
+	krzysztof.kozlowski@linaro.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 473/486] ASoC: hdmi-codec: allow to refine formats actually supported
+Date: Mon,  5 May 2025 18:39:09 -0400
+Message-Id: <20250505223922.2682012-473-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
+References: <20250505223922.2682012-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v5vMaPAMM9Oxt2fN"
-Content-Disposition: inline
-In-Reply-To: <20250428-csl42x-v2-2-e8056313968f@nxp.com>
-X-Cookie: "Elvis is my copilot."
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.12.26
+Content-Transfer-Encoding: 8bit
 
+From: Olivier Moysan <olivier.moysan@foss.st.com>
 
---v5vMaPAMM9Oxt2fN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[ Upstream commit 038f79638e0676359e44c5db458d52994f9b5ac1 ]
 
-On Mon, Apr 28, 2025 at 10:09:03AM +0800, Peng Fan (OSS) wrote:
-> From: Peng Fan <peng.fan@nxp.com>
->=20
-> There is no in-tree user of "include/sound/cs42l56.h", so move
-> 'struct cs42l56_platform_data' to cs42l56.c and remove the header file.
-> And platform data is mostly for platforms that create
-> devices non using device tree. CS42L56 is a discontinued product,
-> there is less possibility that new users will use legacy method
-> to create devices. So drop cs42l56.h to prepare using GPIOD API.
+Currently the hdmi-codec driver registers all the formats that are
+allowed on the I2S bus. Add i2s_formats field to codec data, to allow
+the hdmi codec client to refine the list of the audio I2S formats
+actually supported.
 
-This breaks an x86 allmodconfig build:
+Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+Acked-by: Mark Brown <broonie@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250108170356.413063-3-olivier.moysan@foss.st.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ include/sound/hdmi-codec.h    | 1 +
+ sound/soc/codecs/hdmi-codec.c | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-/build/stage/linux/sound/soc/codecs/cs42l56.c:26:10: fatal error: 'sound/cs=
-42l56.h' file not found
-   26 | #include <sound/cs42l56.h>
-      |          ^~~~~~~~~~~~~~~~~
-1 error generated.
+diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
+index 5e1a9eafd10f5..a65da989dab16 100644
+--- a/include/sound/hdmi-codec.h
++++ b/include/sound/hdmi-codec.h
+@@ -122,6 +122,7 @@ struct hdmi_codec_ops {
+ /* HDMI codec initalization data */
+ struct hdmi_codec_pdata {
+ 	const struct hdmi_codec_ops *ops;
++	u64 i2s_formats;
+ 	uint i2s:1;
+ 	uint no_i2s_playback:1;
+ 	uint no_i2s_capture:1;
+diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+index d9df29a26f4f2..3f9dfdbc693e0 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -1077,6 +1077,10 @@ static int hdmi_codec_probe(struct platform_device *pdev)
+ 	if (hcd->i2s) {
+ 		daidrv[i] = hdmi_i2s_dai;
+ 		daidrv[i].playback.channels_max = hcd->max_i2s_channels;
++		if (hcd->i2s_formats) {
++			daidrv[i].playback.formats = hcd->i2s_formats;
++			daidrv[i].capture.formats = hcd->i2s_formats;
++		}
+ 		if (hcd->no_i2s_playback)
+ 			memset(&daidrv[i].playback, 0,
+ 			       sizeof(daidrv[i].playback));
+-- 
+2.39.5
 
---v5vMaPAMM9Oxt2fN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgZQMkACgkQJNaLcl1U
-h9A1Igf/Q06MRKirMShcv/TcB5l7drBIkDOMikE6u4JLDnDWRMiKvQMv5hBWmf2Z
-7dZ+Yj++8mN06HJICtBEhWgF5f8qKM0GEheCbe8AfHEDqsf4mJiSVkPOFF6KNkV5
-XAFg+fU7SpLPVhFpF2k02l734j1AP4OrlfYz1MwwRPit2bG94oFdaH7u/zEnxAIf
-1YYC8qYRiHUUavnPJIX8V9T4TAKw8n9EMLCLK8ApjYgwuxoDVIbnCgyVyyEhL3Mj
-3dj5sLe9lYtVXu7O3+nF4R6W7MrNHJ2rimlRnRhP/oEs3pxkvtwhHbQPty6bn9UQ
-mEN4LZ+tPfGWW+aoIYgdma+8Tm/ong==
-=Eg3Q
------END PGP SIGNATURE-----
-
---v5vMaPAMM9Oxt2fN--
