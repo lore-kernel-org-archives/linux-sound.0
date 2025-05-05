@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681C62D1126;
-	Mon,  5 May 2025 22:51:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F102D113A;
+	Mon,  5 May 2025 22:51:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485466; cv=none; b=sISLdkQQUvJIQbTlJajOr/6Yc8CKE9YJEgFyKZLIM32mx6jB60L7xnaqfj3XUkyEOLn9fsrP4UHBYfh9f8z9n1nN0KBZeGEdFpl6otwx7hSswuNcWPaaU1gDdZsg/3ThHgWHM4GEaJG54HZ7WH2Si8WP8XypflyC4xhZbgtDYTQ=
+	t=1746485471; cv=none; b=obyOKJZK5wlUh8jYzY1qOZZ1811slD3cZZwM6FpmKOPmzD7WkZtE8eUjfUE0NKoelksthmJahUced7SjGSKoBNL6uLJQopqZT/eCZ28CWM5xvcToj3IuNiezjaxFRoP8Lm1TK9B6Y8yhTYlA7Lu6nmgi/auu71OdK5QVz0JS/ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485466; c=relaxed/simple;
-	bh=z+fMMvtWpwcVSNZK80WDtwzO/qfwNQN/M5Kp/sFKa8Y=;
+	s=arc-20240116; t=1746485471; c=relaxed/simple;
+	bh=mL8EK6vs3ZcgIypuRMahinbFQPPZZjHaEGVJlBDoZrU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tQKtdevbzUWq4lgKJOAroYMndMq3MyvGGVlod1suptJn28xjq2tVeLubYIAETh9zRCje4Exo/uPs4sYqtLVa2gegDiGI6gz00ezx7MLYCqHR2Xv0Bn6uY9mQrz0WVT4IW3xDe0SPoF3f6OlqNcYbQew/ggBXcoYWHLy8WR/0SXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jccztEwd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=oqXhC3wMg3O4dltz3FeUtSg0hd5JO/5ruDZJlIb8v17sdrJ7Zmz8oxA7HjJT+aHbQo0N2r/dNXi+1lwt4i2QyITohMB2AWp9MWXUwDAPG8qc9Ob1xLfbkhHxvjgtkm3K/c0ar3Ki7pBDpN4sxL9no4svoJsnQZlQDldDZKAPb/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qki16aMl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jccztEwd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AEEFC4CEEF;
-	Mon,  5 May 2025 22:51:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qki16aMl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D812C4CEEE;
+	Mon,  5 May 2025 22:51:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485466;
-	bh=z+fMMvtWpwcVSNZK80WDtwzO/qfwNQN/M5Kp/sFKa8Y=;
+	s=k20201202; t=1746485471;
+	bh=mL8EK6vs3ZcgIypuRMahinbFQPPZZjHaEGVJlBDoZrU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jccztEwdHBN6vTAIockukC1wYv8biWzSe084L3lWYQ3S9KDxqXjv1le4Ib2VhheA4
-	 PneEke1l42NFut9I03OIVgddKgnciAUmOakBGkG6SC5+mxZrOf9Q+Uv880I6mVAAtQ
-	 Uitwc8CFtwum0GDaEojU3I7XJI78oMaklOt7Hj/IGf19WE1MnR3QmHqps3+I6HLKPT
-	 sCPjFcK6GZDCf+0cNxXXXyD8lTf05gG+oTmHHXMc1RmY+1g1QWAfKYN8V4ujzkhYTU
-	 x6yd55OrvXFDjZkUrZKCxWQHmMQMJsCtXBt05+lKCwnemALYXNFc2YQ3VQeFHrH0Oj
-	 YBYX/WH6idPYQ==
+	b=Qki16aMlZdEkvigy/VloRU3dcAg6+ci3nVpKEOCBMbex1Z8kz2LwD7+sYNF16yzUG
+	 wQdV4JD85Dfq0P6xnBAd7s6pMCFtaCqXY5vj8zHcvDlsJwiBHEF4CHsC2zZz7gxnDX
+	 E2l26XbQlH5x7k23oh3zy8QR0CWuBpd7CW2ReMytN2MqPbfIL05Rl2T0QN3vQ5FphK
+	 FxKUmo/k+Y0WkgYH+WAAQSPAlOZ9JSuVX/vkI8IXE/poHLRYepC+7cmS8rWH9x1WpJ
+	 cQf6PfbWErIk08qV/ZmNMeddia+UmhQXSwOzr8Acp1qwWaML4nTpHXqVKsGCI7KpoC
+	 fXwwxPrfUkWIA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hector Martin <marcan@marcan.st>,
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 327/486] ASoC: tas2764: Add reg defaults for TAS2764_INT_CLK_CFG
-Date: Mon,  5 May 2025 18:36:43 -0400
-Message-Id: <20250505223922.2682012-327-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 330/486] ASoC: soc-dai: check return value at snd_soc_dai_set_tdm_slot()
+Date: Mon,  5 May 2025 18:36:46 -0400
+Message-Id: <20250505223922.2682012-330-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -56,31 +53,52 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.26
 Content-Transfer-Encoding: 8bit
 
-From: Hector Martin <marcan@marcan.st>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-[ Upstream commit d64c4c3d1c578f98d70db1c5e2535b47adce9d07 ]
+[ Upstream commit 7f1186a8d738661b941b298fd6d1d5725ed71428 ]
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Link: https://patch.msgid.link/20250208-asoc-tas2764-v1-4-dbab892a69b5@kernel.org
+snd_soc_dai_set_tdm_slot() calls .xlate_tdm_slot_mask() or
+snd_soc_xlate_tdm_slot_mask(), but didn't check its return value.
+Let's check it.
+
+This patch might break existing driver. In such case, let's makes
+each func to void instead of int.
+
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Link: https://patch.msgid.link/87o6z7yk61.wl-kuninori.morimoto.gx@renesas.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/tas2764.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/soc-dai.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index 58315eab492a1..bc0a73fc7ab41 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -634,6 +634,7 @@ static const struct reg_default tas2764_reg_defaults[] = {
- 	{ TAS2764_TDM_CFG2, 0x0a },
- 	{ TAS2764_TDM_CFG3, 0x10 },
- 	{ TAS2764_TDM_CFG5, 0x42 },
-+	{ TAS2764_INT_CLK_CFG, 0x19 },
- };
+diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
+index 4e08892d24c62..de09d21add453 100644
+--- a/sound/soc/soc-dai.c
++++ b/sound/soc/soc-dai.c
+@@ -275,10 +275,11 @@ int snd_soc_dai_set_tdm_slot(struct snd_soc_dai *dai,
  
- static const struct regmap_range_cfg tas2764_regmap_ranges[] = {
+ 	if (dai->driver->ops &&
+ 	    dai->driver->ops->xlate_tdm_slot_mask)
+-		dai->driver->ops->xlate_tdm_slot_mask(slots,
+-						      &tx_mask, &rx_mask);
++		ret = dai->driver->ops->xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
+ 	else
+-		snd_soc_xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
++		ret = snd_soc_xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
++	if (ret)
++		goto err;
+ 
+ 	for_each_pcm_streams(stream)
+ 		snd_soc_dai_tdm_mask_set(dai, stream, *tdm_mask[stream]);
+@@ -287,6 +288,7 @@ int snd_soc_dai_set_tdm_slot(struct snd_soc_dai *dai,
+ 	    dai->driver->ops->set_tdm_slot)
+ 		ret = dai->driver->ops->set_tdm_slot(dai, tx_mask, rx_mask,
+ 						      slots, slot_width);
++err:
+ 	return soc_dai_ret(dai, ret);
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_dai_set_tdm_slot);
 -- 
 2.39.5
 
