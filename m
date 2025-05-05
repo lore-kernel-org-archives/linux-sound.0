@@ -1,48 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30BA2BEC3A;
-	Mon,  5 May 2025 22:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA0A2D1104;
+	Mon,  5 May 2025 22:51:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485298; cv=none; b=dltP7LbYQZ/wOl/RdG0bHCtA/CuhxRB8cQGOnGFh9GO6QgKcjjMr8LWOHRbI4V8xBqwteVWLmBblCTlcQwJDkemr5kx607PzM3luXxL/xpZV1tQ+v7/vuymEfxrPH8AvEUo4AxoHYjnDrAzuHoHxlNYtDkLtk2YmLFfDhu7nefs=
+	t=1746485469; cv=none; b=B7HNiLRakNhFhkZ8mY9X+A3UthuHERNT6ZCLXoVNWjb2EIWSD39aUGjmoR7flSLImKpSe9MNZnxXh1U5gqY/Mfruv0yKn2KodPUHyc9AZiHFC7xHStxHDdzFH7v0ZTfjfnGxqkw1AWe9nJJDKInYmYYNxAyZs4w+ka3EG9NjvHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485298; c=relaxed/simple;
-	bh=LrT/BzsEdzbAPHh6GUB5YHHxutK4sZM6h/Bma2CUFEc=;
+	s=arc-20240116; t=1746485469; c=relaxed/simple;
+	bh=0p6a0dm0WZpDnUSrzP1TWMURgSuCGh+2SAPykeJYoGY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KIcqAq9APOuwufcPYIL2Myqw6u1C/Gxr1Nxw6NItxDKwWJPhGWxiETEawB8jnvx5wPiX6D2feT4u9Xire33kGGzN/4iCnS730ss3GIKNV9ABdeUkJfSeWOVknPEwtrg6WpAKmyz6hkrpdsZjy/azbPQCyDB2J/L9LZ7j3Xoj31o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gw69iT7o; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Ksi1ckMg+nleYuOmezPw5xKa221HqxI4ag/ymAnyLh5XX5yweSucczRodMfcTMqVEl/FxBB7wlVDZEt26ASttK+fF8iA9Q2zyE5Mc15RXZvUozn2eGmcV288zqlX41YsWlxT2Nsvk01jWo1hRXrmLJkhZux1kVsV30m0G0B08KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i71IipO/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gw69iT7o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B005C4CEE4;
-	Mon,  5 May 2025 22:48:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i71IipO/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA773C4CEE4;
+	Mon,  5 May 2025 22:51:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485298;
-	bh=LrT/BzsEdzbAPHh6GUB5YHHxutK4sZM6h/Bma2CUFEc=;
+	s=k20201202; t=1746485467;
+	bh=0p6a0dm0WZpDnUSrzP1TWMURgSuCGh+2SAPykeJYoGY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Gw69iT7o4mFM+wTDlWYCVt4l3YHe22+vENLsrhGFdMUUk7n2xC9yNxaN6ziKZ79Sj
-	 2lb2s+yrrj9hzuOB8fANslgyr1I8duwCdWK21lzFg8fUTLmErSVrDMIAWhFowYoFrW
-	 5GQJY8/uNgS96/bu0op9fqgvcjVsVSRmd/3qwhLcH3+80ZBYfn95roXS73nxe3eMfw
-	 z8w0p6OvUIJLwgy8e17lECEsptk8ZqbmjiZK5C72/HLlL9asHATjqUHUGY1VlBuVQQ
-	 Bkknqw40QzaaJnbDTWAc68i6jzXoEl83D9pia4aAZpA6erG4yO4IV1FLOTaQ/hK2PZ
-	 UaKl4PuXtS9sQ==
+	b=i71IipO/hpOSAr8wrZte69bo+HzOgIlkUKINLobRYW7BUrTJ58ndMDKVmuErDmt1C
+	 CF0wcK8D6mLC/n1Co1VbrChVhzNIppC0aCVNSW1r8FWibWOjPtkgnRM443Tcyok9Qm
+	 W555GvkajGsW1Z/1KowjKxwFC27fokJgDhbgw0vErfwLMGoR/3W2Ftn96+coIOVxeQ
+	 h6DwM1gzEGNONDB1/RBM//eWZ6Ah8fdU3AikKuStbUlUMmysTPBp/dnBcXgHHBw3FJ
+	 pCQIbIyDOKrNVFIfkZMe2ZxOzMZZV9cpTD03pBtv2ZoAOw5+nX7slMGfdekUbtYvjq
+	 CiaZCPfRae6Ow==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+Cc: Hector Martin <marcan@marcan.st>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	matthias.bgg@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 256/486] ASoC: mediatek: mt8188: Add reference for dmic clocks
-Date: Mon,  5 May 2025 18:35:32 -0400
-Message-Id: <20250505223922.2682012-256-sashal@kernel.org>
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 328/486] ASoC: tas2764: Mark SW_RESET as volatile
+Date: Mon,  5 May 2025 18:36:44 -0400
+Message-Id: <20250505223922.2682012-328-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
 References: <20250505223922.2682012-1-sashal@kernel.org>
@@ -52,69 +51,38 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.26
 Content-Transfer-Encoding: 8bit
 
-From: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+From: Hector Martin <marcan@marcan.st>
 
-[ Upstream commit bf1800073f4d55f08191b034c86b95881e99b6fd ]
+[ Upstream commit f37f1748564ac51d32f7588bd7bfc99913ccab8e ]
 
-Add the names for the dmic clocks, aud_afe_dmic* and aud_dmic_hires*, so
-they can be acquired and enabled by the platform driver.
+Since the bit is self-clearing.
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Link: https://patch.msgid.link/20250225-genio700-dmic-v2-2-3076f5b50ef7@collabora.com
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Link: https://patch.msgid.link/20250208-asoc-tas2764-v1-3-dbab892a69b5@kernel.org
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/mediatek/mt8188/mt8188-afe-clk.c | 8 ++++++++
- sound/soc/mediatek/mt8188/mt8188-afe-clk.h | 8 ++++++++
- 2 files changed, 16 insertions(+)
+ sound/soc/codecs/tas2764.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/mediatek/mt8188/mt8188-afe-clk.c b/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-index e69c1bb2cb239..7f411b8577823 100644
---- a/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-@@ -58,7 +58,15 @@ static const char *aud_clks[MT8188_CLK_NUM] = {
- 	[MT8188_CLK_AUD_ADC] = "aud_adc",
- 	[MT8188_CLK_AUD_DAC_HIRES] = "aud_dac_hires",
- 	[MT8188_CLK_AUD_A1SYS_HP] = "aud_a1sys_hp",
-+	[MT8188_CLK_AUD_AFE_DMIC1] = "aud_afe_dmic1",
-+	[MT8188_CLK_AUD_AFE_DMIC2] = "aud_afe_dmic2",
-+	[MT8188_CLK_AUD_AFE_DMIC3] = "aud_afe_dmic3",
-+	[MT8188_CLK_AUD_AFE_DMIC4] = "aud_afe_dmic4",
- 	[MT8188_CLK_AUD_ADC_HIRES] = "aud_adc_hires",
-+	[MT8188_CLK_AUD_DMIC_HIRES1] = "aud_dmic_hires1",
-+	[MT8188_CLK_AUD_DMIC_HIRES2] = "aud_dmic_hires2",
-+	[MT8188_CLK_AUD_DMIC_HIRES3] = "aud_dmic_hires3",
-+	[MT8188_CLK_AUD_DMIC_HIRES4] = "aud_dmic_hires4",
- 	[MT8188_CLK_AUD_I2SIN] = "aud_i2sin",
- 	[MT8188_CLK_AUD_TDM_IN] = "aud_tdm_in",
- 	[MT8188_CLK_AUD_I2S_OUT] = "aud_i2s_out",
-diff --git a/sound/soc/mediatek/mt8188/mt8188-afe-clk.h b/sound/soc/mediatek/mt8188/mt8188-afe-clk.h
-index ec53c171c170a..c6c78d684f3ee 100644
---- a/sound/soc/mediatek/mt8188/mt8188-afe-clk.h
-+++ b/sound/soc/mediatek/mt8188/mt8188-afe-clk.h
-@@ -54,7 +54,15 @@ enum {
- 	MT8188_CLK_AUD_ADC,
- 	MT8188_CLK_AUD_DAC_HIRES,
- 	MT8188_CLK_AUD_A1SYS_HP,
-+	MT8188_CLK_AUD_AFE_DMIC1,
-+	MT8188_CLK_AUD_AFE_DMIC2,
-+	MT8188_CLK_AUD_AFE_DMIC3,
-+	MT8188_CLK_AUD_AFE_DMIC4,
- 	MT8188_CLK_AUD_ADC_HIRES,
-+	MT8188_CLK_AUD_DMIC_HIRES1,
-+	MT8188_CLK_AUD_DMIC_HIRES2,
-+	MT8188_CLK_AUD_DMIC_HIRES3,
-+	MT8188_CLK_AUD_DMIC_HIRES4,
- 	MT8188_CLK_AUD_I2SIN,
- 	MT8188_CLK_AUD_TDM_IN,
- 	MT8188_CLK_AUD_I2S_OUT,
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index bc0a73fc7ab41..31f94c8cf2844 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -652,6 +652,7 @@ static const struct regmap_range_cfg tas2764_regmap_ranges[] = {
+ static bool tas2764_volatile_register(struct device *dev, unsigned int reg)
+ {
+ 	switch (reg) {
++	case TAS2764_SW_RST:
+ 	case TAS2764_INT_LTCH0 ... TAS2764_INT_LTCH4:
+ 	case TAS2764_INT_CLK_CFG:
+ 		return true;
 -- 
 2.39.5
 
