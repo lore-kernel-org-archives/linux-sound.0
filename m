@@ -1,51 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F20218EBA;
-	Tue,  6 May 2025 21:37:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4134C220F23;
+	Tue,  6 May 2025 21:37:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746567441; cv=none; b=SG3oUZUIWcl2W7PmgbbzTv5YEfzpE3pgRYyi/72uQHkIGAJHnslQ+nc4RCsRY3YW2fUYyf18vhlAS03w4G4OAFPBm2gqRSrpUkHwJWyXMLL6TULy5Rw8XrsbBg6He3HOfHCOucgLArn27YyJvrvky95QV5QYhYf3vKqMy52Bg0s=
+	t=1746567447; cv=none; b=DeDbfdOy+ExdW8OrhmCqFQgFX96+o8/DEW1Jp/QwL+Vr6/A9Kly5tDQ7XNm1Q9EH9eSn8WguMmA4YrtW1Jvneh+EJi+EX3jiuSZ60USBgkjh1eD150jI69MkY94FB5UCE9W0/byHzhs2apVg3Mx+zVrxI1I4IkLp3IJpYbiZ3GI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746567441; c=relaxed/simple;
-	bh=sDdNilLczBKLaYqH/j1+dAzPrmbkU/4O96N81w9WPAU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NgtAuk1s7NvsjcB91dNWchdWdk27/d/dAHoVtIrN7+JHDOQ4H8CnEDreo+aRO6dHT1rCd8tRmFy0OhERHveWNxRCehuZ/gIaHNQP6ZwDRvy8ChmtxQaIS4e5bAEPYk9SFm1hVqQRUoU5qa0NqHo+9wvMghJDVB+25lsFP/YpfeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GFll7MAC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746567447; c=relaxed/simple;
+	bh=nh5sgCwbmBgaLzSmEHQegDwA+CqYdpX911aZWYlNnE0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=g3ACoHyXAUkcLwwdohWFnzq1iOXa0Gr+22/+X215oN76nTOOckT3WMUS0wfOmQ0T2eHeL2j/agP8Q3WP/F88ChBVemjAn6OSg7mKJIHdNR8wD++4680uFR+NqCGJR0fR3aEqY0XaGOa79+12GQ7wRmAPScOiihBjYNVEXB1fS0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R0AqCLXx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GFll7MAC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21B88C4CEEE;
-	Tue,  6 May 2025 21:37:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R0AqCLXx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C04DCC4CEE4;
+	Tue,  6 May 2025 21:37:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746567439;
-	bh=sDdNilLczBKLaYqH/j1+dAzPrmbkU/4O96N81w9WPAU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=GFll7MACCfR30CYypbhc3YU4zQrW+sGnDisfzoH00p5OQqfXhoLJNyDslyTWzTgLm
-	 zPgsGJ8anCr08Gku7f6TkhgldVWZFs/OqbJMJ9NzCayW+cecVJqcZkVAp10KdCt3tY
-	 to1mgfK7BcuY4u8XX5Vyx4TEw2c5tL60UJhUQxYBC+zR4pDJQ5sdWmGu2202dlqvfB
-	 tytHH0PNHiHzbrV6g2Czm9q7Dr8N5QpLpzkYlOPhidBAHaJVezxvCLoRorE3w4rFlI
-	 WZUJHDEGrPV64ZTAamKTn12mtChhEmcejDop5wIoap5tTv6AoduUTcDWifmSZ20WIN
-	 4wtYG8frBy+/g==
+	s=k20201202; t=1746567447;
+	bh=nh5sgCwbmBgaLzSmEHQegDwA+CqYdpX911aZWYlNnE0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=R0AqCLXxhcv0eIM6+MFAJprogDjRi1VTlKjcJNaZclys2nofxUgcODiEPffYCKsC2
+	 bvYb54lPfK8P12PYvNXPPY8nhVzEh/MIbwuCbTbqPyl3aufq5kW/FkClS5yXjxMFRl
+	 6eqrXmIF/tuIYa+jlcRPk3Z5ca5TcHZGekhxlLKFqK/ZshmwQHd7IIf2KOWR0jp9cG
+	 9jCVj2Pmzwt9iLgjCkQ+VroFL/P2kRJC7Bnj8QjMboqH70cR4kLOntj6BXkBsE3tPt
+	 5gi4/JfhNsxkIAajs7KftWf6P1tp3YOukU3xKCAamGqiIfzFlmlbafb0utbcnPKtNX
+	 DeU8EF8R4Hkag==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Chenyuan Yang <chenyuan0y@gmail.com>,
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	lgirdwood@gmail.com,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	shawnguo@kernel.org,
+	hdegoede@redhat.com,
+	pierre-louis.bossart@linux.dev,
+	u.kleine-koenig@baylibre.com,
+	kuninori.morimoto.gx@renesas.com,
+	tomlohave@gmail.com,
 	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 1/6] ASoC: imx-card: Adjust over allocation of memory in imx_card_parse_of()
-Date: Tue,  6 May 2025 17:37:09 -0400
-Message-Id: <20250506213714.2983569-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 3/6] ASoC: Intel: bytcr_rt5640: Add DMI quirk for Acer Aspire SW3-013
+Date: Tue,  6 May 2025 17:37:11 -0400
+Message-Id: <20250506213714.2983569-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250506213714.2983569-1-sashal@kernel.org>
+References: <20250506213714.2983569-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,37 +64,46 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.137
 Content-Transfer-Encoding: 8bit
 
-From: Chenyuan Yang <chenyuan0y@gmail.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit a9a69c3b38c89d7992fb53db4abb19104b531d32 ]
+[ Upstream commit a549b927ea3f5e50b1394209b64e6e17e31d4db8 ]
 
-Incorrect types are used as sizeof() arguments in devm_kcalloc().
-It should be sizeof(dai_link_data) for link_data instead of
-sizeof(snd_soc_dai_link).
+Acer Aspire SW3-013 requires the very same quirk as other Acer Aspire
+model for making it working.
 
-This is found by our static analysis tool.
-
-Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
-Link: https://patch.msgid.link/20250406210854.149316-1-chenyuan0y@gmail.com
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220011
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://patch.msgid.link/20250420085716.12095-1-tiwai@suse.de
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/fsl/imx-card.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/intel/boards/bytcr_rt5640.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
-index c6d55b21f9496..11430f9f49968 100644
---- a/sound/soc/fsl/imx-card.c
-+++ b/sound/soc/fsl/imx-card.c
-@@ -517,7 +517,7 @@ static int imx_card_parse_of(struct imx_card_data *data)
- 	if (!card->dai_link)
- 		return -ENOMEM;
- 
--	data->link_data = devm_kcalloc(dev, num_links, sizeof(*link), GFP_KERNEL);
-+	data->link_data = devm_kcalloc(dev, num_links, sizeof(*link_data), GFP_KERNEL);
- 	if (!data->link_data)
- 		return -ENOMEM;
- 
+diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
+index 67b343632a10d..b00a9fdd7a9cc 100644
+--- a/sound/soc/intel/boards/bytcr_rt5640.c
++++ b/sound/soc/intel/boards/bytcr_rt5640.c
+@@ -576,6 +576,19 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
+ 					BYT_RT5640_SSP0_AIF2 |
+ 					BYT_RT5640_MCLK_EN),
+ 	},
++	{       /* Acer Aspire SW3-013 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire SW3-013"),
++		},
++		.driver_data = (void *)(BYT_RT5640_DMIC1_MAP |
++					BYT_RT5640_JD_SRC_JD2_IN4N |
++					BYT_RT5640_OVCD_TH_2000UA |
++					BYT_RT5640_OVCD_SF_0P75 |
++					BYT_RT5640_DIFF_MIC |
++					BYT_RT5640_SSP0_AIF1 |
++					BYT_RT5640_MCLK_EN),
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
 -- 
 2.39.5
 
