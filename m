@@ -1,187 +1,160 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2058.outbound.protection.outlook.com [40.107.100.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F8727EC69
-	for <linux-sound@vger.kernel.org>; Tue,  6 May 2025 12:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746533257; cv=none; b=YYoyuOcQAct8V7NS4CTvwcbN7+Gk4UAngDeSAVAW/D8/YeFcw7XV/K0nlSnC9EeSKG8tmwWZR5JWG8O2H2WzP/WTYFlR+UEcfGsn72ozh1kvgaP+41fFlnTILMjzcghRb/OgfScpkTxEAXoqQRIvS0+iCKiwPucNROMN9KV801A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746533257; c=relaxed/simple;
-	bh=SeRmzyMcT6JX37/ImDnhvHk8HNSqfqzsFYexZDstrTc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Y2Png2/OhKb6fcTIRClrigqQDTOVgj0KYvjuc1vGSJwRmmTHAOSwFyB8WP1YzIZhXIEgZzHqjGadbJMRLrNaMzrA3wUpUL+5qSwC5x2D+Zq4bTG9F/avs3mmFvBc2gcOJGiXPD9Q3gROlkw2I4lkC8r7bD8Rot6HVObwwbk93ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=cusdtxba; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BFA27F160;
+	Tue,  6 May 2025 12:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746533330; cv=fail; b=BR00TD/oK86f/c37o4k9+mjdfCHZ13d64saprhSFxe1hfUMuVia4pFD3QWKY8NZzo7Qew/j4cBjFUvs6OU9UD4wsKvXWitt4pdUmgInyk9+64sOt4apTk+j8DBmG/yxgfubBvzZ7ttDOfm76sbmQ+rbtmzm6Byeysoqw+YW/lFQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746533330; c=relaxed/simple;
+	bh=fcpiLCuu0BdAH8f5Enc/2RCxoVKdwU0i3PWkQv7MRTY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W1+wEOFhoy3Sr1r/drOkp9UnanGI8eZBe0dp8Kn16QGX7+nZ0+E3HpJMqKBj9gvQqJTLrXo9NberoV2WQJMli2ZpJtOJlnXY8SbM3DsF5U7TDdoMHwzdK9pmAPNrR5joKDdTKpccnYluEOsmBn6P40N8YgO7zX/49dcKcnWnXp0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0mLb1Cet; arc=fail smtp.client-ip=40.107.100.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="cusdtxba"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5f861d16622so9618576a12.2
-        for <linux-sound@vger.kernel.org>; Tue, 06 May 2025 05:07:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1746533252; x=1747138052; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M7v7vpdvOuhIP8be0gZZCUIgIPmqxbVGMYXTijnoryU=;
-        b=cusdtxbaM55uSkeGT6mg39KJxRPo+aL8KfVGdhhHfRpJhL8wfwON1RPyv7yi1LPyqL
-         nmnLp/IHdUnnG7l6n3DW1CyN2n649CiPCxGhxTcWCEgklVcvTor0muHnbd+a9KcKy6Gd
-         P+JPojGHdB982humWyFyvtzX4UFEWlIwKOVmRam9QdaZKCtDyuQLRCaRmkaun4fsyK5J
-         NuVVHnFAEjQuZA7y+qnmJRIkB8tm11aflTU7BRrkOVRLrveyqOYmonzoNKUQtLYkQuLN
-         r1b8IwWSSJv1jvwHfwPHvH98CqwlAxcQKYsO6SxzZCkYpZS9e6w4zqvHdWUYLgPZG14s
-         h0rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746533252; x=1747138052;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=M7v7vpdvOuhIP8be0gZZCUIgIPmqxbVGMYXTijnoryU=;
-        b=YdTbLHCALh6RJK7mJQX2lK/GZUJ83wzqZZtmdxoXmEzwkn7BcXnfRVYS6QC/M7raqm
-         uwaOQ8sKxYPo9e5VxD5w6oE+Mqpi32RfV0JZSPsnGUKhswZk71Xs8/xg3YHVo1v+FNd1
-         OvYV433mj89vs29pM5HoxOYQ6x2Vh4noTMuAQjXRQZmUdwjdW+bJNMVgU0R4jutu+ToZ
-         NPkZHzUOZjpRjJlSq7zHzBkk94nnb5Ec1iOJZr5h3ZLs3CHx+fsCDWzBDNgxr2jn9qlp
-         vHvfz2FrvdTcJEppz7kmRsM7wZolvwnO0NovzHzi1GEBA5HXNhIUroYLnrYvXruXGQ6w
-         sHzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXJDThn4E80Y3rnzT/9R3m3sua2yZgV/GQlALSqOuKkJcOFYEW++ODHA0tlY/g8zhVybvTf0DApTq0XeQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6en2t5/57PHfSBAlVEztnie8eMEKlYgtmx0veTOPkcDY/fohR
-	x4J3IvIp9kSpJbtRdtu2REw0D4KMHWKMe8TnNlRVF2NT8Cf6nEoLi+mJgDjf0Hs=
-X-Gm-Gg: ASbGncsVBOtGztyC4h4tSBsmmqGUZ+Kxy9w3hSbYC8xS1YnfG2+3D3eWq4xAW0CCZe5
-	iOE40znbo4bQUxNcFLzaI+x7lLG0FesXVKxzhZEbBPhTkqU1rTRimaXgM8vpw8B3kx0eoXmiVMH
-	lyr2XuOSIGIV3+VNRpQvsyiIFemucIQwolXNxoJ25m+VmfVRCbaS/fGO2DQ2CdEAUjgZ46Mt8Nu
-	LwHZSgMI303EmojaxqvjeAx/eYSejijxRzdmAPVTbgpERjkLeBzQPzPApRctiCUCQNi5BtgzUu6
-	GHdaIj5a3mItNAClqsLkJxVxgDpx4cj4EsYeJ2vhjQy3Pr19kRcFMZWP8P9KfLVsFtnLHZ62CY9
-	HV04Lsw8Sq+2f8W8oPDDoW1SaR0kDaSDj6jCfj5Vg0mErMFohyg==
-X-Google-Smtp-Source: AGHT+IFBdvqmi68ta2wRWiT+FRzasDJ5pBCULv7R/+BuR+Ax+JNv4/CaLyds47/kxsM107rKwn7PFw==
-X-Received: by 2002:a17:907:868e:b0:ac2:49b1:166f with SMTP id a640c23a62f3a-ad1a4b36f20mr1047373266b.52.1746533251536;
-        Tue, 06 May 2025 05:07:31 -0700 (PDT)
-Received: from localhost (2001-1c00-3b8a-ea00-c4de-d39d-05f4-c77a.cable.dynamic.v6.ziggo.nl. [2001:1c00:3b8a:ea00:c4de:d39d:5f4:c77a])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad1891a5e1dsm704170466b.55.2025.05.06.05.07.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 May 2025 05:07:31 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0mLb1Cet"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LG8OQNNzj/3TOgEOhe4hDlgtiKGCo5g0mOvUfagvZjogwQRl99H7B6N4pq5CA3A22D/h0Srnq2oGlnrrze6XeEQ4Kh1KEGmJ8/npbtFcYsy6aBNgxOmZ6d5YH6tzZIq5kUmICL7m/WAg8joiXll8z6l9ZhMhM1HouLaTrTQMOyRtMZt3rlx6P8p8quAr+fZk+DxnqCQs1D7AKVQIsNT0JO55s1FovnxqY5kYUYcr/D2s+2NEaxNEQvPHKwoHInrGBRiJo+bSTZ8IDXOHUEdisTKR6BN5ZG7lQavaom25sxzuqNbuU4fVj1pjK+US5pq2ai1zChdWx7hLTaxbx4K8lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uCJX/TqYaAGpcCEhnuUkKbGhdTdBr7ryb3GY7ZSVT/s=;
+ b=yLT/dt29lnxFSullNqFhnJCnkoSVq+QhqcGEdPwTaX5iWRZz3hqDDPXaKfEZFAUSwu8pdH7D5/xhSk9/rT0oNOU/3HWAg/iaXDc/LfDVRaOsrerZlprVDFU5ilzqk4JGEfZp8FKAZM55kM/MdcZ0r6+WSAhabhK8cEmt2ojwygdFvUWPrnt9NIZtG3NJqVY3hsqTEYgMbgUEdF4oJbkeYWe5zXuEzq43iSOfdnRQ1GmvZIBGRC2uyFEYMmstFYyKCAdDqAUxTiouM1yqjMzVDk+GnWkOPP43ymXHrc9ttUqsp46qipuTGM0hAP1JTGNIXd9ywM6DoxaloTYLwsPfzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uCJX/TqYaAGpcCEhnuUkKbGhdTdBr7ryb3GY7ZSVT/s=;
+ b=0mLb1CetHC3i7oHcWJWus6y3SEYC9EmuJF/Ar6vboQzyvDvK6O0GHiRRFJkzcpvJ3jfME/yGfIBHv4Apq8AEl2u/0cw/1g15G46MLwZFYJeFMk8nB1fGaMtWUs8dVb2QjK1mB08hNso6ZngLTnyuQFyCYQq0yBid+A1vvaL1c+Y=
+Received: from MW4PR03CA0282.namprd03.prod.outlook.com (2603:10b6:303:b5::17)
+ by CY5PR12MB6178.namprd12.prod.outlook.com (2603:10b6:930:25::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.22; Tue, 6 May
+ 2025 12:08:40 +0000
+Received: from CO1PEPF000075F1.namprd03.prod.outlook.com
+ (2603:10b6:303:b5:cafe::17) by MW4PR03CA0282.outlook.office365.com
+ (2603:10b6:303:b5::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.30 via Frontend Transport; Tue,
+ 6 May 2025 12:08:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000075F1.mail.protection.outlook.com (10.167.249.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8722.18 via Frontend Transport; Tue, 6 May 2025 12:08:39 +0000
+Received: from vijendar-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 6 May
+ 2025 07:08:34 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <yung-chuan.liao@linux.intel.com>,
+	<ranjani.sridharan@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <Mario.Limonciello@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>, <stable@vger.kernel.org>
+Subject: [PATCH 1/3] ASoC: amd: amd_sdw: Fix unlikely uninitialized variable use in create_sdw_dailinks()
+Date: Tue, 6 May 2025 17:37:22 +0530
+Message-ID: <20250506120823.3621604-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 06 May 2025 14:07:30 +0200
-Message-Id: <D9P2D6PG7420.N4T2UBGAOFMR@fairphone.com>
-Cc: "Banajit Goswami" <bgoswami@quicinc.com>, "Liam Girdwood"
- <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>, "Bjorn Andersson" <andersson@kernel.org>, "Konrad
- Dybcio" <konradybcio@kernel.org>, <phone-devel@vger.kernel.org>,
- <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 2/5] ASoC: qcom: sm8250: set card driver name from
- match data
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Luca
- Weiss" <luca@lucaweiss.eu>, <~postmarketos/upstreaming@lists.sr.ht>,
- "Srinivas Kandagatla" <srini@kernel.org>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com>
- <20250425-fp5-dp-sound-v3-2-7cb45180091b@fairphone.com>
- <aBNdCRk_fP2q1vxQ@srini-hackbase>
- <91110CA9-6E83-4811-AA04-C0312B99B95E@lucaweiss.eu>
- <0d094cec-0a2e-4e21-845f-977f3a77993d@oss.qualcomm.com>
-In-Reply-To: <0d094cec-0a2e-4e21-845f-977f3a77993d@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000075F1:EE_|CY5PR12MB6178:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f87ed55-99be-4a0c-07b4-08dd8c96bcd1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|36860700013|82310400026|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?sXry+cZIyEmViLdqtThJReDMsRxKKWDJbQ8Uu3+y2bObXrZDqJkfjyHtEPxP?=
+ =?us-ascii?Q?nP6NiEBPKOeOelDREjOir5SV4W3InAJGZLlbr4CQwgbzwyT1eRKogAKoEEKr?=
+ =?us-ascii?Q?yJ9hBQNjhRznSxg0wdZXMnjzSlLGmLoCTrd2otgkEFx7n+IHMcl/YCuvxOBm?=
+ =?us-ascii?Q?Mk6RlI/01TYF67vyEONuO8EVdelmHBxzph4OZM4bWHg6fKJGH5/e72SLEb+J?=
+ =?us-ascii?Q?4Xg+uPJIPIOMP5pn/KZwsNCOcwvWuo08YMmg2X3amP7OYuVfY4/xOTzXwG/6?=
+ =?us-ascii?Q?NicbduFLrLIVWfgvLMYIWbajdLUVJsaIEDeMTFqY58aIAScArGgahtwrsOhz?=
+ =?us-ascii?Q?mVMf2zUeRSoXpfMU7KVeZ1v+AuqCl51PtPbgR70kzckmD6KSmd4lP83XCaOi?=
+ =?us-ascii?Q?Btoewd0laXJkto1kS1cmb4ZpDc3XhxW45rk17Tt6B/2DaMT2nMdeE4BXA7r4?=
+ =?us-ascii?Q?UL+to4JDWDmyZPIF3rx/OCg5lirDYMJODsNHI4eyXIgo3/gCOKC+tYApUNrp?=
+ =?us-ascii?Q?K0tpKMIBdtHY0DelCvmVV7uweNsfgRK2ouNgdjTYniN1vNrs6joFu9C2Pzc3?=
+ =?us-ascii?Q?9MkBKcaCmN5WXIKFbQ21TvS2/+Fx1PE8WHJBpGxPyq6G8S4d1QW84CmQ7kGH?=
+ =?us-ascii?Q?ivw75NrsxKTR7HHwDVjbO2YuKhChbfOAtZfKpLUbnGijSBzUhPlEB+Qi0v47?=
+ =?us-ascii?Q?sjTnwHhU3TrsdeuaSPBfwNnowdEcmqZl+MdEOYtC9t7XYEUHwE8uzKL4LKrr?=
+ =?us-ascii?Q?TuMHc6sEfzfalW2dnU7AWuivlhdXIACiI6C/vk9xDUyP7ppsdhM8wgpYRCYY?=
+ =?us-ascii?Q?IbJ5ma71cmpS2lAw3+tA0qRxDOezX3Hf93y1p31PWWKy5/aksB5wd52ppdjm?=
+ =?us-ascii?Q?JBQuQIUXS1AiUuUXXdQorMC5IULeqgKaT5yF4QRCgsVfS7+yLRLg6G2/hTUT?=
+ =?us-ascii?Q?OOc1ME2IQZsu4RHDhBJFDxB8TKESuaB4NQpXcTAvzK7sz08UnDYRsyiUOQnx?=
+ =?us-ascii?Q?spcsp22LNwPtuBQcM3tBCuTJaHXbyoFUsZqKE4sJjga8/Q4pUeJ/xw2DBUP6?=
+ =?us-ascii?Q?THIefeMM8zhPVSZUXn0zazMA/icsRwGA/MymxjySvbXPfyzD5Y2M7+s9X35Q?=
+ =?us-ascii?Q?mXSGp8Stj30kJkFq9r5rBgTHKJ0u3kf3It3gKcm2QCMW98JvAc6S+eeNX2OK?=
+ =?us-ascii?Q?qkoJlB+HI7DPOdk6Mg+IZlfWZ3cO83Sqaqs+e1qgVRYTOq/MAdmpOVcX6+0r?=
+ =?us-ascii?Q?4LSD8xvdpojSwncZVcw7RbVuSLmKt6eQ+OyDEJra1WeZkwXnQKJy7EePiJwE?=
+ =?us-ascii?Q?o5zogrWpUSgFw2Em1mN6qV3ip8SoOAsoX2y0amhJNYn7mp8AeNVIzzY9rhYq?=
+ =?us-ascii?Q?o8EhiiZroiDZsa1wZ1Duy0uODnTHFlvl8IlV9rWpxwiH7UW93wrxdQ4Ezpvk?=
+ =?us-ascii?Q?d+nd2s4SIIVwD+xGYQ+p79EL+ygVqqTy9duS3ETyTJFUpKY+aR9A1xw2px31?=
+ =?us-ascii?Q?BIPlHG1IP9BNDfILWifEOoTmZ8WKbgz7pRKv?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 12:08:39.5823
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f87ed55-99be-4a0c-07b4-08dd8c96bcd1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000075F1.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6178
 
-Hi Srini,
+Initialize current_be_id to 0 in AMD legacy stack(NO DSP enabled) SoundWire
+generic machine driver code to handle the unlikely case when there are no
+devices connected to a DAI.
 
-On Fri May 2, 2025 at 1:06 PM CEST, Srinivas Kandagatla wrote:
-> On 5/1/25 15:13, Luca Weiss wrote:
->> Hi Srini,
->>=20
->> Srinivas Kandagatla <srini@kernel.org> schreef op 1 mei 2025 13:37:45 CE=
-ST:
->>> On Fri, Apr 25, 2025 at 10:07:26AM +0200, Luca Weiss wrote:
->>>> Sound machine drivers for Qualcomm SoCs can be reused across multiple
->>>> SoCs. But user space ALSA UCM files depend on the card driver name whi=
-ch
->>>> should be set per board/SoC.
->>>>
->>>> Allow such customization by using driver match data as sound card driv=
-er
->>>> name.
->>>>
->>>> Also while we're already touching these lines, sort the compatibles
->>>> alphabetically.
->>>>
->>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>>> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->>>> ---
->>>>  sound/soc/qcom/sm8250.c | 9 ++++-----
->>>>  1 file changed, 4 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
->>>> index b70b2a5031dfbf69024666f8a1049c263efcde0a..e920b413b762c803cfcc40=
-49f35deba828275478 100644
->>>> --- a/sound/soc/qcom/sm8250.c
->>>> +++ b/sound/soc/qcom/sm8250.c
->>>> @@ -16,7 +16,6 @@
->>>>  #include "usb_offload_utils.h"
->>>>  #include "sdw.h"
->>>> =20
->>>> -#define DRIVER_NAME		"sm8250"
->>>>  #define MI2S_BCLK_RATE		1536000
->>>> =20
->>>>  struct sm8250_snd_data {
->>>> @@ -200,15 +199,15 @@ static int sm8250_platform_probe(struct platform=
-_device *pdev)
->>>>  	if (ret)
->>>>  		return ret;
->>>> =20
->>>> -	card->driver_name =3D DRIVER_NAME;
->>>> +	card->driver_name =3D of_device_get_match_data(dev);
->>>>  	sm8250_add_be_ops(card);
->>>>  	return devm_snd_soc_register_card(dev, card);
->>>>  }
->>>> =20
->>>>  static const struct of_device_id snd_sm8250_dt_match[] =3D {
->>>> -	{.compatible =3D "qcom,sm8250-sndcard"},
->>>> -	{.compatible =3D "qcom,qrb4210-rb2-sndcard"},
->>>> -	{.compatible =3D "qcom,qrb5165-rb5-sndcard"},
->>>> +	{ .compatible =3D "qcom,qrb4210-rb2-sndcard", .data =3D "sm8250" },
->>>
->>> sm4250 for rb2?
->>=20
->> Since this name is visible to user space and used for picking the UCM co=
-nfig, I don't think it's a good idea to change it.
->>=20
-> It is not correct to pretend that rb2 is sm8250 for ucm cases, I agree pr=
-evious code was
-> already doing this, Good thing is that we do not have a ucm written yet f=
-or RB2.
->
-> Lets fix this as you are already doing this for other compatibles.
+In this case create_sdw_dailink() would return without touching the passed
+pointer to current_be_id.
 
-Okay, will change this in v4.
+Found by gcc -fanalyzer
 
-Regards
-Luca
+Cc: stable@vger.kernel.org
+Fixes: 2981d9b0789c4 ("ASoC: amd: acp: add soundwire machine driver for legacy stack")
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> --srini
->
->> Regards
->> Luca
->>=20
->>>
->>>> +	{ .compatible =3D "qcom,qrb5165-rb5-sndcard", .data =3D "sm8250" },
->>>> +	{ .compatible =3D "qcom,sm8250-sndcard", .data =3D "sm8250" },
->>>>  	{}
->>>>  };
->>>> =20
->>>>
->>>> --=20
->>>> 2.49.0
->>>>
+diff --git a/sound/soc/amd/acp/acp-sdw-legacy-mach.c b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
+index 2020c5cfb3d5..582c68aee6e5 100644
+--- a/sound/soc/amd/acp/acp-sdw-legacy-mach.c
++++ b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
+@@ -272,7 +272,7 @@ static int create_sdw_dailinks(struct snd_soc_card *card,
+ 
+ 	/* generate DAI links by each sdw link */
+ 	while (soc_dais->initialised) {
+-		int current_be_id;
++		int current_be_id = 0;
+ 
+ 		ret = create_sdw_dailink(card, soc_dais, dai_links,
+ 					 &current_be_id, codec_conf, sdw_platform_component);
+-- 
+2.45.2
 
