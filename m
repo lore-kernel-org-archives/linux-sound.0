@@ -1,104 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9DC182B4
-	for <linux-sound@vger.kernel.org>; Tue,  6 May 2025 11:33:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F8727EC69
+	for <linux-sound@vger.kernel.org>; Tue,  6 May 2025 12:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746531232; cv=none; b=aZC+++5JjVlONj9jVGf4JCXCQBAisyaY16okk1/RZy2KHSHf8udmK7pCOnbTRLjd5UxT6EntPBo9y3eV5xy59Z7gTZO+Z3zSGaBzS8icw/Bu+h0/O2hWH5yAA0DCTtMUTnc+L+RZv+7MdW1/K7CFV3AWcL7uejQkygmubLsvPoo=
+	t=1746533257; cv=none; b=YYoyuOcQAct8V7NS4CTvwcbN7+Gk4UAngDeSAVAW/D8/YeFcw7XV/K0nlSnC9EeSKG8tmwWZR5JWG8O2H2WzP/WTYFlR+UEcfGsn72ozh1kvgaP+41fFlnTILMjzcghRb/OgfScpkTxEAXoqQRIvS0+iCKiwPucNROMN9KV801A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746531232; c=relaxed/simple;
-	bh=EoTVqSBSvlkMuSA9Kb1jEnW8BtyM4ME9lf15d/TqwZE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Rlf3HwKaMGvBnenDQGhlWqUCAR5NQbec3uubNgT149Nj+z4zyM/afM0Upmtxcrtza8GcrtTVAxkSc8wXpnpyOvCoeSaGW6N7aWsDS5o/T5Mp2nfXx83epdB0ukB2H6AldKgCxOrkJXcUpBw59EZwjcQ+w0oBx47RU/Eahs7iKPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WSEMnoTo; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1746533257; c=relaxed/simple;
+	bh=SeRmzyMcT6JX37/ImDnhvHk8HNSqfqzsFYexZDstrTc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Y2Png2/OhKb6fcTIRClrigqQDTOVgj0KYvjuc1vGSJwRmmTHAOSwFyB8WP1YzIZhXIEgZzHqjGadbJMRLrNaMzrA3wUpUL+5qSwC5x2D+Zq4bTG9F/avs3mmFvBc2gcOJGiXPD9Q3gROlkw2I4lkC8r7bD8Rot6HVObwwbk93ZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=cusdtxba; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WSEMnoTo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746531231; x=1778067231;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EoTVqSBSvlkMuSA9Kb1jEnW8BtyM4ME9lf15d/TqwZE=;
-  b=WSEMnoTobR+3hFzMlhYJVNcegbxMVfDz4LO2F9dVEDHLfuXckiTiLvZL
-   xET3xgaviId7X6jvIo3pl91zPRnTz42wfwHXb6AZYPIk+ulM3kxG8qbNk
-   EMopoLBgy1S75bKVJzRyJwnFfh4w51Q8p2yikk5PiSeOML5Q7P0uKZ+kI
-   49vFt7Pkbj/9d4B+LVHMp9QEc6+JQGDw/OZtjtsX5c4wsP5TiTouPjI4x
-   Az5CzPpQLys0vUBAl01t471EtAixCQk1mMHnrL1XN5UUS5BrlkedibZMh
-   BIkngJ2jrZqBmX5ecweHAT7ZUhzi0pyLe0UG1z4vc/Ct4riprtfzb7Izl
-   g==;
-X-CSE-ConnectionGUID: ymdkWxAETUmugPOb28qzXg==
-X-CSE-MsgGUID: oczWx1hIQn+KhQ5DapYTyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48101940"
-X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="48101940"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 04:33:35 -0700
-X-CSE-ConnectionGUID: xBHV638iRv+fY3iRKENdFQ==
-X-CSE-MsgGUID: uShsLxtsQQ+x86ilZcBIBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="135478532"
-Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.119.31])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 04:33:30 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH 3/3] ASoC: SOF: add disable_function_topology module parameter
-Date: Tue,  6 May 2025 19:33:10 +0800
-Message-ID: <20250506113311.45487-4-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250506113311.45487-1-yung-chuan.liao@linux.intel.com>
-References: <20250506113311.45487-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="cusdtxba"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5f861d16622so9618576a12.2
+        for <linux-sound@vger.kernel.org>; Tue, 06 May 2025 05:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1746533252; x=1747138052; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M7v7vpdvOuhIP8be0gZZCUIgIPmqxbVGMYXTijnoryU=;
+        b=cusdtxbaM55uSkeGT6mg39KJxRPo+aL8KfVGdhhHfRpJhL8wfwON1RPyv7yi1LPyqL
+         nmnLp/IHdUnnG7l6n3DW1CyN2n649CiPCxGhxTcWCEgklVcvTor0muHnbd+a9KcKy6Gd
+         P+JPojGHdB982humWyFyvtzX4UFEWlIwKOVmRam9QdaZKCtDyuQLRCaRmkaun4fsyK5J
+         NuVVHnFAEjQuZA7y+qnmJRIkB8tm11aflTU7BRrkOVRLrveyqOYmonzoNKUQtLYkQuLN
+         r1b8IwWSSJv1jvwHfwPHvH98CqwlAxcQKYsO6SxzZCkYpZS9e6w4zqvHdWUYLgPZG14s
+         h0rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746533252; x=1747138052;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=M7v7vpdvOuhIP8be0gZZCUIgIPmqxbVGMYXTijnoryU=;
+        b=YdTbLHCALh6RJK7mJQX2lK/GZUJ83wzqZZtmdxoXmEzwkn7BcXnfRVYS6QC/M7raqm
+         uwaOQ8sKxYPo9e5VxD5w6oE+Mqpi32RfV0JZSPsnGUKhswZk71Xs8/xg3YHVo1v+FNd1
+         OvYV433mj89vs29pM5HoxOYQ6x2Vh4noTMuAQjXRQZmUdwjdW+bJNMVgU0R4jutu+ToZ
+         NPkZHzUOZjpRjJlSq7zHzBkk94nnb5Ec1iOJZr5h3ZLs3CHx+fsCDWzBDNgxr2jn9qlp
+         vHvfz2FrvdTcJEppz7kmRsM7wZolvwnO0NovzHzi1GEBA5HXNhIUroYLnrYvXruXGQ6w
+         sHzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXJDThn4E80Y3rnzT/9R3m3sua2yZgV/GQlALSqOuKkJcOFYEW++ODHA0tlY/g8zhVybvTf0DApTq0XeQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6en2t5/57PHfSBAlVEztnie8eMEKlYgtmx0veTOPkcDY/fohR
+	x4J3IvIp9kSpJbtRdtu2REw0D4KMHWKMe8TnNlRVF2NT8Cf6nEoLi+mJgDjf0Hs=
+X-Gm-Gg: ASbGncsVBOtGztyC4h4tSBsmmqGUZ+Kxy9w3hSbYC8xS1YnfG2+3D3eWq4xAW0CCZe5
+	iOE40znbo4bQUxNcFLzaI+x7lLG0FesXVKxzhZEbBPhTkqU1rTRimaXgM8vpw8B3kx0eoXmiVMH
+	lyr2XuOSIGIV3+VNRpQvsyiIFemucIQwolXNxoJ25m+VmfVRCbaS/fGO2DQ2CdEAUjgZ46Mt8Nu
+	LwHZSgMI303EmojaxqvjeAx/eYSejijxRzdmAPVTbgpERjkLeBzQPzPApRctiCUCQNi5BtgzUu6
+	GHdaIj5a3mItNAClqsLkJxVxgDpx4cj4EsYeJ2vhjQy3Pr19kRcFMZWP8P9KfLVsFtnLHZ62CY9
+	HV04Lsw8Sq+2f8W8oPDDoW1SaR0kDaSDj6jCfj5Vg0mErMFohyg==
+X-Google-Smtp-Source: AGHT+IFBdvqmi68ta2wRWiT+FRzasDJ5pBCULv7R/+BuR+Ax+JNv4/CaLyds47/kxsM107rKwn7PFw==
+X-Received: by 2002:a17:907:868e:b0:ac2:49b1:166f with SMTP id a640c23a62f3a-ad1a4b36f20mr1047373266b.52.1746533251536;
+        Tue, 06 May 2025 05:07:31 -0700 (PDT)
+Received: from localhost (2001-1c00-3b8a-ea00-c4de-d39d-05f4-c77a.cable.dynamic.v6.ziggo.nl. [2001:1c00:3b8a:ea00:c4de:d39d:5f4:c77a])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad1891a5e1dsm704170466b.55.2025.05.06.05.07.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 May 2025 05:07:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Tue, 06 May 2025 14:07:30 +0200
+Message-Id: <D9P2D6PG7420.N4T2UBGAOFMR@fairphone.com>
+Cc: "Banajit Goswami" <bgoswami@quicinc.com>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, "Bjorn Andersson" <andersson@kernel.org>, "Konrad
+ Dybcio" <konradybcio@kernel.org>, <phone-devel@vger.kernel.org>,
+ <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 2/5] ASoC: qcom: sm8250: set card driver name from
+ match data
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Luca
+ Weiss" <luca@lucaweiss.eu>, <~postmarketos/upstreaming@lists.sr.ht>,
+ "Srinivas Kandagatla" <srini@kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com>
+ <20250425-fp5-dp-sound-v3-2-7cb45180091b@fairphone.com>
+ <aBNdCRk_fP2q1vxQ@srini-hackbase>
+ <91110CA9-6E83-4811-AA04-C0312B99B95E@lucaweiss.eu>
+ <0d094cec-0a2e-4e21-845f-977f3a77993d@oss.qualcomm.com>
+In-Reply-To: <0d094cec-0a2e-4e21-845f-977f3a77993d@oss.qualcomm.com>
 
-User can disable the loading function topology feature.
+Hi Srini,
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/sof/topology.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+On Fri May 2, 2025 at 1:06 PM CEST, Srinivas Kandagatla wrote:
+> On 5/1/25 15:13, Luca Weiss wrote:
+>> Hi Srini,
+>>=20
+>> Srinivas Kandagatla <srini@kernel.org> schreef op 1 mei 2025 13:37:45 CE=
+ST:
+>>> On Fri, Apr 25, 2025 at 10:07:26AM +0200, Luca Weiss wrote:
+>>>> Sound machine drivers for Qualcomm SoCs can be reused across multiple
+>>>> SoCs. But user space ALSA UCM files depend on the card driver name whi=
+ch
+>>>> should be set per board/SoC.
+>>>>
+>>>> Allow such customization by using driver match data as sound card driv=
+er
+>>>> name.
+>>>>
+>>>> Also while we're already touching these lines, sort the compatibles
+>>>> alphabetically.
+>>>>
+>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>>>> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+>>>> ---
+>>>>  sound/soc/qcom/sm8250.c | 9 ++++-----
+>>>>  1 file changed, 4 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
+>>>> index b70b2a5031dfbf69024666f8a1049c263efcde0a..e920b413b762c803cfcc40=
+49f35deba828275478 100644
+>>>> --- a/sound/soc/qcom/sm8250.c
+>>>> +++ b/sound/soc/qcom/sm8250.c
+>>>> @@ -16,7 +16,6 @@
+>>>>  #include "usb_offload_utils.h"
+>>>>  #include "sdw.h"
+>>>> =20
+>>>> -#define DRIVER_NAME		"sm8250"
+>>>>  #define MI2S_BCLK_RATE		1536000
+>>>> =20
+>>>>  struct sm8250_snd_data {
+>>>> @@ -200,15 +199,15 @@ static int sm8250_platform_probe(struct platform=
+_device *pdev)
+>>>>  	if (ret)
+>>>>  		return ret;
+>>>> =20
+>>>> -	card->driver_name =3D DRIVER_NAME;
+>>>> +	card->driver_name =3D of_device_get_match_data(dev);
+>>>>  	sm8250_add_be_ops(card);
+>>>>  	return devm_snd_soc_register_card(dev, card);
+>>>>  }
+>>>> =20
+>>>>  static const struct of_device_id snd_sm8250_dt_match[] =3D {
+>>>> -	{.compatible =3D "qcom,sm8250-sndcard"},
+>>>> -	{.compatible =3D "qcom,qrb4210-rb2-sndcard"},
+>>>> -	{.compatible =3D "qcom,qrb5165-rb5-sndcard"},
+>>>> +	{ .compatible =3D "qcom,qrb4210-rb2-sndcard", .data =3D "sm8250" },
+>>>
+>>> sm4250 for rb2?
+>>=20
+>> Since this name is visible to user space and used for picking the UCM co=
+nfig, I don't think it's a good idea to change it.
+>>=20
+> It is not correct to pretend that rb2 is sm8250 for ucm cases, I agree pr=
+evious code was
+> already doing this, Good thing is that we do not have a ucm written yet f=
+or RB2.
+>
+> Lets fix this as you are already doing this for other compatibles.
 
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index fd80451cb4c0..2d4e660b19d5 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -19,6 +19,10 @@
- #include "sof-audio.h"
- #include "ops.h"
- 
-+static bool disable_function_topology;
-+module_param(disable_function_topology, bool, 0444);
-+MODULE_PARM_DESC(disable_function_topology, "Disable function topology loading");
-+
- #define COMP_ID_UNASSIGNED		0xffffffff
- /*
-  * Constants used in the computation of linear volume gain
-@@ -2481,8 +2485,8 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 	if (!tplg_files)
- 		return -ENOMEM;
- 
--	if (!sof_pdata->disable_function_topology && sof_pdata->machine &&
--	    sof_pdata->machine->get_function_tplg_files) {
-+	if (!sof_pdata->disable_function_topology && !disable_function_topology &&
-+	    sof_pdata->machine && sof_pdata->machine->get_function_tplg_files) {
- 		tplg_cnt = sof_pdata->machine->get_function_tplg_files(scomp->card,
- 								       sof_pdata->machine,
- 								       tplg_filename_prefix,
--- 
-2.43.0
+Okay, will change this in v4.
+
+Regards
+Luca
+
+>
+> --srini
+>
+>> Regards
+>> Luca
+>>=20
+>>>
+>>>> +	{ .compatible =3D "qcom,qrb5165-rb5-sndcard", .data =3D "sm8250" },
+>>>> +	{ .compatible =3D "qcom,sm8250-sndcard", .data =3D "sm8250" },
+>>>>  	{}
+>>>>  };
+>>>> =20
+>>>>
+>>>> --=20
+>>>> 2.49.0
+>>>>
 
