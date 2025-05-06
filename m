@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A50872600
-	for <linux-sound@vger.kernel.org>; Tue,  6 May 2025 11:33:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD3772600
+	for <linux-sound@vger.kernel.org>; Tue,  6 May 2025 11:33:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746531207; cv=none; b=JfyDUqCcyDmCM/IGSxc73jS7BrYiOsfhQbkmfLybqV5hNjOcajdMf22InVxXdZzlwROgogvvMdhFzuScjIozWTZ/gXcQl3lIphyEY0mjwAu9jnY78zsV+pYqy9NLldrINxjgqQ8LK6XndYyR/utmkQdcSTa28n0NpVUB3mrI2AU=
+	t=1746531213; cv=none; b=NttPd3ah0Sw2cWhCmX2/OsRd/sQ79WwaqCvIqDNjVbOEVC8TawXyRkM9mKiztqSqGAam5QsPX8AMi7qWzCmvl1Auoa0IzHc5qHB+d6JW7pWoLzFGiL14Tk0g3EHtkX5X7bdAcGgg5htvBwL1Oa7VNOG6ZVqgQvySNlJVOSgEVGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746531207; c=relaxed/simple;
-	bh=kfd1CYNrLEG3HUdAwQ8bD+0Q7TOhQHi6+/hIvsIOqv4=;
+	s=arc-20240116; t=1746531213; c=relaxed/simple;
+	bh=J4H4XZRAY1HJ2nOSKo5F2EHvb+b8J/IEunzJ1KFu8/c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U5hqL563qQyR50SP2gboho1mjpaS9wV6ST+bhpXLfBM9Nm59fFR0sHTSv5e/Eo3hv+nYhMzytQMyMKvEDN5R8aTURpmah4kBcOxK9hFdC42fFMbBdzwqQ0yyiE5a/zfbuRF+FOBpiCRczeYfNuZbnMdvafH9i9JfvvO+jTzOYp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LinG7wQJ; arc=none smtp.client-ip=198.175.65.21
+	 MIME-Version:Content-Type; b=S8D+d5tlC0O4tyuA5LlhxmCugGW17+SQ2fKiBZ0+wkzwO2GuaXE1Mrmdc306ATUzjvnBf+1PFFcgNnya86DH2Mr+FrDnKoju5XZZr3oilBiFWbSHsZQTTWMrSRMnnF3aXvEm49ss9H/sXTPADgIy9KVxtHPATjVotejANbeWIMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VLwgZQah; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LinG7wQJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VLwgZQah"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746531207; x=1778067207;
+  t=1746531213; x=1778067213;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=kfd1CYNrLEG3HUdAwQ8bD+0Q7TOhQHi6+/hIvsIOqv4=;
-  b=LinG7wQJ3LJ3+bwpHEYVSldUaBc0a11rZo+meLeJ1YK8akIfodEGpzKf
-   fvksnbqHUdMkoJLNth9UdSko1Tpg6KtEO8I38WpRJ6zsWyFsEtGp6s/lh
-   4QSkKWwtZKu/vDWhg2r1P/Batqa6Eg5XhGog8BYnrO5TUoKFTc5kfbuEA
-   C2Kpuvt5G2e+ZkcMg6GSLRAKR5NWYpKDaEUzbI1dknfyee8xNXhVC4uUW
-   /AR+6urX2jBjnIEAS2RUFgbMiUIqjpdP/hxB3KhjfU4l4maHRPAUxqePG
-   2Y2jH9FCm4IOq0RrOOJIZfK/viOuAqCLO9OhoV3xYgdxdTFBAvCgx2628
+  bh=J4H4XZRAY1HJ2nOSKo5F2EHvb+b8J/IEunzJ1KFu8/c=;
+  b=VLwgZQah6yzGoAY8KRFTVsB0U3XsrN0SSgU1gRgQHuZbhBkOmmboSiKs
+   mbVbJGxYwlhTr7z2HAMhTFdWlW2qltuX3TSF6srQrTVGK3MDlJIwYFToZ
+   xPbyFp8bhkPKy5vnE3nv/ab9GlWKoVxR0uE46xRoDGIvNgssyloSpKJG9
+   UF4Bu9vl44f5RSSDQnzWSSgJE0m+uu3WQp5c4uX5yWEmZQdTMApkuXVCx
+   aVe5azQKJYLp0sbI3i9ZNUhWN3XdQrntZymSIQI0VadO6GgY0e5qmZkD0
+   sz2Uo7brievBKTA0+snBEEBaJou+DM6CbKrUHvtSI4XygXAAW6Xzo07zI
    w==;
-X-CSE-ConnectionGUID: eInj3TTmRcio1d0hfNwrtw==
-X-CSE-MsgGUID: 7D1NG5WESJOPD5J5lFJdjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48101887"
+X-CSE-ConnectionGUID: R7QLmjXvRtCkhN7cs+uNpQ==
+X-CSE-MsgGUID: yB0RHwCETMGsXglXja+lKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="48101912"
 X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="48101887"
+   d="scan'208";a="48101912"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 04:33:27 -0700
-X-CSE-ConnectionGUID: KcrV605DTBmPgGIxiCW1wA==
-X-CSE-MsgGUID: 927L+VNeSP+1NcNMCIFjAw==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 04:33:33 -0700
+X-CSE-ConnectionGUID: hE7pYimdRamN2g8hFuxc0A==
+X-CSE-MsgGUID: 6TkpuNaKQIKteDkiy+ipKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,266,1739865600"; 
-   d="scan'208";a="135478491"
+   d="scan'208";a="135478513"
 Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.119.31])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 04:33:25 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2025 04:33:27 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 1/3] ASoC: SOF: add disable_function_topology flag
-Date: Tue,  6 May 2025 19:33:08 +0800
-Message-ID: <20250506113311.45487-2-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 2/3] ASoC: SOF: set disable_function_topology if override_tplg_filename is set
+Date: Tue,  6 May 2025 19:33:09 +0800
+Message-ID: <20250506113311.45487-3-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250506113311.45487-1-yung-chuan.liao@linux.intel.com>
 References: <20250506113311.45487-1-yung-chuan.liao@linux.intel.com>
@@ -64,44 +64,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-SOF driver will load required function topologies dynamically. However,
-we prefer using the monolithic topology. Add a flag to allow user not
-using the function topologies.
+User will expect the specified topology is used when
+override_tplg_filename is set. However, the using function topologies
+feature may use the function topologies instead of the specified
+topology.
 
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- include/sound/sof.h      | 1 +
- sound/soc/sof/topology.c | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ sound/soc/sof/core.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/include/sound/sof.h b/include/sound/sof.h
-index 64fd5504cb2b..eddea82c7b5a 100644
---- a/include/sound/sof.h
-+++ b/include/sound/sof.h
-@@ -106,6 +106,7 @@ struct snd_sof_pdata {
- 	const char *fw_filename;
- 	const char *tplg_filename_prefix;
- 	const char *tplg_filename;
-+	bool disable_function_topology;
+diff --git a/sound/soc/sof/core.c b/sound/soc/sof/core.c
+index aed834d03e10..b11f408f1366 100644
+--- a/sound/soc/sof/core.c
++++ b/sound/soc/sof/core.c
+@@ -607,7 +607,8 @@ static void sof_probe_work(struct work_struct *work)
+ }
  
- 	/* loadable external libraries available under this directory */
- 	const char *fw_lib_prefix;
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 5d3ee3a86392..fd80451cb4c0 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -2481,7 +2481,8 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 	if (!tplg_files)
- 		return -ENOMEM;
+ static void
+-sof_apply_profile_override(struct sof_loadable_file_profile *path_override)
++sof_apply_profile_override(struct sof_loadable_file_profile *path_override,
++			   struct snd_sof_pdata *plat_data)
+ {
+ 	if (override_ipc_type >= 0 && override_ipc_type < SOF_IPC_TYPE_COUNT)
+ 		path_override->ipc_type = override_ipc_type;
+@@ -619,8 +620,11 @@ sof_apply_profile_override(struct sof_loadable_file_profile *path_override)
+ 		path_override->fw_lib_path = override_lib_path;
+ 	if (override_tplg_path)
+ 		path_override->tplg_path = override_tplg_path;
+-	if (override_tplg_filename)
++	if (override_tplg_filename) {
+ 		path_override->tplg_name = override_tplg_filename;
++		/* User requested a specific topology file and expect it to be loaded */
++		plat_data->disable_function_topology = true;
++	}
+ }
  
--	if (sof_pdata->machine && sof_pdata->machine->get_function_tplg_files) {
-+	if (!sof_pdata->disable_function_topology && sof_pdata->machine &&
-+	    sof_pdata->machine->get_function_tplg_files) {
- 		tplg_cnt = sof_pdata->machine->get_function_tplg_files(scomp->card,
- 								       sof_pdata->machine,
- 								       tplg_filename_prefix,
+ int snd_sof_device_probe(struct device *dev, struct snd_sof_pdata *plat_data)
+@@ -654,7 +658,7 @@ int snd_sof_device_probe(struct device *dev, struct snd_sof_pdata *plat_data)
+ 		}
+ 	}
+ 
+-	sof_apply_profile_override(&plat_data->ipc_file_profile_base);
++	sof_apply_profile_override(&plat_data->ipc_file_profile_base, plat_data);
+ 
+ 	/* Initialize sof_ops based on the initial selected IPC version */
+ 	ret = sof_init_sof_ops(sdev);
 -- 
 2.43.0
 
