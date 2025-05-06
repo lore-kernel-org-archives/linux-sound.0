@@ -1,180 +1,253 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013047.outbound.protection.outlook.com [40.107.162.47])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0056B354E33;
-	Tue,  6 May 2025 01:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746494031; cv=fail; b=rNBM0SdmJ05KxmFMnLmEVGJ2YiJDr778db2igIQ9D7TitvTMZ19ZqegBVtaXfKN4tQ3wnXuCKLNgqUs4oirhHCyhm9ll2UXEthnJnxMVKhpZ2HSFNB2e7bQvljPyxGsKshPn2k0uzGFGftI8H1QCj0XljrS6Nc70AK/rrkjzXNY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746494031; c=relaxed/simple;
-	bh=nxuNVSIvN1f319nWe6Lq8aepdS+jzFy5XFfcL9WmTQc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=IXTYy+HiVM6nFYsSFPyAPZd9jzopFThEbiIDcgI5N0zMYewAPED2edMk1ysTLnxSg5BJ6euREaxGkmiD4lvrXVSK9by7vAtJbeDYMbSMAKHo18trLrvWGGcIUaTRpK469MvNjJPDQ6emNwufgm1rR0dHoHIbyD39tufcSyv0xRE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=A5+UhIXm; arc=fail smtp.client-ip=40.107.162.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2482F15D0
+	for <linux-sound@vger.kernel.org>; Tue,  6 May 2025 01:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746496185; cv=none; b=qNOz+khC204MVPWyoE1MnZx2uv+xEwN628QinRzTlJ4Kqb/kMXUe1uo6FNGF3yMa6vOi0JjfEsmVnzCoBCiZtnZNCXwVD+GEKlH+q3GMNMY8lhu0NghSxP0XODn/OwMci0Ol/ihhY6jQVQj6mHaBTlWmTAK6k94IGudZpve7Tm8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746496185; c=relaxed/simple;
+	bh=Le4y/XJElnvDIu8jsaBcndYNQbL5IPHOAVkYHhqRufs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hgfvcQZe9bo8sr3SpB1oHtX561QaAS5DHO1OdRIAgaEEHAz3DQcMLz3gXBnaRqphCOgW25nhK8lwMol/vwkjKwOGtkXdlE7CObRjjD520ROSE3HAbgRWoP0XhQNwvuPYI+z72AQSVtCINv9Mha/NoMi6qKatgs4e53nqUJ4aq8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CtHjXCuB; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="A5+UhIXm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iRu0SjskFm92RRlC1OpQZzY+yYVGz01JAAAXteJPNqV4xWlsEoWbwkV4mTJGNpQQvSTv8/oZXCekZw6+alBhXfeiAP/x5WImP6QddtgZnX4GjfIKUVls8RJovZh6NhaHtCOr7hZteOaB5d/IJkE5YPbwv4+7Jq3575mrtlDuAJ7MSLeWfJOzmLJCvG2omMp2m7YDLLKrC8S82hPZaX+iU2dKDEdgwt5WH6dg2s/DqfS6TpehtE0XDUkYX4nUHMhm8cPPpb7dZMSTns9FzwyBuk24+iHEpWHQtgK2ynGdCNI8JTNlbMML3ZMsjh6l+M4wwinyBlM5Z+knax6dsdeLMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y9Pxm4nsNLJac67Lf6TF2wDefTGF1IRaECg5T98TvPk=;
- b=PwShTLwgXtqPof3XkizkNNrtEFA2eocD6iPPeQ/TM7e+MwiW4bEQTnkwqRn0rxWCmzfNoDbp99IBEs2HoOOyR3LB9LNWfx72sPJKCHUacu2VJV+B4IqKOn1wXyCTnf+c8nEGEOCndwd+xkbjLmywK6VxzSpcG88N2kLNQqj2E8hFQcLiM/xfdjE8Gg62TCqM8eD6JG3jgi3FtogBCeZ8bH0hGxFKEpWQjrAGF1DU/QYDSDORE9zB6YHVSxfFQnD6dyT93WI2l4grBBytGR7Q6lNT30TypBbbva11rwPrBr89qak12R8NUMJcp8bUDgxrI/+IOuLHKh9+pnbGsEjmTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y9Pxm4nsNLJac67Lf6TF2wDefTGF1IRaECg5T98TvPk=;
- b=A5+UhIXmFDE2ClcWS6Nn6KpCetas7Aa/D9DH7S3b3hc2o/L0/YRtlGO6ZNRHUrDxazYW6xJDqcDj9qXMs8dviVyYZwZe1e+Mj9+zeEksfa8grXF/OJm19iCdrnV0iBtaHgcd6lepHLEdZ28VnxhpI/XUC4V2lfylllgXX2DhjDOAyjbx/4eGWMeCW94bHBDngZP5RLm3zbeez0HLBB+mAdbBJmTXVch4hx9ddVJEsBWTC/9704PpIPKSjGBQw/dvs4JR7dH3LZG7764clrVcO6XubtwI8DiXGtkSo7mP5gd6Fl7VpmmVLC+eRDtXle0juEbVvHS4I8xl+sB8aCjezQ==
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
- by PAXPR04MB8192.eurprd04.prod.outlook.com (2603:10a6:102:1cd::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Tue, 6 May
- 2025 01:13:45 +0000
-Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
- ([fe80::165a:30a2:5835:9630%5]) with mapi id 15.20.8699.021; Tue, 6 May 2025
- 01:13:45 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: Mark Brown <broonie@kernel.org>, "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-CC: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald
-	<rf@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav
- Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus Walleij
-	<linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Charles
- Keepax <ckeepax@opensource.cirrus.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "patches@opensource.cirrus.com"
-	<patches@opensource.cirrus.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-gpio@vger.kernel.org"
-	<linux-gpio@vger.kernel.org>
-Subject: RE: [PATCH v2 2/9] ASoC: codec: cs42l56: Drop cs42l56.h
-Thread-Topic: [PATCH v2 2/9] ASoC: codec: cs42l56: Drop cs42l56.h
-Thread-Index: AQHbt+K6jmmCYrjQF0S1uVb38ZTFj7PEsIYAgAAnlPA=
-Date: Tue, 6 May 2025 01:13:45 +0000
-Message-ID:
- <PAXPR04MB845926B5081C254179088BA788892@PAXPR04MB8459.eurprd04.prod.outlook.com>
-References: <20250428-csl42x-v2-0-e8056313968f@nxp.com>
- <20250428-csl42x-v2-2-e8056313968f@nxp.com>
- <aBlAys_SvQRHNTcp@finisterre.sirena.org.uk>
-In-Reply-To: <aBlAys_SvQRHNTcp@finisterre.sirena.org.uk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|PAXPR04MB8192:EE_
-x-ms-office365-filtering-correlation-id: 24dca383-a124-4581-04d6-08dd8c3b3f96
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?f1sToaCfgErpqTeJVNJPRT4cdDqeLvYHdFwB+B9u9RG2Mr74U80S47k/1Qq3?=
- =?us-ascii?Q?E6vZN/UJT/58Z/cbN1Zz1KpZZXkQvafw3PrJThvFpXhmPfJYQW+1ZXtXnAX6?=
- =?us-ascii?Q?qSluAz6eUtlngUztJ+qi2WS/tGxq6Dht42GustzyIn7G8/3xQqKniZZV3FbV?=
- =?us-ascii?Q?tBiBAxT7gSMo/Svpv85FRVhSqMZJUA/tBYBEk27ndz221a01MXwInM6HZHdD?=
- =?us-ascii?Q?V8+I/yONJYZiJmFOKyc1hlIybQBGXiRyXozalxwHewp9DCdZXrXgAO0LBqq+?=
- =?us-ascii?Q?28afHZSqeSyx7mPZvL+vIsbKDgH7FUxJR9mn7wsLxx/DCNQ9W8HfM563Toq4?=
- =?us-ascii?Q?aGKaR3X2JhKXQ//7SNgkpLg+lDN5a/gLkLSoOe8zaKYsZbdfc54C1lsQBbs2?=
- =?us-ascii?Q?Y0y+kN8IHpvPbxCAyfK99Kc1NYh/zf+74h/PSt1pG5yWzXQoKkfWa7cXU1n0?=
- =?us-ascii?Q?G0f1pSDMGS50tEng6kprpFmyvVKo3z9qcmLjzZm05aXHWEAujsezkIyqgMnN?=
- =?us-ascii?Q?N0TOG6pkqB01rtAePBX5dsTMDnoZOiWyV5vRLtd/PD37US9qoabiy/+9Vals?=
- =?us-ascii?Q?5SsO7T7znCRuagGZY4rE1YhBlCteAn2WmXw01N+jswHnqRVYScYS8XQWzTSw?=
- =?us-ascii?Q?V9wEhOyciFEDon5o1WDjvBAi4WuZCxIY1JOZMpOgc3V9Dk9Yr3XAjXXz/512?=
- =?us-ascii?Q?LGxHhQcwQhh9UVUSikZZZRzwiThJpEw3WaPF/FiFNYDV1ZjSkq3G9GafDWbP?=
- =?us-ascii?Q?WwmzXyi0SfY4fZDsf+6kb0A+qzhshDoeVziHpcxmZIyg3C8tBV+JYDA3kXCc?=
- =?us-ascii?Q?LiJHPkQ3tC/FBzBOGW2jsH+3C5qqaruLewUUvZBPRnjGlvBIpv9r3sCV2cvb?=
- =?us-ascii?Q?CBiKhp3mnQGUwCVjWPQKJRgxqgIWLubR3uF/GMRKyKA20ZkQFCuckiDamLGc?=
- =?us-ascii?Q?5hFeBY9E4B4o9sC2hxwHCEBek63MdoQLeYGHRSVbWFfZlZjEggveByrtNAnS?=
- =?us-ascii?Q?1Cq8/hvcpjS3Uwq7jc+3IEtFyPn1ZS3ldV/Z9dRfhmICPSKcRT7F+pdHO3eT?=
- =?us-ascii?Q?m4F42SQfqfXeReVTR8ajGrQMvlQZGgnrHnywE6B6VxUd+KBFLa3S9jVHlDuf?=
- =?us-ascii?Q?ytTMdwPpCK40PXMxMy2alpcec8QG5AFqlVTk7G87KUeSexNdpxyiPurrqLLt?=
- =?us-ascii?Q?omxyHkEZcs9IlsJZ6HuhvE6zlWbu+yxfWJ25fRl04IzHA6gCzy1R4pMlD8oS?=
- =?us-ascii?Q?62OKf7n4kIcta/mb/LEeVYeUnlV7BcwyNZt2pRoOv69kuqupbCU0SH+J1WVN?=
- =?us-ascii?Q?wY1xreV8oEVpd+xLvsARpHOTuftqie09ZhAPX+cf5nQPqpDaT5F81CthDMie?=
- =?us-ascii?Q?DUqIu+xLy535/z4/Q/b3aD8v9gbUB+I+kqp2Z5PWUMqoB+sEYuHk4k/PxYJQ?=
- =?us-ascii?Q?9HnFCZFZ/AuVkkqlL0MVZwTeyX0pqBA2gderteiyENt2C2LhhN3Mnw=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?S2EUhhz36hReEHe6ZgsQSh1ZcTIa9Spg3Q9HSxc8lUiGJv+XRaMEefylyrOH?=
- =?us-ascii?Q?hZQOwap545zQsffAcB7WeGziRPA233pDvUzXDRTQlEs9nD5nGnqPQvbJli/X?=
- =?us-ascii?Q?tp9BI993/WQ9BN2xr2JZF1HYnwQUrDIXpztoM1YBerFl1taP0EM7eN9Dr1M9?=
- =?us-ascii?Q?F5ovP7VjntIR9SejebSqD82jidvk7Wk0u77mIl4k4ltYbHNaPr/PAYKbkBtG?=
- =?us-ascii?Q?Byp7Z4QdfzpzqWIavzU0XJVWw3FUMTH6Ld7cwLMBy5MnRk4xwR9qcIsquuw8?=
- =?us-ascii?Q?9PupVFM76pyywRd6HyvBkA2KOGV3lnh+Rb9GtwoaCiORRZ0VwjuWcL0tPxN5?=
- =?us-ascii?Q?ox1/DxlNcSOlOS7Xig1FH4wqRY5Dij0xlcmv4pGFcO3vt5mTUIIVL72CLmom?=
- =?us-ascii?Q?MbVhc5Ng3Ir/y0p3D8ChoTQO5wGUlbgo657N/B8JvtK5ixK4qvC72XerUpwn?=
- =?us-ascii?Q?fuiR5wR1eAd6vb/0m3S5qwmTzYtS5b24+YSNqOttcJccd/qMGF0xQnNsaudO?=
- =?us-ascii?Q?o+bovRuBL9atQGbdYE7sEkZPc1rVqPf6iK0bVKcUwjSCns2Bmop7i3NwWZx1?=
- =?us-ascii?Q?XpTylLFf7+avZ/FLODQi+kBvKxAAl7FrcHqXIB7GM9N+PTBGVOJ+4ZKtsb2K?=
- =?us-ascii?Q?07La5ZNadzRpbyjbL0vD4A6avuZHZ48r7Ka3zUqLuJ3Y3BgXS8LDjEiK3UuA?=
- =?us-ascii?Q?r9KJfIH4nfiQTyuLwH6rJyFISawky9i7KG3h8/dVrhWZe+zZRgyvHO2Tmscx?=
- =?us-ascii?Q?KCbWMmcTI9mvGgj1u29iJjcpI8LpuDBq1ic9BQ8+oNcdwoZ9ybrljv6ngeV6?=
- =?us-ascii?Q?SXSjCKGStQQeq3Y+HJwIdCk6pbBvkNWAlqNHxI7qOdhYB2M7nZ7oTFpbm9rl?=
- =?us-ascii?Q?9c2CvAYcuKERNFtnZvA1t4+jWjVk/KI4BCAL5OzH3ZT6s6WoRXA+221tJj5r?=
- =?us-ascii?Q?gAEDV03BGCufE7dBqkRV401RPh6dwgHarJSpmUS+/4CUQ3uQ8WQd64Jj7x5e?=
- =?us-ascii?Q?fPy2y9j6r+Kqcs/VjeHhsXGLz4jN8ojVLJXZWRPQuZHA3BKkMroB1Oq0+rOS?=
- =?us-ascii?Q?etBxrfbkMMcH3BHrCBbCdbArBk27XZK5pMuOks8pfIa2etvs1kdqv8a08mXI?=
- =?us-ascii?Q?Dh0TlfConjHzWSHRCxNuwlkWASBgRLqjk2eVe5Xfw4DAYsrItR53Wbr6GZRq?=
- =?us-ascii?Q?ntlsk2GLEHK7dXM3V9PWgSYmXJTyAKgQBwqRmWfokCwcwtMERHS1XsXhz1su?=
- =?us-ascii?Q?A0GZWrtRn4tY+BOfb6fuxOy/tVvY9Fx2QXwtZzkia2r00TxoEXinc4UOOCK/?=
- =?us-ascii?Q?gqbAK10mnlMDn+CTGtrPWSyRk4Y+B45ygD7msB0Eg+cvo6lGLJEl4AVF1f1p?=
- =?us-ascii?Q?6i6aBJi336JGXndqt0y8oZs6n9gpxG8EksCQMoUd62LLOCsAJuncz8WufZUL?=
- =?us-ascii?Q?l07F9tSpgRLcDQRZS3Im7QeXNi/86Ndq1dn/AS4gWhbfLI+7wxh1ublymp2W?=
- =?us-ascii?Q?rgk/ju0aly43BoE2g6xclL4PTMQclwrUFgR8zIzJfbASnLZG8QGwPPuVXAaN?=
- =?us-ascii?Q?xZwOHt3fp9aKVogy0Sg=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CtHjXCuB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746496183; x=1778032183;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Le4y/XJElnvDIu8jsaBcndYNQbL5IPHOAVkYHhqRufs=;
+  b=CtHjXCuBrS67ZF3946bntkL5J5EnUr123KmliQ3UdOcc9jONmqSMS5aQ
+   mRuZXq5pX2LJ9P5g3Quvez8thpktiSGeaX0JOMzTpRhK3mJKYrx8jq26L
+   IH44T1Em3fJaVPRaxLRf0adqdfuioa3EetZGXgv92yY605cpwnxJO8gEd
+   lI4L0Sf33gzD3IKv8UtEJSKyxkU4kWJF7Lt7oYyKmzkzW733AeLC/FUbT
+   6hgfUh9geFw23zFgGfj6E3AMra9iJF8omJ3HeIBz6DR74FauARJkr7WwQ
+   tUAqVoBVjxNkQxprNSaj4KH0kPwtZygESe6vVAfBpXr3LXdVj7utSGUs/
+   g==;
+X-CSE-ConnectionGUID: Y+oEt2M1SYmWElbUHcpW/g==
+X-CSE-MsgGUID: 1IKsWLX1SdGCTpUvOuA8UQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="47243962"
+X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
+   d="scan'208";a="47243962"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 18:49:42 -0700
+X-CSE-ConnectionGUID: h4qb5o23TjOwNbFPnfl3/Q==
+X-CSE-MsgGUID: qLCtG+0eRlWotdZEemoMHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,265,1739865600"; 
+   d="scan'208";a="166507949"
+Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.119.29])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 18:49:40 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH] ASoC: Intel: soc-acpi-intel-ptl-match: Sort ACPI link/machine tables
+Date: Tue,  6 May 2025 09:49:30 +0800
+Message-ID: <20250506014930.5408-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24dca383-a124-4581-04d6-08dd8c3b3f96
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2025 01:13:45.3936
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZenH74mVpnsBkG3UDe0K7DCyzJlCw/hXIG6ZG8w/cdOLQyrZeS6UKcS1NmP31LoBTO/ZiXTUi00eA1jfa+qZBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8192
+Content-Transfer-Encoding: 8bit
 
-> Subject: Re: [PATCH v2 2/9] ASoC: codec: cs42l56: Drop cs42l56.h
->=20
-> On Mon, Apr 28, 2025 at 10:09:03AM +0800, Peng Fan (OSS) wrote:
-> > From: Peng Fan <peng.fan@nxp.com>
-> >
-> > There is no in-tree user of "include/sound/cs42l56.h", so move 'struct
-> > cs42l56_platform_data' to cs42l56.c and remove the header file.
-> > And platform data is mostly for platforms that create devices non
-> > using device tree. CS42L56 is a discontinued product, there is less
-> > possibility that new users will use legacy method to create devices.
-> > So drop cs42l56.h to prepare using GPIOD API.
->=20
-> This breaks an x86 allmodconfig build:
->=20
-> /build/stage/linux/sound/soc/codecs/cs42l56.c:26:10: fatal error:
-> 'sound/cs42l56.h' file not found
->    26 | #include <sound/cs42l56.h>
->       |          ^~~~~~~~~~~~~~~~~
-> 1 error generated.
+From: Naveen Manohar <naveen.m@intel.com>
 
-Oops. This line was removed in patch 3, but it should be removed
-in this patch 2.
+Check subset of link mask when matching the machine driver,
+rule is superset match should be ordered before subset matches.
 
-I will fix this in V3.
+Priority: mockup > most links > most bit link-mask > alphabetical
 
-Thanks,
-Peng
+Reorder acpi_link_adr & sdw_machine tables per defined criteria:
+1.Mock Test 1st
+2.Most links 1st
+3.link_mask with more bit first
+4.link_number number order
+5.Alphabetical order
+
+Signed-off-by: Naveen Manohar <naveen.m@intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 110 +++++++++---------
+ 1 file changed, 57 insertions(+), 53 deletions(-)
+
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+index a62cb6d47e4c..0454de04da68 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+@@ -4,6 +4,9 @@
+  *
+  * Copyright (c) 2024, Intel Corporation.
+  *
++ * Order of entries in snd_soc_acpi_intel_ptl_sdw_machines[] matters.
++ * Check subset of link mask when matching the machine driver, rule is
++ * superset match should be ordered before subset matches.
+  */
+ 
+ #include <sound/soc-acpi.h>
+@@ -540,7 +543,7 @@ static const struct snd_soc_acpi_link_adr ptl_sdw_rt712_vb_l3_rt1320_l2[] = {
+ 
+ /* this table is used when there is no I2S codec present */
+ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+-	/* mockup tests need to be first */
++/* Order Priority: mockup > most links > most bit link-mask > alphabetical */
+ 	{
+ 		.link_mask = GENMASK(3, 0),
+ 		.links = sdw_mockup_headset_2amps_mic,
+@@ -559,29 +562,76 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-ptl-rt715-rt711-rt1308-mono.tplg",
+ 	},
+-	{
+-		.link_mask = BIT(1) | BIT(2) | BIT(3),
+-		.links = ptl_cs42l43_l2_cs35l56x6_l13,
+-		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-ptl-cs42l43-l2-cs35l56x6-l13.tplg",
+-	},
+ 	{
+ 		.link_mask = BIT(0),
+ 		.links = sdw_mockup_multi_func,
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-ptl-rt722.tplg", /* Reuse the existing tplg file */
+ 	},
++	{
++		.link_mask = BIT(1) | BIT(2) | BIT(3),
++		.links = ptl_sdw_rt713_vb_l2_rt1320_l13,
++		.drv_name = "sof_sdw",
++		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
++		.sof_tplg_filename = "sof-ptl-rt713-l2-rt1320-l13.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
++	{
++		.link_mask = BIT(1) | BIT(2) | BIT(3),
++		.links = ptl_sdw_rt713_vb_l3_rt1320_l12,
++		.drv_name = "sof_sdw",
++		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
++		.sof_tplg_filename = "sof-ptl-rt713-l3-rt1320-l12.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
++	{
++		.link_mask = BIT(1) | BIT(2) | BIT(3),
++		.links = ptl_cs42l43_l2_cs35l56x6_l13,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-cs42l43-l2-cs35l56x6-l13.tplg",
++	},
++	{
++		.link_mask = BIT(1) | BIT(2),
++		.links = ptl_sdw_rt712_vb_l2_rt1320_l1,
++		.drv_name = "sof_sdw",
++		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
++		.sof_tplg_filename = "sof-ptl-rt712-l2-rt1320-l1.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
++	{
++		.link_mask = BIT(2) | BIT(3),
++		.links = ptl_sdw_rt712_vb_l3_rt1320_l2,
++		.drv_name = "sof_sdw",
++		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
++		.sof_tplg_filename = "sof-ptl-rt712-l3-rt1320-l2.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
+ 	{
+ 		.link_mask = BIT(0),
+ 		.links = ptl_rvp,
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-ptl-rt711.tplg",
+ 	},
++	{
++		.link_mask = BIT(0),
++		.links = ptl_rt722_only,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-rt722.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
++	{
++		.link_mask = BIT(1),
++		.links = ptl_rt722_l1,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-rt722.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
+ 	{
+ 		.link_mask = BIT(3),
+ 		.links = ptl_cs42l43_l3,
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-ptl-cs42l43-l3.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(3),
+@@ -590,20 +640,6 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-ptl-rt721.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+-	{
+-		.link_mask = BIT(0),
+-		.links = ptl_rt722_only,
+-		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-ptl-rt722.tplg",
+-		.get_function_tplg_files = sof_sdw_get_tplg_files,
+-	},
+-	{
+-		.link_mask = BIT(1),
+-		.links = ptl_rt722_l1,
+-		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-ptl-rt722.tplg",
+-		.get_function_tplg_files = sof_sdw_get_tplg_files,
+-	},
+ 	{
+ 		.link_mask = BIT(3),
+ 		.links = ptl_rt722_l3,
+@@ -611,38 +647,6 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-ptl-rt722.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+-	{
+-		.link_mask = BIT(1) | BIT(2),
+-		.links = ptl_sdw_rt712_vb_l2_rt1320_l1,
+-		.drv_name = "sof_sdw",
+-		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
+-		.sof_tplg_filename = "sof-ptl-rt712-l2-rt1320-l1.tplg",
+-		.get_function_tplg_files = sof_sdw_get_tplg_files,
+-	},
+-	{
+-		.link_mask = BIT(2) | BIT(3),
+-		.links = ptl_sdw_rt712_vb_l3_rt1320_l2,
+-		.drv_name = "sof_sdw",
+-		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
+-		.sof_tplg_filename = "sof-ptl-rt712-l3-rt1320-l2.tplg",
+-		.get_function_tplg_files = sof_sdw_get_tplg_files,
+-	},
+-	{
+-		.link_mask = BIT(1) | BIT(2) | BIT(3),
+-		.links = ptl_sdw_rt713_vb_l2_rt1320_l13,
+-		.drv_name = "sof_sdw",
+-		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
+-		.sof_tplg_filename = "sof-ptl-rt713-l2-rt1320-l13.tplg",
+-		.get_function_tplg_files = sof_sdw_get_tplg_files,
+-	},
+-	{
+-		.link_mask = BIT(1) | BIT(2) | BIT(3),
+-		.links = ptl_sdw_rt713_vb_l3_rt1320_l12,
+-		.drv_name = "sof_sdw",
+-		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
+-		.sof_tplg_filename = "sof-ptl-rt713-l3-rt1320-l12.tplg",
+-		.get_function_tplg_files = sof_sdw_get_tplg_files,
+-	},
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_ptl_sdw_machines);
+-- 
+2.43.0
 
