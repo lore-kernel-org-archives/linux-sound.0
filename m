@@ -1,51 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B0E21B183;
-	Tue,  6 May 2025 21:36:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A292253F9;
+	Tue,  6 May 2025 21:36:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746567376; cv=none; b=pzWbA8V7LdBrEmg97dMyccd7EZgLOpOdMj6EhbacXp31IN6wmkqXCszyeU+ZeaFpdxTjnxh7B7u3zgH24TtzT95ZBRdNjN1ULtUhQ4Fc99KjspRUzJ7Pmnl9AQNU2a9meWhgtdC/vXcjoPAul2Y+rkrunAUewAgy8TOTQrsDtMY=
+	t=1746567387; cv=none; b=NftRtYt9L79+MrkMzTmPgl4zqdNhq9J6WNvuiBOnbpZvPxTJ/IEnaXbCRpmbI9cxx64BE7ZkoyWGRffWEz/vrJp3LzMWr5QFVaa2CDmxFia/fTsL+UYeLvTiJbIX8AZc/cn13UUB8MxQ/Un3b/1gzNuPSRylaGkJkkE90XARqKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746567376; c=relaxed/simple;
-	bh=yBu1az8/OZoi8PDKYPnp/10aiX5KHCwBplGq28w4TsA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=t7mLJrIdQcsigY8SS4Sm6tn25ZBSBOUYQ+0/DJV9gFtgWtabtplThHvUIXhy7pzPcIe6VbUY8bJu3QwBzRuGe7Xw+qAveYrL1hx94z9AiffgcFrb5WHrxH/EOBBlTQpZvZ5q7TuGGrv1j/NJrW0Q9X+gBCyh07VHCcwOn8hdSmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKl6VUYJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746567387; c=relaxed/simple;
+	bh=ZFS/cOA4uhmIrJCCoSmxVe1M1yiqzEf1zoliJJ66p7M=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=TyBMFOp2p2fKXQV7YfTGb7etgM/m6HVuUORoqKKnYyp0HMqnsVEoayE5KDab9gTIHsUCiMOWSDdvQ3NbyzX3fDsrs/Sm7I3xVtGr/ldC7sliouFFoa7pxKQkwH50ObhxNZaI2b/nufCFFSGVKuV8C24IJFYnDVFbafoGmsyOw7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ksmUbmWQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKl6VUYJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E20E3C4CEE4;
-	Tue,  6 May 2025 21:36:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ksmUbmWQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FDB0C4CEEF;
+	Tue,  6 May 2025 21:36:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746567375;
-	bh=yBu1az8/OZoi8PDKYPnp/10aiX5KHCwBplGq28w4TsA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=dKl6VUYJMX/9CDIRIxh4vgqSY6j7YnuwWCtY00dsO63ca5MXGUmNHEi+pIBV8Ed6v
-	 Xx0nX0J1fXsa32qQa7du82v/3d+mR4Jfw+7nB9igMxxgzIZrKcXgWNYs/66tLZlzN5
-	 o6/mw0NtkejhOGrMQims4ChvY4JoDgkFmyDddnNsBkr+pzdtg9D4CQvTiCng4RzPMU
-	 H8VcYre60/8HIcTI+a9Xhe3r0Lub4LItq8Bj1YVELSAR84fCGCF7SaCmZF1fgF69VB
-	 Vgs8zeaB7g0FU3uvPfTkvUS5x3j3+ZKr5jqIJdYQc3q0nhh+DGpr+gKs7Ejlu7FMKH
-	 S3SoVOm/sKk8g==
+	s=k20201202; t=1746567386;
+	bh=ZFS/cOA4uhmIrJCCoSmxVe1M1yiqzEf1zoliJJ66p7M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ksmUbmWQxmoONDWIQ/Of+yjs8CoYG3+IE0nUIn5iN77g70HrTrswI4LCpoIwTa+2l
+	 ZcTQ7QY/fA5y4chtYF/MG9aX4LBMdbr6oesI8WhP23bF2KaTSBhriAPsOFmfBMxDuI
+	 XbWkhyF5vXdBJhRCakxJFr810O7ZSiFe5TGae3T8cau+0DtNHz/HKITFOPyxZ6JCDK
+	 QIRG+NGm5s7EUsjF2Ub9DOrDpRXNeDCCtbSTZ0uGewPaF8Cc0HGnoPwx9J2REvIjfS
+	 vRMoQZat6kbf7UAMEP0Tpy9i9tca8j9u0MTbT2FQovW/Bi5ffmZRnIDEyzhsMmMOEK
+	 ckTu1OKg3/ybQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Chenyuan Yang <chenyuan0y@gmail.com>,
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
+	david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	shawnguo@kernel.org,
 	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
+	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 01/18] ASoC: imx-card: Adjust over allocation of memory in imx_card_parse_of()
-Date: Tue,  6 May 2025 17:35:53 -0400
-Message-Id: <20250506213610.2983098-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 08/18] ASoC: cs42l43: Disable headphone clamps during type detection
+Date: Tue,  6 May 2025 17:36:00 -0400
+Message-Id: <20250506213610.2983098-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250506213610.2983098-1-sashal@kernel.org>
+References: <20250506213610.2983098-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,36 +57,47 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.27
 Content-Transfer-Encoding: 8bit
 
-From: Chenyuan Yang <chenyuan0y@gmail.com>
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-[ Upstream commit a9a69c3b38c89d7992fb53db4abb19104b531d32 ]
+[ Upstream commit 70ad2e6bd180f94be030aef56e59693e36d945f3 ]
 
-Incorrect types are used as sizeof() arguments in devm_kcalloc().
-It should be sizeof(dai_link_data) for link_data instead of
-sizeof(snd_soc_dai_link).
+The headphone clamps cause fairly loud pops during type detect
+because they sink current from the detection process itself. Disable
+the clamps whilst the type detect runs, to improve the detection
+pop performance.
 
-This is found by our static analysis tool.
-
-Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
-Link: https://patch.msgid.link/20250406210854.149316-1-chenyuan0y@gmail.com
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Link: https://patch.msgid.link/20250423090944.1504538-1-ckeepax@opensource.cirrus.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/fsl/imx-card.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/codecs/cs42l43-jack.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
-index 93dbe40008c00..e5ae435171d68 100644
---- a/sound/soc/fsl/imx-card.c
-+++ b/sound/soc/fsl/imx-card.c
-@@ -516,7 +516,7 @@ static int imx_card_parse_of(struct imx_card_data *data)
- 	if (!card->dai_link)
- 		return -ENOMEM;
+diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-jack.c
+index 73d764fc85392..984a7f470a31f 100644
+--- a/sound/soc/codecs/cs42l43-jack.c
++++ b/sound/soc/codecs/cs42l43-jack.c
+@@ -654,6 +654,10 @@ static int cs42l43_run_type_detect(struct cs42l43_codec *priv)
  
--	data->link_data = devm_kcalloc(dev, num_links, sizeof(*link), GFP_KERNEL);
-+	data->link_data = devm_kcalloc(dev, num_links, sizeof(*link_data), GFP_KERNEL);
- 	if (!data->link_data)
- 		return -ENOMEM;
+ 	reinit_completion(&priv->type_detect);
+ 
++	regmap_update_bits(cs42l43->regmap, CS42L43_STEREO_MIC_CLAMP_CTRL,
++			   CS42L43_SMIC_HPAMP_CLAMP_DIS_FRC_VAL_MASK,
++			   CS42L43_SMIC_HPAMP_CLAMP_DIS_FRC_VAL_MASK);
++
+ 	cs42l43_start_hs_bias(priv, true);
+ 	regmap_update_bits(cs42l43->regmap, CS42L43_HS2,
+ 			   CS42L43_HSDET_MODE_MASK, 0x3 << CS42L43_HSDET_MODE_SHIFT);
+@@ -665,6 +669,9 @@ static int cs42l43_run_type_detect(struct cs42l43_codec *priv)
+ 			   CS42L43_HSDET_MODE_MASK, 0x2 << CS42L43_HSDET_MODE_SHIFT);
+ 	cs42l43_stop_hs_bias(priv);
+ 
++	regmap_update_bits(cs42l43->regmap, CS42L43_STEREO_MIC_CLAMP_CTRL,
++			   CS42L43_SMIC_HPAMP_CLAMP_DIS_FRC_VAL_MASK, 0);
++
+ 	if (!time_left)
+ 		return -ETIMEDOUT;
  
 -- 
 2.39.5
