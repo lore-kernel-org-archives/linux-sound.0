@@ -1,138 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BD14B1E45
-	for <linux-sound@vger.kernel.org>; Wed,  7 May 2025 12:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1666E28CF72;
+	Wed,  7 May 2025 14:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746620824; cv=none; b=QkzLzX53uxfcAMNNXhrHN2+2X4wR+HlsNyoBuG3Y1l74SnwPmdsFlnlCuw1QP3DxyBOjKA4lmiYnqJwEOHMaS0bqKW0WiXOq8qsMCaUNXhlWRvRdrN7pMR1VdOUsc8quVzv+xhkOHGjdkg98qwxjH393CUbdaaw9nlG5fv0gDYA=
+	t=1746626712; cv=none; b=XKiHWnEwfHGAe+WTnfDlXImCojmGl+qaFe2nEaDVVe31wxhjnRh1ieHRs1/1AJ2XgMkh9TY7KPs+nVn67sVC4KwI+UAdbfwUaWZJd1IidNIhqjI0+olTpWoHEgRvG/u5dayd5c92EcX2U81gclNGTOAf2mJRReKORKI5gc3YHbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746620824; c=relaxed/simple;
-	bh=TZVxMavhXcYF4NADrUm9yux3uTNaykfOnfu6wqsezJI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qH72qbleMd5jtQKIReaQs+xdMUY5GgYJm8X4Sfyy37Z4kAUPTkiKUIPOcrQJmmddQO2vix6W/7Ypk0rxebO/QHEvSyAEH78IplFs+qDDsEwG/RwVf9S4guQ6h5rQOpB1jkew416U4fepSsGqXHSJWKOtNcN2OtWjIUhTUsxrzcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fMhQiX09; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fMhQiX09"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746620823; x=1778156823;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=TZVxMavhXcYF4NADrUm9yux3uTNaykfOnfu6wqsezJI=;
-  b=fMhQiX09hcwAkWTVvxToDOMyhTDCW34UqLOsUgVFTxwBgDeclZPxm7KY
-   aLiWVU+DPBaC30yYJlFFqUvPhvQk7g1ASKa/wg3iCuNDhDInsukj46ny0
-   011PKlyAzWh3wGQIjwF6iISP7jE0J0WBABw2MwgnbE5hRgc4JYhtW4yjq
-   wPK58C1LGkAACWkHxa61ud1ry3c80WJMRn8gWbwmNE9vC2jP7g4IByKzj
-   aEjOl/7zNJMm7keMY0TPTt19it9ReSdgRQmqHeQ/MqZwORKYPy3QFG9/V
-   lGB3hXUu8yyimhxG4PwLUUfNBKLmA7ISxzki4JTE1ptbcEQHtLWrPKqXo
-   Q==;
-X-CSE-ConnectionGUID: 7Nzek1D0ROOMPCxIX4oxWw==
-X-CSE-MsgGUID: 813c1TTTSoC+7RGVXNBTMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="65757080"
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="65757080"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 05:27:03 -0700
-X-CSE-ConnectionGUID: tavF+yhGQguscGieaINUPA==
-X-CSE-MsgGUID: C2Vg08pOTfSK/jydOwHnLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="173131951"
-Received: from hcaldwel-desk1.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.222.75])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 05:27:01 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH v2 2/2] ASoC: Intel: soc-acpi-intel-ptl-match: Add rt713_vb_l3_rt1320_l3 support
-Date: Wed,  7 May 2025 20:26:49 +0800
-Message-ID: <20250507122649.153579-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250507122649.153579-1-yung-chuan.liao@linux.intel.com>
-References: <20250507122649.153579-1-yung-chuan.liao@linux.intel.com>
+	s=arc-20240116; t=1746626712; c=relaxed/simple;
+	bh=VZeY2x/zH0DHAE9y8NcR51lGy2rQ5ssZLOF2RKorHLk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tqP0sUlLFYnQhgl5zAFRSyzQF86derCSL1cO7DQwO6AT6nahu8ClN99wOmqFxQrgczGBec0StmkPm52rXtdFD2nc5FpRnU5Z6E9TqtMcI9MNRxCrEfPKH86qZLXEZ/pXBznAwWLwe3XlAX3gvNLAMpJD6tN+YT9U7Npq485oUvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tavianator.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tavianator.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5fbeadf2275so1742657a12.2;
+        Wed, 07 May 2025 07:05:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746626708; x=1747231508;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dy47WfspidijBe6S4QRWQIIMIPDG64IjZcCZJzTilW8=;
+        b=HBhtMazo9wF10qa+5V4DGOhbDF5CgghlXxk5tnoWeT1ozmol4sNzlOU74i1mUZw+cJ
+         WbCJWhit0MQVKEboce0k6t6zKem8zvcI36FG+YbCrCbjMCMNv+YbiBF7xckMW9NAVV8q
+         ajIfGWEQ+SEJ06anbpOpNTA8hw5v7YkIrHQ4PZg2DGH/KdzBfF6oLdR03wgYbf5a6GV2
+         l1y5UvZmLSmirIYx7SPtX5pIYmlkxsrSgBH0HMzskJ44CbSIQhxiLqJxpB9/C2RKsnb9
+         ZZ3QXoQpaX5jqCeR4L6N3RxpmaiC+yoIQWIlyRZbHdEms24SRadipRzQTLS4eog6v1ki
+         ExVw==
+X-Forwarded-Encrypted: i=1; AJvYcCWiJttwRUiAfvkyfz7qc5uBw1fI6HYlcwx247jwun6qvT/Z1SxKkyYVV8S872wO4LvlcE/Vp7Q101LoRRE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSy3mHbjNi16VzBrGffaAex7rSJx47+JwcwVIxlTkdtUR+3rwt
+	5UIaKtbwwRn882u4J7OjzIAiX565Cg8F+bhRycTVxMMpHisNO/0XnNM1L5knrtU=
+X-Gm-Gg: ASbGnct5svMgdloNeox0HWWmh+SSxdxiTOGuh5uaQjOwKIVccBFovnrrpEjQLSSS2kY
+	uTVAfSWucm/YfW83+g+bn8xNczu1gqazt0DkZbvKffnL42XJibwSLN2Ixw5o8se+CLgsQq5vpfW
+	aV9pxQJQcX4xkCVIz4rFX+ignnqRoPRdWMGusDJ12CSOduSWDjWhHTvMQ8viUaZc33b/MqAJt0q
+	Pk9jMoyRkCPdWeojXki+/Oe0z1xPykxADHJM2tuvrvzjymNVXYpXxBQe0Gku25VcT8FJPxLCNYa
+	G9s0HXqi/b9wodG77Qxn9dG0sAu4OR9Doe9JoKc8L6R7khZT8krhoTg93afEVUJzI1Bbq4AZqjt
+	S/00Cr1YYCw==
+X-Google-Smtp-Source: AGHT+IE7JkO6fL/7y3ZqFeN6XA6T/g/QwIAVyjDJ/PQOb6/nAxPkHJUjrPjOpWQCaTvyKgLjW5tDfQ==
+X-Received: by 2002:a05:6402:2695:b0:5fb:2105:c62c with SMTP id 4fb4d7f45d1cf-5fbe9d8c5f3mr2980172a12.3.1746626698434;
+        Wed, 07 May 2025 07:04:58 -0700 (PDT)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com. [209.85.208.42])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5faa42f65dfsm8428388a12.38.2025.05.07.07.04.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 May 2025 07:04:57 -0700 (PDT)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5fbeadf2275so1742263a12.2;
+        Wed, 07 May 2025 07:04:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV3d6s3A4Qi9mBOj4x75Y2K81CGLYL7y+xgf2Hvow0IZvXu9yrqDejtWzgCMh9k23qzGBdwDYNXEr8uVes=@vger.kernel.org
+X-Received: by 2002:a05:6402:5cd:b0:5f6:4a5b:9305 with SMTP id
+ 4fb4d7f45d1cf-5fbe9fb1978mr3174944a12.33.1746626696797; Wed, 07 May 2025
+ 07:04:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <5aaee9fdfe8437ef2566b200bea45e4baaba3fcb.1745426811.git.tavianator@tavianator.com>
+ <7637e816-8c63-4e95-98fc-aea6a4843391@linux.intel.com>
+In-Reply-To: <7637e816-8c63-4e95-98fc-aea6a4843391@linux.intel.com>
+From: Tavian Barnes <tavianator@tavianator.com>
+Date: Wed, 7 May 2025 10:04:45 -0400
+X-Gmail-Original-Message-ID: <CABg4E-=MSxLMJJyQtCyoy=E7MU5Od0MFUiOJn+F8qL7AXe-Ouw@mail.gmail.com>
+X-Gm-Features: ATxdqUHa2kHKbT2_ZiQFNSHYsfs7FlZFoQ9vR_gdXWUXMmzjvHh-4X7vQfxzjP4
+Message-ID: <CABg4E-=MSxLMJJyQtCyoy=E7MU5Od0MFUiOJn+F8qL7AXe-Ouw@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2] ASoC: SOF: Intel: hda: Fix UAF when reloading module
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Brent Lu <brent.lu@intel.com>, 
+	Peter Zijlstra <peterz@infradead.org>, sound-open-firmware@alsa-project.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Mac Chiang <mac.chiang@intel.com>
+On Wed, May 7, 2025 at 3:32=E2=80=AFAM P=C3=A9ter Ujfalusi
+<peter.ujfalusi@linux.intel.com> wrote:
+> On 06/05/2025 18:12, Tavian Barnes wrote:
+> > hda_generic_machine_select() appends -idisp to the tplg filename by
+> > allocating a new string with devm_kasprintf(), then stores the string
+> > right back into the global variable snd_soc_acpi_intel_hda_machines.
+> > When the module is unloaded, this memory is freed, resulting in a globa=
+l
+> > variable pointing to freed memory.  Reloading the modules then triggers
+> > a use-after-free:
+> >
+> > BUG: KFENCE: use-after-free read in string+0x48/0xe0
+> >
+> > Use-after-free read at 0x00000000967e0109 (in kfence-#99):
+> >  string+0x48/0xe0
+> >  vsnprintf+0x329/0x6e0
+> >  devm_kvasprintf+0x54/0xb0
+> >  devm_kasprintf+0x58/0x80
+> >  hda_machine_select.cold+0x198/0x17a2 [snd_sof_intel_hda_generic]
+> >  sof_probe_work+0x7f/0x600 [snd_sof]
+> >  process_one_work+0x17b/0x330
+> >  worker_thread+0x2ce/0x3f0
+> >  kthread+0xcf/0x100
+> >  ret_from_fork+0x31/0x50
+> >  ret_from_fork_asm+0x1a/0x30
+> >
+> > kfence-#99: 0x00000000198a940f-0x00000000ace47d9d, size=3D64, cache=3Dk=
+malloc-64
+> >
+> > allocated by task 333 on cpu 8 at 17.798069s (130.453553s ago):
+> >  devm_kmalloc+0x52/0x120
+> >  devm_kvasprintf+0x66/0xb0
+> >  devm_kasprintf+0x58/0x80
+> >  hda_machine_select.cold+0x198/0x17a2 [snd_sof_intel_hda_generic]
+> >  sof_probe_work+0x7f/0x600 [snd_sof]
+> >  process_one_work+0x17b/0x330
+> >  worker_thread+0x2ce/0x3f0
+> >  kthread+0xcf/0x100
+> >  ret_from_fork+0x31/0x50
+> >  ret_from_fork_asm+0x1a/0x30
+> >
+> > freed by task 1543 on cpu 4 at 141.586686s (6.665010s ago):
+> >  release_nodes+0x43/0xb0
+> >  devres_release_all+0x90/0xf0
+> >  device_unbind_cleanup+0xe/0x70
+> >  device_release_driver_internal+0x1c1/0x200
+> >  driver_detach+0x48/0x90
+> >  bus_remove_driver+0x6d/0xf0
+> >  pci_unregister_driver+0x42/0xb0
+> >  __do_sys_delete_module+0x1d1/0x310
+> >  do_syscall_64+0x82/0x190
+> >  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> >
+> > Fix it by saving the filename in pdata->tplg_filename instead, just lik=
+e
+> > every other code path that appends to the tplg filename.
+> >
+> > Fixes: 5458411d7594 ("ASoC: SOF: Intel: hda: refactoring topology name =
+fixup for HDA mach")
+> > Signed-off-by: Tavian Barnes <tavianator@tavianator.com>
+> > ---
+> > v2: Fix typo
+> >
+> >  sound/soc/sof/intel/hda.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
+> > index b34e5fdf10f1..1767977e7cff 100644
+> > --- a/sound/soc/sof/intel/hda.c
+> > +++ b/sound/soc/sof/intel/hda.c
+> > @@ -1069,7 +1069,7 @@ static void hda_generic_machine_select(struct snd=
+_sof_dev *sdev,
+> >                               if (!tplg_filename)
+> >                                       return;
+> >
+> > -                             hda_mach->sof_tplg_filename =3D tplg_file=
+name;
+> > +                             pdata->tplg_filename =3D tplg_filename;
+> >                       }
+> >
+> >                       if (codec_num =3D=3D 2 ||
+>
+> I think the correct way would be to make a local copy of the
+> snd_soc_acpi_intel_hda_machines array as we might be modifying it:
+>
+>
+> /*
+>  * make a local copy of the match array since we might
+>  * be modifying it
+>  */
+> hda_mach =3D devm_kmemdup_array(sdev->dev,
+>                 snd_soc_acpi_intel_hda_machines,
+>                 2 /* we have one entry + sentinel in the array */,
+>                 sizeof(snd_soc_acpi_intel_hda_machines[0]),
+>                 GFP_KERNEL);
+> if (!hda_mach) {
+>         dev_err(bus->dev,
+>                 "%s: Failed to duplicate the HDA match table\n",
+>                 __func__);
+>         return;
+> }
+>
+> or if the "2" is not satisfactory (we _know_ that the array size is 2
+> for this and will not change):
+> include/sound/soc-acpi-intel-match.h
+> +extern size_t snd_soc_acpi_num_intel_hda_machines;
+>
+> sound/soc/intel/common/soc-acpi-intel-hda-match.c
+> +size_t snd_soc_acpi_num_intel_hda_machines =3D
+> ARRAY_SIZE(snd_soc_acpi_intel_hda_machines);
+> +EXPORT_SYMBOL_GPL(snd_soc_acpi_num_intel_hda_machines);
+>
+> and:
+> /*
+>  * make a local copy of the match array since we might
+>  * be modifying it
+>  */
+> hda_mach =3D devm_kmemdup_array(sdev->dev,
+>                 snd_soc_acpi_intel_hda_machines,
+>                 snd_soc_acpi_num_intel_hda_machines,
+>                 sizeof(snd_soc_acpi_intel_hda_machines[0]),
+>                 GFP_KERNEL);
+> if (!hda_mach) {
+>         dev_err(bus->dev,
+>                 "%s: Failed to duplicate the HDA match table\n",
+>                 __func__);
+>         return;
+> }
 
-This patch adds support for the rt712_vb multi-function codec and
-rt1320 amplifier. Both devices are connected via a single Soundwire link 3,
-sharing the sdw3-clock, sdw3-data[0] and sdw3-data[1] data lanes
-respectively.
-
-Signed-off-by: Mac Chiang <mac.chiang@intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- .../intel/common/soc-acpi-intel-ptl-match.c   | 31 +++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index f9510480d188..eae75f3f0fa4 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -321,6 +321,15 @@ static const struct snd_soc_acpi_adr_device rt713_vb_3_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_adr_device rt1320_3_group1_adr[] = {
-+	{
-+		.adr = 0x000330025D132001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "rt1320-1"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt721_3_single_adr[] = {
- 	{
- 		.adr = 0x000330025d072101ull,
-@@ -541,6 +550,20 @@ static const struct snd_soc_acpi_link_adr ptl_sdw_rt712_vb_l3_rt1320_l2[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr ptl_sdw_rt712_vb_l3_rt1320_l3[] = {
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(rt712_vb_3_group1_adr),
-+		.adr_d = rt712_vb_3_group1_adr,
-+	},
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(rt1320_3_group1_adr),
-+		.adr_d = rt1320_3_group1_adr,
-+	},
-+	{}
-+};
-+
- /* this table is used when there is no I2S codec present */
- struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- /* Order Priority: mockup > most links > most bit link-mask > alphabetical */
-@@ -633,6 +656,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-ptl-cs42l43-l3.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
-+	{
-+		.link_mask = BIT(3),
-+		.links = ptl_sdw_rt712_vb_l3_rt1320_l3,
-+		.drv_name = "sof_sdw",
-+		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
-+		.sof_tplg_filename = "sof-ptl-rt712-l3-rt1320-l3.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
-+	},
- 	{
- 		.link_mask = BIT(3),
- 		.links = ptl_rt721_l3,
--- 
-2.43.0
-
+I don't think anything is relying on hda_mach being an array (correct
+me if I'm wrong!).  So maybe just devm_kmemdup() is fine?  I'll test
+it now.
