@@ -1,164 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB01A28A40A;
-	Wed,  7 May 2025 15:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA57028A73F;
+	Wed,  7 May 2025 16:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746631729; cv=none; b=iRwsQH3vva/MDZVURbtBYW+MeG0cKxZfWlVwMAm0NyjDX2rJGS7oVWlTlI7IxkHj2W3swPUBtu63t0o9hI9cIqHIrx8Jncbrd/XowwWpTwD1TCcSAExh1aC5sltgfNAXfmsepBoLk+t/QiNbOLvs/ePRa/U6LXkU7qEz+msSkU0=
+	t=1746636095; cv=none; b=E5dl6OUHOFs9gHpX9Xzcv7C2B/4jK3FFa0uTDbBmTz4WSreOYqy4wi0qVfIy2YjvRnDo1aKvCesLe/lMC7nltEOr+NTuY4FLgrXz3ZMRQeIPtkxgxQ4yL8BcO3gn9XA/hezbo4EHJXcKi5+zK1wp/z+2zL2wC9/op08E7rfUZAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746631729; c=relaxed/simple;
-	bh=U3gqx9HJDrBUxRXpFQ0kGmgcPR6L+B/y4mEAOBvP1VE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JYZP17GGJN1x8mLKzJ38iS6anjNtuTzgxLlGklgm8HD/ndlpW3b0t/u0uR6tDbqT8+F3W7PVpv9LKMQfHn1U8t5DDyoyJ0FWnBYqZADpKNt0XRJaTCnHBHMbBsYSPfvMYXA/dYZwga7n88MaN22iSBDPX6nxoFWPhoeSU65Ac30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ltby96jY; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1746636095; c=relaxed/simple;
+	bh=iu4DqH0BiPBmHQ3Yxxgy5dmtT9CVDW/JTaBvXtsoyVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BjCLn1s7Fj23xlBdDLCHX8uTiAi1/+IITRJuWwJCgIrYGlogDpktoBsywQ/De0/SbMZ9f4HbtJBAgZ7I1F9HPZyruEUlAZ1AewgKQGRO5IcHDXC/W1Zmpv5iipeG7LbIWDp4WjCEIWYxw8rQga7kRrx6nMvQepW6jygN4voh7rU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=WqmJ7wZC; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ltby96jY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746631727; x=1778167727;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=U3gqx9HJDrBUxRXpFQ0kGmgcPR6L+B/y4mEAOBvP1VE=;
-  b=ltby96jYdDoKeZTXqerJZLNLrak4ZiZV1Qz7TnQA4d75bwwC8f78H/k9
-   nHxmJJ7UDyHYu6SO8mEjrFEDtH7nCnrU5z4LwZnqDaiXqMB9ln0r4/1fk
-   A3sPwsjP5K9E374wXtwPXVsE5/pDK0GibMnLJvDKc5giUeYy4LfE8sh4B
-   PxquWKdsOSlef3W9i/IdFL6PC9a+xIr75gfzJvZFEFQhznfIAVRYBsEWE
-   Y7Z3KOn+4SZXFfrmJhfFZL4HvOUsggxPUPelILXvGd25EbHvJ4fXy74vc
-   0pxXmD8Ecmf3/clyCN97nU1pAQpKoZLfkjRYTH+x3MtQrSGS6P2pn++4f
-   A==;
-X-CSE-ConnectionGUID: oiu4cotxTl2JIrkRw7Pp/Q==
-X-CSE-MsgGUID: iOSfXmOATp+wMAFXvwzh3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="36003902"
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="36003902"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 08:28:47 -0700
-X-CSE-ConnectionGUID: qJxKP7HQSsqZicpk6Mrr1A==
-X-CSE-MsgGUID: OB7GjsU/QqyFV3H/aeBaXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="167057498"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.246.101]) ([10.245.246.101])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 08:28:43 -0700
-Message-ID: <40ac692b-2a97-4b4c-a9f5-47601571f6f3@linux.intel.com>
-Date: Wed, 7 May 2025 18:29:56 +0300
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="WqmJ7wZC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1746636091;
+	bh=iu4DqH0BiPBmHQ3Yxxgy5dmtT9CVDW/JTaBvXtsoyVM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WqmJ7wZCGoPV75a1CSt5fFVV8hrvOqfCXQ0JPVfKoPTPhbHeRx4CnRdrVacfFgkw6
+	 ZyBkuUrakoPGIFob+t4tXeZF0bqBAR0RcoqSw6Lxl4LeFkHhIcZePw8nJUW037Q0l9
+	 +XYqQGkw0UHbU5S80EWBf/miDl1sTjzjwfLTVt4PuE6NyAXbWIIfrYjhUtxERDpUEI
+	 +wNcJ8nnwgIUgcGoWK52d/XXRG8e6n05o3z+UvAgOA8x93+GfjpOERpguPMLhmvj37
+	 dD+3TVjgDSNCoEVQHqicrGFRCMBWH7i3EqXSMya3BBb6oIRG5Q2O+HSnD5lpo19NZ4
+	 flhNyI2SI20kA==
+Received: from notapiano (unknown [70.107.117.78])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id BEA5417E04C0;
+	Wed,  7 May 2025 18:41:29 +0200 (CEST)
+Date: Wed, 7 May 2025 12:41:27 -0400
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Zoran Zhan <zoran.zhan@mediatek.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] ASoC: mediatek: mt8188-mt6359: select
+ CONFIG_SND_SOC_MT6359_ACCDET
+Message-ID: <d9642581-3fed-47d8-9661-4335ec1e9c27@notapiano>
+References: <20250505052106.1811802-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ASoC: SOF: Intel: hda: Fix UAF when reloading module
-To: Tavian Barnes <tavianator@tavianator.com>, linux-sound@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Peter Zijlstra <peterz@infradead.org>,
- sound-open-firmware@alsa-project.org, linux-kernel@vger.kernel.org
-References: <fb47a18bdea9e9f86d6fccf1d881434cda3cd5f0.1746627007.git.tavianator@tavianator.com>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <fb47a18bdea9e9f86d6fccf1d881434cda3cd5f0.1746627007.git.tavianator@tavianator.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250505052106.1811802-1-arnd@kernel.org>
 
-Hi,
+On Mon, May 05, 2025 at 07:20:52AM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The driver support was added without selecting the codec, which leads to
+> a link failure:
+> 
+> aarch64-linux-ld: sound/soc/mediatek/mt8188/mt8188-mt6359.o: in function `mt8188_mt6359_init':
+> mt8188-mt6359.c:(.text+0x19f0): undefined reference to `mt6359_accdet_enable_jack_detect'
 
-On 07/05/2025 18:10, Tavian Barnes wrote:
-> hda_generic_machine_select() appends -idisp to the tplg filename by
-> allocating a new string with devm_kasprintf(), then stores the string
-> right back into the global variable snd_soc_acpi_intel_hda_machines.
-> When the module is unloaded, this memory is freed, resulting in a global
-> variable pointing to freed memory.  Reloading the module then triggers
-> a use-after-free:
+Hm, I cannot seem to reproduce this. I just tried to build on today's next with
+CONFIG_SND_SOC_MT6359_ACCDET disabled and have tried
+CONFIG_SND_SOC_MT8188_MT6359 both =m and =y, but in both cases it compiles fine.
+
+I wonder if somehow your tree was missing "ASoC: mediatek: mt6359: Add stub for
+mt6359_accdet_enable_jack_detect" [1], or if it's due to a difference in
+compiler versions used...
+
+(I'm using gcc-linaro-12.3.1-2023.06-x86_64_aarch64-linux-gnu)
+
+Thanks,
+N�colas
+
+[1] https://lore.kernel.org/all/20250306-mt8188-accdet-v3-3-7828e835ff4b@collabora.com/
+
 > 
-> BUG: KFENCE: use-after-free read in string+0x48/0xe0
-> 
-> Use-after-free read at 0x00000000967e0109 (in kfence-#99):
->  string+0x48/0xe0
->  vsnprintf+0x329/0x6e0
->  devm_kvasprintf+0x54/0xb0
->  devm_kasprintf+0x58/0x80
->  hda_machine_select.cold+0x198/0x17a2 [snd_sof_intel_hda_generic]
->  sof_probe_work+0x7f/0x600 [snd_sof]
->  process_one_work+0x17b/0x330
->  worker_thread+0x2ce/0x3f0
->  kthread+0xcf/0x100
->  ret_from_fork+0x31/0x50
->  ret_from_fork_asm+0x1a/0x30
-> 
-> kfence-#99: 0x00000000198a940f-0x00000000ace47d9d, size=64, cache=kmalloc-64
-> 
-> allocated by task 333 on cpu 8 at 17.798069s (130.453553s ago):
->  devm_kmalloc+0x52/0x120
->  devm_kvasprintf+0x66/0xb0
->  devm_kasprintf+0x58/0x80
->  hda_machine_select.cold+0x198/0x17a2 [snd_sof_intel_hda_generic]
->  sof_probe_work+0x7f/0x600 [snd_sof]
->  process_one_work+0x17b/0x330
->  worker_thread+0x2ce/0x3f0
->  kthread+0xcf/0x100
->  ret_from_fork+0x31/0x50
->  ret_from_fork_asm+0x1a/0x30
-> 
-> freed by task 1543 on cpu 4 at 141.586686s (6.665010s ago):
->  release_nodes+0x43/0xb0
->  devres_release_all+0x90/0xf0
->  device_unbind_cleanup+0xe/0x70
->  device_release_driver_internal+0x1c1/0x200
->  driver_detach+0x48/0x90
->  bus_remove_driver+0x6d/0xf0
->  pci_unregister_driver+0x42/0xb0
->  __do_sys_delete_module+0x1d1/0x310
->  do_syscall_64+0x82/0x190
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> 
-> Fix it by copying the machine with devm_kmemdup() before we modify it.
-> 
-> Fixes: 5458411d7594 ("ASoC: SOF: Intel: hda: refactoring topology name fixup for HDA mach")
-> Suggested-by: Péter Ujfalusi" <peter.ujfalusi@linux.intel.com>
-> Signed-off-by: Tavian Barnes <tavianator@tavianator.com>
+> Fixes: f35d834d67ad ("ASoC: mediatek: mt8188-mt6359: Add accdet headset jack detect support")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
-> v3: Copy the whole machine struct instead so we can safely modify it
->     (instead of storing the name in pdata->tplg_filename, breaking other
->     fixups).  The problem with v2 was pointed out by Bard Liao, with the
->     alternative fix suggested by Péter Ujfalusi.
+>  sound/soc/mediatek/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->  sound/soc/sof/intel/hda.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+> diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
+> index 3033e2d3fe16..e148d4d94160 100644
+> --- a/sound/soc/mediatek/Kconfig
+> +++ b/sound/soc/mediatek/Kconfig
+> @@ -229,6 +229,7 @@ config SND_SOC_MT8188_MT6359
+>  	tristate "ASoC Audio driver for MT8188 with MT6359 and I2S codecs"
+>  	depends on SND_SOC_MT8188 && MTK_PMIC_WRAP
+>  	depends on I2C
+> +	select SND_SOC_MT6359_ACCDET
+>  	select SND_SOC_MT6359
+>  	select SND_SOC_HDMI_CODEC
+>  	select SND_SOC_DMIC
+> -- 
+> 2.39.5
 > 
-> diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-> index b34e5fdf10f1..cbf96b342005 100644
-> --- a/sound/soc/sof/intel/hda.c
-> +++ b/sound/soc/sof/intel/hda.c
-> @@ -1049,7 +1049,13 @@ static void hda_generic_machine_select(struct snd_sof_dev *sdev,
->  		if (!*mach && codec_num <= 2) {
->  			bool tplg_fixup = false;
->  
-> -			hda_mach = snd_soc_acpi_intel_hda_machines;
-> +			/* make a copy so we can modify it below */
-> +			hda_mach = devm_kmemdup(sdev->dev,
-> +						snd_soc_acpi_intel_hda_machines,
-> +						sizeof(*hda_mach),
-> +						GFP_KERNEL);
-
-We need to copy 2x the size as the snd_soc_acpi_intel_hda_machines[] has
-two entries, the second is the sentinel (all 0).
-
-> +			if (!hda_mach)
-> +				return;
->  
->  			dev_info(bus->dev, "using HDA machine driver %s now\n",
->  				 hda_mach->drv_name);
-
--- 
-Péter
-
