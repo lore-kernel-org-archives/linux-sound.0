@@ -1,48 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92231F5834;
-	Wed,  7 May 2025 11:12:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B6A1F5834
+	for <linux-sound@vger.kernel.org>; Wed,  7 May 2025 11:12:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746616375; cv=none; b=Ew/r4X1dy3nLF6DYHS/0AgGMbOv77uk2ILGNNWa+ozLizzv0S6mHegd3zHJwNESrfp5XhOZ1qQlMoBOw3Z6cr2DCk9ykm+zpZNqsoqV+dHq+SANuqSSHP+qjdqx8TW36Q0j/WTncVHR0eYvpJLLhQUDAT0Z28WndhmYHkBXJiMw=
+	t=1746616379; cv=none; b=eVEEp3I0oByChwgFNfMqifSbJ7K0r37w0o9RTvHkHGixhGtpKO2AFguk5qKOKqw3EXliKqsdlR6vyEc7izJkb9Uo7ysYvCm7AmRjhFZtfD/edX0ajpSjEcWYZqyFqhlyZKZsCvPiSy05P19BzUSlaERmZgrx1tWkred6GPQblW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746616375; c=relaxed/simple;
-	bh=i8Nmf/M83ngPceislApsO+P6BTyU/rioXKpD6P/mSKU=;
+	s=arc-20240116; t=1746616379; c=relaxed/simple;
+	bh=gCAfBy6ipAySzOKJ6lmhuTniF+KV0ywkzrk9DEtV52w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UD+wRLWdP2kCGzM/LtY52E3YYU0vEQGw4A7Opx+tT/RMl4hPkt+rNsdYZzeQTZTiUj48vbFK3dD0bfcSIznG/HjmZnNKvOhnZDm301aAlOhd5Wgnp8xPRnJ/U99f6FS+q9Y9RcLEmzsSC00nwPbValol7ywoXR/jul5Q8ype0ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Io4axBlX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=j7ouh5p/D9iBvFces/PY7fZ6qoHqzKyfPx9lrlK9UYtqC4i1A4//UKtR9q9nyGRGsI63gidjWaiFdGTKT8D9d+XCT7MWZkIDYQ0Sx/8+vh070LfUjCmkQwfUZCcYd37jZr4v0bHDrvXBkJPlNOU/RjeEHHJxgpvEPAcqtUx7cwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JHFFX5Dx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Io4axBlX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89EB7C4CEE7;
-	Wed,  7 May 2025 11:12:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JHFFX5Dx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE59CC4CEEB;
+	Wed,  7 May 2025 11:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746616375;
-	bh=i8Nmf/M83ngPceislApsO+P6BTyU/rioXKpD6P/mSKU=;
+	s=k20201202; t=1746616378;
+	bh=gCAfBy6ipAySzOKJ6lmhuTniF+KV0ywkzrk9DEtV52w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Io4axBlXnAqiwN50vnbJxawwhAUR2HJTYEh2QC80zGTlMkecKmvP+aeN0z702Eaga
-	 zABZn+8VwK4uiI8pNOmzokFSPS4JI90Q85J8UUeCk52Dshyy31eGxcY2I/QTktk84/
-	 /8KY4lvdvLCn4viw3qtJiSVhAVAyS5LsNKpyV4v+5IqJl0833a37No06FBB4VYPqWh
-	 xRh/HB+0kGKkbBLcIa6XBRsipvWVKuDHS/kx8m8UGtB/d8t2puZ1hmw5lJGkx9A3vl
-	 uu3JrxZVGWdMsstJhxsYfJGPQpN9TDJSI35S0JhVc547QdZR3G9kpIjxwYOnPe8FOj
-	 kr5nC6EnLwP7w==
+	b=JHFFX5DxIzrmfI7aZ6A168QwjHPflyJNWW4PFbnz9dbqJ2xzYr5b3h+VtCdNCIFMo
+	 xoQlgAFHhgXKjYLvmYT05ozeKAPw+6cI/ONAHfu1+InOUw1G7a44+bVeeOyMRsaE2x
+	 EjVuCR4mrY51P3GoNBLkzegmvyJneqTlgddTtgAd8v1TqZETz+Jkbhw1Oh7//Kjjve
+	 i/mPr0MddvWVxlp2Lq5S9o89+r+j//6klNUymWl3i0zjrHTvCnFhmYaL/V28pzD0fe
+	 McyGW5n7TlqkRpHZCXVthcB9TBLB2oUNAcx47tmKjtBhDbOe9LFDsvOzEggX79lClc
+	 PvRERwU0EcX0Q==
 From: Mark Brown <broonie@kernel.org>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
- Peng Fan <peng.fan@nxp.com>
-In-Reply-To: <20250428-csl42x-v2-0-e8056313968f@nxp.com>
-References: <20250428-csl42x-v2-0-e8056313968f@nxp.com>
-Subject: Re: [PATCH v2 0/9] ASoC: codec: cs42l[56,73,52]: Convert to GPIO
- descriptors
-Message-Id: <174661637241.4174662.1114099505492854363.b4-ty@kernel.org>
-Date: Wed, 07 May 2025 20:12:52 +0900
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
+ peter.ujfalusi@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ Vijendar.Mukunda@amd.com, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20250505141409.2614010-1-ckeepax@opensource.cirrus.com>
+References: <20250505141409.2614010-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v2 0/2] Minor bug fix and tidy up for sof_sdw
+Message-Id: <174661637555.4174662.6662619469038232233.b4-ty@kernel.org>
+Date: Wed, 07 May 2025 20:12:55 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,17 +48,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Mon, 28 Apr 2025 10:09:01 +0800, Peng Fan (OSS) wrote:
-> This patchset is separate from [1], and not merging changes in one
-> patch. So separate changes into three patches for each chip.
-> - sort headers
-> - Drop legacy platform support
-> - Convert to GPIO descriptors
+On Mon, 05 May 2025 15:14:07 +0100, Charles Keepax wrote:
+> Fix a small bug that can cause the sof_sdw machine driver to fail probe
+> after the first time it has probed. Also do some minor tidy up on the
+> handling of the platform_component of the dai links.
 > 
-> of_gpio.h is deprecated, update the driver to use GPIO descriptors.
->  - Use devm_gpiod_get_optional to get GPIO descriptor with default
->    polarity GPIOD_OUT_LOW, set consumer name.
->  - Use gpiod_set_value_cansleep to configure output value.
+> Thanks,
+> Charles
 > 
 > [...]
 
@@ -73,24 +64,10 @@ Applied to
 
 Thanks!
 
-[1/9] ASoC: codec: cs42l56: Sort headers alphabetically
-      commit: 4060ebdd5063eed98a8f81f78f1e67ffc4ff0942
-[2/9] ASoC: codec: cs42l56: Drop cs42l56.h
-      commit: 86f6e4791c40c33891299d95c055e5d06d396284
-[3/9] ASoC: codec: cs42l56: Convert to GPIO descriptors
-      commit: 0bb92e4736a9dd43e3215b378db5ac63075a3cc1
-[4/9] ASoC: codec: cs42l73: Sort headers alphabetically
-      commit: f3e7298848f0e6c09e4da5fd80bca7cd0c58ccc1
-[5/9] ASoC: codec: cs42l73: Drop cs42l73.h
-      commit: 43ef0dccbc2528924c4b03a902fa39502faabb16
-[6/9] ASoC: codec: cs42l73: Convert to GPIO descriptors
-      commit: b6118100382c9e4c8ca623b3a8e8bf1a09c42aa5
-[7/9] ASoC: codec: cs42l52: Sort headers alphabetically
-      commit: 2d703321b856acdb6589d74906e19aa5cb328d4e
-[8/9] ASoC: codec: cs42l52: Drop cs42l52.h
-      commit: 772c036befb875c904731fb309fb9d2e065ba3f8
-[9/9] ASoC: codec: cs42l52: Convert to GPIO descriptors
-      commit: 5bf5bdfd007e07f2ec5b3e07aa02616f4eebef67
+[1/2] ASoC: sdw_utils: Remove num_platforms from simple DAI helper
+      commit: 8ce5ace8e279d39f249fd5ead33895d04263ea36
+[2/2] ASoC: Intel: sof_sdw: Avoid NULL check fail when re-probing
+      commit: 6c965d39af98a8b79668898b3a2af40d11179ff4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
