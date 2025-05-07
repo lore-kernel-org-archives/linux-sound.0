@@ -1,100 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CD81E3DFD;
-	Wed,  7 May 2025 08:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92231F5834;
+	Wed,  7 May 2025 11:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746607903; cv=none; b=BwY1B6FARMapoeeJJgQhBO5t/pScNcRPZBDUOivvs2e32kVXwAXrnJ5CYq4XhMJAU/bPvqHObYRDlIyUj/C3Fcub4Xim8RgTfqO4wcaiYK3ryAqD0VHICc+hD4mQ5+nS1hPmUkvWG9gzyxS3aFaytoS+t6zL6zyKfJbkjogPGwI=
+	t=1746616375; cv=none; b=Ew/r4X1dy3nLF6DYHS/0AgGMbOv77uk2ILGNNWa+ozLizzv0S6mHegd3zHJwNESrfp5XhOZ1qQlMoBOw3Z6cr2DCk9ykm+zpZNqsoqV+dHq+SANuqSSHP+qjdqx8TW36Q0j/WTncVHR0eYvpJLLhQUDAT0Z28WndhmYHkBXJiMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746607903; c=relaxed/simple;
-	bh=ZRGbU16EbvLnN1mbcnVMGiKhfTvveYDWrA+XdW/F9ag=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EG1Lqqk/kr5i4eoAREq9PCBQ0/6HvIZcEaH5M0eQWHawld1McYHlPpTMNluO0K/cYxoubZNqu3WUzg9Y1JfcbRr6lyFQmScT4mgBsqwNeXqmfZyZaHl/Zu9euhls2TZlfMY6fm0pO5ceuzfLmQVeLxDNrNDKkmqeCmKTVj0xtjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZZux7i0V; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1746616375; c=relaxed/simple;
+	bh=i8Nmf/M83ngPceislApsO+P6BTyU/rioXKpD6P/mSKU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=UD+wRLWdP2kCGzM/LtY52E3YYU0vEQGw4A7Opx+tT/RMl4hPkt+rNsdYZzeQTZTiUj48vbFK3dD0bfcSIznG/HjmZnNKvOhnZDm301aAlOhd5Wgnp8xPRnJ/U99f6FS+q9Y9RcLEmzsSC00nwPbValol7ywoXR/jul5Q8ype0ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Io4axBlX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZZux7i0V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746607902; x=1778143902;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ZRGbU16EbvLnN1mbcnVMGiKhfTvveYDWrA+XdW/F9ag=;
-  b=ZZux7i0V4caVjSoAGZbGly6568nQcIuklKPUoZpqUNChrx8ULFLvm2td
-   xQlskQSS/CHozvQdgFxugLud7X5BmxncbC9xf1Jo/pqxS/rewBhc15ng2
-   Q9SooLhncYX30szHXY9GTGF3G+qWiYTb2UUtcXzE/j0krOotEuaOirBDx
-   8QDKegDwBVhXPip9ITWOmkj0pxvMB41m4jCT1U9ZkQJxXmskaHUSAsU5+
-   bhRA2sPyMef2N400G428G/arn9ZyNOc5Ho4OL0dj/eqcloDy5OMiX18bN
-   7R4UTWexZQVkUxatGyNxvE8LtVLwuHAd5ZWxDeFZj2qYLjUNtqTexEeE4
-   A==;
-X-CSE-ConnectionGUID: EE5cua3SQ16CMAgr86aIIg==
-X-CSE-MsgGUID: QznCW1lnQ/Gj5k0liUG7ZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48458801"
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="48458801"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 01:51:41 -0700
-X-CSE-ConnectionGUID: EtXsSu9LQe6T33TJsof/7g==
-X-CSE-MsgGUID: UT0T4aFTS862wyvBzJ35Xg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="135611044"
-Received: from yungchua-mobl2.ccr.corp.intel.com (HELO [10.246.105.120]) ([10.246.105.120])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 01:51:38 -0700
-Message-ID: <eff651df-bc2a-45bf-a629-5adb4f8f398c@linux.intel.com>
-Date: Wed, 7 May 2025 16:51:35 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Io4axBlX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89EB7C4CEE7;
+	Wed,  7 May 2025 11:12:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746616375;
+	bh=i8Nmf/M83ngPceislApsO+P6BTyU/rioXKpD6P/mSKU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Io4axBlXnAqiwN50vnbJxawwhAUR2HJTYEh2QC80zGTlMkecKmvP+aeN0z702Eaga
+	 zABZn+8VwK4uiI8pNOmzokFSPS4JI90Q85J8UUeCk52Dshyy31eGxcY2I/QTktk84/
+	 /8KY4lvdvLCn4viw3qtJiSVhAVAyS5LsNKpyV4v+5IqJl0833a37No06FBB4VYPqWh
+	 xRh/HB+0kGKkbBLcIa6XBRsipvWVKuDHS/kx8m8UGtB/d8t2puZ1hmw5lJGkx9A3vl
+	 uu3JrxZVGWdMsstJhxsYfJGPQpN9TDJSI35S0JhVc547QdZR3G9kpIjxwYOnPe8FOj
+	 kr5nC6EnLwP7w==
+From: Mark Brown <broonie@kernel.org>
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Peng Fan <peng.fan@nxp.com>
+In-Reply-To: <20250428-csl42x-v2-0-e8056313968f@nxp.com>
+References: <20250428-csl42x-v2-0-e8056313968f@nxp.com>
+Subject: Re: [PATCH v2 0/9] ASoC: codec: cs42l[56,73,52]: Convert to GPIO
+ descriptors
+Message-Id: <174661637241.4174662.1114099505492854363.b4-ty@kernel.org>
+Date: Wed, 07 May 2025 20:12:52 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] soundwire: intel_auxdevice: Fix system suspend/resume
- handling
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Vinod Koul <vkoul@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
- Sanyog Kale <sanyog.r.kale@intel.com>, linux-sound@vger.kernel.org,
- bard.liao@intel.com
-References: <5891540.DvuYhMxLoT@rjwysocki.net>
- <30acf520-c137-4b49-8b69-08e35a7c5969@linux.dev>
-Content-Language: en-US
-From: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
-In-Reply-To: <30acf520-c137-4b49-8b69-08e35a7c5969@linux.dev>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
+On Mon, 28 Apr 2025 10:09:01 +0800, Peng Fan (OSS) wrote:
+> This patchset is separate from [1], and not merging changes in one
+> patch. So separate changes into three patches for each chip.
+> - sort headers
+> - Drop legacy platform support
+> - Convert to GPIO descriptors
+> 
+> of_gpio.h is deprecated, update the driver to use GPIO descriptors.
+>  - Use devm_gpiod_get_optional to get GPIO descriptor with default
+>    polarity GPIOD_OUT_LOW, set consumer name.
+>  - Use gpiod_set_value_cansleep to configure output value.
+> 
+> [...]
 
+Applied to
 
-On 4/26/2025 1:12 AM, Pierre-Louis Bossart wrote:
-> On 4/24/25 20:13, Rafael J. Wysocki wrote:
->> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->>
->> The code in intel_suspend() and intel_resume() needs to be properly
->> synchronized with runtime PM which is not the case currently, so fix
->> it.
->>
->> First of all, prevent runtime PM from triggering after intel_suspend()
->> has started because the changes made by it to the device might be
->> undone by a runtime resume of the device.  For this purpose, add a
->> pm_runtime_disable() call to intel_suspend().
-> 
-> Allow me to push back on this, because we have to be very careful with a hidden state transition that needs to happen.
-> 
-> If a controller was suspended by pm_runtime, it will enter the clock stop mode.
-> 
-> If the system needs to suspend, the controller has to be forced to exit the clock stop mode and the bus has to restart before we can suspend it, and that's why we had those pm_runtime_resume().
-> 
-> Disabling pm_runtime when entering system suspend would be problematic for Intel hardware, it's a known can of worms.
-> 
-> It's quite possible that some of the code in intel_suspend() is no longer required because the .prepare will resume the bus properly, but I wanted to make sure this state transition out of clock-stop is known and taken into consideration.
-> 
-> Bard, is this a configuration you've tested?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
+Thanks!
 
-Sorry for the late reply. Yes, I tested jack detection in runtime
-suspended. Also, the CI test is passed.
+[1/9] ASoC: codec: cs42l56: Sort headers alphabetically
+      commit: 4060ebdd5063eed98a8f81f78f1e67ffc4ff0942
+[2/9] ASoC: codec: cs42l56: Drop cs42l56.h
+      commit: 86f6e4791c40c33891299d95c055e5d06d396284
+[3/9] ASoC: codec: cs42l56: Convert to GPIO descriptors
+      commit: 0bb92e4736a9dd43e3215b378db5ac63075a3cc1
+[4/9] ASoC: codec: cs42l73: Sort headers alphabetically
+      commit: f3e7298848f0e6c09e4da5fd80bca7cd0c58ccc1
+[5/9] ASoC: codec: cs42l73: Drop cs42l73.h
+      commit: 43ef0dccbc2528924c4b03a902fa39502faabb16
+[6/9] ASoC: codec: cs42l73: Convert to GPIO descriptors
+      commit: b6118100382c9e4c8ca623b3a8e8bf1a09c42aa5
+[7/9] ASoC: codec: cs42l52: Sort headers alphabetically
+      commit: 2d703321b856acdb6589d74906e19aa5cb328d4e
+[8/9] ASoC: codec: cs42l52: Drop cs42l52.h
+      commit: 772c036befb875c904731fb309fb9d2e065ba3f8
+[9/9] ASoC: codec: cs42l52: Convert to GPIO descriptors
+      commit: 5bf5bdfd007e07f2ec5b3e07aa02616f4eebef67
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
