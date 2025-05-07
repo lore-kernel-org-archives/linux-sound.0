@@ -1,202 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB41211A11;
-	Wed,  7 May 2025 07:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBAC221708
+	for <linux-sound@vger.kernel.org>; Wed,  7 May 2025 08:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746603142; cv=none; b=EZXLZB/5OopStyLjU/lMBwe4dAf6FAVrEmqPLHEjrg1IihmU37GCPR2zcN9YEtaFunhIhIS8G0dtYj6vPpi4aVC57VwPSeVk5B+bfnZPGWVbADy+UgSKEO+ElWH4Bf/v/B2dM+gpbmToSD8SJiORm5NBkS7Hnsvf04bC4DibKU4=
+	t=1746604928; cv=none; b=JqU/36Un8pp6az1DV1Ss4WGZXRkUGzhw/JtI76xYGTcME/n6aTYwTzqnS3eokY+SHN4G+RiS79b4lZAxSxCLV3OdTXMrkoe0xwDZ6bbSIX7fQ424VJh3nnllMs03j3gh2orRYRKcWBZOjQL+ag6IEYg5fAKJnJp5ahqtziTvvuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746603142; c=relaxed/simple;
-	bh=FoWncUHZ05ggnRvOTTMYwbUhcFb3cRvPVojt8az5VkQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SzpsXTyjZAsHcqwnGNj7zEjhOLA7o4d4FzNWqNcyq7sd5n27W73X3ikpEIjGhOUCqM2/ghrivZjeYZK75dKUgD5npsTnzS9NsYK0J+opuxcPq/vYVjfKpN7D2lTgDzy0MHp0mbpCSKiac4dUtyQGpdUG+asha+fGcI54rMEav1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JePko0pa; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1746604928; c=relaxed/simple;
+	bh=UQYPuQ4V0eo5jv/qafQ0OHy9kWYPLY7nSfMkxHI957U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=r+xDh0uMbYPGoRuGHfJTxPAUO4kBGP/hdJOIdqewz9rcSpZ+lDrYFoC3TvFzgdrR4Lp1br+CXjICLoUk+I5V7M3C5W2JOdtn29xHxZwZt2Eql8oAWuCNW7ve55b1Sp+HQftGZdDdwbUcVVixuqKrzvEwIhNtTBxoKHGkAUmlCHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=N/GBQnER; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JePko0pa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746603140; x=1778139140;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=FoWncUHZ05ggnRvOTTMYwbUhcFb3cRvPVojt8az5VkQ=;
-  b=JePko0pa/BNTW4HGNI+wTk4owA5Hn4D/r+2F/qyBmmF0v9TmxhGEHPvo
-   +RrDMwP6QaMlUoJW8qLCEL9xQwaxsNc1iL5PxZFjCPgHTRN/bQbaGevFZ
-   y6VzGx3w0oD4qgU/O3duM5F8lWPi08Vg4+k48VsOsiB+YNNbGpZtJYjRn
-   xU58LGFe/EQKmIeg7amAaMKjbb+uygrMkrvoWZOaHLSP0M2ImBYS7cnp8
-   0zrz5CajDxLzHVvtwceML0uD2+qk7CerOZi+2YzrZBRC6BnT2VVxp6kQ5
-   bp0k7k+1dZqGoqTQVTTyrnD3qrpisQ+kKKf1qaVNal02m9+flM0+WlExn
-   g==;
-X-CSE-ConnectionGUID: ktyWbuqvRkmxYahimm5TDw==
-X-CSE-MsgGUID: 3urvVEQgSCan+Bl5hnKV6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="35944853"
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="35944853"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:32:19 -0700
-X-CSE-ConnectionGUID: IjxHa7UHQ9W23yHUUIx55Q==
-X-CSE-MsgGUID: kd0RLDwdRjuguPFI3EEgHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="136271270"
-Received: from shalevit-mobl1.ger.corp.intel.com (HELO [10.245.250.18]) ([10.245.250.18])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:32:14 -0700
-Message-ID: <7637e816-8c63-4e95-98fc-aea6a4843391@linux.intel.com>
-Date: Wed, 7 May 2025 10:33:15 +0300
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="N/GBQnER"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5ed43460d6bso10112226a12.0
+        for <linux-sound@vger.kernel.org>; Wed, 07 May 2025 01:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1746604925; x=1747209725; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U+u3bu7oYvpS4FSzs62hW1Jixx7IoWbryK85jVovTQg=;
+        b=N/GBQnER7vPZZPl9WgMXAaCr8UIsJEjDiTtSYhcF9SIQeM+WQmcYRUb8pSSnlY2DCA
+         NmnaFXtZBHxHAxXqCaoW6u5oNI76/19MWeBJw78+5UzSDkn3vbaGmSi7Emlzex9WNvD1
+         f3hR9l2lemzkPPJImVhPV0/sZE5AF0DG2wv21/jkAUCE1aswL4jEhSE8rIUYk8eAbJlu
+         /38JHd3BZ1L7OhQPR3byxIaV+xgwI8kx96N3ZnPLZyTesmL9X3bR74SL5k0kO8ZexywW
+         u77OK6XsQxTxO269EUbWyk9JbE12jXbX+GsfcnBlGeaSH7DOwPWVb0GYL87rn4uyRBeL
+         wHGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746604925; x=1747209725;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U+u3bu7oYvpS4FSzs62hW1Jixx7IoWbryK85jVovTQg=;
+        b=cnZLLvCKlFG4UvVV8CU8a34Q+2BKBfJDKmW17/daywVfflBZsJ/5Iq0+wkiaZ8urn6
+         OvanwJqD66OE0YzUQHYAf7Xo0m8uRMqUO3ThpXhP3OZy7U6/QLtClv/qyTTCGym+8Hah
+         faN4/kJjHl9qeJJS3I0rCGT90qWswuSyw8lOMlHCaZFDUvST21SxNXArQcjsKztHPCuL
+         e6j/tMx3cTSiNCy+TWMrFXRd/4r6YkzgZiEHwZTAEKx6lZQuU9pPWFUVbDgOYEbrtLs8
+         JVcAtT8zu3Huk2sJQ/45HOX0L7gH1WnHBAOLqIMlo7ZZacZX4+BcR4secx0qzKcsk9k9
+         0dEA==
+X-Forwarded-Encrypted: i=1; AJvYcCX5pgHO9DZH9L/vrTSekq1Rzi2PZMlQ6gvo4Yt035fihj4aQ0NkPgRivR6Hfn1rV7brt324LYDqcUIftQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFsL0WX3nAVCxLkGe1MicOyEcNl6UtHCIDESg0aV8PNUO0oNeD
+	1KzpS9R+CzLAyPOdDK4le+xpuE2t5ibDUdDq7FZpxREjfzvP5X5IETL0/MqPhz8=
+X-Gm-Gg: ASbGncsYVS751n1Ei3Nwo7CKjxddSZSr9gqtIn2xMZtlh0JL/BN+SCOKyeaoLaZpfim
+	vaOFqExpCATVaHjkxVMbG5YZ4am+yaQdmYL3nH4hiNR4fj//yKVM/GWNtakFP29W6tE1DyyIYZb
+	pLBjuE7jAt/kTq9ynkHtel+mC2LcynoWp4xiL6sMai7GyGtJMEGH7m8lDkaqGz36kQ1dkgq+kj+
+	iqmIEPUxFNbvK1ZPZ0lKL31DSOHCN48tqLD5bvsTbR4E0oMSnTo2On/SAOeF9CnNL0swwrSdoZ7
+	EXPu3Fw1Hp88fvOkxAmBPIPb28xXWHum9WRU/pCif2zWgjPfeu6d3H5/VOsbk+aeAW93d9xGvWc
+	4dMn4W5maL6OaRg==
+X-Google-Smtp-Source: AGHT+IHF5b+vKZO4u0eoZyRIBjD7kg25Q5WOddOsFOZKz33BDxBpiXozlemQ76d2/Vw293ayXjtVIg==
+X-Received: by 2002:a17:907:944e:b0:ace:6d53:3da3 with SMTP id a640c23a62f3a-ad1e8ce48dcmr237718466b.23.1746604924787;
+        Wed, 07 May 2025 01:02:04 -0700 (PDT)
+Received: from [100.64.0.4] (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad1894c0310sm855236066b.88.2025.05.07.01.02.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 01:02:04 -0700 (PDT)
+From: Luca Weiss <luca.weiss@fairphone.com>
+Subject: [PATCH v4 0/5] Add DisplayPort sound support for Fairphone 5
+ smartphone
+Date: Wed, 07 May 2025 10:01:36 +0200
+Message-Id: <20250507-fp5-dp-sound-v4-0-4098e918a29e@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v2] ASoC: SOF: Intel: hda: Fix UAF when reloading
- module
-To: Tavian Barnes <tavianator@tavianator.com>, linux-sound@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Brent Lu <brent.lu@intel.com>,
- Peter Zijlstra <peterz@infradead.org>, sound-open-firmware@alsa-project.org,
- linux-kernel@vger.kernel.org
-References: <5aaee9fdfe8437ef2566b200bea45e4baaba3fcb.1745426811.git.tavianator@tavianator.com>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <5aaee9fdfe8437ef2566b200bea45e4baaba3fcb.1745426811.git.tavianator@tavianator.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGATG2gC/3XMSwrCMBSF4a1IxkZuXm3iyH2Ig+ZlMzApiRald
+ O+mBUGKDv8D55tQcTm4go67CWU3hhJSrMH3O2T6Ll4dDrY2okA5SFDYDwLbAZf0iBZr1jbSMyB
+ KW1QvQ3Y+PFfufKndh3JP+bXqI1nWP9BIMGDb6o4ayn2j1cl3IQ99iu5g0g0t2Eg/gABO5AagF
+ QBhG+FBcg3iF8C+ACo2AKtAazQXRAIoorfAPM9vUJe6hy4BAAA=
+X-Change-ID: 20240809-fp5-dp-sound-b3768f3019bd
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
 
+Add the necessary sound card bits and some dts additions to enable sound
+over DisplayPort-over-USB-C, e.g. to a connected TV or monitor.
 
+The UCM files can be found here:
+https://gitlab.postmarketos.org/postmarketOS/pmaports/-/tree/master/device/testing/device-fairphone-fp5/ucm
 
-On 06/05/2025 18:12, Tavian Barnes wrote:
-> hda_generic_machine_select() appends -idisp to the tplg filename by
-> allocating a new string with devm_kasprintf(), then stores the string
-> right back into the global variable snd_soc_acpi_intel_hda_machines.
-> When the module is unloaded, this memory is freed, resulting in a global
-> variable pointing to freed memory.  Reloading the modules then triggers
-> a use-after-free:
-> 
-> BUG: KFENCE: use-after-free read in string+0x48/0xe0
-> 
-> Use-after-free read at 0x00000000967e0109 (in kfence-#99):
->  string+0x48/0xe0
->  vsnprintf+0x329/0x6e0
->  devm_kvasprintf+0x54/0xb0
->  devm_kasprintf+0x58/0x80
->  hda_machine_select.cold+0x198/0x17a2 [snd_sof_intel_hda_generic]
->  sof_probe_work+0x7f/0x600 [snd_sof]
->  process_one_work+0x17b/0x330
->  worker_thread+0x2ce/0x3f0
->  kthread+0xcf/0x100
->  ret_from_fork+0x31/0x50
->  ret_from_fork_asm+0x1a/0x30
-> 
-> kfence-#99: 0x00000000198a940f-0x00000000ace47d9d, size=64, cache=kmalloc-64
-> 
-> allocated by task 333 on cpu 8 at 17.798069s (130.453553s ago):
->  devm_kmalloc+0x52/0x120
->  devm_kvasprintf+0x66/0xb0
->  devm_kasprintf+0x58/0x80
->  hda_machine_select.cold+0x198/0x17a2 [snd_sof_intel_hda_generic]
->  sof_probe_work+0x7f/0x600 [snd_sof]
->  process_one_work+0x17b/0x330
->  worker_thread+0x2ce/0x3f0
->  kthread+0xcf/0x100
->  ret_from_fork+0x31/0x50
->  ret_from_fork_asm+0x1a/0x30
-> 
-> freed by task 1543 on cpu 4 at 141.586686s (6.665010s ago):
->  release_nodes+0x43/0xb0
->  devres_release_all+0x90/0xf0
->  device_unbind_cleanup+0xe/0x70
->  device_release_driver_internal+0x1c1/0x200
->  driver_detach+0x48/0x90
->  bus_remove_driver+0x6d/0xf0
->  pci_unregister_driver+0x42/0xb0
->  __do_sys_delete_module+0x1d1/0x310
->  do_syscall_64+0x82/0x190
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> 
-> Fix it by saving the filename in pdata->tplg_filename instead, just like
-> every other code path that appends to the tplg filename.
-> 
-> Fixes: 5458411d7594 ("ASoC: SOF: Intel: hda: refactoring topology name fixup for HDA mach")
-> Signed-off-by: Tavian Barnes <tavianator@tavianator.com>
-> ---
-> v2: Fix typo
-> 
->  sound/soc/sof/intel/hda.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-> index b34e5fdf10f1..1767977e7cff 100644
-> --- a/sound/soc/sof/intel/hda.c
-> +++ b/sound/soc/sof/intel/hda.c
-> @@ -1069,7 +1069,7 @@ static void hda_generic_machine_select(struct snd_sof_dev *sdev,
->  				if (!tplg_filename)
->  					return;
->  
-> -				hda_mach->sof_tplg_filename = tplg_filename;
-> +				pdata->tplg_filename = tplg_filename;
->  			}
->  
->  			if (codec_num == 2 ||
+This series - in spirit - depends on the series enabling DisplayPort in
+the first place, but can land pretty independently, especially the ASoC
+bits:
+https://lore.kernel.org/linux-arm-msm/20250312-fp5-pmic-glink-dp-v2-0-a55927749d77@fairphone.com/
 
-I think the correct way would be to make a local copy of the
-snd_soc_acpi_intel_hda_machines array as we might be modifying it:
+The ASoC bits depend on the patches for USB audio offloading merged
+through Greg's tree so this cannot easily be applied for v6.16 through
+the sound tree. Either it waits for v6.17 or also goes through Greg's
+tree.
 
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+---
+Changes in v4:
+- Use "sm4250" for qcom,qrb4210-rb2-sndcard (Srinivas)
+- Expand cover letter to mention dependencies for ASoC patches
+- Pick up tags
+- Link to v3: https://lore.kernel.org/r/20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com
 
-/*
- * make a local copy of the match array since we might
- * be modifying it
- */
-hda_mach = devm_kmemdup_array(sdev->dev,
-		snd_soc_acpi_intel_hda_machines,
-		2 /* we have one entry + sentinel in the array */,
-		sizeof(snd_soc_acpi_intel_hda_machines[0]),
-		GFP_KERNEL);
-if (!hda_mach) {
-	dev_err(bus->dev,
-		"%s: Failed to duplicate the HDA match table\n",
-		__func__);
-	return;
-}
+Changes in v3:
+- Simplify return qcom_snd_wcd_jack_setup in machine driver
+- Pick up tags
+- Link to v2: https://lore.kernel.org/r/20250418-fp5-dp-sound-v2-0-05d65f084b05@fairphone.com
 
-or if the "2" is not satisfactory (we _know_ that the array size is 2
-for this and will not change):
-include/sound/soc-acpi-intel-match.h
-+extern size_t snd_soc_acpi_num_intel_hda_machines;
+Changes in v2:
+- Revamp series based on comments on v1, doesn't have much too much in
+  common anymore
+- Use sm8250 instead of sc8280xp sndcard file, so port other required
+  changes from sc8280xp.c to sm8250.c
+- This also changes the sound card compatible to from
+  qcom,qcm6490-sndcard to fairphone,fp5-sndcard
+- Link to v1: https://lore.kernel.org/r/20240809-fp5-dp-sound-v1-0-d7ba2c24f6b9@fairphone.com
 
-sound/soc/intel/common/soc-acpi-intel-hda-match.c
-+size_t snd_soc_acpi_num_intel_hda_machines =
-ARRAY_SIZE(snd_soc_acpi_intel_hda_machines);
-+EXPORT_SYMBOL_GPL(snd_soc_acpi_num_intel_hda_machines);
+---
+Luca Weiss (5):
+      ASoC: dt-bindings: qcom,sm8250: Add Fairphone 5 sound card
+      ASoC: qcom: sm8250: set card driver name from match data
+      ASoC: qcom: sm8250: add DisplayPort Jack support
+      ASoC: qcom: sm8250: Add Fairphone 5 soundcard compatible
+      arm64: dts: qcom: qcm6490-fairphone-fp5: Add DisplayPort sound support
 
-and:
-/*
- * make a local copy of the match array since we might
- * be modifying it
- */
-hda_mach = devm_kmemdup_array(sdev->dev,
-		snd_soc_acpi_intel_hda_machines,
-		snd_soc_acpi_num_intel_hda_machines,
-		sizeof(snd_soc_acpi_intel_hda_machines[0]),
-		GFP_KERNEL);
-if (!hda_mach) {
-	dev_err(bus->dev,
-		"%s: Failed to duplicate the HDA match table\n",
-		__func__);
-	return;
-}
+ .../devicetree/bindings/sound/qcom,sm8250.yaml     |  1 +
+ arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 31 ++++++++++++++++++++++
+ sound/soc/qcom/sm8250.c                            | 27 ++++++++++---------
+ 3 files changed, 47 insertions(+), 12 deletions(-)
+---
+base-commit: f819a667fa466d3b96b542b147053b6873f18ea1
+change-id: 20240809-fp5-dp-sound-b3768f3019bd
 
-
-
+Best regards,
 -- 
-Péter
+Luca Weiss <luca.weiss@fairphone.com>
 
