@@ -1,138 +1,157 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD542153DA;
-	Thu,  8 May 2025 08:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D499239E94
+	for <linux-sound@vger.kernel.org>; Thu,  8 May 2025 08:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746693942; cv=none; b=UWNqQx3yf5hQKxVDTWmRpQtpx5ISAgFuG6ZnBlBzz+t+xKRdD8X6QcMxwmxlIwr6Kf/Xba1BSOKmUUdPINUAI7ZwCzhGt/LbML1aOO+L+lu+ecQ6ukMUyffGOyTCJo3+mc9/lgUF9jBkQ/JRB4+2wZRwt/ZG32O1SIqAHF/Xd8o=
+	t=1746694361; cv=none; b=C7oGXTg8P52s9+WdCbCBpR7zfeqTrHCOi65+112A8jGuSzK474G/l510owgba+Rw2sdzyHL6ezbqTn36ZXiVHF1bEFtuEgpK+xZSg8JleUA2Ic1HW/52L5koVWTBSwtlda7vCYPgkyMCKhZBu9PsxXRyLH72bLMnR6ct/O+VzgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746693942; c=relaxed/simple;
-	bh=1bNWQpvAZw2h4146M/a5cSVgUYygfrJDdqUT3sy4QxQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RcfAuCzRbyMpx3em6RskYZw2GAht9Gz5chVia3N9lMZRdaC4VHyr17LBLrDKgGhrUZ4BX7IFooYIlMxDTqU0rHZhKwlST6AWVCgGQdDYUrfaTbgJTQWDcI4HSxgWZr2iwDkcxGOEIXiqqYy40bQlsCoZjMJBS5VnzHcSBg7M2Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/wKW6Si; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/wKW6Si"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5e5e8274a74so1063397a12.1;
-        Thu, 08 May 2025 01:45:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746693939; x=1747298739; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WQbbYwiKIeSwnEfdIBvlGucq6uB6GiW1ELyN7NX3z8w=;
-        b=B/wKW6SifoTI4fLZd77qD5UDzHMdJB0BhBOMILCC+Ztx+JfIjz8udWyBUJE8sYkxoF
-         kvEsFePHUafOtVL+Y98DPo2J40+atkvdPhDTLoYilKHrKcG9xtpkZz5GQGmhrvQnZ8Ei
-         AWHGvXqNFmtEJ4yesPuAVDjie08Z04WbcnVOfBXttNyD11nm+A1zxgXBn3LlD3Ko9mZj
-         UETSfFpdMDJBmKk1UE+bGf07ugtR/WCejKk++9ooHj3sbsCfqlBfRawYYf1IXWiPEIfs
-         a1iGr9xhwiqqso1d8dFtxYrFZj+Uq6rnjqrjoASCsYCD8RAJ3d687TNvNQTyr6WNpdno
-         PKhQ==
+	s=arc-20240116; t=1746694361; c=relaxed/simple;
+	bh=7hb/9wCGqKPxrCN33zmqqog/8UFWoGcGlQk6uFFbQ5o=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=H3RwMjw6xzPP4CwT6d2fuSmD+i5kHSsJ+ap6DcPOT2tKXbHsZtI/20vaVIdnBAfmix75iHb9jwlvZ2/jfB2C3nyFrwT8KfcM2rGF6YWj4bT2rAJwLju2We6Cwa9Q5mpV2bmbLjSMEdqqu4JkBt/c3TNh0HiRJerfDMlU3m5+Nic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3d90ba11afcso8017815ab.0
+        for <linux-sound@vger.kernel.org>; Thu, 08 May 2025 01:52:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746693939; x=1747298739;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WQbbYwiKIeSwnEfdIBvlGucq6uB6GiW1ELyN7NX3z8w=;
-        b=bJM4WN4li/Az3IGW0uXfQ3rdIBFguEYvldR315JYwnos2ps9vZbYUgIPHxNApkqKV9
-         gm16f0Go7vHBvO3tNReAKCbTP7Jld71PL9KuHgUicVKgDn0ost+C9UT7lgEK1THt/OJ/
-         JTSuSVUAWFaVZpBNHA4J2cB00/3dfrY11N2xuM9lLVz0ytmmbtPff8bnQAHZs2VXG+WH
-         3UQplTvatWXoxQJPpNOKFOTfAoXrlmJ/tTynwrIrEhiEbqeaA/w3LicBS4P00Gmg2cDD
-         qUeslKi3T2rP1Rp8sfSG7uZjC1Lc+pRKqECMIFrRM0XZ9xY9DmSK50xsxYUmEZZwon43
-         4NQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdmQE39DxeOlp2eJC9qOgp7XJw3ca6ely5uF7HVAdoxp+pTrix5dPjalKvMap7MC5HpTH3lLsAsBf7ndc=@vger.kernel.org, AJvYcCWGIjsqJHrvTv8cnVgWf3RP0LrcHp14YcPLabLH5FagMytVaoznGfVwYVpfr6MENf23ap5dXoBbWDTfa3M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz17f9YlqKO5wUlOtCl9QaTyZZ2iiiSIzxHd0I0jkL2MWL/MiI
-	Odu4nXpEWi9JrYNqh7g4vbBe5rIHyO3vOz+STCtJgb1nZxgcfzC0
-X-Gm-Gg: ASbGncvj+MVAeSiDrYmkLJ45gEpaNzxPtni5o4PMH+zk7XkVX65E/bie5NwEW5aX16K
-	s6g4LAC9OxCrOi8T/eo9DIqkQBNooNJpZG43D/nyAFFtefu1LC/tV/FJsiDbK9MCEdghx8Ke2Sd
-	keyaFV+qoI9i8FGANDyMsHFwvKUbFykLRTYpEwoGapJQYOF2oEYKG8Ahf/UwJvZCunHqx7FePth
-	CCmPSXsVcVJ57hrz4ag7qzsexkhDqVuerK3WEyedG3sSIYmMXArrOzV+qoJ2i1N4TlucXqkuNTA
-	Qh5nX/WA0/WkeY8PA/NlYbfVTj9bELwNizsd0Tm0cZlu6T6ZDA==
-X-Google-Smtp-Source: AGHT+IH24p67igfdoula/1tlisDjnAjfpuyudgDk/8KRPxpYnmMhfgAbgVxwh+zLalj7Cvnpz0xCWQ==
-X-Received: by 2002:a17:906:fe02:b0:aca:d5a1:c324 with SMTP id a640c23a62f3a-ad1e89ff513mr696332766b.0.1746693938830;
-        Thu, 08 May 2025 01:45:38 -0700 (PDT)
-Received: from localhost ([87.254.1.131])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ad1eba4af90sm297000766b.112.2025.05.08.01.45.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 May 2025 01:45:38 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	christophe.jaillet@wanadoo.fr
-Subject: [PATCH][V2][next] ASoC: rt712-sdca: remove redundant else path of if statement
-Date: Thu,  8 May 2025 09:45:27 +0100
-Message-ID: <20250508084527.316380-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        d=1e100.net; s=20230601; t=1746694359; x=1747299159;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n7aqf1RFZ8NyfDklbuzyfb2/V8iKPLDKy8JsxG49H8c=;
+        b=asMi/Ko3L/9ZF7RSxLFlFMytyyeKFHQDHUlIcjm538FilLJj69SV4coPqNBe+LE/M9
+         pnwegBwpC39M2J4C5e2Ix/M8gIe8L/iZ8sTc9TNiBfjHcnLORlsZtQ/dkK64aLge3JTn
+         sMyOI1geZWrrAJPN6Q9zD3flutrXngB70J32ZRIaTND/a5byAceCuR7yHC1+5DzjhQJ3
+         /z3XH+AR5UYTX0KnbHs5vk60S86wMyMlhZz/K9VQbD6dSA95xNfbqGDG9tKN8++2FeHD
+         Ri6NlPhTfIpEiBeI+xS76ELitjD5vySf+Ogq1mIB/4/8AfDC1/PElWXRzzX6RLmCTs2W
+         sa9A==
+X-Forwarded-Encrypted: i=1; AJvYcCV17rhSZAW1sE7K+92ZkppilcadtMvmrsXz19iK3MjxIHJJ7Q5DbLuOJeuHA+nQXecPEph3IFxFb1BiwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwvOKuey4kFSfFOK67amnSszoTQc9F4pZLXD8JVXm0f9Zc7h2Y
+	EfkZFzNJlrdoFCByb5t5hjPmghHu1b4Uj5m5r5v89qhBzEeuu5kLXEgjRY0luIKhzw4eNg2E36J
+	2WAwuKAnF2Vip1+V2AVQk0lz8JzJ9E9m3YJQs5QoSH4OAFxtGuyWzzpE=
+X-Google-Smtp-Source: AGHT+IGXqHjPWzxShGFKbPMDVg+g3TkFpDMrOrtt2YU7WYfYW/07SDfhYVdarpW2dYjIRre0ytM4f3gWuc1Pkmkm3N7JJCOJQjin
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:152e:b0:3d8:3b31:5046 with SMTP id
+ e9e14a558f8ab-3da785986b8mr31927605ab.17.1746694359245; Thu, 08 May 2025
+ 01:52:39 -0700 (PDT)
+Date: Thu, 08 May 2025 01:52:39 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <681c70d7.050a0220.a19a9.00c6.GAE@google.com>
+Subject: [syzbot] [sound?] [usb?] WARNING: ODEBUG bug in snd_rawmidi_free
+From: syzbot <syzbot+d8f72178ab6783a7daea@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org, perex@perex.cz, syzkaller-bugs@googlegroups.com, 
+	tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-There is an if/else check where the else part is executed if
-adc_vol_flag is true, this else path checks if adc_vol_flag
-is true (which is a redundant second check) and the if path is
-always taken. Remove the redundant check and remove the else
-path since that can never occur.
+Hello,
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+syzbot found the following issue on:
+
+HEAD commit:    2a239ffbebb5 Merge tag 'sound-6.15-rc5' of git://git.kerne..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=15045b68580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a9a25b7a36123454
+dashboard link: https://syzkaller.appspot.com/bug?extid=d8f72178ab6783a7daea
+compiler:       Debian clang version 20.1.2 (++20250402124445+58df0ef89dd6-1~exp1~20250402004600.97), Debian LLD 20.1.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15cfd8d4580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=126c1a70580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/3398c42fd2ef/disk-2a239ffb.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a3e276dc6661/vmlinux-2a239ffb.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f0c67a315802/bzImage-2a239ffb.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+d8f72178ab6783a7daea@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+ODEBUG: free active (active state 0) object: ffff888027cf0040 object type: timer_list hint: snd_usbmidi_error_timer+0x0/0x660 sound/usb/midi.c:2343
+WARNING: CPU: 0 PID: 10 at lib/debugobjects.c:615 debug_print_object+0x16b/0x1e0 lib/debugobjects.c:612
+Modules linked in:
+
+CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Not tainted 6.15.0-rc4-syzkaller-00291-g2a239ffbebb5 #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/29/2025
+Workqueue: usb_hub_wq hub_event
+
+RIP: 0010:debug_print_object+0x16b/0x1e0 lib/debugobjects.c:612
+Code: 4c 89 ff e8 47 42 63 fd 4d 8b 0f 48 c7 c7 c0 db c1 8b 48 8b 34 24 4c 89 ea 89 e9 4d 89 f0 41 54 e8 aa a9 c5 fc 48 83 c4 08 90 <0f> 0b 90 90 ff 05 57 95 c0 0a 48 83 c4 08 5b 41 5c 41 5d 41 5e 41
+RSP: 0018:ffffc900000f6990 EFLAGS: 00010296
+
+RAX: 847b0a2dc845ef00 RBX: dffffc0000000000 RCX: ffff88801b681e00
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000002
+RBP: 0000000000000000 R08: ffffc900000f6667 R09: 1ffff9200001eccc
+R10: dffffc0000000000 R11: fffff5200001eccd R12: ffffffff892410d0
+R13: ffffffff8bc1dd40 R14: ffff888027cf0040 R15: ffffffff8b6cc2e0
+FS:  0000000000000000(0000) GS:ffff8881260cb000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fff286001b8 CR3: 00000000316c4000 CR4: 00000000003526f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __debug_check_no_obj_freed lib/debugobjects.c:1099 [inline]
+ debug_check_no_obj_freed+0x3a2/0x470 lib/debugobjects.c:1129
+ slab_free_hook mm/slub.c:2311 [inline]
+ slab_free mm/slub.c:4642 [inline]
+ kfree+0x117/0x440 mm/slub.c:4841
+ snd_rawmidi_free+0x3bc/0x410 sound/core/rawmidi.c:1934
+ snd_rawmidi_dev_free+0x38/0x50 sound/core/rawmidi.c:1945
+ __snd_device_free+0x1d2/0x2e0 sound/core/device.c:76
+ snd_device_free_all+0xcf/0x180 sound/core/device.c:233
+ snd_card_do_free sound/core/init.c:587 [inline]
+ release_card_device+0x75/0x1b0 sound/core/init.c:153
+ device_release+0x99/0x1c0 drivers/base/core.c:-1
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x228/0x480 lib/kobject.c:737
+ snd_card_free_when_closed sound/core/init.c:618 [inline]
+ snd_card_free+0x110/0x190 sound/core/init.c:650
+ usb_audio_probe+0x18ea/0x1dc0 sound/usb/card.c:940
+ usb_probe_interface+0x641/0xbc0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x26a/0x9a0 drivers/base/dd.c:657
+ __driver_probe_device+0x18c/0x2f0 drivers/base/dd.c:799
+ driver_probe_device+0x4f/0x430 drivers/base/dd.c:829
+ __device_attach_driver+0x2ce/0x530 drivers/base/dd.c:957
+ bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:462
+ __device_attach+0x2b8/0x400 drivers/base/dd.c:1029
+ bus_probe_device+0x185/0x260 drivers/base/bus.c:537
+ device_add+0x7b6/0xb50 drivers/base/core.c:3692
+ usb_set_configuration+0x1a87/0x20e0 drivers/usb/core/message.c:2210
+ usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+ usb_probe_device+0x1c1/0x390 drivers/usb/core/driver.c:291
+
+
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-V1: Fix just for rt712-sdca.c
-V2: Fix for both rt712-sdca.c and rt712-sdca-dmic.c
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
----
- sound/soc/codecs/rt712-sdca-dmic.c | 8 ++------
- sound/soc/codecs/rt712-sdca.c      | 8 ++------
- 2 files changed, 4 insertions(+), 12 deletions(-)
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-diff --git a/sound/soc/codecs/rt712-sdca-dmic.c b/sound/soc/codecs/rt712-sdca-dmic.c
-index db011da63bd9..4d044dfa3136 100644
---- a/sound/soc/codecs/rt712-sdca-dmic.c
-+++ b/sound/soc/codecs/rt712-sdca-dmic.c
-@@ -263,12 +263,8 @@ static int rt712_sdca_dmic_set_gain_get(struct snd_kcontrol *kcontrol,
- 
- 		if (!adc_vol_flag) /* boost gain */
- 			ctl = regvalue / 0x0a00;
--		else { /* ADC gain */
--			if (adc_vol_flag)
--				ctl = p->max - (((0x1e00 - regvalue) & 0xffff) / interval_offset);
--			else
--				ctl = p->max - (((0 - regvalue) & 0xffff) / interval_offset);
--		}
-+		else /* ADC gain */
-+			ctl = p->max - (((0x1e00 - regvalue) & 0xffff) / interval_offset);
- 
- 		ucontrol->value.integer.value[i] = ctl;
- 	}
-diff --git a/sound/soc/codecs/rt712-sdca.c b/sound/soc/codecs/rt712-sdca.c
-index 19d99b9d4ab2..570c2af1245d 100644
---- a/sound/soc/codecs/rt712-sdca.c
-+++ b/sound/soc/codecs/rt712-sdca.c
-@@ -1065,12 +1065,8 @@ static int rt712_sdca_dmic_set_gain_get(struct snd_kcontrol *kcontrol,
- 
- 		if (!adc_vol_flag) /* boost gain */
- 			ctl = regvalue / 0x0a00;
--		else { /* ADC gain */
--			if (adc_vol_flag)
--				ctl = p->max - (((0x1e00 - regvalue) & 0xffff) / interval_offset);
--			else
--				ctl = p->max - (((0 - regvalue) & 0xffff) / interval_offset);
--		}
-+		else /* ADC gain */
-+			ctl = p->max - (((0x1e00 - regvalue) & 0xffff) / interval_offset);
- 
- 		ucontrol->value.integer.value[i] = ctl;
- 	}
--- 
-2.49.0
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
