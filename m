@@ -1,39 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B35E2C190;
-	Thu,  8 May 2025 12:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABF0450FE;
+	Thu,  8 May 2025 12:47:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746708360; cv=none; b=RlcUlSe6kKSNfmgedKkzWAPSQzOfkGmHyrvDf7uF+LMPm2/ByTQXKHTmyxvOnogNZDQ/l956mkxrXvbwL7s552N9XViXs3vkWG3bDOn4oU2p6S++U+vNLZozxFne5JAbBW9lTGgtnJR8o1P0CQZMFBwnNR3+9FI5KEYWuPMhcNo=
+	t=1746708442; cv=none; b=V9JaeDJQp78F9uNwWf7xEom5eotqI1GrHu6+CBzrIj1iqf2ABQ8VX1ivIUjT78LSVwLDLz8YGDsOgWpC4cW/5n7YuCplPJMUvDP4P3YhV3CzH/1N1qCJjlCRtbI/xUu6NQXEcy+zg3jCAkJUwLjEngeJgmeBvvnuOtbGHGXT/sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746708360; c=relaxed/simple;
-	bh=gtvcZNEeXpPInbrf7rQ7RG25lTI5aprhGw3x58onNJE=;
+	s=arc-20240116; t=1746708442; c=relaxed/simple;
+	bh=WQ+dEDqE0N4Ce2haP45gqtTO7ovSbiUniZK7xBrS4iw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SSHwrSdtTQ+5JZn60siQ42dxqUxotBy+ypSKGAGFVmjVqYqo0IKB0ks8GF5tSko4ojn3Eq7P+Uz4Qo02Fthu0RyI49pvVBhaBya6P8QEnCFTU3Hp6MghNxnLQLiGinff79kAN9MOPeothyUQQIuqLHTUQmC77DtqTfRfzNaGGPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eiiWyhiN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=s5gC32RHOG8xZQG/H9PJkb99DG13B3LLK239emMTNrKqaFpmYL+FT6y0I+PNxPu+7HM2aU17vtRRuaKFaqlE0ryDWx1zP1mLK4tqQZ7o0ao1/bAhWidMG03t7XP3JrsrF28VSobyCaCV2uB6zTMFVQeNjPWyHgL1FtktEBxoYV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ux5YbSG1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eiiWyhiN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EA45C4CEE7;
-	Thu,  8 May 2025 12:46:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ux5YbSG1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5556C4CEE7;
+	Thu,  8 May 2025 12:47:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746708360;
-	bh=gtvcZNEeXpPInbrf7rQ7RG25lTI5aprhGw3x58onNJE=;
+	s=k20201202; t=1746708440;
+	bh=WQ+dEDqE0N4Ce2haP45gqtTO7ovSbiUniZK7xBrS4iw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eiiWyhiNlquLFFMTKbOZdZ/Sfam9B40u4DIuYyja1QolOwigVPF2m+ASdGwk/RZDm
-	 eDpw9Q3/5vN1Ard1bQxeec+TcRtbtbB5cFJFVLopvIQRAzxwvSFtUED8fDwvy9WH+Q
-	 4xVdzKCsYZIP428lefgyGofVq58WYRd4VZLtQCD9VPkti92uqQ9wLF1ET+NIITvbIV
-	 9mOof9MXdVK5UWwk7sHTkRdvGH57uTpWwBi0CAUhEnPGYqTPfyaeq8K6Vl4lFtHXps
-	 k6ouHLUAeTD5xUTAxCse+hVv0Q8xYHCC7HFGu4sLV+H217idiafvK5oWXG2u8Hzfl9
-	 tRwvaUvtiqBWg==
+	b=Ux5YbSG16TdrjVtHpRaK020glxBTpaVeER+Ns6XdTBLDMUps0ttWqUo1PGmQphdg7
+	 ADG573kjB0SyamQ+n9lPpMDIIxvLbx6kD+Rf4Iqcc0MPVOfr48OBa+6oEmCLBJD+bx
+	 Pgu6iUDyuZkrFMqTZQXGq5/6ZpO406zoyWTwk2ZAVse9cI8AvINCsMPDwCVuxhzN4Y
+	 TmtDdp07Hfv2ksJ7fFr2jaN7E+ujletYumspj/gfrvU74LhCCfjOBJWPJ9psnNuHKa
+	 BY870FGeF9qEYOmbVYLpSJCrmBcVndM9k/J2YmwEg1O9EsQmjfwopdxhTxhNzzpSJB
+	 1jZD0fFJ9n+Pw==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan@kernel.org>)
-	id 1uD0dR-000000004UX-3MnV;
-	Thu, 08 May 2025 14:45:57 +0200
-Date: Thu, 8 May 2025 14:45:57 +0200
+	id 1uD0ek-000000004Vm-2CAw;
+	Thu, 08 May 2025 14:47:18 +0200
+Date: Thu, 8 May 2025 14:47:18 +0200
 From: Johan Hovold <johan@kernel.org>
-To: srinivas.kandagatla@linaro.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Bjorn Andersson <andersson@kernel.org>
 Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
 	krzk+dt@kernel.org, ivprusov@salutedevices.com,
 	luca.ceresoli@bootlin.com, zhoubinbin@loongson.cn,
@@ -43,13 +42,15 @@ Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
 	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	johan+linaro@kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Christopher Obbard <christopher.obbard@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v6 2/6] mux: gpio: add optional regulator support
-Message-ID: <aBynhb6voxJvZtB7@hovoldconsulting.com>
+	srinivas.kandagatla@linaro.org
+Subject: Re: [PATCH v6 6/6] arm64: dts: qcom: x1e78100-t14s: Enable audio
+ headset support
+Message-ID: <aByn1mnsClCquBSh@hovoldconsulting.com>
 References: <20250327100633.11530-1-srinivas.kandagatla@linaro.org>
- <20250327100633.11530-3-srinivas.kandagatla@linaro.org>
- <Z-zvuhz2nkA5j4RZ@hovoldconsulting.com>
+ <20250327100633.11530-7-srinivas.kandagatla@linaro.org>
+ <Z-zweM9llVE-bzYc@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,47 +59,34 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z-zvuhz2nkA5j4RZ@hovoldconsulting.com>
+In-Reply-To: <Z-zweM9llVE-bzYc@hovoldconsulting.com>
 
-On Wed, Apr 02, 2025 at 10:05:14AM +0200, Johan Hovold wrote:
-> On Thu, Mar 27, 2025 at 10:06:29AM +0000, Srinivas Kandagatla wrote:
+Hi Bjorn,
+
+On Wed, Apr 02, 2025 at 10:08:24AM +0200, Johan Hovold wrote:
+> On Thu, Mar 27, 2025 at 10:06:33AM +0000, Srinivas Kandagatla wrote:
 > > From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 > > 
-> > Some of the external muxes needs powering up using a regulator.
-> > This is the case with Lenovo T14s laptop which has a external audio mux
-> > to handle US/EURO headsets.
+> > On Lenovo ThinkPad T14s, the headset is connected via a HiFi mux to
+> > support CTIA and OMTP headsets. This switch is used to minimise pop and
+> > click during headset type switching.
 > > 
-> > Add support to the driver to handle this optional regulator.
+> > Enable the mux controls required to power this switch along with wiring up
+> > gpio that control the headset switching.
+> > 
+> > Without this, headset audio will be very noisy and might see headset
+> > detection errors.
 > > 
 > > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > > Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
 > 
-> > @@ -82,6 +83,10 @@ static int mux_gpio_probe(struct platform_device *pdev)
-> >  		mux_chip->mux->idle_state = idle_state;
-> >  	}
-> >  
-> > +	ret = devm_regulator_get_enable_optional(dev, "mux");
-> > +	if (ret && ret != -ENODEV)
-> > +		return dev_err_probe(dev, ret, "Couldn't retrieve/enable gpio mux supply\n");
-> 
-> nit: "failed to get/enable mux supply" may be more consistent with the
-> other (non-capitalised error) messages and avoids repeating "gpio mux"
-> which will be added by driver core.
-> 
-> > +
-> >  	ret = devm_mux_chip_register(dev, mux_chip);
-> >  	if (ret < 0)
-> >  		return ret;
-> 
-> Either way:
+> Looks good and both playback and recording works fine:
 > 
 > Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
 > Tested-by: Johan Hovold <johan+linaro@kernel.org>
 
-Can someone please pick this one and the binding update up for 6.16?
-
-I see you recently volunteered to do so, Krzysztof? [1]
+Assuming the mux change will make it into 6.16 now, can you pick this
+one up as well?
 
 Johan
-
-[1] https://lore.kernel.org/all/20250501175303.144102-2-krzysztof.kozlowski@linaro.org/
