@@ -1,363 +1,156 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010031.outbound.protection.outlook.com [52.101.228.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35DD3C26;
-	Thu,  8 May 2025 00:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746662558; cv=none; b=Z91NgoCMcAw1mi1f++Id6jf3U5SUJ0+Cf+Dboizs9gt8S6J5tWhCkEfuzLfrli1t3c7TP++4uZOCHJFkY+snwXbu8k4qpteD34lcoo3bCG8rOOqDicJOs+IPMTfMJ5iUV7/Rq8Webn642uOFw4C0POKxLo1UN61Bseq6hfCPmAk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746662558; c=relaxed/simple;
-	bh=RZ0y1uP90GEq56+q5V/PzS94n5kB+a9HMKSKJaxmvwU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z7NmCdWwNpCBLdF/SYpG97dmwjPdcmedOBqv2T8cbAAoN981KTfhqyBNVxBAqYkeqpX0CECW+7Kqfdi1DWW04E9UP14FbTeHe0sgqNyLYUNQRgUIeBiAYtiO6R/wZGpfkT0tLqDEUf014/sLuQK67gCykgnLr5/hwTCdnNMsVW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=iIY6Tw3J; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549C45CB8;
+	Thu,  8 May 2025 00:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746665155; cv=fail; b=TcbIuyQPc1rE1uGykAv4ULAaDDnEyl6Lb8SisLkJYz2Qc5D2xPtfXWdOqD8Zo3D/heyz0GfkamqZTiUXdhB8zNrlfRzOTcG/4xbC80AiTAxULb4ksX0CdwdO5bMpE5/7PerGtsx9bPPzEM33EXu6VUuQwZBX43OeUPWrBwJzy9U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746665155; c=relaxed/simple;
+	bh=47Rpd+euApSwA8YXrn3QzazPgfYKjMO+zDRTz0i7unE=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=pMZ/KrYbpsWrOwOfts26F2LZZhFZ6NzM+5g6SD6jczDC5evo6jYf1vXk6Q8KkeqfVjkWTZPsF1Zpb9TbVJ/HIq6P9ta+gdN6FHVdptgVb/caeMBaQsgZssILjI/0li8sU5vggyR6RWxW1lMc1HA9DBsJ6rXjea7UkX/z9Q2USyU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=bZcbmqX0; arc=fail smtp.client-ip=52.101.228.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="iIY6Tw3J"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=ObupoRU6pNcQZTctX7AV4gtV8m7zTfozBBogOQijUF0=; b=iIY6Tw3JAh4eZU8z
-	krti7VNS3xKLd2kkODU5/qV4mCYSRSrqEAeTBO0OCkalVwyIKMwso8hNcrx4WNgCNnFeLXcF5Uw74
-	/qlpLGuUwuYYJ39s785i0loB/8t617qnt//NKjZw8YGhvlytkWEqoWqpAAcdU9KXQCPlhIH6g4wVG
-	Vi/CgmeApU/mtE54CDyvKo3NoNWKDZK4fV1xBnh5QVQMPvjUEn0+l8YmL6rrSijKVTHDO+I+8o68e
-	7nOIUa9I9YE+d69OndLOzJSYV8HUe6pDxzwlU5H5RlmrPMTuoDGFMAdK4KCLPuwY9r0NWAsBn6/cb
-	KnIkRhadCLRgGk6wMQ==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1uCoiY-002HSB-1K;
-	Thu, 08 May 2025 00:02:26 +0000
-From: linux@treblig.org
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] ALSA: gus: Remove deadcode
-Date: Thu,  8 May 2025 01:02:25 +0100
-Message-ID: <20250508000225.195766-1-linux@treblig.org>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="bZcbmqX0"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HImfUOYxbQagAKm3+KXRCByPNnEER1/0BRjSDdGXZ6gax6X61I1qkDD7PhE93SPD94e2A4HJrtF5eR77DzkDgBXTAbOj4tILXLQsl9nJZBWlEwj8QA1mVWWPfo3lieKXDxgYKD9snB5oQHIH7LMnpg2ePlUtoszYK5bFPDUQoISVkaXSHFgr0+nXqr7w0jKOCOm75U1lF9neLjTztKD72IuD3XcubZfLE0ojNXGXkfT82FWtJZTcZxSX9FMFLi0dFzY8ZxQItvhxLxsz7ip6b/1z+UCt5EJjugF47o62STB8onfK9GqbSkkjNPSU0q1xNv4Wf8Dm4e/nMq318qKcUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6yNClK1/xZS1F0muPTGPfMjzSSuwkVJ2+tht4EuzKfY=;
+ b=kzms2OaqEczjfH1DrGP6sIDgINkGdJ5TWpqMsP+VjrW2lv47r2YlYHO2Btj3/L12IX/B1E/onkpDd9yO9K3/ocyAkGOB0xP77e3aNktiWGvRLK0ooi3OESxvTMQa2P2nxqt/jHH0ngmTlhs64cD7wOspHsU8SvYEUi0B35allAIAoyJsckRGhbzLoQX5aH/atDlmj661mHZTSOVPAtouvHRrZmeI0O/zxMFxWjDmjLMr6H2H7Na1uq2gp5OFJSYbEzacBTpZnmxNXak4lGBL5lsfOvDBvV1/4/ZUS86tvunCDK6wC2ciTOaMYf+b1KEO03GlPKRwUyNYEFHkJJecjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6yNClK1/xZS1F0muPTGPfMjzSSuwkVJ2+tht4EuzKfY=;
+ b=bZcbmqX0pJ2e6G8H3xgz2TOebiM52d11GKa2iasxMXTllgMg/XOPrSHnywAmdqQDVdih8PKyBHGtjfqfrdtC/iNJQ/zq2lxc4kNcF0O91HYAcfYRKgYIT3RDF/8wEbKJ5JN0WyCViw6+S8pOHIwMZq0eMhD5ebjIaI3OW2WTUe4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OS3PR01MB10008.jpnprd01.prod.outlook.com
+ (2603:1096:604:1df::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Thu, 8 May
+ 2025 00:45:49 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%7]) with mapi id 15.20.8722.020; Thu, 8 May 2025
+ 00:45:48 +0000
+Message-ID: <87a57o2amc.wl-kuninori.morimoto.gx@renesas.com>
+To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 0/3] ASoC: remove component->id
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 8 May 2025 00:45:48 +0000
+X-ClientProxiedBy: TYCP286CA0209.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:385::12) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB10008:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff925e3f-4be3-447a-0a59-08dd8dc9accf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?F4JSPHzzhtSTPSkrkhtg7f5HGhmqU/NH87DgMJZHyTPCskrjU1yEx1m8EbtR?=
+ =?us-ascii?Q?jqU8+IGp+BaYr9hYVROEPwcs4Hs1todBasYSpS62/TqvTE2auKmrUxIViy8N?=
+ =?us-ascii?Q?P5o7+dyPigcGpY4PMYq9DGKAqdlhn3DM7sLT2PWygSze49Ncj7r2V9WSbPv7?=
+ =?us-ascii?Q?oTy+wfmLvA48Q2WhxKFmyw4Gky+0jS2oIqhmdluQDQ3Jemb/o00yQnVGs9at?=
+ =?us-ascii?Q?RxmTsiSv8jy9dLLwqivtjvKTpzfi/OHjePKJdfiN3HuJo0aBcw3qvQ04WrF8?=
+ =?us-ascii?Q?0xJ1OmVhBxd92QcRDM50+tehcz81FDjh8hSmrhHn3f2JGGanz8iaiGUVKJAf?=
+ =?us-ascii?Q?CSFDjCGFLclzrfdx17IMW1Mtkgn/p3i+pUc+NEzfwd6RqR5s+GJscse2IgPt?=
+ =?us-ascii?Q?T9IhrzM9XDyNjpb+qufO31nryyJtrRkLyUCXZdF+Jn2oPu4mAm875tgytVh9?=
+ =?us-ascii?Q?w0ylwi2W1YBEZPuNCWnvw+6aPiN/mMkiFxc07n24I/gV6357gc0JsCuCyC7N?=
+ =?us-ascii?Q?bJ7NONeKU0q1SMYhxY+Mu/mdLAEftpKv8KP8gbBibVezAiJy7pcgIvDryevZ?=
+ =?us-ascii?Q?9dRobp3U+0vno6ZjgK8FT0D9iIfFk5cG9qnN0JEwoO+4tD9tA1sxS/CsgZ9i?=
+ =?us-ascii?Q?SdAvm+tz2cyVvtqvcXe7oHSYwAPl5E3rrfprVhfAe/sdb5yHS1D4mapsO5Yv?=
+ =?us-ascii?Q?rpagF1HQlSDPrcdIncyhdBHrYnSm5mdvD8CGgoEOYB4Xs/KfsdSVlXXVnqU/?=
+ =?us-ascii?Q?cy6DqkkPSF5liDLjWToaTBCUDa8VtwpNQbX98cxAB03K7hyftaJRGdGQSX3F?=
+ =?us-ascii?Q?seLy3CgARMejSS6i9SuYAP/KDc2c42jNWrsr72CiUr5cUnxyZObWa1MTiZc6?=
+ =?us-ascii?Q?LdEJM1VRFJGSrCCHxt+w28yjl8OqqwSXm94uuG8VNgYjBXMebPGy+sSWVwcx?=
+ =?us-ascii?Q?fxmp/oFa5R8U8+TNaQG/fzPK3Z/R5laH9iUHKtAfYrDylsPJmSC0HdCEl/pd?=
+ =?us-ascii?Q?jA4diJeX6Q0x6xVgI+sbgJYocFcoTJEkLdkcwTO9S1mJjPOq/4qjSq/1kuMO?=
+ =?us-ascii?Q?aGNn6M5TOXa8RKRV9hQUYZphUxbhCdh8O56s6y44tihfCAlufZzwd3ihc+mF?=
+ =?us-ascii?Q?qRQCvs/++3kgA6L+wRunX29I6C5tNjIZYlAAtX9mixl/DkE/l7Wy0qbz+Ak2?=
+ =?us-ascii?Q?If+6JjGbZUcP2dk0Zs0LIsCLDsBMacBnu6rnq1QVtDvDSxxRbnZG5vsDREG9?=
+ =?us-ascii?Q?bykifpqNpmwC7Woakb0W+lZyIflm2N4UUSLlfto5vvjW7SisKXQGWLSnKASs?=
+ =?us-ascii?Q?SNAnV9bs7/i2P2jOfqz08pdVInGojgTLQhVWnq+MGO63/Gfm7O3mc9XOzIrR?=
+ =?us-ascii?Q?2c15h36bx6YTGDdBxEniQ92mYz3lmqaXqeG0V8rq7KyRk2MeVS6OPCcDJQTy?=
+ =?us-ascii?Q?/8M2jXn2CC4ZCJERJNhip1OorcFas2jZoPk4b2ITyFwrzIb4qGJ3Iw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?WcNy3BHoSMTRGO4XJfC9qzyTA9SRM8Kx0Y4xGcXNw5Fjy2CAW2tFAUUvUwDA?=
+ =?us-ascii?Q?+gOKkCOGGMOqg2fx3Mnxb30gNnSOHT6IGIFOhD23OI1G2VVtYOWbXXZ1nQ3k?=
+ =?us-ascii?Q?WnHXGrQ/9X/hAQ7WsS0zc/gDXWJ5iqelw0iUpERgdqr4vcvEk304MoGF4IVo?=
+ =?us-ascii?Q?xyMeSuocCBuYcgE+0H1bR9++e7nz/spdxGKI4YEMZWBv277iVzDUrNMcBXLY?=
+ =?us-ascii?Q?nqb8dfquLgeMemujCaTYQEbOuFNgFg2aGgq4V7G9Pch0BcRddOCWQCAsuYUo?=
+ =?us-ascii?Q?MBxhfTZAVU/CZsXfb3hXtMmVhMYN2x5DS5VIuUF7CJz54n7IOyuZj3YbUCKe?=
+ =?us-ascii?Q?4fqQz7HyCJ7CD0aDBGn8JVf8vlvERmnXGMHSmO4goJGvP/yYINuYaWRThYgn?=
+ =?us-ascii?Q?fOw4OYKTLNU6QeclOeutFu/U2p/Us3Y146tibSCIrJQWPlLM+IhSF+KfFiPq?=
+ =?us-ascii?Q?MJp4aJowy3ziSAPa3ZMAWjrL9wpKIgyeYVShguuI3ga6opihC+3nYYfA5vDK?=
+ =?us-ascii?Q?L6c8/Nj1eBe1oplUQXQ1ff9EhhF7QWZmCFKAqgN/3SwUiQ6xN7y89LogVoEE?=
+ =?us-ascii?Q?zBrL7shRlRDx8sPJdMIyuRaGLN1TWvwecc+3h389ThNF81HDPAlFS27J8Izm?=
+ =?us-ascii?Q?+nbaqZ4xnGMjkjsZFB0BmhAlI7ccsjBCc5RfFteJEb7JG54zuvK7RGbcv7CZ?=
+ =?us-ascii?Q?D/WNmk13Jc9MAZQCT9g88C45025Drgqe8k0C3M740prEx6/YFMc6xDhAfBjX?=
+ =?us-ascii?Q?8sVPiWlnQWbkoW/GjsfekqJDO8l2xhQM0j9ana9Mrrw9YlwrgKGSwf0eiVUL?=
+ =?us-ascii?Q?2zxa8KMCFiMZVNXKWEFkP4caqiBihorzMTiWKsypy0j8gYfLfY3kgsMDuo8T?=
+ =?us-ascii?Q?98TtMcq3EtU5JMzIELdTHH8H7kinuvqv9nH6yA/AoVUQripTjftkUVTt/HKY?=
+ =?us-ascii?Q?P8m4F93MKRV0gh6lxbQxu/JHv1MHuGzMRZ3FYopuZAEbZpIFS+zEMQXci/E0?=
+ =?us-ascii?Q?xMxGCLxunQlvhes2Sbj8jVWAkCUp7JMLbJs8soeg2//mG/D5hioh5b8b+i04?=
+ =?us-ascii?Q?b1Knkj+Akc7rzMA9sKfVBCrQVk9p6NxhQ75fgCpdHmD1bnapzW+EX8bYZalL?=
+ =?us-ascii?Q?NJQuLhupvVPHoyq1aHnK6kopHMK2Qv684J5nW3xHhyFqpp6RfA841X3my7ns?=
+ =?us-ascii?Q?qM/+v5yp3oIc+ZkBNKAOfdnr3javrqtkXZ/21+LH93sB895XUF6v0i66uOlr?=
+ =?us-ascii?Q?e6+qSZ30n6kQoH61javXwoiLbg/F3BzFDzw5RWLc6TY+u3ePFm8k76a5arep?=
+ =?us-ascii?Q?JpO+BTSq6tmBFdREswkgf69OGcyxWbzjgqQw/P7hHJ+9oI1bGlKc4UkekKDL?=
+ =?us-ascii?Q?m1jizRyFFpweaHbyq3eu6p74U8F6a9cag4NX6uSMdnbXXW8kb3cZQv8YRFl3?=
+ =?us-ascii?Q?kfaxeGFfTbFYSzHxToR7SBp/742SdD9PLAiQZc/nnTd6eIkjX9dEPpMWr+Rf?=
+ =?us-ascii?Q?ocVslT09kY2Jv/ioPi9fLB6YTBp5QHwCOhuumTVE3+lCP0Ncpf+l98vrFs9f?=
+ =?us-ascii?Q?fUu4uew82f8Z49Q8HvkY8qItWJjGzkXL9RBIqH9dfotXrg/lgUp6uKbbmtqo?=
+ =?us-ascii?Q?qaC7LQpmEIv6ctPol0IbyH8=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff925e3f-4be3-447a-0a59-08dd8dc9accf
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 00:45:48.8986
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rT3uGseeQNhNEpKAS4XTsGB/HLOhTHRcMHtb5vtBX/qCI9xoRHjOdlvpKHmS37vJELrdX4AXAA2dORaHaua4qllpCiQZsh8fVxQVpwfL11Vh17rb5V5fjvOeDzmiHWKI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10008
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+Hi Mark, Qcom member
 
-snd_gus_use_dec(), snd_gus_use_inc() and snd_gf1_print_voice_registers()
-last uses were removed in 2007 by
-commit e5723b41abe5 ("[ALSA] Remove sequencer instrument layer")
+snd_soc_component has "id", but no one is using it except Qcom. It is
+initialized at snd_soc_component_initialize(), but Qcom overwrites it.
+Qcom can use own private data for it. So, we don't need to have
+component->id anymore. Let's remove it.
 
-Remove them.
+Kuninori Morimoto (3):
+  ASoC: qcom: use drvdata instead of component to keep id
+  ASoC: soc-core: save ID if param was set in fmt_single_name()
+  ASoC: remove component->id
 
-While there, remove big #if 0 blocks next to the code being deleted.
+ include/sound/soc-component.h   |  1 -
+ sound/soc/qcom/lpass-platform.c | 10 ++++++----
+ sound/soc/qcom/lpass.h          |  1 +
+ sound/soc/soc-core.c            | 14 +++++++++-----
+ 4 files changed, 16 insertions(+), 10 deletions(-)
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- include/sound/gus.h      |   6 -
- sound/isa/gus/gus_io.c   | 229 ---------------------------------------
- sound/isa/gus/gus_main.c |  14 ---
- 3 files changed, 249 deletions(-)
-
-diff --git a/include/sound/gus.h b/include/sound/gus.h
-index cd8da68cab92..bdd60ffe15c2 100644
---- a/include/sound/gus.h
-+++ b/include/sound/gus.h
-@@ -578,14 +578,8 @@ int snd_gf1_new_mixer(struct snd_gus_card * gus);
- 
- int snd_gf1_pcm_new(struct snd_gus_card *gus, int pcm_dev, int control_index);
- 
--#ifdef CONFIG_SND_DEBUG
--extern void snd_gf1_print_voice_registers(struct snd_gus_card * gus);
--#endif
--
- /* gus.c */
- 
--int snd_gus_use_inc(struct snd_gus_card * gus);
--void snd_gus_use_dec(struct snd_gus_card * gus);
- int snd_gus_create(struct snd_card *card,
- 		   unsigned long port,
- 		   int irq, int dma1, int dma2,
-diff --git a/sound/isa/gus/gus_io.c b/sound/isa/gus/gus_io.c
-index 1dc9e0edb3d9..f167eb8d516b 100644
---- a/sound/isa/gus/gus_io.c
-+++ b/sound/isa/gus/gus_io.c
-@@ -228,49 +228,6 @@ unsigned short snd_gf1_i_look16(struct snd_gus_card * gus, unsigned char reg)
- 	return res;
- }
- 
--#if 0
--
--void snd_gf1_i_adlib_write(struct snd_gus_card * gus,
--		           unsigned char reg,
--		           unsigned char data)
--{
--	unsigned long flags;
--
--	spin_lock_irqsave(&gus->reg_lock, flags);
--	__snd_gf1_adlib_write(gus, reg, data);
--	spin_unlock_irqrestore(&gus->reg_lock, flags);
--}
--
--void snd_gf1_i_write_addr(struct snd_gus_card * gus, unsigned char reg,
--			  unsigned int addr, short w_16bit)
--{
--	unsigned long flags;
--
--	spin_lock_irqsave(&gus->reg_lock, flags);
--	__snd_gf1_write_addr(gus, reg, addr, w_16bit);
--	spin_unlock_irqrestore(&gus->reg_lock, flags);
--}
--
--#endif  /*  0  */
--
--#ifdef CONFIG_SND_DEBUG
--static unsigned int snd_gf1_i_read_addr(struct snd_gus_card * gus,
--					unsigned char reg, short w_16bit)
--{
--	unsigned int res;
--	unsigned long flags;
--
--	spin_lock_irqsave(&gus->reg_lock, flags);
--	res = __snd_gf1_read_addr(gus, reg, w_16bit);
--	spin_unlock_irqrestore(&gus->reg_lock, flags);
--	return res;
--}
--#endif
--
--/*
--
-- */
--
- void snd_gf1_dram_addr(struct snd_gus_card * gus, unsigned int addr)
- {
- 	outb(0x43, gus->gf1.reg_regsel);
-@@ -418,189 +375,3 @@ void snd_gf1_select_active_voices(struct snd_gus_card * gus)
- 		udelay(100);
- 	}
- }
--
--#ifdef CONFIG_SND_DEBUG
--
--void snd_gf1_print_voice_registers(struct snd_gus_card * gus)
--{
--	unsigned char mode;
--	int voice, ctrl;
--
--	voice = gus->gf1.active_voice;
--	dev_info(gus->card->dev,
--		 " -%i- GF1  voice ctrl, ramp ctrl  = 0x%x, 0x%x\n",
--		 voice, ctrl = snd_gf1_i_read8(gus, 0), snd_gf1_i_read8(gus, 0x0d));
--	dev_info(gus->card->dev,
--		 " -%i- GF1  frequency              = 0x%x\n",
--		 voice, snd_gf1_i_read16(gus, 1));
--	dev_info(gus->card->dev,
--		 " -%i- GF1  loop start, end        = 0x%x (0x%x), 0x%x (0x%x)\n",
--		 voice, snd_gf1_i_read_addr(gus, 2, ctrl & 4),
--		 snd_gf1_i_read_addr(gus, 2, (ctrl & 4) ^ 4),
--		 snd_gf1_i_read_addr(gus, 4, ctrl & 4),
--		 snd_gf1_i_read_addr(gus, 4, (ctrl & 4) ^ 4));
--	dev_info(gus->card->dev,
--		 " -%i- GF1  ramp start, end, rate  = 0x%x, 0x%x, 0x%x\n",
--		 voice, snd_gf1_i_read8(gus, 7), snd_gf1_i_read8(gus, 8),
--		 snd_gf1_i_read8(gus, 6));
--	dev_info(gus->card->dev,
--		 " -%i- GF1  volume                 = 0x%x\n",
--		 voice, snd_gf1_i_read16(gus, 9));
--	dev_info(gus->card->dev,
--		 " -%i- GF1  position               = 0x%x (0x%x)\n",
--		 voice, snd_gf1_i_read_addr(gus, 0x0a, ctrl & 4),
--		 snd_gf1_i_read_addr(gus, 0x0a, (ctrl & 4) ^ 4));
--	if (gus->interwave && snd_gf1_i_read8(gus, 0x19) & 0x01) {	/* enhanced mode */
--		mode = snd_gf1_i_read8(gus, 0x15);
--		dev_info(gus->card->dev,
--			 " -%i- GFA1 mode                   = 0x%x\n",
--			 voice, mode);
--		if (mode & 0x01) {	/* Effect processor */
--			dev_info(gus->card->dev,
--				 " -%i- GFA1 effect address         = 0x%x\n",
--				 voice, snd_gf1_i_read_addr(gus, 0x11, ctrl & 4));
--			dev_info(gus->card->dev,
--				 " -%i- GFA1 effect volume          = 0x%x\n",
--				 voice, snd_gf1_i_read16(gus, 0x16));
--			dev_info(gus->card->dev,
--				 " -%i- GFA1 effect volume final    = 0x%x\n",
--				 voice, snd_gf1_i_read16(gus, 0x1d));
--			dev_info(gus->card->dev,
--				 " -%i- GFA1 effect accumulator     = 0x%x\n",
--				 voice, snd_gf1_i_read8(gus, 0x14));
--		}
--		if (mode & 0x20) {
--			dev_info(gus->card->dev,
--				 " -%i- GFA1 left offset            = 0x%x (%i)\n",
--				 voice, snd_gf1_i_read16(gus, 0x13),
--				 snd_gf1_i_read16(gus, 0x13) >> 4);
--			dev_info(gus->card->dev,
--				 " -%i- GFA1 left offset final      = 0x%x (%i)\n",
--				 voice, snd_gf1_i_read16(gus, 0x1c),
--				 snd_gf1_i_read16(gus, 0x1c) >> 4);
--			dev_info(gus->card->dev,
--				 " -%i- GFA1 right offset           = 0x%x (%i)\n",
--				 voice, snd_gf1_i_read16(gus, 0x0c),
--				 snd_gf1_i_read16(gus, 0x0c) >> 4);
--			dev_info(gus->card->dev,
--				 " -%i- GFA1 right offset final     = 0x%x (%i)\n",
--				 voice, snd_gf1_i_read16(gus, 0x1b),
--				 snd_gf1_i_read16(gus, 0x1b) >> 4);
--		} else
--			dev_info(gus->card->dev,
--				 " -%i- GF1  pan                    = 0x%x\n",
--				 voice, snd_gf1_i_read8(gus, 0x0c));
--	} else
--		dev_info(gus->card->dev,
--			 " -%i- GF1  pan                    = 0x%x\n",
--			 voice, snd_gf1_i_read8(gus, 0x0c));
--}
--
--#if 0
--
--void snd_gf1_print_global_registers(struct snd_gus_card * gus)
--{
--	unsigned char global_mode = 0x00;
--
--	dev_info(gus->card->dev,
--		 " -G- GF1 active voices            = 0x%x\n",
--		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_ACTIVE_VOICES));
--	if (gus->interwave) {
--		global_mode = snd_gf1_i_read8(gus, SNDRV_GF1_GB_GLOBAL_MODE);
--		dev_info(gus->card->dev,
--			 " -G- GF1 global mode              = 0x%x\n",
--			 global_mode);
--	}
--	if (global_mode & 0x02)	/* LFO enabled? */
--		dev_info(gus->card->dev,
--			 " -G- GF1 LFO base                 = 0x%x\n",
--			 snd_gf1_i_look16(gus, SNDRV_GF1_GW_LFO_BASE));
--	dev_info(gus->card->dev,
--		 " -G- GF1 voices IRQ read          = 0x%x\n",
--		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_VOICES_IRQ_READ));
--	dev_info(gus->card->dev,
--		 " -G- GF1 DRAM DMA control         = 0x%x\n",
--		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_DRAM_DMA_CONTROL));
--	dev_info(gus->card->dev,
--		 " -G- GF1 DRAM DMA high/low        = 0x%x/0x%x\n",
--		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_DRAM_DMA_HIGH),
--		 snd_gf1_i_read16(gus, SNDRV_GF1_GW_DRAM_DMA_LOW));
--	dev_info(gus->card->dev,
--		 " -G- GF1 DRAM IO high/low         = 0x%x/0x%x\n",
--		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_DRAM_IO_HIGH),
--		 snd_gf1_i_read16(gus, SNDRV_GF1_GW_DRAM_IO_LOW));
--	if (!gus->interwave)
--		dev_info(gus->card->dev,
--			 " -G- GF1 record DMA control       = 0x%x\n",
--			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_REC_DMA_CONTROL));
--	dev_info(gus->card->dev,
--		 " -G- GF1 DRAM IO 16               = 0x%x\n",
--		 snd_gf1_i_look16(gus, SNDRV_GF1_GW_DRAM_IO16));
--	if (gus->gf1.enh_mode) {
--		dev_info(gus->card->dev,
--			 " -G- GFA1 memory config           = 0x%x\n",
--			 snd_gf1_i_look16(gus, SNDRV_GF1_GW_MEMORY_CONFIG));
--		dev_info(gus->card->dev,
--			 " -G- GFA1 memory control          = 0x%x\n",
--			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_MEMORY_CONTROL));
--		dev_info(gus->card->dev,
--			 " -G- GFA1 FIFO record base        = 0x%x\n",
--			 snd_gf1_i_look16(gus, SNDRV_GF1_GW_FIFO_RECORD_BASE_ADDR));
--		dev_info(gus->card->dev,
--			 " -G- GFA1 FIFO playback base      = 0x%x\n",
--			 snd_gf1_i_look16(gus, SNDRV_GF1_GW_FIFO_PLAY_BASE_ADDR));
--		dev_info(gus->card->dev,
--			 " -G- GFA1 interleave control      = 0x%x\n",
--			 snd_gf1_i_look16(gus, SNDRV_GF1_GW_INTERLEAVE));
--	}
--}
--
--void snd_gf1_print_setup_registers(struct snd_gus_card * gus)
--{
--	dev_info(gus->card->dev,
--		 " -S- mix control                  = 0x%x\n",
--		 inb(GUSP(gus, MIXCNTRLREG)));
--	dev_info(gus->card->dev,
--		 " -S- IRQ status                   = 0x%x\n",
--		 inb(GUSP(gus, IRQSTAT)));
--	dev_info(gus->card->dev,
--		 " -S- timer control                = 0x%x\n",
--		 inb(GUSP(gus, TIMERCNTRL)));
--	dev_info(gus->card->dev,
--		 " -S- timer data                   = 0x%x\n",
--		 inb(GUSP(gus, TIMERDATA)));
--	dev_info(gus->card->dev,
--		 " -S- status read                  = 0x%x\n",
--		 inb(GUSP(gus, REGCNTRLS)));
--	dev_info(gus->card->dev,
--		 " -S- Sound Blaster control        = 0x%x\n",
--		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL));
--	dev_info(gus->card->dev,
--		 " -S- AdLib timer 1/2              = 0x%x/0x%x\n",
--		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_ADLIB_TIMER_1),
--		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_ADLIB_TIMER_2));
--	dev_info(gus->card->dev,
--		 " -S- reset                        = 0x%x\n",
--		 snd_gf1_i_look8(gus, SNDRV_GF1_GB_RESET));
--	if (gus->interwave) {
--		dev_info(gus->card->dev,
--			 " -S- compatibility                = 0x%x\n",
--			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_COMPATIBILITY));
--		dev_info(gus->card->dev,
--			 " -S- decode control               = 0x%x\n",
--			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_DECODE_CONTROL));
--		dev_info(gus->card->dev,
--			 " -S- version number               = 0x%x\n",
--			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_VERSION_NUMBER));
--		dev_info(gus->card->dev,
--			 " -S- MPU-401 emul. control A/B    = 0x%x/0x%x\n",
--			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_MPU401_CONTROL_A),
--			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_MPU401_CONTROL_B));
--		dev_info(gus->card->dev,
--			 " -S- emulation IRQ                = 0x%x\n",
--			 snd_gf1_i_look8(gus, SNDRV_GF1_GB_EMULATION_IRQ));
--	}
--}
--#endif  /*  0  */
--
--#endif
-diff --git a/sound/isa/gus/gus_main.c b/sound/isa/gus/gus_main.c
-index 51ce405eba7a..7166869e423d 100644
---- a/sound/isa/gus/gus_main.c
-+++ b/sound/isa/gus/gus_main.c
-@@ -22,18 +22,6 @@ MODULE_LICENSE("GPL");
- 
- static int snd_gus_init_dma_irq(struct snd_gus_card * gus, int latches);
- 
--int snd_gus_use_inc(struct snd_gus_card * gus)
--{
--	if (!try_module_get(gus->card->module))
--		return 0;
--	return 1;
--}
--
--void snd_gus_use_dec(struct snd_gus_card * gus)
--{
--	module_put(gus->card->module);
--}
--
- static int snd_gus_joystick_info(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_info *uinfo)
- {
- 	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-@@ -443,8 +431,6 @@ EXPORT_SYMBOL(snd_gf1_new_mixer);
-   /* gus_pcm.c */
- EXPORT_SYMBOL(snd_gf1_pcm_new);
-   /* gus.c */
--EXPORT_SYMBOL(snd_gus_use_inc);
--EXPORT_SYMBOL(snd_gus_use_dec);
- EXPORT_SYMBOL(snd_gus_create);
- EXPORT_SYMBOL(snd_gus_initialize);
-   /* gus_irq.c */
 -- 
-2.49.0
+2.43.0
 
