@@ -1,83 +1,104 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5211917F4;
-	Thu,  8 May 2025 11:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B35E2C190;
+	Thu,  8 May 2025 12:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746704179; cv=none; b=AiYS1Lvbk735zno4oBuerg2ggkBUQmi2+RS713zOzrThqR+9MhM253om6GyAqesgF08vZmcM3BGVf0C2DhETlqTWfI8XPH7JQFdalmLDA1u4btzBjY5hcz7h2Lu0xUzQzwHgajaUaJo2jqapXDclxGe71OtC3LU7uYc3xDpT/BQ=
+	t=1746708360; cv=none; b=RlcUlSe6kKSNfmgedKkzWAPSQzOfkGmHyrvDf7uF+LMPm2/ByTQXKHTmyxvOnogNZDQ/l956mkxrXvbwL7s552N9XViXs3vkWG3bDOn4oU2p6S++U+vNLZozxFne5JAbBW9lTGgtnJR8o1P0CQZMFBwnNR3+9FI5KEYWuPMhcNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746704179; c=relaxed/simple;
-	bh=BU8NQeplfoLhhubiqXdhGOT23Wqj5sJj4znksBSAoxE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DfOp/XCN1HQRpx0qfQffDEdCx7XF9dlMzWOC7F0oaEtAks9L7WKfvH0TIk6murY0eiAyGmNZ5gQHHNWuZz0jw7EpFPsfo2JntMlJhxRceowGOqet8tnUbXTHa5ZCT3DmHE9ForyPaFkpfo17nJbpYQCWYJkubyVUr3MQDkBkUxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=JMo5OmnF; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1746708360; c=relaxed/simple;
+	bh=gtvcZNEeXpPInbrf7rQ7RG25lTI5aprhGw3x58onNJE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SSHwrSdtTQ+5JZn60siQ42dxqUxotBy+ypSKGAGFVmjVqYqo0IKB0ks8GF5tSko4ojn3Eq7P+Uz4Qo02Fthu0RyI49pvVBhaBya6P8QEnCFTU3Hp6MghNxnLQLiGinff79kAN9MOPeothyUQQIuqLHTUQmC77DtqTfRfzNaGGPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eiiWyhiN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="JMo5OmnF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=C7cZX+eXm/vbJId8kTehe4+vFu6+Xjt+OeRYHMWNqmA=; b=JMo5OmnFRL3WZHIa
-	gxoigHirafSLWNb0Y2m/qGorjVcMUVl5+s3BtTEuSN2/iGPsnALVK86HT4Wa5yVsVi62V+LjTCp45
-	gYDua7TyOPdSPc2ZvmHnlL9Z2kihLfC075UuGUMKB54Qcf47BOMrXIKkx7W29Q4MMNedMNNiv1pkx
-	RMW6eL4sZxRLEmeTa2NVPiIHdQDKW+vFeG70zeSl6Tcos04JLqItFCLTBuPP+AgiaG4qYXNxUmH10
-	7M8g2kjRfc//7uxl3sLeVdIwUcfD1fWpaJGzM4QzVJajGaAdtMq/2fns68tLOzfhqJLkwkgJJKAfI
-	E6ltcAdqVr6mWIIGfw==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1uCzXo-002Mu8-2h;
-	Thu, 08 May 2025 11:36:04 +0000
-Date: Thu, 8 May 2025 11:36:04 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: perex@perex.cz, tiwai@suse.com, krzysztof.h1@wp.pl
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: question on sound/isa/msnd/msnd_midi.c
-Message-ID: <aByXJKi2j7B4b0bH@gallifrey>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eiiWyhiN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EA45C4CEE7;
+	Thu,  8 May 2025 12:46:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746708360;
+	bh=gtvcZNEeXpPInbrf7rQ7RG25lTI5aprhGw3x58onNJE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eiiWyhiNlquLFFMTKbOZdZ/Sfam9B40u4DIuYyja1QolOwigVPF2m+ASdGwk/RZDm
+	 eDpw9Q3/5vN1Ard1bQxeec+TcRtbtbB5cFJFVLopvIQRAzxwvSFtUED8fDwvy9WH+Q
+	 4xVdzKCsYZIP428lefgyGofVq58WYRd4VZLtQCD9VPkti92uqQ9wLF1ET+NIITvbIV
+	 9mOof9MXdVK5UWwk7sHTkRdvGH57uTpWwBi0CAUhEnPGYqTPfyaeq8K6Vl4lFtHXps
+	 k6ouHLUAeTD5xUTAxCse+hVv0Q8xYHCC7HFGu4sLV+H217idiafvK5oWXG2u8Hzfl9
+	 tRwvaUvtiqBWg==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1uD0dR-000000004UX-3MnV;
+	Thu, 08 May 2025 14:45:57 +0200
+Date: Thu, 8 May 2025 14:45:57 +0200
+From: Johan Hovold <johan@kernel.org>
+To: srinivas.kandagatla@linaro.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: peda@axentia.se, broonie@kernel.org, andersson@kernel.org,
+	krzk+dt@kernel.org, ivprusov@salutedevices.com,
+	luca.ceresoli@bootlin.com, zhoubinbin@loongson.cn,
+	paulha@opensource.cirrus.com, lgirdwood@gmail.com, robh@kernel.org,
+	conor+dt@kernel.org, konradybcio@kernel.org, perex@perex.cz,
+	tiwai@suse.com, dmitry.baryshkov@oss.qualcomm.com,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	johan+linaro@kernel.org,
+	Christopher Obbard <christopher.obbard@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v6 2/6] mux: gpio: add optional regulator support
+Message-ID: <aBynhb6voxJvZtB7@hovoldconsulting.com>
+References: <20250327100633.11530-1-srinivas.kandagatla@linaro.org>
+ <20250327100633.11530-3-srinivas.kandagatla@linaro.org>
+ <Z-zvuhz2nkA5j4RZ@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 11:27:35 up 10 days, 19:41,  1 user,  load average: 0.07, 0.04, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <Z-zvuhz2nkA5j4RZ@hovoldconsulting.com>
 
-Hi,
-   I noticed that nothing calls snd_msndmidi_new in
-sound/isa/msnd/msnd_midi.c and was about to delete it, but I'm not
-too sure - I think it's actually a bug where it should be called.
+On Wed, Apr 02, 2025 at 10:05:14AM +0200, Johan Hovold wrote:
+> On Thu, Mar 27, 2025 at 10:06:29AM +0000, Srinivas Kandagatla wrote:
+> > From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> > 
+> > Some of the external muxes needs powering up using a regulator.
+> > This is the case with Lenovo T14s laptop which has a external audio mux
+> > to handle US/EURO headsets.
+> > 
+> > Add support to the driver to handle this optional regulator.
+> > 
+> > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> > Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
+> 
+> > @@ -82,6 +83,10 @@ static int mux_gpio_probe(struct platform_device *pdev)
+> >  		mux_chip->mux->idle_state = idle_state;
+> >  	}
+> >  
+> > +	ret = devm_regulator_get_enable_optional(dev, "mux");
+> > +	if (ret && ret != -ENODEV)
+> > +		return dev_err_probe(dev, ret, "Couldn't retrieve/enable gpio mux supply\n");
+> 
+> nit: "failed to get/enable mux supply" may be more consistent with the
+> other (non-capitalised error) messages and avoids repeating "gpio mux"
+> which will be added by driver core.
+> 
+> > +
+> >  	ret = devm_mux_chip_register(dev, mux_chip);
+> >  	if (ret < 0)
+> >  		return ret;
+> 
+> Either way:
+> 
+> Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+> Tested-by: Johan Hovold <johan+linaro@kernel.org>
 
-  This code was added in 2009 by
-commit f6c638350275 ("ALSA: Turtle Beach Multisound Classic/Pinnacle driver")
-(Pretty new for an ISA card!)
+Can someone please pick this one and the binding update up for 6.16?
 
-Looking at msnd_midi.c the only function in there that anything
-calls is snd_msndmidi_input_read() called by msnd_pinnacle.c but that
-is guarded by a check:
+I see you recently volunteered to do so, Krzysztof? [1]
 
-  146    if (chip->msndmidi_mpu)
-  147          snd_msndmidi_input_read(chip->msndmidi_mpu);   
+Johan
 
-but I don't think anything sets that msndmidi_mpu, since the only
-thing that could is snd_msndmidi_new() which isn't called.
-
-I see that the original poster didn't test the external midi:
-   https://mailman.alsa-project.org/hyperkitty/list/alsa-devel@alsa-project.org/message/CWPYLPLJQEK64UU3YFCAMVXGDY42QKF2/
-so I guess this has always been missing.
-
-I don't have the hardware to test.
-
-Thoughts?
-
-Dave
-
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+[1] https://lore.kernel.org/all/20250501175303.144102-2-krzysztof.kozlowski@linaro.org/
