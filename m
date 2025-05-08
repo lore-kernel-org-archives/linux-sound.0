@@ -1,176 +1,110 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011002.outbound.protection.outlook.com [52.101.125.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377EC1C695;
-	Thu,  8 May 2025 00:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746665182; cv=fail; b=AOvzLgrFVGnG4J1NmwQJBCnuYe6AMrF4IGkysLggUibJ+YzVwQHgY8CT42hnfF8KMHqCFNZWKYdMaPXTp90C0mRExtl3WVuz2TUBehPHccz9H+2XjEmpvWObLlVJ13TN+I7Wac02pfPWL9LgqiH94hKTN27OkZchh6m/2CPm9vQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746665182; c=relaxed/simple;
-	bh=veeCoEQFfSokyMumxPgsYs+82nlvQ+pG0hejpKbDdhU=;
-	h=Message-ID:To:From:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=VSzA+duzjaPwwNpV5VgtPbIkIs82gNqXBkehWqZH7GtRRtFP/QFme37r0HECWWK2V2+9PuMD7zyHLtsTv1Csn0hUtEl5V6q+8f+eRW2IYHkUgTAjmFtmYD6ofVPfrG5pVB+ba9AnpDi8vnFCEf12ryP4FTqe1wTi8NlzeMPhl00=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=cJ8qvMHj; arc=fail smtp.client-ip=52.101.125.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 188F11E1C1A;
+	Thu,  8 May 2025 03:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746674066; cv=none; b=eWuIE2dSxJn36ftbYlRgOdFS1bP5RipHlOGLYhiNmyhL8puB7BA70LnYcD2Kbkl5uYyAuMJAzCrovk6zZBeZ8Fw5v4q4UIaI6ehKNk3zL5nrT3f1Zydv9CLfqQCI2tQaEUbGSh94kP5PJVnVl7xzbnABLVTeiS3GsQ+v11Uh4PU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746674066; c=relaxed/simple;
+	bh=pg7wYVABb0rhUpjBIos8quBQPrxBvIRo10KdovuIrsw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DHkUVYPWbi9txhRPKGp36TXtRXVePwzukGsvwDVSZNVCvJH2wBF/iv6NftJERpOemw4xubVISbKIi5Q4gG208ag2I04R3XY13ofgxhO+VXwsWMy+p0++4htV5Kq0NhpWieLbVKScAOMSna9W5WuVJ3AJcQCJ50OFtGNOdr/kjcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=F8z+fRka; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=BSs8vQkZ; arc=none smtp.client-ip=220.130.44.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="cJ8qvMHj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JwTRkqibbAoyXjjaRRx68FjDxP8Pyswlm53bEShkiPPDtYlmLxYyFjZcML8aJz5S4L/HfcdRgCct1aYta6w0GYEKusp+9m/uQ6rFM/QKv3Ogi714sDCNQPKYsccEnJgwueJTx2EPVq9KeUqtaoPfHKHnfLEe4PgHJ40MJA6I56ggGRjoTVK2npY139hX6oR5hX4ktURpvcJDv0p7v84DPyFWYKhzrz/4YZnfw/wZlxcuhq0YvdSkioyjmgE/9e3VH6RrxyojEclv9Ktg6pnkbCs7uGniJqEsk+t7HuqiLnbw4iDt+bUPBpVMoXC6snKURSKd0jp/oZckpQ5HtFyhkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TrqxRQOlWmlKWz/hS2KESntjZJxW8gEnaOKKgLO1DfU=;
- b=U60aUwLxW17RjvNOlcwIX1S5SYc9OZvehUWnmDbDeVkT/V6iBaPehL3hoR4kmumb9AbwMIURlNZjgx5VTe6eu1B+Ke/QOifStLG70bLcCGHgGqQQcw5KeJWG4qi2mpnOXJxDMj+hxHMBcZUQtIjRi3PpwcfouMQeP/zx3E1Mh9kcsS5EOWrfH/5qMt82wayTth60H9wtJJmZ0g33Sq/JpdHtoyvE6Im+faHC4auVQHAPSxShdQEfTQdR60hyatXad7bdSrWk1eN1EBl+0AKNdcpjU97GC369n1XpyWOt7hEMp3BqwZe57+t54KGamXL2tMrYcsltvutbapQktl+cHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TrqxRQOlWmlKWz/hS2KESntjZJxW8gEnaOKKgLO1DfU=;
- b=cJ8qvMHjII0zbcrIafJ5Hc5m3wXdJRsd2MdEf9h5dOr0RMsboqmDlAmNlWECMHv5r4GwhXGrLSBQ5lJF1heV+gpRFE43o1q+r3G/LOHTvC+nJuNRnoM0mFlzevPsSqXBsp1K/zP0MmgOJy60HF1GuF+zyMu705kRIQXPzbvqOXU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB8616.jpnprd01.prod.outlook.com
- (2603:1096:400:139::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.20; Thu, 8 May
- 2025 00:46:16 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%7]) with mapi id 15.20.8722.020; Thu, 8 May 2025
- 00:46:16 +0000
-Message-ID: <875xic2alk.wl-kuninori.morimoto.gx@renesas.com>
-To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 3/3] ASoC: remove component->id
-In-Reply-To: <87a57o2amc.wl-kuninori.morimoto.gx@renesas.com>
-References: <87a57o2amc.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 8 May 2025 00:46:15 +0000
-X-ClientProxiedBy: TYCP301CA0034.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:380::14) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="F8z+fRka";
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="BSs8vQkZ"
+X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1746674057;
+	bh=NeOVctq59G5+Vl63ggwe6KyX95ZPE2nqyV/Mh3vPYWk=; l=1520;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=F8z+fRkaYVIuAst8cx2HPjqLmuqABrWLC5ep3h4zizs9Auv7+Zg+TMZJ7yCN15mBK
+	 Pryl2SsdGhwH2cCcNt7UTF5bPXlna2mz86j1alQPH1pHTd/H/exnhTvu+Qlt5d8UZX
+	 arEPx0Jwd9ROG4sSHOUu7Zh6qrw90eiXAfXdr+bA5WuoXEB6nLkEpDbAn2bBf/KpHI
+	 5B4ABDILn973mqcGyPWo9YqmRcgW8Rlg4GkUZqI4Z64an7/ho08olsWSyIVHn2pwZD
+	 M6OZPnQ88FK68BagqA8vyyacoHg6dJtrYqDPh0EUdpgKSMzZThvfA6AiTsqqefB8p8
+	 Npxe7+Rh39BpQ==
+Received: from 192.168.8.21
+	by mg.richtek.com with MailGates ESMTP Server V3.0(1128079:0:AUTH_RELAY)
+	(envelope-from <prvs=1219E7066D=cy_huang@richtek.com>); Thu, 08 May 2025 11:14:14 +0800 (CST)
+X-MailGates: (compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1746674054;
+	bh=NeOVctq59G5+Vl63ggwe6KyX95ZPE2nqyV/Mh3vPYWk=; l=1520;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=BSs8vQkZzAa1Z4F9W0X4WoEYautReUxyTWfL5Z+noBhUQMABpmMpy1p/erOuLf1Nf
+	 63eTX/UP8dO/XcUNndUOKxVtcaAnVLeZz+9/g5ISjO/4Re3uwiwyZ/n3KB7CrKHMlM
+	 AsRrSxiZpDe1zws1XOaWeKLEcwpALomUne0cC6Noxf/gORdZ8CeRiplqJPs8u/erLW
+	 ResLnrU25DYU45qKV+L1CH0juvvO61lSqy6DBc/QChnTvB1ROhXx/o1zfYqoqFpLPj
+	 TeF9BiaVUclZIqFNIP4/TKO/iWWQ8ZPjj/vJL4/EVva9tUFsFwaxuaTN+GN/LpRf9B
+	 eNSBWsgB2XRPA==
+Received: from 192.168.10.47
+	by mg.richtek.com with MailGates ESMTPS Server V6.0(786607:0:AUTH_RELAY)
+	(envelope-from <cy_huang@richtek.com>)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Thu, 08 May 2025 10:59:49 +0800 (CST)
+Received: from ex3.rt.l (192.168.10.46) by ex4.rt.l (192.168.10.47) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 8 May
+ 2025 10:59:49 +0800
+Received: from git-send.richtek.com (192.168.10.154) by ex3.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
+ Transport; Thu, 8 May 2025 10:59:49 +0800
+From: <cy_huang@richtek.com>
+To: Mark Brown <broonie@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, ChiYuan Huang <cy_huang@richtek.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, kernel test
+ robot <lkp@intel.com>
+Subject: [PATCH] ASoC: codecs: rt9123: Fix sparse cast warning
+Date: Thu, 8 May 2025 11:01:23 +0800
+Message-ID: <185a5ffea22ebd20725fdc7739db6b6addfae3ad.1746672687.git.cy_huang@richtek.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8616:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3207a641-2f14-431c-f062-08dd8dc9bd3a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?oc0wtLKVo32nnlK8B3MSQVODTMA2DKN9FzlTtjapijx253CciE65wUfqXLGh?=
- =?us-ascii?Q?mi3bRGMwW+s8I9KjaNC7DTpsYkNK1QTkmsG9R7k+gGGC5G5fLa+Ud50lOXeO?=
- =?us-ascii?Q?mAishwwsOKUklJ4ZzvXGcBll4DtJEK/DiSrOFgnkP6Lq86YxCWrsGAOXDWxQ?=
- =?us-ascii?Q?G3uZXDygwCmM35we/rgIbzhr/vi+oIzTO9j+lKf+Qx45Vc8/m7xSYpnhWk1r?=
- =?us-ascii?Q?N49rADQzBdu0IuzN3LQQBxBhO/8oR0vPv1DR+Q+L9X6yP2rr+GY8ako7NNwm?=
- =?us-ascii?Q?0oTX+yVud7Rk1tz3LzQwsVuZjHA6dk+X55uvn+1aeEhhfKOnNBFHAtiHwgR8?=
- =?us-ascii?Q?/SqzGmqS4ADf7AfJ55rdp0lOu6/wIHO86bWkZBjCPqBeM5ch19tcaToa+c0Y?=
- =?us-ascii?Q?nszGx/icIJMHUVJpsfzgfcvidmboT057Cq0B1c6DtRn+BF9DoVXYUjxYQ8ys?=
- =?us-ascii?Q?TmVGKbs6hK1Atr+c7WMcXbn+IAP6c5f0eCuqPcUdN+xyHR+g8YGBKsjVF8Fk?=
- =?us-ascii?Q?UGgwpl00ZvBn/aBkrUEOOwvRCS5wg2UJrwb2vSC4YCADtAuXI6c4wVdNkucv?=
- =?us-ascii?Q?xHuYK0E91ySGDtdfiGFA+ottW8Drh4vkGrvHCil+4nHCl/rrcT2nURLz+oQ7?=
- =?us-ascii?Q?JTpyeFj7yi5pLUnQXT3TxHOyRZrsmlkuEeMwmGTHQj6+mHXPr9xE3E64JOFG?=
- =?us-ascii?Q?Gz5heU0139dqVLBgPfC4INsYMvWddKRQaOEMhrpnUES/16asZtmyAyNqMtjK?=
- =?us-ascii?Q?UHxLNoiqOohyTjtSW6Ca+ledMxdgMfygIsh8RfRXESQUUK2dtmtckQSlUYp/?=
- =?us-ascii?Q?HZR6v6HZoAmTeV9IR2i7XfazS76ceAyrN733GXRqgz5+fplkCI66VE77SPHQ?=
- =?us-ascii?Q?enlZ7hOE9YhYH8zLR+4MYM4JqLJM62Vvzmfy9mKUuSwZR0Ha4FpBK1/N6YMv?=
- =?us-ascii?Q?2teTV37mbKjKZYCWMaF/3vJgpDfAGsfnxjmX66+ZKA5ZoQyMGOigDqL7xk/O?=
- =?us-ascii?Q?+gsNWRBvu0H+dNr9zMmEDh+aGfzGT6sbeobSXniUi8PGt97QpWG1yo5lQ5Hb?=
- =?us-ascii?Q?fW9idqbhnM6TVPPpWfkfdntBGTc8o+VoS9OD/s4Y9FV7LlydrBecmZgvHgNK?=
- =?us-ascii?Q?74vXY12kt6STXVIWOvYxBoXBqAGa/kmkOc7+sKlOJOCerGqhy7bIqaW7Cm/L?=
- =?us-ascii?Q?7n63+sgnAz6n4vXEw9wyKM0aEMOjSrV+GGfej21F7KLwHots8QG/NUqZ489p?=
- =?us-ascii?Q?+zHnee/GGz8mPg0xNtJRf7VqB+wLhbaIWxvOnB7aLSagMHJbBtstz5rlP4H4?=
- =?us-ascii?Q?oHQlsj0vQuBY3esmrMc8zJ5MQcF0b46ghtBwJC42xrKwNHymO946CUHr3XC1?=
- =?us-ascii?Q?151A9c42L/r83zRSR0ObstQd1iA/ACWXsR3/pF+hiF/5PTAwQyni4lwfJFRO?=
- =?us-ascii?Q?zIa9MvqSRIE+QkN/Z62l5cvFrFL+5Sv3TsNNsYIHkKan5B5ojMqiew=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0JKYC9UhS6cmGO36qeCR2c/JMmYdOptiIkdjD/Ogg1Ww3K4fwPxhoOuQm154?=
- =?us-ascii?Q?UN6rHGmecjkvffpjoty8MJQUoXiov7jWMgbs3MW7mpH/92K8JDL3XkPTZC5P?=
- =?us-ascii?Q?dBvGNoec5mX8gnGeHL6BW21vN1o7R9l+QXCYW5rCpgJnJMRVVKp7HAvYfWL4?=
- =?us-ascii?Q?5Mr2xKns3ML/V2yvvSN8wZo0X/zUO4HTo8ZDeU0aGkkT+38UnRa4DNvaXqC/?=
- =?us-ascii?Q?4XRO+cKo7u+98roq32eEUHjsVInZJ8K4WRRWGybQ6h2yHsgGakZl8LDYouzN?=
- =?us-ascii?Q?J3u3iKipGW1vkJhHaq9n60cd4FhdrhjIACrtR5N3g9y/QKQyF6VNKRnIhwn+?=
- =?us-ascii?Q?35FprjKoJ2KgLIWDohCJTFDEVRJvtqf6Nf7Hbmmid2U1lCwisW0N6TxsFUds?=
- =?us-ascii?Q?c8SIY2ut7SusPFT81ZQZ817ypEuslvlwkjgGhAmuA85oU5qX1EgTcH6HwoUB?=
- =?us-ascii?Q?5ZXV9dve73AZ+i5nCDiVc60UWn+Odq3ITI2vk3ZQgK5C8tn9so7LPvp9GKtE?=
- =?us-ascii?Q?0O6yrIOnD8I2dqYyqWKiHrsAq8vXW/hwZgrBnSVO7VmoAc+m5LD5xW0DwuED?=
- =?us-ascii?Q?HwEL7fElUC0m3cEnKHH/NgkyiqagigTKYKr4q4jv14brB+Vgl4x3nbvmO8nn?=
- =?us-ascii?Q?hy4z2RW4DePMX1eoczSCAZNU3ce/UshwpsXQWwPMiwPRHzxgxjMHx/gQioOs?=
- =?us-ascii?Q?pBQwva2oErYwn3eceybIknBdKVZFXnJt6UJM0uHWFIm85Ih4C6fhqFdKCd6g?=
- =?us-ascii?Q?wD94drS/tQY9z5yhw1b6w/tCppBuBr2F+0IQDU/1z0D7eGSdL8hOzUf/Tlfv?=
- =?us-ascii?Q?RX7KQ2O4Ht9cbwS4tBSauLker+i76EEgB3n9MHF3vuZay0GgkqmRDUq1QAYM?=
- =?us-ascii?Q?tVH0SePapDXkiu7pvkaOoVmOGmsJVmJEe4y64ISJtndryViyXBtEF/sxg7H0?=
- =?us-ascii?Q?+C61+aF0cs/V2ubOlg1Yn6IxdrbBrEyP5YEzyuLIT94OjKza/NueN4qOlL39?=
- =?us-ascii?Q?HNV2A55eR2D4ZizILzqXjYomdUX6/2OTWrcAWaDQWDM7TWA4hghv7++AllZU?=
- =?us-ascii?Q?EIOckeqANq+5QGQRAjrVbP/KjtdfbItjvmMYMlG1kkVh0GmRNh3pvolfXU1p?=
- =?us-ascii?Q?A2kXxtlIh83TkNHgMVXIvHbBs+OoWzL8oJzc2+UP9pq3G7B9i+RGChlc/REE?=
- =?us-ascii?Q?++D7pl4Ez2uPpifsc98t4BGdi9yFpQe/NyodclyU21dMoD1nfO9oogPoQn7m?=
- =?us-ascii?Q?OLhoTD1bw0bbOagC/K6cvzIyzDC2bUYGdcVsIajjO9aOpJue63ie8zcdxaA2?=
- =?us-ascii?Q?5Ltzzxkkzm3kbkpufyVrCzvx8gBoiK1qenm5+EpFgEqMtz93C63B0ArplIJU?=
- =?us-ascii?Q?5YzFGZ9RyXDDBr8V9UMWH64UilTLd0uGZlYujSbqCFEoQH01W5o2zbSpjL06?=
- =?us-ascii?Q?Gz37qUQZYS4dTHRZ5gSRQWpBtsTXAvhaIa9JVCVN/io7YJtNYNWN9Rq2I/41?=
- =?us-ascii?Q?1pclI3R0AU3y7Guei5pSJSmpFSL3igOfjqpx+SN/8hJel/AWK+HnC8bWIPBx?=
- =?us-ascii?Q?TELEUK3B8E9K3Hg3YCnYltsL3NKpQKS0NXrluW1K7tsuWLq8vnFJfvTd/tLP?=
- =?us-ascii?Q?f5mDtyXiRjkp20JKAWMT9UY=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3207a641-2f14-431c-f062-08dd8dc9bd3a
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 00:46:16.0310
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nspYRlnvuHeP/6PQNb212wDFgedelNGZuIC+0sykFM7l/W+tF3lNxtJRp21Ouno7bOBPJ0k8Vy8Cin98KyfBY6JH37Bz9RVXsStoC+uYrAqzLWFadJSR/L7BkcmYweVg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8616
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-No one is using component->id.
-One idea is we can re-use it as serial number for component.
-But we have no usage, so far. Let's just remove it for now.
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Use i2c block read/write API to fix casting warning.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202505072140.iHyLlDN6-lkp@intel.com/
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 ---
- include/sound/soc-component.h | 1 -
- sound/soc/soc-core.c          | 2 +-
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/codecs/rt9123.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index 61534ac0edd1..2caa807c6249 100644
---- a/include/sound/soc-component.h
-+++ b/include/sound/soc-component.h
-@@ -206,7 +206,6 @@ struct snd_soc_component_driver {
+diff --git a/sound/soc/codecs/rt9123.c b/sound/soc/codecs/rt9123.c
+index d9a22fda3d26..242e8c975a62 100644
+--- a/sound/soc/codecs/rt9123.c
++++ b/sound/soc/codecs/rt9123.c
+@@ -399,17 +399,17 @@ static int rt9123_i2c_probe(struct i2c_client *i2c)
+ 		dev_dbg(dev, "No 'enable' GPIO specified, treat it as default on\n");
  
- struct snd_soc_component {
- 	const char *name;
--	int id;
- 	const char *name_prefix;
- 	struct device *dev;
- 	struct snd_soc_card *card;
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 80569209ce05..39ecf0123a44 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -2835,7 +2835,7 @@ int snd_soc_component_initialize(struct snd_soc_component *component,
- 	mutex_init(&component->io_mutex);
+ 	/* Check vendor id information */
+-	ret = i2c_smbus_read_word_data(i2c, RT9123_REG_COMBOID);
++	ret = i2c_smbus_read_i2c_block_data(i2c, RT9123_REG_COMBOID, sizeof(value), (u8 *)&value);
+ 	if (ret < 0)
+ 		return dev_err_probe(dev, ret, "Failed to read vendor-id\n");
  
- 	if (!component->name) {
--		component->name = fmt_single_name(dev, &component->id);
-+		component->name = fmt_single_name(dev, NULL);
- 		if (!component->name) {
- 			dev_err(dev, "ASoC: Failed to allocate name\n");
- 			return -ENOMEM;
+-	venid = be16_to_cpu(ret);
++	venid = be16_to_cpu(value);
+ 	if ((venid & RT9123_MASK_VENID) != RT9123_FIXED_VENID)
+ 		return dev_err_probe(dev, -ENODEV, "Incorrect vendor-id 0x%04x\n", venid);
+ 
+ 	/* Trigger RG reset before regmap init cache */
+ 	value = cpu_to_be16(RT9123_MASK_SWRST);
+-	ret = i2c_smbus_write_word_data(i2c, RT9123_REG_AMPCTRL, value);
++	ret = i2c_smbus_write_i2c_block_data(i2c, RT9123_REG_AMPCTRL, sizeof(value), (u8 *)&value);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Failed to trigger RG reset\n");
+ 
 -- 
-2.43.0
+2.34.1
 
