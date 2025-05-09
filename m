@@ -1,101 +1,75 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9272E25E815;
-	Fri,  9 May 2025 20:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544C8AD5E;
+	Fri,  9 May 2025 22:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746820851; cv=none; b=HzRxpGRb1nvZZOFz/AgJTB5O8gBgW3UdC4t9Ii7pzAmVlYir4NWutwySwOcl61+oDsJ2MiCtEmUU3ukTP6PbPWSRrvhaReCpOt3gkWrqjDB/xIbisstbDzlCNBlbJZCXy693HjNnesGHK+8ulMk50ZHNNxgt37HoZ3AkTaGxO0A=
+	t=1746828213; cv=none; b=kFwa0mFu+wLVyKYhq4PpADvW3Cltrt19VYryHkL5pUg1sUH2Uy7f5JPfPyg5qbZcUG8fy7TxQJ4wE7M6JL06k04cPnUDOdFe2Cw3zgDM0Sg9a1QNOX7G0he1+c1Tv6lledrbgmuECfUeLs0nU1OVUc25w5SZQyN9For20Pn9QiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746820851; c=relaxed/simple;
-	bh=wiOVd+vFk5rdFuhZzV/kyvgEtuq/lWI8M+zV5v2Leo0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NizXUbKOE3QvOlU4vkRPZrCqDGmMh41Hu/thMoM2x7Py5kCrbzf8lr9vL8hr1zP+sJwdo0G+QqWe5NEK2Tesz7mQ9djbVX5cKHCQJweowfgodpg5gEQEIrHJefHfsVxep1vX5Bcwpnq4xkXGeazFVosC2mkjdx25JrPy30Ti+uE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=QcULRaeW; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1746828213; c=relaxed/simple;
+	bh=CW0sSNe6MztXpmpgZiLXHGBNXrv3XHCJSTcJb1kmYCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VEvM3cQVHi4S34i5dUW2OYwbfJlw/Pg32MeVr/D3uiI7KquRz+p87iw0NU76LAFqnFAGy0GzBVvfq8A+w+68vJBR35tLC05wCeHsByWmxp3OFifAO2nqMLwYnFDfyVRcw4u1WqA20UaD7JoEEnb0pGd4NqzUfqEnChRe/DkuXnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KKKenb+H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="QcULRaeW"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=i0QTL6OGoLDoSHo02DwPWhUp/ii7lcgusrtzJi+Dd24=; b=QcULRaeWBG0HypA38YARbZ+MZa
-	G6dGDhQkzY7/zF+XtNGvIp/ww5yqiwJLRB0FK+PINYJ02h3JUqHF83wiqKovAiKWqnArwx6HLlJPh
-	BI+llkEE50dJACP4dsvkvpG8e2LOSj1FxghJyq988noOvadB+tOWDChqo48ty/S7iDExNzaSG+Hmw
-	/ajS7q8HPClfKXcmASay4oV35JwGIVo69BgeX7ErikyYIjWFL5WR7XrDnlBr/w+c96Vxfho6SN3Zw
-	i4FI0SgUKa4B2BLKoMi7F8oOPqMUcyRRIG4qIg3MAimo4NrUvRvfIVmHpQhuszVZU7bUdKDsC/3m3
-	e3PRuT2w==;
-Received: from i53875a1d.versanet.de ([83.135.90.29] helo=localhost.localdomain)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1uDTta-0004Jo-N8; Fri, 09 May 2025 22:00:34 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KKKenb+H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70309C4CEE4;
+	Fri,  9 May 2025 22:03:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746828212;
+	bh=CW0sSNe6MztXpmpgZiLXHGBNXrv3XHCJSTcJb1kmYCU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KKKenb+HZAolgMcdij0Me9pwnJ4j0Y5oQNJ1gyVDskwvTyFX89NTvAOQunVX2YXgz
+	 n2Z0EMuWkojmkML2rxh19yIqZmBDEZ7UDV6I5HGdrB8H8PmgNWZ97Wp89zrSjKE3Wa
+	 Zt8rTyj6ajwD8sCIj9FCU4DwY+udHaCujRy165FlMwOW49BY3/+PlKrmzBlCQHqAJp
+	 UsjBHa6+JsAmLvOQBpheh7+zAtoTXagJIfYJdP0QfCzxF9PCCUZKi0UWs3hWT+n6Fu
+	 jZhprkK2zFVnbvJSLSiRpK9saJiEYb2jEWihNxEUdpwKmbTe6JtS+8hzdY3dG0GnmA
+	 7RfcJEjZrexMg==
+Date: Fri, 9 May 2025 17:03:30 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Luca Weiss <luca.weiss@fairphone.com>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, linux-arm-msm@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Sugar Zhang <sugar.zhang@rock-chips.com>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Heiko Stuebner <heiko@sntech.de>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	kernel@collabora.com,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v4 0/5] Add RK3576 SAI Audio Controller Support
-Date: Fri,  9 May 2025 22:00:21 +0200
-Message-ID: <174682074864.2029046.1413189234015489546.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250506-rk3576-sai-v4-0-a8b5f5733ceb@collabora.com>
-References: <20250506-rk3576-sai-v4-0-a8b5f5733ceb@collabora.com>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Felipe Balbi <balbi@kernel.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Jaroslav Kysela <perex@perex.cz>, linux-usb@vger.kernel.org,
+	Stephan Gerhold <stephan.gerhold@linaro.org>,
+	~postmarketos/upstreaming@lists.sr.ht,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>, phone-devel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>
+Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: qcom,q6afe: Document q6usb
+ subnode
+Message-ID: <174682821024.69850.896927438133345795.robh@kernel.org>
+References: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
+ <20250501-fp4-usb-audio-offload-v2-1-30f4596281cd@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250501-fp4-usb-audio-offload-v2-1-30f4596281cd@fairphone.com>
 
 
-On Tue, 06 May 2025 12:42:39 +0200, Nicolas Frattaroli wrote:
-> This series adds support for Rockchip's Serial Audio Interface (SAI)
-> controller, found on SoCs such as the RK3576. The SAI is a flexible
-> controller IP that allows both transmitting and receiving digital audio
-> in the I2S, TDM and PCM formats. Instances of this controller are used
-> both for externally exposed audio interfaces, as well as for audio on
-> video interfaces such as HDMI.
+On Thu, 01 May 2025 08:48:47 +0200, Luca Weiss wrote:
+> Document the subnode for Q6USB, used for USB audio offloading.
 > 
-> [...]
+> Cc: Wesley Cheng <quic_wcheng@quicinc.com>
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
+>  Documentation/devicetree/bindings/sound/qcom,q6afe.yaml | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
 
-Applied, thanks!
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-[1/5] arm64: dts: rockchip: Add RK3576 SAI nodes
-      commit: 3dfeccdd3cc88792e631539792a1ecc37a9581dc
-[2/5] arm64: dts: rockchip: Add RK3576 HDMI audio
-      commit: 7f1561d82e3d3589038782f75faa50c65d9cdd42
-[3/5] arm64: dts: rockchip: Add analog audio on RK3576 Sige5
-      commit: f4a9c9fbf02c8948029846aba63c65c0425cb275
-[4/5] arm64: dts: rockchip: Enable HDMI audio on Sige5
-      commit: fcdeb39bb5615c4bb36f69d2ec11f25b54168304
-[5/5] arm64: defconfig: Enable Rockchip SAI and ES8328
-      commit: bd088836a10e418aaf7dbda4a1db9da864f09fb8
-
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
