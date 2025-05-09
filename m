@@ -1,81 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C1735942;
-	Fri,  9 May 2025 01:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF1426A1DA;
+	Fri,  9 May 2025 08:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746754612; cv=none; b=ktYRl3w716NSoe9s3A1sVzOsgrE5HtAmSLlSlf3LSqrTn/dtU+x8Gv+O30dRPLATghn5N4ynAO2J19AwYM9NZgYN+RbxEfW6hsIStju3nlTO/i7fkASxK/tyYWdgm8hntYE7OOe9OwdtAWT9dK99kKe/1kJNNZn3D3ZkvFK3ulI=
+	t=1746778323; cv=none; b=n/UksG6S9ONYbSqEuzsMexA65oEiL4TB1qV7mhnVXk/x6kA9PIEEgDbf2WZ3oNpMOoKxzIBXM/uF28Jx/nA2zxTicQfI54zFcChChksO6UkURtHio1dO+HQXk/ttl6Gx7US6OSUW4vlDJPQ3oc+LOLe4CUW6UBcbOcELxTqnp6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746754612; c=relaxed/simple;
-	bh=2KsR5zZUkInKTKzsgLr5Mc/2LKGwlV6a+Xrw3ysGm2M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hOaMfjsjnnDgA4eLb/sur8J0cD0jCoQDryns4EfSM7HvHLoSLtJz2/Mw1uWGyD1ycLaxIm4qjHU50NSiSkOlDDnJdtwN/B6rCwY/gEpDOX9YBUXl8ursUEWutNaITwTwj/m5WW01jWNYjjE9mJZBkD+rn8MV3EDZJQrM70JoHUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oIa/8U5F; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746778323; c=relaxed/simple;
+	bh=8IbLnw9mBjgrk+9yg+uifNi0PymoSeiWbk1RPstYs7E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YWMBxPYV9P1ro2obNFAW5a2Tso/v0017hfp+OI4JzKXs/rPsUovIg9tHmBMawA78O90gJNppgSWBa/Cgmnc1mI53hiHhiFPO5SM7emppMyUHl7jR3CR3GMymVI6E1hNfROqEuzNrw8QSEYuFetnQFLGwQGYmvbDOvXoa3iuJeEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dkiBSTeY; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oIa/8U5F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 009E6C4CEE7;
-	Fri,  9 May 2025 01:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746754612;
-	bh=2KsR5zZUkInKTKzsgLr5Mc/2LKGwlV6a+Xrw3ysGm2M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oIa/8U5Fu3ZpAG4m2jxejfKLG0yVHd6e8nd88ogWVibuZhQXtxqioUjSYqgF8w7oj
-	 76yANyR667yK7m4iBPvPAUUGKEdzjdE/YIvR1Xf2dj97T+n+CeADTuXKGaV5nqaxZj
-	 RXgD8aJyT4ZSgFwJxpOV+pijJHWlB4dzFB5D894jaYHnEwZ6gTWXTkPdfy4h9lTIDv
-	 NIE3bye0KF6qFxMw2VlCO4sDg4OQ/58KSBoVOXevYdtCI+U+KxEVxDBpvaSZB6uj+3
-	 rdY3D/4LNoBRfKLvd0uNCkbbkUHLuS7obpqAg3XZ5g/TgGG/wEN4VMbrDQUsJqY63R
-	 WgIcB/45V2L5g==
-From: Mark Brown <broonie@kernel.org>
-To: cy_huang@richtek.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-In-Reply-To: <185a5ffea22ebd20725fdc7739db6b6addfae3ad.1746672687.git.cy_huang@richtek.com>
-References: <185a5ffea22ebd20725fdc7739db6b6addfae3ad.1746672687.git.cy_huang@richtek.com>
-Subject: Re: [PATCH] ASoC: codecs: rt9123: Fix sparse cast warning
-Message-Id: <174675461070.17552.2178746164099776132.b4-ty@kernel.org>
-Date: Fri, 09 May 2025 10:36:50 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dkiBSTeY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746778322; x=1778314322;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8IbLnw9mBjgrk+9yg+uifNi0PymoSeiWbk1RPstYs7E=;
+  b=dkiBSTeYwwBZNfjLbE7vdE0HUkQ6zm71JGC9ch6K6LSKe5yCQKAZR40I
+   58LP6/CZqXgas41xkryA+TRm7w56UqguPYAEaNXUqUNmMQSziHLyI4u70
+   QMSAmytygwOtTsj1heFMQPBPC3a4yRzpaVSaDm6JqvkSRfnwgINU+6spl
+   lY2abb4NvmgaR3dI2hPixJCcVuO134hSO1WW5r6Q4uaU8/5ALjb9sqfmK
+   OtuXoH427IJQb/Gv+XXJos4kAauNEv94vKhazHSb9dwSG+OP816Co1zgg
+   D4uZRFT6mQ/eDQ5lsxds/mbplx7kISqSuUOC5r5o/AvrxfGMrpWyKXBxl
+   Q==;
+X-CSE-ConnectionGUID: r+vQldL2QCOxc9kx0Mf5jw==
+X-CSE-MsgGUID: utNmgeb2T/ya1CLFtCu2QQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="36225018"
+X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
+   d="scan'208";a="36225018"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 01:12:01 -0700
+X-CSE-ConnectionGUID: UPTLarKASvehNtOGMe+Jdw==
+X-CSE-MsgGUID: q4AQOU+wTGO7nusOyBZ2gQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
+   d="scan'208";a="167481069"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.132])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 01:11:58 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: Intel: hda-bus: Use PIO mode on ACE2+ platforms
+Date: Fri,  9 May 2025 11:13:08 +0300
+Message-ID: <20250509081308.13784-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Content-Transfer-Encoding: 8bit
 
-On Thu, 08 May 2025 11:01:23 +0800, cy_huang@richtek.com wrote:
-> Use i2c block read/write API to fix casting warning.
-> 
-> 
+Keep using the PIO mode for commands on ACE2+ platforms, similarly how
+the legacy stack is configured.
 
-Applied to
+Fixes: 05cf17f1bf6d ("ASoC: SOF: Intel: hda-bus: Use PIO mode for Lunar Lake")
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Cc: stable@vger.kernel.org
+---
+ sound/soc/sof/intel/hda-bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: codecs: rt9123: Fix sparse cast warning
-      commit: 07cb9b51076f452c286fb69f3af4c65e54affaa3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/sof/intel/hda-bus.c b/sound/soc/sof/intel/hda-bus.c
+index b1be03011d7e..6492e1cefbfb 100644
+--- a/sound/soc/sof/intel/hda-bus.c
++++ b/sound/soc/sof/intel/hda-bus.c
+@@ -76,7 +76,7 @@ void sof_hda_bus_init(struct snd_sof_dev *sdev, struct device *dev)
+ 
+ 	snd_hdac_ext_bus_init(bus, dev, &bus_core_ops, sof_hda_ext_ops);
+ 
+-	if (chip && chip->hw_ip_version == SOF_INTEL_ACE_2_0)
++	if (chip && chip->hw_ip_version >= SOF_INTEL_ACE_2_0)
+ 		bus->use_pio_for_commands = true;
+ #else
+ 	snd_hdac_ext_bus_init(bus, dev, NULL, NULL);
+-- 
+2.49.0
 
