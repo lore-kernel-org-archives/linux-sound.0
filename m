@@ -1,78 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EBD469D;
-	Fri,  9 May 2025 01:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC91783A14
+	for <linux-sound@vger.kernel.org>; Fri,  9 May 2025 01:36:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746754346; cv=none; b=sHyirhce9QZ/MipIx0oXym2vnGRJeI7qW6Sjwdtam2qVdSx/ZtKCn0NIZOw8XiMBriVKlYRUFdDdJ3S08PNgXU5UAf/S2CKDmG1YiH2DlmNDKxuCAqoQL0Ypgf4bttxVe3c7R5fLkt4E6VU0+x47vv+fzKsZygSysgUEoTvB/rE=
+	t=1746754609; cv=none; b=jnlhOXrtXQlB6EgXIEVQLFBaMQ3aifI1T7PVClJHEQnwEDL+749m0lRIdlAK8ZxArtawi00+pJc9neKEz4jRfE0ymisOzBbE3+z3nFVzoqpE8kLKG25fHHT9PUMlQNss/CSNWc0EtyU/8F4UsYuiNNGlEdh7zOVE3gbhDIzSv1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746754346; c=relaxed/simple;
-	bh=LGBZP+0De5qBKzVYRK91W9sUX+AgvjCJZKczVH5pGZ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aD9VyhFW1rI9H8wj11cNrgZNg6SsV5+UCGXs3GA42dfbqrJIQF2ciTikN6zbTnL70hkbQpk10RpPqmqpBi4lRttfglXvxlBt+Q3B0dwH+H+iVU8IgIOO5OLP3SlDvO+B+bHfFZzVDPH6LFJkYpMUbjHgH/4jKwEFF8Qi2wjWwpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHte9XYn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746754609; c=relaxed/simple;
+	bh=ORVmZnLHc+E9zxiN6lUz41CM6+S+9Ho+kIyCPQMWlK4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=opznilHCYlokPDWde8KmuDm8tymtk6LDeyRnY/lcIppiR/9WzMRdKQwnyledHQq1lI4G6BcBkaUlsODJTS2Cck9LEfCBq+jp1I+VA9Hj55NXtrh1lVDKLjWsa2gL9UM8zoZjIyTSUDvKmWfqPpUujnvcCuIhKM7xZyJTOK0L5QA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hjz7U8yE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHte9XYn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB8FEC4CEE7;
-	Fri,  9 May 2025 01:32:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hjz7U8yE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76289C4CEE7;
+	Fri,  9 May 2025 01:36:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746754345;
-	bh=LGBZP+0De5qBKzVYRK91W9sUX+AgvjCJZKczVH5pGZ0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MHte9XYn6HMHn3ARto3QQ0SiI2s/gKUtic5sjOReVdoJUEYrmAXbfYmpBLanzFHkY
-	 rYJYfhilNgYXMNyPKrJ4j8NQZUClzNdtQAPvht9ya608Hu4DklLd0MLu/H8iETPy0z
-	 F/CzqvMG83/in32TVGBSPUvABDz3VBOaEc7tVB2g0vpiOmbuC27vX3QIllche34tBE
-	 l5luMDCKwqwzplgvZMmcZzLHgcAYSHTMp9+HZuTFnkwh3EfAy9rUKdPxG09czdjnfx
-	 nQ3+K+7Vk51Iw6urIqUjwkr6Wuukt4TD4FC6DA8uhp6jWSdKfuvcNHLCZ3GRRCFFpW
-	 DphVvG24zvBxg==
-Date: Fri, 9 May 2025 10:32:22 +0900
+	s=k20201202; t=1746754609;
+	bh=ORVmZnLHc+E9zxiN6lUz41CM6+S+9Ho+kIyCPQMWlK4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=hjz7U8yEq30oJkDFvPG6qq3CUKVzHFyGRLC6+7r0H/lB6f8SEneLthHlvr7WC1esp
+	 CqDxXKXLKST5Z8ViwzcVwnnUZo9WD/tw70cU4nQ2aCvc0Ww1aLPDRF7juqkrcMQYvG
+	 XR/iaN8XjGO2oU3DRIElHvfNptnOchsB9Y1x0HbTUgVzvxLa0C69Dan5f2T2isXjuD
+	 81GcydaSIdNpcnCLmRirQupMkex4RS7IHZ3tXeJD1xj2hnxei77OPyw+ldWGJyHCum
+	 6g4HtR9s4fT0io47nMXTWy5+zw4b6WB8IEKN6Afcks+kmNpUPcU5P14nkjv2midl3W
+	 Us6VOYg9N8Cqw==
 From: Mark Brown <broonie@kernel.org>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
-	guennadi.liakhovetski@linux.intel.com, bhelgaas@google.com,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] ASoC: SOF: Intel: add initial support for WCL
-Message-ID: <aB1bJpLx3aRzYuVQ@finisterre.sirena.org.uk>
-References: <20250508180240.11282-1-peter.ujfalusi@linux.intel.com>
- <20250508180240.11282-4-peter.ujfalusi@linux.intel.com>
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com
+In-Reply-To: <20250507062812.46401-1-yung-chuan.liao@linux.intel.com>
+References: <20250507062812.46401-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/2] ASoC: Intel: soc-acpi-intel-lnl/ptl-match: Add
+ rt713_vb_l3_rt1320_l3 support
+Message-Id: <174675460825.17552.12055211381171964684.b4-ty@kernel.org>
+Date: Fri, 09 May 2025 10:36:48 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dnbjKym447hVCsoL"
-Content-Disposition: inline
-In-Reply-To: <20250508180240.11282-4-peter.ujfalusi@linux.intel.com>
-X-Cookie: Well begun is half done.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
+On Wed, 07 May 2025 14:28:10 +0800, Bard Liao wrote:
+> The series simplify the variable name and add rt713_vb_l3_rt1320_l3
+> support.
+> 
+> Mac Chiang (2):
+>   ASoC: Intel: soc-acpi-intel-lnl/ptl-match: Simplify variable name
+>   ASoC: Intel: soc-acpi-intel-ptl-match: Add rt713_vb_l3_rt1320_l3
+>     support
+> 
+> [...]
 
---dnbjKym447hVCsoL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, May 08, 2025 at 09:02:38PM +0300, Peter Ujfalusi wrote:
-> Clone PTL and adjust the number of cores from 5 to 3.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Thanks!
 
---dnbjKym447hVCsoL
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/2] ASoC: Intel: soc-acpi-intel-lnl/ptl-match: Simplify variable name
+      commit: e79cc43b4833d9f5651d64ca313edf598df50053
+[2/2] ASoC: Intel: soc-acpi-intel-ptl-match: Add rt713_vb_l3_rt1320_l3 support
+      commit: 62a5897607747e63c64a8b7a7fc212b9b29c2a7a
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgdWyUACgkQJNaLcl1U
-h9DsEQf9E7FgyihuxEBw34iVKKDCWsITXVvXK7QQ5sOJyXhhmNvz740PkInXafV2
-D6x8okwIwehLLeZ3BBtbiHsJbaa7a0UWiP0GVO+fLkBjRQBS4utUXb4iXk74vL/C
-3z6pTVi/6ItEmRQNArvKl/ag3RoMrNIP0j5tr25/7P/aQ+Ob4m5FnlC6i1qtR+Ba
-k3u68D5XsWmI+HEWCe5+6Nf5RbNlruv69yMHfJ18NvW2vI/lCMCV6nFvXJ1El1ej
-Q1zAa+sYwbvFimCGbbW3/uejkQmPZyZ1+NXJEmibmOwpSAY9hbop0xyM4zx+a3pG
-Mke5YNuG2wAMsvA394xlEleuUvNNfw==
-=s7Nl
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---dnbjKym447hVCsoL--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
