@@ -1,137 +1,106 @@
-Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 677D318E02A;
-	Fri,  9 May 2025 09:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDD026FA5C;
+	Fri,  9 May 2025 09:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746782438; cv=none; b=lrIAN0WXGPOGURlnngY/OQzEZAuzXVm6baw7+mLcjfYNYmITBmBdG25dTZKQga6Z4sC350mzOyigbRfJtFf+G7m2RLUA10/DFfUwOjEdXdl3ziSss1frhV1OaskQvhA9eN5xDqQJPlipXu4qi0IIQ6gRiN/+Zpz1W9S5uijn8v0=
+	t=1746783824; cv=none; b=Hc3N0ZgUnodyxQWAKwzc7sQocCz6O/IVDh8CwKR4tctLd2BALWokcKL0DYd32Escx7G6y7iuMPamgsxuUocoLwSEM86ymvkOPGJPf8eZZjFjPUKu+Qu4Tf9GJCcgNjGDvxH1kj3YCQKzRHN2mW+oRMOWxny9WiUduep7RmKl8UU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746782438; c=relaxed/simple;
-	bh=HIJLJlaSHblXzW4J68BnNfxMHmJtQylwo1XmckKLjkI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iB8CRdsNVwqf0SWsa5qrNAq5kh+X1MtdVkOV/3Sg204V85cHhBinRvfSN7J7XTqk/UWXHVUhKua0Anlj15odejpyIX9dtJDxxu9V+szIiZ7BSpfQuq7hGMOZzCAi88OT75pWf2IPA9Qj7GvOppdO51OFUnYQZUX68IeCnSJ/hQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-	by localhost (Postfix) with ESMTP id 4Zv3FQ06s9z9t7B;
-	Fri,  9 May 2025 11:13:14 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id s8onC-g13dbh; Fri,  9 May 2025 11:13:13 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4Zv3FP6VrMz9t2V;
-	Fri,  9 May 2025 11:13:13 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id D63998B776;
-	Fri,  9 May 2025 11:13:13 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id fVWNjZv3ZZLW; Fri,  9 May 2025 11:13:13 +0200 (CEST)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 21FC18B768;
-	Fri,  9 May 2025 11:13:13 +0200 (CEST)
-Message-ID: <bc561703-bf34-4c99-aaad-1b1aad5ced12@csgroup.eu>
-Date: Fri, 9 May 2025 11:13:12 +0200
+	s=arc-20240116; t=1746783824; c=relaxed/simple;
+	bh=834zGv04IRnQteHT+UDNWIj6Z4grl57drScKWT9bOJ8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QhBh8LdLft6YJqs4mr+LegJp27/eBCWA5LXQqaritlru/Tl9hukDPB4nJywEUHCgJYNIElPCEhFwoaBoBXoTqWSlcR0tqdwoy49f0/DtSo9Uj18eC7ujiqcpqfhj81tS+V9oFoztqAJBxeaHf1v5geXzwtO/zFUOeBp9cv2gm34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5240a432462so1225809e0c.1;
+        Fri, 09 May 2025 02:43:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746783820; x=1747388620;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cS4MQBXJCl1oqMu5q/7hz+EdEY4RzMbBhX3NYiefBfE=;
+        b=Oyuu1UEHTmbhBCqgIjeB1Szi+O/uN6jNe3XfjHx9c7TZHeYPRw8i65WeJ5ox88C+a5
+         kptj73P57YLzQ0F2UznFQopDoX1irFcR4VmpVafhsQJM8TaOeyFkOYMb5qCkrAq/V+69
+         4C46+nc8qu8F4pQYzwCF2ifUP2Upvv/sBUhUAqD8zj9UNDyS9A8PyULh+ho1nnI4niDS
+         E765Vk4mzqG5n7jDcyo5GTABNrvDmeYz9OqdLTXCADL1rIO1UAvMaiwCQ/EyvlvA5wY9
+         zEddN20dCYP1mwQZmDgdCaF9B5ozZKB4Kd6vdzQ3p8xFzDNJZojSbQ4ibQbzDTmdWtdV
+         bdpg==
+X-Forwarded-Encrypted: i=1; AJvYcCVUtITT6V/9V0ZN5VvVD6BzFUB+bJy/+i/xJtxwuuWHBRxbtrDqURvQDwpsAm7l/Evy1O/tNGufrSXH@vger.kernel.org, AJvYcCVuc8gq2h6dSNsJz7VU0J9z2Ye+IX8G4Xqa9MrPUW7EOGXbHHVfH/KRatGTyfdXEPFyw90NyWJvtNJn@vger.kernel.org, AJvYcCWAaHc5eVJ+T0Ko1S/rCKjiwHdmceTpYsNgHCGp/kKXU0Fa9yA0isn3gLpIGUxfWZyKmzNW12H0QVuizPs=@vger.kernel.org, AJvYcCWuB6j0Ot9J5BCDs9eCZAkGROrfUS+lpHbIztGlszZc5uz6Fpsg7OW3T/z+BO8Ik3QAcMXSr4LmZ7kxX7siv49JDBo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqcPGlgTU9PsKX6mOJZfg1gh43orlMLDpuVEHkpCVLjkveFHK7
+	jSWJP1kpXICLq8/jE7/5nHESb9sJs+qqNpmTXCL9+HXHf4dGkoXPZzFmxwad
+X-Gm-Gg: ASbGncsFxhje7g4Vvf4tea8pHAxmx4lXVB5NTVRzyW6m0bcjBBtpQqIvnd+D9A3G+8O
+	ri7p/4bjVlfJnp6xVPMw9UBa+dfsTwVmfo6x/zPzDG9qZsXeRbRHVT3PIZSJx5bgo/zGxS+Fm/x
+	maqkwBzQztsoFffTzQv7v/FkPjwGbxfV0fHV33Ojhbp8Ln0Lq75mmms7khVXUXLKFFll2hWKuxp
+	gOHtGmEt9JetZ4YdVh73oARIhq5tnspO134ZHa252i+csFtBkH/NLWFwj3U51mohfpuXY07U1iQ
+	X3AEkEa3JHKa2HCFzrzr3CfFnH1UqsZxCyz9yyvBkPz8LeAGX9J9P51/RRp3YP5kzfGVj/abKr4
+	Swfw=
+X-Google-Smtp-Source: AGHT+IGnzN83hnsqtxTdYCKHNn4V9xtxZJCDqUmIOdoBDH1Xh1FKafRwo2jllrzXTGqjifKFOMpiEQ==
+X-Received: by 2002:a05:6122:c8:b0:523:eb47:2884 with SMTP id 71dfb90a1353d-52c44437f67mr5006067e0c.6.1746783819817;
+        Fri, 09 May 2025 02:43:39 -0700 (PDT)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52c5372af6csm853937e0c.14.2025.05.09.02.43.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 May 2025 02:43:38 -0700 (PDT)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4ddb9d80bffso856091137.0;
+        Fri, 09 May 2025 02:43:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUIvg3/b96AxfKTkyYn4UaiuTaH77MwwndzH4nR1MpHKSBcqIwL9PJ0SN09aWXzKwTqLZ6UgW7Ocm1m8hc=@vger.kernel.org, AJvYcCVsfFZh1qygGY5UanncokoLXRPyAEjKHR967wiRDeriGL0OFjyPSDEawKhG3XuHfwqaC9m01gqqVfa0ru+r/SBhNtA=@vger.kernel.org, AJvYcCW8CuRA0wJGV+Yqg0Ng7Yfnz4fXbcU/vqLBS3j4GyVot8svcpJpAnS/VKaCyI53uY9txlo5iOMcw1F3@vger.kernel.org, AJvYcCXf2YngmdKht8lIIha3t2wY+q2yvTme1lOAP1Sgh4V5TaKx2gnMiiaothVzGQlhdD4YFPPfw5txv6Vb@vger.kernel.org
+X-Received: by 2002:a67:e893:0:b0:4de:f0c7:e7bd with SMTP id
+ ada2fe7eead31-4def0c7ec9bmr516832137.8.1746783818083; Fri, 09 May 2025
+ 02:43:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: fsl: fsl_qmc_audio: Only request completion on
- last channel
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Qiang Zhao <qiang.zhao@nxp.com>, Shengjiu Wang <shengjiu.wang@gmail.com>,
- Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-sound@vger.kernel.org
-References: <19aa9d8a84c8475c62c42ac886dad0980428c6c0.1746776731.git.christophe.leroy@csgroup.eu>
- <5cffeb220617584a5e4bc03067cc10e6cdcfc25e.1746776731.git.christophe.leroy@csgroup.eu>
- <20250509104544.5c375f05@bootlin.com>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <20250509104544.5c375f05@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <871ptq4blr.wl-kuninori.morimoto.gx@renesas.com>
+ <87o6wu2wzm.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdUvtvS-R7cZe-uuUJ+HT5SofTYfh-LwZirY_cMNw379hA@mail.gmail.com>
+ <871pt1cfg1.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <871pt1cfg1.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 9 May 2025 11:43:26 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVDWDCdF956VFgj95Cp-RxN9OOJ3QVgOV0C_wD+EXQktA@mail.gmail.com>
+X-Gm-Features: AX0GCFsyZGmx95i7hMWHQTatrG9GkM2iIfCYJG2cY9QxOU_CGeNsHMOWbwOsqtQ
+Message-ID: <CAMuHMdVDWDCdF956VFgj95Cp-RxN9OOJ3QVgOV0C_wD+EXQktA@mail.gmail.com>
+Subject: Re: [PATCH v4 9/9] arm64: defconfig: add Renesas MSIOF sound support
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-spi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Hervé,
+Hi Morimoto-san,
 
-Le 09/05/2025 à 10:45, Herve Codina a écrit :
-> On Fri,  9 May 2025 09:48:45 +0200
-> Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
-> 
->> In non-interleaved mode, several QMC channels are used in sync.
->> More details can be found in commit 188d9cae5438 ("ASoC: fsl:
->> fsl_qmc_audio: Add support for non-interleaved mode.")
->> At the time being, an interrupt is requested on each channel to
->> perform capture/playback completion, allthough the completion is
->> really performed only once all channels have completed their work.
->>
->> This leads to a lot more interrupts than really needed. Looking at
->> /proc/interrupts shows ~3800 interrupts per second when using
->> 4 capture and 4 playback devices with 5ms periods while
->> only 1600 (200 x 4 + 200 x 4) periods are processed during one second.
->>
->> The QMC channels work in sync, the one started first is the one
->> finishing first and the one started last is the one finishing last,
-> 
-> How can we be sure about that?
-> 
-> The mapping on the TDM bus has to be taken into account.
-> 
-> chan 0 -> TDM bits 0..8
-> chan 1 -> TDM bits 16..23
-> chan 2 -> TDM bits 9..15
+On Wed, 7 May 2025 at 04:39, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> > > Renesas V4H Sparrow Hawk board needs MSIOF Sound driver.
+> > > Support it.
+> > >
+> > > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > i.e. will queue in renesas-devel for v6.16.
+>
+> Please let me know if I need to post patch for renesas_defconfig.
+> I'm happy if you can handle that.
 
-In interleaved mode, the QMC will not allow that. You can have 
-TS0-TS1-TS2 or TS1-TS2-TS0 but you can't have TS0-TS2-TS1.
+Looks like you beat me to it ;-)
+Thanks!
 
-In non-interleaved mode we mimic the interleaved mode so I don't expect 
-it either.
+Gr{oetje,eeting}s,
 
-> 
-> In that case chan 1 can finish after chan 2.
-> 
-> qmc_chan_get_ts_info() could be used to get struct qmc_chan_ts_info
-> and [rx,tx]_ts_mask field in the struct give the mapping information.
-> 
-> The channel that ends last is the one with the highest bit set in the
-> mask (rx_tx_mask for capture and tx_ts_mask for playback).
+                        Geert
 
-That would be right if the channels were starting all at exactely the 
-same time. But qmc_audio_pcm_write_submit() and 
-qmc_audio_pcm_read_submit() are calling resp. qmc_chan_write_submit() 
-and qmc_chan_read_submit() one by one.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Even if that happens it shouldn't be a problem on its own as there are 
-only a few microseconds between each Timeslot (a full cycle is 125 µs). 
-And also because calling snd_pcm_period_elapsed() doesn't have any 
-destructive effect on ongoing processing.
-
-So I wouldn't make it too complicated. Here the benefit is real and 
-worth it.
-
-Thanks,
-Christophe
-
-> 
-> Best regards,
-> Hervé
-> 
->> so when the last one finishes it is guaranteed that the other ones are
->> finished as well. Therefore, only request completion processing on the
->> last QMC channel.
->>
->> On my board with the above exemple, on a kernel started with
->> 'threadirqs' option, the QMC irq thread uses 16% CPU time with this
->> patch while it uses 26% CPU time without this patch.
->>
->> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
->> ---
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
