@@ -1,103 +1,142 @@
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCD3275106;
-	Fri,  9 May 2025 09:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638D21F4C9D;
+	Fri,  9 May 2025 09:15:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746781811; cv=none; b=MVvSO+7jEvDBHaMQNiZ2S4rRtK6niiMqySP61nTbsuQBpLxUjnN0b6Z62OnPK6aZFHJc4zzVCVz2/nrydLUhZ8z+aopbdBtPT3pNIK14hCrRS/CPxXU1xuc4Z5BTFXze+b7kUimHFXas7JAtMFLZ3u3kAxfC3ZNdONte3kcY/rU=
+	t=1746782160; cv=none; b=E4D7v4nbVAq5ZWAG/UkCWY6XHK+tK1Pf82Vnn4YJ4NBDHAJDACBgahtzQ67VHkC3SS0YWeiRAjPsmBXMWwnn+ESW7QXFPO427SnkMvfMAs33oy7q2CYUS3XVWgKr9p6igNgqJwQqgckky9QkvEIvm8gbGqE4kDGhjGnXlngvCd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746781811; c=relaxed/simple;
-	bh=hc89LVy2YgB2RbkxSw2z2iAGrxOpaXCRHJoRlySZKBs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B26ScbNqFCDg1mHBTk1ncVzaAXhcJBoRpZqxxsfrtgl3We/RdYOLQHGBRvrN8SlRwzwG4xT8PZgZDjE5PCmz25IJigbFDssyoI4ivTjytyxbuke+Y4f/7U4q40gPb1pqsre7apme7viAPHOdxo4UiDrnIYHtWIYOrtiXAFQq6n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=I9zSl3WC; arc=none smtp.client-ip=80.12.242.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1746782160; c=relaxed/simple;
+	bh=aPdJ0egps+Pd3GyaV5txJ6SoXup6IGGorXKAqGmMelQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=F0q3Yd5vKcNZvwiYNvV5m8AhzWZMXjB6fGTWHR8wMBwc8jr5lFERrlZP97SGC3DTxhjwB68/SSWxrO7f7MicbBp1hrcBAuyS5L+Py1Fpci50FtFF0Q1QSc3Rk0FGViS1V0oVsm38pcHFYuWeq84y85/Dtf1PziCdATUUTHrlc9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=A49+jEYE; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="I9zSl3WC"
-Received: from localhost.localdomain ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id DJk5un7myQJEDDJk5uxqHD; Fri, 09 May 2025 11:10:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1746781807;
-	bh=pDLt5pxHxdGAut4aWtyDiVnW//QILcNDde9fKTiC3fg=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=I9zSl3WCzuABu3i/hGxZY/D2z9pLRS0semJTJM25tfWlls394EMChFOS5WE/lYGT8
-	 aiKvyYhxAcyNa621qncSSGJK340oZUVlrU9tbrtu0qtWWZOfi7LYZPpXkt+omOS2eK
-	 r5/FOto+Uwg5CW/MnLUM3emlxM5aCboYd5pWf3wn7QaEXkkMayHURiGJK0BrYNMvn+
-	 q4IXpMDiZ/vT3riAH+jdBgPhvFZzgsJubm+5CXb/c1NVNcLZpiR87ETnGGTrBYuioG
-	 t3JYewPyX0yfM9raFim3uDyPb789zkRcADjq17PmzvHomYMyFQ4/KmcUDNMfxKnhTl
-	 qR5vFNC0nhWyQ==
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Fri, 09 May 2025 11:10:07 +0200
-X-ME-IP: 90.11.132.44
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH] ASoC: qcom: qdsp6: Add an error handling path in q6usb_component_probe()
-Date: Fri,  9 May 2025 11:09:55 +0200
-Message-ID: <7338875b20cb41693f803c6b9673cf7f3e5f089a.1746781775.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="A49+jEYE"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 07CAE1FD43;
+	Fri,  9 May 2025 09:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1746782155;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uOMW9BGxskbhad6mlU+Himy6oHmyXjwahxXAzW3WdCk=;
+	b=A49+jEYE7WBREA5b6YXFMHfgJgHIHEfZyMK/RNX+suNhPAOLzF5+ZiOY9VjEJNSMYeaD2Y
+	MrnyIbfXfo5AU1P/osyUWAzpu3oBNbTlJjbZ/T4DNgoboLXfJnwYLb94aKzyQcE92u7PwO
+	MxY7uBU7wLo9mKHJ7ykciVIv9HjzTHlMpHoPSOS+J61W/2Bng8ecZy4/tEJavqMtWveEFm
+	pVhdjm1YJzBBVR7R2MpYwhF4mh+Vp7E7Yn9maafTTpzVxqA7CFWvg6+45chPVUEGbF0rfK
+	ATf0366ofRqxq3v87RGphfqb8PJX9dkrxtXdpD7U2pbjx/3P5Kp0+w4cAJqQUA==
+Date: Fri, 9 May 2025 11:15:54 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Qiang Zhao <qiang.zhao@nxp.com>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam
+ <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/2] soc: fsl: qmc: Only set completion interrupt when
+ needed
+Message-ID: <20250509111554.770263b7@bootlin.com>
+In-Reply-To: <19aa9d8a84c8475c62c42ac886dad0980428c6c0.1746776731.git.christophe.leroy@csgroup.eu>
+References: <19aa9d8a84c8475c62c42ac886dad0980428c6c0.1746776731.git.christophe.leroy@csgroup.eu>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtkeertdertdejnecuhfhrohhmpefjvghrvhgvucevohguihhnrgcuoehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjefflefhieduteegffeifeeggfffvdeuvdeutddvfeduudeukeffleehheffkeetnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedugedprhgtphhtthhopegthhhrihhsthhophhhvgdrlhgvrhhohiestghsghhrohhuphdrvghupdhrtghpthhtohepqhhirghnghdriihhrghosehngihprdgtohhmpdhrtghpthhtohepshhhvghnghhjihhurdifrghnghesghhmrghilhdrtghomhdprhgtphhtthhopegiihhusghordfnvggvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhgvshhtv
+ ghvrghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhitgholhgvohhtshhukhgrsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhgihhrugifohhougesghhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: herve.codina@bootlin.com
 
-If an error occurs after a successful q6usb_dai_add_aux_device() call,
-some resources should be released as already done in the remove function.
+Hi Christophe,
 
-Add an error handling path in the probe and the missing clean-up.
+On Fri,  9 May 2025 09:48:44 +0200
+Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
 
-Fixes: 72b0b8b29980 ("ASoC: qcom: qdsp6: Add USB backend ASoC driver for Q6")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- sound/soc/qcom/qdsp6/q6usb.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+> When no post-completion processing is expected, don't waste time
+> handling useless interrupts.
+> 
+> Only set QMC_BD_[R/T]X_I and QMC_BD_[R/T]X_UB when a completion
+> function is passed in.
+> 
+> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> ---
+>  drivers/soc/fsl/qe/qmc.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/soc/fsl/qe/qmc.c b/drivers/soc/fsl/qe/qmc.c
+> index 36c0ccc06151..0a704fd0b1a0 100644
+> --- a/drivers/soc/fsl/qe/qmc.c
+> +++ b/drivers/soc/fsl/qe/qmc.c
+> @@ -474,7 +474,9 @@ int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+>  	xfer_desc->context = context;
+>  
+>  	/* Activate the descriptor */
+> -	ctrl |= (QMC_BD_TX_R | QMC_BD_TX_UB);
+> +	ctrl |= QMC_BD_TX_R;
+> +	if (complete)
+> +		ctrl |= QMC_BD_TX_I | QMC_BD_TX_UB;
 
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-index adba0446f301..8044cb7e4dd8 100644
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -327,8 +327,10 @@ static int q6usb_component_probe(struct snd_soc_component *component)
- 		return ret;
- 
- 	usb = snd_soc_usb_allocate_port(component, &data->priv);
--	if (IS_ERR(usb))
--		return -ENOMEM;
-+	if (IS_ERR(usb)) {
-+		ret = -ENOMEM;
-+		goto free_aux_devices;
-+	}
- 
- 	usb->connection_status_cb = q6usb_alsa_connection_cb;
- 	usb->update_offload_route_info = q6usb_update_offload_route;
-@@ -337,6 +339,12 @@ static int q6usb_component_probe(struct snd_soc_component *component)
- 	data->usb = usb;
- 
- 	return 0;
-+
-+free_aux_devices:
-+	auxiliary_device_delete(&data->uauxdev);
-+	auxiliary_device_uninit(&data->uauxdev);
-+
-+	return ret;
- }
- 
- static void q6usb_component_remove(struct snd_soc_component *component)
--- 
-2.49.0
+Be careful, you don't set the UB bit for all descriptor anymore.
+Your goal, is to have interrupts only on some descriptors (those where I
+bit is set).
 
+This can lead to issue in the function handling the interrupt.
+This function, qmc_chan_write_done(), do the processing according to the
+following:
+        /*
+	 * R bit  UB bit
+	 *   0       0  : The BD is free
+	 *   1       1  : The BD is in used, waiting for transfer
+	 *   0       1  : The BD is in used, waiting for completion
+	 *   1       0  : Should not append
+	 */
+https://elixir.bootlin.com/linux/v6.15-rc5/source/drivers/soc/fsl/qe/qmc.c#L507
+
+It considers R=0 / UB=0 as a free BD and R=1 / UB=0 as a case that should
+not happen.
+
+Both cases are no more correct with your modification.
+
+Have the feeling that UB bit still has to be set even if I bit is not set
+in order to have qmc_chan_write_done() looking at all descriptors.
+
+Suppose:
+ desc 0, no interrupt
+ desc 1, no interrupt
+ desc 2, interrupt
+
+When the interrupt for desc 2 is handled, desc 0 and desc 1 are seen with
+R=0 and UB=0. As desc 0 is considered as free by qmc_chan_write_done(), it
+will never look at desc 2.
+
+>  	wmb(); /* Be sure to flush the descriptor before control update */
+>  	qmc_write16(&bd->cbd_sc, ctrl);
+>  
+> @@ -586,7 +588,9 @@ int qmc_chan_read_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+>  		  QMC_BD_RX_AB | QMC_BD_RX_CR);
+>  
+>  	/* Activate the descriptor */
+> -	ctrl |= (QMC_BD_RX_E | QMC_BD_RX_UB);
+> +	ctrl |= QMC_BD_RX_E;
+> +	if (complete)
+> +		ctrl |= QMC_BD_RX_I | QMC_BD_RX_UB;
+
+Exact same comment.
+
+
+Best regards,
+Hervé
