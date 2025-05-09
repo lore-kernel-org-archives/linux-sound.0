@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7A721FF23;
-	Fri,  9 May 2025 08:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEFF21FF23;
+	Fri,  9 May 2025 08:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746780732; cv=none; b=UsTidk2uNCQjUzh13xAyBQDBRIoRNd1ZWvlsQeV9O7e52rWQyZEwiX3wIURiAbkH6MGiNsoqEWd+fCT4fA0gMZIFmoIgycgBbFyxyK4hWdXzLv6B+YivXg/WUYAjhfsxrPmuY7u07dEvI4VBjkP6yBJv1e83YnHQDXa02psNl7k=
+	t=1746780934; cv=none; b=kn4AY8DYITM1evIfMZ/7cCfJGns/rOyGTA/9jifxuq0cbQa2ysTo+ghHQK/gev2/EmC8eAUOqMO4hfm+wF8f+ZUr04kThVAtOwzkbmvgGo1k1jVkQ2fY3vAXeVV8oB3UhGKFRdTbo/cjfVd8ClM9qLETRtGUiaIodB5LtkYvGZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746780732; c=relaxed/simple;
-	bh=3NWLRY1fttsxR1X1w6G21knbvaA4o/ONT7PqaOvD1yQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=crgDaMku6jlLSjXKG2odwbeJCWnozbvBfgPGbMR6XyRL8AcWUIBNtuI6U+A1UNC4l37nScErys7mSIl+Pcyhys7hKltJuR/+Cmkq0yE3RqkJYP3WJn/CCy/Cbp+sD6V5CAaqRgthAF03JObyUHDl0vd/LgOf9VPLk2/pjv3v//Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqzQPQdV; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1746780934; c=relaxed/simple;
+	bh=3KNYYB6S7E1pxVBypS4/4CVtkEzJcIBkx2/ciYwChZ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZaRXtOryBnybv5krX/rliDesti4E2NnpOc7TKRTM86VyV58BmMk2UpJrwaVWBQ+l1raFPCTyA/ReEY+7UuEqXcYBe3Yh7OjwQkiv31U4dpBasyOAzlGGUOlSNJ7qMY8sw///awLJS9jDZRZ3o+/H9XAn75wn6zI7ldaTxYPXmjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RR+ro0yX; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqzQPQdV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RR+ro0yX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746780731; x=1778316731;
+  t=1746780933; x=1778316933;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=3NWLRY1fttsxR1X1w6G21knbvaA4o/ONT7PqaOvD1yQ=;
-  b=UqzQPQdVgEgHeFp8TY3h+8/4nMGjBGK6KTkPipN/fmQihkF5VfIT0K68
-   W3V2HhzwMgpsmhpC2MEdQK7fIyCJAOtglN17cygQT84wfGPJD3hE3c5Em
-   KL+24WS7jZEQE3sodVdTizuQyGenZX+WcytbiU+QsA4OxPRC5yI+uXTKT
-   cUA6Pf3fC0gOwyzF69G3Nt89cBtp28JOuvIXnNRz/e0QT7vWOGqPgVUcb
-   ginyKFUlqXQgYhvfmaIgf+vsirEGt735WDE2XjH2sLf2vootsDAWXzxgQ
-   xqjHVhKYLE6bj21tYnkSwmiaRlIx+iKZbChauWlfltbUjEr7IKBtxEFx3
+  bh=3KNYYB6S7E1pxVBypS4/4CVtkEzJcIBkx2/ciYwChZ4=;
+  b=RR+ro0yXG4MtJYCyWNPvi9Lcf5cEi2kBNsK9NtDzjz1p+ZNe5YJJQiPe
+   auvxQFpg1v12jNBZvY19Qz1wLtxtUMduJelhoGcfwB7N7kcscGcFdjU1k
+   HRYPC7jCVP3NuLaxIJCqVsZ/KdmFLuPqhqjOfTr7lmwh6qoSIRCKgaGuf
+   sW9VrSravG+fpurDQy1lE92iDSNMr4ochFWIIJulZghgH0rHrXbRXncKB
+   kkM8UEv0KCVyaUSKl8gn4FdNb572zZxq7mm9dVNddeQZEO5v9U1yrspEv
+   HDCWyLmObfGvFOiwZ3KvlIJSlvjjM8d1YFezQMA5CsOSlFQRLbRZZocvA
    w==;
-X-CSE-ConnectionGUID: vPWNAPqmRLG8x5Kr7E2dvw==
-X-CSE-MsgGUID: +CW2Jrj7Ti2QDJibNYeGjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="48300687"
+X-CSE-ConnectionGUID: 3+zTpTHSTdq8Z4jFvsOrBg==
+X-CSE-MsgGUID: 3dj0hr/0S2OAlXMxxKF5lg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11427"; a="52253936"
 X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="48300687"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 01:52:10 -0700
-X-CSE-ConnectionGUID: ScD8pEPGTUakD30H5rERfw==
-X-CSE-MsgGUID: u1qHCCtQSp6wjN4OXqQyVg==
+   d="scan'208";a="52253936"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 01:55:26 -0700
+X-CSE-ConnectionGUID: DEfVyEI2TISQESanm79CCA==
+X-CSE-MsgGUID: UGj1lN11QgWXclmgCj79Bg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,274,1739865600"; 
-   d="scan'208";a="173725327"
+   d="scan'208";a="136444717"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.132])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 01:52:08 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2025 01:55:22 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -50,10 +50,12 @@ Cc: linux-sound@vger.kernel.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoc: SOF: topology: connect DAI to a single DAI link
-Date: Fri,  9 May 2025 11:53:18 +0300
-Message-ID: <20250509085318.13936-1-peter.ujfalusi@linux.intel.com>
+	stable@vger.kernel.org,
+	seppo.ingalsuo@linux.intel.com,
+	liam.r.girdwood@intel.com
+Subject: [PATCH] ASoC: SOF: ipc4-control: Use SOF_CTRL_CMD_BINARY as numid for bytes_ext
+Date: Fri,  9 May 2025 11:56:33 +0300
+Message-ID: <20250509085633.14930-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,68 +63,62 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+The header.numid is set to scontrol->comp_id in bytes_ext_get and it is
+ignored during bytes_ext_put.
+The use of comp_id is not quite great as it is kernel internal
+identification number.
 
-The partial matching of DAI widget to link names, can cause problems if
-one of the widget names is a substring of another. E.g. with names
-"Foo1" and Foo10", it's not possible to correctly link up "Foo1".
+Set the header.numid to SOF_CTRL_CMD_BINARY during get and validate the
+numid during put to provide consistent and compatible identification
+number as IPC3.
 
-Modify the logic so that if multiple DAI links match the widget stream
-name, prioritize a full match if one is found.
+For IPC4 existing tooling also ignored the numid but with the use of
+SOF_CTRL_CMD_BINARY the different handling of the blobs can be dropped,
+providing better user experience.
 
-Fixes: fe88788779fc ("ASoC: SOF: topology: Use partial match for connecting DAI link and DAI widget")
-Link: https://github.com/thesofproject/linux/issues/5308
-Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reported-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+Closes: https://github.com/thesofproject/linux/issues/5282
+Fixes: a062c8899fed ("ASoC: SOF: ipc4-control: Add support for bytes control get and put")
 Cc: stable@vger.kernel.org
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/sof/topology.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ sound/soc/sof/ipc4-control.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 2d4e660b19d5..d612d693efc3 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -1071,7 +1071,7 @@ static int sof_connect_dai_widget(struct snd_soc_component *scomp,
- 				  struct snd_sof_dai *dai)
- {
- 	struct snd_soc_card *card = scomp->card;
--	struct snd_soc_pcm_runtime *rtd;
-+	struct snd_soc_pcm_runtime *rtd, *full, *partial;
- 	struct snd_soc_dai *cpu_dai;
- 	int stream;
- 	int i;
-@@ -1088,12 +1088,22 @@ static int sof_connect_dai_widget(struct snd_soc_component *scomp,
- 	else
- 		goto end;
+diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
+index 576f407cd456..976a4794d610 100644
+--- a/sound/soc/sof/ipc4-control.c
++++ b/sound/soc/sof/ipc4-control.c
+@@ -531,6 +531,14 @@ static int sof_ipc4_bytes_ext_put(struct snd_sof_control *scontrol,
+ 		return -EINVAL;
+ 	}
  
-+	full = NULL;
-+	partial = NULL;
- 	list_for_each_entry(rtd, &card->rtd_list, list) {
- 		/* does stream match DAI link ? */
--		if (!rtd->dai_link->stream_name ||
--		    !strstr(rtd->dai_link->stream_name, w->sname))
--			continue;
-+		if (rtd->dai_link->stream_name) {
-+			if (!strcmp(rtd->dai_link->stream_name, w->sname)) {
-+				full = rtd;
-+				break;
-+			} else if (strstr(rtd->dai_link->stream_name, w->sname)) {
-+				partial = rtd;
-+			}
-+		}
++	/* Check header id */
++	if (header.numid != SOF_CTRL_CMD_BINARY) {
++		dev_err_ratelimited(scomp->dev,
++				    "Incorrect numid for bytes put %d\n",
++				    header.numid);
++		return -EINVAL;
 +	}
++
+ 	/* Verify the ABI header first */
+ 	if (copy_from_user(&abi_hdr, tlvd->tlv, sizeof(abi_hdr)))
+ 		return -EFAULT;
+@@ -613,7 +621,8 @@ static int _sof_ipc4_bytes_ext_get(struct snd_sof_control *scontrol,
+ 	if (data_size > size)
+ 		return -ENOSPC;
  
-+	rtd = full ? full : partial;
-+	if (rtd) {
- 		for_each_rtd_cpu_dais(rtd, i, cpu_dai) {
- 			/*
- 			 * Please create DAI widget in the right order
+-	header.numid = scontrol->comp_id;
++	/* Set header id and length */
++	header.numid = SOF_CTRL_CMD_BINARY;
+ 	header.length = data_size;
+ 
+ 	if (copy_to_user(tlvd, &header, sizeof(struct snd_ctl_tlv)))
 -- 
 2.49.0
 
