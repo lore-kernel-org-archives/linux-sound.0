@@ -1,199 +1,86 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50EE64C8F;
-	Fri,  9 May 2025 00:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB45C469D;
+	Fri,  9 May 2025 01:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746751062; cv=none; b=gTE6ouSJ4IrvuaoXwNCuS3SoZE0Oc81gIE9ua90up/Q0LiAN62vIEnvpNsmqq2+Vxtlig5IrE/x+nqJq4YyGjcbv+emK9F4IhPWiakX3QTcjjBaAFFUyqV0e8/zHNw2APjPpu5QXQl6rzrE9cqU1XqJMaG5gMiZtDhBRp/eqqI0=
+	t=1746754262; cv=none; b=d9jl3GpODdGYwC/YUOTlrj3lGNCvA7JfAONye86LtexYm20DOXL5wGl4LIUIxFCsI2Vcbx7sM3F3TeLvEFtX7/GFENXs9PCKYkyT3/4iFdXKGncKlQlR7dTRAqD3nWWZ3PqDY7dFocKi8/OdvUp97jbeD6o8t1mRodIh/I990pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746751062; c=relaxed/simple;
-	bh=Pmvr/01kA/XO5bbEuBc/3xzSBvGclEt4ULR2KdSd+8I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ekt5QT/umrU5Fs08YDmg+BZE8PdjquJvRGR3/Hnx4XRawmdpnm06FcWvRr5RS4GuC3k6W7Apnzry9D67rmn9dNKxThmZpcxsUsunJLcXRTL5N9enxCvKkcQVKx0dY0NAhZAh5tuJ2Q+/SO6opBm21GIqNJpzsiqMSzGP7VRB+TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=IXMK8/lH; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1746754262; c=relaxed/simple;
+	bh=+PL22NNieIiKEtfNZ+lv4C0IHgtYlEyfd+uza+Cp+M0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gQzJyFlOy6hL7aGpqc5HJli6ZLiHBkrppTm0KOGTbLpQPABDFW1BTUcLywQgvRHjqM3YjCKciMU46dvmrEoR2HjsaT8YkiV4VQlirrkib5rmZQ9iEefad/8wFvcOmtoAeuGBcQ+QntxhBl5lhNn6RkChuCJMnFm3hN1ODgx9EVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MhqLUs6G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="IXMK8/lH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=K8KorZFrEW29ctrgZeDc7yX8DoxhiVN4Ho2cXKf35FI=; b=IXMK8/lHBbI3HpRU
-	qlLxa+Tr499ffRcPg+E8IvP5ar7fiknsGeOPegdXW3tdqrWht9PNFznbBdel2VBQ1IIflsVOFuD+F
-	7y9zZ5cXhnuFAmQaky3W2vWhD6nHtX8ttyz39cNsn647BjIS1rzGIqm0DSm2fL7VFSa5+xo5Om1Pw
-	ffJnvzPE8zxK/QrmafNXwF6DwfKX+MQXW/uc3qeWBWVQ1Ul33pdkA9jDDOEpXaEuOwrhllPfAQAdj
-	DlRojU7/GsT/DrwSj946ueRJdbfpggAPI+HpWUUmJruUmbQ3/qxNO3idwMbWmMEjloseELKquPmtr
-	AkztkWhEqC/5GAlptQ==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1uDBjp-002Wh2-1l;
-	Fri, 09 May 2025 00:37:17 +0000
-From: linux@treblig.org
-To: cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev
-Cc: broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] ASoC: Intel: atom: Remove unused functions
-Date: Fri,  9 May 2025 01:37:16 +0100
-Message-ID: <20250509003716.278416-1-linux@treblig.org>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MhqLUs6G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A555C4CEE7;
+	Fri,  9 May 2025 01:31:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746754261;
+	bh=+PL22NNieIiKEtfNZ+lv4C0IHgtYlEyfd+uza+Cp+M0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MhqLUs6GRKKiUAV6COqL8S9WOmzekLfLb20WVGT8tMENLh0j6eAXEQV8PFdSq/qo5
+	 DF34dJniE4HB6pqQEfTgEY14ZHob3uA9ZT+FsEt1IzqtgNI7ib0yLNil0Ffe5orTeG
+	 GGL4DRBfOIG4pZ+SgMkLWYwK0A08xFwhUUFSolpvhGhZX8PuVQ9vR4kwInjSqyzWSY
+	 qyXlfMuvXZyHrvqPc/YavgMInuWp3xZFR2AfmA/3RLwVZAlJxW4t+SXIMqPcZYdJ/k
+	 Lh+hVqg2Jq3ACnriZz/TIHhhJ/Pb6Yk99p1bN1gREkxmpCBDcOzg6XCJA+E3DC5pnC
+	 /50vIvnhy80TQ==
+Date: Fri, 9 May 2025 10:30:59 +0900
+From: Mark Brown <broonie@kernel.org>
+To: "Colin King (gmail)" <colin.i.king@gmail.com>
+Cc: Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org, christophe.jaillet@wanadoo.fr
+Subject: Re: [PATCH][V2][next] ASoC: rt712-sdca: remove redundant else path
+ of if statement
+Message-ID: <aB1a06gKZ4X8Uc2b@finisterre.sirena.org.uk>
+References: <20250508084527.316380-1-colin.i.king@gmail.com>
+ <174671514156.7345.16339489109303663127.b4-ty@kernel.org>
+ <a1f5fa12-1e0d-429c-bc15-79911c2571d1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="JbvGtJAmjdaqZG8k"
+Content-Disposition: inline
+In-Reply-To: <a1f5fa12-1e0d-429c-bc15-79911c2571d1@gmail.com>
+X-Cookie: Well begun is half done.
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-sst_cdev_fragment_elapsed() was added in 2014 by
-commit 7adab122a57c ("ASoC: Intel: sst - add compressed ops handling")
-but has remained unused.
+--JbvGtJAmjdaqZG8k
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-sst_get_stream_allocated() was added in 2014 by
-commit cc547054d312 ("ASoC: Intel: sst - add pcm ops handling")
-but has remained unused.
+On Thu, May 08, 2025 at 04:17:42PM +0100, Colin King (gmail) wrote:
 
-sst_wait_interruptible() was added in 2014 by
-commit 60dc8dbacb00 ("ASoC: Intel: sst: Add some helper functions")
-but has remained unused.
+> Looking at your repo I think you applied the V1 of the patch and not the V2.
 
-Remove them.
+Please submit an incremental patch with any changes you're looking for.
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- sound/soc/intel/atom/sst/sst.h               |  6 ----
- sound/soc/intel/atom/sst/sst_drv_interface.c | 24 --------------
- sound/soc/intel/atom/sst/sst_pvt.c           | 33 --------------------
- 3 files changed, 63 deletions(-)
+Please don't top post, reply in line with needed context.  This allows
+readers to readily follow the flow of conversation and understand what
+you are talking about and also helps ensure that everything in the
+discussion is being addressed.
 
-diff --git a/sound/soc/intel/atom/sst/sst.h b/sound/soc/intel/atom/sst/sst.h
-index 126903e126e4..c43946c5ecee 100644
---- a/sound/soc/intel/atom/sst/sst.h
-+++ b/sound/soc/intel/atom/sst/sst.h
-@@ -443,9 +443,6 @@ int sst_set_stream_param(int str_id, struct snd_sst_params *str_param);
- int sst_set_metadata(int str_id, char *params);
- int sst_get_stream(struct intel_sst_drv *ctx,
- 		struct snd_sst_params *str_param);
--int sst_get_stream_allocated(struct intel_sst_drv *ctx,
--		struct snd_sst_params *str_param,
--		struct snd_sst_lib_download **lib_dnld);
- int sst_drain_stream(struct intel_sst_drv *sst_drv_ctx,
- 		int str_id, bool partial_drain);
- int sst_post_message_mrfld(struct intel_sst_drv *sst_drv_ctx,
-@@ -461,8 +458,6 @@ void sst_post_download_mrfld(struct intel_sst_drv *ctx);
- int sst_get_block_stream(struct intel_sst_drv *sst_drv_ctx);
- void sst_memcpy_free_resources(struct intel_sst_drv *sst_drv_ctx);
- 
--int sst_wait_interruptible(struct intel_sst_drv *sst_drv_ctx,
--				struct sst_block *block);
- int sst_wait_timeout(struct intel_sst_drv *sst_drv_ctx,
- 			struct sst_block *block);
- int sst_create_ipc_msg(struct ipc_post **arg, bool large);
-@@ -470,7 +465,6 @@ int free_stream_context(struct intel_sst_drv *ctx, unsigned int str_id);
- void sst_clean_stream(struct stream_info *stream);
- int intel_sst_register_compress(struct intel_sst_drv *sst);
- int intel_sst_remove_compress(struct intel_sst_drv *sst);
--void sst_cdev_fragment_elapsed(struct intel_sst_drv *ctx, int str_id);
- int sst_send_sync_msg(int ipc, int str_id);
- int sst_get_num_channel(struct snd_sst_params *str_param);
- int sst_get_sfreq(struct snd_sst_params *str_param);
-diff --git a/sound/soc/intel/atom/sst/sst_drv_interface.c b/sound/soc/intel/atom/sst/sst_drv_interface.c
-index dc31c2c8f54c..8bb27f86eb65 100644
---- a/sound/soc/intel/atom/sst/sst_drv_interface.c
-+++ b/sound/soc/intel/atom/sst/sst_drv_interface.c
-@@ -55,19 +55,6 @@ int free_stream_context(struct intel_sst_drv *ctx, unsigned int str_id)
- 	return ret;
- }
- 
--int sst_get_stream_allocated(struct intel_sst_drv *ctx,
--	struct snd_sst_params *str_param,
--	struct snd_sst_lib_download **lib_dnld)
--{
--	int retval;
--
--	retval = ctx->ops->alloc_stream(ctx, str_param);
--	if (retval > 0)
--		dev_dbg(ctx->dev, "Stream allocated %d\n", retval);
--	return retval;
--
--}
--
- /*
-  * sst_get_sfreq - this function returns the frequency of the stream
-  *
-@@ -430,17 +417,6 @@ static int sst_cdev_codec_caps(struct snd_compr_codec_caps *codec)
- 	return 0;
- }
- 
--void sst_cdev_fragment_elapsed(struct intel_sst_drv *ctx, int str_id)
--{
--	struct stream_info *stream;
--
--	dev_dbg(ctx->dev, "fragment elapsed from firmware for str_id %d\n",
--			str_id);
--	stream = &ctx->streams[str_id];
--	if (stream->compr_cb)
--		stream->compr_cb(stream->compr_cb_param);
--}
--
- /*
-  * sst_close_pcm_stream - Close PCM interface
-  *
-diff --git a/sound/soc/intel/atom/sst/sst_pvt.c b/sound/soc/intel/atom/sst/sst_pvt.c
-index e6a5c18a7018..5d08f7d803f9 100644
---- a/sound/soc/intel/atom/sst/sst_pvt.c
-+++ b/sound/soc/intel/atom/sst/sst_pvt.c
-@@ -69,39 +69,6 @@ void sst_set_fw_state_locked(
- 	mutex_unlock(&sst_drv_ctx->sst_lock);
- }
- 
--/*
-- * sst_wait_interruptible - wait on event
-- *
-- * @sst_drv_ctx: Driver context
-- * @block: Driver block to wait on
-- *
-- * This function waits without a timeout (and is interruptable) for a
-- * given block event
-- */
--int sst_wait_interruptible(struct intel_sst_drv *sst_drv_ctx,
--				struct sst_block *block)
--{
--	int retval = 0;
--
--	if (!wait_event_interruptible(sst_drv_ctx->wait_queue,
--				block->condition)) {
--		/* event wake */
--		if (block->ret_code < 0) {
--			dev_err(sst_drv_ctx->dev,
--				"stream failed %d\n", block->ret_code);
--			retval = -EBUSY;
--		} else {
--			dev_dbg(sst_drv_ctx->dev, "event up\n");
--			retval = 0;
--		}
--	} else {
--		dev_err(sst_drv_ctx->dev, "signal interrupted\n");
--		retval = -EINTR;
--	}
--	return retval;
--
--}
--
- /*
-  * sst_wait_timeout - wait on event for timeout
-  *
--- 
-2.49.0
+--JbvGtJAmjdaqZG8k
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgdWtAACgkQJNaLcl1U
+h9Av2wgAgqgvJq4Bu+T3uFohrNxXlAz+aWszOaoetOK0HfSBfhtPW1DGGkcBhuYY
+Ej25DGgAP+rNuDfqRzbwEIb5fDVMvL9FfYsSBIn0cHtSPvohYC4ArXJYMezorAi3
+dNfr1Oluwx2W2Fog0R69FTNZlbtaxo58JTmZOPBTY/MQHjUJmUjXpaLVcr00hev6
+AzvijQdRbqHiRT5nk/QEvG28VaLzlOoxETa+7V0m8VwBfE/1183IDYOVnbpt22fa
+n4XT/QU5g7YT59ZLy+DCa8/5oMi86zK09sAF9JTDToihJCEG21RSvDbSVbrD+3XD
+I6+wSTeHrco9Vdj3RBFNU4FMtHJY2w==
+=r5Tq
+-----END PGP SIGNATURE-----
+
+--JbvGtJAmjdaqZG8k--
