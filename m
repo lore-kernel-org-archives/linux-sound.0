@@ -1,75 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544C8AD5E;
-	Fri,  9 May 2025 22:03:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA12C1754B
+	for <linux-sound@vger.kernel.org>; Sat, 10 May 2025 01:49:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746828213; cv=none; b=kFwa0mFu+wLVyKYhq4PpADvW3Cltrt19VYryHkL5pUg1sUH2Uy7f5JPfPyg5qbZcUG8fy7TxQJ4wE7M6JL06k04cPnUDOdFe2Cw3zgDM0Sg9a1QNOX7G0he1+c1Tv6lledrbgmuECfUeLs0nU1OVUc25w5SZQyN9For20Pn9QiM=
+	t=1746841777; cv=none; b=uKulAaM3ipP+aV04M/6bSf1HMR2A7+lXKF71HR3zUbs6sqyxNp0b0lzUy9lmt3exx9eJGI3L3KTF/+fZlUiXstJVB1/g7XBVluK7paYI9f++/b+xNRtCYePhjge3rjnWMCkeKHxQtxfWz4QOAEiFJH3GT/BKtqB75NfLxNWuVkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746828213; c=relaxed/simple;
-	bh=CW0sSNe6MztXpmpgZiLXHGBNXrv3XHCJSTcJb1kmYCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VEvM3cQVHi4S34i5dUW2OYwbfJlw/Pg32MeVr/D3uiI7KquRz+p87iw0NU76LAFqnFAGy0GzBVvfq8A+w+68vJBR35tLC05wCeHsByWmxp3OFifAO2nqMLwYnFDfyVRcw4u1WqA20UaD7JoEEnb0pGd4NqzUfqEnChRe/DkuXnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KKKenb+H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746841777; c=relaxed/simple;
+	bh=YXG+A2e90eBQbJppnpZA8PD8fov0vkRKs0SYoZ2BU4E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=p2T1d/7MQXmDpwqUcDfo5ArktcT1MG2cMow7dbiuGwIc8cfvdPgLmTgsO3s5X11s3XZN2i0QrnO7Ai16iE7u6pYgo+JdMvQEnQJO+6EdapsB4wtwd2/gF6FvDDQOYuodvMEoGzV2i6Nc/M5jaq/T8hKUoIpo+okgns2G9phrYeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IeeTv4aR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KKKenb+H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70309C4CEE4;
-	Fri,  9 May 2025 22:03:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IeeTv4aR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDA7FC4CEE4;
+	Sat, 10 May 2025 01:49:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746828212;
-	bh=CW0sSNe6MztXpmpgZiLXHGBNXrv3XHCJSTcJb1kmYCU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KKKenb+HZAolgMcdij0Me9pwnJ4j0Y5oQNJ1gyVDskwvTyFX89NTvAOQunVX2YXgz
-	 n2Z0EMuWkojmkML2rxh19yIqZmBDEZ7UDV6I5HGdrB8H8PmgNWZ97Wp89zrSjKE3Wa
-	 Zt8rTyj6ajwD8sCIj9FCU4DwY+udHaCujRy165FlMwOW49BY3/+PlKrmzBlCQHqAJp
-	 UsjBHa6+JsAmLvOQBpheh7+zAtoTXagJIfYJdP0QfCzxF9PCCUZKi0UWs3hWT+n6Fu
-	 jZhprkK2zFVnbvJSLSiRpK9saJiEYb2jEWihNxEUdpwKmbTe6JtS+8hzdY3dG0GnmA
-	 7RfcJEjZrexMg==
-Date: Fri, 9 May 2025 17:03:30 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-arm-msm@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Felipe Balbi <balbi@kernel.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Jaroslav Kysela <perex@perex.cz>, linux-usb@vger.kernel.org,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	~postmarketos/upstreaming@lists.sr.ht,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>, phone-devel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Srinivas Kandagatla <srini@kernel.org>
-Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: qcom,q6afe: Document q6usb
- subnode
-Message-ID: <174682821024.69850.896927438133345795.robh@kernel.org>
-References: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
- <20250501-fp4-usb-audio-offload-v2-1-30f4596281cd@fairphone.com>
+	s=k20201202; t=1746841776;
+	bh=YXG+A2e90eBQbJppnpZA8PD8fov0vkRKs0SYoZ2BU4E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=IeeTv4aRe9iCJIwVWZd85pjWo9h+LW6gZ5fI5DRKmFvWVKyK1YVx4KPiSP33lJjCl
+	 YfdzUCSlICEpRCt6fwD9tS2by95kRtDc2NV7iemKeBpgOaxQ+w64JYFt5IzNfvtFzJ
+	 0R254w69du6pVzl+bZ2ZYuQ+/PBaBXLdU/GEqCPtz4DzMSI2L9NKS7Ks4wS44CEXd/
+	 sb/uvdRj+tBT/TYZDeCWgLBbaVzribBWdA+7sLJ+9j9hDOMMSZ3vX3uXaSOKR/V+/6
+	 S2i6TZOU2fn2VTUqaNvHw/C9KbEP0L1mAs4+W2eiinmYEiAx2oWLkdu5TgYp3DhAjM
+	 jEynLrUksd9Aw==
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87ldr6pqlh.wl-kuninori.morimoto.gx@renesas.com>
+References: <87ldr6pqlh.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: soc.h: remove unnecessary definitions
+Message-Id: <174684177557.47320.16358395854258108256.b4-ty@kernel.org>
+Date: Sat, 10 May 2025 10:49:35 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250501-fp4-usb-audio-offload-v2-1-30f4596281cd@fairphone.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-
-On Thu, 01 May 2025 08:48:47 +0200, Luca Weiss wrote:
-> Document the subnode for Q6USB, used for USB audio offloading.
+On Fri, 09 May 2025 00:36:42 +0000, Kuninori Morimoto wrote:
+> We don't need these definitions. Remove it.
 > 
-> Cc: Wesley Cheng <quic_wcheng@quicinc.com>
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-> ---
->  Documentation/devicetree/bindings/sound/qcom,q6afe.yaml | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
 > 
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: soc.h: remove unnecessary definitions
+      commit: 321f9db5563e1a6c89546b19bd031269aa3f17b8
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
