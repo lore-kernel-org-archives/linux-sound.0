@@ -1,104 +1,291 @@
 Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEBF2907;
-	Sun, 11 May 2025 16:47:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B9F25D8F9;
+	Sun, 11 May 2025 17:30:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746982040; cv=none; b=XJT6e8b45Wz6qRGBTNJKEwgiuyJnB6QEidrAJKelfM9vMx4qFvm3VBz7nWsIyqJ+Drd8ZE4pYRVrFdfX6Fu1Sh5qRi/vHyJiVd19eGUpdvZFEDRP2nLfF97lRxOA1uGxUtEIiqjrTOJeXm7R2MqClxXGUT6PpgX9xKEiyY5dJbk=
+	t=1746984605; cv=none; b=W3/frumMolhPwVuHvnRZHWGnwR/Fq62i73zyg8uJEcBV41n2tXBeK+hUrEIYWYkSJXvV6LG3eA8NQx/G2J6iKcprJyLacZAyLoSx/Vq0yuDi6MjdmJgYw4HQaNMXknPJYRefAr8scgqWFmTIqeKFFKtha0gMJJRLx9l2AIFGEzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746982040; c=relaxed/simple;
-	bh=mjnVU8GLX2LF0mn0qFKXmn86qGb28F05Qgh8z6E3Dv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sPYWRmRI5UP8kzUAFkbiw22VvxI5n7hbdXLiXY/waOXnoO/t3RO9SMKTsap70DJfYra2v03RBc+EqbRQ/QKfWsYOKlDxHG/CXg0ZtptnspKybXqOTnumcz38XNUfKUd4L3zhCFhT+1xfVIpFXInll3qF42TTzA0zPYXDlMmXnAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=MbT184Ui; arc=none smtp.client-ip=46.235.229.95
+	s=arc-20240116; t=1746984605; c=relaxed/simple;
+	bh=L8ISTwyG1IADicylx+Pj+Y2qCZL0KLNneW4S5qbDEs0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Eyx6b8rFl5b+zITFdXAvT5YFFrvQ2p3FhJjqP2mVuzV7hN/6klFFp0+Adjdff/cHDggCOxKZ5jhjCW2cJiyP8swyeb0zpGRFQIOtKQ/ern566+XHdC1Rsb6oLEfDH+v+bCyu0NaOelqIG8g7qhO1c4FAFcBoIWynfbxs7olsyHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=JAxIbc7L; arc=none smtp.client-ip=46.235.229.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="MbT184Ui"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="JAxIbc7L"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=3uMgTx2GWzheI3qQ2tvAzWzktzlRZ1kEYS564YIhKqQ=; b=MbT184Ui+Uune8jG
-	FbGv71Kcjo74SjUYmVk+IuLtYhCGYNEUGvhtnptx1jcBbtkn5lLmjTDfG0PthwkNidjT18imHGYYe
-	NN+vqc5V2pIf8crvrJTfMCnIdG3LkEfvAnpLkIoPeANu+fh2UdqvMrY8gg77roKrOvJ5lnmngxYxK
-	w9TCfsnaRwbLxchUdW3310+RaqAd5LpbUTXgXr+t1iT5Lph5NtIPRGF7lYesESxjPW3mez14ofOvS
-	f8IyfluQoakJgT0FYalJuhY1B8Ml6OyQjdAcSZuVDRubQZHJtsTNUXh9YJUDPBaCJbuhKqXmaC4Vy
-	mVxeshLpwHoUFyqxLg==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1uE9pT-002u3D-2Q;
-	Sun, 11 May 2025 16:47:07 +0000
-Date: Sun, 11 May 2025 16:47:07 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, krzysztof.h1@wp.pl,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: question on sound/isa/msnd/msnd_midi.c
-Message-ID: <aCDUi3sBXHOICgs3@gallifrey>
-References: <aByXJKi2j7B4b0bH@gallifrey>
- <87r00vxmjs.wl-tiwai@suse.de>
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=NwTKBRWdHrYVu70Ib7exK/ao9Zbd7vdxnzvdtqBwN5s=; b=JAxIbc7LCgi52Vd+
+	HzR9TTu+Z+zKGaE8+FPfWnqb0PeaxDEI1mul1qFcOQGWOPuD00ZJvTo9TbHxhhXytJQJ6VckRpIVm
+	xE1gx61MnJe3SG0YZZHjHn5Mt4ZOz+8Oc3EdUd6O3MmSVt45eGkstd2wg+K29HW1J/DKpUnWkv4QD
+	+rFhJk34fbE3SsPx0aRtmkPY+aXRnQ/fXNAJE6cOs8E68sF+IFJipC085gbsAznsW//TkZn/hwd1P
+	0/BvbCRPpU+mmzp/ghOEAcP3aI1OoHg8rBAKnJmfZUJwu8xEED2bw6U5Oi8upRPNizxJH5JpwPOKH
+	8XoGLF0S82WnQ2iXrw==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1uEAUv-002u95-1f;
+	Sun, 11 May 2025 17:29:57 +0000
+From: linux@treblig.org
+To: perex@perex.cz,
+	tiwai@suse.com,
+	krzysztof.h1@wp.pl
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] ALSA: msnd: Remove midi code
+Date: Sun, 11 May 2025 18:29:57 +0100
+Message-ID: <20250511172957.1001583-1-linux@treblig.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <87r00vxmjs.wl-tiwai@suse.de>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 16:46:08 up 14 days, 59 min,  1 user,  load average: 0.04, 0.03,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Transfer-Encoding: 8bit
 
-* Takashi Iwai (tiwai@suse.de) wrote:
-> On Thu, 08 May 2025 13:36:04 +0200,
-> Dr. David Alan Gilbert wrote:
-> > 
-> > Hi,
-> >    I noticed that nothing calls snd_msndmidi_new in
-> > sound/isa/msnd/msnd_midi.c and was about to delete it, but I'm not
-> > too sure - I think it's actually a bug where it should be called.
-> > 
-> >   This code was added in 2009 by
-> > commit f6c638350275 ("ALSA: Turtle Beach Multisound Classic/Pinnacle driver")
-> > (Pretty new for an ISA card!)
-> > 
-> > Looking at msnd_midi.c the only function in there that anything
-> > calls is snd_msndmidi_input_read() called by msnd_pinnacle.c but that
-> > is guarded by a check:
-> > 
-> >   146    if (chip->msndmidi_mpu)
-> >   147          snd_msndmidi_input_read(chip->msndmidi_mpu);   
-> > 
-> > but I don't think anything sets that msndmidi_mpu, since the only
-> > thing that could is snd_msndmidi_new() which isn't called.
-> > 
-> > I see that the original poster didn't test the external midi:
-> >    https://mailman.alsa-project.org/hyperkitty/list/alsa-devel@alsa-project.org/message/CWPYLPLJQEK64UU3YFCAMVXGDY42QKF2/
-> > so I guess this has always been missing.
-> > 
-> > I don't have the hardware to test.
-> > 
-> > Thoughts?
-> 
-> Well, it's a very old code on an old interface, and if it's not used
-> (even because of a typo or an overlook), then it's basically no chance
-> to be used in future.  Let's rip off.
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-Ok, I'll cut a patch to remove snd_msndmidi_new() and then probably the whole
-of msnd_midi.c and the call in msnd_pinnacle.c
+Nothing calls snd_msndmidi_new()
+  thus nothing sets chip->msndmidi_mpu
+    The call to snd_msndmidi_input_read is gated on that being set,
+    so snd_msndmidi_input_read() won't be called either.
 
-Dave
+This is probably a missing call to snd_msndmidi_new(), but since
+this is ancient code, it's probably best to remove it (especially
+since I don't have the hardware to test it).
 
-> 
-> thanks,
-> 
-> Takashi
-> 
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ sound/isa/msnd/Makefile        |   2 +-
+ sound/isa/msnd/msnd.h          |   4 -
+ sound/isa/msnd/msnd_midi.c     | 163 ---------------------------------
+ sound/isa/msnd/msnd_pinnacle.c |   5 -
+ 4 files changed, 1 insertion(+), 173 deletions(-)
+ delete mode 100644 sound/isa/msnd/msnd_midi.c
+
+diff --git a/sound/isa/msnd/Makefile b/sound/isa/msnd/Makefile
+index 5f8d6b472722..d56412aae857 100644
+--- a/sound/isa/msnd/Makefile
++++ b/sound/isa/msnd/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-snd-msnd-lib-y := msnd.o msnd_midi.o msnd_pinnacle_mixer.o
++snd-msnd-lib-y := msnd.o msnd_pinnacle_mixer.o
+ snd-msnd-pinnacle-y := msnd_pinnacle.o
+ snd-msnd-classic-y := msnd_classic.o
+ 
+diff --git a/sound/isa/msnd/msnd.h b/sound/isa/msnd/msnd.h
+index 533d71cee9ba..3d7810ed9186 100644
+--- a/sound/isa/msnd/msnd.h
++++ b/sound/isa/msnd/msnd.h
+@@ -216,7 +216,6 @@ struct snd_msnd {
+ 	int			captureLimit;
+ 	int			capturePeriods;
+ 	struct snd_card		*card;
+-	void			*msndmidi_mpu;
+ 	struct snd_rawmidi	*rmidi;
+ 
+ 	/* Hardware resources */
+@@ -286,9 +285,6 @@ int snd_msnd_DAPQ(struct snd_msnd *chip, int start);
+ int snd_msnd_DARQ(struct snd_msnd *chip, int start);
+ int snd_msnd_pcm(struct snd_card *card, int device);
+ 
+-int snd_msndmidi_new(struct snd_card *card, int device);
+-void snd_msndmidi_input_read(void *mpu);
+-
+ void snd_msndmix_setup(struct snd_msnd *chip);
+ int snd_msndmix_new(struct snd_card *card);
+ int snd_msndmix_force_recsrc(struct snd_msnd *chip, int recsrc);
+diff --git a/sound/isa/msnd/msnd_midi.c b/sound/isa/msnd/msnd_midi.c
+deleted file mode 100644
+index 3ffc8758bec2..000000000000
+--- a/sound/isa/msnd/msnd_midi.c
++++ /dev/null
+@@ -1,163 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/*
+- *  Copyright (c) by Jaroslav Kysela <perex@perex.cz>
+- *  Copyright (c) 2009 by Krzysztof Helt
+- *  Routines for control of MPU-401 in UART mode
+- *
+- *  MPU-401 supports UART mode which is not capable generate transmit
+- *  interrupts thus output is done via polling. Also, if irq < 0, then
+- *  input is done also via polling. Do not expect good performance.
+- */
+-
+-#include <linux/io.h>
+-#include <linux/slab.h>
+-#include <linux/delay.h>
+-#include <linux/ioport.h>
+-#include <linux/errno.h>
+-#include <linux/export.h>
+-#include <sound/core.h>
+-#include <sound/rawmidi.h>
+-
+-#include "msnd.h"
+-
+-#define MSNDMIDI_MODE_BIT_INPUT		0
+-#define MSNDMIDI_MODE_BIT_OUTPUT		1
+-#define MSNDMIDI_MODE_BIT_INPUT_TRIGGER	2
+-#define MSNDMIDI_MODE_BIT_OUTPUT_TRIGGER	3
+-
+-struct snd_msndmidi {
+-	struct snd_msnd *dev;
+-
+-	unsigned long mode;		/* MSNDMIDI_MODE_XXXX */
+-
+-	struct snd_rawmidi_substream *substream_input;
+-
+-	spinlock_t input_lock;
+-};
+-
+-/*
+- * input/output open/close - protected by open_mutex in rawmidi.c
+- */
+-static int snd_msndmidi_input_open(struct snd_rawmidi_substream *substream)
+-{
+-	struct snd_msndmidi *mpu;
+-
+-	mpu = substream->rmidi->private_data;
+-
+-	mpu->substream_input = substream;
+-
+-	snd_msnd_enable_irq(mpu->dev);
+-
+-	snd_msnd_send_dsp_cmd(mpu->dev, HDEX_MIDI_IN_START);
+-	set_bit(MSNDMIDI_MODE_BIT_INPUT, &mpu->mode);
+-	return 0;
+-}
+-
+-static int snd_msndmidi_input_close(struct snd_rawmidi_substream *substream)
+-{
+-	struct snd_msndmidi *mpu;
+-
+-	mpu = substream->rmidi->private_data;
+-	snd_msnd_send_dsp_cmd(mpu->dev, HDEX_MIDI_IN_STOP);
+-	clear_bit(MSNDMIDI_MODE_BIT_INPUT, &mpu->mode);
+-	mpu->substream_input = NULL;
+-	snd_msnd_disable_irq(mpu->dev);
+-	return 0;
+-}
+-
+-static void snd_msndmidi_input_drop(struct snd_msndmidi *mpu)
+-{
+-	u16 tail;
+-
+-	tail = readw(mpu->dev->MIDQ + JQS_wTail);
+-	writew(tail, mpu->dev->MIDQ + JQS_wHead);
+-}
+-
+-/*
+- * trigger input
+- */
+-static void snd_msndmidi_input_trigger(struct snd_rawmidi_substream *substream,
+-					int up)
+-{
+-	unsigned long flags;
+-	struct snd_msndmidi *mpu;
+-
+-	mpu = substream->rmidi->private_data;
+-	spin_lock_irqsave(&mpu->input_lock, flags);
+-	if (up) {
+-		if (!test_and_set_bit(MSNDMIDI_MODE_BIT_INPUT_TRIGGER,
+-				      &mpu->mode))
+-			snd_msndmidi_input_drop(mpu);
+-	} else {
+-		clear_bit(MSNDMIDI_MODE_BIT_INPUT_TRIGGER, &mpu->mode);
+-	}
+-	spin_unlock_irqrestore(&mpu->input_lock, flags);
+-	if (up)
+-		snd_msndmidi_input_read(mpu);
+-}
+-
+-void snd_msndmidi_input_read(void *mpuv)
+-{
+-	unsigned long flags;
+-	struct snd_msndmidi *mpu = mpuv;
+-	void __iomem *pwMIDQData = mpu->dev->mappedbase + MIDQ_DATA_BUFF;
+-	u16 head, tail, size;
+-
+-	spin_lock_irqsave(&mpu->input_lock, flags);
+-	head = readw(mpu->dev->MIDQ + JQS_wHead);
+-	tail = readw(mpu->dev->MIDQ + JQS_wTail);
+-	size = readw(mpu->dev->MIDQ + JQS_wSize);
+-	if (head > size || tail > size)
+-		goto out;
+-	while (head != tail) {
+-		unsigned char val = readw(pwMIDQData + 2 * head);
+-
+-		if (test_bit(MSNDMIDI_MODE_BIT_INPUT_TRIGGER, &mpu->mode))
+-			snd_rawmidi_receive(mpu->substream_input, &val, 1);
+-		if (++head > size)
+-			head = 0;
+-		writew(head, mpu->dev->MIDQ + JQS_wHead);
+-	}
+- out:
+-	spin_unlock_irqrestore(&mpu->input_lock, flags);
+-}
+-EXPORT_SYMBOL(snd_msndmidi_input_read);
+-
+-static const struct snd_rawmidi_ops snd_msndmidi_input = {
+-	.open =		snd_msndmidi_input_open,
+-	.close =	snd_msndmidi_input_close,
+-	.trigger =	snd_msndmidi_input_trigger,
+-};
+-
+-static void snd_msndmidi_free(struct snd_rawmidi *rmidi)
+-{
+-	struct snd_msndmidi *mpu = rmidi->private_data;
+-	kfree(mpu);
+-}
+-
+-int snd_msndmidi_new(struct snd_card *card, int device)
+-{
+-	struct snd_msnd *chip = card->private_data;
+-	struct snd_msndmidi *mpu;
+-	struct snd_rawmidi *rmidi;
+-	int err;
+-
+-	err = snd_rawmidi_new(card, "MSND-MIDI", device, 1, 1, &rmidi);
+-	if (err < 0)
+-		return err;
+-	mpu = kzalloc(sizeof(*mpu), GFP_KERNEL);
+-	if (mpu == NULL) {
+-		snd_device_free(card, rmidi);
+-		return -ENOMEM;
+-	}
+-	mpu->dev = chip;
+-	chip->msndmidi_mpu = mpu;
+-	rmidi->private_data = mpu;
+-	rmidi->private_free = snd_msndmidi_free;
+-	spin_lock_init(&mpu->input_lock);
+-	strcpy(rmidi->name, "MSND MIDI");
+-	snd_rawmidi_set_ops(rmidi, SNDRV_RAWMIDI_STREAM_INPUT,
+-			    &snd_msndmidi_input);
+-	rmidi->info_flags |= SNDRV_RAWMIDI_INFO_INPUT;
+-	return 0;
+-}
+diff --git a/sound/isa/msnd/msnd_pinnacle.c b/sound/isa/msnd/msnd_pinnacle.c
+index 635403301a15..8caf431677e5 100644
+--- a/sound/isa/msnd/msnd_pinnacle.c
++++ b/sound/isa/msnd/msnd_pinnacle.c
+@@ -142,11 +142,6 @@ static void snd_msnd_eval_dsp_msg(struct snd_msnd *chip, u16 wMessage)
+ 		}
+ 		break;
+ 
+-	case HIMT_MIDI_IN_UCHAR:
+-		if (chip->msndmidi_mpu)
+-			snd_msndmidi_input_read(chip->msndmidi_mpu);
+-		break;
+-
+ 	default:
+ 		dev_dbg(chip->card->dev, LOGNAME ": HIMT message %d 0x%02x\n",
+ 			HIBYTE(wMessage), HIBYTE(wMessage));
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+2.49.0
+
