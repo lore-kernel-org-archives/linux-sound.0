@@ -1,73 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944111DEFDB;
-	Mon, 12 May 2025 13:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3831E1A16
+	for <linux-sound@vger.kernel.org>; Mon, 12 May 2025 14:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747058199; cv=none; b=iCH/PBiQ4Pp1QtqNqSw2hP7FbsvtLQ7YhJbTPZk4X9sckbvcp4WaxpCD2FU3O8n9IUUt24bpMvKMuY9SHXguNBQsULZbDu4bpmbN/H4YpUYn9a3AcAzq+VP5TIeBgXf2BYkhtSKu/pSC/iVPqfp31ZuqIstIpI3cNBCbIOpMQ+I=
+	t=1747058453; cv=none; b=aFqo1DfXsXo/hc2kAROFX011YtleQE+8rTPUT3NgXu8znsxhpR4/bvPlgJAU3DdROJdVACWv4ppxFePyYJV5AkA+olMj/zUumXJrr1Ha50Z9IP7yTzS6bat6SAhU0ypItIgtTsGTh5OS24dpfgen3/zZmMTG1Kui1I4N7NY4n1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747058199; c=relaxed/simple;
-	bh=kezKBS9Dk1cbmIxbDkii/VwWC0mvb03jDrGa2r1fyPI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GtkRR4291MA+ye7BYWNeaXzXqL1WzM7M4vQV2/i4HWpdndKXaB7z7XcXXhXrrQuRFrnhNv2JssIZKLLZ9tpeN/W6o1CBZdMBjf1ujppOdCUolj1EphyQfOyNLsmvmI7GvulxWOjFfZM3WVeabCMOZpC13zKASn2rnHBS4Y1P1ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UzeKIk6W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747058453; c=relaxed/simple;
+	bh=JkdKaL2iFKo4vgbPLrWo2J9XuIX7Fdk8UQcBDH+Xj70=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ipYUTFWwf5u5C7mkj9xK3dFNoFYEZaxff3iZ4S915CzrA41vDUqYWOfU0GljmGmCLQFQUkCohpCo1U/a4Y6OMZ6bmtLDR5InjiR7H/PkHAHn+0uiFNRQhwMgLCfr4ofrIYk7F3m35uTvlW6qinMFRLN0lvirK+OfExWox3yV0dU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QvDgyhgf; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UzeKIk6W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61E04C4CEE7;
-	Mon, 12 May 2025 13:56:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1747058199;
-	bh=kezKBS9Dk1cbmIxbDkii/VwWC0mvb03jDrGa2r1fyPI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UzeKIk6WEkVezKjNwQ/qDow3QjjmbclEYQhK6rg3AkGO1pf+FDa1wtqa0Oy9n+BQy
-	 nxlBJ5u7GmCjHkHOaJDJwuAgKGmLAYYNf6qq+Dt8uYdAAg10YS/YA9N3u1id/22f0U
-	 Ktigq+wSc5G+MUXhC0vbQJs7grImjWr83jzg+TBs=
-Date: Mon, 12 May 2025 15:56:36 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: stable@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Hao Qin <hao.qin@mediatek.com>, linux-bluetooth@vger.kernel.org,
-	Sean Wang <sean.wang@mediatek.com>,
-	Chris Lu <chris.lu@mediatek.com>, linux-sound@vger.kernel.org,
-	Benedikt Ziemons <ben@rs485.network>, pmenzel@molgen.mpg.de,
-	tiwai@suse.de, geraldogabriel@gmail.com,
-	regressions@lists.linux.dev
-Subject: Re: [STABLE 6.12/6.14] Bluetooth MediaTek controller reset fixes
-Message-ID: <2025051222-obnoxious-blurred-cbcc@gregkh>
-References: <Z+W6dmZFfC7SBhza@m.b4.vu>
- <Z+XN2a3141NpZKcb@m.b4.vu>
- <aBxdpIabalg073AU@m.b4.vu>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QvDgyhgf"
+Message-ID: <0b01a3ae-4766-490e-939d-1d16c2748644@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1747058448;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GJt0rAK9N64ywS+8cjcx1q6dtT4JHAquqNHQUOsx420=;
+	b=QvDgyhgfH+F49xOXo1L5Ci9KfvFz/EESz1u68D9NsGzDoho3327H878UxaSIIGCBihxQ6g
+	46TLkmYAR9NzF9k9nift8belENT7cwvAi8SMeuU/3tpk2O4MHZimao8Mbwo1CYJSNRXfVT
+	uGbgL7dRayK2pZX5eFjvzE3frNNkdfw=
+Date: Mon, 12 May 2025 14:59:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aBxdpIabalg073AU@m.b4.vu>
+Subject: Re: [PATCH 0/5] ASoC/SOF/PCI/Intel: add Wildcat Lake support
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
+ broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ guennadi.liakhovetski@linux.intel.com, bhelgaas@google.com,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250508180240.11282-1-peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20250508180240.11282-1-peter.ujfalusi@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, May 08, 2025 at 05:00:44PM +0930, Geoffrey D. Bennett wrote:
-> Hi stable@vger.kernel.org,
-> 
-> Could you please apply:
-> 
-> 1. Commit a7208610761ae ("Bluetooth: btmtk: Remove resetting mt7921
-> before downloading the fw") to v6.12.x (it's already in
-> v6.14).
-> 
-> 2. Commit 33634e2ab7c6 ("Bluetooth: btmtk: Remove the resetting step
-> before downloading the fw") to v6.12.x and v6.14.x.
-> 
-> These fixes address an issue with some audio interfaces failing to
-> initialise during boot on kernels 6.11+. As noted in my original
-> analysis below, the MediaTek Bluetooth controller reset increases the
-> device setup time from ~200ms to ~20s and can interfere with other USB
-> devices on the bus.
 
-Now queued up, thanks.
+> The audio IP in Wildcat Lake (WCL) is largely identical to the one in
+> Panther Lake, the main difference is the number of DSP cores, memory
+> and clocking.
+> It is based on the same ACE3 architecture.
+> 
+> In SOF the PTL topologies can be re-used for WCL to reduce duplication
+> of code and topology files. 
 
-greg k-h
+Is this really true? I thought topology files are precisely the place where a specific pipeline is assigned to a specific core. If the number of cores is lower, then a PTL topology could fail when used on a WCL DSP, no?
