@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A182117555
-	for <linux-sound@vger.kernel.org>; Mon, 12 May 2025 10:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CC7255F5C;
+	Mon, 12 May 2025 10:46:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747046738; cv=none; b=R8bZ9txrjQRix+YCJh2qtbtJ2sj/+0tX4BZg8hcCOglSZ/p2KUegPml/gKYwzA4RCSWA2oEjbSL50EERlUrfeXvsTd9pXe2jLszU8AfSPXJzGTvl+kcYKWK3ZO9uoxhzXRkysB+CLbkr7Ktsg6A30VLQURmKJqSbLreTfN1QSpo=
+	t=1747046802; cv=none; b=nF9+lJwl99Hk1/XlFLm5JN8SCcJlE+2sAfYVk+pwPTuO6pDqqlE7uPtlD/MVXn2mRAza+s/tjbE8xiFhuRG/fbYlxYBUwndxlgMOrdZHo9OyYqe3RA1U+7YZV9tBmm5B0RhMOhYBi7o4W71n6gPLpuRzJxyMp3SPugbA6SJ0708=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747046738; c=relaxed/simple;
-	bh=fWuHect5eDMYqKQpbg9DQfgHDNVUeD3ArTLnunF9lcM=;
+	s=arc-20240116; t=1747046802; c=relaxed/simple;
+	bh=27+ck3ucD11wBMh7AOucTZiv6NiH+Tedz5bBRcflnUo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MD2pvgqtwg3W+93GrNT1I/nZZtuMDa4D2iLcghs0Q7pC3+ASLyeP6T7u1xrJ7mhxv79exDYl9KnydfP7VW5dtm7kh+S8WwQb3LNgsyyW8nxi25FfBwMaCSh4N4GDneTp0x6yRWGqJX2oGCRiWrB9ImvIVbx0rhKjGqTvPLISJz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fooUE8Qq; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=BlCw71Y/+g9/UDgRcrWlK+naMZ5c/zHC0tZ7L/z7o8E8KAPlN6axDVck+XsOJBpwLmpWVOlfcdaS+ByuK1Ct8Cr7bh7xu1X7aY5OT/0n6MYcYRPuqHJTdTVz1DlmDD+h4mpkOu54uWBL52yP9Rxjh8SFigG30kmG1IJhO+KjcBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hamR5Qqv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fooUE8Qq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 340E8C4CEE9;
-	Mon, 12 May 2025 10:45:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hamR5Qqv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2DEEC4CEE7;
+	Mon, 12 May 2025 10:46:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747046738;
-	bh=fWuHect5eDMYqKQpbg9DQfgHDNVUeD3ArTLnunF9lcM=;
+	s=k20201202; t=1747046802;
+	bh=27+ck3ucD11wBMh7AOucTZiv6NiH+Tedz5bBRcflnUo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fooUE8Qqonz9DF8HOcdky7h82Wy1mf0UOeLYrszuyWQQpUWSvINsR8laB3l7z+8yh
-	 JsAtDvs76ar73MplfVifVshUaIPIqs4nB/pN3oDhKgFsJ1Y+q/K/JIvvi3tszOhsng
-	 vvzKB8UF1JX3EXKez0BJYt09sSaJtXkwcnh9HrqCT0bzLZDl6uID/bhINTIVnGdaja
-	 QVrXOWoCat/Ddie2fyXrMWCXro1kyNoaY9B0fDoaKXaw+I9eClvbG+/qScXiQkEEAn
-	 754uFROxrgbsY+L+E9ObbB/Q68Ma0+8cNv5yxkRTNbpj54aqYdpEfylSuL9voABpHg
-	 JX4ly+RnIhTZA==
-Message-ID: <38a75805-1fb6-46d9-9372-83742a386394@kernel.org>
-Date: Mon, 12 May 2025 12:45:35 +0200
+	b=hamR5QqvcQY/gUmxHSoqrbr5fVIyfInWBycV+7QCskAEtegwhs4MUhSmoYul99lbe
+	 IalR8L+pBUKi14/24kPIVIJPUZSnNyAxC7XmM5boUBLzWuuFPXlc9/ti2xpHawdUKW
+	 6Xszh0QmWcHbMkSoauZwl7XPlyRUlVyVJ6R8JpY7Cd7mRLIjP2DYx5VTju4hbYvfOH
+	 Owr/mhi+FGUMnYlbr/3uzYWVyz7y9VQv7p4giQ5f7cxlkA2zx/r/0vUqxLkgs1fNYs
+	 TRw0/Sup8/gyIKipcIjBEF8vkSssQWkqDLm6kubj1U44ucowGiZ7kRzwTfhzvOP4gD
+	 /r44Ga/m632gQ==
+Message-ID: <1661a87d-2ada-48b4-a119-661f7172f71c@kernel.org>
+Date: Mon, 12 May 2025 12:46:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,9 +38,10 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] ASoC: dt-bindings: audio-graph-card2: add missing
  {hp/mic}-det-gpios
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-References: <87frhay2va.wl-kuninori.morimoto.gx@renesas.com>
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org
+References: <87bjryy2q1.wl-kuninori.morimoto.gx@renesas.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -86,42 +87,16 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <87frhay2va.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87bjryy2q1.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/05/2025 04:33, Kuninori Morimoto wrote:
+On 12/05/2025 04:36, Kuninori Morimoto wrote:
 > The yaml has "hp-det-gpios" property, but Audio-Graph-Card2 can handle
 > "hp-det-gpio", "mic-det-gpios", "mic-det-gpio" too.
 > Add these.
 > 
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-
-You need to start sending patches for proper review by their respective
-maintainers. It's not the first time you bypass DT maintainers.
-
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
-
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
-
-
 > ---
 >  .../devicetree/bindings/sound/audio-graph-card2.yaml        | 6 ++++++
 >  1 file changed, 6 insertions(+)
@@ -135,9 +110,24 @@ Please kindly resend and include all necessary To/Cc entries.
 >    hp-det-gpios:
 >      $ref: audio-graph.yaml#/properties/hp-det-gpios
 > +  hp-det-gpio:
+> +    $ref: audio-graph.yaml#/properties/hp-det-gpio
 
+Same comments as for your v1 (and this is v2? please version your
+patches correctly or use RESEND).
 
-No, redundant.
+Drop, redundant.
+
+> +  mic-det-gpios:
+> +    $ref: audio-graph.yaml#/properties/mic-det-gpios
+> +  mic-det-gpio:
+
+Drop
+
+> +    $ref: audio-graph.yaml#/properties/mic-det-gpio
+>    widgets:
+>      $ref: audio-graph.yaml#/properties/widgets
+>  
+
 
 Best regards,
 Krzysztof
