@@ -1,147 +1,157 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD4125742B
-	for <linux-sound@vger.kernel.org>; Mon, 12 May 2025 07:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D83B25C828
+	for <linux-sound@vger.kernel.org>; Mon, 12 May 2025 09:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747036578; cv=none; b=QZ21BOrFHxt83CNkO17hzQ14g7SGT3JsY87+eeKFLm/JkwF4rR+O0qfOce1bg0eQjBqoOlAk3dxZdfptXX5GFyVWwMKqJ7bAPj/kTZ+VywnQb7JXWqdTGnrDixPeZ2JV7lKAZt26ih8qJfkbJO+0aKhAmjJpkC0WCmeV9pzNLSk=
+	t=1747043348; cv=none; b=ZzUvmFiYqp5Q/as1F1zBpe4CLQktx38osDe9gYL6RNNJMLaFYl+5v7hnH/HLuBIIQMgLdFVPCXvFIZd2wHr/NFoCp1gYxgTGuT5V1oPBXwRks8Sfu9TwS4L2goB37XrWG21Myh2bzjlLm2R0OjHLtdKvRCId3Si5CUKKUyOzBoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747036578; c=relaxed/simple;
-	bh=0EU4+2jK89EhyErsG3ivuot8oJE4GOEHcxesP+hdRFs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qYnRaMRyTpsxQ6OxTFzuSyUytT8BvF9GTg0lP/TTV58lIUuvbgHQhRVR8hxYmVC+qDfLSCmQ3zTa6j5ogsTShPvUNVtqp/Nq5nDC7z+thatp4hDmRBP+vKSmFzxBkpjnNuNTqoUEoAZV+xge4+n3F/WHsiUmk3zYpQNEWux+raY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EzAaN+CS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=r0CZ7qZy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bM4Deu++; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PK8ChYPY; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1747043348; c=relaxed/simple;
+	bh=FjxYPLlr7Uq9cM7LdYkKNRb9rcPcU4sZk2VzpdUBREE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=bg2XhB0TxlLpM/LtJUTxg0Nd6wBY2SRzXZ2A2o1DuFXmfobGgJJTjH0dN8/79PSrWgB4yWCqIjOOCknqHqqjFy3xOlyotUJ2utAWa6hnrCCBylVkR/RNuhNc3aDjSnTsvBxFFuTqVlRZm/0tYzVP1/Ytr9mFwc0dtzEMvXXh3oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rppzsi7Z; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EzAaN+CS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r0CZ7qZy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bM4Deu++";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PK8ChYPY"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D1569211E3;
-	Mon, 12 May 2025 07:56:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747036575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pgUNNz4w/3G78HwqRCGV7qEpEt71tYq4lU0/QdqjGLg=;
-	b=EzAaN+CSSDDPi36iVbHlRW96fQMqtguAAj5+QNNZxjgAVNJiyve34EJ4b+Dve4HKmnJi+E
-	mNEk4Q+2dz0x0bCJn86gRshLndGFrHutgI1uwtqFFWDOql2a9MDhNl+fZRLdOrLByKmTri
-	5FQwkoVJiEAfJAuyDkih1R7urOVLQEc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747036575;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pgUNNz4w/3G78HwqRCGV7qEpEt71tYq4lU0/QdqjGLg=;
-	b=r0CZ7qZywAiGHNzHXXiSxlJaWK08wWJUS6iCr50QPybn+vioQcLXyktiSnCKUdR7cGHaPT
-	tgnJRsEseNZKbmAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bM4Deu++;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PK8ChYPY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747036574; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pgUNNz4w/3G78HwqRCGV7qEpEt71tYq4lU0/QdqjGLg=;
-	b=bM4Deu++OfudXpyjLYGTCSV5SKLBcPD+eBqtLhvmUoG8kTgg25uRSRZJzrQvLTILgjokrc
-	vxoOlZuAZWvxcUtZhi9h7YLNmESPReriiAvJs9CJH5WgSAbnpTuSxervmk6qJTeYJAbfDG
-	XAWJ3aNlLclrcxhgxz7R6YHH5k2EcGk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747036574;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pgUNNz4w/3G78HwqRCGV7qEpEt71tYq4lU0/QdqjGLg=;
-	b=PK8ChYPYhGvK++SycROBoiyf13K37uQ/P503zcVisJ6ArWCCV3baHQ6p/RDodEu96YLt5e
-	DSE2FcHSypnbwPDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B6FF1397F;
-	Mon, 12 May 2025 07:56:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Q0AoJJ6pIWh/FAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 12 May 2025 07:56:14 +0000
-Date: Mon, 12 May 2025 09:56:14 +0200
-Message-ID: <87ldr2uush.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: linux@treblig.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	krzysztof.h1@wp.pl,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: msnd: Remove midi code
-In-Reply-To: <20250511172957.1001583-1-linux@treblig.org>
-References: <20250511172957.1001583-1-linux@treblig.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rppzsi7Z"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43edb40f357so28337835e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 12 May 2025 02:49:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747043345; x=1747648145; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l6vKiFjkGAusVaPlO8lPwTMhUgkuRZjj25b8eYWh0l0=;
+        b=Rppzsi7ZSJFG25s+ojwcubUtlGz9feOsa4xjEX+5jiWYoR988m1L+ol8Mn9pUbCw0r
+         5ZLW+lu5HviAywS1e/HbJJRTw3ZwaU1RwUONm0D8xU/7eBwucGM9BLD+TGMQKX6ndbHK
+         X/NNuAoo1SnB2cZrigcH0iiW0cJKH2rbluyVabiQDTw71y7dai7QbhYTtWoeHOCP0bRv
+         OqOUXt8SmJjnuYvUqYByD885ksQS9XCYvuQUc+n9jdJKIH56BHKL7dx0ZRmNmw5JoQU8
+         ajJrzkbcILMDVy24j3ELfJdS/N273sMDKSQT+rj8ler7+7vomotW0qBR/CxxNNYywEln
+         0qGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747043345; x=1747648145;
+        h=content-transfer-encoding:to:subject:from:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=l6vKiFjkGAusVaPlO8lPwTMhUgkuRZjj25b8eYWh0l0=;
+        b=PRnvBdjQI10fRQpIko8Pd+cNLRyvH+aBuK5Cwd2ME3rjQrq6rHvJ/aIeghfe+xG8u2
+         4YBtsya0Dc73mvQNWBygMEM1HESHuEkDxAMN4cLHCQR5mh/1xrJM8Z8pKaMl4JKRXYv8
+         ss2jW3W2pdlet1fh37URM92odZaKRE/Bwl5q2lqsdItoEy3A0k5FZDBJ1Fyg1KnsUJMu
+         VXzWc4Niom6Vi1mvHcBdhhZzYHk+Uk6TwSLfs0l5I3cQ6ujsiDn0HZF5EannD8pJhIzA
+         R8otWTIQjx7EiAO23YHR0M77IDYQ8P09R7fdCs2IVlJMAlLzlDLdYuZ6sVTRY/DBzHzV
+         Xx8w==
+X-Gm-Message-State: AOJu0Yx0zFb5mYtuPQnJPwkZqWCTqBDlTmy4g38SYEDTmeC/tMcF1coI
+	91qeil1C3nuGIC3KCVxLXK5X38vC2tkLpCHrOSME3KunL5CSOCKLW9ta5H9m
+X-Gm-Gg: ASbGncv62XBLXv+iYrMuZWTdKCE8h1zh6qfn+kn/NCKRzYfboY/DTC7QF1wLKc7Da40
+	/KTye1ZePONUYjtzquvQDODom6kn5AKr6LZqAyi24aXDeC602z1/IonaZHlqzRXXwmqA+RTVLj2
+	hNPxFAIKBdO6Dz7woifaJBWWt3kUuCNx9GBTB8x+2qMg1kewdkpuuIMEBbTqf81heFRd35b5VZs
+	KLw1RlC0wKCLmW5ro0DPyoGPW7ugEHwkeW4HPONj8k8geuFSr+3Ukt4CN+jmI2p8IMQUQ5jZHJn
+	v0rMdJuuZkKhjA9EEqFd41PppQ6TtayK3pOiXxy+zdEH0h5BjahRMsHIA5xlmW2xs7Yx
+X-Google-Smtp-Source: AGHT+IGfMosdYk21nM4JLc7yD1R4Zm/LhT3gEDlS9pqvMRbe9NvqBwEIyIRWJnMlElQg84necrWZSw==
+X-Received: by 2002:a05:600c:350e:b0:442:e9eb:cb9e with SMTP id 5b1f17b1804b1-442e9ebcc41mr428275e9.26.1747043344835;
+        Mon, 12 May 2025 02:49:04 -0700 (PDT)
+Received: from [192.168.223.119] ([178.240.186.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442cd328535sm166022335e9.4.2025.05.12.02.49.02
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 May 2025 02:49:04 -0700 (PDT)
+Message-ID: <f34999d9-5594-4f69-9dab-de282cd401cd@gmail.com>
+Date: Mon, 12 May 2025 12:49:01 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: D1569211E3
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[wp.pl];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,wp.pl,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,treblig.org:email]
-X-Rspamd-Action: no action
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: =?UTF-8?B?QWxpIEZ1YXQgUGHFn2FsxLFvxJ9sdQ==?= <afuatpasalioglu@gmail.com>
+Subject: Internal Microphone Not Working on Lenovo Yoga Slim 7 Pro with Linux
+ Mint 22.1
+To: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, 11 May 2025 19:29:57 +0200,
-linux@treblig.org wrote:
-> 
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> Nothing calls snd_msndmidi_new()
->   thus nothing sets chip->msndmidi_mpu
->     The call to snd_msndmidi_input_read is gated on that being set,
->     so snd_msndmidi_input_read() won't be called either.
-> 
-> This is probably a missing call to snd_msndmidi_new(), but since
-> this is ancient code, it's probably best to remove it (especially
-> since I don't have the hardware to test it).
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Dear Linux Mint Support Team,
 
-Applied now.  Thanks.
+I am a passionate and grateful new user of Linux Mint. I recently 
+switched from Windows and have been enjoying the system stability and 
+user-friendly experience. As a newcomer to Linux, I manage to handle 
+many tasks with the help of the terminal and ChatGPT.
+
+However, I am facing a persistent issue that has significantly affected 
+my workflow:
+
+ > My internal microphone is not working on my Lenovo Yoga Slim 7 Pro 
+(AMD Ryzen 5 6600HS + Realtek ALC257 codec).
 
 
-Takashi
+
+Note: Not long ago, I was able to use this same internal microphone 
+under Linux Mint on this very laptop, including in Zoom-like 
+applications. This suggests that either a kernel, driver, or PipeWire 
+update might have broken support recently.
+
+I have tested multiple approaches, including:
+
+Switching between PulseAudio and PipeWire
+
+Modifying /etc/modprobe.d/alsa-base.conf with various model parameters:
+
+model=lenovo
+
+model=ideapad
+
+model=dual-codecs
+
+model=auto
+
+
+Verifying with alsamixer that Mic ACP LED remains off (disabled)
+
+Using pavucontrol, but the input device shows as "Microphone (unplugged)"
+
+
+The microphone works perfectly under Windows.
+
+Due to this limitation, I am forced to carry and use an external USB 
+microphone during my online meetings. While this workaround helps, it’s 
+inconvenient, and I hope this issue can be resolved at the 
+driver/firmware/kernel level for AMD + Realtek-based laptops like mine.
+
+System Details:
+
+Distro: Linux Mint 22.1 Xia (based on Ubuntu 24.04 Noble)
+
+Kernel: 6.8.0-59-generic
+
+Desktop: Cinnamon 6.4.8 (Muffin 6.4.1)
+
+Laptop: Lenovo Yoga Slim 7 Pro 14ARH7
+
+CPU: AMD Ryzen 5 6600HS Creator Edition
+
+Audio Codec: Realtek ALC257 (with ACP/ACP6x support)
+
+Sound backends tested: PulseAudio, PipeWire
+
+Audio devices detected:
+
+AMD Rembrandt HD Audio (snd_hda_intel)
+
+AMD ACP/ACP6x Audio Coprocessor (snd_pci_acp6x)
+
+AMD Family 17h/19h HD Audio (snd_hda_intel)
+
+
+Current workaround: BOYA M1 via USB-C DAC (recognized as USB Audio)
+
+
+Please consider improving support for this hardware combination. I 
+really love Linux Mint and want to stick with it long-term.
+
+Thank you for your work!
+
+Best regards, Ali Fuat
+
