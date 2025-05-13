@@ -1,101 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599D51D6DB4;
-	Tue, 13 May 2025 06:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC4C26AFB
+	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 07:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747117335; cv=none; b=rFiMnCvXI/+WmDH8FMq5GvLRf3V+gU+moGaKIik6pF+afWTbfCJIoeehlTE6nS6zKO6FZsOer6/eGsCr3OPN+bqRtuTk4qBatq+R3mfiAv3yrHyhD+nofWRfNIhDqoUbJhhnTocQ8eVbvov0nf+rW7fKRZKg+iMBffsMIFAy908=
+	t=1747122046; cv=none; b=NI6NQU/W5glS7+Mc3hsYhUoq8Z7R7ylirxaBfoCRwPWt8PwyWhWZuB3uX+LxkQRLikJzEKZoOHWDyJIgPWFqUd5C1SIYvwd5s0YeJlR9/F9CWWt5twYF2dmPFUh3zNx5MPUK7RZAiKOd2cZbhbYYA9l0ixb20YngSLaq6Tbwg7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747117335; c=relaxed/simple;
-	bh=F1Dc+MvNAUMUR1sJ7kUFlsLn2WNtlz1OKvBBhuM5kL0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mr+HnJxfO7OqqpipgeENgR79jrCu3Aumcj+npLZ+bbNq0n7ld2NcxzMmPC3P/6qkqe7sJA+mvXRr5y4WSbMJQVwMFA2YtjwMVamvyDHHIry9WDi73z0/rqIsepIjibEoc5BkTxdQF5nZp7nL+yMxTaJjOfcgJ4lIHza6jgn6elg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q/zd0tS2; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q/zd0tS2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747117334; x=1778653334;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=F1Dc+MvNAUMUR1sJ7kUFlsLn2WNtlz1OKvBBhuM5kL0=;
-  b=Q/zd0tS2bkwoEnTMBrWBBlINtqWFuTGWk1upj5nrhWrDzjXRELOe/MIW
-   RZPE2sElVcOtzSJw44f7vBKK1ocQVyjC+GpBJajU0QvWnayYym+Vs6TGV
-   Knk2oSkax3q8PGpeDlRm0mK3beOo172T+BLgVh3gzaqTVE1LSv13aJgdk
-   pIQqqzpRFRwcepCFR6KjkriPZsWcz68DRxjEuaqyUGTrflRyrZRrJhVLz
-   Q601QPn7lxv8ZjVpWZQzbkpYxzNVUf3ey52WkUWGEG+xkMrYm9OA6hq0K
-   ZzkRXvCOdiElnwcu3AiMfPaUdCu+fLwoSkKeuyRdwKWHGdK+ariaGemk0
-   w==;
-X-CSE-ConnectionGUID: Q3nu4yxmQtewYVs3csuTnA==
-X-CSE-MsgGUID: tyfI+G9YTymvAcKot80qBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="59582992"
-X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
-   d="scan'208";a="59582992"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 23:22:13 -0700
-X-CSE-ConnectionGUID: f4OsESHLRUGcubGHkai75g==
-X-CSE-MsgGUID: mzq1OOppSn+X0tOak6kzAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
-   d="scan'208";a="142785867"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.168]) ([10.245.246.168])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 23:22:09 -0700
-Message-ID: <bfb8e9a6-92c1-4079-aec0-b1ad2b245c70@linux.intel.com>
-Date: Tue, 13 May 2025 09:23:22 +0300
+	s=arc-20240116; t=1747122046; c=relaxed/simple;
+	bh=sG196z0t+5EOJzX1/7CgQIWKhCvV/Tag+seHV+RghWg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bqD93hcnt7PQoZxenlKqX5cbeORfH58LcJ1iQaSlitVBj0JRlLbZfETBk05kW00r6w6HX4cdLzINUTD9FYgX0tF4cqk76jDIoQum0umKwHOkyF5xJ+EVzQP2nuxWqISyPtrGru4WyS3gJFx4zQGKkp+qG74ET4Uv450QGgY3OpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4ZxSnt5b5Lz4wyNM
+	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 09:31:14 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:e731:371c:7707:a2ae])
+	by andre.telenet-ops.be with cmsmtp
+	id oXX52E00F4HZolA01XX57H; Tue, 13 May 2025 09:31:06 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1uEk6I-00000001Vcc-2luw;
+	Tue, 13 May 2025 09:31:05 +0200
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1uEk6T-00000000A7n-1bem;
+	Tue, 13 May 2025 09:31:05 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	Rich Felker <dalias@libc.org>
+Cc: linux-sound@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] ALSA: sh: SND_AICA should depend on SH_DMA_API
+Date: Tue, 13 May 2025 09:31:04 +0200
+Message-ID: <b90625f8a9078d0d304bafe862cbe3a3fab40082.1747121335.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] ASoC/SOF/PCI/Intel: add Wildcat Lake support
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- lgirdwood@gmail.com, broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
- guennadi.liakhovetski@linux.intel.com, bhelgaas@google.com,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250508180240.11282-1-peter.ujfalusi@linux.intel.com>
- <0b01a3ae-4766-490e-939d-1d16c2748644@linux.dev>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <0b01a3ae-4766-490e-939d-1d16c2748644@linux.dev>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+If CONFIG_SH_DMA_API=n:
 
+    WARNING: unmet direct dependencies detected for G2_DMA
+      Depends on [n]: SH_DREAMCAST [=y] && SH_DMA_API [=n]
+      Selected by [y]:
+      - SND_AICA [=y] && SOUND [=y] && SND [=y] && SND_SUPERH [=y] && SH_DREAMCAST [=y]
 
-On 12/05/2025 15:59, Pierre-Louis Bossart wrote:
-> 
->> The audio IP in Wildcat Lake (WCL) is largely identical to the one in
->> Panther Lake, the main difference is the number of DSP cores, memory
->> and clocking.
->> It is based on the same ACE3 architecture.
->>
->> In SOF the PTL topologies can be re-used for WCL to reduce duplication
->> of code and topology files. 
-> 
-> Is this really true? I thought topology files are precisely the place where a specific pipeline is assigned to a specific core. If the number of cores is lower, then a PTL topology could fail when used on a WCL DSP, no?
+SND_AICA selects G2_DMA.  As the latter depends on SH_DMA_API, the
+former should depend on SH_DMA_API, too.
 
-Yes, that is true, however for generic (sdw, HDA) topologies this is not
-an issue as we don't spread the modules (there is no customization per
-platform).
-When it comes to product topologies, they can still be named as PTL/WCL
-if needed and have tailored core use.
+Fixes: f477a538c14d07f8 ("sh: dma: fix kconfig dependency for G2_DMA")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202505131320.PzgTtl9H-lkp@intel.com/
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ sound/sh/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It might be that WCL will not use audio configs common with PTL, in that
-case we still can have sof-wcl-* topologies if desired.
-
-Fwiw, in case of soundwire we are moving to a even more generic function
-topology split, where all SDW device can us generic function fragments
-stitched together to create a complete topology.
-Those will have to be compatible with all platforms, so wide swing of
-core use cannot be possible anymore.
-
+diff --git a/sound/sh/Kconfig b/sound/sh/Kconfig
+index b75fbb3236a7b945..f5fa09d740b4c954 100644
+--- a/sound/sh/Kconfig
++++ b/sound/sh/Kconfig
+@@ -14,7 +14,7 @@ if SND_SUPERH
+ 
+ config SND_AICA
+ 	tristate "Dreamcast Yamaha AICA sound"
+-	depends on SH_DREAMCAST
++	depends on SH_DREAMCAST && SH_DMA_API
+ 	select SND_PCM
+ 	select G2_DMA
+ 	help
 -- 
-Péter
+2.43.0
 
