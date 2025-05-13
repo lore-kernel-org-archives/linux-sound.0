@@ -1,36 +1,50 @@
-Received: from posta.frantovo.cz (czf.frantovo.cz [91.219.244.97])
-	(using TLSv1.1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476B12914
-	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 00:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.219.244.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A32B1E5B91;
+	Tue, 13 May 2025 06:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747095771; cv=none; b=nfWOSGRfIZEPZofGz1LZnpwqkG40AM+9iFp1neIU0ugHae5j3pd7+uJuTzp3yjUoML2TljPYzcY90L+/Cj1HNy88XghFdYJzx+WOzRgMAWY/o1Ned+bV7XpiIWn2PY9AR15uPkAlwBbMOODiTJqoF7WeskPv9dzvmzjEz4ZnJO4=
+	t=1747116873; cv=none; b=TvlWX00YUCJ6WjY/e7Zk6Dx6+4Pt7mfvv4BdWckJFdFiK2pwMz2v7xpXhhSAeS/aCacPw6ppjZCy1OoBl1h05rgObskqrS6hk5zLR6O9wuzZUWkhTDtn/mdi53KMW4twCElYUyWxLDim2lBY4DQUzPvNiqx1jS0JUPRttAVyjYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747095771; c=relaxed/simple;
-	bh=cYKvUOD/kNr/5wKEwfjfbJIVzhu0DE17bIXOJ6GktgM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=k/ecJgzyrcqfA4eU3N/T/LMNVbUZiRwcdTonsOAqx8natpVk9D7usIuz16IKoSXD7awNL4ZETGkFR9BBy7JUBqZuwj8rj3EK61folk2FnRmG4zUhFLfy33U8NCDXv01LVRyQM2Z+scn/Sn57DZFuW4S06tw/BKB9Vx7Ya844BOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=frantovo.cz; spf=pass smtp.mailfrom=frantovo.cz; dkim=pass (1024-bit key) header.d=frantovo.cz header.i=@frantovo.cz header.b=UdC/lDvL; arc=none smtp.client-ip=91.219.244.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=frantovo.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=frantovo.cz
+	s=arc-20240116; t=1747116873; c=relaxed/simple;
+	bh=HOmzNXqztGAZsaFVQfIfDU/4Qjyx5oPPAvkLmf8pL7E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ftDM8jZyVKHavHTuPnrxE65wB3nwvOHCRvHt8AoqDB5qQIJpnrmdGqZV1ZF69taEpHEm+Yl9Ft51V0l5ezGiT8ZuSbUT/iRI+5IbovAWFLhdhZ5Uu8UOoYLr5QGNFG8/5vPrEj0ee5+0vozoXySKVkEQG6jUhP+xR3Wwdh/aTIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YD3Yv2lx; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=frantovo.cz header.i=@frantovo.cz header.b="UdC/lDvL"
-Received: from [192.168.1.4] (osma.doma.frantovo.cz [192.168.1.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: fiki@frantovo.cz)
-	by posta.frantovo.cz (Postfix) with ESMTPSA id 678A112FFA7;
-	Tue, 13 May 2025 02:07:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=frantovo.cz;
-	s=default; t=1747094872;
-	bh=cYKvUOD/kNr/5wKEwfjfbJIVzhu0DE17bIXOJ6GktgM=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=UdC/lDvLrN8Dv4S9U9eCx85hWaNueNfGLR4a77OWwu9cqryV66RO52Rq7k4M5kR9d
-	 hTq4DVa4lrNPmBtvxH/NWFhH6Tfd2+d2s8v8ErSWvptwFDvW0kEWU6nVPyaE17YerW
-	 ulzX2CQUAJNzF/QyAYjOeEsDLtyIHRqmoxYDqVf0=
-Message-ID: <b9d2ccd0-9b92-4324-bc44-0fb1be5f465e@frantovo.cz>
-Date: Tue, 13 May 2025 02:22:45 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YD3Yv2lx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747116872; x=1778652872;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=HOmzNXqztGAZsaFVQfIfDU/4Qjyx5oPPAvkLmf8pL7E=;
+  b=YD3Yv2lxsb7M2ksYaggDHwnRoMmKz8ysGLEj6/e0G3GDt7Oecd0f82jG
+   MPuqRWeP/siDHzXuEk4ESgnho1nVpJ2YlgCoxcIB8dkT/Eoszm67m7NTR
+   maiTP6IhHbK2JCLtRvxzU9A7COEgflhuwbTfh1jAaSWcJRYtSTms7qTPo
+   Uf7k0wdH9f99yLA1K5wJH+vhu6/GSuIFKfAAqfIa41TQ/Cf9JHXSnRZW7
+   cpiNcK4XZ2T5/9W1W/ybz0KaIhbXtovva82dIO3BGoGCJnKJEgvqrcuc2
+   6KG8lg3Wq5TbkgTj+9Tuu8rN73SEmoKMUw0+jbYi3OBW6s4Y5zKHiHYDE
+   A==;
+X-CSE-ConnectionGUID: 7lkNM550SAS0dvpf/mr+IQ==
+X-CSE-MsgGUID: Lra29f41Tmay4OIV2hCgBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="74342996"
+X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
+   d="scan'208";a="74342996"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 23:14:31 -0700
+X-CSE-ConnectionGUID: Q8dKl/ghQqSx2j9DSk9yYg==
+X-CSE-MsgGUID: m+YRzKW2QCmhrccsHkrA+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,284,1739865600"; 
+   d="scan'208";a="137511088"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.246.168]) ([10.245.246.168])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 23:14:28 -0700
+Message-ID: <ed48f3cf-077d-4b42-ba0a-ba35d849d4dd@linux.intel.com>
+Date: Tue, 13 May 2025 09:15:41 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,68 +52,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Rename Pioneer mixer channel controls
-To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
-References: <20250508192223.4847-1-konference@frantovo.cz>
- <87msbjxmew.wl-tiwai@suse.de> <87ldr3xm49.wl-tiwai@suse.de>
-Content-Language: cs-CZ, en-US
-From: =?UTF-8?B?RnJhbnRpxaFlayBLdcSNZXJh?= <franta-linux@frantovo.cz>
-In-Reply-To: <87ldr3xm49.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [RFC PATCH v2] ASoC: soc-pcm: Optimize hw_params() BE DAI call
+To: Sameer Pujar <spujar@nvidia.com>, "Sheetal ." <sheetal@nvidia.com>,
+ broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org, pierre-louis.bossart@linux.intel.com,
+ ranjani.sridharan@linux.intel.com
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ jonathanh@nvidia.com, thierry.reding@gmail.com, mkumard@nvidia.com
+References: <20250408083022.3671283-1-sheetal@nvidia.com>
+ <9694bc9c-4ad0-46c2-8626-e569734f2e47@nvidia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <9694bc9c-4ad0-46c2-8626-e569734f2e47@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.98.1 at posta
-X-Virus-Status: Clean
-
-Dne 11. 05. 25 v 16:23 Takashi Iwai napsal(a):
-> On Sun, 11 May 2025 16:16:39 +0200,
-> Takashi Iwai wrote:
->> On Thu, 08 May 2025 21:22:23 +0200,
->> František Kučera wrote:
->>> From: František Kučera <franta-linux@frantovo.cz>
->>>
->>> so alsamixer can show the controls in correct categories: capture/playback
->>>
->>> Signed-off-by: František Kučera <franta-linux@frantovo.cz>
->> Applied now.  Thanks.
-> ... on the second thought, I'm not sure whether the proposed new names
-> are the best choice.  Now we see "Capture" and "Playback" twice for
-> ChX switches (also for Master switch, too):
->
-> +	SND_DJM_CTL("Master Capture Level Capture Switch", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
-> +	SND_DJM_CTL("Capture Ch1 Capture Switch",  250mk2_cap1, 2, SND_DJM_WINDEX_CAP),
-> +	SND_DJM_CTL("Capture Ch2 Capture Switch",  250mk2_cap2, 2, SND_DJM_WINDEX_CAP),
-> +	SND_DJM_CTL("Capture Ch3 Capture Switch",  250mk2_cap3, 0, SND_DJM_WINDEX_CAP),
-> +	SND_DJM_CTL("Playback Ch1 Playback Switch", 250mk2_pb1, 0, SND_DJM_WINDEX_PB),
-> +	SND_DJM_CTL("Playback Ch2 Playback Switch", 250mk2_pb2, 1, SND_DJM_WINDEX_PB),
-> ....
->
-> I guess your intention to make the differences clearer, but still it
-> leaves me some itch feeling.
->
-> And now I noticed that you've submitted to a wrong list.  The kernel
-> patches should be sent to linux-sound@vger.kernel.org, not alsa-devel.
-> So I drop the patch for now.
->
-> Let me know if you believe this is the best naming, or if you have any
-> other proposals.  And for the next patch, please submit to linux-sound
-> ML instead.
->
->
-> thanks,
->
-> Takashi
-
-I agree that the names are somehow weird... (I asked for advice in the e-mail "Pioneer DJ DJM mixers channel names" 2025-04-24).
-
-I tried to find best fitting names in <https://docs.kernel.org/sound/designs/control-names.html> but this convention fits rather classic sound cards than mixers with many universal channels.
-
-The "Capture Switch" or "Playback Switch" at the end of the name are hidden in the alsamixer utility and only "Capture Ch1" is displayed. The suffix serves for assigning the control to the correct category (F3 - playback, F4 - capture, F5 - all). And without "Capture" or "Playback" prefix, I will see only Ch1, Ch2 etc. and if I switch to "All" (F5) I can not distinguish Capture Ch1 from Playback Ch1...
-
-Hope we can find a better naming convention for mixers.
-
-Thanks,
-
-Franta
 
 
+
+On 12/05/2025 15:01, Sameer Pujar wrote:
+> 
+> 
+> 
+> On 08-04-2025 14:00, Sheetal . wrote:
+>> From: Sheetal <sheetal@nvidia.com>
+>>
+>> The hw_params() function for BE DAI was being called multiple times due
+>> to an unnecessary SND_SOC_DPCM_STATE_HW_PARAMS state check.
+>>
+>> Remove the redundant state check to ensure hw_params() is called only
+>> once
+>> per BE DAI configuration.
+>>
+>> Signed-off-by: Sheetal <sheetal@nvidia.com>
+>> ---
+>> Changes in v2:
+>> - Update commit message as its not a fix.
+>> - Marked as RFC patch as it requires feedback from other users
+>>    perspective as well.
+>> - The patch is being sent separately as other patch is not RFC.
+>>
+>>   sound/soc/soc-pcm.c | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+>> index d7f6d3a6d312..c73be27c4ecb 100644
+>> --- a/sound/soc/soc-pcm.c
+>> +++ b/sound/soc/soc-pcm.c
+>> @@ -2123,7 +2123,6 @@ int dpcm_be_dai_hw_params(struct
+>> snd_soc_pcm_runtime *fe, int stream)
+>>               continue;
+>>             if ((be->dpcm[stream].state != SND_SOC_DPCM_STATE_OPEN) &&
+>> -            (be->dpcm[stream].state != SND_SOC_DPCM_STATE_HW_PARAMS) &&
+>>               (be->dpcm[stream].state != SND_SOC_DPCM_STATE_HW_FREE))
+>>               continue;
+>>   
+> 
+> Reviewed-by: Sameer Pujar <spujar@nvidia.com>
+> 
+> 
+> Earlier Intel systems needed multiple hw_params() call and I am not sure
+> if that still holds good. Given https://lkml.org/lkml/2021/9/28/1267, it
+> would be good to get feedback from Intel and I have added few people
+> based on the earlier discussion.
+
+Picked the patch to run it through our CI:
+https://github.com/thesofproject/linux/pull/5414
+
+-- 
+Péter
 
