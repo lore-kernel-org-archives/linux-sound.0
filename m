@@ -1,152 +1,113 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3562135DD
-	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 09:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35FF212FAA
+	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 09:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747126812; cv=none; b=aftRs7661Qj01rLdZoAjBpvzEOcdaQ+ZTphd0jJkQ/0150yFWHRsMslvE+ASM21bBcK/a35Th2vCfd8Vk5Z8BqIAF2Fx78VteK3UPOd9XSpKeYf8WU5fP+vnM06FEA4A4vGGp6obut4XN6YWCsUuIaBRAs+CsIh6m+0/b7EKWJs=
+	t=1747127642; cv=none; b=gMMlFaO/mOrRM3lOE17A5W7TZy3FMLbFQAqlntsHA7lfD+RSCrFNZI457n+OQUTralkdUB+f4nlcf9ldDbtreWbuBswCz7ad9hj6MtBKWoCBJRSmBt9yAfM8pIbYpc1xiqVHW5qkm4rKXbndIoz21YIbX+GuzpIMOQnA4JQgSLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747126812; c=relaxed/simple;
-	bh=DJPYRRspkNRNwfzB0qcQYnFe7Em4op/YgtRLUsGmJV4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RGLKbGv7ANwzzrftEBvz8Dt+bLFh1uExASahqqkBzQ2l3FqpDFC97kkWXR4kwv887TkH0U0AhsRj+Rf0IX3yszEeJOYiV0gEyq8NiPQk54nwUNSN9QsGVphwnh90yAjkMH+4br+V8CAASTIHmEdmfR8R6hzvcuQm3RQjWQBxWB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RN5Aw6Cy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Px6SqorE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Bawo5G6n; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=scitoupB; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1747127642; c=relaxed/simple;
+	bh=/SAD+E8PlcSH1+Wt9D26KNtrABdi7IHZQ0z3Lf1kx9I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IlTbPGRhQJ/OJIe5PHSk95q3A42nAiIqZMC7j4R2JdDQux9z5G4vtQw1qcoYL2+IHPmaSitQVkel+4Y6ZJ/vX/+TjJy48Jy/oWsW/erlmSqdTGIuVVyjsKlIAPuGbDtvYkQZVXdZX+9LfPNTeKSK7M9dQQIjlZu3QYxZcVFRWqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Zf0z9Dny; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RN5Aw6Cy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Px6SqorE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Bawo5G6n";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="scitoupB"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CBC541F6E6;
-	Tue, 13 May 2025 09:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747126809; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x6W6RFAD/RWmnTm9AYB/P5QZT5NCjQ2Cku5lv7gxJjg=;
-	b=RN5Aw6CyfCUr1QZYGlB5hcCKLrI12Db2ZMsgrrv2wU9C+P7h99VMYQfIabwp/5TpVfes/Y
-	+wKYrUb/POAXvRW4UTlK0dXLTtaWJuOu/qnxP0+ZLAC6o7zn530QDXFKWzGGZaKJlefY4L
-	IzrX86mmNsckLyLnW8HdEbNrzM9uQYc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747126809;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x6W6RFAD/RWmnTm9AYB/P5QZT5NCjQ2Cku5lv7gxJjg=;
-	b=Px6SqorEi5FCA12WixdzwPN+waSwJIpDZ0HmwmLAHXukZVESS1J2LhmPhGWZt7TD6LiFn4
-	jLx5gS0ks641RFAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Bawo5G6n;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=scitoupB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747126807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x6W6RFAD/RWmnTm9AYB/P5QZT5NCjQ2Cku5lv7gxJjg=;
-	b=Bawo5G6nvEH12eObEBLZDUcAbtaMkG1gtBGjfR21gP6vVvga9aLiaUf47JdRsA5QymFYzy
-	mhmKHRZVaOKPQzEAd1IDVVA/lk0IzORf1UT5wWfvqYJuEw4eT0sWJjdsL2/Gmq/RnD2leW
-	YYp5Fe4C2goLb+pNDzrQSUxXrYOGx08=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747126807;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x6W6RFAD/RWmnTm9AYB/P5QZT5NCjQ2Cku5lv7gxJjg=;
-	b=scitoupBK52GXAbkofb0LujdK3V7UtSCu1zodJoXhfjvuYjiSpB3xtU4Kzm1jCV2sbVySe
-	ixH/rk/3vp2/OsCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF709137E8;
-	Tue, 13 May 2025 09:00:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KXZEKhcKI2jIfQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 13 May 2025 09:00:07 +0000
-Date: Tue, 13 May 2025 10:59:59 +0200
-Message-ID: <8734d8ubqo.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	Rich Felker <dalias@libc.org>,
-	linux-sound@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] ALSA: sh: SND_AICA should depend on SH_DMA_API
-In-Reply-To: <b90625f8a9078d0d304bafe862cbe3a3fab40082.1747121335.git.geert+renesas@glider.be>
-References: <b90625f8a9078d0d304bafe862cbe3a3fab40082.1747121335.git.geert+renesas@glider.be>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Zf0z9Dny"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54e9021d2b5so7937539e87.1
+        for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 02:14:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747127639; x=1747732439; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PYE6rz8ivBX5c5Je+9pTAeUXcNTn8kHnTYdngeOsHIc=;
+        b=Zf0z9DnyMoAIGaXecaARiH73B0HYtkZtVtbtqW5eArogBS158f4pcbPoZU40xlu0HI
+         TRdxJy61usnw335iD8l+Lhq/cZJWuLkzYAo1UqaDLYPaq8csYFGNuXwj6bOtJWPpKhdv
+         Ac8GGYLC9mA7+L5KKAaIOZYrXZnv0nQnO8dqQNpRPDkmIeZUAB6nLVpdgKDxw+eWtOxY
+         RwFvDgnN4N3dIAuAf+NIxfbPRw3ZiyJMc7Q4SR1BdrJlnD5Z0yf+OP+4w7IbBgz4L5hb
+         kuFeLioJMS/AhridnSBjOW2wTvBNuWPBxWRD0e9QN/quDhgcwrUFtvfiXHe95DgUAlo1
+         xP7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747127639; x=1747732439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PYE6rz8ivBX5c5Je+9pTAeUXcNTn8kHnTYdngeOsHIc=;
+        b=q/g4VxewOTcnC/cx1d2u4/3jGZnlIXVUL/NZ/xCXqLD4d1XpMHYTrl7DjlWbcT9FQU
+         zQ5qborjyVmHkcWwcKk2KUrmSRX5sXMyTYflKHh0ttNtD9DaSO5k9ucw1leiu+vPSs0Q
+         Ns5vNn18udrv9eqoVJfzKNbIvOYDepeQ7DXKfDjXJfBGWUGy0C9p2IsucoLp1fNVVIxj
+         ldACmyE/JeHKmR9lwYgk73qxcpTirJ15WtVyqvWJmnnmBdVjLEGtqMngSmhR6AJkIjJB
+         1WUvtEvrSHN5+/oAai9LNMR+w5ledmG/e6ob6MTCn58oqt6iFBBEsldmpjko+H+zIdip
+         rMCg==
+X-Forwarded-Encrypted: i=1; AJvYcCXHh1oPYGzDv4o+RrRizmz3WelF3E7yUIcTt39TKjhzcMY4gcCNwjXRFg3Omm1sQeOhKJs0DozzYVUMlA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4fQaySdhy5JTaXJe6zTSNq6cHslziVnNpGQOXiSW1f4E4DKgM
+	X/SAx38+nHkQxW4TVXsHVxMH6XdzvjyURbTbOlIxoRysxajlKLZw4cH1xdL4kVizL1jnZUp3gqY
+	CM7BXw3dIPGIZXVKPQ7YtwQmyz0nhFYv3i4UgDagJpojTAXM5
+X-Gm-Gg: ASbGncsW1kD2xUt083no+D72jSdWeqPvKL6wHG5KbXK76tTl+fvCRrsVik3kcU2RZrr
+	33pyxejtZCuBfohwPFAmTfW7FTzBZbGTno5etsoHDciPJnhkFakIBGK2tYESxfqUx4KaTfY53oU
+	3S42PVeNOwsJSHTI7SQqQ+pDM91QfW1Hcm
+X-Google-Smtp-Source: AGHT+IH/jeTxrV9HpMwi2pjeapptNJlfLhNnNzY1D3MSHE/hcFjWBYu5GOatTwYNUgShX23ZdgCZE+JMddotwLltrJY=
+X-Received: by 2002:a05:6512:3f26:b0:549:8c0c:ea15 with SMTP id
+ 2adb3069b0e04-550d0b29ba5mr955737e87.0.1747127638909; Tue, 13 May 2025
+ 02:13:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: CBC541F6E6
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,libc.org,vger.kernel.org,intel.com];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[renesas];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,glider.be:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Action: no action
+MIME-Version: 1.0
+References: <20250428-csl42x-v2-0-e8056313968f@nxp.com> <20250428-csl42x-v2-3-e8056313968f@nxp.com>
+In-Reply-To: <20250428-csl42x-v2-3-e8056313968f@nxp.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 13 May 2025 11:13:47 +0200
+X-Gm-Features: AX0GCFv6EYp1hHtdCbx7xVQ6OsQr3zpfxe4aZJqix-ETEXnpR-jVx_h06K8Q1co
+Message-ID: <CACRpkdZeQ=A3dRGS0jLryPO65E7RutXDVZHFuAC19TTng-N1aQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/9] ASoC: codec: cs42l56: Convert to GPIO descriptors
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 13 May 2025 09:31:04 +0200,
-Geert Uytterhoeven wrote:
-> 
-> If CONFIG_SH_DMA_API=n:
-> 
->     WARNING: unmet direct dependencies detected for G2_DMA
->       Depends on [n]: SH_DREAMCAST [=y] && SH_DMA_API [=n]
->       Selected by [y]:
->       - SND_AICA [=y] && SOUND [=y] && SND [=y] && SND_SUPERH [=y] && SH_DREAMCAST [=y]
-> 
-> SND_AICA selects G2_DMA.  As the latter depends on SH_DMA_API, the
-> former should depend on SH_DMA_API, too.
-> 
-> Fixes: f477a538c14d07f8 ("sh: dma: fix kconfig dependency for G2_DMA")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202505131320.PzgTtl9H-lkp@intel.com/
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, Apr 28, 2025 at 4:10=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp.co=
+m> wrote:
 
-Applied now.  Thanks.
+> From: Peng Fan <peng.fan@nxp.com>
+>
+> of_gpio.h is deprecated, update the driver to use GPIO descriptors.
+>  - Use devm_gpiod_get_optional to get GPIO descriptor with default
+>    polarity GPIOD_OUT_LOW, set consumer name.
+>  - Use gpiod_set_value_cansleep to configure output value.
+>
+> Checking the current driver using legacy GPIO API, the
+> nreset value is first output HIGH, then LOW, then HIGH.
+>
+> Checking the datasheet, nreset is should be held low after power
+> on, when nreset is high, it starts to work.
+>
+> Since the driver has been here for quite long time and no complain on
+> the nreset flow, still follow original flow when using GPIOD
+> descriptors.
+>
+> Commit 944004eb56dc ("gpiolib: of: add a quirk for reset line for Cirrus
+> CS42L56 codec") added quirks, so the gpio request API will work as before=
+.
+>
+> Per datasheet, the DTS polarity should be GPIOD_ACTIVE_LOW. The binding
+> example use value 0(GPIOD_ACTIVE_HIGH) which seems wrong. There is
+> no in-tree DTS has the device, so all should be fine.
+>
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
 
+Looks right to me!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Takashi
+Yours,
+Linus Walleij
