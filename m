@@ -1,110 +1,87 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D74B2144A3
-	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 09:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1FA150997
+	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 09:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747127710; cv=none; b=gOO2/NU/kORelPfpEFXGv+UCLeeEew63+HC0hv23BpolOyvxl6eQtFbRMoLN64TlHWfALjXgeEEkgvF+QtCYHmb3FwFk3THxcEKiiNITiT+QJk7qolwCUhKMwIQ1CU/TjGF/l6/o70tjzA8yVgUVfonPRUa7trkoiewlJodqi1w=
+	t=1747129623; cv=none; b=X/cEHoEhztxGCi1/4CETssVmT3TqzrbGSQvSIAW06uTWnMMgiid4msktBr3I6z9M+O0XtHBeaEIEkxcuMrI2CBZI4GUQjSekpzb/J5Yo9SM6d6bhu/hIwQNlQvNzDfolmcIGY/+zxcvYSiPiwYmp2vAnjzpughwN0n9WUWXdgDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747127710; c=relaxed/simple;
-	bh=W06RFHPV8gonnsmgauUbgxPzser5B7x04G1quNKfCEw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sW5T05ucdTyrgL82m00D+r2z7PY5kQ9IacIv7+kaTHGxTJ0uYYhY2DsyQizuyeFN+cqtWGrsbe4S3WHWsylQfa8A347aWAo0spjrErAuKA/PrDo2EQ4PSZp8BEyH8atXbJYrkW2bPJXscukQ8N+o0YhiPMdfd/7IJwXOAS55Av8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nfi8nwt/; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1747129623; c=relaxed/simple;
+	bh=IMLNd04uLUqznR7MUe/j336hFAP+ckPn1NO2A53nkP8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=d17oePlon645rD1LxKcmZ2tpuFmtSIvVqWW3Smuk174AYP9fooLBnvvtPuTPsNccjpXaE7pRXNGrB3pGVVv6UcCB9RJ1FAZBFOXqhQygSlP9pLEYmPyFm6WNTlIbTnmv6tiYf+qzm8o1mFo0nXUIKsw3YuLUKHKRchpctVX1k3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o3VBY5gW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nfi8nwt/"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54d98aa5981so8587249e87.0
-        for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 02:15:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747127706; x=1747732506; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jAi9rrC5F3j79jXbmUzojQw3jaZE4Bz634vHF8LgQG8=;
-        b=nfi8nwt/P7ekgP9NWzXr6wPMOgiCLtCZEX5G6Vic0bG06xGlKxt1EZeNRRqfRVjsBQ
-         Oz+3IEXvrj1AMrto3DSMlWEe6igUX48AJmmPkQC2iuYP5g37ZPsfSN0LUQ2PLSWcNK+q
-         2GUckCnQ8UKDo2t4nTszF7+WNR7QnFBRglQ9txIACU8EcFOS7W7G+77iFf5WENCPQQuY
-         tcxjQVpFsRstsVjZELXgJG6QgLj9TofZhRyF0p5NrxkmGuV6YfAD0LbGrPyDqhX3D+C5
-         5/SxB+tKpsfVenlzf91+Ivxv0+Nh4CmSdR21YJBec4YyvxfVETMajP+I83ylD4cCIk7n
-         5EWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747127706; x=1747732506;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jAi9rrC5F3j79jXbmUzojQw3jaZE4Bz634vHF8LgQG8=;
-        b=G+3XfdiGef9V5IydW4Yve3/etjbiGe/awO5TdYxgo560GJ1ylOOESV96/7ZaKECOym
-         o8D4tcVBf335CAOUiIHQid8stvPRpxWiGALWk6TU3PlG/kEsXb2fAujYMy8Ew0c8SXKl
-         v/C2kRa//4nGxDX3nA2dt5pQU83cc8FGDu2vqO+1t0Rq2UBln2y1+T0O0qWtfObMFg0T
-         b9bUv5pMkmGtUHGe5TDY1NlWuoz5K02186qRh6EtLoJWoiZoGU2JGL0EKYhM8X/8YdsQ
-         5ZSzkW7p2KCV7NLKdGwp/hIil8szpSGFaT26T+6ZqpE5HXOTwqKzImv5r5tIKRGnXMxG
-         0lvA==
-X-Forwarded-Encrypted: i=1; AJvYcCXLrjjWR94heH7tK7JP0oXbdiXorV9WNE1hEpkJNE0hqxYUCnZrqNQ2Yo2ewcegjmBitw5FERMVPn6fJQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTW4XfKQFRKt70RlQplIF4LAP8tSb16EUn7D5lSJTIXrHWyaAx
-	jHrAUCurTyVmhpie3FnGJntl+YAAtK2g4rFC/Mlm9TxFkcqd6dG4Zely1jSxnCd4avYs5aI53Jf
-	laOgFG6H4zsBX/Ywk5hRJuyypNJXFPp2/Z8ZmVQ==
-X-Gm-Gg: ASbGncvt0hdGCGFJX/XLo0yaXnBbEh8qfFSwPB5Alo+mKO0x6xVcH/6aEl7cvFJ42VU
-	/vUOM/wcSe/HClwFlo97kzsTXGS2/S8XQVXgdGOZ/iezEqC7/N0tuOQwCWN+MfsPr+TpJ1bADgO
-	2RHEI1WXysjBO6gDtflfaHtebutox8OBbv
-X-Google-Smtp-Source: AGHT+IG5Frmll3jan8XW4q+c/ZaO7HyTn73Ya+M5QP0nrAUGDePv5va3dllLSktvNB1+Cx7B6+76W/dccZj2jM4v9L4=
-X-Received: by 2002:a05:6512:228b:b0:545:154:52b0 with SMTP id
- 2adb3069b0e04-54fc67c95e9mr6259507e87.22.1747127706188; Tue, 13 May 2025
- 02:15:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o3VBY5gW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF830C4CEE4;
+	Tue, 13 May 2025 09:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747129622;
+	bh=IMLNd04uLUqznR7MUe/j336hFAP+ckPn1NO2A53nkP8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=o3VBY5gWrO773J9R/SRIlSo89VBLmUKZsoW7Ygz3bVG2BckrmRHE9YnjeA4srAkzo
+	 JG0brrDlWLKaT3FAPlvUfw62N7W2l/thUlBzUfLWFFF6XPawbUahQo81OalCk8l5k2
+	 Si7Rm6lElMojNQH0bQpRnb7rDIUo0aRLUTs1kPdsoJbqyYN5Lo/PrWh+zCk6933K0g
+	 3rhAjmsLl8PX5z2mj3bfwAXXI0iqSLQoLmC0C/0zTH9uwcs6OrqowfSNb145zUdekP
+	 uZw5xUG8jasjRD+4h/PP+AY1LzWloMSi9lZaYU2w7OPnhMSAG8jvAO53SbGQB276Gg
+	 tDsyV9y5RjIxw==
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87h61qy2vn.wl-kuninori.morimoto.gx@renesas.com>
+References: <87h61qy2vn.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: soc-core: merge snd_soc_unregister_component()
+ and snd_soc_unregister_component_by_driver()
+Message-Id: <174712961962.91208.5785496353612809573.b4-ty@kernel.org>
+Date: Tue, 13 May 2025 11:46:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250428-csl42x-v2-0-e8056313968f@nxp.com> <20250428-csl42x-v2-9-e8056313968f@nxp.com>
-In-Reply-To: <20250428-csl42x-v2-9-e8056313968f@nxp.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 13 May 2025 11:14:54 +0200
-X-Gm-Features: AX0GCFvRRz_CuxUgIsjJYkT-hxEyuMzIQVYUiGbnvV1LNLCfN6Vvua5kol4mBmU
-Message-ID: <CACRpkdbBKo8Qp5em+CngJOAQF+FPohfsi_V2SLUpNEsim=XykQ@mail.gmail.com>
-Subject: Re: [PATCH v2 9/9] ASoC: codec: cs42l52: Convert to GPIO descriptors
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-On Mon, Apr 28, 2025 at 4:11=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp.co=
-m> wrote:
+On Mon, 12 May 2025 02:33:16 +0000, Kuninori Morimoto wrote:
+> We have below 2 functions, but these are very similar
+> 
+> (A)	snd_soc_unregister_component_by_driver()
+> (B)	snd_soc_unregister_component()
+> 
+> (A)	void snd_soc_unregister_component_by_driver(...)
+> 	{
+> 		...
+> 
+> [...]
 
-> From: Peng Fan <peng.fan@nxp.com>
->
-> of_gpio.h is deprecated, update the driver to use GPIO descriptors.
->  - Use devm_gpiod_get_optional to get GPIO descriptor with default
->    polarity GPIOD_OUT_LOW, set consumer name.
->  - Use gpiod_set_value_cansleep to configure output value.
->
-> Checking the current driver using legacy GPIO API, the
-> reset value is first output HIGH, then LOW, then HIGH.
->
-> Checking the datasheet, the device remains in Power-down state until
-> RESET pin is brought high.
->
-> Since the driver has been here for quite long time and no complain on
-> the reset flow, still follow original flow when using GPIOD
-> descriptors.
->
-> Per datasheet, the DTS polarity should be GPIOD_ACTIVE_LOW. The binding
-> example use value 0(GPIOD_ACTIVE_HIGH) which seems wrong.
-> And the binding use reset-gpio as example, not same as driver using
-> "cirrus,reset-gpio", and there is no in-tree DTS has the device,
-> so all should be fine with this patch.
->
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+Applied to
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Yours,
-Linus Walleij
+Thanks!
+
+[1/1] ASoC: soc-core: merge snd_soc_unregister_component() and snd_soc_unregister_component_by_driver()
+      commit: 144d6dfc7482455eabf8e8caa974a6e8d9572705
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
