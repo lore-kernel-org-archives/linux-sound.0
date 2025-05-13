@@ -1,110 +1,132 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4895921C9F6
-	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 12:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B56614F70
+	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 13:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747140967; cv=none; b=ao9IgMfIPVXv9HKa2mZT/8Osxrqb1Mi/SEAgLXtToiXVcpdEE1Rtc7h9DtyiooIl+j4VoQI0LEFTHwUugteN99dXilwNl4r4cpq6nJrA5bp17mL2tBsseJimO3Wdm5hkzWonLS7LfbmVGpG2cMSqibgrxC7HUPbisMNhfSrxYYM=
+	t=1747142157; cv=none; b=N/YqfqPJK0sA3QMYa2qImLzhdXfAoNWDqIiqKE6ruJKTUs8U8C7TjNhMUw80GUsXQXq1RzgyYdl7RH87+twxYq/L5+5KRtCxDlZ/Ihb06U+MqmfqpVXME8xEoOH9wtiLAy0xHk2L9mQ3Hu/Q1ep2gctT5a+lyDxuKBWWRcYpHk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747140967; c=relaxed/simple;
-	bh=3DeTAi1I6ja/kcy7TOnjzoICqTpw6MKwiMgn5ZsOA6M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BA+zSpbxV0ndBBRLbRdeNuUsgGg2o6FyTBcPlfDippF9y3mGVIR4yQoX6243nquTf24U9A4hpldyCSl0fiKBo4Lvc2s+4Mswiawvw6LVUiOWrUsotyT2iy5HCt1jXJJHj+Wn9dX7m9OEJS9YOVkAWX7MZFSxJi/H4HpgzHlBlqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wuxVo5Z0; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1747142157; c=relaxed/simple;
+	bh=hRylyn1PcQVlg10HiqmNfXqVxRHV0X3JGOuwCnjPmdk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SsXdheUaPmjPcgGDzsP54kNarUSLKxMg0/pAQMIX7LKwnuFZBAs7kjd0B5JfTX+dIskqpscit0A120u+8uD5vW1zwYf+BeYSftv+BxmDUsT0pHKPdL5orbI6hhAc/SgnYuarl6pTzaI/8Ym5eu+2rW7ZGEh7AOiEwSk2Ugk0RDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=gVvTLMBh; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wuxVo5Z0"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54b09cb06b0so7447723e87.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 05:56:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="gVvTLMBh"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cf3192f3bso59903535e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 06:15:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747140963; x=1747745763; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1747142154; x=1747746954; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TnrDtFR/wUG3jSxJnmOhIX6bU0T3LAwlfTt3Gj6//94=;
-        b=wuxVo5Z0jdBa6UwMTXEIhfKGNV3eQdRoW97gGbTQNavJdsrUTUHZsbzie1bmR2MNl/
-         NyMumE0PVCLvF1Vzuuj/O9RilKnwZILxqEfvBHxy4cUcJSnoyk+ZLnEzkOCHcvTi1cat
-         7XiMUjdQToWpasxXShuMQIzIW1olS1iu0HAd1TGfw32hCjBd7Sn07eHo2aR4vn7cVg18
-         xFY906MYgNsQi0RHUgVm1N6GYEvGFb4hL/9yXtswkLyhwtBBEjX6qBo4bK4Tr9Ptl2hC
-         b67hCvzTjDr4wdfRiAdNgEZ5HYRH9EYuxlEqYRuJDkUbFZinDQfsUQjGqrRazsZg/N++
-         fKpw==
+        bh=TPY3rRdUVBrXW+v2nzRIA0l1VDmPMKxlLUGaAoh0kXU=;
+        b=gVvTLMBhVx0qH1Q2Q2Sb8T+pCzhIs/kLhJBXKz0vcE+A+kmDWiiBBksdfjS1emlogH
+         oOdWHfhYxNPoUPzsohIFLd07d2jKKabNbzlYOXVplos4h4R7Cix+sfZTqA64hyvEaTf/
+         KA1wzHq7uwBMgLejo/bMyRQtgLN7UJOnPp6sNSsuWj2NyMkKAGLB0KkNIViv0MM/a9bb
+         DNZILVi9RM7qrFntEIBUTnIhzq83y4+yvFPOV8N62TUytq4pWtJXUenzf7Uc37vQLrmj
+         7T9HOxiacvbX9q+fIGDzJaHhgINnRzFku0zE7DouSqMGc9Rl6phfNY3xFAB82+lJIxiR
+         VxZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747140963; x=1747745763;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1747142154; x=1747746954;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TnrDtFR/wUG3jSxJnmOhIX6bU0T3LAwlfTt3Gj6//94=;
-        b=nBe9cjJZICddfF3QDd5236hOMQzVCAcUudoAXJz2RSOsDhoDmJMzNN1j87IImnTpuC
-         wVf1YX7tYCC6t+uBc25uS9u6kLZKqJRXo7yMvzq34sSXIcii1mgeEFRhCRNUJrfBG+wH
-         jVb21kUY5vN+3N5bRHypVU/pECqH/ZCnY++QGMgWvcg64MXf7I51wtyps5Syg/NxPKBh
-         VXHQufXr1snw5WSi/Y7CSNCkVVkk3h8N9ail/YjoxvkayNyqKgKqI5jjTSIYptuADvB2
-         Db+ILbz/V2LSBQUri/S/m2jBeNoWidewgWIZftrHSCjNCNh3MTJb+lNwU7R45PA8J56i
-         fs2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUnUoed3LLijup28Kl2dwPIZFPM9bEAGFVuNZEq8/Qniysux7ObC/adJrBpCHQRSey+ZIGU8ATjl/4arw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/Cs0xjmQ5CalRhXfhHVln4qjd0GkCxnucJW8ylMiKOSJnaeVF
-	p6GoPrOzbTD2Iel0eZysCtVbxmsi5MBsW24j/s60/W2vGH/Lqiwj0Bb8oTAuIzFe5pRLh1YxSUn
-	HfO8rninS14ythefexq3dhihk/FsKH51GmcITCg==
-X-Gm-Gg: ASbGncvk9id+GJOJlDyEv35IKZncbOHrPKyfMJ7GmzEOR8eEVZQ7kK5jaCw4T+T4FVM
-	D5H9xRRHnGWydT+unZs/2HqrexIxxW9mGuAjxEDd8LgQVYBhZd4d37hRFgdls5g/0t48L9RFPe3
-	iDNoG8xpWR5ZK2FgYLhTASLnKEjd8niv8y
-X-Google-Smtp-Source: AGHT+IGn3b+7Zh7S//+wx+Xxtb6ZBtSzHkIJbXRsy4U2x/LmPx9JYtJc5JoaPFpYaECnMq8H1yt+/F1ni3yf6HVA9Sc=
-X-Received: by 2002:a05:6512:1194:b0:54a:cc04:ea24 with SMTP id
- 2adb3069b0e04-54fc67e7ea7mr5900714e87.46.1747140963389; Tue, 13 May 2025
- 05:56:03 -0700 (PDT)
+        bh=TPY3rRdUVBrXW+v2nzRIA0l1VDmPMKxlLUGaAoh0kXU=;
+        b=Z52iAvKsnwCHZzof1FhrWv9vjfEx67l/XkszJBiojsLmyeOLCHyGvKTBd5hUXqcUTb
+         DOE3axxk260ZAfiIa12z9rFXJdy5TdcRQEWTlmgWOBosWr8y7fkzyIM/Q5VTI+/dew9e
+         dxcziU6o7kAXX31wk/fpPHjrgmA3NJ96wFBLnT9vsWzX5QOX0dvo8aKELl16pAURKQlR
+         9pRu29P8ZIx2lDbVf6pH/ok4GfSOHZ1KTTjzrnt6NKd17ZYe/kB81UZ1uAJ/bYJwq1z0
+         4xj32yd1R/QRkLP9TIvmV0cN9WIYh8a6DtiW5lNZ3u/bcQ6qWyBl0i0Yx9zJLJy4Y3PM
+         Unrg==
+X-Forwarded-Encrypted: i=1; AJvYcCWy5OY4+hmfFNyO186HEWUxDLbU+lekLVpkUaDlh2B+ZfaRgPFWwsRfY1d9pFpa/j2foZqACBvBF+gQTg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6FQtO+I+ks5jIVj6ExzpJTJYBQ6ghUHje35/sd6lEWZrSivRR
+	15vYiX0oXUk9YUv8J06gsYfekxi6XWroTpFLj8uxYAtGIyIL7DXZbA4xCreIxMc=
+X-Gm-Gg: ASbGncsZjixuibpu6+ZJ2VwHMtFjHUZHQxo4mLaTb18aDZcChsFvAcd1C8vA75GCaqd
+	qWFAX82z4HyOBSaMe6P0q/6gZ9tLC5oEQ+rIj/dpm1DsWN4OW7z253Cb0v2Dyf9WyruPbCHWKyq
+	VN/X0CEv7oQpVKF4FQsV0NIhm8rTDFyY03izJ4OmODuJJqO1nIpN6eIG+KbYAKGATswZbY1VR6/
+	NdzRS8VgJHC0+s+26oSSr+SoRI9Fz/f0aUBmzxj7MNcdzanw9p2cl2I8XzNvrntGv5wj/6uWb3h
+	LyKP8IBmHJIKlZe6pJls2G0Rbxx51ccr32mV4ZPNffC/0MhF+d1U5yCLvMmUOvVy2dhq9wWTblw
+	RJnD/0izfa6AVnOSjni9i0PAj
+X-Google-Smtp-Source: AGHT+IF45Z3/yPJnSPxFe0jDPVCInZwQAAhswNv4Px26NKFArlJLvwKRwbJZn6KBm6BZg6uGp+I+6Q==
+X-Received: by 2002:a05:600c:3e0f:b0:442:e109:3027 with SMTP id 5b1f17b1804b1-442e1093222mr108939215e9.24.1747142153624;
+        Tue, 13 May 2025 06:15:53 -0700 (PDT)
+Received: from brgl-uxlite.c.hoisthospitality.com (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442cd32f3c2sm210290765e9.15.2025.05.13.06.15.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 06:15:53 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 00/12] gpio: convert more GPIO chips to using new value setters - part 3 for v6.16
+Date: Tue, 13 May 2025 15:15:51 +0200
+Message-ID: <174714214927.9467.6551553602169960677.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250506-gpiochip-set-rv-gpio-part3-v1-0-0fbdea5a9667@linaro.org>
+References: <20250506-gpiochip-set-rv-gpio-part3-v1-0-0fbdea5a9667@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250506-csl42x-v3-0-e9496db544c4@nxp.com> <20250506-csl42x-v3-9-e9496db544c4@nxp.com>
-In-Reply-To: <20250506-csl42x-v3-9-e9496db544c4@nxp.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 13 May 2025 14:55:51 +0200
-X-Gm-Features: AX0GCFtFzSwk7eRmxngH80W_FVCoWA7VvCWFx4m0A5ByX0Uxkd3cGc7bhazETXQ
-Message-ID: <CACRpkdbcCGVQca4arnRD4rc1W+4L5g3yT8VTb35G1CrwgBfvAw@mail.gmail.com>
-Subject: Re: [PATCH v3 9/9] ASoC: codec: cs42l52: Convert to GPIO descriptors
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 6, 2025 at 9:31=E2=80=AFAM Peng Fan (OSS) <peng.fan@oss.nxp.com=
-> wrote:
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-> From: Peng Fan <peng.fan@nxp.com>
->
-> of_gpio.h is deprecated, update the driver to use GPIO descriptors.
->  - Use devm_gpiod_get_optional to get GPIO descriptor with default
->    polarity GPIOD_OUT_LOW, set consumer name.
->  - Use gpiod_set_value_cansleep to configure output value.
->
-> Checking the current driver using legacy GPIO API, the
-> reset value is first output HIGH, then LOW, then HIGH.
->
-> Checking the datasheet, the device remains in Power-down state until
-> RESET pin is brought high.
->
-> Since the driver has been here for quite long time and no complain on
-> the reset flow, still follow original flow when using GPIOD
-> descriptors.
->
-> Per datasheet, the DTS polarity should be GPIOD_ACTIVE_LOW. The binding
-> example use value 0(GPIOD_ACTIVE_HIGH) which seems wrong.
-> And the binding use reset-gpio as example, not same as driver using
-> "cirrus,reset-gpio", and there is no in-tree DTS has the device,
-> so all should be fine with this patch.
->
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+On Tue, 06 May 2025 11:01:43 +0200, Bartosz Golaszewski wrote:
+> Commit 98ce1eb1fd87e ("gpiolib: introduce gpio_chip setters that return
+> values") added new line setter callbacks to struct gpio_chip. They allow
+> to indicate failures to callers. We're in the process of converting all
+> GPIO controllers to using them before removing the old ones. This series
+> converts another round of GPIO controllers.
+> 
+> 
+> [...]
 
-Yours,
-Linus Walleij
+Applied, thanks!
+
+[01/12] gpio: lp873x: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/30d15b8949828811e9df3dafc12e3d523ed6e154
+[02/12] gpio: lp87565: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/978d23c1db9a303f2fab817de28087ada5859a9a
+[03/12] gpio: lpc18xx: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/4f71abfef92d9e302c7c62744fa806076b3ba819
+[04/12] gpio: lpc32xx: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/1a7b6b536d509203325bccd88ae42499b45f5765
+[05/12] gpio: madera: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/2e6b7f5ffe08d42196b31322e6443a9874c79a03
+[06/12] gpio: max3191x: remove unused callbacks
+        https://git.kernel.org/brgl/linux/c/75e80b69e1367b95a98107fc38351b5b865c568c
+[07/12] gpio: max730x: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/1938913798082cd284ab59afcdf68c2bb5ba1686
+[08/12] gpio: max732x: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/66a6d0e5a77889cbec98152dadda70dd79f1678c
+[09/12] gpio: max77620: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/8f9da4401b82faa788b663402ea699ccfd756597
+[10/12] gpio: mb86s7x: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/dff5a31dcbd260eb61f0128876910809f04f1e3b
+[11/12] gpio: mc33880: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/51227589e8388b452b4315907d2de5f7d5a06e87
+[12/12] gpio: ml-ioh: use new GPIO line value setter callbacks
+        https://git.kernel.org/brgl/linux/c/d3f960365b8c35449d22b780383dc9b40d96203e
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
