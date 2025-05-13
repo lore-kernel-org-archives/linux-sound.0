@@ -1,71 +1,71 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35FF212FAA
-	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 09:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F5720E002
+	for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 09:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747127642; cv=none; b=gMMlFaO/mOrRM3lOE17A5W7TZy3FMLbFQAqlntsHA7lfD+RSCrFNZI457n+OQUTralkdUB+f4nlcf9ldDbtreWbuBswCz7ad9hj6MtBKWoCBJRSmBt9yAfM8pIbYpc1xiqVHW5qkm4rKXbndIoz21YIbX+GuzpIMOQnA4JQgSLs=
+	t=1747127675; cv=none; b=TEofN/aEEDzE3ANyN8ZvI4X5yhnyhEDm+RH6Lk2XSY3B8n/JmwBws0jBBZbEnSvQRXU9z/8CYYi+z6NcTbFkiXmvFGEgH4Low0iXMpzqeHebNqWRuzqqcKvJaSJeNpJ5kcHvno+fqF3jA/iwWIbi/zND4RLipgETj5rh9WLgpNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747127642; c=relaxed/simple;
-	bh=/SAD+E8PlcSH1+Wt9D26KNtrABdi7IHZQ0z3Lf1kx9I=;
+	s=arc-20240116; t=1747127675; c=relaxed/simple;
+	bh=Q/uYcJFCRbi9n0RluKfB8+V7rsioHHS6ix++3RBibK0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IlTbPGRhQJ/OJIe5PHSk95q3A42nAiIqZMC7j4R2JdDQux9z5G4vtQw1qcoYL2+IHPmaSitQVkel+4Y6ZJ/vX/+TjJy48Jy/oWsW/erlmSqdTGIuVVyjsKlIAPuGbDtvYkQZVXdZX+9LfPNTeKSK7M9dQQIjlZu3QYxZcVFRWqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Zf0z9Dny; arc=none smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=rCNTqFEyvBf6ysugPPR3213RRny3H/1LX3wmQLKEiCov9EHY3urK6jG5vieY4xtY4RIU3ft91GclfYtdwA7jaJKR+Av77V4hMb0cxU8xX9ozx4IvMR3WAFAEzJJvBZz68g6ide2rMpvPxxrcEAbAjm+DGTd7CYsSAU0qDk3wQGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pBwloJcf; arc=none smtp.client-ip=209.85.208.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Zf0z9Dny"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54e9021d2b5so7937539e87.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 02:14:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pBwloJcf"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-326cd354cf3so13571771fa.1
+        for <linux-sound@vger.kernel.org>; Tue, 13 May 2025 02:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747127639; x=1747732439; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1747127672; x=1747732472; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PYE6rz8ivBX5c5Je+9pTAeUXcNTn8kHnTYdngeOsHIc=;
-        b=Zf0z9DnyMoAIGaXecaARiH73B0HYtkZtVtbtqW5eArogBS158f4pcbPoZU40xlu0HI
-         TRdxJy61usnw335iD8l+Lhq/cZJWuLkzYAo1UqaDLYPaq8csYFGNuXwj6bOtJWPpKhdv
-         Ac8GGYLC9mA7+L5KKAaIOZYrXZnv0nQnO8dqQNpRPDkmIeZUAB6nLVpdgKDxw+eWtOxY
-         RwFvDgnN4N3dIAuAf+NIxfbPRw3ZiyJMc7Q4SR1BdrJlnD5Z0yf+OP+4w7IbBgz4L5hb
-         kuFeLioJMS/AhridnSBjOW2wTvBNuWPBxWRD0e9QN/quDhgcwrUFtvfiXHe95DgUAlo1
-         xP7g==
+        bh=sPT2M7dQVCwoY0XoZtxpGqSt0WuF/VvupzxxIVxiXT4=;
+        b=pBwloJcf+Zl8Km/4WgQ6d3MrxKrBWxYO4bxgQXApWoswbs5LN15rckFKaxei7/Q3/r
+         Kg2doc5MewW750xKwtW4HSuW+Jt4TQg8kg++gct3fvbJ/UYn0LKz5E7cG0erzcwdTk9v
+         40M/sFzrxgw4u4IJwFbzvJMcM3k7cM6QNqOmXbw/k8tS9xeK2Qbc8rhu232YlHHaXtGO
+         ZHgHhcP3VK5NpoU8IoIl3DKiZUfD8B6kMWCiA0fItHklaIqZX/iRWgvIx9FQru61mJTm
+         iMOgNXp8ufyr+fG0xyrxsOJDIDj1VzeYG8xwKgGgQBPrZTcCnRNOdJ+8EvIoSZ5UAhaH
+         w/nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747127639; x=1747732439;
+        d=1e100.net; s=20230601; t=1747127672; x=1747732472;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PYE6rz8ivBX5c5Je+9pTAeUXcNTn8kHnTYdngeOsHIc=;
-        b=q/g4VxewOTcnC/cx1d2u4/3jGZnlIXVUL/NZ/xCXqLD4d1XpMHYTrl7DjlWbcT9FQU
-         zQ5qborjyVmHkcWwcKk2KUrmSRX5sXMyTYflKHh0ttNtD9DaSO5k9ucw1leiu+vPSs0Q
-         Ns5vNn18udrv9eqoVJfzKNbIvOYDepeQ7DXKfDjXJfBGWUGy0C9p2IsucoLp1fNVVIxj
-         ldACmyE/JeHKmR9lwYgk73qxcpTirJ15WtVyqvWJmnnmBdVjLEGtqMngSmhR6AJkIjJB
-         1WUvtEvrSHN5+/oAai9LNMR+w5ledmG/e6ob6MTCn58oqt6iFBBEsldmpjko+H+zIdip
-         rMCg==
-X-Forwarded-Encrypted: i=1; AJvYcCXHh1oPYGzDv4o+RrRizmz3WelF3E7yUIcTt39TKjhzcMY4gcCNwjXRFg3Omm1sQeOhKJs0DozzYVUMlA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4fQaySdhy5JTaXJe6zTSNq6cHslziVnNpGQOXiSW1f4E4DKgM
-	X/SAx38+nHkQxW4TVXsHVxMH6XdzvjyURbTbOlIxoRysxajlKLZw4cH1xdL4kVizL1jnZUp3gqY
-	CM7BXw3dIPGIZXVKPQ7YtwQmyz0nhFYv3i4UgDagJpojTAXM5
-X-Gm-Gg: ASbGncsW1kD2xUt083no+D72jSdWeqPvKL6wHG5KbXK76tTl+fvCRrsVik3kcU2RZrr
-	33pyxejtZCuBfohwPFAmTfW7FTzBZbGTno5etsoHDciPJnhkFakIBGK2tYESxfqUx4KaTfY53oU
-	3S42PVeNOwsJSHTI7SQqQ+pDM91QfW1Hcm
-X-Google-Smtp-Source: AGHT+IH/jeTxrV9HpMwi2pjeapptNJlfLhNnNzY1D3MSHE/hcFjWBYu5GOatTwYNUgShX23ZdgCZE+JMddotwLltrJY=
-X-Received: by 2002:a05:6512:3f26:b0:549:8c0c:ea15 with SMTP id
- 2adb3069b0e04-550d0b29ba5mr955737e87.0.1747127638909; Tue, 13 May 2025
- 02:13:58 -0700 (PDT)
+        bh=sPT2M7dQVCwoY0XoZtxpGqSt0WuF/VvupzxxIVxiXT4=;
+        b=FZv4dke8rps+2FNKVRHmiTedmaRVLGBjpU/s+Dyh2zJa5wc+oLgqUBU9POyQWtFzwJ
+         EVCHVRPWksKNPTAX1/vwjWLkfDuxedGwXtBwmuOPQ1bsxQR2Af1Ygmw8CjqW4Xcj4Doy
+         9aN4DWLy2q4xeqhE5YSREdpe/MrMGU8bx3hYZXGRXFNgeMTuPC7toJQY8O8UvjC6VHFE
+         HfKCt9paVdlFSZp48DaOoNL5sSycoDsL1ePJwB1A8QnIDNO8T5G/l4FPuSWPtT6OiwoT
+         BwQ/bvv6ZnDkFwWdTdJ1Ij5nJtc8sFQc5/Zok+kKWY5d6L9T5RbVVliG0E2xjA9kREzp
+         DCHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXvdofzAjpLqC42ghlpldfnLj6y02H6PmemxOCYsHOGUWUX87DB0ybnI4k3jW58ilUPHrtmN4erVCcd6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhP7wdY8dZORcSQk/MzTxJ+6f7sOAJIhE10t8Nv+I0aYjGDaXu
+	XHBwQg88r+utGMnvZpE0pbxyK2hgQjWEULCSbCt2YRbk0vJf/v2OOJfAMgpgp83yCOCu21mIy7r
+	wa3hdGzTmHkHlMr+wav5RwfhRSG0R3KVQoOICag==
+X-Gm-Gg: ASbGncvaAn6mdUwICqM56zlV3FQzytbwG9XzB3cY2YGz2qTp9VunNzjLTYWHJyJRje6
+	BuAol2HNwuN28pZffeE6UYwNKMJ3mYm4RGbcyvnJw5XxZLGznv2cMmQufjWI580h+29EyP2F19h
+	/pwtikyPzku1wyAwVdApQHY9ffutqyrqFqIoxdi9AUXCY=
+X-Google-Smtp-Source: AGHT+IGT90r08/EPJLa7xFcHs8dEZsvVwsKtrD3SYtO3tsoUT874GSFGtEC0f0XouGML5FKHHLXmAaxRLlyV0iZOEsA=
+X-Received: by 2002:a2e:bc86:0:b0:30a:4484:3ee1 with SMTP id
+ 38308e7fff4ca-326c45b2d9dmr66266921fa.23.1747127671769; Tue, 13 May 2025
+ 02:14:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250428-csl42x-v2-0-e8056313968f@nxp.com> <20250428-csl42x-v2-3-e8056313968f@nxp.com>
-In-Reply-To: <20250428-csl42x-v2-3-e8056313968f@nxp.com>
+References: <20250428-csl42x-v2-0-e8056313968f@nxp.com> <20250428-csl42x-v2-6-e8056313968f@nxp.com>
+In-Reply-To: <20250428-csl42x-v2-6-e8056313968f@nxp.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 13 May 2025 11:13:47 +0200
-X-Gm-Features: AX0GCFv6EYp1hHtdCbx7xVQ6OsQr3zpfxe4aZJqix-ETEXnpR-jVx_h06K8Q1co
-Message-ID: <CACRpkdZeQ=A3dRGS0jLryPO65E7RutXDVZHFuAC19TTng-N1aQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/9] ASoC: codec: cs42l56: Convert to GPIO descriptors
+Date: Tue, 13 May 2025 11:14:20 +0200
+X-Gm-Features: AX0GCFtWkMHEg69iQwsAHSe7I8-KBbaQqEui6BZnMH014mzUZ6UC1gyIf1ZRxWU
+Message-ID: <CACRpkdZUxp3N+s=WdQGm8zpFP19LKUveN_5P+tfWi3OLeZWRxg@mail.gmail.com>
+Subject: Re: [PATCH v2 6/9] ASoC: codec: cs42l73: Convert to GPIO descriptors
 To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
 Cc: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
 	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -87,18 +87,15 @@ m> wrote:
 >  - Use gpiod_set_value_cansleep to configure output value.
 >
 > Checking the current driver using legacy GPIO API, the
-> nreset value is first output HIGH, then LOW, then HIGH.
+> reset value is first output HIGH, then LOW, then HIGH.
 >
-> Checking the datasheet, nreset is should be held low after power
-> on, when nreset is high, it starts to work.
+> Checking the datasheet, Hold RESET LOW (active) until all the power
+> supply rails have risen to greater than or equal to the minimum
+> recommended operating voltages.
 >
 > Since the driver has been here for quite long time and no complain on
-> the nreset flow, still follow original flow when using GPIOD
+> the reset flow, still follow original flow when using GPIOD
 > descriptors.
->
-> Commit 944004eb56dc ("gpiolib: of: add a quirk for reset line for Cirrus
-> CS42L56 codec") added quirks, so the gpio request API will work as before=
-.
 >
 > Per datasheet, the DTS polarity should be GPIOD_ACTIVE_LOW. The binding
 > example use value 0(GPIOD_ACTIVE_HIGH) which seems wrong. There is
@@ -106,7 +103,6 @@ m> wrote:
 >
 > Signed-off-by: Peng Fan <peng.fan@nxp.com>
 
-Looks right to me!
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
