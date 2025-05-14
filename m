@@ -1,94 +1,90 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7369620C016;
-	Wed, 14 May 2025 12:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC2122A4EA
+	for <linux-sound@vger.kernel.org>; Wed, 14 May 2025 12:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747224936; cv=none; b=UJNjd5iM4z7Ni0hQKeNLsimouoG1FSvZtqyCRqz2n4VyzXfdJSCSXVY53filB6fNYowgINbDeq252Talta3qgIc35sDaTE7reY0ER1l5i7P9fI5GJnGMp7bWE41tZLUUxtoFhULZJctHrOK/fwyqeB2svnGpj0ejpcNjxDphsLo=
+	t=1747226398; cv=none; b=P9TxtFyepLykCEFnBun8ZOT1M4pIpoFNI0C4jGRs9VuVSwvb+ssyBrhxZZMHriJUOPxmhIVX2Lb9mQf39v9Xn38Kad/hkztNS5V5K9zITSqLZ1b1LbdrgF/DMj1GoDVkWUt1vn+lpO5Lwi4Qf0kicYlhvEoJ24v7N9Um5qlwY94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747224936; c=relaxed/simple;
-	bh=ZEtvNC+fDpJZ5ywYIZizTzTkNG6vdMAo0112fJ1kD50=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XUVCJqgyYywDsBBY0XqDRm6ETgTCvnX4Ihfhl86PoB4+V3q92btCAS4DaXttB2Z1WYCnEbFrZqcih1cN4glD43cFmxKrhHnXJaZuENbrOry0CHsrcV7VkWHk7XNuxo0tQoAs9mfEyE8XFy5INxXLITFmoLLRquRN8/7JguQKvU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [124.16.141.245])
-	by APP-01 (Coremail) with SMTP id qwCowAAnyvoZiCRo8oIAFQ--.48875S2;
-	Wed, 14 May 2025 20:10:03 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: Vijendar.Mukunda@amd.com,
-	mario.limonciello@amd.com,
-	venkataprasad.potturu@amd.com,
-	gregkh@linuxfoundation.org,
-	kuninori.morimoto.gx@renesas.com,
-	peterz@infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: amd: acp: Add null pointer check in acp_max98388_hw_paramsi()
-Date: Wed, 14 May 2025 20:09:39 +0800
-Message-ID: <20250514120939.581-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.42.0.windows.2
+	s=arc-20240116; t=1747226398; c=relaxed/simple;
+	bh=Ews7yCDPeYVIJO8lW4DEMzjKytg2tHul/slxeBy6P6o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BrxKvh0SIKPqUzYxyZSLNPxKjX1M+Dhie0Xlnp3NoY2B4ll5/wwOhcwO/z3ILu+6rqhIuKDpk8xqb8ZYO8P5rI7CNT2Q1kEmG9tFJJn/q8gxM7/5b251VgVVhBSNAFS8gXY+GeO/Cwhc1w5O0ml6Ym0Y2S5yDcuSSHIA2q63XvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qzDnN0NJ; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qzDnN0NJ"
+Message-ID: <ac889b5b-da61-4b2c-bc4d-2165e65dd170@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1747226393;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fgr49nAoijEtgAopTrZKonyqXyWrFrJQkVXzYegX1ZE=;
+	b=qzDnN0NJ2mpihgMYzwkWfmoDOEdPTWzgPk3qLpCCMAAeKvfln8erphN8W3sEK/qx9qx2WB
+	Pmzdxpy5tDW1Ctab1vgKh6fMylRCp89Kwtn1IRLMjfbyzQ/uT+tDG98kDphK49HUyOaR/5
+	2yGKYbBjfAMp0Ox2ezpomMEghkxVEnY=
+Date: Wed, 14 May 2025 14:19:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAnyvoZiCRo8oIAFQ--.48875S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JFyUJw45Ar1xury3Jr1xuFg_yoWkAFbEkw
-	1rWwn5ZayDKrZayry8A3yfZrW5Zw17ZrZ2krs7tr45CFZ5JayrCryDWFs5ZFZ7Zry8AFnx
-	Z34kGr4FqwnIyjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb3xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
-	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
-	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
-	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
-	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
-	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
-	C2KfnxnUUI43ZEXa7VUb8hL5UUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwwCA2gkZJ93aQAAsj
+Subject: Re: [PATCH v5 5/6] ASoC: SDCA: Create ALSA controls from DisCo
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20250512124240.799509-1-ckeepax@opensource.cirrus.com>
+ <20250512124240.799509-6-ckeepax@opensource.cirrus.com>
+ <cd574985-e434-46d9-91ff-a2782c6e8eef@linux.dev>
+ <aCIsWP1Ac8WvX11n@opensource.cirrus.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <aCIsWP1Ac8WvX11n@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-The acp_max98388_hw_params() calls the snd_soc_card_get_codec_dai(),
-but does not check its return value which is a null pointer if the
-function fails. This can result in a null pointer dereference.
+On 5/12/25 19:14, Charles Keepax wrote:
+> On Mon, May 12, 2025 at 03:53:36PM +0200, Pierre-Louis Bossart wrote:
+>>
+>>> +static bool exported_control(struct sdca_control *control)
+>>> +{
+>>> +	/* No need to export control for something that only has one value */
+>>> +	if (control->has_fixed)
+>>> +		return false;
+>>
+>> why is that? It'd simplify userspace if there was always a way to
+>> get a value, even if it's fixed?
+> 
+> Well mostly it is because various things in the stack get
+> sad with a single value control you can't set. If we wanted
+> to change that I would suggest we add a FIXME. It isn't really
+> critical and I would really like to get more of this class
+> driver stuff moving, it has been out for review for a really long
+> time now.
 
-Add a null pointer check for snd_soc_card_get_codec_dai() to avoid null
-pointer dereference when the function fails.
+Not following what parts of the stack you are referring to. We will have controls which are sometimes non-existent (DC), fixed (ROM) and some RW. Userspace has to be tolerant of those variations, no?
 
-Fixes: ac91c8c89782 ("ASoC: amd: acp: Add machine driver support for max98388 codec")
-Cc: stable@vger.kernel.org # v6.6
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- sound/soc/amd/acp/acp-mach-common.c | 3 +++
- 1 file changed, 3 insertions(+)
+I am fine with the FIXME and I understand the frustration with limited reviews over a long time.
 
-diff --git a/sound/soc/amd/acp/acp-mach-common.c b/sound/soc/amd/acp/acp-mach-common.c
-index f7602c1769bf..a795cc1836cc 100644
---- a/sound/soc/amd/acp/acp-mach-common.c
-+++ b/sound/soc/amd/acp/acp-mach-common.c
-@@ -918,6 +918,9 @@ static int acp_max98388_hw_params(struct snd_pcm_substream *substream,
- 						   MAX98388_CODEC_DAI);
- 	int ret;
- 
-+	if (codec_dai)
-+		return -EINVAL;
-+
- 	ret = snd_soc_dai_set_fmt(codec_dai,
- 				  SND_SOC_DAIFMT_CBS_CFS | SND_SOC_DAIFMT_I2S |
- 				  SND_SOC_DAIFMT_NB_NF);
--- 
-2.42.0.windows.2
 
+>>> @@ -99,6 +113,7 @@ int sdca_asoc_count_component(struct device *dev, struct sdca_function_data *fun
+>>>  		case SDCA_ENTITY_TYPE_OT:
+>>>  			*num_routes += !!entity->iot.clock;
+>>>  			*num_routes += !!entity->iot.is_dataport;
+>>> +			*num_controls += !entity->iot.is_dataport;
+>>
+>> shouldn't the same line be added for TYPE_IT?
+> 
+> This is just the cutting on the patch generation, case
+> SDCA_ENTITY_TYPE_IT: is the line right above so this runs for
+> both.
+
+ok.
