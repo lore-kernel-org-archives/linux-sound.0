@@ -1,148 +1,104 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00F6221F0A
-	for <linux-sound@vger.kernel.org>; Wed, 14 May 2025 10:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D47227466E;
+	Wed, 14 May 2025 11:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747220234; cv=none; b=tAtR0DnWtG1GYX0ocxaeN6aLJyNWmsciZ2BgR0r8iW5mnv1KY36dVaWuSiT6i3IIi0M23+S77ekv7auHubZxM0+3eHLPTvJYVhRfi+LgF/E/l7Tr63yT6nLd1w85VP2uh8uG0XHbGO4ax9Zr3I4mxS8FTMyK2MNABnQfikpvq2o=
+	t=1747222854; cv=none; b=W/NxifjHOimi98QlptoPt7Fq8VoLr1JfOUU0as92yM8GaQ1X81cSe6TYetC6oJSl/FgQpCwzYlDHHUpymQF1lhdFky63WUs2gP0z/QKFvodZqy3o+5glnV0Io/AAeG5UMIi6a5yJ3q19b+rOtL61e1/oowo/Ll9tn7bRWvRuj/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747220234; c=relaxed/simple;
-	bh=Io3JrD/y03dOQPQAcqJF5SS7b20bby4BHdbd1e9wLMA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F+uO6x6hoNLOCe/8wzMccPH23PV0IRoeekTat3lZSo9Bi5b6G8L4QEWmKWrFkYabZfmZKiQNemrtw8XRO+WzltFz9NFHUDsAI5YUK8eB35d/hZuxag64MZT48ab4ScmeqzCz4KKQI66nPVVshU8odmq74GA6qiNM44QtzKACjlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b2sOJpam; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1747222854; c=relaxed/simple;
+	bh=sE0GFxZMV1Hf/jRwbssg2bdt4DiQDdnmbR6XBO6d1GY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XENksiez8D3KrPlH0vpTnDDtkd7i4UQAZT8M9HRuXNGOBOsRTdC2TWLD3ysn+ks7iEHZovFZekg6T3WHoy/rsrR+VKpKuc/l62IJGYVHU4PQ8lfA3X+2VdcCBPyVD8JaN49teRvQd9nNSgR9JRMLgCGTqbD53G8qph7d+RHB9TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t75Iw/6+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b2sOJpam"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a0b201faedso603155f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 14 May 2025 03:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747220231; x=1747825031; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y4E8aOwQAaUdRX1dyEnehNt0cEoTdcyb+vzWwLzLf9I=;
-        b=b2sOJpamHS+OogMULNrBBM5HX1UW5BJQjKv6iEOLtq3+ko567dhlJcTUKKVuwnanHW
-         cF5Y6uTVamoNaz+/6K70IdrrcCMtgYEo/lbLQyNkuk0hXbmVNyc49s2q1LsbirE59Arg
-         HiV6Y/DnTSwmQcY21gkFFfrDzOHK41KeMclNimXmQs/+MBui1yahGS5gtcwJXyQSD3rD
-         ZsAXOrw3hoqt0Vlpnsq6cM9UnFzfiwn4uQ0uQCA1mMIeU0QZCZ8lg9ueaxlI+RyvN4qi
-         F94v5YudyunFL17TfSgxzHAEymYUdVlUGEQIXGRSkVhzkhk1bcqZlbpUlqvpQaRVY9pY
-         PYew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747220231; x=1747825031;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y4E8aOwQAaUdRX1dyEnehNt0cEoTdcyb+vzWwLzLf9I=;
-        b=KoQ9dkCXmhprzs9b/IzS88E53IcsCD6GLsCmvMDD5eMJuWLg3el95JpXzvs7AJSNVq
-         kF8no9yJmQABmRAFx3VQa2pNg4Sl4TwF9s+sFQGREe2RptExVvfkTjFNbW/6NMKpb+QA
-         sjK92vmiaHZSJw/rHxCKf6j60vlJdIkxtA5xWpahbYslwbJQFT3Rrxk53rA6WfRukpb7
-         R0X/Bn2JWWWYCsB1wMG60EiOZPioc22JaikxzW9WonMbU+Vz/RsFJUT+AIpJfitSBxPe
-         xbaN7g2WN1aV3q/0FtnI7Yn3vk4XheQERp/wt1fVfDVFgTSPcC/3aUq0UrnRThj5ij2G
-         7TYw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQ+L5GOjapzBL09qcSCTtq60w7M86FnwlUyDfKyxrrocvqXfRY7EEChgYCSdVNm1sZ5Vbn08s6k+FmBA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWA1756tHJv3q4rX5bsGoBKvyFgnirI6zTzqFXjpM/kc6S7GSn
-	qnoD8Z1/jpFRa1Rb+kPsNO1/kKDkfeE8xIuecTm4pxYnS1gcGjWhwuqcr2qD8ME=
-X-Gm-Gg: ASbGnctLP/v9lynCvxw89BU/U146fr2apoMV27NxSztAOs7WJBzay9laEpb2Kt3E1C/
-	YV9bGDxpySajf0A3+lCh6FX0PC4uK+tXDC9BMFvITQj/FiSkB5khoicbOfKaPNkiLD9soA/38Rs
-	GjPikSYPTJ2W4DCImhMfr2HarIjyMJXfOvyLE8jqqhbV4O0nYES7ipYnqqDfBoG0Mz9e5bpAgj+
-	3eS4KcenLoa2AJ091JIO1h7I8Gtz5zV5ZdUfRw83yZ+XyW3SWfZCZyAzwqE6mF2tPeV+IwyvGlQ
-	uOr5xTQanZTpc15WLr+42uQ90+dk3jRtSIH2NR4udDDq1iKotVZGZvBAHi9c7s1wksgsh5oCctQ
-	xEVF4zOdYXi/OTRtMX0XBD5k7/sbB5KuDpdTbthGVPZ6UDeQm0A==
-X-Google-Smtp-Source: AGHT+IFtksBMN8N0y1ipHv0ssNQ0FUDjeBMyouJ1A0vX+2sBsa+p6vm/UIeQxO60xKTk6b6EFmeb6w==
-X-Received: by 2002:a05:6000:2207:b0:38d:b090:a0c4 with SMTP id ffacd0b85a97d-3a34991c966mr848096f8f.10.1747220231062;
-        Wed, 14 May 2025 03:57:11 -0700 (PDT)
-Received: from kuoka.c.hoisthospitality.com (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f3368f36sm27362985e9.1.2025.05.14.03.57.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 03:57:10 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Trevor Wu <trevor.wu@mediatek.com>,
-	Jiaxin Yu <jiaxin.yu@mediatek.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] ASoC: dt-bindings: mediatek: Simplify mediatek,clk-provider
-Date: Wed, 14 May 2025 12:57:03 +0200
-Message-ID: <20250514105702.28622-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t75Iw/6+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03842C4CEF4;
+	Wed, 14 May 2025 11:40:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747222854;
+	bh=sE0GFxZMV1Hf/jRwbssg2bdt4DiQDdnmbR6XBO6d1GY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=t75Iw/6+/d6lo/hEt9zqT09b/OjRto8QBChE+6BaLTt84vYGH0aknBv8J5iZsSLFp
+	 DXxnqTHEwhnfWsmX0dFwZ9747t2ClZkuymVbKLqiC//kTKM+T+p6iD3mepSo20r6Xg
+	 bj9rCEIgUEUlw2KmlBCEu96/tyTOS++pAtjV6czMLwKiMUG/dCw1mvccu+0sGoM/9W
+	 2mDx1eJrsSIcuTaw6Oqyxb4Ead5SqGwZcnhP8zuDjjw/iaoVHFM6OFa6jKFThm7u/t
+	 F695YwZvSqnp3Wwk2AXRdXRllVb8uPzaZMOT6Ba170nUV1IB3vBxaQTpGuL6zZ9fKg
+	 91/oKowHOz1bg==
+Date: Wed, 14 May 2025 12:40:51 +0100
+From: Vinod Koul <vkoul@kernel.org>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev, bard.liao@intel.com
+Subject: Re: [PATCH] soundwire: update Intel BPT message length limitation
+Message-ID: <aCSBQ3HbLsGSoela@vaman>
+References: <20250429122337.142551-1-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1814; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=Io3JrD/y03dOQPQAcqJF5SS7b20bby4BHdbd1e9wLMA=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoJHb+RsGueHOitBQYXiszb3Mpl2m/RCzDn6fka
- rPIPq97lmOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaCR2/gAKCRDBN2bmhouD
- 11y6D/9EcflOTi1PXfiKHcWkO2TQd8AiHmKdLSSurf7WcaMBXn8Fbwo73+EJ/2olcQAcj7XZf9D
- 8JwECXhe1ztAZeht1jIcW49QiQRkkUoTkN2KRL4dooNvkTgUY3vgNyA87MXPGPjLmL/JcvJsnsW
- Jry1/y+WGGXJTxvj453+yAfKNDgE2FtURccAdIPzhniUnS4RmnYp2nABLMgdTYv0aBqZbV20rqq
- jOWXfCbRAbLEWCIeZ+nQerpgM8fHM0eTYOuV5MHzhs27OoJkYOLMLAny5qoLl7Zpm7QIs6Sf0TQ
- 411wb3xmZHUvPljW+odA5kp7vNu74ORgeg4sifz8NSK3UY7wfPBnAVDcUwbazT4UPZjVlvd6oJB
- M/oQZ5PI5OZXBBFcvbfNpTspmnlUpx2dl92iNd+EU3tV1ULUHEe7fMMDPmDWuya2uC0byBeV+NX
- KHdBSm5X6JTGBik2vPT29CmY9aUOtWDqcOvbX9/mXZDAkw7FrXY3gbcj83aIpGUxHsXct9+Fp1D
- jjQE9JCq4VNnydAnG14Q7NBEgujHn3urNMS5sHe0sb456zjEw7cQsrs0W6/JmpSTxRQ6N6UrSJU
- AUkb7dxGDDDx+k5ZgmIRFW0TnxfwnBQbiJBYrXSPQny28+3lgQEWgXSN8AGE4cuB9MzdnPo8ura jtDQQXfb+Vlto8A==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250429122337.142551-1-yung-chuan.liao@linux.intel.com>
 
-"mediatek,clk-provider" property is a string, not an string array, thus
-"items" is not really correct.
+On 29-04-25, 20:23, Bard Liao wrote:
+> The limitation of "must be multiples of 32 bytes" does not fit the
+> requirement of current Intel platforms. Update it to meet the
+> requirement.
+> 
+> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+> Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> ---
+>  Documentation/driver-api/soundwire/bra.rst | 2 +-
+>  drivers/soundwire/intel_ace2x.c            | 8 ++++----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/soundwire/bra.rst b/Documentation/driver-api/soundwire/bra.rst
+> index 8500253fa3e8..c08ab2591496 100644
+> --- a/Documentation/driver-api/soundwire/bra.rst
+> +++ b/Documentation/driver-api/soundwire/bra.rst
+> @@ -333,4 +333,4 @@ FIFO sizes to avoid xruns.
+>  
+>  Alignment requirements are currently not enforced at the core level
+>  but at the platform-level, e.g. for Intel the data sizes must be
+> -multiples of 32 bytes.
+> +equal to or larger than 16 bytes.
+> diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
+> index 5b31e1f69591..f899c966cfaf 100644
+> --- a/drivers/soundwire/intel_ace2x.c
+> +++ b/drivers/soundwire/intel_ace2x.c
+> @@ -245,7 +245,7 @@ static void intel_ace2x_bpt_close_stream(struct sdw_intel *sdw, struct sdw_slave
+>  	cdns->bus.bpt_stream = NULL;
+>  }
+>  
+> -#define INTEL_BPT_MSG_BYTE_ALIGNMENT 32
+> +#define INTEL_BPT_MSG_BYTE_MIN 16
+>  
+>  static int intel_ace2x_bpt_send_async(struct sdw_intel *sdw, struct sdw_slave *slave,
+>  				      struct sdw_bpt_msg *msg)
+> @@ -253,9 +253,9 @@ static int intel_ace2x_bpt_send_async(struct sdw_intel *sdw, struct sdw_slave *s
+>  	struct sdw_cdns *cdns = &sdw->cdns;
+>  	int ret;
+>  
+> -	if (msg->len % INTEL_BPT_MSG_BYTE_ALIGNMENT) {
+> -		dev_err(cdns->dev, "BPT message length %d is not a multiple of %d bytes\n",
+> -			msg->len, INTEL_BPT_MSG_BYTE_ALIGNMENT);
+> +	if (msg->len < INTEL_BPT_MSG_BYTE_MIN) {
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml  | 7 +++----
- .../bindings/sound/mt8186-mt6366-da7219-max98357.yaml      | 7 +++----
- 2 files changed, 6 insertions(+), 8 deletions(-)
+Reducing is fine, but we should still check it is aligned..?
 
-diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-index 76d5a437dc8f..7ba2ea2dfa0b 100644
---- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-+++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-@@ -96,10 +96,9 @@ patternProperties:
-       mediatek,clk-provider:
-         $ref: /schemas/types.yaml#/definitions/string
-         description: Indicates dai-link clock master.
--        items:
--          enum:
--            - cpu
--            - codec
-+        enum:
-+          - cpu
-+          - codec
- 
-     additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/sound/mt8186-mt6366-da7219-max98357.yaml b/Documentation/devicetree/bindings/sound/mt8186-mt6366-da7219-max98357.yaml
-index cbc641ecbe94..037f21443ad1 100644
---- a/Documentation/devicetree/bindings/sound/mt8186-mt6366-da7219-max98357.yaml
-+++ b/Documentation/devicetree/bindings/sound/mt8186-mt6366-da7219-max98357.yaml
-@@ -124,10 +124,9 @@ patternProperties:
-       mediatek,clk-provider:
-         $ref: /schemas/types.yaml#/definitions/string
-         description: Indicates dai-link clock master.
--        items:
--          enum:
--            - cpu
--            - codec
-+        enum:
-+          - cpu
-+          - codec
- 
-     required:
-       - link-name
+> +		dev_err(cdns->dev, "BPT message length %d is less than the minimum bytes %d\n",
+> +			msg->len, INTEL_BPT_MSG_BYTE_MIN);
+>  		return -EINVAL;
+>  	}
+>  
+> -- 
+> 2.43.0
+
 -- 
-2.45.2
-
+~Vinod
