@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F1770838;
-	Wed, 14 May 2025 08:54:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282084B5AE;
+	Wed, 14 May 2025 08:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747212860; cv=none; b=tlV+kpIVI7lVaK2GtmJOih7vpYqCs7gyT3PnNpAlHE8qW8JKiO6SEj054inVhB+aRxgoAXCZeevdFjv/fJW+npxq/uJC+D1SxKmovCv/TNIiRaN9h/8EzxV5MKxOydD8eSKTc5GGn73Y8Jbo9O2hfqIPedpHfBrdezQIbNPkwYE=
+	t=1747212883; cv=none; b=LMrnaY4TJLlAO5ibJYkVIV2eaav2Ip+6oZZh3HEvqHB/NfXMjf/LGG9rYxwqQsTNWpLzOpBK8wZdJK5WpeJhGsso/5tWjAbnkGLaS2Ll38vmB+2e62lG7CZGt69wb59wbwR/yYTjH45T2EoWKx4wlZtSZJitlzA/rQk8NjlLflA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747212860; c=relaxed/simple;
-	bh=VQBOK2idp1nxsNCCEs74fOX/cJ4nuhcieBGWeFG1D/g=;
+	s=arc-20240116; t=1747212883; c=relaxed/simple;
+	bh=xw5uD58QST9stWyPF9wBRPxKJjr7Ja1UDw/xcOocFfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tOTYaBHGKnqJGhgXXTHU4iDu/qEmAoz+n+jZwSsaxIiPHjiUXiGpMueQM9v9mo7bLPB5BfnhXu1DuTwRkGXIojANgHDRx8OqTY4EjbssCFl++wq0/AzqGPzYFyCsttLY+ctGNElyPtKcuzmhXp+BGXCIay+4RVdzIzTf+5v+w9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Du1CDjSy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ejHYK31xdQIuUCFn/v6+K8KJwhAeTeoHOuvohJAixAzZZ1SOL9WMr2mpZJeUQL+Q/LKjTZyPrpOwYHBzeD+m0flframRYcYPNn/JLvxxClzMIKzUGohtuYca2CryXLclETcbiZAmkaRIA4CM8ycjtsUYMDoAszb28DBznmxqtbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fZ11nnEj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Du1CDjSy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E610C4CEE9;
-	Wed, 14 May 2025 08:54:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fZ11nnEj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D3C5C4CEE9;
+	Wed, 14 May 2025 08:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747212859;
-	bh=VQBOK2idp1nxsNCCEs74fOX/cJ4nuhcieBGWeFG1D/g=;
+	s=k20201202; t=1747212882;
+	bh=xw5uD58QST9stWyPF9wBRPxKJjr7Ja1UDw/xcOocFfc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Du1CDjSyWSoA/EGDHyC2KaC7ioh46+/frf7hBPrUuxcmVMtDLpQh2YGmf6Htgda82
-	 D/1VYuweFU0f5lW1SJN0O3pk/xfVGwWGQcCoCbwPd5Nq/WNgHhAasRRtgnbpwQoyyP
-	 gARh7W+PfZYovJQVDG6V1+YPmdz7UCYBLTWrZTXgNyrBqj4ULhM5PlTPqTsSuAm4lN
-	 4ay46Z+yRtFYfSxTUU4wYvhuW5/2wdkQDW30QzT08o/3qT7TmoL+n9Wc62BsGIXlm4
-	 C6q7kiAQ4hevMYDsCsWzCGu9VHmwvgGB1MtT+OPFrCXz10lrREuDR+h7XdxoKYqdb+
-	 oKPjomluptx/w==
-Date: Wed, 14 May 2025 10:54:15 +0200
+	b=fZ11nnEjAdHJMfSucx20z0NavXjnsj8DnmLykqMROz0e5BiM9ovpfHz5mrhf+4daL
+	 uxGbwU1YtnjSrpltFMHNdPtxoLslRr/Wbj1xEZWNZkSiRFNpRAMU8Zp50B1Esopl9B
+	 zMxud3HoZ/1ooyXaWwinfk9uNcM+Uto4AJmrA6ioKJLN6X+cuUdHUfvcIBwu/vgAR3
+	 j8STdXt93KWcwE2q8zay6QWAaa88kkL8DXb9Q5QgiPTZm/bSwMg5w2wl+6Naf0qwlW
+	 I9/FWnnru/FvjwFqWrC3nxzh0FkMmiH65NR4X4GpLb1xT+P9muguD50bACwx7Qbips
+	 pNB31oJ6FfWeg==
+Date: Wed, 14 May 2025 10:54:37 +0200
 From: Mark Brown <broonie@kernel.org>
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	Jiaxin Yu <jiaxin.yu@mediatek.com>, linux-sound@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Darren Ye <darren.ye@mediatek.com>
-Subject: Re: [PATCH 0/3] ASoC: mediatek: mt8183-afe-pcm: Shorten source code
-Message-ID: <aCRaN27p32c9gxDN@finisterre.sirena.org.uk>
-References: <20250425082551.1467042-1-wenst@chromium.org>
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 00/13] ASoC: mediatek: use reserved memory or enable
+ buffer pre-allocation
+Message-ID: <aCRaTY76dnaavsrd@finisterre.sirena.org.uk>
+References: <20250424102509.1083185-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,40 +50,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RJEVfGPvKI8lIx/3"
+	protocol="application/pgp-signature"; boundary="U6cHvsBIp+ec+dLN"
 Content-Disposition: inline
-In-Reply-To: <20250425082551.1467042-1-wenst@chromium.org>
+In-Reply-To: <20250424102509.1083185-1-wenst@chromium.org>
 X-Cookie: Well begun is half done.
 
 
---RJEVfGPvKI8lIx/3
+--U6cHvsBIp+ec+dLN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 25, 2025 at 04:25:47PM +0800, Chen-Yu Tsai wrote:
+On Thu, Apr 24, 2025 at 06:24:54PM +0800, Chen-Yu Tsai wrote:
 
-> This series is meant as an example on how to use macros and range cases
-> to shorten the MediaTek audio frontend drivers. The drivers have large
-> tables describing the registers and register fields for every supported
-> audio DMA interface. (Some are actually skipped!) There's a lot of
-> duplication which can be eliminated using macros. This should serve as
-> a reference for the MT8196 AFE driver that I had commented on.
+> This is v2 of what was just a single patch "ASoC: mediatek: re-enable
+> buffer pre-allocation on some platforms". Link to v1:
+>=20
+>     https://lore.kernel.org/all/20250401085659.1222008-1-wenst@chromium.o=
+rg/
+>=20
+> Angelo requested that these platforms use reserved memory regions if
+> possible, and fall back to pre-allocated buffers only if that fails,
+> to align with other MediaTek SoCs / platforms that already use reserved
+> memory. The series covers MediaTek's MT8173, MT8183, MT8186, and MT8192
+> SoCs.
 
 AngeloGioacchino?
 
---RJEVfGPvKI8lIx/3
+--U6cHvsBIp+ec+dLN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgkWjYACgkQJNaLcl1U
-h9D/1Af/XElCtNyti+25emI4YNKEfk2R9v0BZ0vK0d5J9W/iLMsLIU37Tr+WcgFA
-oxm/P+uo3MjQwbQUj7c8d5XOXFtpMoUR+QlEIGuR43vkTM+e02n9CqGaY9m408WM
-LHUx6i1REXPRha8FgKbFvcWsDqdSnATl04GWrGOKTXNH8QhZbLL884SCxYwZGaty
-HLrBvsUYhiFN/LHz4RUCCuvm42rp4lA7/5EQ07+QEy3tHqmRYSxyegKkkQ++v3Og
-EslpX2I7nIyz2X0+U0Y9rSJfYBWQR2APwqSq/AKqzlp6YkbTv9MTO6KUhCr4k4ah
-F7qUWkQs6HfYygh4haJYsdX0s9WacA==
-=PgTh
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgkWk0ACgkQJNaLcl1U
+h9DPngf9HFu/3ZkDnoocrHYYu5p+eGsgCT9kWQ5SHJS29c9lsMZ30HwQZo/2vDhr
+LDZ87sH8is2iPnBLPKzC5eJTKi7IHkj15yVKd3yWn050kVCPM3GICvomDajGSSr9
+byq5kvn7QdweGf0pLByBQuowHY6cG3ogpFmihc3YJiNxfpGDSATvAht6P9dRNJSD
+UxzlHu9i5iEz1h9J3SHF/ywynx897V9X3JgmB8ygPA2kqen58+D6uecKrGCJYpjf
+0e1GaIuq5ZPDzo0uDXz+s1rWUydrVSs9So23cBxhuWirlc+LkzQUvPULwUWlWV9A
+uR+j5rrJ6Bqy9TXGYNLkZ/W4dp63dA==
+=pmSJ
 -----END PGP SIGNATURE-----
 
---RJEVfGPvKI8lIx/3--
+--U6cHvsBIp+ec+dLN--
