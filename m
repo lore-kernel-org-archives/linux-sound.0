@@ -1,91 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0691624E9;
-	Wed, 14 May 2025 14:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563BE282ED;
+	Wed, 14 May 2025 15:50:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747233375; cv=none; b=jEzS84kSU/KjxcMlCG7zS403lAEcZrMsZdmfGzdrMrvYHKoqjfy7POsSlM8xa1BEq8mDpR0JxnoZaDvjW9q9nS+RgPo2YkrG/N9jYiyp2Ecd7AeJAtXGA8TOl0seqMXR2WEnC18yvPVF0oRJ8kfk0bQ4Cdo7ZlBVZFqirIHDqPU=
+	t=1747237845; cv=none; b=mdyqPxdB7/pqh2E12JjKGiWxAWdz8Zfi8pFJfIiC6BtqhPlQ3oyUqzF34u1nRFvBD9g9LSUOaimbMh5LJ/r4o8x93MLzvmAGabSWTHiof9lf2y4fdY5BVEMLNwGg/ui6hJXGXmpXKR6jZwguvZJru3BdZkox5SHVY9Y6xnfC6Is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747233375; c=relaxed/simple;
-	bh=t/uPvQl5SO699WAK2gwjv1DwR8/P78GRzFmmIsaqUe8=;
+	s=arc-20240116; t=1747237845; c=relaxed/simple;
+	bh=M3woz04Pv9OqB7s5d5XN3SM8aX7++vAPSKJ2i0HXWMg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gLAl8N32KcwrLtGhBZBCx6/tuPRH3zlN/adMxUHnzbFoY3uMOsj3qBJjJl4VA1/Vc4h5CgbX4Sbr+IvMtaQmOPNQIaDeKbf/CdzMf5rnd7iaXeQpeb+Zvlu6268oFfp383bOKUIQAZaLbM8fpIR7GpzAgd1qWJv2m0VrtkyVXRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y3X/1foP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=h0pYopvBnRyZ/ICWS+i8oxB6Hz+XNfyHokXzhj2dKZEbNXaqhqws8CFmCxp1aV6ydv3V9I+SzcriLYY53m5EqxOoUAKxw7+3M+z9WPdubunLbnSmTlb5si2OZzOX+FM+U1Z9NdCDpgCCs97OZANTC/W9Bpbu7MWfTVqEKpA6DnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yw6lBK8w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y3X/1foP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13F61C4CEE3;
-	Wed, 14 May 2025 14:36:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yw6lBK8w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05264C4CEED;
+	Wed, 14 May 2025 15:50:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747233374;
-	bh=t/uPvQl5SO699WAK2gwjv1DwR8/P78GRzFmmIsaqUe8=;
+	s=k20201202; t=1747237842;
+	bh=M3woz04Pv9OqB7s5d5XN3SM8aX7++vAPSKJ2i0HXWMg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y3X/1foPhOD3r0WP8EG2by5OEvVZPzSSU98aXZEVBHolHg3vFHyolHi5hlbNTTpaF
-	 Fn9JNJ54/o9EXEBNnNCnmvwh9pywmXLIq/29nG2diKO4LnJm4Z72uCaRTgfAhuL3Q0
-	 AW8nl2GmuVEjP5cdYLGEU8szMrJC6ME3D1yILxckEzaSCREa4D6ThTtMy67wjoDnhT
-	 tyM+aTqaD7nIYGSwkRq3PKFug2sIvXLbKA/j1kERCJAfs3Zfx02bJyfAv6U+5hPVT7
-	 lZkOiD6gzcG1GgyWef04ti5LQPoClpb+bDtAfV6ghuvE2+m/PpS/UwDpRpIjyn42j+
-	 NqQNJ8AVq28PQ==
-Date: Wed, 14 May 2025 16:36:09 +0200
-From: Mark Brown <broonie@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	b=Yw6lBK8wkLDW8v1I/JLiN8afunRJZg5PZW9nhqlzybGETE51+sgaGZ7d+tcW7cMhI
+	 nBTtxybN9FYVZowX+ODaqGqHiOrst8TO03GFRjiQk4nzyC6TonnBVgF5egMU11XGtP
+	 9YsDB3MeNHgg/5LJ0Ex4/cUtzS2/OBSboIB9gh/Qp6Q8okW8W6GgnlZG/kEDxmwOR2
+	 m2Jvh3omi5R2w0y4+WNRNytT+TZvZ3P+4f1oXVfi+UFg1TJv49bVNdw+r1zHmSVCxl
+	 1VZ+yfF4ymBVTewvnNpfX+2Zj3ONBRtMiNpMq65+xRmQxDyeA/NF8A7UsHkVRyxlW1
+	 YUxHqc7A/EPww==
+Date: Wed, 14 May 2025 16:50:37 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Trevor Wu <trevor.wu@mediatek.com>,
 	Jiaxin Yu <jiaxin.yu@mediatek.com>, linux-sound@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Darren Ye <darren.ye@mediatek.com>
-Subject: Re: [PATCH 0/3] ASoC: mediatek: mt8183-afe-pcm: Shorten source code
-Message-ID: <aCSqWbT9t1T29HT_@finisterre.sirena.org.uk>
-References: <20250425082551.1467042-1-wenst@chromium.org>
- <86b55c96-7ec3-48ed-83b4-f434d7fcb5c2@collabora.com>
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] ASoC: dt-bindings: mediatek: Simplify
+ mediatek,clk-provider
+Message-ID: <20250514-stir-porridge-b52d88b50ae1@spud>
+References: <20250514105702.28622-2-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="G4b3JjsI8btsM/C/"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="5CRYNW3obN/3u7l6"
 Content-Disposition: inline
-In-Reply-To: <86b55c96-7ec3-48ed-83b4-f434d7fcb5c2@collabora.com>
-X-Cookie: Well begun is half done.
+In-Reply-To: <20250514105702.28622-2-krzysztof.kozlowski@linaro.org>
 
 
---G4b3JjsI8btsM/C/
+--5CRYNW3obN/3u7l6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 14, 2025 at 03:49:48PM +0200, AngeloGioacchino Del Regno wrote:
-> Il 25/04/25 10:25, Chen-Yu Tsai ha scritto:
+On Wed, May 14, 2025 at 12:57:03PM +0200, Krzysztof Kozlowski wrote:
+> "mediatek,clk-provider" property is a string, not an string array, thus
+> "items" is not really correct.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> > This series is meant as an example on how to use macros and range cases
-> > to shorten the MediaTek audio frontend drivers. The drivers have large
-> > tables describing the registers and register fields for every supported
-> > audio DMA interface. (Some are actually skipped!) There's a lot of
-> > duplication which can be eliminated using macros. This should serve as
-> > a reference for the MT8196 AFE driver that I had commented on.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-> Sorry for the very long wait here; the entire series is
-
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-Unfortunately this doesn't apply against current code (I guess due to
-development in the intervening time), could you please check and resend?
-
---G4b3JjsI8btsM/C/
+--5CRYNW3obN/3u7l6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgkqlkACgkQJNaLcl1U
-h9BagAf+LbiTr/XEhuAQvngZeJHld91IJrIAjQzha/eW6VThB0hPAijghqc0XSvL
-bI33d35Hm/Y3ZsiIfOhqqg1nL0C4JRcJtF2AJnWXQCBuTq3ROom0xl4ZZjhZkuJb
-jnqxMh4TyM6ogM4TGCwhmTlV/LFYEKfL951hYfY5XtAuj+7io5CHnRPj5eJcBhat
-Y0Xj2jiWcWdH1zlJbTk9NYUZHq56sJS1nSXqupRpEkgGNLbX3vkSqjcUlSMOI5Bi
-MNsc6fUgHxEIZUippP3c3NSw6g5WJRTnnM+W6XilhWmIaP8wl8fGdQKWyIIpcoaS
-Qq/1byLn9CAo9+9VrYHQjTDiwcmE3A==
-=zlK1
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaCS7zQAKCRB4tDGHoIJi
+0vucAP0ZLj98/0xHcsnZq3ruzOd9P3Y0Z5wyirXAYCFjg+5G2QEA92rfx6Wpafbl
+JUg58i+SRsWf56f7tK0VKcHUSIbJPAk=
+=KTct
 -----END PGP SIGNATURE-----
 
---G4b3JjsI8btsM/C/--
+--5CRYNW3obN/3u7l6--
