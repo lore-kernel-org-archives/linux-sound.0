@@ -1,104 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D47227466E;
-	Wed, 14 May 2025 11:40:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024B12701C5;
+	Wed, 14 May 2025 11:45:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747222854; cv=none; b=W/NxifjHOimi98QlptoPt7Fq8VoLr1JfOUU0as92yM8GaQ1X81cSe6TYetC6oJSl/FgQpCwzYlDHHUpymQF1lhdFky63WUs2gP0z/QKFvodZqy3o+5glnV0Io/AAeG5UMIi6a5yJ3q19b+rOtL61e1/oowo/Ll9tn7bRWvRuj/A=
+	t=1747223112; cv=none; b=USZcJlJoI+/KLoXJtOnUDXk9qjFmFdCV3D2yz+y+mCkBr3Fep5JnodXJ0DGazQ8HkwcggvymRTeWuptdPJcVmf34oVyXRE343PA2H4n7XhojNdHGxacRo6yNIzV6YR9dJh8qr1KPSr5bVVL5nUW1/75KB3ULgdfyeG3wDyA/ZKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747222854; c=relaxed/simple;
-	bh=sE0GFxZMV1Hf/jRwbssg2bdt4DiQDdnmbR6XBO6d1GY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XENksiez8D3KrPlH0vpTnDDtkd7i4UQAZT8M9HRuXNGOBOsRTdC2TWLD3ysn+ks7iEHZovFZekg6T3WHoy/rsrR+VKpKuc/l62IJGYVHU4PQ8lfA3X+2VdcCBPyVD8JaN49teRvQd9nNSgR9JRMLgCGTqbD53G8qph7d+RHB9TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t75Iw/6+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747223112; c=relaxed/simple;
+	bh=ExcqgJJ6N4P7LcIRmzKY1pxYnvk0V9B7I8dKUQ0aCYY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=j3G6zFzAp4sWxp59PD51slCfmeIMk8gVKoUQsW0OstuWAxJVquoC1IcExqriuVqHl8loPswxmteMKF0p3ZIr6FQQfRsImKBx9rnWsxzG0bgl1I8WYiBsw+RT2xneJT5JNNp9vWy+j1RGLl+OV7+/kAAdbjLjtiOdlPUkwygsySY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=diQX9Pto; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t75Iw/6+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03842C4CEF4;
-	Wed, 14 May 2025 11:40:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="diQX9Pto"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FFF1C4CEE9;
+	Wed, 14 May 2025 11:45:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747222854;
-	bh=sE0GFxZMV1Hf/jRwbssg2bdt4DiQDdnmbR6XBO6d1GY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t75Iw/6+/d6lo/hEt9zqT09b/OjRto8QBChE+6BaLTt84vYGH0aknBv8J5iZsSLFp
-	 DXxnqTHEwhnfWsmX0dFwZ9747t2ClZkuymVbKLqiC//kTKM+T+p6iD3mepSo20r6Xg
-	 bj9rCEIgUEUlw2KmlBCEu96/tyTOS++pAtjV6czMLwKiMUG/dCw1mvccu+0sGoM/9W
-	 2mDx1eJrsSIcuTaw6Oqyxb4Ead5SqGwZcnhP8zuDjjw/iaoVHFM6OFa6jKFThm7u/t
-	 F695YwZvSqnp3Wwk2AXRdXRllVb8uPzaZMOT6Ba170nUV1IB3vBxaQTpGuL6zZ9fKg
-	 91/oKowHOz1bg==
-Date: Wed, 14 May 2025 12:40:51 +0100
+	s=k20201202; t=1747223111;
+	bh=ExcqgJJ6N4P7LcIRmzKY1pxYnvk0V9B7I8dKUQ0aCYY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=diQX9PtorWNmbG6bw//5Fx4zrrRUJvhp3kHrUyWVsIxzpEQdPK6YZDe9XcGMLd6Q6
+	 47bf2Q2Qtk/vA9CI8dTv/lWzdBovh4OuVps2YP59vyIbV+0DHKbgQN7eFYt9l5f3yW
+	 +lC8wEjJOWhyROskl51D9pnhRtxvEiOaZ4Fky+4y+mGYjwtWgp70/xbJXlvPwADTok
+	 magEVBwi1gIcrb6KHtP7fl3dsstgA5vpzaeH4gbbYnH/mzz/PzULidiPeTg78Ta+HG
+	 Ysw3IzH9M7lBG8okyybfTWSFfrfGdg4guUuEc0dKv39VEgOq+R4oFv1VHh9B9Nw7CS
+	 eRKXk+IFXAM5Q==
 From: Vinod Koul <vkoul@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev, bard.liao@intel.com
-Subject: Re: [PATCH] soundwire: update Intel BPT message length limitation
-Message-ID: <aCSBQ3HbLsGSoela@vaman>
-References: <20250429122337.142551-1-yung-chuan.liao@linux.intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20250429101808.348462-1-ckeepax@opensource.cirrus.com>
+References: <20250429101808.348462-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v2 0/2] Fix minor issue in SoundWire slave IRQ mapping
+Message-Id: <174722310984.91966.13044287872839649011.b4-ty@kernel.org>
+Date: Wed, 14 May 2025 12:45:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250429122337.142551-1-yung-chuan.liao@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On 29-04-25, 20:23, Bard Liao wrote:
-> The limitation of "must be multiples of 32 bytes" does not fit the
-> requirement of current Intel platforms. Update it to meet the
-> requirement.
+
+On Tue, 29 Apr 2025 11:18:06 +0100, Charles Keepax wrote:
+> Currently there would be problems if multiple devices on the same bus
+> attempted to use SoundWire IRQ handling rather than the IRQ callback
+> mechanism. So far only cs42l43 uses this system so this hasn't caused
+> any problems.
 > 
-> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-> Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> ---
->  Documentation/driver-api/soundwire/bra.rst | 2 +-
->  drivers/soundwire/intel_ace2x.c            | 8 ++++----
->  2 files changed, 5 insertions(+), 5 deletions(-)
+> Thanks,
+> Charles
 > 
-> diff --git a/Documentation/driver-api/soundwire/bra.rst b/Documentation/driver-api/soundwire/bra.rst
-> index 8500253fa3e8..c08ab2591496 100644
-> --- a/Documentation/driver-api/soundwire/bra.rst
-> +++ b/Documentation/driver-api/soundwire/bra.rst
-> @@ -333,4 +333,4 @@ FIFO sizes to avoid xruns.
->  
->  Alignment requirements are currently not enforced at the core level
->  but at the platform-level, e.g. for Intel the data sizes must be
-> -multiples of 32 bytes.
-> +equal to or larger than 16 bytes.
-> diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
-> index 5b31e1f69591..f899c966cfaf 100644
-> --- a/drivers/soundwire/intel_ace2x.c
-> +++ b/drivers/soundwire/intel_ace2x.c
-> @@ -245,7 +245,7 @@ static void intel_ace2x_bpt_close_stream(struct sdw_intel *sdw, struct sdw_slave
->  	cdns->bus.bpt_stream = NULL;
->  }
->  
-> -#define INTEL_BPT_MSG_BYTE_ALIGNMENT 32
-> +#define INTEL_BPT_MSG_BYTE_MIN 16
->  
->  static int intel_ace2x_bpt_send_async(struct sdw_intel *sdw, struct sdw_slave *slave,
->  				      struct sdw_bpt_msg *msg)
-> @@ -253,9 +253,9 @@ static int intel_ace2x_bpt_send_async(struct sdw_intel *sdw, struct sdw_slave *s
->  	struct sdw_cdns *cdns = &sdw->cdns;
->  	int ret;
->  
-> -	if (msg->len % INTEL_BPT_MSG_BYTE_ALIGNMENT) {
-> -		dev_err(cdns->dev, "BPT message length %d is not a multiple of %d bytes\n",
-> -			msg->len, INTEL_BPT_MSG_BYTE_ALIGNMENT);
-> +	if (msg->len < INTEL_BPT_MSG_BYTE_MIN) {
+> [...]
 
-Reducing is fine, but we should still check it is aligned..?
+Applied, thanks!
 
-> +		dev_err(cdns->dev, "BPT message length %d is less than the minimum bytes %d\n",
-> +			msg->len, INTEL_BPT_MSG_BYTE_MIN);
->  		return -EINVAL;
->  	}
->  
-> -- 
-> 2.43.0
+[1/2] soundwire: bus: Simplify sdw_assign_device_num()
+      commit: 5b1a2927c4f63878d2c108cebad09358e69caa20
+[2/2] soundwire: bus: Add internal slave ID and use for IRQs
+      commit: aab12022b076f0b385b7a9a78e1161bd2df5d1e3
 
+Best regards,
 -- 
 ~Vinod
+
+
