@@ -1,111 +1,91 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F7A199FAB;
-	Wed, 14 May 2025 14:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0691624E9;
+	Wed, 14 May 2025 14:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747232422; cv=none; b=L/Fkwd27H744T8vqE8+hGfupwHuLak9j+hw0DPzS6YrtzrWq3tJOmSFn15WwxJpmwJQT39W9IBNBv+Uy1+FwerP/4k3vpgKVWwDE01+UwM7aTQZ9x/zPQZN9O3LLfeolDcRibikJLGufmo4OcCZ/4K5si9L9Fmw2/5MbBr/YOJM=
+	t=1747233375; cv=none; b=jEzS84kSU/KjxcMlCG7zS403lAEcZrMsZdmfGzdrMrvYHKoqjfy7POsSlM8xa1BEq8mDpR0JxnoZaDvjW9q9nS+RgPo2YkrG/N9jYiyp2Ecd7AeJAtXGA8TOl0seqMXR2WEnC18yvPVF0oRJ8kfk0bQ4Cdo7ZlBVZFqirIHDqPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747232422; c=relaxed/simple;
-	bh=6ZlHp5+n6qxvzjAudRpWJc8ejLU2WjsX4VaTriOdCzQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=odNzSvFx9gEkD4GSGURxWdCHIjQjfNuY5bD3bEBZl80LvEEw7mEMOmKKrNzNuXGZporwTd7ayB6P03p5mK+lbQVLDYpXwbCX+aZRe+Hybktyn61H+ntuqaPmQTiCwU5iXGJJ/eYGufqj1c0dHhASCj2+B4PHZGcYUNVVygbqFCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [124.16.141.245])
-	by APP-05 (Coremail) with SMTP id zQCowAAnYQmVpiRoMqdLFQ--.32116S2;
-	Wed, 14 May 2025 22:20:07 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: kuninori.morimoto.gx@renesas.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: avs: rt274: Add null pointer check for snd_soc_card_get_codec_dai()
-Date: Wed, 14 May 2025 22:19:47 +0800
-Message-ID: <20250514141947.998-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.42.0.windows.2
+	s=arc-20240116; t=1747233375; c=relaxed/simple;
+	bh=t/uPvQl5SO699WAK2gwjv1DwR8/P78GRzFmmIsaqUe8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gLAl8N32KcwrLtGhBZBCx6/tuPRH3zlN/adMxUHnzbFoY3uMOsj3qBJjJl4VA1/Vc4h5CgbX4Sbr+IvMtaQmOPNQIaDeKbf/CdzMf5rnd7iaXeQpeb+Zvlu6268oFfp383bOKUIQAZaLbM8fpIR7GpzAgd1qWJv2m0VrtkyVXRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y3X/1foP; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y3X/1foP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13F61C4CEE3;
+	Wed, 14 May 2025 14:36:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747233374;
+	bh=t/uPvQl5SO699WAK2gwjv1DwR8/P78GRzFmmIsaqUe8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y3X/1foPhOD3r0WP8EG2by5OEvVZPzSSU98aXZEVBHolHg3vFHyolHi5hlbNTTpaF
+	 Fn9JNJ54/o9EXEBNnNCnmvwh9pywmXLIq/29nG2diKO4LnJm4Z72uCaRTgfAhuL3Q0
+	 AW8nl2GmuVEjP5cdYLGEU8szMrJC6ME3D1yILxckEzaSCREa4D6ThTtMy67wjoDnhT
+	 tyM+aTqaD7nIYGSwkRq3PKFug2sIvXLbKA/j1kERCJAfs3Zfx02bJyfAv6U+5hPVT7
+	 lZkOiD6gzcG1GgyWef04ti5LQPoClpb+bDtAfV6ghuvE2+m/PpS/UwDpRpIjyn42j+
+	 NqQNJ8AVq28PQ==
+Date: Wed, 14 May 2025 16:36:09 +0200
+From: Mark Brown <broonie@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Jiaxin Yu <jiaxin.yu@mediatek.com>, linux-sound@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Darren Ye <darren.ye@mediatek.com>
+Subject: Re: [PATCH 0/3] ASoC: mediatek: mt8183-afe-pcm: Shorten source code
+Message-ID: <aCSqWbT9t1T29HT_@finisterre.sirena.org.uk>
+References: <20250425082551.1467042-1-wenst@chromium.org>
+ <86b55c96-7ec3-48ed-83b4-f434d7fcb5c2@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAAnYQmVpiRoMqdLFQ--.32116S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7AryUJFWrXrW7tw15uF18uFg_yoW8AF17pF
-	1qgrZxKFW5Jr4xGF1rXa9Yva45ua48CFWfGrWxta4xAF1xJr93Wrn8t34qkFySkry8J3WU
-	Xr1j9ay0k34rJ3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9K14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_Xryl42xK82IYc2Ij64vIr4
-	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
-	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
-	8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
-	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
-	v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUeT5lUUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAUCA2gkZEjUxQAAs5
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="G4b3JjsI8btsM/C/"
+Content-Disposition: inline
+In-Reply-To: <86b55c96-7ec3-48ed-83b4-f434d7fcb5c2@collabora.com>
+X-Cookie: Well begun is half done.
 
-The avs_card_suspend_pre() and avs_card_resume_post() in rt274
-calls the snd_soc_card_get_codec_dai(), but does not check its return
-value which is a null pointer if the function fails. This can result
-in a null pointer dereference. A proper implementation can be found
-in acp5x_nau8821_hw_params() and card_suspend_pre().
 
-Add a null pointer check for snd_soc_card_get_codec_dai() to avoid null
-pointer dereference when the function fails.
+--G4b3JjsI8btsM/C/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: a08797afc1f9 ("ASoC: Intel: avs: rt274: Refactor jack handling")
-Cc: stable@vger.kernel.org # v6.2
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- sound/soc/intel/avs/boards/rt274.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+On Wed, May 14, 2025 at 03:49:48PM +0200, AngeloGioacchino Del Regno wrote:
+> Il 25/04/25 10:25, Chen-Yu Tsai ha scritto:
 
-diff --git a/sound/soc/intel/avs/boards/rt274.c b/sound/soc/intel/avs/boards/rt274.c
-index 4b6c02a40204..7a8b6ee79f4c 100644
---- a/sound/soc/intel/avs/boards/rt274.c
-+++ b/sound/soc/intel/avs/boards/rt274.c
-@@ -194,6 +194,11 @@ static int avs_card_suspend_pre(struct snd_soc_card *card)
- {
- 	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, RT274_CODEC_DAI);
- 
-+	if (!codec_dai) {
-+		dev_err(card->dev, "Codec dai not found\n");
-+		return -EINVAL;
-+	}
-+
- 	return snd_soc_component_set_jack(codec_dai->component, NULL, NULL);
- }
- 
-@@ -202,6 +207,11 @@ static int avs_card_resume_post(struct snd_soc_card *card)
- 	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, RT274_CODEC_DAI);
- 	struct snd_soc_jack *jack = snd_soc_card_get_drvdata(card);
- 
-+	if (!codec_dai) {
-+		dev_err(card->dev, "Codec dai not found\n");
-+		return -EINVAL;
-+	}
-+
- 	return snd_soc_component_set_jack(codec_dai->component, jack, NULL);
- }
- 
--- 
-2.42.0.windows.2
+> > This series is meant as an example on how to use macros and range cases
+> > to shorten the MediaTek audio frontend drivers. The drivers have large
+> > tables describing the registers and register fields for every supported
+> > audio DMA interface. (Some are actually skipped!) There's a lot of
+> > duplication which can be eliminated using macros. This should serve as
+> > a reference for the MT8196 AFE driver that I had commented on.
 
+> Sorry for the very long wait here; the entire series is
+
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Unfortunately this doesn't apply against current code (I guess due to
+development in the intervening time), could you please check and resend?
+
+--G4b3JjsI8btsM/C/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgkqlkACgkQJNaLcl1U
+h9BagAf+LbiTr/XEhuAQvngZeJHld91IJrIAjQzha/eW6VThB0hPAijghqc0XSvL
+bI33d35Hm/Y3ZsiIfOhqqg1nL0C4JRcJtF2AJnWXQCBuTq3ROom0xl4ZZjhZkuJb
+jnqxMh4TyM6ogM4TGCwhmTlV/LFYEKfL951hYfY5XtAuj+7io5CHnRPj5eJcBhat
+Y0Xj2jiWcWdH1zlJbTk9NYUZHq56sJS1nSXqupRpEkgGNLbX3vkSqjcUlSMOI5Bi
+MNsc6fUgHxEIZUippP3c3NSw6g5WJRTnnM+W6XilhWmIaP8wl8fGdQKWyIIpcoaS
+Qq/1byLn9CAo9+9VrYHQjTDiwcmE3A==
+=zlK1
+-----END PGP SIGNATURE-----
+
+--G4b3JjsI8btsM/C/--
