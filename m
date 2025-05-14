@@ -1,83 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563BE282ED;
-	Wed, 14 May 2025 15:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070AC1F4607;
+	Wed, 14 May 2025 17:53:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747237845; cv=none; b=mdyqPxdB7/pqh2E12JjKGiWxAWdz8Zfi8pFJfIiC6BtqhPlQ3oyUqzF34u1nRFvBD9g9LSUOaimbMh5LJ/r4o8x93MLzvmAGabSWTHiof9lf2y4fdY5BVEMLNwGg/ui6hJXGXmpXKR6jZwguvZJru3BdZkox5SHVY9Y6xnfC6Is=
+	t=1747245231; cv=none; b=NgoTit5I7iz4NGEBBzuJWosGju/LRzkEty9+ygV3UCWru3Pm4zf5UeJlcYuVkfsLbzlM0Svy8SclkYfXKl4vZ+bHNa1prOiWkpiYdX6b0vofmQZzWbSj3pAHbrxC7H6JKEisf3yxRDuapxkCRvucQ5KZwv/glAoveWfb6At0isY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747237845; c=relaxed/simple;
-	bh=M3woz04Pv9OqB7s5d5XN3SM8aX7++vAPSKJ2i0HXWMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h0pYopvBnRyZ/ICWS+i8oxB6Hz+XNfyHokXzhj2dKZEbNXaqhqws8CFmCxp1aV6ydv3V9I+SzcriLYY53m5EqxOoUAKxw7+3M+z9WPdubunLbnSmTlb5si2OZzOX+FM+U1Z9NdCDpgCCs97OZANTC/W9Bpbu7MWfTVqEKpA6DnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yw6lBK8w; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747245231; c=relaxed/simple;
+	bh=0aB7Zf1FjNrjHWMfXxq/GZb+CC83CIEm1R4JLzr4fIU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=duONkQsAE+0Rhn1jlNiJW4pm3B0mKm5zUHKolu4PR93v9X+DrUNN12BbpclycJGgcO+k3XEw55QocExgTUrorzp4QwXUwNkWyYnyMJ5QxU905vjs1IW/zYWIuArvOxlvoIbdKcPfJy6Kj3hTj6VfORnBLR7YHfU6sb9r0CwsdIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hcd83feY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yw6lBK8w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05264C4CEED;
-	Wed, 14 May 2025 15:50:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hcd83feY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D16BC4CEE3;
+	Wed, 14 May 2025 17:53:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747237842;
-	bh=M3woz04Pv9OqB7s5d5XN3SM8aX7++vAPSKJ2i0HXWMg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yw6lBK8wkLDW8v1I/JLiN8afunRJZg5PZW9nhqlzybGETE51+sgaGZ7d+tcW7cMhI
-	 nBTtxybN9FYVZowX+ODaqGqHiOrst8TO03GFRjiQk4nzyC6TonnBVgF5egMU11XGtP
-	 9YsDB3MeNHgg/5LJ0Ex4/cUtzS2/OBSboIB9gh/Qp6Q8okW8W6GgnlZG/kEDxmwOR2
-	 m2Jvh3omi5R2w0y4+WNRNytT+TZvZ3P+4f1oXVfi+UFg1TJv49bVNdw+r1zHmSVCxl
-	 1VZ+yfF4ymBVTewvnNpfX+2Zj3ONBRtMiNpMq65+xRmQxDyeA/NF8A7UsHkVRyxlW1
-	 YUxHqc7A/EPww==
-Date: Wed, 14 May 2025 16:50:37 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Trevor Wu <trevor.wu@mediatek.com>,
-	Jiaxin Yu <jiaxin.yu@mediatek.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] ASoC: dt-bindings: mediatek: Simplify
- mediatek,clk-provider
-Message-ID: <20250514-stir-porridge-b52d88b50ae1@spud>
-References: <20250514105702.28622-2-krzysztof.kozlowski@linaro.org>
+	s=k20201202; t=1747245230;
+	bh=0aB7Zf1FjNrjHWMfXxq/GZb+CC83CIEm1R4JLzr4fIU=;
+	h=From:Date:Subject:To:Cc:From;
+	b=Hcd83feY5Lj9t7DrEIwBfh+va0pXhDL0MIZ1ZdBpZve0KF6IMe7WGaV5O6HM9U1lH
+	 oApRhUzXE/hsQuKw186x1QXpektlLW5hBI5gu7o/NSai7E98pMatFzrT50AVIQCtQ8
+	 wtE/lx3B9kZxzhYnHFkGxGcEa6RwbdUim8rycRnm/0jwq6VAADHUnobsQpU9LahzUn
+	 PEahdDvfKT/rOt16wfsLNR7qkSiJw4rxuA4CCWsBF/PRACH3ns0TqYbDc8yDWkKe9M
+	 K1X0gk+opL0n50DgfuHri5fk/bigIwR8DXAdNxMG7cTEzB74/I/dMkhLFmv7VFNdav
+	 tGVYMJ0btuv1Q==
+From: Konrad Dybcio <konradybcio@kernel.org>
+Date: Wed, 14 May 2025 19:53:38 +0200
+Subject: [PATCH] ASoC: q6apm-lpass-dais: Print APM port id in decimal on
+ enable error
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5CRYNW3obN/3u7l6"
-Content-Disposition: inline
-In-Reply-To: <20250514105702.28622-2-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250514-topic-asoc_print_hexdec-v1-1-85e90947ec4f@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAKHYJGgC/x3MQQqAIBBA0avErBNSm6KuEiFhU81GRSOE8O5Jy
+ 7f4/4VEkSnB3LwQ6eHE3lXItgF7be4kwXs1qE5hh7IXtw9sxZa8NSGyu81FeScrUPVajwOO04R
+ Q6xDp4Pyfl7WUD3I/AQRpAAAA
+X-Change-ID: 20250514-topic-asoc_print_hexdec-524337657995
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1747245227; l=1175;
+ i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
+ bh=WY0FCnwcfqmDBpegGuUNmfFMF0650DhHOEzIRDiem8c=;
+ b=mto0jGaH93OINWmFwcr/neBFIyIfQyzqRiRNXCWllVQP2UykyWkIVQAC2c/89linOlsNqoqFR
+ PoNXpaCWpASDCOIKgjzHFBbCD5yMossZq+wzad6O3ATUJockzfvALJ1
+X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
---5CRYNW3obN/3u7l6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Change the port enable failure error message format specifier to make
+it less confusing.
 
-On Wed, May 14, 2025 at 12:57:03PM +0200, Krzysztof Kozlowski wrote:
-> "mediatek,clk-provider" property is a string, not an string array, thus
-> "items" is not really correct.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Take the chance to align the style ('fail'->'Failed') while at it.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+---
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---5CRYNW3obN/3u7l6
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+index 9c98a35ad09945173c15dd6dff34830f43fe9388..a0d90462fd6a3807502f3e272dfb852d4d9c0f62 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
++++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+@@ -206,7 +206,7 @@ static int q6apm_lpass_dai_prepare(struct snd_pcm_substream *substream, struct s
+ 
+ 	rc = q6apm_graph_start(dai_data->graph[dai->id]);
+ 	if (rc < 0) {
+-		dev_err(dai->dev, "fail to start APM port %x\n", dai->id);
++		dev_err(dai->dev, "Failed to start APM port %d\n", dai->id);
+ 		goto err;
+ 	}
+ 	dai_data->is_port_started[dai->id] = true;
 
------BEGIN PGP SIGNATURE-----
+---
+base-commit: edef457004774e598fc4c1b7d1d4f0bcd9d0bb30
+change-id: 20250514-topic-asoc_print_hexdec-524337657995
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaCS7zQAKCRB4tDGHoIJi
-0vucAP0ZLj98/0xHcsnZq3ruzOd9P3Y0Z5wyirXAYCFjg+5G2QEA92rfx6Wpafbl
-JUg58i+SRsWf56f7tK0VKcHUSIbJPAk=
-=KTct
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
---5CRYNW3obN/3u7l6--
