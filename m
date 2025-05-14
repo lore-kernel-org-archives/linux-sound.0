@@ -1,86 +1,88 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328172777F9
-	for <linux-sound@vger.kernel.org>; Wed, 14 May 2025 12:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FA6276038
+	for <linux-sound@vger.kernel.org>; Wed, 14 May 2025 12:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747226401; cv=none; b=QV667vNW9ED8Ai8rJpsWl+2BkzoUJamTuGpKSnp23Gdo9ciaCQdKMv4xiI2RyRq6FilL9LGf0rtJX/NzP1UctQGJ/lUf8ODX1E3ey2BQM5WsbjauCvefNFM06XWIVvJfwoC2nKw2nyuWllrLepJZOLceS3Y9b5JZKk5E3sMdwmw=
+	t=1747227036; cv=none; b=t3RGPNgN37sPKMKmPeo7iDwE+H5RjZmJzUjYwxO/rOOeIV/fjjZiW57Xe7VDgVIgOQRO4xjNBtaTNu3pzG9ADOGzR0gE9fwf377fBV+/NyugFrskpyXXRZTG8bqMURkN3JLESPckkj3YVmxI+2V/x3JdtqjuhwNrxRl9ow316oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747226401; c=relaxed/simple;
-	bh=MaJfV9vrOJxPDqohRJEU2g1G11avd/vhCdcpmpj9SjA=;
+	s=arc-20240116; t=1747227036; c=relaxed/simple;
+	bh=xsaMT00b8k+kMS92GkXskE2nqsn/Ux50QSzH+gf3Ovo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j+d6kSUNEebKWfAtBfd2pWUIi4AVjLsV9K27SB6/jJIk2bkqD/VbDYlTDBL8i/Z3nQWkcvatDB5J7TjdIJXmudMH4ahHvxco85m2uwQ5+9mXbnCOsRNMAWPQE0QlLiW2ao9EXaF41Y5g0kTjqSl4nkU+/Huwy4HULcOjk7yvd8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sR07caFP; arc=none smtp.client-ip=91.218.175.185
+	 In-Reply-To:Content-Type; b=AnMlH7AwS8wTfKc4xPkaBTh0UjKusbFKuP+zOLhoX/qabgmOJukyfsE7ZHYGo2fVI9ycAScOLVOzI+TNvM9Xts6eLqfPTNLdp/lKEVah2qoWOPajaDGmfqH7VICKgCOBkusI0bZ5z+unBP3IVOSwaHdtvXtxevT38UcgzaBrzsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IxF6vlFn; arc=none smtp.client-ip=95.215.58.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sR07caFP"
-Message-ID: <f04afa43-ed28-4e2f-a3b9-0d9990d2a8ce@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IxF6vlFn"
+Message-ID: <7f3b2d28-38d0-482c-b79a-5aabed6b6ea8@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1747226397;
+	t=1747227032;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6+y7hBi1dQUwcFAj/d4Yi9l4iTw8xaGiW4mhh4c2lnE=;
-	b=sR07caFPaG9/fPAWAVXAA9oSHOFa6d3lT3biQqPsLAoKaL3sGaHHJj9HxTbWV5OYqLycan
-	MXAdnYaAtZVe/YKO0/Ch7GGxFY8T+GGcfXdOUeZaHeiK1GkS+EyfAw+hXCeRZtqZxI2wwO
-	5WwhbXNWyqV8MlTAlWtd5s9GEapXhpA=
-Date: Wed, 14 May 2025 14:39:20 +0200
+	bh=NFMBLaoGq6dnZ92tVmPA4doF5MtxaUxNygUazLGOe80=;
+	b=IxF6vlFnNK9TlkLzq4WOLGy63ODcKJMYA/IIvpCTPwu/fBjK5WK8TTHAGOF6v+qB0vnR97
+	uUTDJCtEx44YEiXQUIXEyviZq9aG9EhZiiR2iKnD09Ef0ESpsIxRX/+eq1RCiDh0fA+/dg
+	K4GjRwhqaItrLct6Yi7JQaft4ojDsTM=
+Date: Wed, 14 May 2025 14:47:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 5/6] ASoC: SDCA: Create ALSA controls from DisCo
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20250512124240.799509-1-ckeepax@opensource.cirrus.com>
- <20250512124240.799509-6-ckeepax@opensource.cirrus.com>
- <cd574985-e434-46d9-91ff-a2782c6e8eef@linux.dev>
- <aCIsWP1Ac8WvX11n@opensource.cirrus.com>
- <aCMdyOugv7tbXJ5I@opensource.cirrus.com>
+Subject: Re: [PATCH 0/5] ASoC/SOF/PCI/Intel: add Wildcat Lake support
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ lgirdwood@gmail.com, broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ guennadi.liakhovetski@linux.intel.com, bhelgaas@google.com,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250508180240.11282-1-peter.ujfalusi@linux.intel.com>
+ <0b01a3ae-4766-490e-939d-1d16c2748644@linux.dev>
+ <bfb8e9a6-92c1-4079-aec0-b1ad2b245c70@linux.intel.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <aCMdyOugv7tbXJ5I@opensource.cirrus.com>
+In-Reply-To: <bfb8e9a6-92c1-4079-aec0-b1ad2b245c70@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-On 5/13/25 12:24, Charles Keepax wrote:
-> On Mon, May 12, 2025 at 06:14:00PM +0100, Charles Keepax wrote:
->> On Mon, May 12, 2025 at 03:53:36PM +0200, Pierre-Louis Bossart wrote:
->>>
->>>> +static bool exported_control(struct sdca_control *control)
->>>> +{
->>>> +	/* No need to export control for something that only has one value */
->>>> +	if (control->has_fixed)
->>>> +		return false;
->>>
->>> why is that? It'd simplify userspace if there was always a way to
->>> get a value, even if it's fixed?
->>
->> Well mostly it is because various things in the stack get
->> sad with a single value control you can't set. If we wanted
->> to change that I would suggest we add a FIXME. It isn't really
->> critical and I would really like to get more of this class
->> driver stuff moving, it has been out for review for a really long
->> time now.
->>
+On 5/13/25 08:23, Péter Ujfalusi wrote:
 > 
-> Thinking a little more about this user-space is going to have to
-> handle controls not being there as different controls will be
-> exported across different parts anyway, based of which options
-> are implemented. Also we have seen a bit of people hiding
-> controls by changing the access layer. Although sometimes that
-> does result in things that are technically not class conformant
-> but they do work through the Microsoft drivers, so we will likely
-> need to support it anyway.
+> 
+> On 12/05/2025 15:59, Pierre-Louis Bossart wrote:
+>>
+>>> The audio IP in Wildcat Lake (WCL) is largely identical to the one in
+>>> Panther Lake, the main difference is the number of DSP cores, memory
+>>> and clocking.
+>>> It is based on the same ACE3 architecture.
+>>>
+>>> In SOF the PTL topologies can be re-used for WCL to reduce duplication
+>>> of code and topology files. 
+>>
+>> Is this really true? I thought topology files are precisely the place where a specific pipeline is assigned to a specific core. If the number of cores is lower, then a PTL topology could fail when used on a WCL DSP, no?
+> 
+> Yes, that is true, however for generic (sdw, HDA) topologies this is not
+> an issue as we don't spread the modules (there is no customization per
+> platform).
+> When it comes to product topologies, they can still be named as PTL/WCL
+> if needed and have tailored core use.
+> 
+> It might be that WCL will not use audio configs common with PTL, in that
+> case we still can have sof-wcl-* topologies if desired.
 
-Sorry, I missed what the conclusion was, would this filter stay or be removed?
+Right, so the topologies can be used except when they cannot :-)
+
+> Fwiw, in case of soundwire we are moving to a even more generic function
+> topology split, where all SDW device can us generic function fragments
+> stitched together to create a complete topology.
+> Those will have to be compatible with all platforms, so wide swing of
+> core use cannot be possible anymore.
+
+I couldn't follow this explanation, or I am missing some context. My expectation is that as soon as someone starts inserting a 3rd party module all bets on core assignment are off, I am not sure how rules could be generic without adding restrictions on where 3rd party modules are added.
 
