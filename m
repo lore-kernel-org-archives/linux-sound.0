@@ -1,83 +1,99 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FAC191F98;
-	Wed, 14 May 2025 13:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D884A0F;
+	Wed, 14 May 2025 14:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747230594; cv=none; b=qDF5v/aCJwv7z+RJsqgPOkmujk1/aIUgEVCqJn3BV6g2o0fis83AVPlf5+d0CnplQP/iVr0mmqIuhgNi5PQ29ArIqZfsWPSaohb4xxdztn0dHBGEQtIfIeLykFXXvAZXPGkV8Xhdu3FfQU1FuLyGtY+p1J8xXxNbQsylkXhFM5Q=
+	t=1747231530; cv=none; b=PDbjWVbMvpXFB4JPj07dblOpWixKfnJ1y+lfN+N4aEx4yn8zVDVTPld9r5LGPVmLYlyLzpSb3sxzLzXOorKmMi26oIXiyYUKwV40T78p8esmFiIh+0gpF7N/0sq0MA4jQDEj2WChxtnv3zBChBx++IzJZlHvpWyP59JfGs0p6WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747230594; c=relaxed/simple;
-	bh=Yk429GiPAFuJVzjfNeoldvMCZDwsaLo6v8MgUY9M/+c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=er8JLH/e3BrXcwiFqarbeZXQ9bV81okO7Q11CamTiJAcedbbQV5rW0XGa1nLaqyNuLuNLC6JihZ/DWCVTMg/X+803IhilwaMfaxuqs40CRKFtXvLtVqVCXrWiF6JICsNiAbmvm3+OZluz62pu4CaRsjI6JAquxCyPHp5j8p6k64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=m/RSoirp; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="m/RSoirp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1747230590;
-	bh=Yk429GiPAFuJVzjfNeoldvMCZDwsaLo6v8MgUY9M/+c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m/RSoirpdeGVcMmIvnU/gALfQ8h1Yup5G6CrfgIS7t/a0hIsMaiMYMcazRUS48QdX
-	 p/iUNFxMCzlBg4BUJd7Pux9AH43/C9W85CmBNhXmLMpzVK8uV6ZuBA7xQdnImEAoKT
-	 xsh3Qy4uK6HRyULd/xRlhJ11KuGNQ7Ejy1qJGW1LQpmn0/PYXq3f/Juz3dlxSckJ8+
-	 OqVdl05Q5Yfa5RAwOAoM2IoES014wmPNQcptAYNllpzWsM21sHFKEldkDRZ4kl3LOo
-	 PmtXruNGNLfk9nmc71uvFRougCge83GMCabS+eN8nfKOSglFnKiWdxHid6moYR29B9
-	 VthpjWTslEykg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9D0E617E07F2;
-	Wed, 14 May 2025 15:49:49 +0200 (CEST)
-Message-ID: <86b55c96-7ec3-48ed-83b4-f434d7fcb5c2@collabora.com>
-Date: Wed, 14 May 2025 15:49:48 +0200
+	s=arc-20240116; t=1747231530; c=relaxed/simple;
+	bh=OCh3WFD+GEk0VpuZnvvOan+j8YIlhGrX2+r7yw6GV8c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KoMMQ/4ytjpH/sKBrb4dWAd6cJb5JO8TXgvqIFYxSjBFCvuFbdRiGorthr2EeBy2vpZEBge0XGaW7Ru2aZudFaK+UlqP1bVWymyB/5x86FDZDGsndcJge3D+fj1pewoQOAm419vI6KKlqDL4mmCo2viDLFLukjGlzZ6So5z2GaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-05 (Coremail) with SMTP id zQCowACX1Q0UoyRoyB5KFQ--.32042S2;
+	Wed, 14 May 2025 22:05:10 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: kuninori.morimoto.gx@renesas.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: Intel: avs: nau8825: Add null pointer check for snd_soc_card_get_codec_dai()
+Date: Wed, 14 May 2025 22:04:33 +0800
+Message-ID: <20250514140433.862-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] ASoC: mediatek: mt8183-afe-pcm: Shorten source code
-To: Chen-Yu Tsai <wenst@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Jiaxin Yu <jiaxin.yu@mediatek.com>, linux-sound@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- Darren Ye <darren.ye@mediatek.com>
-References: <20250425082551.1467042-1-wenst@chromium.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250425082551.1467042-1-wenst@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowACX1Q0UoyRoyB5KFQ--.32042S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr1UGw4DZryrXw43Gw1kAFb_yoW8Gr17pa
+	1vgrZFgFyrGr4rua4rXFZYvF15u3y8CFWfGrWxt397XF48Gr95WFs8t3yUCFWIkry8ta4U
+	XFyj9ay09a4rC3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+	kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+	67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+	CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
+	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
+	VFxhVjvjDU0xZFpf9x0JUqeHgUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBg0CA2gkY9m-eAABs6
 
-Il 25/04/25 10:25, Chen-Yu Tsai ha scritto:
-> Hi folks,
-> 
-> This series is meant as an example on how to use macros and range cases
-> to shorten the MediaTek audio frontend drivers. The drivers have large
-> tables describing the registers and register fields for every supported
-> audio DMA interface. (Some are actually skipped!) There's a lot of
-> duplication which can be eliminated using macros. This should serve as
-> a reference for the MT8196 AFE driver that I had commented on.
-> 
-> The three patches tackle separate tables in the driver. The remaining
-> one that could be tackled is the list of DAIs; but that one has more
-> differences between each entry, so I haven't done it yet.
-> 
-> Please take a look.
-> 
+The function avs_card_suspend_pre() in nau8825 calls the function
+snd_soc_card_get_codec_dai(), but does not check its return
+value which is a null pointer if the function fails. This can result
+in a null pointer dereference. A proper implementation can be found
+in acp5x_nau8821_hw_params() and card_suspend_pre().
 
+Add a null pointer check for snd_soc_card_get_codec_dai() to avoid null
+pointer dereference when the function fails.
 
-Sorry for the very long wait here; the entire series is
+Fixes: 9febcd7a0180 ("ASoC: Intel: avs: nau8825: Refactor jack handling")
+Cc: stable@vger.kernel.org # v6.2
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ sound/soc/intel/avs/boards/nau8825.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-Cheers,
-Angelo
+diff --git a/sound/soc/intel/avs/boards/nau8825.c b/sound/soc/intel/avs/boards/nau8825.c
+index bf902540744c..5baeb95cd5a6 100644
+--- a/sound/soc/intel/avs/boards/nau8825.c
++++ b/sound/soc/intel/avs/boards/nau8825.c
+@@ -220,6 +220,11 @@ static int avs_card_suspend_pre(struct snd_soc_card *card)
+ {
+ 	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, SKL_NUVOTON_CODEC_DAI);
+ 
++	if (!codec_dai) {
++		dev_err(card->dev, "Codec dai not found\n");
++		return -EINVAL;
++	}
++
+ 	return snd_soc_component_set_jack(codec_dai->component, NULL, NULL);
+ }
+ 
+-- 
+2.42.0.windows.2
 
