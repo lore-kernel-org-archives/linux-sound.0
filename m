@@ -1,89 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69891A275;
-	Thu, 15 May 2025 07:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42918259CB1
+	for <linux-sound@vger.kernel.org>; Thu, 15 May 2025 07:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747294528; cv=none; b=Dk+dqfm1eFaPFYn66IC7djWbHSVHowWQqMJOm79LidHij/7Yp/ERiRpVDsrVIfFT1LODeu/SBe0WdEHgp+41Yaf996owrWrUR4MAPevExPIcSDXTLyv5s7WDMqrpfUj9hdQTrSvGi61GmFNNjzW218jY7T83HGZzLY6+uaYXeHY=
+	t=1747294715; cv=none; b=rAC9+QZOcFZraJOFOpmntXOCfhPcSPrJqPReJ+cE5Q1zSmMAGTfnwQoFbQtxDKSOlkQgGCdRvQhhKK3qrXF7RXoaIKMpc3SDtV7sg+q2FGQq8jh5J7mvFOCGhoCEKymxlv0fjittPEtiZBzNJBs4N2SVxUwZvE8aYxRhYKiTZr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747294528; c=relaxed/simple;
-	bh=+KJy2T+MNcXBlOneJXLi8WasNvcgLEUfdbqlEhlSagM=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nyZS9yaSGW/nhx0ZP+Kf5GdZPjifwmlXQBauPx5Cww8YMSYGNttRYxcBMzdX7tSIUrW1cO7g2Nj/7kr6nI8XltEHjhdB61FvU8z2V98egleQ0OczmyODdSSNmiFH8D49arPYR9rpIQc5Cn7WVicrr5Keb8BhMauSohYGiMuLrLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKbDu/ls; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747294715; c=relaxed/simple;
+	bh=A7YTQEvxzdjN/uPXGiOZhVl7xg2CZBthDtu/Z0dxqIM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JuWrLUSaQ1r3M1iFsa1pxdIb6q6VgrQwCyaOcd+X6l/FmG1I3TZIz4sNQc3hwo9aB2OlHBu04M7z7ETWSv60Xlbi2MvVv19s0agpQG/R/pA1VX/Gzb+Eg6mqo31rMDlIRO8r2u3lhgwJnWt9ZotNk2op9rFxuQrEwC/qbpF8I2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FlJFZoUE; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKbDu/ls"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1552C4CEE9;
-	Thu, 15 May 2025 07:35:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747294527;
-	bh=+KJy2T+MNcXBlOneJXLi8WasNvcgLEUfdbqlEhlSagM=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=JKbDu/lsaSuMyXHGr2FudR7ulPXsrvfo4wdjpQGWb40M5hyCSuNzLRqWhKfL3jCNB
-	 SA4P/flssGjW1tQmY+EUl7Jf9ONe4Dok49kDy2GOkdjFiQTZeH6EqtDZM5NgSwxL8y
-	 R8rD8UklimLrAcj7OgWntQz1L4OcNcej2RuNQLhGIeEVXfTG40bxiuDdKD5+Ju3yjT
-	 gyMARGGAm8VfyCLpm58mtBALD5rdXy2DMGUL9EkrtbNJNmRGnjwHLo4pWQimy9dtTL
-	 64XH8YUmGIauPMQl01yOPGmmiyNe4b7TXScDHsgv1B6cQ/xVzIi435hjY6qcgRC/7g
-	 xYScWXQONwQYw==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Trevor Wu <trevor.wu@mediatek.com>, Jiaxin Yu <jiaxin.yu@mediatek.com>, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20250514105702.28622-2-krzysztof.kozlowski@linaro.org>
-References: <20250514105702.28622-2-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: mediatek: Simplify
- mediatek,clk-provider
-Message-Id: <174729452159.272498.16252204109859942609.b4-ty@kernel.org>
-Date: Thu, 15 May 2025 09:35:21 +0200
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FlJFZoUE"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b1396171fb1so266906a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 15 May 2025 00:38:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1747294712; x=1747899512; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UTuhmwgeL8CMgAtrwpyLwhvwNVYclkrjjEa64TIcJ/A=;
+        b=FlJFZoUExZGyDkT078gsEjRFHQuEePzz17LUtkpA+hBDPwzdfUEB7SFCrjwvbB+W1j
+         esFU+eBDq5KTa+z5O9so5Z3XcgS6jK1cMYrwWnkXd/zdPyZv5/vzZ11Y6s99x4Z6ppHo
+         PIf2rFY/XvKOaswkAJ5D0McLo7GlE3wH78CqA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747294712; x=1747899512;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UTuhmwgeL8CMgAtrwpyLwhvwNVYclkrjjEa64TIcJ/A=;
+        b=oYz4c3CyCr2r3TT5HK6gURZZ4tH3yl8JISJTyze5Mu5M1MEbUvyULd7TRHVg67kE+F
+         jzzmna6h8tXpAPQnA2HXJqKgP7JC8TLXR/yJCO5rzBHsY5IRW3PasPnFxgm0eUmpb+E1
+         XkzHR+wSbOocgLaBASJpRLUs1HuhCBy9/U5eMC42mAt2LMqmauQV8v6+XV2YUzMZfm1V
+         /pT2uMiQjug0/3tHEpUOTtuADGk/EH9VQcqK+aS9FUAULTR0tzNHJWpath80ZLRj5j7U
+         TZZfs3wXQHuI0HAAzVwQ3jmR/vkl5saYathNwdrryMegTCuJqHznv+6XMh0ly1D7r6Pv
+         F4ew==
+X-Forwarded-Encrypted: i=1; AJvYcCXB/qI0PDFk9CDNKwSmGPKm1Ia8ZBycUdEprg3X122BmlXDdn+aahuZf+J1p5oilmtRe6y3S4JdSoD+Vw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUZojBpwkFIWIywfu8DOcyB3fxsKrwm/49Qh/IbDc8C4ZEJ0wB
+	gLGZSAkrJF2P8RnAqbYKWXKSzCuZXjVlmsQ3xwMTr2vFR33U8KODsxJx9azfJw==
+X-Gm-Gg: ASbGncttz7O7+RqCnOCYZ2ScMNksI9x5W/ImoWqMIN/2yQiZS5RpEo5TaQYURrAYl12
+	8p9ERrbIH/qLVT6b6mCJvcrlgWb5ZpVfjNi0M532O23u/k9Xua1LHG9kGUq8uvI+kXwj3PaKMny
+	QuWTuizzsP5HY/r/bijxtfEA/GSCumBFyHhvrpF7/8PMtiO84kh/rINi05BnVij3vZVU7sO+MFI
+	KNlj6Z+guhY5rtT3LBR988ntwld6OjjwFvGTZHOO5ld7M4ETPlc4mZbHW6JZkeXf87wWGNt9RZ8
+	0Inok7wzRI77UAzROcztRv5TV/ISNKY0Z8f/v7RINwCXwPzAimAJZRvaJDAo8XTbza6NrdoZHnj
+	hcSrs
+X-Google-Smtp-Source: AGHT+IHd+tTQ1WkK+zV3TpgzWBvKz1U7eVTGR5TBqP6q/kPdJhkugAruaqhe6ky7C8X/88yU/ln4KA==
+X-Received: by 2002:a17:903:11c9:b0:223:3b76:4e22 with SMTP id d9443c01a7336-2319810ffa6mr73889445ad.6.1747294712457;
+        Thu, 15 May 2025 00:38:32 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:c43a:aaea:5f52:5763])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc8271f61sm109750825ad.142.2025.05.15.00.38.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 00:38:32 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jiaxin Yu <jiaxin.yu@mediatek.com>,
+	linux-sound@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Darren Ye <darren.ye@mediatek.com>
+Subject: [PATCH v2 0/3] ASoC: mediatek: mt8183-afe-pcm: Shorten source code
+Date: Thu, 15 May 2025 15:38:20 +0800
+Message-ID: <20250515073825.4155297-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.49.0.1045.g170613ef41-goog
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Content-Transfer-Encoding: 8bit
 
-On Wed, 14 May 2025 12:57:03 +0200, Krzysztof Kozlowski wrote:
-> "mediatek,clk-provider" property is a string, not an string array, thus
-> "items" is not really correct.
-> 
-> 
+Hi folks,
 
-Applied to
+Changes since v1:
+- Rebased on top of -next, dropping changes that cover the DMA address
+  MSB registers
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+This series is meant as an example on how to use macros and range cases
+to shorten the MediaTek audio frontend drivers. The drivers have large
+tables describing the registers and register fields for every supported
+audio DMA interface. (Some are actually skipped!) There's a lot of
+duplication which can be eliminated using macros. This should serve as
+a reference for the MT8196 AFE driver that I had commented on.
 
-Thanks!
+The three patches tackle separate tables in the driver. The remaining
+one that could be tackled is the list of DAIs; but that one has more
+differences between each entry, so I haven't done it yet.
 
-[1/1] ASoC: dt-bindings: mediatek: Simplify mediatek,clk-provider
-      commit: 0e4e9d75899cae4e7f379c50fa3d0121eff9641f
+Please take a look.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Thanks
+ChenYu
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Chen-Yu Tsai (3):
+  ASoC: mediatek: mt8183-afe-pcm: Shorten memif_data table using macros
+  ASoC: mediatek: mt8183-afe-pcm: Shorten irq_data table using macros
+  ASoC: mediatek: mt8183-afe-pcm: shorten mt8183_is_volatile_reg()
 
-Thanks,
-Mark
+ sound/soc/mediatek/mt8183/mt8183-afe-pcm.c | 571 +++++----------------
+ 1 file changed, 127 insertions(+), 444 deletions(-)
+
+-- 
+2.49.0.1045.g170613ef41-goog
 
