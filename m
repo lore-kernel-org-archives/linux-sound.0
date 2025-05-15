@@ -1,108 +1,147 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC871AAE13;
-	Thu, 15 May 2025 10:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA3417993
+	for <linux-sound@vger.kernel.org>; Thu, 15 May 2025 10:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747304500; cv=none; b=hV7v6ch9kmmvAR2rlPX9KIBlWURjXeuTWHMXrPmsXJL5ZUdquPxHqKwNwRHOSXTS1InvGgToESDLOQ5dfqrpfwmRYxL/Zr0SVE7uGusx9CXi9zbRjj3KTrPBGb62kNeduco77xuzjnw/Q02s9ZJFIEer+q6abfAeNVqrypLSCDE=
+	t=1747306000; cv=none; b=Fn+fROva6srpm/9nJ9Tl4lOopyI15dvip3kCCsg/j6IuEMi0VPKMR91kMN5QqioGVETGFCSIAPVSpjh2+BzjzebDjfyHCMbBOnnjqbI4cRvpTAHNIJX7tLkTzfUw7U46akTZvxb950fQ6N2ixDu7pWwy0Rb0oBeafXbjz2R9tE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747304500; c=relaxed/simple;
-	bh=IBJ48B8FrMxfymzU8kCA1OeBhWC5BE+jfp6BuTVBTV0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e9MNya0iqMZLvapvCYi1SSNZqfieSfrN4WFtrkZfkqFxZY+gvBr9B68GmPhAd2pOnPOKYQVNtFMAEyVaiP2t0ZSPn6MYH27KPKe+2Y8mWLnbMhluRsT7xdA08ZuEDcaRLMlM66AEPtJl6Dflkze/JeVIGrdaXUFPZrrCwQ3Xmxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FvGrq1dH; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747306000; c=relaxed/simple;
+	bh=uSC3FoTK1qaBjKKoRPvmW8tbiie4H0XvqOQUs2s/3ys=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TKXYxsHuo8IhBJ03FfxCMxfa6awHULSYMMYAMCHmpYefCBp0Nbeud1eughvXnUc9qJVFJPBjpu3yDPoVANlmJno3DQ5hGPSaEZXHxqOH1H8XnXSI0hvoWImp0xLSLU0hnFcXw3QzoGu+HGuamqhBYEP5fnC6HfHhEAFqfiMtXf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vNRy2TM0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RdBJqzYs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=n4KPlRid; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z13MK/ZY; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FvGrq1dH"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-441d1ed82faso6019175e9.0;
-        Thu, 15 May 2025 03:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747304497; x=1747909297; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=On9eUUQjGme99Aldh0NoBD5EoLx8LLi3roOkaysaImI=;
-        b=FvGrq1dHTJeNrO6n7iqE7g/ddEp3397RyaF5CVezz1HDKipqPsuK8XUFK/VB8blsjL
-         AmZVtjexAjxFdcXvUlTja5udWloVpjpvAijbymuAvIqBzBxVAofw9TFWZLNRzffraFyf
-         vkVWW7OZ2Tusylx6IBE0RyJpspXmr3IsfnLN+DXiYSa4Cv/w9yHONwBX0WtwhTC6M31Z
-         oC1rZbvEKqJDo7cUOuRuhFwBX58sTSZvth2n6n+aPh2Klw3txdbRwwn2rZTgpMeWNoCH
-         EXXi3JxhjpYkbQMrRUYodCqi1EeZ6q0ISgpGC5qgn+OGLlIfT9XWJZM1Kq3sQkPPaGoi
-         1gdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747304497; x=1747909297;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=On9eUUQjGme99Aldh0NoBD5EoLx8LLi3roOkaysaImI=;
-        b=hC2zY//r2IOuQOv8a2rRwjKARHP4cGGfNfwirTWNfybXZwmeFcjPaZjJLViESOWPrk
-         kMbbRGd8JqqOnQy6nyXNruxF1ZPpOYfRC7GZ4wrv96VTM42s840i3UVlePZnGztYkMud
-         k4jGpdXifO+og/hmAVhrFCk7/waqtRSobhrIOcgkNnJl3RAVSeO8JAWqem8Wg8CyJid0
-         GewnPsrfWMzq61QT32EKWI+JxV43cWHF/GpAHzeVfqYbny9gkbYSju6JOT/Ei6V7OinU
-         IkVr1tEISM2RvJjURLx0vG1kIZW8jcU2mcY2j2oqjgKS/B4t7tasCzn9D8q/Pxpi6w4E
-         ql6g==
-X-Forwarded-Encrypted: i=1; AJvYcCVzm9uVxiOeCK+7Me3Fqs7/iRfyo0GE1ZKK33SLqREZVvavT9IqqYoL0vR/LUMeqFEO+8AY5O0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrGVRDRg1x5Am4ml+6EK5oWYizunWKHG+/wBoryc94rxEcivs7
-	/11YzV6oVZgkWn35nMU604axXrH25UY9hz8q8uWD6zZIiXlamceIn9zcOCz7
-X-Gm-Gg: ASbGncsZSlsdO9jh8js4ePJXVaU71ZZpioBMc5TOwkX5FjJcCjfHOvKhASev0be/NnD
-	P/KEhsbFr5JcV62HnS9gizywrOWC/BuyCSUwdrLxd1vAtPTGSjBZqpsOLunlB2epUlaBUS3wQHq
-	GW7nq8shMrFHJqqEa6Fv9VXGHfLauORD6GGNp8rjZdjeDjBMYLczAWOpNeZnJiTrfUtu4MT4OU0
-	BXzYtws4rk+sAFfUtBQPuThr+ncMomuLAuGZ0/2PuqmqPR/KumQOBaMZ6lauRAZvHkAAQIJhLGj
-	9ZxdefwC0PZFmUjJg/ZrSSas1pX81rYLuwxVA0Vz5MRWtQLGY56qDy6s2JiqaBl9Rq99
-X-Google-Smtp-Source: AGHT+IHy4jHcrdobRv0+hmIO7Zf8+Kedvbw4BXOlx2nloQE+IEuvIZOU88dP270djnJ+7idCGIAd0g==
-X-Received: by 2002:a05:6000:2289:b0:3a3:49dd:ada1 with SMTP id ffacd0b85a97d-3a35373780dmr1380068f8f.24.1747304496495;
-        Thu, 15 May 2025 03:21:36 -0700 (PDT)
-Received: from arrakis.kwizart.net (home.kwizart.net. [82.65.38.83])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58f2f65sm22668028f8f.55.2025.05.15.03.21.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 May 2025 03:21:36 -0700 (PDT)
-From: Nicolas Chauvet <kwizart@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	Nicolas Chauvet <kwizart@gmail.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vNRy2TM0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RdBJqzYs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="n4KPlRid";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z13MK/ZY"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 754A81F6E6;
+	Thu, 15 May 2025 10:46:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1747305996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESAwA4r7a1Fm6MOy9EpWBEBZFQFWv8V+lGLSeLMan4E=;
+	b=vNRy2TM0g/sqcPHd4XgvJXZ3gBFm7L0bS0kOIPrc5u6U7IJtgZq7SCoE3+QvwZW4x6QqAV
+	fS6mlxcPazf4F8FuxNvftzcHuIPQGa8AV9K/SHjWYjWBSoncy0qnVNtWFhNW3GWjMjy5Bj
+	qGP+A+pH7ZrVL3rIFB/f9/E/ASYJMG4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1747305996;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESAwA4r7a1Fm6MOy9EpWBEBZFQFWv8V+lGLSeLMan4E=;
+	b=RdBJqzYsNvFURU0/G0XfSOuja+M2VtR+zBffepSdgHjr/8dRtSvBzHX+BbxMDJA7CeSh79
+	ugL9i34/AyFWM+AQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=n4KPlRid;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="z13MK/ZY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1747305995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESAwA4r7a1Fm6MOy9EpWBEBZFQFWv8V+lGLSeLMan4E=;
+	b=n4KPlRid6ZmQ4M6D1PoznN/xv6+1+BQEwZrrO8EtKvzOUHVu0Pzn4jXojPKXD6wRhUg61G
+	q7gA8RS3tF3wdg7ScTzJel/Bi3dQPCWhITQ7wZVG0VuJiBkSSzDIF3lMtbWOtonKdeEg0L
+	A0vXFq3dUTolaDM+ihM9bRQ+fNl6Uuk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1747305995;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESAwA4r7a1Fm6MOy9EpWBEBZFQFWv8V+lGLSeLMan4E=;
+	b=z13MK/ZY5w8iw8L4TYj23tqkaYa2gdj7qII/qKUuF28Ke2nTJ93YRRkUEgNTAVPqI7Bkyw
+	ZDhTeeKi/S4xVeAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4A596137E8;
+	Thu, 15 May 2025 10:46:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xvu7EAvGJWhQZwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 15 May 2025 10:46:35 +0000
+Date: Thu, 15 May 2025 12:46:34 +0200
+Message-ID: <87o6vurw1h.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Nicolas Chauvet <kwizart@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Add sample rate quirk for Microdia JP001 USB Camera
-Date: Thu, 15 May 2025 12:21:32 +0200
-Message-ID: <20250515102132.73062-1-kwizart@gmail.com>
-X-Mailer: git-send-email 2.49.0
+Subject: Re: [PATCH] ALSA: usb-audio: Add sample rate quirk for Microdia JP001 USB Camera
+In-Reply-To: <20250515102132.73062-1-kwizart@gmail.com>
+References: <20250515102132.73062-1-kwizart@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 754A81F6E6
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -3.51
 
-Microdia JP001 does not support reading the sample rate which leads to
-many lines of "cannot get freq at ep 0x84".
-This patch adds the USB ID to quirks.c and avoids those error messages.
+On Thu, 15 May 2025 12:21:32 +0200,
+Nicolas Chauvet wrote:
+> 
+> Microdia JP001 does not support reading the sample rate which leads to
+> many lines of "cannot get freq at ep 0x84".
+> This patch adds the USB ID to quirks.c and avoids those error messages.
+> 
+> usb 7-4: New USB device found, idVendor=0c45, idProduct=636b, bcdDevice= 1.00
+> usb 7-4: New USB device strings: Mfr=2, Product=1, SerialNumber=3
+> usb 7-4: Product: JP001
+> usb 7-4: Manufacturer: JP001
+> usb 7-4: SerialNumber: JP001
+> usb 7-4: 3:1: cannot get freq at ep 0x84
+> 
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Nicolas Chauvet <kwizart@gmail.com>
 
-usb 7-4: New USB device found, idVendor=0c45, idProduct=636b, bcdDevice= 1.00
-usb 7-4: New USB device strings: Mfr=2, Product=1, SerialNumber=3
-usb 7-4: Product: JP001
-usb 7-4: Manufacturer: JP001
-usb 7-4: SerialNumber: JP001
-usb 7-4: 3:1: cannot get freq at ep 0x84
+Applied now.  Thanks.
 
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Nicolas Chauvet <kwizart@gmail.com>
----
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 9112313a9dbc..d3e45240329d 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2242,6 +2242,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
- 	DEVICE_FLG(0x0c45, 0x6340, /* Sonix HD USB Camera */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+	DEVICE_FLG(0x0c45, 0x636b, /* Microdia JP001 USB Camera */
-+		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x0d8c, 0x0014, /* USB Audio Device */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
- 	DEVICE_FLG(0x0ecb, 0x205c, /* JBL Quantum610 Wireless */
--- 
-2.49.0
-
+Takashi
