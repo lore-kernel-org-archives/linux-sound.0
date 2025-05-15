@@ -1,148 +1,130 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2065.outbound.protection.outlook.com [40.107.92.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B451117A58F
-	for <linux-sound@vger.kernel.org>; Thu, 15 May 2025 15:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747324159; cv=fail; b=KoxBg3f2zndWXEQoqE3EnuPY3OxdZpDuMF442oLsT9NaX5T7wYVjeqmwtO+tpXMYS4+/Tq/AU5GjNPq7XSjgMvVJl0VZdYHH6T75SCjLtKaCVzQNNW/XdMomCp6yUhpZeilwft0yLvPY2DSBF22LtbllTkzQwtSXj+6rs9CKUk4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747324159; c=relaxed/simple;
-	bh=MQeoYo5SOB0t2/sPz4F4IoE3AvaflAyLGWcyP828dc0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QpOXzo2QjNoIC0cGlAeMSH97b491oKge3FpHyU7ZG+tAc49LBMaiuy4Z7R5YIUjLpesUswyiJUC45H3KQ8MmJT4Sqq393YIhC6uYyfpL6d0ttXyT3Rmoma6AS15SP3zvqCuUtnSebZRqABaXOtcPycQkN/0Y5fOR/Ozk3AZSYBs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=iyW5K9sx; arc=fail smtp.client-ip=40.107.92.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09D71F3FDC
+	for <linux-sound@vger.kernel.org>; Thu, 15 May 2025 15:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747324182; cv=none; b=elqU3ePnJ8uxgNmYtNCfvrFCejyHx+Kq/IjezlVe1251juUGr8UIeYUtW8RclBh+4UmPrHtWTk4xlDp4bKp1ARihmJwGVq7eg6DpMiKIOf7LGCsXfYEHNNclpojcrn10frckPb3jrhBJJEJkQTQOMtGlPcErTiCoqXeCznXIjYE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747324182; c=relaxed/simple;
+	bh=hp/ebNzQ/jfg3hTFg6rwTC1gCZhz/oSi/CVPt4H8fW8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oDwb5sYj/zBVuou9khAN+2YZKAvqVpjemp8WSNlZe7NUaj4Qpt0g5O/5AdmFfh/y6rnxl0QJIk/q+oDX2G4ODJbgoTDU1eFBhQOUE/zu7f5obmbdQanopwK5ezDYusqJruv9sFAzOI+ThI5zhAkJ/SLHcYswS/mkLIm9io8J+KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iKhIgHcu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o6G8C4QU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iKhIgHcu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o6G8C4QU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="iyW5K9sx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tbY7ramUbhFFR/rSx55hhE6XtmeSNdrvwpXGJcHRlKurkN+kiW4sKKZGg4rHdg0cJjBbj4BlyndBrOxvCmKYvGelMCgnqLilUqhy6yM9VO7Cnc1q/KHJ6l2xpIHnrbakhyNChDuiQZXaeE7dCiZx/RQDn9UY/YN7hyz+aVntMF/T4A3/9+lu1jyzo5gsBwjVgCwZqKqs/RvDN4T/lMMg7TyN2O90pC0ZkhMyRQ6Wc0G60WnoH7WPGKHkJG4thTf/UX1pluD9SNNZweSkpx0kZ3geef/vyoN7PTO2IZik05zHyhMS8zCfHhT7MWmrZjx9vfRTWSBX/dpgx4jbl/oJEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PywgyqH5w7nqo92vpfbMkNN8tjuf7ctTnWH9GkIRbmM=;
- b=vLTtm0/P42HtgB55QXCqAbfSGEtxWsvCBhoKrtErwDIgR65YziNyE75C0ql++bc/LKMynJ1nD8sRIyF1MTF+YGsqjmrZRSb8K9s9cMfcHml2NffdyxIrnWliSfU41VNLRF1lMjXvmCB/J/WRaDMcctxS6ybtNTgvMh4koN7qFsZaKjfY8ljOMQl8BPoNdd4vrV0nDOUinEewtG3uSy81t/Re0jSZV1nZjpdMWHB0fcESeWxUuBCHeVc/E4P064yiX/b0jvnyN1m2UPsW6WxSGJpjWRVUSCwyZwQPU7R94xNhKH3PT8RmS0vp4CMCTTcbywu/M0ypjW0nIY3kK71r+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PywgyqH5w7nqo92vpfbMkNN8tjuf7ctTnWH9GkIRbmM=;
- b=iyW5K9sxBLXecpyRcYBYfL911HLVVpakCS+5z74dgDNjKOTWnoYCPDk59cBCWP6HrsrvzjNdFgfI/qKeRgHePXk8DWOGGFjctBePAJtYkv4G37b+iDE26Prik6NIP22fiwV5Vhk2O85iV9sc7Ph9SizAv2MAOgrQtqbC8FcPn94USepuw+fNxlLxKFXGcGv8FiDaB8ZgN+xd/Jv5uOJNtrsIcCSJF2eD4cPUAnqanfBaSUcI9HlE+DsgizvKQS9e/1rwaztxLkh987dnwi6h8yd3n9EfG1X8XhK82DIZf7hiVfVnlpjn+Sv+vr9YP/8MA9oCGL6ccOGc+oPL27YmdQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8422.namprd12.prod.outlook.com (2603:10b6:208:3de::8)
- by PH8PR12MB6724.namprd12.prod.outlook.com (2603:10b6:510:1cf::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Thu, 15 May
- 2025 15:49:13 +0000
-Received: from IA0PR12MB8422.namprd12.prod.outlook.com
- ([fe80::50d8:c62d:5338:5650]) by IA0PR12MB8422.namprd12.prod.outlook.com
- ([fe80::50d8:c62d:5338:5650%4]) with mapi id 15.20.8722.027; Thu, 15 May 2025
- 15:49:13 +0000
-Date: Thu, 15 May 2025 10:49:10 -0500
-From: Daniel Dadap <ddadap@nvidia.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda - Add new driver for HDA controllers listed
- via ACPI
-Message-ID: <aCYM9v7QP8IwLj5Q@ddadap-lakeline.nvidia.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iKhIgHcu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o6G8C4QU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iKhIgHcu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o6G8C4QU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B700121172;
+	Thu, 15 May 2025 15:49:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1747324178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=47luBjzKHX7sSmJW2ARwtDlsRc9qTK534T5gwzoGb40=;
+	b=iKhIgHcuigeCA/SgnT3xoY/Bu+isCEfnUtvdLgsjX0lonvoZW6JEg9OcGqls3owAu7peIh
+	xLBpCPhUUvmMv/8oOwFJrESWKflLVl9QtrmuZWgMDeM0WD5qmnWZUNWom7zio9HKgM8CZR
+	4PTJUTsbEym9tSfAdtJl266zUKeGA6Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1747324178;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=47luBjzKHX7sSmJW2ARwtDlsRc9qTK534T5gwzoGb40=;
+	b=o6G8C4QUZybot4nIwP8GyoCceWqGZdnP30qdqzGsoaUVJSUNZauPXTJPKvLNjhtJZlTBzI
+	SUZjFLFeZGs/N7DQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iKhIgHcu;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=o6G8C4QU
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1747324178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=47luBjzKHX7sSmJW2ARwtDlsRc9qTK534T5gwzoGb40=;
+	b=iKhIgHcuigeCA/SgnT3xoY/Bu+isCEfnUtvdLgsjX0lonvoZW6JEg9OcGqls3owAu7peIh
+	xLBpCPhUUvmMv/8oOwFJrESWKflLVl9QtrmuZWgMDeM0WD5qmnWZUNWom7zio9HKgM8CZR
+	4PTJUTsbEym9tSfAdtJl266zUKeGA6Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1747324178;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=47luBjzKHX7sSmJW2ARwtDlsRc9qTK534T5gwzoGb40=;
+	b=o6G8C4QUZybot4nIwP8GyoCceWqGZdnP30qdqzGsoaUVJSUNZauPXTJPKvLNjhtJZlTBzI
+	SUZjFLFeZGs/N7DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A1FA139D0;
+	Thu, 15 May 2025 15:49:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CthtJBINJmiNTAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 15 May 2025 15:49:38 +0000
+Date: Thu, 15 May 2025 17:49:38 +0200
+Message-ID: <87h61lyiul.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Daniel Dadap <ddadap@nvidia.com>
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda - Add new driver for HDA controllers listed via ACPI
+In-Reply-To: <aCYMBDAxKhD_30Pa@ddadap-lakeline.nvidia.com>
 References: <aCXswg1gr6cufyzp@ddadap-lakeline.nvidia.com>
- <87r00qx78f.wl-tiwai@suse.de>
- <87o6vtylem.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87o6vtylem.wl-tiwai@suse.de>
-X-ClientProxiedBy: BYAPR11CA0050.namprd11.prod.outlook.com
- (2603:10b6:a03:80::27) To IA0PR12MB8422.namprd12.prod.outlook.com
- (2603:10b6:208:3de::8)
+	<87r00qx78f.wl-tiwai@suse.de>
+	<aCYMBDAxKhD_30Pa@ddadap-lakeline.nvidia.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8422:EE_|PH8PR12MB6724:EE_
-X-MS-Office365-Filtering-Correlation-Id: c983fb17-60ff-4605-0a70-08dd93c80a2b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?pNEoXl7eLUb91j2EXNvn9YWwfYbeybERizdmSFlq8jtQnZLRgoeNwjIdQmBv?=
- =?us-ascii?Q?GWY0PNB6/4WPC/W8pyZcEvhPJ3pn8C8KgH89nvmg2M/eLvV1AqpiR/5XrIXX?=
- =?us-ascii?Q?BTPKD3qEL5pTItqkCH/Z87o+x8901mYASRM8iUJva3PpyguNzuJS7AfXrrSA?=
- =?us-ascii?Q?UCoXZSBCseFIZ9UrRcl8Hotowu5o9gHcrA+63j2kRRTuESNmrT6Cdo8bOzCm?=
- =?us-ascii?Q?8O0rRJajSFeeq71UbPVh5lbYiWbnYgKwf8B3NrKZblk12o/uhaCeUf6ynaIJ?=
- =?us-ascii?Q?+UFVmPXfWgbbXbY0rNpf1i+eOV+RW6S1gh9Hu2uKWaCiYIfT0vlXggra+7Qf?=
- =?us-ascii?Q?HyQ0rxdmyhNxMqeokBt/A07R3xVcIPocAozXI0gzcRFmj/Lq6UXTScD1xxHk?=
- =?us-ascii?Q?gOD2zXkHb6D/+ANWItEWuo/GC2Ef78fONnkmupcdlGEryAbH46/4jYTkMAHG?=
- =?us-ascii?Q?osYVeRt9s9xXwy9V/xCJhTj/Lu9grFMPpe5aZA8v1+lyFZAcLF/I+fiJvyZ8?=
- =?us-ascii?Q?GhEW8UwpSnGGgBZOAJZVaALOyciKleLv7lFqm/V30lrJvuHzCcxMfvV3kK5Y?=
- =?us-ascii?Q?6KXcndCA+TOICaG+ae9vSdzSURfs7GEjzJ9XFqVcYOXNYfa0qLLzKU5bYuMe?=
- =?us-ascii?Q?fdtkRyr+GWhs1u0sdjTNWtJ4XDdILxpj5H0cpVxAnPIrzJlOaWm/eJ7gkda6?=
- =?us-ascii?Q?K85U9h8Oz5gpPXjGztG46zpjatAJ/Zaeq1KRwUSM4W6RDOPPSepqcrUdnRU+?=
- =?us-ascii?Q?x0DTfkucvwFRLDrADtsxt0YAwcmQCdm9sMr0ApQJbJW2mdvecLG/ey8psn3U?=
- =?us-ascii?Q?lxLdEbwkeQzu3Ux9/+vnlii0wQmx8MKXT+FSV2jL68jaqycYcLoUZJZSFA4e?=
- =?us-ascii?Q?apmfLD+CsE9yfGAXXQ8xRzW9Qx3lnwq0wZAhBkHYquxSHTBssBfj4+U0ZFfH?=
- =?us-ascii?Q?IsoCxtvScCEW9KnqdLsXZpd7WxE6XJpI2Q8ZX02WZ/q8SF0z0SjthAbojGim?=
- =?us-ascii?Q?SmXs5sAyOfRYLaEEYcHpytC4FT+nokKmUKFuZ8jdVTxA1mN/LMgEUsUMZdLM?=
- =?us-ascii?Q?l2slFOtEir27tEKtEAX5b/TKGcgfmO0Ud1Tj9jbuBOQt9/t861ObzVb9ddI6?=
- =?us-ascii?Q?+vdypnZCyt62aZSTFP7/NzhEbRS0vfrPlS3YWHwE2XeDrL7XHFqDrp4oQR9+?=
- =?us-ascii?Q?608NaR6VLMkrvatip+O1S0O3ZUoIRcdK214otad/RPysR4lo715xl8tH/Dtx?=
- =?us-ascii?Q?UyRWwW/vBeWaCxqzED62ze7Z3KX2tZceipOED/N9uX52gUAwbXUFmit4UNxK?=
- =?us-ascii?Q?ClG6RRnr0aj8s/+1Ac9kA79tu6ulw8Yc9RowT1/i/NE2QnX2ARcl82RZlmIZ?=
- =?us-ascii?Q?xx20jR7vaBEKvgCBf64D8doM404S+TQVpOunQSR3VIcQDmwSQKyUI7GFFAGm?=
- =?us-ascii?Q?JXSm6jlb0TA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8422.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7Y4j6+NOaIAOP+oIbG7b6bhrpfZSQS/u+tdxOj+WxFwKPxrSlP/6XqUZwges?=
- =?us-ascii?Q?a7+69W79/Yxu6uhM4+3XsIErQLoM8x4qNQY5RVtloXdS9RrQJKbG/HFxWLV/?=
- =?us-ascii?Q?CIKU15PntEVq/4QOX+QQVx+yNmT+KbRT9d9nNIw351cefUrBiqVzZaBDJxHR?=
- =?us-ascii?Q?YN6IDvvfEpGaNBlBsy0SFh4WNnxeXptiVoWCGhoNF4X7otSll/Cb6b+rc7nD?=
- =?us-ascii?Q?l2J4r8omSioK2y9XTJueBPS1DuPcBW41wgpI96QsFHlFsEOHSwT7BXFbXwtL?=
- =?us-ascii?Q?Rn9thf2laIvBgVnauF+V0v0U1s7lR2KefTHPZLwzqHZ3htzffpKqnubhUAxk?=
- =?us-ascii?Q?/K/E6PgHX+5w+ZcQskSqbD19Rzxx9Ba2e2oML+z16Lpanv8b0FaDX1y7Z+w1?=
- =?us-ascii?Q?XHKbufllEODT8+3wOQNV6RydO0rywJ/7QG5LnTkVN1vTSkEw3WWbSQPYhpml?=
- =?us-ascii?Q?FGB28RN4f1h8FUPZde5r9Rqpy9GDE1tAv85udn+qIyRmi6P4BxfMwUScrsSH?=
- =?us-ascii?Q?Je3tc1lHuAezJCcbO19cJJHFOo1G8tqF0GQJvWJSs+Gyt4ibn++jswkzTy2W?=
- =?us-ascii?Q?+Mi0EuwAlqIh1NJB0tFnEPXlrmudv1Qb4MPjrqQSJPerEwNeeOZXkGJSDuE5?=
- =?us-ascii?Q?4e6ihau5sWis0NI1yEfxca7ZBE+7gowdQLL/9y6ZfWhpp4MO1HvG2+cRU/Me?=
- =?us-ascii?Q?AyiEAlkKc72LxnE+qpyeRz2b6r+AMbtyFgU41tma/dY/wpxzd58jvqRaYiaR?=
- =?us-ascii?Q?LwnXcHDbEmKyE549LObLReQYA1RDmVCfqr/x9NUHcxihF0N+G6CY4HZU0XR4?=
- =?us-ascii?Q?h1MZHc0AQQ4G06Shz1F4gxprjtDUgIxfSRfeKbmj/B4ywKjurCY+Y722YGwV?=
- =?us-ascii?Q?nCObs2P7nuW0Ia17Ged8bZ+RVnh4GkiMY+kJigtToT7nDMEQSTuAOUcJ2tR5?=
- =?us-ascii?Q?el8oxMIn0eUGA95jqhABkn+aChSjxatnADoIT4/7L6s7GCq809/VjEVJmOfq?=
- =?us-ascii?Q?cgU+Zs6Gl9+kpRLIqHhXHC1LVIiNvPC5uSX3/awC/Yk8yisurfhDuQaz8ENy?=
- =?us-ascii?Q?gbAwRH3B4Veo4CMIinUazccZMQnt8GZBxzDq1bOBMOV3O1dwi6gSRh8KrKU4?=
- =?us-ascii?Q?/TAm4+HuSlhznaUbDHR9biNqxPmV4xUG1MLUeh4EvcDS8WZH3rgl84vc5ck9?=
- =?us-ascii?Q?ejzrirQn6FIBfDK6ByDRG2YaXkC3LyGwmjLlug3y2Nfoj3yrW+yHK4qBav5P?=
- =?us-ascii?Q?Rl/m1JeHhn/PR0Na9YiAKpOqxhrbl8ITp4qu5GJhwIjMaAA+oFCFOXqO2QIy?=
- =?us-ascii?Q?4b71nnO4nEs7HDWLfHtd/tGutJZT8VXVej8yF/GGB6ek0IuA8HS8imvFQq2J?=
- =?us-ascii?Q?gLiznuSl+HEStK4dF1HnZ5o2e15m8XKAl8j+LkvdpF7FXzLifqTRtwQS6QXk?=
- =?us-ascii?Q?6M7GG6k75gCw6IQ37TXuzn+2w8Ugi/iuJ+x5vDri3j6kKb1esfjUoa0WRM3T?=
- =?us-ascii?Q?dp8qWEpwKOVEB1TMLKKggKjjNkJZS/o8O6j5NtoXOnc/YdWAXobpyLgNJoBy?=
- =?us-ascii?Q?xyE3il+0wt9Saeib0aJWs/qiuI67r9e+hSETaFrb?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c983fb17-60ff-4605-0a70-08dd93c80a2b
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8422.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 15:49:13.0936
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zQkNifzo8grE9VkA54AbRPvBmAfIjT5BbC9A2K/YGyO9OFYnddJPTqlAJ5LKtcOibVQ43Zma1/OuT6cGVf/umQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6724
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: B700121172
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
 
-On Thu, May 15, 2025 at 04:54:25PM +0200, Takashi Iwai wrote:
-> On Thu, 15 May 2025 16:45:52 +0200,
-> Takashi Iwai wrote:
-> > 
+On Thu, 15 May 2025 17:45:08 +0200,
+Daniel Dadap wrote:
+> 
+> On Thu, May 15, 2025 at 04:45:52PM +0200, Takashi Iwai wrote:
 > > On Thu, 15 May 2025 15:31:46 +0200,
 > > Daniel Dadap wrote:
 > > > 
@@ -194,14 +176,12 @@ On Thu, May 15, 2025 at 04:54:25PM +0200, Takashi Iwai wrote:
 > > 
 > > > +static const struct dev_pm_ops hda_acpi_pm = {
 > > > +	SET_SYSTEM_SLEEP_PM_OPS(hda_acpi_suspend, hda_acpi_resume)
+> >
 > 
-> Also, at the next time, please put the maintainer (me) to Cc.
->
+> Thanks, I'll send an updated patch. The hda_tegra driver has these as well
+> so I presume it can be cleaned up from that driver as well?
 
-Sure, already sent it with you on To: as a reply to the last message. I was
-wrong about hda_tegra having __maybe_unused, you already cleaned that up.
- 
-> 
-> thanks,
-> 
-> Takashi
+It's been already cleaned up on 6.15-rc1 :)
+
+
+Takashi
