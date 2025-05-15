@@ -1,162 +1,222 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from posta.frantovo.cz (czf.frantovo.cz [91.219.244.97])
+	(using TLSv1.1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF8E225A2C;
-	Thu, 15 May 2025 12:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922962222A3
+	for <linux-sound@vger.kernel.org>; Thu, 15 May 2025 12:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.219.244.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747311562; cv=none; b=CriRNTAIiyw6NbgaXm/7x8+/HznMepwKz7n5EEIsDRTtgAsq+VpFo60ztY60w4CalBHX4NfUYT8INE8BJn2iPckKDiLRxXDfzTtRJcuD8q6X/gDEdccYCeOGfw7ZyJGrrCmw9Hf+g0n6Qg5I/dzMqsXaCdirzjc+C88OVrtPsSc=
+	t=1747311891; cv=none; b=emvzD9MdkmJ3VIRQSRnpxmT/lA1fYMSXtcMOMy18ZbbZtcSdaZxLMBQZfxmiYZyfB8eGLzUiSmnD6UQUvXwxDfp3FZgzervJoStsgGS9XWuMl1e5JmEduZM5Vo5d0+QU3jwWjdBvpfA9AucHI6nDM/mqJL6n6JmCHK5IJPZAKWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747311562; c=relaxed/simple;
-	bh=RtTnO+IV4Fv6Kejv0DsZEHYE7n8C1TTg0adGEMtO4S4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sqg0ZPpBSll8h5ZekwC2yu2xEuNkiAITCptvK48cFAT14Uk9taqvNKMct6gn7JsP/7tOLv+Y+dXlbTJyCltEW3/1g6geN62DJWT8gqAsrPmPXhhv1CQIAghKYG+t7vBhctB6EDrijq57fBerp8+1ANL4uhzLi+gt/S1OaTT8+rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tavianator.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tavianator.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ad21a5466f6so392446966b.1;
-        Thu, 15 May 2025 05:19:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747311559; x=1747916359;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Loekc1W19SB4FJ/b1cga3vjlsDJhQwmt/FwlxRhI2KA=;
-        b=GETUItKR+kpP0+EQmrEihOe3UV7ETDRntxvvbP+GJqvDa/o0Zar0fsESWX7DU0/r6y
-         iC7mOmSRQySujN6QqNjEXcAabY1JYEMHooXAGIk70e5LNXbjv9qaLwQrHbD985lSeahK
-         3IKZMFqbKRWX89//euzRiAR0gvSiBp7BRkQLPjL9vBGudjQeG3siUguRuCxw4fjSUXkI
-         vfmLPVGl3YaKk0M1dk//Mbo3X3FYHksrlcu9k5jvDZzVqeTaCvW2STYGd32NOhQHWHrl
-         lmPhN9a5jtuB/D0NmA57L6G2+jCc4hX5T9jQ6cjGAjx4XEyMVEUZDBmvy8suxzddWJR6
-         aCHg==
-X-Forwarded-Encrypted: i=1; AJvYcCXA2ugNEttmeHxlWR9OfF/8JvdQBAhWi3Anp9KVxvSmdJT2mR16F3OSSlHPxSlL6avlQNpWY5h3tXo9p1Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmmZC9HSvpPZLcbHKnEOZKSnEh29UJVOELasulPFRxO5g8xovo
-	yIEMFZmwAt5I3+f3ipenxsvIBp/teJbSkThpTQjiYIhVJvcg4zIltLY+WqhhSgeOsOA=
-X-Gm-Gg: ASbGncuLWP1MCBSDi16aXvblGpMXEwVbGOdk5pXH56j/0vydAFWi6QQy5e053vHULBR
-	R97gZswYGwM/6Th7axcr+Nl1kuQc9lDuCbrnApcfvAU0xlRP7GKtSnScIBykuY+3mTc0RzwGgwF
-	roAVrgU2ginFSpUcS9C2IfaL2/kXSxfqt9jF/lfcGTbrgoI4nkncslk82Hpe8O/HXMMKWjMg7I1
-	dvLjlXwZz2jxIxJ0jhLhrjOsM4gWjyVyYeWbDXioTG8EBDz5Uoy/ygUe+qjnLJCFS7jnfXGTEdR
-	H6uMxukCok8TXA6dLH3/E9R32r5hR9Ezfb1v15ftdBWfwUikG9OGNESul+AnwlNr9cMxmh/vFst
-	TIK7UxU/8kglipaBxonEk
-X-Google-Smtp-Source: AGHT+IEVZNcmANhkXCTxi5n1uhgJ0qzrHE2ZHwnIQIRAYe4t3MeAmjhbXJS4XTM8+UOoOw/TCiqomw==
-X-Received: by 2002:a17:907:94ca:b0:abf:48df:bf07 with SMTP id a640c23a62f3a-ad50f6beecdmr329000566b.15.1747311558541;
-        Thu, 15 May 2025 05:19:18 -0700 (PDT)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ffe7493037sm802334a12.16.2025.05.15.05.19.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 May 2025 05:19:17 -0700 (PDT)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-acacb8743a7so153054266b.1;
-        Thu, 15 May 2025 05:19:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUvwBIeuOy42upUo90po4jAA+UZeLfzQbTegi5ziV8XLhnuqgbxGRZelqiB74V2Lj/nTGkVyZjKvyMV6Ns=@vger.kernel.org
-X-Received: by 2002:a17:907:6d06:b0:ad2:5212:5e87 with SMTP id
- a640c23a62f3a-ad50f6beee8mr281366666b.16.1747311557733; Thu, 15 May 2025
- 05:19:17 -0700 (PDT)
+	s=arc-20240116; t=1747311891; c=relaxed/simple;
+	bh=N0CRk/rkn6Nl9YiHIQNnbwXi8vXcDK+jGDvxPn2pvFU=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OFWxxlVyCjvgRgJEPv7hOPf3bvcJmrCbpCjfucXkXgPzLGhgGV2ot1rJ+WWeni/dXyQtjEQ+M2a0wGorazcxxSVbpTKSSVNv1reRZRJNZ0oosOnG5JjkM10n2DF1HbeAbKc6LPSqOlWDXl4Ys8QGbuFmi+K2X0WkGG+jxYCRYW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=frantovo.cz; spf=none smtp.helo=posta.frantovo.cz; dkim=pass (1024-bit key) header.d=frantovo.cz header.i=@frantovo.cz header.b=agXo0iWV; arc=none smtp.client-ip=91.219.244.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=frantovo.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.helo=posta.frantovo.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=frantovo.cz header.i=@frantovo.cz header.b="agXo0iWV"
+Received: from expert.. (localhost [127.0.0.1])
+	by posta.frantovo.cz (Postfix) with ESMTP id AB33A12FE46;
+	Thu, 15 May 2025 14:09:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=frantovo.cz;
+	s=default; t=1747310985;
+	bh=N0CRk/rkn6Nl9YiHIQNnbwXi8vXcDK+jGDvxPn2pvFU=;
+	h=From:To:Subject:Date;
+	b=agXo0iWVWJBeV2TLqLf8COeH6LpGK//z+D/IuBcih/YsmQJJdhhaB9qYaF8VDx33v
+	 OPHPIOpNHDf50su6l5XdjM9o17cOmFttRtRrt9FxojrAqrx0fREKAp/KOZXGJAzDGP
+	 Nmz9K7a+ofkFNGNNfwWX7QEc/qcNux+EhRcByZUQ=
+From: =?UTF-8?q?Franti=C5=A1ek=20Ku=C4=8Dera?= <franta-linux@frantovo.cz>
+To: linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.de>,
+	=?UTF-8?q?Franti=C5=A1ek=20Ku=C4=8Dera?= <franta-linux@frantovo.cz>
+Subject: [PATCH v2] ALSA: usb-audio: Rename Pioneer mixer channel controls
+Date: Thu, 15 May 2025 14:23:46 +0200
+Message-ID: <20250515122345.3911-2-franta-linux@frantovo.cz>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5aaee9fdfe8437ef2566b200bea45e4baaba3fcb.1745426811.git.tavianator@tavianator.com>
- <69a5dcdd-fa1f-41a8-ad6f-4c2f2c97128d@linux.intel.com>
-In-Reply-To: <69a5dcdd-fa1f-41a8-ad6f-4c2f2c97128d@linux.intel.com>
-From: Tavian Barnes <tavianator@tavianator.com>
-Date: Thu, 15 May 2025 08:19:06 -0400
-X-Gmail-Original-Message-ID: <CABg4E-kqVYX+VXM1Dt-GK2JwxEtcn_SEFnf73JaX+Rddni88CA@mail.gmail.com>
-X-Gm-Features: AX0GCFtt0KfgCWJiNHWtvAWITSLV7fbj7kpII4imodJ0urDyLvn-IS__XRa9FoA
-Message-ID: <CABg4E-kqVYX+VXM1Dt-GK2JwxEtcn_SEFnf73JaX+Rddni88CA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2] ASoC: SOF: Intel: hda: Fix UAF when reloading module
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Brent Lu <brent.lu@intel.com>, 
-	Peter Zijlstra <peterz@infradead.org>, sound-open-firmware@alsa-project.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.98.1 at posta
+X-Virus-Status: Clean
 
-On Thu, May 15, 2025 at 4:04=E2=80=AFAM P=C3=A9ter Ujfalusi
-<peter.ujfalusi@linux.intel.com> wrote:
-> On 06/05/2025 18:12, Tavian Barnes wrote:
-> > hda_generic_machine_select() appends -idisp to the tplg filename by
-> > allocating a new string with devm_kasprintf(), then stores the string
-> > right back into the global variable snd_soc_acpi_intel_hda_machines.
-> > When the module is unloaded, this memory is freed, resulting in a globa=
-l
-> > variable pointing to freed memory.  Reloading the modules then triggers
-> > a use-after-free:
-> >
-> > BUG: KFENCE: use-after-free read in string+0x48/0xe0
-> >
-> > Use-after-free read at 0x00000000967e0109 (in kfence-#99):
-> >  string+0x48/0xe0
-> >  vsnprintf+0x329/0x6e0
-> >  devm_kvasprintf+0x54/0xb0
-> >  devm_kasprintf+0x58/0x80
-> >  hda_machine_select.cold+0x198/0x17a2 [snd_sof_intel_hda_generic]
-> >  sof_probe_work+0x7f/0x600 [snd_sof]
-> >  process_one_work+0x17b/0x330
-> >  worker_thread+0x2ce/0x3f0
-> >  kthread+0xcf/0x100
-> >  ret_from_fork+0x31/0x50
-> >  ret_from_fork_asm+0x1a/0x30
-> >
-> > kfence-#99: 0x00000000198a940f-0x00000000ace47d9d, size=3D64, cache=3Dk=
-malloc-64
-> >
-> > allocated by task 333 on cpu 8 at 17.798069s (130.453553s ago):
-> >  devm_kmalloc+0x52/0x120
-> >  devm_kvasprintf+0x66/0xb0
-> >  devm_kasprintf+0x58/0x80
-> >  hda_machine_select.cold+0x198/0x17a2 [snd_sof_intel_hda_generic]
-> >  sof_probe_work+0x7f/0x600 [snd_sof]
-> >  process_one_work+0x17b/0x330
-> >  worker_thread+0x2ce/0x3f0
-> >  kthread+0xcf/0x100
-> >  ret_from_fork+0x31/0x50
-> >  ret_from_fork_asm+0x1a/0x30
-> >
-> > freed by task 1543 on cpu 4 at 141.586686s (6.665010s ago):
-> >  release_nodes+0x43/0xb0
-> >  devres_release_all+0x90/0xf0
-> >  device_unbind_cleanup+0xe/0x70
-> >  device_release_driver_internal+0x1c1/0x200
-> >  driver_detach+0x48/0x90
-> >  bus_remove_driver+0x6d/0xf0
-> >  pci_unregister_driver+0x42/0xb0
-> >  __do_sys_delete_module+0x1d1/0x310
-> >  do_syscall_64+0x82/0x190
-> >  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> >
-> > Fix it by saving the filename in pdata->tplg_filename instead, just lik=
-e
-> > every other code path that appends to the tplg filename.
-> >
-> > Fixes: 5458411d7594 ("ASoC: SOF: Intel: hda: refactoring topology name =
-fixup for HDA mach")
-> > Signed-off-by: Tavian Barnes <tavianator@tavianator.com>
-> > ---
-> > v2: Fix typo
-> >
-> >  sound/soc/sof/intel/hda.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-> > index b34e5fdf10f1..1767977e7cff 100644
-> > --- a/sound/soc/sof/intel/hda.c
-> > +++ b/sound/soc/sof/intel/hda.c
-> > @@ -1069,7 +1069,7 @@ static void hda_generic_machine_select(struct snd=
-_sof_dev *sdev,
-> >                               if (!tplg_filename)
-> >                                       return;
-> >
-> > -                             hda_mach->sof_tplg_filename =3D tplg_file=
-name;
-> > +                             pdata->tplg_filename =3D tplg_filename;
->
-> Did you sent this as a mistake? The v5 patch looks to be the correct
-> one, this is not.
+so alsamixer can show the controls in correct categories: capture/playback
 
-No?  I sent the above patch 8 days ago, v5 I sent yesterday.
+Fixes: 171bb5123fbc ("ALSA: usb-audio: Add Pioneer DJ DJM-V10 support")
+Signed-off-by: František Kučera <franta-linux@frantovo.cz>
+---
+ sound/usb/mixer_quirks.c | 104 +++++++++++++++++++--------------------
+ 1 file changed, 52 insertions(+), 52 deletions(-)
+
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 01091c3a83fc..e0327f0eb1fd 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -3713,13 +3713,13 @@ static const u16 snd_djm_opts_250mk2_pb2[] = { 0x0200, 0x0201, 0x0204 };
+ static const u16 snd_djm_opts_250mk2_pb3[] = { 0x0300, 0x0301, 0x0304 };
+ 
+ static const struct snd_djm_ctl snd_djm_ctls_250mk2[] = {
+-	SND_DJM_CTL("Capture Level", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
+-	SND_DJM_CTL("Ch1 Input",   250mk2_cap1, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch2 Input",   250mk2_cap2, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch3 Input",   250mk2_cap3, 0, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch1 Output",   250mk2_pb1, 0, SND_DJM_WINDEX_PB),
+-	SND_DJM_CTL("Ch2 Output",   250mk2_pb2, 1, SND_DJM_WINDEX_PB),
+-	SND_DJM_CTL("Ch3 Output",   250mk2_pb3, 2, SND_DJM_WINDEX_PB)
++	SND_DJM_CTL("Master Input Level Capture Switch", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
++	SND_DJM_CTL("Input 1 Capture Switch",  250mk2_cap1, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 2 Capture Switch",  250mk2_cap2, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 3 Capture Switch",  250mk2_cap3, 0, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Output 1 Playback Switch", 250mk2_pb1, 0, SND_DJM_WINDEX_PB),
++	SND_DJM_CTL("Output 2 Playback Switch", 250mk2_pb2, 1, SND_DJM_WINDEX_PB),
++	SND_DJM_CTL("Output 3 Playback Switch", 250mk2_pb3, 2, SND_DJM_WINDEX_PB)
+ };
+ 
+ 
+@@ -3738,13 +3738,13 @@ static const u16 snd_djm_opts_450_pb2[] = { 0x0200, 0x0201, 0x0204 };
+ static const u16 snd_djm_opts_450_pb3[] = { 0x0300, 0x0301, 0x0304 };
+ 
+ static const struct snd_djm_ctl snd_djm_ctls_450[] = {
+-	SND_DJM_CTL("Capture Level", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
+-	SND_DJM_CTL("Ch1 Input",   450_cap1, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch2 Input",   450_cap2, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch3 Input",   450_cap3, 0, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch1 Output",   450_pb1, 0, SND_DJM_WINDEX_PB),
+-	SND_DJM_CTL("Ch2 Output",   450_pb2, 1, SND_DJM_WINDEX_PB),
+-	SND_DJM_CTL("Ch3 Output",   450_pb3, 2, SND_DJM_WINDEX_PB)
++	SND_DJM_CTL("Master Input Level Capture Switch", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
++	SND_DJM_CTL("Input 1 Capture Switch",  450_cap1, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 2 Capture Switch",  450_cap2, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 3 Capture Switch",  450_cap3, 0, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Output 1 Playback Switch", 450_pb1, 0, SND_DJM_WINDEX_PB),
++	SND_DJM_CTL("Output 2 Playback Switch", 450_pb2, 1, SND_DJM_WINDEX_PB),
++	SND_DJM_CTL("Output 3 Playback Switch", 450_pb3, 2, SND_DJM_WINDEX_PB)
+ };
+ 
+ 
+@@ -3759,11 +3759,11 @@ static const u16 snd_djm_opts_750_cap4[] = {
+ 	0x0401, 0x0403, 0x0406, 0x0407, 0x0408, 0x0409, 0x040a, 0x040f };
+ 
+ static const struct snd_djm_ctl snd_djm_ctls_750[] = {
+-	SND_DJM_CTL("Capture Level", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
+-	SND_DJM_CTL("Ch1 Input",   750_cap1, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch2 Input",   750_cap2, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch3 Input",   750_cap3, 0, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch4 Input",   750_cap4, 0, SND_DJM_WINDEX_CAP)
++	SND_DJM_CTL("Master Input Level Capture Switch", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
++	SND_DJM_CTL("Input 1 Capture Switch", 750_cap1, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 2 Capture Switch", 750_cap2, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 3 Capture Switch", 750_cap3, 0, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 4 Capture Switch", 750_cap4, 0, SND_DJM_WINDEX_CAP)
+ };
+ 
+ 
+@@ -3778,11 +3778,11 @@ static const u16 snd_djm_opts_850_cap4[] = {
+ 	0x0400, 0x0403, 0x0406, 0x0407, 0x0408, 0x0409, 0x040a, 0x040f };
+ 
+ static const struct snd_djm_ctl snd_djm_ctls_850[] = {
+-	SND_DJM_CTL("Capture Level", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
+-	SND_DJM_CTL("Ch1 Input",   850_cap1, 1, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch2 Input",   850_cap2, 0, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch3 Input",   850_cap3, 0, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch4 Input",   850_cap4, 1, SND_DJM_WINDEX_CAP)
++	SND_DJM_CTL("Master Input Level Capture Switch", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
++	SND_DJM_CTL("Input 1 Capture Switch", 850_cap1, 1, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 2 Capture Switch", 850_cap2, 0, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 3 Capture Switch", 850_cap3, 0, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 4 Capture Switch", 850_cap4, 1, SND_DJM_WINDEX_CAP)
+ };
+ 
+ 
+@@ -3799,12 +3799,12 @@ static const u16 snd_djm_opts_900nxs2_cap5[] = {
+ 	0x0507, 0x0508, 0x0509, 0x050a, 0x0511, 0x0512, 0x0513, 0x0514 };
+ 
+ static const struct snd_djm_ctl snd_djm_ctls_900nxs2[] = {
+-	SND_DJM_CTL("Capture Level", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
+-	SND_DJM_CTL("Ch1 Input",   900nxs2_cap1, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch2 Input",   900nxs2_cap2, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch3 Input",   900nxs2_cap3, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch4 Input",   900nxs2_cap4, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch5 Input",   900nxs2_cap5, 3, SND_DJM_WINDEX_CAP)
++	SND_DJM_CTL("Master Input Level Capture Switch", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
++	SND_DJM_CTL("Input 1 Capture Switch", 900nxs2_cap1, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 2 Capture Switch", 900nxs2_cap2, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 3 Capture Switch", 900nxs2_cap3, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 4 Capture Switch", 900nxs2_cap4, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 5 Capture Switch", 900nxs2_cap5, 3, SND_DJM_WINDEX_CAP)
+ };
+ 
+ // DJM-750MK2
+@@ -3825,15 +3825,15 @@ static const u16 snd_djm_opts_750mk2_pb3[] = { 0x0300, 0x0301, 0x0304 };
+ 
+ 
+ static const struct snd_djm_ctl snd_djm_ctls_750mk2[] = {
+-	SND_DJM_CTL("Capture Level", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
+-	SND_DJM_CTL("Ch1 Input",   750mk2_cap1, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch2 Input",   750mk2_cap2, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch3 Input",   750mk2_cap3, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch4 Input",   750mk2_cap4, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch5 Input",   750mk2_cap5, 3, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch1 Output",   750mk2_pb1, 0, SND_DJM_WINDEX_PB),
+-	SND_DJM_CTL("Ch2 Output",   750mk2_pb2, 1, SND_DJM_WINDEX_PB),
+-	SND_DJM_CTL("Ch3 Output",   750mk2_pb3, 2, SND_DJM_WINDEX_PB)
++	SND_DJM_CTL("Master Input Level Capture Switch", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
++	SND_DJM_CTL("Input 1 Capture Switch",   750mk2_cap1, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 2 Capture Switch",   750mk2_cap2, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 3 Capture Switch",   750mk2_cap3, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 4 Capture Switch",   750mk2_cap4, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 5 Capture Switch",   750mk2_cap5, 3, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Output 1 Playback Switch", 750mk2_pb1, 0, SND_DJM_WINDEX_PB),
++	SND_DJM_CTL("Output 2 Playback Switch", 750mk2_pb2, 1, SND_DJM_WINDEX_PB),
++	SND_DJM_CTL("Output 3 Playback Switch", 750mk2_pb3, 2, SND_DJM_WINDEX_PB)
+ };
+ 
+ 
+@@ -3853,12 +3853,12 @@ static const u16 snd_djm_opts_a9_cap5[] = {
+ 	0x0501, 0x0502, 0x0503, 0x0505, 0x0506, 0x0507, 0x0508, 0x0509, 0x050a, 0x050e };
+ 
+ static const struct snd_djm_ctl snd_djm_ctls_a9[] = {
+-	SND_DJM_CTL("Capture Level", a9_cap_level, 0, SND_DJM_WINDEX_CAPLVL),
+-	SND_DJM_CTL("Master Input",  a9_cap1, 3, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch1 Input",     a9_cap2, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch2 Input",     a9_cap3, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch3 Input",     a9_cap4, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Ch4 Input",     a9_cap5, 2, SND_DJM_WINDEX_CAP)
++	SND_DJM_CTL("Master Input Level Capture Switch", a9_cap_level, 0, SND_DJM_WINDEX_CAPLVL),
++	SND_DJM_CTL("Master Input Capture Switch", a9_cap1, 3, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 1 Capture Switch",  a9_cap2, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 2 Capture Switch",  a9_cap3, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 3 Capture Switch",  a9_cap4, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 4 Capture Switch",  a9_cap5, 2, SND_DJM_WINDEX_CAP)
+ };
+ 
+ // DJM-V10
+@@ -3895,13 +3895,13 @@ static const u16 snd_djm_opts_v10_cap6[] = {
+ };
+ 
+ static const struct snd_djm_ctl snd_djm_ctls_v10[] = {
+-	SND_DJM_CTL("Master Capture Level Capture Switch", v10_cap_level, 0, SND_DJM_WINDEX_CAPLVL),
+-	SND_DJM_CTL("Capture Ch1 Capture Switch", v10_cap1, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Capture Ch2 Capture Switch", v10_cap2, 2, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Capture Ch3 Capture Switch", v10_cap3, 0, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Capture Ch4 Capture Switch", v10_cap4, 0, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Capture Ch5 Capture Switch", v10_cap5, 0, SND_DJM_WINDEX_CAP),
+-	SND_DJM_CTL("Capture Ch6 Capture Switch", v10_cap6, 0, SND_DJM_WINDEX_CAP)
++	SND_DJM_CTL("Master Input Level Capture Switch", v10_cap_level, 0, SND_DJM_WINDEX_CAPLVL),
++	SND_DJM_CTL("Input 1 Capture Switch", v10_cap1, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 2 Capture Switch", v10_cap2, 2, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 3 Capture Switch", v10_cap3, 0, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 4 Capture Switch", v10_cap4, 0, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 5 Capture Switch", v10_cap5, 0, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 6 Capture Switch", v10_cap6, 0, SND_DJM_WINDEX_CAP)
+ 	// playback channels are fixed and controlled by hardware knobs on the mixer
+ };
+ 
+-- 
+2.43.0
+
