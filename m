@@ -1,98 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B60028F95B;
-	Thu, 15 May 2025 08:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2845E20E002
+	for <linux-sound@vger.kernel.org>; Thu, 15 May 2025 09:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747299302; cv=none; b=L3HxVEgQY6hrpmSEVhpD6c7Nz0VDexLNzCgSrI9mUkv3Z2m/f2VdB8NwHM8xPZh3TUBp1dRHgUac5yJO2d2NCB8iFqt38Q7Wd2qVxhxi12jm7kQXo+FkX2n0bAJVuyvGed3eU0DTUThqY0fcZKTRBeVCB/IitDfqh09TOiuPSyY=
+	t=1747299659; cv=none; b=L06Fn27BeZXoQgBowmsIQWGDOILuOkF6PuG+Jj0UVTQtTzNk7VN5LqXKn2+OFLRp9ndjx/oqaLYMn9JZEzL9XqKQvAHNwzWb8Tn7S38sPWf16nfZGiemmaA8wDPif/tcXtMv9AFVVjHP7J9LzmG8BSEMAqXAsN3NUZBHQoh9Arg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747299302; c=relaxed/simple;
-	bh=LBRCYx6yEYw3JtcZjfSpiVcbjCjzsGhvOmR/nBYptGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GXby/bQ/Q5HVWpm4qH9oO7lBiFjdr0qw3+1vAVzk1v0uT7aQSi3z5vqrEXCs0IeMORgsgSaboBUqs3eQbPBuLJ252MIsWZNNUOOmsGDMFHiAEoS3jJx0ssqnXVjVJT8jpJw8MXKwX6f19FwJUJFMoypl0V5vl+YUUOCBuSTgG24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gkmu0CWP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747299659; c=relaxed/simple;
+	bh=qg2je0jGwPczjxr7UEmyEcBXhwDxjfTpDkAe2rcZ8Zw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k21b166betgF3BDyql8oi+Nkfy69qRqdQaBdDflqVpRyJ+/B7AVvkHeV+SeyIC0wx26Lv8zDgE9UbMfbbp1Yd5xrjV5dnihvzYACwqnhUpK/PrtkJg1ZJL6pYo+eiz50Ihi9jO2N9he0OgO4yBfOq3dUR7MD88WpOpzlPHHvbEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mQREhR4+; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gkmu0CWP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8211DC4CEE7;
-	Thu, 15 May 2025 08:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747299301;
-	bh=LBRCYx6yEYw3JtcZjfSpiVcbjCjzsGhvOmR/nBYptGc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gkmu0CWPpNp86K/Euz/Dm/e9t+19BBJ4AZWRaMDphQEk3US7k8Zey8c0olpWuVXM8
-	 ZnipbUJLdpq/d4XbppKnYptDpShQmqzMqaVK5fY3RwEryRp3G5m9N4FilTcq2v6NdY
-	 lHL3ByJ8wjGe5fczpts9EydsGOjjRTsoaCPg3MbVoJuxHxi8bHCU6UmUi9xFGatMpk
-	 xpqNDhskY4sklfMIIaL8ZTog9/30KFvuwS5UnvetQqGl5imNwCKyP/8XEr6hsugkgp
-	 76AIm57wcqumpg2zAvGvdj5vSm+PdbKgoAEtmK1/qWx43HX9XpxVHmu4Q5k4F/ULmu
-	 XxNmuiDI4VUVQ==
-Date: Thu, 15 May 2025 10:54:56 +0200
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"Darren.Ye" <darren.ye@mediatek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 03/10] ASoC: mediatek: mt8196: support audio clock
- control
-Message-ID: <aCWr4HDpEOr_jn3C@finisterre.sirena.org.uk>
-References: <20250514081125.24475-1-darren.ye@mediatek.com>
- <20250514081125.24475-4-darren.ye@mediatek.com>
- <be75ac83-5421-4bb0-a28a-57be639f427c@collabora.com>
- <CAGXv+5Hj358gOBomY=KdwYojgpwxFP-tiM38Z18b63ie=922mg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mQREhR4+"
+Message-ID: <fca05051-56f1-495e-aaf0-997fa2150fcd@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1747299653;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+KnDKuPjMe2fUCcW1tV4lBlMzw+7EXjmMesGcn74GA4=;
+	b=mQREhR4+7ST03MmzWDJZ3MiA8ALnrMc17zUGVXVIIajCaxIhp6gbhYtojMSw1eH53Llacd
+	hzdqFzfqeRk165SZNv8dp4nR+TZ2jNWOaxEa6E9lOuUTHitGbOY61LHajBJgqhd2lAHZkF
+	oeGASFMsLnbDRS/egJ3/rYdPa+oTbTI=
+Date: Thu, 15 May 2025 11:00:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pqANQ8hKcxHdPm61"
-Content-Disposition: inline
-In-Reply-To: <CAGXv+5Hj358gOBomY=KdwYojgpwxFP-tiM38Z18b63ie=922mg@mail.gmail.com>
-X-Cookie: Well begun is half done.
+Subject: Re: [PATCH 0/5] ASoC/SOF/PCI/Intel: add Wildcat Lake support
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, lgirdwood@gmail.com,
+ broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ guennadi.liakhovetski@linux.intel.com, bhelgaas@google.com,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250508180240.11282-1-peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20250508180240.11282-1-peter.ujfalusi@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
+On 5/8/25 20:02, Peter Ujfalusi wrote:
+> Hi,
+> 
+> The audio IP in Wildcat Lake (WCL) is largely identical to the one in
+> Panther Lake, the main difference is the number of DSP cores, memory
+> and clocking.
+> It is based on the same ACE3 architecture.
+> 
+> In SOF the PTL topologies can be re-used for WCL to reduce duplication
+> of code and topology files. 
 
---pqANQ8hKcxHdPm61
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The thread clarified that the statement above is for generic topologies. Using specific cores and/or a 3rd party module will force topology editors to provide device-specific configurations.
 
-On Thu, May 15, 2025 at 04:50:33PM +0800, Chen-Yu Tsai wrote:
-> On Thu, May 15, 2025 at 4:40=E2=80=AFPM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
-> >
-> > Il 14/05/25 10:11, Darren.Ye ha scritto:
-> > > From: Darren Ye <darren.ye@mediatek.com>
-> > >
-> > > Add audio clock wrapper and audio tuner control.
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 
-Please delete unneeded context from mails when replying.  Doing this
-makes it much easier to find your reply in the message, helping ensure
-it won't be missed by people scrolling through the irrelevant quoted
-material.
-
---pqANQ8hKcxHdPm61
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmglq98ACgkQJNaLcl1U
-h9B/xQf/WCgax1XZIrHI7sRyhwZ6FlzcWWzC/96GoahlhlHRo6AwJ7ves1riScIY
-iWfySDDylRMd2YfjjtoaKosS1N3/jAK8cHbUwFhap4h1WSGltSq+V55v17AzaO+k
-tn1SDdLEjA2pMy5+fatN3uVR2PheWLbi5mjxhXzxYTJW/lxfZ22kPl67IGqCFkpu
-uh9U74kyhK2m7NnZvjAdwW8is3GrihqtIS7zoqcT3R4DLc3hYEQbJdFTjXzUFyZm
-gG/cWOUHko4BbpK5jXfBEgFSDiOT6bzhnHZ1uE4S8ckah7tmctIdVZZ19mwZ5UWI
-QAnFFOIaD+7/KimjanojcgHqkusz3g==
-=hJfD
------END PGP SIGNATURE-----
-
---pqANQ8hKcxHdPm61--
