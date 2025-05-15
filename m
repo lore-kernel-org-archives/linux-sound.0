@@ -1,542 +1,95 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2057.outbound.protection.outlook.com [40.107.94.57])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390B21A256E
-	for <linux-sound@vger.kernel.org>; Thu, 15 May 2025 13:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747315915; cv=fail; b=i9IUBvaHxMUbtw0ccQmb8NVKEhiyZ/PqiQPmDQ45KzuBYvCaEvZ9vOX4ffNG5+yRxdNhhGl2SboydzSPSdBaav2idIha7Vo+aiOsXD3tyi/AWlcg9rfC0CHB00/ev8D4Hzs0yAmzx0r3nWa5wccsDD+lnuYhLXt+VR3QszFQ2gA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747315915; c=relaxed/simple;
-	bh=RlXdQcbWEohjskl0/4v+tfl/SFDH1BDXeOG+VSHbAr4=;
-	h=Date:From:To:Subject:Message-ID:Content-Type:Content-Disposition:
-	 MIME-Version; b=GPFLk/PCLKeLM1WKcrQgmORcoFY8GdXwXiTPUUcdJZ+T6UodI82kJCFXgnPowheAI2bWhByXQX54KjRPJoDaRFllSJXTJx2Fo+sxCIUnYgW/cpotD3UbXTXoV+WvHDcJkM5JgPLIb+kyoBy/m3kCEH9eC4fYkboqYHo5ij+E/vc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=PgjWgOrx; arc=fail smtp.client-ip=40.107.94.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D59E17B4EC;
+	Thu, 15 May 2025 14:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747319075; cv=none; b=PqJaPabmI5Ug22S2SsODl54gEq6MR2KaT4GKdcMN1QuTBmf+EnxRzqXif0v1S4jWLMsbDhcGut+EezboK4gXX6QVf13zQAEEk3dZ2pzfEfFf67TIH0hCxAnmmJf6QiOgSBoP8cLxgUis9a1DWFvi/ZzWh5DLJ1RPrQwDWC7l5j0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747319075; c=relaxed/simple;
+	bh=YeiOfXX6SYoNVeYhSe2fFoez/4867S6g/UJ2uYpEv/8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BnMGm4ExkqTq4Y19Fl1EIYW9Fscrp++S8QDWYCUQdCVfli+ZNB5zFK4EnXSjKrabXp3w0lpaafZLXH6wrWj0ZhIEXg9bmy3hNQT9xYEpwOj+MERVAhzz6giw3h1sSGkUJYg/4Mq6c1bloUzmHDUKxS9rHTJlpd6H05id4qif7ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LpNcyrit; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="PgjWgOrx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=E6d8Uq5QS/wYhGsx1Ovh6R9KnQa+k1ZAoTIDxVUCNqHofwAHoUU6MXMhfR6FaE7BOa8TfjbOoaZ/jIaFTSMtet6epyJFfkQoHmlPamddXu+WKD/hrfH1QGL6NvRHaJZ7Xtxjk4luYFfnIXyohMmQ4RgKQrwBWxi0iGGJ2Gk3DCTAE5GJ9u8mRmqP1hJOCrT9nPGNIy7kMi5Isrig0EDlTKHUaV7aSsjNAVsNEsYT214esSpEKKOgg0dYjcW5762UZRSGh+wBEGPqrcyxnvo6tcx1Q3gUtdQhxQ7aQS1wEV8PTrPTplnkZ3NzqSeixHgI6yGk+vCjKddJyMGBf8Jd/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yNCDoiv8R5h09pTGCtsCSRU8hj1+lajarMq/MCe6uHs=;
- b=m3KVzdTclNjtkIQps+wA/czI/Hqh8WOH3mMbgrD/oicxX8ZYvUSxVFA8UTj5qIEIfWCHOtKtZNjRXAJQVReN8JE4KlZLXCMnzxmnm8rvLsaZgSSkyLi+/Sg60ZhLyKCOmEEruv6ZPTpxvvUB0w15yR+PMaE6A8USdQWYY7oJZRLb/xdiT0xsoYpUeK1YBmuVmW3mKEdc78pcD0oEsKyv7MFFdHm/DqeSWtbZp58dCiXdRSFWtl+uV1XrKKnezVhx2xiKf1DIdWOpveJCvgvmg13/TTic7Vj4uqSifath22c0eVqR4Uf5peMEDtNYOQbKN0IziOaqwB9wPSPTESeZyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yNCDoiv8R5h09pTGCtsCSRU8hj1+lajarMq/MCe6uHs=;
- b=PgjWgOrxDoruWRIv+eolfG0Ye9cr0Fr4mrWnUtQPi75WDUT5ZZhZCPBOqhBJlmZ804XLYyXFo+3yj4sVZpr9FQ1wpKWKyzm7NRC4WCj1vj8zJpx23eOgNQioYuBaO3IA5cKLIQQpxN7IZzgfXRuIUD2osuTFTNWvb7/tIJip+V0EKXgb59yRZtbYosvqATdQ1Hm/RKTJyQZRMvqk9kSZ25Hb6Wk77G/jR1v5b0hSSIFmRWl1F4ySMPpj2LjXvvSDYd1iMiSakDjXZpMdgxlP5gt64WZ9MBff8Yt+ZMcBd3mVcHNeIda/RiVz/XXuUdoi8z1141XLgjKhNdO35e1cEA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8422.namprd12.prod.outlook.com (2603:10b6:208:3de::8)
- by DS7PR12MB8347.namprd12.prod.outlook.com (2603:10b6:8:e5::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.31; Thu, 15 May
- 2025 13:31:49 +0000
-Received: from IA0PR12MB8422.namprd12.prod.outlook.com
- ([fe80::50d8:c62d:5338:5650]) by IA0PR12MB8422.namprd12.prod.outlook.com
- ([fe80::50d8:c62d:5338:5650%4]) with mapi id 15.20.8722.027; Thu, 15 May 2025
- 13:31:49 +0000
-Date: Thu, 15 May 2025 08:31:46 -0500
-From: Daniel Dadap <ddadap@nvidia.com>
-To: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda - Add new driver for HDA controllers listed via
- ACPI
-Message-ID: <aCXswg1gr6cufyzp@ddadap-lakeline.nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: SA0PR13CA0008.namprd13.prod.outlook.com
- (2603:10b6:806:130::13) To IA0PR12MB8422.namprd12.prod.outlook.com
- (2603:10b6:208:3de::8)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LpNcyrit"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25393C4CEE7;
+	Thu, 15 May 2025 14:24:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747319073;
+	bh=YeiOfXX6SYoNVeYhSe2fFoez/4867S6g/UJ2uYpEv/8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=LpNcyritQ3NECd/Y0i1QR9KDvuYmyvvnPUA7Lmz2EgbZluW+PhjMT5W3Ki8rczIFy
+	 cdrd6x8mD/RawpEx14RMUeFNzk9qCVVoQJ9TgxZ2kh8W3/G0ExoF3w3xIXIFQvzi/d
+	 zl+MG2r4pPeqda3Dct4uC2lLtlCmY8FmmpIenStv83ni+QsboazyX8eJduM0xWtQnl
+	 DqSPtH0C5CDh7kP5x/Eczm+lAadWTyDlicP5Qh+hUSFDaXxgWkRmi8SIOYjix89dRJ
+	 1liZriIs5LVh6hYvSkiOpwWEnlXqsw/Gr8EmqWFKa3MJ7nWSqvaW0puk6hm5QLWCDr
+	 E8p72wwBKz5Kw==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jiaxin Yu <jiaxin.yu@mediatek.com>, linux-sound@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Darren Ye <darren.ye@mediatek.com>
+In-Reply-To: <20250425082551.1467042-1-wenst@chromium.org>
+References: <20250425082551.1467042-1-wenst@chromium.org>
+Subject: Re: [PATCH 0/3] ASoC: mediatek: mt8183-afe-pcm: Shorten source
+ code
+Message-Id: <174731906955.355366.5967151829535099714.b4-ty@kernel.org>
+Date: Thu, 15 May 2025 16:24:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8422:EE_|DS7PR12MB8347:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17aebd85-965c-4a6f-5e38-08dd93b4d854
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?559+W1/iCwo5cR8ZfCY/4JCcwHGWRg6o42UItXd8ZfrJI5ASbDTZsHjTvzQC?=
- =?us-ascii?Q?4dcVZUbnPpP+vjLKX3brXXjCLcC/my6Ia1pEhEIsrh5KEaookWbXqVVK8vGh?=
- =?us-ascii?Q?qluPFEpwBO42IHnbhc9cAJDfjObo3031yFKIJTzZwCVff9dXylDOmd69idQ7?=
- =?us-ascii?Q?t5lKLZntevtPM8yWcKW80v3XsXh50frctSCUc9pKo1VQjuuEnkx5qJ7qroXv?=
- =?us-ascii?Q?5F0Ju99uQj/pVy2fiMt1FWxcDHR1UYCu/YeWKqQIOShZfpQ13TCzHJrpX4UU?=
- =?us-ascii?Q?rMt6OI8/rG6PHsG+v6r/BouD1G00tRQhp13qZyWv5NJHrsPLL747l+9J5Mg9?=
- =?us-ascii?Q?ei/DnWfuSnz7Jys1yQawRtVRUqCvq3dRJVqO3EA3eCZMEAQyd8uf6P9auwaP?=
- =?us-ascii?Q?+oo70qimonrjTbQkUroA0XNKhwdeUbZ8Fe2Y+R4CTSMXG4fzLzZUuxx9E5rp?=
- =?us-ascii?Q?Drmqa5js+oHEFOj4JndB810pC/GgmMlkH+nOoWUK7TY6jPNqsJKjNAwq+nVW?=
- =?us-ascii?Q?3Qrh2E8FeVYQ9EAmTUL/rqhy5o+dLHzfvjpuUQVuIQeI8xqZ1cEhr2Fs6c16?=
- =?us-ascii?Q?KbUdWwfk2XSNT/ZX9BuQeSh/kA2qUV2dOxr7XwlWg2tqeGnwaUQaRE86+ezR?=
- =?us-ascii?Q?IOU3y2I2E5Dqn0FIbCVUTfjTSwXhhYJE8fyPBgQJsXY+z8wdO70xqf2LlYfm?=
- =?us-ascii?Q?1yOBJ5WHKFG4eq7revPMp8QCPBsuTsJ+OrKFMTnzpR+kbOZOzDxcDyC45ghN?=
- =?us-ascii?Q?3S2dP4cTIQg9Zf3JmTnk/X1Tkns5kfmw6BG/V5nuIUvF+XOA6HmATeD0KoC6?=
- =?us-ascii?Q?LYSu/GueYJhxb+aPM9Lip/TLS5IQteAs4E9OYMZhKHfXcpJnnmq1uFPjrVkZ?=
- =?us-ascii?Q?Olf875ea2CSwFYsld1iZoN051gW44mvp0F50Tq8A5JZ7gr7x2TKdF64WW13P?=
- =?us-ascii?Q?7fs2EcK8g3ISTmvSoXjBIOqDcWRZFFbn6yIpNF2DD3wOIrkhV0IjO0G79AE0?=
- =?us-ascii?Q?EDbFOIOQnLswd+CI4Qr372SZV3PUpnsm34UNb98S0Mwzi67X2fZwJcmYuk3E?=
- =?us-ascii?Q?pMq32VvYMUb8BNjeylM8jAyJJaxDyK+nw1MC/7r/5lMA3aL02G1MXV2faS14?=
- =?us-ascii?Q?JE2awW3OTZRE5OCj413bx/2KfsNq+tkQewYketA1iOZBtSFlIxyCAIAuGJqe?=
- =?us-ascii?Q?doX0PXux/8F5FYrUqI3Yb0gIi0LesPozIcNxiydLcrHvCjxnr9n8+K3roXQk?=
- =?us-ascii?Q?r8DwqsgPLUfXORetUqwUSvlPMxmq6hVvpgrqarsPYXbu+4r7dX+lBenOXvog?=
- =?us-ascii?Q?zodSKN7eFW/oHK/zG+LheVjdWSMVrW0afMTs7hjOWHqSR23+ILW3P16G9RXa?=
- =?us-ascii?Q?7I5mISzzbThtcGwK/QXDTsPqxJmZggjrYvixCmvwzdUNrwV07yfC3WA80zLk?=
- =?us-ascii?Q?i6b3WYSaeXQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8422.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+Kk8fIIgL77Xccz16648rCOc23lw/hJw5z6ae3MVaFuSlwSgIxZPHFBOvaC0?=
- =?us-ascii?Q?I90NokpfbkL1iPKsl/km2foa2T6SDgChHG7p1Hnh/qcC5I1KdWs2TPe9nkAQ?=
- =?us-ascii?Q?3Bb904pF+FMGBjBVxnPqyb+rtYqGTcecSKnNJB0ReneUwyg/beurtNy+WCFN?=
- =?us-ascii?Q?dmmcDd73msUgQm2TV0AdDt/Gii6HfMjz15F84qKOtnmfDF5If8bRJWioiMEE?=
- =?us-ascii?Q?YFlTw7t1D3hFxlG8X6ZW7EWnG4nPC4aDzy+ahfdKtH2ORo/xssUAcijXQ5aD?=
- =?us-ascii?Q?bCkMLZtXxqA6dyrIowp1SOBt36Z2iL8FoZ88SAWEth1l36W5dwkJ6rMLr81K?=
- =?us-ascii?Q?HgDtW+bQdqoSENOajobptEZlZOtzDNjhN/ll9VWofz9InVx7KxFmxaYZg0Pk?=
- =?us-ascii?Q?5vEJgC4jIXT/3HUTNQcYxfrRXu6j2LSBk2iaX4bl4lrRwpa1CmVlYx5TmtFT?=
- =?us-ascii?Q?9DQP1uBQgI3Nmrzt0ezqK1orJQrsZ90kzmVTTaTcRTACTjDHCbtk2GHOFw7M?=
- =?us-ascii?Q?wOcE3fvtyd5hsimRSIgPTBF2bwIK15glCK0MhaRbHmlvkarT3kmznSa2KI+p?=
- =?us-ascii?Q?fjknOQTgodDTnkFF0GTgE9K1/Jc+/Vd5z+nd2LerbFKfpeFN3HOChKGIoDE2?=
- =?us-ascii?Q?Boxd2LLYqRPvsc2WAsbHRWWqzUL2CJ9dnzahagfoR4ajAB//8Nuaz45zRRxO?=
- =?us-ascii?Q?wEMHOyLq010yCTt1TFqhgBDr+jzu0QTRptIQO9A6zmMrnIavNNDEphbOaXYg?=
- =?us-ascii?Q?Rv/TvlLUB/C9gUbXJnfFHg+sALjzj0/0zoJhYt+DLhvSAOz9k4nzU891bshk?=
- =?us-ascii?Q?+MT6uQm6Sv/luA2UCxiYuXQnopGsg2hrLeeLGwAwWTTZXrM4JsI9nYgoe4aB?=
- =?us-ascii?Q?bPlcoNA2Af0VGSt8gygGeC5+B8zcw53KPmEHfVlI+jBpvxNnEBtxD50FMcUY?=
- =?us-ascii?Q?mhxmAiSDq7a9Wl/3d4C9OHbYBlnw8y/yttpKJgWDB98mTzjFJ4Ul2LcC4rqt?=
- =?us-ascii?Q?VmH+r0cVZXm2AeTXjh1vCJ/l7aLRx1GuVh9ghgrRhsQRTNCYsdYTdbVKdyCS?=
- =?us-ascii?Q?t4cpxEW9gCDtauD87Q6CDwJUGkZuAZmTqjvjBRjVZ4vTGyFC3gE5HnApqy0Y?=
- =?us-ascii?Q?aJnZqJC9mdNNzwHsEvO1l0qOynjPxoyg0HDwLhZlngYkDcEFTVMC7SphJzAs?=
- =?us-ascii?Q?NwvTYeJGvoQBf0CN1RodzHqD6XSZuynRf+rx0kkFk7YjGgJgLYDDsXWyTXgF?=
- =?us-ascii?Q?2OF4/hNqUHC8JZaVeeFofszKVe3Kz2sSzpG7Yt03npYhsXnATn2x4Cd8U25c?=
- =?us-ascii?Q?u/a5w3pmWEhYZIrIdL/dAcOW3R4wMG6RugiC3RJ1qFY15SuzOyFqEPmJ1dos?=
- =?us-ascii?Q?/Jexz7XCFT6QhbsYBlLF920tYqGqE0r/pBr0IKJa2aGWSrK78grHsZlUV31p?=
- =?us-ascii?Q?MZSN5Gs4nmpnJr1P9kqG/zmy4lbATbS5wAZSFsfbYMI0g62QGIAG5qCwI1Tx?=
- =?us-ascii?Q?GaYnR0+QdkFJBfDRvf0ihbA5XljH6dXpBYcQnPO8dyuWykAA8X8yxjusURcB?=
- =?us-ascii?Q?ynFz/LS7K8KbT9by7milXB5iskPjOB6vZ5uhC+jC?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17aebd85-965c-4a6f-5e38-08dd93b4d854
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8422.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 13:31:49.2004
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TlpvoPRxkojnaBzJzZ11ly+jKQaAv4PhnDdIQf7Ba4gPAYvYzSm11OaBNcxYQGuG8i2SeWvCdEylAxgYRo919w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8347
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-Some systems expose HD-Audio controllers via objects in the ACPI tables
-which encapsulate the controller's interrupt and the base address for the
-HDA registers in an ACPI _CRS object, for example, as listed in this ACPI
-table dump excerpt:
+On Fri, 25 Apr 2025 16:25:47 +0800, Chen-Yu Tsai wrote:
+> This series is meant as an example on how to use macros and range cases
+> to shorten the MediaTek audio frontend drivers. The drivers have large
+> tables describing the registers and register fields for every supported
+> audio DMA interface. (Some are actually skipped!) There's a lot of
+> duplication which can be eliminated using macros. This should serve as
+> a reference for the MT8196 AFE driver that I had commented on.
+> 
+> [...]
 
-        Device (HDA0)
-        {
-            Name (_HID, "NVDA2014")  // _HID: Hardware ID
-            ...
-            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-            {
-                Memory32Fixed (ReadWrite,
-                    0x36078000,         // Address Base
-                    0x00008000,         // Address Length
-                    )
-                Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
-                {
-                    0x0000021E,
-                }
-            })
-        }
+Applied to
 
-Add support for HDA controllers discovered through ACPI, including support
-for some platforms which expose such HDA controllers on NVIDIA SoCs. This
-is done with a new driver which uses existing infrastructure for extracting
-resource information from _CRS objects and plumbs the parsed resource
-information through to the existing HDA infrastructure to enable HD-Audio
-functionality on such devices.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Although this driver is in the sound/pci/hda/ directory, it targets devices
-which are not actually enumerated on the PCI bus. This is because it depends
-upon the Intel "Azalia" infrastructure which has traditionally been used for
-PCI-based devices.
+Thanks!
 
-Signed-off-by: Daniel Dadap <ddadap@nvidia.com>
----
- sound/pci/hda/Kconfig    |  11 ++
- sound/pci/hda/Makefile   |   2 +
- sound/pci/hda/hda_acpi.c | 316 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 329 insertions(+)
- create mode 100644 sound/pci/hda/hda_acpi.c
+[1/3] ASoC: mediatek: mt8183-afe-pcm: Shorten memif_data table using macros
+      commit: 91c2685430f217ae8f2866e4372948eaf123b5c4
+[2/3] ASoC: mediatek: mt8183-afe-pcm: Shorten irq_data table using macros
+      commit: 0be889823f93429dab396cb7ac061d02046bd962
+[3/3] ASoC: mediatek: mt8183-afe-pcm: shorten mt8183_is_volatile_reg()
+      commit: 29552dcc044a233be84ab9b64539fdc7d8f4314e
 
-diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
-index 9c427270ff4f..436dfd182a09 100644
---- a/sound/pci/hda/Kconfig
-+++ b/sound/pci/hda/Kconfig
-@@ -42,6 +42,17 @@ config SND_HDA_TEGRA
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called snd-hda-tegra.
- 
-+config SND_HDA_ACPI
-+	tristate "HD Audio ACPI"
-+	depends on ACPI
-+	select SND_HDA
-+	help
-+	  Say Y here to include support for Azalia-compatible HDA controllers
-+	  which are advertised via ACPI objects.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called snd-hda-acpi.
-+
- if SND_HDA
- 
- config SND_HDA_HWDEP
-diff --git a/sound/pci/hda/Makefile b/sound/pci/hda/Makefile
-index 210c406dfbc5..7a7c16d705dd 100644
---- a/sound/pci/hda/Makefile
-+++ b/sound/pci/hda/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- snd-hda-intel-y := hda_intel.o
- snd-hda-tegra-y := hda_tegra.o
-+snd-hda-acpi-y := hda_acpi.o
- 
- snd-hda-codec-y := hda_bind.o hda_codec.o hda_jack.o hda_auto_parser.o hda_sysfs.o
- snd-hda-codec-y += hda_controller.o
-@@ -80,3 +81,4 @@ obj-$(CONFIG_SND_HDA_SCODEC_TAS2781_SPI) += snd-hda-scodec-tas2781-spi.o
- # when built in kernel
- obj-$(CONFIG_SND_HDA_INTEL) += snd-hda-intel.o
- obj-$(CONFIG_SND_HDA_TEGRA) += snd-hda-tegra.o
-+obj-$(CONFIG_SND_HDA_ACPI) += snd-hda-acpi.o
-diff --git a/sound/pci/hda/hda_acpi.c b/sound/pci/hda/hda_acpi.c
-new file mode 100644
-index 000000000000..736eac59eaa0
---- /dev/null
-+++ b/sound/pci/hda/hda_acpi.c
-@@ -0,0 +1,316 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * ALSA driver for ACPI-based HDA Controllers.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/acpi.h>
-+
-+#include <sound/hda_codec.h>
-+
-+#include "hda_controller.h"
-+
-+struct hda_acpi {
-+	struct azx azx;
-+	struct snd_card *card;
-+	struct platform_device *pdev;
-+	void __iomem *regs;
-+	struct work_struct probe_work;
-+	const struct hda_data *data;
-+};
-+
-+/**
-+ * struct hda_data - Optional device-specific data
-+ * @short_name: Used for the ALSA card name; defaults to KBUILD_MODNAME
-+ * @long_name:  Used for longer description; defaults to short_name
-+ * @flags:      Passed to &azx->driver_caps
-+ *
-+ * A pointer to a record of this type may be stored in the
-+ * &acpi_device_id->driver_data field of an ACPI match table entry in order to
-+ * customize the naming and behavior of a particular device. All fields are
-+ * optional and sensible defaults will be selected in their absence.
-+ */
-+struct hda_data {
-+	const char *short_name;
-+	const char *long_name;
-+	unsigned long flags;
-+};
-+
-+static int hda_acpi_dev_disconnect(struct snd_device *device)
-+{
-+	struct azx *chip = device->device_data;
-+
-+	chip->bus.shutdown = 1;
-+	return 0;
-+}
-+
-+static int hda_acpi_dev_free(struct snd_device *device)
-+{
-+	struct azx *azx = device->device_data;
-+	struct hda_acpi *hda = container_of(azx, struct hda_acpi, azx);
-+
-+	cancel_work_sync(&hda->probe_work);
-+	if (azx_bus(azx)->chip_init) {
-+		azx_stop_all_streams(azx);
-+		azx_stop_chip(azx);
-+	}
-+
-+	azx_free_stream_pages(azx);
-+	azx_free_streams(azx);
-+	snd_hdac_bus_exit(azx_bus(azx));
-+
-+	return 0;
-+}
-+
-+static int hda_acpi_init(struct hda_acpi *hda)
-+{
-+	struct hdac_bus *bus = azx_bus(&hda->azx);
-+	struct snd_card *card = hda->azx.card;
-+	struct device *dev = &hda->pdev->dev;
-+	struct azx *azx = &hda->azx;
-+	struct resource *res;
-+	unsigned short gcap;
-+	const char *sname, *lname;
-+	int err, irq;
-+
-+	/* The base address for the HDA registers and the interrupt are wrapped
-+	 * in an ACPI _CRS object which can be parsed by platform_get_irq() and
-+	 * devm_platform_get_and_ioremap_resource() */
-+
-+	irq = platform_get_irq(hda->pdev, 0);
-+	if (irq < 0)
-+		return irq;
-+
-+	hda->regs = devm_platform_get_and_ioremap_resource(hda->pdev, 0, &res);
-+	if (IS_ERR(hda->regs))
-+		return PTR_ERR(hda->regs);
-+
-+	bus->remap_addr = hda->regs;
-+	bus->addr = res->start;
-+
-+	err = devm_request_irq(dev, irq, azx_interrupt,
-+	                       IRQF_SHARED, KBUILD_MODNAME, azx);
-+	if (err) {
-+		dev_err(dev, "unable to request IRQ %d, disabling device\n", irq);
-+		return err;
-+	}
-+	bus->irq = irq;
-+	bus->dma_stop_delay = 100;
-+	card->sync_irq = bus->irq;
-+
-+	gcap = azx_readw(azx, GCAP);
-+	dev_dbg(dev, "chipset global capabilities = 0x%x\n", gcap);
-+
-+	azx->align_buffer_size = 1;
-+
-+	azx->capture_streams = (gcap >> 8) & 0x0f;
-+	azx->playback_streams = (gcap >> 12) & 0x0f;
-+
-+	azx->capture_index_offset = 0;
-+	azx->playback_index_offset = azx->capture_streams;
-+	azx->num_streams = azx->playback_streams + azx->capture_streams;
-+
-+	err = azx_init_streams(azx);
-+	if (err < 0) {
-+		dev_err(dev, "failed to initialize streams: %d\n", err);
-+		return err;
-+	}
-+
-+	err = azx_alloc_stream_pages(azx);
-+	if (err < 0) {
-+		dev_err(dev, "failed to allocate stream pages: %d\n", err);
-+		return err;
-+	}
-+
-+	azx_init_chip(azx, 1);
-+
-+	if (!bus->codec_mask) {
-+		dev_err(dev, "no codecs found!\n");
-+		return -ENODEV;
-+	}
-+
-+	strscpy(card->driver, "hda-acpi", sizeof(card->driver));
-+
-+	sname = hda->data->short_name ? hda->data->short_name : KBUILD_MODNAME;
-+
-+	if (strlen(sname) > sizeof(card->shortname))
-+		dev_info(dev, "truncating shortname for card %s\n", sname);
-+	strscpy(card->shortname, sname, sizeof(card->shortname));
-+
-+	lname = hda->data->long_name ? hda->data->long_name : sname;
-+
-+	snprintf(card->longname, sizeof(card->longname),
-+		 "%s at 0x%lx irq %i", lname, bus->addr, bus->irq);
-+
-+	return 0;
-+}
-+
-+static void hda_acpi_probe_work(struct work_struct *work)
-+{
-+	struct hda_acpi *hda = container_of(work, struct hda_acpi, probe_work);
-+	struct azx *chip = &hda->azx;
-+	int err;
-+
-+	err = hda_acpi_init(hda);
-+	if (err < 0)
-+		return;
-+
-+	err = azx_probe_codecs(chip, 8);
-+	if (err < 0)
-+		return;
-+
-+	err = azx_codec_configure(chip);
-+	if (err < 0)
-+		return;
-+
-+	err = snd_card_register(chip->card);
-+	if (err < 0)
-+		return;
-+
-+	chip->running = 1;
-+}
-+
-+static int hda_acpi_create(struct hda_acpi *hda)
-+{
-+	static const struct snd_device_ops ops = {
-+		.dev_disconnect = hda_acpi_dev_disconnect,
-+		.dev_free = hda_acpi_dev_free,
-+	};
-+	static const struct hda_controller_ops null_ops;
-+	struct azx *azx = &hda->azx;
-+	int err;
-+
-+	mutex_init(&azx->open_mutex);
-+	azx->card = hda->card;
-+	INIT_LIST_HEAD(&azx->pcm_list);
-+
-+	azx->ops = &null_ops;
-+	azx->driver_caps = hda->data->flags;
-+	azx->driver_type = hda->data->flags & 0xff;
-+	azx->codec_probe_mask = -1;
-+
-+	err = azx_bus_init(azx, NULL);
-+	if (err < 0)
-+		return err;
-+
-+	err = snd_device_new(hda->card, SNDRV_DEV_LOWLEVEL, &hda->azx, &ops);
-+	if (err < 0) {
-+		dev_err(&hda->pdev->dev, "Error creating device\n");
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hda_acpi_probe(struct platform_device *pdev)
-+{
-+	struct hda_acpi *hda;
-+	int err;
-+
-+	hda = devm_kzalloc(&pdev->dev, sizeof(*hda), GFP_KERNEL);
-+	if (!hda)
-+		return -ENOMEM;
-+
-+	hda->pdev = pdev;
-+	hda->data = acpi_device_get_match_data(&pdev->dev);
-+
-+	err = snd_card_new(&pdev->dev, SNDRV_DEFAULT_IDX1, SNDRV_DEFAULT_STR1,
-+	                   THIS_MODULE, 0, &hda->card);
-+	if (err < 0) {
-+		dev_err(&pdev->dev, "Error creating card!\n");
-+		return err;
-+	}
-+
-+	INIT_WORK(&hda->probe_work, hda_acpi_probe_work);
-+
-+	err = hda_acpi_create(hda);
-+	if (err < 0)
-+		goto out_free;
-+	hda->card->private_data = &hda->azx;
-+
-+	dev_set_drvdata(&pdev->dev, hda->card);
-+
-+	schedule_work(&hda->probe_work);
-+
-+	return 0;
-+
-+out_free:
-+	snd_card_free(hda->card);
-+	return err;
-+}
-+
-+static void hda_acpi_remove(struct platform_device *pdev)
-+{
-+	snd_card_free(dev_get_drvdata(&pdev->dev));
-+}
-+
-+static void hda_acpi_shutdown(struct platform_device *pdev)
-+{
-+	struct snd_card *card = dev_get_drvdata(&pdev->dev);
-+	struct azx *chip;
-+
-+	if (!card)
-+		return;
-+	chip = card->private_data;
-+	if (chip && chip->running)
-+		azx_stop_chip(chip);
-+}
-+
-+static int __maybe_unused hda_acpi_suspend(struct device *dev)
-+{
-+	struct snd_card *card = dev_get_drvdata(dev);
-+	int rc;
-+
-+	rc = pm_runtime_force_suspend(dev);
-+	if (rc < 0)
-+		return rc;
-+	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused hda_acpi_resume(struct device *dev)
-+{
-+	struct snd_card *card = dev_get_drvdata(dev);
-+	int rc;
-+
-+	rc = pm_runtime_force_resume(dev);
-+	if (rc < 0)
-+		return rc;
-+	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops hda_acpi_pm = {
-+	SET_SYSTEM_SLEEP_PM_OPS(hda_acpi_suspend, hda_acpi_resume)
-+};
-+
-+struct hda_data nvidia_hda_data = {
-+	.short_name = "NVIDIA",
-+	.long_name = "NVIDIA HDA Controller",
-+	.flags = AZX_DCAPS_CORBRP_SELF_CLEAR,
-+};
-+
-+static const struct acpi_device_id hda_acpi_match[] = {
-+	{ .id = "NVDA2014", .driver_data = (uintptr_t) &nvidia_hda_data },
-+	{ .id = "NVDA2015", .driver_data = (uintptr_t) &nvidia_hda_data },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(acpi, hda_acpi_match);
-+
-+static struct platform_driver hda_acpi_platform_driver = {
-+	.driver = {
-+		.name = KBUILD_MODNAME,
-+		.pm = &hda_acpi_pm,
-+		.acpi_match_table = hda_acpi_match,
-+	},
-+	.probe = hda_acpi_probe,
-+	.remove = hda_acpi_remove,
-+	.shutdown = hda_acpi_shutdown,
-+};
-+module_platform_driver(hda_acpi_platform_driver);
-+
-+MODULE_DESCRIPTION("Driver for ACPI-based HDA Controllers");
-+MODULE_LICENSE("GPL v2");
--- 
-2.39.5
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
