@@ -1,30 +1,30 @@
 Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C2D80C02
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F4E85626
 	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747402367; cv=none; b=iaDhGdwUOx0FoP9xe6EW3diGl0MViGV4SUJjGSiASY9ISQGn97rPVAYaWgehDjpkoUHf1Jr90YrT/dtWYSF5Mxc51BIW1Zqr/gw8RCZC5ZU20I17mibkKaisLAwjPpf5hCvFS35Tsexlv841FFm59OctvFTnTDZpsJlgrMSr6Sk=
+	t=1747402368; cv=none; b=qZH0zOUZzmHR2rpRYrUehik2LHkEXqbZ5baBJ/AHq/YSi+5MQTm8/O6oJrbBvu9DZ3wvHhbHVJXSlXbfzquG4IASRUdJ7fBdIt98QTKqRSB3yUW3Q8bDnJ6FGy8HKuDAhjUbhjodNvreKn93f4PrhIqQ5Km7H/Nc06bI7+1KLxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747402367; c=relaxed/simple;
-	bh=/H3mWcE7eAB1IxlnkiOdWiRkuZJ8qYVI0EAfnC5b02k=;
+	s=arc-20240116; t=1747402368; c=relaxed/simple;
+	bh=sl8eYgz9s0IQIIJJMg+RvgU0Wqv5wzmfjFIixU3FWao=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qT+IKtwDhSlHPherdldHdXKKMZ+C0Cf3VurtmIOQQVNSe9wNpXar00yh+x1N7cu6SVRs4wKySFBlv9tRo36ijT13CNGdY9daeJnxKqU4/OrhP6b7ivUgwaFuRg8Xhfvi5ZdocZr135FIzGehs63630CUAM9fK0qHhUWYXUCgHNY=
+	 MIME-Version; b=S948qCbSe6EL4oxBGZTglEeUwERnakMASiF+NWVXJ+xURBB3UVavggE30mjpCk+SO9+bDlEcHxMr7WfOlzamIhFVcibPMe/wX49ylSk2aDaqzGIGetqtnTn8Sw63ZzovmZGCoJ4lUGU6Sqwf9QVGNVlDbEXWWcl0YtKYGCk4py8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b0d6:ccd4:58dc:70fd])
 	by xavier.telenet-ops.be with cmsmtp
-	id ppYX2E00E3S8nz401pYXam; Fri, 16 May 2025 15:32:33 +0200
+	id ppYX2E00G3S8nz401pYXap; Fri, 16 May 2025 15:32:33 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAi-000000020iQ-0oc9;
+	id 1uFvAi-000000020ia-18Mp;
 	Fri, 16 May 2025 15:32:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAt-0000000152D-2SB4;
+	id 1uFvAt-0000000152R-2mIN;
 	Fri, 16 May 2025 15:32:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -38,9 +38,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 03/22] spi: sh-msiof: Fix maximum DMA transfer size
-Date: Fri, 16 May 2025 15:32:06 +0200
-Message-ID: <d9961767a97758b2614f2ee8afe1bd56dc900a60.1747401908.git.geert+renesas@glider.be>
+Subject: [PATCH v2 06/22] spi: sh-msiof: Make words/bits unsigned in sh_msiof_spi_txrx_once()
+Date: Fri, 16 May 2025 15:32:09 +0200
+Message-ID: <30eff1052642a4bcb0f1bc4bed7aae25d355a7dc.1747401908.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
 References: <cover.1747401908.git.geert+renesas@glider.be>
@@ -52,65 +52,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The maximum amount of data to transfer in a single DMA request is
-calculated from the FIFO sizes (which is technically not 100% correct,
-but a simplification, as it is limited by the maximum word count values
-in the Transmit and Control Data Registers).  However, in case there is
-both data to transmit and to receive, the transmit limit is overwritten
-by the receive limit.
+Make the words and bits parameters of sh_msiof_spi_txrx_once() unsigned,
+as that matches what is passed by the caller.
 
-Fix this by using the minimum applicable FIFO size instead.  Move the
-calculation outside the loop, so it is not repeated for each individual
-DMA transfer.
+This allows us to replace min_t() by the safer min().
 
-As currently tx_fifo_size is always equal to rx_fifo_size, this bug had
-no real impact.
-
-Fixes: fe78d0b7691c0274 ("spi: sh-msiof: Fix FIFO size to 64 word from 256 word")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
   - No changes.
 ---
- drivers/spi/spi-sh-msiof.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 15e42af35f7e4230..cf93c2ca821f84fa 100644
+index 11ef5c0a498d7c1f..fdb13dbc175249c4 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -919,6 +919,7 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
- 	void *rx_buf = t->rx_buf;
- 	unsigned int len = t->len;
- 	unsigned int bits = t->bits_per_word;
-+	unsigned int max_wdlen = 256;
- 	unsigned int bytes_per_word;
- 	unsigned int words;
- 	int n;
-@@ -932,17 +933,17 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
- 	if (!spi_controller_is_target(p->ctlr))
- 		sh_msiof_spi_set_clk_regs(p, t);
+@@ -677,16 +677,16 @@ static int sh_msiof_spi_txrx_once(struct sh_msiof_spi_priv *p,
+ 				  void (*rx_fifo)(struct sh_msiof_spi_priv *,
+ 						  void *, int, int),
+ 				  const void *tx_buf, void *rx_buf,
+-				  int words, int bits)
++				  unsigned int words, unsigned int bits)
+ {
+ 	int fifo_shift;
+ 	int ret;
  
-+	if (tx_buf)
-+		max_wdlen = min(max_wdlen, p->tx_fifo_size);
-+	if (rx_buf)
-+		max_wdlen = min(max_wdlen, p->rx_fifo_size);
-+
- 	while (ctlr->dma_tx && len > 15) {
- 		/*
- 		 *  DMA supports 32-bit words only, hence pack 8-bit and 16-bit
- 		 *  words, with byte resp. word swapping.
- 		 */
--		unsigned int l = 0;
--
--		if (tx_buf)
--			l = min(round_down(len, 4), p->tx_fifo_size * 4);
--		if (rx_buf)
--			l = min(round_down(len, 4), p->rx_fifo_size * 4);
-+		unsigned int l = min(round_down(len, 4), max_wdlen * 4);
+ 	/* limit maximum word transfer to rx/tx fifo size */
+ 	if (tx_buf)
+-		words = min_t(int, words, p->tx_fifo_size);
++		words = min(words, p->tx_fifo_size);
+ 	if (rx_buf)
+-		words = min_t(int, words, p->rx_fifo_size);
++		words = min(words, p->rx_fifo_size);
  
- 		if (bits <= 8) {
- 			copy32 = copy_bswap32;
+ 	/* the fifo contents need shifting */
+ 	fifo_shift = 32 - bits;
 -- 
 2.43.0
 
