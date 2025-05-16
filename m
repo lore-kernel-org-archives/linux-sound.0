@@ -1,30 +1,33 @@
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [195.130.132.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4C8137932
-	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E616F60B8A
+	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747402368; cv=none; b=GGImR7srTU6JnqHgEItxPM9ExemcNiNbcC+kLoeuHYCue/+A7KyKZM5ibchb2SFlYHvy/zm/eI66APV4J+dtl3NvTrH6schNtWZHgQtYxOEkiod1Csk1Ovi/udqpT7G1EogqtWipwp02x4U1KO2SBGMVGE3Rflfy2S8EGh3EF4s=
+	t=1747402368; cv=none; b=LpEYZ++gkvEC2DPrJ7/5IF8G3DBB0r5j/olDy9yfkbAHWqxlN//b3txoQR0He0s8jDeT8ACQK82k+7d3qBo+5ifSfQ1uu4nrjhas2pF/avN5pC34ivdnUIH0M3i5X3fFdZHLaQ5s1Av5Pk/FM5W9/bL1PKvX3kHDX1ngMWJymnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747402368; c=relaxed/simple;
-	bh=Z79Ft/DewGnTQHlDwWL9zKlnsIlUgjuVxh0Sq6RBDmk=;
+	bh=jD6XtA8XgM/D8YRuIgXAFuZqXVe438Y/vyjn/j/fC3c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CErdcVUzRq3xPA4as1eqi1UAfnmoQRWD12Q7TegmOYuCUOZaGeVUCXb5bg4GDdy0aimVyuoCamcEljCmcv7LVzBed6tV5BoWq8lqJ6PoCLY/SgFJnWvvqGSHtEgICHiSD8YWoi42ffboABfLSwjHmZzvnB6T+O/t7z8s8Ow5y04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+	 MIME-Version; b=pAiSn+LqX8YUT9L0n8Dng2xAaEkwFOiDpoeO5hLN/39yI9RdS/9WyxpsO7QkA5g32qBzGuKT3nSg7kWI56uH/2wEX6GyBg/lqIjHBun1aMBNw5/j4xk9NY+F+l+flD2qib33haNDO12G3+uySlY1sAjwn9C3CZmHC6x936o29U4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+	by gauss.telenet-ops.be (Postfix) with ESMTPS id 4ZzSgX4fJcz4wyhV
+	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 15:32:40 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b0d6:ccd4:58dc:70fd])
-	by michel.telenet-ops.be with cmsmtp
-	id ppYY2E0033S8nz406pYY0Z; Fri, 16 May 2025 15:32:33 +0200
+	by andre.telenet-ops.be with cmsmtp
+	id ppYX2E00H3S8nz401pYYf3; Fri, 16 May 2025 15:32:33 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAi-000000020jP-2Ww7;
-	Fri, 16 May 2025 15:32:32 +0200
+	id 1uFvAi-000000020j3-1pOs;
+	Fri, 16 May 2025 15:32:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAt-0000000153Q-4AuP;
+	id 1uFvAt-0000000152w-3REM;
 	Fri, 16 May 2025 15:32:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -38,9 +41,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 18/22] spi: sh-msiof: Simplify BRG's Division Ratio
-Date: Fri, 16 May 2025 15:32:21 +0200
-Message-ID: <e736221942b0381fb53dc64109a1389f7ec5f44a.1747401908.git.geert+renesas@glider.be>
+Subject: [PATCH v2 12/22] spi: sh-msiof: SIFCTR bitfield conversion
+Date: Fri, 16 May 2025 15:32:15 +0200
+Message-ID: <0bf4c366381a8999c9755285272897300852bc18.1747401908.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
 References: <cover.1747401908.git.geert+renesas@glider.be>
@@ -52,70 +55,85 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As FIELD_PREP() masks the value to be stored in the field, the Baud Rate
-Generator's Division Ratio handling can be simplified from a look-up
-table to a single subtraction.
+Convert MSIOF FIFO Control Register field accesses to use the
+FIELD_PREP() bitfield access macro.
+
+This gets rid of explicit shifts and custom field preparation macros.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Gcc 13.3.0 is not smart enough to consider all possible values of
-div_pow in the current code, hence this works fine.
-However, the simpler test loop
-
-    for (unsigned int pow = 0; pow < 6; pow++)
-	    pr_info("pow %u scr 0x%08lx\n", pow,
-		    FIELD_PREP(SISCR_BRDV, (pow - 1)));
-
-does trigger a "FIELD_PREP: value too large for the field" compile-time
-assertion, unless an explicit "& FIELD_MAX(SISCR_BRDV)" is added.
-Should we be pro-active and add an extra "& FIELD_MAX(SISCR_BRDV)" now,
-to prepare for compilers becoming smarter?
-
 v2:
   - No changes.
 ---
- drivers/spi/spi-sh-msiof.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 48 ++++++++++++++++++--------------------
+ 1 file changed, 23 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 26e71fc8890fda6d..2b8c143b21219521 100644
+index 4f582ecc524fe5fa..812e64ea5f79ce5e 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -112,12 +112,6 @@ struct sh_msiof_spi_priv {
- /* SITSCR and SIRSCR */
- #define SISCR_BRPS		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
- #define SISCR_BRDV		GENMASK(2, 0)	/* Baud Rate Generator's Division Ratio */
--#define SISCR_BRDV_DIV_2	0U
--#define SISCR_BRDV_DIV_4	1U
--#define SISCR_BRDV_DIV_8	2U
--#define SISCR_BRDV_DIV_16	3U
--#define SISCR_BRDV_DIV_32	4U
--#define SISCR_BRDV_DIV_1	7U
+@@ -135,30 +135,26 @@ struct sh_msiof_spi_priv {
+ #define SICTR_RXRST		BIT(0)		/* Receive Reset */
  
- /* SICTR */
- #define SICTR_TSCKIZ		GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
-@@ -256,11 +250,6 @@ static void sh_msiof_spi_reset_regs(struct sh_msiof_spi_priv *p)
- 				  100);
- }
+ /* SIFCTR */
+-#define SIFCTR_TFWM_MASK	GENMASK(31, 29)	/* Transmit FIFO Watermark */
+-#define SIFCTR_TFWM_64		(0UL << 29)	/*  Transfer Request when 64 empty stages */
+-#define SIFCTR_TFWM_32		(1UL << 29)	/*  Transfer Request when 32 empty stages */
+-#define SIFCTR_TFWM_24		(2UL << 29)	/*  Transfer Request when 24 empty stages */
+-#define SIFCTR_TFWM_16		(3UL << 29)	/*  Transfer Request when 16 empty stages */
+-#define SIFCTR_TFWM_12		(4UL << 29)	/*  Transfer Request when 12 empty stages */
+-#define SIFCTR_TFWM_8		(5UL << 29)	/*  Transfer Request when 8 empty stages */
+-#define SIFCTR_TFWM_4		(6UL << 29)	/*  Transfer Request when 4 empty stages */
+-#define SIFCTR_TFWM_1		(7UL << 29)	/*  Transfer Request when 1 empty stage */
+-#define SIFCTR_TFUA_MASK	GENMASK(26, 20) /* Transmit FIFO Usable Area */
+-#define SIFCTR_TFUA_SHIFT	20
+-#define SIFCTR_TFUA(i)		((i) << SIFCTR_TFUA_SHIFT)
+-#define SIFCTR_RFWM_MASK	GENMASK(15, 13)	/* Receive FIFO Watermark */
+-#define SIFCTR_RFWM_1		(0 << 13)	/*  Transfer Request when 1 valid stages */
+-#define SIFCTR_RFWM_4		(1 << 13)	/*  Transfer Request when 4 valid stages */
+-#define SIFCTR_RFWM_8		(2 << 13)	/*  Transfer Request when 8 valid stages */
+-#define SIFCTR_RFWM_16		(3 << 13)	/*  Transfer Request when 16 valid stages */
+-#define SIFCTR_RFWM_32		(4 << 13)	/*  Transfer Request when 32 valid stages */
+-#define SIFCTR_RFWM_64		(5 << 13)	/*  Transfer Request when 64 valid stages */
+-#define SIFCTR_RFWM_128		(6 << 13)	/*  Transfer Request when 128 valid stages */
+-#define SIFCTR_RFWM_256		(7 << 13)	/*  Transfer Request when 256 valid stages */
+-#define SIFCTR_RFUA_MASK	GENMASK(12, 4)	/* Receive FIFO Usable Area (0x40 = full) */
+-#define SIFCTR_RFUA_SHIFT	4
+-#define SIFCTR_RFUA(i)		((i) << SIFCTR_RFUA_SHIFT)
++#define SIFCTR_TFWM		GENMASK(31, 29)	/* Transmit FIFO Watermark */
++#define SIFCTR_TFWM_64		0U		/*  Transfer Request when 64 empty stages */
++#define SIFCTR_TFWM_32		1U		/*  Transfer Request when 32 empty stages */
++#define SIFCTR_TFWM_24		2U		/*  Transfer Request when 24 empty stages */
++#define SIFCTR_TFWM_16		3U		/*  Transfer Request when 16 empty stages */
++#define SIFCTR_TFWM_12		4U		/*  Transfer Request when 12 empty stages */
++#define SIFCTR_TFWM_8		5U		/*  Transfer Request when 8 empty stages */
++#define SIFCTR_TFWM_4		6U		/*  Transfer Request when 4 empty stages */
++#define SIFCTR_TFWM_1		7U		/*  Transfer Request when 1 empty stage */
++#define SIFCTR_TFUA		GENMASK(26, 20) /* Transmit FIFO Usable Area */
++#define SIFCTR_RFWM		GENMASK(15, 13)	/* Receive FIFO Watermark */
++#define SIFCTR_RFWM_1		0U		/*  Transfer Request when 1 valid stages */
++#define SIFCTR_RFWM_4		1U		/*  Transfer Request when 4 valid stages */
++#define SIFCTR_RFWM_8		2U		/*  Transfer Request when 8 valid stages */
++#define SIFCTR_RFWM_16		3U		/*  Transfer Request when 16 valid stages */
++#define SIFCTR_RFWM_32		4U		/*  Transfer Request when 32 valid stages */
++#define SIFCTR_RFWM_64		5U		/*  Transfer Request when 64 valid stages */
++#define SIFCTR_RFWM_128		6U		/*  Transfer Request when 128 valid stages */
++#define SIFCTR_RFWM_256		7U		/*  Transfer Request when 256 valid stages */
++#define SIFCTR_RFUA		GENMASK(12, 4)	/* Receive FIFO Usable Area (0x40 = full) */
  
--static const u32 sh_msiof_spi_div_array[] = {
--	SISCR_BRDV_DIV_1, SISCR_BRDV_DIV_2, SISCR_BRDV_DIV_4,
--	SISCR_BRDV_DIV_8, SISCR_BRDV_DIV_16, SISCR_BRDV_DIV_32,
--};
--
- static void sh_msiof_spi_set_clk_regs(struct sh_msiof_spi_priv *p,
- 				      struct spi_transfer *t)
- {
-@@ -299,7 +288,8 @@ static void sh_msiof_spi_set_clk_regs(struct sh_msiof_spi_priv *p,
+ /* SISTR */
+ #define SISTR_TFEMP		BIT(29) /* Transmit FIFO Empty */
+@@ -811,7 +807,9 @@ static int sh_msiof_dma_once(struct sh_msiof_spi_priv *p, const void *tx,
+ 	}
  
- 	t->effective_speed_hz = parent_rate / (brps << div_pow);
+ 	/* 1 stage FIFO watermarks for DMA */
+-	sh_msiof_write(p, SIFCTR, SIFCTR_TFWM_1 | SIFCTR_RFWM_1);
++	sh_msiof_write(p, SIFCTR,
++		       FIELD_PREP(SIFCTR_TFWM, SIFCTR_TFWM_1) |
++		       FIELD_PREP(SIFCTR_RFWM, SIFCTR_RFWM_1));
  
--	scr = FIELD_PREP(SISCR_BRDV, sh_msiof_spi_div_array[div_pow]) |
-+	/* div_pow == 0 maps to SISCR_BRDV_DIV_1 == all ones */
-+	scr = FIELD_PREP(SISCR_BRDV, div_pow - 1) |
- 	      FIELD_PREP(SISCR_BRPS, brps - 1);
- 	sh_msiof_write(p, SITSCR, scr);
- 	if (!(p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
+ 	/* setup msiof transfer mode registers (32-bit words) */
+ 	sh_msiof_spi_set_mode_regs(p, tx, rx, 32, len / 4);
 -- 
 2.43.0
 
