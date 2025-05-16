@@ -1,30 +1,30 @@
 Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0644A86348
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C2D80C02
 	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747402367; cv=none; b=jNb6Hsm93FNFjgX+IAdUfRVShSLNcJVpJIiBj7plvkQPavXQmprZdBSgEhz9PXUxWtAhOVRle4nmZW1NDMtQSMOfblfyUA6F4tZFONQd9Jl81j9wSReE2q0gYSDCxyxBKuQeu5uYmp60MSVeqKQYo2fKcab95Co/r66e3OB8W30=
+	t=1747402367; cv=none; b=iaDhGdwUOx0FoP9xe6EW3diGl0MViGV4SUJjGSiASY9ISQGn97rPVAYaWgehDjpkoUHf1Jr90YrT/dtWYSF5Mxc51BIW1Zqr/gw8RCZC5ZU20I17mibkKaisLAwjPpf5hCvFS35Tsexlv841FFm59OctvFTnTDZpsJlgrMSr6Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747402367; c=relaxed/simple;
-	bh=MSvhpfzfxRAatgz6Ijb2BdMLJ7N3lj9jgMikPf86PqQ=;
+	bh=/H3mWcE7eAB1IxlnkiOdWiRkuZJ8qYVI0EAfnC5b02k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ktrx8LgM9e++9qKwTkTecuwtauspSEzNCCjy/CU8AgKN65hNSiybFLy9CXpg9e620H0iwR5Arl3vJVRBfZVsdZHyGBhR6dV+IF5rp0QLtt71bOOvqGFIS1zjo2BlxrblOUkLuBhQpDcedMejmGiEeHPTYeeeafIxr9TL+o2Gv+I=
+	 MIME-Version; b=qT+IKtwDhSlHPherdldHdXKKMZ+C0Cf3VurtmIOQQVNSe9wNpXar00yh+x1N7cu6SVRs4wKySFBlv9tRo36ijT13CNGdY9daeJnxKqU4/OrhP6b7ivUgwaFuRg8Xhfvi5ZdocZr135FIzGehs63630CUAM9fK0qHhUWYXUCgHNY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b0d6:ccd4:58dc:70fd])
 	by xavier.telenet-ops.be with cmsmtp
-	id ppYY2E0023S8nz401pYYau; Fri, 16 May 2025 15:32:33 +0200
+	id ppYX2E00E3S8nz401pYXam; Fri, 16 May 2025 15:32:33 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAi-000000020j9-27CA;
+	id 1uFvAi-000000020iQ-0oc9;
 	Fri, 16 May 2025 15:32:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAt-00000001536-3fWb;
+	id 1uFvAt-0000000152D-2SB4;
 	Fri, 16 May 2025 15:32:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -38,9 +38,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 14/22] spi: sh-msiof: Add core support for dual-group transfers
-Date: Fri, 16 May 2025 15:32:17 +0200
-Message-ID: <be75e20cfcd2a6c0d73ab09e0126f902911adc69.1747401908.git.geert+renesas@glider.be>
+Subject: [PATCH v2 03/22] spi: sh-msiof: Fix maximum DMA transfer size
+Date: Fri, 16 May 2025 15:32:06 +0200
+Message-ID: <d9961767a97758b2614f2ee8afe1bd56dc900a60.1747401908.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
 References: <cover.1747401908.git.geert+renesas@glider.be>
@@ -52,90 +52,65 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All MSIOF variants support transferring data of multiple (2 or 4)
-groups.  Add definitions for the register bits related to multiple
-groups, and enhance sh_msiof_spi_set_mode_regs() to accept a second
-group size.
+The maximum amount of data to transfer in a single DMA request is
+calculated from the FIFO sizes (which is technically not 100% correct,
+but a simplification, as it is limited by the maximum word count values
+in the Transmit and Control Data Registers).  However, in case there is
+both data to transmit and to receive, the transmit limit is overwritten
+by the receive limit.
 
-For now the second group is unused.
+Fix this by using the minimum applicable FIFO size instead.  Move the
+calculation outside the loop, so it is not repeated for each individual
+DMA transfer.
 
+As currently tx_fifo_size is always equal to rx_fifo_size, this bug had
+no real impact.
+
+Fixes: fe78d0b7691c0274 ("spi: sh-msiof: Fix FIFO size to 64 word from 256 word")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
   - No changes.
 ---
- drivers/spi/spi-sh-msiof.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 57f27040b0fc78d7..ea9277ab87f66cd5 100644
+index 15e42af35f7e4230..cf93c2ca821f84fa 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -100,10 +100,15 @@ struct sh_msiof_spi_priv {
- 						/* 0=MSIOF_SYNC, 1=MSIOF_SS1, 2=MSIOF_SS2 */
+@@ -919,6 +919,7 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
+ 	void *rx_buf = t->rx_buf;
+ 	unsigned int len = t->len;
+ 	unsigned int bits = t->bits_per_word;
++	unsigned int max_wdlen = 256;
+ 	unsigned int bytes_per_word;
+ 	unsigned int words;
+ 	int n;
+@@ -932,17 +933,17 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
+ 	if (!spi_controller_is_target(p->ctlr))
+ 		sh_msiof_spi_set_clk_regs(p, t);
  
- /* SITMDR2 and SIRMDR2 */
-+#define SIMDR2_GRP		GENMASK(31, 30)	/* Group Count */
- #define SIMDR2_BITLEN1		GENMASK(28, 24)	/* Data Size (8-32 bits) */
- #define SIMDR2_WDLEN1		GENMASK(23, 16)	/* Word Count (1-64/256 (SH, A1))) */
- #define SIMDR2_GRPMASK		GENMASK(3, 0)	/* Group Output Mask 1-4 (SH, A1) */
- 
-+/* SITMDR3 and SIRMDR3 */
-+#define SIMDR3_BITLEN2		GENMASK(28, 24)	/* Data Size (8-32 bits) */
-+#define SIMDR3_WDLEN2		GENMASK(23, 16)	/* Word Count (1-64/256 (SH, A1))) */
++	if (tx_buf)
++		max_wdlen = min(max_wdlen, p->tx_fifo_size);
++	if (rx_buf)
++		max_wdlen = min(max_wdlen, p->rx_fifo_size);
 +
- /* SITSCR and SIRSCR */
- #define SISCR_BRPS		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
- #define SISCR_BRDV		GENMASK(2, 0)	/* Baud Rate Generator's Division Ratio */
-@@ -392,10 +397,11 @@ static void sh_msiof_spi_set_pin_regs(struct sh_msiof_spi_priv *p, u32 ss,
+ 	while (ctlr->dma_tx && len > 15) {
+ 		/*
+ 		 *  DMA supports 32-bit words only, hence pack 8-bit and 16-bit
+ 		 *  words, with byte resp. word swapping.
+ 		 */
+-		unsigned int l = 0;
+-
+-		if (tx_buf)
+-			l = min(round_down(len, 4), p->tx_fifo_size * 4);
+-		if (rx_buf)
+-			l = min(round_down(len, 4), p->rx_fifo_size * 4);
++		unsigned int l = min(round_down(len, 4), max_wdlen * 4);
  
- static void sh_msiof_spi_set_mode_regs(struct sh_msiof_spi_priv *p,
- 				       const void *tx_buf, void *rx_buf,
--				       u32 bits, u32 words)
-+				       u32 bits, u32 words1, u32 words2)
- {
--	u32 dr2 = FIELD_PREP(SIMDR2_BITLEN1, bits - 1) |
--		  FIELD_PREP(SIMDR2_WDLEN1, words - 1);
-+	u32 dr2 = FIELD_PREP(SIMDR2_GRP, words2 ? 1 : 0) |
-+		  FIELD_PREP(SIMDR2_BITLEN1, bits - 1) |
-+		  FIELD_PREP(SIMDR2_WDLEN1, words1 - 1);
- 
- 	if (tx_buf || (p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
- 		sh_msiof_write(p, SITMDR2, dr2);
-@@ -404,6 +410,15 @@ static void sh_msiof_spi_set_mode_regs(struct sh_msiof_spi_priv *p,
- 
- 	if (rx_buf)
- 		sh_msiof_write(p, SIRMDR2, dr2);
-+
-+	if (words2) {
-+		u32 dr3 = FIELD_PREP(SIMDR3_BITLEN2, bits - 1) |
-+			  FIELD_PREP(SIMDR3_WDLEN2, words2 - 1);
-+
-+		sh_msiof_write(p, SITMDR3, dr3);
-+		if (rx_buf)
-+			sh_msiof_write(p, SIRMDR3, dr3);
-+	}
- }
- 
- static void sh_msiof_reset_str(struct sh_msiof_spi_priv *p)
-@@ -712,7 +727,7 @@ static int sh_msiof_spi_txrx_once(struct sh_msiof_spi_priv *p,
- 	sh_msiof_write(p, SIFCTR, 0);
- 
- 	/* setup msiof transfer mode registers */
--	sh_msiof_spi_set_mode_regs(p, tx_buf, rx_buf, bits, words);
-+	sh_msiof_spi_set_mode_regs(p, tx_buf, rx_buf, bits, words, 0);
- 	sh_msiof_write(p, SIIER, SIIER_TEOFE | SIIER_REOFE);
- 
- 	/* write tx fifo */
-@@ -812,7 +827,7 @@ static int sh_msiof_dma_once(struct sh_msiof_spi_priv *p, const void *tx,
- 		       FIELD_PREP(SIFCTR_RFWM, SIFCTR_RFWM_1));
- 
- 	/* setup msiof transfer mode registers (32-bit words) */
--	sh_msiof_spi_set_mode_regs(p, tx, rx, 32, len / 4);
-+	sh_msiof_spi_set_mode_regs(p, tx, rx, 32, len / 4, 0);
- 
- 	sh_msiof_write(p, SIIER, ier_bits);
- 
+ 		if (bits <= 8) {
+ 			copy32 = copy_bswap32;
 -- 
 2.43.0
 
