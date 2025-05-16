@@ -1,68 +1,65 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5ED7A32
-	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 12:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747398388; cv=pass; b=WpeWYzZWHWfssyz6gi2Dg0jQUuPy5RCeJnYq8BCsnOsFw2K3Ehk/LvncqDw0GfoWxAmZ4eoBtrKwCsmd3OjBjHlCwfxIRs3MvS/qbZgheEt1VdtJClXHvEGyTAe+cE6sRJ7Ytc+uB96mONse/zbOghmF0McOpO7MC0muidrErFg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747398388; c=relaxed/simple;
-	bh=KoNv1Eg+sLA8Y0WIiXDh26qWmuuO+SU+nXHHtNN3F0I=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=fYDcBWFs3DOJo3Urr1GPkn3+AIex7evwThgWplaVj3e1hyptpFVqtX6SGLwxpeRnZwHi6T4FE7xY4PlNcCYuLw1z9mAmiHRk+0ipwx/xrDWTUYmQumpr8Mzg2LrzV0XZHEqJ6AMvuTXAv8Znw6JzBqun1nJYx+GuWe2jrSjoRNM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=boschmann-softwareentwicklung.de; spf=none smtp.mailfrom=boschmann-softwareentwicklung.de; dkim=pass (2048-bit key) header.d=boschmann-softwareentwicklung.de header.i=@boschmann-softwareentwicklung.de header.b=bk2zz6ku; dkim=permerror (0-bit key) header.d=boschmann-softwareentwicklung.de header.i=@boschmann-softwareentwicklung.de header.b=FtS7fSiI; arc=pass smtp.client-ip=85.215.255.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=boschmann-softwareentwicklung.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=boschmann-softwareentwicklung.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBAE1E871;
+	Fri, 16 May 2025 12:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747398739; cv=none; b=FZe1C4r6yXpFPgUNHdW5QlkOqYp685gOi6CpmqxSImVrz8aHMDn/w9Qukw5HdrQ5jzlUT7vYTTbmRVVxorO38gcCzAczHcDnWv4al+DGnV1GFccwZKNO4kVwcZayzWiwVv8Ov3OBR/g63MzK4YNwXrbEPaoadJZlVU2OTV1yrRs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747398739; c=relaxed/simple;
+	bh=vz8e+4t88j8l0kTGU0H6UiRUgiWoi0o8ZwWhaWnHA5Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VRKH3fFYYwi7hqMl4DwKeS0lezV9CbS0hTy35Ds9iuoz+BXlKP+BhD9Dm3yLW6ko2QuPWP0gSMTZssC4mxGWmwA+QW4isbccrOK62GyvsgBQWz8aKHZHwqBgFGz/or81eZJo8GUGm2emkGZAjuOdR1lgUT99Q3I1x9TrnTT+b/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BUj0IFk2; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=boschmann-softwareentwicklung.de header.i=@boschmann-softwareentwicklung.de header.b="bk2zz6ku";
-	dkim=permerror (0-bit key) header.d=boschmann-softwareentwicklung.de header.i=@boschmann-softwareentwicklung.de header.b="FtS7fSiI"
-ARC-Seal: i=1; a=rsa-sha256; t=1747398377; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=RwKQqZBk1TrOU8QKnMKE9hFOkScGKMMLameyTFIge6rHxpMaHsWM+EXySBRKBOJvKC
-    2d3U8Od6hc4Wfpc5dy3YhePlQIPwu6zN9qLSF7XBA96sjs/ds1BL+Jsp9X6Ajma0ZeoJ
-    BTvcI+I1oFAKJsyWKLD7XsbSjzAv7SVPOsUbdhUML3gorcFIgHyFwyf1EDg4F2/fdARx
-    rCCzq/WkvQTL5f2A2eHiEK3JrPmGoZbSFRb122NPWpU3vDetfeg6VrkYiooyMd73w0Qd
-    uXdoTbCDXFfV89FRf79TFjBNraZjQ+gm83H9Dfojo19DGNlxhrJJdbC2vSfjLRgsTnNI
-    xfgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1747398377;
-    s=strato-dkim-0002; d=strato.com;
-    h=Subject:From:Cc:To:Date:Message-ID:Cc:Date:From:Subject:Sender;
-    bh=P4y55x+q7IjZFb4vrtUkVj3bGHkfVsdaB/NphaumMAA=;
-    b=keC4DKZ3J85bOpQMosjGLz0Ho0EenI2HZ/YnpXOLfSXuPCmR8wZzXNmLjaV+1kbMvO
-    nYMbnDQdjmW0PXaELvemdChFuHv8AhulsSTmSXcdfrZqW4iF2S99e+hV+coi68SKbRPF
-    Wn1Boaecs8LFRZts2ZOfEMJ7xpZQnfjWW065M3EBXk8WwLKcTFiqrBB0UZDZ0WZjRhv4
-    R6ceGvYGqvkf5Ddfu7beuq3SIzvWLpHrYI4wWYhCAl5Lzn0Od6ZuCVTmhjA7ezFynYin
-    vEw8t/dAdF5AszI7Mlz6hUWaZcgWdSSPOOaEabgxjCrNw0nw5/+ndQDx4SSIHnJVpX2e
-    /pug==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1747398377;
-    s=strato-dkim-0002; d=boschmann-softwareentwicklung.de;
-    h=Subject:From:Cc:To:Date:Message-ID:Cc:Date:From:Subject:Sender;
-    bh=P4y55x+q7IjZFb4vrtUkVj3bGHkfVsdaB/NphaumMAA=;
-    b=bk2zz6kuJ9Akk6BwWshQHXa32+EokJF2fd337kohDD1OfNGwpm/wj6KjJ2YfFPMyjW
-    IJGzpxwZpfG5a1cOAz5tszoP+WWWfBHrDVDuKdayowA5lwwg37XayVTgJf65qGcQkabc
-    vC6AL70fn7xbiMJS2d4HFDFZkXNHba9zlYl5scAY+lk/BcVfK1Yc4VGiZC+ugWHdEBst
-    RWS4Z2JxEKB4Ni270uuVn2z3VVldqcpdgm2cLQsDCcaxLHT08bednrkc8nQ6vDjDobzg
-    iMaz0hc58zGG9DeOMhDH0hlfsUysCZ/cfsU4aqiVlLMIsy8SvLZhhq3xHCI4S4c1Z6PC
-    0eTw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1747398377;
-    s=strato-dkim-0003; d=boschmann-softwareentwicklung.de;
-    h=Subject:From:Cc:To:Date:Message-ID:Cc:Date:From:Subject:Sender;
-    bh=P4y55x+q7IjZFb4vrtUkVj3bGHkfVsdaB/NphaumMAA=;
-    b=FtS7fSiINuFbunW0iGgRtj5udelsfjblI6lxrg1648/tdJMeeSi2t/kNaoPlV41wNj
-    Zi6+aMeklualzHviXuAw==
-X-RZG-AUTH: ":LmMXeheIefCMSMahdBN89VYePWs33GUVKLsfwIEt0MQE94uzFHq+Z8XqBWe4TSd4LUucwMbt6UIULo4ulygZZcLfzKzAJsAWQZXS9Vwb3jZfjtRfKk+j61scQDQ="
-Received: from [IPV6:2003:c0:2f3a:c800:6f3:cf50:4f68:badd]
-    by smtp.strato.de (RZmta 51.3.0 AUTH)
-    with ESMTPSA id I55e4a14GCQGSfM
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Fri, 16 May 2025 14:26:16 +0200 (CEST)
-Message-ID: <897fb106-26f9-43bc-ae47-a02841aa9f3b@boschmann-softwareentwicklung.de>
-Date: Fri, 16 May 2025 14:26:07 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BUj0IFk2"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-601956fa3beso56591a12.0;
+        Fri, 16 May 2025 05:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747398736; x=1748003536; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9VjB+mgTWPBjKCY5An5NLA0HaWKUbup+xoRGJGQX42M=;
+        b=BUj0IFk2ymSkaGrBREtK8QusYKvt/teepvYFolLdVkgsnHYZasTKQiso/EkwNMpMmS
+         aaLq/k90kro8Q4RJCu7tPWFgi6Zm0fXlBsji8b0QrWOQjjvsOFp9QS91ki2bPJwPWM0n
+         EA+X2Ot1W+Ep1N5gOvVbdmubMe39YYmMqADQRnFYS8B2kKRh8XyUXgxIjmkonT/fF44B
+         VCn+80QnNEJrLcRc+mE3kYzbXi+HwzBlalOG8V/PuDGrebZDo4xzbS81pLnc8emo+cUC
+         3VVB3Z6ReocLk9smYV/6vVyBGvfqYlQ0vplDRkWi+7LAsdpKPa8CEdYNmsE8V+07laHz
+         m9Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747398736; x=1748003536;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9VjB+mgTWPBjKCY5An5NLA0HaWKUbup+xoRGJGQX42M=;
+        b=DUiLngR5vQvYMOZXJKLKmZLXiAaGyf5MhoFLDEXtS97aHcYeIIapqVvssWxjhcSp9e
+         G9Xu9gaXGBeEmsyJS5PkV72wIlXIydRdkRy7Skl9gxQasQBLi8kKLw6lDuKZ7LpxidfE
+         ZI+09yzyinC1bMFAA6ofW2HGLSiOzZ5desriwQids5knBQY49rKwl0A0B7i5yaWIUL/r
+         Jt1D9gDUvKHSrrp10fHHePokt0S/Pj9kx8RXGmvnDbR6gs/YQHeAlrQfZd460DPXwvAk
+         ZL0pRr7n9lukxN+oF3frlun4S3S/6z4hY2fjC45yjw4tRLmIVQPWVY0aX8HeWK1O/1QG
+         hkEA==
+X-Forwarded-Encrypted: i=1; AJvYcCXP1OF75ZYsNfdtYli5uBWh8yvv3KDetdDO0oYtEKBXytW7AJcS94oUStKyfa4SRuXq8/h2Pd8/r3xC6fQ=@vger.kernel.org, AJvYcCXZGTEHd7ZwmcL26hK+Lwj7OX2AZ82fQM84xu5QlMJjnBE0/R6aA08/GBPaQrAma0CBvP0JwbRvjhj1DTc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxj9Ijx/Ginw/+/R5Fxjh+owk65VoeWa/ndgqwaTUoker7jgxal
+	abaVvXIisQrXNngBI+k7BU2211b5wN9CkQrgIqJx/KgkAIwQof5ClFCDeoXb8Q==
+X-Gm-Gg: ASbGncu1xUBvGU0vMitPa/g3mqW9RbhL+5UIMj7jpGrG8lTGAd5B48jQtFBiy4tY0sB
+	7ixpoBUOMve/WZIwEB/fjayUuE+RBWRqdIKBGFPVOcX/e6o6jv+t4VQC6zTFnjparpYjt+8U4PS
+	2fFQFfJ9L+hPTrWWIPYvwlEPNoeI7T/irUGKW/1XYYsiFiM27mjuzO3ui/eZJwUxt7n6JQG9Jyv
+	GoARfk5VEjhyS+kzXnOWAZSS6tpJJTzIXeKrwx2W1k/871g/yJHEoII+Z/yeZ3W/HYEq1h/gaTB
+	HX4LB0OLGxncU8aE3JYbyDUx46StlD4Hwl8PJXCTeG5kYjl+295qogHkKLWT2qNqeIBeKUc1QJU
+	GF4vPzeQ=
+X-Google-Smtp-Source: AGHT+IGZNd7gvcuPjF8am/ru/x51t5U1lJDJNKBy7Lvh9bT8GVBMZoyoacJgZIR9HZAUTZWB81JrCQ==
+X-Received: by 2002:a17:907:868e:b0:ad5:22c0:f5f1 with SMTP id a640c23a62f3a-ad52d5a97e7mr316285566b.50.1747398735260;
+        Fri, 16 May 2025 05:32:15 -0700 (PDT)
+Received: from [192.168.6.174] ([92.120.5.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d04f263sm152842266b.1.2025.05.16.05.32.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 May 2025 05:32:14 -0700 (PDT)
+Message-ID: <0aa11ef6-4166-41d8-98bc-6c7687d10b11@gmail.com>
+Date: Fri, 16 May 2025 15:50:02 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,94 +67,224 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@vger.kernel.org
-From: boso7 <boso7@boschmann-softwareentwicklung.de>
-Subject: [Question] Sound card implementation - only codec to codec
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH RFC 2/3] ASoC: audio-graph-card2: support explicitly
+ disabled links
+Content-Language: en-GB
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20250515153128.147457-1-laurentiumihalcea111@gmail.com>
+ <20250515153128.147457-3-laurentiumihalcea111@gmail.com>
+ <874ixltjzw.wl-kuninori.morimoto.gx@renesas.com>
+From: Mihalcea Laurentiu <laurentiumihalcea111@gmail.com>
+In-Reply-To: <874ixltjzw.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi all,
 
-I'm working on an ASoC-based sound system and would appreciate input on 
-how to properly structure or
-design a sound card.
+On 16.05.2025 04:36, Kuninori Morimoto wrote:
+> Hi Laurentiu
+>
+> Thank you for the patch
+>
+>> An explicitly disabled link is a DAI link in which one of its device
+>> endpoints (e.g: codec or CPU) has been disabled in the DTS via the
+>> "status" property. Formally speaking:
+>>
+>> 	OF_LINK_IS_DISABLED(lnk) = OF_NODE_IS_DISABLED(dev0) ||
+>> 	                           OF_NODE_IS_DISABLED(dev1);
+>>
+>> where dev0 and dev1 are the two devices (CPU/codec) that make up the
+>> link.
+>>
+>> If at least one link was explicitly disabled that means DAPM routes
+>> passed through the OF property "routing" can fail as some widgets might
+>> not exist. Consider the following example:
+>>
+>> 	CODEC A has widgets A0, A1.
+>> 	CODEC B has widgets B0, B1.
+>>
+>> 	my-card {
+>> 		compatible = "audio-graph-card2":
+>> 		label = "my-label";
+>> 		links = <&cpu0_port>, <&cpu1_port>;
+>> 		routing = "A0", "A1",
+>> 		          "B0", "B1";
+>> 	};
+>>
+>> 	CODEC A's DT node was disabled.
+>> 	CODEC B's DT node is enabled.
+>> 	CPU0's DT node is enabled.
+>> 	CPU1's DT node is enabled.
+>>
+>> If CODEC A's DT node is disabled via the 'status = "disabled"' property
+>> that means the A0 -> A1 route cannot be created. This doesn't affect the
+>> B0 -> B1 route though as CODEC B was never disabled in the DT.
+>>
+>> This is why, if any explicitly disabled link is discovered, the
+>> "disable_of_route_checks" flag is turned on.
+>>
+>> If all links were explicitly disabled the sound card creation will fail.
+>> Otherwise, if there's at least one link which wasn't explicitly disabled
+>> then the sound card creation will succeed.
+>>
+>> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+>> ---
+> I think I could understand your situation, but the solution (= this patch) is
+> too much complicated for me. Indeed it might detect disabled device, but some
+> board might want to detect it as error, unlike your case.
 
-The project is a media player / sound system device. The CPU doesn't 
-process any audio itself — it
-only configures and sets up the hardware. For example, it starts the CD 
-player (via I2C, not as an
-audio playback device of the CPU), which then outputs SPDIF to an 
-SPDIF-to-I2S converter (AK4118).
-This converter then outputs I2S to two DACs (PCM1795). Other modules 
-follow, but this part of the
-path should be sufficient as an example. If I understand how to handle 
-these parts, I can apply the
-same approach to the rest.
 
-So the (simplified) audio path is:
+that is true. One problem with this solution is the fact that you can't
 
-CD-ROM (SPDIF) -> SPDIF-to-I2S converter -> DAC -> Speakers
+really distinguish between links that were intentionally disabled (see example
 
-The SPDIF-to-I2S converter has an input mux, which is represented in the 
-device driver as a DAPM
-widget:
+from RFC's cover letter) and links that were accidentally disabled (e.g. user
 
-static const struct snd_soc_dapm_widget ak4118_dapm_widgets[] = {
-     SND_SOC_DAPM_INPUT("INRX0"),
-     SND_SOC_DAPM_INPUT("INRX1"),
-   ...
-     SND_SOC_DAPM_INPUT("INRX7"),
-     SND_SOC_DAPM_MUX("Input Mux", SND_SOC_NOPM, 0, 0,
-              &ak4118_input_mux_controls),
+forgot to set 'status = "okay"' for one of the link's devices)
+
+
+>
+> You want to add "disable_of_route_checks" flag to the card, right ?
+> How about to add new property, like "force detect xxx", or
+> "DAI might not be detected", etc, etc, etc...
+>
+> If we can have such property, it will be more simple code.
+>
+> 	if (it_has_flag("force_detect_xxx")) {
+> 		dev_info(dev, "xxx");
+> 		card->disable_of_route_checks = 1;
+> 	}
+
+
+well, I think the solution is made up of 2 parts:
+
+    1) the part that allows link devices to be disabled
+
+    2) the part that allows routes to fails
+
+
+what you're suggesting is dropping the first part and going with just the second one.
+
+The problem I see with this (let's assume we have the BASE-PLUGIN example presented
+
+in the RFC's cover letter) is that:
+
+    1) You'll have to specify the links inside of PLUGIN's DT overlay (instead of BASE's DTS)
+
+    2) You'll have to do the link connection part inside PLUGIN's DT overlay.
+
+
+So, our example DTS and DT overlay would look like this:
+
+
+[snippet from base.dts]
+
+	my_card: card {
+		compatible = "audio-graph-card2";
+		links = <&l2>; /* here, we're only allowed to specify links that exist */
+		routing = "Headphones", "C20",
+			  "Headphones", "C21",
+			  "Line", "C01";
+	};
+
+	d0: cpu@0 {
+		l0: port { l0_ep: endpoint { /* connected when plugin.dtbo is applied */ } };
+	};
+
+	d1: cpu@1 {
+		l1: port { l1_ep: endpoint { /* connected when plugin.dtbo is applied */ } };
+	};
+
+	d2: cpu@2 {
+		l2: port { l2_ep: endpoint { remote-endpoint = <&c2_ep>; } };
+	};
+
+	c2: codec@2 {
+		port { c2_ep: endpoint { remote-endpoint = <&l2_ep>; } };
+	};
+
+
+[snippet from plugin.dtso]
+
+&my_card {
+	/* here we're forced to also specify l2 even if this is already done
+         * in base.dts. This is because DT overlays don't support appending to
+	 * properties.
+         */
+	remote-endpoint = <&l0>, <&l1>, <&l2>;
 };
 
-static const struct snd_soc_dapm_route ak4118_dapm_routes[] = {
-     {"Input Mux", "RX0", "INRX0"},
-     {"Input Mux", "RX1", "INRX1"},
-   ...
-     {"Input Mux", "RX7", "INRX7"},
+&l0_ep {
+	remote-endpoint = <&c1_ep>;
 };
 
-A few additional notes about the use case:
+&l1_ep {
+	remote-endpoint = <&c2_ep>;
+};
 
-- Ultimately, I want a single mux to select between inputs (CD, 
-Bluetooth, Tuner, etc.). The outputs
-can be enabled/disabled via switches. Both the mux and the switches 
-should be controllable from
-userspace.
-- I’d like to avoid the need to start streams explicitly (e.g., via 
-aplay). Ideally, when an input is
-selected, the audio should begin playing immediately (I think I haven’t 
-fully understood the concpet
-of streams..)
-- As far as I can tell, I’m only using codec-to-codec connections. I 
-think I understand how to create
-DAPM paths, but I’m unsure how to achieve automatic playback when the 
-correct source is selected.
+c0: codec@0 {
+	port { c0_ep: endpoint { remote-endpoint = <&l0_ep>; } };
+};
 
-My questions:
+c1: codec@1 {
+	port { c1_ep: endpoint { remote-endpoint = <&l1_ep>; } };
+};
 
-1. Is the way I imagine my sound card feasible? Or do I have to do more 
-from the userland?
-2. When I select an input (e.g., CD), how do I get other DAPM of e.g. a 
-codec to change? For
-    instance, selecting CD should set the input mux of the SPDIF-to-I2S 
-converter to INRX5.
-3. In other drivers, I often see codec registers being set directly. Is 
-this really the preferred
-    approach?
-4. Again, I want to avoid using something like aplay because the music 
-is always played
-    independently of the CPU. I just need to set up the hardware 
-correctly (input mux, DAC
-    configuration, GPIOs, etc.).
+Assume that we also have BASE1 that is compatible with PLUGIN but
+C0 and C1 are connected to BASE1's D0 and D5. Since there's no D1-C1
+connection that means you'll have to create another DT overlay. Thus,
+the scalability of plugin.dtso decreases.
 
-I hope my use case is clear. I’d appreciate any tips, especially 
-pointers to documentation or
-example drivers to investigate further.
+Now, for our particular case, we have BASE0 and BASE1 with the following
+DAIs and CODECS (these are physically present on the base boards):
 
-Thanks in advance and best regards
-Manuel Boschmann
+BASE0 has DAIs D0, D1 and CODEC C0
+BASE1 has DAIs D0, D1 and CODEC C1
 
+Both of these boards are compatible with plugin PLUGIN that has codec C2.
+The possible DAI links are:
+
+For BASE0:
+
+D0 <----> C0
+D1 <----> C2 (only possible with PLUGIN connected)
+
+For BASE1:
+
+D0 <----> C1
+D1 <----> C2 (only possible with PLUGIN connected)
+
+Since the D1 <---> C2 connection is valid for both BASE0-PLUGIN and
+BASE1-PLUGIN combinations I think we can make do without the support
+for explicitly disabled links. But I don't think this is ideal because:
+
+1) If we ever need to support board BASE3 that is compatible with PLUGIN
+and uses Dn != D1 to connect with PLUGIN's C2 codec then we're going to
+either modify our devicetrees (to make plugin.dtso applicable to BASE3
+as well) or add another DT overlay (not really desirable because we already
+have a lot of devicetrees). (note: more of an _if_ situation. Don't think we
+can actually use this as an argument. I just wanted to have this out in the
+open)
+
+2) People might get confused when looking at the "links" and "routing"
+properties. Now, "links" will only contain links that actually exist, while
+"routing" can contain widgets from codecs that don't exist on the base board.
+(note: perhaps not a deal breaker? again, just wanted to have this out in the
+open)
+
+
+Either way, I believe your concern is valid. This new feature adds a lot of
+extra code and validating it is a pain. Still, even if we go with just the
+extra DT property as you suggested I believe this is a step forward so I think
+we can go with that for now and see how well this scales.
+
+
+BTW, thanks a lot for taking the time to review this huge series!!
+
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Kuninori Morimoto
