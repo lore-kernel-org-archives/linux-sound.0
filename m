@@ -1,30 +1,33 @@
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03CE72637
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47DD3594B
 	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747402364; cv=none; b=n983YxOrSsakHpn2AgcVQ7wo4ghPln0PwyOc7Gkdr64SraR7CfYOgCNFh2KNA3zIIIJ58Fb7c++FUegEgk2/SX6Cgx8qt4ECW8lx4U0bBgWTwpEyyVY+sVRaImDRCK4nXAxaUpZjNcADF6dhNYURH2M2wzXqQCyyrf86Qco23yc=
+	t=1747402364; cv=none; b=QOsAzu3c2KUvMchoMBxgTLDnPJOma5oKXsRkY7meY/3HEhBZSkMZdcBf0VCM1XTYjgE+9ZEmqDb6Ybj7Bz2V29TVkawAYoU5KDm0bBaGPlw48exhZPLdZSFyQVhubI799NDNOth4VNmmrOiEtnVXGY9MkJJzZG35JQpeY2z+soI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747402364; c=relaxed/simple;
-	bh=OCAbSjmSLPBTKg4S/+30tDY7Ef6+bvyxjGLe725Pq9Y=;
+	bh=rCkTAxu6J7MASRwBXw7XS7QLkh1LD+VQPUkTUCO6fPc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wx/1Gn4R4BeeuDTM50N1jtEFhOqMIZfWm4H5l+eEAG35SrV6C7diOO4ENblLjpjJTKIC9lvIgvCugPRiE4beOAFwrGDlGZlgCIUA3EcwFk4WBcj6cY2eBTzQtaaZqGZPQLecTzDskj5jEhabTWgkF6SvLWRkZAv77qYKCL7cpQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+	 MIME-Version; b=XktfvAUFPF/QrFItxAqOCcsXg5x7w+s9TJPN2dO6SL17ijBzs+N3iA8BekG1a8CiTp/+yg4ZLD18MrNFjph0yK0a3ILamgOGgReIpQpF0JAxiprcd7GfPqDqBDtIu5ILRak0w9aSXlikcyNsxpqdAFdSl876M3MEyeAzwhlhy6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4ZzSgP2gjcz4x8Gd
+	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 15:32:33 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b0d6:ccd4:58dc:70fd])
-	by albert.telenet-ops.be with cmsmtp
-	id ppYX2E00M3S8nz406pYXx2; Fri, 16 May 2025 15:32:33 +0200
+	by baptiste.telenet-ops.be with cmsmtp
+	id ppYY2E0013S8nz401pYYVR; Fri, 16 May 2025 15:32:33 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAi-000000020iu-1aZ7;
+	id 1uFvAi-000000020j8-214a;
 	Fri, 16 May 2025 15:32:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAt-0000000152m-3Dct;
+	id 1uFvAt-00000001531-3YC4;
 	Fri, 16 May 2025 15:32:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -38,9 +41,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 10/22] spi: sh-msiof: SITSCR/SIRSCR bitfield conversion
-Date: Fri, 16 May 2025 15:32:13 +0200
-Message-ID: <f2462c99b6ea2e45b995ab4509c2f039043da032.1747401908.git.geert+renesas@glider.be>
+Subject: [PATCH v2 13/22] spi: sh-msiof: Correct SIMDR2_GRPMASK
+Date: Fri, 16 May 2025 15:32:16 +0200
+Message-ID: <ad268d67807cb7e544eddaf7a056793482a965d4.1747401908.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
 References: <cover.1747401908.git.geert+renesas@glider.be>
@@ -52,57 +55,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert MSIOF Transmit and Receive Clock Select Register field accesses
-to use the FIELD_PREP() bitfield access macro.
+The Group Output Mask is not a single bit, but a bit field, containing
+one bit for each of the four possible groups.  Correct the definition.
 
-This gets rid of explicit shifts and custom field preparation macros.
+Note that this change has no direct impact, as the driver only uses
+the first group.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
   - No changes.
 ---
- drivers/spi/spi-sh-msiof.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 51a9e89364756af0..9bddf85dd9c7f2a1 100644
+index 812e64ea5f79ce5e..57f27040b0fc78d7 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -105,15 +105,14 @@ struct sh_msiof_spi_priv {
- #define SIMDR2_GRPMASK1		BIT(0)		/* Group Output Mask 1 (SH, A1) */
+@@ -102,7 +102,7 @@ struct sh_msiof_spi_priv {
+ /* SITMDR2 and SIRMDR2 */
+ #define SIMDR2_BITLEN1		GENMASK(28, 24)	/* Data Size (8-32 bits) */
+ #define SIMDR2_WDLEN1		GENMASK(23, 16)	/* Word Count (1-64/256 (SH, A1))) */
+-#define SIMDR2_GRPMASK1		BIT(0)		/* Group Output Mask 1 (SH, A1) */
++#define SIMDR2_GRPMASK		GENMASK(3, 0)	/* Group Output Mask 1-4 (SH, A1) */
  
  /* SITSCR and SIRSCR */
--#define SISCR_BRPS_MASK		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
--#define SISCR_BRPS(i)		(((i) - 1) << 8)
--#define SISCR_BRDV_MASK		GENMASK(2, 0)	/* Baud Rate Generator's Division Ratio */
--#define SISCR_BRDV_DIV_2	0
--#define SISCR_BRDV_DIV_4	1
--#define SISCR_BRDV_DIV_8	2
--#define SISCR_BRDV_DIV_16	3
--#define SISCR_BRDV_DIV_32	4
--#define SISCR_BRDV_DIV_1	7
-+#define SISCR_BRPS		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
-+#define SISCR_BRDV		GENMASK(2, 0)	/* Baud Rate Generator's Division Ratio */
-+#define SISCR_BRDV_DIV_2	0U
-+#define SISCR_BRDV_DIV_4	1U
-+#define SISCR_BRDV_DIV_8	2U
-+#define SISCR_BRDV_DIV_16	3U
-+#define SISCR_BRDV_DIV_32	4U
-+#define SISCR_BRDV_DIV_1	7U
+ #define SISCR_BRPS		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
+@@ -400,7 +400,7 @@ static void sh_msiof_spi_set_mode_regs(struct sh_msiof_spi_priv *p,
+ 	if (tx_buf || (p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
+ 		sh_msiof_write(p, SITMDR2, dr2);
+ 	else
+-		sh_msiof_write(p, SITMDR2, dr2 | SIMDR2_GRPMASK1);
++		sh_msiof_write(p, SITMDR2, dr2 | SIMDR2_GRPMASK);
  
- /* SICTR */
- #define SICTR_TSCKIZ_MASK	GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
-@@ -299,7 +298,8 @@ static void sh_msiof_spi_set_clk_regs(struct sh_msiof_spi_priv *p,
- 
- 	t->effective_speed_hz = parent_rate / (brps << div_pow);
- 
--	scr = sh_msiof_spi_div_array[div_pow] | SISCR_BRPS(brps);
-+	scr = FIELD_PREP(SISCR_BRDV, sh_msiof_spi_div_array[div_pow]) |
-+	      FIELD_PREP(SISCR_BRPS, brps - 1);
- 	sh_msiof_write(p, SITSCR, scr);
- 	if (!(p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
- 		sh_msiof_write(p, SIRSCR, scr);
+ 	if (rx_buf)
+ 		sh_msiof_write(p, SIRMDR2, dr2);
 -- 
 2.43.0
 
