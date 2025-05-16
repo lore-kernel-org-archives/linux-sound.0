@@ -1,33 +1,33 @@
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
+Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4414CE08
-	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3163413A3ED
+	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747402369; cv=none; b=NwFrQAaRiStBqitZJ4mNteBDag14FD1UGcSrI8MmT4BPjDDGHBC2KK92BT9Tjryvi2FLLRTyRBQu2tr/XRngP4dFgch6BGn3Vuq//SkQkAUF7yggQUuLrrn+mD/8z2zl6xFWzawSznb8UjQogU+FR4C/z9AfLUpjV4Injb1TXHU=
+	t=1747402369; cv=none; b=Um01Fg/4cSWyWRWKZvRcWls53OTKMUIIWtNbZme4/k9H8C68ulzAnMnu2gJruxo+qw33TKEOuBet7IoSRXW88CF9Y5chAawBtX92UdRZGKAdIm0MunlO7Z0+p5r6YbpJOkuhnqWSOqddcqrYVN3CdOamOYuEmAV6dYXtLaw7qlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747402369; c=relaxed/simple;
-	bh=/cXB1A29usrIPWaYswL8Jdkmruos7wG90yrJfDO7tVM=;
+	bh=NR9rZ3I3bj8QVK3gQZOn4ao8ltgkGFtn5GDgRLDfGx4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=goFjHg24nVKGM6TSVWroKuTY1VqP9L5YIBsriLxWxn6we7btiPOnA1hGO9+aBaWv5qlaTxtKQm6aGniVI/X7RDh9ywxXS9OSwAXgg0HU3SvMpnsslU2IfSGYSTDIVSZ1Ipiw+OT1mER8O+QWzwI9MUHy7ewlxQRN7DRbC3+FTeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
+	 MIME-Version; b=knkFkQ63FHmpX2Ahmi4i+uIre8YV1+0MO8qCP11L2BW6e4PBJhRJ0jEkInM9PTcM9sj6iOgo2qeoeQJekPcw6UdQZEWTo0RYso5fg0IhfoeS0Ke6IvnmArYGOeIyKvkFvm0PoM6GTXbCQghrfraTP4ylJJSRpHlewTljxNI8UWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4ZzSgX4CmDz4xBc0
+	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4ZzSgX4r4Mz4x0bl
 	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 15:32:40 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b0d6:ccd4:58dc:70fd])
 	by andre.telenet-ops.be with cmsmtp
-	id ppYX2E00A3S8nz401pYXeu; Fri, 16 May 2025 15:32:33 +0200
+	id ppYX2E00E3S8nz401pYXf1; Fri, 16 May 2025 15:32:33 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAi-000000020iM-0ijn;
+	id 1uFvAi-000000020ip-1TdN;
 	Fri, 16 May 2025 15:32:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAt-00000001528-2LiP;
+	id 1uFvAt-0000000152g-37fM;
 	Fri, 16 May 2025 15:32:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -41,9 +41,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 02/22] spi: sh-msiof: Remove unneeded compatible values
-Date: Fri, 16 May 2025 15:32:05 +0200
-Message-ID: <d33393ac7536bc3f0f624b079f70d80dd19843db.1747401908.git.geert+renesas@glider.be>
+Subject: [PATCH v2 09/22] spi: sh-msiof: SITMDR2 and SIRMDR2 bitfield conversion
+Date: Fri, 16 May 2025 15:32:12 +0200
+Message-ID: <135b92d010a71e2c224feab3a5792724b4e60ff1.1747401908.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
 References: <cover.1747401908.git.geert+renesas@glider.be>
@@ -55,67 +55,60 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Clock-Synchronized Serial Interfaces with FIFO (MSIOF) driver
-matches against both SoC-specific and family-specific compatible values
-to maintain backwards-compatibility with old DTBs predating the
-introduction of the family-specific compatible values.
+Convert MSIOF Transmit and Receive Mode Register 2 field accesses to use
+the FIELD_PREP() bitfield access macro.
 
-For RZ/G1, the SoC-specific compatible match entry can be removed from
-the driver: their DT always had the family-specific compatible values,
-and thus there was never a need to add the SoC-specific compatible
-values to the driver.
+This gets rid of explicit shifts and custom field preparation macros.
 
-For R-Car Gen2 and M3-W, the SoC-specific compatible match entries can
-be removed, too, as there are a few points in time where DT
-backwards-compatibility was broken for other reasons:
-  - Legacy DT clock support is no longer supported since commit
-    58256143cff7c2e0 ("clk: renesas: Remove R-Car Gen2 legacy DT clock
-    support") in v5.5, and the addition of "renesas,rcar-gen2-msiof" to
-    DTS in v4.11 predates the completion of the clock conversion in
-    v4.15,
-  - Legacy DT LVDS support is no longer supported since commit
-    841281fe52a769fe ("drm: rcar-du: Drop LVDS device tree backward
-    compatibility") in v5.18, and the addition of
-    "renesas,rcar-gen3-msiof" in commit 8b51f97138ca22b6 ("arm64: dts:
-    r8a7796: Use R-Car Gen 3 fallback binding for msiof nodes") in v4.11
-    predates the LVDS conversion in commit 58e8ed2ee9abe718 ("arm64:
-    dts: renesas: Convert to new LVDS DT bindings") in v4.20.
-
-For R-Car H3, the SoC-specific compatible match entry cannot be removed,
-as its purpose is to handle an SoC-specific quirk.
-
-Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-This is a resend of a patch that never received any comments.
-
 v2:
   - No changes.
 ---
- drivers/spi/spi-sh-msiof.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 325bd5890b78884d..15e42af35f7e4230 100644
+index fb83b049690e0207..51a9e89364756af0 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -1088,16 +1088,8 @@ static const struct sh_msiof_chipdata rcar_r8a7795_data = {
+@@ -100,8 +100,8 @@ struct sh_msiof_spi_priv {
+ 						/* 0=MSIOF_SYNC, 1=MSIOF_SS1, 2=MSIOF_SS2 */
  
- static const struct of_device_id sh_msiof_match[] __maybe_unused = {
- 	{ .compatible = "renesas,sh-mobile-msiof", .data = &sh_data },
--	{ .compatible = "renesas,msiof-r8a7743",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7745",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7790",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7791",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7792",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7793",   .data = &rcar_gen2_data },
--	{ .compatible = "renesas,msiof-r8a7794",   .data = &rcar_gen2_data },
- 	{ .compatible = "renesas,rcar-gen2-msiof", .data = &rcar_gen2_data },
- 	{ .compatible = "renesas,msiof-r8a7795",   .data = &rcar_r8a7795_data },
--	{ .compatible = "renesas,msiof-r8a7796",   .data = &rcar_gen3_data },
- 	{ .compatible = "renesas,rcar-gen3-msiof", .data = &rcar_gen3_data },
- 	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen3_data },
- 	{ .compatible = "renesas,sh-msiof",        .data = &sh_data }, /* Deprecated */
+ /* SITMDR2 and SIRMDR2 */
+-#define SIMDR2_BITLEN1(i)	(((i) - 1) << 24) /* Data Size (8-32 bits) */
+-#define SIMDR2_WDLEN1(i)	(((i) - 1) << 16) /* Word Count (1-64/256 (SH, A1))) */
++#define SIMDR2_BITLEN1		GENMASK(28, 24)	/* Data Size (8-32 bits) */
++#define SIMDR2_WDLEN1		GENMASK(23, 16)	/* Word Count (1-64/256 (SH, A1))) */
+ #define SIMDR2_GRPMASK1		BIT(0)		/* Group Output Mask 1 (SH, A1) */
+ 
+ /* SITSCR and SIRSCR */
+@@ -397,7 +397,8 @@ static void sh_msiof_spi_set_mode_regs(struct sh_msiof_spi_priv *p,
+ 				       const void *tx_buf, void *rx_buf,
+ 				       u32 bits, u32 words)
+ {
+-	u32 dr2 = SIMDR2_BITLEN1(bits) | SIMDR2_WDLEN1(words);
++	u32 dr2 = FIELD_PREP(SIMDR2_BITLEN1, bits - 1) |
++		  FIELD_PREP(SIMDR2_WDLEN1, words - 1);
+ 
+ 	if (tx_buf || (p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
+ 		sh_msiof_write(p, SITMDR2, dr2);
+@@ -931,6 +932,7 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
+ 				 struct spi_transfer *t)
+ {
+ 	struct sh_msiof_spi_priv *p = spi_controller_get_devdata(ctlr);
++	unsigned int max_wdlen = FIELD_MAX(SIMDR2_WDLEN1) + 1;
+ 	void (*copy32)(u32 *, const u32 *, unsigned int);
+ 	void (*tx_fifo)(struct sh_msiof_spi_priv *, const void *, unsigned int,
+ 			unsigned int);
+@@ -940,7 +942,6 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
+ 	void *rx_buf = t->rx_buf;
+ 	unsigned int len = t->len;
+ 	unsigned int bits = t->bits_per_word;
+-	unsigned int max_wdlen = 256;
+ 	unsigned int bytes_per_word;
+ 	unsigned int words;
+ 	int n;
 -- 
 2.43.0
 
