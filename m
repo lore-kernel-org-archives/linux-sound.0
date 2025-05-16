@@ -1,33 +1,30 @@
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47DD3594B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED61A78F49
 	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747402364; cv=none; b=QOsAzu3c2KUvMchoMBxgTLDnPJOma5oKXsRkY7meY/3HEhBZSkMZdcBf0VCM1XTYjgE+9ZEmqDb6Ybj7Bz2V29TVkawAYoU5KDm0bBaGPlw48exhZPLdZSFyQVhubI799NDNOth4VNmmrOiEtnVXGY9MkJJzZG35JQpeY2z+soI=
+	t=1747402365; cv=none; b=A9Gae1Id6dw8u0iRpTC1OIEdMDWXIQC1Kl+508BQjmd7/gVRs2cKBq71LYyjGVe7LWPL30soi5HrvKcfqnrhoXOUf0eVHLsbsbqLx+KenBu3i56G/04G5TUNgoQv0xJfGcQdpOqTO9xzXAmb+5Zr/TqAqmpTZwwLn+u1I2p92qQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747402364; c=relaxed/simple;
-	bh=rCkTAxu6J7MASRwBXw7XS7QLkh1LD+VQPUkTUCO6fPc=;
+	s=arc-20240116; t=1747402365; c=relaxed/simple;
+	bh=VvaIqcA29H+k71LVwcDiGbLNtd0liH1S61o55uJ3oHE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XktfvAUFPF/QrFItxAqOCcsXg5x7w+s9TJPN2dO6SL17ijBzs+N3iA8BekG1a8CiTp/+yg4ZLD18MrNFjph0yK0a3ILamgOGgReIpQpF0JAxiprcd7GfPqDqBDtIu5ILRak0w9aSXlikcyNsxpqdAFdSl876M3MEyeAzwhlhy6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
+	 MIME-Version; b=DtzHPTid6tDrqm/deuYQ/RJTbihwmY0gnjviBVJoghxSaovKTnkTPotm+EuteCCtGSeTePLeYmBDFXMLI/AJlN5CKVABIiiEUdnqK0RqMjyUq7vB0YDIGNZqC3AoiaCQ4hZP7basKeRvK0JL3ud0G7Uub+cjQI2minddZnHkfaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4ZzSgP2gjcz4x8Gd
-	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 15:32:33 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b0d6:ccd4:58dc:70fd])
-	by baptiste.telenet-ops.be with cmsmtp
-	id ppYY2E0013S8nz401pYYVR; Fri, 16 May 2025 15:32:33 +0200
+	by michel.telenet-ops.be with cmsmtp
+	id ppYX2E00P3S8nz406pYX0Q; Fri, 16 May 2025 15:32:33 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAi-000000020j8-214a;
+	id 1uFvAi-000000020iK-0dAx;
 	Fri, 16 May 2025 15:32:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAt-00000001531-3YC4;
+	id 1uFvAt-00000001525-2FGg;
 	Fri, 16 May 2025 15:32:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -41,9 +38,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 13/22] spi: sh-msiof: Correct SIMDR2_GRPMASK
-Date: Fri, 16 May 2025 15:32:16 +0200
-Message-ID: <ad268d67807cb7e544eddaf7a056793482a965d4.1747401908.git.geert+renesas@glider.be>
+Subject: [PATCH v2 01/22] spi: sh-msiof: Drop comma after OF match table sentinel
+Date: Fri, 16 May 2025 15:32:04 +0200
+Message-ID: <2ab5745407339ba54b63c3e6410082c7c566bf95.1747401908.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
 References: <cover.1747401908.git.geert+renesas@glider.be>
@@ -55,42 +52,32 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Group Output Mask is not a single bit, but a bit field, containing
-one bit for each of the four possible groups.  Correct the definition.
+It does not make sense to have a comma after a sentinel, as any new
+elements must be added before the sentinel.
 
-Note that this change has no direct impact, as the driver only uses
-the first group.
+Add a comment to clarify the purpose of the empty element.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
   - No changes.
 ---
- drivers/spi/spi-sh-msiof.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 812e64ea5f79ce5e..57f27040b0fc78d7 100644
+index d9e3d83fc7e84e03..325bd5890b78884d 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -102,7 +102,7 @@ struct sh_msiof_spi_priv {
- /* SITMDR2 and SIRMDR2 */
- #define SIMDR2_BITLEN1		GENMASK(28, 24)	/* Data Size (8-32 bits) */
- #define SIMDR2_WDLEN1		GENMASK(23, 16)	/* Word Count (1-64/256 (SH, A1))) */
--#define SIMDR2_GRPMASK1		BIT(0)		/* Group Output Mask 1 (SH, A1) */
-+#define SIMDR2_GRPMASK		GENMASK(3, 0)	/* Group Output Mask 1-4 (SH, A1) */
+@@ -1101,7 +1101,7 @@ static const struct of_device_id sh_msiof_match[] __maybe_unused = {
+ 	{ .compatible = "renesas,rcar-gen3-msiof", .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,sh-msiof",        .data = &sh_data }, /* Deprecated */
+-	{},
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, sh_msiof_match);
  
- /* SITSCR and SIRSCR */
- #define SISCR_BRPS		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
-@@ -400,7 +400,7 @@ static void sh_msiof_spi_set_mode_regs(struct sh_msiof_spi_priv *p,
- 	if (tx_buf || (p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
- 		sh_msiof_write(p, SITMDR2, dr2);
- 	else
--		sh_msiof_write(p, SITMDR2, dr2 | SIMDR2_GRPMASK1);
-+		sh_msiof_write(p, SITMDR2, dr2 | SIMDR2_GRPMASK);
- 
- 	if (rx_buf)
- 		sh_msiof_write(p, SIRMDR2, dr2);
 -- 
 2.43.0
 
