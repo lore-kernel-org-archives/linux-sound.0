@@ -1,85 +1,83 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2D33E47B;
-	Fri, 16 May 2025 11:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB781DFE8
+	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 11:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747394423; cv=none; b=b4L82Hpt4Cqy60O9fSwPv/BGttLqjnuCpnrv+IlS0Gpv/T+SHgARHqr+DNq31I/pgH/0xUBgIzKv5UHtYaihRfdInmcAEElrzEKx4JscWIYmpRHYzzBFzZTQ/44miDh6B6lQeC17KXdK5G8C/Me/wyo3vaheht3L8xxhJwORS14=
+	t=1747395081; cv=none; b=ZbhnE6OmNlW1ud2m9WFofOUMoSxCEwf+1V5NmnksLN11hSjajmQAUiAqghs8agPMGazcBiqTypTbnyU+L1W398rsyMyj4ZUUO2lyCljtVENuOU2NZBsH2mI7fQD71CunfafYG+sbepEioFrm19i4hqsAFqZ88gHv7PzkYtY/QI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747394423; c=relaxed/simple;
-	bh=vwy7hfzLZ0cBAqUBMTjbZE/Mm+UAvRQOZbt7AM6Ff30=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fX6AFsVKExPHCuDFJ4N0Yk/L5SlxRrzwiNHiIMrWiaVh0DQUHBLvSuWIjalFVUvw3fWWzINQdR9ZESm5Qy1fA6NsSNY0y+JUucZz47+OT/UFoumOcLELhcSjSL3a9d9hf0al2uynNeNmG0yGKYP/QLFY7YfIYcgp+HO5PaUQgJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=noHg/avo; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747395081; c=relaxed/simple;
+	bh=Y9+/4hA1KOG/0ms2NlscRDUpnyMQ/GiYnDaDtBdsN/4=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=iP8X8fzayxAcjLUfYYOkoKv+SPOvQ15ziBs1gc3sPV29BDaRiLteBlMlWBK7iJd693VZGkKk+Uc17pOg8ztkoF28RNDeHZ+V87wDqbplCg4B/NyCXgH7b6RTnb1iWpPx+us/IqSqjZlLDli2WHyuch750R33KlOy/TQcQqNqPkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LIUjCRh0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="noHg/avo"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-22e7eff58a0so21213345ad.3;
-        Fri, 16 May 2025 04:20:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747394421; x=1747999221; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vwy7hfzLZ0cBAqUBMTjbZE/Mm+UAvRQOZbt7AM6Ff30=;
-        b=noHg/avoD2ysmfJMagpt5Bf72UvRhuJr/IMpqKivXMUaeuGR3asVRQhvSeP9MqwEjy
-         PZMZC2cWxBR/Gcqqm9IDmefTLg4kLdB83QDdJ1C6S13o7qVMUO5gB1IJyanS4wcIJN+9
-         koMWqDwqJOnEes/ZmFk+FWPBltbRAMD42GG1bKWZYx5K4u2AqgDpy8vU1RtGcbKvcxpJ
-         e/6mhyxkelRWkE6F6JTluKdL8fB4set74K0kz+wDSqkU3myoOUHtaLmKqG/1/EsBKCPf
-         PdOLbeaiwt9d3kedfMRv0E87GuBh3z/dKLfO2VtoyKzlrcnm31bnqVAi3F2sRzJ5u0GH
-         qEPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747394421; x=1747999221;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vwy7hfzLZ0cBAqUBMTjbZE/Mm+UAvRQOZbt7AM6Ff30=;
-        b=ZMmn4hNG/sLNa0LVHm+KFol8vvYnuPPf3M93fUOZI2NPkC1+OPvazcxZDH2R2nbgmY
-         LelgkuaZBAU3XCOyQb81lC1ncZYMuJ37/w4CIdxqYPBgij6pDEW1s1LtYba+sIHGhj5G
-         nry+gmiAf2p1d3yn/qj5/pcJM4pkxKEZNK6GT3n/QNwc/latcsCIRxzMQDFAA8UJYb6n
-         10PoESCbFygX7JdyttcB1sZtrvu19PrdDl3DQlO7xTq3FvpvWI/iOf2cC+07i4uVdJ1s
-         7zm7TGNyeADUbriGKHLqaCd6TqZVlylbFaNKT4NxlTAYrXq4ISJd6e7CYCCltnzYF8AW
-         Q4DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUSJS+PtWn5Yf/PiVYooNcA7QBslBxnmQxnQoPCsfZyF4z4HsTxGAo70v0DwYXa1AFxVIvgbVDPLqrgF0o=@vger.kernel.org, AJvYcCViVH4gEvkR959UXjfWIEQ32Vo/rbD/YOV5kzUWbwlrCPbOcn/gmvTq6VTcSJre5gsnpP/2ds97W2DdvBg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAjWfH7+Luc9yfUu+Zh0/E0AdAKmNmigkKX5zSyhZv0uKn0+G7
-	65SyvLqBff+Nn0srGckXSyTkiNDF1Vvs+v9WCSh1mychZapNHYggGdjnHly4EW9kG2XgMRYLRoF
-	JcluZv+SzpCZZBBdlVV2zLy+DJba/JbA=
-X-Gm-Gg: ASbGncvMPI+YGLSHlp7X+3095ZuWwxNbYfgzTZIyTPvlxfvuvtOBphsNysgdnfQbHLf
-	VxfqHBZrlulbXKYVXg72fFSMAuF1rEqpIXyO+IwCzNzuis2sF5363YYgy1UA+8ShqCrUN073W7B
-	H2/rbet3XvTQ2iQ1dlsvcz3a+j2ydIsQ==
-X-Google-Smtp-Source: AGHT+IF/3Di+oLsBLaPYpxcv7LfBBu85vy0Q3yZ/dHsMufRKupnaU8hUSwUIBVs/d7/PRc2cuA5Zbi/WvmJkmILfBEU=
-X-Received: by 2002:a17:902:ecd2:b0:224:2384:5b40 with SMTP id
- d9443c01a7336-231de31b3dbmr32958375ad.24.1747394421207; Fri, 16 May 2025
- 04:20:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LIUjCRh0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 056EFC4CEE4;
+	Fri, 16 May 2025 11:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747395081;
+	bh=Y9+/4hA1KOG/0ms2NlscRDUpnyMQ/GiYnDaDtBdsN/4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LIUjCRh0dKOLdPPK8bRcz62ib1CUJFVAIbaCaA4Msa5lrCVWV1eY11KlJc3rs/kVM
+	 Ejka68klevScX+KG5MInI/M9/XJhsfOrCGc1iBw+DR0Zz6kO5sn2yqNkM5D1OMloJ5
+	 wE5HATqKqvHYZKAAPYG/oaF9u6if3+qvHDFr5k/vo38CdThQ52pY2g1dvXQSdHKZlC
+	 PGpQioT7re5H0TkXEUDeevr5VXol++igZiqQQL1og+Pvp+ZtUSeJ2Jwd+ZYRIFvgR5
+	 aO3KouznDjuLl0M7X5w2q73I9IIVY9Zehe01JpwAG6W3/BctHQ7ctp36pYJhmdFFzI
+	 l4okN8nigJdEQ==
+Message-ID: <cd5ce2c2c94d383d4347692c0366dddd.broonie@kernel.org>
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.15-rc6
+Date: Fri, 16 May 2025 13:31:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250516080334.3272878-1-shengjiu.wang@nxp.com>
-In-Reply-To: <20250516080334.3272878-1-shengjiu.wang@nxp.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Fri, 16 May 2025 14:22:09 +0300
-X-Gm-Features: AX0GCFtrJluGbPO8r8cq7EZ0iKopTI7pXoYtTZfmc5c4e3CQG0UEAmnKOrj0Sus
-Message-ID: <CAEnQRZBfxz7xkC6GSfL6OJ3g6HeFicQdicj48W=JwKYB8HyGRg@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl_xcvr: update platform driver name
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 16, 2025 at 11:06=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.c=
-om> wrote:
->
-> XCVR driver is not only used for i.MX8MP platform, so update driver name
-> to make it more generic.
->
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+The following changes since commit 92a09c47464d040866cf2b4cd052bc60555185fb:
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+  Linux 6.15-rc5 (2025-05-04 13:55:04 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.15-rc6
+
+for you to fetch changes up to 7dd7f39fce0022b386ef1ea5ffef92ecc7dfc6af:
+
+  ASoC: SOF: Intel: hda: Fix UAF when reloading module (2025-05-14 16:34:48 +0200)
+
+----------------------------------------------------------------
+ASoC: Fixes for v6.15
+
+A collection of driver specific fixes that built up over the past few
+weeks, plus one core patch which fixes handling of topology files where
+some DAI names are substrings of others.
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      ASoC: mediatek: mt8188-mt6359: select CONFIG_SND_SOC_MT6359_ACCDET
+
+Kai Vehmanen (1):
+      ASoc: SOF: topology: connect DAI to a single DAI link
+
+Nícolas F. R. A. Prado (1):
+      ASoC: mediatek: mt8188-mt6359: Depend on MT6359_ACCDET set or disabled
+
+Peter Ujfalusi (3):
+      ASoC: SOF: ipc4-control: Use SOF_CTRL_CMD_BINARY as numid for bytes_ext
+      ASoC: SOF: ipc4-pcm: Delay reporting is only supported for playback direction
+      ASoC: SOF: Intel: hda-bus: Use PIO mode on ACE2+ platforms
+
+Tavian Barnes (1):
+      ASoC: SOF: Intel: hda: Fix UAF when reloading module
+
+ sound/soc/mediatek/Kconfig    |  1 +
+ sound/soc/sof/intel/hda-bus.c |  2 +-
+ sound/soc/sof/intel/hda.c     | 16 +++++++++++++++-
+ sound/soc/sof/ipc4-control.c  | 11 ++++++++++-
+ sound/soc/sof/ipc4-pcm.c      |  3 ++-
+ sound/soc/sof/topology.c      | 18 ++++++++++++++----
+ 6 files changed, 43 insertions(+), 8 deletions(-)
