@@ -1,31 +1,34 @@
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E979F76C61
-	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0898A2A1AA
+	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747402369; cv=none; b=En4sHzEG8YyBcH7b55A8J4HgtrJoisB2WGvMUbChyXyykI99ZuZs5f/AI1hifg2Py7d5CMQLUgvWeSA/FN8h5bFxRCWaxMLGTxoPyGCcj+HeWMu3pweCQB+pmFU35FLOR+7ZeKmiEh5xQEtHtX4cxumP8ys6CoCodyL3oWvyoCo=
+	t=1747402694; cv=none; b=alAGKx1+/xi2a4xhutkicnGytaTeriqPLwRzZudbHqq1Tksk4KsLygPsl/rd5/xFs0O7pKhLdKlA/K0srU2a9CBUjkPtVzziLyEyj8PulbuKVaInsSoMHYCFmBvYiMObVKouRWgK4kDAjR3dctEDVtHuk6PSS4dFlKV5bmKqWSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747402369; c=relaxed/simple;
-	bh=WoN2M38Gq0Si4MJuTnhp6KJst1ym3ogf8jEo+hK8HI0=;
+	s=arc-20240116; t=1747402694; c=relaxed/simple;
+	bh=LuODtqMqNqE67UFe8dKvyWUrqUEvf/b+rEpkFnOSe+g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FITFA/w8/1vdhCPYZtKnn1dnhaersfAIt/6/1UUNOmpheFE82WIXKofrp83XOqlRHxajPDIGzygOQAIZi+p5HE8kqdSqofZRKbUfMgzwXKKGGDvALepZB+wx47CLPeePEQk+n7CjjY2mwoKLiDpgSFJyMYU0E1fX1j9iQ65Bii4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+	 MIME-Version; b=lbR1CHDFzL6ENWEP+XdmvlyZIK/EAAu5xZAukDqFtFfCscB0DUXGlx10dCA9iI2DDK/XrB2s0x9YdPll39++3be0PdCsCA+YtwbzZC1XNRbULfDn4q/Kuop7QmXp7UnzmWCVDVotJaj5kL3SWcCDOWsXTBJB2tUCOOBK5lrJPW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4ZzSgP3NrXz4x72Z
+	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 15:32:33 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b0d6:ccd4:58dc:70fd])
-	by michel.telenet-ops.be with cmsmtp
-	id ppYY2E0043S8nz406pYY0a; Fri, 16 May 2025 15:32:33 +0200
+	by andre.telenet-ops.be with cmsmtp
+	id ppYY2E0053S8nz401pYYf4; Fri, 16 May 2025 15:32:33 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAi-000000020jS-2cy4;
+	id 1uFvAi-000000020jL-2Q4O;
 	Fri, 16 May 2025 15:32:32 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAu-0000000153V-05gR;
-	Fri, 16 May 2025 15:32:32 +0200
+	id 1uFvAt-0000000153L-44sw;
+	Fri, 16 May 2025 15:32:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
@@ -38,9 +41,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 19/22] spi: sh-msiof: Double maximum DMA transfer size using two groups
-Date: Fri, 16 May 2025 15:32:22 +0200
-Message-ID: <bad522c76b8d225c195433977b22f95015cf2612.1747401908.git.geert+renesas@glider.be>
+Subject: [PATCH v2 17/22] spi: sh-msiof: Increase TX FIFO size for R-Car V4H/V4M
+Date: Fri, 16 May 2025 15:32:20 +0200
+Message-ID: <69cb5fc48f034d37484fa127b9864a1971a83417.1747401908.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
 References: <cover.1747401908.git.geert+renesas@glider.be>
@@ -52,71 +55,68 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The maximum DMA transfer size is limited by the maximum values that can
-be written to the word count fields (WDLENx) in the Transmit and Control
-Data Registers (SITDR2/SIRDR2).  As all MSIOF variants support
-transferring data of multiple (two or four) groups, the maximum size can
-be doubled by using two groups instead of one, thus reducing setup
-overhead for very large SPI transfers.
+The MSIOF transmit FIFOs on R-Car V4H and V4M have 256 stages.
+Add a new family-specific match entry to handle this.
+Add quirk match entries for older R-Car Gen4 Socs (R-Car V3U and S4-8)
+that have transmit FIFOs with only 64 stages, just like on R-Car Gen3.
+
+Update the (unused) definition of SIFCTR_TFUA for consistency.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Tested on R-Car M2-W, E3, V4H, and V4M with spi-loopback-test and a
-logic analyzer.
+Alternatively, the family-specific match entry could keep referring to
+rcar_gen3_data, and R-Car V4H and V4M could refer to the new entry.
+
+Tested on White Hawk (R-Car V4H) and Gray Hawk Single (R-Car V4M) with
+spi-loopback-test and external loopback, DMA and PIO, and a logic
+analyzer.
 
 v2:
   - No changes.
 ---
- drivers/spi/spi-sh-msiof.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 2b8c143b21219521..4d9a44118e1c9d6c 100644
+index 8afb7c1f64cd4486..26e71fc8890fda6d 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -767,10 +767,12 @@ static void sh_msiof_dma_complete(void *arg)
- }
+@@ -149,7 +149,7 @@ struct sh_msiof_spi_priv {
+ #define SIFCTR_TFWM_8		5U		/*  Transfer Request when 8 empty stages */
+ #define SIFCTR_TFWM_4		6U		/*  Transfer Request when 4 empty stages */
+ #define SIFCTR_TFWM_1		7U		/*  Transfer Request when 1 empty stage */
+-#define SIFCTR_TFUA		GENMASK(26, 20) /* Transmit FIFO Usable Area */
++#define SIFCTR_TFUA		GENMASK(28, 20) /* Transmit FIFO Usable Area */
+ #define SIFCTR_RFWM		GENMASK(15, 13)	/* Receive FIFO Watermark */
+ #define SIFCTR_RFWM_1		0U		/*  Transfer Request when 1 valid stages */
+ #define SIFCTR_RFWM_4		1U		/*  Transfer Request when 4 valid stages */
+@@ -1113,6 +1113,15 @@ static const struct sh_msiof_chipdata rcar_gen3_data = {
+ 	.min_div_pow = 1,
+ };
  
- static int sh_msiof_dma_once(struct sh_msiof_spi_priv *p, const void *tx,
--			     void *rx, unsigned int len)
-+			     void *rx, unsigned int len,
-+			     unsigned int max_wdlen)
- {
- 	u32 ier_bits = 0;
- 	struct dma_async_tx_descriptor *desc_tx = NULL, *desc_rx = NULL;
-+	unsigned int words1, words2;
- 	dma_cookie_t cookie;
- 	int ret;
- 
-@@ -817,7 +819,9 @@ static int sh_msiof_dma_once(struct sh_msiof_spi_priv *p, const void *tx,
- 		       FIELD_PREP(SIFCTR_RFWM, SIFCTR_RFWM_1));
- 
- 	/* setup msiof transfer mode registers (32-bit words) */
--	sh_msiof_spi_set_mode_regs(p, tx, rx, 32, len / 4, 0);
-+	words1 = min(len / 4, max_wdlen);
-+	words2 = len / 4 - words1;
-+	sh_msiof_spi_set_mode_regs(p, tx, rx, 32, words1, words2);
- 
- 	sh_msiof_write(p, SIIER, ier_bits);
- 
-@@ -969,7 +973,7 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
- 		 *  DMA supports 32-bit words only, hence pack 8-bit and 16-bit
- 		 *  words, with byte resp. word swapping.
- 		 */
--		unsigned int l = min(round_down(len, 4), max_wdlen * 4);
-+		unsigned int l = min(round_down(len, 4), 2 * max_wdlen * 4);
- 
- 		if (bits <= 8) {
- 			copy32 = copy_bswap32;
-@@ -982,7 +986,7 @@ static int sh_msiof_transfer_one(struct spi_controller *ctlr,
- 		if (tx_buf)
- 			copy32(p->tx_dma_page, tx_buf, l / 4);
- 
--		ret = sh_msiof_dma_once(p, tx_buf, rx_buf, l);
-+		ret = sh_msiof_dma_once(p, tx_buf, rx_buf, l, max_wdlen);
- 		if (ret == -EAGAIN) {
- 			dev_warn_once(&p->pdev->dev,
- 				"DMA not available, falling back to PIO\n");
++static const struct sh_msiof_chipdata rcar_gen4_data = {
++	.bits_per_word_mask = SPI_BPW_MASK(8) | SPI_BPW_MASK(16) |
++			      SPI_BPW_MASK(24) | SPI_BPW_MASK(32),
++	.tx_fifo_size = 256,
++	.rx_fifo_size = 256,
++	.ctlr_flags = SPI_CONTROLLER_MUST_TX,
++	.min_div_pow = 1,
++};
++
+ static const struct sh_msiof_chipdata rcar_r8a7795_data = {
+ 	.bits_per_word_mask = SPI_BPW_MASK(8) | SPI_BPW_MASK(16) |
+ 			      SPI_BPW_MASK(24) | SPI_BPW_MASK(32),
+@@ -1128,7 +1137,9 @@ static const struct of_device_id sh_msiof_match[] __maybe_unused = {
+ 	{ .compatible = "renesas,rcar-gen2-msiof", .data = &rcar_gen2_data },
+ 	{ .compatible = "renesas,msiof-r8a7795",   .data = &rcar_r8a7795_data },
+ 	{ .compatible = "renesas,rcar-gen3-msiof", .data = &rcar_gen3_data },
+-	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen3_data },
++	{ .compatible = "renesas,msiof-r8a779a0",  .data = &rcar_gen3_data },
++	{ .compatible = "renesas,msiof-r8a779f0",  .data = &rcar_gen3_data },
++	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen4_data },
+ 	{ .compatible = "renesas,sh-msiof",        .data = &sh_data }, /* Deprecated */
+ 	{ /* sentinel */ }
+ };
 -- 
 2.43.0
 
