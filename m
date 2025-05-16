@@ -1,33 +1,30 @@
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EDD1494DB
-	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4C8137932
+	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 13:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747402368; cv=none; b=MXESiu1mzOhW9pgyfAJhTyZvP3VsOl7F9XfQje0hFzL7oyskWQ79FFdXzKd9ECFKhar6jWZQjaymUIt9lcPrPr16OHXTggFKhlwF19faH3YY5VZgclENdjGxVeAdmxpUI9pwc5baXijqcV3V5i1a6rHxrfnJ/6/g34w2IprG7kM=
+	t=1747402368; cv=none; b=GGImR7srTU6JnqHgEItxPM9ExemcNiNbcC+kLoeuHYCue/+A7KyKZM5ibchb2SFlYHvy/zm/eI66APV4J+dtl3NvTrH6schNtWZHgQtYxOEkiod1Csk1Ovi/udqpT7G1EogqtWipwp02x4U1KO2SBGMVGE3Rflfy2S8EGh3EF4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747402368; c=relaxed/simple;
-	bh=mvpjcX/5a0oFb846ghe+MQ7JRUNpQqkMZ0y8uI1l3Rc=;
+	bh=Z79Ft/DewGnTQHlDwWL9zKlnsIlUgjuVxh0Sq6RBDmk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e+cEgmLw9OaTEJdTo5qj1T9819Cgkminv1/a7+Fo+0IH4jhiKmEdSOILrggW0P+3MAQsaiSSB0N0spzd9KN49D2ub69v0zRfoDRLrpZHzO1xaSvckKrD2Vaedrli8MQoMNm1VXzKV9wlkkG1xtNJAje7YkTowBI7GvPxddRvciM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
+	 MIME-Version; b=CErdcVUzRq3xPA4as1eqi1UAfnmoQRWD12Q7TegmOYuCUOZaGeVUCXb5bg4GDdy0aimVyuoCamcEljCmcv7LVzBed6tV5BoWq8lqJ6PoCLY/SgFJnWvvqGSHtEgICHiSD8YWoi42ffboABfLSwjHmZzvnB6T+O/t7z8s8Ow5y04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4ZzSgP4BMbz4xBbS
-	for <linux-sound@vger.kernel.org>; Fri, 16 May 2025 15:32:33 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b0d6:ccd4:58dc:70fd])
-	by albert.telenet-ops.be with cmsmtp
-	id ppYX2E00B3S8nz406pYXww; Fri, 16 May 2025 15:32:33 +0200
+	by michel.telenet-ops.be with cmsmtp
+	id ppYY2E0033S8nz406pYY0Z; Fri, 16 May 2025 15:32:33 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAi-000000020iV-11f3;
-	Fri, 16 May 2025 15:32:31 +0200
+	id 1uFvAi-000000020jP-2Ww7;
+	Fri, 16 May 2025 15:32:32 +0200
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1uFvAt-0000000152L-2erg;
+	id 1uFvAt-0000000153Q-4AuP;
 	Fri, 16 May 2025 15:32:31 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Mark Brown <broonie@kernel.org>,
@@ -41,9 +38,9 @@ Cc: linux-spi@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 05/22] spi: sh-msiof: Use bool for boolean flags
-Date: Fri, 16 May 2025 15:32:08 +0200
-Message-ID: <35cd51bdfb3c810911a5be757e0ce5bb29dcc755.1747401908.git.geert+renesas@glider.be>
+Subject: [PATCH v2 18/22] spi: sh-msiof: Simplify BRG's Division Ratio
+Date: Fri, 16 May 2025 15:32:21 +0200
+Message-ID: <e736221942b0381fb53dc64109a1389f7ec5f44a.1747401908.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
 References: <cover.1747401908.git.geert+renesas@glider.be>
@@ -55,63 +52,70 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use bools instead of integers for boolean flags, which allows us to
-remove the "!!" idiom from several expressions.
+As FIELD_PREP() masks the value to be stored in the field, the Baud Rate
+Generator's Division Ratio handling can be simplified from a look-up
+table to a single subtraction.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
+Gcc 13.3.0 is not smart enough to consider all possible values of
+div_pow in the current code, hence this works fine.
+However, the simpler test loop
+
+    for (unsigned int pow = 0; pow < 6; pow++)
+	    pr_info("pow %u scr 0x%08lx\n", pow,
+		    FIELD_PREP(SISCR_BRDV, (pow - 1)));
+
+does trigger a "FIELD_PREP: value too large for the field" compile-time
+assertion, unless an explicit "& FIELD_MAX(SISCR_BRDV)" is added.
+Should we be pro-active and add an extra "& FIELD_MAX(SISCR_BRDV)" now,
+to prepare for compilers becoming smarter?
+
 v2:
   - No changes.
 ---
- drivers/spi/spi-sh-msiof.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/spi/spi-sh-msiof.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 367622985fea2a04..11ef5c0a498d7c1f 100644
+index 26e71fc8890fda6d..2b8c143b21219521 100644
 --- a/drivers/spi/spi-sh-msiof.c
 +++ b/drivers/spi/spi-sh-msiof.c
-@@ -348,11 +348,11 @@ static u32 sh_msiof_spi_get_dtdl_and_syncdl(struct sh_msiof_spi_priv *p)
+@@ -112,12 +112,6 @@ struct sh_msiof_spi_priv {
+ /* SITSCR and SIRSCR */
+ #define SISCR_BRPS		GENMASK(12, 8)	/* Prescaler Setting (1-32) */
+ #define SISCR_BRDV		GENMASK(2, 0)	/* Baud Rate Generator's Division Ratio */
+-#define SISCR_BRDV_DIV_2	0U
+-#define SISCR_BRDV_DIV_4	1U
+-#define SISCR_BRDV_DIV_8	2U
+-#define SISCR_BRDV_DIV_16	3U
+-#define SISCR_BRDV_DIV_32	4U
+-#define SISCR_BRDV_DIV_1	7U
+ 
+ /* SICTR */
+ #define SICTR_TSCKIZ		GENMASK(31, 30)	/* Transmit Clock I/O Polarity Select */
+@@ -256,11 +250,6 @@ static void sh_msiof_spi_reset_regs(struct sh_msiof_spi_priv *p)
+ 				  100);
  }
  
- static void sh_msiof_spi_set_pin_regs(struct sh_msiof_spi_priv *p, u32 ss,
--				      u32 cpol, u32 cpha,
--				      u32 tx_hi_z, u32 lsb_first, u32 cs_high)
-+				      bool cpol, bool cpha, bool tx_hi_z,
-+				      bool lsb_first, bool cs_high)
+-static const u32 sh_msiof_spi_div_array[] = {
+-	SISCR_BRDV_DIV_1, SISCR_BRDV_DIV_2, SISCR_BRDV_DIV_4,
+-	SISCR_BRDV_DIV_8, SISCR_BRDV_DIV_16, SISCR_BRDV_DIV_32,
+-};
+-
+ static void sh_msiof_spi_set_clk_regs(struct sh_msiof_spi_priv *p,
+ 				      struct spi_transfer *t)
  {
-+	bool edge;
- 	u32 tmp;
--	int edge;
+@@ -299,7 +288,8 @@ static void sh_msiof_spi_set_clk_regs(struct sh_msiof_spi_priv *p,
  
- 	/*
- 	 * CPOL CPHA     TSCKIZ RSCKIZ TEDG REDG
-@@ -587,7 +587,8 @@ static int sh_msiof_prepare_message(struct spi_controller *ctlr,
- {
- 	struct sh_msiof_spi_priv *p = spi_controller_get_devdata(ctlr);
- 	const struct spi_device *spi = msg->spi;
--	u32 ss, cs_high;
-+	bool cs_high;
-+	u32 ss;
+ 	t->effective_speed_hz = parent_rate / (brps << div_pow);
  
- 	/* Configure pins before asserting CS */
- 	if (spi_get_csgpiod(spi, 0)) {
-@@ -595,12 +596,11 @@ static int sh_msiof_prepare_message(struct spi_controller *ctlr,
- 		cs_high = p->native_cs_high;
- 	} else {
- 		ss = spi_get_chipselect(spi, 0);
--		cs_high = !!(spi->mode & SPI_CS_HIGH);
-+		cs_high = spi->mode & SPI_CS_HIGH;
- 	}
--	sh_msiof_spi_set_pin_regs(p, ss, !!(spi->mode & SPI_CPOL),
--				  !!(spi->mode & SPI_CPHA),
--				  !!(spi->mode & SPI_3WIRE),
--				  !!(spi->mode & SPI_LSB_FIRST), cs_high);
-+	sh_msiof_spi_set_pin_regs(p, ss, spi->mode & SPI_CPOL,
-+				  spi->mode & SPI_CPHA, spi->mode & SPI_3WIRE,
-+				  spi->mode & SPI_LSB_FIRST, cs_high);
- 	return 0;
- }
- 
+-	scr = FIELD_PREP(SISCR_BRDV, sh_msiof_spi_div_array[div_pow]) |
++	/* div_pow == 0 maps to SISCR_BRDV_DIV_1 == all ones */
++	scr = FIELD_PREP(SISCR_BRDV, div_pow - 1) |
+ 	      FIELD_PREP(SISCR_BRPS, brps - 1);
+ 	sh_msiof_write(p, SITSCR, scr);
+ 	if (!(p->ctlr->flags & SPI_CONTROLLER_MUST_TX))
 -- 
 2.43.0
 
