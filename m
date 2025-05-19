@@ -1,205 +1,139 @@
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2072.outbound.protection.outlook.com [40.107.212.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E2D35961
-	for <linux-sound@vger.kernel.org>; Mon, 19 May 2025 11:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747653115; cv=fail; b=Hl/if677E0KPg7csh+PrsH2wCkNJwALDbzBR/K8rgiHBxmM9evqivTiIZhNdA8OlTfgLQ5QkERnKfnsSa4q+Fs78ill2shtzoEEWycy4zgjzkAYlUH07RkFssujrQsMoPlT69m0TKFlPeF0yIEREemjNQsYZohfkqzfAGmNtQrw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747653115; c=relaxed/simple;
-	bh=RMWKg7fhqStPMPAvugaJn+LjCxhMByoXlYLg6gqUtJ4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=p5f4knwjCq5PbFlyJBFHdi68Pq67YuZ5QohlY4U7e1ZMp8gmIOmyyPEB/zc2cmULkKpvxzRayjatchwATAXohKI7H1j4Y64OzQ56JWJ89uFNmYsSBtx/rvLtqynZRJpwEd/BTQZ9N0OCP1ZoYR0lBjvgSqm7lqFYxb2f1bmQNGU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Sw7G+t5x; arc=fail smtp.client-ip=40.107.212.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7680228643F
+	for <linux-sound@vger.kernel.org>; Mon, 19 May 2025 15:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747669831; cv=none; b=e6mMmtZilNTkdokGAso8EnOsWiTIVAiT/kH2282wz2Zj/koW3JlBLmm4LzxndVtMFgGDI5Q7Wivnr+e74xlR0uASsG35ImOT8E1nLO2lJ3s2Q/a8n0SL6vD0XvVGvv0BkKDn7aWXs6Lcn5eqSC/hyvcXB31sGs2Y8qK01WwvfRI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747669831; c=relaxed/simple;
+	bh=qvgXC6e3QaibqpdMmxndFYWD4/98DamLngZhgZ/Ly00=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PRU07JdgK0v7ExiPvjSI/H1nX9gcosuu1+/OkECqaq5yY9cxWwZwFKzovuBVkKwRRIRk8QaVhUV8gHeO18NU+lebC/J43wodBXbG2lvdlSw5q0IAlHpil1g29yiBffR/jWpLDg84UrxfRbRfJCTYIkkRlS5oZg6bPQXvXnKnrhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HV1+3j/x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CwFGe8OX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HV1+3j/x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CwFGe8OX; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Sw7G+t5x"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BsIlDd4D84SOILTenBq0hj4RWDpHaiYcKLQhPOg09paSjtz/6j84wBYMkpyQuDBDtE7nXGg94QZO2xQrtbI6GsANjx7GBsdfHcPcqGZ7RyAkjmGPgmkXQyILbUkc67a6oPtAL66yCvCUjdxDN+nyiuF9wOsHsMJQu29TggLsWVYpMLdLJtCS0hSF1SP0jvt+1gi6S+tzDpTpNbTfxO2uAewbN9xj2QZwq/FTf8y6GMEVaZspM4/e7E/MULVpV7OWBpBv30eJ1Td0wz0dkfXX/zGnJq2Juk9T93ZZp8FiMmdDGnn1saATTEBj+IGCdIUoDsgmrPDAjlXBOj1O77DnkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BOQz0cOc0HwPhb69xx32U91QBLLW+EyIe3rvSRazdGs=;
- b=ESG+E9fyNoJq5fKp5Cgyv42uRTEdxUKllj5xG6ZwwMHDZaMiz/hGoJBOTgOdL6S1k+UEqCuMmQS/ZE6ly4yye/Z6ed1lFsvYgqSCDE07KYWrpjoLfScQsa4EKRJFYFPPkeSwZ6rZ/v8+svUOVlveduU9MqIbeMrdd23/0qvI95gIVlFD6boO8GxkIQmvSLwg4VIPsfMTlcVUj2jbgnJ46G3QhmfxUqXmB3ABZzcMBEbyl9At3g02tfKfZsk4O6Bq6XN90XQXCkN349bZtfVHcOZpC8ibMGN+SVnqNUEDHJ7Rh1Ff6YHlYUIQbiurVemzRBR0G6b26y4gT6rVZEnIOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BOQz0cOc0HwPhb69xx32U91QBLLW+EyIe3rvSRazdGs=;
- b=Sw7G+t5xYHaZO6GlSQXSGmDTgsJbVUUNiF8ExTjU68t76fKGKiuhI2kzZhEwQ60/6evEawGPzbv3mL5xhLD+wUF7UVJbqsJolFmiZbC/teNxgxu9/oBuoWT29k4bow5Yp5ezIN/LlMhBBpqjNxb28dASnN+GwDgVakKt9s/88Q4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
- by SA1PR12MB6749.namprd12.prod.outlook.com (2603:10b6:806:255::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Mon, 19 May
- 2025 11:11:49 +0000
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf]) by DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf%5]) with mapi id 15.20.8746.030; Mon, 19 May 2025
- 11:11:49 +0000
-Message-ID: <dc3ce823-8415-4ba6-b0f2-69fbf75999c9@amd.com>
-Date: Mon, 19 May 2025 16:41:42 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: rt722: make regmap cache-only in probe
-To: shumingf@realtek.com, broonie@kernel.org, lgirdwood@gmail.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com,
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-References: <20250519090645.2620292-1-shumingf@realtek.com>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <20250519090645.2620292-1-shumingf@realtek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN4P287CA0109.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:2ad::10) To DM6PR12MB4123.namprd12.prod.outlook.com
- (2603:10b6:5:21f::23)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HV1+3j/x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CwFGe8OX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HV1+3j/x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CwFGe8OX"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B965022A93;
+	Mon, 19 May 2025 15:50:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1747669820; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wgNvWTyrmgYDOPgyjZI8XcylbGkqS6qTNdGeFTYMxrQ=;
+	b=HV1+3j/xL4VTPgStJTY2b/YpGzNXp/PON/GFomqODNiTBKKS53i0ttXwmpupR7fmi/w7EM
+	gdE0jufXp4xHmeugQBM5QEBlOCs31RtqE38vRkoV5R8m1/kLAeAy1cz0SrrQcLinqWOGPP
+	6b/k+M0d17AOTtNJQ2iUQgp5ImL8Ko4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1747669820;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wgNvWTyrmgYDOPgyjZI8XcylbGkqS6qTNdGeFTYMxrQ=;
+	b=CwFGe8OX2iEbD1WHSGVwcDApg9fVZ3nIDEdYnuYH49HApaBe+UEHVYbUdJp32NNWtNw3Z8
+	Z61/VbvF7eKYO7Bw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="HV1+3j/x";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CwFGe8OX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1747669820; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wgNvWTyrmgYDOPgyjZI8XcylbGkqS6qTNdGeFTYMxrQ=;
+	b=HV1+3j/xL4VTPgStJTY2b/YpGzNXp/PON/GFomqODNiTBKKS53i0ttXwmpupR7fmi/w7EM
+	gdE0jufXp4xHmeugQBM5QEBlOCs31RtqE38vRkoV5R8m1/kLAeAy1cz0SrrQcLinqWOGPP
+	6b/k+M0d17AOTtNJQ2iUQgp5ImL8Ko4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1747669820;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wgNvWTyrmgYDOPgyjZI8XcylbGkqS6qTNdGeFTYMxrQ=;
+	b=CwFGe8OX2iEbD1WHSGVwcDApg9fVZ3nIDEdYnuYH49HApaBe+UEHVYbUdJp32NNWtNw3Z8
+	Z61/VbvF7eKYO7Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C6A71372E;
+	Mon, 19 May 2025 15:50:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4TcxJTxTK2iKTgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 19 May 2025 15:50:20 +0000
+Date: Mon, 19 May 2025 17:50:20 +0200
+Message-ID: <871pskk3b7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: n64: Replace deprecated strcpy() with strscpy()
+In-Reply-To: <20250519105628.491675-1-thorsten.blum@linux.dev>
+References: <20250519105628.491675-1-thorsten.blum@linux.dev>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|SA1PR12MB6749:EE_
-X-MS-Office365-Filtering-Correlation-Id: a55082d8-178a-49a6-a0dc-08dd96c5f347
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RXJzdERhaEQ5Nk5QM2NEQjVRaHREZ0ViS0N3SjJuemxzWWhvelJRMU8zWWFz?=
- =?utf-8?B?NW9md29odmNjWlA0YWFKMTFkNll5RXNzRFMySy9RRzFpeitzYW1NWkh4M1Mw?=
- =?utf-8?B?dFh0STUrS0RYK0dya1lEM1dSSCticGhhS1k3TldqMlkzME1MclNnRE4wb0d6?=
- =?utf-8?B?emNycnlmZERpbXRSQWhib0VjS0RBOGU4dld0RVJvNi9FTiswbkJjandjYkdz?=
- =?utf-8?B?SEo1UHIwa3hNUTNsa2xOdm5PeUxaR2g1RCtvTW1IZWlSTHhqbFE2Wkt1bWp3?=
- =?utf-8?B?N0JOTXRwcWZLKy9xbTU4TE90b3VQK2tmcHI3dlgwWTluamtnc29GL0tzZ0Ri?=
- =?utf-8?B?NytReS85WEVpenY0LzJPeVlRZWtVRm9qMjUzMmFnUjcxKy84N0QzZWR2Um9I?=
- =?utf-8?B?b0ErSWtxZUlDVGdHQXdpNEZJc2RBWGlqYXNXWkd4SWdSREZBS0F4VVBlVUJ0?=
- =?utf-8?B?T3h6NVQzQTh3VThoNXdYbUc4cjVxOHVJVXFBM1hKb213b3FxTlhnTDNZUDBo?=
- =?utf-8?B?ZUZlTWFFS1owTEczTkdLNWczMkNRcW02YldyZDY2b1ZZc29jNzRTa3pRKzFt?=
- =?utf-8?B?VllFQ1VwdUVBOGpsL2VGMG1WWWtaamJhWlJXdG90bzlOUjZoa3pFL1hCVlVN?=
- =?utf-8?B?RGY1UDhaMHBOUHB4UVNOV09vQnVsbjZtdmNlYy9BSnhKeCtHKytXRWR2N21s?=
- =?utf-8?B?RHNxMXNCRnlOMkhkV09rVmFVWHdVMW5vbXNHb1JFQTJ3QzloakZLOG5adlhP?=
- =?utf-8?B?c2VYNE1PSW9zM1RMeGRpbUxFakFhaTVBbXp0WldpdE1jd1dyU3dvZi9CejFx?=
- =?utf-8?B?c3cvbEYyTDQrWmdWNktCTmtudjhFTHFkTldFVmdxSE53elp5VFI5TGNmR1A0?=
- =?utf-8?B?QW51ZDdER2xPMjdWQmFEejVhVHkyVko3UHhhYXU5dEVUU2c5QTVlVncxVTlN?=
- =?utf-8?B?MzFaNUZ0WmlRMjJiWGZRM29ndS8zK2FRenpWWTljSWVsOTV6M0J5QVBvYnpF?=
- =?utf-8?B?dWRub1lYUG13ZWRaS3lCUmFlMWwycWNMZ05pMFdzaldmU2ZNUHI4a0ZiVzc1?=
- =?utf-8?B?QmNsRFRkV3U3WXpKeHVmVlhpR0tianZpZnNzaCtNU3p1c3poRkl3QWs2SjBZ?=
- =?utf-8?B?M3VELzVEeWVLSk5NY1dobE9tTlJ1U3FwcFhqRGZSYWg0VFBJZHhTTUI3VHcw?=
- =?utf-8?B?RmRNWlJKQnJHNGJjcUVLdGNHZUpnNXJqNW93VHhYWUxXZnYzeUZTRGxQdS9J?=
- =?utf-8?B?NVZYRXphbzVLWmhYN3pyUEVQV0M2N2ZnR3I4OGNsdk01SmFOL2Y0U0hjY1ZJ?=
- =?utf-8?B?U0k2R2o3RUVITGtoTTFrSmVWbW5kQUpDS1NodUltSWJsSXdZUFU3Szd2UnhN?=
- =?utf-8?B?OHFtQWFxUWFXb2hhTStKeDFrMExDdnBDUDM1bVFSWWtYNHljQnJqVkdhSW50?=
- =?utf-8?B?R0ZhenJIMnZCQnlkQzBRL3NhSGxpTGhwcFpBdzVBZGszKzRqSlo1djAwcDJi?=
- =?utf-8?B?L0hhNW1USENZbkpFNGhQZGtIVm5RSklqZ0ZxLzZvQWxHaTFQdS9Cc3NKTDNj?=
- =?utf-8?B?RUZuUnVtYmNwRlo3d1p6YmJkOXptOEcvYTVqM3Q4VndyVVIvZG5Cek5zSXNK?=
- =?utf-8?B?QlVBL3ROaHhJdTlkc3NibkZlZTdQTFJmWjNHbGs0d1VFdkF3Nnl5cFBLM3BX?=
- =?utf-8?B?bWRDZU5rSDhXb2dGK0pyM1AwdG5rUk1TY0hDTmR0M1JjbHpZTnJsQVpucmdy?=
- =?utf-8?B?M25GODJ5djBlaS9KR05vWDM3aC9jaHJCLytXTlVMbjZ0d3poVlhYSVVSTUJv?=
- =?utf-8?B?YyswbWZlOG9VVCtheU1hMUZMQlFNUnE0YldRRFRUbG52eHFjaHV5NG1lNEtT?=
- =?utf-8?B?eXY5OTBDTkwxbTNZYldyalduM2Y5WWVpOFNOV0d3dUVtWlpNeTh3Qy9Fei9o?=
- =?utf-8?Q?tSzUW04dZEk=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?c1Qya3RUQ1NSQnd6c1RreXdBbUtYMUYwelRjUEpYcXJZRk1MeEtRZCtiQlhi?=
- =?utf-8?B?YTJKQWJRUUU4N1VCVUJjZitHZHZEOThucXZ3a01GV0NSeUNRNlpaYlRwUGhm?=
- =?utf-8?B?dnp1SmlSd0tTR0hJSFgydVJIbzEvamJjU09uL1JPcDU3SmxIYWIzQjF1K1Ay?=
- =?utf-8?B?YlRDbDJKelpqVm1rWEZBcmtFVFV3YXRESWZkM01ualRLdXlObFEvajFJNERt?=
- =?utf-8?B?anhrbWp2aEEwbmxQMmNJRnp4Wm5iSTEvWUc5b1ZEbVB4NW0zWjhNWGZTSm02?=
- =?utf-8?B?cjdRckRyUDNWWXRtdHlIc3UxYWVxL093bys5c0F4bFFTakJiL25PdnlJeUo2?=
- =?utf-8?B?dGZ6ZEJPc2hOSGViR05CdDQ2Z3dBaEx0aTBXMk5rNE9GV3IxbXZKaWcrQVJr?=
- =?utf-8?B?NnZnQkZDd1J6SVRGRXgvQUJmZ05ncXlPeG9TcFFsUXRXRlQxVFlEUnlkWWho?=
- =?utf-8?B?OVlpZ3cyTHQvSGZUMmx0dCtsWVplYnRFTEEyTHU0d0RWNWNYTVptSWtZcTNr?=
- =?utf-8?B?UDYvZ21Wb2xwdDNDc0NNdHZMMUluVWpQYzFBK2xNWXRmQ0ZQN3dodXA2bXM5?=
- =?utf-8?B?SHN4bDBQQUtXRWFrby84N0loME9nYlNHbTRaUElDTGlTSjRJaTRYeW9uSlJl?=
- =?utf-8?B?Qk9Fc050ditUVlYvUFg5REZpM3F2UjFJbnlaR0xUQmw5K2Z0akhuOE5FV3li?=
- =?utf-8?B?VWZ0SkQ4VGZENC81eE5KaVJDVURBcHRIUUhhajBZZlAveWYyWm5Ba3FSQXBu?=
- =?utf-8?B?ZEVxSUhIL0tWZXkycnd6VUd0K1E3cnROd2tYVWZNR0hlSGF5c1VvWWxSR2pB?=
- =?utf-8?B?aXRoMzFRcit5ZmpFNmtrZFNFNmVRMjc3VjRTOEZPNUczSk40TnNEZ2UzYkN3?=
- =?utf-8?B?RHRadm5OM3Y3UWlkVTA3MlFmNUNJZCtYcmYwemlLYkh5VS9SaDFIV1lVS0to?=
- =?utf-8?B?NXdNWTdxaTh1YXl3SVZOWFp1S1R0bDhVUjUzK25nVmRCUjREWlYxcDR3VFZC?=
- =?utf-8?B?dHBzN244blU3WHlmMXhzR0ZIMlkrYm1YZDI0ZityV2IrVHdBRTNOTXU0ZmU0?=
- =?utf-8?B?a3FuTlVvdHBhVHhlTmNpY1UrZzJSK0dKTG9GdU15WHZiclVTZ3VmdVQvTWNs?=
- =?utf-8?B?dEtaNDBNenJiZW5qWlhkT2FpYjU1alRMYlFKM3VJUE9ZMnRzT2dBR0JKYVZF?=
- =?utf-8?B?Q2h5YXZjUGtWa3pCRmozaFF1QlZLQnpzdzdNaWFpc0p0ZkswMzRuYkRZTkRk?=
- =?utf-8?B?Q2dIRzk3YUM1Q3VNRGtVbE52amVvNUlISzZOUWhtKzhjQVBTWEx0KzNMQ0d3?=
- =?utf-8?B?azI2ZjhaSnhncC9wVW5JS3ZHSW1nK3Iyd2g0THBDdlVTQWI1aVpxU25oditK?=
- =?utf-8?B?bGg0WFZEOXJleG1SRXVHdW9sSHlTN1BxS0c3SGg0NHJlUHBiM1hrZ1dzRzND?=
- =?utf-8?B?R2lFaDNhYm9uMnpZSk5HOFlZV1o1K3pRazI0RVdVU0MrVEdtYnRmNkxlNXU3?=
- =?utf-8?B?YjVyOHl2cVpGa1plUHpUNVpuSm93SExrVHhaVVhnMVVCeDdpSEZ5ODBVS01o?=
- =?utf-8?B?NHRxSC9DelUxaUNMQXp1WFN4VVUzV0VVVjNZYjFFU3lrdWN0V3dEUmN5ZVZl?=
- =?utf-8?B?K2o3bCsvZHRZNEZPU2M4U3BOdXpSTEM1UGpVREQyNmJ6U3huSG1jYmZpMkgw?=
- =?utf-8?B?TUwvSHJ3OUVpc2o4NUxwb2NubDNwM01ESHVRQ2dxSVJ2aTVnYUh5M0xxNGhT?=
- =?utf-8?B?aklVbmJSTHdnTWZJRWw5MGdCeDlZOUw2d0J6eUN2OEEyWGlFRTRaOEdzVSti?=
- =?utf-8?B?emFrWW9kYWcyU1VKTHMxenM5cHJqUlRWOUg0Nm96T09PcWcxR1hmVURyYmZO?=
- =?utf-8?B?aTh3elB6QWJjbloyTWZTL2dzZFRsbkdTWnA3VFZVRmFXMUR5OUprWVB2alNm?=
- =?utf-8?B?QmRGTHFldjd1ZHl3OHY3N08vdU1OL3ZJMUNiWFRqL1dQZ3ErNytlajhzYjB1?=
- =?utf-8?B?bHZaaHhOY0J1dnJVUmg1VE14MmRNa0hlcWNaWFhVYW5mOUpNWHFHMW4vejM2?=
- =?utf-8?B?THZaWG9VTzVQMWhxa1V0T1hkSGkyQ3JiY2ZJdkc0NmtOK3FSb0FHODMxUjZI?=
- =?utf-8?Q?926wzWtlYRS/w/BV5F0iptaFf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a55082d8-178a-49a6-a0dc-08dd96c5f347
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 11:11:49.6263
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CaGHFf8ezFvXkrXMeIJhOozMHEB7JlUAgTBfsyrvE1j/9GgTSLcsgEHMUSIGn5FB0ZZOoIu9Bqm6Iq7QNYGvJQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6749
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: B965022A93
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On 19/05/25 14:36, shumingf@realtek.com wrote:
-> From: Shuming Fan <shumingf@realtek.com>
->
-> This patch makes sure the access to the codecs is cached until the device is enumerated.
->
-> Signed-off-by: Shuming Fan <shumingf@realtek.com>
-Tested-by:  Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-> ---
->  sound/soc/codecs/rt722-sdca-sdw.h | 1 +
->  sound/soc/codecs/rt722-sdca.c     | 4 +++-
->  2 files changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/sound/soc/codecs/rt722-sdca-sdw.h b/sound/soc/codecs/rt722-sdca-sdw.h
-> index 80b014456940..c5dd472a2c00 100644
-> --- a/sound/soc/codecs/rt722-sdca-sdw.h
-> +++ b/sound/soc/codecs/rt722-sdca-sdw.h
-> @@ -34,6 +34,7 @@ static const struct reg_default rt722_sdca_reg_defaults[] = {
->  	{ 0x200003c, 0xc214 },
->  	{ 0x2000046, 0x8004 },
->  	{ 0x5810000, 0x702d },
-> +	{ 0x6100000, 0x0201 },
->  	{ 0x6100006, 0x0005 },
->  	{ 0x6100010, 0x2630 },
->  	{ 0x6100011, 0x152f },
-> diff --git a/sound/soc/codecs/rt722-sdca.c b/sound/soc/codecs/rt722-sdca.c
-> index f0d3fd9b3d95..ac9588284a95 100644
-> --- a/sound/soc/codecs/rt722-sdca.c
-> +++ b/sound/soc/codecs/rt722-sdca.c
-> @@ -1309,6 +1309,8 @@ int rt722_sdca_init(struct device *dev, struct regmap *regmap, struct sdw_slave
->  	rt722->slave = slave;
->  	rt722->regmap = regmap;
->  
-> +	regcache_cache_only(rt722->regmap, true);
-> +
->  	mutex_init(&rt722->calibrate_mutex);
->  	mutex_init(&rt722->disable_irq_lock);
->  
-> @@ -1521,8 +1523,8 @@ int rt722_sdca_io_init(struct device *dev, struct sdw_slave *slave)
->  	if (rt722->hw_init)
->  		return 0;
->  
-> +	regcache_cache_only(rt722->regmap, false);
->  	if (rt722->first_hw_init) {
-> -		regcache_cache_only(rt722->regmap, false);
->  		regcache_cache_bypass(rt722->regmap, true);
->  	} else {
->  		/*
+On Mon, 19 May 2025 12:56:25 +0200,
+Thorsten Blum wrote:
+> 
+> strcpy() is deprecated; use strscpy() instead.
+> 
+> No functional changes intended.
+> 
+> Link: https://github.com/KSPP/linux/issues/88
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
+Thanks, applied now.
+
+
+Takashi
