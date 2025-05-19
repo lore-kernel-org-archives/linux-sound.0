@@ -1,91 +1,59 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBA47261E
-	for <linux-sound@vger.kernel.org>; Mon, 19 May 2025 18:08:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148061EF0BE
+	for <linux-sound@vger.kernel.org>; Mon, 19 May 2025 18:08:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747678088; cv=none; b=H5YnbYaz4J3vKHbRKtuDllZSMLyqoMRrBJukY+md1thbSNuzO/5L7a99YmkNLzJ+EZ0lQZUf4gAkezvZQ8jGEFtR+BjoEqr4otC9MMmKEi6UHJbRlqqAnW+SY9u2q/DVzdyXTgWDIOi8hH/Nif8Z1lyqMANwi7e2S5R9+zWoEOk=
+	t=1747678088; cv=none; b=VDe0GoFWLh3oy/2nyjqf8ufMBIb2dNyPbeFWdYqfp5oiEzx2ywhmg/HC+kCTlwBhCJRD31i+d6I+5jUKfLcfCBUC9n7Bku4L3f3wbwx/FwdRl2z/CIvFIgcO7ZiT7SB4542aVWSFvjM4PqTGzCXx9HawMdMthMWcxeP85Jw/XMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747678088; c=relaxed/simple;
-	bh=WsTXImmmeVij6gXaoqqI9LXcarP206XXvosD97USOv8=;
+	bh=cOmDykei9Cm7nLKluv0DUi7uQOLC9uWZlCQAl+Jq8/E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FeKTDkvLh6QMibSRYqhbuRg8AZt8rA2DNAgHv740sACXmBW+U97DHn47vUkvKCqlD/E9irgIZnOgU2UkxdKQ2EXENuc/Ajydo+NGN61BXNE8O4USePk8ZJuM62Er6YOprpCX5w/U5I6Un+9+2VJkoo2FPYj13bgGoh2O6xrwNJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mSCkU+cP; arc=none smtp.client-ip=95.215.58.177
+	 In-Reply-To:Content-Type; b=TJgZYO7Q21aWdthFThFCvRWXxVE5G8G5oj+Ct3o8pC+mygoKN3sz8w74T15Q06IG4qvWDNlNejOSw/zyNlx157ZSOMkVFHVB6FOxRjChGj2MY6MSE5qywkthqYNZ+7ZqFVmIs70QkJXeh3emJhX8tYjrsTWqqPV2qVrS80nWgAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aKayqRjM; arc=none smtp.client-ip=95.215.58.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mSCkU+cP"
-Message-ID: <225cf5ee-dcba-4e1e-ad36-e4492ded82c5@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aKayqRjM"
+Message-ID: <22497ec9-3e10-4b87-ab1b-723c735a16b9@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1747678079;
+	t=1747678083;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ml5HcEBxOFg28Hzx3BiFqA/HBZEYALYMZEs2rOXMfo8=;
-	b=mSCkU+cPuEPQDI/KwIPrwvs4mdTG+lyKUmDZkil434F/WrAJ8/nP8kBgjLNWzl7OPkjCsU
-	b+VUfgE/XXz+vcMuDY3MeeW6a2gSzYXRZtYa4eVZKHMTU0cEK2KkBmL5s+DzrDwCOzBstF
-	PAXUkh92N/++9ut9MYVg3z5Pvx0h0hM=
-Date: Mon, 19 May 2025 19:53:44 +0200
+	bh=V55u+NYAK0ljTgA/XMyO1AqZE/JHUahpku1FDxJoGnk=;
+	b=aKayqRjMxVB+S6zH83FXfKou4MqKlrwvKiNtNVhxxlmeW27AtSk4w7rAZWnMcM7EzDusPU
+	6ttiWjq+tKPqKkPbKMfUSqsFCjQD/aNgoDn4bpmAh6009nSbEwaNe0w+09FEfAAC+F8QPP
+	iCoV57pPmfaktBgLTPd38aGAENwMRrM=
+Date: Mon, 19 May 2025 20:01:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 4/6] ASoC: SDCA: Create DAPM widgets and routes from
- DisCo
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20250512124240.799509-1-ckeepax@opensource.cirrus.com>
- <20250512124240.799509-5-ckeepax@opensource.cirrus.com>
- <470de11c-82b1-4d1f-aa52-e0849ea261e1@linux.dev>
- <aCIrKasDhXrI9SLq@opensource.cirrus.com>
- <01e25477-5475-457a-8c33-4b6c9fdbdd3e@linux.dev>
- <aCSa2AuuQrZlEPi7@opensource.cirrus.com>
- <aCX/IOoDucKs7SNH@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: rt722: make regmap cache-only in probe
+To: shumingf@realtek.com, broonie@kernel.org, lgirdwood@gmail.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com,
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com,
+ Vijendar.Mukunda@amd.com
+References: <20250519090645.2620292-1-shumingf@realtek.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <aCX/IOoDucKs7SNH@opensource.cirrus.com>
+In-Reply-To: <20250519090645.2620292-1-shumingf@realtek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On 5/15/25 16:50, Charles Keepax wrote:
-> On Wed, May 14, 2025 at 02:30:00PM +0100, Charles Keepax wrote:
->> On Wed, May 14, 2025 at 02:15:01PM +0200, Pierre-Louis Bossart wrote:
->>> Humm, that one doesn't seem right. There could be cases
->>> where the DETECTED_MODE is inconclusive, or that additional
->>> vendor-specific steps are needed to decide which SELECTED_MODE
->>> makes sense. I don't think we should assume everything is
->>> handled internally, or we have to define what 'internally'
->>> means. This cannot be generic SDCA stuff, it has to be
->>> configurable for specific implementations/vendors.
->>
->> Ok yeah I see, the current code reads the DETECTED_MODE in
->> the IRQ handler and then updates the selected mode. I guess
->> currently what is missing is the handling for the JACK_UNKNOWN
->> case, which could probably require user-space. I think it would
->> be pretty easy to export the DETECTED_MODE as well I will have a
->> look.
+On 5/19/25 11:06, shumingf@realtek.com wrote:
+> From: Shuming Fan <shumingf@realtek.com>
 > 
-> Should hopefully be able to send a new spin tomorrow. I have
-> managed to include all the comments I think.
+> This patch makes sure the access to the codecs is cached until the device is enumerated.
 > 
-> I started being a little more unsure on this DETECTED_MODE again,
-> but I am going to go with forcing the export of DETECTED_MODE
-> for now and we can revise later if we have a better plan.
-> 
-> My concerns really are most custom handling will actually
-> want to live in the kernel, except the case where the system
-> wants to present a dialog to the user to select the jack device
-> manually. In that manual case I also can't see any reason why
-> just setting the selected mode to unknown would not make the
-> most sense, but the spec does not say the device should do that.
+> Signed-off-by: Shuming Fan <shumingf@realtek.com>
 
-I am fine with a TODO on the DETECTED/SELECTED mode handling for now. I do recall discussions in the Audio Subgroup for the Retaskable Jack where there are just too many options and a basic driver would probably give up and say "undefined" for the DETECTED_MODE. For the UAJ mirroring the DETECTED_MODE and/or asking the user for input are probably the two most likely options.
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 
