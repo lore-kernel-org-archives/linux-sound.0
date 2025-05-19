@@ -1,112 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23163243374;
-	Mon, 19 May 2025 06:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFD01C700D;
+	Mon, 19 May 2025 07:58:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747635454; cv=none; b=caKKyajQB88xnL66glYNM74IMUjj4Mk7WVzMwUyAvu1zD6ImeB4JhvQiIZ7sqyxcYaxJE+o2x+vqv5P1KIL4LtUzgG8NHmsHJE8C5zwsk++1TeaQ1PyOW9EXWWoyXKIG24w+uTUyCZuzWXRAznKFoDemlxt8cB2Y3J23rGP2kpY=
+	t=1747641501; cv=none; b=eTOs4nYjr8rpFnzdfa5Kq5T4dZ2icpwsP3Dsg2kmghyrr58OXzEXhjD9ypVA5QQXlexxR+gUouUl23WaXmytPP9kh5X4FvqWpoKVkITKfAwnXNYgYQYmnaeAqbnAe6+MdtGJ3HEZHPri8Zfhbqbiq5BbC1csT7fJkiIx6Rh8RKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747635454; c=relaxed/simple;
-	bh=AsaBNs4kioFtrIJ7t739fMEgCPnoIPz41+KWg4JpbjM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TH9CaxgJWWdZxXNmCKwad+K92++tzxE8uO6n2cFRFvsdkzMFF+fcCJUTFzUpXAqYJlw0aLMkRjEooxxEELAk+IwdMyUUS4KgwLgvPnWOVZcFqcIeZSesMMR5Hh2rjcWLCHswAQDh/K+462ZmfJf4/euX9GXzIcU0TVWZ2hmxMpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WcjB5R5L; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WcjB5R5L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747635453; x=1779171453;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=AsaBNs4kioFtrIJ7t739fMEgCPnoIPz41+KWg4JpbjM=;
-  b=WcjB5R5LUE6UU3iFEYKNlwtnoWk+yvHe6WURHzgy6XpWMF+5CSPOchuT
-   m6ec3X5SPkdXIQSqSdT4ZU+Ns+5SiSc5qy7K7PrjhsoDTTGYEAmz8LMJA
-   keBYxRfcML7N+Ou4dSJj6iGH6wpGVVfRZ/fOoYQxVhMRf4TH4D/dIc8FI
-   Xvs7DPQ86IhFOgWYIQMbIti80Y2aKYTEDoBsfFdBUXNpKGWB2z+3MayiR
-   v4nGEwa6LMh9t2hEqMFebL33boDgGDnV32cCBVsBUaQB8bl0DfWaHPqJG
-   lYlhZ+v29qfHH8oEYhojQObY+KGplAB9jXMzG0MQxUAWkmEt5slqUtyk8
-   w==;
-X-CSE-ConnectionGUID: VzfId4MtTJKoUM71oXW4hg==
-X-CSE-MsgGUID: C8tuxtPwRQui2VxE+SUNbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="49221150"
-X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="49221150"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 23:17:32 -0700
-X-CSE-ConnectionGUID: 38vCFrusSRunSaoridHHng==
-X-CSE-MsgGUID: mAkClPmLT1Wq5WLSgxJbhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="144246992"
-Received: from mwiniars-desk2.ger.corp.intel.com (HELO [10.245.246.4]) ([10.245.246.4])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 23:17:28 -0700
-Message-ID: <da6da5ec-53a4-4e47-aac0-3ddcb3a1e8b9@linux.intel.com>
-Date: Mon, 19 May 2025 09:18:40 +0300
+	s=arc-20240116; t=1747641501; c=relaxed/simple;
+	bh=k3uRIi+NLpJ8L/7EC7biQGu+wIBKDStDWXY/3PIMjEI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aQQzIFFmL1VmfAsYPLtUO6pkw6eXfwAw5Z1XfHgj+Xgo6dcFMeq8JFL5HD+XjaSIpg1Al/Bqc4gs1Pik34GrgVO3B+aoGUbd2RfnWpcAWDdG+VGMNxp4tylq2wzB7tplT0aTAwjKtfuHfbOz3arrVc6Z8JnSfPSczxAKt+vY2As=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-05 (Coremail) with SMTP id zQCowAD3OSyN5Cpo+2NoAQ--.9967S2;
+	Mon, 19 May 2025 15:58:06 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: srinivas.kandagatla@linaro.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: qcom: sdm845: Add error handling in sdm845_slim_snd_hw_params()
+Date: Mon, 19 May 2025 15:57:39 +0800
+Message-ID: <20250519075739.1458-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] PCI: pci_ids: add INTEL_HDA_WCL
-To: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org,
- kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
- guennadi.liakhovetski@linux.intel.com, bhelgaas@google.com,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250508180240.11282-1-peter.ujfalusi@linux.intel.com>
- <20250508180240.11282-2-peter.ujfalusi@linux.intel.com>
- <20250515170318.GA1507459@rocinante>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20250515170318.GA1507459@rocinante>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAD3OSyN5Cpo+2NoAQ--.9967S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7XF15KF4UWFWfKF18Xw47Jwb_yoWkXrX_Kw
+	1Fg3s5XFWj9FW7Ary8G3yayFZ7uFWxZw4qywn2qr47Jr15Aas5CFW2yFs3ur1fury09Fy5
+	Crn8Z3yfKr1xZjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbTkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxkIecxEwVAFwVW8CwCF04k20xvY0x0EwIxGrw
+	CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+	14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+	IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxK
+	x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+	0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUfrcfUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCREHA2gqs4i0oQABsx
 
+The function sdm845_slim_snd_hw_params() calls the functuion
+snd_soc_dai_set_channel_map() but does not check its return
+value. A proper implementation can be found in msm_snd_hw_params().
 
+Add error handling for snd_soc_dai_set_channel_map(). If the
+function fails and it is not a unsupported error, return the
+error code immediately.
 
-On 15/05/2025 20:03, Krzysztof Wilczyński wrote:
-> Hello,
-> 
-> Just a few small nitpicks.
-> 
-> Consider an update to the subject to match the history, e.g.,
-> 
->   PCI: Add Intel Wildcat Lake audio Device ID
+Fixes: 5caf64c633a3 ("ASoC: qcom: sdm845: add support to DB845c and Lenovo Yoga")
+Cc: stable@vger.kernel.org # v5.6
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ sound/soc/qcom/sdm845.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I have looked up the history and used the previous audio IP ID addition
-commit as template:
-
-a1f7b7ff0e10 ("PCI: pci_ids: add INTEL_HDA_PTL_H")
-
-PCI: pci_ids: add INTEL_HDA_PTL_H
-
-Add Intel PTL-H audio Device ID.
-
-I will update and stick with the suggested suggestion for the future.
->> Add PCI id for Wildcat Lake audio.
-> 
-> Also, for consistency with other such commits:
-> 
->   Add Wildcat Lake (WCL) audio Device ID.
-> 
->> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
->> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
->> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
->> Reviewed-by: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
->> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-> 
-> Acked-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
-> 
-> Thank you!
-> 
-> 	Krzysztof
-
+diff --git a/sound/soc/qcom/sdm845.c b/sound/soc/qcom/sdm845.c
+index a479d7e5b7fb..314ff68506d9 100644
+--- a/sound/soc/qcom/sdm845.c
++++ b/sound/soc/qcom/sdm845.c
+@@ -91,6 +91,10 @@ static int sdm845_slim_snd_hw_params(struct snd_pcm_substream *substream,
+ 		else
+ 			ret = snd_soc_dai_set_channel_map(cpu_dai, tx_ch_cnt,
+ 							  tx_ch, 0, NULL);
++		if (ret != 0 && ret != -ENOTSUPP) {
++			dev_err(rtd->dev, "failed to set cpu chan map, err:%d\n", ret);
++			return ret;
++		}
+ 	}
+ 
+ 	return 0;
 -- 
-Péter
+2.42.0.windows.2
 
