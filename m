@@ -1,126 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF0724A056
-	for <linux-sound@vger.kernel.org>; Tue, 20 May 2025 14:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C44D2417F0;
+	Tue, 20 May 2025 15:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747750208; cv=none; b=WIQhW9Ofps6/QBiJZRTMsoBU1l57ST2bUi9L97KalaQP8cfK7KhS7mai+yRanzhgIk5O4dceNGmO2cu8FD/YJZwg36IwjjvDW0UHRXis41mEGA1aTUZneuE6GZbf/L2J+p4ZV7M2PUTmCQldUmBPRrWHxRyPIwfn9DR4iTM74nU=
+	t=1747754827; cv=none; b=sw6smBzDUdBreks44L8yw9xNqfUQ+GpobT7wXEh2J+i2WBLULojVOaj8ZKTGI89jmZRE/CLpmGzQmKPok94lRlf5PpJHpUVg98SUKUYXr0Ba+lwTMm01I9xYwO6Ndi0g5Zw3O3o8XWFd8XzOexy1kuRZNVVwcCf2QikbFL/0MPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747750208; c=relaxed/simple;
-	bh=AqHIIv8C0BOad8IBsQ0hXoLObApMCiyZTA382rwtptU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JJiDR/Hqp1Gg7XO56YmfoouLA9IomMXTEORllIt/9hrG4rTlFAFUsu8//ie/Y1VD4F5/N5X/t0ytPE58Q+AtECHjIYYaXdoaq+VMUW3KhM9UMMV6aQL7ey5y9WulpQs5tY7oyFM5e6zC8ZQ0Ked9pqJgQj9qDrIp96ETCzMDtFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RGoZo5K3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SRyqYu/k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RGoZo5K3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SRyqYu/k; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1747754827; c=relaxed/simple;
+	bh=PK9R+rXvfduGiOBg6THsx1wuDsfStpwvIfZrpLa8Yfg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JxKaeO+2UxdDWXwWNCDL+EuFlKil3433hmpEm/WJvyfOPCyMRdeag3vMyYYdxWwntV/fONrtGdWFoOhkjAE7RhyuNvhGu51v5oPPD1fKXb0xDUJqBhKy/MF06AFd3Oeo2gHuAfAEl2ZhLIUl5/Ug8roA5JKqrBQkwjepshMndm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NqUIn8CO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RGoZo5K3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SRyqYu/k";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RGoZo5K3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SRyqYu/k"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 65A3D2073E;
-	Tue, 20 May 2025 14:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747750205; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fO5EgNYSCwQM9/BhH5dixZwwMrpu1+34Cp9DPpZN6y4=;
-	b=RGoZo5K3WMnVHnAkNZqWXJ3pfFD0kRQvOYVFDZdxp4Y6awG5aXBc8uj+Qngxj5SieGnPID
-	CPuPgiJ4h+Eb+UHv0zWhip/E0h6TAoHWc7fmsWDOGdB1DuD5GAWKN1yE4Ul15XDfeW9Xab
-	jo1dwPSLE07bVP3I/j4eovNK02/3XZw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747750205;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fO5EgNYSCwQM9/BhH5dixZwwMrpu1+34Cp9DPpZN6y4=;
-	b=SRyqYu/kPjkZTu/mnd8p0I8I4cvi5YvzRYWwJg6iOssOUp9ioS4sx6j08xy65adJbxthVL
-	9E6JYFTUkt6+iNDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747750205; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fO5EgNYSCwQM9/BhH5dixZwwMrpu1+34Cp9DPpZN6y4=;
-	b=RGoZo5K3WMnVHnAkNZqWXJ3pfFD0kRQvOYVFDZdxp4Y6awG5aXBc8uj+Qngxj5SieGnPID
-	CPuPgiJ4h+Eb+UHv0zWhip/E0h6TAoHWc7fmsWDOGdB1DuD5GAWKN1yE4Ul15XDfeW9Xab
-	jo1dwPSLE07bVP3I/j4eovNK02/3XZw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747750205;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fO5EgNYSCwQM9/BhH5dixZwwMrpu1+34Cp9DPpZN6y4=;
-	b=SRyqYu/kPjkZTu/mnd8p0I8I4cvi5YvzRYWwJg6iOssOUp9ioS4sx6j08xy65adJbxthVL
-	9E6JYFTUkt6+iNDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44A6013A3E;
-	Tue, 20 May 2025 14:10:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id j34BED2NLGgbIAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 20 May 2025 14:10:05 +0000
-Date: Tue, 20 May 2025 16:09:49 +0200
-Message-ID: <877c2bqspe.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Chris Chiu <chris.chiu@canonical.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	kailang@realtek.com,
-	simont@opensource.cirrus.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NqUIn8CO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13390C4CEE9;
+	Tue, 20 May 2025 15:27:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747754826;
+	bh=PK9R+rXvfduGiOBg6THsx1wuDsfStpwvIfZrpLa8Yfg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NqUIn8CO/9hehnzHiTA158TFGyt5EJVLlXkDOVNtCHWt4XIvhvKuKvNQ/Q/1yFMdb
+	 Mr7inE5T8EUcdl00dtTg0U92D9LvRDLWuCA/N1jz+ljmUymScdd4qlqr87fTJCxfKz
+	 W02JSD51DQI2+TU2Pf37oYPv8AL2I0+ToL3aGHO3CRdN1n+3biyvU/sFsFXpAmGTAH
+	 FjMtmdoixuB1QE+lCEtKDPR91DwnkYB3IyqiHp/ZCwzccDE8xzBOQT29o6tKiFEzwJ
+	 Cll7a8+Wy9M/vl64SeZaZu+KbLZqSDzyQ4k6QTL3T1mdO5dkt8fuTWxbA5awG8EPrG
+	 HpHp+EeGIHAtw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek - Add new HP ZBook laptop with micmute led fixup
-In-Reply-To: <20250520132101.120685-1-chris.chiu@canonical.com>
-References: <20250520132101.120685-1-chris.chiu@canonical.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Subject: [PATCH] ALSA: hda/cs35l56: select FW_CS_DSP
+Date: Tue, 20 May 2025 17:26:50 +0200
+Message-Id: <20250520152702.1976221-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -0.30
-X-Spamd-Result: default: False [-0.30 / 50.00];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 20 May 2025 15:21:01 +0200,
-Chris Chiu wrote:
-> 
-> New HP ZBook with Realtek HDA codec ALC3247 needs the quirk
-> ALC236_FIXUP_HP_GPIO_LED to fix the micmute LED.
-> 
-> Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-Applied now.  Thanks.
+When compile-testing this driver, the missing FW_CS_DSP module
+causes a link failure:
 
+aarch64-linux-ld: sound/pci/hda/cs35l41_hda.o: in function `cs35l41_shutdown_dsp':
+cs35l41_hda.c:(.text+0x7e4): undefined reference to `cs_dsp_stop'
+aarch64-linux-ld: cs35l41_hda.c:(.text+0x7ec): undefined reference to `cs_dsp_power_down'
+aarch64-linux-ld: sound/pci/hda/cs35l41_hda.o: in function `cs35l41_hda_remove':
+cs35l41_hda.c:(.text+0x14b4): undefined reference to `cs_dsp_remove'
+aarch64-linux-ld: sound/pci/hda/cs35l41_hda.o: in function `cs35l41_smart_amp.isra.0':
+cs35l41_hda.c:(.text+0x189c): undefined reference to `cs_dsp_halo_init'
+aarch64-linux-ld: cs35l41_hda.c:(.text+0x1bd4): undefined reference to `cs_dsp_power_up'
+aarch64-linux-ld: cs35l41_hda.c:(.text+0x1c38): undefined reference to `cs_dsp_run'
+aarch64-linux-ld: cs35l41_hda.c:(.text+0x1c80): undefined reference to `cs_dsp_get_ctl'
+aarch64-linux-ld: cs35l41_hda.c:(.text+0x1c90): undefined reference to `cs_dsp_coeff_read_ctrl'
+aarch64-linux-ld: cs35l41_hda.c:(.text+0x1cd4): undefined reference to `cs_dsp_get_ctl'
+aarch64-linux-ld: cs35l41_hda.c:(.text+0x1ce4): undefined reference to `cs_dsp_coeff_read_ctrl'
 
-Takashi
+Fixes: 849c83fe4991 ("ALSA: hda/cs35l56: Remove dependency on COMPILE_TEST")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ sound/pci/hda/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
+index 339c80d2cce5..3d4badc3f0e0 100644
+--- a/sound/pci/hda/Kconfig
++++ b/sound/pci/hda/Kconfig
+@@ -109,6 +109,7 @@ config SND_HDA_SCODEC_CS35L41
+ 	tristate
+ 	select SND_HDA_GENERIC
+ 	select REGMAP_IRQ
++	select FW_CS_DSP
+ 
+ config SND_HDA_SCODEC_COMPONENT
+ 	tristate
+-- 
+2.39.5
+
