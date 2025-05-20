@@ -1,126 +1,133 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB9E213E77
-	for <linux-sound@vger.kernel.org>; Tue, 20 May 2025 06:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A2C265CAF;
+	Tue, 20 May 2025 09:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747720919; cv=none; b=oBjVhUfns0aoRxphirpQ0OLYucNficnVumGpGFbA0WCKbPYQuC0nM/JcGdZFWJydRojvm8oruxpR/VyJXizSeJjdUZH/RNsplMYxlJlDAmAv2Q1XYkr3oPhYVBaRHW8Qdw4zm0/Fc3+Z5Y7D3vqH2Ps427+Bip3rSc74u0CmrvQ=
+	t=1747732313; cv=none; b=HYOpVabVhV+R5UzZR9u4nIpcblkTKi/GpJjKd/aDSeT8T/0sRPcztgY/1V5sfZ0zl7Fgr68IOZvjqHRDYpiJJHb2y7O3FuNOZwLxE/P7caclOAlutSbanSuCSAKtoAskmTMQcjS7RSzqjxNFtnTNCfgm1b1sD5JiI5TuwAbnkQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747720919; c=relaxed/simple;
-	bh=68hYLa/1khIONIfR9S+azS9t2WuAU3FTbh2Y1O4VgxU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iHSWJEv+vtg59VCrbstBwxmbp8fgoKr4SVbChpwE949yo2M5db7b6gGCiM4UtVkWj1V4M6kbAo6OQvC2UTYelqSOiIeNLjqhfeDQVXJ98neyOuiMmaZPkASIBJVhxlb/PPsFudMxMb7hk2oqYkqAVC3WrvSGEEOfaD3pYwdn2W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kj/elqNg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6AOsW4jh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SX+Oc1Wa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pklkAexd; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kj/elqNg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6AOsW4jh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SX+Oc1Wa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pklkAexd"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1AF88205D0;
-	Tue, 20 May 2025 06:01:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747720910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CyOKSBpnibxGtXRo5GCpdUKaNbw/qvB+v4F5UK+G0k0=;
-	b=kj/elqNgtIrfBML6e13diSy7qukaIy3++kVxV3QOSae+U9wNcCCVBEgiI2SHvE+EsTJgV/
-	1CsqKKoZStOIzRi0mNLYCUQuNNl1dc20wy3MhpDa2gE9N0R/VhnXDfps5QgPFesQznLAkd
-	JlL/TaDoGthxX18bED8SP5gZY5VLbC4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747720910;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CyOKSBpnibxGtXRo5GCpdUKaNbw/qvB+v4F5UK+G0k0=;
-	b=6AOsW4jhAntjfYxKsM17IAKAfjfYUnHJzT6xV7/+FGk/VeZhq86D1fSR9mz7AfJdN9ozG+
-	rROr7gDWDykxoxAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747720909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CyOKSBpnibxGtXRo5GCpdUKaNbw/qvB+v4F5UK+G0k0=;
-	b=SX+Oc1WadYyIFsE42LgQJFyndcCJ3//355Z8FG1jQGD3UWY+kYAYQlgTNgtqMic5ixU+xj
-	5lxYUJuB09HeTmG4fCJ0MH6+5Htc/UJPCcpL+7hkj5+MIDPnq93/rEkGLKbdnSg32Gab/Q
-	egiUOpihYMlSMjkFmMCxGx99/S/Cckk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747720909;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CyOKSBpnibxGtXRo5GCpdUKaNbw/qvB+v4F5UK+G0k0=;
-	b=pklkAexdtXGpjLE+gH8Fw4Eb7nX2mir/ko4v546Yv+Fu8eSwJffUo/UtUeauxAtwpX+U8C
-	rrdbaNoSJsxuZ5DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 039EF13888;
-	Tue, 20 May 2025 06:01:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id y0QTAM0aLGgQIwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 20 May 2025 06:01:49 +0000
-Date: Tue, 20 May 2025 08:01:48 +0200
-Message-ID: <874ixf6cs3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ed Burcher <git@edburcher.com>
-Cc: perex@perex.cz,
+	s=arc-20240116; t=1747732313; c=relaxed/simple;
+	bh=IvLR8yZS+D6mKrd0DI6pDluppOn6eKtfkIRPLs4fZFI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ruN8h19K1NI+R7knMa+hZgM+wNDEfJ97Y+MSINKtAn0zz/N5V/D0nuL4qoIeWk9/TuHMrPso5ucDwOCDTkNJtNeJz0Sw+3mZh3G74BSy/pYLxw1g2tdbvnAEhwctOAUUrhWvwUGiMyJ4oGxKFWf9jOzWyL4qjlE3q3+ASxf5Vmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 725ad2b6355a11f0b29709d653e92f7d-20250520
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:87f64f3f-8ff6-4a5d-836f-e892fc7371f5,IP:0,U
+	RL:0,TC:0,Content:39,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:39
+X-CID-META: VersionHash:6493067,CLOUDID:fd4d755d8717728699b6f10f854a64c4,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:4|50,EDM:-3,IP:nil,UR
+	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 725ad2b6355a11f0b29709d653e92f7d-20250520
+Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1902263896; Tue, 20 May 2025 17:11:43 +0800
+Received: from node4.com.cn (localhost [127.0.0.1])
+	by node4.com.cn (NSMail) with SMTP id A477B16003840;
+	Tue, 20 May 2025 17:11:42 +0800 (CST)
+X-ns-mid: postfix-682C474E-846621685
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by node4.com.cn (NSMail) with ESMTPA id 3F67B16001CC7;
+	Tue, 20 May 2025 09:11:36 +0000 (UTC)
+From: Ai Chao <aichao@kylinos.cn>
+To: johannes@sipsolutions.net,
+	perex@perex.cz,
 	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14ASP10
-In-Reply-To: <20250519224907.31265-2-git@edburcher.com>
-References: <20250519224907.31265-1-git@edburcher.com>
-	<20250519224907.31265-2-git@edburcher.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	jbrunet@baylibre.com,
+	neil.armstrong@linaro.org,
+	khilman@baylibre.com,
+	martin.blumenstingl@googlemail.com,
+	srinivas.kandagatla@linaro.org,
+	kuninori.morimoto.gx@renesas.com,
+	zhangzekun11@huawei.com,
+	krzysztof.kozlowski@linaro.org,
+	ckeepax@opensource.cirrus.com,
+	drhodes@opensource.cirrus.com,
+	alexey.klimov@linaro.org
+Cc: linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Ai Chao <aichao@kylinos.cn>
+Subject: [PATCH 0/6] Use helper function for_each_child_of_node_scoped()
+Date: Tue, 20 May 2025 17:11:25 +0800
+Message-ID: <20250520091131.4150248-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.994];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 20 May 2025 00:49:07 +0200,
-Ed Burcher wrote:
-> 
-> Lenovo Yoga Pro 7 (gen 10) with Realtek ALC3306 and combined CS35L56
-> amplifiers need quirk ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN to
-> enable bass
-> 
-> Signed-off-by: Ed Burcher <git@edburcher.com>
+This patch series introduces wrapper functions
+for_each_child_of_node_scoped().=20
 
-Thanks, applied now.
+The for_each_child_of_node_scoped() helper provides a scope-based clean-u=
+p
+functionality to put the device_node automatically, and as such, there is
+no need to call of_node_put() directly.
 
+Thus, use this helper to simplify the code.
 
-Takashi
+Summary:
+
+ - Patch 1 ASoC: ppc: Use helper function for_each_child_of_node_scoped()
+
+ - Patch 2 ASoC: aoa: Use helper function for_each_child_of_node_scoped()
+
+ - Patch 3 ASoC: renesas: Use helper function for_each_child_of_node_scop=
+ed()
+
+ - Patch 4 ASoC: meson: Use helper function for_each_child_of_node_scoped=
+()
+
+ - Patch 5 ASoC: imx-card: Use helper function for_each_child_of_node_sco=
+ped()
+
+ - Patch 6 ASoC: qcom: Use helper function for_each_child_of_node_scoped(=
+)
+
+ sound/aoa/soundbus/i2sbus/core.c   |  5 ++--
+ sound/ppc/tumbler.c                |  5 ++--
+ sound/soc/fsl/imx-card.c           | 13 ++++------
+ sound/soc/meson/axg-card.c         |  3 +--
+ sound/soc/meson/meson-card-utils.c | 14 +++--------
+ sound/soc/qcom/lpass-cpu.c         |  3 +--
+ sound/soc/qcom/qdsp6/q6afe-dai.c   |  3 +--
+ sound/soc/qcom/qdsp6/q6asm-dai.c   |  4 +--
+ sound/soc/renesas/rcar/core.c      | 39 ++++++++++--------------------
+ sound/soc/renesas/rcar/ctu.c       |  8 ++----
+ sound/soc/renesas/rcar/dma.c       |  4 +--
+ sound/soc/renesas/rcar/dvc.c       |  8 ++----
+ sound/soc/renesas/rcar/mix.c       |  8 ++----
+ sound/soc/renesas/rcar/src.c       | 10 ++------
+ sound/soc/renesas/rcar/ssi.c       | 18 ++++----------
+ sound/soc/renesas/rcar/ssiu.c      |  7 ++----
+ 16 files changed, 47 insertions(+), 105 deletions(-)
+
+--=20
+2.47.1
+
