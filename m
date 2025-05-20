@@ -1,132 +1,73 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166A5242D7C
-	for <linux-sound@vger.kernel.org>; Tue, 20 May 2025 14:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87A024E4AA;
+	Tue, 20 May 2025 14:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747750083; cv=none; b=ExTn2GBTyiVu/sC4Ea025kBMeI/rGBlBzp20+z3ib6IxRqR4RwMxkL9Is25f14Qs25x0Bq/d2/MAulVtyMwrYOoSYk+h2HGOLjKcGj7vpEEpTuJcAzC45Gv4hl5biLehFelkgmLZqeKjTpIB0FACnSCLsXaxhaJYriN+zTyezUA=
+	t=1747750136; cv=none; b=FEFt9YhW2VebgKDBO4KuhInoVydxg/zG0ZrhLozQDdO3UUfdfIaf0xX02jRojRYFktt91WJGTDgH/82zi8hwaP7bR9F3TfZKuI7/5dYoprGkn2TaTMe7hUMzbevJM8pOERSYQV2tQM3m6NEhpwDxcAN0syWH7jB8rtL4aYWCwmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747750083; c=relaxed/simple;
-	bh=QFhvtj0Sl+BHz7ypHBHd0x1u03F5swOxR/cL+arqNGQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bwndl6RDeddZst1VXgfP56lQYvoxAx5nxpvJ4J8zFCxcp9r+LJrGRu73rHg+O5usI870z8fQPUeqsdauQTLnx8vs+Er8LHhb2B3JzHWuOzN0STQGdIMgd/HH1B8N9+twSDUFUqOX8OAA64q0yN4ul70eAqQu5x9tHYaSWHhIFv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UzJMLX4z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XmBgfwy2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UzJMLX4z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XmBgfwy2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1747750136; c=relaxed/simple;
+	bh=Q0OPwZj9us2T448S+gJEHZdjESoDfxo2JnJDbTvezD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PmTHAxgxyrqT0/KWaGujjZtyFPfnlZJ8KakMhCciNs4RwmU+cxHvpVjlOaHL2h6H1yji3qI0zftyJDsmHEJ5au2uTK3KovDAjP3poe32aiflhc2M+3LM0Y2jRlHxwDPyO43BHiXwq79uPqp+iSoIqWlQdTCLZmQ3tRb8wt6uBdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=daFOyNth; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UzJMLX4z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XmBgfwy2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UzJMLX4z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XmBgfwy2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 374B92072D;
-	Tue, 20 May 2025 14:08:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747750080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YJjpF2oq306QxlLhy44UfPqUCNQZRZagd6kOASBJqIY=;
-	b=UzJMLX4zwu54N8ja3PVSALvOK4rAUgrVLVh2UP4MsyeXiqb1aCA4tvovLInErGMWsfNxhD
-	X2/ZxXrC52TEil9n0IMqs6xRLMissLfsxF5hnnDLFfF2oK3OknEra40HJ0Tr3GXfivh3kk
-	kGSLtRTSOy+fXbfucsuexuJIgBdwnaY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747750080;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YJjpF2oq306QxlLhy44UfPqUCNQZRZagd6kOASBJqIY=;
-	b=XmBgfwy2bpIFGUcXzXCz4pp8BAPK4rZ/hl3VI/XnFRbU1nNZdGg89/yTTV+7gQdHcDzp7S
-	vwxYhHxA2FfxxeBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747750080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YJjpF2oq306QxlLhy44UfPqUCNQZRZagd6kOASBJqIY=;
-	b=UzJMLX4zwu54N8ja3PVSALvOK4rAUgrVLVh2UP4MsyeXiqb1aCA4tvovLInErGMWsfNxhD
-	X2/ZxXrC52TEil9n0IMqs6xRLMissLfsxF5hnnDLFfF2oK3OknEra40HJ0Tr3GXfivh3kk
-	kGSLtRTSOy+fXbfucsuexuJIgBdwnaY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747750080;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YJjpF2oq306QxlLhy44UfPqUCNQZRZagd6kOASBJqIY=;
-	b=XmBgfwy2bpIFGUcXzXCz4pp8BAPK4rZ/hl3VI/XnFRbU1nNZdGg89/yTTV+7gQdHcDzp7S
-	vwxYhHxA2FfxxeBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E7C413A3E;
-	Tue, 20 May 2025 14:08:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NMSpBsCMLGieHwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 20 May 2025 14:08:00 +0000
-Date: Tue, 20 May 2025 16:07:44 +0200
-Message-ID: <87a577qssv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Siddarth Gundu <siddarthsgml@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: amd7930: replace strcpy() with strscpy()
-In-Reply-To: <20250520113012.70270-1-siddarthsgml@gmail.com>
-References: <20250520113012.70270-1-siddarthsgml@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="daFOyNth"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86BA0C4CEE9;
+	Tue, 20 May 2025 14:08:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747750136;
+	bh=Q0OPwZj9us2T448S+gJEHZdjESoDfxo2JnJDbTvezD8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=daFOyNthETvT9vI+3emdqpJ26Qku5+gPH6r4+hGDHJs9Ff3GphU0L0Usq8G9p0YSA
+	 RI1VTFy+bTRvMsQXXMxFfFxmXXThIeVNX1hS42WyXljvAfckk47IkhpUm20hWQLeux
+	 KJ+Tpib9pmpzBFbvlbbfts6dY+XKxQ5m8hSQiU4L1hkaspetywHD1cul4uUzPinPD9
+	 Td+A/HqJnV9rjw4XTcFuzIbMz+i/C7nZNbRD5DJc+oV4mAxiXkeQdGVsBBWCHAXufg
+	 8IDBBoYlm8VgggV9X6VPyYoNU88MBiQRTdEDD3ZgwlUw9SZAg08B21Mh9TZMgjJ8KY
+	 LpY4jr3g0gDuQ==
+Date: Tue, 20 May 2025 10:08:55 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, perex@perex.cz,
+	tiwai@suse.com, lgirdwood@gmail.com, lumag@kernel.org,
+	christianshewitt@gmail.com, kuninori.morimoto.gx@renesas.com,
+	herve.codina@bootlin.com, jonas@kwiboo.se,
+	krzysztof.kozlowski@linaro.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.14 601/642] ASoC: hdmi-codec: allow to refine
+ formats actually supported
+Message-ID: <aCyM9wXkc_FoLHm_@lappy>
+References: <20250505221419.2672473-1-sashal@kernel.org>
+ <20250505221419.2672473-601-sashal@kernel.org>
+ <aBk_6Dh4twLESMv_@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <aBk_6Dh4twLESMv_@finisterre.sirena.org.uk>
 
-On Tue, 20 May 2025 13:30:12 +0200,
-Siddarth Gundu wrote:
-> 
-> strcpy() is deprecated; use strscpy() instead.
-> 
-> Both the destination and source buffer are of fixed length
-> so strscpy with 2-arguments is used.
-> 
-> No functional changes intended.
-> 
-> Link: https://github.com/KSPP/linux/issues/88
-> Signed-off-by: Siddarth Gundu <siddarthsgml@gmail.com>
+On Tue, May 06, 2025 at 07:47:04AM +0900, Mark Brown wrote:
+>On Mon, May 05, 2025 at 06:13:37PM -0400, Sasha Levin wrote:
+>> From: Olivier Moysan <olivier.moysan@foss.st.com>
+>>
+>> [ Upstream commit 038f79638e0676359e44c5db458d52994f9b5ac1 ]
+>>
+>> Currently the hdmi-codec driver registers all the formats that are
+>> allowed on the I2S bus. Add i2s_formats field to codec data, to allow
+>> the hdmi codec client to refine the list of the audio I2S formats
+>> actually supported.
+>
+>This is clearly a new feature which won't do anything without further
+>work in the drivers.
 
-Applied now.  Thanks.
+I'll drop it, thanks!
 
-
-Takashi
+-- 
+Thanks,
+Sasha
