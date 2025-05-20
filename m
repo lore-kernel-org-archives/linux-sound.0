@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D86264602;
-	Tue, 20 May 2025 09:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96958268C46
+	for <linux-sound@vger.kernel.org>; Tue, 20 May 2025 09:20:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747732815; cv=none; b=imkiHsbSKpybsH6DOKD6QL5rYkEegx3iYJvTY6wKJ/NDRs58wgitXznMilUs0eVbt1XY9vrS9/zJ9qHjDjZucFRNyk+CbTXHzddbMyg//xg3TSBNBEyM8oLrCLBYj8r+L1WErD8yoPlmWccc9/tw3lGUXrvjvLAdBkgU/H5izLs=
+	t=1747732818; cv=none; b=W7uusqT7vZarYzLXqB43Uqo3gO6yoteJATdCahb9gugl6FIIsKbqmT/yApVMa0jokJaaQjf0fY1uYTgQrQbhWkLQIgCS31Ga46SGff80bMKMm0DR1abulzSdpDFbwCjU5fYNFpm9X+uOtM8HSOlV96uM1dqc4HaRiSMSbhFzK4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747732815; c=relaxed/simple;
-	bh=PVXmFS9xocJhFw8tMe/ApKjvpnBjGHQjSvNu5PMoN/U=;
+	s=arc-20240116; t=1747732818; c=relaxed/simple;
+	bh=ywMT2bP8x/PAxDObTZZPJZId0AEpf3c01eAg2BRT4ak=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dy/kH0eKsT7sz48B2qCEJvzI9e+veiD/8pn0wDnf1amjXEpDTYLLvaHhgaqKL4jiUa16Jvt1o5B+nAGfDdimrjPNsH3aNGW76DB3x51vFdqUqUoJi169Ny08+ZC57R1cfRMlro4tV5LfwpLQs97ZCeiqTyYtjCBTL0DjxTGz/+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MSOdTSpJ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Vm+KDlzTiZgh2I4xvNOv6w9HqLEkgYGUMZX+FE2CHxOT/Is3wkDK+f+Gm2fH8YiuqITShdbkZqhI0KTqhUK4bWoF8wkx8aofe4CZyZb4ISNA/xFoIos+WXKMxGGwYoDxbTEKaryiuRTfNY3YrYpGrKj3cuS+b2u6LIzhfPQKWs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R0hGhuzT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MSOdTSpJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1938AC4CEF0;
-	Tue, 20 May 2025 09:20:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R0hGhuzT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F369BC4CEEB;
+	Tue, 20 May 2025 09:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747732815;
-	bh=PVXmFS9xocJhFw8tMe/ApKjvpnBjGHQjSvNu5PMoN/U=;
+	s=k20201202; t=1747732818;
+	bh=ywMT2bP8x/PAxDObTZZPJZId0AEpf3c01eAg2BRT4ak=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MSOdTSpJ58nW4si3Eh1+RbNUHw79/WOR/TM1Hdt4rlicZt0trbLqEuL5uIK8ZvfeB
-	 gMNf3TA2022GGTXDuf+/3Q/afwStNhKaNClIjW8+GOMtvBAG7PRkN1/wRiqPCg/gBJ
-	 6oaSFJn7r9MnMF3UlZqCFN+AdLlgXYo/HepGXtsHn8Q2nkiyNjb/svGuxzG/raeUvb
-	 xoeqxSTa3mN9lpB/dP7wKV7VD0NN6QZp9wb+Q2R+rZcOCZAYNqIZI4/tQJWfhEAur9
-	 lwO95zZPCVCExf0rnl+XM08fcz7YIUR4jknNy5h6vtYzwFm3qO75Rc4KF7S7luVC8v
-	 YC+2fc8peMQjQ==
+	b=R0hGhuzTaHtyl3SzbsgiGAAFY5aXuSJz1mgEetH0AHFP7n6y1Tl2HW6zHSVDwWKRx
+	 D3W3qTo4c/GT7Q520DCjWWQOs+qoEzzQtqqXqW2CygER50unpoStshNR3nD3rXjAVK
+	 0mtazGXtDPI9yMp8HZTAoLe7XfUz7m4hePk3DVfYapQrCOkmidOJQOX/XM94tIR0aD
+	 G11LE0dpjbbeuIT6YoEigUFHWw5Lsq5yvVmyyymV9FlziVXhFtqFQnanWuaG2Wgui0
+	 obBIlM1YBOTUqukfMNwuG2/Jxzhv/blPI2qjJOZifl9uzsWF+NbdOUlqAsP2inFRlr
+	 Ou6IlpG+Ze6oA==
 From: Mark Brown <broonie@kernel.org>
-To: robh@kernel.org, tiwai@suse.com, devicetree@vger.kernel.org, 
- conor+dt@kernel.org, lgirdwood@gmail.com, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, perex@perex.cz, krzk+dt@kernel.org, 
- Zhang Yi <zhangyi@everest-semi.com>
-Cc: amadeuszx.slawinski@linux.intel.com, krzk@kernel.org
-In-Reply-To: <20250328080319.53734-1-zhangyi@everest-semi.com>
-References: <20250328080319.53734-1-zhangyi@everest-semi.com>
-Subject: Re: [PATCH v7 0/2] ASoC: codecs: add support for ES8389
-Message-Id: <174773281169.19497.722800588557343368.b4-ty@kernel.org>
-Date: Tue, 20 May 2025 10:20:11 +0100
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
+ Vijendar.Mukunda@amd.com
+In-Reply-To: <20250519090645.2620292-1-shumingf@realtek.com>
+References: <20250519090645.2620292-1-shumingf@realtek.com>
+Subject: Re: [PATCH] ASoC: rt722: make regmap cache-only in probe
+Message-Id: <174773281565.19497.17798608721565803173.b4-ty@kernel.org>
+Date: Tue, 20 May 2025 10:20:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,16 +46,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Fri, 28 Mar 2025 16:03:17 +0800, Zhang Yi wrote:
-> The driver is for codec ES8389 of everest-semi.
+On Mon, 19 May 2025 17:06:45 +0800, shumingf@realtek.com wrote:
+> This patch makes sure the access to the codecs is cached until the device is enumerated.
 > 
-> v7 -> v6:
->           - Modify the order in the Kconfig and Makefile
->           - Remove ES8390 in description of codec driver
->           - Romove unused variable in the codec driver
->           - Modify notation for declaring variables
 > 
-> [...]
 
 Applied to
 
@@ -64,10 +57,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: add support for ES8389
-      commit: dd4eb861d0521acca1b7e07683a7e90b2e01f66a
-[2/2] ASoC: dt-bindings: Add Everest ES8389 audio CODEC
-      commit: c8e7d528284a0bb1cd462b994c464bf31d24a0ce
+[1/1] ASoC: rt722: make regmap cache-only in probe
+      commit: 152c773fb4d200985705218e0314fbd7875a3292
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
