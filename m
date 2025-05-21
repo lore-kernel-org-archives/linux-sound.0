@@ -1,146 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F372620FA
-	for <linux-sound@vger.kernel.org>; Wed, 21 May 2025 11:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E22256C9F;
+	Wed, 21 May 2025 11:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747826878; cv=none; b=aIo+P01CD1KNICvgE0iMv0c0tsj1atUA8TXOVfBM7P7q555lDwwWGeDGsCI7roiOJOy+DMGK9k/KqyQ5vt9OBL5exeqm0jLIy8EsAVwy/z2U7k+V2gK9AueL+Gs7aCHrdhcZNWxh5cFerSiJ6Eenc/b4XYGYR9Erqj1KuuPGmzA=
+	t=1747827086; cv=none; b=I3ncdwX7awtAhH2GafzKiYBAAj64gV7fyKQ6/RJ2sm6FUp5HZHiJAUPmZJq7fIG2PD5clu5B818lqbITY/5aGdEyIOB0zFf5hJBZ4ZS41U7GNftXGEiThFla+8fy37io7BYaRA70kW0x2zXLsmbZwh10cSevg/z4ITUUZX4dciM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747826878; c=relaxed/simple;
-	bh=5KhfHNZxlB1CBARwKAy5lt7RlIQnQoMU3qv3xI66EpQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XRkkrXTEwY2rtdMw18cGQEji70xZTrJNUSM99t4wI6zPbmkk0btD4wMwgctVTzUua3Lgcof9Lj2ygN7VJnLTHJ4haSPd2Zmc5lWa3FOfpA1f+kaYYclRmVHXguFGeMIAmJUSWk/AQAcIDY0xX5WOwV1a1wHVbh+6F5qa1/ArD4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vIz7/yhm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eL0efHeP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vIz7/yhm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eL0efHeP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1747827086; c=relaxed/simple;
+	bh=SZaZHLqvu+Jd8/fIMdk0kc05kafs/Xkgnw6JWo0Pn3Y=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=lbWyAb5WWCfiIcBA0w5xPVAA6UAu+k7INAA8qJ8sYdSlgIMU/nUMJVBOx5KuvpWwyrP542B1ylCq35ULlKvw6Sp7ceWlxoLon8B6evedDrWpVPHM+UGJTv4PmEQybEk/E7TMmDA3609+BYb6uyB45c6q4eKHDtmbSi9Yykn56ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q2a4aoC0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vIz7/yhm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eL0efHeP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vIz7/yhm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eL0efHeP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0B436229FE;
-	Wed, 21 May 2025 11:27:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747826875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jYIcxxUNwqdMAjdDBeazqUYwztt1uaEJg9wvexDVEGk=;
-	b=vIz7/yhmp88uyl+nJtFzCLfl2Oy8mhm975BDkHGRXpNHoDt9IXEEp0XKJRCgYi6v/AssEK
-	/MzdtNp9McerrkxaWtipCYNt9di7emp79/hJ0H+5orIwt4IFQZ9YJfizOoNCh/n0o0bCrm
-	Kahta/nKwTLgKnSMmWAVlzko4U5qxCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747826875;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jYIcxxUNwqdMAjdDBeazqUYwztt1uaEJg9wvexDVEGk=;
-	b=eL0efHePboRNevYc0UIJp22tFAhcP14fHMVcgr6j8dpeL9yZAFx6hqzaaybicJE/cKDcjS
-	umYyX5OH/Br7eYAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747826875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jYIcxxUNwqdMAjdDBeazqUYwztt1uaEJg9wvexDVEGk=;
-	b=vIz7/yhmp88uyl+nJtFzCLfl2Oy8mhm975BDkHGRXpNHoDt9IXEEp0XKJRCgYi6v/AssEK
-	/MzdtNp9McerrkxaWtipCYNt9di7emp79/hJ0H+5orIwt4IFQZ9YJfizOoNCh/n0o0bCrm
-	Kahta/nKwTLgKnSMmWAVlzko4U5qxCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747826875;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jYIcxxUNwqdMAjdDBeazqUYwztt1uaEJg9wvexDVEGk=;
-	b=eL0efHePboRNevYc0UIJp22tFAhcP14fHMVcgr6j8dpeL9yZAFx6hqzaaybicJE/cKDcjS
-	umYyX5OH/Br7eYAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C70B113888;
-	Wed, 21 May 2025 11:27:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qRVEL7q4LWhvYQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 21 May 2025 11:27:54 +0000
-Date: Wed, 21 May 2025 13:27:54 +0200
-Message-ID: <87jz6a9pad.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] ALSA: hda/cs35l41_hda: select FW_CS_DSP
-In-Reply-To: <20250520162101.3929551-1-arnd@kernel.org>
-References: <20250520162101.3929551-1-arnd@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q2a4aoC0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC483C4CEEA;
+	Wed, 21 May 2025 11:31:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747827085;
+	bh=SZaZHLqvu+Jd8/fIMdk0kc05kafs/Xkgnw6JWo0Pn3Y=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=q2a4aoC0w7PtDOnBQWFc8dwbMY//udUxPsHh+GKU381TNAidlDUdjYmG5qgsBL+Xs
+	 V8ThKvXa4YpkfKHSmP9mge9aYddkdLkLZ+92YKJPPH+/RZrhvhsd7isvMT3bxZ1Dw+
+	 FrOnJGwEjWRD+gNNdR3T5Y3fntXPiC2SP3zfzkIe3G0L8qKkQoDWs8BPyJgiM4x+3u
+	 Djt64GAWAX1SKoM2a+cvh0L6YyPunjUI6L9gpwUx9PLifOSpUtlpFvgHXeo4b6gR+p
+	 bjgb9FhtP1jig3V+gwTML9j3Rg3HHWWKrXEnrn5FVWNYV7tedxLm9w0DFJKGL3zjx1
+	 GxsB+G3me0Rfw==
+Date: Wed, 21 May 2025 06:31:23 -0500
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: conor+dt@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org, 
+ devicetree@vger.kernel.org, amadeuszx.slawinski@linux.intel.com, 
+ linux-kernel@vger.kernel.org, perex@perex.cz, krzk@kernel.org, 
+ broonie@kernel.org, linux-sound@vger.kernel.org, tiwai@suse.com
+To: Zhang Yi <zhangyi@everest-semi.com>
+In-Reply-To: <20250521104247.6595-2-zhangyi@everest-semi.com>
+References: <20250521104247.6595-1-zhangyi@everest-semi.com>
+ <20250521104247.6595-2-zhangyi@everest-semi.com>
+Message-Id: <174782708395.3055821.16941579445110236970.robh@kernel.org>
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: Add Everest ES8375 audio CODEC
 
-On Tue, 20 May 2025 18:20:48 +0200,
-Arnd Bergmann wrote:
+
+On Wed, 21 May 2025 18:42:46 +0800, Zhang Yi wrote:
+> Add device tree binding documentation for Everest ES8375
 > 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> When compile-testing this driver, the missing FW_CS_DSP module
-> causes a link failure:
-> 
-> aarch64-linux-ld: sound/pci/hda/cs35l41_hda.o: in function `cs35l41_shutdown_dsp':
-> cs35l41_hda.c:(.text+0x7e4): undefined reference to `cs_dsp_stop'
-> aarch64-linux-ld: cs35l41_hda.c:(.text+0x7ec): undefined reference to `cs_dsp_power_down'
-> aarch64-linux-ld: sound/pci/hda/cs35l41_hda.o: in function `cs35l41_hda_remove':
-> cs35l41_hda.c:(.text+0x14b4): undefined reference to `cs_dsp_remove'
-> aarch64-linux-ld: sound/pci/hda/cs35l41_hda.o: in function `cs35l41_smart_amp.isra.0':
-> cs35l41_hda.c:(.text+0x189c): undefined reference to `cs_dsp_halo_init'
-> aarch64-linux-ld: cs35l41_hda.c:(.text+0x1bd4): undefined reference to `cs_dsp_power_up'
-> aarch64-linux-ld: cs35l41_hda.c:(.text+0x1c38): undefined reference to `cs_dsp_run'
-> aarch64-linux-ld: cs35l41_hda.c:(.text+0x1c80): undefined reference to `cs_dsp_get_ctl'
-> aarch64-linux-ld: cs35l41_hda.c:(.text+0x1c90): undefined reference to `cs_dsp_coeff_read_ctrl'
-> aarch64-linux-ld: cs35l41_hda.c:(.text+0x1cd4): undefined reference to `cs_dsp_get_ctl'
-> aarch64-linux-ld: cs35l41_hda.c:(.text+0x1ce4): undefined reference to `cs_dsp_coeff_read_ctrl'
-> 
-> Fixes: bdd9ea9187c4 ("ALSA: hda/hda_cs_dsp_ctl: Delete hda_cs_dsp_ctl module")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
 > ---
-> v2: fix subject and Fixes line to point to the correct change
+>  .../bindings/sound/everest,es8375.yaml        | 62 +++++++++++++++++++
+>  1 file changed, 62 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/everest,es8375.yaml
+> 
 
-Applied now.  Thanks.
+My bot found errors running 'make dt_binding_check' on your patch:
 
+yamllint warnings/errors:
 
-Takashi
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/sound/everest,es8375.example.dts:21.28-27.13: Warning (i2c_bus_reg): /example-0/i2c/codec@10: I2C bus unit address format error, expected "18"
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250521104247.6595-2-zhangyi@everest-semi.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
