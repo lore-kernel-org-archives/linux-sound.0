@@ -1,172 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E01025E834;
-	Tue, 20 May 2025 21:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011F728682;
+	Wed, 21 May 2025 01:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747777426; cv=none; b=FEeF3CWOcsbnOtpjdn2N9I6Ozjif2gLFxG3GKdTd+A0ED71/0MKp7NeVtAbMvoUJBy8EK8D1J5gRbcrhpjT1b2SujuccwEPFEKSLFYsXgRb6QgS3Ve54q0bJDBSAU22NlwAJuePiVSmGCoXPGHwj6w3A5oHB9vyl6aWQS/JSDHM=
+	t=1747792752; cv=none; b=B8YdpEnEiWltyAwVvrgoHaYcn7D5+bpHfaS7A2wwIqJq3HOnB2NVctMvOuPdXzOiYkw/T/sUGDkMQu9LkgD3Jg79hLrRaQtPu9tSVSbLgd9FuayJvBDqAolgxo1CXFq1iqno6E+7Gwbx2DDC5yymSMQ7tbE3AWulgC/Z1t2+nPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747777426; c=relaxed/simple;
-	bh=3Uwzu0x4Ol7jQHWlBgnHzcOFIw3Xt2G7jzzTCuvsxA8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ls9HlOzPGG4CVFBDzwLkF1tXyknypjMJvg75wTwiioCjIJFiopl6KXrSoSsWpeypfFV4OMCi4xd0jxpySEjRv5ZURZ0FmQvhMtY5/iwLJzg840wnZwqwRadzUJ5VvsWeC42+hWNX1qYxVWXwIbYjyGzv8apSULFe5j8kUPyB2qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=azUdx4vz; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="azUdx4vz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747777424; x=1779313424;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3Uwzu0x4Ol7jQHWlBgnHzcOFIw3Xt2G7jzzTCuvsxA8=;
-  b=azUdx4vzotGu0CYUKO3vh3ScAZ+l+10KiEau6TGXRIYQht+S2hBBNvvK
-   68xkvQ94PojbKrPcFHJ3Tehv/lnHxfGavzRvS63uehGTlQhHrJK8i5u5k
-   MmSjZL1Ix6nnW/vNu3j34WCB78uM2UUUjkv6S/8WFAhJXa1C8ozSLtCdG
-   9wI7IdVIihH6+JeuxyaURjKbIEWpcP/HI9J08bYgMTdc1RMyu+GrDTIQL
-   7vsD4kIfuYDGWwy+j8/fxi/JLFn4zuc2SOplS95r7yehcl4/Dhj6OpTC/
-   4wlhfDANR1s3wN7QYM5Kqlt3D9GLztN/pi0+LrPeEPs4tKAa2XNh6lbi2
-   Q==;
-X-CSE-ConnectionGUID: ZWaH8tt1RNqe+g7zulRMgA==
-X-CSE-MsgGUID: OpCSTDmiRAm/sPAkgyR3tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49435925"
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="49435925"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 14:43:43 -0700
-X-CSE-ConnectionGUID: 3+/Jn4AWQHeWHUJykGSFxg==
-X-CSE-MsgGUID: EXveqf+TQbqRz9yutsdNTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="139721317"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 May 2025 14:43:36 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uHUkI-000Nb2-0B;
-	Tue, 20 May 2025 21:43:34 +0000
-Date: Wed, 21 May 2025 05:43:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ai Chao <aichao@kylinos.cn>, johannes@sipsolutions.net, perex@perex.cz,
-	tiwai@suse.com, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
-	festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
-	broonie@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, jbrunet@baylibre.com,
-	neil.armstrong@linaro.org, khilman@baylibre.com,
-	martin.blumenstingl@googlemail.com, srinivas.kandagatla@linaro.org,
-	kuninori.morimoto.gx@renesas.com, zhangzekun11@huawei.com,
-	krzysztof.kozlowski@linaro.org, ckeepax@opensource.cirrus.com,
-	drhodes@opensource.cirrus.com, alexey.klimov@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 4/6] ASoC: meson: Use helper function
- for_each_child_of_node_scoped()
-Message-ID: <202505210557.EpJig9BQ-lkp@intel.com>
-References: <20250520091131.4150248-5-aichao@kylinos.cn>
+	s=arc-20240116; t=1747792752; c=relaxed/simple;
+	bh=es0AFSkT/Gfkd0LgAlYkHnlG+OsOOKMTy+LrCQ8Awbg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
+	 In-Reply-To:Content-Type; b=MeBoP3reFs5htyk9qGpn4daImN+BoVkNvXw3PAHxShm8Qt/Zjv/0tBm3Ymhr0jAL0swprFmEoIjmMl4WhYlGgAJvh5RZa18uIpAkPQgaMB0YGaxdTkCztiRM2eQzhVFqUcl25+pzwiyzOCTyxVoLZYnxW9EJDJryA8gR3vbF2Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 28ab1d1e35e711f0b29709d653e92f7d-20250521
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B, HR_CTT_TXT
+	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_LANG
+	HR_MAILER_MTBG, HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER
+	HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_PRE_RE, HR_SJ_WS
+	HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME, HR_TO_NO_NAME, DN_TRUSTED
+	SRC_TRUSTED, SA_UNTRUSTED, SA_LOWREP, SA_EXISTED, SN_EXISTED
+	SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD, CIE_GOOD
+	CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_T1
+	AMN_GOOD, AMN_C_TI, AMN_C_BU, ABX_MISS_RDNS
+X-CID-UNFAMILIAR: 1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:4a189c35-4ef7-4ed0-8ae9-4d6bd31c69f4,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-INFO: VERSION:1.1.45,REQID:4a189c35-4ef7-4ed0-8ae9-4d6bd31c69f4,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:10
+X-CID-META: VersionHash:6493067,CLOUDID:b17d2cee544bb8cae19d49eb774a1492,BulkI
+	D:250520172000LXPHKXCL,BulkQuantity:1,Recheck:0,SF:16|19|24|38|43|64|66|74
+	|78|80|81|82|83|102|841,TC:nil,Content:0|50,EDM:-3,IP:-2,URL:0,File:nil,RT
+	:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:
+	0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_USA
+X-UUID: 28ab1d1e35e711f0b29709d653e92f7d-20250521
+X-User: aichao@kylinos.cn
+Received: from [172.25.120.86] [(112.64.161.44)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 75421941; Wed, 21 May 2025 09:58:58 +0800
+Message-ID: <758b0ad2-e337-4be6-a7da-4d5af8b193d1@kylinos.cn>
+Date: Wed, 21 May 2025 09:58:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250520091131.4150248-5-aichao@kylinos.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] ASoC: qcom: Use helper function
+ for_each_child_of_node_scoped()
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ srinivas.kandagatla@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, aichao@kylinos.cn
+References: <20250520091131.4150248-1-aichao@kylinos.cn>
+ <20250520091131.4150248-7-aichao@kylinos.cn>
+ <eca8721c-305f-4053-8df0-0347cc869325@linaro.org>
+Content-Language: en-US
+From: Ai Chao <aichao@kylinos.cn>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+In-Reply-To: <eca8721c-305f-4053-8df0-0347cc869325@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Ai,
+Hi Krzysztof :
 
-kernel test robot noticed the following build errors:
+     Thanks for your help.
 
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on tiwai-sound/for-next tiwai-sound/for-linus wireless-next/main wireless/main linus/master v6.15-rc7 next-20250516]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+     The for_each_child_of_node() function is used to iterate over all 
+child nodes of a device tree node. During each iteration, it retrieves a 
+pointer to the child node via of_get_next_child() and automatically 
+increments the node's reference count (of_node_get()). Each call to 
+of_get_next_child() increases the reference count (refcount) of the 
+returned child node, ensuring that the node is not freed while in use.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ai-Chao/ASoC-ppc-Use-helper-function-for_each_child_of_node_scoped/20250520-171556
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250520091131.4150248-5-aichao%40kylinos.cn
-patch subject: [PATCH 4/6] ASoC: meson: Use helper function for_each_child_of_node_scoped()
-config: arc-randconfig-002-20250521 (https://download.01.org/0day-ci/archive/20250521/202505210557.EpJig9BQ-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505210557.EpJig9BQ-lkp@intel.com/reproduce)
+     The of_node_put() function is used to decrement the node's 
+reference count. When the reference count drops to zero, the kernel 
+releases the memory occupied by the node.for_each_child_of_node() 
+increments the child node's reference count in each iteration but does 
+not decrement it automatically. If of_node_put() is not called manually, 
+the reference count will never reach zero, resulting in a memory leak of 
+the node.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505210557.EpJig9BQ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/sound/soc.h:15,
-                    from sound/soc/meson/meson-card-utils.c:8:
-   sound/soc/meson/meson-card-utils.c: In function 'meson_card_set_be_link':
->> sound/soc/meson/meson-card-utils.c:166:71: error: 'np' undeclared (first use in this function); did you mean 'up'?
-     166 |                 dev_err(card->dev, "error setting %pOFn link name\n", np);
-         |                                                                       ^~
-   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   sound/soc/meson/meson-card-utils.c:166:17: note: in expansion of macro 'dev_err'
-     166 |                 dev_err(card->dev, "error setting %pOFn link name\n", np);
-         |                 ^~~~~~~
-   sound/soc/meson/meson-card-utils.c:166:71: note: each undeclared identifier is reported only once for each function it appears in
-     166 |                 dev_err(card->dev, "error setting %pOFn link name\n", np);
-         |                                                                       ^~
-   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   sound/soc/meson/meson-card-utils.c:166:17: note: in expansion of macro 'dev_err'
-     166 |                 dev_err(card->dev, "error setting %pOFn link name\n", np);
-         |                 ^~~~~~~
-
-
-vim +166 sound/soc/meson/meson-card-utils.c
-
-aa9c3b7273a58b Jerome Brunet     2020-02-13  134  
-aa9c3b7273a58b Jerome Brunet     2020-02-13  135  int meson_card_set_be_link(struct snd_soc_card *card,
-aa9c3b7273a58b Jerome Brunet     2020-02-13  136  			   struct snd_soc_dai_link *link,
-aa9c3b7273a58b Jerome Brunet     2020-02-13  137  			   struct device_node *node)
-aa9c3b7273a58b Jerome Brunet     2020-02-13  138  {
-aa9c3b7273a58b Jerome Brunet     2020-02-13  139  	struct snd_soc_dai_link_component *codec;
-aa9c3b7273a58b Jerome Brunet     2020-02-13  140  	int ret, num_codecs;
-aa9c3b7273a58b Jerome Brunet     2020-02-13  141  
-aa9c3b7273a58b Jerome Brunet     2020-02-13  142  	num_codecs = of_get_child_count(node);
-aa9c3b7273a58b Jerome Brunet     2020-02-13  143  	if (!num_codecs) {
-aa9c3b7273a58b Jerome Brunet     2020-02-13  144  		dev_err(card->dev, "be link %s has no codec\n",
-aa9c3b7273a58b Jerome Brunet     2020-02-13  145  			node->full_name);
-aa9c3b7273a58b Jerome Brunet     2020-02-13  146  		return -EINVAL;
-aa9c3b7273a58b Jerome Brunet     2020-02-13  147  	}
-aa9c3b7273a58b Jerome Brunet     2020-02-13  148  
-aa9c3b7273a58b Jerome Brunet     2020-02-13  149  	codec = devm_kcalloc(card->dev, num_codecs, sizeof(*codec), GFP_KERNEL);
-aa9c3b7273a58b Jerome Brunet     2020-02-13  150  	if (!codec)
-aa9c3b7273a58b Jerome Brunet     2020-02-13  151  		return -ENOMEM;
-aa9c3b7273a58b Jerome Brunet     2020-02-13  152  
-aa9c3b7273a58b Jerome Brunet     2020-02-13  153  	link->codecs = codec;
-aa9c3b7273a58b Jerome Brunet     2020-02-13  154  	link->num_codecs = num_codecs;
-aa9c3b7273a58b Jerome Brunet     2020-02-13  155  
-6c05494fd8e28e Ai Chao           2025-05-20  156  	for_each_child_of_node_scoped(node, np) {
-2e1dbea1f8a358 Kuninori Morimoto 2023-06-20  157  		ret = meson_card_parse_dai(card, np, codec);
-6c05494fd8e28e Ai Chao           2025-05-20  158  		if (ret)
-aa9c3b7273a58b Jerome Brunet     2020-02-13  159  			return ret;
-aa9c3b7273a58b Jerome Brunet     2020-02-13  160  
-aa9c3b7273a58b Jerome Brunet     2020-02-13  161  		codec++;
-aa9c3b7273a58b Jerome Brunet     2020-02-13  162  	}
-aa9c3b7273a58b Jerome Brunet     2020-02-13  163  
-aa9c3b7273a58b Jerome Brunet     2020-02-13  164  	ret = meson_card_set_link_name(card, link, node, "be");
-aa9c3b7273a58b Jerome Brunet     2020-02-13  165  	if (ret)
-aa9c3b7273a58b Jerome Brunet     2020-02-13 @166  		dev_err(card->dev, "error setting %pOFn link name\n", np);
-aa9c3b7273a58b Jerome Brunet     2020-02-13  167  
-aa9c3b7273a58b Jerome Brunet     2020-02-13  168  	return ret;
-aa9c3b7273a58b Jerome Brunet     2020-02-13  169  }
-aa9c3b7273a58b Jerome Brunet     2020-02-13  170  EXPORT_SYMBOL_GPL(meson_card_set_be_link);
-aa9c3b7273a58b Jerome Brunet     2020-02-13  171  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 2025/5/20 17:19, Krzysztof Kozlowski wrote:
+> On 20/05/2025 11:11, Ai Chao wrote:
+>> The for_each_child_of_node_scoped() helper provides a scope-based
+>> clean-up functionality to put the device_node automatically, and
+>> as such, there is no need to call of_node_put() directly.
+>
+> I do not see any of_node_put() there, so I don't understand what is the
+> benefit of this and how this commit msg explains reason behind the change.
+>
+> Best regards,
+> Krzysztof
