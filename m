@@ -1,57 +1,63 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2055.outbound.protection.outlook.com [40.107.223.55])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2080.outbound.protection.outlook.com [40.107.94.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F038B1D5CF2
-	for <linux-sound@vger.kernel.org>; Wed, 21 May 2025 14:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAA417C21B
+	for <linux-sound@vger.kernel.org>; Wed, 21 May 2025 14:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.80
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747838323; cv=fail; b=YuFzanReEHF2ePucs1kG0g0Y3vQBg183RzofY1bEQisQRE0GXMjbzMtItvkjktYzw4bt0qj8xARXmx1HUP8Iijy9c+E4n6elHql53mgRDc1HOoDjlsB+oO+h9RSeMT3PnOxoEib+3e0pIlpwdNnLMMAKVYegQuAVxU3fh6eDrz0=
+	t=1747838775; cv=fail; b=WzdX2cqWxjNaTy/WiRHN4x7uD6QIhBogYYdS6jkE8daA60nuHxAjdBy7ySRSWwWKtwnMnRq8DE9GAayhMmkHmFgwRXO7z3Xf7+3i7V/CJJOS/m5I71Cv0FB7s8g5UISdrsBgAMpbtbq1FwI8KL9ur9kB5BuiziQqap5XC6tp5KA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747838323; c=relaxed/simple;
-	bh=YMzIuajzMkZmATldld2Kr7/MQQd3DgFiJbmUFbBQXkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=n0P9eCJMSU2SDC5M7trwqSFf9bZ2quR7twhVxRYyqldvsFbWksXLf28Nl7lpr//Ui4bQ1bw/GBrLiznblQAK4F+swMyjunP+Lk6H5OKeJckOsXEyuHzYkpqnib3lKafwVSFd03Nzexul3sNWGEAxzi7tbE/lcMTRBIFvbgrWAJ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rstUt38k; arc=fail smtp.client-ip=40.107.223.55
+	s=arc-20240116; t=1747838775; c=relaxed/simple;
+	bh=CfvXDNQa+y7HGm+EJJX88NAA782jORG3/+M613lVVpI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Xo380CHAZQkn6aNrATKsa2fMUwjYItqVZ7ryZmovm+vjrIBJQTgPW1FEXVdhrzukj3/9JEjq9rOqMS49wD8wSSN7dzqzQsA+etRhh3vM4koTyj7BinJ4t4HqKASI5cZwoSRwJ2Ixmmb6g5ZYgSqdr9tK2WFcFSMQOO9vQXiUnNI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Oxv1i8Yk; arc=fail smtp.client-ip=40.107.94.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rstUt38k"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Oxv1i8Yk"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mAoM1W4OxdU9oQjZBo8nPU8r0Ddo1t+4vRS9fDLm8dvxPhSSrkNxBz5UUx/+lisDZwFreQNJohQU3713V3Bo/ZR2ZovYo9JCRRjt4qKfWoXq321BuyPH73mnP40BBm25ki6X7XY2swNd9HZ5msgdnn3K0rrUX/FbMhx0RR+Sg1CsX1UV3JX+WBoOk0JVXPWBhSdfDqbwX1qcThUW5B3yGxnoybJW1eLg4U9hjUvogw+LatODUMIBMexu8IC1xRY8eNtBnAkZYZd5bg3LaYFT9vzWmMdE2pTJu0YdS8yZpmIger5AIrTzVvbqJDR46fL0uvvpCjm0I7eDo4PUaAyk1w==
+ b=GEHnHPi4bNTP890vXRXtWCUQPKQZ2LMs5Jzn5A5GU+WiIlnM//DbpkMgWsYBXD++L/G3s0Rcg9uzLbqNFMoNXQNd0O1L2u5RoSJluhQFMEWiNSydcFnbcbYMKfV1bLwCNYUnSv8c1VLAlN3pxQ+4NiixnMdNo8gneSp51ihpjzc6ssk3vjcrSMHb1TvTibpZLOZ0GgZ+G1nH+tJcoBelNJR0nVw2MKCsjjVhk4dCnLauZ1pcQEBtV/BoArQGCFtYxyO/Pe+q0Or2zF77Ag2Q6GBWBoYYoggmHOGMjOlplIjpsVV/Eq5mpssXSK354oNIINJYE/Xa5LGheOSyk01RYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ErgEo0NOp70bFKm6Is8JfQRBRYED3QU8bnWHzbb5KjY=;
- b=qVSsBQfeAI9Yrc1Fi/9eXBC6dJgeWMutzONMHg0lYNOWEntLev/wEltDEBOIBRHE6ywn10Inc7bGT+A7651aH37J3oIhzGg0Z9I2CqEnyLm031K3z//7Gld7w4X+Uzv/x0MR2hb0LfSP9S0Tv5SUKXDNYf5mxdq6XtNClhQxQmfMd2tFdZFpOqQBv5iN3Hl5Q61njBkuSWfwLWQ+r8H65nOqA5uwP238FMnQ5htfMSmeSDZwxIDSnNb0HiOLGi/pZYipVLz3QlAiru1l+7p26jXSp1I5458m48R8WZU3Bqu0zVtkLXQXf0pDvTQaGx2tWTDBk2zVp8y9jyVU4r40oA==
+ bh=9ocD4l7p42o86eDXo3IHMwMQVY0EJ7QdKmqgPH8iQs4=;
+ b=QtoFVzRzvpvHDAEyJlyGl5kIVll3fb+4dPCO5TQbB/4MXyxHk6/Vx4anT35usq813UKvAnc1zoItN4jEoP/YS0kDcUBwVEH/rp2a0IsOqJqtcTGp8Js9GUwP3IexiZN2aqMmvjY/3v7j1rjMNsgadvC0u0JdIAxV2WAOWO4Ctyz6X+X8O6Bk/SYQObdo1vojtI41VrHfQI+2YBa82xIfRnoFlXhF5Z0nELQ3UHfxN+SspKsvRKVJIvnZWcLSnMfe2qjD7GQyaYgTxpt73jemTzqbY8lYErZnJE5zse8tHxT2sPVOaO82EcfT5Cd+gmub4MER9JIpjOjaGB85MowwZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ErgEo0NOp70bFKm6Is8JfQRBRYED3QU8bnWHzbb5KjY=;
- b=rstUt38kY5D1dvQA/w4qDwij8cUEdahe0QG5+pi7Bq7uYXoTQQhIgyYyldMukkjKR/ZfkBXirdWd06DjqwVs5CTH9csg8YScR6Mv3W4UGGaGbXTspm8x8pkI4ZdLSqU605mxtI7V1bVoQ5aVzbGwp0PIWbxOrnFgo3+V/ZznJoEXi2Z7kZoaNeGcd4PTBdHg1uSl0rc8ayZef5qXMZVsAIscMwW7ZBvX/GdWc5TWZ77bbQM6An810N6OfOQUWOLWvd+y/FzPPXl0yW41KO77ZZs6UPaWfa4JbQKLZvZ++VFlMEMTbBMflTJd6HtGtGeAfMJ+fR538/8B8H1el/VFCw==
+ bh=9ocD4l7p42o86eDXo3IHMwMQVY0EJ7QdKmqgPH8iQs4=;
+ b=Oxv1i8Ykj4X2RGTLngqPnBKpanzAGcJIUNRJZ4OQWeupU8xeWTE7h+qYafPkUuH84EGven8Fv4ZAonTAR1TD+fAixD5UwkRT64a3wcp110DuW05Wlnz1VWXm0CyTTpStaoMObOnBcOdLW98nBdjLcGvlLy/LlT4NK7Op32+hulWTL3LsM69LsvyhJ5kdXak8j6YwxYbQLUiDL3YnxngzWjAcLRJUr2LFifPWVPzOz3JEVnJyfCxHHK1Qoqj3sideLiyDcHOsIiSTjwNr2iPxIbLd3RV0uJcBoKVOWSAOCr3zte1Elx2YKmrL42ba0vihlVp6apaM2LNEEc5z5vcqJQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from IA0PR12MB8422.namprd12.prod.outlook.com (2603:10b6:208:3de::8)
- by CH0PR12MB8531.namprd12.prod.outlook.com (2603:10b6:610:181::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.19; Wed, 21 May
- 2025 14:38:38 +0000
+ by DS0PR12MB8296.namprd12.prod.outlook.com (2603:10b6:8:f7::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8769.19; Wed, 21 May 2025 14:46:10 +0000
 Received: from IA0PR12MB8422.namprd12.prod.outlook.com
  ([fe80::50d8:c62d:5338:5650]) by IA0PR12MB8422.namprd12.prod.outlook.com
  ([fe80::50d8:c62d:5338:5650%4]) with mapi id 15.20.8746.030; Wed, 21 May 2025
- 14:38:38 +0000
-Date: Wed, 21 May 2025 09:38:36 -0500
+ 14:46:10 +0000
+Date: Wed, 21 May 2025 09:46:08 -0500
 From: Daniel Dadap <ddadap@nvidia.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de
-Subject: [PATCH] ALSA: hda/tegra: Switch to two-argument strscpy()
-Message-ID: <aC3lbOTYxWvYR9dl@ddadap-lakeline.nvidia.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: hda - Add new driver for HDA controllers listed
+ via ACPI
+Message-ID: <aC3nMHjiSoROekkP@ddadap-lakeline.nvidia.com>
+References: <aCXswg1gr6cufyzp@ddadap-lakeline.nvidia.com>
+ <87r00qx78f.wl-tiwai@suse.de>
+ <aCYMjYrfFIPjN9Fi@ddadap-lakeline.nvidia.com>
+ <87zffdvvj6.wl-tiwai@suse.de>
+ <aCcjbp717oux8hA6@ddadap-lakeline.nvidia.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-ClientProxiedBy: SA1P222CA0181.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c4::28) To IA0PR12MB8422.namprd12.prod.outlook.com
+In-Reply-To: <aCcjbp717oux8hA6@ddadap-lakeline.nvidia.com>
+X-ClientProxiedBy: SA9P221CA0001.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:806:25::6) To IA0PR12MB8422.namprd12.prod.outlook.com
  (2603:10b6:208:3de::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -60,110 +66,199 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8422:EE_|CH0PR12MB8531:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4bdc3f33-1848-4009-62b2-08dd98752cb9
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8422:EE_|DS0PR12MB8296:EE_
+X-MS-Office365-Filtering-Correlation-Id: 04044c3d-589f-42b1-f321-08dd98763a22
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?AXzx9ukPyQ2XSAE9h0ATMnKfr+MQAHVRz3BZFyzPnVTMuPrcf1DO6in1K4ic?=
- =?us-ascii?Q?Qszc3mNwhZr/RuyxM3WeDoX28t3yHkGHQ92JJ9N73R45ZS7sjWvVLpZ7B/Zo?=
- =?us-ascii?Q?eemgChx/X9t2JcL4JZwRq4q80LTn4MoFeLRHn1qru+HhQWYAtLEWVXXXOHM1?=
- =?us-ascii?Q?MQwIFOOD5g+Rsg2Hq5z0vwedOxgSvGRKj8o5mgJDp9rfmezJwVWkpoRf3BCQ?=
- =?us-ascii?Q?Qp9xVNIn02JJfB8GBEFziQQTKT8cuO4fusooveQX3Bj+gNwhbAB6VHMXBUE7?=
- =?us-ascii?Q?HcqVG2eHWtrNkCtoJcbMxX7KqI6snUx/Kn3cZBXNF+5j9OKaolasyunJE8dh?=
- =?us-ascii?Q?VCqaV1Cq6MtJw3hhvP41liuOHJPlNyHsMY/2ye5HSdNukyFlroshrK6IrNLQ?=
- =?us-ascii?Q?Qlos4+XDE4pCUvyP/FiFiSTeET7FIG/9ulTklnl+Z88q6x7Y66Cd986PZXT3?=
- =?us-ascii?Q?mzPu+PB65g9TjTVzKZxKlO5ZBDqswt/kvvZUWuuSWnF3rj7kywCpGlG1pdgq?=
- =?us-ascii?Q?azKt4ZsVEy7f5YPsYWuRuPnKR7MKG5H+fejS2PWhbADNvmIDy3khE2DcNyYj?=
- =?us-ascii?Q?p5jnw/WEB/kQlJoM2fPC0X3a672LQ/zZcFkB7s/KYeErNCKHtrKhB4lDOFIk?=
- =?us-ascii?Q?A5inC0cjYSGEkRTRirgjkdDioaSt1mh+MxAqiOSMhIPv0GHE6uQlUvr5MlRP?=
- =?us-ascii?Q?baZLIlobQuF7gJa8Cr4KTCbf7lpi8SU4LpMn0W8J+HizqqmNZ9DJsKd2EKpj?=
- =?us-ascii?Q?aS/Iagc0aqT5hFqbuPZddkMMZLAkvefkLoN9m/IagJNJ6LAWcIXbDxZ0ttkV?=
- =?us-ascii?Q?0XSy6Vxhq0B9sW1ofVmwEPCqVVsdicoIIZ/bHxBQQS9XsYg01Iizmehy4AF6?=
- =?us-ascii?Q?s/6GalXE9tXHcfiuSxh4cJYtWmbjUv6JFoOUAWe3MuIBpZtdEFMZX3Uc9BSx?=
- =?us-ascii?Q?z9GroWZD2YIrj/d1uXfo/iHwxb4FmyLT7rA2VOaEHHiFCjkWjRpjZRU1m6zj?=
- =?us-ascii?Q?VixOyrd6GC+XTIYZLzRUDswn89Bd3rs25Cp+OmIonqEjcUfxtq2klpDmdgo7?=
- =?us-ascii?Q?fZutedpC/XlriPeFLMTAq6/ml5ZvZ2fM2ltpTECGVlFr48CT02FXI0Od5WMe?=
- =?us-ascii?Q?ONNapA98UeGMIaSPyTTap5trekcSBAu0cVGIXHVVN2T3bmIz7+Brq+G80yOa?=
- =?us-ascii?Q?wJy04Drw37F/A/U30RLlMws5o86qrO0CYBTgUMjZtqSle1T5n6ezE9HC/PH/?=
- =?us-ascii?Q?cf4PBK9WNK+S6teyLYl3isGOQd//594BV5CpGZobI5OghYD6CyIH1eX5lxl7?=
- =?us-ascii?Q?05F5whZ4iQkRZ8k3LcmCwl01Uw8MJPSirbPBbWl87VDpSkVP7XpOsUbg6huc?=
- =?us-ascii?Q?ZIMP/qBACvwgLfXDoeRK6BkOCD4mfUfP146wQuldDPpo320Gvm7VBrQbJk4b?=
- =?us-ascii?Q?aW15YN9SLZI=3D?=
+	=?us-ascii?Q?M/eF+H5uDqWCxwsuUID2G0+DhjEfsgUM6XC3XsgNxsOD/pDGpu45pWiGy0UK?=
+ =?us-ascii?Q?ujmrSEXmbEg2Uc9zPtPbvPSWIMqOKaboD21S4kADMim3/ee1J13d3XexKbJJ?=
+ =?us-ascii?Q?I/W+QWqJruaH7CQDrRwpQyjPrlQo564ud2pW7K39dMBIF5W4ynwOdmNM8KsZ?=
+ =?us-ascii?Q?UY0qb01aVpcccjqZOMqqPDUlzdb0wqdHLuHEyjxmbWus/a0CjcQyyfF7jDi9?=
+ =?us-ascii?Q?6r3Gnb6NnZ6PGWVbxDMvUQ9h4xJyJbe9JsvkYoSx/6lwNXLxzUjBq2Vs8ULF?=
+ =?us-ascii?Q?rXCzi6keUA6/HBWGKqdbhUL4kxjaX3zO61fY6xQ0MHl0VAEKPZbtRoitM5c0?=
+ =?us-ascii?Q?oXOh3RAiI6OuTyGkMMPyrsU11ATrel7kELoMao3q6DKoOqsUx7wWFaIot+ZV?=
+ =?us-ascii?Q?WwHrIC7Zlr2TCXhyzVjnjKeHA+spzy8e03VyOJdJLm7HPvAa1emC4KZyq31o?=
+ =?us-ascii?Q?OZrCYWkkkZ09D6KoxcL0x2WRbDboCHMLND4tgmPyAEhTPD5MEfQxhd5kMtd3?=
+ =?us-ascii?Q?PIJa6rC2PcdyRnQKCJvm9rUk2OGW3O8xdoC5UOenf4CXuKaurUkEp0jK4AH8?=
+ =?us-ascii?Q?aDzvhdYNkCpopFfVhV8zUDh6CvjX99zWmOjv26qD72sbPXgjhCvKZMM3L/W4?=
+ =?us-ascii?Q?gaOJeeY9MF9r6agWBDIOr6jAumAj7SQaV68lXdwT9NV9PvUFxm+ApIrLYTiD?=
+ =?us-ascii?Q?haSfEQ4s/SEuk1b2CZVJwXxOXmq8YDijGHMiY3/0TJtwHK9p/Jq95XvaVvHi?=
+ =?us-ascii?Q?AJldZN/uEYrGv4cs0DaNPIYBQqoRmSr5apWTLFPfpoY0oaB8YPdHdaT9TM8V?=
+ =?us-ascii?Q?EXYXTlOjZ7AjZqIoRUBxshXsPUgAkqlChP1zHdVeF7w9nG0Rmqtm5gQVAmpu?=
+ =?us-ascii?Q?s6VN+NHXPvblU8Q5N0J2bSVTOSUkjiNqWVaD+VyQZkvaVggVgZUXmqBl0pc9?=
+ =?us-ascii?Q?TTwr8nEUdwlNivTqqYI0D3H+ybKdvvs+HzGRuMLJG1lHOPNDcOyXOABgQ59T?=
+ =?us-ascii?Q?bum9NP3sPFwmHdDjQwjwga+OAmbi2RtHguHveIrZNiU72sMnrBRFbICXHUIl?=
+ =?us-ascii?Q?wmyd/1so165ChgjOzCyDUK1daBb5FN9Y1zv5QXxkZIE3dMvyBMKidzftLeyu?=
+ =?us-ascii?Q?1LxHSXkMvh4M3XTO4GlRXvTBFyyA8SNwhrN8sRrva3OPKpxhDgKa6we6JyzF?=
+ =?us-ascii?Q?It5VTpVWGlxMemwBrm0mMjZeTYvy748Y5aSP8XxXx5ImESJY/9eWwkC99Tjb?=
+ =?us-ascii?Q?RADf4uxxcCSoUtRhaLGTmBwG2tLd4KygCp2MQAj6sF3Tds0S6TYwmX/EIYXJ?=
+ =?us-ascii?Q?RVtyD3I4POCFA0UEKLzAK9zUGAHB2k15wIG90EgxsjIl+ZmBa5r8UjEUx9Rf?=
+ =?us-ascii?Q?MvMq898DPHMnxXMW9Aygn/SpMKkWYu+SJTtvVL9sFsTk+xOHsYFZeAsrIzOH?=
+ =?us-ascii?Q?8EX26kpbqpE=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8422.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?m6o+mGKLavsAcj2cQ7DqjG1k3BCsP/RHIK0VVcegrm+V//I621la3phSr3Sf?=
- =?us-ascii?Q?aOd2DhC5RX8Bz9tJdm3a0oY1nIZ9RJn6uRng1jeZZ9Q9s6oLTJqjjS02xbVa?=
- =?us-ascii?Q?yuvMX+bksrWLxxu9hmT2DsvRhOvQLOI1lI2juC5kpsvBkqe3kVARPpOy+byH?=
- =?us-ascii?Q?eUOdqAtMfS4yqTHhOWag5dbyD6LCSNmWMaKtCT8SIS3c2HgYHCGY0+zjHadu?=
- =?us-ascii?Q?0K7A4UHUS84p9ltavkRSknVDYKBETq2a91F/FAscJCEmcdRHlEFVEbPuDu9I?=
- =?us-ascii?Q?c76+nU6LJ4zxuGAYh2tP3sI5cDVq7VUKgXJpc5BmE/Qz2QcP1RGxlSlzxHcU?=
- =?us-ascii?Q?+zpNZ3UZ5/vLar/eXctiHxaLYmDrshsc9ILKlDn+VTH6JJ0w1QYMClsc3y4X?=
- =?us-ascii?Q?ZIK7nUjULo7WBoTM3YNAhXyBujxtTcqt10Gj1vTj7kIyk9Zfu9glbs4SeHry?=
- =?us-ascii?Q?mQhXdCUW59KdDCs6A41o+RdPKvbRItTDyBrPJwxJMrB7cqZ8Q9/nZx5oan5V?=
- =?us-ascii?Q?l5hn7t2WrniiUN4UQeZUggh4SERw/UsIH49oBPAaxh/UpFfmW8C3Joj0c+b4?=
- =?us-ascii?Q?0/XpSOF3/zj7yEElfEcDPKMNryAwR8FHz0HW63RBXQ14LZgMtXcHttnsfnSO?=
- =?us-ascii?Q?K09Fnbb56VQr7+iDmeso5LXFpmdjGxrF50DGSDuAD5TpiVpkopqPVvYHVxLL?=
- =?us-ascii?Q?hNd5PtASoDPNT+hOtxofsphd8aQ0hdsx8wKoASd44Yis61FqBXENrqAlOx7L?=
- =?us-ascii?Q?Q6QTbMGALwIVr+Pn4OGb42ZvQJSM7eEjpM8f36zTefuVtuTS5rxTmitTRFQq?=
- =?us-ascii?Q?55v3Es0EKSrvriwKTEUdO4k4POCkMlV4H/kg6/WKvwlp+dCJkcxJX2+U5gC6?=
- =?us-ascii?Q?dZ0duDh1w9cmEdyoRHG2ndXdpbKLzBYGcNSPoVLpRuHB0GmUyeJpCMRGSekx?=
- =?us-ascii?Q?FUPWRoWpPZhUeuuZKo5T3yJJZeiHiNwIO6Bntrcto25SmuSD1HaZmmkqGwIb?=
- =?us-ascii?Q?xwS521OTM6hlYn6w+f67twh2GOArDOXsf3uGaEfAzkvYwzo497UEseX+trpw?=
- =?us-ascii?Q?BYH+Abjem45wvj8ep8T8KUEqZanbuhuiAe+pDQsN8K6R1jlbzTafd1BgPo3F?=
- =?us-ascii?Q?f3ClNt2NOpmybqz9VEtBFE4jfcc6N1tgn2KujnCGhDCL3P1BXwB9CVaDhRXg?=
- =?us-ascii?Q?HZy/pSJQEg6iMy41OfTcPvTK1zui71xpiR0k2P8lb8CJgJ9SATjrcMy+cVHx?=
- =?us-ascii?Q?BIlySycK4iVC37DtgBhPAz8mlGAoZC7a3rEIzcA7cmFLhiop6jCBT/w2QnSj?=
- =?us-ascii?Q?awXAGvaJNb9/2XINCY9aNcKv9E0bZq6qLVT1V1cOPPpb0Y61Jp2p+OsXHi3g?=
- =?us-ascii?Q?Rmblnh+lFUZdY126gvsqpl/HqqBmAO2aGRmnobFYhtlGSYUPdvpbGUuxMzHo?=
- =?us-ascii?Q?OcBgEH4sV8BR44wi3TQ3bGEByEGA3gL0rGLb7fcoZ6/oSsCGV3p1LVD586Z4?=
- =?us-ascii?Q?qqGddeWNjmdK7p5a6sXKAvvX8R8QLIOejbiE3AUCC6nOzckn4jed13iNRL/3?=
- =?us-ascii?Q?U7EB4m5VtpLhQnF0Gwjo/1NnYrKwwg1Om8Q4p6X0?=
+	=?us-ascii?Q?RyaJYc1OzDBNPCxhvqmtqt4TmkvButq7g+zXBkmSo9dXFWznxgU3uAyhWwk5?=
+ =?us-ascii?Q?ZFpFs0+nfmiORLCPbE1HsnAo+FCz1lWnzO1XkAr6EAngToZ5gYAfdxaF8QLo?=
+ =?us-ascii?Q?Jy90zSni8tAJ3TMFgeas0KHUpaaXBaZUk3zRlHlh/RfMle2hrLlaYOS3Rruy?=
+ =?us-ascii?Q?Ps7a5BrISOxtMTtFdG7zap1v5J50sa/1ZdSUQlmMItvpP4JG20jx5552gDZn?=
+ =?us-ascii?Q?KbrLLmMGKbFzsQyz0kmcsmKUhhOP4fA0nr/hYkE+p3yNvYT5ZrWAGj+l8jT2?=
+ =?us-ascii?Q?lZi6R5ZdLFaml8uyIzpo5AwScmSKZcojyxsPVdlyFmhe85N0BpJiqkBsjcPy?=
+ =?us-ascii?Q?WTOdu4jidKvOiZfD1yVjN4Y5mOLDHtj54d+QRct+Y+qMqWQiTH1OQQcmaU0X?=
+ =?us-ascii?Q?vVNpTald9hD7aCP8lTkz8pbEWD932TklfoMHWpNwM7/0/7oV2Ne5WEpNOtmN?=
+ =?us-ascii?Q?IxRj4tTdKmssvfw1mCNCvkqJh5Eujuktt/tKJnK+7ESQiVfQQZccxLQzX3ZE?=
+ =?us-ascii?Q?VuOqf+QQowxx193QfXBoxXcRNIyeqCH9gu1RhyL2woaKFm8cVmP0x/SYecph?=
+ =?us-ascii?Q?UVDXmXwVrVf6ewTag9FJAUTTBeiba7oVJNybRWLgaWdnjPTJ4l+8tm5rbulD?=
+ =?us-ascii?Q?mBJtG3be/pUNrm5JDRgXkYSJQSqfIXTw42cRLe82vPEAsUCTCPUyLIOlgpcc?=
+ =?us-ascii?Q?UDsCe+y9w+d/AXQGsOAlq3mJrakgRHQ8PFdH5wpIEuJuME+YfAn02SYG3V4M?=
+ =?us-ascii?Q?V/r9lmfJp8hDM8Nc+if8wZG9AIlRDSuOZvPyz4xTo1yaBOXtQAe9MH9ZzPzR?=
+ =?us-ascii?Q?uVcF564WyXfji2X24Pzihndl92lo+XAyf9LTztf/VX7tAvfVWgWFXXs8urLG?=
+ =?us-ascii?Q?4Xmvxo7/JFyudhaMNsbGNGWr4AuG350bZHeVYNU15pRrVhCb9Immom/ECBy+?=
+ =?us-ascii?Q?JmVX+n5Wwh2Z2NSW+MdWo6HYIemV4zQ6TN9Seq36csX5DIB9P7ROUcxHMmS1?=
+ =?us-ascii?Q?H0JD6TUCo41ChVTF9I+fpN4zo73HdKzt321td8FgCQGYMbmFWXWS1LLGpmaU?=
+ =?us-ascii?Q?lDU4XITwyNZQ2e3JFFNF9mVf3mlWl9SuOu8xrDWfGQ8nzKbr9o78BwahoW73?=
+ =?us-ascii?Q?vXFbJ1WCuUYPgTd0mnXFf7g3liWCQOxvlv9hbc0TXadLjfWX8q/I6hz597iN?=
+ =?us-ascii?Q?F59HWMr38LTCK+RItP2+oi+zD0Ix/qIlv7uZENV6chHua9ZG9qdkeT3cRUid?=
+ =?us-ascii?Q?i3g7KbBv0BfcjZptBLCm/OiwVVoDjx+Fp5XBBrkzuz/I5rYESSgaBssJl9wK?=
+ =?us-ascii?Q?r23l56cYc717kv+z0Dsv4uarMmMyWwQwF9ZepbkziaHBbnFd/r6WrMyM7oZX?=
+ =?us-ascii?Q?hBif4+ycCXvkfrgpPNwZdukbKdENYH1zOBZd2/GYuf1VFY0IeyJ6EKAImi+n?=
+ =?us-ascii?Q?jG2FN31fpqCG8uOJbdIMTIdtyzmFVfSJXzTMgM/U6eFZhc53aOYN3eo6p4G+?=
+ =?us-ascii?Q?NU2fW21lgUlIkN/LENZ7hALYRdC2XHgwRn7Z+5wzDD8HbCFpdLcDY0A6bN1M?=
+ =?us-ascii?Q?a9sjKaLqIMmyk4N6iT6ltGXrysGfiRdWrXcMZO7A?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4bdc3f33-1848-4009-62b2-08dd98752cb9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04044c3d-589f-42b1-f321-08dd98763a22
 X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8422.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 14:38:38.6605
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 14:46:10.8146
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GHDpAd5J2wZwgOMvt5wJgJ26vUoPG8ucRm3fXKZoX0lHzHLKe04ucv2U5XbcTnSHSwby2Hujjz+fOoP9VTNx2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8531
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9JoRJiAEcLotaofDBN6zso2B/kCkM7qt0bYEjMHN9RQ0uX85RnZphHCq7ZPM0dRO+hYjDh7E2vbCw0u8ZxofKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8296
 
-strscpy() is used in this driver with char[] struct member destinations,
-so it is possible to use the simplified two-argument variant which was
-added by commit e6584c3964f2 ("string: Allow 2-argument strscpy()").
+On Fri, May 16, 2025 at 06:37:21AM -0500, Daniel Dadap wrote:
+> On Fri, May 16, 2025 at 09:56:13AM +0200, Takashi Iwai wrote:
+> > On Thu, 15 May 2025 17:47:25 +0200,
+> > Daniel Dadap wrote:
+> > > 
+> > > Some systems expose HD-Audio controllers via objects in the ACPI tables
+> > > which encapsulate the controller's interrupt and the base address for the
+> > > HDA registers in an ACPI _CRS object, for example, as listed in this ACPI
+> > > table dump excerpt:
+> > > 
+> > >         Device (HDA0)
+> > >         {
+> > >             Name (_HID, "NVDA2014")  // _HID: Hardware ID
+> > >             ...
+> > >             Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+> > >             {
+> > >                 Memory32Fixed (ReadWrite,
+> > >                     0x36078000,         // Address Base
+> > >                     0x00008000,         // Address Length
+> > >                     )
+> > >                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
+> > >                 {
+> > >                     0x0000021E,
+> > >                 }
+> > >             })
+> > >         }
+> > > 
+> > > Add support for HDA controllers discovered through ACPI, including support
+> > > for some platforms which expose such HDA controllers on NVIDIA SoCs. This
+> > > is done with a new driver which uses existing infrastructure for extracting
+> > > resource information from _CRS objects and plumbs the parsed resource
+> > > information through to the existing HDA infrastructure to enable HD-Audio
+> > > functionality on such devices.
+> > > 
+> > > Although this driver is in the sound/pci/hda/ directory, it targets devices
+> > > which are not actually enumerated on the PCI bus. This is because it depends
+> > > upon the Intel "Azalia" infrastructure which has traditionally been used for
+> > > PCI-based devices.
+> > > 
+> > > Signed-off-by: Daniel Dadap <ddadap@nvidia.com>
+> > 
+> > Thanks.  Now I checked with checkpatch, and it complained a few
+> > things:
+> >
+> 
+> Thanks, Takashi. I forgot to ran checkpatch. I addressed the ones you called
+> out, and a few more that you ignored (I think on purpose), except for this:
+> 
+> > WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> 
+> I can add myself as maintainer for this file if you like, but figured it
+> could also just fall into the default maintainership of the directory (you).
+> Let me know if you think it's worth changing it.
+> 
+> > WARNING: Block comments use a trailing */ on a separate line
+> > #168: FILE: sound/pci/hda/hda_acpi.c:79:
+> > +	 * devm_platform_get_and_ioremap_resource() */
+> > 
+> > ERROR: code indent should use tabs where possible
+> > #182: FILE: sound/pci/hda/hda_acpi.c:93:
+> > +^I                       IRQF_SHARED, KBUILD_MODNAME, azx);$
+> > 
+> > ERROR: code indent should use tabs where possible
+> > #308: FILE: sound/pci/hda/hda_acpi.c:219:
+> > +^I                   THIS_MODULE, 0, &hda->card);$
+> 
+> I disagree with the above two, but I changed it anyway because it's easier
+> to do that than to argue with checkpatch. These are both continuations of
+> long lines, and the single hard tab matches the actual indentation level of
+> the code itself, with the subsequent spaces serving to aesthetically align
+> the continuation. If someone is viewing the file with the tabstop set to
+> anything other than 8, using hard tabs for the alignment portion will break
+> the intended alignment, whereas using spaces will keep things aligned well
+> regardless of the tabstop size, since the single initial tab will resize
+> consistently with the tabstop.
+> 
+> Perhaps this style point has been discussed before, and the policy that is
+> enforced by checkpatch is intentional for reasons I don't understand (I did
+> not check), but if this behavior is unintentional, and using spaces for
+> aligning continuations of long lines is supposed to be okay, I can look at
+> updating checkpatch to allow it. But for now I'll go with the recommended
+> indentation since that seems to be the style followed by other files here.
+> 
+> > 
+> > WARNING: Prefer "GPL" over "GPL v2" - see commit bf7fbeeae6db ("module: Cure th)
+> > #405: FILE: sound/pci/hda/hda_acpi.c:316:
+> > +MODULE_LICENSE("GPL v2");
+> > 
+> > Care to address those and resubmit?
+> > 
+> 
+> Sure, I'll send a v4 shortly. I also took the opportunity to address an
+> issue I noticed while cleaning up, by adding the following:
 
-Signed-off-by: Daniel Dadap <ddadap@nvidia.com>
----
- sound/pci/hda/hda_tegra.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Takashi,
 
-diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
-index a590d431c5ff..c23da6ebef50 100644
---- a/sound/pci/hda/hda_tegra.c
-+++ b/sound/pci/hda/hda_tegra.c
-@@ -377,14 +377,14 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
- 	}
- 
- 	/* driver name */
--	strscpy(card->driver, drv_name, sizeof(card->driver));
-+	strscpy(card->driver, drv_name);
- 	/* shortname for card */
- 	sname = of_get_property(np, "nvidia,model", NULL);
- 	if (!sname)
- 		sname = drv_name;
- 	if (strlen(sname) > sizeof(card->shortname))
- 		dev_info(card->dev, "truncating shortname for card\n");
--	strscpy(card->shortname, sname, sizeof(card->shortname));
-+	strscpy(card->shortname, sname);
- 
- 	/* longname for card */
- 	snprintf(card->longname, sizeof(card->longname),
--- 
-2.39.5
+In the meantime I noticed the recent commits in the sound tree to convert
+some string copies to use strscpy() with two arguments, so I sent a patch
+v5 to also use the two-argument variant in the new driver. I also sent a
+separate patch to update hda_tegra to use the new signature.
 
+> 
+>         hda->data = acpi_device_get_match_data(&pdev->dev);
+> +
+> +       /* Fall back to defaults if the table didn't have a *struct hda_data */
+> +       if (!hda->data)
+> +               hda->data = devm_kzalloc(&pdev->dev, sizeof(*hda->data),
+> +                                        GFP_KERNEL);
+> +       if (!hda->data)
+> +               return -ENOMEM;
+> +
+>         err = snd_card_new(&pdev->dev, SNDRV_DEFAULT_IDX1, SNDRV_DEFAULT_STR1,
+> 
+> My intention was to allow entries in the match table to omit supplying the
+> pointer to a struct hda_data if they were fine with the defaults (hence use
+> of the language "may be stored" in the comment describing the struct), but
+> without the above the driver will dereference NULL if this is actually done.
+> 
+> > 
+> > thanks,
+> > 
+> > Takashi
