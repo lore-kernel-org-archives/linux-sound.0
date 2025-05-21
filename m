@@ -1,143 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150692641CA;
-	Wed, 21 May 2025 11:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA95A256C9F;
+	Wed, 21 May 2025 11:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747827731; cv=none; b=KZtdqTewf0weoCgSa4nPCp0cdhY8Xv61XVioORfAjAF4UU4HnUzhMp204hHZYxN2eZpQaeY2I2obQWnVOuZYVFS/9kWkJzIEVaSsukYmDvyoLKWjvCuYBmwxtkoW7k34f/ca0HHxDPWYSwQz8rOlsot5oC7h1Mf4yL27XX42PJU=
+	t=1747828625; cv=none; b=nPQx0G4pwANIRhZuZ8tyT9T9BkdH72CmntWlN99HMkjA1AtKr8kg93fcm24AtdRM/HtG5klyLf53idYISEVrjfzbuae8aW8d3v4am6/d7T+JHu83GEcTgE13essgDp6AlOa63OOSxCzwaID2t1zaf1Ltl9kWwGy0alcPiWrKpmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747827731; c=relaxed/simple;
-	bh=Zw+TKFicrrKtHrjbsa8cd432V4AF5B886PS2gtCuXDM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QLFXgniKc8cCZyhEXVg11xU+Pi7XQn7yqtb438XQx81Htcr0NerBcWTD5EVzI1MxDSUvb2Q8umXyDdMdO9pgUtRFmnFZxaUTjA9EZJaCkvBsUYXu0m+m20JhVVCCli2Ru3pADtCUUyHhGDXUPfOdBmiCD7/BKzA11gjlCookcNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ve7uB5cp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747828625; c=relaxed/simple;
+	bh=H7tka3wJf1QGS7YJfOe3so9uCmt6OfTvEwQrEsDXtMQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mc/i0e5DA9XAD8GL6zq0xASvA6ufGKIaE5ACAb29eE+c9TVkhqmRxXDQsws2xtbdEA0vlPebi6wNU+7DBtWrDuvOCqRu6LKfyfn7+F7rxxZzzrcD2uoMeJ9QS62pAfZkRC7YnFzqZszmnTU9hs2Pe/+pjq4LCBpsP8u1XAAKmN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dYaScVOV; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ve7uB5cp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0BFC4CEE4;
-	Wed, 21 May 2025 11:42:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747827729;
-	bh=Zw+TKFicrrKtHrjbsa8cd432V4AF5B886PS2gtCuXDM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ve7uB5cpkMejtbTP48PGKNCt0yG6Oknh0B+xdFBmS+SlmSRwZawSGo/CQWG9H/2KI
-	 /q03K0t+NrGtnoY5hHawe8JAd+sYYlNpkhWeWFtBQdbM9tYBfCfD9xccflDezoRZc1
-	 FqFvoTBYqixOWe/Q9XKgAqyVbX7neQJYaPGfCkOeuHBAbtvvY50tRLvcanAlA4uu+H
-	 sdHoxCyjYjk8uH153i/b9gsPaDx/+HM8G7rzomTMTjZ5NVoCyD3j2u705If+vstQy+
-	 WmJQnF0iGNjrQZfSRmK1/bEHRT3bbnjse/ElN6LudTm1Zmk4xBjfCa9SH9uCCJefvl
-	 mc4H+u4ZPv46A==
-Date: Wed, 21 May 2025 12:42:02 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Zhang Yi <zhangyi@everest-semi.com>
-Cc: robh@kernel.org, tiwai@suse.com, devicetree@vger.kernel.org,
-	conor+dt@kernel.org, lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	perex@perex.cz, krzk+dt@kernel.org,
-	amadeuszx.slawinski@linux.intel.com, krzk@kernel.org
-Subject: Re: [PATCH 2/2] ASoC: codecs: add support for ES8375
-Message-ID: <42d25977-8975-4c6e-b8a4-a733e62875b2@sirena.org.uk>
-References: <20250521104247.6595-1-zhangyi@everest-semi.com>
- <20250521104247.6595-3-zhangyi@everest-semi.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dYaScVOV"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6019b564d0bso8606208a12.2;
+        Wed, 21 May 2025 04:57:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747828622; x=1748433422; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/adlGvCb5MNbmrGHbVV4yYng8LO7Mr1poA+A93TwMjI=;
+        b=dYaScVOVOcawFjoWu1BRGaXsyKTLDiXC3r+XngTfaunOlLKKYZ3rg7n/tl0AZpg/Z5
+         lCQbkh3vgjCXjJO7K4aCr+r+tth4wXCaf1BK85QIsCmF+CmK4Ob44FrwL8JvEKx64Enc
+         QWmQKXIBc3Do9tDgm65yIAVzypOYF7653dvyc9g7q82xVJ+VBNXtfkJ6n4zjAW/Wo7aP
+         Hdbd2L4Vbnuy9Z9R4fUloyLRMY4PaAbjXNGNN2T/N34sVWGb6LzX63uv11lKL710gnQE
+         AyBjeYxCP0m7y6m8Z5C11hTO85AJizO/BcKNzOe8jzOlrn1bK7mpv9NOPBQfUf4cFQGK
+         bs/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747828622; x=1748433422;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/adlGvCb5MNbmrGHbVV4yYng8LO7Mr1poA+A93TwMjI=;
+        b=QrJ42TsksQE/HvqvzW3plN4/kDteuS0Xn8v+qaNw9/kLYO0Lf/yaEwkhUHC3nlUyiA
+         MPocbFpxkUtNcyrEh24Bxp3eBsNQGqF3ZE/R2cXs2P/Ll+7f+AdX08xkMcdlWRHHRsAl
+         96+ts1oJAM3Gt1pPKPsB9GjLPUsTq6FgQgqqLgIBcAqqC4uJovUIW2E+zD4LahtoPWvb
+         FRkJu5u/4J2XtyLDOKOBYQIKTSofPJkCeZxfSfziN/dTcaf1vFWrispkMAYCv30Ke5bw
+         5EyITU0TTD3Ul9/RU7v10Hrb3AaioUfHjG+/A5JFWNpAPgttO2xCpJ9QDFQlG6vc2Hys
+         EV4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWrXGdefaxG+fXl+I9Bp5AIOpExMA0swAayZngwkOMURrd5dNU/2Pk4S/fEtMdXGHGW+w22/sELrAo5ExM=@vger.kernel.org, AJvYcCXeSUDD/CVDc/lgrHXogg//HO1XASe4CDCD5rBPVAHQ/WYJyCcHb5rWNXcitcGj/7DH8vYwwuI/nTPzpBM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyw1Be0aeCHJz43l/FRM5xVltUjNZy7oR7GQtRJRTECvJFEtXbY
+	Le+i3x1DWS7QOFMbG4nCFbOrBIIbI5vgww3YMVja5hPVuhEAfu8ZRSy0
+X-Gm-Gg: ASbGncsENYBhn6CZgBAFhV1wavBJk2kQeo9ykxBuju84epKuroLdms/R1ps5MdEaGNm
+	8HE8esDrDbntKT43/EifP7jmP/8wuMjqZJUELvqa3i7qqHKQJiCF7NSMPRIvIKuN2FKu4gZ+TUQ
+	x+oHUN00odgomnUWSlJI+ctHHngw/lrEQpK1b+ws0+JCZdFUjZzCgy69M1sqAuMnh7hoL2enkQf
+	LQRgmDpLSO/iRB0pjYOoco0gBkKddDJ5KfsoIKulc6zRcmM47kmE7/bxYUePMfWpC49BlaIDlaQ
+	vsJEshdPzV6UFDa0ClzBxoiVa/jFwLn52s6JfTbLpufMAZtS5jzDsl0kV3wiBOpZy4VC0ikpn8V
+	fQ1W5
+X-Google-Smtp-Source: AGHT+IHK39Que8B/UTnefmzsZ6iu5J25oa/W4ZeUS/rX0JY6r8nQ4BS0ZCOq1nZC475b0yOL+2dKvA==
+X-Received: by 2002:a17:907:3f1c:b0:ad5:5b2e:655b with SMTP id a640c23a62f3a-ad55b2e7968mr1186993666b.25.1747828621936;
+        Wed, 21 May 2025 04:57:01 -0700 (PDT)
+Received: from [192.168.5.82] ([92.120.5.1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad53603a369sm845847866b.47.2025.05.21.04.57.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 May 2025 04:57:01 -0700 (PDT)
+Message-ID: <fc2cbb54-58aa-4362-9b84-20df510b9038@gmail.com>
+Date: Wed, 21 May 2025 15:15:20 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="l/wPuf0Gh4F1TiXx"
-Content-Disposition: inline
-In-Reply-To: <20250521104247.6595-3-zhangyi@everest-semi.com>
-X-Cookie: 42
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 2/3] ASoC: audio-graph-card2: support explicitly
+ disabled links
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20250515153128.147457-1-laurentiumihalcea111@gmail.com>
+ <20250515153128.147457-3-laurentiumihalcea111@gmail.com>
+ <874ixltjzw.wl-kuninori.morimoto.gx@renesas.com>
+ <0aa11ef6-4166-41d8-98bc-6c7687d10b11@gmail.com>
+ <871psls8nw.wl-kuninori.morimoto.gx@renesas.com>
+ <e6d88cbc-accb-4423-80e4-3972766047f4@gmail.com>
+ <87o6vonmjw.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-GB
+From: Mihalcea Laurentiu <laurentiumihalcea111@gmail.com>
+In-Reply-To: <87o6vonmjw.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---l/wPuf0Gh4F1TiXx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 20.05.2025 03:38, Kuninori Morimoto wrote:
+> Hi Laurentiu
+>
+>> so, the problem with this is the fact that (assuming you've used a DT overlay
+>> for the PLUGIN) you won't be able to use the DT overlay on other boards because
+>> you've also added the "Headphone0", "Codec0" route which is specific to BASE's
+>> Codec0. We have multiple boards so our system would look like this:
+>>
+>> 	BASE0			  PLUGIN
+>> 	+-----------------+
+>> 	| CPU0 <-> Codec0 |     +--------+
+>> 	| CPU1		  | <-> | Codec1 |
+>> 	+-----------------+     +--------+
+>>
+>>
+>> 	BASE1			  PLUGIN
+>> 	+-----------------+
+>> 	| CPU0 <-> Codec3 |     +--------+
+>> 	| CPU1		  | <-> | Codec1 |
+>> 	+-----------------+     +--------+
+>>
+>>
+>> The plugin is the same. The only difference between BASE1 and BASE0 is the fact that CPU0
+>> is connected to Codec0 on BASE0, while, on BASE1, CPU0 is connected to a different codec: Codec3.
+> Ah, OK, that it the reason why you added the route on BASE side...
 
-On Wed, May 21, 2025 at 06:42:47PM +0800, Zhang Yi wrote:
 
-> The driver is for codec es8375 of everest
+exactly!
 
-This looks mostly fine, a few small nits below but nothing major.
 
-> +static int es8375_dmic_set(struct snd_kcontrol *kcontrol,
-> +	struct snd_ctl_elem_value *ucontrol)
-> +{
+>
+> Hmm... I think my previous suggested idea (new flag) is reasonable, but you
+> mentioned that you want to check whether it was "disabled" or not.
+> So, how about to add "plugin-route" and "plugin-links" instead ?
+>
+> BASE
+> 	my_card: card {
+> 		links = <&cpu0>;
+> 		routing = "Headphone0", "Codec0"; /* for CPU0-Codec0 */
+> 	};
+>
+> PLUGIN
+> 	&my_card {
+> 		plugin-links = <&cpu1>, <&cpu2>
+> 		plugin-routing = "Headphone1", "Codec1", /* for CPU1-Codec1 */
+> 		^^^^^^		 "Headphone2", "Codec2"; /* for CPU2-Codec2 */
+> 	};
+>
+> Audio Card2 parses "links" + "plugin-links", and
+> "routing" + "plugin-routing". It is more intuitive ?
 
-> +	if (val) {
-> +		regmap_update_bits_check(es8375->regmap, ES8375_ADC1, 0x80, 0x80, &changed1);
-> +		es8375->dmic_enable = 0x01;
-> +	} else {
-> +		regmap_update_bits_check(es8375->regmap, ES8375_ADC1, 0x80, 0x00, &changed1);
-> +		es8375->dmic_enable = 0x00;
-> +	}
 
-Instead of overriding this you could just read the register value when
-you need it, you've got a register cache so it should be fast enough and
-it's a lot less code.
+hm, I believe this _should_ work. I also think that we can just drop the whole
 
-> +static const struct snd_kcontrol_new es8375_snd_controls[] = {
-> +	/* Capture Path */
-> +	SOC_SINGLE_TLV("ADC OSR GAIN", ES8375_ADC_OSR_GAIN,
-> +			ADC_OSR_GAIN_SHIFT_0, ES8375_ADC_OSR_GAIN_MAX, 0,
-> +			es8375_adc_osr_gain_tlv),
+"ignore_route_check" flag idea since you can just use "plugin-routing" in
 
-Gain/volume controls should end in Volume as covered in control-names.rst.
+your DT overlay to specify the CODEC-specific routes (instead of having
 
-> +	SOC_SINGLE("ADC Invert", ES8375_ADC1, ADC_INV_SHIFT_6, 1, 0),
+them in your BASE DTS). This way, you'll avoid having routes that might
 
-On/off switches should end in Switch.
+not exist in your BASE DTS.
 
-> +	ret = regulator_get_voltage(es8375->core_supply[0].consumer);
 
-Might be nicer to have something better than a magic number to ensure
-that the supplies are in order, or use a specific variable.
+if we go for this though I think we need to clarify the usage of the
 
-> +	case SND_SOC_DAIFMT_CBC_CFP:    /* MASTER MODE */
-> +		es8375->mastermode = 1;
-> +		regmap_update_bits(es8375->regmap, ES8375_RESET1,
-> +				0x80, 0x80);
-> +		break;
-> +	case SND_SOC_DAIFMT_CBC_CFC:    /* SLAVE MODE */
+"plugin-links" and "plugin-routing" properties. For me, these properties
 
-Please avoid using outdated terminologoy for clock provider and
-consumer.
+only make sense if you use them in a DT overlay to add additional links/routes
 
-> +static void es8375_init(struct snd_soc_component *component)
-> +{
+introduced by the PLUGIN board. This is basically a workaround the fact
 
-> +	regmap_write(es8375->regmap, ES8375_ADC_VOLUME, 0xBF);
-> +	regmap_write(es8375->regmap, ES8375_DAC_VOLUME, 0xBF);
+that DT overlays don't support appending to the properties of the BASE
 
-Some of these settings look like they are (or should be) user
-controllable and should be left at the chip defaults, the volumes above
-really stand out.  We use chip defaults to avoid having to decide which
-use cases to configure for.
+DTS.
 
-> +static struct regmap_config es8375_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = ES8375_REG_MAX,
-> +	.cache_type = REGCACHE_RBTREE,
 
-Unless you've got a really strong reason for using _RBTREE new drivers
-should use _MAPLE, it's a more modern underlying data structure and
-makes choices more suitable for current systems.
+also, I believe we can drop the whole "explicitly disabled links" idea
 
---l/wPuf0Gh4F1TiXx
-Content-Type: application/pgp-signature; name="signature.asc"
+since IMO, links passed via the "plugin-links" property _must_ exist.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgtvAoACgkQJNaLcl1U
-h9ASBAf/eLdMTsi9PZ3JgRRRMpDx6XYr/4fXIfTVtIipqg8Hsroaez8op6qGaXBq
-brm4lSZTnrdkkT2zd94UyZTR2q/AacniET2qU+3XKP3oHuTJthabnH+sm78rkYEA
-eJFFrcNfNiz//6EBFLgmzKHHMCvaNjRMoxjmVOWI5n+xmOsrmWZG64aCDgwXCFye
-Ndp0phFkhNvvRwh3AcJEFUCUNwQsIEjcQkSYZfDA0yDUSoRkioBrvEXQhsFv73Dt
-4OROp3oBo/WvX8L+9TGM/qALNWI8RvVcPYNIHauL8u3JY32UZvdoB9f1W12NH5Hw
-x54ap7Z3CTMFHKK/yiGBxwdsz2LVhQ==
-=m2rf
------END PGP SIGNATURE-----
+anyhow, I will have test out this new idea on our particular scenario and see
 
---l/wPuf0Gh4F1TiXx--
+how well it works. Thank you very much for this discussion! It was really, really
+
+helpful!
+
+
+>
+>>> 	BASE			  PLUGIN
+>>> 	+-----------------+			^
+>>> 	| CPU0 <-> Codec0 |			| Card1
+>>> 	|		  |			v
+>>> 	|		  |     +--------+	^
+>>> 	| CPU1		  | <-> | Codec1 |	| Card2
+>>> 	| CPU2		  | <-> | Codec2 |	|
+>>> 	+-----------------+     +--------+	v
+>> one important thing to note here is the fact that we can only
+>> have 1 sound card because all DAIs (CPU0, CPU1, CPU2) belong
+>> to the same component.
+> Indeed it depens on the CPU side driver style.
+> I have updated my driver to allow to be multi components by checking DT.
+>
+> I'm not sure which one (= use plugin-xxx flag or use multi Cards) is
+> more intuitive, but supporting both is not bad idea ?
+>
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Kuninori Morimoto
