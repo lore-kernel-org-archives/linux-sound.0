@@ -1,179 +1,167 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B39221F0C
-	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 07:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97734221FD6;
+	Thu, 22 May 2025 07:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747898082; cv=none; b=M5koLcPsRzLWni06smRleFyAKZaItD7rUgt6wUOTqkasIQzF2ZSAzBqtDsNFc4Gc+dRxufqK6zkcwSqp5Hgltyf8owvNOUROC3QEbugUwZaXwnIC78/Lp7KCAR7kcJdlPtksAno2bCC1oNiuTOI9z/85AV/ZUgUwmgN5GyS0Nzw=
+	t=1747899382; cv=none; b=GWs6NwhJ6N7l/FSzcg4aSITrf1Mp3o2jMFQ98l28eX61ZYKFQsIgFlpyppWIdg8Nh2Ray6dz/mNDqYCDnV9QYHQIX0WiUfbktX2jXr8+3jipg9iISgBmYqIQrSl1wiR7LnHt/XEzQot27elLeqZDO+3eIOBsHx59Ra+cXeXfkmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747898082; c=relaxed/simple;
-	bh=9xmEj/u5wVzrLFQybLnMAT1cKJNzNIbVPfjonv7ExZU=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=Flha3x/0ae4+vA7BUyL5Rt+aSPLfWzGHTD+N9NA7y3mkJBpUul2uEJjUTJh6ibBgC96YWWGlUdOcPjehF+4mv7K3vsYTGeKgifoErESTKsbc1SZLVANMEZfIxjO1rJDNfOBEQg7t5rlnFxxMkHZwi1SRlam2S6Kg/zlRdgTia/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Tw7p23rz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T1GIWouy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Tw7p23rz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T1GIWouy; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1747899382; c=relaxed/simple;
+	bh=x5lf94K85T1c12UO+DHZgoiMv99MGjTfUZfEFKZhDSI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uAHsU6M3swMoRdycGvERcln5LNjr/Q4E5tIVHl1VOGg7JfpkUtVxMZ30QtoF8mrg+QMGkcI3K6bLtV1PyIzPeSsho3JcKIyyCDsphNrOqy2ztSNt6CET+8Xzn/JzaXYHfEFKT6G7le0eFeBh4F1ruk+yV0946kbo5qGkKsYeuoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ETH1usQb; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Tw7p23rz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T1GIWouy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Tw7p23rz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T1GIWouy"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DF220339B0;
-	Thu, 22 May 2025 07:14:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747898077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SaWhhzgQeePUshQJQu5Mm3jqWf7VA2hc4uq6UXsYJNQ=;
-	b=Tw7p23rzXOU+RoDE/HsIB1W0YUE2LE3gLS3DgynjufEM568UvpQTJG/USd9478blskzXC3
-	VeDEvDhaDpZdg6KVZYqNIRDmAQX5jBwj5TdEDdA+NeVl/JcVOkeWmZBn6SkWTtNwVD/Iqy
-	8KtktYGUzu5ODZ3r7qckpwuyUYBO3Es=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747898077;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SaWhhzgQeePUshQJQu5Mm3jqWf7VA2hc4uq6UXsYJNQ=;
-	b=T1GIWouy/Zj/ws16fjcGQQOhIWaZa748/DbG8FkQP+ypGEE91HNRI+0QRegiLWU8VJiMTL
-	Q9SIZuhz9lQstNDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747898077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SaWhhzgQeePUshQJQu5Mm3jqWf7VA2hc4uq6UXsYJNQ=;
-	b=Tw7p23rzXOU+RoDE/HsIB1W0YUE2LE3gLS3DgynjufEM568UvpQTJG/USd9478blskzXC3
-	VeDEvDhaDpZdg6KVZYqNIRDmAQX5jBwj5TdEDdA+NeVl/JcVOkeWmZBn6SkWTtNwVD/Iqy
-	8KtktYGUzu5ODZ3r7qckpwuyUYBO3Es=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747898077;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SaWhhzgQeePUshQJQu5Mm3jqWf7VA2hc4uq6UXsYJNQ=;
-	b=T1GIWouy/Zj/ws16fjcGQQOhIWaZa748/DbG8FkQP+ypGEE91HNRI+0QRegiLWU8VJiMTL
-	Q9SIZuhz9lQstNDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B70B513433;
-	Thu, 22 May 2025 07:14:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jQp7K93OLmjpCAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 22 May 2025 07:14:37 +0000
-Date: Thu, 22 May 2025 09:14:33 +0200
-Message-ID: <87r00h86cm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.15
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ETH1usQb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747899380; x=1779435380;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x5lf94K85T1c12UO+DHZgoiMv99MGjTfUZfEFKZhDSI=;
+  b=ETH1usQbOHmrvU6XW9yFdUVHeYsX9ZymaNNKcnw3cs4SkrYOxzb1rqKr
+   CTl9aqo6gcgREDsyhqD5KHAyNciR+qaUQWkAsuHAkY0xJHHJBoiduKNtw
+   hHx+RzcVxNvUNthCeILEFezyzw2pJHiiNb1+KCr3SqgmAFmWPzGIEq88e
+   hIykWa47QMvYPE57KXt5xx8HfDnuwTEMXfuyKOz+0EF9wkSYLfnooJjVW
+   BWl4I/3vh6DuzV3rqIgTv/w8tsyUpx5p5/k5FGGV2d7NVAtI8wMCw6Drl
+   quwrnCibw/jjAEphBdRleFOCOhamMRy1LT8ljdzsf5o8bsqx0mAXP2/e+
+   Q==;
+X-CSE-ConnectionGUID: DMUbtiL2TdumnyeRqk8yjA==
+X-CSE-MsgGUID: kVnVCXjxRIKWnEvelHj2gw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="60546172"
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
+   d="scan'208";a="60546172"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2025 00:36:19 -0700
+X-CSE-ConnectionGUID: EePMjDCiQnCjK5q4l9XQrw==
+X-CSE-MsgGUID: rA69khqeRGKnuwOE+HAByg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,305,1739865600"; 
+   d="scan'208";a="145613508"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 22 May 2025 00:36:16 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uI0TN-000P32-26;
+	Thu, 22 May 2025 07:36:13 +0000
+Date: Thu, 22 May 2025 15:36:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zhang Yi <zhangyi@everest-semi.com>, broonie@kernel.org,
+	robh@kernel.org, tiwai@suse.com, devicetree@vger.kernel.org,
+	conor+dt@kernel.org, lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	perex@perex.cz, krzk+dt@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	amadeuszx.slawinski@linux.intel.com, krzk@kernel.org,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: Re: [PATCH 2/2] ASoC: codecs: add support for ES8375
+Message-ID: <202505221528.nvWwf9kj-lkp@intel.com>
+References: <20250521104247.6595-3-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250521104247.6595-3-zhangyi@everest-semi.com>
 
-Linus,
+Hi Zhang,
 
-please pull sound fixes for v6.15 from:
+kernel test robot noticed the following build errors:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.15
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on next-20250521]
+[cannot apply to tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.15-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The topmost commit is f709b78aecab519dbcefa9a6603b94ad18c553e3
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Yi/ASoC-dt-bindings-Add-Everest-ES8375-audio-CODEC/20250521-184427
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250521104247.6595-3-zhangyi%40everest-semi.com
+patch subject: [PATCH 2/2] ASoC: codecs: add support for ES8375
+config: x86_64-buildonly-randconfig-001-20250522 (https://download.01.org/0day-ci/archive/20250522/202505221528.nvWwf9kj-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250522/202505221528.nvWwf9kj-lkp@intel.com/reproduce)
 
-----------------------------------------------------------------
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505221528.nvWwf9kj-lkp@intel.com/
 
-sound fixes for 6.15
+All errors (new ones prefixed by >>):
 
-A collection of small fixes for 6.15 final.  It became slightly a
-higher amount than expected, but all look easy and safe to apply.
+>> sound/soc/codecs/es8375.c:706:7: error: use of undeclared identifier 'i'
+     706 |         for (i = 0; i < ARRAY_SIZE(es8375_core_supplies); i++)
+         |              ^
+   sound/soc/codecs/es8375.c:706:14: error: use of undeclared identifier 'i'
+     706 |         for (i = 0; i < ARRAY_SIZE(es8375_core_supplies); i++)
+         |                     ^
+   sound/soc/codecs/es8375.c:706:52: error: use of undeclared identifier 'i'
+     706 |         for (i = 0; i < ARRAY_SIZE(es8375_core_supplies); i++)
+         |                                                           ^
+   sound/soc/codecs/es8375.c:707:23: error: use of undeclared identifier 'i'
+     707 |                 es8375->core_supply[i].supply = es8375_core_supplies[i];
+         |                                     ^
+   sound/soc/codecs/es8375.c:707:56: error: use of undeclared identifier 'i'
+     707 |                 es8375->core_supply[i].supply = es8375_core_supplies[i];
+         |                                                                      ^
+   5 errors generated.
 
-- A fix for PCM core race spotted by fuzzing
-- ASoC topology fix for single DAI link
-- UAF fix for ASoC SOF Intel HD-audio at reloading
-- ASoC SOF Intel and Mediatek fixes
-- Trivial HD-audio quirks as usual
 
-----------------------------------------------------------------
+vim +/i +706 sound/soc/codecs/es8375.c
 
-Arnd Bergmann (1):
-      ASoC: mediatek: mt8188-mt6359: select CONFIG_SND_SOC_MT6359_ACCDET
+   691	
+   692	static int es8375_read_device_properities(struct device *dev, struct es8375_priv *es8375)
+   693	{
+   694		int ret;
+   695	
+   696		ret = device_property_read_u8(dev, "everest,mclk-src", &es8375->mclk_src);
+   697		if (ret != 0)
+   698			es8375->mclk_src = ES8375_MCLK_SOURCE;
+   699		dev_dbg(dev, "mclk-src %x", es8375->mclk_src);
+   700	
+   701		ret = device_property_read_u8(dev, "everest,dmic-pol", &es8375->dmic_pol);
+   702		if (ret != 0)
+   703			es8375->dmic_pol = DMIC_POL;
+   704		dev_dbg(dev, "dmic-pol %x", es8375->dmic_pol);
+   705	
+ > 706		for (i = 0; i < ARRAY_SIZE(es8375_core_supplies); i++)
+   707			es8375->core_supply[i].supply = es8375_core_supplies[i];
+   708		ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(es8375_core_supplies), es8375->core_supply);
+   709		if (ret) {
+   710			dev_err(dev, "Failed to request core supplies %d\n", ret);
+   711			return ret;
+   712		}
+   713	
+   714		es8375->mclk = devm_clk_get(dev, "mclk");
+   715		if (IS_ERR(es8375->mclk))
+   716			return dev_err_probe(dev, PTR_ERR(es8375->mclk), "unable to get mclk\n");
+   717	
+   718		if (!es8375->mclk)
+   719			dev_warn(dev, "assuming static mclk\n");
+   720	
+   721		ret = clk_prepare_enable(es8375->mclk);
+   722		if (ret) {
+   723			dev_err(dev, "unable to enable mclk\n");
+   724			return ret;
+   725		}
+   726		ret = regulator_bulk_enable(ARRAY_SIZE(es8375_core_supplies), es8375->core_supply);
+   727		if (ret) {
+   728			dev_err(dev, "Failed to enable core supplies: %d\n", ret);
+   729			clk_disable_unprepare(es8375->mclk);
+   730			return ret;
+   731		}
+   732	
+   733		return 0;
+   734	}
+   735	
 
-Chris Chiu (1):
-      ALSA: hda/realtek - Add new HP ZBook laptop with micmute led fixup
-
-Ed Burcher (1):
-      ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14ASP10
-
-Kai Vehmanen (1):
-      ASoc: SOF: topology: connect DAI to a single DAI link
-
-Kailang Yang (1):
-      ALSA: hda/realtek - restore auto-mute mode for Dell Chrome platform
-
-Nícolas F. R. A. Prado (1):
-      ASoC: mediatek: mt8188-mt6359: Depend on MT6359_ACCDET set or disabled
-
-Peter Ujfalusi (3):
-      ASoC: SOF: ipc4-control: Use SOF_CTRL_CMD_BINARY as numid for bytes_ext
-      ASoC: SOF: ipc4-pcm: Delay reporting is only supported for playback direction
-      ASoC: SOF: Intel: hda-bus: Use PIO mode on ACE2+ platforms
-
-Stefan Binding (1):
-      ALSA: hda/realtek: Add support for HP Agusta using CS35L41 HDA
-
-Takashi Iwai (1):
-      ALSA: pcm: Fix race of buffer access at PCM OSS layer
-
-Tavian Barnes (1):
-      ASoC: SOF: Intel: hda: Fix UAF when reloading module
-
----
- include/sound/pcm.h           |  2 ++
- sound/core/oss/pcm_oss.c      |  3 +--
- sound/core/pcm_native.c       | 11 +++++++++++
- sound/pci/hda/patch_realtek.c |  9 ++++++++-
- sound/soc/mediatek/Kconfig    |  1 +
- sound/soc/sof/intel/hda-bus.c |  2 +-
- sound/soc/sof/intel/hda.c     | 16 +++++++++++++++-
- sound/soc/sof/ipc4-control.c  | 11 ++++++++++-
- sound/soc/sof/ipc4-pcm.c      |  3 ++-
- sound/soc/sof/topology.c      | 18 ++++++++++++++----
- 10 files changed, 65 insertions(+), 11 deletions(-)
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
