@@ -1,149 +1,176 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9CD29ACF1
-	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 17:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F731624D2
+	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 17:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747935674; cv=none; b=rBhL8OV3LLVIEQW72q+OecpLPDyLFlrTamCrvolECYnRlgoC4Em+p4iVwFwSNm0sec+a4uGpq9mIgtazZ8+TA3xzJb3ZB027Wk+1gnqtdjjy8hs4OXCz5EmmZd/11mN1Z2c2qKE/+iZfZ3ZPRkNhK41LJvIoWRxk7BE64o6wZIY=
+	t=1747935955; cv=none; b=b/HgOwzTVdTydE9cxhRCItEqKjCUpAg1hd36u3a7yCC4aT33KUbEbGrxGwqhNIFsU1PnYKOtXxBR67hzshaRwh268yzjtzqAE99V3HXYIUqBMgR4E96KHRkRUPN9+XAZZ9VAn4cYRMcb29mECtI0UJHK6T9c7sggkk1NdJNjFsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747935674; c=relaxed/simple;
-	bh=lhEc6CmxoeqjBbJ8Pm6+cHPF11xa+fHx4k1bho3h33w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KwzQ5xmkuw7d/Z5UaqAb/pQL+67KnOMRLGGLp41vGD5KjmheYr2AKTtwgn7oN7ko0+sESuzAXLOcG0Oy2OX/6prhHl4PdSd7Ivwd6BQT1b44NMYDZavuukEGxYhCe7Wr1e0bhC4A7o3C0ve6I7YhSZIiZJty0xpV6isfwnpl2+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KgeLvx+O; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1747935955; c=relaxed/simple;
+	bh=ZBmHmRhlynqokVz5epHFmdHwl3Gre5xfbPOKGf20HRY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EVcaYaX4h7yw5p0E0dQnfUQXCB4qG3hFxtgXJzksW11bipJ+6RKcjI2u11JJRO2JYAdROcPYSuqgVIUTKcWYl3ECVdyEovf8GTan6FIWs+l9/VZz7k3D6OKq/pvcBA4E+UcHcn4JVOLRNR1zjrmVTO0HWO0yUPMPOIfEbhPUz4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kUmpyajS; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KgeLvx+O"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfe574976so61180865e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 10:41:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kUmpyajS"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a367b6ad08so671688f8f.2
+        for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 10:45:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747935668; x=1748540468; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BEEzJQh+mi4rzI2yTuNmUyI1HaStAMzjYAaHLCvcS3s=;
-        b=KgeLvx+OI+jG+o6JN/k0nt7mU7lmKxFh+tO9GjHoHGMwxJL/ggYaa3SCDqYJj/gLZ1
-         nhD72yfmRxBhtCZCshuTyiyug2BBSBr1T5UY9/5F9tagYqU2mgAVRA4DbUBkRaVJ9NWp
-         psp/aZ6OwaNmhF4z1LQSrTsCTC/W46VScNc+Z67JU4mX7FvplFjvxZ+Zx+UETFtp4H4G
-         AKVnVQjgeFmBreKOhVcO0t5XN+mWY+WnWWOzNfqqXZl6BkmUblF3Rh08/sYAj/pDy1Rn
-         s7BsIfN94WV1nUPqDBMN2jpbv1efjeta9BbRCV24F+2O+j+YBUO1QmbJ47ePjVWUvjoI
-         OQZA==
+        d=linaro.org; s=google; t=1747935951; x=1748540751; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=wNaKrT6jTjUIFUZ6pIaMtvSc1T3Q7lOQddtn+8yHQeU=;
+        b=kUmpyajSA00nv6NX6RK7si0kRkMph6dkdsNOZNByQ3Xp3mysHIOgd5YKZSfHC9iew/
+         /8Im6fp7qdkD2DnksptH4ZSwA9Y2E9/YzU/X1ISLKhx41UhfqcIoF0ss2y356OQlecxU
+         +GSQiS1pFcJXrHEiwkyC5drpzGYjC+M8F8jMNerR93YAO/VauyI2gI4T+ynYyRBL4qRA
+         RCW7f3Ac5R+8gi+Nac4XgNuVPiVNV4FPL9rMijeZPEROIurfpRE6hSf15GuJWYNCE5Qm
+         GujjEPZrzeRxLVw07bgmY2syqlWmUxfGCdoqDodlDVA2U7H901aJFXTzK6f9WlfDIxoR
+         ZgIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747935668; x=1748540468;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BEEzJQh+mi4rzI2yTuNmUyI1HaStAMzjYAaHLCvcS3s=;
-        b=FfEsCn0us4rCFV9I+Cbh0h5Ol23pRoPlm8G+fGT+ct+EkPNurIdHlHqxS4CcEPVJnV
-         BfTvhnIWVbR1SuNjaN7LmoaPbKhPIIJeAEW6gc6pOfknABauzGgJK4tMjj7mMOHl0Uqf
-         SF7T7CdU7XnOIGV73w1sv1ytA4mIzPGOSe8ow6Wx7Sr1vDtPwQabIa4ijMqr7OSRbj5e
-         qYm9/Ne7XjO97PJ6YzN/4Ux7mbpCQ5zdhaKca6t69eRf0uoT/snm+6yMmo6xeD9dKo6U
-         vjk29IRkMRRrmCHFS7KfXO3QXOCxwUh6zFeNFIJ+d7lpPEQAbYoX9C6S3EIchw1eRjeZ
-         cT4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVeUexIhX2ywvZ5T430u+mCR+EjVwetXyACNZ+l5HPORckxdzuFxD+BeUZ2lAQ7sz+lQhZPaEpoGMCUAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUCqL/72pIBUp7OdQVpsvPyQgqlG/QxYd0uNBEHxuGrg58Jvuc
-	2uRe3RQDMNlylbIuoYZhmwH2BYFZsi+HAJvrUaahRQB4dL17LFQHy2ptU/Fk4eqB1Dc=
-X-Gm-Gg: ASbGncveY3VvoVrNRr8KTP9KT16ZD3VqcE7XOZQey02f4TQyv64j8+mFv5ZhZJNIBPr
-	zif/erzY7dP2DGdnWkGJOkLQnf0+7sZxLUawSqLDthgbOGMAR5GMtcTupJ4h8dKHyANlwc8CTcC
-	7moD7T62a5xO6krPXKSpxZG/jj49j57ULMLz5NrBEDhabUJAYzOgRoxkOal4YapA/ciN06nRGVE
-	zQ/ZWfqVyKSKzqK0P3ylawAS5w3ffhHIQT3pcl+Ag+Cix8KCJiFPOpI155e4vZUtjFfcywLIqoO
-	bAYXVG2J1mWnQrtLNeJ21W6K9OvCUZ4f8sL5L5CpBVD8G5A30f9ClEEPJwA=
-X-Google-Smtp-Source: AGHT+IGgojgkTlxJMrB0QdTOFW9DwcjfnE2HsPWKTiCh2DyT3aGjZFJfYpsdBpxBzniyJBoPRyM8gg==
-X-Received: by 2002:a05:600c:a369:b0:43c:f1b8:16ad with SMTP id 5b1f17b1804b1-442fd678b83mr295575445e9.30.1747935668030;
-        Thu, 22 May 2025 10:41:08 -0700 (PDT)
-Received: from orion.home ([2a02:c7c:7213:c700:6c33:c245:91e5:a9f4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f7bae847sm109563195e9.36.2025.05.22.10.41.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 10:41:07 -0700 (PDT)
-From: Alexey Klimov <alexey.klimov@linaro.org>
-Date: Thu, 22 May 2025 18:41:02 +0100
-Subject: [PATCH v3 12/12] arm64: dts: qcom: qrb4210-rb2: add VA capture
- support
+        d=1e100.net; s=20230601; t=1747935951; x=1748540751;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wNaKrT6jTjUIFUZ6pIaMtvSc1T3Q7lOQddtn+8yHQeU=;
+        b=oaEYOOZuk9GUtKT+Isn8euRupdwhTZfnHXHumd+Fy1r6OfDKIt9u8AsXG53MlifT68
+         I8ya6wvs+O3ubY5CS+0ETEg0x4Vu/LycSoF4B0PxXdat6IARSi48QB4nryTr9syBXmI9
+         HFqotg2NiE33puTIhmwmxLT832Wo/rIlAPBhizOifskDjZrAkLRTC1xJqYLTiHGhWUkv
+         C2EZerMnzFOShNoh5aaw+TQU+KfjpKlaaqMjRrw/LcgF/+LtSMZ9E/5yrXa71J0BCf6s
+         kOwlXv1B6UChKwNpacjgniiBg+QFecVCjKXzB1tuFIERHT/1bBBCUg7IEU2NdOc7aouC
+         rdPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUxJR0fGW+T2+3rT72NIJTRDOEHmX/RC33vDP3ZdCBdn2e3MpuR4Fn084P/ZKwCnBFnIPW0/qn8PmymGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4t2cLbKwu+KkYOx2MU5+x5GpE4P2YRYIvZdNZXIFcRCv5DXm8
+	R0t9cx3cj9rHtyaPVFoQP38orWSZ/Pno3I2/m+WxBSFXOfLJbWuI1itGQd7Jt74p9V4=
+X-Gm-Gg: ASbGnctBf+U3O7JhWfVKT+ykkm37oUv4/9enNufvVorWwzMeeoprnDbxeTh4JDoW9i7
+	Db09Wqp7vVg3Au5BFM/bKrp4aKe6PEUQk2PZ6S98y5yhr+EDOsfFG+mtj19WPGqm8JfyVW3xpWV
+	168unBoc/zWUPIZS/KyomsRk3ExBGMqg6jmateQsnyURa5hiHqqh3dapWFhiD6fv9wbB55SEXBx
+	7HLUl6AFev8GxkWpRvZGUnalT1C+3Cb0qcg1yokQAG8lqhoPzvYw3DmZsY3TxgQ7xdLRNmzuWTd
+	dUmPzQD4pHsgzThKcubaWLhZBKl6VIL2fV3JXatzIJAEItlzcpKQh7pdxjzoHZksS60D+SFiq+P
+	w5i/d3A==
+X-Google-Smtp-Source: AGHT+IGDLIEnT3V3B47/CP/HTDBa5Tkf2t1MDtbi/mmdM21aJvzpUUo7OUvBGc2M3FKq5BQH+RYTsg==
+X-Received: by 2002:a5d:5888:0:b0:3a3:7351:6f39 with SMTP id ffacd0b85a97d-3a373517245mr5726785f8f.15.1747935950862;
+        Thu, 22 May 2025 10:45:50 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a36835ef41sm19802745f8f.94.2025.05.22.10.45.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 May 2025 10:45:50 -0700 (PDT)
+Message-ID: <b0f472af-6a0f-493f-aca3-65321931bebe@linaro.org>
+Date: Thu, 22 May 2025 19:45:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250522-rb2_audio_v3-v3-12-9eeb08cab9dc@linaro.org>
-References: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
-In-Reply-To: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
-To: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/12] ASoC: dt-bindings: qcom,wsa881x: extend
+ description to analog mode
+To: Alexey Klimov <alexey.klimov@linaro.org>,
+ Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
  linux-sound@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Dmitry Baryshkov <lumag@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-X-Mailer: b4 0.14.2
+References: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
+ <20250522-rb2_audio_v3-v3-3-9eeb08cab9dc@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <20250522-rb2_audio_v3-v3-3-9eeb08cab9dc@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add support for audio capture using onboard DMIC. It is directly
-connected to vamacro and txmacro without any soundwire interfaces.
+On 22/05/2025 19:40, Alexey Klimov wrote:
+> WSA881X also supports analog mode when device is configured via i2c
+> only. Document it, add properties, new compatibles and example.
+> 
+> Cc: Srinivas Kandagatla <srini@kernel.org>
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
+>  .../devicetree/bindings/sound/qcom,wsa881x.yaml    | 66 +++++++++++++++++++---
+>  1 file changed, 58 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml
+> index ac03672ebf6de1df862ce282f955ac91bdd9167d..a33e2754ec6159dbcaf5b6fcacf89eb2a6056899 100644
+> --- a/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml
+> +++ b/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml
+> @@ -12,15 +12,17 @@ maintainers:
+>  description: |
+>    WSA8810 is a class-D smart speaker amplifier and WSA8815
+>    is a high-output power class-D smart speaker amplifier.
+> -  Their primary operating mode uses a SoundWire digital audio
+> -  interface. This binding is for SoundWire interface.
+> -
+> -allOf:
+> -  - $ref: dai-common.yaml#
+> +  This family of amplifiers support two operating modes:
+> +  SoundWire digital audio interface which is a primary mode
+> +  and analog mode when device is configured via i2c only.
+> +  This binding describes both modes.
+>  
+>  properties:
+>    compatible:
+> -    const: sdw10217201000
+> +    enum:
+> +      - qcom,wsa8810
+> +      - qcom,wsa8815
+> +      - sdw10217201000
 
-The capture was verified using the following commands:
+You never responded to my comments, never implemented them. Same problem
+as before.
 
-amixer -c0 cset iface=MIXER,name='MultiMedia3 Mixer VA_CODEC_DMA_TX_0' 1
-amixer -c0 cset iface=MIXER,name='VA_AIF1_CAP Mixer DEC0' 1
-amixer -c0 cset iface=MIXER,name='VA_DEC0 Volume' 110
-amixer -c0 cset iface=MIXER,name='VA DMIC MUX0' 2
-
-arecord -D hw:0,2 -f S16_LE -c 2 -r 48000 -d 5 record.wav
-
-Cc: Srinivas Kandagatla <srini@kernel.org>
-Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
----
- arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-index 1e2b9d2516b62e2e80c40ed6c3a0c4548a02630c..1c125ae4e2f3eb4f715bd0aac42a60b9132ecfbc 100644
---- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-+++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-@@ -169,6 +169,22 @@ platform {
- 				sound-dai = <&q6routing>;
- 			};
- 		};
-+
-+		va-dai-link {
-+			link-name = "VA Capture";
-+
-+			codec {
-+				sound-dai = <&vamacro 0>;
-+			};
-+
-+			cpu {
-+				sound-dai = <&q6afedai VA_CODEC_DMA_TX_0>;
-+			};
-+
-+			platform {
-+				sound-dai = <&q6routing>;
-+			};
-+		};
- 	};
- 
- 	wcd937x: codec {
-@@ -833,6 +849,12 @@ &usb_qmpphy_out {
- 	remote-endpoint = <&pmi632_ss_in>;
- };
- 
-+&vamacro {
-+	pinctrl-0 = <&lpass_dmic01_active>;
-+	pinctrl-names = "default";
-+	qcom,dmic-sample-rate = <2400000>;
-+};
-+
- &wifi {
- 	vdd-0.8-cx-mx-supply = <&vreg_l8a_0p664>;
- 	vdd-1.8-xo-supply = <&vreg_l16a_1p3>;
-
--- 
-2.47.2
-
+Best regards,
+Krzysztof
