@@ -1,63 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835EF17597;
-	Thu, 22 May 2025 16:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492B919D884
+	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 17:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747931534; cv=none; b=J/41ukRUj82DZ+8w/hYSIi3NiuElqW+1rh+tNjW50L2UUeuNmW3eCW4cm/yCVLgPTPSD+3pT/rWyHR5BtUcGbBpvyCY68Xr0L/WdtU2VPb5rVDAzGENjDaI6GjS+amEd9HBJGH/zdhyZnCksIdPWSET1m0QsKSPFEkLV/YfjcTg=
+	t=1747935658; cv=none; b=nlctFDpCKRN9GZiOX5VcUrGsosyveLht4WDoO9bGRVuFxViu0dBXb6AAsiophoQPe/0YnWFqdo4WbwC3h4ryvk65ukm+6kmxivqWmW95FCquNk3rfAlLNQdcYwRuL2Anh8JXFReeuRCnfmtXXwPM40RV5iV0+6Oj5T9xeW4ODi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747931534; c=relaxed/simple;
-	bh=K4w/aH8ChscytkB5rF5CB5GfDMFZXnnx0H9pqaCMw40=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=BHuP7ceB1lSV5S3dVSxrKXi7/EC8VSRrjjOFVfp2u68mD14d5CJDowD6dFaqZNSO49JHLXluezE54GRoIT5cLnKKDgQos3FddGacq1/vyEFbyVZelYq6bFuWF/wPQeVWoKzO69jU67QEpTlwIzEXSsXc1DYAt0d/c6Ctba/nPuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iX6JNCsI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747935658; c=relaxed/simple;
+	bh=Gx8rat0F5gGYg4tYeBd9EDyzRXpBbhu3rhNTcZhiZH0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OFItlZKXh5gggyqlDopVBTSe4GOI3bdX17ul4svRYs5ZIPjpA8M6ObKTkVpwq4aITt566YEdHyYfvfGQ+uZGF8jBrH2G4ACGZXBdZOJKlWzqqKSd2/igEa0yEvtJrjRxfI7hbR409NrhRcT+NSsZs2dY8QB/7vmty4L7oS0tuC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rOe4Hinx; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iX6JNCsI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1362C4CEE4;
-	Thu, 22 May 2025 16:32:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747931534;
-	bh=K4w/aH8ChscytkB5rF5CB5GfDMFZXnnx0H9pqaCMw40=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=iX6JNCsIIKelC6WJI9nqqGi5Zp0dsbmKqtVyYX8ZFsVRhKt/MJBUVaoiyb65Ub7E6
-	 240Z0jZTdNJuhp/1pQ5csesMMCiu2uQiuz+HeWCmcZ8gDN03cGSTcnSDZQa4IiqSne
-	 t5zXcu1wRazKRa8hBBNpsp3wtxXCSHoTj23g8tdTvkNfIooYl/6Z8oqdHP76AFMtZw
-	 OeVNFCBXlADhVLNlxdB5S8PG+DRXUq/PH7/LWC4WHv177VJcAVK2Lh1hTwq80qwgPV
-	 GIhED8ejM+bw5F+2DZjhbPQxWVH7NZhXfaV2gMTW/Hf+XXKKQCj/eSXNOD4DSWTG45
-	 3+mfxjqZm3HfQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AEC303805D89;
-	Thu, 22 May 2025 16:32:50 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.15
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87r00h86cm.wl-tiwai@suse.de>
-References: <87r00h86cm.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87r00h86cm.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.15
-X-PR-Tracked-Commit-Id: f709b78aecab519dbcefa9a6603b94ad18c553e3
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 0e9579507f258c6e63baa0d0d6c950e45f7b75e5
-Message-Id: <174793156931.2940668.9795705534896728725.pr-tracker-bot@kernel.org>
-Date: Thu, 22 May 2025 16:32:49 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rOe4Hinx"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43d0618746bso68218285e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 10:40:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747935654; x=1748540454; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7NPUIJScbl2wo5u3vE+t7s0/ylzAg/M0wI+ubRZFTc8=;
+        b=rOe4HinxoTlFgGf5eDTyYcj/Zuzhla5daG70e3i2i+QZ0KOUt65ainVzvnAEyAr57l
+         /CO8JRKS7MBZwQARq4iT3IySEJ1ZqyLq/xGhAm6HPTKjx/u2ZpuXVMb6vVNQ13M1dnDi
+         Cowk2iTizfOC7e7UVGXvxj764kH0wqvXNLLarjzsnZOr/RX5uDkhA26VYCM/DgVo9X+8
+         LspNm4zF2mS4kd1li+F545nX9ZUBvCoacCxcPWxYH1gtdFv9yCQc0s6ZwYolHCZsK9b8
+         A7M+uZqTpmBfggPXXDRa7hRKhjEvTUwDq33clwvWIXiVyNpmRnF5pqjIwqgNLPR1ZR9m
+         HkNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747935654; x=1748540454;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7NPUIJScbl2wo5u3vE+t7s0/ylzAg/M0wI+ubRZFTc8=;
+        b=Mdpa7oUZAIne9pBYBfzODDGZRENto0YHywuJ6CzPy/SjAyzwA2aLMMUCvxh0xNYmC4
+         /UaR0y3SPFkgflyAFRcCtUSyL/kHtW9uCyK1l9JxrqV90jL3zbsfjkCt5gfQPFDqzUb+
+         uQ7/p/vcJvYThbamRtTbr4CRKrvtC7RdDTtjTfrNu1DkSs1dk4hJ5rKvwJ2O8hyxuYi5
+         SiK75Fu9etdU7FIe7Hx+FeuOJTZ798iKE9fXBynCz9R+jpccyZANQp5vQRnYcQTQHzY4
+         XAwWL1iUScYH1t1Vo++nHciaEodCV11UPMvd+vpKOpSA1lVKrKzK0uXA4cIoWOgjXzPs
+         KM4w==
+X-Forwarded-Encrypted: i=1; AJvYcCX1bSVQP7oMuwVyuKsLkoUgRMfde/IoA1X1AFaXOXhFgv7wuMsNG/+vkM9h/AYIpcStTwfseAKm5NAejA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YydQyvIKGsIEvZ9JGh9ughKsn66Z1q7hZ+zvK3KAqwCH0Xko97u
+	Z2Z1a2Zw1QSJ+O+XlvRsXwKashvFX44lryGUR/JdMBtB6mjJEuUQrJqAMl3HI9Z9Uuo=
+X-Gm-Gg: ASbGncuXsvrGcLm5mecMX16wEk3fSvOh9seUn0UjQRQYHfLPap2gCNW7YlOvrIXaJfw
+	WLkau5DK/R/MWBHTDeCH6lyegWgElS/xs56djOZEQkrUl0PZjh1+j24CMhURWv24cl2oYLl9XAr
+	JmvxvZZi0L3n1VvTFbU1S1HXN3MeSnuhTTms4WP/WxwvwxxwvT3DZV4KGeqqFXTKMgICTw5mVm8
+	k3dqL3ACSVzCwb7rhTDbi9+VVnz73EjMLjNIGzkbxiIK9/G+35i33hjP+DUoiwMyxklThC1RxhQ
+	/4zSODG3Dp4a1OD7bvWLkTy7Vx0q0IPDuDX7BW0kZvkqvOLO6Nk3jycm7T0=
+X-Google-Smtp-Source: AGHT+IGGhVpRpV0KK+9csxjRQAa7427Mshc5zMSpLcRZ9lrj8a5WqdPgOzbFmkpOpGEFcPdmgHYleQ==
+X-Received: by 2002:a05:600c:c8c:b0:442:f4a3:b5ec with SMTP id 5b1f17b1804b1-442fefd5f8dmr271581325e9.4.1747935654432;
+        Thu, 22 May 2025 10:40:54 -0700 (PDT)
+Received: from orion.home ([2a02:c7c:7213:c700:6c33:c245:91e5:a9f4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f7bae847sm109563195e9.36.2025.05.22.10.40.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 10:40:53 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+Subject: [PATCH v3 00/12] qrb4210-rb2: add wsa audio playback and capture
+ support
+Date: Thu, 22 May 2025 18:40:50 +0100
+Message-Id: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKJhL2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDUyMj3aIko/jE0pTM/PgyY920tERDo5TkZDNDEwsloJaCotS0zAqwcdG
+ xtbUAU/wbnV4AAAA=
+X-Change-ID: 20250522-rb2_audio_v3-ffa12dcc6148
+To: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ linux-sound@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+X-Mailer: b4 0.14.2
 
-The pull request you sent on Thu, 22 May 2025 09:14:33 +0200:
+Rebased, updated, re-tested. This implements the playback support via the
+following path: RX1 from DSP is connected to rxmacro which communicates
+with wcd codec using soundwire. This goes into AUX input of wcd. Wcd codec
+outputs analog audio into wsa8815 amplifier. Capturing works through vamacro
+using one onboard DMIC which is directly connected to vamacro codec.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.15
+Changes since v2:
+-- dropped [PATCH v2 08/14] dt-bindings: arm: qcom-soc: extend pattern matching
+to support qcom,wsa881x and replaced with new one;
+-- dropped [PATCH v2 14/14] ASoC: qcom: sm8250: force single channel via RX_1 output for qrb4210
+-- reordered as suggested by Krzysztof;
+-- updates to wsa881x-common.h registers descriptions and corresponding updates
+to wsa881x-common.c (Konrad);
+-- sorted subnodes in DT alphabetically as suggested by Konrad;
+-- wsa881x bindings updates (as suggested by Krzysztof);
+-- ASoC: dt-bindings: qcom: Add SM6115 LPASS rxmacro and vamacro codecs
+is still present;
+-- added "qcom,wsa8810" compatible to wsa881x-i2c.c;
+-- wsa881x is still present in wsa881x_probe_common();
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/0e9579507f258c6e63baa0d0d6c950e45f7b75e5
+Second version:
+https://lore.kernel.org/linux-arm-msm/20241212004727.2903846-1-alexey.klimov@linaro.org/
 
-Thank you!
+First version:
+https://lore.kernel.org/linux-sound/20241101053154.497550-1-alexey.klimov@linaro.org/
 
+---
+Alexey Klimov (12):
+      ASoC: dt-bindings: qcom: Add SM6115 LPASS rxmacro and vamacro codecs
+      dt-bindings: arm: qcom-soc: ignore "wsa" from being selected as SoC component
+      ASoC: dt-bindings: qcom,wsa881x: extend description to analog mode
+      ASoC: codecs: lpass-rx-macro: add sm6115 compatible
+      ASoC: codecs: wsa881x: split into common and soundwire drivers
+      ASoC: codecs: add wsa881x-i2c amplifier codec driver
+      arm64: dts: qcom: sm6115: add LPASS devices
+      arm64: dts: qcom: sm4250: add description of soundwire and dmic pins
+      arm64: dts: qcom: qrb4210-rb2: add wcd937x codec support
+      arm64: dts: qcom: qrb4210-rb2: enable wsa881x amplifier
+      arm64: dts: qcom: qrb4210-rb2: add WSA audio playback support
+      arm64: dts: qcom: qrb4210-rb2: add VA capture support
+
+ .../devicetree/bindings/arm/qcom-soc.yaml          |    2 +-
+ .../bindings/sound/qcom,lpass-rx-macro.yaml        |   19 +
+ .../bindings/sound/qcom,lpass-va-macro.yaml        |   22 +-
+ .../devicetree/bindings/sound/qcom,wsa881x.yaml    |   66 +-
+ arch/arm64/boot/dts/qcom/qrb4210-rb2.dts           |  113 ++
+ arch/arm64/boot/dts/qcom/sm4250.dtsi               |   62 +
+ arch/arm64/boot/dts/qcom/sm6115.dtsi               |  132 ++
+ sound/soc/codecs/Kconfig                           |   15 +
+ sound/soc/codecs/Makefile                          |    4 +
+ sound/soc/codecs/lpass-rx-macro.c                  |    4 +-
+ sound/soc/codecs/wsa881x-common.c                  |  193 +++
+ sound/soc/codecs/wsa881x-common.h                  |  478 +++++++
+ sound/soc/codecs/wsa881x-i2c.c                     | 1353 ++++++++++++++++++++
+ sound/soc/codecs/wsa881x.c                         |  493 +------
+ 14 files changed, 2459 insertions(+), 497 deletions(-)
+---
+base-commit: 7bac2c97af4078d7a627500c9bcdd5b033f97718
+change-id: 20250522-rb2_audio_v3-ffa12dcc6148
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Alexey Klimov <alexey.klimov@linaro.org>
+
