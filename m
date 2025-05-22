@@ -1,146 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEC626156A
-	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 13:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF093010C;
+	Thu, 22 May 2025 13:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747919816; cv=none; b=uzZvtMiJYCIiUQFfTRNssam1S3yvkCRJgc71XRW0+hRfNDxw0Rc0GEZDp6kQZqTMa1Ftm1i2C7KiabGj2oa0LSPLwL/8DWklhX/DpOHB3s6SS88qqtsiW/N/r+D4QVh+PP2kcN8Gl2wpcEr3IfJ47ArKGhv/rADvULO2yShrrNs=
+	t=1747921069; cv=none; b=KUft6oxESodkucclcLqqTjR8OE7CobniaY8ylMGqtlM+D4Rl17lF4n5cSTf4OMSYSFgyOY+vqTsWHz/MgX2bXHzC8zsECgV09xbu+3xO0pLg2RyeT/eu4iBG9Mj0VAOGwyFa4wKFUf62Hg4RNKOhYZrP/G62l7gagEQMqsJrVnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747919816; c=relaxed/simple;
-	bh=tcc4n387UsvLPQusjBltHNLaXRJtBPQIACDLMGtq97o=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VlDnogalka5sUm30qClXhEb/VmdGeF+eFsmUTW/pb9o5Qmkg8xl750pMa/4PQxqqJMgvXqKd7+NfEK2VA01F/R9Xa9UecVuuKN3r/8DT/jrmT7rFMjcjtP3yLhkKnIxuvcEip62EWulIYVKTtkhAX4izBME6rie4x/cKDdY32Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MXr1ipGH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aw5+wuRn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MXr1ipGH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aw5+wuRn; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1747921069; c=relaxed/simple;
+	bh=O5IayrBokl5BHsWRWLoEYER4M1qM4RaD1n/YXy1JPlo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZbbWQH+UP/YPtWlz/RtwFWR5PnQsaTMcSNTGGlPWTQiHEKM/m4Dwn+fPs6R3UU+3BlP5qHod9gY/V54hjA8szHVwcT/fFU5IPeywfHj6wUWnIVL1wSJBbKSrXMK6G9ZoVSSkuJdgtcKeHoeuYudXVeeSo0AuTkjASuLb/1J666M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ufnRlrlI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MXr1ipGH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aw5+wuRn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MXr1ipGH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aw5+wuRn"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 902051F766;
-	Thu, 22 May 2025 13:16:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747919812; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nwGR3WBG0Y3P3ClNI6DJYTqQ4ZoDuJNCVhvLlaFe27E=;
-	b=MXr1ipGHQ9dSvix6ZvK1Ygj52Ihz8Y/qqkRQ2rWJz3QdMcD89CUnnd0ekpVgOk4cVTbHHU
-	8LuN+AgkjmC04FXe55RZJeRhk6FkfxDtRe6kTQ10XPdd9RKFn1Q3/jIClVpoFTPFXkSVdi
-	lsM4RNYxYA6oxJqOn4GwakrE6AUO860=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747919812;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nwGR3WBG0Y3P3ClNI6DJYTqQ4ZoDuJNCVhvLlaFe27E=;
-	b=aw5+wuRn7eOj+bqx5UDMxKSYaR7u+D2RiBXvEQPt+d51JhhMhmqBXRcqmp6M02nFRr9Fkk
-	FDScakePI8jevpDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MXr1ipGH;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=aw5+wuRn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1747919812; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nwGR3WBG0Y3P3ClNI6DJYTqQ4ZoDuJNCVhvLlaFe27E=;
-	b=MXr1ipGHQ9dSvix6ZvK1Ygj52Ihz8Y/qqkRQ2rWJz3QdMcD89CUnnd0ekpVgOk4cVTbHHU
-	8LuN+AgkjmC04FXe55RZJeRhk6FkfxDtRe6kTQ10XPdd9RKFn1Q3/jIClVpoFTPFXkSVdi
-	lsM4RNYxYA6oxJqOn4GwakrE6AUO860=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1747919812;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nwGR3WBG0Y3P3ClNI6DJYTqQ4ZoDuJNCVhvLlaFe27E=;
-	b=aw5+wuRn7eOj+bqx5UDMxKSYaR7u+D2RiBXvEQPt+d51JhhMhmqBXRcqmp6M02nFRr9Fkk
-	FDScakePI8jevpDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6891713433;
-	Thu, 22 May 2025 13:16:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UQ+7GMQjL2iSfQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 22 May 2025 13:16:52 +0000
-Date: Thu, 22 May 2025 15:16:51 +0200
-Message-ID: <87frgw9458.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] ALSA: core: fix up bus match const issues.
-In-Reply-To: <2025052204-hyphen-thermal-3e72@gregkh>
-References: <2025052204-hyphen-thermal-3e72@gregkh>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ufnRlrlI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6207CC4CEEB;
+	Thu, 22 May 2025 13:37:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747921069;
+	bh=O5IayrBokl5BHsWRWLoEYER4M1qM4RaD1n/YXy1JPlo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ufnRlrlI+WGrlVfJmnUwZzSh4CuegJqXHfUT1UxCSOsPW+KHuf5vk6JL3yWMym/OL
+	 VGpTF+amRwiDq+bsXz1lyHhX4UdM4WJX3ZfR4M2z8gOjBxgZQ2k1K1jvorfqor/AHJ
+	 Z+1DoXqifVSGmIlQSfzi7KrFLQngM+dSIfklVlopBWL09lfOtQHNp36dLeGDqu6ouO
+	 jmd1vbaf+QANWxcSDApMRevDEPL7+LJYWCsUyqQIVee/FFtQbfiANL3jENEmqfD2OK
+	 /5pE2ocFwN0A28hYnVnLFeR+RYpkmtunomRGL3oIqKNCIajuGx0nRPVf0haAj5YFsj
+	 IYFzflJpzEW4Q==
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20250522103816.543919-1-rf@opensource.cirrus.com>
+References: <20250522103816.543919-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: wm_adsp: Make cirrus_dir const
+Message-Id: <174792106813.84332.11770588156901299671.b4-ty@kernel.org>
+Date: Thu, 22 May 2025 14:37:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Bar: /
-X-Spam-Flag: NO
-X-Spam-Score: -0.51
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 902051F766
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-0.51 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:email,suse.de:mid,suse.de:dkim,suse.com:email];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.de:mid,suse.de:dkim,linuxfoundation.org:email,perex.cz:email];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-On Thu, 22 May 2025 12:08:05 +0200,
-Greg Kroah-Hartman wrote:
+On Thu, 22 May 2025 11:38:16 +0100, Richard Fitzgerald wrote:
+> The cirrus_dir pointer should be const data but was missing the second
+> const needed to achieve this.
 > 
-> In commit d69d80484598 ("driver core: have match() callback in struct
-> bus_type take a const *"), the match bus callback was changed to have
-> the driver be a const pointer.  Unfortunately that const attribute was
-> thrown away when container_of() is called, which is not correct and was
-> not caught by the compiler due to how container_of() is implemented.
-> Fix this up by correctly preserving the const attribute of the driver
-> passed to the bus match function which requires the hdac_driver match
-> function to also take a const pointer for the driver structure.
+> I haven't marked this as a 'Fixes' because it isn't causing any bugs,
+> it's only a code improvement.
 > 
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Fixes: d69d80484598 ("driver core: have match() callback in struct bus_type take a const *")
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> [...]
 
-Applied now.  Thanks.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Takashi
+Thanks!
+
+[1/1] ASoC: wm_adsp: Make cirrus_dir const
+      commit: fd4b6c0fdf71d71f2bbc2f9aceb6f0814b4d93e2
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
