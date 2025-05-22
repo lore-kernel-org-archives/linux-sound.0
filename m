@@ -1,67 +1,67 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3EC1A0BC9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5161A314F
 	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 17:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747935662; cv=none; b=ezrpJWCvUGXam7qcdPnBWg6GS+50f3UHRvM8nnlC3HjQf87T7nMsotXHZE3PfpGFbc//rJuDILs6lo56soMZcgrVgIQVK4dLIi+HnPTbWrRyY4BWNoY965myhOXKBxLx5lp5kDQFswBHF/Fe/TJjiBpnqoAnLTQOI3/7z1NEcrc=
+	t=1747935663; cv=none; b=d9v5N0xBLG1cNos0gutlGLwoDjel8MsuSJ4cA4HWpcBTOvNMQuM2RyE2HIqL06UqTICZGImYx5wVjC6+QzbILe221R0Wi5rX0WoruM9yAY4/l4WMRa78twxWxawn0dUT+22IRdp8tAi+W63nsPaIm2IkaHxptVz/17FX661D0xE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747935662; c=relaxed/simple;
-	bh=rpsqCVq7VP7V/ZiMOKAAYLcouhxitWaKRIaoGe3WXLQ=;
+	s=arc-20240116; t=1747935663; c=relaxed/simple;
+	bh=aSSdjHrrQmluhjdKxBq1rycaxTM3YZu9EjkuFLbPokc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MKqMEC8sqGcexIGSl0IVCC4PT8HVqJK3yy2npWtlY2vO5T8k+d7cXwK7++zKQZF7+9kB2F07oN6lJZkU2AotcWuaxSgDiaEkQxpKM4yC6kl2ZgohG7NhhZj3WeJyOoXuzKLb83rmgfa+o4bbOpWESm2wRh/vM2W6muTTpWKEWNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=poGRJIOo; arc=none smtp.client-ip=209.85.128.54
+	 In-Reply-To:To:Cc; b=UQuOrO2/t6hUzbNzyiE/A+0ju8b+jbS/Ul1kmXXiCDfj49bpbQOkobNctvr0MyZcxv58Db/NZJ2AUE+L06TLZctvLtPUP3OhNDiP48WcZ6pYidmKiCwRj4rvVQkxqrNi6CWWdz04Y+t/7Lq+fUqWS/Judg44XvqleJjwCQLKeZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RrAwFJTM; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="poGRJIOo"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43d0618746bso68218935e9.2
-        for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 10:40:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RrAwFJTM"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso58421955e9.3
+        for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 10:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747935657; x=1748540457; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1747935658; x=1748540458; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=igl4C5n1V3kSpKRSnre7+wY5FZ4wjT5bm40mamAmyxY=;
-        b=poGRJIOoSX4V2zXKxmFvJNO5fXModrvNMhiYhDm9hKfIoO0ZOA7yBtnG/J5/V6jEkh
-         +JW3lJjXG0tHNO0hMkojCD40uoQJ6x62nrmYje0ckLsm7jkDX4ycStBgaE9OxKTEVCfJ
-         psjszQelOXrW4HKqRVv603Iqbm55hFljydaeT+zV2Nh3MAafflgbQec1Qmd5gy24A4ok
-         gMwHYPvD9rXIuq+umtj0RCULwb5QiDr5D+LKfxn6v1qFjQzonFtledT5oOwmzd/k2bQm
-         L6ffgM1/EgAh18LjXBxMnpdpMII8YtA/v99THB97MpRwHt3VgaFta5Nk7B2J4tDLl+zV
-         tl7Q==
+        bh=Rug7xCiRe21CglTuJ62KRbiGHO52dyiYXtq9MKbjX2U=;
+        b=RrAwFJTMQLocOma6E9sQmzbbIAxNgpCghY4qbNMVZz9kuabuOKd/c90NApiTYIArgx
+         +kr01kzZMFtydwrFVsn9gdp037xDLrJ++0CA+rX10bHRpPPkcf+sBH+fRQr+axOSWOra
+         S4BP/ydc94WSRqVXtjPtFlWY7f11EN1y2Ot3Ifehl0vD+qkj+3jwXj7j8BxqEPhfgi6S
+         gM14EDdgb8pvwYEYsNciqtcIwvKuRpL2KWuxYP7JgQ3pOKTFCsuHtxY/NuxJKtlaYy+C
+         /s89KhRxFu2HvtAperhHs38z/AuJ4qp/KgzgJ8V78102pCSCmMOBnu6NL6mc+skprQfV
+         kxQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747935657; x=1748540457;
+        d=1e100.net; s=20230601; t=1747935658; x=1748540458;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=igl4C5n1V3kSpKRSnre7+wY5FZ4wjT5bm40mamAmyxY=;
-        b=hz+NeuSdbe5AaWauzBaYL4/fcGSHAT/x+oNWut9Kl8yjZH8DtUkHYx6ykGKXPdvIns
-         euEUcAXX7JAmTShGlqtJHRZrR4yyAja1ggpKum8m38G/VcIpY6oDDbyQBGrJDK9R/J3I
-         FNAG7/dsspcdv9oOGVl8o1x/vFKQqEO4X5IlaJobqNU450pmyacewOfCLxFzho5355cc
-         cwwo0/g1Bl6vem82Tl43N3RjXsM5WotZpYSGj0pUvvinGZCB3Lhac63Fi30no7vw25rN
-         fgpzSKqxp0EaMJq21BCVOVLjt53Xua9kxH4prva0I8TjY8y36IH4p0wCd7GzX8UtuDcC
-         0F/g==
-X-Forwarded-Encrypted: i=1; AJvYcCU8143bbtmbfsDHVy47KEZ3GFxWRHVlmFqKmcIaXuM9wX3o3y4dsgBOJBb8I9vWc+/z1yMrqTBurg7kig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCN62Hq0g5Her5dkoXgMWSDeGxNpnaMoKiKjzijQYjWoNtu6Ri
-	Df7BT4KhYaKIKCg7xXzRYp0v7xzwRNVzaAyFlZq5fwgjkMKYP+9FGkxX0SPbJaaEmdB2P42Fvs2
-	m6Sfy
-X-Gm-Gg: ASbGncun7SB/NuzO6Zsaj0s2zk1Ic41uD4EA0Qhbe8Yofa14JtjPU581QXnLZPt95ZQ
-	vnDc2tnuVu+6HWQ4iwjFksiuNSKnkQ3Mw0VbtuIoVNsedUazlmjVNdz9LNcPIGgbog2CbiExtla
-	b1AzOciv7Tdny+sT+xHiGtvhcfeq0aJZmFRc/+SOKUhmnS1h67fLOD7BsxITwEUCAU8pKheyMsy
-	gnNMwLncofyheT54s25Alz7TQzSejmhpllO47m/sCX+OALVCFX+QB0uFeeiaLIM+XStge3QZ+sn
-	5J5IZhdnwMhK1WQ/IEB2bGaYZTMhvn/3RZ2b6Bsa1LlXeI4zm2w6496FtgM=
-X-Google-Smtp-Source: AGHT+IE0OKfhp+kIa/ZAYDcixA4XAmMDVXBsJz/sOmX77omH4NylPuG7drJ6v1RuKyyGP3ilU9meVg==
-X-Received: by 2002:a05:600c:3b21:b0:441:b3eb:5720 with SMTP id 5b1f17b1804b1-442ff0396b5mr240458235e9.29.1747935657302;
-        Thu, 22 May 2025 10:40:57 -0700 (PDT)
+        bh=Rug7xCiRe21CglTuJ62KRbiGHO52dyiYXtq9MKbjX2U=;
+        b=wqa8oFqr2DX4LBxlvEOv/+ora9tCkjS+b570mhDTadDGUvci3yT9UCLIJKwjwebd1T
+         ei0S8lGClJtKILP3kJgm3Mef0eIJ0RpkgmAmHkwiZKhrwCa5tqEAm+BF8ese2keKzrxw
+         uwTgMlJqhrhs81Sqf0pbf4yhf4/kVh93vtXTn4D7DpNQyudNwrlVjSMdRQ7NqzyTCc50
+         Qb4Ht4vdJrB1gf1NTtX5Mt5BXhqHoKoNCX75E/fw8hChNjlutYx9CRqX3/bz2UbGH8GP
+         FEWpLqs369ZRlph5jIwm1BQYofJy93LSOPvIRSGytxtxTk9Jjfso6UXzP1DafddznNgM
+         OSgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXj9MEqazmV5qYtL65GKfWMS6fcoDEg2GP6enmoaa9+CylVbUuE12kODtO6T5uFdHMOTTfMk9TXJ96PYA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yytc9QbvdvbEhbzLVweMqf1m2IU2vwZvJiwH/vdXeOg95lX7ica
+	lsTa8Wfre9IJ/Pzhx+5eRbXklS/Q69yMp5Lq2jRgJq1Eu+TaLZKxEB3IMNMVABx+j5uMC530RNK
+	GYzSq
+X-Gm-Gg: ASbGncsbD7eINE480Q1l82bf1YewxwpSLrnbvF0Dm0yiOXubnyXjptq+cRjJrkQfSOz
+	xGVi8NhLFjm+jt9qD/FVkQsaWxYXcVyHHdgqtdirykyz6of7CiaG88oWiqXPkdi2/eCFJpD9s8n
+	Fo/JnNG+ZoG8erlBhrrX75zoAGYHrLFQMRl1j/yYHGihu0wuDKYW9gW7/PSnG3mR/r/2fKUT81J
+	wKZmwJIdS0bqxREXWmbXelcP7jQyswJe/31YXgtX/kRAHK1GNyGEU514rq/6d3uUUm8rMwtgR7W
+	TyNmD+oncS63C0JVJ1Rrs3P3aT3m+etHK3sN68wqr9CVQz46rqWgwhbzMN8=
+X-Google-Smtp-Source: AGHT+IEQ6/iKMVU24aJMoLqOXxLbhZL7C0KXFrDMArF8ok4GGZf8FXJBiXkIhzqyqj4QCOms+GXpzA==
+X-Received: by 2002:a05:600c:5305:b0:43c:fceb:91a with SMTP id 5b1f17b1804b1-442fd62733amr247120525e9.11.1747935658292;
+        Thu, 22 May 2025 10:40:58 -0700 (PDT)
 Received: from orion.home ([2a02:c7c:7213:c700:6c33:c245:91e5:a9f4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f7bae847sm109563195e9.36.2025.05.22.10.40.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f7bae847sm109563195e9.36.2025.05.22.10.40.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 10:40:56 -0700 (PDT)
+        Thu, 22 May 2025 10:40:57 -0700 (PDT)
 From: Alexey Klimov <alexey.klimov@linaro.org>
-Date: Thu, 22 May 2025 18:40:53 +0100
-Subject: [PATCH v3 03/12] ASoC: dt-bindings: qcom,wsa881x: extend
- description to analog mode
+Date: Thu, 22 May 2025 18:40:54 +0100
+Subject: [PATCH v3 04/12] ASoC: codecs: lpass-rx-macro: add sm6115
+ compatible
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250522-rb2_audio_v3-v3-3-9eeb08cab9dc@linaro.org>
+Message-Id: <20250522-rb2_audio_v3-v3-4-9eeb08cab9dc@linaro.org>
 References: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
 In-Reply-To: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
 To: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>, 
@@ -83,119 +83,33 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Srinivas Kandagatla <srini@kernel.org>
 X-Mailer: b4 0.14.2
 
-WSA881X also supports analog mode when device is configured via i2c
-only. Document it, add properties, new compatibles and example.
+Add rxmacro compatible for sm6115.
 
-Cc: Srinivas Kandagatla <srini@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 ---
- .../devicetree/bindings/sound/qcom,wsa881x.yaml    | 66 +++++++++++++++++++---
- 1 file changed, 58 insertions(+), 8 deletions(-)
+ sound/soc/codecs/lpass-rx-macro.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml
-index ac03672ebf6de1df862ce282f955ac91bdd9167d..a33e2754ec6159dbcaf5b6fcacf89eb2a6056899 100644
---- a/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml
-@@ -12,15 +12,17 @@ maintainers:
- description: |
-   WSA8810 is a class-D smart speaker amplifier and WSA8815
-   is a high-output power class-D smart speaker amplifier.
--  Their primary operating mode uses a SoundWire digital audio
--  interface. This binding is for SoundWire interface.
+diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
+index 45a6b83808b277344f17d35a70cd1e3bb89cbaea..3ce7ad758df9fb0b7845a1dfef46cdf0ecf3b8c8 100644
+--- a/sound/soc/codecs/lpass-rx-macro.c
++++ b/sound/soc/codecs/lpass-rx-macro.c
+@@ -3946,7 +3946,9 @@ static const struct of_device_id rx_macro_dt_match[] = {
+ 	{
+ 		.compatible = "qcom,sc7280-lpass-rx-macro",
+ 		.data = (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
 -
--allOf:
--  - $ref: dai-common.yaml#
-+  This family of amplifiers support two operating modes:
-+  SoundWire digital audio interface which is a primary mode
-+  and analog mode when device is configured via i2c only.
-+  This binding describes both modes.
- 
- properties:
-   compatible:
--    const: sdw10217201000
-+    enum:
-+      - qcom,wsa8810
-+      - qcom,wsa8815
-+      - sdw10217201000
- 
-   reg:
-     maxItems: 1
-@@ -35,17 +37,51 @@ properties:
-   '#sound-dai-cells':
-     const: 0
- 
-+  clocks:
-+    maxItems: 1
-+
-+  mclk-gpios:
-+    description: GPIO spec for control signal to the clock gating circuit
-+    maxItems: 1
-+
- required:
-   - compatible
-   - reg
-   - powerdown-gpios
--  - "#thermal-sensor-cells"
--  - "#sound-dai-cells"
-+  - '#thermal-sensor-cells'
-+  - '#sound-dai-cells'
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,wsa8810
-+              - qcom,wsa8815
-+    then:
-+      properties:
-+        reg:
-+          description:
-+            In case of analog mode this should be I2C address of the digital
-+            part of the device. The I2C address of analog part of an amplifier
-+            is expected to be located at the fixed offset.
-+          maxItems: 1
-+          items:
-+            minimum: 0x0e
-+            maximum: 0x0f
-+      required:
-+        - clocks
-+        - mclk-gpios
- 
- unevaluatedProperties: false
- 
- examples:
-   - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/sound/qcom,q6afe.h>
-+
-     soundwire@c2d0000 {
-         #address-cells = <2>;
-         #size-cells = <0>;
-@@ -68,4 +104,18 @@ examples:
-         };
-     };
- 
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        amplifier@e {
-+            compatible = "qcom,wsa8810";
-+            reg = <0x0e>;
-+            clocks = <&q6afecc LPASS_CLK_ID_MCLK_3 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-+            powerdown-gpios = <&lpass_tlmm 16 GPIO_ACTIVE_LOW>;
-+            mclk-gpios = <&lpass_tlmm 18 GPIO_ACTIVE_HIGH>;
-+            #sound-dai-cells = <0>;
-+            #thermal-sensor-cells = <0>;
-+       };
-+    };
- ...
++	}, {
++		.compatible = "qcom,sm6115-lpass-rx-macro",
++		.data = (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
+ 	}, {
+ 		.compatible = "qcom,sm8250-lpass-rx-macro",
+ 		.data = (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
 
 -- 
 2.47.2
