@@ -1,166 +1,128 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mail78-63.sinamail.sina.com.cn (mail78-63.sinamail.sina.com.cn [219.142.78.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449E5175D47;
-	Thu, 22 May 2025 05:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9641C245C
+	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 05:51:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.142.78.63
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747890225; cv=none; b=IEJULZcFZS1zxxUHgQIP2fv0V9xDBKZQUh+7o6Y4sn4vMR3nvVOCd7ABI0EgcvvoixmustlFzz6Y9UBBXjMJhAV/ec9nQg8NQRc2binEFDzkyp+VlaEqxpw7f/QyYZGu0d7us/yAkpoVsvOuBoPPQxwR/pdukcHg1ICIVx8CJJg=
+	t=1747893112; cv=none; b=bmkkojcX4WyD40c6RxbN7k92JDTtnGbiTfF8h3marbtrC4PfPlDnwodrN6Sk0ro2C53GNZUU9IFfsETRmjg9OMWa1uN+EGY0U8ixHwe/3RNArK5i9l6OzRgy9g0s1r4qGbuBe3GiSr+B1DfuikRgugXyzWzmMEkB+JaaTLJFzTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747890225; c=relaxed/simple;
-	bh=mhhKRQs8P6BKh2PDytxh4uDgF6hxeldPRk98eetlmjw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GrDpBELBX9Fi2DitrS4q/TcyryH0y62po40lnjumAcwEpET+CrswDNHAKYDEBn34Lg7ajfmxUFRxy/3adPeMj/o5bNgP0kIrwPNzesR8avritxmynNI+BaRATO/MUmlqmUjRNLR9DVc8WBzjqoR6U/Z2bMJYbGHcROx6n0TPkRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 1e8158ce36ca11f0b29709d653e92f7d-20250522
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:ea555cc8-6fa9-4a34-abf1-8b3b44eadeba,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:c89aa460ca0e367d394d49b188629272,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3,IP:
-	nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
-	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 1e8158ce36ca11f0b29709d653e92f7d-20250522
-Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
-	(envelope-from <aichao@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 960776778; Thu, 22 May 2025 13:03:37 +0800
-Received: from node4.com.cn (localhost [127.0.0.1])
-	by node4.com.cn (NSMail) with SMTP id DF9AE16003840;
-	Thu, 22 May 2025 13:03:36 +0800 (CST)
-X-ns-mid: postfix-682EB028-75871135
-Received: from kylin-pc.. (unknown [172.25.130.133])
-	by node4.com.cn (NSMail) with ESMTPA id B9FFF16001CC7;
-	Thu, 22 May 2025 05:03:34 +0000 (UTC)
-From: Ai Chao <aichao@kylinos.cn>
-To: perex@perex.cz,
+	s=arc-20240116; t=1747893112; c=relaxed/simple;
+	bh=8IySV+zjl4Q3PabWEsSWbmjUJYYPs2ADwVyy8nojSUk=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=HiLEuHhJJBfBWnwwdf+pRk/uSxUqI2dgWmLNutsWqlzOHneE332nudWy9Erd9YhND1dwl2vxS60zWAyYz1vCDPVIqrAjkXn8pyLxKYgIduc0NUGNty+MtwQHmcsWMksmZfHooUouy3EDahDEV+OW+MiKVJX6TJBUabyicMqV9qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=219.142.78.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([180.172.39.205])
+	by sina.net (10.185.250.32) with ESMTP
+	id 682EBA2B000069DF; Thu, 22 May 2025 13:46:21 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 594AF7BC60AB456B903CEEEC1929F436
+X-SMAIL-UIID: 594AF7BC60AB456B903CEEEC1929F436-20250522-134621
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org
+Cc: robh@kernel.org,
 	tiwai@suse.com,
-	johannes@sipsolutions.net,
-	kuninori.morimoto.gx@renesas.com,
+	devicetree@vger.kernel.org,
+	conor+dt@kernel.org,
 	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	jbrunet@baylibre.com,
-	neil.armstrong@linaro.org,
-	khilman@baylibre.com,
-	martin.blumenstingl@googlemail.com,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	srinivas.kandagatla@linaro.org
-Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	imx@lists.linux.dev,
-	kernel@pengutronix.de,
-	linux-arm-msm@vger.kernel.org,
-	Ai Chao <aichao@kylinos.cn>
-Subject: [PATCH v2 6/6] ASoC: qcom: Use helper function for_each_child_of_node_scoped()
-Date: Thu, 22 May 2025 13:02:59 +0800
-Message-ID: <20250522050300.519244-7-aichao@kylinos.cn>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250522050300.519244-1-aichao@kylinos.cn>
-References: <20250522050300.519244-1-aichao@kylinos.cn>
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	krzk+dt@kernel.org,
+	amadeuszx.slawinski@linux.intel.com,
+	krzk@kernel.org
+Subject: RE: [PATCH 2/2] ASoC: codecs: add support for ES8375
+Date: Thu, 22 May 2025 13:46:19 +0800
+Message-Id: <20250522054619.9574-1-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 
-The for_each_child_of_node_scoped() helper provides a scope-based
-clean-up functionality to put the device_node automatically, and
-as such, there is no need to call of_node_put() directly.
+> > +static int es8375_dmic_set(struct snd_kcontrol *kcontrol,
+> > +	struct snd_ctl_elem_value *ucontrol)
+> > +{
+> 
+> > +	if (val) {
+> > +		regmap_update_bits_check(es8375->regmap, ES8375_ADC1, 0x80, 0x80, &changed1);
+> > +		es8375->dmic_enable = 0x01;
+> > +	} else {
+> > +		regmap_update_bits_check(es8375->regmap, ES8375_ADC1, 0x80, 0x00, &changed1);
+> > +		es8375->dmic_enable = 0x00;
+> > +	}
+> 
+> Instead of overriding this you could just read the register value when
+> you need it, you've got a register cache so it should be fast enough and
+> it's a lot less code.
 
-Thus, use this helper to simplify the code.
+I'll read the ES8375_ADC1 when I need the dmic_enable.
+So I can replace SOC_DAPM_ENUM_EXT with SOC_DAPM_ENUM
+which is used for ADC MUX.
 
-Signed-off-by: Ai Chao <aichao@kylinos.cn>
----
- sound/soc/qcom/lpass-cpu.c       | 3 +--
- sound/soc/qcom/qdsp6/q6afe-dai.c | 3 +--
- sound/soc/qcom/qdsp6/q6asm-dai.c | 4 +---
- 3 files changed, 3 insertions(+), 7 deletions(-)
+> > +static const struct snd_kcontrol_new es8375_snd_controls[] = {
+> > +	/* Capture Path */
+> > +	SOC_SINGLE_TLV("ADC OSR GAIN", ES8375_ADC_OSR_GAIN,
+> > +			ADC_OSR_GAIN_SHIFT_0, ES8375_ADC_OSR_GAIN_MAX, 0,
+> > +			es8375_adc_osr_gain_tlv),
+> 
+> Gain/volume controls should end in Volume as covered in control-names.rst.
+> 
+> > +	SOC_SINGLE("ADC Invert", ES8375_ADC1, ADC_INV_SHIFT_6, 1, 0),
+> 
+> On/off switches should end in Switch.
 
-diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-index 242bc16da36d..62f49fe46273 100644
---- a/sound/soc/qcom/lpass-cpu.c
-+++ b/sound/soc/qcom/lpass-cpu.c
-@@ -1046,7 +1046,6 @@ static unsigned int of_lpass_cpu_parse_sd_lines(str=
-uct device *dev,
- static void of_lpass_cpu_parse_dai_data(struct device *dev,
- 					struct lpass_data *data)
- {
--	struct device_node *node;
- 	int ret, i, id;
-=20
- 	/* Allow all channels by default for backwards compatibility */
-@@ -1056,7 +1055,7 @@ static void of_lpass_cpu_parse_dai_data(struct devi=
-ce *dev,
- 		data->mi2s_capture_sd_mode[id] =3D LPAIF_I2SCTL_MODE_8CH;
- 	}
-=20
--	for_each_child_of_node(dev->of_node, node) {
-+	for_each_child_of_node_scoped(dev->of_node, node) {
- 		ret =3D of_property_read_u32(node, "reg", &id);
- 		if (ret || id < 0) {
- 			dev_err(dev, "valid dai id not found: %d\n", ret);
-diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6af=
-e-dai.c
-index 7d9628cda875..64735f2adf8f 100644
---- a/sound/soc/qcom/qdsp6/q6afe-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
-@@ -962,10 +962,9 @@ static const struct snd_soc_component_driver q6afe_d=
-ai_component =3D {
- static void of_q6afe_parse_dai_data(struct device *dev,
- 				    struct q6afe_dai_data *data)
- {
--	struct device_node *node;
- 	int ret;
-=20
--	for_each_child_of_node(dev->of_node, node) {
-+	for_each_child_of_node_scoped(dev->of_node, node) {
- 		unsigned int lines[Q6AFE_MAX_MI2S_LINES];
- 		struct q6afe_dai_priv_data *priv;
- 		int id, i, num_lines;
-diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6as=
-m-dai.c
-index a400c9a31fea..d7680dd3a3bb 100644
---- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-@@ -1236,10 +1236,8 @@ static int of_q6asm_parse_dai_data(struct device *=
-dev,
- {
- 	struct snd_soc_dai_driver *dai_drv;
- 	struct snd_soc_pcm_stream empty_stream;
--	struct device_node *node;
- 	int ret, id, dir, idx =3D 0;
-=20
--
- 	pdata->num_dais =3D of_get_child_count(dev->of_node);
- 	if (!pdata->num_dais) {
- 		dev_err(dev, "No dais found in DT\n");
-@@ -1253,7 +1251,7 @@ static int of_q6asm_parse_dai_data(struct device *d=
-ev,
-=20
- 	memset(&empty_stream, 0, sizeof(empty_stream));
-=20
--	for_each_child_of_node(dev->of_node, node) {
-+	for_each_child_of_node_scoped(dev->of_node, node) {
- 		ret =3D of_property_read_u32(node, "reg", &id);
- 		if (ret || id >=3D MAX_SESSIONS || id < 0) {
- 			dev_err(dev, "valid dai id not found:%d\n", ret);
---=20
-2.47.1
+Thanks for reminding. I'll modify it.
 
+> > +	ret = regulator_get_voltage(es8375->core_supply[0].consumer);
+> 
+> Might be nicer to have something better than a magic number to ensure
+> that the supplies are in order, or use a specific variable.
+
+I think I got your point.
+
+> > +	case SND_SOC_DAIFMT_CBC_CFP:    /* MASTER MODE */
+> > +		es8375->mastermode = 1;
+> > +		regmap_update_bits(es8375->regmap, ES8375_RESET1,
+> > +				0x80, 0x80);
+> > +		break;
+> > +	case SND_SOC_DAIFMT_CBC_CFC:    /* SLAVE MODE */
+> 
+> Please avoid using outdated terminologoy for clock provider and
+> consumer.
+
+I'll delete it.
+
+> > +static void es8375_init(struct snd_soc_component *component)
+> > +{
+> 
+> > +	regmap_write(es8375->regmap, ES8375_ADC_VOLUME, 0xBF);
+> > +	regmap_write(es8375->regmap, ES8375_DAC_VOLUME, 0xBF);
+> 
+> Some of these settings look like they are (or should be) user
+> controllable and should be left at the chip defaults, the volumes above
+> really stand out.  We use chip defaults to avoid having to decide which
+> use cases to configure for.
+
+Because the default value of the chip's volume register is 0x00,
+initializing the device without setting it to 0xbf will
+cause the device to mute until the customer sets the volume.
+
+> > +static struct regmap_config es8375_regmap_config = {
+> > +	.reg_bits = 8,
+> > +	.val_bits = 8,
+> > +	.max_register = ES8375_REG_MAX,
+> > +	.cache_type = REGCACHE_RBTREE,
+> 
+> Unless you've got a really strong reason for using _RBTREE new drivers
+> should use _MAPLE, it's a more modern underlying data structure and
+> makes choices more suitable for current systems.
+
+ok
