@@ -1,31 +1,31 @@
-Received: from mail78-63.sinamail.sina.com.cn (mail78-63.sinamail.sina.com.cn [219.142.78.63])
+Received: from smtp134-90.sina.com.cn (smtp134-90.sina.com.cn [180.149.134.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9641C245C
-	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 05:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.142.78.63
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86811C5D7B
+	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 05:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.149.134.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747893112; cv=none; b=bmkkojcX4WyD40c6RxbN7k92JDTtnGbiTfF8h3marbtrC4PfPlDnwodrN6Sk0ro2C53GNZUU9IFfsETRmjg9OMWa1uN+EGY0U8ixHwe/3RNArK5i9l6OzRgy9g0s1r4qGbuBe3GiSr+B1DfuikRgugXyzWzmMEkB+JaaTLJFzTo=
+	t=1747893188; cv=none; b=l1BQA6oHHim/y5RgcFUWHTbWBVmZ1JhiGHH9IPAQ4tSRP/tVoxfqkO78rLS1a2HqL4oLw5SdrEYNFX7xYxqEmeo5Ntitc/lTIFOdz4nNX9FbD1NaFdcIUE7cLbQIjn3FUMAWsPrfB8XvwKqNrbvcBRjGdHbPGegYNFNnW6vlujk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747893112; c=relaxed/simple;
-	bh=8IySV+zjl4Q3PabWEsSWbmjUJYYPs2ADwVyy8nojSUk=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=HiLEuHhJJBfBWnwwdf+pRk/uSxUqI2dgWmLNutsWqlzOHneE332nudWy9Erd9YhND1dwl2vxS60zWAyYz1vCDPVIqrAjkXn8pyLxKYgIduc0NUGNty+MtwQHmcsWMksmZfHooUouy3EDahDEV+OW+MiKVJX6TJBUabyicMqV9qE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=219.142.78.63
+	s=arc-20240116; t=1747893188; c=relaxed/simple;
+	bh=COoArKPhM0O1twtk8c40WHTH20QejO+o6b3Un7o8Eqg=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=H1uaFieQez0/sWgvFdPesYW5lq1sGh4B+/B/n498N4A/AzudmUL3sFeT+eF8BOGzCc5VxRYuyvosPQ51pRswmzVcVb99KpPKSJnf5H1ZFVozKkMguX4cHToS98QOzqiKKEiThonbudtGA7je7zUydRpOg0yHxiufQLYJsIKn/mU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=180.149.134.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([180.172.39.205])
-	by sina.net (10.185.250.32) with ESMTP
-	id 682EBA2B000069DF; Thu, 22 May 2025 13:46:21 +0800 (CST)
+	by sina.net (10.185.250.31) with ESMTP
+	id 682EBA75000072A0; Thu, 22 May 2025 13:47:34 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 594AF7BC60AB456B903CEEEC1929F436
-X-SMAIL-UIID: 594AF7BC60AB456B903CEEEC1929F436-20250522-134621
+X-SMAIL-MID: C61064C92CA44517821FD0B647842F70
+X-SMAIL-UIID: C61064C92CA44517821FD0B647842F70-20250522-134734
 From: Zhang Yi <zhangyi@everest-semi.com>
-To: broonie@kernel.org
+To: krzk@kernel.org
 Cc: robh@kernel.org,
 	tiwai@suse.com,
 	devicetree@vger.kernel.org,
@@ -36,10 +36,10 @@ Cc: robh@kernel.org,
 	perex@perex.cz,
 	krzk+dt@kernel.org,
 	amadeuszx.slawinski@linux.intel.com,
-	krzk@kernel.org
+	broonie@kernel.org
 Subject: RE: [PATCH 2/2] ASoC: codecs: add support for ES8375
-Date: Thu, 22 May 2025 13:46:19 +0800
-Message-Id: <20250522054619.9574-1-zhangyi@everest-semi.com>
+Date: Thu, 22 May 2025 13:47:32 +0800
+Message-Id: <20250522054732.9629-1-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -47,82 +47,17 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-> > +static int es8375_dmic_set(struct snd_kcontrol *kcontrol,
-> > +	struct snd_ctl_elem_value *ucontrol)
+> > +static int es8375_read_device_properities(struct device *dev, struct es8375_priv *es8375)
 > > +{
+> > +	int ret;
+> > +
+> > +	ret = device_property_read_u8(dev, "everest,mclk-src", &es8375->mclk_src);
 > 
-> > +	if (val) {
-> > +		regmap_update_bits_check(es8375->regmap, ES8375_ADC1, 0x80, 0x80, &changed1);
-> > +		es8375->dmic_enable = 0x01;
-> > +	} else {
-> > +		regmap_update_bits_check(es8375->regmap, ES8375_ADC1, 0x80, 0x00, &changed1);
-> > +		es8375->dmic_enable = 0x00;
-> > +	}
-> 
-> Instead of overriding this you could just read the register value when
-> you need it, you've got a register cache so it should be fast enough and
-> it's a lot less code.
+> These are not documented for DT, but you have here other interfaces. We
+> do not have such case nicely solved, so please add explicit comment that
+> usage of this and dmic-pol in DT based platforms is not allowed and this
+> is not considered ABI.
 
-I'll read the ES8375_ADC1 when I need the dmic_enable.
-So I can replace SOC_DAPM_ENUM_EXT with SOC_DAPM_ENUM
-which is used for ADC MUX.
-
-> > +static const struct snd_kcontrol_new es8375_snd_controls[] = {
-> > +	/* Capture Path */
-> > +	SOC_SINGLE_TLV("ADC OSR GAIN", ES8375_ADC_OSR_GAIN,
-> > +			ADC_OSR_GAIN_SHIFT_0, ES8375_ADC_OSR_GAIN_MAX, 0,
-> > +			es8375_adc_osr_gain_tlv),
-> 
-> Gain/volume controls should end in Volume as covered in control-names.rst.
-> 
-> > +	SOC_SINGLE("ADC Invert", ES8375_ADC1, ADC_INV_SHIFT_6, 1, 0),
-> 
-> On/off switches should end in Switch.
-
-Thanks for reminding. I'll modify it.
-
-> > +	ret = regulator_get_voltage(es8375->core_supply[0].consumer);
-> 
-> Might be nicer to have something better than a magic number to ensure
-> that the supplies are in order, or use a specific variable.
-
-I think I got your point.
-
-> > +	case SND_SOC_DAIFMT_CBC_CFP:    /* MASTER MODE */
-> > +		es8375->mastermode = 1;
-> > +		regmap_update_bits(es8375->regmap, ES8375_RESET1,
-> > +				0x80, 0x80);
-> > +		break;
-> > +	case SND_SOC_DAIFMT_CBC_CFC:    /* SLAVE MODE */
-> 
-> Please avoid using outdated terminologoy for clock provider and
-> consumer.
-
-I'll delete it.
-
-> > +static void es8375_init(struct snd_soc_component *component)
-> > +{
-> 
-> > +	regmap_write(es8375->regmap, ES8375_ADC_VOLUME, 0xBF);
-> > +	regmap_write(es8375->regmap, ES8375_DAC_VOLUME, 0xBF);
-> 
-> Some of these settings look like they are (or should be) user
-> controllable and should be left at the chip defaults, the volumes above
-> really stand out.  We use chip defaults to avoid having to decide which
-> use cases to configure for.
-
-Because the default value of the chip's volume register is 0x00,
-initializing the device without setting it to 0xbf will
-cause the device to mute until the customer sets the volume.
-
-> > +static struct regmap_config es8375_regmap_config = {
-> > +	.reg_bits = 8,
-> > +	.val_bits = 8,
-> > +	.max_register = ES8375_REG_MAX,
-> > +	.cache_type = REGCACHE_RBTREE,
-> 
-> Unless you've got a really strong reason for using _RBTREE new drivers
-> should use _MAPLE, it's a more modern underlying data structure and
-> makes choices more suitable for current systems.
-
-ok
+I'll add the description of everest,mclk-src.
+But I noticed that es8375->dmic_pol is not used inside the driver,
+so I'll remove it.
