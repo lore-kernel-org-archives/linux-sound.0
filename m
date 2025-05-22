@@ -1,205 +1,146 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403FA28B411
-	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 12:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEC626156A
+	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 13:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747917467; cv=none; b=hLLb+OzF1ACXnaioaqGSpv9INmNVwXl6UfDRz4hQGOm0sDlQjQxIpb2ZJmDnna7YjE8IpHRj0ue2lKKTZei0VTc95TecI3CPB8D2HC8GXTbX2tKQt4/w4m+pyDD/AsPo5e89lmoYUZxfS+QbO3BZDDNpD/Yxs6FumHdoXI3+aXs=
+	t=1747919816; cv=none; b=uzZvtMiJYCIiUQFfTRNssam1S3yvkCRJgc71XRW0+hRfNDxw0Rc0GEZDp6kQZqTMa1Ftm1i2C7KiabGj2oa0LSPLwL/8DWklhX/DpOHB3s6SS88qqtsiW/N/r+D4QVh+PP2kcN8Gl2wpcEr3IfJ47ArKGhv/rADvULO2yShrrNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747917467; c=relaxed/simple;
-	bh=W6OEXgXNX8Gqe89LMCjSeM73v/HbqEgC8SQtD8y6JEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RMhZXYiv0ltftLWNYat41Dq5vEaKaZPKYl6yhzRftl7c5N4tML/sw2YIcCYty5s4xNtFNmsSgE2cPO6BWA8xsqc0XOxeJxupSaH4jpqqejm6Y716ggNbgWVxhAYHrDKvdwTp/XWg+6G4kWdzVO0O/M0fMS8n675g6oINtRwSvaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=puIi8/YX; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1747919816; c=relaxed/simple;
+	bh=tcc4n387UsvLPQusjBltHNLaXRJtBPQIACDLMGtq97o=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VlDnogalka5sUm30qClXhEb/VmdGeF+eFsmUTW/pb9o5Qmkg8xl750pMa/4PQxqqJMgvXqKd7+NfEK2VA01F/R9Xa9UecVuuKN3r/8DT/jrmT7rFMjcjtP3yLhkKnIxuvcEip62EWulIYVKTtkhAX4izBME6rie4x/cKDdY32Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MXr1ipGH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aw5+wuRn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MXr1ipGH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aw5+wuRn; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="puIi8/YX"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54M8o9Wq001723
-	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 12:37:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=RgX9Aci2OKy/LHgxiHnopths
-	wLGl49EW6vrJhQF5Sd4=; b=puIi8/YXySjnaRhqdPF6arFGXrN64CFKlgec9+hh
-	yazluQo/TWc0lbpIj5odU7MUowdsNeEbFfK5csRrlO3C0EEFxId7eNo2CawsvJnZ
-	PTIOa8jzHsTkAenPYyRBUnBPsa7pvvNLyvf7T6hWxZCFzVqh/eKEEgepS0VGDcna
-	G8U2mZR0m3OYEZFrFk78u0L+N7rS1Jpb6elMICfZ1AdRzNVMlKr5tA9RT+E4VNtX
-	Srz+XlZbxjppxFXyMzBSpx029AEjLf5t/3+r1XP/SXtTmp2gjk84m6fTsazCuRMt
-	Y5npPMV2il3EgMdInXJaV/+Yz9ulQ52+xwmoyVDXNrZcEQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf6x80e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 12:37:44 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c9255d5e8cso1345348485a.1
-        for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 05:37:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747917464; x=1748522264;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RgX9Aci2OKy/LHgxiHnopthswLGl49EW6vrJhQF5Sd4=;
-        b=L53fHvdWGWkDzSulIHjZeUdbfS+cesIQ3FVm5Wst2K9qgmzLyJO3B/nooCGwtavfDX
-         6b21tj6TykA8WbG34HA6KbAz4oKiqZToc7pfQF00DT6xk3BEjGl7Vzl/xbHl6Z1esWpl
-         NLoSnkftSvyw+pdGMGtJa5E/hTVzaCZ1dpAIHLBfuYPmW8MdWarg64jhNvdBzB01gYs1
-         GZn5F8tpleJnLy1du6urAKEbu2O6N1JRkfQxPOGBnBcpLGxkys0qTKG07DQcYnffGlj8
-         Zy4j9ihEXpkQoglxY8IdUvtFpx0T3pYY2tgn4XRHlqjykbfOIVwQeb8ulIVc1kIlIkT7
-         egGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUiy/c8pSXRqNbeAIhVty8YMAyt0x/4mV5QcHFcBLeigR0Aw+dO9XP1jv3V/mAEBXLEtV01ZZChET6/FQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz4AzcHvQ2VRQJKLb6DQmYUQKrQnuuFi+y2wOW2/lUxU6tmiyL
-	YtQ1NGUgJP0dY6l6gSJGNmrx/KxrXqzKGbjs3xqmW1j7p1nOsBpHjFJocclyYYs3DpnFKiqvaLU
-	k4adsqZTumoNUF6QdnJ4o7BjnKI2obTcAHpKgiSQUcaVk34C+ouEEZo/qm+bgoTDUfA==
-X-Gm-Gg: ASbGncu5m6+O0svFXoDOJ/j2B+BLpOkZgTpkIYmYrBaLz/VfCmUA/lkdOge5vOXzDRC
-	Fl2WNGAXXaupPpSixq59X27a72DAxuMw8tTzwvZQBCDE2SM2z3/FJNB0Srr4hKQcOa5vUc8PZk0
-	lt8fdZUGEOkbLxXYLt1Yw4ua+WHkD0wsEKzgtkJGaImjGDBm6AvUEhhIXSQtRI2Yt6vG5YVDi4n
-	LEd9PkAqjPF/jzDDq8zDbzbx3qPTWQEQeqcJv2erRB/AOqRE/gg1DkhXJepScHJpiSS5oApkDUT
-	AxNvaXP3YcbOn4ua7ojjJb4QETTDGZO/Q7XyOnJryRrt2gC3aGdWHRSYKHtYazN5TPcsh8Ww4Hs
-	=
-X-Received: by 2002:a05:620a:4013:b0:7ca:f447:c676 with SMTP id af79cd13be357-7cd467a017dmr3460592085a.43.1747917463781;
-        Thu, 22 May 2025 05:37:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEuK9ZYaNS9i+Q5elNYnjF85wlG4E7W2PQcAkgZfLcHHNu2rPiTZal61BKORpuvgC6jlMqV/w==
-X-Received: by 2002:a05:620a:4013:b0:7ca:f447:c676 with SMTP id af79cd13be357-7cd467a017dmr3460586985a.43.1747917463368;
-        Thu, 22 May 2025 05:37:43 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e702a289sm3392445e87.163.2025.05.22.05.37.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 May 2025 05:37:42 -0700 (PDT)
-Date: Thu, 22 May 2025 15:37:40 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ai Chao <aichao@kylinos.cn>
-Cc: perex@perex.cz, tiwai@suse.com, johannes@sipsolutions.net,
-        kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com,
-        broonie@kernel.org, jbrunet@baylibre.com, neil.armstrong@linaro.org,
-        khilman@baylibre.com, martin.blumenstingl@googlemail.com,
-        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-        nicoleotsuka@gmail.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        srinivas.kandagatla@linaro.org, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
-        kernel@pengutronix.de, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] ASoC: qcom: Use helper function
- for_each_child_of_node_scoped()
-Message-ID: <jp6lxxm3httbz7ygu7bj3xju4l7jnnhvbpaicb36ju4hyxpb2o@4lhl7xzif6qo>
-References: <20250522050300.519244-1-aichao@kylinos.cn>
- <20250522050300.519244-7-aichao@kylinos.cn>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MXr1ipGH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aw5+wuRn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MXr1ipGH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aw5+wuRn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 902051F766;
+	Thu, 22 May 2025 13:16:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1747919812; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nwGR3WBG0Y3P3ClNI6DJYTqQ4ZoDuJNCVhvLlaFe27E=;
+	b=MXr1ipGHQ9dSvix6ZvK1Ygj52Ihz8Y/qqkRQ2rWJz3QdMcD89CUnnd0ekpVgOk4cVTbHHU
+	8LuN+AgkjmC04FXe55RZJeRhk6FkfxDtRe6kTQ10XPdd9RKFn1Q3/jIClVpoFTPFXkSVdi
+	lsM4RNYxYA6oxJqOn4GwakrE6AUO860=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1747919812;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nwGR3WBG0Y3P3ClNI6DJYTqQ4ZoDuJNCVhvLlaFe27E=;
+	b=aw5+wuRn7eOj+bqx5UDMxKSYaR7u+D2RiBXvEQPt+d51JhhMhmqBXRcqmp6M02nFRr9Fkk
+	FDScakePI8jevpDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MXr1ipGH;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=aw5+wuRn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1747919812; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nwGR3WBG0Y3P3ClNI6DJYTqQ4ZoDuJNCVhvLlaFe27E=;
+	b=MXr1ipGHQ9dSvix6ZvK1Ygj52Ihz8Y/qqkRQ2rWJz3QdMcD89CUnnd0ekpVgOk4cVTbHHU
+	8LuN+AgkjmC04FXe55RZJeRhk6FkfxDtRe6kTQ10XPdd9RKFn1Q3/jIClVpoFTPFXkSVdi
+	lsM4RNYxYA6oxJqOn4GwakrE6AUO860=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1747919812;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nwGR3WBG0Y3P3ClNI6DJYTqQ4ZoDuJNCVhvLlaFe27E=;
+	b=aw5+wuRn7eOj+bqx5UDMxKSYaR7u+D2RiBXvEQPt+d51JhhMhmqBXRcqmp6M02nFRr9Fkk
+	FDScakePI8jevpDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6891713433;
+	Thu, 22 May 2025 13:16:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UQ+7GMQjL2iSfQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 22 May 2025 13:16:52 +0000
+Date: Thu, 22 May 2025 15:16:51 +0200
+Message-ID: <87frgw9458.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH] ALSA: core: fix up bus match const issues.
+In-Reply-To: <2025052204-hyphen-thermal-3e72@gregkh>
+References: <2025052204-hyphen-thermal-3e72@gregkh>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250522050300.519244-7-aichao@kylinos.cn>
-X-Proofpoint-GUID: QKBVwW0O9hknPkFsFNWhDs1U3Eh3ESh7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDEyNyBTYWx0ZWRfXy5ppzWjXPLFI
- 1qqWdVdPkoqdYjGpeKvxliDuSedjZKiw8aFRhPkGszfJ2HHicAc9hYEJxeV/q8PMkIPPSIDcxnJ
- HSPYsX8PtVHHkdkcx29mq4NvYINmaEs13BR5RzAi2+mxjip03UFma2VfXKOki2Cv3nNYmn3UcI5
- yH5Q6yj6xjrO5q+VneJ1Bx/PFu4izkaIyJASOhT9f03Y7Bj0z5z4UFPP5WC57hUP32jSzYBbN31
- ZVN4Rvft5ukt6lFkU0hn71UtVCEorCxzpjy2zLmT00nwmS4fPUk7RyieTsgchEuJcfU+llVLRo8
- I7bnF/p0OH76g47kUZUqFojJpDfPi2M97gEadD3NqVK/kunlfkBB+MpvHWq1Pt2787MRfvMAL7d
- pZjjOOhIjWqiuAQ56RzU8w4ynF1UeUUUfye9FwosGBxwQqqPgutmqB4s1gC9y4NhnywXfcfd
-X-Authority-Analysis: v=2.4 cv=fZOty1QF c=1 sm=1 tr=0 ts=682f1a98 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=rlxKSa1xbkCyiMC8iTsA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: QKBVwW0O9hknPkFsFNWhDs1U3Eh3ESh7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-22_06,2025-05-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0 adultscore=0 spamscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 impostorscore=0 mlxlogscore=892
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2505220127
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Bar: /
+X-Spam-Flag: NO
+X-Spam-Score: -0.51
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 902051F766
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-0.51 / 50.00];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:email,suse.de:mid,suse.de:dkim,suse.com:email];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.de:mid,suse.de:dkim,linuxfoundation.org:email,perex.cz:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 
-On Thu, May 22, 2025 at 01:02:59PM +0800, Ai Chao wrote:
-> The for_each_child_of_node_scoped() helper provides a scope-based
-> clean-up functionality to put the device_node automatically, and
-> as such, there is no need to call of_node_put() directly.
+On Thu, 22 May 2025 12:08:05 +0200,
+Greg Kroah-Hartman wrote:
+> 
+> In commit d69d80484598 ("driver core: have match() callback in struct
+> bus_type take a const *"), the match bus callback was changed to have
+> the driver be a const pointer.  Unfortunately that const attribute was
+> thrown away when container_of() is called, which is not correct and was
+> not caught by the compiler due to how container_of() is implemented.
+> Fix this up by correctly preserving the const attribute of the driver
+> passed to the bus match function which requires the hdac_driver match
+> function to also take a const pointer for the driver structure.
+> 
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Fixes: d69d80484598 ("driver core: have match() callback in struct bus_type take a const *")
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-There are no calls to of_node_put() in the commit. So the commit message
-is incorrect / not-applicable.
+Applied now.  Thanks.
 
-> 
-> Thus, use this helper to simplify the code.
-> 
-> Signed-off-by: Ai Chao <aichao@kylinos.cn>
-> ---
->  sound/soc/qcom/lpass-cpu.c       | 3 +--
->  sound/soc/qcom/qdsp6/q6afe-dai.c | 3 +--
->  sound/soc/qcom/qdsp6/q6asm-dai.c | 4 +---
->  3 files changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-> index 242bc16da36d..62f49fe46273 100644
-> --- a/sound/soc/qcom/lpass-cpu.c
-> +++ b/sound/soc/qcom/lpass-cpu.c
-> @@ -1046,7 +1046,6 @@ static unsigned int of_lpass_cpu_parse_sd_lines(struct device *dev,
->  static void of_lpass_cpu_parse_dai_data(struct device *dev,
->  					struct lpass_data *data)
->  {
-> -	struct device_node *node;
->  	int ret, i, id;
->  
->  	/* Allow all channels by default for backwards compatibility */
-> @@ -1056,7 +1055,7 @@ static void of_lpass_cpu_parse_dai_data(struct device *dev,
->  		data->mi2s_capture_sd_mode[id] = LPAIF_I2SCTL_MODE_8CH;
->  	}
->  
-> -	for_each_child_of_node(dev->of_node, node) {
-> +	for_each_child_of_node_scoped(dev->of_node, node) {
->  		ret = of_property_read_u32(node, "reg", &id);
->  		if (ret || id < 0) {
->  			dev_err(dev, "valid dai id not found: %d\n", ret);
-> diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
-> index 7d9628cda875..64735f2adf8f 100644
-> --- a/sound/soc/qcom/qdsp6/q6afe-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
-> @@ -962,10 +962,9 @@ static const struct snd_soc_component_driver q6afe_dai_component = {
->  static void of_q6afe_parse_dai_data(struct device *dev,
->  				    struct q6afe_dai_data *data)
->  {
-> -	struct device_node *node;
->  	int ret;
->  
-> -	for_each_child_of_node(dev->of_node, node) {
-> +	for_each_child_of_node_scoped(dev->of_node, node) {
->  		unsigned int lines[Q6AFE_MAX_MI2S_LINES];
->  		struct q6afe_dai_priv_data *priv;
->  		int id, i, num_lines;
-> diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
-> index a400c9a31fea..d7680dd3a3bb 100644
-> --- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-> @@ -1236,10 +1236,8 @@ static int of_q6asm_parse_dai_data(struct device *dev,
->  {
->  	struct snd_soc_dai_driver *dai_drv;
->  	struct snd_soc_pcm_stream empty_stream;
-> -	struct device_node *node;
->  	int ret, id, dir, idx = 0;
->  
-> -
->  	pdata->num_dais = of_get_child_count(dev->of_node);
->  	if (!pdata->num_dais) {
->  		dev_err(dev, "No dais found in DT\n");
-> @@ -1253,7 +1251,7 @@ static int of_q6asm_parse_dai_data(struct device *dev,
->  
->  	memset(&empty_stream, 0, sizeof(empty_stream));
->  
-> -	for_each_child_of_node(dev->of_node, node) {
-> +	for_each_child_of_node_scoped(dev->of_node, node) {
->  		ret = of_property_read_u32(node, "reg", &id);
->  		if (ret || id >= MAX_SESSIONS || id < 0) {
->  			dev_err(dev, "valid dai id not found:%d\n", ret);
-> -- 
-> 2.47.1
-> 
 
--- 
-With best wishes
-Dmitry
+Takashi
