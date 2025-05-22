@@ -1,150 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp134-79.sina.com.cn (smtp134-79.sina.com.cn [180.149.134.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782BA2857DC;
-	Thu, 22 May 2025 10:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354C828934A
+	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 10:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.149.134.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747908497; cv=none; b=pJ7RJ7mcqMgArcHRw0oET69zvZqzoZ4FyQlOvRuTOVN+Eibp3h2PnQkWgytbDyOo/QtbMGRTxmKX+rueuDEC928YWR4acWHsDK+OYoEicsfkEBaun9zHF2qXX1+GOdW8vkhDl1LIC39HvQAKF3EE2/3inOY316dMACUzL4F/2Dk=
+	t=1747910160; cv=none; b=C0c2aDGxuPyAy9c4S6goR9MlmHq4x4acjGYIJSgks4zHW6kEAXoz8XFYxiI6H48o9KHDw/6OUYxpBl/RWuk8TjBZyhvjXJzYVHuHPuGnnLuHnWDpy5NvCE6pGDlxu13J5mQsiY8p+LcDR/4ZLNBd3q/8TsJAVmbXnkq3CmRMgPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747908497; c=relaxed/simple;
-	bh=BX8oWSaa9Hi4cAQ2gf8o5haX9+XJcjZROfzkic+wEXM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sXCoE3/BMfpSEiCYy8k9opZyACXqUIr0TUzZvWDikBJAdnyqs7ZKcs/kjpeevMKbnHjBoIooHFDGPzElrxc74+qHG5gs1v3ZmHUQS2a/SsZ2vgJySa5G+Rkfs4qsegn3/uzb6guXmrmVnKdWaFVayI8kVfimRXVFTIra7DOjS04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YStDAock; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YStDAock"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7035CC4CEE4;
-	Thu, 22 May 2025 10:08:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1747908496;
-	bh=BX8oWSaa9Hi4cAQ2gf8o5haX9+XJcjZROfzkic+wEXM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YStDAockdhnkDtJbw9m8N5iPWSIHr9jY5YF4RV+Gh5/bOFXxfgELcQKzeCPVg45fs
-	 6/QW0ANj4Yhta+VAls6Wyu6f8y+xA/Bz3OjdCJ2GDl1vZMqTuYXySJe4/WoVbN4SY/
-	 utLn8TpJlIBB01OGKvqMcyROpmZMiNH3OBH5YgiI=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH] ALSA: core: fix up bus match const issues.
-Date: Thu, 22 May 2025 12:08:05 +0200
-Message-ID: <2025052204-hyphen-thermal-3e72@gregkh>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1747910160; c=relaxed/simple;
+	bh=9BCOZjNm2q8RavaslpU4IvZ1jNwKcJcNhH/LzaHPbVE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Ax3NX9m8ROlHsLD08lWkzYrdDmRRaqGnep1GoGzWJVr5MKgkGC/aSWKzBi20s5uQmfCJqSImaFUebtWq8DqcUbbAGdkslSqj+jmUAwJ2dArBT9FbU+wBh4qVjo6DyO8CD4KiNcodE/91QY9ybCbzYL4mmI8XnY1bc7Ey8SZXwsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=180.149.134.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([180.172.39.205])
+	by sina.net (10.185.250.29) with ESMTP
+	id 682EFE05000009F7; Thu, 22 May 2025 18:35:53 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 720F221B6C7C47399735B01F3881A612
+X-SMAIL-UIID: 720F221B6C7C47399735B01F3881A612-20250522-183553
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org,
+	robh@kernel.org,
+	tiwai@suse.com,
+	devicetree@vger.kernel.org,
+	conor+dt@kernel.org,
+	lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	krzk+dt@kernel.org
+Cc: amadeuszx.slawinski@linux.intel.com,
+	krzk@kernel.org,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v1 1/2] ASoC: dt-bindings: Add Everest ES8375 audio CODEC
+Date: Thu, 22 May 2025 18:35:47 +0800
+Message-Id: <20250522103548.20134-2-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20250522103548.20134-1-zhangyi@everest-semi.com>
+References: <20250522103548.20134-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4432; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=BX8oWSaa9Hi4cAQ2gf8o5haX9+XJcjZROfzkic+wEXM=; b=owGbwMvMwCRo6H6F97bub03G02pJDBl631vmKzdsk7pR8uYMN4ORLNt7Lk6uek3O6al31IOC8 x4yn6vviGVhEGRikBVTZPmyjefo/opDil6Gtqdh5rAygQxh4OIUgInoTWGYZ5Us/inNqv+SiOTS 0nP5HzWbH7+JYlgwxejx6k7/bNcMg9yn7XtKGt9eeSQNAA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
 
-In commit d69d80484598 ("driver core: have match() callback in struct
-bus_type take a const *"), the match bus callback was changed to have
-the driver be a const pointer.  Unfortunately that const attribute was
-thrown away when container_of() is called, which is not correct and was
-not caught by the compiler due to how container_of() is implemented.
-Fix this up by correctly preserving the const attribute of the driver
-passed to the bus match function which requires the hdac_driver match
-function to also take a const pointer for the driver structure.
+Add device tree binding documentation for Everest ES8375
 
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Fixes: d69d80484598 ("driver core: have match() callback in struct bus_type take a const *")
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- include/sound/hdaudio.h  | 4 ++--
- sound/core/seq_device.c  | 2 +-
- sound/hda/hda_bus_type.c | 6 +++---
- sound/pci/hda/hda_bind.c | 4 ++--
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ .../bindings/sound/everest,es8375.yaml        | 71 +++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/everest,es8375.yaml
 
-diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-index b098ceadbe74..9a70048adbc0 100644
---- a/include/sound/hdaudio.h
-+++ b/include/sound/hdaudio.h
-@@ -223,7 +223,7 @@ struct hdac_driver {
- 	struct device_driver driver;
- 	int type;
- 	const struct hda_device_id *id_table;
--	int (*match)(struct hdac_device *dev, struct hdac_driver *drv);
-+	int (*match)(struct hdac_device *dev, const struct hdac_driver *drv);
- 	void (*unsol_event)(struct hdac_device *dev, unsigned int event);
- 
- 	/* fields used by ext bus APIs */
-@@ -235,7 +235,7 @@ struct hdac_driver {
- #define drv_to_hdac_driver(_drv) container_of(_drv, struct hdac_driver, driver)
- 
- const struct hda_device_id *
--hdac_get_device_id(struct hdac_device *hdev, struct hdac_driver *drv);
-+hdac_get_device_id(struct hdac_device *hdev, const struct hdac_driver *drv);
- 
- /*
-  * Bus verb operators
-diff --git a/sound/core/seq_device.c b/sound/core/seq_device.c
-index 4492be5d2317..bac9f8603734 100644
---- a/sound/core/seq_device.c
-+++ b/sound/core/seq_device.c
-@@ -43,7 +43,7 @@ MODULE_LICENSE("GPL");
- static int snd_seq_bus_match(struct device *dev, const struct device_driver *drv)
- {
- 	struct snd_seq_device *sdev = to_seq_dev(dev);
--	struct snd_seq_driver *sdrv = to_seq_drv(drv);
-+	const struct snd_seq_driver *sdrv = to_seq_drv(drv);
- 
- 	return strcmp(sdrv->id, sdev->id) == 0 &&
- 		sdrv->argsize == sdev->argsize;
-diff --git a/sound/hda/hda_bus_type.c b/sound/hda/hda_bus_type.c
-index 7545ace7b0ee..eb72a7af2e56 100644
---- a/sound/hda/hda_bus_type.c
-+++ b/sound/hda/hda_bus_type.c
-@@ -21,7 +21,7 @@ MODULE_LICENSE("GPL");
-  * driver id_table and returns the matching device id entry.
-  */
- const struct hda_device_id *
--hdac_get_device_id(struct hdac_device *hdev, struct hdac_driver *drv)
-+hdac_get_device_id(struct hdac_device *hdev, const struct hdac_driver *drv)
- {
- 	if (drv->id_table) {
- 		const struct hda_device_id *id  = drv->id_table;
-@@ -38,7 +38,7 @@ hdac_get_device_id(struct hdac_device *hdev, struct hdac_driver *drv)
- }
- EXPORT_SYMBOL_GPL(hdac_get_device_id);
- 
--static int hdac_codec_match(struct hdac_device *dev, struct hdac_driver *drv)
-+static int hdac_codec_match(struct hdac_device *dev, const struct hdac_driver *drv)
- {
- 	if (hdac_get_device_id(dev, drv))
- 		return 1;
-@@ -49,7 +49,7 @@ static int hdac_codec_match(struct hdac_device *dev, struct hdac_driver *drv)
- static int hda_bus_match(struct device *dev, const struct device_driver *drv)
- {
- 	struct hdac_device *hdev = dev_to_hdac_dev(dev);
--	struct hdac_driver *hdrv = drv_to_hdac_driver(drv);
-+	const struct hdac_driver *hdrv = drv_to_hdac_driver(drv);
- 
- 	if (hdev->type != hdrv->type)
- 		return 0;
-diff --git a/sound/pci/hda/hda_bind.c b/sound/pci/hda/hda_bind.c
-index 9521e5e0e6e6..1fef350d821e 100644
---- a/sound/pci/hda/hda_bind.c
-+++ b/sound/pci/hda/hda_bind.c
-@@ -18,10 +18,10 @@
- /*
-  * find a matching codec id
-  */
--static int hda_codec_match(struct hdac_device *dev, struct hdac_driver *drv)
-+static int hda_codec_match(struct hdac_device *dev, const struct hdac_driver *drv)
- {
- 	struct hda_codec *codec = container_of(dev, struct hda_codec, core);
--	struct hda_codec_driver *driver =
-+	const struct hda_codec_driver *driver =
- 		container_of(drv, struct hda_codec_driver, core);
- 	const struct hda_device_id *list;
- 	/* check probe_id instead of vendor_id if set */
+diff --git a/Documentation/devicetree/bindings/sound/everest,es8375.yaml b/Documentation/devicetree/bindings/sound/everest,es8375.yaml
+new file mode 100644
+index 000000000000..4a3d671c66b1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/everest,es8375.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/everest,es8375.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Everest ES8375 audio CODEC
++
++maintainers:
++  - Michael Zhang <zhangyi@everest-semi.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: everest,es8375
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: clock for master clock (MCLK)
++
++  clock-names:
++    items:
++      - const: mclk
++
++  vdda-supply:
++    description:
++      Analogue power supply.
++
++  vddd-supply:
++    description:
++      Interface power supply.
++
++  everest,mclk-src:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description: |
++      Represents the MCLK/SCLK pair pins used as the internal clock.
++      0 represents selecting MCLK.
++      1 represents selecting SCLK.
++    enum: [0, 1]
++    default: 0
++
++  "#sound-dai-cells":
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - "#sound-dai-cells"
++  - vdda-supply
++  - vddd-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      es8375: codec@18 {
++        compatible = "everest,es8375";
++        reg = <0x18>;
++        vdda-supply = <&vdd3v3>;
++        vddd-supply = <&vdd3v3>;
++        #sound-dai-cells = <0>;
++      };
++    };
 -- 
-2.49.0
+2.17.1
 
