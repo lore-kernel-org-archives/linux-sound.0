@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC342356C9
-	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 08:45:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1588280309;
+	Thu, 22 May 2025 08:45:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747903530; cv=none; b=u6CwVNZbEQqoYIxcOo0u++bSvPKq9aOidaWUSvyhweTzv7tVbBf6RJ0veS5IGRsVmFQht2Q6qjmbgLcj4QTRBfiMOIf2jqNVqCAHg0Mfv/C4jBHmAjifS4mnxQ0j0uIwYtEA3sOQDoeZF7jYIjshVYfgDHVLyq5ZDltNy7VpOV8=
+	t=1747903531; cv=none; b=hyfF/ee4JzcP/j8e7BnStRzoHLlJm2FTpoT2PALKttu27PyOFPCUrunQQBVhtS4fh4hRY0O4i6kgy4/c3fiZr1vWa5mWwnSTTLUm8giPvpo2FI2+b4S7GYTSscq/MtWyICPDm7ZfixgGnGYlDsV6zICrbPvvEi+NRHRyqlW2MvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747903530; c=relaxed/simple;
-	bh=fjAuH7HquUu3rM+nJV7PlodVPRQKRk3EwmYOAAAtNnw=;
+	s=arc-20240116; t=1747903531; c=relaxed/simple;
+	bh=SSS6anPKRBCb1IXkLlv4UlzxipEkufFG7dlLhh/Zkd4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hF9m8/75mJgy6PaVwf3im+RtHoBFhb7CnLKhiZPtC2eXOdL5Qrmpa+A4HJBIFPlUg9r/S1pUt/ZYMZ6m03tphfvy/YIKjI2wM+SfitkkLiztsanI2fWLIT978N8aMUnF2po7eE25rrn8p3hd98MWSVveTzsUXd3pffEfroOOWR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HnZowAx5; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=mSeA8Ijxg2qk0SBNgqyEYF1d8ZoSE5DZsgXy5Xd7uO6kRcAJYXSvsln8sOH5AUaH8vg5Ok8VhGibNUu2ovPf1BoZCeqyYp0mp9NEP6AUN5UN7t/2ryr4Us0bhY7j/NGAshI5rtWMzn5yE0R4pIOs2S7H8kwpYiO+QZ99Kflef/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E+74l36L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HnZowAx5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EF1EC4CEED;
-	Thu, 22 May 2025 08:45:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E+74l36L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D65A0C4CEEA;
+	Thu, 22 May 2025 08:45:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747903529;
-	bh=fjAuH7HquUu3rM+nJV7PlodVPRQKRk3EwmYOAAAtNnw=;
+	s=k20201202; t=1747903531;
+	bh=SSS6anPKRBCb1IXkLlv4UlzxipEkufFG7dlLhh/Zkd4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HnZowAx52zkhmrDp+Ov88vpLWVm8Uef00Znz6jKdl+SwFKTSY9IwoTNToO7msAlpz
-	 kz0XozyyCHqavCUcrSdPS8YUUcirlU+SIq9hMMYQ0tnNABWldMmIVjvdTeN95QUBPZ
-	 NbndNB0L/YR92W4lbjGPxjBcelxlXtwi3OCmNB5S0ARt8gKKuMyUMhDunnwR89nSlg
-	 KyVGg/uF/LRHcqJVmteOLebxg5IZXsmUqAx2PaMdEaVPjtIcVISaT28fzpgGTW8S8V
-	 tl3LMXZHaIpaaHO8MdwlyYS37K8/7TsjWtX8O16f+jVv4R/k3cdeoOBkp9brLNjycm
-	 5WZFYKBWPbhOg==
+	b=E+74l36L0Vo9GRzIRBWQ+VGZmXsVfOO22TfyX/lRksoefCu8Z9pHn8FqvNwx/3oze
+	 B7u4fDqiNt7GAf0g+hKM07ZnJJK1of46mIo9HPCUAl7Fc9n+YYVa39Ykhe+xQwoLFc
+	 eF6MdyYQEDi7HbIRWfhc9AATQ8TDeaMF7xbCF0DILvgW+RshkQEmkUFQ6umqJezxJv
+	 ZIPCIv2yTDF1WTmKVApwy3GOZFGU5Wi+hqFd4WYV+36bT8FLRnTUCf6PZ2TS44vnk/
+	 XVFHNjVsz9Sy1XYWjMPU3EXjcFFKWVEpVuUnnIHrJM1TV25KP6bveRE+tKR465UEce
+	 0TFKWiuBP+weQ==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev, 
- peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20250516131011.221310-1-ckeepax@opensource.cirrus.com>
-References: <20250516131011.221310-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v6 0/7] Add DAPM/ASoC helpers to create SDCA drivers
-Message-Id: <174790352786.11863.7427900599008667887.b4-ty@kernel.org>
-Date: Thu, 22 May 2025 09:45:27 +0100
+To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20250516152107.210994-1-sbinding@opensource.cirrus.com>
+References: <20250516152107.210994-1-sbinding@opensource.cirrus.com>
+Subject: Re: [PATCH v1 0/2] ASoC: Add Intel machine driver support for
+ CS35L63
+Message-Id: <174790352962.11863.8143259383908066219.b4-ty@kernel.org>
+Date: Thu, 22 May 2025 09:45:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,19 +49,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Fri, 16 May 2025 14:10:04 +0100, Charles Keepax wrote:
-> Add helper functions to add DAPM widgets, routes, ALSA controls,
-> and DAI drivers, these will be used to create SDCA function device
-> drivers.
+On Fri, 16 May 2025 16:20:46 +0100, Stefan Binding wrote:
+> This adds support to the Intel machine drivers for CS35L63 codecs using
+> soundwire, and also adds match entries for the CDB35L63-CB2 on MTL
+> systems.
 > 
-> This series should provide most of the core functionality needed to
-> get a device registered and have a working DAPM graph within the
-> device. There are some features that still need additional work, these
-> are marked with FIXMEs in the code. The two main things are SDCA
-> Clock Muxes (not used in our devices and needs some ASoC core work),
-> and better support for more complex SDCA volume control definitions
-> (our parts have fairly simple volumes, and SDCA has a large amount of
-> flexibility in how the volume control is specified).
+> Richard Fitzgerald (1):
+>   ASoC: Intel: soc-acpi-intel-mtl-match: Add match for CDB35L63-CB2
 > 
 > [...]
 
@@ -68,20 +65,10 @@ Applied to
 
 Thanks!
 
-[1/7] ASoC: SDCA: Fix minor typo
-      commit: 52b97d43b7c52da481758931a111a091da5e4802
-[2/7] ASoC: SDCA: Remove regmap module macros
-      commit: 96bd04e738f8154b1d798842e89a4fa8b85d2636
-[3/7] ASoC: SDCA: Move allocation of PDE delays array
-      commit: 3849c958eeeb8e340112b983068c5547babc7274
-[4/7] ASoC: dapm: Add component level pin switches
-      commit: 737379e5062e26c59fe069a8bdad2ee363d52686
-[5/7] ASoC: SDCA: Create DAPM widgets and routes from DisCo
-      commit: 2c8b3a8e6aa877583e5dc2f669a8adc896a771d4
-[6/7] ASoC: SDCA: Create ALSA controls from DisCo
-      commit: c3ca24e3fcb656c6afe702b69e6e9efcc3ff1128
-[7/7] ASoC: SDCA: Create DAI drivers from DisCo
-      commit: 108f878d435437f649da32dea9f0d4f684eba3ba
+[1/2] ASoC: intel: sof_sdw: Add support for CS35L63 into machine driver
+      commit: 898cd43bde30744e0b821efdf960781c240d4e6c
+[2/2] ASoC: Intel: soc-acpi-intel-mtl-match: Add match for CDB35L63-CB2
+      commit: 8c4d2cc1e1cb9b8c9f26af6c5f19e0c7233e6f81
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
