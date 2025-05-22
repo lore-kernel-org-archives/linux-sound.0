@@ -1,81 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682E71EEA28;
-	Thu, 22 May 2025 11:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403FA28B411
+	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 12:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747913383; cv=none; b=T6Gt7rv/QSUnDa7qlkG57WiOHp6/5tro8Y9Q6Ub3nckW/j2yA8ppcCqELUevO76D/JxxmviUJ0EUGZAXUMqVoGNmO4iVnnLJkt77VnqE5MgNpiOuQwTB3v2k8ziUpWY+VkP7Io72VkZj5ku8mXX3DLpTxAv01bMqlT5Z5WYtyyU=
+	t=1747917467; cv=none; b=hLLb+OzF1ACXnaioaqGSpv9INmNVwXl6UfDRz4hQGOm0sDlQjQxIpb2ZJmDnna7YjE8IpHRj0ue2lKKTZei0VTc95TecI3CPB8D2HC8GXTbX2tKQt4/w4m+pyDD/AsPo5e89lmoYUZxfS+QbO3BZDDNpD/Yxs6FumHdoXI3+aXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747913383; c=relaxed/simple;
-	bh=hgEYm1tyCyXjwPS9ww8T2i61C1AXnYlHbSlQgXs1Qo8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TWxvppi7Qw/7sf9jfAgnTsDY5/j57buGeawJwNABGVdcGzVNBAqb6nR0VbjOc0e5hRU1P7BE6BdNiFu/NEScWHPkgbNsCiME4hAK62k7llBKJWkYaVeeDCcT34AKQM8onXxGVQk8ViTAcQiZOvzq8HMrwBCyr2JCjXBiacco+4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q4VsoGCw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747917467; c=relaxed/simple;
+	bh=W6OEXgXNX8Gqe89LMCjSeM73v/HbqEgC8SQtD8y6JEc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RMhZXYiv0ltftLWNYat41Dq5vEaKaZPKYl6yhzRftl7c5N4tML/sw2YIcCYty5s4xNtFNmsSgE2cPO6BWA8xsqc0XOxeJxupSaH4jpqqejm6Y716ggNbgWVxhAYHrDKvdwTp/XWg+6G4kWdzVO0O/M0fMS8n675g6oINtRwSvaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=puIi8/YX; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q4VsoGCw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D68BEC4CEE4;
-	Thu, 22 May 2025 11:29:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747913381;
-	bh=hgEYm1tyCyXjwPS9ww8T2i61C1AXnYlHbSlQgXs1Qo8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Q4VsoGCwLsj0yIr1IYaQyJLhouFNhYJFC8moeWlJRn38pEh+D5f6CYwwpdayblupu
-	 RgKYhArJ40fKGlzZPu2tfDnwBeMVzKw/SnkDyiMu37jDorEaSiGtD7SKro6lmltMEE
-	 ry8adFa3CzCVR/PBhRdlT79q/421rqJOpzr6c9KYi1SoRR+fneZTRRd/swwGblynvc
-	 IKlShnYaleJLUDN8C4YaLSpbOMl2OyLfVzyvwc5QQpLzq548XRDM53clTKtCayL+FA
-	 nvfC6uk2+jIX37fKdV65u/fhA2jQfiAGvy3+d3ZEovVOu1rYv11U1ZvvSUvDzmVrEK
-	 jIwPpnw5y/g0g==
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <875xi4axln.wl-kuninori.morimoto.gx@renesas.com>
-References: <875xi4axln.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2] ASoC: dt-bindings: audio-graph-card2: reference
- audio-graph routing property
-Message-Id: <174791338062.54177.10228606863411975443.b4-ty@kernel.org>
-Date: Thu, 22 May 2025 12:29:40 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="puIi8/YX"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54M8o9Wq001723
+	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 12:37:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=RgX9Aci2OKy/LHgxiHnopths
+	wLGl49EW6vrJhQF5Sd4=; b=puIi8/YXySjnaRhqdPF6arFGXrN64CFKlgec9+hh
+	yazluQo/TWc0lbpIj5odU7MUowdsNeEbFfK5csRrlO3C0EEFxId7eNo2CawsvJnZ
+	PTIOa8jzHsTkAenPYyRBUnBPsa7pvvNLyvf7T6hWxZCFzVqh/eKEEgepS0VGDcna
+	G8U2mZR0m3OYEZFrFk78u0L+N7rS1Jpb6elMICfZ1AdRzNVMlKr5tA9RT+E4VNtX
+	Srz+XlZbxjppxFXyMzBSpx029AEjLf5t/3+r1XP/SXtTmp2gjk84m6fTsazCuRMt
+	Y5npPMV2il3EgMdInXJaV/+Yz9ulQ52+xwmoyVDXNrZcEQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf6x80e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 12:37:44 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c9255d5e8cso1345348485a.1
+        for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 05:37:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747917464; x=1748522264;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RgX9Aci2OKy/LHgxiHnopthswLGl49EW6vrJhQF5Sd4=;
+        b=L53fHvdWGWkDzSulIHjZeUdbfS+cesIQ3FVm5Wst2K9qgmzLyJO3B/nooCGwtavfDX
+         6b21tj6TykA8WbG34HA6KbAz4oKiqZToc7pfQF00DT6xk3BEjGl7Vzl/xbHl6Z1esWpl
+         NLoSnkftSvyw+pdGMGtJa5E/hTVzaCZ1dpAIHLBfuYPmW8MdWarg64jhNvdBzB01gYs1
+         GZn5F8tpleJnLy1du6urAKEbu2O6N1JRkfQxPOGBnBcpLGxkys0qTKG07DQcYnffGlj8
+         Zy4j9ihEXpkQoglxY8IdUvtFpx0T3pYY2tgn4XRHlqjykbfOIVwQeb8ulIVc1kIlIkT7
+         egGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUiy/c8pSXRqNbeAIhVty8YMAyt0x/4mV5QcHFcBLeigR0Aw+dO9XP1jv3V/mAEBXLEtV01ZZChET6/FQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyz4AzcHvQ2VRQJKLb6DQmYUQKrQnuuFi+y2wOW2/lUxU6tmiyL
+	YtQ1NGUgJP0dY6l6gSJGNmrx/KxrXqzKGbjs3xqmW1j7p1nOsBpHjFJocclyYYs3DpnFKiqvaLU
+	k4adsqZTumoNUF6QdnJ4o7BjnKI2obTcAHpKgiSQUcaVk34C+ouEEZo/qm+bgoTDUfA==
+X-Gm-Gg: ASbGncu5m6+O0svFXoDOJ/j2B+BLpOkZgTpkIYmYrBaLz/VfCmUA/lkdOge5vOXzDRC
+	Fl2WNGAXXaupPpSixq59X27a72DAxuMw8tTzwvZQBCDE2SM2z3/FJNB0Srr4hKQcOa5vUc8PZk0
+	lt8fdZUGEOkbLxXYLt1Yw4ua+WHkD0wsEKzgtkJGaImjGDBm6AvUEhhIXSQtRI2Yt6vG5YVDi4n
+	LEd9PkAqjPF/jzDDq8zDbzbx3qPTWQEQeqcJv2erRB/AOqRE/gg1DkhXJepScHJpiSS5oApkDUT
+	AxNvaXP3YcbOn4ua7ojjJb4QETTDGZO/Q7XyOnJryRrt2gC3aGdWHRSYKHtYazN5TPcsh8Ww4Hs
+	=
+X-Received: by 2002:a05:620a:4013:b0:7ca:f447:c676 with SMTP id af79cd13be357-7cd467a017dmr3460592085a.43.1747917463781;
+        Thu, 22 May 2025 05:37:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEuK9ZYaNS9i+Q5elNYnjF85wlG4E7W2PQcAkgZfLcHHNu2rPiTZal61BKORpuvgC6jlMqV/w==
+X-Received: by 2002:a05:620a:4013:b0:7ca:f447:c676 with SMTP id af79cd13be357-7cd467a017dmr3460586985a.43.1747917463368;
+        Thu, 22 May 2025 05:37:43 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-550e702a289sm3392445e87.163.2025.05.22.05.37.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 May 2025 05:37:42 -0700 (PDT)
+Date: Thu, 22 May 2025 15:37:40 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ai Chao <aichao@kylinos.cn>
+Cc: perex@perex.cz, tiwai@suse.com, johannes@sipsolutions.net,
+        kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com,
+        broonie@kernel.org, jbrunet@baylibre.com, neil.armstrong@linaro.org,
+        khilman@baylibre.com, martin.blumenstingl@googlemail.com,
+        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+        nicoleotsuka@gmail.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        srinivas.kandagatla@linaro.org, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
+        kernel@pengutronix.de, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2 6/6] ASoC: qcom: Use helper function
+ for_each_child_of_node_scoped()
+Message-ID: <jp6lxxm3httbz7ygu7bj3xju4l7jnnhvbpaicb36ju4hyxpb2o@4lhl7xzif6qo>
+References: <20250522050300.519244-1-aichao@kylinos.cn>
+ <20250522050300.519244-7-aichao@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250522050300.519244-7-aichao@kylinos.cn>
+X-Proofpoint-GUID: QKBVwW0O9hknPkFsFNWhDs1U3Eh3ESh7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIyMDEyNyBTYWx0ZWRfXy5ppzWjXPLFI
+ 1qqWdVdPkoqdYjGpeKvxliDuSedjZKiw8aFRhPkGszfJ2HHicAc9hYEJxeV/q8PMkIPPSIDcxnJ
+ HSPYsX8PtVHHkdkcx29mq4NvYINmaEs13BR5RzAi2+mxjip03UFma2VfXKOki2Cv3nNYmn3UcI5
+ yH5Q6yj6xjrO5q+VneJ1Bx/PFu4izkaIyJASOhT9f03Y7Bj0z5z4UFPP5WC57hUP32jSzYBbN31
+ ZVN4Rvft5ukt6lFkU0hn71UtVCEorCxzpjy2zLmT00nwmS4fPUk7RyieTsgchEuJcfU+llVLRo8
+ I7bnF/p0OH76g47kUZUqFojJpDfPi2M97gEadD3NqVK/kunlfkBB+MpvHWq1Pt2787MRfvMAL7d
+ pZjjOOhIjWqiuAQ56RzU8w4ynF1UeUUUfye9FwosGBxwQqqPgutmqB4s1gC9y4NhnywXfcfd
+X-Authority-Analysis: v=2.4 cv=fZOty1QF c=1 sm=1 tr=0 ts=682f1a98 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=rlxKSa1xbkCyiMC8iTsA:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: QKBVwW0O9hknPkFsFNWhDs1U3Eh3ESh7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-22_06,2025-05-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0 adultscore=0 spamscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 priorityscore=1501 impostorscore=0 mlxlogscore=892
+ lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505220127
 
-On Tue, 13 May 2025 23:40:20 +0000, Kuninori Morimoto wrote:
-> audio-graph.yaml already has "routing" property, let's reference it.
+On Thu, May 22, 2025 at 01:02:59PM +0800, Ai Chao wrote:
+> The for_each_child_of_node_scoped() helper provides a scope-based
+> clean-up functionality to put the device_node automatically, and
+> as such, there is no need to call of_node_put() directly.
+
+There are no calls to of_node_put() in the commit. So the commit message
+is incorrect / not-applicable.
+
 > 
+> Thus, use this helper to simplify the code.
+> 
+> Signed-off-by: Ai Chao <aichao@kylinos.cn>
+> ---
+>  sound/soc/qcom/lpass-cpu.c       | 3 +--
+>  sound/soc/qcom/qdsp6/q6afe-dai.c | 3 +--
+>  sound/soc/qcom/qdsp6/q6asm-dai.c | 4 +---
+>  3 files changed, 3 insertions(+), 7 deletions(-)
+> 
+> diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
+> index 242bc16da36d..62f49fe46273 100644
+> --- a/sound/soc/qcom/lpass-cpu.c
+> +++ b/sound/soc/qcom/lpass-cpu.c
+> @@ -1046,7 +1046,6 @@ static unsigned int of_lpass_cpu_parse_sd_lines(struct device *dev,
+>  static void of_lpass_cpu_parse_dai_data(struct device *dev,
+>  					struct lpass_data *data)
+>  {
+> -	struct device_node *node;
+>  	int ret, i, id;
+>  
+>  	/* Allow all channels by default for backwards compatibility */
+> @@ -1056,7 +1055,7 @@ static void of_lpass_cpu_parse_dai_data(struct device *dev,
+>  		data->mi2s_capture_sd_mode[id] = LPAIF_I2SCTL_MODE_8CH;
+>  	}
+>  
+> -	for_each_child_of_node(dev->of_node, node) {
+> +	for_each_child_of_node_scoped(dev->of_node, node) {
+>  		ret = of_property_read_u32(node, "reg", &id);
+>  		if (ret || id < 0) {
+>  			dev_err(dev, "valid dai id not found: %d\n", ret);
+> diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
+> index 7d9628cda875..64735f2adf8f 100644
+> --- a/sound/soc/qcom/qdsp6/q6afe-dai.c
+> +++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
+> @@ -962,10 +962,9 @@ static const struct snd_soc_component_driver q6afe_dai_component = {
+>  static void of_q6afe_parse_dai_data(struct device *dev,
+>  				    struct q6afe_dai_data *data)
+>  {
+> -	struct device_node *node;
+>  	int ret;
+>  
+> -	for_each_child_of_node(dev->of_node, node) {
+> +	for_each_child_of_node_scoped(dev->of_node, node) {
+>  		unsigned int lines[Q6AFE_MAX_MI2S_LINES];
+>  		struct q6afe_dai_priv_data *priv;
+>  		int id, i, num_lines;
+> diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
+> index a400c9a31fea..d7680dd3a3bb 100644
+> --- a/sound/soc/qcom/qdsp6/q6asm-dai.c
+> +++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
+> @@ -1236,10 +1236,8 @@ static int of_q6asm_parse_dai_data(struct device *dev,
+>  {
+>  	struct snd_soc_dai_driver *dai_drv;
+>  	struct snd_soc_pcm_stream empty_stream;
+> -	struct device_node *node;
+>  	int ret, id, dir, idx = 0;
+>  
+> -
+>  	pdata->num_dais = of_get_child_count(dev->of_node);
+>  	if (!pdata->num_dais) {
+>  		dev_err(dev, "No dais found in DT\n");
+> @@ -1253,7 +1251,7 @@ static int of_q6asm_parse_dai_data(struct device *dev,
+>  
+>  	memset(&empty_stream, 0, sizeof(empty_stream));
+>  
+> -	for_each_child_of_node(dev->of_node, node) {
+> +	for_each_child_of_node_scoped(dev->of_node, node) {
+>  		ret = of_property_read_u32(node, "reg", &id);
+>  		if (ret || id >= MAX_SESSIONS || id < 0) {
+>  			dev_err(dev, "valid dai id not found:%d\n", ret);
+> -- 
+> 2.47.1
 > 
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: dt-bindings: audio-graph-card2: reference audio-graph routing property
-      commit: 396639299e95fbb915c6ff12cb42391f04741ab3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+With best wishes
+Dmitry
