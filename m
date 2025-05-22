@@ -1,88 +1,142 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDFC14658D;
-	Thu, 22 May 2025 20:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1912241695
+	for <linux-sound@vger.kernel.org>; Thu, 22 May 2025 20:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747945828; cv=none; b=eW6WHy6+uZQuARx2WJp8V5sg9uT5p0m8yTiKTpmN2RoBUkZdNAu6N07Sfzxu4MYkx2j4CIdbT1S4+CnyOSeUB8qpJ39XGmNwYR9f5OUhmC/IDy5nTU6lOvlx/M59zEEElPEl+Ads/BJ8NpLuduoJBz2HqJEWSfOxtfUg6TQJTis=
+	t=1747946547; cv=none; b=Qp2Q1gab7mSqalgQV7U/9dGPmnCBsBJszV3dE8ZyFFFVbJ0mSNS6Q7uOV4qaSjhCMXKmaTrpvyc3xU1IYGPJzhy1X+2OsNSBgdz++lKraJLF+uQxAIT/wzdOq7jF57nKSwjNnjffvTAcKd3kHhFRHrewU90vkzeBWvE4tyzZv4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747945828; c=relaxed/simple;
-	bh=uQsezi9xXkJD2WST6jUpJh15925KiJ4sgHCkw5DImdo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mkbg3sc2p8S6rXVoXKMvFmSgyHsf7LDfZogTO8+Je0XPIYdtpE5ImdB6E7EjPCp2XeUzJ89lQFYjAuR6LfwWBF22guv/yKFLABI3IeIPjfrZvTbxSz0aKwiV+0af55dRJRSI49pifNJgmnDv3h7A6So++GPaMzpbXrniS0P+eQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NNopRXti; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1747946547; c=relaxed/simple;
+	bh=dp/jIYM6WqZk+vcAH0XvJduAuAkOD7KEaEg1Q9V2gcI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FV4GV62Zjm94kHubPIxMTn+jJzwO4SloC95O0BdxsoOIRpvwSuGOtiUnNT/OpwdHqJzSRp63aaK/y0iHnNSxH3/A5Jjf57s/CelApBOGq1UBPHqUPQbrG68FmRD6tvp519cnZ875t3T/DIG0q+swlBmM4QoY5bopQgWSENU/wXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SkfljHa4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Yy0XL3yq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V48WQ0a9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bOiITXi5; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NNopRXti"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=VGADaWwXrD+siNXh8qq1xehNpdCscPaXOmC04LLMKnQ=; b=NNopRXtifwcXyHYvXFOVwUxpKa
-	pNHAti/vb/q4J/SziLLCMOtFfjhQRbInqm25vuIYI472EXbIYQCxQPlHYtwuwWqEzxvkZ/K38l88R
-	8utM8FNXYwsGtTcpZ01R6tmRibEqlV7LadsVbGHE6NFl+4tiQo19yo+j7UacwBo5ZOfkC0cJunCBQ
-	EZcMvEmzOLVheupSvplGEpWNdCAcibrSPVeb86Ol4uBtmASgFY8ztKegRR5tbc0nt7BFQoRcjRLym
-	YRDmV/UaiUuMjju4PxfgL9Yf68nFL5IrDVuad6FkE9rJBk6f+wbIUK608LF9HBDphqP1JcKP1dv0g
-	yzzYlMhw==;
-Received: from [50.53.25.54] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uICYZ-000000027ox-2ihN;
-	Thu, 22 May 2025 20:30:23 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SkfljHa4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Yy0XL3yq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V48WQ0a9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bOiITXi5"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DEA2F21B91;
+	Thu, 22 May 2025 20:42:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1747946542; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gLNpYFc+mlgcAA1tWX8OkQ12UIgugg0qcebMpSoFN74=;
+	b=SkfljHa42fe6n7UzehWFIT63xMvxAvas7SjMvfBWb47cqj5fNgifLC9Hjkg/5+KBYMvdfd
+	XBhgITFCBsZmn2pB8ImKvas39mpQEfJ5uZMtzP0j3iMe8k+5T2e/RlANZcHf/pxqrGtXai
+	1lYZj7n2FNFwJX3h147YM4hwzlM6ev8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1747946542;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gLNpYFc+mlgcAA1tWX8OkQ12UIgugg0qcebMpSoFN74=;
+	b=Yy0XL3yqIOaXuf/R3eIcfbdeVhtPPCI7A7rxNZycOgT0FonVwTpBO2gmpBYzoceFJfepKx
+	9t7MmLK5eySJ+sBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1747946541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gLNpYFc+mlgcAA1tWX8OkQ12UIgugg0qcebMpSoFN74=;
+	b=V48WQ0a9LGgCtsw3AaQKf7zTzsXr7Hn3fqNQrPUb6KJ5Hs49ufbNgX9262eu4BQ5qj7Zqz
+	+4o8775FKVy12AkM7EcN0oiIfGABu6K3AWrV6oGo2MYKfPFbt24OKgczzl42/D+A2/+/y+
+	LOyfwO9SjlMtwdx7iMPRllwgOxObx/U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1747946541;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gLNpYFc+mlgcAA1tWX8OkQ12UIgugg0qcebMpSoFN74=;
+	b=bOiITXi56mBxnrCq3sSlbqUAsgAeuCTuBs38gJcyPhgFKh3AcDKxj6hWHD7DcqwsqCVGMl
+	ahRSGir2D0dP6NDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C7678137B8;
+	Thu, 22 May 2025 20:42:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id La4TMC2ML2g2fQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 22 May 2025 20:42:21 +0000
+Date: Thu, 22 May 2025 22:42:17 +0200
+Message-ID: <87r00g74ye.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org,
 	Daniel Dadap <ddadap@nvidia.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda_acpi: eliminate defined but not used warnings
-Date: Thu, 22 May 2025 13:30:20 -0700
-Message-ID: <20250522203020.1478369-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.49.0
+Subject: Re: [PATCH] ALSA: hda_acpi: eliminate defined but not used warnings
+In-Reply-To: <20250522203020.1478369-1-rdunlap@infradead.org>
+References: <20250522203020.1478369-1-rdunlap@infradead.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -0.30
+X-Spamd-Result: default: False [-0.30 / 50.00];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_FIVE(0.00)[6]
 
-When CONFIG_PM_SLEEP is not set, the hda_acpi_suspend() and
-hda_acpi_resume() functions are not used and cause build warnings:
+On Thu, 22 May 2025 22:30:20 +0200,
+Randy Dunlap wrote:
+> 
+> When CONFIG_PM_SLEEP is not set, the hda_acpi_suspend() and
+> hda_acpi_resume() functions are not used and cause build warnings:
+> 
+> sound/pci/hda/hda_acpi.c:282:12: warning: 'hda_acpi_resume' defined but not used [-Wunused-function]
+>   282 | static int hda_acpi_resume(struct device *dev)
+> sound/pci/hda/hda_acpi.c:269:12: warning: 'hda_acpi_suspend' defined but not used [-Wunused-function]
+>   269 | static int hda_acpi_suspend(struct device *dev)
+> 
+> Enclose these functions inside an ifdef CONFIG_PM_SLEEP block to
+> prevent the warnings.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Daniel Dadap <ddadap@nvidia.com>
+> Cc: Takashi Iwai <tiwai@suse.de>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: linux-sound@vger.kernel.org
 
-sound/pci/hda/hda_acpi.c:282:12: warning: 'hda_acpi_resume' defined but not used [-Wunused-function]
-  282 | static int hda_acpi_resume(struct device *dev)
-sound/pci/hda/hda_acpi.c:269:12: warning: 'hda_acpi_suspend' defined but not used [-Wunused-function]
-  269 | static int hda_acpi_suspend(struct device *dev)
+Err, it just an incorrect use of SET_SYSTEM_SLEEP_PM_OPS() instead of
+SYSTEM_SLEEP_OPS().  It seems that v5 patch went back to a wrong
+macro, likely mistakenly.
 
-Enclose these functions inside an ifdef CONFIG_PM_SLEEP block to
-prevent the warnings.
+A fix patch will follow.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Daniel Dadap <ddadap@nvidia.com>
-Cc: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org
----
- sound/pci/hda/hda_acpi.c |    2 ++
- 1 file changed, 2 insertions(+)
 
---- linux-next-20250522.orig/sound/pci/hda/hda_acpi.c
-+++ linux-next-20250522/sound/pci/hda/hda_acpi.c
-@@ -266,6 +266,7 @@ static void hda_acpi_shutdown(struct pla
- 		azx_stop_chip(chip);
- }
- 
-+#ifdef CONFIG_PM_SLEEP
- static int hda_acpi_suspend(struct device *dev)
- {
- 	struct snd_card *card = dev_get_drvdata(dev);
-@@ -291,6 +292,7 @@ static int hda_acpi_resume(struct device
- 
- 	return 0;
- }
-+#endif /* CONFIG_PM_SLEEP */
- 
- static const struct dev_pm_ops hda_acpi_pm = {
- 	SET_SYSTEM_SLEEP_PM_OPS(hda_acpi_suspend, hda_acpi_resume)
+thanks,
+
+Takashi
