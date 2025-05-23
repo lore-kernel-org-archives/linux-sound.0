@@ -1,85 +1,41 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr [80.12.242.18])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E60B1A0BF3;
-	Fri, 23 May 2025 16:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748016856; cv=fail; b=bYZ5NBM2Iy+wTxeOwF0a6kbUzUWaOrAYa9wtnAjy9uRMQGhSkadVKWMxO36uWMGXQ69x0ztZkMMKZcZ3mOeK8sqLYqi5L182znywndVDgEbILvlJVudhl+vlwXTmyURqU1+2HAWOr+vcC+sOUBNwV8zD0VWwOEmxhsZtLT4sXf0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748016856; c=relaxed/simple;
-	bh=jmnlHyOe+UC04bH6wSNAQ94M1BWpJiEhdBabE9ZHLhQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AZUZhtUUZEfvpZpFaFoXY40N9g6vlL6kBl6MRZ5NSv4GJG9tBbaKIjT58H4htj2WXH3c0bC8pHkJffGrj+iZNuLjqsxoDekI6PyDdW8wCTKshgBkCS7q+Vj00e4NFlOZ72C0GJToeYiD3bHdr47jlzMH45YqVDepUU2USX/c0R4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=StKUKkxv; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=k/6x4A6J; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F164120B;
+	Fri, 23 May 2025 16:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748018563; cv=none; b=iLMZRYuJ1qhVnsO7uY1C3yVx4867sR8EkCyRiD9P7oro99gq53fGKnBygYHPTsm9bsUco+LTZCsCpCV2gH8ByPsgnfAxrsxHMBLKOtKok94IrPuuI8QfyBZHdsLrctyIT1c9hwxnrdOH8t1v7YvMLwSDl4bXeyXLQ0rFiHd3LkU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748018563; c=relaxed/simple;
+	bh=tq4TuVSZAIRjvQu1VdJ2ys6D+exC6+GZ9V4Q2kNeeZA=;
+	h=Message-ID:Date:MIME-Version:Subject:References:From:To:Cc:
+	 In-Reply-To:Content-Type; b=UdIbiIshgkvA9f20cig7bjJcYFnibaTn8oTw12+e5SWOhdsKpCA3YOFeSk5kW2xUd8pVLypN5u9Squdrj5Dy7vNteR5IR+5IuUnVHs96bMRLBtLh3iNKq5/VtGgqoO2zQtC0qjlmlTVpt1CM11fbX12adyVdwUVDFXw7G53QHUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=pOlCfneW; arc=none smtp.client-ip=80.12.242.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="StKUKkxv";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="k/6x4A6J"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54N5L6wK021949;
-	Fri, 23 May 2025 11:13:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=IIR860i3GuMGwpQ8FZvD6fF/H0rkCYqPG1zMI2Z0FGs=; b=
-	StKUKkxvGz5sZYCNKBGwCZZRbLqAxaLVc0M3oS0zZuh5sxbEmYxXUg9DJfomfD9a
-	3vr+yiNNVcd8ABHHgnL+XptfxYAEP6crFtH0luP64lJZ7P1ipfZoD23WZfadXY/m
-	BLfYHeaFXMU/0Jow+0rTkAfX0UAMrZIsIGWSnnT1o9mQlpoK+Wr92PZTE/dWxno2
-	+uoxcPHWruxtplRWYHzitnwQp3hO8ANpmN68lk+HhTdAtokR40rlCOhZBMtLcBk0
-	fUxeQaecTtBkzGJLG+dA4FcOOr/BiJIF+y7QVjG/XrooKMhtoNRm+12+f2LovRGJ
-	O5CULEKsnFHYmzD7OYhYPQ==
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2042.outbound.protection.outlook.com [104.47.55.42])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 46rwfact2q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 May 2025 11:13:57 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cXp3XVvwtAeNvuALYTw7qTkmE8/fQ7uZ08LE/2kf1uKMYIOQszbK03vD196NmlPSsBSy9JHvndh2Hl7uJHNxh/CXJTrAvOHaHdWGsiazD5f7OUE8ta18VgyWxShU4AZU+mIELxT8h1w6HTacXUDuMvTGMzdMSOEe/7RuukmlsFlyi3jyqL4UMhSLHEqLCuH/8kUb7RhsPNjPNBWSoihHnzrGtX6o2Yo65HFmyEUljW5JClqBwnHpK0vR45/ERAGZjvjHsco4X0WeZqoOGHIpTzeazxmvC7NEFTzPngDqwKPCZPmCHJFfpuSx2s4tyGqdaQwQVqZEg+kTOxZydaO/aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IIR860i3GuMGwpQ8FZvD6fF/H0rkCYqPG1zMI2Z0FGs=;
- b=pmFIm6zDgknchKqWZvx3ZJzYK2xed/oIPkqdZuY/8Vzx9VzJ1cLQvb3xK/MsI01H/bd4FEH1LFs99Zf7vm4ZUESDUb0K6WL3IirpKbyVz633IWRuB1kv/0ATtGKkIs+6e0Tlzjiiw9/9ZYZC50pl93x/meUMdHc8dsXzvJiEFvKjDfLeQ+++gBs5Fhe+zzVGOqSmi5Z9kf9/C+Hc7bHKQkmbhgjKVXg3ibWRmbv2ChZUauC3DDtvwNIKmVQ7byzTFh6/fcfoclDOJoiPAdNEwGz/AiYL8NwL3YDnIk74e+WpLGCNValu139ezrVRozL5cU9mGLGNvu+djI7sP9s46g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IIR860i3GuMGwpQ8FZvD6fF/H0rkCYqPG1zMI2Z0FGs=;
- b=k/6x4A6JDJaBrK0lEklF6icVL33xtpjXSyYczY3lr7fZPJz8ABughHyvNjk9bWHtTpT+te4+ijUw8EYMwWeng1IKZ7/BREp6zh9/w0cwnbdSJ4DJCFuwtkPaN4m6NNKtDc3izPIfriprcyx6JnQZNf19ROotnnxOfqQeraWJ4sY=
-Received: from DS7PR03CA0134.namprd03.prod.outlook.com (2603:10b6:5:3b4::19)
- by IA3PR19MB8708.namprd19.prod.outlook.com (2603:10b6:208:516::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.32; Fri, 23 May
- 2025 16:13:53 +0000
-Received: from DS1PEPF00017097.namprd05.prod.outlook.com
- (2603:10b6:5:3b4:cafe::4b) by DS7PR03CA0134.outlook.office365.com
- (2603:10b6:5:3b4::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Fri,
- 23 May 2025 16:13:53 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS1PEPF00017097.mail.protection.outlook.com (10.167.18.101) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18
- via Frontend Transport; Fri, 23 May 2025 16:13:52 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 15425406545;
-	Fri, 23 May 2025 16:13:51 +0000 (UTC)
-Received: from [198.61.68.186] (EDIN4L06LR3.ad.cirrus.com [198.61.68.186])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id B222B820249;
-	Fri, 23 May 2025 16:13:50 +0000 (UTC)
-Message-ID: <35b86ee4-036b-4996-86a5-1cc70645ab9c@opensource.cirrus.com>
-Date: Fri, 23 May 2025 17:13:50 +0100
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="pOlCfneW"
+Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+ ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPA
+	id IVSSurGNEpEs6IVSSuRRWF; Fri, 23 May 2025 18:41:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1748018484;
+	bh=3+QxL/ee61ufD+4tquQWli5spOHmHSP5ezjYfdkKTd8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To;
+	b=pOlCfneWdXLFPaZIu5XSYv4nRFQa/8oQomownlOpjHGyymEnk4FjHH1e/0j8vaK+U
+	 OiJmXmq3gSxgBRYKJ9BQAOF6c13sDc+Vn3uHi66h7HrnVF9w0QvGXr/oo4L5siH8SQ
+	 vC1ZPCpI8UVRHVDtHpHTKR+4wDO1IpOWf2whW4oaMyxI3+rdXM5rsdSitn4aVFh2j2
+	 SyVZj2CgjWU6m9sIkB6bNWJvUNoBN4T7njXh2p1LDW+tQxwVJoOqsV9GIA1itB0qhW
+	 Kyvn47CfThH7z2dcWf7xwvtus4SFDhCCSTysUdKcZo6Yc80v7I2Ee4F1NOtTkfJoWa
+	 pnlFxycmQ3lig==
+X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Fri, 23 May 2025 18:41:24 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+Message-ID: <29b547b3-8adc-4c14-b8e6-431a1f2e6849@wanadoo.fr>
+Date: Fri, 23 May 2025 18:41:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -87,95 +43,246 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] firmware: cs_dsp: Fix OOB memory read access in KUnit
- test (wmfw info)
-To: Jaroslav Kysela <perex@perex.cz>,
-        Linux Sound ML <linux-sound@vger.kernel.org>
-Cc: Mark Brown <broonie@kernel.org>,
-        Simon Trimmer <simont@opensource.cirrus.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        patches@opensource.cirrus.com, stable@vger.kernel.org
-References: <20250523155814.1256762-1-perex@perex.cz>
-Content-Language: en-US
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <20250523155814.1256762-1-perex@perex.cz>
+Subject: Re: [PATCH v3 2/2] ASoC: codecs: add support for ES8375
+References: <20250523025502.23214-1-zhangyi@everest-semi.com>
+ <20250523025502.23214-3-zhangyi@everest-semi.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: zhangyi@everest-semi.com
+Cc: amadeuszx.slawinski@linux.intel.com, broonie@kernel.org,
+ conor+dt@kernel.org, devicetree@vger.kernel.org, krzk+dt@kernel.org,
+ krzk@kernel.org, lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, perex@perex.cz, robh@kernel.org, tiwai@suse.com
+In-Reply-To: <20250523025502.23214-3-zhangyi@everest-semi.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017097:EE_|IA3PR19MB8708:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7fc9ce8b-bad4-41c6-e9d9-08dd9a14cf8f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|82310400026|36860700013|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cXUzVUdtZDErWDJrNFNzcU5rZGNLUk12VmFuRlpkLzhqSTdESEsyZUZpUmhs?=
- =?utf-8?B?R0ZlUUlSYVdrVSt4UjBsTTlpMkZrQTU1Y0FScHpXUGpDRjFKcVUrYTVlZytF?=
- =?utf-8?B?L2MvTXBBcm0yM3VmOFZMNmsvcE5Ia3NsMC9vRlhyd2wyUWcyVVdqUXJOS0Rl?=
- =?utf-8?B?NjJQOFBnOVh0U0wvZnRUM3djVk1SUzNiOVZGNjUyOE1UK2R4a1VWNkp0Rnp0?=
- =?utf-8?B?ancxcklUakxhWERSTGpqUXVTbE40ak5yWDc3RDRMaHdjTkdVRTVMc0x2OXFm?=
- =?utf-8?B?Tlh4YkJ1KzZpQk1nMU9JdHg3SE5ZaTRmVWxEakJjL2Z3clVUVXZYUGdaWWQx?=
- =?utf-8?B?K0t1VnhJd2drQlpMMmRnZ0VrU0NYMVVYeXp4OWtqZHdmc09sTzl3akN5V2ZH?=
- =?utf-8?B?b3JjdVRhekN5MVRaUU1QazdDampxdXpJbnJQa0NlZFUwQ24zWUlkdlBzbmcz?=
- =?utf-8?B?c1h4R0xITUpRVXc3QUt0eGprY0h2V2FWbU5wSHU2TUYveURXSFNNSDRpbVNk?=
- =?utf-8?B?TE43NzNxbUNOTUw4MEYyZ0FxQWN5WDlpMmhiRXVrdWdtbmZDbzJJb1FveCtL?=
- =?utf-8?B?WXNLL0t2NFp2UkxaRGVwTW9xeW5MejNjMEJNd1YrRGVZYmtJbmtKbDFqMUFj?=
- =?utf-8?B?Nmtkamh2NEhOSEFWNDh3bk52dWZ4elJibGtDNFp3ODBFbWdJWHp0bzUyYjB6?=
- =?utf-8?B?RGZwQWJVdVdoL3l3aDU1bzRjRVprWStqcDVqeTlTajF5bG0zdGJ4NDlqUnBI?=
- =?utf-8?B?bm5Ubm14ZzlrZ0NobER3VWV5SitWck9NZUx0V0J6R1Y0MG5Nb0lUNHFRRVZE?=
- =?utf-8?B?bXZLOWZEWDhIT2h4emxTUWVVKzhhRUtEWGM4TEQzQVNjMjhQRlpMdUVDd1Vq?=
- =?utf-8?B?ckNCc0YxbmlIUDc1dFJBWEVmY2Y2dXBsMmowUmhpZ2lnUVFtWkI2enEzS2NJ?=
- =?utf-8?B?dDRwSE0xOU1qM2wrWm5Vd1A0YjZrNkRNeTRER0IwUGp1MlZ1VVhXazd2UzVH?=
- =?utf-8?B?Y1IyVnl5R1FiVGlqMUNiQThBQkx6UFpLMXkrWDFaNWdtUDhYYXBPZEl6ME15?=
- =?utf-8?B?aTArc0JDcTZhWktsTXVJdDZoWG5rQ0NkS2N4NWZYVmk4eUxocU93TnhIa1R3?=
- =?utf-8?B?NUMrYklHR1lZUld0MlhsaDNXQ2lENTJpcFBZRHQ4dGZmVVhjZm42ajY0L3kv?=
- =?utf-8?B?dmcyWTR2dGM0OEZ6UzJrckJMaG9UR3llMFBibSs4Wm5sTGJPOUFWcStaRlJO?=
- =?utf-8?B?YVZoYXBHMXFyY0ZKS0NLK01DMC9IaGI4MXBoU0dzWlhrbHZZNnU3Tlo1eE5L?=
- =?utf-8?B?bk8yeXZUcGhmTkxvZUJGUFZsRGxjaFgxZ1h5Q3R0WFlUTVllOGZwZVpHRWdG?=
- =?utf-8?B?QUxYbU9XMENRTElYQzBWMEk1V0xOaDRZRTJZZ0xaYTIwVG1rcjEvMWFZQ3h2?=
- =?utf-8?B?YjBsUUpHYWR6OGZmRXdjU0ZvNzhjU0QvOXV1MEM5TDYyRDlGWnNJWHFpRHds?=
- =?utf-8?B?M09NQjl0M1Y1TWhxQllCekl6c0RlNk9hWiswMXdwbXhlMDhTMjdZdU9pbHZD?=
- =?utf-8?B?NU1GTE1PQkt3OGg3Ky9ZcGZKbWhkUmc2WWpGSVNZcU1nM1BoclVFNXl2SkVm?=
- =?utf-8?B?QzhkSnUwdllPbWd0UUV1U01mTktGOVVRcFBWUXFOMFgxeTNoS2R3MW5CMHpx?=
- =?utf-8?B?ZmpYa1BtYzZ2MEN0SzdQS1VFcjUyVGJKbHhNV0FaVmVidXFQM0hyUTlKL09U?=
- =?utf-8?B?eDdpcDNKWlQ0SjgvTm8vU0krcTkvNTF3OStLN0VwL0RmOCt4MVhvTzFNdkFT?=
- =?utf-8?B?dS9sR3BWY3g4RGRrUnVTTEsvU3lFMVNYNUlGbkUwMTgrWDZIMHIwc2F1TnBk?=
- =?utf-8?B?Qlc0dDRkMFdXMXlabGpIRVlGN1BoZ3cvTmNHMS81YWFXMnUzc0cyNmdFRUxY?=
- =?utf-8?B?dmIzM0kzYzNyNDgrU1lFTnVRT1c5d2JBeU9sN1pyT1hlY3JvRnJtTVFFL0lE?=
- =?utf-8?B?TDVFMUI0RXppZVFxa0pPZHlqYWwweGJDcE16L211bVBuWE1hNUZ0VVc5UVhV?=
- =?utf-8?Q?AM+Yc8?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2025 16:13:52.6019
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fc9ce8b-bad4-41c6-e9d9-08dd9a14cf8f
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS1PEPF00017097.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR19MB8708
-X-Proofpoint-GUID: a4usUBdMa_WTHWRZScXcQz6YxbIdrsls
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIzMDE0NyBTYWx0ZWRfXwoBnrxfpahNz MSKefrwGCyPjGD+mCHfLUHOqb1JBlZlFowxW96llu25xrVJmf0qfSgVSCBuaydjrHbInmabKjuW t+msn0Q4PFdIn5UmkMG3BU0SX4dRCUOUc3DgnMipUcMocQyyYDtQhw2QGZQYP3kop5dPUhxX8TP
- +65QbX8upmqCTTugqP3RXPIYNAHZzqpx+0xkfG+g/BtccMGsldAWRKl6ZZTtgeCvZmgYfI8Kjqx +nW44gKeqHgBj+A/YGCXnoQUmwcBrKAnkm4OI8eXaIBYJjZe1nAbCRkmkfSrZ8tBW36MAShcanU krKzNxLuhzOYfouLs5SvTY3yO/RlIYHd9Hc1xYLVTASnw4Xlzx2iFRGDWhyj2y2H8hEQr2QRz/y
- 7lK0Lkk0cmh4ZcaDbjv/XplXZ4hwAh5WwgIIK4n/iHq2XVj6KIfqaYcWilS/DCQ82Fyn6/o+
-X-Proofpoint-ORIG-GUID: a4usUBdMa_WTHWRZScXcQz6YxbIdrsls
-X-Authority-Analysis: v=2.4 cv=YsQPR5YX c=1 sm=1 tr=0 ts=68309ec5 cx=c_pps a=SXeWyiAXBtEG6vW+ku2Kqw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=VwQbUJbxAAAA:8 a=3nJZFv5X7GhaF3MQJIIA:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On 23/5/25 16:58, Jaroslav Kysela wrote:
-> KASAN reported out of bounds access - cs_dsp_mock_wmfw_add_info(),
-> because the source string length was rounded up to the allocation size.
-> 
-> Cc: Simon Trimmer <simont@opensource.cirrus.com>
-> Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Cc: Richard Fitzgerald <rf@opensource.cirrus.com>
-> Cc: patches@opensource.cirrus.com
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+Le 23/05/2025 à 04:55, Zhang Yi a écrit :
+> The driver is for codec es8375 of everest
 
-Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+...
+
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/clk.h>
+> +#include <linux/module.h>
+> +#include <linux/kernel.h>
+> +#include <linux/delay.h>
+> +#include <linux/i2c.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <sound/core.h>
+> +#include <sound/pcm.h>
+> +#include <sound/pcm_params.h>
+> +#include <sound/tlv.h>
+> +#include <sound/soc.h>
+> +#include <linux/acpi.h>
+
+Sometimes, it is preferred to keep includes in alphabetic order.
+
+> +#include "es8375.h"
+> +
+> +struct	es8375_priv {
+> +	struct regmap *regmap;
+> +	struct clk *mclk;
+> +	struct regulator_bulk_data core_supply[2];
+> +	unsigned int  mclk_freq;
+> +	int mastermode;
+> +	u8 mclk_src;
+> +	u8 vddd;
+> +	enum snd_soc_bias_level bias_level;
+> +};
+> +
+> +static const char * const es8375_core_supplies[] = {
+> +	"vddd",
+> +	"vdda",
+> +};
+> +
+> +static const DECLARE_TLV_DB_SCALE(es8375_adc_osr_gain_tlv, -3100, 100, 0);
+> +static const DECLARE_TLV_DB_SCALE(es8375_adc_volume_tlv, -9550, 50, 0);
+> +static const DECLARE_TLV_DB_SCALE(es8375_adc_automute_attn_tlv, 0, 100, 0);
+> +static const DECLARE_TLV_DB_SCALE(es8375_adc_dmic_volume_tlv, 0, 600, 0);
+> +static const DECLARE_TLV_DB_SCALE(es8375_dac_volume_tlv, -9550, 50, 0);
+> +static const DECLARE_TLV_DB_SCALE(es8375_dac_vppscale_tlv, -388, 12, 0);
+> +static const DECLARE_TLV_DB_SCALE(es8375_dac_automute_attn_tlv, 0, 400, 0);
+> +static const DECLARE_TLV_DB_SCALE(es8375_automute_ng_tlv, -9600, 600, 0);
+> +
+> +static const char *const es8375_ramprate_txt[] = {
+
+Missing space after *?
+(or extra space above in es8375_core_supplies)
+
+> +	"0.125dB/LRCK",
+> +	"0.125dB/2LRCK",
+> +	"0.125dB/4LRCK",
+> +	"0.125dB/8LRCK",
+> +	"0.125dB/16LRCK",
+> +	"0.125dB/32LRCK",
+> +	"0.125dB/64LRCK",
+> +	"0.125dB/128LRCK",
+> +	"disable softramp",
+> +};
+> +static SOC_ENUM_SINGLE_DECL(es8375_adc_ramprate, ES8375_ADC2,
+> +		ADC_RAMPRATE_SHIFT_0, es8375_ramprate_txt);
+> +static SOC_ENUM_SINGLE_DECL(es8375_dac_ramprate, ES8375_DAC2,
+> +		DAC_RAMPRATE_SHIFT_0, es8375_ramprate_txt);
+> +
+> +static const char *const es8375_automute_ws_txt[] = {
+
+Missing space after *?
+(or extra space above in es8375_core_supplies)
+
+... same several times below ...
+
+> +	"256 samples",
+> +	"512 samples",
+> +	"1024 samples",
+> +	"2048 samples",
+> +	"4096 samples",
+> +	"8192 samples",
+> +	"16384 samples",
+> +	"32768 samples",
+> +};
+
+...
+
+> +static struct regmap_config es8375_regmap_config = {
+
+I think this could be const.
+
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.max_register = ES8375_REG_MAX,
+> +	.cache_type = REGCACHE_MAPLE,
+> +	.use_single_read = true,
+> +	.use_single_write = true,
+> +	.writeable_reg = es8375_writeable_register,
+> +};
+
+...
+
+> +static int es8375_read_device_properities(struct device *dev, struct es8375_priv *es8375)
+> +{
+> +	int ret, i;
+> +
+> +	ret = device_property_read_u8(dev, "everest,mclk-src", &es8375->mclk_src);
+> +	if (ret != 0)
+> +		es8375->mclk_src = ES8375_MCLK_SOURCE;
+> +	dev_dbg(dev, "mclk-src %x", es8375->mclk_src);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(es8375_core_supplies); i++)
+> +		es8375->core_supply[i].supply = es8375_core_supplies[i];
+> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(es8375_core_supplies), es8375->core_supply);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to request core supplies %d\n", ret);
+
+dev_err_probe() in the whole function maybe, as already used just below.
+
+> +		return ret;
+> +	}
+> +
+> +	es8375->mclk = devm_clk_get(dev, "mclk");
+
+devm_clk_get_enabled() maybe?
+
+> +	if (IS_ERR(es8375->mclk))
+> +		return dev_err_probe(dev, PTR_ERR(es8375->mclk), "unable to get mclk\n");
+> +
+> +	if (!es8375->mclk)
+> +		dev_warn(dev, "assuming static mclk\n");
+> +
+> +	ret = clk_prepare_enable(es8375->mclk);
+
+If kept as-is, clk_disable_unprepare() should be called in the probe if 
+devm_snd_soc_register_component() fails, and a removed function looks 
+needed.
+
+> +	if (ret) {
+> +		dev_err(dev, "unable to enable mclk\n");
+> +		return ret;
+> +	}
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(es8375_core_supplies), es8375->core_supply);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to enable core supplies: %d\n", ret);
+> +		clk_disable_unprepare(es8375->mclk);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int es8375_i2c_probe(struct i2c_client *i2c_client)
+> +{
+> +	struct es8375_priv *es8375;
+> +	struct device *dev = &i2c_client->dev;
+> +	int ret;
+> +	unsigned int val;
+> +
+> +	es8375 = devm_kzalloc(&i2c_client->dev, sizeof(*es8375), GFP_KERNEL);
+> +	if (!es8375)
+> +		return -ENOMEM;
+> +
+> +	es8375->regmap = devm_regmap_init_i2c(i2c_client,
+> +			&es8375_regmap_config);
+> +	if (IS_ERR(es8375->regmap))
+> +		return dev_err_probe(&i2c_client->dev, PTR_ERR(es8375->regmap),
+> +			"regmap_init() failed\n");
+> +
+> +	i2c_set_clientdata(i2c_client, es8375);
+> +
+> +	ret = regmap_read(es8375->regmap, ES8375_CHIP_ID1, &val);
+> +	if (ret < 0) {
+> +		dev_err(&i2c_client->dev, "failed to read i2c at addr %X\n",
+> +				i2c_client->addr);
+> +		return ret;
+> +	}
+> +
+> +	if (val != 0x83) {
+> +		dev_err(&i2c_client->dev, "device at addr %X is not an es8375\n",
+> +				i2c_client->addr);
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = regmap_read(es8375->regmap, ES8375_CHIP_ID0, &val);
+> +	if (val != 0x75) {
+> +		dev_err(&i2c_client->dev, "device at addr %X is not an es8375\n",
+> +				i2c_client->addr);
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = es8375_read_device_properities(dev, es8375);
+
+Typo? Change the fct name to es8375_read_device_properties()?
+
+> +	if (ret != 0) {
+> +		dev_err(&i2c_client->dev, "get an error from dts info %X\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return devm_snd_soc_register_component(&i2c_client->dev, &es8375_codec_driver,
+> +			&es8375_dai, 1);
+> +}
+
+...
+
+> +static const struct i2c_device_id es8375_id[] = {
+> +	{"es8375"},
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, es8375_id);
+> +
+> +#ifdef CONFIG_ACPI
+> +static const struct acpi_device_id es8375_acpi_match[] = {
+> +	{"ESSX8375", 0},
+> +	{},
+
+Unneeded , after a terminator
+
+> +};
+> +
+> +MODULE_DEVICE_TABLE(acpi, es8375_acpi_match);
+> +#endif
+
+...
+
+CJ
+
