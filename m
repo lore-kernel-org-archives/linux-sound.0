@@ -1,288 +1,131 @@
-Received: from smtp.smtpout.orange.fr (smtp-18.smtpout.orange.fr [80.12.242.18])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F164120B;
-	Fri, 23 May 2025 16:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DA8247280
+	for <linux-sound@vger.kernel.org>; Fri, 23 May 2025 17:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748018563; cv=none; b=iLMZRYuJ1qhVnsO7uY1C3yVx4867sR8EkCyRiD9P7oro99gq53fGKnBygYHPTsm9bsUco+LTZCsCpCV2gH8ByPsgnfAxrsxHMBLKOtKok94IrPuuI8QfyBZHdsLrctyIT1c9hwxnrdOH8t1v7YvMLwSDl4bXeyXLQ0rFiHd3LkU=
+	t=1748021262; cv=none; b=au2N5ZO9VjKOCYDSjVHt66BwmydwEoiheiSgZ+NQlA70Q0rOjm6+4QBDL7L78sBs4EZo/kU87+2noeIBJ6DS6Ttd6+cWHM6iUwHVjpLgZBUmdVsnsBEZ5VNB6sEXzwiOeka/ISWUwAo7kAV37RIFR06DR7uwiRiCvjpK8vswOpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748018563; c=relaxed/simple;
-	bh=tq4TuVSZAIRjvQu1VdJ2ys6D+exC6+GZ9V4Q2kNeeZA=;
-	h=Message-ID:Date:MIME-Version:Subject:References:From:To:Cc:
-	 In-Reply-To:Content-Type; b=UdIbiIshgkvA9f20cig7bjJcYFnibaTn8oTw12+e5SWOhdsKpCA3YOFeSk5kW2xUd8pVLypN5u9Squdrj5Dy7vNteR5IR+5IuUnVHs96bMRLBtLh3iNKq5/VtGgqoO2zQtC0qjlmlTVpt1CM11fbX12adyVdwUVDFXw7G53QHUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=pOlCfneW; arc=none smtp.client-ip=80.12.242.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1748021262; c=relaxed/simple;
+	bh=UX9OZhcnhcNzoqUQz9+KX55OzNsT07DmDs9dne+IrQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iFKRLN6Ihw7V+l+clqT7cldUx45ARVLpirwmEQOeAyKtK5LFeYJOMSha+VGkwU5Vx0X9wiBqVeXN3O3cJJ7OedQiTPR1FJUNOTlhp7beM6q1XLgQMPCMmk5RJ1X7W00vnACdA0s62+hax9YEwaYzhepYTD1D9EU2g2jel7qfFog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cI6R9VFS; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="pOlCfneW"
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
- ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPA
-	id IVSSurGNEpEs6IVSSuRRWF; Fri, 23 May 2025 18:41:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1748018484;
-	bh=3+QxL/ee61ufD+4tquQWli5spOHmHSP5ezjYfdkKTd8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To;
-	b=pOlCfneWdXLFPaZIu5XSYv4nRFQa/8oQomownlOpjHGyymEnk4FjHH1e/0j8vaK+U
-	 OiJmXmq3gSxgBRYKJ9BQAOF6c13sDc+Vn3uHi66h7HrnVF9w0QvGXr/oo4L5siH8SQ
-	 vC1ZPCpI8UVRHVDtHpHTKR+4wDO1IpOWf2whW4oaMyxI3+rdXM5rsdSitn4aVFh2j2
-	 SyVZj2CgjWU6m9sIkB6bNWJvUNoBN4T7njXh2p1LDW+tQxwVJoOqsV9GIA1itB0qhW
-	 Kyvn47CfThH7z2dcWf7xwvtus4SFDhCCSTysUdKcZo6Yc80v7I2Ee4F1NOtTkfJoWa
-	 pnlFxycmQ3lig==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Fri, 23 May 2025 18:41:24 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <29b547b3-8adc-4c14-b8e6-431a1f2e6849@wanadoo.fr>
-Date: Fri, 23 May 2025 18:41:20 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cI6R9VFS"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54NFK3Ya022686
+	for <linux-sound@vger.kernel.org>; Fri, 23 May 2025 17:27:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=BVf8E7Hm0j7X/OZWTJXCmK0q
+	4KOUyKl7xvwHfOg/+ZQ=; b=cI6R9VFS7p77NVjciGQsr62WTLBi9NhIpbe/t49O
+	6RWfC2bamhuC3sE1aIxspGBb5vTebhyUmrkLdQuiaHnCn9Dq0e2E6GMD3VDXwsjJ
+	6M7KsuNwcHDN8NUzFZI5o5rx10e4xoexn08LpLdHMOnr+N8q+MExfGPmpD3For5w
+	duqCE5PKoPvehCiMl2vEEWmYd6Up3SMPMWPcHX5yZaVzv2qRAM3vX418qko7tWF9
+	tv70jVPjAMRzssTadWp7j44WOKB84PuErxYTm128i6lRiTTLo1JZVApNgNbgOYdJ
+	oEtp/ft4hpajzDcrd6Beae7kZCNDtvLSDTtOxZd++2oqJw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf52p3a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 23 May 2025 17:27:39 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7caef20a527so10539185a.3
+        for <linux-sound@vger.kernel.org>; Fri, 23 May 2025 10:27:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748021259; x=1748626059;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BVf8E7Hm0j7X/OZWTJXCmK0q4KOUyKl7xvwHfOg/+ZQ=;
+        b=QMXIXNYJDgfnLJZ8udO1vBcLjheEfnxAT9TO5DGNY+LAdf5lJ2l5/yzXRf+IVuCmff
+         GbIO4iwEZFhlcw3SnAdC3qa9dH3IljZfc3c061mrBy4+wDuUU31S9AiFkMTswK37mZ4B
+         +0SytCLfCSp20B0EJb5n673C4ubA3rXZgmLyhm8vB4YWeBUGd/GswpqxlAf/JXqS3OhO
+         vVyfOXDWDuP3zOeBFVBIskrLBk2OeGgcNMN9IsjKLi8wK22xUOfYfln12jSCsa6ZoAnt
+         78lxKHtBPq6OuYApqVBGxE+6Gr9h9P4xe4grnCrutyiDCFnUcAuVtwWEhTJ/NEveEo+d
+         svGg==
+X-Forwarded-Encrypted: i=1; AJvYcCXOlGngygEMA8JTniMEVfqZE9+E8uBtkKu1F0Rh+Pt3U4M1XbZM4TBGnY4C/lebfX4ZDSfQeC+XQp372w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4zMt24X7VfnIA/as7nNj4r5NYpKg+zShF6QVoQh2m8X7nvr7c
+	9RTSxn0fhTJuYpaAfxViIanyKKKjtjw2oq/+gT13/hfT6YjSPoIcKQx4FAEW+z7F+R+NI6RDC32
+	D+hVusHLQeMlESyOCQSEq6RhBXZA5T/cqgJ9JSaTB4tKwiJBsHDvBiZ5U5i70WC8dSA==
+X-Gm-Gg: ASbGncvRhF8e7r3qP7qPuhgc4WJm3XeRbwOj0MMAUGMG5F7TlAu2Xt5vQ63Z40luE/p
+	gJACGSeHhkNqMKJmgZOHQfXoVHxL2fw/DJorAQflInqPf2DfPqZPbZsWXW/fS1E8Rnj1CaFtHF5
+	/RiNNNXd7qR7MTVI2HEVsBM5r3DHTprHTtThHPQRup+sQyMHmbWX4rk6qJhdbJgJ4ENnhrbXTVd
+	9c6HI0TaDYSM5s0kQ1l0axomrgMCk1RFtlcVj6HcQEZRMYV1jIBOHPi1DLU5rIckdSctaKa2Wnd
+	Uhl4fvQpm0g7SuE9a2w5HERsuK7z6/gjt1YYhEAQ/4zfvshfVmsaPdWENOj2gtbZJPp86KTl5oc
+	=
+X-Received: by 2002:a05:620a:2416:b0:7c5:405e:e88f with SMTP id af79cd13be357-7ceecbd70d0mr10150485a.21.1748021258971;
+        Fri, 23 May 2025 10:27:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEF4v4FFYt2KJcqNPAHKwwKQS5uP0VM4a7TB6GLuNQGEXytudQve/yAzT3dTU2seJ6C3/uT+A==
+X-Received: by 2002:a05:620a:2416:b0:7c5:405e:e88f with SMTP id af79cd13be357-7ceecbd70d0mr10147185a.21.1748021258637;
+        Fri, 23 May 2025 10:27:38 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3280d820443sm35986171fa.7.2025.05.23.10.27.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 May 2025 10:27:37 -0700 (PDT)
+Date: Fri, 23 May 2025 20:27:36 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Johan Hovold <johan+linaro@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Sanyog Kale <sanyog.r.kale@intel.com>, linux-arm-msm@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] soundwire: qcom: demote probe registration printk
+Message-ID: <wbpucxl3kf7kmob6bbhexivtgrsn5ehgh7zfuebx2vxjcg46ws@gfhdgi7yd24o>
+References: <20250523085317.11439-1-johan+linaro@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] ASoC: codecs: add support for ES8375
-References: <20250523025502.23214-1-zhangyi@everest-semi.com>
- <20250523025502.23214-3-zhangyi@everest-semi.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: zhangyi@everest-semi.com
-Cc: amadeuszx.slawinski@linux.intel.com, broonie@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org, krzk+dt@kernel.org,
- krzk@kernel.org, lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, perex@perex.cz, robh@kernel.org, tiwai@suse.com
-In-Reply-To: <20250523025502.23214-3-zhangyi@everest-semi.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250523085317.11439-1-johan+linaro@kernel.org>
+X-Proofpoint-GUID: URhtJBpeQVlKWUHFbq7soG3mQ2AdfJnE
+X-Proofpoint-ORIG-GUID: URhtJBpeQVlKWUHFbq7soG3mQ2AdfJnE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIzMDE1OSBTYWx0ZWRfX6Taq2dJnJwvH
+ FsyvrauZqV3dsyGaTUvADp6e7InqjiIQP90WjzZ4w0+VLqbXWGCt9jFaZrLKUMjNchTdn85BNnE
+ g/jYvDfLhFuxmcqZFAjLezPNy9xfYifFvJ9EUdxNylvs11t8pH+6XduVvaLSRgBtFz9VZLX8laI
+ U8Yk6OcMjmXWZquca7DWHMKsR+bUNz2956M1mda5eq9T0ng7e+fmc/t5RXC0CuV7ZDzTzy9UYD5
+ 1i6kpeHE/nruUk6zgq7edzcpLiwEzGSHSN+ltr1idwl3+SaMRGRS89j6zQZeSZZb1eB3XuA1xgo
+ F7f5OY5j5LpAXBPqyrmxXEm/gPCtyHuyN+VEFNuvbn2yMcftvCGteWzeSMI8GjbQ7EFJRi0CrRc
+ nXaw4p8c1cdJNZTSmKUHKCzIr25fYpnBNuHBJpe90fMeOx0/+5rMvVJdobVRyUxtc4BuUF25
+X-Authority-Analysis: v=2.4 cv=R7UDGcRX c=1 sm=1 tr=0 ts=6830b00b cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=RZT9l893yBoyBf-nb0IA:9
+ a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-23_06,2025-05-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 mlxlogscore=999 priorityscore=1501 spamscore=0
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 mlxscore=0
+ impostorscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505230159
 
-Le 23/05/2025 à 04:55, Zhang Yi a écrit :
-> The driver is for codec es8375 of everest
+On Fri, May 23, 2025 at 10:53:17AM +0200, Johan Hovold wrote:
+> Driver should generally by quiet on successful probe.
+> 
+> Demote the Qualcomm controller registration info message to debug level
+> to make boot logs a little less noisy:
+> 
+> qcom-soundwire 6ab0000.soundwire: Qualcomm Soundwire controller v2.0.0 Registered
+> qcom-soundwire 6ad0000.soundwire: Qualcomm Soundwire controller v2.0.0 Registered
+> qcom-soundwire 6b10000.soundwire: Qualcomm Soundwire controller v2.0.0 Registered
+> qcom-soundwire 6d30000.soundwire: Qualcomm Soundwire controller v2.0.0 Registered
+> 
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> ---
+>  drivers/soundwire/qcom.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
 
-...
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/clk.h>
-> +#include <linux/module.h>
-> +#include <linux/kernel.h>
-> +#include <linux/delay.h>
-> +#include <linux/i2c.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <sound/core.h>
-> +#include <sound/pcm.h>
-> +#include <sound/pcm_params.h>
-> +#include <sound/tlv.h>
-> +#include <sound/soc.h>
-> +#include <linux/acpi.h>
-
-Sometimes, it is preferred to keep includes in alphabetic order.
-
-> +#include "es8375.h"
-> +
-> +struct	es8375_priv {
-> +	struct regmap *regmap;
-> +	struct clk *mclk;
-> +	struct regulator_bulk_data core_supply[2];
-> +	unsigned int  mclk_freq;
-> +	int mastermode;
-> +	u8 mclk_src;
-> +	u8 vddd;
-> +	enum snd_soc_bias_level bias_level;
-> +};
-> +
-> +static const char * const es8375_core_supplies[] = {
-> +	"vddd",
-> +	"vdda",
-> +};
-> +
-> +static const DECLARE_TLV_DB_SCALE(es8375_adc_osr_gain_tlv, -3100, 100, 0);
-> +static const DECLARE_TLV_DB_SCALE(es8375_adc_volume_tlv, -9550, 50, 0);
-> +static const DECLARE_TLV_DB_SCALE(es8375_adc_automute_attn_tlv, 0, 100, 0);
-> +static const DECLARE_TLV_DB_SCALE(es8375_adc_dmic_volume_tlv, 0, 600, 0);
-> +static const DECLARE_TLV_DB_SCALE(es8375_dac_volume_tlv, -9550, 50, 0);
-> +static const DECLARE_TLV_DB_SCALE(es8375_dac_vppscale_tlv, -388, 12, 0);
-> +static const DECLARE_TLV_DB_SCALE(es8375_dac_automute_attn_tlv, 0, 400, 0);
-> +static const DECLARE_TLV_DB_SCALE(es8375_automute_ng_tlv, -9600, 600, 0);
-> +
-> +static const char *const es8375_ramprate_txt[] = {
-
-Missing space after *?
-(or extra space above in es8375_core_supplies)
-
-> +	"0.125dB/LRCK",
-> +	"0.125dB/2LRCK",
-> +	"0.125dB/4LRCK",
-> +	"0.125dB/8LRCK",
-> +	"0.125dB/16LRCK",
-> +	"0.125dB/32LRCK",
-> +	"0.125dB/64LRCK",
-> +	"0.125dB/128LRCK",
-> +	"disable softramp",
-> +};
-> +static SOC_ENUM_SINGLE_DECL(es8375_adc_ramprate, ES8375_ADC2,
-> +		ADC_RAMPRATE_SHIFT_0, es8375_ramprate_txt);
-> +static SOC_ENUM_SINGLE_DECL(es8375_dac_ramprate, ES8375_DAC2,
-> +		DAC_RAMPRATE_SHIFT_0, es8375_ramprate_txt);
-> +
-> +static const char *const es8375_automute_ws_txt[] = {
-
-Missing space after *?
-(or extra space above in es8375_core_supplies)
-
-... same several times below ...
-
-> +	"256 samples",
-> +	"512 samples",
-> +	"1024 samples",
-> +	"2048 samples",
-> +	"4096 samples",
-> +	"8192 samples",
-> +	"16384 samples",
-> +	"32768 samples",
-> +};
-
-...
-
-> +static struct regmap_config es8375_regmap_config = {
-
-I think this could be const.
-
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = ES8375_REG_MAX,
-> +	.cache_type = REGCACHE_MAPLE,
-> +	.use_single_read = true,
-> +	.use_single_write = true,
-> +	.writeable_reg = es8375_writeable_register,
-> +};
-
-...
-
-> +static int es8375_read_device_properities(struct device *dev, struct es8375_priv *es8375)
-> +{
-> +	int ret, i;
-> +
-> +	ret = device_property_read_u8(dev, "everest,mclk-src", &es8375->mclk_src);
-> +	if (ret != 0)
-> +		es8375->mclk_src = ES8375_MCLK_SOURCE;
-> +	dev_dbg(dev, "mclk-src %x", es8375->mclk_src);
-> +
-> +	for (i = 0; i < ARRAY_SIZE(es8375_core_supplies); i++)
-> +		es8375->core_supply[i].supply = es8375_core_supplies[i];
-> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(es8375_core_supplies), es8375->core_supply);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to request core supplies %d\n", ret);
-
-dev_err_probe() in the whole function maybe, as already used just below.
-
-> +		return ret;
-> +	}
-> +
-> +	es8375->mclk = devm_clk_get(dev, "mclk");
-
-devm_clk_get_enabled() maybe?
-
-> +	if (IS_ERR(es8375->mclk))
-> +		return dev_err_probe(dev, PTR_ERR(es8375->mclk), "unable to get mclk\n");
-> +
-> +	if (!es8375->mclk)
-> +		dev_warn(dev, "assuming static mclk\n");
-> +
-> +	ret = clk_prepare_enable(es8375->mclk);
-
-If kept as-is, clk_disable_unprepare() should be called in the probe if 
-devm_snd_soc_register_component() fails, and a removed function looks 
-needed.
-
-> +	if (ret) {
-> +		dev_err(dev, "unable to enable mclk\n");
-> +		return ret;
-> +	}
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(es8375_core_supplies), es8375->core_supply);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to enable core supplies: %d\n", ret);
-> +		clk_disable_unprepare(es8375->mclk);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int es8375_i2c_probe(struct i2c_client *i2c_client)
-> +{
-> +	struct es8375_priv *es8375;
-> +	struct device *dev = &i2c_client->dev;
-> +	int ret;
-> +	unsigned int val;
-> +
-> +	es8375 = devm_kzalloc(&i2c_client->dev, sizeof(*es8375), GFP_KERNEL);
-> +	if (!es8375)
-> +		return -ENOMEM;
-> +
-> +	es8375->regmap = devm_regmap_init_i2c(i2c_client,
-> +			&es8375_regmap_config);
-> +	if (IS_ERR(es8375->regmap))
-> +		return dev_err_probe(&i2c_client->dev, PTR_ERR(es8375->regmap),
-> +			"regmap_init() failed\n");
-> +
-> +	i2c_set_clientdata(i2c_client, es8375);
-> +
-> +	ret = regmap_read(es8375->regmap, ES8375_CHIP_ID1, &val);
-> +	if (ret < 0) {
-> +		dev_err(&i2c_client->dev, "failed to read i2c at addr %X\n",
-> +				i2c_client->addr);
-> +		return ret;
-> +	}
-> +
-> +	if (val != 0x83) {
-> +		dev_err(&i2c_client->dev, "device at addr %X is not an es8375\n",
-> +				i2c_client->addr);
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = regmap_read(es8375->regmap, ES8375_CHIP_ID0, &val);
-> +	if (val != 0x75) {
-> +		dev_err(&i2c_client->dev, "device at addr %X is not an es8375\n",
-> +				i2c_client->addr);
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = es8375_read_device_properities(dev, es8375);
-
-Typo? Change the fct name to es8375_read_device_properties()?
-
-> +	if (ret != 0) {
-> +		dev_err(&i2c_client->dev, "get an error from dts info %X\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return devm_snd_soc_register_component(&i2c_client->dev, &es8375_codec_driver,
-> +			&es8375_dai, 1);
-> +}
-
-...
-
-> +static const struct i2c_device_id es8375_id[] = {
-> +	{"es8375"},
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, es8375_id);
-> +
-> +#ifdef CONFIG_ACPI
-> +static const struct acpi_device_id es8375_acpi_match[] = {
-> +	{"ESSX8375", 0},
-> +	{},
-
-Unneeded , after a terminator
-
-> +};
-> +
-> +MODULE_DEVICE_TABLE(acpi, es8375_acpi_match);
-> +#endif
-
-...
-
-CJ
-
+-- 
+With best wishes
+Dmitry
