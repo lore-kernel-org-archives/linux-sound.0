@@ -1,32 +1,32 @@
-Received: from mail78-63.sinamail.sina.com.cn (mail78-63.sinamail.sina.com.cn [219.142.78.63])
+Received: from mail78-50.sinamail.sina.com.cn (mail78-50.sinamail.sina.com.cn [219.142.78.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01A31FFC5F
-	for <linux-sound@vger.kernel.org>; Fri, 23 May 2025 02:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.142.78.63
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6D71F09A8
+	for <linux-sound@vger.kernel.org>; Fri, 23 May 2025 02:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.142.78.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747967817; cv=none; b=Dmn9KXoL6W7WG4ZNn7wcIWeKEWJc80S1b7M9RKS6hEAdVFbgEz6vksmrut5zhdObk1ER6c4D+EgCG6wRn/zGA5VgP46xZ80sbrXZBgEwqnGbHcUv9Ig4Yjy933s+Qvv3WK7Lp+gJpUN9prAybiB77c7r4FFRyPEKu21u8fkbUSI=
+	t=1747968947; cv=none; b=TUT8/azjm8Ajp1OnKaUcxEznup4kDMXUpISVNIRnHGF8YQfSoNmEqlU4NVYILzLa9U7eG7zB8Am+GPYPS37wjSM96w2zl6g+CcJmG0qZSIhDdl/FDpbUoHGL4BghvDcF1WcSp2UmL/2bkGg5h+tedQXFo790tS6lgUj6vONvtF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747967817; c=relaxed/simple;
-	bh=D8yq86l72M6nD5O9uLQN4hl4smk/KgoafGw+uS/SsMg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=qPYK8lNfSpVwNYebXgspFeYGUJEec/3++n53qWmOtWOqBc03J/Oj0Aac4wlbFKwkh/jdqaKUXt3gddskSS87tVcIMzt8zqAvasDRl33dfS6uAuIrbc9bkKk/IRsKy6d/t8SXdmIFQMzAH/wgYzyEia6TggtN8cGkNZnbp/3Jtp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=219.142.78.63
+	s=arc-20240116; t=1747968947; c=relaxed/simple;
+	bh=qBJ2kAcdBrQpxlLTDIPnYHciYA93QxLSjDqWR8b1urM=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=TqfTd6GuEbKu3hBbYCbsoCf+fvO9FrntRdIJ4PDpzM4arvFPuadpBSZ21kIjMDLLS/aAF05jgVnQJv8DbRUnrGD/ZnioVEo//1/QBk/gXPYEr2xo1LltumB9nZZfdnVJUnDzzK5r04eHME349pUuX5PykI44NrLvPGdwFsp3dKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=219.142.78.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([180.172.39.205])
-	by sina.net (10.185.250.32) with ESMTP
-	id 682FDF42000051ED; Fri, 23 May 2025 10:36:52 +0800 (CST)
+	by sina.net (10.185.250.30) with ESMTP
+	id 682FE38700005A34; Fri, 23 May 2025 10:55:04 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 3208C6CF4AD64FC68EA887B61F214A7B
-X-SMAIL-UIID: 3208C6CF4AD64FC68EA887B61F214A7B-20250523-103652
+X-SMAIL-MID: D6906CBCAF9D4E02BDB4CEF5B0E70A5A
+X-SMAIL-UIID: D6906CBCAF9D4E02BDB4CEF5B0E70A5A-20250523-105504
 From: Zhang Yi <zhangyi@everest-semi.com>
-To: krzk@kernel.org
-Cc: robh@kernel.org,
+To: broonie@kernel.org,
+	robh@kernel.org,
 	tiwai@suse.com,
 	devicetree@vger.kernel.org,
 	conor+dt@kernel.org,
@@ -34,28 +34,53 @@ Cc: robh@kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	perex@perex.cz,
-	krzk+dt@kernel.org,
-	amadeuszx.slawinski@linux.intel.com,
-	broonie@kernel.org
-Subject: RE: [PATCH v1 2/2] ASoC: codecs: add support for ES8375
-Date: Fri, 23 May 2025 10:36:49 +0800
-Message-Id: <20250523023649.22785-3-zhangyi@everest-semi.com>
+	krzk+dt@kernel.org
+Cc: amadeuszx.slawinski@linux.intel.com,
+	krzk@kernel.org,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v3 0/2] ASoC: codecs: add support for ES8375
+Date: Fri, 23 May 2025 10:55:00 +0800
+Message-Id: <20250523025502.23214-1-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20250523023649.22785-1-zhangyi@everest-semi.com>
-References: <20250523023649.22785-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-> > Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> 
-> This never happened - robot did not report this driver.
-> 
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202505221528.nvWwf9kj-lkp@intel.com/
-> 
-> Please read carefully above email. It explains what to do with the tags.
+The driver is for codec ES8375 of everest-semi.
 
-Okay, thanks.
+v3 -> v2:
+          - Modify some control-names
+          - Delete obsolete terminology
+          - Modify tags of v2
+
+v2 -> v1:
+          - Add the description of everest,mclk-src in the yaml file
+          - Remove attribute es8375->dmic_pol which is not used
+            in the codec driver
+          - replace SOC_DAPM_ENUM_EXT with SOC_DAPM_ENUM which
+            is used for ADC MUX
+          - Modify some control-names
+          - Replace a number with a specific variable
+          - Delete obsolete terminology
+          - Remove the default volume setting
+          - Modify cache_type in regmap_config
+
+Zhang Yi (2):
+  ASoC: dt-bindings: Add Everest ES8375 audio CODEC
+  ASoC: codecs: add support for ES8375
+
+ .../bindings/sound/everest,es8375.yaml        |  71 ++
+ sound/soc/codecs/Kconfig                      |   5 +
+ sound/soc/codecs/Makefile                     |   2 +
+ sound/soc/codecs/es8375.c                     | 793 ++++++++++++++++++
+ sound/soc/codecs/es8375.h                     | 123 +++
+ 5 files changed, 994 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/everest,es8375.yaml
+ create mode 100644 sound/soc/codecs/es8375.c
+ create mode 100644 sound/soc/codecs/es8375.h
+
+-- 
+2.17.1
+
