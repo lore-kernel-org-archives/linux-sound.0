@@ -1,88 +1,79 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFE219C55E;
-	Fri, 23 May 2025 10:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE0222839A;
+	Fri, 23 May 2025 10:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747996038; cv=none; b=NRKSFN0qO1H6CDxrzFZNdv3tDW8xkvI7CnJUdTSRFZfBjCxENgxZIqfSHzbe1NEygvCnRV1AH7F1feK1rTffE/aHmQVJA48aueHZlabCKRi3yodCGp0Q+qxDocyRAZd55j3oM3PDEZxpUoO8CXt8b1tTk6A9YLTV7wwSzau6MQc=
+	t=1747996842; cv=none; b=NfTEblRRr2tE1qzSTUwuQxSJsEcSsIhwt+m0Ty/DfXloF003XYnOy4CIE6pjBbPgoJLaEHDa8BWwS3LYG6kPpIRl5DQAFwZAS6E4kGTVc+yagIhjNUynE1GqfS34fWUxoSYjutOH51GRokWtSpH97zknOREen5mU/T7JVwiHsbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747996038; c=relaxed/simple;
-	bh=yylsC7BlJVTA+QRbQ/wvlxBAboO+6y1UoLTRsbDSq3Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cghZWmbUkGU7OamU5E8OJQESX+9Wq7++dMIvKEi6X+XfX17W1HbSoV+rLwAjE9bukg9JoJbUrqSiVMTdqN1KMLiq82lps+5eldC7ldzb+lI9gj6kFl85Wn7lPcHtI+mdDE4WcOScaItWrKEnVsAo3YazUsjBU+pAwxqV/QpTQIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=L8aSH2rB; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1747996842; c=relaxed/simple;
+	bh=K2JQO+uYU43rONsrKzctsDigqQZ79oxfKv9WnQ4M8rs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TVVI1DJnG68vVC+KaM4Ko28QwIV5lcs++PvcvWA/rwYSbV2yjO0oupYm6XSG/IvKYy0m/+6Qg3fDEH9a4KLt5pCzFu2cLLN4k8FzTZbkrrvVs1oK2XmiUPP6TzR8mkmFlhKDsjhdANk61QHwMidmM5qoq502wyF0AChKaHNWVDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=qdU3KuMZ; arc=none smtp.client-ip=168.119.38.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="L8aSH2rB"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 9E0FE3CA38;
-	Fri, 23 May 2025 12:21:23 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 9E0FE3CA38
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1747995683; bh=8k50XQg5xu3mUwirxInsPIKU5eX7ajauM4EFdB8QYXw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=L8aSH2rBDzBYEkHmJtsyfqvA9m8c/aUeWAb0qepRGsaMvg/AgGnhD+Yy7I1ZzgLda
-	 96Bcrua1PUI+k4lLuY+c0BbTFVf5QFpOcWaf4Z1ixyLrqoqrmjESrna/ZmGSkOegaV
-	 TcIFllTeEoGJeOnvMYajRPnwWGVIDQ2HBG5MzE0o=
-Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Fri, 23 May 2025 12:21:15 +0200 (CEST)
-From: Jaroslav Kysela <perex@perex.cz>
-To: Linux Sound ML <linux-sound@vger.kernel.org>
-Cc: Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	patches@opensource.cirrus.com,
-	stable@vger.kernel.org
-Subject: [PATCH] firmware: cs_dsp: Fix OOB memory read access in KUnit test
-Date: Fri, 23 May 2025 12:21:02 +0200
-Message-ID: <20250523102102.1177151-1-perex@perex.cz>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="qdU3KuMZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=K2JQO+uYU43rONsrKzctsDigqQZ79oxfKv9WnQ4M8rs=;
+	t=1747996840; x=1749206440; b=qdU3KuMZ9sweprsLMMsnuRdUYa5laczAF/iWMqExK+PNlyJ
+	c677zeHd97X1PK7EZWtGUh7fRRZneSmsFVYOWNmxtRoZWeUW+bE6YNr0tKr339HoSGALk73HQssEe
+	Me6S6+FPchv46CvtJE6UzDM9LLykPrQIKwbbhxzOAEpnbrnXcYDgaYvogcdzMdIlWEOnbg5n34Dn6
+	ywZuDVQsx7W0+b0Rw6imHHRZCKR0ug2sTo9qQKkWDxnUZSulv8t2p0BJRYlibX94khJQFs4bU+EqY
+	Osju0I3cb8GSyrBz5uaxzJ9VCbfBYiayFKUNaUPQ51IaYr+mp+fmUxaSoTmIxxIA==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98.2)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1uIPp5-00000001O1N-1Ky4;
+	Fri, 23 May 2025 12:40:19 +0200
+Message-ID: <7e708dcc98c6f0f615b1b87d190464cfe78be668.camel@sipsolutions.net>
+Subject: Re: [PATCH v2 2/6] ASoC: aoa: Use helper function
+ for_each_child_of_node_scoped()
+From: Johannes Berg <johannes@sipsolutions.net>
+To: =?UTF-8?Q?=E8=89=BE=E8=B6=85?= <aichao@kylinos.cn>, perex
+ <perex@perex.cz>,  tiwai <tiwai@suse.com>, "kuninori.morimoto.gx"
+ <kuninori.morimoto.gx@renesas.com>, lgirdwood	 <lgirdwood@gmail.com>,
+ broonie <broonie@kernel.org>, jbrunet	 <jbrunet@baylibre.com>,
+ "neil.armstrong" <neil.armstrong@linaro.org>, khilman	
+ <khilman@baylibre.com>, "martin.blumenstingl"	
+ <martin.blumenstingl@googlemail.com>, "shengjiu.wang"
+ <shengjiu.wang@gmail.com>,  "Xiubo.Lee" <Xiubo.Lee@gmail.com>, festevam
+ <festevam@gmail.com>, nicoleotsuka <nicoleotsuka@gmail.com>,  shawnguo
+ <shawnguo@kernel.org>, "s.hauer" <s.hauer@pengutronix.de>,
+ "srinivas.kandagatla"	 <srinivas.kandagatla@linaro.org>
+Cc: linux-sound <linux-sound@vger.kernel.org>, linux-kernel	
+ <linux-kernel@vger.kernel.org>, linuxppc-dev
+ <linuxppc-dev@lists.ozlabs.org>,  linux-renesas-soc
+ <linux-renesas-soc@vger.kernel.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>,  linux-amlogic
+ <linux-amlogic@lists.infradead.org>, imx <imx@lists.linux.dev>, kernel
+ <kernel@pengutronix.de>,  linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Date: Fri, 23 May 2025 12:40:18 +0200
+In-Reply-To: <2aq0nyvyf7t-2aq4hsc7kp6@nsmail7.0.0--kylin--1>
+References: <2aq0nyvyf7t-2aq4hsc7kp6@nsmail7.0.0--kylin--1>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-malware-bazaar: not-scanned
 
-KASAN reported out of bounds access - cs_dsp_mock_bin_add_name_or_info(),
-because the source string length was rounded up to the allocation size.
+Hi,
 
-Cc: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: patches@opensource.cirrus.com
-Cc: stable@vger.kernel.org
-Signed-off-by: Jaroslav Kysela <perex@perex.cz>
----
- drivers/firmware/cirrus/test/cs_dsp_mock_bin.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+[you should avoid HTML]
 
-diff --git a/drivers/firmware/cirrus/test/cs_dsp_mock_bin.c b/drivers/firmware/cirrus/test/cs_dsp_mock_bin.c
-index 49d84f7e59e6..a0601b23b1bd 100644
---- a/drivers/firmware/cirrus/test/cs_dsp_mock_bin.c
-+++ b/drivers/firmware/cirrus/test/cs_dsp_mock_bin.c
-@@ -96,10 +96,11 @@ static void cs_dsp_mock_bin_add_name_or_info(struct cs_dsp_mock_bin_builder *bui
- 
- 	if (info_len % 4) {
- 		/* Create a padded string with length a multiple of 4 */
-+		size_t copy_len = info_len;
- 		info_len = round_up(info_len, 4);
- 		tmp = kunit_kzalloc(builder->test_priv->test, info_len, GFP_KERNEL);
- 		KUNIT_ASSERT_NOT_ERR_OR_NULL(builder->test_priv->test, tmp);
--		memcpy(tmp, info, info_len);
-+		memcpy(tmp, info, copy_len);
- 		info = tmp;
- 	}
- 
--- 
-2.49.0
+> "simplifies the code" is no need to callof_node_put() .
 
+Fair. Except that's not what you _actually_ changed here. Like I said,
+either it's buggy before or after.
+
+johannes
