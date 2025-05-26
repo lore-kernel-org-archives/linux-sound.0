@@ -1,365 +1,154 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6C4215191;
-	Mon, 26 May 2025 14:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EC63FE5
+	for <linux-sound@vger.kernel.org>; Mon, 26 May 2025 16:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748268489; cv=none; b=sthvBLXtnIaY6xV0+WeAXuUMFMlusXw85pZ7dmGDwyIcrz/aC5uvM80QZ9DDh/ZUSeFIxfuEjl7Q8PwRq69DRTq4SQU4Nm4YnWh8cF2FUgmSUddYRWl5DXQcUMJTMDcdltb0d+uDmq0UIGvD/Lmx6uo/XwtoHcu1Edd1H86cnAI=
+	t=1748276332; cv=none; b=NIA4ONVG2D7hWi7G5xmwjw/SGf9VIrBqLzRcJENU4xMAxEJLiGlrYz7ywjVnUcdz3ArwerHHY7CXMROCPClaO3pu3Y0RxGxh1OcI9HrVe1j7WFjrkiCaAY2dwj76NozfOx+d7Fywm2UVIhcydgKoClTY+qpWGOlCOmlfNkyFhig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748268489; c=relaxed/simple;
-	bh=FyfP22yfLEWzxbcL2pK5RHXWi6TCvIek7sBf6PSSgpA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WDR8jV/Uwu65uu2u1gR1FPZyL9GcT7d4SQSUdN0BGeTvZDuFXP19vqwwRjdaMwCp4J9EbTMXRWx52rgyMTAauY4zcfd+b7j+vzVsNSWINBGJ15Nn3M5LZu9zajbAvNgjUWSc5YdBaEzpsDRSWYzWEW2ykuLqhR2rM6c7kpbV/sQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kJq99sRl; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1748276332; c=relaxed/simple;
+	bh=3O9uODhheyd75IXO4fOpFql0g/mYJkjjqhqvQGXfe/4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bq4zil+f/WBpghUTMOasYIh5MwjHAr3EnT99p2xkWeWv5K3uymnBD4b4wWnCs6GmdAPKnnpuZTf5FuPr1oOLo/kEarvTQfOt9l1H1ny8lxQeoYT87CI38I+1ZJhyDTzmtE2i9rNeRZwcaqTycCwtZI4pCPtzfDoF6xpiFrF0JP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rWhW4KQu; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kJq99sRl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1748268484;
-	bh=FyfP22yfLEWzxbcL2pK5RHXWi6TCvIek7sBf6PSSgpA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=kJq99sRlNYSZahDsz0ocRDyodji1x7pFs+xXIUg159F/Yj6BqFAC1E8exl6s0SgaW
-	 tnW5Sm2rSsw+aXdjLT+EyYAV5KNC6tzft+AwK4IjxoFmq3tNXI4umFyzj8h4PhN/SD
-	 UXibAUllI0uVm+AwcIqU/FhGCkDXDTSEXNJLhH3dfpM5vg45vZzXBzxbwEYpC42vbR
-	 qEWp6cpIWWKCCHCasnHvLqVYpamPfOQxUq3YEArgGMZtw8NsgR7zKSEXigbfgdUkLL
-	 6BVAJxAE/HFfzSTCASUQNgeEumOUTu8MHBUFI/3cwyh/LtRbu0hX2QJJGRML81tIUK
-	 DRjRWv3o+j7Kw==
-Received: from localhost (unknown [82.76.59.134])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 17E3617E1595;
-	Mon, 26 May 2025 16:08:04 +0200 (CEST)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Mon, 26 May 2025 17:07:48 +0300
-Subject: [PATCH 9/9] ALSA: usb-audio: Add mixer quirk for Sony DualSense
- PS5
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rWhW4KQu"
+Message-ID: <3e8810e3-1346-498d-8914-f5f81167cb5c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1748276327;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iJv5lA8od/YM8eLH9W+Fh4Qc3lU7Hef1zizGNnnPSAI=;
+	b=rWhW4KQuPO92q53OSQnBIRJvVbyKz3u1xKvSx69boc3nVQP0/cpc3sZ150fKQMfHS5dGOS
+	//7rDdV+0ONn3ZHEw60J4K27fl9aA8YK1kRk7VH3jHEw8n+c5xkFwh/QnJoeq/aAB/LsEW
+	b5hh2yRWgo5JeuICWGPwzIC5DrqX480=
+Date: Mon, 26 May 2025 18:18:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250526-dualsense-alsa-jack-v1-9-1a821463b632@collabora.com>
-References: <20250526-dualsense-alsa-jack-v1-0-1a821463b632@collabora.com>
-In-Reply-To: <20250526-dualsense-alsa-jack-v1-0-1a821463b632@collabora.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
+Subject: Re: [RFC PATCH v2] ASoC: soc-pcm: Optimize hw_params() BE DAI call
+To: "Sheetal ." <sheetal@nvidia.com>,
+ =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ jonathanh@nvidia.com, thierry.reding@gmail.com, mkumard@nvidia.com,
+ spujar@nvidia.com
+References: <20250408083022.3671283-1-sheetal@nvidia.com>
+ <52681983-2fe2-45da-b0ee-1e9452ed469e@linux.intel.com>
+ <1328ff08-1de7-4c62-b8f7-b09e15f50737@linux.dev>
+ <897155bb-da81-485a-869c-da587e063bc2@nvidia.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <897155bb-da81-485a-869c-da587e063bc2@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-The Sony DualSense wireless controller (PS5) features an internal mono
-speaker, but it also provides a 3.5mm jack socket for headphone output
-and headset microphone input.
 
-Since this is a UAC1 device, it doesn't advertise any jack detection
-capability.  However, the controller is able to report HP & MIC insert
-events via HID, i.e. through a dedicated input device managed by the
-hid-playstation driver.
+>> I share Peter's question. The code has been around since 2016, in what 
+>> case would the existing logic need to be updated?
+> 
+> As such it is not causing any issue. But I think if the BE DAI state is 
+> already SND_SOC_DPCM_STATE_HW_PARAMS, there is no need to call it again. 
+> Similar to how dpcm_be_dai_prepare() and dpcm_be_dai_startup() won't 
+> call BE DAI prepare() / open() callbacks if the state is already 
+> SND_SOC_DPCM_STATE_PREPARE or SND_SOC_DPCM_STATE_OPEN respectively.
+> 
+> For example:
+> 
+> When two or more streams sharing a common BE DAI are started 
+> consecutively, the following sequence can cause multiple unnecessary 
+> hw_params() calls for the BE DAI:
+> (1) Stream1 hw_params() called for BE DAI and updates state to
+>     SND_SOC_DPCM_STATE_HW_PARAMS
+> (2) Before Stream1 BE DAI prepare() call triggered,
+>     Stream2 dpcm_be_dai_hw_params() call happened and now BE DAI 
+> hw_params() callback happen again unnecessarily as the state of BE DAI 
+> is still SND_SOC_DPCM_STATE_HW_PARAMS.
 
-Add a quirk to create the jack controls for headphone and headset mic,
-respectively, and setup an input handler for each of them in order to
-intercept the related hotplug events.
+It's possible that the second call uses different parameters. Don't make 
+the assumption that the parameters are exactly the same between FEs, see 
+more below.
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- sound/usb/mixer_quirks.c | 263 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 263 insertions(+)
+>> One key point is that hw_params() may be called multiple times with 
+>> different parameters, it's a feature and not a bug. If a call to 
+>> hw_params() changes an internal state, a follow-up call to hw_params() 
+>> shall undo the initial state change and rerun the appropriate 
+>> configuration.
+> 
+> As per my understanding, after hw_params() callback, prepare() will be 
+> called and the BE DAI state will be updated to PREPARE now, then 
+> hw_params() callback for same BE DAI will not occur as condition will be 
+> unmet. Not sure how the different parameters will be configured in this 
+> case? Please clarify.
 
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index ffda3b8d42cc6b05ea26726616196a012cb6d1e4..0769ecd9114401007472b66d3ee728a33804de0e 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -17,6 +17,7 @@
- #include <linux/bitfield.h>
- #include <linux/hid.h>
- #include <linux/init.h>
-+#include <linux/input.h>
- #include <linux/math64.h>
- #include <linux/slab.h>
- #include <linux/usb.h>
-@@ -531,6 +532,263 @@ static int snd_emu0204_controls_create(struct usb_mixer_interface *mixer)
- 					  &snd_emu0204_control, NULL);
- }
- 
-+/*
-+ * Sony DualSense controller (PS5) jack detection
-+ *
-+ * Since this is an UAC 1 device, it doesn't support jack detection.
-+ * However, the controller hid-playstation driver reports HP & MIC
-+ * insert events through a dedicated input device.
-+ */
-+
-+#define SND_DUALSENSE_JACK_OUT_TERM_ID 3
-+#define SND_DUALSENSE_JACK_IN_TERM_ID 4
-+
-+struct dualsense_mixer_elem_info {
-+	struct usb_mixer_elem_info info;
-+	struct input_handler ih;
-+	struct input_device_id id_table[2];
-+	bool connected;
-+};
-+
-+static void snd_dualsense_ih_event(struct input_handle *handle,
-+				   unsigned int type, unsigned int code,
-+				   int value)
-+{
-+	struct dualsense_mixer_elem_info *mei;
-+	struct usb_mixer_elem_list *me;
-+
-+	if (type != EV_SW)
-+		return;
-+
-+	mei = container_of(handle->handler, struct dualsense_mixer_elem_info, ih);
-+	me = &mei->info.head;
-+
-+	if ((me->id == SND_DUALSENSE_JACK_OUT_TERM_ID && code == SW_HEADPHONE_INSERT) ||
-+	    (me->id == SND_DUALSENSE_JACK_IN_TERM_ID && code == SW_MICROPHONE_INSERT)) {
-+		mei->connected = !!value;
-+		snd_ctl_notify(me->mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
-+			       &me->kctl->id);
-+	}
-+}
-+
-+static bool snd_dualsense_ih_match(struct input_handler *handler,
-+				   struct input_dev *dev)
-+{
-+	struct dualsense_mixer_elem_info *mei;
-+	struct usb_device *snd_dev;
-+	char *input_dev_path, *usb_dev_path;
-+	size_t usb_dev_path_len;
-+	bool match = false;
-+
-+	mei = container_of(handler, struct dualsense_mixer_elem_info, ih);
-+	snd_dev = mei->info.head.mixer->chip->dev;
-+
-+	input_dev_path = kobject_get_path(&dev->dev.kobj, GFP_KERNEL);
-+	if (!input_dev_path) {
-+		dev_warn(&snd_dev->dev, "Failed to get input dev path\n");
-+		return false;
-+	}
-+
-+	usb_dev_path = kobject_get_path(&snd_dev->dev.kobj, GFP_KERNEL);
-+	if (!usb_dev_path) {
-+		dev_warn(&snd_dev->dev, "Failed to get USB dev path\n");
-+		goto free_paths;
-+	}
-+
-+	/*
-+	 * Ensure the VID:PID matched input device supposedly owned by the
-+	 * hid-playstation driver belongs to the actual hardware handled by
-+	 * the current USB audio device, which implies input_dev_path being
-+	 * a subpath of usb_dev_path.
-+	 *
-+	 * This verification is necessary when there is more than one identical
-+	 * controller attached to the host system.
-+	 */
-+	usb_dev_path_len = strlen(usb_dev_path);
-+	if (usb_dev_path_len >= strlen(input_dev_path))
-+		goto free_paths;
-+
-+	usb_dev_path[usb_dev_path_len] = '/';
-+	match = !memcmp(input_dev_path, usb_dev_path, usb_dev_path_len + 1);
-+
-+free_paths:
-+	kfree(input_dev_path);
-+	kfree(usb_dev_path);
-+
-+	return match;
-+}
-+
-+static int snd_dualsense_ih_connect(struct input_handler *handler,
-+				    struct input_dev *dev,
-+				    const struct input_device_id *id)
-+{
-+	struct input_handle *handle;
-+	int err;
-+
-+	handle = kzalloc(sizeof(*handle), GFP_KERNEL);
-+	if (!handle)
-+		return -ENOMEM;
-+
-+	handle->dev = dev;
-+	handle->handler = handler;
-+	handle->name = handler->name;
-+
-+	err = input_register_handle(handle);
-+	if (err)
-+		goto err_free;
-+
-+	err = input_open_device(handle);
-+	if (err)
-+		goto err_unregister;
-+
-+	return 0;
-+
-+err_unregister:
-+	input_unregister_handle(handle);
-+err_free:
-+	kfree(handle);
-+	return err;
-+}
-+
-+static void snd_dualsense_ih_disconnect(struct input_handle *handle)
-+{
-+	input_close_device(handle);
-+	input_unregister_handle(handle);
-+	kfree(handle);
-+}
-+
-+static void snd_dualsense_ih_start(struct input_handle *handle)
-+{
-+	struct dualsense_mixer_elem_info *mei;
-+	struct usb_mixer_elem_list *me;
-+	int status = -1;
-+
-+	mei = container_of(handle->handler, struct dualsense_mixer_elem_info, ih);
-+	me = &mei->info.head;
-+
-+	if (me->id == SND_DUALSENSE_JACK_OUT_TERM_ID &&
-+	    test_bit(SW_HEADPHONE_INSERT, handle->dev->swbit))
-+		status = test_bit(SW_HEADPHONE_INSERT, handle->dev->sw);
-+	else if (me->id == SND_DUALSENSE_JACK_IN_TERM_ID &&
-+		 test_bit(SW_MICROPHONE_INSERT, handle->dev->swbit))
-+		status = test_bit(SW_MICROPHONE_INSERT, handle->dev->sw);
-+
-+	if (status >= 0) {
-+		mei->connected = !!status;
-+		snd_ctl_notify(me->mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
-+			       &me->kctl->id);
-+	}
-+}
-+
-+static int snd_dualsense_jack_get(struct snd_kcontrol *kctl,
-+				  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct dualsense_mixer_elem_info *mei = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = mei->connected;
-+
-+	return 0;
-+}
-+
-+static const struct snd_kcontrol_new snd_dualsense_jack_control = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
-+	.access = SNDRV_CTL_ELEM_ACCESS_READ,
-+	.info = snd_ctl_boolean_mono_info,
-+	.get = snd_dualsense_jack_get,
-+};
-+
-+static int snd_dualsense_resume_jack(struct usb_mixer_elem_list *list)
-+{
-+	snd_ctl_notify(list->mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
-+		       &list->kctl->id);
-+	return 0;
-+}
-+
-+static void snd_dualsense_mixer_elem_free(struct snd_kcontrol *kctl)
-+{
-+	struct dualsense_mixer_elem_info *mei = snd_kcontrol_chip(kctl);
-+
-+	if (mei->ih.event)
-+		input_unregister_handler(&mei->ih);
-+
-+	snd_usb_mixer_elem_free(kctl);
-+}
-+
-+static int snd_dualsense_jack_create(struct usb_mixer_interface *mixer,
-+				     const char *name, bool is_output)
-+{
-+	struct dualsense_mixer_elem_info *mei;
-+	struct input_device_id *idev_id;
-+	struct snd_kcontrol *kctl;
-+	int err;
-+
-+	mei = kzalloc(sizeof(*mei), GFP_KERNEL);
-+	if (!mei)
-+		return -ENOMEM;
-+
-+	snd_usb_mixer_elem_init_std(&mei->info.head, mixer,
-+				    is_output ? SND_DUALSENSE_JACK_OUT_TERM_ID :
-+						SND_DUALSENSE_JACK_IN_TERM_ID);
-+
-+	mei->info.head.resume = snd_dualsense_resume_jack;
-+	mei->info.val_type = USB_MIXER_BOOLEAN;
-+	mei->info.channels = 1;
-+	mei->info.min = 0;
-+	mei->info.max = 1;
-+
-+	kctl = snd_ctl_new1(&snd_dualsense_jack_control, mei);
-+	if (!kctl) {
-+		kfree(mei);
-+		return -ENOMEM;
-+	}
-+
-+	strscpy(kctl->id.name, name, sizeof(kctl->id.name));
-+	kctl->private_free = snd_dualsense_mixer_elem_free;
-+
-+	err = snd_usb_mixer_add_control(&mei->info.head, kctl);
-+	if (err)
-+		return err;
-+
-+	idev_id = &mei->id_table[0];
-+	idev_id->flags = INPUT_DEVICE_ID_MATCH_VENDOR | INPUT_DEVICE_ID_MATCH_PRODUCT |
-+			 INPUT_DEVICE_ID_MATCH_EVBIT | INPUT_DEVICE_ID_MATCH_SWBIT;
-+	idev_id->vendor = USB_ID_VENDOR(mixer->chip->usb_id);
-+	idev_id->product = USB_ID_PRODUCT(mixer->chip->usb_id);
-+	idev_id->evbit[BIT_WORD(EV_SW)] = BIT_MASK(EV_SW);
-+	if (is_output)
-+		idev_id->swbit[BIT_WORD(SW_HEADPHONE_INSERT)] = BIT_MASK(SW_HEADPHONE_INSERT);
-+	else
-+		idev_id->swbit[BIT_WORD(SW_MICROPHONE_INSERT)] = BIT_MASK(SW_MICROPHONE_INSERT);
-+
-+	mei->ih.event = snd_dualsense_ih_event;
-+	mei->ih.match = snd_dualsense_ih_match;
-+	mei->ih.connect = snd_dualsense_ih_connect,
-+	mei->ih.disconnect = snd_dualsense_ih_disconnect,
-+	mei->ih.start = snd_dualsense_ih_start,
-+	mei->ih.name = name;
-+	mei->ih.id_table = mei->id_table;
-+
-+	err = input_register_handler(&mei->ih);
-+	if (err) {
-+		dev_warn(&mixer->chip->dev->dev,
-+			 "Could not register input handler: %d\n", err);
-+		mei->ih.event = NULL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int snd_dualsense_controls_create(struct usb_mixer_interface *mixer)
-+{
-+	int err;
-+
-+	err = snd_dualsense_jack_create(mixer, "Headphone Jack", true);
-+	if (err < 0)
-+		return err;
-+
-+	return snd_dualsense_jack_create(mixer, "Headset Mic Jack", false);
-+}
-+
- /* ASUS Xonar U1 / U3 controls */
- 
- static int snd_xonar_u1_switch_get(struct snd_kcontrol *kcontrol,
-@@ -4073,6 +4331,11 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- 		err = snd_emu0204_controls_create(mixer);
- 		break;
- 
-+	case USB_ID(0x054c, 0x0ce6): /* Sony DualSense controller (PS5) */
-+	case USB_ID(0x054c, 0x0df2): /* Sony DualSense Edge controller (PS5) */
-+		err = snd_dualsense_controls_create(mixer);
-+		break;
-+
- 	case USB_ID(0x0763, 0x2030): /* M-Audio Fast Track C400 */
- 	case USB_ID(0x0763, 0x2031): /* M-Audio Fast Track C400 */
- 		err = snd_c400_create_mixer(mixer);
+prepare() is a different stage, you shouldn't assume that the transition 
+between hw_params() and prepare() is immediate.
 
--- 
-2.49.0
+You could have two FEs that try to configure different parameters, i.e. 
+S16LE or S32LE before the prepare stage is reached. Not to mention that 
+sound servers such as PulseAudio or PipeWire do make repeated calls to 
+hw_params() with different configurations to figure out what is 
+supported, i.e. prepare() and trigger() stages are not reached.
+
+Note that the DPCM logic is far from perfect, in the case of shared BEs 
+the hw_params should not be propagated from FEs. In the case of a mixer, 
+it would be very useful to have a boundary between FE and BE, with the 
+mixer pre-configured to e.g. 48kHz S32LE. The existing propagation from 
+FE to BE can be problematic in that the last configuration will be 
+retained, and that's not necessarily the highest resolution. We had 
+similar problems in the past when we tried to be smart with PulseAudio 
+and automatically select 44.1kHz or 48 kHz. That causes all kinds of 
+issues where the change of configuration only happens when all streams 
+are idle, and while a stream is active the configuration cannot be 
+reconfigured. It's much simpler to decide what the BE settings are once 
+and not try to adapt.
+
+In other words, the existing logic is fine, only redundant in the case 
+of *identical* hw_params for all streams feeding into a common BE. I 
+don't feel it's worth changing for now, if we change something in the 
+logic that should be a bigger change to add constraints between domains, 
+and allow for more than two domains.
+
+>>>> Signed-off-by: Sheetal <sheetal@nvidia.com>
+>>>> ---
+>>>> Changes in v2:
+>>>> - Update commit message as its not a fix.
+>>>> - Marked as RFC patch as it requires feedback from other users
+>>>>    perspective as well.
+>>>> - The patch is being sent separately as other patch is not RFC.
+>>>>
+>>>>   sound/soc/soc-pcm.c | 1 -
+>>>>   1 file changed, 1 deletion(-)
+>>>>
+>>>> diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+>>>> index d7f6d3a6d312..c73be27c4ecb 100644
+>>>> --- a/sound/soc/soc-pcm.c
+>>>> +++ b/sound/soc/soc-pcm.c
+>>>> @@ -2123,7 +2123,6 @@ int dpcm_be_dai_hw_params(struct 
+>>>> snd_soc_pcm_runtime *fe, int stream)
+>>>>                       continue;
+>>>>
+>>>>               if ((be->dpcm[stream].state != 
+>>>> SND_SOC_DPCM_STATE_OPEN) &&
+>>>> -                (be->dpcm[stream].state != 
+>>>> SND_SOC_DPCM_STATE_HW_PARAMS) &&
+>>>>                   (be->dpcm[stream].state != 
+>>>> SND_SOC_DPCM_STATE_HW_FREE))
+>>>>                       continue;
+>>>>
+>>>
+>>
+> 
+> 
 
