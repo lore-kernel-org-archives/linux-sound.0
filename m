@@ -1,85 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCCA202997;
-	Mon, 26 May 2025 16:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB377241679;
+	Mon, 26 May 2025 19:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748277174; cv=none; b=LOcaoXH3rXDpVnsQeURRIVtTDl+1813s5v6MERTF5wIJX8C7qsNp7az93oMbivm2DKgtfj6m+HsvXGRhzj0Bs+MbJK8vN08DyiDlvr1iFcw39FqxQk9w/DvLwFKfTzkIXla9Bnl9xQRlaE4UvOuW840cpZFXMmDfufq5rBwor2k=
+	t=1748287109; cv=none; b=pj3ewIxtSJC5l2vqfoPIzyGdPE7hv0eRfC9FRuALAxuaMK3vODXG/bvFo2Rj5a1P07wabfilinxx60PxRGHZTNPBTKVSFoLmF5BWEk8RnpVDXSXkRExSE+/RdDbeqA1+8BGCgbPSho58JCk4oXrOfv+IyYhpuartDLjCfdqDUik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748277174; c=relaxed/simple;
-	bh=u4sjxsvv5Ac2EkBAFE0Tr1FNNPm3T67xccnugKIq/rA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qMgyEiGDCDcCVxn3OpeQVN7nbotqlpr73sFPizQ4BVWX+Dd3wTZBD2MrsXM7u+Af84RNMIgmHRyOMTc8oBaHv9HtGx9q5ycTFuCjW6oQemyH1xc/JFb9yR6DxjaL0CZ+11ue0DhSaHfqOnpCbPeMj6TS1HXvzJyPBeBjaP1APCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rt3qgdO0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748287109; c=relaxed/simple;
+	bh=/XXt3U0JMu1raRhyrF9oJQA2clBB5QTdJ540lDkDHdg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hR5xvhW0/Gsty6hKNGP6nWzecl3s2d0a6YIfPhHcSS7l+9SxsJyGmpln14oTmTOT52T6Idw56JhWAGozNHem8xijGMcySlX4oi8N64HlYoJJirpp/icYiUyC4SJ6uNIkB4m31Kg4kjJKSQP6on95rQJ+MuVKDHCsrF0BvE3kH/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hC7gO/eb; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rt3qgdO0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB402C4CEE9;
-	Mon, 26 May 2025 16:32:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748277173;
-	bh=u4sjxsvv5Ac2EkBAFE0Tr1FNNPm3T67xccnugKIq/rA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rt3qgdO0pGKmcY4FJMOF2gFGS2KGenfAox4vf07unir79TndQUYMSwku8zwDHELY6
-	 9xt8NfDdLqBjyl6rTM0tkKIXvjCoIrmA2/fZcIRSKxrwGYsJiGmY1NAJNFFsxt9UEW
-	 hWzAxY3a8SKquX8agtiVOTpAXF+aqfkbcdLXW+MMFVgVAPvNArwTK9YNXSoLYSp9fG
-	 6nvhJ+lMou3Yhjj67Ru86fovIVK8X2nSP664uinZKuDA+DFzm6K7sBIPmqfhhJa3Ot
-	 LtCD3oDl7BsEMlkE3jhVGAsEyWhL+OP3nQz3oO1KdRV6JPcfarrli9A7QlLq5s2ASz
-	 l+Rrv7rbZicig==
-From: Mark Brown <broonie@kernel.org>
-To: Linux Sound ML <linux-sound@vger.kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>
-Cc: Simon Trimmer <simont@opensource.cirrus.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- patches@opensource.cirrus.com, stable@vger.kernel.org
-In-Reply-To: <20250523155814.1256762-1-perex@perex.cz>
-References: <20250523155814.1256762-1-perex@perex.cz>
-Subject: Re: [PATCH] firmware: cs_dsp: Fix OOB memory read access in KUnit
- test (wmfw info)
-Message-Id: <174827717150.619234.9558259639370763527.b4-ty@kernel.org>
-Date: Mon, 26 May 2025 17:32:51 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hC7gO/eb"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ac3eb3fdd2eso433471966b.0;
+        Mon, 26 May 2025 12:18:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748287106; x=1748891906; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ldNbYW3XI/Vm+PviMJj/fPRWUCWil11gviiTBdOEyR4=;
+        b=hC7gO/eb/IGC5oGe93RsN7ohh/opgoK+SjQpBsDncwBOW/mSvOfVwmaBcEa8F4gitA
+         npKwvK5K37RLIsUshl4TOR5PDdajyZU9ff64PH6TylE4fgO8SPjR8fWncgvOPabAEaf9
+         iUEGtQJ7Liy7MVMcXJEGIHDW20/JcFHlNLXovnBdcXDXHvtSoVLapHj68svDArV8vpMR
+         3u5BtJg6ccjnTfcqJXnRym2h3X4eDcAh5zL+zJ29f3AvDmHRwp4owhNb17fSKoagQiof
+         LHE8HlE7gIE3gH6qm79mk4ZahtO1RNor+3xPcedfQPf0Kcl40lvyk/p0XoXpboOsa5SO
+         zg9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748287106; x=1748891906;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ldNbYW3XI/Vm+PviMJj/fPRWUCWil11gviiTBdOEyR4=;
+        b=Ztur+FcCxoaDFCg440XW74OiNRYrZaYIMSMuCK0UqqM4qFja8TBsLYO1VVYKqXv7Y8
+         tBLOmrniGnKGfzeFtn1/ZKvXBgkkJrxTCltuzXOQuLQYMx8mQpiBFtREcVhLKJhw9mG3
+         DjCpZMFHhMMjzGn+/2g2iHfm1cSD8WMs2I9U39RFJi7xBCNTR6fYQcm/mLOAPEpoxqdf
+         AlYOW7gHhIDgkwgHG3QBReNiQB+h3OE6T6vFuYEc7GrmnFy+Ac/Lex7HcxAgLfmLiUS6
+         Kk3JyyMJ8PnyZUWaDOXYawqKBCw3Rec1bLFbxPuuJhJQeyuWC9I/d9uA/YjQ3982mANZ
+         181g==
+X-Forwarded-Encrypted: i=1; AJvYcCV6DJY+REEXFR9aKe4iCDUQrKUjlGklKVu5VZEVcRq0ajVH/DwUMnSNHFVYjAvxRK+KgeCTnUikycZlqJo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzf/GMgXfQ8E91sMAcrYFlOR2ULi9YgQoIHZ5C9ZU2bSUhdQAxA
+	THQCW5iNCj+gj00AAZ+cAsPa9f/mzFMEyKpnxnoDekeEI3y0W4wRQR7M
+X-Gm-Gg: ASbGnct3Drg2HOx7/BLFVeuf/c9RDMmbonVt4MnhKowWW9c1DqK0anX/417iemWIO4a
+	cDZI5ZspBgzeVQHkRAEnaZoMRX4mpw4qPf0Er+JSPJwFENJSpeAlJ16HrOTz9zJbxlK1frcC1Vv
+	QacrSLj0bblRmYdxh4xD1CgGVEC2ouzuX/v6k7scXa9IfN8Bj2RbGobbpzbAf4wbIw3A0uk7OJ7
+	1HAkhJA26HpcETB8pArOSg02RSniCAP9jFrVkYt/M3HLAamjN1QwmMuAZVPI0pp0eWbun6b2cLh
+	/Kte/adfsDOEbN7taO3pT2ZKm4p9p/AHQz0n4/rI36Iw+yAcmEKM
+X-Google-Smtp-Source: AGHT+IHCJg5ZbArAQQ1B1ZAf6mmdeVbfxQzWWDOqn3djiY7YnQ4NyesnvHqfXqjpa/yDvJmfCA7dFQ==
+X-Received: by 2002:a17:907:7f8a:b0:ad4:d069:324b with SMTP id a640c23a62f3a-ad85b0b28e7mr932702866b.10.1748287105815;
+        Mon, 26 May 2025 12:18:25 -0700 (PDT)
+Received: from qasdev.Home ([2a02:c7c:6696:8300:8814:6671:65ae:f9dd])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad5572f6402sm1491097666b.178.2025.05.26.12.18.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 May 2025 12:18:25 -0700 (PDT)
+From: Qasim Ijaz <qasdev00@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	zhangyi@everest-semi.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: fix out-of-bounds access on invalid clock config
+Date: Mon, 26 May 2025 20:18:20 +0100
+Message-Id: <20250526191820.72577-1-qasdev00@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Content-Type: text/plain; charset=n
+Content-Transfer-Encoding: 8bit
 
-On Fri, 23 May 2025 17:58:14 +0200, Jaroslav Kysela wrote:
-> KASAN reported out of bounds access - cs_dsp_mock_wmfw_add_info(),
-> because the source string length was rounded up to the allocation size.
-> 
-> 
+get_coeff() returns –EINVAL when no table entry matches. 
+The driver then uses that value as an index into coeff_div[],
+causing an OOB access.
 
-Applied to
+To fix lets abort the hw_params call instead.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Fixes: de2b3119f9f7 ("ASoC: codecs: add support for ES8375")
+Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+---
+ sound/soc/codecs/es8375.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks!
-
-[1/1] firmware: cs_dsp: Fix OOB memory read access in KUnit test (wmfw info)
-      commit: d979b783d61f7f1f95664031b71a33afc74627b2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/codecs/es8375.c b/sound/soc/codecs/es8375.c
+index decc86c92427..009259632107 100644
+--- a/sound/soc/codecs/es8375.c
++++ b/sound/soc/codecs/es8375.c
+@@ -319,6 +319,7 @@ static int es8375_hw_params(struct snd_pcm_substream *substream,
+ 	coeff = get_coeff(es8375->vddd, dmic_enable, es8375->mclk_freq, params_rate(params));
+ 	if (coeff < 0) {
+ 		dev_warn(component->dev, "Clock coefficients do not match");
++		return coeff;
+ 	}
+ 	regmap_write(es8375->regmap, ES8375_CLK_MGR4,
+ 			coeff_div[coeff].Reg0x04);
+-- 
+2.39.5
 
