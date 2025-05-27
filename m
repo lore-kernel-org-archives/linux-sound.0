@@ -1,77 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528BE27FD53
-	for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 17:27:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B6D1A3159;
+	Tue, 27 May 2025 17:37:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748366822; cv=none; b=YPtPcl/QACJG3UQRfWqIY4OHO9CGvK4M1xWc/Ag3JD12wr3313bjT6QLZAP/FEXuTueQLsT9iSEB9eTQBcZX25gzEnsWevaHWklzM1gXvox3FQn6Kfut/dwCzCaMiv7+41BekokKDC2UDOkCRn3rH/41bUu3VQJgdeu65VGdTfY=
+	t=1748367465; cv=none; b=Y91+1cMcf98dtvwimxM1C8XOiNoWsrD632MX7xWC8C2Cj2n6sNOyXE94SuU4nundNSx6SD3KDyFptBqCa8EH0U56K7VCFKyE0yu2U6MsCh9mUYltu+QkxmzvgdZjEAH0kDughlQTZzs8IL2uZLOss+0q+kE0tWM22N++pSmVDys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748366822; c=relaxed/simple;
-	bh=1Up8kJfY/bvPKHDKRGL7xFCgxlF7YiHfuqKS2XR4Nqo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tjs77qb0vJWFtaL48oDg9XX8ObqVSyjuLxNGhcNxqAv0aIzvt9A4fbN0wIcfZKeGJ96BEwD8Bph09E5qNqi6f3UoSOdhdZK2J51WdMrqrwPdaRqOj0RTzBC1wMUfvc+yNm6hLFfivcdOSHXIl6SUg96SZZ31l9wJFqjOMKNkrQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tbx/5IFi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748367465; c=relaxed/simple;
+	bh=oFMSlH2PFmkCusbkqieGsqktuo1FhaqErSIsbBtSOLM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Ch31IbeaQoYA88YFoJZ2FkpiszLlSDez1BOql1fC0uxZ5h4M03osuDj7ZVmW+Xldtu0eFVy+42+RInnAcBga4BUshdn7CKLcnTnvIJL+nl1oPCFm6EAZ4CKjQgyK/Je4Ab4aKck3wPwkKfz07TOFYU8FY3f/fm8wKEkd267+S9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jKUZUmHw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tbx/5IFi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D2F3C4CEE9;
-	Tue, 27 May 2025 17:27:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jKUZUmHw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F7DC4CEED;
+	Tue, 27 May 2025 17:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748366821;
-	bh=1Up8kJfY/bvPKHDKRGL7xFCgxlF7YiHfuqKS2XR4Nqo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Tbx/5IFiUDZYv81iqPu+LVequkOxoBqw9RPxmgA2AAgnLLSCLYykCOsVqYFvDjAAt
-	 iFs910+tiHAC0tfpzCSZ/KPUhZpUtNJtPwcfvyxMHaYjT9uJ6SwMdun9ZrnUUYu/LB
-	 t9+cRplRO7ryst+LEBHyRIQeqmbzGKDsiqL+5ECZku8YAP7iPw8nNfW2AI5Fjuxfzx
-	 qw9bGQGhqLFXRIaSiHlAQNBLRidfCCWWCYQyYdwIoZdfTERkPvrmRMIKbqABzLZ2Mz
-	 Vk+pmCrXGnlAr7cIiwHh7XVjuq4vzlnyupOGCcwygtNAUOAYJsuP5mRw3FrcJ7ufQH
-	 FfPsagISE8uuQ==
-From: Mario Limonciello <superm1@kernel.org>
-To: mario.limonciello@amd.com,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v3] ALSA: usb-audio: Add a quirk for Lenovo Thinkpad Thunderbolt 3 dock
-Date: Tue, 27 May 2025 12:26:56 -0500
-Message-ID: <20250527172657.1972565-1-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=k20201202; t=1748367464;
+	bh=oFMSlH2PFmkCusbkqieGsqktuo1FhaqErSIsbBtSOLM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jKUZUmHwQ1N6veEbDXf8tb70g5DO8THwojuX83ZSEuyEKUlq1um4EPkIIx1wMPQs/
+	 NUijS0LbMTQOEv0qNthfrpA8Kl85SxVgG9JJdnJs4RlW/30RyoZOPSvH4YgxL3kmcD
+	 Ey/5DFVRZzSvIm+ZVVw90+8p0/jEia2GfTCNSJ9CgojpCbOC/q7VMuNARYvx0+NPuS
+	 rb1d0X996eVEijBDh8VORTeVcbTO6fD/IxZT6nHKiQYmpgnc/ZMpEEJLUw4O8hUr6D
+	 /zF6SHbRxSJBaAplAfHbuOZKFL4j6ThEKxKh6+cWOYSJKet2s3mAQOt93Qn3TnV89g
+	 8L8kCv3P4PUGQ==
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>, 
+ Mohammad Rafi Shaik <quic_mohs@quicinc.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20250526-b4-b4-asoc-wcd9395-vdd-px-fixes-v1-0-0b8a2993b7d3@linaro.org>
+References: <20250526-b4-b4-asoc-wcd9395-vdd-px-fixes-v1-0-0b8a2993b7d3@linaro.org>
+Subject: Re: [PATCH 0/3] ASoC: codecs: wcd93xx: Few regulator supplies
+ fixes
+Message-Id: <174836746184.125386.18177744621323108615.b4-ty@kernel.org>
+Date: Tue, 27 May 2025 18:37:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+On Mon, 26 May 2025 11:47:00 +0200, Krzysztof Kozlowski wrote:
+> Fix cleanup paths in wcd9335 and wcd937x codec drivers.
+> 
+> Best regards,
+> Krzysztof
+> 
 
-The audio controller in the Lenovo Thinkpad Thunderbolt 3 dock doesn't
-support reading the sampling rate.
+Applied to
 
-Add a quirk for it.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Suggested-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v3:
- * Sort by other Lenovo VID (Takashi)
----
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks!
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index dbbc9eb935a4b..f302bcebaa9d0 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2284,6 +2284,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
- 	DEVICE_FLG(0x17aa, 0x104d, /* Lenovo ThinkStation P620 Internal Speaker + Front Headset */
- 		   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
-+	DEVICE_FLG(0x17ef, 0x3083, /* Lenovo TBT3 dock */
-+		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x1852, 0x5062, /* Luxman D-08u */
- 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
- 	DEVICE_FLG(0x1852, 0x5065, /* Luxman DA-06 */
--- 
-2.43.0
+[1/3] ASoC: codecs: wcd9335: Fix missing free of regulator supplies
+      commit: 9079db287fc3e38e040b0edeb0a25770bb679c8e
+[2/3] ASoC: codecs: wcd937x: Drop unused buck_supply
+      commit: dc59189d32fc3dbddcf418fd4b418fb61f24ade6
+[3/3] ASoC: codecs: wcd9375: Fix double free of regulator supplies
+      commit: 63fe298652d4eda07d738bfcbbc59d1343a675ef
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
