@@ -1,86 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4761E5B7D;
-	Tue, 27 May 2025 13:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03031E5B7D
+	for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 14:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748352434; cv=none; b=XCTD8UMjDaRFOrThQEpfxppd2KmxrWBSdVUVxG0tiTmg5VnSOyrF9HdHNZBv0npMWZrnn6lkiLLwfJ08B/g0cSmFIy1J/tJR3rUVKozreuS6C+D3mQ6cA+ZGWuBnv6UAHswKyhimYv19Bu7G+YKaamAJ0hVSq8SlyMpFc/TKb1I=
+	t=1748355452; cv=none; b=DOCj2zfqCnXXLP+q94zmHOBABLXQkZ36BdPg7Neb8lyMcYQs1eZ/kutZEjezMw5NBObXj4aY+CV4B/NXSr6HLBC8kkG68Uz1PBxllJCBBEsc3oEso7+1aI9VaUPqRBCiwjnYM0B4oeEg5DlMk5G0ah1mB3z0vvEErx2q30Iq6MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748352434; c=relaxed/simple;
-	bh=WZLaUSVW1zTkLqqEDqdAyL85Ym7U6Tvej/VLIo/XULE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HCfrQTCXQ0IP060Wl9hhMUIcU0hPyLJIGeYGZxIvvw1F5RevUjMzgLjsP25qcTM+JGowKLA9I5j5MZoDckID4vrL0pwFWC7FQjxk7U5MWSuqfs76op8ZHqYtaOOJZOe/FdggtNYV2AgWgDIuCDv+SqMdU99w0drdOK1CUxuG5BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jibTMKC+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748355452; c=relaxed/simple;
+	bh=qzCxInDBL5zoEuqaKs+Cq/1I3KI9pngcneQ2CyA3Ujw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=S0NbBnYZ9+qJe80pBAphp/lLjk9/QL0m+yG2gFVGq5OFbO5eFMcNmG5npnC+pX/Abo3EbEwNBB9ZKTNUzxZeT7IEc/iBpd/5VELKtcHRdO5hPIw+aD89ndJ1NSF69JuUWHrMOlGt5I0qwNvGuP9Q5bitRfyNFnmgWe2C75ZpFEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PWoXrTj5; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jibTMKC+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD576C4CEE9;
-	Tue, 27 May 2025 13:27:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748352433;
-	bh=WZLaUSVW1zTkLqqEDqdAyL85Ym7U6Tvej/VLIo/XULE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jibTMKC+BcPbNGo50bFhbpUoxQCvLqK1QmIli930KypQeRZZ6IwuRCslGY2RPz9vL
-	 gHvSRYxs/xthFKzTmstlLRCzQV3ULVoqVAqHXC+P7u8VVpG5eGD/3Mho9hnkigKwB3
-	 4KSotrfzoCNcSW7k46qtT1gYRNjihROEkVeGccpz7if7v5Q21kM24fsmt0S7EwF6uq
-	 7R3G2/6E2yBUwxQT7w1SYoWzacwMX0cUxdSFcn+sbIy4i/znJBcjdbcOupM8dC09g8
-	 gE3IXQ2a0q/gPLLjO1FbhT0s4eDDy0AxO+FO/pl+Su6AHVZKIuy+pTeHNEJPjg50Zz
-	 hAdLNvoXqm3Jw==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- zhangyi@everest-semi.com, Qasim Ijaz <qasdev00@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250526191820.72577-1-qasdev00@gmail.com>
-References: <20250526191820.72577-1-qasdev00@gmail.com>
-Subject: Re: [PATCH] ASoC: codecs: fix out-of-bounds access on invalid
- clock config
-Message-Id: <174835243163.49001.6702458241020988740.b4-ty@kernel.org>
-Date: Tue, 27 May 2025 14:27:11 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PWoXrTj5"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so44855725e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 07:17:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748355449; x=1748960249; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qzCxInDBL5zoEuqaKs+Cq/1I3KI9pngcneQ2CyA3Ujw=;
+        b=PWoXrTj5c0wrG0Y6Jv8+00M6uhEEK7DhE36StAOFiZjUSCyW/eWIQn12d7nMnaZ138
+         DiAd7KJDg49x7dkOkeK3TDjE5S4gGSLFpioteWAyQnw7gnsmHHPxo4WC4COBWM4mFQzc
+         oX8nTtYncuXaiCNKex3BZGNMPbsIBp+jmAi8LbUkq8fZY3x1S+snE+zBQ246zwrrg1+l
+         d7eOPRCNZNTfK+EiySop4Hb15WQriDh9wHVIKrqV7LzmYFKaTEAmkj23Pan4sDkQ6eDs
+         YeRUFCn/B/n7Add3qeNupatooyaoDQd8mDu6AmkpQ06yqy+YgL9PNSzf+CuNMMC8tejx
+         4Blw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748355449; x=1748960249;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qzCxInDBL5zoEuqaKs+Cq/1I3KI9pngcneQ2CyA3Ujw=;
+        b=WUrqCbjvLHeAYluHOI20Id2MxWiTbg7wTGLERGPekdvaQ+PLeYghGuGCNI76V7SVFJ
+         TAA9KheoCchr3/wuHIPjDxKYX6liBM3GAlqs93gOR8sIKhDhYEXYVjgj+l4DipJDfTGG
+         JZsuF+ngZdUQbJzCHpgWDKsu/mYgOimk+uyPxABcDTFdme79pMv5xPDrI/6wkiGK8VLo
+         1ioxjKbiBLhh99T1Tjpu16b5CqWZR38Br0Uck9Otpixo8WqNDaV12RhcnYHudnnuO9oA
+         J8Jqm/v1LfMHaRUgU9YTyJu2RnIoxDWKYdcKksAfMKJrKjlBliuxhkLZUuO+EsSyGehg
+         +U1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUeXk4cT7oDmZIfVKqu6SeACZqNqS+FYOCfrkAsxlLeEZByunAHfMVr4JAl7hKDGe1GvVudeLRZbSXpaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZ+twISr3SX6qO6Sdz/9BpePZVLaCwSrN0pKXfo31E79z5OqR0
+	z1ZMjv95kHgk0OXcXdsEt4R4mQTR6XseDIZsor7oSPjzm9FHpd2iWMcqOPv8f0ovLXs=
+X-Gm-Gg: ASbGncusp/AO0BXOb0nEAulRvNOfUCA72U75Rhx/nPFlRTAkKOeftrpBALChv1ZyYid
+	lN9YeyPSnNWm/w0KhOvBG3I7YjEMnRkH3G2+EPVGC2o0v1plyBjNExHlQFRDSeD/PoWb3sO/Fhv
+	8jI0eUenf8pdkJLBMYN4axwVf0Smqfg5Ngj0kV26v5hoOIIWZWCTAOb8qw+ErKH/NbMHuBQTUkt
+	CITYbcoosXp1CHlrRf1HhS92hUNlZARa61J6x0UHcEUp0xgnIVpMMCGxmhZNFwF/iiwgsr0fp3c
+	M6l/DyZAjmPg7HFWn6HPL9w44UazxuJtgN814N4UJbZUYchWAxLgPONM1g==
+X-Google-Smtp-Source: AGHT+IEhc9SSryCY2JDYzu6BuvIZwbGB1eIwIJMculZ/SWsJAs6OkosbQI944ev/3eMu/PMW8z+Bgg==
+X-Received: by 2002:a05:600c:5103:b0:43c:ea36:9840 with SMTP id 5b1f17b1804b1-44c955da49fmr100008385e9.22.1748355448879;
+        Tue, 27 May 2025 07:17:28 -0700 (PDT)
+Received: from localhost ([2a02:c7c:7213:c700:f024:90b8:5947:4156])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f3dd99absm266645615e9.37.2025.05.27.07.17.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 May 2025 07:17:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-c25d1
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 27 May 2025 15:17:27 +0100
+Message-Id: <DA70A4LOJ57L.1RTX2K0Z6PU0L@linaro.org>
+To: "Prasad Kumpatla" <quic_pkumpatl@quicinc.com>, "Bjorn Andersson"
+ <andersson@kernel.org>, "Linus Walleij" <linus.walleij@linaro.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
+ <broonie@kernel.org>, "Konrad Dybcio" <konradybcio@kernel.org>
+Cc: <cros-qcom-dts-watchers@chromium.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <kernel@oss.qualcomm.com>, "Mohammad Rafi Shaik" <quic_mohs@quicinc.com>
+Subject: Re: [PATCH v4 0/8] Enable audio on qcs6490-RB3Gen2 and qcm6490-idp
+ boards
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+X-Mailer: aerc 0.20.0
+References: <20250527111227.2318021-1-quic_pkumpatl@quicinc.com>
+In-Reply-To: <20250527111227.2318021-1-quic_pkumpatl@quicinc.com>
 
-On Mon, 26 May 2025 20:18:20 +0100, Qasim Ijaz wrote:
-> get_coeff() returns –EINVAL when no table entry matches.
-> The driver then uses that value as an index into coeff_div[],
-> causing an OOB access.
-> 
-> To fix lets abort the hw_params call instead.
-> 
-> 
-> [...]
+On Tue May 27, 2025 at 12:12 PM BST, Prasad Kumpatla wrote:
+> From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+>
+> Audio support is now enabled on the qcs6490-RB3Gen2 and qcm6490-idp board=
+s.
+> The updates include adding the necessary audio device tree support and th=
+e required
+> dependencies.
 
-Applied to
+Do you have topology file and mixers commands (or UCM profile) to test this=
+?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: codecs: fix out-of-bounds access on invalid clock config
-      commit: 16719d48197bbd8cff121b32acec67d954335437
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+I already asked but I don't see any replies. How this can be tested?
 
 Thanks,
-Mark
-
+Alexey
